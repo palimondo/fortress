@@ -349,80 +349,40 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
     opr ^(self, other:AnyIntegral): T
 end
 
-trait Number
-        extends { StandardPartialOrder[\Number\], StandardMinMax[\Number\],
-                  AdditiveGroup[\Number\], MultiplicativeRing[\Number\] }
-        comprises { RR64 }
-    getter zero(): Number = 0.0
-    getter one(): Number = 1.0
+trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+        comprises { RR64, QQ, AnyIntegral }
     asFloat(self): RR64
-    opr |self| : Number = |asFloat(self)|
-    opr =(self, b:Number):Boolean = asFloat(self) = asFloat(b)
-    opr =/=(self, b:Number):Boolean = asFloat(self) =/= asFloat(b)
-    opr <(self, b:Number):Boolean = asFloat(self) < asFloat(b)
-    opr <=(self, b:Number):Boolean = asFloat(self) <= asFloat(b)
-    opr >(self, b:Number):Boolean = asFloat(self) > asFloat(b)
-    opr >=(self, b:Number):Boolean = asFloat(self) >= asFloat(b)
-    opr CMP(self, b:Number):Comparison =
-        if self<b then LessThan
-        elif self>b then GreaterThan
-        elif self=b then EqualTo
-        else Unordered
+    (** Two exact numbers of different types compare as rationals; a float
+        compares with any number after %asFloat%, so an exact value equals
+        its nearest float. **)
+    opr =(self, other:Number):Boolean =
+        typecase self of
+            RR64 => (asFloat(self) = asFloat(other))
+            else => typecase other of
+                        RR64 => (asFloat(self) = asFloat(other))
+                        else => (exactValue(self) = exactValue(other))
+                    end
         end
-    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
-        total order. **)
-    opr MIN(self, b:Number):Number = asFloat(self) MIN asFloat(b)
-    opr MAX(self, b:Number):Number = asFloat(self) MAX asFloat(b)
-    opr MINMAX(self, b:Number):(Number,Number) = asFloat(self) MINMAX asFloat(b)
-
-    opr -(self):RR64 = -asFloat(self)
-    opr +(self,b:Number):RR64 = asFloat(self) + asFloat(b)
-    opr -(self,b:Number):RR64 = asFloat(self) - asFloat(b)
-    opr DOT(self,b:Number):RR64 = asFloat(self) DOT asFloat(b)
-    opr TIMES(self,b:Number):RR64 = asFloat(self) TIMES asFloat(b)
-    opr juxtaposition
-         (self,b:Number):RR64 = asFloat(self) asFloat(b)
-    opr /(self,b:Number):RR64 = asFloat(self) / asFloat(b)
-    opr SQRT(self):RR64 = SQRT asFloat(self)
-    opr PLUS_UP(self,b:Number):RR64 = asFloat(self) PLUS_UP asFloat(b)
-    opr MINUS_UP(self,b:Number):RR64 = asFloat(self) MINUS_UP asFloat(b)
-    opr DOT_UP(self,b:Number):RR64 = asFloat(self) DOT_UP asFloat(b)
-    opr SLASH_UP(self,b:Number):RR64 = asFloat(self) SLASH_UP asFloat(b)
-    opr SQRT_UP(self):RR64 = SQRT_UP asFloat(self)
-    opr PLUS_DOWN(self,b:Number):RR64 = asFloat(self) PLUS_DOWN asFloat(b)
-    opr MINUS_DOWN(self,b:Number):RR64 = asFloat(self) MINUS_DOWN asFloat(b)
-    opr DOT_DOWN(self,b:Number):RR64 = asFloat(self) DOT_DOWN asFloat(b)
-    opr SLASH_DOWN(self,b:Number):RR64 = asFloat(self) SLASH_DOWN asFloat(b)
-    opr SQRT_DOWN(self):RR64 = SQRT_DOWN asFloat(self)
-    opr IEEE_PLUS_UP(self,b:Number):RR64 = asFloat(self) IEEE_PLUS_UP asFloat(b)
-    opr IEEE_MINUS_UP(self,b:Number):RR64 = asFloat(self) IEEE_MINUS_UP asFloat(b)
-    opr IEEE_DOT_UP(self,b:Number):RR64 = asFloat(self) IEEE_DOT_UP asFloat(b)
-    opr IEEE_SLASH_UP(self,b:Number):RR64 = asFloat(self) IEEE_SLASH_UP asFloat(b)
-    opr IEEE_PLUS_DOWN(self,b:Number):RR64 = asFloat(self) IEEE_PLUS_DOWN asFloat(b)
-    opr IEEE_MINUS_DOWN(self,b:Number):RR64 = asFloat(self) IEEE_MINUS_DOWN asFloat(b)
-    opr IEEE_DOT_DOWN(self,b:Number):RR64 = asFloat(self) IEEE_DOT_DOWN asFloat(b)
-    opr IEEE_SLASH_DOWN(self,b:Number):RR64 = asFloat(self) IEEE_SLASH_DOWN asFloat(b)
-    opr ^(self, b:Number):RR64 = (asFloat(self))^b
-    (** Shouldn't need this extra declaration. **)
-    opr ^(self, b:AnyIntegral):RR64 = (asFloat(self))^b
-    sin(self):RR64 = sin(asFloat(self))
-    cos(self):RR64 = cos(asFloat(self))
-    tan(self):RR64 = tan(asFloat(self))
-    asin(self):RR64 = asin(asFloat(self))
-    acos(self):RR64 = acos(asFloat(self))
-    atan(self):RR64 = atan(asFloat(self))
-    atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))
-    log(self):RR64 = log(asFloat(self))
-    exp(self):RR64 = exp(asFloat(self))
-    floor(self):RR64 = floor(asFloat(self))
-    opr |\self/| : ZZ = |\asFloat(self)/|
-    ceiling(self):RR64 = ceiling(asFloat(self))
-    opr |/self\| : ZZ = |/asFloat(self)\|
-    truncate(self):RR64 = truncate(asFloat(self))
-    round(self): ZZ = round(asFloat(self))
 end
 
-trait RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }
+exactValue(x: Number): QQ =
+    typecase x of
+        q: QQ => q
+        z: ZZ32 => do q: QQ = z; q end
+        z: ZZ64 => do q: QQ = z; q end
+        z: NN32 => do q: QQ = z; q end
+        z: NN64 => do q: QQ = z; q end
+        z: ZZ => do q: QQ = z; q end
+        else => Ratio(0, 0)
+    end
+
+trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                     AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+        excludes { QQ, AnyIntegral }
+        comprises { Float, FloatLiteral, RR32 }
+    coerce(x: ZZ32) = asFloat(x)
+    getter zero(): RR64 = 0.0
+    getter one(): RR64 = 1.0
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean = false
     (** returns true if the value is an IEEE infinity **)
@@ -444,6 +404,69 @@ trait RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }
     getter nextUp():RR64 = asFloat(self).nextUp
     (** next lower IEEE float **)
     getter nextDown():RR64 = asFloat(self).nextDown
+    opr |self| : RR64 = |asFloat(self)|
+    opr =(self, b:RR64):Boolean = asFloat(self) = asFloat(b)
+    opr <(self, b:RR64):Boolean = asFloat(self) < asFloat(b)
+    opr <=(self, b:RR64):Boolean = asFloat(self) <= asFloat(b)
+    opr >(self, b:RR64):Boolean = asFloat(self) > asFloat(b)
+    opr >=(self, b:RR64):Boolean = asFloat(self) >= asFloat(b)
+    opr CMP(self, b:RR64):Comparison =
+        if self<b then LessThan
+        elif self>b then GreaterThan
+        elif self=b then EqualTo
+        else Unordered
+        end
+    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
+        total order. **)
+    opr MIN(self, b:RR64):RR64 = asFloat(self) MIN asFloat(b)
+    opr MAX(self, b:RR64):RR64 = asFloat(self) MAX asFloat(b)
+    opr MINMAX(self, b:RR64):(RR64,RR64) = asFloat(self) MINMAX asFloat(b)
+
+    opr -(self):RR64 = -asFloat(self)
+    opr +(self,b:RR64):RR64 = asFloat(self) + asFloat(b)
+    opr -(self,b:RR64):RR64 = asFloat(self) - asFloat(b)
+    opr DOT(self,b:RR64):RR64 = asFloat(self) DOT asFloat(b)
+    opr TIMES(self,b:RR64):RR64 = asFloat(self) TIMES asFloat(b)
+    opr juxtaposition
+         (self,b:RR64):RR64 = asFloat(self) asFloat(b)
+    opr /(self,b:RR64):RR64 = asFloat(self) / asFloat(b)
+    opr SQRT(self):RR64 = SQRT asFloat(self)
+    opr PLUS_UP(self,b:RR64):RR64 = asFloat(self) PLUS_UP asFloat(b)
+    opr MINUS_UP(self,b:RR64):RR64 = asFloat(self) MINUS_UP asFloat(b)
+    opr DOT_UP(self,b:RR64):RR64 = asFloat(self) DOT_UP asFloat(b)
+    opr SLASH_UP(self,b:RR64):RR64 = asFloat(self) SLASH_UP asFloat(b)
+    opr SQRT_UP(self):RR64 = SQRT_UP asFloat(self)
+    opr PLUS_DOWN(self,b:RR64):RR64 = asFloat(self) PLUS_DOWN asFloat(b)
+    opr MINUS_DOWN(self,b:RR64):RR64 = asFloat(self) MINUS_DOWN asFloat(b)
+    opr DOT_DOWN(self,b:RR64):RR64 = asFloat(self) DOT_DOWN asFloat(b)
+    opr SLASH_DOWN(self,b:RR64):RR64 = asFloat(self) SLASH_DOWN asFloat(b)
+    opr SQRT_DOWN(self):RR64 = SQRT_DOWN asFloat(self)
+    opr IEEE_PLUS_UP(self,b:RR64):RR64 = asFloat(self) IEEE_PLUS_UP asFloat(b)
+    opr IEEE_MINUS_UP(self,b:RR64):RR64 = asFloat(self) IEEE_MINUS_UP asFloat(b)
+    opr IEEE_DOT_UP(self,b:RR64):RR64 = asFloat(self) IEEE_DOT_UP asFloat(b)
+    opr IEEE_SLASH_UP(self,b:RR64):RR64 = asFloat(self) IEEE_SLASH_UP asFloat(b)
+    opr IEEE_PLUS_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_PLUS_DOWN asFloat(b)
+    opr IEEE_MINUS_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_MINUS_DOWN asFloat(b)
+    opr IEEE_DOT_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_DOT_DOWN asFloat(b)
+    opr IEEE_SLASH_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_SLASH_DOWN asFloat(b)
+    opr ^(self, b:Number):RR64 = (asFloat(self))^b
+    (** Shouldn't need this extra declaration. **)
+    opr ^(self, b:AnyIntegral):RR64 = (asFloat(self))^b
+    sin(self):RR64 = sin(asFloat(self))
+    cos(self):RR64 = cos(asFloat(self))
+    tan(self):RR64 = tan(asFloat(self))
+    asin(self):RR64 = asin(asFloat(self))
+    acos(self):RR64 = acos(asFloat(self))
+    atan(self):RR64 = atan(asFloat(self))
+    atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))
+    log(self):RR64 = log(asFloat(self))
+    exp(self):RR64 = exp(asFloat(self))
+    floor(self):RR64 = floor(asFloat(self))
+    opr |\self/| : ZZ = |\asFloat(self)/|
+    ceiling(self):RR64 = ceiling(asFloat(self))
+    opr |/self\| : ZZ = |/asFloat(self)\|
+    truncate(self):RR64 = truncate(asFloat(self))
+    round(self): ZZ = round(asFloat(self))
     (** %MINNUM% and %MAXNUM% return a numeric result where possible (avoiding NaN).
         Note that %MINNUM% and %MAX% form a lattice with NaN at the top, and
         that %MAXNUM% and %MIN% form a lattice with NaN at the bottom.  **)
@@ -492,16 +515,13 @@ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
     end
     if n0 <= 0 then
         (* Spans 0 *)
-        exit done with big(0)
+        exit done with Ratio(0, 1)
     end
     if d1 = 0 then
         (* infinite bound, round smaller up *)
         r = ceiling(n0/d0)
-        if neg then
-            exit done with (-r)
-        else
-            exit done with r
-        end
+        q: QQ = if neg then -r else r end
+        exit done with q
     end
     simplest(nl:ZZ,dl:ZZ,ng:ZZ,dg:ZZ):(ZZ,ZZ) = do
         q = nl DIV dl
@@ -521,11 +541,20 @@ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
     if neg then (-nr) / dr else nr/dr end
   end done
 
-trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { Ratio, AnyIntegral }
-    getter zero(): QQ = 0
-    getter one(): QQ = 1
+trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+                   AdditiveGroup[\QQ\], MultiplicativeRing[\QQ\] }
+        excludes { RR64, AnyIntegral }
+        comprises { Ratio }
+    coerce(x: ZZ32) = Ratio(x, 1)
+    coerce(x: ZZ64) = Ratio(x, 1)
+    coerce(x: NN32) = Ratio(x, 1)
+    coerce(x: NN64) = Ratio(x, 1)
+    coerce(x: ZZ) = Ratio(x, 1)
+    getter zero(): QQ = Ratio(0, 1)
+    getter one(): QQ = Ratio(1, 1)
     getter isNaN(): Boolean
     getter isInfinite(): Boolean
+    getter isNumber(): Boolean = NOT self.isNaN
     getter isFinite(): Boolean = (denominator(self) =/= 0)
     numerator(self): ZZ
     denominator(self): ZZ  (* Ideally would be NN *)
@@ -597,27 +626,36 @@ trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { Ratio, AnyInte
 end
 
 object Ratio(num: ZZ, den: ZZ) extends { QQ }
-    getter asString(): String = num.asString || "/" || den.asString
+    getter asString(): String = if den = 1 then num.asString else num.asString || "/" || den.asString end
     getter isNaN(): Boolean = (numerator(self) = 0 AND denominator(self) = 0)
     getter isInfinite(): Boolean = (numerator(self) =/= 0 AND denominator(self) = 0)
     (* note: The following will be wrong if num is very large but
     comparable in magnitude to den.  Good algorithms for this case
     exist (we can find the simplest rational within epsilon of the
     given rational) and we ought to support them. *)
-    asFloat(self): RR64 = (num+0.0) / den
+    asFloat(self): RR64 = asFloat(num) / asFloat(den)
     numerator(self):ZZ = num
     denominator(self):ZZ = den
 end
 
-trait AnyIntegral extends { QQ } comprises { ZZ } end
+trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 } end
         (** \vspace{-4ex} NOT YET: %comprises Integral[\I\] where [\I\]% *)
 
-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
     getter zero(): I
     getter one(): I
     getter isNaN(): Boolean = false
     getter isInfinite(): Boolean = false  (* For now, no infinite integers. *)
-    denominator(self):ZZ = 1
+    numerator(self):ZZ = do z: ZZ = self; z end
+    denominator(self):ZZ = big(1)
+    opr /(self, other:I):QQ
+    floor(self):I = self
+    ceiling(self):I = self
+    truncate(self):I = self
+    opr MINNUM(self, other:I):I = self MIN other
+    opr MAXNUM(self, other:I):I = self MAX other
+    odd(self): Boolean = NOT (even self)
+    even(self): Boolean = (self MOD 2) = 0
     opr -(self):I
     opr DOTMINUS(self):I
     opr +(self,b:I):I
@@ -647,7 +685,9 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Any
     round(self): I = self
 end
 
-trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
+trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
+        excludes { ZZ64, ZZ, NN64, NN32 }
+        comprises { Int, IntLiteral }
     getter zero(): ZZ32 = 0
     getter one(): ZZ32 = 1
     getter minimum(): ZZ32 = -2147483647 - 1
@@ -711,9 +751,17 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Partition")
     unsigned(self):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.ZZ32$ToNN32")
+    narrow(self):ZZ32 = self
+    big(self):ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToBigNum")
+    opr /(self, other:ZZ32):QQ = big(self) / big(other)
 end
 
-trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
+trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+        excludes { ZZ, NN64, NN32 }
+        comprises { Long }
+    coerce(x: ZZ32) = widen(x)
+    coerce(x: NN32) = signed(widen(x))
     getter zero(): ZZ64 = widen(0)
     getter one(): ZZ64 = widen(1)
     getter minimum(): ZZ64 = -9223372036854775807 - 1
@@ -789,9 +837,14 @@ trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToUnsignedLong")
     big(self):ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToBigNum")
+    widen(self):ZZ64 = self
+    opr /(self, other:ZZ64):QQ = big(self) / big(other)
 end
 
-trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
+trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+        excludes { ZZ, NN32 }
+        comprises { UnsignedLong }
+    coerce(x: NN32) = widen(x)
     opr |self| : NN64 = self
     opr =(self, b:NN64):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Eq")
@@ -849,10 +902,19 @@ trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$FromLong")
     signed(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToLong")
+    opr /(self, other:NN64):QQ = do a: ZZ = self; b: ZZ = other; a / b end
 end
 
-trait ZZ extends Integral[\ZZ\]
-        comprises { BigNum, ZZ64, NN64 }
+trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+        excludes { NN64, NN32 }
+        comprises { BigNum }
+    coerce(x: ZZ32) = big(x)
+    coerce(x: ZZ64) = big(x)
+    coerce(x: NN32) = big(signed(widen(x)))
+    coerce(x: NN64) = do
+        b = big(signed(x))
+        if b < 0 then b + (big(1) LSHIFT 64) else b end
+      end
     getter zero(): ZZ =
         1934791870947204798109283471902037419 - 1934791870947204798109283471902037419
     getter one(): ZZ = self.zero + 1
@@ -893,7 +955,7 @@ trait ZZ extends Integral[\ZZ\]
         if g=0 then Ratio(0,0) else
             a = self DIV g
             b = other DIV g
-            if b = 1 then a else Ratio(a,b) end
+            Ratio(a,b)
         end
     end
     opr DIV(self, b: ZZ): ZZ =
@@ -929,8 +991,6 @@ trait ZZ extends Integral[\ZZ\]
     (* This routine, named for consistency, converts to a ZZ64 *)
     widen(self):ZZ64 = 
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToZZ64")
-    odd(self): Boolean = NOT (even self)
-    even(self): Boolean = (self MOD 2) = 0
 end
 
 (************************************************************
@@ -2240,7 +2300,7 @@ trait Vector[\T extends Number, nat s0\]
     pmul(v: Vector[\T,s0\]): Vector[\T,s0\] =
         ivmap[\T\](fn (i:ZZ32, e: T):T => e v.get(i))
     dot(v: Vector[\T,s0\]): T =
-        SUM [(i,me_i)<-self.indexValuePairs] me_i v.get(i)
+        SUM[\T\] [(i,me_i)<-self.indexValuePairs] me_i v.get(i)
 end
 
 object __DefaultVector[\T, nat s0\]() extends Vector[\T,s0\]
@@ -2320,7 +2380,7 @@ opr juxtaposition[\ T extends Number, nat n \]
 
 squaredNorm[\T extends Number, nat s0\](a:Vector[\T,s0\]):T = a.dot(a)
 
-opr ||[\ T extends Number, nat k \]me : Vector[\T,k\]|| : RR64 = SQRT squaredNorm(me)
+opr ||[\ T extends Number, nat k \]me : Vector[\T,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
 
 (** Array2[\T,b0,s0,b1,s1\] is the type of 2-dimensional arrays of
     element type T, with size s0 in the first dimension and s1 in the
@@ -2590,12 +2650,12 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
       end
     rmul(v: Vector[\T,s1\]): Vector[\T,s0\] = do
         row(i:ZZ32):T =
-            SUM[(j,v_j)<-v.indexValuePairs] get(i,j) v_j
+            SUM[\T\][(j,v_j)<-v.indexValuePairs] get(i,j) v_j
         vector[\T,s0\]().fill(row)
       end
     lmul(v: Vector[\T,s0\]): Vector[\T,s1\] = do
         col(i:ZZ32):T =
-            SUM[(j,v_j)<-v.indexValuePairs] v_j get(j,i)
+            SUM[\T\][(j,v_j)<-v.indexValuePairs] v_j get(j,i)
         vector[\T,s1\]().fill(col)
       end
     t(): Matrix[\T,s1,s0\] = TransposedMatrix[\T,s1,s0\](self)
@@ -3040,115 +3100,82 @@ end
 
 trait DistributesOver[\E\] end
 
-object SumProdReductionPair extends ReductionPair[\Number,Number\]
-    getter outer() = SumReduction
-    getter inner() = ProdReduction
+(** The identity of + and of juxtaposition for the number type named by the
+    static argument alone, with no element in hand: the typecase over a
+    %() -> T% witness that %array1% uses.  Each type is tested before its
+    supertypes. **)
+additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
+    typecase __thrower[\T\] of
+        () -> ZZ32 => cast[\T\](0)
+        () -> ZZ64 => cast[\T\](widen(0))
+        () -> NN32 => cast[\T\](unsigned(0))
+        () -> NN64 => cast[\T\](widen(unsigned(0)))
+        () -> ZZ => cast[\T\](big(0))
+        () -> QQ => cast[\T\](Ratio(0, 1))
+        () -> RR32 => cast[\T\](narrow(0.0))
+        () -> RR64 => cast[\T\](0.0)
+        else => 0
+    end
+
+multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
+    typecase __thrower[\T\] of
+        () -> ZZ32 => cast[\T\](1)
+        () -> ZZ64 => cast[\T\](widen(1))
+        () -> NN32 => cast[\T\](unsigned(1))
+        () -> NN64 => cast[\T\](widen(unsigned(1)))
+        () -> ZZ => cast[\T\](big(1))
+        () -> QQ => cast[\T\](Ratio(1, 1))
+        () -> RR32 => cast[\T\](narrow(1.0))
+        () -> RR64 => cast[\T\](1.0)
+        else => 1
+    end
+
+object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends ReductionPair[\T,T\]
+    getter outer() = SumReduction[\T\]
+    getter inner() = ProdReduction[\T\]
 end
 
-object MaxSumReductionPair extends ReductionPair[\Number,AnyMaybe\]
-    getter outer() = MaxReduction[\Number\]
-    getter inner() = LiftedCommutativeMonoidReduction(SumReduction)
+object MaxSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMax[\T\] }\]
+        extends ReductionPair[\T,AnyMaybe\]
+    getter outer() = MaxReduction[\T\]
+    getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
 end
 
-object MinSumReductionPair extends ReductionPair[\Number,AnyMaybe\]
-    getter outer() = MinReduction[\Number\]
-    getter inner() = LiftedCommutativeMonoidReduction(SumReduction)
+object MinSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMin[\T\] }\]
+        extends ReductionPair[\T,AnyMaybe\]
+    getter outer() = MinReduction[\T\]
+    getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
 end
 
-object MaxNSumReductionPair extends ReductionPair[\Number,AnyMaybe\]
-    getter outer() = MaxReductionN
-    getter inner() = SumReduction
-end
-
-object MinNSumReductionPair extends ReductionPair[\Number,AnyMaybe\]
-    getter outer() = MinReductionN
-    getter inner() = SumReduction
-end
-
-(* Hack to permit any Number to work non-parametrically. *)
-object SumReduction extends {
-  CommutativeMonoidReduction[\Number\],
-  DistributesOver[\MaxReductionN\],
-  DistributesOver[\MinReductionN\],
-  DistributesOver[\MaxReduction[\Number\]\],
-  DistributesOver[\MaxReduction[\Number\]\]
-   }
+object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidReduction[\T\]
     getter asString(): String = "SumReduction"
-    empty(): Number = 0
-    join(a: Number, b: Number): Number = a+b
-    distribute(r: MaxReduction[\Number\]): PossibleReductionPair[\AnyMaybe\] =
-    MaxSumReductionPair
-    distribute(r: MinReduction[\Number\]): PossibleReductionPair[\AnyMaybe\] =
-    MinSumReductionPair
-    distribute(r: MaxReductionN): PossibleReductionPair[\AnyMaybe\] =
-    MaxNSumReductionPair
-    distribute(r: MinReductionN): PossibleReductionPair[\AnyMaybe\] =
-    MaxNSumReductionPair
+    empty(): T = additiveIdentity[\T\]()
+    join(a: T, b: T): T = a + b
+    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\AnyMaybe\] =
+    MaxSumReductionPair[\T\]
+    distribute(r: MinReduction[\T\]): PossibleReductionPair[\AnyMaybe\] =
+    MinSumReductionPair[\T\]
 end
 
-opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
-    Comprehension[\T,Number,Number,Number\](fn x => x, SumReduction, cast[\Number\])
+opr SUM[\T extends AdditiveGroup[\T\]\](): BigReduction[\T,T\] =
+    BigReduction[\T,T\](SumReduction[\T\])
 
-opr SUM[\T extends Number\](g: Generator[\T\]) =
-    __bigOperatorSugar[\T,Number,Number,Number\](SUM[\T\](), g)
+opr SUM[\T extends AdditiveGroup[\T\]\](g: Generator[\T\]): T =
+    __bigOperatorSugar[\T,T,T,T\](SUM[\T\](), g)
 
-object ProdReduction extends {
-  CommutativeMonoidReduction[\Number\],
-  DistributesOver[\SumReduction\]
- }
+object ProdReduction[\T extends MultiplicativeRing[\T\]\] extends CommutativeMonoidReduction[\T\]
     getter asString(): String = "ProdReduction"
-    empty(): Number = 1
-    join(a:Number, b:Number): Number = a b
-    distribute(r: SumReduction): PossibleReductionPair[\Number\] =
-    SumProdReductionPair
+    empty(): T = multiplicativeIdentity[\T\]()
+    join(a: T, b: T): T = a b
+    distribute(r: SumReduction[\T\]): PossibleReductionPair[\T\] =
+    SumProdReductionPair[\T\]
 end
 
-opr PROD[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
-    Comprehension[\T,Number,Number,Number\](fn x => x, ProdReduction, cast[\Number\])
+opr PROD[\T extends MultiplicativeRing[\T\]\](): BigReduction[\T,T\] =
+    BigReduction[\T,T\](ProdReduction[\T\])
 
-opr PROD[\T extends Number\](g: Generator[\T\]) =
-    __bigOperatorSugar[\T,Number,Number,Number\](PROD[\T\](), g)
-
-(* MAX without lifting for Numbers... (what is -1/0?)*)
-object MaxReductionN extends {CommutativeMonoidReduction[\Number\] }
-    getter asString(): String = "MaxReductionN"
-    empty(): Number = -1/0
-    join(a: Number, b: Number): Number = a MAX b
-end
-
-opr BIG MAXN[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
-    Comprehension[\T,Number,Number,Number\](fn x => x, MaxReductionN, cast[\Number\])
-opr BIG MAXN[\T extends Number\](g: Generator[\T\]) =
-    __bigOperatorSugar[\T,Number,Number,Number\](BIG MAXN[\T\](), g)
-
-object MinReductionN extends {CommutativeMonoidReduction[\Number\] }
-    getter asString(): String = "MinReductionN"
-    empty(): Number = 1/0
-    join(a: Number, b: Number): Number = a MIN b
-end
-opr BIG MINN[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
-    Comprehension[\T,Number,Number,Number\](fn x => x, MinReductionN, cast[\Number\])
-
-opr BIG MINN[\T extends Number\](g: Generator[\T\]) =
-    __bigOperatorSugar[\T,Number,Number,Number\](BIG MINN[\T\](), g)
-
-object MinMaxReductionN extends {CommutativeMonoidReduction[\(Number,Number)\] }
-    getter asString(): String = "MinMaxReductionN"
-    empty(): Number = (1/0,-1/0)
-    join(a: (Number, Number), b: (Number, Number)): (Number, Number) = do
-        (na,xa) = a
-        (nb,xb) = b
-        (na MIN nb, xa MAX xb)
-      end
-end
-opr BIG MINMAXN[\T extends Number\]():
-        Comprehension[\T,(Number,Number),(Number,Number),(Number,Number)\] =
-    Comprehension[\T,(Number,Number),(Number,Number),(Number,Number)\](
-        fn x => x, MinMaxReductionN, fn x => (x,x))
-opr BIG MINMAXN[\T extends Number\](g: Generator[\T\]): (Number, Number) =
-    __bigOperatorSugar[\T,(Number,Number),(Number,Number),(Number,Number)\](
-        BIG MINMAXN[\T\](), g)
-
+opr PROD[\T extends MultiplicativeRing[\T\]\](g: Generator[\T\]): T =
+    __bigOperatorSugar[\T,T,T,T\](PROD[\T\](), g)
 
 object MinReduction[\T extends StandardMin[\T\]\] extends CommutativeReduction[\T\]
     getter asString(): String = "MinReduction"
@@ -4225,7 +4252,7 @@ strToInt(s: String, radix: ZZ32): ZZ32 = do
         elif s[0] = '+' then (1, false)
         else (0,false) end
     n = |s| - 1
-    r = SUM[ i <- i0:n] if d <- digit(s[i], radix) then
+    r = SUM[\ZZ32\][ i <- i0:n] if d <- digit(s[i], radix) then
                           d radix^(n-i)
                       else
                           fail("strToInt(" s.asString "," radix "): non-digit " s[i].asString)
@@ -4241,7 +4268,7 @@ strToFloat(s: String): RR64 = do   (*) Quick and dirty implementation
   intpart = s.upto('.')
   frac = s.beyond('.')
   both = intpart || frac
-  1.0 (SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|))
+  asFloat((SUM[\ZZ32\][k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
 end
 
 

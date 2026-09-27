@@ -1,0 +1,67 @@
+--- skeptic 2 two-path2 2026-09-27T04:58:01Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 3.79 3.04 2.35 1/105 19271
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=unset
+tree at 7b946f599
+
+######## SkMaxZC (explorations/compile-ladder/rung-flat-tower/probes/skeptic/r2/SkMaxZC.fss)
+=== SkMaxZC walk flat library FORTRESS_THREADS=1
+unwritten max = 2
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 48: ZZ32 of type Int
+Context:
+Library/RangeInternals.fss:1032:21-58:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1034:13-1035:9:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+flat/SkMaxZC.fss:6:11-19:
+Library/FortressLibrary.fss:1223:25-47:
+rc=1
+=== SkMaxZC walk flat library FORTRESS_THREADS=4
+unwritten max = 2
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 48: ZZ32 of type Int
+Context:
+Library/RangeInternals.fss:1032:21-58:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1034:13-1035:9:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+flat/SkMaxZC.fss:6:11-19:
+Library/FortressLibrary.fss:1223:25-47:
+rc=1
+=== SkMaxZC walk base library FORTRESS_THREADS=1
+unwritten max = 2
+unwritten sum = -10100
+unwritten nested sum = 0
+rc=0
+=== SkMaxZC walk base library FORTRESS_THREADS=4
+unwritten max = 2
+unwritten sum = -10100
+unwritten nested sum = 0
+rc=0
+=== SkMaxZC compiled path
+## compile
+compile rc=0
+## run FORTRESS_THREADS=1
+unwritten max =  2
+unwritten sum =  -10100
+unwritten nested sum =  0
+run rc=0
+## run FORTRESS_THREADS=4
+unwritten max =  2
+unwritten sum =  -10100
+unwritten nested sum =  0
+run rc=0
+done 2026-09-27T04:58:46Z
+EXIT=0

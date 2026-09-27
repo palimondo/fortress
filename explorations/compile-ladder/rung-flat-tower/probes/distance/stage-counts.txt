@@ -1,0 +1,33 @@
+== base
+--- r1-walk-base 2026-09-27T01:11:51Z
+loadavg 2.86 5.54 5.42 2/111 25074
+@@SC STAGE	api RangeInternals	overloading	errors=39
+@@SC STAGE	api FortressLibrary	acyclic	errors=55
+@@SC STAGE	api FortressLibrary	overloading	errors=425
+@@SC STAGE	api NativeArray	overloading	errors=22
+@@SC STAGE	api FortressBuiltin	acyclic	errors=9
+@@SC STAGE	component FortressLibrary	acyclic	errors=58
+@@SC STAGE	component FortressLibrary	wellformed1	errors=32
+@@SC STAGE	component FortressLibrary	typecheck	errors=499
+@@SC STAGE	component FortressLibrary	wellformed2	errors=60
+@@SC STAGE	component FortressLibrary	overloading	errors=942
+@@SC STAGE	component FortressLibrary	export	errors=2
+@@TC COMPONENT	FortressLibrary	errors=3186
+@@TC COMPONENTS-NOT-SUCCESSFUL	3186 errors kept
+ELAPSED 973 s
+== flat
+--- r3-walk-flat 2026-09-27T02:44:16Z
+loadavg 13.60 10.90 8.09 21/228 22624
+@@SC STAGE	api RangeInternals	overloading	errors=21
+@@SC STAGE	api FortressLibrary	acyclic	errors=19
+@@SC STAGE	api FortressLibrary	overloading	errors=161
+@@SC STAGE	api NativeArray	overloading	errors=22
+@@SC STAGE	component FortressLibrary	acyclic	errors=21
+@@SC STAGE	component FortressLibrary	wellformed1	errors=34
+@@SC STAGE	component FortressLibrary	typecheck	errors=459
+@@SC STAGE	component FortressLibrary	wellformed2	errors=70
+@@SC STAGE	component FortressLibrary	overloading	errors=388
+@@SC STAGE	component FortressLibrary	export	errors=2
+@@TC COMPONENT	FortressLibrary	errors=1948
+@@TC COMPONENTS-NOT-SUCCESSFUL	1948 errors kept
+ELAPSED 1123 s

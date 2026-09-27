@@ -1,0 +1,9 @@
+/home/user/fortress-flat/ProjectFortress/tests/sequivTest.fss:17:15-19:
+    Operator BIG || is not defined.
+/home/user/fortress-flat/ProjectFortress/tests/sequivTest.fss:24:15-19:
+    Operator BIG || is not defined.
+/home/user/fortress-flat/ProjectFortress/tests/sequivTest.fss:34:20-25:
+    Variable asFloat is not defined.
+/home/user/fortress-flat/ProjectFortress/tests/sequivTest.fss:79:11-16:
+    Variable asFloat is not defined.
+File sequivTest.fss has 4 errors.

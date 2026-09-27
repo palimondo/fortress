@@ -273,69 +273,23 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
     opr ^(self, other:ZZ64): T
 end
 
-trait Number
-        extends { StandardPartialOrder[\Number\], StandardMinMax[\Number\],
-                  AdditiveGroup[\Number\], MultiplicativeRing[\Number\] }
-        comprises { RR64 }
-    opr =(self, b:Number):Boolean
-    opr =/=(self, b:Number):Boolean
-    opr <(self, b:Number):Boolean
-    opr <=(self, b:Number):Boolean
-    opr >(self, b:Number):Boolean
-    opr >=(self, b:Number):Boolean
-    opr CMP(self, b:Number):Comparison
-    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
-        total order. **)
-    opr MIN(self, b:Number):Number
-    opr MAX(self, b:Number):Number
-    opr MINMAX(self, b:Number):(Number,Number)
-
-    opr -(self):RR64
-    opr +(self,b:Number):RR64
-    opr -(self,b:Number):RR64
-    opr DOT(self,b:Number):RR64
-    opr TIMES(self,b:Number):RR64
-    opr juxtaposition
-         (self,b:Number):RR64
-    opr /(self,b:Number):RR64
-    opr SQRT(self):RR64
-    opr PLUS_UP(self,b:Number):RR64
-    opr MINUS_UP(self,b:Number):RR64
-    opr DOT_UP(self,b:Number):RR64
-    opr SLASH_UP(self,b:Number):RR64
-    opr SQRT_UP(self):RR64
-    opr PLUS_DOWN(self,b:Number):RR64
-    opr MINUS_DOWN(self,b:Number):RR64
-    opr DOT_DOWN(self,b:Number):RR64
-    opr SLASH_DOWN(self,b:Number):RR64
-    opr SQRT_DOWN(self):RR64
-    opr IEEE_PLUS_UP(self,b:Number):RR64
-    opr IEEE_MINUS_UP(self,b:Number):RR64
-    opr IEEE_DOT_UP(self,b:Number):RR64
-    opr IEEE_PLUS_DOWN(self,b:Number):RR64
-    opr IEEE_MINUS_DOWN(self,b:Number):RR64
-    opr IEEE_DOT_DOWN(self,b:Number):RR64
-    opr IEEE_SLASH_DOWN(self,b:Number):RR64
-    opr IEEE_SLASH_UP(self,b:Number):RR64
-    opr |self| : RR64
-    opr ^(self, b:RR64):RR64
-    sin(self):RR64
-    cos(self):RR64
-    tan(self):RR64
-    asin(self):RR64
-    acos(self):RR64
-    atan(self):RR64
-    atan2(self,x:Number):RR64
-    log(self):RR64
-    exp(self):RR64
-    floor(self):RR64
-    opr |\self/| : ZZ64
-    ceiling(self):RR64
-    opr |/self\| : ZZ64
-    truncate(self):ZZ64
+trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+        comprises { RR64, QQ, AnyIntegral }
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    asFloat(self): RR64
+    (** Two exact numbers of different types compare as rationals; a float
+        compares with any number after %asFloat%, so an exact value equals
+        its nearest float. **)
+    opr =(self, other:Number):Boolean
 end
 
-trait RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }
+trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                     AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+        excludes { QQ, AnyIntegral }
+        comprises { Float, FloatLiteral, RR32 }
+    coerce(x: ZZ32)
+    getter zero(): RR64
+    getter one(): RR64
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean
     (** returns true if the value is an IEEE infinity **)
@@ -356,6 +310,61 @@ trait RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }
     getter nextUp():RR64
     (** next lower IEEE float **)
     getter nextDown():RR64
+    opr =(self, b:RR64):Boolean
+    opr <(self, b:RR64):Boolean
+    opr <=(self, b:RR64):Boolean
+    opr >(self, b:RR64):Boolean
+    opr >=(self, b:RR64):Boolean
+    opr CMP(self, b:RR64):Comparison
+    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
+        total order. **)
+    opr MIN(self, b:RR64):RR64
+    opr MAX(self, b:RR64):RR64
+    opr MINMAX(self, b:RR64):(RR64,RR64)
+
+    opr -(self):RR64
+    opr +(self,b:RR64):RR64
+    opr -(self,b:RR64):RR64
+    opr DOT(self,b:RR64):RR64
+    opr TIMES(self,b:RR64):RR64
+    opr juxtaposition
+         (self,b:RR64):RR64
+    opr /(self,b:RR64):RR64
+    opr SQRT(self):RR64
+    opr PLUS_UP(self,b:RR64):RR64
+    opr MINUS_UP(self,b:RR64):RR64
+    opr DOT_UP(self,b:RR64):RR64
+    opr SLASH_UP(self,b:RR64):RR64
+    opr SQRT_UP(self):RR64
+    opr PLUS_DOWN(self,b:RR64):RR64
+    opr MINUS_DOWN(self,b:RR64):RR64
+    opr DOT_DOWN(self,b:RR64):RR64
+    opr SLASH_DOWN(self,b:RR64):RR64
+    opr SQRT_DOWN(self):RR64
+    opr IEEE_PLUS_UP(self,b:RR64):RR64
+    opr IEEE_MINUS_UP(self,b:RR64):RR64
+    opr IEEE_DOT_UP(self,b:RR64):RR64
+    opr IEEE_PLUS_DOWN(self,b:RR64):RR64
+    opr IEEE_MINUS_DOWN(self,b:RR64):RR64
+    opr IEEE_DOT_DOWN(self,b:RR64):RR64
+    opr IEEE_SLASH_DOWN(self,b:RR64):RR64
+    opr IEEE_SLASH_UP(self,b:RR64):RR64
+    opr |self| : RR64
+    opr ^(self, b:RR64):RR64
+    sin(self):RR64
+    cos(self):RR64
+    tan(self):RR64
+    asin(self):RR64
+    acos(self):RR64
+    atan(self):RR64
+    atan2(self,x:Number):RR64
+    log(self):RR64
+    exp(self):RR64
+    floor(self):RR64
+    opr |\self/| : ZZ64
+    ceiling(self):RR64
+    opr |/self\| : ZZ64
+    truncate(self):ZZ64
     (** %MINNUM% and %MAXNUM% return a numeric result where possible (avoiding NaN).
         Note that %MINNUM% and %MAX% form a lattice with NaN at the top, and
         that %MAXNUM% and %MIN% form a lattice with NaN at the bottom.  **)
@@ -370,7 +379,17 @@ end
 *)
 simplestRationalBetween(a:QQ, b:QQ): QQ
 
-trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { AnyIntegral, ... }
+trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+                   AdditiveGroup[\QQ\], MultiplicativeRing[\QQ\] }
+        excludes { RR64, AnyIntegral }
+        comprises { ... }
+    coerce(x: ZZ32)
+    coerce(x: ZZ64)
+    coerce(x: NN32)
+    coerce(x: NN64)
+    coerce(x: ZZ)
+    getter zero(): QQ
+    getter one(): QQ
     getter isNaN(): Boolean
     getter isInfinite(): Boolean
     getter isNumber(): Boolean
@@ -406,10 +425,10 @@ trait QQ extends { RR64, StandardPartialOrder[\QQ\] } comprises { AnyIntegral, .
     opr MAXNUM(self, other:QQ):QQ
 end
 
-trait AnyIntegral extends { QQ } comprises { ZZ } end
+trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 } end
         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
 
-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], AnyIntegral }
+trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
     getter zero(): I
     getter one(): I
     opr -(self):I
@@ -437,9 +456,22 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Any
     opr BITNOT(self):I
     opr ^(self, b:AnyIntegral):RR64
     unsigned(self):NN64
+    opr /(self, other:I):QQ
+    numerator(self): ZZ
+    denominator(self): ZZ
+    floor(self): I
+    ceiling(self): I
+    truncate(self): I
+    opr MINNUM(self, other:I):I
+    opr MAXNUM(self, other:I):I
+    odd(self): Boolean
+    even(self): Boolean
 end
 
-trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
+trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+        excludes { ZZ, NN32 }
+        comprises { UnsignedLong }
+    coerce(x: NN32)
     opr |self| : NN64
     opr =(self, b:NN64):Boolean
     opr <(self, b:NN64):Boolean
@@ -470,7 +502,9 @@ trait NN64 extends { ZZ, Integral[\NN64\] } comprises { UnsignedLong, NN32 }
     signed(self):NN64
 end
 
-trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
+trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
+        excludes { ZZ64, ZZ, NN64, NN32 }
+        comprises { Int, IntLiteral }
     getter zero(): ZZ32
     getter one(): ZZ32
     getter minimum(): ZZ32
@@ -506,9 +540,15 @@ trait ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }
     widen(self):ZZ64
     partitionL(self):ZZ32
     unsigned(self):NN32
+    narrow(self):ZZ32
+    big(self):ZZ
 end
 
-trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
+trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+        excludes { ZZ, NN64, NN32 }
+        comprises { Long }
+    coerce(x: ZZ32)
+    coerce(x: NN32)
     getter zero(): ZZ64
     getter one(): ZZ64
     getter minimum(): ZZ64
@@ -547,16 +587,21 @@ trait ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
     narrow(self):ZZ32
+    widen(self):ZZ64
     big(self):ZZ
 end
 
-trait ZZ extends { Integral[\ZZ\] } comprises { BigNum, ZZ64, NN64 }
+trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+        excludes { NN64, NN32 }
+        comprises { BigNum }
+    coerce(x: ZZ32)
+    coerce(x: ZZ64)
+    coerce(x: NN32)
+    coerce(x: NN64)
     opr /(self,other:ZZ):QQ
     numerator(self): ZZ
     narrow(self): ZZ32
     widen(self): ZZ64
-    odd(self): Boolean
-    even(self): Boolean
     shift(self, k:AnyIntegral): ZZ
 end
 
@@ -1835,56 +1880,23 @@ object VoidReduction extends { CommutativeMonoidReduction[\()\] }
     join(a: (), b: ()): ()
 end
 
-(* Hack to permit any Number to work non-parametrically. *)
-object SumReduction extends {
-CommutativeMonoidReduction[\Number\] ,
-DistributesOver[\MaxReductionN\],
-DistributesOver[\MinReductionN\] }
-    empty(): Number
-    join(a: Number, b: Number): Number
+object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidReduction[\T\]
+    empty(): T
+    join(a: T, b: T): T
 end
 
-opr SUM[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
+opr SUM[\T extends AdditiveGroup[\T\]\](): BigReduction[\T,T\]
 
-opr SUM[\T extends Number\](g: Generator[\T\]): Number
+opr SUM[\T extends AdditiveGroup[\T\]\](g: Generator[\T\]): T
 
-object ProdReduction extends {CommutativeMonoidReduction[\Number\],
-DistributesOver[\SumReduction\],
-DistributesOver[\MinReductionN\],  (* actually, we need to limit elements positive *)
-DistributesOver[\MaxReductionN\]
- }
-    empty(): Number
-    join(a:Number, b:Number): Number
+object ProdReduction[\T extends MultiplicativeRing[\T\]\] extends CommutativeMonoidReduction[\T\]
+    empty(): T
+    join(a: T, b: T): T
 end
 
-opr PROD[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
+opr PROD[\T extends MultiplicativeRing[\T\]\](): BigReduction[\T,T\]
 
-opr PROD[\T extends Number\](g: Generator[\T\]): Number
-
-object MaxReductionN extends {CommutativeMonoidReduction[\Number\] }
-    getter toString(): String
-    empty(): Number
-    join(a: Number, b: Number): Number
-end
-opr BIG MAXN[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
-opr BIG MAXN[\T extends Number\](g: Generator[\T\]): Number
-
-object MinReductionN extends {CommutativeMonoidReduction[\Number\] }
-    getter toString(): String
-    empty(): Number
-    join(a: Number, b: Number): Number
-end
-opr BIG MINN[\T extends Number\](): Comprehension[\T,Number,Number,Number\]
-opr BIG MINN[\T extends Number\](g: Generator[\T\]): Number
-
-object MinMaxReductionN extends {CommutativeMonoidReduction[\(Number,Number)\] }
-    getter asString(): String
-    empty(): Number
-    join(a: (Number, Number), b: (Number, Number)): (Number, Number)
-end
-opr BIG MINMAXN[\T extends Number\]():
-        Comprehension[\T,(Number,Number),(Number,Number),(Number,Number)\]
-opr BIG MINMAXN[\T extends Number\](g: Generator[\T\]): (Number, Number)
+opr PROD[\T extends MultiplicativeRing[\T\]\](g: Generator[\T\]): T
 
 object MinReduction[\T extends StandardMin[\T\]\] extends CommutativeReduction[\T\]
     simpleJoin(a:T, b:T): T

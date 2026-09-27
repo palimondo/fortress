@@ -74,7 +74,7 @@ run():() = do
                  (0#gensize).generate[\List[\ZZ32\]\](Concat[\ZZ32\], singleton[\ZZ32\])
         outtime(tl)
         assert(rs,rs') (*'*)
-        println("Ratio                    " gensize " = " (|\1000 tl.secs / tc.secs/| / 1000.0))
+        println("Ratio                    " gensize " = " (asFloat(|\1000 tl.secs / tc.secs/|) / 1000.0))
         ctime(t) = "\t" t.secs
         cdiv(t) =  "\t" (t.secs/gensize) "\t" (t.secs/nlogn)
         c'n'p //= gensize ctime(tl) ctime(tc) cdiv(tl) cdiv(tc)

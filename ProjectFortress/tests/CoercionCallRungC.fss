@@ -25,7 +25,7 @@ object Scaler(k: ZZ64)
   scale(x: Wide): ZZ64 = k x.big
 end
 
-total(xs: Wide...): ZZ64 = SUM[x <- xs] x.big
+total(xs: Wide...): ZZ64 = SUM[\ZZ64\][x <- xs] x.big
 
 natf(x: Wide, y: String): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")
 natr(y: String, xs: Wide...): String = builtinPrimitive("com.sun.fortress.interpreter.glue.TestFn")

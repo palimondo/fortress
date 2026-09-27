@@ -93,7 +93,7 @@ object SparseVector[\T extends Number, nat n\](mem:Array[\(ZZ32,T),ZZ32\])
       end
     (** vector * vector multiply.  Again uses a specialized serial algorithm if both
         arguments are sparse, and otherwise follows the sparse argument structure. *)
-    dot(other:Vector[\T,n\]):T = SUM [(i,v) <- mem] v other[i]
+    dot(other:Vector[\T,n\]):T = SUM[\T\] [(i,v) <- mem] v other[i]
     dot(other:SparseVector[\T,n\]):T = do
         (* We perform sparse vector-vector multiply serially due to the
            absence of reduction variables, and the fact that this allows

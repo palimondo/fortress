@@ -22,9 +22,9 @@ run() = do
     assert(xr^rz,1/256)
     assert(xz^rz,256)
     assert(xr^rr,1/256)
-    assert(xz^rr,256)
+    assert((asFloat(xz))^rr,256)
     assert(xr^rh,0.5)
-    assert(xz^rh,2)
+    assert((asFloat(xz))^rh,2)
   end
 
 end

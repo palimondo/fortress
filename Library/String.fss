@@ -505,7 +505,7 @@ end
             a || b || c
         end
 
-        getter avFlat(): RR32 =  ssize / (numFlat asif Number)
+        getter avFlat(): RR32 =  asFloat(ssize) / asFloat(numFlat)
 
         collectStatsFor(s: CatString):() = do
             if ssize = 0 then ssize := |s| end

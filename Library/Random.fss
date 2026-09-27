@@ -196,7 +196,7 @@ object SystemRandomGen extends RandomGen[\ZZ64\]
     getter min(): Just[\ZZ64\] = just 0
     getter max(): Just[\ZZ64\] = just 9007199254740991 (* 2^53 - 1 *)
 
-    random(): ZZ64 = widen(|\ 9007199254740992 (* 2^53 *) __systemRandom() /|)
+    random(): ZZ64 = widen(|\ asFloat(9007199254740992) (* 2^53 *) __systemRandom() /|)
         (*
         (* This code returns a uniform ZZ32 random number and may be useful for
            a box with very slow floating number instructions. This is not the case
@@ -267,7 +267,7 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
     extends SeededRandomGen[\N,N\]
 
     getter min(): Just[\N\] = just 0
-    getter max(): Just[\N\] = just (((1 asif N) LSHIFT wordsize) - 1)
+    getter max(): Just[\N\] = do one: N = 1; just ((one LSHIFT wordsize) - 1) end
     getter seedSize(): ZZ32 = degree
 
     var state: Vector[\N,degree\] = refresh(seed)
@@ -275,8 +275,9 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
 
     (** Called once per every `degree` random numbers generated. **)
     private refresh(s:Vector[\N,degree\]): Vector[\N,degree\] = do
-        wordmask = ((1 asif N) LSHIFT wordsize) - 1
-        lowermask = ((1 asif N) LSHIFT pivot) - 1
+        one: N = 1
+        wordmask = (one LSHIFT wordsize) - 1
+        lowermask = (one LSHIFT pivot) - 1
         uppermask = wordmask - lowermask
         s': Vector[\N,degree\] := s.copy()
         for i <- seq(0#degree) do

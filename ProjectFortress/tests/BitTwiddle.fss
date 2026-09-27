@@ -42,9 +42,9 @@ end
 run() = do
   n : ZZ32 = 245
   n' : ZZ64 = 24579235987
-  doit(n,32)
+  doit(n,widen(32))
   println("ZZ32 OK")
-  doit(n',64)
+  doit(n',widen(64))
   println("ZZ64 OK")
 end
 

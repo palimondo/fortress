@@ -1,0 +1,3 @@
+/home/user/fortress-flat/ProjectFortress/tests/CoercionRedispatchRungC.fss:43:12-13:
+    Wrong number or kind of static arguments for function: BIG +
+File CoercionRedispatchRungC.fss has 1 error.

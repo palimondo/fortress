@@ -1,0 +1,98 @@
+# XXXUnwrittenSumRungF under walk on the flat library (wip/rung-flat-tower at 70f0a3da6, library unchanged since 5c6c49fba), private caches, wiped first
+--- walk XXXUnwrittenSumRungF.fss, flat library 2026-09-27T04:05:23Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.20 0.30 0.65 1/106 23319
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ probes/skeptic/walk.sh 1 ProjectFortress/tests/XXXUnwrittenSumRungF.fss tmp/r2/c-u1
+REACHED
+Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+Library/FortressLibrary.fss:36:13-27:
+Library/FortressLibrary.fss:3109:23-33:
+Library/FortressLibrary.fss:3152:18-39:
+Library/RangeInternals.fss:1023:13-22:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:31-37:
+Library/FortressLibrary.fss:1223:25-47:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:27-42:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:10:9-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+--- walk XXXUnwrittenSumRungF.fss, flat library 2026-09-27T04:05:36Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.79 0.43 0.69 1/106 23480
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=4
+$ probes/skeptic/walk.sh 4 ProjectFortress/tests/XXXUnwrittenSumRungF.fss tmp/r2/c-u4
+REACHED
+Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+Library/FortressLibrary.fss:36:13-27:
+Library/FortressLibrary.fss:3109:23-33:
+Library/FortressLibrary.fss:3152:18-39:
+Library/RangeInternals.fss:1023:13-22:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:31-37:
+Library/FortressLibrary.fss:1223:25-47:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:27-42:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:10:9-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+# Scratch copies (tmp/r2/scr, not committed), to show that each assertion fails on its own: Scratch2 drops the empty sum, Scratch3 also drops SUM[j <- 0#4] j
+--- walk scratch XXXUnwrittenSumScratch2.fss, flat library 2026-09-27T04:06:22Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.73 0.75 0.78 1/106 23858
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+10:    s = SUM[j <- 0#4] j
+12:    p = PROD[j <- 1#3] j
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 2: ZZ32 of type Int
+Context:
+Library/RangeInternals.fss:1032:21-58:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1034:13-1035:9:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+tmp/r2/scr/XXXUnwrittenSumScratch2.fss:10:13-19:
+Library/FortressLibrary.fss:1223:25-47:
+tmp/r2/scr/XXXUnwrittenSumScratch2.fss:10:9-23:
+--- walk scratch XXXUnwrittenSumScratch3.fss, flat library 2026-09-27T04:06:25Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.73 0.75 0.78 1/106 23924
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+10:    p = PROD[j <- 1#3] j
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 2: ZZ32 of type Int
+Context:
+Library/RangeInternals.fss:1032:21-58:
+Library/RangeInternals.fss:1032:46-57:
+Library/RangeInternals.fss:1034:13-1035:9:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+tmp/r2/scr/XXXUnwrittenSumScratch3.fss:10:14-20:
+Library/FortressLibrary.fss:1223:25-47:
+tmp/r2/scr/XXXUnwrittenSumScratch3.fss:10:9-24:

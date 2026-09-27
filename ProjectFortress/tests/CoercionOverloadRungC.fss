@@ -46,7 +46,7 @@ run() = do
     assert(Picker.pick(NarrowOf(6)), 6, "row 19: an overloaded method's argument converts; conversions-coercions.tex:98-110")
     assert((WideOf(widen(1)) + NarrowOf(2)).big, 3, "row 19: a functional method's other parameter converts; conversions-coercions.tex:431-436")
     assert((NarrowOf(2) + WideOf(widen(1))).big, 3, "row 19: a functional method's self parameter converts; conversions-coercions.tex:431-436")
-    total = SUM[i <- 1:100] h(if i MOD 2 = 0 then NarrowOf(i) else WideOf(widen(i)) end)
+    total = SUM[\ZZ64\][i <- 1:100] h(if i MOD 2 = 0 then NarrowOf(i) else WideOf(widen(i)) end)
     assert(total, 5050, "row 19: coerced and plain arguments of one overloaded function in a parallel reduction")
     println("PASS")
   end

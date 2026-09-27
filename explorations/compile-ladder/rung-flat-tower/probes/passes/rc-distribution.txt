@@ -1,0 +1,21 @@
+# exit codes of the 407 tests (count-list.txt), per pass: count, rc
+## baseA
+    336 rc=0
+     64 rc=1
+      7 rc=255
+## baseB
+    336 rc=0
+     64 rc=1
+      7 rc=255
+## edit
+    336 rc=0
+     64 rc=1
+      7 rc=255
+## edit2
+    336 rc=0
+     64 rc=1
+      7 rc=255
+## edit3
+    336 rc=0
+     64 rc=1
+      7 rc=255

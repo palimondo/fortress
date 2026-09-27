@@ -319,7 +319,7 @@ object genZZ extends Gen[\ZZ\]
         if -2147483648 <= obj < 2147483648 then
             g.perturbed(0, narrow(obj))
         else
-            perturb(obj LSHIFT 32,
+            perturb(big(widen(obj) LSHIFT 32),
                     g.perturbed(1, narrow((obj BITAND 4294967295 (* 2^32-1 *)) -
                                           2147483648 (* 2^31 *))))
         end
@@ -338,7 +338,7 @@ object genQQ extends Gen[\QQ\]
         num = numerator(obj)
         den = denominator(obj)
         div = num GCD den    (*) so we have unique representation for every equivalent `QQ`
-        genZZ.perturb(den / div, genZZ.perturb(num / div, g))
+        genZZ.perturb(den DIV div, genZZ.perturb(num DIV div, g))
     end
 end
 
@@ -368,7 +368,7 @@ object genRR64 extends Gen[\RR64\]
     generate(c:TestContext): RR64 = do
         x = c.random()
         y = c.random()
-        genZZ64.generate(c) (x / 4294967296.0 (* 2.0^32 *) +
+        asFloat(genZZ64.generate(c)) (x / 4294967296.0 (* 2.0^32 *) +
                              y / 18446744073709551616.0 (* 2.0^64 *))
     end
 

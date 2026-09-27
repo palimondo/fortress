@@ -1,0 +1,8 @@
+narrow(1.5) = 1.5
+1.5 + narrow(2.5)
+(widen(3))^(-1)
+signed(widen(unsigned(3))) + widen(1)
+asFloat((widen(3))^2) + 0.5
+SUM[\RR32\][i <- 0#4] narrow(asFloat(i))
+SUM[\RR32\][i <- 0#0] narrow(1.0)
+PROD[\NN32\][i <- 1#4] unsigned(i)

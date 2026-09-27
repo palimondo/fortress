@@ -1,0 +1,13 @@
+component StrToFloatProbe
+import List.{...}
+export Executable
+run() = do
+    k: ZZ32 = 2
+    e = 10^k
+    println("10^k : " e.ilkName)
+    for s <- seq(<|[\String\] "3.25", "0.1", "7", "123456.5"|>) do
+        r = strToFloat(s)
+        println(s " -> " r " : " r.ilkName)
+    end
+end
+end

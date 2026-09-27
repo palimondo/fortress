@@ -1,0 +1,19 @@
+component XXXEmptyGroupSumRungF
+export Executable
+
+(*) explorations/compile-ladder/rung-flat-tower/REPORT.md
+
+object M7(v: ZZ32) extends AdditiveGroup[\M7\]
+    getter zero(): M7 = M7(0)
+    opr +(self, o: M7): M7 = M7((v + o.v) MOD 7)
+    opr -(self): M7 = M7((7 - v) MOD 7)
+end
+
+run() = do
+    println("REACHED")
+    e = SUM[\M7\][i <- 0#0] M7(i)
+    assert(e.v, 0, "reductions.tex:49-52; evaluation/reduction.tex:66-74; algebraic-constraints.tex:794-797")
+    println("PASS")
+  end
+
+end

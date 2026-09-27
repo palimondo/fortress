@@ -1,0 +1,10 @@
+# the checker-count stage (explorations/coordinator/tools/checker-count/run.sh) re-run on the rung's library at ae77db21c,
+# finished 2026-09-27T01:39:44Z; its table is table-after.txt, equal to the first after-run of 00:51 UTC;
+# machine at the time of writing this file:
+--- checker count, after 2026-09-27T02:12:22Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 2.50 4.40 6.20 1/105 32146
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

@@ -1,0 +1,7 @@
+component Rnd3
+export Executable
+run() = do
+    r = |/3\|
+    println(r.asString " : " r.ilkName)
+end
+end

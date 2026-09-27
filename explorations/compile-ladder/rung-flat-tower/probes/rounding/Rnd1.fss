@@ -1,0 +1,7 @@
+component Rnd1
+export Executable
+run() = do
+    r = round(3)
+    println(r.asString " : " r.ilkName)
+end
+end

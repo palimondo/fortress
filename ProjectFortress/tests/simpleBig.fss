@@ -13,11 +13,11 @@ component simpleBig
 import List.{...}
 export Executable
 
-opr BIG STAR[\T extends Number\](): Comprehension[\T,Number,Number,Number\] =
-    Comprehension[\T,Number,Number,Number\](fn x => x, SumReduction, cast[\Number\])
+opr BIG STAR[\T extends AdditiveGroup[\T\]\](): BigReduction[\T,T\] =
+    BigReduction[\T,T\](SumReduction[\T\])
 
-opr BIG STAR[\T extends Number\](g: Generator[\T\]): T =
-    __bigOperatorSugar[\T,Number,Number,Number\](BIG STAR[\T\](), g)
+opr BIG STAR[\T extends AdditiveGroup[\T\]\](g: Generator[\T\]): T =
+    __bigOperatorSugar[\T,T,T,T\](BIG STAR[\T\](), g)
 
 run():() = do
     body(x:ZZ32): RR64 = if x MOD 2 = 0 then x else 1.0 x end
@@ -30,7 +30,7 @@ run():() = do
     println(p6)
     assert(SUM p6, 605, "SUM p6")
 
-    p7 : List[\RR64\] = <| body(x + y) | x <- 1#10, y<-1#x |>
+    p7 : List[\RR64\] = <|[\RR64\] asFloat(body(x + y)) | x <- 1#10, y<-1#x |>
     println(p7)
     assert(SUM p7, 605.0, "SUM p7")
 
@@ -38,11 +38,11 @@ run():() = do
     println(p0)
     assert(p0,45,"BIG STAR [x<-0#10] x")
 
-    p9 = BIG STAR [x<-0#10] x
+    p9 = BIG STAR[\ZZ32\] [x<-0#10] x
     println(p0)
     assert(p9,45,"BIG STAR [x<-0#10] x")
 
-    p1 = BIG STAR [x<-0#10] 2 x + 1
+    p1 = BIG STAR[\ZZ32\] [x<-0#10] 2 x + 1
     println(p1)
     assert(p1,100,"BIG STAR [x <- 0#10] 2x+1")
 
@@ -54,7 +54,7 @@ run():() = do
     println(p3)
     assert(p3,0,"BIG STAR (5#0)")
 
-    p4 = BIG STAR [x<-0#10] body(3 x + 1)
+    p4 = BIG STAR[\RR64\] [x<-0#10] body(3 x + 1)
     println(p4)
     assert(p4,145.0,"BIG STAR [x<-0#10] body(3x+1)")
 
@@ -63,7 +63,7 @@ run():() = do
     println(s)
     assert(s,605,"loop x,y")
 
-    p5 = BIG STAR [x<-1#10, y<-1#x] (x+y)
+    p5 = BIG STAR[\ZZ32\] [x<-1#10, y<-1#x] (x+y)
     println(p5)
     assert(p5,605,"BIG STAR [x<-1#10, y<-1#x] (x+y)")
 

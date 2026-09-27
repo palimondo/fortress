@@ -1,0 +1,7 @@
+component Rnd8
+export Executable
+run() = do
+    r = truncate(big(3))
+    println(r.asString " : " r.ilkName)
+end
+end

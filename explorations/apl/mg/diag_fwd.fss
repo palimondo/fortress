@@ -22,7 +22,7 @@ export Executable
 (Ne, Blk, Nh, Hd, Vs, Bos) = (16, 16, 4, 4, 27, 26)
 (Eps, Lr0, B1, B2, Epsa, Nsteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
 rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (Eps + (x DOT x) / |x|)
-sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX[t <- z] t)); e / (SUM e) end
+sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end
 Mk = apl⦇ (-10*10)×~(⍳Blk)∘.≥⍳Blk ⦈
 maskC: Array[\RR64,(ZZ32,ZZ32)\] = mat(Blk, Blk, fn (i: ZZ32, j: ZZ32): RR64 => if j > i then -(10.0^10) else 0.0 end)
 matShape(i: ZZ32): (ZZ32, ZZ32) =
@@ -31,7 +31,7 @@ matName(i: ZZ32): String =
     if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
     elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
 matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
-matOffset(i: ZZ32): ZZ32 = SUM[j <- 0#i] matCount(j)
+matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j <- 0#i] matCount(j)
 nParams(): ZZ32 = matOffset(9)
 view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
 corpus: Corpus = loadCorpus("../reference/dzaima/docs.txt", Blk, Bos)
@@ -40,16 +40,16 @@ Len = corpus.len
 
 d2(tag: String, a: Array[\RR64,(ZZ32,ZZ32)\], c: Array[\RR64,(ZZ32,ZZ32)\]): () = do
     (r, cc) = a.sizes
-    println tag " " r "x" cc " maxdiff " (BIG MAX[i <- 0#r, j <- 0#cc] |a[i,j] - c[i,j]|) " suma " (SUM[i <- 0#r, j <- 0#cc] a[i,j])
+    println tag " " r "x" cc " maxdiff " (BIG MAX[\RR64\][i <- 0#r, j <- 0#cc] |a[i,j] - c[i,j]|) " suma " (SUM[\RR64\][i <- 0#r, j <- 0#cc] a[i,j])
   end
 d3(tag: String, a: Array[\RR64,(ZZ32,ZZ32,ZZ32)\], c: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): () = do
     (p, r, cc) = a.sizes
-    println tag " " p "x" r "x" cc " maxdiff " (BIG MAX[q <- 0#p, i <- 0#r, j <- 0#cc] |a[q,i,j] - c[q,i,j]|) " suma " (SUM[q <- 0#p, i <- 0#r, j <- 0#cc] a[q,i,j])
+    println tag " " p "x" r "x" cc " maxdiff " (BIG MAX[\RR64\][q <- 0#p, i <- 0#r, j <- 0#cc] |a[q,i,j] - c[q,i,j]|) " suma " (SUM[\RR64\][q <- 0#p, i <- 0#r, j <- 0#cc] a[q,i,j])
   end
 dz(tag: String, a: Array[\ZZ32,ZZ32\], c: Array[\ZZ32,ZZ32\]): () =
-    println tag " |" |a| "| maxdiff " (BIG MAX[i <- 0#|a|] |a[i] - c[i]|)
+    println tag " |" |a| "| maxdiff " (BIG MAX[\ZZ32\][i <- 0#|a|] |a[i] - c[i]|)
 dr(tag: String, a: Array[\RR64,ZZ32\], c: Array[\RR64,ZZ32\]): () =
-    println tag " |" |a| "| maxdiff " (BIG MAX[i <- 0#|a|] |a[i] - c[i]|)
+    println tag " |" |a| "| maxdiff " (BIG MAX[\RR64\][i <- 0#|a|] |a[i] - c[i]|)
 
 run(): () = do
     P: Array[\RR64,ZZ32\] = loadParams("../reference/dzaima/w", matName, 9, nParams())

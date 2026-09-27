@@ -205,7 +205,7 @@ trait InternalNodeHelper[\SelfType extends InternalNodeHelper[\SelfType,Key,Val,
 
   getter asString():String = "{" self.keys.asString ", " self.children.asString "}"
 
-  opr |self| : ZZ32 = SUM [node <- self.children] |node|
+  opr |self| : ZZ32 = SUM[\ZZ32\] [node <- self.children] |node|
 
   (* given an instance of SelfType, generate a singleton SelfType *)
   singleton(keys':Array[\Key,ZZ32\], children':Array[\ChildType,ZZ32\]) : SelfType

@@ -20,10 +20,10 @@ object Properties extends GenericProperties
     (* XXX RR32 + RR64 doesn't work correctly! *)
     propCommutativeAddition(a:Number, b:Number): Boolean =
         (*)a + b = b + a
-        1.0 a + 1.0 b = 1.0 b + 1.0 a
+        asFloat(a) + asFloat(b) = asFloat(b) + asFloat(a)
     propCommutativeAddition'[\A extends Number, B extends Number\](a:A, b:B): Boolean =
         (*)a + b = b + a
-        1.0 a + 1.0 b = 1.0 b + 1.0 a
+        asFloat(a) + asFloat(b) = asFloat(b) + asFloat(a)
 
     (* Tests several variants of same property. *)
     propDoubleReversal[\T\](g:Generator[\T\]): Boolean =

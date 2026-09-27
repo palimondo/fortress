@@ -1,0 +1,93 @@
+--- skeptic 2 rerun-tests 2026-09-27T04:50:19Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.03 0.34 1.67 2/107 15363
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=unset
+tree at 7b946f599 rung F repair: two line citations in capture headers corrected
+=== FlatTowerRungF walk FORTRESS_THREADS=1
+rc=0
+=== FlatTowerRungF walk FORTRESS_THREADS=4
+rc=0
+=== XXXUnwrittenSumRungF walk FORTRESS_THREADS=1
+REACHED
+Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+Library/FortressLibrary.fss:36:13-27:
+Library/FortressLibrary.fss:3109:23-33:
+Library/FortressLibrary.fss:3152:18-39:
+Library/RangeInternals.fss:1023:13-22:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:31-37:
+Library/FortressLibrary.fss:1223:25-47:
+rc=1
+=== XXXUnwrittenSumRungF walk FORTRESS_THREADS=4
+REACHED
+Library/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+Library/FortressLibrary.fss:36:13-27:
+Library/FortressLibrary.fss:3109:23-33:
+Library/FortressLibrary.fss:3152:18-39:
+Library/RangeInternals.fss:1023:13-22:
+Library/FortressLibrary.fss:1166:5-23:
+Library/FortressLibrary.fss:1166:5-23:
+ProjectFortress/tests/XXXUnwrittenSumRungF.fss:6:31-37:
+Library/FortressLibrary.fss:1223:25-47:
+rc=1
+=== XXXRR32MixedRungF walk FORTRESS_THREADS=1
+REACHED
+com.sun.fortress.exceptions.InterpreterBug: ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+getRR32 not implemented for FFloatLiteral
+Context:
+ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXRR32MixedRungF walk FORTRESS_THREADS=4
+REACHED
+com.sun.fortress.exceptions.InterpreterBug: ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+getRR32 not implemented for FFloatLiteral
+Context:
+ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXEmptyGroupSumRungF walk FORTRESS_THREADS=1
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47:
+Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int
+Context:
+Library/FortressLibrary.fss:1223:16-47:
+ProjectFortress/tests/XXXEmptyGroupSumRungF.fss:14:9-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXEmptyGroupSumRungF walk FORTRESS_THREADS=4
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47:
+Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int
+Context:
+Library/FortressLibrary.fss:1223:16-47:
+ProjectFortress/tests/XXXEmptyGroupSumRungF.fss:14:9-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== harness-one.sh over the three XXX files
+. interpret tmp/sk2/harness/tests/XXXEmptyGroupSumRungF  OK Saw expected exception
+. interpret tmp/sk2/harness/tests/XXXRR32MixedRungF  OK Saw expected exception
+. interpret tmp/sk2/harness/tests/XXXUnwrittenSumRungF  OK Saw expected exception
+OK (3 tests)
+done 2026-09-27T04:52:26Z
+EXIT=0

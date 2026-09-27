@@ -1,0 +1,20 @@
+--- strToFloat, flat library before its explicit conversion (the rung's head at ae77db21c), walk 2026-09-27T01:54:16Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 21.94 14.45 8.35 17/319 17597
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+10^k : Int
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:4262:3-102:
+Failed to find any matching overload, args = (1.0,Ratio), overload = {
+Context:
+/home/user/fortress-flat/Library/FortressLibrary.fss:4262:3-102:
+/home/user/fortress-flat/explorations/compile-ladder/rung-flat-tower/probes/StrToFloatProbe.fss:9:13-24:
+/home/user/fortress-flat/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress-flat/Library/RangeInternals.fss:1071:17-22:
+/home/user/fortress-flat/Library/FortressLibrary.fss:3453:9-48:
+/home/user/fortress-flat/Library/FortressLibrary.fss:3453:9-48:
+/home/user/fortress-flat/Library/FortressLibrary.fss:1145:25-55:
+/home/user/fortress-flat/Library/FortressLibrary.fss:1145:25-55:
+rc=1

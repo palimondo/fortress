@@ -59,7 +59,7 @@ run():() = do
 
     (* Top-level overloading *)
     a : List[\RR64\] = <| 1.0 asif RR64, 2.0, 3.0, 4.0 |>
-    assert(a,<|1 asif RR64,2,3,4|>," lists ought to compare at RR64")
+    assert(a,<|[\RR64\] 1,2,3,4|>," lists ought to compare at RR64")
 
     assert(Bar EEK Bar, true, " Bar unequal")
     assert(Baz EEK Baz, true, " Baz unequal")
@@ -99,7 +99,7 @@ run():() = do
     assert(propAsif(Bar, Bar asif Foo), false, "propAsif(Bar,Foo)")
 
     (* Mixed generic and overloaded method, at supertype. *)
-    z = (3 asif RR64) + 17
+    z = (3.0 asif RR64) + 17
     typecase z of
         z':ZZ64 => println("FAIL, got ZZ64 " z')
         z':RR64 => println("PASS, got RR64 " z')

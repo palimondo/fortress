@@ -27,9 +27,9 @@ object Timing(desc:String, duration: ZZ64)
         else
             (self.secs) "s"
         end
-    getter secs(): RR64 = duration / 10.0^9
-    getter msecs(): RR64 = duration / 10.0^6
-    getter usecs(): RR64 = duration / 1000.0
+    getter secs(): RR64 = asFloat(duration) / 10.0^9
+    getter msecs(): RR64 = asFloat(duration) / 10.0^6
+    getter usecs(): RR64 = asFloat(duration) / 1000.0
     getter nsecs(): ZZ64 = duration
 end
 

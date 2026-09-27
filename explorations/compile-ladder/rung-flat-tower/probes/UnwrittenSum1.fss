@@ -1,0 +1,7 @@
+component UnwrittenSum1
+export Executable
+run() = do
+    r = SUM[j <- 0#0] j
+    println(r.asString " : " r.ilkName)
+end
+end

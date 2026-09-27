@@ -1,0 +1,10 @@
+Howdy at Global; here = Global
+false at Global; here = Global
+5 at Global; here = Global
+Just(17) at Global; here = Global
+Just(5) at Global; here = Global
+Nothing at Global; here = Global
+Nothing at Global; here = Global
+OK
+
+rc=0 secs=4

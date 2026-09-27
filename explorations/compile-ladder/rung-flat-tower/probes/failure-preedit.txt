@@ -1,0 +1,30 @@
+--- the new test on the base e5414f5bf, walk 2026-09-26T23:30:31Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.09 2.66 2.23 1/107 20364
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+FAIL: route A, POSITIONS.md:92: a ZZ32 is not a ZZ64
+FAIL: J17/0:-2147483648 : Int =/= J17/0:2147483648 : Long; row 146, POSITIONS.md:159: a ZZ64 bound to a numeral holds 64 bits
+FAIL: J7/0:0 : Int =/= J18/0:0.0 : FloatLiteral; sum-replacement-verdict.md outcome 1: an empty bare RR64 sum is a float
+FAIL: row 428, opr-overview.tex:156: rational computations do not overflow
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/ProjectFortress/tests/FlatTowerRungF.fss:168:18-26:
+Failed to find any matching overload, args = (__DefaultVector[\RR64,3\]), overload = {
+	BIG MAX[\T extends StandardMax[\T\]\]():BigReduction[\T,FortressLibrary.AnyMaybe\]/home/user/fortress-flat/Library/FortressLibrary.fss:3166:1-3167:49
+	BIG MAX[\T extends StandardMax[\T\]\](g:Generator[\T\]):(T, T)/home/user/fortress-flat/Library/FortressLibrary.fss:3168:1-3169:60}:OverloadedFunction
+Context:
+/home/user/fortress-flat/ProjectFortress/tests/FlatTowerRungF.fss:168:18-26:
+/home/user/fortress-flat/ProjectFortress/tests/FlatTowerRungF.fss:10:9-11:
+/home/user/fortress-flat/ProjectFortress/tests/FlatTowerRungF.fss:176:10-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

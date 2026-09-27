@@ -51,7 +51,7 @@ object ChunkedSparseArray[\T, nat n\](defaultValue : T) extends Array1[\T,0,n\]
        synchronization reasons.  We can automatically retrieve
        pairs atomically. *)
     data : Array[\(ZZ64,Array[\T,ZZ32\]),ZZ32\] =
-                        array[\(ZZ64,Array[\T,ZZ32\])\]((n+63) DIV 64).fill(0,emptyArray)
+                        array[\(ZZ64,Array[\T,ZZ32\])\]((n+63) DIV 64).fill(widen(0),emptyArray)
     getter indices(): Generator[\ZZ32\] =
         data.indexValuePairs.nest[\ZZ32\](
             fn (i:ZZ32, t:(ZZ64,Array[\T,ZZ32\])): Generator[\ZZ32\] => do
@@ -158,9 +158,9 @@ test go(): () = do
     for i <- b.bounds do
         chk("b",i,b[i],b.isSet(i),23)
     end
-    e_b = SUM [i <- b.indices, b.isSet(i)] chki("bi",i,b[i],23)
+    e_b = SUM[\ZZ32\] [i <- b.indices, b.isSet(i)] chki("bi",i,b[i],23)
     assert(e_b, (1077+22) DIV 23, "Wrong number of set elements in ",b)
-    e_a = SUM [(i,n) <- a.indexValuePairs, a.isSet(i)] chki("bi",i,n,123)
+    e_a = SUM[\ZZ32\] [(i,n) <- a.indexValuePairs, a.isSet(i)] chki("bi",i,n,123)
     assert(e_a, (1077+122) DIV 123, "Wrong number of set elements in ",a)
     println("Tests complete.")
   end

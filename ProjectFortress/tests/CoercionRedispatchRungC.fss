@@ -40,7 +40,7 @@ run() = do
     assert(Picker.pick(NarrowOf(3)), "pick(Wide)", "row 19: the method declaration is chosen per call on the converted value, not cached per argument type; advanced/overloading.tex:73-78, :466-468")
     assert(describe(NarrowOf(6)), "WideOf.describe", "row 19: a functional method dispatches on its converted self argument; conversions-coercions.tex:434-436; advanced/overloading.tex:466-468")
     assert(describe(NarrowOf(5)), "Wide.describe", "row 19: a functional method dispatches per call on its converted self argument; advanced/overloading.tex:466-468")
-    assert(SUM[i <- 1:100] hit(g(NarrowOf(i))), 50, "row 19: converted arguments dispatched per call in a parallel reduction; basic/overloading.tex:263-276")
+    assert(SUM[\ZZ32\][i <- 1:100] hit(g(NarrowOf(i))), 50, "row 19: converted arguments dispatched per call in a parallel reduction; basic/overloading.tex:263-276")
     println("PASS")
   end
 

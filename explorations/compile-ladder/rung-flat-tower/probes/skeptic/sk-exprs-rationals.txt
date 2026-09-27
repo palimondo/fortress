@@ -1,0 +1,55 @@
+--- skeptic walk differentials, rationals and row 146 shapes 2026-09-27T03:35:28Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 2.09 2.57 2.79 3/105 12974
+openjdk version "25.0.4" 2026-07-21
+E1 flat t1 | (2/3)^2 | ran: 4/9 : Ratio
+E1 base t1 | (2/3)^2 | ran: 4/9 : Ratio
+E1 flat t4 | (2/3)^2 | ran: 4/9 : Ratio
+E1 base t4 | (2/3)^2 | ran: 4/9 : Ratio
+E2 flat t1 | (2/3)^(-2) | ran: 9/4 : Ratio
+E2 base t1 | (2/3)^(-2) | ran: 9/4 : Ratio
+E2 flat t4 | (2/3)^(-2) | ran: 9/4 : Ratio
+E2 base t4 | (2/3)^(-2) | ran: 9/4 : Ratio
+E3 flat t1 | 1/2 + 1 | ran: 3/2 : Ratio
+E3 base t1 | 1/2 + 1 | ran: 3/2 : Ratio
+E3 flat t4 | 1/2 + 1 | ran: 3/2 : Ratio
+E3 base t4 | 1/2 + 1 | ran: 3/2 : Ratio
+E4 flat t1 | 1 + 1/2 | ran: 3/2 : Ratio
+E4 base t1 | 1 + 1/2 | ran: 3/2 : Ratio
+E4 flat t4 | 1 + 1/2 | ran: 3/2 : Ratio
+E4 base t4 | 1 + 1/2 | ran: 3/2 : Ratio
+E5 flat t1 | (1/2) 2 | ran: 1 : Ratio
+E5 base t1 | (1/2) 2 | ran: 1 : Int
+E5 flat t4 | (1/2) 2 | ran: 1 : Ratio
+E5 base t4 | (1/2) 2 | ran: 1 : Int
+E6 flat t1 | do g(): ZZ64 = 2147483647; g() + 1 end | ran: -2147483648 : Int
+E6 base t1 | do g(): ZZ64 = 2147483647; g() + 1 end | ran: -2147483648 : Int
+E6 flat t4 | do g(): ZZ64 = 2147483647; g() + 1 end | ran: -2147483648 : Int
+E6 base t4 | do g(): ZZ64 = 2147483647; g() + 1 end | ran: -2147483648 : Int
+E7 flat t1 | do a: Array[\ZZ64,ZZ32\] = array[\ZZ64\](1); a[0] := 2147483647; a[0] + 1 end | ran: 2147483648 : Long
+E7 base t1 | do a: Array[\ZZ64,ZZ32\] = array[\ZZ64\](1); a[0] := 2147483647; a[0] + 1 end | ran: -2147483648 : Int
+E7 flat t4 | do a: Array[\ZZ64,ZZ32\] = array[\ZZ64\](1); a[0] := 2147483647; a[0] + 1 end | ran: 2147483648 : Long
+E7 base t4 | do a: Array[\ZZ64,ZZ32\] = array[\ZZ64\](1); a[0] := 2147483647; a[0] + 1 end | ran: -2147483648 : Int
+E8 flat t1 | do (p, q): (ZZ64, ZZ64) = (2147483647, 1); p + q end | ran: 2147483648 : Long
+E8 base t1 | do (p, q): (ZZ64, ZZ64) = (2147483647, 1); p + q end | ran: -2147483648 : Int
+E8 flat t4 | do (p, q): (ZZ64, ZZ64) = (2147483647, 1); p + q end | ran: 2147483648 : Long
+E8 base t4 | do (p, q): (ZZ64, ZZ64) = (2147483647, 1); p + q end | ran: -2147483648 : Int
+E9 flat t1 | do h(y: ZZ64): ZZ64 = y; h(2147483647) + 1 end | ran: 2147483648 : Long
+E9 base t1 | do h(y: ZZ64): ZZ64 = y; h(2147483647) + 1 end | ran: -2147483648 : Int
+E9 flat t4 | do h(y: ZZ64): ZZ64 = y; h(2147483647) + 1 end | ran: 2147483648 : Long
+E9 base t4 | do h(y: ZZ64): ZZ64 = y; h(2147483647) + 1 end | ran: -2147483648 : Int
+E10 flat t1 | do k[\T\](y: ZZ64, t: T): ZZ64 = y; k[\ZZ32\](2147483647, 0) + 1 end | refused rc=1: com.sun.fortress.exceptions.ProgramError: tmp/sk/flat/SkE10.fss:10:31: Missing type T tmp/sk/flat/SkE10.fss:10:31: 
+E10 base t1 | do k[\T\](y: ZZ64, t: T): ZZ64 = y; k[\ZZ32\](2147483647, 0) + 1 end | refused rc=1: com.sun.fortress.exceptions.ProgramError: tmp/sk/base/SkE10.fss:10:31: Missing type T tmp/sk/base/SkE10.fss:10:31: 
+E10 flat t4 | do k[\T\](y: ZZ64, t: T): ZZ64 = y; k[\ZZ32\](2147483647, 0) + 1 end | refused rc=1: com.sun.fortress.exceptions.ProgramError: tmp/sk/flat/SkE10.fss:10:31: Missing type T tmp/sk/flat/SkE10.fss:10:31: 
+E10 base t4 | do k[\T\](y: ZZ64, t: T): ZZ64 = y; k[\ZZ32\](2147483647, 0) + 1 end | refused rc=1: com.sun.fortress.exceptions.ProgramError: tmp/sk/base/SkE10.fss:10:31: Missing type T tmp/sk/base/SkE10.fss:10:31: 
+E11 flat t1 | narrow(1.5) + 2.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/flat/SkE11.fss:10:9-18: getRR32 not implemented for FFloatLiteral tmp/sk/flat/SkE11.fss:10:9-18: 
+E11 base t1 | narrow(1.5) + 2.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/base/SkE11.fss:10:9-18: getRR32 not implemented for FFloatLiteral tmp/sk/base/SkE11.fss:10:9-18: 
+E11 flat t4 | narrow(1.5) + 2.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/flat/SkE11.fss:10:9-18: getRR32 not implemented for FFloatLiteral tmp/sk/flat/SkE11.fss:10:9-18: 
+E11 base t4 | narrow(1.5) + 2.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/base/SkE11.fss:10:9-18: getRR32 not implemented for FFloatLiteral tmp/sk/base/SkE11.fss:10:9-18: 
+E12 flat t1 | narrow(1.5) + narrow(2.5) | ran: 4.0 : RR32
+E12 base t1 | narrow(1.5) + narrow(2.5) | ran: 4.0 : RR32
+E12 flat t4 | narrow(1.5) + narrow(2.5) | ran: 4.0 : RR32
+E12 base t4 | narrow(1.5) + narrow(2.5) | ran: 4.0 : RR32
+done 2026-09-27T03:37:37Z

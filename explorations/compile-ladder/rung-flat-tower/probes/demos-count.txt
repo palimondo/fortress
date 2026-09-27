@@ -1,0 +1,57 @@
+# The repair round's demos count (JUDGE.md instruction 7; explorations/reviews/sum-replacement-judgement.md:169-172, :405-406): the 24 demos that
+# grep -rlE '(SUM|PROD|∑|∏)\s*\[[^\\]' ProjectFortress/demos --include='*.fss' lists (137 lines), each under walk at FORTRESS_THREADS=1, 180 s timeout, its own
+# private cache, from a scratch copy of ProjectFortress/demos, four JVMs at a time, once on the flat library (wip/rung-flat-tower, library of
+# 5c6c49fba plus the repair round's doc comment) and once on the base (e5414f5bf's copies of the 15 library files this rung edits, in the
+# base scratch copy). Driver explorations/compile-ladder/rung-flat-tower/demos-run.sh, summary demos-summary.py. No demo is edited.
+#
+# --- demos count, flat then base, four JVMs at a time 2026-09-27T04:21:21Z
+# nproc 4
+# model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+# cpu MHz		: 2100.000
+# loadavg 0.86 1.61 1.30 2/108 2182
+# openjdk version "25.0.4" 2026-07-21
+# FORTRESS_THREADS=1
+# start 2026-09-27T04:21:21Z load: 0.86 1.61 1.30 library: flat
+# done 2026-09-27T04:26:30Z
+# start 2026-09-27T04:26:30Z load: 6.46 5.86 3.33 library: base
+# done 2026-09-27T04:33:43Z
+# wordcount2 read ProjectFortress/demos/hamlet relative to its working directory (wordcount2.fss:132) and was FileNotFound on both libraries in
+# that run; the driver now links that path inside the scratch copy, and wordcount2 was run again alone on both libraries:
+# start 2026-09-27T04:34:15Z load: 2.27 5.52 4.43 library: flat
+# done 2026-09-27T04:34:56Z
+# start 2026-09-27T04:34:56Z load: 1.89 5.01 4.30 library: base
+# done 2026-09-27T04:35:41Z
+# The longest run took 132 s; no run reached the timeout.
+#
+# demo | base | flat | flat failure is row 424's
+BiCGSTAB | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58: Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 36.0:RR64 of type Float | yes (join/unlift BOTTOM)
+BirdCount1m | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58: Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 0: ZZ32 of type Int | yes (join/unlift BOTTOM)
+BirdCount1n | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58: Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 0: ZZ32 of type Int | yes (join/unlift BOTTOM)
+BirdCount1o | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58: Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 0: ZZ32 of type Int | yes (join/unlift BOTTOM)
+BirdCount1p | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1q | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1r | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1s | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1t | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1u | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1v | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1w | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1y | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount1z | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount2a | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount2b | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount2c | base rc=0 | flat rc=1 CastError | yes (CastError via the identity)
+BirdCount2d | base rc=255  | flat rc=255  | no
+aStar | base rc=1 Syntax Error | flat rc=1 Syntax Error | no
+mg | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: mg.fss:159:19-28: Failed to find any matching overload, args = (33474760823: ZZ64,1.0E9), overload = { | no
+npbft | base rc=1 com.sun.fortress.exceptions.ProgramError: npbft.fss:49:3-53: and FortressLibrary.fss:383:5-384:56: | flat rc=1 com.sun.fortress.exceptions.ProgramError: npbft.fss:31:5-7: Failed to find any matching overload, args = (55909509111989: ZZ64,7.0368744177664E13:RR64), overload = { | no
+posFeedback | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1032:21-58: Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 0: ZZ32 of type Int | yes (join/unlift BOTTOM)
+wordcount | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: wordcount.fss:84:53-63: Failed to find any matching overload, args = (36817581344: ZZ64,1000000.0:RR64), overload = { | no
+wordcount2 | base rc=0 | flat rc=1 com.sun.fortress.exceptions.ProgramError: wordcount2.fss:106:53-63: Failed to find any matching overload, args = (23820543870: ZZ64,1000000.0:RR64), overload = { | no
+# summary: 24 demos; 21 ran on the base (rc=0); 21 of those fail on the flat library; 18 of those fail at row 424.
+#
+# The three flat failures that ran on the base and are not row 424's: mg.fss:159, wordcount.fss:84 and wordcount2.fss:106 divide a ZZ64 time
+# difference by a float, which answer 8 makes explicit (ZZ64 into RR64 by asFloat; POSITIONS.md:159), the respelling the team tests' timing
+# lines received under Q1 = (a). Not run on the base or the flat library for other reasons: BirdCount2d (rc=255, its API GenomeUtil2d not on
+# the path), aStar (a syntax error at aStar.fss:38), npbft (an overloading error at npbft.fss:49 on the base; on the flat library a ZZ64
+# divided by a float at npbft.fss:31).

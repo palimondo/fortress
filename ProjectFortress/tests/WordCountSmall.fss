@@ -82,7 +82,7 @@ opr BIG UNIONUNION(): BigReduction[\Map[\ZZ32, List[\String\]\],Map[\ZZ32, List[
     embiggen[\Map[\ZZ32, List[\String\]\]\](fn(a,b) => a UNIONUNION b, {[\ZZ32,List[\String\]\]})
 
 processFile(name:String):() = do
-    time(str:String,s,f): () = println(str " in " ((f-s)/10.0^6) "ms")
+    time(str:String,s,f): () = println(str " in " (asFloat(f-s)/10.0^6) "ms")
     println("Processing file " name)
     var rs:FileReadStream = FileReadStream(name)
     start = nanoTime()

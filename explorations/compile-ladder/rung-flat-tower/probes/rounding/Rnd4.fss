@@ -1,0 +1,7 @@
+component Rnd4
+export Executable
+run() = do
+    r = floor(3)
+    println(r.asString " : " r.ilkName)
+end
+end

@@ -1,0 +1,8 @@
+--- the new test on the flat library (explicit conversions of strToFloat and the vector norm; Number's = through exactValue with bound typecase clauses), walk 2026-09-27T02:43:02Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 11.96 9.74 7.51 17/275 20953
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+rc=0

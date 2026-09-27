@@ -1,0 +1,11 @@
+component SkMaxZC
+export Executable
+run() = do
+  m = BIG MAX[i <- 0#5] |i - 2|
+  println("unwritten max = " m)
+  s = SUM[i <- 0#200] (i - 150)
+  println("unwritten sum = " s)
+  t = SUM[i <- 0#200, j <- 0#200] (i - j)
+  println("unwritten nested sum = " t)
+end
+end

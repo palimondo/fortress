@@ -1,0 +1,18 @@
+start 2026-09-26T23:20:14Z load: 2.57 1.90 0.99 shadow: none
+done 2026-09-26T23:27:32Z: 407 logs
+EXIT=0
+(edit pass 1, library at 077beba2d: compare-normalised-edit1.txt)
+start 2026-09-27T01:00:09Z load: 1.37 2.78 4.40 shadow: none
+done 2026-09-27T01:11:22Z: 407 logs
+EXIT=0
+start 2026-09-27T01:12:02Z load: 2.73 5.39 5.37 shadow: none
+done 2026-09-27T01:26:03Z: 407 logs
+EXIT=0
+(edit pass 2, library at aa6ae506a: compare-normalised-edit2.txt)
+start 2026-09-27T02:16:57Z load: 2.33 3.61 5.44 shadow: none
+done 2026-09-27T02:26:35Z: 407 logs
+EXIT=0
+(edit pass 3, library at c02b558c1: compare-normalised.txt)
+start 2026-09-27T02:44:16Z load: 13.60 10.90 8.09 shadow: none
+done 2026-09-27T03:01:03Z: 407 logs
+EXIT=0

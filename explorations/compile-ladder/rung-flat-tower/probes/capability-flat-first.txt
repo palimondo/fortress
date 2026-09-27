@@ -1,0 +1,170 @@
+# capability.sh's first run on the flat library, on the library at ae77db21c (the norm without asFloat); its QQ programs built their elements
+# with Ratio, which no program can name, so the QQ lines here are the probe's fault and are superseded by capability-flat.txt
+--- capability table, flat library (the rung's head), walk 2026-09-27T01:48:13Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.68 2.84 3.60 2/106 6763
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+ZZ32 vplus: ran, [0#3][ 2 4 6 ] elem Int
+ZZ32 vminus: ran, [0#3][ 0 0 0 ] elem Int
+ZZ32 vneg: ran, [0#3][ -1 -2 -3 ] elem Int
+ZZ32 vscale: ran, [0#3][ 2 4 6 ] elem Int
+ZZ32 vpmul: ran, [0#3][ 1 4 9 ] elem Int
+ZZ32 vdot: ran, 14 : Int
+ZZ32 vDOTv: ran, 14 : Int
+ZZ32 svjuxt: ran, [0#3][ 2 4 6 ] elem Int
+ZZ32 squaredNorm: ran, 14 : Int
+ZZ32 norm: ran, 3.7416573867739413 : Float
+ZZ32 mplus: ran, [0#2,0#2]
+ZZ32 mminus: ran, [0#2,0#2]
+ZZ32 mneg: ran, [0#2,0#2]
+ZZ32 mscale: ran, [0#2,0#2]
+ZZ32 mjuxt: ran, [0#2,0#2]
+ZZ32 rmul: ran, [0#2][ 5 8 ] elem Int
+ZZ32 lmul: ran, [0#2][ 5 8 ] elem Int
+ZZ32 mt: ran, [0#2,0#2]
+ZZ32 matrixv: ran, [0#2,0#2]
+ZZ32 arrplus: ran, [0#3][ 3 4 5 ] elem Int
+ZZ32 scalminus: ran, [0#3][ 1 0 -1 ] elem Int
+ZZ32 arrmin: ran, [0#3][ 1 2 2 ] elem Int
+ZZ32 scalmax: ran, [0#3][ 2 2 3 ] elem Int
+ZZ64 vplus: ran, [0#3][ 2 4 6 ] elem Long
+ZZ64 vminus: ran, [0#3][ 0 0 0 ] elem Long
+ZZ64 vneg: ran, [0#3][ -1 -2 -3 ] elem Long
+ZZ64 vscale: ran, [0#3][ 2 4 6 ] elem Long
+ZZ64 vpmul: ran, [0#3][ 1 4 9 ] elem Long
+ZZ64 vdot: ran, 14 : Long
+ZZ64 vDOTv: ran, 14 : Long
+ZZ64 svjuxt: ran, [0#3][ 2 4 6 ] elem Long
+ZZ64 squaredNorm: ran, 14 : Long
+ZZ64 norm: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2374:71-84:
+ZZ64 mplus: ran, [0#2,0#2]
+ZZ64 mminus: ran, [0#2,0#2]
+ZZ64 mneg: ran, [0#2,0#2]
+ZZ64 mscale: ran, [0#2,0#2]
+ZZ64 mjuxt: ran, [0#2,0#2]
+ZZ64 rmul: ran, [0#2][ 5 8 ] elem Long
+ZZ64 lmul: ran, [0#2][ 5 8 ] elem Long
+ZZ64 mt: ran, [0#2,0#2]
+ZZ64 matrixv: ran, [0#2,0#2]
+ZZ64 arrplus: ran, [0#3][ 3 4 5 ] elem Long
+ZZ64 scalminus: ran, [0#3][ 1 0 -1 ] elem Long
+ZZ64 arrmin: ran, [0#3][ 1 2 2 ] elem Long
+ZZ64 scalmax: ran, [0#3][ 2 2 3 ] elem Long
+NN32 vplus: ran, [0#3][ 2 4 6 ] elem NN32
+NN32 vminus: ran, [0#3][ 0 0 0 ] elem NN32
+NN32 vneg: ran, [0#3][ 4294967295 4294967294 4294967293 ] elem NN32
+NN32 vscale: ran, [0#3][ 2 4 6 ] elem NN32
+NN32 vpmul: ran, [0#3][ 1 4 9 ] elem NN32
+NN32 vdot: ran, 14 : NN32
+NN32 vDOTv: ran, 14 : NN32
+NN32 svjuxt: ran, [0#3][ 2 4 6 ] elem NN32
+NN32 squaredNorm: ran, 14 : NN32
+NN32 norm: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2374:71-84:
+NN32 mplus: ran, [0#2,0#2]
+NN32 mminus: ran, [0#2,0#2]
+NN32 mneg: ran, [0#2,0#2]
+NN32 mscale: ran, [0#2,0#2]
+NN32 mjuxt: ran, [0#2,0#2]
+NN32 rmul: ran, [0#2][ 5 8 ] elem NN32
+NN32 lmul: ran, [0#2][ 5 8 ] elem NN32
+NN32 mt: ran, [0#2,0#2]
+NN32 matrixv: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2068:35-55:
+NN32 arrplus: ran, [0#3][ 3 4 5 ] elem NN32
+NN32 scalminus: ran, [0#3][ 1 0 4294967295 ] elem NN32
+NN32 arrmin: ran, [0#3][ 1 2 2 ] elem NN32
+NN32 scalmax: ran, [0#3][ 2 2 3 ] elem NN32
+NN64 vplus: ran, [0#3][ 2 4 6 ] elem UnsignedLong
+NN64 vminus: ran, [0#3][ 0 0 0 ] elem UnsignedLong
+NN64 vneg: ran, [0#3][ 18446744073709551615 18446744073709551614 18446744073709551613 ] elem UnsignedLong
+NN64 vscale: ran, [0#3][ 2 4 6 ] elem UnsignedLong
+NN64 vpmul: ran, [0#3][ 1 4 9 ] elem UnsignedLong
+NN64 vdot: ran, 14 : UnsignedLong
+NN64 vDOTv: ran, 14 : UnsignedLong
+NN64 svjuxt: ran, [0#3][ 2 4 6 ] elem UnsignedLong
+NN64 squaredNorm: ran, 14 : UnsignedLong
+NN64 norm: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2374:71-84:
+NN64 mplus: ran, [0#2,0#2]
+NN64 mminus: ran, [0#2,0#2]
+NN64 mneg: ran, [0#2,0#2]
+NN64 mscale: ran, [0#2,0#2]
+NN64 mjuxt: ran, [0#2,0#2]
+NN64 rmul: ran, [0#2][ 5 8 ] elem UnsignedLong
+NN64 lmul: ran, [0#2][ 5 8 ] elem UnsignedLong
+NN64 mt: ran, [0#2,0#2]
+NN64 matrixv: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2068:35-55:
+NN64 arrplus: ran, [0#3][ 3 4 5 ] elem UnsignedLong
+NN64 scalminus: ran, [0#3][ 1 0 18446744073709551615 ] elem UnsignedLong
+NN64 arrmin: ran, [0#3][ 1 2 2 ] elem UnsignedLong
+NN64 scalmax: ran, [0#3][ 2 2 3 ] elem UnsignedLong
+ZZ vplus: ran, [0#3][ 2 4 6 ] elem BigNum
+ZZ vminus: ran, [0#3][ 0 0 0 ] elem BigNum
+ZZ vneg: ran, [0#3][ -1 -2 -3 ] elem BigNum
+ZZ vscale: ran, [0#3][ 2 4 6 ] elem BigNum
+ZZ vpmul: ran, [0#3][ 1 4 9 ] elem BigNum
+ZZ vdot: ran, 14 : BigNum
+ZZ vDOTv: ran, 14 : BigNum
+ZZ svjuxt: ran, [0#3][ 2 4 6 ] elem BigNum
+ZZ squaredNorm: ran, 14 : BigNum
+ZZ norm: refused (rc=1), com.sun.fortress.exceptions.ProgramError: /home/user/fortress-flat/Library/FortressLibrary.fss:2374:71-84:
+ZZ mplus: ran, [0#2,0#2]
+ZZ mminus: ran, [0#2,0#2]
+ZZ mneg: ran, [0#2,0#2]
+ZZ mscale: ran, [0#2,0#2]
+ZZ mjuxt: ran, [0#2,0#2]
+ZZ rmul: ran, [0#2][ 5 8 ] elem BigNum
+ZZ lmul: ran, [0#2][ 5 8 ] elem BigNum
+ZZ mt: ran, [0#2,0#2]
+ZZ matrixv: ran, [0#2,0#2]
+ZZ arrplus: ran, [0#3][ 3 4 5 ] elem BigNum
+ZZ scalminus: ran, [0#3][ 1 0 -1 ] elem BigNum
+ZZ arrmin: ran, [0#3][ 1 2 2 ] elem BigNum
+ZZ scalmax: ran, [0#3][ 2 2 3 ] elem BigNum
+QQ vplus: refused (rc=255), Cap116.fss:4:58-61:
+QQ vminus: refused (rc=255), Cap117.fss:4:58-61:
+QQ vneg: refused (rc=255), Cap118.fss:4:58-61:
+QQ vscale: refused (rc=255), Cap119.fss:4:58-61:
+QQ vpmul: refused (rc=255), Cap120.fss:4:58-61:
+QQ vdot: refused (rc=255), Cap121.fss:4:58-61:
+QQ vDOTv: refused (rc=255), Cap122.fss:4:58-61:
+QQ svjuxt: refused (rc=255), Cap123.fss:4:58-61:
+QQ squaredNorm: refused (rc=255), Cap124.fss:4:58-61:
+QQ norm: refused (rc=255), Cap125.fss:4:58-61:
+QQ mplus: refused (rc=255), Cap126.fss:4:58-61:
+QQ mminus: refused (rc=255), Cap127.fss:4:58-61:
+QQ mneg: refused (rc=255), Cap128.fss:4:58-61:
+QQ mscale: refused (rc=255), Cap129.fss:4:58-61:
+QQ mjuxt: refused (rc=255), Cap130.fss:4:58-61:
+QQ rmul: refused (rc=255), Cap131.fss:4:58-61:
+QQ lmul: refused (rc=255), Cap132.fss:4:58-61:
+QQ mt: refused (rc=255), Cap133.fss:4:58-61:
+QQ matrixv: refused (rc=255), Cap134.fss:4:58-61:
+QQ arrplus: refused (rc=255), Cap135.fss:4:58-61:
+QQ scalminus: refused (rc=255), Cap136.fss:4:58-61:
+QQ arrmin: refused (rc=255), Cap137.fss:4:58-61:
+QQ scalmax: refused (rc=255), Cap138.fss:4:58-61:
+RR64 vplus: ran, [0#3][ 3.0 5.0 7.0 ] elem Float
+RR64 vminus: ran, [0#3][ 0.0 0.0 0.0 ] elem Float
+RR64 vneg: ran, [0#3][ -1.5 -2.5 -3.5 ] elem Float
+RR64 vscale: ran, [0#3][ 3.75 6.25 8.75 ] elem Float
+RR64 vpmul: ran, [0#3][ 2.25 6.25 12.25 ] elem Float
+RR64 vdot: ran, 20.75 : Float
+RR64 vDOTv: ran, 20.75 : Float
+RR64 svjuxt: ran, [0#3][ 3.75 6.25 8.75 ] elem Float
+RR64 squaredNorm: ran, 20.75 : Float
+RR64 norm: ran, 4.55521678957215 : Float
+RR64 mplus: ran, [0#2,0#2]
+RR64 mminus: ran, [0#2,0#2]
+RR64 mneg: ran, [0#2,0#2]
+RR64 mscale: ran, [0#2,0#2]
+RR64 mjuxt: ran, [0#2,0#2]
+RR64 rmul: ran, [0#2][ 8.5 12.5 ] elem Float
+RR64 lmul: ran, [0#2][ 8.5 12.5 ] elem Float
+RR64 mt: ran, [0#2,0#2]
+RR64 matrixv: ran, [0#2,0#2]
+RR64 arrplus: ran, [0#3][ 4.0 5.0 6.0 ] elem Float
+RR64 scalminus: ran, [0#3][ 1.0 0.0 -1.0 ] elem Float
+RR64 arrmin: ran, [0#3][ 1.5 2.5 2.5 ] elem Float
+RR64 scalmax: ran, [0#3][ 2.5 2.5 3.5 ] elem Float

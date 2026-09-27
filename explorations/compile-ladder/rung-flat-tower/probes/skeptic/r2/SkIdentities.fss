@@ -1,0 +1,17 @@
+component SkIdentities
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run() = do
+  println("NN32 zero " shown(SUM[\NN32\][j <- 0#0] unsigned(j)))
+  println("NN64 zero " shown(SUM[\NN64\][j <- 0#0] widen(unsigned(j))))
+  println("RR32 zero " shown(SUM[\RR32\][j <- 0#0] narrow(asFloat(j))))
+  println("ZZ64 one " shown(PROD[\ZZ64\][j <- 1#0] widen(j)))
+  println("NN32 one " shown(PROD[\NN32\][j <- 1#0] unsigned(j)))
+  println("NN64 one " shown(PROD[\NN64\][j <- 1#0] widen(unsigned(j))))
+  println("ZZ one " shown(PROD[\ZZ\][j <- 1#0] big(j)))
+  println("QQ one " shown(PROD[\QQ\][j <- 1#0] big(j)/big(1)))
+  println("RR32 one " shown(PROD[\RR32\][j <- 1#0] narrow(asFloat(j))))
+  println("NN32 sum " shown(SUM[\NN32\][j <- 0#4] unsigned(j)))
+  println("RR32 prod " shown(PROD[\RR32\][j <- 1#4] narrow(asFloat(j))))
+end
+end

@@ -1,0 +1,5 @@
+/home/user/fortress-flat/tmp/ladder-base-tests/CoercionCallRungC.fss:30:36-50:
+    Variable builtinPrimitive is not defined.
+/home/user/fortress-flat/tmp/ladder-base-tests/CoercionCallRungC.fss:31:40-54:
+    Variable builtinPrimitive is not defined.
+File CoercionCallRungC.fss has 2 errors.

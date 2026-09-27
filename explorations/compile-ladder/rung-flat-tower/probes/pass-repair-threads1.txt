@@ -1,0 +1,9 @@
+--- ProjectFortress/tests/FlatTowerRungF.fss under walk on the flat library with Number's doc comment rewritten (repair round, instruction 5), caches wiped 2026-09-27T04:11:44Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.44 1.36 1.05 5/109 27868
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ explorations/compile-ladder/rung-flat-tower/probes/skeptic/walk.sh 1 ProjectFortress/tests/FlatTowerRungF.fss tmp/r2/c-pass1
+rc=0

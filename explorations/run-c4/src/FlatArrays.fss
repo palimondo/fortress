@@ -178,7 +178,7 @@ pick[\nat r, nat c, nat k\](m: Matrix[\RR64,r,c\], ks: Vector[\ZZ32,k\]): Array[
     vec(|ks|, fn (i: ZZ32): RR64 => m[i, ks[i]])
 (* ⊃,/,¨ : the matrices ravelled and catenated into one vector, in order *)
 flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
-    out = zeros(SUM[m <- ms] |m|)
+    out = zeros(SUM[\ZZ32\][m <- ms] |m|)
     off: ZZ32 := 0
     for m <- seq(ms) do
         (nr, nc) = m.sizes

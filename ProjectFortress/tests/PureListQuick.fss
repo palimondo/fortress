@@ -161,7 +161,7 @@ run():() = do
   end
   finish = nanoTime()
   ms = ((finish-start) + 500000) DIV 1000000
-  println( //"Succeeded in " (ms/1000.0) "s")
+  println( //"Succeeded in " (asFloat(ms)/1000.0) "s")
 end
 
 end

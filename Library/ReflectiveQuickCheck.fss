@@ -146,6 +146,8 @@ trait ReflectiveArbitrary extends DefaultArbitrary
                 theType[\ZZ32\]() => Just[\AnyGen\](genZZ32)
                 theType[\ZZ64\]() => Just[\AnyGen\](genZZ64)
                 theType[\ZZ\]() => Just[\AnyGen\](genZZ)
+                theType[\NN64\]() => Just[\AnyGen\](genZZ)
+                theType[\NN32\]() => Just[\AnyGen\](genZZ)
                 theType[\QQ\]() => Just[\AnyGen\](genQQ)
                 theType[\RR32\]() => Just[\AnyGen\](genRR32 (*genRR32small*))
                 theType[\RR64\]() => Just[\AnyGen\](genRR64 (*genRR64small*))

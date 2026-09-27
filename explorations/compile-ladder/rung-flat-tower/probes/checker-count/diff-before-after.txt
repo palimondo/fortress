@@ -1,0 +1,17 @@
+# errors before 125, after 62 (distinct after normalising: 122, 62)
+## GONE 64
+      1  comprises                           FortressLibrary
+      2  hierarchy: exclude each other       FortressBuiltin
+     18  hierarchy: exclude each other       FortressLibrary
+      7  hierarchy: excludes but extends     FortressBuiltin
+     17  hierarchy: excludes but extends     FortressLibrary
+     19  overloading                         RangeInternals
+## APPEAR 1
+      1  overloading                         RangeInternals
+## APPEAR, each
+---
+Library/RangeInternals.fsi
+Library/RangeInternals.fsi
+    Invalid overloading of IN in API RangeInternals:
+     [\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi
+ and [\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ Library/RangeInternals.fsi

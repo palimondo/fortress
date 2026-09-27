@@ -1,0 +1,11 @@
+--- control at the gather: a scratch copy of ProjectFortress/tests/FlatTowerRungF.fss whose NN32-zero assertion expects "9 : NN32" in place of "0 : NN32" (the only difference, line 118), under walk on the landed flat library, private cache created empty
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.13 0.68 1.02 1/106 32232
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ walk <scratch>/FlatTowerRungF.fss (FORTRESS_THREADS=1); the FAIL lines and the exit code
+FAIL: J8/0:0 : NN32 =/= J8/0:9 : NN32; POSITIONS.md:165: the NN32 zero
+FAIL: a Int: 1 =/= a Int: 0; explorations/compile-ladder/rung-flat-tower/REPORT.md: groups failed
+rc=1

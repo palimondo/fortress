@@ -25,9 +25,9 @@ run():() = do
     end
 
     cv2(x): AnyList = <| body(y) | y <- <|x|> |>
-    samples2 : List[\RR64\] = <| y | x <- samples, y <- cv2(x) |>
-    list2 : List[\RR64\] = list(samples2)
-    for (i,j) <- list1.zip[\RR64\](list2) do
+    samples2 : List[\Number\] = <| y | x <- samples, y <- cv2(x) |>
+    list2 : List[\Number\] = list(samples2)
+    for (i,j) <- list1.zip[\Number\](list2) do
         assert(i,j,"Not the same in ", list1, " and ", list2)
     end
 

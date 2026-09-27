@@ -1,0 +1,9 @@
+--- ProjectFortress/tests/FlatTowerRungF.fss under walk on the landed flat library with the second skeptic's corrections 2 and 3 (nine identity assertions, two messages), private cache created empty, at the gather
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.73 0.46 1.00 1/106 31489
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=4
+$ walk ProjectFortress/tests/FlatTowerRungF.fss (FORTRESS_CACHES=<empty private directory>, FORTRESS_THREADS=4, JAVA_FLAGS -Xmx4g -Xss64m)
+rc=0

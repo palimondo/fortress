@@ -1,0 +1,20 @@
+# the 12 tests of reduction-list-extra.txt at FORTRESS_THREADS=4 (threads-run.sh): base from git-show copies of the tests beside a
+# git-show copy of the base library (tmp/baselib, which shadows the tree's), flat from the tree at aa6ae506a;
+# compared with the work path, the test path and secs= masked
+start 2026-09-27T02:33:59Z load: 3.75 4.88 5.54 threads: 4
+done 2026-09-27T02:35:54Z
+start 2026-09-27T02:35:54Z load: 6.29 5.47 5.68 threads: 4
+done 2026-09-27T02:38:16Z
+EXIT=0
+SAME    FileReadWrite base rc=0 flat rc=0
+SAME    IntMapTest base rc=0 flat rc=0
+SAME    ListTest base rc=0 flat rc=0
+SAME    LongStringTests base rc=0 flat rc=0
+SAME    MapExprTest base rc=0 flat rc=0
+SAME    MapTest base rc=0 flat rc=0
+SAME    RandomTest base rc=0 flat rc=0
+SAME    SetMapImport base rc=0 flat rc=0
+SAME    SetTest base rc=0 flat rc=0
+SAME    bigEncloserCall base rc=0 flat rc=0
+SAME    importBig base rc=0 flat rc=0
+SAME    sequivTest base rc=0 flat rc=0

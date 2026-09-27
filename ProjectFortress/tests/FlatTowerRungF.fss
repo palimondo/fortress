@@ -1,0 +1,202 @@
+component FlatTowerRungF
+export Executable
+
+(*) explorations/compile-ladder/rung-flat-tower/REPORT.md
+
+shown(v: Any): String = v.asString || " : " || v.ilkName
+
+group(g: () -> ()): ZZ32 =
+    try
+        g()
+        0
+    catch e
+        FailCalled => 1
+    end
+
+shape(): () = do
+    three: ZZ32 = 3
+    deny(instanceOf[\ZZ64\](three), "route A, POSITIONS.md:92: a ZZ32 is not a ZZ64")
+    deny(instanceOf[\ZZ\](three), "route A, POSITIONS.md:92: a ZZ32 is not a ZZ")
+    deny(instanceOf[\QQ\](three), "route A, POSITIONS.md:92: a ZZ32 is not a QQ")
+    deny(instanceOf[\RR64\](three), "route A, POSITIONS.md:92: a ZZ32 is not an RR64")
+    deny(instanceOf[\ZZ\](widen(three)), "route A, POSITIONS.md:92: a ZZ64 is not a ZZ")
+    deny(instanceOf[\NN64\](unsigned(three)), "route A, POSITIONS.md:92: an NN32 is not an NN64")
+    deny(instanceOf[\QQ\](big(three)), "route A, POSITIONS.md:92: a ZZ is not a QQ")
+    deny(instanceOf[\RR64\](1/2), "route A, POSITIONS.md:92: a QQ is not an RR64")
+    assert(instanceOf[\Number\](three), "route A, POSITIONS.md:92: a ZZ32 is a Number")
+    assert(instanceOf[\Number\](widen(three)), "route A, POSITIONS.md:92: a ZZ64 is a Number")
+    assert(instanceOf[\Number\](unsigned(three)), "route A, POSITIONS.md:92: an NN32 is a Number")
+    assert(instanceOf[\Number\](widen(unsigned(three))), "route A, POSITIONS.md:92: an NN64 is a Number")
+    assert(instanceOf[\Number\](big(three)), "route A, POSITIONS.md:92: a ZZ is a Number")
+    assert(instanceOf[\Number\](1/2), "route A, POSITIONS.md:92: a QQ is a Number")
+    assert(instanceOf[\Number\](0.5), "route A, POSITIONS.md:92: an RR64 is a Number")
+    assert(instanceOf[\AnyIntegral\](widen(three)), "route A, POSITIONS.md:92: a ZZ64 is an AnyIntegral")
+  end
+
+coercions(): () = do
+    three: ZZ32 = 3
+    five: ZZ64 = widen(5)
+    u: NN32 = unsigned(three)
+    w: NN64 = widen(u)
+    x: ZZ64 = 2147483647
+    assert(shown(x + 1), "2147483648 : Long", "row 146, POSITIONS.md:159: a ZZ64 bound to a numeral holds 64 bits")
+    assert(shown(three + five), "8 : Long", "POSITIONS.md:159: a ZZ32 meets a ZZ64 by ZZ64's coerce")
+    a: ZZ64 = three
+    assert(shown(a), "3 : Long", "POSITIONS.md:159: ZZ64 from ZZ32")
+    b: ZZ64 = u
+    assert(shown(b), "3 : Long", "POSITIONS.md:159, flattening-questions-ways.md:586-590: ZZ64 from NN32")
+    c: NN64 = u
+    assert(shown(c), "3 : UnsignedLong", "POSITIONS.md:159: NN64 from NN32")
+    d: ZZ = three
+    assert(shown(d), "3 : BigNum", "POSITIONS.md:159: ZZ from ZZ32")
+    e: ZZ = five
+    assert(shown(e), "5 : BigNum", "POSITIONS.md:159: ZZ from ZZ64")
+    f: ZZ = u
+    assert(shown(f), "3 : BigNum", "POSITIONS.md:159: ZZ from NN32")
+    g: ZZ = w
+    assert(shown(g), "3 : BigNum", "POSITIONS.md:159: ZZ from NN64")
+    h: QQ = three
+    assert(shown(h), "3 : Ratio", "POSITIONS.md:92: QQ from ZZ32")
+    i: QQ = five
+    assert(shown(i), "5 : Ratio", "POSITIONS.md:92: QQ from ZZ64")
+    j: QQ = u
+    assert(shown(j), "3 : Ratio", "POSITIONS.md:92: QQ from NN32")
+    k: QQ = w
+    assert(shown(k), "3 : Ratio", "POSITIONS.md:92: QQ from NN64")
+    l: QQ = big(7)
+    assert(shown(l), "7 : Ratio", "POSITIONS.md:92: QQ from ZZ")
+    r: RR64 = three
+    assert(shown(r), "3.0 : Float", "POSITIONS.md:159: RR64 from ZZ32")
+    s: RR64 = 7
+    assert(shown(s), "7.0 : Float", "POSITIONS.md:159: RR64 from a numeral")
+    assert(shown(three 0.5), "1.5 : Float", "POSITIONS.md:159: a ZZ32 meets an RR64 by RR64's coerce")
+    assert(widen(three) = big(3), "numbers.tex:372-373: a ZZ64 and a ZZ of one value are equal")
+    assert(6/2 = w, "numbers.tex:372-373: a QQ and an NN64 of one value are equal")
+    assert(1/2 = 0.5, "row 434, POSITIONS.md:92: a QQ equals the float of its value")
+    deny(big(3) = 3.5, "row 434: a ZZ and a float of other values are unequal")
+  end
+
+matCount(j: ZZ32): ZZ32 = j + 1
+matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j <- 0#i] matCount(j)
+floatSumBare(a: Array[\RR64,ZZ32\]): RR64 = SUM a
+floatSumClause(a: Array[\RR64,ZZ32\]): RR64 = SUM[\RR64\][t <- a] t
+dotShaped[\T extends Number\](a: Array[\T,ZZ32\], b: Array[\T,ZZ32\]): T =
+    SUM[\T\][(i, a_i) <- a.indexValuePairs] a_i b[i]
+intProd(n: ZZ32): ZZ32 = PROD[\ZZ32\][j <- 1#n] j
+floatProd(a: Array[\RR64,ZZ32\]): RR64 = PROD[\RR64\][t <- a] t
+
+identities(): () = do
+    none: Array[\RR64,ZZ32\] = array[\RR64\](0)
+    two: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    two[0] := 1.5
+    two[1] := 2.25
+    noInts: Array[\ZZ32,ZZ32\] = array[\ZZ32\](0)
+    ints: Array[\ZZ32,ZZ32\] = array[\ZZ32\](3)
+    ints[0] := 1
+    ints[1] := 2
+    ints[2] := 3
+    assert(shown(matOffset(0)), "0 : Int", "sum-replacement-verdict.md outcome 1, POSITIONS.md:165: matOffset(0) is the ZZ32 zero")
+    assert(shown(matOffset(3)), "6 : Int", "POSITIONS.md:165: matOffset(3)")
+    assert(shown(floatSumBare(none)), "0.0 : FloatLiteral", "sum-replacement-verdict.md outcome 1: an empty bare RR64 sum is a float")
+    assert(shown(floatSumClause(none)), "0.0 : FloatLiteral", "sum-replacement-verdict.md outcome 1: an empty clause-form RR64 sum is a float")
+    assert(shown(floatSumBare(two)), "3.75 : Float", "sum-replacement-verdict.md outcome 1: a bare RR64 sum")
+    assert(shown(floatSumClause(two)), "3.75 : Float", "sum-replacement-verdict.md outcome 1: a clause-form RR64 sum")
+    assert(shown(dotShaped[\RR64\](none, none)), "0.0 : FloatLiteral", "sum-replacement-verdict.md outcome 2: an empty generic dot over RR64")
+    assert(shown(dotShaped[\RR64\](two, two)), "7.3125 : Float", "sum-replacement-verdict.md outcome 2: a generic dot over RR64")
+    assert(shown(dotShaped[\ZZ32\](noInts, noInts)), "0 : Int", "sum-replacement-verdict.md outcome 2: an empty generic dot over ZZ32")
+    assert(shown(dotShaped[\ZZ32\](ints, ints)), "14 : Int", "sum-replacement-verdict.md outcome 2: a generic dot over ZZ32")
+    assert(shown(two DOT two), "7.3125 : Float", "sum-replacement-verdict.md outcome 2: the library's Vector.dot over RR64")
+    assert(shown(none DOT none), "0.0 : FloatLiteral", "sum-replacement-verdict.md outcome 2: the library's empty Vector.dot over RR64")
+    assert(shown(ints DOT ints), "14 : Int", "sum-replacement-verdict.md outcome 2: the library's Vector.dot over ZZ32")
+    assert(shown(intProd(0)), "1 : Int", "sum-replacement-verdict.md outcome 3: an empty ZZ32 product")
+    assert(shown(intProd(4)), "24 : Int", "sum-replacement-verdict.md outcome 3: a ZZ32 product")
+    assert(shown(floatProd(none)), "1.0 : FloatLiteral", "sum-replacement-verdict.md outcome 3: an empty RR64 product")
+    assert(shown(floatProd(two)), "3.375 : Float", "sum-replacement-verdict.md outcome 3: an RR64 product")
+    assert(shown(SUM[\ZZ64\][j <- 0#0] j), "0 : Long", "POSITIONS.md:165: the ZZ64 zero")
+    assert(shown(SUM[\ZZ\][j <- 0#0] j), "0 : BigNum", "POSITIONS.md:165: the ZZ zero")
+    assert(shown(SUM[\QQ\][j <- 0#0] j), "0 : Ratio", "POSITIONS.md:165: the QQ zero")
+    assert(shown(SUM[\NN32\][j <- 0#0] unsigned(j)), "0 : NN32", "POSITIONS.md:165: the NN32 zero")
+    assert(shown(SUM[\NN64\][j <- 0#0] widen(unsigned(j))), "0 : UnsignedLong", "POSITIONS.md:165: the NN64 zero")
+    assert(shown(SUM[\RR32\][j <- 0#0] narrow(asFloat(j))), "0.0 : RR32", "POSITIONS.md:165: the RR32 zero")
+    assert(shown(PROD[\ZZ64\][j <- 1#0] widen(j)), "1 : Long", "POSITIONS.md:165: the ZZ64 one")
+    assert(shown(PROD[\NN32\][j <- 1#0] unsigned(j)), "1 : NN32", "POSITIONS.md:165: the NN32 one")
+    assert(shown(PROD[\NN64\][j <- 1#0] widen(unsigned(j))), "1 : UnsignedLong", "POSITIONS.md:165: the NN64 one")
+    assert(shown(PROD[\ZZ\][j <- 1#0] big(j)), "1 : BigNum", "POSITIONS.md:165: the ZZ one")
+    assert(shown(PROD[\QQ\][j <- 1#0] big(j)/big(1)), "1 : Ratio", "POSITIONS.md:165: the QQ one")
+    assert(shown(PROD[\RR32\][j <- 1#0] narrow(asFloat(j))), "1.0 : RR32", "POSITIONS.md:165: the RR32 one")
+    assert(shown(SUM[\ZZ64\][j <- 0#4] j), "6 : Long", "POSITIONS.md:159, :165: a ZZ64 sum of ZZ32 elements")
+    assert(shown(strToFloat("3.25")), "3.25 : Float", "POSITIONS.md:159, conversions-coercions.tex:127-132: strToFloat's rational quotient reaches RR64 explicitly")
+  end
+
+rational(): () = do
+    big40 = widen(1) LSHIFT 40
+    deny((widen(1) LSHIFT 62) < 1/4, "row 428, opr-overview.tex:156: rational computations do not overflow")
+    deny((widen(1) LSHIFT 61)/3 < 5/7, "row 428, opr-overview.tex:156: rational computations do not overflow")
+    assert(shown(big40/3 + 1/big40), "1208925819614629174706179/3298534883328 : Ratio", "row 428, opr-overview.tex:197: QQ +")
+    assert(shown((big40/3) DOT (big40/5)), "1208925819614629174706176/15 : Ratio", "row 428, opr-overview.tex:156: QQ DOT")
+    assert(shown((big40/3) / (5/big40)), "1208925819614629174706176/15 : Ratio", "row 428, opr-overview.tex:156: QQ /")
+  end
+
+object FlatView(base: Vector[\RR64,6\]) extends Matrix[\RR64,2,3\]
+    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(i 3 + j) end
+    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(i 3 + j, x) end
+    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(i 3 + j, x) end
+    replica[\U\](): Array2[\U,0,2,0,3\] = array2[\U,2,3\]()
+end
+
+products(): () = do
+    store = vector[\RR64,6\]()
+    store[0] := 1.0
+    store[1] := 2.0
+    store[2] := 3.0
+    store[3] := 4.0
+    store[4] := 5.0
+    store[5] := 6.0
+    p = FlatView(store)
+    m = matrix[\RR64,2,3\]()
+    for i <- 0#2, j <- 0#3 do m[i,j] := store[i 3 + j] end
+    viaView = p (p.t())
+    viaMatrix = m (m.t())
+    assert(shown(viaView[0,0]), "14.0 : Float", "numeric-hierarchy-integration-review.md section 5: a flat view times its transpose")
+    assert(shown(viaView[0,1]), "32.0 : Float", "numeric-hierarchy-integration-review.md section 5: a flat view times its transpose")
+    assert(shown(viaView[1,1]), "77.0 : Float", "numeric-hierarchy-integration-review.md section 5: a flat view times its transpose")
+    for i <- 0#2, j <- 0#2 do
+        assert(viaView[i,j], viaMatrix[i,j], "numeric-hierarchy-integration-review.md section 5: the view's product is the matrix's")
+    end
+    k = matrix[\ZZ32,2,2\]()
+    k[0,0] := 1
+    k[0,1] := 2
+    k[1,0] := 3
+    k[1,1] := 4
+    kk = k k
+    assert(shown(kk[1,0]), "15 : Int", "POSITIONS.md:153: an integer matrix keeps its integer product")
+    keys: Array[\ZZ32,ZZ32\] = array[\ZZ32\](3)
+    keys[0] := 2
+    keys[1] := 7
+    keys[2] := 5
+    assert(shown(BIG MAX keys), "7 : Int", "POSITIONS.md:153: an integer-keyed array as a control")
+    z: Array[\RR64,ZZ32\] = array[\RR64\](3)
+    z[0] := 0.5
+    z[1] := 2.25
+    z[2] := 1.0
+    assert(shown(BIG MAX z), "2.25 : Float", "POSITIONS.md:165, max-min-identities-judgement.md section 5 item 3: BIG MAX z over RR64")
+    lv: Vector[\ZZ64,2\] = vector[\ZZ64,2\]()
+    lv[0] := widen(3)
+    lv[1] := widen(4)
+    assert(shown(||lv||), "5.0 : Float", "POSITIONS.md:153, :159: a ZZ64 vector's norm reaches RR64 explicitly")
+    qv: Vector[\QQ,2\] = vector[\QQ,2\]()
+    qv[0] := 3/5
+    qv[1] := 4/5
+    assert(shown(||qv||), "1.0 : Float", "POSITIONS.md:153, :159: a QQ vector's norm reaches RR64 explicitly")
+  end
+
+run() = do
+    f1 = group(shape)
+    f2 = group(coercions)
+    f3 = group(identities)
+    f4 = group(rational)
+    f5 = group(products)
+    assert(f1 + f2 + f3 + f4 + f5, 0, "explorations/compile-ladder/rung-flat-tower/REPORT.md: groups failed")
+  end
+
+end

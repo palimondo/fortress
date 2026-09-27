@@ -1,0 +1,749 @@
+# base e5414f5bf; files whose positions are mapped: Library/ChunkedSparseArray.fss Library/Format.fss Library/FortressLibrary.fsi Library/FortressLibrary.fss Library/PrefixMap.fss Library/PrefixSet.fss Library/QuickCheck.fss Library/Random.fss Library/ReflectiveQuickCheck.fss Library/SkipList.fss Library/Sparse.fss Library/String.fss Library/Timing.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi ProjectFortress/LibraryBuiltin/FortressBuiltin.fss ProjectFortress/tests/ArrayListQuick.fss ProjectFortress/tests/BitTwiddle.fss ProjectFortress/tests/CoercionCallRungC.fss ProjectFortress/tests/CoercionOverloadRungC.fss ProjectFortress/tests/CoercionRedispatchRungC.fss ProjectFortress/tests/CovCollTest.fss ProjectFortress/tests/CovariantTest.fss ProjectFortress/tests/FlatTowerRungF.fss ProjectFortress/tests/Generator2Test.fss ProjectFortress/tests/ListNullPointer.fss ProjectFortress/tests/PureListQuick.fss ProjectFortress/tests/ReflectTest.fss ProjectFortress/tests/ReflectiveQuickCheckTest.fss ProjectFortress/tests/TransactionalArrayShakedown.fss ProjectFortress/tests/WordCountSmall.fss ProjectFortress/tests/XXXFlatStringSplitRungL.fss ProjectFortress/tests/asifTest.fss ProjectFortress/tests/expTest.fss ProjectFortress/tests/fib13.fss ProjectFortress/tests/generatorTest.fss ProjectFortress/tests/longPrim.fss ProjectFortress/tests/sequivTest.fss ProjectFortress/tests/setSum.fss ProjectFortress/tests/simpleBig.fss ProjectFortress/tests/simpleSum.fss ProjectFortress/tests/vectorOps.fss explorations/apl/mg/FlatArrays2.fss explorations/apl/mg/MicroGptApl.fss explorations/apl/mg/MicroGptAplCheck.fss explorations/apl/mg/diag_fwd.fss explorations/compile-ladder/rung-flat-tower/probes/IlkProbe.fss explorations/compile-ladder/rung-flat-tower/probes/PowProbe.fss explorations/run-c4/src/FlatArrays.fss explorations/run-c4/src/MicroGptFlat.fss explorations/run-c4/src/MicroGptFlatCheck.fss
+CHANGED    ArrayListQuick  rc 0 -> 0
+    after normalising: -Succeeded in 1.169s
+    after normalising: +Succeeded in 0.531s
+    raw: -Succeeded in 1.169s
+    raw: +Succeeded in 0.531s
+CHANGED    CovCollTest  rc 0 -> 0
+    after normalising: -Warmup 1 1 28.757163ms
+    after normalising: -Warm L 1 1 6.499797ms
+    after normalising: -Warmup 1 2 0.659253ms
+    after normalising: -Warm L 1 2 0.648166ms
+    after normalising: -Warmup 1 3 0.565181ms
+    after normalising: -Warm L 1 3 0.613945ms
+    after normalising: -Warmup 1 4 0.530242ms
+    after normalising: -Warm L 1 4 0.302313ms
+    after normalising: -Warmup 1 5 0.384992ms
+    after normalising: -Warm L 1 5 0.600262ms
+    after normalising: -Warmup 1 6 0.532996ms
+    after normalising: -Warm L 1 6 0.667833ms
+    raw: -Warmup 1 1 28.757163ms
+    raw: -Warm L 1 1 6.499797ms
+    raw: -Warmup 1 2 0.659253ms
+    raw: -Warm L 1 2 0.648166ms
+    raw: -Warmup 1 3 0.565181ms
+    raw: -Warm L 1 3 0.613945ms
+    raw: -Warmup 1 4 0.530242ms
+    raw: -Warm L 1 4 0.302313ms
+    raw: -Warmup 1 5 0.384992ms
+    raw: -Warm L 1 5 0.600262ms
+    raw: -Warmup 1 6 0.532996ms
+    raw: -Warm L 1 6 0.667833ms
+    raw: -Warmup 1 7 0.629015ms
+    raw: -Warm L 1 7 0.635918ms
+    raw: -Warmup 1 8 0.673224ms
+    raw: -Warm L 1 8 0.352621ms
+    raw: -Warmup 1 9 0.372002ms
+    raw: -Warm L 1 9 0.617411ms
+    raw: -Warmup 1 10 0.506038ms
+    raw: -Warm L 1 10 0.605804ms
+    raw: -CC 1 0.175148ms
+    raw: -toArray 1 0.356323ms
+    raw: -Via covariant collection 1 3.794759ms	n: 3794	n lg n: 3794
+    raw: -List                     1 0.8674ms	n: 867	n lg n: 867
+    raw: -Ratio                    1 = 0.228
+    raw: -Warmup 2 1 6.500194ms
+    raw: -Warm L 2 1 3.613638ms
+    raw: -Warmup 2 2 0.955918ms
+    raw: -Warm L 2 2 1.463109ms
+    raw: -Warmup 2 3 0.93596ms
+    raw: -Warm L 2 3 1.592121ms
+    raw: -Warmup 2 4 0.928297ms
+    raw: -Warm L 2 4 1.043833ms
+    raw: -Warmup 2 5 0.850933ms
+    raw: -Warm L 2 5 1.229518ms
+    raw: -CC 2 0.399247ms
+    raw: -toArray 2 0.511099ms
+    raw: -Via covariant collection 2 2.858762ms	n: 1429	n lg n: 714
+    raw: -List                     2 1.247733ms	n: 623	n lg n: 311
+    raw: -Ratio                    2 = 0.436
+    raw: -Warmup 4 1 3.695914ms
+    raw: -Warm L 4 1 2.294543ms
+    raw: -Warmup 4 2 1.322697ms
+    raw: -Warm L 4 2 1.989694ms
+    raw: -CC 4 0.540733ms
+    raw: -toArray 4 0.62437ms
+    raw: -Via covariant collection 4 3.068226ms	n: 767	n lg n: 255
+    raw: -List                     4 1.885497ms	n: 471	n lg n: 157
+    raw: -Ratio                    4 = 0.614
+    raw: -Warmup 8 1 3.813906ms
+    raw: -Warm L 8 1 3.77172ms
+    raw: -CC 8 0.732396ms
+    raw: -toArray 8 1.049153ms
+    raw: -Via covariant collection 8 3.91133ms	n: 488	n lg n: 122
+    raw: -List                     8 3.021769ms	n: 377	n lg n: 94
+    raw: -Ratio                    8 = 0.772
+    raw: -CC 16 2.81475ms
+    raw: -toArray 16 3.205921ms
+    raw: -Via covariant collection 16 7.969687ms	n: 498	n lg n: 99
+    raw: -List                     16 7.486165ms	n: 467	n lg n: 93
+    raw: -Ratio                    16 = 0.939
+    raw: -CC 32 2.757031ms
+    raw: -toArray 32 4.285369ms
+    raw: -Via covariant collection 32 9.123906ms	n: 285	n lg n: 47
+    raw: -List                     32 19.286504ms	n: 602	n lg n: 100
+    raw: -Ratio                    32 = 2.113
+    raw: -CC 64 4.326781ms
+    raw: -toArray 64 5.277834ms
+    raw: -Via covariant collection 64 11.701753ms	n: 182	n lg n: 26
+    raw: -List                     64 26.541163ms	n: 414	n lg n: 59
+    raw: -Ratio                    64 = 2.268
+    raw: -CC 128 5.543386ms
+    raw: -toArray 128 10.933869ms
+    raw: -Via covariant collection 128 18.757612ms	n: 146	n lg n: 18
+    raw: -List                     128 43.48812ms	n: 339	n lg n: 42
+    raw: -Ratio                    128 = 2.318
+    raw: -CC 256 7.304048ms
+    raw: -toArray 256 8.9529ms
+    raw: -Via covariant collection 256 18.092119ms	n: 70	n lg n: 7
+    raw: -List                     256 73.387034ms	n: 286	n lg n: 31
+    raw: -Ratio                    256 = 4.056
+    raw: -CC 512 10.363808ms
+    raw: -toArray 512 71.620608ms
+    raw: -Via covariant collection 512 83.888069ms	n: 163	n lg n: 16
+    raw: -List                     512 0.109507994s	n: 213	n lg n: 21
+    raw: -Ratio                    512 = 1.305
+    raw: -CC 1024 22.557437ms
+    raw: -toArray 1024 22.91273ms
+    raw: -Via covariant collection 1024 47.32643ms	n: 46	n lg n: 4
+    raw: -List                     1024 0.261498906s	n: 255	n lg n: 23
+    raw: -Ratio                    1024 = 5.525
+    raw: -CC 2048 0.190544838s
+    raw: -toArray 2048 50.592222ms
+    raw: -Via covariant collection 2048 0.244901757s	n: 119	n lg n: 9
+    raw: -List                     2048 0.481722375s	n: 235	n lg n: 19
+    raw: -Ratio                    2048 = 1.967
+    raw: +Warmup 1 1 17.613028ms
+    raw: +Warm L 1 1 18.379195ms
+    raw: +Warmup 1 2 0.484917ms
+    raw: +Warm L 1 2 0.302097ms
+    raw: +Warmup 1 3 0.288559ms
+    raw: +Warm L 1 3 0.300591ms
+    raw: +Warmup 1 4 8.630776ms
+    raw: +Warm L 1 4 0.340185ms
+    raw: +Warmup 1 5 0.302781ms
+    raw: +Warm L 1 5 0.277402ms
+    raw: +Warmup 1 6 0.313919ms
+    raw: +Warm L 1 6 0.265064ms
+    raw: +Warmup 1 7 0.622633ms
+    raw: +Warm L 1 7 6.352398ms
+    raw: +Warmup 1 8 0.290687ms
+    raw: +Warm L 1 8 0.231996ms
+    raw: +Warmup 1 9 0.321631ms
+    raw: +Warm L 1 9 0.254178ms
+    raw: +Warmup 1 10 0.239675ms
+    raw: +Warm L 1 10 0.702075ms
+    raw: +CC 1 0.176239ms
+    raw: +toArray 1 0.317173ms
+    raw: +Via covariant collection 1 6.715429ms	n: 6715	n lg n: 6715
+    raw: +List                     1 0.769415ms	n: 769	n lg n: 769
+    raw: +Ratio                    1 = 0.114
+    raw: +Warmup 2 1 22.268593ms
+    raw: +Warm L 2 1 7.267277ms
+    raw: +Warmup 2 2 2.819545ms
+    raw: +Warm L 2 2 1.207256ms
+    raw: +Warmup 2 3 5.398138ms
+    raw: +Warm L 2 3 0.649846ms
+    raw: +Warmup 2 4 0.431336ms
+    raw: +Warm L 2 4 0.502857ms
+    raw: +Warmup 2 5 4.754281ms
+    raw: +Warm L 2 5 4.165027ms
+    raw: +CC 2 0.34041ms
+    raw: +toArray 2 0.391487ms
+    raw: +Via covariant collection 2 2.541573ms	n: 1270	n lg n: 635
+    raw: +List                     2 2.807749ms	n: 1403	n lg n: 701
+    raw: +Ratio                    2 = 1.104
+    raw: +Warmup 4 1 7.180538ms
+    raw: +Warm L 4 1 1.288752ms
+    raw: +Warmup 4 2 0.546274ms
+    raw: +Warm L 4 2 0.938209ms
+    raw: +CC 4 3.160326ms
+    raw: +toArray 4 0.558672ms
+    raw: +Via covariant collection 4 5.487869ms	n: 1371	n lg n: 457
+    raw: +List                     4 4.718375ms	n: 1179	n lg n: 393
+    raw: +Ratio                    4 = 0.859
+    raw: +Warmup 8 1 7.73276ms
+    raw: +Warm L 8 1 7.210207ms
+    raw: +CC 8 1.684691ms
+    raw: +toArray 8 0.95045ms
+    raw: +Via covariant collection 8 6.367514ms	n: 795	n lg n: 198
+    raw: +List                     8 7.709182ms	n: 963	n lg n: 240
+    raw: +Ratio                    8 = 1.21
+    raw: +CC 16 1.805477ms
+    raw: +toArray 16 4.238173ms
+    raw: +Via covariant collection 16 8.475843ms	n: 529	n lg n: 105
+    raw: +List                     16 5.798571ms	n: 362	n lg n: 72
+    raw: +Ratio                    16 = 0.684
+    raw: +CC 32 1.647254ms
+    raw: +toArray 32 3.395029ms
+    raw: +Via covariant collection 32 6.773339ms	n: 211	n lg n: 35
+    raw: +List                     32 7.596037ms	n: 237	n lg n: 39
+    raw: +Ratio                    32 = 1.121
+    raw: +CC 64 2.85576ms
+    raw: +toArray 64 4.987623ms
+    raw: +Via covariant collection 64 9.557376ms	n: 149	n lg n: 21
+    raw: +List                     64 32.79868ms	n: 512	n lg n: 73
+    raw: +Ratio                    64 = 3.431
+    raw: +CC 128 4.112892ms
+    raw: +toArray 128 5.425193ms
+    raw: +Via covariant collection 128 11.124869ms	n: 86	n lg n: 10
+    raw: +List                     128 34.45236ms	n: 269	n lg n: 33
+    raw: +Ratio                    128 = 3.096
+    raw: +CC 256 19.104105ms
+    raw: +toArray 256 64.291523ms
+    raw: +Via covariant collection 256 85.329056ms	n: 333	n lg n: 37
+    raw: +List                     256 76.950761ms	n: 300	n lg n: 33
+    raw: +Ratio                    256 = 0.901
+    raw: +CC 512 14.539049ms
+    raw: +toArray 512 12.273081ms
+    raw: +Via covariant collection 512 29.038589ms	n: 56	n lg n: 5
+    raw: +List                     512 0.221613565s	n: 432	n lg n: 43
+    raw: +Ratio                    512 = 7.631
+    raw: +CC 1024 43.208111ms
+    raw: +toArray 1024 42.055497ms
+    raw: +Via covariant collection 1024 88.143885ms	n: 86	n lg n: 7
+    raw: +List                     1024 0.429683131s	n: 419	n lg n: 38
+    raw: +Ratio                    1024 = 4.874
+    raw: +CC 2048 61.197174ms
+    raw: +toArray 2048 31.605153ms
+    raw: +Via covariant collection 2048 95.080679ms	n: 46	n lg n: 3
+    raw: +List                     2048 0.267017194s	n: 130	n lg n: 10
+    raw: +Ratio                    2048 = 2.808
+    raw: -1	8.674E-4	0.003794759	8.674E-4	8.674E-4	0.003794759	0.003794759
+    raw: -2	0.001247733	0.002858762	6.238665E-4	3.1193325E-4	0.001429381	7.146905E-4
+    raw: -4	0.001885497	0.003068226	4.7137425E-4	1.5712475E-4	7.670565E-4	2.5568549999999997E-4
+    raw: -8	0.003021769	0.00391133	3.77721125E-4	9.443028125E-5	4.8891625E-4	1.222290625E-4
+    raw: -16	0.007486165	0.007969687	4.678853125E-4	9.357706250000001E-5	4.981054375E-4	9.962108749999999E-5
+    raw: -32	0.019286504	0.009123906	6.0270325E-4	1.0045054166666667E-4	2.851220625E-4	4.7520343749999994E-5
+    raw: -64	0.026541163	0.011701753	4.14705671875E-4	5.924366741071428E-5	1.82839890625E-4	2.6119984375000002E-5
+    raw: -128	0.04348812	0.018757612	3.397509375E-4	4.24688671875E-5	1.4654384375E-4	1.831798046875E-5
+    raw: -256	0.073387034	0.018092119	2.866681015625E-4	3.185201128472223E-5	7.067233984375E-5	7.85248220486111E-6
+    raw: -512	0.109507994	0.083888069	2.1388280078125E-4	2.1388280078124998E-5	1.63843884765625E-4	1.63843884765625E-5
+    raw: -1024	0.261498906	0.04732643	2.55370025390625E-4	2.321545685369318E-5	4.6217216796875E-5	4.201565163352273E-6
+    raw: -2048	0.481722375	0.244901757	2.3521600341796874E-4	1.960133361816406E-5	1.1958093603515625E-4	9.965078002929687E-6
+    raw: +1	7.69415E-4	0.006715429	7.69415E-4	7.69415E-4	0.006715429	0.006715429
+    raw: +2	0.002807749	0.002541573	0.0014038745	7.0193725E-4	0.0012707865	6.3539325E-4
+    raw: +4	0.004718375	0.005487869	0.00117959375	3.931979166666667E-4	0.00137196725	4.573224166666667E-4
+    raw: +8	0.007709182	0.006367514	9.6364775E-4	2.409119375E-4	7.9593925E-4	1.989848125E-4
+    raw: +16	0.005798571	0.008475843	3.624106875E-4	7.24821375E-5	5.297401875E-4	1.0594803750000001E-4
+    raw: +32	0.007596037	0.006773339	2.3737615625E-4	3.956269270833333E-5	2.1166684375E-4	3.527780729166666E-5
+    raw: +64	0.03279868	0.009557376	5.12479375E-4	7.321133928571428E-5	1.49334E-4	2.133342857142857E-5
+    raw: +128	0.03445236	0.011124869	2.691590625E-4	3.36448828125E-5	8.69130390625E-5	1.08641298828125E-5
+    raw: +256	0.076950761	0.085329056	3.0058891015625E-4	3.339876779513889E-5	3.33316625E-4	3.7035180555555553E-5
+    raw: +512	0.221613565	0.029038589	4.32838994140625E-4	4.32838994140625E-5	5.6715994140625E-5	5.6715994140625E-6
+    raw: +1024	0.429683131	0.088143885	4.196124326171875E-4	3.814658478338068E-5	8.60780126953125E-5	7.825273881392047E-6
+    raw: +2048	0.267017194	0.095080679	1.303794892578125E-4	1.0864957438151042E-5	4.642611279296875E-5	3.868842732747396E-6
+CHANGED    FileConversion  rc 0 -> 0
+    after normalising: +AGTACGTAGTAGCTGCTGCTACGTGCGCTAGCTAGTACGTCA has 42 charachters 
+    after normalising: -AGTACGTAGTAGCTGCTGCTACGTGCGCTAGCTAGTACGTCA has 42 charachters 
+    raw: +AGTACGTAGTAGCTGCTGCTACGTGCGCTAGCTAGTACGTCA has 42 charachters 
+    raw: -AGTACGTAGTAGCTGCTGCTACGTGCGCTAGCTAGTACGTCA has 42 charachters 
+CHANGED    HeapTest  rc 0 -> 0
+    after normalising: -7	141	011	332	2	6752787/250000	6752787/500000	6752787/500000	40620179/500000	40620179/500000	1/0	21084503/500000	21084503/500000	1/0	460464/3125	460464/3125	1/0	82056103/1000000	82056103/2000000	82056103/2000000	2851278
+    after normalising: -	417153/1000000	417153/2000000	417153/2000000	35891/15625	35891/31250	35891/31250	153479/250000	153479/1750000	153479/3500000	922691/1000000	131813/1000000	131813/2000000	8133759/250000	8133759/1750000	8133759/35000000	
+    after normalising: -	5987863/500000	1/0	1/0	2805653/1000000	1/0	1/0	95021/1000000	1/0	1/0	1713/125000	1/0	1/0	295173/1000000	1/0	1/0	73663/1000000	1/0	1/0	3009/250000	1/0	1/0	120783/500000	1/0	1/0	63363/1000000	1/0	1/0	10191/1000000	1/0	1/
+    after normalising: -	118103/250000	118103/1750000	118103/3500000	882697/1000000	882697/7000000	882697/14000000	10465817/500000	10465817/5500000	10465817/16500000	136647/100000	136647/1100000	45549/1100000	2333859/50000	212169/50000	70723/5
+    after normalising: -	600633/1000000	600633/7000000	600633/14000000	219603/200000	219603/1400000	219603/2800000	40907791/1000000	40907791/7000000	40907791/14000000
+    after normalising: +7	141	00	011	33	6014167/250000	1/0	1/0	582869/1000000	1/0	1/0	25784769/1000000	1/0	1/0	179011/1000000	1/0	1/0	4127/200000	1/0	1/0	183981/500000	1/0	1/0	1886291/1000000	1/0	1/0	1763/62500	1/0	1/0	4827711/1000000	1/0	1/0	
+    after normalising: +2	2	7278279/1000000	7278279/1000000	1/0	9359067/250000	9359067/250000	1/0	106004813/1000000	106004813/1000000	1/0	258737/31250	258737/218750	258737/437500	5616983/200000	5616983/1400000	5616983/2800000	7153743/500000	71
+    after normalising: +	202949/1000000	202949/2000000	202949/2000000	47251/125000	47251/250000	47251/250000	7490341/500000	7490341/3500000	7490341/7000000	601247/250000	601247/500000	601247/500000
+    after normalising: +	1123319/1000000	1123319/7000000	1123319/14000000	2323021/200000	2323021/1400000	2323021/2800000
+    after normalising: +	7219129/500000	7219129/5500000	7219129/16500000	15865063/500000	15865063/5500000	15865063/16500000	136922037/500000	136922037/5500000	45640679/5500000	67041/62500	67041/687500	22347/687500	499579/62500	499579/687500	49
+    raw: -7	141	011	332	2	6752787/250000	6752787/500000	6752787/500000	40620179/500000	40620179/500000	1/0	21084503/500000	21084503/500000	1/0	460464/3125	460464/3125	1/0	82056103/1000000	82056103/2000000	82056103/2000000	2851278
+    raw: -	417153/1000000	417153/2000000	417153/2000000	35891/15625	35891/31250	35891/31250	153479/250000	153479/1750000	153479/3500000	922691/1000000	131813/1000000	131813/2000000	8133759/250000	8133759/1750000	8133759/35000000	
+    raw: -	5987863/500000	1/0	1/0	2805653/1000000	1/0	1/0	95021/1000000	1/0	1/0	1713/125000	1/0	1/0	295173/1000000	1/0	1/0	73663/1000000	1/0	1/0	3009/250000	1/0	1/0	120783/500000	1/0	1/0	63363/1000000	1/0	1/0	10191/1000000	1/0	1/
+    raw: -	118103/250000	118103/1750000	118103/3500000	882697/1000000	882697/7000000	882697/14000000	10465817/500000	10465817/5500000	10465817/16500000	136647/100000	136647/1100000	45549/1100000	2333859/50000	212169/50000	70723/5
+    raw: -	600633/1000000	600633/7000000	600633/14000000	219603/200000	219603/1400000	219603/2800000	40907791/1000000	40907791/7000000	40907791/14000000
+    raw: +7	141	00	011	33	6014167/250000	1/0	1/0	582869/1000000	1/0	1/0	25784769/1000000	1/0	1/0	179011/1000000	1/0	1/0	4127/200000	1/0	1/0	183981/500000	1/0	1/0	1886291/1000000	1/0	1/0	1763/62500	1/0	1/0	4827711/1000000	1/0	1/0	
+    raw: +2	2	7278279/1000000	7278279/1000000	1/0	9359067/250000	9359067/250000	1/0	106004813/1000000	106004813/1000000	1/0	258737/31250	258737/218750	258737/437500	5616983/200000	5616983/1400000	5616983/2800000	7153743/500000	71
+    raw: +	202949/1000000	202949/2000000	202949/2000000	47251/125000	47251/250000	47251/250000	7490341/500000	7490341/3500000	7490341/7000000	601247/250000	601247/500000	601247/500000
+    raw: +	1123319/1000000	1123319/7000000	1123319/14000000	2323021/200000	2323021/1400000	2323021/2800000
+    raw: +	7219129/500000	7219129/5500000	7219129/16500000	15865063/500000	15865063/5500000	15865063/16500000	136922037/500000	136922037/5500000	45640679/5500000	67041/62500	67041/687500	22347/687500	499579/62500	499579/687500	49
+CHANGED    PureListQuick  rc 0 -> 0
+    after normalising: -Succeeded in 1.284s
+    after normalising: +Succeeded in 0.574s
+    raw: -Succeeded in 1.284s
+    raw: +Succeeded in 0.574s
+CHANGED    QuickCheckTest  rc 0 -> 0
+    after normalising: -genBoolean: false true true true true false false false false false true true true true false true
+    after normalising: -genZZ32: -8668 -2 -5784 -2021707166 108 -574520442 -27472 -703766 -844 -27506 5693688 23666
+    after normalising: -genZZ64: -4 68817137822185 124570398170874 -60 1189257630 3300488 7547522 -116
+    after normalising: -genZZ: 38 80 -106608579562675 -9202604319400797160 -5477471633019283915 8927591729823519211 164949533 -4380771362195789165
+    after normalising: -genQQ: -446111322081737323/2339286197312374241 -343325/7629822169067604266 7879900739732579/3510758658127469215 3484233130189667419/54
+    after normalising: -genRR32: 384313.16 -4.655363E8 -10.516114 -5.9333816E7 2218548.5 -3.6207306 53461.844 7.5968474E8
+    after normalising: -genRR64: 1.670484282282822E15 7.948571002494081E15 -1240286.190130999 9.834093803322339E17
+    after normalising: -genChar: m ] f \ . U K S 6 ^ " u h : z { Q T c > [ # 1 H x $ E l F ~ > J
+    after normalising: -genString: @0QOLW~e8(I3!#8 @0QOLW~e8(I3!8#X @0QOLW~e8(I3! 0&OLW~e8(I3!8#}rw 0&OLW~e8(I3!8#X 0QOLW~e8(I3! &OLW~e8(I3!8#}rw &OLW~e8(I3!8#}r QOLW~e8(I3! QO,$`~G OLW~e8(I3!8#}r OLW~e8(I3! OLW~e8(I3 OL$`~ VLW~e8( LW~e8(I3
+    after normalising: -genMaybe(genChar): Nothing Nothing Just(V) Nothing Just(L) Just($) Just(W) Just(z)
+    after normalising: -genList(genZZ32): <|63, 51, 103, -37, 5165839, -826863912, -18443, 3964278|> <|63, 51, 103, -37, 5165839, -826863912, -18443|>
+    after normalising: -genList(genString): <|!8#}`v<, 8#}`v, #}`v<, }`v, `v<, v<, em5*hE+("|> <|8X`v<, #}`v<, }`v, rw, v<, em5*h8E+, en*h8E+(, *h8E+"OCO=.kq$&#Q|{n, 4*0E+"OCO=.{], *h8E(1CO=.kq$&@Q||>
+    raw: -genBoolean: false true true true true false false false false false true true true true false true
+    raw: -genZZ32: -8668 -2 -5784 -2021707166 108 -574520442 -27472 -703766 -844 -27506 5693688 23666
+    raw: -genZZ64: -4 68817137822185 124570398170874 -60 1189257630 3300488 7547522 -116
+    raw: -genZZ: 38 80 -106608579562675 -9202604319400797160 -5477471633019283915 8927591729823519211 164949533 -4380771362195789165
+    raw: -genQQ: -446111322081737323/2339286197312374241 -343325/7629822169067604266 7879900739732579/3510758658127469215 3484233130189667419/54
+    raw: -genRR32: 384313.16 -4.655363E8 -10.516114 -5.9333816E7 2218548.5 -3.6207306 53461.844 7.5968474E8
+    raw: -genRR64: 1.670484282282822E15 7.948571002494081E15 -1240286.190130999 9.834093803322339E17
+    raw: -genChar: m ] f \ . U K S 6 ^ " u h : z { Q T c > [ # 1 H x $ E l F ~ > J
+    raw: -genString: @0QOLW~e8(I3!#8 @0QOLW~e8(I3!8#X @0QOLW~e8(I3! 0&OLW~e8(I3!8#}rw 0&OLW~e8(I3!8#X 0QOLW~e8(I3! &OLW~e8(I3!8#}rw &OLW~e8(I3!8#}r QOLW~e8(I3! QO,$`~G OLW~e8(I3!8#}r OLW~e8(I3! OLW~e8(I3 OL$`~ VLW~e8( LW~e8(I3
+    raw: -genMaybe(genChar): Nothing Nothing Just(V) Nothing Just(L) Just($) Just(W) Just(z)
+    raw: -genList(genZZ32): <|63, 51, 103, -37, 5165839, -826863912, -18443, 3964278|> <|63, 51, 103, -37, 5165839, -826863912, -18443|>
+    raw: -genList(genString): <|!8#}`v<, 8#}`v, #}`v<, }`v, `v<, v<, em5*hE+("|> <|8X`v<, #}`v<, }`v, rw, v<, em5*h8E+, en*h8E+(, *h8E+"OCO=.kq$&#Q|{n, 4*0E+"OCO=.{], *h8E(1CO=.kq$&@Q||>
+    raw: -genList(genMaybe(genList(genString))): <|Just(<|}`v, wU, em5*hFE+, en4*08, *0E+, *, *hFE(1CO=.{]|>), Nothing, Nothing, Nothing, Just(<|*, *hFE(1CO=.{], *0E+"OC=.{], 8+"1, E(1:CO, (1U=., (, 1CO=.{], OC=.{]Q|{2B, CO=.{|>)
+    raw: -genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-7|->({false,true},{`,v}), 51|->({false,true},{#,`,v,}}), 4288329|->({false,true},{",&,),*,+,.,0,=,B,C,E,O,Q,],n,{,}}), 5165839|->({false,true},{",#,&,*,+,
+    raw: -genRange(genZZ32): [] [-165360830,-165360829,-165360828,-165360827,... 76] [] [-663843692,-663843691,-663843690,-663843689,... 1921210222]
+    raw: -genTuple3(genZZ32,genMaybe(genChar),genString): (-826863912,Just(<),*h8E+"OC=.kq$&@Q|{nB}Ex3*{\v#HE{) (355383,Just(m),*h8+"OC=.kq$&@Q|{nB}KEn) (90,Nothing,0E+"OC=.kq$&@Q|{nq) (6380670,Just(h),+"OC=.kq$&@Q|{nB}KT)
+    raw: -genTestStatus: TestFail TestPass TestSkip TestFail TestSkip TestPass TestFail TestPass
+    raw: -genList(genTestStatus): <|TestFail, TestFail, TestPass, TestPass, TestSkip, TestSkip, TestPass|> <|TestFail, TestFail, TestPass, TestPass, TestSkip, TestSkip|>
+    raw: +genBoolean: false true false true true false false false true false true false true false true false
+    raw: +genZZ32: -58 -16 42 2107675508 -50 -6904904 -78 29756 -105747626 5064960 -4532294 -124
+    raw: +genZZ64: -22946 -630698168 -262570670299 -34402726693750170 22160 -4473895450031272691 -137373549410450 139467203645955
+    raw: +genZZ: 24462076278576555 2061015165368585342 -8387633924497072955 7 -34391515683717712 -7721877301250659848 -4714691073985993323 -13191014473990250
+    raw: +genQQ: -1957527905558707/114904363 -547871785630/5703356466577669531 4011730734426701974/752248361 -446215283901/5104682258624913847
+    raw: +genRR32: 3.6481248E8 -626169.5 -1121406.2 -7.8874344E7 -6.4373645E8 1.0672778E8 6908449.5 -2.9552948E7
+    raw: +genRR64: -7.84192692987376E10 -8.170802771026672E15 2.9256037116258836E13 7477.77586773292
+    raw: +genChar: - B k = t \ U 8 L o a ' q / S S E q Z + d q . { e N W . " % a Y
+    raw: +genString: 7pw,+h5h pw,+x5Pt74JU;~rBx[9+@d%3|i] pw,+x5Pt74kU;~rBx[9+@d%3|i]SN pw,+h5h w,+h5h-\4 w,+h5h- w,+h5h ,+h5h-\4 ,+h5h- ,+h5h ,x5Pt74JU;~rBx[9+@d%3|i] +x5Pt74kU;~rBx[9+@d%3|i]S12>Yxv\ +h5h x5Pt74kU;~rBx[9+@d%3|i]
+    raw: +genMaybe(genChar): Just(+) Just(x) Just(-) Just(5) Just(h) Just(-) Just(P) Just(C)
+    raw: +genList(genZZ32): <|-48, -44, -8032750, 29687, 2093792, 318, -7327213, -13140, 89|> <|-44, -15455, -8032750, 29687, 2093792|>
+    raw: +genList(genString): <|U, ;~rBx[9, ;4Bx[9+9, Bx[+}d%C|i, Bx[+@d%3|i, BZ+@d%3|i], +@d%C|i, +@d%3|i, +}d|iS,1]t>Y, 9d|iS1t>Yg7mO|> <|k/, ;~rBx[9, ~Bx[+@d%3|i]SN, 4Bx[9, Bx[+@d%3|i, +@d%C|i, +}r|iS,]t>Yg7mLKv, +d, d|iS,1]t>
+    raw: +genList(genMaybe(genList(genString))): <|Nothing, Just(<|(x[9+@d, x+}d%Ctb, +@, +@d%, +}d|iS,1]t>Y, 9d|iS,1]t, d|iS,1]t, i]SN1]|>), Just(<|9+, @d%3|, , d, |i, , |i, %SN1], S1t>Yg7, S1>Yg7mLKvA, 1Z2>Yg7|>), Just(<|+@d%C|
+    raw: +genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-638436266|->({false,true},{1,2,>,A,K,L,Y,m,v,x}), -42838744|->({false,true},{-,0,1,7,9,>,?,@,A,C,K,L,S,Y,],^,d,g,i,m,p,t,v,|}), -21917|->({false,true},{1,
+    raw: +genRange(genZZ32): ...6,7,8,9,10] [-23857,-23856,-23855,-23854,... -15455] [-8032750,-8032749,-8032748,-8032747,... 1265942556] []
+    raw: +genTuple3(genZZ32,genMaybe(genChar),genString): (29,Just(B),+@d%3|i]) (-42838744,Just(Z),9dC|S12>YxvmLKfHE]0^-@?eSWc) (-57,Nothing,dC|S12>YxvmLKfHE]0^-@?eSW) (-22597,Just(r),3S12>YxvmLKfHE]0^-@?eSWc)
+    raw: +genTestStatus: TestFail TestPass TestPass TestFail TestPass TestSkip TestSkip TestSkip
+    raw: +genList(genTestStatus): <|TestFail, TestPass, TestPass, TestPass, TestFail, TestSkip, TestSkip, TestSkip, TestFail, TestFail, TestPass, TestSkip, TestFail|> <|TestPass, TestPass, TestPass, TestFail, TestSkip, TestSkip, 
+    raw: -    92 13136
+    raw: -    92 13136
+    raw: +    107 -326537
+    raw: +    107 -326537
+    raw: -    5943 -1632558421 -18757 39
+    raw: -    5943 -1632558421 -18757 39
+    raw: +    -24520 -3545996 24916 -445506280
+    raw: +    -24520 -3545996 24916 -445506280
+    raw: -Passed 172 test(s).
+    raw: -Failed in 174 test(s): (-10620.300230869712,0.7625289832310304,-5.083312136714368E15)
+    raw: -Failed in 135 test(s): -22139
+    raw: +Passed 34 test(s).
+    raw: +Failed in 78 test(s): (4.7639432155145965E17,-1.0816484803939236E13,6.948440834378048E12)
+    raw: +Failed in 164 test(s): -25069
+    raw: -Passed 173 test(s) (and skipped 150 test(s)).
+    raw: +Passed 127 test(s) (and skipped 110 test(s)).
+    raw: -Passed 29 test(s) (and skipped 130 test(s)) but reached the maximum of 159 tests.
+    raw: +Passed 59 test(s) (and skipped 337 test(s)) but reached the maximum of 396 tests.
+    raw: -    13%: 2 digits
+    raw: -    8%: 3 digits or more
+    raw: -    3%: 2 digits, ends with zero
+    raw: -    3%: 1 digit
+    raw: -    1%: 3 digits or more, ends with zero
+    raw: -    1%: 1 digit, ends with zero
+    raw: +    31%: 2 digits
+    raw: +    13%: 3 digits or more
+    raw: +    8%: 2 digits, ends with zero
+    raw: +    4%: 1 digit
+    raw: +    3%: 3 digits or more, ends with zero
+    raw: -Failed in 100 test(s) (and shrank in 10 test(s)): &
+    raw: -Shrinking a failed instance..........
+    raw: -Failed in 256 test(s) (and shrank in 55 test(s)): ~
+    raw: -Shrinking a failed instance.........
+    raw: -Failed in 100 test(s) (and partially shrank in 140 test(s)): (pW^ud(Y"Xu6^k,)
+    raw: -Shrinking a failed instance.....................
+    raw: -Failed in 256 test(s) (and shrank in 231 test(s)): (',)
+    raw: -Shrinking a failed instance....
+    raw: -Failed in 100 test(s) (and partially shrank in 137 test(s)): <|m#rj, ?rWn|H^p&?t7d[, #Wn|H*^p&?, Wn|H*^p&?, Wn|H^p?|>
+    raw: -Shrinking a failed instance...................................................................
+    raw: -Failed in 256 test(s) (and shrank in 2272 test(s)): <|[|>
+    raw: +Failed in 100 test(s) (and shrank in 10 test(s)): ,
+    raw: +Shrinking a failed instance.............
+    raw: +Failed in 256 test(s) (and shrank in 91 test(s)): 3
+    raw: +Shrinking a failed instance......
+    raw: +Failed in 100 test(s) (and partially shrank in 90 test(s)): (Gi$D>sNdj1;\WA,G)
+    raw: +Shrinking a failed instance.........................................................
+    raw: +Failed in 256 test(s) (and shrank in 1637 test(s)): (1,)
+    raw: +Shrinking a failed instance..............
+    raw: +Failed in 100 test(s) (and partially shrank in 411 test(s)): <|n!'D>a2\a:WJb?dV", 4!z>a+|>
+    raw: +Shrinking a failed instance.....................................................
+    raw: +Failed in 256 test(s) (and shrank in 1446 test(s)): <|6|>
+CHANGED    RangePrototype  rc 0 -> 0
+    after normalising: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 15]
+    after normalising: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 23]
+    after normalising: +[45,42,39,36,33... right outside bounds [0,1,2,3]
+    after normalising: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 15]
+    after normalising: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 23]
+    after normalising: +[-2,-1,0,1,2... left outside bounds [0,1,2,3]
+    after normalising: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 23]
+    after normalising: +[-2,1,4,7,10... left outside bounds [0,1,2,3]
+    after normalising: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 42]
+    after normalising: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 42]
+    after normalising: +...10,7,4,1,-2] left outside bounds [0,1,2,3,... 15]
+    after normalising: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 15]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 15]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 23]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 15]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 23]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 23]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 42]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 42]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,... 15]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 15]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,... 23]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,... 15]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 23]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,... 23]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,... 15]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 15]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,... 23]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,... 15]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 23]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,... 23]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 42]
+    raw: -[1,3,5,7,9] right outside bounds [0]
+    raw: -[2,5,8,11] right outside bounds [0]
+    raw: -[4,3,2,1,0] right outside bounds [0]
+    raw: -[9,7,5,3,1] right outside bounds [0]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 15]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 15]
+    raw: -[11,8,5,2] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0]
+    raw: -[2,5,8,11,... 47] right outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,... 42]
+    raw: -[3,4,5,6,... 45] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 42]
+    raw: -[0,1,2,3,4] right outside bounds [0]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,... 15]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,... 42]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 15]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,... 15]
+    raw: -...33,36,39,42,45] right outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0]
+    raw: -...10,7,4,1,-2] left outside bounds [0]
+    raw: -...-2,-1,0,1,2] right outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 42]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 42]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,... 42]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,... 15]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 42]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,... 42]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 42]
+    raw: -[-2,1,4,7,10... left outside bounds [0]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,... 42]
+    raw: -[45,42,39,36,33... right outside bounds [0]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3]
+    raw: -[-2,-1,0,1,2... left outside bounds [0]
+    raw: -[2,1,0,-1,-2... right outside bounds [0]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 15]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,... 15]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3]
+    raw: -[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,... 23]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,... 23]
+    raw: -[11,8,5,2] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0]
+    raw: -[2,5,8,11,... 47] right outside bounds [0]
+    raw: -[3,4,5,6,... 45] right outside bounds [0]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,... 42]
+    raw: +[11,8,5,2] right outside bounds [0]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [3,4,5,6,... 45]
+    raw: +[2,5,8,11,... 47] right outside bounds [0]
+    raw: +[3,4,5,6,... 45] right outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [3,4,5,6,... 45]
+    raw: +[4,3,2,1,0] right outside bounds [0]
+    raw: +[9,7,5,3,1] right outside bounds [0]
+    raw: +[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: +[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: +[1,3,5,7,9] right outside bounds [0]
+    raw: +[2,5,8,11] right outside bounds [0]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,... 23]
+    raw: -[4,3,2,1,0] right outside bounds [0]
+    raw: -[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: -[9,7,5,3,1] right outside bounds [0]
+    raw: -[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11] right outside bounds [0]
+    raw: -[1,3,5,7,9] right outside bounds [0]
+    raw: -[0,1,2,3,4] right outside bounds [0]
+    raw: +[1,3,5,7,9] right outside bounds [0]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[0,1,2,3,4] right outside bounds [0]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: +[4,3,2,1,0] right outside bounds [0]
+    raw: +[-2,1,4,7,10... left outside bounds [3,4,5,6,... 45]
+    raw: +[-2,-1,0,1,2... left outside bounds [3,4,5,6,... 45]
+    raw: +[9,7,5,3,1] right outside bounds [0]
+    raw: +[11,8,5,2] right outside bounds [0]
+    raw: +[0,1,2,3,4... left outside bounds [3,4,5,6,... 45]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0]
+    raw: +[2,5,8,11,... 47] right outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[3,4,5,6,... 45] right outside bounds [0]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: +[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: +[0,1,2,3,4] right outside bounds [0]
+    raw: +[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: +[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: +...33,36,39,42,45] right outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: -...2,1,0,-1,-2] left outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,... 23]
+    raw: +...2,1,0,-1,-2] left outside bounds [0]
+    raw: +...33,36,39,42,45] right outside bounds [0]
+    raw: +...-2,-1,0,1,2] right outside bounds [0]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [3,4,5,6,... 45]
+    raw: -...2,1,0,-1,-2] left outside bounds [3,4,5,6,... 45]
+    raw: -...33,36,39,42,45] right outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...-2,-1,0,1,2] right outside bounds [0]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: -[-2,1,4,7,10... left outside bounds [0]
+    raw: -[-2,-1,0,1,2... left outside bounds [0]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: -[2,1,0,-1,-2... right outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,... 23]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,... 23]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,... 23]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,... 23]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,... 23]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: -[1,3,5,7,9] right outside bounds [0]
+    raw: -[2,5,8,11] right outside bounds [0]
+    raw: -[4,3,2,1,0] right outside bounds [0]
+    raw: -[-2,-1,0,1,2... left outside bounds [3,4,5,6,... 45]
+    raw: -[-2,1,4,7,10... left outside bounds [3,4,5,6,... 45]
+    raw: -[0,1,2,3,4... left outside bounds [3,4,5,6,... 45]
+    raw: -[2,5,8,11,... 47] right outside bounds [0]
+    raw: -[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: -[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: -[9,7,5,3,1] right outside bounds [0]
+    raw: -[3,4,5,6,... 45] right outside bounds [0]
+    raw: -[2,5,8,11,... 47] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0]
+    raw: -[0,1,2,3,4] right outside bounds [0]
+    raw: -...10,7,4,1,-2] left outside bounds [0]
+    raw: -[3,4,5,6,... 45] right outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0]
+    raw: -[9,7,5,3,1] right outside bounds [0]
+    raw: -[4,3,2,1,0] right outside bounds [0]
+    raw: -[2,5,8,11] right outside bounds [0]
+    raw: -[1,3,5,7,9] right outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0]
+    raw: -...33,36,39,42,45] right outside bounds [0]
+    raw: -...-2,-1,0,1,2] right outside bounds [0]
+    raw: -[-2,1,4,7,10... left outside bounds [0]
+    raw: -[-2,-1,0,1,2... left outside bounds [0]
+    raw: -[45,42,39,36,33... right outside bounds [0]
+    raw: -[2,1,0,-1,-2... right outside bounds [0]
+    raw: -[0,1,2,3,4] right outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0]
+    raw: -...33,36,39,42,45] right outside bounds [0]
+    raw: -...-2,-1,0,1,2] right outside bounds [0]
+    raw: -[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -[-2,1,4,7,10... left outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: -[-2,-1,0,1,2... left outside bounds [0]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: -[2,1,0,-1,-2... right outside bounds [0]
+    raw: -[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: -[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0]
+    raw: +[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0]
+    raw: +[45,42,39,36,33... right outside bounds [0]
+    raw: +[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +...2,1,0,-1,-2] left outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0]
+    raw: +[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: +[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: +...-2,-1,0,1,2] right outside bounds [0]
+    raw: +[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0]
+    raw: +[45,42,39,36,33... right outside bounds [0]
+    raw: +[-2,-1,0,1,2... left outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: +[2,1,0,-1,-2... right outside bounds [0]
+    raw: +[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: +[2,1,0,-1,-2... right outside bounds [0]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: +[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: +[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11,... 47] right outside bounds [0]
+    raw: +[3,4,5,6,... 45] right outside bounds [0]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0]
+    raw: +[11,8,5,2] right outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [0]
+    raw: +[9,7,5,3,1] right outside bounds [0]
+    raw: +...33,36,39,42,45] right outside bounds [0]
+    raw: +[4,3,2,1,0] right outside bounds [0]
+    raw: +...-2,-1,0,1,2] right outside bounds [0]
+    raw: +[11,8,5,2] right outside bounds [0]
+    raw: +[-1,1,3,5,... 45] left outside bounds [0]
+    raw: +[2,5,8,11,... 47] right outside bounds [0]
+    raw: +[3,4,5,6,... 45] right outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: +[4,3,2,1,0] right outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: +[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: +...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: +[2,5,8,11] right outside bounds [0]
+    raw: +[1,3,5,7,9] right outside bounds [0]
+    raw: +[0,1,2,3,4] right outside bounds [0]
+    raw: +[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +[-2,1,4,7,10... left outside bounds [0]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: +[-2,-1,0,1,2... left outside bounds [0]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: +[9,7,5,3,1] right outside bounds [0]
+    raw: +[45,42,39,36,33... right outside bounds [0]
+    raw: +[2,5,8,11] right outside bounds [0]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11] right outside bounds [0,1,2,3,4]
+    raw: -[1,3,5,7,9] right outside bounds [0,1,2,3,4]
+    raw: -[9,7,5,3,1] right outside bounds [0,1,2,3,4]
+    raw: -[3,4,5,6,... 45] right outside bounds [0,1,2,3,4]
+    raw: -[2,5,8,11,... 47] right outside bounds [0,1,2,3,4]
+    raw: -[-1,1,3,5,... 45] left outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: +[2,1,0,-1,-2... right outside bounds [0]
+    raw: +[1,3,5,7,9] right outside bounds [0]
+    raw: +[0,1,2,3,4] right outside bounds [0]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...2,1,0,-1,-2] left outside bounds [0,1,2,3,4]
+    raw: -...33,36,39,42,45] right outside bounds [0,1,2,3,4]
+    raw: -[-2,-1,0,1,2... left outside bounds [0,1,2,3,4]
+    raw: -[45,42,39,36,33... right outside bounds [0,1,2,3,4]
+    raw: -[11,8,5,2] right outside bounds [0,1,2,3,4]
+    raw: -...10,7,4,1,-2] left outside bounds [0,1,2,3]
+    raw: -[-2,1,4,7,10... left outside bounds [0,1,2,3,4]
+    raw: +...10,7,4,1,-2] left outside bounds [0]
+    raw: +[-2,-1,0,1,2... left outside bounds [0]
+    raw: +[45,42,39,36,33... right outside bounds [0]
+    raw: +...2,1,0,-1,-2] left outside bounds [0]
+    raw: +[2,1,0,-1,-2... right outside bounds [0]
+    raw: +...-2,-1,0,1,2] right outside bounds [0]
+    raw: +[-2,1,4,7,10... left outside bounds [0]
+    raw: +...10,7,4,1,-2] left outside bounds [0,1,2,3]
+    raw: +...33,36,39,42,45] right outside bounds [0]
+CHANGED    TransactionalArrayShakedown  rc 0 -> 0
+    after normalising: -986 pre and 14 post
+    after normalising: +1000 pre and 0 post
+    raw: -986 pre and 14 post
+    raw: +1000 pre and 0 post
+CHANGED    WordCountSmall  rc 0 -> 0
+    after normalising: -Acquired words in 1296.295601ms
+    after normalising: -Inverted database in 166.241213ms
+    after normalising: +Acquired words in 503.192175ms
+    after normalising: +Inverted database in 117.805362ms
+    after normalising: -Output in 61.818954ms
+    after normalising: -Total run in 1524.355768ms
+    after normalising: +Output in 38.656716ms
+    after normalising: +Total run in 659.654253ms
+    raw: -Acquired words in 1296.295601ms
+    raw: -Inverted database in 166.241213ms
+    raw: +Acquired words in 503.192175ms
+    raw: +Inverted database in 117.805362ms
+    raw: -Output in 61.818954ms
+    raw: -Total run in 1524.355768ms
+    raw: +Output in 38.656716ms
+    raw: +Total run in 659.654253ms
+CHANGED    simpleBig  rc 0 -> 0
+    after normalising: -<|2, 3.0, 4, 4, 5.0, 6, 5.0, 6, 7.0, 8, 6, 7.0, 8, 9.0, 10, 7.0, 8, 9.0, 10, 11.0, 12, 8, 9.0, 10, 11.0, 12, 13.0, 14, 9.0, 10, 11.0, 12, 13.0, 14, 15.0, 16, 10, 11.0, 12, 13.0, 14, 15.0, 16, 17.0, 18, 11.0, 12, 13.0, 1
+    after normalising: +<|2.0, 3.0, 4.0, 4.0, 5.0, 6.0, 5.0, 6.0, 7.0, 8.0, 6.0, 7.0, 8.0, 9.0, 10.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 10.0, 11.0, 12.0, 13.
+    raw: -<|2, 3.0, 4, 4, 5.0, 6, 5.0, 6, 7.0, 8, 6, 7.0, 8, 9.0, 10, 7.0, 8, 9.0, 10, 11.0, 12, 8, 9.0, 10, 11.0, 12, 13.0, 14, 9.0, 10, 11.0, 12, 13.0, 14, 15.0, 16, 10, 11.0, 12, 13.0, 14, 15.0, 16, 17.0, 18, 11.0, 12, 13.0, 1
+    raw: +<|2.0, 3.0, 4.0, 4.0, 5.0, 6.0, 5.0, 6.0, 7.0, 8.0, 6.0, 7.0, 8.0, 9.0, 10.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 10.0, 11.0, 12.0, 13.
+tests 50  same 40  normalised 0  changed 10  unstable 0  missing 0

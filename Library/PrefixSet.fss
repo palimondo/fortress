@@ -371,7 +371,7 @@ end
 (* A PrefixSet with given children: 'unsafe' as it assumes it is not given any useless tree structure *)
 object fastPrefixSet[\E extends StandardTotalOrder[\E\], F extends List[\E\]\](v:Boolean,c:Map[\E,PrefixSet[\E,F\]\]) extends PrefixSet[\E,F\]
     getter size():ZZ32 = fixedsize
-    fixedsize:ZZ32 = (if v then 1 else 0 end) + (SUM[(k,a) <- c] a.size)
+    fixedsize:ZZ32 = (if v then 1 else 0 end) + (SUM[\ZZ32\][(k,a) <- c] a.size)
     isMember():Boolean = v
     children():Map[\E,PrefixSet[\E,F\]\] = c
 end

@@ -79,7 +79,7 @@ end
 value object Long extends ZZ64
 end
 
-value object NN32 extends { StandardTotalOrder[\NN32\], NN64 }
+value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32
     opr =(self, b:NN32):Boolean
     opr <(self, b:NN32):Boolean

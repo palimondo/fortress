@@ -1,0 +1,97 @@
+# Instruction 3: ProjectFortress/tests/XXXEmptyGroupSumRungF.fss on the flat library (library unchanged since 5c6c49fba; D8's else => 0 at Library/FortressLibrary.fss:3117 unchanged). Stack frames ('at ...') dropped.
+
+## Scratch control (tmp/r2/scr/M7Control.fss, not committed as a test): the nonempty sum over the same M7
+    component M7Control
+    export Executable
+    object M7(v: ZZ32) extends AdditiveGroup[\M7\]
+        getter zero(): M7 = M7(0)
+        getter asString(): String = "M7(" v ")"
+        opr +(self, o: M7): M7 = M7((v + o.v) MOD 7)
+        opr -(self): M7 = M7((7 - v) MOD 7)
+    end
+    run() = do
+        r = SUM[\M7\][i <- 0#10] M7(i)
+        println("SUM[\\M7\\][i <- 0#10] M7(i) = " r.asString " : " r.ilkName)
+        assert(r.v, 3, "control")
+        println("CONTROL OK")
+      end
+    end
+--- walk scratch M7Control.fss, flat library 2026-09-27T04:09:09Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.76 1.15 0.93 1/102 25469
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+SUM[\M7\][i <- 0#10] M7(i) = M7(3) : M7
+CONTROL OK
+rc=0
+--- walk scratch M7Control.fss, flat library 2026-09-27T04:09:23Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.66 1.16 0.94 1/105 25599
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=4
+SUM[\M7\][i <- 0#10] M7(i) = M7(3) : M7
+CONTROL OK
+rc=0
+
+## The XXX file under walk, one and four threads
+--- walk XXXEmptyGroupSumRungF.fss, flat library 2026-09-27T04:09:36Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.81 1.22 0.96 1/106 25702
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ probes/skeptic/walk.sh 1 ProjectFortress/tests/XXXEmptyGroupSumRungF.fss tmp/r2/c-g1
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47:
+Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int
+Context:
+Library/FortressLibrary.fss:1223:16-47:
+ProjectFortress/tests/XXXEmptyGroupSumRungF.fss:14:9-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+--- walk XXXEmptyGroupSumRungF.fss, flat library 2026-09-27T04:09:50Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 2.00 1.28 0.98 1/104 25772
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=4
+$ probes/skeptic/walk.sh 4 ProjectFortress/tests/XXXEmptyGroupSumRungF.fss tmp/r2/c-g4
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47:
+Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int
+Context:
+Library/FortressLibrary.fss:1223:16-47:
+ProjectFortress/tests/XXXEmptyGroupSumRungF.fss:14:9-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+
+## The XXX file through the testSystem harness (scratch directory absolute, harness-one.sh:14)
+--- harness-one XXXEmptyGroupSumRungF.fss, flat library 2026-09-27T04:10:04Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 2.14 1.35 1.01 1/102 25949
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ explorations/compile-ladder/rung-interp-coercion/harness-one.sh /home/user/fortress-flat/tmp/h-m7 ProjectFortress/tests/XXXEmptyGroupSumRungF.fss
+tmp/h-m7/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e10e4807_16
+. interpret tmp/h-m7/tests/XXXEmptyGroupSumRungF  OK Saw expected exception
+
+Time: 13.628
+
+OK (1 test)
+
+done 2026-09-27T04:10:18Z

@@ -1,0 +1,51 @@
+--- skeptic 2 identities 2026-09-27T05:06:07Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.16 1.26 1.90 1/106 24501
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=unset
+=== SkIdentities walk flat library FORTRESS_THREADS=1
+NN32 zero 0 : NN32
+NN64 zero 0 : UnsignedLong
+RR32 zero 0.0 : RR32
+ZZ64 one 1 : Long
+NN32 one 1 : NN32
+NN64 one 1 : UnsignedLong
+ZZ one 1 : BigNum
+QQ one 1 : Ratio
+RR32 one 1.0 : RR32
+NN32 sum 6 : NN32
+RR32 prod 24.0 : RR32
+rc=0
+=== SkIdentities walk flat library FORTRESS_THREADS=4
+NN32 zero 0 : NN32
+NN64 zero 0 : UnsignedLong
+RR32 zero 0.0 : RR32
+ZZ64 one 1 : Long
+NN32 one 1 : NN32
+NN64 one 1 : UnsignedLong
+ZZ one 1 : BigNum
+QQ one 1 : Ratio
+RR32 one 1.0 : RR32
+NN32 sum 6 : NN32
+RR32 prod 24.0 : RR32
+rc=0
+=== SkIdentities walk base library FORTRESS_THREADS=1
+base/SkIdentities.fss:7:59-64:
+    Variable asFloat is not defined.
+base/SkIdentities.fss:13:59-64:
+    Variable asFloat is not defined.
+base/SkIdentities.fss:15:60-65:
+    Variable asFloat is not defined.
+rc=255
+=== SkIdentities walk base library FORTRESS_THREADS=4
+base/SkIdentities.fss:7:59-64:
+    Variable asFloat is not defined.
+base/SkIdentities.fss:13:59-64:
+    Variable asFloat is not defined.
+base/SkIdentities.fss:15:60-65:
+    Variable asFloat is not defined.
+rc=255
+done 2026-09-27T05:06:54Z
+EXIT=0

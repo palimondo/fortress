@@ -1,0 +1,7 @@
+--- checker count, the base library (the edited files checked out at e5414f5bf) 2026-09-27T01:12:09Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 3.00 5.40 5.37 6/193 25463
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

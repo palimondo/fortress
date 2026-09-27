@@ -15,7 +15,7 @@ export Executable
 phi = (1 + SQRT 5) / 2
 
 fib13[\I\](n:I): I requires { n >= 0 } = do
-    |\ phi^n / SQRT 5 + 1/2 /|
+    |\ phi^n / SQRT 5 + 0.5 /|
   end
 
 run():()=do

@@ -1,0 +1,8 @@
+--- FlatTowerRungF (the rung's test), skeptic's run, FORTRESS_THREADS=4 2026-09-27T03:39:21Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.45 2.18 2.60 3/133 15794
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=4
+rc=0

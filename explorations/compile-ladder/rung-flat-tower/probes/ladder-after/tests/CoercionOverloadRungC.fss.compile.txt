@@ -1,0 +1,48 @@
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:43:5-122:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:44:5-111:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:46:5-124:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:47:5-143:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:48:5-142:
+    Could not check call to function assert
+    - (Boolean, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (Character, Character, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (String, String, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - (ZZ32, ZZ32, String)->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+    - Boolean->() is not applicable to an argument of type (ZZ64, IntLiteral, String).
+/home/user/fortress-flat/ProjectFortress/tests/CoercionOverloadRungC.fss:49:13-14:
+    Wrong number or kind of static arguments for function: BIG +
+File CoercionOverloadRungC.fss has 6 errors.

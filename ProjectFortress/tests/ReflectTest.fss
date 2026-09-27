@@ -39,12 +39,12 @@ opr TYPESEQ[\E1,E2\](x:Generator[\E1\], y:List[\E2\]): Boolean =
 
 testType(): () = do
     zz32 = theType[\ZZ32\]()
-    rr64 = theType[\RR64\]()
-    assert(join(zz32, rr64) TYPESEQ {rr64}, "incorrect join(" zz32 "," rr64 ")")
-    assert(meet(zz32, rr64) TYPESEQ {zz32}, "incorrect meet(" zz32 "," rr64 ")")
+    number = theType[\Number\]()
+    assert(join(zz32, number) TYPESEQ {number}, "incorrect join(" zz32 "," number ")")
+    assert(meet(zz32, number) TYPESEQ {zz32}, "incorrect meet(" zz32 "," number ")")
     assert(zz32 SUBTYPEOF zz32, zz32 " <: " zz32 " doesn't hold")
-    assert(zz32 SUBTYPEOF rr64, zz32 " <: " rr64 " doesn't hold")
-    assert(NOT (rr64 SUBTYPEOF zz32), rr64 " <: " zz32 " (wrongly) hold")
+    assert(zz32 SUBTYPEOF number, zz32 " <: " number " doesn't hold")
+    assert(NOT (number SUBTYPEOF zz32), number " <: " zz32 " (wrongly) hold")
 
     string = theType[\String\]()
     charlist = theType[\List[\Char\]\]()

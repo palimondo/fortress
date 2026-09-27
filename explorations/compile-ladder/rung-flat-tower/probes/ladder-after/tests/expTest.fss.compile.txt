@@ -1,0 +1,5 @@
+/home/user/fortress-flat/ProjectFortress/tests/expTest.fss:25:13-18:
+    Variable asFloat is not defined.
+/home/user/fortress-flat/ProjectFortress/tests/expTest.fss:27:13-18:
+    Variable asFloat is not defined.
+File expTest.fss has 2 errors.

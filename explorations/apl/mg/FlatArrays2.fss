@@ -180,7 +180,7 @@ onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
 pick[\nat k, nat c\](m: Matrix[\RR64,k,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,ZZ32\] =
     array[\RR64\](|ks|).fill(fn (i: ZZ32): RR64 => m[i, ks[i]])
 flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
-    out = array[\RR64\](SUM[m <- ms] |m|).fill(0.0)
+    out = array[\RR64\](SUM[\ZZ32\][m <- ms] |m|).fill(0.0)
     off: ZZ32 := 0
     for m <- seq(ms) do
         (nr, nc) = m.sizes

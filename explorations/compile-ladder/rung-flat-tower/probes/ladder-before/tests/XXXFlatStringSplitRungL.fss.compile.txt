@@ -1,0 +1,29 @@
+/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:9:30-37:
+    No such method String.split.
+/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:10:38-56:
+    No such method String.splitWithOffsets.
+/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:12-29:
+    Could not check call to function __bigOperator
+    - (ReductionString, (ReductionString, String->String)->String)->String is not applicable to any type of the form (ReductionZZ32, _->_).
+    - (ReductionZZ32, (ReductionZZ32, ZZ32->ZZ32)->ZZ32)->ZZ32:
+      Compiler internal generated.:0:0-/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:21:
+          Could not check call to function __generate
+          - (Boolean, ReductionString, ()->String)->String is not applicable to any type of the form (Generator[\String\], ReductionZZ32, _->_).
+          - (Boolean, ReductionZZ32, ()->ZZ32)->ZZ32 is not applicable to any type of the form (Generator[\String\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionString, ZZ32->String)->String is not applicable to any type of the form (Generator[\String\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionZZ32, ZZ32->ZZ32)->ZZ32 is not applicable to any type of the form (Generator[\String\], ReductionZZ32, _->_).
+          /home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:12-29:
+            Possibly because (reduction?1, unit?2): (ReductionZZ32, ZZ32->ZZ32) after argument inference
+/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:28-288:
+    Could not check call to function __bigOperator
+    - (ReductionString, (ReductionString, String->String)->String)->String is not applicable to any type of the form (ReductionZZ32, _->_).
+    - (ReductionZZ32, (ReductionZZ32, ZZ32->ZZ32)->ZZ32)->ZZ32:
+      Compiler internal generated.:0:0-/home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:37:
+          Could not check call to function __generate
+          - (Boolean, ReductionString, ()->String)->String is not applicable to any type of the form (Generator[\(ZZ32, String)\], ReductionZZ32, _->_).
+          - (Boolean, ReductionZZ32, ()->ZZ32)->ZZ32 is not applicable to any type of the form (Generator[\(ZZ32, String)\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionString, ZZ32->String)->String is not applicable to any type of the form (Generator[\(ZZ32, String)\], ReductionZZ32, _->_).
+          - (GeneratorZZ32, ReductionZZ32, ZZ32->ZZ32)->ZZ32 is not applicable to any type of the form (Generator[\(ZZ32, String)\], ReductionZZ32, _->_).
+          /home/user/fortress-flat/tmp/ladder-base-tests/XXXFlatStringSplitRungL.fss:11:28-288:
+            Possibly because (reduction?3, unit?4): (ReductionZZ32, ZZ32->ZZ32) after argument inference
+File XXXFlatStringSplitRungL.fss has 4 errors.

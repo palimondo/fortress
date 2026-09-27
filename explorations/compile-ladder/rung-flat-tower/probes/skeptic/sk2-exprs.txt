@@ -1,0 +1,41 @@
+--- skeptic 2 walk-only expressions, flat and base 2026-09-27T04:58:55Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.19 3.66 2.62 2/109 20343
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=unset
+E1 flat t1 | narrow(1.5) = 1.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/flat/SkE1.fss:10:9-24: getRR32 not implemented for FFloatLiteral tmp/sk/flat/SkE1.fss:10:9-24: 
+E1 base t1 | narrow(1.5) = 1.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/base/SkE1.fss:10:9-24: getRR32 not implemented for FFloatLiteral tmp/sk/base/SkE1.fss:10:9-24: 
+E1 flat t4 | narrow(1.5) = 1.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/flat/SkE1.fss:10:9-24: getRR32 not implemented for FFloatLiteral tmp/sk/flat/SkE1.fss:10:9-24: 
+E1 base t4 | narrow(1.5) = 1.5 | refused rc=1: com.sun.fortress.exceptions.InterpreterBug: tmp/sk/base/SkE1.fss:10:9-24: getRR32 not implemented for FFloatLiteral tmp/sk/base/SkE1.fss:10:9-24: 
+E2 flat t1 | 1.5 + narrow(2.5) | ran: 4.0 : Float
+E2 base t1 | 1.5 + narrow(2.5) | ran: 4.0 : Float
+E2 flat t4 | 1.5 + narrow(2.5) | ran: 4.0 : Float
+E2 base t4 | 1.5 + narrow(2.5) | ran: 4.0 : Float
+E3 flat t1 | (widen(3))^(-1) | ran: 0.3333333333333333 : Float
+E3 base t1 | (widen(3))^(-1) | ran: 0.3333333333333333 : Float
+E3 flat t4 | (widen(3))^(-1) | ran: 0.3333333333333333 : Float
+E3 base t4 | (widen(3))^(-1) | ran: 0.3333333333333333 : Float
+E4 flat t1 | signed(widen(unsigned(3))) + widen(1) | ran: 4 : Long
+E4 base t1 | signed(widen(unsigned(3))) + widen(1) | ran: 4 : Long
+E4 flat t4 | signed(widen(unsigned(3))) + widen(1) | ran: 4 : Long
+E4 base t4 | signed(widen(unsigned(3))) + widen(1) | ran: 4 : Long
+E5 flat t1 | asFloat((widen(3))^2) + 0.5 | ran: 9.5 : Float
+E5 base t1 | asFloat((widen(3))^2) + 0.5 | refused rc=255: tmp/sk/base/SkE5.fss:10:9-14:     Variable asFloat is not defined. 
+E5 flat t4 | asFloat((widen(3))^2) + 0.5 | ran: 9.5 : Float
+E5 base t4 | asFloat((widen(3))^2) + 0.5 | refused rc=255: tmp/sk/base/SkE5.fss:10:9-14:     Variable asFloat is not defined. 
+E6 flat t1 | SUM[\RR32\][i <- 0#4] narrow(asFloat(i)) | ran: 6.0 : RR32
+E6 base t1 | SUM[\RR32\][i <- 0#4] narrow(asFloat(i)) | refused rc=255: tmp/sk/base/SkE6.fss:10:38-43:     Variable asFloat is not defined. 
+E6 flat t4 | SUM[\RR32\][i <- 0#4] narrow(asFloat(i)) | ran: 6.0 : RR32
+E6 base t4 | SUM[\RR32\][i <- 0#4] narrow(asFloat(i)) | refused rc=255: tmp/sk/base/SkE6.fss:10:38-43:     Variable asFloat is not defined. 
+E7 flat t1 | SUM[\RR32\][i <- 0#0] narrow(1.0) | ran: 0.0 : RR32
+E7 base t1 | SUM[\RR32\][i <- 0#0] narrow(1.0) | ran: 0 : Int
+E7 flat t4 | SUM[\RR32\][i <- 0#0] narrow(1.0) | ran: 0.0 : RR32
+E7 base t4 | SUM[\RR32\][i <- 0#0] narrow(1.0) | ran: 0 : Int
+E8 flat t1 | PROD[\NN32\][i <- 1#4] unsigned(i) | ran: 24 : NN32
+E8 base t1 | PROD[\NN32\][i <- 1#4] unsigned(i) | ran: 24 : NN32
+E8 flat t4 | PROD[\NN32\][i <- 1#4] unsigned(i) | ran: 24 : NN32
+E8 base t4 | PROD[\NN32\][i <- 1#4] unsigned(i) | ran: 24 : NN32
+done 2026-09-27T05:00:38Z
+EXIT=0

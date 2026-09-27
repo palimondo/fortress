@@ -1,0 +1,32 @@
+--- row 431 probe: ReflectiveQuickCheckTest, flat library, genZZ.perturb's base line put back in a shadow QuickCheck.fss, walk 2026-09-27T01:40:46Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 2.07 2.53 4.25 2/108 1938
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+shadow differs from the tree's QuickCheck.fss at:
+322c322
+<             perturb(big(widen(obj) LSHIFT 32),
+---
+>             perturb(obj LSHIFT 32,
+propAssociativeAddition:
+Passed 100 test(s).
+propCommutativeAddition:
+Passed 100 test(s).
+propCommutativeAddition':
+Passed 100 test(s).
+propDoubleReversal:
+Passed 100 test(s).
+propDoubleReversalList:
+Passed 100 test(s).
+propDoubleReversalMap:
+Passed 100 test(s).
+propDoubleReversalSet:
+Passed 100 test(s).
+propMapSizeInvariant1:
+Passed 100 test(s).
+propMapSizeInvariant2:
+Exception in thread "main" java.lang.OutOfMemoryError
+Caused by: java.lang.OutOfMemoryError: Java heap space
+rc=1 secs=65

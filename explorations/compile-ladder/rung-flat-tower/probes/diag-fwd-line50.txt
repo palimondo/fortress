@@ -1,0 +1,47 @@
+--- diag_fwd.fss under walk, flat library, line 50 at BIG MAX[\ZZ32\] (committed spelling), private cache tmp/r2/c-diag 2026-09-27T04:10:49Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.47 1.30 1.01 2/107 27018
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+$ explorations/compile-ladder/rung-flat-tower/probes/skeptic/diag.sh explorations/apl/mg /home/user/fortress-flat/tmp/r2/c-diag 1
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing <rats-tmp>/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: <rats-tmp>/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing <rats-tmp>/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: <rats-tmp>/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+Mk[0,1] -1.0E10 Mk[1,0] -0.0 maskC[0,1] -1.0E10
+apl 10*10 = 1.0E10 ; apl (-10*10) = -1.0E10 ; apl -10 = -10 ; apl 2*3 = 8.0
+mask      16x16 maxdiff 0.0 suma -1.2E12
+ids       |16| maxdiff 0
+tg        |16| maxdiff 0
+vm        |16| maxdiff 0.0
+pos       |16| maxdiff 0
+X         16x16 maxdiff 0.0 suma 6.2978731246561885
+Xp        16x16 maxdiff 0.0 suma 54.06587679064285
+X1        16x16 maxdiff 0.0 suma 54.086401103490374
+Q         16x16 maxdiff 0.0 suma -4.901605606626543
+K         16x16 maxdiff 0.0 suma 1.4403046505913844
+Vv        16x16 maxdiff 0.0 suma -7.89159398942143
+Qh        4x16x4 maxdiff 0.0 suma -4.9016056066265445
+A         4x16x16 maxdiff 0.0 suma 64.0
+Hc        16x16 maxdiff 0.0 suma -7.608753899844009
+X2        16x16 maxdiff 0.0 suma 51.916633536350226
+M0        16x64 maxdiff 0.0 suma -25.77367141662588
+Mr        16x64 maxdiff 0.0 suma 130.06753044957537
+X4        16x16 maxdiff 0.0 suma 51.22401202349069
+Pr        16x27 maxdiff 0.0 suma 16.0
+loss apl 3.3659669475848513 loss c4 3.3659669475848513 diff 0.0
+done
+rc=0
+wall 29s
+
+# The printed lines against the golden explorations/apl/mg/checks/diag_fwd_flatarrays2.out, masking only the Rats! temp path (the golden prints no timing):
+$ diff <(sed -n '/^Mk\[0,1\]/,/^done$/p' run) explorations/apl/mg/checks/diag_fwd_flatarrays2.out
+diff rc=0 (0: identical)

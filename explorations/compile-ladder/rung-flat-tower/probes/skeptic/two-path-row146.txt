@@ -1,0 +1,42 @@
+--- skeptic two-path 2026-09-27T03:35:55Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.98 2.50 2.76 8/136 13459
+openjdk version "25.0.4" 2026-07-21 (java -version line filtered by the driver)
+=== SkRow146 walk flat library FORTRESS_THREADS=1
+77777777777777777
+2147483648
+-2147483648
+rc=0
+=== SkRow146 walk base library (e5414f5bf shadow) FORTRESS_THREADS=1
+266148977
+-2147483648
+-2147483648
+rc=0
+=== SkRow146 walk flat library FORTRESS_THREADS=4
+77777777777777777
+2147483648
+-2147483648
+rc=0
+=== SkRow146 walk base library (e5414f5bf shadow) FORTRESS_THREADS=4
+266148977
+-2147483648
+-2147483648
+rc=0
+=== SkRow146 compiled path FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run FORTRESS_THREADS=1
+77777777777777777
+2147483648
+2147483648
+run rc=0
+=== SkRow146 compiled path FORTRESS_THREADS=4
+## compile
+compile rc=0
+## run FORTRESS_THREADS=4
+77777777777777777
+2147483648
+2147483648
+run rc=0

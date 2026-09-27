@@ -1,0 +1,79 @@
+--- skeptic walk differentials, reductions 2026-09-27T03:26:41Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.68 1.39 2.61 8/123 2621
+openjdk version "25.0.4" 2026-07-21
+E1 flat t1 | SUM[\ZZ32\][i <- 0#10000] i | ran: 49995000 : Int
+E1 base t1 | SUM[\ZZ32\][i <- 0#10000] i | ran: 49995000 : Int
+E1 flat t4 | SUM[\ZZ32\][i <- 0#10000] i | ran: 49995000 : Int
+E1 base t4 | SUM[\ZZ32\][i <- 0#10000] i | ran: 49995000 : Int
+E2 flat t1 | SUM[\ZZ64\][i <- 0#100000] i | ran: 4999950000 : Long
+E2 base t1 | SUM[\ZZ64\][i <- 0#100000] i | ran: 704982704 : Int
+E2 flat t4 | SUM[\ZZ64\][i <- 0#100000] i | ran: 4999950000 : Long
+E2 base t4 | SUM[\ZZ64\][i <- 0#100000] i | ran: 704982704 : Int
+E3 flat t1 | SUM[\ZZ64\][i <- 5#1] i | ran: 5 : Long
+E3 base t1 | SUM[\ZZ64\][i <- 5#1] i | ran: 5 : Int
+E3 flat t4 | SUM[\ZZ64\][i <- 5#1] i | ran: 5 : Long
+E3 base t4 | SUM[\ZZ64\][i <- 5#1] i | ran: 5 : Int
+E4 flat t1 | SUM[\ZZ\][i <- 0#100000] i | ran: 4999950000 : BigNum
+E4 base t1 | SUM[\ZZ\][i <- 0#100000] i | ran: 704982704 : Int
+E4 flat t4 | SUM[\ZZ\][i <- 0#100000] i | ran: 4999950000 : BigNum
+E4 base t4 | SUM[\ZZ\][i <- 0#100000] i | ran: 704982704 : Int
+E5 flat t1 | SUM[\QQ\][i <- 1#20] 1/i | ran: 55835135/15519504 : Ratio
+E5 base t1 | SUM[\QQ\][i <- 1#20] 1/i | ran: -21550457/52350608 : Ratio
+E5 flat t4 | SUM[\QQ\][i <- 1#20] 1/i | ran: 55835135/15519504 : Ratio
+E5 base t4 | SUM[\QQ\][i <- 1#20] 1/i | ran: -21550457/52350608 : Ratio
+E6 flat t1 | PROD[\QQ\][i <- 1#9] i/(i+1) | ran: 1/10 : Ratio
+E6 base t1 | PROD[\QQ\][i <- 1#9] i/(i+1) | ran: 1/10 : Ratio
+E6 flat t4 | PROD[\QQ\][i <- 1#9] i/(i+1) | ran: 1/10 : Ratio
+E6 base t4 | PROD[\QQ\][i <- 1#9] i/(i+1) | ran: 1/10 : Ratio
+E7 flat t1 | PROD[\ZZ\][i <- 1#25] i | ran: 15511210043330985984000000 : BigNum
+E7 base t1 | PROD[\ZZ\][i <- 1#25] i | ran: 2076180480 : Int
+E7 flat t4 | PROD[\ZZ\][i <- 1#25] i | ran: 15511210043330985984000000 : BigNum
+E7 base t4 | PROD[\ZZ\][i <- 1#25] i | ran: 2076180480 : Int
+E8 flat t1 | PROD[\ZZ64\][i <- 1#20] i | ran: 2432902008176640000 : Long
+E8 base t1 | PROD[\ZZ64\][i <- 1#20] i | ran: -2102132736 : Int
+E8 flat t4 | PROD[\ZZ64\][i <- 1#20] i | ran: 2432902008176640000 : Long
+E8 base t4 | PROD[\ZZ64\][i <- 1#20] i | ran: -2102132736 : Int
+E9 flat t1 | SUM[\NN32\][i <- 0#0] unsigned(i) | ran: 0 : NN32
+E9 base t1 | SUM[\NN32\][i <- 0#0] unsigned(i) | ran: 0 : Int
+E9 flat t4 | SUM[\NN32\][i <- 0#0] unsigned(i) | ran: 0 : NN32
+E9 base t4 | SUM[\NN32\][i <- 0#0] unsigned(i) | ran: 0 : Int
+E10 flat t1 | SUM[\NN32\][i <- 0#10] unsigned(i) | ran: 45 : NN32
+E10 base t1 | SUM[\NN32\][i <- 0#10] unsigned(i) | ran: 45 : NN32
+E10 flat t4 | SUM[\NN32\][i <- 0#10] unsigned(i) | ran: 45 : NN32
+E10 base t4 | SUM[\NN32\][i <- 0#10] unsigned(i) | ran: 45 : NN32
+E11 flat t1 | SUM[\NN64\][i <- 0#10] widen(unsigned(i)) | ran: 45 : UnsignedLong
+E11 base t1 | SUM[\NN64\][i <- 0#10] widen(unsigned(i)) | ran: 45 : UnsignedLong
+E11 flat t4 | SUM[\NN64\][i <- 0#10] widen(unsigned(i)) | ran: 45 : UnsignedLong
+E11 base t4 | SUM[\NN64\][i <- 0#10] widen(unsigned(i)) | ran: 45 : UnsignedLong
+E12 flat t1 | SUM[\RR64\][i <- 0#1000] 0.5 | ran: 500.0 : Float
+E12 base t1 | SUM[\RR64\][i <- 0#1000] 0.5 | ran: 500.0 : Float
+E12 flat t4 | SUM[\RR64\][i <- 0#1000] 0.5 | ran: 500.0 : Float
+E12 base t4 | SUM[\RR64\][i <- 0#1000] 0.5 | ran: 500.0 : Float
+E13 flat t1 | SUM[\RR64\][i <- 0#1000] i | ran: 499500.0 : Float
+E13 base t1 | SUM[\RR64\][i <- 0#1000] i | ran: 499500 : Int
+E13 flat t4 | SUM[\RR64\][i <- 0#1000] i | ran: 499500.0 : Float
+E13 base t4 | SUM[\RR64\][i <- 0#1000] i | ran: 499500 : Int
+E14 flat t1 | BIG MAX[\QQ\][i <- 1#5] 1/i | ran: 1 : Ratio
+E14 base t1 | BIG MAX[\QQ\][i <- 1#5] 1/i | ran: 1 : Int
+E14 flat t4 | BIG MAX[\QQ\][i <- 1#5] 1/i | ran: 1 : Ratio
+E14 base t4 | BIG MAX[\QQ\][i <- 1#5] 1/i | ran: 1 : Int
+E15 flat t1 | SUM[\Vector[\RR64,3\]\][i <- 0#2] vec3() | ran: [0#3][ 2.0 4.0 6.0 ] : __DefaultVector[\RR64,3\]
+E15 base t1 | SUM[\Vector[\RR64,3\]\][i <- 0#2] vec3() | refused rc=1: tmp/sk/base/FortressLibrary.fss:36:13-27: CastError tmp/sk/base/FortressLibrary.fss:36:13-27: 
+E15 flat t4 | SUM[\Vector[\RR64,3\]\][i <- 0#2] vec3() | ran: [0#3][ 2.0 4.0 6.0 ] : __DefaultVector[\RR64,3\]
+E15 base t4 | SUM[\Vector[\RR64,3\]\][i <- 0#2] vec3() | refused rc=1: tmp/sk/base/FortressLibrary.fss:36:13-27: CastError tmp/sk/base/FortressLibrary.fss:36:13-27: 
+E16 flat t1 | SUM[\Vector[\RR64,3\]\][i <- 0#0] vec3() | refused rc=1: com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47: Unification error: Closure/Constructor for unlift param 1 (r:Vector[\RR64,3\]) got arg 0: ZZ32 of type Int Library/FortressLibrary.fss:1223:16-47: 
+E16 base t1 | SUM[\Vector[\RR64,3\]\][i <- 0#0] vec3() | ran: 0 : Int
+E16 flat t4 | SUM[\Vector[\RR64,3\]\][i <- 0#0] vec3() | refused rc=1: com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47: Unification error: Closure/Constructor for unlift param 1 (r:Vector[\RR64,3\]) got arg 0: ZZ32 of type Int Library/FortressLibrary.fss:1223:16-47: 
+E16 base t4 | SUM[\Vector[\RR64,3\]\][i <- 0#0] vec3() | ran: 0 : Int
+E17 flat t1 | SUM[\M7\][i <- 0#10] M7(i) | ran: M7(3) : M7
+E17 base t1 | SUM[\M7\][i <- 0#10] M7(i) | refused rc=1: tmp/sk/base/FortressLibrary.fss:36:13-27: CastError tmp/sk/base/FortressLibrary.fss:36:13-27: 
+E17 flat t4 | SUM[\M7\][i <- 0#10] M7(i) | ran: M7(3) : M7
+E17 base t4 | SUM[\M7\][i <- 0#10] M7(i) | refused rc=1: tmp/sk/base/FortressLibrary.fss:36:13-27: CastError tmp/sk/base/FortressLibrary.fss:36:13-27: 
+E18 flat t1 | SUM[\M7\][i <- 0#0] M7(i) | refused rc=1: com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47: Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int Library/FortressLibrary.fss:1223:16-47: 
+E18 base t1 | SUM[\M7\][i <- 0#0] M7(i) | ran: 0 : Int
+E18 flat t4 | SUM[\M7\][i <- 0#0] M7(i) | refused rc=1: com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:1223:16-47: Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int Library/FortressLibrary.fss:1223:16-47: 
+E18 base t4 | SUM[\M7\][i <- 0#0] M7(i) | ran: 0 : Int
+done 2026-09-27T03:30:29Z

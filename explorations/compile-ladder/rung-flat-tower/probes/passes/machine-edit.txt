@@ -1,0 +1,7 @@
+--- edit pass 3 (tests, walk, count-run.sh), flat library at c02b558c1 2026-09-27T02:44:16Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 13.60 10.90 8.09 14/212 22550
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
