@@ -1,0 +1,20 @@
+# walk.sh L0 XXXRangeBoundsRungO 2026-09-27T16:43:59Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.26 11.43 7.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+REACHED
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/RangeInternals.fss:1423:39:
+IntegerOverflow
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/RangeInternals.fss:1423:39:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/FortressLibrary.fss:3888:78-106:
+/home/user/fortress/ProjectFortress/tests/XXXRangeBoundsRungO.fss:13:14-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+ELAPSED 53 s

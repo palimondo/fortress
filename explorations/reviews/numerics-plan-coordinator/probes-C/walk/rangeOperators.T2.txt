@@ -1,0 +1,20 @@
+# walk.sh T2 rangeOperators 2026-09-27T16:46:11Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.09 15.14 9.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/ProjectFortress/tests/rangeOperators.fss:20:1-43: and
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/T2/FortressLibrary.fss:4025:1-4029:62:
+
+#[\I\](r:PartialRange[\I\],size:I):Range[\I\]/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/T2/FortressLibrary.fss:4025:1-4029:62 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:20:1-43:
+/home/user/fortress/ProjectFortress/tests/rangeOperators.fss:115:16:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+ELAPSED 42 s

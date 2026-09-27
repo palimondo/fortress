@@ -1,0 +1,11 @@
+# walk.sh Lbad RangeTest 2026-09-27T16:34:05Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.86 2.84 2.80; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/Lbad/RangeInternals.fss:39:13-24:
+    Variable roundToStride is not defined.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/Lbad/RangeInternals.fss:41:13-24:
+    Variable roundToStride is not defined.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/Lbad/RangeInternals.fss:43:13-24:
+    Variable roundToStride is not defined.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/Lbad/RangeInternals.fss:45:13-24:
+    Variable roundToStride is not defined.
+rc=255
+ELAPSED 18 s

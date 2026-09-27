@@ -1,0 +1,3 @@
+# walk.sh T2test RangeTest 2026-09-27T16:34:28Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.24 3.03 2.86; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+rc=0
+ELAPSED 27 s

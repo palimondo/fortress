@@ -1,0 +1,29 @@
+component WideRangesC
+export Executable
+
+(*) measure-C, question 3: each range over a ZZ64, NN32 or ZZ bound, built and walked under walk.
+(*) The shapes are those of the tree's own uses: XXXRangeSizeZZ64RungO.fss:10, :17,
+(*) XXXSeqRangeTopRungO.fss:19, :21, XXXRangeBoundsRungO.fss:19, Expr.Do.mySum.fss:21,
+(*) Generators.GeneratorDefn.fss:21, basic-integers.tex:544.
+
+step(name: String, f: () -> ZZ32): () =
+    try
+        println(name || ": " || f())
+    catch e
+        Exception => println(name || ": FAILED " || e)
+    end
+
+run(): () = do
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    lo64: ZZ64 = widen(one)
+    hi64: ZZ64 = widen(three)
+    step("ZZ64 a:b .size", fn () => (lo64:hi64).size)
+    step("ZZ64 a#n .size", fn () => (lo64 # hi64).size)
+    step("ZZ64 seq(a:b), for", fn () => do var c: ZZ32 = 0; for i <- seq(lo64:hi64) do c += 1 end; c end)
+    step("ZZ64 0:i, for (mySum)", fn () => do var c: ZZ32 = 0; for j <- 0:hi64 do c += 1 end; c end)
+    step("NN32 a:b .size", fn () => (unsigned(one):unsigned(three)).size)
+    step("ZZ32 a:b .size (control)", fn () => (one:three).size)
+    step("ZZ a:b, for (the factorial property's shape)", fn () => do var c: ZZ32 = 0; for k <- big(one):big(three) do c += 1 end; c end)
+  end
+end

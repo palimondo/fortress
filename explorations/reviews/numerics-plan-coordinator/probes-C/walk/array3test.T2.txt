@@ -1,0 +1,3 @@
+# walk.sh T2 array3test 2026-09-27T16:44:32Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 18.59 12.57 7.56; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+rc=0
+ELAPSED 50 s

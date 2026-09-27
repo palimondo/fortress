@@ -1,0 +1,30 @@
+# walk-probe.sh L0 2026-09-27T17:12:24Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 5.06 6.74 8.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ZZ64 a:b .size: 3
+ZZ64 a#n .size: 3
+ZZ64 seq(a:b), for: 3
+ZZ64 0:i, for (mySum): 4
+NN32 a:b .size: 3
+ZZ32 a:b .size (control): 3
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/RangeInternals.fss:1045:29-63:
+Failed to find any matching overload, args = (3:ZZ), overload = {
+	partitionL(native Partition)fn meth(self 0):NN32->NN32 (/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/FortressBuiltin.fss:452:5-453:81)
+	partitionL(native Partition)fn meth(self 0):ZZ32->ZZ32 (/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/FortressLibrary.fss:750:5-751:80)
+	partitionL(native Partition)fn meth(self 0):ZZ64->ZZ64 (/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/FortressLibrary.fss:832:5-833:81)
+	partitionL(native Partition)fn meth(self 0):NN64->NN64 (/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/FortressLibrary.fss:899:5-900:89)}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/RangeInternals.fss:1045:29-63:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/work/libs/L0/RangeInternals.fss:1053:13-1054:9:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/probe/WideRangesC.fss:27:91-116:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/probe/WideRangesC.fss:11:33-34:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-C/probe/WideRangesC.fss:27:5-135:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

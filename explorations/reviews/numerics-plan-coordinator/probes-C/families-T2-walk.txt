@@ -1,0 +1,38 @@
+family                                      base variant    gone     new
+I1                                             4       5       2       3
+I2                                             2       2       0       0
+I3                                           160       8     151       0
+I4                                             3       3       3       0
+I5                                            15       0      15       0
+I6                                             8       0       8       0
+D2                                            20       2      18       0
+RG                                            31      18       1       1
+TS                                             8       0       2       0
+L1:CAP                                        36       0      36       0
+L1:CMP                                         4       4       0       0
+L1:IN                                         14      14       0       0
+L1:MAX                                         6       6       0       0
+L1:MIN                                         6       6       0       0
+L1:juxtaposition                               3       3       0       0
+L1:openRangeHelper                             6       0       2       0
+L1:seq                                        10      10       0       0
+M1:range                                      55      61       0       2
+M1:other                                      45      45       0       0
+M1:FORWARD_CMP (range)                        38      38       0       0
+M1:IN (range)                                 15      15       0       0
+M1:copy                                        2       2       0       0
+M1:cross                                       3       3       0       0
+M1:generate                                    7       7       0       0
+M1:ivmap                                       6       6       0       0
+M1:juxtaposition                               3       3       0       0
+M1:lift                                        6       6       0       0
+M1:map                                        13      13       0       0
+M1:map (range)                                 2       2       0       0
+M1:nest                                        1       1       0       0
+M1:openRangeHelper (range)                     0       6       0       0
+M1:seq                                         4       4       0       0
+OT:range                                      51      70       0       2
+OT:other                                      59      59       0       0
+NM:range                                      19      18       1       0
+NM:other                                      35      35       0       0
+total                                       1239    1012

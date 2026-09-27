@@ -1,0 +1,38 @@
+# base class: base count -> gone, and the classes of the sites still in error
+H1    38 -> gone    0; still: H1 38
+H2     2 -> gone    0; still: H2 2
+A1   244 -> gone    0; still: A1 244
+A2    58 -> gone    0; still: A2 58
+L1    85 -> gone   38; still: L1 43, M1 4
+M1   100 -> gone    0; still: M1 100
+O1    13 -> gone    1; still: O1 12
+R2    19 -> gone    0; still: R2 19
+R3    40 -> gone    0; still: R3 40
+D2    20 -> gone   18; still: D2 2
+X1    10 -> gone    0; still: X1 10
+Z1    11 -> gone    0; still: Z1 11
+F1     4 -> gone    0; still: F1 4
+N2     1 -> gone    0; still: N2 1
+I2     2 -> gone    0; still: I2 2
+I5    15 -> gone   15; still: -
+I1     4 -> gone    2; still: I1 2
+I3   160 -> gone  151; still: I3 8, OT 1
+I4     3 -> gone    3; still: -
+I6     8 -> gone    8; still: -
+S1    28 -> gone    0; still: S1 28
+R4     4 -> gone    0; still: R4 4
+V1    44 -> gone    0; still: V1 44
+V2    39 -> gone    3; still: V2 36
+G1    18 -> gone    0; still: G1 18
+MB     7 -> gone    0; still: MB 7
+SF    22 -> gone    0; still: SF 22
+GB     8 -> gone    0; still: GB 8
+TS     8 -> gone    2; still: OT 6
+RG    31 -> gone    1; still: RG 17, OT 13
+BR    10 -> gone    2; still: BR 8
+CV    10 -> gone    0; still: CV 10
+NM    54 -> gone    1; still: NM 53
+GF     9 -> gone    0; still: GF 9
+OT   110 -> gone    0; still: OT 107, I4 3
+# new sites by class: O1 4, V2 4, I1 3, OT 2, BR 2, M1 2, RG 1
+# total: base 1239, variant 1012, gone 245, new 18
