@@ -1,0 +1,23 @@
+component RR32Div2
+export Executable
+
+kind(v: Any): String = typecase v of
+    RR32 => "RR32"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    a: RR32 = narrow(1.0)
+    b: RR32 = narrow(2.0)
+    println("a / b " kind(a / b))
+    println("a SLASH_UP b " kind(a SLASH_UP b))
+    println("a PLUS_UP b " kind(a PLUS_UP b))
+    println("a + b " kind(a + b))
+    println("a TIMES b " kind(a TIMES b))
+    println("a b " kind(a b))
+    println("a^b " kind(a^b))
+    println("SQRT a " kind(SQRT a))
+    println("a MIN b " kind(a MIN b))
+  end
+end

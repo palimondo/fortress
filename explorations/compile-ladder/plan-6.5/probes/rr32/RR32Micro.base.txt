@@ -1,0 +1,18 @@
+# walk1.sh RR32Micro base 2026-09-27T10:30:22Z; tree 2851e5086 + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 13.37 14.47 13.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+a + b = 4.0 is an RR32
+a is an RR64
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-plan65/explorations/compile-ladder/plan-6.5/probes/rr32/RR32Micro.fss:16:25:
+getRR32 not implemented for FFloatLiteral
+Context:
+/home/user/fortress-plan65/explorations/compile-ladder/plan-6.5/probes/rr32/RR32Micro.fss:16:25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

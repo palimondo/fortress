@@ -1,0 +1,105 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java
+index 32608762e..5f3dc8bfe 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java
+@@ -38,21 +38,9 @@ public class FIntLiteral extends FNativeObject implements HasIntValue {
+     }
+ 
+     public static FValue make(BigInteger v) {
+-        if (v.compareTo(INT_MAX) > 0) {
+-            if (v.compareTo(LONG_MAX) > 0) {
+-                return FBigNum.make(v);
+-            } else {
+-                return FLong.make(v.longValue());
+-            }
+-        } else if (v.compareTo(INT_MIN) < 0) {
+-            if (v.compareTo(LONG_MIN) < 0) {
+-                return new FIntLiteral(v);
+-            } else {
+-                return FLong.make(v.longValue());
+-            }
+-        } else {
+-            return FInt.make(v.intValue());
+-        }
++        // Probe (plan 6.5, numeral): every integer numeral is a value of the library's
++        // IntLiteral, the compiler library's model, instead of an Int, Long or BigNum by width.
++        return new FIntLiteral(v);
+     }
+ 
+     public String getString() {
+@@ -60,10 +48,12 @@ public class FIntLiteral extends FNativeObject implements HasIntValue {
+     }
+ 
+     public int getInt() {
++        if (value.bitLength() <= 31) return value.intValue();
+         throw new ProgramError(errorMsg("Value ", value, " does not fit in ZZ32."));
+     }
+ 
+     public long getLong() {
++        if (value.bitLength() <= 63) return value.longValue();
+         throw new ProgramError(errorMsg("Value ", value, " does not fit in ZZ64."));
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
+index 2ef51cd11..035b44f37 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
+@@ -17,6 +17,8 @@ import com.sun.fortress.interpreter.evaluator.values.*;
+ import com.sun.fortress.interpreter.glue.NativeMeth0;
+ import com.sun.fortress.interpreter.glue.NativeMeth1;
+ import com.sun.fortress.nodes.ObjectConstructor;
++import com.sun.fortress.exceptions.ProgramError;
++import static com.sun.fortress.exceptions.ProgramError.errorMsg;
+ 
+ import java.math.BigInteger;
+ import java.util.List;
+@@ -253,6 +255,49 @@ public class IntLiteral extends NativeConstructor {
+         }
+     }
+ 
++    // Probe (plan 6.5, numeral): the conversions a number type's coerce(x: IntLiteral) calls.
++    static private abstract class K2V extends NativeMeth0 {
++        protected abstract FValue f(BigInteger x);
++
++        public final FValue applyMethod(FObject x) {
++            return f(toB(x));
++        }
++    }
++
++    public static final class ToZZ32 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.bitLength() > 31) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in ZZ32"));
++            return FInt.make(x.intValue());
++        }
++    }
++
++    public static final class ToZZ64 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.bitLength() > 63) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in ZZ64"));
++            return FLong.make(x.longValue());
++        }
++    }
++
++    public static final class ToNN32 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.signum() < 0 || x.bitLength() > 32) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in NN32"));
++            return FNN32.make(x.intValue());
++        }
++    }
++
++    public static final class ToNN64 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.signum() < 0 || x.bitLength() > 64) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in NN64"));
++            return FNN64.make(x.longValue());
++        }
++    }
++
++    public static final class ToZZ extends K2V {
++        protected FValue f(BigInteger x) {
++            return FBigNum.make(x);
++        }
++    }
++
+     private static BigInteger choose(BigInteger n, BigInteger k) {
+         BigInteger nmk = n.subtract(k);
+         if (nmk.compareTo(k) < 0) {

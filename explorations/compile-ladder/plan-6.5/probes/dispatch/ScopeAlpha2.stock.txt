@@ -1,0 +1,27 @@
+# comp.sh ScopeAlpha2 2026-09-27T10:22:35Z; tree 2851e5086; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 15.87 14.85 12.46; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+## fortress compile ScopeAlpha2.fss (private cache, compiler's world)
+compile rc=0
+## run
+java.lang.ClassCastException
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at ScopeAlpha2.main(/home/user/fortress-plan65/explorations/compile-ladder/plan-6.5/probes/dispatch/ScopeAlpha2.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.ClassCastException: class ScopeAlpha2$\=SubM?ScopeAlpha2\%Red,ScopeAlpha2\%Blue? cannot be cast to class ScopeAlpha2$\=Marker?ScopeAlpha2\%Blue,ScopeAlpha2\%Red? (ScopeAlpha2$\=SubM?ScopeAlpha2\%Red,ScopeAlpha2\%Blue? and ScopeAlpha2$\=Marker?ScopeAlpha2\%Blue,ScopeAlpha2\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+	at ScopeAlpha2?$\=pair?ScopeAlpha2\%Red,ScopeAlpha2\%Blue??$\=?Arrow?ScopeAlpha2\%Two?A,B?,ScopeAlpha2\%Marker?A,B??.the_function(Unknown Source)
+	at ScopeAlpha2?$\=pair?ScopeAlpha2\%Red,ScopeAlpha2\%Blue??$\=?Arrow?ScopeAlpha2\%Two?A,B?,ScopeAlpha2\%Marker?A,B??.apply(Unknown Source)
+	at ScopeAlpha2.run(/home/user/fortress-plan65/explorations/compile-ladder/plan-6.5/probes/dispatch/ScopeAlpha2.fss:28)
+	at ScopeAlpha2.compute(/home/user/fortress-plan65/explorations/compile-ladder/plan-6.5/probes/dispatch/ScopeAlpha2.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run rc=1

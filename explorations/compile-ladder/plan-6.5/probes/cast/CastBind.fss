@@ -1,0 +1,51 @@
+(* CastBind -- row 426 traced: the compiled cast[\T\] is a typecase on the function's own
+   static parameter whose clause binds the value.  Which half fails: the type test at a
+   concrete T, or the binding?  Values of the named type (not numerals, which are an
+   IntLiteral or FloatLiteral at run time on the compiled path, row 79) go through three
+   spellings: the compiler library's cast (y: T => y), the one library's spelling
+   (x': T => x'), and a clause with no binding.  Each call is in its own function
+   returning a String, so no try expression joins two types. *)
+component CastBind
+export Executable
+
+castY[\T extends Any\](x: Any): T =
+  typecase x of
+      y: T => y
+      else => throw CastException
+    end
+
+castP[\T extends Any\](x: Any): T =
+  typecase x of
+      x': T => x'
+      else => throw CastException
+    end
+
+isT[\T extends Any\](x: Any): String =
+  typecase x of
+      T => "is T"
+      else => "is not T"
+    end
+
+pZ(z: ZZ32): String = try "castP[ZZ32](z) = " (castP[\ZZ32\](z)).asString catch e CastException => "castP[ZZ32](z) threw CastException" end
+yZ(z: ZZ32): String = try "castY[ZZ32](z) = " (castY[\ZZ32\](z)).asString catch e CastException => "castY[ZZ32](z) threw CastException" end
+pS(s: String): String = try "castP[String](s) = " castP[\String\](s) catch e CastException => "castP[String](s) threw CastException" end
+yS(s: String): String = try "castY[String](s) = " castY[\String\](s) catch e CastException => "castY[String](s) threw CastException" end
+pN(): String = try "castP[ZZ32](7) = " (castP[\ZZ32\](7)).asString catch e CastException => "castP[ZZ32](7) threw CastException" end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  r: RR64 = 0.5 + 1.0
+  s: String = "s"
+  println("isT[ZZ32](z)   = " isT[\ZZ32\](z))
+  println("isT[RR64](r)   = " isT[\RR64\](r))
+  println("isT[String](s) = " isT[\String\](s))
+  println("isT[ZZ32](7)   = " isT[\ZZ32\](7))
+  println("isT[ZZ32](s)   = " isT[\ZZ32\](s))
+  println(pS(s))
+  println(pZ(z))
+  println(pN())
+  println(yS(s))
+  println(yZ(z))
+  println("end reached")
+end
+end

@@ -1,0 +1,7 @@
+# comp.sh ScopeAlpha2 2026-09-27T10:22:45Z; tree 2851e5086; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.43 15.01 12.54; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow /home/user/fortress-plan65/tmp/shadow-disp
+## fortress compile ScopeAlpha2.fss (private cache, compiler's world)
+compile rc=0
+## run
+pair(t1), t1: Two[Red,Blue] = RedAndBlue      ->  SubM[Red,Blue]
+pair(t2), t2: Two[Red,Blue] = PlainPair ->  TwoM[Red,Blue]
+run rc=0

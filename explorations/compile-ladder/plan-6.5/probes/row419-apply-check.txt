@@ -1,0 +1,1 @@
+# git apply --check of explorations/compile-ladder/rung-size-runtime/probes/xxx-task-red-demo-fix.patch (row 419's measured fix) on the tree 2851e5086, 2026-09-27: exit 0, no output: it applies as it stands.

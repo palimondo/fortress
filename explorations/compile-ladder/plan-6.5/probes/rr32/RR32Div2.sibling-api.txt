@@ -1,0 +1,11 @@
+# walk1.sh RR32Div2 sibling-api 2026-09-27T11:09:58Z; tree 2851e5086 +  4 files changed, 100 insertions(+), 46 deletions(-); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.12 8.16 12.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+a / b RR32
+a SLASH_UP b RR32
+a PLUS_UP b RR32
+a + b RR32
+a TIMES b RR32
+a b RR32
+a^b RR32
+SQRT a RR32
+a MIN b RR32
+rc=0
