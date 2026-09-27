@@ -1,0 +1,16 @@
+# build.sh 2026-09-27T16:31:51Z; tree c9492fc8d; openjdk version "25.0.4" 2026-07-21
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-instr/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-instr/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built instr in 10 s: 2 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix90/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix90/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built fix90 in 9 s: 2 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built fix in 10 s: 2 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class

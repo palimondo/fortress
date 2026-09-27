@@ -1,0 +1,106 @@
+### ProbeD setting=any (extendsObject=false compiledExpr=true) target=[DCtx.fss]
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=38
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkComponent DCtx
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:6:18-31 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:6:18-31 sargs=[] range=T
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:7:28-38 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:7:28-38 sargs=[] range=T
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:8:41-55 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:8:41-55 sargs=[] range=T
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:9:25-35 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:9:25-35 sargs=[] range=BoxT[\T\]
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:12:20-37 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:12:20-37 sargs=[] range=T
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:15:26-30 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:15:26-30
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:17:13-17 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:17:13-17
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:19:15-19 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:19:15-19
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:20:25-31 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:20:25-31
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:23:17-21 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:23:17-21
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:24:29-33 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:24:29-33
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:27:15-27 expected=NONE
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:27:23-27 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:27:23-27
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:27:15-27
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:29:20-24 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:29:20-24
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:30:17-21 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:30:17-21
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:32:22-84 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:32:22-84
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:33:16-24 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:33:16-24
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:35:15-20 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:35:15-20 sargs=[BottomType] range=BottomType
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:37:34-37 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:37:34-37
+@@PROBE-D MI /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:39:26-34 make expected=ZZ64
+@@PROBE-D MI-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:39:26-34 sargs=[BottomType] range=BottomType
+@@PROBE-D MI /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:40:16-24 make expected=ZZ64
+@@PROBE-D MI-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:40:16-24 sargs=[BottomType] range=BottomType
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:42:35-41 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:42:35-41
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:44:24-30 expected=NONE
+@@PROBE-D FN-FAIL /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:44:24-30
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:15:26-30:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:17:13-17:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:19:15-19:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:20:25-31:
+    Could not check call to function make1
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:23:17-21:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:24:29-33:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:27:23-27:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:29:20-24:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:30:17-21:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:32:22-84:
+    Could not check call to function builtinPrimitive
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:33:16-24:
+    Could not check call to function fail
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:37:34-37:
+    Could not check call to function mkB
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:42:35-41:
+    Could not check call to function make
+    - Could not infer static argument T without context.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DCtx.fss:44:24-30:
+    Could not check call to function make1
+    - Could not infer static argument T without context.
+File DCtx.fss has 14 errors.
+### rc=-1

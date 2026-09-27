@@ -1,0 +1,37 @@
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala	2026-09-20 07:15:55.103526733 +0000
++++ /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix90/com/sun/fortress/scala_src/typechecker/impls/Operators.scala	2026-09-27 16:32:01.890649553 +0000
+@@ -87,7 +87,7 @@
+ 
+     // If this juxt is actually a fn app, then rewrite to a fn app.
+     case SJuxt(info, multi, infix, front::rest, true, true) => rest.length match {
+-      case 1 => checkExpr(S_RewriteFnApp(info, front, rest.head))
++      case 1 => checkExpr(S_RewriteFnApp(info, front, rest.head), expected)   // PROBE-D :90
+       case n => // Make sure it is just two exprs.
+         signal(expr, errorMsg("TightJuxt denoted as function application but has ",
+                               int2Integer(n), "(!= 2) expressions."))
+--- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-09-27 08:02:27.069146952 +0000
++++ /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/shadow-src-fix90/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-09-27 16:32:01.890527673 +0000
+@@ -611,8 +611,10 @@
+                                     preCandidates.length > 1)
+ 
+       // Type check the application.
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D MI " + span + " " + method + " expected=" + expected.map(t => normalize(t).toString).getOrElse("NONE"))
+       val candidates =
+-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
++        checkApplication(preCandidates, arg, expected).getOrElse{ if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D MI-FAIL " + span); return expr }
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) { val c = candidates.head; System.out.println("@@PROBE-D MI-OK " + span + " sargs=" + c.sargs.map { case STypeArg(_, l, t) => (if (l) "lifted " else "") + normalize(t).toString; case o => o.toString }.mkString("[", ", ", "]") + " range=" + normalize(c.arrow.getRange)) }
+ 
+       // We only care about the most specific one. We know the args pattern
+       // match succeeds because all app candidates generated for method
+@@ -701,8 +703,10 @@
+                                     preCandidates.length > 1)
+ 
+       // Type check the application.
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D FN " + span + " expected=" + expected.map(t => normalize(t).toString).getOrElse("NONE"))
+       val candidates =
+-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
++        checkApplication(preCandidates, arg, expected).getOrElse{ if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D FN-FAIL " + span); return expr }
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) { val c = candidates.head; System.out.println("@@PROBE-D FN-OK " + span + " sargs=" + c.sargs.map { case STypeArg(_, l, t) => (if (l) "lifted " else "") + normalize(t).toString; case o => o.toString }.mkString("[", ", ", "]") + " range=" + normalize(c.arrow.getRange)) }
+ 
+       // We know the arg pattern match succeeds because all app candidates
+       // generated for functions include a single arg.

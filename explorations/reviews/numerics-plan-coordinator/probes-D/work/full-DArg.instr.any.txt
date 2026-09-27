@@ -1,0 +1,56 @@
+### ProbeD setting=any (extendsObject=false compiledExpr=true) target=[DArg.fss]
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=38
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkComponent DArg
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:7:31-41 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:7:31-41 sargs=[] range=BoxT[\T\]
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:12:26-30 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:12:26-30 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:13:26-30 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:13:26-30 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 sargs=[IntLiteral] range=BoxT[\IntLiteral\]
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 sargs=[IntLiteral] range=BoxT[\IntLiteral\]
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40 sargs=[IntLiteral] range=BoxT[\IntLiteral\]
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:16:15-19 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:16:15-19 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:17:15-19 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:17:15-19 sargs=[ZZ32] range=ZZ32
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:18:15-23 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:18:15-23 sargs=[OR(ZZ64,IntLiteral)] range=OR(ZZ64,IntLiteral)
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:19:15-19 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:19:15-19 sargs=[ZZ32] range=ZZ32
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:20:15-19 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:20:15-19 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:21:14-18 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:21:14-18 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:22:26-30 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:22:26-30 sargs=[ZZ64] range=ZZ64
+@@PROBE-D FN /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:23:21-25 expected=NONE
+@@PROBE-D FN-OK /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:23:21-25 sargs=[IntLiteral] range=IntLiteral
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:14:28-32:
+    Right-hand side has type IntLiteral, but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-D/small/DArg.fss:15:34-40:
+    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+File DArg.fss has 2 errors.
+### rc=-1

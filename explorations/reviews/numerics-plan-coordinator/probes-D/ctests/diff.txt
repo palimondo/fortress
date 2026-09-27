@@ -1,0 +1,2 @@
+# files: stock 382, shadow 382; stock rc != 0: 234; shadow rc != 0: 234; blocks that differ: 0
+# errors reported in all: stock 469, shadow 469

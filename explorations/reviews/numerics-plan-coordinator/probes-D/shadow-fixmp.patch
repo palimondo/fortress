@@ -1,0 +1,55 @@
+--- /home/user/fortress/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala	2026-09-20 07:15:55.103526733 +0000
++++ shadow-src-fixmp/com/sun/fortress/scala_src/typechecker/impls/Operators.scala	2026-09-27 17:18:24.855041527 +0000
+@@ -82,7 +82,7 @@
+           EF.makeParenthesisDelimitedMI(span, exp)
+         else EF.makeNonParenthesisDelimitedMI(span, exp)
+       }
+-      checkExpr(SMathPrimary(info, multi, infix, front, rest.map(toMathItem)))
++      checkExpr(SMathPrimary(info, multi, infix, front, rest.map(toMathItem)), expected)   // PROBE-D :85
+     }
+ 
+     // If this juxt is actually a fn app, then rewrite to a fn app.
+@@ -194,7 +194,7 @@
+     // is going to be called for both tight Juxt and MathPrimary
+ 
+     // Base case of recursion: If there is no 'rest', return the Expr
+-    case SMathPrimary(info, multi, infix, front, Nil) => checkExpr(front)
++    case SMathPrimary(info, multi, infix, front, Nil) => checkExpr(front, expected)   // PROBE-D :197
+ 
+     case mp@SMathPrimary(info@SExprInfo(span,paren,optType),
+                          multi, infix, front, rest@second::remained) => {
+@@ -342,7 +342,7 @@
+             // and recur.
+             val fn = EF.make_RewriteFnApp(front,
+                                           second.asInstanceOf[ExprMI].getExpr)
+-            checkExpr(SMathPrimary(info, multi, infix, fn, remained))
++            checkExpr(SMathPrimary(info, multi, infix, fn, remained), expected)   // PROBE-D :345
+           // THE FRONT ITEM WAS NOT A FN FOLLOWED BY AN EXPR, REASSOCIATE REST
+           } else {
+             val (head, tail) = associateMathItems( newFront, rest )
+--- /home/user/fortress/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-09-27 08:02:27.069146952 +0000
++++ shadow-src-fixmp/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala	2026-09-27 17:18:24.854775649 +0000
+@@ -611,8 +611,10 @@
+                                     preCandidates.length > 1)
+ 
+       // Type check the application.
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D MI " + span + " " + method + " expected=" + expected.map(t => normalize(t).toString).getOrElse("NONE"))
+       val candidates =
+-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
++        checkApplication(preCandidates, arg, expected).getOrElse{ if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D MI-FAIL " + span); return expr }
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) { val c = candidates.head; System.out.println("@@PROBE-D MI-OK " + span + " sargs=" + c.sargs.map { case STypeArg(_, l, t) => (if (l) "lifted " else "") + normalize(t).toString; case o => o.toString }.mkString("[", ", ", "]") + " range=" + normalize(c.arrow.getRange)) }
+ 
+       // We only care about the most specific one. We know the args pattern
+       // match succeeds because all app candidates generated for method
+@@ -701,8 +703,10 @@
+                                     preCandidates.length > 1)
+ 
+       // Type check the application.
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D FN " + span + " expected=" + expected.map(t => normalize(t).toString).getOrElse("NONE"))
+       val candidates =
+-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
++        checkApplication(preCandidates, arg, expected).getOrElse{ if (java.lang.Boolean.getBoolean("probe.showInfer")) System.out.println("@@PROBE-D FN-FAIL " + span); return expr }
++      if (java.lang.Boolean.getBoolean("probe.showInfer")) { val c = candidates.head; System.out.println("@@PROBE-D FN-OK " + span + " sargs=" + c.sargs.map { case STypeArg(_, l, t) => (if (l) "lifted " else "") + normalize(t).toString; case o => o.toString }.mkString("[", ", ", "]") + " range=" + normalize(c.arrow.getRange)) }
+ 
+       // We know the arg pattern match succeeds because all app candidates
+       // generated for functions include a single arg.

@@ -1,0 +1,46 @@
+component DCtx
+export Executable
+(* measure-D probe: a result-only generic called with an expected type, and with none.
+   Each case is its own declaration so an error in one does not hide another. *)
+object BoxT[\T\](v: ZZ32) end
+make[\T\](): T = fail[\T\]("make")
+make1[\T\](s: String): T = fail[\T\](s)
+makeI[\T extends Integral[\T\]\](): T = fail[\T\]("makeI")
+mkB[\T\](): BoxT[\T\] = BoxT[\T\](1)
+takes64(x: ZZ64): ZZ32 = 1
+object Fac
+  make[\T\](): T = fail[\T\]("Fac.make")
+end
+(* 1. a typed local binding *)
+c01(): () = do x: ZZ64 = make(); () end
+(* 2. a typed top-level variable *)
+c02: ZZ64 = make()
+(* 3. a function's body against its declared return type *)
+c03(): ZZ64 = make()
+c03s(s: String): ZZ32 = make1(s)
+(* 4. inside a method body: as the method's result, and in a typed local binding *)
+object O
+  m04(): ZZ64 = make()
+  m04b(): () = do x: ZZ64 = make(); () end
+end
+(* 5. an argument to a typed parameter *)
+c05(): ZZ32 = takes64(make())
+(* 6. nothing gives a type *)
+c06(): () = do v = make(); () end
+c06b(): () = do make(); () end
+(* 7. the natives' and fail's own shapes *)
+c07(x: ZZ32): ZZ32 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Add")
+c07f(): ZZ64 = fail("c07f")
+(* 8. a bounded result-only parameter *)
+c08(): ZZ64 = makeI()
+(* 9. an invariant result: the context fixes T by equality *)
+c09(): () = do a: BoxT[\ZZ64\] = mkB(); () end
+(* 10. the method invocation, for comparison *)
+c10(): () = do x: ZZ64 = Fac.make(); () end
+c10b(): ZZ64 = Fac.make()
+(* 11. a branch of an if, whose expected type Misc.scala passes on *)
+c11(b: Boolean): ZZ64 = if b then make() else 1 end
+(* 12. a loose juxtaposition f x *)
+c12(s: String): ZZ32 = make1 s
+run(): () = ()
+end

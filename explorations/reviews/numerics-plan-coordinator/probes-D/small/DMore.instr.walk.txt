@@ -1,0 +1,55 @@
+# check.sh instr walk DMore 2026-09-27T16:41:53Z; tree 1fbb7cb1a; nproc=4; load 12.98 8.98 5.70; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255
+# the probe's trace lines (@@PROBE-D, from its own file only):
+@@PROBE-D FN DMore.fss:8:18-31 expected=NONE
+@@PROBE-D FN-OK DMore.fss:8:18-31 sargs=[] range=T
+@@PROBE-D FN DMore.fss:11:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:11:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:11:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:11:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:11:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:11:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:12:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:12:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:12:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:12:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:12:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:12:34-39 sargs=[IntLiteral] range=BoxV[\IntLiteral\]
+@@PROBE-D FN DMore.fss:13:34-39 expected=NONE
+@@PROBE-D FN-OK DMore.fss:13:34-39 sargs=[ZZ32] range=BoxV[\ZZ32\]
+@@PROBE-D FN DMore.fss:15:16-20 expected=NONE
+@@PROBE-D FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN DMore.fss:15:16-20 expected=NONE
+@@PROBE-D FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN DMore.fss:15:16-20 expected=NONE
+@@PROBE-D FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN DMore.fss:16:16-21 expected=NONE
+@@PROBE-D FN-OK DMore.fss:16:16-21 sargs=[IntLiteral] range=()
+@@PROBE-D FN DMore.fss:18:15-21 expected=NONE
+@@PROBE-D FN-OK DMore.fss:18:15-21 sargs=[ZZ32] range=ZZ32->ZZ32
+@@PROBE-D FN DMore.fss:18:15-21 expected=NONE
+@@PROBE-D FN-OK DMore.fss:18:15-21 sargs=[ZZ32] range=ZZ32->ZZ32
+@@PROBE-D FN DMore.fss:18:15-24 expected=NONE
+@@PROBE-D FN-OK DMore.fss:18:15-24 sargs=[] range=ZZ32
+@@PROBE-D FN DMore.fss:20:18-24 expected=NONE
+@@PROBE-D FN-OK DMore.fss:20:18-24 sargs=[Boolean] range=Boolean
+@@PROBE-D FN DMore.fss:22:15-19 expected=NONE
+@@PROBE-D FN-FAIL DMore.fss:22:15-19
+@@PROBE-D FN DMore.fss:24:16-20 expected=NONE
+@@PROBE-D FN-FAIL DMore.fss:24:16-20
+# the probe component's own error lines (with 3 lines of context each):
+53:DMore.fss:11:34-39:
+54-    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
+55:DMore.fss:12:34-39:
+56-    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+57:DMore.fss:15:16-20:
+58-    Non-last expression in a block has type IntLiteral, but it must have () type.
+59:DMore.fss:22:15-19:
+60-    Could not check call to function make
+61-    - Could not infer static argument T without context.
+62:DMore.fss:24:16-20:
+63-    Could not check call to function make
+64-    - Could not infer static argument T without context.
+65-File DMore.fss has 5 errors.
+# tallies:
+File DMore.fss has 5 errors.
+### rc=-1

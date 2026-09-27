@@ -1,0 +1,57 @@
+# check.sh fix walk DArg 2026-09-27T16:35:00Z; tree 59ecdb72b; nproc=4; load 5.66 3.49 3.02; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255
+# the probe's trace lines (@@PROBE-D, from its own file only):
+@@PROBE-D FN DArg.fss:7:31-41 expected=BoxT[\T\]
+@@PROBE-D FN-OK DArg.fss:7:31-41 sargs=[] range=BoxT[\T\]
+@@PROBE-D FN DArg.fss:12:26-30 expected=ZZ64
+@@PROBE-D FN-FAIL DArg.fss:12:26-30
+@@PROBE-D FN DArg.fss:13:26-30 expected=RR64
+@@PROBE-D FN-FAIL DArg.fss:13:26-30
+@@PROBE-D FN DArg.fss:14:28-32 expected=String
+@@PROBE-D FN-FAIL DArg.fss:14:28-32
+@@PROBE-D FN DArg.fss:15:34-40 expected=BoxT[\ZZ64\]
+@@PROBE-D FN-FAIL DArg.fss:15:34-40
+@@PROBE-D FN DArg.fss:16:15-19 expected=ZZ64
+@@PROBE-D FN-FAIL DArg.fss:16:15-19
+@@PROBE-D FN DArg.fss:17:15-19 expected=ZZ64
+@@PROBE-D FN-FAIL DArg.fss:17:15-19
+@@PROBE-D FN DArg.fss:18:15-23 expected=ZZ64
+@@PROBE-D FN-FAIL DArg.fss:18:15-23
+@@PROBE-D FN DArg.fss:19:15-19 expected=ZZ64
+@@PROBE-D FN-FAIL DArg.fss:19:15-19
+@@PROBE-D FN DArg.fss:20:15-19 expected=ZZ32
+@@PROBE-D FN-OK DArg.fss:20:15-19 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN DArg.fss:21:14-18 expected=Any
+@@PROBE-D FN-OK DArg.fss:21:14-18 sargs=[IntLiteral] range=IntLiteral
+@@PROBE-D FN DArg.fss:22:26-30 expected=ZZ64
+@@PROBE-D FN-OK DArg.fss:22:26-30 sargs=[ZZ64] range=ZZ64
+@@PROBE-D FN DArg.fss:23:21-25 expected=IntLiteral
+@@PROBE-D FN-OK DArg.fss:23:21-25 sargs=[IntLiteral] range=IntLiteral
+# the probe component's own error lines (with 3 lines of context each):
+43:DArg.fss:12:26-30:
+44-    Could not check call to function idt
+45-    - [\T\]T->T is not applicable to an argument of type IntLiteral.
+46:DArg.fss:13:26-30:
+47-    Could not check call to function idt
+48-    - [\T\]T->T is not applicable to an argument of type IntLiteral.
+49:DArg.fss:14:28-32:
+50-    Could not check call to function idt
+51-    - [\T\]T->T is not applicable to an argument of type IntLiteral.
+52:DArg.fss:15:34-40:
+53-    Could not check call to function wrapT
+54-    - [\T\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+55:DArg.fss:16:15-19:
+56-    Could not check call to function idt
+57-    - [\T\]T->T is not applicable to an argument of type IntLiteral.
+58:DArg.fss:17:15-19:
+59-    Could not check call to function idt
+60-    - [\T\]T->T is not applicable to an argument of type ZZ32.
+61:DArg.fss:18:15-23:
+62-    Could not check call to function pick
+63-    - [\T\](T, T)->T is not applicable to an argument of type (ZZ64, IntLiteral).
+64:DArg.fss:19:15-19:
+65-    Could not check call to function inc
+66-    - [\T extends Integral[\T\]\]T->T is not applicable to an argument of type IntLiteral.
+67-File DArg.fss has 8 errors.
+# tallies:
+File DArg.fss has 8 errors.
+### rc=-1
