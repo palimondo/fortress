@@ -37,6 +37,7 @@ pushes, then packs loose objects. Three properties matter:
   session — and so a failing push is silent. Check
   `git -C <worktree> status -sb` if in doubt.
 - **It snapshots every session in the container**, not just the current one.
+- A `SessionStart` hook with matcher `compact` (2026-09-27, on Pavol's yes) injects, after every compaction, the instruction to boot by `coordinator/README.md` before anything else. It is in the tracked `.claude/settings.json` and in `~/.claude/settings.json`; a fresh container copies the second from the first.
 - The harness's other Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn; they are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
 
 ## Re-arming it in a fresh container
@@ -192,8 +193,11 @@ agents of climb batch 1 stopped at that second and the harness forgot the task
 unaffected. Recovery was the same as after the VM restart: the `wip/` branches
 and the worktrees held everything pushed and everything on disk, and the batch
 was relaunched from the same base with the same command. Two consequences: a
-check-in that fires during a batch should be left to finish its turn, and a
-Workflow run is never resumed after such a death, only relaunched.
+check-in that fires during a batch should be left to finish its turn, and,
+since no agent had finished, there was nothing for a resume to keep. When one
+has, the run is resumed with the same script text and `resumeFromRunId`, as
+batch 6b was on 2026-09-27 (`FACTS.md`, "A restart of the session's own
+process"; `resume-rule-archaeology.md`).
 
 A compaction is not an interrupt. The eight-rung climb of 2026-09-17 (run
 `wf_73833dfb-d25`) ran through two manual `/compact` commands, at 10:47 and 14:25

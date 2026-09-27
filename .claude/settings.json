@@ -9,6 +9,17 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf \"%s\\n\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"SessionStart\\\",\\\"additionalContext\\\":\\\"This session was just compacted. Before anything else, boot: read explorations/coordinator/README.md and follow its boot order (CLAUDE.md, explorations/protocol.md, explorations/coordinator/FACTS.md whole, POSITIONS.md, INDEX.md, the first section of explorations/microgpt-run-c-handover.md, the boot note at explorations/coordinator/postmortem-2026-09-19/held-list.md line 7, and for a running batch its record sections and journal). Only then continue what the summary describes, and say that the boot was done.\\\"}}\""
+          }
+        ]
+      }
     ]
   }
 }

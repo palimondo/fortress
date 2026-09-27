@@ -311,3 +311,7 @@
 
 <!-- 2026-09-27, first cleanup, 892687076: removed as a remark the protocol now carries -->
 - 2026-09-27, 01:08 UTC, after two batch 6 check-in reports: "No need to chat about the progress unless there's an issue." A check-in that finds the run healthy ends with "." only; a stuck agent, a dead run, low disk, a stop or a landing is reported (his rule of 2026-09-20, no progress reports until a batch lands, restated).
+
+Replaced 2026-09-27 in POSITIONS.md (the rule's last clause: a run stopped by accident is resumed, not relaunched, after the resume of batch 6b and `coordinator/resume-rule-archaeology.md`); the entry as it stood:
+
+- 2026-09-26, on the record's rule that a message sent while the coordinator is mid-turn kills a running batch: "This is probably like edge case that we encountered only once, or even there we might have misinterpreted that I accidentally pressed stop button and the diagnosis was wrong? Maybe this is a work for an archaeology worker (Sonnet for digging but Opus for final analysis/judgement?) so that we do not cargo cult around non-existent problem." The archaeology (`coordinator/interrupt-archaeology/`) found that stopping a turn kills the background agents and a message kills nothing (FACTS § The container); the error was the coordinator's. The rule for him now, which he has been told: send messages at any time; do not press stop while the session is working, including the seconds after a reply while the transcript backup runs; if a stop happens by accident, say so and the batch is relaunched.
