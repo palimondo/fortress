@@ -1,0 +1,299 @@
+# batch 4 rung:O (Opus 5.5), base 47437c65f; record: FACTS.md 97K, INDEX.md 66K, map/README.md 29K, map/compile-path-walkthrough.md 49K, map/design-intent-sources.md 36K, map/dormant-code.md 79K, map/modules-and-phases.md 59K, map/spec-to-implementation.md 69K, map/test-coverage.md 31K
+gathering calls 66; calls whose every named file the record names: 27
+
+[1] 820 bytes, 5266 ITE, pre-edit 1, targets brief
+  cmd: cd /home/user/fortress-overflow && git log --oneline -3 && wc -l explorations/coordinator/CLIMB-BATCH-4.md && grep -n '^#' explorations/coordinator/CLIMB-BATCH-
+  record names files: 0 of 1 []
+
+[2] 2202 bytes, 11956 ITE, pre-edit 1, targets brief
+  cmd: cd /home/user/fortress-overflow && sed -n 1,58p explorations/coordinator/CLIMB-BATCH-4.md; sed -n 137,250p explorations/coordinator/CLIMB-BATCH-4.md
+  record names files: 0 of 1 []
+
+[3] 31592 bytes, 154001 ITE, pre-edit 1, targets brief
+  cmd: /root/.claude/projects/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/tool-results/bjyg11gvp.txt
+  record names files: 0 of 0 []
+
+[4] 16411 bytes, 80277 ITE, pre-edit 1, targets kb|records
+  cmd: cd /home/user/fortress-overflow && sed -n 85,90p explorations/coordinator/POSITIONS.md; echo ----; sed -n 20,26p explorations/coordinator/FACTS.md; echo; sed -n
+  record names files: 2 of 2 ['FACTS.md', 'POSITIONS.md']
+
+[5] 13246 bytes, 64758 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && cat -n ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java
+  record names files: 1 of 1 ['Int.java']
+
+[6] 12751 bytes, 62379 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && cat -n ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java
+  record names files: 0 of 1 []
+
+[7] 2290 bytes, 12226 ITE, pre-edit 1, targets source|tests
+  cmd: cd /home/user/fortress-overflow && ls ProjectFortress/tests/ | grep -i -E 'overflow|IntSem'; cat -n ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss; ls Pro
+  record names files: 1 of 1 ['XXXFixedWidthOverflowRungB.fss']
+  search words found in record: 0 of 1 []
+
+[8] 7740 bytes, 38193 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n '^| 379 \|^| 146 \|^| 380 ' explorations/fortress-gap-ledger.md | cut -c1-6000
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['^| 379 \\|^| 146 \\|^| 380 ']
+
+[9] 2497 bytes, 13105 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-overflow && ls explorations/reviews/mie-probes/keep/nestprobe/; cat explorations/reviews/mie-probes/keep/nestprobe/run-tests.sh
+  record names files: 0 of 0 []
+
+[10] 3047 bytes, 15651 ITE, pre-edit 1, targets kb|source
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'overflow\|ZZ32\|integer arith\|Int.java' explorations/coordinator/map/spec-to-implementation.md | head -40; grep 
+  record names files: 2 of 2 ['Int.java', 'spec-to-implementation.md']
+  search words found in record: 1 of 1 ['overflow\\|ZZ32\\|integer arith\\|Int.java']
+
+[11] 5366 bytes, 26512 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && grep -n 'prim.Int\$\|prim.Long\$' Library/*.fss Library/*.fsi | head -60
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[12] 6698 bytes, 32646 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && sed -n 636,775p Library/FortressLibrary.fss
+  record names files: 1 of 1 ['FortressLibrary.fss']
+
+[13] 2125 bytes, 11140 ITE, pre-edit 1, targets library|source
+  cmd: cd /home/user/fortress-overflow && git grep -n -E 'prim\.(Int|Long)\$(Negate|Add|Sub|Mul|Div)\b' -- . ':!Library/FortressLibrary.fss' | head -20; echo ---; git 
+  record names files: 1 of 1 ['FortressLibrary.fss']
+  search words found in record: 1 of 1 ['prim\\.(Int|Long)\\$(Negate|Add|Sub|Mul|Div)\\b']
+
+[14] 31 bytes, 1352 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && grep -rn -E 'getInt\(\) *[-+*/] *|getLong\(\) *[-+*/] ' ProjectFortress/src/com/sun/fortress/interpreter | grep -v '/glue/pri
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[15] 1168 bytes, 6611 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && grep -rln -E 'FInt\.make\(' ProjectFortress/src/com/sun/fortress/interpreter | head -30; grep -rn -E 'FInt\.make\([^)]*[-+*][
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['FInt\\.make\\(']
+
+[16] 3696 bytes, 18235 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && grep -n 'class \|return' ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java | head -40; grep -n 'clas
+  record names files: 0 of 1 []
+  search words found in record: 1 of 1 ['class \\|return']
+
+[17] 1480 bytes, 7984 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && git grep -n -E 'prim\.ZZ32\$|prim\.NN32\$(Add|Sub|Mul|Negate)|prim\.UnsignedLong\$(Add|Sub|Mul)' -- Library | head; sed -n 80
+  record names files: 0 of 0 []
+
+[18] 4002 bytes, 19470 ITE, pre-edit 1, targets spec
+  cmd: cd /home/user/fortress-overflow && sed -n 135,215p Specification/basic/operators/opr-overview.tex
+  record names files: 0 of 1 []
+
+[19] 31 bytes, 1322 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && grep -n -E 'DOTPLUS|DOTMINUS|DOTTIMES|BOXPLUS|BOXMINUS|BOXTIMES|BOXDOT|dotplus|dottimes' Library/FortressLibrary.fss Library/
+  record names files: 1 of 1 ['FortressLibrary.fss']
+
+[20] 5696 bytes, 26964 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && ls Library/*.fss | wc -l; grep -n -i -E 'hash|seed|random|lcg|mix' Library/*.fss | grep -v '^\s*(\*' | head -60
+  record names files: 0 of 0 []
+  search words found in record: 1 of 2 ['^\\s*(\\*']
+
+[21] 3482 bytes, 16863 ITE, pre-edit 1, targets library|own
+  cmd: cd /home/user/fortress-overflow && ls Library/ | head -80; grep -n -E '\*|DOT|\+' Library/Random.fss 2>/dev/null | grep -v '^\s*[0-9]*:\s*(\*' | head -40
+  record names files: 0 of 1 []
+  search words found in record: 0 of 2 []
+
+[22] 7017 bytes, 32645 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && sed -n 215,400p Library/Random.fss
+  record names files: 0 of 1 []
+
+[23] 1163 bytes, 6353 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && grep -rn -E 'linearCongruential|LinearCongruential|mersenneTwister|MersenneTwister' --include=*.fss --include=*.fsi . | grep 
+  record names files: 0 of 0 []
+
+[24] 182 bytes, 1964 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && grep -n 'widen' Library/FortressLibrary.fss | head -20; grep -n 'widen' Library/FortressLibrary.fsi | head
+  record names files: 2 of 2 ['FortressLibrary.fsi', 'FortressLibrary.fss']
+  search words found in record: 2 of 2 ['widen', 'widen']
+
+[25] 1026 bytes, 5689 ITE, pre-edit 1, targets library
+  cmd: cd /home/user/fortress-overflow && sed -n 885,900p Library/FortressLibrary.fss; sed -n 535,545p Library/FortressLibrary.fsi
+  record names files: 2 of 2 ['FortressLibrary.fsi', 'FortressLibrary.fss']
+
+[27] 1121 bytes, 6052 ITE, pre-edit 1, targets own|source
+  cmd: cd /home/user/fortress-overflow && ls -la --time-style=full-iso ProjectFortress/build/com/sun/fortress/interpreter/glue/prim/Int.class ProjectFortress/build/com
+  record names files: 0 of 0 []
+
+[28] 608 bytes, 3786 ITE, pre-edit 1, targets own|source
+  cmd: cd /home/user/fortress-overflow && git show --stat c9faa7df4 -- ProjectFortress/src | tail -5; uptime; nproc; grep -m1 'model name' /proc/cpuinfo; grep -m1 'cpu
+  record names files: 0 of 0 []
+
+[30] 3990 bytes, 18366 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && git status --short | head; grep -n -E 'Exact|overflow|MIN_VALUE' ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleInt
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[31] 4268 bytes, 19567 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-overflow && cat explorations/compile-ladder/climb-batch-3.5/repair/overflow-xxx-harness.txt | head -80
+  record names files: 0 of 0 []
+
+[32] 5606 bytes, 25229 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-overflow && sed -n 80,200p explorations/compile-ladder/climb-batch-3.5/repair/overflow-xxx-harness.txt; cat explorations/compile-ladder/r
+  record names files: 0 of 0 []
+
+[33] 1220 bytes, 6334 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && grep -n -A25 'macrodef name="systemShard"' build.xml | head -40
+  record names files: 1 of 1 ['build.xml']
+
+[34] 2873 bytes, 13345 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-overflow && sed -n 56,95p ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java; sed -n 52,95p ProjectFortress/src/com/s
+  record names files: 1 of 1 ['simpleIntArith.java']
+
+[38] 3092 bytes, 14002 ITE, pre-edit 1, targets library|records
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'hash' Library/*.fss | head -20; grep -n -E '^\| (336|347) ' explorations/fortress-gap-ledger.md | cut -c1-1500
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 2 ['hash']
+
+[44] 818 bytes, 4369 ITE, pre-edit 0, targets 
+  cmd: cd /home/user/fortress-overflow && git grep -n 'FixedWidthOverflowRungB' -- . ':!explorations' | head; git grep -n -l 'FixedWidthOverflowRungB' -- explorations 
+  record names files: 0 of 0 []
+  search words found in record: 2 of 2 ['FixedWidthOverflowRungB', 'FixedWidthOverflowRungB']
+
+[51] 1480 bytes, 6802 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && P=explorations/compile-ladder/rung-int-semantics-compiled/probes; ls $P | head -50; sed -n 30,56p $P/IntSemTable-compiled-aft
+  record names files: 0 of 0 []
+
+[52] 2091 bytes, 9143 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && P=explorations/compile-ladder/rung-int-semantics-compiled/probes; wc -l $P/IntSemTable-compiled-after.txt $P/IntSemTableWalk-
+  record names files: 0 of 0 []
+
+[53] 448 bytes, 2738 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'overflow\|wrap' Specification/basic-lib/basic-integers.tex | head -30
+  record names files: 1 of 1 ['basic-integers.tex']
+  search words found in record: 1 of 1 ['overflow\\|wrap']
+
+[54] 4255 bytes, 17374 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && sed -n 1,40p Specification/basic-lib/basic-integers.tex | head -60; sed -n 370,395p Specification/basic-lib/basic-integers.te
+  record names files: 1 of 1 ['basic-integers.tex']
+
+[55] 344 bytes, 2311 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && grep -rn -i 'IntegerOverflow' Specification/basic Specification/basic-lib | head -20
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['IntegerOverflow']
+
+[56] 846 bytes, 4210 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && grep -rn -l 'ZZ32\|mathbb{Z}32\|Z}_{32}\|ZZ{32}' Specification/basic Specification/basic-lib | head; grep -rn 'fixed-size\|fi
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['ZZ32\\|mathbb{Z}32\\|Z}_{32}\\|ZZ{32}']
+
+[57] 31 bytes, 1107 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'overflow\|ZZ32\|{32}' Specification/basic/types-vals-vars.tex | head; grep -rn -i 'numeric-types\|seclabel{number
+  record names files: 1 of 1 ['types-vals-vars.tex']
+  search words found in record: 1 of 1 ['overflow\\|ZZ32\\|{32}']
+
+[58] 1557 bytes, 6879 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-overflow && sed -n 500,530p Specification/basic/types-vals-vars.tex
+  record names files: 1 of 1 ['types-vals-vars.tex']
+
+[59] 3478 bytes, 14071 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-overflow && F=ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java; sed -n 340,405p $F; sed -n 915,926p $F
+  record names files: 1 of 1 ['FileTests.java']
+
+[68] 1580 bytes, 5679 ITE, pre-edit 0, targets library|tests
+  cmd: cd /home/user/fortress-overflow && sed -n 1020,1035p Library/RangeInternals.fss; echo ....; sed -n 1195,1212p Library/RangeInternals.fss; echo ....; sed -n 90,1
+  record names files: 1 of 1 ['RangeInternals.fss']
+
+[72] 3486 bytes, 9404 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-overflow && sed -n 12,40p ProjectFortress/tests/intPrim.fss; echo .....; diff ProjectFortress/tests/intPrim.fss ProjectFortress/tests/lon
+  record names files: 0 of 1 []
+
+[73] 2296 bytes, 6364 ITE, pre-edit 0, targets library|tests
+  cmd: cd /home/user/fortress-overflow && sed -n 66,100p Library/ChunkedSparseArray.fss; echo ....; sed -n 70,86p ProjectFortress/tests/zeno.fss; echo ....; sed -n 12,
+  record names files: 2 of 2 ['ChunkedSparseArray.fss', 'zeno.fss']
+
+[75] 497 bytes, 1853 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && ls explorations/reviews/mie-probes/keep/ | head -30; cat explorations/reviews/mie-probes/keep/NestedWidth.walk.txt | head -20
+  record names files: 0 of 0 []
+
+[76] 343 bytes, 1464 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && cat explorations/reviews/mie-probes/keep/NestedWidth.fss
+  record names files: 0 of 1 []
+
+[85] 1881 bytes, 3745 ITE, pre-edit 0, targets library|own|source
+  cmd: cd /home/user/fortress-overflow && grep -n -E 'DOTPLUS|DOTMINUS|DOTTIMES|BOXPLUS|BOXMINUS|BOXTIMES|BOXDOT' ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss | 
+  record names files: 1 of 1 ['CompilerBuiltin.fss']
+  search words found in record: 0 of 1 []
+
+[87] 199 bytes, 784 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'xmx\|JAVA_FLAGS\|Xss' bin/fortress | head
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['xmx\\|JAVA_FLAGS\\|Xss']
+
+[90] 697 bytes, 1575 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n 'LSHIFT 63\|threeL\|three' explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTableWalk.fss | head;
+  record names files: 0 of 1 []
+  search words found in record: 1 of 1 ['LSHIFT 63\\|threeL\\|three']
+
+[91] 101 bytes, 586 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n '3 LSHIFT 63\|threeL:\|L3\b' explorations/compile-ladder/rung-int-semantics-compiled/probes/IntSemTableWalk.fss | hea
+  record names files: 0 of 1 []
+  search words found in record: 1 of 1 ['3 LSHIFT 63\\|threeL:\\|L3\\b']
+
+[95] 1454 bytes, 1799 ITE, pre-edit 0, targets library
+  cmd: cd /home/user/fortress-overflow && awk 'NR>=960 && NR<=1031 && /^(object|trait|value object)/ {print NR": "$0}' Library/RangeInternals.fss; awk 'NR>=1100 && NR<
+  record names files: 1 of 1 ['RangeInternals.fss']
+
+[96] 1623 bytes, 1976 ITE, pre-edit 0, targets library
+  cmd: cd /home/user/fortress-overflow && grep -n -E 'partitionL|split-1|split - 1' Library/*.fss | head -20
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[97] 1444 bytes, 1753 ITE, pre-edit 0, targets library
+  cmd: cd /home/user/fortress-overflow && sed -n 222,242p Library/Generator22D.fss; sed -n 670,680p Library/IntMap.fss
+  record names files: 2 of 2 ['Generator22D.fss', 'IntMap.fss']
+
+[101] 617 bytes, 830 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-overflow && grep -n -i 'addition\|a + b\|+ c' ProjectFortress/tests/QuickCheckTest.fss ProjectFortress/tests/ReflectiveQuickCheckTest.fss
+  record names files: 0 of 2 []
+  search words found in record: 1 of 1 ['addition\\|a + b\\|+ c']
+
+[102] 482 bytes, 687 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-overflow && grep -n -E '\+|DOT|juxta' ProjectFortress/tests/QuickCheckTest.fss | head -20
+  record names files: 0 of 1 []
+  search words found in record: 0 of 1 []
+
+[106] 31 bytes, 245 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n '^| 348 ' explorations/fortress-gap-ledger.md | grep -o -i '[^.]*walk[^.]*\.' | head -5
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 2 of 2 ['^| 348 ', '[^.]*walk[^.]*\\.']
+
+[107] 2601 bytes, 2355 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n '^| 348 ' explorations/fortress-gap-ledger.md | cut -c400-3000
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['^| 348 ']
+
+[111] 1129 bytes, 1029 ITE, pre-edit 0, targets library|tests
+  cmd: cd /home/user/fortress-overflow && F=ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java; grep -n 'startsWith("XXX")\|QuickCheckTest\|UNEXPECTE
+  record names files: 1 of 1 ['FileTests.java']
+  search words found in record: 1 of 1 ['startsWith(']
+
+[112] 2752 bytes, 2169 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-overflow && grep -n -o -i '[^|]\{0,120\}\(Long\$Pow\|Long\$Choose\|Int\.pow\|Int\.choose\|CHOOSE\)[^|]\{0,160\}' explorations/fortress-ga
+  record names files: 0 of 0 []
+
+[114] 2427 bytes, 1825 ITE, pre-edit 0, targets records|source
+  cmd: cd /home/user/fortress-overflow && grep -n '^===' explorations/compile-ladder/climb-batch-3.5/repair/overflow-xxx-harness.txt | cut -c1-120; grep -n 'Exact\|MIN
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['^===']
+
+[115] 456 bytes, 471 ITE, pre-edit 0, targets library|tests
+  cmd: cd /home/user/fortress-overflow && grep -n 'overflow' Library/Random.fss Library/RangeInternals.fss Library/ChunkedSparseArray.fss Library/IntMap.fss ProjectFor
+  record names files: 3 of 4 ['ChunkedSparseArray.fss', 'IntMap.fss', 'RangeInternals.fss']
+  search words found in record: 1 of 1 ['overflow']
+
+[116] 873 bytes, 723 ITE, pre-edit 0, targets library
+  cmd: cd /home/user/fortress-overflow && sed -n 55,70p Library/RangeInternals.fss; sed -n 348,352p Library/Random.fss
+  record names files: 1 of 2 ['RangeInternals.fss']
+
+[119] 2664 bytes, 1685 ITE, pre-edit 0, targets brief|library|source
+  cmd: cd /home/user/fortress-overflow && grep -n 'The count, first\|^### O\.' explorations/coordinator/CLIMB-BATCH-4.md; grep -n 'linearCongruential(seed:ZZ64)\|25214
+  record names files: 0 of 1 []
+  search words found in record: 1 of 1 ['The count, first\\|^### O\\.']
+
+[122] 16 bytes, 142 ITE, pre-edit 0, targets own|records
+  said: Now the tracked-path check.
+  cmd: cd /home/user/fortress-overflow && for p in $(grep -oE 'explorations/compile-ladder/[A-Za-z0-9._/-]+' explorations/compile-ladder/rung-walk-overflow/REPORT.md e
+  record names files: 1 of 1 ['REPORT.md']
+  search words found in record: 0 of 1 []

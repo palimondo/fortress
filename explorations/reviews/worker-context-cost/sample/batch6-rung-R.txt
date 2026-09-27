@@ -1,0 +1,388 @@
+# batch 6 rung:R (Opus 5.5), base e5414f5bf; record: FACTS.md 153K, INDEX.md 83K, map/README.md 29K, map/compile-path-walkthrough.md 49K, map/design-intent-sources.md 36K, map/dormant-code.md 79K, map/modules-and-phases.md 59K, map/spec-to-implementation.md 69K, map/test-coverage.md 31K
+gathering calls 88; calls whose every named file the record names: 51
+
+[1] 571 bytes, 3505 ITE, pre-edit 1, targets brief
+  said: Fresh branch. Let me read the decision record section for R and the relevant decisions.
+  cmd: cd /home/user/fortress-arm && wc -l explorations/coordinator/CLIMB-BATCH-6.md && grep -n '^#' explorations/coordinator/CLIMB-BATCH-6.md
+  record names files: 1 of 1 ['CLIMB-BATCH-6.md']
+
+[2] 2219 bytes, 10395 ITE, pre-edit 1, targets brief
+  cmd: cd /home/user/fortress-arm && sed -n 1,60p explorations/coordinator/CLIMB-BATCH-6.md && sed -n 151,290p explorations/coordinator/CLIMB-BATCH-6.md
+  record names files: 1 of 1 ['CLIMB-BATCH-6.md']
+
+[3] 17900 bytes, 76236 ITE, pre-edit 1, targets brief
+  cmd: cd /home/user/fortress-arm && sed -n 290,587p explorations/coordinator/CLIMB-BATCH-6.md | grep -n -i -B2 -A30 'unknown-size-arm\|rung R\b' | head -150
+  record names files: 1 of 1 ['CLIMB-BATCH-6.md']
+
+[4] 20697 bytes, 87522 ITE, pre-edit 1, targets brief
+  cmd: cd /home/user/fortress-arm && sed -n 5,58p explorations/coordinator/CLIMB-BATCH-6.md | cut -c1-3000
+  record names files: 1 of 1 ['CLIMB-BATCH-6.md']
+
+[5] 9904 bytes, 42234 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-arm && grep -n '^#' explorations/reviews/overloading-judgement.md; sed -n 160,168p explorations/coordinator/POSITIONS.md
+  record names files: 2 of 2 ['POSITIONS.md', 'overloading-judgement.md']
+
+[6] 7950 bytes, 33942 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-arm && sed -n 195,225p explorations/reviews/overloading-judgement.md; sed -n 270,300p explorations/reviews/overloading-judgement.md
+  record names files: 1 of 1 ['overloading-judgement.md']
+
+[7] 12017 bytes, 50528 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-arm && grep -n '^| 400 \|^| 416 \|^| 418 \|^| 417 \|^| 430 \|^| 431 ' explorations/fortress-gap-ledger.md | cut -c1-4000; grep -n '^| 4[0
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['^| 400 \\|^| 416 \\|^| 418 \\|^| 417 \\|^| 430 \\|^| 431 ']
+
+[8] 1805 bytes, 8456 ITE, pre-edit 1, targets kb
+  cmd: cd /home/user/fortress-arm && grep -n 'The compiled type checker checks nat and int static parameters\|An XXX\*.fss in the interpreter corpus IS\|The checker co
+  record names files: 0 of 0 []
+
+[9] 3661 bytes, 15976 ITE, pre-edit 1, targets kb
+  cmd: cd /home/user/fortress-arm && sed -n 61,62p explorations/coordinator/FACTS.md; grep -n 'XXX\*.fss in the interpreter corpus\|XXX.*interpreter corpus' exploratio
+  record names files: 1 of 1 ['FACTS.md']
+  search words found in record: 1 of 1 ['XXX\\*.fss in the interpreter corpus\\|XXX.*interpreter corpus']
+
+[10] 2452 bytes, 10994 ITE, pre-edit 1, targets kb|records
+  cmd: cd /home/user/fortress-arm && sed -n 72p explorations/coordinator/FACTS.md; ls explorations/compile-ladder/rung-nat-checker/probes/skeptic/ | head -60; 
+  record names files: 1 of 1 ['FACTS.md']
+
+[11] 5773 bytes, 24333 ITE, pre-edit 1, targets library|records
+  cmd: cd /home/user/fortress-arm/explorations/compile-ladder/rung-nat-checker/probes/skeptic && for f in SkDeadTop SkDeadVal SkDeadArm SkDeadArmT SkDeadTopT SkDeadN S
+  record names files: 0 of 0 []
+
+[15] 4590 bytes, 19162 ITE, pre-edit 1, targets source
+  said: While it builds, I'll read the code at the named sites.
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 1060,1180p useful/STypesUtil.scala
+  record names files: 1 of 1 ['STypesUtil.scala']
+
+[16] 7453 bytes, 30316 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 150,330p typechecker/impls/Functionals.scala
+  record names files: 1 of 1 ['Functionals.scala']
+
+[17] 6130 bytes, 24985 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 1,150p typechecker/impls/Functionals.scala
+  record names files: 1 of 1 ['Functionals.scala']
+
+[18] 15671 bytes, 62289 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 330,700p typechecker/impls/Functionals.scala
+  record names files: 1 of 1 ['Functionals.scala']
+
+[19] 8984 bytes, 35953 ITE, pre-edit 1, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 90,290p Specification/basic/overloading.tex
+  record names files: 1 of 1 ['overloading.tex']
+
+[20] 329 bytes, 2278 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -rn 'NoContextError\|makeNoContextError\|hasSizeInferenceVars' --include=*.sca
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[21] 1932 bytes, 8434 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress && grep -rn 'makeNoContextError\|class NoContextError\|NoContextError' --include=*.java --includ
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[22] 9428 bytes, 37078 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress && cat exceptions/ApplicationError.scala | sed -n 1,260p
+  record names files: 1 of 1 ['ApplicationError.scala']
+
+[23] 378 bytes, 2428 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -rn 'def moreSpecific' --include=*.scala . ; grep -rn 'case class AppCandidate
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['def moreSpecific']
+
+[24] 4368 bytes, 17523 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 40,110p typechecker/CoercionOracle.scala; sed -n 90,130p useful/STypesUtil.s
+  record names files: 1 of 1 ['CoercionOracle.scala']
+
+[25] 2905 bytes, 11918 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -rn 'checkApplication(' --include=*.scala . | grep -v 'def checkApplication'; 
+  record names files: 0 of 0 []
+  search words found in record: 1 of 2 ['def checkApplication']
+
+[28] 313 bytes, 2133 ITE, pre-edit 1, targets source
+  cmd: cd /home/user/fortress-arm && sed -n 1,30p ProjectFortress/build.xml; git status --short | head
+  record names files: 1 of 1 ['build.xml']
+
+[30] 1872 bytes, 7853 ITE, pre-edit 1, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && ls | grep -i '^Nat\|^XXXNat' ; for f in XXXNatMismatchChecker.test NatInferredChecker.test XXXNatDi
+  record names files: 0 of 2 []
+  search words found in record: 1 of 1 ['^Nat\\|^XXXNat']
+
+[31] 3632 bytes, 14256 ITE, pre-edit 1, targets library|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && for f in XXXNatMismatchChecker XXXNatAmbigChecker XXXNatRetSizeChecker XXXNatLitArgChecker; do echo
+  record names files: 0 of 0 []
+
+[32] 1997 bytes, 8220 ITE, pre-edit 1, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && grep -n 'shouldFail\|compile_err_contains\|_contains\|XXX' FileTests.java | 
+  record names files: 1 of 1 ['FileTests.java']
+  search words found in record: 1 of 1 ['shouldFail\\|compile_err_contains\\|_contains\\|XXX']
+
+[33] 5709 bytes, 21593 ITE, pre-edit 1, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && sed -n 120,200p FileTests.java; sed -n 540,600p FileTests.java
+  record names files: 1 of 1 ['FileTests.java']
+
+[34] 816 bytes, 3874 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-arm && cat explorations/compile-ladder/rung-nat-checker/probes/skeptic/junit-rerun.sh | head -60
+  record names files: 0 of 0 []
+
+[35] 6746 bytes, 25086 ITE, pre-edit 1, targets kb
+  cmd: cd /home/user/fortress-arm/explorations/coordinator/map && grep -n -i 'overload\|static param\|nat ' spec-to-implementation.md | head -30
+  record names files: 1 of 1 ['spec-to-implementation.md']
+  search words found in record: 1 of 1 ['overload\\|static param\\|nat ']
+
+[39] 3812 bytes, 14245 ITE, pre-edit 1, targets library|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && for f in NatDispArmChecker NatRtDisp NatRtDispLit NatRtDispSize NatRtOver NatExcludeOverload; do ec
+  record names files: 0 of 0 []
+
+[40] 813 bytes, 3731 ITE, pre-edit 1, targets records
+  cmd: cd /home/user/fortress-arm/explorations/coordinator && grep -n -i 'compiler track\|testFast.*count\|tests run\|Tests run' climb-batch-workflow.js | head -20
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['compiler track\\|testFast.*count\\|tests run\\|Tests run']
+
+[41] 3412 bytes, 12694 ITE, pre-edit 1, targets library|tests
+  cmd: cd /home/user/fortress-arm && cat ProjectFortress/compiler_tests/NatRtBigSize.fss ProjectFortress/compiler_tests/NatRtBigSize.test; cd explorations/compile-ladd
+  record names files: 0 of 2 []
+
+[42] 3543 bytes, 13069 ITE, pre-edit 1, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 55,110p Specification/basic/trait-parameters.tex; sed -n 70,95p Specification/basic/expressions/literals.tex
+  record names files: 2 of 2 ['literals.tex', 'trait-parameters.tex']
+
+[43] 2842 bytes, 10596 ITE, pre-edit 1, targets spec
+  cmd: cd /home/user/fortress-arm && grep -rn -i 'nat.*param\|\\KWD{nat}' Specification/basic/*.tex Specification/basic/expressions/*.tex | grep -v '^Specification/bas
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[44] 3234 bytes, 11864 ITE, pre-edit 1, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 50,120p Specification/basic/expressions/constant.tex
+  record names files: 1 of 1 ['constant.tex']
+
+[45] 6436 bytes, 22598 ITE, pre-edit 1, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && sed -n 600,680p FileTests.java; sed -n 700,780p FileTests.java
+  record names files: 1 of 1 ['FileTests.java']
+
+[46] 5369 bytes, 18878 ITE, pre-edit 1, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && sed -n 296,420p FileTests.java
+  record names files: 1 of 1 ['FileTests.java']
+
+[50] 237 bytes, 1636 ITE, pre-edit 0, targets library|own|source|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress && grep -rln 'UnknownSize\|NatKnownSize\|WalkSizeExcl\|WalkBigNat\|NatSizeExcl' --include=*.fss --include=*.fsi --inc
+  record names files: 0 of 0 []
+
+[51] 1343 bytes, 5244 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/tests && cat NatParamOverloading.fss instantiateNatParam.fss | head -80
+  record names files: 0 of 2 []
+
+[53] 2628 bytes, 9330 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations/compile-ladder && cat rung-nat-checker/probes/DeadValWritten.fss; cat rung-size-runtime/probes/row400-repair.txt | head 
+  record names files: 0 of 1 []
+
+[55] 1993 bytes, 7186 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 205,245p Specification/basic/types-vals-vars.tex
+  record names files: 1 of 1 ['types-vals-vars.tex']
+
+[56] 1793 bytes, 6505 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && grep -n -i 'exclu' Specification/basic/overloading.tex Specification/advanced/overloading.tex | head -20
+  record names files: 1 of 1 ['overloading.tex']
+  search words found in record: 1 of 1 ['exclu']
+
+[57] 1216 bytes, 4647 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 240,275p Specification/advanced/overloading.tex
+  record names files: 1 of 1 ['overloading.tex']
+
+[58] 2096 bytes, 7369 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress && grep -n '"junit"' -A25 Shell.java | head -50
+  record names files: 1 of 1 ['Shell.java']
+
+[59] 2874 bytes, 9733 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && grep -n 'suiteFromListOfFiles' -A45 FileTests.java | sed -n 1,80p
+  record names files: 1 of 1 ['FileTests.java']
+  search words found in record: 1 of 1 ['suiteFromListOfFiles']
+
+[60] 2836 bytes, 9535 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && sed -n 942,1000p FileTests.java
+  record names files: 1 of 1 ['FileTests.java']
+
+[61] 2967 bytes, 9894 ITE, pre-edit 0, targets source|tests
+  cmd: cd /home/user/fortress-arm && grep -n 'name="testSystem"' -A40 build.xml | head -60; grep -rn 'SystemJUTest\|class .*JUTest' ProjectFortress/src/com/sun/fortres
+  record names files: 1 of 1 ['build.xml']
+  search words found in record: 1 of 2 ['SystemJUTest\\|class .*JUTest']
+
+[62] 1321 bytes, 4814 ITE, pre-edit 0, targets source|tests
+  cmd: cd /home/user/fortress-arm && grep -n 'macrodef name="systemShard"' -A30 build.xml; grep -rn 'shard' ProjectFortress/src/com/sun/fortress/tests/unit_tests/Syste
+  record names files: 1 of 1 ['build.xml']
+  search words found in record: 1 of 2 ['shard']
+
+[63] 1546 bytes, 5463 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm && sed -n 1,80p ProjectFortress/src/com/sun/fortress/tests/unit_tests/SystemJUTest.java | grep -v '^\s*\*\|^/\*\|^$'; grep -rn 'fortr
+  record names files: 1 of 1 ['SystemJUTest.java']
+  search words found in record: 1 of 1 ['^\\s*\\*\\|^/\\*\\|^$']
+
+[64] 484 bytes, 2235 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm && cat bin/fortress | grep -v '^#' | head -60
+  record names files: 0 of 0 []
+
+[66] 5851 bytes, 18108 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations && cat compile-ladder/repair-r1-atomic-static/run-subset.sh; head -5 compile-ladder/repair-r1-atomic-static/subset.txt; 
+  record names files: 0 of 0 []
+
+[67] 575 bytes, 2456 ITE, pre-edit 0, targets library|own|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress && grep -l '\[\\[^\\]*\b\(nat\|int\) [a-zA-Z]' tests/*.fss not_working_library_tests/*.fss 2>/dev/null | wc -l; grep 
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['\\[\\\\[^\\\\]*\\b\\(nat\\|int\\) [a-zA-Z]']
+
+[70] 2903 bytes, 9112 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/tests/unit_tests && sed -n 466,540p FileTests.java
+  record names files: 1 of 1 ['FileTests.java']
+
+[72] 2737 bytes, 8510 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && sed -n 740,760p typechecker/impls/Functionals.scala; sed -n 820,850p typechecker/im
+  record names files: 1 of 1 ['Functionals.scala']
+
+[76] 208 bytes, 1290 ITE, pre-edit 0, targets 
+  cmd: cd /home/user/fortress-arm && git log --oneline -2 && git status -sb | head -2
+  record names files: 0 of 0 []
+
+[77] 4879 bytes, 14065 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations/coordinator/tools/checker-count && ls; sed -n 1,80p run.sh
+  record names files: 0 of 0 []
+
+[84] 390 bytes, 1685 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations && grep -rln 'NatArm' --include=*.md . | head; find . -name 'NatArm*.fss' | head
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[85] 1135 bytes, 3588 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations/reviews && cat overload-static-params-ways/probes/NatArmViaAny.fss; grep -n -i 'NatArmViaAny\|NatArm' overload-static-pa
+  record names files: 0 of 1 []
+  search words found in record: 0 of 1 []
+
+[86] 3650 bytes, 9977 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations/reviews && sed -n 240,280p overload-static-params-ways.md; cat overload-static-params-ways/probes/NatArmNoParam.fss
+  record names files: 1 of 2 ['overload-static-params-ways.md']
+
+[87] 4153 bytes, 11170 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm/explorations && sed -n 225,253p reviews/overloading-judgement.md; grep -n 'NatArmViaAny\|NatArmNoParam\|NatArmShowN' fortress-gap-led
+  record names files: 1 of 1 ['overloading-judgement.md']
+  search words found in record: 0 of 1 []
+
+[88] 1385 bytes, 4129 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -n 'def pruneMethodCandidates' -A30 useful/STypesUtil.scala
+  record names files: 1 of 1 ['STypesUtil.scala']
+  search words found in record: 1 of 1 ['def pruneMethodCandidates']
+
+[89] 1413 bytes, 4165 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -n 'val (candidates, overloadingErrors)' -A20 typechecker/impls/Functionals.sc
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['val (candidates, overloadingErrors)']
+
+[94] 1509 bytes, 4222 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress && grep -n 'unfixed\|makeNoContextError\|val (candidates, overloadingErrors)\|if (candidates.isE
+  record names files: 0 of 0 []
+
+[95] 299 bytes, 1322 ITE, pre-edit 0, targets own|source
+  cmd: cd /home/user/fortress-arm && grep -rn 'checkApplicable(' ProjectFortress/src/com/sun/fortress --include=*.scala | grep -v 'def checkApplicable'; wc -l < tmp/ne
+  record names files: 0 of 0 []
+  search words found in record: 1 of 2 ['def checkApplicable']
+
+[98] 354 bytes, 1415 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && for t in XXXNatExtendsTwice NatExtendsTwiceLink XXXNatRtTask NatRtTaskLink XXXNatRtMethBoth NatRtMe
+  record names files: 0 of 0 []
+
+[102] 473 bytes, 1629 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && grep -n 'is \\emph{applicable} to a call\|We assume throughout this chapter\|we consider the declarations that are applicable to t
+  record names files: 0 of 0 []
+
+[103] 1205 bytes, 3225 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && sed -n 752,778p Documentation/Specification/Prose/Language/types.tick
+  record names files: 0 of 0 []
+
+[114] 3454 bytes, 7337 ITE, pre-edit 0, targets records|source
+  cmd: cd /home/user/fortress-arm && sed -n 244,260p ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala | cat -n | sed 's/^/+243 /'; se
+  record names files: 1 of 1 ['Functionals.scala']
+
+[117] 31 bytes, 556 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && grep -n 'Object\$RTTIc\|only in the return type\|only in its return type\|only in the range' explorations/fortress-gap-ledger.md |
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+
+[118] 300 bytes, 1060 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && grep -n -i 'without context\|no-context\|NoContext\|dropped from static' explorations/fortress-gap-ledger.md | cut -c1-300 | head
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['without context\\|no-context\\|NoContext\\|dropped from static']
+
+[122] 342 bytes, 1090 ITE, pre-edit 0, targets library|own|source|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress && grep -l '\[\\[^\\]*\b\(nat\|int\) [a-zA-Z]' compiler_tests/*.fss compiler_tests/*.fsi library_tests/*.fss library_
+  record names files: 0 of 0 []
+  search words found in record: 1 of 1 ['\\[\\\\[^\\\\]*\\b\\(nat\\|int\\) [a-zA-Z]']
+
+[123] 667 bytes, 1659 ITE, pre-edit 0, targets library|tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && for f in Compiled1.ah Compiled1.av Compiled1.p Compiled5.z Compiled6.af; do echo "== $f: $(ls $f.* 
+  record names files: 0 of 0 []
+
+[124] 3708 bytes, 7022 ITE, pre-edit 0, targets tests
+  cmd: cd /home/user/fortress-arm/ProjectFortress/compiler_tests && cat AfterTypeChecking.test XXX1p.test XXX5z.test; grep -n 'Compiled1.ah\|Compiled1.av\|Compiled6.af
+  record names files: 3 of 3 ['AfterTypeChecking.test', 'XXX1p.test', 'XXX5z.test']
+
+[125] 1731 bytes, 3482 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && sed -n 46,49p explorations/coordinator/PLAN.md | cut -c1-1500
+  record names files: 1 of 1 ['PLAN.md']
+
+[127] 1029 bytes, 2201 ITE, pre-edit 0, targets source
+  cmd: cd /home/user/fortress-arm/ProjectFortress/src/com/sun/fortress/scala_src && grep -n 'checkApplication(' typechecker/impls/Functionals.scala; grep -n 'def moreS
+  record names files: 1 of 1 ['Functionals.scala']
+  search words found in record: 0 of 1 []
+
+[133] 1211 bytes, 2331 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && cat -n Specification/basic/inference.tex | sed -n 1,40p
+  record names files: 1 of 1 ['inference.tex']
+
+[140] 301 bytes, 808 ITE, pre-edit 0, targets own|records
+  cmd: cd /home/user/fortress-arm && grep -rln 'Operation took' explorations/coordinator/*.js explorations/coordinator/*.md explorations/fortress-gap-ledger.md explora
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['Operation took']
+
+[149] 1236 bytes, 1878 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && awk -F'|' 'NR>5 {print $4}' explorations/fortress-gap-ledger.md | sed 's/^ *//;s/ *$//' | sort | uniq -c | sort -rn | head -15; gr
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+
+[150] 1847 bytes, 2601 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && grep -n '^| # \|^|---' explorations/fortress-gap-ledger.md | head -5; grep -n 'NEGATIVE-VERIFIED (at `6030e4b36`), POSITIVE-VERIFI
+  record names files: 1 of 1 ['fortress-gap-ledger.md']
+  search words found in record: 1 of 1 ['^| # \\|^|---']
+
+[151] 678 bytes, 1139 ITE, pre-edit 0, targets source|tests
+  cmd: cd /home/user/fortress-arm && grep -n 'if (shouldFail) {\|Saw failure, but did not satisfy\|Saw wrong failure\|Missing expected failure\|boolean anyFails' Proje
+  record names files: 0 of 0 []
+
+[156] 327 bytes, 653 ITE, pre-edit 0, targets spec
+  cmd: cd /home/user/fortress-arm && cat -n Specification/basic/overloading.tex | sed -n 290,310p
+  record names files: 1 of 1 ['overloading.tex']
+
+[158] 508 bytes, 822 ITE, pre-edit 0, targets records
+  cmd: cd /home/user/fortress-arm && sed -n 120,130p explorations/protocol.md | cut -c1-400
+  record names files: 1 of 1 ['protocol.md']
+
+[161] 2121 bytes, 2401 ITE, pre-edit 0, targets library|source|tests
+  cmd: cd /home/user/fortress-arm && grep -rln 'NatUnknownSize\|NatKnownSizeArm\|NatSizeExclusionWalk\|NatBigSizeWalk' ProjectFortress Library --include=*.fss --includ
+  record names files: 0 of 0 []
+
+[163] 515 bytes, 749 ITE, pre-edit 0, targets own|source
+  cmd: cd /home/user/fortress-arm && F=ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala; sed -n 474,477p $F | cat -A | cut -c1-60; se
+  record names files: 1 of 1 ['Functionals.scala']
+
+[165] 181 bytes, 408 ITE, pre-edit 0, targets own|records
+  cmd: cd /home/user/fortress-arm && SLUG=rung-unknown-size-arm; for p in $(grep -oE 'explorations/compile-ladder/[A-Za-z0-9._/-]+' explorations/compile-ladder/$SLUG/R
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[169] 701 bytes, 830 ITE, pre-edit 0, targets library
+  cmd: cd /home/user/fortress-arm && grep -n '^assert\|^ *assert(' Library/FortressLibrary.fsi | head; grep -n 'assert(' ProjectFortress/LibraryBuiltin/CompilerBuiltin
+  record names files: 1 of 1 ['FortressLibrary.fsi']
+  search words found in record: 2 of 2 ['^assert\\|^ *assert(', 'assert(']
+
+[179] 500 bytes, 500 ITE, pre-edit 0, targets own|records
+  cmd: cd /home/user/fortress-arm && SLUG=rung-unknown-size-arm; for p in $(grep -oE 'explorations/compile-ladder/[A-Za-z0-9._/-]+' explorations/compile-ladder/$SLUG/R
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
+
+[182] 603 bytes, 515 ITE, pre-edit 0, targets own|records
+  cmd: cd /home/user/fortress-arm && for p in $(grep -oE 'explorations/compile-ladder/[A-Za-z0-9._/-]+' /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a
+  record names files: 0 of 0 []
+  search words found in record: 0 of 1 []
