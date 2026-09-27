@@ -70,7 +70,14 @@ const MAIN = '/home/user/fortress'
 // rung of this batch declares one, so any change of the crash row is red).
 // Optional: landsOnlyWith, the ids of the rungs a rung lands only with; the
 // script applies it after the scatter, so T, which names F, reaches the gather
-// only when F is approved, and so does O beside F.
+// only when F is approved, and so does O beside F. Optional: facts, the rung's
+// list for explorations/coordinator/tools/facts-extract.sh (a FACTS.md title's
+// distinctive substring, or section:, index:, map: or doc: and its words; the
+// tool's --help), rendered into the first step of every role on the rung and
+// into the shared prefix; no double quote, backtick, dollar sign or backslash.
+// Each rung's list is the entries, notes and map sections its section of the
+// record cites or rests on, checked with the tool's --check to match one each;
+// batch 6's four were added on 2026-09-27 and are not in the record's section 7.
 //
 // Batch 6's values are CLIMB-BATCH-6.md, sections 3, 6 and 7. Each tail is
 // that rung's section of section 3 word for word, with the record's code-span
@@ -279,18 +286,40 @@ const O_TAIL = [
 
 const F_ENTRY = { id: 'F', slug: 'rung-flat-tower', path: '/home/user/fortress-flat', branch: 'wip/rung-flat-tower', tail: F_TAIL, expectedMinutes: 300, writesState: true, testIsStage: false, expectedCheckerCount: 44,
     blurb: "route A's flattening of the one library's number tower: the number types siblings under Number with their own algebra, answer 8's coercions, SUM and PROD as answer 7's typed reductions, the three Number-typed big operators dropped, the rational arithmetic exact (row 428), 25 approved team-test lines and the approved microGPT lines respelled; library and tests, no Java. writesState, because a reduction's identity is joined at each split of a parallel generator.",
+    facts: ["The compiled checker's exclusion rule is the designers' multiple instantiation exclusion", "The exclusion fork, priced three ways", "The flattening's three questions",
+      "The true distance to the switch-over", "An inferred generic refuses a coercion that the method it forwards to accepts", "The replacement for SUM's and PROD's catch-all",
+      "The coercions between number types carry a sum's zero", "The tower closure of 02d09a39f", "The library's scalar extension is eight generic declarations",
+      "Route A's generic container obligations", "Vector and Matrix inherit", "Under walk, the interpreter converts by coercion at its three kinds of type check",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "The interpreter's overload-ambiguity message", "testSystem's four shards are one suite",
+      "index:flattening", "index:SUM PROD", "index:identities",
+      "map:spec-to-implementation.md#The tower in", "map:spec-to-implementation.md#What the compiler prelude has of the tower"],
     expectedMoves: [] }
 
 const T_ENTRY = { id: 'T', slug: 'rung-spec-numbers', path: '/home/user/fortress-numbers', branch: 'wip/rung-spec-numbers', tail: T_TAIL, expectedMinutes: 120, writesState: false, testIsStage: false, expectedCheckerCount: 125, landsOnlyWith: ['F'],
     blurb: "the specification's three number chapters revised to the flat library (answer 6) in rung S's layered form, the superseded advanced chapter kept word for word, answer 7's note in the reductions chapter; an original-tree edit, Specification-1.0-frozen/ untouched, Specification/fortress.pdf re-rendered. No source and no test.",
+    facts: ["section:The specification and the repository's lineage", "The specification's own examples that the multiple instantiation exclusion refuses",
+      "The flattening's three questions", "The compiled checker's exclusion rule is the designers' multiple instantiation exclusion",
+      "index:number chapters", "index:lineage", "map:spec-to-implementation.md#Parts IV"],
     expectedMoves: [] }
 
 const R_ENTRY = { id: 'R', slug: 'rung-unknown-size-arm', path: '/home/user/fortress-arm', branch: 'wip/rung-unknown-size-arm', tail: R_TAIL, expectedMinutes: 90, writesState: false, testIsStage: false, expectedCheckerCount: 125,
     blurb: "the compiled checker refuses a call whose chosen overload has a size the call cannot fix (answer 12, row 400), with two expected-failure compile tests, and the expected-failure walk tests rows 416 and 418 owe; Scala under scala_src/.",
+    facts: ["The compiled type checker checks nat and int static parameters", "The return-type rule now reads a size as it reads a type parameter",
+      "A size is carried at run time as a descriptor from RTTIsize.of", "overloads may not differ in static parameters",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "The XXX expected-failure mechanism in compiler_tests/ and library_tests/",
+      "The ladder-regression stage's baseline", "ant compileAll leaves the bytecode cache holding no library jars", "ant compileAll deletes a tracked file",
+      "index:overloading", "map:compile-path-walkthrough.md#How it differs from the interpreter"],
     expectedMoves: [] }
 
 const O_ENTRY = { id: 'O', slug: 'rung-overflow-natives', path: '/home/user/fortress-overflow', branch: 'wip/rung-overflow-natives', tail: O_TAIL, expectedMinutes: 150, writesState: false, testIsStage: false, landsOnlyWith: FOLLOWUP ? [] : ['F'],
     blurb: "the ten signed and eight unsigned arithmetic natives of the interpreter raise IntegerOverflow (row 379), row 379's expected failure promoted to a plain test, the demo HeapShakedown respelled (row 427); Java, four glue classes.",
+    facts: ["Under walk, a native can raise a Fortress exception", "The compiled path's integer rules", "The interpreter's integer rules",
+      "What relies on fixed-width wrapping under walk", "five of the team's tests rely on fixed-width wrapping", "The specification's wrapping operators",
+      "The one library's number tower is flat", "The repair turns one loud failure into a quiet value", "ant compileAll deletes a tracked file",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "testSystem's four shards are one suite", "Three heaps run the interpreter",
+      "The interpreter's overload-ambiguity message",
+      "index:IntegerOverflow", "index:wrapping",
+      "map:modules-and-phases.md#Native code and Java interop", "map:test-coverage.md#The corpora on disk"],
     expectedMoves: [] }
 
 const RUNGS = FOLLOWUP ? [O_ENTRY] : (O_BESIDE_F ? [F_ENTRY, T_ENTRY, R_ENTRY, O_ENTRY] : [F_ENTRY, T_ENTRY, R_ENTRY])
@@ -450,6 +479,45 @@ const GATE_OUT = LOG_DIR + '/out'   // the gate writes here during the run, untr
 const SCATTER = RUNGS.slice().sort((a, b) => (b.expectedMinutes || 0) - (a.expectedMinutes || 0))
 
 // ---------------------------------------------------------------------------
+// The record lookup: the first step of every role that works on a rung, and a
+// section of the shared prefix. The agents of the early climbs decided
+// locally; the maps and FACTS exist so that an agent works from the whole
+// territory (Pavol, 2026-09-27). --common prints what every agent reads; a
+// rung's facts, from its manifest entry, what the record holds for that rung.
+// The tool prints in parts of at most 28 KB, under what one shell command
+// shows an agent. climb-batch-workflow.md, "Shared prefix".
+// ---------------------------------------------------------------------------
+
+const LOOKUP_TOOL = 'explorations/coordinator/tools/facts-extract.sh'
+RUNGS.forEach(r => {
+  if (r.facts === undefined) return
+  const bad = Array.isArray(r.facts)
+    ? r.facts.filter(q => typeof q !== 'string' || !q.trim() || q.startsWith('-') || /["\x60$\\\n]/.test(q))
+    : [String(r.facts)]
+  if (bad.length) throw new Error('rung ' + r.id + ': facts is a list of strings, none empty or opening with -, and none holding a double quote, a backtick, a dollar sign, a backslash or a newline, since each is rendered in double quotes: ' + bad.join(' | '))
+})
+const hasList = (r) => Array.isArray(r.facts) && r.facts.length > 0
+const lookupCommand = (r) => LOOKUP_TOOL + ' ' + r.facts.map(q => '"' + q + '"').join(' ')
+
+// Step 1 of a role on one rung (rungs = [rung], in its worktree) or on the
+// merged tree (rungs = RUNGS, in the main tree). lead opens the step: step 1
+// of a numbered order by default, the words given in a role that has none.
+function lookupStep(rungs, where, lead) {
+  const listed = rungs.filter(hasList)
+  const whose = rungs.length === 1
+    ? (listed.length ? 'the second, what the record holds for this rung. For a topic the list does not cover' : 'this rung has no list of its own. For every topic')
+    : (listed.length ? 'the others, what the record holds for ' + listed.map(r => r.id).join(', ') + ', in that order. For a topic the lists do not cover' : 'no rung of this run has a list of its own. For every topic')
+  return [
+(lead || '1. Before anything else,') + ' run ' + (listed.length ? 'these commands' : 'this command') + ' in ' + where + ' and read all ' + (listed.length ? 'they print' : 'it prints') + '. Output that ends by naming a next part is continued by the same command with --part 2, then 3, until it says it printed the last.',
+'',
+'        ' + LOOKUP_TOOL + ' --common',
+...listed.map(r => '        ' + lookupCommand(r)),
+'',
+'   ' + (listed.length ? 'The first' : 'It') + ' is the same for every agent: the map\'s terms, the shape of the system and what moves with what, where this batch sits in PLAN.md, and explorations/repo-internals.md' + (listed.length ? '; ' : '. ') + (listed.length ? whose : whose.charAt(0).toUpperCase() + whose.slice(1)) + ', search explorations/coordinator/INDEX.md and the maps under explorations/coordinator/map/ before the tree.',
+  ]
+}
+
+// ---------------------------------------------------------------------------
 // The shared prefix. batched-climb-plan.md section 8: every agent in a batch
 // opens with the same block, byte-identical and in the same order. No backticks
 // anywhere in these strings; code is indented instead.
@@ -511,6 +579,14 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 'The default bound is 480 s so that one wait_for call stays inside the tool\'s 10-minute ceiling; ant testFast is longer than that, so call wait_for again until it prints the BUILD line. Do not chain shorter sleeps in one call.',
 '',
 'A capture you intend to commit is named .txt. Never .out and never .log: .gitignore:42,46 swallow both, which is how four probe captures cited by two ledger rows were nearly landed untracked.',
+'',
+'## The record on file - read it before you search the tree',
+'',
+'The agents of the early climbs went wrong on decisions made locally. The territory map below, explorations/coordinator/FACTS.md (what the project has established, grouped by area, each entry cited by its bold title) and explorations/coordinator/INDEX.md (one line per standalone note) exist so that every agent works from the whole territory. Most of FACTS is about other work, so the first step of every role that works on a rung runs ' + LOOKUP_TOOL + ' twice: with --common it prints what every agent reads, and with the rung\'s list, from its manifest entry, what the record holds for that rung, each FACTS entry whole under its section heading, and what it did not find. The lists of this run:',
+'',
+RUNGS.map(r => '    ' + r.id + ': ' + (hasList(r) ? lookupCommand(r) : 'none; search INDEX.md and the maps for its topics')).join('\n'),
+'',
+'For a topic a list does not cover, search INDEX.md and the relevant map before the tree. Cite a FACTS entry by its bold title.',
 '',
 '## The territory map - read the parts your task needs, do not go looking',
 '',
@@ -600,30 +676,31 @@ function rungRole(rung) {
 '',
 'From explorations/coordinator/PLAN.md, and this is the part Pavol called load-bearing:',
 '',
+...lookupStep([rung], 'your worktree (' + rung.path + ')'),
 ...(rung.testIsStage ? [
-'1. Your rung declares testIsStage in the manifest, so its failing-then-passing test is the gate\'s checker-count stage (gate step 8) and NOT a .fss program: no program can yet be compiled against the interpreter\'s prelude, and this is the one place the test-first rule is met by a permanent stage instead of a test file (explorations/coordinator/library-route-judgement.md section 2 step 1; Pavol\'s decision of 2026-09-21, POSITIONS.md, "the library route"). So FIRST, before any edit, read the header of explorations/coordinator/tools/checker-count/run.sh and run it in your worktree (ant compileAll must have run there first):',
+'2. Your rung declares testIsStage in the manifest, so its failing-then-passing test is the gate\'s checker-count stage (gate step 8) and NOT a .fss program: no program can yet be compiled against the interpreter\'s prelude, and this is the one place the test-first rule is met by a permanent stage instead of a test file (explorations/coordinator/library-route-judgement.md section 2 step 1; Pavol\'s decision of 2026-09-21, POSITIONS.md, "the library route"). So FIRST, before any edit, read the header of explorations/coordinator/tools/checker-count/run.sh and run it in your worktree (ant compileAll must have run there first):',
 '',
 '        explorations/coordinator/tools/checker-count/run.sh explorations/compile-ladder/SLUG/probes/checker-count-preedit.txt $TMPDIR/cc-pre',
 '',
 '   It runs the compiler\'s static checker over Library/FortressLibrary.fss with the interpreter\'s prelude in scope, under its own private cache, and prints one row per api with that api\'s error count, then #total, #locations and #crash; 20 s measured in the main tree, and it writes nothing but the table. That table IS your recorded failure: it goes under probes/ as a committed .txt and its #total is the number your record.md says the batch starts from.',
-'2. After the edit, run the same stage again and capture it as checker-count-postedit.txt beside the first; put the diff of the two tables in REPORT.md, and say what moved and why, api by api. If the total changes, the manifest must declare the number it reaches as expectedCheckerCount and the crash line as expectedCheckerCrash when that moves - say in REPORT.md and in record.md which values the manifest needs, because the gate prints the declared total beside the one it measures, your skeptic compares your post-edit table with your report, and a crash line no rung declared is red. A rung of this kind writes no .test file; everything else in this list is unchanged, including the ladder subset of step 7 of this list and the three homes of its step 8.',
+'3. After the edit, run the same stage again and capture it as checker-count-postedit.txt beside the first; put the diff of the two tables in REPORT.md, and say what moved and why, api by api. If the total changes, the manifest must declare the number it reaches as expectedCheckerCount and the crash line as expectedCheckerCrash when that moves - say in REPORT.md and in record.md which values the manifest needs, because the gate prints the declared total beside the one it measures, your skeptic compares your post-edit table with your report, and a crash line no rung declared is red. A rung of this kind writes no .test file; everything else in this list is unchanged, including the ladder subset of step 8 of this list and the three homes of its step 9.',
 ] : [
-'1. Write the failing test FIRST, into ProjectFortress/compiler_tests/ (checker and codegen rungs) or ProjectFortress/library_tests/ (library rungs): a .fss component that prints PASS, plus a .test file in the format of ProjectFortress/library_tests/Boolean.test (a tests= line naming the components, then link, run, and the check line). The check line is exactly',
+'2. Write the failing test FIRST, into ProjectFortress/compiler_tests/ (checker and codegen rungs) or ProjectFortress/library_tests/ (library rungs): a .fss component that prints PASS, plus a .test file in the format of ProjectFortress/library_tests/Boolean.test (a tests= line naming the components, then link, run, and the check line). The check line is exactly',
 '',
 '        run_out_contains=PASS',
 '',
 '   run_out_WIcontains, which Boolean.test and PLAN.md write, is implemented in the harness as of 2026-09-19 (FileTests.java:147-155, whitespace-insensitive containment beside _contains) but this batch writes _contains: one key, one meaning, and the seventeen older files are not this batch\'s business. A native-helper rung whose declarations are library declarations is a library rung: rung 7 put its test in library_tests/ (IntLiteralArithRung7).',
-'2. Run it and capture the failure output to a file BEFORE the edit exists, named .txt. A report with no recorded failure is refused by your skeptic. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',
+'3. Run it and capture the failure output to a file BEFORE the edit exists, named .txt. A report with no recorded failure is refused by your skeptic. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',
 ]),
-'3. Make the edit, as small as the test needs.',
-'4. Rebuild: ant compileAll if you touched .java or .scala, then the library-order bytecode-cache rebuild. A rung that edits only CompilerLibrary rebuilds CompilerLibrary, CompilerAlgebra and CompilerSystem (25-30 s); one that edits CompilerBuiltin rebuilds from CompilerBuiltin down (about 125 s); the full five only after ant compileAll.',
-'5. Run the test again and capture the pass.',
-'6. Grep BOTH corpora - ProjectFortress/tests/ and every *_tests/ directory - for a competing declaration of every name you add. Rung 1 lost a full cycle to library_tests/MaybeTest9.fss declaring its own trait Equality, which only a full run revealed; this grep costs seconds and covers it. And grep src/com/sun/fortress/ whole, not compiler/ and runtimeSystem/ alone, for every name you add: rung M found Maybe, Just and Nothing named from syntax_abstractions/, outside the scope the climb had been grepping.',
-'7. Run the ladder subset for the files your names were blocking, before and after. Use the restricted driver explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh with its subset.txt (corpus<TAB>file per line): copy both into explorations/compile-ladder/SLUG/, set LADDER_ROOT to a directory inside your worktree, and list the files the batch record names for your rung plus any file whose recorded first error in explorations/compile-ladder/baseline-2026-09-19/raw/ names one of your names. Never run the full-corpus driver with its default root: that root is shared and its cache pruning corrupts a parallel run.',
-'8. Every defect you measure gets one of the three homes the shared prefix names, and your report says which and why for each. The assertions of home 1 are in place and passing before you report; the XXX file of home 2 is in place and failing as expected, and if it is this rung\'s first one you also show it going red on a deliberate local fix and then undo the fix.',
-'9. The provenance block. Under the title of REPORT.md, FIVE lines, each ending in a file:line or the literal none. problem: the measurement that made this a rung (a program line or a ladder file). spec: the governing prose passage under Specification/basic or basic-lib, found from the feature\'s row in explorations/coordinator/map/spec-to-implementation.md; a citation under Specification/library/apis/ is labelled (api listing) and is not sufficient on its own; none when the prose is silent, with the grep that shows it. precedent: the interpreter\'s declaration, the team\'s dormant draft, or the in-file shape you copied. deviation: one line per way your edit differs from the precedent and from the specification\'s spelling. historical: every file of the original 2012 tree this rung edits - anything outside explorations/ and outside the test corpora this campaign created - or none. protocol.md:126-127 requires those edits to be flagged at commit time, and the gather copies this line into the commit message. Your skeptic opens every line the block cites and refuses the rung if one is missing or does not say what the block says.',
-'10. Ledger rows. Rungs 6 and 7 opened row 317 when the specification settled a divergence the rung could not repair; do the same if you meet one. Number a new row provisionally from ' + LEDGER_FROM + ' in record.md and say that it is provisional: another rung may open one too, and the gather assigns the final numbers in manifest order (' + RUNGS.map(r => r.id).join(', ') + ').',
-'11. The tracked-path check of the shared prefix, last, after your final commit.',
+'4. Make the edit, as small as the test needs.',
+'5. Rebuild: ant compileAll if you touched .java or .scala, then the library-order bytecode-cache rebuild. A rung that edits only CompilerLibrary rebuilds CompilerLibrary, CompilerAlgebra and CompilerSystem (25-30 s); one that edits CompilerBuiltin rebuilds from CompilerBuiltin down (about 125 s); the full five only after ant compileAll.',
+'6. Run the test again and capture the pass.',
+'7. Grep BOTH corpora - ProjectFortress/tests/ and every *_tests/ directory - for a competing declaration of every name you add. Rung 1 lost a full cycle to library_tests/MaybeTest9.fss declaring its own trait Equality, which only a full run revealed; this grep costs seconds and covers it. And grep src/com/sun/fortress/ whole, not compiler/ and runtimeSystem/ alone, for every name you add: rung M found Maybe, Just and Nothing named from syntax_abstractions/, outside the scope the climb had been grepping.',
+'8. Run the ladder subset for the files your names were blocking, before and after. Use the restricted driver explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh with its subset.txt (corpus<TAB>file per line): copy both into explorations/compile-ladder/SLUG/, set LADDER_ROOT to a directory inside your worktree, and list the files the batch record names for your rung plus any file whose recorded first error in explorations/compile-ladder/baseline-2026-09-19/raw/ names one of your names. Never run the full-corpus driver with its default root: that root is shared and its cache pruning corrupts a parallel run.',
+'9. Every defect you measure gets one of the three homes the shared prefix names, and your report says which and why for each. The assertions of home 1 are in place and passing before you report; the XXX file of home 2 is in place and failing as expected, and if it is this rung\'s first one you also show it going red on a deliberate local fix and then undo the fix.',
+'10. The provenance block. Under the title of REPORT.md, FIVE lines, each ending in a file:line or the literal none. problem: the measurement that made this a rung (a program line or a ladder file). spec: the governing prose passage under Specification/basic or basic-lib, found from the feature\'s row in explorations/coordinator/map/spec-to-implementation.md; a citation under Specification/library/apis/ is labelled (api listing) and is not sufficient on its own; none when the prose is silent, with the grep that shows it. precedent: the interpreter\'s declaration, the team\'s dormant draft, or the in-file shape you copied. deviation: one line per way your edit differs from the precedent and from the specification\'s spelling. historical: every file of the original 2012 tree this rung edits - anything outside explorations/ and outside the test corpora this campaign created - or none. protocol.md:126-127 requires those edits to be flagged at commit time, and the gather copies this line into the commit message. Your skeptic opens every line the block cites and refuses the rung if one is missing or does not say what the block says.',
+'11. Ledger rows. Rungs 6 and 7 opened row 317 when the specification settled a divergence the rung could not repair; do the same if you meet one. Number a new row provisionally from ' + LEDGER_FROM + ' in record.md and say that it is provisional: another rung may open one too, and the gather assigns the final numbers in manifest order (' + RUNGS.map(r => r.id).join(', ') + ').',
+'12. The tracked-path check of the shared prefix, last, after your final commit.',
 '',
 'Report at the end in the structured form the tool requires, and write the full detail into REPORT.md.',
 '',
@@ -657,20 +734,21 @@ JSON.stringify(workerReport, null, 2),
 '',
 '## What you must check',
 '',
-'0. The provenance block under REPORT.md\'s title: FIVE lines now - problem, spec, precedent, deviation, historical. Open every file:line it cites with sed -n and check that the line says what the block says. A missing line, a line that does not say it, a spec: line that cites only Specification/library/apis/, or a historical: line that omits a file of the 2012 tree the diff edits, is a refusal.',
+...lookupStep([rung], 'the rung\'s worktree (' + rung.path + ')'),
+'2. The provenance block under REPORT.md\'s title: FIVE lines now - problem, spec, precedent, deviation, historical. Open every file:line it cites with sed -n and check that the line says what the block says. A missing line, a line that does not say it, a spec: line that cites only Specification/library/apis/, or a historical: line that omits a file of the 2012 tree the diff edits, is a refusal.',
 (rung.testIsStage
-  ? '1. The recorded failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh), and the worker was required to capture that stage\'s table BEFORE the edit existed and again after it. Find both captures under explorations/compile-ladder/' + rung.slug + '/probes/, check that the pre-edit one is what the tree printed before the edit, and RUN THE STAGE YOURSELF in the worktree to see the post-edit table come out again: that run is your check that the test passes, in place of running a .fss test. A rung of this kind with no pre-edit table, or whose post-edit table you cannot reproduce, is refused exactly as a missing .fss failure would be. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved: the gate prints the declared total beside the one it measures, and a crash line no rung declared makes the batch\'s gate red. Check 8 compares that total with the table. Everything else in this list is unchanged.'
-  : '1. The recorded failure. The worker was required to run the new test and capture its failure BEFORE the edit existed. Find that captured output. A rung whose report has no recorded failure is refused - this is not negotiable and it is the point of the whole discipline.'),
-'2. The diff, read line by line against the specification passages cited and against the provenance block. Does the edit do what the report says, and only that? Is it as small as the test needs?',
-'3. The precedent search. Did the worker find what the team already did here, and did it follow the right precedent? Where a precedent repaired a defect, did the worker count the other sites in that file and give the number?',
-'4. The test. Does it actually exercise the defect? The rung\'s tail names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay.'
+  ? '3. The recorded failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh), and the worker was required to capture that stage\'s table BEFORE the edit existed and again after it. Find both captures under explorations/compile-ladder/' + rung.slug + '/probes/, check that the pre-edit one is what the tree printed before the edit, and RUN THE STAGE YOURSELF in the worktree to see the post-edit table come out again: that run is your check that the test passes, in place of running a .fss test. A rung of this kind with no pre-edit table, or whose post-edit table you cannot reproduce, is refused exactly as a missing .fss failure would be. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved: the gate prints the declared total beside the one it measures, and a crash line no rung declared makes the batch\'s gate red. Check 10 compares that total with the table. Everything else in this list is unchanged.'
+  : '3. The recorded failure. The worker was required to run the new test and capture its failure BEFORE the edit existed. Find that captured output. A rung whose report has no recorded failure is refused - this is not negotiable and it is the point of the whole discipline.'),
+'4. The diff, read line by line against the specification passages cited and against the provenance block. Does the edit do what the report says, and only that? Is it as small as the test needs?',
+'5. The precedent search. Did the worker find what the team already did here, and did it follow the right precedent? Where a precedent repaired a defect, did the worker count the other sites in that file and give the number?',
+'6. The test. Does it actually exercise the defect? The rung\'s tail names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay.'
   + (rung.testIsStage ? ' This rung writes no test file: what you check instead is that the two tables differ in the way the report says, and that the difference is the defect and not a cache or a build artefact.' : ''),
-'5. The competing-declaration grep across both corpora AND across src/com/sun/fortress/ whole.',
-'6. The record.md fragment. Are the FACTS lines true as written and sourced? Does the ledger note cite an existing row without renumbering anything? Would a reader six months from now be able to check it?',
-'7. The three homes. For every defect the report names as measured: home 1 (repaired in this rung) must be a passing assertion in the rung\'s gated test, and you run the test yourself to see it pass; home 2 (deferred, specification settles it) must be an XXX-named file that the harness treats as expected-to-fail, and you check the name and the .test file; home 3 (deferred, specification silent) must be a committed .txt capture and a ledger row, and the report must say the specification is silent and show the grep. A defect in your OWN findings that the worker then repairs is home 1 too, and its assertion is in place before you approve.',
+'7. The competing-declaration grep across both corpora AND across src/com/sun/fortress/ whole.',
+'8. The record.md fragment. Are the FACTS lines true as written and sourced? Does the ledger note cite an existing row without renumbering anything? Would a reader six months from now be able to check it?',
+'9. The three homes. For every defect the report names as measured: home 1 (repaired in this rung) must be a passing assertion in the rung\'s gated test, and you run the test yourself to see it pass; home 2 (deferred, specification settles it) must be an XXX-named file that the harness treats as expected-to-fail, and you check the name and the .test file; home 3 (deferred, specification silent) must be a committed .txt capture and a ledger row, and the report must say the specification is silent and show the grep. A defect in your OWN findings that the worker then repairs is home 1 too, and its assertion is in place before you approve.',
 (rung.testIsStage
-  ? '8. The rung\'s own count table against its report: a file read, nothing to run. Its brief names the table: explorations/compile-ladder/' + rung.slug + '/probes/checker-count-postedit.txt, committed on ' + rung.branch + '.'
-  : '8. The rung\'s own count table against its report: a file read, nothing to run. The general part of its brief names no table, because the rung does not set testIsStage; its tail may name one, and the report says which table, if any, it committed.')
+  ? '10. The rung\'s own count table against its report: a file read, nothing to run. Its brief names the table: explorations/compile-ladder/' + rung.slug + '/probes/checker-count-postedit.txt, committed on ' + rung.branch + '.'
+  : '10. The rung\'s own count table against its report: a file read, nothing to run. The general part of its brief names no table, because the rung does not set testIsStage; its tail may name one, and the report says which table, if any, it committed.')
   + ' Take the table\'s #total row and compare it with the total the report declares in REPORT.md, record.md and the structured report'
   + (rung.expectedCheckerCount !== undefined ? '; write the manifest\'s expectedCheckerCount, ' + rung.expectedCheckerCount + ', beside the two in SKEPTIC.md, as the prediction it is, not a value the table must meet' : '')
   + '. A mismatch between the table and the report is a finding for repair, not a stop: put it in requiredCorrections with both numbers, so that the report is corrected, and do not refuse the rung over it alone. If no table path is named and the rung declares a count, in its report or as expectedCheckerCount, report "no count table" in findings. A rung that declares no count and names no table has nothing to compare; one line saying so is enough.',
@@ -708,6 +786,8 @@ function repairPrompt(rung, verdict, decision) {
 '---',
 '',
 '# Your role: rung worker, repair round for ' + rung.id + ', ' + rung.slug,
+'',
+'First, before anything below: run the commands of step 1 of the order of work above, in ' + rung.path + ', and read all they print.',
 '',
 (verdict
   ? 'You did this rung. Your skeptic refused it. This is your ONE repair round in the same worktree, ' + rung.path + '; a second refusal drops the rung from the batch.'
@@ -765,8 +845,8 @@ question,
 '## What to read, and no more than this unless a ruling needs it',
 '',
 inWorktree
-  ? '1. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n2. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n3. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/. Read at least ten lines either side of each.\n4. The precedents both name, at the cited lines.\n5. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
-  : '1. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n2. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n3. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n4. The specification passages the reports cite, by file:line.',
+  ? lookupStep([rung], 'the rung\'s worktree (' + rung.path + ')').join('\n') + '\n2. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n3. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n4. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/. Read at least ten lines either side of each.\n5. The precedents both name, at the cited lines.\n6. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
+  : lookupStep(RUNGS, 'the main tree (' + MAIN + ')').join('\n') + '\n2. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n3. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n4. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n5. The specification passages the reports cite, by file:line.',
 '',
 '## How to rule',
 '',
@@ -1234,6 +1314,8 @@ const GATE_SCHEMA = {
 function mergedRepairRole(decision, kind) {
   return MAIN_TREE_ROLE + [
 '# Your role: repair on the merged tree (' + kind + ')',
+'',
+...lookupStep(RUNGS, 'the main tree (' + MAIN + ')', 'First, before the ruling below,'),
 '',
 'The judge has ruled on the merged tree; you execute the ruling. Its decision:',
 '',
