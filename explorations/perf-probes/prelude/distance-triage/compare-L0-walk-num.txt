@@ -1,0 +1,190 @@
+     class                                                                     base variant    gone     new
+H1   exclusion: the comparisons, Maybe, Condition                                38      38       0       0
+H2   comprises: AnyIntegral's clause                                              2       2       0       0
+A1   fill: function form against value form                                     244     244       0       0
+A2   fill: the array diamond                                                     58      58       0       0
+L1   overloading: the static-parameter sentence's families                       85      85       0       0
+M1   overloading: the Meet Rule                                                 100     100       0       0
+O1   overloading: same parameter type (LEXICO, INVERSE, SQCAP)                   15      13       2       0
+R1   return type: StandardMinMax's (T,T) slip (row 421)                          32      32       0       0
+R2   return type: the comparisons' CMP                                           19      19       0       0
+R3   return type: other declared-type slips                                      40      40       0       0
+D2   abstract method: RangeInternals' CAP, IN, |_|                               18      18       0       0
+X1   export: component against api                                               12      12       0       0
+Z1   sizes: arithmetic on nat static arguments                                   11      11       0       0
+F1   reductions: fusion pairs' bound (row 433)                                    4       4       0       0
+N1   natives: builtinPrimitive's T not inferred                                 340     340       0       0
+N2   a result-only static parameter not inferred (fail, ...)                     24      24       0       0
+I2   integers in generic code: the dummy-ZZ32 device of # and :                  18      18       0       0
+I5   integers in generic code: Integral[\I\] declares no |self|                  15      14       1       0
+I1   integers in generic code: the bound AnyIntegral or none where Integral      81      98       0      17
+I3   integers in generic code: a numeral where a type parameter is expected     149      22     119       0
+I4   integers in generic code: a fixed width where a type parameter is expe       3       3       0       0
+I6   integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]                  8       8       0       0
+S1   self type: a generic trait's self is not its type parameter                 28      28       0       0
+R4   StandardMinMax's (T,T) slip in bodies (row 421)                             18      15       3       0
+V1   arrays: element type bounded by Number, which declares no arithmetic        44      44       0       0
+V2   arrays: a sized array's body or factory (sizes lost in joins and facto      42      40       4       2
+G1   generic code with no bound compares its values (tuples' <, CMP; Lexico      18      18       0       0
+MB   Maybe: Just and Nothing do not join to Maybe                                 7       7       0       0
+SF   String: an object's field read as an inherited method (left, right)         22      22       0       0
+GB   generators: a function argument inferred at BottomType (COMPOSE, map)        7       7       0       0
+TS   ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))          9       9       0       0
+RG   ranges: a range method's declared type narrower than the range it buil      29      30       0       1
+BR   big operators: a reduction's body typed as the element, not the BigRed       9       9       0       0
+CV   a call covered only by the union of its overloads' arms (walk chooses       10      10       0       0
+NM   names the api does not declare (getters and methods of Range, String,       54      53       1       0
+GF   generators: a filter that failed for another reason                          9       9       0       0
+OT   other body errors (one-off library slips and checker limits)               116     123       1       0
+     total                                                                     1738    1627     131      20
+-	V2	typecheck	FortressLibrary.fss:2708	Function body has type Array[\T,(ZZ32, ZZ32)\], but declared return type is Array2[\T,0,s0,0,s1\].
+-	V2	typecheck	FortressLibrary.fss:2347	Function body has type Array[\T,ZZ32\], but declared return type is Array1[\T,0,s0\].
+-	V2	typecheck	FortressLibrary.fss:2238	Function body has type Array[\R,ZZ32\], but declared return type is Array1[\R,b0,s0\].
+-	V2	typecheck	FortressLibrary.fss:2185	Function body has type Array[\T,ZZ32\], but declared return type is Array1[\T,b0,s0\].
+-	I3	typecheck	FortressLibrary.fss:658	Could not check call to operator MOD - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (Integral[\I\], IntLiteral). - ((ZZ & {BigNum}), ZZ)->ZZ is not
+-	O1	overloading	FortressLibrary.fss:171,FortressLibrary.fss:205	There are multiple declarations of LEXICO with the same parameter type: (()->TotalComparison)
+-	O1	overloading	FortressLibrary.fss:170,FortressLibrary.fss:171	There are multiple declarations of LEXICO with the same parameter type: (TotalComparison)
+-	I3	typecheck	RangeInternals.fss:1487	Could not check call to function OpenRange3D - [\I, J, K\](I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral
+-	I3	typecheck	RangeInternals.fss:1485	Could not check call to function OpenRange2D - [\I\](I, J)->RangeInternals.OpenRange2D[\I,J\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1483	Could not check call to function OpenScalarRange - [\I\]I->RangeInternals.OpenScalarRange[\I\] is not applicable to an argument of type IntLiteral.
+-	I3	typecheck	RangeInternals.fss:1480	Could not check call to function RightRange3D - [\I, J, K\](I, J, K, I, J, K)->RangeInternals.RightRange3D[\I,J,K\] is not applicable to an argument of type (I, J, K, IntLiteral, In
+-	I3	typecheck	RangeInternals.fss:1477	Could not check call to function RightRange2D - [\I, J\](I, J, I, J)->RangeInternals.RightRange2D[\I,J\] is not applicable to an argument of type (I, J, IntLiteral, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1475	Could not check call to function RightScalarRange - [\I\](I, I)->RangeInternals.RightScalarRange[\I\] is not applicable to an argument of type (I, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1472	Could not check call to function ExtentRange3D - [\I, J, K\](I, J, K, I, J, K)->RangeInternals.ExtentRange3D[\I,J,K\] is not applicable to an argument of type (I, J, K, IntLiteral, 
+-	I3	typecheck	RangeInternals.fss:1462	Could not check call to function ExtentRange2D - [\I, J\](I, J, I, J)->RangeInternals.ExtentRange2D[\I,J\] is not applicable to an argument of type (I, J, IntLiteral, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1453	Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\I\] is not applicable to an argument of type (I, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1446	Could not check call to function LeftRange3D - [\I, J, K\](I, J, K, I, J, K)->RangeInternals.LeftRange3D[\I,J,K\] is not applicable to an argument of type (I, J, K, IntLiteral, IntL
+-	I3	typecheck	RangeInternals.fss:1443	Could not check call to function LeftRange2D - [\I, J\](I, J, I, J)->RangeInternals.LeftRange2D[\I,J\] is not applicable to an argument of type (I, J, IntLiteral, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1441	Could not check call to function LeftScalarRange - [\I\](I, I)->RangeInternals.LeftScalarRange[\I\] is not applicable to an argument of type (I, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:1372	Could not check call to function CompactFullRange3D - [\I, J, K\](I, J, K, I, J, K)->RangeInternals.CompactFullRange3D[\I,J,K\] is not applicable to an argument of type (IntLiteral,
+-	I3	typecheck	RangeInternals.fss:1337	Could not check call to function CompactFullRange2D - [\I, J\](I, J, I, J)->RangeInternals.CompactFullRange2D[\I,J\] is not applicable to an argument of type (IntLiteral, IntLiteral
+-	I3	typecheck	RangeInternals.fss:1310	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1310.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1310	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1294	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1294.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1294	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1232	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1232.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1232	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1191	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1191.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1191	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1180	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1180.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1180	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64
+-	I3	typecheck	RangeInternals.fss:1176	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1176.13 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1176	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1163	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:1163.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:1163	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boole
+-	I3	typecheck	RangeInternals.fss:1134	Function body has type (IntLiteral, IntLiteral, IntLiteral), but declared return type is (I, J, K).
+-	I3	typecheck	RangeInternals.fss:1101	Function body has type (IntLiteral, IntLiteral), but declared return type is (I, J).
+-	I3	typecheck	RangeInternals.fss:1096	Could not check call to function CompactFullRange2D - [\I, J\](I, J, I, J)->RangeInternals.CompactFullRange2D[\I,J\] is not applicable to an argument of type (IntLiteral, IntLiteral
+-	I3	typecheck	RangeInternals.fss:1081	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->
+-	I3	typecheck	RangeInternals.fss:1073	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->
+-	I3	typecheck	RangeInternals.fss:985	Function body has type IntLiteral, but declared return type is I.
+-	I3	typecheck	RangeInternals.fss:857	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:847	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:844	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:844.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:844	Could not check call to operator >= - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((TotalComparison & {LessThan,
+-	I3	typecheck	RangeInternals.fss:836	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:836.13 was not well typed.
+-	I3	typecheck	RangeInternals.fss:836	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:826	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:826.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:826	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:815	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:812	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:812.23 was not well typed.
+-	I3	typecheck	RangeInternals.fss:812	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:809	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:806	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:806.23 was not well typed.
+-	I3	typecheck	RangeInternals.fss:806	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:805	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:805.16 was not well typed.
+-	I3	typecheck	RangeInternals.fss:805	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:803	Right-hand side has type IntLiteral, but declared type is I.
+-	I3	typecheck	RangeInternals.fss:595	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:595.13 was not well typed.
+-	I3	typecheck	RangeInternals.fss:595	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:584	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:584.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:584	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:582	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:582.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:582	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:575	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:572	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:572.15 was not well typed.
+-	I3	typecheck	RangeInternals.fss:572	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:570	Right-hand side has type IntLiteral, but declared type is I.
+-	I3	typecheck	RangeInternals.fss:531	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:531.16 was not well typed.
+-	I3	typecheck	RangeInternals.fss:531	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:529	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:529.22 was not well typed.
+-	I3	typecheck	RangeInternals.fss:529	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:516	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:516.28 was not well typed.
+-	I3	typecheck	RangeInternals.fss:516	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:515	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:515.28 was not well typed.
+-	I3	typecheck	RangeInternals.fss:515	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:514	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:514.20 was not well typed.
+-	I3	typecheck	RangeInternals.fss:514	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	OT	typecheck	RangeInternals.fss:449	Could not check call to operator - - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of type (I, I). - (RR64 & {Float, FloatLiteral, RR32})->RR64 is not applicable to 
+-	R4	typecheck	RangeInternals.fss:447	Could not check call to function extentScalarRange - [\I\](I, I)->RangeInternals.ScalarRangeWithExtent[\I\] is not applicable to an argument of type ((I, I), I).
+-	I3	typecheck	RangeInternals.fss:443	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:443.17 was not well typed.
+-	I3	typecheck	RangeInternals.fss:443	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:443	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	NM	typecheck	RangeInternals.fss:439	No such method Range[\I\].intersectWithExtent.
+-	R4	typecheck	RangeInternals.fss:436	Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\I\] is not applicable to an argument of type ((I, I), I).
+-	R4	typecheck	RangeInternals.fss:434	Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\I\] is not applicable to an argument of type ((I, I), I).
+-	I3	typecheck	RangeInternals.fss:433	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:433.14 was not well typed.
+-	I3	typecheck	RangeInternals.fss:433	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I5	typecheck	RangeInternals.fss:432	Could not check call to operator |_| - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of type I. - (RR64 & {Float, FloatLiteral, RR32})->RR64 is not applicable to an 
+-	I3	typecheck	RangeInternals.fss:431	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:431.14 was not well typed.
+-	I3	typecheck	RangeInternals.fss:431	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:423	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:423	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:423	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:423.22 was not well typed.
+-	I3	typecheck	RangeInternals.fss:423	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:421	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:421	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:421	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:421.22 was not well typed.
+-	I3	typecheck	RangeInternals.fss:421	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:420	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:420.18 was not well typed.
+-	I3	typecheck	RangeInternals.fss:420	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:413	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:413.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:413	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:411	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:411.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:411	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:407	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:405	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:404	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:404.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:404	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:395	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:390	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->R
+-	I3	typecheck	RangeInternals.fss:389	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:389.20 was not well typed.
+-	I3	typecheck	RangeInternals.fss:389	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:387	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:387.22 was not well typed.
+-	I3	typecheck	RangeInternals.fss:387	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:386	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:386.21 was not well typed.
+-	I3	typecheck	RangeInternals.fss:386	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:381	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:368	Could not check call to function OpenScalarRange - [\I\]I->RangeInternals.OpenScalarRange[\I\] is not applicable to an argument of type IntLiteral.
+-	I3	typecheck	RangeInternals.fss:319	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:319.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:319	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)
+-	I3	typecheck	RangeInternals.fss:309	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:309.12 was not well typed.
+-	I3	typecheck	RangeInternals.fss:309	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:149	Could not check call to function leftScalarRange - [\I\](I, I)->RangeInternals.LeftScalarRange[\I\] is not applicable to an argument of type (I, IntLiteral).
+-	I3	typecheck	RangeInternals.fss:148	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:148.18 was not well typed.
+-	I3	typecheck	RangeInternals.fss:148	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolea
+-	I3	typecheck	RangeInternals.fss:89	Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss:89.11 was not well typed.
+-	I3	typecheck	RangeInternals.fss:89	Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)-
+-	I3	typecheck	RangeInternals.fss:89	Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not applicable to an argument of type (I, IntLiteral). - ((ZZ64 & {Long}), ZZ64)->Boolean
+-	I3	typecheck	RangeInternals.fss:43	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR
+-	I3	typecheck	RangeInternals.fss:39	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (I, IntLiteral). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR
++	V2	typecheck	FortressLibrary.fss:2925	Function body has type Array[\T,(ZZ32, ZZ32, ZZ32)\], but declared return type is Array3[\T,0,s0,0,s1,0,s2\].
++	V2	typecheck	FortressLibrary.fss:2710	Function body has type Array[\T,(ZZ32, ZZ32)\], but declared return type is Array2[\T,0,s0,0,s1\].
++	RG	typecheck	RangeInternals.fss:147	Function body has type Range[\I\], but declared return type is RangeInternals.ScalarRangeWithLeft[\I\].
++	I1	wellformed	RangeInternals.fss:563	Ill-formed type: RangeInternals.LeftScalarRange[\I\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:616	Ill-formed type: RangeInternals.LeftRange2D[\I,J\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:616	Ill-formed type: RangeInternals.LeftRange2D[\I,J\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:645	Ill-formed type: RangeInternals.LeftRange3D[\I,J,K\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:645	Ill-formed type: RangeInternals.LeftRange3D[\I,J,K\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:645	Ill-formed type: RangeInternals.LeftRange3D[\I,J,K\] The static argument K does not satisfy the corresponding bound Integral[\K\].
++	I1	wellformed	RangeInternals.fss:377	Ill-formed type: RangeInternals.ExtentScalarRange[\I\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:465	Ill-formed type: RangeInternals.ExtentRange2D[\I,J\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:465	Ill-formed type: RangeInternals.ExtentRange2D[\I,J\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:489	Ill-formed type: RangeInternals.ExtentRange3D[\I,J,K\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:489	Ill-formed type: RangeInternals.ExtentRange3D[\I,J,K\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:489	Ill-formed type: RangeInternals.ExtentRange3D[\I,J,K\] The static argument K does not satisfy the corresponding bound Integral[\K\].
++	I1	wellformed	RangeInternals.fss:736	Ill-formed type: RangeInternals.RightRange2D[\I,J\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:736	Ill-formed type: RangeInternals.RightRange2D[\I,J\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:765	Ill-formed type: RangeInternals.RightRange3D[\I,J,K\] The static argument I does not satisfy the corresponding bound Integral[\I\].
++	I1	wellformed	RangeInternals.fss:765	Ill-formed type: RangeInternals.RightRange3D[\I,J,K\] The static argument J does not satisfy the corresponding bound Integral[\J\].
++	I1	wellformed	RangeInternals.fss:765	Ill-formed type: RangeInternals.RightRange3D[\I,J,K\] The static argument K does not satisfy the corresponding bound Integral[\K\].

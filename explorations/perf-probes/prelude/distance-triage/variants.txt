@@ -1,0 +1,40 @@
+# columns: (1) L0-walk; (2) A0-walk; (3) BOUNDS+DEVICE-walk-num; (4) BOUNDS+DEVICE-walk; (5) BOUNDS-walk; (6) BP+BOUNDS+DEVICE+R421-walk-num; (7) BP-walk; (8) BPANY-walk; (9) L0-walk-num; (10) R421-walk
+     class                                                                                  (1)       (2)       (3)       (4)       (5)       (6)       (7)       (8)       (9)      (10)
+H1   exclusion: the comparisons, Maybe, Condition                                            38        38        38        38        38        38        38        38        38        38
+H2   comprises: AnyIntegral's clause                                                          2         2         2         2         2         2         2         2         2         2
+A1   fill: function form against value form                                                 244       244       244       244       244       244       244       244       244       244
+A2   fill: the array diamond                                                                 58        58        58        58        58        58        58        58        58        58
+L1   overloading: the static-parameter sentence's families                                   85        85        85        85        85        85        85        85        85        85
+M1   overloading: the Meet Rule                                                             100       100       100       100       100       100       100       100       100       100
+O1   overloading: same parameter type (LEXICO, INVERSE, SQCAP)                               15        15        13        14        15        12        15        13        13        15
+R1   return type: StandardMinMax's (T,T) slip (row 421)                                      32        32        32        32        32         0        32        32        32         0
+R2   return type: the comparisons' CMP                                                       19        19        19        19        19        19        19        19        19        19
+R3   return type: other declared-type slips                                                  40        40        40        40        40        40        40        40        40        40
+D2   abstract method: RangeInternals' CAP, IN, |_|                                           18        18        20        20        20        20        18        18        18        18
+X1   export: component against api                                                           12        12        10        10        10        10        12        12        12        12
+Z1   sizes: arithmetic on nat static arguments                                               11        11        11        11        11        11        11        11        11        11
+F1   reductions: fusion pairs' bound (row 433)                                                4         4         4         4         4         4         4         4         4         4
+N1   natives: builtinPrimitive's T not inferred                                             340       364       340       340       340         0         0       340       340       340
+N2   a result-only static parameter not inferred (fail, ...)                                 24        23        24        24        24        24        24        24        24        24
+I2   integers in generic code: the dummy-ZZ32 device of # and :                              18        19         0         0        18         2        18        18        18        20
+I5   integers in generic code: Integral[\I\] declares no |self|                              15        15        14        15        15        14        15        15        14        15
+I1   integers in generic code: the bound AnyIntegral or none where Integral[\I\] is u        81        80         7         4         4         7        81        81        98        81
+I3   integers in generic code: a numeral where a type parameter is expected                 149       169        12       161       161        11       149       149        22       148
+I4   integers in generic code: a fixed width where a type parameter is expected               3         3         3         3         3         3         3         3         3         3
+I6   integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]                              8         8         8         8         8         8         8         8         8         8
+S1   self type: a generic trait's self is not its type parameter                             28        28        28        28        28        28        28        28        28        28
+R4   StandardMinMax's (T,T) slip in bodies (row 421)                                         18        18        15        18        18         4        18        18        15         4
+V1   arrays: element type bounded by Number, which declares no arithmetic                    44        44        44        44        44        44        44        44        44        44
+V2   arrays: a sized array's body or factory (sizes lost in joins and factories)             42        38        40        42        42        41        42        42        40        39
+G1   generic code with no bound compares its values (tuples' <, CMP; LexicographicOrd        18        14        18        18        18        18        18        18        18        18
+MB   Maybe: Just and Nothing do not join to Maybe                                             7         7         7         7         7         7         7         7         7         7
+SF   String: an object's field read as an inherited method (left, right)                     22        22        22        22        22        22        22        22        22        22
+GB   generators: a function argument inferred at BottomType (COMPOSE, map)                    7         7         7         7         7         7         7         7         7         7
+TS   ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))                      9         9         9         9         9         8         9         9         9         8
+RG   ranges: a range method's declared type narrower than the range it builds (check,        29        29        31        31        31        31        29        29        30        29
+BR   big operators: a reduction's body typed as the element, not the BigReduction or          9        10         8         8         9        10        11        11         9        10
+CV   a call covered only by the union of its overloads' arms (walk chooses at run tim        10        10        10        10        10        10        10        10        10        10
+NM   names the api does not declare (getters and methods of Range, String, Generator)        54        52        53        54        54        53        54        54        53        54
+GF   generators: a filter that failed for another reason                                      9         9         9         9         9         9         9         9         9         9
+OT   other body errors (one-off library slips and checker limits)                           116       117       121       114       114       118       116       116       123       112
+     total                                                                                 1738      1773      1506      1653      1673      1122      1400      1738      1627      1686
