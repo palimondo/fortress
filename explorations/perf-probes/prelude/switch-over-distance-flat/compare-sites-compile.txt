@@ -1,0 +1,141 @@
+# sites: before 2359, after 1527; go 1015, appear 183, stay 1344 (of which reworded 226); before-errors at an edited line 113
+
+## by kind: before, after, go, appear, stay
+abstract-method      32     30      2      0     30
+bound-Object        371    372      5      6    366
+comprises             3      2      3      2      0
+exclusion           126     38     88      0     38
+export               11     11      0      0     11
+overloading         458    251    212      5    246
+return-type         571     85    505     19     66
+typecheck           697    645    198    146    499
+wellformed           90     93      2      5     88
+
+## by unit: before, after, go, appear, stay
+api FortressBuiltin              10      1      9      0      1
+api FortressLibrary             499    195    309      5    190
+api List                          3      3      0      0      3
+api NativeArray                   4      4      0      0      4
+api RangeInternals              111     93     19      1     92
+api Stream                        1      1      0      0      1
+component FlatString             12     10      2      0     10
+component FortressBuiltin        31     12     19      0     12
+component FortressLibrary      1123    643    530     50    593
+component List                   66     46     31     11     35
+component NatReflect              4      3      1      0      3
+component NativeArray             2      2      0      0      2
+component RangeInternals        401    430     86    115    315
+component Stream                  6      6      0      0      6
+component String                 85     77      9      1     76
+component Writer                  1      1      0      0      1
+
+## by kind and unit: go, appear
+abstract-method  component FortressBuiltin         2      0
+bound-Object     api FortressLibrary               2      0
+bound-Object     component FortressLibrary         3      2
+bound-Object     component List                    0      4
+comprises        api FortressLibrary               2      1
+comprises        component FortressLibrary         1      1
+exclusion        api FortressBuiltin               9      0
+exclusion        api FortressLibrary              35      0
+exclusion        component FortressBuiltin         9      0
+exclusion        component FortressLibrary        35      0
+overloading      api FortressLibrary              40      1
+overloading      api RangeInternals               19      1
+overloading      component FortressLibrary       134      2
+overloading      component RangeInternals         19      1
+return-type      api FortressLibrary             230      3
+return-type      component FortressLibrary       275     16
+typecheck        component FlatString              2      0
+typecheck        component FortressBuiltin         8      0
+typecheck        component FortressLibrary        82     25
+typecheck        component List                   31      7
+typecheck        component NatReflect              1      0
+typecheck        component RangeInternals         65    113
+typecheck        component String                  9      1
+wellformed       component FortressLibrary         0      4
+wellformed       component RangeInternals          2      1
+
+## go: sites by kind, unit and message shape (top 40)
+   18  typecheck    component List             Could not check call to operator |_| - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an a
+   16  return-type  api FortressLibrary        For juxtaposition, the return type of ((QQ & {AnyIntegral}), QQ)->QQ @ L:5-40 should be a subtype of
+   16  return-type  component FortressLibrary  For juxtaposition, the return type of ((QQ & {Ratio, AnyIntegral}), QQ)->QQ @ L:5-57 should be a sub
+   15  return-type  api FortressLibrary        For juxtaposition, the return type of ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 @ L:5-39 should be
+   15  return-type  api FortressLibrary        For juxtaposition, the return type of ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ L:5-39 should be a subty
+   15  return-type  component FortressLibrary  For juxtaposition, the return type of ((ZZ & {BigNum, ZZ64, NN64}), ZZ)->ZZ @ L:5-852:77 should be a
+   14  return-type  api FortressLibrary        For juxtaposition, the return type of ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 @ L:5-39 should be a 
+   14  return-type  component FortressLibrary  For juxtaposition, the return type of ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ L:5-737:75 should be a s
+   14  return-type  component FortressLibrary  For juxtaposition, the return type of ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 @ L:5-791:83 shoul
+   13  return-type  component FortressLibrary  For juxtaposition, the return type of ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 @ L:5-669:74 should b
+   13  typecheck    component FortressLibrary  Could not check call to operator |_| - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an a
+   12  return-type  api FortressLibrary        For DOT, the return type of ((QQ & {AnyIntegral}), QQ)->QQ @ L:5-29 should be a subtype of the retur
+   12  return-type  component FortressLibrary  For DOT, the return type of ((QQ & {Ratio, AnyIntegral}), QQ)->QQ @ L:5-570:6 should be a subtype of
+   11  return-type  api FortressLibrary        For DOT, the return type of ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 @ L:5-29 should be a subtype
+   11  return-type  api FortressLibrary        For DOT, the return type of ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ L:5-29 should be a subtype of the 
+   11  return-type  component FortressLibrary  For DOT, the return type of ((ZZ & {BigNum, ZZ64, NN64}), ZZ)->ZZ @ L:5-850:77 should be a subtype o
+   10  return-type  api FortressLibrary        For DOT, the return type of ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 @ L:5-29 should be a subtype of
+   10  return-type  component FortressLibrary  For DOT, the return type of ((ZZ64 & {Long, ZZ32}), ZZ64)->ZZ64 @ L:5-733:75 should be a subtype of 
+   10  return-type  component FortressLibrary  For DOT, the return type of ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 @ L:5-787:83 should be a sub
+    9  return-type  component FortressLibrary  For DOT, the return type of ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 @ L:5-665:74 should be a subtyp
+    9  typecheck    component RangeInternals   Could not check call to operator DIV - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable
+    8  typecheck    component FortressLibrary  Could not check call to operator # - [\..\]((I, J, K), (I, J, K))->RangeInternals.CompactFullRa [...
+    7  overloading  api RangeInternals         Invalid overloading of combine2D in API RangeInternals: [\..\], J extends Integral[\..\]\](RangeInte
+    7  overloading  component RangeInternals   Invalid overloading of combine2D in component RangeInternals: [\..\], J extends Integral[\..\]\](Ran
+    7  overloading  api RangeInternals         Invalid overloading of combine3D in API RangeInternals: [\..\], J extends Integral[\..\], K extends 
+    7  overloading  component RangeInternals   Invalid overloading of combine3D in component RangeInternals: [\..\], J extends Integral[\..\], K ex
+    7  typecheck    component FortressLibrary  Could not check call to function get - ZZ32->T is not applicable to an argument of type ZZ64.
+    6  exclusion    api FortressLibrary        Types DistributesOver[\..\] and DistributesOver[\..\] exclude each other. ProdReduction must not ext
+    6  typecheck    component RangeInternals   Could not check call to operator BITXOR - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applica
+    5  return-type  component FortressLibrary  For MAX, the return type of ((QQ & {Ratio, AnyIntegral}), QQ)->QQ @ L:5-550:102 should be a subtype 
+    5  return-type  component FortressLibrary  For MIN, the return type of ((QQ & {Ratio, AnyIntegral}), QQ)->QQ @ L:5-548:103 should be a subtype 
+    5  typecheck    component RangeInternals   Could not check call to function fullScalarRange - [\..\](I, I, I)->RangeInternals.FullScalarRange[\
+    4  exclusion    component FortressLibrary  Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.Distribute
+    4  exclusion    component FortressLibrary  Types DistributesOver[\..\]\] and DistributesOver[\..\] exclude each other. SumReduction must not ex
+    4  overloading  component FortressLibrary  There are multiple declarations of BITNOT with the same parameter type: ()
+    4  overloading  component FortressLibrary  There are multiple declarations of LSHIFT with the same parameter type: (AnyIntegral)
+    4  return-type  api FortressLibrary        For BY, the return type of ((QQ & {AnyIntegral}), QQ)->QQ @ L:5-31 should be a subtype of the return
+    4  return-type  component FortressLibrary  For BY, the return type of ((QQ & {Ratio, AnyIntegral}), QQ)->QQ @ L:5-48 should be a subtype of the
+    4  typecheck    component RangeInternals   Could not assign an expression of type QQ to variable i of type I.
+    4  typecheck    component FortressLibrary  Function body has type Array[\..\], but declared return type is Array1[\..\].
+
+## appear: sites by kind, unit and message shape (top 40)
+   20  typecheck    component RangeInternals   Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not ap
+   20  typecheck    component RangeInternals   Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to a
+   14  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.12 was not well type
+    9  typecheck    component RangeInternals   Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+    8  typecheck    component RangeInternals   Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+    7  typecheck    component RangeInternals   Could not check call to operator |_| - (NN64 & {UnsignedLong})->NN64 is not applicable to an argumen
+    6  typecheck    component RangeInternals   Could not check call to operator ? - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+    4  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.22 was not well type
+    3  typecheck    component FortressLibrary  Compiler internal generated.:0:0-L:46: Could not check call to function __generate - [\..\](Generato
+    3  typecheck    component FortressLibrary  Function body has type Integral[\..\], but declared return type is I.
+    2  bound-Object component List             Ill-formed type: Just[\..\], E)\] The static argument (ArrayList[\..\], E) does not satisfy the corr
+    2  bound-Object component List             Ill-formed type: Just[\..\])\] The static argument (E, ArrayList[\..\]) does not satisfy the corresp
+    2  return-type  component FortressLibrary  For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ L:5-61 should be a 
+    2  return-type  component FortressLibrary  For MIN, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ L:5-61 should be a 
+    2  typecheck    component RangeInternals   Could not check call to function ExtentScalarRange - [\..\](I, I)->RangeInternals.ExtentScalarRange[
+    2  typecheck    component FortressLibrary  Could not check call to function big - (ZZ32 & {Int, IntLiteral})->ZZ is not applicable to an argume
+    2  typecheck    component FortressLibrary  Could not check call to operator - - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument 
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.14 was not well type
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.20 was not well type
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.28 was not well type
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.16 was not well type
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.23 was not well type
+    2  typecheck    component RangeInternals   Filter expressions in generator clauses must have type Boolean, but OpExpr at L.18 was not well type
+    2  typecheck    component FortressLibrary  Could not check function application - BottomType->AnyMaybe is not applicable to an argument of type
+    2  typecheck    component FortressLibrary  Function body has type (QQ & {Ratio}), but declared return type is ZZ.
+    2  typecheck    component FortressLibrary  Function body has type LeftRange[\..\], but declared return type is LeftRange[\..\].
+    2  typecheck    component FortressLibrary  Function body has type OR(T,IntLiteral), but declared return type is T.
+    1  bound-Object component FortressLibrary  Ill-formed type: Indexed[\..\] The static argument (I, E) does not satisfy the corresponding bound O
+    1  bound-Object component FortressLibrary  Ill-formed type: ZeroIndexed[\..\] The static argument (E, F) does not satisfy the corresponding bou
+    1  comprises    api FortressLibrary        Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subty
+    1  comprises    component FortressLibrary  Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subty
+    1  overloading  api RangeInternals         Invalid overloading of IN in API RangeInternals: [\..\]\](I, RangeInternals.CompactFullScalarRange[\
+    1  overloading  component FortressLibrary  Invalid overloading of IN in component FortressLibrary: [\..\]\](I, RangeInternals.CompactFullScalar
+    1  overloading  component RangeInternals   Invalid overloading of IN in component RangeInternals: [\..\]\](I, RangeInternals.CompactFullScalarR
+    1  overloading  api FortressLibrary        There are multiple declarations of INVERSE with the same parameter type: EqualTo
+    1  overloading  component FortressLibrary  There are multiple declarations of LEXICO with the same parameter type: (()->TotalComparison)
+    1  return-type  api FortressLibrary        For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ L:5-30 should be a 
+    1  return-type  component FortressLibrary  For MAX, the return type of (StandardTotalOrder[\..\], I)->I @ L:5-71 should be a subtype of the ret
+    1  return-type  component FortressLibrary  For MAX, the return type of (StandardTotalOrder[\..\], NN64)->NN64 @ L:5-71 should be a subtype of t
+    1  return-type  component FortressLibrary  For MAX, the return type of (StandardTotalOrder[\..\], String)->String @ L:5-71 should be a subtype 

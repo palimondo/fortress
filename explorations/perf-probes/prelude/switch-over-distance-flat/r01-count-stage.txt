@@ -1,0 +1,17 @@
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	38
+List	0
+NatReflect	0
+NativeArray	44
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	62
+#locations	36
+#crash	none
+#shadow	matches the tracked StaticChecker

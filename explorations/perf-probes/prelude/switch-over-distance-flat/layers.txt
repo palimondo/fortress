@@ -1,0 +1,98 @@
+== walk: distinct api errors (every stage)
+223
+== walk: FortressLibrary.fss per declaration (clean, with errors, crashed)
+291 155
+5
+== walk: per-stage error lines, as printed (not deduplicated)
+@@SC STAGE	api FortressLibrary	acyclic	errors=19
+@@SC STAGE	api FortressLibrary	overloading	errors=161
+@@SC STAGE	api NativeArray	overloading	errors=22
+@@SC STAGE	api RangeInternals	overloading	errors=21
+@@SC STAGE	component FlatString	export	errors=1
+@@SC STAGE	component FlatString	overloading	errors=2
+@@SC STAGE	component FlatString	typecheck	errors=19
+@@SC STAGE	component FortressBuiltin	export	errors=1
+@@SC STAGE	component FortressBuiltin	typecheck	errors=192
+@@SC STAGE	component FortressLibrary	acyclic	errors=21
+@@SC STAGE	component FortressLibrary	export	errors=2
+@@SC STAGE	component FortressLibrary	overloading	errors=388
+@@SC STAGE	component FortressLibrary	typecheck	errors=455
+@@SC STAGE	component FortressLibrary	wellformed1	errors=34
+@@SC STAGE	component FortressLibrary	wellformed2	errors=70
+@@SC STAGE	component List	export	errors=2
+@@SC STAGE	component List	typecheck	errors=24
+@@SC STAGE	component NatReflect	export	errors=1
+@@SC STAGE	component NatReflect	typecheck	errors=1
+@@SC STAGE	component NatReflect	wellformed1	errors=3
+@@SC STAGE	component NatReflect	wellformed2	errors=3
+@@SC STAGE	component NativeArray	overloading	errors=24
+@@SC STAGE	component NativeArray	typecheck	errors=7
+@@SC STAGE	component RangeInternals	export	errors=2
+@@SC STAGE	component RangeInternals	overloading	errors=39
+@@SC STAGE	component RangeInternals	typecheck	errors=282
+@@SC STAGE	component RangeInternals	wellformed1	errors=34
+@@SC STAGE	component RangeInternals	wellformed2	errors=59
+@@SC STAGE	component Stream	export	errors=1
+@@SC STAGE	component Stream	typecheck	errors=2
+@@SC STAGE	component String	export	errors=1
+@@SC STAGE	component String	overloading	errors=2
+@@SC STAGE	component String	typecheck	errors=79
+@@SC STAGE	component Writer	export	errors=1
+@@SC STAGE	component Writer	typecheck	errors=11
+== compile: distinct api errors (every stage)
+297
+== compile: FortressLibrary.fss per declaration (clean, with errors, crashed)
+309 137
+5
+== compile: per-stage error lines, as printed (not deduplicated)
+@@SC STAGE	api FortressBuiltin	wellformed1	errors=1
+@@SC STAGE	api FortressBuiltin	wellformed2	errors=1
+@@SC STAGE	api FortressLibrary	acyclic	errors=19
+@@SC STAGE	api FortressLibrary	overloading	errors=99
+@@SC STAGE	api FortressLibrary	wellformed1	errors=91
+@@SC STAGE	api FortressLibrary	wellformed2	errors=91
+@@SC STAGE	api List	wellformed1	errors=3
+@@SC STAGE	api List	wellformed2	errors=3
+@@SC STAGE	api NativeArray	overloading	errors=4
+@@SC STAGE	api RangeInternals	overloading	errors=21
+@@SC STAGE	api RangeInternals	wellformed1	errors=76
+@@SC STAGE	api RangeInternals	wellformed2	errors=76
+@@SC STAGE	api Stream	wellformed1	errors=1
+@@SC STAGE	api Stream	wellformed2	errors=1
+@@SC STAGE	component FlatString	export	errors=1
+@@SC STAGE	component FlatString	overloading	errors=2
+@@SC STAGE	component FlatString	typecheck	errors=5
+@@SC STAGE	component FlatString	wellformed1	errors=2
+@@SC STAGE	component FlatString	wellformed2	errors=2
+@@SC STAGE	component FortressBuiltin	export	errors=1
+@@SC STAGE	component FortressBuiltin	typecheck	errors=8
+@@SC STAGE	component FortressBuiltin	wellformed1	errors=2
+@@SC STAGE	component FortressBuiltin	wellformed2	errors=5
+@@SC STAGE	component FortressLibrary	acyclic	errors=21
+@@SC STAGE	component FortressLibrary	export	errors=2
+@@SC STAGE	component FortressLibrary	overloading	errors=224
+@@SC STAGE	component FortressLibrary	typecheck	errors=330
+@@SC STAGE	component FortressLibrary	wellformed1	errors=143
+@@SC STAGE	component FortressLibrary	wellformed2	errors=287
+@@SC STAGE	component List	export	errors=2
+@@SC STAGE	component List	typecheck	errors=33
+@@SC STAGE	component List	wellformed1	errors=6
+@@SC STAGE	component List	wellformed2	errors=20
+@@SC STAGE	component NatReflect	wellformed1	errors=3
+@@SC STAGE	component NatReflect	wellformed2	errors=3
+@@SC STAGE	component NativeArray	overloading	errors=6
+@@SC STAGE	component RangeInternals	export	errors=2
+@@SC STAGE	component RangeInternals	overloading	errors=39
+@@SC STAGE	component RangeInternals	typecheck	errors=282
+@@SC STAGE	component RangeInternals	wellformed1	errors=112
+@@SC STAGE	component RangeInternals	wellformed2	errors=243
+@@SC STAGE	component Stream	export	errors=1
+@@SC STAGE	component Stream	typecheck	errors=3
+@@SC STAGE	component Stream	wellformed1	errors=2
+@@SC STAGE	component Stream	wellformed2	errors=5
+@@SC STAGE	component String	export	errors=1
+@@SC STAGE	component String	overloading	errors=2
+@@SC STAGE	component String	typecheck	errors=79
+@@SC STAGE	component String	wellformed1	errors=5
+@@SC STAGE	component String	wellformed2	errors=16
+@@SC STAGE	component Writer	export	errors=1

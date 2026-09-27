@@ -1,0 +1,280 @@
+# explorations/perf-probes/prelude/switch-over-distance/errors-walk.tsv 2523   explorations/perf-probes/prelude/switch-over-distance-flat/errors-walk.tsv 1736   go 1147   appear 360   stay 1376
+
+## net by kind: before, after, go, appear
+exclusion           126     38     88      0
+comprises             3      2      1      0
+overloading         707    501    215      9
+return-type         577     91    511     25
+abstract-method      20     18      2      0
+wellformed           90     93      2      5
+typecheck           988    981    328    321
+export               12     12      0      0
+
+## net by unit (first unit of the error): before, after, go, appear
+api FortressBuiltin               9      0      9      0
+api FortressLibrary             481    180    309      8
+api NativeArray                  22     22      0      0
+api RangeInternals               39     21     19      1
+component FlatString             22     22      0      0
+component FortressBuiltin       208    193     22      7
+component FortressLibrary      1274    828    604    158
+component List                   39     26     18      5
+component NatReflect              6      5      1      0
+component NativeArray             9      9      0      0
+component RangeInternals        320    343    143    166
+component Stream                  3      3      0      0
+component String                 79     72     22     15
+component Writer                 12     12      0      0
+
+## go, by kind
+   511  return-type
+   328  typecheck
+   215  overloading
+    88  exclusion
+     2  abstract-method
+     2  wellformed
+     1  comprises
+## go, overloading and return-type by family (subclass)
+    16  overloading  DOT (same parameter type)                same parameter type
+    15  overloading  CAP                                      same-sparams
+    14  overloading  combine2D                                same-sparams
+    14  overloading  combine3D                                same-sparams
+    14  overloading  juxtaposition (same parameter type)      same parameter type
+    13  overloading  BY (same parameter type)                 same parameter type
+     9  overloading  BITAND (same parameter type)             same parameter type
+     9  overloading  BITOR (same parameter type)              same parameter type
+     9  overloading  BITXOR (same parameter type)             same parameter type
+     9  overloading  LCM (same parameter type)                same parameter type
+     9  overloading  LSHIFT (same parameter type)             same parameter type
+     9  overloading  MOD (same parameter type)                same parameter type
+     8  overloading  BITNOT (same parameter type)             same parameter type
+     8  overloading  CHOOSE (same parameter type)             same parameter type
+     8  overloading  DIV (same parameter type)                same parameter type
+     8  overloading  GCD (same parameter type)                same parameter type
+     8  overloading  REM (same parameter type)                same parameter type
+     8  overloading  RSHIFT (same parameter type)             same parameter type
+     6  overloading  narrow (same parameter type)             same parameter type
+     5  overloading  LEXICO (same parameter type)             same parameter type
+     4  overloading  CMP (same parameter type)                same parameter type
+     3  overloading  partitionL (same parameter type)         same parameter type
+     3  overloading  widen (same parameter type)              same parameter type
+     2  overloading  round (same parameter type)              same parameter type
+     2  overloading  unsigned (same parameter type)           same parameter type
+     1  overloading  SQCAP (same parameter type)              same parameter type
+     1  overloading  numerator (same parameter type)          same parameter type
+   132  return-type  juxtaposition                            -
+    96  return-type  DOT                                      -
+    22  return-type  BY                                       -
+    16  return-type  BITAND                                   -
+    16  return-type  BITNOT                                   -
+    16  return-type  BITOR                                    -
+    16  return-type  BITXOR                                   -
+    16  return-type  CHOOSE                                   -
+    16  return-type  DIV                                      -
+    16  return-type  GCD                                      -
+    16  return-type  LCM                                      -
+    16  return-type  LSHIFT                                   -
+    16  return-type  MOD                                      -
+    16  return-type  REM                                      -
+    16  return-type  RSHIFT                                   -
+    14  return-type  MAX                                      -
+    14  return-type  MIN                                      -
+    14  return-type  narrow                                   -
+     5  return-type  MINMAX                                   -
+     5  return-type  partitionL                               -
+     4  return-type  distribute                               -
+     4  return-type  round                                    -
+     4  return-type  seq                                      -
+     3  return-type  empty                                    -
+     1  return-type  truncate                                 -
+     1  return-type  unsigned                                 -
+## go, the rest by kind and message shape (top 40)
+    22  typecheck      Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIn
+    19  typecheck      Could not check call to operator CMP - ((Number & {RR64}), Number)->Comparison is not applicable to 
+    18  typecheck      Could not check call to operator DIV - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable
+    14  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong, NN32})->NN64 is not applicable to an a
+    12  typecheck      Function body has type RR64, but declared return type is T.
+    11  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable t
+    11  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong, NN32}), NN64)->Boolean is not applicabl
+     8  typecheck      Could not check call to function get - ZZ32->T is not applicable to an argument of type ZZ64.
+     6  exclusion      Type SumReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.Distribute
+     6  typecheck      Could not assign an expression of type QQ to variable i of type I.
+     6  typecheck      Could not check call to function fullScalarRange - [\I\](I, I, I)->RangeInternals.FullScalarRange[\I
+     6  typecheck      Could not check call to operator + - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applicable t
+     6  typecheck      Could not check call to operator BITXOR - ((NN64 & {UnsignedLong, NN32}), NN64)->NN64 is not applica
+     6  typecheck      Function body has type QQ, but declared return type is ZZ32.
+     6  typecheck      Function body has type ZZ64, but declared return type is ZZ32.
+     4  typecheck      Could not check call to function mma - (ZZ32, ZZ32, ZZ32, ZZ32, ZZ32, ZZ32)->() is not applicable to
+     4  typecheck      Could not check call to function roundToStride - [\I extends Integral[\I\]\](I, I)->I is not applica
+     4  typecheck      Could not check call to operator ? - (Integral[\I\], I)->Boolean is not applicable to an argument of
+     4  typecheck      Filter expressions in generator clauses must have type Boolean, but r.isNaN was not well typed.
+     4  typecheck      Function body has type Number, but declared return type is T.
+     4  typecheck      Number has no getter called isNaN
+     3  exclusion      Type ProdReduction excludes FortressLibrary.DistributesOver but it extends FortressLibrary.Distribut
+     3  typecheck      Could not assign an expression of type QQ to variable n of type I.
+     3  typecheck      Could not assign an expression of type QQ to variable t of type I.
+     3  typecheck      Could not check call to function ArrayList - [\E\](ImmutableArray[\E,ZZ32\], ZZ32, OneShotFlag.OneSh
+     3  typecheck      Could not check call to function CompactFullRange2D - [\I, J\](I, J, I, J)->RangeInternals.CompactFu
+     3  typecheck      Could not check call to function CompactFullRange3D - [\I, J, K\](I, J, K, I, J, K)->RangeInternals.
+     3  typecheck      Could not check call to function OpenScalarRange - [\I\]I->RangeInternals.OpenScalarRange[\I\] is no
+     3  typecheck      Could not check call to function __bigOperator - [\I, O, R, L\](BigOperator[\I,O,R,L\], (Reduction[\
+     3  typecheck      Could not check call to function leftScalarRange - [\I\](I, I)->RangeInternals.LeftScalarRange[\I\] 
+     3  typecheck      Function body has type Array1[\T,0,s0\], but declared return type is Vector[\T,s0\].
+     3  typecheck      Function body has type QQ, but declared return type is I.
+     2  abstract-method one
+     2  exclusion      Type UnsignedLong excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+     2  exclusion      Type IntLiteral excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+     2  exclusion      Type BigNum excludes FortressLibrary.ZZ but it extends FortressLibrary.ZZ.
+     2  exclusion      Type Int excludes FortressLibrary.ZZ32 but it extends FortressLibrary.ZZ32.
+     2  exclusion      Type Long excludes FortressLibrary.ZZ64 but it extends FortressLibrary.ZZ64.
+     2  exclusion      Type NN32 excludes FortressLibrary.NN64 but it extends FortressLibrary.NN64.
+     2  exclusion      Type NN32 excludes FortressLibrary.StandardTotalOrder but it extends FortressLibrary.StandardTotalOr
+
+## appear, by kind
+   321  typecheck
+    25  return-type
+     9  overloading
+     5  wellformed
+## appear, overloading and return-type by family (subclass)
+     4  overloading  LEXICO (same parameter type)             same parameter type
+     3  overloading  IN                                       same-sparams
+     2  overloading  INVERSE (same parameter type)            same parameter type
+    11  return-type  MAX                                      -
+    11  return-type  MIN                                      -
+     2  return-type  distribute                               -
+     1  return-type  unsigned                                 -
+## appear, the rest by kind and message shape (top 40)
+    31  typecheck      Could not check call to operator < - ((NN64 & {UnsignedLong}), NN64)->Boolean is not applicable to a
+    29  typecheck      Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+    28  typecheck      Could not check call to operator |_| - (NN64 & {UnsignedLong})->NN64 is not applicable to an argumen
+    27  typecheck      Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+    21  typecheck      Could not check call to function builtinPrimitive - Could not infer static argument T without contex
+    21  typecheck      Could not check call to operator > - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Boolean is not ap
+    19  typecheck      Could not check call to operator CMP - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Comparison is n
+    15  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.12 
+     9  typecheck      Could not check call to operator juxtaposition - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applic
+     7  typecheck      Could not check call to operator - - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument 
+     6  typecheck      Could not check call to operator ? - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an a
+     4  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.22 
+     4  typecheck      Range[\ZZ32\] has no getter called lower String.fss: Possibly because (start, str): (ZZ32, String) a
+     3  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.13 
+     3  typecheck      Function body has type Array[\T,ZZ32\], but declared return type is Vector[\T,s0\].
+     3  typecheck      Function body has type Integral[\I\], but declared return type is I.
+     2  typecheck      Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\
+     2  typecheck      Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R is not applicable
+     2  typecheck      Could not check call to function big - (ZZ32 & {Int, IntLiteral})->ZZ is not applicable to an argume
+     2  typecheck      Could not check call to operator BIG || - ()->Comprehension[\Any,String,String,String\] is not appli
+     2  typecheck      Could not check call to operator MAX - ((QQ & {Ratio}), QQ)->QQ is not applicable to an argument of 
+     2  typecheck      Could not check call to operator MIN - ((QQ & {Ratio}), QQ)->QQ is not applicable to an argument of 
+     2  typecheck      Could not check call to operator MOD - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an
+     2  typecheck      Could not check method invocation RangeInternals.CompactFullParScalarRange[\IntLiteral\].narrowToRan
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.14 
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.16 
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.18 
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.20 
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.23 
+     2  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at RangeInternals.fss.28 
+     2  typecheck      Function body has type (QQ & {Ratio}), but declared return type is ZZ.
+     2  typecheck      Function body has type Array[\T,ZZ32\], but declared return type is Array1[\T,b0,s0\].
+     2  typecheck      Function body has type I, but declared return type is (I, I).
+     2  typecheck      Function body has type OR(((), ()),()), but declared return type is ().
+     2  typecheck      Function body has type OR(T,IntLiteral), but declared return type is T.
+     2  typecheck      Function body has type RR64, but declared return type is RR32.
+     2  typecheck      No such method String.get. FortressLibrary.fss: Possibly because i: ZZ32 after argument inference Fo
+     1  typecheck      BoundedRange[\ZZ32\] has no getter called nonEmpty String.fss: Possibly because (start, str): (ZZ32,
+     1  typecheck      Could not assign an expression of type (ZZ32, ZZ32) to variable maxFlat of type ZZ32.
+     1  typecheck      Could not assign an expression of type (ZZ32, ZZ32) to variable minFlat of type ZZ32.
+
+## stay, by kind
+   660  typecheck
+   492  overloading
+    88  wellformed
+    66  return-type
+    38  exclusion
+    18  abstract-method
+    12  export
+     2  comprises
+## stay, overloading and return-type by family (subclass)
+   244  overloading  fill                                     fill-crossed
+    58  overloading  fill                                     fill-same
+    38  overloading  FORWARD_CMP                              same-sparams
+    36  overloading  CAP                                      sentence
+    15  overloading  map                                      same-sparams
+    14  overloading  IN                                       sentence
+    12  overloading  IN                                       same-sparams
+    10  overloading  seq                                      sentence
+     7  overloading  generate                                 same-sparams
+     6  overloading  MAX                                      sentence
+     6  overloading  MIN                                      sentence
+     6  overloading  ivmap                                    same-sparams
+     6  overloading  lift                                     same-sparams
+     6  overloading  openRangeHelper                          sentence
+     4  overloading  CMP                                      sentence
+     4  overloading  SQCAP (same parameter type)              same parameter type
+     4  overloading  seq                                      same-sparams
+     3  overloading  LEXICO (same parameter type)             same parameter type
+     3  overloading  cross                                    same-sparams
+     3  overloading  juxtaposition                            same-sparams
+     3  overloading  juxtaposition                            sentence
+     2  overloading  copy                                     same-sparams
+     1  overloading  INVERSE (same parameter type)            same parameter type
+     1  overloading  nest                                     same-sparams
+    19  return-type  CMP                                      -
+     8  return-type  SQCAP                                    -
+     5  return-type  MAX                                      -
+     5  return-type  MIN                                      -
+     4  return-type  atMost                                   -
+     4  return-type  seq                                      -
+     4  return-type  shift                                    -
+     2  return-type  array1                                   -
+     2  return-type  array2                                   -
+     2  return-type  every                                    -
+     2  return-type  split                                    -
+     2  return-type  splitWithOffsets                         -
+     2  return-type  subarray                                 -
+     1  return-type  array3                                   -
+     1  return-type  filter                                   -
+     1  return-type  map                                      -
+     1  return-type  relation                                 -
+     1  return-type  target                                   -
+## stay, the rest by kind and message shape (top 40)
+   319  typecheck      Could not check call to function builtinPrimitive - Could not infer static argument T without contex
+    21  typecheck      Could not check call to function fail - Could not infer static argument T without context.
+    10  abstract-method IN
+     8  wellformed     Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Nu
+     6  abstract-method CAP
+     6  typecheck      Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIn
+     6  typecheck      Generator[\(ZZ32, String)\] has no getter called nonEmpty
+     6  wellformed     Ill-formed type: RangeInternals.RightScalarRange[\I\] The static argument I does not satisfy the cor
+     6  wellformed     Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Numbe
+     5  typecheck      Function body has type Array2[\T,0,s0,0,s1\], but declared return type is Matrix[\T,s0,s1\].
+     5  typecheck      Range[\ZZ32\] has no getter called lower
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullParScalarRange[\I\] The static argument I does not satisf
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\] The static argument I does not satisfy the
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullRange2D[\I,J\] The static argument J does not satisfy the
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\] The static argument I does not satisfy t
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\] The static argument J does not satisfy t
+     5  wellformed     Ill-formed type: RangeInternals.CompactFullRange3D[\I,J,K\] The static argument K does not satisfy t
+     4  typecheck      Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R is not applicable
+     4  typecheck      Could not check call to function cond - [\G\](E->G, ()->G)->G is not applicable to an argument of ty
+     4  typecheck      Could not check call to operator : - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIn
+     4  typecheck      Could not check method invocation BalancingForest.add - FlatString.FlatString->() is not applicable 
+     4  typecheck      Filter expressions in generator clauses must have type Boolean, but pieces.nonEmpty was not well typ
+     4  typecheck      Function body has type Array1[\T,0,s0\], but declared return type is Vector[\T,s0\].
+     4  typecheck      Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+     4  typecheck      No such method String.get.
+     4  wellformed     Ill-formed type: Vector[\T,s1\] The static argument T does not satisfy the corresponding bound Numbe
+     3  typecheck      Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R: FortressLibrary.
+     3  typecheck      Could not check call to function combine2D - [\I extends Integral[\I\], J extends Integral[\J\]\](Ra
+     3  typecheck      Could not check call to function combine3D - [\I extends Integral[\I\], J extends Integral[\J\], K e
+     3  typecheck      Could not check method invocation Maybe[\I\].loop - I->()->(): RangeInternals.fss: Could not check m
+     3  typecheck      Could not check method invocation String.StringStats.collectStatsFor - FlatString.FlatString->() is 
+     3  typecheck      Filter expressions in generator clauses must have type Boolean, but OpExpr at String.fss.12 was not 
+     3  typecheck      Function body has type Integral[\I\], but declared return type is I.
+     3  typecheck      Function body has type T, but declared return type is (T, T).
+     3  typecheck      Right-hand side has type IntLiteral, but declared type is I.
+     3  wellformed     Ill-formed type: Matrix[\T,s1,s0\] The static argument T does not satisfy the corresponding bound Nu
+     3  wellformed     Ill-formed type: NativeArray.PrimitiveArray[\T,s0 s1\] Arithmetic on nat static arguments is not sup
+     2  abstract-method |_|
+     2  comprises      Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subty
+     2  exclusion      Type TotalComparison excludes FortressLibrary.Comparison but it extends FortressLibrary.Comparison.

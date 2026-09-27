@@ -1,0 +1,87 @@
+########## Distance -order full -setting compile ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+# jvm flags: -Dprobe.tolerant=true -Dprobe.skipOverloads=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 10.80 12.47 12.81; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# disk: 9.8G free of 252G
+# start 2026-09-27T10:33:40Z
+### order=full phases=[ PREDISAMBIGUATEDESUGAR DISAMBIGUATE GRAMMAR PRETYPECHECKDESUGAR INTEGERLITERALFOLDING TYPECHECK DESUGAR OVERLOADREWRITE CODEGEN ] setting=compile (extendsObject=true compiledExpr=true) prelude=INTERPRETER target=[ProjectFortress/LibraryBuiltin/FortressBuiltin.fss] overloadCache=false
+@@TC API	AnyType	errors=0
+@@TC API	Stream	errors=4
+@@TC API	FlatString	errors=0
+@@TC API	String	errors=0
+@@TC API	FortressLibrary	errors=402
+@@TC API	FortressBuiltin	errors=4
+@@TC APIS-NOT-SUCCESSFUL	410 errors kept
+@@TC DECL-OK	VarDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:15:1-23	errors=0
+@@TC DECL-OK	VarDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:16:1-33:3	errors=0
+@@TC DECL-OK	FnDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:34:1-35:72	errors=0
+@@TC DECL-CRASH	TraitDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:37:1-52:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:54:1-192:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:194:1-201:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:203:1-367:2	errors=3
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:369:1-376:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:378:1-385:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:387:1-457:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:459:1-468:2	errors=2
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:470:1-535:2	errors=2
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:537:1-544:2	errors=0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:547:1-579:2	errors=1
+@@TC DECL-OK	FnDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:581:1-60	errors=0
+@@TC DECL-CRASH	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:583:1-695:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECL-OK	ObjectDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:697:1-706:2	errors=0
+@@TC DECL-OK	FnDecl	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:708:1-85	errors=0
+@@TC COMPONENT	FortressBuiltin	errors=30
+@@TC COMPONENTS-NOT-SUCCESSFUL	30 errors kept
+@@CG OVLSKIP	FortressBuiltin	sets=45
+@@CG OVLSKIP	FortressBuiltin	sets=32
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OVLSKIP	FortressBuiltin	sets=12
+@@CG PREFAIL	ObjectDecl RR32	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:203:1-367:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1567	 ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:34-47:     Can't compile MathPrimary at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327.34
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OVLSKIP	FortressBuiltin	sets=4
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG PREFAIL	ObjectDecl UnsignedLong	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:459:1-468:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1567	 ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:460:35-51:     Can't compile Juxt at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:460.35
+@@CG OVLSKIP	FortressBuiltin	sets=6
+@@CG PREFAIL	ObjectDecl IntLiteral	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:470:1-535:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1567	 ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:471:33-37:     Can't compile Juxt at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:471.33
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG PREFAIL	ObjectDecl Char	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:583:1-695:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1567	 ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:585:9-79:     Can't compile Juxt at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:585.9
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG OK	VarDecl [private language:String]	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:15:1-23
+@@CG OK	VarDecl [private package:String]	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:16:1-33:3
+@@CG OK	FnDecl builtinPrimitive	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:34:1-35:72
+@@CG OVLSKIP	FortressBuiltin	sets=0
+@@CG FAIL	TraitDecl Object	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:37:1-52:2	com.sun.fortress.exceptions.CompilerError	com.sun.fortress.compiler.codegen.CodeGen.sayWhat:1567	 ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:39:9-87:     Can't compile Juxt at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:39.9
+@@CG OK	ObjectDecl Float	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:54:1-192:2
+@@CG OK	ObjectDecl FloatLiteral	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:194:1-201:2
+@@CG OK	ObjectDecl RR32	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:203:1-367:2
+@@CG OK	ObjectDecl Int	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:369:1-376:2
+@@CG OK	ObjectDecl Long	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:378:1-385:2
+@@CG OK	ObjectDecl NN32	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:387:1-457:2
+@@CG OK	ObjectDecl UnsignedLong	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:459:1-468:2
+@@CG OK	ObjectDecl IntLiteral	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:470:1-535:2
+@@CG OK	ObjectDecl BigNum	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:537:1-544:2
+@@CG OK	ObjectDecl Boolean	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:547:1-579:2
+@@CG OK	FnDecl myJavaDigit	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:581:1-60
+@@CG OK	ObjectDecl Char	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:583:1-695:2
+@@CG OK	ObjectDecl Thread	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:697:1-706:2
+@@CG OK	FnDecl abort	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:708:1-85
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:461:40-46	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:472:32-33	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:461:34-37	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:39-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:629:23	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:629:31-45	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:348:18-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:358:18-19	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:629:42	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:38-44	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:694:9-82	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG FAIL	_RewriteFnOverloadDecl _RewriteFnOverloadDecl at ProjectFortress/LibraryBuiltin/Fort...	ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:629:18	edu.rice.cs.plt.tuple.OptionUnwrapException	edu.rice.cs.plt.tuple.Null.unwrap:58	null
+@@CG COMPONENT-OK	FortressBuiltin
+### rc=0
+exit=0
+ELAPSED 48 s
+# end 2026-09-27T10:34:28Z
