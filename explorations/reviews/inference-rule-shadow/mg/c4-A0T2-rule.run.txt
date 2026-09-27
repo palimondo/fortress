@@ -1,0 +1,18 @@
+########## DistanceMulti microGPT prog=c4 lib=A0T2 setting=any checker=rule
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.12 14.78 20.52; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# tree 9ec1559db (snapshot of 59a84a385)
+# start 2026-09-27T22:29:27Z
+### done FlatArrays.fss rc=0 seconds=159
+@@TC DECL-CRASH	FnDecl	FlatData.fss:14:1-42:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @
+@@TC DECL-CRASH	FnDecl	FlatData.fss:45:1-60:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @
+### done FlatData.fss rc=0 seconds=18
+### done MicroGptFlat.fss rc=0 seconds=19
+@@TC DECL-CRASH	FnDecl	MicroGptFlatCheck.fss:29:1-98:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Ch
+@@SC CRASH	component MicroGptFlatCheck	leftover	java.lang.ClassCastException	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1873)	class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.Expr (scala.runti
+### done MicroGptFlatCheck.fss rc=0 seconds=5
+### all seconds=204 rc=0
+exit=0
+ELAPSED 204 s
+# end 2026-09-27T22:32:51Z
+distinct errors: 213; at the program's own files: 20
