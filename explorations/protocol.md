@@ -113,7 +113,7 @@ touches two of the specification, the interpreter and the compiler is made in
 two steps, cheaper workers gathering cited evidence and the judgement at the
 top tier. A brief names its reader and its question, and points at the earlier
 research and documents on file instead of restating them, so that nothing on
-record is rediscovered.
+record is rediscovered; the clean worker of principle 2, on a design fork, is the one exception.
 
 **6. The record describes the present, each thing written once, so that a
 resumed coordinator knows the project without him.** A fact in FACTS with its
