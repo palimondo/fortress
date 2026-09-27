@@ -1,0 +1,27 @@
+(*) explorations/compile-ladder/rung-overflow-natives/REPORT.md
+
+component XXXSeqHashBoundsRungO
+export Executable
+
+run(): () = do
+    println("REACHED")
+    zMax: ZZ32 = 2147483647
+    zMin: ZZ32 = -2147483647 - 1
+    zero: ZZ32 = 0
+    one: ZZ32 = 1
+    var n: ZZ32 = 0
+    for i <- seq(zMin # zero) do
+        n += 1
+        assert(n < 2, "ranges.tex:64-65")
+    end
+    assert(n = 0, "ranges.tex:64-65")
+    var m: ZZ32 = 0
+    for i <- seq(zMax # one) do
+        m += 1
+        assert(m < 2, "ranges.tex:64-65")
+    end
+    assert(m = 1, "ranges.tex:64-65")
+    println("PASS")
+  end
+
+end

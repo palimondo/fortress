@@ -10,7 +10,7 @@
 
 The eighteen fixed-width arithmetic natives of the interpreter now raise the catchable `IntegerOverflow`: `Negate`, `Add`, `Sub`, `Mul` and `Div` of `Int.java` and `Long.java` (row 379's ten), and `Negate`, `Add`, `Sub` and `Mul` of `NN32.java` and `UnsignedLong.java`. Row 379's expected failure is the plain test `FixedWidthOverflowRungB.fss`, and `intPrim` and `longPrim` assert the raise at the bounds. The demo `HeapShakedown`'s `spread` is respelled with the wrapping operators (row 427). Of 413 interpreter tests none changed, and both microGPT checks are 40 of 40 on the raising natives.
 
-The reserved stop "a library body found to rely on wrapping" was met. The logging pass did not reach it; the skeptic's probes did, at three range bodies (`Library/RangeInternals.fss:1423`, `:989`, `Library/FortressLibrary.fss:3877`). The body at `:989` relies on wrapping at the integer bounds on the signed types and on every descending `NN32` or `NN64` range, `1:0` among them, whose `.size` answered 0 on the base and now raises (the second skeptic's `Sk2RangeW`, W01 and W08; section 15). It is lifted as reversible (`explorations/coordinator/POSITIONS.md:120`; `explorations/protocol.md:17-20`) and listed for Pavol (section 16). The repair round gave those bodies, and three more defects the skeptic measured, gated expected failures and rows 450 to 453, and changed no Java, library or team-test file (section 18). At the gather a fifth expected failure was added for `MIN # 0`, and an `NN32` assertion for row 452 (section 19).
+The reserved stop "a library body found to rely on wrapping" was met. The logging pass did not reach it; the skeptic's probes did, at three range bodies (`Library/RangeInternals.fss:1423`, `:989`, `Library/FortressLibrary.fss:3877`). The body at `:989` relies on wrapping at the integer bounds on the signed types and on every descending `NN32` or `NN64` range, `1:0` among them, whose `.size` answered 0 on the base and now raises (the second skeptic's `Sk2RangeW`, W01 and W08; section 15). It is lifted as reversible (`explorations/coordinator/POSITIONS.md:120`; `explorations/protocol.md:17-20`) and listed for Pavol (section 16). The repair round gave those bodies, and three more defects the skeptic measured, gated expected failures and rows 450 to 453, and changed no Java, library or team-test file (section 18). At the gather a fifth expected failure was added for `MIN # 0`, and an `NN32` assertion for row 452 (section 19). At the merged-diff review's repair a sixth was added, the compiled pair `XXXSeqHashBoundsRungO` for the prelude's `#` at the integer bounds (section 21).
 
 ## 0. How this report was written
 
@@ -24,7 +24,7 @@ The first worker's REPORT.md was refused by the harness, and its text lived only
 - **The stops.**
   - The reserved stop "a library body found to rely on wrapping" (`explorations/coordinator/CLIMB-BATCH-6.md:203`) **was met**, through the skeptic's probes, at three range bodies. It is lifted as reversible (`POSITIONS.md:120`; `protocol.md:17-20`) and listed (sections 15 and 16).
   - The two standing stops the intro names as lifted were met: the rename (`POSITIONS.md:65`) and the added team-test assertions (`POSITIONS.md:81`).
-  - The repair round's six new test files and the gather's one are outside the rung's named files (`CLIMB-BATCH-6.md:195`, `:203`), lifted the same way and listed (section 15).
+  - The repair round's six new test files, the gather's one and the three of the merged-diff review's repair (section 21) are outside the rung's named files (`CLIMB-BATCH-6.md:195`, `:203`), lifted the same way and listed (section 15).
 
 ## 2. Where the fix belongs
 
@@ -118,7 +118,7 @@ The eighteen natives each print an `OVERFLOW-PROBE` line where they meet an over
   - `MIN # 0`, which the specification makes empty (`Specification/basic/expressions/ranges.tex:64-65`), is the whole range on the base and raises after the edit and on the compiled path (the second skeptic's `Sk2RangeW` W10-W11, `Sk2RangeC` C06): `ProjectFortress/tests/XXXRangeEmptyHashRungO.fss`, row 450, added at the gather (section 19).
 - **B. A sequential range steps past its last element: home 2.** `ProjectFortress/tests/XXXSeqRangeTopRungO.fss`, row 451.
 - **C. Walk's `|r|` of a `ZZ64` or `NN32` range is a typecase failure: home 2.** `ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss`, row 452; its `NN32` assertion was added at the gather (section 19).
-- **D. The compiler prelude's range midpoint `lo+hi` overflows: home 2.** `ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss` with `SeqMidpointRungOLink.test` and `XXXSeqMidpointRungO.test`, row 453.
+- **D. The compiler prelude's range midpoint `lo+hi` overflows: home 2.** `ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss` with `SeqMidpointRungOLink.test` and `XXXSeqMidpointRungO.test`, row 453. The prelude's `#` at the integer bounds (`:446`), measured by the second skeptic's C06, has its own compiled pair since the merged-diff review, `XXXSeqHashBoundsRungO` (section 21).
 - **E. The compiled path folds numeral-only arithmetic, then dies with the uncatchable "Not in range" error: a note on row 325.** The specification makes such an expression a constant expression with its exact value (`Specification/basic/expressions/constant.tex:44-51`, `:123-133`). So this is row 325's static error measured again, not home 3.
 - **F. Row 315's duplicate closure class through a numeral-bodied thunk: a note on row 315.**
 - **G. Row 326 met again:** a note, the six lines of section 12 and the skeptic's ten.
@@ -148,7 +148,7 @@ The eighteen natives each print an `OVERFLOW-PROBE` line where they meet an over
   - **By reading,** the same shape is at `RangeInternals.fss:1426`, `:1429` and `FortressLibrary.fss:3878-3879`, and a like one at `:1158`, the strided size, whose base answer was already wrong (section 13).
   - **What reaches it.** No test, demo or microGPT check (section 9).
   - **Lifted.** It is reversible (four Java classes, one revert, nothing deleted), so `POSITIONS.md:120` and `protocol.md:17-20` lift it. It is listed for Pavol with row 450 and its expected failure.
-- **"An edit to any file not named above" (`CLIMB-BATCH-6.md:195`, `:203`): met by the repair round's six new test files, and by the one the gather added (section 19).** The prefix's home rule requires them. They are reversible and lifted the same way, and listed.
+- **"An edit to any file not named above" (`CLIMB-BATCH-6.md:195`, `:203`): met by the repair round's six new test files, by the one the gather added (section 19), and by the three of the merged-diff review's repair (section 21).** The prefix's home rule requires them. They are reversible and lifted the same way, and listed.
 - **The two standing stops,** lifted by `POSITIONS.md:65` and `:81` (section 1).
 - **Not met:**
   - **"A changed interpreter output or exit code":** 0 changed (section 8).
@@ -160,7 +160,7 @@ The eighteen natives each print an `OVERFLOW-PROBE` line where they meet an over
 - **The count.** 0 of 413 interpreter tests changed, with its list (`explorations/compile-ladder/rung-overflow-natives/probes/compare-normalised.txt`, `explorations/compile-ladder/rung-overflow-natives/probes/count-compare.txt`).
 - **The logging pass before and after** (section 9).
 - **The reserved stop, met and lifted as reversible.** Three range bodies answered right at the integer bounds only by wrapping, and now raise under walk (section 15); the one at `:989` also on every descending `NN32` or `NN64` range, `1:0` among them. Row 450 and `XXXRangeBoundsRungO` gate it. The alternative, not taken: reorder them now and keep the checked operators, as he decided for the strided distance.
-- **Five new expected-failure tests, outside the named files.** `XXXRangeBoundsRungO`, `XXXRangeEmptyHashRungO` (added at the gather), `XXXSeqRangeTopRungO` and `XXXRangeSizeZZ64RungO` run under walk; `XXXSeqMidpointRungO` is a compiled pair. Rows 450 to 453. The `testSystem` count rises by four, and the compiler suite gains two `.test` files.
+- **Six new expected-failure tests, outside the named files.** `XXXRangeBoundsRungO`, `XXXRangeEmptyHashRungO` (added at the gather), `XXXSeqRangeTopRungO` and `XXXRangeSizeZZ64RungO` run under walk; `XXXSeqMidpointRungO` and `XXXSeqHashBoundsRungO` (added at the merged-diff review's repair, section 21) are compiled pairs. Rows 450 to 453. The `testSystem` count rises by four, and the compiler suite gains four `.test` files.
 - **A judge's reading, not a decision under silence.** Numeral-only arithmetic is a constant expression (`constant.tex:44-51`, `:123-133`), so the compiled "Not in range" error is row 325's.
 
 ## 17. Files changed
@@ -170,7 +170,8 @@ The eighteen natives each print an `OVERFLOW-PROBE` line where they meet an over
   - `ProjectFortress/tests/FixedWidthOverflowRungB.fss` (renamed from `XXXFixedWidthOverflowRungB.fss`);
   - `ProjectFortress/tests/intPrim.fss:19-32` and `longPrim.fss:19-32`;
   - new in the repair round: `ProjectFortress/tests/XXXRangeBoundsRungO.fss`, `XXXSeqRangeTopRungO.fss`, `XXXRangeSizeZZ64RungO.fss` (its `NN32` lines `:15-19` added at the gather), `ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss`, `SeqMidpointRungOLink.test`, `XXXSeqMidpointRungO.test`;
-  - new at the gather: `ProjectFortress/tests/XXXRangeEmptyHashRungO.fss`.
+  - new at the gather: `ProjectFortress/tests/XXXRangeEmptyHashRungO.fss`;
+  - new at the merged-diff review's repair (section 21): `ProjectFortress/compiler_tests/XXXSeqHashBoundsRungO.fss`, `SeqHashBoundsRungOLink.test`, `XXXSeqHashBoundsRungO.test`.
 - **The demo:** `ProjectFortress/demos/HeapShakedown.fss:117`.
 - **The rung's directory:** `explorations/compile-ladder/rung-overflow-natives/`, including the repair round's two controls, `explorations/compile-ladder/rung-overflow-natives/probes/repair/SeqRangeControl.fss` and `explorations/compile-ladder/rung-overflow-natives/probes/repair/SeqMidpointControl.fss`, with their captures.
 
@@ -234,3 +235,26 @@ The gather wrote this report from the repair round's text and made the second sk
 ## 20. At the merged-diff review
 
 The review made record corrections only, in its commit "Fold the review's corrections": the provenance block's deviation line now ends in its file:line, and its historical line ends with the rule that asks for it (`explorations/coordinator/CLIMB-BATCH-6.md:282`), as batch 6's review did for rungs F and T; the word "provisional" is dropped from rows 449 and 450 in the summary and sections 10 and 13, since the gather's numbers are the same; and section 1 counts the new test files as section 15 does. No source, test or capture changed.
+
+## 21. At the merged-diff review's repair
+
+The merged-diff review found that the compiler prelude's `#`, `lo : (lo+sz-1)` (`Library/CompilerLibrary.fss:446`), had no gated home: `seq(MIN # 0)` raises `IntegerOverflow` on the compiled path (the second skeptic's C06, `explorations/compile-ladder/rung-overflow-natives/probes/skeptic/Sk2RangeC-compiled.txt:8`), where the specification makes the range empty. `XXXSeqMidpointRungO` never calls `#`, and `XXXRangeEmptyHashRungO` runs under walk only. The judge ruled repair, the review's option (a), widened to `MAX # 1` (`explorations/compile-ladder/climb-batch-6b/JUDGE-review.md` sections 1 and 5). This section records that repair. It ran on `main` at `2f4736a0b`.
+
+**The test.** `ProjectFortress/compiler_tests/XXXSeqHashBoundsRungO.fss`, with `SeqHashBoundsRungOLink.test` (link, which passes) and `XXXSeqHashBoundsRungO.test` (run, `run_out_contains=REACHED`, an expected failure), made from the `SeqMidpointRungO` pair by renaming the component. It counts the elements of `seq(MIN # 0)` and asserts 0, then counts `seq(MAX # 1)` and asserts 1. `Specification/basic/expressions/ranges.tex:64-65` says that `a#n` is the set of max(0,n) integers {a, ..., a+n-1}, so the first range is empty and the second is {MAX}; every element fits `ZZ32`, so only the prelude's intermediate overflows. The assertion inside each loop stops a wrongly built range at its second element instead of counting through it. The second loop is there because `:446` fails at both ends and each of the two half-fixes on record cures one end only: the reorder `lo : (lo+(sz-1))` cures `MAX # 1` and leaves `MIN # 0`, and building the empty range without `lo-1` cures `MIN # 0` and leaves `MAX # 1`. With both loops the file goes green only when `:446` is right at both ends. The judge took that decision; the alternative was `MIN # 0` alone.
+
+**The probe.** `explorations/compile-ladder/climb-batch-6b/repair/SeqHashBoundsProbe.fss`, compiled and run against a private copy of the caches, measured the top end before the test asserted it (`explorations/compile-ladder/climb-batch-6b/repair/SeqHashBoundsProbe.txt:10-17`): compile rc 0; `seq(MIN # 0)` raises `IntegerOverflow`; `seq(MAX # 1)` raises `IntegerOverflow`, as the judge predicted by reading; the controls `seq(MAX # 0)`, `seq((MIN+1) # 0)` and `seq(1 # 3)` count 0, 0 and 3; run rc 0.
+
+**Through `fortress junit`** (`explorations/compile-ladder/climb-batch-6b/repair/xxx-seq-hash-bounds-compiled.txt`):
+- The baseline, the existing pair: `SeqMidpointRungOLink.test` OK (1 test); `XXXSeqMidpointRungO.test` prints `REACHED`, then `IntegerOverflow` from `countedseqloop` at `Library/CompilerLibrary.fss:377`, then "Saw expected failure" and OK (1 test) (`:9-40`). The caches were not stale, so no library was rebuilt.
+- The new pair: `SeqHashBoundsRungOLink.test` OK (1 test); `XXXSeqHashBoundsRungO.test` prints `REACHED`, then `IntegerOverflow` from `simpleIntArith.intOverflowingSub`, through `ZZ32`'s `-` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:677`), at `Library/CompilerLibrary.fss:446`, from the file's `:13`, the first loop; then "Saw expected failure" and OK (1 test) (`:50-77`). The subtraction is `MIN - 1`, the `-1` of `lo+sz-1`.
+- Then the new components were removed from `default_repository/caches`, and `git status --short default_repository` printed nothing (`:79-83`).
+
+**Competing declarations.** `XXXSeqHashBoundsRungO` occurs only in its three new files, and `SeqHashBoundsProbe` only in the probe (`explorations/compile-ladder/climb-batch-6b/repair/competing-declarations.txt`).
+
+**The machine.** `nproc` 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, OpenJDK 25.0.4 (2026-07-21), `FORTRESS_THREADS=1`; the load average was 0.06 0.31 2.16 when the repair started (13:55:24 UTC), and each capture carries its own. The three compiled runs took 4.3 s, 3.9 s and 4.7 s of wall time.
+
+**The stop.** The three new files are outside O's named files (`explorations/coordinator/CLIMB-BATCH-6.md:195`), so they meet the stop "an edit to any file not named above" (`:203`) again. They are reversible, lifted by `explorations/coordinator/POSITIONS.md:120`, and listed here for Pavol.
+
+**What else changed.** Beyond the ruling's two edits in place (sections 13 and 16), the summary and sections 1, 15 and 17 each gained a clause pointing here, so that their counts and lists of new test files stay true. That was a decision; the alternative was to leave them describing the landing commit alone. No Java, library, `tests/` or build input changed.
+
+**What did not run.** No `ant` target, no interpreter pass, no comparison or logging pass and no gate. The coordinator re-runs `ant testFast` alone, with nothing built first; the compiler track is expected at 779 (777 and the two new `.test` files) with 0 failures.
