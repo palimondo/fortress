@@ -52,24 +52,19 @@ Batch 6 landed on 2026-09-27 (F, the flat tower; T, the number chapters; `compil
 
 ### Phase 2b. The repair batch from the conformance reviews
 
-Pavol, 2026-09-27: what the reviews of batches 3 to 6 call for is repaired before phase 3. The reviews are `reviews/batch-3-conformance.md`, `batch-3.5-4-conformance.md`, `batch-5-conformance.md`, and batch 6's when it is made. From them, so far:
-
-- Rows 417, 419 and 420 (the compiled loader's first-load race, a parallel task in a generic declaration, a generic method building over two parameters), on the switch-over's path; row 417 gated by a program of its shape in the gate's four-thread stage.
-- A size's range as the specification states it (POSITIONS 2026-09-27): the checker refuses a size beyond `NN32`/`ZZ32`, and `NatRtBigSize` is restated (row 418's walk test was restated when R landed).
-- Two compiled dispatch defects with no ledger row, with their probes as expected-failure tests and the measured 43-line fix.
-- `NN32`'s `LCM` passing its operands sign-extended.
-- The specification's text for the integer rules of 2026-09-22, and row 394's example.
-- The scalar block's comment that points the array design at a refused shape; stale specification line numbers in seven batch-3 test messages.
-
-Planned by one Opus worker, reviewed in place by Fable, launched on his go.
+Batch 6.5 (`coordinator/CLIMB-BATCH-6.5.md`, rungs E, P, G, V) is what the reviews of batches 3 to 6 call for. It moves no error of the distance, so it runs whenever a decision holds the queue, rung G first, because its rows (417, 419, 420, 351, 426) are on microGPT's compiled run (Pavol, 2026-09-27, the numerics synthesis's decision 5). Its question 1, when walk's numerals switch to `IntLiteral`, is answered by batch N below.
 
 ### Phase 3. The checker at a true zero
 
-- The count cannot see the whole distance. The `FortressLibrary` api stops at its first errors, and behind them waited 203 more (measured 09-22, 72 after cheap fixes). The library's component is never checked. The compile path's own setting that gives every static parameter `extends Object` added 712 errors. Overload dispatch generation did not finish on this library (inventory B2; FACTS § The checker and the one library).
-- The largest open fork is the specification's sentence that overloads may not differ in static parameters. It covers 35 errors and rows 398 and 400, and route A does not decide it. It touches the specification, the interpreter and the compiler, so it goes through the clean list and a top-tier judgement (inventory item 10; protocol § 6).
-- Also: the `fill` pairs (22 visible, 77 hidden); 32 Meet Rule errors that need a checker change; the `Condition[\()\]` site; rung N's decision 3 and the dead sizes (inventory B1 step 11, items 11 and 12).
+The order, Pavol's of 2026-09-27 (POSITIONS, the numerics plans; `reviews/numerics-plan-synthesis.md`). The measure is the distance stage every gate now reports (1,747 under the setting `any` at `ff1649cea`); the count stage stays beside it.
 
-Needs answers 9 to 12, and a measurement first (W1 below).
+1. **Batch 7** (running since 19:49 UTC, `wf_8a018276-f71`): H, the exclusion errors the flattening left and `AnyIntegral`'s clause; A, `fill`'s function form renamed `tabulate`; B, `extends Object` on the result-only parameter of `builtinPrimitive`, `fail` and `List`'s nullary comprehension, and row 421's `MIN`/`MAX`. Question 1 at the bound `Any`. Measured without H and A: 1,738 to 1,239 under walk's setting.
+2. **Batch 7R, ranges over `ZZ32`** (`coordinator/CLIMB-BATCH-7R.md`, being drafted): the one library's scalar ranges lose their integer type parameter, the checker crash it uncovers fixed, the specification's ranges text revised. Measured on a copy: about 230 fewer.
+3. **Batch N, the inference rule with the numeral switch**: the checker and walk infer a static argument with coercion (answer 8's promotion rule is its number case) and keep the expected type at `f(x)` with a retry; the one library and walk take the sibling `IntLiteral`; the specification's inference chapter written. Four rungs. A checker shadow measures it first (`reviews/inference-rule-shadow.md`).
+4. **Batch 7b** (S, C, W, L of `CLIMB-BATCH-7.md`): answer 9's overloading chapters, the return-type rule over every instance and the positional rule, walk's choice by declared domains, the library's overload families (about 70). After N, since W and N's walk rung share `OverloadedFunction.java`.
+5. **Batch 8**: the meet rule (100, after probe P2), the self-typed `Integral` bodies (28), the one-line slips, and the residue class by class from the distance stage's table, to a true zero.
+
+Decision D's diff (the sized signatures of C4's vocabulary) is written now and parked for phase 5 (`reviews/decision-d-diff.md`).
 
 ### Phase 4. The switch-over
 
