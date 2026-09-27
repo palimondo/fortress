@@ -1,0 +1,30 @@
+########## DistanceMulti variant=A0 setting=walk checker=stock
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.49 9.33 13.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# tree 5d1acd0a5 (snapshot of 59a84a385)
+# start 2026-09-27T23:00:11Z
+@@TC DECL-CRASH	FnDecl	FortressLibrary.fss:1226:1-1230:4	com.sun.fortress.exceptions.InterpreterBug	com.sun.fortress.exceptions.InterpreterBug.bug(InterpreterBug.java:67)	** bug! FortressLibrary.fss:1228:10     Type is not inferred.
+@@TC DECL-CRASH	TraitDecl	FortressLibrary.fss:2397:1-2511:2	com.sun.fortress.exceptions.TypeError	com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)	FortressLibrary.fss:2406:9:     Missing parameter type for i
+@@TC DECL-CRASH	TraitDecl	FortressLibrary.fss:2770:1-2883:2	com.sun.fortress.exceptions.TypeError	com.sun.fortress.exceptions.TypeError.make(TypeError.java:38)	FortressLibrary.fss:2789:11:     Missing parameter type for i
+@@TC DECL-CRASH	FnDecl	FortressLibrary.fss:4254:1-4267:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.
+@@TC DECL-CRASH	FnDecl	FortressLibrary.fss:4273:1-4278:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.
+### done FortressLibrary.fss rc=0 seconds=545
+### done RangeInternals.fss rc=0 seconds=169
+@@TC DECL-CRASH	TraitDecl	FortressBuiltin.fss:37:1-52:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.C
+@@TC DECL-CRASH	ObjectDecl	FortressBuiltin.fss:589:1-701:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuilti
+### done FortressBuiltin.fss rc=0 seconds=10
+### done NativeArray.fss rc=0 seconds=6
+### done List.fss rc=0 seconds=36
+@@TC DECL-CRASH	FnDecl	String.fss:322:1-332:2	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @
+### done String.fss rc=0 seconds=37
+### done FlatString.fss rc=0 seconds=5
+### done Stream.fss rc=0 seconds=0
+### done NatReflect.fss rc=0 seconds=2
+### done TypeProxy.fss rc=0 seconds=0
+### done Writer.fss rc=0 seconds=1
+### done AnyType.fss rc=0 seconds=0
+### all seconds=813 rc=0
+exit=0
+ELAPSED 815 s
+# end 2026-09-27T23:13:46Z
+distinct errors: 1774
