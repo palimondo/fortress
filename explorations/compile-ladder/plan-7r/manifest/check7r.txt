@@ -1,4 +1,4 @@
-== script at 48b8d443c
+== script at 20bf6ef76
 MANIFEST block of the original: lines 58 to 651 of 2242; every line outside it byte-identical in the splice
 node --check wf7r-orig.js: exit 0
 node --check wf7r-spliced.js: exit 0
