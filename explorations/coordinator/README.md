@@ -37,8 +37,10 @@ How they are kept:
 - These files describe the present. An entry that changes is rewritten in
   place; the old text is in git, and the commit message says what changed and
   why. No "superseded by", no "corrected", no dated updates inside an entry.
-  A landed rung's narrative may move to `FACTS-history.md`, verbatim, as
-  before.
+  At each landing, or when he replaces a decision, the full text of a
+  shortened or replaced `POSITIONS.md` entry moves verbatim to
+  `POSITIONS-history.md`, as a landed rung's narrative moves from `FACTS.md`
+  to `FACTS-history.md`.
 - One home per thing. His words are written once, in `POSITIONS.md`; every
   other file points to the entry. Nothing is written twice.
 - A remark is not a decision, and neither is a one-off go. A change to how we
