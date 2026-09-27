@@ -1,0 +1,16 @@
+########## DistanceMulti microGPT prog=c4 lib=A0 setting=any checker=rule
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.83 32.90 31.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# tree 1d63e6acd (snapshot of 59a84a385)
+# start 2026-09-27T21:59:17Z
+### done FlatArrays.fss rc=0 seconds=407
+@@TC DECL-CRASH	FnDecl	FlatData.fss:14:1-42:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @
+@@TC DECL-CRASH	FnDecl	FlatData.fss:45:1-60:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @
+### done FlatData.fss rc=0 seconds=45
+### done MicroGptFlat.fss rc=0 seconds=47
+### done MicroGptFlatCheck.fss rc=0 seconds=13
+### all seconds=513 rc=0
+exit=0
+ELAPSED 515 s
+# end 2026-09-27T22:07:52Z
+distinct errors: 221; at the program's own files: 23

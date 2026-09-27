@@ -1,0 +1,29 @@
+c4 L0: own errors stock 23, rule 21; cleared 2, new 0; range refusals at # or : stock 0 sites, rule 0
+    cleared  FlatArrays.fss:38  Could not check call to function fail - Could not infer static argument T without context.
+    cleared  FlatArrays.fss:39  Could not check call to function fail - Could not infer static argument T without context.
+c4 A0: own errors stock 29, rule 23; cleared 13, new 7; range refusals at # or : stock 13 sites, rule 2
+    cleared  FlatArrays.fss:131  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatArrays.fss:145  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatArrays.fss:151  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatArrays.fss:157  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatArrays.fss:163  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatArrays.fss:38  Could not check call to function fail - Could not infer static argument T without context.
+    cleared  FlatArrays.fss:39  Could not check call to function fail - Could not infer static argument T without context.
+    cleared  FlatData.fss:122  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatData.fss:77  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatData.fss:85  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  FlatData.fss:96  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  MicroGptFlat.fss:43  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    cleared  MicroGptFlatCheck.fss:27  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not a
+    NEW      FlatArrays.fss:131  Could not check call to function plane - [\nat a, nat b, nat c\](Array3[\RR64,0,a,0,b,0,c\], ZZ32)->Array[\RR64,(ZZ32, ZZ32)\] is not applicable to an argument of type (A
+    NEW      FlatArrays.fss:145  Could not check call to function row - [\nat r, nat c\](Matrix[\RR64,r,c\], ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Array[\RR64,(ZZ32, ZZ32)\]
+    NEW      FlatArrays.fss:151  Could not check call to function row - [\nat r, nat c\](Matrix[\RR64,r,c\], ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Array[\RR64,(ZZ32, ZZ32)\]
+    NEW      FlatArrays.fss:157  Could not check call to function row3 - [\nat a, nat b, nat c\](Array3[\RR64,0,a,0,b,0,c\], ZZ32, ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Arra
+    NEW      FlatArrays.fss:163  Could not check call to function row3 - [\nat a, nat b, nat c\](Array3[\RR64,0,a,0,b,0,c\], ZZ32, ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Arra
+    NEW      FlatData.fss:122  Character has no getter called codePoint FlatData.fss:122:30-53: Possibly because j: ZZ32 after argument inference FlatData.fss:122:9-29: Possibly because d: ZZ32 after a
+    NEW      FlatData.fss:97  Could not check call to function parseRow - [\nat s\](String, Vector[\RR64,s\], ZZ32)->ZZ32 is not applicable to an argument of type (String, Array[\RR64,ZZ32\], ZZ32). F
+
+# by site: each copy under the rule against today's library (L0) under the rule
+c4 A0: sites 23, L0 21; only on A0 2, only on L0 0
+    only A0  MicroGptFlat.fss:91  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\
+    only A0  MicroGptFlatCheck.fss:36  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\
