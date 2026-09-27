@@ -8,22 +8,19 @@
 
 ## Held while he reads (2026-09-27)
 
-Worked through one at a time, each by a short phrase, when he says he is done reading; being on this list answers nothing. Each item carries what he was reacting to and his words, so that it survives a compaction.
+Each point is a line in the coordinator's words with the UTC time of his message in the session transcript (`fe616d40`, backed up on `transcripts-blinded`), which holds his exact words: an index, not a copy. Worked through one at a time when he says he is done reading; being on this list answers nothing.
 
-**What he was reacting to.** The coordinator's reply of about 07:55 UTC on the gap ledger (`explorations/fortress-gap-ledger.md`): it named the re-approval table (rows 1-48 of `postmortem-2026-09-19/decisions-for-reapproval.md`, the numbers "in the 20s, 30s, 40s") as separate from the ledger rows (300s, 400s); said the ledger holds every known gap, defect and design limit, begun 2026-09-08 from the microGPT runs, with two derived views (the revival worklist of 46 items, `fortress-gap-ledger.md:633`, and the counts by status and class, `:735`), both last derived 2026-09-15/16 over rows 1-310, so about 130 later rows are in neither; that at 720 KB it is too big to read and workers do not search it; and proposed one Opus worker to re-derive the views over all rows, grouping every open row by the plan phase that closes it (repair batch, phase 3, switch-over, microGPT compiles, microGPT fast, parked), marking closed rows, and pointing PLAN at each group. The ledger's existing sections are by area (16 of them: grammar, numerals, type system, overloading, big operators, arrays, parallelism, Fortify, packaging, bytecode-compiler path, value objects, contracts, object bodies and APIs, maps and strings, program shape and cost, syntax extension; `fortress-gap-ledger.md:55-528`), and each row has a status and a class.
+Reacting to the coordinator's reply on the gap ledger (07:47 UTC): its purpose, its stale derived views (the worklist and counts, rows 1-310 only), and a proposal to regroup open rows by the plan phase that closes them. His message, 07:57:42 UTC:
 
-**His points, in his words where he gave them:**
+- Who writes into the ledger, when, and under which standing instruction.
+- Was the ledger sorted by kind before; does it need re-sorting.
+- Row numbers stay stable: rows are cited by number.
+- Grouping by plan phase may be the wrong principle; the rows are many kinds of technical problem (the ledger's own 16 sections are by area).
+- His mental model of the ledger may differ from what it is.
+- Unsure about PLAN.md, the big plan file, as the place.
+- No go yet on re-deriving the views: he wants to understand the proposal first; he does want the ledger put to good use.
 
-- "What are the standing instructions? Who writes into the ledger and when?" He sees the ledger growing by about 130 rows and is not sure how rows get there or under what rule.
-- "Was the ledger sorted by type before? So do we need now like to re resort it or something?"
-- "We probably need to be careful about references because those IDs should remain stable ... we are sometimes referring to them just by numbers."
-- On grouping by plan phase: "I'm not sure this is the right organizing principle. Have you seen the ledger? ... there were many different like technical problems from compilation, like different things. I don't think the proposed categories ... is the organizing principle that would help with that. I can change my mind, but I'm not sure we are talking about the same thing."
-- "Or maybe my mental model of what the ledger is differs from what it really is, and you are correct."
-- "I'm also unsure about this big plan file."
-- "So I'm not giving a go yet. Because I need to understand what you are proposing better. But yes, it would be good to make a good use from it."
-- His framing of the ledger's purpose, earlier in the same message: "we started running the experiments in building different programs and whenever we found some issue we put that under the ledger as a gap, right? And those are supposed to help us orient ourselves into how to make this project run again ... how are we using it? are we doing a good job there?"
-
-**Also waiting for his answer** (PLAN.md, "Asked 2026-09-27"): the three worker questions, skeptic checks 11-13 and the gather's filing of items for him, for 6b (the proposal commit on branch `script-retry`); the principle 5 line, "a worker's change is reviewed by reading the change, not its report"; whether a Fable judge may rule overnight on a review's findings.
+Also waiting for his answer (PLAN.md, "Asked 2026-09-27"): the three worker questions, skeptic checks 11-13 and the gather's filing of items for him, for 6b; the principle 5 review line; a Fable judge overnight.
 
 ## The research he asked for, answered
 

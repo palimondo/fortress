@@ -30,7 +30,7 @@ one purpose is to tell the post-compaction coordinator what is in flight: what
 is running, what to do when it completes, and a question waiting on Pavol if
 one is. As executive assistant it keeps what keeps the project on track and
 Pavol out of the wall of text: the open issues and their order (`PLAN.md`),
-the held list while he reads (`held-list.md`'s own list), and `POSITIONS.md`,
+the held list while he reads (`held-list.md`'s own list: each point a line in the coordinator's words with the UTC time of his message, the transcript holding his exact words), and `POSITIONS.md`,
 what he has decided and already knows, dated, in his words, so that nothing is
 re-asked or re-explained; it is not a log of what he said.
 
