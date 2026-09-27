@@ -1,0 +1,55 @@
+component OneShapeW
+export Executable
+(* Fable's one-shape walk cases (numerics-plan-fable/probes/one-shape/walk/), made by
+   make-oneshape.py: the preamble once, run()'s locals at top level, one declaration per case. *)
+import List.{...}
+same[\T extends Number\](a: T, b: T): String = "same[" (typeOf a) "," (typeOf b) "]"
+sameAdd[\T extends Number\](a: T, b: T): String = "a+b is " (typeOf (a + b))
+lohi[\I extends AnyIntegral\](lo: I, hi: I): String = "lohi[" (typeOf lo) "," (typeOf hi) "]"
+object Box[\T\](v: T)
+    accept(x: T): String = "accept[" (typeOf x) "]"
+end
+scale[\T\](b: Box[\T\], x: T): String = b.accept(x)
+ee(x: ZZ32): String = "ZZ32 arm"
+ee(x: Any): String = "Any arm"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    RR64 => "RR64"
+    else => "other"
+  end
+z: ZZ32 = 3
+w: ZZ64 = widen(4)
+r: RR64 = 2.5
+u: NN32 = unsigned(5)
+b: Box[\RR64\] = Box[\RR64\](1.0)
+wAcceptZ(): () = println("b.accept(z) control: " b.accept(z))
+wAdd3W(): () = println("sameAdd(3, w): " sameAdd(3, w))
+wAddZR(): () = println("sameAdd(z, r): " sameAdd(z, r))
+wAddZW(): () = println("sameAdd(z, w): " sameAdd(z, w))
+wBind3(): () = do s: RR64 = 3; println("s: RR64 = 3: " (typeOf s)) end
+wBind3G(): () = do s: RR64 = 3000000000; println("s: RR64 = 3000000000: " (typeOf s)) end
+wBindZ(): () = do s: RR64 = z; println("s: RR64 = z: " (typeOf s)) end
+wEe5(): () = println("ee(5): " ee(5) "; ee(z): " ee(z))
+wLohi246(): () = println("lohi(2, 46): " lohi(2, 46))
+wLohi2Z(): () = println("lohi(2, z): " lohi(2, z))
+wLohiZU(): () = println("lohi(z, u): " lohi(z, u))
+wLohiZW(): () = println("lohi(z, w): " lohi(z, w))
+wLohiZZ(): () = println("lohi(z, z) control: " lohi(z, z))
+wRange0W(): () = do c: ZZ32 := 0; for i <- seq(0#w) do c += 1 end; println("0#w: " c) end
+wRange246(): () = do c: ZZ32 := 0; for i <- seq(2:46) do c += 1 end; println("2:46: " c) end
+wRangeZU(): () = do c: ZZ32 := 0; for i <- seq(z:u) do c += 1 end; println("z:u: " c) end
+wRangeZW(): () = do c: ZZ32 := 0; for i <- seq(z:w) do c += 1 end; println("z:w: " c) end
+wSame34(): () = println("same(3, 4): " same(3, 4))
+wSame3W(): () = println("same(3, w): " same(3, w))
+wSameZR(): () = println("same(z, r): " same(z, r))
+wSameZW(): () = println("same(z, w): " same(z, w))
+wSameZZ(): () = println("same(z, z) control: " same(z, z))
+wScale3(): () = println("scale(b, 3): " scale(b, 3))
+wScaleR(): () = println("scale(b, r) control: " scale(b, r))
+wScaleZ(): () = println("scale(b, z): " scale(b, z))
+wSumLit(): () = println("SUM <|1,2,3|>: " (SUM <|1, 2, 3|>))
+wSumLitT(): () = println("SUM[\\ZZ32\\] <|[\\ZZ32\\] 1,2,3|>: " (SUM[\ZZ32\] <|[\ZZ32\] 1, 2, 3|>))
+run(): () = ()
+end

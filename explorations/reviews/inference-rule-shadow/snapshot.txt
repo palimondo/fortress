@@ -1,0 +1,7 @@
+# snapshot.sh 2026-09-27T19:40:53Z
+HEAD 59a84a385
+last commit to ProjectFortress/src Library ProjectFortress/LibraryBuiltin: 917bb7b32 2026-09-27T13:11:32+00:00
+ProjectFortress/build/scalac-compileAll.args: 2026-09-27T14:17:07Z
+newest .class in the build: 817 newer than that file
+sources newer than the build's args file: 0
+snapshot: 46M

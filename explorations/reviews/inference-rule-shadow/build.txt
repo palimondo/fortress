@@ -1,0 +1,28 @@
+# build.sh 2026-09-27T19:50:23Z; tree 56c6c69e0; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.43 1.41 1.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+wrote <X>/shadow-src-rule/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote <X>/shadow-src-rule/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built rule in 11 s: 5 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals$$anonfun$constraint$1$1.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals$$anonfun$valueOf$1$1.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals$finder$1$.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class
+wrote <X>/shadow-src-instr/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote <X>/shadow-src-instr/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built instr in 10 s: 4 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/FunctionalsProbe$.class
+com/sun/fortress/scala_src/typechecker/impls/FunctionalsProbe.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class
+wrote <X>/shadow-src-rule-instr/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+wrote <X>/shadow-src-rule-instr/com/sun/fortress/scala_src/typechecker/impls/Operators.scala
+built rule-instr in 15 s: 7 class files
+com/sun/fortress/scala_src/typechecker/impls/Functionals$$anonfun$constraint$1$1.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals$$anonfun$valueOf$1$1.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals$finder$1$.class
+com/sun/fortress/scala_src/typechecker/impls/Functionals.class
+com/sun/fortress/scala_src/typechecker/impls/FunctionalsProbe$.class
+com/sun/fortress/scala_src/typechecker/impls/FunctionalsProbe.class
+com/sun/fortress/scala_src/typechecker/impls/Operators.class
+rule.patch applies to the tree: yes
+rule.patch: 123 lines added, 9 removed
