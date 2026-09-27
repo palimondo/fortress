@@ -16,7 +16,7 @@ The script runs *a* batch, not batch 1. Everything a batch changes lies between 
 
 ## Preparing a batch record
 
-An Opus planning worker drafts `CLIMB-BATCH-<n>.md` and commits it. On Pavol's yes each time, one Fable worker then reviews it in place: it edits the record directly, writes one reason per change in a short review note (`climb-batch-6-review.md` is the example), and commits, so that the diff between the two versions shows exactly what the review changed. The coordinator reads that diff, fixes what is left, and brings the questions in section 1 to Pavol one per message; the batch launches on his go (batches 5 and 6, POSITIONS-history 2026-09-26).
+An Opus planning worker drafts `CLIMB-BATCH-<n>.md` and commits it. On Pavol's yes each time, one Fable worker then reviews it in place: it edits the record directly, writes one reason per change in a short review note (`climb-batch-6-review.md` is the example), and commits, so that the diff between the two versions shows exactly what the review changed. The coordinator reads that diff, fixes what is left, and brings the questions in section 1 to Pavol one per message; the batch launches on his go (batches 5 and 6; his words in the two entries of 2026-09-26 on the review of those manifests, `git show e5414f5bf:explorations/coordinator/POSITIONS.md`, lines 150 and 171).
 
 ## Shared prefix
 
