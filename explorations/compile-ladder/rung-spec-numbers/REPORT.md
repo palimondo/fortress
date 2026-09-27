@@ -58,7 +58,7 @@ The changes, file by file:
   - one ℚ holds 1/0, −1/0 and 0/0;
   - the ℚ*-to-ℚ assignment rule is gone;
   - the team's margin note is kept.
-- **Appendix I** (`Specification/appendices/changes.tex:41-46`, `:52-58`, `:98-99`, the entries `:435-1016`, "Passages not yet revised" `:1018-1041`, route C `:1043-1073`):
+- **Appendix I** (`Specification/appendices/changes.tex:41-46`, `:52-58`, `:98-99`, the entries `:435-1026`, "Passages not yet revised" `:1028-1051`, route C `:1053-1083`):
   - seven entries, I.1.10 to I.1.16;
   - the rule entry's wording and "Passages not yet revised" replaced;
   - route C updated.
