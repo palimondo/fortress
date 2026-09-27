@@ -1,0 +1,10 @@
+# check.sh rule walk L0 RuleL 2026-09-27T20:19:10Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.71 13.25 10.37; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 25 s
+# the trace lines of the program's own file (@@PROBE-R):
+# the program's own error lines (with 3 lines of context each):
+17:RuleL.fss:108:34-40:
+18-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+19-File RuleL.fss has 1 error.
+20-### rc=-1
+# tallies:
+File RuleL.fss has 1 error.
+### rc=-1

@@ -1,0 +1,464 @@
+# check.sh rule-instr any L0 OneShapeW 2026-09-27T20:05:13Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.40 8.37 5.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 43 s
+# the trace lines of the program's own file (@@PROBE-R):
+@@PROBE-R FN OneShapeW.fss:6:57-64 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:6:57-64 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R FN OneShapeW.fss:6:72-79 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:6:72-79 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R OP OneShapeW.fss:6:48-82 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:6:48-79 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:6:48-67 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:6:48-64 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:6:57-64 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:6:57-64 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:6:48-64 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:6:48-67 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:6:72-79 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:6:72-79 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:6:48-79 sargs=[] range=String args=(OpExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:6:48-82 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R OP OneShapeW.fss:7:70 + expected=NONE
+@@PROBE-R OP-FAIL OneShapeW.fss:7:70
+@@PROBE-R FN OneShapeW.fss:8:64-71 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:8:64-71 sargs=[] range=String args=(VarRef:I) phase=ctx
+@@PROBE-R FN OneShapeW.fss:8:80-87 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:8:80-87 sargs=[] range=String args=(VarRef:I) phase=ctx
+@@PROBE-R OP OneShapeW.fss:8:55-91 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:8:55-87 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:8:55-75 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:8:55-71 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:8:64-71 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:8:64-71 sargs=[] range=String args=(VarRef:I) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:8:55-71 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:8:55-75 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:8:80-87 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:8:80-87 sargs=[] range=String args=(VarRef:I) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:8:55-87 sargs=[] range=String args=(OpExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:8:55-91 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:10:39-46 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:10:39-46 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R OP OneShapeW.fss:10:28-49 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:10:28-46 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:10:39-46 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:10:39-46 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:10:28-46 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:10:28-49 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R MI OneShapeW.fss:12:41-50 expected=String
+@@PROBE-R MI-OK OneShapeW.fss:12:41-50 sargs=[] range=String args=(VarRef:T) phase=ctx
+@@PROBE-R FN OneShapeW.fss:24:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:24:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:26:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:26:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:27:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:27:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:28:5-46 expected=NONE
+@@PROBE-R MI OneShapeW.fss:28:37-46 expected=NONE
+@@PROBE-R MI-OK OneShapeW.fss:28:37-46 sargs=[] range=String args=(TraitCoercionInvocation:RR64) phase=ctx
+@@PROBE-R OP OneShapeW.fss:28:13-46 juxtaposition expected=NONE
+@@PROBE-R MI OneShapeW.fss:28:37-46 expected=NONE
+@@PROBE-R MI-OK OneShapeW.fss:28:37-46 sargs=[] range=String args=(TraitCoercionInvocation:RR64) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:28:13-46 sargs=[] range=String args=(StringLiteralExpr:String, MethodInvocation:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:28:5-46 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:32:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:32:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:34:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:34:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:35:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:35:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:36:5-42 expected=NONE
+@@PROBE-R FN OneShapeW.fss:36:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:36:31-42 sargs=[ZZ64] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:36:13-42 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:36:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:36:31-42 sargs=[] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:36:13-42 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:36:5-42 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:40:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:40:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:42:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:42:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:43:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:43:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:44:5-42 expected=NONE
+@@PROBE-R FN OneShapeW.fss:44:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:44:31-42 sargs=[RR64] range=String args=(TupleExpr:(RR64, RR64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:44:13-42 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:44:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:44:31-42 sargs=[] range=String args=(TupleExpr:(RR64, RR64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:44:13-42 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:44:5-42 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:48:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:48:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:50:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:50:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:51:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:51:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:52:5-42 expected=NONE
+@@PROBE-R FN OneShapeW.fss:52:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:52:31-42 sargs=[ZZ64] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:52:13-42 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:52:31-42 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:52:31-42 sargs=[] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:52:13-42 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:52:5-42 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:56:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:56:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:58:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:58:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:59:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:59:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:60:21-53 expected=NONE
+@@PROBE-R FN OneShapeW.fss:60:46-53 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:60:46-53 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP OneShapeW.fss:60:29-53 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:60:46-53 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:60:46-53 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:60:29-53 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:60:21-53 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:64:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:64:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:66:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:66:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:67:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:67:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:68:30-71 expected=NONE
+@@PROBE-R FN OneShapeW.fss:68:64-71 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:68:64-71 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP OneShapeW.fss:68:38-71 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:68:64-71 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:68:64-71 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:68:38-71 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:68:30-71 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:72:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:72:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:74:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:74:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:75:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:75:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:76:21-53 expected=NONE
+@@PROBE-R FN OneShapeW.fss:76:46-53 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:76:46-53 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP OneShapeW.fss:76:29-53 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:76:46-53 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:76:46-53 sargs=[] range=String args=(VarRef:RR64) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:76:29-53 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:76:21-53 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:80:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:80:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:82:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:82:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:83:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:83:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:84:5-44 expected=NONE
+@@PROBE-R FN OneShapeW.fss:84:23-26 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:84:23-26 sargs=[] range=String args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:84:41-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:84:41-44 sargs=[] range=String args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R OP OneShapeW.fss:84:13-44 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:84:13-36 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:84:13-26 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:84:23-26 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:84:23-26 sargs=[] range=String args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:84:13-26 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:84:13-36 sargs=[] range=String args=(OpExpr:String, StringLiteralExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:84:41-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:84:41-44 sargs=[] range=String args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:84:13-44 sargs=[] range=String args=(OpExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:84:5-44 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:88:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:88:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:90:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:90:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:91:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:91:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:92:5-38 expected=NONE
+@@PROBE-R FN OneShapeW.fss:92:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:92:29-38 sargs=[IntLiteral] range=String args=(TupleExpr:(IntLiteral, IntLiteral)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:92:13-38 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:92:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:92:29-38 sargs=[] range=String args=(TupleExpr:(IntLiteral, IntLiteral)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:92:13-38 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:92:5-38 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:96:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:96:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:98:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:98:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:99:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:99:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:100:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:100:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:100:28-36 sargs=[ZZ32] range=String args=(TupleExpr:(IntLiteral, ZZ32)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:100:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:100:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:100:28-36 sargs=[] range=String args=(TupleExpr:(IntLiteral, ZZ32)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:100:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:100:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:104:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:104:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:106:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:106:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:107:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:107:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:108:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:108:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:108:28-36 sargs=[OR(ZZ32,NN32)] range=String args=(TupleExpr:(ZZ32, NN32)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:108:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:108:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:108:28-36 sargs=[] range=String args=(TupleExpr:(ZZ32, NN32)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:108:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:108:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:112:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:112:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:114:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:114:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:115:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:115:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:116:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:116:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:116:28-36 sargs=[ZZ64] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:116:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:116:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:116:28-36 sargs=[] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:116:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:116:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:120:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:120:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:122:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:122:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:123:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:123:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:124:5-44 expected=NONE
+@@PROBE-R FN OneShapeW.fss:124:36-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:124:36-44 sargs=[ZZ32] range=String args=(TupleExpr:(ZZ32, ZZ32)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:124:13-44 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:124:36-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:124:36-44 sargs=[] range=String args=(TupleExpr:(ZZ32, ZZ32)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:124:13-44 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:124:5-44 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:128:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:128:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:130:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:130:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:131:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:131:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:132:31-35 expected=NONE
+@@PROBE-R OP OneShapeW.fss:132:35 # expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:132:35 sargs=[ZZ64] range=CompactFullRange[\ZZ64\] args=(TraitCoercionInvocation:ZZ64, VarRef:ZZ64) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:132:31-35 sargs=[lifted ZZ64] range=SequentialGenerator[\ZZ64\] args=(OpExpr:CompactFullRange[\ZZ64\]) phase=ctx
+@@PROBE-R MI OneShapeW.fss:132:26-40 expected=()
+@@PROBE-R OP OneShapeW.fss:132:43-51 + expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:132:43-51 sargs=[] range=ZZ32 args=(VarRef:ZZ32, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R MI-OK OneShapeW.fss:132:26-40 sargs=[] range=() args=(FnExpr:ZZ64->()) phase=ctx
+@@PROBE-R FN OneShapeW.fss:132:55-71 expected=NONE
+@@PROBE-R OP OneShapeW.fss:132:63-71 juxtaposition expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:132:63-71 sargs=[] range=String args=(StringLiteralExpr:String, VarRef:ZZ32) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:132:55-71 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:136:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:136:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:138:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:138:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:139:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:139:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:140:31-35 expected=NONE
+@@PROBE-R OP OneShapeW.fss:140:35 : expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:140:35 sargs=[IntLiteral] range=CompactFullRange[\IntLiteral\] args=(IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:140:31-35 sargs=[lifted IntLiteral] range=SequentialGenerator[\IntLiteral\] args=(OpExpr:CompactFullRange[\IntLiteral\]) phase=ctx
+@@PROBE-R MI OneShapeW.fss:140:26-41 expected=()
+@@PROBE-R OP OneShapeW.fss:140:44-52 + expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:140:44-52 sargs=[] range=ZZ32 args=(VarRef:ZZ32, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R MI-OK OneShapeW.fss:140:26-41 sargs=[] range=() args=(FnExpr:IntLiteral->()) phase=ctx
+@@PROBE-R FN OneShapeW.fss:140:56-73 expected=NONE
+@@PROBE-R OP OneShapeW.fss:140:64-73 juxtaposition expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:140:64-73 sargs=[] range=String args=(StringLiteralExpr:String, VarRef:ZZ32) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:140:56-73 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:144:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:144:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:146:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:146:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:147:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:147:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:148:31-35 expected=NONE
+@@PROBE-R OP OneShapeW.fss:148:35 : expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:148:35 sargs=[OR(ZZ32,NN32)] range=CompactFullRange[\OR(ZZ32,NN32)\] args=(VarRef:ZZ32, VarRef:NN32) phase=ctx
+@@PROBE-R FN-FAIL OneShapeW.fss:148:31-35
+@@PROBE-R FN OneShapeW.fss:148:55-71 expected=NONE
+@@PROBE-R OP OneShapeW.fss:148:63-71 juxtaposition expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:148:63-71 sargs=[] range=String args=(StringLiteralExpr:String, VarRef:ZZ32) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:148:55-71 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:152:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:152:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:154:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:154:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:155:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:155:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:156:31-35 expected=NONE
+@@PROBE-R OP OneShapeW.fss:156:35 : expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:156:35 sargs=[ZZ64] range=CompactFullRange[\ZZ64\] args=(TraitCoercionInvocation:ZZ64, VarRef:ZZ64) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:156:31-35 sargs=[lifted ZZ64] range=SequentialGenerator[\ZZ64\] args=(OpExpr:CompactFullRange[\ZZ64\]) phase=ctx
+@@PROBE-R MI OneShapeW.fss:156:26-40 expected=()
+@@PROBE-R OP OneShapeW.fss:156:43-51 + expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:156:43-51 sargs=[] range=ZZ32 args=(VarRef:ZZ32, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R MI-OK OneShapeW.fss:156:26-40 sargs=[] range=() args=(FnExpr:ZZ64->()) phase=ctx
+@@PROBE-R FN OneShapeW.fss:156:55-71 expected=NONE
+@@PROBE-R OP OneShapeW.fss:156:63-71 juxtaposition expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:156:63-71 sargs=[] range=String args=(StringLiteralExpr:String, VarRef:ZZ32) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:156:55-71 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:160:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:160:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:162:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:162:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:163:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:163:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:164:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:164:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:164:28-36 sargs=[IntLiteral] range=String args=(TupleExpr:(IntLiteral, IntLiteral)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:164:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:164:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:164:28-36 sargs=[] range=String args=(TupleExpr:(IntLiteral, IntLiteral)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:164:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:164:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:168:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:168:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:170:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:170:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:171:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:171:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:172:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:172:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:172:28-36 sargs=[ZZ64] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:172:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:172:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:172:28-36 sargs=[] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:172:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:172:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:176:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:176:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:178:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:178:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:179:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:179:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:180:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:180:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:180:28-36 sargs=[RR64] range=String args=(TupleExpr:(RR64, RR64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:180:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:180:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:180:28-36 sargs=[] range=String args=(TupleExpr:(RR64, RR64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:180:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:180:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:184:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:184:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:186:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:186:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:187:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:187:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:188:5-36 expected=NONE
+@@PROBE-R FN OneShapeW.fss:188:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:188:28-36 sargs=[ZZ64] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:188:13-36 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:188:28-36 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:188:28-36 sargs=[] range=String args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:188:13-36 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:188:5-36 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:192:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:192:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:194:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:194:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:195:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:195:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:196:5-44 expected=NONE
+@@PROBE-R FN OneShapeW.fss:196:36-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:196:36-44 sargs=[ZZ32] range=String args=(TupleExpr:(ZZ32, ZZ32)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:196:13-44 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:196:36-44 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:196:36-44 sargs=[] range=String args=(TupleExpr:(ZZ32, ZZ32)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:196:13-44 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:196:5-44 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:200:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:200:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:202:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:202:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:203:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:203:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:204:5-38 expected=NONE
+@@PROBE-R FN OneShapeW.fss:204:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:204:29-38 sargs=[RR64] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=noctx+coerce
+@@PROBE-R OP OneShapeW.fss:204:13-38 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:204:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:204:29-38 sargs=[] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:204:13-38 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:204:5-38 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:208:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:208:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:210:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:210:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:211:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:211:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:212:5-46 expected=NONE
+@@PROBE-R FN OneShapeW.fss:212:37-46 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:212:37-46 sargs=[RR64] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=ctx
+@@PROBE-R OP OneShapeW.fss:212:13-46 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:212:37-46 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:212:37-46 sargs=[] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:212:13-46 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:212:5-46 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:216:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:216:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:218:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:218:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:219:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:219:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:220:5-38 expected=NONE
+@@PROBE-R FN OneShapeW.fss:220:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:220:29-38 sargs=[RR64] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=noctx+coerce
+@@PROBE-R OP OneShapeW.fss:220:13-38 juxtaposition expected=NONE
+@@PROBE-R FN OneShapeW.fss:220:29-38 expected=NONE
+@@PROBE-R FN-OK OneShapeW.fss:220:29-38 sargs=[] range=String args=(TupleExpr:(Box[\RR64\], RR64)) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:220:13-38 sargs=[] range=String args=(StringLiteralExpr:String, _RewriteFnApp:String) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:220:5-38 sargs=[] range=() args=(OpExpr:String) phase=ctx
+@@PROBE-R FN OneShapeW.fss:224:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:224:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:226:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:226:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:227:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:227:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:228:5-46 expected=NONE
+@@PROBE-R OP OneShapeW.fss:228:32-46 BIG + expected=NONE
+@@PROBE-R OP OneShapeW.fss:228:36-45 <|_|> expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:228:36-45 sargs=[IntLiteral] range=List.List[\IntLiteral\] args=(IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R OP-FAIL OneShapeW.fss:228:32-46
+@@PROBE-R FN-FAIL OneShapeW.fss:228:5-46
+@@PROBE-R FN OneShapeW.fss:232:15-21 expected=ZZ64
+@@PROBE-R FN-OK OneShapeW.fss:232:15-21 sargs=[] range=ZZ64 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:234:15-24 expected=NN32
+@@PROBE-R FN-OK OneShapeW.fss:234:15-24 sargs=[] range=NN32 args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:235:22-35 expected=Box[\RR64\]
+@@PROBE-R FN-OK OneShapeW.fss:235:22-35 sargs=[] range=Box[\RR64\] args=(FloatLiteralExpr:FloatLiteral) phase=ctx
+@@PROBE-R FN OneShapeW.fss:236:5-84 expected=NONE
+@@PROBE-R OP OneShapeW.fss:236:53-84 BIG + expected=NONE
+@@PROBE-R OP OneShapeW.fss:236:65-83 <|_|> expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:236:65-83 sargs=[] range=List.List[\ZZ32\] args=(IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:236:53-84 sargs=[] range=ZZ32 args=(OpExpr:List.List[\ZZ32\]) phase=ctx
+@@PROBE-R OP OneShapeW.fss:236:13-84 juxtaposition expected=NONE
+@@PROBE-R OP OneShapeW.fss:236:53-84 BIG + expected=NONE
+@@PROBE-R OP OneShapeW.fss:236:65-83 <|_|> expected=NONE
+@@PROBE-R OP-OK OneShapeW.fss:236:65-83 sargs=[] range=List.List[\ZZ32\] args=(IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:236:53-84 sargs=[] range=ZZ32 args=(OpExpr:List.List[\ZZ32\]) phase=ctx
+@@PROBE-R OP-OK OneShapeW.fss:236:13-84 sargs=[] range=String args=(StringLiteralExpr:String, OpExpr:ZZ32) phase=ctx
+@@PROBE-R FN-OK OneShapeW.fss:236:5-84 sargs=[] range=() args=(OpExpr:String) phase=ctx
+# the program's own error lines (with 3 lines of context each):
+463:OneShapeW.fss:7:70:
+464-    Could not check call to operator +
+465-    - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (T, T).
+466-    - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type (T, T).
+--
+479:OneShapeW.fss:148:31-35:
+480-    Could not check call to function seq
+481-    - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\].
+482-    - FilterGenerator[\E\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\].
+--
+486:OneShapeW.fss:228:32-46:
+487-    Could not check call to operator BIG +
+488-    - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\].
+489-    - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is not applicable to an argument of type List.List[\IntLiteral\].
+# tallies:
+File OneShapeW.fss has 3 errors.
+### rc=-1

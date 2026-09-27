@@ -19,6 +19,7 @@ bash "$D/check.sh" rule walk L0 "$D/probes" RuleL "$D/small"
 bash "$D/check.sh" rule walk L0 "$PD" DArg "$D/small"
 for s in walk any compile; do
   for n in DCtx DArg DMore; do python3 "$D/summarize.py" "$PD/$n.fss" "$D"/small/$n.{instr,rule-instr}.$s.{L0,A0}.txt > "$D/small/$n.summary-$s.txt"; done
-  for n in RuleL OneShapeW; do python3 "$D/summarize.py" "$D/probes/$n.fss" "$D"/small/$n.{instr,rule-instr}.$s.{L0,A0}.txt > "$D/small/$n.summary-$s.txt"; done
+  python3 "$D/summarize.py" "$D/probes/RuleL.fss" "$D"/small/RuleL.{instr,rule-instr}.$s.{L0,A0}.txt > "$D/small/RuleL.summary-$s.txt"
+  python3 "$D/summarize.py" --only 'println\(|^ *do [sc]' "$D/probes/OneShapeW.fss" "$D"/small/OneShapeW.{instr,rule-instr}.$s.{L0,A0}.txt > "$D/small/OneShapeW.summary-$s.txt"
 done
 echo "run-small done $(date -u +%FT%TZ)"

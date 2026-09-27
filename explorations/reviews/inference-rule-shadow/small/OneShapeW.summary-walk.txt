@@ -1,0 +1,45 @@
+OneShapeW.fss:92  println("lohi(2, 46): " lohi(2, 46))
+    instr.walk.L0            (no call traced)  ::  no error
+    instr.walk.A0            29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function lohi - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+    rule-instr.walk.L0       (no call traced)  ::  no error
+    rule-instr.walk.A0       29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function lohi - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+OneShapeW.fss:100  println("lohi(2, z): " lohi(2, z))
+    instr.walk.L0            (no call traced)  ::  no error
+    instr.walk.A0            28-36 expected=NONE -> FAIL | 5-36 expected=NONE -> FAIL  ::  Could not check call to function lohi - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, ZZ32).
+    rule-instr.walk.L0       (no call traced)  ::  no error
+    rule-instr.walk.A0       (no call traced)  ::  no error
+OneShapeW.fss:132  do c: ZZ32 := 0; for i <- seq(0#w) do c += 1 end; println("0#w: " c) end
+    instr.walk.L0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(IntLiteral,ZZ64)]  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(IntLiteral,ZZ64)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] 
+    instr.walk.A0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> FAIL  ::  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ64
+    rule-instr.walk.L0       31-35 expected=NONE -> [liftedZZ64] ctx | 35 expected=NONE -> [ZZ64] ctx (coerce:ZZ64, ZZ64)  ::  no error
+    rule-instr.walk.A0       31-35 expected=NONE -> [liftedZZ64] ctx | 35 expected=NONE -> [ZZ64] noctx+coerce (coerce:ZZ64, ZZ64)  ::  no error
+OneShapeW.fss:140  do c: ZZ32 := 0; for i <- seq(2:46) do c += 1 end; println("2:46: " c) end
+    instr.walk.L0            31-35 expected=NONE -> [liftedIntLiteral] | 35 expected=NONE -> [IntLiteral]  ::  no error
+    instr.walk.A0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> FAIL  ::  Could not check call to operator : - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntL
+    rule-instr.walk.L0       31-35 expected=NONE -> [liftedIntLiteral] ctx | 35 expected=NONE -> [IntLiteral] ctx  ::  no error
+    rule-instr.walk.A0       31-35 expected=NONE -> FAIL | 35 expected=NONE -> FAIL  ::  Could not check call to operator : - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntL
+OneShapeW.fss:148  do c: ZZ32 := 0; for i <- seq(z:u) do c += 1 end; println("z:u: " c) end
+    instr.walk.L0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,NN32)]  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+    instr.walk.A0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,NN32)]  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+    rule-instr.walk.L0       31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,NN32)] ctx  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+    rule-instr.walk.A0       31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,NN32)] ctx  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,NN32)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+OneShapeW.fss:156  do c: ZZ32 := 0; for i <- seq(z:w) do c += 1 end; println("z:w: " c) end
+    instr.walk.L0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,ZZ64)]  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,ZZ64)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+    instr.walk.A0            31-35 expected=NONE -> FAIL | 35 expected=NONE -> [OR(ZZ32,ZZ64)]  ::  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR(ZZ32,ZZ64)\]. - FilterGenerator[\E\]->SequentialGenerator[\E\] is not
+    rule-instr.walk.L0       31-35 expected=NONE -> [liftedZZ64] ctx | 35 expected=NONE -> [ZZ64] ctx (coerce:ZZ64, ZZ64)  ::  no error
+    rule-instr.walk.A0       31-35 expected=NONE -> [liftedZZ64] ctx | 35 expected=NONE -> [ZZ64] ctx (coerce:ZZ64, ZZ64)  ::  no error
+OneShapeW.fss:204  println("scale(b, 3): " scale(b, 3))
+    instr.walk.L0            29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], IntLiteral).
+    instr.walk.A0            29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], IntLiteral).
+    rule-instr.walk.L0       (no call traced)  ::  no error
+    rule-instr.walk.A0       (no call traced)  ::  no error
+OneShapeW.fss:220  println("scale(b, z): " scale(b, z))
+    instr.walk.L0            29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    instr.walk.A0            29-38 expected=NONE -> FAIL | 5-38 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    rule-instr.walk.L0       (no call traced)  ::  no error
+    rule-instr.walk.A0       (no call traced)  ::  no error
+OneShapeW.fss:228  println("SUM <|1,2,3|>: " (SUM <|1, 2, 3|>))
+    instr.walk.L0            32-46 expected=NONE -> FAIL | 36-45 expected=NONE -> [IntLiteral] | 5-46 expected=NONE -> FAIL  ::  Could not check call to operator BIG + - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\]. - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is no
+    instr.walk.A0            32-46 expected=NONE -> FAIL | 36-45 expected=NONE -> [IntLiteral] | 5-46 expected=NONE -> FAIL  ::  Could not check call to operator BIG + - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\]. - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is no
+    rule-instr.walk.L0       32-46 expected=NONE -> FAIL | 36-45 expected=NONE -> [IntLiteral] ctx | 5-46 expected=NONE -> FAIL  ::  Could not check call to operator BIG + - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\]. - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is no
+    rule-instr.walk.A0       32-46 expected=NONE -> FAIL | 36-45 expected=NONE -> [IntLiteral] ctx | 5-46 expected=NONE -> FAIL  ::  Could not check call to operator BIG + - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\]. - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is no

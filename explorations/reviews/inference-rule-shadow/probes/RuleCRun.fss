@@ -1,0 +1,41 @@
+component RuleCRun
+export Executable
+(* The calls the rule newly accepts on the compiled path, compiled and run (comp.sh), so that code
+   generation meets the coercions the rule builds: each prints its value and the run-time type of
+   what reached the body. *)
+object BoxT[\T\](v: ZZ32) end
+object Box[\T\](v: T)
+    accept(x: T): T = x
+end
+object M[\nat r, nat c\]() end
+hd[\nat r, nat c\](base: M[\r, c\], p: ZZ32, nh: ZZ32, k: ZZ32): ZZ32 = p nh k
+scale64[\T\](b: BoxT[\T\], x: ZZ64): ZZ64 = x + x
+scale[\T\](b: Box[\T\], x: T): String = typeOf(b.accept(x))
+pick[\T\](x: T, y: T): String = typeOf(x) "," typeOf(y)
+lohi32[\I extends ZZ32\](lo: I, hi: I): String = typeOf(lo) "," typeOf(hi)
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](7)
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    RR64 => "RR64"
+    else => "other"
+  end
+bs = 16
+nhd = 4
+z: ZZ32 = 3
+l: ZZ64 = 4
+bL: Box[\ZZ64\] = Box[\ZZ64\](1)
+bS: BoxT[\String\] = BoxT[\String\](2)
+run(): () = do
+    println("hd(mat, bs, nhd, 2): " hd(M[\16, 16\](), bs, nhd, 2))
+    println("scale64(bS, 3): " scale64(bS, 3))
+    println("scale64(bS, z): " scale64(bS, z))
+    println("scale(bL, 3): " scale(bL, 3))
+    println("scale(bL, z): " scale(bL, z))
+    println("pick(z, l): " pick(z, l))
+    println("pick(3, l): " pick(3, l))
+    println("lohi32(2, 46): " lohi32(2, 46))
+    a: BoxT[\ZZ64\] = wrapT(3)
+    println("a: BoxT[\\ZZ64\\] = wrapT(3): " a.v)
+  end
+end

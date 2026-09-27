@@ -1,0 +1,42 @@
+# check.sh rule-instr walk L0 DMore 2026-09-27T19:58:48Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.59 6.79 4.09; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 8 s
+# the trace lines of the program's own file (@@PROBE-R):
+@@PROBE-R FN DMore.fss:8:18-31 expected=T
+@@PROBE-R FN-OK DMore.fss:8:18-31 sargs=[] range=T args=(StringLiteralExpr:String) phase=ctx
+@@PROBE-R FN DMore.fss:11:34-39 expected=BoxV[\ZZ32\]
+@@PROBE-R FN-OK DMore.fss:11:34-39 sargs=[ZZ32] range=BoxV[\ZZ32\] args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN DMore.fss:12:34-39 expected=BoxV[\ZZ64\]
+@@PROBE-R FN-OK DMore.fss:12:34-39 sargs=[ZZ64] range=BoxV[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R FN DMore.fss:13:34-39 expected=BoxV[\ZZ32\]
+@@PROBE-R FN-OK DMore.fss:13:34-39 sargs=[ZZ32] range=BoxV[\ZZ32\] args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R FN DMore.fss:15:16-20 expected=()
+@@PROBE-R FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DMore.fss:15:16-20 expected=()
+@@PROBE-R FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DMore.fss:15:16-20 expected=()
+@@PROBE-R FN-OK DMore.fss:15:16-20 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DMore.fss:16:16-21 expected=()
+@@PROBE-R FN-OK DMore.fss:16:16-21 sargs=[IntLiteral] range=() args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN DMore.fss:18:15-21 expected=NONE
+@@PROBE-R FN-OK DMore.fss:18:15-21 sargs=[ZZ32] range=ZZ32->ZZ32 args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R FN DMore.fss:18:15-21 expected=NONE
+@@PROBE-R FN-OK DMore.fss:18:15-21 sargs=[ZZ32] range=ZZ32->ZZ32 args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R FN DMore.fss:18:15-24 expected=ZZ32
+@@PROBE-R FN-OK DMore.fss:18:15-24 sargs=[] range=ZZ32 args=(VarRef:ZZ32) phase=ctx
+@@PROBE-R FN DMore.fss:20:18-24 expected=NONE
+@@PROBE-R FN-OK DMore.fss:20:18-24 sargs=[Boolean] range=Boolean args=(BooleanLiteralExpr:Boolean) phase=ctx
+@@PROBE-R OP DMore.fss:22:15-19 + expected=ZZ64
+@@PROBE-R FN DMore.fss:22:15-19 expected=NONE
+@@PROBE-R FN-FAIL DMore.fss:22:15-19
+@@PROBE-R OP-FAIL DMore.fss:22:15-19
+@@PROBE-R FN DMore.fss:24:16-20 expected=ZZ64
+@@PROBE-R FN-OK DMore.fss:24:16-20 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:()) phase=ctx
+# the program's own error lines (with 3 lines of context each):
+47:DMore.fss:15:16-20:
+48-    Non-last expression in a block has type IntLiteral, but it must have () type.
+49:DMore.fss:22:15-19:
+50-    Could not check call to function make
+51-    - Could not infer static argument T without context.
+52-File DMore.fss has 2 errors.
+# tallies:
+File DMore.fss has 2 errors.
+### rc=-1

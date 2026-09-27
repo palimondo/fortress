@@ -1,0 +1,60 @@
+DArg.fss:12  a01(): () = do a: ZZ64 = idt(3); () end
+    instr.compile.L0         26-30 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         26-30 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    26-30 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+    rule-instr.compile.A0    26-30 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+DArg.fss:13  a02(): () = do r: RR64 = idt(3); () end
+    instr.compile.L0         26-30 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         26-30 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    26-30 expected=RR64 -> [IntLiteral] noctx  ::  no error
+    rule-instr.compile.A0    26-30 expected=RR64 -> [IntLiteral] noctx  ::  no error
+DArg.fss:14  a03(): () = do s: String = idt(3); () end
+    instr.compile.L0         28-32 expected=NONE -> [IntLiteral]  ::  Right-hand side has type IntLiteral, but declared type is String.
+    instr.compile.A0         28-32 expected=NONE -> [IntLiteral]  ::  Right-hand side has type IntLiteral, but declared type is String.
+    rule-instr.compile.L0    28-32 expected=String -> [IntLiteral] noctx  ::  Right-hand side has type IntLiteral, but declared type is String.
+    rule-instr.compile.A0    28-32 expected=String -> [IntLiteral] noctx  ::  Right-hand side has type IntLiteral, but declared type is String.
+DArg.fss:15  a04(): () = do a: BoxT[\ZZ64\] = wrapT(3); () end
+    instr.compile.L0         34-40 expected=NONE -> [IntLiteral]  ::  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+    instr.compile.A0         34-40 expected=NONE -> [IntLiteral]  ::  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+    rule-instr.compile.L0    34-40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+    rule-instr.compile.A0    34-40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+DArg.fss:16  a05(): ZZ64 = idt(3)
+    instr.compile.L0         15-19 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         15-19 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    15-19 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+    rule-instr.compile.A0    15-19 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+DArg.fss:17  a06(): ZZ64 = idt(z)
+    instr.compile.L0         15-19 expected=NONE -> [ZZ32]  ::  no error
+    instr.compile.A0         15-19 expected=NONE -> [ZZ32]  ::  no error
+    rule-instr.compile.L0    15-19 expected=ZZ64 -> [ZZ32] noctx  ::  no error
+    rule-instr.compile.A0    15-19 expected=ZZ64 -> [ZZ32] noctx  ::  no error
+DArg.fss:18  a07(): ZZ64 = pick(l, 3)
+    instr.compile.L0         15-23 expected=NONE -> [OR(ZZ64,IntLiteral)]  ::  no error
+    instr.compile.A0         15-23 expected=NONE -> [OR(ZZ64,IntLiteral)]  ::  no error
+    rule-instr.compile.L0    15-23 expected=ZZ64 -> [ZZ64] ctx+coerce  ::  no error
+    rule-instr.compile.A0    15-23 expected=ZZ64 -> [ZZ64] ctx+coerce  ::  no error
+DArg.fss:19  a08(): ZZ64 = inc(5)
+    instr.compile.L0         15-19 expected=NONE -> [ZZ32]  ::  no error
+    instr.compile.A0         15-19 expected=NONE -> FAIL  ::  Could not check call to function inc - [\T extends Integral[\T\]\]T->T is not applicable to an argument of type IntLiteral.
+    rule-instr.compile.L0    15-19 expected=ZZ64 -> [ZZ32] noctx  ::  no error
+    rule-instr.compile.A0    15-19 expected=ZZ64 -> FAIL  ::  Could not check call to function inc - [\T extends Integral[\T\]\]T->T is not applicable to an argument of type IntLiteral.
+DArg.fss:20  a09(): ZZ32 = idt(3)
+    instr.compile.L0         15-19 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         15-19 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    15-19 expected=ZZ32 -> [IntLiteral] ctx  ::  no error
+    rule-instr.compile.A0    15-19 expected=ZZ32 -> [IntLiteral] noctx  ::  no error
+DArg.fss:21  a10(): Any = idt(3)
+    instr.compile.L0         14-18 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         14-18 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    14-18 expected=Any -> [IntLiteral] ctx  ::  no error
+    rule-instr.compile.A0    14-18 expected=Any -> [IntLiteral] ctx  ::  no error
+DArg.fss:22  a11(): () = do a: ZZ64 = idt(l); () end
+    instr.compile.L0         26-30 expected=NONE -> [ZZ64]  ::  no error
+    instr.compile.A0         26-30 expected=NONE -> [ZZ64]  ::  no error
+    rule-instr.compile.L0    26-30 expected=ZZ64 -> [ZZ64] ctx  ::  no error
+    rule-instr.compile.A0    26-30 expected=ZZ64 -> [ZZ64] ctx  ::  no error
+DArg.fss:23  a12(): IntLiteral = idt(3)
+    instr.compile.L0         21-25 expected=NONE -> [IntLiteral]  ::  no error
+    instr.compile.A0         21-25 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.compile.L0    21-25 expected=IntLiteral -> [IntLiteral] ctx  ::  no error
+    rule-instr.compile.A0    21-25 expected=IntLiteral -> [IntLiteral] ctx  ::  no error

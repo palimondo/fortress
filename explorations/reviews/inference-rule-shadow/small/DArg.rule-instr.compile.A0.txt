@@ -1,0 +1,42 @@
+# check.sh rule-instr compile A0 DArg 2026-09-27T20:17:17Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 13.76 13.45 10.08; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 13 s
+# the trace lines of the program's own file (@@PROBE-R):
+@@PROBE-R FN DArg.fss:7:31-41 expected=BoxT[\T\]
+@@PROBE-R FN-OK DArg.fss:7:31-41 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN DArg.fss:12:26-30 expected=ZZ64
+@@PROBE-R FN-OK DArg.fss:12:26-30 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:13:26-30 expected=RR64
+@@PROBE-R FN-OK DArg.fss:13:26-30 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:14:28-32 expected=String
+@@PROBE-R FN-OK DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:14:28-32 expected=String
+@@PROBE-R FN-OK DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:14:28-32 expected=String
+@@PROBE-R FN-OK DArg.fss:14:28-32 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:15:34-40 expected=BoxT[\ZZ64\]
+@@PROBE-R FN-OK DArg.fss:15:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R FN DArg.fss:16:15-19 expected=ZZ64
+@@PROBE-R FN-OK DArg.fss:16:15-19 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:17:15-19 expected=ZZ64
+@@PROBE-R FN-OK DArg.fss:17:15-19 sargs=[ZZ32] range=ZZ32 args=(VarRef:ZZ32) phase=noctx
+@@PROBE-R FN DArg.fss:18:15-23 expected=ZZ64
+@@PROBE-R FN-OK DArg.fss:18:15-23 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx+coerce
+@@PROBE-R FN DArg.fss:19:15-19 expected=ZZ64
+@@PROBE-R FN-FAIL DArg.fss:19:15-19
+@@PROBE-R FN DArg.fss:20:15-19 expected=ZZ32
+@@PROBE-R FN-OK DArg.fss:20:15-19 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN DArg.fss:21:14-18 expected=Any
+@@PROBE-R FN-OK DArg.fss:21:14-18 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=ctx
+@@PROBE-R FN DArg.fss:22:26-30 expected=ZZ64
+@@PROBE-R FN-OK DArg.fss:22:26-30 sargs=[ZZ64] range=ZZ64 args=(VarRef:ZZ64) phase=ctx
+@@PROBE-R FN DArg.fss:23:21-25 expected=IntLiteral
+@@PROBE-R FN-OK DArg.fss:23:21-25 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=ctx
+# the program's own error lines (with 3 lines of context each):
+47:DArg.fss:14:28-32:
+48-    Right-hand side has type IntLiteral, but declared type is String.
+49:DArg.fss:19:15-19:
+50-    Could not check call to function inc
+51-    - [\T extends Integral[\T\]\]T->T is not applicable to an argument of type IntLiteral.
+52-File DArg.fss has 2 errors.
+# tallies:
+File DArg.fss has 2 errors.
+### rc=-1

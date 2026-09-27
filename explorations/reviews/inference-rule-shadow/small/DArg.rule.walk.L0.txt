@@ -1,0 +1,10 @@
+# check.sh rule walk L0 DArg 2026-09-27T20:19:32Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 13.77 13.45 10.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 22 s
+# the trace lines of the program's own file (@@PROBE-R):
+# the program's own error lines (with 3 lines of context each):
+17:DArg.fss:14:28-32:
+18-    Right-hand side has type IntLiteral, but declared type is String.
+19-File DArg.fss has 1 error.
+20-### rc=-1
+# tallies:
+File DArg.fss has 1 error.
+### rc=-1

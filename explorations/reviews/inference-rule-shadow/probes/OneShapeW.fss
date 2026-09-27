@@ -1,7 +1,7 @@
 component OneShapeW
 export Executable
 (* Fable's one-shape walk cases (numerics-plan-fable/probes/one-shape/walk/), made by
-   make-oneshape.py: the preamble once, run()'s locals at top level, one declaration per case. *)
+   make-oneshape.py: the preamble once, each file's run() as a declaration of its own. *)
 import List.{...}
 same[\T extends Number\](a: T, b: T): String = "same[" (typeOf a) "," (typeOf b) "]"
 sameAdd[\T extends Number\](a: T, b: T): String = "a+b is " (typeOf (a + b))
@@ -19,37 +19,221 @@ typeOf(x: Any): String = typecase x of
     RR64 => "RR64"
     else => "other"
   end
-z: ZZ32 = 3
-w: ZZ64 = widen(4)
-r: RR64 = 2.5
-u: NN32 = unsigned(5)
-b: Box[\RR64\] = Box[\RR64\](1.0)
-wAcceptZ(): () = println("b.accept(z) control: " b.accept(z))
-wAdd3W(): () = println("sameAdd(3, w): " sameAdd(3, w))
-wAddZR(): () = println("sameAdd(z, r): " sameAdd(z, r))
-wAddZW(): () = println("sameAdd(z, w): " sameAdd(z, w))
-wBind3(): () = do s: RR64 = 3; println("s: RR64 = 3: " (typeOf s)) end
-wBind3G(): () = do s: RR64 = 3000000000; println("s: RR64 = 3000000000: " (typeOf s)) end
-wBindZ(): () = do s: RR64 = z; println("s: RR64 = z: " (typeOf s)) end
-wEe5(): () = println("ee(5): " ee(5) "; ee(z): " ee(z))
-wLohi246(): () = println("lohi(2, 46): " lohi(2, 46))
-wLohi2Z(): () = println("lohi(2, z): " lohi(2, z))
-wLohiZU(): () = println("lohi(z, u): " lohi(z, u))
-wLohiZW(): () = println("lohi(z, w): " lohi(z, w))
-wLohiZZ(): () = println("lohi(z, z) control: " lohi(z, z))
-wRange0W(): () = do c: ZZ32 := 0; for i <- seq(0#w) do c += 1 end; println("0#w: " c) end
-wRange246(): () = do c: ZZ32 := 0; for i <- seq(2:46) do c += 1 end; println("2:46: " c) end
-wRangeZU(): () = do c: ZZ32 := 0; for i <- seq(z:u) do c += 1 end; println("z:u: " c) end
-wRangeZW(): () = do c: ZZ32 := 0; for i <- seq(z:w) do c += 1 end; println("z:w: " c) end
-wSame34(): () = println("same(3, 4): " same(3, 4))
-wSame3W(): () = println("same(3, w): " same(3, w))
-wSameZR(): () = println("same(z, r): " same(z, r))
-wSameZW(): () = println("same(z, w): " same(z, w))
-wSameZZ(): () = println("same(z, z) control: " same(z, z))
-wScale3(): () = println("scale(b, 3): " scale(b, 3))
-wScaleR(): () = println("scale(b, r) control: " scale(b, r))
-wScaleZ(): () = println("scale(b, z): " scale(b, z))
-wSumLit(): () = println("SUM <|1,2,3|>: " (SUM <|1, 2, 3|>))
-wSumLitT(): () = println("SUM[\\ZZ32\\] <|[\\ZZ32\\] 1,2,3|>: " (SUM[\ZZ32\] <|[\ZZ32\] 1, 2, 3|>))
+wAcceptZ(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("b.accept(z) control: " b.accept(z))
+  end
+wAdd3W(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("sameAdd(3, w): " sameAdd(3, w))
+  end
+wAddZR(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("sameAdd(z, r): " sameAdd(z, r))
+  end
+wAddZW(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("sameAdd(z, w): " sameAdd(z, w))
+  end
+wBind3(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do s: RR64 = 3; println("s: RR64 = 3: " (typeOf s)) end
+  end
+wBind3G(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do s: RR64 = 3000000000; println("s: RR64 = 3000000000: " (typeOf s)) end
+  end
+wBindZ(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do s: RR64 = z; println("s: RR64 = z: " (typeOf s)) end
+  end
+wEe5(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("ee(5): " ee(5) "; ee(z): " ee(z))
+  end
+wLohi246(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("lohi(2, 46): " lohi(2, 46))
+  end
+wLohi2Z(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("lohi(2, z): " lohi(2, z))
+  end
+wLohiZU(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("lohi(z, u): " lohi(z, u))
+  end
+wLohiZW(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("lohi(z, w): " lohi(z, w))
+  end
+wLohiZZ(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("lohi(z, z) control: " lohi(z, z))
+  end
+wRange0W(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do c: ZZ32 := 0; for i <- seq(0#w) do c += 1 end; println("0#w: " c) end
+  end
+wRange246(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do c: ZZ32 := 0; for i <- seq(2:46) do c += 1 end; println("2:46: " c) end
+  end
+wRangeZU(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do c: ZZ32 := 0; for i <- seq(z:u) do c += 1 end; println("z:u: " c) end
+  end
+wRangeZW(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    do c: ZZ32 := 0; for i <- seq(z:w) do c += 1 end; println("z:w: " c) end
+  end
+wSame34(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(3, 4): " same(3, 4))
+  end
+wSame3W(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(3, w): " same(3, w))
+  end
+wSameZR(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(z, r): " same(z, r))
+  end
+wSameZW(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(z, w): " same(z, w))
+  end
+wSameZZ(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(z, z) control: " same(z, z))
+  end
+wScale3(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("scale(b, 3): " scale(b, 3))
+  end
+wScaleR(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("scale(b, r) control: " scale(b, r))
+  end
+wScaleZ(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("scale(b, z): " scale(b, z))
+  end
+wSumLit(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("SUM <|1,2,3|>: " (SUM <|1, 2, 3|>))
+  end
+wSumLitT(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("SUM[\\ZZ32\\] <|[\\ZZ32\\] 1,2,3|>: " (SUM[\ZZ32\] <|[\ZZ32\] 1, 2, 3|>))
+  end
 run(): () = ()
 end

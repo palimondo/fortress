@@ -1,0 +1,60 @@
+# check.sh instr compile A0 DCtx 2026-09-27T20:15:05Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.94 12.88 9.36; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 20 s
+# the trace lines of the program's own file (@@PROBE-R):
+@@PROBE-R FN DCtx.fss:6:18-31 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:6:18-31 sargs=[] range=T args=(StringLiteralExpr:String)
+@@PROBE-R FN DCtx.fss:7:28-38 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:7:28-38 sargs=[] range=T args=(VarRef:String)
+@@PROBE-R FN DCtx.fss:8:41-55 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:8:41-55 sargs=[] range=T args=(StringLiteralExpr:String)
+@@PROBE-R FN DCtx.fss:9:25-35 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:9:25-35 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32)
+@@PROBE-R FN DCtx.fss:12:20-37 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:12:20-37 sargs=[] range=T args=(StringLiteralExpr:String)
+@@PROBE-R FN DCtx.fss:15:26-30 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:15:26-30 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:17:13-17 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:17:13-17 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:19:15-19 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:19:15-19 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:20:25-31 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:20:25-31 sargs=[BottomType] range=BottomType args=(VarRef:String)
+@@PROBE-R FN DCtx.fss:23:17-21 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:23:17-21 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:24:29-33 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:24:29-33 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:27:15-27 expected=NONE
+@@PROBE-R FN DCtx.fss:27:23-27 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:27:23-27 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN-OK DCtx.fss:27:15-27 sargs=[] range=ZZ32 args=(_RewriteFnApp:BottomType)
+@@PROBE-R FN DCtx.fss:29:20-24 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:29:20-24 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:30:17-21 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:30:17-21 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:32:22-84 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:32:22-84 sargs=[BottomType] range=BottomType args=(StringLiteralExpr:String)
+@@PROBE-R FN DCtx.fss:33:16-24 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:33:16-24 sargs=[BottomType] range=BottomType args=(StringLiteralExpr:String)
+@@PROBE-R FN DCtx.fss:35:15-20 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:35:15-20 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:37:34-37 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:37:34-37 sargs=[BottomType] range=BoxT[\BottomType\] args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:37:34-37 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:37:34-37 sargs=[BottomType] range=BoxT[\BottomType\] args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:37:34-37 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:37:34-37 sargs=[BottomType] range=BoxT[\BottomType\] args=(VoidLiteralExpr:())
+@@PROBE-R MI DCtx.fss:39:26-34 expected=ZZ64
+@@PROBE-R MI-OK DCtx.fss:39:26-34 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R MI DCtx.fss:40:16-24 expected=ZZ64
+@@PROBE-R MI-OK DCtx.fss:40:16-24 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:42:35-41 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:42:35-41 sargs=[BottomType] range=BottomType args=(VoidLiteralExpr:())
+@@PROBE-R FN DCtx.fss:44:24-30 expected=NONE
+@@PROBE-R FN-OK DCtx.fss:44:24-30 sargs=[BottomType] range=BottomType args=(VarRef:String)
+# the program's own error lines (with 3 lines of context each):
+67:DCtx.fss:37:34-37:
+68-    Right-hand side has type BoxT[\BottomType\], but declared type is BoxT[\ZZ64\].
+69-File DCtx.fss has 1 error.
+70-### rc=-1
+# tallies:
+File DCtx.fss has 1 error.
+### rc=-1
