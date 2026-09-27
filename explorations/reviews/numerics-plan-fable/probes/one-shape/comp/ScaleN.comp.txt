@@ -1,0 +1,13 @@
+# comp ScaleN 2026-09-27T16:02:28Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.22 2.99 1.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp/ScaleN.fss:35:30-40:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\Wide\], Narrow).
+File ScaleN.fss has 1 error.
+compile rc=255
+## run
+Could not load ScaleN
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ScaleN.class
+	... 4 more
+run rc=1

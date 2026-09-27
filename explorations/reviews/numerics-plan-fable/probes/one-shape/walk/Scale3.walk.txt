@@ -1,0 +1,8 @@
+# walk Scale3 2026-09-27T16:03:16Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.05 3.46 1.60; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/walk/Scale3.fss:26:29-38:
+Unification error: Closure/Constructor for scale param 1 (b:Box[\Number\]) got arg Box[\RR64\] of type Box[\RR64\]
+Context:
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/walk/Scale3.fss:26:29-38:
+toplevel:
+
+rc=1

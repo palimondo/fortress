@@ -1,0 +1,9 @@
+# walk Bind3G 2026-09-27T16:02:05Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.81 2.69 1.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/walk/Bind3G.fss:26:8-15:
+RHS expression type Long is not assignable to LHS type RR64
+Context:
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/walk/Bind3G.fss:26:8-15:
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/walk/Bind3G.fss:26:8-15:
+toplevel:
+
+rc=1

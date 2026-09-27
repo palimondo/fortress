@@ -1,0 +1,112 @@
+# 233 distinct errors from 1 runs; 234 raw error lines
+
+## by kind
+   155  overloading
+    33  typecheck
+    25  return-type
+    18  exclusion
+     1  comprises
+     1  export
+
+## overloading and return-type errors by family
+    87  overloading  fill
+    19  overloading  FORWARD_CMP
+     7  overloading  IN
+     6  overloading  lift
+     5  overloading  seq
+     4  overloading  MAX
+     4  overloading  MIN
+     4  overloading  generate
+     4  overloading  juxtaposition
+     3  overloading  INVERSE (same parameter type)
+     3  overloading  LEXICO (same parameter type)
+     3  overloading  ivmap
+     2  overloading  CMP
+     2  overloading  map
+     1  overloading  SQCAP (same parameter type)
+     1  overloading  copy
+     8  return-type  CMP
+     6  return-type  shift
+     3  return-type  MAX
+     3  return-type  MIN
+     2  return-type  SQCAP
+     1  return-type  array1
+     1  return-type  array2
+     1  return-type  unsigned
+
+## overloading errors by subclass (overload_sub)
+    59  fill-crossed
+    44  same-sparams
+    28  fill-same
+    17  sentence
+     7  same parameter type
+
+## overloading errors by family and subclass
+    59  fill                                     fill-crossed
+    28  fill                                     fill-same
+    19  FORWARD_CMP                              same-sparams
+     7  IN                                       same-sparams
+     6  lift                                     same-sparams
+     4  MAX                                      sentence
+     4  MIN                                      sentence
+     4  generate                                 same-sparams
+     4  seq                                      sentence
+     3  INVERSE (same parameter type)            same parameter type
+     3  LEXICO (same parameter type)             same parameter type
+     3  ivmap                                    same-sparams
+     3  juxtaposition                            sentence
+     2  CMP                                      sentence
+     2  map                                      same-sparams
+     1  SQCAP (same parameter type)              same parameter type
+     1  copy                                     same-sparams
+     1  juxtaposition                            same-sparams
+     1  seq                                      same-sparams
+
+## the rest by message shape
+     5  typecheck      Array[\..\] has no getter called sizes
+     3  typecheck      Could not check call to function fail - Could not infer static argument T without context.
+     3  typecheck      Could not check call to operator DOT - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument 
+     2  typecheck      Could not check method invocation Array3[\..\] is not applicable to an argument of type (T, T). L: Possibly be
+     2  typecheck      Could not check method invocation Array[\..\] is not applicable to an argument of type (T, T). L: Possibly bec
+     2  typecheck      Could not check method invocation Array[\..\],(RR64 & {Float, FloatLiteral, RR32})->RR64).
+     2  typecheck      Could not check method invocation Matrix[\..\] is not applicable to an argument of type (T, T). L: Possibly be
+     2  typecheck      Could not check method invocation Vector[\..\] is not applicable to an argument of type (T, T). L: Possibly be
+     1  export         Component FlatArrays2 exports API FlatArrays2 but does not define all declarations in FlatArrays2. Missing dec
+     1  typecheck      Character has no getter called codePoint L: Possibly because j: ZZ32 after argument inference L: Possibly beca
+     1  typecheck      Could not check call to function parseRow - [\..\], IntLiteral).
+     1  typecheck      Could not check call to function parseRow - [\..\], ZZ32). L: Possibly because line: String after argument inf
+     1  typecheck      Could not check call to function row - [\..\], ZZ32). L: Possibly because i: ZZ32 after argument inference
+     1  typecheck      Could not check call to function row - [\..\], ZZ32). L: Possibly because i: ZZ32 after argument inference L: 
+     1  typecheck      Could not check call to function viewN - [\..\], ZZ32, NatReflect.NatParam, NatReflect.NatParam).
+     1  typecheck      Could not check call to operator juxtaposition - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an
+     1  typecheck      Could not check function application - ZZ32->ZZ32 is not applicable to an argument of type RR64. L: Possibly b
+     1  typecheck      Could not check method invocation Array[\..\] is not applicable to an argument of type T. L: Possibly because 
+     1  typecheck      Could not determine all parameter types of function expression.
+     1  typecheck      Function body has type ((), ()), but declared return type is (ZZ32, ZZ32).
+     1  typecheck      Function body has type Array2[\..\].
+
+## distinct errors by unit and stage (an error printed by several units is under each)
+    19  api FortressLibrary              acyclic
+   162  api FortressLibrary              overloading
+     1  component FlatArrays2            export
+    18  component FlatArrays2            overloading
+    24  component FlatArrays2            typecheck
+     4  component FlatData2              typecheck
+     5  component MicroGptApl            typecheck
+
+## distinct errors, kind by unit (an error printed by several units is under the first)
+unit                       exclus compri overlo return abstra bound- wellfo typech export  other  total
+api FortressLibrary            18      1    141     21      0      0      0      0      0      0    181
+component FlatArrays2           0      0     14      4      0      0      0     24      1      0     43
+component FlatData2             0      0      0      0      0      0      0      4      0      0      4
+component MicroGptApl           0      0      0      0      0      0      0      5      0      0      5
+all                            18      1    155     25      0      0      0     33      1      0    233
+
+## crashes (stage crashes caught by add-patch.py; declarations the checker crashed on)
+     1  stage	api AplMgSyntax	wellformed1	java.lang.IllegalArgumentException	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)
+     1  stage	api AplMgSyntax	leftover	java.lang.ClassCastException	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1691)
+     1  stage	api AplMgSyntax	wellformed2	java.lang.IllegalArgumentException	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)
+     1  decl	FlatData2.fss:17:1-45:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+     1  decl	FlatData2.fss:48:1-63:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+     1  decl	MicroGptAplCheck.fss:31:1-100:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+     1  stage	component MicroGptAplCheck	leftover	java.lang.ClassCastException	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1873)

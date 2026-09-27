@@ -1,0 +1,37 @@
+component Bind3
+export Executable
+trait Wide excludes Narrow
+    coerce(x: Narrow) = WideOf(x.small)
+    getter big(): ZZ32
+end
+object WideOf(big: ZZ32) extends Wide end
+trait Narrow excludes Wide
+    getter small(): ZZ32
+end
+object NarrowOf(small: ZZ32) extends Narrow end
+same[\T extends Number\](a: T, b: T): String = "same[" (typeOf a) "]"
+lohi[\I extends ZZ32\](lo: I, hi: I): String = "lohi[" (typeOf lo) "]"
+object Box[\T\](v: T)
+    accept(x: T): String = "accept[" (typeOf x) "]"
+end
+scale[\T\](b: Box[\T\], x: T): String = b.accept(x)
+ee(x: ZZ32): String = "ZZ32 arm"
+ee(x: Any): String = "Any arm"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    RR64 => "RR64"
+    Wide => "Wide"
+    Narrow => "Narrow"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    r: RR64 = 2.5
+    n: Narrow = NarrowOf(7)
+    bw: Box[\Wide\] = Box[\Wide\](WideOf(1))
+    do s: RR64 = 3; println("s: RR64 = 3: " (typeOf s)) end
+  end
+end

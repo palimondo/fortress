@@ -1,0 +1,12 @@
+# comp Bind3 2026-09-27T16:01:13Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.25 1.56 0.78; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp/Bind3.fss:35:18:
+    Right-hand side has type IntLiteral, but declared type is RR64.
+File Bind3.fss has 1 error.
+compile rc=255
+## run
+Could not load Bind3
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Bind3.class
+	... 4 more
+run rc=1

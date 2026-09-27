@@ -1,0 +1,7 @@
+# comp EeInt 2026-09-27T16:11:04Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.21 6.32 3.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.FZZ32 EeInt.\=ee{_|explorations|reviews|numerics-plan-fable|probes|one-shape|comp3|EeInt\,fss\!18\!1-21,_|explorations|reviews|numerics-plan-fable|probes|one-shape|comp3|EeInt\,fss\!19\!1-20}(fortress.AnyType$Any)'
+run rc=1

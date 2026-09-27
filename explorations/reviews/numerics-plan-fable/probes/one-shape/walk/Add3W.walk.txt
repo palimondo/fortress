@@ -1,0 +1,3 @@
+# walk Add3W 2026-09-27T16:01:35Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.29 2.08 0.98; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+sameAdd(3, w): a+b is ZZ64
+rc=0

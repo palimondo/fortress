@@ -1,0 +1,28 @@
+component Same34
+import List.{...}
+export Executable
+same[\T extends Number\](a: T, b: T): String = "same[" (typeOf a) "," (typeOf b) "]"
+sameAdd[\T extends Number\](a: T, b: T): String = "a+b is " (typeOf (a + b))
+lohi[\I extends AnyIntegral\](lo: I, hi: I): String = "lohi[" (typeOf lo) "," (typeOf hi) "]"
+object Box[\T\](v: T)
+    accept(x: T): String = "accept[" (typeOf x) "]"
+end
+scale[\T\](b: Box[\T\], x: T): String = b.accept(x)
+ee(x: ZZ32): String = "ZZ32 arm"
+ee(x: Any): String = "Any arm"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    RR64 => "RR64"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: Box[\RR64\] = Box[\RR64\](1.0)
+    println("same(3, 4): " same(3, 4))
+  end
+end
