@@ -1,0 +1,17 @@
+component PHyp
+export Executable
+(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
+(a1, a2) = (0.01, 0.85)
+a3 = 10.0^(-5)
+(a4, a5) = (16, 4)
+h1(): () = do z: String = headDim; zz: ZZ32 = "after h1" end
+h2(): () = do z: String = beta1; zz: ZZ32 = "after h2" end
+h3(): () = do z: String = a2; zz: ZZ32 = "after h3" end
+h4(): () = do z: String = a3; zz: ZZ32 = "after h4" end
+h5(): () = do z: String = a5; zz: ZZ32 = "after h5" end
+h6(): () = do w = 1.0 headDim; zz: ZZ32 = "after h6" end
+h7(): () = do w = 1.0 a5; zz: ZZ32 = "after h7" end
+h8(): () = do w = SQRT (1.0 a5); zz: ZZ32 = "after h8" end
+run(): () = ()
+end

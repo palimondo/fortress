@@ -1,0 +1,9 @@
+component PBeta
+export Executable
+(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
+t1[\nat n\](m: Vector[\RR64,n\]): Vector[\RR64,n\] = do mm = beta1 m; zz: ZZ32 = "after t1"; mm end
+t2(x: RR64): RR64 = do y = beta1 x; zz: ZZ32 = "after t2"; y end
+t3(): ZZ32 = do zz0: ZZ32 = beta1; zz: ZZ32 = "after t3"; zz0 end
+t4(): ZZ32 = do zz0: ZZ32 = epsilon; zz: ZZ32 = "after t4"; zz0 end
+run(): () = ()
+end

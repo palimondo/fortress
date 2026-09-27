@@ -1,0 +1,287 @@
+########## run probes: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 0.93 1.32 1.32; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 56c6c69e0
+# start 2026-09-27T19:50:02Z
+ELAPSED 103 s
+component PMain | PMain.fss:43:6-8:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\RR64,c\], Vector[\RR64,c\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\RR64,c\], Vector[\RR64,c\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\RR64,c\], Vector[\RR64,c\]).
+component PMain | PMain.fss:38:21-37:     Could not check call to function p5inner
+      - [\nat r\]NatReflect.N[\r\]->ZZ32 is not applicable to an argument of type NatReflect.NatParam.
+component PMain | PMain.fss:37:87:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,r\], Vector[\ZZ32,r\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\ZZ32,r\], Vector[\ZZ32,r\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,r\], Vector[\ZZ32,r\]).
+component PMain | PMain.fss:34:6:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\RR64,3\], Vector[\RR64,3\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\RR64,3\], Vector[\RR64,3\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\RR64,3\], Vector[\RR64,3\]).
+component PMain | PMain.fss:27:50-63:     Could not check call to function rowsV
+      - [\nat r, nat c\](Vector[\RR64,c\]->Vector[\RR64,c\], Matrix[\RR64,r,c\])->Matrix[\RR64,r,c\] is not applicable to an argument of type (Vector[\RR64,s\]->Vector[\RR64,s\], Matrix[\RR64,2,3\]).
+component PMain | PMain.fss:25:34:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+component PMain | PMain.fss:23:47:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+component PMain | PMain.fss:23:40-43:     Could not check call to function mk2
+      - Could not infer static argument nat r without context.
+component PMain | PMain.fss:21:49:     Could not check call to operator DOT
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (Vector[\ZZ32,5\], Vector[\ZZ32,5\]).
+component PMain | PMain.fss:11:57-61:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+@@TC DECL-OK	FnDecl	PScal.fss:3:1-113	errors=0
+@@TC DECL-OK	FnDecl	PScal.fss:4:1-8:4	errors=0
+@@TC DECL-OK	FnDecl	PMain.fss:9:1-76	errors=0
+@@TC DECL-OK	FnDecl	PMain.fss:10:1-85	errors=0
+@@TC DECL-OK	FnDecl	PMain.fss:11:1-61	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:12:1-19:4	errors=0
+@@TC DECL-OK	FnDecl	PMain.fss:21:1-58	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:23:1-56	errors=2
+@@TC DECL-OK	FnDecl	PMain.fss:25:1-43	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:27:1-75	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:29:1-35:4	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:37:1-96	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:38:1-39:87	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:40:1-44:4	errors=1
+@@TC DECL-OK	FnDecl	PMain.fss:45:1-53:2	errors=0
+########## run probes2: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 4.39 4.23 2.60; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bb2358477
+# start 2026-09-27T19:54:11Z
+ELAPSED 109 s
+component P3b | P3b.fss:11:57-61:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+component P7 | P7.fss:29:76:     Item at this location must be an expression, not an operator.
+@@TC DECL-OK	FnDecl	P3b.fss:9:1-76	errors=0
+@@TC DECL-OK	FnDecl	P3b.fss:10:1-85	errors=0
+@@TC DECL-OK	FnDecl	P3b.fss:11:1-61	errors=1
+@@TC DECL-OK	FnDecl	P3b.fss:12:1-19:4	errors=0
+@@TC DECL-OK	FnDecl	P3b.fss:20:1-81	errors=0
+@@TC DECL-OK	FnDecl	P3b.fss:21:1-33	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:9:1-76	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:10:1-85	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:11:1-61	errors=1
+@@TC DECL-OK	FnDecl	P7.fss:12:1-19:4	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:20:1-80	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:21:1-80	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:22:1-57	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:23:1-93	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:24:1-98	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:25:1-47	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:26:1-51	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:27:1-118	errors=1
+@@TC DECL-OK	FnDecl	P7.fss:28:1-29:3	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:29:1-79	errors=-1
+########## run probes3: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 6.47 5.21 3.16; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bce467de8
+# start 2026-09-27T19:56:10Z
+ELAPSED 130 s
+component P7 | P7.fss:27:62-71:     Could not check method invocation CompactFullRange[\IntLiteral\].loop
+      - IntLiteral->()->() is not applicable to any type of the form _->_.
+component P7 | P7.fss:11:57-61:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,s\]).
+@@TC DECL-OK	FnDecl	P7.fss:9:1-76	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:10:1-85	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:11:1-61	errors=1
+@@TC DECL-OK	FnDecl	P7.fss:12:1-19:4	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:20:1-80	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:21:1-80	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:22:1-57	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:23:1-93	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:24:1-98	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:25:1-47	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:26:1-51	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:27:1-118	errors=1
+@@TC DECL-OK	FnDecl	P7.fss:28:1-29:3	errors=0
+@@TC DECL-OK	FnDecl	P7.fss:29:1-130	errors=0
+########## run unchk: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 12.74 12.84 9.31; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bce467de8
+# start 2026-09-27T20:14:33Z
+ELAPSED 149 s
+component PUnchk | PUnchk.fss:26:16:     Right-hand side has type String, but declared type is ZZ32.
+component PUnchk | PUnchk.fss:20:16:     Right-hand side has type String, but declared type is ZZ32.
+component PUnchk | PUnchk.fss:15:16:     Right-hand side has type String, but declared type is ZZ32.
+component PUnchk | PUnchk.fss:10:16:     Right-hand side has type String, but declared type is ZZ32.
+component PUnchk | PUnchk.fss:5:16:     Right-hand side has type String, but declared type is ZZ32.
+@@TC DECL-OK	FnDecl	PUnchk.fss:4:1-7:4	errors=1
+@@TC DECL-OK	FnDecl	PUnchk.fss:9:1-12:4	errors=1
+@@TC DECL-OK	FnDecl	PUnchk.fss:14:1-17:4	errors=1
+@@TC DECL-OK	FnDecl	PUnchk.fss:19:1-22:4	errors=1
+@@TC DECL-OK	FnDecl	PUnchk.fss:24:1-28:4	errors=1
+@@TC DECL-OK	FnDecl	PUnchk.fss:29:1-14	errors=0
+########## run silent: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 16.58 15.36 11.92; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree db19a200e
+# start 2026-09-27T20:22:46Z
+ELAPSED 225 s
+component PSilent | PSilent.fss:29:18-22:     Could not check call to operator juxtaposition
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+component PSilent | PSilent.fss:29:10-14:     Could not check call to operator juxtaposition
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+component PSilent | PSilent.fss:23:10-12:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (RR64, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (RR64, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (RR64, Vector[\RR64,n\]).
+component PSilent | PSilent.fss:18:16-23:     Right-hand side has type String, but declared type is ZZ32.
+component PSilent | PSilent.fss:11:18-22:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+component PSilent | PSilent.fss:11:10-14:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+component PSilent | PSilent.fss:5:18-22:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+component PSilent | PSilent.fss:5:10-14:     Could not check call to operator juxtaposition
+      - Could not infer static arguments nat m, nat p without context.
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Vector[\RR64,n\]).
+@@TC DECL-OK	FnDecl	PSilent.fss:4:1-8:4	errors=2
+@@TC DECL-OK	FnDecl	PSilent.fss:10:1-14:4	errors=2
+@@TC DECL-OK	FnDecl	PSilent.fss:16:1-20:4	errors=1
+@@TC DECL-OK	FnDecl	PSilent.fss:22:1-26:4	errors=1
+@@TC DECL-OK	FnDecl	PSilent.fss:28:1-32:4	errors=2
+@@TC DECL-OK	FnDecl	PSilent.fss:33:1-14	errors=0
+########## run hyp: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 18.87 19.27 15.95; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree f250c67ab
+# start 2026-09-27T20:33:43Z
+ELAPSED 204 s
+component PHyp | PHyp.fss:12:42-49:     Right-hand side has type String, but declared type is ZZ32.
+component PHyp | PHyp.fss:11:42-49:     Right-hand side has type String, but declared type is ZZ32.
+component PHyp | PHyp.fss:11:27:     Right-hand side has type RR64, but declared type is String.
+component PHyp | PHyp.fss:10:42-49:     Right-hand side has type String, but declared type is ZZ32.
+component PHyp | PHyp.fss:9:45-52:     Right-hand side has type String, but declared type is ZZ32.
+component PHyp | PHyp.fss:8:47-54:     Right-hand side has type String, but declared type is ZZ32.
+@@TC DECL-OK	FnDecl	PHyp.fss:8:1-59	errors=1
+@@TC DECL-OK	FnDecl	PHyp.fss:9:1-57	errors=1
+@@TC DECL-OK	FnDecl	PHyp.fss:10:1-54	errors=1
+@@TC DECL-OK	FnDecl	PHyp.fss:11:1-54	errors=2
+@@TC DECL-OK	FnDecl	PHyp.fss:12:1-54	errors=1
+@@TC DECL-OK	FnDecl	PHyp.fss:13:1-55	errors=0
+@@TC DECL-OK	FnDecl	PHyp.fss:14:1-50	errors=0
+@@TC DECL-OK	FnDecl	PHyp.fss:15:1-57	errors=0
+@@TC DECL-OK	FnDecl	PHyp.fss:16:1-14	errors=0
+########## run loc: setting=any probes
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 20.82 20.59 17.26; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5635fb2f3
+# start 2026-09-27T20:37:37Z
+ELAPSED 187 s
+component PLoc | PLoc.fss:6:49-56:     Right-hand side has type String, but declared type is ZZ32.
+component PLoc | PLoc.fss:6:35:     Right-hand side has type IntLiteral, but declared type is String.
+component PLoc | PLoc.fss:5:86-93:     Right-hand side has type String, but declared type is ZZ32.
+component PLoc | PLoc.fss:5:72:     Right-hand side has type Vector[\RR64,n\], but declared type is String.
+component PLoc | PLoc.fss:4:74-81:     Right-hand side has type String, but declared type is ZZ32.
+component PLoc | PLoc.fss:4:60:     Right-hand side has type RR64, but declared type is String.
+component PLoc | PLoc.fss:3:59-66:     Right-hand side has type String, but declared type is ZZ32.
+component PLoc | PLoc.fss:3:45:     Right-hand side has type IntLiteral, but declared type is String.
+@@TC DECL-OK	FnDecl	PLoc.fss:3:1-71	errors=2
+@@TC DECL-OK	FnDecl	PLoc.fss:4:1-86	errors=2
+@@TC DECL-OK	FnDecl	PLoc.fss:5:1-98	errors=2
+@@TC DECL-OK	FnDecl	PLoc.fss:6:1-61	errors=2
+@@TC DECL-OK	FnDecl	PLoc.fss:7:1-14	errors=0
+########## run d1y: setting=any d1y
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 16.97 17.53 13.72; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree db19a200e
+# start 2026-09-27T20:26:55Z
+ELAPSED 373 s
+component PBeta | PBeta.fss:7:49-56:     Right-hand side has type String, but declared type is ZZ32.
+component PBeta | PBeta.fss:6:47-54:     Right-hand side has type String, but declared type is ZZ32.
+@@TC DECL-OK	FnDecl	PBeta.fss:4:1-98	errors=0
+@@TC DECL-OK	FnDecl	PBeta.fss:5:1-63	errors=0
+@@TC DECL-OK	FnDecl	PBeta.fss:6:1-64	errors=1
+@@TC DECL-OK	FnDecl	PBeta.fss:7:1-66	errors=1
+@@TC DECL-OK	FnDecl	PBeta.fss:8:1-14	errors=0
+########## run d1: setting=any d1
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 12.01 10.47 6.94; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bce467de8
+# start 2026-09-27T20:08:05Z
+ELAPSED 336 s
+component PJux | PJux.fss:3:35-39:     Could not check call to operator juxtaposition
+      - [\T extends Number, nat n, nat m, nat p\](T, Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Matrix[\T,n,m\])->Vector[\T,m\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], T)->Vector[\T,n\] is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+      - [\T extends Number, nat n, nat m, nat p\](Vector[\T,n\], Vector[\T,n\])->T is not applicable to an argument of type (FloatLiteral, Array[\RR64,ZZ32\]).
+@@TC DECL-OK	FnDecl	PJux.fss:3:1-39	errors=1
+@@TC DECL-OK	FnDecl	PJux.fss:4:1-14	errors=0
+
+########## the planted-error runs over the first draft's MicroGptFlat (d1x: two strings planted in stepN's body and two in adamN's, before and after each body's first statement; d1y: one after every line of stepN's body, 18 in all). A planted error that is not reported lies past a silent stop.
+## run d1x
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 13.33 13.37 10.10; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bce467de8
+# start 2026-09-27T20:17:16Z
+ELAPSED 305 s
+MicroGptFlat.fss:87:17-59:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:59:17-58:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:57:17-59:     Right-hand side has type String, but declared type is ZZ32.
+  planted at MicroGptFlat.fss:57:    zz1: ZZ32 = "planted before the first statement of stepN"
+  planted at MicroGptFlat.fss:59:    zz2: ZZ32 = "planted after the first statement of stepN"
+  planted at MicroGptFlat.fss:87:    zz3: ZZ32 = "planted before the first statement of adamN"
+  planted at MicroGptFlat.fss:89:    zz4: ZZ32 = "planted after the first statement of adamN"
+## run d1y
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 16.97 17.53 13.72; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree db19a200e
+# start 2026-09-27T20:26:55Z
+ELAPSED 373 s
+MicroGptFlat.fss:71:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:69:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:66:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:64:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:62:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:60:18-42:     Right-hand side has type String, but declared type is ZZ32.
+MicroGptFlat.fss:58:18-42:     Right-hand side has type String, but declared type is ZZ32.
+  planted at MicroGptFlat.fss:58:    zzP1: ZZ32 = "planted after body line 1"
+  planted at MicroGptFlat.fss:60:    zzP2: ZZ32 = "planted after body line 2"
+  planted at MicroGptFlat.fss:62:    zzP3: ZZ32 = "planted after body line 3"
+  planted at MicroGptFlat.fss:64:    zzP4: ZZ32 = "planted after body line 4"
+  planted at MicroGptFlat.fss:66:    zzP5: ZZ32 = "planted after body line 5"
+  planted at MicroGptFlat.fss:69:    zzP6: ZZ32 = "planted after body line 6"
+  planted at MicroGptFlat.fss:71:    zzP7: ZZ32 = "planted after body line 7"
+  planted at MicroGptFlat.fss:73:    zzP8: ZZ32 = "planted after body line 8"
+  planted at MicroGptFlat.fss:75:    zzP9: ZZ32 = "planted after body line 9"
+  planted at MicroGptFlat.fss:77:    zzP10: ZZ32 = "planted after body line 10"
+  planted at MicroGptFlat.fss:80:    zzP11: ZZ32 = "planted after body line 11"
+  planted at MicroGptFlat.fss:82:    zzP12: ZZ32 = "planted after body line 12"
+  planted at MicroGptFlat.fss:84:    zzP13: ZZ32 = "planted after body line 13"
+  planted at MicroGptFlat.fss:86:    zzP14: ZZ32 = "planted after body line 14"
+  planted at MicroGptFlat.fss:88:    zzP15: ZZ32 = "planted after body line 15"
+  planted at MicroGptFlat.fss:90:    zzP16: ZZ32 = "planted after body line 16"
+  planted at MicroGptFlat.fss:92:    zzP17: ZZ32 = "planted after body line 17"
+  planted at MicroGptFlat.fss:94:    zzP18: ZZ32 = "planted after body line 18"

@@ -1,0 +1,9 @@
+component PScal
+export PScal
+opr -[\nat s\](a: Vector[\RR64,s\], x: RR64): Vector[\RR64,s\] = vector[\RR64,s\](fn (i: ZZ32): RR64 => a[i] - x)
+opr MAX[\nat r, nat c\](x: RR64, m: Matrix[\RR64,r,c\]): Matrix[\RR64,r,c\] = do
+    out = matrix[\RR64,r,c\]()
+    _ = out.assign(fn (i: ZZ32, j: ZZ32): RR64 => x MAX m[i,j])
+    out
+  end
+end

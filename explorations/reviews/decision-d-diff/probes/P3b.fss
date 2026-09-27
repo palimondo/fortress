@@ -1,0 +1,22 @@
+(* The six mechanics decision D's diff rests on, one per function so that one failure hides no other. *)
+component P3b
+import PScal.{...}
+import NatReflect.{...}
+export Executable
+object Obj
+  mk[\nat r\](): Vector[\ZZ32,r\] = vector[\ZZ32,r\](fn (i: ZZ32): ZZ32 => i)
+end
+mk2[\nat r\](): Vector[\ZZ32,r\] = vector[\ZZ32,r\](fn (i: ZZ32): ZZ32 => i)
+mkw[\nat r\](_: N[\r\]): Vector[\ZZ32,r\] = vector[\ZZ32,r\](fn (i: ZZ32): ZZ32 => i)
+twice[\nat s\](x: Vector[\RR64,s\]): Vector[\RR64,s\] = 2.0 x
+rowsV[\nat r, nat c\](f: Vector[\RR64,c\] -> Vector[\RR64,c\], m: Matrix[\RR64,r,c\]): Matrix[\RR64,r,c\] = do
+    out = matrix[\RR64,r,c\]()
+    for i <- 0#r do
+        y = f(vector[\RR64,c\](fn (j: ZZ32): RR64 => m[i,j]))
+        for j <- 0#c do out[i,j] := y[j] end
+    end
+    out
+  end
+p3b(): RR64 = do m = matrix[\RR64,2,3\](1.0); w = rowsV(twice[\3\], m); w[1,1] end
+run(): () = println("P3b " p3b())
+end

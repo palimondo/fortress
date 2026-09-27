@@ -1,0 +1,30 @@
+component PUnchk
+export Executable
+(* a: a tuple of arrays returned, primes in the names *)
+a1(m: Array[\RR64,ZZ32\]): (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+    zz: ZZ32 = "s"
+    (m, m)
+  end
+(* b: the same with a plain return type *)
+b1(m: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+    zz: ZZ32 = "s"
+    m
+  end
+(* c: a tuple (RR64, Array) returned *)
+c1(m: Array[\RR64,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
+    zz: ZZ32 = "s"
+    (1.0, m)
+  end
+(* d: generic in a size, tuple return *)
+d1[\nat n\](m: Vector[\RR64,n\]): (Vector[\RR64,n\], Vector[\RR64,n\]) = do
+    zz: ZZ32 = "s"
+    (m, m)
+  end
+(* e: two-line header with the tuple type on the second line, as adam *)
+e1(m: Array[\RR64,ZZ32\], t: ZZ32):
+    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+    zz: ZZ32 = "s"
+    (m, m)
+  end
+run(): () = ()
+end
