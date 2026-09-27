@@ -34,7 +34,7 @@ INTRO_STOPS = {
   'U': "for U, any edit under Specification-1.0-frozen/, normative text stating more than J's section builds, a passage whose new text neither the decision nor J's section settles (reported, not chosen), an example that does not run under walk on the base, and an assertion changed in a re-anchored test",
 }
 INTRO_LIFTED = {
-  'J': "J removes the integer type parameter of RangeInternals' declarations and of FortressLibrary's range operators, so that a range over another integer type is refused, restates the team's RangePrototype and the ZZ64 and NN32 lines of the expected-failure tests of rows 450 to 452, and renames row 452's into a plain test (the ranges decision, POSITIONS.md 2026-09-27, the numerics plans)",
+  'J': "J removes the integer type parameter of RangeInternals' declarations and of FortressLibrary's range operators, so that a range over another integer type is refused, and restates the team's RangePrototype and the ZZ64 and NN32 lines of the expected-failure tests of rows 450 to 452 (the ranges decision, POSITIONS.md 2026-09-27, the numerics plans); that row 452's test, restated, becomes a plain test is the record's reading of that decision, listed for his review (the record's section 1)",
   'U': "U revises the specification's ranges section, its two ZZ64 examples, ZZ's factorial property and the revival's callout (the same decision)",
 }
 OVERLAP_RUNG = {
