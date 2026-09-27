@@ -37,6 +37,7 @@ pushes, then packs loose objects. Three properties matter:
   session — and so a failing push is silent. Check
   `git -C <worktree> status -sb` if in doubt.
 - **It snapshots every session in the container**, not just the current one.
+- The harness's other Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn; they are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
 
 ## Re-arming it in a fresh container
 

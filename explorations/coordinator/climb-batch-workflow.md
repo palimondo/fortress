@@ -31,11 +31,15 @@ Step 1 fixes the check line at `run_out_contains=PASS` and notes that `run_out_W
 
 Since 2026-09-26 it also carries `reportText` and `recordText`, the full text of `REPORT.md` and `record.md` word for word, and `stopsMet`, which is required. In batch 5 the harness refused the rung workers' writes of `REPORT.md`, and the gather composed each report from the structured result, whose `summary` is at most 15 lines (`CLIMB-BATCH-6.md` section 8, item 1). `stopsMet` lists every stop the batch record's intro reserves for Pavol that the rung met, including one met on part of the work while the rest lands. Each entry has the stop, its evidence and `liftedBy`, which is the `POSITIONS.md` line of the decision of Pavol's that lifts it, or empty. The skeptic and the merged-diff review return the same field (`STOPS_MET`), and the commit stage reads all three (below).
 
+Each rung's worker commits and pushes to its own `wip/<slug>` branch as it works, so a dead container loses nothing; the gather composes one commit per rung on `main`.
+
 ## Skeptic
 
 Check 7 is the three homes — the skeptic runs the test itself to see a home-1 assertion pass. Check 0 covers the fifth provenance line. A rung whose manifest entry sets `writesState` has every differential run at `FORTRESS_THREADS=1` **and** `=4`, both columns reported (item f, gap 2); a rung without it is told to do the same if its reading of the diff finds a mutable variable, a field, an `atomic` block or a write into `CompilerLibrary`'s state. `SKEPTIC_SCHEMA` gains `recommendedRows` (item 1), `threadCounts`, `defectHomes`, and since 2026-09-26 `skepticText` (the text of `SKEPTIC.md`) and a required `stopsMet`, in which the skeptic names every reserved stop the rung meets as it stands, whether or not the worker named it; its approval lifts none.
 
 Check 8, added 2026-09-23, compares the rung's own count table with its report; it is a file read and runs nothing. The skeptic takes `#total` from the committed post-edit table the brief names (`probes/checker-count-postedit.txt` for a `testIsStage` rung) and compares it with the total the report declares. A mismatch goes into `requiredCorrections` with both numbers, so the report is corrected and the rung does not stop over it. A rung that declares a count, in its report or as `expectedCheckerCount`, with no table path named gets the finding "no count table"; a rung that declares none has nothing to compare. The manifest's `expectedCheckerCount` is written beside the two as a prediction, not a value the table must meet. This is f1 of `climb-batch-3-redesign.md` § 4, which `checker-gate-review.md` § 4 recommends taking with the report-only gate: in batch 3 nothing set L's committed table (103) beside the declared 102 between 19:14 and the gate at 00:43.
+
+A judge's first ruling on a rung or on the merged tree runs on Opus; a second ruling on the same rung or tree runs on Fable (`judgeTier`; POSITIONS 2026-09-26).
 
 ## Gather
 
@@ -68,6 +72,8 @@ A rung whose manifest entry sets `testIsStage` has that stage as its test. Step 
 ## Commit, and the push held on a stop (2026-09-26)
 
 The commit stage replaces the `<short hash>` placeholders, lands the gate's summary and table, and checks the footers; then it pushes `main` and fast-forwards the container's branch, and removes the worktrees. Since 2026-09-26 it pushes only when no landed rung carries a stop that was met and not lifted (`CLIMB-BATCH-6.md` section 8, item 2). `pushHeldBy` gathers the `stopsMet` entries of each landed rung's last worker report and last skeptic verdict and of the last merged-diff review. It keeps every entry whose `liftedBy` does not cite `POSITIONS.md`, since only Pavol lifts a stop; a malformed entry is kept too. Any entry left gives the commit stage a role with no push step and no worktree removal. The stage then writes a "Not pushed." paragraph naming the stops into the batch's `RECORD.md` and commits it locally, and the script's result carries `pushHeld` and `heldBy`. The coordinator pushes once Pavol has lifted them. Batches 4 and 5 held the push by the landing agent's reading of the intro alone, and batch 5's push went out at about 17:56 past rung S's unlifted stop, because the coordinator did not read its record's line before pushing (`compile-ladder/climb-batch-5/RECORD.md`, "The push is held"). A rung that did not land holds nothing, since none of its source is applied.
+
+An output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row and not a stop (POSITIONS 2026-09-26, rung D's stop).
 
 ## Measured, and not
 

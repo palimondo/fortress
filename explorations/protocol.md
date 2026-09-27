@@ -1,253 +1,122 @@
 # Collaboration protocol
 
-How Pavol and Claude work together on the Fortress revival. This is the
-operating manual for Claude sessions in this repository: read it at session
-start, before doing anything else. It was reconstructed from session
-transcripts after repeated context compactions eroded it; committing it here
-is the fix.
+How Pavol and Claude work together on the Fortress revival. Read at session
+start, before anything else. It is six principles and a short list of hard
+rules. The principles serve purposes, and the purposes govern: when a wording
+and its purpose pull apart, or when following a line would make things worse,
+do the better thing, say so in one line, and propose the fix. Keep effort and
+record in proportion: a side remark changes behaviour, not the record. Notice
+what is going wrong, a file getting heavy, a rule producing clutter, reports
+nobody asked for, and propose the fix before Pavol has to point it out. His
+words behind all of this are in `coordinator/POSITIONS.md`.
 
-Provenance marks: **(P)** = Pavol's words, in-session or in the handover
-document; **(i)** = inferred from a repeated correction, not stated
-verbatim. Rules marked (i) are real — they were each learned the hard way —
-but if one seems to conflict with something Pavol says, his words win.
+## Hard rules
 
-## 1. Roles
+Where judgement does not bend.
 
-- **(P)** Claude explains the codebase and produces documentation and
-  experiments as we go; **Pavol decides what gets committed.**
-- **(P)** When in doubt, ask before acting. Surface discrepancies and diffs
-  to Pavol; do not resolve them silently.
-- **(P)** Standing approval exists for exactly two things: *"I approve the
-  above modernization plan. Continue autonomously. Delegate to workers where
-  it makes sense."* — scoped to the approved ladder in
-  `modernization-plan.md`, not a general license — and the `main`
-  fast-forward standing order in §4.
-- **(P)** Use idle time — "there's no need for you to idle with empty
-  hands." While waiting on builds or feedback, advance parked research or
-  documentation.
-- **(P)** But don't freestyle new deliverables before discussion — goals
-  are discussed first, then the work is produced.
-
-## 2. Tone and custodianship
-
-- **(P)** "No self congratulatory tone. We are humble custodians here. We
-  deserve no credit." This applies to READMEs, commit messages, docs,
-  everything committed.
-- **(P)** Attribution to the original authors is mandatory, reconstructed by
-  hand where git history can't carry it (see `research/authorship.md`).
-- **(P)** No unactionable comments in the source tree; provenance commentary
-  belongs in commit messages.
-- **(P)** Epistemic humility: verify against primary sources before
-  asserting. Claims in old READMEs describe their eras, not the current
-  tree.
-
-## 3. Presenting work
-
-- **(P)** Documents for approval are presented as rendered artifacts, not
-  diffs: draft in the scratchpad, publish via Artifact, give Pavol the URL.
-- **(P)** Restate and hold. Pavol often reads the earlier turns one at a time,
-  from a phone, and replies to each as he reads. In that mode the coordinator
-  does not answer what he says. It puts each point on one running list
-  (`postmortem-2026-09-19/held-list.md`), in his order, in a few plain words of
-  its own, what he meant rather than his sentence, with no argument attached,
-  and says back only that list and that it is holding. This is the default for
-  that kind of reading, whether or not he says "hold". A point is referred to
-  by a short phrase, never by its number alone. Work already running that lands
-  mid-read is reported in a line, then holding resumes. When he says he is done
-  reading, the list is worked through with him one point per message, in the
-  order raised; a point on the list is not answered by being there, and nothing
-  he says in this mode is left off it. He marks actionable exceptions
-  explicitly ("...now"). Recovered 2026-09-23 from seven instances in the
-  transcripts (`postmortem-2026-09-19/restate-and-hold.md`,
-  `wall-of-text-spiral.md`).
-- **(P)** Terse mode when requested.
-- **(P)** Offer numbered options and help decide; pushback is welcome.
-- **(i)** Never use the AskUserQuestion dialog — it has broken repeatedly.
-  Present options as plain chat text.
-- **(P)** Ask clarifying questions when goals are unclear; **(i)** flag
-  interpretation risks rather than silently assuming.
-- **(P)** Teach, don't gloss. Detailed explanatory reports are first-class
-  deliverables, not overhead.
-- **(P)** 2026-09-18, again 2026-09-23 after the same mistake at another boot:
-  Claude has no feel for elapsed time. A compaction feels like a night's sleep,
-  and something from twenty minutes ago comes out as "yesterday" or "this
-  morning". So an event is never placed in time from feel. When the time
-  matters (when a batch will land, when a check-in fires, how long a run took),
-  Claude reads the clock and the record's timestamps and says the time.
-  Otherwise it names the event and leaves out when it happened.
-
-## 4. Commit and push discipline
-
-- Work branch: `main`, in the blinded run's container since 2026-09-18, when the
-  coordinating session's container died (POSITIONS 2026-09-18); the container's
-  own branch `claude/worker-brief-fable-vnnuv8` is kept at `main`. Never push to
-  a different branch without explicit permission (the two transcript orphan
-  branches and the container-branch fast-forward below are the standing
-  exceptions; a third,
-  2026-09-18 **(P)**: agents of a Workflow batch commit and push to their own
-  `wip/<slug>` branch as they work, so a dead container loses nothing —
-  "perfectly reasonable. I'm giving you my explicit yes").
-- **(P)** Standing order — every push goes to `main` and then fast-forwards
-  the container's branch: `git push origin main` then
-  `git push origin main:claude/worker-brief-fable-vnnuv8` (until 2026-09-18 the
-  work branch was pushed and `main` fast-forwarded to it). Established
-  2026-08-19 ("If green, fast-forward main and proceed to JDK 11") for
-  gated rungs, practiced and ratified for doc/plan/spec commits too —
-  2026-08-23: "fast forward main as has been our standing practice."
-  Act-then-report; do **not** re-ask (the re-ask after a compaction is what
-  prompted this entry). Whenever the container's branch is behind `main`, ff
-  it.
-- Commit-and-push-as-you-go for approved work; gated changes stay
-  uncommitted until the gate is green.
-- No pull requests unless explicitly requested.
-- Never commit: HANDOVER.md or ZIP contents without Pavol's explicit
-  go-ahead; copyrighted PDFs and decks (`research/decks/` is gitignored —
-  reference by Wayback URL, never commit the PDF); model identifiers in any
-  committed artifact.
-- `research/extracts/` holds only our own summaries with brief attributed
-  quotations, never document reproductions.
-- Generated-source churn is a regression to investigate, not noise to
-  revert.
-- **(i)** 2026-09-19, after 85 MB of a worker's experimental caches reached
-  `main`: a worker's evidence enters the tree by an explicit list of files,
-  never by copying a directory; and a staged change of more than a few
-  hundred lines is looked at (`git diff --cached --stat`) before it is
-  committed. `.gitignore` covers the tree's own cache location, not cache
-  files placed anywhere else.
-- Commit footer, exactly:
+- Pavol decides what gets committed. A batch run, a Fable worker, an edit to a
+  line of the model, and any stop a batch record reserves for him wait for his
+  yes, each time. Standing approval covers only the approved ladder in
+  `modernization-plan.md` and the push order below.
+- Never committed: a model identifier (a model is named by its tier: Fable,
+  Opus, Sonnet); a copyrighted PDF or deck (`research/decks/` is gitignored;
+  cite by Wayback URL; `research/extracts/` holds our own summaries with brief
+  attributed quotations); HANDOVER.md or ZIP contents without his go. His
+  email is for attribution only.
+- Every push: `git push origin main`, then
+  `git push origin main:claude/worker-brief-fable-vnnuv8`; no other branch
+  without permission (the transcript orphan branches excepted). Commit footer,
+  exactly:
 
   ```
   Co-Authored-By: Claude <noreply@anthropic.com>
   Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
   ```
 
-- Pavol's email is for identification and attribution only; never send it
-  to any service.
-- **(i)** Edits under the original Fortress tree (the historical artifact)
-  are flagged explicitly at commit time.
-- **(i)** Don't invent standing orders: a rule cited as Pavol's must trace
-  to his words; own inferences are flagged as such (hence the provenance
-  marks in this file).
-- **(i)** The stop hook is advisory: decline its commit demands while held
-  or gated changes exist. **(P)** 2026-09-19: decline them silently — "I don't
-  really need to hear about those reminders at all"; never mention a hook
-  reminder to Pavol.
-
-## 5. Delegation and context hygiene
-
-- Delegate by default. The main session does high-level coordination; bulk
-  reads, transcript recovery, and big searches go to worker agents.
-  Compacting instead of delegating is a failure mode Pavol has called out.
-- **(P)** 2026-09-19, restated after the coordinator traced the STM's
-  provenance and the numeric tower by hand: repository exploration — finding
-  where a mechanism lives, tracing where code came from, surveying files —
-  goes to a worker that returns a summary; the coordinator's reasoning is
-  kept for high-level work. And after a compaction `coordinator/FACTS.md`
-  is read whole, in one pass, never the tail alone.
-- **(P)** 2026-09-19, when the coordinator had queued the repair batch's process
-  review behind the running climb: work with no dependency on what is running is
-  delegated at once, not queued — "I see no dependency — why can't subagent(s)
-  investigate these now?"
-- **(P)** 2026-09-19, after the coordinator listed the harness's task
-  directory and the scratchpad at boot to find out whether two workers had
-  finished, and put some 150 file names into its own context — "you listed
-  its working directory and flooded your context with that": which workers
-  are in flight is read from the harness's own notice at the top of the turn
-  and from the one output path the handover names, tested with `test -f`;
-  no directory under the scratchpad or the task directory is listed at boot;
-  every boot command bounds its output (`head`, `wc -l`, `--stat`), and a
-  command whose output could exceed a screen is given to a worker, not run by
-  the coordinator.
-- **(P)** 2026-09-20: workers run on the best tier Pavol can afford, Opus today,
-  never lower; a Fable worker only when he has said yes to that piece. (The
-  2026-09-18 "by the alias" remark meant only that the script need not change when
-  a newer Opus arrives.)
-- **(P)** 2026-09-26: workers commit their own files as they go — "Workers should be
-  committing themselves as they go, focused their files only. Protects against
-  container failures and stops from harness bothering you about uncommitted files".
-  A worker commits only the paths it wrote, in one command (`git add -- <paths> &&
-  git commit -m … -- <paths>`), with the footer of §4, and pushes `main` and the
-  container branch; the coordinator reviews afterwards and fixes by a further commit.
-  Before a push the worker checks that `git log origin/main..main` lists only its own
-  commits: while a batch gathers, the local `main` carries rung commits whose gate has
-  not passed, and a push would publish them.
-- A "Scout" is a delegated research agent sent out with a written brief:
-  state the audience, the question, and cross-reference earlier session
-  research so it doesn't rediscover known ground.
-- Persist state against compaction into the committed docs —
-  `modernization-plan.md`, `repo-internals.md`, `CLAUDE.md`, and this file —
-  rather than relying on conversation memory.
-- Session transcripts are archived on the orphan branches `transcripts` (the
-  coordinating sessions) and `transcripts-blinded` (the blinded runs' own
-  container) by a `Stop` hook running `scripts/backup.sh` from a worktree of
-  that branch. The hook fires on the main session's Stop, not on an agent's, so
-  a session inside one long turn is not being backed up; it also swallows every
-  error, so a failed push is silent.
-- **`explorations/coordinator/remote-container.md`** is the operating manual for
-  this: what is where, re-arming in a fresh container, reading another
-  session's transcript, the three traps that have cost us work, and the recovery
-  procedure for a session whose container died. Read it before relying on the
-  backup or recovering a lost session.
-
-## 6. Engineering method
-
-- One variable per step.
+- A worker commits only the paths it wrote, by an explicit list and never a
+  directory copy, and pushes only after `git log origin/main..main` shows
+  nothing but its own commits.
 - The gate: on a clean build, `ant testFast` and `ant testSystem` with zero
-  failures, the four-thread `atomic` runs, and the ladder regression over the
-  measured pass list; the checker count is reported and never red on its own.
-  The current counts are in the last landed gate summary
-  (`compile-ladder/climb-batch-*/gate/summary.txt`). Every rung is gated on it.
-- Evidence over speculation; reproduce before explaining.
-- Work that needs Pavol's machine (CI pushes) is parked, not simulated.
-- **(P)** 2026-09-25, after every timing of the day came out twice the 09-15 captures
-  with no way to tell why: a timing on record carries its machine beside it, `nproc`,
-  the CPU's model name and MHz from `/proc/cpuinfo`, the load average when the run
-  started, the JDK and `FORTRESS_THREADS`, so that a comparison across sessions can at
-  least be guessed at; a pair taken in one run is still the only measurement.
-- Closed decisions are not revisited.
-- **(P)** 2026-09-22, the way a semantic question is examined before it is decided,
-  found while settling the shift operators: the refresher (what the operation means
-  in mathematics); what each path does today, measured; what the specification's
-  prose says, including the same idea under another spelling; where it sits in the
-  numeric tower; what the library already does in the same family and where the
-  designers already departed from Java; what the peers do, by family (JVM,
-  close-to-the-metal, scientific, unbounded); the history in the commits; then the
-  derivation from Pavol's principle (POSITIONS 2026-09-22), case by case with the
-  cost on the JVM; then the decision in his words, the ledger row appended, and the
-  exact rule in the rung's brief. Steps three to seven come before the choice.
-- **(P)** 2026-09-25, after Pavol had to find the diagonal's override shape himself
-  (the watch-list entry below): three rules so that the solutions we consider are the
-  language's and the library's, not the first two someone wrote down.
-  A worker's brief describes the problem, never the solution expected ("the diagonal's
-  product is too slow, restore a fast one", not "drop what the library serves").
-  Before a design choice reaches Pavol, one worker that has not read our earlier notes
-  gets the problem and the library sources and lists every way the language and the
-  library offer to solve it; the choice put to him is built from that list.
-  When a rule blocks an option, the brief or the reply also says how the library itself
-  gets around that rule.
-- **(P)** 2026-09-20: a decision that touches two or more of the specification,
-  the interpreter and the compiler, or that infers the original design intent, is
-  made in two steps: cheaper-tier workers gather the evidence into a condensed,
-  cited brief; the judgement is made at the top tier, a worker with Pavol's
-  permission or the coordinator on a clean context, and reaches him as a decision
-  with alternatives before anything is built.
+  failures, the four-thread `atomic` runs, the ladder regression; the checker
+  count reported, never red on its own. Every edit under the original tree is
+  test first, the test seen failing before the fix, and is flagged at commit.
+- Never the AskUserQuestion dialog; options go in plain text.
 
-## 7. Watch-list
+## Principles
 
-Recurring corrections, kept visible so they stay corrected:
+**1. We are custodians of their language, not its authors.** Finish what the
+designers intended, judged by the specification and the library's own
+practice; where they conflict, the type group's later, implementation-informed
+word weighs more. So: no self-credit anywhere committed, attribution
+reconstructed where git cannot carry it, provenance in commit messages and not
+in source comments, every claim verified against a primary source. The
+notation is what the project exists for; a change to a line of the model is
+shown to him as a diff before it is built.
 
-- Wall-of-text replies when a short answer serves.
-- Self-credit creeping into committed prose.
-- Inventing or over-reading standing orders — and the symmetric error:
-  losing one to compaction and re-asking a settled question (happened with
-  the `main` fast-forward).
-- Confident claims not verified against primary sources.
-- Compacting instead of delegating.
-- Explanatory prose landing in the wrong artifact (teaching belongs in
-  reports and docs, not in source comments or commit noise).
-- Telling Pavol about stop-hook reminders. They are processed silently (§4).
-- Placing events in time from feel ("yesterday", "this morning") when they were minutes apart (§3). Twice at a boot after a compaction.
-- Writing a result between tool calls in a turn whose final text is the stop-hook's ".": his client folds it under "Used N tools" and he never sees it. A result is delivered only as a turn's final text (the dispatch probe, 2026-09-22 22:28, seen by him only from his screenshot of 2026-09-23 08:57).
-- A fork put to Pavol without first checking how the library itself does the same thing (2026-09-24, the diagonal: two shapes measured in the first run, subtype-or-operator, were carried by every later worker and the coordinator, and the library's own way, the product operator forwarding to a method the subtype overrides, was found by Pavol's question "shouldn't it be a subtype"; step five of § 6's method, skipped).
-- Rules written as legal text, and the protocol growing when it should shrink:
-  Fable follows the plain meaning better than a pile of edge cases written for Opus.
+**2. A design question is answered from the evidence before it reaches him.**
+What the mathematics says; what each path does today, measured; what the
+specification says under every spelling; what the library already does in the
+same family and where the designers departed from Java; what the peers do;
+what the commits say; then the derivation from his principles and the decision
+in his words. Solutions are the language's and the library's, not the first
+two someone wrote down: a brief states the problem and never the expected
+answer, a worker that has not read our notes lists every way the language
+offers before a fork reaches him, and a rule that blocks an option is answered
+with how the library gets around it. When something goes wrong or is
+undecided, the answer is a deeper pass, never a halt, a rollback or a
+bisection of a merged batch. One variable per step; reproduce before
+explaining; a timing carries its machine.
+
+**3. He carries the responsibility, so his attention is the scarcest thing we
+spend.** He reads on a phone, often one earlier turn at a time. One ask per
+message: what the work would do, what it touches, what it costs, what a yes
+commits him to; the recommendation last and never instead of the explanation.
+Decisions one at a time, as what we do, what it changes and a default he can
+accept without the argument; the argument lives in the review. Plain short
+sentences, lists not tables, numbers as K or M, a new term defined where it is
+used; teach, don't gloss. When he is reading and replying turn by turn,
+restate and hold: each point in a line of our own words on the held list, the
+reply is that list and "holding", nothing argued until he says he is done, and
+no point is answered by being on the list. A decision made inside a worker's
+report is not made until he has seen it. Time is read from the clock, never
+placed from feel. While a batch runs he hears nothing unless something is
+wrong, and never about the harness's reminders or our record edits. A result
+reaches him only as a turn's final text.
+
+**4. Keep the project on track for him.** Every open issue is held in the
+order it needs deciding (`PLAN.md`) and brought to him one at a time; nothing
+he must decide lives only in the coordinator's head. A fork a probe can settle
+is probed before the batch is briefed. Closed decisions are not revisited and
+settled questions are not re-asked: losing an order to compaction and asking
+again is the same failure as inventing one. Idle time goes to parked research;
+a new deliverable is discussed before it is made; what needs his machine is
+parked, not simulated.
+
+**5. The coordinator's context is the project's memory; spend it on
+judgement.** Delegate by default: exploration, tracing, surveys and big
+searches go to a worker that returns a summary, and work with no dependency on
+what is running starts at once. Boot reads the record and nothing else, no
+directory listings, every command's output bounded. Workers run on Opus,
+Sonnet for archaeology, Fable only on his yes for that piece; a decision that
+touches two of the specification, the interpreter and the compiler is made in
+two steps, cheaper workers gathering cited evidence and the judgement at the
+top tier. A brief points at the documents on file instead of restating them.
+
+**6. The record is the present, kept once, so that a resumed coordinator
+knows the project without him.** A fact in FACTS with its source, at the
+length the finding takes; a decision in POSITIONS, dated, in his words; what
+is in flight in the boot note, rewritten whole. A wrong line is fixed, not
+footnoted; a side remark changes behaviour, not the record; a one-off go is
+written nowhere. The rest is `coordinator/README.md`.
+
+## What keeps going wrong
+
+Named so that the next boot sees it: walls of text and the clever register;
+time placed from feel; a fork put to him before the library's own way was
+checked; standing orders invented, or lost and re-asked; corrections appended
+instead of fixed, and one remark of his written into several files; a rule
+followed into clutter instead of its purpose.
+
+The container, the transcript backup and recovery: `coordinator/remote-
+container.md`. The batch workflow's stages, stops and tiers:
+`coordinator/climb-batch-workflow.md`.

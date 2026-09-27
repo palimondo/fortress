@@ -1,9 +1,50 @@
-<!-- The coordinator's knowledge base, created 2026-09-15 at Pavol's request after the coordinating session re-explained facts he already knew and missed facts already on record. Three files, each one line per entry, each entry with its source. This directory is read at every session start and after every compaction, before any work; it is updated in the same commit as the work that establishes a fact or takes a decision. -->
+<!-- The coordinator's knowledge base, created 2026-09-15 at Pavol's request. Read at every session start and after every compaction, before any work. -->
 
 # The coordinator's knowledge base
 
-Load order at session start and after a compaction: `CLAUDE.md` (auto-loaded) → `explorations/protocol.md` (how we work) → this directory (`FACTS.md`: what is established about the language, the library and the runtime; `POSITIONS.md`: what Pavol has decided, said, and already knows, so that it is not re-explained; `INDEX.md`: one line per standalone note under explorations/, searched before any fact is called absent; `FACTS-history.md`: the entries moved out of `FACTS.md` on 2026-09-19, 2026-09-20 and 2026-09-24, verbatim and tagged with where they came from — not read at session start or after a compaction, opened only when a fact in `FACTS.md` needs its history) → `explorations/microgpt-run-c-handover.md` (where the work stands) → the ledger and the reports only as a fact needs them.
+Boot, in this order: `CLAUDE.md` → `explorations/protocol.md` → `FACTS.md`
+(whole, in one pass) → `POSITIONS.md` → `INDEX.md` →
+`explorations/microgpt-run-c-handover.md`, first section → the boot note
+(`postmortem-2026-09-19/held-list.md`, line 7). If the boot note says a batch
+is running, its `CLIMB-BATCH-*.md` next, and the run's `journal.jsonl` before
+anything is said about it. Nothing else is read by the
+coordinator itself: reports, transcripts, ledger rows and source go to a
+worker that returns a summary; whether a worker is still running is read from
+the harness's notice at the top of the turn and from `test -f` on the one
+output path its brief names, never by listing a directory. The boot read is
+full context by Pavol's word: a resumed coordinator knows the project without
+him.
 
-After a compaction, the same order, with three rules added on 2026-09-19: `FACTS.md` is read whole, in one pass; if the handover's first section says a batch is running, its decision record (`CLIMB-BATCH-*.md`) is read next and the run's `journal.jsonl` and the agents' last transcript timestamps are checked before anything is said about it; and nothing else is read by the coordinator itself — rung reports, agent transcripts, ledger rows and source are read by a worker that returns a summary, so the coordinator's context holds what governs the work and not the record of how it was found. A fourth rule, added the same day after a boot listed two directories into its context: whether a worker is still running is read from the harness's notice at the top of the turn and from the one output path the handover names (`test -f`), never by listing the scratchpad or the task directory, and every boot command bounds its output.
+The coordinator is two things and keeps two records. As orchestrator it keeps
+what a worker or its own next incarnation needs to act: `FACTS.md` (what is
+established about the language, the library, the runtime and this container,
+each fact at the length it takes, with its source), `INDEX.md` (one line per
+standalone note, searched before any fact is called absent), `PLAN.md` (the
+phases, the open issues in the order they need deciding, the parked items),
+the handover's first section (where the work stands) and the boot note, whose
+one purpose is to tell the post-compaction coordinator what is in flight: what
+is running, what to do when it completes, and a question waiting on Pavol if
+one is. As executive assistant it keeps what keeps the project on track and
+Pavol out of the wall of text: the open issues and their order (`PLAN.md`),
+the held list while he reads (`held-list.md`'s own list), and `POSITIONS.md`,
+what he has decided and already knows, dated, in his words, so that nothing is
+re-asked or re-explained; it is not a log of what he said.
 
-Rules for keeping it: a fact enters `FACTS.md` when it is established with a source (a ledger row, a file:line, a measured output), in the commit that establishes it; a position enters `POSITIONS.md` when Pavol states it, in the next commit, in his words or a close paraphrase with the date; nothing in either file is repeated to Pavol in chat unless he asks or the fact has changed; when an answer in chat would restate an entry here, the answer cites the entry and adds only what is new. Entries are never deleted; a superseded entry gets "superseded by …" appended. `FACTS.md` holds the current state: what governs the work now, how a mechanism behaves, the operational traps, each open "not settled" list. When a batch lands, the entry a rung earned is condensed to the fact or rule as it stands, with its rows, hash and report path, and the narrative of how it was established moves to `FACTS-history.md` verbatim, tagged with the date and the section it came from (Pavol, 2026-09-24).
+How they are kept:
+
+- These files describe the present. An entry that changes is rewritten in
+  place; the old text is in git, and the commit message says what changed and
+  why. No "superseded by", no "corrected", no dated updates inside an entry.
+  A landed rung's narrative may move to `FACTS-history.md`, verbatim, as
+  before.
+- One home per thing. His words are written once, in `POSITIONS.md`; every
+  other file points to the entry. Nothing is written twice.
+- A remark is not a decision, and neither is a one-off go. A change to how we
+  work is a protocol line rewritten; a go or a push is written nowhere, the
+  launch or the commit being its trace; a question is answered where the
+  answer belongs; he is not told about record edits.
+- Nothing a resumed coordinator needs is condensed for length.
+- The boot note is rewritten whole at every change, never appended to.
+- A fact enters in the commit that establishes it; a decision in the next
+  commit after he states it. A FACTS entry is cited by its bold title, which
+  stays verbatim when the entry is rewritten.
