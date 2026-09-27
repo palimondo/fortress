@@ -1,0 +1,13 @@
+--- SeqRangeControl: the control of XXXSeqRangeTopRungO under walk, the branch's build 2026-09-27T12:21:07Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.59 1.55 1.72 5/114 23383
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+HEAD fb268315c; git status --short Library: []
+$ FORTRESS_THREADS=1 walk explorations/compile-ladder/rung-overflow-natives/probes/repair/SeqRangeControl.fss   (fresh private caches: tmp/repair/caches-walk-SeqRangeControl-t1)
+REACHED
+PASS
+rc=0
+

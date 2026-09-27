@@ -1,0 +1,25 @@
+# SkSeqTop, walk-stock, 2026-09-27T11:26:45Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 0.84 2.75 6.73, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+element 1: 2147483645
+element 2: 2147483646
+element 3: 2147483647
+element 4: -2147483648
+element 5: -2147483647
+FAIL: a fifth element: the loop has run past the top
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkSeqTop.fss:11:7-59:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1080:13-1081:12:
+/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkSeqTop.fss:7:7-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

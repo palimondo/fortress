@@ -1,0 +1,51 @@
+component Sk2RangeW
+export Executable
+
+object RunsPast extends UncheckedException end
+
+show(f: () -> String): String =
+  try
+    f()
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    RunsPast => "RUNS PAST (a fourth element)"
+    Exception => "OTHER"
+  end
+
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -2147483647 - 1
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  lMin: ZZ64 = -9223372036854775807 - 1
+  u0: NN32 = unsigned(0)
+  u1: NN32 = unsigned(1)
+  u2: NN32 = unsigned(2)
+  v0: NN64 = widen(u0)
+  v1: NN64 = widen(u1)
+  println("W01 NN32 (1:0).size = " show(fn () => ((u1:u0).size).asString))
+  println("W02 NN32 (0:2).size = " show(fn () => ((u0:u2).size).asString))
+  println("W03 NN32 (1:0).isEmpty = " show(fn () => ((u1:u0).isEmpty).asString))
+  println("W04 NN32 (0 # 0).size = " show(fn () => ((u0 # u0).size).asString))
+  println("W05 NN32 (0 # 2).size = " show(fn () => ((u0 # u2).size).asString))
+  println("W06 NN32 for over 1:0, count = " show(fn () => do
+      var n: ZZ32 = 0
+      for i <- u1:u0 do n += 1; if n > 3 then throw RunsPast end end
+      n.asString end))
+  println("W07 NN32 for over seq(0:2), count = " show(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(u0:u2) do n += 1; if n > 3 then throw RunsPast end end
+      n.asString end))
+  println("W08 NN64 (1:0).size = " show(fn () => ((v1:v0).size).asString))
+  println("W09 ZZ64 (1:MIN).size = " show(fn () => ((widen(one):lMin).size).asString))
+  println("W10 ZZ32 MAX IN (MIN # 0) = " show(fn () => (zMax IN (zMin # zero)).asString))
+  println("W11 ZZ32 for over seq(MIN # 0), count = " show(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(zMin # zero) do n += 1; if n > 3 then throw RunsPast end end
+      n.asString end))
+  println("W12 ZZ32 (MAX # 0).size = " show(fn () => ((zMax # zero).size).asString))
+  println("W13 NN32 |1:0| = " show(fn () => (|u1:u0|).asString))
+  println("END")
+end
+
+end

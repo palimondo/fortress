@@ -1,0 +1,31 @@
+# Sk2RangeW, walk-stock, 2026-09-27T12:41:30Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 5.34 4.27 3.43, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 88dc06d41
+W01 NN32 (1:0).size = 0
+W02 NN32 (0:2).size = 3
+W03 NN32 (1:0).isEmpty = true
+W04 NN32 (0 # 0).size = 0
+W05 NN32 (0 # 2).size = 2
+W06 NN32 for over 1:0, count = 0
+W07 NN32 for over seq(0:2), count = 3
+W08 NN64 (1:0).size = 0
+W09 ZZ64 (1:MIN).size = 0
+W10 ZZ32 MAX IN (MIN # 0) = true
+W11 ZZ32 for over seq(MIN # 0), count = RUNS PAST (a fourth element)
+W12 ZZ32 (MAX # 0).size = 0
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-overflow/Library/FortressLibrary.fss:3876:7-3880:8:
+typecase match failure given NN32
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3876:7-3880:8:
+/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/Sk2RangeW.fss:47:46-52:
+/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/Sk2RangeW.fss:8:5-7:
+/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/Sk2RangeW.fss:47:31-62:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

@@ -1,0 +1,13 @@
+# Step 7: competing declarations of every name this rung adds. Names added: the component FixedWidthOverflowRungB (the renamed test), and the top-level function overflows in intPrim.fss and longPrim.fss. The Java edit adds no class, method or field. Run at b436a5a82.
+
+## grep -rn 'FixedWidthOverflowRungB' over every corpus and the library (ProjectFortress/tests, ProjectFortress/*_tests, ProjectFortress/test_library, ProjectFortress/demos, Library, ProjectFortress/LibraryBuiltin)
+ProjectFortress/tests/FixedWidthOverflowRungB.fss:3:component FixedWidthOverflowRungB
+
+## grep -rnw 'overflows' over the same directories (a top-level declaration of that name elsewhere, or an api exporting it)
+ProjectFortress/tests/intPrim.fss:19:overflows(f: () -> Any): Boolean =
+ProjectFortress/tests/longPrim.fss:19:overflows(f: () -> Any): Boolean =
+ProjectFortress/tests/FixedWidthOverflowRungB.fss:6:overflows(f: () -> Any): Boolean =
+ProjectFortress/tests/IntSemanticsRungI.fss:6:overflows(f: () -> Any): Boolean =
+
+## grep -rn over ProjectFortress/src/com/sun/fortress/ whole
+(end)

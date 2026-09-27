@@ -1,0 +1,33 @@
+# The logging pass on the base (5c368175f): the eighteen natives each print an OVERFLOW-PROBE line where they meet an overflow and still wrap (explorations/compile-ladder/rung-wrap-operators/probes/overflow-probe.patch, applied to the base sources and compiled into a classpath shadow ahead of ProjectFortress/build; the shadow was checked to log all eighteen natives on probes/bounds/OverflowBounds.fss, probes/bounds/OverflowBounds-walk-logshadow.txt). One JVM per program, one core each, private caches, FORTRESS_THREADS=1; machine lines in probes/passes.txt.
+
+## ProjectFortress/tests/*.fss except the renamed test (count-list.txt), 600 s each
+
+programs with at least one probe line: 0 of 413
+exit codes: 337 rc=0  69 rc=1  7 rc=255
+reached the timeout (rc=124): none
+no output or no trailer: none
+
+## ProjectFortress/demos/*.fss (demo-list.txt), 120 s each
+HeapShakedown                  11940  1068 Int$Add; 10872 Int$Mul;             first: OVERFLOW-PROBE Int$Mul -761155213 4
+
+programs with at least one probe line: 1 of 62
+exit codes: 18 rc=0  39 rc=1  3 rc=124  2 rc=255
+reached the timeout (rc=124): ArrayListLong BiCGSTAB2 Generator2Demo
+no output or no trailer: none
+
+## the two microGPT checks (mg-list.txt), 3600 s each
+
+programs with at least one probe line: 0 of 2
+exit codes: 2 rc=0
+reached the timeout (rc=124): none
+no output or no trailer: none
+MicroGptAplCheck: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS; rc=0 secs=1836
+MicroGptFlatCheck: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS; rc=0 secs=1807
+
+## the renamed test's base form, ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss, which count-list.txt leaves out, run alone under the same shadow (it stops at its first assertion, since the shadow wraps)
+XXXFixedWidthOverflowRungB         1  1 Int$Add;                               first: OVERFLOW-PROBE Int$Add 2147483647 1
+
+programs with at least one probe line: 1 of 1
+exit codes: 1 rc=1
+reached the timeout (rc=124): none
+no output or no trailer: none

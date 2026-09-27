@@ -1,0 +1,30 @@
+# Pre-edit failure of the renamed test as respelled after the ladder subset (its non-throwing assertions in the Boolean form, its unsigned powers of two built by multiplication, so that it compiles on the compiled path too), walked on the stock natives: tmp/build-stock, the four glue classes as built at the base 5c368175f before the edit, put first on the classpath, as base B ran. Then the same file through the testSystem harness with the same shadow.
+--- preedit-v2 2026-09-27T10:14:42Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 12.54 12.02 10.30 14/284 29354
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+tree: b436a5a82 with the test respelled, uncommitted
+
+== walk ProjectFortress/tests/FixedWidthOverflowRungB.fss, stock natives
+REACHED
+FAIL: row 379: ZZ32 MAX + 1 throws IntegerOverflow; Specification/basic/operators/opr-overview.tex:195-196
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress-overflow/ProjectFortress/tests/FixedWidthOverflowRungB.fss:26:5-145:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

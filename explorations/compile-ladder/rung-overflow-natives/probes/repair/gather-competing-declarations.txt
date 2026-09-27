@@ -1,0 +1,9 @@
+# The gather's competing-declarations grep for the component its correction 2 adds, run on main at aeed3a65f with rung O's patch applied in the index and the new file uncommitted; the same grep as competing.sh. No function, trait or Java name is added.
+
+## grep -rn 'XXXRangeEmptyHashRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/tests/XXXRangeEmptyHashRungO.fss:3:component XXXRangeEmptyHashRungO
+(end)
+
+## grep -rn 'RangeEmptyHashRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/tests/XXXRangeEmptyHashRungO.fss:3:component XXXRangeEmptyHashRungO
+(end)

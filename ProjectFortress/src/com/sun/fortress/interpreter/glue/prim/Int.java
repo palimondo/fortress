@@ -97,30 +97,32 @@ public class Int extends NativeConstructor {
 
     public static final class Negate extends Z2Z {
         protected int f(int x) {
+            if (x == Integer.MIN_VALUE) throw overflow();
             return -x;
         }
     }
 
     public static final class Add extends ZZ2Z {
         protected int f(int x, int y) {
-            return x + y;
+            try { return Math.addExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
         }
     }
 
     public static final class Sub extends ZZ2Z {
         protected int f(int x, int y) {
-            return x - y;
+            try { return Math.subtractExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
         }
     }
 
     public static final class Mul extends ZZ2Z {
         protected int f(int x, int y) {
-            return x * y;
+            try { return Math.multiplyExact(x, y); } catch (ArithmeticException e) { throw overflow(); }
         }
     }
 
     public static final class Div extends ZZ2Z {
         protected int f(int x, int y) {
+            if (x == Integer.MIN_VALUE && y == -1) throw overflow();
             return x / y;
         }
     }

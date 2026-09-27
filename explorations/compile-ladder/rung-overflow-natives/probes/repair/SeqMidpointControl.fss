@@ -1,0 +1,16 @@
+component SeqMidpointControl
+export Executable
+
+run(): () = do
+    println("REACHED")
+    lo: ZZ32 = 1
+    hi: ZZ32 = 3
+    var n: ZZ32 = 0
+    for i <- seq(lo:hi) do
+        n += 1
+    end
+    assert(n = 3, "ranges.tex:47")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,118 @@
+# Every pass of the comparison and the logging, in the order started: each runner's machine line (machine.sh; the java -version line of the first two, lost to a JAVA_TOOL_OPTIONS banner, is openjdk 25.0.4 2026-07-21 as in the later ones), and its start and done lines with the one-minute load at the start. Every JVM ran with FORTRESS_THREADS=1 (the runners set it themselves, so a machine line printing 'unset' is the calling shell's), one core (-XX:ActiveProcessorCount=1), private caches. No other rung of this run was on the box; from about 10:15 UTC other workers were (worktrees /home/user/fortress-plan65*), and the load rose to 14-16.
+
+== baseA (tmp/pass-baseA.txt)
+--- baseA 2026-09-27T08:48:53Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.83 0.64 0.81 3/111 28344
+FORTRESS_THREADS=unset
+start 2026-09-27T08:48:53Z load: 0.83 0.64 0.81 shadow: none
+done 2026-09-27T09:00:21Z: 413 logs
+EXIT=0
+
+== baseLogMg (tmp/pass-baseLogMg.txt)
+--- baseLogMg 2026-09-27T08:48:53Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.83 0.64 0.81 4/113 28347
+FORTRESS_THREADS=unset
+start 2026-09-27T08:48:53Z load: 0.83 0.64 0.81 shadow: /home/user/fortress-overflow/tmp/shadow-log timeout: 3600
+done 2026-09-27T09:19:29Z: 2 logs
+EXIT=0
+
+== baseLog (tmp/pass-baseLog.txt)
+--- baseLog-tests 2026-09-27T09:00:29Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.06 5.98 4.08 3/141 5736
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T09:00:29Z load: 5.06 5.98 4.08 shadow: /home/user/fortress-overflow/tmp/shadow-log
+done 2026-09-27T09:16:21Z: 413 logs
+--- baseLog-demos 2026-09-27T09:16:21Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.15 6.72 6.15 3/143 16823
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T09:16:21Z load: 5.15 6.72 6.15 shadow: /home/user/fortress-overflow/tmp/shadow-log timeout: 120
+done 2026-09-27T09:24:28Z: 62 logs
+EXIT=0
+
+== edit (tmp/pass-edit.txt)
+--- edit 2026-09-27T09:30:14Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.39 2.34 4.10 2/113 24692
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T09:30:14Z load: 1.39 2.34 4.10 shadow: none
+done 2026-09-27T09:41:30Z: 413 logs
+EXIT=0
+
+== editMg (tmp/pass-editMg.txt)
+--- editMg 2026-09-27T09:30:14Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.39 2.34 4.10 3/113 24693
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T09:30:14Z load: 1.39 2.34 4.10 shadow: none timeout: 3600
+done 2026-09-27T10:00:35Z: 2 logs
+EXIT=0
+
+== baseB (tmp/pass-baseB.txt)
+--- baseB 2026-09-27T09:41:47Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 4.35 5.94 5.49 5/145 1729
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+baseB: intPrim.fss, longPrim.fss, HeapShakedown.fss and XXXFixedWidthOverflowRungB.fss restored in the working tree from 5c368175f; stock glue classes first on the classpath
+start 2026-09-27T09:41:47Z load: 4.35 5.94 5.49 shadow: /home/user/fortress-overflow/tmp/build-stock
+done 2026-09-27T09:58:26Z: 413 logs
+EXIT=0
+
+== editLog (tmp/pass-editLog.txt)
+--- editLog-tests 2026-09-27T09:59:26Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.40 6.75 6.72 5/150 15965
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T09:59:26Z load: 5.40 6.75 6.72 shadow: /home/user/fortress-overflow/tmp/shadow-log
+done 2026-09-27T10:27:29Z: 414 logs
+--- editLog-demos 2026-09-27T10:27:30Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 12.04 14.68 13.20 7/209 9811
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T10:27:30Z load: 12.04 14.68 13.20 shadow: /home/user/fortress-overflow/tmp/shadow-log timeout: 120
+done 2026-09-27T10:44:44Z: 62 logs
+EXIT=0
+
+== editLogDemosRerun (tmp/pass-editLogDemosRerun.txt)
+--- editLog-demos-rerun 2026-09-27T10:45:06Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 15.07 15.36 14.42 11/284 24327
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+start 2026-09-27T10:45:07Z load: 15.07 15.36 14.42 shadow: /home/user/fortress-overflow/tmp/shadow-log timeout: 900
+done 2026-09-27T11:08:34Z: 17 logs
+EXIT=0
+
+== baseLogRenamed: XXXFixedWidthOverflowRungB.fss alone under the log shadow
+start 2026-09-27T09:42:56Z load: 7.48 6.56 5.73 shadow: /home/user/fortress-overflow/tmp/shadow-log
+done 2026-09-27T09:43:10Z: 1 logs

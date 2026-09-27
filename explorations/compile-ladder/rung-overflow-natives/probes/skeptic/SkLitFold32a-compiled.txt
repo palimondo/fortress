@@ -1,0 +1,29 @@
+# SkLitFold32a, compiled, 2026-09-27T11:23:53Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 1.86 3.95 7.83, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+compile rc=0
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 2147483648
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:562)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at SkLitFold32a.main(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.Error: Not in range for ZZ32: 2147483648
+	at com.sun.fortress.compiler.runtimeValues.FIntLiteral.outOfRange(FIntLiteral.java:64)
+	at com.sun.fortress.compiler.runtimeValues.FIntLiteral.asZZ32(FIntLiteral.java:71)
+	at fortress.CompilerBuiltin.coerce_ZZ32(/home/user/fortress-overflow/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:664)
+	at SkLitFold32a.lit(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss:12)
+	at SkLitFold32a$\=fn@15\!52-65.apply(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss:15)
+	at SkLitFold32a.sz(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss:6)
+	at SkLitFold32a.run(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss:15)
+	at SkLitFold32a.compute(/home/user/fortress-overflow/explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitFold32a.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run rc=1

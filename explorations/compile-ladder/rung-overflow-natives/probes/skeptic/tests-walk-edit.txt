@@ -1,0 +1,18 @@
+# the rung's three tests and the three that must stay green, under walk on the edited build, run by the skeptic, 2026-09-27T11:43:07Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 0.58 0.98 2.96, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+== walk ProjectFortress/tests/FixedWidthOverflowRungB.fss
+REACHED
+PASS
+rc=0
+== walk ProjectFortress/tests/intPrim.fss
+rc=0
+== walk ProjectFortress/tests/longPrim.fss
+rc=0
+== walk ProjectFortress/tests/WrapOperatorsRungD.fss
+PASS
+rc=0
+== walk ProjectFortress/tests/IntSemanticsRungI.fss
+PASS
+rc=0
+== walk ProjectFortress/tests/UnsignedTest.fss
+PASS?
+rc=0

@@ -1,0 +1,5 @@
+/home/user/fortress-overflow/ProjectFortress/tests/longPrim.fss:43:32-37:
+    Operator ? is not defined.
+/home/user/fortress-overflow/ProjectFortress/tests/longPrim.fss:44:35-40:
+    Operator ? is not defined.
+File longPrim.fss has 2 errors.

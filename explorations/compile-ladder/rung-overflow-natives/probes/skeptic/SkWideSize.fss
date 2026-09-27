@@ -1,0 +1,12 @@
+component SkWideSize
+export Executable
+
+run(): () = do
+  one: ZZ32 = 1
+  three: ZZ32 = 3
+  r = widen(one):widen(three)
+  println("ZZ64 range 1:3 built; size getter " r.size)
+  println("|widen(1):widen(3)| " |r|)
+end
+
+end

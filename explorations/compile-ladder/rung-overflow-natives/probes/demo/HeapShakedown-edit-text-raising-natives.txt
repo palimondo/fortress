@@ -1,0 +1,27 @@
+....................................................................................................................................................com.sun.fortress.exceptions.ProgramError: DEMO/HeapShakedown.fss:128:9-18:
+Type of expression, Ratio, not a subtype of RR64.
+Context:
+DEMO/HeapShakedown.fss:128:9-18:
+DEMO/HeapShakedown.fss:144:9-51:
+DEMO/HeapShakedown.fss:174:15-78:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:52:63-68:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1027:21-1028:16:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1032:46-57:
+/home/user/fortress-overflow/Library/RangeInternals.fss:1034:13-1035:9:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3462:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:3462:9-48:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1873:9-43:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:1873:9-43:
+DEMO/HeapShakedown.fss:165:35-175:10:
+DEMO/HeapShakedown.fss:165:35-175:10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

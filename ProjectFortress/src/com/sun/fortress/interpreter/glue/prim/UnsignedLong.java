@@ -103,24 +103,28 @@ public class UnsignedLong extends NativeConstructor {
 
     public static final class Negate extends U2U {
         protected long f(long x) {
+            if (x != 0) throw Int.overflow();
             return Unsigned.subtract(0, x);
         }
     }
 
     public static final class Add extends UU2U {
         protected long f(long x, long y) {
+            if (Unsigned.lessThan(Unsigned.add(x, y), x)) throw Int.overflow();
             return Unsigned.add(x, y);
         }
     }
 
     public static final class Sub extends UU2U {
         protected long f(long x, long y) {
+            if (Unsigned.greaterThan(Unsigned.subtract(x, y), x)) throw Int.overflow();
             return Unsigned.subtract(x, y);
         }
     }
 
     public static final class Mul extends UU2U {
         protected long f(long x, long y) {
+            if (y != 0 && Unsigned.divide(Unsigned.multiplyToLong(x, y), y) != x) throw Int.overflow();
             return Unsigned.multiplyToLong(x, y);
         }
     }

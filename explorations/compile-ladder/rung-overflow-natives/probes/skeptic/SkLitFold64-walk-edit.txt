@@ -1,0 +1,4 @@
+# SkLitFold64, walk-edit, 2026-09-27T11:24:06Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 3.04 4.14 7.85, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+F03 ZZ64 numerals 2^62 + 2^62 = IntegerOverflow
+END
+rc=0

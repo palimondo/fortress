@@ -1,0 +1,18 @@
+component Sk2SizeNN32Draft
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    uOne: NN32 = unsigned(one)
+    uThree: NN32 = unsigned(three)
+    rN = uOne:uThree
+    rNSize = rN.size
+    assert(rNSize = 3, "ranges.tex:103-106")
+    rNCard = |rN|
+    assert(rNCard = 3, "ranges.tex:103-106")
+    println("PASS")
+  end
+
+end

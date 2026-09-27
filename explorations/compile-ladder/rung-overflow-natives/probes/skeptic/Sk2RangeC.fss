@@ -1,0 +1,68 @@
+component Sk2RangeC
+export Executable
+
+object RunsPast extends UncheckedException end
+
+sz(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    RunsPast => "RUNS PAST (a fourth element)"
+    Exception => "OTHER"
+  end
+
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -2147483647 - 1
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  three: ZZ32 = 3
+  nLo: ZZ32 = -1073741826
+  nHi: ZZ32 = -1073741824
+  pLo: ZZ32 = 1073741824
+  pHi: ZZ32 = 1073741826
+  println("C01 parallel for over MIN:(MIN+2), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- zMin:(zMin + 2) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C02 for over seq(MIN:(MIN+2)), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(zMin:(zMin + 2)) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C03 for over seq(-1073741826:-1073741824), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(nLo:nHi) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C04 parallel for over (MAX-2):MAX, count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- (zMax - 2):zMax do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C05 for over seq(MIN # 3), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(zMin # three) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C06 for over seq(MIN # 0), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(zMin # zero) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C07 for over seq(MAX # 0), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(zMax # zero) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C08 for over seq(1:3), count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- seq(one:three) do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C09 parallel for over 1073741824:1073741826, count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- pLo:pHi do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("C10 parallel for over 1:3, count = " sz(fn () => do
+      var n: ZZ32 = 0
+      for i <- one:three do n += 1; if n > 3 then throw RunsPast end end
+      n end))
+  println("END")
+end
+
+end

@@ -1,0 +1,55 @@
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true true true true true true true true false false false false false false true true
+genZZ32: 828817 -1741 -2005362011 18023 -13063 2437851 13 775975567 3570017 -6063741 -11 -1581548617
+genZZ64: 73 412413227 -1499014307 95 -79 83 21656278207843180 -8224964874079937383
+genZZ: 1361566587 -353876266188 -1347826 974289292034496789 17946605260106006 -3055133248955966434 -545973496 -56062457899547
+genQQ: -4831064276915219/18513686049997270 -33545201246900385/752957 848344121890743707/206200565558 1683811/413022150082
+genRR32: -3388586.2 -2.5652043E8 -1695.4199 -700.9757 1086387.0 7.071895E8 -10.522486 -1897796.2
+genRR64: -3.097292191004593E8 1172345.2165542988 -7.270568388292727E12 -9.01282644747663E9
+genChar: k ( h e 1 4 e T h . p Y > f b / \ 8 ? / l o 0 = X _ N V $ 0 } *
+genString: TL L3-s L3- 3-sY 3-s 3sbJm$K6D'?]` -sY -bHJ]8$ sbHJ]8 sbHJ] bHJ]8$ bHJ]8 bJm$K6D' bH Jm$K6D'A Jm$K6D'
+genMaybe(genChar): Just(}) Just([) Just(-) Just(J) Just(]) Just(8) Just($) Just(K)
+genList(genZZ32): <|-95, 2773879, -3639200, -28, 113, 59759148, 7664, 1278117103, 1934578232|> <|-10941, 2773879, -28, -1645, 59759148, -37402023, -284993036, -11805, -1513, -14464, -29564, -15727, 37, 102, -7260197, 3043822, -1535610697, -22435, 104, -5, -8340428, -1544340991, -6589188, -1152313920, -98, -13, 31116, 7665977, -1853082998, -82, -24558, 4574711, 5344, 100, 2254193, -94, 89, 1166761642, -50, -7069|>
+genList(genString): <|"+C|3zOL:I$<me, "+Cp>3sLL, "CpW>zOl, Cp|3sL, p>3zO, |3sLL, 3sL:I$, sL:rf<m, L:I$, :r$<me, :r$m.z#Bki!, r$me'.z=|> <|"+Cp>3sLL:rf<me, "+Cp>3sLL, C>3sLL, L>3, |3sL:, 3sL:, sL:rfme, LL, :r$m$.z=, :r$m$, r$me'.z=, $m$, <$.z=^3i!GE, m$.z=#, $.z=^3i!, 'z=R^3i!|>
+genList(genMaybe(genList(genString))): <|Just(<|C|3zO, L>3, |3sl, 3sL, zL:I$<, L:I$<, :r$m$.a, :r$z$.|>), Just(<|, >3sl, 3sL, zL:r$<, L'r$me., :r$m$'., :r$m.z#B^|>), Nothing, Nothing, Just(<|sL:r$, O, :rfm$.z=, :r$z$.|>), Just(<|L:r$m, :r$<m, r$m$.z=#, I|>), Nothing, Just(<|$N$, m$.z, $.z=#B^3, $.z, 'z=^3i!E532|>), Just(<|m$.z=#, $.z=#B^3, .z#B3i!E, ., z=, B^, , _, k, k, 3#, #, t, 7, w, ?P.p|>), Just(<|, z=, =, , |>), Just(<|.z#Bi!E32, z=^3i!E, , Bk, Bki!, ^iE32|>), Just(<|b, #, ^3, 3, _, , W), |>), Just(<|B, ^3iE, ^iE, ik, G, , #, , t, , b_, P.p, P,, .,|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-1535610697|->({false,true},{),2,3,Q,w,~}), -284993036|->({false,true},{#,$,',),2,:,=,B,Q,S,T,a,e,i,k,m,p,r,w,~}), -6589188|->({false,true},{#,),,,8,<,T,_,r}), -4973882|->({false,true},{$,',.,:,L,a,f,m,r}), -2809842|->({true},{.}), -22435|->({false,true},{#,,,.,?,P,W,\,p,w}), -15727|->({false,true},{3,=,R,^,_,k,z}), -1645|->({false},{3,:,?,L,e,f,m,r,s}), -1513|->({false,true},{#,.,3,B,^,i,m,z}), -108|->({false,true},{#,,,.,3,=,E,P,Q,S,W,i,w,~}), -98|->({true},{8,_,r}), -82|->({false,true},{%,(,),-,/,4,A,I,[,^,i}), -70|->({false,true},{!,#,',),3,=,E,L,W,^,_,i,z}), -28|->({false,true},{3,L,p,s,|}), -25|->({false,true},{#,3,E,W,^,i,w}), -5|->({false,true},{,,.,P}), 75|->({true},{#,),_,k,z}), 98|->({false,true},{.,P,Q,w}), 2773879|->({false,true},{$,+,3,:,<,>,C,L,e,m,p,r,s}), 3212005|->({false,true},{&,(,),<,R,T,^,i}), 800904117|->({false,true},{$,&,),*,/,A,J,[,],a,b,o}), 1589859152|->({false,true},{!,%,&,(,),T,^,i})}
+genRange(genZZ32): [-10941,-10940,-10939,-10938,... -75] [] [29981,29982,29983,29984,... 1675679] ...1444516,1444517,1444518,1444519,1444520]
+genTuple3(genZZ32,genMaybe(genChar),genString): (34,Just(L),zOL') (-37402023,Just(3),L:rf<m) (-284993036,Just(L),:I<$.z=R^3i!GE) (-11805,Nothing,$me'z=R^3_k:2Q)w~QTpK,)
+genTestStatus: TestPass TestFail TestSkip TestFail TestSkip TestPass TestPass TestPass
+genList(genTestStatus): <|TestPass, TestSkip, TestPass, TestFail, TestFail, TestPass, TestSkip, TestPass, TestFail, TestPass, TestSkip|> <|TestPass, TestSkip, TestPass, TestFail, TestFail, TestPass, TestSkip, TestPass|>
+genArrow(genZZ32,genZZ32):
+    -1567534454 3575374
+    -1567534454 3575374
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    16721 21821 880999861 -103
+    16721 21821 880999861 -103
+
+Passed 183 test(s).
+Failed in 87 test(s): (6.249995433011338E15,-1.728775590594379,-3.1966443800975295E15)
+Failed in 43 test(s): -21
+Tag(s) of failing properties:
+    no sign extension
+Passed 51 test(s) (and skipped 56 test(s)).
+Passed 20 test(s).
+Passed 58 test(s) (and skipped 458 test(s)) but reached the maximum of 516 tests.
+Collected test data:
+    25%: 2 digits
+    12%: 3 digits or more
+    12%: 2 digits, ends with zero
+    6%: 1 digit
+    3%: 3 digits or more, ends with zero
+Shrinking a failed instance.......
+Failed in 100 test(s) (and shrank in 28 test(s)): (
+Shrinking a failed instance................
+Failed in 256 test(s) (and shrank in 136 test(s)): !
+Shrinking a failed instance..........
+Failed in 100 test(s) (and partially shrank in 99 test(s)): (+"]ELC,)
+Shrinking a failed instance.......................
+Failed in 256 test(s) (and shrank in 276 test(s)): (},)
+Shrinking a failed instance...
+Failed in 100 test(s) (and partially shrank in 199 test(s)): <|o])\jqL]>@ACjE]f4n, ])\jqLTaw)j"E], \[jqLTawjE]f, jqLT@ACjE]f, jq7, 7L, L, >, a, , 6, E, f, H, H, K`, I`|Y>C3, `7Y, Yr, Y\q3UO2h, r, \q3UO2, >q, 3UO2h, 3|>
+Shrinking a failed instance......................................
+Failed in 256 test(s) (and shrank in 703 test(s)): <|[|>
+
+
+rc=0 secs=146

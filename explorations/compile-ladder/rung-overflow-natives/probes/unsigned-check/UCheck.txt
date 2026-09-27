@@ -1,0 +1,8 @@
+toLong(-1)=4294967295
+lessThan(int 1,-1)=true lessThan(int -1,1)=false
+lessThan(long 1,-1)=true greaterThan(long -1,1)=true
+divide(long -1,2)=9223372036854775807 divide(long -1,-1)=1 divide(long 5,-1)=0
+multiplyToLong(2^63,2)=0 add(-1,1)=0 subtract(0,1)=-1
+multiply(int -1,-1)=18446744065119617025
+NN64 checks disagree on 0 of 16112196 pairs
+NN32 checks disagree on 0 of 16080100 pairs

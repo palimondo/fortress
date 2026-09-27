@@ -1,0 +1,4 @@
+# SkLitFold32b, walk-stock, 2026-09-27T11:24:00Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 2.35 4.02 7.83, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+F02 ZZ32 numerals 65536 65536 = 0
+END
+rc=0

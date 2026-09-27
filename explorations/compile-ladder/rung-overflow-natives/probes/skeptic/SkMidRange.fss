@@ -1,0 +1,15 @@
+component SkMidRange
+export Executable
+
+run(): () = do
+  lo: ZZ32 = 1073741824
+  hi: ZZ32 = 1073741826
+  var n: ZZ32 = 0
+  for i <- seq(lo:hi) do
+    n += 1
+    println("element " n ": " i)
+  end
+  println("done after " n)
+end
+
+end

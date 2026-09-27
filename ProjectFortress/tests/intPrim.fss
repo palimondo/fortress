@@ -16,10 +16,20 @@ tst(s:String,a:Boolean):() = assert(a,s)
 
 tstEq(s:String, a:ZZ32, b:ZZ32):() = assert(a,b,s)
 
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
 run() = do
     a:ZZ32 = 0
     tstEq("Minimum", (a.minimum DOTMINUS 1), a.maximum)
     tstEq("Maximum", (a.maximum DOTPLUS 1), a.minimum)
+    tst("row 379: minimum - 1 throws IntegerOverflow; opr-overview.tex:195-196", overflows(fn () => a.minimum - 1))
+    tst("row 379: maximum + 1 throws IntegerOverflow; opr-overview.tex:195-196", overflows(fn () => a.maximum + 1))
     tstEq("Add",  124867 + -(234597), -109730 )
     tstEq("Sub",  124867 -  234597, -109730 )
     tstEq("Mul1", 5872  8124,  47704128 )

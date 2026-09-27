@@ -1,0 +1,41 @@
+# SkNativeCheck, stock, 2026-09-27T11:39:53Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 0.99 1.13 3.43, openjdk version "25.0.4" 2026-07-21, HEAD 927da51ee
+MISMATCH NN32$Sub 0-1 exact=-1 got=4294967295
+MISMATCH UnsignedLong$Sub 0-1 exact=-1 got=18446744073709551615
+MISMATCH NN32$Sub 0-4294967295 exact=-4294967295 got=1
+MISMATCH UnsignedLong$Sub 0-18446744073709551615 exact=-18446744073709551615 got=1
+MISMATCH NN32$Sub 0-4294967295 exact=-4294967295 got=1
+MISMATCH UnsignedLong$Sub 0-18446744073709551615 exact=-18446744073709551615 got=1
+MISMATCH NN32$Sub 0-1 exact=-1 got=4294967295
+MISMATCH UnsignedLong$Sub 0-1 exact=-1 got=18446744073709551615
+MISMATCH NN32$Sub 0-2 exact=-2 got=4294967294
+MISMATCH UnsignedLong$Sub 0-2 exact=-2 got=18446744073709551614
+MISMATCH NN32$Sub 0-4294967294 exact=-4294967294 got=2
+MISMATCH UnsignedLong$Sub 0-18446744073709551614 exact=-18446744073709551614 got=2
+MISMATCH NN32$Sub 0-4294967294 exact=-4294967294 got=2
+MISMATCH UnsignedLong$Sub 0-18446744073709551614 exact=-18446744073709551614 got=2
+MISMATCH NN32$Sub 0-2 exact=-2 got=4294967294
+MISMATCH UnsignedLong$Sub 0-2 exact=-2 got=18446744073709551614
+MISMATCH NN32$Sub 0-3 exact=-3 got=4294967293
+MISMATCH UnsignedLong$Sub 0-3 exact=-3 got=18446744073709551613
+MISMATCH NN32$Sub 0-4294967293 exact=-4294967293 got=3
+MISMATCH UnsignedLong$Sub 0-18446744073709551613 exact=-18446744073709551613 got=3
+operand values: 808; checks: 9133632; mismatches: 3816131
+  Int$Negate raised on 0
+  Int$Add raised on 0
+  Int$Sub raised on 0
+  Int$Mul raised on 0
+  Int$Div raised on 0
+  Long$Negate raised on 0
+  Long$Add raised on 0
+  Long$Sub raised on 0
+  Long$Mul raised on 0
+  Long$Div raised on 0
+  NN32$Negate raised on 0
+  NN32$Add raised on 0
+  NN32$Sub raised on 0
+  NN32$Mul raised on 0
+  UnsignedLong$Negate raised on 0
+  UnsignedLong$Add raised on 0
+  UnsignedLong$Sub raised on 0
+  UnsignedLong$Mul raised on 0
+rc=0 secs=3

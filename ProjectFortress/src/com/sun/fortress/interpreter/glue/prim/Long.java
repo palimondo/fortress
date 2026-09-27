@@ -111,30 +111,32 @@ public class Long extends NativeConstructor {
 
     public static final class Negate extends L2L {
         protected long f(long x) {
+            if (x == java.lang.Long.MIN_VALUE) throw Int.overflow();
             return -x;
         }
     }
 
     public static final class Add extends LL2L {
         protected long f(long x, long y) {
-            return x + y;
+            try { return Math.addExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
         }
     }
 
     public static final class Sub extends LL2L {
         protected long f(long x, long y) {
-            return x - y;
+            try { return Math.subtractExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
         }
     }
 
     public static final class Mul extends LL2L {
         protected long f(long x, long y) {
-            return x * y;
+            try { return Math.multiplyExact(x, y); } catch (ArithmeticException e) { throw Int.overflow(); }
         }
     }
 
     public static final class Div extends LL2L {
         protected long f(long x, long y) {
+            if (x == java.lang.Long.MIN_VALUE && y == -1) throw Int.overflow();
             return x / y;
         }
     }

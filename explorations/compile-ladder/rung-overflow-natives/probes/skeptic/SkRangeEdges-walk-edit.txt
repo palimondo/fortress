@@ -1,0 +1,19 @@
+# SkRangeEdges, walk-edit, 2026-09-27T11:25:02Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 1.76 3.61 7.43, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
+E01 |(MAX-2):MAX| = 3
+E02 SUM[ZZ64] over (MAX-2):MAX, parallel = 6442450938
+E03 SUM[ZZ64] over MIN:(MIN+2), parallel = -6442450941
+E04 |MAX # 1| = IntegerOverflow
+E05 |(MAX-2) # 3| = IntegerOverflow
+E06 SUM[ZZ64] over (MAX-2) # 3 = IntegerOverflow
+E08 |MAX:MIN| (empty) = IntegerOverflow
+E09 |1:MIN| (empty) = IntegerOverflow
+E10 |0:MAX| = IntegerOverflow
+E11 sequential for over seq((MAX-2):MAX), elements seen = IntegerOverflow
+E12 sequential for over seq(MIN:(MIN+2)), elements seen = 3
+E13 sequential for over seq(1:3), elements seen = 3
+E14 ZZ64 sequential for over seq((MAX-2):MAX), elements seen = IntegerOverflow
+E16 sequential for over seq((MAX-4):MAX:2), elements seen = IntegerOverflow
+E18 MAX IN (MAX-2) # 3 = IntegerOverflow
+E07 (last: on the base it ends the run) ZZ64 |(MAX-2) # 3| = IntegerOverflow
+END
+rc=0

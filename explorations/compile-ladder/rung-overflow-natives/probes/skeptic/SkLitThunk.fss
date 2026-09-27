@@ -1,0 +1,17 @@
+component SkLitThunk
+export Executable
+
+sz(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+run(): () = do
+  r: String = sz(fn () => 2147483646 + 1)
+  println(r)
+end
+
+end

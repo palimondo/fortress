@@ -1,0 +1,458 @@
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Athree
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Athree
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Athree
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Athree
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Azero
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Azero
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Aone
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Azero
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Azero
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Azero
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Athree
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Aone
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Aone
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Aone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Aone
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bone
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bseven
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Afour
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero}
+{0|->Azero} expected
+Azero
+{4|->Afour}
+{4|->Afour} expected
+Afour
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven}
+{1|->Bone 3|->Bthree 5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Athree
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 1|->Bone 2|->Atwo 3|->Bthree 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{1|->Aone 3|->Athree}
+{1|->Aone 3|->Athree} expected
+Athree
+{1|->Bone 3|->Bthree}
+{1|->Bone 3|->Bthree} expected
+Bthree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 2|->Atwo 4|->Afour}
+{0|->Azero 2|->Atwo 4|->Afour} expected
+Afour
+{5|->Bfive 7|->Bseven}
+{5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven}
+{0|->Azero 2|->Atwo 4|->Afour 5|->Bfive 7|->Bseven} expected
+Bfive
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour}
+{0|->Azero 1|->Aone 2|->Atwo 3|->Athree 4|->Afour} expected
+Athree
+
+rc=0 secs=6

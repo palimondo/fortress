@@ -1,0 +1,19 @@
+component SkLitFold32b
+export Executable
+
+sz(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+lit(): ZZ32 = 65536 65536
+
+run(): () = do
+  println("F02 ZZ32 numerals 65536 65536 = " sz(fn () => lit()))
+  println("END")
+end
+
+end

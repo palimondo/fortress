@@ -1,0 +1,131 @@
+component SkRoutes
+export Executable
+
+sz(f: () -> ZZ32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+sl(f: () -> ZZ64): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+su(f: () -> NN32): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+sul(f: () -> NN64): String =
+  try
+    (f()).asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+    Exception => "OTHER"
+  end
+
+dbl(n: ZZ32): ZZ32 = do
+  var x: ZZ32 = 1
+  var i: ZZ32 = 0
+  while i < n do
+    x := x 2
+    i := i + 1
+  end
+  x
+end
+
+bump(start: ZZ32, n: ZZ32): ZZ32 = do
+  var x: ZZ32 = start
+  var i: ZZ32 = 0
+  while i < n do
+    x += 1
+    i := i + 1
+  end
+  x
+end
+
+lit04(): ZZ32 = 2147483646 + 1
+lit05(): ZZ64 = 4611686018427387904 + 4611686018427387903
+
+run(): () = do
+  println("A04 numerals 2147483646 + 1 = " sz(fn () => lit04()))
+  println("A05 doubling 30 times = " sz(fn () => dbl(30)))
+  println("A06 doubling 31 times = " sz(fn () => dbl(31)))
+  println("A07 += from MAX-1, once = " sz(fn () => bump(2147483646, 1)))
+  println("A08 += from MAX-1, twice = " sz(fn () => bump(2147483646, 2)))
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -2147483647 - 1
+  mOne: ZZ32 = -1
+  println("A09 (MAX + 1) - 1 = " sz(fn () => (zMax + 1) - 1))
+  println("A10 MAX - 1 + 1 = " sz(fn () => zMax - 1 + 1))
+  println("A11 |MIN + 1| = " sz(fn () => |zMin + 1|))
+  println("A12 MIN REM -1 = " sz(fn () => zMin REM mOne))
+  println("A13 MIN MOD -1 = " sz(fn () => zMin MOD mOne))
+  println("A14 -(-MAX) = " sz(fn () => -(-zMax)))
+  println("A15 MIN juxtaposed -1 = " sz(fn () => zMin mOne))
+  println("A16 0 - MIN = " sz(fn () => 0 - zMin))
+  println("A17 -1 - MAX = " sz(fn () => mOne - zMax))
+
+  lMax: ZZ64 = 9223372036854775807
+  lMin: ZZ64 = -lMax - 1
+  lMOne: ZZ64 = -1
+  println("B01 ZZ64 MAX + numeral 1 = " sl(fn () => lMax + 1))
+  println("B02 ZZ64 MIN - numeral 1 = " sl(fn () => lMin - 1))
+  println("B03 ZZ64 MIN TIMES -1 = " sl(fn () => lMin TIMES lMOne))
+  println("B04 ZZ64 MIN juxtaposed 2 = " sl(fn () => lMin 2))
+  println("B05 ZZ64 4611686018427387904 + 4611686018427387903 = " sl(fn () => lit05()))
+  println("B07 ZZ64 MIN REM -1 = " sl(fn () => lMin REM lMOne))
+  println("B08 ZZ64 widen(MAX32) widen(MAX32) = " sl(fn () => widen(zMax) widen(zMax)))
+  println("B09 ZZ64 -(MIN + 1) = " sl(fn () => -(lMin + 1)))
+
+  u0: NN32 = unsigned(0)
+  u1: NN32 = unsigned(1)
+  u2: NN32 = unsigned(2)
+  u3: NN32 = unsigned(3)
+  u5: NN32 = unsigned(5)
+  h: NN32 = unsigned(65536) DOT unsigned(32768)
+  uMax: NN32 = BITNOT u0
+  println("C01 NN32 2^31 = " su(fn () => h))
+  println("C02 NN32 2^31 + 2^31 = " su(fn () => h + h))
+  println("C03 NN32 2^31 + (2^31 - 1) = " su(fn () => h + (h - u1)))
+  println("C04 NN32 2^31 DOT 2 = " su(fn () => h DOT u2))
+  println("C05 NN32 3 - 5 = " su(fn () => u3 - u5))
+  println("C06 NN32 5 - 3 = " su(fn () => u5 - u3))
+  println("C07 NN32 MAX - 1 + 1 = " su(fn () => uMax - u1 + u1))
+  println("C08 NN32 MAX TIMES 1 = " su(fn () => uMax TIMES u1))
+  println("C09 NN32 (2^31 - 1) juxtaposed 2 = " su(fn () => (h - u1) u2))
+  println("C10 NN32 -MAX = " su(fn () => -uMax))
+  println("C11 NN32 |MAX| = " su(fn () => |uMax|))
+
+  v0: NN64 = widen(u0)
+  v1: NN64 = widen(u1)
+  v2: NN64 = widen(u2)
+  v3: NN64 = widen(u3)
+  v7: NN64 = widen(unsigned(7))
+  b63: NN64 = widen(h) DOT widen(unsigned(65536)) DOT widen(unsigned(65536))
+  third: NN64 = (BITNOT v0) DIV v3
+  println("D01 NN64 2^63 = " sul(fn () => b63))
+  println("D02 NN64 2^63 + 2^63 = " sul(fn () => b63 + b63))
+  println("D03 NN64 (2^63 - 1) + 2^63 = " sul(fn () => (b63 - v1) + b63))
+  println("D04 NN64 2^63 DOT 2 = " sul(fn () => b63 DOT v2))
+  println("D05 NN64 3 - 7 = " sul(fn () => v3 - v7))
+  println("D06 NN64 7 - 3 = " sul(fn () => v7 - v3))
+  println("D07 NN64 (2^64-1)/3 DOT 3 = " sul(fn () => third DOT v3))
+  println("D08 NN64 ((2^64-1)/3 + 1) DOT 3 = " sul(fn () => (third + v1) DOT v3))
+  println("D09 NN64 2^63 DOT 1 = " sul(fn () => b63 DOT v1))
+  println("D10 NN64 2^63 TIMES 0 = " sul(fn () => b63 TIMES v0))
+  println("D11 NN64 -2^63 = " sul(fn () => -b63))
+  println("D12 NN64 (2^63 + 1) juxtaposed (2^63 + 1) = " sul(fn () => (b63 + v1) (b63 + v1)))
+  println("END")
+end
+
+end

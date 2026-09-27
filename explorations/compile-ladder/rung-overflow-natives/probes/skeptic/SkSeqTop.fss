@@ -1,0 +1,17 @@
+component SkSeqTop
+export Executable
+
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  var n: ZZ32 = 0
+  for i <- seq((zMax - 2):zMax) do
+    n += 1
+    println("element " n ": " i)
+    if n > 4 then
+      fail("a fifth element: the loop has run past the top")
+    end
+  end
+  println("done after " n)
+end
+
+end

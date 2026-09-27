@@ -1,0 +1,44 @@
+# Row D, the compiled pair: the control SeqMidpointControl (lo = 1, hi = 3) is in SeqMidpointControl.txt. Here the two .test files through the harness, from ProjectFortress, after removing *SeqMidpointRungO* from ../default_repository/caches.
+--- xxx-seq-midpoint-compiled: 1. fortress junit, the link test and then the XXX run test 2026-09-27T12:24:42Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 3.10 3.13 2.37 1/112 26575
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+HEAD fb268315c; git status --short Library: []
+$ find ../default_repository/caches -name '*SeqMidpointRungO*' -exec rm -rf {} +
+$ ../bin/fortress junit compiler_tests/SeqMidpointRungOLink.test
+. link compiler_tests/XXXSeqMidpointRungO  OK (time = 3268ms)
+
+Time: 3.273
+
+OK (1 test)
+
+rc=0
+$ ../bin/fortress junit compiler_tests/XXXSeqMidpointRungO.test
+. run compiler_tests/XXXSeqMidpointRungO (523ms) REACHED
+FortressException: class fortress.CompilerBuiltin$IntegerOverflow with string Integer overflow
+	at com.sun.fortress.compiler.runtimeValues.Utility.makeFortressException(Utility.java:48)
+	at com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd(simpleIntArith.java:64)
+	at native.com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd(simpleIntArith.java)
+	at fortress.CompilerBuiltin$ZZ32$DefaultTraitMethods.+?0(ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:674)
+	at fortress.CompilerBuiltin$ZZ32$DefaultTraitMethods.+?0(ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerBuiltin.+(ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss)
+	at fortress.CompilerLibrary.countedseqloop(Library/CompilerLibrary.fss:377)
+	at fortress.CompilerLibrary$FilteredRange.seqloop?(Library/CompilerLibrary.fss:432)
+	at fortress.CompilerLibrary$FilteredRange.seqloop(Library/CompilerLibrary.fss)
+	at fortress.CompilerLibrary$SeqGenZZ32.loop?(Library/CompilerLibrary.fss:349)
+	at fortress.CompilerLibrary$SeqGenZZ32.loop(Library/CompilerLibrary.fss)
+	at XXXSeqMidpointRungO.run(ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss:11)
+	at XXXSeqMidpointRungO.compute(ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss)
+Saw expected failure (Exit code != 0)
+
+Time: 0.534
+
+OK (1 test)
+
+rc=0
+
+$ git status --short default_repository
+(end)

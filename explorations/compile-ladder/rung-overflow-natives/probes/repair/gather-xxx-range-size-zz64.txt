@@ -1,0 +1,27 @@
+--- xxx-range-size-zz64 (gather): the XXX file with its NN32 assertion under walk on the landed natives, 1 thread 2026-09-27T12:58:25Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 4.29 4.31 4.46 7/210 7826
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+HEAD aeed3a65f; git status --short Library: []
+$ FORTRESS_THREADS=1 walk ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss   (fresh private caches: tmp/repair/caches-walk-XXXRangeSizeZZ64RungO-t1)
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:3876:7-3880:8:
+typecase match failure given Long
+Context:
+Library/FortressLibrary.fss:3876:7-3880:8:
+ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss:13:13-14:10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+

@@ -1,0 +1,414 @@
+# Pre-edit failure: the renamed test and the two team tests with their new assertions, walked on the stock natives (the build at the base 5c368175f), then the testSystem harness over the three files (explorations/compile-ladder/rung-int-semantics-walk/probes/harness-one.sh).
+--- preedit 2026-09-27T09:25:07Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 1.01 3.69 5.10 1/106 20120
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+tree: 5c368175f with the rename and the assertions uncommitted; natives unchanged
+
+== walk ProjectFortress/tests/FixedWidthOverflowRungB.fss
+REACHED
+FAIL: row 379: ZZ32 MAX + 1 throws IntegerOverflow; Specification/basic/operators/opr-overview.tex:195-196
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress-overflow/ProjectFortress/tests/FixedWidthOverflowRungB.fss:26:5-145:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+== walk ProjectFortress/tests/intPrim.fss
+FAIL: row 379: minimum - 1 throws IntegerOverflow; opr-overview.tex:195-196
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress-overflow/ProjectFortress/tests/intPrim.fss:15:30-39:
+/home/user/fortress-overflow/ProjectFortress/tests/intPrim.fss:31:5-114:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+== walk ProjectFortress/tests/longPrim.fss
+FAIL: row 379: minimum - 1 throws IntegerOverflow; opr-overview.tex:195-196
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-overflow/Library/FortressLibrary.fss:293:9-294:5:
+/home/user/fortress-overflow/ProjectFortress/tests/longPrim.fss:15:30-39:
+/home/user/fortress-overflow/ProjectFortress/tests/longPrim.fss:31:5-114:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+
+== testSystem harness over the three files
+/home/user/fortress-overflow/tmp/harness-pre/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e22edc64_16
+. interpret /home/user/fortress-overflow/tmp/harness-pre/tests/FixedWidthOverflowRungB 
+FAIL: row 379: ZZ32 MAX + 1 throws IntegerOverflow; Specification/basic/operators/opr-overview.tex:195-196
+REACHED
+ UNEXPECTED exception 
+FortressException: FailCalled
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:1493)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:44)
+	at com.sun.fortress.nodes.Throw.accept(Throw.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.GenericFunctionOrConstructor.applyInnerPossiblyGeneric(GenericFunctionOrConstructor.java:57)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:591)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:44)
+	at com.sun.fortress.nodes.If.accept(If.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:779)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.Driver.runProgramTask(Driver.java:507)
+	at com.sun.fortress.interpreter.evaluator.tasks.EvaluatorTask.compute(EvaluatorTask.java:46)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+F. interpret /home/user/fortress-overflow/tmp/harness-pre/tests/intPrim 
+FAIL: row 379: minimum - 1 throws IntegerOverflow; opr-overview.tex:195-196
+ UNEXPECTED exception 
+FortressException: FailCalled
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:1493)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:44)
+	at com.sun.fortress.nodes.Throw.accept(Throw.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.GenericFunctionOrConstructor.applyInnerPossiblyGeneric(GenericFunctionOrConstructor.java:57)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:591)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:44)
+	at com.sun.fortress.nodes.If.accept(If.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:779)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.Driver.runProgramTask(Driver.java:507)
+	at com.sun.fortress.interpreter.evaluator.tasks.EvaluatorTask.compute(EvaluatorTask.java:46)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+F. interpret /home/user/fortress-overflow/tmp/harness-pre/tests/longPrim 
+FAIL: row 379: minimum - 1 throws IntegerOverflow; opr-overview.tex:195-196
+ UNEXPECTED exception 
+FortressException: FailCalled
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:1493)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forThrow(Evaluator.java:44)
+	at com.sun.fortress.nodes.Throw.accept(Throw.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.GenericFunctionOrConstructor.applyInnerPossiblyGeneric(GenericFunctionOrConstructor.java:57)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:591)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forIf(Evaluator.java:44)
+	at com.sun.fortress.nodes.If.accept(If.java:55)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:779)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:178)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.finishFunctionInvocation(Evaluator.java:1242)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forTightJuxt(Evaluator.java:1199)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:651)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forJuxt(Evaluator.java:44)
+	at com.sun.fortress.nodes.Juxt.accept(Juxt.java:67)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:330)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:121)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.forLocalVarDecl(BuildLetEnvironments.java:31)
+	at com.sun.fortress.nodes.LocalVarDecl.accept(LocalVarDecl.java:55)
+	at com.sun.fortress.interpreter.evaluator.BuildLetEnvironments.doLets(BuildLetEnvironments.java:125)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.evalExprList(Evaluator.java:328)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:285)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forBlock(Evaluator.java:44)
+	at com.sun.fortress.nodes.Block.accept(Block.java:61)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:253)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.forDo(Evaluator.java:44)
+	at com.sun.fortress.nodes.Do.accept(Do.java:49)
+	at com.sun.fortress.interpreter.evaluator.Evaluator.eval(Evaluator.java:48)
+	at com.sun.fortress.interpreter.evaluator.values.FunctionClosure.applyInnerPossiblyGeneric(FunctionClosure.java:199)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.applyToArgs(Fcn.java:101)
+	at com.sun.fortress.interpreter.evaluator.values.Fcn.functionInvocation(Fcn.java:188)
+	at com.sun.fortress.interpreter.Driver.runProgramTask(Driver.java:507)
+	at com.sun.fortress.interpreter.evaluator.tasks.EvaluatorTask.compute(EvaluatorTask.java:46)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+F
+Time: 14.397
+There were 3 failures:
+1) /home/user/fortress-overflow/tmp/harness-pre/tests/FixedWidthOverflowRungB(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress-overflow/tmp/harness-pre/tests/FixedWidthOverflowRungB
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:437)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+2) /home/user/fortress-overflow/tmp/harness-pre/tests/intPrim(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress-overflow/tmp/harness-pre/tests/intPrim
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:437)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+3) /home/user/fortress-overflow/tmp/harness-pre/tests/longPrim(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest /home/user/fortress-overflow/tmp/harness-pre/tests/longPrim
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.unexpectedExceptionBoilerplate(FileTests.java:437)
+	at com.sun.fortress.tests.unit_tests.FileTests$SourceFileTest.testFile(FileTests.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at com.sun.fortress.tests.unit_tests.FileTests$1.run(FileTests.java:777)
+	at com.sun.fortress.tests.unit_tests.SystemJUTest.main(SystemJUTest.java:26)
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+rc=0

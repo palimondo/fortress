@@ -102,24 +102,28 @@ public class NN32 extends NativeConstructor {
 
     public static final class Negate extends N2N {
         protected int f(int x) {
+            if (x != 0) throw Int.overflow();
             return Unsigned.subtract(0, x);
         }
     }
 
     public static final class Add extends NN2N {
         protected int f(int x, int y) {
+            if (((Unsigned.toLong(x) + Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
             return Unsigned.add(x, y);
         }
     }
 
     public static final class Sub extends NN2N {
         protected int f(int x, int y) {
+            if (((Unsigned.toLong(x) - Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
             return Unsigned.subtract(x, y);
         }
     }
 
     public static final class Mul extends NN2N {
         protected int f(int x, int y) {
+            if (((Unsigned.toLong(x) * Unsigned.toLong(y)) >>> 32) != 0) throw Int.overflow();
             return Unsigned.multiplyToInt(x, y);
         }
     }

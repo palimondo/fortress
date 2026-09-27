@@ -1,0 +1,33 @@
+# The repair round's competing declarations, run at fb268315c with the new files uncommitted. Names added: the components XXXRangeBoundsRungO, XXXSeqRangeTopRungO, XXXRangeSizeZZ64RungO and XXXSeqMidpointRungO (the two scratch controls, SeqRangeControl and SeqMidpointControl, live under explorations/ and are grepped too). No function, trait or Java name is added.
+
+## grep -rn 'XXXRangeBoundsRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/tests/XXXRangeBoundsRungO.fss:3:component XXXRangeBoundsRungO
+(end)
+
+## grep -rn 'XXXSeqRangeTopRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/tests/XXXSeqRangeTopRungO.fss:3:component XXXSeqRangeTopRungO
+(end)
+
+## grep -rn 'XXXRangeSizeZZ64RungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss:3:component XXXRangeSizeZZ64RungO
+(end)
+
+## grep -rn 'XXXSeqMidpointRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss:3:component XXXSeqMidpointRungO
+ProjectFortress/compiler_tests/XXXSeqMidpointRungO.test:1:tests=XXXSeqMidpointRungO
+ProjectFortress/compiler_tests/SeqMidpointRungOLink.test:1:tests=XXXSeqMidpointRungO
+(end)
+
+## grep -rn 'SeqMidpointRungO' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss:3:component XXXSeqMidpointRungO
+ProjectFortress/compiler_tests/XXXSeqMidpointRungO.test:1:tests=XXXSeqMidpointRungO
+ProjectFortress/compiler_tests/SeqMidpointRungOLink.test:1:tests=XXXSeqMidpointRungO
+(end)
+
+## grep -rn 'SeqRangeControl' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+explorations/compile-ladder/rung-overflow-natives/probes/repair/SeqRangeControl.fss:1:component SeqRangeControl
+(end)
+
+## grep -rn 'SeqMidpointControl' ProjectFortress Library explorations/compile-ladder/rung-overflow-natives/probes/repair (--include *.fss *.fsi *.test *.java *.scala; build excluded)
+explorations/compile-ladder/rung-overflow-natives/probes/repair/SeqMidpointControl.fss:1:component SeqMidpointControl
+(end)

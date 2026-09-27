@@ -1,0 +1,33 @@
+(*) explorations/compile-ladder/rung-overflow-natives/REPORT.md
+
+component XXXRangeBoundsRungO
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    zMax: ZZ32 = 7FFFFFFF_16
+    zMin: ZZ32 = -zMax - 1
+    lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    topOne = zMax # one
+    topOneSize = |topOne|
+    assert(topOneSize = 1, "ranges.tex:64-65, :103-106")
+    topThree = (zMax - 2) # three
+    topThreeSize = |topThree|
+    assert(topThreeSize = 3, "ranges.tex:64-65, :103-106")
+    wideTop = (lMax - widen(2)) # widen(three)
+    wideTopSize = wideTop.size
+    assert(wideTopSize = 3, "ranges.tex:64-65, :103-106")
+    r = one:zMin
+    rSize = r.size
+    assert(rSize = 0, "ranges.tex:47, :103-106")
+    rCard = |r|
+    assert(rCard = 0, "ranges.tex:47, :103-106")
+    downward = zMax:zMin
+    downwardCard = |downward|
+    assert(downwardCard = 0, "ranges.tex:47, :103-106")
+    println("PASS")
+  end
+
+end
