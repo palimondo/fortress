@@ -126,7 +126,7 @@ esac
 {
     printf '#distance\tsetting %s; %s; %s\n' "$SETTING" "$FLAGS" "$(echo $COMPONENTS | wc -w) components in one JVM (DistanceMulti -order check)"
     if grep -q '^### all seconds=' "$SCRATCH/run.txt" ; then
-        python3 "$D/table.py" "$SCRATCH/run.txt" > "$SCRATCH/rows.txt" 2>&1
+        python3 -B "$D/table.py" "$SCRATCH/run.txt" > "$SCRATCH/rows.txt" 2>&1
         cat "$SCRATCH/rows.txt"
         python3 "$D/errors.py" "$SCRATCH/errors.tsv" "$SCRATCH/run.txt" > "$SCRATCH/tally.txt" 2>&1
         E=$(sed -n 's/^# \([0-9]*\) distinct errors.*/\1/p' "$SCRATCH/tally.txt")
