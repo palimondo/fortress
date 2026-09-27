@@ -48,14 +48,14 @@ What batch 6's brief must carry beyond the above (added 2026-09-26, after batch 
 - The D follow-up (POSITIONS 2026-09-26, rung D's stop): rung D lands on `main` as a follow-up to batch 5, one worker applying `wip/rung-wrap-operators`, gating once and pushing if green. Rung O builds on D's operators, so the brief states whether D has landed. D's provisional rows 405 and 407 are already rows 427 (`HeapShakedown`) and 428 (`QQ`'s `opr <`), and its unary ∔ candidate is row 429, so D's landing opens only its provisional 406, the message order. Row 428's `XXX` walk test is owed no later than rung O. Rows 416 and 418 owe their `XXX` walk tests to whichever rung owns `ProjectFortress/tests/`.
 - The rule for run-to-run output differences (POSITIONS 2026-09-26, rung D's stop): an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is not a stop; it is a ledger row. With it, the judge's advice for the flattening's and rung O's comparisons: list `XXXInheritedOverload` among the unstable files, citing D's order row (`compile-ladder/rung-wrap-operators/JUDGE.md` section 6).
 
-Batch 6 landed on 2026-09-27 (F, the flat tower; T, the number chapters; `compile-ladder/climb-batch-6/RECORD.md`). Rung R (a size the call cannot fix in an overload set) lands by hand, since its approving verdict was lost to a false-positive safety refusal; then the follow-up 6b runs rung O.
+Batch 6 landed on 2026-09-27 (F, the flat tower; T, the number chapters; `compile-ladder/climb-batch-6/RECORD.md`). Rung R (a size the call cannot fix in an overload set) landed by hand at `7278e11f7`, its approving verdict having been lost to a false-positive safety refusal; the follow-up 6b runs rung O.
 
 ### Phase 2b. The repair batch from the conformance reviews
 
 Pavol, 2026-09-27: what the reviews of batches 3 to 6 call for is repaired before phase 3. The reviews are `reviews/batch-3-conformance.md`, `batch-3.5-4-conformance.md`, `batch-5-conformance.md`, and batch 6's when it is made. From them, so far:
 
 - Rows 417, 419 and 420 (the compiled loader's first-load race, a parallel task in a generic declaration, a generic method building over two parameters), on the switch-over's path; row 417 gated by a program of its shape in the gate's four-thread stage.
-- A size's range as the specification states it (POSITIONS 2026-09-27): the checker refuses a size beyond `NN32`/`ZZ32`, `NatRtBigSize` and row 418's walk test restated.
+- A size's range as the specification states it (POSITIONS 2026-09-27): the checker refuses a size beyond `NN32`/`ZZ32`, and `NatRtBigSize` is restated (row 418's walk test was restated when R landed).
 - Two compiled dispatch defects with no ledger row, with their probes as expected-failure tests and the measured 43-line fix.
 - `NN32`'s `LCM` passing its operands sign-extended.
 - The specification's text for the integer rules of 2026-09-22, and row 394's example.
