@@ -1,0 +1,24 @@
+component BCtxCk
+export Executable
+(* evidence-B probe; the compiled checker over the one library: does the expected
+   type of a typed binding, a declared return type, or an enclosing call's parameter
+   reach the inference of a generic call's static argument? *)
+object BoxT[\T\](v: ZZ32) end
+idt[\T\](x: T): T = x
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](1)
+takesBox64(b: BoxT[\ZZ64\]): ZZ32 = 1
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+b01(): () = do a: BoxT[\ZZ64\] = wrapT(3); () end
+b02(): () = do a: BoxT[\RR64\] = wrapT(3); () end
+b03(): () = do v = wrapT(3); c: String = v; () end
+b04(): () = do s: String = idt(3); () end
+b05(): () = do a: BoxT[\ZZ32\] = wrapT(3); () end
+b06(): () = do a: BoxT[\IntLiteral\] = wrapT(3); () end
+b07(): ZZ32 = takesBox64(wrapT(3))
+b08(): BoxT[\ZZ64\] = wrapT(3)
+b09(): () = do a: BoxT[\ZZ64\] = mk(); () end
+b10(): () = do v = mk(); c: String = v; () end
+b11(): ZZ32 = takesBox64(mk())
+b12(): () = do a: BoxT[\ZZ64\] = wrapT(widen(3)); () end
+run(): () = ()
+end

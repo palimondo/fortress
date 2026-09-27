@@ -1,0 +1,9 @@
+component BwB7ZZ64Big
+export Executable
+(* evidence-B probe; walk *)
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    a: ZZ64 = 3000000000
+    println("a: ZZ64 = 3000000000 -> " shown(a))
+  end
+end

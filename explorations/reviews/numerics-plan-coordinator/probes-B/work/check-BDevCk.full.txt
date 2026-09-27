@@ -1,0 +1,46 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=typecheck  target=[BDevCk.fss]  dropApiErrors=true
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=38
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkComponent BDevCk
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:4:25-33:
+    Any has no getter called asString
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:4:48-55:
+    Any has no getter called ilkName
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:5:23-39:
+    'throw' can only throw objects of Exception type.  This expression is of type Exception->ForbiddenException.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:15:52:
+    Expression has type IntLiteral, but assumed type is T.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:17:48:
+    Could not check call to operator +
+    - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (T, ZZ64).
+    - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type (T, ZZ64).
+    - ((ZZ32 & {Int, IntLiteral}), ZZ32)->ZZ32 is not applicable to an argument of type (T, ZZ64).
+    - ((ZZ64 & {Long}), ZZ64)->ZZ64 is not applicable to an argument of type (T, ZZ64).
+    - (AdditiveGroup[\T\], T)->T is not applicable to an argument of type (T, ZZ64).
+    - (Integral[\I\], I)->I is not applicable to an argument of type (T, ZZ64).
+    - (Matrix[\T,s0,s1\], Matrix[\T,s0,s1\])->Matrix[\T,s0,s1\] is not applicable to an argument of type (T, ZZ64).
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (T, ZZ64).
+    - (QQ, QQ)->QQ is not applicable to an argument of type (T, ZZ64).
+    - (Vector[\T,s0\], Vector[\T,s0\])->Vector[\T,s0\] is not applicable to an argument of type (T, ZZ64).
+    - [\T extends Number, I\](Array[\T,I\], T)->Array[\T,I\] is not applicable to an argument of type (T, ZZ64).
+    - [\T extends Number, I\](T, Array[\T,I\])->Array[\T,I\] is not applicable to an argument of type (T, ZZ64).
+    - [\T extends Number, nat n, nat m\](Matrix[\T,n,m\], Matrix[\T,n,m\])->Matrix[\T,n,m\] is not applicable to an argument of type (T, ZZ64).
+    - [\T extends Number, nat n, nat m\](Vector[\T,n\], Vector[\T,n\])->Vector[\T,n\] is not applicable to an argument of type (T, ZZ64).
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:21:42:
+    Right-hand side has type ZZ64, but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BDevCk.fss:22:42:
+    Right-hand side has type NN32, but declared type is String.
+File BDevCk.fss has 7 errors.
+### rc=-1

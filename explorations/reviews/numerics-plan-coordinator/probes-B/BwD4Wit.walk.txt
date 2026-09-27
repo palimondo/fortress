@@ -1,0 +1,3 @@
+# walk.sh BwD4Wit 2026-09-27T16:12:49Z; tree 219cd7038; nproc=4; load 10.91 7.57 4.09; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+D4 incWit(l: ZZ64) -> 6 : Long
+rc=0

@@ -1,0 +1,18 @@
+# walk.sh BwI1TwiceLNum 2026-09-27T16:09:20Z; tree 219cd7038; nproc=4; load 8.87 4.67 2.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwI1TwiceLNum.fss:19:46-55:
+Unification error: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwI1TwiceLNum.fss:7:18-28:
+Cannot unify AnyIntegral(class com.sun.fortress.interpreter.evaluator.types.FTypeTrait)
+  with Integral[\T\](class com.sun.fortress.nodes.TraitType) abm=T=(AnyIntegral,Any)
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwI1TwiceLNum.fss:19:46-55:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

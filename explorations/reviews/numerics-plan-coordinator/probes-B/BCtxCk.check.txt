@@ -1,0 +1,32 @@
+# check.sh BCtxCk 2026-09-27T16:09:29Z; tree 219cd7038; nproc=4; load 9.04 4.78 2.56; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=0 FortressLibrary=38 Stream=0 String=0 
+# the probe component's own error lines (with 4 lines of context each):
+17:BCtxCk.fss:11:34-40:
+18-    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+19:BCtxCk.fss:12:34-40:
+20-    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\RR64\].
+21:BCtxCk.fss:13:42:
+22-    Right-hand side has type BoxT[\IntLiteral\], but declared type is String.
+23:BCtxCk.fss:14:28-32:
+24-    Right-hand side has type IntLiteral, but declared type is String.
+25:BCtxCk.fss:15:34-40:
+26-    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ32\].
+27:BCtxCk.fss:17:15-32:
+28-    Could not check call to function takesBox64
+29-    - BoxT[\ZZ64\]->ZZ32 is not applicable to an argument of type BoxT[\IntLiteral\].
+30:BCtxCk.fss:18:23-29:
+31-    Function body has type BoxT[\IntLiteral\], but declared return type is BoxT[\ZZ64\].
+32:BCtxCk.fss:19:34-36:
+33-    Could not check call to function mk
+34-    - Could not infer static argument T without context.
+35:BCtxCk.fss:20:20-22:
+36-    Could not check call to function mk
+37-    - Could not infer static argument T without context.
+38:BCtxCk.fss:21:26-28:
+39-    Could not check call to function mk
+40-    - Could not infer static argument T without context.
+41-File BCtxCk.fss has 10 errors.
+42-### rc=-1
+# tallies:
+File BCtxCk.fss has 10 errors.
+### rc=-1

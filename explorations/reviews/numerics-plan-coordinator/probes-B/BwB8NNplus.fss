@@ -1,0 +1,10 @@
+component BwB8NNplus
+export Executable
+(* evidence-B probe; walk *)
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    u: NN32 = unsigned(5)
+    a = u + 1
+    println("u: NN32 = unsigned(5);     a = u + 1 -> " shown(a))
+  end
+end

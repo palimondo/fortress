@@ -1,0 +1,18 @@
+# walk.sh BNumeralKinds 2026-09-27T16:06:22Z; tree 219cd7038; nproc=4; load 1.38 2.49 1.57; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+n1 3 -> 3 : Int
+n2 3000000000 -> 3000000000 : Long
+n3 100000000000000000000 -> 100000000000000000000 : BigNum
+n4 1.5 -> 1.5 : FloatLiteral
+n5 3 + 4 -> 7 : Int
+n6 1.5 + 2.5 -> 4.0 : Float
+n7 1 - 0.85 -> 0.15000000000000002 : Float
+n8 1.0 3 -> 3.0 : Float
+n9 hd = 4; 1.0 hd -> 4.0 : Float
+n10 b1 = 0.85; 1 - b1 -> 0.15000000000000002 : Float
+n11 a: ZZ64 = 3 -> 3 : Long
+n12 r: RR64 = 3 -> 3.0 : Float
+n13 q: QQ = 3 -> 3 : Ratio
+n14 t0: ZZ64; t0 DIV 1000000 -> 7 : Long
+n15 hd = 4 -> 4 : Int
+n16 b1 = 0.85 -> 0.85 : FloatLiteral
+rc=0

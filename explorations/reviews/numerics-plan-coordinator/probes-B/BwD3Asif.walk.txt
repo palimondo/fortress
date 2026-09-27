@@ -1,0 +1,17 @@
+# walk.sh BwD3Asif 2026-09-27T16:12:47Z; tree 219cd7038; nproc=4; load 10.91 7.57 4.09; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwD3Asif.fss:15:53-59:
+Type of expression, Int, not a subtype of ZZ64.
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwD3Asif.fss:15:53-59:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BwD3Asif.fss:23:45-53:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

@@ -1,0 +1,32 @@
+# check.sh BNumeralKindsCk 2026-09-27T16:06:37Z; tree 219cd7038; nproc=4; load 2.89 2.78 1.68; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=0 FortressLibrary=38 Stream=0 String=0 
+# the probe component's own error lines (with 4 lines of context each):
+17:BNumeralKindsCk.fss:9:16:
+18-    Right-hand side has type IntLiteral, but declared type is String.
+19:BNumeralKindsCk.fss:10:16-17:
+20-    Right-hand side has type FloatLiteral, but declared type is String.
+21:BNumeralKindsCk.fss:11:16:
+22-    Right-hand side has type ZZ32, but declared type is String.
+23:BNumeralKindsCk.fss:12:16-17:
+24-    Right-hand side has type RR64, but declared type is String.
+25:BNumeralKindsCk.fss:13:16:
+26-    Right-hand side has type RR64, but declared type is String.
+27:BNumeralKindsCk.fss:14:16-20:
+28-    Right-hand side has type RR64, but declared type is String.
+29:BNumeralKindsCk.fss:15:16:
+30-    Right-hand side has type IntLiteral, but declared type is String.
+31:BNumeralKindsCk.fss:16:16-20:
+32-    Right-hand side has type RR64, but declared type is String.
+33:BNumeralKindsCk.fss:17:16:
+34-    Right-hand side has type RR64, but declared type is String.
+35:BNumeralKindsCk.fss:18:17:
+36-    Right-hand side has type ZZ64, but declared type is String.
+37:BNumeralKindsCk.fss:19:17-25:
+38-    Right-hand side has type IntLiteral, but declared type is String.
+39:BNumeralKindsCk.fss:20:17:
+40-    Right-hand side has type FloatLiteral, but declared type is String.
+41-File BNumeralKindsCk.fss has 12 errors.
+42-### rc=-1
+# tallies:
+File BNumeralKindsCk.fss has 12 errors.
+### rc=-1

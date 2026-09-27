@@ -1,0 +1,9 @@
+component BwB2NN64
+export Executable
+(* evidence-B probe; walk *)
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    a: NN64 = 3
+    println("a: NN64 = 3 -> " shown(a))
+  end
+end

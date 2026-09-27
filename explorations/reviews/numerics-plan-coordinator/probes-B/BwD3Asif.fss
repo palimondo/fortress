@@ -1,0 +1,25 @@
+component BwD3Asif
+export Executable
+(* evidence-B probe; walk *)
+shown(v: Any): String = v.asString || " : " || v.ilkName
+thr[\T\](): T = throw ForbiddenException
+oneOf[\T extends Integral[\T\]\](): T =
+    typecase thr[\T\] of
+        () -> ZZ32 => cast[\T\](1)
+        () -> ZZ64 => cast[\T\](widen(1))
+        () -> NN32 => cast[\T\](unsigned(1))
+        else => cast[\T\](1)
+    end
+incOne[\T extends Integral[\T\]\](x: T): T = x + x.one
+incCast[\T extends Integral[\T\]\](x: T): T = x + cast[\T\](1)
+incAsif[\T extends Integral[\T\]\](x: T): T = x + (1 asif T)
+incWit[\T extends Integral[\T\]\](x: T): T = x + oneOf[\T\]()
+incWiden[\T extends Integral[\T\]\](x: T): T = x + widen(1)
+
+run(): () = do
+    z: ZZ32 = 5
+    l: ZZ64 = widen(z)
+    u: NN32 = unsigned(z)
+    println("D3 incAsif(l: ZZ64) -> " shown(incAsif(l)))
+  end
+end

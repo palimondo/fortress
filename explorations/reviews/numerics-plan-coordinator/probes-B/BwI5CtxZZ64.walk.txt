@@ -1,0 +1,3 @@
+# walk.sh BwI5CtxZZ64 2026-09-27T16:10:31Z; tree 219cd7038; nproc=4; load 9.71 5.83 3.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+I5 a: ZZ64 = idt(3) -> 3 : Long
+rc=0

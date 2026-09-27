@@ -1,0 +1,43 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=typecheck  target=[BGenCk2.fss]  dropApiErrors=true
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=38
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkComponent BGenCk2
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:16:20-29:
+    Could not check call to function twice
+    - [\T extends Integral[\T\]\](T, T)->T is not applicable to an argument of type (ZZ64, IntLiteral).
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:17:20-29:
+    Could not check call to function twice
+    - [\T extends Integral[\T\]\](T, T)->T is not applicable to an argument of type (ZZ64, ZZ32).
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:18:45:
+    Right-hand side has type ZZ32, but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:19:44:
+    Right-hand side has type OR(ZZ64,IntLiteral), but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:20:44:
+    Right-hand side has type IntLiteral, but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:21:40:
+    Right-hand side has type IntLiteral, but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:22:44:
+    Right-hand side has type OR(ZZ64,ZZ32), but declared type is String.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:26:26-53:
+    Could not check call to function scale64
+    - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:27:26-52:
+    Could not check call to function scaleR
+    - [\T\](BoxT[\T\], RR64)->RR64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BGenCk2.fss:29:26-53:
+    Could not check call to function scale64
+    - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
+File BGenCk2.fss has 10 errors.
+### rc=-1

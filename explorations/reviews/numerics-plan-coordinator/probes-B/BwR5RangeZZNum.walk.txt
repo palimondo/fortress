@@ -1,0 +1,5 @@
+# walk.sh BwR5RangeZZNum 2026-09-27T16:11:59Z; tree 219cd7038; nproc=4; load 9.46 6.80 3.66; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+R5 big(1)#3 element -> 1 : BigNum
+R5 big(1)#3 element -> 2 : BigNum
+R5 big(1)#3 element -> 3 : BigNum
+rc=0

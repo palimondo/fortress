@@ -1,0 +1,23 @@
+# check.sh BCtxCk2 2026-09-27T16:10:08Z; tree 219cd7038; nproc=4; load 10.20 5.57 2.92; openjdk version "25.0.4" 2026-07-21; rc=255
+# api errors dropped (probe.dropApiErrors): AnyType=0 Executable=0 FlatString=0 FortressBuiltin=0 FortressLibrary=38 Stream=0 String=0 
+# the probe component's own error lines (with 4 lines of context each):
+17:BCtxCk2.fss:14:20-26:
+18-    Could not check method invocation Fac.mk
+19-    - Could not infer static argument T without context.
+20:BCtxCk2.fss:15:34-43:
+21-    Could not check method invocation Fac.wrap
+22-    - [\T\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+23:BCtxCk2.fss:16:40:
+24-    Could not check call to operator BOXOF
+25-    - [\T\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+26:BCtxCk2.fss:17:34:
+27-    Could not check call to operator OPLUS
+28-    - [\T\](T, ZZ32)->BoxT[\T\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+29:BCtxCk2.fss:18:35-37:
+30-    Could not check call to function mk
+31-    - Could not infer static argument T without context.
+32-File BCtxCk2.fss has 5 errors.
+33-### rc=-1
+# tallies:
+File BCtxCk2.fss has 5 errors.
+### rc=-1

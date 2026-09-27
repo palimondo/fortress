@@ -1,0 +1,29 @@
+component BNumeralKinds
+export Executable
+(* walk: the run-time type of a numeral and of the shapes microGPT writes *)
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+  println("n1 3 -> " shown(3))
+  println("n2 3000000000 -> " shown(3000000000))
+  println("n3 100000000000000000000 -> " shown(100000000000000000000))
+  println("n4 1.5 -> " shown(1.5))
+  println("n5 3 + 4 -> " shown(3 + 4))
+  println("n6 1.5 + 2.5 -> " shown(1.5 + 2.5))
+  println("n7 1 - 0.85 -> " shown(1 - 0.85))
+  println("n8 1.0 3 -> " shown(1.0 3))
+  hd = 4
+  println("n9 hd = 4; 1.0 hd -> " shown(1.0 hd))
+  b1 = 0.85
+  println("n10 b1 = 0.85; 1 - b1 -> " shown(1 - b1))
+  a: ZZ64 = 3
+  println("n11 a: ZZ64 = 3 -> " shown(a))
+  r: RR64 = 3
+  println("n12 r: RR64 = 3 -> " shown(r))
+  q: QQ = 3
+  println("n13 q: QQ = 3 -> " shown(q))
+  t0: ZZ64 = widen(7000000)
+  println("n14 t0: ZZ64; t0 DIV 1000000 -> " shown(t0 DIV 1000000))
+  println("n15 hd = 4 -> " shown(hd))
+  println("n16 b1 = 0.85 -> " shown(b1))
+end
+end

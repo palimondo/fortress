@@ -1,0 +1,3 @@
+# walk.sh BwD7WitNN 2026-09-27T16:13:31Z; tree 219cd7038; nproc=4; load 9.04 7.56 4.25; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+D7 incWit(u: NN32) -> 6 : NN32
+rc=0

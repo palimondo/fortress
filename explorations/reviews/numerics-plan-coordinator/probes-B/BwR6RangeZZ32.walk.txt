@@ -1,0 +1,5 @@
+# walk.sh BwR6RangeZZ32 2026-09-27T16:12:04Z; tree 219cd7038; nproc=4; load 9.59 6.87 3.70; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+R6 z#3 (control) element -> 5 : Int
+R6 z#3 (control) element -> 6 : Int
+R6 z#3 (control) element -> 7 : Int
+rc=0

@@ -1,0 +1,18 @@
+component BBottomCk
+export Executable
+(* evidence-B probe; the compiled checker over the one library: what an
+   unconstrained static parameter becomes *)
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+mkB[\T extends Integral[\T\]\](): BoxT[\T\] = BoxT[\T\](1)
+et[\T\](x: ZZ32): BoxT[\T\] = BoxT[\T\](1)
+etB[\T extends Integral[\T\]\](x: ZZ32): BoxT[\T\] = BoxT[\T\](1)
+z: ZZ32 = 5
+e01(): () = do v = mk(); c: String = v; () end
+e02(): () = do v = mkB(); c: String = v; () end
+e03(): () = do v = et(z); c: String = v; () end
+e04(): () = do v = etB(z); c: String = v; () end
+e05(): () = do r: Any = et(z); () end
+e06(): () = do r: BoxT[\ZZ64\] = et(z); () end
+run(): () = ()
+end

@@ -1,0 +1,26 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=typecheck  target=[BBindCk.fss]  dropApiErrors=true
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=38
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Executable
+@@PROBE checkApi Executable -> errors=0
+@@PROBE checkComponent BBindCk
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BBindCk.fss:4:25:
+    Right-hand side has type IntLiteral, but declared type is NN32.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BBindCk.fss:5:25:
+    Right-hand side has type IntLiteral, but declared type is NN64.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BBindCk.fss:7:25-26:
+    Right-hand side has type FloatLiteral, but declared type is RR32.
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/coordinator-plan/probes-B/BBindCk.fss:13:62:
+    Right-hand side has type ZZ64, but declared type is String.
+File BBindCk.fss has 4 errors.
+### rc=-1

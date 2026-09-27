@@ -1,4 +1,4 @@
-<!-- The coordinator's plan (Opus tier) for Pavol's question of 2026-09-27 15:24-15:35 UTC: now that the number tower is flat and sizes are checked, what moves the needle most toward compilation, and are the "unknown types and coercion" problems one issue. Written 2026-09-27 on `main` at `d7ca74708` from two evidence digests by Opus workers (beside this file) and the triage of the distance, `perf-probes/prelude/distance-triage.md`. Written at the same time as the Fable plan, `numerics-plan-fable.md`, without reading it; its worker's three-line message and its commit subject arrived while this was being written. The synthesis is `numerics-plan-synthesis.md`. -->
+<!-- The coordinator's plan (Opus tier) for Pavol's question of 2026-09-27 15:24-15:35 UTC: now that the number tower is flat and sizes are checked, what moves the needle most toward compilation, and are the "unknown types and coercion" problems one issue. Written 2026-09-27 on `main` at `d7ca74708` from two evidence digests by Opus workers (beside this file, `evidence-A.md` on the distance's classes, `evidence-B.md` on how each part of the system decides a numeral's type, a static argument and a coercion) and the triage of the distance, `perf-probes/prelude/distance-triage.md`; corrected the same day when evidence B arrived. Written at the same time as the Fable plan, `numerics-plan-fable.md`, without reading it; its worker's three-line message and its commit subject arrived while this was being written. The synthesis is `numerics-plan-synthesis.md`. -->
 
 # The numerics on the path to compilation: the coordinator's plan
 
@@ -7,7 +7,8 @@
 - **You are right about the shape.** Every complaint you heard has the same shape: a value meets a type that the program does not write. The specification never wrote the rule for that. Its type-inference chapter is empty, and its numeral types are a note ("We need to describe the Numeral type hierarchy", `Specification/basic/expressions/literals.tex:83-95`).
 - **On the library's count it is two knots, and each has a small fix.** Neither fix is the general rule.
   - **Knot 1: ranges are generic over their integer type.** Almost every numeric error sits in range code written for an unknown integer type `I`. The language has no way to turn a number into a type it knows only as `I`. The compiler library's authors avoided this by declaring ranges over `ZZ32` only. Your point, that a range can only be `ZZ32`, is the fix.
-  - **Knot 2: type parameters that nobody writes.** A native's result type, `fail`'s result type, and the implicit bound of an unbounded parameter. This knot is not numeric at all. It looks numeric because most of its errors sit inside the number types' own natives.
+  - **Knot 2: type parameters that nobody writes.** A native's result type, `fail`'s result type, and the implicit bound of an unbounded parameter. This knot is not numeric at all. It looks numeric because most of its errors sit inside the number types' own natives. Its cause is that the checker drops the type the result must have at a call written `f(x)`.
+- **The general rule is still needed, but not for the count.** Once a numeral stops being a `ZZ32` (your decision on a numeral's type), a numeral passed to a declared `ZZ32` parameter of any generic function is refused, because the checker never converts while it infers. microGPT has such calls. So the numeral switch and the rule go together, after the count's two knots.
 - **The rest is not one issue.** About half of the distance is overloading rules, exclusion, library slips and arrays. Batches 7 and 7b already attack most of it.
 - **What moves the needle most, in order:**
   1. Batch 7, widened: the bound decision, two written bounds and row 421's four lines added to rungs H and A.
@@ -21,9 +22,9 @@
 ## 2. Refresher
 
 - **The distance.** The number of distinct errors the compiled type checker reports on the one library (the interpreter's library, which the compiler is to read). It stood at 1.74K under walk's setting and 1.53K under the compile path's own setting. The two settings differ in what an unbounded type parameter is bounded by: nothing (walk), or `Object` (the compile path). Zero is necessary for the switch-over, not sufficient.
-- **A static argument** is the type or size that fills a type parameter, the `ZZ32` in `f[\ZZ32\](x)`. **Inference** fills it in when the program does not write it, from the arguments' types. Today the checker infers only from the arguments. It never looks at the type the result must have. A parameter nothing constrains becomes `Bottom`, or an error "without context".
-- **A coercion** converts a value into a wider type at a call or a typed binding, for example a `ZZ32` into `ZZ64`. The flat tower declares one from each narrower number type into each wider one. A coercion needs its target type known. Inside generic code the target is `I`, which is not known until the call.
-- **A numeral's type.** The compiler library gives a numeral its own type, `IntLiteral`, which converts into each number type. Walk makes a numeral a `ZZ32` today. You decided walk switches to `IntLiteral` (POSITIONS 2026-09-27, "a numeral's type").
+- **A static argument** is the type or size that fills a type parameter, the `ZZ32` in `f[\ZZ32\](x)`. **Inference** fills it in when the program does not write it. Today the checker infers from the arguments' types. At a call written `f(x)` it drops the type the result must have; at a method call or an operator it uses it (`Operators.scala:89-90`, measured). When two arguments differ it takes their union, never a type both convert into. A parameter nothing constrains becomes `Bottom` if it has a bound, and an error "without context" if not.
+- **A coercion** converts a value into a wider type at a call or a typed binding, for example a `ZZ32` into `ZZ64`. The flat tower declares one from each narrower number type into each wider one. A coercion needs its target type known. The specification says so outright: "types named by type parameters do not have coercions" (`Specification/basic/conversions-coercions.tex:363-365`). Neither path applies a coercion while it infers a static argument (digest B § 3).
+- **A numeral's type.** The checker gives every numeral the type `IntLiteral`. In the compiler library that is a type of its own, which each integer type converts from. In the one library it is declared a `ZZ32` (`FortressBuiltin.fsi:117`), so a numeral passes wherever a `ZZ32` does. Walk makes a numeral an `Int`, `Long` or `BigNum` by its magnitude. You decided the one library and walk take the compiler library's `IntLiteral` (POSITIONS 2026-09-27, "a numeral's type").
 
 ## 3. The audit
 
@@ -54,24 +55,25 @@ Counts are walk's setting / the compile path's setting, from the triage's captur
   - the type's own `zero` and `one` (no call site reads `.one`);
   - the `() -> T` witness;
   - the dummy argument.
-  The compiler library's authors did not write this code: their ranges take `ZZ32` only (`Library/CompilerLibrary.fsi:173-174`).
+  The compiler library's authors did not write this code: their ranges take `ZZ32` only (`Library/CompilerLibrary.fsi:173-174`). The specification's ranges chapter names no integer type (`Specification/basic/expressions/ranges.tex:37-44`, per digest B).
 - **What else it dissolves.**
   - The numeral switch adds 35 errors to the count. 15 of them are ranges over numerals, where `0 # |self|` asks the checker to choose `I` between `IntLiteral` and `ZZ32`.
-  - Over `ZZ32` alone, the numeral converts into a known parameter type. The checker already does that, and no inference is needed.
+  - Over `ZZ32` alone, `#` and `:` are no longer generic, and the numeral converts into a known parameter type of a plain operator. The checker already does that, and no inference is needed.
   - The same holds for microGPT's own ranges, `0#n` and `0:n-1`, all over `ZZ32`.
+  - It does not dissolve the other half of the numeral switch. A numeral passed to a declared `ZZ32` parameter of a generic function needs the rule (below, step 4).
 - **Under the compile path's setting**, 170 more errors of the bound `Object` sit inside the range declarations. They are the tuples of multi-dimensional ranges, and they belong to knot 2.
 
 ### Knot 2: type parameters that nobody writes, about 375 / 380
 
 - **The natives.** `builtinPrimitive[\T\](javaClass: String): T` has a type parameter only in its result: 340 / 0.
-  - Writing `T extends Object` at its declaration clears all 340, measured. Writing `extends Any` clears none.
+  - The call is written `f(x)`, where the checker drops the result's expected type, so `T` has nothing to be inferred from (digest B § 3.3).
+  - Writing `T extends Object` at its declaration clears all 340, measured. Writing `extends Any` clears none. The written bound works because a bounded parameter with no constraint is bound to `Bottom`: the count falls, and the program is not typed right (row 447's shape).
   - 278 of the 340 sit inside the number types' own natives, which is why they sound numeric. The cause is not numeric.
 - **`fail`**, whose parameter is also only in its result, and three other calls: 24 / 0.
 - **A function argument inferred at `Bottom`** (7 / 8), and `Maybe`'s `__cond` (4 / 4).
 - **The implicit bound.** Under the compile path's setting every unbounded parameter gets `extends Object`, which refuses a tuple or `Any` as a static argument: 0 / 372.
   - Batch 7's question 1 decides this bound. Its default (a), the bound `Any`, removes the 372 and brings the natives' 340 back (1,747 measured).
-  - The two written bounds above then clear the natives.
-- None of this knot is numeric, and none of it needs the general inference rule.
+- None of this knot is numeric. Its fix is the checker keeping the expected type at `f(x)`, as it does at a method call; that is one small piece of the inference rule, and a probe of it is running.
 
 ### The rest, about 700 / 650, several separate causes
 
@@ -90,23 +92,23 @@ Each step is a batch run of the existing workflow, gated as always. Where a coun
 
 1. **Batch 7, widened** (H, A and one small rung N).
    - H and A as planned.
-   - N writes `extends Object` on `builtinPrimitive`'s and `fail`'s result parameter, and takes row 421's four lines out of rung L.
+   - N makes the checker keep the expected type at a call written `f(x)`, as it does at a method call, so that a result-only parameter such as `builtinPrimitive`'s and `fail`'s is inferred from it (decision 2). It also takes row 421's four lines out of rung L.
    - Question 1 is taken at its default (a), the bound `Any`.
-   - It clears, walk's setting: natives 340 and `fail` 24 (the natives measured), `fill` 302, row 421 52, exclusion 40 and more by reading. About 750 of 1.75K. Under the compile path's setting, the 372 go with the bound.
+   - It clears, walk's setting: natives 340 and `fail` 24 (by reading, until the probe reports), `fill` 302, row 421 52 (measured), exclusion 40 and more by reading. About 750 of 1.75K. Under the compile path's setting, the 372 go with the bound.
    - The measurement of this tree is running and will be added here.
-   - Cost: three rungs, one batch run.
+   - Cost: three rungs, one batch run; N is a checker rung, test first.
 2. **The ranges batch.** Scalar ranges over `ZZ32` only, as the compiler library has them.
    - `RangeInternals` and the range operators lose their integer type parameter. Multi-dimensional ranges stay tuples of `ZZ32` ranges.
    - The specification's ranges text is revised in the S1 form.
    - Tests and demos that range over another integer type are respelled; their count is being measured.
-   - It clears most of knot 1's 500, by reading; the measurement of a shadow copy is running. It also makes the numeral switch safe for every range, microGPT's among them.
+   - It clears most of knot 1's 500, by reading; the measurement of a shadow copy is running. It also takes every range out of the numeral switch's way, microGPT's among them.
    - Cost: a library rung and a specification rung, one batch run.
    - Needs decision 1.
 3. **Batch 7b's rung L,** with S, C and W beside it as planned. L repairs the overload families by the library's own devices: about 70 by reading.
    - S, C and W clear nothing on the count, and C may raise it. Probe P1 measures that first, as planned.
 4. **The numeral switch and the promotion rule.** Walk makes a numeral an `IntLiteral`.
-   - With ranges over `ZZ32`, what is left for inference is generic calls over mixed widths and containers (row 388). Neither appears in the library's count, and microGPT has neither.
-   - So the promotion rule and the specification's inference chapter are written here, as their own batch, before the switch-over, where walk and the compiled path must agree on every program.
+   - Once a numeral is no longer a `ZZ32`, three shapes need the rule: a numeral or a narrower number passed to a declared parameter of a generic function (rows 388 and 401; microGPT's `heads`, `unheads` and `onehot`, generic in their sizes, take `ZZ32` arguments, digest B § 7); a generic call over mixed widths (answer 8's promotion rule); and a container (row 388). None is in the library's count today, because a numeral is still a `ZZ32` there. All appear the moment the switch lands.
+   - So the switch lands together with the rule: the checker converts while it infers, choosing the narrowest type every argument converts into, and keeps the expected type; walk does the same at dispatch; the specification's inference chapter (a 27-line stub, `Specification/basic/inference.tex`) is written in the S1 form. One batch, before the switch-over, where walk and the compiled path must agree on every program.
    - This is batch 6.5's question 1, answered: after the ranges batch.
 5. **Batch 8:** the meet rule, then the residue one by one to a true zero.
 6. **Batch 6.5** (E, P, G, V) runs whenever a decision holds the queue. Its rungs are correctness (a size beyond its range, the integer rules' text, the compiled generics at run time, `RR32` a sibling) and clear about 5 errors. G's rows matter when microGPT runs compiled, which is phase 5.
@@ -147,28 +149,30 @@ Each step is a batch run of the existing workflow, gated as always. Where a coun
      - Touches the same files, at about 150 more sites.
      - Clears the numerals only as far as the devices reach. The numeral switch then needs the inference rule for `0 # n`.
   3. Ranges over `ZZ32` and `ZZ64`, two concrete families. Twice the range code, with no generic code.
-- **What a yes commits you to.** A language change, recorded in the specification with the original kept. A range over another integer type becomes a static error, and such a loop is written another way.
-- **What a no costs.** Option 2's sites, and the general inference rule becomes a condition of the numeral switch.
+- **What a yes commits you to.** The library's choice where the specification is silent, stated in its ranges chapter. A range over another integer type becomes a static error, and such a loop is written another way.
+- **What a no costs.** Option 2's sites, and the numeral switch's rule must also carry every range over a numeral.
 - **Recommendation:** option 1, once the running measurement confirms the count.
 
-### Decision 2: widen batch 7 and take its question 1 at the bound `Any`
+### Decision 2: how batch 7 clears the unwritten type parameters
 
 - **Context.**
   - Knot 2 is about 375 errors under walk's setting and 372 under the compile path's.
-  - With the bound `Any`, a native's result parameter is not inferred. Writing `extends Object` on that one parameter clears all 340, measured.
+  - Batch 7's question 1 takes the bound `Any` for an unbounded parameter (its default (a)), which removes the 372.
+  - Under `Any`, a native's result parameter is not inferred, because the checker drops the expected type at a call written `f(x)`. It keeps it at a method call and an operator.
 - **Options.**
-  1. Batch 7 = H, A and a small rung N (the two written bounds, row 421's four lines), question 1 at (a).
-  2. Batch 7 as planned, with the natives left to the switch-over, which replaces `builtinPrimitive` (row 309).
-- **What a yes commits you to.** One more small rung in the next batch.
-- **What a no costs.** About 400 errors stay on the count until the switch-over.
-- **Recommendation:** option 1.
+  1. A small checker rung N in batch 7: the checker keeps the expected type at `f(x)`, as at a method call. Touches `Operators.scala` and its test. Clears the natives and `fail` by reading (a probe is running). It is also right for programs: `x: ZZ64 = f()` then informs `f`'s static argument.
+  2. Write `extends Object` on `builtinPrimitive`'s and `fail`'s result parameter. Two lines each, 340 measured. It works by binding the parameter to `Bottom` (row 447's shape), so the count falls without the program being typed right.
+  3. Leave the natives to the switch-over, which replaces `builtinPrimitive` (row 309).
+- **What a yes commits you to.** One more small rung in the next batch, a checker edit, test first; row 421's four lines move into the same batch.
+- **What a no costs.** About 400 errors stay on the count until the switch-over, or leave it for the wrong reason.
+- **Recommendation:** option 1 if the probe confirms it; option 3 otherwise, not option 2.
 
 ### Decision 3: the order
 
 - **Options.**
   1. Batch 7 widened, then the ranges batch, then 7b, then the numeral switch with the inference chapter, then batch 8. Batch 6.5 runs while a decision holds the queue.
   2. The order of the plan as it stands: 6.5, then 7, then 7b.
-- **What a yes commits you to.** Batch 6.5 waits. Its question 1 is answered by the order: the numeral switch comes after the ranges batch.
+- **What a yes commits you to.** Batch 6.5 waits. Its question 1 is answered by the order: the numeral switch comes after the ranges batch, together with the inference rule.
 - **What a no costs.** One batch run first that clears about 5 errors.
 - **Recommendation:** option 1.
 
@@ -185,10 +189,12 @@ Each step is a batch run of the existing workflow, gated as always. Where a coun
   - what rungs H, L, G and V clear;
   - the size of knot 1 (summed from the classes, about 500);
   - whether the meet rule's range half goes with option 1.
+- **Measured by digest B's probes:** the dropped expected type at `f(x)`; the union at a mixed-width call; no coercion while inferring on either path; `x.one` and the witness working on both paths.
 - **Running, to be added:**
-  - batch 7's widened tree under walk's and the `Any` settings;
+  - the checker keeping the expected type at `f(x)`: what it clears;
+  - batch 7's widened tree under walk's and the `Any` settings (with the written bound, as an upper bound on option 2);
   - a shadow copy with scalar ranges over `ZZ32`, whether it runs under walk, and its count;
   - the uses of ranges over other integer types in tests, demos and the specification.
 - **Not checked:**
-  - microGPT's own errors through the compiled checker;
+  - microGPT's own errors through the compiled checker (digest B found both programs stop at disambiguation compiled: `Array` 8, `Char` 5, `ImmutableArray` 3, `Vector` 2 names);
   - what the general inference rule would clear beyond the library.
