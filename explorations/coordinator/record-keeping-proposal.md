@@ -68,7 +68,7 @@ Smaller than the first draft. Nothing is condensed for length; every FACTS findi
 
 **Now, by the coordinator, no decision needed:**
 - The boot note written fresh in its two halves (Appendix C), in place at `held-list.md` line 7 until Pavol answers on `BOOT.md`, then there.
-- POSITIONS: the section header "How he wants to be spoken to" sits above 80 dated decisions. The eight lines that are about manner (register, lists not tables, K and M, one ask per message, decisions one at a time, define new names, the two hats) get that header; the decisions below them continue "Decisions on record" in date order, as they are. Entries 64 and 174 carry appended corrections; each is rewritten to say what is true. Nothing is dropped.
+- POSITIONS: the section header "How he wants to be spoken to" sits above 80 dated decisions. The eight lines that are about manner (register, lists not tables, K and M, one ask per message, decisions one at a time, define new names, the two hats) get that header; the decisions below them continue "Decisions on record" in date order, as they are. Entries 64 and 174 carry appended corrections; each is rewritten to say what is true. Entries that are only a go or a push with nothing decided in them (a relaunch, a "review is a go", "stop the workers") are removed, since by his word they never belonged; an entry that carries a rider, a default or a stop's reading stays whole. The removed ones are listed for the coordinator's review before the commit. Nothing else is dropped.
 - `README.md` replaced by Appendix B.
 
 **After batch 6 and its follow-up 6b have landed and pushed (their gather writes FACTS), one Opus worker, one commit, the coordinator reviewing the diff:**
@@ -85,7 +85,7 @@ A one-line check the coordinator may run before a record commit, no script neede
 
 Two questions, one per message.
 
-1. **The quality pass and the boot note's home.** FACTS' 26 appended corrections folded into current entries by one Opus worker after 6b lands, full length kept, titles kept; POSITIONS' header fixed and its two appended corrections rewritten, nothing dropped; the boot note written fresh in two halves and moved to `coordinator/BOOT.md`; one gather line in the script so the next landing rewrites rather than appends. Recommendation: yes. What it costs: one worker, one review; what it does not touch: INDEX, the handover, any finding's length.
+1. **The quality pass and the boot note's home.** FACTS' 26 appended corrections folded into current entries by one Opus worker after 6b lands, full length kept, titles kept; POSITIONS' header fixed, its two appended corrections rewritten, and its pure gos removed, nothing else dropped; the boot note written fresh in two halves and moved to `coordinator/BOOT.md`; one gather line in the script so the next landing rewrites rather than appends. Recommendation: yes. What it costs: one worker, one review; what it does not touch: INDEX, the handover, any finding's length.
 2. **The protocol rewrite** (Appendix A), his file, to him rendered. It takes his words out of their second home, gathers the defences against the wall of text and the open-issues duty in § 3, and adds two lines: record edits are not reported to him, and a remark is behaviour, not an entry. Recommendation: yes, `(P)`/`(i)` marks kept, dates and quotes dropped; § 6's three rules of 09-25 kept in substance.
 
 ---
@@ -160,8 +160,9 @@ turn at a time.
   built; the notation is what the project exists for.
 - (P) A remark of his on how we work changes the behaviour, and the standing
   line if one exists; it is not recorded as a decision, and he is not told
-  about record edits. What he decides about the project is recorded once, in
-  POSITIONS, in his words, dated.
+  about record edits. A one-off go or push is written nowhere; the launch or
+  the commit is its trace. What he decides about the project, a rider or a
+  default included, is recorded once, in POSITIONS, in his words, dated.
 - (i) Never use the AskUserQuestion dialog; options go in plain text.
 - (P) Time: Claude has no feel for elapsed time. Never place an event in time
   from feel. When the time matters, read the clock or the record and say the
@@ -321,9 +322,10 @@ How they are kept:
   before.
 - One home per thing. His words are written once, in `POSITIONS.md`; every
   other file points to the entry. Nothing is written twice.
-- A remark is not a decision. A change to how we work is a protocol line
-  rewritten; a question is answered where the answer belongs; he is not told
-  about record edits.
+- A remark is not a decision, and neither is a one-off go. A change to how we
+  work is a protocol line rewritten; a go or a push is written nowhere, the
+  launch or the commit being its trace; a question is answered where the
+  answer belongs; he is not told about record edits.
 - Nothing a resumed coordinator needs is condensed for length.
 - `BOOT.md` is rewritten whole at every change, never appended to.
 - A fact enters in the commit that establishes it; a decision in the next
