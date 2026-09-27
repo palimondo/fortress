@@ -1,6 +1,6 @@
 # The coordinator's record: what it is for, what to fix, what judgement keeps it right
 
-Written 2026-09-27 by a fresh Fable instance for the coordinator, read-only in the tree; revised after Pavol's reading. Sections 0-5 are the proposal; sections 1 and 2 answer his two questions and are the part to read first. Appendices A-C are the replacement texts and a template. Sources: `git log` on the boot files, this session's transcript, the archaeology note, `postmortem-2026-09-19/wall-of-text-spiral.md` and `restate-and-hold.md`.
+Written 2026-09-27 by a fresh Fable instance for the coordinator, read-only in the tree; revised after Pavol's reading. Sections 0-5 are the proposal; sections 1 and 2 answer his two questions and are the part to read first. Appendices A and B are the replacement texts. Sources: `git log` on the boot files, this session's transcript, the archaeology note, `postmortem-2026-09-19/wall-of-text-spiral.md` and `restate-and-hold.md`.
 
 ## 0. The measurement, and what it is not
 
@@ -18,7 +18,7 @@ What the coordinator reads at every boot, as of `40df9f235`:
 | `held-list.md` line 7, the boot note | 54,501 | 1 | 15k |
 | **Total** | **~422 KB** | | **~125k tokens** |
 
-Pavol's word on it: the full context at boot is what let the coordinator know the project without him acting as its memory, and he pays the 125k per session for that peace of mind. So there is no size target in this proposal. The numbers stay here as a description, and the one number that is a quality problem is the last row: a 54 KB single line that carries three days of turn-by-turn narration, most of it about state that no longer exists.
+Pavol's word on it: the full context at boot is what let the coordinator know the project without him acting as its memory, and he pays the 125k per session for that peace of mind. So there is no size target in this proposal. The numbers stay here as a description, and the one number that is a quality problem is the last row: a 54 KB single line that carried three days of turn-by-turn narration, most of it about state that no longer existed; it was rewritten whole at `bcef849af`.
 
 ## 1. The two eras, from the history
 
@@ -45,9 +45,9 @@ In fairness to both:
 
 The coordinator is two things, and each keeps a different kind of record with a different judgement.
 
-**The orchestrator** delegates to workers and resumes itself after compaction. Its record is engineering state: facts with sources, at the length a finding takes; where the notes are; the plan and the manifests; what is in flight this minute; how to commit and push; the container's traps. Its readers are a fresh Opus worker and its own next incarnation. The judgement is precision and currency: a worker must be able to act on the line without asking, and a stale hash or a superseded claim left standing costs a wrong build. Corrections are fixes. Nothing here is anyone's words. Where it lives: `FACTS.md`, `INDEX.md`, `PLAN.md`, `CLIMB-BATCH-*.md`, `remote-container.md`, protocol §§ 4-6, the in-flight half of the boot note.
+**The orchestrator** delegates to workers and resumes itself after compaction. Its record is engineering state: facts with sources, at the length a finding takes; where the notes are; the plan and the manifests; what is in flight this minute; how to commit and push; the container's traps. Its readers are a fresh Opus worker and its own next incarnation. The judgement is precision and currency: a worker must be able to act on the line without asking, and a stale hash or a superseded claim left standing costs a wrong build. Corrections are fixes. Nothing here is anyone's words. Where it lives: `FACTS.md`, `INDEX.md`, `PLAN.md`, `CLIMB-BATCH-*.md`, `remote-container.md`, protocol §§ 4-6, and the boot note (`postmortem-2026-09-19/held-list.md`, line 7), whose one purpose, in Pavol's words, is to instruct the post-compaction Claude about what is currently in flight: what is running, what to do when it completes, and a question waiting on him if one is.
 
-**The executive assistant**, in Pavol's words, has one main task: help him keep the project on track, hold every open issue and its priority, and keep him out of the wall-of-text spiral. Its record is therefore forward-looking: the open issues in the order they need deciding (`PLAN.md`, "his answers in the order they are needed" and the parked items; the open-items inventory when one is made), the one ask in front of him and the held list while he reads (the for-Pavol half of the boot note), and the defences against the spiral, which the record already holds from its own failures: restate and hold (each point he raises becomes one line in the coordinator's own words on a single list, the reply is that list and "holding", nothing is argued until he says he is done, a listed point still gets its answer, and nothing he says in that mode is left off the list); decisions one at a time as what we do, what it changes and a default he can accept without the argument; one ask per message with its consequences; the argument in the committed review, never in chat; lists, short replies, plain register. `POSITIONS.md` is this role's memory, kept so that nothing is re-asked or re-explained and so that he can see what was done in his name; it is not a log of what he said. The judgement: does writing this help keep the project on track or keep him out of the spiral? A remark on manner is answered by behaving differently, and a record edit is not something to report to him; the meticulous reporting of each edit was itself a step into the spiral.
+**The executive assistant**, in Pavol's words, has one main task: help him keep the project on track, hold every open issue and its priority, and keep him out of the wall-of-text spiral. Its record is therefore forward-looking: the open issues in the order they need deciding (`PLAN.md`, "his answers in the order they are needed" and the parked items; the open-items inventory when one is made), the held list while he reads (`held-list.md`'s own list, as before), a question waiting on him named in the boot note, and the defences against the spiral, which the record already holds from its own failures: restate and hold (each point he raises becomes one line in the coordinator's own words on a single list, the reply is that list and "holding", nothing is argued until he says he is done, a listed point still gets its answer, and nothing he says in that mode is left off the list); decisions one at a time as what we do, what it changes and a default he can accept without the argument; one ask per message with its consequences; the argument in the committed review, never in chat; lists, short replies, plain register. `POSITIONS.md` is this role's memory, kept so that nothing is re-asked or re-explained and so that he can see what was done in his name; it is not a log of what he said. The judgement: does writing this help keep the project on track or keep him out of the spiral? A remark on manner is answered by behaving differently, and a record edit is not something to report to him; the meticulous reporting of each edit was itself a step into the spiral.
 
 Where the two mix, the record goes wrong. The boot note (orchestrator state) restating his decisions (assistant memory): 54 KB. FACTS § The container carrying "the rule for him now: send messages at any time" (a rule for him, not a fact). The interrupt saga of 09-26 end to end: one orchestrator fact became a rule for Pavol in four files, then a correction in each.
 
@@ -60,14 +60,14 @@ Where the two mix, the record goes wrong. The boot note (orchestrator state) res
 - **One home; the second place points.** A fact in FACTS, a decision in POSITIONS, a working rule in the protocol, the live state in the boot note. His words are written once, in POSITIONS, dated, quoted where the quote is the decision ("Agreed. Route A it is."); elsewhere "(POSITIONS 2026-09-24, route A)". The protocol states a rule plainly; the `(P)` mark says whose it is.
 - **A remark is not a decision, and neither is a one-off go.** 09-27's "no need to chat about progress" is 09-20's rule restated: nothing to write. "Batch 5 go", "Relaunch batch 5", "(a), push" are written nowhere; the launch or the commit is their trace (Pavol, 09-27). What is written is what a go changed: a rider that alters a rung, a stop lifted or read, a default chosen, as the decision it is, in his words, dated.
 - **Record edits are silent.** Like stop-hook reminders, they are not reported to him; he sees the work, not the bookkeeping.
-- **The boot note is written fresh**, whole, at every change, in two halves. It is the one file whose habit of appending made it unreadable, and rewriting is the structural fix.
+- **The boot note is written fresh**, whole, at every change, and says one thing: what is running, what to do when it completes, and a question waiting on him if one is (Pavol, 09-27). The open issues in order are `PLAN.md`'s; the held list is `held-list.md`'s own. It is the one file whose habit of appending made it unreadable, and rewriting is the fix (done at `bcef849af`).
 
 ## 4. The quality pass
 
 Smaller than the first draft. Nothing is condensed for length; every FACTS finding keeps its full text; INDEX, the handover and `CLAUDE.md` are untouched.
 
 **Now, by the coordinator, no decision needed:**
-- The boot note written fresh in its two halves (Appendix C), in place at `held-list.md` line 7 until Pavol answers on `BOOT.md`, then there.
+- The boot note written fresh at `held-list.md` line 7, saying what is running, what to do when it completes and a question waiting on him if one is (done, `bcef849af`); it stays where it is, and the held list stays the file's own list.
 - POSITIONS: the section header "How he wants to be spoken to" sits above 80 dated decisions. The eight lines that are about manner (register, lists not tables, K and M, one ask per message, decisions one at a time, define new names, the two hats) get that header; the decisions below them continue "Decisions on record" in date order, as they are. Entries 64 and 174 carry appended corrections; each is rewritten to say what is true. Entries that are only a go or a push with nothing decided in them (a relaunch, a "review is a go", "stop the workers") are removed, since by his word they never belonged; an entry that carries a rider, a default or a stop's reading stays whole. The removed ones are listed for the coordinator's review before the commit. Nothing else is dropped.
 - `README.md` replaced by Appendix B.
 
@@ -77,7 +77,6 @@ Smaller than the first draft. Nothing is condensed for length; every FACTS findi
 
 **On Pavol's word:**
 - `protocol.md` replaced by Appendix A, his file.
-- The boot note's home: `coordinator/BOOT.md` (Appendix C), with `held-list.md` left as the 09-20 post-mortem record it is and its line 7 a one-sentence pointer; `README.md`'s boot order names `BOOT.md`.
 
 A one-line check the coordinator may run before a record commit, no script needed: `grep -nE 'Corrected 20|Superseded 20|superseded by' explorations/coordinator/*.md` finds an appended correction; the fix is the line, not a footnote.
 
@@ -85,7 +84,7 @@ A one-line check the coordinator may run before a record commit, no script neede
 
 Two questions, one per message.
 
-1. **The quality pass and the boot note's home.** FACTS brought up to date by the existing rule of 09-24 (26 appended corrections folded into their entries, the superseded text moved to `FACTS-history.md`), by one Opus worker after 6b lands, full length kept, titles kept; POSITIONS' header fixed, its two appended corrections rewritten, and its pure gos removed, nothing else dropped; the boot note written fresh in two halves and moved to `coordinator/BOOT.md`; one gather line in the script so the next landing rewrites rather than appends. Recommendation: yes. What it costs: one worker, one review; what it does not touch: INDEX, the handover, any finding's length.
+1. **The FACTS catch-up and the pure gos.** FACTS brought up to date by the existing rule of 09-24 (26 appended corrections folded into their entries, the superseded text moved to `FACTS-history.md`), by one Opus worker after 6b lands, full length kept, titles kept, with the one gather line in the script so every later landing applies the same rule; and POSITIONS' pure gos removed, its header fixed and its two appended corrections rewritten, nothing else dropped. Recommendation: yes. What it costs: one worker, one review; what it does not touch: INDEX, the handover, the boot note, any finding's length.
 2. **The protocol rewrite** (Appendix A), his file, to him rendered. It takes his words out of their second home, gathers the defences against the wall of text and the open-issues duty in § 3, and adds two lines: record edits are not reported to him, and a remark is behaviour, not an entry. Recommendation: yes, `(P)`/`(i)` marks kept, dates and quotes dropped; § 6's three rules of 09-25 kept in substance.
 
 ---
@@ -130,9 +129,10 @@ every open issue and its place in the order, bring them to him one at a time,
 and keep him out of the wall of text. He reads on a phone, often one earlier
 turn at a time.
 
-- The open issues live in `PLAN.md`, in the order they need deciding; the one
-  ask in front of him and the held list live in `coordinator/BOOT.md`. Nothing
-  he has to decide is held only in the coordinator's head.
+- The open issues live in `PLAN.md`, in the order they need deciding; the held
+  list lives in `coordinator/postmortem-2026-09-19/held-list.md`, whose boot
+  note names a question waiting on him if one is. Nothing he has to decide is
+  held only in the coordinator's head.
 - (P) Restate and hold: when he replies to earlier turns one by one, each point
   goes on the held list, in his order, in a few plain words of what he meant,
   with no answer attached; the reply is that list and "holding". This is the
@@ -292,9 +292,10 @@ Recurring corrections, kept visible:
 
 Boot, in this order: `CLAUDE.md` → `explorations/protocol.md` → `FACTS.md`
 (whole, in one pass) → `POSITIONS.md` → `INDEX.md` →
-`explorations/microgpt-run-c-handover.md`, first section → `BOOT.md`. If
-`BOOT.md` says a batch is running, its `CLIMB-BATCH-*.md` next, and the run's
-`journal.jsonl` before anything is said about it. Nothing else is read by the
+`explorations/microgpt-run-c-handover.md`, first section → the boot note
+(`postmortem-2026-09-19/held-list.md`, line 7). If the boot note says a batch
+is running, its `CLIMB-BATCH-*.md` next, and the run's `journal.jsonl` before
+anything is said about it. Nothing else is read by the
 coordinator itself: reports, transcripts, ledger rows and source go to a
 worker that returns a summary. The boot read is full context by Pavol's word:
 a resumed coordinator knows the project without him.
@@ -305,13 +306,14 @@ established about the language, the library, the runtime and this container,
 each fact at the length it takes, with its source), `INDEX.md` (one line per
 standalone note, searched before any fact is called absent), `PLAN.md` (the
 phases, the open issues in the order they need deciding, the parked items),
-the handover's first section (where the work stands) and the in-flight half
-of `BOOT.md`. As executive assistant it keeps what keeps the project on track
-and Pavol out of the wall of text: the open issues and their order
-(`PLAN.md`), the one ask in front of him and the held list while he reads (the
-for-Pavol half of `BOOT.md`), and `POSITIONS.md`, what he has decided and
-already knows, dated, in his words, so that nothing is re-asked or
-re-explained; it is not a log of what he said.
+the handover's first section (where the work stands) and the boot note, whose
+one purpose is to tell the post-compaction coordinator what is in flight: what
+is running, what to do when it completes, and a question waiting on Pavol if
+one is. As executive assistant it keeps what keeps the project on track and
+Pavol out of the wall of text: the open issues and their order (`PLAN.md`),
+the held list while he reads (`held-list.md`'s own list), and `POSITIONS.md`,
+what he has decided and already knows, dated, in his words, so that nothing is
+re-asked or re-explained; it is not a log of what he said.
 
 How they are kept:
 
@@ -327,33 +329,8 @@ How they are kept:
   launch or the commit being its trace; a question is answered where the
   answer belongs; he is not told about record edits.
 - Nothing a resumed coordinator needs is condensed for length.
-- `BOOT.md` is rewritten whole at every change, never appended to.
+- The boot note is rewritten whole at every change, never appended to.
 - A fact enters in the commit that establishes it; a decision in the next
   commit after he states it. A FACTS entry is cited by its bold title, which
   stays verbatim when the entry is rewritten.
-```
-
-## Appendix C. `explorations/coordinator/BOOT.md`, template
-
-```
-<!-- What is in flight and what is in front of Pavol. Rewritten whole at every change; never appended to. The tree's state is the handover's first section; decisions are in POSITIONS.md; the open issues in order are in PLAN.md. -->
-
-# Boot note
-
-## In flight (for the orchestrator)
-
-Climb batch 6, run `wf_…`, base `<hash>`, worktrees
-`/home/user/fortress-{flat,numbers,arm}` on `wip/rung-{…}`. Check-ins: the
-"Batch 6 check-in" series, 45 min apart, last at 08:37 UTC; delete the unfired
-ones when the run lands. Landed when `compile-ladder/climb-batch-6/RECORD.md`
-exists; read its top for held stops before any push.
-
-Next, in order: gather and push batch 6; launch 6b for rung O by the recipe in
-`CLIMB-BATCH-6.md` § 8; then the quality pass on FACTS.
-
-## For Pavol (for the assistant)
-
-The ask in front of him: none. (Or: one ask, in a phrase.)
-
-Held while he reads: none.
 ```
