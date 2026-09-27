@@ -122,6 +122,12 @@ Before batch 7b, raised 2026-09-27:
 15. Arithmetic in a size. The checker refuses it (rung N), and the one library stores every rank-2 and rank-3 array in a field sized by a product (`Library/FortressLibrary.fss:2519`, `:2667`, `:2890`; 11 errors in the full measurement). The cheapest way is a checker that compares size expressions by structure and folds numeral products (`reviews/batch-3.5-4-conformance.md`).
 16. Rung C's two points that reached him only as parked lines: walk and the compiled run choose different overloads when an argument's static type needs a coercion but its value matches another; the judge's choice of which tuple bindings convert (row 395). Default: take both as landed; sent with batch 7b's walk rung.
 
+Before the switch-over, raised by climb batch 6's rung R (`compile-ladder/climb-batch-6/RECORD.md`, rung R; filed 2026-09-27 from `reviews/batch-6-conformance.md`, finding 1):
+
+17. Row 446: a call whose argument's static type lies above a sized arm's domain is not refused, and at run time a `ZZ32` value reaches the sized arm, which dies with `NumberFormatException` where it reads its size. The row holds three candidates.
+18. Row 447: a type parameter that occurs only in a return type is bound to `BottomType`, and the compiled instance crashes at load. It also undoes the premise answer 12 relied on for types, that a dead type parameter compiles harmlessly (the review, finding 1).
+19. The numeral split noted on row 79 (`ee(5)`: walk 1, compiled 2), which the row's scoring conflicts with. It goes with the review's finding 2, a numeral's type modelled three ways (the specification, the compiled checker, walk).
+
 Asked 2026-09-27, waiting for his answer:
 
 - A line for principle 5 of the protocol: a worker's change is reviewed by reading the change, not its report.
@@ -146,6 +152,7 @@ Evidence only. Nothing lands on `main` except notes and record fixes. Each is on
 
 None of these blocks a batch or the switch-over. The default is to park each until it becomes relevant, and to bring it to Pavol then. His unanswered re-approval rows are here: none of them takes priority, except row 41, which joins the switch-over's design.
 
+- Raised by climb batch 6's rung T, the number chapters, none blocking a phase (`compile-ladder/climb-batch-6/RECORD.md`, rung T; filed 2026-09-27 from `reviews/batch-6-conformance.md`, finding 1): the reading that ℚ holds +∞, −∞ and 0/0 and so is neither a field nor totally ordered; whether `QQ` declares `check` and `check_star` now that it no longer inherits them from `RR64`; the result of a negative integer power, which the revised chapter does not give (walk 0.5, compiled 0, the Working Draft 1/2; row 441); whether "(exact)" in the numeral coercion into ℝ64 excludes a numeral above 2^53 (row 443).
 - Re-approval rows 42, 44, 45, 46 and 48, and the ledger homes 374 to 377 (inventory items 17-22).
 - Row 331's bare `Nothing` re-gated on type inference (the judgement proposes it), and the judgement's candidate rows 2, 3 and 5 (it says yes to each) (inventory items 24 and 25).
 - Row 360, a numeral within half an ulp of a tie, which rounds as its nearest double on both paths (inventory item 23).
