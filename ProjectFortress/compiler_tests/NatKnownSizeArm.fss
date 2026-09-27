@@ -1,0 +1,26 @@
+(* See explorations/compile-ladder/rung-unknown-size-arm/REPORT.md. *)
+component NatKnownSizeArm
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+dd[\nat n\](x: Any): ZZ32 = 1
+dd(x: ZZ32): ZZ32 = 2
+
+ev[\nat n\](x: ZZ32): ZZ32 = n
+ev(x: Any): ZZ32 = 2
+
+eb[\nat n\](b: Box[\n\]): ZZ32 = n
+eb(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    assert(dd(z), 2, "the sized arm is not the one the rules pick; Specification/basic/overloading.tex:262-276")
+    assert(ev[\5\](z), 5, "a written size is fixed at the call; Specification/basic/trait-parameters.tex:82-86")
+    assert(ev("s"), 2, "the sized arm is not applicable; Specification/basic/overloading.tex:170-175")
+    assert(eb(Box[\7\](0)), 7, "a size fixed by the argument's type; Specification/basic/overloading.tex:170-175")
+    assert(eb("s"), 2, "the sized arm is not applicable; Specification/basic/overloading.tex:170-175")
+    println("PASS")
+  end
+
+end

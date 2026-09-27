@@ -1,0 +1,18 @@
+(* See explorations/compile-ladder/rung-unknown-size-arm/REPORT.md. *)
+component XXXNatSizeExclusionWalk
+export Executable
+
+trait Tg[\nat k\] end
+object Ob3 extends Tg[\3\] end
+object Ob4 extends Tg[\4\] end
+
+g(b: Tg[\3\]): ZZ32 = 3
+g(b: Tg[\4\]): ZZ32 = 4
+
+run(): () = do
+    assert(g(Ob3), 3, "row 416; Specification/basic/types-vals-vars.tex:218-237")
+    assert(g(Ob4), 4, "row 416; Specification/basic/types-vals-vars.tex:218-237")
+    println("PASS")
+  end
+
+end

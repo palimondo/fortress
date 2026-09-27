@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-unknown-size-arm/REPORT.md. *)
+component XXXNatUnknownSizeArm
+export Executable
+
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(ee(z))
+    println(ee("s"))
+  end
+
+end

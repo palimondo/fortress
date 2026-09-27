@@ -107,14 +107,16 @@ class ApplicationErrorFactory(val app: Expr, val recvrType: Option[Type], isOver
     NotApplicableError(arrow, sargs, argTypes)
   }
 
-  def makeNoContextError(arrow: ArrowType, infSargs: List[StaticArg]) = {
+  def makeNoContextError(arrow: ArrowType,
+                         infSargs: List[StaticArg],
+                         unfixedSize: Option[AppCandidate] = None) = {
     // Gather up the static params that correspond to uninferred static args.
     val missing = (infSargs zip getStaticParams(arrow)) flatMap {
       case (STypeArg(_, false, _:_InferenceVarType), sparam) => Some(sparam)
       case (SIntArg(_, _, _:_InferenceVarInt), sparam) => Some(sparam)
       case _ => None
     }
-    NoContextError(arrow, missing)
+    NoContextError(arrow, missing, unfixedSize)
   }
 
   /** Create a FnInferenceError for this application. */
@@ -151,9 +153,14 @@ case class NotApplicableError(arrow: ArrowType,
              OverloadingError.argTypesToString(argTypes))
 }
 
-/** We could not infer all the static arguments of this overloading. */
+/**
+ * We could not infer all the static arguments of this overloading. When a size
+ * is among them, `unfixedSize` is the candidate the overloading would otherwise
+ * be, so that the application can tell whether it is the most specific.
+ */
 case class NoContextError(arrow: ArrowType,
-                          sparams: List[StaticParam])
+                          sparams: List[StaticParam],
+                          unfixedSize: Option[AppCandidate] = None)
     extends OverloadingError {
 
   override def toString = {

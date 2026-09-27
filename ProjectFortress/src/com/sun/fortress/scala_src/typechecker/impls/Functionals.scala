@@ -247,7 +247,15 @@ trait Functionals { self: STypeChecker with Common =>
         // wasn't enough context.  A size left unknown is an error only where it
         // reaches a type or a static argument of this call.
         if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) {
-          return Right(errorFactory.makeNoContextError(originalArrow, sargs))
+          val unfixedSize =
+            if (hasSizeInferenceVars(sargs) && !hasInferenceVars(resultArrow.getDomain))
+              Some(AppCandidate(resultArrow,
+                                sargs,
+                                newArgs.map(_.left.get),
+                                preCandidate.overloading,
+                                preCandidate.fnl))
+            else None
+          return Right(errorFactory.makeNoContextError(originalArrow, sargs, unfixedSize))
         }
 
         // We've reached a fixed point and all args are checked!
@@ -453,6 +461,17 @@ trait Functionals { self: STypeChecker with Common =>
     val sorted = Some(candidates.sortWith(moreSpecificCandidate))
     // ensure that head is actually more specific.
     
+    // An overloading more specific than every candidate, whose size the call
+    // does not fix, makes the call an error.
+    val unfixed = overloadingErrors.filter {
+      case NoContextError(_, _, Some(u)) => candidates.forall(moreSpecificCandidate(u, _))
+      case _ => false
+    }
+    if (!unfixed.isEmpty) {
+      errors.signal(errorFactory.makeApplicationError(unfixed))
+      return None
+    }
+
     sorted
   }
 

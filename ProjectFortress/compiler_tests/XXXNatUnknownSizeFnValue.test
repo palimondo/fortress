@@ -1,0 +1,3 @@
+tests=XXXNatUnknownSizeFnValue
+compile
+compile_err_WIcontains=Could not check function application - Could not infer static argument nat n without context.

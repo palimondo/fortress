@@ -1,0 +1,3 @@
+tests=XXXNatUnknownSizeArm
+compile
+compile_err_contains=Could not infer static argument nat n without context.

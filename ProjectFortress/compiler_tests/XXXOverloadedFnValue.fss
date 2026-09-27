@@ -1,0 +1,16 @@
+(* See explorations/compile-ladder/rung-unknown-size-arm/REPORT.md. *)
+component XXXOverloadedFnValue
+export Executable
+
+hh(x: ZZ32): ZZ32 = 1
+hh(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    f = hh
+    assert(f(z), 1, "a variable bound to an overloaded function dispatches to the most specific applicable arm; Specification/basic/functions.tex:38-40, :209-216")
+    assert(f("s"), 2, "a variable bound to an overloaded function dispatches to the most specific applicable arm; Specification/basic/functions.tex:38-40, :209-216")
+    println("PASS")
+  end
+
+end
