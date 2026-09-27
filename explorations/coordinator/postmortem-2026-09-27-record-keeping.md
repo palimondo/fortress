@@ -17,6 +17,7 @@
 - A wrong line is fixed in place, and git is the trace. His words are written once, in POSITIONS. A one-off go or push is written nowhere.
 - Workers keep extending FACTS as before. At each landing the coordinator folds whatever a new fact supersedes into the current entry and moves the old text verbatim to `FACTS-history.md` (the rule of 2026-09-24). The 26 appended corrections are caught up once, the same way, after batch 6 and 6b land, since their landings write FACTS. The POSITIONS entries that are only a go or a push, or a remark the protocol now carries, are removed at once.
 - The boot note says only what is in flight, rewritten whole at every change.
+- The same day, at his ask, a fresh Fable instance reviewed the new protocol against Anthropic's prompting guides for the two tiers; four changes followed, one protocol for both (`efaf0fb85`; `protocol-guides-review.md`).
 
 **How to judge it.** Pavol chose experience over a scripted test: whether he still has to correct the coordinator on record keeping, on literal readings, or on reports nobody asked for.
 
