@@ -1,4 +1,4 @@
-# comp LohiZZ rule 2026-09-27T20:32:53Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.07 19.60 15.87; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp LohiZZ rule 2026-09-27T21:10:10Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.29 19.32 17.79; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 compile rc=0
 ## run

@@ -1,4 +1,4 @@
-# tcheck.sh rule-instr DComp 2026-09-27T20:38:05Z; tree 5635fb2f3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.05 20.63 17.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 38 s
+# tcheck.sh rule-instr DComp 2026-09-27T21:15:35Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.99 26.70 21.04; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 70 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN DComp.fss:6:25-35 expected=BoxT[\T\]
 @@PROBE-R FN-OK DComp.fss:6:25-35 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
@@ -14,4 +14,4 @@
 @@PROBE-R FN-OK DComp.fss:12:15-19 sargs=[ZZ32] range=ZZ32 args=(VarRef:ZZ32) phase=ctx
 # the program's own error lines (with 3 lines of context each):
 # tallies:
-### rc=0 DComp.fss ms=37991
+### rc=0 DComp.fss ms=69402

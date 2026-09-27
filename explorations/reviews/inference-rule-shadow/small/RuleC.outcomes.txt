@@ -57,4 +57,4 @@ bx6    rule-instr.ctest     ok       [IntLiteral] noctx
 bx7    instr.ctest          REFUSED  [ZZ32]
 bx7    rule-instr.ctest     ok       [ZZ64] ctx+coerce
 bx8    instr.ctest          REFUSED  [ZZ64]
-bx8    rule-instr.ctest     REFUSED  [ZZ64] noctx
+bx8    rule-instr.ctest     REFUSED  FAIL

@@ -1,0 +1,23 @@
+# files: stock 382, shadow 382; stock rc != 0: 234; shadow rc != 0: 232; blocks that differ: 2
+# errors reported in all: stock 469, shadow 466
+
+## XXXCoercionGenericFnCompiledRungC.fss: stock rc=-1 errors=1; shadow rc=0 errors=0
+--- stock
++++ shadow
+@@ -1,4 +0,0 @@
+-<snap>XXXCoercionGenericFnCompiledRungC.fss:24:12-32:
+-    Could not check call to function gf
+-    - [\T extends Object\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
+-File XXXCoercionGenericFnCompiledRungC.fss has 1 error.
+
+## XXXNatLitArgChecker.fss: stock rc=-1 errors=2; shadow rc=0 errors=0
+--- stock
++++ shadow
+@@ -1,7 +0,0 @@
+-<snap>XXXNatLitArgChecker.fss:15:12-31:
+-    Could not check call to function scale
+-    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+-<snap>XXXNatLitArgChecker.fss:16:12-38:
+-    Could not check call to function scaleT
+-    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+-File XXXNatLitArgChecker.fss has 2 errors.

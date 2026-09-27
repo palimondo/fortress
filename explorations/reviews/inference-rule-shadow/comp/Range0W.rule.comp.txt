@@ -1,4 +1,4 @@
-# comp Range0W rule 2026-09-27T20:33:05Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.82 19.60 15.91; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp Range0W rule 2026-09-27T21:10:25Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.75 19.56 17.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 Range0W.fss:35:35:
     Could not check call to operator #

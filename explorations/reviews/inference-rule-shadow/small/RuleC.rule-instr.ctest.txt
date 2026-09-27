@@ -1,4 +1,4 @@
-# tcheck.sh rule-instr RuleC 2026-09-27T20:37:27Z; tree 5635fb2f3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.65 20.56 17.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 41 s
+# tcheck.sh rule-instr RuleC 2026-09-27T21:14:24Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 33.74 24.25 19.86; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 68 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN RuleC.fss:11:34-44 expected=BoxT[\T\]
 @@PROBE-R FN-OK RuleC.fss:11:34-44 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
@@ -89,24 +89,20 @@
 @@PROBE-R FN RuleC.fss:82:34-40 expected=BoxT[\ZZ64\]
 @@PROBE-R FN-OK RuleC.fss:82:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
 @@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN-FAIL RuleC.fss:83:34-40
 @@PROBE-R FN RuleC.fss:29:25-37 expected=Wide
 @@PROBE-R FN-OK RuleC.fss:29:25-37 sargs=[] range=WideOf args=(FieldRef:ZZ32) phase=ctx
 # the program's own error lines (with 3 lines of context each):
-109:RuleC.fss:61:15-25:
-110-    Could not check call to function scale
-111-    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
-112:RuleC.fss:75:20:
-113-    Could not check call to operator #
-114-    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
-115:RuleC.fss:83:34-40:
-116-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-117-File RuleC.fss has 3 errors.
-118-### rc=-1 RuleC.fss ms=39397
+105:RuleC.fss:61:15-25:
+106-    Could not check call to function scale
+107-    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+108:RuleC.fss:75:20:
+109-    Could not check call to operator #
+110-    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
+111:RuleC.fss:83:34-40:
+112-    Could not check call to function wrapT
+113-    - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+114-File RuleC.fss has 3 errors.
 # tallies:
 File RuleC.fss has 3 errors.
-### rc=-1 RuleC.fss ms=39397
+### rc=-1 RuleC.fss ms=67716

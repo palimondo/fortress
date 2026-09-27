@@ -1,4 +1,4 @@
-# comp SameZZ rule 2026-09-27T20:34:06Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 18.62 19.18 16.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp SameZZ rule 2026-09-27T21:11:41Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.75 20.26 18.27; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 compile rc=0
 ## run

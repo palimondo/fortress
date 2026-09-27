@@ -1,4 +1,4 @@
-# comp Bind3 rule 2026-09-27T20:32:01Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 19.66 19.11 15.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp Bind3 rule 2026-09-27T21:09:18Z; tree ff99071d3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.45 18.66 17.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 Bind3.fss:35:18:
     Right-hand side has type IntLiteral, but declared type is RR64.

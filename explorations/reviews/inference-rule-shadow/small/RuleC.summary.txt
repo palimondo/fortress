@@ -87,4 +87,4 @@ RuleC.fss:82  bx7(): () = do a: BoxT[\ZZ64\] = wrapT(z); () end
     rule-instr.ctest         34-40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
 RuleC.fss:83  bx8(): () = do a: BoxT[\ZZ32\] = wrapT(l); () end
     instr.ctest              34-40 expected=NONE -> [ZZ64]  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-    rule-instr.ctest         34-40 expected=BoxT[\ZZ32\] -> [ZZ64] noctx  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+    rule-instr.ctest         34-40 expected=BoxT[\ZZ32\] -> FAIL  ::  Could not check call to function wrapT - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.

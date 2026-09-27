@@ -1,4 +1,4 @@
-# comp Ee5 rule 2026-09-27T20:32:17Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.28 19.27 15.60; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp Ee5 rule 2026-09-27T21:09:32Z; tree ff99071d3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.38 18.78 17.55; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 compile rc=0
 ## run

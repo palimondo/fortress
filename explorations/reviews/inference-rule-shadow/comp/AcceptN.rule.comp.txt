@@ -1,4 +1,4 @@
-# comp AcceptN rule 2026-09-27T20:31:49Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 19.60 19.08 15.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# comp AcceptN rule 2026-09-27T21:09:09Z; tree ff99071d3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.66 18.66 17.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 ## compile
 compile rc=0
 ## run
