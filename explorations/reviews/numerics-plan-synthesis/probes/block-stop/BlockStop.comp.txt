@@ -1,0 +1,22 @@
+# comp BlockStop 2026-09-27T16:29:37Z; tree c9492fc8d; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.52 2.33 2.70; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp5/BlockStop.fss:10:13-20:
+    Could not check call to function takesZ
+    - ZZ32->ZZ32 is not applicable to an argument of type String.
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp5/BlockStop.fss:15:13-20:
+    Could not check call to function takesZ
+    - ZZ32->ZZ32 is not applicable to an argument of type String.
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp5/BlockStop.fss:16:13-20:
+    Could not check call to function takesZ
+    - ZZ32->ZZ32 is not applicable to an argument of type String.
+/home/user/fortress/explorations/reviews/numerics-plan-fable/probes/one-shape/comp5/BlockStop.fss:17:13-20:
+    Could not check call to function takesZ
+    - ZZ32->ZZ32 is not applicable to an argument of type String.
+File BlockStop.fss has 4 errors.
+compile rc=255
+## run
+Could not load BlockStop
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : BlockStop.class
+	... 4 more
+run rc=1
