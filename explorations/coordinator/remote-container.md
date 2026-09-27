@@ -240,5 +240,7 @@ restart cost 25 minutes of two workers and nothing else.
 Two properties of the harness, learned here: a `Workflow` run does not survive
 a VM restart even when the session does — its agents are gone, the harness
 lists them as stopped, and `resumeFromRunId` holds nothing for an agent that
-never finished, so the answer is a relaunch; and a `send_later` reminder is
+never finished, so the answer was a relaunch (on 2026-09-27 a resume in the same
+session did recover the agents that had finished: `FACTS.md`, "A restart of the
+session's own process"); and a `send_later` reminder is
 server-side and does survive, so it is deleted or re-armed to fit the relaunch.
