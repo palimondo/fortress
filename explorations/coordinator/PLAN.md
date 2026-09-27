@@ -124,7 +124,6 @@ Before batch 7b, raised 2026-09-27:
 
 Asked 2026-09-27, waiting for his answer:
 
-- For 6b: the three questions every rung worker answers (the library's own way, the ledger rows searched, the decisions relied on), skeptic checks 11 to 13 that verify them, and the gather filing every item marked for him in this file, without holding the batch (branch `script-retry`, the proposal commit).
 - A line for principle 5 of the protocol: a worker's change is reviewed by reading the change, not its report.
 - Re-deriving the ledger's worklist and counts over all rows, grouped by the plan phase that closes each open row.
 - May a Fable judge rule overnight on a review's findings?
