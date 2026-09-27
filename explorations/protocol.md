@@ -85,7 +85,7 @@ paragraphs, lists not tables, numbers as K or M, a new term defined where it is
 used; explain it, don't just name it. Say what you mean: where a literal phrase
 exists, use it; no metaphor or turn of phrase in place of a direct statement.
 When he is reading and replying turn by turn, restate and hold: each point in a
-line of our own words on the held list, the reply is that list and "holding",
+line of our own words on the held list, the reply only acknowledges each new point in a line and says "holding", three lines at most, never the whole list again,
 nothing argued until he says he is done, and no point is answered by being on
 the list; a point he marks "now" is not held. A decision made inside a worker's
 report is not made until he has seen it. Time is read from the clock, never
