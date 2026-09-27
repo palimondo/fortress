@@ -1,5 +1,7 @@
 # Judge, rung T (`rung-spec-numbers`): ruling on the skeptic's refusal
 
+*Row numbers, noted at the merged-diff review of climb batch 6: the rows 431, 432, 433 and 434 this file cites are rung T's provisional numbers, which the gather opened as ledger rows 440, 441, 442 and 443 in that order; the ledger's rows 431-434 are rung F's (`explorations/compile-ladder/climb-batch-6/RECORD.md`, "Final row numbers").*
+
 **Decision: repair.** The rung's approach is right and stays: the seven sibling types, rung F's integer and rational coercions, `check`/`check_star` on ℝ64, ℚ holding ±∞ and 0/0, the superseded chapter kept word for word, answer 7's note. The skeptic's two refusal grounds are right, and so are most of its eight corrections. It is wrong on one point, the direction of correction 5. No stop the batch record reserves for Pavol is met. One repair round, by the numbered steps in section 4.
 
 Base `e5414f5bf`; branch tip before this file `1c9f12c72`; worktree `/home/user/fortress-numbers`. I read the net diff, `record.md`, `decision-record.md`, `probes/list.txt`, `SKEPTIC.md`, the skeptic's captures, the worker's structured report (its `reportText` stands in for the refused REPORT.md), and every passage cited below with at least ten lines either side. I built nothing and ran nothing.
