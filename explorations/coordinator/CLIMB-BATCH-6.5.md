@@ -1,0 +1,779 @@
+<!-- DRAFT FOR REVIEW. The decision record and manifest for climb batch 6.5, the repair batch of PLAN.md's phase 2b ("The repair batch from the conformance reviews"), named after the precedent of batch 3.5, prepared 2026-09-27 by a planning worker for the coordinating session. Its sources: CLAUDE.md, protocol.md, coordinator/README.md, POSITIONS.md (cited by date and entry name), FACTS.md (cited by bold title), map/README.md, PLAN.md (phase 2b and "Pavol's answers"), INDEX.md, climb-batch-workflow.md and the MANIFEST block, shared prefix and gate of climb-batch-workflow.js, CLIMB-BATCH-7.md and CLIMB-BATCH-6.md (the form) with their reviews climb-batch-7-review.md and climb-batch-6-review.md, the four conformance reviews reviews/batch-3-conformance.md, batch-3.5-4-conformance.md, batch-5-conformance.md and batch-6-conformance.md, the ledger rows cited, and the notes, probes and sources each section names, reopened on the tree at 2851e5086. Probes were run for the forks a probe could settle (explorations/compile-ladder/plan-6.5/NOTES.md, with their captures beside it), in two worktrees of the planner's own cut from 2851e5086, private caches, no ant; every other count below is on file, arithmetic from what is on file, or a read of the tree (git, grep, sed), and says which. The manifest block of section 7 was generated from section 3 by a script and checked with node on a scratch copy of the workflow script (section 7 says what was checked). It is to be reviewed in place by one Fable worker on Pavol's go (climb-batch-workflow.md, "Preparing a batch record"), then fixed by the coordinator, then its question goes to Pavol in the protocol's form. One line per paragraph. -->
+
+# Climb batch 6.5
+
+## 1. For Pavol
+
+Batch 6.5 is the repair batch of the plan's phase 2b: what the conformance reviews of batches 3 to 6 found, repaired before phase 3 (`explorations/coordinator/PLAN.md`, phase 2b). A rung is one fix, built test-first by one worker in its own copy of the tree and judged by a second worker, the skeptic, before the batch is merged and the whole test suite (the gate) runs once.
+
+In plain words: the batch fixes six defects of the compiled path that the switch-over and microGPT's parallel run would meet (a class-loading race at four threads, a parallel task and a generic method that fail to load, two dispatch defects, and a `typecase` whose bound name the code generator never binds, which is why the compiled `cast` never matched); makes both paths refuse a size beyond `NN32` as you decided; fixes `NN32`'s `LCM`; makes `RR32` a sibling of `RR64` as the specification and the team's own compiler library have it; and brings the specification and our test messages up to date with what earlier batches built. It runs as two runs of one record, because each run may carry only one rung that rebuilds the compiler.
+
+**One question.** It has a default you can accept without the argument.
+
+**Q1. When does walk switch a numeral to `IntLiteral`, now that the probe shows it needs phase 3's promotion rule?**
+- A refresher. A numeral is a number written in the program, like `2` or `46`. The specification gives it a type of its own, which each number type converts from (`Specification/basic/expressions/literals.tex:127-148`). The compiled path does this: every integer numeral is an `IntLiteral`, and `ZZ32`, `ZZ64` and the others each declare a conversion from it. Walk instead makes a numeral a `ZZ32` (or a wider type when it does not fit). You decided that walk switches to the compiled path's `IntLiteral`, as a rung of this batch, with the changed outputs measured first, and that a real choice the measurement finds comes to you (POSITIONS 2026-09-27, a numeral's type).
+- What was measured. With walk making every numeral an `IntLiteral` and the one library given the compiler library's `IntLiteral`, the one library does not finish loading, so every interpreter test would fail and no count of changed outputs exists yet (`explorations/compile-ladder/plan-6.5/NOTES.md`, section 1). The first break that no library edit repairs: the library's own ranges, like `2:46`, are generic, `opr :[\I extends AnyIntegral\](lo:I, hi:I)`, and an `IntLiteral` is not an integer type, so the range has to infer `I` as a type the numeral converts into. Neither path does that: walk tries no conversion for a generic declaration, and the compiled checker refuses the same call, "not applicable to an argument of type (IntLiteral, IntLiteral)" (the probe `GenNumeral`, compiled).
+- Why the compiled path never met it: the compiler library declares its ranges on `ZZ32` only (`Library/CompilerLibrary.fsi:173-174`), not generically. At the switch-over it reads the one library's generic ranges, so it meets the same gap whether or not walk changes.
+- The rule that is missing is your answer 8's promotion rule: a generic call over mixed types infers the narrowest type both sides convert into (POSITIONS 2026-09-26, answer 8). You placed it in phase 3, built with row 388's fix, on both paths.
+- Behind that break the probe met three more, each a library respelling: the library writes a numeral `asif ZZ32` at 38 sites, which the specification forbids for a value not of that type; walk does not convert a numeral returned at a declared type (row 387); and a numeral beside a `ZZ32` in a comparison the library states only generically is ambiguous under walk's conversion rules (the library's own device, stating the comparison on `ZZ32` as `ZZ64` does, fixes it).
+- The options:
+  1. The numeral switch moves to phase 3, into the batch that builds the promotion rule and row 388's fix on both paths (batch 8 in batch 7's record). The rule is built once, for mixed widths and numerals together; then walk takes `IntLiteral`, the library's numeral sites are respelled, and the changed outputs are counted, all in that batch. This batch still writes row 443's owed test, and rung G makes answer 7's identities independent of a numeral's type. Cost now: nothing. Rows 79, 432, 437 and 443 stay open until then.
+  2. The promotion rule's numeral case is brought forward into this batch: a third run, one rung in Java (walk's inference) and Scala (the checker's), plus the library's respellings, its count of changed outputs measured by a probe once the rule's shape is fixed. It builds part of phase 3's design ahead of the rest. Cost: about 5 to 7 agents and 2M to 3M tokens for the rung, one more gather and gate of about 8 agents and 2M tokens, and the largest rung of the batch.
+  3. The one library's `IntLiteral` becomes an integer type of its own, so that a numeral meets an integer bound by itself and `2:46` ranges over `IntLiteral`s. This departs from the compiler library's `IntLiteral` your decision named, and a mixed call like `0#n` still needs the promotion rule.
+- A yes to 1 keeps your decision and moves only its place: phase 3 carries the numeral switch with the rule it depends on. A no costs a third run (option 2) or a different `IntLiteral` from the one you chose (option 3).
+- **Recommended: 1.** The switch cannot land before the promotion rule on either path, and you already placed that rule in phase 3.
+
+**The rungs.**
+- **E, a value beyond its type's range.** Both paths refuse a size beyond `NN32` (`ZZ32` for an `int` size), and walk reads the sizes in range exactly, where today it truncates them to 32 bits (row 418); `NN32`'s `LCM` raises `IntegerOverflow` where the result does not fit, instead of a wrong number.
+- **P, the text.** The specification gains the integer rules you decided on 2026-09-22 (the shifts, `narrow`, the overflow of an unrepresentable shift) and a corrected coercion example (row 394); the rational type's listing states the algebra the library declares; the test messages whose specification line numbers earlier batches moved are re-anchored; the scalar block's comment stops naming a shape answer 9 refuses; and the owed expected-failure tests of rows 440 and 443 are written.
+- **G, generics at run time on the compiled path.** The class loader's first-load race at four threads (row 417), a parallel task in a generic declaration (row 419), a generic method building over two sets of parameters (row 420), the two dispatch defects with the measured 43-line fix, and a `typecase` or `catch` clause's bound name (row 351, which is the cause of row 426); answer 7's identity functions made to pass values of the right type through `cast`.
+- **V, `RR32` a sibling.** `RR32` stops being a subtype of `RR64`; `RR64` converts from it; its arithmetic takes an `RR32` (row 435); one sentence in the number chapter names it.
+
+**Read from the record, not asked.** Each follows from a decision on record or from a probe; one word from you changes it.
+- **Two runs.** A run may carry one rung that edits Java or Scala, because each such rung rebuilds the compiler in its own copy (`explorations/coordinator/batched-climb-plan.md` section 5, rule 3), and batch 7's record keeps that rule. E (Scala and Java) and G (Java) are two such rungs. So the first run, batch 6.5, is E and P; the second, batch 6.5b, is G and V, cut from the tree the first lands. The price is one more gather and gate, about 8 agents, 2M tokens and 2 hours. One word runs the four as one batch (section 7's `RUN`).
+- **Row 426 fits this batch.** Its cause, traced by the probe, is two things: the code generator never binds a `typecase` clause's name (row 351, whose fix is recorded in the row), and `cast[\ZZ32\](0)` passes a numeral, which is correctly not a `ZZ32` on the compiled path (`NOTES.md`, section 2). Both are small, so G carries them. What waits for the switch-over is only the end-to-end check of a compiled `SUM`'s identity, because the compiler's own library has no generic `SUM`.
+- **`RR32` a sibling needs no question.** The specification says the number types are mutually exclusive (`Specification/basic/types-vals-vars.tex:536`), the later Types chapter keeps that (`Documentation/Specification/Prose/Language/types.tick:977-978`), Chase cut the subtype in 2009 ("RR32 is NOT a subtype of RR64", `6896886fb`), Steele's retrospective draws the two floats as siblings, the compiler library has `RR64` converting from `RR32`, the specification's own worked example converts an `RR32` into `RR64` arithmetic, and your answer 8's rule makes an exact conversion a coercion. The probe found nothing that relies on the subtype beyond `RR32`'s own declarations and three library sites, which the rung restates (`NOTES.md`, section 6); with `RR32`'s operators declared in its api as `RR64`'s are, the corpus changes no verdict but that of row 435's expected failure, which passes, and no team test line.
+- **A size read as a value keeps the checker's type.** Your decision fixes the range: a size beyond `NN32` is refused. The compiled checker types a size read as a value as `IntLiteral`, which converts into `NN32` wherever the specification's sentence names; typing it `NN32` itself would refuse about 16 compiled test files that read a size into `ZZ32` or `ZZ64`, a conversion the compiler library lacks. It comes back with the numeral switch (Q1) and the array design.
+- **The rational type's listing states the library's algebra.** The number chapters describe the one library (your answer 6 and the rule that the gather checks the chapters against the library), and the library's `QQ` carries the group, ring and order traits `SUM` and `PROD` need. The chapter's listing gives `QQ` only `Number`, because 0/0 breaks the laws; P states the library's traits with one sentence that their laws hold away from 0/0 and the infinities, as `RR64`'s hold away from NaN. Your parked question on whether `QQ` holds 0/0 at all is untouched.
+- **The integer rules go into the specification's prose, in the team's layered form (S1),** as every change to the specification since rung S (POSITIONS 2026-09-24, the requirement on the plan).
+- **The stops are reversible.** Each stop this record reserves for you lands and is listed for your review; none holds a push or the next run (POSITIONS 2026-09-27, the stops; the protocol's first hard rule).
+- **Row 417's gated home is a program in the gate's four-thread stage,** as phase 2b says. The stage is in the script, outside the manifest, so the coordinator makes that change before the second run (section 8).
+- **The dispatch fix covers template dispatchers, as measured.** The probe re-ran it on today's tree: the three legal programs that die today print the specification's answers. Generic dotted methods and a dispatcher that is not a template keep the defect; G records them.
+
+**What the batch leaves out.**
+- The numeral switch (Q1), and with it rows 79, 432 and 437 and PLAN's item 19.
+- From the reviews, what the plan already holds elsewhere: the checked narrowing after the switch-over and the `asString` overflow (phase 4); the product-of-sizes storage (item 15); rung C's two points (item 16); the where-clause sentence (item 14); rows 446 and 447 (items 17 and 18); a judge striking a candidate (asked 2026-09-27).
+- The tuple shifts of `Library/RangeInternals.fss` that subtract a whole tuple (batch 3.5 and 4's review, smaller findings): no row and no probe yet.
+- Record repairs the reviews name (the stale `FACTS.md` line on the exclusion fork, row 97's note, row 360's options): the coordinator's record work, not a rung.
+- Row 424's repair, row 433's fusion pairs and row 441: phase 3 or later, as the plan has them.
+
+**Cost.** By arithmetic, not measured, from the batch records: a rung costs 3 to 5 agents, 1.0M to 2.0M tokens and 1.2 to 2.0 hours of the two-agent queue, and a run's tail from the gather to the commit about 8 agents, 2M tokens and 2 hours (`explorations/coordinator/CLIMB-BATCH-7.md` section 1, "Cost"). The first run, E and P: 14 to 18 agents, 4M to 6M tokens, 4 to 6 hours. The second, G and V: 16 to 20 agents, 5M to 8M tokens, 5 to 8 hours, G being the largest rung. The probes cost about 1M tokens. Two agents run at a time; the box has 4 CPUs, 16 GB and 8.9 GB of free disk at this drafting (`df`, with the probes' worktrees still present).
+
+**What "go" commits you to.** Two gos, one per run. The first: both paths refuse a size beyond `NN32`, and walk reads the sizes in range exactly; `NN32`'s `LCM` raises instead of wrapping; the specification states the integer rules of 2026-09-22 and a corrected example, in the S1 form; the rational type's listing states the library's traits; about a dozen of our test messages get new line numbers; the scalar block's comment is reworded; two expected-failure tests are added. The second: the compiled path's class loader takes a lock on first load, and parallel tasks, generic methods, dispatch and `typecase` bindings work where they failed; answer 7's identity functions are respelled with the same values; `RR32` is a sibling of `RR64`. In both: no model line changes; rows 351, 417, 418, 419, 426 and 435 close, and row 420 if G repairs it; the dispatch defects and the `LCM` defect get rows that close in the batch.
+
+## 2. The decisions this batch carries
+
+Cited by date and entry name in `explorations/coordinator/POSITIONS.md`.
+- **The repair batch**, 2026-09-27, in `explorations/coordinator/PLAN.md`, phase 2b: what the reviews of batches 3 to 6 call for is repaired before phase 3, "planned by one Opus worker, reviewed in place by Fable, launched on his go"; its list is this batch's list, with batch 6's review added.
+- **A size's range**, 2026-09-27: "Fuck yes, that's not even a question." A `nat` parameter is an `NN32` value and an `int` parameter a `ZZ32` (`Specification/basic/trait-parameters.tex:82-90`); a larger one is refused; the array design refuses a JVM array length over 2^31-1 where it makes storage.
+- **A numeral's type**, 2026-09-27: "walk needs to be corrected and switched to using IntLiteral"; the one library takes the compiler library's `IntLiteral` and walk is taught to use it; "a real choice the measurement finds comes to him in the protocol's form". The measurement is `explorations/compile-ladder/plan-6.5/NOTES.md` section 1; the choice is Q1.
+- **The stops**, 2026-09-27: "These don't need me now. They are reversible things I can review later. Don't block start of next batches on these." A reversible stop lands, the push and the next batch go ahead, and it is listed for his review.
+- **The integer rules**, 2026-09-22: ledger row 335, `LSHIFT`/`RSHIFT` on the fixed widths are bit operators with the smart-shift rule and the specification's `shift` is exact on `ZZ`; row 334, `GCD`/`LCM` nonnegative, with an overflow error when the multiple does not fit, on both paths; row 333, the overflow guards test for the minimum; row 346, `narrow` truncates; with the riders of 2026-09-24 (climb batch 3.5: the signed `narrow` truncates too) and rows 380 and 381 of 2026-09-24 (a `ZZ32` shifted by a count of any integral type). And the design principle of 2026-09-22: JVM defaults where they make sense, corrected where precision matters.
+- **The specification's changes**: the requirement on the plan, 2026-09-24 ("our plan needs to update the spec with the change that we do"); the S1 form, 2026-09-26; the unrevised copy called "the Working Draft of February 2011", cited by path and line in `Specification-1.0-frozen/` (2026-09-26, the first of the batch-5 answers); the later Types chapter cited beside (2026-09-26, the lineage note); the number chapters describe the library and are checked against it (2026-09-26, the number chapters under S2; answer 6).
+- **Route A**, 2026-09-24, and **answer 8**, 2026-09-26: the number types siblings under `Number`, each carrying its own algebra; an exact conversion is a coercion and a lossy one explicit. They settle `RR32` (rung V).
+- **Answer 7**, 2026-09-26: one generic `SUM` and `PROD` whose identity comes from the static argument through the `() -> T` witness `typecase` of `array1`; the compiled half of its verdict waits for row 426 or a checker refinement, before the switch-over (FACTS.md, "The replacement for SUM's and PROD's catch-all, judged on both paths"). Rung G.
+- **Answer 9**, 2026-09-26: the positional rule; a generic and a plain declaration of one name may coexist. The dispatch programs of rung G are legal under it.
+- **Design B**, 2026-09-24, with the factory, 2026-09-26: a size at run time is a descriptor from `RTTIsize.of`. Rungs E and G build on it.
+- **The library's practice is the standard**, 2026-09-19, and the diagonal, 2026-09-24: the library's own way first.
+- **Rung D's stop**, 2026-09-26: an output difference the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row, not a stop; and batch 5's masks (2026-09-26, batch 5's go, Q2).
+- **Standing**: test first, the test seen failing, kept in the corpus (2026-09-17, and 2026-09-19 after climb batch 1: every measured and repaired defect gets a gated assertion, a deferred spec-settled one an `XXX` test); any line of the model changed is shown as a diff first (2026-09-19); workers commit their own files (2026-09-26); a judge's second ruling runs on Fable (2026-09-26); a brief states the problem and not the expected solution (2026-09-25); a timing names its machine (2026-09-25); the gate compares the `testSystem` shards by their sum (2026-09-26, row 47); step 1 of every rung is its mission briefing, in neutral words (2026-09-27, the knowledge base and the three questions).
+
+## 3. The rungs
+
+The workers get their rung's section below word for word as the tail of their brief (section 7). The skeptics do not get the tail; they read this record, so each section also says what the skeptic checks. Each section opens with the answers of section 1 that it follows, and each rung's first step is its briefing, the list of keys in its manifest entry (section 7), which it reads whole. Line numbers are on the tree at 2851e5086; the second run's are re-read on its base, which the first run changes.
+
+### E. A value beyond its type's range, `rung-size-range`
+
+**The answers this rung follows.** None of section 1's questions changes this rung.
+
+**The problem.** Two values beyond their type's range are not refused.
+- A size. The compiled checker accepts a literal size of any magnitude: it refuses arithmetic in a size and nothing else (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-48`, `:107-108`, `:144-145`); the loader reads a size read as a value back at any magnitude, choosing an int, a long or a String by bit length (`ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java:225-241`); and `ProjectFortress/compiler_tests/NatRtBigSize.fss` gates sizes up to 18446744073709551615. Under walk a size is made by `IntNat.make(n.getIntVal().getIntVal().intValue())` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:443`), which keeps the low 32 bits: 3000000000, an `NN32` value, is refused as "Negative nats are unNATural" by the check at `:251-256`, and 4294967296 silently reads as 0 (row 418, which says this site was not located; it is `:443`, by reading). Row 418's expected failure, `ProjectFortress/tests/XXXNatBigSizeWalk.fss`, asserts that 4294967295 and 3000000000 read back.
+- `NN32`'s `LCM` under walk. `NN32$Lcm` hands its `int` operands to `UnsignedLong.gcd` sign-extended (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:145-150`), where `NN32$Gcd` widens them first with `Unsigned.toLong` (`:139-143`). So `2147483648 LCM 7` answers 2147483646, where the multiple, 15032385536, does not fit (`explorations/compile-ladder/plan-6.5/probes/lcm/NN32Lcm.walk.txt`; `explorations/compile-ladder/plan-6.5/NOTES.md` section 5). No ledger row holds it.
+
+**The decisions.** A size's range (`explorations/coordinator/POSITIONS.md`, 2026-09-27, a size's range): a `nat` parameter is an `NN32` value and an `int` parameter a `ZZ32` (`Specification/basic/trait-parameters.tex:82-90`); a larger one is refused. `GCD` and `LCM` (2026-09-22, ledger row 334): nonnegative results, and an overflow error when the multiple does not fit, on both paths; under walk the error is the catchable `IntegerOverflow` of climb batch 3.5's rung I (FACTS.md, "Under walk, a native can raise a Fortress exception that a Fortress catch sees"). Not this rung's: the type a size read as a value has on the compiled path, the checker's `IntLiteral` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:64-70`), which stays (section 1 of the record, read from the record); and the array design's refusal of a JVM array length over 2^31-1, which is phase 5's.
+
+**What the tree already does.** Evidence, not the brief; the rung lists every way before it chooses. The checker's refusal of arithmetic in a size, its message and its expected-failure compile test (`ProjectFortress/compiler_tests/XXXNatArithChecker.fss` with `.test`, pinned by `compile_err_contains`), are the precedent for a refusal at a size and for its test. Walk refuses a negative size at `EvalType.java:251-256`, where the kind of the parameter is known. `NN32$Gcd`'s widening is the file's own device for `LCM`. The helper of `ProjectFortress/tests/IntSemanticsRungI.fss`, which catches nothing but `IntegerOverflow`, is the precedent for asserting a catchable overflow under walk.
+
+**The test, first.** Each captured failing before the edit.
+- In `ProjectFortress/compiler_tests/`: an expected-failure compile test in the shape of `XXXNatArithChecker`, with sizes beyond `NN32` at `nat` parameters and beyond `ZZ32` at `int` parameters, in a type, as a written static argument and as a value, pinned by `compile_err_contains` on the refusal's message; and `NatRtBigSize.fss` restated to `NN32`'s range, 2147483647, 2147483648, 3000000000 and 4294967295 reading back and dispatching as today, its three lines beyond 4294967295 moved to the refusal test. `NatRtBigSize` is a revival test; each changed line is listed with its before and after.
+- In `ProjectFortress/tests/`: row 418's `XXXNatBigSizeWalk.fss` promoted by `git mv` to a plain name, its component renamed, once walk reads it; a walk case beyond the range refused, in a form the harness gates (FACTS.md, "An XXX*.fss in the interpreter corpus IS a gated expected-failure test"); and for `LCM`, a test in the form of `IntSemanticsRungI.fss`: `2147483648 LCM 7` on `NN32` raises `IntegerOverflow`, and `NN32` multiples that fit are right.
+
+**The measurements.** The sized compiled tests (`ProjectFortress/compiler_tests/Nat*` and their expected failures) before and after; the 85 files of `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt` under the subset driver, phase and stdout, before and after; the interpreter tests that declare a `nat` or `int` parameter (by a grep the rung states) before and after; the checker count before and after.
+
+**Files it may touch.** Under `ProjectFortress/src/com/sun/fortress/scala_src/`, the checker files the refusal needs, each named; `ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java`, only if the value emission must change, the reason reported; `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java` and what else under `interpreter/evaluator/` walk's reading needs, each named; `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java`, its `Lcm` class only; `NatRtBigSize.fss`, the renamed row 418 test and the rung's new tests; its own directory. Stops: `ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java` (the checker-count tool keeps a copy checked against it, `explorations/coordinator/tools/checker-count/run.sh:36`); `Library/`, `ProjectFortress/LibraryBuiltin/`, `Specification/`.
+
+**Java or Scala.** Both. `ant compileAll`, then the library-order cache rebuild before any compiled test (`explorations/repo-internals.md`), and `default_repository/caches/global.map` restored after `compileAll` (FACTS.md, "ant compileAll deletes a tracked file").
+
+**The checker count.** Unchanged by reading: the one library's own sizes are the literals 0 to 3 (FACTS.md, "A size at run time can follow the opr path, 28 lines, and a size in value position is 25 more"). Captured before and after.
+
+**What must stay green, or keep its verdict.** Every compiled and interpreter test other than the rung's own and `NatRtBigSize`; `IntSemanticsRungI.fss`, `UnsignedTest.fss`, `WrapOperatorsRungD.fss`.
+
+**Stops.** A library declaration newly refused. A test's verdict changing other than the rung's own and `NatRtBigSize`'s restated lines. A size inside `NN32` or `ZZ32` that stops reading back or dispatching. The type of a size read as a value changed. An edit to a file not named above. Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged; it is a ledger row (POSITIONS 2026-09-26, rung D's stop).
+
+**For the skeptic.** Walk against the compiled run at the `NN32` boundary (2^31-1, 2^31, 2^32-1, 2^32) and the `ZZ32` boundary of an `int` size (both signs), in a type, in a written static argument, as a value and in dispatch; `LCM` on `NN32` at the boundary, walk against the compiled run; the refusal messages, and whether an `int` size's message names `int` (batch 3.5 and 4's review saw the arithmetic refusal name `nat` for `int`, row 307's note); `NatRtBigSize`'s old and new lines.
+
+**What comes back to Pavol.** The refusal's message on each path; `NatRtBigSize`'s restated lines.
+
+**What it closes.** Row 418 (fixed; its expected failure promoted). Opens and closes, home 1: `NN32`'s `LCM` with sign-extended operands. Notes: row 307, what the `int` refusal says.
+
+### P. The text: the specification, a library comment, test messages and two owed tests, `rung-spec-integer-rules`
+
+**The answers this rung follows.** None of section 1's questions changes this rung. (Row 443's test asserts the specification's answer whichever way Q1 goes.)
+
+**The problem.** Six pieces of text disagree with what the project built or decided.
+- The integer rules built by climb batches 3.5 and 4 are written in no specification text and no api comment (`explorations/reviews/batch-3.5-4-conformance.md`, "Batch 3.5 as a whole" and finding 3). They are: `LSHIFT` and `RSHIFT` on `ZZ32`, `ZZ64`, `NN32` and `NN64` are bit operators that give 0 or the replicated sign for a count at or beyond the width and shift the other way for a negative count, the count read by the class of its value; a `ZZ32` receiver takes a count of any integral type; `narrow` truncates, keeping the low 32 bits, signed and unsigned; the specification's `shift` on `ZZ` is exact and an unrepresentable left shift raises `IntegerOverflow`; `GCD` and `LCM` are nonnegative and raise `IntegerOverflow` when the result does not fit (FACTS.md, "The interpreter's integer rules" and "The compiled path's integer rules"). The specification has no `LSHIFT`, `RSHIFT` or `narrow` outside the generated `Specification/library/apis/` (a grep); its `shift` is `Specification/basic-lib/basic-integers.tex:674-681`, its `GCD` and `LCM` `:505-530`, the operator overview's `Specification/basic/operators/opr-overview.tex:254-264`.
+- Row 394: the coercion chapter's own example (`Specification/basic/conversions-coercions.tex:555-584`) declares `ZZ32`, `ZZ64` and `ZZ128` with no exclusion and says `f(ZZ32)` resolves to `f(ZZ64)` because `ZZ64` coerces to `ZZ128`; the chapter's definition of "no less specific" (`:494-501`) needs `ZZ64` to exclude `ZZ128`, and both paths refuse the example as written. The row was handed to rung S and never revised.
+- The rational type's listing extends `Number` alone (`Specification/basic-lib/numbers.tex:92-93` and the rendered listing at `:144-145`), while the library's `QQ` extends `AdditiveGroup[\QQ\]`, `MultiplicativeRing[\QQ\]`, `StandardPartialOrder[\QQ\]` and `StandardMinMax[\QQ\]` (`Library/FortressLibrary.fsi:382-383`), which `SUM` and `PROD` over `QQ` need. Batch 6's gather saw it and called it no mismatch; nothing says which the specification carries (`explorations/reviews/batch-6-conformance.md`, rung T and smaller findings).
+- Climb batch 5's rung S moved 13 specification citations in the messages of 7 revival tests, left "for a later scripted pass": `ProjectFortress/compiler_tests/XXXFortToStringRungS.fss`, `XXXTupleVarFieldCompiledRungC.fss`, `XXXUnionMethodRungS.fss`, `ProjectFortress/library_tests/MaybeRungM.fss`, `ProjectFortress/tests/XXXFlatStringSplitRungL.fss`, `XXXTupleSeparatorRungS.fss` and `XXXTupleSevenRungS.fss` (`explorations/compile-ladder/climb-batch-6/JUDGE-review.md`, finding 1). The same judge proposed that a rung editing the specification re-anchor the test messages it moves, and no workflow text says so yet.
+- The scalar-extension block's header comment (`Library/FortressLibrary.fss:4568-4573`, `Library/FortressLibrary.fsi:2572-2577`) says that "sized arrays under a compiler need per-shape declarations beside these", a shape that answer 9's positional rule refuses, by reading (`explorations/reviews/batch-3-conformance.md`, rung C and finding 3).
+- Rows 440 and 443 each owe a home-2 expected-failure walk test, ruled by batch 6's rung T judge (`explorations/compile-ladder/rung-spec-numbers/JUDGE.md` sections 1.5 and 1.8): under walk `0/0 = 0/0` is true and `0/0 CMP 0/0` is `EqualTo`, where the specification makes 0/0 unordered with itself (row 440); `s: RR64 = 3000000000` is refused, "RHS expression type Long is not assignable to LHS type RR64", where the specification's Example 1 and answer 8 convert a numeral into `RR64` (row 443; `explorations/compile-ladder/plan-6.5/probes/numeral/NumMicro.base.txt`).
+
+**The decisions.** The rules: POSITIONS 2026-09-22, ledger rows 335, 334, 333 and 346, and the design principle for integer semantics; 2026-09-24, climb batch 3.5 (the signed `narrow` truncates too) and ledger rows 380 and 381. The form, S1 (2026-09-26): the normative text edited in place, a `\revision` callout at each changed passage (`Specification/fortress/fortress.tex:87`), an Appendix I entry per change quoting the original as "the Working Draft of February 2011" with its path and line in `Specification-1.0-frozen/` (2026-09-26, the first of the batch-5 answers), and the reasons in a decision record; the later Types chapter cited beside where it covers the topic (2026-09-26, the lineage note); the requirement on the plan (2026-09-24). The number chapters describe the library and are checked against it (2026-09-26, the number chapters under S2; answer 6), which is why `QQ`'s listing states the library's traits (section 1 of the record, read from the record). Row 440's fix is not this rung's: the library's comment chooses `0/0 = 0/0` on purpose (`Library/FortressLibrary.fss:562`), and only the test is owed. Row 443's fix is the numeral switch (section 1, Q1). The scalar comment's wording follows the batch 3 review's default: state only what is lost, and send the question of per-shape declarations to the array design.
+
+**What it writes.** First, before any edit, the list: every passage of `Specification/` outside `library/apis/` that names a shift, `narrow`, `GCD`, `LCM`, an integer overflow or the fixed-width integer types' operators, with what the decisions make of it and whether it is revised now or left, with the source that settles it; and every citation of a line of a chapter this rung edits in `ProjectFortress/tests/`, `compiler_tests/` and `library_tests/`. Then:
+- the integer rules, in the passages the list shows describe these operators or where the specification describes the integer types' operators; the rung chooses the places, each in the S1 form;
+- row 394's example given the exclusion its definition needs, in the library's own spelling of its integer traits, with a callout and an entry;
+- `QQ`'s listing given the library's supertraits, with one sentence that their laws hold away from 0/0 and the infinities, as `RR64`'s hold away from NaN, with a callout and an entry;
+- the Appendix I entries as new subsections after the last one batch 6's rung T added (`Specification/appendices/changes.tex`, re-read on the base);
+- the decision record, `explorations/compile-ladder/rung-spec-integer-rules/decision-record.md`;
+- the 13 citations rung S moved, re-anchored by the map of unchanged lines from `git show 3924e7ec3^:<chapter>` to the tree, as batch 6's repair re-anchored 177 (`JUDGE-review.md` step 9), and every citation this rung's own edits move, re-anchored the same way: messages and comments only, never an assertion;
+- the scalar block's two comments reworded to state only what is lost, that all eight return the unsized `Array[\T,I\]`; comment text only, checked by rung C's re-lexing check (`explorations/compile-ladder/rung-library-comments/comment-only-check.py`), with the span effect a comment has after a declaration that ends in a type reported (FACTS.md, "A comment placed after a declaration that ends in an expression or a type becomes part of that declaration's source span");
+- two expected-failure walk tests in `ProjectFortress/tests/`, one per row, each asserting the specification's answer with its passage in the message, each shown failing on the base.
+
+**How it is checked.** No test can go red for a prose edit. The specification is built as rungs S and T built it (`./ant genSource`, then `./ant tex`, in `Specification/fortress/`, with `FORTRESS_HOME` the worktree), on the base and after, the four logs captured; `pdftotext` of the two PDFs diffed, showing only the revised passages, the callouts, the appendix entries and page shifts; `git diff --stat` showing only the listed files; every re-anchored citation opened. The rung does not commit `Specification/fortress.pdf`; the gather rebuilds it on the merged tree, since Part IV is rendered from the `.fsi` files this rung's comment changes.
+
+**Files it may touch.** Under `Specification/`, not `Specification-1.0-frozen/`: the chapters its list names, `appendices/changes.tex` (its entries, at its place) and `fortress/preamble.tex` only if the front matter names a passage it revises; the messages and comments of the seven test files above and of any test whose citation its edits move; the scalar block's two comments in `Library/FortressLibrary.fss` and `.fsi`; its two new tests; its own directory. Not: `Specification/fortress.pdf`; any source file; any other library line.
+
+**Java or Scala.** Neither.
+
+**The checker count.** Unchanged: a comment changes no declaration the checker reads (climb batch 3's rung C measured the same). Captured before and after.
+
+**Stops.** Any edit under `Specification-1.0-frozen/`. Normative text for a rule neither path runs. A passage whose new text neither the decisions nor the landed code settles: the rung reports it and does not choose. An assertion changed in a re-anchored test. A library line other than the two comments. Not a stop: rung D's run-to-run rule.
+
+**For the skeptic.** There is no program to run both ways for the prose. The checks: every rule the text states against the landed code of both paths (the natives and bodies FACTS.md's two integer-rules entries name) and against the decisions; every quoted original against `git show <base>:<path>` and against the frozen copy's line; the two builds and the `pdftotext` diff; each re-anchored citation opened; `QQ`'s listing against `Library/FortressLibrary.fsi`; the two new tests failing under walk for the reason their messages give; the scalar comment's re-lexing check.
+
+**What comes back to Pavol.** The revised pages, as the `pdftotext` diff; the Appendix I entries; the list, with what was left and why.
+
+**What it closes.** Row 394 (fixed). Notes appended: rows 335, 334 and 346, that the specification states them; rows 440 and 443, their tests.
+
+### G. Generics at run time on the compiled path, `rung-generic-runtime`
+
+**The answers this rung follows.** None of section 1's questions changes this rung.
+
+**The problem.** Six defects of the compiled path, each measured, each on the path of the switch-over or of microGPT's parallel run (`explorations/reviews/batch-5-conformance.md` finding 1; `explorations/reviews/batch-3-conformance.md` finding 1; `explorations/reviews/batch-6-conformance.md` finding 4). Walk runs every shape below.
+1. Row 417, the class loader's first load is not safe on two threads: `InstantiatingClassloader.loadClass` adds a name to `history` before it defines the class (`ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java:204`); a second thread that finds the name there returns `findLoadedClass(name)`, null until the first thread has defined it (`:182-186`); `RTHelpers.loadClosureClass` then calls `newInstance` on null (`ProjectFortress/src/com/sun/fortress/runtimeSystem/RTHelpers.java:133-138`), or both threads define the class and one dies with `LinkageError`. `explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsThreadsT.fss` fails 5 of 5 compiled runs at `FORTRESS_THREADS=4` and passes 5 of 5 at 1. It has no gated home, because the suites run at one thread.
+2. Row 419, a parallel task in a generic declaration is not generic over its free static parameters (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1634`, "TO DO if fvts non-empty, will need to make a generic task"; `delegate` at `:4771`). A 13-line fix is measured (`explorations/compile-ladder/rung-size-runtime/probes/xxx-task-red-demo-fix.patch`) and applies to today's tree as it stands (`explorations/compile-ladder/plan-6.5/probes/row419-apply-check.txt`). Expected failure: `ProjectFortress/compiler_tests/XXXNatRtTask.fss` with `XXXNatRtTask.test` and `NatRtTaskLink.test`.
+3. Row 420, a generic method of a generic object that builds instances over both the object's and its own static parameter fails at load (`NoClassDefFoundError: U$RTTIc`, and `j$RTTIc` for sizes); either parameter alone works; the site is not located. Expected failure: `ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss` with `XXXNatRtMethBoth.test` and `NatRtMethBothLink.test`.
+4. A generic arm of a dispatcher that names its static parameters differently from the dispatcher casts its result to a type the loader did not rewrite, and dies with `ClassCastException` (`explorations/reviews/mie-probes/scope-call-site-dispatch.md` section 4; `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:1755-1762` at the note's base). No ledger row.
+5. A `ZZ32` instantiation made at run time is spelled `fortress|CompilerBuiltin%ZZ32` (`RTHelpers.java:174-175`, `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/RTTI.java:53-58`), where static code spells it with `FZZ32`, and a dispatched generic arm then dies with `ClassCastException` (the same note, section 4). No ledger row.
+6. Row 351, the code generator never binds a `typecase` or `catch` clause's name: `CodeGen.forTypecase` never reads it (`CodeGen.java:2116-2147`) and `forTry` reads it and never uses it (`:2020-2061`), so a reference to the name compiles as a top-level object that does not exist. Expected failure at the catch site: `ProjectFortress/library_tests/XXXClauseBindingRungB.fss` with its `.test` and `ClauseBindingRungBLink.test`. This is the cause of row 426: the compiled `cast[\T\]` matches its type test at a concrete type and then dies reading its clause's name (`explorations/compile-ladder/plan-6.5/probes/cast/`; `NOTES.md` section 2). The row's other failures, `cast[\ZZ32\](0)` and the like, pass a numeral, which on the compiled path is an `IntLiteral` and correctly not a `ZZ32`. Answer 7's identity functions pass numerals through `cast[\T\]` (`Library/FortressLibrary.fss:3107-3131`), so on the compiled path they need the binding fixed and branch values that are of type `T` at run time.
+Programs 4 and 5 are legal under route A and answer 9: `explorations/compile-ladder/plan-6.5/probes/dispatch/ScopeAlpha2.fss`, `ScopeZZ32Sub.fss` and `ScopeArmsLegal.fss` compile on today's checker and die (`*.stock.txt` beside them).
+
+**The decisions.** PLAN phase 2b: rows 417, 419 and 420 repaired before the switch-over, row 417 gated by a program of its shape in the gate's four-thread stage; the two dispatch defects with their probes as expected-failure tests and the measured 43-line fix. Row 426 in this batch (section 1 of the record, read from the record). Design B with the factory (POSITIONS 2026-09-24 and 2026-09-26): a size is a descriptor from `RTTIsize.of`, and row 420 has a size twin. Answer 9 (2026-09-26): a generic declaration beside a plain one is legal, and two generic declarations in the more-specific relation agree on their static parameters position by position; the three dispatch programs meet it. Answer 7 (2026-09-26): the identity comes from the static argument through the `() -> T` witness `typecase`; its values stay what they are.
+
+**What the tree already does.** Evidence, not the brief; the rung lists every way before it chooses.
+- Row 419's measured fix is `forFnExpr`'s own device for a closure (`CodeGen.java:3464-3475`).
+- Row 351's fix, as its row records, is the local `CodeGen` already makes for a bound name (`new VarCodeGen.LocalVar`, then `addLocalVar`; `CodeGen.java:2853`, `:3945`), at both sites.
+- The measured dispatch change (`explorations/compile-ladder/plan-6.5/probes/dispatch/callsite-rebased.patch`, the note's shadow applied to today's `OverloadSet.java`, its probe switch still in it) reads a generic arm of a template dispatcher at the dispatcher's own static parameters, which the loader has already set to the call site's; with it the three programs print the specification's answers (`*.callsite.txt`). Its reach and its remainder are the note's section 3: generic dotted methods, functional methods in a top-level set, `opr` and `nat` parameters, and a dispatcher that is not a template, which answer 9 now makes a legal program.
+- For row 417: the team's descriptor factories keep one winner under a race, a `get` and then a `putIfNew` that checks again under the table's lock (`InstantiatingClassloader.java:2744-2752`, `ProjectFortress/src/com/sun/fortress/runtimeSystem/RttiTupleMap.java:148-157`), the pattern `RTTIsize.of` took with `putIfAbsent` (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/RTTIsize.java:24-33`); and the JDK gives a class loader a per-name lock (`ClassLoader.registerAsParallelCapable`, `getClassLoadingLock`).
+- For the identity functions: a typed local binding converts a numeral by coercion on both paths (FACTS.md, "Under walk, the interpreter converts by coercion at its three kinds of type check"); the answer-7 judgement names a checker refinement of the witness branch as the other way (`explorations/reviews/sum-replacement-judgement.md` section 7, check 3).
+
+**The test, first.** Each captured failing before the edit.
+- Row 417: `ProjectFortress/compiler_tests/FirstLoadThreadsRungG.fss` with `FirstLoadThreadsRungG.test` (`compile`, `link`, `run`, `run_out_contains=PASS`), in `ZsThreadsT`'s shape, a parallel `for` dispatching a generic arm over eight instantiations and printing `PASS` when its sum is right. At one thread, which is how `testFast` runs it, it passes before and after; the gate's four-thread stage runs it three times at `FORTRESS_THREADS=4` once section 8's change is made, which names this file, so the name is fixed; the stage reports it absent, and not red, while the file is not in `compiler_tests/`. Captured: five compiled runs at four threads failing before the edit and passing after, and at one thread passing both times.
+- The three dispatch programs, each as two `.test` files over one component, a plain one driving `link` and an `XXX` one driving `run` (FACTS.md, "The XXX expected-failure mechanism in compiler_tests/ and library_tests/ can express a compile-stage failure only, and a run-time defect needs two .test files"), then promoted.
+- Row 351: a `typecase`-site test in the shape of `CaseBindPlain`, and the catch site's `XXXClauseBindingRungB` promoted; a compiled `cast[\T\]` of a value of type `T` in the shape of `CastBind`.
+- Rows 419 and 420: `XXXNatRtTask` promoted; `XXXNatRtMethBoth` promoted if the rung repairs row 420.
+- The identity functions: under walk their values are gated by `ProjectFortress/tests/FlatTowerRungF.fss`, group 3, which must pass unchanged; the compiled check of a `SUM`'s identity end to end waits for the switch-over, since the compiler's own library has no generic `SUM` (FACTS.md, "The compile ladder loses one file to an approved test line, until the switch-over"), and the report names it.
+
+**The measurements.** The four-thread stage's thirteen `atomic` programs and the new one, three runs each at `FORTRESS_THREADS=4`, before and after, since a lock on first load must not deadlock or slow them to a timeout; the 43 compiler tests that declare a generic overload (`explorations/reviews/mie-probes/scope/compiler-tests.txt`) before and after, output and classes, as the scope note measured them; the compiler library's five jars before and after (byte-identical expected, as the note found); the 85 ladder files; the sized compiled tests; the checker count. The manifest sets `writesState`: every differential at `FORTRESS_THREADS=1` and `4`.
+
+**Files it may touch.** `ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java`, `RTHelpers.java` and what else under `runtimeSystem/` the lock or row 420 needs, each named; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (`delegate` and its caller, `forTypecase`, `forTry`, and what row 420 needs); `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java`; new and promoted tests in `ProjectFortress/compiler_tests/` and `library_tests/`; in `Library/FortressLibrary.fss` and `.fsi`, `additiveIdentity` and `multiplicativeIdentity` only; its own directory. Stops: `ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java`; `scala_src/`; `interpreter/`; any other library declaration; `Specification/`.
+
+**Java or Scala.** Java. `ant compileAll`, the library-order cache rebuild before any compiled test, and `default_repository/caches/global.map` restored after `compileAll`.
+
+**The checker count.** Unchanged: the stage reads the checker and the library's declarations, and the rung changes no declared type. Captured before and after.
+
+**What must stay green, or keep its verdict.** Every compiled, library and interpreter test other than the rung's own; the thirteen `atomic` programs at four threads; `FlatTowerRungF.fss`.
+
+**Stops.** A compiled test's verdict changing other than the rung's own; a ladder file moving down; a four-thread run that deadlocks or times out twice; a compiler-library jar changing other than where a named fix predicts it; an edit to the checker, walk or any library line other than the two identity functions. Not a stop: row 420 or row 417 left unrepaired with its site located and the reason reported, its test staying an expected failure (row 417's program then kept in the rung's `probes/` and out of `compiler_tests/`, where the four-thread stage finds it absent and says so); rung D's run-to-run rule.
+
+**For the skeptic.** Each defect, walk against the compiled run, on the rung's programs and on a variant the skeptic writes; row 417 at four threads over five repeated runs and with more instantiations than the test's eight; the dispatch programs, and a generic dotted method and a dispatcher that is not a template, to show the remainder unchanged and recorded; the identity functions' values under walk against the base; the compiler library's jars.
+
+**What comes back to Pavol.** Which of the six are fixed; the lock's shape and its measured cost on the thirteen `atomic` programs.
+
+**What it closes.** Rows 351, 417, 419 and 426 (fixed; 426 noted with its cause); row 420 if repaired. Opens and closes, home 1: the two dispatch defects. Opens: the dispatch defect's remainder (generic dotted methods, a dispatcher that is not a template), home 2 where the rung shows it failing.
+
+### V. `RR32` a sibling of `RR64`, `rung-rr32-sibling`
+
+**The answers this rung follows.** None of section 1's questions changes this rung.
+
+**The problem.** `RR32` is the one number type of the one library still below another: `value object RR32 extends RR64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:47`, `.fss:203`), and `RR64` comprises `{ Float, FloatLiteral, RR32 }` (`Library/FortressLibrary.fsi:286-289`). An `RR32` value is then also an `RR64` value, which the specification forbids: "These types are mutually exclusive; no value has more than one of them" (`Specification/basic/types-vals-vars.tex:536`), kept by the later Types chapter (`Documentation/Specification/Prose/Language/types.tick:977-978`). `RR32`'s binary natives declare `b:RR64` and read it with `getRR32()`, so an `RR32` with any other number ends the run with an `InterpreterBug` (row 435; `ProjectFortress/tests/XXXRR32MixedRungF.fss`). By reading, an `RR64`-typed value may be an `RR32` at run time, whose operators answer `RR32`, which unboxing by static type in phase 6 could not follow (`explorations/reviews/batch-6-conformance.md`, finding 3). It entered batch 6 as its record's reading, not a decision.
+
+**The decisions.** Route A (POSITIONS 2026-09-24): the number types siblings under `Number`, each carrying its own algebra. Answer 8 (2026-09-26): an exact conversion is a coercion, a lossy one explicit; every `RR32` value is exact in `RR64`. The number chapters describe the library (answer 6; 2026-09-26, the number chapters under S2), so the chapter names `RR32` once it is a sibling, in the S1 form.
+
+**What the library and the specification already do.** Evidence, not the brief; the rung lists every way before it chooses. The compiler library's `RR32` is a sibling that `RR64` converts from (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435`, `:475-476`). The specification's worked example computes an `RR32` with an `RR64` by `RR64`'s declaration after a coercion (`Specification/basic/conversions-coercions.tex:861-898`). Chase's `6896886fb` (2009-08-31) cut the subtype in the compiler library, "RR32 is NOT a subtype of RR64", and Steele's retrospective draws the floats as siblings (`research/extracts/SteeleJuliaCon2016-extract.md:159-161`). The flat library's `RR64` is the model of what a float carries at its own type (`Library/FortressLibrary.fsi:286-289` and its body). The probe built two shapes (`explorations/compile-ladder/plan-6.5/probes/rr32/`; `NOTES.md` section 6). The first (`rr32-sibling.patch`) met three library sites: `RR32`'s exponent overloads, where `^(self, b:ZZ64):RR32` and `MultiplicativeRing`'s `^(self, other:AnyIntegral): T` break the return-type rule beside `^(self, b:Number):RR64` once `RR32` is no longer an `RR64`; and `Number`'s `=`, which finds a float by `typecase ... RR64` alone (`Library/FortressLibrary.fss:358-365`). Its corpus pass found a fourth: `RR32`'s api declares its getters, one `^` and `MINNUM`/`MAXNUM` only (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:47-74`), so the operators it shares with `RR64` outside the algebra traits (`/`, `SQRT`, the `_UP`, `_DOWN` and `IEEE_` forms, `floor` and the rest) reach a program only as `RR64`'s, which converted both operands and answered an `RR64`; the team's `testRR32` then failed at its line 30 (`RR32Div2.sibling.txt`). The second shape (`rr32-sibling-api.patch`) declares `RR32`'s operators in its api as `RR64`'s api declares its own (`Library/FortressLibrary.fsi:313-372`); with it every operator answers an `RR32` (`RR32Div2.sibling-api.txt`), and `RR32Micro` prints the specification's answers where the base ends with row 435's `InterpreterBug` (`RR32Micro.base.txt`, `RR32Micro.sibling-api.txt`).
+
+**The test, first.** One new file in `ProjectFortress/tests/`, in the form of `ProjectFortress/tests/roundBug.fss`, each value checked by value and by run-time class through one helper, as `ProjectFortress/tests/IntSemanticsRungI.fss:14-18` does, each message citing its source: an `RR32` is not an `RR64` in a `typecase`; `RR32` with `RR32` answers an `RR32`, for an operator of the algebra traits and for one that only `RR64`'s api declares today (`/`, `SQRT`); `RR32` with an `RR64`, a float numeral or a `ZZ32` answers the `RR64` the specification's example gives; an `RR32` bound to an `RR64` variable converts; `RR32` compared with an `RR64` by `=`, `<` and `CMP`. `XXXRR32MixedRungF.fss` promoted by `git mv` once it passes. Captured failing before the edit.
+
+**The comparison.** As rung F's (`explorations/compile-ladder/rung-flat-tower/count-run.sh`, `compare-normalised.py`; its `REPORT.md`): every file of `ProjectFortress/tests/` except the new test, in three passes, base A, the edit, base B, one JVM per test with private caches, normalised as batch 5 normalised (POSITIONS 2026-09-26, batch 5's go, Q2), `XXXInheritedOverload.fss` listed as unstable (row 430); every changed output listed with its cause, and every changed team-test line with its before and after. The probe's passes are the prediction (`NOTES.md` section 6): with the second shape, 387 of the 414 files print what the base prints, 7 more once the library's moved lines are normalised, 17 differ between the two base passes too, and 3 change, each keeping the verdict the rung expects: row 435's expected failure passes, and two expected failures print a changed message (a candidate list naming `RR32`'s own `-`, and two declarations in the other order, as row 430's). `testRR32` passes only once `RR32`'s api declares its operators.
+
+**Files it may touch.** `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi` and `.fss`, `RR32`'s declarations only; in `Library/FortressLibrary.fsi` and `.fss`, `Number`'s `comprises` clause and its `=`, and `RR64`'s header and a `coerce`; the team's test lines that assert `RR32` below `RR64`, each keeping the value it checks; the new test and the renamed `XXXRR32MixedRungF`; `Specification/basic-lib/numbers.tex`, the passage that names the number types and their coercions (`:27-49`), with its callout and its own subsections of `Specification/appendices/changes.tex` after the last entry, re-read on the base; the messages and comments of any test whose citation of a line of `numbers.tex` its edit moves, re-anchored by the map of unchanged lines as rung P's section says, never an assertion; its own directory. Stops: any other library declaration; `explorations/run-c4/` and `explorations/apl/` (neither names `RR32`, by a grep).
+
+**Java or Scala.** None expected: the declared parameter types carry the fix (row 435's second fix). If a native must change after all, the smallest change, reported with the alternative, and `ant compileAll` before every run after it.
+
+**The checker count.** Reported and classified: the `FortressBuiltin` api reaches the count stage (its row read 0 after rung F), and a new or gone row there is the rung's to tie to its edit. Captured before and after.
+
+**What must stay green, or keep its verdict.** Every interpreter test's verdict other than the rung's own; `testRR32.fss`, `RoundHalfEvenRungR.fss`, `FlatTowerRungF.fss`; the two microGPT checks, which name no `RR32`, at 40 of 40.
+
+**Stops.** A changed walk output its comparison does not account for. A team test line changed other than one that asserts `RR32` below `RR64`, keeping its value. A coercion beyond `RR64`'s from `RR32`. The specification's sentence stating more than the landed library. Not a stop: rung D's run-to-run rule.
+
+**For the skeptic.** The new test's cases, walk against the compiled run where the compiler library has them (its `RR32` is a sibling already); each changed output against its stated cause; each restated `RR32` declaration against `RR64`'s and against the probe's shape; the chapter's sentence against the landed library.
+
+**What comes back to Pavol.** The changed outputs with their causes; any team test line restated.
+
+**What it closes.** Row 435 (fixed; its expected failure promoted). Notes: batch 6's review, finding 3, on the batch 6 record's reading.
+
+## 4. Overlaps, declaration by declaration, and the order the gather applies them
+
+The files each rung may edit, from section 3:
+- **E:** checker files under `ProjectFortress/src/com/sun/fortress/scala_src/`; possibly `runtimeSystem/MethodInstantiater.java`; `interpreter/evaluator/EvalType.java` and what else walk's reading needs; `interpreter/glue/prim/NN32.java` (`Lcm`); `ProjectFortress/compiler_tests/NatRtBigSize.fss` and new tests there; `ProjectFortress/tests/XXXNatBigSizeWalk.fss` renamed, and new tests there.
+- **P:** `Specification/` chapters and `appendices/changes.tex`; the messages and comments of seven revival tests (three in `compiler_tests/`, one in `library_tests/`, three in `tests/`) and of any test whose citation its edits move; the scalar block's two comments in `Library/FortressLibrary.fss` and `.fsi`; two new tests in `ProjectFortress/tests/`.
+- **G:** `runtimeSystem/InstantiatingClassloader.java`, `RTHelpers.java` and what the lock or row 420 needs; `compiler/codegen/CodeGen.java`; `compiler/OverloadSet.java`; new and promoted tests in `compiler_tests/` and `library_tests/`; `additiveIdentity` and `multiplicativeIdentity` in `Library/FortressLibrary.fss`.
+- **V:** `RR32`'s declarations in `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi` and `.fss`; `Number`'s `comprises` clause and `=`, and `RR64`'s header and a `coerce`, in `Library/FortressLibrary.fsi` and `.fss`; the team's test lines that assert the subtype; a new test and the renamed `XXXRR32MixedRungF`; `Specification/basic-lib/numbers.tex` and its entries in `appendices/changes.tex`.
+
+**The first run, E and P.** No file is shared. The one shared directories are `ProjectFortress/tests/` and `compiler_tests/`, where the rungs touch disjoint files; a file added to `tests/` moves the `testSystem` shards, which the gate compares by their sum (FACTS.md, "testSystem's four shards are one suite split by sorted index"). One interaction: P's edits may move a specification line that one of E's new test messages cites (the integer chapter, for `LCM`). P re-anchors only the files its section names and those no other rung of the run edits; the gather re-anchors E's messages by passage after both are applied, as it re-anchors any `file:line` an earlier rung shifted.
+
+**The second run, G and V.** One file is shared, `Library/FortressLibrary.fss` (and `.fsi` for V alone), on disjoint declarations far apart: V's `Number` and `RR64` near the top of the tower (`.fss:352-400` at 2851e5086), G's two identity functions after the reductions (`.fss:3107-3131`). The identity functions carry an `RR32` branch, `cast[\T\](narrow(0.0))`; it stays right when `RR32` is a sibling, so V has no reason to touch it and G owns it. No other file is shared; `ProjectFortress/tests/` gets V's new test, and `compiler_tests/` and `library_tests/` G's.
+
+**No rung depends on another's names or edits (rule 2).** E's refusal and P's text state the same decisions without reading each other's edits. G's and V's edits are independent: V changes which types exclude which, G how the compiled path loads and dispatches.
+
+**The checker count.** E changes the checker but refuses nothing in the one library, whose sizes are 0 to 3; P changes two comments; G changes no declared type. V changes `FortressBuiltin`'s declared types, which the count stage reads, so V's table is the only one that may move. The merged-diff review ties every moved row to a rung edit (its check 9).
+
+**The order the gather applies them.** The first run shares no file, so the order matters only for the folds; the gather works it out from the branches and states it. In the second, in `Library/FortressLibrary.fss`, V (lowest edit near `:352`) then G (`:3107`). New ledger rows are numbered in manifest order from each run's `LEDGER_FROM`: E, P in the first; G, V in the second (E, P, G, V as one run).
+
+## 5. The design choices inside the rungs
+
+**Decided on record.** E: a size's range (2026-09-27) and row 334 (2026-09-22). P: the rules (2026-09-22, rows 335, 334, 333, 346; 2026-09-24, batch 3.5's riders, rows 380 and 381) and the form (S1, the unrevised copy's name, the Types chapter beside, the requirement on the plan). G: PLAN phase 2b's list, design B, answer 9, answer 7. V: route A and answer 8.
+
+**Read from the record and flagged** (section 1, "Read from the record, not asked"): the two runs; row 426 in G, with its cause traced; `RR32` a sibling with no question; a size read as a value keeping the checker's type; `QQ`'s listing stating the library's algebra; the integer rules in the specification's prose; the stops reversible; row 417's home in the four-thread stage; the dispatch fix's reach.
+
+**Open for Pavol.** Q1, when walk switches a numeral to `IntLiteral`.
+
+**The rungs' own choices, reported as decisions, each with the alternatives considered and the evidence that settled it.** E: where the refusal sits in the checker and how it knows a parameter's kind; walk's reading of a size and the form of its refusal; whether the loader's value emission changes; the tests' names. P: the passages that state the integer rules, the wording of each passage, callout and entry, and what its list leaves with the source that leaves it; the scalar comment's words. G: the lock's shape; row 420's site and fix; how the identity functions pass values of type `T` (the checker refinement the answer-7 judgement names is Scala and not this rung's; it is reported as the way not taken); the tests' names except the four-thread program's. V: the restated declarations of `RR32`, among them its exponent overloads, and how `Number`'s `=` finds a float; which team test lines, if any, assert the subtype.
+
+**PLAN phase 2b's list, item by item.**
+- Rows 417, 419 and 420, row 417 gated in the four-thread stage: G, and section 8's change.
+- A size's range, the checker refusing a size beyond `NN32`/`ZZ32`, `NatRtBigSize` restated: E, with walk's reading (row 418).
+- The two compiled dispatch defects, their probes as expected-failure tests, the measured 43-line fix: G.
+- `NN32`'s `LCM`: E.
+- The specification's text for the integer rules of 2026-09-22, and row 394's example: P.
+- The scalar block's comment, and the stale specification line numbers in batch 3's test messages: P. Of the seven tests batch 3's review named, the three that cite `numbers.tex` were re-anchored by batch 6's repair (`21c91d8e4`); the rest are among the 13 references P re-anchors.
+
+**Batch 6's review, item by item.**
+- Finding 2, a numeral's type: Q1.
+- Finding 3, `RR32`: V.
+- Finding 4, answer 7's identities through `cast[\T\]` (row 426): G.
+- Smaller: rows 440 and 443's owed tests, P; the specification's `QQ` algebra line, P; the judge's re-anchoring rule, carried in P's and V's sections and proposed for the script (section 8). The others are placed in section 1, "What the batch leaves out".
+
+**Not choices of this batch, named so they are not lost.** The numeral switch and its measures, rows 79, 432, 437 and 443's fix (Q1). The type a size read as a value has on the compiled path (with the numeral switch and the array design). Row 440's fix, which departs from the library's stated choice. The tuple shifts of `Library/RangeInternals.fss` (no row, no probe). The dispatch defect's remainder beyond template dispatchers (G records it). The re-approval rows and parked items of `PLAN.md`.
+
+## 6. How it is run
+
+**The probes, run before this record was written** (POSITIONS 2026-09-22, a fork a probe can settle is probed before the batch is briefed): `explorations/compile-ladder/plan-6.5/NOTES.md`, one section each for the numeral (Q1), row 426's cause (G), the dispatch fix on today's tree (G), row 419's patch (G), `NN32`'s `LCM` (E) and `RR32` a sibling (V), with the machine line and the captures beside it.
+
+**What must land first.** Batch 6b (rung O, running at this drafting in `/home/user/fortress-overflow`), the `FACTS.md` consolidation of its lines, and answer 11's measurement, as the boot note orders them. Then the Fable review of this record in place, the coordinator's fixes, and Q1 to Pavol. The first run launches on his go; the second on his go after the first has landed and been pushed. No probe waits between the runs.
+
+**Before each launch.**
+- `df` read; the worktrees of the run before removed with their local branches once pushed. A copy without caches is about 0.3 to 0.4 GB; V's three comparison passes add about 0.15 GB each under its `tmp/` (the probe's measured 151 MB a pass), deleted once captured.
+- The `MANIFEST` block of section 7 spliced into `explorations/coordinator/climb-batch-workflow.js` in place of batch 6b's, with `RUN` and `LEDGER_FROM` set, and committed before the worktrees are cut; before the second run, section 8's change to the four-thread stage made and checked, and `RUN` and `LEDGER_FROM` changed.
+- `git status --porcelain` empty; no other worker writes in the main tree while the run goes, and none pushes `main` while it gathers.
+
+**Launch.** Each run's worktrees from its `<base>`, the commit `main` is at when the coordinator launches it (`explorations/coordinator/remote-container.md`). The first run: `/home/user/fortress-sizerange` on `wip/rung-size-range`, `/home/user/fortress-intprose` on `wip/rung-spec-integer-rules`. The second: `/home/user/fortress-genrt` on `wip/rung-generic-runtime`, `/home/user/fortress-rr32` on `wip/rung-rr32-sibling`. Each with `ProjectFortress/build` copied and `tmp/` made, and its branch pushed. None exists at this drafting. Then `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<base>'}})`.
+
+**The batch rules.** Rule 1, no two rungs of a run changing one declaration: holds (section 4). Rule 2: holds (section 4). Rule 3, one rung touching Java or Scala per run: holds in each run, E in the first and G in the second; not as one run. Rule 4: k is 2 in each run, two agents at a time; the scatter starts the longest expected first, E then P, G then V (`expectedMinutes` 150, 120; 300, 150, guesses that set the order only).
+
+**The gate, and what it should show.** Each run's comparands are the last landed `summary.txt` and `checker-count.txt` (batch 6b's, if it lands before this batch, else rung R's follow-up's, `explorations/compile-ladder/climb-batch-6/followup-R/gate/`); the second run's are the first's. Expected, by reading:
+- `testSystem`: the comparand's sum plus the new files of `ProjectFortress/tests/` each run adds (E's and P's, then V's), which each rung states; a renamed file keeps its count.
+- The compiler track: plus the command lines of the new `.test` files (E's refusal test; G's four-thread program, its dispatch pairs and its `typecase` and `cast` tests), which each rung states; the library track keeps its count through G's rename.
+- The four-thread `atomic` runs: 39 `PASS` in the first run; in the second, 42 once section 8's change is in and G lands `FirstLoadThreadsRungG`.
+- The ladder: no rung declares a move; E and G measure the 85 files, and any move down is red.
+- The checker count: reported, never red on its own; 62 by reading after E, P and G; V's measured; the crash row unchanged.
+
+**Provenance.** Each `REPORT.md` opens with the five-line provenance block, its `historical:` line naming every 2012-tree file the rung edits: E its checker, loader and interpreter files; P its `Specification/` files and the library file whose comments it rewords (the tests it re-anchors are the revival's own); G its compiler and run-time files and the library file; V the two builtin files, the library files, any team test and the specification file. Every commit whose diff touches a path outside `explorations/` carries the same line (`explorations/protocol.md`, the hard rules).
+
+**Ledger.** New rows are numbered provisionally from `LEDGER_FROM`, the first free row at each run's launch (above 448 at this drafting, and above whatever batch 6b opens); the gather assigns final numbers in manifest order. Closed with "fixed \<commit\>": 418 (E); 394 (P); 351, 417, 419, 426, and 420 if repaired (G); 435 (V). Opened and closed: `NN32`'s `LCM` (E); the two dispatch defects (G). Opened, left open: the dispatch defect's remainder (G). Appended: 307 (E); 335, 334, 346, 440, 443 (P).
+
+**The push.** Every stop this record reserves for Pavol is reversible (POSITIONS 2026-09-27, the stops): a rung that meets one finishes as its section says, lists it in `stopsMet` with `liftedBy` citing that entry, and lands; the stop is listed for his review; neither the push nor the next run waits. The commit stage holds the push only on a stop with no such line (`explorations/coordinator/climb-batch-workflow.md`, "Commit, and the push held on a stop").
+
+**Timings.** Every timing anyone records carries its machine: `nproc`, the CPU model name and MHz from `/proc/cpuinfo`, the load average when the run started, the JDK and `FORTRESS_THREADS` (`explorations/protocol.md`, principle 2).
+
+## 7. The manifest
+
+The block below is drafted to replace batch 6b's `MANIFEST` block in `explorations/coordinator/climb-batch-workflow.js`, from the rule above the `MANIFEST` comment to the line before `END MANIFEST` (`:58-496` at 2851e5086); it is not spliced in. It was generated from section 3 of this record and from the rungs' `briefing` and `checks` lists by a script: each tail is its rung's section word for word, with the code-span backticks dropped, ASCII only. No tail carries an answer letter, since none of section 1's questions changes a rung. Three values are set at launch and nowhere else: `RUN` (`'first'`, batch 6.5, E and P; `'second'`, batch 6.5b, G and V; `'all'`, the four as one batch 6.5, only on Pavol's word, since it breaks rule 3); `LEDGER_FROM`, which the block refuses to load without; and `CHECKER_BASE`, the `#total` of the last landed `checker-count.txt` (62 at this drafting, `explorations/compile-ladder/climb-batch-6/followup-R/gate/checker-count.txt`), which E, P and G predict unchanged while V declares no prediction. The coordinator fills `<base>` at launch through `args.base`.
+
+Checked on scratch copies of the script at 2851e5086, the block spliced in place of `:58-496`, every line outside it byte-identical: the spliced script parses under node (`node --check`) as the unmodified one does; with the manifest part and the script's own key validation (`:631-642`) and scatter order (`:608`) evaluated, `'first'` gives batch `6.5` with the rungs E, P and the scatter E, P; `'second'` gives batch `6.5b` with G, V and the scatter G, V; `'all'` gives batch `6.5` with E, P, G, V and the scatter G, E, V, P; it throws while `LEDGER_FROM` is unset and for any other `RUN`. Every tail equals its rung's section of section 3 with the backticks dropped; no tail, blurb, intro or overlap string holds a backtick or a non-ASCII character; each `checks` list is a sub-list of its `briefing`. Every key of the eight lists matches exactly one place under `explorations/coordinator/tools/facts-extract.sh --check` on the tree at 2851e5086 (exit 0 on each). The briefings print about 29K, 65K, 46K and 38K tokens for E, P, G and V, P's being the largest because it carries the whole integer chapter it edits; the `checks` lists print 11K, 16K, 19K and 13K. Nothing was launched. The generator, the lists, the check and their outputs are `explorations/compile-ladder/plan-6.5/manifest/` (`python3 gen65.py`, then `node check65.js`, then `python3 lists65.py`); if the review changes section 3 or a list, the block is regenerated there and pasted here, not edited by hand.
+
+```js
+// ===========================================================================
+// MANIFEST - the coordinator replaces everything between this line and the
+// "END MANIFEST" line, and changes nothing else in this file.
+//
+// Concurrency, which the manifest does NOT set: at most two agents at once here
+// (FACTS.md, "The container"), a freed slot going to the next queued agent,
+// FIFO. k is 2 in each run of this batch (E, P; then G, V), 4 as one run.
+// Per rung: id, slug, path, branch, expectedMinutes (the scatter's start order
+// only), tail (the brief), blurb (one line for the shared prefix's table),
+// writesState, expectedMoves, and the checker-count fields testIsStage,
+// expectedCheckerCount (a printed prediction, never red) and
+// expectedCheckerCrash (compared exactly with the table's #crash field; no
+// rung of this batch declares one, so any change of the crash row is red).
+// Optional: landsOnlyWith, the ids of the rungs a rung lands only with; no
+// rung of this batch sets it. briefing, the rung's briefing, which the
+// planner writes from the record so that the agents learn in context what
+// they were never trained on: the keys of
+// explorations/coordinator/tools/facts-extract.sh for the POSITIONS.md entries
+// (positions:DATE WORDS), gap-ledger rows (ledger:ROW) and earlier judges'
+// rulings (doc:PATH#HEADING) the rung rests on; the specification's sections
+// its subject touches (doc: on a .tex heading); the notes already written on
+// the subject, found through INDEX.md (doc:, index:); the library code that is
+// the precedent for the same kind of problem (code:PATH#FROM..TO); and the
+// FACTS.md entries and map rows and sections of its area; in reading order,
+// decisions first; the tool's --help. Relevance, not size, decides what goes
+// in. The rung worker reads it whole as its step 1. And checks, the sub-list
+// of briefing that the skeptic, the repair round and the judges read as their
+// step 1: the decisions and ledger rows their checks need, and the
+// specification's sections and the precedent code those checks compare against. No key holds a
+// double quote, backtick, dollar sign or backslash, since each is rendered in
+// double quotes. Each list is checked with the tool's --check to match exactly
+// one place per key (on the tree at 2851e5086; re-checked at each launch).
+//
+// Batch 6.5's values are CLIMB-BATCH-6.5.md, sections 3, 6 and 7. Each tail is
+// that rung's section of section 3 word for word, with the record's code-span
+// backticks dropped (this file carries none); ASCII only. No section carries
+// an answer letter: none of section 1's questions changes a rung. Three things
+// are set at launch and nowhere else: RUN (which run this is: 'first' is
+// batch 6.5, rungs E and P; 'second' is batch 6.5b, rungs G and V, cut from
+// the tree the first run landed; 'all' is the four as one batch 6.5, which
+// breaks rule 3 of batched-climb-plan.md section 5 and waits for Pavol's word;
+// the record's section 1, "Two runs"), LEDGER_FROM (the first free ledger
+// row at this run's launch; the block refuses to load while it is unset), and
+// CHECKER_BASE (the #total of the last landed checker-count.txt, 62 at
+// drafting). Manifest order is the ledger numbering order: E, P in the first
+// run; G, V in the second; E, P, G, V as one run. The scatter starts the
+// longest expected first (E, P; G, V; G, E, V, P). E, P and G predict the
+// checker total unchanged; V declares no prediction and reports its table.
+// No rung declares a ladder move. The base is <base>, passed at launch as
+// args.base, not written here.
+// ===========================================================================
+
+const RUN = 'first'        // SET AT LAUNCH: 'first' (batch 6.5: E and P), 'second' (batch 6.5b: G and V) or 'all' (the four as one batch 6.5, on Pavol's word only); the record's section 1, "Two runs"
+const LEDGER_FROM = null   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch
+if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\'s launch')
+const CHECKER_BASE = 62   // SET AT LAUNCH: the #total of the last landed checker-count.txt (62 in climb-batch-6/followup-R/gate/ at drafting)
+
+if (!['first', 'second', 'all'].includes(RUN)) throw new Error('RUN is not one of first, second, all')
+const BATCH = RUN === 'second' ? '6.5b' : '6.5'
+const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-6.5.md'
+
+const E_TAIL = [
+"",
+"## Your rung: E - a value beyond its type's range",
+"",
+"SLUG is rung-size-range. WORKTREE is /home/user/fortress-sizerange, branch wip/rung-size-range.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-6.5.md, section 3, under \"E. A value beyond its type's range\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's questions changes this rung.",
+"",
+"**The problem.** Two values beyond their type's range are not refused.",
+"- A size. The compiled checker accepts a literal size of any magnitude: it refuses arithmetic in a size and nothing else (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-48, :107-108, :144-145); the loader reads a size read as a value back at any magnitude, choosing an int, a long or a String by bit length (ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java:225-241); and ProjectFortress/compiler_tests/NatRtBigSize.fss gates sizes up to 18446744073709551615. Under walk a size is made by IntNat.make(n.getIntVal().getIntVal().intValue()) (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:443), which keeps the low 32 bits: 3000000000, an NN32 value, is refused as \"Negative nats are unNATural\" by the check at :251-256, and 4294967296 silently reads as 0 (row 418, which says this site was not located; it is :443, by reading). Row 418's expected failure, ProjectFortress/tests/XXXNatBigSizeWalk.fss, asserts that 4294967295 and 3000000000 read back.",
+"- NN32's LCM under walk. NN32$Lcm hands its int operands to UnsignedLong.gcd sign-extended (ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:145-150), where NN32$Gcd widens them first with Unsigned.toLong (:139-143). So 2147483648 LCM 7 answers 2147483646, where the multiple, 15032385536, does not fit (explorations/compile-ladder/plan-6.5/probes/lcm/NN32Lcm.walk.txt; explorations/compile-ladder/plan-6.5/NOTES.md section 5). No ledger row holds it.",
+"",
+"**The decisions.** A size's range (explorations/coordinator/POSITIONS.md, 2026-09-27, a size's range): a nat parameter is an NN32 value and an int parameter a ZZ32 (Specification/basic/trait-parameters.tex:82-90); a larger one is refused. GCD and LCM (2026-09-22, ledger row 334): nonnegative results, and an overflow error when the multiple does not fit, on both paths; under walk the error is the catchable IntegerOverflow of climb batch 3.5's rung I (FACTS.md, \"Under walk, a native can raise a Fortress exception that a Fortress catch sees\"). Not this rung's: the type a size read as a value has on the compiled path, the checker's IntLiteral (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:64-70), which stays (section 1 of the record, read from the record); and the array design's refusal of a JVM array length over 2^31-1, which is phase 5's.",
+"",
+"**What the tree already does.** Evidence, not the brief; the rung lists every way before it chooses. The checker's refusal of arithmetic in a size, its message and its expected-failure compile test (ProjectFortress/compiler_tests/XXXNatArithChecker.fss with .test, pinned by compile_err_contains), are the precedent for a refusal at a size and for its test. Walk refuses a negative size at EvalType.java:251-256, where the kind of the parameter is known. NN32$Gcd's widening is the file's own device for LCM. The helper of ProjectFortress/tests/IntSemanticsRungI.fss, which catches nothing but IntegerOverflow, is the precedent for asserting a catchable overflow under walk.",
+"",
+"**The test, first.** Each captured failing before the edit.",
+"- In ProjectFortress/compiler_tests/: an expected-failure compile test in the shape of XXXNatArithChecker, with sizes beyond NN32 at nat parameters and beyond ZZ32 at int parameters, in a type, as a written static argument and as a value, pinned by compile_err_contains on the refusal's message; and NatRtBigSize.fss restated to NN32's range, 2147483647, 2147483648, 3000000000 and 4294967295 reading back and dispatching as today, its three lines beyond 4294967295 moved to the refusal test. NatRtBigSize is a revival test; each changed line is listed with its before and after.",
+"- In ProjectFortress/tests/: row 418's XXXNatBigSizeWalk.fss promoted by git mv to a plain name, its component renamed, once walk reads it; a walk case beyond the range refused, in a form the harness gates (FACTS.md, \"An XXX*.fss in the interpreter corpus IS a gated expected-failure test\"); and for LCM, a test in the form of IntSemanticsRungI.fss: 2147483648 LCM 7 on NN32 raises IntegerOverflow, and NN32 multiples that fit are right.",
+"",
+"**The measurements.** The sized compiled tests (ProjectFortress/compiler_tests/Nat* and their expected failures) before and after; the 85 files of explorations/compile-ladder/baseline-2026-09-19/pass-list.txt under the subset driver, phase and stdout, before and after; the interpreter tests that declare a nat or int parameter (by a grep the rung states) before and after; the checker count before and after.",
+"",
+"**Files it may touch.** Under ProjectFortress/src/com/sun/fortress/scala_src/, the checker files the refusal needs, each named; ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java, only if the value emission must change, the reason reported; ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java and what else under interpreter/evaluator/ walk's reading needs, each named; ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java, its Lcm class only; NatRtBigSize.fss, the renamed row 418 test and the rung's new tests; its own directory. Stops: ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java (the checker-count tool keeps a copy checked against it, explorations/coordinator/tools/checker-count/run.sh:36); Library/, ProjectFortress/LibraryBuiltin/, Specification/.",
+"",
+"**Java or Scala.** Both. ant compileAll, then the library-order cache rebuild before any compiled test (explorations/repo-internals.md), and default_repository/caches/global.map restored after compileAll (FACTS.md, \"ant compileAll deletes a tracked file\").",
+"",
+"**The checker count.** Unchanged by reading: the one library's own sizes are the literals 0 to 3 (FACTS.md, \"A size at run time can follow the opr path, 28 lines, and a size in value position is 25 more\"). Captured before and after.",
+"",
+"**What must stay green, or keep its verdict.** Every compiled and interpreter test other than the rung's own and NatRtBigSize; IntSemanticsRungI.fss, UnsignedTest.fss, WrapOperatorsRungD.fss.",
+"",
+"**Stops.** A library declaration newly refused. A test's verdict changing other than the rung's own and NatRtBigSize's restated lines. A size inside NN32 or ZZ32 that stops reading back or dispatching. The type of a size read as a value changed. An edit to a file not named above. Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged; it is a ledger row (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** Walk against the compiled run at the NN32 boundary (2^31-1, 2^31, 2^32-1, 2^32) and the ZZ32 boundary of an int size (both signs), in a type, in a written static argument, as a value and in dispatch; LCM on NN32 at the boundary, walk against the compiled run; the refusal messages, and whether an int size's message names int (batch 3.5 and 4's review saw the arithmetic refusal name nat for int, row 307's note); NatRtBigSize's old and new lines.",
+"",
+"**What comes back to Pavol.** The refusal's message on each path; NatRtBigSize's restated lines.",
+"",
+"**What it closes.** Row 418 (fixed; its expected failure promoted). Opens and closes, home 1: NN32's LCM with sign-extended operands. Notes: row 307, what the int refusal says.",
+"",
+].join('\n')
+
+const P_TAIL = [
+"",
+"## Your rung: P - the text: the specification, a library comment, test messages and two owed tests",
+"",
+"SLUG is rung-spec-integer-rules. WORKTREE is /home/user/fortress-intprose, branch wip/rung-spec-integer-rules.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-6.5.md, section 3, under \"P. The text: the specification, a library comment, test messages and two owed tests\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's questions changes this rung. (Row 443's test asserts the specification's answer whichever way Q1 goes.)",
+"",
+"**The problem.** Six pieces of text disagree with what the project built or decided.",
+"- The integer rules built by climb batches 3.5 and 4 are written in no specification text and no api comment (explorations/reviews/batch-3.5-4-conformance.md, \"Batch 3.5 as a whole\" and finding 3). They are: LSHIFT and RSHIFT on ZZ32, ZZ64, NN32 and NN64 are bit operators that give 0 or the replicated sign for a count at or beyond the width and shift the other way for a negative count, the count read by the class of its value; a ZZ32 receiver takes a count of any integral type; narrow truncates, keeping the low 32 bits, signed and unsigned; the specification's shift on ZZ is exact and an unrepresentable left shift raises IntegerOverflow; GCD and LCM are nonnegative and raise IntegerOverflow when the result does not fit (FACTS.md, \"The interpreter's integer rules\" and \"The compiled path's integer rules\"). The specification has no LSHIFT, RSHIFT or narrow outside the generated Specification/library/apis/ (a grep); its shift is Specification/basic-lib/basic-integers.tex:674-681, its GCD and LCM :505-530, the operator overview's Specification/basic/operators/opr-overview.tex:254-264.",
+"- Row 394: the coercion chapter's own example (Specification/basic/conversions-coercions.tex:555-584) declares ZZ32, ZZ64 and ZZ128 with no exclusion and says f(ZZ32) resolves to f(ZZ64) because ZZ64 coerces to ZZ128; the chapter's definition of \"no less specific\" (:494-501) needs ZZ64 to exclude ZZ128, and both paths refuse the example as written. The row was handed to rung S and never revised.",
+"- The rational type's listing extends Number alone (Specification/basic-lib/numbers.tex:92-93 and the rendered listing at :144-145), while the library's QQ extends AdditiveGroup[\\QQ\\], MultiplicativeRing[\\QQ\\], StandardPartialOrder[\\QQ\\] and StandardMinMax[\\QQ\\] (Library/FortressLibrary.fsi:382-383), which SUM and PROD over QQ need. Batch 6's gather saw it and called it no mismatch; nothing says which the specification carries (explorations/reviews/batch-6-conformance.md, rung T and smaller findings).",
+"- Climb batch 5's rung S moved 13 specification citations in the messages of 7 revival tests, left \"for a later scripted pass\": ProjectFortress/compiler_tests/XXXFortToStringRungS.fss, XXXTupleVarFieldCompiledRungC.fss, XXXUnionMethodRungS.fss, ProjectFortress/library_tests/MaybeRungM.fss, ProjectFortress/tests/XXXFlatStringSplitRungL.fss, XXXTupleSeparatorRungS.fss and XXXTupleSevenRungS.fss (explorations/compile-ladder/climb-batch-6/JUDGE-review.md, finding 1). The same judge proposed that a rung editing the specification re-anchor the test messages it moves, and no workflow text says so yet.",
+"- The scalar-extension block's header comment (Library/FortressLibrary.fss:4568-4573, Library/FortressLibrary.fsi:2572-2577) says that \"sized arrays under a compiler need per-shape declarations beside these\", a shape that answer 9's positional rule refuses, by reading (explorations/reviews/batch-3-conformance.md, rung C and finding 3).",
+"- Rows 440 and 443 each owe a home-2 expected-failure walk test, ruled by batch 6's rung T judge (explorations/compile-ladder/rung-spec-numbers/JUDGE.md sections 1.5 and 1.8): under walk 0/0 = 0/0 is true and 0/0 CMP 0/0 is EqualTo, where the specification makes 0/0 unordered with itself (row 440); s: RR64 = 3000000000 is refused, \"RHS expression type Long is not assignable to LHS type RR64\", where the specification's Example 1 and answer 8 convert a numeral into RR64 (row 443; explorations/compile-ladder/plan-6.5/probes/numeral/NumMicro.base.txt).",
+"",
+"**The decisions.** The rules: POSITIONS 2026-09-22, ledger rows 335, 334, 333 and 346, and the design principle for integer semantics; 2026-09-24, climb batch 3.5 (the signed narrow truncates too) and ledger rows 380 and 381. The form, S1 (2026-09-26): the normative text edited in place, a \\revision callout at each changed passage (Specification/fortress/fortress.tex:87), an Appendix I entry per change quoting the original as \"the Working Draft of February 2011\" with its path and line in Specification-1.0-frozen/ (2026-09-26, the first of the batch-5 answers), and the reasons in a decision record; the later Types chapter cited beside where it covers the topic (2026-09-26, the lineage note); the requirement on the plan (2026-09-24). The number chapters describe the library and are checked against it (2026-09-26, the number chapters under S2; answer 6), which is why QQ's listing states the library's traits (section 1 of the record, read from the record). Row 440's fix is not this rung's: the library's comment chooses 0/0 = 0/0 on purpose (Library/FortressLibrary.fss:562), and only the test is owed. Row 443's fix is the numeral switch (section 1, Q1). The scalar comment's wording follows the batch 3 review's default: state only what is lost, and send the question of per-shape declarations to the array design.",
+"",
+"**What it writes.** First, before any edit, the list: every passage of Specification/ outside library/apis/ that names a shift, narrow, GCD, LCM, an integer overflow or the fixed-width integer types' operators, with what the decisions make of it and whether it is revised now or left, with the source that settles it; and every citation of a line of a chapter this rung edits in ProjectFortress/tests/, compiler_tests/ and library_tests/. Then:",
+"- the integer rules, in the passages the list shows describe these operators or where the specification describes the integer types' operators; the rung chooses the places, each in the S1 form;",
+"- row 394's example given the exclusion its definition needs, in the library's own spelling of its integer traits, with a callout and an entry;",
+"- QQ's listing given the library's supertraits, with one sentence that their laws hold away from 0/0 and the infinities, as RR64's hold away from NaN, with a callout and an entry;",
+"- the Appendix I entries as new subsections after the last one batch 6's rung T added (Specification/appendices/changes.tex, re-read on the base);",
+"- the decision record, explorations/compile-ladder/rung-spec-integer-rules/decision-record.md;",
+"- the 13 citations rung S moved, re-anchored by the map of unchanged lines from git show 3924e7ec3^:<chapter> to the tree, as batch 6's repair re-anchored 177 (JUDGE-review.md step 9), and every citation this rung's own edits move, re-anchored the same way: messages and comments only, never an assertion;",
+"- the scalar block's two comments reworded to state only what is lost, that all eight return the unsized Array[\\T,I\\]; comment text only, checked by rung C's re-lexing check (explorations/compile-ladder/rung-library-comments/comment-only-check.py), with the span effect a comment has after a declaration that ends in a type reported (FACTS.md, \"A comment placed after a declaration that ends in an expression or a type becomes part of that declaration's source span\");",
+"- two expected-failure walk tests in ProjectFortress/tests/, one per row, each asserting the specification's answer with its passage in the message, each shown failing on the base.",
+"",
+"**How it is checked.** No test can go red for a prose edit. The specification is built as rungs S and T built it (./ant genSource, then ./ant tex, in Specification/fortress/, with FORTRESS_HOME the worktree), on the base and after, the four logs captured; pdftotext of the two PDFs diffed, showing only the revised passages, the callouts, the appendix entries and page shifts; git diff --stat showing only the listed files; every re-anchored citation opened. The rung does not commit Specification/fortress.pdf; the gather rebuilds it on the merged tree, since Part IV is rendered from the .fsi files this rung's comment changes.",
+"",
+"**Files it may touch.** Under Specification/, not Specification-1.0-frozen/: the chapters its list names, appendices/changes.tex (its entries, at its place) and fortress/preamble.tex only if the front matter names a passage it revises; the messages and comments of the seven test files above and of any test whose citation its edits move; the scalar block's two comments in Library/FortressLibrary.fss and .fsi; its two new tests; its own directory. Not: Specification/fortress.pdf; any source file; any other library line.",
+"",
+"**Java or Scala.** Neither.",
+"",
+"**The checker count.** Unchanged: a comment changes no declaration the checker reads (climb batch 3's rung C measured the same). Captured before and after.",
+"",
+"**Stops.** Any edit under Specification-1.0-frozen/. Normative text for a rule neither path runs. A passage whose new text neither the decisions nor the landed code settles: the rung reports it and does not choose. An assertion changed in a re-anchored test. A library line other than the two comments. Not a stop: rung D's run-to-run rule.",
+"",
+"**For the skeptic.** There is no program to run both ways for the prose. The checks: every rule the text states against the landed code of both paths (the natives and bodies FACTS.md's two integer-rules entries name) and against the decisions; every quoted original against git show <base>:<path> and against the frozen copy's line; the two builds and the pdftotext diff; each re-anchored citation opened; QQ's listing against Library/FortressLibrary.fsi; the two new tests failing under walk for the reason their messages give; the scalar comment's re-lexing check.",
+"",
+"**What comes back to Pavol.** The revised pages, as the pdftotext diff; the Appendix I entries; the list, with what was left and why.",
+"",
+"**What it closes.** Row 394 (fixed). Notes appended: rows 335, 334 and 346, that the specification states them; rows 440 and 443, their tests.",
+"",
+].join('\n')
+
+const G_TAIL = [
+"",
+"## Your rung: G - generics at run time on the compiled path",
+"",
+"SLUG is rung-generic-runtime. WORKTREE is /home/user/fortress-genrt, branch wip/rung-generic-runtime.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-6.5.md, section 3, under \"G. Generics at run time on the compiled path\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's questions changes this rung.",
+"",
+"**The problem.** Six defects of the compiled path, each measured, each on the path of the switch-over or of microGPT's parallel run (explorations/reviews/batch-5-conformance.md finding 1; explorations/reviews/batch-3-conformance.md finding 1; explorations/reviews/batch-6-conformance.md finding 4). Walk runs every shape below.",
+"1. Row 417, the class loader's first load is not safe on two threads: InstantiatingClassloader.loadClass adds a name to history before it defines the class (ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java:204); a second thread that finds the name there returns findLoadedClass(name), null until the first thread has defined it (:182-186); RTHelpers.loadClosureClass then calls newInstance on null (ProjectFortress/src/com/sun/fortress/runtimeSystem/RTHelpers.java:133-138), or both threads define the class and one dies with LinkageError. explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsThreadsT.fss fails 5 of 5 compiled runs at FORTRESS_THREADS=4 and passes 5 of 5 at 1. It has no gated home, because the suites run at one thread.",
+"2. Row 419, a parallel task in a generic declaration is not generic over its free static parameters (ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1634, \"TO DO if fvts non-empty, will need to make a generic task\"; delegate at :4771). A 13-line fix is measured (explorations/compile-ladder/rung-size-runtime/probes/xxx-task-red-demo-fix.patch) and applies to today's tree as it stands (explorations/compile-ladder/plan-6.5/probes/row419-apply-check.txt). Expected failure: ProjectFortress/compiler_tests/XXXNatRtTask.fss with XXXNatRtTask.test and NatRtTaskLink.test.",
+"3. Row 420, a generic method of a generic object that builds instances over both the object's and its own static parameter fails at load (NoClassDefFoundError: U$RTTIc, and j$RTTIc for sizes); either parameter alone works; the site is not located. Expected failure: ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss with XXXNatRtMethBoth.test and NatRtMethBothLink.test.",
+"4. A generic arm of a dispatcher that names its static parameters differently from the dispatcher casts its result to a type the loader did not rewrite, and dies with ClassCastException (explorations/reviews/mie-probes/scope-call-site-dispatch.md section 4; ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:1755-1762 at the note's base). No ledger row.",
+"5. A ZZ32 instantiation made at run time is spelled fortress|CompilerBuiltin%ZZ32 (RTHelpers.java:174-175, ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/RTTI.java:53-58), where static code spells it with FZZ32, and a dispatched generic arm then dies with ClassCastException (the same note, section 4). No ledger row.",
+"6. Row 351, the code generator never binds a typecase or catch clause's name: CodeGen.forTypecase never reads it (CodeGen.java:2116-2147) and forTry reads it and never uses it (:2020-2061), so a reference to the name compiles as a top-level object that does not exist. Expected failure at the catch site: ProjectFortress/library_tests/XXXClauseBindingRungB.fss with its .test and ClauseBindingRungBLink.test. This is the cause of row 426: the compiled cast[\\T\\] matches its type test at a concrete type and then dies reading its clause's name (explorations/compile-ladder/plan-6.5/probes/cast/; NOTES.md section 2). The row's other failures, cast[\\ZZ32\\](0) and the like, pass a numeral, which on the compiled path is an IntLiteral and correctly not a ZZ32. Answer 7's identity functions pass numerals through cast[\\T\\] (Library/FortressLibrary.fss:3107-3131), so on the compiled path they need the binding fixed and branch values that are of type T at run time.",
+"Programs 4 and 5 are legal under route A and answer 9: explorations/compile-ladder/plan-6.5/probes/dispatch/ScopeAlpha2.fss, ScopeZZ32Sub.fss and ScopeArmsLegal.fss compile on today's checker and die (*.stock.txt beside them).",
+"",
+"**The decisions.** PLAN phase 2b: rows 417, 419 and 420 repaired before the switch-over, row 417 gated by a program of its shape in the gate's four-thread stage; the two dispatch defects with their probes as expected-failure tests and the measured 43-line fix. Row 426 in this batch (section 1 of the record, read from the record). Design B with the factory (POSITIONS 2026-09-24 and 2026-09-26): a size is a descriptor from RTTIsize.of, and row 420 has a size twin. Answer 9 (2026-09-26): a generic declaration beside a plain one is legal, and two generic declarations in the more-specific relation agree on their static parameters position by position; the three dispatch programs meet it. Answer 7 (2026-09-26): the identity comes from the static argument through the () -> T witness typecase; its values stay what they are.",
+"",
+"**What the tree already does.** Evidence, not the brief; the rung lists every way before it chooses.",
+"- Row 419's measured fix is forFnExpr's own device for a closure (CodeGen.java:3464-3475).",
+"- Row 351's fix, as its row records, is the local CodeGen already makes for a bound name (new VarCodeGen.LocalVar, then addLocalVar; CodeGen.java:2853, :3945), at both sites.",
+"- The measured dispatch change (explorations/compile-ladder/plan-6.5/probes/dispatch/callsite-rebased.patch, the note's shadow applied to today's OverloadSet.java, its probe switch still in it) reads a generic arm of a template dispatcher at the dispatcher's own static parameters, which the loader has already set to the call site's; with it the three programs print the specification's answers (*.callsite.txt). Its reach and its remainder are the note's section 3: generic dotted methods, functional methods in a top-level set, opr and nat parameters, and a dispatcher that is not a template, which answer 9 now makes a legal program.",
+"- For row 417: the team's descriptor factories keep one winner under a race, a get and then a putIfNew that checks again under the table's lock (InstantiatingClassloader.java:2744-2752, ProjectFortress/src/com/sun/fortress/runtimeSystem/RttiTupleMap.java:148-157), the pattern RTTIsize.of took with putIfAbsent (ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/RTTIsize.java:24-33); and the JDK gives a class loader a per-name lock (ClassLoader.registerAsParallelCapable, getClassLoadingLock).",
+"- For the identity functions: a typed local binding converts a numeral by coercion on both paths (FACTS.md, \"Under walk, the interpreter converts by coercion at its three kinds of type check\"); the answer-7 judgement names a checker refinement of the witness branch as the other way (explorations/reviews/sum-replacement-judgement.md section 7, check 3).",
+"",
+"**The test, first.** Each captured failing before the edit.",
+"- Row 417: ProjectFortress/compiler_tests/FirstLoadThreadsRungG.fss with FirstLoadThreadsRungG.test (compile, link, run, run_out_contains=PASS), in ZsThreadsT's shape, a parallel for dispatching a generic arm over eight instantiations and printing PASS when its sum is right. At one thread, which is how testFast runs it, it passes before and after; the gate's four-thread stage runs it three times at FORTRESS_THREADS=4 once section 8's change is made, which names this file, so the name is fixed; the stage reports it absent, and not red, while the file is not in compiler_tests/. Captured: five compiled runs at four threads failing before the edit and passing after, and at one thread passing both times.",
+"- The three dispatch programs, each as two .test files over one component, a plain one driving link and an XXX one driving run (FACTS.md, \"The XXX expected-failure mechanism in compiler_tests/ and library_tests/ can express a compile-stage failure only, and a run-time defect needs two .test files\"), then promoted.",
+"- Row 351: a typecase-site test in the shape of CaseBindPlain, and the catch site's XXXClauseBindingRungB promoted; a compiled cast[\\T\\] of a value of type T in the shape of CastBind.",
+"- Rows 419 and 420: XXXNatRtTask promoted; XXXNatRtMethBoth promoted if the rung repairs row 420.",
+"- The identity functions: under walk their values are gated by ProjectFortress/tests/FlatTowerRungF.fss, group 3, which must pass unchanged; the compiled check of a SUM's identity end to end waits for the switch-over, since the compiler's own library has no generic SUM (FACTS.md, \"The compile ladder loses one file to an approved test line, until the switch-over\"), and the report names it.",
+"",
+"**The measurements.** The four-thread stage's thirteen atomic programs and the new one, three runs each at FORTRESS_THREADS=4, before and after, since a lock on first load must not deadlock or slow them to a timeout; the 43 compiler tests that declare a generic overload (explorations/reviews/mie-probes/scope/compiler-tests.txt) before and after, output and classes, as the scope note measured them; the compiler library's five jars before and after (byte-identical expected, as the note found); the 85 ladder files; the sized compiled tests; the checker count. The manifest sets writesState: every differential at FORTRESS_THREADS=1 and 4.",
+"",
+"**Files it may touch.** ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java, RTHelpers.java and what else under runtimeSystem/ the lock or row 420 needs, each named; ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java (delegate and its caller, forTypecase, forTry, and what row 420 needs); ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java; new and promoted tests in ProjectFortress/compiler_tests/ and library_tests/; in Library/FortressLibrary.fss and .fsi, additiveIdentity and multiplicativeIdentity only; its own directory. Stops: ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java; scala_src/; interpreter/; any other library declaration; Specification/.",
+"",
+"**Java or Scala.** Java. ant compileAll, the library-order cache rebuild before any compiled test, and default_repository/caches/global.map restored after compileAll.",
+"",
+"**The checker count.** Unchanged: the stage reads the checker and the library's declarations, and the rung changes no declared type. Captured before and after.",
+"",
+"**What must stay green, or keep its verdict.** Every compiled, library and interpreter test other than the rung's own; the thirteen atomic programs at four threads; FlatTowerRungF.fss.",
+"",
+"**Stops.** A compiled test's verdict changing other than the rung's own; a ladder file moving down; a four-thread run that deadlocks or times out twice; a compiler-library jar changing other than where a named fix predicts it; an edit to the checker, walk or any library line other than the two identity functions. Not a stop: row 420 or row 417 left unrepaired with its site located and the reason reported, its test staying an expected failure (row 417's program then kept in the rung's probes/ and out of compiler_tests/, where the four-thread stage finds it absent and says so); rung D's run-to-run rule.",
+"",
+"**For the skeptic.** Each defect, walk against the compiled run, on the rung's programs and on a variant the skeptic writes; row 417 at four threads over five repeated runs and with more instantiations than the test's eight; the dispatch programs, and a generic dotted method and a dispatcher that is not a template, to show the remainder unchanged and recorded; the identity functions' values under walk against the base; the compiler library's jars.",
+"",
+"**What comes back to Pavol.** Which of the six are fixed; the lock's shape and its measured cost on the thirteen atomic programs.",
+"",
+"**What it closes.** Rows 351, 417, 419 and 426 (fixed; 426 noted with its cause); row 420 if repaired. Opens and closes, home 1: the two dispatch defects. Opens: the dispatch defect's remainder (generic dotted methods, a dispatcher that is not a template), home 2 where the rung shows it failing.",
+"",
+].join('\n')
+
+const V_TAIL = [
+"",
+"## Your rung: V - RR32 a sibling of RR64",
+"",
+"SLUG is rung-rr32-sibling. WORKTREE is /home/user/fortress-rr32, branch wip/rung-rr32-sibling.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-6.5.md, section 3, under \"V. RR32 a sibling of RR64\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's questions changes this rung.",
+"",
+"**The problem.** RR32 is the one number type of the one library still below another: value object RR32 extends RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:47, .fss:203), and RR64 comprises { Float, FloatLiteral, RR32 } (Library/FortressLibrary.fsi:286-289). An RR32 value is then also an RR64 value, which the specification forbids: \"These types are mutually exclusive; no value has more than one of them\" (Specification/basic/types-vals-vars.tex:536), kept by the later Types chapter (Documentation/Specification/Prose/Language/types.tick:977-978). RR32's binary natives declare b:RR64 and read it with getRR32(), so an RR32 with any other number ends the run with an InterpreterBug (row 435; ProjectFortress/tests/XXXRR32MixedRungF.fss). By reading, an RR64-typed value may be an RR32 at run time, whose operators answer RR32, which unboxing by static type in phase 6 could not follow (explorations/reviews/batch-6-conformance.md, finding 3). It entered batch 6 as its record's reading, not a decision.",
+"",
+"**The decisions.** Route A (POSITIONS 2026-09-24): the number types siblings under Number, each carrying its own algebra. Answer 8 (2026-09-26): an exact conversion is a coercion, a lossy one explicit; every RR32 value is exact in RR64. The number chapters describe the library (answer 6; 2026-09-26, the number chapters under S2), so the chapter names RR32 once it is a sibling, in the S1 form.",
+"",
+"**What the library and the specification already do.** Evidence, not the brief; the rung lists every way before it chooses. The compiler library's RR32 is a sibling that RR64 converts from (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435, :475-476). The specification's worked example computes an RR32 with an RR64 by RR64's declaration after a coercion (Specification/basic/conversions-coercions.tex:861-898). Chase's 6896886fb (2009-08-31) cut the subtype in the compiler library, \"RR32 is NOT a subtype of RR64\", and Steele's retrospective draws the floats as siblings (research/extracts/SteeleJuliaCon2016-extract.md:159-161). The flat library's RR64 is the model of what a float carries at its own type (Library/FortressLibrary.fsi:286-289 and its body). The probe built two shapes (explorations/compile-ladder/plan-6.5/probes/rr32/; NOTES.md section 6). The first (rr32-sibling.patch) met three library sites: RR32's exponent overloads, where ^(self, b:ZZ64):RR32 and MultiplicativeRing's ^(self, other:AnyIntegral): T break the return-type rule beside ^(self, b:Number):RR64 once RR32 is no longer an RR64; and Number's =, which finds a float by typecase ... RR64 alone (Library/FortressLibrary.fss:358-365). Its corpus pass found a fourth: RR32's api declares its getters, one ^ and MINNUM/MAXNUM only (ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:47-74), so the operators it shares with RR64 outside the algebra traits (/, SQRT, the _UP, _DOWN and IEEE_ forms, floor and the rest) reach a program only as RR64's, which converted both operands and answered an RR64; the team's testRR32 then failed at its line 30 (RR32Div2.sibling.txt). The second shape (rr32-sibling-api.patch) declares RR32's operators in its api as RR64's api declares its own (Library/FortressLibrary.fsi:313-372); with it every operator answers an RR32 (RR32Div2.sibling-api.txt), and RR32Micro prints the specification's answers where the base ends with row 435's InterpreterBug (RR32Micro.base.txt, RR32Micro.sibling-api.txt).",
+"",
+"**The test, first.** One new file in ProjectFortress/tests/, in the form of ProjectFortress/tests/roundBug.fss, each value checked by value and by run-time class through one helper, as ProjectFortress/tests/IntSemanticsRungI.fss:14-18 does, each message citing its source: an RR32 is not an RR64 in a typecase; RR32 with RR32 answers an RR32, for an operator of the algebra traits and for one that only RR64's api declares today (/, SQRT); RR32 with an RR64, a float numeral or a ZZ32 answers the RR64 the specification's example gives; an RR32 bound to an RR64 variable converts; RR32 compared with an RR64 by =, < and CMP. XXXRR32MixedRungF.fss promoted by git mv once it passes. Captured failing before the edit.",
+"",
+"**The comparison.** As rung F's (explorations/compile-ladder/rung-flat-tower/count-run.sh, compare-normalised.py; its REPORT.md): every file of ProjectFortress/tests/ except the new test, in three passes, base A, the edit, base B, one JVM per test with private caches, normalised as batch 5 normalised (POSITIONS 2026-09-26, batch 5's go, Q2), XXXInheritedOverload.fss listed as unstable (row 430); every changed output listed with its cause, and every changed team-test line with its before and after. The probe's passes are the prediction (NOTES.md section 6): with the second shape, 387 of the 414 files print what the base prints, 7 more once the library's moved lines are normalised, 17 differ between the two base passes too, and 3 change, each keeping the verdict the rung expects: row 435's expected failure passes, and two expected failures print a changed message (a candidate list naming RR32's own -, and two declarations in the other order, as row 430's). testRR32 passes only once RR32's api declares its operators.",
+"",
+"**Files it may touch.** ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi and .fss, RR32's declarations only; in Library/FortressLibrary.fsi and .fss, Number's comprises clause and its =, and RR64's header and a coerce; the team's test lines that assert RR32 below RR64, each keeping the value it checks; the new test and the renamed XXXRR32MixedRungF; Specification/basic-lib/numbers.tex, the passage that names the number types and their coercions (:27-49), with its callout and its own subsections of Specification/appendices/changes.tex after the last entry, re-read on the base; the messages and comments of any test whose citation of a line of numbers.tex its edit moves, re-anchored by the map of unchanged lines as rung P's section says, never an assertion; its own directory. Stops: any other library declaration; explorations/run-c4/ and explorations/apl/ (neither names RR32, by a grep).",
+"",
+"**Java or Scala.** None expected: the declared parameter types carry the fix (row 435's second fix). If a native must change after all, the smallest change, reported with the alternative, and ant compileAll before every run after it.",
+"",
+"**The checker count.** Reported and classified: the FortressBuiltin api reaches the count stage (its row read 0 after rung F), and a new or gone row there is the rung's to tie to its edit. Captured before and after.",
+"",
+"**What must stay green, or keep its verdict.** Every interpreter test's verdict other than the rung's own; testRR32.fss, RoundHalfEvenRungR.fss, FlatTowerRungF.fss; the two microGPT checks, which name no RR32, at 40 of 40.",
+"",
+"**Stops.** A changed walk output its comparison does not account for. A team test line changed other than one that asserts RR32 below RR64, keeping its value. A coercion beyond RR64's from RR32. The specification's sentence stating more than the landed library. Not a stop: rung D's run-to-run rule.",
+"",
+"**For the skeptic.** The new test's cases, walk against the compiled run where the compiler library has them (its RR32 is a sibling already); each changed output against its stated cause; each restated RR32 declaration against RR64's and against the probe's shape; the chapter's sentence against the landed library.",
+"",
+"**What comes back to Pavol.** The changed outputs with their causes; any team test line restated.",
+"",
+"**What it closes.** Row 435 (fixed; its expected failure promoted). Notes: batch 6's review, finding 3, on the batch 6 record's reading.",
+"",
+].join('\n')
+
+const E_ENTRY = { id: 'E', slug: 'rung-size-range', path: '/home/user/fortress-sizerange', branch: 'wip/rung-size-range', tail: E_TAIL, expectedMinutes: 150, writesState: false, testIsStage: false, expectedCheckerCount: CHECKER_BASE,
+    blurb: "both paths refuse a size beyond NN32 (ZZ32 for an int size) as the decision on a size's range says, walk reads the sizes in range exactly (row 418), NatRtBigSize restated to the range, and NN32's LCM raises IntegerOverflow where the multiple does not fit; Scala under scala_src/ and Java under interpreter/.",
+    briefing: [
+      "positions:2026-09-27 size's range", "positions:2026-09-22 ledger row 334", "positions:2026-09-24 run-time size design",
+      "positions:2026-09-26 fourth batch-5 answer", "positions:2026-09-26 fifth batch-5 answer", "positions:2026-09-21 nat plan",
+      "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:418", "ledger:334", "ledger:307",
+      "doc:explorations/compile-ladder/rung-size-runtime/JUDGE.md#For Pavol",
+      "doc:explorations/reviews/batch-5-conformance.md#Findings that need Pavol@size's range",
+      "doc:explorations/reviews/batch-3.5-4-conformance.md#Findings that need Pavol@size-range",
+      "doc:explorations/reviews/batch-3.5-4-conformance.md#Smaller findings, for the record@sign-extended operands",
+      "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters",
+      "doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#5. NN32's LCM", "doc:explorations/compile-ladder/plan-6.5/NOTES.md#7. What was not probed",
+      "doc:explorations/compile-ladder/plan-6.5/probes/lcm/NN32Lcm.walk.txt",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala#private val sizeArithmetic..private def hasSizeArithmetic",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala#def getType",
+      "code:ProjectFortress/src/com/sun/fortress/runtimeSystem/MethodInstantiater.java#public void visitMethodInsn",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java#public static void bindGenericParameters",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java#public FType forIntArg",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java#public static final class Gcd extends NN2N..public static final class Lcm extends NN2N",
+      "doc:ProjectFortress/compiler_tests/NatRtBigSize.fss", "doc:ProjectFortress/tests/XXXNatBigSizeWalk.fss",
+      "doc:ProjectFortress/compiler_tests/XXXNatArithChecker.fss", "doc:ProjectFortress/compiler_tests/XXXNatArithChecker.test",
+      "code:ProjectFortress/tests/IntSemanticsRungI.fss#overflows(f: () -> Any): Boolean =..zz32Shown(v: Any): String =",
+      "A size is carried at run time as a descriptor", "The compiled type checker checks nat and int static parameters",
+      "A size at run time can follow the opr path", "The interpreter's integer rules", "Under walk, a native can raise a Fortress exception",
+      "An XXX compile test pinned by compile_err_contains", "An XXX*.fss in the interpreter corpus IS a gated expected-failure test",
+      "ant compileAll deletes a tracked file", "map:compile-path-walkthrough.md#What the specification says it is",
+      "map:README.md#Touch this@scala_src/typechecker", "map:README.md#Touch this@interpreter/ (evaluator"],
+    checks: [
+      "positions:2026-09-27 size's range", "positions:2026-09-22 ledger row 334", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:418", "ledger:334", "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala#private val sizeArithmetic..private def hasSizeArithmetic",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java#public static void bindGenericParameters",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java#public FType forIntArg",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java#public static final class Gcd extends NN2N..public static final class Lcm extends NN2N",
+      "doc:ProjectFortress/compiler_tests/NatRtBigSize.fss", "The compiled type checker checks nat and int static parameters"],
+    expectedMoves: [] }
+
+const P_ENTRY = { id: 'P', slug: 'rung-spec-integer-rules', path: '/home/user/fortress-intprose', branch: 'wip/rung-spec-integer-rules', tail: P_TAIL, expectedMinutes: 120, writesState: false, testIsStage: false, expectedCheckerCount: CHECKER_BASE,
+    blurb: "the integer rules of 2026-09-22 and 2026-09-24 in the specification in the S1 form, row 394's coercion example given its exclusion, the rational type's listing given the library's algebra, the 13 test citations rung S moved re-anchored, the scalar block's comment reworded, and the expected-failure walk tests rows 440 and 443 owe; an original-tree edit, no source file.",
+    briefing: [
+      "positions:2026-09-22 ledger row 335", "positions:2026-09-22 ledger row 334", "positions:2026-09-22 ledger row 333",
+      "positions:2026-09-22 ledger row 346", "positions:2026-09-22 design principle for integer semantics", "positions:2026-09-24 climb batch 3.5",
+      "positions:2026-09-24 ledger rows 380 and 381", "positions:2026-09-24 requirement on the plan", "positions:2026-09-26 S1",
+      "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note", "positions:2026-09-26 number chapters under S2",
+      "positions:2026-09-26 answer 6", "positions:2026-09-19 answering the open question", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:394", "ledger:440", "ledger:443", "ledger:335", "ledger:346",
+      "doc:explorations/compile-ladder/climb-batch-6/JUDGE-review.md#Finding 1",
+      "doc:explorations/compile-ladder/rung-spec-numbers/JUDGE.md#1.5 Example 1 against the numerals",
+      "doc:explorations/compile-ladder/rung-spec-numbers/JUDGE.md#1.8 The rows",
+      "doc:explorations/reviews/batch-3.5-4-conformance.md#Batch 3.5 as a whole",
+      "doc:explorations/reviews/batch-3.5-4-conformance.md#Findings that need Pavol@specification is behind",
+      "doc:explorations/reviews/batch-3-conformance.md#Findings that need Pavol@library comment",
+      "doc:explorations/reviews/batch-6-conformance.md#Smaller findings, for the record@algebraic supertraits",
+      "doc:Specification/basic-lib/basic-integers.tex#Integers", "code:Specification/basic-lib/numbers.tex#%% trait QQ..%% end",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators",
+      "doc:Specification/basic/operators/opr-overview.tex#Multiplication, Division, Modulo, and Remainder Operators",
+      "doc:Specification/appendices/changes.tex#The integer trait", "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:explorations/compile-ladder/rung-spec-numbers/decision-record.md#2. The one reading everything rational rests on",
+      "doc:explorations/compile-ladder/rung-spec-numbers/decision-record.md#5. Decisions taken inside the rung",
+      "doc:explorations/compile-ladder/rung-library-comments/REPORT.md#5. How the change was verified",
+      "doc:explorations/compile-ladder/plan-6.5/probes/numeral/NumMicro.base.txt", "code:Library/FortressLibrary.fsi#trait QQ extends..comprises { ... }",
+      "code:Library/FortressLibrary.fss#(*) Scalar extension: an array of numbers..declarations beside these.",
+      "code:Library/FortressLibrary.fsi#(*) Scalar extension: an array of numbers..declarations beside these.", "The compiled path's integer rules",
+      "The interpreter's integer rules", "The specification's number chapters describe the flat library",
+      "The specification states instantiation exclusion, and its refused examples", "Specification-1.0-frozen/ is byte for byte",
+      "The team's latest word on types", "A comment placed after a declaration that ends in an expression",
+      "Citing Specification/library/apis/*.tex as an independent standard is circular", "The one library's number tower is flat",
+      "map:README.md#Touch this@Specification/ (the standard)", "index:number chapters"],
+    checks: [
+      "positions:2026-09-22 ledger row 335", "positions:2026-09-22 ledger row 334", "positions:2026-09-22 ledger row 333",
+      "positions:2026-09-22 ledger row 346", "positions:2026-09-22 design principle for integer semantics", "positions:2026-09-24 climb batch 3.5",
+      "positions:2026-09-24 ledger rows 380 and 381", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 answer 6", "ledger:394", "ledger:440", "ledger:443",
+      "doc:explorations/compile-ladder/climb-batch-6/JUDGE-review.md#Finding 1", "code:Specification/basic-lib/numbers.tex#%% trait QQ..%% end",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "code:Library/FortressLibrary.fsi#trait QQ extends..comprises { ... }", "The compiled path's integer rules", "The interpreter's integer rules"],
+    expectedMoves: [] }
+
+const G_ENTRY = { id: 'G', slug: 'rung-generic-runtime', path: '/home/user/fortress-genrt', branch: 'wip/rung-generic-runtime', tail: G_TAIL, expectedMinutes: 300, writesState: true, testIsStage: false, expectedCheckerCount: CHECKER_BASE,
+    blurb: "the compiled path's generics at run time: the class loader's first load at four threads (row 417), a parallel task in a generic declaration (row 419), a generic method over two sets of parameters (row 420), the two dispatch defects, and a typecase or catch clause's bound name (row 351, the cause of row 426), with answer 7's identity functions passing values of type T through cast; Java under runtimeSystem/ and compiler/.",
+    briefing: [
+      "doc:explorations/coordinator/PLAN.md#Phase 2b. The repair batch from the conformance reviews", "positions:2026-09-26 answer 9",
+      "positions:2026-09-26 answer 7 catch-all", "positions:2026-09-24 run-time size design", "positions:2026-09-26 fourth batch-5 answer",
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-17 a standing preference",
+      "positions:2026-09-19 after climb batch 1 landed", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:417", "ledger:419", "ledger:420", "ledger:351", "ledger:426", "ledger:415",
+      "doc:explorations/reviews/batch-5-conformance.md#Findings that need Pavol@Three compiled-path defects",
+      "doc:explorations/reviews/batch-5-conformance.md#Findings that need Pavol@cannot hold a defect",
+      "doc:explorations/reviews/batch-3-conformance.md#Two compiled dispatch defects that stayed out of every list",
+      "doc:explorations/reviews/batch-6-conformance.md#Findings that need Pavol@identity on the compiled path",
+      "doc:explorations/reviews/mie-probes/scope-call-site-dispatch.md#2. The design",
+      "doc:explorations/reviews/mie-probes/scope-call-site-dispatch.md#3. The size, measured",
+      "doc:explorations/reviews/mie-probes/scope-call-site-dispatch.md#4. The two side defects",
+      "doc:explorations/reviews/sum-replacement-judgement.md#7. Three checks that tell the options apart, still open",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#2. Row 426",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#3. The two compiled dispatch defects",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#4. Row 419", "doc:explorations/compile-ladder/plan-6.5/probes/dispatch/callsite-rebased.patch",
+      "doc:explorations/compile-ladder/rung-size-runtime/probes/xxx-task-red-demo-fix.patch",
+      "doc:explorations/compile-ladder/rung-size-runtime/probes/skeptic/ZsThreadsT.fss", "doc:ProjectFortress/compiler_tests/XXXNatRtTask.fss",
+      "doc:ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss", "doc:ProjectFortress/library_tests/XXXClauseBindingRungB.fss",
+      "code:ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java#protected Class loadClass(String name, boolean resolve)",
+      "code:ProjectFortress/src/com/sun/fortress/runtimeSystem/RTHelpers.java#static Object loadClosureClass(long l, BAlongTree t,",
+      "code:ProjectFortress/src/com/sun/fortress/runtimeSystem/RttiTupleMap.java#private RTTI putIfNewHelper",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/RTTIsize.java#public static RTTI of(String size)",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public void forTypecase(Typecase x)",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public void forTry(Try x)",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public String delegate(Expr x",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public void forFnExpr(FnExpr x)",
+      "code:Library/FortressLibrary.fss#The identity of + and of juxtaposition..multiplicativeIdentity[", "Generic instantiations",
+      "The XXX expected-failure mechanism in compiler_tests/", "The gate's thread count is pinned", "The replacement for SUM's and PROD's catch-all",
+      "The compile ladder loses one file", "Under walk, the interpreter converts by coercion", "A size is carried at run time as a descriptor",
+      "ant compileAll deletes a tracked file", "map:compile-path-walkthrough.md#6. The run: the second JVM and the class loader",
+      "map:compile-path-walkthrough.md#What the loader and the code generator lack", "map:README.md#Touch this@runtimeSystem/",
+      "map:README.md#Touch this@compiler/codegen/"],
+    checks: [
+      "doc:explorations/coordinator/PLAN.md#Phase 2b. The repair batch from the conformance reviews", "positions:2026-09-26 answer 9",
+      "positions:2026-09-26 answer 7 catch-all", "positions:2026-09-24 run-time size design", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:417", "ledger:419", "ledger:420", "ledger:351", "ledger:426",
+      "doc:explorations/reviews/batch-3-conformance.md#Two compiled dispatch defects that stayed out of every list",
+      "doc:explorations/reviews/mie-probes/scope-call-site-dispatch.md#4. The two side defects",
+      "code:ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java#protected Class loadClass(String name, boolean resolve)",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public void forTypecase(Typecase x)",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java#public void forTry(Try x)",
+      "code:Library/FortressLibrary.fss#The identity of + and of juxtaposition..multiplicativeIdentity[",
+      "The XXX expected-failure mechanism in compiler_tests/", "The replacement for SUM's and PROD's catch-all"],
+    expectedMoves: [] }
+
+const V_ENTRY = { id: 'V', slug: 'rung-rr32-sibling', path: '/home/user/fortress-rr32', branch: 'wip/rung-rr32-sibling', tail: V_TAIL, expectedMinutes: 150, writesState: false, testIsStage: false,
+    blurb: "RR32 a sibling of RR64 under Number (route A, answer 8): RR64 converts from it, its arithmetic takes an RR32 (row 435), the team's test lines that assert the subtype restated with their values, and one sentence in the number chapter in the S1 form; library and builtin declarations only.",
+    briefing: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-26 answer 6",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-26 lineage note", "positions:2026-09-26 climb batch 5 coordinator/CLIMB-BATCH-5.md", "positions:2026-09-26 Q1 of batch 6",
+      "positions:2026-09-19 answering the open question", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:435", "ledger:430", "doc:explorations/reviews/batch-6-conformance.md#Findings that need Pavol@still a subtype",
+      "doc:explorations/reviews/batch-6-conformance.md#Standard 2: the team's built intent@RR32 stays below",
+      "doc:Specification/basic/types-vals-vars.tex#Types in the Fortress Standard Libraries",
+      "doc:Specification/basic/conversions-coercions.tex#Automatic Widening",
+      "code:Specification/basic-lib/numbers.tex#The number types of this chapter are..is explicit, written",
+      "doc:Documentation/Specification/Prose/Language/types.tick#Types in the Fortress Standard Libraries",
+      "doc:research/extracts/SteeleJuliaCon2016-extract.md#The type system, and where it broke",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#a sibling of", "doc:explorations/compile-ladder/plan-6.5/probes/rr32/rr32-sibling-api.patch",
+      "doc:ProjectFortress/tests/XXXRR32MixedRungF.fss", "doc:explorations/compile-ladder/rung-flat-tower/REPORT.md#11. The comparison",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#value object RR32 extends RR64",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#value object RR32 extends RR64",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait RR64 extends { Number, Equality",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait RR32 extends { Number, Equality",
+      "code:Library/FortressLibrary.fsi#trait RR64 extends { Number, StandardPartialOrder",
+      "code:Library/FortressLibrary.fss#trait Number extends { AnyAdditiveGroup", "The one library's number tower is flat",
+      "The specification's number chapters describe the flat library", "Under walk, the interpreter converts by coercion",
+      "Specification-1.0-frozen/ is byte for byte", "The team's latest word on types",
+      "map:spec-to-implementation.md#What the compiler prelude has of the tower"],
+    checks: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-26 answer 6",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 rung D's stop", "ledger:435",
+      "doc:Specification/basic/types-vals-vars.tex#Types in the Fortress Standard Libraries",
+      "doc:Specification/basic/conversions-coercions.tex#Automatic Widening",
+      "code:Specification/basic-lib/numbers.tex#The number types of this chapter are..is explicit, written",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#value object RR32 extends RR64",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait RR64 extends { Number, Equality",
+      "code:Library/FortressLibrary.fsi#trait RR64 extends { Number, StandardPartialOrder", "The one library's number tower is flat"],
+    expectedMoves: [] }
+
+const RUNGS = RUN === 'first' ? [E_ENTRY, P_ENTRY] : RUN === 'second' ? [G_ENTRY, V_ENTRY] : [E_ENTRY, P_ENTRY, G_ENTRY, V_ENTRY]
+const HAS_RUNG = (id) => RUNGS.some(r => r.id === id)
+
+const INTRO_RUNG = {
+  E: "E makes both paths refuse a size beyond NN32 (ZZ32 for an int size), as the decision on a size's range says; walk reads the sizes in range exactly (row 418); NatRtBigSize is restated to the range; and NN32's LCM raises IntegerOverflow where the multiple does not fit.",
+  P: "P writes the integer rules of 2026-09-22 and 2026-09-24 into the specification in the S1 form, gives row 394's coercion example the exclusion its definition needs, states the library's algebra in the rational type's listing, re-anchors the test citations rung S moved and those its own edits move, rewords the scalar block's comment, and writes the expected-failure walk tests rows 440 and 443 owe.",
+  G: "G repairs the compiled path's generics at run time: the class loader's first load at four threads (row 417), a parallel task in a generic declaration (row 419), a generic method over two sets of parameters (row 420), the two dispatch defects with the measured change, and a typecase or catch clause's bound name (row 351, the cause of row 426), with answer 7's identity functions passing values of type T through cast.",
+  V: "V makes RR32 a sibling of RR64 under Number (route A, answer 8): RR64 converts from it, its arithmetic takes an RR32 (row 435), and the number chapter names it in the S1 form.",
+}
+const INTRO_STOPS = {
+  E: "for E, a library declaration newly refused, a test's verdict changing other than its own and NatRtBigSize's restated lines, a size inside NN32 or ZZ32 that stops reading back or dispatching, the type of a size read as a value changed, and an edit to compiler/StaticChecker.java or to a file its section does not name",
+  P: "for P, any edit under Specification-1.0-frozen/, normative text for a rule neither path runs, a passage whose new text neither the decisions nor the landed code settles (reported, not chosen), an assertion changed in a re-anchored test, and a library line other than the scalar block's two comments",
+  G: "for G, a compiled test's verdict changing other than its own, a ladder file moving down, a four-thread run that deadlocks or times out twice, a compiler-library jar changing other than where a named fix predicts it, and an edit to the checker, walk or any library line other than the two identity functions",
+  V: "for V, a changed walk output its comparison does not account for, a team test line changed other than one that asserts RR32 below RR64 (keeping its value), a coercion beyond RR64's from RR32, and the specification's sentence stating more than the landed library",
+}
+const INTRO_LIFTED = {
+  E: "E restates NatRtBigSize's lines beyond NN32, moving its three lines beyond 4294967295 to the refusal test, and renames row 418's expected failure into a plain test (the decision on a size's range)",
+  V: "V restates RR32's declarations and the team's test lines that assert RR32 below RR64, each keeping the value it checks, and renames row 435's expected failure into a plain test (route A and answer 8)",
+}
+const OVERLAP_RUNG = {
+  E: "E edits checker files under ProjectFortress/src/com/sun/fortress/scala_src/, possibly runtimeSystem/MethodInstantiater.java, interpreter/evaluator/EvalType.java and what else walk's reading needs, the Lcm class of interpreter/glue/prim/NN32.java, ProjectFortress/compiler_tests/NatRtBigSize.fss and new tests there, and renames ProjectFortress/tests/XXXNatBigSizeWalk.fss and adds tests there.",
+  P: "P edits Specification/ (never Specification-1.0-frozen/, and not Specification/fortress.pdf, which the gather rebuilds), the messages and comments of seven revival tests and of any test whose citation its edits move, the scalar block's two comments in Library/FortressLibrary.fss and .fsi, and adds two XXX walk tests in ProjectFortress/tests/.",
+  G: "G edits runtimeSystem/InstantiatingClassloader.java, RTHelpers.java and what the lock or row 420 needs, compiler/codegen/CodeGen.java and compiler/OverloadSet.java, additiveIdentity and multiplicativeIdentity in Library/FortressLibrary.fss, and adds and promotes tests in ProjectFortress/compiler_tests/ and library_tests/.",
+  V: "V edits RR32's declarations in ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi and .fss, Number's comprises clause and =, and RR64's header and a coerce, in Library/FortressLibrary.fsi and .fss, the team's test lines that assert the subtype, the numbers.tex passage and its entries in Specification/appendices/changes.tex, and adds a test and renames XXXRR32MixedRungF.fss in ProjectFortress/tests/.",
+}
+
+const BATCH_INTRO = [
+  "This batch is the repair batch of the plan's phase 2b (explorations/coordinator/PLAN.md, \"Phase 2b. The repair batch from the conformance reviews\"): what the conformance reviews of batches 3 to 6 found, repaired before phase 3.",
+  RUN === 'first' ? "This run is its first, batch 6.5; the second, batch 6.5b, carries rungs G and V and is cut from the tree this run lands, because a run carries one rung that edits Java or Scala (the record's section 1, \"Two runs\")." : RUN === 'second' ? "This run is its second, batch 6.5b, cut from the tree batch 6.5 landed (rungs E and P); a run carries one rung that edits Java or Scala (the record's section 1, \"Two runs\")." : "This run carries the batch's four rungs as one, on Pavol's word, against rule 3 of batched-climb-plan.md section 5 (the record's section 1, \"Two runs\").",
+  RUNGS.map(r => INTRO_RUNG[r.id]).join(' '),
+  "Each rung's section of the record opens with the answers of its section 1 that it follows; none of them changes a rung.",
+  'The stops reserved for Pavol in this run, on top of the standing ones: ' + RUNGS.map(r => INTRO_STOPS[r.id]).join('; ') + '; and any rung editing a file another rung of this run owns.',
+  RUNGS.some(r => INTRO_LIFTED[r.id]) ? 'Standing stops lifted by his decisions and by nothing else, none of them deleting a test: ' + RUNGS.filter(r => INTRO_LIFTED[r.id]).map(r => INTRO_LIFTED[r.id]).join('; ') + '.' : '',
+  "Every stop reserved for Pavol in this run is reversible (POSITIONS.md, 2026-09-27, on the stops a batch record reserves for him: \"These don't need me now. They are reversible things I can review later. Don't block start of next batches on these.\"): a rung that meets one finishes as its section says, lists it in stopsMet with liftedBy citing that entry, POSITIONS.md 2026-09-27, the stops, and lands; the stop is listed for his review, and neither the push nor the next run waits for it. A stop the record does not reserve, or one that cannot be undone, holds the commit stage's push as before.",
+  "An output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row and not a stop (POSITIONS.md, 2026-09-26, rung D's stop).",
+  "A rung that edits a chapter of Specification/ re-anchors, in its own commit, every citation of a line of that chapter that its edit moves in the messages and comments of ProjectFortress/tests/, compiler_tests/ and library_tests/, by the map of unchanged lines from git show <base>:<chapter> to its tree, and never changes an assertion (explorations/compile-ladder/climb-batch-6/JUDGE-review.md, finding 1); the gather re-anchors the same way a citation that one rung's edit moved in another rung's test.",
+  "If the harness refuses an agent's write of REPORT.md, record.md or SKEPTIC.md, the agent says so and carries the text in its structured result as fully as the fields allow, and every list a rung hands Pavol is also a capture under probes/; the gather composes the file from them, as in batches 3.5, 4 and 5.",
+  "Cite a FACTS.md entry by its bold title beside its line, since the gather's own insertions move lines.",
+  "Any timing anyone records carries its machine: nproc, the CPU model name and MHz from /proc/cpuinfo, the load average when the run started, the JDK and FORTRESS_THREADS (protocol.md, principle 2).",
+].filter(Boolean).join(' ')
+const BATCH_OVERLAPS = RUNGS.map(r => OVERLAP_RUNG[r.id]).join(' ') + ' ' + (RUN === 'first'
+  ? "No file is shared; the shared directories are ProjectFortress/tests/ and compiler_tests/, where the rungs touch disjoint files, and a file added to tests/ moves the testSystem shards, which the gate compares by their sum. P's edits may move a specification line that one of E's new test messages cites (the integer chapter, for LCM): the gather re-anchors it by passage after both are applied. The checker count reads E's checker and P's two comments and neither changes a declared type of the one library. The files they reach beyond their own are the three record files, folded centrally by the gather."
+  : RUN === 'second'
+  ? "One file is shared, Library/FortressLibrary.fss, on disjoint declarations far apart: V's Number and RR64 near the top of the tower (about :352-400 on the record's tree) and G's two identity functions after the reductions (about :3107-3131); the gather applies V first, then G. The identity functions' RR32 branch stays right when RR32 is a sibling, so V does not touch it. ProjectFortress/tests/ gets V's test and compiler_tests/ and library_tests/ G's. The checker count reads V's changed declared types, so V's table is the only one that may move. The files they reach beyond their own are the three record files, folded centrally by the gather."
+  : "E and P share no file, and G and V share Library/FortressLibrary.fss on disjoint declarations (V's Number and RR64 near the top, G's identity functions after the reductions; V applied first). P's edits may move a specification line one of E's new test messages cites, which the gather re-anchors by passage. The shared directories are ProjectFortress/tests/, compiler_tests/ and library_tests/, where the rungs touch disjoint files. V's table is the only checker table that may move. The files they reach beyond their own are the three record files, folded centrally by the gather.")
+```
+
+## 8. Script readiness
+
+Read against `explorations/coordinator/climb-batch-workflow.js` at 2851e5086, the script batch 6b launched with. Its retry of every agent call, the report text carried in structured results, the push held only on a stop not lifted, the batch's stops read from the record, `landsOnlyWith` and the per-rung `briefing` and `checks` serve this batch unchanged. Three changes are needed, none made here, and the script is not changed by this record:
+
+1. **The manifest, at each launch.** Section 7's block replaces batch 6b's once 6b has landed (a running workflow keeps the script it loaded at launch, so the splice cannot disturb 6b, but its record describes the block it runs). For the first run: `RUN = 'first'`, `LEDGER_FROM` the ledger's highest row plus one, `CHECKER_BASE` the landed table's `#total`, and the eight lists re-checked with `facts-extract.sh --check` on the launch tree, since the folds of 6b and the FACTS consolidation before it move and retitle entries; then `node --check`, commit and push before the worktrees are cut. For the second: `RUN = 'second'`, `LEDGER_FROM` and `CHECKER_BASE` re-read, G's and V's lists re-checked, and the line numbers in G's and V's sections re-read on the new base.
+2. **The four-thread stage, before the second run** (row 417's gated home, PLAN phase 2b). Four edits outside the manifest, drafted as `explorations/compile-ladder/plan-6.5/manifest/four-thread-stage.patch` (11 changed lines; it applies to the script at 2851e5086 and, with an offset of 18 lines, to the script with section 7's block spliced in):
+   - `ATOMIC_COMPILER` (`:1321`) gains `FirstLoadThreadsRungG`.
+   - `atomic_runs` (`:1384-1407`) reports a program whose file is absent and skips it, `[ -f "$d/$p.fss" ] || { echo "# atomic $p ABSENT" >> "$O" ; continue ; }`, after the line that picks its directory. The stage's final `grep` does not match `ABSENT`, so it stays green whether or not G lands the file; G's section keeps the program in its probes if row 417 stays open.
+   - Step 6 (`:1380`, `:1409`) names the program as row 417's home and counts its lines: 39 and one `ABSENT` line while the file does not exist, 42 once it does; the resume rule (`:1793`) says the same.
+   - Checked: `node --check` on the patched copy; the `atomic_runs` text rendered from the patched script and run in a stub tree whose `bin/fortress` prints `PASS`, once without the file (three `PASS` lines per program and one `ABSENT` line, exit 0) and once with it (three `PASS` lines for it too, exit 0). `gate_compare` reads no `#` line, so the new lines change no comparison.
+   The edit is inert while the file is absent, so it may equally go in with the first splice; the second run's gate is the first that can show 42.
+3. **The re-anchoring rule** (batch 6's review, smaller findings; the judge's proposal in `explorations/compile-ladder/climb-batch-6/JUDGE-review.md`, "For Pavol"). This batch carries it in its own intro (section 7's `BATCH_INTRO`) and in P's and V's sections, so it needs no script change to run. For the batches after it the rule belongs in the shared prefix, beside the rule that an assert message carries the citation (`:776`), in the intro's words; that is the coordinator's edit, proposed here.
+
+Nothing else is needed. The intro tells a rung that meets a reserved stop to cite `POSITIONS.md`, 2026-09-27, the stops, in `liftedBy`, and `pushHeldBy` counts such an entry as lifted (`:1557-1564`). `BATCH` names `explorations/compile-ladder/climb-batch-6.5/` (and `-6.5b/`) and `tmp/gate-batch-6.5/`, and the gate's `last_landed_summary` and `last_landed_checker_count` take the newest commit touching `climb-batch-*/gate/`, so the second run compares against the first.
