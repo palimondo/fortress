@@ -1,0 +1,9 @@
+component SkNarrowWide
+export Executable
+run() = do
+  i: ZZ32 = 2147483647
+  l: ZZ64 = i
+  println("ZZ32 max bound to ZZ64, plus 1:")
+  println(l + 1)
+end
+end

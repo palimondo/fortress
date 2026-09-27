@@ -1,0 +1,23 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=7.94 6.69 5.68; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=265c85eae; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress SkNN32Wide.fss
+  com.sun.fortress.exceptions.ProgramError: /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNN32Wide.fss:4:3-10:
+  RHS expression type Int is not assignable to LHS type NN32
+  Context:
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNN32Wide.fss:4:3-10:
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNN32Wide.fss:4:3-10:
+  toplevel:
+  
+  Turn on "-debug interpreter" for Java-level stack trace.
+  java.lang.Throwable
+  	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+  	at com.sun.fortress.Shell.walk(Shell.java:1166)
+  	at com.sun.fortress.Shell.walk(Shell.java:1116)
+  	at com.sun.fortress.Shell.subMain(Shell.java:483)
+  	at com.sun.fortress.Shell.main(Shell.java:362)
+  	at com.sun.fortress.Shell.main(Shell.java:349)
+  [exit 1]
+## compiled: bin/fortress compile SkNN32Wide.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNN32Wide.fss:5:13:
+      Right-hand side has type NN32, but declared type is ZZ64.
+  File SkNN32Wide.fss has 1 error.
+  [exit 255]

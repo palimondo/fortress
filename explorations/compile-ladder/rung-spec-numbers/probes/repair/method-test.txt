@@ -1,0 +1,39 @@
+# The two method-entry quotes of Appendix I ("The rational trait") with a bare \Method, as the judge's step 2 first asks; the build's tex stage, excerpt of tmp/test-tex.txt (its first 2 lines and its last 30).
+# \Method is \librarysubsection, an \@startsection{subsection} (latex-common/macros/macros.tex:268-277); here the build stops at its first use inside the quote.
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=6.25 4.56 5.58; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=697c3b51b plus the working tree; date=2026-09-27T02:18:48Z
+# ./ant tex (test: the two quotes with a bare \Method)
+# ...
+     [exec] ine 678.
+     [exec] 
+     [exec] 
+     [exec] LaTeX Warning: Reference `sec:basic-rationals' on page 578 undefined on input l
+     [exec] ine 685.
+     [exec] 
+     [exec] 
+     [exec] LaTeX Warning: Reference `sec:revival-numbers' on page 578 undefined on input l
+     [exec] ine 688.
+     [exec] 
+     [exec] [578]
+     [exec] ! Argument of \let has an extra }.
+     [exec] <inserted text> 
+     [exec]                 \par 
+     [exec] l.736 ...r}\COLON \mathbb{Q})\COLON \mathbb{Q}^*}}
+     [exec]                                                   
+     [exec] ? 
+     [exec] ! Emergency stop.
+     [exec] <inserted text> 
+     [exec]                 \par 
+     [exec] l.736 ...r}\COLON \mathbb{Q})\COLON \mathbb{Q}^*}}
+     [exec]                                                   
+     [exec] !  ==> Fatal error occurred, no output PDF file produced!
+     [exec] Transcript written on fortress.log.
+
+BUILD FAILED
+/home/user/fortress-numbers/Specification/fortress/build.xml:93: exec returned: 1
+
+Total time: 8 seconds
+# exit=1 elapsed=8s
+# genSource of the same test run:
+1:# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=4.60 4.02 5.47; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=697c3b51b plus the working tree; date=2026-09-27T02:17:57Z
+211:BUILD SUCCESSFUL
+213:# exit=0 elapsed=51s

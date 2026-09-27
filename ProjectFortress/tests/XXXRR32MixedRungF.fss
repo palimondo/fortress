@@ -6,9 +6,9 @@ export Executable
 run() = do
     println("REACHED")
     a = asFloat(narrow(1.5) + 2.5)
-    assert(a, 4.0, "conversions-coercions.tex:844-881")
+    assert(a, 4.0, "conversions-coercions.tex:861-898")
     b = asFloat(narrow(1.5) + 2)
-    assert(b, 3.5, "conversions-coercions.tex:844-881")
+    assert(b, 3.5, "conversions-coercions.tex:861-898")
     println("PASS")
   end
 

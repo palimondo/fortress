@@ -1,0 +1,9 @@
+component SkWideFloat
+export Executable
+run() = do
+  l: ZZ64 = 5
+  r: RR64 = l
+  println("ZZ64 5 bound to RR64:")
+  println(r)
+end
+end

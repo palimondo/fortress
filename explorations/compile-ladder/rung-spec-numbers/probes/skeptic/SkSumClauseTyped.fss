@@ -1,0 +1,9 @@
+component SkSumClauseTyped
+export Executable
+run() = do
+  n: ZZ32 = 4
+  s: ZZ32 = SUM[\ZZ32\][j <- 0#n] j
+  println("SUM[\\ZZ32\\][j <- 0#4] j:")
+  println(s)
+end
+end

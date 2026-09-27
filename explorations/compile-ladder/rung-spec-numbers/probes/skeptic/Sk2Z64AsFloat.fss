@@ -1,0 +1,8 @@
+component Sk2Z64AsFloat
+export Executable
+run() = do
+  w: ZZ64 = 5
+  println("asFloat(w) for a ZZ64 w, then / 2.0:")
+  println(asFloat(w) / 2.0)
+end
+end

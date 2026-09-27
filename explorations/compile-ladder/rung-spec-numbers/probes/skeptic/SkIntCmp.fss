@@ -1,0 +1,10 @@
+component SkIntCmp
+export Executable
+run() = do
+  a: ZZ32 = 3
+  b: ZZ32 = 4
+  println("3 CMP 4, 4 CMP 4:")
+  println(a CMP b)
+  println(b CMP b)
+end
+end

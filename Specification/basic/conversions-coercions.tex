@@ -62,13 +62,30 @@ though \VAR{T} is not a subtype of \VAR{U}.  For example, it is
 convenient to be able to use an integer-valued expression
 in a floating-point expression even though its
 type is not a subtype of any floating-point type.  Fortress supports
-the automatic conversion of integer values to floating-point values (the
-technical term for this kind of automatic conversion is coercion).  In
+the automatic conversion of values of type \EXP{\mathbb{Z}32}, and of integer
+numerals, to the floating-point type \EXP{\mathbb{R}64} (the technical term for this kind of automatic
+conversion is coercion); a value of any other integer type is converted to
+\EXP{\mathbb{R}64} explicitly (\secref{basic-rationals}).  In
 this way one can write \EXP{(x + 1)/2} rather than \EXP{(x +
 1.0)/2.0}, for example.  Such coercion applies generally to function
 and method (collectively called as functional) calls as well as to
 operators; one can write \EXP{\ln 2} rather than \EXP{\ln 2.0}, or
 \EXP{\arctan(1,1)} rather than \EXP{\arctan(1.0,1.0)}, for example.
+\revision{revival-int-float}{The Working Draft of February 2011 said that
+Fortress supports the automatic conversion of integer values to floating-point
+values.
+The revival decided on 26~September 2026 that a conversion between number
+types is a coercion where it is exact and stays explicit where it can lose
+precision, and \library\ declare the coercion into \EXP{\mathbb{R}64} from
+\EXP{\mathbb{Z}32}, and the decision names the integer numerals too.
+The conversion from \EXP{\mathbb{N}32}, though exact, stays explicit, since
+that decision names only \EXP{\mathbb{Z}32} and the numerals.
+The examples of this paragraph convert numerals and are unchanged.
+The interpreter gives an integer numeral outside the range of \EXP{\mathbb{Z}32}
+a wider integer type, and so does not yet convert it.
+The compiled path's own library declares no coercion into \EXP{\mathbb{R}64}
+from an integer type or an integer numeral; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
+numerals convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}
 
 One way to think about coercion is that if type \VAR{T} can be coerced
 to type \VAR{U}, then a value of type \VAR{T} can be used to ``stand

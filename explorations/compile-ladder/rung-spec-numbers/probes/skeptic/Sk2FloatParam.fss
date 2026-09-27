@@ -1,0 +1,10 @@
+component Sk2FloatParam
+export Executable
+half(x: RR64): RR64 = x / 2.0
+run() = do
+  println("half(3), a numeral for an RR64 parameter:")
+  println(half(3))
+  println("half(3000000000), a numeral outside ZZ32 for an RR64 parameter:")
+  println(half(3000000000))
+end
+end

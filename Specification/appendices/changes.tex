@@ -39,16 +39,22 @@ The directory's name is misleading: its sources are the working draft of
 2~February 2011, and only the file \nolinkurl{fortress.1.0.pdf} in it is the
 Fortress~1.0 release.
 The full reasoning behind every entry, with each original passage and each
-new one, is in the revival's decision record,
+new one, is in the revival's decision records,
 \nolinkurl{explorations/compile-ladder/rung-spec-route-a/decision-record.md}
+and, for the number chapters,
+\nolinkurl{explorations/compile-ladder/rung-spec-numbers/decision-record.md},
 in the same repository.
 
 Every change below follows from one decision of the revival, taken on
 24~September 2026 and called \emph{route~A}: the compiled type checker keeps
 the type group's rule that no type is a subtype of two different
 instantiations of one parameterized trait, a rule this working draft never
-stated, and the library's numeric types are to be reorganized so that they
+stated, and the library's numeric types are reorganized so that they
 satisfy it.
+The revision of the number chapters (\secref{revival-numbers} to
+\secref{revival-reductions}) also carries out three decisions of
+26~September 2026 that follow from route~A: on the refined number types, on
+conversions between number types, and on sums and products.
 The alternative not taken, \emph{route~C}, is described once, in
 \secref{revival-routec}.
 
@@ -89,8 +95,8 @@ arguments (row~402 of the revival's gap ledger). It does not yet refuse
 them where those arguments are \KWD{bool} arguments, though it accepts boolean parameters written out (row~406),
 or where one of them is a static parameter of the trait or object that extends both (row~414).
 The interpreter does not check the rule.
-The library's numeric chapters are not yet revised
-(\secref{revival-notrevised}).
+The number chapters are revised to the reorganized numeric types
+(\secref{revival-numbers}).
 \item[Original text] The Working Draft of February 2011 states no such
 property; its relations are ``the smallest ones that satisfy all the
 properties given in those sections (and this one)''
@@ -426,9 +432,600 @@ route~C: none of the shapes named is a chain of instantiations of a
 self-typed parameterized trait, the one case route~C relaxes.
 \end{description}
 
+\subsection{The number types}
+\seclabel{revival-numbers}
+
+\begin{description}
+\item[Affected sections] \secref{basic-rationals}; \secref{basic-integers}.
+\item[Change] The eighteen rational types and the twelve integer types of the
+original, with \EXP{\mathbb{N}} and \EXP{\mathbb{N}^*}, each a subtype of others,
+are replaced by seven number types \library\ declare: \EXP{\mathbb{Z}},
+\EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32},
+\EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}, siblings under \TYP{Number}, with the
+coercions the library declares: \EXP{\mathbb{Z}64} from \EXP{\mathbb{Z}32} and
+\EXP{\mathbb{N}32}; \EXP{\mathbb{N}64} from \EXP{\mathbb{N}32}; \EXP{\mathbb{Z}}
+from the four fixed-size types; \EXP{\mathbb{Q}} from the five integer types;
+\EXP{\mathbb{R}64} from \EXP{\mathbb{Z}32} and from integer numerals.
+Every other conversion between them is explicit, the one into \EXP{\mathbb{R}64} written \EXP{\VAR{asFloat}(x)} with the method the library declares on \TYP{Number}.
+\EXP{\mathbb{Q}} includes \EXP{+\infty}, \EXP{-\infty} and \EXP{0/0}; the integer
+types hold no infinite value.
+A subset such as the positive values is tested at run time, and the two checks
+the library declares, \VAR{check} and \EXP{\VAR{check}^*} on \EXP{\mathbb{R}64},
+returning \EXP{\TYP{Maybe}\llbracket\mathbb{R}64\rrbracket}, are stated.
+The sentences that the type system tracks the refined types through arithmetic
+are removed, and so are the sentences that \EXP{\mathbb{Q}} is a field and totally
+ordered and that \EXP{\mathbb{Z}^*} is not a ring; \EXP{\mathbb{Q}}, which holds
+\EXP{0/0}, is stated to be neither totally ordered nor a field.
+\item[Rationale] Route~A makes the library's numeric types siblings under
+\TYP{Number}, each with its own algebra, a wider type converting a narrower one
+by coercion, and \EXP{\mathbb{Z}} inside \EXP{\mathbb{Q}} by coercion.
+The revival decided on 26~September 2026 that the refined types become the
+library's own run-time checks, which return a \TYP{Maybe}, and that their
+original design is kept as a superseded design (\secref{revival-superseded});
+and that a conversion between number types is a coercion where it is exact and
+stays explicit where it can lose precision, the coercion into
+\EXP{\mathbb{R}64} being declared from \EXP{\mathbb{Z}32} and the numerals only.
+\Library\ never declared the refined types, and the trait that defines them is
+refused by instantiation exclusion (\secref{revival-rule}).
+\EXP{\mathbb{Q}} holds the values that \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}
+added, as the library's rational type does, and as \chapref{operators} already
+says: ``For rational results, division by zero produces \EXP{1/0}.''
+The type that holds \EXP{0/0} is ``neither totally ordered nor a field'' in the
+original's own words.
+The team's later Types chapter (Luchangco, 2012) keeps the statement that the
+numeric types are mutually exclusive (\secref{types-libraries}).
+\item[Effect] A program names \EXP{\mathbb{Q}} or \EXP{\mathbb{Z}} where it named a
+refined type, and tests a sign or finiteness at run time.
+A generic call or a range over two different integer types writes its static
+argument until the rule that infers the narrowest type both coerce into is
+written into \chapref{type-inference} together with its implementation.
+The conversion from \EXP{\mathbb{N}32} into \EXP{\mathbb{R}64}, though exact,
+stays explicit, since the decision names only \EXP{\mathbb{Z}32} and the
+numerals.
+The library's \EXP{\mathbb{R}32} stays below \EXP{\mathbb{R}64}, as before, a
+value object that adds no instantiation of its own.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex},
+lines 19--105:
+\begin{quote}
+The trait \EXP{\mathbb{Q}} (\STR{QQ}) encompasses all finite rational numbers,
+the results of dividing any integer by any nonzero integer.
+The trait \EXP{\mathbb{Q}^*} (\STR{QQ{\char'137}star}) is \EXP{\mathbb{Q}} with
+two extra elements, \EXP{+\infty} and \EXP{-\infty}.
+The trait \EXP{\mathbb{Q}^{\#}} (\STR{QQ{\char'137}splat}) is \EXP{\mathbb{Q}^*} with
+one additional element, the indefinite rational (written \EXP{0/0}), which is used as the result
+of dividing zero by zero or of adding \EXP{-\infty} to \EXP{+\infty}.
+
+Often it is desirable to indicate that a variable ranges over only a subset of
+the rationals, such as only positive values or only nonnegative values or only
+nonzero values.
+Unfortunately, traditional notations such as \EXP{\mathbb{Q}^+} are not used consistently
+in the literature; one author may use \EXP{\mathbb{Q}^+} to mean the set of strictly positive rationals
+and another may use it to mean the set of nonnegative rationals.
+Fortress therefore uses a notation that is novel but unambiguous:
+
+\begin{tabbing}
+\EXP{\mathbb{Q}} (\STR{QQ}) is the set of rationals
+(it is a subtype of \EXP{\mathbb{R}} and \EXP{\mathbb{Q}^*}).
+\\
+\EXP{\mathbb{Q}_{<}} (\STR{QQ{\char'137}LT}) is the set of strictly negative rationals
+(it is a subtype of \EXP{\mathbb{R}_{<}}, \EXP{\mathbb{Q}^*_{<}}, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}_{\leq}}, and \EXP{\mathbb{Q}_{\neq}}).
+\\
+\EXP{\mathbb{Q}_{\leq}} (\STR{QQ{\char'137}LE}) is the set of nonpositive rationals, that is, \EXP{\mathbb{Q}_{<} \cup \{0\}}
+(it is a subtype of \EXP{\mathbb{R}_{\leq}}, \EXP{\mathbb{Q}^*_{\leq}}, and \EXP{\mathbb{Q}}).
+\\
+\EXP{\mathbb{Q}_{\geq}} (\STR{QQ{\char'137}GE}) is the set of nonnegative rationals, that is, \EXP{\mathbb{Q}_{>} \cup \{0\}}
+(it is a subtype of \EXP{\mathbb{R}_{\geq}}, \EXP{\mathbb{Q}^*_{\geq}}, and \EXP{\mathbb{Q}}).
+\\
+\EXP{\mathbb{Q}_{>}} (\STR{QQ{\char'137}GT}) is the set of strictly positive rationals
+(it is a subtype of \EXP{\mathbb{R}_{>}}, \EXP{\mathbb{Q}^*_{>}}, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}_{\geq}}, and \EXP{\mathbb{Q}_{\neq}}).
+\\
+\EXP{\mathbb{Q}_{\neq}} (\STR{QQ{\char'137}NE}) is the set of strictly nonzero rationals (that is, \EXP{\mathbb{Q}_{<} \cup \mathbb{Q}_{>}})
+(it is a subtype of \EXP{\mathbb{R}_{\neq}}, \EXP{\mathbb{Q}^*_{\neq}}, and \EXP{\mathbb{Q}}).
+\\
+\EXP{\mathbb{Q}^*} (\STR{QQ{\char'137}star}) is \EXP{\mathbb{Q}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{R}^*} and \EXP{\mathbb{Q}^{\#}}).
+\\
+\EXP{\mathbb{Q}^*_{<}} (\STR{QQ{\char'137}star{\char'137}LT}) is \EXP{\mathbb{Q}_{<}} with extra element \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{R}^*_{<}}, \EXP{\mathbb{Q}^{\#}_{<}}, \EXP{\mathbb{Q}^*}, \EXP{\mathbb{Q}^*_{\leq}}, and \EXP{\mathbb{Q}^*_{\neq}}).
+\\
+\EXP{\mathbb{Q}^*_{\leq}} (\STR{QQ{\char'137}star{\char'137}LE}) is \EXP{\mathbb{Q}_{\leq}} with extra element \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{R}^*_{\leq}}, \EXP{\mathbb{Q}^{\#}_{\leq}}, and \EXP{\mathbb{Q}^*}).
+\\
+\EXP{\mathbb{Q}^*_{\geq}} (\STR{QQ{\char'137}star{\char'137}GE}) is \EXP{\mathbb{Q}_{\geq}} with extra element \EXP{+\infty}
+(it is a subtype of \EXP{\mathbb{R}^*_{\geq}}, \EXP{\mathbb{Q}^{\#}_{\geq}}, and \EXP{\mathbb{Q}^*}).
+\\
+\EXP{\mathbb{Q}^*_{>}} (\STR{QQ{\char'137}star{\char'137}GT}) is \EXP{\mathbb{Q}_{>}} with extra element \EXP{+\infty}
+(it is a subtype of \EXP{\mathbb{R}^*_{>}}, \EXP{\mathbb{Q}^{\#}_{>}}, \EXP{\mathbb{Q}^*}, \EXP{\mathbb{Q}^*_{\geq}}, and \EXP{\mathbb{Q}^*_{\neq}}).
+\\
+\EXP{\mathbb{Q}^*_{\neq}} (\STR{QQ{\char'137}star{\char'137}NE}) is
+\EXP{\mathbb{Q}_{\neq}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{R}^*_{\neq}}, \EXP{\mathbb{Q}^{\#}_{\neq}}, and \EXP{\mathbb{Q}^*}).
+\\
+\EXP{\mathbb{Q}^{\#}} (\STR{QQ{\char'137}splat}) is \EXP{\mathbb{Q}^*} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}}).
+\\
+\EXP{\mathbb{Q}^{\#}_{<}} (\STR{QQ{\char'137}splat{\char'137}LT}) is \EXP{\mathbb{Q}^*_{<}} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}_{<}}, \EXP{\mathbb{Q}^{\#}}, \EXP{\mathbb{Q}^{\#}_{\leq}}, and \EXP{\mathbb{Q}^{\#}_{\neq}}).
+\\
+\EXP{\mathbb{Q}^{\#}_{\leq}} (\STR{QQ{\char'137}splat{\char'137}LE}) is \EXP{\mathbb{Q}^*_{\leq}} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}_{\leq}} and \EXP{\mathbb{Q}^{\#}}).
+\\
+\EXP{\mathbb{Q}^{\#}_{\geq}} (\STR{QQ{\char'137}splat{\char'137}GE}) is \EXP{\mathbb{Q}^*_{\geq}} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}_{\geq}} and \EXP{\mathbb{Q}^{\#}}).
+\\
+\EXP{\mathbb{Q}^{\#}_{>}} (\STR{QQ{\char'137}splat{\char'137}GT}) is \EXP{\mathbb{Q}^*_{>}} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}_{>}}, \EXP{\mathbb{Q}^{\#}},
+\EXP{\mathbb{Q}^{\#}_{\geq}}, and \EXP{\mathbb{Q}^{\#}_{\neq}}).
+\\
+\EXP{\mathbb{Q}^{\#}_{\neq}} (\STR{QQ{\char'137}splat{\char'137}NE}) is \EXP{\mathbb{Q}^*_{\neq}} with extra element \EXP{0/0}
+(it is a subtype of \EXP{\mathbb{R}^{\#}_{\neq}} and \EXP{\mathbb{Q}^{\#}}).
+\end{tabbing}
+
+The Fortress type system tracks these types closely through various arithmetic
+operations; for example, adding two values of type \EXP{\mathbb{Q}_{>}} produces a result of type \EXP{\mathbb{Q}_{>}},
+and adding a value of type \EXP{\mathbb{Q}^*_{>}} and a value of type \EXP{\mathbb{Q}_{\geq}} produces a value
+of type \EXP{\mathbb{Q}^*_{\geq}}.
+
+Here we present only the trait \EXP{\mathbb{Q}} and its methods.
+The other rational types have exactly the same methods and differ
+only in the details of the types of method arguments and results
+and exactly what traits are extended by each rational type.
+For example, \EXP{\mathbb{Q}} is a field and is totally ordered,
+\EXP{\mathbb{Q}^*} is totally ordered but is not a field,
+and \EXP{\mathbb{Q}^{\#}} is neither totally ordered nor a field.
+For the exact details of how all this is implemented, \see{advanced-rationals}.
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}, lines 16--84:
+\begin{quote}
+The trait \EXP{\mathbb{Z}} (\STR{ZZ}) encompasses all finite integers,
+the results of starting from \EXP{0} and repeatedly adding or subtracting \EXP{1} a finite number of times.
+The trait \EXP{\mathbb{Z}^*} (\STR{ZZ{\char'137}star}) is \EXP{\mathbb{Z}} with
+two extra elements, \EXP{+\infty} and \EXP{-\infty}.
+
+Often it is desirable to indicate that a variable ranges over only a subset of
+the integers, such as only positive values or only nonnegative values or only
+nonzero values.
+Fortress uses a system similar to that for rational numbers, but also
+accommodates the traditional use of \EXP{\mathbb{N}} to denote the natural numbers:
+
+\begin{tabbing}
+\EXP{\mathbb{Z}} (\STR{ZZ}) is the set of integers
+(it is a subtype of \EXP{\mathbb{Q}} and \EXP{\mathbb{Z}^*}).
+\\
+\EXP{\mathbb{Z}_{<}} (\STR{ZZ{\char'137}LT}) is the set of strictly negative integers
+(it is a subtype of \EXP{\mathbb{Q}_{<}}, \EXP{\mathbb{Z}^*_{<}}, \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}_{\leq}}, and \EXP{\mathbb{Z}_{\neq}}).
+\\
+\EXP{\mathbb{Z}_{\leq}} (\STR{ZZ{\char'137}LE}) is the set of nonpositive integers, that is, \EXP{\mathbb{Z}_{<} \cup \{0\}}
+(it is a subtype of \EXP{\mathbb{Q}_{\leq}}, \EXP{\mathbb{Z}^*_{\leq}}, and \EXP{\mathbb{Z}}).
+\\
+\EXP{\mathbb{Z}_{\geq}} (\STR{ZZ{\char'137}GE}) is the set of nonnegative integers, that is, \EXP{\mathbb{Z}_{>} \cup \{0\}}
+(it is a subtype of \EXP{\mathbb{Q}_{\geq}}, \EXP{\mathbb{Z}^*_{\geq}}, and \EXP{\mathbb{Z}}).
+\\
+\EXP{\mathbb{Z}_{>}} (\STR{ZZ{\char'137}GT}) is the set of strictly positive integers
+(it is a subtype of \EXP{\mathbb{Q}_{>}}, \EXP{\mathbb{Z}^*_{>}}, \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}_{\geq}}, and \EXP{\mathbb{Z}_{\neq}}).
+\\
+\EXP{\mathbb{Z}_{\neq}} (\STR{ZZ{\char'137}NE}) is the set of strictly nonzero integers (that is, \EXP{\mathbb{Z}_{<} \cup \mathbb{Z}_{>}})
+(it is a subtype of \EXP{\mathbb{Q}_{\neq}}, \EXP{\mathbb{Z}^*_{\neq}}, and \EXP{\mathbb{Z}}).
+\\
+\EXP{\mathbb{Z}^*} (\STR{ZZ{\char'137}star}) is \EXP{\mathbb{Z}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*}).
+\\
+\EXP{\mathbb{Z}^*_{<}} (\STR{ZZ{\char'137}star{\char'137}LT}) is \EXP{\mathbb{Z}_{<}} with extra element \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*_{<}}, \EXP{\mathbb{Z}^*}, \EXP{\mathbb{Z}^*_{\leq}}, and \EXP{\mathbb{Z}^*_{\neq}}).
+\\
+\EXP{\mathbb{Z}^*_{\leq}} (\STR{ZZ{\char'137}star{\char'137}LE}) is \EXP{\mathbb{Z}_{\leq}} with extra element \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*_{\leq}} and \EXP{\mathbb{Z}^*}).
+\\
+\EXP{\mathbb{Z}^*_{\geq}} (\STR{ZZ{\char'137}star{\char'137}GE}) is \EXP{\mathbb{Z}_{\geq}} with extra element \EXP{+\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*_{\geq}} and \EXP{\mathbb{Z}^*}).
+\\
+\EXP{\mathbb{Z}^*_{>}} (\STR{ZZ{\char'137}star{\char'137}GT}) is \EXP{\mathbb{Z}_{>}} with extra element \EXP{+\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*_{>}}, \EXP{\mathbb{Z}^*}, \EXP{\mathbb{Z}^*_{\geq}}, and \EXP{\mathbb{Z}^*_{\neq}}).
+\\
+\EXP{\mathbb{Z}^*_{\neq}} (\STR{ZZ{\char'137}star{\char'137}NE}) is
+\EXP{\mathbb{Z}_{\neq}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+(it is a subtype of \EXP{\mathbb{Q}^*_{\neq}} and \EXP{\mathbb{Z}^*}).
+\\
+\EXP{\mathbb{N}} (\STR{NN}) is a synonym for \EXP{\mathbb{Z}_{\geq}}.
+\\
+\EXP{\mathbb{N}^*} (\STR{NN{\char'137}star}) is a synonym for \EXP{\mathbb{Z}^*_{\geq}}.
+\end{tabbing}
+
+The Fortress type system tracks these types closely through various arithmetic
+operations; for example, adding two values of type \EXP{\mathbb{Z}_{>}} produces a result of type \EXP{\mathbb{Z}_{>}},
+and adding a value of type \EXP{\mathbb{Z}^*_{>}} and a value of type \EXP{\mathbb{Z}_{\geq}} produces a value
+of type \EXP{\mathbb{Z}^*_{>}}.
+
+Here we present only the trait \EXP{\mathbb{Z}} and its methods.
+The other integer types have exactly the same methods and differ
+only in the details of the types of method arguments and results
+and exactly what traits are extended by each integer type.
+For example, \EXP{\mathbb{Z}} is a commutative ring and is totally ordered,
+and \EXP{\mathbb{Z}^*} is totally ordered but is not a ring.
+%% For the exact details of how all this is implemented,
+%% \see{advanced-integers}.
+\emph{Future versions of this specification will include
+the exact details of how all this is implemented.}
+\end{quote}
+\item[Route C] By the revival's reading, not measured, route~C could keep the
+nesting of the widths, each level a link in a chain of instantiations of a
+self-typed trait, but not the refined types: \TYP{RationalQuantity} places
+each type below a lattice of its own instantiations, not a chain, and names
+them through \KWD{where}-clause variables in its \KWD{extends} clause
+(\secref{revival-where}).
+\end{description}
+
+\subsection{The rational trait}
+\seclabel{revival-rationals}
+
+\begin{description}
+\item[Affected section] \secref{basic-rationals}.
+\item[Change] The listing of \EXP{\mathbb{Q}} extends \TYP{Number} in place of the
+real numbers, \EXP{\mathbb{Q}^*}, three instantiations of \TYP{Field} with
+\EXP{\mathbb{Q}_{\neq}} as the multiplicative group,
+\TYP{TotalOrderOperators} and \TYP{PartialOrderAndLattice}, and declares the
+coercions from the five integer types, with a method entry for them.
+The reciprocal, division and exponentiation return \EXP{\mathbb{Q}}, and so does
+the absolute value; the four hyperfloor and hyperceiling operators return
+\EXP{\mathbb{Z}}; the two comparisons by \OPR{CMP} become one, returning
+\TYP{Comparison}.
+The seventeen check methods leave the listing and the method entries.
+Ten sentences of the method entries lose the words ``For types
+\EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},'' or ``For type
+\EXP{\mathbb{Q}^{\#}},'', the next word taking the capital (the sentence on
+\OPR{MAXNUM} and \OPR{MINNUM} now begins ``The operators''); the parenthesis on the reciprocal's result type and
+the sentence on \TYP{TotalComparison} are removed.
+\item[Rationale] \secref{revival-numbers}.
+A signature that named a refined type takes the type \library\ declare for the
+method where they declare it (division and the absolute value return the
+rational type, exponentiation by an integer returns it, and the comparison
+\OPR{CMP} returns \TYP{Comparison}), and \EXP{\mathbb{Q}} or \EXP{\mathbb{Z}} where
+they do not.
+The library declares \VAR{check} and \EXP{\VAR{check}^*} on \EXP{\mathbb{R}64}, where
+\secref{basic-rationals} states them, and no check by sign.
+What the entries said of \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}} holds of
+\EXP{\mathbb{Q}}, which holds their values.
+\item[Effect] As \secref{revival-numbers}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex}:
+the listing's header, lines 177--183, and its lines 198--200, 206--207, 212,
+222--225 and 228--244:
+\begin{quote}
+\begin{Fortress}
+\(\KWD{trait}\:\mathbb{Q}\)\\
+{\tt~~~~}\(    \KWD{extends} \{\, \null\)\(\mathbb{R}, \mathbb{Q}^*,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\cdot,/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\times,/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\KWD{juxtaposition},/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{TotalOrderOperators}\llbracket\mathbb{Q},<,\leq,\geq,>,\OPR{CMP}\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{PartialOrderAndLattice}\llbracket\mathbb{Q},\leq,\OPR{MIN},\OPR{MAX}\rrbracket\,\}\)\\
+{\tt~~}\(  \KWD{opr} /(\KWD{self})\COLON \mathbb{Q}^*\)\\
+{\tt~~}\(  \KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Q})\COLON \mathbb{Q}^{\#}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\hbox{\tt\char'136}}(\KWD{self}, \VAR{power}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^*)\COLON \TYP{TotalComparison}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^{\#})\COLON \TYP{Comparison}\)\\
+{\tt~~}\(  \KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}}\:\mathbb{Q}_{\geq}\)\\
+{\tt~~}\(  \KWD{opr} \lhfloor \mathord{\KWD{self}} \rhfloor\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhceil \mathord{\KWD{self}} \rhceil\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhhfloor \mathord{\KWD{self}} \rhhfloor\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhhceil \mathord{\KWD{self}} \rhhceil\COLON \mathbb{N}\)\\
+{\tt~~}\(  \VAR{check}(\KWD{self})\COLON \mathbb{Q} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*(\KWD{self})\COLON \mathbb{Q}^* \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{<}(\KWD{self})\COLON \mathbb{Q}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Q}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Q}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{>}(\KWD{self})\COLON \mathbb{Q}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Q}_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Q}^*_{<} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Q}^*_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Q}^*_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Q}^*_{>} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Q}^*_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^{\#}_{<}(\KWD{self})\COLON \mathbb{Q}^{\#}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^{\#}_{\leq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^{\#}_{\geq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^{\#}_{>}(\KWD{self})\COLON \mathbb{Q}^{\#}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^{\#}_{\neq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\neq} \KWD{throws}\:\TYP{CastError}\)
+\end{Fortress}
+\end{quote}
+The method entries at lines 327--328, 345--346, 388, 416--417, 488--493 and
+546--562 repeated these signatures.
+Two did not: line 339 gave division the result \EXP{\mathbb{Q}^*}, and line 387
+gave \OPR{CMP} an argument of type \EXP{\mathbb{Q}} and the result
+\TYP{TotalComparison}:
+\begin{quote}
+\renewcommand\Method[1]{#1\par}
+\Method{\EXP{\KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Q})\COLON \mathbb{Q}^*}}
+\Method{\EXP{\KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q})\COLON \TYP{TotalComparison}}}
+\end{quote}
+In the chapter each of these two lines was the heading of its entry; here each
+is set as a line.
+The sentences of lines 289, 300, 320, 334, 374, 444 and 479 began
+``For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},'' and those of lines
+410, 422 and 431 ``For type \EXP{\mathbb{Q}^{\#}},''; lines 331--332:
+\begin{quote}
+The reciprocal of zero is \EXP{+\infty} (and therefore the result type of \EXP{/}
+when given an arguments of type \EXP{\mathbb{Q}} is necessarily \EXP{\mathbb{Q}^*}).
+\end{quote}
+lines 390--393:
+\begin{quote}
+The \OPR{CMP} operator compares the arguments and returns one of the four values
+\TYP{LessThan}, \TYP{EqualTo}, \TYP{GreaterThan}, and \TYP{Unordered}.
+If the argument types are such that the result cannot be \TYP{Unordered},
+then the result has type \TYP{TotalComparison} rather than simply \TYP{Comparison}.
+\end{quote}
+and lines 564--566:
+\begin{quote}
+Each of these methods checks this rational number to see whether it belongs
+to the result type of the method.  If, the number is returned; if not,
+a \TYP{CastError} is thrown.
+\end{quote}
+\item[Route C] The same under route~C, which rescues none of the refined types
+(\secref{revival-numbers}).
+\end{description}
+
+\subsection{The integer trait}
+\seclabel{revival-integers}
+
+\begin{description}
+\item[Affected section] \secref{basic-integers}.
+\item[Change] The listing of \EXP{\mathbb{Z}} extends \TYP{Number} in place of
+\EXP{\mathbb{Q}} and \EXP{\mathbb{Z}^*}, keeping its algebra, and declares the
+coercions from the four fixed-size integer types, with a method entry for them.
+Division returns \EXP{\mathbb{Q}}; the exponent of the power, the results of the
+factorial, of \OPR{CHOOSE} and of the four hyperfloor and hyperceiling
+operators, the argument of \OPR{CMP}, the absolute value, and the result of
+\VAR{lowBits} in its method entry are \EXP{\mathbb{Z}}.
+The twelve check methods leave the listing and the method entries.
+The sentences on the infinities of \EXP{\mathbb{Z}^*} and \EXP{\mathbb{N}^*}
+leave the method entries, and so do the words that made the strictly positive
+integers a type extending a lattice trait; the lattice they describe stays.
+\item[Rationale] \secref{revival-numbers}.
+\Library\ declare no infinite integer and no check on the integer types.
+Division takes the type the library declares for it; the other signatures take
+\EXP{\mathbb{Z}}, since the library declares none of those methods with a
+natural-number type (its power on integers is another method, returning a
+floating-point value).
+\item[Effect] As \secref{revival-numbers}.
+The integer types no longer hold infinities, so their total order is that of the
+finite integers.
+The exponent of the power, \EXP{\mathbb{N}} in the Working Draft, is now
+\EXP{\mathbb{Z}}, so a negative power is admitted.
+The Working Draft gave the result of a negative power through the
+exponentiation of \EXP{\mathbb{Q}}, since \EXP{\mathbb{Z}} was a subtype of
+\EXP{\mathbb{Q}}: \EXP{2^{-1}} was \EXP{1/2}
+(\nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex}, lines 344--355).
+The revised text of \secref{basic-integers} does not give it.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}:
+the listing's lines 196, 239, 246, 249--250, 256, 261, 271--274 and 290--301:
+\begin{quote}
+\begin{Fortress}
+{\tt~~~~}\(    \KWD{extends} \{\, \null\)\(\mathbb{Q}, \mathbb{Z}^*, \TYP{IntegerLike}\llbracket\mathbb{Z}\rrbracket,\)\\
+{\tt~~}\(  \KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\hbox{\tt\char'137}}(\KWD{self}, \VAR{power}\COLON \mathbb{N})\COLON \mathbb{Z}\)\\
+{\tt~~}\(  \KWD{opr} (\KWD{self})! \mathrel{\mathtt{:}}\mskip 4mu plus 4mu\mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\OPR{CHOOSE}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z}^*)\COLON \TYP{TotalComparison}\)\\
+{\tt~~}\(  \KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}}\mskip 4mu plus 4mu\mathbb{Z}_{\geq}\)\\
+{\tt~~}\(  \KWD{opr} \lhfloor \mathord{\KWD{self}} \rhfloor\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhceil \mathord{\KWD{self}} \rhceil\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhhfloor \mathord{\KWD{self}} \rhhfloor\COLON \mathbb{N}\)\\
+{\tt~~}\(  \KWD{opr} \lhhceil \mathord{\KWD{self}} \rhhceil\COLON \mathbb{N}\)\\
+{\tt~~}\(  \VAR{check}(\KWD{self})\COLON \mathbb{Z} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*(\KWD{self})\COLON \mathbb{Z}^* \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{<}(\KWD{self})\COLON \mathbb{Z}_{<} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Z}_{\leq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Z}_{\geq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{>}(\KWD{self})\COLON \mathbb{Z}_{>} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Z}_{\neq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Z}^*_{<} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Z}^*_{\leq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Z}^*_{\geq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Z}^*_{>} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+{\tt~~}\(  \VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Z}^*_{\neq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)
+\end{Fortress}
+\end{quote}
+The method entries at lines 425, 507, 551, 600, 669--672 and 888--899 repeated
+these signatures, line 507 setting the power operator as a caret where the
+listing's line 246 set an underscore.
+Two did not: line 622 gave the absolute value the result \EXP{\mathbb{N}}, where
+the listing had \EXP{\mathbb{Z}_{\geq}}, of which \EXP{\mathbb{N}} was a synonym;
+and line 816 gave \VAR{lowBits} the result \EXP{\mathbb{N}}, where the listing's
+line 284, which the revision leaves as it was, already said \EXP{\mathbb{Z}}:
+\begin{quote}
+\renewcommand\Method[1]{#1\par}
+\Method{\EXP{\KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}} \mathbb{N}}}
+\Method{\EXP{\VAR{lowBits}(\KWD{self}, k\COLON \TYP{IndexInt})\COLON \mathbb{N}}}
+\end{quote}
+In the chapter each of these two lines was the heading of its entry; here each
+is set as a line.
+Lines 372--374, 387--388 and 418--421:
+\begin{quote}
+For type \EXP{\mathbb{Z}^*}, the sum of an infinity
+and either a finite integer or another infinity of the same sign is equal to the given infinity,
+but attempting to sum infinities of differing sign throws an \TYP{IndeterminateInteger}.
+
+For types \EXP{\mathbb{Z}^*} and \EXP{\mathbb{Z}^{\#}}, the negative of
+\EXP{+\infty} is \EXP{-\infty}, and the negative of \EXP{-\infty} is \EXP{+\infty}.
+
+For types \EXP{\mathbb{Z}^*} and \EXP{\mathbb{Z}^{\#}}, attempting to multiply
+zero and an infinity (regardless of sign) throws an \TYP{IndeterminateInteger}.
+The product of an infinity and any nonzero integer (including an infinity)
+is an infinity whose sign is positive if and only if the two arguments have the same sign.
+\end{quote}
+lines 531--533:
+\begin{quote}
+The type \EXP{\mathbb{Z}_{>}} extends the trait
+\EXP{\TYP{PartialOrderAndMeetBoundedLattice}\llbracket\mathbb{Z}_{>},\mid,\OPR{GCD},\OPR{LCM}\rrbracket},
+which is to say that the strictly positive integers form a partial order and lattice with
+\end{quote}
+lines 555--556, 592--594, 643--646 and 838--839:
+\begin{quote}
+If the argument is \EXP{0}, the result is \EXP{1}.  For type \EXP{\mathbb{N}^*},
+if the argument is \EXP{+\infty}, the result is \EXP{+\infty}.
+
+Integer values, including \EXP{+\infty} and \EXP{-\infty}, are totally ordered.
+The value \EXP{-\infty} is less than any finite integer value,
+and \EXP{+\infty} is greater than any finite integer value.
+
+For type \EXP{\mathbb{Z}^*},
+the numerator of \EXP{+\infty} is \EXP{1},
+and the numerator of \EXP{-\infty} is \EXP{-1};
+the denominator of either \EXP{+\infty} or \EXP{-\infty} is \EXP{0}.
+
+For type \EXP{\mathbb{Z}^*}, if this integer is \EXP{+\infty} or \EXP{-\infty},
+an \TYP{InvalidArgument} is thrown.
+\end{quote}
+and lines 901--903:
+\begin{quote}
+Each of these methods checks this integer to see whether it belongs
+to the result type of the method.  If, the number is returned; if not,
+a \TYP{CastError} is thrown.
+\end{quote}
+\item[Route C] By the revival's reading, not measured, route~C could keep
+\EXP{\mathbb{Z}} below \EXP{\mathbb{Q}}, but not \EXP{\mathbb{Z}^*} or the refined
+integer types (\secref{revival-numbers}).
+\end{description}
+
+\subsection{The superseded chapter on rational quantities}
+\seclabel{revival-superseded}
+
+\begin{description}
+\item[Affected sections] \secref{advanced-rationals}; the box after
+``Conditional Subtyping'' in the appendix ``Internal Document''.
+\item[Change] One box at the head of the chapter says that it is a superseded
+design, why, and where the way back is. No word of the chapter changes.
+The box in the internal document (\secref{revival-internal}), which said
+that the number chapters were not yet revised, now points here.
+\item[Rationale] The revival decided on 26~September 2026 to keep the chapter
+word for word as the record of the original design.
+Instantiation exclusion refuses \TYP{RationalQuantity}, which extends its own
+instantiations.
+The compiled type checker refuses the team's own test of the declaration with
+``Cyclic type hierarchy: Type RationalQuantity transitively extends itself''; the
+interpreter runs that test only because nothing instantiates the trait, and an
+instantiation fails there, on the trait's \KWD{where} clause or, without it, with
+``Missing type'' for a flag of the conditional \KWD{extends} clause.
+The team's later Types chapter comments out the section on type aliases by which
+the chapter names the eighteen types.
+The way back is declaration-site variance, the later chapter's
+\KWD{covariant} static parameters, with each flag a covariant type argument: the
+compiled type checker accepts that form, and neither implementation carries
+covariance to run time yet (row~404 of the revival's gap ledger; item~12 of its
+worklist).
+\item[Effect] None on the language or on either implementation.
+\item[Original text] Unchanged.
+\item[Route C] By the revival's reading, not measured, the same under route~C
+(\secref{revival-numbers}).
+\end{description}
+
+\subsection{Rational literals}
+\seclabel{revival-literals}
+
+\begin{description}
+\item[Affected section] \secref{literals}.
+\item[Change] \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}} become one
+type that includes \EXP{1/0}, \EXP{-1/0} and \EXP{0/0}; the run-time error on
+assigning a \EXP{\mathbb{Q}^*} to a \EXP{\mathbb{Q}}, the two ASCII names and the
+reference to \secref{advanced-rationals} are removed, and the team's margin note
+is kept.
+\item[Rationale] \secref{revival-numbers}.
+\item[Effect] As \secref{revival-numbers}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex},
+lines 188--209:
+\begin{quote}
+The type $\mathbb{Q}$ includes all such rational numbers.
+
+The type $\mathbb{Q}^*$ relaxes the requirement $q>0$ to $q \geq 0$ and
+includes two extra values, \EXP{1/0} and \EXP{-1/0} (sometimes called ``the
+infinite rational'' and ``the indefinite rational'').
+[The margin note of lines 193--197, kept unchanged in the revised text.]
+If a value of type $\mathbb{Q}^*$ is assigned to a
+variable of type $\mathbb{Q}$, a \TYP{DivisionByZero} is thrown
+at run time if the value is \EXP{1/0} or \EXP{-1/0}.
+The type \EXP{\mathbb{Q}^{\#}} includes all of \EXP{1/0}, \EXP{-1/0}, and
+\EXP{0/0}.
+The advantage of $\mathbb{Q}^{\#}$ is that it is closed under the rational
+operations $+$, $-$, $\times$, and $/$.
+In ASCII, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*}, and
+\EXP{\mathbb{Q}^\#} are written as \txt{QQ}, \txt{QQ\_star}, and
+\txt{QQ\_splat}, respectively.
+See \secref{advanced-rationals} for definitions of \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*},
+and \EXP{\mathbb{Q}^\#}.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{Integers in floating-point expressions}
+\seclabel{revival-int-float}
+
+\begin{description}
+\item[Affected section] \secref{coercion}.
+\item[Change] The automatic conversion of integer values to floating-point values
+becomes that of \EXP{\mathbb{Z}32} values and of integer numerals to
+\EXP{\mathbb{R}64}; any other integer type converts to \EXP{\mathbb{R}64}
+explicitly.
+\item[Rationale] \secref{revival-numbers}: an exact conversion is a coercion and one
+that can lose precision stays explicit, and the decision names \EXP{\mathbb{Z}32}
+and the numerals.
+\item[Effect] The paragraph's examples convert numerals and are unchanged, and
+Example~1 of \secref{coercion}, that a decimal integer literal argument may be
+used for any floating-point parameter, stands as written.
+A program converts a \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}64} or
+\EXP{\mathbb{N}32} value to \EXP{\mathbb{R}64} explicitly.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/conversions-coercions.tex},
+lines 64--66:
+\begin{quote}
+type is not a subtype of any floating-point type.  Fortress supports
+the automatic conversion of integer values to floating-point values (the
+technical term for this kind of automatic conversion is coercion).  In
+\end{quote}
+\item[Route C] The same under route~C, which keeps the coercions.
+\end{description}
+
+\subsection{Reductions whose element type nothing fixes}
+\seclabel{revival-reductions}
+
+\begin{description}
+\item[Affected section] \secref{reduction-expr}.
+\item[Change] One box after the first sentence says that neither implementation
+directs the desugaring of a reduction by type yet, so a reduction with a
+generator clause list whose element type no argument fixes writes its static
+argument; and that until the compiled path is built on the libraries this
+specification describes, it compiles against a smaller library of its own,
+whose big operators take no static argument and range over \EXP{\mathbb{Z}32}
+only, so that there the clause form runs without its static argument and a
+written one is refused. The normative text is unchanged.
+\item[Rationale] The revival decided on 26~September 2026 that the library's
+\OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
+each joined with its element type's own operator and taking that type's
+identity, and that such a clause form writes its static argument, as the team's
+own tests do.
+The interpreter, and the compiled type checker when it checks the libraries this
+specification describes, each take \TYP{BottomType} for the static parameter of
+a big operator that no argument fixes (rows~424 and~425 of the revival's gap
+ledger).
+The compiled path's own library declares $\sum$ and
+\EXP{\OPR{BIG}\:\OPR{MAX}} for \EXP{\mathbb{Z}32} alone, with no static
+parameter (\nolinkurl{Library/CompilerLibrary.fsi}, lines 180--184), and
+refuses \EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#4]\: j}
+(\nolinkurl{explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkSumClauseTyped.t1.txt}).
+\item[Effect] None beyond the box: the forms without a generator clause list need
+no static argument.
+\item[Original text] Unchanged.
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
+No passage that instantiation exclusion or the reorganized numeric types
+contradict is known to be unrevised.
+The rule by which a generic call or a range over two different integer types
+infers the narrowest type that both coerce into is to be written into
+\chapref{type-inference} together with its implementation
+(\secref{revival-numbers}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+Before the number chapters were revised, this section said:
+\begin{quote}
 The number chapters, \chapref{lib:numbers-basic} (whose integers are \secref{basic-integers})
 and \chapref{lib:numbers-advanced}, are not yet revised.
 Their nested tower, in which each integer type is a subtype of the rational
@@ -441,6 +1038,7 @@ numeric types that route~A decides, and not before, because a
 specification ahead of its library is as much an open discrepancy as one
 behind it.
 Until then the rule refuses the tower these chapters describe.
+\end{quote}
 
 \subsection{Route C, the alternative not taken}
 \seclabel{revival-routec}
@@ -464,9 +1062,11 @@ Route~C rescues none of the \KWD{where}-clause examples of
 \secref{where-clauses} nor the \TYP{Nothing} of \secref{convenience-types},
 each of which places one type below infinitely many instantiations, which
 no chain contains.
-Under route~C the numeric chapters could keep their nested tower, and the
-original text of those chapters, kept unrevised in this document for now
-and in the Working Draft of February 2011, is route~C's.
+Under route~C the numeric chapters could have kept the nesting of their
+widths, and their original text, quoted in \secref{revival-numbers} and the
+entries after it and kept in the Working Draft of February 2011, is route~C's
+for that nesting; route~C rescues neither the refined number types nor
+\TYP{RationalQuantity} (\secref{revival-numbers}).
 The record of the experiment is
 \nolinkurl{explorations/reviews/mie-probes/route-c-experiment.md} in the
 revival's repository.

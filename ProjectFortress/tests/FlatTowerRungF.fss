@@ -70,8 +70,8 @@ coercions(): () = do
     s: RR64 = 7
     assert(shown(s), "7.0 : Float", "POSITIONS.md:159: RR64 from a numeral")
     assert(shown(three 0.5), "1.5 : Float", "POSITIONS.md:159: a ZZ32 meets an RR64 by RR64's coerce")
-    assert(widen(three) = big(3), "numbers.tex:372-373: a ZZ64 and a ZZ of one value are equal")
-    assert(6/2 = w, "numbers.tex:372-373: a QQ and an NN64 of one value are equal")
+    assert(widen(three) = big(3), "numbers.tex:352-353: a ZZ64 and a ZZ of one value are equal")
+    assert(6/2 = w, "numbers.tex:352-353: a QQ and an NN64 of one value are equal")
     assert(1/2 = 0.5, "row 434, POSITIONS.md:92: a QQ equals the float of its value")
     deny(big(3) = 3.5, "row 434: a ZZ and a float of other values are unequal")
   end
@@ -125,7 +125,7 @@ identities(): () = do
     assert(shown(PROD[\QQ\][j <- 1#0] big(j)/big(1)), "1 : Ratio", "POSITIONS.md:165: the QQ one")
     assert(shown(PROD[\RR32\][j <- 1#0] narrow(asFloat(j))), "1.0 : RR32", "POSITIONS.md:165: the RR32 one")
     assert(shown(SUM[\ZZ64\][j <- 0#4] j), "6 : Long", "POSITIONS.md:159, :165: a ZZ64 sum of ZZ32 elements")
-    assert(shown(strToFloat("3.25")), "3.25 : Float", "POSITIONS.md:159, conversions-coercions.tex:127-132: strToFloat's rational quotient reaches RR64 explicitly")
+    assert(shown(strToFloat("3.25")), "3.25 : Float", "POSITIONS.md:159, conversions-coercions.tex:144-149: strToFloat's rational quotient reaches RR64 explicitly")
   end
 
 rational(): () = do

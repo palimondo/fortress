@@ -1,0 +1,10 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=6.70 6.63 5.73; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=265c85eae; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress SkRatSignum.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkRatSignum.fss:6:11-15:
+      Variable signum is not defined.
+  [exit 255]
+## compiled: bin/fortress compile SkRatSignum.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkRatSignum.fss:4:8:
+      QQ is undefined.
+  File SkRatSignum.fss has 1 error.
+  [exit 255]

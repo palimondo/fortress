@@ -1,0 +1,14 @@
+component Sk2PowNegEdge
+export Executable
+run() = do
+  z: ZZ32 = 0
+  m: ZZ32 = -2
+  two: ZZ32 = 2
+  e1: ZZ32 = -1
+  e2: ZZ32 = -2
+  println("(-2)^(-1), 2^(-2), then 0^(-1), with ZZ32 operands:")
+  println(m^e1)
+  println(two^e2)
+  println(z^e1)
+end
+end

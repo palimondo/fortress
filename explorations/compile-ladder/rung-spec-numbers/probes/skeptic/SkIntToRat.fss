@@ -1,0 +1,10 @@
+component SkIntToRat
+export Executable
+run() = do
+  z: ZZ32 = 7
+  q: QQ = z
+  println("ZZ32 7 bound to QQ, then q/2:")
+  println(q)
+  println(q / 2)
+end
+end

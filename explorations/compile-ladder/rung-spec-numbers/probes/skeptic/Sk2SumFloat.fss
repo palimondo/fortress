@@ -1,0 +1,8 @@
+component Sk2SumFloat
+export Executable
+run() = do
+  n: ZZ32 = 4
+  println("SUM[j <- 0#4] 0.5, a clause form whose body is a float:")
+  println(SUM[j <- 0#n] 0.5)
+end
+end

@@ -1,0 +1,9 @@
+component SkNN32Wide
+export Executable
+run() = do
+  n: NN32 = 7
+  l: ZZ64 = n
+  println("NN32 7 bound to ZZ64:")
+  println(l)
+end
+end

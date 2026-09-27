@@ -1,0 +1,8 @@
+component SkRatSignum
+export Executable
+run() = do
+  nan: QQ = 0/0
+  println("signum(0/0):")
+  println(signum(nan))
+end
+end

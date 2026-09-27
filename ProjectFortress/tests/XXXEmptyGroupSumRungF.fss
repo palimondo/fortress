@@ -12,7 +12,7 @@ end
 run() = do
     println("REACHED")
     e = SUM[\M7\][i <- 0#0] M7(i)
-    assert(e.v, 0, "reductions.tex:49-52; evaluation/reduction.tex:66-74; algebraic-constraints.tex:794-797")
+    assert(e.v, 0, "reductions.tex:67-70; evaluation/reduction.tex:66-74; algebraic-constraints.tex:794-797")
     println("PASS")
   end
 

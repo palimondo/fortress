@@ -1,0 +1,11 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=7.10 6.40 5.55; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=265c85eae; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress SkIntFloat.fss
+  ZZ32 3 bound to RR64:
+  3
+  1.5
+  [exit 0]
+## compiled: bin/fortress compile SkIntFloat.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkIntFloat.fss:5:13:
+      Right-hand side has type ZZ32, but declared type is RR64.
+  File SkIntFloat.fss has 1 error.
+  [exit 255]

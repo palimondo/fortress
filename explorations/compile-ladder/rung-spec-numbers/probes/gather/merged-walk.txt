@@ -1,0 +1,112 @@
+--- rung T's probes re-measured under walk on the merged tree at the gather of climb batch 6 (rung F's flat library landed), one JVM per probe, one private cache created empty; the compiled path's prelude is untouched by F, so its captures stand
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 0.32 0.22 0.57 2/107 4743
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+=== explorations/compile-ladder/rung-spec-numbers/probes/examples/RatValues.fss walk FORTRESS_THREADS=1
+1/0 is 1/0, isInfinite true, isFinite false
+-1/0 is -1/0, isInfinite true
+0/0 is 0/0, isNaN true
+1/0 + -1/0 is 0/0
+typecase 1/0 of QQ: QQ
+0/0 = 0/0 is true
+0/0 < 0/0 is false
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/examples/RatValues.fss:21:97-107:
+Cannot find definition for method check_star given receiver Ratio
+Context:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/examples/RatValues.fss:21:97-107:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkRatSpec.fss walk FORTRESS_THREADS=1
+1/0 + 1: 1/0
+1/0 + 1/0: 1/0
+1/0 + -1/0: 0/0
+0/0 + 1: 0/0
+-(1/0): -1/0
+-(0/0): 0/0
+0 DOT 1/0: 0/0
+-2 DOT 1/0: -1/0
+0/0 DOT 1: 0/0
+1 / 0 as QQ: 1/0
+1 / (1/0): 0
+1 / (0/0): 0/0
+(1/2)^(-2): 4
+(0/0)^0: 1
+0/0 = 0/0: true
+0/0 < 1: false
+0/0 > 1: false
+0/0 = 1: false
+0/0 CMP 1: Unordered
+0/0 CMP 0/0: EqualTo
+1 CMP 1/0: LessThan
+-1/0 < 1: true
+1/0 MAX 0/0: 0/0
+0/0 MIN 1: 0/0
+0/0 MAXNUM 1: 1
+1 MINNUM 0/0: 1
+|-1/0|: 1/0
+|0/0|: 0/0
+numerator(1/0): 1
+numerator(-1/0): -1
+numerator(0/0): 0
+denominator(1/0): 0
+denominator(0/0): 0
+floor(7/2): 3
+7/2 + 1/2: 4
+rc=0
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss walk FORTRESS_THREADS=1
+numeral 3 bound to RR64:
+3.0
+1.5
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss:8:3-10:
+RHS expression type Long is not assignable to LHS type RR64
+Context:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss:8:3-10:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss:8:3-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z64AsFloat.fss walk FORTRESS_THREADS=1
+asFloat(w) for a ZZ64 w, then / 2.0:
+2.5
+rc=0
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z32AsRR64.fss walk FORTRESS_THREADS=1
+explicit conversion of a ZZ32 into RR64, then / 2.0:
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z32AsRR64.fss:6:11-19:
+Cannot find definition for method asRR64 given receiver 3: ZZ32
+Context:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z32AsRR64.fss:6:11-19:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkWideFloat.fss walk FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkWideFloat.fss:5:3-10:
+RHS expression type Long is not assignable to LHS type RR64
+Context:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkWideFloat.fss:5:3-10:
+/home/user/fortress/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkWideFloat.fss:5:3-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkIntPowerNeg.fss walk FORTRESS_THREADS=1
+2^(-1) with ZZ32 operands:
+0.5
+rc=0
+=== explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2PowNegEdge.fss walk FORTRESS_THREADS=1
+(-2)^(-1), 2^(-2), then 0^(-1), with ZZ32 operands:
+-0.5
+0.25
+Infinity
+rc=0
+done 2026-09-27T05:32:31Z

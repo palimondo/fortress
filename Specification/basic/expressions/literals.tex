@@ -186,27 +186,28 @@ such that $p \over k$ and $q \over k$ are integers
 and $\left| {p \over k} \right| + \left| {q \over k} \right|
 	< \left| p \right| + \left| q \right|$.
 The type $\mathbb{Q}$ includes all such rational numbers.
-
-The type $\mathbb{Q}^*$ relaxes the requirement $q>0$ to $q \geq 0$ and
-includes two extra values, \EXP{1/0} and \EXP{-1/0} (sometimes called ``the
-infinite rational'' and ``the indefinite rational'').
+Relaxing the requirement $q>0$ to $q \geq 0$ adds three more values, which
+$\mathbb{Q}$ also includes: \EXP{1/0} and \EXP{-1/0}, the infinite rationals,
+and \EXP{0/0}, the indefinite rational.
 \marginnote{Is there any subtyping or coercion relationship between \EXP{\mathbb{Q}} and
 \EXP{\mathbb{Q}*}?
 If \EXP{\mathbb{Q}} is a subtype of \EXP{\mathbb{Q}*}
 then static checking would normally disallow the assignment,
 so is this a relaxation to that rule?  If so, the static checker needs to know about it.}
-If a value of type $\mathbb{Q}^*$ is assigned to a
-variable of type $\mathbb{Q}$, a \TYP{DivisionByZero} is thrown
-at run time if the value is \EXP{1/0} or \EXP{-1/0}.
-The type \EXP{\mathbb{Q}^{\#}} includes all of \EXP{1/0}, \EXP{-1/0}, and
-\EXP{0/0}.
-The advantage of $\mathbb{Q}^{\#}$ is that it is closed under the rational
+The advantage of these values is that $\mathbb{Q}$ is closed under the rational
 operations $+$, $-$, $\times$, and $/$.
-In ASCII, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*}, and
-\EXP{\mathbb{Q}^\#} are written as \txt{QQ}, \txt{QQ\_star}, and
-\txt{QQ\_splat}, respectively.
-See \secref{advanced-rationals} for definitions of \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*},
-and \EXP{\mathbb{Q}^\#}.
+In ASCII, \EXP{\mathbb{Q}} is written as \txt{QQ}.
+See \secref{basic-rationals} for its operations.
+\revision{revival-literals}{The Working Draft of February 2011 described
+\EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}} as three types,
+said that a value of type \EXP{\mathbb{Q}^*} assigned to a variable of type
+\EXP{\mathbb{Q}} throws a \TYP{DivisionByZero} at run time if it is \EXP{1/0}
+or \EXP{-1/0}, gave the ASCII names \txt{QQ\_star} and \txt{QQ\_splat}, and
+pointed to \secref{advanced-rationals} for the definitions.
+The three are one type now, as in \library\ (\secref{basic-rationals}), so no
+such assignment converts or throws; that is also the answer to the margin
+note's question whether \EXP{\mathbb{Q}} and \EXP{\mathbb{Q}^*} are related by
+subtyping or by coercion.}
 
 
 

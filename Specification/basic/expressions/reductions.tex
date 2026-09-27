@@ -24,6 +24,24 @@ A \emph{reduction expression} begins with a big operator such as
 $\sum$ or $\prod$ followed by an optional static arguments and
 an optional generator clause list (described in
 \secref{generators}), followed by a body expression.
+\revision{revival-reductions}{The desugaring of a reduction is directed by
+type in this specification: a sum is desugared with the reduction for the type
+\VAR{N} of the expression (\secref{desugaring-generators}).
+Neither implementation directs it by type yet: when no argument of the big
+operator fixes the element type, the interpreter, and the compiled type checker
+when it checks the libraries this specification describes, each take
+\TYP{BottomType} for it, and the reduction then accepts no element
+(rows~424 and~425 of the revival's gap ledger).
+Until they do, a reduction with a generator clause list whose element type no
+argument fixes writes its static argument, as the team's own tests do, as in
+\EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#i]\: f(j)};
+a reduction without a generator clause list, such as \EXP{\sum a}, needs none.
+Until the compiled path is built on those libraries, it compiles against a
+smaller library of its own, whose big operators $\sum$ and
+\EXP{\OPR{BIG}\:\OPR{MAX}} take no static argument and range over
+\EXP{\mathbb{Z}32} only; there the clause form runs without its static
+argument, and a written static argument is refused.
+The normative text is unchanged.}
 There is no explicit relationship between \EXP{\OPR{BIG}\:\emph{Op}} and
 \emph{Op}.  Instead, a reduction expression corresponds to a call to the
 \EXP{\OPR{BIG}\:\emph{Op}} operator, which has the following header:

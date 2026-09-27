@@ -1,0 +1,15 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=7.33 6.46 5.57; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=265c85eae; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress SkNumeralFloat.fss
+  numeral 3 bound to RR64:
+  3
+  1.5
+  numeral 3000000000 bound to RR64:
+  3000000000
+  [exit 0]
+## compiled: bin/fortress compile SkNumeralFloat.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss:4:13:
+      Right-hand side has type IntLiteral, but declared type is RR64.
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss:8:13-21:
+      Right-hand side has type IntLiteral, but declared type is RR64.
+  File SkNumeralFloat.fss has 2 errors.
+  [exit 255]

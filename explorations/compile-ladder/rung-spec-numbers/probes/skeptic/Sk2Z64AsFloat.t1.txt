@@ -1,0 +1,10 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=1.90 2.96 6.05; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=8b36d5ca6; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress Sk2Z64AsFloat.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z64AsFloat.fss:6:11-16:
+      Variable asFloat is not defined.
+  [exit 255]
+## compiled: bin/fortress compile Sk2Z64AsFloat.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2Z64AsFloat.fss:6:11-16:
+      Variable asFloat is not defined.
+  File Sk2Z64AsFloat.fss has 1 error.
+  [exit 255]

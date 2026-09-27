@@ -1,0 +1,2 @@
+# pdftotext (normalised by norm.sh) of the committed Specification/fortress.pdf at e5414f5bf against this container's base build (tmp copy of Specification/fortress/fortress.pdf after ./ant tex at e5414f5bf); empty below means identical text
+# diff exit=0

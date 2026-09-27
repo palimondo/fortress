@@ -1,0 +1,118 @@
+# quotecheck.py (the skeptic's, probes/skeptic/quotecheck.py), run at the worktree root on 5ae598956, the repair round's text: every printed line the diff e5414f5bf..HEAD removes from the seven files, normalised (alignment commands and \\ dropped, white space collapsed), looked up in Specification/appendices/changes.tex; the NOTQUOTED lines follow, then one reason per line.
+# The four method-entry lines of JUDGE.md steps 2 and 3 are not among them: frozen numbers.tex:339 (division : Q*), :387 (CMP taking Q), frozen basic-integers.tex:622 (|self| : N) and :816 (lowBits : N) are quoted in I.1.11 and I.1.12 as their \Method lines. The first run of this script (probes/skeptic/quotecheck.txt) listed all four.
+NOTQUOTED Specification/basic-lib/numbers.tex : {\tt~~}\pushtabs\=\+\(  \KWD{coerce}(x\COLON \TYP{Identity}\llbracket+\rrbracket)\)\\
+NOTQUOTED Specification/basic-lib/numbers.tex : \(  \VAR{imagpart}(\KWD{self})\COLON \mathbb{Q}\)\\
+NOTQUOTED Specification/basic-lib/numbers.tex : For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the sum of an infinity
+NOTQUOTED Specification/basic-lib/numbers.tex : For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the negative of
+NOTQUOTED Specification/basic-lib/numbers.tex : For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the product of
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method{\EXP{\KWD{opr} /(\KWD{self})\COLON \mathbb{Q}^*}}
+NOTQUOTED Specification/basic-lib/numbers.tex : For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the reciprocal of
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method{\EXP{\KWD{opr} \mathord{\hbox{\tt\char'136}}(\KWD{self}, \VAR{power}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : the rational values are totally ordered except for \EXP{0/0},
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^{\#})\COLON \TYP{Comparison}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : For type \EXP{\mathbb{Q}^{\#}}, \OPR{MAXNUM} and \OPR{MINNUM} differ from
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method{\EXP{\KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}} \mathbb{Q}_{\geq}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : For type \EXP{\mathbb{Q}^{\#}}, the absolute value of \EXP{0/0} is \EXP{0/0}.
+NOTQUOTED Specification/basic-lib/numbers.tex : For type \EXP{\mathbb{Q}^{\#}}, the signum of \EXP{0/0} is \EXP{0/0}.
+NOTQUOTED Specification/basic-lib/numbers.tex : all of these methods simply return the argument if it is
+NOTQUOTED Specification/basic-lib/numbers.tex : \newpage
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method{\EXP{\VAR{check}(\KWD{self})\COLON \mathbb{Q} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*(\KWD{self})\COLON \mathbb{Q}^* \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}_{<}(\KWD{self})\COLON \mathbb{Q}_{<} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Q}_{\leq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Q}_{\geq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}_{>}(\KWD{self})\COLON \mathbb{Q}_{>} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Q}_{\neq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Q}^*_{<} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Q}^*_{\leq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Q}^*_{\geq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Q}^*_{>} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Q}^*_{\neq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^{\#}_{<}(\KWD{self})\COLON \mathbb{Q}^{\#}_{<} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^{\#}_{\leq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\leq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^{\#}_{\geq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\geq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^{\#}_{>}(\KWD{self})\COLON \mathbb{Q}^{\#}_{>} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/numbers.tex : \Method*{\EXP{\VAR{check}^{\#}_{\neq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\neq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : {\tt~~}\pushtabs\=\+\(  \KWD{coerce}(x\COLON \TYP{Identity}\llbracket+\rrbracket)\)\\
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \(  \VAR{imagpart}(\KWD{self})\COLON \mathbb{Z}\)\\
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\KWD{opr} \mathord{\hbox{\tt\char'136}}(\KWD{self}, \VAR{power}\COLON \mathbb{N})\COLON \mathbb{Z}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\KWD{opr} (\KWD{self})! \mathrel{\mathtt{:}} \mathbb{N}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z}^*)\COLON \TYP{TotalComparison}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\KWD{opr} \lhfloor \mathord{\KWD{self}} \rhfloor\COLON \mathbb{N}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\KWD{opr} \lhceil \mathord{\KWD{self}} \rhceil\COLON \mathbb{N}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\KWD{opr} \lhhfloor \mathord{\KWD{self}} \rhhfloor\COLON \mathbb{N}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\KWD{opr} \lhhceil \mathord{\KWD{self}} \rhhceil\COLON \mathbb{N}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method{\EXP{\VAR{check}(\KWD{self})\COLON \mathbb{Z} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*(\KWD{self})\COLON \mathbb{Z}^* \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}_{<}(\KWD{self})\COLON \mathbb{Z}_{<} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Z}_{\leq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Z}_{\geq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}_{>}(\KWD{self})\COLON \mathbb{Z}_{>} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Z}_{\neq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Z}^*_{<} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Z}^*_{\leq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Z}^*_{\geq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Z}^*_{>} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/basic-lib/basic-integers.tex : \Method*{\EXP{\VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Z}^*_{\neq} \KWD{throws} \TYP{CastError}}}
+NOTQUOTED Specification/appendices/internal-document.tex : arguments. The number chapters that describe the same design are not yet
+NOTQUOTED Specification/appendices/internal-document.tex : revised (\secref{revival-notrevised}).}
+
+# Reasons, one per NOTQUOTED line above, in order:
+ 1. frozen numbers.tex:184: its words stand in the listing; only its opening alignment (\pushtabs\=\+) moved to the listing's new first line, the first coercion from an integer type
+ 2. frozen numbers.tex:227: its words stand in the listing; only its closing alignment (\-\\\poptabs) changed, since the check lines that followed it left
+ 3. frozen numbers.tex:289: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+ 4. frozen numbers.tex:300: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+ 5. frozen numbers.tex:320: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+ 6. frozen numbers.tex:328: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+ 7. frozen numbers.tex:334: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+ 8. frozen numbers.tex:346: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+ 9. frozen numbers.tex:375: the continuation of a sentence named by line in I.1.11 (lines 374 and 479); its only change is the capital its first word takes once the qualifier on the line before goes
+10. frozen numbers.tex:388: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+11. frozen numbers.tex:410: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+12. frozen numbers.tex:417: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+13. frozen numbers.tex:422: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+14. frozen numbers.tex:431: a sentence named by line in I.1.11, which quotes its lost qualifier ("For types Q* and Q#," or "For type Q#,"); the sentence stands in the chapter without it
+15. frozen numbers.tex:480: the continuation of a sentence named by line in I.1.11 (lines 374 and 479); its only change is the capital its first word takes once the qualifier on the line before goes
+16. frozen numbers.tex:528: a page break before the check entries (frozen numbers.tex:528), removed with them; no printed text
+17. frozen numbers.tex:546: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+18. frozen numbers.tex:547: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+19. frozen numbers.tex:548: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+20. frozen numbers.tex:549: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+21. frozen numbers.tex:550: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+22. frozen numbers.tex:551: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+23. frozen numbers.tex:552: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+24. frozen numbers.tex:553: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+25. frozen numbers.tex:554: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+26. frozen numbers.tex:555: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+27. frozen numbers.tex:556: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+28. frozen numbers.tex:557: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+29. frozen numbers.tex:558: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+30. frozen numbers.tex:559: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+31. frozen numbers.tex:560: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+32. frozen numbers.tex:561: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+33. frozen numbers.tex:562: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+34. frozen basic-integers.tex:206: its words stand in the listing; only its opening alignment (\pushtabs\=\+) moved to the listing's new first line, the first coercion from an integer type
+35. frozen basic-integers.tex:289: its words stand in the listing; only its closing alignment (\-\\\poptabs) changed, since the check lines that followed it left
+36. frozen basic-integers.tex:425: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+37. frozen basic-integers.tex:507: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it; the entry adds that line 507 set the power operator as a caret where the listing's line 246, quoted, set an underscore
+38. frozen basic-integers.tex:551: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+39. frozen basic-integers.tex:600: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+40. frozen basic-integers.tex:669: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+41. frozen basic-integers.tex:670: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+42. frozen basic-integers.tex:671: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+43. frozen basic-integers.tex:672: a \Method entry that the entry states repeated the listing's signature (I.1.11 or I.1.12, the sentence "The method entries at lines ... repeated these signatures"), and the quoted listing line carries it
+44. frozen basic-integers.tex:888: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+45. frozen basic-integers.tex:889: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+46. frozen basic-integers.tex:890: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+47. frozen basic-integers.tex:891: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+48. frozen basic-integers.tex:892: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+49. frozen basic-integers.tex:893: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+50. frozen basic-integers.tex:894: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+51. frozen basic-integers.tex:895: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+52. frozen basic-integers.tex:896: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+53. frozen basic-integers.tex:897: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+54. frozen basic-integers.tex:898: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+55. frozen basic-integers.tex:899: a check entry, named by line in the entry (numbers.tex 546--562 in I.1.11, basic-integers.tex 888--899 in I.1.12), whose signature the quoted listing line repeats (listing lines 228--244 and 290--301)
+56. internal-document.tex: the revival's own sentence of batch 5 in rung S's box after E10, not the Working Draft's, so Appendix I does not quote it; decision-record.md section 3.8 quotes it verbatim
+57. internal-document.tex: the revival's own sentence of batch 5 in rung S's box after E10, not the Working Draft's, so Appendix I does not quote it; decision-record.md section 3.8 quotes it verbatim

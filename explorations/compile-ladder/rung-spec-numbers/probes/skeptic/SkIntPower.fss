@@ -1,0 +1,9 @@
+component SkIntPower
+export Executable
+run() = do
+  a: ZZ32 = 2
+  b: ZZ32 = 3
+  println("2^3 with ZZ32 operands:")
+  println(a^b)
+end
+end

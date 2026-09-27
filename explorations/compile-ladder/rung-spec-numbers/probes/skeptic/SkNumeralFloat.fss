@@ -1,0 +1,12 @@
+component SkNumeralFloat
+export Executable
+run() = do
+  r: RR64 = 3
+  println("numeral 3 bound to RR64:")
+  println(r)
+  println(r / 2.0)
+  s: RR64 = 3000000000
+  println("numeral 3000000000 bound to RR64:")
+  println(s)
+end
+end

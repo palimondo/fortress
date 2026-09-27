@@ -1,0 +1,11 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=7.77 6.61 5.64; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=265c85eae; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress SkNarrowWide.fss
+  ZZ32 max bound to ZZ64, plus 1:
+  -2147483648
+  [exit 0]
+## compiled: bin/fortress compile SkNarrowWide.fss
+  [exit 0]
+## compiled: bin/fortress run SkNarrowWide
+  ZZ32 max bound to ZZ64, plus 1:
+  2147483648
+  [exit 0]

@@ -1,0 +1,473 @@
+# scan 1: refined types, RationalQuantity, tracking, outside library/apis/ (base e5414f5bf; the three number chapters included)
+# grep -rn --include=*.tex -E 'subtype of (\\EXP\{)?\\mathbb|\\mathbb\{[QZNR]\}(_\{|\^\*|\^\{\\#)|ZZ_(LT|LE|GE|GT|NE|star)|QQ_(LT|LE|GE|GT|NE|star|splat)|NN_star|RationalQuantity|IntegerQuantity|tracks these types' . | grep -v '^./library/apis/'
+./basic-lib/numbers.tex:21:The trait \EXP{\mathbb{Q}^*} (\STR{QQ{\char'137}star}) is \EXP{\mathbb{Q}} with
+./basic-lib/numbers.tex:23:The trait \EXP{\mathbb{Q}^{\#}} (\STR{QQ{\char'137}splat}) is \EXP{\mathbb{Q}^*} with
+./basic-lib/numbers.tex:37:(it is a subtype of \EXP{\mathbb{R}} and \EXP{\mathbb{Q}^*}).
+./basic-lib/numbers.tex:39:\EXP{\mathbb{Q}_{<}} (\STR{QQ{\char'137}LT}) is the set of strictly negative rationals
+./basic-lib/numbers.tex:40:(it is a subtype of \EXP{\mathbb{R}_{<}}, \EXP{\mathbb{Q}^*_{<}}, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}_{\leq}}, and \EXP{\mathbb{Q}_{\neq}}).
+./basic-lib/numbers.tex:42:\EXP{\mathbb{Q}_{\leq}} (\STR{QQ{\char'137}LE}) is the set of nonpositive rationals, that is, \EXP{\mathbb{Q}_{<} \cup \{0\}}
+./basic-lib/numbers.tex:43:(it is a subtype of \EXP{\mathbb{R}_{\leq}}, \EXP{\mathbb{Q}^*_{\leq}}, and \EXP{\mathbb{Q}}).
+./basic-lib/numbers.tex:45:\EXP{\mathbb{Q}_{\geq}} (\STR{QQ{\char'137}GE}) is the set of nonnegative rationals, that is, \EXP{\mathbb{Q}_{>} \cup \{0\}}
+./basic-lib/numbers.tex:46:(it is a subtype of \EXP{\mathbb{R}_{\geq}}, \EXP{\mathbb{Q}^*_{\geq}}, and \EXP{\mathbb{Q}}).
+./basic-lib/numbers.tex:48:\EXP{\mathbb{Q}_{>}} (\STR{QQ{\char'137}GT}) is the set of strictly positive rationals
+./basic-lib/numbers.tex:49:(it is a subtype of \EXP{\mathbb{R}_{>}}, \EXP{\mathbb{Q}^*_{>}}, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}_{\geq}}, and \EXP{\mathbb{Q}_{\neq}}).
+./basic-lib/numbers.tex:51:\EXP{\mathbb{Q}_{\neq}} (\STR{QQ{\char'137}NE}) is the set of strictly nonzero rationals (that is, \EXP{\mathbb{Q}_{<} \cup \mathbb{Q}_{>}})
+./basic-lib/numbers.tex:52:(it is a subtype of \EXP{\mathbb{R}_{\neq}}, \EXP{\mathbb{Q}^*_{\neq}}, and \EXP{\mathbb{Q}}).
+./basic-lib/numbers.tex:54:\EXP{\mathbb{Q}^*} (\STR{QQ{\char'137}star}) is \EXP{\mathbb{Q}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+./basic-lib/numbers.tex:55:(it is a subtype of \EXP{\mathbb{R}^*} and \EXP{\mathbb{Q}^{\#}}).
+./basic-lib/numbers.tex:57:\EXP{\mathbb{Q}^*_{<}} (\STR{QQ{\char'137}star{\char'137}LT}) is \EXP{\mathbb{Q}_{<}} with extra element \EXP{-\infty}
+./basic-lib/numbers.tex:58:(it is a subtype of \EXP{\mathbb{R}^*_{<}}, \EXP{\mathbb{Q}^{\#}_{<}}, \EXP{\mathbb{Q}^*}, \EXP{\mathbb{Q}^*_{\leq}}, and \EXP{\mathbb{Q}^*_{\neq}}).
+./basic-lib/numbers.tex:60:\EXP{\mathbb{Q}^*_{\leq}} (\STR{QQ{\char'137}star{\char'137}LE}) is \EXP{\mathbb{Q}_{\leq}} with extra element \EXP{-\infty}
+./basic-lib/numbers.tex:61:(it is a subtype of \EXP{\mathbb{R}^*_{\leq}}, \EXP{\mathbb{Q}^{\#}_{\leq}}, and \EXP{\mathbb{Q}^*}).
+./basic-lib/numbers.tex:63:\EXP{\mathbb{Q}^*_{\geq}} (\STR{QQ{\char'137}star{\char'137}GE}) is \EXP{\mathbb{Q}_{\geq}} with extra element \EXP{+\infty}
+./basic-lib/numbers.tex:64:(it is a subtype of \EXP{\mathbb{R}^*_{\geq}}, \EXP{\mathbb{Q}^{\#}_{\geq}}, and \EXP{\mathbb{Q}^*}).
+./basic-lib/numbers.tex:66:\EXP{\mathbb{Q}^*_{>}} (\STR{QQ{\char'137}star{\char'137}GT}) is \EXP{\mathbb{Q}_{>}} with extra element \EXP{+\infty}
+./basic-lib/numbers.tex:67:(it is a subtype of \EXP{\mathbb{R}^*_{>}}, \EXP{\mathbb{Q}^{\#}_{>}}, \EXP{\mathbb{Q}^*}, \EXP{\mathbb{Q}^*_{\geq}}, and \EXP{\mathbb{Q}^*_{\neq}}).
+./basic-lib/numbers.tex:69:\EXP{\mathbb{Q}^*_{\neq}} (\STR{QQ{\char'137}star{\char'137}NE}) is
+./basic-lib/numbers.tex:70:\EXP{\mathbb{Q}_{\neq}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+./basic-lib/numbers.tex:71:(it is a subtype of \EXP{\mathbb{R}^*_{\neq}}, \EXP{\mathbb{Q}^{\#}_{\neq}}, and \EXP{\mathbb{Q}^*}).
+./basic-lib/numbers.tex:73:\EXP{\mathbb{Q}^{\#}} (\STR{QQ{\char'137}splat}) is \EXP{\mathbb{Q}^*} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:74:(it is a subtype of \EXP{\mathbb{R}^{\#}}).
+./basic-lib/numbers.tex:76:\EXP{\mathbb{Q}^{\#}_{<}} (\STR{QQ{\char'137}splat{\char'137}LT}) is \EXP{\mathbb{Q}^*_{<}} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:77:(it is a subtype of \EXP{\mathbb{R}^{\#}_{<}}, \EXP{\mathbb{Q}^{\#}}, \EXP{\mathbb{Q}^{\#}_{\leq}}, and \EXP{\mathbb{Q}^{\#}_{\neq}}).
+./basic-lib/numbers.tex:79:\EXP{\mathbb{Q}^{\#}_{\leq}} (\STR{QQ{\char'137}splat{\char'137}LE}) is \EXP{\mathbb{Q}^*_{\leq}} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:80:(it is a subtype of \EXP{\mathbb{R}^{\#}_{\leq}} and \EXP{\mathbb{Q}^{\#}}).
+./basic-lib/numbers.tex:82:\EXP{\mathbb{Q}^{\#}_{\geq}} (\STR{QQ{\char'137}splat{\char'137}GE}) is \EXP{\mathbb{Q}^*_{\geq}} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:83:(it is a subtype of \EXP{\mathbb{R}^{\#}_{\geq}} and \EXP{\mathbb{Q}^{\#}}).
+./basic-lib/numbers.tex:85:\EXP{\mathbb{Q}^{\#}_{>}} (\STR{QQ{\char'137}splat{\char'137}GT}) is \EXP{\mathbb{Q}^*_{>}} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:86:(it is a subtype of \EXP{\mathbb{R}^{\#}_{>}}, \EXP{\mathbb{Q}^{\#}},
+./basic-lib/numbers.tex:87:\EXP{\mathbb{Q}^{\#}_{\geq}}, and \EXP{\mathbb{Q}^{\#}_{\neq}}).
+./basic-lib/numbers.tex:89:\EXP{\mathbb{Q}^{\#}_{\neq}} (\STR{QQ{\char'137}splat{\char'137}NE}) is \EXP{\mathbb{Q}^*_{\neq}} with extra element \EXP{0/0}
+./basic-lib/numbers.tex:90:(it is a subtype of \EXP{\mathbb{R}^{\#}_{\neq}} and \EXP{\mathbb{Q}^{\#}}).
+./basic-lib/numbers.tex:93:The Fortress type system tracks these types closely through various arithmetic
+./basic-lib/numbers.tex:94:operations; for example, adding two values of type \EXP{\mathbb{Q}_{>}} produces a result of type \EXP{\mathbb{Q}_{>}},
+./basic-lib/numbers.tex:95:and adding a value of type \EXP{\mathbb{Q}^*_{>}} and a value of type \EXP{\mathbb{Q}_{\geq}} produces a value
+./basic-lib/numbers.tex:96:of type \EXP{\mathbb{Q}^*_{\geq}}.
+./basic-lib/numbers.tex:103:\EXP{\mathbb{Q}^*} is totally ordered but is not a field,
+./basic-lib/numbers.tex:104:and \EXP{\mathbb{Q}^{\#}} is neither totally ordered nor a field.
+./basic-lib/numbers.tex:108:%%     extends { RR, QQ_star,
+./basic-lib/numbers.tex:109:%%               Field[\QQ,QQ_NE,+,-,DOT,/\],
+./basic-lib/numbers.tex:110:%%               Field[\QQ,QQ_NE,+,-,TIMES,/\],
+./basic-lib/numbers.tex:111:%%               Field[\QQ,QQ_NE,+,-,juxtaposition,/\],
+./basic-lib/numbers.tex:128:%%   opr /(self): QQ_star
+./basic-lib/numbers.tex:129:%%   opr /(self, other: QQ): QQ_splat
+./basic-lib/numbers.tex:130:%%   opr ^(self, power: ZZ): QQ_splat
+./basic-lib/numbers.tex:136:%%   opr CMP(self, other: QQ_star): TotalComparison
+./basic-lib/numbers.tex:137:%%   opr CMP(self, other: QQ_splat): Comparison
+./basic-lib/numbers.tex:142:%%   opr |self| : QQ_GE
+./basic-lib/numbers.tex:159:%%   check_star(self): QQ_star throws CastError
+./basic-lib/numbers.tex:160:%%   check_LT(self): QQ_LT throws CastError
+./basic-lib/numbers.tex:161:%%   check_LE(self): QQ_LE throws CastError
+./basic-lib/numbers.tex:162:%%   check_GE(self): QQ_GE throws CastError
+./basic-lib/numbers.tex:163:%%   check_GT(self): QQ_GT throws CastError
+./basic-lib/numbers.tex:164:%%   check_NE(self): QQ_NE throws CastError
+./basic-lib/numbers.tex:165:%%   check_star_LT(self): QQ_star_LT throws CastError
+./basic-lib/numbers.tex:166:%%   check_star_LE(self): QQ_star_LE throws CastError
+./basic-lib/numbers.tex:167:%%   check_star_GE(self): QQ_star_GE throws CastError
+./basic-lib/numbers.tex:168:%%   check_star_GT(self): QQ_star_GT throws CastError
+./basic-lib/numbers.tex:169:%%   check_star_NE(self): QQ_star_NE throws CastError
+./basic-lib/numbers.tex:170:%%   check_splat_LT(self): QQ_splat_LT throws CastError
+./basic-lib/numbers.tex:171:%%   check_splat_LE(self): QQ_splat_LE throws CastError
+./basic-lib/numbers.tex:172:%%   check_splat_GE(self): QQ_splat_GE throws CastError
+./basic-lib/numbers.tex:173:%%   check_splat_GT(self): QQ_splat_GT throws CastError
+./basic-lib/numbers.tex:174:%%   check_splat_NE(self): QQ_splat_NE throws CastError
+./basic-lib/numbers.tex:178:{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \{\, \null\)\pushtabs\=\+\(\mathbb{R}, \mathbb{Q}^*,\)\\
+./basic-lib/numbers.tex:179:\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\cdot,/\rrbracket,\)\\
+./basic-lib/numbers.tex:180:\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\times,/\rrbracket,\)\\
+./basic-lib/numbers.tex:181:\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\KWD{juxtaposition},/\rrbracket,\)\\
+./basic-lib/numbers.tex:198:\(  \KWD{opr} /(\KWD{self})\COLON \mathbb{Q}^*\)\\
+./basic-lib/numbers.tex:199:\(  \KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Q})\COLON \mathbb{Q}^{\#}\)\\
+./basic-lib/numbers.tex:200:\(  \KWD{opr} \mathord{\hbox{\tt\char'136}}(\KWD{self}, \VAR{power}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}\)\\
+./basic-lib/numbers.tex:206:\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^*)\COLON \TYP{TotalComparison}\)\\
+./basic-lib/numbers.tex:207:\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^{\#})\COLON \TYP{Comparison}\)\\
+./basic-lib/numbers.tex:212:\(  \KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}}\:\mathbb{Q}_{\geq}\)\\
+./basic-lib/numbers.tex:229:\(  \VAR{check}^*(\KWD{self})\COLON \mathbb{Q}^* \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:230:\(  \VAR{check}_{<}(\KWD{self})\COLON \mathbb{Q}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:231:\(  \VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Q}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:232:\(  \VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Q}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:233:\(  \VAR{check}_{>}(\KWD{self})\COLON \mathbb{Q}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:234:\(  \VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Q}_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:235:\(  \VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Q}^*_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:236:\(  \VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Q}^*_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:237:\(  \VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Q}^*_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:238:\(  \VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Q}^*_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:239:\(  \VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Q}^*_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:240:\(  \VAR{check}^{\#}_{<}(\KWD{self})\COLON \mathbb{Q}^{\#}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:241:\(  \VAR{check}^{\#}_{\leq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:242:\(  \VAR{check}^{\#}_{\geq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:243:\(  \VAR{check}^{\#}_{>}(\KWD{self})\COLON \mathbb{Q}^{\#}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./basic-lib/numbers.tex:244:\(  \VAR{check}^{\#}_{\neq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\neq} \KWD{throws}\:\TYP{CastError}\)\-\\\poptabs
+./basic-lib/numbers.tex:289:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the sum of an infinity
+./basic-lib/numbers.tex:300:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the negative of
+./basic-lib/numbers.tex:320:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the product of
+./basic-lib/numbers.tex:327:%  opr /(self): QQ_star
+./basic-lib/numbers.tex:328:\Method{\EXP{\KWD{opr} /(\KWD{self})\COLON \mathbb{Q}^*}}
+./basic-lib/numbers.tex:332:when given an arguments of type \EXP{\mathbb{Q}} is necessarily \EXP{\mathbb{Q}^*}).
+./basic-lib/numbers.tex:334:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}}, the reciprocal of
+./basic-lib/numbers.tex:338:%  opr /(self, other: QQ): QQ_star
+./basic-lib/numbers.tex:339:\Method{\EXP{\KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Q})\COLON \mathbb{Q}^*}}
+./basic-lib/numbers.tex:345:%  opr ^(self, power: ZZ): QQ_splat
+./basic-lib/numbers.tex:346:\Method{\EXP{\KWD{opr} \mathord{\hbox{\tt\char'136}}(\KWD{self}, \VAR{power}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}}}
+./basic-lib/numbers.tex:374:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},
+./basic-lib/numbers.tex:386:%  opr CMP(self, other: QQ_splat): Comparison
+./basic-lib/numbers.tex:388:\Method*{\EXP{\KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Q}^{\#})\COLON \TYP{Comparison}}}
+./basic-lib/numbers.tex:410:For type \EXP{\mathbb{Q}^{\#}}, \OPR{MAXNUM} and \OPR{MINNUM} differ from
+./basic-lib/numbers.tex:416:%  opr |self| : QQ_GE
+./basic-lib/numbers.tex:417:\Method{\EXP{\KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}} \mathbb{Q}_{\geq}}}
+./basic-lib/numbers.tex:422:For type \EXP{\mathbb{Q}^{\#}}, the absolute value of \EXP{0/0} is \EXP{0/0}.
+./basic-lib/numbers.tex:431:For type \EXP{\mathbb{Q}^{\#}}, the signum of \EXP{0/0} is \EXP{0/0}.
+./basic-lib/numbers.tex:444:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},
+./basic-lib/numbers.tex:479:For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},
+./basic-lib/numbers.tex:530:%  check_star(self): QQ_star throws CastError
+./basic-lib/numbers.tex:531:%  check_LT(self): QQ_LT throws CastError
+./basic-lib/numbers.tex:532:%  check_LE(self): QQ_LE throws CastError
+./basic-lib/numbers.tex:533:%  check_GE(self): QQ_GE throws CastError
+./basic-lib/numbers.tex:534:%  check_GT(self): QQ_GT throws CastError
+./basic-lib/numbers.tex:535:%  check_NE(self): QQ_NE throws CastError
+./basic-lib/numbers.tex:536:%  check_star_LT(self): QQ_star_LT throws CastError
+./basic-lib/numbers.tex:537:%  check_star_LE(self): QQ_star_LE throws CastError
+./basic-lib/numbers.tex:538:%  check_star_GE(self): QQ_star_GE throws CastError
+./basic-lib/numbers.tex:539:%  check_star_GT(self): QQ_star_GT throws CastError
+./basic-lib/numbers.tex:540:%  check_star_NE(self): QQ_star_NE throws CastError
+./basic-lib/numbers.tex:541:%  check_splat_LT(self): QQ_splat_LT throws CastError
+./basic-lib/numbers.tex:542:%  check_splat_LE(self): QQ_splat_LE throws CastError
+./basic-lib/numbers.tex:543:%  check_splat_GE(self): QQ_splat_GE throws CastError
+./basic-lib/numbers.tex:544:%  check_splat_GT(self): QQ_splat_GT throws CastError
+./basic-lib/numbers.tex:545:%  check_splat_NE(self): QQ_splat_NE throws CastError
+./basic-lib/numbers.tex:547:\Method*{\EXP{\VAR{check}^*(\KWD{self})\COLON \mathbb{Q}^* \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:548:\Method*{\EXP{\VAR{check}_{<}(\KWD{self})\COLON \mathbb{Q}_{<} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:549:\Method*{\EXP{\VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Q}_{\leq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:550:\Method*{\EXP{\VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Q}_{\geq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:551:\Method*{\EXP{\VAR{check}_{>}(\KWD{self})\COLON \mathbb{Q}_{>} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:552:\Method*{\EXP{\VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Q}_{\neq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:553:\Method*{\EXP{\VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Q}^*_{<} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:554:\Method*{\EXP{\VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Q}^*_{\leq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:555:\Method*{\EXP{\VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Q}^*_{\geq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:556:\Method*{\EXP{\VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Q}^*_{>} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:557:\Method*{\EXP{\VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Q}^*_{\neq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:558:\Method*{\EXP{\VAR{check}^{\#}_{<}(\KWD{self})\COLON \mathbb{Q}^{\#}_{<} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:559:\Method*{\EXP{\VAR{check}^{\#}_{\leq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\leq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:560:\Method*{\EXP{\VAR{check}^{\#}_{\geq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\geq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:561:\Method*{\EXP{\VAR{check}^{\#}_{>}(\KWD{self})\COLON \mathbb{Q}^{\#}_{>} \KWD{throws} \TYP{CastError}}}
+./basic-lib/numbers.tex:562:\Method*{\EXP{\VAR{check}^{\#}_{\neq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\neq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:18:The trait \EXP{\mathbb{Z}^*} (\STR{ZZ{\char'137}star}) is \EXP{\mathbb{Z}} with
+./basic-lib/basic-integers.tex:29:(it is a subtype of \EXP{\mathbb{Q}} and \EXP{\mathbb{Z}^*}).
+./basic-lib/basic-integers.tex:31:\EXP{\mathbb{Z}_{<}} (\STR{ZZ{\char'137}LT}) is the set of strictly negative integers
+./basic-lib/basic-integers.tex:32:(it is a subtype of \EXP{\mathbb{Q}_{<}}, \EXP{\mathbb{Z}^*_{<}}, \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}_{\leq}}, and \EXP{\mathbb{Z}_{\neq}}).
+./basic-lib/basic-integers.tex:34:\EXP{\mathbb{Z}_{\leq}} (\STR{ZZ{\char'137}LE}) is the set of nonpositive integers, that is, \EXP{\mathbb{Z}_{<} \cup \{0\}}
+./basic-lib/basic-integers.tex:35:(it is a subtype of \EXP{\mathbb{Q}_{\leq}}, \EXP{\mathbb{Z}^*_{\leq}}, and \EXP{\mathbb{Z}}).
+./basic-lib/basic-integers.tex:37:\EXP{\mathbb{Z}_{\geq}} (\STR{ZZ{\char'137}GE}) is the set of nonnegative integers, that is, \EXP{\mathbb{Z}_{>} \cup \{0\}}
+./basic-lib/basic-integers.tex:38:(it is a subtype of \EXP{\mathbb{Q}_{\geq}}, \EXP{\mathbb{Z}^*_{\geq}}, and \EXP{\mathbb{Z}}).
+./basic-lib/basic-integers.tex:40:\EXP{\mathbb{Z}_{>}} (\STR{ZZ{\char'137}GT}) is the set of strictly positive integers
+./basic-lib/basic-integers.tex:41:(it is a subtype of \EXP{\mathbb{Q}_{>}}, \EXP{\mathbb{Z}^*_{>}}, \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}_{\geq}}, and \EXP{\mathbb{Z}_{\neq}}).
+./basic-lib/basic-integers.tex:43:\EXP{\mathbb{Z}_{\neq}} (\STR{ZZ{\char'137}NE}) is the set of strictly nonzero integers (that is, \EXP{\mathbb{Z}_{<} \cup \mathbb{Z}_{>}})
+./basic-lib/basic-integers.tex:44:(it is a subtype of \EXP{\mathbb{Q}_{\neq}}, \EXP{\mathbb{Z}^*_{\neq}}, and \EXP{\mathbb{Z}}).
+./basic-lib/basic-integers.tex:46:\EXP{\mathbb{Z}^*} (\STR{ZZ{\char'137}star}) is \EXP{\mathbb{Z}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+./basic-lib/basic-integers.tex:47:(it is a subtype of \EXP{\mathbb{Q}^*}).
+./basic-lib/basic-integers.tex:49:\EXP{\mathbb{Z}^*_{<}} (\STR{ZZ{\char'137}star{\char'137}LT}) is \EXP{\mathbb{Z}_{<}} with extra element \EXP{-\infty}
+./basic-lib/basic-integers.tex:50:(it is a subtype of \EXP{\mathbb{Q}^*_{<}}, \EXP{\mathbb{Z}^*}, \EXP{\mathbb{Z}^*_{\leq}}, and \EXP{\mathbb{Z}^*_{\neq}}).
+./basic-lib/basic-integers.tex:52:\EXP{\mathbb{Z}^*_{\leq}} (\STR{ZZ{\char'137}star{\char'137}LE}) is \EXP{\mathbb{Z}_{\leq}} with extra element \EXP{-\infty}
+./basic-lib/basic-integers.tex:53:(it is a subtype of \EXP{\mathbb{Q}^*_{\leq}} and \EXP{\mathbb{Z}^*}).
+./basic-lib/basic-integers.tex:55:\EXP{\mathbb{Z}^*_{\geq}} (\STR{ZZ{\char'137}star{\char'137}GE}) is \EXP{\mathbb{Z}_{\geq}} with extra element \EXP{+\infty}
+./basic-lib/basic-integers.tex:56:(it is a subtype of \EXP{\mathbb{Q}^*_{\geq}} and \EXP{\mathbb{Z}^*}).
+./basic-lib/basic-integers.tex:58:\EXP{\mathbb{Z}^*_{>}} (\STR{ZZ{\char'137}star{\char'137}GT}) is \EXP{\mathbb{Z}_{>}} with extra element \EXP{+\infty}
+./basic-lib/basic-integers.tex:59:(it is a subtype of \EXP{\mathbb{Q}^*_{>}}, \EXP{\mathbb{Z}^*}, \EXP{\mathbb{Z}^*_{\geq}}, and \EXP{\mathbb{Z}^*_{\neq}}).
+./basic-lib/basic-integers.tex:61:\EXP{\mathbb{Z}^*_{\neq}} (\STR{ZZ{\char'137}star{\char'137}NE}) is
+./basic-lib/basic-integers.tex:62:\EXP{\mathbb{Z}_{\neq}} with extra elements \EXP{+\infty} and \EXP{-\infty}
+./basic-lib/basic-integers.tex:63:(it is a subtype of \EXP{\mathbb{Q}^*_{\neq}} and \EXP{\mathbb{Z}^*}).
+./basic-lib/basic-integers.tex:65:\EXP{\mathbb{N}} (\STR{NN}) is a synonym for \EXP{\mathbb{Z}_{\geq}}.
+./basic-lib/basic-integers.tex:67:\EXP{\mathbb{N}^*} (\STR{NN{\char'137}star}) is a synonym for \EXP{\mathbb{Z}^*_{\geq}}.
+./basic-lib/basic-integers.tex:70:The Fortress type system tracks these types closely through various arithmetic
+./basic-lib/basic-integers.tex:71:operations; for example, adding two values of type \EXP{\mathbb{Z}_{>}} produces a result of type \EXP{\mathbb{Z}_{>}},
+./basic-lib/basic-integers.tex:72:and adding a value of type \EXP{\mathbb{Z}^*_{>}} and a value of type \EXP{\mathbb{Z}_{\geq}} produces a value
+./basic-lib/basic-integers.tex:73:of type \EXP{\mathbb{Z}^*_{>}}.
+./basic-lib/basic-integers.tex:80:and \EXP{\mathbb{Z}^*} is totally ordered but is not a ring.
+./basic-lib/basic-integers.tex:87:%%     extends { QQ, ZZ_star, IntegerLike[\ZZ\],
+./basic-lib/basic-integers.tex:130:%%   opr /(self, other: ZZ): QQ_splat
+./basic-lib/basic-integers.tex:147:%%   opr CMP(self, other: ZZ_star): TotalComparison
+./basic-lib/basic-integers.tex:152:%%   opr |self| : ZZ_GE
+./basic-lib/basic-integers.tex:182:%%   check_star(self): ZZ_star throws CastError
+./basic-lib/basic-integers.tex:183:%%   check_LT(self): ZZ_LT throws CastError
+./basic-lib/basic-integers.tex:184:%%   check_LE(self): ZZ_LE throws CastError
+./basic-lib/basic-integers.tex:185:%%   check_GE(self): ZZ_GE throws CastError
+./basic-lib/basic-integers.tex:186:%%   check_GT(self): ZZ_GT throws CastError
+./basic-lib/basic-integers.tex:187:%%   check_NE(self): ZZ_NE throws CastError
+./basic-lib/basic-integers.tex:188:%%   check_star_LT(self): ZZ_star_LT throws CastError
+./basic-lib/basic-integers.tex:189:%%   check_star_LE(self): ZZ_star_LE throws CastError
+./basic-lib/basic-integers.tex:190:%%   check_star_GE(self): ZZ_star_GE throws CastError
+./basic-lib/basic-integers.tex:191:%%   check_star_GT(self): ZZ_star_GT throws CastError
+./basic-lib/basic-integers.tex:192:%%   check_star_NE(self): ZZ_star_NE throws CastError
+./basic-lib/basic-integers.tex:196:{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \{\, \null\)\pushtabs\=\+\(\mathbb{Q}, \mathbb{Z}^*, \TYP{IntegerLike}\llbracket\mathbb{Z}\rrbracket,\)\\
+./basic-lib/basic-integers.tex:239:\(  \KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}\)\\
+./basic-lib/basic-integers.tex:256:\(  \KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z}^*)\COLON \TYP{TotalComparison}\)\\
+./basic-lib/basic-integers.tex:261:\(  \KWD{opr} \left|\mathord{\KWD{self}}\right| \mathrel{\mathtt{:}}\mskip 4mu plus 4mu\mathbb{Z}_{\geq}\)\\
+./basic-lib/basic-integers.tex:291:\(  \VAR{check}^*(\KWD{self})\COLON \mathbb{Z}^* \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:292:\(  \VAR{check}_{<}(\KWD{self})\COLON \mathbb{Z}_{<} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:293:\(  \VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Z}_{\leq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:294:\(  \VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Z}_{\geq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:295:\(  \VAR{check}_{>}(\KWD{self})\COLON \mathbb{Z}_{>} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:296:\(  \VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Z}_{\neq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:297:\(  \VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Z}^*_{<} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:298:\(  \VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Z}^*_{\leq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:299:\(  \VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Z}^*_{\geq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:300:\(  \VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Z}^*_{>} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\\
+./basic-lib/basic-integers.tex:301:\(  \VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Z}^*_{\neq} \KWD{throws}\mskip 4mu plus 4mu\TYP{CastError}\)\-\\\poptabs
+./basic-lib/basic-integers.tex:372:For type \EXP{\mathbb{Z}^*}, the sum of an infinity
+./basic-lib/basic-integers.tex:387:For types \EXP{\mathbb{Z}^*} and \EXP{\mathbb{Z}^{\#}}, the negative of
+./basic-lib/basic-integers.tex:418:For types \EXP{\mathbb{Z}^*} and \EXP{\mathbb{Z}^{\#}}, attempting to multiply
+./basic-lib/basic-integers.tex:424:%  opr /(self, other: ZZ): QQ_splat
+./basic-lib/basic-integers.tex:425:\Method{\EXP{\KWD{opr} /(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{Q}^{\#}}}
+./basic-lib/basic-integers.tex:531:The type \EXP{\mathbb{Z}_{>}} extends the trait
+./basic-lib/basic-integers.tex:532:\EXP{\TYP{PartialOrderAndMeetBoundedLattice}\llbracket\mathbb{Z}_{>},\mid,\OPR{GCD},\OPR{LCM}\rrbracket},
+./basic-lib/basic-integers.tex:555:If the argument is \EXP{0}, the result is \EXP{1}.  For type \EXP{\mathbb{N}^*},
+./basic-lib/basic-integers.tex:599:%  opr CMP(self, other: ZZ_star): TotalComparison
+./basic-lib/basic-integers.tex:600:\Method{\EXP{\KWD{opr} \mathord{\OPR{CMP}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z}^*)\COLON \TYP{TotalComparison}}}
+./basic-lib/basic-integers.tex:643:For type \EXP{\mathbb{Z}^*},
+./basic-lib/basic-integers.tex:838:For type \EXP{\mathbb{Z}^*}, if this integer is \EXP{+\infty} or \EXP{-\infty},
+./basic-lib/basic-integers.tex:877:%  check_star(self): ZZ_star throws CastError
+./basic-lib/basic-integers.tex:878:%  check_LT(self): ZZ_LT throws CastError
+./basic-lib/basic-integers.tex:879:%  check_LE(self): ZZ_LE throws CastError
+./basic-lib/basic-integers.tex:880:%  check_GE(self): ZZ_GE throws CastError
+./basic-lib/basic-integers.tex:881:%  check_GT(self): ZZ_GT throws CastError
+./basic-lib/basic-integers.tex:882:%  check_NE(self): ZZ_NE throws CastError
+./basic-lib/basic-integers.tex:883:%  check_star_LT(self): ZZ_star_LT throws CastError
+./basic-lib/basic-integers.tex:884:%  check_star_LE(self): ZZ_star_LE throws CastError
+./basic-lib/basic-integers.tex:885:%  check_star_GE(self): ZZ_star_GE throws CastError
+./basic-lib/basic-integers.tex:886:%  check_star_GT(self): ZZ_star_GT throws CastError
+./basic-lib/basic-integers.tex:887:%  check_star_NE(self): ZZ_star_NE throws CastError
+./basic-lib/basic-integers.tex:889:\Method*{\EXP{\VAR{check}^*(\KWD{self})\COLON \mathbb{Z}^* \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:890:\Method*{\EXP{\VAR{check}_{<}(\KWD{self})\COLON \mathbb{Z}_{<} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:891:\Method*{\EXP{\VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Z}_{\leq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:892:\Method*{\EXP{\VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Z}_{\geq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:893:\Method*{\EXP{\VAR{check}_{>}(\KWD{self})\COLON \mathbb{Z}_{>} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:894:\Method*{\EXP{\VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Z}_{\neq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:895:\Method*{\EXP{\VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Z}^*_{<} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:896:\Method*{\EXP{\VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Z}^*_{\leq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:897:\Method*{\EXP{\VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Z}^*_{\geq} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:898:\Method*{\EXP{\VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Z}^*_{>} \KWD{throws} \TYP{CastError}}}
+./basic-lib/basic-integers.tex:899:\Method*{\EXP{\VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Z}^*_{\neq} \KWD{throws} \TYP{CastError}}}
+./appendices/internal-document.tex:496:%trait RationalQuantity[\unit U absorbs unit, bool ninf, bool lt, bool eq, bool gt, bool pinf, bool nan\]
+./appendices/internal-document.tex:497:%    extends { RationalQuantity[\U, ninf', lt', eq', gt', pinf', nan'\]
+./appendices/internal-document.tex:500:%              Field[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./appendices/internal-document.tex:501:%                     RationalQuantity[\U, ninf, lt, false, gt, pinf, nan\],+,-,DOT,/,zero,one\]
+./appendices/internal-document.tex:503:%              CommutativeMonoid[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],+,-,zero\]
+./appendices/internal-document.tex:504:%              TotalOrderOperators[\RationalQuantity[\U, ninf, lt, eq, gt, inf, nan\],<,<=,>=,>,CMP\]
+./appendices/internal-document.tex:509:\(\KWD{trait} \TYP{RationalQuantity}\llbracket\KWD{unit} U \KWD{absorbs}\;\;\KWD{unit}, \KWD{bool} \VAR{ninf}, \KWD{bool} \VAR{lt}, \KWD{bool} \VAR{eq}, \KWD{bool} \VAR{gt}, \KWD{bool} \VAR{pinf}, \KWD
+./appendices/internal-document.tex:510:{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \{\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}', \VAR{lt}', \VAR{eq}', \VAR{gt}', \VAR{pinf}', \VAR{nan}'\rrbracket\)\\
+./appendices/internal-document.tex:513:\(              \TYP{Field}\llbracket\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\)\\
+./appendices/internal-document.tex:514:\(                     \TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{false}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-,\cdot,/,\VAR{zero},\VAR{one}\rrbracket\)\-\\\poptabs
+./appendices/internal-document.tex:516:\(              \TYP{CommutativeMonoid}\llbracket\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-,\VAR{zero}\rrbracket\)\\
+./appendices/internal-document.tex:517:\(              \TYP{TotalOrderOperators}\llbracket\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \inf, \VAR{nan}\rrbracket,<,\leq,\geq,>,\OPR{CMP}\rrbracket\)\\
+./appendices/internal-document.tex:525:\TYP{RationalQuantity} with \KWD{where}-clause variables as static
+./appendices/changes.tex:436:conditional self-extension of \TYP{RationalQuantity}, are refused by
+./appendices/rendering.tex:237:\STR{ZZ{\char'137}star} is rendered as \EXP{\mathbb{Z}^*}.
+./appendices/rendering.tex:240:For example, \STR{QQ{\char'137}splat} is rendered as \EXP{\mathbb{Q}^{\#}}.
+./appendices/rendering.tex:268:\STR{ZZ{\char'137}GT} is rendered as \EXP{\mathbb{Z}_{>}}, and
+./appendices/rendering.tex:269:\STR{QQ{\char'137}star{\char'137}LE} is rendered as \EXP{\mathbb{Q}^*_{\leq}}.
+./advanced-lib/numbers-advanced.tex:15:\Trait{Fortress.Standard.RationalQuantity}
+./advanced-lib/numbers-advanced.tex:18:The standard types for rational numbers such as \EXP{\mathbb{Q}} and \EXP{\mathbb{Q}^*}
+./advanced-lib/numbers-advanced.tex:19:and \EXP{\mathbb{Q}^{\#}_{\leq}} are defined in terms of a single trait \TYP{RationalQuantity}
+./advanced-lib/numbers-advanced.tex:24:The trait \TYP{RationalQuantity} takes seven static parameters; the first is a dimensional unit,
+./advanced-lib/numbers-advanced.tex:29:%type QQ = RationalQuantity[\dimensionless,false,true,true,true,false,false\]
+./advanced-lib/numbers-advanced.tex:30:%type QQ_LT = RationalQuantity[\dimensionless,false,true,false,false,false,false\]
+./advanced-lib/numbers-advanced.tex:31:%type QQ_LE = RationalQuantity[\dimensionless,false,true,true,false,false,false\]
+./advanced-lib/numbers-advanced.tex:32:%type QQ_GE = RationalQuantity[\dimensionless,false,false,true,true,false,false\]
+./advanced-lib/numbers-advanced.tex:33:%type QQ_GT = RationalQuantity[\dimensionless,false,false,false,true,false,false\]
+./advanced-lib/numbers-advanced.tex:34:%type QQ_NE = RationalQuantity[\dimensionless,false,true,false,true,false,false\]
+./advanced-lib/numbers-advanced.tex:35:%type QQ_star = RationalQuantity[\dimensionless,true,true,true,true,true,false\]
+./advanced-lib/numbers-advanced.tex:36:%type QQ_star_LT = RationalQuantity[\dimensionless,true,true,false,false,false,false\]
+./advanced-lib/numbers-advanced.tex:37:%type QQ_star_LE = RationalQuantity[\dimensionless,true,true,true,false,false,false\]
+./advanced-lib/numbers-advanced.tex:38:%type QQ_star_GE = RationalQuantity[\dimensionless,false,false,true,true,true,false\]
+./advanced-lib/numbers-advanced.tex:39:%type QQ_star_GT = RationalQuantity[\dimensionless,false,false,false,true,true,false\]
+./advanced-lib/numbers-advanced.tex:40:%type QQ_star_NE = RationalQuantity[\dimensionless,true,true,false,true,true,false\]
+./advanced-lib/numbers-advanced.tex:41:%type QQ_splat = RationalQuantity[\dimensionless,true,true,true,true,true,true\]
+./advanced-lib/numbers-advanced.tex:42:%type QQ_splat_LT = RationalQuantity[\dimensionless,true,true,false,false,false,true\]
+./advanced-lib/numbers-advanced.tex:43:%type QQ_splat_LE = RationalQuantity[\dimensionless,true,true,true,false,false,true\]
+./advanced-lib/numbers-advanced.tex:44:%type QQ_splat_GE = RationalQuantity[\dimensionless,false,false,true,true,true,true\]
+./advanced-lib/numbers-advanced.tex:45:%type QQ_splat_GT = RationalQuantity[\dimensionless,false,false,false,true,true,true\]
+./advanced-lib/numbers-advanced.tex:46:%type QQ_splat_NE = RationalQuantity[\dimensionless,true,true,false,true,true,true\]
+./advanced-lib/numbers-advanced.tex:48:\(\KWD{type} \mathbb{Q} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{true},\VAR{true},\VAR{true},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:49:\(\KWD{type} \mathbb{Q}_{<} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{true},\VAR{false},\VAR{false},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:50:\(\KWD{type} \mathbb{Q}_{\leq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{true},\VAR{true},\VAR{false},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:51:\(\KWD{type} \mathbb{Q}_{\geq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{true},\VAR{true},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:52:\(\KWD{type} \mathbb{Q}_{>} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{false},\VAR{true},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:53:\(\KWD{type} \mathbb{Q}_{\neq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{true},\VAR{false},\VAR{true},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:54:\(\KWD{type} \mathbb{Q}^* = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{true},\VAR{true},\VAR{true},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:55:\(\KWD{type} \mathbb{Q}^*_{<} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{false},\VAR{false},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:56:\(\KWD{type} \mathbb{Q}^*_{\leq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{true},\VAR{false},\VAR{false},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:57:\(\KWD{type} \mathbb{Q}^*_{\geq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{true},\VAR{true},\VAR{true},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:58:\(\KWD{type} \mathbb{Q}^*_{>} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{false},\VAR{true},\VAR{true},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:59:\(\KWD{type} \mathbb{Q}^*_{\neq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{false},\VAR{true},\VAR{true},\VAR{false}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:60:\(\KWD{type} \mathbb{Q}^{\#} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{true},\VAR{true},\VAR{true},\VAR{true}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:61:\(\KWD{type} \mathbb{Q}^{\#}_{<} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{false},\VAR{false},\VAR{false},\VAR{true}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:62:\(\KWD{type} \mathbb{Q}^{\#}_{\leq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{true},\VAR{false},\VAR{false},\VAR{true}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:63:\(\KWD{type} \mathbb{Q}^{\#}_{\geq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{true},\VAR{true},\VAR{true},\VAR{true}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:64:\(\KWD{type} \mathbb{Q}^{\#}_{>} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{false},\VAR{true},\VAR{true},\VAR{true}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:65:\(\KWD{type} \mathbb{Q}^{\#}_{\neq} = \TYP{RationalQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{true},\VAR{true},\VAR{false},\VAR{true},\VAR{true},\VAR{true}\rrbracket\)
+./advanced-lib/numbers-advanced.tex:68:Here is the detailed description of \TYP{RationalQuantity}, showing the details
+./advanced-lib/numbers-advanced.tex:71:%% trait RationalQuantity[\unit U absorbs unit,
+./advanced-lib/numbers-advanced.tex:73:%%     extends { RationalQuantity[\U, ninf', lt', eq', gt', pinf', nan'\]
+./advanced-lib/numbers-advanced.tex:76:%%               Field[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:77:%%                      RationalQuantity[\U, ninf, lt, false, gt, pinf, nan\],+,-,DOT,/\]
+./advanced-lib/numbers-advanced.tex:79:%%               Field[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:80:%%                      RationalQuantity[\U, ninf, lt, false, gt, pinf, nan\],+,-,TIMES,/\]
+./advanced-lib/numbers-advanced.tex:82:%%               Field[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:83:%%                      RationalQuantity[\U, ninf, lt, false, gt, pinf, nan\],+,-,juxtaposition,/\]
+./advanced-lib/numbers-advanced.tex:85:%%               AbelianGroup[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],+,-\],
+./advanced-lib/numbers-advanced.tex:86:%%               TotalOrderOperators[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],<,<=,>=,>,CMP\]
+./advanced-lib/numbers-advanced.tex:88:%%               PartialOrderAndLattice[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],<=,MIN,MAX\]
+./advanced-lib/numbers-advanced.tex:90:%%               PartialOrderAndMeetBoundedLattice[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:93:%%               PartialOrderAndJoinBoundedLattice[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:96:%%               PartialOrderAndBoundedLattice[\RationalQuantity[\U, ninf, lt, eq, gt, pinf, nan\],
+./advanced-lib/numbers-advanced.tex:107:%%   coerce(x: IntegerQuantity[\U,ninf,lt,eq,gt,pinf,nan\])
+./advanced-lib/numbers-advanced.tex:109:%%        (self, other: RationalQuantity[\U',ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:110:%%        RationalQuantity[\U U',
+./advanced-lib/numbers-advanced.tex:117:%%   opr +(self): RationalQuantity[\U,ninf,lt,eq,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:119:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:120:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:127:%%   opr -(self): RationalQuantity[\U,pinf,gt,eq,lt,ninf,nan\]
+./advanced-lib/numbers-advanced.tex:129:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:130:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:138:%%        (self, other: RationalQuantity[\U',ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:139:%%        RationalQuantity[\U U',
+./advanced-lib/numbers-advanced.tex:147:%%        (self, other: RationalQuantity[\U',ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:148:%%        RationalQuantity[\U U',
+./advanced-lib/numbers-advanced.tex:155:%%   opr /(self): RationalQuantity[\1/U, eq, lt, ninf OR pinf, gt, eq, nan\]
+./advanced-lib/numbers-advanced.tex:157:%%        (self, other: RationalQuantity[\U',ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:158:%%        RationalQuantity[\U/U',
+./advanced-lib/numbers-advanced.tex:166:%%        (self, power: IntegerQuantity[\U',ninf',lt',eq',gt',pinf'\]):
+./advanced-lib/numbers-advanced.tex:167:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:176:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]): Boolean
+./advanced-lib/numbers-advanced.tex:178:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]): Boolean
+./advanced-lib/numbers-advanced.tex:180:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]): Boolean
+./advanced-lib/numbers-advanced.tex:182:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]): Boolean
+./advanced-lib/numbers-advanced.tex:184:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]): Boolean
+./advanced-lib/numbers-advanced.tex:186:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',false\]): TotalComparison
+./advanced-lib/numbers-advanced.tex:188:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',true\]): Comparison
+./advanced-lib/numbers-advanced.tex:190:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:191:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:199:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:200:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:208:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:209:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:218:%%        (self, other: RationalQuantity[\U,ninf',lt',eq',gt',pinf',nan'\]):
+./advanced-lib/numbers-advanced.tex:219:%%        RationalQuantity[\U,
+./advanced-lib/numbers-advanced.tex:227:%%   opr |self|: RationalQuantity[\U,false,false,eq,lt OR gt,ninf OR pinf,nan\]
+./advanced-lib/numbers-advanced.tex:228:%%   signum(self): RationalQuantity[\U,false,lt,eq,gt,false,nan\]
+./advanced-lib/numbers-advanced.tex:229:%%   numerator(self): IntegerQuantity[\U,false,ninf OR lt,eq,gt OR pinf,false,nan\]
+./advanced-lib/numbers-advanced.tex:230:%%   denominator(self): IntegerQuantity[\dimensionless,false,false,ninf OR pinf,lt OR eq OR gt,false,nan\]
+./advanced-lib/numbers-advanced.tex:231:%%   floor(self): IntegerQuantity[\U,ninf,lt,eq OR gt,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:232:%%   opr LF self RF: IntegerQuantity[\U,ninf,lt,eq OR gt,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:233:%%   ceiling(self): IntegerQuantity[\U,ninf,lt,lt OR eq,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:234:%%   opr LC self RC: IntegerQuantity[\U,ninf,lt,lt OR eq,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:235:%%   round(self): IntegerQuantity[\U,ninf,lt,lt OR eq OR gt,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:236:%%   truncate(self): IntegerQuantity[\U,ninf,lt,lt OR eq OR gt,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:237:%%   opr ||\ self /||: IntegerQuantity[\U,ninf,lt,eq OR gt,gt,pinf,nan\] where { NOT (inf OR lt OR nan) }
+./advanced-lib/numbers-advanced.tex:238:%%   opr ||/ self \||: IntegerQuantity[\U,ninf,lt,lt OR eq,gt,pinf,nan\] where { NOT (inf OR lt OR nan) }
+./advanced-lib/numbers-advanced.tex:239:%%   opr |||\ self /|||: IntegerQuantity[\U,ninf,lt,eq OR gt,gt,pinf,nan\] where { NOT (inf OR lt OR nan) }
+./advanced-lib/numbers-advanced.tex:240:%%   opr |||/ self \|||: IntegerQuantity[\U,ninf,lt,lt OR eq,gt,pinf,nan\] where { NOT (inf OR lt OR nan) }
+./advanced-lib/numbers-advanced.tex:241:%%   realpart(self): RationalQuantity[\U,ninf,lt,eq,gt,pinf,nan\]
+./advanced-lib/numbers-advanced.tex:242:%%   imagpart(self): RationalQuantity[\U,false,false,true,false,false,nan\]
+./advanced-lib/numbers-advanced.tex:244:%%   check_star(self): QQ_star throws CastError
+./advanced-lib/numbers-advanced.tex:245:%%   check_LT(self): QQ_LT throws CastError
+./advanced-lib/numbers-advanced.tex:246:%%   check_LE(self): QQ_LE throws CastError
+./advanced-lib/numbers-advanced.tex:247:%%   check_GE(self): QQ_GE throws CastError
+./advanced-lib/numbers-advanced.tex:248:%%   check_GT(self): QQ_GT throws CastError
+./advanced-lib/numbers-advanced.tex:249:%%   check_NE(self): QQ_NE throws CastError
+./advanced-lib/numbers-advanced.tex:250:%%   check_star_LT(self): QQ_star_LT throws CastError
+./advanced-lib/numbers-advanced.tex:251:%%   check_star_LE(self): QQ_star_LE throws CastError
+./advanced-lib/numbers-advanced.tex:252:%%   check_star_GE(self): QQ_star_GE throws CastError
+./advanced-lib/numbers-advanced.tex:253:%%   check_star_GT(self): QQ_star_GT throws CastError
+./advanced-lib/numbers-advanced.tex:254:%%   check_star_NE(self): QQ_star_NE throws CastError
+./advanced-lib/numbers-advanced.tex:255:%%   check_splat_LT(self): QQ_splat_LT throws CastError
+./advanced-lib/numbers-advanced.tex:256:%%   check_splat_LE(self): QQ_splat_LE throws CastError
+./advanced-lib/numbers-advanced.tex:257:%%   check_splat_GE(self): QQ_splat_GE throws CastError
+./advanced-lib/numbers-advanced.tex:258:%%   check_splat_GT(self): QQ_splat_GT throws CastError
+./advanced-lib/numbers-advanced.tex:259:%%   check_splat_NE(self): QQ_splat_NE throws CastError
+./advanced-lib/numbers-advanced.tex:262:\(\KWD{trait}\:\TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(\KWD{unit}\:U \KWD{absorbs}\;\;\KWD{unit},\)\\
+./advanced-lib/numbers-advanced.tex:264:{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \{\, \null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}', \VAR{lt}', \VAR{eq}', \VAR{gt}', \VAR{pinf}', \VAR{nan}'\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:267:\(              \TYP{Field}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\)\\
+./advanced-lib/numbers-advanced.tex:268:\(                     \TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{false}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-,\cdot,/\rrbracket\)\-\\\poptabs
+./advanced-lib/numbers-advanced.tex:270:\(              \TYP{Field}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\)\\
+./advanced-lib/numbers-advanced.tex:271:\(                     \TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{false}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-,\times,/\rrbracket\)\-\\\poptabs
+./advanced-lib/numbers-advanced.tex:273:\(              \TYP{Field}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\)\\
+./advanced-lib/numbers-advanced.tex:274:\(                     \TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{false}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-,\KWD{juxtaposition},/\rrbracket\)\-\\\poptabs
+./advanced-lib/numbers-advanced.tex:276:\(              \TYP{AbelianGroup}\llbracket\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,+,-\rrbracket,\)\\
+./advanced-lib/numbers-advanced.tex:277:\(              \TYP{TotalOrderOperators}\llbracket\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,<,\leq,\geq,>,\OPR{CMP}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:279:\(              \TYP{PartialOrderAndLattice}\llbracket\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\leq,\OPR{MIN},\OPR{MAX}\rrbracket\
+./advanced-lib/numbers-advanced.tex:281:\(              \TYP{PartialOrderAndMeetBoundedLattice}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,
+./advanced-lib/numbers-advanced.tex:284:\(              \TYP{PartialOrderAndJoinBoundedLattice}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,
+./advanced-lib/numbers-advanced.tex:287:\(              \TYP{PartialOrderAndBoundedLattice}\llbracket\,\null\)\pushtabs\=\+\(\TYP{RationalQuantity}\llbracket{}U, \VAR{ninf}, \VAR{lt}, \VAR{eq}, \VAR{gt}, \VAR{pinf}, \VAR{nan}\rrbracket,\)\\
+./advanced-lib/numbers-advanced.tex:298:\(  \KWD{coerce}(x\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket)\)\\
+./advanced-lib/numbers-advanced.tex:300:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U',\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:301:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U\:U',\)\\
+./advanced-lib/numbers-advanced.tex:308:\(  \KWD{opr} +(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:310:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:311:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:318:\(  \KWD{opr} -(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{pinf},\VAR{gt},\VAR{eq},\VAR{lt},\VAR{ninf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:320:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:321:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:329:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U',\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:330:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U\:U',\)\\
+./advanced-lib/numbers-advanced.tex:338:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U',\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:339:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U\:U',\)\\
+./advanced-lib/numbers-advanced.tex:346:\(  \KWD{opr} /(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}1/U, \VAR{eq}, \VAR{lt}, \VAR{ninf} \vee \VAR{pinf}, \VAR{gt}, \VAR{eq}, \VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:348:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U',\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:349:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U/U',\)\\
+./advanced-lib/numbers-advanced.tex:357:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{power}\COLON \TYP{IntegerQuantity}\llbracket{}U',\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:358:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:367:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLON \TYP{Boolean}\)\-\\
+./advanced-lib/numbers-advanced.tex:369:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLON \TYP{Boolean}\)\-\\
+./advanced-lib/numbers-advanced.tex:371:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLON \TYP{Boolean}\)\-\\
+./advanced-lib/numbers-advanced.tex:373:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLON \TYP{Boolean}\)\-\\
+./advanced-lib/numbers-advanced.tex:375:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLON \TYP{Boolean}\)\-\\
+./advanced-lib/numbers-advanced.tex:377:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{false}\rrbracket)\COLON \TYP{TotalComparis
+./advanced-lib/numbers-advanced.tex:379:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{true}\rrbracket)\COLON \TYP{Comparison}\)\
+./advanced-lib/numbers-advanced.tex:381:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:382:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:390:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:391:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:399:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:400:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:409:{\tt~~~~~}\pushtabs\=\+\(       (\KWD{self}, \VAR{other}\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf}',\VAR{lt}',\VAR{eq}',\VAR{gt}',\VAR{pinf}',\VAR{nan}'\rrbracket)\COLONOP\)\\
+./advanced-lib/numbers-advanced.tex:410:\(       \TYP{RationalQuantity}\llbracket\,\null\)\pushtabs\=\+\(U,\)\\
+./advanced-lib/numbers-advanced.tex:418:\(  \KWD{opr} \left|\mathord{\KWD{self}}\right|\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{false},\VAR{false},\VAR{eq},\VAR{lt} \vee \VAR{gt},\VAR{ninf} \vee \VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:419:\(  \VAR{signum}(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{false},\VAR{lt},\VAR{eq},\VAR{gt},\VAR{false},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:420:\(  \VAR{numerator}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{false},\VAR{ninf} \vee \VAR{lt},\VAR{eq},\VAR{gt} \vee \VAR{pinf},\VAR{false},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:421:\(  \VAR{denominator}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket\mathbin{\TYP{dimensionless}},\VAR{false},\VAR{false},\VAR{ninf} \vee \VAR{pinf},\VAR{lt} \vee \VAR{eq} \vee \VAR{gt},\VAR{false}
+./advanced-lib/numbers-advanced.tex:422:\(  \VAR{floor}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:423:\(  \KWD{opr} \lfloor \mathord{\KWD{self}} \rfloor\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:424:\(  \VAR{ceiling}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:425:\(  \KWD{opr} \lceil \mathord{\KWD{self}} \rceil\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:426:\(  \VAR{round}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:427:\(  \VAR{truncate}(\KWD{self})\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:428:\(  \KWD{opr} \lhfloor \mathord{\KWD{self}} \rhfloor\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket \KWD{where} \{\,\neg (\
+./advanced-lib/numbers-advanced.tex:429:\(  \KWD{opr} \lhceil \mathord{\KWD{self}} \rhceil\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket \KWD{where} \{\,\neg (\in
+./advanced-lib/numbers-advanced.tex:430:\(  \KWD{opr} \lhhfloor \mathord{\KWD{self}} \rhhfloor\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq} \vee \VAR{gt},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket \KWD{where} \{\,\neg 
+./advanced-lib/numbers-advanced.tex:431:\(  \KWD{opr} \lhhceil \mathord{\KWD{self}} \rhhceil\COLON \TYP{IntegerQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{lt} \vee \VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket \KWD{where} \{\,\neg (\
+./advanced-lib/numbers-advanced.tex:432:\(  \VAR{realpart}(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{ninf},\VAR{lt},\VAR{eq},\VAR{gt},\VAR{pinf},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:433:\(  \VAR{imagpart}(\KWD{self})\COLON \TYP{RationalQuantity}\llbracket{}U,\VAR{false},\VAR{false},\VAR{true},\VAR{false},\VAR{false},\VAR{nan}\rrbracket\)\\
+./advanced-lib/numbers-advanced.tex:435:\(  \VAR{check}^*(\KWD{self})\COLON \mathbb{Q}^* \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:436:\(  \VAR{check}_{<}(\KWD{self})\COLON \mathbb{Q}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:437:\(  \VAR{check}_{\leq}(\KWD{self})\COLON \mathbb{Q}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:438:\(  \VAR{check}_{\geq}(\KWD{self})\COLON \mathbb{Q}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:439:\(  \VAR{check}_{>}(\KWD{self})\COLON \mathbb{Q}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:440:\(  \VAR{check}_{\neq}(\KWD{self})\COLON \mathbb{Q}_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:441:\(  \VAR{check}^*_{<}(\KWD{self})\COLON \mathbb{Q}^*_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:442:\(  \VAR{check}^*_{\leq}(\KWD{self})\COLON \mathbb{Q}^*_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:443:\(  \VAR{check}^*_{\geq}(\KWD{self})\COLON \mathbb{Q}^*_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:444:\(  \VAR{check}^*_{>}(\KWD{self})\COLON \mathbb{Q}^*_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:445:\(  \VAR{check}^*_{\neq}(\KWD{self})\COLON \mathbb{Q}^*_{\neq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:446:\(  \VAR{check}^{\#}_{<}(\KWD{self})\COLON \mathbb{Q}^{\#}_{<} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:447:\(  \VAR{check}^{\#}_{\leq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\leq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:448:\(  \VAR{check}^{\#}_{\geq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\geq} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:449:\(  \VAR{check}^{\#}_{>}(\KWD{self})\COLON \mathbb{Q}^{\#}_{>} \KWD{throws}\:\TYP{CastError}\)\\
+./advanced-lib/numbers-advanced.tex:450:\(  \VAR{check}^{\#}_{\neq}(\KWD{self})\COLON \mathbb{Q}^{\#}_{\neq} \KWD{throws}\:\TYP{CastError}\)\-\\\poptabs
+./basic/conversions-coercions.tex:890:is a subtype of \EXP{\mathbb{R}64} (in fact, it \emph{is} \EXP{\mathbb{R}64}).
+./basic/expressions/literals.tex:190:The type $\mathbb{Q}^*$ relaxes the requirement $q>0$ to $q \geq 0$ and
+./basic/expressions/literals.tex:195:If \EXP{\mathbb{Q}} is a subtype of \EXP{\mathbb{Q}*}
+./basic/expressions/literals.tex:198:If a value of type $\mathbb{Q}^*$ is assigned to a
+./basic/expressions/literals.tex:201:The type \EXP{\mathbb{Q}^{\#}} includes all of \EXP{1/0}, \EXP{-1/0}, and
+./basic/expressions/literals.tex:203:The advantage of $\mathbb{Q}^{\#}$ is that it is closed under the rational
+./basic/expressions/literals.tex:205:In ASCII, \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*}, and
+./basic/expressions/literals.tex:208:See \secref{advanced-rationals} for definitions of \EXP{\mathbb{Q}}, \EXP{\mathbb{Q}^*},

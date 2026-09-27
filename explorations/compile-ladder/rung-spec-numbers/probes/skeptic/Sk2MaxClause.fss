@@ -1,0 +1,9 @@
+component Sk2MaxClause
+export Executable
+run() = do
+  n: ZZ32 = 4
+  m: ZZ32 = BIG MAX[j <- 0#n] j
+  println("BIG MAX[j <- 0#4] j:")
+  println(m)
+end
+end

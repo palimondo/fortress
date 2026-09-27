@@ -1,0 +1,8 @@
+component Sk2Z32AsRR64
+export Executable
+run() = do
+  z: ZZ32 = 3
+  println("explicit conversion of a ZZ32 into RR64, then / 2.0:")
+  println(z.asRR64() / 2.0)
+end
+end

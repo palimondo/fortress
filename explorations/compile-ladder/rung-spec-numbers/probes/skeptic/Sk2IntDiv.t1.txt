@@ -1,0 +1,11 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=2.92 3.34 6.43; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=8b36d5ca6; library at e5414f5bf (base, nested tower)
+## walk: bin/fortress Sk2IntDiv.fss
+  7/2 with ZZ32 operands:
+  7/2
+  [exit 0]
+## compiled: bin/fortress compile Sk2IntDiv.fss
+  /home/user/fortress-numbers/explorations/compile-ladder/rung-spec-numbers/probes/skeptic/Sk2IntDiv.fss:7:11:
+      Could not check call to operator /
+      - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ32, ZZ32).
+  File Sk2IntDiv.fss has 1 error.
+  [exit 255]

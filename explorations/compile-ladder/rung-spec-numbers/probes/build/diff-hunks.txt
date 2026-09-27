@@ -1,0 +1,135 @@
+# Every hunk of base-vs-edit-pdftotext-diff.txt with its cause, for the edited build of the repair round (5ae598956, 620 pages) against the base (e5414f5bf, 611 pages). Base line of the hunk, cause. A cause carried from the first round's build (679c542d3) is kept word for word; "repair round:" adds what the repair changed in that hunk.
+4997,5002c4997,5007        T16 literals.tex: the rational values and their callout
+5007,5008d5011             page shift: the paragraph on pi re-ordered across a page break, the same words
+5023a5027,5028             page shift: the paragraph on pi re-ordered across a page break, the same words
+5093,5104c5098             page shift: the margin note beside the getter section moved, and re-hyphenated ("pro- vides" -> "provides")
+5151a5146,5157             page shift: the margin note beside the getter section moved, and re-hyphenated ("pro- vides" -> "provides")
+5704,5705c5710             T14 reductions.tex: the callout
+5708,5711c5713,5733        T14 reductions.tex: the callout; repair round: the checker clause scoped to the libraries this specification describes, and the sentence on the compiled path's own library added (JUDGE.md step 4)
+5938,5939c5960             page shift: a draft note re-hyphenated ("environ- ment." -> "environment.")
+6238a6260,6261             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6243,6244d6265             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6263,6264d6283             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6278d6296                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6279a6298                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6283,6300d6301             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6301a6303,6305             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6303a6308,6309             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6308c6314                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6313d6318                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6314a6320,6324             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6317a6328                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6319a6331                  page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6338a6351,6358             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6340,6342c6360,6361        page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6348c6367,6369             page shift: Chapter 13 margin notes re-ordered by pdftotext; in this build the page break falls before the paragraph on matrices, the margin notes beside it (among them the long note of basic/expressions/aggregate.tex:156-178) sit at the top of page 148 and print every line, and the base's clipped line "MatrixJT K[n0 x" prints whole; the same words otherwise
+6429a6451                  page shift: Chapter 13 margin notes and headings re-ordered by pdftotext across the moved page break, the same words
+6432d6453                  page shift: Chapter 13 margin notes and headings re-ordered by pdftotext across the moved page break, the same words
+6480,6484d6500             page shift: Chapter 13 margin notes and headings re-ordered by pdftotext across the moved page break, the same words
+6489a6506,6510             page shift: Chapter 13 margin notes and headings re-ordered by pdftotext across the moved page break, the same words
+7488,7489c7509,7511        T15 conversions-coercions.tex: the sentence and its callout; repair round: Z32 and integer numerals, and the callout's two sentences on the interpreter and the compiled path (JUDGE.md step 7)
+7491a7514,7522             T15 conversions-coercions.tex: the sentence and its callout; repair round: Z32 and integer numerals, and the callout's two sentences on the interpreter and the compiled path (JUDGE.md step 7)
+15047,15049c15078,15080    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15051,15115c15082,15111    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered; repair round: RR64 coerces from Z32 and from integer numerals (JUDGE.md step 7)
+15117,15122c15113,15118    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15137,15139c15133,15135    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15145,15146c15141          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15151c15146                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15161,15164c15156,15159    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15167,15196d15161          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15197a15163,15172          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15203,15211c15178,15190    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15215c15194,15195          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15217c15197,15198          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15219c15200                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15222,15225c15203,15205    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15228,15229c15208,15209    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15233,15234c15213,15214    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15239,15248c15219,15227    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15251,15252c15230,15231    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15257,15261c15236,15240    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15269,15272c15248,15251    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15274,15283d15252          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15284a15254,15260          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15292c15268                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15294,15295c15270,15271    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15298,15299c15274,15275    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15303,15305c15279,15281    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15311,15316c15287,15288    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15318a15291,15294          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15333,15337c15309,15313    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15346c15322                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15349c15325                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15352,15397d15327          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15401,15425c15331,15354    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15427c15356                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15438a15368,15371          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15476c15409                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15483c15416                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15486,15487c15419,15420    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15493c15426                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15498c15431                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15508,15511c15441,15444    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15528,15539d15460          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15541,15548c15462,15490    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered; repair round: the integer listing's callout reports the negative power (JUDGE.md step 6)
+15550,15555c15492,15497    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15557c15499                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15563c15505                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15566,15568c15508,15510    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15573,15575c15515,15517    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15581,15585c15523,15525    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15591,15594c15531,15533    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15601,15604d15539          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15605a15541,15544          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15616,15620c15555,15556    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15624,15627d15559          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15628a15561,15564          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15660c15596                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15664c15600                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15668,15669c15604,15605    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15676,15677c15612          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15682c15617                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15684c15619                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15689c15624                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15693,15696d15627          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15697a15629,15632          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15704,15705c15639          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15707,15712d15640          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15713a15642,15647          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15721,15722c15655,15656    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15725c15659                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15729,15730c15663,15664    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15734,15739d15667          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15741a15670,15673          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15749,15756c15681,15688    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15765c15697                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15769c15701                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15773c15705                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15779,15781c15711,15713    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15787c15719                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15796c15728                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15804c15736                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15814c15746                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15818,15819c15750,15751    T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15823,15824c15755          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15827c15758                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15832c15763                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15835c15766                T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+15838,15863d15768          T1-T12 numbers.tex and basic-integers.tex: the revised passages, the four callouts, the coercion method entries, and the method headings renumbered
+17018a16924,16934          T13 numbers-advanced.tex: the head callout
+17119,17120c17035          page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+17149c17064,17067          page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+17246,17248d17163          page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+17250,17252c17165,17167    page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+17364a17280,17283          page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+17370,17373d17288          page shift: the same words of the advanced chapter grouped differently by pdftotext ("oprJ" / "opr J", "Q" "<=" / "Q<=")
+28237,28243c28152,28158    T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+28246,28247c28161,28164    T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+28268c28185                T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+28276c28193                T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+28427c28344                T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+28438,28444c28355,28487    T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C; repair round: I.1.10's coercion into R64 in answer 8's words, I.1.11's and I.1.12's four method-entry originals quoted, I.1.12's Change and Effect, I.1.15, I.1.16 (JUDGE.md steps 2, 3, 5, 6, 7)
+28445a28489,28734          T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C; repair round: as the hunk before
+28450,28459c28739,28749    T17 changes.tex: Appendix I, the introduction, the rule entry, seven entries, "Passages not yet revised", route C
+29233,29235c29523,29525    T18 internal-document.tex: rung S box after E10, its last sentence
+# 133 hunks, 0 unclassified. Gone since the first round's build: the two Appendix E hunks (23495d, 23509a), whose line is back in the base's order, and the Chapter 13 and T15 hunks the repair round re-cut, listed above under their new base lines.

@@ -11,6 +11,23 @@
 
 \chapter{Numbers}
 \chaplabel{lib:numbers-advanced}
+\revision{revival-superseded}{This chapter is the original design of the
+rational types, kept word for word as a superseded design.
+It defines the eighteen rational types of the Working Draft of February 2011
+as instantiations of one trait, \TYP{RationalQuantity}, each of which extends
+the instantiations with weaker flags.
+Instantiation exclusion (\secref{revival-rule}) refuses that trait; the
+compiled type checker refuses it as a cyclic type hierarchy, and the
+interpreter cannot instantiate it; \library\ never declared these types; and
+the team's later Types chapter (Luchangco, 2012) comments out the type aliases
+by which this chapter names them and keeps the statement that the numeric
+types are mutually exclusive (\secref{types-libraries}).
+\secref{basic-rationals} and \secref{basic-integers} describe the number types
+the library declares, and \appref{spec-changes} says why.
+The way back is the later chapter's declaration-site variance: each flag a
+covariant static parameter, a form the compiled type checker already accepts.
+It waits for covariance to run on both implementations, which is item~12 of
+the revival's worklist and row~404 of its gap ledger.}
 
 \Trait{Fortress.Standard.RationalQuantity}
 \seclabel{advanced-rationals}
