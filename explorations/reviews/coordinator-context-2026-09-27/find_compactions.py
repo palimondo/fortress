@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 """Scan the transcript for compaction boundary records.
 
+CORRECTION (see the review's header note): this file contains byte-identical
+replays of earlier chunks of history, re-inserted at LATER line positions on
+resume (proven by matching `uuid`s, e.g. the 03:28:58 compact_boundary
+appears at both line 25826 and line 32220). A hit's LINE NUMBER is therefore
+not reliable for finding "the compaction immediately before another one" --
+use the TIMESTAMP, and deduplicate by `uuid` first (see full_corrected.py's
+`compact_boundary` listing, which does this and lists every one, in true
+chronological order, exactly once).
+
 Looks for:
   - system records with a 'compact' subtype (isCompactSummary, subtype containing 'compact', etc.)
   - user records whose content holds the string
