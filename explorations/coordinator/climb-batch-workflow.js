@@ -70,14 +70,26 @@ const MAIN = '/home/user/fortress'
 // rung of this batch declares one, so any change of the crash row is red).
 // Optional: landsOnlyWith, the ids of the rungs a rung lands only with; the
 // script applies it after the scatter, so T, which names F, reaches the gather
-// only when F is approved, and so does O beside F. Optional: facts, the rung's
-// list for explorations/coordinator/tools/facts-extract.sh (a FACTS.md title's
-// distinctive substring, or section:, index:, map: or doc: and its words; the
-// tool's --help), rendered into the first step of every role on the rung and
-// into the shared prefix; no double quote, backtick, dollar sign or backslash.
-// Each rung's list is the entries, notes and map sections its section of the
-// record cites or rests on, checked with the tool's --check to match one each;
-// batch 6's four were added on 2026-09-27 and are not in the record's section 7.
+// only when F is approved, and so does O beside F. Optional: briefing, the
+// rung's briefing, which the planner writes from the record so that the
+// agents learn in context what they were never trained on: the keys of
+// explorations/coordinator/tools/facts-extract.sh for the POSITIONS.md entries
+// (positions:DATE WORDS), gap-ledger rows (ledger:ROW) and earlier judges'
+// rulings (doc:PATH#HEADING) the rung rests on; the specification's sections
+// its subject touches (doc: on a .tex heading); the notes already written on
+// the subject, found through INDEX.md (doc:, index:); the library code that is
+// the precedent for the same kind of problem (code:PATH#FROM..TO); and the
+// FACTS.md entries and map rows and sections of its area; in reading order,
+// decisions first; the tool's --help. Relevance, not size, decides what goes
+// in. The rung worker reads it whole as its step 1. And checks, the sub-list
+// of briefing that the skeptic, the repair round and the judges read as their
+// step 1: the decisions and ledger rows their checks need, and the
+// specification's sections and the precedent code those checks compare against. No key holds a
+// double quote, backtick, dollar sign or backslash, since each is rendered in
+// double quotes. Each list is checked with the tool's --check to match exactly
+// one place per key. Batch 6's four were written on 2026-09-27, after the batch
+// ran, as worked examples, and are not in the record's section 7; O's is the
+// one 6b runs.
 //
 // Batch 6's values are CLIMB-BATCH-6.md, sections 3, 6 and 7. Each tail is
 // that rung's section of section 3 word for word, with the record's code-span
@@ -286,40 +298,157 @@ const O_TAIL = [
 
 const F_ENTRY = { id: 'F', slug: 'rung-flat-tower', path: '/home/user/fortress-flat', branch: 'wip/rung-flat-tower', tail: F_TAIL, expectedMinutes: 300, writesState: true, testIsStage: false, expectedCheckerCount: 44,
     blurb: "route A's flattening of the one library's number tower: the number types siblings under Number with their own algebra, answer 8's coercions, SUM and PROD as answer 7's typed reductions, the three Number-typed big operators dropped, the rational arithmetic exact (row 428), 25 approved team-test lines and the approved microGPT lines respelled; library and tests, no Java. writesState, because a reduction's identity is joined at each split of a parallel generator.",
-    facts: ["The compiled checker's exclusion rule is the designers' multiple instantiation exclusion", "The exclusion fork, priced three ways", "The flattening's three questions",
-      "The true distance to the switch-over", "An inferred generic refuses a coercion that the method it forwards to accepts", "The replacement for SUM's and PROD's catch-all",
-      "The coercions between number types carry a sum's zero", "The tower closure of 02d09a39f", "The library's scalar extension is eight generic declarations",
-      "Route A's generic container obligations", "Vector and Matrix inherit", "Under walk, the interpreter converts by coercion at its three kinds of type check",
-      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "The interpreter's overload-ambiguity message", "testSystem's four shards are one suite",
-      "index:flattening", "index:SUM PROD", "index:identities",
-      "map:spec-to-implementation.md#The tower in", "map:spec-to-implementation.md#What the compiler prelude has of the tower"],
+    briefing: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-26 answer 7 catch-all",
+      "positions:2026-09-26 three Number-typed big operators", "positions:2026-09-26 Astra's source review", "positions:2026-09-26 Q1 of batch 6",
+      "positions:2026-09-19 FlatArrays review's repair", "positions:2026-09-19 answering the open question",
+      "positions:2026-09-26 climb batch 5 coordinator/CLIMB-BATCH-5.md", "positions:2026-09-26 rung D's stop",
+      "ledger:146", "ledger:423", "ledger:428", "ledger:424", "ledger:388",
+      "doc:explorations/reviews/max-min-identities-judgement.md#5. What this finds about answer 7",
+      "doc:Specification/basic/types-vals-vars.tex#Trait Types", "doc:Specification/basic/conversions-coercions.tex#Coercion Declarations",
+      "doc:Specification/basic/operators/opr-overview.tex#Multiplication, Division, Modulo, and Remainder Operators",
+      "doc:Specification/basic/operators/opr-overview.tex#Addition and Subtraction Operators",
+      "doc:Specification/basic/expressions/reductions.tex#Summations and Other Reduction Expressions",
+      "index:flattening",
+      "doc:explorations/reviews/sum-replacement-judgement.md#3. How the library solves this itself",
+      "doc:explorations/reviews/sum-replacement-judgement.md#A. One generic reduction per operator",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 1 > 5. What the library",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 2 > 5. What the library",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 2 > 9. The ways",
+      "doc:explorations/reviews/mie-probes/price-keep-the-rule.md#1. What",
+      "doc:explorations/reviews/mie-probes/price-keep-the-rule.md#2. What depends on the nesting",
+      "doc:explorations/reviews/mie-probes/price-keep-the-rule.md#3. What the interpreter needs",
+      "doc:explorations/reviews/numeric-hierarchy-integration-review.md#5. Checks worth carrying",
+      "doc:explorations/reviews/mie-probes/flat-world-for-users.md#1. The flat world in five lines",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait ZZ extends..trait NN64 extends",
+      "code:Library/FortressLibrary.fss#): T = throw ForbiddenException..typecase __thrower",
+      "The flattening's three questions", "Under walk, the interpreter converts by coercion at its three kinds of type check",
+      "map:spec-to-implementation.md#What the compiler prelude has of the tower"],
+    checks: [
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-26 answer 7 catch-all",
+      "positions:2026-09-26 three Number-typed big operators", "positions:2026-09-26 Astra's source review", "positions:2026-09-26 Q1 of batch 6",
+      "positions:2026-09-26 rung D's stop",
+      "ledger:146", "ledger:428",
+      "doc:Specification/basic/types-vals-vars.tex#Trait Types", "doc:Specification/basic/conversions-coercions.tex#Coercion Declarations",
+      "doc:Specification/basic/expressions/reductions.tex#Summations and Other Reduction Expressions",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait ZZ extends..trait NN64 extends",
+      "code:Library/FortressLibrary.fss#): T = throw ForbiddenException..typecase __thrower"],
     expectedMoves: [] }
 
 const T_ENTRY = { id: 'T', slug: 'rung-spec-numbers', path: '/home/user/fortress-numbers', branch: 'wip/rung-spec-numbers', tail: T_TAIL, expectedMinutes: 120, writesState: false, testIsStage: false, expectedCheckerCount: 125, landsOnlyWith: ['F'],
     blurb: "the specification's three number chapters revised to the flat library (answer 6) in rung S's layered form, the superseded advanced chapter kept word for word, answer 7's note in the reductions chapter; an original-tree edit, Specification-1.0-frozen/ untouched, Specification/fortress.pdf re-rendered. No source and no test.",
-    facts: ["section:The specification and the repository's lineage", "The specification's own examples that the multiple instantiation exclusion refuses",
-      "The flattening's three questions", "The compiled checker's exclusion rule is the designers' multiple instantiation exclusion",
-      "index:number chapters", "index:lineage", "map:spec-to-implementation.md#Parts IV"],
+    briefing: [
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 answer 6", "positions:2026-09-26 answer 8",
+      "positions:2026-09-26 answer 7 catch-all", "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 S1",
+      "positions:2026-09-26 lineage note", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-24 requirement on the plan",
+      "positions:2026-09-21 ledger row 330", "positions:2026-09-21 ledger row 329", "positions:2026-09-21 ledger row 331",
+      "positions:2026-09-26 23:59",
+      "ledger:404", "ledger:424", "ledger:425",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#4.1 The number chapters",
+      "doc:Specification/basic-lib/numbers.tex#Rational Numbers", "doc:Specification/basic-lib/basic-integers.tex#Integers",
+      "doc:Specification/basic/conversions-coercions.tex#Principles of Coercion",
+      "doc:Specification/basic/expressions/reductions.tex#Summations and Other Reduction Expressions",
+      "doc:Specification/appendices/changes.tex#Instantiation exclusion", "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:Documentation/Specification/Prose/Language/types.tick#Types in the Fortress Standard Libraries",
+      "index:number chapters",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 3 > 2. What each path does today",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 3 > 5. What the library already does",
+      "doc:explorations/reviews/flattening-questions-ways.md#Question 3 > 9. The ways",
+      "code:Library/FortressLibrary.fsi#getter check(): Maybe..getter check_star(): Maybe",
+      "The specification states instantiation exclusion, and its refused examples", "Specification-1.0-frozen/ is byte for byte",
+      "The team's latest word on types and on the exclusion rule"],
+    checks: [
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 answer 6", "positions:2026-09-26 answer 8",
+      "positions:2026-09-26 answer 7 catch-all", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-21 ledger row 330", "positions:2026-09-21 ledger row 329", "positions:2026-09-21 ledger row 331",
+      "positions:2026-09-26 23:59",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:Specification/basic/conversions-coercions.tex#Principles of Coercion", "doc:Specification/appendices/changes.tex#Instantiation exclusion",
+      "code:Library/FortressLibrary.fsi#getter check(): Maybe..getter check_star(): Maybe"],
     expectedMoves: [] }
 
 const R_ENTRY = { id: 'R', slug: 'rung-unknown-size-arm', path: '/home/user/fortress-arm', branch: 'wip/rung-unknown-size-arm', tail: R_TAIL, expectedMinutes: 90, writesState: false, testIsStage: false, expectedCheckerCount: 125,
     blurb: "the compiled checker refuses a call whose chosen overload has a size the call cannot fix (answer 12, row 400), with two expected-failure compile tests, and the expected-failure walk tests rows 416 and 418 owe; Scala under scala_src/.",
-    facts: ["The compiled type checker checks nat and int static parameters", "The return-type rule now reads a size as it reads a type parameter",
-      "A size is carried at run time as a descriptor from RTTIsize.of", "overloads may not differ in static parameters",
-      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "The XXX expected-failure mechanism in compiler_tests/ and library_tests/",
-      "The ladder-regression stage's baseline", "ant compileAll leaves the bytecode cache holding no library jars", "ant compileAll deletes a tracked file",
-      "index:overloading", "map:compile-path-walkthrough.md#How it differs from the interpreter"],
+    briefing: [
+      "positions:2026-09-26 answer 12", "positions:2026-09-21 nat plan", "positions:2026-09-26 answer 9", "positions:2026-09-26 second batch-5 answer",
+      "positions:2026-09-26 rung D's stop",
+      "ledger:400", "ledger:416", "ledger:418",
+      "doc:explorations/compile-ladder/rung-nat-checker/JUDGE.md#Decision 3: it stands",
+      "doc:explorations/reviews/overloading-judgement.md#Question 3",
+      "doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls",
+      "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters", "doc:Specification/basic/types-vals-vars.tex#Trait Types",
+      "index:overloading",
+      "doc:explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadTop.fss",
+      "doc:explorations/compile-ladder/rung-nat-checker/probes/skeptic/SkDeadVal.fss",
+      "doc:explorations/compile-ladder/rung-nat-checker/probes/skeptic/dead-arms.txt",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def isDynamicallyApplicable",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#If there are inference variables left",
+      "doc:ProjectFortress/compiler_tests/XXXNatAmbigChecker.test",
+      "The compiled type checker checks nat and int static parameters", "The return-type rule now reads a size as it reads a type parameter",
+      "overloads may not differ in static parameters", "The XXX expected-failure mechanism in compiler_tests/ and library_tests/",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "ant compileAll deletes a tracked file",
+      "map:spec-to-implementation.md#Chapter 12@nat int parameters", "map:compile-path-walkthrough.md#How it differs from the interpreter"],
+    checks: [
+      "positions:2026-09-26 answer 12", "positions:2026-09-21 nat plan", "positions:2026-09-26 second batch-5 answer",
+      "ledger:400", "ledger:416", "ledger:418",
+      "doc:explorations/compile-ladder/rung-nat-checker/JUDGE.md#Decision 3: it stands",
+      "doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls",
+      "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def isDynamicallyApplicable",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#If there are inference variables left",
+      "The compiled type checker checks nat and int static parameters"],
     expectedMoves: [] }
 
 const O_ENTRY = { id: 'O', slug: 'rung-overflow-natives', path: '/home/user/fortress-overflow', branch: 'wip/rung-overflow-natives', tail: O_TAIL, expectedMinutes: 150, writesState: false, testIsStage: false, landsOnlyWith: FOLLOWUP ? [] : ['F'],
     blurb: "the ten signed and eight unsigned arithmetic natives of the interpreter raise IntegerOverflow (row 379), row 379's expected failure promoted to a plain test, the demo HeapShakedown respelled (row 427); Java, four glue classes.",
-    facts: ["Under walk, a native can raise a Fortress exception", "The compiled path's integer rules", "The interpreter's integer rules",
-      "What relies on fixed-width wrapping under walk", "five of the team's tests rely on fixed-width wrapping", "The specification's wrapping operators",
-      "The one library's number tower is flat", "The repair turns one loud failure into a quiet value", "ant compileAll deletes a tracked file",
-      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "testSystem's four shards are one suite", "Three heaps run the interpreter",
-      "The interpreter's overload-ambiguity message",
-      "index:IntegerOverflow", "index:wrapping",
-      "map:modules-and-phases.md#Native code and Java interop", "map:test-coverage.md#The corpora on disk"],
+    briefing: [
+      "positions:2026-09-24 row 379", "positions:2026-09-26 rung O of climb batch 4", "positions:2026-09-26 fifth batch-5 answer",
+      "positions:2026-09-26 rung D's stop",
+      "ledger:379", "ledger:403", "ledger:427", "ledger:428", "ledger:430", "ledger:348",
+      "doc:explorations/compile-ladder/rung-walk-overflow/JUDGE.md#1. The ruling@stop reserved one",
+      "doc:explorations/compile-ladder/rung-walk-overflow/JUDGE.md#5. If he takes",
+      "doc:Specification/basic/operators/opr-overview.tex#Prefix Operators",
+      "doc:Specification/basic/operators/opr-overview.tex#Multiplication, Division, Modulo, and Remainder Operators",
+      "doc:Specification/basic/operators/opr-overview.tex#Addition and Subtraction Operators",
+      "index:IntegerOverflow",
+      "doc:explorations/reviews/wrap-dependent-code.md#4. What the specification says",
+      "doc:explorations/reviews/wrap-dependent-code.md#6. What the library already does",
+      "doc:explorations/compile-ladder/rung-walk-overflow/REPORT.md#3. Test first, and the edit",
+      "doc:explorations/compile-ladder/rung-walk-overflow/REPORT.md#6. Where the fix belongs",
+      "doc:explorations/compile-ladder/rung-wrap-operators/REPORT.md#1. What the rung did, and the stop",
+      "doc:explorations/compile-ladder/rung-wrap-operators/REPORT.md#3. Where it belongs, and the precedent search",
+      "doc:explorations/coordinator/CLIMB-BATCH-5.md#D. The wrapping operators@What it rewrites",
+      "doc:explorations/coordinator/CLIMB-BATCH-5.md#D. The wrapping operators@No output changes",
+      "doc:explorations/compile-ladder/rung-walk-overflow/natives.patch",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java#public static FortressError overflow()",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java#class Negate extends Z2Z..class Div extends ZZ2Z",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java#class WrappingNegate..class WrappingMul",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java#class Negate extends L2L..class Div extends LL2L",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java#class WrappingNegate..class WrappingMul",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java#class Negate extends N2N..class Mul extends NN2N",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java#class WrappingNegate..class WrappingMul",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java#class Negate extends U2U..class Mul extends UU2U",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java#class WrappingNegate..class WrappingMul",
+      "code:ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java#public static int toUnsignedIntOverflow..public static int unsignedIntOverflowingNeg",
+      "code:ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java#public static boolean ltu..public static long unsignedLongOverflowingNeg",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss#opr -(self): NN32 =..opr BOXDOT(self, other:NN32)",
+      "doc:ProjectFortress/tests/XXXFixedWidthOverflowRungB.fss", "doc:ProjectFortress/tests/WrapOperatorsRungD.fss",
+      "Under walk, a native can raise a Fortress exception", "The compiled path's integer rules", "The specification's wrapping operators",
+      "ant compileAll deletes a tracked file",
+      "map:README.md#Touch this@interpreter/", "map:modules-and-phases.md#Native code and Java interop"],
+    checks: [
+      "positions:2026-09-24 row 379", "positions:2026-09-26 rung O of climb batch 4", "positions:2026-09-26 fifth batch-5 answer",
+      "positions:2026-09-26 rung D's stop",
+      "ledger:379", "ledger:427",
+      "doc:explorations/compile-ladder/rung-walk-overflow/JUDGE.md#1. The ruling@stop reserved one",
+      "doc:Specification/basic/operators/opr-overview.tex#Multiplication, Division, Modulo, and Remainder Operators",
+      "doc:Specification/basic/operators/opr-overview.tex#Addition and Subtraction Operators",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java#class Negate extends Z2Z..class Div extends ZZ2Z",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java#class Negate extends L2L..class Div extends LL2L",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java#class Negate extends N2N..class Mul extends NN2N",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java#class Negate extends U2U..class Mul extends UU2U",
+      "The compiled path's integer rules"],
     expectedMoves: [] }
 
 const RUNGS = FOLLOWUP ? [O_ENTRY] : (O_BESIDE_F ? [F_ENTRY, T_ENTRY, R_ENTRY, O_ENTRY] : [F_ENTRY, T_ENTRY, R_ENTRY])
@@ -479,41 +608,74 @@ const GATE_OUT = LOG_DIR + '/out'   // the gate writes here during the run, untr
 const SCATTER = RUNGS.slice().sort((a, b) => (b.expectedMinutes || 0) - (a.expectedMinutes || 0))
 
 // ---------------------------------------------------------------------------
-// The record lookup: the first step of every role that works on a rung, and a
-// section of the shared prefix. The agents of the early climbs decided
-// locally; the maps and FACTS exist so that an agent works from the whole
-// territory (Pavol, 2026-09-27). --common prints what every agent reads; a
-// rung's facts, from its manifest entry, what the record holds for that rung.
-// The tool prints in parts of at most 28 KB, under what one shell command
-// shows an agent. climb-batch-workflow.md, "Shared prefix".
+// The briefing: the first step of every role that works on a rung. The agents
+// were not trained on Fortress, the language was never finished, and what they
+// write from other languages' habits contradicts the specification and the
+// library unless they have absorbed what the project has gathered (Pavol,
+// 2026-09-27). And what the agents of the later climbs missed was on record: a
+// ledger row, a POSITIONS entry, an earlier judge's ruling, the library's own
+// precedent (explorations/reviews/worker-global-decisions.md). So the planner
+// writes each rung's briefing, a list of facts-extract.sh keys in its manifest
+// entry, carrying besides the record the specification's sections, the notes
+// and the precedent code the rung's subject touches: the rung worker reads it whole as its step 1, and the
+// skeptic, the repair round and the judges read its checks sub-list, the
+// decisions and ledger rows their checks need and the specification's sections
+// and precedent code they compare against. Nothing is printed to every
+// agent alike: a blanket read first cost more than the gathering it could
+// remove, and on skeptics and repairs it was a cost in every case
+// (worker-context-cost.md). The tool prints in parts of at most 28 KB, under
+// what one shell command shows an agent, and says the size.
+// climb-batch-workflow.md, "Shared prefix".
 // ---------------------------------------------------------------------------
 
 const LOOKUP_TOOL = 'explorations/coordinator/tools/facts-extract.sh'
+const keyOk = (q) => typeof q === 'string' && q.trim() !== '' && !q.startsWith('-') && !/["\x60$\\\n]/.test(q)
 RUNGS.forEach(r => {
-  if (r.facts === undefined) return
-  const bad = Array.isArray(r.facts)
-    ? r.facts.filter(q => typeof q !== 'string' || !q.trim() || q.startsWith('-') || /["\x60$\\\n]/.test(q))
-    : [String(r.facts)]
-  if (bad.length) throw new Error('rung ' + r.id + ': facts is a list of strings, none empty or opening with -, and none holding a double quote, a backtick, a dollar sign, a backslash or a newline, since each is rendered in double quotes: ' + bad.join(' | '))
+  for (const field of ['briefing', 'checks']) {
+    if (r[field] === undefined) continue
+    const bad = Array.isArray(r[field]) ? r[field].filter(q => !keyOk(q)) : [String(r[field])]
+    if (bad.length) throw new Error('rung ' + r.id + ': ' + field + ' is a list of strings, none empty or opening with -, and none holding a double quote, a backtick, a dollar sign, a backslash or a newline, since each is rendered in double quotes: ' + bad.join(' | '))
+  }
+  const stray = (Array.isArray(r.checks) ? r.checks : []).filter(q => !(Array.isArray(r.briefing) && r.briefing.includes(q)))
+  if (stray.length) throw new Error('rung ' + r.id + ': checks is a sub-list of briefing, and these keys are not in the briefing: ' + stray.join(' | '))
 })
-const hasList = (r) => Array.isArray(r.facts) && r.facts.length > 0
-const lookupCommand = (r) => LOOKUP_TOOL + ' ' + r.facts.map(q => '"' + q + '"').join(' ')
+const keysOf = (r, field) => Array.isArray(r[field]) ? r[field] : []
+// The command as the prompt shows it, one key a line, indented as code.
+const lookupCommand = (keys) => ['        ' + LOOKUP_TOOL + ' \\'].concat(keys.map((q, i) => '            "' + q + '"' + (i < keys.length - 1 ? ' \\' : '')))
+const SEARCH_FIRST = 'explorations/coordinator/INDEX.md, FACTS.md and POSITIONS.md beside it, the gap ledger (explorations/fortress-gap-ledger.md) and the maps under explorations/coordinator/map/'
+const MORE_PARTS = 'Output that ends by naming a next part is continued by the same command with --part 2, then 3, until it says it printed the last.'
 
-// Step 1 of a role on one rung (rungs = [rung], in its worktree) or on the
-// merged tree (rungs = RUNGS, in the main tree). lead opens the step: step 1
-// of a numbered order by default, the words given in a role that has none.
-function lookupStep(rungs, where, lead) {
-  const listed = rungs.filter(hasList)
-  const whose = rungs.length === 1
-    ? (listed.length ? 'the second, what the record holds for this rung. For a topic the list does not cover' : 'this rung has no list of its own. For every topic')
-    : (listed.length ? 'the others, what the record holds for ' + listed.map(r => r.id).join(', ') + ', in that order. For a topic the lists do not cover' : 'no rung of this run has a list of its own. For every topic')
+// Step 1 of the rung worker, and of a worker resumed after a stop: the rung's
+// whole briefing.
+function briefingStep(rung, where) {
+  const keys = keysOf(rung, 'briefing')
+  if (!keys.length) return ['1. This rung has no briefing. Before anything else, search ' + SEARCH_FIRST + ' for its topics, before the tree.']
   return [
-(lead || '1. Before anything else,') + ' run ' + (listed.length ? 'these commands' : 'this command') + ' in ' + where + ' and read all ' + (listed.length ? 'they print' : 'it prints') + '. Output that ends by naming a next part is continued by the same command with --part 2, then 3, until it says it printed the last.',
+'1. Before anything else, run this command in ' + where + ' and read all it prints. It is this rung\'s briefing, which the batch\'s planner gathered for this rung: the decisions of Pavol\'s it rests on (POSITIONS.md), the gap-ledger rows it touches, earlier judges\' rulings, the specification\'s sections its subject touches, the notes already written on it, the library code that is the precedent for the same kind of problem, and the FACTS.md entries and map rows and sections of its area, each whole. Read it as the ground you work from: Fortress is not a language you were trained on, and what habits from other languages suggest here is often what its specification and its library say otherwise. ' + MORE_PARTS,
 '',
-'        ' + LOOKUP_TOOL + ' --common',
-...listed.map(r => '        ' + lookupCommand(r)),
+...lookupCommand(keys),
 '',
-'   ' + (listed.length ? 'The first' : 'It') + ' is the same for every agent: the map\'s terms, the shape of the system and what moves with what, where this batch sits in PLAN.md, and explorations/repo-internals.md' + (listed.length ? '; ' : '. ') + (listed.length ? whose : whose.charAt(0).toUpperCase() + whose.slice(1)) + ', search explorations/coordinator/INDEX.md and the maps under explorations/coordinator/map/ before the tree.',
+'   For a topic the briefing does not cover, search ' + SEARCH_FIRST + ' before the tree.',
+  ]
+}
+
+// Step 1 of a skeptic, a repair round and a judge, on one rung (rungs = [rung],
+// in its worktree) or on the merged tree (rungs = RUNGS, in the main tree): the
+// checks slice of each rung's briefing. lead opens the step: step 1 of a
+// numbered order by default, the words given in a role that has none.
+function sliceStep(rungs, where, lead) {
+  const sliced = rungs.filter(r => keysOf(r, 'checks').length)
+  const one = rungs.length === 1
+  const open = lead || '1. Before anything else,'
+  if (!sliced.length) return [open + ' search ' + SEARCH_FIRST + ' for the decisions and ledger rows ' + (one ? 'this rung rests on' : 'the rungs rest on') + ', before the tree: ' + (one ? 'this rung\'s briefing has no checks list.' : 'no rung of this run has a checks list in its briefing.')]
+  return [
+open + ' run ' + (sliced.length > 1 ? 'these commands' : 'this command') + ' in ' + where + ' and read all ' + (sliced.length > 1 ? 'they print' : 'it prints') + '. ' + (one
+  ? 'It is the part of this rung\'s briefing that the checks on it need: the decisions of Pavol\'s and the ledger rows the rung rests on, the rulings and facts they turn on, and the specification\'s sections and the precedent code the checks compare against, each whole. The rung\'s first pass read the whole briefing.'
+  : 'Each is the part of a rung\'s briefing that the checks on it need, for ' + sliced.map(r => r.id).join(', ') + ' in that order: the decisions of Pavol\'s and the ledger rows each rung rests on, the rulings and facts they turn on, and the specification\'s sections and the precedent code the checks compare against, each whole.') + ' ' + MORE_PARTS,
+'',
+...[].concat.apply([], sliced.map((r, i) => (i ? [''] : []).concat(one ? [] : ['        # ' + r.id]).concat(lookupCommand(keysOf(r, 'checks'))))),
+'',
+'   For an entry ' + (one ? 'the slice lacks' : 'the slices lack') + ', search ' + SEARCH_FIRST + ' before the tree.',
   ]
 }
 
@@ -580,13 +742,9 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 'A capture you intend to commit is named .txt. Never .out and never .log: .gitignore:42,46 swallow both, which is how four probe captures cited by two ledger rows were nearly landed untracked.',
 '',
-'## The record on file - read it before you search the tree',
+'## Your briefing - read it before you search the tree',
 '',
-'The agents of the early climbs went wrong on decisions made locally. The territory map below, explorations/coordinator/FACTS.md (what the project has established, grouped by area, each entry cited by its bold title) and explorations/coordinator/INDEX.md (one line per standalone note) exist so that every agent works from the whole territory. Most of FACTS is about other work, so the first step of every role that works on a rung runs ' + LOOKUP_TOOL + ' twice: with --common it prints what every agent reads, and with the rung\'s list, from its manifest entry, what the record holds for that rung, each FACTS entry whole under its section heading, and what it did not find. The lists of this run:',
-'',
-RUNGS.map(r => '    ' + r.id + ': ' + (hasList(r) ? lookupCommand(r) : 'none; search INDEX.md and the maps for its topics')).join('\n'),
-'',
-'For a topic a list does not cover, search INDEX.md and the relevant map before the tree. Cite a FACTS entry by its bold title.',
+'You were not trained on Fortress, and the language was never finished: what you would write from other languages\' habits often contradicts its specification and its library. And the agents of the early climbs went wrong on decisions made locally, where what they missed was on record: a decision of Pavol\'s in explorations/coordinator/POSITIONS.md, a row of the gap ledger (explorations/fortress-gap-ledger.md), an earlier judge\'s ruling, the library\'s own way for the same family. So the batch\'s planner gathered a briefing for each rung: the POSITIONS.md entries, the ledger rows and the earlier rulings the rung rests on, the specification\'s sections its subject touches, the notes already written on it, the library code that is the precedent for the same kind of problem, and the explorations/coordinator/FACTS.md entries (what the project has established, grouped by area, each cited by its bold title) and the map rows and sections of its area, each printed whole by ' + LOOKUP_TOOL + '. Step 1 of every role that works on a rung runs it: the rung worker reads the whole briefing, and the skeptic, the repair round and the judges read the part of it that their checks need. For a topic it does not cover, search explorations/coordinator/INDEX.md (one line per standalone note), FACTS.md, POSITIONS.md, the ledger and the relevant map below before the tree. Cite a FACTS entry by its bold title.',
 '',
 '## The territory map - read the parts your task needs, do not go looking',
 '',
@@ -665,7 +823,7 @@ RUNGS.map(r => '    ' + r.id + ': ' + (hasList(r) ? lookupCommand(r) : 'none; se
 // The rung worker's role block. The tails are in the manifest.
 // ---------------------------------------------------------------------------
 
-function rungRole(rung) {
+function rungRole(rung, repairRound) {
   return [
 '',
 '---',
@@ -676,7 +834,7 @@ function rungRole(rung) {
 '',
 'From explorations/coordinator/PLAN.md, and this is the part Pavol called load-bearing:',
 '',
-...lookupStep([rung], 'your worktree (' + rung.path + ')'),
+...(repairRound ? sliceStep([rung], 'your worktree (' + rung.path + ')') : briefingStep(rung, 'your worktree (' + rung.path + ')')),
 ...(rung.testIsStage ? [
 '2. Your rung declares testIsStage in the manifest, so its failing-then-passing test is the gate\'s checker-count stage (gate step 8) and NOT a .fss program: no program can yet be compiled against the interpreter\'s prelude, and this is the one place the test-first rule is met by a permanent stage instead of a test file (explorations/coordinator/library-route-judgement.md section 2 step 1; Pavol\'s decision of 2026-09-21, POSITIONS.md, "the library route"). So FIRST, before any edit, read the header of explorations/coordinator/tools/checker-count/run.sh and run it in your worktree (ant compileAll must have run there first):',
 '',
@@ -734,7 +892,7 @@ JSON.stringify(workerReport, null, 2),
 '',
 '## What you must check',
 '',
-...lookupStep([rung], 'the rung\'s worktree (' + rung.path + ')'),
+...sliceStep([rung], 'the rung\'s worktree (' + rung.path + ')'),
 '2. The provenance block under REPORT.md\'s title: FIVE lines now - problem, spec, precedent, deviation, historical. Open every file:line it cites with sed -n and check that the line says what the block says. A missing line, a line that does not say it, a spec: line that cites only Specification/library/apis/, or a historical: line that omits a file of the 2012 tree the diff edits, is a refusal.',
 (rung.testIsStage
   ? '3. The recorded failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh), and the worker was required to capture that stage\'s table BEFORE the edit existed and again after it. Find both captures under explorations/compile-ladder/' + rung.slug + '/probes/, check that the pre-edit one is what the tree printed before the edit, and RUN THE STAGE YOURSELF in the worktree to see the post-edit table come out again: that run is your check that the test passes, in place of running a .fss test. A rung of this kind with no pre-edit table, or whose post-edit table you cannot reproduce, is refused exactly as a missing .fss failure would be. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved: the gate prints the declared total beside the one it measures, and a crash line no rung declared makes the batch\'s gate red. Check 10 compares that total with the table. Everything else in this list is unchanged.'
@@ -787,7 +945,7 @@ function repairPrompt(rung, verdict, decision) {
 '',
 '# Your role: rung worker, repair round for ' + rung.id + ', ' + rung.slug,
 '',
-'First, before anything below: run the commands of step 1 of the order of work above, in ' + rung.path + ', and read all they print.',
+'First, before anything below: take step 1 of the order of work above, in ' + rung.path + (verdict ? '. In a repair round it is the part of the briefing that the checks on the rung read, not the whole briefing, which the first pass read.' : ', the rung\'s whole briefing.'),
 '',
 (verdict
   ? 'You did this rung. Your skeptic refused it. This is your ONE repair round in the same worktree, ' + rung.path + '; a second refusal drops the rung from the batch.'
@@ -845,8 +1003,8 @@ question,
 '## What to read, and no more than this unless a ruling needs it',
 '',
 inWorktree
-  ? lookupStep([rung], 'the rung\'s worktree (' + rung.path + ')').join('\n') + '\n2. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n3. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n4. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/. Read at least ten lines either side of each.\n5. The precedents both name, at the cited lines.\n6. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
-  : lookupStep(RUNGS, 'the main tree (' + MAIN + ')').join('\n') + '\n2. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n3. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n4. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n5. The specification passages the reports cite, by file:line.',
+  ? sliceStep([rung], 'the rung\'s worktree (' + rung.path + ')').join('\n') + '\n2. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n3. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n4. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/. Read at least ten lines either side of each.\n5. The precedents both name, at the cited lines.\n6. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
+  : sliceStep(RUNGS, 'the main tree (' + MAIN + ')').join('\n') + '\n2. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n3. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n4. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n5. The specification passages the reports cite, by file:line.',
 '',
 '## How to rule',
 '',
@@ -1315,7 +1473,7 @@ function mergedRepairRole(decision, kind) {
   return MAIN_TREE_ROLE + [
 '# Your role: repair on the merged tree (' + kind + ')',
 '',
-...lookupStep(RUNGS, 'the main tree (' + MAIN + ')', 'First, before the ruling below,'),
+...sliceStep(RUNGS, 'the main tree (' + MAIN + ')', 'First, before the ruling below,'),
 '',
 'The judge has ruled on the merged tree; you execute the ruling. Its decision:',
 '',
@@ -1652,7 +1810,7 @@ const results = await pipeline(
       return out('stopped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
 
-    const repaired = await callAgent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, verdict, decision), {
+    const repaired = await callAgent(PREFIX + rungRole(rung, true) + rung.tail + repairPrompt(rung, verdict, decision), {
       label: 'repair:' + rung.id,
       phase: 'Rung',
       schema: RUNG_SCHEMA,
