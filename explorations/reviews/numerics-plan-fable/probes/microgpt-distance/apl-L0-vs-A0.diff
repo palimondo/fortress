@@ -1,0 +1,26 @@
+3c3
+< component FlatArrays2	typecheck	FlatArrays2.fss:117:46-69:     Could not check call to operator juxtaposition     - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (Array[\RR64,(ZZ32, ZZ32)\], Array[\RR64,(ZZ32, ZZ32)\]).     - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to
+---
+> component FlatArrays2	typecheck	FlatArrays2.fss:117:14:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends An
+5,6c5,6
+< component FlatArrays2	typecheck	FlatArrays2.fss:159:23-32:     Could not check call to function row     - [\nat r, nat c\](Matrix[\RR64,r,c\], ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Array[\RR64,(ZZ32, ZZ32)\], ZZ32).     FlatArrays2.fss:159:9-19:       Possibly because i: ZZ32 after argument inferenc
+< component FlatArrays2	typecheck	FlatArrays2.fss:167:27-35:     Could not check call to function row     - [\nat r, nat c\](Matrix[\RR64,r,c\], ZZ32)->Array[\RR64,ZZ32\] is not applicable to an argument of type (Array[\RR64,(ZZ32, ZZ32)\], ZZ32).     FlatArrays2.fss:167:13-23:       Possibly because i: ZZ32 after argument inferen
+---
+> component FlatArrays2	typecheck	FlatArrays2.fss:159:14:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends An
+> component FlatArrays2	typecheck	FlatArrays2.fss:165:14:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends An
+26d25
+< component FlatData2	typecheck	FlatData2.fss:100:70-90:     Could not check call to function parseRow     - [\nat s\](String, Vector[\RR64,s\], ZZ32)->ZZ32 is not applicable to an argument of type (String, Array[\RR64,ZZ32\], ZZ32).     FlatData2.fss:100:13-60:       Possibly because line: String after argument inference     Flat
+28c27
+< component FlatData2	typecheck	FlatData2.fss:125:98-109:     Character has no getter called codePoint     FlatData2.fss:125:30-53:       Possibly because j: ZZ32 after argument inference     FlatData2.fss:125:9-29:       Possibly because d: ZZ32 after argument inference
+---
+> component FlatData2	typecheck	FlatData2.fss:125:18:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends AnyInt
+29a29,31
+> component FlatData2	typecheck	FlatData2.fss:80:18:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends AnyInte
+> component FlatData2	typecheck	FlatData2.fss:88:18:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends AnyInte
+> component FlatData2	typecheck	FlatData2.fss:99:18:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends AnyInte
+31a34
+> component MicroGptApl	typecheck	MicroGptApl.fss:120:18:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).     - [\I extends AnyIntegral, J exte
+35a39,41
+> component MicroGptApl	typecheck	MicroGptApl.fss:59:45:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J extends Any
+> component MicroGptAplCheck	typecheck	MicroGptAplCheck.fss:29:87:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, ZZ32).     - [\I extends AnyIntegral, J e
+> component MicroGptAplCheck	typecheck	MicroGptAplCheck.fss:38:39:     Could not check call to operator #     - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).     - [\I extends AnyIntegra

@@ -1,0 +1,301 @@
+########## DistanceMulti microGPT label=apl-A0 setting=any dir=/home/user/fortress/tmp/fable/dist/libs/A0
+# jvm flags: -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false
+# machine: nproc=4; model name: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz: 2100.000
+# load average at start: 0.08 2.18 3.03; JDK: openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree d7ca74708
+# start 2026-09-27T16:21:19Z
+### order=check setting=any (extendsObject=false compiledExpr=true) prelude=INTERPRETER targets=[/home/user/fortress/tmp/fable/dist/libs/A0/AplMgSyntax.fss, /home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss, /home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss, /home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss, /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss, /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss] overloadCache=false
+### target /home/user/fortress/tmp/fable/dist/libs/A0/AplMgSyntax.fss componentOnly=false
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/tmp/fable/dist/mg-apl-A0-any.caches/tmp/fortress3951113793289966350rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /home/user/fortress/tmp/fable/dist/mg-apl-A0-any.caches/tmp/fortress3951113793289966350rats/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+@@SC STAGE	api FlatString	hierarchy	errors=0
+@@SC STAGE	api FlatString	acyclic	errors=0
+@@SC STAGE	api FlatString	wellformed1	errors=0
+@@SC STAGE	api FlatString	wellformed2	errors=0
+@@SC STAGE	api FlatString	overloading	errors=0
+@@TC API	FlatString	errors=0
+@@SC STAGE	api FortressLibrary	hierarchy	errors=0
+@@SC STAGE	api FortressLibrary	acyclic	errors=19
+@@SC STAGE	api FortressLibrary	wellformed1	errors=0
+@@SC STAGE	api FortressLibrary	wellformed2	errors=0
+@@SC STAGE	api FortressLibrary	overloading	errors=161
+@@TC API	FortressLibrary	errors=180
+@@SC STAGE	api FortressBuiltin	hierarchy	errors=0
+@@SC STAGE	api FortressBuiltin	acyclic	errors=0
+@@SC STAGE	api FortressBuiltin	wellformed1	errors=0
+@@SC STAGE	api FortressBuiltin	wellformed2	errors=0
+@@SC STAGE	api FortressBuiltin	overloading	errors=0
+@@TC API	FortressBuiltin	errors=0
+@@SC STAGE	api List	hierarchy	errors=0
+@@SC STAGE	api List	acyclic	errors=0
+@@SC STAGE	api List	wellformed1	errors=0
+@@SC STAGE	api List	wellformed2	errors=0
+@@SC STAGE	api List	overloading	errors=0
+@@TC API	List	errors=0
+@@SC STAGE	api AnyType	hierarchy	errors=0
+@@SC STAGE	api AnyType	acyclic	errors=0
+@@SC STAGE	api AnyType	wellformed1	errors=0
+@@SC STAGE	api AnyType	wellformed2	errors=0
+@@SC STAGE	api AnyType	overloading	errors=0
+@@TC API	AnyType	errors=0
+@@SC STAGE	api String	hierarchy	errors=0
+@@SC STAGE	api String	acyclic	errors=0
+@@SC STAGE	api String	wellformed1	errors=0
+@@SC STAGE	api String	wellformed2	errors=0
+@@SC STAGE	api String	overloading	errors=0
+@@TC API	String	errors=0
+@@SC STAGE	api FortressAst	hierarchy	errors=0
+@@SC STAGE	api FortressAst	acyclic	errors=0
+@@SC STAGE	api FortressAst	wellformed1	errors=0
+@@SC STAGE	api FortressAst	wellformed2	errors=0
+@@SC STAGE	api FortressAst	overloading	errors=0
+@@TC API	FortressAst	errors=0
+@@SC STAGE	api AplMgSyntax	hierarchy	errors=0
+@@SC STAGE	api AplMgSyntax	acyclic	errors=0
+@@SC CRASH	api AplMgSyntax	wellformed1	java.lang.IllegalArgumentException	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)	Parameter 'apiName' to the IdOrOpOrAnonymousName constructor was null
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.nodes.IdOrOp.<init>(IdOrOp.java:31)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.nodes.Id.<init>(Id.java:30)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.scala_src.nodes.SId$.apply(FortressAst.scala:643)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1749)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1590)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.scala_src.typechecker.TypeWellFormedChecker.walk(TypeWellFormedChecker.scala:182)
+@@SC CRASHAT	api AplMgSyntax	wellformed1	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1971)
+@@SC STAGE	api AplMgSyntax	wellformed1	errors=0
+@@SC CRASH	api AplMgSyntax	leftover	java.lang.ClassCastException	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1691)	class scala.runtime.BoxedUnit cannot be cast to class com.sun.fortress.nodes.AbstractNode (scala.runtime.BoxedUnit and com.sun.fortress.nodes.AbstractNode are in unnamed module of loader 'app')
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1691)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1590)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1961)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1695)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1590)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.useful.STypesUtil$outFinder$1$.walk(STypesUtil.scala:1961)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1701)
+@@SC CRASHAT	api AplMgSyntax	leftover	com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1590)
+@@SC CRASH	api AplMgSyntax	wellformed2	java.lang.IllegalArgumentException	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)	Parameter 'apiName' to the IdOrOpOrAnonymousName constructor was null
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.nodes.IdOrOpOrAnonymousName.<init>(IdOrOpOrAnonymousName.java:33)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.nodes.IdOrOp.<init>(IdOrOp.java:31)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.nodes.Id.<init>(Id.java:30)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.scala_src.nodes.SId$.apply(FortressAst.scala:643)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1749)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.scala_src.nodes.Walker.walk$(FortressAst.scala:1590)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.scala_src.typechecker.TypeWellFormedChecker.walk(TypeWellFormedChecker.scala:182)
+@@SC CRASHAT	api AplMgSyntax	wellformed2	com.sun.fortress.scala_src.nodes.Walker.walk(FortressAst.scala:1971)
+@@SC STAGE	api AplMgSyntax	wellformed2	errors=0
+@@SC STAGE	api AplMgSyntax	overloading	errors=0
+@@TC API	AplMgSyntax	errors=0
+@@SC STAGE	api FortressSyntax	hierarchy	errors=0
+@@SC STAGE	api FortressSyntax	acyclic	errors=0
+@@SC STAGE	api FortressSyntax	wellformed1	errors=0
+@@SC STAGE	api FortressSyntax	wellformed2	errors=0
+@@SC STAGE	api FortressSyntax	overloading	errors=0
+@@TC API	FortressSyntax	errors=0
+@@SC STAGE	api Stream	hierarchy	errors=0
+@@SC STAGE	api Stream	acyclic	errors=0
+@@SC STAGE	api Stream	wellformed1	errors=0
+@@SC STAGE	api Stream	wellformed2	errors=0
+@@SC STAGE	api Stream	overloading	errors=0
+@@TC API	Stream	errors=0
+@@TC APIS-NOT-SUCCESSFUL	180 errors kept
+@@SC STAGE	component AplMgSyntax	hierarchy	errors=0
+@@SC STAGE	component AplMgSyntax	apiextract	errors=0
+@@SC STAGE	component AplMgSyntax	acyclic	errors=0
+@@SC STAGE	component AplMgSyntax	wellformed1	errors=0
+@@SC STAGE	component AplMgSyntax	typecheck	errors=0
+@@SC STAGE	component AplMgSyntax	wellformed2	errors=0
+@@SC STAGE	component AplMgSyntax	overloading	errors=0
+@@SC STAGE	component AplMgSyntax	export	errors=0
+@@SC STAGE	component AplMgSyntax	variance	errors=0
+@@TC COMPONENT	AplMgSyntax	errors=0
+### done /home/user/fortress/tmp/fable/dist/libs/A0/AplMgSyntax.fss rc=0 seconds=87
+### target /home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss componentOnly=true
+@@TC API	FlatArrays2	errors=4
+@@TC API	NatReflect	errors=0
+@@TC APIS-NOT-SUCCESSFUL	4 errors kept
+@@SC STAGE	component FlatArrays2	hierarchy	errors=0
+@@SC STAGE	component FlatArrays2	apiextract	errors=0
+@@SC STAGE	component FlatArrays2	acyclic	errors=0
+@@SC STAGE	component FlatArrays2	wellformed1	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:12:1-76	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:13:1-63	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:14:1-77	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:15:1-22:53	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:23:1-24:59	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:25:1-26:74	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:27:1-28:53	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:29:1-30:59	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:31:1-32:74	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:33:1-34:80	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:35:1-95	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:36:1-126	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:37:1-99	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:38:1-81	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:39:1-43:82	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:44:1-51:2	errors=3
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:52:1-54:79	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:55:1-76	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:56:1-117	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:57:1-62:2	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:65:1-70:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:71:1-126	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:72:1-74:81	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:75:1-80:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:81:1-82:38	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:83:1-86:4	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:87:1-92:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:93:1-94:39	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:95:1-98:4	errors=1
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:99:1-104:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:105:1-139	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:106:1-109:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:113:1-119:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:121:1-127:78	errors=0
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:128:1-133:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:134:1-135:80	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:136:1-153:6	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:156:1-161:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:162:1-170:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:173:1-176:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:177:1-179:40	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:180:1-181:63	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss:182:1-191:4	errors=1
+@@SC STAGE	component FlatArrays2	typecheck	errors=24
+@@SC STAGE	component FlatArrays2	wellformed2	errors=0
+@@SC STAGE	component FlatArrays2	overloading	errors=18
+@@SC STAGE	component FlatArrays2	export	errors=1
+@@SC STAGE	component FlatArrays2	variance	errors=0
+@@TC COMPONENT	FlatArrays2	errors=129
+@@TC COMPONENTS-NOT-SUCCESSFUL	129 errors kept
+### done /home/user/fortress/tmp/fable/dist/libs/A0/FlatArrays2.fss rc=0 seconds=44
+### target /home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss componentOnly=true
+@@TC API	FlatData2	errors=0
+@@TC API	File	errors=4
+@@TC API	FileSupport	errors=0
+@@TC APIS-NOT-SUCCESSFUL	4 errors kept
+@@SC STAGE	component FlatData2	hierarchy	errors=0
+@@SC STAGE	component FlatData2	apiextract	errors=0
+@@SC STAGE	component FlatData2	acyclic	errors=0
+@@SC STAGE	component FlatData2	wellformed1	errors=0
+@@TC DECL-CRASH	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	scala.Option.getOrElse(Option.scala:201)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	com.sun.fortress.scala_src.types.TypeAnalyzer.typeCons(TypeAnalyzer.scala:723)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walkTraitTypeInner(TypeAnalyzer.scala:566)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walkTraitType(TypeAnalyzer.scala:554)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:17:1-45:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walk(TypeAnalyzer.scala:529)
+@@TC DECL-CRASH	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	java.lang.RuntimeException	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	com.sun.fortress.scala_src.types.TypeAnalyzer.$anonfun$typeCons$1(TypeAnalyzer.scala:723)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	scala.Option.getOrElse(Option.scala:201)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	com.sun.fortress.scala_src.types.TypeAnalyzer.typeCons(TypeAnalyzer.scala:723)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walkTraitTypeInner(TypeAnalyzer.scala:566)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walkTraitType(TypeAnalyzer.scala:554)
+@@TC DECLAT	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:48:1-63:4	com.sun.fortress.scala_src.types.TypeAnalyzer$normalizer$1$.walk(TypeAnalyzer.scala:529)
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:65:1-70:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:72:1-83:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:85:1-91:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:96:1-104:4	errors=2
+@@TC DECL-OK	ObjectDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:109:1-121:2	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss:122:1-127:4	errors=1
+@@SC STAGE	component FlatData2	typecheck	errors=6
+@@SC STAGE	component FlatData2	wellformed2	errors=0
+@@SC STAGE	component FlatData2	overloading	errors=0
+@@SC STAGE	component FlatData2	export	errors=0
+@@SC STAGE	component FlatData2	variance	errors=0
+@@TC COMPONENT	FlatData2	errors=18
+@@TC COMPONENTS-NOT-SUCCESSFUL	18 errors kept
+### done /home/user/fortress/tmp/fable/dist/libs/A0/FlatData2.fss rc=0 seconds=8
+### target /home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss componentOnly=true
+@@TC API	AplMg	errors=0
+@@SC STAGE	component AplMg	hierarchy	errors=0
+@@SC STAGE	component AplMg	apiextract	errors=0
+@@SC STAGE	component AplMg	acyclic	errors=0
+@@SC STAGE	component AplMg	wellformed1	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:8:1-10:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:10:1-69	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:12:1-15:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:17:1-20:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:22:1-23:47	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:25:1-26:86	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:27:1-28:87	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:29:1-30:87	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:32:1-33:48	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:35:1-102	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss:37:1-34	errors=0
+@@SC STAGE	component AplMg	typecheck	errors=0
+@@SC STAGE	component AplMg	wellformed2	errors=0
+@@SC STAGE	component AplMg	overloading	errors=0
+@@SC STAGE	component AplMg	export	errors=0
+@@SC STAGE	component AplMg	variance	errors=0
+@@TC COMPONENT	AplMg	errors=0
+### done /home/user/fortress/tmp/fable/dist/libs/A0/AplMg.fss rc=0 seconds=5
+### target /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss componentOnly=true
+@@TC API	Executable	errors=0
+@@TC API	MicroGptApl	errors=0
+@@TC API	System	errors=0
+Rats! Parser Generator, v. 1.14.1, (C) 2004-2008 Robert Grimm
+Processing /home/user/fortress/tmp/fable/dist/mg-apl-A0-any.caches/tmp/fortress15824745836519699014rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+Note: /home/user/fortress/tmp/fable/dist/mg-apl-A0-any.caches/tmp/fortress15824745836519699014rats/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+@@SC STAGE	component MicroGptApl	hierarchy	errors=0
+@@SC STAGE	component MicroGptApl	apiextract	errors=0
+@@SC STAGE	component MicroGptApl	acyclic	errors=0
+@@SC STAGE	component MicroGptApl	wellformed1	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:26:1-52	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:27:1-82	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:28:1-34:58	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:35:1-80	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:36:1-40:76	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:41:1-82	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:42:1-91	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:43:1-32	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:44:1-47:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:48:1-52:51	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:53:1-55:99	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:56:1-57:110	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:58:1-57	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:59:1-60	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:60:1-30	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:61:1-121	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:67:1-49	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:68:1-18	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:69:1-77:79	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:78:1-98:4	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:104:1-106:105	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:112:1-70	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss:114:1-126:4	errors=1
+@@SC STAGE	component MicroGptApl	typecheck	errors=8
+@@SC STAGE	component MicroGptApl	wellformed2	errors=0
+@@SC STAGE	component MicroGptApl	overloading	errors=0
+@@SC STAGE	component MicroGptApl	export	errors=0
+@@SC STAGE	component MicroGptApl	variance	errors=0
+@@TC COMPONENT	MicroGptApl	errors=24
+@@TC COMPONENTS-NOT-SUCCESSFUL	24 errors kept
+### done /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptApl.fss rc=0 seconds=16
+### target /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss componentOnly=true
+@@SC STAGE	component MicroGptAplCheck	hierarchy	errors=0
+@@SC STAGE	component MicroGptAplCheck	apiextract	errors=0
+@@SC STAGE	component MicroGptAplCheck	acyclic	errors=0
+@@SC STAGE	component MicroGptAplCheck	wellformed1	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:17:1-42	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:18:1-26	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:19:1-26	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:20:1-24	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:22:1-17	errors=0
+@@TC DECL-OK	VarDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:23:1-17	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:24:1-28:4	errors=0
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:29:1-31:3	errors=1
+@@TC DECL-OK	FnDecl	/home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss:31:1-100:4	errors=1
+@@SC STAGE	component MicroGptAplCheck	typecheck	errors=2
+@@SC STAGE	component MicroGptAplCheck	wellformed2	errors=0
+@@SC STAGE	component MicroGptAplCheck	overloading	errors=0
+@@SC STAGE	component MicroGptAplCheck	export	errors=0
+@@SC STAGE	component MicroGptAplCheck	variance	errors=0
+@@TC COMPONENT	MicroGptAplCheck	errors=6
+@@TC COMPONENTS-NOT-SUCCESSFUL	6 errors kept
+### done /home/user/fortress/tmp/fable/dist/libs/A0/MicroGptAplCheck.fss rc=0 seconds=3
+### all seconds=166 rc=0
+exit=0
+ELAPSED 167 s
+# end 2026-09-27T16:24:06Z

@@ -18,7 +18,7 @@ The results are in the plan's section 3 (the audit) and section 7 (measured and 
 
 - `mg-c4-any.*`: the four components of `explorations/run-c4/src` on today's library (`FlatArrays`, `FlatData`, `MicroGptFlat`, `MicroGptFlatCheck`). 46 errors: 24 at C4's own lines (`own-errors.txt`), 22 at library lines seen through C4's objects (`library-errors-through-own-objects.txt`: the `fill` diamond and `shift`'s declared type).
 - `mg-apl-any.*`: the six components of `explorations/apl/mg`. 53 errors: 35 own, 18 the library's.
-- `mg-c4-A0-any.*`: C4 against the numeral-switch library copy A0 of `perf-probes/prelude/distance-triage/variants.py` (the compiler library's `IntLiteral`, a sibling under `Number` with coercions, in the one library), made by `run.sh <work-dir> lib A0` with C4's sources copied beside it so that the copy shadows the tree's library. `c4-L0-vs-A0.diff` is the difference: every range that starts with a numeral is refused at `#`.
+- `mg-c4-A0-any.*` and `mg-apl-A0-any.*`: the two programs against the numeral-switch library copy A0 of `perf-probes/prelude/distance-triage/variants.py` (the compiler library's `IntLiteral`, a sibling under `Number` with coercions, in the one library), made by `run.sh <work-dir> lib A0` with the programs' sources copied beside it so that the copy shadows the tree's library. `c4-L0-vs-A0.diff` and `apl-L0-vs-A0.diff` are the differences: every range that starts with a numeral is refused at `#` (13 declarations in C4, 11 in the APL program), and nothing else changes.
 - `*.stages.txt` hold every `@@SC STAGE` line (errors per stage per unit) and the run's header; `*.tally.txt` are `errors.py`'s tallies over the whole run, the library's errors included.
 
 ## Not run
