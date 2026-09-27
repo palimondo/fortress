@@ -862,7 +862,7 @@ function rungRole(rung, repairRound) {
 '',
 'Report at the end in the structured form the tool requires, and write the full detail into REPORT.md.',
 '',
-'Two fields of that form the script reads itself. reportText and recordText carry the full text of REPORT.md and record.md, word for word as you wrote them to the files: in batch 5 the harness refused every rung worker\'s write of REPORT.md, and a file your branch does not carry is written by the gather from these fields verbatim, so they are the report whenever the file is not. If the harness refuses a write, say so in notDone and go on. stopsMet lists every stop the batch record\'s intro reserves for Pavol that this rung met, including one met on part of the work while the rest lands (a passage reported without choosing, an output the comparison does not account for), each with its evidence as file:line; a stop the intro names as lifted, or that another decision of his lifts, carries in liftedBy the POSITIONS.md line of that decision. Only Pavol lifts a stop: an entry without such a line holds the batch\'s push until he does, and an empty list says the rung met none.',
+'Two fields of that form the script reads itself. reportText and recordText carry the full text of REPORT.md and record.md, word for word as you wrote them to the files: in batch 5 the harness refused every rung worker\'s write of REPORT.md, and a file your branch does not carry is written by the gather from these fields verbatim, so they are the report whenever the file is not. If the harness refuses a write, say so in notDone and go on. stopsMet lists every stop the batch record\'s intro reserves for Pavol that this rung met, including one met on part of the work while the rest lands (a passage reported without choosing, an output the comparison does not account for), each with its evidence as file:line; a stop the intro names as lifted, or that another decision of his lifts, carries in liftedBy the POSITIONS.md line of that decision. Only Pavol lifts a stop: an entry without such a line holds the batch\'s push until he does, and an empty list says the rung met none. forPavol lists every point for Pavol that this rung does not settle, one entry each, with its evidence as file:line: a decision taken here on a question that was his, a fork with its candidates and costs, a defect or divergence that lands unrepaired and needs his word, anything REPORT.md or record.md says goes to him. The reports the tail\'s "What comes back to Pavol" names are not such points; they reach him with the landing. The gather puts each point into PLAN.md.',
 '',
   ].join('\n')
 }
@@ -933,6 +933,8 @@ JSON.stringify(workerReport, null, 2),
 '',
 'Every defect you measure that the rung does not repair and that deserves a ledger row goes in recommendedRows, one entry each, with the row\'s proposed text and the probe that establishes it. This field exists because the last batch lost one: a skeptic narrowed a codegen defect to any closure whose declared return type is a supertype of its body\'s type, and it reached no ledger row, no FACTS line and no handover sentence, because nothing in the machinery carried a recommendation that was not a required correction. The gather is required to open or refuse each entry in one sentence.',
 '',
+'Every point you find that is Pavol\'s and that the rung does not settle - a decision the rung took on a question that was his, a fork, a defect or divergence that lands unrepaired and needs his word - goes in forPavol, one entry each with its evidence as file:line. The gather puts each into PLAN.md.',
+'',
 'Write your findings to explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md in that worktree, and your probes under explorations/compile-ladder/' + rung.slug + '/probes/skeptic/, every capture named .txt. Run the tracked-path check of the shared prefix over SKEPTIC.md before you report. ' + (round > 1
   ? 'Carry the text of this second judgement, word for word, in skepticText, and not the first judgement\'s, which the script already holds from the first round: a file the branch does not carry is written by the gather from the two fields verbatim, this judgement first, so if the harness refuses your write, say so in findings and go on.'
   : 'Carry SKEPTIC.md\'s full text, word for word, in skepticText: a file the branch does not carry is written by the gather from that field verbatim, so if the harness refuses your write, say so in findings and go on.') + ' In stopsMet, name every stop the batch record\'s intro reserves for Pavol that the rung as it stands meets, whether or not the worker named it, with its evidence as file:line; a stop the intro names as lifted, or that another decision of his lifts, carries in liftedBy the POSITIONS.md line of that decision. Your approval does not lift a stop: an entry without such a line holds the batch\'s push until he lifts it. Do not edit the worker\'s source changes yourself and do not run ant testFast or ant testSystem. Commit SKEPTIC.md and your probes on the rung\'s branch, ' + rung.branch + ', with the footer the shared prefix gives, and push it; touch nothing else in the commit. The worker\'s own commits are on that branch, so git log ' + BASE + '..HEAD shows its milestones and git diff ' + BASE + '...HEAD its net change.',
@@ -960,7 +962,7 @@ JSON.stringify(decision, null, 2),
 '',
 'Read the judge\'s full ruling in explorations/compile-ladder/' + rung.slug + '/JUDGE.md' + (verdict ? ' and the skeptic\'s findings in SKEPTIC.md beside it' : '') + '. Carry out the judge\'s instructions in order. Where an instruction turns out wrong against a primary source, do what the source says, and say so in REPORT.md with the file:line that settles it - the judge read the two reports and the diff, not the whole tree.',
 '',
-'Every defect this round repairs - including one the skeptic measured and you now fix - gets its assertion in the rung\'s gated test, in place and passing, BEFORE you report: the second skeptic will look for it and its absence is a refusal ground. A defect this round does not repair gets home 2 or home 3 of the shared prefix, and the report says which. Re-run the test and re-capture the output, update REPORT.md and record.md (including the historical: line of the provenance block if the repair touched a file of the 2012 tree) and, with them, reportText, recordText and stopsMet in your structured result, re-run the tracked-path check, commit and push on your branch, and do not run the full gate.',
+'Every defect this round repairs - including one the skeptic measured and you now fix - gets its assertion in the rung\'s gated test, in place and passing, BEFORE you report: the second skeptic will look for it and its absence is a refusal ground. A defect this round does not repair gets home 2 or home 3 of the shared prefix, and the report says which. Re-run the test and re-capture the output, update REPORT.md and record.md (including the historical: line of the provenance block if the repair touched a file of the 2012 tree) and, with them, reportText, recordText, stopsMet and forPavol in your structured result, forPavol carrying every point for Pavol the rung still has, the earlier pass\'s included, re-run the tracked-path check, commit and push on your branch, and do not run the full gate.',
 '',
   ].join('\n')
 }
@@ -1029,11 +1031,51 @@ const JUDGE_SCHEMA = {
     instructions: { type: 'array', items: { type: 'string' }, description: 'numbered steps for the repair worker, each with the file:line it rests on; empty unless repair' },
     ruling: { type: 'string', description: 'which claims of the worker and the skeptic were right and wrong, by citation' },
     specRuling: { type: 'string', description: 'what the specification settles here and how, or that it is silent and what was decided under the silence' },
-    forPavol: { type: 'string', description: 'what must reach Pavol out of the loop: a fork with its candidates and costs, a divergence that lands unrepaired, a decision taken under a silent specification; empty if nothing' },
+    forPavol: { type: 'array', items: { type: 'string' }, description: 'what must reach Pavol out of the loop, one entry per point: a fork with its candidates and costs, a divergence that lands unrepaired, a decision taken under a silent specification; the gather, or the repair on the merged tree, puts each into PLAN.md; empty if nothing' },
     summary: { type: 'string', description: 'at most 10 lines' },
   },
   required: ['kind', 'decision', 'instructions', 'ruling', 'summary'],
 }
+
+// ---------------------------------------------------------------------------
+// For Pavol. Every item a rung's worker, skeptic or judge, a merged-diff review
+// or a merged-tree judge marks for Pavol becomes an entry of PLAN.md, under
+// "Pavol's answers, in the order they are needed" or "Off the path, parked".
+// The gather routes the rungs' items in its commits and lists them, and each
+// it could not route; the review routes its own and any the gather missed; the
+// repair on the merged tree routes its judge's. Nothing waits on them: an item
+// not in PLAN.md is logged and carried in the script's result for the
+// coordinator (Pavol, 2026-09-27, on the proposal). The measure is item 4 of
+// explorations/reviews/worker-global-decisions.md: a judge's "For Pavol"
+// section or a rung's list for him stopped in the rung's files, and no stage
+// moved it into PLAN's queue (a size's range, rung F's = on Number, rows 417,
+// 419 and 420).
+// ---------------------------------------------------------------------------
+
+const PLAN_SECTIONS = ['Pavol\'s answers, in the order they are needed', 'Off the path, parked']
+const PLAN_RULE = 'Each item for Pavol becomes an entry of explorations/coordinator/PLAN.md: under "' + PLAN_SECTIONS[0] + '" when it asks for his decision or answer before work on the path can go on, in the group of the phase it must come before; under "' + PLAN_SECTIONS[1] + '" otherwise. The entry says in one or two plain sentences what he is asked or told, the default or recommendation on record if there is one, and where the evidence is, by file:line. An item PLAN.md already holds is not written again: name that entry. Several items on one point make one entry.'
+const PAVOL_ROUTED = { type: 'array', description: 'one entry per item for Pavol this role put into PLAN.md or found there, by the id the role gives it; several ids may share one PLAN.md entry',
+  items: { type: 'object', properties: {
+    id: { type: 'string', description: 'the item\'s id, as the role gives it' },
+    section: { type: 'string', description: 'the PLAN.md section the entry is in: ' + PLAN_SECTIONS.map(x => '"' + x + '"').join(' or ') },
+    entry: { type: 'string', description: 'the entry\'s opening words, enough to find it' },
+  }, required: ['id', 'section', 'entry'] } }
+const strings = (x) => Array.isArray(x) ? x.filter(t => typeof t === 'string' && t.trim()) : (typeof x === 'string' && x.trim() ? [x] : [])
+const numbered = (prefix, list) => strings(list).map((text, i) => ({ id: prefix + '.' + (i + 1), text }))
+// A rung's items: its last worker's, each skeptic round's, and its judges'.
+function pavolItemsOf(r) {
+  const twoRounds = !!(r.firstVerdict && r.firstVerdict !== r.verdict)
+  return [].concat(
+    numbered(r.rung + '.worker', r.worker && r.worker.forPavol),
+    twoRounds ? numbered(r.rung + '.skeptic', r.firstVerdict.forPavol) : [],
+    numbered(r.rung + (twoRounds ? '.skeptic2' : '.skeptic'), r.verdict && r.verdict.forPavol),
+    numbered(r.rung + '.judge-stop', r.stopJudge && r.stopJudge.forPavol),
+    (r.judge && r.judge !== r.stopJudge) ? numbered(r.rung + '.judge', r.judge.forPavol) : [])
+}
+const inPlanSection = (x) => typeof x === 'string' && PLAN_SECTIONS.some(sec => x.toLowerCase().indexOf(sec.toLowerCase().replace(/^pavol's /, '')) >= 0)
+// The ids a stage's result says it put into PLAN.md, under one of the two sections.
+const routedIds = (results) => new Set([].concat.apply([], results.filter(Boolean).map(x => Array.isArray(x.pavolItems) ? x.pavolItems : []))
+  .filter(e => e && typeof e.id === 'string' && inPlanSection(e.section)).map(e => e.id))
 
 // ---------------------------------------------------------------------------
 
@@ -1066,6 +1108,7 @@ const RUNG_SCHEMA = {
     trackedPaths: { type: 'string', description: 'the result of the tracked-path check: clean, or what was untracked and what was done' },
     notDone: { type: 'array', items: { type: 'string' } },
     stopsMet: STOPS_MET,
+    forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this rung does not settle, one entry each with its evidence as file:line; the gather puts each into PLAN.md; empty if none' },
     reportText: { type: 'string', description: 'the full text of REPORT.md, word for word; the gather writes it verbatim when the branch does not carry the file' },
     recordText: { type: 'string', description: 'the full text of record.md, word for word; the gather writes it verbatim when the branch does not carry the file' },
     summary: { type: 'string', description: 'at most 15 lines of prose' },
@@ -1089,6 +1132,7 @@ const SKEPTIC_SCHEMA = {
     findings: { type: 'array', items: { type: 'string' } },
     stopsMet: STOPS_MET,
     skepticText: { type: 'string', description: 'the full text of SKEPTIC.md, word for word; the gather writes it verbatim when the branch does not carry the file' },
+    forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this skeptic finds that the rung does not settle, one entry each with its evidence as file:line; the gather puts each into PLAN.md; empty if none' },
     summary: { type: 'string' },
   },
   required: ['slug', 'approved', 'failureWasRecorded', 'differentialsRun', 'stopsMet', 'summary'],
@@ -1120,7 +1164,7 @@ const rungTexts = (r) => ({
   firstSkepticText: (r.firstVerdict && r.firstVerdict !== r.verdict && r.firstVerdict.skepticText) || '',
 })
 
-function gatherRole(approved, notLanded) {
+function gatherRole(approved, notLanded, items) {
   return MAIN_TREE_ROLE + [
 '# Your role: gather',
 '',
@@ -1139,10 +1183,11 @@ function gatherRole(approved, notLanded) {
 '2. Fold its record: explorations/compile-ladder/<slug>/record.md (now in the tree) carries finished prose for three places. The FACTS.md line goes into explorations/coordinator/FACTS.md under the section of its area (the file is grouped by area, its README gives the rule: "Landed semantics" for a rule of the language or the library as it now stands, "The harness and the gate" for test mechanics, "The checker and the one library" for the checker), after that section\'s last entry, as one bullet with its source. The ledger note is APPENDED to the notes of the row it names in explorations/fortress-gap-ledger.md - rows are never renumbered, moved or deleted; where the note needs the landed commit\'s hash write the literal placeholder <short hash>, which the commit stage replaces. The handover state line goes into the first section of explorations/microgpt-run-c-handover.md ("Where the work stands"). If record.md opens a new row, the number is provisional (from ' + LEDGER_FROM + '): assign the final numbers in MANIFEST order (' + RUNGS.map(r => r.id).join(', ') + ') as you fold, append each row to the ledger\'s last table, and correct every citation of the provisional number in that rung\'s record.md, REPORT.md and probes in the same commit. Any file:line a record cites that a previously applied rung has shifted is re-anchored by SYMBOL - find the declaration or the assert by name in the current file and cite the line it is at now, rather than trusting the number the record was written with.',
 '3. Close every requiredCorrections item of that rung\'s skeptic verdicts, listed below; each is a checklist item and the last climb left two of them unmade.',
 '4. Open or refuse every recommendedRows item of that rung\'s skeptic, in one sentence each, recorded in the batch record. Opening it means a real ledger row with the probe it cites; refusing it means one sentence saying why the tree does not owe it. The last batch lost a codegen defect a skeptic had narrowed precisely, because nothing carried a recommendation that was not a required correction.',
-'5. One commit: the applied source, the tests, the rung\'s files under explorations/compile-ladder/<slug>/ (REPORT.md, record.md, SKEPTIC.md, JUDGE.md if any, and each probe and capture named one by one), and the three record files. Stage those files by an explicit list, never by git add of the directory, and read git diff --cached --stat before you commit: 85 MB of a worker\'s experimental caches reached main that way on 2026-09-19 and the protocol\'s hard rule on worker commits now forbids it. Title line: what the repair does, in the plain register; body: the two or three sentences of record.md that say why. If git diff --name-only for this commit shows ANY path outside explorations/, the body also carries a line beginning "historical:" naming the files of the original 2012 tree the commit edits, taken from the rung\'s provenance block - the protocol\'s hard rule on the gate requires those edits to be flagged at commit time. Footer as given. Do not push.',
+'5. Its items for Pavol, from the list at the end of this role. ' + PLAN_RULE + ' The evidence named is the rung\'s file that carries the point, REPORT.md, SKEPTIC.md or JUDGE.md, at the line it is now at.',
+'6. One commit: the applied source, the tests, the rung\'s files under explorations/compile-ladder/<slug>/ (REPORT.md, record.md, SKEPTIC.md, JUDGE.md if any, and each probe and capture named one by one), the three record files, and PLAN.md when step 5 wrote to it. Stage those files by an explicit list, never by git add of the directory, and read git diff --cached --stat before you commit: 85 MB of a worker\'s experimental caches reached main that way on 2026-09-19 and the protocol\'s hard rule on worker commits now forbids it. Title line: what the repair does, in the plain register; body: the two or three sentences of record.md that say why. If git diff --name-only for this commit shows ANY path outside explorations/, the body also carries a line beginning "historical:" naming the files of the original 2012 tree the commit edits, taken from the rung\'s provenance block - the protocol\'s hard rule on the gate requires those edits to be flagged at commit time. Footer as given. Do not push.',
 '',
 (notLanded.length
-  ? '## The rungs that did not land\n\nThese rungs stopped, were dropped, or their worker died, or the script withheld them (state withheld) because their manifest entry names in landsOnlyWith a rung that was not approved; the reason says which. Their source changes are NOT applied and their branches stay as they are. But their skeptics\' findings are about the tree, not about the rung, and they have nowhere else to go: fold them into ' + BATCH_DIR + '/RECORD.md under a heading "Not landed", one section per rung, carrying the reason it did not land, the findings of its SKEPTIC.md if it has one, and every recommendedRows entry, each opened as a real ledger row or refused in one sentence exactly as step 4 requires. Take that rung\'s REPORT.md, SKEPTIC.md, record.md and the probes its findings actually cite out of its branch by an explicit list of paths (git checkout <branch> -- <path> ..., one path at a time), never the whole directory, so the probes are tracked and nothing else comes with them; where the branch lacks one of the three files, write it from the rung\'s text fields below, verbatim, as step 1 says for a landed rung. Apply none of its source.\n\n' + JSON.stringify(notLanded.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state, reason: r.withheldReason || (r.judge && r.judge.summary) || (r.worker && r.worker.stopReason) || '', skepticFindings: (r.verdict && r.verdict.findings) || [], recommendedRows: (r.verdict && r.verdict.recommendedRows) || [] }, rungTexts(r))), null, 2) + '\n'
+  ? '## The rungs that did not land\n\nThese rungs stopped, were dropped, or their worker died, or the script withheld them (state withheld) because their manifest entry names in landsOnlyWith a rung that was not approved; the reason says which. Their source changes are NOT applied and their branches stay as they are. But their skeptics\' findings are about the tree, not about the rung, and they have nowhere else to go: fold them into ' + BATCH_DIR + '/RECORD.md under a heading "Not landed", one section per rung, carrying the reason it did not land, the findings of its SKEPTIC.md if it has one, and every recommendedRows entry, each opened as a real ledger row or refused in one sentence exactly as step 4 requires. Its items for Pavol go into PLAN.md as step 5 says, in the commit that carries its "Not landed" section. Take that rung\'s REPORT.md, SKEPTIC.md, record.md and the probes its findings actually cite out of its branch by an explicit list of paths (git checkout <branch> -- <path> ..., one path at a time), never the whole directory, so the probes are tracked and nothing else comes with them; where the branch lacks one of the three files, write it from the rung\'s text fields below, verbatim, as step 1 says for a landed rung. Apply none of its source.\n\n' + JSON.stringify(notLanded.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state, reason: r.withheldReason || (r.judge && r.judge.summary) || (r.worker && r.worker.stopReason) || '', skepticFindings: (r.verdict && r.verdict.findings) || [], recommendedRows: (r.verdict && r.verdict.recommendedRows) || [] }, rungTexts(r))), null, 2) + '\n'
   : '## The rungs that did not land\n\nNone: every rung of this batch was approved.'),
 '',
 '## After the last commit: every cited path is tracked',
@@ -1162,7 +1207,11 @@ function gatherRole(approved, notLanded) {
 '',
 JSON.stringify(approved.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, historicalFiles: (r.worker && r.worker.historicalFiles) || [], requiredCorrections: [].concat((r.firstVerdict && r.firstVerdict.requiredCorrections) || [], (r.verdict && r.verdict.requiredCorrections) || []), recommendedRows: [].concat((r.firstVerdict && r.firstVerdict.recommendedRows) || [], (r.verdict && r.verdict.recommendedRows) || []) }, rungTexts(r))), null, 2),
 '',
-'Return the structured result the tool requires: the commit hash per rung, the order you applied them in and why, the conflicts met and how each was resolved, the corrections closed, the recommended rows opened or refused, and the tracked-path check\'s output.',
+'The items for Pavol, by id (' + (items.length ? items.length + ' of them' : 'none') + '):',
+'',
+JSON.stringify(items, null, 2),
+'',
+'Return the structured result the tool requires: the commit hash per rung, the order you applied them in and why, the conflicts met and how each was resolved, the corrections closed, the recommended rows opened or refused, the tracked-path check\'s output, pavolItems, one entry for every id above with the PLAN.md section and entry that holds it, and pavolUnrouted, every id you could not put in with the reason, for the coordinator. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
 '',
   ].join('\n')
 }
@@ -1179,12 +1228,15 @@ const GATHER_SCHEMA = {
     notLandedFolded: { type: 'array', items: { type: 'string' }, description: 'the rungs whose findings were folded without their source, and where' },
     trackedPaths: { type: 'string', description: 'the tracked-path check\'s output and what was done about it' },
     head: { type: 'string', description: 'the hash HEAD is at when you finish' },
+    pavolItems: PAVOL_ROUTED,
+    pavolUnrouted: { type: 'array', description: 'every item for Pavol you could not put into PLAN.md, for the coordinator; empty if none', items: { type: 'object', properties: {
+      id: { type: 'string' }, why: { type: 'string', description: 'why it could not go in' } }, required: ['id', 'why'] } },
     summary: { type: 'string' },
   },
-  required: ['commits', 'conflicts', 'unresolved', 'summary'],
+  required: ['commits', 'conflicts', 'unresolved', 'pavolItems', 'pavolUnrouted', 'summary'],
 }
 
-function reviewRole(gather) {
+function reviewRole(gather, label, items) {
   return MAIN_TREE_ROLE + [
 '# Your role: merged-diff reviewer',
 '',
@@ -1207,6 +1259,11 @@ JSON.stringify(gather, null, 2),
 '8. Every path any of the landed records cites is tracked (git ls-files --error-unmatch).',
 '9. Last, because it needs the gate\'s table: the checker count. Its total is reported and never red on its own (explorations/coordinator/checker-gate-review.md), so explaining it falls to you. The gate writes ' + GATE_OUT + '/checker-count.txt at its step 8, its last, and the table\'s last line is its #shadow row. Wait for that row in calls of at most eight minutes, for i in $(seq 96); do grep -q \'^#shadow\' ' + GATE_OUT + '/checker-count.txt 2>/dev/null && break; sleep 5; done, and after five calls without it write "no gate table" in checkerRows and leave this check. Diff the table against the last landed one, the first path that git log --name-only --pretty=format: -- explorations/compile-ladder/gate-baseline/checker-count.txt \'explorations/compile-ladder/climb-batch-*/gate/checker-count.txt\' prints. Every row that is new or whose count rose (a row is an api, that is one .fsi file) must be explained as the consequence of a named rung edit, with its file:line: an early error a rung cleared, for example, lets the checker\'s later rules run on that api for the first time (StaticChecker.java:268-272). Where the rows alone do not say, the file:line of every error is in the gate\'s full output, ' + LOG_DIR + '/checker-count/run.txt; read it and write nothing there. One line per row goes in checkerRows. A new or risen row you cannot tie to a rung edit is blocking, for the judge and a repair. A total that misses a rung\'s declared one is not a finding by itself: the declarations are predictions.',
 '10. The stops. Every stop the batch record\'s intro reserves for Pavol that a landed rung meets - in its hunks, or where its REPORT.md, SKEPTIC.md or record.md says it met one (a passage reported without choosing, an output a comparison does not account for, a line that waits for him) - goes in stopsMet with the rung\'s id, the evidence as file:line, and in liftedBy the POSITIONS.md line of the decision of his that lifts it, or nothing. The script holds the batch\'s push on any entry with no such line, and on the rungs\' own entries too; it is not a blocking finding, and you do not fix it.',
+'11. The items for Pavol. For each id of the list below, the PLAN.md entry the gather\'s pavolItems names is in explorations/coordinator/PLAN.md, under one of the two sections, and says what the item says. An item the gather left out or placed wrong you put in yourself, in your corrections commit. Every point you yourself find that is Pavol\'s goes in forPavol, one entry each, with the ids ' + label + '.1, ' + label + '.2 in the order of forPavol. ' + PLAN_RULE + ' pavolItems lists every id you put in or moved, with its section and entry. It is not a blocking finding.',
+'',
+'The items for Pavol from the rungs, by id:',
+'',
+JSON.stringify(items, null, 2),
 '',
 'Two kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect in the source hunks - a rule broken, an edit that is not what its report says, an interaction between two rungs - you do NOT fix; you return it as blocking, precisely enough that a judge can rule on it from your words and the diff. Do not run the gate and do not push.',
 '',
@@ -1234,9 +1291,11 @@ const REVIEW_SCHEMA = {
     pathsOutsideExplorations: { type: 'array', items: { type: 'string' }, description: 'every path from git diff --name-only <headBefore> <headAfter> that is not under explorations/; empty if none' },
     checkerRows: { type: 'array', items: { type: 'string' }, description: 'check 9: one line per row of the gate checker table that is new or rose against the last landed table - the api, was -> now, and the rung edit (file:line) that explains it; empty if none' },
     stopsMet: STOPS_MET,
+    forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this review finds, one entry each with its evidence as file:line; empty if none' },
+    pavolItems: PAVOL_ROUTED,
     summary: { type: 'string' },
   },
-  required: ['approved', 'blocking', 'fixed', 'stopsMet', 'summary'],
+  required: ['approved', 'blocking', 'fixed', 'stopsMet', 'forPavol', 'pavolItems', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -1481,7 +1540,9 @@ function mergedRepairRole(decision, kind) {
 '',
 JSON.stringify(decision, null, 2),
 '',
-'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you. Do not push.',
+(strings(decision && decision.forPavol).length
+  ? 'The judge marked these for Pavol. ' + PLAN_RULE + ' The entries go in your commit, and pavolItems lists each by its id.\n\n' + JSON.stringify(numbered('judge-' + kind, decision.forPavol), null, 2) + '\n\n'
+  : '') + 'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you. Do not push.',
 '',
   ].join('\n')
 }
@@ -1534,6 +1595,10 @@ JSON.stringify(gate, null, 2),
 '',
   ].join('\n')
 }
+
+// The repair on the merged tree returns a worker's result and the items for
+// Pavol it put into PLAN.md.
+const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, { properties: Object.assign({}, RUNG_SCHEMA.properties, { pavolItems: PAVOL_ROUTED }) })
 
 const COMMIT_SCHEMA = {
   type: 'object',
@@ -1692,7 +1757,7 @@ function recoverGather() {
     'You are in the main tree, ' + MAIN + ', and it need not be clean. The precondition that git status --porcelain is empty held for the first attempt; a dirty tree now is the earlier attempt\'s work in progress and your starting point, not a failed precondition. Check only that ' + BASE + ' is still an ancestor of HEAD.',
     'Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --cached --stat, git diff --stat, and ' + BATCH_DIR + '/RECORD.md if it exists. An approved rung whose commit is already on main (one per rung, carrying its source change and explorations/compile-ladder/<slug>/) is done: never apply its patch again, and name it in your result with its hash.',
     'Before you apply any other rung\'s patch, regenerate it (git diff ' + BASE + '...<branch>) and run git apply --reverse --check on it. If that succeeds, the patch is already in the tree, applied and not committed; applying it again is the one thing this retry must not do. Continue that rung from the step after the apply. A file with conflict markers (git diff --check, grep -n "^<<<<<<<") is a 3-way apply the earlier attempt left half resolved: resolve it by the rules of the role, or return the conflict as the role says.',
-    'The three record files may already carry a rung\'s fold. Before you fold a rung, grep FACTS.md, the ledger and the handover for its lines and for each ledger row it opens, and fold only what is missing: never a line or a row twice. The same holds for the batch record\'s "Not landed" sections and for a rung\'s three files written from its text fields.',
+    'The three record files may already carry a rung\'s fold. Before you fold a rung, grep FACTS.md, the ledger and the handover for its lines and for each ledger row it opens, and fold only what is missing: never a line or a row twice. The same holds for the batch record\'s "Not landed" sections, for a rung\'s three files written from its text fields, and for PLAN.md\'s entries for the items for Pavol: grep PLAN.md for each item before you write it.',
     'Scratch patches the earlier attempt wrote may still be where it put them; regenerate them rather than trust them. Retry a git command that fails on index.lock, as the role says.',
   ]
 }
@@ -1761,10 +1826,10 @@ const results = await pipeline(
 
   // Stage 2: the skeptic, with one repair round; the judge on a stop or a refusal.
   async (worker, rung) => {
-    const out = (state, extra) => Object.assign({ rung: rung.id, slug: rung.slug, branch: rung.branch, state }, extra)
+    let judgeOnStop = null
+    const out = (state, extra) => Object.assign({ rung: rung.id, slug: rung.slug, branch: rung.branch, state, stopJudge: judgeOnStop }, extra)
     if (!worker) return out('worker-died', { worker: null, verdict: null })
 
-    let judgeOnStop = null
     if (worker.stopped) {
       log(rung.id + ' stopped and is reporting: ' + (worker.stopReason || '(no reason given)') + '; the judge decides whether it is a fork')
       judgeOnStop = await callAgent(PREFIX + judgeRole('stop', rung, worker, null, null), Object.assign({
@@ -1884,20 +1949,32 @@ const expectedChecker = {
 }
 const report = { batch: BATCH, base: BASE, rungs }
 
+// The items for Pavol: the rungs' now, the merged tree's as its stages return.
+// Every return carries each item with the PLAN.md entry that holds it, or none.
+const rungItems = [].concat.apply([], rungs.map(pavolItemsOf))
+const routers = []           // every stage result that may carry pavolItems
+const mergedItems = []       // the reviews' and the merged-tree judges' items
+function pavolStatus() {
+  const routed = routedIds(routers)
+  return rungItems.concat(mergedItems).map(i => Object.assign({}, i, { inPlan: routed.has(i.id) }))
+}
+const finish = (extra) => Object.assign(report, { forPavol: pavolStatus() }, extra)
+
 if (approved.length === 0) {
   log('No rung approved; nothing to gather. ' + rungs.map(r => r.rung + ': ' + r.state).join(', '))
-  return Object.assign(report, { landed: false, reason: 'no rung approved' })
+  return finish({ landed: false, reason: 'no rung approved' })
 }
 log('Approved: ' + approved.map(r => r.rung + ' (' + r.state + ')').join(', ')
     + (notLanded.length ? '. Not landed, findings folded anyway: ' + notLanded.map(r => r.rung + ' (' + r.state + ')').join(', ') : '')
     + '. Gathering onto main.')
 
 // Gather: one composed local commit per approved rung, plus the not-landed findings.
-const gather = await callAgent(PREFIX + gatherRole(approved, notLanded), { label: 'gather', phase: 'Gather', schema: GATHER_SCHEMA, model: OPUS }, recoverGather())
+const gather = await callAgent(PREFIX + gatherRole(approved, notLanded, rungItems), { label: 'gather', phase: 'Gather', schema: GATHER_SCHEMA, model: OPUS }, recoverGather())
 report.gather = gather
+routers.push(gather)
 if (!gather || gather.unresolved) {
   log('Gather stopped: ' + ((gather && gather.summary) || 'agent died'))
-  return Object.assign(report, { landed: false, reason: 'gather unresolved' })
+  return finish({ landed: false, reason: 'gather unresolved' })
 }
 
 // Review BESIDE the gate. The review reads the merged diff and never builds; the
@@ -1911,14 +1988,17 @@ if (!gather || gather.unresolved) {
 // the review by 8.2 (climb-batch-3-redesign.md, (e); Pavol, 2026-09-24). The
 // repair waits for the gate, because both work in this tree.
 const gateRun = callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
-let review = await callAgent(PREFIX + reviewRole(gather), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
+let review = await callAgent(PREFIX + reviewRole(gather, 'review', rungItems), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
 report.review = review
+routers.push(review)
+mergedItems.push(...numbered('review', review && review.forPavol))
 const reviewBlocks = !!(review && !review.approved && review.blocking && review.blocking.length)
 let reviewDecision = null
 if (reviewBlocks) {
   log('Review found blocking: ' + review.blocking.length + ' item(s); the judge rules while the gate runs on')
   reviewDecision = await callAgent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(null)), recoverJudgeMain('review'))
   report.reviewJudge = reviewDecision
+  mergedItems.push(...numbered('judge-review', reviewDecision && reviewDecision.forPavol))
 }
 let gate = await gateRun
 report.gate = gate
@@ -1934,13 +2014,16 @@ if (gateIsStale) {
 if (reviewBlocks) {
   const decision = reviewDecision
   if (!decision || decision.decision !== 'repair') {
-    return Object.assign(report, { landed: false, reason: 'review blocking, judge did not order a repair' })
+    return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   }
-  await callAgent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: RUNG_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
-  review = await callAgent(PREFIX + reviewRole(gather), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
+  report.repairReview = await callAgent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
+  routers.push(report.repairReview)
+  review = await callAgent(PREFIX + reviewRole(gather, 'review2', rungItems), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
   report.review2 = review
+  routers.push(review)
+  mergedItems.push(...numbered('review2', review && review.forPavol))
   if (!review || !review.approved) {
-    return Object.assign(report, { landed: false, reason: 'review still blocking after one repair' })
+    return finish({ landed: false, reason: 'review still blocking after one repair' })
   }
   gateIsStale = true
 }
@@ -1951,29 +2034,37 @@ if (gateIsStale || !gate) {
 }
 
 if (!gate || gate.stopped) {
-  return Object.assign(report, { landed: false, reason: 'gate could not run' })
+  return finish({ landed: false, reason: 'gate could not run' })
 }
 if (!gate.green) {
   log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
   const decision = await callAgent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)), recoverJudgeMain('gate'))
   report.gateJudge = decision
+  mergedItems.push(...numbered('judge-gate', decision && decision.forPavol))
   if (!decision || decision.decision !== 'repair') {
-    return Object.assign(report, { landed: false, reason: 'gate red, judge did not order a repair' })
+    return finish({ landed: false, reason: 'gate red, judge did not order a repair' })
   }
-  await callAgent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: RUNG_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
+  report.repairGate = await callAgent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
+  routers.push(report.repairGate)
   gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
   report.gate2 = gate
   if (!gate || !gate.green) {
     log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
-    return Object.assign(report, { landed: false, reason: 'gate red twice' })
+    return finish({ landed: false, reason: 'gate red twice' })
   }
 }
 
 // Commit: hashes into the notes, the gate summary added, push, fast-forward the
 // container branch, clean up; or, while a landed rung carries a stop that was met
 // and not lifted, the same without the push and the clean-up (pushHeldBy).
+// The items for Pavol that no stage put into PLAN.md, for the coordinator: the
+// commit stage does not wait on them, and the result carries each with inPlan.
+const notInPlan = pavolStatus().filter(i => !i.inPlan)
+if (notInPlan.length) log('Items for Pavol not in PLAN.md, for the coordinator: ' + notInPlan.map(i => i.id).join(', ')
+    + ((gather && Array.isArray(gather.pavolUnrouted) && gather.pavolUnrouted.length) ? '; the gather says why: ' + gather.pavolUnrouted.map(u => u && (u.id + ': ' + u.why)).join('; ') : ''))
+
 const heldBy = pushHeldBy(approved, review)
 if (heldBy.length) log('Push held: ' + heldBy.length + ' stop(s) met and not lifted: ' + heldBy.join('; '))
 const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
-return Object.assign(report, { landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy })
+return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy })
