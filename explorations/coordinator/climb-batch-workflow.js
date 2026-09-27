@@ -23,6 +23,10 @@
 // the same rung or tree runs on Fable (Pavol, 2026-09-24, on option (c) of
 // climb-batch-3-redesign.md, the escalation; 2026-09-26, Fable named, since the
 // session may run on Opus). No backticks anywhere in this file.
+//
+// Every agent() call goes through callAgent (above "The run."), which runs the
+// role again, up to two more times, when its agent comes back with nothing
+// (2026-09-27; climb-batch-workflow.md, "An agent that comes back with nothing").
 
 export const meta = {
   name: 'fortress-climb-batch',
@@ -1302,6 +1306,198 @@ const COMMIT_SCHEMA = {
 }
 
 // ---------------------------------------------------------------------------
+// An agent that comes back with nothing, and the retry.
+//
+// agent() gives the script nothing in two ways (the workflow-authoring
+// reference, agent(), parallel(), pipeline() and budget): it returns null when
+// the subagent dies on a terminal API error or the user skips it, and it throws
+// when the token budget is spent, when its options are malformed, or when the
+// run is aborted. In climb batch 6 (run wf_b262c534-337, 2026-09-27, 03:34:03
+// UTC) rung R's second skeptic returned its verdict, approved, through the
+// structured-output tool; the API's safety filter then blocked its next
+// message, a false positive, the harness marked the agent failed, agent()
+// returned null, and the stage below recorded R as dropped. Pavol asked for a
+// retry in the script.
+//
+// callAgent is the one door to agent(). It treats null, undefined and a thrown
+// error alike, runs the role again up to two more times, and logs every attempt
+// that came back with nothing by the role's label; only after the last attempt
+// does it return null, which every call site already reads as a dead agent. A
+// user's skip returns the same null as a death, so a skipped agent is retried
+// too. A retry's prompt opens with retryHead: an earlier attempt ended without
+// its result, and what that attempt may have left, per stage (the recover*
+// functions below), so that it continues rather than redoes the work.
+//
+// Cache keys. The run's journal keys each call by a hash over the previous
+// call's key, the prompt and the options, and journals a null result as failed,
+// never as a result, so resumeFromRunId has no empty result to hand back. On
+// top of that, attempt n > 1 opens its prompt with a head that names n and
+// carries a label ending ":attempt<n>", so no two attempts of a role share a
+// prompt, options or key. Attempt 1 passes the call's prompt and options
+// unchanged, byte for byte, so its key is the one the unwrapped call had.
+// ---------------------------------------------------------------------------
+
+const ATTEMPTS = 3   // the first attempt and up to two more: Pavol asked for the retry on 2026-09-27, the coordinator's brief set the count
+
+// What every retry is told first, at the head of its prompt, before the shared
+// prefix. recovery is the stage's own list of what the earlier attempt may have
+// left and how to take it over.
+function retryHead(role, attempt, recovery) {
+  const earlier = attempt === 2 ? 'The first attempt' : 'The first ' + ['', 'one', 'two', 'three', 'four'][attempt - 1] + ' attempts'
+  return [
+'# Attempt ' + attempt + ' of ' + ATTEMPTS + ' at the role ' + role + ': read this first',
+'',
+earlier + ' at this same role ended without returning a result to the script: a false positive of the API\'s safety filter, or an agent that died. This retry was built after such a case in climb batch 6, on 2026-09-27: rung R\'s second skeptic wrote and returned its verdict, the filter then blocked its next message, and the verdict never reached the script. So what came before you may have done none of this role\'s work, part of it, or all of it. What it left is yours. Read it first, continue from where it stopped rather than redo it, and then return the result your role asks for, in the structured form the tool requires. Say in your summary that you are attempt ' + attempt + ', what you found, and what you took over as it was.',
+'',
+'What ' + (attempt === 2 ? 'the earlier attempt' : 'the earlier attempts') + ' may have left, and how to take it over (below, "the earlier attempt" means ' + (attempt === 2 ? 'it' : 'them together') + '):',
+'',
+...recovery.map(s => '- ' + s),
+'',
+'The brief below is the one the first attempt received, word for word. Where it assumes a fresh start - a clean tree, a first run, a file not yet written - read it as continuing from the state you found.',
+'',
+  ].join('\n')
+}
+
+async function callAgent(prompt, opts, recovery) {
+  const role = opts.label
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
+    const retry = attempt > 1
+    let result = null
+    let why = 'no result (null: the agent died, was blocked, or was skipped)'
+    try {
+      result = await agent(retry ? retryHead(role, attempt, recovery) + prompt : prompt,
+                           retry ? Object.assign({}, opts, { label: role + ':attempt' + attempt }) : opts)
+    } catch (e) {
+      result = null
+      why = 'an error thrown by agent(): ' + String((e && e.message) || e).slice(0, 300)
+    }
+    if (result !== null && result !== undefined) {
+      if (retry) log(role + ': attempt ' + attempt + ' of ' + ATTEMPTS + ' returned its result')
+      return result
+    }
+    log(role + ': attempt ' + attempt + ' of ' + ATTEMPTS + ' ended with ' + why
+        + (attempt < ATTEMPTS
+          ? '; running the role again as attempt ' + (attempt + 1) + ', told to take over what this one left'
+          : '; no attempt left, so the script takes its path for a dead agent'))
+  }
+  return null
+}
+
+// A command started with run_bg (nohup) may outlive the agent that started it.
+const bgCheck = (tree) => 'A command the earlier attempt started with run_bg (nohup) may still be running. Before you start a build, a test or any long run, list what runs: ps -eo pid,etime,args | grep -E "ant|java|fortress" | grep -v grep, and readlink /proc/<pid>/cwd for the tree each runs in (other agents of this batch run in their own trees). A step still running in ' + tree + ' is the earlier attempt\'s: wait for its log with wait_for and use its result; never start the same step, or a second ant, beside it.'
+
+// The rung worker's first pass: its branch, its worktree, its own directory.
+function recoverRung(rung) {
+  return [
+    'Your worktree is ' + rung.path + ', on ' + rung.branch + '. Set up the shell as the shared prefix says, then run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb (commits not yet pushed show as ahead) and ls -lt tmp/ | head -20, and read what exists of explorations/compile-ladder/' + rung.slug + '/: REPORT.md, record.md, probes/.',
+    'The shared prefix\'s section "If your branch already carries commits" applies in full: committed work is yours to verify, not to redo; uncommitted edits are yours once you have read them; a log whose last step failed or was cut off is a step still to do.',
+    'Test first still holds. A recorded failure counts only if it was captured before the edit existed. If the earlier attempt made the edit and captured no failure, set the edit aside (git stash), capture the failure, restore the edit (git stash pop), and say so in REPORT.md.',
+    bgCheck(rung.path),
+    'Commit what you took over once you have read it, push what is committed and not pushed, and go on with the order of work from the first step not done.',
+  ]
+}
+
+// The rung worker's continuation after a judge's ruling: on a stop (resume) or
+// on a skeptic's refusal (repair).
+function recoverRungRepair(rung, afterRefusal) {
+  return [
+    'Your worktree is ' + rung.path + ', on ' + rung.branch + '. Run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb and ls -lt tmp/ | head -20, and read explorations/compile-ladder/' + rung.slug + '/JUDGE.md' + (afterRefusal ? ', SKEPTIC.md' : '') + ', REPORT.md and record.md. The commits after the one that carries the judge\'s ruling are the earlier attempt\'s, and so are uncommitted edits.',
+    'Take the judge\'s numbered instructions one at a time and check each against the tree before acting: a step already done is not done again. An assertion already in the test is not added a second time, a line already in REPORT.md or record.md is not written twice, and a capture already taken after the edit is not taken again unless it is cut off. Continue at the first step not done.',
+    bgCheck(rung.path),
+    'Commit what you took over once you have read it, push what is committed and not pushed, and finish as the repair round below says, with reportText, recordText and stopsMet describing the rung as it now stands.',
+  ]
+}
+
+// A skeptic, first or second judgement: SKEPTIC.md and probes/skeptic/.
+function recoverSkeptic(rung, round) {
+  const f = 'explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md'
+  return [
+    'The worktree is ' + rung.path + ', on ' + rung.branch + '. Run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb and ls -lt tmp/ | head -20, and read ' + f + ' and probes/skeptic/ beside it.',
+    round > 1
+      ? 'SKEPTIC.md already held the first judgement, which refused, before the repair round. Only a second-judgement section written after the repair round\'s last commit on the branch is the earlier attempt\'s work; the first judgement is not your verdict.'
+      : 'This is the rung\'s first judgement, so whatever SKEPTIC.md and probes/skeptic/ hold is the earlier attempt\'s work.',
+    'If the earlier attempt\'s verdict is complete (a verdict, the checks of the role below, the differentials with their captures under probes/skeptic/), it is your verdict. Confirm that each capture it cites exists and says what the verdict cites it for, commit and push whatever of it is not committed and pushed, and return it, with skepticText the file word for word. It may have been returned already and lost on the way, which is the case this retry exists for.',
+    'If it is partial, finish the checks and differentials it has not done and complete the file in place: never a second copy of a section. A differential whose capture exists and is whole is not run again.',
+    bgCheck(rung.path),
+  ]
+}
+
+// A judge on one rung, on a stop or a refusal: JUDGE.md on the rung's branch.
+function recoverJudgeRung(rung, kind) {
+  const f = 'explorations/compile-ladder/' + rung.slug + '/JUDGE.md'
+  return [
+    'The worktree is ' + rung.path + ', on ' + rung.branch + '. Run git log --oneline ' + BASE + '..HEAD, git status --short and git status -sb, and read ' + f + ' with git log --format="%h %ci %s" -- ' + f + '.',
+    'JUDGE.md may already hold an earlier ruling on this rung on another question (a ruling on a stop comes before one on a refusal). The earlier attempt\'s is a ruling on this question, the ' + kind + ', written after the ' + (kind === 'refusal' ? 'skeptic\'s' : 'worker\'s') + ' last commit on the branch.',
+    'If that ruling is complete, it is your ruling: commit and push it if it is not yet committed and pushed, and return the decision it records, with its numbered instructions as the file numbers them. If it is partial, complete it in place, then commit and push once.',
+  ]
+}
+
+// A judge on the merged tree, on a blocking review or a red gate.
+function recoverJudgeMain(kind) {
+  const f = BATCH_DIR + '/JUDGE-' + kind + '.md'
+  return [
+    'You are in the main tree, ' + MAIN + '. Run git log --oneline ' + BASE + '..HEAD and git status --short, and read ' + f + ' with git log --format="%h %ci %s" -- ' + f + '. Whatever that file holds is the earlier attempt\'s.',
+    'If its ruling is complete, it is your ruling: commit it locally if it is not committed (one commit, retrying on index.lock), and return the decision it records, with its numbered instructions as the file numbers them. If it is partial, complete it in place and commit once. Do not push.',
+  ]
+}
+
+// The gather: it applies patches to main and folds the record, so a retry must
+// never apply a rung twice or fold a line twice.
+function recoverGather() {
+  return [
+    'You are in the main tree, ' + MAIN + ', and it need not be clean. The precondition that git status --porcelain is empty held for the first attempt; a dirty tree now is the earlier attempt\'s work in progress and your starting point, not a failed precondition. Check only that ' + BASE + ' is still an ancestor of HEAD.',
+    'Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --cached --stat, git diff --stat, and ' + BATCH_DIR + '/RECORD.md if it exists. An approved rung whose commit is already on main (one per rung, carrying its source change and explorations/compile-ladder/<slug>/) is done: never apply its patch again, and name it in your result with its hash.',
+    'Before you apply any other rung\'s patch, regenerate it (git diff ' + BASE + '...<branch>) and run git apply --reverse --check on it. If that succeeds, the patch is already in the tree, applied and not committed; applying it again is the one thing this retry must not do. Continue that rung from the step after the apply. A file with conflict markers (git diff --check, grep -n "^<<<<<<<") is a 3-way apply the earlier attempt left half resolved: resolve it by the rules of the role, or return the conflict as the role says.',
+    'The three record files may already carry a rung\'s fold. Before you fold a rung, grep FACTS.md, the ledger and the handover for its lines and for each ledger row it opens, and fold only what is missing: never a line or a row twice. The same holds for the batch record\'s "Not landed" sections and for a rung\'s three files written from its text fields.',
+    'Scratch patches the earlier attempt wrote may still be where it put them; regenerate them rather than trust them. Retry a git command that fails on index.lock, as the role says.',
+  ]
+}
+
+// The merged-diff review, first or second: its one corrections commit and the
+// head it records before it.
+function recoverReview() {
+  return [
+    'You are in the main tree, ' + MAIN + ', with the gate running beside you or finished. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short. A commit titled "Fold the review\'s corrections" made after the last commit of the stage before you (the gather\'s last rung commit, or the repair\'s commit on a second review) is the earlier attempt\'s. Then headBefore is that commit\'s parent, not the HEAD you find, so that pathsOutsideExplorations covers both attempts\' corrections; headAfter is HEAD when you finish.',
+    'Uncommitted edits under explorations/ are the earlier attempt\'s corrections in progress: read them, keep what is right, and commit them with your own, in one commit of the same title, or in one more such commit if the earlier attempt already made its own. Do not fix a finding twice.',
+    'Never touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/, and wait for the gate\'s table in check 9 exactly as the role says.',
+  ]
+}
+
+// The repair on the merged tree, after a blocking review or a red gate.
+function recoverMergedRepair(kind) {
+  return [
+    'You are in the main tree, ' + MAIN + ', and it need not be clean. Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --stat, ' + BATCH_DIR + '/JUDGE-' + kind + '.md, and ' + BATCH_DIR + '/REPAIR-' + kind + '.md if it exists. A commit after the one that carries JUDGE-' + kind + '.md is the earlier attempt\'s repair, uncommitted edits are its repair in progress, and the tree as you find it is your starting point.',
+    'Take the judge\'s instructions one at a time and check each against the tree before acting: an edit already in place is not applied again, an assertion already in a test is not added twice, and a record line already written is not written again. Continue at the first step not done.',
+    bgCheck(MAIN),
+    'The role asks for one commit. If the earlier attempt made it already, what you finish goes in one further commit, and your result says so. Do not push.',
+  ]
+}
+
+// The gate: its logs under LOG_DIR and its outputs under GATE_OUT. It commits
+// nothing, so what a retry must not do is repeat a finished step or append a
+// line to the summary twice.
+function recoverGate() {
+  return [
+    'You are in the main tree, ' + MAIN + '. The earlier attempt\'s logs are under ' + LOG_DIR + '/ and its outputs under ' + GATE_OUT + '/: ls -lt both. A log is the earlier attempt\'s only if it is newer than the newest commit that touches a path outside explorations/ (git log -1 --format=%ci -- . ":(exclude)explorations"); an older one is from a gate run on an earlier tree of this batch and counts for nothing.',
+    bgCheck(MAIN),
+    'Steps 2 to 4 each leave a log: compileAll.txt, library.txt, testFast.txt, testSystem.txt. One that is the earlier attempt\'s and ends in EXIT=0 with BUILD SUCCESSFUL (library.txt: EXIT=0) is a step done: do not run it again. Above all, do not repeat step 2 once step 4 has finished, since its rm -rf ProjectFortress/TEST-RESULTS deletes the suites\' results. Continue at the first of those steps whose log is missing, cut off or failed. Step 3\'s two copies stand only if library.txt finished and both copies exist; otherwise redo step 3 whole, copies included.',
+    'Steps 5 to 8 write into summary.txt: step 5 rewrites it, and steps 6, 7e and 8 append to it. A step whose output is all there is done: step 6 when the summary carries the 39 # atomic lines, step 7 when ' + GATE_OUT + '/ladder/ holds ladder.tsv, microgpt-phase.md and the comparison, step 8 when checker-count.txt ends in its #shadow row and the summary carries the # checker lines. Continue at the first of them not done; if one stopped partway, with some of its lines already in the summary, run again from step 5, which rewrites the file, so that no line lands in it twice.',
+    'Return the result, as the role says, from the logs and tables as they stand when you finish.',
+  ]
+}
+
+// The commit: its local commits, and the push or the held push.
+function recoverCommit(held) {
+  return [
+    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "Record the landed commits\' hashes and the gate summary" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit.',
+    held
+      ? 'The push is held. Look for the "Not pushed." paragraph in ' + BATCH_DIR + '/RECORD.md: if the earlier attempt wrote it, do not append it again, and commit it if it is not committed. Push nothing, as the role says.'
+      : 'Check what is already pushed: git fetch origin, then git rev-parse HEAD origin/main origin/' + CONTAINER_BRANCH + '. A push the earlier attempt made is not made again; push only what origin lacks. git worktree list and git branch --list "wip/*" show which worktrees and branches step 4 has already removed; confirm that each one left shows nothing ahead of its origin before removing it.',
+    'Return the result for the state you leave, counting the earlier attempt\'s commits' + (held ? ' as done.' : ' and pushes as done: pushed lists every commit of this batch that origin/main now carries, whichever attempt pushed it.'),
+  ]
+}
+
+// ---------------------------------------------------------------------------
 // The run.
 // ---------------------------------------------------------------------------
 
@@ -1312,12 +1508,12 @@ const results = await pipeline(
   SCATTER,
 
   // Stage 1: the rung worker.
-  (rung) => agent(PREFIX + rungRole(rung) + rung.tail, {
+  (rung) => callAgent(PREFIX + rungRole(rung) + rung.tail, {
     label: 'rung:' + rung.id,
     phase: 'Rung',
     schema: RUNG_SCHEMA,
     model: OPUS,
-  }),
+  }, recoverRung(rung)),
 
   // Stage 2: the skeptic, with one repair round; the judge on a stop or a refusal.
   async (worker, rung) => {
@@ -1327,32 +1523,32 @@ const results = await pipeline(
     let judgeOnStop = null
     if (worker.stopped) {
       log(rung.id + ' stopped and is reporting: ' + (worker.stopReason || '(no reason given)') + '; the judge decides whether it is a fork')
-      judgeOnStop = await agent(PREFIX + judgeRole('stop', rung, worker, null, null), Object.assign({
+      judgeOnStop = await callAgent(PREFIX + judgeRole('stop', rung, worker, null, null), Object.assign({
         label: 'judge:' + rung.id + ':stop',
         phase: 'Judge',
         schema: JUDGE_SCHEMA,
-      }, judgeTier(null)))
+      }, judgeTier(null)), recoverJudgeRung(rung, 'stop'))
       if (!judgeOnStop || judgeOnStop.decision !== 'repair') {
         return out('stopped', { worker, verdict: null, judge: judgeOnStop })
       }
-      const resumed = await agent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, null, judgeOnStop), {
+      const resumed = await callAgent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, null, judgeOnStop), {
         label: 'resume:' + rung.id,
         phase: 'Rung',
         schema: RUNG_SCHEMA,
         model: OPUS,
-      })
+      }, recoverRungRepair(rung, false))
       if (!resumed || resumed.stopped || !resumed.landed) {
         return out('stopped', { worker: resumed || worker, verdict: null, judge: judgeOnStop })
       }
       worker = resumed
     }
 
-    const verdict = await agent(PREFIX + skepticRole(rung, worker, 1), {
+    const verdict = await callAgent(PREFIX + skepticRole(rung, worker, 1), {
       label: 'skeptic:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
       model: OPUS,
-    })
+    }, recoverSkeptic(rung, 1))
 
     if (verdict && verdict.approved) {
       return out('approved', { worker, verdict, repaired: false, judge: judgeOnStop })
@@ -1360,11 +1556,11 @@ const results = await pipeline(
 
     log(rung.id + ' refused by its skeptic: ' + ((verdict && verdict.refusalReason) || 'no reason returned') + '; the judge rules before the one repair round')
 
-    const decision = await agent(PREFIX + judgeRole('refusal', rung, worker, verdict, null), Object.assign({
+    const decision = await callAgent(PREFIX + judgeRole('refusal', rung, worker, verdict, null), Object.assign({
       label: 'judge:' + rung.id,
       phase: 'Judge',
       schema: JUDGE_SCHEMA,
-    }, judgeTier(judgeOnStop)))
+    }, judgeTier(judgeOnStop)), recoverJudgeRung(rung, 'refusal'))
     if (!decision || decision.decision === 'drop') {
       return out('dropped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
@@ -1372,19 +1568,19 @@ const results = await pipeline(
       return out('stopped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
 
-    const repaired = await agent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, verdict, decision), {
+    const repaired = await callAgent(PREFIX + rungRole(rung) + rung.tail + repairPrompt(rung, verdict, decision), {
       label: 'repair:' + rung.id,
       phase: 'Rung',
       schema: RUNG_SCHEMA,
       model: OPUS,
-    })
+    }, recoverRungRepair(rung, true))
 
-    const verdict2 = await agent(PREFIX + skepticRole(rung, repaired || worker, 2), {
+    const verdict2 = await callAgent(PREFIX + skepticRole(rung, repaired || worker, 2), {
       label: 'skeptic2:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
       model: OPUS,
-    })
+    }, recoverSkeptic(rung, 2))
 
     return out((verdict2 && verdict2.approved) ? 'approved-after-repair' : 'dropped', {
       worker: repaired || worker,
@@ -1453,7 +1649,7 @@ log('Approved: ' + approved.map(r => r.rung + ' (' + r.state + ')').join(', ')
     + '. Gathering onto main.')
 
 // Gather: one composed local commit per approved rung, plus the not-landed findings.
-const gather = await agent(PREFIX + gatherRole(approved, notLanded), { label: 'gather', phase: 'Gather', schema: GATHER_SCHEMA, model: OPUS })
+const gather = await callAgent(PREFIX + gatherRole(approved, notLanded), { label: 'gather', phase: 'Gather', schema: GATHER_SCHEMA, model: OPUS }, recoverGather())
 report.gather = gather
 if (!gather || gather.unresolved) {
   log('Gather stopped: ' + ((gather && gather.summary) || 'agent died'))
@@ -1470,14 +1666,14 @@ if (!gather || gather.unresolved) {
 // batch 3 the judge waited 4.5 minutes for the gate, in batch 2 the gate outlasted
 // the review by 8.2 (climb-batch-3-redesign.md, (e); Pavol, 2026-09-24). The
 // repair waits for the gate, because both work in this tree.
-const gateRun = agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
-let review = await agent(PREFIX + reviewRole(gather), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS })
+const gateRun = callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
+let review = await callAgent(PREFIX + reviewRole(gather), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
 report.review = review
 const reviewBlocks = !!(review && !review.approved && review.blocking && review.blocking.length)
 let reviewDecision = null
 if (reviewBlocks) {
   log('Review found blocking: ' + review.blocking.length + ' item(s); the judge rules while the gate runs on')
-  reviewDecision = await agent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(null)))
+  reviewDecision = await callAgent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(null)), recoverJudgeMain('review'))
   report.reviewJudge = reviewDecision
 }
 let gate = await gateRun
@@ -1496,8 +1692,8 @@ if (reviewBlocks) {
   if (!decision || decision.decision !== 'repair') {
     return Object.assign(report, { landed: false, reason: 'review blocking, judge did not order a repair' })
   }
-  await agent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: RUNG_SCHEMA, model: OPUS })
-  review = await agent(PREFIX + reviewRole(gather), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS })
+  await callAgent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: RUNG_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
+  review = await callAgent(PREFIX + reviewRole(gather), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
   report.review2 = review
   if (!review || !review.approved) {
     return Object.assign(report, { landed: false, reason: 'review still blocking after one repair' })
@@ -1506,7 +1702,7 @@ if (reviewBlocks) {
 }
 
 if (gateIsStale || !gate) {
-  gate = await agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+  gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
   report.gateAfterReview = gate
 }
 
@@ -1515,13 +1711,13 @@ if (!gate || gate.stopped) {
 }
 if (!gate.green) {
   log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
-  const decision = await agent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)))
+  const decision = await callAgent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)), recoverJudgeMain('gate'))
   report.gateJudge = decision
   if (!decision || decision.decision !== 'repair') {
     return Object.assign(report, { landed: false, reason: 'gate red, judge did not order a repair' })
   }
-  await agent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: RUNG_SCHEMA, model: OPUS })
-  gate = await agent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS })
+  await callAgent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: RUNG_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
+  gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
   report.gate2 = gate
   if (!gate || !gate.green) {
     log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
@@ -1534,6 +1730,6 @@ if (!gate.green) {
 // and not lifted, the same without the push and the clean-up (pushHeldBy).
 const heldBy = pushHeldBy(approved, review)
 if (heldBy.length) log('Push held: ' + heldBy.length + ' stop(s) met and not lifted: ' + heldBy.join('; '))
-const commit = await agent(PREFIX + commitRole(gather, gate, heldBy), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS })
+const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
 return Object.assign(report, { landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy })
