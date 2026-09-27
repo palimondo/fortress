@@ -91,8 +91,11 @@ and it fires only at the main session's Stop. The fix is in the workflow design
 its own `wip/<slug>` branch, pushed at every milestone, and the gather composes
 from the branch's net change instead of the dirty tree. Two rules follow for
 any long run: nothing that takes hours lives only on disk, and the coordinator
-takes a turn every half hour or so (`send_later`) so that the Stop hook fires
-and the agents' transcripts are snapshotted while they run.
+takes a turn every 45 minutes, a series of `send_later` check-ins armed
+together (`FACTS.md` § The container), so that the Stop hook fires and the
+agents' transcripts are snapshotted while they run, and so that the session
+stays cached, ready to launch the next batch (Pavol, 2026-09-26 23:37 UTC,
+`POSITIONS-history.md`).
 
 ## Setting up a batch's worktrees
 
