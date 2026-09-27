@@ -1,4 +1,4 @@
-<!-- DRAFT FOR REVIEW. The decision record and manifest for climb batch 7R, the ranges batch, prepared 2026-09-27 (19:35 to 21:00 UTC) by a planning worker for the coordinating session, from Pavol's answer of 19:23 UTC to the numerics synthesis's decision 1 ("Option 1, ZZ32"; POSITIONS.md, 2026-09-27, the numerics plans) and his yes of 19:30 UTC to its decision 3 (batch N after this batch). It is written on main at 15255fd2b, whose Library/ and ProjectFortress/LibraryBuiltin/ are byte for byte those of d65892d34, the sources measurement C ran on, while climb batch 7 (rungs H, A and B) is about to launch; section 4 says what batch 7 is expected to have changed in the files this batch edits, declaration by declaration, and every line number in those files is re-read on this batch's base before its launch. Sources: CLAUDE.md, protocol.md, FACTS.md (cited by bold title), POSITIONS.md (cited by date and entry name), INDEX.md, PLAN.md, map/README.md, climb-batch-workflow.md with the script climb-batch-workflow.js, CLIMB-BATCH-6.5.md with its generator under explorations/compile-ladder/plan-6.5/manifest/, CLIMB-BATCH-7.md as committed at c3aa7fb93, reviews/numerics-plan-coordinator/measure-C.md with probes-C/ (z32.py, tree2.patch, the walk captures), reviews/numerics-plan-synthesis.md sections 4 and 6, reviews/numerics-plan-fable.md sections 3.5 and 6, Specification/basic/expressions/ranges.tex, Specification/basic-lib/basic-integers.tex, Specification/appendices/changes.tex, the ledger rows cited, and the library and checker sources cited, each reopened on the tree. Nothing was built or run for it: every count is on file in measurement C, arithmetic from what is on file, or a read of the tree (git, grep, sed), and says which. The manifest block of section 7 was generated from section 3 by a script and checked on a scratch copy of the workflow script, as section 7 says. One line per paragraph. -->
+<!-- DRAFT FOR REVIEW. The decision record and manifest for climb batch 7R, the ranges batch, prepared 2026-09-27, from 19:35 UTC, by a planning worker for the coordinating session, from Pavol's answer of 19:23 UTC to the numerics synthesis's decision 1 ("Option 1, ZZ32"; POSITIONS.md, 2026-09-27, the numerics plans) and his yes of 19:30 UTC to its decision 3 (batch N after this batch). It is written on main at 15255fd2b, whose Library/ and ProjectFortress/LibraryBuiltin/ are byte for byte those of d65892d34, the sources measurement C ran on, while climb batch 7 (rungs H, A and B) is about to launch; section 4 says what batch 7 is expected to have changed in the files this batch edits, declaration by declaration, and every line number in those files is re-read on this batch's base before its launch. Sources: CLAUDE.md, protocol.md, FACTS.md (cited by bold title), POSITIONS.md (cited by date and entry name), INDEX.md, PLAN.md, map/README.md, climb-batch-workflow.md with the script climb-batch-workflow.js, CLIMB-BATCH-6.5.md with its generator under explorations/compile-ladder/plan-6.5/manifest/, CLIMB-BATCH-7.md as committed at c3aa7fb93, reviews/numerics-plan-coordinator/measure-C.md with probes-C/ (z32.py, tree2.patch, the walk captures), reviews/numerics-plan-synthesis.md sections 4 and 6, reviews/numerics-plan-fable.md sections 3.5 and 6, Specification/basic/expressions/ranges.tex, Specification/basic-lib/basic-integers.tex, Specification/appendices/changes.tex, the ledger rows cited, and the library and checker sources cited, each reopened on the tree. Nothing was built or run for it: every count is on file in measurement C, arithmetic from what is on file, or a read of the tree (git, grep, sed), and says which. The manifest block of section 7 was generated from section 3 by a script and checked on a scratch copy of the workflow script, as section 7 says. One line per paragraph. -->
 
 # Climb batch 7R
 
@@ -263,3 +263,350 @@ The files each rung may edit, from section 3:
 **The push.** Every stop this record reserves for Pavol is reversible (POSITIONS 2026-09-27, the stops): a rung that meets one finishes as its section says, lists it in `stopsMet` with `liftedBy` citing that entry, and lands; the stop is listed for his review, and neither the push nor the next batch waits. The commit stage holds the push only on a stop with no such line (`explorations/coordinator/climb-batch-workflow.md`, "Commit, and the push held on a stop").
 
 **Timings.** Every timing anyone records carries its machine: `nproc`, the CPU model name and MHz from `/proc/cpuinfo`, the load average when the run started, the JDK and `FORTRESS_THREADS` (`explorations/protocol.md`, principle 2).
+
+## 7. The manifest
+
+The block below is drafted to replace the `MANIFEST` block of `explorations/coordinator/climb-batch-workflow.js`, from the rule above the `MANIFEST` comment to the line before `END MANIFEST` (`:58-651` of the script at `8c54cfd15`, where it holds batch 7's first run); it is not spliced in. It was generated from section 3 of this record and from the rungs' `briefing` and `checks` lists by a script, in batch 6.5's form: each tail is its rung's section word for word, with the code-span backticks dropped, each line JSON-quoted, ASCII only. No tail carries an answer letter, since section 1 asks no question. One value is set at the launch and nowhere else: `LEDGER_FROM`, one above the highest row of `explorations/fortress-gap-ledger.md` at the launch. It holds 456 here, the value at the drafting (row 455 the highest), and is reset at the launch, since batch 7, which runs first, opens its new rows from 456 too. No rung predicts the checker total: J's is reported, and U edits nothing the stage reads. The coordinator fills `<base>` at launch through `args.base`.
+
+Checked on scratch copies of the script as committed at `8c54cfd15` and of the working copy, identical to it, the block spliced in place of `:58-651`, every line outside it byte-identical (`explorations/compile-ladder/plan-7r/manifest/check7r.txt`):
+- `node --check` exits 0 on the spliced script, as on the unmodified one.
+- With `LEDGER_FROM` unset the block throws with its message.
+- The block with the script's own key validation and scatter line gives batch `7r`, the record `CLIMB-BATCH-7R.md`, the rungs J and U with U landing only with J, and the scatter J, U. Each tail equals its section of section 3 with the backticks dropped; no tail, blurb, intro or overlap string holds a backtick or a non-ASCII character; each `checks` list is a sub-list of its `briefing`, as the script's own check at load requires.
+- The whole spliced script, run as the body of an async function with the workflow globals stubbed (`args`, `agent`, `pipeline`, `log`) and every agent approving, calls rung J, skeptic J, rung U, skeptic U, the gather, the gate, the review and the commit, and lands; each worker's step 1 renders its rung's `briefing` keys in order (59 and 37), each skeptic's its `checks` (15 and 10), and the gather numbers new ledger rows from 456 in the order J, U. With J stopping and its judge ruling stop, U is withheld by `applyLandsOnlyWith` ("U lands only with J ... and J is stopped") and nothing lands.
+- Every key of the four lists matches exactly one place under `explorations/coordinator/tools/facts-extract.sh --check` on `main` (`explorations/compile-ladder/plan-7r/manifest/lists-check.txt`). By the tool's size line, J's briefing prints about 65K tokens in 7 parts and its `checks` 22.6K; U's 35.6K and 8.1K.
+- Nothing was launched.
+
+The generator, the lists, the check and their outputs are `explorations/compile-ladder/plan-7r/manifest/`: `python3 gen7r.py` (it writes `tmp/manifest7r.js`), then `node check7r.js`, then `python3 lists7r.py`. The block is regenerated there and pasted here, never edited by hand.
+
+```js
+// ===========================================================================
+// MANIFEST - the coordinator replaces everything between this line and the
+// "END MANIFEST" line, and changes nothing else in this file.
+//
+// Concurrency, which the manifest does NOT set: at most two agents at once here
+// (FACTS.md, "The Workflow harness runs two agents at once on this box"), a
+// freed slot going to the next queued agent, FIFO. k is 2 in this batch (J, U).
+// Per rung: id, slug, path, branch, expectedMinutes (the scatter's start order
+// only), tail (the brief), blurb (one line for the shared prefix's table),
+// writesState, expectedMoves, and the checker-count fields testIsStage,
+// expectedCheckerCount (a printed prediction, never red) and
+// expectedCheckerCrash (compared exactly with the table's #crash field; no
+// rung of this batch declares one, so any change of the crash row is red).
+// Optional: landsOnlyWith, the ids of the rungs a rung lands only with; U
+// names J, and the script applies it after the scatter, so U reaches the
+// gather only when J is approved. briefing: the rung's mission briefing, which
+// the planner writes from the record so that the agents learn in context what
+// they were never trained on: the keys of
+// explorations/coordinator/tools/facts-extract.sh for the POSITIONS.md entries
+// (positions:DATE WORDS), gap-ledger rows (ledger:ROW) and earlier rulings
+// (doc:PATH#HEADING) the rung rests on; the notes already written on the
+// subject, found through INDEX.md (doc:); the specification's sections its
+// subject touches (doc: on a .tex heading, code: on a passage); the library and
+// checker code that is the precedent for the same kind of problem
+// (code:PATH#FROM..TO); and the FACTS.md entries and map rows of its area; in
+// reading order, decisions first. The rung worker reads it whole as its step
+// 1. And checks, the sub-list of briefing that the skeptic, the repair round
+// and the judges read as their step 1: the decisions and ledger rows their
+// checks need, and the specification's sections and the precedent code those
+// checks compare against. No key holds a double quote, backtick, dollar sign or
+// backslash, since each is rendered in double quotes. Each list is checked
+// with the tool's --check to match exactly one place per key (on main at the
+// drafting; re-checked at the launch).
+//
+// Batch 7R's values are CLIMB-BATCH-7R.md, sections 3, 6 and 7. Each tail is
+// that rung's section of section 3 word for word, with the record's code-span
+// backticks dropped (this file carries none); ASCII only. No section carries
+// an answer letter: section 1 asks no question. One value is set at launch and
+// nowhere else: LEDGER_FROM, one above the highest row of the gap ledger at the
+// launch; it holds the drafting's value, 456, and is reset at the launch,
+// since batch 7, which runs first, opens its rows from 456 too. Manifest order
+// is the ledger numbering order: J, U. The scatter starts the longest expected
+// first: J, U. No rung predicts the checker total: J's is reported, and U
+// changes nothing the stage reads. No rung declares a ladder move. The base is
+// <base>, passed at launch as args.base, not written here.
+// ===========================================================================
+
+const LEDGER_FROM = 456   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch (456 at the drafting, 15255fd2b; reset at the launch, since batch 7 opens rows from 456)
+if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\'s launch')
+
+const BATCH = '7r'
+const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-7R.md'
+
+const J_TAIL = [
+"",
+"## Your rung: J - ranges over ZZ32",
+"",
+"SLUG is rung-ranges-zz32. WORKTREE is /home/user/fortress-ranges, branch wip/rung-ranges-zz32.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-7R.md, section 3, under \"J. Ranges over ZZ32\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's items asks a question. Rows 450 and 451 stay open (their tests are restated, not fixed), row 452 closes, and the Character crash is batch 8's (section 1, read from the record).",
+"",
+"**Its briefing.** The decisions the rung rests on (the ranges decision and batch N in the numerics entry, a size's range, answer 8, route A, the library's practice, the stops, rung D's stop); ledger rows 450 to 452 and 358; measurement C's method and its sections on tree 2 and on other integer types, with its shadow z32.py and rangeOperators's capture; the two distance notes' sections on the crashes; the synthesis's decision 1 and the Fable plan's section 3.5; the specification's ranges section and its coercion chapter's section on invocations, which says type parameters have no coercions; the compiler library's ZZ32 ranges, the operator block in the api and the component, the public Range trait, the dummy helpers, ExtentScalarRange and UniformDistribution as the library has them; the checker's case site, Types.java's world switch, areCompilerLibraries and the trait-table lookup that throws; the three restated revival tests, the refusal test's precedent and the test form; the FACTS entries on ranges, inference, numerals, microGPT's checker errors, the distance, the crashes and the harness; the map's rows for the checker and the library. The keys are in section 7; checks is the decisions, the rows, measurement C's tree 2, the ranges section, the operator block, ExtentScalarRange and the checker site.",
+"",
+"**The problem.**",
+"- The one library's scalar ranges are generic over an integer type. Every declaration of Library/RangeInternals.fsi and .fss (624 and 1,496 lines) that stands for a scalar range's integer takes a static parameter I extends Integral[\\I\\] or I extends AnyIntegral: 95 declarations and 173 parameters in each file. So do the 18 range operators of Library/FortressLibrary.fss, from \"The # and : operators serve as factories for parallel ranges\" (:3887) to opr :[\\I\\](r: Range[\\I\\], stride:I) (:4019), and of its api (Library/FortressLibrary.fsi:2196-2308) (counted by measurement C's shadow, explorations/reviews/numerics-plan-coordinator/measure-C.md section 2).",
+"- The compiled checker cannot check that code, because the language cannot convert a numeral into a type known only as a type parameter: \"types named by type parameters *do not have coercions*\" (Specification/basic/conversions-coercions.tex:363-365; FACTS.md, \"Static arguments are inferred from the arguments alone, on both paths, and never through a coercion\"). On the library copy with batch 7's rung B in (measurement C's tree 1), the range code carries the integer family of errors (classes I1 to I6, 192), the range objects' missing abstract methods (D2, 20), the CAP family (36), openRangeHelper's (6) and IN's (14), among others (measure-C section 2).",
+"- To force the result \"at least ZZ32\", the operators pass dummy 0 asif ZZ32 arguments, 36 of them in 18 calls, to helpers with a throwaway first parameter (Library/RangeInternals.fss:1420-1441: \"We pass in bogus ZZ32's to ensure that the result type is at least ZZ32\"; Library/FortressLibrary.fss:3888-3964). The checker refuses them (class I2, 18). And eleven declarations are bounded Integral[\\I\\] in the api and AnyIntegral or nothing in the component (row 358).",
+"- Under walk the library builds ranges over ZZ64, NN32 and NN64 today: (widen(1):widen(3)).size is 3, while big(1):big(3) stops at partitionL (Library/RangeInternals.fss:1045), which only the fixed widths declare (measure-C section 3, explorations/reviews/numerics-plan-coordinator/probes-C/walk/WideRangesC.L0.txt). In the whole tree seven lines build a range over an integer that is neither a ZZ32 nor a numeral: five in the three expected-failure tests of rows 450 to 452, and two specification examples, which are rung U's. None is in the library, the demos or microGPT.",
+"- Behind the change waits a crash of the compiled checker. ExtentScalarRange (Library/RangeInternals.fss:377-456) has case ex of 1 => ... end, a case with no comparison operator. Once its clauses check, the checker asks whether the value is a GeneratorZZ32 (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:866-879, through ProjectFortress/src/com/sun/fortress/compiler/Types.java:129-131), a trait only the compiler's library declares (Library/CompilerLibrary.fsi:111), and the trait-table lookup throws \"Not in the trait table: FortressLibrary.GeneratorZZ32\" (ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:723). On measurement C's tree 2 it hides the declaration's 37 errors. Any case without a comparison operator, in any program checked against the one library, crashes the same way (inferred from the code, explorations/perf-probes/prelude/switch-over-distance.md section 2.6). Today the site is not reached, because the clauses' own errors stop the checker first (explorations/perf-probes/prelude/switch-over-distance-flat.md section 2.6).",
+"",
+"**The decisions.** The ranges decision (explorations/coordinator/POSITIONS.md, 2026-09-27, the numerics plans, decision 1): RangeInternals and the range operators of FortressLibrary lose their integer type parameter; multi-dimensional ranges are tuples of ZZ32 ranges; the public range traits stay generic in their index type; the crash is fixed beside the change; the three expected-failure range tests of rows 450 to 452 and RangePrototype are restated; a range over another integer type becomes a static error. Batch N comes next (the same entry, decision 3), so the operators J writes are the ones a numeral of its own type will meet: a non-generic ZZ32 operator takes a numeral by the library's coercion, where a generic one refuses it (FACTS.md, \"MicroGPT's own programs through the compiled checker against the one library\"). A size is an NN32 value (2026-09-27, a size's range). The library's practice is the standard (2026-09-19). Not this rung's: the specification (rung U); rows 450 and 451's fixes; the Character crash (batch 8, as batch 7's record places it); every family batch 7b's rung L repairs, openRangeHelper's device among them.",
+"",
+"**What the library and the tree already do.** Evidence, not the brief; the rung lists every way before it chooses.",
+"- The compiler library's ranges are ZZ32 only: trait Range extends GeneratorZZ32 excludes { Number, String, Boolean, Character }, opr :(lo:ZZ32, hi:ZZ32): Range and opr #(lo:ZZ32, sz:ZZ32): Range (Library/CompilerLibrary.fsi:111-174). Its excludes clause is one device for an overload pair of a range and a number or a string.",
+"- The library's own comment says what its operators \"Actually want\": opr (x:I)#[\\I\\] : LeftRange[\\I\\] = LeftRange[\\I\\](x) and three more, with no dummy (Library/FortressLibrary.fss:3937-3942).",
+"- Measurement C's shadow, explorations/reviews/numerics-plan-coordinator/probes-C/z32.py (its diff probes-C/tree2.patch), is a measurement, \"not a proposed edit\" (its header). It removed every such parameter and put ZZ32 in its place, shortened 892 written static argument lists (532 in RangeInternals.fss, 337 in its api, 16 in FortressLibrary.fss, 7 in Random), and split the three unbounded point operators opr (x:I):[\\I\\], opr (l:I)::[\\I\\] and opr ::[\\I\\](l:I,s:I) into the ZZ32, pair and triple shapes # and : already have. It kept generic the public range traits (Library/FortressLibrary.fss:3690-3886), openRange[\\I\\](), opr :[\\I\\](r: Range[\\I\\], stride:I), opr #[\\I\\](r: PartialRange[\\I\\], size:I), RangeInternals' checkSelection and tupleFlatten. It kept the dummy arguments (tree 1 had already respelled them as the operators' own first arguments). Its own slips, eight new errors: openRangeHelper on three arrow types becoming a Meet Rule pair (2); the extent helpers' bodies typed as a union against a declared ExtentRange (RangeInternals.fss:1449, :1457, :1466 in the copy's line map); a body typed Range[\\ZZ32\\] against a declared ScalarRangeWithLeft (:147); and the split two- and three-dimensional opr ::, where (l:):s finds no : (2).",
+"- The crash's site was written as a stopgap: \"It should use a parameterized Generator type but it is not yet supported. Instead, we use GeneratorZZ32 for now\" (Sukyoung Ryu, 525264af1, 2009-10-02), with the parameterized form left commented out beside each use (Functionals.scala:873, :877). The checker already builds that form for a generator clause (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:104-106, Types.makeGeneratorType). Types.useFortressLibraries() re-points the names that differ between the two worlds (Types.java:83-88), and WellKnownNames.areCompilerLibraries() tells the worlds apart (ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java:141-143). Types.CHARACTER is the same defect at five declarations, a static the switch never re-points (FACTS.md, \"Crashes reach zero in the shadow\"), and is batch 8's.",
+"- Walk's refusal of a range over another width, after the change, is a run-time \"Failed to find any matching overload\" (measure-C section 3, WideRangesC.T2.txt), as every type error under walk is (FACTS.md, \"The static type checker (Scala, scala_src/typechecker/) runs only on the compile path\"). A test that a program is refused is a gated XXX file in the interpreter corpus, as ProjectFortress/tests/XXXImportImportCollision.fss is (FACTS.md, \"An XXX*.fss in the interpreter corpus IS a gated expected-failure test\").",
+"- ProjectFortress/tests/RandomTest.fss:53, :69, :85 write UniformDistribution[\\ZZ32\\], so that object keeps its parameter; ProjectFortress/tests/StringTests.fss:276 pins a range's debug string, \"StridedFullParScalarRange(1,19,2)\", so the objects keep their names.",
+"",
+"**The test, first.** The manifest sets testIsStage.",
+"- The checker-count stage's table, before the edit and after it.",
+"- The distance stage (explorations/coordinator/tools/distance/run.sh, gate step 9), three times, each through run_bg (14 to 24 minutes), captured under probes/ as distance-preedit.txt, distance-library-only.txt and distance-postedit.txt: before the edit; after the library edit and before the checker fix, where its #crash rows name ExtentScalarRange with \"Not in the trait table: FortressLibrary.GeneratorZZ32\", the recorded failure of the fix; and after the fix, where that row is gone. The tables are compared with explorations/coordinator/tools/distance/compare.sh.",
+"- In ProjectFortress/tests/, written before the edit:",
+"  - a refusal test in the XXX form: a program that builds a range over ZZ64 and would print PASS after it. On the base the range runs, and the harness reports a missing expected failure, red; after the edit walk refuses it, green. Captured both ways, the failing run's message showing that it fails at the range;",
+"  - a guard test, passing before and after, each value today's: ranges over ZZ32 of every form the operators build (#, :, ::; the left, right, extent and open forms; one, two and three dimensions; strided and seq), a range that starts with a numeral, IN, CAP, |r| and .size, asString and asDebugString, and a ZZ32 loop that widens its index into a ZZ64 sum, the shape the specification will name.",
+"- The four restated files: RangePrototype.fss passing before and after; XXXRangeBoundsRungO.fss and XXXSeqRangeTopRungO.fss failing at the same ZZ32 line before and after; XXXRangeSizeZZ64RungO.fss restated to the ZZ32 shape a program writes instead and moved by git mv to a plain name, passing after.",
+"- The compiled path: the compiler tests whose case has no comparison operator (the rung's grep; ProjectFortress/compiler_tests/Compiled280.fss, the team's test of that path, among them) keep their verdicts, before and after the fix.",
+"",
+"**What it writes.** The library in the decision's shape, choosing each device with the ways listed; the checker fix at the crash's site; the four restated files, each changed line listed with its before and after; the two new tests; its report and record.",
+"",
+"**The comparison.** As batch 6's rung F's (explorations/compile-ladder/rung-flat-tower/count-run.sh, compare-normalised.py): every file of ProjectFortress/tests/ except the new tests, in three passes, base A, the edit, base B, one JVM per test with private caches, normalised as batch 5 normalised, XXXInheritedOverload.fss listed as unstable (row 430); every changed output listed with its cause. The two microGPT checks from an empty cache, 40 of 40 with their printed values unchanged. The demos under ProjectFortress/demos/ that use a range, one pass before and one after, each run cut at 120 seconds as batch 6b's logging pass cut them, outputs compared. The machine line on every capture; each pass's caches deleted once its outputs are captured, and df read before each pass. Expected: the four restated files change as stated; rangeOperators.fss keeps its exit code, which on measurement C's copy it did not (the next paragraph); nothing else.",
+"",
+"**rangeOperators.** On measurement C's tree 2 the team's ProjectFortress/tests/rangeOperators.fss exits 1 where the base exits 0: walk's overload check pairs its opr #(x:String, y:String) (:20) with the kept opr #[\\I\\](r: PartialRange[\\I\\], size:I), \"with generic type, at least one pair of parameters must have excluding types\" (explorations/reviews/numerics-plan-coordinator/probes-C/walk/rangeOperators.T2.txt; ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:527, by reading). The same pair exists on the base, which passes; why the change reaches it was not traced. The rung traces it first and repairs it by the library's own means (the compiler library's excludes clause on its Range is one), keeping the test's lines and its exit code.",
+"",
+"**What it clears.** Measured by measurement C, tree 2 against tree 1, the distance driver and the triage's classes, on a copy (measure-C.md section 2; probes-C/compare-T2-walk.txt, transitions-T2-walk.txt, families-T2-walk.txt):",
+"- Walk's setting 1,239 to 1,012: 245 sites gone, 18 new. The any setting, which the gate's distance stage runs, 1,253 to 1,021: 248 gone, 16 new.",
+"- Of the 245: 204 sites with no error left; 4 at a site that keeps another error; 37 hidden behind the new crash (in tree 1, I3 34, I5 2, NM 1), not measured as cleared.",
+"- By class: the integer family 192 to 18 (I3 160 to 8, and none of the 8 left a range numeral; I5 15 to 0; I6 8 to 0; I4 3 to 0); D2 20 to 2; CAP 36 to 0; openRangeHelper 6 as overloading errors to 0, with 4 of them now Meet Rule errors and 2 new; the range families of the Meet Rule 55 to 61; IN 14 and the tuple shifts 8 unchanged; the range methods' declared-type errors 31 to 30.",
+"- The 18 new: the shadow's 8 slips named above, and 10 in the families that vary from run to run.",
+"- Under walk on the copy: FlatTowerRungF, RangeTest, subArray, StringTests, array3test and RandomTest exit 0 as on the base; rangeOperators exits 1 (above); RangePrototype exits 255, by construction, since it is written generic over I; the three XXX tests fail, XXXRangeSizeZZ64RungO earlier than before, at its construction.",
+"- On batch 7's landed tree, by arithmetic and not measured: J also removes what row 358's bounds and the dummy arguments cost, 85 errors measured alone on the control (run BOUNDS+DEVICE, 1,738 to 1,653; explorations/perf-probes/prelude/distance-triage.md section 3), since it removes the parameters the first rebounds and the type mismatch the second makes. So about 310 fewer under either setting, before the crash fix. The fix brings the 37 back under the checker; 34 of them are numerals where I was expected, which ZZ32 takes by reading.",
+"- Not measured by measurement C: the crash fix, in either world; batch 7's H and A beside the change (after H the FortressLibrary api reaches its overloading check, so the new ZZ32 operators' pairs show in the count stage); the count stage's table; the whole interpreter corpus beyond eleven tests; the demos; the microGPT checks; the compiled path; rangeOperators's cause; the time a range loop takes under walk (no body's algorithm changes, by reading).",
+"",
+"**Files it may touch.**",
+"- Library/RangeInternals.fsi and .fss, whole.",
+"- Library/FortressLibrary.fsi and .fss: the range operator block (.fss:3887-4019, .fsi:2196-2308 today), the three point operators in it, openRange only where its call of openRangeHelper needs it, and every written static argument of a RangeInternals name elsewhere in the file: the bounds getters and zeroIndices of ReadableArray1, Array2 and Array3 (.fss:2119, :2145, :2397, :2489, :2778-2779, :2860-2861 today); an excludes clause on a public range trait's header if rangeOperators's repair needs it, reported. Not the public range traits' type parameters.",
+"- Library/Random.fsi and .fss: the written static arguments of FullScalarRange in randomR, randomManyR and UniformDistribution's parameter (.fsi:49, :51, :258; .fss:55, :58, :370 today), UniformDistribution keeping its own parameter.",
+"- Any other library file that writes a static argument of a RangeInternals name, found by the rung's grep and named (measurement C found none beyond these).",
+"- ProjectFortress/src/com/sun/fortress/compiler/Types.java and, if the fix needs them, the case site of ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala and the world switch that calls Types.useFortressLibraries().",
+"- ProjectFortress/tests/RangePrototype.fss, XXXRangeBoundsRungO.fss and XXXSeqRangeTopRungO.fss (their ZZ64 lines), XXXRangeSizeZZ64RungO.fss (restated and renamed); the two new tests; its own directory.",
+"- Not: Library/CompilerLibrary.*, Library/CompilerAlgebra.*, ProjectFortress/LibraryBuiltin/Compiler*, which take no new declaration before the switch-over (POSITIONS 2026-09-21, the library route); ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java, whose copy the count stage checks (explorations/coordinator/tools/checker-count/run.sh), and the files the distance stage patches as it runs (explorations/coordinator/tools/distance/shadow-patch.py, add-patch.py); interpreter/; Specification/ and SpecData/, which are U's; explorations/run-c4/ and explorations/apl/.",
+"",
+"**Java or Scala.** Java, possibly Scala at the one site. ant compileAll, default_repository/caches/global.map restored after it (FACTS.md, \"ant compileAll deletes a tracked file\"), and the library-order cache rebuild before any compiled test (explorations/repo-internals.md).",
+"",
+"**The checker count.** Reported, not predicted. The RangeInternals api's row moves; since batch 7's H the FortressLibrary api reaches its overloading and return-type checks, so the operator block's new pairs are on the stage; the stage's crash row does not move, since the crash is in a component, which the count stage does not check. The rung declares the totals it measured in both stages, and the distance stage's crash rows before and after the fix.",
+"",
+"**What must stay green, or keep its verdict.** Every interpreter test's verdict other than the four restated files'; RangeTest.fss, subArray.fss, StringTests.fss, array3test.fss, RandomTest.fss, rangeOperators.fss, FlatTowerRungF.fss; every compiled test's; the ladder's 85 files; the two microGPT checks at 40 of 40 with unchanged values.",
+"",
+"**Stops.**",
+"- A changed walk output its comparison does not account for, rangeOperators's among them.",
+"- A team test line changed other than RangePrototype's; in the three restated revival tests, a line beyond their ZZ64 and NN32 lines and row 452's restatement.",
+"- A public range trait's type parameter removed.",
+"- A declaration batch 7's rungs own edited (section 4): H's comparisons, Maybe family, Condition functions and the headers of AnyIntegral and Integral; A's fill and tabulate members and factories; B's fail, StandardMinMax and builtinPrimitive and List's comprehension.",
+"- An edit to compiler/StaticChecker.java or to a file the count or distance stage shadows; a Java or Scala edit beyond the crash's site; the Character site; any edit under interpreter/.",
+"- A compiled test's verdict changing; a ladder file moving down.",
+"- A new checker error the distance stage shows as caused by the edit, not unmasked, that the report does not account for.",
+"- A line of explorations/run-c4/src/ or explorations/apl/mg/ (shown to Pavol as a diff first, POSITIONS 2026-09-19).",
+"- Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged; it is a ledger row (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** The three distance tables re-run, the crash row before and after the fix, each new site classified as unmasked or caused against the table before the edit, the shadow's eight slips looked for; the count tables; every restated line against the base, value by value; the refusal test failing at the range, and red on the base; the guard test's values; walk against the compiled run for the ZZ32 shapes the compiler library has (#, :, seq, IN); the fix in both worlds, the compiler tests of a case without a comparison operator and a one-library probe of the same shape; rangeOperators's cause and repair; the microGPT checks.",
+"",
+"**What comes back to Pavol.** The restated test lines with their before and after; the fix's shape and the ways not taken; rangeOperators's cause and repair; the distance table's move by family; what became of the dummy arguments.",
+"",
+"**What it closes.** Row 452 (fixed: no range over ZZ64 or NN32 can be built; its test restated and promoted). Row 358 (fixed: the parameters it names are gone). Opens and closes, home 1: the GeneratorZZ32 crash, its gated home the distance stage's crash row. Notes: rows 450 and 451 (their ZZ64 faces gone with the ranges, their ZZ32 faces open, their tests restated); row 453 (the compiler library's ranges, untouched). Opens and leaves open, if no row holds it at the launch: the Character crash, home 3, its capture explorations/perf-probes/prelude/switch-over-distance.md section 2.6, for batch 8.",
+"",
+].join('\n')
+
+const U_TAIL = [
+"",
+"## Your rung: U - the ranges in the specification",
+"",
+"SLUG is rung-spec-ranges. WORKTREE is /home/user/fortress-specranges, branch wip/rung-spec-ranges.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-7R.md, section 3, under \"U. The ranges in the specification\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's items asks a question. U lands only if J lands (its manifest entry's landsOnlyWith).",
+"",
+"**Its briefing.** The decisions (the ranges decision, answer 8, the S1 form, the name of the unrevised copy, the lineage note, the requirement on the plan, the number chapters under S2, the stops, rung D's stop); ledger rows 450 to 452; measurement C's section on other integer types and the synthesis's decision 1; the ranges section whole, the integer chapter's callout and factorial entry, the reductions callout, and Appendix I's integer entry and \"Passages not yet revised\"; the two examples and the passages that input them; the later restart's ranges heading; the compiler library's ZZ32 ranges; the two earlier decision records' form sections; the FACTS entries on the specification's lineage, its number chapters and its silence on a range's width. The keys are in section 7; checks is the decisions, the ranges section, the callout, Appendix I's two subsections and the form.",
+"",
+"**The problem.** The specification's ranges section speaks of \"a set of integers\" and of \"expressions that produce integer values\" and names no integer type or width (Specification/basic/expressions/ranges.tex:37-44, :47, :64-65, :103-106), and its own text builds ranges over wider integer types (measure-C section 3, items 5 to 7):",
+"- the example Generators.GeneratorDefn (SpecData/examples/advanced/Generators.GeneratorDefn.fss:18-39, typeset as the figure \"Sample Generator definition: blocked integer ranges\", Specification/advanced/parallelism-locality/defining-generators.tex:49-52): object BlockedRange(lo: ZZ64, hi: ZZ64, b: ZZ64) extends Generator[\\ZZ64\\], whose seq(self) is seq(lo:hi);",
+"- the example Expr.Do.mySum (SpecData/examples/basic/Expr.Do.mySum.fss:18-26, typeset at Specification/basic/expressions/blocks.tex:72): for j <- 0:i do with i: ZZ64;",
+"- ZZ's factorial property (Specification/basic-lib/basic-integers.tex:544-547): property FORALL (m) m! = PROD[k<-1:m] k, a range over ZZ.",
+"And the revival's own text presumes ranges over any integer type: the callout of climb batch 6's rung T at Specification/basic-lib/basic-integers.tex:61-65, \"A generic call or a range over two different integer types is to infer the narrowest type that both coerce into ... until then such a call writes its static argument\", and Appendix I's \"Passages not yet revised\", which repeats it (Specification/appendices/changes.tex:1033-1036). After J, a range's bounds are ZZ32 values and a range over another integer type is an error; the text must say so, or the specification and the library disagree openly (POSITIONS 2026-09-24, the requirement on the plan).",
+"",
+"**The decisions.** The ranges decision (explorations/coordinator/POSITIONS.md, 2026-09-27, the numerics plans, decision 1): the specification's ranges section, its two ZZ64 examples, ZZ's factorial property and the revival's callout at basic-integers.tex:61-65 are revised in the S1 form; a range over another integer type becomes a static error; a wider counter is written as a ZZ32 loop that widens its index. Answer 8 (2026-09-26): its rule for a generic call over two integer types stays, to be written by batch N; its range half is moot. The form, S1 (2026-09-26): the normative text edited in place, a \\revision callout at each changed passage (Specification/fortress/fortress.tex:87), an Appendix I entry per change quoting the original as \"the Working Draft of February 2011\" with its path and line in Specification-1.0-frozen/ (2026-09-26, the first of the batch-5 answers), and the reasons in a decision record; the later Types chapter cited beside where it covers the topic (2026-09-26, the lineage note); the number chapters describe the library and are checked against it (2026-09-26, the number chapters under S2), which is why the gather checks U's text against J's landed library.",
+"",
+"**What the specification and the library already say.** Evidence, not the brief.",
+"- The later restart's ranges section is a heading only (Documentation/Specification/Prose/Language/Expressions/ranges.tick:12), so it adds nothing to cite beside (FACTS.md, \"The specification never wrote static-argument inference, a numeral's type hierarchy or a range's integer width\").",
+"- The compiler library declares its ranges over ZZ32 only (Library/CompilerLibrary.fsi:143, :173-174), and the specification's reductions callout already says that library's big operators \"range over ZZ32 only\" (Specification/basic/expressions/reductions.tex:27-44).",
+"- A size is an NN32 and a JVM index a ZZ32 (POSITIONS 2026-09-27, a size's range); the preliminaries name the integer types (Specification/preliminaries/overview.tex:581-583); a generator over a range is \"Any range expression\" (Specification/basic/expressions/generators.tex:97).",
+"- The demos already write a wider counter as a ZZ32 loop that widens its index: ProjectFortress/demos/fact64.fss:22-23, for i <- seq(0#20) do j:ZZ64 = widen(i).",
+"- Earlier revisions of this kind are the models: batch 6's rung T for the integer chapter and its callout (explorations/compile-ladder/rung-spec-numbers/decision-record.md), and batch 5's rung S for examples kept and marked (explorations/compile-ladder/rung-spec-route-a/decision-record.md).",
+"",
+"**What it writes.** First, before any edit, the list: every passage of Specification/ outside library/apis/, and every example of SpecData/examples/ the specification inputs, that names a range's integer type or builds a range over an integer that is neither a ZZ32 nor a numeral, with what the decision makes of it, whether it is revised now or left, and the source that settles it; measurement C's search is the starting list (its section 3). Then:",
+"- the ranges section: its normative text says that the bounds and stride of an explicit range are ZZ32 values, into which a numeral converts; that a range over another integer type is a static error; and how a wider counter is written; with a \\revision callout;",
+"- the two examples, each respelled so that it runs under walk and teaches what it taught (a blocked range generator; a sum in a loop), the rung choosing each spelling and reporting the ways not taken; their typeset form is generated from SpecData/examples/ at build time, so the .fss files are what it edits, with any caption or prose around them that names the type;",
+"- ZZ's factorial property, revised: the rung chooses between a range over ZZ32 with a conversion and a statement of the property without a range, and reports the choice;",
+"- the callout at basic-integers.tex:61-65 and the paragraph of \"Passages not yet revised\" that repeats it stop naming ranges, keeping the rule for a generic call, which batch N writes;",
+"- the Appendix I entries, as new subsections inserted immediately before \"Passages not yet revised\", after the entry batch 7's rung A adds there (re-read on the base), each quoting the original: the Working Draft of February 2011 by its path and line in Specification-1.0-frozen/ (basic/expressions/ranges.tex:37-44, basic-lib/basic-integers.tex:558; the examples through the lines that input them, advanced/parallelism-locality/defining-generators.tex:50 and basic/expressions/blocks.tex:72, with their source from git show <base>:SpecData/examples/..., unchanged since the import); the revival's own callout from git show <base>:Specification/basic-lib/basic-integers.tex, since it is not the Working Draft's;",
+"- the decision record, explorations/compile-ladder/rung-spec-ranges/decision-record.md;",
+"- every citation of a line of a chapter it edits (ranges.tex, basic-integers.tex, and the chapters that input the examples if their lines move) in the messages and comments of ProjectFortress/tests/, compiler_tests/ and library_tests/, re-anchored by the map of unchanged lines from git show <base>:<chapter> to its tree, never an assertion: XXXRangeEmptyHashRungO.fss, compiler_tests/XXXSeqMidpointRungO.fss and XXXSeqHashBoundsRungO.fss cite ranges.tex, and FixedWidthOverflowRungB.fss and IntSemanticsRungI.fss cite basic-integers.tex lines below the factorial entry (a grep at the drafting). J's four restated files are J's: the gather re-anchors their citations after both rungs are applied.",
+"",
+"**How it is checked.** No test can go red for a prose edit. The specification is built as rungs S, T and P build it (./ant genSource, then ./ant tex, in Specification/fortress/, with FORTRESS_HOME the worktree), on the base and after, the four logs captured; pdftotext of the two PDFs diffed, showing only the revised passages, the callouts, the appendix entries and page shifts; git diff --stat showing only the listed files; every re-anchored citation opened. Each respelled example is run under walk before and after on the base, where a ZZ32 range already runs, as ant testSpecData would run it (build.xml:1139; not in the gate); the gather runs them again on the merged tree, over J's library. The rung does not commit Specification/fortress.pdf; the gather rebuilds it once on the merged tree, since Part IV is rendered from Library/FortressLibrary.fsi, which J changes (Specification/library/default-libraries.tex:25-27).",
+"",
+"**Files it may touch.** Specification/basic/expressions/ranges.tex; Specification/basic-lib/basic-integers.tex, the callout at :51-65 and the factorial entry at :537-547 only; Specification/appendices/changes.tex, its new subsections at their place and the paragraph of \"Passages not yet revised\" that names ranges; SpecData/examples/advanced/Generators.GeneratorDefn.fss and SpecData/examples/basic/Expr.Do.mySum.fss; the prose around those two examples in Specification/advanced/parallelism-locality/defining-generators.tex and Specification/basic/expressions/blocks.tex, only where it names the type; what its list finds, each named; the messages and comments of the tests whose citations its edits move, J's four excepted; its own directory. Not: Specification-1.0-frozen/; Specification/fortress.pdf; any source, library or test assertion.",
+"",
+"**Java or Scala.** Neither.",
+"",
+"**The checker count.** Unchanged: the rung edits nothing the stage reads. Not captured.",
+"",
+"**Stops.** Any edit under Specification-1.0-frozen/. Normative text stating more than J's section builds. A passage whose new text neither the decision nor J's section settles: the rung reports it and does not choose. An example that does not run under walk on the base. An assertion changed in a re-anchored test. A file J edits. Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** Every sentence of the new text against the decision and against J's section (J's library is not in U's tree; the gather checks the text against it once both are applied); every quoted original against git show <base>:<path> and against the frozen copy's line; the two builds and the pdftotext diff; the respelled examples run under walk; each re-anchored citation opened; the list against measurement C's section 3.",
+"",
+"**What comes back to Pavol.** The revised pages, as the pdftotext diff; the Appendix I entries; the list, with what was left and why; the spelling chosen for each example and for the factorial property.",
+"",
+"**What it closes.** No row by number. Notes appended: rows 450 to 452, their specification citations re-anchored where the rung moved them. The FACTS entry \"The specification never wrote static-argument inference, a numeral's type hierarchy or a range's integer width\" is corrected at the gather: the ranges section now names the width.",
+"",
+].join('\n')
+
+const J_ENTRY = { id: 'J', slug: 'rung-ranges-zz32', path: '/home/user/fortress-ranges', branch: 'wip/rung-ranges-zz32', tail: J_TAIL, expectedMinutes: 240, writesState: false, testIsStage: true,
+    blurb: "the one library's scalar ranges over ZZ32 only (RangeInternals and FortressLibrary's range operators lose their integer type parameter; the public range traits keep their index type), the compiled checker's GeneratorZZ32 crash fixed beside it, and the range tests of rows 450 to 452 and RangePrototype restated; library, tests and a few lines of Java.",
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-27 size's range", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-19 answering the open question", "positions:2026-09-21 library route",
+      "positions:2026-09-27 launch of phase 3's batches", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:450", "ledger:451", "ledger:452", "ledger:358", "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 1. Ranges over ZZ32 alone",
+      "doc:explorations/reviews/numerics-plan-fable.md#3.5 What the distance is made of, and what is numeric",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#Method",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#2. Tree 2: scalar ranges over ZZ32 only",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#3. What ranges over other integer types cost",
+      "doc:explorations/reviews/numerics-plan-coordinator/probes-C/z32.py",
+      "doc:explorations/reviews/numerics-plan-coordinator/probes-C/walk/rangeOperators.T2.txt",
+      "doc:explorations/perf-probes/prelude/switch-over-distance.md#2.6 Crashes",
+      "doc:explorations/perf-probes/prelude/switch-over-distance-flat.md#2.6 Crashes", "doc:Specification/basic/expressions/ranges.tex#Ranges",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Invocations",
+      "code:Library/CompilerLibrary.fsi#trait GeneratorZZ32 excludes..opr #(lo:ZZ32, sz:ZZ32): Range",
+      "code:Library/FortressLibrary.fsi#The %#% and %:% operators serve as factories..(r: Range",
+      "code:Library/FortressLibrary.fss#(** The # and : operators serve as factories..r.imposeStride(stride)",
+      "code:Library/FortressLibrary.fss#trait Range[..trait PartialRange[", "code:Library/RangeInternals.fss#object ExtentScalarRange[",
+      "code:Library/RangeInternals.fss#Helpers for # to get the type instantiation..open3Range", "code:Library/Random.fss#object UniformDistribution[",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#case SCaseExpr(SExprInfo(span, paren, _), param, compare, equalsOp, inOp,",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/Types.java#public static void useCompilerLibraries()..public static void useTypeCheckerLibraries()",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/Types.java#public static TraitType makeGeneratorZZ32Type",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java#public static boolean areCompilerLibraries",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala#def typeCons(x: Id)",
+      "doc:ProjectFortress/tests/XXXRangeBoundsRungO.fss", "doc:ProjectFortress/tests/XXXSeqRangeTopRungO.fss",
+      "doc:ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss", "doc:ProjectFortress/tests/XXXImportImportCollision.fss",
+      "doc:ProjectFortress/tests/roundBug.fss", "The cheap fixes and scalar ranges over ZZ32, measured on one library copy",
+      "The distance to the switch-over by root cause", "The true distance to the switch-over",
+      "Static arguments are inferred from the arguments alone, on both paths", "A numeral's type depends on the path and on the library in scope",
+      "MicroGPT's own programs through the compiled checker against the one library", "The specification never wrote static-argument inference",
+      "Crashes reach zero in the shadow", "The one library's number tower is flat",
+      "The static type checker (Scala, scala_src/typechecker/) runs only on the compile path",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "testSystem's four shards are one suite split by sorted index",
+      "The interpreter's overload-ambiguity message names its two declarations", "ant compileAll deletes a tracked file",
+      "The checker-count stage's table", "map:README.md#Touch this@scala_src/typechecker",
+      "map:README.md#Touch this@Library/FortressLibrary.fss and the other"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:450",
+      "ledger:451", "ledger:452", "ledger:358", "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#2. Tree 2: scalar ranges over ZZ32 only",
+      "doc:Specification/basic/expressions/ranges.tex#Ranges",
+      "code:Library/FortressLibrary.fss#(** The # and : operators serve as factories..r.imposeStride(stride)",
+      "code:Library/RangeInternals.fss#object ExtentScalarRange[",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#case SCaseExpr(SExprInfo(span, paren, _), param, compare, equalsOp, inOp,",
+      "code:ProjectFortress/src/com/sun/fortress/compiler/Types.java#public static TraitType makeGeneratorZZ32Type",
+      "The cheap fixes and scalar ranges over ZZ32, measured on one library copy",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test"],
+    expectedMoves: [] }
+
+const U_ENTRY = { id: 'U', slug: 'rung-spec-ranges', path: '/home/user/fortress-specranges', branch: 'wip/rung-spec-ranges', tail: U_TAIL, expectedMinutes: 110, writesState: false, testIsStage: false, landsOnlyWith: ["J"],
+    blurb: "the specification's ranges section, its two ZZ64 examples, ZZ's factorial property and the revival's callout on mixed integer types revised to ranges over ZZ32, in the S1 form; lands only with J; no source and no test assertion.",
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 size's range", "positions:2026-09-26 S1",
+      "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note", "positions:2026-09-24 requirement on the plan",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
+      "ledger:450", "ledger:451", "ledger:452", "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 1. Ranges over ZZ32 alone",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-C.md#3. What ranges over other integer types cost",
+      "doc:Specification/basic/expressions/ranges.tex#Ranges",
+      "code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in",
+      "code:Specification/basic-lib/basic-integers.tex#The factorial operator is defined only for natural number types..m! = PROD",
+      "code:Specification/basic/expressions/reductions.tex#The desugaring of a reduction is directed by..The normative text is unchanged.",
+      "doc:Specification/appendices/changes.tex#The integer trait", "doc:Specification/appendices/changes.tex#Reductions whose element type nothing fixes",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised", "doc:SpecData/examples/advanced/Generators.GeneratorDefn.fss",
+      "doc:SpecData/examples/basic/Expr.Do.mySum.fss",
+      "code:Specification/advanced/parallelism-locality/defining-generators.tex#Any reduction must define two methods..figlabel{generatorDefn}Sample",
+      "doc:Documentation/Specification/Prose/Language/Expressions/ranges.tick",
+      "code:Library/CompilerLibrary.fsi#opr :(lo:ZZ32, hi:ZZ32): Range..opr #(lo:ZZ32, sz:ZZ32): Range",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:explorations/compile-ladder/rung-spec-numbers/decision-record.md#5. Decisions taken inside the rung",
+      "The specification never wrote static-argument inference", "The specification's number chapters describe the flat library",
+      "Specification-1.0-frozen/ is byte for byte", "The team's latest word on types",
+      "The specification states instantiation exclusion, and its refused examples",
+      "Citing Specification/library/apis/*.tex as an independent standard is circular",
+      "The cheap fixes and scalar ranges over ZZ32, measured on one library copy", "map:README.md#Touch this@Specification/ (the standard)"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-27 stops a batch record reserves",
+      "doc:Specification/basic/expressions/ranges.tex#Ranges",
+      "code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form", "The specification never wrote static-argument inference"],
+    expectedMoves: [] }
+
+const RUNGS = [J_ENTRY, U_ENTRY]
+const HAS_RUNG = (id) => RUNGS.some(r => r.id === id)
+
+const INTRO_RUNG = {
+  J: "J makes the one library's scalar ranges ZZ32 only: RangeInternals and the range operators of FortressLibrary lose their integer type parameter, multi-dimensional ranges are tuples of ZZ32 ranges, and the public range traits keep their index type; it fixes beside it the compiled checker's crash the change uncovers (ExtentScalarRange, \"Not in the trait table: FortressLibrary.GeneratorZZ32\"); and it restates the expected-failure range tests of rows 450 to 452 and the team's RangePrototype.",
+  U: "U revises the specification to match, in the S1 form: the ranges section, its two ZZ64 examples, ZZ's factorial property and the revival's callout on mixed integer types (Specification/basic-lib/basic-integers.tex:61-65).",
+}
+const INTRO_STOPS = {
+  J: "for J, a changed walk output its comparison does not account for, rangeOperators's among them; a team test line changed other than RangePrototype's; a line of the three restated revival tests beyond their ZZ64 and NN32 lines and row 452's restatement; a public range trait's type parameter removed; an edit to compiler/StaticChecker.java or to a file the count or distance stage shadows, a Java or Scala edit beyond the crash's site, the Character site, or any edit under interpreter/; a compiled test's verdict changing or a ladder file moving down; a new checker error the distance stage shows as caused and the report does not account for; and a line of explorations/run-c4/src/ or explorations/apl/mg/",
+  U: "for U, any edit under Specification-1.0-frozen/, normative text stating more than J's section builds, a passage whose new text neither the decision nor J's section settles (reported, not chosen), an example that does not run under walk on the base, and an assertion changed in a re-anchored test",
+}
+const INTRO_LIFTED = {
+  J: "J removes the integer type parameter of RangeInternals' declarations and of FortressLibrary's range operators, so that a range over another integer type is refused, restates the team's RangePrototype and the ZZ64 and NN32 lines of the expected-failure tests of rows 450 to 452, and renames row 452's into a plain test (the ranges decision, POSITIONS.md 2026-09-27, the numerics plans)",
+  U: "U revises the specification's ranges section, its two ZZ64 examples, ZZ's factorial property and the revival's callout (the same decision)",
+}
+const OVERLAP_RUNG = {
+  J: "J edits Library/RangeInternals.fsi and .fss; in Library/FortressLibrary.fsi and .fss the range operator block with its three point operators, openRange where needed, the written static arguments of RangeInternals names in the bounds getters and zeroIndices of ReadableArray1, Array2 and Array3, and possibly an excludes clause on a public range trait's header; in Library/Random.fsi and .fss randomR, randomManyR and UniformDistribution's parameter; compiler/Types.java and possibly the case site of scala_src/typechecker/impls/Functionals.scala; and restates four files and adds two in ProjectFortress/tests/.",
+  U: "U edits Specification/basic/expressions/ranges.tex, the callout and the factorial entry of Specification/basic-lib/basic-integers.tex, its entries and one paragraph of Specification/appendices/changes.tex, the two examples under SpecData/examples/ and the prose around them, and the messages and comments of the tests whose citations its edits move, J's four excepted; never Specification-1.0-frozen/ or Specification/fortress.pdf.",
+}
+
+const BATCH_INTRO = [
+  "This batch is climb batch 7R, the ranges batch, as Pavol decided it on 2026-09-27 (POSITIONS.md, the numerics plans, the synthesis's decision 1, \"Option 1, ZZ32\"): the one library's scalar ranges are over ZZ32 only, as the compiler library declares them. It runs after climb batch 7 (rungs H, A and B) has landed, and before batch N, the inference rule with the numeral switch (the same entry, decision 3).",
+  RUNGS.map(r => INTRO_RUNG[r.id]).join(' '),
+  "Each rung's section of the record opens with the answers of its section 1 that it follows; section 1 asks no question.",
+  'The stops reserved for Pavol in this run, on top of the standing ones: ' + RUNGS.map(r => INTRO_STOPS[r.id]).join('; ') + '; and any rung editing a file the other rung owns, or a declaration batch 7\'s rungs own (the record\'s section 4).',
+  RUNGS.some(r => INTRO_LIFTED[r.id]) ? 'Standing stops lifted by his decisions and by nothing else, none of them deleting a test: ' + RUNGS.filter(r => INTRO_LIFTED[r.id]).map(r => INTRO_LIFTED[r.id]).join('; ') + '.' : '',
+  "Every stop reserved for Pavol in this run is reversible (POSITIONS.md, 2026-09-27, on the stops a batch record reserves for him: \"These don't need me now. They are reversible things I can review later. Don't block start of next batches on these.\"): a rung that meets one finishes as its section says, lists it in stopsMet with liftedBy citing that entry, POSITIONS.md 2026-09-27, the stops, and lands; the stop is listed for his review, and neither the push nor the next batch waits for it. A stop the record does not reserve, or one that cannot be undone, holds the commit stage's push as before.",
+  "An output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row and not a stop (POSITIONS.md, 2026-09-26, rung D's stop).",
+  "A rung that edits a chapter of Specification/ re-anchors, in its own commit, every citation of a line of that chapter that its edit moves in the messages and comments of ProjectFortress/tests/, compiler_tests/ and library_tests/, by the map of unchanged lines from git show <base>:<chapter> to its tree, and never changes an assertion (explorations/compile-ladder/climb-batch-6/JUDGE-review.md, finding 1); it leaves the files the other rung edits, and the gather re-anchors those the same way after both rungs are applied.",
+  "The gather's rules: U lands only if J lands, whatever the approved list says (U's landsOnlyWith); after both are applied, the gather checks every rule U's text states against J's landed library and runs U's two respelled examples under walk on the merged tree, as ant testSpecData runs them, fixes U's text where the decision settles a mismatch, and reports any other to the review as blocking.",
+  "No rung commits Specification/fortress.pdf: after both rungs are applied, the gather rebuilds the specification on the merged tree (./ant genSource, then ./ant tex, in Specification/fortress, the PDF copied to Specification/fortress.pdf), since Part IV is rendered from Library/FortressLibrary.fsi, which J changes, and U edits the specification, and removes the build's ignored products.",
+  "Two worktrees share one disk: J runs a three-pass comparison over ProjectFortress/tests/ and three distance runs, deletes each pass's caches and each distance run's scratch directory once its outputs are captured, and reads df before each.",
+  "If the harness refuses an agent's write of REPORT.md, record.md or SKEPTIC.md, the agent says so and carries the text in its structured result as fully as the fields allow, and every list a rung hands Pavol is also a capture under probes/; the gather composes the file from them, as in batches 3.5 to 6.5.",
+  "Cite a FACTS.md entry by its bold title beside its line, and a POSITIONS.md decision by its date and entry name, since both files' line numbers move.",
+  "Any timing anyone records carries its machine: nproc, the CPU model name and MHz from /proc/cpuinfo, the load average when the run started, the JDK and FORTRESS_THREADS (protocol.md, principle 2).",
+].filter(Boolean).join(' ')
+const BATCH_OVERLAPS = RUNGS.map(r => OVERLAP_RUNG[r.id]).join(' ') + ' ' + "No file is shared. U's text describes J's library and lands only with it; the gather re-anchors the citations of ranges.tex lines in J's test files after both are applied. Batch 7 (H, A and B) has landed in the base: J edits none of its declarations (H's comparisons, Maybe family, Condition functions and the headers of AnyIntegral and Integral; A's fill and tabulate members and factories; B's fail, StandardMinMax, builtinPrimitive and List's comprehension); J edits members of Array2 and Array3 (bounds, zeroIndices) beside A's fill members, and declarations of Random.fss beside A's calls in MersenneTwister; U inserts its Appendix I entries after A's, before Passages not yet revised. The checker count reads J's changes, the FortressLibrary api's overloading rows among them, which the stage sees since batch 7's H; U changes nothing it reads. The files both rungs reach are the three record files, folded centrally by the gather."
+```
+
+## 8. Script readiness
+
+Read against `explorations/coordinator/climb-batch-workflow.js` as committed at `8c54cfd15`, the script batch 7's first run launched with (`ff1649cea`, run `wf_8a018276-f71`). What this batch needs is in it and serves unchanged:
+- every agent call retried through `callAgent`; the report texts carried in structured results; the push held only on a stop that no `POSITIONS.md` line lifts (`pushHeldBy`);
+- `landsOnlyWith`, which withholds U when J is not approved (seen in the stubbed run of section 7);
+- each rung's `briefing` and `checks`, rendered as every role's step 1;
+- the distance stage: the gate starts it after `compileAll` and reads it as step 9, reported and never red, against `last_landed_distance`; and the rung worker's step for a `testIsStage` rung, which runs the stage before and after the edit where the tail asks for it. J's tail asks for a third run between its library edit and its fix, and names the three captures itself;
+- the checker count with the overloading memo off, so that the `FortressLibrary` api's overloading rows, which the stage sees since batch 7's H, read the same on every build.
+
+Two things are needed, both at the launch, neither a change to the script's code:
+1. **The manifest.** Section 7's block replaces the block the script then holds (batch 7's first run's at this drafting), with `LEDGER_FROM` reset to one above the ledger's highest row at the launch, the four lists re-checked with `facts-extract.sh --check` on the launch tree (batch 7's gather folds and retitles `FACTS.md` entries, and the consolidation before the launch may too), and the line numbers J's section cites in `Library/FortressLibrary.fsi` and `.fss` and `Library/Random.fss` re-read, since batch 7 moves them; a changed key or line is changed in section 3 or in `lists7r.py`, and the block regenerated, never edited by hand. Then `node --check`, commit and push before the worktrees are cut.
+2. **The comparands.** Batch 7's commit stage lands its gate's `summary.txt`, `checker-count.txt` and `distance.txt` under `explorations/compile-ladder/climb-batch-7/gate/`; the gate's `last_landed_summary`, `last_landed_checker_count` and `last_landed_distance` take the newest commit touching `climb-batch-*/gate/`, so this batch compares against batch 7 with nothing to set. `BATCH` is `7r`, which names `explorations/compile-ladder/climb-batch-7r/` and `tmp/gate-batch-7r/`.
+
+Nothing else is needed. The intro tells a rung that meets a reserved stop to cite `POSITIONS.md`, 2026-09-27, the stops, in `liftedBy`, and `pushHeldBy` counts such an entry as lifted. The re-anchoring rule and the gather's check of U against J are carried in the intro, as batch 6.5 carried its re-anchoring rule, so they need no change to the shared prefix or the gather's role.
