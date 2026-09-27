@@ -31,6 +31,14 @@
 # perf-probes/prelude/run-all.sh:33-35. A copy of a tracked source goes stale silently,
 # so the checksum of the tracked one is recorded here and the table's "#shadow" line
 # says whether it still matches.
+#
+# The overloading checker's memo is off (-Dfortress.analyzer.overload.cache=false, read
+# at OverloadingChecker.scala:77), since 2026-09-27 (climb batch 7). The memo is keyed on
+# declaration pairs and hides 27 to 35 errors depending on the build order once an api's
+# overloading check runs (perf-probes/nat/triage.md section 1; FACTS.md, "The hidden
+# layer, classified"); with it off every build gives one count. The table's "#cache"
+# row says so. On the tree of 2026-09-27 the count is 62 with the memo on and off,
+# because the FortressLibrary api stops before its overloading check.
 set -u
 
 STOCK_SHA=16e6e11df9341a67038b7d7cc9f0d7bb5e5a6149019f09e92545a8b646363a0b   # ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java, 2026-09-22
@@ -43,6 +51,7 @@ D="$FH/explorations/coordinator/tools/checker-count"
 TARGET=Library/FortressLibrary.fss
 SCRATCH=${2:-${TMPDIR:-/tmp}/checker-count.$$}
 STOCK=$FH/ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java
+OVERLOAD_CACHE=false     # the overloading checker's memo, off: see the header
 
 mkdir -p "$SCRATCH/classes" "$SCRATCH/caches" "$(dirname "$OUT")" || exit 1
 CP=$("$FH/bin/fortress_classpath" 2>/dev/null | tail -1)
@@ -58,6 +67,7 @@ fi
 
 # 2. run the compiler phase order over the interpreter's library under a private cache
 ( cd "$FH" && timeout -k 10 900 java -Xmx4g -Xss64m -Dfortress.caches="$SCRATCH/caches" \
+       -Dfortress.analyzer.overload.cache=$OVERLOAD_CACHE \
        -cp "$SCRATCH/classes:$CP" WorldFlip "$TARGET" ) > "$SCRATCH/run.txt" 2>&1
 RC=$?
 if ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
@@ -80,6 +90,8 @@ fi
            | grep -oE '\([A-Za-z0-9_$]+\.(scala|java):[0-9]+\)' | grep -v '(NI\.java:' \
            | head -1 | tr -d '()')      # the first frame that is not the nyi helper itself
     printf '#crash\t%s\n' "${crash:-none}${site:+ at $site}"
+    printf '#cache\toverloading memo %s (-Dfortress.analyzer.overload.cache=%s)\n' \
+           "$( [ "$OVERLOAD_CACHE" = false ] && echo off || echo on )" "$OVERLOAD_CACHE"
     if [ "$(sha256sum < "$STOCK" | cut -d' ' -f1)" = "$STOCK_SHA" ] ; then
         printf '#shadow\tmatches the tracked StaticChecker\n'
     else
