@@ -1,8 +1,8 @@
 #!/bin/bash
 # run-rest.sh : the long runs in the order of what the brief asks first, one at a time (the machine,
 # shared with other workers and a batch, stood at a load of 30 on 4 CPUs, so a microGPT run took
-# 10 minutes instead of 3): microGPT's A0 pairs, the distance's rule and A0 runs, the rest of
-# microGPT, then today's library's stock distances (measurement D ran the same sources and build).
+# 10 minutes instead of 3): microGPT's runs, the A0 pairs first, then the distance's rule and A0
+# runs, then today's library's stock distances (measurement D ran the same sources and build).
 # A job whose capture exists is skipped.
 set -u
 D="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,16 +20,16 @@ mg A0 apl stock
 mg A0 apl rule
 mg L0 apl stock
 mg L0 apl rule
+mg A0T2 c4 stock
+mg A0T2 c4 rule
+mg A0T2 apl stock
+mg A0T2 apl rule
 dist L0 walk rule
 dist A0 walk stock
 dist A0 walk rule
 dist L0 any rule
 dist A0 any stock
 dist A0 any rule
-mg A0T2 c4 stock
-mg A0T2 c4 rule
-mg A0T2 apl stock
-mg A0T2 apl rule
 dist L0 walk stock
 dist L0 any stock
 JOBS
