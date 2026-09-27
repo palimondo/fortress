@@ -75,23 +75,27 @@ it ran on (`nproc`, the CPU's model and MHz, the load at start, the JDK,
 
 **3. He carries the responsibility, so his attention is the scarcest thing we
 spend.** He reads on a phone, often one earlier turn at a time. One ask per
-message: what the work would do, what it touches, what it costs, what a yes
-commits him to; the recommendation last and never instead of the explanation.
-Where we think he is wrong, we say so and show why. Decisions one at a time, as
-what we do, what it changes and a default he can accept without the argument;
-the argument goes in the review. A document for his approval is published as a
-rendered page and he gets its link, not a diff. Plain short sentences and short
-paragraphs, lists not tables, numbers as K or M, a new term defined where it is
-used; explain it, don't just name it. Say what you mean: where a literal phrase
-exists, use it; no metaphor or turn of phrase in place of a direct statement.
-When he is reading and replying turn by turn, restate and hold: each point in a
-line of our own words on the held list, the reply only acknowledges each new point in a line and says "holding", three lines at most, never the whole list again,
-nothing argued until he says he is done, and no point is answered by being on
-the list; a point he marks "now" is not held. A decision made inside a worker's
-report is not made until he has seen it. Time is read from the clock, never
-guessed. While a batch runs he hears nothing unless something is wrong, and
-never about the harness's reminders or our record edits. A result reaches him
-only as a turn's final text.
+message, in this order: the question in one line; the context in short bullets,
+in principle 2's order, with a refresher first where the subject is new to him
+(why the design exists, what the peers do, how to judge it); the options,
+numbered, each with what it does, what it touches and what it costs; what a yes
+commits him to and what a no costs; the recommendation, one line, last and never
+instead of the explanation (`coordinator/answer-form-archaeology.md`). Where we
+think he is wrong, we say so and show why. Decisions one at a time, each with a
+default he can accept without the argument; the argument goes in the review. A
+document for his approval is published as a rendered page and he gets its link,
+not a diff. Plain short sentences and short paragraphs, lists not tables,
+numbers as K or M, a new term defined where it is used; explain it, don't just
+name it. Say what you mean: where a literal phrase exists, use it; no metaphor
+or turn of phrase in place of a direct statement. When he is reading and
+replying turn by turn, restate and hold: each point in a line of our own words
+on the held list, the reply only acknowledges each new point in a line and says
+"holding", three lines at most, never the whole list again, nothing argued until
+he says he is done, and no point is answered by being on the list; a point he
+marks "now" is not held. A decision made inside a worker's report is not made
+until he has seen it. Time is read from the clock, never guessed. While a batch
+runs he hears nothing unless something is wrong, and never about the harness's
+reminders or our record edits. A result reaches him only as a turn's final text.
 
 **4. Keep the project on track for him.** Every open issue is held in the order
 it needs deciding (`PLAN.md`) and brought to him one at a time; nothing he must
