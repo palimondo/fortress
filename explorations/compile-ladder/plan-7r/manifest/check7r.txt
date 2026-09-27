@@ -1,0 +1,49 @@
+== script at 8c54cfd15
+MANIFEST block of the original: lines 58 to 651 of 2242; every line outside it byte-identical in the splice
+node --check wf7r-orig.js: exit 0
+node --check wf7r-spliced.js: exit 0
+LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
+block: batch 7r, record explorations/coordinator/CLIMB-BATCH-7R.md, LEDGER_FROM 456, rungs J, U (lands only with J), scatter J, U, intro 6026 chars, overlaps 1980 chars
+  J: rung-ranges-zz32, /home/user/fortress-ranges, wip/rung-ranges-zz32, expectedMinutes 240, testIsStage true, writesState false, briefing 59 keys, checks 15, tail 84 lines
+  U: rung-spec-ranges, /home/user/fortress-specranges, wip/rung-spec-ranges, expectedMinutes 110, testIsStage false, writesState false, briefing 37 keys, checks 10, tail 51 lines
+stubbed run, every agent approves:
+  Climb batch 7r: 2 rungs (J, U), two at a time in the order J, U (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:J, skeptic:J, rung:U, skeptic:U, gather, gate, review, commit
+  rungs: J approved; U approved; landed true
+  rung:J step 1 renders 59 keys, its briefing in order
+  skeptic:J step 1 renders 15 keys, its checks in order
+  rung:U step 1 renders 37 keys, its briefing in order
+  skeptic:U step 1 renders 10 keys, its checks in order
+  gather: ledger numbering from 456, manifest order J, U
+stubbed run, J stops, its judge rules stop:
+  Climb batch 7r: 2 rungs (J, U), two at a time in the order J, U (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:J, judge:J:stop, rung:U, skeptic:U
+  rungs: J stopped; U withheld (U lands only with J (landsOnlyWith in the manifest), and J is stopped: not applied, its findings folded); landed false, reason: no rung approved
+  rung:J step 1 renders 59 keys, its briefing in order
+  rung:U step 1 renders 37 keys, its briefing in order
+  skeptic:U step 1 renders 10 keys, its checks in order
+== working copy (identical to HEAD)
+MANIFEST block of the original: lines 58 to 651 of 2242; every line outside it byte-identical in the splice
+node --check wf7r-orig.js: exit 0
+node --check wf7r-spliced.js: exit 0
+LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
+block: batch 7r, record explorations/coordinator/CLIMB-BATCH-7R.md, LEDGER_FROM 456, rungs J, U (lands only with J), scatter J, U, intro 6026 chars, overlaps 1980 chars
+  J: rung-ranges-zz32, /home/user/fortress-ranges, wip/rung-ranges-zz32, expectedMinutes 240, testIsStage true, writesState false, briefing 59 keys, checks 15, tail 84 lines
+  U: rung-spec-ranges, /home/user/fortress-specranges, wip/rung-spec-ranges, expectedMinutes 110, testIsStage false, writesState false, briefing 37 keys, checks 10, tail 51 lines
+stubbed run, every agent approves:
+  Climb batch 7r: 2 rungs (J, U), two at a time in the order J, U (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:J, skeptic:J, rung:U, skeptic:U, gather, gate, review, commit
+  rungs: J approved; U approved; landed true
+  rung:J step 1 renders 59 keys, its briefing in order
+  skeptic:J step 1 renders 15 keys, its checks in order
+  rung:U step 1 renders 37 keys, its briefing in order
+  skeptic:U step 1 renders 10 keys, its checks in order
+  gather: ledger numbering from 456, manifest order J, U
+stubbed run, J stops, its judge rules stop:
+  Climb batch 7r: 2 rungs (J, U), two at a time in the order J, U (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:J, judge:J:stop, rung:U, skeptic:U
+  rungs: J stopped; U withheld (U lands only with J (landsOnlyWith in the manifest), and J is stopped: not applied, its findings folded); landed false, reason: no rung approved
+  rung:J step 1 renders 59 keys, its briefing in order
+  rung:U step 1 renders 37 keys, its briefing in order
+  skeptic:U step 1 renders 10 keys, its checks in order
+problems: 0
