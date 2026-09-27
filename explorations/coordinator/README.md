@@ -2,14 +2,16 @@
 
 # The coordinator's knowledge base
 
-Boot, in this order: `CLAUDE.md` → `explorations/protocol.md` → `FACTS.md`
-(whole, in one pass) → `POSITIONS.md` → `INDEX.md` →
+Boot, at session start and after every compaction, in this order: `CLAUDE.md`
+→ `explorations/protocol.md` → `FACTS.md` (whole, in one pass) →
+`POSITIONS.md` → `INDEX.md` →
 `explorations/microgpt-run-c-handover.md`, first section → the boot note
 (`postmortem-2026-09-19/held-list.md`, line 7). If the boot note says a batch
 is running, its `CLIMB-BATCH-*.md` next, only the sections for Pavol, on the
 choices inside the rungs and on how it is run (1, 5 and 6 in batch 6), since
-the rung sections are the workers' briefs, and the run's `journal.jsonl`
-before anything is said about it. Nothing else is read by the
+the rung sections are the workers' briefs, and the run's `journal.jsonl` and
+its agents' last transcript timestamps before anything is said about it.
+Nothing else is read by the
 coordinator itself: reports, transcripts, ledger rows and source go to a
 worker that returns a summary; whether a worker is still running is read from
 the harness's notice at the top of the turn and from `test -f` on the one

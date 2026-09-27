@@ -146,7 +146,9 @@ What the code generator does with the static types: every Fortress type is lower
 
 ## Cache anatomy and hygiene
 
-`default_repository/caches/` (gitignored):
+`default_repository/caches/` (gitignored by path, as is
+`ProjectFortress/test-caches/`; a cache written anywhere else, such as a
+probe's own `-Dfortress.caches` directory, is not ignored):
 - `analyzed_cache/`, `*parsed_cache/` — front-end analysis, shared-ish
   between worlds; the main source of cross-world contamination.
 - `interpreter_cache/`, `environment_cache/` — interpreter side.
