@@ -1,0 +1,2 @@
+machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load at rung start 2.70 3.35 3.26 4/128 21089; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; two rungs of batch 6 running at once on this box
+baseline ant compileAll 46 s (tmp log); library-order cache rebuild 95 s: AnyType 15, CompilerBuiltin 55, CompilerLibrary 22, CompilerAlgebra 1, CompilerSystem 2

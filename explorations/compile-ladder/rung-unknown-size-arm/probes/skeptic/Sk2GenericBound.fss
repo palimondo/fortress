@@ -1,0 +1,16 @@
+component Sk2GenericBound
+export Executable
+
+trait Tr end
+object Ob extends Tr end
+
+ee[\nat n\](x: Tr): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+g[\T extends Tr\](x: T): ZZ32 = ee(x)
+
+run(): () = do
+    println(g(Ob))
+  end
+
+end

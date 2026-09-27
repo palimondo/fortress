@@ -1,0 +1,15 @@
+# probes/reg-tests.sh with the edit; nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load now 8.85 9.65 7.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; two rungs of batch 6 running at once on this box
+########## fortress junit compiler_tests/AfterTypeChecking.test
+OK (97 tests)
+exit=0
+########## fortress junit compiler_tests/XXX1p.test
+ Saw expected failure
+OK (1 test)
+exit=0
+########## fortress junit compiler_tests/XXX5z.test
+ Saw expected failure
+OK (1 test)
+exit=0
+########## fortress junit compiler_tests/Compiled12.invariantInference.test
+OK (6 tests)
+exit=0

@@ -1,0 +1,33 @@
+# probes/walkxxx-paths.sh: the two expected-failure walk tests compiled and walked, with the edit; nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load now 5.11 4.70 5.47; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; two rungs of batch 6 running at once on this box
+########## fortress compile tests/XXXNatSizeExclusionWalk.fss
+exit=0
+########## fortress run XXXNatSizeExclusionWalk
+PASS
+exit=0
+########## walk tests/XXXNatSizeExclusionWalk.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:10:1-24: and
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:9:1-23:
+first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:10:1-24:
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:9:1-23:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+########## fortress compile tests/XXXNatBigSizeWalk.fss
+exit=0
+########## fortress run XXXNatBigSizeWalk
+4294967296
+3000000000
+PASS
+exit=0
+########## walk tests/XXXNatBigSizeWalk.fss
+0
+FAIL: row 418; Specification/basic/trait-parameters.tex:84-85, Specification/basic/expressions/constant.tex:96
+Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+Library/FortressLibrary.fss:56:5-23:
+Library/FortressLibrary.fss:293:9-294:5:
+ProjectFortress/tests/XXXNatBigSizeWalk.fss:13:5-126:
+exit=1

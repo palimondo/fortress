@@ -1,0 +1,5 @@
+# checker-count full outputs, before (tmp/cc-before/run.txt, untouched checker) against after (tmp/cc-after/run.txt, the edit), scratch paths normalised
+lines before: 462, after: 462
+diff:
+(none: the two outputs are identical)
+'Could not infer' lines after: 0

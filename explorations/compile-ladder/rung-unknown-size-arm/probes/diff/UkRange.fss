@@ -1,0 +1,15 @@
+component UkRange
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+er[\nat n\](x: ZZ32): Box[\n\] = Box[\n\](1)
+er(x: Any): Any = "any"
+
+run(): () = do
+    z: ZZ32 = 5
+    r: Any = er(z)
+    println(typecase r of Box[\3\] => "box three"; String => "a string"; else => "other" end)
+  end
+
+end

@@ -1,6 +1,6 @@
 # Skeptic, rung R (`rung-unknown-size-arm`), first judgement
 
-*Row numbers, noted at the merged-diff review of climb batch 6: the rows 431, 432 and 433 this file cites are rung R's provisional numbers and are not opened, since R did not land; the ledger's rows 431-433 are rung F's, and R's rows take the next free numbers when it lands (`explorations/compile-ladder/climb-batch-6/RECORD.md`, "Not landed").*
+*Row numbers, noted at the merged-diff review of climb batch 6 and restated when rung R landed as a follow-up (`d65892d34`): the rows 431, 432 and 433 this file cites are rung R's provisional numbers, which the ledger numbers 446, 447 and 448; the ledger's rows 431-433 are rung F's (`explorations/compile-ladder/climb-batch-6/RECORD.md`, rung R, "Landed as a follow-up").*
 
 This file holds both judgements of rung R. The first, which refused, follows as it was written. The second, which approves with one required correction, begins at the heading "Skeptic, rung R (`rung-unknown-size-arm`), second judgement" below it; its sections are lettered, so "section 9" still means the first judgement's section 9.
 

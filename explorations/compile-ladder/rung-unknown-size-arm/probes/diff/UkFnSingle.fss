@@ -1,0 +1,12 @@
+component UkFnSingle
+export Executable
+
+inc(x: ZZ32): ZZ32 = x + 1
+
+run(): () = do
+    z: ZZ32 = 5
+    f = inc
+    println(f(z))
+  end
+
+end

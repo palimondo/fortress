@@ -1,0 +1,12 @@
+component SkJuxt
+export Executable
+
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(ee z)
+  end
+
+end

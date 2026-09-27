@@ -1,0 +1,32 @@
+# the rung's two refusals, and the same rule at a method, an operator, a size only in the return type and two sized arms: the compile sections of probes/diff-after.txt whose exit is 255, extracted by awk (the harness run of the rung's two is probes/post-edit-tests.txt); each of these compiled before the edit (probes/diff-before.txt)
+########## fortress compile XXXNatUnknownSizeArm.fss
+ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.fss:10:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeArm.fss has 1 error.
+########## fortress compile XXXNatUnknownSizeVal.fss
+ProjectFortress/compiler_tests/XXXNatUnknownSizeVal.fss:10:13-16:
+    Could not check call to function ev
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeVal.fss has 1 error.
+########## fortress compile UkMethod.fss
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkMethod.fss:11:13-17:
+    Could not check method invocation O.m
+    - Could not infer static argument nat n without context.
+File UkMethod.fss has 1 error.
+########## fortress compile UkOp.fss
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkOp.fss:9:13:
+    Could not check call to operator OPLUS
+    - Could not infer static argument nat n without context.
+File UkOp.fss has 1 error.
+########## fortress compile UkRange.fss
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkRange.fss:11:14-17:
+    Could not check call to function er
+    - Could not infer static argument nat n without context.
+File UkRange.fss has 1 error.
+########## fortress compile UkTwoArms.fss
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkTwoArms.fss:10:13-16:
+    Could not check call to function et
+    - Could not infer static argument nat n without context.
+    - Could not infer static arguments nat m, nat p without context.
+File UkTwoArms.fss has 1 error.

@@ -1,0 +1,14 @@
+component Sk2ObjSize
+export Executable
+
+object Bx[\nat k\](v: ZZ32)
+    m[\nat n\](x: ZZ32): ZZ32 = k
+    m(x: Any): ZZ32 = 2
+end
+
+run(): () = do
+    z: ZZ32 = 5
+    println(Bx[\3\](0).m(z))
+  end
+
+end

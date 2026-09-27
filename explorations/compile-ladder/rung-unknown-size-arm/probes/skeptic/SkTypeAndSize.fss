@@ -1,0 +1,12 @@
+component SkTypeAndSize
+export Executable
+
+ex[\T, nat n\](x: T): ZZ32 = 1
+ex(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    println(ex(z))
+  end
+
+end

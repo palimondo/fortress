@@ -1,0 +1,157 @@
+# probes/diff.sh before; nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load now 2.04 2.41 2.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; two rungs of batch 6 running at once on this box
+########## fortress compile XXXNatUnknownSizeArm.fss
+exit=0
+########## fortress run XXXNatUnknownSizeArm
+1
+2
+exit=0
+########## walk XXXNatUnknownSizeArm.fss
+1
+2
+exit=0
+########## fortress compile XXXNatUnknownSizeVal.fss
+exit=0
+########## fortress run XXXNatUnknownSizeVal
+java.lang.NumberFormatException
+Caused by: java.lang.NumberFormatException: For input string: "n"
+exit=1
+########## walk XXXNatUnknownSizeVal.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXNatUnknownSizeVal.fss:5:30:
+undefined variable [n]
+Context:
+ProjectFortress/compiler_tests/XXXNatUnknownSizeVal.fss:5:30:
+ProjectFortress/compiler_tests/XXXNatUnknownSizeVal.fss:10:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+########## fortress compile NatKnownSizeArm.fss
+exit=0
+########## fortress run NatKnownSizeArm
+PASS
+exit=0
+########## walk NatKnownSizeArm.fss
+PASS
+exit=0
+########## fortress compile UkCoerce.fss
+exit=0
+########## fortress run UkCoerce
+2
+exit=0
+########## walk UkCoerce.fss
+2
+exit=0
+########## fortress compile UkDeadArm.fss
+exit=0
+########## fortress run UkDeadArm
+2
+exit=0
+########## walk UkDeadArm.fss
+2
+exit=0
+########## fortress compile UkDynAny.fss
+exit=0
+########## fortress run UkDynAny
+2
+2
+exit=0
+########## walk UkDynAny.fss
+1
+2
+exit=0
+########## fortress compile UkDynAnyVal.fss
+exit=0
+########## fortress run UkDynAnyVal
+2
+exit=0
+########## walk UkDynAnyVal.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkDynAnyVal.fss:4:30:
+undefined variable [n]
+Context:
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkDynAnyVal.fss:4:30:
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkDynAnyVal.fss:9:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+########## fortress compile UkEqual.fss
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:4:1-30:
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:5:1-22:
+    There are multiple declarations of eq with the same parameter type: ZZ32
+File UkEqual.fss has 1 error.
+exit=255
+########## walk UkEqual.fss
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:5:1-22: and
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:4:1-30:
+Overloading of eq(x:FortressLibrary.ZZ32):FortressLibrary.ZZ32 ZZ32->ZZ32 explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:5:1-22 and eq[\nat n\](x:FortressLibrary.ZZ32):FortressLibrary.ZZ32explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:4:1-30 fails because their parameter lists have the same types
+Context:
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:5:1-22:
+explorations/compile-ladder/rung-unknown-size-arm/probes/diff/UkEqual.fss:4:1-30:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+########## fortress compile UkMethod.fss
+exit=0
+########## fortress run UkMethod
+1
+2
+exit=0
+########## walk UkMethod.fss
+1
+2
+exit=0
+########## fortress compile UkOp.fss
+exit=0
+########## fortress run UkOp
+1
+2
+exit=0
+########## walk UkOp.fss
+1
+2
+exit=0
+########## fortress compile UkRange.fss
+exit=0
+########## fortress run UkRange
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: n$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 9 more
+Caused by: java.io.IOException: Resource not found : n$RTTIc.class
+	... 10 more
+exit=1
+########## walk UkRange.fss
+other
+exit=0
+########## fortress compile UkTwoArms.fss
+exit=0
+########## fortress run UkTwoArms
+1
+exit=0
+########## walk UkTwoArms.fss
+1
+exit=0
+########## fortress compile UkTypeRange.fss
+exit=0
+########## fortress run UkTypeRange
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: java/lang/Object$RTTIc
+Caused by: java.lang.ClassNotFoundException: java.lang.Object$RTTIc
+	... 8 more
+exit=1
+########## walk UkTypeRange.fss
+other
+exit=0
+########## fortress compile UkWritten.fss
+exit=0
+########## fortress run UkWritten
+5
+2
+exit=0
+########## walk UkWritten.fss
+5
+2
+exit=0

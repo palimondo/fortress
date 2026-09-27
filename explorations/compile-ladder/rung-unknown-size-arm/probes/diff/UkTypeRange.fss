@@ -1,0 +1,15 @@
+component UkTypeRange
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+et[\T\](x: ZZ32): BoxT[\T\] = BoxT[\T\](1)
+et(x: Any): Any = "any"
+
+run(): () = do
+    z: ZZ32 = 5
+    r: Any = et(z)
+    println(typecase r of String => "a string"; else => "other" end)
+  end
+
+end

@@ -1,0 +1,13 @@
+component SkFnValue
+export Executable
+
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    f = ee
+    println(f(z))
+  end
+
+end

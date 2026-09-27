@@ -1,0 +1,15 @@
+component SkGenericCaller
+export Executable
+
+ev[\nat n\](x: ZZ32): ZZ32 = n
+ev(x: Any): ZZ32 = 2
+
+gg[\nat m\](x: ZZ32): ZZ32 = ev[\m\](x)
+
+run(): () = do
+    z: ZZ32 = 5
+    println(gg[\4\](z))
+    println(ev[\6\](z))
+  end
+
+end

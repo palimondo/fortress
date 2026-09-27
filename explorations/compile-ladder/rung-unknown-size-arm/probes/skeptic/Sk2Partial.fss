@@ -1,0 +1,13 @@
+component Sk2Partial
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+ep[\nat n, nat m\](b: Box[\m\]): ZZ32 = m
+ep(x: Any): ZZ32 = 0
+
+run(): () = do
+    println(ep(Box[\3\](0)))
+  end
+
+end

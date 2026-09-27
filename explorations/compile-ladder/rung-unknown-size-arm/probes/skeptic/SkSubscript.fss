@@ -1,0 +1,15 @@
+component SkSubscript
+export Executable
+
+object O
+    opr [\nat n\] [i: ZZ32]: ZZ32 = 1
+    opr [i: Any]: ZZ32 = 2
+end
+
+run(): () = do
+    z: ZZ32 = 5
+    println(O[z])
+    println(O["s"])
+  end
+
+end

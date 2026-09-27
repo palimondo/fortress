@@ -1,6 +1,6 @@
 # Climb batch 6: the gather's record
 
-Written at the gather stage of climb batch 6 (2026-09-27), on `main` from the base `e5414f5bf` (run `wf_b262c534-337`). `main` was at `833d1649f`, 41 coordinator commits above the base, which touch `coordinator/` (among them `CLIMB-BATCH-6.md`, `FACTS.md`, `POSITIONS.md`, `POSITIONS-history.md`, `INDEX.md`, `README.md`), `protocol.md`, `repo-internals.md` and the handover, and no rung's file; no file outside `explorations/` differs from the base. Rungs F and T were approved and each landed as one commit composed from its branch's net change; no branch is a parent of anything on `main`. Rung R reached the gather as dropped and lands no source (section "Not landed").
+Written at the gather stage of climb batch 6 (2026-09-27), on `main` from the base `e5414f5bf` (run `wf_b262c534-337`). `main` was at `833d1649f`, 41 coordinator commits above the base, which touch `coordinator/` (among them `CLIMB-BATCH-6.md`, `FACTS.md`, `POSITIONS.md`, `POSITIONS-history.md`, `INDEX.md`, `README.md`), `protocol.md`, `repo-internals.md` and the handover, and no rung's file; no file outside `explorations/` differs from the base. Rungs F and T were approved and each landed as one commit composed from its branch's net change; no branch is a parent of anything on `main`. Rung R reached the gather as dropped and landed no source there (section "Not landed"); it landed afterwards as a follow-up (the same section, "Landed as a follow-up").
 
 **Preconditions.** `git status --porcelain` was empty and `e5414f5bf` is an ancestor of `HEAD`.
 
@@ -149,6 +149,39 @@ The second judgement approved, with one required correction and two recommended 
 **When R lands.** Its patch from `e5414f5bf...wip/rung-unknown-size-arm` is applied with `--exclude` for the 30 paths already on `main` (29 byte-identical to the branch, and `record.md` with the gather's note), after correction N; `REPORT.md` is on `main`. Its provisional rows take the next free numbers (446 onward, if nothing lands before it), and its two walk tests move `testSystem` by two and its five compile tests the compiler track by seven (`NatKnownSizeArm` counts three, `probes/repair-tests.txt`).
 
 **Folded, and why.** Nothing of R's record goes into `FACTS.md` or the handover's facts, since its entries state what R's landed edit does; the handover gets one paragraph saying that R did not land and why. Row 444 is in the ledger (above), and "The ledger" entry of `FACTS.md` is re-anchored for it (`:771` to `:772`, `:631` to `:632`). In the last commit, row 442's note of the second skeptic has the gather's own sentence (that `asFloat` is absent from the prelude too) moved after it and marked as the gather's.
+
+**Landed as a follow-up.** On Pavol's word, rung R landed by hand, as rung D landed after batch 5, because its second skeptic's approving verdict was lost: a false-positive safety refusal ended that agent after it had returned its result. The source is `d65892d34`, one commit on `main` composed from `git diff e5414f5bf...wip/rung-unknown-size-arm` (`217653909`) restricted by an explicit list to its 14 source and test paths: `Functionals.scala`, `ApplicationError.scala`, the ten files of its five compile tests in `ProjectFortress/compiler_tests/` and its two walk tests in `ProjectFortress/tests/`. None of the 14 changed on `main` since the base, so nothing met a change of F or T. Thirteen are byte-identical to the branch; the fourteenth, `XXXNatBigSizeWalk.fss`, is change 2 below. The records are in the commit after it. That commit brings the 64 files of R's directory that the gather left on the branch, each checked out by its own path and byte-identical to `217653909`, so that every capture R's files cite resolves on `main`, and it edits `REPORT.md`, `record.md`, `SKEPTIC.md` and `JUDGE.md` as below. "When R lands" above predicted this, except that nothing was applied as a patch with `--exclude`: the 30 paths the gather had taken stay as they were, apart from the edits below.
+
+**Beyond the branch, three changes.**
+1. The second skeptic's correction N (`explorations/compile-ladder/rung-unknown-size-arm/SKEPTIC.md`, second judgement, section N), made in full:
+   - The FACTS entry says that the refusal needs the arm's parameter type to be free of the unknown size, with `Sk2ArrowDomain`'s shape.
+   - Row 400's note says the compiled half is fixed for an arm whose unknown size does not occur in its parameter type, and appends the shape still open. Its status says so.
+   - The handover line qualifies "closing row 400's compiled half".
+   - `REPORT.md` qualifies its summary and section 8, gives the third condition's cost in section 5, adds D8 in section 9, keeps row 400's compiled half open for that shape in section 10 and adds the item for Pavol in section 13.
+2. Row 418's walk test is restated to the ℕ32 range, on Pavol's decision of the same day that a `nat` parameter is an `NN32` value and a larger one is refused (`explorations/coordinator/POSITIONS.md`, 2026-09-27, a size's range; `Specification/basic/trait-parameters.tex:82-90`):
+   - Its first size is 4294967295 in place of 4294967296, and that assertion's message no longer cites `constant.tex:96`.
+   - Walk fails at the size, "Negative nats are unNATural: -1", and the harness reads that as the expected failure. The compiled run prints 4294967295, 3000000000 and PASS. A scratch copy with the size 7 goes red through the harness with "Missing expected failure" (`explorations/compile-ladder/climb-batch-6/followup-R/row418-test.txt`, by `row418-test.sh`, on the tree with R's checker built).
+   - Row 418's note, `record.md` and `REPORT.md` sections 6-8 say so. The rung's own captures of the file as it wrote it stand.
+3. Rung T's commit moved the coercion chapter's "applicable without coercion" passage, which R's note on row 79 and its `REPORT.md` cite, from `Specification/basic/conversions-coercions.tex:455-458` to `:472-475`. It is re-anchored by passage in `record.md`, `REPORT.md` and the ledger. R's other specification citations name chapters that no commit since the base changed, and its source citations were opened on the landed files and hold.
+
+**The gate**, run once in full on the tree of `d65892d34` before that commit was made (2026-09-27, 08:06-08:23 UTC). The tree was `326b8063d` with R's 14 paths applied, which differs from `d65892d34` in no path outside `explorations/`. The steps were those of the batch's gate stage: `ant compileAll` after removing `ProjectFortress/TEST-RESULTS` (which empties `default_repository/caches`), the library-order rebuild and the pristine ladder copy, `ant testFast`, `ant testSystem`, the four-thread `atomic` runs, the ladder regression and the checker count. It is green against `explorations/compile-ladder/climb-batch-6/gate/summary.txt`:
+- `testFast`: 48 suites, 1,544 tests, 0 failures, 0 errors. The compiler track is 775 against 768, up seven by R's five `.test` files (`NatKnownSizeArm` counts three: compile, link and run). Every other suite is at batch 6's count.
+- `testSystem`: four shards, 104 + 103 + 103 + 105 = 415 against 413, up two by `XXXNatSizeExclusionWalk` and `XXXNatBigSizeWalk`, each " OK Saw expected exception". `gate_compare` printed nothing.
+- The `atomic` runs: 39 of 39 `PASS` at four threads.
+- The ladder: the comparison is empty. The 85 files are at `pass` with their filtered output unchanged, and the eighteen microGPT components are at `disambiguate`, `microgpt-phase.md` identical to batch 6's but for its timings.
+- The checker count: `COUNT SAME   62, declared R: 62`, `#crash` none, the shadow matching. The table is identical to batch 6's, and so is the checker's full output (281 lines), with no "Could not infer" line. The manifest's 125 was R's measurement on the base, before rung F's library.
+
+The summary, the table and the ladder files are in `explorations/compile-ladder/climb-batch-6/followup-R/gate/`, so its `checker-count.txt` (62, crash `none`) is the next batch's comparand. The machine is in the summary's last two lines. The logs stay under `tmp/gate-batch-6-followup-R/`.
+
+**Rows and folds.**
+- R's provisional rows 431, 432 and 433 are rows 446, 447 and 448, the ledger's first free rows at the landing. Their citations are corrected in `record.md` and `REPORT.md`. `SKEPTIC.md` and `JUDGE.md` keep the provisional numbers, with their note line restated.
+- The recommended rows the gather left with R: the numeral split and the declared-type context land as R's notes on rows 79 and 21. Row 433's second face (the second judgement's recommended row 1) is appended to row 448 as the skeptic wrote it.
+- Folded from `record.md`:
+  - `FACTS.md`: its entry at the end of "The checker and the one library", its entry at the end of "The harness and the gate", and its amendment to "The compiled type checker checks `nat` and `int` static parameters";
+  - the ledger: its notes on rows 400 (with its status), 416, 418, 79 and 21, and rows 446-448 after row 445;
+  - the handover: its state line, as the paragraph on rung R, which is rewritten.
+- In the folded text, `POSITIONS.md:162` is re-anchored to `:110` (answer 12), as the gather did for F and T. The checker count is given as it stands: 62 on the landed tree, 125 on the base.
+- `FACTS.md`'s entry "The ledger" is re-anchored for the three rows (`:773` to `:776`, `:633` to `:636`).
 
 ## Other writers in the tree during the gather
 
