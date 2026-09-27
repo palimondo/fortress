@@ -1,8 +1,11 @@
 
 # Generates climb batch 6.5's MANIFEST block from section 3 of the record (CLIMB-BATCH-6.5.md) and the
-# briefing and checks lists of lists65.py, into $FORTRESS_HOME/tmp/manifest65.js; check65.js checks it.
+# briefing and checks lists of ../manifest/lists65.py, into $FORTRESS_HOME/tmp/manifest65.js; ../manifest/check65.js
+# checks it. The review's copy of ../manifest/gen65.py (2026-09-27, climb-batch-6.5-review.md): the same generator
+# with the strings the review changed, the intro's run sentences, the one-run overlap text and the manifest comment,
+# where the split into two runs rested on rule 3; the coordinator moves it over ../manifest/gen65.py when folding the review.
 import json, re, sys, os
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'manifest'))
 from lists65 import LISTS
 
 ROOT = os.environ.get('FORTRESS_HOME', '/home/user/fortress')
@@ -133,9 +136,9 @@ A('// backticks dropped (this file carries none); ASCII only. No section carries
 A('// an answer letter: none of section 1\'s questions changes a rung. Three things')
 A('// are set at launch and nowhere else: RUN (which run this is: \'first\' is')
 A('// batch 6.5, rungs E and P; \'second\' is batch 6.5b, rungs G and V, cut from')
-A('// the tree the first run landed; \'all\' is the four as one batch 6.5, which')
-A('// breaks rule 3 of batched-climb-plan.md section 5 and waits for Pavol\'s word;')
-A('// the record\'s section 1, "Two runs"), LEDGER_FROM (the first free ledger')
+A('// the tree the first run landed; \'all\' is the four as one batch 6.5, on')
+A('// Pavol\'s word, with P\'s and V\'s shared specification files ordered as the')
+A('// record\'s section 4 says; the record\'s section 1, "Two runs"), LEDGER_FROM (the first free ledger')
 A('// row at this run\'s launch; the block refuses to load while it is unset), and')
 A('// CHECKER_BASE (the #total of the last landed checker-count.txt, 62 at')
 A('// drafting). Manifest order is the ledger numbering order: E, P in the first')
@@ -190,7 +193,7 @@ js_obj('OVERLAP_RUNG', OVERLAP_RUNG)
 A('')
 A('const BATCH_INTRO = [')
 A('  ' + js_str("This batch is the repair batch of the plan's phase 2b (explorations/coordinator/PLAN.md, \"Phase 2b. The repair batch from the conformance reviews\"): what the conformance reviews of batches 3 to 6 found, repaired before phase 3.") + ',')
-A("  RUN === 'first' ? " + js_str("This run is its first, batch 6.5; the second, batch 6.5b, carries rungs G and V and is cut from the tree this run lands, because a run carries one rung that edits Java or Scala (the record's section 1, \"Two runs\").") + " : RUN === 'second' ? " + js_str("This run is its second, batch 6.5b, cut from the tree batch 6.5 landed (rungs E and P); a run carries one rung that edits Java or Scala (the record's section 1, \"Two runs\").") + " : " + js_str("This run carries the batch's four rungs as one, on Pavol's word, against rule 3 of batched-climb-plan.md section 5 (the record's section 1, \"Two runs\").") + ',')
+A("  RUN === 'first' ? " + js_str("This run is its first, batch 6.5; the second, batch 6.5b, carries rungs G and V and is cut from the tree this run lands, because P and V both edit the specification's number chapter and its changes appendix, and a run of the four would be the longest yet (the record's section 1, \"Two runs\").") + " : RUN === 'second' ? " + js_str("This run is its second, batch 6.5b, cut from the tree batch 6.5 landed (rungs E and P), whose P edited the specification's number chapter and its changes appendix before V does (the record's section 1, \"Two runs\").") + " : " + js_str("This run carries the batch's four rungs as one, on Pavol's word; P and V share Specification/basic-lib/numbers.tex and Specification/appendices/changes.tex, which the gather orders as the record's section 4 says (the record's section 1, \"Two runs\").") + ',')
 A("  RUNGS.map(r => INTRO_RUNG[r.id]).join(' '),")
 A('  ' + js_str("Each rung's section of the record opens with the answers of its section 1 that it follows; none of them changes a rung.") + ',')
 A("  'The stops reserved for Pavol in this run, on top of the standing ones: ' + RUNGS.map(r => INTRO_STOPS[r.id]).join('; ') + '; and any rung editing a file another rung of this run owns.',")
@@ -206,7 +209,7 @@ A("const BATCH_OVERLAPS = RUNGS.map(r => OVERLAP_RUNG[r.id]).join(' ') + ' ' + (
 A('  ? ' + js_str("No file is shared; the shared directories are ProjectFortress/tests/ and compiler_tests/, where the rungs touch disjoint files, and a file added to tests/ moves the testSystem shards, which the gate compares by their sum. P's edits may move a specification line that one of E's new test messages cites (the integer chapter, for LCM): the gather re-anchors it by passage after both are applied. The checker count reads E's checker and P's two comments and neither changes a declared type of the one library. The files they reach beyond their own are the three record files, folded centrally by the gather.") )
 A("  : RUN === 'second'")
 A('  ? ' + js_str("One file is shared, Library/FortressLibrary.fss, on disjoint declarations far apart: V's Number and RR64 near the top of the tower (about :352-400 on the record's tree) and G's two identity functions after the reductions (about :3107-3131); the gather applies V first, then G. The identity functions' RR32 branch stays right when RR32 is a sibling, so V does not touch it. ProjectFortress/tests/ gets V's test and compiler_tests/ and library_tests/ G's. The checker count reads V's changed declared types, so V's table is the only one that may move. The files they reach beyond their own are the three record files, folded centrally by the gather.") )
-A('  : ' + js_str("E and P share no file, and G and V share Library/FortressLibrary.fss on disjoint declarations (V's Number and RR64 near the top, G's identity functions after the reductions; V applied first). P's edits may move a specification line one of E's new test messages cites, which the gather re-anchors by passage. The shared directories are ProjectFortress/tests/, compiler_tests/ and library_tests/, where the rungs touch disjoint files. V's table is the only checker table that may move. The files they reach beyond their own are the three record files, folded centrally by the gather.") + ')')
+A('  : ' + js_str("E and P share no file. P and V share Specification/basic-lib/numbers.tex on disjoint passages (V's at about :27-49, P's rational listing at about :92-93 and :144-145 on the record's tree; V applied first there) and Specification/appendices/changes.tex at one place, since each adds its subsections after rung T's last: the gather applies P's entries before V's, resolving the same-point hunk by hand as its rule allows for unrelated regions, and says so. Library/FortressLibrary.fss is edited by V (Number and RR64 near the top), G (the identity functions after the reductions) and P (the scalar block's two comments near the end), disjoint; V applied first, then G, then P. P's edits may move a specification line one of E's new test messages cites, which the gather re-anchors by passage. The shared directories are ProjectFortress/tests/, compiler_tests/ and library_tests/, where the rungs touch disjoint files. V's table is the only checker table that may move. The files they reach beyond their own are the three record files, folded centrally by the gather.") + ')')
 open(OUT, 'w').write('\n'.join(L) + '\n')
 print('wrote', OUT, len(L), 'lines')
 for rid in 'EPGV':
