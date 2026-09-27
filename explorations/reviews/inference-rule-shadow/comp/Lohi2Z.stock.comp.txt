@@ -1,0 +1,13 @@
+# comp Lohi2Z stock 2026-09-27T20:29:18Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 18.72 18.20 14.54; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+Lohi2Z.fss:35:28-36:
+    Could not check call to function lohi
+    - [\I extends ZZ32\](I, I)->String is not applicable to an argument of type (IntLiteral, ZZ32).
+File Lohi2Z.fss has 1 error.
+compile rc=255
+## run
+Could not load Lohi2Z
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Lohi2Z.class
+	... 4 more
+run rc=1

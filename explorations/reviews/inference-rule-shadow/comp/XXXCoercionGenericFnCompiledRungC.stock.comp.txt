@@ -1,0 +1,13 @@
+# comp XXXCoercionGenericFnCompiledRungC stock 2026-09-27T20:31:43Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 19.65 19.08 15.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+XXXCoercionGenericFnCompiledRungC.fss:24:12-32:
+    Could not check call to function gf
+    - [\T extends Object\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
+File XXXCoercionGenericFnCompiledRungC.fss has 1 error.
+compile rc=255
+## run
+Could not load XXXCoercionGenericFnCompiledRungC
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXCoercionGenericFnCompiledRungC.class
+	... 4 more
+run rc=1

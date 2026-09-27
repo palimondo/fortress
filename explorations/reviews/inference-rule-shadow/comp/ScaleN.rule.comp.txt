@@ -1,0 +1,6 @@
+# comp ScaleN rule 2026-09-27T20:34:17Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 18.49 19.12 16.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+scale(bw, n):  accept[ Wide ]
+run rc=0

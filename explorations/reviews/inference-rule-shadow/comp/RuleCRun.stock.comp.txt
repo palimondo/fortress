@@ -1,0 +1,30 @@
+# comp RuleCRun stock 2026-09-27T20:31:29Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.41 19.19 15.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+RuleCRun.fss:30:37-64:
+    Could not check call to function hd
+    - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral, IntLiteral, IntLiteral).
+RuleCRun.fss:31:32-44:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+RuleCRun.fss:32:32-44:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
+RuleCRun.fss:33:30-40:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], IntLiteral).
+RuleCRun.fss:34:30-40:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], ZZ32).
+RuleCRun.fss:37:31-42:
+    Could not check call to function lohi32
+    - [\I extends ZZ32\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+RuleCRun.fss:38:23-29:
+    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+File RuleCRun.fss has 7 errors.
+compile rc=255
+## run
+Could not load RuleCRun
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : RuleCRun.class
+	... 4 more
+run rc=1

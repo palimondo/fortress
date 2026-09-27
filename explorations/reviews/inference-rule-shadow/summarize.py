@@ -32,8 +32,12 @@ for p in argv[1:]:
                 a = re.search(r"args=(\(.*\))", rest)
                 args = re.sub(r"(\w+):", lambda k: {"TraitCoercionInvocation": "coerce:", "UnionCoercionInvocation": "coerce:",
                                                   "TupleCoercionInvocation": "coerce:"}.get(k.group(1), ""), a.group(1)) if a else ""
-                d["res"] = s + (" " + ph.group(1) if ph else "") + (" " + args if "coerce:" in args else "")
-            else:
+                got = s + (" " + ph.group(1) if ph else "") + (" " + args if "coerce:" in args else "")
+                # a call checked again after its rewrite shows no static arguments; keep the first
+                prev = d.get("res")
+                if prev is None or prev == "FAIL" or not (got.startswith("[]") and not prev.startswith("[]")):
+                    d["res"] = got
+            elif "res" not in d:
                 d["res"] = "FAIL"
         m = re.match(r"^(?:\d+[:-])?(?:\S*/)?%s\.fss:(\d+):" % name, l)
         if m and not l.startswith("@@"):

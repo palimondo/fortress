@@ -1,0 +1,204 @@
+r401a  instr.compile.L0     ok       FAIL
+r401a  instr.compile.A0     ok       FAIL
+r401a  rule-instr.compile.L0 ok       FAIL
+r401a  rule-instr.compile.A0 ok       FAIL
+r401b  instr.compile.L0     ok       FAIL
+r401b  instr.compile.A0     ok       FAIL
+r401b  rule-instr.compile.L0 ok       FAIL
+r401b  rule-instr.compile.A0 ok       FAIL
+r401c  instr.compile.L0     ok       FAIL
+r401c  instr.compile.A0     ok       FAIL
+r401c  rule-instr.compile.L0 ok       FAIL
+r401c  rule-instr.compile.A0 ok       FAIL
+r401d  instr.compile.L0     ok       [16,16]
+r401d  instr.compile.A0     REFUSED  FAIL
+r401d  rule-instr.compile.L0 ok       [16,16] ctx
+r401d  rule-instr.compile.A0 ok       [16,16] ctx+coerce
+r401e  instr.compile.L0     ok       [String]
+r401e  instr.compile.A0     REFUSED  FAIL
+r401e  rule-instr.compile.L0 ok       [String] ctx
+r401e  rule-instr.compile.A0 ok       [String] ctx+coerce
+r401f  instr.compile.L0     ok       [16,16]
+r401f  instr.compile.A0     REFUSED  FAIL
+r401f  rule-instr.compile.L0 ok       [16,16] ctx
+r401f  rule-instr.compile.A0 ok       [16,16] ctx+coerce
+r401g  instr.compile.L0     ok       [16,16]
+r401g  instr.compile.A0     REFUSED  FAIL
+r401g  rule-instr.compile.L0 ok       [16,16] ctx
+r401g  rule-instr.compile.A0 ok       [16,16] ctx+coerce
+r401h  instr.compile.L0     ok       [16]
+r401h  instr.compile.A0     REFUSED  FAIL
+r401h  rule-instr.compile.L0 ok       [16] ctx
+r401h  rule-instr.compile.A0 ok       [16] ctx+coerce
+s64a   instr.compile.L0     REFUSED  FAIL
+s64a   instr.compile.A0     REFUSED  FAIL
+s64a   rule-instr.compile.L0 ok       [String] ctx+coerce
+s64a   rule-instr.compile.A0 ok       [String] ctx+coerce
+s64b   instr.compile.L0     REFUSED  FAIL
+s64b   instr.compile.A0     REFUSED  FAIL
+s64b   rule-instr.compile.L0 ok       [String] ctx+coerce
+s64b   rule-instr.compile.A0 ok       [String] ctx+coerce
+sc3    instr.compile.L0     REFUSED  FAIL
+sc3    instr.compile.A0     REFUSED  FAIL
+sc3    rule-instr.compile.L0 ok       [RR64] ctx+coerce
+sc3    rule-instr.compile.A0 ok       [RR64] ctx+coerce
+scz    instr.compile.L0     REFUSED  FAIL
+scz    instr.compile.A0     REFUSED  FAIL
+scz    rule-instr.compile.L0 ok       [RR64] ctx+coerce
+scz    rule-instr.compile.A0 ok       [RR64] ctx+coerce
+scu    instr.compile.L0     REFUSED  FAIL
+scu    instr.compile.A0     REFUSED  FAIL
+scu    rule-instr.compile.L0 ok       [RR64] noctx+coerce
+scu    rule-instr.compile.A0 ok       [RR64] noctx+coerce
+scn    instr.compile.L0     REFUSED  FAIL
+scn    instr.compile.A0     REFUSED  FAIL
+scn    rule-instr.compile.L0 ok       [Wide] ctx+coerce
+scn    rule-instr.compile.A0 ok       [Wide] ctx+coerce
+pk1    instr.compile.L0     ok       [OR(ZZ32,ZZ64)]
+pk1    instr.compile.A0     ok       [OR(ZZ32,ZZ64)]
+pk1    rule-instr.compile.L0 ok       [ZZ64] ctx
+pk1    rule-instr.compile.A0 ok       [ZZ64] ctx
+pk2    instr.compile.L0     ok       [OR(IntLiteral,ZZ64)]
+pk2    instr.compile.A0     ok       [OR(IntLiteral,ZZ64)]
+pk2    rule-instr.compile.L0 ok       [ZZ64] ctx
+pk2    rule-instr.compile.A0 ok       [ZZ64] ctx
+pk3    instr.compile.L0     ok       [OR(ZZ32,RR64)]
+pk3    instr.compile.A0     ok       [OR(ZZ32,RR64)]
+pk3    rule-instr.compile.L0 ok       [RR64] ctx
+pk3    rule-instr.compile.A0 ok       [RR64] ctx
+pk4    instr.compile.L0     ok       [OR(ZZ64,RR64)]
+pk4    instr.compile.A0     ok       [OR(ZZ64,RR64)]
+pk4    rule-instr.compile.L0 ok       [OR(ZZ64,RR64)] ctx
+pk4    rule-instr.compile.A0 ok       [OR(ZZ64,RR64)] ctx
+pk5    instr.compile.L0     ok       [OR(ZZ32,String)]
+pk5    instr.compile.A0     ok       [OR(ZZ32,String)]
+pk5    rule-instr.compile.L0 ok       [OR(ZZ32,String)] ctx
+pk5    rule-instr.compile.A0 ok       [OR(ZZ32,String)] ctx
+pk6    instr.compile.L0     ok       [OR(NN32,ZZ32)]
+pk6    instr.compile.A0     ok       [OR(NN32,ZZ32)]
+pk6    rule-instr.compile.L0 ok       [OR(NN32,ZZ32)] ctx
+pk6    rule-instr.compile.A0 ok       [OR(NN32,ZZ32)] ctx
+pk7    instr.compile.L0     ok       [OR(Wide,Narrow)]
+pk7    instr.compile.A0     ok       [OR(Wide,Narrow)]
+pk7    rule-instr.compile.L0 ok       [Wide] ctx
+pk7    rule-instr.compile.A0 ok       [Wide] ctx
+pk8    instr.compile.L0     ok       [IntLiteral]
+pk8    instr.compile.A0     ok       [IntLiteral]
+pk8    rule-instr.compile.L0 ok       [IntLiteral] ctx
+pk8    rule-instr.compile.A0 ok       [IntLiteral] ctx
+pk9    instr.compile.L0     ok       [OR(ZZ32,ZZ64)]
+pk9    instr.compile.A0     ok       [OR(ZZ32,ZZ64)]
+pk9    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+pk9    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+pn1    instr.compile.L0     ok       [OR(IntLiteral,ZZ64)]
+pn1    instr.compile.A0     ok       [OR(IntLiteral,ZZ64)]
+pn1    rule-instr.compile.L0 ok       [ZZ64] ctx
+pn1    rule-instr.compile.A0 ok       [ZZ64] ctx
+pn2    instr.compile.L0     ok       [OR(ZZ32,RR64)]
+pn2    instr.compile.A0     ok       [OR(ZZ32,RR64)]
+pn2    rule-instr.compile.L0 ok       [RR64] ctx
+pn2    rule-instr.compile.A0 ok       [RR64] ctx
+lh1    instr.compile.L0     ok       [IntLiteral]
+lh1    instr.compile.A0     REFUSED  FAIL
+lh1    rule-instr.compile.L0 ok       [IntLiteral] ctx
+lh1    rule-instr.compile.A0 REFUSED  FAIL
+lh2    instr.compile.L0     ok       [ZZ32]
+lh2    instr.compile.A0     REFUSED  FAIL
+lh2    rule-instr.compile.L0 ok       [ZZ32] ctx
+lh2    rule-instr.compile.A0 ok       [ZZ32] noctx+coerce
+lh3    instr.compile.L0     ok       [OR(ZZ32,ZZ64)]
+lh3    instr.compile.A0     ok       [OR(ZZ32,ZZ64)]
+lh3    rule-instr.compile.L0 ok       [ZZ64] ctx
+lh3    rule-instr.compile.A0 ok       [ZZ64] ctx
+lh4    instr.compile.L0     ok       [OR(ZZ32,NN32)]
+lh4    instr.compile.A0     ok       [OR(ZZ32,NN32)]
+lh4    rule-instr.compile.L0 ok       [OR(ZZ32,NN32)] ctx
+lh4    rule-instr.compile.A0 ok       [OR(ZZ32,NN32)] ctx
+lh5    instr.compile.L0     ok       [IntLiteral]
+lh5    instr.compile.A0     REFUSED  FAIL
+lh5    rule-instr.compile.L0 ok       [IntLiteral] ctx
+lh5    rule-instr.compile.A0 ok       [ZZ32] noctx+coerce
+lh6    instr.compile.L0     ok       [OR(ZZ64,IntLiteral)]
+lh6    instr.compile.A0     REFUSED  FAIL
+lh6    rule-instr.compile.L0 ok       [ZZ64] ctx
+lh6    rule-instr.compile.A0 ok       [ZZ64] noctx+coerce
+tw1    instr.compile.L0     REFUSED  FAIL
+tw1    instr.compile.A0     REFUSED  FAIL
+tw1    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+tw1    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+tw2    instr.compile.L0     REFUSED  FAIL
+tw2    instr.compile.A0     REFUSED  FAIL
+tw2    rule-instr.compile.L0 ok       [ZZ64] noctx+coerce
+tw2    rule-instr.compile.A0 ok       [ZZ64] noctx+coerce
+tw3    instr.compile.L0     ok       [ZZ32]
+tw3    instr.compile.A0     REFUSED  FAIL
+tw3    rule-instr.compile.L0 ok       [ZZ32] ctx
+tw3    rule-instr.compile.A0 REFUSED  FAIL
+rg1    instr.compile.L0     ok       [ZZ32]
+rg1    instr.compile.A0     REFUSED  FAIL
+rg1    rule-instr.compile.L0 ok       [ZZ32] ctx
+rg1    rule-instr.compile.A0 ok       [ZZ32] noctx+coerce
+rg2    instr.compile.L0     ok       [IntLiteral]
+rg2    instr.compile.A0     REFUSED  FAIL
+rg2    rule-instr.compile.L0 ok       [IntLiteral] ctx
+rg2    rule-instr.compile.A0 REFUSED  FAIL
+rg3    instr.compile.L0     ok       [ZZ32]
+rg3    instr.compile.A0     REFUSED  FAIL
+rg3    rule-instr.compile.L0 ok       [ZZ32] ctx
+rg3    rule-instr.compile.A0 ok       [ZZ32] noctx+coerce
+rg4    instr.compile.L0     ok       [OR(ZZ64,IntLiteral)]
+rg4    instr.compile.A0     REFUSED  FAIL
+rg4    rule-instr.compile.L0 ok       [ZZ64] ctx
+rg4    rule-instr.compile.A0 ok       [ZZ64] noctx+coerce
+rg5    instr.compile.L0     ok       [OR(IntLiteral,ZZ64)]
+rg5    instr.compile.A0     REFUSED  FAIL
+rg5    rule-instr.compile.L0 ok       [ZZ64] ctx
+rg5    rule-instr.compile.A0 ok       [ZZ64] noctx+coerce
+rg6    instr.compile.L0     ok       [OR(ZZ32,ZZ64)]
+rg6    instr.compile.A0     ok       [OR(ZZ32,ZZ64)]
+rg6    rule-instr.compile.L0 ok       [ZZ64] ctx
+rg6    rule-instr.compile.A0 ok       [ZZ64] ctx
+rg7    instr.compile.L0     ok       FAIL
+rg7    instr.compile.A0     ok       FAIL
+rg7    rule-instr.compile.L0 ok       FAIL
+rg7    rule-instr.compile.A0 ok       FAIL
+rg7b   instr.compile.L0     ok       [IntLiteral]
+rg7b   instr.compile.A0     REFUSED  FAIL
+rg7b   rule-instr.compile.L0 ok       [IntLiteral] ctx
+rg7b   rule-instr.compile.A0 REFUSED  FAIL
+rg8    instr.compile.L0     ok       [IntLiteral]
+rg8    instr.compile.A0     REFUSED  FAIL
+rg8    rule-instr.compile.L0 ok       [IntLiteral] ctx
+rg8    rule-instr.compile.A0 REFUSED  FAIL
+bx1    instr.compile.L0     REFUSED  [IntLiteral]
+bx1    instr.compile.A0     REFUSED  [IntLiteral]
+bx1    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+bx1    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+bx2    instr.compile.L0     REFUSED  FAIL
+bx2    instr.compile.A0     REFUSED  FAIL
+bx2    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+bx2    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+bx3    instr.compile.L0     REFUSED  FAIL
+bx3    instr.compile.A0     REFUSED  FAIL
+bx3    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+bx3    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+bx4    instr.compile.L0     REFUSED  FAIL
+bx4    instr.compile.A0     REFUSED  FAIL
+bx4    rule-instr.compile.L0 ok       [IntLiteral] noctx
+bx4    rule-instr.compile.A0 ok       [IntLiteral] noctx
+bx5    instr.compile.L0     REFUSED  FAIL
+bx5    instr.compile.A0     REFUSED  FAIL
+bx5    rule-instr.compile.L0 ok       [IntLiteral] noctx
+bx5    rule-instr.compile.A0 ok       [IntLiteral] noctx
+bx6    instr.compile.L0     ok       [IntLiteral]
+bx6    instr.compile.A0     ok       [IntLiteral]
+bx6    rule-instr.compile.L0 ok       [IntLiteral] noctx
+bx6    rule-instr.compile.A0 ok       [IntLiteral] noctx
+bx7    instr.compile.L0     REFUSED  [ZZ32]
+bx7    instr.compile.A0     REFUSED  [ZZ32]
+bx7    rule-instr.compile.L0 ok       [ZZ64] ctx+coerce
+bx7    rule-instr.compile.A0 ok       [ZZ64] ctx+coerce
+bx8    instr.compile.L0     REFUSED  [ZZ64]
+bx8    instr.compile.A0     REFUSED  [ZZ64]
+bx8    rule-instr.compile.L0 REFUSED  [ZZ64] noctx
+bx8    rule-instr.compile.A0 REFUSED  [ZZ64] noctx

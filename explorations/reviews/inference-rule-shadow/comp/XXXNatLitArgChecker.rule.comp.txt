@@ -1,0 +1,6 @@
+# comp XXXNatLitArgChecker rule 2026-09-27T20:34:57Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.53 19.86 16.41; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+PASS
+run rc=0

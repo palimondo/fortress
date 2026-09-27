@@ -1,0 +1,14 @@
+# comp RuleCRun rule 2026-09-27T20:34:40Z; tree f250c67ab (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.61 19.57 16.24; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+hd(mat, bs, nhd, 2):  128
+scale64(bS, 3):  6
+scale64(bS, z):  6
+scale(bL, 3):  ZZ64
+scale(bL, z):  ZZ64
+pick(z, l):  ZZ64 , ZZ64
+pick(3, l):  ZZ64 , ZZ64
+lohi32(2, 46):  ZZ32 , ZZ32
+a: BoxT[\ZZ64\] = wrapT(3):  7
+run rc=0

@@ -1,0 +1,12 @@
+# comp Bind3Z stock 2026-09-27T20:28:54Z; tree db19a200e (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 18.65 18.15 14.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+Bind3Z.fss:35:18:
+    Right-hand side has type ZZ32, but declared type is RR64.
+File Bind3Z.fss has 1 error.
+compile rc=255
+## run
+Could not load Bind3Z
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Bind3Z.class
+	... 4 more
+run rc=1
