@@ -1,0 +1,14 @@
+component Sk2FnValueArg
+export Executable
+
+hh(x: ZZ32): ZZ32 = 1
+hh(x: Any): ZZ32 = 2
+
+app2(g: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = g(x)
+
+run(): () = do
+    z: ZZ32 = 5
+    println(app2(hh, z))
+  end
+
+end

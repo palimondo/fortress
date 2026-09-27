@@ -1,0 +1,74 @@
+# machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 0.72 0.65 3.21 3/140 26775; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+########## rung's checker: XXXNatUnknownSizeArm
+. compile compiler_tests/XXXNatUnknownSizeArm ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.fss:10:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeArm.fss has 1 error.
+ Saw expected failure
+
+Time: 2.134
+
+OK (1 test)
+
+########## rung's checker: XXXNatUnknownSizeVal
+. compile compiler_tests/XXXNatUnknownSizeVal ProjectFortress/compiler_tests/XXXNatUnknownSizeVal.fss:10:13-16:
+    Could not check call to function ev
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeVal.fss has 1 error.
+ Saw expected failure
+
+Time: 2.336
+
+OK (1 test)
+
+########## rung's checker: XXXNatUnknownSizeFnValue
+. compile compiler_tests/XXXNatUnknownSizeFnValue ProjectFortress/compiler_tests/XXXNatUnknownSizeFnValue.fss:11:13-15:
+    Could not check function application
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeFnValue.fss has 1 error.
+ Saw expected failure
+
+Time: 1.903
+
+OK (1 test)
+
+########## rung's checker: XXXOverloadedFnValue
+. compile compiler_tests/XXXOverloadedFnValue java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+ OK Saw expected exception
+
+Time: 2.271
+
+OK (1 test)
+
+########## rung's checker: NatKnownSizeArm
+. compile compiler_tests/NatKnownSizeArm  OK (time = 2343ms)
+. link compiler_tests/NatKnownSizeArm  OK (time = 2025ms)
+. run compiler_tests/NatKnownSizeArm (766ms) PASS
+Passed
+
+Time: 5.146
+
+OK (3 tests)
+
+########## untouched checker (shadow): XXXNatUnknownSizeFnValue
+. compile compiler_tests/XXXNatUnknownSizeFnValue 
+ Did not satisfy compile_err_WIcontains; expected
+Could not check function application - Could not infer static argument nat n without context.
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+F
+Time: 1.739
+There was 1 failure:
+1) compiler_tests/XXXNatUnknownSizeFnValue(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+########## untouched checker (shadow): XXXOverloadedFnValue
+. compile compiler_tests/XXXOverloadedFnValue java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+ OK Saw expected exception
+
+Time: 1.787
+
+OK (1 test)
+
+EXIT=0

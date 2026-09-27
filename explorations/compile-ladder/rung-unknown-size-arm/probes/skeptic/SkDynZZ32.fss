@@ -1,0 +1,15 @@
+component SkDynZZ32
+export Executable
+
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 5
+    a: Any = z
+    println(ee(a))
+    l: Any = 5
+    println(ee(l))
+  end
+
+end

@@ -1,0 +1,1 @@
+skeptic start: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 5.16 6.21 6.80 9/159 16932; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1

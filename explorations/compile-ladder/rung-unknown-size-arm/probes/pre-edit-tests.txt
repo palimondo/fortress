@@ -1,0 +1,79 @@
+# probes/rung-tests.sh on the untouched checker (e5414f5bf), the rung's five test files; nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load at rung start 2.70 3.35 3.26 4/128 21089; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; two rungs of batch 6 running at once on this box
+########## fortress junit compiler_tests/XXXNatUnknownSizeArm.test
+. compile compiler_tests/XXXNatUnknownSizeArm 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Could not infer static argument nat n without context.
+F
+Time: 1.325
+There was 1 failure:
+1) compiler_tests/XXXNatUnknownSizeArm(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## fortress junit compiler_tests/XXXNatUnknownSizeVal.test
+. compile compiler_tests/XXXNatUnknownSizeVal 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Could not infer static argument nat n without context.
+F
+Time: 1.264
+There was 1 failure:
+1) compiler_tests/XXXNatUnknownSizeVal(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## fortress junit compiler_tests/NatKnownSizeArm.test
+. compile compiler_tests/NatKnownSizeArm  OK (time = 1810ms)
+. link compiler_tests/NatKnownSizeArm  OK (time = 1536ms)
+. run compiler_tests/NatKnownSizeArm (436ms) PASS
+Passed
+
+Time: 3.79
+
+OK (3 tests)
+
+exit=0
+########## SystemJUTest -Dtests=<scratch copy of the two walk XXX files> (FORTRESS_JUNIT_VERBOSE=1)
+tmp/walkxxx
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e0397d5d_16
+. interpret tmp/walkxxx/XXXNatSizeExclusionWalk 
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/walkxxx/XXXNatSizeExclusionWalk.fss:10:1-24: and
+ OK Saw expected exception
+. interpret tmp/walkxxx/XXXNatBigSizeWalk 
+FAIL: a Int: 0 =/= a Long: 4294967296; row 418; Specification/basic/trait-parameters.tex:84-85, Specification/basic/expressions/constant.tex:96
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 13.905
+
+OK (2 tests)
+
+exit=0
+########## walk tests/XXXNatSizeExclusionWalk.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:10:1-24: and
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:9:1-23:
+first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:10:1-24:
+ProjectFortress/tests/XXXNatSizeExclusionWalk.fss:9:1-23:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+########## walk tests/XXXNatBigSizeWalk.fss
+FAIL: a Int: 0 =/= a Long: 4294967296; row 418; Specification/basic/trait-parameters.tex:84-85, Specification/basic/expressions/constant.tex:96
+Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+Library/FortressLibrary.fss:56:5-23:
+Library/FortressLibrary.fss:299:9-300:5:
+ProjectFortress/tests/XXXNatBigSizeWalk.fss:11:5-151:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+EXIT=0

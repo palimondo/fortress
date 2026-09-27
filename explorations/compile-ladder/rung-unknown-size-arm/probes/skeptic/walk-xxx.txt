@@ -1,0 +1,36 @@
+########## SystemJUTest -Dtests=tmp/sk-walkxxx
+tmp/sk-walkxxx
+. interpret tmp/sk-walkxxx/XXXNatSizeExclusionWalk 
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/sk-walkxxx/XXXNatSizeExclusionWalk.fss:10:1-24: and
+ OK Saw expected exception
+. interpret tmp/sk-walkxxx/XXXNatBigSizeWalk 
+0
+FAIL: row 418; Specification/basic/trait-parameters.tex:84-85, Specification/basic/expressions/constant.tex:96
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 3.038
+
+OK (2 tests)
+
+########## SystemJUTest -Dtests=tmp/sk-walkxxx-red
+9,10c9,10
+< g(b: Tg[\3\]): ZZ32 = 3
+< g(b: Tg[\4\]): ZZ32 = 4
+---
+> g(b: Ob3): ZZ32 = 3
+> g(b: Ob4): ZZ32 = 4
+tmp/sk-walkxxx-red
+. interpret tmp/sk-walkxxx-red/XXXNatSizeExclusionWalk 
+PASS
+
+ Missing expected failure 
+F
+Time: 2.682
+There was 1 failure:
+1) tmp/sk-walkxxx-red/XXXNatSizeExclusionWalk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/sk-walkxxx-red/XXXNatSizeExclusionWalk
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+EXIT=0

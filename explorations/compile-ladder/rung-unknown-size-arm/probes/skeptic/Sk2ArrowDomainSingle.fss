@@ -1,0 +1,13 @@
+component Sk2ArrowDomainSingle
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+ea[\nat n\](f: Box[\n\] -> ZZ32): ZZ32 = 1
+
+run(): () = do
+    g = fn (b: Any): ZZ32 => 3
+    println(ea(g))
+  end
+
+end

@@ -1,0 +1,35 @@
+# unfiltered run of Sk2FnValueArg (compiled with the rung's checker, caches of the component removed first); nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 0.08 0.57 3.35 2/109 25992; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-27T03:18:47Z
+java.lang.Error: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+	at java.basejdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.basejava.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.basejava.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.basejava.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:562)
+	at java.basejava.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.basejava.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.basejava.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at Sk2FnValueArg.main(homeuserfortress-armexplorationscompile-ladderrung-unknown-size-armprobesskepticSk2FnValueArg.fss)
+	at java.basejdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.basejava.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForFunctionOrGeneric(InstantiatingClassloader.java:2512)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForGeneric(InstantiatingClassloader.java:2485)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:273)
+	at java.basejava.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.basejava.lang.ClassLoader.defineClass1(Native Method)
+	at java.basejava.lang.ClassLoader.defineClass(ClassLoader.java:962)
+	at java.basejava.lang.ClassLoader.defineClass(ClassLoader.java:826)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:325)
+	at java.basejava.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at Sk2FnValueArg.run(homeuserfortress-armexplorationscompile-ladderrung-unknown-size-armprobesskepticSk2FnValueArg.fss:10)
+	at Sk2FnValueArg.compute(homeuserfortress-armexplorationscompile-ladderrung-unknown-size-armprobesskepticSk2FnValueArg.fss)
+	at java.basejava.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.basejava.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.basejava.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.basejava.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.basejava.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+Caused by: java.io.IOException: Resource not found : AbstractIntersection??.xlation
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.xlationForFunctionOrGeneric(InstantiatingClassloader.java:2508)
+	... 15 more
+exit=1

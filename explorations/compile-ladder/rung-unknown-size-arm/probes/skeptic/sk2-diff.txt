@@ -1,0 +1,270 @@
+# second judgement's differential (probes/skeptic/diff.sh: walk; compile with the untouched checker's shadow, tmp/sk-base/classes, then run; compile with the rung's checker, then run)
+# machine: nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 0.08 0.57 3.35 2/109 25992; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-27T03:18:47Z
+================ Sk2ArrowDomain
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+2
+exit=0
+########## compile (after)
+exit=0
+########## run (after)
+2
+exit=0
+================ Sk2SubtypeFix
+########## walk
+3
+0
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+3
+0
+exit=0
+########## compile (after)
+exit=0
+########## run (after)
+3
+0
+exit=0
+================ Sk2Partial
+########## walk
+3
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+3
+exit=0
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Partial.fss:10:13-25:
+    Could not check call to function ep
+    - Could not infer static argument nat n without context.
+File Sk2Partial.fss has 1 error.
+exit=255
+================ Sk2GenericBound
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+1
+exit=0
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2GenericBound.fss:10:33-36:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File Sk2GenericBound.fss has 1 error.
+exit=255
+================ Sk2Coerce
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+2
+exit=0
+########## compile (after)
+exit=0
+########## run (after)
+2
+exit=0
+================ Sk2Inherited
+########## walk
+1
+2
+exit=0
+########## compile (before)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:5:5-33:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:8:5-23:
+    Invalid overloading of m in trait Om:
+     (Om, Any)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:8:5-23
+ and [\nat n\](Tm, ZZ32)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:5:5-33
+File Sk2Inherited.fss has 1 error.
+exit=255
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:5:5-33:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:8:5-23:
+    Invalid overloading of m in trait Om:
+     (Om, Any)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:8:5-23
+ and [\nat n\](Tm, ZZ32)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Inherited.fss:5:5-33
+File Sk2Inherited.fss has 1 error.
+exit=255
+================ Sk2FnValueOther
+########## walk
+2
+exit=0
+########## compile (before)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+exit=1
+########## compile (after)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+exit=1
+================ Sk2Nested
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+1
+exit=0
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2Nested.fss:9:16-19:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File Sk2Nested.fss has 1 error.
+exit=255
+================ Sk2ObjSize
+########## walk
+3
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+3
+exit=0
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ObjSize.fss:11:13-26:
+    Could not check method invocation Bx[\3\].m
+    - Could not infer static argument nat n without context.
+File Sk2ObjSize.fss has 1 error.
+exit=255
+================ Sk2AllSized
+########## walk
+1
+exit=0
+########## compile (before)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2AllSized.fss:9:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat m without context.
+    - Could not infer static argument nat n without context.
+File Sk2AllSized.fss has 1 error.
+exit=255
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2AllSized.fss:9:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat m without context.
+    - Could not infer static argument nat n without context.
+File Sk2AllSized.fss has 1 error.
+exit=255
+EXIT=0
+# second batch, run by the same driver right after the first on the same machine and JDK, FORTRESS_THREADS=1 (the header line's command substitution did not expand, so the load of the first batch's start stands for it)
+================ Sk2ArrowDomainSingle
+########## walk
+1
+exit=0
+########## compile (before)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ArrowDomainSingle.fss:10:13-16:
+    Could not check call to function ea
+    - Could not infer static argument nat n without context.
+File Sk2ArrowDomainSingle.fss has 1 error.
+exit=255
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ArrowDomainSingle.fss:10:13-16:
+    Could not check call to function ea
+    - Could not infer static argument nat n without context.
+File Sk2ArrowDomainSingle.fss has 1 error.
+exit=255
+================ Sk2ArrowDomainVal
+########## walk
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ArrowDomainVal.fss:6:42:
+undefined variable [n]
+Context:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ArrowDomainVal.fss:6:42:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2ArrowDomainVal.fss:12:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+########## compile (before)
+exit=0
+########## run (before)
+2
+2
+exit=0
+########## compile (after)
+exit=0
+########## run (after)
+2
+2
+exit=0
+================ Sk2FnValueArg
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+java.lang.Error: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : AbstractIntersection??.xlation
+	... 15 more
+exit=1
+########## compile (after)
+exit=0
+########## run (after)
+java.lang.Error: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.lang.Error: Unable to read serialized data for AbstractIntersection??, recommend you delete the Fortress bytecode cache and relink
+Caused by: java.io.IOException: Resource not found : AbstractIntersection??.xlation
+	... 15 more
+exit=1
+================ Sk2FnValueArgTop
+########## walk
+1
+exit=0
+########## compile (before)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+exit=1
+########## compile (after)
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+exit=1
+EXIT=0
+# third batch, Sk2CoercePlain, the same driver, machine and JDK, FORTRESS_THREADS=1
+================ Sk2CoercePlain
+########## walk
+1
+exit=0
+########## compile (before)
+exit=0
+########## run (before)
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.FZZ32 Sk2CoercePlain.\=ec{_|explorations|compile-ladder|rung-unknown-size-arm|probes|skeptic|Sk2CoercePlain\,fss\!4\!1-21,_|explorations|compile-ladder|rung-unknown-size-arm|probes|skeptic|Sk2CoercePlain\,fss\!5\!1-21}(fortress.AnyType$Any)'
+exit=1
+########## compile (after)
+exit=0
+########## run (after)
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.FZZ32 Sk2CoercePlain.\=ec{_|explorations|compile-ladder|rung-unknown-size-arm|probes|skeptic|Sk2CoercePlain\,fss\!4\!1-21,_|explorations|compile-ladder|rung-unknown-size-arm|probes|skeptic|Sk2CoercePlain\,fss\!5\!1-21}(fortress.AnyType$Any)'
+exit=1
+EXIT=0
+# fourth batch, Sk2InheritedPlain (the size-free control of Sk2Inherited), the same driver, machine and JDK, FORTRESS_THREADS=1, load 3.91 1.99 2.76 just after it ran
+================ Sk2InheritedPlain
+########## walk
+1
+2
+exit=0
+########## compile (before)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:5:5-24:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:8:5-23:
+    Invalid overloading of m in trait Om:
+     (Om, Any)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:8:5-23
+ and (Tm, ZZ32)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:5:5-24
+File Sk2InheritedPlain.fss has 1 error.
+exit=255
+########## compile (after)
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:5:5-24:
+explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:8:5-23:
+    Invalid overloading of m in trait Om:
+     (Om, Any)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:8:5-23
+ and (Tm, ZZ32)->ZZ32 @ explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss:5:5-24
+File Sk2InheritedPlain.fss has 1 error.
+exit=255
+EXIT=0
