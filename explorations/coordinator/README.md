@@ -41,8 +41,10 @@ How they are kept:
   why. No "superseded by", no "corrected", no dated updates inside an entry.
   At each landing, or when he replaces a decision, the full text of a
   shortened or replaced `POSITIONS.md` entry moves verbatim to
-  `POSITIONS-history.md`, as a landed rung's narrative moves from `FACTS.md`
-  to `FACTS-history.md`.
+  `POSITIONS-history.md`. `FACTS.md` is consolidated before each batch
+  launches, since the batch's agents read it: what a new fact supersedes is
+  folded into the current entry and the old text moves verbatim to
+  `FACTS-history.md`.
 - One home per thing. His words are written once, in `POSITIONS.md`; every
   other file points to the entry. Nothing is written twice.
 - A remark is not a decision, and neither is a one-off go. A change to how we

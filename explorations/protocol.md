@@ -14,9 +14,10 @@ behind all of this are in `coordinator/POSITIONS.md`.
 
 These are not judgement calls.
 
-- Pavol decides what gets committed. A batch run, a Fable worker, an edit to a
-  line of the model, and any stop a batch record reserves for him wait for his
-  yes, each time. Standing approval covers only the approved ladder in
+- Pavol decides what gets committed. A batch run and a Fable worker wait for
+  his yes, each time. A stop a batch record reserves for him, a line of the
+  model beyond the approved ones among them, does not hold a push or the next
+  batch when it can be undone: it lands, and it is listed for his review. Standing approval covers only the approved ladder in
   `modernization-plan.md` and the push order below. A step his yes already
   covers is taken, not asked about again.
 - Never committed: a model identifier (a model is named by its tier: Fable,
@@ -54,8 +55,8 @@ where they conflict, the type group's later, implementation-informed word weighs
 more. So: no self-credit anywhere committed, attribution reconstructed where git
 does not record it, provenance and rationale in commit messages and reports
 rather than source comments, every claim verified against a primary source. The
-notation is what the project exists for; a change to a line of the model is
-shown to him as a diff before it is built.
+notation is what the project exists for; a change to a line of the model is shown
+to him as a diff.
 
 **2. A design question is answered from the evidence before it reaches him.**
 What the mathematics says; what each path does today, measured; what the

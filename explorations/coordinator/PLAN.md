@@ -48,6 +48,21 @@ What batch 6's brief must carry beyond the above (added 2026-09-26, after batch 
 - The D follow-up (POSITIONS 2026-09-26, rung D's stop): rung D lands on `main` as a follow-up to batch 5, one worker applying `wip/rung-wrap-operators`, gating once and pushing if green. Rung O builds on D's operators, so the brief states whether D has landed. D's provisional rows 405 and 407 are already rows 427 (`HeapShakedown`) and 428 (`QQ`'s `opr <`), and its unary ∔ candidate is row 429, so D's landing opens only its provisional 406, the message order. Row 428's `XXX` walk test is owed no later than rung O. Rows 416 and 418 owe their `XXX` walk tests to whichever rung owns `ProjectFortress/tests/`.
 - The rule for run-to-run output differences (POSITIONS 2026-09-26, rung D's stop): an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is not a stop; it is a ledger row. With it, the judge's advice for the flattening's and rung O's comparisons: list `XXXInheritedOverload` among the unstable files, citing D's order row (`compile-ladder/rung-wrap-operators/JUDGE.md` section 6).
 
+Batch 6 landed on 2026-09-27 (F, the flat tower; T, the number chapters; `compile-ladder/climb-batch-6/RECORD.md`). Rung R (a size the call cannot fix in an overload set) lands by hand, since its approving verdict was lost to a false-positive safety refusal; then the follow-up 6b runs rung O.
+
+### Phase 2b. The repair batch from the conformance reviews
+
+Pavol, 2026-09-27: what the reviews of batches 3 to 6 call for is repaired before phase 3. The reviews are `reviews/batch-3-conformance.md`, `batch-3.5-4-conformance.md`, `batch-5-conformance.md`, and batch 6's when it is made. From them, so far:
+
+- Rows 417, 419 and 420 (the compiled loader's first-load race, a parallel task in a generic declaration, a generic method building over two parameters), on the switch-over's path; row 417 gated by a program of its shape in the gate's four-thread stage.
+- A size's range as the specification states it (POSITIONS 2026-09-27): the checker refuses a size beyond `NN32`/`ZZ32`, `NatRtBigSize` and row 418's walk test restated.
+- Two compiled dispatch defects with no ledger row, with their probes as expected-failure tests and the measured 43-line fix.
+- `NN32`'s `LCM` passing its operands sign-extended.
+- The specification's text for the integer rules of 2026-09-22, and row 394's example.
+- The scalar block's comment that points the array design at a refused shape; stale specification line numbers in seven batch-3 test messages.
+
+Planned by one Opus worker, reviewed in place by Fable, launched on his go.
+
 ### Phase 3. The checker at a true zero
 
 - The count cannot see the whole distance. The `FortressLibrary` api stops at its first errors, and behind them waited 203 more (measured 09-22, 72 after cheap fixes). The library's component is never checked. The compile path's own setting that gives every static parameter `extends Object` added 712 errors. Overload dispatch generation did not finish on this library (inventory B2; FACTS § The checker and the one library).
@@ -60,6 +75,8 @@ Needs answers 9 to 12, and a measurement first (W1 below).
 
 - The natives: 29 of walk's 108 bindings with no compiler helper written, and the 231 of `FortressBuiltin` matched to existing helpers. Re-approval row 41 (an api whose component has another name fails to link) becomes live work here (inventory item 13).
 - The names: the compiled path reads the interpreter's library, and the compiler's three prelude files are deleted with their tests kept. At least 48 compiler tests are respelled, the reversed wrap spellings of row 348 among them, and rows 381 and 383 close (inventory B1 step 15).
+
+- From the reviews: printing an object with no `asString` overflows the stack once the compiled path reads the one library (`reviews/batch-3-conformance.md`); nothing in the library narrows a number with a check after the prelude's `asZZ32` leaves (`reviews/batch-3.5-4-conformance.md`).
 
 Not yet designed as briefs. The record's shape is at least two batches (`coordinator/library-route-judgement.md:37`).
 
@@ -98,6 +115,20 @@ Before the switch-over:
 10. The `fill` pairs. A clean list first (W3). One way is measured, renaming the function-taking `fill`, but it touches 23 calls in C4 and the APL base (inventory B1 step 11).
 11. The count as the switch-over's measure. It became report-only on 09-23 without his yes, and it cannot see the whole distance. Proposal: keep reporting it, and measure the full distance separately (W1) (inventory item 14, C11).
 12. Rung N's decision 3 (a size left unknown at a call is refused there), the dead sizes' diff (25 api declarations), and row 41 (the linker lookup). Rung N's reading is the default; the other two come with the switch-over's design (inventory items 11, 12 and 13).
+
+Before batch 7b, raised 2026-09-27:
+
+14. The sentence rung S wrote, that a where-clause variable may not appear as a static argument in an `extends` clause, which refuses more than the rule (`reviews/batch-5-conformance.md`). Not decided: he wants a plain explainer first. Batch 7b's specification rung leaves the sentence alone until he answers.
+15. Arithmetic in a size. The checker refuses it (rung N), and the one library stores every rank-2 and rank-3 array in a field sized by a product (`Library/FortressLibrary.fss:2519`, `:2667`, `:2890`; 11 errors in the full measurement). The cheapest way is a checker that compares size expressions by structure and folds numeral products (`reviews/batch-3.5-4-conformance.md`).
+16. Rung C's two points that reached him only as parked lines: walk and the compiled run choose different overloads when an argument's static type needs a coercion but its value matches another; the judge's choice of which tuple bindings convert (row 395). Default: take both as landed; sent with batch 7b's walk rung.
+
+Asked 2026-09-27, waiting for his answer:
+
+- For 6b: the three questions every rung worker answers (the library's own way, the ledger rows searched, the decisions relied on), skeptic checks 11 to 13 that verify them, and the gather filing every item marked for him in this file, without holding the batch (branch `script-retry`, the proposal commit).
+- A line for principle 5 of the protocol: a worker's change is reviewed by reading the change, not its report.
+- Re-deriving the ledger's worklist and counts over all rows, grouped by the plan phase that closes each open row.
+- May a Fable judge rule overnight on a review's findings?
+- F's `=` on `Number`, flagged for him in rung F's report; a judge striking a candidate from a fork (`reviews/batch-3-conformance.md`).
 
 After the switch-over:
 
