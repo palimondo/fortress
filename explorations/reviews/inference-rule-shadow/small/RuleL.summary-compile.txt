@@ -256,5 +256,5 @@ RuleL.fss:107  bx7(): () = do a: BoxT[\ZZ64\] = wrapT(z); () end
 RuleL.fss:108  bx8(): () = do a: BoxT[\ZZ32\] = wrapT(l); () end
     instr.compile.L0         34-40 expected=NONE -> [ZZ64]  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
     instr.compile.A0         34-40 expected=NONE -> [ZZ64]  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-    rule-instr.compile.L0    34-40 expected=BoxT[\ZZ32\] -> [ZZ64] noctx  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-    rule-instr.compile.A0    34-40 expected=BoxT[\ZZ32\] -> [ZZ64] noctx  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+    rule-instr.compile.L0    34-40 expected=BoxT[\ZZ32\] -> FAIL  ::  Could not check call to function wrapT - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+    rule-instr.compile.A0    34-40 expected=BoxT[\ZZ32\] -> FAIL  ::  Could not check call to function wrapT - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.

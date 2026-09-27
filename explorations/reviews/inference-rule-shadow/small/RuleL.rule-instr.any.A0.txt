@@ -1,4 +1,4 @@
-# check.sh rule-instr any A0 RuleL 2026-09-27T20:09:03Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.49 10.72 7.12; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 33 s
+# check.sh rule-instr any A0 RuleL 2026-09-27T20:58:42Z; tree 9bae41986 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.83 17.23 16.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 28 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN RuleL.fss:11:34-44 expected=BoxT[\T\]
 @@PROBE-R FN-OK RuleL.fss:11:34-44 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
@@ -135,41 +135,37 @@
 @@PROBE-R FN RuleL.fss:107:34-40 expected=BoxT[\ZZ64\]
 @@PROBE-R FN-OK RuleL.fss:107:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
 @@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN-FAIL RuleL.fss:108:34-40
 @@PROBE-R FN RuleL.fss:34:25-37 expected=Wide
 @@PROBE-R FN-OK RuleL.fss:34:25-37 sargs=[] range=WideOf args=(FieldRef:ZZ32) phase=ctx
 # the program's own error lines (with 3 lines of context each):
-159:RuleL.fss:48:11-17:
-160-    Right-hand side has type NN64, but declared type is ZZ64.
-161:RuleL.fss:83:20-29:
-162-    Could not check call to function lohi
-163-    - [\I extends AnyIntegral\](I, I)->I is not applicable to an argument of type (IntLiteral, IntLiteral).
-164:RuleL.fss:91:20-29:
-165-    Could not check call to function twice
-166-    - [\T extends Integral[\T\]\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
-167:RuleL.fss:93:20:
-168-    Could not check call to operator :
-169-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
-170-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+155:RuleL.fss:48:11-17:
+156-    Right-hand side has type NN64, but declared type is ZZ64.
+157:RuleL.fss:83:20-29:
+158-    Could not check call to function lohi
+159-    - [\I extends AnyIntegral\](I, I)->I is not applicable to an argument of type (IntLiteral, IntLiteral).
+160:RuleL.fss:91:20-29:
+161-    Could not check call to function twice
+162-    - [\T extends Integral[\T\]\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
+163:RuleL.fss:93:20:
+164-    Could not check call to operator :
+165-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+166-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
 --
-173:RuleL.fss:99:21:
-174-    Could not check call to operator #
-175-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
-176-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+169:RuleL.fss:99:21:
+170-    Could not check call to operator #
+171-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+172-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
 --
-179:RuleL.fss:100:20:
-180-    Could not check call to operator #
-181-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
-182-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+175:RuleL.fss:100:20:
+176-    Could not check call to operator #
+177-    - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\(I, J, K)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+178-    - [\I extends AnyIntegral, J extends AnyIntegral\]((I, J), (I, J))->CompactFullRange[\(I, J)\] is not applicable to an argument of type (IntLiteral, IntLiteral).
 --
-185:RuleL.fss:108:34-40:
-186-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-187-File RuleL.fss has 7 errors.
-188-### rc=-1
+181:RuleL.fss:108:34-40:
+182-    Could not check call to function wrapT
+183-    - [\T\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+184-File RuleL.fss has 7 errors.
 # tallies:
 File RuleL.fss has 7 errors.
 ### rc=-1

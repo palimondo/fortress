@@ -36,7 +36,7 @@ index e30f2a8a3..9155f3b51 100644
            } else {
              val (head, tail) = associateMathItems( newFront, rest )
 diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
-index a6f728684..896323d73 100644
+index a6f728684..e0707fdf3 100644
 --- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
 +++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
 @@ -125,7 +125,8 @@ trait Functionals { self: STypeChecker with Common =>
@@ -191,7 +191,7 @@ index a6f728684..896323d73 100644
    /**
     * Check that the arrow type is applicable to these args without any static
     * argument inference. The resulting args may have coercions.
-@@ -445,8 +552,16 @@ trait Functionals { self: STypeChecker with Common =>
+@@ -445,8 +552,20 @@ trait Functionals { self: STypeChecker with Common =>
      // Check all the checkable args and make sure they all have types.
      val args = partitionArgs(iargs).getOrElse(return None)
  
@@ -199,14 +199,18 @@ index a6f728684..896323d73 100644
 -    val es = preCandidates.map(pc => checkApplicable(pc, context, args, mOpName))
 +    // Filter the overloadings that are applicable: by subtyping with the
 +    // context; failing that, with coercion; failing that, both again without
-+    // the context, so that a coercion of the result still applies. Errors are
-+    // the first attempt's.
++    // the context, kept only when the result then converts to the context,
++    // so that a coercion of the result still applies. Errors are the first
++    // attempt's.
 +    def applicable(ctx: Option[Type], coerce: Boolean) =
 +      preCandidates.map(pc => checkApplicable(pc, ctx, args, mOpName, coerce))
++    def found(es: List[Either[AppCandidate, OverloadingError]], ctx: Option[Type]) =
++      es.exists(_.isLeft) && (ctx.isDefined || context.forall(c => coercions.substitutableFor(
++        es.collect { case Left(a) => a }.sortWith(moreSpecificCandidate).head.arrow.getRange, c)))
 +    val first = applicable(context, false)
 +    val es = if (first.exists(_.isLeft)) first else
 +      ((context, true) :: (if (context.isDefined) List((None, false), (None, true)) else Nil)).
-+        iterator.map(p => applicable(p._1, p._2)).find(_.exists(_.isLeft)).getOrElse(first)
++        iterator.map(p => (applicable(p._1, p._2), p._1)).find(p => found(p._1, p._2)).map(_._1).getOrElse(first)
      val (candidates, overloadingErrors) =
          (for (Left(x) <- es) yield x, for (Right(x) <- es) yield x)
  

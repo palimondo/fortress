@@ -1,15 +1,27 @@
-DArg any A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 0
+DArg any A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
-DArg any L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 0
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DArg any L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
-DArg compile A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 0
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DArg compile A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
-DArg compile L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 0
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+DArg compile L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
-DArg walk A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 0
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+DArg walk A0: stock 3 errors, rule 2; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
-DArg walk L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 0
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DArg walk L0: stock 2 errors, rule 1; cleared 1, new 0, message changed 1
     cleared  15:34-40  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+    changed  14:28-32  stock: Right-hand side has type IntLiteral, but declared type is String.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
 DCtx any A0: stock 14 errors, rule 3; cleared 11, new 0, message changed 0
     cleared  15:26-30  Could not check call to function make - Could not infer static argument T without context.
     cleared  17:13-17  Could not check call to function make - Could not infer static argument T without context.
@@ -62,28 +74,40 @@ DCtx walk L0: stock 14 errors, rule 3; cleared 11, new 0, message changed 0
     cleared  33:16-24  Could not check call to function fail - Could not infer static argument T without context.
     cleared  37:34-37  Could not check call to function mkB - Could not infer static argument T without context.
     cleared  42:35-41  Could not check call to function make - Could not infer static argument T without context.
-DMore any A0: stock 5 errors, rule 2; cleared 3, new 0, message changed 0
+DMore any A0: stock 5 errors, rule 2; cleared 3, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
     cleared  24:16-20  Could not check call to function make - Could not infer static argument T without context.
-DMore any L0: stock 5 errors, rule 2; cleared 3, new 0, message changed 0
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DMore any L0: stock 5 errors, rule 2; cleared 3, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
     cleared  24:16-20  Could not check call to function make - Could not infer static argument T without context.
-DMore compile A0: stock 3 errors, rule 1; cleared 2, new 0, message changed 0
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DMore compile A0: stock 3 errors, rule 1; cleared 2, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
-DMore compile L0: stock 3 errors, rule 1; cleared 2, new 0, message changed 0
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+DMore compile L0: stock 3 errors, rule 1; cleared 2, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
-DMore walk A0: stock 5 errors, rule 2; cleared 3, new 0, message changed 0
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+DMore walk A0: stock 5 errors, rule 2; cleared 3, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
     cleared  24:16-20  Could not check call to function make - Could not infer static argument T without context.
-DMore walk L0: stock 5 errors, rule 2; cleared 3, new 0, message changed 0
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+DMore walk L0: stock 5 errors, rule 2; cleared 3, new 0, message changed 1
     cleared  11:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ32\].
     cleared  12:34-39  Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
     cleared  24:16-20  Could not check call to function make - Could not infer static argument T without context.
+    changed  15:16-20  stock: Non-last expression in a block has type IntLiteral, but it must have () type.
+                        rule:  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
 OneShapeW any A0: stock 37 errors, rule 32; cleared 5, new 0, message changed 0
     cleared  100:28-36  Could not check call to function lohi - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, ZZ32).
     cleared  132:35  Could not check call to operator # - [\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]((I, J, K), (I, J, K))->CompactFullRange[\
@@ -117,7 +141,7 @@ OneShapeW walk L0: stock 7 errors, rule 3; cleared 4, new 0, message changed 0
     cleared  156:31-35  Could not check call to function seq - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type CompactFullRange[\OR
     cleared  204:29-38  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], IntLiteral).
     cleared  220:29-38  Could not check call to function scale - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], ZZ32).
-RuleL any A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
+RuleL any A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 1
     cleared  61:17-32  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
     cleared  62:17-28  Could not check call to function scaleT - [\T\](BoxT[\T\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
     cleared  63:17-37  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
@@ -144,7 +168,9 @@ RuleL any A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
-RuleL any L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+RuleL any L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 1
     cleared  66:16-28  Could not check call to function scale64 - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
     cleared  67:16-28  Could not check call to function scale64 - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
     cleared  68:15-25  Could not check call to function scale - [\T\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], IntLiteral).
@@ -159,7 +185,9 @@ RuleL any L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
-RuleL compile A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+RuleL compile A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 1
     cleared  61:17-32  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
     cleared  62:17-28  Could not check call to function scaleT - [\T extends Object\](BoxT[\T\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLit
     cleared  63:17-37  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
@@ -186,7 +214,9 @@ RuleL compile A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T extends Object\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
-RuleL compile L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+RuleL compile L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 1
     cleared  66:16-28  Could not check call to function scale64 - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLi
     cleared  67:16-28  Could not check call to function scale64 - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32)
     cleared  68:15-25  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], IntLiteral).
@@ -201,7 +231,9 @@ RuleL compile L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T extends Object\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
-RuleL walk A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+RuleL walk A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 1
     cleared  61:17-32  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
     cleared  62:17-28  Could not check call to function scaleT - [\T\](BoxT[\T\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
     cleared  63:17-37  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLite
@@ -228,7 +260,9 @@ RuleL walk A0: stock 33 errors, rule 7; cleared 26, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
-RuleL walk L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+RuleL walk L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 1
     cleared  66:16-28  Could not check call to function scale64 - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
     cleared  67:16-28  Could not check call to function scale64 - [\T\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
     cleared  68:15-25  Could not check call to function scale - [\T\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], IntLiteral).
@@ -243,5 +277,7 @@ RuleL walk L0: stock 15 errors, rule 1; cleared 14, new 0, message changed 0
     cleared  104:26  Could not check call to operator OPLUS - [\T\](T, T)->T is not applicable to an argument of type (IntLiteral, IntLiteral).
     cleared  105:26-34  Could not check method invocation Fac.idm - [\T\]T->T is not applicable to an argument of type IntLiteral.
     cleared  107:34-40  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
+    changed  108:34-40  stock: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+                        rule:  Could not check call to function wrapT - [\T\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
 
-# all: stock 375 error sites, rule 160; cleared 215, new 0, message changed 0
+# all: stock 375 error sites, rule 160; cleared 215, new 0, message changed 18

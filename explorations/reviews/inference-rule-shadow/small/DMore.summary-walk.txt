@@ -16,8 +16,8 @@ DMore.fss:13  d03(): () = do a: BoxV[\ZZ32\] = BoxV(z); () end
 DMore.fss:15  d04(): () = do idt(3); () end
     instr.walk.L0            16-20 expected=NONE -> [IntLiteral]  ::  Non-last expression in a block has type IntLiteral, but it must have () type.
     instr.walk.A0            16-20 expected=NONE -> [IntLiteral]  ::  Non-last expression in a block has type IntLiteral, but it must have () type.
-    rule-instr.walk.L0       16-20 expected=() -> [IntLiteral] noctx  ::  Non-last expression in a block has type IntLiteral, but it must have () type.
-    rule-instr.walk.A0       16-20 expected=() -> [IntLiteral] noctx  ::  Non-last expression in a block has type IntLiteral, but it must have () type.
+    rule-instr.walk.L0       16-20 expected=() -> FAIL  ::  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
+    rule-instr.walk.A0       16-20 expected=() -> FAIL  ::  Could not check call to function idt - [\T\]T->T is not applicable to an argument of type IntLiteral.
 DMore.fss:16  d05(): () = do sink(3); () end
     instr.walk.L0            16-21 expected=NONE -> [IntLiteral]  ::  no error
     instr.walk.A0            16-21 expected=NONE -> [IntLiteral]  ::  no error

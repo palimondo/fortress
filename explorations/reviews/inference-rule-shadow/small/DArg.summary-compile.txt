@@ -11,8 +11,8 @@ DArg.fss:13  a02(): () = do r: RR64 = idt(3); () end
 DArg.fss:14  a03(): () = do s: String = idt(3); () end
     instr.compile.L0         28-32 expected=NONE -> [IntLiteral]  ::  Right-hand side has type IntLiteral, but declared type is String.
     instr.compile.A0         28-32 expected=NONE -> [IntLiteral]  ::  Right-hand side has type IntLiteral, but declared type is String.
-    rule-instr.compile.L0    28-32 expected=String -> [IntLiteral] noctx  ::  Right-hand side has type IntLiteral, but declared type is String.
-    rule-instr.compile.A0    28-32 expected=String -> [IntLiteral] noctx  ::  Right-hand side has type IntLiteral, but declared type is String.
+    rule-instr.compile.L0    28-32 expected=String -> FAIL  ::  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+    rule-instr.compile.A0    28-32 expected=String -> FAIL  ::  Could not check call to function idt - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
 DArg.fss:15  a04(): () = do a: BoxT[\ZZ64\] = wrapT(3); () end
     instr.compile.L0         34-40 expected=NONE -> [IntLiteral]  ::  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
     instr.compile.A0         34-40 expected=NONE -> [IntLiteral]  ::  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].

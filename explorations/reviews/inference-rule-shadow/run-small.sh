@@ -4,12 +4,13 @@
 # setting, `any` and the compile path's, on today's library (L0) and on the numeral switch's copy
 # (A0); then summarize.py per program and setting into small/<Name>.summary-<setting>.txt.
 # The trace-free build `rule` is run once on RuleL and DArg to show the trace changes nothing.
+# VARIANTS="rule-instr" reruns the rule alone (the stock captures do not depend on the shadow).
 set -u
 D="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PD=$D/../numerics-plan-coordinator/probes-D/small
 for s in walk any compile; do
   for lib in L0 A0; do
-    for v in instr rule-instr; do
+    for v in ${VARIANTS:-instr rule-instr}; do
       for n in DCtx DArg DMore; do bash "$D/check.sh" $v $s $lib "$PD" $n "$D/small"; done
       for n in RuleL OneShapeW; do bash "$D/check.sh" $v $s $lib "$D/probes" $n "$D/small"; done
     done

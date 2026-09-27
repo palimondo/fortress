@@ -1,4 +1,4 @@
-# check.sh rule-instr compile L0 RuleL 2026-09-27T20:14:05Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 14.32 13.05 9.16; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 26 s
+# check.sh rule-instr compile L0 RuleL 2026-09-27T21:01:02Z; tree 9bae41986 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.96 17.15 16.84; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 23 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN RuleL.fss:11:34-44 expected=BoxT[\T\]
 @@PROBE-R FN-OK RuleL.fss:11:34-44 sargs=[] range=BoxT[\T\] args=(IntLiteralExpr:IntLiteral) phase=ctx
@@ -131,18 +131,14 @@
 @@PROBE-R FN RuleL.fss:107:34-40 expected=BoxT[\ZZ64\]
 @@PROBE-R FN-OK RuleL.fss:107:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
 @@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
-@@PROBE-R FN RuleL.fss:108:34-40 expected=BoxT[\ZZ32\]
-@@PROBE-R FN-OK RuleL.fss:108:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN-FAIL RuleL.fss:108:34-40
 @@PROBE-R FN RuleL.fss:34:25-37 expected=Wide
 @@PROBE-R FN-OK RuleL.fss:34:25-37 sargs=[] range=WideOf args=(FieldRef:ZZ32) phase=ctx
 # the program's own error lines (with 3 lines of context each):
-155:RuleL.fss:108:34-40:
-156-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
-157-File RuleL.fss has 1 error.
-158-### rc=-1
+151:RuleL.fss:108:34-40:
+152-    Could not check call to function wrapT
+153-    - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type ZZ64.
+154-File RuleL.fss has 1 error.
 # tallies:
 File RuleL.fss has 1 error.
 ### rc=-1

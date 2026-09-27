@@ -1,4 +1,4 @@
-# check.sh rule-instr compile A0 DCtx 2026-09-27T20:17:03Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 14.09 13.49 10.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 18 s
+# check.sh rule-instr compile A0 DCtx 2026-09-27T21:02:06Z; tree a65441550 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 15.54 16.70 16.71; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 25 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN DCtx.fss:6:18-31 expected=T
 @@PROBE-R FN-OK DCtx.fss:6:18-31 sargs=[] range=T args=(StringLiteralExpr:String) phase=ctx

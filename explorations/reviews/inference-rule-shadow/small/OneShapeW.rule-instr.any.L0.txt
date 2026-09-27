@@ -1,4 +1,4 @@
-# check.sh rule-instr any L0 OneShapeW 2026-09-27T20:05:13Z; tree bce467de8 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.40 8.37 5.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 43 s
+# check.sh rule-instr any L0 OneShapeW 2026-09-27T20:57:10Z; tree 9bae41986 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 17.22 17.26 16.75; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 47 s
 # the trace lines of the program's own file (@@PROBE-R):
 @@PROBE-R FN OneShapeW.fss:6:57-64 expected=NONE
 @@PROBE-R FN-OK OneShapeW.fss:6:57-64 sargs=[] range=String args=(VarRef:T) phase=ctx

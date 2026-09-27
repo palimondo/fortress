@@ -6,6 +6,7 @@
 #   ctests   the compiler's type checker over the gate's compiler-test files, stock and rule
 #   mg       microGPT's two programs on L0, A0 and A0T2, stock and rule
 #   dist     the distance, L0 and A0, walk's setting and any, stock and rule (order in the step)
+# VARIANTS="rule" (TVARIANTS="rule-instr" for tcheck) reruns the rule's side alone.
 set -u
 D="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$D/env.sh"
@@ -15,19 +16,19 @@ for step in "$@"; do
   echo "== $step start $(date -u +%FT%TZ) load $(cut -d' ' -f1-3 /proc/loadavg)"
   case $step in
     comp)
-      for v in stock rule; do bash "$D/comp.sh" libcache $v; done
-      for v in stock rule; do
+      for v in ${VARIANTS:-stock rule}; do bash "$D/comp.sh" libcache $v; done
+      for v in ${VARIANTS:-stock rule}; do
         bash "$D/comp.sh" cases $v "$FC" $CASES
         bash "$D/comp.sh" cases $v "$D/probes" RuleCRun
         bash "$D/comp.sh" cases $v "$S/compiler_tests" XXXNatLitArgChecker XXXCoercionGenericFnCompiledRungC
       done ;;
     tcheck)
-      for v in instr rule-instr; do
+      for v in ${TVARIANTS:-instr rule-instr}; do
         bash "$D/tcheck.sh" $v "$D/probes" RuleC "$D/small"
         bash "$D/tcheck.sh" $v "$FORTRESS_HOME/explorations/reviews/numerics-plan-coordinator/probes-D/small" DComp "$D/small"
       done ;;
     ctests)
-      for v in stock rule; do bash "$D/ctests.sh" $v; done
+      for v in ${VARIANTS:-stock rule}; do bash "$D/ctests.sh" $v; done
       python3 "$FORTRESS_HOME/explorations/reviews/numerics-plan-coordinator/probes-D/ctests/diff-ctests.py" \
         "$D/ctests/typecheck-stock.txt" "$D/ctests/typecheck-rule.txt" > "$D/ctests/diff.txt" ;;
     mg)

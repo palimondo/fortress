@@ -1,0 +1,90 @@
+RuleC.fss:52  r401d(): ZZ32 = hd(mat, 16, 4, 4)
+    instr.ctest              17-32 expected=NONE -> FAIL  ::  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral, IntLiteral, IntLiteral).
+    rule-instr.ctest         17-32 expected=ZZ32 -> [16,16] ctx+coerce  ::  no error
+RuleC.fss:53  r401e(): ZZ32 = scaleT(bS, 3)
+    instr.ctest              17-28 expected=NONE -> FAIL  ::  Could not check call to function scaleT - [\T extends Object\](BoxT[\T\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+    rule-instr.ctest         17-28 expected=ZZ32 -> [String] ctx+coerce  ::  no error
+RuleC.fss:54  r401f(): ZZ32 = hd(mat, bs, nhd, hdim)
+    instr.ctest              17-37 expected=NONE -> FAIL  ::  Could not check call to function hd - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral, IntLiteral, IntLiteral).
+    rule-instr.ctest         17-37 expected=ZZ32 -> [16,16] ctx+coerce  ::  no error
+RuleC.fss:55  r401g(): ZZ32 = uh(mat, nhd)
+    instr.ctest              17-27 expected=NONE -> FAIL  ::  Could not check call to function uh - [\nat r, nat c\](M[\r,c\], ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral).
+    rule-instr.ctest         17-27 expected=ZZ32 -> [16,16] ctx+coerce  ::  no error
+RuleC.fss:56  r401h(): ZZ32 = oh(M[\16, 1\](), vs)
+    instr.ctest              17-35 expected=NONE -> FAIL  ::  Could not check call to function oh - [\nat k\](M[\k,1\], ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,1\], IntLiteral).
+    rule-instr.ctest         17-35 expected=ZZ32 -> [16] ctx+coerce  ::  no error
+RuleC.fss:57  s64a(): ZZ64 = scale64(bS, 3)
+    instr.ctest              16-28 expected=NONE -> FAIL  ::  Could not check call to function scale64 - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+    rule-instr.ctest         16-28 expected=ZZ64 -> [String] ctx+coerce  ::  no error
+RuleC.fss:58  s64b(): ZZ64 = scale64(bS, z)
+    instr.ctest              16-28 expected=NONE -> FAIL  ::  Could not check call to function scale64 - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
+    rule-instr.ctest         16-28 expected=ZZ64 -> [String] ctx+coerce  ::  no error
+RuleC.fss:59  sc3(): ZZ64 = scale(bL, 3)
+    instr.ctest              15-25 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\ZZ64\], IntLiteral).
+    rule-instr.ctest         15-25 expected=ZZ64 -> [ZZ64] ctx+coerce  ::  no error
+RuleC.fss:60  scz(): ZZ64 = scale(bL, z)
+    instr.ctest              15-25 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\ZZ64\], ZZ32).
+    rule-instr.ctest         15-25 expected=ZZ64 -> [ZZ64] ctx+coerce  ::  no error
+RuleC.fss:61  scr(): RR64 = scale(bR, z)
+    instr.ctest              15-25 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+    rule-instr.ctest         15-25 expected=RR64 -> FAIL  ::  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+RuleC.fss:62  scn(): Wide = scale(bW, nw)
+    instr.ctest              15-26 expected=NONE -> FAIL  ::  Could not check call to function scale - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\Wide\], Narrow).
+    rule-instr.ctest         15-26 expected=Wide -> [Wide] ctx+coerce  ::  no error
+RuleC.fss:63  pk1(): () = do v = pick(z, l); () end
+    instr.ctest              20-28 expected=NONE -> [OR(ZZ32,ZZ64)]  ::  no error
+    rule-instr.ctest         20-28 expected=NONE -> [ZZ64] ctx  ::  no error
+RuleC.fss:64  pk2(): () = do v = pick(3, l); () end
+    instr.ctest              20-28 expected=NONE -> [OR(IntLiteral,ZZ64)]  ::  no error
+    rule-instr.ctest         20-28 expected=NONE -> [ZZ64] ctx  ::  no error
+RuleC.fss:65  pk3(): () = do v = pick(z, rr); () end
+    instr.ctest              20-29 expected=NONE -> [OR(ZZ32,RR64)]  ::  no error
+    rule-instr.ctest         20-29 expected=NONE -> [OR(ZZ32,RR64)] ctx  ::  no error
+RuleC.fss:66  pk5(): () = do v = pick(z, s); () end
+    instr.ctest              20-28 expected=NONE -> [OR(ZZ32,String)]  ::  no error
+    rule-instr.ctest         20-28 expected=NONE -> [OR(ZZ32,String)] ctx  ::  no error
+RuleC.fss:67  pk7(): () = do v = pick(wd, nw); () end
+    instr.ctest              20-30 expected=NONE -> [OR(Wide,Narrow)]  ::  no error
+    rule-instr.ctest         20-30 expected=NONE -> [Wide] ctx  ::  no error
+RuleC.fss:68  pk8(): () = do v = pick(3, 4); () end
+    instr.ctest              20-28 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.ctest         20-28 expected=NONE -> [IntLiteral] ctx  ::  no error
+RuleC.fss:69  pk9(): ZZ64 = pick(z, l)
+    instr.ctest              15-23 expected=NONE -> [OR(ZZ32,ZZ64)]  ::  no error
+    rule-instr.ctest         15-23 expected=ZZ64 -> [ZZ64] ctx+coerce  ::  no error
+RuleC.fss:70  pn1(): () = do v = pickN(3, l); () end
+    instr.ctest              20-29 expected=NONE -> [OR(IntLiteral,ZZ64)]  ::  no error
+    rule-instr.ctest         20-29 expected=NONE -> [ZZ64] ctx  ::  no error
+RuleC.fss:71  lh5(): () = do v = lohi32(2, 46); () end
+    instr.ctest              20-31 expected=NONE -> FAIL  ::  Could not check call to function lohi32 - [\I extends ZZ32\](I, I)->I is not applicable to an argument of type (IntLiteral, IntLiteral).
+    rule-instr.ctest         20-31 expected=NONE -> [ZZ32] noctx+coerce  ::  no error
+RuleC.fss:72  lh6(): () = do v = lohi32(2, z); () end
+    instr.ctest              20-30 expected=NONE -> FAIL  ::  Could not check call to function lohi32 - [\I extends ZZ32\](I, I)->I is not applicable to an argument of type (IntLiteral, ZZ32).
+    rule-instr.ctest         20-30 expected=NONE -> [ZZ32] noctx+coerce  ::  no error
+RuleC.fss:75  rg5(): () = do v = 0#l; () end
+    instr.ctest              20 expected=NONE -> FAIL  ::  Could not check call to operator # - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
+    rule-instr.ctest         20 expected=NONE -> FAIL  ::  Could not check call to operator # - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
+RuleC.fss:76  bx1(): () = do a: BoxT[\ZZ64\] = wrapT(3); () end
+    instr.ctest              34-40 expected=NONE -> [IntLiteral]  ::  Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+    rule-instr.ctest         34-40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+RuleC.fss:77  bx2(): () = do a: BoxT[\ZZ64\] = Fac.wrap(3); () end
+    instr.ctest              34-43 expected=BoxT[\ZZ64\] -> FAIL  ::  Could not check method invocation Fac.wrap - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+    rule-instr.ctest         34-43 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+RuleC.fss:78  bx3(): () = do a: BoxT[\ZZ64\] = BOXOF 3; () end
+    instr.ctest              40 expected=BoxT[\ZZ64\] -> FAIL  ::  Could not check call to operator BOXOF - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+    rule-instr.ctest         40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+RuleC.fss:79  bx4(): () = do a: ZZ64 = 3 OPLUS 4; () end
+    instr.ctest              26 expected=ZZ64 -> FAIL  ::  Could not check call to operator OPLUS - (Boolean, Boolean)->Boolean is not applicable to an argument of type (IntLiteral, IntLiteral). - [\T extends Object\](T, T)->T is not applicable to an argument of type (IntLiteral
+    rule-instr.ctest         26 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+RuleC.fss:80  bx5(): () = do a: ZZ64 = Fac.idm(3); () end
+    instr.ctest              26-34 expected=ZZ64 -> FAIL  ::  Could not check method invocation Fac.idm - [\T extends Object\]T->T is not applicable to an argument of type IntLiteral.
+    rule-instr.ctest         26-34 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+RuleC.fss:81  bx6(): () = do a: ZZ64 = idt(3); () end
+    instr.ctest              26-30 expected=NONE -> [IntLiteral]  ::  no error
+    rule-instr.ctest         26-30 expected=ZZ64 -> [IntLiteral] noctx  ::  no error
+RuleC.fss:82  bx7(): () = do a: BoxT[\ZZ64\] = wrapT(z); () end
+    instr.ctest              34-40 expected=NONE -> [ZZ32]  ::  Right-hand side has type BoxT[\ZZ32\], but declared type is BoxT[\ZZ64\].
+    rule-instr.ctest         34-40 expected=BoxT[\ZZ64\] -> [ZZ64] ctx+coerce (coerce:ZZ64)  ::  no error
+RuleC.fss:83  bx8(): () = do a: BoxT[\ZZ32\] = wrapT(l); () end
+    instr.ctest              34-40 expected=NONE -> [ZZ64]  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+    rule-instr.ctest         34-40 expected=BoxT[\ZZ32\] -> [ZZ64] noctx  ::  Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].

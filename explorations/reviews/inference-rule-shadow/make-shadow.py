@@ -14,9 +14,10 @@ Variants:
                   which one is applicable: by subtyping with the expected type (today's inference,
                   now with the context at f(x) too); with coercion and the expected type; and, when
                   there is an expected type, by subtyping without it and with coercion without it,
-                  so that a binding's coercion of the result still applies. A call applicable in
-                  the first phase is checked as today; the diagnostics of a refused call are the
-                  first phase's.
+                  each kept only when the result then converts to the expected type (subtype or
+                  coercion), so that a binding's coercion of the result still applies. A call
+                  applicable in the first phase is checked as today; the diagnostics of a refused
+                  call are the first phase's.
                 - checkApplicableWithCoercion (new): the static arguments are inferred from the
                   argument positions whose parameter type mentions a static parameter other than as
                   the whole type, and from the expected type; a type parameter that is the whole type
@@ -238,14 +239,18 @@ if RULE:
  "    val es = preCandidates.map(pc => checkApplicable(pc, context, args, mOpName))\n",
  "    // Filter the overloadings that are applicable: by subtyping with the\n"
  "    // context; failing that, with coercion; failing that, both again without\n"
- "    // the context, so that a coercion of the result still applies. Errors are\n"
- "    // the first attempt's.\n"
+ "    // the context, kept only when the result then converts to the context,\n"
+ "    // so that a coercion of the result still applies. Errors are the first\n"
+ "    // attempt's.\n"
  "    def applicable(ctx: Option[Type], coerce: Boolean) =\n"
  "      preCandidates.map(pc => checkApplicable(pc, ctx, args, mOpName, coerce))\n"
+ "    def found(es: List[Either[AppCandidate, OverloadingError]], ctx: Option[Type]) =\n"
+ "      es.exists(_.isLeft) && (ctx.isDefined || context.forall(c => coercions.substitutableFor(\n"
+ "        es.collect { case Left(a) => a }.sortWith(moreSpecificCandidate).head.arrow.getRange, c)))\n"
  "    val first = applicable(context, false)\n"
  "    val es = if (first.exists(_.isLeft)) first else\n"
  "      ((context, true) :: (if (context.isDefined) List((None, false), (None, true)) else Nil)).\n"
- "        iterator.map(p => applicable(p._1, p._2)).find(_.exists(_.isLeft)).getOrElse(first)\n", "phases")
+ "        iterator.map(p => (applicable(p._1, p._2), p._1)).find(p => found(p._1, p._2)).map(_._1).getOrElse(first)\n", "phases")
 
 # ---------------------------------------------------------------- the trace (instr, rule-instr)
 if TRACE:
@@ -260,8 +265,8 @@ if TRACE:
     f = f.rstrip("\n") + "\n\nobject FunctionalsProbe { var phase: String = \"\" }\n"
     if RULE:
         f = edit(f,
- "        iterator.map(p => applicable(p._1, p._2)).find(_.exists(_.isLeft)).getOrElse(first)\n",
- "        iterator.map(p => { FunctionalsProbe.phase = (if (p._1.isDefined) \"ctx\" else \"noctx\") + (if (p._2) \"+coerce\" else \"\"); applicable(p._1, p._2) }).find(_.exists(_.isLeft)).getOrElse(first)\n"
+ "        iterator.map(p => (applicable(p._1, p._2), p._1)).find(p => found(p._1, p._2)).map(_._1).getOrElse(first)\n",
+ "        iterator.map(p => { FunctionalsProbe.phase = (if (p._1.isDefined) \"ctx\" else \"noctx\") + (if (p._2) \"+coerce\" else \"\"); (applicable(p._1, p._2), p._1) }).find(p => found(p._1, p._2)).map(_._1).getOrElse(first)\n"
  "    if (first.exists(_.isLeft)) FunctionalsProbe.phase = \"ctx\"\n", "phase trace")
     for site, anchor, tail in (
         ("MI", "      val candidates =\n        checkApplication(preCandidates, arg, expected).getOrElse(return expr)\n\n", "      // We only care about the most specific one. We know"),

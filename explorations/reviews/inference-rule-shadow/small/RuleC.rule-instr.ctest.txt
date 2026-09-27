@@ -1,0 +1,112 @@
+# tcheck.sh rule-instr RuleC 2026-09-27T20:37:27Z; tree 5635fb2f3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.65 20.56 17.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=0; 41 s
+# the trace lines of the program's own file (@@PROBE-R):
+@@PROBE-R FN RuleC.fss:11:34-44 expected=BoxT[\T\]
+@@PROBE-R FN-OK RuleC.fss:11:34-44 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN RuleC.fss:14:35-45 expected=BoxT[\T\]
+@@PROBE-R FN-OK RuleC.fss:14:35-45 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN RuleC.fss:17:31-41 expected=BoxT[\T\]
+@@PROBE-R FN-OK RuleC.fss:17:31-41 sargs=[] range=BoxT[\T\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R MI RuleC.fss:21:36-45 expected=T
+@@PROBE-R MI-OK RuleC.fss:21:36-45 sargs=[] range=T args=(VarRef:T) phase=ctx
+@@PROBE-R FN RuleC.fss:45:19-32 expected=Box[\RR64\]
+@@PROBE-R FN-OK RuleC.fss:45:19-32 sargs=[] range=Box[\RR64\] args=(TraitCoercionInvocation:RR64) phase=ctx
+@@PROBE-R FN RuleC.fss:46:19-31 expected=Box[\ZZ64\]
+@@PROBE-R FN-OK RuleC.fss:46:19-31 sargs=[] range=Box[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx
+@@PROBE-R FN RuleC.fss:47:22-37 expected=BoxT[\String\]
+@@PROBE-R FN-OK RuleC.fss:47:22-37 sargs=[] range=BoxT[\String\] args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN RuleC.fss:48:19-38 expected=Box[\Wide\]
+@@PROBE-R FN RuleC.fss:48:31-38 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:48:31-38 sargs=[] range=WideOf args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN-OK RuleC.fss:48:19-38 sargs=[] range=Box[\Wide\] args=(_RewriteFnApp:WideOf) phase=ctx
+@@PROBE-R FN RuleC.fss:49:20-31 expected=M[\16,16\]
+@@PROBE-R FN-OK RuleC.fss:49:20-31 sargs=[] range=M[\16,16\] args=(VoidLiteralExpr:()) phase=ctx
+@@PROBE-R FN RuleC.fss:50:12-19 expected=Wide
+@@PROBE-R FN-OK RuleC.fss:50:12-19 sargs=[] range=WideOf args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN RuleC.fss:51:14-23 expected=Narrow
+@@PROBE-R FN-OK RuleC.fss:51:14-23 sargs=[] range=NarrowOf args=(TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R FN RuleC.fss:52:17-32 expected=ZZ32
+@@PROBE-R FN-OK RuleC.fss:52:17-32 sargs=[16, 16] range=ZZ32 args=(TupleExpr:(M[\16,16\], ZZ32, ZZ32, ZZ32)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:53:17-28 expected=ZZ32
+@@PROBE-R FN-OK RuleC.fss:53:17-28 sargs=[String] range=ZZ32 args=(TupleExpr:(BoxT[\String\], ZZ32)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:54:17-37 expected=ZZ32
+@@PROBE-R FN-OK RuleC.fss:54:17-37 sargs=[16, 16] range=ZZ32 args=(TupleExpr:(M[\16,16\], ZZ32, ZZ32, ZZ32)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:55:17-27 expected=ZZ32
+@@PROBE-R FN-OK RuleC.fss:55:17-27 sargs=[16, 16] range=ZZ32 args=(TupleExpr:(M[\16,16\], ZZ32)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:56:17-35 expected=ZZ32
+@@PROBE-R FN RuleC.fss:56:20-30 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:56:20-30 sargs=[] range=M[\16,1\] args=(VoidLiteralExpr:()) phase=ctx
+@@PROBE-R FN-OK RuleC.fss:56:17-35 sargs=[16] range=ZZ32 args=(TupleExpr:(M[\16,1\], ZZ32)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:57:16-28 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:57:16-28 sargs=[String] range=ZZ64 args=(TupleExpr:(BoxT[\String\], ZZ64)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:58:16-28 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:58:16-28 sargs=[String] range=ZZ64 args=(TupleExpr:(BoxT[\String\], ZZ64)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:59:15-25 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:59:15-25 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(Box[\ZZ64\], ZZ64)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:60:15-25 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:60:15-25 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(Box[\ZZ64\], ZZ64)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:61:15-25 expected=RR64
+@@PROBE-R FN-FAIL RuleC.fss:61:15-25
+@@PROBE-R FN RuleC.fss:62:15-26 expected=Wide
+@@PROBE-R FN-OK RuleC.fss:62:15-26 sargs=[Wide] range=Wide args=(TupleExpr:(Box[\Wide\], Wide)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:63:20-28 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:63:20-28 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R FN RuleC.fss:64:20-28 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:64:20-28 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R FN RuleC.fss:65:20-29 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:65:20-29 sargs=[OR(ZZ32,RR64)] range=OR(ZZ32,RR64) args=(TupleExpr:(ZZ32, RR64)) phase=ctx
+@@PROBE-R FN RuleC.fss:66:20-28 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:66:20-28 sargs=[OR(ZZ32,String)] range=OR(ZZ32,String) args=(TupleExpr:(ZZ32, String)) phase=ctx
+@@PROBE-R FN RuleC.fss:67:20-30 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:67:20-30 sargs=[Wide] range=Wide args=(TupleExpr:(Wide, Wide)) phase=ctx
+@@PROBE-R FN RuleC.fss:68:20-28 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:68:20-28 sargs=[IntLiteral] range=IntLiteral args=(TupleExpr:(IntLiteral, IntLiteral)) phase=ctx
+@@PROBE-R FN RuleC.fss:69:15-23 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:69:15-23 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:70:20-29 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:70:20-29 sargs=[ZZ64] range=ZZ64 args=(TupleExpr:(ZZ64, ZZ64)) phase=ctx
+@@PROBE-R FN RuleC.fss:71:20-31 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:71:20-31 sargs=[ZZ32] range=ZZ32 args=(TupleExpr:(ZZ32, ZZ32)) phase=noctx+coerce
+@@PROBE-R FN RuleC.fss:72:20-30 expected=NONE
+@@PROBE-R FN-OK RuleC.fss:72:20-30 sargs=[ZZ32] range=ZZ32 args=(TupleExpr:(ZZ32, ZZ32)) phase=noctx+coerce
+@@PROBE-R OP RuleC.fss:73:20 # expected=NONE
+@@PROBE-R OP-OK RuleC.fss:73:20 sargs=[] range=Range args=(TraitCoercionInvocation:ZZ32, VarRef:ZZ32) phase=ctx
+@@PROBE-R OP RuleC.fss:74:20 : expected=NONE
+@@PROBE-R OP-OK RuleC.fss:74:20 sargs=[] range=Range args=(TraitCoercionInvocation:ZZ32, TraitCoercionInvocation:ZZ32) phase=ctx
+@@PROBE-R OP RuleC.fss:75:20 # expected=NONE
+@@PROBE-R OP-FAIL RuleC.fss:75:20
+@@PROBE-R FN RuleC.fss:76:34-40 expected=BoxT[\ZZ64\]
+@@PROBE-R FN-OK RuleC.fss:76:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R MI RuleC.fss:77:34-43 expected=BoxT[\ZZ64\]
+@@PROBE-R MI-OK RuleC.fss:77:34-43 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R OP RuleC.fss:78:40 BOXOF expected=BoxT[\ZZ64\]
+@@PROBE-R OP-OK RuleC.fss:78:40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R OP RuleC.fss:79:26 OPLUS expected=ZZ64
+@@PROBE-R OP-OK RuleC.fss:79:26 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral, IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R MI RuleC.fss:80:26-34 expected=ZZ64
+@@PROBE-R MI-OK RuleC.fss:80:26-34 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN RuleC.fss:81:26-30 expected=ZZ64
+@@PROBE-R FN-OK RuleC.fss:81:26-30 sargs=[IntLiteral] range=IntLiteral args=(IntLiteralExpr:IntLiteral) phase=noctx
+@@PROBE-R FN RuleC.fss:82:34-40 expected=BoxT[\ZZ64\]
+@@PROBE-R FN-OK RuleC.fss:82:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(TraitCoercionInvocation:ZZ64) phase=ctx+coerce
+@@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
+@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
+@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN RuleC.fss:83:34-40 expected=BoxT[\ZZ32\]
+@@PROBE-R FN-OK RuleC.fss:83:34-40 sargs=[ZZ64] range=BoxT[\ZZ64\] args=(VarRef:ZZ64) phase=noctx
+@@PROBE-R FN RuleC.fss:29:25-37 expected=Wide
+@@PROBE-R FN-OK RuleC.fss:29:25-37 sargs=[] range=WideOf args=(FieldRef:ZZ32) phase=ctx
+# the program's own error lines (with 3 lines of context each):
+109:RuleC.fss:61:15-25:
+110-    Could not check call to function scale
+111-    - [\T extends Object\](Box[\T\], T)->T is not applicable to an argument of type (Box[\RR64\], ZZ32).
+112:RuleC.fss:75:20:
+113-    Could not check call to operator #
+114-    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
+115:RuleC.fss:83:34-40:
+116-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+117-File RuleC.fss has 3 errors.
+118-### rc=-1 RuleC.fss ms=39397
+# tallies:
+File RuleC.fss has 3 errors.
+### rc=-1 RuleC.fss ms=39397
