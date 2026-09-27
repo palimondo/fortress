@@ -47,6 +47,18 @@ check)
 own)
   L=$1; shift; grep '^@@SC ERR' "$W/mg-$L-any.out" | grep "$W/$L/[A-Z][A-Za-z]*\.fs[is]:" | grep -v "$W/$L/\(FortressLibrary\|FortressBuiltin\|NativeArray\)" \
     | sed "s#$W/$L/##g" | awk -F'\t' '{print $4}' | sed 's/^ *//' ;;
+capture)
+  # into measure/: <copy>.own.txt (the program's own errors), <copy>.through.txt (the library's errors
+  # reported while checking the program's units), <copy>.stages.txt (header, stage lines, the program's
+  # declarations with their error counts and crashes, the run's end)
+  L=$1; shift; F=$W/mg-$L-any.out; M=$O/measure; mkdir -p "$M"
+  "$0" "$W" own "$L" > "$M/$L.own.txt"
+  grep '^@@SC ERR' "$F" | grep -E "	(api|component) (FlatArrays|FlatData|MicroGptFlat|MicroGptFlatCheck)	" \
+    | grep -v "	$W/$L/\(FlatArrays\|FlatData\|MicroGptFlat\|MicroGptFlatCheck\)\.fs" | sed "s#$W/$L/#<copy>/#g; s#$H/##g" | awk -F'\t' '{print $2" | "$4}' > "$M/$L.through.txt"
+  { grep '^#\|^###' "$F" | sed "s#$W#<scratch>#g"; grep -E '^@@SC STAGE' "$F"
+    grep -E '^@@TC DECL-' "$F" | grep "$W/$L/\(FlatArrays\|FlatData\|MicroGptFlat\|MicroGptFlatCheck\)\.fs" | sed "s#$W/$L/##g"
+    grep -E '^exit=|^ELAPSED' "$F"; } > "$M/$L.stages.txt"
+  echo "capture $L: $(wc -l < "$M/$L.own.txt") own, $(wc -l < "$M/$L.through.txt") through the program's units, $(grep -c DECL-CRASH "$M/$L.stages.txt") crashes" ;;
 walk)
   N=${1:-1}; [ $# -gt 0 ] && shift; R=$W/walkroot; C=$W/cache-walk
   rm -rf "$R" "$C"; mkdir -p "$R/c4" "$C/tmp"; printf '\0\0\0\0' > "$C/global.map"
