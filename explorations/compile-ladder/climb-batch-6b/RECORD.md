@@ -133,3 +133,49 @@ The judge ruled the review's finding repaired, the review's option (a) widened t
 **The gate's expectations.** `ant testFast` alone, with nothing built first. The compiler track is expected at 779 (777 and the two new `.test` files) with 0 failures; the library track at 83, the other-compiler track at 263, and the misc suites as the gate recorded them. `testSystem` 419, the checker table, the atomic runs, the ladder and the microGPT comparison stand as the gate recorded them, since none of them reads `ProjectFortress/compiler_tests/`. The gate summary's `testFast` lines are replaced by that run's.
 
 **The stop.** "An edit to any file not named above" (`explorations/coordinator/CLIMB-BATCH-6.md:203`) is met again by the three new files. It is lifted as reversible by `explorations/coordinator/POSITIONS.md:120` and listed here for Pavol, and it does not hold the push.
+
+## The merged-diff review after the repair
+
+Made 2026-09-27 on `main` at `519cb8ce3`. It read the rung's four commits together: the landing `917bb7b32`, the first review's `85788d183`, the judge's ruling `2f4736a0b` and the repair `519cb8ce3`. The two coordinator commits between them, `e17a9badc` and `265a0d719`, touch only `perf-probes/prelude/distance-triage/` and `INDEX.md`. The review's corrections are one commit, "Fold the review's corrections", inside `explorations/` only. The gate's results on `917bb7b32` stand, and the repair's re-run of `ant testFast` is still owed.
+
+**Checked and holding.**
+- **Batch rules 1 and 2.** There is one rung. The repair adds three files under `ProjectFortress/compiler_tests/` and edits no source, library or `tests/` file.
+- **The commits.**
+  - Footers are exact on every commit since `5c368175f`, and no commit carries a model identifier.
+  - `917bb7b32` and `519cb8ce3` are the two commits that touch paths outside `explorations/`, and each has its `historical:` line. `519cb8ce3`'s is "none", since its three files are the revival's own.
+  - Each rung commit carries its tests and its records together, and nothing of another rung.
+- **The repair matches the ruling** (`explorations/compile-ladder/climb-batch-6b/JUDGE-review.md` section 5):
+  - `XXXSeqHashBoundsRungO.fss` is the text the ruling gives. Its two `.test` files are the `SeqMidpointRungO` pair with the name changed.
+  - The notes on rows 453 and 450 are there, and so are the replacements in `FACTS.md:105`, the handover and `record.md`.
+  - The edits the ruling asks for are made: `REPORT.md` sections 13, 16 and 21, and this record's five edits in place and its repair section.
+  - The captures show the link test OK and "Saw expected failure" at `Library/CompilerLibrary.fss:446` from the file's `:13`. The probe's controls count 0, 0 and 3.
+- **The ledger.**
+  - Rows 449-453 follow row 448 with no gap or duplicate, and each has eight columns.
+  - Rows 315, 325, 326, 379, 403 and 427 differ from the base only by text appended to their last cell, plus the fixed-row status of rows 379 and 427. The repair's two notes went into rows 450 and 453, which this batch opened.
+  - No row moved or was deleted. 148 is still the one vacant number, and the count tables are the dated derivation over rows 1-310.
+- **`FACTS.md`, the handover and the tracked paths.**
+  - The new entry's line citations resolve: the four glue classes' spans, `Int.java:258-261`, the helpers' spans, `intPrim.fss:31-32` and `longPrim.fss:31-32`.
+  - Its counts match the captures: 20 raising and 16 non-throwing assertions, 395 + 1 + 17 = 413, 31 bound cases, 40 of 40.
+  - The handover's paragraph says six expected failures and four `.test` files.
+  - Every path the landed records cite exists and is tracked. The only exceptions are a component name without its extension, the renamed test's old name, a build directory and a stem of three probe files.
+- **The provenance block's five lines** end in a file:line, and the second skeptic opened them (`explorations/compile-ladder/rung-overflow-natives/SKEPTIC.md` section 2).
+- **The checker table.** The gate's table on `917bb7b32` (`tmp/gate-batch-6b/out/checker-count.txt`) is identical to the last landed one, `explorations/compile-ladder/climb-batch-6/followup-R/gate/checker-count.txt`: no row is new or risen. The repair adds nothing the checker count reads.
+
+**Corrected in the records.**
+- **The rung's `REPORT.md` section 8.** `probes/unstable-check.txt` marks three of the seventeen unstable files OUTSIDE (`QuickCheckTest`, `TreapTest`, `abortBlock`), and the report did not say so. All three print random or timing-dependent output, and each exits 0 in all three passes, so the run-to-run rule (`explorations/coordinator/POSITIONS.md:114`) accounts for them. The capture is `explorations/compile-ladder/climb-batch-6b/review/unstable-outside.txt`. It was read from the pass logs in the rung's worktree, and no program ran.
+- **The rung's `REPORT.md` section 9, and `FACTS.md`'s entry for the rung.** Three demos, `ArrayListLong`, `BiCGSTAB2` and `Generator2Demo`, reached the logging pass's 120 s limit on both passes. The entry said the pass met no overflow in any demo without saying that it saw only their first 120 s.
+- **The rung's `REPORT.md`.** Section 22 lists these corrections. `record.md` keeps the rung's text of the entry, as the first review left it.
+
+**Observed, not changed.**
+- **The notes on rows 315, 325 and 326.** They re-measure defects of rows that have no gated test. The rung's judge ruled each a note on its existing row (`explorations/compile-ladder/rung-overflow-natives/JUDGE.md` section 4, E to G), and this review leaves that ruling as it stands.
+- **The repair's junit helper.** `explorations/compile-ladder/rung-overflow-natives/probes/repair/run-junit.sh:12-13` removes `*SeqMidpointRungO*` from the caches whatever it runs. So the new pair's section of `explorations/compile-ladder/climb-batch-6b/repair/xxx-seq-hash-bounds-compiled.txt` (`:50`) shows that removal and not one of its own. The new component had never been compiled, so no stale class could be read, and the capture's `:80` removes both pairs.
+
+**Stops.**
+- **Met and lifted** by `explorations/coordinator/POSITIONS.md:120`:
+  - "a library body found to rely on wrapping" (the rung's `REPORT.md:144`);
+  - "an edit to any file not named above", met by the ten new test files, the repair's three among them (`REPORT.md:152`).
+- **The two standing stops** are lifted by `:65` and `:81`.
+- **Not met:**
+  - a changed interpreter output or exit code: 0 of 413 changed, and the three OUTSIDE files are run-to-run differences (above);
+  - an edit to a file another rung owns: there is one rung.
+- None holds the push.
