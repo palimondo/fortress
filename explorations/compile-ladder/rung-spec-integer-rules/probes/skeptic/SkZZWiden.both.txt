@@ -1,0 +1,11 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=1.15 1.77 3.05; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=9e65f13f9; date=2026-09-28T18:24:07Z
+=== $ bin/fortress /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss (walk) ===
+ZZ widen(2^64 + 5) = 5
+ZZ widen(-(2^63) - 1) = 9223372036854775807
+walk rc=0
+=== $ bin/fortress compile /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss (compiled; the prelude has no big and no widen on ZZ, row 349) ===
+/home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss:7:14-15:
+    Variable big is not defined.
+/home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss:8:30-31:
+    Variable big is not defined.
+compile rc=255

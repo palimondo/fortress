@@ -1,0 +1,8 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=7.62 5.51 4.29; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=c8556da87; date=2026-09-28T17:52:33Z
+=== $ bin/fortress compile explorations/compile-ladder/rung-spec-integer-rules/probes/rules/RulesCompiled.fss && bin/fortress run RulesCompiled (compiled)
+compile rc=0
+ZZ32 (2^31 - 1) LCM 2 overflows:  true
+ZZ32 -2^31 GCD 0 overflows:  true
+ZZ32 0 GCD -4:  4
+ZZ32 1 LCM -5:  5
+run rc=0

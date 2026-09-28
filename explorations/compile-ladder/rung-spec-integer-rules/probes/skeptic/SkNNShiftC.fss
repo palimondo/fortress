@@ -1,0 +1,12 @@
+component SkNNShiftC
+export Executable
+
+(*) Skeptic's probe: the revised integer chapter states LSHIFT on NN32; does the compiled prelude declare it?
+run(): () = do
+  mOne: ZZ32 = -1
+  x: NN32 = unsigned(mOne)
+  one: ZZ32 = 1
+  println("NN32 (2^32-1) LSHIFT 1: " (x LSHIFT one))
+end
+
+end

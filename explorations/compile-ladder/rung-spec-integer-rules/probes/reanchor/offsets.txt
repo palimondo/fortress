@@ -1,0 +1,42 @@
+== Specification/basic-lib/basic-integers.tex
+  base 1-37 -> tree 1-37  (+0)
+  inserted: tree 38-66
+  base 38-512 -> tree 67-541  (+29)
+  replace: base 513-514 -> tree 542-543
+  base 515-516 -> tree 544-545  (+29)
+  replace: base 517-518 -> tree 546-547
+  base 519-526 -> tree 548-555  (+29)
+  replace: base 527-527 -> tree 556-556
+  base 528-530 -> tree 557-559  (+29)
+  replace: base 531-531 -> tree 560-560
+  base 532-532 -> tree 561-561  (+29)
+  inserted: tree 562-568
+  base 533-688 -> tree 569-724  (+36)
+  inserted: tree 725-730
+  base 689-879 -> tree 731-921  (+42)
+== Specification/basic-lib/numbers.tex
+  base 1-92 -> tree 1-92  (+0)
+  replace: base 93-93 -> tree 93-94
+  base 94-144 -> tree 95-145  (+1)
+  replace: base 145-145 -> tree 146-147
+  base 146-214 -> tree 148-216  (+2)
+  inserted: tree 217-224
+  base 215-501 -> tree 225-511  (+10)
+== Specification/basic/conversions-coercions.tex
+  base 1-555 -> tree 1-555  (+0)
+  replace: base 556-557 -> tree 556-557
+  base 558-567 -> tree 558-567  (+0)
+  replace: base 568-569 -> tree 568-569
+  base 570-580 -> tree 570-580  (+0)
+  replace: base 581-582 -> tree 581-596
+  base 583-924 -> tree 597-938  (+14)
+== Specification/basic/operators/opr-overview.tex
+  base 1-261 -> tree 1-261  (+0)
+  inserted: tree 262-271
+  base 262-330 -> tree 272-340  (+10)
+  inserted: tree 341-344
+  base 331-351 -> tree 345-365  (+14)
+== Specification/appendices/changes.tex
+  base 1-1339 -> tree 1-1339  (+0)
+  inserted: tree 1340-1546
+  base 1340-1401 -> tree 1547-1608  (+207)

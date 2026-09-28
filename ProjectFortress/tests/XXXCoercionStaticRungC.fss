@@ -17,7 +17,7 @@ f(b: B): ZZ32 = 4
 run() = do
     println("REACHED")
     c: C = D
-    assert(f(c), 3, "row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:584-621")
+    assert(f(c), 3, "row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:598-635")
     println("PASS")
   end
 

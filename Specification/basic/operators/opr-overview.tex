@@ -259,6 +259,16 @@ common multiple.  The operator \OPR{CHOOSE} computes binomial
 coefficients:
 \EXP{n \OPR{CHOOSE} k = \binom{n}{k} = { n! \over k!(n-k)! }}.
 
+The results of \OPR{GCD} and \OPR{LCM} are nonnegative
+(\secref{basic-integers}).
+On a fixed-size integer type, by the rule for integer results above, a result that the type
+cannot hold throws an \TYP{IntegerOverflow}: on \EXP{\mathbb{Z}32}, for example,
+the greatest common divisor of \EXP{-2^{31}} and \EXP{0} is \EXP{2^{31}}, and
+the least common multiple of \EXP{2^{31}-1} and \EXP{2} is \EXP{2^{32}-2},
+neither of which \EXP{\mathbb{Z}32} holds.
+\revision{revival-gcd}{The Working Draft of February 2011 said neither that these
+results are nonnegative nor what happens when one does not fit its type.}
+
 The expression \EXP{e \neq e'} is semantically equivalent to the expression
 \EXP{\neg(e = e')}.
 
@@ -328,6 +338,10 @@ $\underline{\twointersector}$ & bitwise exclusive \scap{or}
 \end{center}
 The prefix operator \EXP{\twointersectnot} computes the bitwise
 \scap{not} of an integer.
+The operators \OPR{LSHIFT} and \OPR{RSHIFT} shift the bits of an integer to the
+left and to the right (\secref{basic-integers}).
+\revision{revival-shifts}{The Working Draft of February 2011 did not name
+\OPR{LSHIFT} and \OPR{RSHIFT}.}
 
 
 \subsection{Conditional Operators}

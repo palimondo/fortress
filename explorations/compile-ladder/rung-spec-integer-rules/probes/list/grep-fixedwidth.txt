@@ -1,0 +1,146 @@
+Specification/basic/conversions-coercions.tex:65:the automatic conversion of values of type \EXP{\mathbb{Z}32}, and of integer
+Specification/basic/conversions-coercions.tex:80:\EXP{\mathbb{Z}32}, and the decision names the integer numerals too.
+Specification/basic/conversions-coercions.tex:81:The conversion from \EXP{\mathbb{N}32}, though exact, stays explicit, since
+Specification/basic/conversions-coercions.tex:82:that decision names only \EXP{\mathbb{Z}32} and the numerals.
+Specification/basic/conversions-coercions.tex:84:The interpreter gives an integer numeral outside the range of \EXP{\mathbb{Z}32}
+Specification/basic/conversions-coercions.tex:87:from an integer type or an integer numeral; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
+Specification/basic/conversions-coercions.tex:556:%trait ZZ32 end
+Specification/basic/conversions-coercions.tex:558:%  coerce(z:ZZ32) = ...
+Specification/basic/conversions-coercions.tex:561:%  coerce(z:ZZ32) = ...
+Specification/basic/conversions-coercions.tex:568:\(\KWD{trait} \mathbb{Z}32 \KWD{end}\)\\
+Specification/basic/conversions-coercions.tex:569:\(\KWD{trait} \mathbb{Z}64\)\\
+Specification/basic/conversions-coercions.tex:570:{\tt~~}\pushtabs\=\+\(  \KWD{coerce}(z\COLONOP\mathbb{Z}32) = \ldots\)\-\\\poptabs
+Specification/basic/conversions-coercions.tex:573:{\tt~~}\pushtabs\=\+\(  \KWD{coerce}(z\COLONOP\mathbb{Z}32) = \ldots\)\\
+Specification/basic/conversions-coercions.tex:574:\(  \KWD{coerce}(z\COLONOP\mathbb{Z}64) = \ldots\)\-\\\poptabs
+Specification/basic/conversions-coercions.tex:576:\(f(z\COLONOP\mathbb{Z}64) = 1\)\\
+Specification/basic/conversions-coercions.tex:579:Then the call \EXP{f(\mathbb{Z}32)} resolves to the
+Specification/basic/conversions-coercions.tex:580:declaration \EXP{f(\mathbb{Z}64)} because $\EXP{\mathbb{Z}64}
+Specification/basic/conversions-coercions.tex:582:\EXP{\mathbb{Z}64} coerces to \EXP{\mathbb{Z}128}.
+Specification/basic/conversions-coercions.tex:762:Arrow type coercions are invoked by wrapping the argument function of the
+Specification/basic/variables.tex:155:%   i: ZZ32
+Specification/basic/variables.tex:157:%       then i: ZZ32 = 1
+Specification/basic/variables.tex:158:%       else i: ZZ32 = 0
+Specification/basic/variables.tex:164:{\tt~~}\pushtabs\=\+\(   i\COLON \mathbb{Z}32\)\\
+Specification/basic/variables.tex:166:\(       \KWD{then}\:i\COLON \mathbb{Z}32 = 1\)\\
+Specification/basic/variables.tex:167:\(       \KWD{else}\:i\COLON \mathbb{Z}32 = 0\)\\
+Specification/basic/declarations.tex:343:wrapped field declarations (described in \secref{abstract-fields})
+Specification/basic/evaluation/reduction.tex:88:\(\VAR{arraySum}\llbracket\KWD{nat}\mskip 4mu plus 4mu{x}\rrbracket(a\COLONOP\mathbb{Z}64[x])\COLONOP\mathbb{Z}64 = \;\KWD{do}\)\\
+Specification/basic/evaluation/reduction.tex:89:{\tt~~~~}\pushtabs\=\+\(    \VAR{sum}\COLONOP\mathbb{Z}64 \ASSIGN 0\)\\
+Specification/basic/evaluation/reduction.tex:110:\(\VAR{prod} \mathrel{\mathtt{:}}\mskip 4mu plus 4mu\mathbb{Z}64 \ASSIGN 1\)\\
+Specification/basic/expressions/ranges.tex:44:components are values of type \EXP{\mathbb{Z}32}: assume that
+Specification/basic/expressions/ranges.tex:46:An integer numeral converts to \EXP{\mathbb{Z}32} (\secref{literals}), and
+Specification/basic/expressions/ranges.tex:48:other than \EXP{\mathbb{Z}32}.
+Specification/basic/expressions/ranges.tex:79:\EXP{\mathbb{Z}32} values and widens each element, as in the following
+Specification/basic/expressions/ranges.tex:80:loop, where the binding converts \VAR{i} to \EXP{\mathbb{Z}64}
+Specification/basic/expressions/ranges.tex:88:{\tt~~}\pushtabs\=\+\(  j\COLON \mathbb{Z}64 = i\)\\
+Specification/basic/expressions/ranges.tex:94:integer type; two of its own examples built ranges over \EXP{\mathbb{Z}64},
+Specification/basic/expressions/ranges.tex:96:\Library\ declare the ranges over \EXP{\mathbb{Z}32} alone, as the smaller
+Specification/basic/expressions/ranges.tex:99:of a range of \EXP{\mathbb{Z}32} values.}
+Specification/basic/expressions/literals.tex:156:$\mathbb{Z}64$ (or \txt{ZZ64}), $\mathbb{N}32$ (or \txt{NN32}), or
+Specification/basic/expressions/reductions.tex:37:\EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#i]\: f(j)};
+Specification/basic/expressions/reductions.tex:42:\EXP{\mathbb{Z}32} only; there the clause form runs without its static
+Specification/basic/expressions/reductions.tex:83:%  var result: ZZ32 = 0
+Specification/basic/expressions/reductions.tex:91:{\tt~~}\pushtabs\=\+\(  \KWD{var}\:\VAR{result}\COLON \mathbb{Z}32 = 0\)\\
+Specification/basic/expressions/blocks.tex:74:the parameter of \VAR{mySum} of type \EXP{\mathbb{Z}64}, so that its loop ran
+Specification/basic/expressions/blocks.tex:75:over a range of \EXP{\mathbb{Z}64} values, which \secref{ranges} no longer
+Specification/basic/expressions/blocks.tex:76:admits; the parameter is of type \EXP{\mathbb{Z}32}, and the sum keeps its
+Specification/basic/expressions/blocks.tex:77:type \EXP{\mathbb{Z}64}.}
+Specification/basic/types-vals-vars.tex:546:fixed-size representations for integers including the types
+Specification/basic/types-vals-vars.tex:555:with any number type), and imaginary and complex numbers of fixed size
+Specification/basic/types-vals-vars.tex:650:\(\KWD{type} \TYP{IntList} = \TYP{List}\llbracket\mathbb{Z}64\rrbracket\)\\
+Specification/basic/trait-parameters.tex:61:nor as the type of a \KWD{wrapped} field (discussed in \secref{fields}).
+Specification/basic/trait-parameters.tex:85:variable of type \EXP{\mathbb{N}32} can appear,
+Specification/basic/trait-parameters.tex:89:variable of type \EXP{\mathbb{Z}32} can appear,
+Specification/basic/trait-parameters.tex:462:as in \EXP{\TYP{Empty}\llbracket\mathbb{Z}32\rrbracket}:
+Specification/basic/traits.tex:336:%object Child extends { Parent[\ZZ32\], Parent[\String\] } end
+Specification/basic/traits.tex:340:\(\KWD{object}\:\TYP{Child} \KWD{extends} \{\,\TYP{Parent}\llbracket\mathbb{Z}32\rrbracket, \TYP{Parent}\llbracket\TYP{String}\rrbracket\,\} \KWD{end}\)
+Specification/basic/traits.tex:627:\emph{AbsFldMod} &::=& \emph{ApiFldMod} $|$ \KWD{wrapped} $|$ \KWD{private}\\
+Specification/basic/traits.tex:678:\paragraph{\KWD{wrapped}:}
+Specification/basic/traits.tex:679:If a field declaration of $f$ has the modifier \KWD{wrapped}
+Specification/basic/traits.tex:694:Because wrapped fields do not change declarations of methods but change
+Specification/basic/traits.tex:696:APIs do not include wrapped fields.
+Specification/basic/traits.tex:706:%  wrapped val: Dictionary[\T\]
+Specification/basic/traits.tex:715:{\tt~~}\pushtabs\=\+\(  \KWD{wrapped} \VAR{val}\COLON \TYP{Dictionary}\llbracket{}T\rrbracket\)\\
+Specification/basic/traits.tex:747:%    wrapped a: A
+Specification/basic/traits.tex:757:%    wrapped a: A                  ERROR!
+Specification/basic/traits.tex:770:{\tt~~~}\pushtabs\=\+\(    \KWD{wrapped}\:a\COLON A\)\-\\\poptabs
+Specification/basic/traits.tex:778:{\tt~~~}\pushtabs\=\+\(    \KWD{wrapped}\:a\COLON A                  \OPR{ERROR}!\)\-\\\poptabs
+Specification/basic/operators/opr-overview.tex:172:Wraparound multiplication on fixed-size integers is expressed by
+Specification/basic/operators/opr-overview.tex:174:Saturating multiplication on fixed-size integers is expressed by
+Specification/basic/operators/opr-overview.tex:205:Wraparound addition and subtraction on fixed-size integers are
+Specification/basic/operators/opr-overview.tex:207:Saturating addition and subtraction on fixed-size integers are
+Specification/basic/objects.tex:115:\emph{ParamFldMod} &::=& $|$ \KWD{hidden} $|$ \KWD{settable} $|$ \KWD{wrapped}\\
+Specification/basic/objects.tex:254:\emph{AbsFldMod} &::=& \emph{ApiFldMod} $|$ \KWD{wrapped} $|$ \KWD{private}\\
+Specification/basic-lib/numbers.tex:28:the integer types \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32},
+Specification/basic-lib/numbers.tex:29:\EXP{\mathbb{N}64}, and \EXP{\mathbb{N}32} (\secref{basic-integers}),
+Specification/basic-lib/numbers.tex:41:\EXP{\mathbb{Q}} (\STR{QQ}) coerces from \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}64}, and \EXP{\mathbb{N}32}.
+Specification/basic-lib/numbers.tex:43:\EXP{\mathbb{R}64} (\STR{RR64}) coerces from \EXP{\mathbb{Z}32}, and from integer numerals (\secref{literals}).
+Specification/basic-lib/numbers.tex:48:\EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32}, or \EXP{\mathbb{Q}}
+Specification/basic-lib/numbers.tex:96:%%   coerce(x: ZZ32)
+Specification/basic-lib/numbers.tex:97:%%   coerce(x: NN64)
+Specification/basic-lib/numbers.tex:147:\(  \KWD{coerce}(x\COLON \mathbb{Z}64)\)\\
+Specification/basic-lib/numbers.tex:148:\(  \KWD{coerce}(x\COLON \mathbb{Z}32)\)\\
+Specification/basic-lib/numbers.tex:149:\(  \KWD{coerce}(x\COLON \mathbb{N}64)\)\\
+Specification/basic-lib/numbers.tex:150:\(  \KWD{coerce}(x\COLON \mathbb{N}32)\)\\
+Specification/basic-lib/numbers.tex:219:%%   coerce(x: ZZ32)
+Specification/basic-lib/numbers.tex:220:%%   coerce(x: NN64)
+Specification/basic-lib/numbers.tex:223:\Method*{\EXP{\KWD{coerce}(\VAR{x}\COLON \mathbb{Z}64)}}
+Specification/basic-lib/numbers.tex:224:\Method*{\EXP{\KWD{coerce}(\VAR{x}\COLON \mathbb{Z}32)}}
+Specification/basic-lib/numbers.tex:225:\Method*{\EXP{\KWD{coerce}(\VAR{x}\COLON \mathbb{N}64)}}
+Specification/basic-lib/numbers.tex:226:\Method*{\EXP{\KWD{coerce}(\VAR{x}\COLON \mathbb{N}32)}}
+Specification/basic-lib/objects.tex:25:%  getter hashCode(): NN64
+Specification/basic-lib/objects.tex:28:%  hash(maxval: NN64): NN64
+Specification/basic-lib/objects.tex:31:%  property FORALL (x, y, n: NN64) x === y IMPLIES x.hash(n) === y.hash(n)
+Specification/basic-lib/objects.tex:42:{\tt~~}\pushtabs\=\+\(  \KWD{getter}\mskip 4mu plus 4mu\VAR{hashCode}()\COLON \mathbb{N}64\)\\
+Specification/basic-lib/objects.tex:45:\(  \VAR{hash}(\VAR{maxval}\COLON \mathbb{N}64)\COLON \mathbb{N}64\)\\
+Specification/basic-lib/objects.tex:46:\(  \VAR{hash}(\VAR{maxval}\COLON \mathbb{N}32)\COLON \mathbb{N}32\)\\
+Specification/basic-lib/objects.tex:48:\(  \KWD{property} \forall (x, y, n\COLON \mathbb{N}64)\; x \sequiv y \rightarrow x.\VAR{hash}(n) \sequiv y.\VAR{hash}(n)\)\\
+Specification/basic-lib/objects.tex:49:\(  \KWD{property} \forall (x, y, n\COLON \mathbb{N}32)\; x \sequiv y \rightarrow x.\VAR{hash}(n) \sequiv y.\VAR{hash}(n)\)\\
+Specification/basic-lib/objects.tex:60:%  getter hashCode(): NN64
+Specification/basic-lib/objects.tex:61:\Method{\EXP{\KWD{getter} \VAR{hashCode}()\COLON \mathbb{N}64}}
+Specification/basic-lib/objects.tex:101:%  hash(maxval: NN64): NN64
+Specification/basic-lib/objects.tex:103:\Method{\EXP{\VAR{hash}(\VAR{maxval}\COLON \mathbb{N}64)\COLON \mathbb{N}64}}
+Specification/basic-lib/objects.tex:104:\Method*{\EXP{\VAR{hash}(\VAR{maxval}\COLON \mathbb{N}32)\COLON \mathbb{N}32}}
+Specification/basic-lib/booleans.tex:52:%  getter hashCode(): NN64
+Specification/basic-lib/booleans.tex:114:\(  \KWD{getter}\:\VAR{hashCode}()\COLON \mathbb{N}64\)\\
+Specification/basic-lib/booleans.tex:192:%  getter hashCode(): NN64
+Specification/basic-lib/booleans.tex:193:\Method{\EXP{\KWD{getter} \VAR{hashCode}()\COLON \mathbb{N}64}}
+Specification/basic-lib/booleans.tex:431:\(  \KWD{getter} \VAR{hashCode}()\COLON \mathbb{Z}64\)\\
+Specification/basic-lib/booleans.tex:480:\Method{\EXP{\KWD{getter} \VAR{hashCode}()\COLON \mathbb{Z}64}}
+Specification/advanced/parallelism-locality/defining-generators.tex:44:this operation.  Here we define reduction \TYP{SumZZ32} representing integer
+Specification/advanced/parallelism-locality/defining-generators.tex:54:the generator of \figref{generatorDefn} over \EXP{\mathbb{Z}64}, and its
+Specification/advanced/parallelism-locality/defining-generators.tex:55:method \VAR{seq} built a range over \EXP{\mathbb{Z}64}, which \secref{ranges}
+Specification/advanced/parallelism-locality/defining-generators.tex:56:no longer admits; the generator is defined over \EXP{\mathbb{Z}32}.
+Specification/advanced/parallelism-locality/defining-generators.tex:58:value of type \EXP{\mathbb{Z}}, which converts to neither fixed-size type; it
+Specification/advanced/parallelism-locality/defining-generators.tex:151:expr & type & \VAR{wrapper} & \EXP{u(\VAR{body})} & $r$ \\
+Specification/advanced/parallelism-locality/defining-generators.tex:191:\caption{Examples of wrappers for expressions with generator clause
+Specification/advanced/parallelism-locality/defining-generators.tex:204:%wrapper(fn (r, u) => BIG OP[gs] body)
+Specification/advanced/parallelism-locality/defining-generators.tex:206:\( \VAR{wrapper}(\KWD{fn} (r, u) \Rightarrow \mathcal{C}[\emph{gs}]\:\emph{body})\)
+Specification/advanced/parallelism-locality/defining-generators.tex:211:as an argument to \VAR{wrapper}.  The particular choice of the
+Specification/advanced/parallelism-locality/defining-generators.tex:212:function \VAR{wrapper} depends upon the construct that is being
+Specification/advanced/parallelism-locality/defining-generators.tex:213:desugared.  For a reduction or a comprehension, the wrapper function
+Specification/advanced/parallelism-locality/defining-generators.tex:217:(\secref{generated}), a special built-in wrapper is used.
+Specification/advanced/parallelism-locality/defining-generators.tex:219:A wrapper function always has the following type:
+Specification/advanced/parallelism-locality/defining-generators.tex:220:%% wrapper( g:(Reduction[\R0\],T->R0)->R0): R
+Specification/advanced/parallelism-locality/defining-generators.tex:222:\(\VAR{wrapper}( g\COLONOP(\TYP{Reduction}\llbracket{}R_{0}\rrbracket,T\rightarrow{}R_{0})\rightarrow{}R_{0})\COLON R\)
+Specification/advanced/parallelism-locality/defining-generators.tex:225:and \EXP{R_{0}} and \VAR{R} are arbitrary types chosen by the wrapper function.
+Specification/advanced/parallelism-locality/defining-generators.tex:227:Note that the function $g$ passed to the wrapper has essentially the
+Specification/advanced/parallelism-locality/defining-generators.tex:229:instructive to think of \VAR{wrapper} as having the following similar
+Specification/advanced/parallelism-locality/defining-generators.tex:234:%% wrapper'( g: Generator[\T\] ): R  (* NOT THE ACTUAL TYPE *)
+Specification/advanced/parallelism-locality/defining-generators.tex:236:\(\VAR{wrapper}'( g\COLON \TYP{Generator}\llbracket{}T\rrbracket )\COLON R  \mathtt{(*}\;\hbox{\rm  NOT THE ACTUAL TYPE \unskip}
+Specification/advanced/parallelism-locality/defining-generators.tex:332:{\tt~~}\pushtabs\=\+\(   \VAR{size} \mathrel{\mathtt{:}}\mskip 4mu plus 4mu\mathbb{Z}64 = \VAR{outer}.\VAR{size} \cdot \VAR{inne
+Specification/advanced/parallelism-locality/defining-generators.tex:389:% value object BlockedRange(lo: ZZ32, hi: ZZ32, b: ZZ32) extends Generator[\ZZ32\]
+Specification/advanced/parallelism-locality/defining-generators.tex:391:%   generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ32 -> R) : R = do
+Specification/advanced/parallelism-locality/defining-generators.tex:395:%         i : ZZ32 = l
+Specification/advanced/parallelism-locality/defining-generators.tex:412:{\tt~}\pushtabs\=\+\( \KWD{value}\;\;\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}32, \VAR{hi}\COLON \mathbb{Z}32, b
+Specification/advanced/parallelism-locality/defining-generators.tex:414:\(   \VAR{generate}\llbracket{}R \KWD{extends} \TYP{CommutativeMonoid}\llbracket\,R, \oplus\rrbracket, \KWD{opr} \mathord{\oplus
+Specification/advanced/parallelism-locality/defining-generators.tex:418:{\tt~~}\pushtabs\=\+\(         i \mathrel{\mathtt{:}} \mathbb{Z}32 = l\)\\
+Specification/advanced/parallelism-locality/defining-generators.tex:436:declared this generator over \EXP{\mathbb{Z}64}, as it declared the generator
+Specification/advanced/parallelism-locality/defining-generators.tex:438:declared over \EXP{\mathbb{Z}32}.}
+Specification/advanced/parallelism-locality/early-termination.tex:37:special wrapper around every spawned thread is provided by the
+Specification/advanced/parallelism-locality/early-termination.tex:63:\(x \mathrel{\mathtt{:}} \mathbb{Z}64 \ASSIGN 0\)\\
+Specification/advanced/overloading.tex:315:{\tt~~}\pushtabs\=\+\(  \VAR{foo}(x\COLONOP\TYP{Number}, y\COLONOP\mathbb{Z}64) = \ldots\)\\
+Specification/advanced/overloading.tex:316:\(  \VAR{foo}(x\COLONOP\mathbb{Z}64, y\COLONOP\TYP{Number}) = \ldots\)\-\\\poptabs
+Specification/preliminaries/overview.tex:581:64-bit integers are denoted by the type \EXP{\mathbb{Z}64} and
+Specification/preliminaries/overview.tex:582:32-bit integers by the type \EXP{\mathbb{Z}32}
+Specification/preliminaries/overview.tex:655:\(\VAR{makeColor}(\VAR{red}\COLONOP\mathbb{Z}64 = 0, \VAR{green}\COLONOP\mathbb{Z}64 = 0, \VAR{blue}\COLONOP\mathbb{Z}64 = 0) =\)\\

@@ -1,0 +1,109 @@
+THE LIST, written before any edit, on the base b797d8037.
+
+Part 1. Every passage of Specification/ outside library/apis/ that names a shift, narrow, GCD, LCM, an
+integer overflow or the fixed-width integer types' operators, with what the decisions make of it, whether it
+is revised now or left, and the source that settles it. Found by the greps grep-topics.txt (LSHIFT, RSHIFT,
+narrow, shift, GCD, LCM, IntegerOverflow, overflow; 168 hits) and grep-fixedwidth.txt (fixed-size, two's
+complement, the four fixed widths, wrap, saturat; 146 hits), each hit opened with ten lines either side. The
+generated Specification/library/apis/ is excluded (FACTS.md, "Citing Specification/library/apis/*.tex as an
+independent standard is circular"). Line numbers are the base's.
+
+L1  basic-lib/basic-integers.tex:13-37, the chapter's opening: the five integer types, the coercions among
+    them, and ":36-37 every other conversion between integer types is written explicitly", naming no such
+    conversion. No passage anywhere names LSHIFT, RSHIFT or narrow (grep-topics.txt: no hit outside
+    library/apis/). The decisions: LSHIFT/RSHIFT on the fixed widths are bit operators with the smart-shift
+    rule, the count read by its value, of any integral type on a ZZ32 receiver; narrow truncates, signed and
+    unsigned. REVISED: two paragraphs after :37, one on narrow (an explicit conversion, the low 32 bits), one on
+    LSHIFT and RSHIFT on the five types, and a callout. Settled by POSITIONS 2026-09-22 (ledger rows 335 and
+    346), 2026-09-24 (climb batch 3.5, the signed narrow; ledger rows 380 and 381), and the landed natives of
+    both paths (FACTS.md, "The compiled path's integer rules", "The interpreter's integer rules").
+L2  basic-lib/basic-integers.tex:59-158 (the %% source) and :159-260 (the rendered listing of ZZ): opr GCD,
+    opr LCM and shift(self, k: IndexInt): ZZ. LEFT. The listing is rung T's revision of the Working Draft's
+    methods; it does not list LSHIFT, RSHIFT, narrow or widen, which the library declares on ZZ
+    (Library/FortressLibrary.fsi:459-460 through Integral, :608-610), and shift's count is IndexInt where the
+    library's is AnyIntegral (:610), a type the specification does not have (rung T's decision 4,
+    rung-spec-numbers/decision-record.md section 5). The prose of L1 and L4 states the operators; the listing's
+    signatures are not what the decisions change.
+L3  basic-lib/basic-integers.tex:505-531, the entry of GCD and LCM: "The result is always nonnegative. If
+    either argment is 0, the result equals the other argument" (:513-514), "If either argment is 1, the result
+    equals the other argument" (:517-518), and the property (m GCD n)(m LCM n) = m n (:527, :531). The
+    decision on row 334 reads "equals the other argument" as its magnitude, and both paths answer so
+    (0 GCD -4 = 4, 1 LCM -5 = 5; IntegralOpsRungN.fss, IntSemanticsRungI.fss); with nonnegative results the
+    property holds only as |m n| (row 334's note). REVISED: the two sentences say the absolute value, the
+    property says |m n|, the two misspellings "argment" corrected, and a callout. Settled by POSITIONS
+    2026-09-22 (ledger row 334) and the landed code: walk Int.java:276-326 (lcm, gcd), Long.java:150-162,
+    BigNum.java:176-192; compiled CompilerBuiltin.fss:609-623, :694-708.
+L4  basic-lib/basic-integers.tex:681-688, the entry of shift: "The result of shift(x,k) is floor(x 2^k)",
+    positive k to the left, negative to the right. The decision on row 335: shift is exact on ZZ, the count
+    at any size, an unrepresentable left shift a catchable IntegerOverflow. REVISED: two sentences, that the
+    count may be of any size and that a result too large for the implementation throws IntegerOverflow, and
+    that LSHIFT and RSHIFT on ZZ compute the same shift; a callout. Settled by POSITIONS 2026-09-22 (row 335)
+    and the landed code: walk BigNum.java:228-254 (LShift, RShift, shiftLeft) with Int.java:263-274
+    (shiftCount); compiled, ZZ's <<< through simpleArbitraryPrecisionArith.java:93-102 (the compiled prelude
+    declares no shift, row 383, closing at the switch-over).
+L5  basic-lib/basic-integers.tex:743-773, :788-797: the properties of countBits, countFactorsOfTwo and
+    integerLength, written with shift(x,1). LEFT: they use the exact shift, which the decisions keep. Two of
+    them are wrong as written (":747 countBits(shift(x,1)) + 1 = countBits(x) + 1", ":768
+    countFactorsOfTwo(shift(x,1)) + 1 = 0"); no decision covers them and the library declares none of these
+    methods, so the rung does not choose their repair.
+L6  basic-lib/basic-integers.tex:763, countFactorsOfTwo of zero "throws an IntegerOverflow". LEFT: no decision
+    covers it; the library declares no countFactorsOfTwo (grep of Library/FortressLibrary.fsi: no hit).
+L7  basic-lib/basic-integers.tex:495-505 (^) and :557-567 (CHOOSE) on ZZ. LEFT: on ZZ they do not overflow;
+    on the fixed widths the operator chapter's general sentence (L8) governs, and climb batch 6.5b's rung E
+    makes walk's natives raise under it (CLIMB-BATCH-6.5.md section 4, "the gather checks P's landed integer
+    text against E's natives, since for CHOOSE and the power P's text rests on the specification's general
+    sentence").
+L8  basic/operators/opr-overview.tex:113-188, multiplication and division: ":154-155 For integer results,
+    overflow throws an IntegerOverflow", ":172-176" the wrapping and saturating products. LEFT: the decisions
+    agree with it (row 333: only a result that does not fit overflows).
+L9  basic/operators/opr-overview.tex:190-221, addition and subtraction: ":195-196" the same sentence,
+    ":205-209" the wrapping and saturating sums. LEFT, as L8.
+L10 basic/operators/opr-overview.tex:254-264, "GCD, LCM, and CHOOSE Operators": names both, says neither
+    that the results are nonnegative nor what an unrepresentable one does. REVISED: one sentence each, the
+    nonnegative results and IntegerOverflow for a result the operands' type cannot hold (the general sentence
+    of L8 applied), with an example on ZZ32, and a callout. Settled by POSITIONS 2026-09-22 (row 334) and the
+    landed code of L3 (walk Int$Gcd/Int$Lcm, Int.java:136-150; compiled CompilerBuiltin.fss:694-708).
+L11 basic/operators/opr-overview.tex:302-331, "Logical Operators": the bitwise operators on integers,
+    BITAND, BITOR, BITXOR, BITNOT; no shift. REVISED: one sentence naming LSHIFT and RSHIFT with a reference
+    to the integer chapter, and a callout. Settled as L1.
+L12 basic/operators/opr-overview.tex:21-39, "Prefix Operators": BITNOT of an integer. LEFT: no decision.
+L13 appendices/operators.tex:297-305, the precedence of MAX, MIN, REM, MOD, GCD, LCM, CHOOSE and per. LEFT:
+    no decision covers precedence. The appendix names no LSHIFT or RSHIFT, and its general rule (:27-29, "If
+    no precedence relationship is stated explicitly for any given pair of operators, then there is no
+    precedence relationship between those two operators") then gives them none, so an expression that mixes
+    them with another operator is parenthesized.
+L14 advanced-lib/algebraic-constraints.tex:569-576 (overflow in approximate equality), :894 (0 a left zero
+    of "the arithmetic shift operator"), :1154 (GCD and LCM idempotent). LEFT: general algebra, true of the
+    revised text.
+L15 advanced-lib/binary.tex (101 hits): BinaryWord's signedShift, unsignedShift and the overflowAction
+    arguments, "[Description to be supplied.]". LEFT: binary words are not the integer types, and the library
+    declares no BinaryWord.
+L16 basic/types-vals-vars.tex:538-559: the numeric types named, the fixed sizes 8 to 128 among them. LEFT:
+    it names types, not operators.
+L17 basic/conversions-coercions.tex:555-585: the coercion example over ZZ32, ZZ64 and ZZ128 (row 394).
+    REVISED (Part 3 of the brief), not an operator passage; listed because it names the fixed-width types.
+L18 basic/expressions/literals.tex:150-160 and preliminaries/overview.tex:581-582: fixed-width types named
+    in running text. LEFT: no operator.
+L19 basic/expressions/constant.tex:123-129: gcd and lcm among the functions of numeric static expressions.
+    LEFT: static expressions, not the integer operators.
+L20 appendices/rendering.tex:80: the rendering of gcd. LEFT.
+L21 appendices/changes.tex:868 (a quote of the Working Draft's lattice sentence) and :1385 ("a stack
+    overflow of the type checker"). LEFT: quotes and prose of other entries.
+L22 fortress/fortress.tex:16, :41; preliminaries/overview.tex:620, :633; basic/lexical-structure.tex:367:
+    TeX's "math shift", a margin note's overflow, NARROW NO-BREAK SPACE. Not about integers.
+
+Part 2. Every citation of a line of a chapter this rung edits (basic-lib/basic-integers.tex,
+basic-lib/numbers.tex, basic/conversions-coercions.tex, basic/operators/opr-overview.tex,
+appendices/changes.tex) in ProjectFortress/tests/, compiler_tests/ and library_tests/: 264 lines in 36 files
+(test-citations-base.txt: basic-integers 88, conversions-coercions 64, numbers 31, opr-overview 94,
+changes 0), with the bare ":N" continuations that follow a chapter's name. Each is re-anchored after the edit
+by the map of unchanged lines from git show b797d8037:<chapter> to the tree (reanchor/), messages and
+comments only. The two new tests cite numbers.tex:355-359, :365-369 and :43 and conversions-coercions.tex
+:117-118 and :158-159 and are re-anchored the same way.
+
+Part 3. The citations rung S moved that batch 7C's rung X listed (stale-scan-base.txt on the base, the same
+six lines in five files as rung X's stale-scan.txt): XXXFortToStringRungS.fss:13 (objects.tex:117-122, text
+unchanged, now 121-126), XXXUnionMethodRungS.fss:13-14 (types-vals-vars.tex:589, now 623),
+MaybeRungM.fss:13 (exceptions.tex:122, rewritten by rung S), XXXTupleSeparatorRungS.fss:10
+(objects.tex:161-188, now 197-224), XXXTupleSevenRungS.fss:10 (objects.tex:144-158, rewritten in three lines,
+now 175-189).

@@ -1,0 +1,24 @@
+# python3 explorations/compile-ladder/rung-spec-integer-rules/probes/reanchor/stale-scan.py HEAD (c8556da87), after the re-anchoring: every specification citation of the three test directories mapped from the commit that wrote it to this tree
+ProjectFortress/tests/CoercionBindRungC.fss:36: Specification/basic/conversions-coercions.tex:725-736 written at 21c91d8e4; at HEAD those lines are 739-750
+ProjectFortress/tests/CoercionBindRungC.fss:39: Specification/basic/conversions-coercions.tex:725-736 written at 21c91d8e4; at HEAD those lines are 739-750
+ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss:26: Specification/basic/conversions-coercions.tex:598-601 written at 21c91d8e4; at HEAD those lines are 612-615
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:32: Specification/basic/conversions-coercions.tex:725-736 written at 21c91d8e4; at HEAD those lines are 739-750
+ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:33: Specification/basic/conversions-coercions.tex:725-736 written at 21c91d8e4; at HEAD those lines are 739-750
+# 535 citations of Specification chapters scanned; 5 moved since the commit that wrote them
+
+# Note: the five lines above are the scan's attribution, not staleness. stale-scan.py dates a citation group by its first citation (conversions-coercions.tex:117-118, :119-120 or :542-553, written by batch 6's repair 21c91d8e4) and maps the whole group from that commit's chapter; the continuations :725-736, :725-728 and :598-601 were written by this rung (c8556da87), which moved them from the base's :711-722, :711-714 and :584-587. Opened directly, the base's text at the old lines against the tree's at the new:
+== conversions-coercions.tex base :711-722 -> tree :725-736
+EQUAL, the first lines:
+Tuple type coercions are invoked by distributing the coercion
+elementwise.  However, if an element type of the tuple type being coerced
+from is a subtype of the corresponding element type of the tuple type being
+== conversions-coercions.tex base :711-714 -> tree :725-728
+EQUAL, the first lines:
+Tuple type coercions are invoked by distributing the coercion
+elementwise.  However, if an element type of the tuple type being coerced
+from is a subtype of the corresponding element type of the tuple type being
+== conversions-coercions.tex base :584-587 -> tree :598-601
+EQUAL, the first lines:
+Notice that coercion is resolved statically.  Once a coercion is
+statically chosen for a call, this coercion is conceptually inserted
+into the call.

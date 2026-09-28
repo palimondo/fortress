@@ -1,0 +1,11 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=3.44 3.23 4.15; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=9e65f13f9; date=2026-09-28T18:15:46Z
+=== $ bin/fortress compile /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZNarrowC.fss && bin/fortress run SkZZNarrowC (compiled); then walk ===
+/home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZNarrowC.fss:7:28-35:
+    Could not check call to function narrow
+    - NN64->NN32 is not applicable to an argument of type ZZ.
+    - ZZ64->ZZ32 is not applicable to an argument of type ZZ.
+File SkZZNarrowC.fss has 1 error.
+compile rc=255
+=== $ bin/fortress /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZNarrowC.fss (walk) ===
+ZZ narrow(1): 1
+walk rc=0

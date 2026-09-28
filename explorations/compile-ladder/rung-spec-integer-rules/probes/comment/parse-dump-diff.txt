@@ -1,0 +1,13 @@
+# the parse dumps of tmp/pc (parse-compare.sh above) diffed directly, the base's scratch path tmp/pc/base/ removed from its file names; since the edit keeps every line in place, no position needs mapping back
+== FortressLibrary.fss
+diff exit 0
+== FortressLibrary.fsi
+26308c26308
+<   (FnDecl @2582:1~2588:30
+---
+>   (FnDecl @2582:1~2588:24
+26338c26338
+<    _unambiguousName=(NamedOp @2582:5~14 _fixity=(PreFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2582:1-2588:30"))
+---
+>    _unambiguousName=(NamedOp @2582:5~14 _fixity=(PreFixity) _info=(SpanInfo) _text="_|Library|FortressLibrary.fsi:2582:1-2588:24"))
+diff exit 1

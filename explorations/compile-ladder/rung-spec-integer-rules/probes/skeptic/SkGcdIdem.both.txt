@@ -1,0 +1,12 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=1.21 1.89 3.17; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=9e65f13f9; date=2026-09-28T18:23:13Z
+=== $ bin/fortress /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkGcdIdem.fss (walk) ===
+ZZ32 -4 GCD -4 = 4, idempotent: false
+ZZ32 -4 LCM -4 = 4, idempotent: false
+ZZ64 -4 GCD -4 = 4, idempotent: false
+walk rc=0
+=== $ bin/fortress compile /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkGcdIdem.fss && bin/fortress run SkGcdIdem (compiled) ===
+compile rc=0
+ZZ32 -4 GCD -4 =  4 , idempotent:  false
+ZZ32 -4 LCM -4 =  4 , idempotent:  false
+ZZ64 -4 GCD -4 =  4 , idempotent:  false
+run rc=0

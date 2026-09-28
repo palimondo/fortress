@@ -36,6 +36,35 @@ number type (\secref{basic-rationals}), and each coerces into \EXP{\mathbb{Q}}.
 An integer type coerces from each other integer type all of whose values it holds,
 as listed above; every other conversion between integer types is written explicitly.
 
+Among the explicit conversions, the method \VAR{narrow} converts a value of
+\EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} to \EXP{\mathbb{Z}32}, and a value of
+\EXP{\mathbb{N}64} to \EXP{\mathbb{N}32}, by keeping its low 32 bits: the result
+is the value of the narrower type that is congruent to the argument modulo
+\EXP{2^{32}}.
+A value that the narrower type holds is unchanged; any other wraps, and no
+\TYP{IntegerOverflow} is thrown.
+
+The operators \OPR{LSHIFT} and \OPR{RSHIFT} shift the bits of an integer of any of
+the five types by a count of any integer type, and return a value of the type of
+the integer shifted.
+On \EXP{\mathbb{Z}}, \EXP{x \OPR{LSHIFT} k} is \EXP{\VAR{shift}(x,k)} and
+\EXP{x \OPR{RSHIFT} k} is \EXP{\VAR{shift}(x,-k)}.
+On a fixed-size type of width \VAR{n}, for a nonnegative count \VAR{k},
+\EXP{x \OPR{RSHIFT} k} is \EXP{\lfloor x/2^{k} \rfloor}, and
+\EXP{x \OPR{LSHIFT} k} is the value of the type that is congruent to
+\EXP{x \cdot 2^{k}} modulo \EXP{2^{n}}: the bits shifted out are lost, and no
+\TYP{IntegerOverflow} is thrown.
+So a count at or beyond the width gives \EXP{0} for a left shift, and for a right
+shift \EXP{0}, or \EXP{-1} if \VAR{x} is negative.
+A negative count shifts the other way: \EXP{x \OPR{LSHIFT} (-k)} is
+\EXP{x \OPR{RSHIFT} k}, and \EXP{x \OPR{RSHIFT} (-k)} is \EXP{x \OPR{LSHIFT} k}.
+The count is read by its value, whatever its type: an \EXP{\mathbb{N}64} count of
+\EXP{2^{63}} or more is beyond the width, not negative.
+\revision{revival-shifts}{The Working Draft of February 2011 named neither
+\VAR{narrow} nor \OPR{LSHIFT} and \OPR{RSHIFT}, which \library\ declare on the
+integer types; the two paragraphs above state the rules the revival decided for
+them.}
+
 It is often desirable to know that an integer lies in a subset of its type,
 such as the positive values or the nonzero values.
 As for the rationals, such subsets are not types of their own:
@@ -510,12 +539,12 @@ If the \VAR{power} is \EXP{0}, then the result is always \EXP{1}, even if the ba
 \Method*{\EXP{\KWD{opr} \mathord{\OPR{LCM}}(\KWD{self}, \VAR{other}\COLON \mathbb{Z})\COLON \mathbb{Z}}}
 
 The operator \OPR{GCD} computes the greatest common divisor of its two arguments.
-The result is always nonnegative.  If either argment is \EXP{0}, the result
-equals the other argument.
+The result is always nonnegative.  If either argument is \EXP{0}, the result
+is the absolute value of the other argument.
 
 The operator \OPR{LCM} computes the least common multiple of its two arguments.
-The result is always nonnegative.  If either argment is \EXP{1}, the result
-equals the other argument.  If either argument is \EXP{0}, the result is \EXP{0}.
+The result is always nonnegative.  If either argument is \EXP{1}, the result
+is the absolute value of the other argument.  If either argument is \EXP{0}, the result is \EXP{0}.
 
 The strictly positive integers form a partial order and lattice with
 the ``evenly divides'' operator \EXP{\mid} as the partial order operator and
@@ -524,12 +553,19 @@ with \OPR{GCD} and \OPR{LCM} as the lattice operators.
 
 %%   property FORALL (m, n) ((m GCD n) | m) AND ((m GCD n) | n)
 %%   property FORALL (m, n) (m | (m LCM n)) AND (n | (m LCM n))
-%%   property FORALL (m, n) (m GCD n) DOT (m LCM n) = m DOT n
+%%   property FORALL (m, n) (m GCD n) DOT (m LCM n) = |m DOT n|
 \begin{Fortress}
 {\tt~~}\pushtabs\=\+\(  \KWD{property} \forall (m, n)\; ((m \OPR{GCD} n) \mid m) \wedge ((m \OPR{GCD} n) \mid n)\)\\
 \(  \KWD{property} \forall (m, n)\; (m \mid (m \OPR{LCM} n)) \wedge (n \mid (m \OPR{LCM} n))\)\\
-\(  \KWD{property} \forall (m, n)\; (m \OPR{GCD} n) \cdot (m \OPR{LCM} n) = m \cdot n\)\-\\\poptabs
+\(  \KWD{property} \forall (m, n)\; (m \OPR{GCD} n) \cdot (m \OPR{LCM} n) = \left|m \cdot n\right|\)\-\\\poptabs
 \end{Fortress}
+\revision{revival-gcd}{The Working Draft of February 2011 said that the result
+equals the other argument where the two paragraphs above now say its absolute
+value, as the first sentence of each requires when the other argument is
+negative, and its last property equated the product of the two results with
+\EXP{m \cdot n}, which nonnegative results satisfy only up to sign.
+On a fixed-size integer type, a result that the type cannot hold throws an
+\TYP{IntegerOverflow} (\chapref{operators}).}
 
 
 
@@ -686,6 +722,12 @@ This corresponds to what is sometimes called an ``arithmetic shift''
 on the two's-complement representation of the integer;
 positive values of \VAR{k} shifts the bits to the left,
 and negative values of \VAR{k} shifts the bits to the right.
+The result is exact for a count of any size, and a result too large for the
+implementation to represent throws an \TYP{IntegerOverflow}.
+On \EXP{\mathbb{Z}}, the operators \OPR{LSHIFT} and \OPR{RSHIFT} compute this
+shift with the count and with its negation.
+\revision{revival-shifts}{The Working Draft of February 2011 did not say how
+large a count may be or what happens when the result cannot be represented.}
 
 
 %%   bit(self, k: IndexInt): Bit

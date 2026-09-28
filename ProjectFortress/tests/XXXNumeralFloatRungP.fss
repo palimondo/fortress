@@ -1,0 +1,18 @@
+component XXXNumeralFloatRungP
+export Executable
+
+(*) explorations/compile-ladder/rung-spec-integer-rules/REPORT.md
+
+run() = do
+    println("REACHED")
+    s: RR64 = 3000000000
+    assert(s, 3000000000.0, "row 443: an integer numeral outside ZZ32's range converts to RR64 at a binding; Specification/basic/conversions-coercions.tex:117-118, :158-159, Specification/basic-lib/numbers.tex:43")
+    isFloat: Boolean = typecase s of
+        RR64 => true
+        else => false
+      end
+    assert(isFloat, "row 443: the binding holds a float; Specification/basic-lib/numbers.tex:43")
+    println("PASS")
+  end
+
+end

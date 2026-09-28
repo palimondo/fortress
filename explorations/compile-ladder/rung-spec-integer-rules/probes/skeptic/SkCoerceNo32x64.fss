@@ -1,0 +1,25 @@
+component SkCoerceNo32x64
+export Executable
+
+(*) Skeptic's probe: the revised example without T32 excluding T64; the specification's Meet Rule refuses the two coercions to T128.
+trait T32 excludes { T128 } end
+trait T64 excludes { T128 }
+  coerce(z: T32) = T64Of
+end
+trait T128
+  coerce(z: T32) = T128Of
+  coerce(z: T64) = T128Of
+end
+object T32Of extends T32 end
+object T64Of extends T64 end
+object T128Of extends T128 end
+
+g(z: T64): ZZ32 = 1
+g(z: T128): ZZ32 = 2
+
+run(): () = do
+  println("g(T32Of) = " g(T32Of))
+  println("g(T64Of) = " g(T64Of))
+  println("g(T128Of) = " g(T128Of))
+end
+end

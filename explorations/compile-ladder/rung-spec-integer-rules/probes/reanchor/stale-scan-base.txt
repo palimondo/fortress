@@ -1,0 +1,7 @@
+ProjectFortress/compiler_tests/XXXFortToStringRungS.fss:13: Specification/basic-lib/objects.tex:117-122 written at 6bec1b004; at b797d8037 those lines are 121-126
+ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:13: Specification/basic/types-vals-vars.tex:589 written at 6bec1b004; at b797d8037 those lines are 623
+ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:14: Specification/basic/types-vals-vars.tex:589 written at 6bec1b004; at b797d8037 those lines are 623
+ProjectFortress/library_tests/MaybeRungM.fss:13: Specification/basic/exceptions.tex:122 written at 6823d52b6; at b797d8037 those lines are inside a changed block
+ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10: Specification/basic-lib/objects.tex:161-188 written at 763ba87bc; at b797d8037 those lines are 197-224
+ProjectFortress/tests/XXXTupleSevenRungS.fss:10: Specification/basic-lib/objects.tex:144-158 written at 763ba87bc; at b797d8037 those lines are 175-189
+# 529 citations of Specification chapters scanned; 6 moved since the commit that wrote them

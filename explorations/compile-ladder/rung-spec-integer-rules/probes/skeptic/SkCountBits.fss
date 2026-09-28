@@ -1,0 +1,31 @@
+component SkCountBits
+export Executable
+
+(*) Skeptic's probe of basic-integers.tex:786-789 and algebraic-constraints.tex:1154: countBits as the chapter defines it, and GCD's idempotence.
+popcount(x: ZZ64): ZZ32 = do
+  var n: ZZ32 = 0
+  var y: ZZ64 = x
+  var i: ZZ32 = 0
+  while i < 64 do
+    if (y BITAND 1) = 1 then n += 1 end
+    y := y RSHIFT 1
+    i += 1
+  end
+  n
+end
+
+countBits(x: ZZ64): ZZ32 = if x >= 0 then popcount(x) else popcount(BITNOT x) end
+
+run(): () = do
+  xs: ZZ64[4] = [5 (-1) (-2) (-3)]
+  for x <- seq(xs) do
+    lhs = countBits(x LSHIFT 1)
+    rhs = countBits(x)
+    println("x = " x ": countBits(shift(x,1)) = " lhs ", countBits(x) = " rhs ", property at :788 holds: " (lhs = rhs))
+  end
+  mFour: ZZ32 = -4
+  println("-4 GCD -4 = " (mFour GCD mFour) ", idempotent: " ((mFour GCD mFour) = mFour))
+  println("-4 LCM -4 = " (mFour LCM mFour) ", idempotent: " ((mFour LCM mFour) = mFour))
+end
+
+end

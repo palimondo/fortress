@@ -13,12 +13,12 @@ minMaxDefaults(): () = do
     a = Pt(3)
     b = Pt(5)
     c = Pt(3)
-    assert(instanceOf[\Pt\](a MIN b), "row 421, basic-integers.tex:608: MIN returns one argument, not a pair")
-    assert(instanceOf[\Pt\](a MAX b), "row 421, basic-integers.tex:606: MAX returns one argument, not a pair")
-    assert((a MIN b).v, 3, "row 421, basic-integers.tex:608: MIN returns the smaller argument")
-    assert((b MIN a).v, 3, "row 421, basic-integers.tex:608: MIN returns the smaller argument")
-    assert((a MAX b).v, 5, "row 421, basic-integers.tex:606: MAX returns the larger argument")
-    assert((b MAX a).v, 5, "row 421, basic-integers.tex:606: MAX returns the larger argument")
+    assert(instanceOf[\Pt\](a MIN b), "row 421, basic-integers.tex:644: MIN returns one argument, not a pair")
+    assert(instanceOf[\Pt\](a MAX b), "row 421, basic-integers.tex:642: MAX returns one argument, not a pair")
+    assert((a MIN b).v, 3, "row 421, basic-integers.tex:644: MIN returns the smaller argument")
+    assert((b MIN a).v, 3, "row 421, basic-integers.tex:644: MIN returns the smaller argument")
+    assert((a MAX b).v, 5, "row 421, basic-integers.tex:642: MAX returns the larger argument")
+    assert((b MAX a).v, 5, "row 421, basic-integers.tex:642: MAX returns the larger argument")
     assert((a MIN c) === a, "row 421, FortressLibrary.fsi:206: equal arguments, MIN returns self")
     assert((a MAX c) === c, "row 421, FortressLibrary.fsi:206: equal arguments, MAX returns other")
     (lo, hi) = b MINMAX a
@@ -27,11 +27,11 @@ minMaxDefaults(): () = do
   end
 
 minMaxNumbers(): () = do
-    assert(1.5 MIN 2.5, 1.5, "row 421, basic-integers.tex:608: RR64 MIN")
-    assert(1.5 MAX 2.5, 2.5, "row 421, basic-integers.tex:606: RR64 MAX")
-    assert((1/3) MIN (1/2), 1/3, "row 421, basic-integers.tex:608: QQ MIN")
-    assert((1/3) MAX (1/2), 1/2, "row 421, basic-integers.tex:606: QQ MAX")
-    assert(instanceOf[\QQ\]((1/3) MAX (1/2)), "row 421, basic-integers.tex:606: QQ MAX returns a QQ")
+    assert(1.5 MIN 2.5, 1.5, "row 421, basic-integers.tex:644: RR64 MIN")
+    assert(1.5 MAX 2.5, 2.5, "row 421, basic-integers.tex:642: RR64 MAX")
+    assert((1/3) MIN (1/2), 1/3, "row 421, basic-integers.tex:644: QQ MIN")
+    assert((1/3) MAX (1/2), 1/2, "row 421, basic-integers.tex:642: QQ MAX")
+    assert(instanceOf[\QQ\]((1/3) MAX (1/2)), "row 421, basic-integers.tex:642: QQ MAX returns a QQ")
   end
 
 natives(): () = do

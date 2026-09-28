@@ -1,0 +1,42 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=1.30 1.63 2.87; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=9e65f13f9; date=2026-09-28T18:25:53Z
+# $ python3 probes/skeptic/sk-reanchor-check.py b797d8037 (the skeptic's own line map from git diff -U0 hunk headers, not difflib). The NOTCHAPTER lines are rung S's six citations into chapters rung P does not edit, checked in sk-rungS-six.txt; the two NONDIGIT lines are MaybeRungM's reword, which the rung declares.
+NOTCHAPTER ProjectFortress/compiler_tests/XXXFortToStringRungS.fss:13 number 117->121 last name objects.tex
+NOTCHAPTER ProjectFortress/compiler_tests/XXXFortToStringRungS.fss:13 number 122->126 last name objects.tex
+NOTCHAPTER ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:13 number 589->623 last name types-vals-vars.tex
+NOTCHAPTER ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:14 number 589->623 last name types-vals-vars.tex
+NONDIGIT ProjectFortress/library_tests/MaybeRungM.fss:13
+  base: (*) into Maybe, which is how Specification/basic/exceptions.tex:122 spells
+  tree: (*) into Maybe, which is how Specification/basic/exceptions.tex:134-137 says
+NONDIGIT ProjectFortress/library_tests/MaybeRungM.fss:14
+  base: (*) the default of a Maybe field.
+  tree: (*) the Working Draft spelled the default of a Maybe field.
+NOTCHAPTER ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10 number 161->197 last name objects.tex
+NOTCHAPTER ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10 number 188->224 last name objects.tex
+NOTCHAPTER ProjectFortress/tests/XXXTupleSevenRungS.fss:10 number 144->175 last name objects.tex
+NOTCHAPTER ProjectFortress/tests/XXXTupleSevenRungS.fss:10 number 158->189 last name objects.tex
+# 206 changed numbers map by the hunk-header map (23 of them by position inside a same-size changed hunk); 10 problems
+INTO-ADDED ProjectFortress/compiler_tests/IntSemanticsRungB.fss:123 basic-integers.tex:541-543 touches rung-added/changed lines 542..543
+INTO-ADDED ProjectFortress/compiler_tests/IntSemanticsRungB.fss:124 basic-integers.tex:541-543 touches rung-added/changed lines 542..543
+INTO-ADDED ProjectFortress/compiler_tests/IntSemanticsRungB.fss:125 basic-integers.tex:545-547 touches rung-added/changed lines 546..547
+INTO-ADDED ProjectFortress/library_tests/IntegralOpsRungN.fss:152 basic-integers.tex:541-543 touches rung-added/changed lines 542..543
+INTO-ADDED ProjectFortress/library_tests/IntegralOpsRungN.fss:165 basic-integers.tex:545-547 touches rung-added/changed lines 546..547
+INTO-ADDED ProjectFortress/library_tests/IntegralOpsRungN.fss:176 basic-integers.tex:560 touches rung-added/changed lines 560..560
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:112 basic-integers.tex:542 touches rung-added/changed lines 542..542
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:113 basic-integers.tex:542 touches rung-added/changed lines 542..542
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:114 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:115 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:116 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:117 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:131 basic-integers.tex:542 touches rung-added/changed lines 542..542
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:132 basic-integers.tex:542 touches rung-added/changed lines 542..542
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:133 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:134 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:135 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:136 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:153 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:154 basic-integers.tex:546 touches rung-added/changed lines 546..546
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:155 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:158 basic-integers.tex:547 touches rung-added/changed lines 547..547
+INTO-ADDED ProjectFortress/tests/IntSemanticsRungI.fss:159 basic-integers.tex:547 touches rung-added/changed lines 547..547
+# 23 tree citations touch lines the rung added or changed
+# 295 citations of the five chapters at BASE in the three directories; 0 not found re-anchored in the tree

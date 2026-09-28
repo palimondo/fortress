@@ -1,0 +1,44 @@
+component RulesWalk
+export Executable
+
+(*) The rules the revised integer chapter states that the gated tests do not already assert, under walk.
+check(name: String, got: String, want: String): () =
+  println(name ": " got (if got = want then "  ok" else "  MISMATCH, the text says " want end))
+
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run(): () = do
+  one: ZZ = big(widen(1))
+  three: ZZ = big(widen(3))
+  minusThree: ZZ = big(widen(-3))
+  twoTo32: ZZ = one LSHIFT 32
+  twoTo31: ZZ = one LSHIFT 31
+  check("ZZ narrow(2^32 + 5)", "" narrow(twoTo32 + big(widen(5))), "5")
+  check("ZZ narrow(2^31)", "" narrow(twoTo31), "-2147483648")
+  check("ZZ narrow(-2^32 - 1)", "" narrow(-twoTo32 - one), "-1")
+  n8: NN32 = unsigned(8)
+  check("NN32 8 LSHIFT 32", "" (n8 LSHIFT 32), "0")
+  check("NN32 8 LSHIFT 29", "" (n8 LSHIFT 29), "0")
+  check("NN32 8 LSHIFT 28", "" (n8 LSHIFT 28), "2147483648")
+  check("NN32 8 RSHIFT 40", "" (n8 RSHIFT 40), "0")
+  check("NN32 8 RSHIFT -29", "" (n8 RSHIFT (-29)), "0")
+  check("ZZ 3 LSHIFT 70 = shift(3, 70)", "" ((three LSHIFT 70) = shift(three, 70)), "true")
+  check("ZZ -3 RSHIFT 1 = shift(-3, -1)", "" (minusThree RSHIFT 1) " " shift(minusThree, -1), "-2 -2")
+  check("ZZ 3 RSHIFT -2 = shift(3, 2)", "" (three RSHIFT (-2)) " " shift(three, 2), "12 12")
+  check("ZZ -3 RSHIFT 100", "" (minusThree RSHIFT 100), "-1")
+  check("ZZ 3 LSHIFT 2^31 overflows", "" overflows(fn () => three LSHIFT twoTo31), "true")
+  check("ZZ shift(3, 2^31) overflows", "" overflows(fn () => shift(three, twoTo31)), "true")
+  check("ZZ 3 RSHIFT (-2^31) overflows", "" overflows(fn () => three RSHIFT (-twoTo31)), "true")
+  check("ZZ32 7 LSHIFT a ZZ count of 2^40", "" (7 LSHIFT (one LSHIFT 40)), "0")
+  check("ZZ32 -7 RSHIFT a ZZ count of 2^40", "" ((-7) RSHIFT (one LSHIFT 40)), "-1")
+  check("ZZ32 -7 LSHIFT a ZZ count of -2^40", "" ((-7) LSHIFT (-(one LSHIFT 40))), "-1")
+  check("ZZ32 7 LSHIFT an NN32 count of 33", "" (7 LSHIFT unsigned(33)), "0")
+end
+
+end

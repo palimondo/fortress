@@ -1,0 +1,4 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=3.02 2.21 1.49; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=2df58f13e; date=2026-09-28T17:25:45Z
+=== $ bin/fortress explorations/compile-ladder/rung-spec-integer-rules/probes/examples/SpecZZExcl.fss (walk) ===
+f(S32Of) = 1
+=== exit 0 ===

@@ -1,0 +1,12 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=3.21 3.19 4.12; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=9e65f13f9; date=2026-09-28T18:16:05Z
+=== $ bin/fortress /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkCoerceFull.fss (walk) ===
+g(T32Of) = 1
+g(T64Of) = 1
+g(T128Of) = 2
+walk rc=0
+=== $ bin/fortress compile /home/user/fortress-intprose/explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkCoerceFull.fss && bin/fortress run SkCoerceFull (compiled) ===
+compile rc=0
+g(T32Of) =  1
+g(T64Of) =  1
+g(T128Of) =  2
+run rc=0

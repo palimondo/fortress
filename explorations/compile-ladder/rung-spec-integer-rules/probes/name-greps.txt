@@ -1,0 +1,22 @@
+# grep of both corpora (ProjectFortress/tests and every *_tests directory) and of ProjectFortress/src/com/sun/fortress whole, for every name this rung adds; 2026-09-28T17:56:22Z
+== XXXRationalUnorderedRungP
+ProjectFortress/tests/XXXRationalUnorderedRungP.fss
+== XXXNumeralFloatRungP
+ProjectFortress/tests/XXXNumeralFloatRungP.fss
+== RulesWalk
+(no file outside its own)
+== RulesCompiled
+(no file outside its own)
+== SpecZZExcl
+(no file outside its own)
+== SpecZZOrig
+(no file outside its own)
+== SpecZZOnly64
+(no file outside its own)
+== RatUnorderedFaces
+(no file outside its own)
+== the specification labels revival-shifts, revival-gcd, revival-coercion-example, revival-rational-algebra
+Specification/appendices/changes.tex:1341:\seclabel{revival-shifts}
+Specification/appendices/changes.tex:1410:\seclabel{revival-gcd}
+Specification/appendices/changes.tex:1460:\seclabel{revival-coercion-example}
+Specification/appendices/changes.tex:1503:\seclabel{revival-rational-algebra}

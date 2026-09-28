@@ -90,7 +90,8 @@ order traits of the original design, which that design itself withheld from
 \EXP{\mathbb{Q}^{\#}}.}
 
 %% trait QQ
-%%     extends Number
+%%     extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+%%               AdditiveGroup[\QQ\], MultiplicativeRing[\QQ\] }
 %%   coerce(x: ZZ)
 %%   coerce(x: ZZ64)
 %%   coerce(x: ZZ32)
@@ -142,7 +143,8 @@ order traits of the original design, which that design itself withheld from
 %% end
 \begin{Fortress}
 \(\KWD{trait}\:\mathbb{Q}\)\\
-{\tt~~~~}\pushtabs\=\+\(    \KWD{extends}\:\TYP{Number}\)\-\\\poptabs
+{\tt~~~~}\pushtabs\=\+\(    \KWD{extends} \{\, \null\)\pushtabs\=\+\(\TYP{Number}, \TYP{StandardPartialOrder}\llbracket\mathbb{Q}\rrbracket, \TYP{StandardMinMax}\llbracket\mathbb{Q}\rrbracket,\)\\
+\(              \TYP{AdditiveGroup}\llbracket\mathbb{Q}\rrbracket, \TYP{MultiplicativeRing}\llbracket\mathbb{Q}\rrbracket\,\}\)\-\-\\\poptabs\poptabs
 {\tt~~}\pushtabs\=\+\(  \KWD{coerce}(x\COLON \mathbb{Z})\)\\
 \(  \KWD{coerce}(x\COLON \mathbb{Z}64)\)\\
 \(  \KWD{coerce}(x\COLON \mathbb{Z}32)\)\\
@@ -212,6 +214,14 @@ What the method entries said ``for types \EXP{\mathbb{Q}^*} and
 values.
 The coercions from the five integer types are new, with the method entry that
 follows.}
+The four traits that the listing's \KWD{extends} clause names after \TYP{Number}
+are those \library\ declare on \EXP{\mathbb{Q}}; their laws hold for the finite
+rationals and need not hold where \EXP{0/0} or an infinity takes part, as the laws
+of the same traits on \EXP{\mathbb{R}64} need not hold where a NaN takes part.
+\revision{revival-rational-algebra}{Before this revision the listing extended
+\TYP{Number} alone, the field and order traits of the original design having left
+it (\secref{revival-rationals}); it now names the traits \library\ declare on
+\EXP{\mathbb{Q}}, and the sentence above says where their laws hold.}
 
 
 %%   coerce(x: ZZ)

@@ -10,7 +10,7 @@ export Executable
 (*)
 (*) Specification/basic/expressions/literals.tex:83-85 gives a numeral of
 (*) digits the value of the numeral interpreted in radix ten, with nothing
-(*) bounding it; Specification/basic-lib/basic-integers.tex:369-370 and
+(*) bounding it; Specification/basic-lib/basic-integers.tex:398-399 and
 (*) :400-401 give wrapping and saturating their own operator spellings and say
 (*) the ordinary operations never need to wrap or saturate.
 (*)

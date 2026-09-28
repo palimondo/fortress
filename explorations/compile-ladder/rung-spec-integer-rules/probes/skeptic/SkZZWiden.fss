@@ -1,0 +1,13 @@
+component SkZZWiden
+export Executable
+
+(*) Skeptic's probe: widen on a ZZ that ZZ64 cannot hold, which rung P reports and does not state.
+run(): () = do
+  oneL: ZZ64 = 1
+  big1: ZZ = big(oneL)
+  z: ZZ = (big1 LSHIFT 64) + big(widen(5))
+  println("ZZ widen(2^64 + 5) = " widen(z))
+  println("ZZ widen(-(2^63) - 1) = " widen(-(big1 LSHIFT 63) - big1))
+end
+
+end

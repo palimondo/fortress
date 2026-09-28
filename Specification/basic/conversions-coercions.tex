@@ -553,8 +553,8 @@ and the declaration with parameter
 type $T$ is applied to the call.
 
 As an example, consider the following definitions:
-%trait ZZ32 end
-%trait ZZ64
+%trait ZZ32 excludes { ZZ64, ZZ128 } end
+%trait ZZ64 excludes { ZZ128 }
 %  coerce(z:ZZ32) = ...
 %end
 %trait ZZ128
@@ -565,8 +565,8 @@ As an example, consider the following definitions:
 %f(z:ZZ64) = 1
 %f(z:ZZ128) = 2
 \begin{Fortress}
-\(\KWD{trait} \mathbb{Z}32 \KWD{end}\)\\
-\(\KWD{trait} \mathbb{Z}64\)\\
+\(\KWD{trait} \mathbb{Z}32 \KWD{excludes} \{\,\mathbb{Z}64, \mathbb{Z}128\,\} \KWD{end}\)\\
+\(\KWD{trait} \mathbb{Z}64 \KWD{excludes} \{\,\mathbb{Z}128\,\}\)\\
 {\tt~~}\pushtabs\=\+\(  \KWD{coerce}(z\COLONOP\mathbb{Z}32) = \ldots\)\-\\\poptabs
 \(\KWD{end}\)\\
 \(\KWD{trait} \mathbb{Z}128\)\\
@@ -578,8 +578,22 @@ As an example, consider the following definitions:
 \end{Fortress}
 Then the call \EXP{f(\mathbb{Z}32)} resolves to the
 declaration \EXP{f(\mathbb{Z}64)} because $\EXP{\mathbb{Z}64}
-\morespecific \EXP{\mathbb{Z}128}$, which follows from the fact that
-\EXP{\mathbb{Z}64} coerces to \EXP{\mathbb{Z}128}.
+\morespecific \EXP{\mathbb{Z}128}$, which follows from the facts that
+\EXP{\mathbb{Z}64} excludes \EXP{\mathbb{Z}128}, coerces to it, and rejects it:
+the one type that coerces to \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32}, excludes
+\EXP{\mathbb{Z}128}.
+The same facts make the two declarations of \VAR{f} a valid overloading, and the
+exclusion of \EXP{\mathbb{Z}64} by \EXP{\mathbb{Z}32} does the same for the two
+coercions to \EXP{\mathbb{Z}128} (\secref{more-specific-rule}).
+\revision{revival-coercion-example}{The Working Draft of February 2011 declared the
+three traits with no \KWD{excludes} clause and said that the resolution follows
+from the fact that \EXP{\mathbb{Z}64} coerces to \EXP{\mathbb{Z}128}.
+By the definition above, \EXP{\mathbb{Z}64} is then not more specific than
+\EXP{\mathbb{Z}128}, and neither the two declarations of \VAR{f} nor the two
+coercions to \EXP{\mathbb{Z}128} are a valid overloading; both implementations
+of the revival refuse the example as the Working Draft wrote it.
+The clauses added are spelled as \library\ spell those of their integer types,
+each trait excluding the wider ones.}
 
 Notice that coercion is resolved statically.  Once a coercion is
 statically chosen for a call, this coercion is conceptually inserted

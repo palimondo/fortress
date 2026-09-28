@@ -1,0 +1,280 @@
+# diff of norm.sh(base build at b797d8037) against norm.sh(the rung's build); norm.sh removes page numbers, TOC leaders and blank lines
+7462d7461
+< common multiple. The operator CHOOSE computes binomial coefficients: n CHOOSE k = nk = k!(n−k)!
+7463a7463,7470
+> common multiple. The operator CHOOSE computes binomial coefficients: n CHOOSE k = nk = k!(n−k)!
+> The results of GCD and LCM are nonnegative (Section 33.2). On a fixed-size integer type, as for its other operators,
+> a result that the type cannot hold throws an IntegerOverflow: on Z32 , for example, the greatest common divisor of −231 and 0 is 231 , and the least common multiple of 231 − 1 and 2 is 232 − 2 , neither of which Z32
+> holds.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.22
+> The Working Draft of February 2011 said neither that these results are nonnegative nor what happens when one does not fit its
+> type.
+7505c7512,7516
+< ¬ computes the bitwise NOT of an integer.
+---
+> ¬ computes the bitwise NOT of an integer. The operators LSHIFT and RSHIFT shift the bits of
+> an integer to the left and to the right (Section 33.2).
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.21
+> The Working Draft of February 2011 did not name LSHIFT and RSHIFT
+7792,7793c7803,7804
+< trait Z32 end
+< trait Z64
+---
+> trait Z32 excludes { Z64, Z128 } end
+> trait Z64 excludes { Z128 }
+7802,7803c7813,7823
+< Then the call f (Z32) resolves to the declaration f (Z64) becauseZ64 ◁ Z128, which follows from the fact that Z64
+< coerces to Z128
+---
+> Then the call f (Z32) resolves to the declaration f (Z64) becauseZ64 ◁Z128, which follows from the facts that Z64
+> excludes Z128 , coerces to it, and rejects it: the one type that coerces to Z64 , Z32 , excludes Z128 . The same facts
+> make the two declarations of f a valid overloading, and the exclusion of Z64 by Z32 does the same for the two
+> coercions to Z128 (Section 24.4).
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.23
+> The Working Draft of February 2011 declared the three traits with no excludes clause and said that the resolution follows
+> from the fact that Z64 coerces to Z128 . By the definition above, Z64 is then not more specific than Z128 , and neither the
+> two declarations of f nor the two coercions to Z128 are a valid overloading; both implementations of the revival refuse the
+> example as the Working Draft wrote it. The clauses added are spelled as the Fortress standard libraries spell those of their
+> integer types, each trait excluding the wider ones.
+15184c15204,15205
+< extends Number
+---
+> extends { Number, StandardPartialOrderJQK, StandardMinMaxJQK,
+> AdditiveGroupJQK, MultiplicativeRingJQK }
+15243a15265,15271
+> The four traits that the listing’s extends clause names after Number are those the Fortress standard libraries declare
+> on Q ; their laws hold for the finite rationals and not where 0/0 or an infinity takes part, as the laws of the same traits
+> on R64 do not hold where a NaN takes part.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.24
+> Before this revision the listing extended Number alone, the field and order traits of the original design having left it (Section I.1.11); it now names the traits the Fortress standard libraries declare on Q , and the sentence above says where their laws
+> hold.
+15411a15440,15453
+> Among the explicit conversions, the method narrow converts a value of Z64 or Z to Z32 , and a value of N64 to
+> N32 , by keeping its low 32 bits: the result is the value of the narrower type that is congruent to the argument modulo
+> 232 . A value that the narrower type holds is unchanged; any other wraps, and no IntegerOverflow is thrown.
+> The operators LSHIFT and RSHIFT shift the bits of an integer of any of the five types by a count of any integer
+> type, and return a value of the type of the integer shifted. On Z , x LSHIFT k is shift(x, k) and x RSHIFT k is
+> shift(x, −k) . On a fixed-size type of width n , for a nonnegative count k , x RSHIFT k is ⌊x/2k ⌋ , and x LSHIFT k
+> is the value of the type that is congruent to x · 2k modulo 2n : the bits shifted out are lost, and no IntegerOverflow
+> is thrown. So a count at or beyond the width gives 0 for a left shift, and for a right shift 0 , or −1 if x is negative. A
+> negative count shifts the other way: x LSHIFT (−k) is x RSHIFT k , and x RSHIFT (−k) is x LSHIFT k . The count
+> is read by its value, whatever its type: an N64 count of 263 or more is beyond the width, not negative.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.21
+> The Working Draft of February 2011 named neither narrow nor LSHIFT and RSHIFT , which the Fortress standard libraries
+> declare on the integer types; the two paragraphs above state the rules the revival decided for them.
+15682c15724
+< either argment is 0 , the result equals the other argument.
+---
+> either argument is 0 , the result is the absolute value of the other argument.
+15684c15726
+< either argment is 1 , the result equals the other argument. If either argument is 0 , the result is 0
+---
+> either argument is 1 , the result is the absolute value of the other argument. If either argument is 0 , the result is 0
+15689,15690c15731,15739
+< property ∀(m, n) (m GCD n) · (m LCM n) = m · n
+< 33.2.48 opr (self)! : Z
+---
+> property ∀(m, n) (m GCD n) · (m LCM n) = |m · n|
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.22
+> The Working Draft of February 2011 said that the result equals the other argument where the two paragraphs above now say
+> its absolute value, as the first sentence of each requires when the other argument is negative, and its last property equated the
+> product of the two results with m · n , which nonnegative results satisfy only up to sign. On a fixed-size integer type, a result
+> that the type cannot hold throws an IntegerOverflow (Chapter 16).
+> 33.2.48
+> opr (self)! : Z
+15779c15828,15834
+< the bits to the right.
+---
+> the bits to the right. The result is exact for a count of any size, and a result too large for the implementation to represent
+> throws an IntegerOverflow. On Z , the operators LSHIFT and RSHIFT compute this shift with the count and with
+> its negation.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.21
+> The Working Draft of February 2011 did not say how large a count may be or what happens when the result cannot be
+> represented.
+15784c15839,15840
+< 33.2.76 opr ¬
+---
+> 33.2.76
+> opr ¬
+15790,15792c15846,15851
+< 33.2.77 opr ∧∧(self, other : Z): Z
+< 33.2.78 opr ∨∨(self, other : Z): Z
+< 33.2.79 opr ∨∨(self, other : Z): Z
+---
+> 33.2.77
+> 33.2.78
+> 33.2.79
+> opr ∧∧(self, other : Z): Z
+> opr ∨∨(self, other : Z): Z
+> opr ∨∨(self, other : Z): Z
+15815c15874,15875
+< 33.2.82 integerLength(self): IndexInt
+---
+> 33.2.82
+> integerLength(self): IndexInt
+15825c15885,15886
+< 33.2.83 lowBits(self, k: IndexInt): Z
+---
+> 33.2.83
+> lowBits(self, k: IndexInt): Z
+23489d23549
+< Why leave the first?
+23503a23564
+> Why leave the first?
+28243c28304
+< on sums and products. The alternative not taken, route C, is described once, in Section I.1.22.
+---
+> on sums and products. The alternative not taken, route C, is described once, in Section I.1.26.
+28272c28333
+< Route C Replaces this rule by the rule of Section I.1.22.
+---
+> Route C Replaces this rule by the rule of Section I.1.26.
+28423c28484
+< this entry, Section I.1.21 said of the calculi:
+---
+> this entry, Section I.1.25 said of the calculi:
+28833c28894
+< Affected sections Section 13.16; Section 33.2; Section I.1.10; Section I.1.21.
+---
+> Affected sections Section 13.16; Section 33.2; Section I.1.10; Section I.1.25.
+28837c28898
+< the effect of Section I.1.10 and Section I.1.21 no longer say that a range over two different integer types infers
+---
+> the effect of Section I.1.10 and Section I.1.25 no longer say that a range over two different integer types infers
+28850c28911
+< a component of a range is not settled (Section I.1.21).
+---
+> a component of a range is not settled (Section I.1.25).
+28863c28924
+< and Section I.1.21 said:
+---
+> and Section I.1.25 said:
+28985c29046
+< Route C The same under route C, under which the self-typed traits carry comprises clauses of their own (Section I.1.22): a parameterized trait between a closed trait and its listed types then meets the requirement through
+---
+> Route C The same under route C, under which the self-typed traits carry comprises clauses of their own (Section I.1.26): a parameterized trait between a closed trait and its listed types then meets the requirement through
+28987a29049,29161
+> Shifts and narrowing on the integer types
+> Affected sections Section 33.2; the overview of operators in Chapter 16.
+> Change Two paragraphs after the coercions of Section 33.2 state the method narrow and the operators LSHIFT and
+> RSHIFT , which this working draft did not name: narrow keeps the low 32 bits of a value of Z64 , Z or N64 ;
+> on a fixed-size type the two operators lose the bits shifted out, give 0 , or −1 for a negative value shifted right,
+> at a count at or beyond the width, and shift the other way for a negative count; on Z they are shift ; the count
+> may be of any integer type and is read by its value. The entry of shift adds that the result is exact for a count
+> of any size and that a result too large for the implementation throws IntegerOverflow, and that LSHIFT and
+> RSHIFT compute the same shift on Z . The overview of operators names LSHIFT and RSHIFT beside the
+> bitwise operators.
+> Rationale This change does not follow from route A; the revival decided it on 22 September 2026, with two further decisions on 24 September: that the signed narrow truncates too, and that Z32 ’s shifts take a count
+> of any integer type. The Fortress standard libraries declare LSHIFT and RSHIFT on every integer type
+> with a count of any integer type (Library/FortressLibrary.fsi, lines 459–460), and narrow on
+> Z64 , N64 and Z (lines 506, 594 and 608), and this working draft said nothing of them. In the languages
+> the revival compared a shift is an operation on bits whose bits shifted out are lost, and the revival kept it
+> one on the fixed-size types, with an exact arithmetic shift on Z under the name shift , which this working draft already defines. For a count at or beyond the width the rule is the one the team’s interpreter has
+> followed since 2007 and three of its gated tests assert (ProjectFortress/tests/BitTwiddle.fss,
+> lines 33, 36 and 39; ProjectFortress/tests/UnsignedTest.fss, lines 30, 32, 135 and 137;
+> ProjectFortress/tests/QuickCheckTest.fss, lines 97–103). Nothing pinned a negative count;
+> it shifts the other way, and the count is read by its value, so that a large unsigned count is not read as a
+> negative one. narrow keeps the low 32 bits as the team’s own test asserts at the values 264 − 1 and 263
+> (ProjectFortress/tests/UnsignedTest.fss, lines 210–211), on the signed types as on the unsigned. The full reasoning is in explorations/compile-ladder/rung-spec-integer-rules/
+> decision-record.md in the revival’s repository.
+> Effect A count at or beyond the width, or a negative count, has a specified result, and so has narrow of a value that
+> does not fit. Both implementations of the revival compute these results on Z32 and Z64 for a count of the
+> shifted value’s own type, and the interpreter on all five types for a count of any integer type; the compiled path,
+> which until it is built on the Fortress standard libraries compiles against a smaller library of its own, declares
+> LSHIFT and RSHIFT on Z32 and Z64 only, with a count of the shifted value’s own type, and neither narrow
+> on Z nor shift (rows 381, 383 and 442 of the revival’s gap ledger).
+> Original text None for the two paragraphs and for the sentence of the overview: no chapter of this working draft
+> names LSHIFT , RSHIFT or narrow . The entry of shift , Specification-1.0-frozen/basic-lib/
+> basic-integers.tex, lines 698–702, which the revision keeps and extends:
+> The result of shift(x, k) is ⌊x · 2k ⌋ . This corresponds to what is sometimes called an “arithmetic
+> shift” on the two’s-complement representation of the integer; positive values of k shifts the bits to
+> the left, and negative values of k shifts the bits to the right.
+> Route C The same under route C.
+> I.1.22
+> The greatest common divisor and the least common multiple
+> Affected sections Section 33.2; the overview of operators in Chapter 16.
+> Change In the entry of GCD and LCM , the result for an argument 0 (of GCD ) and for an argument 1 (of LCM ) is
+> the absolute value of the other argument, where it was the other argument, and the misspelling “argment” is
+> corrected in those two sentences; the last property equates the product of the two results with |m · n| . The
+> overview of operators adds that both results are nonnegative and that, on a fixed-size integer type, a result that
+> the type cannot hold throws an IntegerOverflow, with two examples on Z32
+> Rationale This change does not follow from route A; the revival decided it on 22 September 2026. Each paragraph
+> of the entry begins by saying that the result is always nonnegative, and the source of its declarations gives both
+> results the type N (Specification-1.0-frozen/basic-lib/basic-integers.tex, lines 518–
+> 519); the sentences that followed contradicted that when the other argument is negative, and the revival reads
+> them as the absolute value, as both of its implementations compute. The overview of operators says that for
+> integer results overflow throws an IntegerOverflow; the revival applies that to GCD and LCM , as the team’s
+> compiled library already did.
+> Effect 0 GCD −4 is 4 , 1 LCM −5 is 5 , and on Z32 and Z64 a greatest common divisor or a least common multiple
+> that the type does not hold throws an IntegerOverflow, on both implementations of the revival.
+> Original text Specification-1.0-frozen/basic-lib/basic-integers.tex, lines 523–529:
+> The operator GCD computes the greatest common divisor of its two arguments. The result is always
+> nonnegative. If either argment is 0 , the result equals the other argument.
+> The operator LCM computes the least common multiple of its two arguments. The result is always
+> nonnegative. If either argment is 1 , the result equals the other argument. If either argument is 0 , the
+> result is 0
+> and line 544, the last property:
+> property ∀(m, n) (m GCD n) · (m LCM n) = m · n
+> The overview of operators said nothing of either operator’s sign or overflow.
+> Route C The same under route C.
+> I.1.23
+> The example of coercion resolution
+> Affected section Section 17.5.
+> Change In the example over Z32 , Z64 and Z128 , Z32 excludes the two others and Z64 excludes Z128 ; the
+> sentence after it names the exclusion and the rejection from which Z64 ◁ Z128 follows, and says that the same
+> facts make the example’s two overloadings valid.
+> Rationale This change does not follow from route A. The example contradicted the definition before it: T is no less
+> specific than U only if T is a subtype of U or excludes, coerces to and rejects U , and without the clauses
+> Z64 neither excludes Z128 nor rejects it. The clauses added are those the definition and the Meet Rule of
+> Section 24.4 need, spelled as the Fortress standard libraries spell the exclusions of their integer types, each
+> type excluding the wider ones (Library/FortressLibrary.fsi, lines 510–511 and 552–553). The
+> team’s later Types chapter says the same of an excludes clause: an instantiation of the declared trait “excludes every type in this set” (Documentation/Specification/Prose/Language/types.tick,
+> lines 344–351, in the revival’s repository).
+> Effect The example is a valid program, and both implementations of the revival run it as printed, the call resolving to
+> f (Z64) ; as the working draft printed it, both refuse it.
+> Original text Specification-1.0-frozen/basic/conversions-coercions.tex, lines 551–552,
+> the first two lines of the example:
+> trait Z32 end
+> trait Z64
+> and lines 562–565:
+> Then the call f (Z32) resolves to the declaration f (Z64) because Z64 ◁ Z128, which follows from
+> the fact that Z64 coerces to Z128
+> Route C The same under route C.
+> I.1.24
+> The algebra of the rational trait
+> Affected section Section 33.1.
+> Change The listing of Q extends StandardPartialOrderJQK , StandardMinMaxJQK , AdditiveGroupJQK and
+> MultiplicativeRingJQK besides Number, and one sentence after it says that their laws hold for the finite
+> rationals and not where 0/0 or an infinity takes part.
+> Rationale The number chapters describe the number types that the Fortress standard libraries declare (Section I.1.10).
+> The Fortress standard libraries declare these four traits on Q (Library/FortressLibrary.fsi, lines
+> 387–388), and their sums and products over Q rely on the group and the ring (Section 13.17); the revision
+> of the number chapters had left the listing extending Number alone, because 0/0 and the infinities break the
+> laws of a group, a ring and an order (Section I.1.11). The Fortress standard libraries declare the same four traits
+> on R64 , whose NaN breaks them likewise (lines 291–292), and Section 40.3 already says that the algebraic
+> properties of the rationals are obeyed exactly and those of floating-point numbers only approximately.
+> Effect None on programs, since the Fortress standard libraries already declare the traits; the listing agrees with the
+> library’s declaration.
+> Original text Specification-1.0-frozen/basic-lib/numbers.tex, lines 177–183, the header of the
+> listing, also quoted in Section I.1.11:
+> trait Q
+> extends { R, Q∗ ,
+> FieldJQ, Q̸= , +, −, ·, /K,
+> FieldJQ, Q̸= , +, −, ×, /K,
+> FieldJQ, Q̸= , +, −, juxtaposition, /K,
+> TotalOrderOperatorsJQ, <, ≤, ≥, >, CMPK,
+> PartialOrderAndLatticeJQ, ≤, MIN, MAXK }
+> Before this revision the listing’s header was trait Q extends Number
+> Route C By the revival’s reading, not measured, the same under route C.
+> I.1.25
+29002c29176
+< I.1.22
+---
+> I.1.26

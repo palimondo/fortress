@@ -1,0 +1,10 @@
+component SkZZNarrowC
+export Executable
+
+(*) Skeptic's probe: the revised integer chapter states narrow on ZZ; does the compiled prelude declare it?
+run(): () = do
+  z: ZZ = 1
+  println("ZZ narrow(1): " narrow(z))
+end
+
+end

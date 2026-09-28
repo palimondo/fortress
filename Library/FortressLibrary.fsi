@@ -2584,8 +2584,8 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
 (*) All eight return the unsized Array[\T,I\], where the Vector and Matrix scalar
 (*) operators keep rank and size (Vector[\T,n\] to Vector[\T,n\]).  Nothing is lost at run
 (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
-(*) checker sees only Array[\T,I\], so sized arrays under a compiler need per-shape
-(*) declarations beside these.
+(*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
+(*) to it in the result.
 opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
 opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
 opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]

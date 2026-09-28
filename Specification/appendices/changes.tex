@@ -1337,6 +1337,213 @@ the requirement through its own clause, and the last case of the
 requirement is not needed.
 \end{description}
 
+\subsection{Shifts and narrowing on the integer types}
+\seclabel{revival-shifts}
+
+\begin{description}
+\item[Affected sections] \secref{basic-integers}; the overview of operators in
+\chapref{operators}.
+\item[Change] Two paragraphs after the coercions of \secref{basic-integers} state
+the method \VAR{narrow} and the operators \OPR{LSHIFT} and \OPR{RSHIFT}, which this
+working draft did not name: \VAR{narrow} keeps the low 32 bits of a value of
+\EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}} or \EXP{\mathbb{N}64}; on a fixed-size type the
+two operators lose the bits shifted out, give \EXP{0}, or \EXP{-1} for a negative
+value shifted right, at a count at or beyond the width, and shift the other way for
+a negative count; on \EXP{\mathbb{Z}} they are \VAR{shift}; the count may be of any
+integer type and is read by its value.
+The entry of \VAR{shift} adds that the result is exact for a count of any size and
+that a result too large for the implementation throws \TYP{IntegerOverflow}, and
+that \OPR{LSHIFT} and \OPR{RSHIFT} compute the same shift on \EXP{\mathbb{Z}}.
+The overview of operators names \OPR{LSHIFT} and \OPR{RSHIFT} beside the bitwise
+operators.
+\item[Rationale] This change does not follow from route~A; the revival decided it on
+22~September 2026, with two further decisions on 24~September: that the signed
+\VAR{narrow} truncates too, and that \EXP{\mathbb{Z}32}'s shifts take a count of any
+integer type.
+\Library\ declare \OPR{LSHIFT} and \OPR{RSHIFT} on every integer type with a count of
+any integer type (\nolinkurl{Library/FortressLibrary.fsi}, lines 459--460), and
+\VAR{narrow} on \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64} and \EXP{\mathbb{Z}}
+(lines 506, 594 and 608), and this working draft said nothing of them.
+In the languages the revival compared a shift is an operation on bits whose bits
+shifted out are lost, and the revival kept it one on the fixed-size types, with an
+exact arithmetic shift on \EXP{\mathbb{Z}} under the name \VAR{shift}, which this
+working draft already defines.
+For a count at or beyond the width the rule is the one the team's interpreter has
+followed since 2007 and three of its gated tests assert
+(\nolinkurl{ProjectFortress/tests/BitTwiddle.fss}, lines 33, 36 and 39;
+\nolinkurl{ProjectFortress/tests/UnsignedTest.fss}, lines 30, 32, 135 and 137;
+\nolinkurl{ProjectFortress/tests/QuickCheckTest.fss}, lines 97--103).
+Nothing pinned a negative count; it shifts the other way, and the count is read by
+its value, so that a large unsigned count is not read as a negative one.
+\VAR{narrow} keeps the low 32 bits as the team's own test asserts at the values
+\EXP{2^{64}-1} and \EXP{2^{63}} (\nolinkurl{ProjectFortress/tests/UnsignedTest.fss},
+lines 210--211), on the signed types as on the unsigned.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-integer-rules/decision-record.md}
+in the revival's repository.
+\item[Effect] A count at or beyond the width, or a negative count, has a specified
+result, and so has \VAR{narrow} of a value that does not fit.
+Both implementations of the revival compute these results on \EXP{\mathbb{Z}32} and
+\EXP{\mathbb{Z}64} for a count of the shifted value's own type, and the interpreter
+on all five types for a count of any integer type; the compiled path, which until it
+is built on \library\ compiles against a smaller library of its own, declares
+\OPR{LSHIFT} and \OPR{RSHIFT} on \EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64} only, with
+a count of the shifted value's own type, and neither \VAR{narrow} on
+\EXP{\mathbb{Z}} nor \VAR{shift} (rows~381, 383 and~442 of the revival's gap ledger).
+\item[Original text] None for the two paragraphs and for the sentence of the
+overview: no chapter of this working draft names \OPR{LSHIFT}, \OPR{RSHIFT} or
+\VAR{narrow}.
+The entry of \VAR{shift},
+\nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}, lines 698--702,
+which the revision keeps and extends:
+\begin{quote}
+The result of \EXP{\VAR{shift}(x,k)} is \EXP{\lfloor x \cdot 2^k \rfloor}.
+This corresponds to what is sometimes called an ``arithmetic shift''
+on the two's-complement representation of the integer;
+positive values of \VAR{k} shifts the bits to the left,
+and negative values of \VAR{k} shifts the bits to the right.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The greatest common divisor and the least common multiple}
+\seclabel{revival-gcd}
+
+\begin{description}
+\item[Affected sections] \secref{basic-integers}; the overview of operators in
+\chapref{operators}.
+\item[Change] In the entry of \OPR{GCD} and \OPR{LCM}, the result for an argument
+\EXP{0} (of \OPR{GCD}) and for an argument \EXP{1} (of \OPR{LCM}) is the absolute
+value of the other argument, where it was the other argument, and the misspelling
+``argment'' is corrected in those two sentences; the last property equates the
+product of the two results with \EXP{\left|m \cdot n\right|}.
+The overview of operators adds that both results are nonnegative and that, on a
+fixed-size integer type, a result that the type cannot hold throws an
+\TYP{IntegerOverflow}, with two examples on \EXP{\mathbb{Z}32}.
+\item[Rationale] This change does not follow from route~A; the revival decided it on
+22~September 2026.
+Each paragraph of the entry begins by saying that the result is always nonnegative,
+and the source of its declarations gives both results the type \EXP{\mathbb{N}}
+(\nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}, lines
+518--519); the sentences that followed contradicted that when the other argument is
+negative, and the revival reads them as the absolute value, as both of its
+implementations compute.
+The overview of operators says that for integer results overflow throws an
+\TYP{IntegerOverflow}; the revival applies that to \OPR{GCD} and \OPR{LCM}, as both
+of its implementations do on \EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64}.
+\item[Effect] \EXP{0 \OPR{GCD} -4} is \EXP{4}, \EXP{1 \OPR{LCM} -5} is \EXP{5}, and
+on \EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64} a greatest common divisor or a least
+common multiple that the type does not hold throws an \TYP{IntegerOverflow}, on both
+implementations of the revival.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex},
+lines 523--529:
+\begin{quote}
+The operator \OPR{GCD} computes the greatest common divisor of its two arguments.
+The result is always nonnegative.  If either argment is \EXP{0}, the result
+equals the other argument.
+
+The operator \OPR{LCM} computes the least common multiple of its two arguments.
+The result is always nonnegative.  If either argment is \EXP{1}, the result
+equals the other argument.  If either argument is \EXP{0}, the result is \EXP{0}.
+\end{quote}
+and line 544, the last property:
+\begin{quote}
+\begin{Fortress}
+{\tt~~}\(  \KWD{property} \forall (m, n)\; (m \OPR{GCD} n) \cdot (m \OPR{LCM} n) = m \cdot n\)
+\end{Fortress}
+\end{quote}
+The overview of operators said nothing of either operator's sign or overflow.
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The example of coercion resolution}
+\seclabel{revival-coercion-example}
+
+\begin{description}
+\item[Affected section] \secref{resolving-coercion}.
+\item[Change] In the example over \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} and
+\EXP{\mathbb{Z}128}, \EXP{\mathbb{Z}32} excludes the two others and \EXP{\mathbb{Z}64}
+excludes \EXP{\mathbb{Z}128}; the sentence after it names the exclusion and the
+rejection from which \EXP{\mathbb{Z}64 \morespecific \mathbb{Z}128} follows, and
+says that the same facts make the example's two overloadings valid.
+\item[Rationale] This change does not follow from route~A. The example contradicted
+the definition before it: \VAR{T} is no less specific than \VAR{U} only if \VAR{T} is
+a subtype of \VAR{U} or excludes, coerces to and rejects \VAR{U}, and without the
+clauses \EXP{\mathbb{Z}64} neither excludes \EXP{\mathbb{Z}128} nor rejects it.
+The clauses added are those the definition and the Meet Rule of
+\secref{more-specific-rule} need, spelled as \library\ spell the exclusions of
+their integer types, each type excluding the wider ones
+(\nolinkurl{Library/FortressLibrary.fsi}, lines 510--511 and 552--553).
+The team's later Types chapter says the same of an \KWD{excludes} clause: an
+instantiation of the declared trait ``excludes every type in this set''
+(\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines 344--351,
+in the revival's repository).
+\item[Effect] The example is a valid program, and both implementations of the revival
+run it as printed, the call resolving to \EXP{f(\mathbb{Z}64)}; as the working draft
+printed it, both refuse it.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/conversions-coercions.tex},
+lines 551--552, the first two lines of the example:
+\begin{quote}
+\begin{Fortress}
+\(\KWD{trait} \mathbb{Z}32 \KWD{end}\)\\
+\(\KWD{trait} \mathbb{Z}64\)
+\end{Fortress}
+\end{quote}
+and lines 562--565:
+\begin{quote}
+Then the call \EXP{f(\mathbb{Z}32)} resolves to the
+declaration \EXP{f(\mathbb{Z}64)} because $\EXP{\mathbb{Z}64}
+\morespecific \EXP{\mathbb{Z}128}$, which follows from the fact that
+\EXP{\mathbb{Z}64} coerces to \EXP{\mathbb{Z}128}.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The algebra of the rational trait}
+\seclabel{revival-rational-algebra}
+
+\begin{description}
+\item[Affected section] \secref{basic-rationals}.
+\item[Change] The listing of \EXP{\mathbb{Q}} extends
+\EXP{\TYP{StandardPartialOrder}\llbracket\mathbb{Q}\rrbracket},
+\EXP{\TYP{StandardMinMax}\llbracket\mathbb{Q}\rrbracket},
+\EXP{\TYP{AdditiveGroup}\llbracket\mathbb{Q}\rrbracket} and
+\EXP{\TYP{MultiplicativeRing}\llbracket\mathbb{Q}\rrbracket} besides \TYP{Number},
+and one sentence after it says that their laws hold for the finite rationals and need
+not hold where \EXP{0/0} or an infinity takes part.
+\item[Rationale] The number chapters describe the number types that \library\
+declare (\secref{revival-numbers}).
+\Library\ declare these four traits on \EXP{\mathbb{Q}}
+(\nolinkurl{Library/FortressLibrary.fsi}, lines 387--388), and their sums and
+products over \EXP{\mathbb{Q}} rely on the group and the ring (the bounds of its
+\OPR{SUM} and \OPR{PROD}, lines 1898--1909); the revision of the number chapters had left the listing
+extending \TYP{Number} alone,
+because \EXP{0/0} breaks the laws of a group and a ring
+(\secref{revival-rationals}).
+\Library\ declare the same four traits on \EXP{\mathbb{R}64}, whose NaN breaks them
+likewise (lines 291--292), and \secref{opr-properties} already says that the
+algebraic properties of the rationals are obeyed exactly and those of floating-point
+numbers only approximately.
+\item[Effect] None on programs, since \library\ already declare the traits; the
+listing agrees with the library's declaration.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex},
+lines 177--183, the header of the listing, also quoted in \secref{revival-rationals}:
+\begin{quote}
+\begin{Fortress}
+\(\KWD{trait}\:\mathbb{Q}\)\\
+{\tt~~~~}\(    \KWD{extends} \{\, \null\)\(\mathbb{R}, \mathbb{Q}^*,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\cdot,/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\times,/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{Field}\llbracket\mathbb{Q},\mathbb{Q}_{\neq},+,-,\KWD{juxtaposition},/\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{TotalOrderOperators}\llbracket\mathbb{Q},<,\leq,\geq,>,\OPR{CMP}\rrbracket,\)\\
+{\tt~~~~~~~~~~~~~~}\(              \TYP{PartialOrderAndLattice}\llbracket\mathbb{Q},\leq,\OPR{MIN},\OPR{MAX}\rrbracket\,\}\)
+\end{Fortress}
+\end{quote}
+Before this revision the listing's header was
+\EXP{\KWD{trait}\:\mathbb{Q}\;\KWD{extends}\:\TYP{Number}}.
+\item[Route C] By the revival's reading, not measured, the same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

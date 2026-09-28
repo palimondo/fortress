@@ -1,0 +1,25 @@
+component RulesCompiled
+export Executable
+
+(*) The operator overview's two examples of an unrepresentable GCD and LCM on ZZ32, on the compiled path.
+overflows(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run(): () = do
+  maxI: ZZ32 = 2147483647
+  minI: ZZ32 = -2147483647 - 1
+  zero: ZZ32 = 0
+  two: ZZ32 = 2
+  println("ZZ32 (2^31 - 1) LCM 2 overflows: " overflows(fn () => maxI LCM two))
+  println("ZZ32 -2^31 GCD 0 overflows: " overflows(fn () => minI GCD zero))
+  println("ZZ32 0 GCD -4: " (zero GCD (-4)))
+  println("ZZ32 1 LCM -5: " ((1) LCM (-5)))
+end
+
+end

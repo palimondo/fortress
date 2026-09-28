@@ -1,0 +1,8 @@
+# machine: nproc=4; cpu=Intel(R) Xeon(R) Processor @ 2.10GHz; MHz=2100.000; loadavg=2.16 1.45 1.07; jdk=openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD=b797d8037; date=2026-09-28T17:21:24Z
+=== $ bin/fortress explorations/compile-ladder/rung-spec-integer-rules/probes/tests/RatUnorderedFaces.fss (walk, base) ===
+0/0 = 0/0 is true
+0/0 <= 0/0 is true
+0/0 < 0/0 is false
+0/0 CMP 0/0 is EqualTo
+0/0 CMP 1 is Unordered
+=== exit 0 ===
