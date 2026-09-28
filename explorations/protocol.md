@@ -118,7 +118,13 @@ touches two of the specification, the interpreter and the compiler is made in
 two steps, cheaper workers gathering cited evidence and the judgement at the
 top tier. A brief names its reader and its question, and points at the earlier
 research and documents on file instead of restating them, so that nothing on
-record is rediscovered; the clean worker of principle 2, on a design fork, is the one exception.
+record is rediscovered. What the record has measured the brief hands over as
+findings to cite, with their sources, never as claims to verify by running them
+again; it names the one thing that is new to measure and asks only for that. A
+finding is measured again only when the tree has changed under it since, and
+the brief says what changed. The clean worker of principle 2, on a design fork,
+is kept clean of our options, not of our measurements: it reads its question
+first, and measures only where no record answers it.
 
 **6. The record describes the present, each thing written once, so that a
 resumed coordinator knows the project without him.** A fact in FACTS with its
@@ -134,7 +140,8 @@ time guessed, not read; a fork put to him before the library's own way was
 checked; standing orders and techniques invented when the record held one, or
 lost and re-asked; corrections appended instead of fixed, and one remark of his
 written into several files; a rule followed to the letter where that made
-clutter.
+clutter; a brief that told a worker to "verify, do not trust" the record and to
+measure every way on both paths, so that it re-ran measurements already on file.
 
 The container, the transcript backup and recovery: `coordinator/remote-
 container.md`. The batch workflow's stages, stops and tiers:
