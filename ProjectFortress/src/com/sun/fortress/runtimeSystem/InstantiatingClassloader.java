@@ -177,6 +177,13 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
 
     protected Class loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
+        synchronized (getClassLoadingLock(name)) {
+            return loadClassHoldingLock(name, resolve);
+        }
+    }
+
+    private Class loadClassHoldingLock(String name, boolean resolve)
+        throws ClassNotFoundException {
         Class clazz;
 
         if (history.contains(name)) {

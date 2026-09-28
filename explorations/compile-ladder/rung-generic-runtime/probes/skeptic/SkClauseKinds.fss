@@ -1,0 +1,51 @@
+component SkClauseKinds
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object Oops(code: ZZ32) extends CheckedException end
+object Other(code: ZZ32) extends CheckedException end
+boom(k: ZZ32): ZZ32 = throw Oops(k)
+boom2(k: ZZ32): ZZ32 = throw Other(k)
+boomU(k: ZZ32): () = throw Oops(k)
+
+kinds(x: Any): String =
+  typecase x of
+      b: Boolean => if b then "T" else "F" end
+      z: ZZ64 => (z + z).asString
+      r: RR64 => (r + r).asString
+      bx: Box[\3\] => "box3 " || bx.v.asString
+      f: ZZ32 -> ZZ32 => f(20).asString
+      else => "other"
+    end
+
+catchField(k: ZZ32): ZZ32 = try boom(k) catch e Oops => e.code + 1 end
+
+catchTwo(k: ZZ32, which: Boolean): ZZ32 =
+  try (if which then boom(k) else boom2(k) end)
+  catch e
+    Oops => e.code + 100
+    Other => e.code + 200
+  end
+
+catchNested(k: ZZ32): ZZ32 =
+  try boom(k) catch e Oops =>
+    try boom2(e.code + 1) catch f Other => e.code + f.code end
+  end
+
+catchClosure(k: ZZ32): ZZ32 =
+  try boom(k) catch e Oops => do g = fn (n: ZZ32): ZZ32 => n + e.code; g(1000) end end
+
+var fin: ZZ32 = 0
+catchFinally(k: ZZ32): () =
+  try boomU(k) catch e Oops => fin := e.code finally fin := fin + 1 end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  w: ZZ64 = widen(z)
+  println(kinds(true) " " kinds(w) " " kinds(0.25 + 0.0) " " kinds(Box[\3\](z)) " " kinds(fn (n: ZZ32): ZZ32 => n + z))
+  println(catchField(z).asString " " catchTwo(z, true).asString " " catchTwo(z, false).asString " " catchNested(z).asString " " catchClosure(z).asString)
+  catchFinally(z)
+  println("fin " fin.asString)
+end
+
+end

@@ -1,0 +1,18 @@
+component UnionCoerceBind
+export Executable
+
+(* Row 340's shape met by the rung's first test draft: a typecase whose clauses yield a ZZ32
+   and a numeral, in a function declared ZZ32, so the checker coerces the union and the
+   coercion desugarer wraps the typecase in a second typecase that binds its own name inside
+   a one-element pattern and has no else clause. *)
+plainZZ32(x: Any): ZZ32 =
+  typecase x of
+      i: ZZ32 => i + 1
+      else => 0
+    end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  println(plainZZ32(z))
+end
+end

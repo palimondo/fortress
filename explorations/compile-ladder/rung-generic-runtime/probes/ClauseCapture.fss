@@ -1,0 +1,46 @@
+component ClauseCapture
+export Executable
+
+(* A clause's bound name read where a new class is made: captured by a fn expression, read
+   in the operands of || that the parallelism analyzer runs as tasks, inside a generic
+   function over the clause type, and a catch clause's name captured the same way. *)
+object Wrap(n: ZZ32) end
+object Oops(msg: String) extends CheckedException end
+show(w: Wrap): String = "Wrap " || w.n.asString
+
+captured(x: Any): String =
+  typecase x of
+      w: Wrap => (fn (): String => show(w))()
+      else => "other"
+    end
+
+tasks(x: Any): String =
+  typecase x of
+      w: Wrap => show(w) || "/" || show(w)
+      else => "other"
+    end
+
+generic[\T\](x: Any, f: T -> String): String =
+  typecase x of
+      y: T => f(y) || "/" || f(y)
+      else => "not T"
+    end
+
+thrower(): String = throw Oops("boom")
+
+caughtCaptured(): String =
+  try thrower() catch e Oops => (fn (): String => e.msg)() end
+
+caughtTasks(): String =
+  try thrower() catch e Oops => e.msg || "/" || e.msg end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  println(captured(Wrap(z)))
+  println(tasks(Wrap(z)))
+  println(generic[\Wrap\](Wrap(z), show))
+  println(generic[\Wrap\]("s", show))
+  println(caughtCaptured())
+  println(caughtTasks())
+end
+end

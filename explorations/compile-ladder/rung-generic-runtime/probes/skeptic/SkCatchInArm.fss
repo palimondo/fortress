@@ -1,0 +1,24 @@
+component SkCatchInArm
+export Executable
+
+object Wrap(n: ZZ32) end
+object Oops(code: ZZ32) extends CheckedException end
+lbl(x: ZZ32): String = x.asString
+boom(k: ZZ32): ZZ32 = throw Oops(k)
+
+catchInArm(k: ZZ32, suffix: String): String = do
+  var r1: String := ""
+  var r2: String := ""
+  do
+    r1 := "a"
+  also do
+    r2 := try lbl(boom(k)) catch e Oops => lbl(e.code) || suffix end
+  end
+  r1 || r2
+end
+
+run(): () = do
+  println("catchInArm: " catchInArm(5, "?"))
+end
+
+end

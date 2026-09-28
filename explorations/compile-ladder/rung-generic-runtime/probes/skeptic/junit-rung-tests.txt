@@ -1,0 +1,74 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.46 2.51 2.39; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+########## compiler_tests/TypecaseBindRungG.test
+. link compiler_tests/TypecaseBindRungG  OK (time = 5828ms)
+. run compiler_tests/TypecaseBindRungG (424ms) PASS
+OK (2 tests)
+########## compiler_tests/CastBindRungG.test
+. link compiler_tests/CastBindRungG  OK (time = 4113ms)
+. run compiler_tests/CastBindRungG (686ms) PASS
+OK (2 tests)
+########## compiler_tests/ArrowClauseBindRungG.test
+. link compiler_tests/ArrowClauseBindRungG  OK (time = 4751ms)
+. run compiler_tests/ArrowClauseBindRungG (739ms) PASS
+OK (2 tests)
+########## compiler_tests/WitnessIdentityRungG.test
+. link compiler_tests/WitnessIdentityRungG  OK (time = 4481ms)
+. run compiler_tests/WitnessIdentityRungG (608ms) PASS
+OK (2 tests)
+########## compiler_tests/FirstLoadThreadsRungG.test
+. compile compiler_tests/FirstLoadThreadsRungG  OK (time = 3342ms)
+. link compiler_tests/FirstLoadThreadsRungG  OK (time = 1885ms)
+. run compiler_tests/FirstLoadThreadsRungG (777ms) PASS
+OK (3 tests)
+########## compiler_tests/DispatchRenamedArmRungG.test
+. link compiler_tests/DispatchRenamedArmRungG  OK (time = 3794ms)
+. run compiler_tests/DispatchRenamedArmRungG (633ms) REACHED
+OK (2 tests)
+########## compiler_tests/DispatchRenamedArmRungGLink.test
+. link compiler_tests/DispatchRenamedArmRungG  OK (time = 2885ms)
+OK (1 test)
+########## compiler_tests/DispatchSwappedArmRungG.test
+. link compiler_tests/DispatchSwappedArmRungG  OK (time = 4017ms)
+. run compiler_tests/DispatchSwappedArmRungG (622ms) REACHED
+OK (2 tests)
+########## compiler_tests/DispatchSwappedArmRungGLink.test
+. link compiler_tests/DispatchSwappedArmRungG  OK (time = 2901ms)
+OK (1 test)
+########## compiler_tests/DispatchZZ32ArmRungG.test
+. link compiler_tests/DispatchZZ32ArmRungG  OK (time = 3723ms)
+. run compiler_tests/DispatchZZ32ArmRungG (606ms) REACHED
+OK (2 tests)
+########## compiler_tests/DispatchZZ32ArmRungGLink.test
+. link compiler_tests/DispatchZZ32ArmRungG  OK (time = 3190ms)
+OK (1 test)
+########## compiler_tests/XXXDispatchMethodArmRungG.test
+. run compiler_tests/XXXDispatchMethodArmRungG (211ms) Could not load XXXDispatchMethodArmRungG
+Caused by: java.io.IOException: Resource not found : XXXDispatchMethodArmRungG.class
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+########## compiler_tests/DispatchMethodArmRungGLink.test
+. link compiler_tests/XXXDispatchMethodArmRungG  OK (time = 4586ms)
+OK (1 test)
+########## compiler_tests/NatRtTask.test
+. link compiler_tests/NatRtTask  OK (time = 4018ms)
+. run compiler_tests/NatRtTask (629ms) REACHED
+OK (2 tests)
+########## compiler_tests/NatRtTaskLink.test
+. link compiler_tests/NatRtTask  OK (time = 3216ms)
+OK (1 test)
+########## compiler_tests/NatRtMethBoth.test
+. link compiler_tests/NatRtMethBoth  OK (time = 3093ms)
+. run compiler_tests/NatRtMethBoth (1011ms) REACHED
+OK (2 tests)
+########## compiler_tests/NatRtMethBothLink.test
+. link compiler_tests/NatRtMethBoth  OK (time = 3116ms)
+OK (1 test)
+########## library_tests/ClauseBindingRungB.test
+. link library_tests/ClauseBindingRungB  OK (time = 3979ms)
+. run library_tests/ClauseBindingRungB (423ms) REACHED
+OK (2 tests)
+########## library_tests/ClauseBindingRungBLink.test
+. link library_tests/ClauseBindingRungB  OK (time = 3213ms)
+OK (1 test)
+EXIT=0

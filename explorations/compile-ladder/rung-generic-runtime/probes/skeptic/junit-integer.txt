@@ -1,0 +1,31 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.38 2.50 2.38; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+. compile library_tests/Integer1  OK (time = 825ms)
+. link library_tests/Integer1  OK (time = 2279ms)
+. compile library_tests/Integer2  OK (time = 142ms)
+. link library_tests/Integer2  OK (time = 804ms)
+. compile library_tests/Integer3  OK (time = 112ms)
+. link library_tests/Integer3  OK (time = 689ms)
+. compile library_tests/Integer4  OK (time = 88ms)
+. link library_tests/Integer4  OK (time = 663ms)
+. compile library_tests/IntegerChoose1  OK (time = 596ms)
+. link library_tests/IntegerChoose1  OK (time = 664ms)
+. compile library_tests/IntegerChoose2  OK (time = 701ms)
+. link library_tests/IntegerChoose2  OK (time = 764ms)
+. compile library_tests/ShiftTest  OK (time = 178ms)
+. link library_tests/ShiftTest  OK (time = 567ms)
+. compile library_tests/ShiftTest2  OK (time = 128ms)
+. link library_tests/ShiftTest2  OK (time = 639ms)
+. compile library_tests/AverageTest  OK (time = 91ms)
+. link library_tests/AverageTest  OK (time = 646ms)
+. run library_tests/Integer1 (609ms) PASS
+. run library_tests/Integer2 (587ms) PASS
+. run library_tests/Integer3 (518ms) PASS
+. run library_tests/Integer4 (653ms) PASS
+. run library_tests/IntegerChoose1 (904ms) PASS
+. run library_tests/IntegerChoose2 (1010ms) PASS
+. run library_tests/ShiftTest (1073ms) PASS
+. run library_tests/ShiftTest2 (1450ms) PASS
+. run library_tests/AverageTest (1248ms) PASS
+OK (27 tests)
+EXIT=0

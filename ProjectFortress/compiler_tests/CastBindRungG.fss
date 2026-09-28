@@ -1,0 +1,41 @@
+(* See explorations/compile-ladder/rung-generic-runtime/REPORT.md. *)
+component CastBindRungG
+export Executable
+
+trait Animal end
+object Dog(name: String) extends Animal end
+object Cat extends Animal end
+object Box[\T\](v: ZZ32) end
+
+castP[\T extends Any\](x: Any): T =
+  typecase x of
+      x': T => x'
+      else => throw MatchFailure
+    end
+
+viaT[\T extends Any\](x: Any): T = cast[\T\](x)
+
+dogName(a: Animal): String = cast[\Dog\](a).name
+
+catName(a: Animal): String =
+  try cast[\Dog\](a).name catch e Exception => "not a Dog" end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  r: RR64 = 0.5 + 1.0
+  s: String = "s"
+  bz: Any = Box[\ZZ32\](z)
+  assert(cast[\String\](s), "s", "cast matches a value of type T, ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(cast[\ZZ32\](z) + 1, 8, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(cast[\RR64\](r) = r, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(castP[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:88-91")
+  assert(castP[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:88-91")
+  assert(viaT[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(viaT[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(cast[\Box[\ZZ32\]\](bz).v, 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(dogName(Dog("Rex")), "Rex", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
+  assert(catName(Cat), "not a Dog", "ledger row 426, Specification/basic/expressions/typecase.tex:94-99")
+  println("PASS")
+end
+
+end

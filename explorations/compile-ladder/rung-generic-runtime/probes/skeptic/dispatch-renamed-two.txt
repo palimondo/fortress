@@ -1,0 +1,37 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.89 1.57 2.26; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+################################ SkRenamedTwo
+compile(base) exit=0
+subtwo   two
+run(base, FORTRESS_THREADS=1) exit=0
+subtwo   two
+run(base, FORTRESS_THREADS=4) exit=0
+compile(rung) exit=0
+subtwo   two
+run(rung, FORTRESS_THREADS=1) exit=0
+subtwo   two
+run(rung, FORTRESS_THREADS=4) exit=0
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55: and
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48:
+
+pick[\C,D\](t:SubTwo[\C,D\],c:C):FortressLibrary.Stringexplorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55 and
+pick[\A,B\](t:Two[\A,B\],a:A):FortressLibrary.Stringexplorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55:
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk(FORTRESS_THREADS=1) exit=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55: and
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48:
+
+pick[\C,D\](t:SubTwo[\C,D\],c:C):FortressLibrary.Stringexplorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55 and
+pick[\A,B\](t:Two[\A,B\],a:A):FortressLibrary.Stringexplorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:12:1-55:
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkRenamedTwo.fss:11:1-48:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+walk(FORTRESS_THREADS=4) exit=1

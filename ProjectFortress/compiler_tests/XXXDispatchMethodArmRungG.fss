@@ -1,0 +1,44 @@
+(* See explorations/compile-ladder/rung-generic-runtime/REPORT.md. *)
+component XXXDispatchMethodArmRungG
+export Executable
+
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object Blue end
+object SubBlue extends Sub[\Blue\] end
+object TagBlue extends Tag[\Blue\] end
+object IntSub extends Sub[\ZZ32\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+
+object K
+  grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+  grab[\Y\](t: Sub[\Y\]): Marker[\Y\] = SubM[\Y\]
+end
+
+object Kint
+  grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+  grab[\X\](t: Sub[\X\]): Marker[\X\] = SubM[\X\]
+end
+
+name(m: Any): String = typecase m of
+    TagM[\Blue\] => "TagM[Blue]"
+    SubM[\Blue\] => "SubM[Blue]"
+    SubM[\ZZ32\] => "SubM[ZZ32]"
+    TagM[\ZZ32\] => "TagM[ZZ32]"
+    else => "other"
+  end
+
+run(): () = do
+  println("REACHED")
+  b2: Tag[\Blue\] = SubBlue
+  assert(name(K.grab(b2)), "SubM[Blue]", "a generic dotted method's arm that names its parameter differently, Specification/basic/overloading.tex:100-107, :262-276")
+  b3: Tag[\Blue\] = TagBlue
+  assert(name(K.grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex:100-107, :262-276")
+  t: Tag[\ZZ32\] = IntSub
+  assert(name(Kint.grab(t)), "SubM[ZZ32]", "a generic dotted method's arm dispatched at ZZ32, Specification/basic/overloading.tex:100-107, :262-276")
+  println("PASS")
+end
+
+end

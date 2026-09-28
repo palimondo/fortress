@@ -1,0 +1,26 @@
+component SkTupleNamed
+export Executable
+
+show(x: Any): String = typecase x of
+    (ZZ32, String) => "a tuple"
+    else => "other"
+  end
+
+bindOnly(z: ZZ32): String =
+  typecase (z, "s") of
+      p: (ZZ32, String) => "matched"
+      else => "other"
+    end
+
+bindPass(z: ZZ32): String =
+  typecase (z, "s") of
+      p: (ZZ32, String) => show(p)
+      else => "other"
+    end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  println(bindOnly(z) " " bindPass(z))
+end
+
+end

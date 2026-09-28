@@ -1,0 +1,25 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXTaskArmLocalSlot
+export Executable
+
+lbl(x: ZZ32): String = x.asString
+
+oneLevel(): String = do
+  var r1: String := ""
+  var r2: String := ""
+  do
+    r1 := lbl(1)
+  also do
+    j: ZZ32 = 2
+    r2 := lbl(j)
+  end
+  r1 || r2
+end
+
+run(): () = do
+  println("REACHED")
+  assert(oneLevel(), "12", "a local declared in a do ... also arm, row 497; Specification/basic/expressions/also.tex:17-21")
+  println("PASS")
+end
+
+end

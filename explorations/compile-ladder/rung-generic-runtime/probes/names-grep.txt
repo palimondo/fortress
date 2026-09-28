@@ -1,0 +1,19 @@
+# step 7: every name the rung adds, grepped in ProjectFortress/tests/, every *_tests/ directory and ProjectFortress/src/com/sun/fortress/ whole (files outside the rung's own)
+FirstLoadThreadsRungG: 0 other files
+TypecaseBindRungG: 0 other files
+CastBindRungG: 0 other files
+ArrowClauseBindRungG: 0 other files
+WitnessIdentityRungG: 0 other files
+DispatchRenamedArmRungG: 0 other files
+DispatchSwappedArmRungG: 0 other files
+DispatchZZ32ArmRungG: 0 other files
+DispatchMethodArmRungG: 0 other files
+NatRtTask: 0 other files
+NatRtMethBoth: 0 other files
+ClauseBindingRungB: 0 other files
+loadClassHoldingLock: ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+bindAndGenerateClauseBody: ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java 
+templateStaticParams: ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java 
+atTemplateParams: ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java 
+invokeArmAtTemplateParams: ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java 
+# the test programs' own declarations (Wrap, Shape, Sq, Rect, Animal, Dog, Cat, Box, Gen, GenOf, CondG, RelCondG, RelOf, PlainOf, BothOf, Tag, Sub, Marker, TagM, SubM, Two, SubTwo, Vt, K, Kint, witness, zeroOf, oneOf, castP, viaT, ...) are local to each test component; a component sees only the compiler library's exported names and its own

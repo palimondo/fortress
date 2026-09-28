@@ -1,0 +1,9 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.97 3.68 3.56; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits:  M Library/FortressLibrary.fss  M ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+# the compiler library's five jars: tmp/base-jars (built on the base, b797d8037) against default_repository/caches/bytecode_cache (built on the rung's tree), every entry byte for byte
+CompilerSystem.jar: 2 entries before, 2 after; only before 0, only after 0; differing 0
+fortress.AnyType.jar: 1 entries before, 1 after; only before 0, only after 0; differing 0
+fortress.CompilerAlgebra.jar: 29 entries before, 29 after; only before 0, only after 0; differing 0
+fortress.CompilerBuiltin.jar: 278 entries before, 278 after; only before 0, only after 0; differing 0
+fortress.CompilerLibrary.jar: 246 entries before, 246 after; only before 0, only after 0; differing 1
+  differs: fortress/CompilerLibrary⚙$cast⟦⟧✉$\=✚Arrow⟦fortress\|AnyType\%Any,T⟧.class

@@ -1,0 +1,56 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 7.25 5.87 4.51; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+################################ ZsThreadsT.fss, 5 compiled runs at each thread count
+compile exit=0
+FORTRESS_THREADS=1 run 1 exit=0: 3600|
+FORTRESS_THREADS=1 run 2 exit=0: 3600|
+FORTRESS_THREADS=1 run 3 exit=0: 3600|
+FORTRESS_THREADS=1 run 4 exit=0: 3600|
+FORTRESS_THREADS=1 run 5 exit=0: 3600|
+FORTRESS_THREADS=4 run 1 exit=0: 3600|
+FORTRESS_THREADS=4 run 2 exit=0: 3600|
+FORTRESS_THREADS=4 run 3 exit=0: 3600|
+FORTRESS_THREADS=4 run 4 exit=0: 3600|
+FORTRESS_THREADS=4 run 5 exit=0: 3600|
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 7.68 6.06 4.60; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+################################ ZsThreadsS.fss, 5 compiled runs at each thread count
+compile exit=0
+FORTRESS_THREADS=1 run 1 exit=0: 3600|
+FORTRESS_THREADS=1 run 2 exit=0: 3600|
+FORTRESS_THREADS=1 run 3 exit=0: 3600|
+FORTRESS_THREADS=1 run 4 exit=0: 3600|
+FORTRESS_THREADS=1 run 5 exit=0: 3600|
+FORTRESS_THREADS=4 run 1 exit=0: 3600|
+FORTRESS_THREADS=4 run 2 exit=0: 3600|
+FORTRESS_THREADS=4 run 3 exit=0: 3600|
+FORTRESS_THREADS=4 run 4 exit=0: 3600|
+FORTRESS_THREADS=4 run 5 exit=0: 3600|
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.40 6.33 4.73; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+################################ ZsThreads.fss, 5 compiled runs at each thread count
+compile exit=0
+FORTRESS_THREADS=1 run 1 exit=0: 3600|100000|
+FORTRESS_THREADS=1 run 2 exit=0: 3600|100000|
+FORTRESS_THREADS=1 run 3 exit=0: 3600|100000|
+FORTRESS_THREADS=1 run 4 exit=0: 3600|100000|
+FORTRESS_THREADS=1 run 5 exit=0: 3600|100000|
+FORTRESS_THREADS=4 run 1 exit=0: 3600|100000|
+FORTRESS_THREADS=4 run 2 exit=0: 3600|100000|
+FORTRESS_THREADS=4 run 3 exit=0: 3600|100000|
+FORTRESS_THREADS=4 run 4 exit=0: 3600|100000|
+FORTRESS_THREADS=4 run 5 exit=0: 3600|100000|
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 9.04 6.61 4.85; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+################################ ZsThreadsLit.fss, 5 compiled runs at each thread count
+compile exit=0
+FORTRESS_THREADS=1 run 1 exit=0: 100000|
+FORTRESS_THREADS=1 run 2 exit=0: 100000|
+FORTRESS_THREADS=1 run 3 exit=0: 100000|
+FORTRESS_THREADS=1 run 4 exit=0: 100000|
+FORTRESS_THREADS=1 run 5 exit=0: 100000|
+FORTRESS_THREADS=4 run 1 exit=0: 100000|
+FORTRESS_THREADS=4 run 2 exit=0: 100000|
+FORTRESS_THREADS=4 run 3 exit=0: 100000|
+FORTRESS_THREADS=4 run 4 exit=0: 100000|
+FORTRESS_THREADS=4 run 5 exit=0: 100000|

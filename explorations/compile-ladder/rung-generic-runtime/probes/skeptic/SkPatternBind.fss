@@ -1,0 +1,18 @@
+component SkPatternBind
+export Executable
+
+trait Tree comprises { Node, Leaf } end
+object Node(left: Tree, item: ZZ32, right: Tree) extends Tree end
+object Leaf(item: ZZ32) extends Tree end
+
+itemOf(t: Tree): ZZ32 =
+  typecase t of
+    Leaf(i) => i
+    Node(l, i, r) => i
+  end
+
+run(): () = do
+  println("leaf " itemOf(Leaf(3)) " node " itemOf(Node(Leaf(1), 5, Leaf(2))))
+end
+
+end

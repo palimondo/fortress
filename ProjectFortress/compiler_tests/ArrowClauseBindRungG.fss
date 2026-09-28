@@ -1,0 +1,61 @@
+(* See explorations/compile-ladder/rung-generic-runtime/REPORT.md. *)
+component ArrowClauseBindRungG
+export Executable
+
+trait Gen[\E\] end
+object GenOf[\E\](n: ZZ32) extends Gen[\E\] end
+trait CondG[\E\]
+  descr(): String
+end
+trait RelCondG[\E\] extends CondG[\E\] end
+object RelOf[\E\](k: ZZ32) extends RelCondG[\E\]
+  descr(): String = "rel " || k.asString
+end
+object PlainOf[\E\] extends CondG[\E\]
+  descr(): String = "plain"
+end
+object BothOf[\E\](a: RelCondG[\E\], b: RelCondG[\E\]) extends CondG[\E\]
+  descr(): String = a.descr() || " and " || b.descr()
+end
+
+andRel[\E\](p: Gen[\E\] -> RelCondG[\E\], q: Gen[\E\] -> RelCondG[\E\]): Gen[\E\] -> CondG[\E\] =
+  fn (g: Gen[\E\]): CondG[\E\] => BothOf[\E\](p(g), q(g))
+
+combine[\E\](p: Gen[\E\] -> CondG[\E\], q: Gen[\E\] -> CondG[\E\]): Gen[\E\] -> CondG[\E\] =
+  typecase p of
+    rp:(Gen[\E\] -> RelCondG[\E\]) =>
+      typecase q of
+        rq:(Gen[\E\] -> RelCondG[\E\]) => andRel[\E\](rp, rq)
+        else => q
+      end
+    else => p
+  end
+
+applyRel[\E\](p: Gen[\E\] -> CondG[\E\], g: Gen[\E\]): String =
+  typecase p of
+    rp:(Gen[\E\] -> RelCondG[\E\]) => "rel arrow: " || rp(g).descr()
+    else => "cond arrow: " || p(g).descr()
+  end
+
+pickZ(p: ZZ32 -> CondG[\ZZ32\]): String =
+  typecase p of
+    rp:(ZZ32 -> RelCondG[\ZZ32\]) => "rel arrow: " || rp(5).descr()
+    else => "cond arrow"
+  end
+
+run(): () = do
+  g: Gen[\ZZ32\] = GenOf[\ZZ32\](3)
+  relF = fn (x: Gen[\ZZ32\]): RelCondG[\ZZ32\] => RelOf[\ZZ32\](1)
+  relG = fn (x: Gen[\ZZ32\]): RelCondG[\ZZ32\] => RelOf[\ZZ32\](2)
+  plainF = fn (x: Gen[\ZZ32\]): CondG[\ZZ32\] => PlainOf[\ZZ32\]
+  assert(combine[\ZZ32\](relF, relG)(g).descr(), "rel 1 and rel 2", "a clause binding at an arrow type over the function's own type parameter, ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(combine[\ZZ32\](relF, plainF)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(combine[\ZZ32\](plainF, relG)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(applyRel[\ZZ32\](relG, g), "rel arrow: rel 2", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(applyRel[\ZZ32\](plainF, g), "cond arrow: plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(pickZ(fn (x: ZZ32): RelCondG[\ZZ32\] => RelOf[\ZZ32\](x)), "rel arrow: rel 5", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(pickZ(fn (x: ZZ32): CondG[\ZZ32\] => PlainOf[\ZZ32\]), "cond arrow", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  println("PASS")
+end
+
+end

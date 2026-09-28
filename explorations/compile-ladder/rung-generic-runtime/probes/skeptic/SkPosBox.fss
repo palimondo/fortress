@@ -1,0 +1,20 @@
+component SkPosBox
+export Executable
+
+object Box[\U\](v: ZZ32) end
+object Blue end
+
+f[\T\](x: T): String = "any"
+f[\U\](x: Box[\U\]): String = "box"
+
+viaT[\T\](x: T): String = f(x)
+
+run(): () = do
+  b: Box[\Blue\] = Box[\Blue\](1)
+  println("direct Box[Blue]: " f(b))
+  println("through viaT at Box[Blue]: " viaT(b))
+  println("through viaT at Box[ZZ32]: " viaT(Box[\ZZ32\](2)))
+  println("through viaT at String: " viaT("s"))
+end
+
+end

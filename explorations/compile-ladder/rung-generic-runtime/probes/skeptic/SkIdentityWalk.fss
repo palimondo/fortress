@@ -1,0 +1,68 @@
+component SkIdentityWalk
+export Executable
+
+wit[\T\](): T = throw MatchFailure
+
+baseZero[\T\](): T =
+    typecase wit[\T\] of
+        () -> ZZ32 => cast[\T\](0)
+        () -> RR64 => cast[\T\](0.0)
+        else => throw MatchFailure
+    end
+rungZero[\T\](): T =
+    typecase wit[\T\] of
+        () -> ZZ32 =>
+            v: ZZ32 = 0
+            cast[\T\](v)
+        () -> RR64 =>
+            v: RR64 = 0.0
+            cast[\T\](v)
+        else => throw MatchFailure
+    end
+baseOne[\T\](): T =
+    typecase wit[\T\] of
+        () -> ZZ32 => cast[\T\](1)
+        () -> RR64 => cast[\T\](1.0)
+        else => throw MatchFailure
+    end
+rungOne[\T\](): T =
+    typecase wit[\T\] of
+        () -> ZZ32 =>
+            v: ZZ32 = 1
+            cast[\T\](v)
+        () -> RR64 =>
+            v: RR64 = 1.0
+            cast[\T\](v)
+        else => throw MatchFailure
+    end
+
+kind(x: Any): String = typecase x of
+    IntLiteral => "IntLiteral"
+    FloatLiteral => "FloatLiteral"
+    ZZ32 => "ZZ32"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+show(what: String, x: Any): () = println(what " = " x " : " kind(x))
+
+run(): () = do
+  show("base zero ZZ32", baseZero[\ZZ32\]())
+  show("rung zero ZZ32", rungZero[\ZZ32\]())
+  show("lib SUM[ZZ32] empty", SUM[\ZZ32\][i <- 1#0] i)
+  show("base zero RR64", baseZero[\RR64\]())
+  show("rung zero RR64", rungZero[\RR64\]())
+  show("lib SUM[RR64] empty", SUM[\RR64\][i <- 1#0] 0.5)
+  show("base one ZZ32", baseOne[\ZZ32\]())
+  show("rung one ZZ32", rungOne[\ZZ32\]())
+  show("lib PROD[ZZ32] empty", PROD[\ZZ32\][i <- 1#0] i)
+  show("base one RR64", baseOne[\RR64\]())
+  show("rung one RR64", rungOne[\RR64\]())
+  show("lib PROD[RR64] empty", PROD[\RR64\][i <- 1#0] 0.5)
+  show("lib SUM[ZZ64] empty", SUM[\ZZ64\][i <- 1#0] widen(i))
+  show("lib SUM[RR64] 1..3 halves", SUM[\RR64\][i <- 1#3] 0.5)
+  show("lib PROD[ZZ32] 1..4", PROD[\ZZ32\][i <- 1#4] i)
+  show("rung zero ZZ32 + maxint", rungZero[\ZZ32\]() + 2147483647)
+end
+
+end

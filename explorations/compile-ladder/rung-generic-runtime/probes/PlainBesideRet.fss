@@ -1,0 +1,18 @@
+component PlainBesideRet
+export Executable
+
+(* A dispatcher that is not a template whose generic arm's return type mentions its
+   parameter: the cast after the value path names the template's own Marker[X]. *)
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+object Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab(a: Any): Any = Red
+
+run(): () = do
+  a1: Any = RedTag
+  println("grab(a1), a1: Any = RedTag -> " || (typecase grab(a1) of Marker[\Red\] => "Marker[Red]"; Red => "Red (the Any declaration)"; else => "other" end))
+end
+end

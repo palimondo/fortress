@@ -1,0 +1,5 @@
+# the distance stage's per-error sites: batch 7C's landed list (explorations/compile-ladder/climb-batch-7C/gate/distance-sites.tsv) against this rung's (tmp/dist-post/errors.tsv), every FortressLibrary line and column number replaced by N
+errors: 7C 626, rung 626
+only in 7C: 0
+only in the rung: 0
+errors located in the identity functions (7C lines 3124-3148, rung lines 3124-3156): 7C 2, rung 2

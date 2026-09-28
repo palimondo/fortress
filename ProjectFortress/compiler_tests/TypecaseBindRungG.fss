@@ -1,0 +1,60 @@
+(* See explorations/compile-ladder/rung-generic-runtime/REPORT.md. *)
+component TypecaseBindRungG
+export Executable
+
+object Wrap(n: ZZ32) end
+trait Shape end
+object Sq(side: ZZ32) extends Shape end
+object Rect(w: ZZ32, h: ZZ32) extends Shape end
+
+plainTrait(x: Any): String =
+  typecase x of
+      w: Wrap => "Wrap(" || w.n.asString || ")"
+      else => "other"
+    end
+
+plainZZ32(x: Any): String =
+  typecase x of
+      i: ZZ32 => (i + 1).asString
+      else => "other"
+    end
+
+perimeterHalf(s: Shape, none: ZZ32): ZZ32 =
+  typecase s of
+      q: Sq => q.side + q.side
+      r: Rect => r.w + r.h
+      else => none
+    end
+
+sameName(x: Any): String =
+  typecase x of
+      v: Wrap => "Wrap " || v.n.asString
+      v: String => "String " || v
+      else => "other"
+    end
+
+nested(x: Any, y: Any, none: ZZ32): ZZ32 =
+  typecase x of
+      a: Wrap =>
+        typecase y of
+            b: Wrap => a.n + b.n
+            else => a.n
+          end
+      else => none
+    end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  assert(plainTrait(Wrap(z)), "Wrap(7)", "a typecase clause binds the value, ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(plainTrait("s"), "other", "ledger row 351, Specification/basic/expressions/typecase.tex:94-99")
+  assert(plainZZ32(z), "8", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(perimeterHalf(Sq(z), z), 14, "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(perimeterHalf(Rect(z, z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(sameName(Wrap(z)), "Wrap 7", "ledger row 351, Specification/basic/expressions/typecase.tex:105-109")
+  assert(sameName("s"), "String s", "ledger row 351, Specification/basic/expressions/typecase.tex:105-109")
+  assert(nested(Wrap(z), Wrap(z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(nested(Wrap(z), "s", z), 7, "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  println("PASS")
+end
+
+end

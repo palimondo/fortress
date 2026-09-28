@@ -1,0 +1,47 @@
+# before: machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.88 2.82 1.73; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits: 
+# after:  machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.27 4.23 3.78; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+compiler_tests/Compiled10.Comprehensions3 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (31 files)
+compiler_tests/Compiled10.Comprehensions4 | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled12 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (14 files)
+compiler_tests/Compiled12.inheritFuncFullyGeneric | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (43 files)
+compiler_tests/Compiled12.inheritFuncPartiallyGeneric | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (29 files)
+compiler_tests/Compiled12.invariantInference | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes DIFFERENT: 4 of 51 files
+compiler_tests/Compiled12.invariantInference2 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes DIFFERENT: 4 of 51 files
+compiler_tests/Compiled13 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (19 files)
+compiler_tests/Compiled13a | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)
+compiler_tests/Compiled13b | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)
+compiler_tests/Compiled14 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (5 files)
+compiler_tests/Compiled15 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (12 files)
+compiler_tests/Compiled15a | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (12 files)
+compiler_tests/Compiled15b | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (12 files)
+compiler_tests/Compiled16 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (18 files)
+compiler_tests/Compiled16a | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (8 files)
+compiler_tests/Compiled16b | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (16 files)
+compiler_tests/Compiled16c | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (16 files)
+compiler_tests/Compiled16d | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (12 files)
+compiler_tests/Compiled16e | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (16 files)
+compiler_tests/Compiled16f | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (18 files)
+compiler_tests/Compiled17 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (21 files)
+compiler_tests/Compiled17a | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (15 files)
+compiler_tests/Compiled17b | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (29 files)
+compiler_tests/Compiled17c | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (29 files)
+compiler_tests/Compiled17dd | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (11 files)
+compiler_tests/Compiled17f | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (6 files)
+compiler_tests/Compiled17g | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled17h | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (6 files)
+compiler_tests/Compiled17i | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (6 files)
+compiler_tests/Compiled18 | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled180 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes DIFFERENT: 1 of 21 files
+compiler_tests/Compiled240 | link exit=1 -> exit=1 | threads=1 run exit=1 -> exit=1, output DIFF | threads=4 run exit=1 -> exit=1, output DIFF | classes identical (0 files)
+compiler_tests/Compiled250 | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled6.ab | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled6.af | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (21 files)
+compiler_tests/Compiled6.ah | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (9 files)
+compiler_tests/Compiled6.ak | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled6.bs | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled6.bt | link exit=255 -> exit=255 | threads=1 run none -> none, output none | threads=4 run none -> none, output none | classes: no jar
+compiler_tests/Compiled70 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (11 files)
+compiler_tests/MutableTopLevelVar | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (3 files)
+compiler_tests/VarianceTest4 | link exit=0 -> exit=0 | threads=1 run exit=1 -> exit=1, output same | threads=4 run exit=1 -> exit=1, output same | classes identical (22 files)

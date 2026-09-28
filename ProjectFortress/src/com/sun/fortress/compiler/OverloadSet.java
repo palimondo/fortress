@@ -38,6 +38,7 @@ import com.sun.fortress.compiler.index.FunctionalMethod;
 import com.sun.fortress.compiler.index.HasTraitStaticParameters;
 import com.sun.fortress.compiler.index.Method;
 import com.sun.fortress.compiler.phases.CodeGenerationPhase;
+import com.sun.fortress.compiler.typechecker.StaticTypeReplacer;
 import com.sun.fortress.exceptions.CompilerBug;
 import com.sun.fortress.exceptions.CompilerError;
 import com.sun.fortress.nodes.APIName;
@@ -54,6 +55,7 @@ import com.sun.fortress.nodes.IntArg;
 import com.sun.fortress.nodes.IntBase;
 import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.IntersectionType;
+import com.sun.fortress.nodes.KindType;
 import com.sun.fortress.nodes.KindInt;
 import com.sun.fortress.nodes.KindNat;
 import com.sun.fortress.nodes.NamedType;
@@ -1333,6 +1335,40 @@ nameTemp + "\n" +
         return variances;
     }
     
+    protected List<StaticParam> templateStaticParams() {
+        return principalMember == null ? null : staticParametersOf(principalMember.tagF);
+    }
+
+    private StaticTypeReplacer atTemplateParams(TaggedFunctionName f) {
+        List<StaticParam> tsp = templateStaticParams();
+        List<StaticParam> fsp = staticParametersOf(f.getF());
+        if (tsp == null || fsp == null || tsp.size() != fsp.size()
+            || !(f.getF() instanceof DeclaredFunction) || !(principalMember.getF() instanceof DeclaredFunction))
+            return null;
+        List<StaticArg> args = new ArrayList<StaticArg>();
+        for (StaticParam sp : tsp) {
+            if (!(sp.getKind() instanceof KindType)) return null;
+            args.add(NodeFactory.makeTypeArg(NodeFactory.makeVarType(NodeUtil.getSpan(sp), sp.getName().getText())));
+        }
+        return new StaticTypeReplacer(fsp, args);
+    }
+
+    private void invokeArmAtTemplateParams(MethodVisitor mv, TaggedFunctionName f, StaticTypeReplacer atT) {
+        List<Param> ps = new ArrayList<Param>();
+        for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
+        String sig = NamingCzar.jvmSignatureFor(ps,
+                NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
+        String owner = Naming.dotToSep(f.tagA.getText());
+        String arrow = instanceArrowSchema(f);
+        String fname = functionName(f);
+        if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
+                Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow)))
+            fname = NamingCzar.mangleAwayFromOverload(fname);
+        String armClass = Naming.genericFunctionPkgClass(owner, fname,
+                NamingCzar.genericDecoration(templateStaticParams(), null, ifNone), arrow);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, armClass, Naming.APPLIED_METHOD, sig);
+    }
+
     public void generateCall(MethodVisitor mv, int firstArgIndex, int one_if_method_closure) {
         if (!splitDone) {
             throw new CompilerError("Must split overload set before generating call(s)");
@@ -1356,8 +1392,11 @@ nameTemp + "\n" +
             MultiMap<String, TypeStructure> spmap = new MultiMap<String, TypeStructure>();
             spmaps[i] = spmap;
             List<StaticParam> staticParams = staticParametersOf(f.getF());
+            StaticTypeReplacer atT = atTemplateParams(f);
+            if (atT != null) staticParams = null;
 
             Type rt = oa.getRangeType(eff);
+            if (atT != null) rt = atT.replaceIn(rt);
             return_type_structures[i] = makeTypeStructure(rt,null, 1, 0, staticParams, eff);
 
             // skip parameters -- no 'this' for ordinary functions
@@ -1374,6 +1413,7 @@ nameTemp + "\n" +
                 
                 for (int j = 0; j < tl.size(); j++) {
                     Type t = STypesUtil.insertStaticParams(tl.get(j), tt.getInfo().getStaticParams());
+                    if (atT != null) t = atT.replaceIn(t);
                     TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
                     f_type_structures[j] = type_structure;
                     storeAtIndex = type_structure.successorIndex;
@@ -1388,6 +1428,7 @@ nameTemp + "\n" +
                 for (int j = 0; j < parameters.size(); j++) {
                     if (j != selfIndex()) {
                         Type t = oa.getParamType(eff,j);
+                        if (atT != null) t = atT.replaceIn(t);
                         TypeStructure type_structure = makeTypeStructure(t, spmap, 1, storeAtIndex, staticParams, eff);
                         f_type_structures[j] = type_structure;
                         storeAtIndex = type_structure.successorIndex;
@@ -1773,9 +1814,11 @@ nameTemp + "\n" +
                     }
                 }
            
-                String sig = jvmSignatureFor(f);
-
-                invokeParticularMethod(mv, f, sig);
+                StaticTypeReplacer atT = atTemplateParams(f);
+                if (atT != null)
+                    invokeArmAtTemplateParams(mv, f, atT);
+                else
+                    invokeParticularMethod(mv, f, jvmSignatureFor(f));
                 Type f_return = f.getReturnType();
                 if (f_return instanceof BottomType) {
                     CodeGen.castToBottom(mv);

@@ -1,0 +1,6 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.56 5.43 3.44; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits:  M ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+################ FlatTowerRungF walk, FORTRESS_THREADS=1
+walk exit=0
+################ FlatTowerRungF walk, FORTRESS_THREADS=4
+walk exit=0

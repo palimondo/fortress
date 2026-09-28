@@ -1,5 +1,5 @@
 (* See explorations/compile-ladder/rung-size-runtime/REPORT.md. *)
-component XXXNatRtTask
+component NatRtTask
 export Executable
 object Box[\nat k\](v: ZZ32) end
 object BoxT[\T\](v: ZZ32) end

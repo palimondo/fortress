@@ -1,0 +1,45 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.65 1.91 1.37; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits: 
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS 595ms
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS 488ms
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS 622ms
+# atomic AtomicTopLevelVar run1 threads=4 PASS 878ms
+# atomic AtomicTopLevelVar run2 threads=4 PASS 703ms
+# atomic AtomicTopLevelVar run3 threads=4 PASS 781ms
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS 687ms
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS 643ms
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS 597ms
+# atomic FirstLoadThreadsRungG run1 threads=4 NO-PASS rc=1 645ms
+# atomic FirstLoadThreadsRungG run2 threads=4 NO-PASS rc=1 703ms
+# atomic FirstLoadThreadsRungG run3 threads=4 NO-PASS rc=1 759ms
+# atomic atomic0 run1 threads=4 PASS 307ms
+# atomic atomic0 run2 threads=4 PASS 287ms
+# atomic atomic0 run3 threads=4 PASS 289ms
+# atomic atomic1 run1 threads=4 PASS 308ms
+# atomic atomic1 run2 threads=4 PASS 302ms
+# atomic atomic1 run3 threads=4 PASS 294ms
+# atomic atomic2 run1 threads=4 PASS 560ms
+# atomic atomic2 run2 threads=4 PASS 895ms
+# atomic atomic2 run3 threads=4 PASS 1062ms
+# atomic atomic3 run1 threads=4 PASS 887ms
+# atomic atomic3 run2 threads=4 PASS 1038ms
+# atomic atomic3 run3 threads=4 PASS 1146ms
+# atomic atomic4 run1 threads=4 PASS 990ms
+# atomic atomic4 run2 threads=4 PASS 1393ms
+# atomic atomic4 run3 threads=4 PASS 1395ms
+# atomic atomic5 run1 threads=4 PASS 1802ms
+# atomic atomic5 run2 threads=4 PASS 1443ms
+# atomic atomic5 run3 threads=4 PASS 1475ms
+# atomic atomic6 run1 threads=4 PASS 1483ms
+# atomic atomic6 run2 threads=4 PASS 1511ms
+# atomic atomic6 run3 threads=4 PASS 1278ms
+# atomic nestedTransactions0 run1 threads=4 PASS 840ms
+# atomic nestedTransactions0 run2 threads=4 PASS 915ms
+# atomic nestedTransactions0 run3 threads=4 PASS 791ms
+# atomic nestedTransactions1 run1 threads=4 PASS 791ms
+# atomic nestedTransactions1 run2 threads=4 PASS 701ms
+# atomic nestedTransactions1 run3 threads=4 PASS 978ms
+# atomic nestedTransactions2 run1 threads=4 PASS 1040ms
+# atomic nestedTransactions2 run2 threads=4 PASS 769ms
+# atomic nestedTransactions2 run3 threads=4 PASS 842ms
+# load at end 4.88 2.82 1.73

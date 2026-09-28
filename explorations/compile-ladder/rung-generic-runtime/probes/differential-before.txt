@@ -1,0 +1,401 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.25 3.66 2.26; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits: 
+################################ ProjectFortress/compiler_tests/TypecaseBindRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: TypecaseBindRungG$w
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : TypecaseBindRungG$w.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: TypecaseBindRungG$w
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : TypecaseBindRungG$w.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/CastBindRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: fortress/CompilerLibrary$y
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : fortress/CompilerLibrary$y.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: fortress/CompilerLibrary$y
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : fortress/CompilerLibrary$y.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+ProjectFortress/compiler_tests/CastBindRungG.fss:21:35-46:
+    CastException is undefined.
+exit=255
+---------- walk, FORTRESS_THREADS=4
+ProjectFortress/compiler_tests/CastBindRungG.fss:21:35-46:
+    CastException is undefined.
+exit=255
+################################ ProjectFortress/compiler_tests/ArrowClauseBindRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: ArrowClauseBindRungG$rp
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ArrowClauseBindRungG$rp.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: ArrowClauseBindRungG$rp
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : ArrowClauseBindRungG$rp.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? cannot be cast to class XXXDispatchRenamedArmRungG$Marker?Y? (XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? and XXXDispatchRenamedArmRungG$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? cannot be cast to class XXXDispatchRenamedArmRungG$Marker?Y? (XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? and XXXDispatchRenamedArmRungG$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48: and
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47:
+
+grab[\Y\](t:Sub[\Y\]):Marker[\Y\]ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48 and
+grab[\X\](t:Tag[\X\]):Marker[\X\]ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48:
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48: and
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47:
+
+grab[\Y\](t:Sub[\Y\]):Marker[\Y\]ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48 and
+grab[\X\](t:Tag[\X\]):Marker[\X\]ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:16:1-48:
+ProjectFortress/compiler_tests/XXXDispatchRenamedArmRungG.fss:15:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? cannot be cast to class XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? (XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? and XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? cannot be cast to class XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? (XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? and XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59: and
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55:
+
+pair[\B,A\](t:SubTwo[\B,A\]):Marker[\B,A\]ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59 and
+pair[\A,B\](t:Two[\A,B\]):Marker[\A,B\]ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59:
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59: and
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55:
+
+pair[\B,A\](t:SubTwo[\B,A\]):Marker[\B,A\]ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59 and
+pair[\A,B\](t:Two[\A,B\]):Marker[\A,B\]ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:16:1-59:
+ProjectFortress/compiler_tests/XXXDispatchSwappedArmRungG.fss:15:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ ProjectFortress/compiler_tests/XXXDispatchZZ32ArmRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchZZ32ArmRungG$IntSub cannot be cast to class XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (XXXDispatchZZ32ArmRungG$IntSub and XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchZZ32ArmRungG$IntSub cannot be cast to class XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (XXXDispatchZZ32ArmRungG$IntSub and XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/FirstLoadThreadsRungG.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NullPointerException
+Caused by: java.lang.NullPointerException: Cannot invoke "java.lang.Class.newInstance()" because "cl" is null
+exit=1
+---------- walk, FORTRESS_THREADS=1
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/XXXNatRtTask.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : CONST.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : CONST.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0
+################################ ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0
+################################ ProjectFortress/library_tests/XXXClauseBindingRungB.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+REACHED
+PASS
+exit=0
+---------- walk, FORTRESS_THREADS=4
+REACHED
+PASS
+exit=0
+################################ explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethRenamed$\=SubM?MethRenamed\%Blue? cannot be cast to class MethRenamed$Marker?Y? (MethRenamed$\=SubM?MethRenamed\%Blue? and MethRenamed$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethRenamed$\=SubM?MethRenamed\%Blue? cannot be cast to class MethRenamed$Marker?Y? (MethRenamed$\=SubM?MethRenamed\%Blue? and MethRenamed$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss:30:61-68:
+Cannot find definition for method grab given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss:30:61-68:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss:30:61-68:
+Cannot find definition for method grab given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss:30:61-68:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-generic-runtime/probes/MethSwapped.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethSwapped$\=SubM?MethSwapped\%Red,MethSwapped\%Blue? cannot be cast to class MethSwapped$\=Marker?MethSwapped\%Blue,MethSwapped\%Red? (MethSwapped$\=SubM?MethSwapped\%Red,MethSwapped\%Blue? and MethSwapped$\=Marker?MethSwapped\%Blue,MethSwapped\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethSwapped$\=SubM?MethSwapped\%Red,MethSwapped\%Blue? cannot be cast to class MethSwapped$\=Marker?MethSwapped\%Blue,MethSwapped\%Red? (MethSwapped$\=SubM?MethSwapped\%Red,MethSwapped\%Blue? and MethSwapped$\=Marker?MethSwapped\%Blue,MethSwapped\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethSwapped.fss:21:73-80:
+Cannot find definition for method pair given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethSwapped.fss:21:73-80:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethSwapped.fss:21:73-80:
+Cannot find definition for method pair given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethSwapped.fss:21:73-80:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-generic-runtime/probes/MethZZ32.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethZZ32$IntSub cannot be cast to class MethZZ32$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (MethZZ32$IntSub and MethZZ32$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class MethZZ32$IntSub cannot be cast to class MethZZ32$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (MethZZ32$IntSub and MethZZ32$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethZZ32.fss:19:63-70:
+Cannot find definition for method grab given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethZZ32.fss:19:63-70:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+---------- walk, FORTRESS_THREADS=4
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-generic-runtime/probes/MethZZ32.fss:19:63-70:
+Cannot find definition for method grab given receiver K
+Context:
+explorations/compile-ladder/rung-generic-runtime/probes/MethZZ32.fss:19:63-70:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit=1
+################################ explorations/compile-ladder/rung-generic-runtime/probes/PlainBesideZZ32.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PlainBesideZZ32$IntTag cannot be cast to class PlainBesideZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (PlainBesideZZ32$IntTag and PlainBesideZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PlainBesideZZ32$IntTag cannot be cast to class PlainBesideZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? (PlainBesideZZ32$IntTag and PlainBesideZZ32$\=Tag?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+peek(a), a: Any = IntTag -> the Any declaration
+exit=0
+---------- walk, FORTRESS_THREADS=4
+peek(a), a: Any = IntTag -> the Any declaration
+exit=0
+################################ explorations/compile-ladder/rung-generic-runtime/probes/PlainBesideRet.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PlainBesideRet$\=Marker?PlainBesideRet\%Red? cannot be cast to class PlainBesideRet$Marker?X? (PlainBesideRet$\=Marker?PlainBesideRet\%Red? and PlainBesideRet$Marker?X? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PlainBesideRet$\=Marker?PlainBesideRet\%Red? cannot be cast to class PlainBesideRet$Marker?X? (PlainBesideRet$\=Marker?PlainBesideRet\%Red? and PlainBesideRet$Marker?X? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+exit=1
+---------- walk, FORTRESS_THREADS=1
+grab(a1), a1: Any = RedTag -> Marker[Red]
+exit=0
+---------- walk, FORTRESS_THREADS=4
+grab(a1), a1: Any = RedTag -> Marker[Red]
+exit=0
+################################ explorations/compile-ladder/rung-generic-runtime/probes/MethOneParTask.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+exit=1
+---------- compiled run, FORTRESS_THREADS=4
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: U$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : U$RTTIc.class
+exit=1
+---------- walk, FORTRESS_THREADS=1
+zz32zz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+zz32zz32
+exit=0
+################################ explorations/compile-ladder/rung-generic-runtime/probes/MethBothNoTask.fss
+compile exit=0
+---------- compiled run, FORTRESS_THREADS=1
+stringzz32
+exit=0
+---------- compiled run, FORTRESS_THREADS=4
+stringzz32
+exit=0
+---------- walk, FORTRESS_THREADS=1
+stringzz32
+exit=0
+---------- walk, FORTRESS_THREADS=4
+stringzz32
+exit=0
+EXIT=0

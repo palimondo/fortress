@@ -1,0 +1,42 @@
+component SkRenamed3
+export Executable
+
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+trait SubSub[\X\] extends Sub[\X\] end
+object Blue end
+object TagBlue extends Tag[\Blue\] end
+object SubBlue extends Sub[\Blue\] end
+object SubSubBlue extends SubSub[\Blue\] end
+object SubSubInt extends SubSub[\ZZ32\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+object SubSubM[\X\] extends Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+grab[\Y\](t: Sub[\Y\]): Marker[\Y\] = SubM[\Y\]
+grab[\Z\](t: SubSub[\Z\]): Marker[\Z\] = SubSubM[\Z\]
+
+name(m: Any): String = typecase m of
+    TagM[\Blue\] => "TagM[Blue]"
+    SubM[\Blue\] => "SubM[Blue]"
+    SubSubM[\Blue\] => "SubSubM[Blue]"
+    SubSubM[\ZZ32\] => "SubSubM[ZZ32]"
+    else => "other"
+  end
+
+gen[\X\](t: Tag[\X\]): String = name(grab(t))
+
+run(): () = do
+  a: Tag[\Blue\] = TagBlue
+  b: Tag[\Blue\] = SubBlue
+  c: Tag[\Blue\] = SubSubBlue
+  d: Tag[\ZZ32\] = SubSubInt
+  println(name(grab(a)) " " name(grab(b)) " " name(grab(c)) " " name(grab(d)))
+  println("through a generic caller: " gen(a) " " gen(b) " " gen(c) " " gen(d))
+  mb: Marker[\Blue\] = grab(c)
+  println("held as Marker[Blue]: " name(mb))
+end
+
+end

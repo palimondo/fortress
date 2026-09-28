@@ -1,0 +1,57 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.27 2.16 2.35; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+################################ SkClauseInTask
+compile(base) exit=0
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SkClauseInTask$w
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseInTask$w.class
+run(base, FORTRESS_THREADS=1) exit=1
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: SkClauseInTask$w
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseInTask$w.class
+run(base, FORTRESS_THREADS=4) exit=1
+compile(rung) exit=0
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkClauseInTask$task0.compute()V @34: getfield
+  Reason:
+    Type 'SkClauseInTask$Wrap' (current frame, stack[2]) is not assignable to 'SkClauseInTask$task0'
+  Current Frame:
+    bci: @34
+    flags: { }
+    locals: { 'SkClauseInTask$Wrap' }
+    stack: { 'SkClauseInTask$task0', 'fortress/CompilerBuiltin$String', 'SkClauseInTask$Wrap' }
+  Bytecode:
+    0000000: 2a59 b800 212a b400 1c59 c100 239a 0006
+    0000010: a700 1ec0 0023 4b2a b600 27b8 002d c000
+    0000020: 2f2a b400 1ac0 0031 b800 37a7 000f 5712
+run(rung, FORTRESS_THREADS=1) exit=1
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkClauseInTask$task0.compute()V @34: getfield
+  Reason:
+    Type 'SkClauseInTask$Wrap' (current frame, stack[2]) is not assignable to 'SkClauseInTask$task0'
+  Current Frame:
+    bci: @34
+    flags: { }
+    locals: { 'SkClauseInTask$Wrap' }
+    stack: { 'SkClauseInTask$task0', 'fortress/CompilerBuiltin$String', 'SkClauseInTask$Wrap' }
+  Bytecode:
+    0000000: 2a59 b800 212a b400 1c59 c100 239a 0006
+    0000010: a700 1ec0 0023 4b2a b600 27b8 002d c000
+    0000020: 2f2a b400 1ac0 0031 b800 37a7 000f 5712
+run(rung, FORTRESS_THREADS=4) exit=1
+typecaseInArm: a7!
+catchInArm: a5?
+typecaseOperand: 6#9
+walk(FORTRESS_THREADS=1) exit=0
+typecaseInArm: a7!
+catchInArm: a5?
+typecaseOperand: 6#9
+walk(FORTRESS_THREADS=4) exit=0

@@ -1,0 +1,19 @@
+component SkTupleClauseSpread
+export Executable
+
+second(a: ZZ32, s: String): String = s || a.asString
+
+localHead(z: ZZ32): String = do
+  t: (ZZ32, String) = (z, "s")
+  typecase t of
+      p: (ZZ32, String) => second(p)
+      else => "other"
+    end
+end
+
+run(): () = do
+  z: ZZ32 = 3 + 4
+  println(localHead(z))
+end
+
+end

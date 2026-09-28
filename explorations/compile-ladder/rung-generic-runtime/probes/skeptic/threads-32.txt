@@ -1,0 +1,18 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.95 2.08 2.23; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+compile(rung) exit=0
+loader=rung FORTRESS_THREADS=4 run 1 exit=0 1047ms: PASS
+loader=rung FORTRESS_THREADS=4 run 2 exit=0 1099ms: PASS
+loader=rung FORTRESS_THREADS=4 run 3 exit=0 1061ms: PASS
+loader=rung FORTRESS_THREADS=4 run 4 exit=0 1132ms: PASS
+loader=rung FORTRESS_THREADS=4 run 5 exit=0 1125ms: PASS
+loader=base FORTRESS_THREADS=4 run 1 exit=1 616ms: Exception"cl" is null
+loader=base FORTRESS_THREADS=4 run 2 exit=1 610ms: Exception"cl" is null
+loader=base FORTRESS_THREADS=4 run 3 exit=1 615ms: Exception"cl" is null
+loader=base FORTRESS_THREADS=4 run 4 exit=1 554ms: Exception"cl" is null
+loader=base FORTRESS_THREADS=4 run 5 exit=1 616ms: Exception"cl" is null
+loader=rung FORTRESS_THREADS=1 run 1 exit=0 1018ms: PASS
+loader=rung FORTRESS_THREADS=1 run 2 exit=0 1022ms: PASS
+loader=base FORTRESS_THREADS=1 run 1 exit=0 1020ms: PASS
+loader=base FORTRESS_THREADS=1 run 2 exit=0 951ms: PASS
+# load at end 2.52 2.20 2.27

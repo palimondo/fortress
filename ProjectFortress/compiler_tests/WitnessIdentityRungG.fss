@@ -1,0 +1,41 @@
+(* See explorations/compile-ladder/rung-generic-runtime/REPORT.md. *)
+component WitnessIdentityRungG
+export Executable
+
+witness[\T\](): T = throw InvalidRange
+
+zeroOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ32 =>
+            v: ZZ32 = 0
+            cast[\T\](v)
+        () -> ZZ64 => cast[\T\](widen(0))
+        () -> RR64 =>
+            v: RR64 = 0.0
+            cast[\T\](v)
+        else => throw InvalidRange
+    end
+
+oneOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ32 =>
+            v: ZZ32 = 1
+            cast[\T\](v)
+        () -> ZZ64 => cast[\T\](widen(1))
+        () -> RR64 =>
+            v: RR64 = 1.0
+            cast[\T\](v)
+        else => throw InvalidRange
+    end
+
+run(): () = do
+    assert(zeroOf[\ZZ32\]() + 7, 7, "the identity from the static argument, answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(oneOf[\ZZ32\]() + 7, 8, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(zeroOf[\ZZ64\]() + widen(7) = widen(7), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(oneOf[\ZZ64\]() + widen(7) = widen(8), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(zeroOf[\RR64\]() + 1.5 = 1.5, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(oneOf[\RR64\]() + 1.5 = 2.5, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    println("PASS")
+end
+
+end

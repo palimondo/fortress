@@ -1,0 +1,73 @@
+component FirstLoad24
+export Executable
+
+(* FirstLoadThreadsRungG widened: 24 instantiations of the generic arm, 4800 iterations. *)
+object Vt[\T\](x: ZZ32) end
+object A1 end
+object A2 end
+object A3 end
+object A4 end
+object A5 end
+object A6 end
+object A7 end
+object A8 end
+object A9 end
+object A10 end
+object A11 end
+object A12 end
+object A13 end
+object A14 end
+object A15 end
+object A16 end
+object A17 end
+object A18 end
+object A19 end
+object A20 end
+object A21 end
+object A22 end
+object A23 end
+object A24 end
+
+sAcc: ZZ32 := 0
+
+f[\T\](v: Vt[\T\]): ZZ32 = v.x
+f(x: Any): ZZ32 = 0
+
+mk(j: ZZ32): Any =
+  if j = 0 then Vt[\A1\](1)
+  elif j = 1 then Vt[\A2\](2)
+  elif j = 2 then Vt[\A3\](3)
+  elif j = 3 then Vt[\A4\](4)
+  elif j = 4 then Vt[\A5\](5)
+  elif j = 5 then Vt[\A6\](6)
+  elif j = 6 then Vt[\A7\](7)
+  elif j = 7 then Vt[\A8\](8)
+  elif j = 8 then Vt[\A9\](9)
+  elif j = 9 then Vt[\A10\](10)
+  elif j = 10 then Vt[\A11\](11)
+  elif j = 11 then Vt[\A12\](12)
+  elif j = 12 then Vt[\A13\](13)
+  elif j = 13 then Vt[\A14\](14)
+  elif j = 14 then Vt[\A15\](15)
+  elif j = 15 then Vt[\A16\](16)
+  elif j = 16 then Vt[\A17\](17)
+  elif j = 17 then Vt[\A18\](18)
+  elif j = 18 then Vt[\A19\](19)
+  elif j = 19 then Vt[\A20\](20)
+  elif j = 20 then Vt[\A21\](21)
+  elif j = 21 then Vt[\A22\](22)
+  elif j = 22 then Vt[\A23\](23)
+  else Vt[\A24\](24) end
+
+step(i: ZZ32): () = do
+  v = mk(i MOD 24)
+  a = f(v)
+  atomic do sAcc := sAcc + a end
+end
+
+run(): () = do
+  for i <- 0#4800 do step(i) end
+  if sAcc = 60000 then println("PASS") else println("FAIL: sum " sAcc " expected 60000") end
+end
+
+end

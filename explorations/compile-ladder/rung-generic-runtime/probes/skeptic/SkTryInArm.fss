@@ -1,0 +1,22 @@
+component SkTryInArm
+export Executable
+
+object Oops(code: ZZ32) extends CheckedException end
+boomU(k: ZZ32): () = throw Oops(k)
+var hit: ZZ32 = 0
+note(k: ZZ32): () = atomic do hit := hit + k end
+
+tryInArm(k: ZZ32): () = do
+  do
+    note(1)
+  also do
+    try boomU(k) catch e Oops => note(e.code) end
+  end
+end
+
+run(): () = do
+  tryInArm(5)
+  println("hit " hit.asString)
+end
+
+end

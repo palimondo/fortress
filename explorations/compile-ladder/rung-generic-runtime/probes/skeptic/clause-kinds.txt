@@ -1,0 +1,102 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.29 2.12 2.28; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+################################ SkClauseKinds
+compile(base) exit=0
+Exception in thread "main" java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkClauseKinds.catchTwo(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32; @69: invokevirtual
+  Reason:
+    Type 'SkClauseKinds$Oops' (current frame, stack[0]) is not assignable to 'SkClauseKinds$Other'
+  Current Frame:
+    bci: @69
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FBoolean' }
+    stack: { 'SkClauseKinds$Oops' }
+  Bytecode:
+    0000000: 2bb6 0051 9900 0a2a b800 b6a7 0007 2ab8
+    0000010: 00c8 a700 4859 b600 b9c1 0028 9900 1b57
+    0000020: b200 beb6 00c1 c000 8812 c9b8 00a0 b800
+    0000030: a4b8 00c4 a700 2659 b600 b9c1 002f 9900
+run(base, FORTRESS_THREADS=1) exit=1
+Exception in thread "main" java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkClauseKinds.catchTwo(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;Lcom/sun/fortress/compiler/runtimeValues/FBoolean;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32; @69: invokevirtual
+  Reason:
+    Type 'SkClauseKinds$Oops' (current frame, stack[0]) is not assignable to 'SkClauseKinds$Other'
+  Current Frame:
+    bci: @69
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FBoolean' }
+    stack: { 'SkClauseKinds$Oops' }
+  Bytecode:
+    0000000: 2bb6 0051 9900 0a2a b800 b6a7 0007 2ab8
+    0000010: 00c8 a700 4859 b600 b9c1 0028 9900 1b57
+    0000020: b200 beb6 00c1 c000 8812 c9b8 00a0 b800
+    0000030: a4b8 00c4 a700 2659 b600 b9c1 002f 9900
+run(base, FORTRESS_THREADS=4) exit=1
+compile(rung) exit=0
+T   14   0.5   box3 7   27
+8   107   207   15   1007
+fin  8
+run(rung, FORTRESS_THREADS=1) exit=0
+T   14   0.5   box3 7   27
+8   107   207   15   1007
+fin  8
+run(rung, FORTRESS_THREADS=4) exit=0
+T 14 0.5 box3 7 27
+8 107 207 15 1007
+fin 8
+walk(FORTRESS_THREADS=1) exit=0
+T 14 0.5 box3 7 27
+8 107 207 15 1007
+fin 8
+walk(FORTRESS_THREADS=4) exit=0
+################################ SkTupleHead
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkTupleHead.fss:13:3-16:6: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 13 L1
+,     ALOAD 0
+,    L2
+,     LINENUMBER 13 L2
+,     LDC "s"
+,    L3
+,     LINENUMBER 13 L3
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FJavaString.make (Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+compile(base) exit=1
+Could not load SkTupleHead
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleHead.class
+run(base, FORTRESS_THREADS=1) exit=1
+Could not load SkTupleHead
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleHead.class
+run(base, FORTRESS_THREADS=4) exit=1
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkTupleHead.fss:13:3-16:6: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 13 L1
+,     ALOAD 0
+,    L2
+,     LINENUMBER 13 L2
+,     LDC "s"
+,    L3
+,     LINENUMBER 13 L3
+,     INVOKESTATIC com/sun/fortress/compiler/runtimeValues/FJavaString.make (Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;
+compile(rung) exit=1
+Could not load SkTupleHead
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleHead.class
+run(rung, FORTRESS_THREADS=1) exit=1
+Could not load SkTupleHead
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleHead.class
+run(rung, FORTRESS_THREADS=4) exit=1
+s7
+walk(FORTRESS_THREADS=1) exit=0
+s7
+walk(FORTRESS_THREADS=4) exit=0

@@ -1,3 +1,3 @@
-tests=XXXNatRtTask
+tests=XXXTaskArmLocalSlot
 run
 run_out_contains=REACHED

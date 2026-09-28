@@ -1,0 +1,4 @@
+tests=DispatchZZ32ArmRungG
+link
+run
+run_out_contains=PASS

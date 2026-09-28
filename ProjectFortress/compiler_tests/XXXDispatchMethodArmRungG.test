@@ -1,0 +1,3 @@
+tests=XXXDispatchMethodArmRungG
+run
+run_out_contains=REACHED

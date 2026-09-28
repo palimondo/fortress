@@ -1,0 +1,260 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.14 1.72 1.17; JDK 25; FORTRESS_THREADS=1
+# tree: b797d8037 with source edits: 
+########## junit compiler_tests/TypecaseBindRungG.test
+. link compiler_tests/TypecaseBindRungG  OK (time = 3237ms)
+. run compiler_tests/TypecaseBindRungG (461ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: TypecaseBindRungG$w
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 8 more
+Caused by: java.io.IOException: Resource not found : TypecaseBindRungG$w.class
+	... 9 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 3.707
+There was 1 failure:
+1) compiler_tests/TypecaseBindRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/TypecaseBindRungG
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/CastBindRungG.test
+. link compiler_tests/CastBindRungG  OK (time = 3512ms)
+. run compiler_tests/CastBindRungG (855ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: fortress/CompilerLibrary$y
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 9 more
+Caused by: java.io.IOException: Resource not found : fortress/CompilerLibrary$y.class
+	... 10 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 4.378
+There was 1 failure:
+1) compiler_tests/CastBindRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/CastBindRungG
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/ArrowClauseBindRungG.test
+. link compiler_tests/ArrowClauseBindRungG  OK (time = 2765ms)
+. run compiler_tests/ArrowClauseBindRungG (532ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: ArrowClauseBindRungG$rp
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 9 more
+Caused by: java.io.IOException: Resource not found : ArrowClauseBindRungG$rp.class
+	... 10 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 3.313
+There was 1 failure:
+1) compiler_tests/ArrowClauseBindRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/ArrowClauseBindRungG
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/DispatchRenamedArmRungGLink.test
+. link compiler_tests/XXXDispatchRenamedArmRungG  OK (time = 2709ms)
+
+Time: 2.714
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXDispatchRenamedArmRungG.test
+. run compiler_tests/XXXDispatchRenamedArmRungG (525ms) REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? cannot be cast to class XXXDispatchRenamedArmRungG$Marker?Y? (XXXDispatchRenamedArmRungG$\=SubM?XXXDispatchRenamedArmRungG\%Blue? and XXXDispatchRenamedArmRungG$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+Saw expected failure (Exit code != 0)
+
+Time: 0.539
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/DispatchSwappedArmRungGLink.test
+. link compiler_tests/XXXDispatchSwappedArmRungG  OK (time = 2704ms)
+
+Time: 2.709
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXDispatchSwappedArmRungG.test
+. run compiler_tests/XXXDispatchSwappedArmRungG (482ms) REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? cannot be cast to class XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? (XXXDispatchSwappedArmRungG$\=SubM?XXXDispatchSwappedArmRungG\%Red,XXXDispatchSwappedArmRungG\%Blue? and XXXDispatchSwappedArmRungG$\=Marker?XXXDispatchSwappedArmRungG\%Blue,XXXDispatchSwappedArmRungG\%Red? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+Saw expected failure (Exit code != 0)
+
+Time: 0.492
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/DispatchZZ32ArmRungGLink.test
+. link compiler_tests/XXXDispatchZZ32ArmRungG  OK (time = 2846ms)
+
+Time: 2.852
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXDispatchZZ32ArmRungG.test
+. run compiler_tests/XXXDispatchZZ32ArmRungG (471ms) REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchZZ32ArmRungG$IntSub cannot be cast to class XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? (XXXDispatchZZ32ArmRungG$IntSub and XXXDispatchZZ32ArmRungG$\=Sub?fortress\|CompilerBuiltin\%ZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+Saw expected failure (Exit code != 0)
+
+Time: 0.482
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatRtTaskLink.test
+. link compiler_tests/XXXNatRtTask  OK (time = 2720ms)
+
+Time: 2.724
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatRtTask.test
+. run compiler_tests/XXXNatRtTask (711ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: CONST
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : CONST.class
+	... 12 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.722
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatRtMethBothLink.test
+. link compiler_tests/XXXNatRtMethBoth  OK (time = 2689ms)
+
+Time: 2.696
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXNatRtMethBoth.test
+. run compiler_tests/XXXNatRtMethBoth (503ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: j$RTTIc
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 12 more
+Caused by: java.io.IOException: Resource not found : j$RTTIc.class
+	... 13 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.514
+
+OK (1 test)
+
+exit=0
+########## junit library_tests/ClauseBindingRungBLink.test
+. link library_tests/XXXClauseBindingRungB  OK (time = 2604ms)
+
+Time: 2.61
+
+OK (1 test)
+
+exit=0
+########## junit library_tests/XXXClauseBindingRungB.test
+. run library_tests/XXXClauseBindingRungB (284ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: XXXClauseBindingRungB$e
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 7 more
+Caused by: java.io.IOException: Resource not found : XXXClauseBindingRungB$e.class
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 0.294
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/FirstLoadThreadsRungG.test
+. compile compiler_tests/FirstLoadThreadsRungG  OK (time = 3004ms)
+. link compiler_tests/FirstLoadThreadsRungG  OK (time = 1829ms)
+. run compiler_tests/FirstLoadThreadsRungG (1051ms) PASS
+Passed
+
+Time: 5.893
+
+OK (3 tests)
+
+exit=0
+EXIT=0
+
+# WitnessIdentityRungG, added after the list above, run on the same base build: ProjectFortress/build as ant compileAll left it on b797d8037; the source edits the tree line names were not yet compiled
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.73 4.81 2.86; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits:  M ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+########## junit compiler_tests/WitnessIdentityRungG.test
+. link compiler_tests/WitnessIdentityRungG  OK (time = 9998ms)
+. run compiler_tests/WitnessIdentityRungG (1514ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: fortress/CompilerLibrary$y
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 11 more
+Caused by: java.io.IOException: Resource not found : fortress/CompilerLibrary$y.class
+	... 12 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 11.526
+There was 1 failure:
+1) compiler_tests/WitnessIdentityRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/WitnessIdentityRungG
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+
+# CastBindRungG with its catch spelled over Exception (so that walk can run it), and the dotted-method remainder XXXDispatchMethodArmRungG with its link test, run on the same base build as above: ProjectFortress/build as ant compileAll left it on b797d8037, the source edits the tree line names not yet compiled
+########## junit compiler_tests/CastBindRungG.test
+. link compiler_tests/CastBindRungG  OK (time = 6262ms)
+. run compiler_tests/CastBindRungG (1060ms) java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: fortress/CompilerLibrary$y
+Caused by: java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	... 9 more
+Caused by: java.io.IOException: Resource not found : fortress/CompilerLibrary$y.class
+	... 10 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 7.337
+There was 1 failure:
+1) compiler_tests/CastBindRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/CastBindRungG
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+########## junit compiler_tests/DispatchMethodArmRungGLink.test
+. link compiler_tests/XXXDispatchMethodArmRungG  OK (time = 6838ms)
+
+Time: 6.844
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/XXXDispatchMethodArmRungG.test
+. run compiler_tests/XXXDispatchMethodArmRungG (1097ms) REACHED
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class XXXDispatchMethodArmRungG$\=SubM?XXXDispatchMethodArmRungG\%Blue? cannot be cast to class XXXDispatchMethodArmRungG$Marker?Y? (XXXDispatchMethodArmRungG$\=SubM?XXXDispatchMethodArmRungG\%Blue? and XXXDispatchMethodArmRungG$Marker?Y? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+Saw expected failure (Exit code != 0)
+
+Time: 1.127
+
+OK (1 test)
+
+exit=0

@@ -1,0 +1,22 @@
+component SkTaskLocalSlot
+export Executable
+
+lbl(x: ZZ32): String = x.asString
+
+oneLevel(): String = do
+  var r1: String := ""
+  var r2: String := ""
+  do
+    r1 := lbl(1)
+  also do
+    j: ZZ32 = 2
+    r2 := lbl(j)
+  end
+  r1 || r2
+end
+
+run(): () = do
+  println("oneLevel: " oneLevel())
+end
+
+end

@@ -1,2 +1,2 @@
-tests=XXXNatRtTask
+tests=NatRtTask
 link

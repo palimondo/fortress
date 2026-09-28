@@ -1,0 +1,24 @@
+# before: machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.57 4.72 2.80; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits:  M ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+# after:  machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 7.33 7.14 5.43; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+compiler_tests/NatArgRungS | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (7 files)
+compiler_tests/NatDispArmChecker | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (17 files)
+compiler_tests/NatOverrideChecker | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (15 files)
+compiler_tests/NatRtBigSize | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (11 files)
+compiler_tests/NatRtCase | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (7 files)
+compiler_tests/NatRtCaseGen | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (9 files)
+compiler_tests/NatRtClosure | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (56 files)
+compiler_tests/NatRtDisp | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (17 files)
+compiler_tests/NatRtDispLit | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (12 files)
+compiler_tests/NatRtDispSize | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (17 files)
+compiler_tests/NatRtDispTrait | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (37 files)
+compiler_tests/NatRtDot | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (9 files)
+compiler_tests/NatRtExtLit | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (29 files)
+compiler_tests/NatRtExtends1 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)
+compiler_tests/NatRtExtends2 | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)
+compiler_tests/NatRtGetter | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)
+compiler_tests/NatRtMethSym | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (11 files)
+compiler_tests/NatRtOver | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (7 files)
+compiler_tests/NatRtUnbox | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (9 files)
+compiler_tests/NatRtVec | link exit=0 -> exit=0 | threads=1 run exit=0 -> exit=0, output same | threads=4 run exit=0 -> exit=0, output same | classes identical (13 files)

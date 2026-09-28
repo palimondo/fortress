@@ -1,0 +1,39 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.30 2.15 2.36; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+compile(rung) exit=0
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkTaskLocalSlot$task0.compute()V @28: getfield
+  Reason:
+    Type 'com/sun/fortress/compiler/runtimeValues/FZZ32' (current frame, stack[3]) is not assignable to 'SkTaskLocalSlot$task0'
+  Current Frame:
+    bci: @28
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'SkTaskLocalSlot$task0', 'com/sun/fortress/runtimeSystem/Transaction', 'fortress/CompilerBuiltin$String', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+  Bytecode:
+    0000000: 2a59 b800 1905 b800 1fb8 0025 4b2a b800
+    0000010: 2bb8 002f 9900 12b8 0033 5f2a b400 145f
+    0000020: b600 39a7 000b 2ab4 0014 5fb6 003f b800
+run(rung, FORTRESS_THREADS=1) exit=1
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad type on operand stack
+Exception Details:
+  Location:
+    SkTaskLocalSlot$task0.compute()V @28: getfield
+  Reason:
+    Type 'com/sun/fortress/compiler/runtimeValues/FZZ32' (current frame, stack[3]) is not assignable to 'SkTaskLocalSlot$task0'
+  Current Frame:
+    bci: @28
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'SkTaskLocalSlot$task0', 'com/sun/fortress/runtimeSystem/Transaction', 'fortress/CompilerBuiltin$String', 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+  Bytecode:
+    0000000: 2a59 b800 1905 b800 1fb8 0025 4b2a b800
+    0000010: 2bb8 002f 9900 12b8 0033 5f2a b400 145f
+    0000020: b600 39a7 000b 2ab4 0014 5fb6 003f b800
+run(rung, FORTRESS_THREADS=4) exit=1
+oneLevel: 12
+walk(FORTRESS_THREADS=1) exit=0

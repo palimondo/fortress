@@ -3123,27 +3123,35 @@ trait DistributesOver[\E\] end
     supertypes. **)
 additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
     typecase __thrower[\T\] of
-        () -> ZZ32 => cast[\T\](0)
+        () -> ZZ32 =>
+            v: ZZ32 = 0
+            cast[\T\](v)
         () -> ZZ64 => cast[\T\](widen(0))
         () -> NN32 => cast[\T\](unsigned(0))
         () -> NN64 => cast[\T\](widen(unsigned(0)))
         () -> ZZ => cast[\T\](big(0))
         () -> QQ => cast[\T\](Ratio(0, 1))
         () -> RR32 => cast[\T\](narrow(0.0))
-        () -> RR64 => cast[\T\](0.0)
+        () -> RR64 =>
+            v: RR64 = 0.0
+            cast[\T\](v)
         else => 0
     end
 
 multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
     typecase __thrower[\T\] of
-        () -> ZZ32 => cast[\T\](1)
+        () -> ZZ32 =>
+            v: ZZ32 = 1
+            cast[\T\](v)
         () -> ZZ64 => cast[\T\](widen(1))
         () -> NN32 => cast[\T\](unsigned(1))
         () -> NN64 => cast[\T\](widen(unsigned(1)))
         () -> ZZ => cast[\T\](big(1))
         () -> QQ => cast[\T\](Ratio(1, 1))
         () -> RR32 => cast[\T\](narrow(1.0))
-        () -> RR64 => cast[\T\](1.0)
+        () -> RR64 =>
+            v: RR64 = 1.0
+            cast[\T\](v)
         else => 1
     end
 

@@ -1,0 +1,49 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.94 2.13 2.26; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+################################ SkClauseTaskOps
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkClauseTaskOps.fss:9:3-12:6: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 9 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF SkClauseTaskOps$Wrap
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     POP
+compile(base) exit=1
+Could not load SkClauseTaskOps
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseTaskOps.class
+run(base, FORTRESS_THREADS=1) exit=1
+Could not load SkClauseTaskOps
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseTaskOps.class
+run(base, FORTRESS_THREADS=4) exit=1
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkClauseTaskOps.fss:9:3-12:6: Error trying to close method scope.
+[   L0
+,    L1
+,     LINENUMBER 9 L1
+,     ALOAD 0
+,     DUP
+,     INSTANCEOF SkClauseTaskOps$Wrap
+,     IFNE L2
+,     GOTO L3
+,    L2
+,     CHECKCAST SkClauseTaskOps$Wrap
+compile(rung) exit=1
+Could not load SkClauseTaskOps
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseTaskOps.class
+run(rung, FORTRESS_THREADS=1) exit=1
+Could not load SkClauseTaskOps
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkClauseTaskOps.class
+run(rung, FORTRESS_THREADS=4) exit=1
+7
+walk(FORTRESS_THREADS=1) exit=0
+7
+walk(FORTRESS_THREADS=4) exit=0

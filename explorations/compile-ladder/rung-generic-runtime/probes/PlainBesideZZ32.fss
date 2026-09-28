@@ -1,0 +1,18 @@
+component PlainBesideZZ32
+export Executable
+
+(* A dispatcher that is not a template: a generic declaration beside a plain one, legal
+   under answer 9 (POSITIONS 2026-09-26), reached with an argument whose static type is Any.
+   IntTag extends one instantiation only. *)
+trait Tag[\X\] end
+object IntTag extends Tag[\ZZ32\] end
+object Marker[\X\] end
+
+peek[\X\](t: Tag[\X\]): Any = Marker[\X\]
+peek(a: Any): Any = "the Any declaration"
+
+run(): () = do
+  a: Any = IntTag
+  println("peek(a), a: Any = IntTag -> " || (typecase peek(a) of Marker[\ZZ32\] => "Marker[ZZ32]"; String => "the Any declaration"; else => "other" end))
+end
+end

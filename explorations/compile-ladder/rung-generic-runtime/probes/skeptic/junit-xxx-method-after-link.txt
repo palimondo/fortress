@@ -1,0 +1,7 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.36 2.69 2.49; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+########## compiler_tests/XXXDispatchMethodArmRungG.test, after DispatchMethodArmRungGLink.test
+. run compiler_tests/XXXDispatchMethodArmRungG (697ms) REACHED
+Caused by: java.lang.ClassCastException: class XXXDispatchMethodArmRungG$\=SubM?XXXDispatchMethodArmRungG\%Blue? cannot be cast to class XXXDispatchMethodArmRungG$Marker?Y? (XXXDispatchMethodArmRungG$\=SubM?XXXDispatchMe
+Saw expected failure (Exit code != 0)
+OK (1 test)

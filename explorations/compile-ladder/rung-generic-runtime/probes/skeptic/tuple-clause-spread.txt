@@ -1,0 +1,42 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.30 2.21 2.30; JDK 25.0.4
+# tree: 675f49714 with source edits: 
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkTupleClauseSpread.fss:6:30-12:2: Error trying to close method scope.
+[   L0
+,    L1
+,    L2
+,     LINENUMBER 7 L2
+,     ALOAD 0
+,    L3
+,     LINENUMBER 7 L3
+,     LDC "s"
+,    L4
+,     LINENUMBER 7 L4
+compile(base) exit=1
+Could not load SkTupleClauseSpread
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleClauseSpread.class
+run(base, FORTRESS_THREADS=1) exit=1
+Exception in thread "main" java.lang.Error: 
+explorations/compile-ladder/rung-generic-runtime/probes/skeptic/SkTupleClauseSpread.fss:6:30-12:2: Error trying to close method scope.
+[   L0
+,    L1
+,    L2
+,     LINENUMBER 7 L2
+,     ALOAD 0
+,    L3
+,     LINENUMBER 7 L3
+,     LDC "s"
+,    L4
+,     LINENUMBER 7 L4
+compile(rung) exit=1
+Could not load SkTupleClauseSpread
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleClauseSpread.class
+run(rung, FORTRESS_THREADS=1) exit=1
+Could not load SkTupleClauseSpread
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkTupleClauseSpread.class
+run(rung, FORTRESS_THREADS=4) exit=1
+s7
+walk(FORTRESS_THREADS=1) exit=0

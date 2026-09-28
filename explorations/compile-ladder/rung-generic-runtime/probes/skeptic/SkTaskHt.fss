@@ -1,0 +1,32 @@
+component SkTaskHt
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+object Box[\nat k\](v: ZZ32) end
+which(x: Any): String = typecase x of
+    BoxT[\String\] => "string"
+    BoxT[\ZZ32\] => "zz32"
+    BoxT[\Boolean\] => "bool"
+    Box[\3\] => "three"
+    Box[\4\] => "four"
+    else => "other"
+  end
+lbl(x: Any): String = which(x)
+idz(n: ZZ32): ZZ32 = n
+
+twice[\T\](x: T, g: T -> String): String = g(x) || g(x)
+
+object Ht[\T\](v: ZZ32)
+  m[\U\](): String = do
+    var s: String := ""
+    var s2: String := ""
+    do s := which(BoxT[\T\](1)) also do s2 := lbl(BoxT[\U\](2)) end
+    s || s2 || twice[\BoxT[\U\]\](BoxT[\U\](0) , fn (b: BoxT[\U\]): String => which(b))
+  end
+end
+
+run(): () = do
+  println("Ht.m: " Ht[\String\](0).m[\ZZ32\]())
+end
+
+end

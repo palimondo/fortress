@@ -1,0 +1,14 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.39 6.72 4.95; JDK 25; FORTRESS_THREADS=1
+# tree: b677fdff9 with source edits: 
+################################ FirstLoad24.fss, 5 compiled runs at each thread count
+compile exit=0
+FORTRESS_THREADS=1 run 1 exit=0: PASS|
+FORTRESS_THREADS=1 run 2 exit=0: PASS|
+FORTRESS_THREADS=1 run 3 exit=0: PASS|
+FORTRESS_THREADS=1 run 4 exit=0: PASS|
+FORTRESS_THREADS=1 run 5 exit=0: PASS|
+FORTRESS_THREADS=4 run 1 exit=0: PASS|
+FORTRESS_THREADS=4 run 2 exit=0: PASS|
+FORTRESS_THREADS=4 run 3 exit=0: PASS|
+FORTRESS_THREADS=4 run 4 exit=0: PASS|
+FORTRESS_THREADS=4 run 5 exit=0: PASS|

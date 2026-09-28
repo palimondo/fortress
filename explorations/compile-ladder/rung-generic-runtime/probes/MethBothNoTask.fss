@@ -1,0 +1,16 @@
+component MethBothNoTask
+export Executable
+
+(* Row 420's control: both parameters, each instance built in its own local binding, so no
+   operand of || is a task. *)
+object BoxT[\T\](v: ZZ32) end
+which(x: Any): String = typecase x of BoxT[\String\] => "string"; BoxT[\ZZ32\] => "zz32"; else => "other" end
+object Ht[\T\](v: ZZ32)
+  m[\U\](b: BoxT[\U\]): String = do
+    s1: String = which(BoxT[\T\](1))
+    s2: String = which(BoxT[\U\](2))
+    s1 || s2
+  end
+end
+run() = println(Ht[\String\](0).m[\ZZ32\](BoxT[\ZZ32\](0)))
+end

@@ -1,0 +1,129 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.52 2.97 3.31; JDK 25; FORTRESS_THREADS=1
+# tree: e4fad17ec with source edits:  M Library/FortressLibrary.fss  M ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java  M ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java  M ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiatingClassloader.java 
+########## junit compiler_tests/DispatchRenamedArmRungGLink.test
+. link compiler_tests/DispatchRenamedArmRungG  OK (time = 3382ms)
+
+Time: 3.388
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/DispatchRenamedArmRungG.test
+. link compiler_tests/DispatchRenamedArmRungG  OK (time = 2652ms)
+. run compiler_tests/DispatchRenamedArmRungG (572ms) REACHED
+PASS
+Passed
+
+Time: 3.231
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/DispatchSwappedArmRungGLink.test
+. link compiler_tests/DispatchSwappedArmRungG  OK (time = 3562ms)
+
+Time: 3.569
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/DispatchSwappedArmRungG.test
+. link compiler_tests/DispatchSwappedArmRungG  OK (time = 2655ms)
+. run compiler_tests/DispatchSwappedArmRungG (567ms) REACHED
+PASS
+Passed
+
+Time: 3.23
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/DispatchZZ32ArmRungGLink.test
+. link compiler_tests/DispatchZZ32ArmRungG  OK (time = 4821ms)
+
+Time: 4.827
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/DispatchZZ32ArmRungG.test
+. link compiler_tests/DispatchZZ32ArmRungG  OK (time = 3739ms)
+. run compiler_tests/DispatchZZ32ArmRungG (937ms) REACHED
+PASS
+Passed
+
+Time: 4.687
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/NatRtTaskLink.test
+. link compiler_tests/NatRtTask  OK (time = 4711ms)
+
+Time: 4.725
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatRtTask.test
+. link compiler_tests/NatRtTask  OK (time = 3603ms)
+. run compiler_tests/NatRtTask (939ms) REACHED
+PASS
+Passed
+
+Time: 4.549
+
+OK (2 tests)
+
+exit=0
+########## junit compiler_tests/NatRtMethBothLink.test
+. link compiler_tests/NatRtMethBoth  OK (time = 4751ms)
+
+Time: 4.759
+
+OK (1 test)
+
+exit=0
+########## junit compiler_tests/NatRtMethBoth.test
+. link compiler_tests/NatRtMethBoth  OK (time = 3365ms)
+. run compiler_tests/NatRtMethBoth (829ms) REACHED
+PASS
+Passed
+
+Time: 4.2
+
+OK (2 tests)
+
+exit=0
+########## junit library_tests/ClauseBindingRungBLink.test
+. link library_tests/ClauseBindingRungB  OK (time = 3620ms)
+
+Time: 3.629
+
+OK (1 test)
+
+exit=0
+########## junit library_tests/ClauseBindingRungB.test
+. link library_tests/ClauseBindingRungB  OK (time = 3297ms)
+. run library_tests/ClauseBindingRungB (379ms) REACHED
+PASS
+Passed
+
+Time: 3.686
+
+OK (2 tests)
+
+exit=0
+
+# NatRtMethBoth with a third assertion, row 420's cause (the method's own parameter in a task operand, probes/MethOneParTask.fss), on the rung's tree
+########## junit compiler_tests/NatRtMethBoth.test
+. link compiler_tests/NatRtMethBoth  OK (time = 5486ms)
+. run compiler_tests/NatRtMethBoth (976ms) REACHED
+PASS
+Passed
+
+Time: 6.472
+
+OK (2 tests)
+
+exit=0

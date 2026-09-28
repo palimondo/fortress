@@ -1631,12 +1631,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             // Find free vars of arg
             List<VarCodeGen> freeVars = getFreeVars(arg);
             BASet<VarType> fvts = fvt.freeVarTypes(arg);
-            // TO DO if fvts non-empty, will need to make a generic task
 
             // Generate descriptor for init method of task
             String init = taskConstructorDesc(freeVars);
 
-            String task = delegate(arg, tDesc, init, freeVars);
+            String task = delegate(arg, tDesc, init, freeVars, fvts);
             tasks[i] = task;
             results[i] = tDesc;
             constructWithFreeVars(task, freeVars, init);
@@ -2057,8 +2056,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
                  InstantiatingClassloader.generalizedInstanceOf(mv, NamingCzar.jvmBoxedTypeName(match, thisApi()));
                  mv.visitJumpInsn(IFEQ, end);
-                 mv.visitInsn(POP);
-                 clause.getBody().accept(this);
+                 mv.visitMethodInsn(INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FException",
+                                    "getValue","()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+                 bindAndGenerateClauseBody(name, match, clause.getBody());
                  mv.visitJumpInsn(GOTO, done);
                  mv.visitLabel(end);
              }
@@ -2128,8 +2128,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             mv.visitJumpInsn(IFNE, next);
             mv.visitJumpInsn(GOTO, end);
             mv.visitLabel(next);
-            mv.visitInsn(POP);
-            c.getBody().accept(this);
+            if (c.getName().isSome()) {
+                bindAndGenerateClauseBody(c.getName().unwrap(), typ, c.getBody());
+            } else {
+                mv.visitInsn(POP);
+                c.getBody().accept(this);
+            }
             mv.visitJumpInsn(GOTO, done);
             mv.visitLabel(end);
          }
@@ -2147,6 +2151,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          mv.visitLabel(done);
 
 
+    }
+
+    private void bindAndGenerateClauseBody(Id name, Type typ, Block body) {
+        InstantiatingClassloader.generalizedCastTo(mv, NamingCzar.jvmBoxedTypeName(typ, thisApi()));
+        CodeGen cg = new CodeGen(this);
+        VarCodeGen vcg = new VarCodeGen.LocalVar(name, typ, cg);
+        cg.addLocalVar(vcg);
+        vcg.assignValue(mv);
+        body.accept(cg);
+        vcg.outOfScope(mv);
     }
 
 
@@ -4768,9 +4782,18 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     // This sets up the parallel task construct.
     // Caveat: We create separate taskClasses for every task
-    public String delegate(Expr x, String result, String init, List<VarCodeGen> freeVars) {
+    public String delegate(Expr x, String result, String init, List<VarCodeGen> freeVars, BASet<VarType> fvts) {
 
         String className = NamingCzar.gensymTaskName(packageAndClassName);
+        String classFileName = className;
+        Naming.XlationData xldata = null;
+        if (fvts != null && fvts.size() > 0) {
+            className += Useful.listInDelimiters(Naming.LEFT_OXFORD, fvts, Naming.RIGHT_OXFORD);
+            classFileName += Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD;
+            xldata = xlationData(Naming.FUNCTION_GENERIC_TAG);
+            for (VarType v : fvts)
+                xldata.addKindAndNameToStaticParams(Naming.XL_TYPE, v.getName().getText());
+        }
 
         debug("delegate creating class ", className, " node = ", x,
               " constructor type = ", init, " result type = ", result);
@@ -4791,7 +4814,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         cg.generateTaskCompute(className, x, result);
 
-        cg.cw.dumpClass(className);
+        cg.cw.dumpClass(classFileName, xldata);
 
         this.lexEnv = restoreFromTaskLexEnv(cg.lexEnv, this.lexEnv);
         return className;
