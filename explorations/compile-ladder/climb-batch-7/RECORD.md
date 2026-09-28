@@ -72,7 +72,7 @@ B lands first, so its commit adds rows 469 to 473 after row 455, and the table r
 **Folded.**
 - `FACTS.md`: the record's bullet "The written bound `Object` on the three result-only parameters ...", after the last entry of "The checker and the one library" (a decision, below). The record's sentence "It landed as climb batch 7's rung B" is appended to "The distance to the switch-over by root cause", after its sentence on rung N7.
 - The ledger:
-  - row 421's status is now "NEGATIVE-VERIFIED (at `ff1649cea`), POSITIVE-VERIFIED (the fix, `<short hash>`)", and its note is appended;
+  - row 421's status is now "NEGATIVE-VERIFIED (at `ff1649cea`), POSITIVE-VERIFIED (the fix, `de22fd928`)", and its note is appended;
   - notes are appended to rows 309 and 447;
   - rows 469-473 are added after row 455;
   - "The ledger" entry of `FACTS.md` is re-anchored (`:783` to `:788`, `:643` to `:648`).
@@ -217,7 +217,7 @@ H's own citations were correct as written, since B moves no line.
   - the record's bullet "`fill` takes a value and `tabulate` a function, both defined where the array diamond meets", after the last entry of "The library's arrays and algebra";
   - its italic notes appended to "The `fill` refusals, counted on the one library, and how each path treats the pair" and to "The true distance to the switch-over".
 - The ledger:
-  - row 247 closed: its status is now "NEGATIVE-VERIFIED (at `ff1649cea`), POSITIVE-VERIFIED (the fix, `<short hash>`)", and its note is appended;
+  - row 247 closed: its status is now "NEGATIVE-VERIFIED (at `ff1649cea`), POSITIVE-VERIFIED (the fix, `f3b62bc83`)", and its note is appended;
   - notes are appended to rows 437 and 430;
   - rows 464 and 465 from the record and 466 to 468 from the skeptic are added in numeric order between row 463 and row 469;
   - "The ledger" entry of `FACTS.md` is re-anchored (`:796` to `:801`, `:656` to `:661`).
@@ -402,3 +402,29 @@ Made 2026-09-28 on `main` at `e75fca14b`, over the batch's three commits and the
 - H's new distance errors and its two changed walk outputs, and A's `mg.fss`, as reversible stops (`POSITIONS.md:120`).
 
 The review meets no stop and adds no item for Pavol.
+
+## The landing
+
+**The gate, run in full on the tree at `bb3af372f`** (2026-09-28, from 03:36 UTC, the workflow's gate stage, from a cold `default_repository/caches`): green.
+- `compileAll` `BUILD SUCCESSFUL` in 21 s; the library-order rebuild about 93 s, every file exit 0.
+- `testFast` 48 suites, 1,548 tests, 0 failures, 0 errors, in 6 min 47 s, every suite at batch 6b's landed count (the compiler track 779, the library track 83, `OtherCompilerJUTest` 263, `ParserJUTest` 188).
+- `testSystem` four shards, 106 + 105 + 105 + 107 = 423 tests, 0 failures, in 2 min 18 s: batch 6b's 419 and the batch's four new files, `ExclusionRemainderRungH`, `XXXLexicoUnorderedRungH`, `TabulateRungA` and `ResultBoundsRungB`, as "For the gate" predicts. `gate_compare` against `explorations/compile-ladder/climb-batch-6b/gate/summary.txt` printed nothing.
+- 39 of 39 four-thread `atomic` runs `PASS`.
+- The ladder comparison empty: 85 files at `pass` with their filtered output unchanged, the eighteen microGPT components at `disambiguate` with an empty diff against the baseline, nothing declared and nothing moved.
+- The checker count `COUNT DOWN 62 -> 22, declared none`, as "For the gate" predicts: `FortressLibrary` 38 to 2, `NativeArray` 44 to 0, `RangeInternals` 42; `#crash` none; the shadow matching; the new `#cache` row the stage's setting.
+- The distance stage, reported and never red: `DISTANCE DOWN 1747 -> 940 (-807)` against `explorations/compile-ladder/gate-baseline/distance.txt`, in 796 s beside the other stages. Its five "crash gone" and five "crash new" lines are the same five declarations of `Library/FortressLibrary.fss`, moved by 6 and 17 lines by H's and A's added lines, with identical messages; the crash set is nine before and nine after.
+
+Machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4, `FORTRESS_THREADS=1` (4 for the `atomic` runs); load average at the start 0.04 0.13 0.36, before the distance stage 0.64 0.28 0.40, at `testFast` 2.48 1.14 0.71, at `testSystem` 5.56 4.97 2.77, at the `atomic` runs 3.87 5.34 3.35, at the ladder 2.61 4.65 3.29, at the checker count 1.36 3.02 2.95. The summary, the count and distance tables and the ladder files are `explorations/compile-ladder/climb-batch-7/gate/`, so that `gate/checker-count.txt` (22, crash `none`) and `gate/distance.txt` (940) are the next batch's comparands. The logs stay untracked under `tmp/gate-batch-7/`, and the earlier attempt's, on `f3b62bc83` before the reviews' corrections, which touched only `explorations/` (its checker total 22 and distance total 940 the same), under `tmp/gate-batch-7-f3b62bc83/`.
+
+**The placeholders.** Filled in the landing commit by the map in "For the commit stage" above: rung B's commit is `de22fd928`, rung H's `952892a00`, rung A's `f3b62bc83`. Counts:
+- `FACTS.md` 9: B 2, H 4, A 3.
+- The ledger 10: B 4 (row 421's status and note, the notes on rows 309 and 447), H 2 (the notes on rows 351 and 407), A 4 (row 247's status and note, the notes on rows 430 and 437).
+- The handover 3, one rung paragraph each.
+- Their copies in the rungs' `record.md`: B 7, H 4, A 7, the headers of B's and A's among them, which now name the hash.
+- This record's two quotations of the status cells the folds wrote, row 421's in rung B's section and row 247's in rung A's, now carry the hash too. That is a decision: they quote landed text whose placeholder is filled; left as they were, they would quote a cell the ledger no longer holds.
+
+The reviews, the judge's ruling and the repair added no placeholder of their own; the repair and the second review carried existing ones in the lines they rewrote. The literal `<short hash>` that remains under `explorations/` is the procedure's own text (the workflow scripts and their notes, the earlier batches' records and reviews, rung K's `REPORT.md`, and this record's placeholder notes), not a placeholder.
+
+**The handover.** "The last landing" paragraph is written at the landing from this record and the gate summary: batch 7 is the last landing, and the live-thread paragraph gives the checker count as 22, names this batch's count table as the next batch's comparand and its distance table (940) as the next distance stage's. Batch 6b's "last landing" paragraph and the four rung paragraphs of batches 6 and 6b (F, T, R, O) move verbatim to `explorations/microgpt-run-c-handover-history.md`, under a new section "Climb batches 6 and 6b", each marked as moved on 2026-09-28; the history file's opening comment now lists the four dates paragraphs were moved on. That is a decision: batch 6's landing moved batch 5's paragraphs the same way, and batch 6b's landing left this move to the next landing (`compile-ladder/climb-batch-6b/RECORD.md`, "The landing"); keeping them would leave three batches' landings in the section that holds the current state.
+
+**Pushed.** No stop is met and not lifted: the stops "For the commit stage" lists are each lifted, and the two reviews and the judge's ruling met none. So `main` is pushed to `origin`, and the container's branch `claude/worker-brief-fable-vnnuv8` with it. The three `wip/` worktrees and their local branches are removed after the push, each first shown clean and at its remote branch with nothing ahead: `/home/user/fortress-bounds` at `origin/wip/rung-result-bounds` (`b5d76b5b4`), `/home/user/fortress-remainder` at `origin/wip/rung-exclusion-remainder` (`029fbc1ae`) and `/home/user/fortress-tabulate` at `origin/wip/rung-tabulate` (`a9399b8b8`). The remote branches stay (the proxy refuses branch deletion from here). Each worktree's untracked `tmp/` (155 MB, 196 MB and 30 MB) is moved first to `tmp/worktree-<slug>/` in the main tree, untracked, as batch 6b's landing did: the rungs' reports cite paths in it (rung H's `tmp/dhome` and `tmp/ladder-h`, rung B's ladder root under its `tmp/`), and the removal would delete it.
