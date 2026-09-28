@@ -238,14 +238,14 @@ Why three `DOT`s still fail: the library's api declares its `Vector` and `Matrix
 - For microGPT to pass the checker after this diff, by what the measurement shows:
   - decision E's E3 (17 api lines on this path);
   - the checker's rule for a size known only at run time (the team's `comprises N[\n\]` comment);
-  - the vector-plus-scalar `+` in the library, with walk's family check;
-  - the tuple-binding defect;
+  - the vector-plus-scalar `+` in the library, with walk's family check (ledger row 475);
+  - the tuple-binding defect (ledger row 474);
   - the `Character` crash (FACTS 42);
   - `fail[\T\]` (face C);
   - `codePoint`, the varargs `SUM` and export, and `numbersOf`'s discarded count.
-- Candidate ledger rows, found here and not in the ledger (`fortress-gap-ledger.md` searched):
-  - (a) the compiled checker types the variables of a top-level tuple binding so that they are accepted anywhere, and an operator on one ends its block's check without an error (`probes/PHyp.fss`, `PLoc.fss`, `PSilent.fss`, `PBeta.fss`);
-  - (b) walk cannot hold a sized `+` beside the library's generic scalar extension once a second user `+` exists (`probes/walk-drafts.txt`, draft 1), the library's own comment notwithstanding.
+- Ledger rows, found here and not in the ledger (`fortress-gap-ledger.md` searched), opened as rows 474 and 475:
+  - (a) row 474: the compiled checker types the variables of a top-level tuple binding so that they are accepted anywhere, and an operator on one ends its block's check without an error (`probes/PHyp.fss`, `PLoc.fss`, `PSilent.fss`, `PBeta.fss`);
+  - (b) row 475: walk cannot hold a sized `+` beside the library's generic scalar extension once a second user `+` exists (`probes/walk-drafts.txt`, draft 1), the library's own comment notwithstanding.
 - Kept for Pavol to judge:
   - the mask's move into the step (item 3 of section 4), against leaving it top-level with an unsized `+`;
   - the upper-case size names E, V, T, D, F, R, P, chosen to read as the formulas do and to avoid the model's own lower-case names (`v`, `q`, `t`, `p` are values in the step).
