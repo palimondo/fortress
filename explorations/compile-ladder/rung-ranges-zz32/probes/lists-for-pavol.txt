@@ -18,6 +18,9 @@ none
   among its ancestors (Specification/basic/expressions/case.tex:47-51; walk's Evaluator.java:415); the compiler's world
   keeps GeneratorZZ32. Not taken: Generator[\ZZ32\] re-pointed; the team's commented Generator-with-inference-variable form;
   a static re-pointed by useFortressLibraries().
+  (Note at the merged-diff review: the skeptic's correction 1, closed at the gather, narrows this: the one-library branch tests
+  the guard's type only when it is a trait type, with its ancestors, and answers = for a type variable or a union, where
+  case.tex:47-51 and walk give the membership operator; REPORT.md section 4, row 480.)
 - rangeOperators's cause and repair: walk's overload check shares one symbolic instantiation among same-named generic
   overloads whose static parameters share a name (GenericFunctionOrMethod.java:44-58, NodeComparator.java:402-404), so on the
   base the partial-range # borrowed AnyIntegral from opr #[\I extends AnyIntegral\](lo:I, ex:I); repaired by

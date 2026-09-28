@@ -1,5 +1,7 @@
 # Rung J (climb batch 7R, `rung-ranges-zz32`): record
 
+(Note at the merged-diff review: the gather kept the provisional rows 476 to 479 below as the final numbers, and opened the skeptic's four recommended rows as 480 to 483; the ledger and `FACTS.md` carry the folded text.)
+
 The answers this rung follows: section 1 of the batch record asks no question. Read from the record:
 - rows 450 and 451 stay open, with their tests restated;
 - row 452 closes, with its test restated and promoted;
