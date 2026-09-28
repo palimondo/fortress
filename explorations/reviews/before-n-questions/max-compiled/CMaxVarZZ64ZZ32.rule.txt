@@ -1,0 +1,6 @@
+# compiled CMaxVarZZ64ZZ32 rule 2026-09-28T12:47:31Z; tree 7a81cdf44 (checker and compiler library of the shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.92 4.05 2.65; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+w MAX z =  4  :  ZZ64
+run rc=0

@@ -1,0 +1,29 @@
+# javac openjdk version "25.0.4" 2026-07-21
+## Dup.java
+public class Dup {
+  static <T extends Number> String op(T a, T b) { return "generic"; }
+  static String op(Number a, Number b) { return "plain"; }
+  public static void main(String[] s) { Integer z = 3; Long w = 4L; System.out.println(op(z, w)); }
+}
+Dup.java:3: error: name clash: op(Number,Number) and <T>op(T,T) have the same erasure
+  static String op(Number a, Number b) { return "plain"; }
+                ^
+  where T is a type-variable:
+    T extends Number declared in method <T>op(T,T)
+1 error
+javac rc=1
+## Fork.java
+public class Fork {
+  static <T extends Number> String op(T a, T b) { return "generic T=" + a.getClass().getSimpleName() + "," + b.getClass().getSimpleName(); }
+  static String op(Object a, Object b) { return "plain(Object,Object)"; }
+  static <T extends Number> String pr(T a, T b) { return "generic (boxing)"; }
+  static String pr(long a, long b) { return "plain(long,long) (widening)"; }
+  public static void main(String[] s) {
+    Integer z = 3; Long w = 4L; int zi = 3; long wl = 4L;
+    System.out.println("op(Integer, Long): " + op(z, w));
+    System.out.println("pr(int, long): " + pr(zi, wl));
+  }
+}
+op(Integer, Long): generic T=Integer,Long
+pr(int, long): plain(long,long) (widening)
+rc=0

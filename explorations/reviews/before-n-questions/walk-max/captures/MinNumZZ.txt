@@ -1,0 +1,11 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.39 3.79 2.32; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 7a81cdf44
+# walk MinNumZZ: b MIN 1
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/before-n-questions/walk-max/MinNumZZ.fss:17:9:
+Ambiguous coercion, args = (3:ZZ,1: ZZ32), applicable with coercion = {coerced MIN(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:582:5-583:103),coerced MIN(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:285:5-71),coerced MIN(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:266:5-66),coerced MIN(self:StandardMin[\T\],other:T):Tfn meth(self 0):(StandardMin[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:242:5-243:1)}
+Context:
+explorations/reviews/before-n-questions/walk-max/MinNumZZ.fss:17:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1 secs=5

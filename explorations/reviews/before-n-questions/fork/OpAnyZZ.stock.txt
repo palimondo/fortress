@@ -1,0 +1,6 @@
+# compiled OpAnyZZ stock 2026-09-28T12:38:50Z; tree 7a81cdf44 (checker and compiler library of the shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.77 2.18 1.48; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(z, z):  op generic[ ZZ32 , ZZ32 ]
+run rc=0

@@ -1,0 +1,4 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.79 4.05 2.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 7a81cdf44
+# walk MinmaxNumRR64: b MINMAX 1
+b MINMAX 1 = (1.0, 3.5) : (RR64, RR64)
+rc=0 secs=6

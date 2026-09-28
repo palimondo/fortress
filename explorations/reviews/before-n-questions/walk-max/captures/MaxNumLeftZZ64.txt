@@ -1,0 +1,4 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.73 4.08 2.46; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 7a81cdf44
+# walk MaxNumLeftZZ64: 1 MAX b
+1 MAX b = 3 : QQ
+rc=0 secs=5

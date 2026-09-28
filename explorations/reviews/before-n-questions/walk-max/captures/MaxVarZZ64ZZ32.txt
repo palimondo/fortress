@@ -1,0 +1,11 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.83 4.15 2.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 7a81cdf44
+# walk MaxVarZZ64ZZ32: w MAX z
+com.sun.fortress.exceptions.ProgramError: explorations/reviews/before-n-questions/walk-max/MaxVarZZ64ZZ32.fss:18:9:
+Ambiguous coercion, args = (4: ZZ64,3: ZZ32), applicable with coercion = {coerced MAX(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:584:5-585:102),coerced MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:286:5-71),coerced MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:267:5-66),coerced MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:253:5-254:1)}
+Context:
+explorations/reviews/before-n-questions/walk-max/MaxVarZZ64ZZ32.fss:18:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1 secs=5
