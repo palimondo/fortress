@@ -1,10 +1,10 @@
 $ node check65.js
 the spliced block sets RUN = 'first'
-original script: MANIFEST block is lines 58 to 355 of 1946
+original script: MANIFEST block is lines 58 to 355 of 1947
 node --check climb-batch-workflow.js exit 0 
 node --check wf-spliced.js exit 0 
-LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
-CHECKER_BASE unset: throws: CHECKER_BASE is not set: the #total of the last landed checker-count.txt
+LEDGER_FROM unset: did NOT throw (bad)
+CHECKER_BASE unset: did NOT throw (bad)
 RUN bogus: throws: RUN is not one of first, second, all
 as spliced: batch 6.5, rungs G, P, scatter G, P
 RUN first: batch 6.5, rungs G, P, scatter G, P, intro 5590 chars, overlaps 1687 chars
@@ -14,11 +14,11 @@ tail/section or character problems: 0
 
 $ RUN65=second node check65.js
 the spliced block sets RUN = 'second'
-original script: MANIFEST block is lines 58 to 355 of 1946
+original script: MANIFEST block is lines 58 to 355 of 1947
 node --check climb-batch-workflow.js exit 0 
 node --check wf-spliced.js exit 0 
-LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
-CHECKER_BASE unset: throws: CHECKER_BASE is not set: the #total of the last landed checker-count.txt
+LEDGER_FROM unset: did NOT throw (bad)
+CHECKER_BASE unset: did NOT throw (bad)
 RUN bogus: throws: RUN is not one of first, second, all
 as spliced: batch 6.5b, rungs E, V, scatter E, V
 RUN first: batch 6.5, rungs G, P, scatter G, P, intro 5590 chars, overlaps 1687 chars

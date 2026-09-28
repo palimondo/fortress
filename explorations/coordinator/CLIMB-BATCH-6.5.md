@@ -361,9 +361,9 @@ Checked on 2026-09-28 on a scratch copy of the script at cd9305c2d, the block sp
 // ===========================================================================
 
 const RUN = 'first'        // SET AT LAUNCH: 'first' (batch 6.5: G and P), 'second' (batch 6.5b: E and V) or 'all' (the four as one batch 6.5, on Pavol's word only); the record's section 1, "Two runs"
-const LEDGER_FROM = null   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch
+const LEDGER_FROM = 493   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch (493: row 492 the highest after batch 7C landed, cd9305c2d)
 if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\'s launch')
-const CHECKER_BASE = null   // SET AT LAUNCH: the #total of the last landed checker-count.txt (75 in climb-batch-7C/gate/, batch 7C's landed table, for the first run)
+const CHECKER_BASE = 75   // SET AT LAUNCH: the #total of the last landed checker-count.txt (75 in climb-batch-7C/gate/, batch 7C's landed table, for the first run)
 if (!Number.isInteger(CHECKER_BASE)) throw new Error('CHECKER_BASE is not set: the #total of the last landed checker-count.txt')
 
 if (!['first', 'second', 'all'].includes(RUN)) throw new Error('RUN is not one of first, second, all')
