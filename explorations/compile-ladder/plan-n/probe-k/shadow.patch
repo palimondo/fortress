@@ -1,0 +1,875 @@
+--- a/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -17,7 +17,12 @@
+ import static com.sun.fortress.exceptions.ProgramError.errorMsg;
+ import com.sun.fortress.interpreter.evaluator.types.*;
+ import com.sun.fortress.interpreter.evaluator.values.*;
++import com.sun.fortress.nodes.BoolRef;
++import com.sun.fortress.nodes.IntRef;
+ import com.sun.fortress.nodes.NodeAbstractVisitor;
++import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
++import com.sun.fortress.nodes.VarType;
++import com.sun.fortress.useful.EmptyLatticeIntervalError;
+ import com.sun.fortress.nodes.Param;
+ import com.sun.fortress.nodes.Pattern;
+ import com.sun.fortress.nodes.StaticParam;
+@@ -50,6 +55,378 @@
+     public static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,
+                                                                 GenericFunctionOrMethod appliedThing,
+                                                                 Environment envForInference) throws ProgramError {
++        if (!ProbeK.on()) return inferToday(args, appliedThing, envForInference);
++        if (ProbeK.nested()) {
++            if (!ProbeK.useRule()) return inferToday(args, appliedThing, envForInference);
++            Simple_fcn r = null;
++            try {
++                r = inferRule(args, appliedThing, envForInference);
++            }
++            catch (RuntimeException ex) {
++                r = null;
++            }
++            catch (EmptyLatticeIntervalError ex) {
++                r = null;
++            }
++            return r != null ? r : inferToday(args, appliedThing, envForInference);
++        }
++        /* The top level: today's answer and the rule's, each difference written. */
++        Simple_fcn today = null;
++        RuntimeException todayEx = null;
++        Boolean old = ProbeK.force(Boolean.FALSE);
++        try {
++            today = inferToday(args, appliedThing, envForInference);
++        }
++        catch (RuntimeException ex) {
++            todayEx = ex;
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        Simple_fcn rule = null;
++        String ruleNote = "";
++        old = ProbeK.force(Boolean.TRUE);
++        try {
++            rule = inferRule(args, appliedThing, envForInference);
++        }
++        catch (RuntimeException ex) {
++            ruleNote = " rule-threw " + firstLine(ex);
++        }
++        catch (EmptyLatticeIntervalError ex) {
++            ruleNote = " rule-threw EmptyLatticeInterval";
++        }
++        catch (StackOverflowError ex) {
++            ruleNote = " rule-threw StackOverflowError";
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        if (rule != null && rule != today) {
++            String t = today != null ? describeInstance(today, args) : "ERROR " + firstLine(todayEx);
++            String r = describeInstance(rule, args);
++            if (!t.equals(r)) {
++                ProbeK.log("INFER", appliedThing + "\targs " + argTypes(args) + "\ttoday " + t + "\trule " + r);
++            }
++        }
++        if (ProbeK.MODE == ProbeK.APPLY && rule != null) return rule;
++        if (todayEx != null) throw todayEx;
++        return today;
++    }
++
++    /* Probe K's printing helpers. */
++    public static String firstLine(Throwable ex) {
++        if (ex == null) return "";
++        String m = String.valueOf(ex.getMessage());
++        int i = m.indexOf('\n');
++        return ex.getClass().getSimpleName() + ": " + (i < 0 ? m : m.substring(0, i));
++    }
++
++    public static String argTypes(List<FValue> args) {
++        StringBuilder b = new StringBuilder("(");
++        for (FValue a : args) {
++            if (b.length() > 1) b.append(",");
++            FType t = a.type();
++            b.append(t == null ? "?" : t.toString());
++        }
++        return b.append(")").toString();
++    }
++
++    /* An instantiation and, for each argument its declared type does not take as it is, "cv" + the
++       position: the arguments the binding converts (rung C's Coercions.coerce) or refuses. */
++    public static String describeInstance(Simple_fcn f, List<FValue> args) {
++        StringBuilder b = new StringBuilder(f.toString());
++        try {
++            List<FValue> fargs = f.fixupArgCount(args);
++            if (fargs == null) return b.append(" arity?").toString();
++            List<FType> dom = f.getDomain();
++            for (int j = 0; j < fargs.size(); j++) {
++                FType d = Useful.clampedGet(dom, j).deRest();
++                if (!d.typeMatch(fargs.get(j))) b.append(" cv").append(j + 1).append(":").append(d);
++            }
++        }
++        catch (RuntimeException ex) {
++            b.append(" domain? ").append(firstLine(ex));
++        }
++        return b.toString();
++    }
++
++    /**
++     * Probe K's reading of the inference rule of climb batch N's rung K (CLIMB-BATCH-N.md, section 3,
++     * K; explorations/reviews/inference-rule-shadow.md section 6, place 1).  The arguments whose
++     * declared type mentions a static parameter other than as the whole type (and a functional
++     * method's self, and varargs, as today) are unified as today; an argument whose declared type
++     * mentions none is left to the binding's conversion; a type parameter that is the whole declared
++     * type of some argument and that the first pass did not fix takes, among the arguments' run-time
++     * types, their supertypes, the types they convert into and its bound, the narrowest that each of
++     * its arguments matches or converts into (a subtype of, or convertible into, every other such
++     * type), and failing one, today's join.  Every argument must then be admitted by the
++     * instantiated domain, by match or by conversion; otherwise, or when anything throws, the
++     * answer is today's (null here).
++     */
++    private static final ThreadLocal<int[]> ruleDepth = new ThreadLocal<int[]>() {
++        protected int[] initialValue() {
++            return new int[1];
++        }
++    };
++
++    static Simple_fcn inferRule(List<FValue> args,
++                                GenericFunctionOrMethod appliedThing,
++                                Environment envForInference) {
++        int[] d = ruleDepth.get();
++        if (d[0] > 4) return null;   // a coercion whose inference asks for the rule again, too deep
++        d[0]++;
++        try {
++            return inferRuleInner(args, appliedThing, envForInference);
++        }
++        finally {
++            d[0]--;
++        }
++    }
++
++    private static Simple_fcn inferRuleInner(List<FValue> args,
++                                             GenericFunctionOrMethod appliedThing,
++                                             Environment envForInference) {
++        final List<FValue> originalArgs = args;
++        GenericTypeInstance selfType = null;
++        if (appliedThing instanceof GenericFunctionalMethod) {
++            GenericFunctionalMethod gfm = (GenericFunctionalMethod) appliedThing;
++            int spi = gfm.getSelfParameterIndex();
++            FTypeGeneric declaredSelfType = gfm.getSelfParameterTypeAsGeneric();
++            FValue selfArg = args.get(spi);
++            if (selfArg.type() instanceof GenericTypeInstance) {
++                selfType = (GenericTypeInstance) selfArg.type();
++                for (FType ft : selfType.getTransitiveExtends()) {
++                    if (ft instanceof GenericTypeInstance && ((GenericTypeInstance) ft).getGeneric().equals(
++                            declaredSelfType)) {
++                        selfType = (GenericTypeInstance) ft;
++                        break;
++                    }
++                }
++                envForInference = selfType.getWithin();
++            } else return null;
++        }
++        List<StaticParam> tparams = appliedThing.getStaticParams();
++        List<Param> params = appliedThing.getParams();
++        EvalType et = new EvalType(appliedThing.getWithin());
++        BoundingMap<String, FType, TypeLatticeOps> abm = new
++                LatticeIntervalMap<String, FType, TypeLatticeOps>(TypeLatticeOps.V, DefaultComparator.V);
++        Set<String> tp_set = new HashSet<String>();
++        Set<String> typeParamNames = new HashSet<String>();
++        List<StaticParam> rechecks = null;
++        Map<String, List<FType>> plainBounds = new HashMap<String, List<FType>>();
++        for (StaticParam sp : tparams) {
++            boolean rechecked = false;
++            String name = NodeUtil.getName(sp);
++            tp_set.add(name);
++            if (NodeUtil.isTypeParam(sp)) {
++                typeParamNames.add(name);
++                for (Type tr : sp.getExtendsClause()) {
++                    try {
++                        FType tt = et.evalType(tr);
++                        abm.meetPut(name, tt);
++                        List<FType> pb = plainBounds.get(name);
++                        if (pb == null) plainBounds.put(name, pb = new ArrayList<FType>());
++                        pb.add(tt);
++                    }
++                    catch (FortressException pe) {
++                        if (!rechecked) {
++                            rechecked = true;
++                            if (rechecks == null) rechecks = new ArrayList<StaticParam>();
++                            rechecks.add(sp);
++                        }
++                    }
++                }
++            }
++        }
++        if (params.size() == 1 && args.size() != 1) {
++            Param pa = params.iterator().next();
++            if (!NodeUtil.isVarargsParam(pa)) args = Useful.<FValue>list(FTuple.make(args));
++        }
++        /* The positions, and the first pass. */
++        Map<String, List<FValue>> lone = new LinkedHashMap<String, List<FValue>>();
++        Set<String> mentionedElsewhere = new HashSet<String>();
++        Iterator<Param> pit = params.iterator();
++        Param p = null;
++        for (FValue a : args) {
++            FType at = a.type();
++            if (at == null) return null;
++            if (pit.hasNext()) p = pit.next();
++            else if (p == null) return null;
++            if (NodeUtil.isVarargsParam(p)) {
++                Type ty = p.getVarargsType().unwrap();
++                mentionedElsewhere.addAll(mentions(ty, tp_set));
++                at.unify(envForInference, tp_set, abm, ty);
++                continue;
++            }
++            Option<TypeOrPattern> t = p.getIdType();
++            if (t.isNone()) {
++                if (p.getName().toString().equals("self") && appliedThing instanceof GenericFunctionalMethod) {
++                    GenericTypeInstance gi = (GenericTypeInstance) selfType;
++                    at.unify(envForInference, tp_set, abm,
++                             gi.getGeneric().getInstantiationForFunctionalMethodInference());
++                    mentionedElsewhere.addAll(tp_set);
++                    continue;
++                }
++                return null;
++            }
++            Type ty = NodeUtil.optTypeOrPatternToType(t).unwrap();
++            if (ty instanceof VarType && typeParamNames.contains(NodeUtil.nameString(((VarType) ty).getName()))) {
++                String n = NodeUtil.nameString(((VarType) ty).getName());
++                List<FValue> l = lone.get(n);
++                if (l == null) lone.put(n, l = new ArrayList<FValue>());
++                l.add(a);
++                continue;
++            }
++            Set<String> m = mentions(ty, tp_set);
++            if (m.isEmpty()) continue;   // mentions no static parameter: left to the binding
++            mentionedElsewhere.addAll(m);
++            at.unify(envForInference, tp_set, abm, ty);
++        }
++        /* The second pass: each lone type parameter the first pass did not fix. */
++        for (Map.Entry<String, List<FValue>> e : lone.entrySet()) {
++            String n = e.getKey();
++            FType fixed = abm.get(n);
++            if (mentionedElsewhere.contains(n) && fixed != null && !(fixed instanceof BottomType)) continue;
++            FType chosen = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference,
++                                     plainBounds.get(n), appliedThing.getWithin());
++            if (chosen != null) {
++                abm.joinPut(n, chosen);
++            } else {
++                for (FValue a : e.getValue()) a.type().unify(envForInference, tp_set, abm, makeVar(n, params));
++            }
++        }
++        MakeInferenceSpecific mis = new MakeInferenceSpecific(abm);
++        Option<Type> opt_rt = appliedThing.getReturnType();
++        if (opt_rt.isSome()) opt_rt.unwrap().accept(mis);
++        if (rechecks != null) {
++            for (StaticParam tp : rechecks) {
++                FType t = abm.get(NodeUtil.getName(tp));
++                if (t == null) t = BottomType.ONLY;
++                for (Type tr : tp.getExtendsClause()) t.unify(envForInference, tp_set, abm, tr);
++            }
++        }
++        ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
++        for (StaticParam tp : tparams) {
++            FType t = abm.get(NodeUtil.getName(tp));
++            if (t == null) t = BottomType.ONLY;
++            tl.add(t);
++        }
++        Simple_fcn sfcn = appliedThing.typeApply(tl);
++        /* Admission: every argument by match or by conversion. */
++        List<FValue> fargs = sfcn.fixupArgCount(originalArgs);
++        if (fargs == null) return null;
++        List<FType> dom = sfcn.getDomain();
++        for (int j = 0; j < fargs.size(); j++) {
++            if (!Coercions.admits(Useful.clampedGet(dom, j).deRest(), fargs.get(j))) return null;
++        }
++        return sfcn;
++    }
++
++    /* The VarType of the lone parameter n, as some parameter declares it. */
++    private static Type makeVar(String n, List<Param> params) {
++        for (Param p : params) {
++            Option<TypeOrPattern> t = p.getIdType();
++            if (t.isSome()) {
++                Type ty = NodeUtil.optTypeOrPatternToType(t).unwrap();
++                if (ty instanceof VarType && NodeUtil.nameString(((VarType) ty).getName()).equals(n)) return ty;
++            }
++        }
++        throw new IllegalStateException("no parameter of type " + n);
++    }
++
++    /* The names of tp_set that the type ty mentions. */
++    static Set<String> mentions(Type ty, final Set<String> tp_set) {
++        final Set<String> found = new HashSet<String>();
++        ty.accept(new NodeDepthFirstVisitor_void() {
++            @Override
++            public void forVarTypeOnly(VarType that) {
++                String n = NodeUtil.nameString(that.getName());
++                if (tp_set.contains(n)) found.add(n);
++            }
++
++            @Override
++            public void forIntRefOnly(IntRef that) {
++                String n = NodeUtil.nameString(that.getName());
++                if (tp_set.contains(n)) found.add(n);
++            }
++
++            @Override
++            public void forBoolRefOnly(BoolRef that) {
++                String n = NodeUtil.nameString(that.getName());
++                if (tp_set.contains(n)) found.add(n);
++            }
++
++        });
++        return found;
++    }
++
++    /**
++     * The narrowest type for the lone type parameter n, or null: among the arguments' run-time
++     * types, their supertypes, the types a coercion takes them into and n's plain bounds, the
++     * types that every argument matches or converts into and that n's bounds admit, the one that
++     * is a subtype of, or convertible into, every other.
++     */
++    private static FType narrowest(String n, List<FValue> vals,
++                                   BoundingMap<String, FType, TypeLatticeOps> abm,
++                                   List<StaticParam> rechecks, Set<String> tp_set, Environment env,
++                                   List<FType> bounds, Environment within) {
++        LinkedHashSet<FType> cands = new LinkedHashSet<FType>();
++        for (FValue v : vals) {
++            FType t = v.type();
++            cands.add(t);
++            cands.addAll(t.getTransitiveExtends());
++        }
++        for (FValue v : vals) cands.addAll(Coercions.coercionTargets(v, within));
++        if (bounds != null) cands.addAll(bounds);
++        List<FType> ok = new ArrayList<FType>();
++        for (FType c : cands) {
++            if (c instanceof BottomType || c instanceof FTypeTop) continue;
++            boolean all = true;
++            for (FValue v : vals) {
++                if (!Coercions.admits(c, v)) {
++                    all = false;
++                    break;
++                }
++            }
++            if (!all) continue;
++            BoundingMap<String, FType, TypeLatticeOps> trial = abm.copy();
++            try {
++                trial.joinPut(n, c);
++                if (rechecks != null) {
++                    for (StaticParam tp : rechecks) {
++                        if (!NodeUtil.getName(tp).equals(n)) continue;
++                        for (Type tr : tp.getExtendsClause()) c.unify(env, tp_set, trial, tr);
++                    }
++                }
++            }
++            catch (RuntimeException ex) {
++                continue;
++            }
++            catch (EmptyLatticeIntervalError ex) {
++                continue;
++            }
++            ok.add(c);
++        }
++        FType best = null;
++        for (FType c : ok) {
++            boolean narrower = true;
++            for (FType d : ok) {
++                if (d != c && !c.subtypeOf(d) && !Coercions.convertsInto(c, d)) {
++                    narrower = false;
++                    break;
++                }
++            }
++            if (narrower) {
++                if (best != null && best != c) return null;   // two: none is the narrowest
++                best = c;
++            }
++        }
++        return best;
++    }
++
++    static Simple_fcn inferToday(List<FValue> args,
++                                 GenericFunctionOrMethod appliedThing,
++                                 Environment envForInference) throws ProgramError {
+ 
+         if (DUMP_INFERENCE) System.err.println("IAIGF " + appliedThing + " with " + args);
+ 
+--- a/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
++++ b/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+@@ -11,6 +11,9 @@
+ 
+ package com.sun.fortress.interpreter.evaluator.values;
+ 
++import com.sun.fortress.interpreter.evaluator.ProbeK;
++import com.sun.fortress.useful.EmptyLatticeIntervalError;
++
+ import com.sun.fortress.exceptions.FortressException;
+ import static com.sun.fortress.exceptions.InterpreterBug.bug;
+ import com.sun.fortress.exceptions.ProgramError;
+@@ -785,6 +788,131 @@
+      * @throws Error
+      */
+     public SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads) throws Error {
++        if (!ProbeK.on()) return bestMatchStock(args, someOverloads);
++        if (ProbeK.nested()) return bestMatchMode(args, someOverloads, ProbeK.useRule());
++        /* Probe K at the top level: today's choice and the rule's, each difference written. */
++        SingleFcn today = null;
++        RuntimeException todayEx = null;
++        Boolean old = ProbeK.force(Boolean.FALSE);
++        try {
++            today = bestMatchMode(args, someOverloads, false);
++        }
++        catch (RuntimeException ex) {
++            todayEx = ex;
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        SingleFcn rule = null;
++        RuntimeException ruleEx = null;
++        boolean ruleOk = true;
++        old = ProbeK.force(Boolean.TRUE);
++        try {
++            rule = bestMatchMode(args, someOverloads, true);
++        }
++        catch (RuntimeException ex) {
++            ruleEx = ex;
++        }
++        catch (StackOverflowError ex) {
++            ruleOk = false;
++        }
++        catch (EmptyLatticeIntervalError ex) {
++            ruleOk = false;
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        if (ruleOk && !(rule == today && todayEx == null && ruleEx == null)) {
++            String t = todayEx != null ? "ERROR " + EvaluatorBase.firstLine(todayEx) : describeChoice(today, args);
++            String r = ruleEx != null ? "ERROR " + EvaluatorBase.firstLine(ruleEx) : describeChoice(rule, args);
++            if (!t.equals(r)) {
++                ProbeK.log("DISPATCH", fnName.stringName() + "\targs " +
++                           EvaluatorBase.argTypes(args) + "\ttoday " + t + "\trule " + r);
++            }
++        }
++        if (ProbeK.MODE == ProbeK.APPLY && ruleOk) {
++            if (ruleEx != null) throw ruleEx;
++            return rule;
++        }
++        if (todayEx != null) throw todayEx;
++        return today;
++    }
++
++    /* Probe K: the declaration a dispatch chose, its instantiation and the arguments it converts. */
++    private static String describeChoice(SingleFcn f, List<FValue> args) {
++        if (f instanceof Coercions.CoercedCall) {
++            Coercions.CoercedCall c = (Coercions.CoercedCall) f;
++            return "coerced " + c.describe(args);
++        }
++        if (f instanceof Simple_fcn) return EvaluatorBase.describeInstance((Simple_fcn) f, args);
++        return String.valueOf(f);
++    }
++
++    private SingleFcn bestMatchMode(List<FValue> args, List<Overload> someOverloads, boolean rule) {
++        if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
++
++        SingleFcn best = bestMatchInternal(args, someOverloads);
++        if (best == null) {
++            best = rule ? bestMatchWithCoercionRule(args, someOverloads) : bestMatchWithCoercion(args, someOverloads);
++        }
++        if (best == null) {
++            error(errorMsg("Failed to find any matching overload, args = ",
++                           Useful.listInParens(args),
++                           ", overload = ",
++                           this));
++        }
++        return best;
++    }
++
++    /**
++     * Probe K, place 2: bestMatchWithCoercion with the generic overloads kept, each instantiated
++     * by the rule's inference (EvaluatorBase.inferRule, through inferAndInstantiateGenericFunction
++     * under the rule) and its coercions built against the instantiated domain, as for a plain one.
++     */
++    private SingleFcn bestMatchWithCoercionRule(List<FValue> args, List<Overload> someOverloads) {
++        Coercions.CoercedCall best = null;
++        List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
++        for (Overload o : someOverloads) {
++            SingleFcn sfn = o.getFn();
++            if (sfn instanceof GenericFunctionOrMethod) {
++                GenericFunctionOrMethod gsfn = (GenericFunctionOrMethod) sfn;
++                try {
++                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, gsfn, gsfn.getWithin());
++                }
++                catch (FortressException pe) {
++                    continue;
++                }
++            }
++            List<FValue> oargs = sfn.fixupArgCount(args);
++            if (oargs == null) continue;
++            List<FType> domain = sfn.getDomain();
++            SingleFcn[] coercions = new SingleFcn[oargs.size()];
++            boolean applies = true;
++            for (int j = 0; applies && j < oargs.size(); j++) {
++                FType t = Useful.clampedGet(domain, j).deRest();
++                FValue a = oargs.get(j);
++                if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
++                    coercions[j] = Coercions.coercionFor(t, a);
++                    applies = coercions[j] != null;
++                }
++            }
++            if (!applies) continue;
++            Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions, this);
++            applicable.add(c);
++            if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) best = c;
++        }
++        for (Coercions.CoercedCall c : applicable) {
++            if (c != best && !Coercions.moreSpecific(best.getDomain(), c.getDomain(), best.arity())) {
++                return error(errorMsg("Ambiguous coercion, args = ",
++                                      Useful.listInParens(args),
++                                      ", applicable with coercion = ",
++                                      Useful.listInDelimiters("{", applicable, "}")));
++            }
++        }
++        return best;
++    }
++
++    public SingleFcn bestMatchStock(List<FValue> args, List<Overload> someOverloads) throws Error {
+         if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
+ 
+         SingleFcn best = bestMatchInternal(args, someOverloads);
+--- a/com/sun/fortress/interpreter/evaluator/values/Coercions.java
++++ b/com/sun/fortress/interpreter/evaluator/values/Coercions.java
+@@ -7,6 +7,9 @@
+ import com.sun.fortress.interpreter.evaluator.Environment;
+ import com.sun.fortress.interpreter.evaluator.EvalType;
+ import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
++import com.sun.fortress.interpreter.evaluator.ProbeK;
++import com.sun.fortress.interpreter.evaluator.types.FTypeGeneric;
++import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
+ import com.sun.fortress.interpreter.evaluator.types.FTraitOrObject;
+ import com.sun.fortress.interpreter.evaluator.types.FType;
+ import com.sun.fortress.interpreter.evaluator.types.FTypeRest;
+@@ -46,6 +49,171 @@
+      * do not chain), or null.
+      */
+     static SingleFcn coercionFor(FType target, FValue v) {
++        if (!ProbeK.on()) return coercionForToday(target, v);
++        if (ProbeK.nested()) return ProbeK.useRule() ? coercionForRule(target, v) : coercionForToday(target, v);
++        /* The top level: today's coercion and the rule's, each difference written. */
++        SingleFcn today = null;
++        RuntimeException todayEx = null;
++        Boolean old = ProbeK.force(Boolean.FALSE);
++        try {
++            today = coercionForToday(target, v);
++        }
++        catch (RuntimeException ex) {
++            todayEx = ex;
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        SingleFcn rule = today;
++        boolean ruleOk = true;
++        old = ProbeK.force(Boolean.TRUE);
++        try {
++            rule = coercionForRule(target, v);
++        }
++        catch (RuntimeException ex) {
++            ruleOk = false;
++        }
++        catch (StackOverflowError ex) {
++            ruleOk = false;
++        }
++        finally {
++            ProbeK.restore(old);
++        }
++        if (ruleOk && todayEx == null && rule != today) {
++            ProbeK.log("COERCE", "to " + target + "\tvalue of type " + v.type() + "\ttoday " + today + "\trule " + rule);
++        }
++        if (ProbeK.MODE == ProbeK.APPLY && ruleOk && todayEx == null) return rule;
++        if (todayEx != null) throw todayEx;
++        return today;
++    }
++
++    /**
++     * Probe K, place 3 (row 389): a generic target's lifted coercion instantiated with the
++     * target's own static arguments first, as the checker does (CoercionOracle.scala:193-196),
++     * then checked against the value; any other target as today.
++     */
++    static SingleFcn coercionForRule(FType target, FValue v) {
++        if (target instanceof GenericTypeInstance) {
++            GenericTypeInstance gi = (GenericTypeInstance) target;
++            Fcn lifted = liftedGenericCoercions(gi);
++            if (lifted != null) {
++                List<FType> targs = gi.getTypeParams();
++                List<GenericFunctionOrMethod> gens = new ArrayList<GenericFunctionOrMethod>();
++                if (lifted instanceof OverloadedFunction) {
++                    for (Overload o : ((OverloadedFunction) lifted).getOverloads()) {
++                        if (o.getFn() instanceof GenericFunctionOrMethod) gens.add((GenericFunctionOrMethod) o.getFn());
++                    }
++                } else if (lifted instanceof GenericFunctionOrMethod) {
++                    gens.add((GenericFunctionOrMethod) lifted);
++                }
++                List<FValue> args = Collections.singletonList(v);
++                SingleFcn best = null;
++                for (GenericFunctionOrMethod g : gens) {
++                    if (g.getStaticParams().size() != targs.size()) continue;
++                    SingleFcn f;
++                    try {
++                        f = g.typeApply(targs);
++                    }
++                    catch (FortressException ex) {
++                        continue;
++                    }
++                    List<FValue> fargs = f.fixupArgCount(args);
++                    if (fargs == null || !OverloadedFunction.argsMatchTypes(fargs, f.getDomain())) continue;
++                    if (best == null || FTypeTuple.moreSpecificThan(f.getDomain(), best.getDomain())) best = f;
++                }
++                if (best != null) return best;
++            }
++        }
++        return coercionForToday(target, v);
++    }
++
++    /* The lifted coercions of a generic target's generic, found by the generic's own name. */
++    private static Fcn liftedGenericCoercions(GenericTypeInstance gi) {
++        FTypeGeneric g = gi.getGeneric();
++        String name = NamingCzar.LIFTED_COERCION_PREFIX + g.getName();
++        for (Environment e : new Environment[] {((FType) gi).getWithin(), g.getWithin()}) {
++            if (e == null) continue;
++            FValue f = e.getTopLevel().getRootValueNull(name);
++            if (f instanceof Fcn) return (Fcn) f;
++        }
++        return null;
++    }
++
++    /* Probe K: t admits v by match or by one coercion (a tuple element by element). */
++    public static boolean admits(FType t, FValue v) {
++        if (t.typeMatch(v)) return true;
++        if (t instanceof FTypeTuple) {
++            if (!(v instanceof FTuple)) return false;
++            List<FType> types = ((FTypeTuple) t).getTypes();
++            List<FValue> vals = ((FTuple) v).getVals();
++            if (types.size() != vals.size()) return false;
++            for (int j = 0; j < types.size(); j++) {
++                if (types.get(j) instanceof FTypeRest) return false;
++                if (!admits(types.get(j), vals.get(j))) return false;
++            }
++            return true;
++        }
++        return coercionFor(t, v) != null;
++    }
++
++    /* Probe K: a value of type c converts into d, d declaring a coercion from a supertype of c. */
++    public static boolean convertsInto(FType c, FType d) {
++        for (FType a : coercionSources(d)) {
++            if (c.subtypeOf(a)) return true;
++        }
++        return false;
++    }
++
++    private static final java.util.Map<Environment, List<FType>> targetsByEnv =
++            new java.util.IdentityHashMap<Environment, List<FType>>();
++
++    /* The non-generic types that declare a coercion, named at the top level of e. */
++    private static synchronized List<FType> coercionTypes(Environment e) {
++        List<FType> l = targetsByEnv.get(e);
++        if (l != null) return l;
++        l = new ArrayList<FType>();
++        java.util.Set<String> seen = new java.util.HashSet<String>();
++        for (String s : e.youngestFrame()) {
++            if (!s.startsWith(NamingCzar.LIFTED_COERCION_PREFIX) || !seen.add(s)) continue;
++            String tn = s.substring(NamingCzar.LIFTED_COERCION_PREFIX.length());
++            FType t;
++            try {
++                t = e.getTypeNull(tn);
++            }
++            catch (RuntimeException ex) {
++                t = null;
++            }
++            if (t instanceof FTraitOrObject && !(t instanceof FTypeGeneric)) l.add(t);
++        }
++        targetsByEnv.put(e, l);
++        return l;
++    }
++
++    /**
++     * Probe K: the types v converts into by one coercion, looked up in the library's top level,
++     * in the top level of the function being applied and in that of v's type (the reverse of
++     * liftedCoercions, which the promotion of answer 8 needs: ZZ32 with NN32 gives ZZ64).
++     */
++    public static List<FType> coercionTargets(FValue v, Environment within) {
++        List<FType> res = new ArrayList<FType>();
++        java.util.LinkedHashSet<Environment> envs = new java.util.LinkedHashSet<Environment>();
++        try {
++            envs.add(com.sun.fortress.interpreter.Driver.getFortressLibrary().getTopLevel());
++        }
++        catch (RuntimeException ex) {
++        }
++        if (within != null) envs.add(within.getTopLevel());
++        FType vt = v.type();
++        if (vt != null && vt.getWithin() != null) envs.add(vt.getWithin().getTopLevel());
++        for (Environment e : envs) {
++            for (FType t : coercionTypes(e)) {
++                if (!res.contains(t) && !t.typeMatch(v) && coercionFor(t, v) != null) res.add(t);
++            }
++        }
++        return res;
++    }
++
++    static SingleFcn coercionForToday(FType target, FValue v) {
+         Fcn lifted = liftedCoercions(target);
+         if (lifted == null) return null;
+         List<FValue> args = Collections.singletonList(v);
+@@ -267,5 +435,14 @@
+         public String toString() {
+             return "coerced " + target;
+         }
++
++        /* Probe K: the target, with its instantiation, and the positions it converts. */
++        String describe(List<FValue> args) {
++            StringBuilder b = new StringBuilder(String.valueOf(target));
++            for (int j = 0; j < coercions.length; j++) {
++                if (coercions[j] != null) b.append(" cv").append(j + 1).append(":").append(coercions[j]);
++            }
++            return b.toString();
++        }
+     }
+ }
+--- a/com/sun/fortress/interpreter/evaluator/values/Fcn.java
++++ b/com/sun/fortress/interpreter/evaluator/values/Fcn.java
+@@ -182,6 +182,20 @@
+     }
+ 
+     public FValue functionInvocation(List<FValue> args, HasAt site) {
++        if (com.sun.fortress.interpreter.evaluator.ProbeK.on()) {
++            // Probe K: remember the call site for the shadow's log lines; nothing else changes.
++            com.sun.fortress.interpreter.evaluator.ProbeK.push(site);
++            try {
++                return functionInvocationStock(args, site);
++            }
++            finally {
++                com.sun.fortress.interpreter.evaluator.ProbeK.pop();
++            }
++        }
++        return functionInvocationStock(args, site);
++    }
++
++    private FValue functionInvocationStock(List<FValue> args, HasAt site) {
+         try {
+             // We used to do redundant checks for genericity here, but
+             // now we reply on foo.apply to do type inference if necessary.
+--- /dev/null
++++ b/com/sun/fortress/interpreter/evaluator/ProbeK.java
+@@ -0,0 +1,112 @@
++package com.sun.fortress.interpreter.evaluator;
++
++import com.sun.fortress.useful.HasAt;
++
++import java.io.FileOutputStream;
++import java.io.IOException;
++import java.io.PrintStream;
++import java.util.ArrayList;
++
++/**
++ * Probe K of climb batch N (explorations/compile-ladder/plan-n/probe-k/PROBE-K.md): the switch and
++ * the log of the logging shadow of walk's inference rule.  -Dprobe.k=off (the default) leaves the
++ * shadow identical to the tree; log computes today's answer and the rule's at every generic
++ * inference, overloaded dispatch and coercion lookup, writes each difference and keeps today's;
++ * apply writes each difference and takes the rule's.  -Dprobe.k.log names the file the lines go to.
++ */
++public final class ProbeK {
++
++    public static final int OFF = 0, LOG = 1, APPLY = 2;
++    public static final int MODE;
++
++    static {
++        String m = System.getProperty("probe.k", "off");
++        MODE = m.equals("apply") ? APPLY : m.equals("log") ? LOG : OFF;
++    }
++
++    private ProbeK() {
++    }
++
++    public static boolean on() {
++        return MODE != OFF;
++    }
++
++    /* null at the top level; TRUE or FALSE inside one side of a comparison. */
++    private static final ThreadLocal<Boolean> forced = new ThreadLocal<Boolean>();
++
++    public static boolean nested() {
++        return forced.get() != null;
++    }
++
++    public static boolean useRule() {
++        Boolean f = forced.get();
++        return f != null ? f.booleanValue() : MODE == APPLY;
++    }
++
++    public static Boolean force(Boolean b) {
++        Boolean old = forced.get();
++        forced.set(b);
++        return old;
++    }
++
++    public static void restore(Boolean old) {
++        forced.set(old);
++    }
++
++    /* The call sites of the functions being applied, innermost last (Fcn.functionInvocation). */
++    private static final ThreadLocal<ArrayList<HasAt>> sites = new ThreadLocal<ArrayList<HasAt>>() {
++        protected ArrayList<HasAt> initialValue() {
++            return new ArrayList<HasAt>();
++        }
++    };
++
++    public static void push(HasAt site) {
++        sites.get().add(site);
++    }
++
++    public static void pop() {
++        ArrayList<HasAt> s = sites.get();
++        if (!s.isEmpty()) s.remove(s.size() - 1);
++    }
++
++    private static String at(HasAt h) {
++        try {
++            return h == null ? "?" : h.at();
++        }
++        catch (RuntimeException e) {
++            return "?";
++        }
++    }
++
++    private static boolean library(String at) {
++        return at.contains("/Library/") || at.contains("/LibraryBuiltin/");
++    }
++
++    /* The innermost call site, and the innermost one outside the libraries when that differs. */
++    public static String site() {
++        ArrayList<HasAt> s = sites.get();
++        if (s.isEmpty()) return "at (no call site on this thread)";
++        String inner = at(s.get(s.size() - 1));
++        if (!library(inner)) return "at " + inner;
++        for (int i = s.size() - 2; i >= 0; i--) {
++            String a = at(s.get(i));
++            if (!library(a)) return "at " + inner + " from " + a;
++        }
++        return "at " + inner + " from (library only)";
++    }
++
++    private static PrintStream out;
++
++    public static synchronized void log(String kind, String line) {
++        if (out == null) {
++            String f = System.getProperty("probe.k.log");
++            try {
++                out = f == null ? System.err : new PrintStream(new FileOutputStream(f, true), true, "UTF-8");
++            }
++            catch (IOException e) {
++                out = System.err;
++            }
++        }
++        out.println("PROBE-K " + kind + "\t" + line.replace('\n', ' ') + "\t" + site());
++    }
++}
