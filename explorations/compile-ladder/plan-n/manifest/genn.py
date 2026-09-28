@@ -186,9 +186,9 @@ for c in [
  '']:
     A(c)
 A("const RUN = 'first'     // SET AT LAUNCH: 'first' (batch N: I, K, T and M) or 'second' (batch Nb: Q, once the first run has landed); the record's section 1, \"Two runs of one record\"")
-A("const LEDGER_FROM = null   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch")
+A("const LEDGER_FROM = 504   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch")
 A("if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\\'s launch')")
-A("const CHECKER_BASE = null   // SET AT LAUNCH: the #total of the last landed checker-count.txt, the one the gate compares against (the newest explorations/compile-ladder/climb-batch-*/gate/ on the base)")
+A("const CHECKER_BASE = 75   // SET AT LAUNCH: the #total of the last landed checker-count.txt, the one the gate compares against (the newest explorations/compile-ladder/climb-batch-*/gate/ on the base)")
 A("if (!Number.isInteger(CHECKER_BASE)) throw new Error('CHECKER_BASE is not set: the #total of the last landed checker-count.txt')")
 A("if (!['first', 'second'].includes(RUN)) throw new Error('RUN is not one of first, second')")
 A('')
