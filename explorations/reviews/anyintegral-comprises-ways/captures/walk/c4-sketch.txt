@@ -1,0 +1,21 @@
+--- walk MicroGptFlatCheck.fss, library <scratch>/lib/sketch, shadow none 2026-09-28T05:43:09Z
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; loadavg 14.37 12.38 12.94; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: <tree>/explorations/run-c4/src/FlatArrays.fss:26:1-123: and
+<scratch>/lib/sketch/FortressLibrary.fss:657:5-27:
+
+/[\I\](a:Array[\FortressLibrary.RR64,I\],b:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]<tree>/explorations/run-c4/src/FlatArrays.fss:26:1-123 and
+Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\]./(self:Integral[\I\],other:I):FortressLibrary.QQ<scratch>/lib/sketch/FortressLibrary.fss:657:5-27 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+<tree>/explorations/run-c4/src/FlatArrays.fss:26:1-123:
+<tree>/explorations/run-c4/src/MicroGptFlatCheck.fss:72:74:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=32

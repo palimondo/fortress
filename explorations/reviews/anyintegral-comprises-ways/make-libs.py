@@ -17,6 +17,8 @@ The variants (the note's ways, section 3):
   numlist2  open, and Number comprises { RR64, QQ, AnyIntegral } plus the five integer types
   marker    open, and the library's placeholder device for the orders: AnyStandardMin and
             AnyStandardMax, extended by StandardMin and StandardMax and excluded by HasRank
+  markeronly  the placeholder device alone, AnyIntegral's clause kept (for the checker's accommodation)
+  skmark    skexcl and the placeholder device
 """
 import io
 import os
@@ -55,6 +57,10 @@ def merge(*ds):
     return out
 
 OPEN = both(ANYINT, ANYINT_OPEN)
+PLACEHOLDERS = merge(both(SMIN, MARKERS + "trait StandardMin[\\T extends StandardMin[\\T\\]\\] extends AnyStandardMin\n"),
+                     both(SMAX, "trait StandardMax[\\T extends StandardMax[\\T\\]\\] extends AnyStandardMax\n"),
+                     both(HASRANK, HASRANK.replace("{ Number, AnyMaybe }",
+                                                   "{ Number, AnyMaybe, AnyStandardMin, AnyStandardMax }")))
 VARIANTS = {
     'base': {},
     'open': OPEN,
@@ -66,11 +72,10 @@ VARIANTS = {
     'y2008': both(INTEGRAL, INTEGRAL[:-1] + " comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }\n"),
     'numlist': merge(OPEN, both(NUMBER, "        comprises { RR64, QQ, ZZ, ZZ64, ZZ32, NN64, NN32 }\n")),
     'numlist2': merge(OPEN, both(NUMBER, "        comprises { RR64, QQ, AnyIntegral, ZZ, ZZ64, ZZ32, NN64, NN32 }\n")),
-    'marker': merge(OPEN,
-                    both(SMIN, MARKERS + "trait StandardMin[\\T extends StandardMin[\\T\\]\\] extends AnyStandardMin\n"),
-                    both(SMAX, "trait StandardMax[\\T extends StandardMax[\\T\\]\\] extends AnyStandardMax\n"),
-                    both(HASRANK, HASRANK.replace("{ Number, AnyMaybe }",
-                                                  "{ Number, AnyMaybe, AnyStandardMin, AnyStandardMax }"))),
+    'marker': merge(OPEN, PLACEHOLDERS),
+    'markeronly': PLACEHOLDERS,
+    'skmark': merge(both(INTEGRAL, INTEGRAL.replace(", AnyIntegral }", " }")[:-1]
+                         + "\n        excludes { " + NUMBER_EXCLUDERS + " }\n"), PLACEHOLDERS),
 }
 
 

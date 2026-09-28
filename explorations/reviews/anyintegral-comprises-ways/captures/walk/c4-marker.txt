@@ -1,0 +1,21 @@
+--- walk MicroGptFlatCheck.fss, library <scratch>/lib/marker, shadow none 2026-09-28T05:53:42Z
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; loadavg 11.35 11.49 12.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: <scratch>/lib/marker/FortressLibrary.fss:4607:1-101: and
+<scratch>/lib/marker/FortressLibrary.fss:345:5-28:
+
++[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]<scratch>/lib/marker/FortressLibrary.fss:4607:1-101 and
+AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):T<scratch>/lib/marker/FortressLibrary.fss:345:5-28 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+<scratch>/lib/marker/FortressLibrary.fss:4607:1-101:
+<tree>/Library/String.fss:522:32:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=40
