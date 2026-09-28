@@ -1,0 +1,71 @@
+# the tests, the shadow in log mode (today's answers kept, the differences written) against the two stock passes (compare.py --xxx)
+# tests-log: start 2026-09-28T08:05:56Z mode: log shards: 1 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.47 6.77 7.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# tests-log: done 2026-09-28T08:34:09Z: 422 logs; load 3.76 3.21 3.62
+# the log pass's difference lines against the apply pass's (the first five fields): identical, in the same four tests: XXXCoercionGenericFnRungC XXXCoercionGenericTraitRungC XXXRangeSizeZZ64RungO commonSuper
+UNSTABLE   ArrayListQuick  rc A 0 B 0 edit 0  A/B line 7 (masked: differ); edit equals neither
+    A:    Succeeded in 1.925s
+    B:    Succeeded in 0.676s
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    Warmup 1 1 30.053669ms
+    B:    Warmup 1 1 14.905628ms
+UNSTABLE   HeapTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    11	33	11201831/250000	11201831/2750000	11201831/8250000	2735149/62500	2735149/687500	2735149/2062500	417711717/1000000	417711717/11000000	139237239/11000000	1870157/1000000	1870157/11000000	1870157/33000000	599633/50000	
+    B:    11	33	8475061/1000000	8475061/11000000	8475061/33000000	10810927/1000000	10810927/11000000	10810927/33000000	24816971/500000	24816971/5500000	24816971/16500000	1817619/1000000	1817619/11000000	605873/11000000	1568491/100
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  A/B line 7 (masked: differ); edit equals neither
+    A:    Succeeded in 2.438s
+    B:    Succeeded in 0.458s
+UNSTABLE   QuickCheckTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    genBoolean: true true false false false false true false true false false true false true true false
+    B:    genBoolean: false true true false false true false false true true true false false false false false
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    [0#50][ 1 2 27 36 43 8 42 5 7 38 28 32 39 25 44 17 20 22 40 21 6 9 33 26 19 24 10 48 30 16 41 23 31 45 15 13 35 37 11 29 0 4 34 14 12 18 49 3 47 46 ]
+    B:    [0#50][ 20 12 3 36 22 24 18 7 13 40 8 1 38 19 4 28 17 46 26 15 25 21 34 48 32 2 23 9 37 45 35 39 10 6 47 14 27 44 42 31 29 49 5 16 41 11 33 43 30 0 ]
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    {[0#3][ David Emily John ], [0#4][ { [], [<<Cathy>>] } { [], [<<David>>] } { [], [<<Emily>>] } {[0#2][ Nathi Paul ], [0#3][ <<John>> <<Nathi>> <<Paul>> ]} ]}
+    B:    {[0#1][ John ], [0#2][ {[0#1][ David ], [0#2][ { [], [{ [], [<<Cathy>>] }] } {[0#1][ Emily ], [0#2][ { [], [<<David>>] } { [], [<<Emily>>] } ]} ]} {[0#1][ Nathi ], [0#2][ { [], [{ [], [<<John>>] }] } {[0#1][ Paul ], [0#2
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    fib(1) 0.29372ms
+    B:    fib(1) 0.313225ms
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  A/B line 15 (masked: differ); edit equals neither
+    A:    Bfive
+    B:    Athree
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Acquired words in 3278.699327ms
+    B:    Acquired words in 553.568582ms
+ORDER      XXXCoercionTupleOverloadRungC  the same lines in another order, from line 4
+    base: 	pair(param_pair:(Wide, FortressLibrary.ZZ32)):() (Wide,ZZ32)->() H/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+    edit: 	pair():(Wide, FortressLibrary.ZZ32) ()->(Wide,ZZ32) H/ProjectFortress/tests/XXXCoercionTupleOverloadRungC.fss:21:7-25
+CHANGED    XXXInheritedOverload  rc 1 -> 1  line 1
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+NORMALISED XXXRadixTenPointNumeral  line 28
+    base: 	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:779)
+    edit: 	at com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.applyInnerPossiblyGeneric(OverloadedFunction.java:782)
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    . Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    B:     Thread ForkJoinPool-2-worker-1 operating on value Aborting
+UNSTABLE   buffons  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    estimated Pi = 3.1861240827218147
+    B:    estimated Pi = 3.1568364611260056
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 71ms
+    B:    Operation took 27ms
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 21ms
+    B:    Operation took 11ms
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 52ms
+    B:    Operation took 39ms
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 20ms
+    B:    Operation took 29ms
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    random fill 58.571054ms
+    B:    random fill 31.776829ms
+NORMALISED taskTrace2  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@2758bd9e
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@d1b054a
+NORMALISED taskTrace3  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@60d646cc
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@22e33b4
+tests 422  same 400  normalised 3  order only 1  changed 1  unstable 17  missing 0  verdicts changed 0

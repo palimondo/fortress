@@ -8,6 +8,8 @@
 #   3. the microGPT checks under the shadow in apply mode, two JVMs
 #   4. the tests' base B (stock) and the demos under the shadow in apply mode, cut at 120 s
 #   5. the demos, stock, cut at 120 s, and the tests under the shadow in log mode
+#   6. (run by hand after 5, one JVM, beside nothing of this probe's) the 26 shape programs of the
+#      final make-shapes.py (the range and op shapes added), stock, apply and log, into captures/shapes.txt
 # Every pass writes its machine line to <work-dir>/machine.txt; df is read before each stage.
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
@@ -35,3 +37,7 @@ stage 5
 ./run-pass.sh "$R/tests-log" tests-list.txt 600 log 1 > "$R/tests-log.out" 2>&1 &
 wait
 echo "== all done $(date -u +%FT%TZ)"
+# stage 6, as it was run:
+#   python3 make-shapes.py $X/new-shapes && cp $X/new-shapes/*.fss $H/probek-shapes/
+#   sed 's|^|probek-shapes/|' $X/new-shapes/list.txt > $X/shapes-list.txt
+#   for m in stock apply log; do ./run-pass.sh $R/shapes-${m}3 $X/shapes-list.txt 300 $m 1; done

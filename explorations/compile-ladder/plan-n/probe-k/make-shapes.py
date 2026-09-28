@@ -33,7 +33,7 @@ ov[\T extends Number\](a: T, b: T): String = "ov generic[" (typeOf a) "," (typeO
 ov(a: String, b: String): String = "ov strings"
 og[\T\](b: Box[\T\], x: T): String = "og generic " b.accept(x)
 og(b: String, x: String): String = "og strings"
-trait Wide excludes { Narrow }
+%(extra)strait Wide excludes { Narrow }
   coerce(x: Narrow) = WideOf(widen(x.small))
   getter big(): ZZ64
 end
@@ -74,6 +74,10 @@ run(): () = do
 end
 '''
 
+OP = r'''op[\T extends Number\](a: T, b: T): String = "op generic[" (typeOf a) "," (typeOf b) "]"
+op(a: Number, b: Number): String = "op plain[" (typeOf a) "," (typeOf b) "]"
+'''
+
 SHAPES = [
     ('ScaleZ', 'scale(b, z)'), ('Scale3', 'scale(b, 3)'), ('ScaleR', 'scale(b, r)'),
     ('Scale64', 'scale64(bs, 3)'),
@@ -86,6 +90,8 @@ SHAPES = [
     # the range factories' dummy ZZ32 (Library/RangeInternals.fss:1418-1441), met in XXXRangeSizeZZ64RungO
     ('RangeUU', 'typeOf((u:u).lower)'), ('RangeWW', 'typeOf((w:w).lower)'), ('HashUU', 'typeOf((u#u).lower)'),
     ('RangeZZ', 'typeOf((z:z).lower)'),
+    # a generic declaration beside a plain one that both apply by subtyping (section 6's fork)
+    ('OpZW', 'op(z, w)'), ('OpZZ', 'op(z, z)'),
 ]
 
 
@@ -96,7 +102,9 @@ def main():
         for name, call in SHAPES:
             n = 'PK' + name
             with open(os.path.join(out, n + '.fss'), 'w') as f:
-                f.write(PRE % {'name': n, 'label': call.replace('\\', '\\\\').replace('"', '\\"'), 'call': call})
+                extra = OP if name.startswith('Op') else ''
+                f.write(PRE % {'name': n, 'label': call.replace('\\', '\\\\').replace('"', '\\"'), 'call': call,
+                               'extra': extra})
             lst.write(n + '.fss\n')
 
 
