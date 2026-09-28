@@ -1,0 +1,19 @@
+component SkNullaryVar
+export Executable
+
+nb[\T extends Object\](): ZZ32 = 0
+ub[\U\](x: U): ZZ32 = nb[\U\]()
+uo[\U extends Object\](x: U): ZZ32 = nb[\U\]()
+ui[\U\](x: U): ZZ32 = nb()
+st[\T extends Object\](s: String): T = throw FailCalled(s)
+gv[\U\](s: String): U = st[\U\](s)
+control(): ZZ32 = "a control: not a ZZ32"
+
+run(): () = do
+    println(ub(1))
+    println(ub((1, 2)))
+    println(uo(1))
+    println(ui((1, 2)))
+  end
+
+end

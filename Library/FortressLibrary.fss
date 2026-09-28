@@ -51,7 +51,7 @@ identity[\T extends Any\](x:T):T = x
 (* Function composition *)
 opr COMPOSE[\A,B,C\](f: B->C, g: A->B): A->C = fn (a:A): C => f(g(a))
 
-fail[\T\](s:String):T = do
+fail[\T extends Object\](s:String):T = do
     errorPrintln("FAIL: " s)
     throw FailCalled(s)
   end
@@ -257,8 +257,8 @@ end
 trait StandardMinMax[\T extends StandardMinMax[\T\]\]
         extends { StandardMin[\T\], StandardMax[\T\] }
     opr MINMAX(self, other:T): (T,T)
-    opr MIN(self, other:T): (T,T) = do (r,_) = self MINMAX other; r end
-    opr MAX(self, other:T): (T,T) = do (_,r) = self MINMAX other; r end
+    opr MIN(self, other:T): T = do (r,_) = self MINMAX other; r end
+    opr MAX(self, other:T): T = do (_,r) = self MINMAX other; r end
 end
 
 (** StandardTotalOrder is the usual total order using <,>,<=,>=,=, and

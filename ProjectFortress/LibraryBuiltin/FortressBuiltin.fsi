@@ -27,7 +27,7 @@ api FortressBuiltin
     generally easier to work with, and the boilerplate packing and
     unpacking of values is done for you.
 **)
-builtinPrimitive[\T\](javaClass:String):T
+builtinPrimitive[\T extends Object\](javaClass:String):T
 
 trait Object extends Any
     getter ilkName(): String

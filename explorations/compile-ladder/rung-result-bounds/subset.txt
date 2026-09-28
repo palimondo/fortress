@@ -1,0 +1,5 @@
+tests	XXXfailTestFn.fss
+tests	XXXarityTestFn.fss
+tests	nativeTestFn.fss
+tests	XXXnoclassNativeFn.fss
+tests	testPrim.fss

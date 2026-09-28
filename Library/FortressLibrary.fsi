@@ -34,7 +34,7 @@ identity[\T extends Any\](x:T):T
 (* Function composition *)
 opr COMPOSE[\A,B,C\](f: B->C, g: A->B): A->C
 
-fail[\T\](s:String):T
+fail[\T extends Object\](s:String):T
 
 (************************************************************
 * \subsection*{Control over locality and location}
@@ -206,8 +206,8 @@ end
 trait StandardMinMax[\T extends StandardMinMax[\T\]\]
         extends { StandardMin[\T\], StandardMax[\T\] }
     abstract opr MINMAX(self, other:T): (T,T)
-    opr MIN(self, other:T): (T,T)
-    opr MAX(self, other:T): (T,T)
+    opr MIN(self, other:T): T
+    opr MAX(self, other:T): T
 end
 
 (** StandardTotalOrder is the usual total order using %<%,%>%,%<=%,%>=%,%=%, and %CMP%.

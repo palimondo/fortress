@@ -1,0 +1,70 @@
+component ResultBoundsRungB
+import List.{...}
+export Executable
+
+(*) explorations/compile-ladder/rung-result-bounds/REPORT.md
+
+object Pt(v: ZZ32) extends StandardMinMax[\Pt\]
+    opr MINMAX(self, other: Pt): (Pt, Pt) =
+        if other.v < v then (other, self) else (self, other) end
+end
+
+minMaxDefaults(): () = do
+    a = Pt(3)
+    b = Pt(5)
+    c = Pt(3)
+    assert(instanceOf[\Pt\](a MIN b), "row 421, basic-integers.tex:601: MIN returns one argument, not a pair")
+    assert(instanceOf[\Pt\](a MAX b), "row 421, basic-integers.tex:599: MAX returns one argument, not a pair")
+    assert((a MIN b).v, 3, "row 421, basic-integers.tex:601: MIN returns the smaller argument")
+    assert((b MIN a).v, 3, "row 421, basic-integers.tex:601: MIN returns the smaller argument")
+    assert((a MAX b).v, 5, "row 421, basic-integers.tex:599: MAX returns the larger argument")
+    assert((b MAX a).v, 5, "row 421, basic-integers.tex:599: MAX returns the larger argument")
+    assert((a MIN c) === a, "row 421, FortressLibrary.fsi:201: equal arguments, MIN returns self")
+    assert((a MAX c) === c, "row 421, FortressLibrary.fsi:201: equal arguments, MAX returns other")
+    (lo, hi) = b MINMAX a
+    assert(lo.v, 3, "FortressLibrary.fsi:203: a MINMAX b = (a MIN b, a MAX b)")
+    assert(hi.v, 5, "FortressLibrary.fsi:203: a MINMAX b = (a MIN b, a MAX b)")
+  end
+
+minMaxNumbers(): () = do
+    assert(1.5 MIN 2.5, 1.5, "row 421, basic-integers.tex:601: RR64 MIN")
+    assert(1.5 MAX 2.5, 2.5, "row 421, basic-integers.tex:599: RR64 MAX")
+    assert((1/3) MIN (1/2), 1/3, "row 421, basic-integers.tex:601: QQ MIN")
+    assert((1/3) MAX (1/2), 1/2, "row 421, basic-integers.tex:599: QQ MAX")
+    assert(instanceOf[\QQ\]((1/3) MAX (1/2)), "row 421, basic-integers.tex:599: QQ MAX returns a QQ")
+  end
+
+natives(): () = do
+    three: ZZ32 = 3
+    assert(widen(three), 3, "row 309: ZZ32.widen, a native of FortressLibrary")
+    assert(instanceOf[\ZZ64\](widen(three)), "row 309: ZZ32.widen returns its declared ZZ64")
+    assert(12 GCD 18, 6, "row 309: ZZ32 GCD, a native of FortressLibrary")
+    one: RR64 = 1.0
+    assert(one.nextUp > one, "row 309: RR64.nextUp, a native of FortressBuiltin")
+    assert(|(-2.5)|, 2.5, "row 309: RR64 absolute value, a native of FortressBuiltin")
+  end
+
+comprehensions(): () = do
+    pairs = <| (k, k + 10) | k <- <|1, 2, 3|> |>
+    assert(pairs, <|(1, 11), (2, 12), (3, 13)|>, "trait-parameters.tex:53: a list comprehension at a tuple type")
+    triples = <| (k, "x", k > 1) | k <- <|1, 2|> |>
+    assert(triples, <|(1, "x", false), (2, "x", true)|>, "trait-parameters.tex:53: a list comprehension at a tuple type")
+    units = <| () | _ <- <|1, 2|> |>
+    assert(|units|, 2, "types-vals-vars.tex:136: a list comprehension at ()")
+    fs = <| (fn (y: ZZ32): ZZ32 => y + k) | k <- <|1, 2, 3|> |>
+    assert(<| f(10) | f <- fs |>, <|11, 12, 13|>, "trait-parameters.tex:53: a list comprehension at an arrow type")
+    empty = <| (k, k) | k <- <|1, 2|>, k > 5 |>
+    assert(|empty|, 0, "trait-parameters.tex:53: an empty list comprehension at a tuple type")
+    words = <| s | s <- <|"a", "b"|> |>
+    assert(words, <|"a", "b"|>, "trait-parameters.tex:53: a list comprehension at an object type")
+  end
+
+run(): () = do
+    minMaxDefaults()
+    minMaxNumbers()
+    natives()
+    comprehensions()
+    println "PASS"
+  end
+
+end

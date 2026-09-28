@@ -1,0 +1,30 @@
+component WalkBound
+export Executable
+
+(*) explorations/compile-ladder/rung-result-bounds/REPORT.md, section 5
+
+g[\T extends Object\](s: String): T = throw FailCalled(s)
+h[\T\](s: String): T = throw FailCalled(s)
+k[\T extends Object\](x: T): T = x
+
+tryIt(what: String, f: () -> ()): () =
+    try
+        f()
+        println(what " returned")
+    catch e
+        FailCalled => println(what " threw FailCalled")
+    end
+
+run(): () = do
+    tryIt("g at ZZ32", fn () => do x: ZZ32 = g[\ZZ32\]("a"); println x end)
+    tryIt("g at a tuple", fn () => do x: (ZZ32, ZZ32) = g[\(ZZ32, ZZ32)\]("b"); println x end)
+    tryIt("g at an arrow", fn () => do x: ZZ32 -> ZZ32 = g[\ZZ32 -> ZZ32\]("c"); println x(1) end)
+    tryIt("g unwritten at a tuple", fn () => do x: (ZZ32, ZZ32) = g("d"); println x end)
+    tryIt("h at a tuple", fn () => do x: (ZZ32, ZZ32) = h[\(ZZ32, ZZ32)\]("e"); println x end)
+    println("k at a tuple, written: " k[\(ZZ32, ZZ32)\]((1, 2)))
+    println("k at (): " k(()))
+    println("k at an arrow: " (k(fn (y: ZZ32) => y + 1))(1))
+    println("k at a tuple: " k((1, 2)))
+  end
+
+end

@@ -1,0 +1,16 @@
+--- testSystem harness over the new test alone, before the edit 2026-09-27T23:33:05Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 11.17 10.17 8.94 10/273 11070
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+tmp/h1/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e5370da0_16
+. interpret tmp/h1/tests/ResultBoundsRungB  OK (time = 32847ms)
+
+Time: 32.863
+
+OK (1 test)
+
+rc=0

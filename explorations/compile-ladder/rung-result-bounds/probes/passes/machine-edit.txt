@@ -1,0 +1,7 @@
+--- the edit (tests, walk, count-run.sh), 97fd001cf, 418 files 2026-09-27T23:58:38Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 4.70 7.54 8.91 7/179 21595
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

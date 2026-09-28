@@ -1,0 +1,112 @@
+--- WalkBound as written WalkBound 2026-09-27T23:27:04Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 11.27 9.07 8.05 11/277 5246
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+g at ZZ32 threw FailCalled
+g at a tuple threw FailCalled
+g at an arrow threw FailCalled
+g unwritten at a tuple threw FailCalled
+h at a tuple threw FailCalled
+k at a tuple, written: (1,2)
+com.sun.fortress.exceptions.InterpreterBug: explorations/compile-ladder/rung-result-bounds/probes/walkbound/WalkBound.fss:25:25-28:
+** bug! Meet((), Object) not a singleton: []
+Context:
+explorations/compile-ladder/rung-result-bounds/probes/walkbound/WalkBound.fss:25:25-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=35
+== the copy's last line: println("k at a tuple: " k((1, 2)))
+--- WalkBound, last line: k at tuple WalkBound 2026-09-27T23:27:39Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 12.09 9.52 8.24 13/277 5822
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+g at ZZ32 threw FailCalled
+g at a tuple threw FailCalled
+g at an arrow threw FailCalled
+g unwritten at a tuple threw FailCalled
+h at a tuple threw FailCalled
+com.sun.fortress.exceptions.InterpreterBug: tmp/wb-tuple/WalkBound.fss:24:30-37:
+** bug! Meet((Int,Int), Object) not a singleton: []
+Context:
+tmp/wb-tuple/WalkBound.fss:24:30-37:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=31
+== the copy's last line: println("k at (): " k(()))
+--- WalkBound, last line: k at unit WalkBound 2026-09-27T23:28:10Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 12.86 10.00 8.45 13/275 6237
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+g at ZZ32 threw FailCalled
+g at a tuple threw FailCalled
+g at an arrow threw FailCalled
+g unwritten at a tuple threw FailCalled
+h at a tuple threw FailCalled
+com.sun.fortress.exceptions.InterpreterBug: tmp/wb-unit/WalkBound.fss:24:25-28:
+** bug! Meet((), Object) not a singleton: []
+Context:
+tmp/wb-unit/WalkBound.fss:24:25-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=28
+== the copy's last line: println("k at an arrow: " (k(fn (y: ZZ32) => y + 1))(1))
+--- WalkBound, last line: k at arrow WalkBound 2026-09-27T23:28:38Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 12.68 10.21 8.56 9/250 6917
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+g at ZZ32 threw FailCalled
+g at a tuple threw FailCalled
+g at an arrow threw FailCalled
+g unwritten at a tuple threw FailCalled
+h at a tuple threw FailCalled
+com.sun.fortress.exceptions.InterpreterBug: tmp/wb-arrow/WalkBound.fss:24:32-54:
+** bug! Meet(ZZ32->BOTTOM, Object) not a singleton: []
+Context:
+tmp/wb-arrow/WalkBound.fss:24:32-54:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=27

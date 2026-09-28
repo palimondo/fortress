@@ -1,0 +1,2 @@
+# ProjectFortress/tests/booleanGuard.fss under walk, edit library, tree e72dd103e, 2026-09-28T01:41:41Z, load 1.45 2.13 2.72
+rc=0

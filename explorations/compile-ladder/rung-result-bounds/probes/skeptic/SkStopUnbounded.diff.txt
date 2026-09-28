@@ -1,0 +1,34 @@
+# SkStopUnbounded: walk, then compile + run; tree e72dd103e; 2026-09-28T01:35:47Z
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.65 3.55 3.25; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## walk
+4
+stop: not positive
+caught
+end
+walk rc=0
+## compile
+compile rc=0
+## run
+Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    SkStopUnbounded.guard(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32; @37: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32' (from method signature)
+  Current Frame:
+    bci: @37
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32' }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: 2ac0 0029 03b8 002f b800 35b8 003b b600
+    0000010: 4199 0007 2aa7 0010 b200 4712 49b8 004e
+    0000020: b900 5402 00b0                         
+  Stackmap Table:
+    same_frame(@24)
+    same_locals_1_stack_item_frame(@37,Object[#88])
+
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+run rc=1

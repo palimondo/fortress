@@ -1,0 +1,9 @@
+--- new test after the edit, 97fd001cf ResultBoundsRungB 2026-09-28T00:05:15Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 28.27 23.20 15.71 24/447 24250
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+PASS
+rc=0 secs=49

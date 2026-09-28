@@ -31,7 +31,7 @@ private package="com.sun.fortress.interpreter.glue.prim"
     generally easier to work with, and the boilerplate packing and
     unpacking of values is done for you.
 **)
-builtinPrimitive[\T\](javaClass:String):T =
+builtinPrimitive[\T extends Object\](javaClass:String):T =
   fail ("Implementation should not invoke builtinPrimitive " javaClass)
 
 trait Object extends Any

@@ -1,0 +1,46 @@
+component SkLibWalk
+import List.{...}
+export Executable
+
+object Q(v: ZZ32) extends StandardMinMax[\Q\]
+    getter asString(): String = "Q(" v ")"
+    opr MINMAX(self, other: Q): (Q, Q) =
+        if other.v < v then (other, self) else (self, other) end
+end
+
+smaller[\T extends StandardMin[\T\]\](a: T, b: T): T = a MIN b
+larger[\T extends StandardMax[\T\]\](a: T, b: T): T = a MAX b
+
+firstOr[\U\](xs: List[\U\]): U = if |xs| > 0 then xs[0] else fail("empty, inferred") end
+firstOrW[\U\](xs: List[\U\]): U = if |xs| > 0 then xs[0] else fail[\U\]("empty, written U") end
+dupl[\U\](xs: List[\U\]): List[\(U, U)\] = <| (x, x) | x <- xs |>
+keep[\U\](xs: List[\U\]): List[\U\] = <| x | x <- xs |>
+
+probe(what: String, g: () -> String): () =
+    try
+        println(what ": " g())
+    catch e
+        FailCalled => println(what ": FailCalled")
+    end
+
+run(): () = do
+    qs = <| Q(4), Q(2), Q(7), Q(2) |>
+    probe("smaller via StandardMin", fn () => "" smaller(Q(4), Q(2)))
+    probe("larger via StandardMax", fn () => "" larger(Q(4), Q(2)))
+    probe("BIG MIN", fn () => "" (BIG MIN[q <- qs] q))
+    probe("BIG MAX", fn () => "" (BIG MAX[q <- qs] q))
+    probe("chained MIN MAX", fn () => "" ((Q(5) MIN Q(9)) MAX (Q(1) MIN Q(3))))
+    probe("typed binding", fn () => do m: Q = Q(8) MIN Q(6); "" m end)
+    probe("firstOr at ZZ32", fn () => "" firstOr(<| 3, 4 |>))
+    probe("firstOr at a pair", fn () => "" firstOr(<| (1, 2), (3, 4) |>))
+    probe("firstOr empty at a pair", fn () => "" firstOr(<| (1, 2), (3, 4) |>.drop(2)))
+    probe("firstOrW empty at a pair", fn () => "" firstOrW(<| (1, 2), (3, 4) |>.drop(2)))
+    probe("firstOrW empty at an arrow", fn () => "" firstOrW(<| fn (y: ZZ32): ZZ32 => y |>.drop(1)))
+    probe("dupl at ZZ32", fn () => "" dupl(<| 1, 2 |>))
+    probe("dupl at a pair", fn () => "" dupl(<| (1, "a"), (2, "b") |>))
+    probe("keep at an arrow", fn () => do fs = keep(<| fn (y: ZZ32): ZZ32 => y + 1, fn (y: ZZ32): ZZ32 => y + 2 |>); g = fs[1]; "" g(10) end)
+    probe("keep at ()", fn () => "" |keep(<| (), () |>)|)
+    probe("nested pairs", fn () => "" <| (j, k) | j <- <|1, 2|>, k <- <|"a"|> |>)
+  end
+
+end

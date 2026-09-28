@@ -1,0 +1,40 @@
+# compare.py --sites -v over fullerrs.py's lists of extra-components.sh's run over ReflectiveQuickCheck, QuickCheck and Generator22D (setting any), before (ff1649cea) and after the edit (97fd001cf); each line cut at 400 characters
+     class                                                                     base variant    gone     new
+H1   exclusion: the comparisons, Maybe, Condition                                18      18       0       0
+H2   comprises: AnyIntegral's clause                                              1       1       0       0
+A1   fill: function form against value form                                      59      59       0       0
+A2   fill: the array diamond                                                     14      14       0       0
+L1   overloading: the static-parameter sentence's families                       42      42       0       0
+M1   overloading: the Meet Rule                                                  63      63       0       0
+O1   overloading: same parameter type (LEXICO, INVERSE, SQCAP)                    6       6       0       0
+R1   return type: StandardMinMax's (T,T) slip (row 421)                           6       0       6       0
+R2   return type: the comparisons' CMP                                            8       8       0       0
+R3   return type: other declared-type slips                                      23      23       0       0
+D2   abstract method: RangeInternals' CAP, IN, |_|                               28      28       0       0
+X1   export: component against api                                                2       2       0       0
+Z1   sizes: arithmetic on nat static arguments                                    7       7       0       0
+N2   a result-only static parameter not inferred (fail, ...)                      5       0       5       0
+I1   integers in generic code: the bound AnyIntegral or none where Integral       1       1       0       0
+I3   integers in generic code: a numeral where a type parameter is expected       1       0       1       0
+V1   arrays: element type bounded by Number, which declares no arithmetic         8       8       0       0
+MB   Maybe: Just and Nothing do not join to Maybe                                 1       1       0       0
+GB   generators: a function argument inferred at BottomType (COMPOSE, map)        0       1       0       1
+BR   big operators: a reduction's body typed as the element, not the BigRed       1       1       0       0
+NM   names the api does not declare (getters and methods of Range, String,        7       7       0       0
+OT   other body errors (one-off library slips and checker limits)                75      75       1       1
+     total                                                                      376     365      13       2
+-	R1	return-type	FortressLibrary.fsi:196,FortressLibrary.fsi:210	For MAX, the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1 should be a subtype of the return type of [\T extends StandardMax[\T\]\](StandardMax[\T\], T)->T @ FortressLibrary.fsi:196:5-197:1
+-	R1	return-type	FortressLibrary.fsi:210,FortressLibrary.fsi:408	For MAX, the return type of (QQ, QQ)->QQ @ FortressLibrary.fsi:408:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1
+-	R1	return-type	FortressLibrary.fsi:210,FortressLibrary.fsi:322	For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fsi:322:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1
+-	R1	return-type	FortressLibrary.fsi:185,FortressLibrary.fsi:209	For MIN, the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33 should be a subtype of the return type of [\T extends StandardMin[\T\]\](StandardMin[\T\], T)->T @ FortressLibrary.fsi:185:5-186:1
+-	R1	return-type	FortressLibrary.fsi:209,FortressLibrary.fsi:321	For MIN, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fsi:321:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33
+-	R1	return-type	FortressLibrary.fsi:209,FortressLibrary.fsi:407	For MIN, the return type of (QQ, QQ)->QQ @ FortressLibrary.fsi:407:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33
+-	N2	typecheck	ReflectiveQuickCheck.fss:311	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	ReflectiveQuickCheck.fss:206	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	ReflectiveQuickCheck.fss:90	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	ReflectiveQuickCheck.fss:74	Could not check call to function fail - Could not infer static argument T without context.
+-	OT	typecheck	QuickCheck.fss:1098	Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R: QuickCheck.fss:1100:47-84: Could not check call to function shrink - [\P\](P, QuickCheck.Testable[\P\], QuickCheck.Gen[\P\], ZZ32)->(Boolean, ZZ32, P) is not applicable to an argument of type (Any, QuickCheck.Testable[\P\], QuickCheck.Gen[\P\], (ZZ32, ZZ32)). QuickCheck.fss:1098:8
+-	N2	typecheck	QuickCheck.fss:1128	Could not check call to operator BIG <|_BIG |> - Could not infer static argument T without context. - [\T\]Generator[\T\]->List.List[\T\] is not applicable to an argument of type ().
+-	I3	typecheck	QuickCheck.fss:1074	Could not check call to operator MAX - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type ((ZZ32, ZZ32), IntLiteral). - (QQ, QQ)->QQ is not applicable to an argument of type ((ZZ32, ZZ32), IntLiteral). - (StandardMax[\T\], T)->T is not applicable to an argument of type ((ZZ32, ZZ32), IntLiteral). - (StandardMinMax[\T\], T)
++	GB	typecheck	ReflectiveQuickCheck.fss:308	Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R: ReflectiveQuickCheck.fss:309:48-62: Could not check call to function genAnyLifted - [\T\]QuickCheck.Gen[\T\]->ReflectiveQuickCheck.genAnyLifted[\T\] is not applicable to an argument of type QuickCheck.AnyGen. ReflectiveQuickCheck.fss:308:20-62: Possibly because gen: Quick
++	OT	typecheck	ReflectiveQuickCheck.fss:67	Function body has type Any, but declared return type is T.

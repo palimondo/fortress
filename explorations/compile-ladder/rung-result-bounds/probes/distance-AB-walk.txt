@@ -1,0 +1,41 @@
+# two runs of the distance stage on the unchanged library (ff1649cea's six files), setting walk: the recorded failure (distance-preedit-walk.txt) and a second run made during base B (distance-preedit-B-walk.txt); compare.sh, then compare.py --sites -v over fullerrs.py's lists (no line starting - or + means no site moved)
+DISTANCE SAME   1738
+     class                                                                     base variant    gone     new
+H1   exclusion: the comparisons, Maybe, Condition                                38      38       0       0
+H2   comprises: AnyIntegral's clause                                              2       2       0       0
+A1   fill: function form against value form                                     244     244       0       0
+A2   fill: the array diamond                                                     58      58       0       0
+L1   overloading: the static-parameter sentence's families                       85      85       0       0
+M1   overloading: the Meet Rule                                                 100     100       0       0
+O1   overloading: same parameter type (LEXICO, INVERSE, SQCAP)                   14      14       0       0
+R1   return type: StandardMinMax's (T,T) slip (row 421)                          32      32       0       0
+R2   return type: the comparisons' CMP                                           19      19       0       0
+R3   return type: other declared-type slips                                      40      40       0       0
+D2   abstract method: RangeInternals' CAP, IN, |_|                               18      18       0       0
+X1   export: component against api                                               12      12       0       0
+Z1   sizes: arithmetic on nat static arguments                                   11      11       0       0
+F1   reductions: fusion pairs' bound (row 433)                                    4       4       0       0
+N1   natives: builtinPrimitive's T not inferred                                 340     340       0       0
+N2   a result-only static parameter not inferred (fail, ...)                     24      24       0       0
+I2   integers in generic code: the dummy-ZZ32 device of # and :                  18      18       0       0
+I5   integers in generic code: Integral[\I\] declares no |self|                  15      15       0       0
+I1   integers in generic code: the bound AnyIntegral or none where Integral      81      81       0       0
+I3   integers in generic code: a numeral where a type parameter is expected     149     149       0       0
+I4   integers in generic code: a fixed width where a type parameter is expe       3       3       0       0
+I6   integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]                  8       8       0       0
+S1   self type: a generic trait's self is not its type parameter                 28      28       0       0
+R4   StandardMinMax's (T,T) slip in bodies (row 421)                             18      18       0       0
+V1   arrays: element type bounded by Number, which declares no arithmetic        44      44       0       0
+V2   arrays: a sized array's body or factory (sizes lost in joins and facto      42      42       0       0
+G1   generic code with no bound compares its values (tuples' <, CMP; Lexico      18      18       0       0
+MB   Maybe: Just and Nothing do not join to Maybe                                 7       7       0       0
+SF   String: an object's field read as an inherited method (left, right)         22      22       0       0
+GB   generators: a function argument inferred at BottomType (COMPOSE, map)        7       7       0       0
+TS   ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))          9       9       0       0
+RG   ranges: a range method's declared type narrower than the range it buil      29      29       0       0
+BR   big operators: a reduction's body typed as the element, not the BigRed      10      10       0       0
+CV   a call covered only by the union of its overloads' arms (walk chooses       10      10       0       0
+NM   names the api does not declare (getters and methods of Range, String,       54      54       0       0
+GF   generators: a filter that failed for another reason                          9       9       0       0
+OT   other body errors (one-off library slips and checker limits)               116     116       0       0
+     total                                                                     1738    1738       0       0

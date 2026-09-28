@@ -106,7 +106,7 @@ end
 (** Vararg factory for lists; provides aggregate list constants: *)
 opr <|[\E\] xs: E... |>: List[\E\]
 (** List comprehensions: *)
-opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
+opr BIG <|[\T extends Object\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
 opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\]
 
 opr BIG CONCAT[\T\](): BigReduction[\List[\T\],List[\T\]\]

@@ -1,0 +1,23 @@
+# SkZilchLocal: walk, then compile + run; tree e72dd103e; 2026-09-28T01:43:53Z
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.02 1.80 2.52; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## walk
+com.sun.fortress.exceptions.InterpreterBug: explorations/compile-ladder/rung-result-bounds/probes/skeptic/SkZilchLocal.fss:4:19-22:
+Can't EvalType this node type class com.sun.fortress.nodes.BottomType
+Context:
+explorations/compile-ladder/rung-result-bounds/probes/skeptic/SkZilchLocal.fss:4:19-22:
+explorations/compile-ladder/rung-result-bounds/probes/skeptic/SkZilchLocal.fss:4:1-7:4:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1
+## compile
+compile rc=0
+## run
+4
+( 2 ,  2 )
+stopz:  not positive
+caught
+stopz:  no pair
+caught pair
+end
+run rc=0

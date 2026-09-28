@@ -1,0 +1,17 @@
+component SkBigMinMax
+import List.{...}
+export Executable
+
+object Q(v: ZZ32) extends StandardMinMax[\Q\]
+    getter asString(): String = "Q(" v ")"
+    opr MINMAX(self, other: Q): (Q, Q) =
+        if other.v < v then (other, self) else (self, other) end
+end
+
+run(): () = do
+    qs = <| Q(4), Q(2), Q(7) |>
+    println("BIG MAX: " (BIG MAX[q <- qs] q))
+    println("BIG MINMAX: " (BIG MINMAX[q <- qs] q))
+  end
+
+end

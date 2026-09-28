@@ -1,0 +1,468 @@
+# compare.py --sites -v (explorations/perf-probes/prelude/distance-triage/compare.py) over fullerrs.py's lists of the distance stage's run before (ff1649cea) and after the edit (97fd001cf), setting walk; each line cut at 300 characters
+     class                                                                     base variant    gone     new
+H1   exclusion: the comparisons, Maybe, Condition                                38      38       0       0
+H2   comprises: AnyIntegral's clause                                              2       2       0       0
+A1   fill: function form against value form                                     244     244       0       0
+A2   fill: the array diamond                                                     58      58       0       0
+L1   overloading: the static-parameter sentence's families                       85      85       0       0
+M1   overloading: the Meet Rule                                                 100     100       0       0
+O1   overloading: same parameter type (LEXICO, INVERSE, SQCAP)                   14      13       2       1
+R1   return type: StandardMinMax's (T,T) slip (row 421)                          32       0      32       0
+R2   return type: the comparisons' CMP                                           19      19       0       0
+R3   return type: other declared-type slips                                      40      40       0       0
+D2   abstract method: RangeInternals' CAP, IN, |_|                               18      18       0       0
+X1   export: component against api                                               12      12       0       0
+Z1   sizes: arithmetic on nat static arguments                                   11      11       0       0
+F1   reductions: fusion pairs' bound (row 433)                                    4       4       0       0
+N1   natives: builtinPrimitive's T not inferred                                 340       0     340       0
+N2   a result-only static parameter not inferred (fail, ...)                     24       1      22       0
+I2   integers in generic code: the dummy-ZZ32 device of # and :                  18      20       0       2
+I5   integers in generic code: Integral[\I\] declares no |self|                  15      15       0       0
+I1   integers in generic code: the bound AnyIntegral or none where Integral      81      81       0       0
+I3   integers in generic code: a numeral where a type parameter is expected     149     148       1       0
+I4   integers in generic code: a fixed width where a type parameter is expe       3       3       0       0
+I6   integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]                  8       8       0       0
+S1   self type: a generic trait's self is not its type parameter                 28      28       0       0
+R4   StandardMinMax's (T,T) slip in bodies (row 421)                             18       4      14       0
+V1   arrays: element type bounded by Number, which declares no arithmetic        44      44       0       0
+V2   arrays: a sized array's body or factory (sizes lost in joins and facto      42      39       4       1
+G1   generic code with no bound compares its values (tuples' <, CMP; Lexico      18      18       0       0
+MB   Maybe: Just and Nothing do not join to Maybe                                 7       7       0       0
+SF   String: an object's field read as an inherited method (left, right)         22      22       0       0
+GB   generators: a function argument inferred at BottomType (COMPOSE, map)        7       8       0       0
+TS   ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))          9       8       1       0
+RG   ranges: a range method's declared type narrower than the range it buil      29      29       0       0
+BR   big operators: a reduction's body typed as the element, not the BigRed      10      12       1       3
+CV   a call covered only by the union of its overloads' arms (walk chooses       10      10       0       0
+NM   names the api does not declare (getters and methods of Range, String,       54      54       0       0
+GF   generators: a filter that failed for another reason                          9       9       0       0
+OT   other body errors (one-off library slips and checker limits)               116     112       4       0
+     total                                                                     1738    1324     421       7
+-	R1	return-type	FortressLibrary.fsi:210,FortressLibrary.fsi:322	For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fsi:322:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary
+-	R1	return-type	FortressLibrary.fsi:196,FortressLibrary.fsi:210	For MAX, the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1 should be a subtype of the return type of [\T extends StandardMax[\T\]\](StandardMax[\T\], T)->T @ Fortress
+-	R1	return-type	FortressLibrary.fsi:210,FortressLibrary.fsi:408	For MAX, the return type of (QQ, QQ)->QQ @ FortressLibrary.fsi:408:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:210:5-211:1
+-	R1	return-type	FortressLibrary.fsi:209,FortressLibrary.fsi:321	For MIN, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fsi:321:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary
+-	R1	return-type	FortressLibrary.fsi:185,FortressLibrary.fsi:209	For MIN, the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33 should be a subtype of the return type of [\T extends StandardMin[\T\]\](StandardMin[\T\], T)->T @ FortressLib
+-	R1	return-type	FortressLibrary.fsi:209,FortressLibrary.fsi:407	For MIN, the return type of (QQ, QQ)->QQ @ FortressLibrary.fsi:407:5-30 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fsi:209:5-33
+-	N1	typecheck	FortressLibrary.fss:4300	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4293	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4292	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4290	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4289	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4276	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:4249	Could not check call to function fail - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4201	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4198	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4196	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4184	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:4183	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:3862	Could not check call to function fail - Could not infer static argument T without context.
+-	BR	typecheck	FortressLibrary.fss:3324	Function body has type Boolean, but declared return type is BigReduction[\Boolean,Boolean\].
+-	R4	typecheck	FortressLibrary.fss:3293	Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+-	R4	typecheck	FortressLibrary.fss:3273	Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+-	R4	typecheck	FortressLibrary.fss:3253	Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+-	R4	typecheck	FortressLibrary.fss:3233	Function body has type OR((T, (U, U)),(T, U)), but declared return type is (T, U).
+-	R4	typecheck	FortressLibrary.fss:3200	Function body has type ((T, T), (T, T)), but declared return type is (T, T).
+-	V2	typecheck	FortressLibrary.fss:2348	Function body has type Array[\T,ZZ32\], but declared return type is Array1[\T,0,s0\].
+-	V2	typecheck	FortressLibrary.fss:2347	Function body has type Array[\T,ZZ32\], but declared return type is Array1[\T,0,s0\].
+-	V2	typecheck	FortressLibrary.fss:2238	Function body has type Array[\R,ZZ32\], but declared return type is Array1[\R,b0,s0\].
+-	V2	typecheck	FortressLibrary.fss:2190	Function body has type ImmutableArray[\R,ZZ32\], but declared return type is ImmutableArray1[\R,b0,s0\].
+-	N2	typecheck	FortressLibrary.fss:2001	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:1682	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:1499	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:1453	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:1423	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:1015	Could not check call to function fail - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:993	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:990	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:988	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:986	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:984	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:982	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:980	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:978	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:976	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:974	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:972	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:970	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:968	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:966	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:964	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:962	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:952	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:950	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:948	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:946	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:944	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:942	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:940	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:938	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:936	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:934	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:931	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:924	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:904	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:902	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:900	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:898	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:896	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:894	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:892	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:890	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:888	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:886	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:884	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:882	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:880	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:878	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:876	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:874	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:872	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:870	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:868	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:866	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:864	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:862	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:860	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:858	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:856	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:854	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:852	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:850	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:839	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:837	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:835	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:833	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:831	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:829	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:827	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:825	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:823	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:821	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:819	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:817	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:815	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:813	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:811	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:809	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:807	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:805	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:803	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:801	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:799	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:797	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:795	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:793	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:791	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:789	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:787	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:775	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:773	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:756	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:753	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:751	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:749	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:747	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:745	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:743	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:741	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:739	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:737	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:735	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:733	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:731	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:729	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:727	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:725	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:723	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:721	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:719	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:717	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:715	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:713	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:711	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:709	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:707	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:705	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:703	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:700	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressLibrary.fss:698	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:293	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	FortressLibrary.fss:288	Could not check call to function fail - Could not infer static argument T without context.
+-	R4	typecheck	FortressLibrary.fss:261	Function body has type T, but declared return type is (T, T).
+-	R4	typecheck	FortressLibrary.fss:260	Function body has type T, but declared return type is (T, T).
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->T @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T)
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:578	For MAX, the return type of ((QQ & {Ratio}), QQ)->QQ @ FortressLibrary.fss:578:5-579:102 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:422	For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fss:422:5-61 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:576	For MIN, the return type of ((QQ & {Ratio}), QQ)->QQ @ FortressLibrary.fss:576:5-577:103 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:421	For MIN, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fss:421:5-61 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T) @ FortressLibrary
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of [\T extends StandardTotalOrder[\T\]\](StandardTotalOrder[\T\], T)->T @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of [\T extends StandardMinMax[\T\]\](StandardMinMax[\T\], T)->(T, T)
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\I\], I)->I @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\I\], I)->(I, I) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\I\], I)->I @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\I\], I)->(I, I) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\TotalComparison\], TotalComparison)->TotalComparison @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\TotalComparison\], TotalComparison)->(Total
+-	O1	overloading	FortressLibrary.fss:170,FortressLibrary.fss:204	There are multiple declarations of LEXICO with the same parameter type: (TotalComparison)
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\TotalComparison\], TotalComparison)->TotalComparison @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\TotalComparison\], TotalComparison)->(Total
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\T\], T)->T @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\T\], T)->T @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\T\], T)->(T, T) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\ZZ64\], ZZ64)->ZZ64 @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ64\], ZZ64)->(ZZ64, ZZ64) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\ZZ64\], ZZ64)->ZZ64 @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ64\], ZZ64)->(ZZ64, ZZ64) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\String\], String)->String @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\String\], String)->(String, String) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\String\], String)->String @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\String\], String)->(String, String) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:578	For MAX, the return type of ((QQ & {Ratio}), QQ)->QQ @ FortressLibrary.fss:578:5-579:102 should be a subtype of the return type of (StandardMinMax[\QQ\], QQ)->(QQ, QQ) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:576	For MIN, the return type of ((QQ & {Ratio}), QQ)->QQ @ FortressLibrary.fss:576:5-577:103 should be a subtype of the return type of (StandardMinMax[\QQ\], QQ)->(QQ, QQ) @ FortressLibrary.fss:260:5-70
+-	O1	overloading	FortressLibrary.fss:1411,FortressLibrary.fss:1464	There are multiple declarations of SQCAP with the same parameter type: (Maybe[\T\])
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\ZZ\], ZZ)->ZZ @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ\], ZZ)->(ZZ, ZZ) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\ZZ\], ZZ)->ZZ @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ\], ZZ)->(ZZ, ZZ) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\NN64\], NN64)->NN64 @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\NN64\], NN64)->(NN64, NN64) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\NN64\], NN64)->NN64 @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\NN64\], NN64)->(NN64, NN64) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:280	For MAX, the return type of (StandardTotalOrder[\ZZ32\], ZZ32)->ZZ32 @ FortressLibrary.fss:280:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ32\], ZZ32)->(ZZ32, ZZ32) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:279	For MIN, the return type of (StandardTotalOrder[\ZZ32\], ZZ32)->ZZ32 @ FortressLibrary.fss:279:5-71 should be a subtype of the return type of (StandardMinMax[\ZZ32\], ZZ32)->(ZZ32, ZZ32) @ FortressLibrary.fss:260:5-70
+-	R1	return-type	FortressLibrary.fss:261,FortressLibrary.fss:422	For MAX, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fss:422:5-61 should be a subtype of the return type of (StandardMinMax[\RR64\], RR64)->(RR64, RR64) @ FortressLibrary.fss:261:5-70
+-	R1	return-type	FortressLibrary.fss:260,FortressLibrary.fss:421	For MIN, the return type of ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 @ FortressLibrary.fss:421:5-61 should be a subtype of the return type of (StandardMinMax[\RR64\], RR64)->(RR64, RR64) @ FortressLibrary.fss:260:5-70
+-	R4	typecheck	RangeInternals.fss:674	Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R is not applicable to an argument of type (Maybe[\I\], I->(I, I), ()->I). - [\E\](Condition[\E\], E->())->() is not applicable to any type of the form (Maybe[\I\], _->_, ()->I).
+-	R4	typecheck	RangeInternals.fss:556	Could not check call to function __cond - [\E, R\](Condition[\E\], E->R, ()->R)->R is not applicable to an argument of type (Maybe[\I\], I->(I, I), ()->I). - [\E\](Condition[\E\], E->())->() is not applicable to any type of the form (Maybe[\I\], _->_, ()->I).
+-	OT	typecheck	RangeInternals.fss:449	Could not check call to operator - - (NN64 & {UnsignedLong})->NN64 is not applicable to an argument of type (I, I). - (RR64 & {Float, FloatLiteral, RR32})->RR64 is not applicable to an argument of type (I, I). - (ZZ32 & {Int, IntLiteral})->ZZ32 is not applicable
+-	R4	typecheck	RangeInternals.fss:447	Could not check call to function extentScalarRange - [\I\](I, I)->RangeInternals.ScalarRangeWithExtent[\I\] is not applicable to an argument of type ((I, I), I).
+-	R4	typecheck	RangeInternals.fss:436	Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\I\] is not applicable to an argument of type ((I, I), I).
+-	R4	typecheck	RangeInternals.fss:434	Could not check call to function ExtentScalarRange - [\I\](I, I)->RangeInternals.ExtentScalarRange[\I\] is not applicable to an argument of type ((I, I), I).
+-	N2	typecheck	RangeInternals.fss:247	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	RangeInternals.fss:228	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	RangeInternals.fss:184	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	RangeInternals.fss:168	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	RangeInternals.fss:156	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	RangeInternals.fss:157	Could not check method invocation Maybe[\I\].loop - I->()->(): RangeInternals.fss:157:29-45: Could not check method invocation Maybe[\I\].loop - I->()->(): RangeInternals.fss:159:17-68: Could not check call to function fail - Could not infer static argument T wi
+-	N2	typecheck	RangeInternals.fss:152	Could not check call to function fail - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:708	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:705	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:703	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:701	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:699	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:610	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:607	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:605	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:603	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:601	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:599	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:597	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:594	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:592	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:589	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:587	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:585	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:543	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:541	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:539	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:490	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:483	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:479	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:476	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:474	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:467	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:465	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:463	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:455	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:453	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:451	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:449	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:447	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:445	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:443	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:441	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:439	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:437	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:435	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:433	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:431	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:429	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:427	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:425	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:423	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:421	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:419	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:417	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:415	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:413	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:411	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:409	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:407	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:405	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:402	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:400	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:396	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:393	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:391	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:384	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:382	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:380	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:375	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:373	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:371	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:342	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:340	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:338	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:336	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:334	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:332	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:330	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:326	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:324	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:322	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:320	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:318	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:316	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:314	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:312	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:310	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:308	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:306	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:304	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:302	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:300	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:298	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:296	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:294	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:292	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:290	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:288	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:286	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:284	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:282	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:279	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:277	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:275	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:273	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:271	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:266	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:264	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:254	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:252	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:250	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:248	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:246	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:244	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:242	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:239	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:236	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:233	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:229	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:216	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:213	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:209	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:207	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:200	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:198	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:196	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:191	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:189	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:187	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:185	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:183	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:181	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:179	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:177	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:175	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:173	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:171	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:169	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:167	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:165	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:163	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:161	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:157	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:155	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:153	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:151	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:149	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:147	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:145	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:143	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:141	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:139	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:137	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:135	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:133	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:131	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:129	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:127	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:125	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:123	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:121	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:119	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:117	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:115	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:113	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:110	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:108	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:106	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:104	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:102	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:98	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:96	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:92	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:90	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:88	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:86	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:84	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:82	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:80	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:78	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:74	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:71	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:67	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:64	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:61	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:58	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:56	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:41	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FortressBuiltin.fss:39	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	FortressBuiltin.fss:35	Could not check call to function fail - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:48	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:46	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:37	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:35	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:26	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:24	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	NativeArray.fss:21	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	List.fss:458	Could not check call to function fail - Could not infer static argument T without context.
+-	OT	typecheck	List.fss:332	Could not check call to function primitiveImmutableArray - [\E\]ZZ32->ImmutableArray[\E,ZZ32\] is not applicable to an argument of type (ZZ32, ZZ32).
+-	TS	typecheck	List.fss:320	Could not check call to operator - - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type ((ZZ32, ZZ32), ZZ32). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type ((ZZ32, ZZ32), ZZ32). - ((ZZ32 & {Int, I
+-	OT	typecheck	List.fss:75	Function body has type OR((ZZ32, ZZ32),ZZ32), but declared return type is ZZ32.
+-	OT	typecheck	List.fss:72	Function body has type (ZZ32, ZZ32), but declared return type is ZZ32.
+-	R4	typecheck	String.fss:520	Could not assign an expression of type (ZZ32, ZZ32) to variable minFlat of type ZZ32.
+-	R4	typecheck	String.fss:521	Could not assign an expression of type (ZZ32, ZZ32) to variable maxFlat of type ZZ32.
+-	N2	typecheck	String.fss:441	Could not check call to function fail - Could not infer static argument T without context.
+-	N2	typecheck	String.fss:440	Could not check call to function fail - Could not infer static argument T without context.
+-	I3	typecheck	String.fss:77	Could not check call to operator + - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (IntLiteral, (ZZ32, ZZ32)). - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type (IntLiteral, (ZZ32, ZZ32)). - ((Z
+-	N1	typecheck	FlatString.fss:99	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:97	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:95	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:93	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:91	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:88	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:86	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:84	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:82	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:69	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:53	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:38	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:36	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	FlatString.fss:25	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N2	typecheck	NatReflect.fss:53	Could not check call to function fail - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:65	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:62	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:59	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:56	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:43	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:40	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:37	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:34	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:31	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:25	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
+-	N1	typecheck	Writer.fss:23	Could not check call to function builtinPrimitive - Could not infer static argument T without context.
++	BR	typecheck	FortressLibrary.fss:3224	Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
++	BR	typecheck	FortressLibrary.fss:3217	Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
++	V2	typecheck	FortressLibrary.fss:2710	Function body has type Array[\T,(ZZ32, ZZ32)\], but declared return type is Array2[\T,0,s0,0,s1\].
++	BR	typecheck	FortressLibrary.fss:130	Function body has type TotalComparison, but declared return type is BigReduction[\TotalComparison,TotalComparison\].
++	O1	overloading	FortressLibrary.fss:171,FortressLibrary.fss:205	There are multiple declarations of LEXICO with the same parameter type: (()->TotalComparison)
++	I2	typecheck	List.fss:333	Could not check call to function fill - [\T\](ZZ32, ImmutableArray[\T,ZZ32\])->() is not applicable to an argument of type (ZZ32, ImmutableArray[\E,ZZ32\]).
++	I2	typecheck	List.fss:322	Could not check call to function fill - [\T\](ZZ32, ImmutableArray[\T,ZZ32\])->() is not applicable to an argument of type (ZZ32, ImmutableArray[\E,ZZ32\]).
