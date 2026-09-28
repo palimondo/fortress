@@ -11,7 +11,7 @@ The harness refused this session's write of `REPORT.md`. Its text is the structu
 
 Under "## The checker and the one library", after "The tower closure of `02d09a39f` has no spelling the compiler's checker accepts":
 
-- **The compiled checker reads a `comprises` clause as the 2012 texts do for a generic subtrait: it may extend the closed trait when the trait table knows at least one type that immediately extends it and each such type is below a listed type** (2026-09-28, climb batch 7C rung Y, `<short hash>`; `compile-ladder/rung-comprises-checker/`; POSITIONS 2026-09-28, `AnyIntegral`'s `comprises` clause; rows 459, 487-490).
+- **The compiled checker reads a `comprises` clause as the 2012 texts do for a generic subtrait: it may extend the closed trait when the trait table knows at least one type that immediately extends it and each such type is below a listed type** (2026-09-28, climb batch 7C rung Y, `079f54ea9`; `compile-ladder/rung-comprises-checker/`; POSITIONS 2026-09-28, `AnyIntegral`'s `comprises` clause; rows 459, 487-490).
   - The rule: `isEligibleToExtend` gains a third disjunct, `(!tt.getArgs.isEmpty && everyKnownSubtypeListed(tt, comprises, analyzer))`, and the method beside it (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:247-287`). This is the narrow accommodation parked on 2026-09-21, without its switch; its body is identical to `reviews/anyintegral-comprises-ways/shadow-thc.py:52-63`.
   - The known types are the trait table's: the unit being checked and every api in its environment (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:99-110`), compared by simple name.
   - Still refused: a plain unlisted extender (`XXX10i`); a generic subtrait no known type extends, unless an unrelated trait of the same simple name in the environment has an extender below a listed type (row 490; `compile-ladder/rung-comprises-checker/probes/skeptic/name-collision.txt`); one that a known type below no listed type extends. The last two are `ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.test`, which goes red under the broad form, as does the team's `XXX9z`.
@@ -23,7 +23,7 @@ Under "## The checker and the one library", after "The tower closure of `02d09a3
 
 In the entry "The tower closure of `02d09a39f` has no spelling the compiler's checker accepts":
 - its sentence "Since climb batch 7 it is the `FortressLibrary` api's last early error, counted twice in the count stage's total, 10 since climb batch 7R" reads "was", and ends "until climb batch 7C's rung Y";
-- its last sentence, "Pavol chose the accommodation, …, as climb batch 7C (…; row 459)", gains: "; it landed there (rung Y, `<short hash>`), and the clause checks as written".
+- its last sentence, "Pavol chose the accommodation, …, as climb batch 7C (…; row 459)", gains: "; it landed there (rung Y, `079f54ea9`), and the clause checks as written".
 
 The rest of that entry's rewrite, for the revised note, is rung X's, at the gather.
 
@@ -37,15 +37,15 @@ Rows are never renumbered or moved. The new rows are numbered provisionally from
 
 **Row 459**: its status gains ", POSITIVE-VERIFIED (the fix)". Append to its notes:
 
-"Fixed `<short hash>` by climb batch 7C rung Y (POSITIONS 2026-09-28, `AnyIntegral`'s `comprises` clause, "Option 1."). The compiled checker's `isEligibleToExtend` now accepts a generic immediate subtrait of a closed trait when the trait table knows at least one type that immediately extends it and each such type is below a listed type (`everyKnownSubtypeListed`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:247-287`). The clause at `Library/FortressLibrary.fsi:433` checks as written; the library and walk are unchanged. The count stage went 10 → 75 and the distance stage's H2 2 → 0 (`compile-ladder/rung-comprises-checker/probes/checker-count-compare.txt`, `distance-compare.txt`). Gated by `ProjectFortress/compiler_tests/ComprisesGenericSubtrait.test` (the library's shape in the test's own names, and `zElig2`'s) and `XXXComprisesGenericUnlisted.test` (a false list still refused). The hole every way shares, a type in another unit below an instantiation of `Integral`, is row 487."
+"Fixed `079f54ea9` by climb batch 7C rung Y (POSITIONS 2026-09-28, `AnyIntegral`'s `comprises` clause, "Option 1."). The compiled checker's `isEligibleToExtend` now accepts a generic immediate subtrait of a closed trait when the trait table knows at least one type that immediately extends it and each such type is below a listed type (`everyKnownSubtypeListed`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:247-287`). The clause at `Library/FortressLibrary.fsi:433` checks as written; the library and walk are unchanged. The count stage went 10 → 75 and the distance stage's H2 2 → 0 (`compile-ladder/rung-comprises-checker/probes/checker-count-compare.txt`, `distance-compare.txt`). Gated by `ProjectFortress/compiler_tests/ComprisesGenericSubtrait.test` (the library's shape in the test's own names, and `zElig2`'s) and `XXXComprisesGenericUnlisted.test` (a false list still refused). The hole every way shares, a type in another unit below an instantiation of `Integral`, is row 487."
 
 **Row 354**: append:
 
-"Untouched by climb batch 7C rung Y (`<short hash>`), which added a disjunct to `isEligibleToExtend` (`TypeHierarchyChecker.scala:257-271`, below the ellipsis rule, which stays at `:209-212`). Its guards `XXX3q` and `XXX10p` fail as pinned under that disjunct (`reviews/anyintegral-comprises-ways/captures/probes/guards.txt`, measured on the same lines as a shadow)."
+"Untouched by climb batch 7C rung Y (`079f54ea9`), which added a disjunct to `isEligibleToExtend` (`TypeHierarchyChecker.scala:257-271`, below the ellipsis rule, which stays at `:209-212`). Its guards `XXX3q` and `XXX10p` fail as pinned under that disjunct (`reviews/anyintegral-comprises-ways/captures/probes/guards.txt`, measured on the same lines as a shadow)."
 
 **Row 407**: append:
 
-"Climb batch 7C rung Y (`<short hash>`) cleared row 459 without the self-type idiom, which route A keeps out of the library. `Integral[\I\]` has no `comprises I`, and walk's overflow stays untouched. The filter that lets `comprises I` pass the compiled checker moved from `TypeHierarchyChecker.scala:262` to `:267`."
+"Climb batch 7C rung Y (`079f54ea9`) cleared row 459 without the self-type idiom, which route A keeps out of the library. `Integral[\I\]` has no `comprises I`, and walk's overflow stays untouched. The filter that lets `comprises I` pass the compiled checker moved from `TypeHierarchyChecker.scala:262` to `:267`."
 
 **New row 487** (provisional 487, final):
 
@@ -57,7 +57,7 @@ Rows are never renumbered or moved. The new rows are numbered provisionally from
 
 **Row 414**: append (the skeptic's required correction 4, its section 17):
 
-"Climb batch 7C's rung Y's `comprises` rule, through the name capture of row 489, accepts a program in this row's class whose `comprises` clause is false: `trait Odd[\T\] extends { Full[\T\], Tag[\ZZ32, T\] }` over `trait Box[\T\] comprises { Full[\T\] }` and a generic `Tag[\T, U\] extends Box[\T\]`. The checker refused it before the rung and accepts it after (`<short hash>`); its compiled run prints a `Box[\ZZ32\]` that is no `Full[\ZZ32\]`. Renamed `Odd[\V\]`, it is refused (`compile-ladder/rung-comprises-checker/probes/skeptic/SkCrossedSameName.fss`, `SkCrossedRenamed.fss`, `differential.txt`). Closing this row refuses it on the declaration rule."
+"Climb batch 7C's rung Y's `comprises` rule, through the name capture of row 489, accepts a program in this row's class whose `comprises` clause is false: `trait Odd[\T\] extends { Full[\T\], Tag[\ZZ32, T\] }` over `trait Box[\T\] comprises { Full[\T\] }` and a generic `Tag[\T, U\] extends Box[\T\]`. The checker refused it before the rung and accepts it after (`079f54ea9`); its compiled run prints a `Box[\ZZ32\]` that is no `Full[\ZZ32\]`. Renamed `Odd[\V\]`, it is refused (`compile-ladder/rung-comprises-checker/probes/skeptic/SkCrossedSameName.fss`, `SkCrossedRenamed.fss`, `differential.txt`). Closing this row refuses it on the declaration rule."
 
 **New row 489**, opened at the gather from the skeptic's recommended row (home 2), with the gated test the skeptic wrote (its required correction 3):
 
@@ -93,4 +93,4 @@ Rows are never renumbered or moved. The new rows are numbered provisionally from
 
 ## Handover state line
 
-Climb batch 7C's rung Y landed (`<short hash>`): the compiled checker reads `comprises` as the 2012 texts do for a generic subtrait (`everyKnownSubtypeListed`), so `AnyIntegral`'s clause checks as written. The count stage reads 75 (from 10), with the `FortressLibrary` api's 66 overloading and return-type errors now on it, and the distance stage 626 (from 627). Row 459 is closed. Rows 487 (a type in another unit below a generic subtrait, not caught) and 488 (the BR errors of big operators' bodies, which the rule's subtype queries move deterministically) are opened, and from its skeptic rows 489 (the verdict depends on how an extender spells its type variable, gated by `ProjectFortress/compiler_tests/XXXComprisesGenericRenamed.test`) and 490 (extenders matched by simple name) and a note on row 414. Next: rung X's specification, then batch N, the inference rule with the numeral switch.
+Climb batch 7C's rung Y landed (`079f54ea9`): the compiled checker reads `comprises` as the 2012 texts do for a generic subtrait (`everyKnownSubtypeListed`), so `AnyIntegral`'s clause checks as written. The count stage reads 75 (from 10), with the `FortressLibrary` api's 66 overloading and return-type errors now on it, and the distance stage 626 (from 627). Row 459 is closed. Rows 487 (a type in another unit below a generic subtrait, not caught) and 488 (the BR errors of big operators' bodies, which the rule's subtype queries move deterministically) are opened, and from its skeptic rows 489 (the verdict depends on how an extender spells its type variable, gated by `ProjectFortress/compiler_tests/XXXComprisesGenericRenamed.test`) and 490 (extenders matched by simple name) and a note on row 414. Next: rung X's specification, then batch N, the inference rule with the numeral switch.
