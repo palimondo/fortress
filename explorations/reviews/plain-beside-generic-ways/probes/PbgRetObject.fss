@@ -1,0 +1,26 @@
+component PbgRetObject
+export Executable
+
+(* MieDispatchAny's peek (explorations/reviews/mie-probes/MieDispatchAny.fss) with one change:
+   the generic arm's declared return type is Object instead of Any. Its body, the plain arm and
+   the call are MieDispatchAny's. Ledger row 157: walk's inference has no visitor for Any as a
+   generic declaration's return type, and an overloaded call then drops the arm as "no match". *)
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+object Marker[\X\] end
+
+peek[\X\](t: Tag[\X\]): Object = Marker[\X\]
+peek(a: Any): Any = Red
+
+name(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red] (the generic declaration)"
+    Red => "Red (the Any declaration)"
+    else => "other"
+  end
+
+run(): () = do
+  a1: Any = RedTag
+  println("peek(a1), a1: Any = RedTag -> " name(peek(a1)))
+end
+end

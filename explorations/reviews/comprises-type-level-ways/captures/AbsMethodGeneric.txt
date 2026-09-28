@@ -1,0 +1,29 @@
+# AbsMethodGeneric.fss; build /home/user/fortress-intprose at d2d5f7e24 (climb batch 7C's checker and interpreter); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.22 3.52 2.29; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:42:35Z
+== walk: fortress AbsMethodGeneric.fss
+com.sun.fortress.exceptions.InterpreterBug: AbsMethodGeneric.fss:19:28-35:
+** bug! MethodClosure name(a:A):FortressLibrary.StringAbsMethodGeneric.fss:12:5-13:1 has neither body nor def instanceof Method
+Context:
+AbsMethodGeneric.fss:19:28-35:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit 1
+== compiled: Shell compile AbsMethodGeneric.fss
+
+This domain: A
+Concrete methods and domains: List((N.name[\X extends Object\](g:Gen[\X\]):String,Gen[\X\]))
+More specific concrete methods and domains: List((N.name[\X extends Object\](g:Gen[\X\]):String,Gen[\X\]))
+Domain union of List(Gen[\X\]) is Gen[\X$2\]
+Domain A is not a subtype of Gen[\X$2\]
+AbsMethodGeneric.fss:14:1-16:2:
+    The inherited abstract method name(a:A):String from the trait Namer
+    has no concrete implementation in the object N in component AbsMethodGeneric.
+File AbsMethodGeneric.fss has 1 error.
+compile exit 255
+== compiled: fortress run AbsMethodGeneric
+Could not load AbsMethodGeneric
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : AbsMethodGeneric.class
+	... 4 more
+run exit 1

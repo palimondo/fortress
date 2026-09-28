@@ -1,0 +1,18 @@
+# Compiled240.fss; build /home/user/fortress-intprose at d2d5f7e24 (climb batch 7C's checker and interpreter); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.02 3.57 2.32; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:42:45Z
+== walk: fortress Compiled240.fss
+com.sun.fortress.exceptions.InterpreterBug: Compiled240.fss:23:1-12:
+** bug! Function definition should have a body expression.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit 1
+== compiled: Shell compile Compiled240.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+Compiled240.fss:23:1-12:
+    Abstract function declarations are only supported in traits. node = f(a:A):ZZ32
+compile exit 1
+== compiled: fortress run Compiled240
+Could not load Compiled240
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Compiled240.class
+	... 4 more
+run exit 1

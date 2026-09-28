@@ -1,0 +1,9 @@
+# Shell typecheck only (the compiled path's static checker, no code generation) of the three top-level abstract-function probes and the team's Compiled240.fss; build /home/user/fortress-intprose at d2d5f7e24; machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.34 3.77 2.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:43:33Z
+== Shell typecheck AbsFnBetween.fss
+exit 0
+== Shell typecheck AbsFnMissing.fss
+exit 0
+== Shell typecheck AbsFnGeneric.fss
+exit 0
+== Shell typecheck Compiled240.fss
+exit 0

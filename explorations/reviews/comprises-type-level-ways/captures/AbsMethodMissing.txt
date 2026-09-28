@@ -1,0 +1,22 @@
+# AbsMethodMissing.fss; build /home/user/fortress-intprose at d2d5f7e24 (climb batch 7C's checker and interpreter); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.88 3.37 2.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:42:26Z
+== walk: fortress AbsMethodMissing.fss
+PASS
+exit 0
+== compiled: Shell compile AbsMethodMissing.fss
+
+This domain: A
+Concrete methods and domains: List((N.name(o:O):String,O))
+More specific concrete methods and domains: List((N.name(o:O):String,O))
+Domain union of List(O) is O
+Domain A is not a subtype of O
+AbsMethodMissing.fss:14:1-16:2:
+    The inherited abstract method name(a:A):String from the trait Namer
+    has no concrete implementation in the object N in component AbsMethodMissing.
+File AbsMethodMissing.fss has 1 error.
+compile exit 255
+== compiled: fortress run AbsMethodMissing
+Could not load AbsMethodMissing
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : AbsMethodMissing.class
+	... 4 more
+run exit 1

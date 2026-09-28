@@ -1,0 +1,20 @@
+component MeetViaExclusionNoV
+export Executable
+
+(* The control for MeetViaExclusion: the same traits without the declaration on the meet,
+   f(v: V).  If the compiled checker accepted MeetViaExclusion through the meet it found by
+   S's clause, it must refuse this pair as an invalid overloading. *)
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+
+run(): () =
+    if f(Uo) = 1 then println("PASS") else println("FAIL") end
+end

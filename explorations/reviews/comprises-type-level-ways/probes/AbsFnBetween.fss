@@ -1,0 +1,20 @@
+component AbsFnBetween
+export Executable
+
+(* The abstract function rule (Specification/basic/functions.tex:370-415) over a closed trait
+   with a generic trait standing unlisted between it and its listed types (the rule's third case,
+   Specification/basic/traits.tex:243-246).  The immediate subtype of A is Gen; the listed types
+   are O and P.  The definitions are for the listed types. *)
+
+trait A comprises { O, P } end
+trait Gen[\X\] extends A end
+object O extends Gen[\ZZ32\] end
+object P extends Gen[\String\] end
+
+f(a: A): ZZ32
+f(o: O): ZZ32 = 0
+f(p: P): ZZ32 = 1
+
+run(): () =
+    if f(O) = 0 AND f(P) = 1 then println("PASS") else println("FAIL") end
+end

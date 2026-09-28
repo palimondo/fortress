@@ -1,0 +1,5 @@
+# library-shapes.py over /home/user/fortress-intprose/Library at d2d5f7e24 (the library of climb batch 7C's landing but two comments); 2026-09-28T19:46:55Z
+closed traits (39): AnyIntegral, ArrowType, BottomType, Comparison, CovariantCollection, Exception, GenericArrowType, GenericObjectOrTraitType, GenericType, IntMap, Lazy, LazyPairing, Map, MappedGenerator, Maybe, NN64, NestedGenerator, NonEmptyIntMap, Number, ObjectOrTraitType, ObjectType, PairGenerator, Pairing, PossibleReductionPair, ReadableArray1, Relation, RestType, ReversedGenerator, Set, SkipList, TestStatus, TotalComparison, TraitType, Treap, TupleType, UniqueItem, ZZ, ZZ32, ZZ64
+types listed in two or more clauses, the ellipsis aside: none
+extenders of a closed trait not listed in its clause (clauses with an ellipsis aside):
+  FortressLibrary.fsi: Integral extends AnyIntegral; its own clause: None

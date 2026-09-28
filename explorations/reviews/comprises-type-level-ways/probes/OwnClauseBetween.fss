@@ -1,0 +1,22 @@
+component OwnClauseBetween
+export Executable
+
+(* The intersection example (Specification/basic/types-vals-vars.tex:590-604) with a trait M
+   standing unlisted under both closed traits by the rule's second case, a comprises clause of
+   its own whose one listed type V is listed by S and T (Specification/basic/traits.tex:241-243).
+   No static parameters.  Every value of M is a V; M is a subtype of S and T and not of V. *)
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+
+run(): () = do
+    m: M = Vo
+    v: V = m
+    println("PASS")
+end
+end

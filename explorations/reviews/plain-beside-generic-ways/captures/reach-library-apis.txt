@@ -1,0 +1,28 @@
+== APPCOV  (Library/CovariantCollection.fsi)
+  plain   Library/CovariantCollection.fsi:16: opr APPCOV(a: AnyCovColl, b: AnyCovColl): AnyCovColl
+  generic Library/CovariantCollection.fsi:14: opr APPCOV[\T, A extends T, B extends T\](a: CovariantCollection[\A\], b: CovariantCollection[\B\]): Covariant
+== #  (Library/FortressLibrary.fsi)
+  plain   Library/FortressLibrary.fsi:2207: opr #(lo:ZZ32, ex:ZZ32): CompactFullRange[\ZZ32\]
+  plain   Library/FortressLibrary.fsi:2208: opr #(lo:(ZZ32,ZZ32), ex:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2209: opr #(lo:(ZZ32,ZZ32,ZZ32), ex:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2225: opr #(x:ZZ32) : ExtentRange[\ZZ32\]
+  plain   Library/FortressLibrary.fsi:2226: opr #(xy:(ZZ32,ZZ32)) : ExtentRange[\(ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2227: opr #(xyz:(ZZ32,ZZ32,ZZ32)) :
+  plain   Library/FortressLibrary.fsi:2242: opr #(): TrivialOpenRange
+  generic Library/FortressLibrary.fsi:2238: opr #[\T\](x:T) : ExtentRange[\T\]
+  generic Library/FortressLibrary.fsi:2324: opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\]
+== :  (Library/FortressLibrary.fsi)
+  plain   Library/FortressLibrary.fsi:2211: opr :(lo:ZZ32, hi:ZZ32): CompactFullRange[\ZZ32\]
+  plain   Library/FortressLibrary.fsi:2212: opr :(lo:(ZZ32,ZZ32), hi:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2213: opr :(lo:(ZZ32,ZZ32,ZZ32), hi:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2230: opr :(x:ZZ32) : RightRange[\ZZ32\]
+  plain   Library/FortressLibrary.fsi:2231: opr :(xy:(ZZ32,ZZ32)) : RightRange[\(ZZ32,ZZ32)\]
+  plain   Library/FortressLibrary.fsi:2232: opr :(xyz:(ZZ32,ZZ32,ZZ32)) :
+  plain   Library/FortressLibrary.fsi:2243: opr :(): TrivialOpenRange
+  generic Library/FortressLibrary.fsi:2239: opr :[\T\](x:T) : RightRange[\T\]
+  generic Library/FortressLibrary.fsi:2319: opr :[\I\](r: Range[\I\], stride:I): Range[\I\]
+  generic Library/FortressLibrary.fsi:2321: opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
+== =  (Library/FortressLibrary.fsi)
+  plain   Library/FortressLibrary.fsi:69: opr =(a:Any, b:Any):Boolean
+  generic Library/FortressLibrary.fsi:2530: opr =[\A,B\](t1:(A,B), t2:(A,B)): Boolean
+  generic Library/FortressLibrary.fsi:2536: opr =[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean

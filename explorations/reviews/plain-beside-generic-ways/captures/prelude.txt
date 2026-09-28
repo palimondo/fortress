@@ -1,0 +1,8 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.54 2.45 1.87; JDK 25.0.4; FORTRESS_THREADS=1
+# build: /home/user/fortress-genrt at 8b2f53430, source edits: 
+################ the compiler prelude into the private cache
+compile LibraryBuiltin/AnyType exit=0
+compile LibraryBuiltin/CompilerBuiltin exit=0
+compile Library/CompilerLibrary exit=0
+compile Library/CompilerAlgebra exit=0
+compile Library/CompilerSystem exit=0

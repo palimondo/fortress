@@ -1,0 +1,18 @@
+# AbsFnMissing.fss; build /home/user/fortress-intprose at d2d5f7e24 (climb batch 7C's checker and interpreter); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.31 3.01 2.08; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:41:54Z
+== walk: fortress AbsFnMissing.fss
+com.sun.fortress.exceptions.InterpreterBug: AbsFnMissing.fss:12:1-13:
+** bug! Function definition should have a body expression.
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit 1
+== compiled: Shell compile AbsFnMissing.fss
+Exception in thread "main" com.sun.fortress.exceptions.CompilerError: 
+AbsFnMissing.fss:12:1-13:
+    Abstract function declarations are only supported in traits. node = f(a:A):ZZ32
+compile exit 1
+== compiled: fortress run AbsFnMissing
+Could not load AbsFnMissing
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : AbsFnMissing.class
+	... 4 more
+run exit 1

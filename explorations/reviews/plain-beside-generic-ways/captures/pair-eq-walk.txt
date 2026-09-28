@@ -1,0 +1,25 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.69 2.67 2.30; JDK 25.0.4; FORTRESS_THREADS=1
+# build: /home/user/fortress-genrt at 8b2f53430, source edits: 
+################ PbgPairEq walk
+strings built separately
+  element: e1 = e2 -> true, e1 SEQV e2 -> true
+  pair, static (A,B):   p1 = p2 -> true
+  pair, static Any:     a1 = a2 -> true
+  pair, static T:  same(p1, p2) -> true
+  pair, nested: (p1,0) = (p2,0) -> true
+  pair SEQV (the Any arm's body): p1 SEQV p2 -> true
+an object with its own =, two instances
+  element: e1 = e2 -> true, e1 SEQV e2 -> false
+  pair, static (A,B):   p1 = p2 -> false
+  pair, static Any:     a1 = a2 -> false
+  pair, static T:  same(p1, p2) -> false
+  pair, nested: (p1,0) = (p2,0) -> false
+  pair SEQV (the Any arm's body): p1 SEQV p2 -> false
+0.0 and -0.0
+  element: e1 = e2 -> true, e1 SEQV e2 -> false
+  pair, static (A,B):   p1 = p2 -> true
+  pair, static Any:     a1 = a2 -> true
+  pair, static T:  same(p1, p2) -> true
+  pair, nested: (p1,0) = (p2,0) -> true
+  pair SEQV (the Any arm's body): p1 SEQV p2 -> false
+walk exit=0

@@ -1,0 +1,17 @@
+component AbsFnGeneric
+export Executable
+
+(* AbsFnBetween with one definition for the immediate subtype of A, the generic Gen,
+   as the rule's words "a definition for every immediate subtype" read literally. *)
+
+trait A comprises { O, P } end
+trait Gen[\X\] extends A end
+object O extends Gen[\ZZ32\] end
+object P extends Gen[\String\] end
+
+f(a: A): ZZ32
+f[\X\](g: Gen[\X\]): ZZ32 = 7
+
+run(): () =
+    if f(O) = 7 AND f(P) = 7 then println("PASS") else println("FAIL") end
+end

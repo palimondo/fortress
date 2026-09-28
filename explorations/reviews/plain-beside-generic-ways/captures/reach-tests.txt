@@ -1,0 +1,98 @@
+== f  (compiler_tests/Compiled12.invariantInference.fss)
+  plain   compiler_tests/Compiled12.invariantInference.fss:52: f(x : Any, z: Any, y : Any) = "Any"
+  generic compiler_tests/Compiled12.invariantInference.fss:53: f[\X\](x : T[\X\], z : Any, y : Any) : String = x.asString || " None"
+  generic compiler_tests/Compiled12.invariantInference.fss:54: f[\X\](x : T[\X\], z : T [\X\], y : Any) : String = x.asString || " Inv"
+  generic compiler_tests/Compiled12.invariantInference.fss:55: f[\X1, X extends X1\](x : T[\X\], z : Any, y : X1 -> X) : String =
+  generic compiler_tests/Compiled12.invariantInference.fss:57: f[\X1, X extends X1\](x : T[\X\], z : T [\X\], y : X1 -> X) : String =
+  generic compiler_tests/Compiled12.invariantInference.fss:59: f[\X\](x : T[\X\], z : Any, y : (X,X)) : String =
+  generic compiler_tests/Compiled12.invariantInference.fss:61: f[\X\](x : T[\X\], z : T[\X\], y : (X,X)) : String =
+== f  (compiler_tests/Compiled6.ak.fss)
+  plain   compiler_tests/Compiled6.ak.fss:14: f(x: ZZ32) = ()
+  generic compiler_tests/Compiled6.ak.fss:15: f[\T extends Any\](x: T) = ()
+== f  (compiler_tests/FirstLoadThreadsRungG.fss)
+  plain   compiler_tests/FirstLoadThreadsRungG.fss:18: f(x: Any): ZZ32 = 0
+  generic compiler_tests/FirstLoadThreadsRungG.fss:17: f[\T\](v: Vt[\T\]): ZZ32 = v.x
+== f  (compiler_tests/NatDispArmChecker.fss)
+  plain   compiler_tests/NatDispArmChecker.fss:8: f(x: RR64): String = "scalar"
+  plain   compiler_tests/NatDispArmChecker.fss:11: f(x: Any): String = "other"
+  generic compiler_tests/NatDispArmChecker.fss:9: f[\nat s\](v: Vec[\RR64,s\]): String = "vector"
+  generic compiler_tests/NatDispArmChecker.fss:10: f[\nat r, nat c\](m: Mat[\RR64,r,c\]): String = "matrix"
+== dd  (compiler_tests/NatKnownSizeArm.fss)
+  plain   compiler_tests/NatKnownSizeArm.fss:8: dd(x: ZZ32): ZZ32 = 2
+  generic compiler_tests/NatKnownSizeArm.fss:7: dd[\nat n\](x: Any): ZZ32 = 1
+== eb  (compiler_tests/NatKnownSizeArm.fss)
+  plain   compiler_tests/NatKnownSizeArm.fss:14: eb(x: Any): ZZ32 = 2
+  generic compiler_tests/NatKnownSizeArm.fss:13: eb[\nat n\](b: Box[\n\]): ZZ32 = n
+== ev  (compiler_tests/NatKnownSizeArm.fss)
+  plain   compiler_tests/NatKnownSizeArm.fss:11: ev(x: Any): ZZ32 = 2
+  generic compiler_tests/NatKnownSizeArm.fss:10: ev[\nat n\](x: ZZ32): ZZ32 = n
+== f  (compiler_tests/NatRtDisp.fss)
+  plain   compiler_tests/NatRtDisp.fss:6: f(x: RR64): String = "scalar"
+  plain   compiler_tests/NatRtDisp.fss:9: f(x: Any): String = "other"
+  generic compiler_tests/NatRtDisp.fss:7: f[\nat s\](v: Vec[\RR64,s\]): String = "vector"
+  generic compiler_tests/NatRtDisp.fss:8: f[\nat r, nat c\](m: Mat[\RR64,r,c\]): String = "matrix"
+== h  (compiler_tests/NatRtDispLit.fss)
+  plain   compiler_tests/NatRtDispLit.fss:10: h(x: Any): String = "other"
+  generic compiler_tests/NatRtDispLit.fss:9: h[\T\](v: Vec[\T,3\]): String = "T-three"
+== f  (compiler_tests/NatRtDispSize.fss)
+  plain   compiler_tests/NatRtDispSize.fss:6: f(x: RR64): () = println(0)
+  plain   compiler_tests/NatRtDispSize.fss:9: f(x: Any): () = println(-1)
+  generic compiler_tests/NatRtDispSize.fss:7: f[\nat s\](v: Vec[\RR64,s\]): () = println(s)
+  generic compiler_tests/NatRtDispSize.fss:8: f[\nat r, nat c\](m: Mat[\RR64,r,c\]): () = do println(r); println(c) end
+== f  (compiler_tests/NatRtDispTrait.fss)
+  plain   compiler_tests/NatRtDispTrait.fss:10: f(x: RR64): String = "scalar"
+  plain   compiler_tests/NatRtDispTrait.fss:13: f(x: Any): String = "other"
+  generic compiler_tests/NatRtDispTrait.fss:11: f[\nat s\](v: Vctr[\RR64,s\]): String = "vector"
+  generic compiler_tests/NatRtDispTrait.fss:12: f[\nat r, nat c\](m: Mtrx[\RR64,r,c\]): String = "matrix"
+== dot  (compiler_tests/NatRtDot.fss)
+  plain   compiler_tests/NatRtDot.fss:6: dot(a: Any, b: Any): () = println(-1)
+  generic compiler_tests/NatRtDot.fss:5: dot[\nat n\](a: Vec[\RR64,n\], b: Vec[\RR64,n\]): () = println(n)
+== rank  (compiler_tests/NatRtExtLit.fss)
+  plain   compiler_tests/NatRtExtLit.fss:10: rank(x: Any): () = println(-1)
+  generic compiler_tests/NatRtExtLit.fss:9: rank[\nat k\](x: Rnk[\k\]): () = println(k)
+== g  (compiler_tests/XXXNatAmbigChecker.fss)
+  plain   compiler_tests/XXXNatAmbigChecker.fss:7: g(b: Tg[\3\], c: Any): String = "literal arm"
+  generic compiler_tests/XXXNatAmbigChecker.fss:6: g[\nat n\](b: Tg[\n\], c: ZZ32): String = "generic arm"
+== f  (compiler_tests/XXXNatBoundDisp.fss)
+  plain   compiler_tests/XXXNatBoundDisp.fss:9: f(x: Any): String = "other"
+  generic compiler_tests/XXXNatBoundDisp.fss:8: f[\A extends Vctr[\ZZ32,3\]\](a: A): String = "bounded"
+== f  (compiler_tests/XXXNatDispRTRChecker.fss)
+  plain   compiler_tests/XXXNatDispRTRChecker.fss:8: f(x: Any): String = "other"
+  generic compiler_tests/XXXNatDispRTRChecker.fss:7: f[\nat s\](v: Vec[\RR64,s\]): ZZ32 = 1
+== f  (compiler_tests/XXXNatRetSizeChecker.fss)
+  plain   compiler_tests/XXXNatRetSizeChecker.fss:9: f(x: Any): Box[\3\] = Box[\3\](2)
+  generic compiler_tests/XXXNatRetSizeChecker.fss:8: f[\nat s\](v: Vec[\s\]): Box[\s\] = Box[\s\](1)
+== ee  (compiler_tests/XXXNatUnknownSizeArm.fss)
+  plain   compiler_tests/XXXNatUnknownSizeArm.fss:6: ee(x: Any): ZZ32 = 2
+  generic compiler_tests/XXXNatUnknownSizeArm.fss:5: ee[\nat n\](x: ZZ32): ZZ32 = 1
+== ee  (compiler_tests/XXXNatUnknownSizeFnValue.fss)
+  plain   compiler_tests/XXXNatUnknownSizeFnValue.fss:6: ee(x: Any): ZZ32 = 2
+  generic compiler_tests/XXXNatUnknownSizeFnValue.fss:5: ee[\nat n\](x: ZZ32): ZZ32 = 1
+== ev  (compiler_tests/XXXNatUnknownSizeVal.fss)
+  plain   compiler_tests/XXXNatUnknownSizeVal.fss:6: ev(x: Any): ZZ32 = 2
+  generic compiler_tests/XXXNatUnknownSizeVal.fss:5: ev[\nat n\](x: ZZ32): ZZ32 = n
+== f  (compiler_tests/XXXTypeBoundDisp.fss)
+  plain   compiler_tests/XXXTypeBoundDisp.fss:11: f(x: Any): String = "other"
+  generic compiler_tests/XXXTypeBoundDisp.fss:10: f[\A extends Vt[\ZZ32,Three\]\](a: A): String = "bounded"
+== chkPop  (tests/ArrayListQuick.fss)
+  plain   tests/ArrayListQuick.fss:53: chkPop(l:List[\ZZ32\],fro:ZZ32,sz:ZZ32): () = chkPopZ(l,fro,sz,1)
+  plain   tests/ArrayListQuick.fss:55: chkPop(l:List[\ZZ32\],sz:ZZ32): () = chkPopZ(l,0,sz,1)
+  generic tests/ArrayListQuick.fss:36: chkPop[\T\](l:List[\T\],fro:ZZ32,sz:ZZ32,by:ZZ32): () =
+== f  (tests/GeneratorNullPointer.fss)
+  plain   tests/GeneratorNullPointer.fss:18: f(x: Generator[\Char\]): ZZ32 = 0
+  plain   tests/GeneratorNullPointer.fss:20: f(x: Any): ZZ32 = 1000
+  generic tests/GeneratorNullPointer.fss:19: f[\A,B\](x: A -> B): ZZ32 = 1
+== chkPop  (tests/PureListQuick.fss)
+  plain   tests/PureListQuick.fss:53: chkPop(l:List[\ZZ32\],fro:ZZ32,sz:ZZ32): () = chkPopZ(l,fro,sz,1)
+  plain   tests/PureListQuick.fss:55: chkPop(l:List[\ZZ32\],sz:ZZ32): () = chkPopZ(l,0,sz,1)
+  generic tests/PureListQuick.fss:36: chkPop[\T\](l:List[\T\],fro:ZZ32,sz:ZZ32,by:ZZ32): () =
+== a  (tests/doubledOverloading.fss)
+  plain   tests/doubledOverloading.fss:37: a(): () = fail("a()")
+  generic tests/doubledOverloading.fss:36: a[\E\](v: E): A[\E\] = fail("a(v)")
+== b  (tests/doubledOverloading.fss)
+  plain   tests/doubledOverloading.fss:41: b(): () = fail("b()")
+  generic tests/doubledOverloading.fss:40: b[\F\](v: F): A[\F\] = fail("b(v)")
+== f  (tests/overloadTest8.fss)
+  plain   tests/overloadTest8.fss:35: f(p:P) = do println("f(P) called"); x += 16; end
+  plain   tests/overloadTest8.fss:37: f(y:RR64) = do println("f(RR64) called"); x += 4; end
+  generic tests/overloadTest8.fss:33: f[\S extends super\](o:S) = do println("f(O) called"); x += 1; end

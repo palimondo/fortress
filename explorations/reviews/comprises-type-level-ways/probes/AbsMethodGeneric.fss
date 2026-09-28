@@ -1,0 +1,20 @@
+component AbsMethodGeneric
+export Executable
+
+(* AbsMethodBetween with one definition for the immediate subtype Gen instead of the listed types. *)
+
+trait A comprises { O, P } end
+trait Gen[\X\] extends A end
+object O extends Gen[\ZZ32\] end
+object P extends Gen[\String\] end
+
+trait Namer
+    name(a: A): String
+end
+object N extends Namer
+    name[\X\](g: Gen[\X\]): String = "G"
+end
+
+run(): () =
+    if N.name(O) = "G" AND N.name(P) = "G" then println("PASS") else println("FAIL") end
+end

@@ -1,0 +1,9 @@
+# AbsMethodBetween.fss; build /home/user/fortress-intprose at d2d5f7e24 (climb batch 7C's checker and interpreter); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 5.67 3.24 2.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T19:42:16Z
+== walk: fortress AbsMethodBetween.fss
+PASS
+exit 0
+== compiled: Shell compile AbsMethodBetween.fss
+compile exit 0
+== compiled: fortress run AbsMethodBetween
+PASS
+run exit 0

@@ -1,0 +1,24 @@
+component AbsMethodBetween
+export Executable
+
+(* The method form of the abstract function rule: an abstract method whose parameter is the
+   closed trait A, inherited by an object that defines it for A's listed types O and P, with the
+   generic Gen standing unlisted between A and them.  The compiled checker's covering check
+   (scala_src/typechecker/AbstractMethodChecker.scala:92-116) runs at the object. *)
+
+trait A comprises { O, P } end
+trait Gen[\X\] extends A end
+object O extends Gen[\ZZ32\] end
+object P extends Gen[\String\] end
+
+trait Namer
+    name(a: A): String
+end
+object N extends Namer
+    name(o: O): String = "O"
+    name(p: P): String = "P"
+end
+
+run(): () =
+    if N.name(O) = "O" AND N.name(P) = "P" then println("PASS") else println("FAIL") end
+end

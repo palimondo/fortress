@@ -1,0 +1,32 @@
+component PbgStatic
+export Executable
+
+(* One value, three static types. rung G's PlainBesideRet pair, grab[\X\](t: Tag[\X\]): Marker[\X\]
+   beside grab(a: Any): Any, called with the same object RedTag through a variable of its own
+   type, of Tag[\Red\] and of Any. Only the static type of the argument varies. Under a reading
+   where a generic arm runs only at the call site's static arguments, the third call gets the
+   plain declaration and the first two the generic one. The Any call is last, so that the
+   compiled run prints the first two before it dies (row 496). *)
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+object Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab(a: Any): Any = Red
+
+name(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red] (the generic declaration)"
+    Red => "Red (the Any declaration)"
+    else => "other"
+  end
+
+run(): () = do
+  r: RedTag = RedTag
+  t: Tag[\Red\] = RedTag
+  a: Any = RedTag
+  println("grab(r), r: RedTag   -> " name(grab(r)))
+  println("grab(t), t: Tag[Red] -> " name(grab(t)))
+  println("grab(a), a: Any      -> " name(grab(a)))
+end
+end

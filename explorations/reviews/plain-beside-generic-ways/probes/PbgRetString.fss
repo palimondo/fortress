@@ -1,0 +1,20 @@
+component PbgRetString
+export Executable
+
+(* Why walk answers MieDispatchAny's peek with the plain declaration and its grab with the
+   generic one (explorations/reviews/mie-probes/route-c/probes/MieDispatchAny.txt:2, :6). The two
+   generic arms differ only in their declared return type: peek's is Any, grab's is Marker[\X\].
+   This is peek with one change: the generic arm's return type is String, a type other than Any
+   that does not mention X. The plain arm is peek's, unchanged. *)
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+
+peek[\X\](t: Tag[\X\]): String = "the generic declaration"
+peek(a: Any): Any = "the Any declaration"
+
+run(): () = do
+  a: Any = RedTag
+  println("peek(a), a: Any = RedTag -> " peek(a))
+end
+end

@@ -1,0 +1,25 @@
+component MeetViaExclusion
+export Executable
+
+(* Does either path already find a meet through a comprises clause when an exclusion
+   removes a listed type?  The compiled checker's normalizer expands a closed conjunct by
+   its clause only when another conjunct excludes one of the listed types
+   (scala_src/types/TypeAnalyzer.scala:645, normConjunct).  Here T excludes U, so S's
+   clause {U, V} shrinks to {V} inside S ∩ T, and V extends T, so the expansion would
+   give S ∩ T = V.  The Meet Rule's own example (row 492) has no such exclusion, so the
+   expansion cannot fire there.  Written 2026-09-28 for the judgement on row 491. *)
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () =
+    if f(Vo) = 3 AND f(Uo) = 1 then println("PASS") else println("FAIL") end
+end
