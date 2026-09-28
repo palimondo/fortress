@@ -1,0 +1,53 @@
+# The two citations the brief names, by the text they point at. Each was written against the 2012 traits.tex (blob ee156eac4, the Working Draft's text, which the tree held until rung S's 3924e7ec3 of 2026-09-26 16:14 UTC); S's commit moved both by 32 lines and neither was re-anchored, so on the base 715816bdd their numbers point at other text. Mapping from the base, as the brief words it, would carry that along (this rung's first commit 8e75787bc did so; this capture is why it was redone).
+
+== XXXFlatStringSplitRungL.fss:11, written at 763ba87bc: traits.tex:525-531
+-- the text it was written against (763ba87bc):
+A method declaration may have the modifier \KWD{override}.
+Such a declaration \emph{overrides} any inherited declaration with the same name
+and the self parameter (if any) at the same position,
+whose parameter type, not counting the type of the self parameter,
+is a strict subtype of the overriding declaration's parameter type.
+The return type of the overriding declaration must be subtype of
+that of the overridden declaration to preserve type safety.
+-- the base's lines 525-531 (what the base's number points at):
+\input{\home/basic/examples/Trait.Method.c.tex}
+\input{\home/basic/examples/Trait.Method.d.tex}
+where \VAR{internalF} is a freshly generated name.
+Functional method declarations may be overloaded with top-level function
+declarations.
+An abstract function declaration
+(described in \secref{abstractFunctionDeclarations})
+-- the base-map result, this tree's 553-559 (the same wrong text, moved):
+\input{\home/basic/examples/Trait.Method.c.tex}
+\input{\home/basic/examples/Trait.Method.d.tex}
+where \VAR{internalF} is a freshly generated name.
+Functional method declarations may be overloaded with top-level function
+declarations.
+An abstract function declaration
+(described in \secref{abstractFunctionDeclarations})
+-- the re-anchored result, this tree's 585-591 (the intended text; on the base at 557-563):
+A method declaration may have the modifier \KWD{override}.
+Such a declaration \emph{overrides} any inherited declaration with the same name
+and the self parameter (if any) at the same position,
+whose parameter type, not counting the type of the self parameter,
+is a strict subtype of the overriding declaration's parameter type.
+The return type of the overriding declaration must be subtype of
+that of the overridden declaration to preserve type safety.
+
+== XXXTupleVarFieldCompiledRungC.fss:21-22, written at b628871a2: traits.tex:446-448
+-- the text it was written against (b628871a2):
+If such a field exists, there is no implicit setter for the field.
+An explicitly declared setter method must take a single argument---the
+value being set---and return \EXP{()}.
+-- the base's lines 446-448 (what the base's number points at):
+and finally an optional body expression preceded by the token \EXP{=}.
+If a method declaration has the \KWD{getter} modifier,
+it does not affect the behavior of a program; rather,
+-- the base-map result, this tree's 474-476 (the same wrong text, moved):
+and finally an optional body expression preceded by the token \EXP{=}.
+If a method declaration has the \KWD{getter} modifier,
+it does not affect the behavior of a program; rather,
+-- the re-anchored result, this tree's 506-508 (the intended text; on the base at 478-480):
+If such a field exists, there is no implicit setter for the field.
+An explicitly declared setter method must take a single argument---the
+value being set---and return \EXP{()}.

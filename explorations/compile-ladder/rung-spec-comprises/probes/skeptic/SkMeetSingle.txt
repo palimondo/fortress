@@ -1,0 +1,46 @@
+# SkMeetSingle.fss, tree a30516fa3 (the base's checker and interpreter; no Java or Scala edit in this tree); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.22 1.95 1.53; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== walk: fortress SkMeetSingle.fss
+com.sun.fortress.exceptions.ProgramError: SkMeetSingle.fss:10:1-17: and
+SkMeetSingle.fss:9:1-17:
+first parameters t:[T] and s:[S] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+SkMeetSingle.fss:10:1-17:
+SkMeetSingle.fss:9:1-17:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+exit 1
+== compiled checker, stock (the tree's rule)
+SkMeetSingle.fss:10:1-17: | SkMeetSingle.fss:9:1-17: :: Invalid overloading of f in component SkMeetSingle: S->ZZ32 @ SkMeetSingle.fss:9:1-17 and T->ZZ32 @ SkMeetSingle.fss:10:1-17
+File SkMeetSingle.fss has 1 error. rc=255 
+== compiled checker, narrow (rung Y's rule, the shadow's switch on)
+SkMeetSingle.fss:10:1-17: | SkMeetSingle.fss:9:1-17: :: Invalid overloading of f in component SkMeetSingle: S->ZZ32 @ SkMeetSingle.fss:9:1-17 and T->ZZ32 @ SkMeetSingle.fss:10:1-17
+File SkMeetSingle.fss has 1 error. rc=255 
+== compiled run under the narrow rule: Shell compile, then fortress run
+SkMeetSingle.fss:10:1-17:
+SkMeetSingle.fss:9:1-17:
+    Invalid overloading of f in component SkMeetSingle:
+     S->ZZ32 @ SkMeetSingle.fss:9:1-17
+ and T->ZZ32 @ SkMeetSingle.fss:10:1-17
+File SkMeetSingle.fss has 1 error.
+compile exit 255
+Could not load SkMeetSingle
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkMeetSingle.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit 1

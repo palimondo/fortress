@@ -1,0 +1,19 @@
+component MeetExample
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait V extends { S, T } end
+trait W extends T end
+object X extends V end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () = do
+    g: S = X
+    println("f(g) = " f(g))
+end
+end

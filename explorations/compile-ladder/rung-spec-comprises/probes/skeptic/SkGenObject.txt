@@ -1,0 +1,34 @@
+# SkGenObject.fss, tree a30516fa3 (the base's checker and interpreter; no Java or Scala edit in this tree); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.03 1.98 1.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== walk: fortress SkGenObject.fss
+Obj[ZZ32] is a T and not an A
+exit 0
+== compiled checker, stock (the tree's rule)
+SkGenObject.fss:6:1-28: :: Invalid comprises clause: T has a comprises clause but its immediate subtype Obj is not eligible to extend it.
+SkGenObject.fss:6:25: :: Type Obj[\X\] excludes T but it extends T.
+File SkGenObject.fss has 2 errors. rc=255 
+== compiled checker, narrow (rung Y's rule, the shadow's switch on)
+SkGenObject.fss:6:1-28: :: Invalid comprises clause: T has a comprises clause but its immediate subtype Obj is not eligible to extend it.
+SkGenObject.fss:6:25: :: Type Obj[\X\] excludes T but it extends T.
+File SkGenObject.fss has 2 errors. rc=255 
+== compiled run under the narrow rule: Shell compile, then fortress run
+SkGenObject.fss:6:1-28:
+    Invalid comprises clause: T has a comprises clause
+    but its immediate subtype Obj is not eligible to extend it.
+SkGenObject.fss:6:25:
+    Type Obj[\X\] excludes T but it extends T.
+File SkGenObject.fss has 2 errors.
+compile exit 255
+Could not load SkGenObject
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:347)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:547)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:64)
+Caused by: java.io.IOException: Resource not found : SkGenObject.class
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:152)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.readResource(InstantiatingClassloader.java:139)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.getClass(InstantiatingClassloader.java:171)
+	at com.sun.fortress.runtimeSystem.InstantiatingClassloader.loadClass(InstantiatingClassloader.java:294)
+	... 4 more
+run exit 1

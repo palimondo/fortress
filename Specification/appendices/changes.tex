@@ -1243,6 +1243,100 @@ lines 405, 407 and 411, the three lines of the adapted generator that named
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The traits that extend a closed trait}
+\seclabel{revival-comprises}
+
+\begin{description}
+\item[Affected sections] \secref{trait-decls}.
+\item[Change] The first sentence of a draft note in \secref{trait-decls},
+which said that the traits listed in a \KWD{comprises} clause are exactly
+the traits that immediately extend the declared trait and that they must
+explicitly extend it, is replaced by normative text: every listed type
+extends the declared trait \VAR{T}, and every value of type \VAR{T} is a
+value of one of the listed types; a listed type may be an instantiation of
+a parameterized trait whose static arguments contain no static variable
+other than the static parameters of \VAR{T}; and a trait or object that explicitly extends
+\VAR{T} is a subtype of a listed type, or a trait with a \KWD{comprises}
+clause of its own each of whose listed types meets the same requirement, or
+a trait with static parameters that at least one trait or object extends
+and every trait or object extending it is a subtype of a listed type.
+The note's second sentence, on a clause that includes ``\EXP{\ldots}'', is
+kept in its note, and the example of \TYP{Molecule} is unchanged.
+The new text answers the third question of Victor Luchangco's draft note
+on trait identifiers earlier in the section, whether an instantiation of a
+parameterized trait may be listed: it may.
+\item[Rationale] This change does not follow from route~A; the revival
+decided it on 28~September 2026.
+The team's later Types chapter (Luchangco, 2012) reads a \KWD{comprises}
+clause as coverage: the clause ``specifies a set of types and generic types
+determined by the generic type of the declaration'', and an instantiation of
+the declared generic type ``is covered by the union of the types in this set
+and the corresponding instantiations of the generic type in this set'', one
+generic type $G$ determining another $G'$ ``if every parameter of $G'$ is a
+parameter of $G$''
+(\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
+277--283 and 384--390, in the revival's repository).
+Welterweight Fortress, the calculus of the type group's paper of 2012
+(Chase, Hilburn, Luchangco, Naden, Ryu, Steele, and Tristan, ``Dynamic
+Dispatch and Type Inference Semipredicates''), reads it at the level of
+values: ``no value can belong to the trait unless it also belongs to one of
+the comprised types''; its rule for a trait declaration asks nothing of the
+traits that extend a trait with such a clause
+(\nolinkurl{Papers/Welterweight/grammar.tick}, lines 21--22;
+\nolinkurl{Papers/Welterweight/fig-wellformeddecls.tick}, lines 38--62).
+The draft note restated the rule of the compiled type checker of 2009,
+under which \library\ could not close their marker of the integer types as
+the team meant to: \TYP{AnyIntegral} lists the five integer types, and the
+parameterized trait \EXP{\TYP{Integral}\llbracket{}I\rrbracket}, which each
+of them extends at itself, stands between them unlisted, as the team's
+comment on the declaration records (``not yet: comprises
+\EXP{\TYP{Integral}\llbracket{}I\rrbracket} where
+\EXP{\llbracket{}I\rrbracket}'', \nolinkurl{Library/FortressLibrary.fsi},
+line 434).
+\TYP{Integral} has a static parameter that \TYP{AnyIntegral} does not have,
+so it can be listed only at particular static arguments, and every value of it is a value of one of the five.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-comprises/decision-record.md}
+in the revival's repository.
+\item[Effect] The compiled type checker accepts the declaration of
+\TYP{AnyIntegral} in \library\ as written
+(\nolinkurl{Library/FortressLibrary.fsi}, lines 433--436).
+No example of this specification changes: \TYP{ExclusiveMolecule}, which
+has no static parameters, is still not allowed.
+The compiled type checker enforces the requirement on a trait with static
+parameters over the declarations it sees: a trait or object declared in
+another component, below such a trait and a subtype of no listed type, is
+not refused (row~487 of the revival's gap ledger). It compares the declarations it sees by their names: for a parameterized \VAR{T} its verdict can depend on how an extender spells its static parameters, and a trait of the same simple name in another API counts as an extender (rows~489 and~490).
+The interpreter does not check \KWD{comprises} clauses.
+The passages that read a \KWD{comprises} clause at the level of types, the
+intersection of two traits with such clauses (\secref{internal-types},
+\secref{more-specific-rule}) and the definitions an abstract function
+declaration requires (\secref{abstractFunctionDeclarations}), are not
+revised; whether they are to be restated at the level of values is not
+settled.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/traits.tex},
+lines 230--241, a draft note:
+\begin{quote}
+If a trait declaration of \VAR{T} includes a \KWD{comprises} clause
+then the traits listed in its \KWD{comprises} clause
+are exactly the traits that immediately extend \VAR{T}
+and they must explicitly extend \VAR{T}
+(i.e., list \VAR{T} in their \KWD{extends} clause).
+If the \KWD{comprises} clause of a trait \VAR{T} includes ``\EXP{\ldots}''
+(and must therefore be in an API),
+then in a component exporting the enclosing API,
+other traits may explicitly extend \VAR{T},
+but these traits may not be declared or imported by the API
+(see \secref{apis}).
+\end{quote}
+Its second sentence is kept, in its note.
+\item[Route C] The same under route~C, under which the self-typed traits
+carry \KWD{comprises} clauses of their own (\secref{revival-routec}): a
+parameterized trait between a closed trait and its listed types then meets
+the requirement through its own clause, and the last case of the
+requirement is not needed.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

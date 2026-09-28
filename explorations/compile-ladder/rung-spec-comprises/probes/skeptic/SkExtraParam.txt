@@ -1,0 +1,14 @@
+# SkExtraParam.fss, tree a30516fa3 (the base's checker and interpreter; no Java or Scala edit in this tree); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.81 1.21 1.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== walk: fortress SkExtraParam.fss
+PASS
+exit 0
+== compiled checker, stock (the tree's rule)
+SkExtraParam.fss:5:1-33: :: Invalid comprises clause: T has a comprises clause but its immediate subtype G is not eligible to extend it.
+File SkExtraParam.fss has 1 error. rc=255 
+== compiled checker, narrow (rung Y's rule, the shadow's switch on)
+(no error in SkExtraParam.fss)
+rc=0 
+== compiled run under the narrow rule: Shell compile, then fortress run
+compile exit 0
+PASS
+run exit 0

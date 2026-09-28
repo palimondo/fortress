@@ -1,0 +1,14 @@
+component SkGenOneUnlisted
+export Executable
+
+trait T comprises { A } end
+trait A extends T end
+trait G[\X\] extends T end
+object ObjA extends { A, G[\ZZ32\] } end
+object ObjZ extends G[\String\] end
+
+run(): () = do
+    t: T = ObjZ
+    println("ObjZ is a T and not an A")
+end
+end

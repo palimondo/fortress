@@ -1,0 +1,25 @@
+Rung X (climb batch 7C, rung-spec-comprises): the points for Pavol, each with its evidence. Full text in
+REPORT.md, "For Pavol", and decision-record.md sections 4 and 5.
+
+1. The passages that read a comprises clause at the level of types are left and reported, not chosen (the
+   batch record's stop): the intersection example, Specification/basic/types-vals-vars.tex:583-604; the Meet
+   Rule's example, Specification/advanced/overloading.tex:275-307; abstract function declarations,
+   Specification/basic/functions.tex:413-415, and the team note Specification/basic/components/
+   source-code.tex:428-434. Under the new text a trait with static parameters may sit unlisted between two
+   closed traits (probes/between/BetweenTwoClosed.fss). Candidates: restate at the level of values; a
+   narrower rule refusing such a trait; leave. Ledger row 491 (provisional 488).
+2. Wording decisions taken in the rung on the new normative text (decision-record.md section 5):
+   (a) every listed type "extends T", the note's "explicitly" dropped, as the checker
+       (TypeHierarchyChecker.scala:220-240, 280-303) and Welterweight's D-Trait (fig-wellformeddecls.tick:53)
+       have it: Specification/basic/traits.tex:236;
+   (b) the third case covers every trait with static parameters, as the decision ("a generic child") and
+       Y's code (shadow-thc.py:47) have it, wider than the judgement's "static parameters the closed trait
+       does not have": Specification/basic/traits.tex:245-248;
+   (c) one sentence in the Appendix I entry's Effect records (1) as not settled:
+       Specification/appendices/changes.tex:1311-1316.
+3. The two test citations the brief named were stale on the base since rung S (3924e7ec3); they are
+   re-anchored from the text they were written against, not from the base as the brief worded it
+   (probes/reanchor/stale-citations.txt). Seven more citations in five tests of chapters rung S edited are
+   stale the same way and are not this rung's files (probes/reanchor/stale-scan.txt).
+4. Both paths refuse the Meet Rule's own example on the base (probes/between/MeetExample.txt); its home is
+   two XXX tests, owed and not written here (the rung's files exclude new tests). Ledger row 492 (provisional 489).

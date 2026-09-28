@@ -1,0 +1,23 @@
+# ProjectFortress/tests/XXXFlatStringSplitRungL.fss under walk, the base's copy and this tree's; an expected failure (XXX), whose message is the only change
+== base: ./bin/fortress tmp/XXXFlatStringSplitRungL.fss
+exit 1
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-speccomprises/tmp/XXXFlatStringSplitRungL.fss:9:5-27:
+RHS expression type Nothing[\Generator[\(ZZ32,String)\]\] is not assignable to LHS type Generator[\String\]
+Context:
+/home/user/fortress-speccomprises/tmp/XXXFlatStringSplitRungL.fss:9:5-27:
+/home/user/fortress-speccomprises/tmp/XXXFlatStringSplitRungL.fss:9:5-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+== tree: ./bin/fortress ProjectFortress/tests/XXXFlatStringSplitRungL.fss
+exit 1
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-speccomprises/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+RHS expression type Nothing[\Generator[\(ZZ32,String)\]\] is not assignable to LHS type Generator[\String\]
+Context:
+/home/user/fortress-speccomprises/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+/home/user/fortress-speccomprises/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:5-27:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.

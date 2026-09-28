@@ -232,12 +232,40 @@ then \VAR{U} excludes \VAR{T}
 whether or not \VAR{T} is listed in an \KWD{excludes} clause
 in the declaration of \VAR{U}.
 
-\note{
 If a trait declaration of \VAR{T} includes a \KWD{comprises} clause
-then the traits listed in its \KWD{comprises} clause
+then every type listed in its \KWD{comprises} clause extends \VAR{T},
+and every value of type \VAR{T} is a value of one of the listed types.
+A listed type may be an instantiation of a parameterized trait,
+provided that every static variable that occurs in its static arguments
+is a static parameter of \VAR{T}.
+A trait or object that explicitly extends \VAR{T}
+must be a subtype of a listed type,
+unless it is a trait with a \KWD{comprises} clause of its own
+each of whose listed types meets this requirement,
+or a trait with static parameters
+such that at least one trait or object extends it
+and every trait or object that extends it
+is a subtype of a listed type.
+If \VAR{T} has static parameters,
+these statements hold of each instantiation of \VAR{T},
+with the static parameters of \VAR{T} in the listed types
+replaced by the corresponding static arguments.
+\revision{revival-comprises}{The Working Draft of February 2011 said here,
+in a draft note, that the traits listed in a \KWD{comprises} clause
 are exactly the traits that immediately extend \VAR{T}
-and they must explicitly extend \VAR{T}
-(i.e., list \VAR{T} in their \KWD{extends} clause).
+and that each of them must list \VAR{T} in its \KWD{extends} clause.
+The revival states the reading of the team's later Types chapter
+(Luchangco, 2012) and of the type group's calculus Welterweight Fortress (2012):
+the clause says to which types the values of \VAR{T} belong.
+A parameterized trait with a static parameter that \VAR{T} does not have
+can be listed only at particular static arguments;
+it may stand unlisted between \VAR{T} and the listed types,
+adding no value outside them,
+when at least one trait or object extends it
+and every one that does is a subtype of a listed type.
+This also answers the third question of the draft note on trait identifiers above,
+whether an instantiation of a parameterized trait may be listed: it may.}
+\note{
 If the \KWD{comprises} clause of a trait \VAR{T} includes ``\EXP{\ldots}''
 (and must therefore be in an API),
 then in a component exporting the enclosing API,

@@ -1,0 +1,13 @@
+component SkGenObject
+export Executable
+
+trait T comprises { A } end
+trait A extends T end
+object Obj[\X\] extends T end
+object ObjA extends A end
+
+run(): () = do
+    t: T = Obj[\ZZ32\]
+    println("Obj[ZZ32] is a T and not an A")
+end
+end

@@ -1,0 +1,11 @@
+# the map of unchanged lines, git show 715816bdd:<chapter> against the working tree (difflib opcodes, 1-based, inclusive)
+Specification/basic/traits.tex
+  equal    base 1-234  ->  now 1-234
+  insert   base 235-234  ->  now 235-267
+  equal    base 235-235  ->  now 268-268
+  delete   base 236-240  ->  now 269-268
+  equal    base 241-851  ->  now 269-879
+Specification/appendices/changes.tex
+  equal    base 1-1245  ->  now 1-1245
+  insert   base 1246-1245  ->  now 1246-1339
+  equal    base 1246-1307  ->  now 1340-1401

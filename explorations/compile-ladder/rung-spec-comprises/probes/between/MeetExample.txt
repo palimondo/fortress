@@ -1,0 +1,25 @@
+# MeetExample.fss on the base's checker and interpreter (tree 8b2feaaa1, no Java or Scala edit); machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.02 2.27 2.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== walk: fortress MeetExample.fss
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:12:1-17: and
+/home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:11:1-17:
+first parameters t:[T] and s:[S] are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present
+Context:
+/home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:12:1-17:
+/home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:11:1-17:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+exit 1
+== compile: fortress compile MeetExample.fss
+/home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:11:1-17:
+/home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:12:1-17:
+    Invalid overloading of f in component MeetExample:
+     S->ZZ32 @ /home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:11:1-17
+ and T->ZZ32 @ /home/user/fortress-speccomprises/explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.fss:12:1-17
+File MeetExample.fss has 1 error.
+exit 255
+== run: fortress run MeetExample
+Could not load MeetExample
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : MeetExample.class
+	... 4 more
+exit 1

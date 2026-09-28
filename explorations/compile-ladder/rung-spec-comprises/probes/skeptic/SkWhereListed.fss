@@ -1,0 +1,12 @@
+component SkWhereListed
+export Executable
+
+trait T comprises { Foo[\I\] } where [\I\] end
+trait Foo[\X\] extends T end
+object FooZ extends Foo[\ZZ32\] end
+
+run(): () = do
+    t: T = FooZ
+    println("PASS")
+end
+end

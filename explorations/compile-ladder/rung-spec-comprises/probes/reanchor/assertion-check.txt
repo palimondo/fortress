@@ -1,0 +1,5 @@
+# every line the re-anchoring changed, the base's against this tree's, with the numbers of traits.tex citations masked; 'same' means the line differs only in a citation number
+ProjectFortress/tests/XXXFlatStringSplitRungL.fss: same
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss: same
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss: same
+# 3 lines added, 3 removed in ProjectFortress/

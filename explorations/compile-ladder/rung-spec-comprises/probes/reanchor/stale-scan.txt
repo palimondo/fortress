@@ -1,0 +1,11 @@
+ProjectFortress/compiler_tests/XXXFortToStringRungS.fss:13: Specification/basic-lib/objects.tex:117-122 written at 6bec1b004; at 715816bdd those lines are 121-126
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:21: Specification/basic/traits.tex:446-448 written at b628871a2; at 715816bdd those lines are 478-480
+ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:22: Specification/basic/traits.tex:446-448 written at b628871a2; at 715816bdd those lines are 478-480
+ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:13: Specification/basic/types-vals-vars.tex:589 written at 6bec1b004; at 715816bdd those lines are 623
+ProjectFortress/compiler_tests/XXXUnionMethodRungS.fss:14: Specification/basic/types-vals-vars.tex:589 written at 6bec1b004; at 715816bdd those lines are 623
+ProjectFortress/library_tests/MaybeRungM.fss:13: Specification/basic/exceptions.tex:122 written at 6823d52b6; at 715816bdd those lines are inside a changed block
+ProjectFortress/tests/XXXFlatStringSplitRungL.fss:11: Specification/basic/traits.tex:525-531 written at 763ba87bc; at 715816bdd those lines are 557-563
+ProjectFortress/tests/XXXTupleSeparatorRungS.fss:10: Specification/basic-lib/objects.tex:161-188 written at 763ba87bc; at 715816bdd those lines are 197-224
+ProjectFortress/tests/XXXTupleSevenRungS.fss:10: Specification/basic-lib/objects.tex:144-158 written at 763ba87bc; at 715816bdd those lines are 175-189
+# 527 citations of Specification chapters scanned; 9 moved since the commit that wrote them
+# Note added at the gather (the rung's skeptic's correction 6): the scan maps a citation's first and last lines only. For ProjectFortress/tests/XXXTupleSevenRungS.fss:10, basic-lib/objects.tex:144-158 at 763ba87bc and :175-189 at 715816bdd differ in three lines inside (rung S rewrote Tuple's sentence on its operators and its declaration, commented and rendered), so that citation is to revised text, not a renumbering. The other three it opened (XXXTupleSeparatorRungS, XXXFortToStringRungS, XXXUnionMethodRungS) are pure renumberings.
