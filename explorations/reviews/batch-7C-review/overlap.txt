@@ -1,0 +1,7 @@
+rung:Y          searching calls  78, of which into a briefed file  18 (23%); tokens    101K, of which     18K (18%)
+rung:X          searching calls  79, of which into a briefed file  36 (46%); tokens    134K, of which     62K (47%)
+skeptic:X       searching calls  79, of which into a briefed file  15 (19%); tokens     96K, of which     15K (15%)
+skeptic:Y       searching calls  58, of which into a briefed file  14 (24%); tokens     73K, of which     20K (28%)
+judge:review    searching calls  71, of which into a briefed file  13 (18%); tokens    131K, of which     31K (23%)
+repair:review   searching calls  37, of which into a briefed file   5 (14%); tokens     48K, of which      5K (10%)
+workers and skeptics: 83 of 294 searching calls (28%), 116K of 404K tokens (29%)

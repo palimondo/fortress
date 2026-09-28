@@ -1,0 +1,65 @@
+Climb batch 7C, process measures, in tokens as the harness counts them (each agent's context at its last turn)
+
+1. The harness count against the per-agent contexts (sum of ctx_end), per run:
+   6b  15 agents  harness 2.08M  sum of last contexts 3.51M  compactions 0
+   7   14 agents  harness 4.93M  sum of last contexts 4.93M  compactions 1
+   7R  13 agents  harness 3.15M  sum of last contexts 4.73M  compactions 0
+   7C  12 agents  harness 3.71M  sum of last contexts 3.71M  compactions 0
+   The notice equals the sum for 7 and 7C. For 6b and 7R it is lower, also over the agents that returned a result
+   (6b 13 of 15 with its cut launch wf_2da3e152-2d5, 7R 12 of 13 without rung J's killed first launch): cause not traced.
+
+2. Batch 7C, every agent. tokens = context at the last turn; brief = the briefing's results (facts-extract.sh
+   and its read-backs); search = the baseline's "gathering" results; at = index of the first briefing call.
+   Direct reads (gathering or inspecting calls naming the file): map, INDEX, FACTS, POSITIONS, ledger, Library.
+role               turns calls  tokens |  b# parts  brief   b%  at |   g# search   g% | map INDEX FACTS POS ledger Library
+rung:Y               135   138    386K |   6  5/5     48K  13%   1 |   78   101K  26% |   2     0     3   0      4       5
+rung:X               152   160    457K |   4  3/3     35K   8%   1 |   79   134K  29% |   3     0     4   0      7       1
+skeptic:X            124   129    367K |   2  1/1      7K   2%   1 |   79    96K  26% |   1     0     5   0      9       2
+skeptic:Y            128   132    371K |   3  2/2     14K   4%   1 |   58    73K  20% |   0     0     6   0      4       3
+gather               115   118    466K |   0  0/0       0   0%   - |   68   159K  34% |   0     0    11   1     16       0
+gate                  39    40    121K |   0  0/0       0   0%   - |   12    16K  13% |   0     0     0   0      0       0
+review               133   137    408K |   0  0/0       0   0%   - |   77   164K  40% |   1     0     9   4     11       1
+judge:review          82    84    297K |   4  2/2     19K   6%   0 |   71   131K  44% |   0     0     6   2      4       2
+repair:review         73    74    208K |   5  2/2     23K  11%   1 |   37    48K  23% |   0     0     3   1      1       1
+review2              100   103    315K |   0  0/0       0   0%   - |   77   148K  47% |   0     0     8   4     11       0
+gate:after-review     37    38    117K |   0  0/0       0   0%   - |    8     7K   6% |   0     0     0   0      0       0
+commit                61    63    194K |   0  0/0       0   0%   - |   41    71K  36% |   0     0     2   0      4       0
+
+3. The briefing read, workers and skeptics, and the judges and review repairs apart.
+   ran = ran facts-extract.sh; first = as the first or second tool call; whole = every part the tool announced.
+   6b-7R workers+skeptics  n=17  ran 17  first 11  whole 15
+   6b-7R judges            n= 4  ran  4  first  3  whole  3
+   6b-7R review repairs    n= 3  ran  3  first  3  whole  3
+   7C    workers+skeptics  n= 4  ran  4  first  4  whole  4
+   7C    judges            n= 1  ran  1  first  1  whole  1
+   7C    review repairs    n= 1  ran  1  first  1  whole  1
+
+4. Map and INDEX, workers and skeptics: agents that opened a file of coordinator/map/ or INDEX.md by a
+   gathering or inspecting call (direct), and agents whose briefing carried a map: or index: key.
+   6b-7R n=17  map: key  8, direct  9, either 11 | INDEX: key  5, direct  1, either  5
+   7C    n= 4  map: key  2, direct  3, either  3 | INDEX: key  0, direct  0, either  0
+
+5. Briefing and searching, as shares of the agents' final contexts (tokens as the harness counts them), means per agent.
+batch  group      n turns  context |   brief    b% |  search    g% | both%
+6b-7R  rung       8   229     497K |     54K   11% |    146K   29% |   40%
+6b-7R  skeptic    7   127     362K |     16K    4% |     68K   19% |   23%
+6b-7R  all       17   165     408K |     33K    8% |    100K   24% |   33%
+7C     rung       2   144     422K |     41K   10% |    118K   28% |   38%
+7C     skeptic    2   126     369K |     11K    3% |     84K   23% |   26%
+7C     all        4   135     395K |     26K    7% |    101K   26% |   32%
+
+6. Searching per turn, workers and skeptics (calls and tokens), and searching before the first edit or probe.
+   6b-7R turns  2797  searching calls per turn 0.45  searching tokens per turn  606  before first do: 30% of calls
+   7C    turns   539  searching calls per turn 0.55  searching tokens per turn  750  before first do: 43% of calls
+
+7. Per run: agents, the harness's tokens, and the share in workers and skeptics.
+   6b  agents 15  tokens 2.08M  workers+skeptics  6, 1.68M (48%)  briefing in all contexts 182K ( 5%)
+   7   agents 14  tokens 4.93M  workers+skeptics  6, 2.70M (55%)  briefing in all contexts 264K ( 5%)
+   7R  agents 13  tokens 3.15M  workers+skeptics  5, 2.56M (54%)  briefing in all contexts 294K ( 6%)
+   7C  agents 12  tokens 3.71M  workers+skeptics  4, 1.58M (43%)  briefing in all contexts 146K ( 4%)
+
+8. The reviews after a batch, in the same unit: each review agent's context at its last turn, from its transcript.
+   conformance review, batches 6b and 7      104 turns  539K tokens
+   conformance review, batch 7R              107 turns  461K tokens
+   process review, batches 6b, 7 and 7R      104 turns  454K tokens
+   against the runs they review: 6b and 7 together 7.00M, 7R 3.15M (the harness's notices above)
