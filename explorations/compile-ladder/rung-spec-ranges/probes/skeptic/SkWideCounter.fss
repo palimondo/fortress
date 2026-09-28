@@ -1,0 +1,26 @@
+component SkWideCounter
+export Executable
+
+run(): () = do
+  n: ZZ32 = 5
+  giga: ZZ64 = 1000000000
+  var total: ZZ64 = 0
+  for i <- 0#n do
+    j: ZZ64 = i
+    atomic do total := total + j giga end
+  end
+  println("W1 parallel for over 0#n, j: ZZ64 = i, sum of j 10^9: " total.asString)
+  var s: ZZ64 = 0
+  for i <- seq(0#n) do
+    j: ZZ64 = i
+    s := s + j giga
+  end
+  println("W2 seq(0#n), same sum: " s.asString)
+  var t: ZZ64 = 0
+  for i <- seq(0#n) do
+    t := t + i giga
+  end
+  println("W3 seq(0#n), i used without the binding, i giga: " t.asString)
+end
+
+end

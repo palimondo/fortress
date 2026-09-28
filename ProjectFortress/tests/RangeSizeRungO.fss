@@ -9,14 +9,14 @@ run(): () = do
     three: ZZ32 = 3
     r = narrow(widen(one)):narrow(widen(three))
     rSize = r.size
-    assert(rSize = 3, "ranges.tex:103-106")
+    assert(rSize = 3, "ranges.tex:130-133")
     rCard = |r|
-    assert(rCard = 3, "ranges.tex:103-106")
+    assert(rCard = 3, "ranges.tex:130-133")
     uOne: NN32 = unsigned(one)
     uThree: NN32 = unsigned(three)
     rN = signed(uOne):signed(uThree)
     rNCard = |rN|
-    assert(rNCard = 3, "ranges.tex:103-106")
+    assert(rNCard = 3, "ranges.tex:130-133")
     println("PASS")
   end
 

@@ -1,0 +1,141 @@
+machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 14.64 15.61 13.18, openjdk version "25.0.4" 2026-07-21, base e933b30e6
+=== SkWideCounter.fss walk FORTRESS_THREADS=1
+W1 parallel for over 0#n, j: ZZ64 = i, sum of j 10^9: 10000000000
+W2 seq(0#n), same sum: 10000000000
+W3 seq(0#n), i used without the binding, i giga: 10000000000
+rc=0
+=== SkWideCounter.fss walk FORTRESS_THREADS=4
+W1 parallel for over 0#n, j: ZZ64 = i, sum of j 10^9: 10000000000
+W2 seq(0#n), same sum: 10000000000
+W3 seq(0#n), i used without the binding, i giga: 10000000000
+rc=0
+=== SkWideCounter.fss compile
+rc=0
+=== SkWideCounter.fss compiled run FORTRESS_THREADS=1
+W1 parallel for over 0#n, j: ZZ64 = i, sum of j 10^9:  10000000000
+W2 seq(0#n), same sum:  10000000000
+W3 seq(0#n), i used without the binding, i giga:  10000000000
+rc=0
+=== SkWideCounter.fss compiled run FORTRESS_THREADS=4
+W1 parallel for over 0#n, j: ZZ64 = i, sum of j 10^9:  10000000000
+W2 seq(0#n), same sum:  10000000000
+W3 seq(0#n), i used without the binding, i giga:  10000000000
+rc=0
+=== SkRangeZZ32b.fss walk FORTRESS_THREADS=1
+R1 3:7 elements 5
+R2 a:b elements 5
+R3 0#a elements 3
+R4 a#n, n negative, elements 0
+R5 b:a elements 0
+R6 sum over a#4 18
+rc=0
+=== SkRangeZZ32b.fss walk FORTRESS_THREADS=4
+R1 3:7 elements 5
+R2 a:b elements 5
+R3 0#a elements 3
+R4 a#n, n negative, elements 0
+R5 b:a elements 0
+R6 sum over a#4 18
+rc=0
+=== SkRangeZZ32b.fss compile
+rc=0
+=== SkRangeZZ32b.fss compiled run FORTRESS_THREADS=1
+R1 3:7 elements  5
+R2 a:b elements  5
+R3 0#a elements  3
+R4 a#n, n negative, elements  0
+R5 b:a elements  0
+R6 sum over a#4  18
+rc=0
+=== SkRangeZZ32b.fss compiled run FORTRESS_THREADS=4
+R1 3:7 elements  5
+R2 a:b elements  5
+R3 0#a elements  3
+R4 a#n, n negative, elements  0
+R5 b:a elements  0
+R6 sum over a#4  18
+rc=0
+=== SkNatType.fss walk FORTRESS_THREADS=1
+T1 nat n = 3 bound to a ZZ32: 3
+T2 nat n = 3, 1:(n-1) elements: 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:23:46-54:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkNatType.fss walk FORTRESS_THREADS=4
+T1 nat n = 3 bound to a ZZ32: 3
+T2 nat n = 3, 1:(n-1) elements: 2
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:10:3-10:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss:23:46-54:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkNatType.fss compile
+rc=0
+=== SkNatType.fss compiled run FORTRESS_THREADS=1
+T1 nat n = 3 bound to a ZZ32:  3
+T2 nat n = 3, 1:(n-1) elements:  2
+T3 nat n = 3 bound to an NN32:  3
+rc=0
+=== SkNatType.fss compiled run FORTRESS_THREADS=4
+T1 nat n = 3 bound to a ZZ32:  3
+T2 nat n = 3, 1:(n-1) elements:  2
+T3 nat n = 3 bound to an NN32:  3
+rc=0
+=== Expr.Do.mySum.fss walk FORTRESS_THREADS=1
+6
+rc=0
+=== Expr.Do.mySum.fss walk FORTRESS_THREADS=4
+0
+rc=0
+=== Expr.Do.mySum.fss compile
+rc=0
+=== Expr.Do.mySum.fss compiled run FORTRESS_THREADS=1
+6
+rc=0
+=== Expr.Do.mySum.fss compiled run FORTRESS_THREADS=4
+6
+rc=0
+=== Generators.GeneratorDefn.fss walk FORTRESS_THREADS=1
+<|2, 4, 6, 8, 10, 12, 14, 16, 18, 20|>
+rc=0
+=== Generators.GeneratorDefn.fss walk FORTRESS_THREADS=4
+<|2, 4, 6, 8, 10, 12, 14, 16, 18, 20|>
+rc=0
+=== Generators.GeneratorDefn.fss compile
+/home/user/fortress-specranges/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+/home/user/fortress-specranges/Library/List.fsi:109:34-45:
+    Comprehension is undefined.
+/home/user/fortress-specranges/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+/home/user/fortress-specranges/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+File Generators.GeneratorDefn.fss has 4 errors.
+rc=255
+=== Generators.GeneratorDefn.fss compiled run FORTRESS_THREADS=1
+Could not load Generators.GeneratorDefn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Generators/GeneratorDefn.class
+	... 4 more
+rc=1
+=== Generators.GeneratorDefn.fss compiled run FORTRESS_THREADS=4
+Could not load Generators.GeneratorDefn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Generators/GeneratorDefn.class
+	... 4 more
+rc=1
+EXIT=0

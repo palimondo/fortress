@@ -11,26 +11,26 @@ run(): () = do
     narrowTop = seq(zLo:zMax)
     var narrowCount: ZZ32 = 0
     for i <- narrowTop do
-        assert(i >= zLo, "ranges.tex:47")
+        assert(i >= zLo, "ranges.tex:51")
         narrowCount += 1
     end
-    assert(narrowCount = 3, "ranges.tex:47")
+    assert(narrowCount = 3, "ranges.tex:51")
     lLo = lMax - widen(2)
     wideTop = seq(0:2)
     var wideCount: ZZ32 = 0
     for k <- wideTop do
-        assert(lLo + widen(k) >= lLo, "ranges.tex:47")
+        assert(lLo + widen(k) >= lLo, "ranges.tex:51")
         wideCount += 1
     end
-    assert(wideCount = 3, "ranges.tex:47")
+    assert(wideCount = 3, "ranges.tex:51")
     sLo = zMax - 4
     stridedTop = seq(sLo:zMax:2)
     var stridedCount: ZZ32 = 0
     for i <- stridedTop do
-        assert(i >= sLo, "ranges.tex:47, :54-56")
+        assert(i >= sLo, "ranges.tex:51, :58-60")
         stridedCount += 1
     end
-    assert(stridedCount = 3, "ranges.tex:47, :54-56")
+    assert(stridedCount = 3, "ranges.tex:51, :58-60")
     println("PASS")
   end
 

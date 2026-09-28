@@ -1,0 +1,4 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.58 2.25 1.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 26c5d3dd7
+# walk SpecData/examples/basic/Expr.Do.mySum.fss
+6
+rc=0

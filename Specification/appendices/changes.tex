@@ -476,7 +476,7 @@ The team's later Types chapter (Luchangco, 2012) keeps the statement that the
 numeric types are mutually exclusive (\secref{types-libraries}).
 \item[Effect] A program names \EXP{\mathbb{Q}} or \EXP{\mathbb{Z}} where it named a
 refined type, and tests a sign or finiteness at run time.
-A generic call or a range over two different integer types writes its static
+A generic call over two different integer types writes its static
 argument until the rule that infers the narrowest type both coerce into is
 written into \chapref{type-inference} together with its implementation.
 The conversion from \EXP{\mathbb{N}32} into \EXP{\mathbb{R}64}, though exact,
@@ -1068,15 +1068,195 @@ line 55, a row of the lower table of the figure:
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The integer type of a range}
+\seclabel{revival-ranges}
+
+\begin{description}
+\item[Affected sections] \secref{ranges}; \secref{basic-integers};
+\secref{revival-numbers}; \secref{revival-notrevised}.
+\item[Change] The components of an explicit range are values of type
+\EXP{\mathbb{Z}32}, into which an integer numeral converts, and it is a static
+error if a component has another integer type. A paragraph shows how a loop
+whose counter must have a wider integer type is written: over a range of
+\EXP{\mathbb{Z}32} values, widening each element.
+The box in \secref{basic-integers}, the effect of \secref{revival-numbers} and
+\secref{revival-notrevised} no longer say that a range over two different
+integer types infers the narrowest type that both coerce into; they keep that
+rule for a generic call.
+\item[Rationale] This change does not follow from route~A; the revival decided
+it on 27~September 2026.
+The Working Draft named no integer type for a range, and \library\ declared
+their ranges generic over an integer type named by a type parameter. The
+compiled type checker refused that code wherever it converted a numeral to the
+range's integer type, since a numeral does not convert to a type named by a
+type parameter (\secref{using-coercion}).
+The compiled path's own smaller library declares its ranges over
+\EXP{\mathbb{Z}32} alone (\nolinkurl{Library/CompilerLibrary.fsi}, lines
+173--174), and on the Java Virtual Machine, which runs Fortress, an array holds
+at most $2^{31}-1$ elements, so a range of \EXP{\mathbb{Z}32} values indexes any
+of them.
+With every range over \EXP{\mathbb{Z}32}, no range is over two different
+integer types, and the rule that infers the narrowest type that both coerce
+into concerns a generic call alone.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-ranges/decision-record.md}
+in the revival's repository.
+\item[Effect] A program writes a range over \EXP{\mathbb{Z}32} where it wrote
+one over \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or
+\EXP{\mathbb{Z}}, and widens its elements where it needs a wider counter; a
+range over another integer type is refused. Whether a \KWD{nat} parameter may
+be a component of a range is not settled (\secref{revival-notrevised}).
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/ranges.tex},
+lines 42--44:
+\begin{quote}
+An \emph{explicit range}
+is self-contained and completely describes a set of integers.  Assume that
+$a$, $b$, and $c$ are expressions that produce integer values.
+\end{quote}
+The box in \secref{basic-integers} and two sentences of this appendix are the
+revival's own text of 27~September 2026, not the Working Draft's.
+The box said, in \nolinkurl{Specification/basic-lib/basic-integers.tex}, lines
+61--65, before this revision:
+\begin{quote}
+A generic call or a range over two different integer types is to infer the
+narrowest type that both coerce into, by a rule to be written into
+\chapref{type-inference} together with its implementation; until then such a
+call writes its static argument, as in
+\EXP{f\llbracket\mathbb{Z}64\rrbracket(a, b)}.
+\end{quote}
+The effect of \secref{revival-numbers} said:
+\begin{quote}
+A generic call or a range over two different integer types writes its static
+argument until the rule that infers the narrowest type both coerce into is
+written into \chapref{type-inference} together with its implementation.
+\end{quote}
+and \secref{revival-notrevised} said:
+\begin{quote}
+The rule by which a generic call or a range over two different integer types
+infers the narrowest type that both coerce into is to be written into
+\chapref{type-inference} together with its implementation
+(\secref{revival-numbers}).
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{Examples and a property with ranges over wider integer types}
+\seclabel{revival-range-examples}
+
+\begin{description}
+\item[Affected sections] \secref{block-expr}; \secref{defining-generators},
+\figref{generatorDefn} and the generator adapted to a commutative monoid;
+\secref{basic-integers}.
+\item[Change] The function \VAR{mySum} of \secref{block-expr} takes a parameter
+of type \EXP{\mathbb{Z}32} and keeps its sum of type \EXP{\mathbb{Z}64}.
+The generator of \figref{generatorDefn}, and the generator of
+\secref{defining-generators} that adapts it to a commutative monoid, are
+declared over \EXP{\mathbb{Z}32}, and the figure's midpoint is
+\EXP{\VAR{lo} + (\VAR{hi} - \VAR{lo}) \div 2}.
+The factorial property of \EXP{\mathbb{Z}} is stated by the value at \EXP{0} and
+a recurrence, without a range.
+\item[Rationale] Each built a range over an integer type other than
+\EXP{\mathbb{Z}32} (\secref{revival-ranges}): the loop of \VAR{mySum} over
+\EXP{0\COLONOP{}i} with \VAR{i} of type \EXP{\mathbb{Z}64}, the method
+\VAR{seq} of the figure's generator over \EXP{\VAR{lo}\COLONOP\VAR{hi}} with
+bounds of type \EXP{\mathbb{Z}64}, and the property's product over
+\EXP{1\COLONOP{}m} with \VAR{m} of type \EXP{\mathbb{Z}}. The adapted generator
+builds no range in its own text, but its ellipsis stands for the figure's
+members.
+The figure's midpoint \EXP{\left\lfloor (\VAR{lo}+\VAR{hi})/2 \right\rfloor} is a
+value of type \EXP{\mathbb{Z}} (\secref{basic-rationals}), which converts to
+neither \EXP{\mathbb{Z}64} nor \EXP{\mathbb{Z}32} (\secref{basic-integers}), so
+the recursive construction of the generator did not accept it; the new
+midpoint is a \EXP{\mathbb{Z}32} value equal to it whenever \EXP{\VAR{lo} \leq \VAR{hi}}
+and the generator's size \EXP{\VAR{hi}-\VAR{lo}+1} is a \EXP{\mathbb{Z}32} value, and
+it does not form the sum \EXP{\VAR{lo}+\VAR{hi}}, which exceeds \EXP{\mathbb{Z}32}
+when both bounds are large.
+The property of \EXP{\mathbb{Z}} holds for every natural \VAR{m}; over a range
+of \EXP{\mathbb{Z}32} values it would hold only below $2^{31}$ and need two
+conversions, so it is stated by a recurrence, as \secref{basic-integers} states
+the binomial coefficient by Pascal's rule.
+\item[Effect] None beyond the examples and the property.
+\item[Original text] The two examples are typeset from the files
+\nolinkurl{SpecData/examples/basic/Expr.Do.mySum.fss} and
+\nolinkurl{SpecData/examples/advanced/Generators.GeneratorDefn.fss} of the
+revival's repository, identical in the commit of 2~February 2011 of which
+\nolinkurl{Specification-1.0-frozen/} is a copy and unchanged until this
+revision;
+\nolinkurl{Specification-1.0-frozen/basic/expressions/blocks.tex}, line 72,
+and \nolinkurl{Specification-1.0-frozen/advanced/parallelism-locality/defining-generators.tex},
+line 50, input them. As typeset from those files:
+\begin{quote}
+\begin{FortressCode}
+\VAR{mySum}(i\COLON\mathbb{Z}64)\COLON\mathbb{Z}64 =\; \KWD{do} \\
+\2\+\VAR{acc}\COLON\mathbb{Z}64 \ASSIGN 0 \\
+  \KWD{for} j \leftarrow 0\COLONOP{}i \KWD{do} \\
+  \2\+\VAR{acc} \ASSIGN \VAR{acc} + j\- \\
+  \KWD{end} \\
+  \VAR{acc}\- \\
+\KWD{end}
+\end{FortressCode}
+\end{quote}
+and
+\begin{quote}
+\begin{FortressCode}
+\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}64, \VAR{hi}\COLON \mathbb{Z}64, b\COLON \mathbb{Z}64) \KWD{extends} \TYP{Generator}\llbracket\mathbb{Z}64\rrbracket \\
+\2\+\VAR{size} \COLONOP \mathbb{Z}64 = \VAR{hi} - \VAR{lo} + 1 \\
+  \VAR{seq}(\KWDVAR{self})\COLON \TYP{SequentialGenerator}\llbracket\mathbb{Z}64\rrbracket = \VAR{seq}(\VAR{lo}\COLONOP\VAR{hi}) \\
+  \VAR{generate}\llbracket{}R\rrbracket\bigl(\VAR{reduction}\COLON \TYP{Reduction}\llbracket{}R\rrbracket, \VAR{body}\COLON \mathbb{Z}64\rightarrow{}R\bigr)\COLON R = \\
+  \2\+\KWD{if} \VAR{size} \leq (b \OPR{MAX} 1) \KWD{then} \\
+    \2\+\fortressonelinecomment{(*}{ Blocks smaller than b run sequentially }{*)} \\
+      r \COLONOP R \ASSIGN \VAR{reduction}.\VAR{empty}(\ultrathin) \\
+      i \COLONOP \mathbb{Z}64 \ASSIGN \VAR{lo} \\
+      \KWD{while} i \leq \VAR{hi} \KWD{do} \\
+      \2\+v \COLONOP R = \VAR{body}(i) \\
+        r \ASSIGN \VAR{reduction}.\VAR{join}(r,v) \\
+        i \mathrel{\mathrel{+}=} 1\- \\
+      \KWD{end} \\
+      r\- \\
+    \KWD{else} \\
+    \2\+\fortressonelinecomment{(*}{ Blocks larger than b are split in half and generated in parallel. }{*)} \\
+      \VAR{mid} = \left\lfloor\,{\textstyle\VAR{lo}+\VAR{hi}\over\textstyle2}\,\right\rfloor \\
+      \VAR{reduction}.\VAR{join}(\+\TYP{BlockedRange}(\VAR{lo},\VAR{mid},b).\VAR{generate}\llbracket{}R\rrbracket(\VAR{reduction},\VAR{body}), \\
+                     \TYP{BlockedRange}(\VAR{mid}+1,\VAR{hi},b).\VAR{generate}\llbracket{}R\rrbracket(\VAR{reduction},\VAR{body}))\-\- \\
+    \KWD{end}\-\- \\
+\KWD{end} \\
+ \\
+f(\ultrathin) = \bigl\langle\,2\, x \bigm| x \leftarrow \TYP{BlockedRange}(1,10,3)\,\bigr\rangle
+\end{FortressCode}
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/advanced/parallelism-locality/defining-generators.tex},
+lines 405, 407 and 411, the three lines of the adapted generator that named
+\EXP{\mathbb{Z}64}, quoted without their indentation and alignment commands:
+\begin{quote}
+\begin{Fortress}
+\( \KWD{value}\;\;\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}64, \VAR{hi}\COLON \mathbb{Z}64, b\COLON \mathbb{Z}64) \KWD{extends} \TYP{Generator}\llbracket\mathbb{Z}64\rrbracket\)\\
+\(   \VAR{generate}\llbracket{}R \KWD{extends} \TYP{CommutativeMonoid}\llbracket\,R, \oplus\rrbracket, \KWD{opr} \mathord{\oplus}\rrbracket(\VAR{body} \mathrel{\mathtt{:}} \mathbb{Z}64 \rightarrow R) \mathrel{\mathtt{:}} R = \;\KWD{do}\)\\
+\(         i \mathrel{\mathtt{:}} \mathbb{Z}64 = l\)\\
+\end{Fortress}
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}, lines 559--561:
+\begin{quote}
+\begin{Fortress}
+{\tt~~}\pushtabs\=\+\(  \KWD{property} \forall (m)\; m! = \prod\limits_{k\leftarrow{}1\COLONOP{}m} k\)\-\\\poptabs
+\end{Fortress}
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
 No passage that instantiation exclusion or the reorganized numeric types
 contradict is known to be unrevised.
-The rule by which a generic call or a range over two different integer types
+The rule by which a generic call over two different integer types
 infers the narrowest type that both coerce into is to be written into
 \chapref{type-inference} together with its implementation
 (\secref{revival-numbers}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+Whether a \KWD{nat} parameter, which may appear wherever a variable of type
+\EXP{\mathbb{N}32} can (\secref{natparams}), may be a component of a range
+is not settled (\secref{revival-ranges}); the static ranges of
+\secref{ranges} and the examples whose ranges a \KWD{nat} parameter bounds are
+not revised.
 Before the number chapters were revised, this section said:
 \begin{quote}
 The number chapters, \chapref{lib:numbers-basic} (whose integers are \secref{basic-integers})

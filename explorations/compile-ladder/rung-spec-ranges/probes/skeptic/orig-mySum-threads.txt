@@ -1,0 +1,5 @@
+machine: nproc 4, load 17.35 16.71 14.07; the base's Expr.Do.mySum (mySum(i:ZZ64):ZZ64), git show 26c5d3dd7:SpecData/examples/basic/Expr.Do.mySum.fss, under walk
+FORTRESS_THREADS=1: 6 rc=0
+FORTRESS_THREADS=4: 3 rc=0
+FORTRESS_THREADS=4: 6 rc=0
+FORTRESS_THREADS=4: 6 rc=0

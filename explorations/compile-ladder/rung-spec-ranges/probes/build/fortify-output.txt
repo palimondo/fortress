@@ -1,0 +1,37 @@
+=== input loop.txt
+%for i <- 0#n do
+%  j: ZZ64 = i
+%  ...
+%end
+=== input fact.txt
+%%   property 0! = 1
+%%   property FORALL (m) m >= 0 IMPLIES (m+1)! = (m+1) m!
+=== input factorig.txt
+%%   property FORALL (m) m! = PROD[k<-1:m] k
+=== output
+=== tmp/fy/loop.txt
+%for i <- 0#n do
+%  j: ZZ64 = i
+%  ...
+%end
+\begin{Fortress}
+\(\KWD{for}\:i \leftarrow 0\mathinner{\hbox{\tt\char'43}}n \KWD{do}\)\\
+{\tt~~}\pushtabs\=\+\(  j\COLON \mathbb{Z}64 = i\)\\
+\(  \ldots\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+
+=== tmp/fy/fact.txt
+%%   property 0! = 1
+%%   property FORALL (m) m >= 0 IMPLIES (m+1)! = (m+1) m!
+\begin{Fortress}
+{\tt~~}\pushtabs\=\+\(  \KWD{property} 0! = 1\)\\
+\(  \KWD{property} \forall (m)\; m \geq 0 \rightarrow (m+1)! = (m+1)\:m!\)\-\\\poptabs
+\end{Fortress}
+
+=== tmp/fy/factorig.txt
+%%   property FORALL (m) m! = PROD[k<-1:m] k
+\begin{Fortress}
+{\tt~~}\pushtabs\=\+\(  \KWD{property} \forall (m)\; m! = \prod\limits_{k\leftarrow{}1\COLONOP{}m}\:k\)\-\\\poptabs
+\end{Fortress}
+

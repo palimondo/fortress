@@ -1,0 +1,6 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 7.69 5.45 3.15; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 26c5d3dd7
+# walk explorations/compile-ladder/rung-spec-ranges/probes/examples/NatBoundRange.fss
+N1 |0#n| with nat n = 3: 3
+N2 |1:(n-1)| with nat n = 3, Fun.Decl's shape: 2
+N3 a nat parameter in value position is a ZZ32 under walk
+rc=0

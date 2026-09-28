@@ -85,10 +85,10 @@ run(): () = do
   assert((threeL RSHIFT lMin).asString, "0", "row 335: ZZ64 3 RSHIFT MIN")
 
   zeroL: ZZ64 = 0
-  assert((|zero|).asString, "0", "row 333: ZZ32 |0|, basic-integers.tex:608-609")
+  assert((|zero|).asString, "0", "row 333: ZZ32 |0|, basic-integers.tex:615-616")
   assert((-zero).asString, "0", "row 333: ZZ32 -0, basic-integers.tex:380")
   assert((zero DIV mOne).asString, "0", "row 333: ZZ32 0 DIV -1, basic-integers.tex:433-434")
-  assert((|zeroL|).asString, "0", "row 333: ZZ64 |0|, basic-integers.tex:608-609")
+  assert((|zeroL|).asString, "0", "row 333: ZZ64 |0|, basic-integers.tex:615-616")
   assert((-zeroL).asString, "0", "row 333: ZZ64 -0, basic-integers.tex:380")
   assert((zeroL DIV mOneL).asString, "0", "row 333: ZZ64 0 DIV -1, basic-integers.tex:433-434")
   assert(shouldOverflow32(fn () => |zMin|), "row 333: ZZ32 |MIN| overflows, opr-overview.tex:155")
@@ -132,11 +132,11 @@ run(): () = do
   assert((lMin DOTCROSS twoL).asString, "-9223372036854775808", "ZZ64 MIN DOTCROSS 2 saturates, row 348, Integer4.fss:124-126")
   assert((lMin DOTCROSS mOneL).asString, "9223372036854775807", "ZZ64 MIN DOTCROSS -1 saturates, row 348, Integer4.fss:124-126")
   assert((lTwoPow32 DOTCROSS lTwoPow31).asString, "9223372036854775807", "ZZ64 2^32 DOTCROSS 2^31 saturates, row 348, Integer4.fss:124-126")
-  assert(jIntSaturatingAbs(zero).asString, "0", "ZZ32 saturating |0|, basic-integers.tex:608-609")
+  assert(jIntSaturatingAbs(zero).asString, "0", "ZZ32 saturating |0|, basic-integers.tex:615-616")
   assert(jIntSaturatingAbs(zMin).asString, "2147483647", "row 333: ZZ32 saturating |MIN| still saturates")
   assert(jIntSaturatingDiv(zero, mOne).asString, "0", "ZZ32 saturating 0 DIV -1, basic-integers.tex:433-434")
   assert(jIntSaturatingDiv(zMin, mOne).asString, "2147483647", "row 333: ZZ32 saturating MIN DIV -1 still saturates")
-  assert(jLongSaturatingAbs(zeroL).asString, "0", "ZZ64 saturating |0|, basic-integers.tex:608-609")
+  assert(jLongSaturatingAbs(zeroL).asString, "0", "ZZ64 saturating |0|, basic-integers.tex:615-616")
   assert(jLongSaturatingAbs(lMin).asString, "9223372036854775807", "row 333: ZZ64 saturating |MIN| still saturates")
   assert(jLongSaturatingDiv(zeroL, mOneL).asString, "0", "ZZ64 saturating 0 DIV -1, basic-integers.tex:433-434")
   assert(jLongSaturatingDiv(lMin, mOneL).asString, "9223372036854775807", "row 333: ZZ64 saturating MIN DIV -1 still saturates")
@@ -152,7 +152,7 @@ run(): () = do
   assert(narrow(mHalf64).asZZ.asString, "0", "row 346: NN64 narrow 2^63 keeps the low 32 bits, UnsignedTest.fss:211")
   assert(narrow(mAll64).asZZ.asString, nAll.asZZ.asString, "row 346: NN64 narrow 2^64-1 is NN32 2^32-1")
   bigThree: ZZ = three.asZZ
-  assert((bigThree <<< thirtyThree).asString, "25769803776", "ZZ 3 <<< 33, basic-integers.tex:677-681")
+  assert((bigThree <<< thirtyThree).asString, "25769803776", "ZZ 3 <<< 33, basic-integers.tex:684-688")
   assert(shouldOverflowZZ(fn () => bigThree <<< zMax), "row 386: ZZ 3 <<< 2147483647 overflows, opr-overview.tex:155")
 
   println("PASS")

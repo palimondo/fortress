@@ -1,0 +1,160 @@
+The list of rung U (climb batch 7R, rung-spec-ranges), written before any edit, at 26c5d3dd7.
+
+Every passage of Specification/ outside library/apis/, and every example of SpecData/examples/
+the specification inputs, that names a range's integer type or builds a range over an integer
+that is neither a ZZ32 nor a numeral; each with its file:line, what the decision makes of it,
+whether it is revised now or left, and the source that settles it. In every file below except
+basic-integers.tex and changes.tex (both revised by the revival since the import), the base's
+lines equal the frozen copy's (diff, for ranges.tex, blocks.tex and defining-generators.tex).
+"The decision": the ranges decision, POSITIONS.md 2026-09-27, the numerics plans, decision 1.
+"J": the batch record's section for rung J, explorations/coordinator/CLIMB-BATCH-7R.md section 3.
+
+How the list was made:
+- measurement C's scanner, explorations/reviews/numerics-plan-coordinator/probes-C/nonzz32.py,
+  re-run on this worktree (its ROOT changed, nothing else): the same 16 candidate lines as
+  measurement C's nonzz32-candidates.txt, of which 7 are range constructions; the scanner
+  reads the % lines of Specification/**/*.tex and the .fss files, and names typed ZZ64, NN32,
+  NN64 or ZZ; it does not read typeset LaTeX, names typed NN (the specification's N), static
+  nat parameters, or an untyped quantifier such as FORALL (m);
+- by hand: every range-like line of SpecData/examples/**/*.fss (41 lines, each read); every
+  line of Specification/ (outside library/) that holds a range glyph (COLONOP, char'43) or a
+  Range type name with an integer type; every % or typeset block that pairs a wider integer
+  type with a generator or range within six lines; every range bounded by a nat or int static
+  parameter (a script over the % lines and the examples); the sentences "range over",
+  "two different integer", "narrowest type" anywhere in Specification/ and in the later
+  restart's .tick files.
+
+REVISED NOW
+
+R1. Specification/basic/expressions/ranges.tex:42-44 (frozen :42-44). "An explicit range is
+    self-contained and completely describes a set of integers. Assume that a, b, and c are
+    expressions that produce integer values." No integer type is named; the bullets that follow
+    (:47, :54-56, :64-65) use n as well as a, b, c. The decision: the bounds, stride and size
+    of an explicit range are ZZ32 values, into which a numeral converts; a range over another
+    integer type is a static error; a wider counter is written as a ZZ32 loop that widens its
+    index. Revised now: the assumption names ZZ32 and n, the static error is stated, a
+    paragraph after the bullets shows the wider counter, and a \revision callout follows.
+    Source: the decision; J (its operators opr #(lo:ZZ32, ex:ZZ32) and opr :(lo:ZZ32, hi:ZZ32),
+    non-generic, taking a numeral by the library's coercion, by reading).
+R2. SpecData/examples/advanced/Generators.GeneratorDefn.fss:19-39, input by
+    Specification/advanced/parallelism-locality/defining-generators.tex:50 (frozen :50), the
+    figure "Sample Generator definition: blocked integer ranges": object BlockedRange(lo: ZZ64,
+    hi: ZZ64, b: ZZ64) extends Generator[\ZZ64\], whose seq(self) is seq(lo:hi), a range over
+    ZZ64. The decision names it ("its two ZZ64 examples"). Revised now: ZZ32 throughout. Its
+    midpoint too, |\ (lo+hi)/2 /|, since the floor of a rational is a ZZ
+    (Specification/basic-lib/numbers.tex:431-432, :438-439), which converts to neither ZZ32 nor
+    ZZ64; measured under walk on the base: the original stops earlier, at b MAX 1 ("Ambiguous
+    coercion", probes/examples/GeneratorDefn-base-walk.txt), and a ZZ32 copy that keeps the
+    floor stops at BlockedRange(lo,mid,b) with "got arg 6:ZZ"
+    (probes/examples/GeneratorDefnFloorZZ32.fss, GeneratorDefnFloorZZ32-base-walk.txt). The prose around it
+    (defining-generators.tex:63-89) names no type: not edited.
+R3. SpecData/examples/basic/Expr.Do.mySum.fss:19-25, input by
+    Specification/basic/expressions/blocks.tex:72 (frozen :72): mySum(i:ZZ64):ZZ64 with
+    for j <- 0:i, a numeral and a ZZ64 bound. The decision names it. Revised now: the parameter
+    becomes ZZ32; the sum stays ZZ64. The prose around it (blocks.tex:66-72) names no type:
+    not edited.
+R4. Specification/basic-lib/basic-integers.tex:544-547 (frozen :558-561): ZZ's factorial
+    property, property FORALL (m) m! = PROD[k<-1:m] k, a range over ZZ. The decision names it.
+    Revised now, as a statement without a range (0! = 1 and a recurrence), with a callout.
+R5. Specification/basic-lib/basic-integers.tex:61-65 (the revival's callout, d9c415395, not the
+    Working Draft's): "A generic call or a range over two different integer types is to infer
+    the narrowest type that both coerce into ... until then such a call writes its static
+    argument". The decision names it; answer 8's range half is moot, its call half stays
+    (batch N's). Revised now: " or a range" is deleted; the line count is unchanged.
+R6. Specification/appendices/changes.tex:1076-1078, "Passages not yet revised": "The rule by
+    which a generic call or a range over two different integer types infers the narrowest type
+    ...". It repeats R5. Revised now the same way.
+R7. Specification/appendices/changes.tex:479-481, the Effect of the entry "The number types"
+    (rung T's, the revival's own text): "A generic call or a range over two different integer
+    types writes its static argument until the rule ... is written". It repeats R5 a third
+    time; the batch record names only R5 and R6. The decision settles its new text as it
+    settles R5's. Revised now the same way, named here as a find of the list (the brief's
+    "what its list finds, each named"), as rung T revised rung S's appendix sentences that its
+    change made false (explorations/compile-ladder/rung-spec-numbers/decision-record.md
+    section 3.8).
+R8. Specification/advanced/parallelism-locality/defining-generators.tex:382-427 (frozen
+    :382-427), not in measurement C's list: a second BlockedRange, "value object
+    BlockedRange(lo: ZZ64, hi: ZZ64, b: ZZ64) extends Generator[\ZZ64\]" with "...", its
+    generate overloaded for a commutative monoid, i: ZZ64 in its sequential loop. Its printed
+    text builds no range; its "..." stands for the members of the figure's BlockedRange (R2),
+    seq(lo:hi) among them, which the section adapts ("For example, a commutative monoid need
+    only maintain a single variable", :380-381). The scanner missed it because it builds no
+    range in its own lines. Revised now with R2, ZZ64 to ZZ32 in its source lines (:382, :384,
+    :388) and typeset lines (:405, :407, :411), so that the section declares one BlockedRange;
+    its midpoint (:396, :419) is left as the team wrote it, see L9. Source: the decision, as
+    R2 carries it; the file list's "prose around those two examples ... where it names the type".
+
+LEFT, WITH THE REASON
+
+L1. Specification/basic/expressions/ranges.tex:47, :54-56, :64-65, :103-106 (the three bullets
+    and the size): they state each range as a set of integers by arithmetic; with ZZ32
+    components they hold as written. Not revised.
+L2. Specification/basic/expressions/ranges.tex:15, :49-52, :60-62, :67-71: static ranges
+    (StaticRange, RangeOfStaticSize) over static expressions. The section's own note says they
+    are "not yet supported" (:15; constant.tex:15). A static expression built from numerals is
+    covered by R1's numeral clause; one built from a nat parameter is L3's question. Not revised.
+L3. Ranges bounded by a nat static parameter, which the specification lets appear "in any
+    context that a variable of type NN32 can appear" (Specification/basic/trait-parameters.tex:82-84)
+    and whose value has type NaturalStatic (Specification/basic/expressions/constant.tex:96-97):
+    - SpecData/examples/basic/Fun.Decl.fss:23, rest[1:(length-1)] with nat length, input by
+      Specification/basic/functions.tex:190;
+    - Specification/advanced-lib/binary.tex:716-717, :951, :1086-1089 (source lines of the
+      typeset properties below each), AND[m<-0#2^(b-1)] and AND[j<-0#2^b] with nat b, in the
+      chapter on binary words, which the library does not implement;
+    - Specification/basic/matrix-unpasting.tex:160-161 and the typeset :164-168, extent
+      specifications r0#p, c0#q over nat p and q in types, under "Matrix unpasting is not yet
+      supported" (:15).
+    Under walk a nat parameter in value position is a ZZ32 today, and |0#n| and |1:(n-1)| with
+    nat n = 3 answer 3 and 2 (probes/examples/NatBoundRange-base-walk.txt), so these run on
+    the base; the specification reads the parameter as an NN32 context, which R1 would make a
+    static error. Neither the decision nor J's section says whether a nat parameter bounds a
+    range (converting as a numeral does) or is refused. Reported, not chosen: left unrevised,
+    one sentence in "Passages not yet revised" (R6's paragraph) says it is not settled, and
+    the question goes to Pavol.
+L4. Specification/advanced-lib/binary.tex:100 "only ranges of static size with element type
+    IndexInt may be used to subscript a linear sequence", and the RangeOfStaticSize[\IndexInt,m\]
+    signatures of that chapter: IndexInt is defined nowhere in Specification/ (grep) and in
+    the library only under Library/incomplete/; the chapter describes a library that does not
+    exist. Consistent with the decision if IndexInt is ZZ32; not revised.
+L5. Specification/appendices/future.tex:186-203, Indexed[\E, I\] with opr[r: Range[\I\]]: the
+    public range traits keep their index type (the decision; J), so Range[\I\] stands. Not revised.
+L6. Specification/advanced/parallelism-locality/defining-generators.tex:313-326,
+    SimplePairGenerator's size : ZZ64: a generator's size, not a range. Not revised.
+L7. Numeral and untyped ranges: SpecData/examples/preliminaries/Overview.Expression.big.fss:18
+    (factorial(n) = PROD[i <- 1:n] i, n untyped, called with a numeral), Overview.factorial.fss:19
+    and advanced/OprDecl.Postfix.fss:19 (n: ZZ32), Generators.ReductionClass.fss:24, :28 (1#100),
+    Expr.Range.fss:23, Overview.Expression.forLoop.fss:20, and generators.tex:97, :109
+    (l:u, 1:n untyped). ZZ32 or numerals. Not revised.
+L8. Specification/basic/expressions/reductions.tex:27-44 (the reductions callout): the compiled
+    path's big operators "range over ZZ32 only"; consistent. Not revised.
+L9. The midpoint of R8, mid = ceiling(l/2) + floor(u/2) (defining-generators.tex:396, :419):
+    the floor and ceiling of a rational are ZZ (numbers.tex:431-434), so traverse(mid+1,u) then
+    binds i: ZZ64 = l (after R8, ZZ32) to a ZZ, which converts to neither; so the Working
+    Draft's text had the same slip before this rung. The block elides the object's other
+    members and is not run by any harness. Left as the team wrote it, reported; R2's figure,
+    which runs, is where the midpoint is repaired.
+L10. Specification/appendices/changes.tex:41-58, Appendix I's introduction: it names two
+    decision records and says "Every change below follows from one decision of the revival ...
+    called route A". Rung A's entry (climb batch 7, "Initializing an array from a function",
+    :1028-1069) already departs from it and says so in its Rationale; this rung's entries do
+    the same and name their decision record in their Rationale. Outside the paragraphs this
+    rung may edit; left, reported for the gather.
+L11. Specification/basic-lib/basic-integers.tex:540-542, "The factorial operator is defined only
+    for natural number types; it returns the product of all positive integers that are not
+    less than the integer": "not less than" is the team's slip for "not greater than" (frozen
+    :553-555). Not a range; left, reported.
+L12. Documentation/Specification/Prose/Language/Expressions/ranges.tick:12: the later restart's
+    ranges section is a heading only; nothing to cite beside (FACTS.md, "The specification
+    never wrote static-argument inference, a numeral's type hierarchy or a range's integer
+    width").
+
+ALSO MEASURED WHILE MAKING THE LIST
+
+M1. The original Generators.GeneratorDefn does not run under walk on the base: "Ambiguous
+    coercion, args = (3: ZZ64,1: ZZ32)" at b MAX 1 (:23), before any range is built
+    (probes/examples/GeneratorDefn-base-walk.txt). Reduced: b: ZZ64 = widen(3); b MAX 1 is
+    refused, while b MAX widen(1), b + 1 and b <= 1 answer (probes/examples/WideMaxNumeral.fss,
+    WideMaxNumeral-base-walk.txt). ZZ64 declares + and <= itself (Library/FortressLibrary.fss:786,
+    :796) and inherits MAX from the generic traits StandardMax, StandardMinMax and
+    StandardTotalOrder (:253, :267, :286); QQ declares its own (:584). ant testSpecData, which
+    runs the example, is not in the gate (explorations/coordinator/PLAN.md:209).

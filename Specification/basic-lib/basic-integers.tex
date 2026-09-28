@@ -58,7 +58,7 @@ As for the rationals, the text above describes the integer types \library\
 declare instead, siblings under \TYP{Number}, with the coercions they declare:
 \EXP{\mathbb{Z}} is no longer a subtype of \EXP{\mathbb{Q}}, which coerces from it.
 The library's integer types hold no infinite value.
-A generic call or a range over two different integer types is to infer the
+A generic call over two different integer types is to infer the
 narrowest type that both coerce into, by a rule to be written into
 \chapref{type-inference} together with its implementation; until then such a
 call writes its static argument, as in
@@ -541,10 +541,17 @@ The factorial operator is defined only for natural number types;
 it returns the product of all positive integers that are not less than the integer.
 If the argument is \EXP{0}, the result is \EXP{1}.
 
-%%   property FORALL (m) m! = PROD[k<-1:m] k
+%%   property 0! = 1
+%%   property FORALL (m) m >= 0 IMPLIES (m+1)! = (m+1) m!
 \begin{Fortress}
-{\tt~~}\pushtabs\=\+\(  \KWD{property} \forall (m)\; m! = \prod\limits_{k\leftarrow{}1\COLONOP{}m} k\)\-\\\poptabs
+{\tt~~}\pushtabs\=\+\(  \KWD{property} 0! = 1\)\\
+\(  \KWD{property} \forall (m)\; m \geq 0 \rightarrow (m+1)! = (m+1)\:m!\)\-\\\poptabs
 \end{Fortress}
+\revision{revival-range-examples}{The Working Draft of February 2011 stated
+this property as \EXP{m! = \prod\limits_{k\leftarrow{}1\COLONOP{}m} k}, a
+product over a range of \EXP{\mathbb{Z}} values, which \secref{ranges} no
+longer admits; the two properties above state it by the value at \EXP{0} and a
+recurrence, for every natural \VAR{m}.}
 
 
 %%   opr CHOOSE(self, other: ZZ): ZZ

@@ -1,0 +1,24 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.38 2.56 2.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 3be1fecd7 with climb batch 7R's rung U applied in the index and the gather's edits
+# walk ProjectFortress/tests/XXXRangeWideRungJ.fss
+REACHED
+com.sun.fortress.exceptions.ProgramError: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/g7r/work/XXXRangeWideRungJ.fss:10:12-20:
+Failed to find any matching overload, args = (1: ZZ64,3: ZZ64), overload = {
+	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange /home/user/fortress/Library/FortressLibrary.fss:3960:1-45
+	:(lo:FortressLibrary.ZZ32,hi:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange /home/user/fortress/Library/FortressLibrary.fss:3913:1-3914:28
+	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D /home/user/fortress/Library/FortressLibrary.fss:3915:1-3916:60
+	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->CompactFullRange3D /home/user/fortress/Library/FortressLibrary.fss:3917:1-3920:4
+	:[\I\](r:Range[\I\],stride:I):Range[\I\]/home/user/fortress/Library/FortressLibrary.fss:4037:1-4040:3}:OverloadedFunction
+Context:
+/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/g7r/work/XXXRangeWideRungJ.fss:10:12-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1
+# 4 s

@@ -1,0 +1,12 @@
+component SkRangeZZ64
+export Executable
+
+run(): () = do
+  lo: ZZ64 = 1
+  hi: ZZ64 = 3
+  var c: ZZ32 = 0
+  for x <- seq(lo:hi) do c := c + 1 end
+  println("Z1 a ZZ64 range lo:hi, elements " c.asString)
+end
+
+end

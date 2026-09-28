@@ -1,0 +1,10 @@
+component SkRangeBigNumeral
+export Executable
+
+run(): () = do
+  var c: ZZ32 = 0
+  for x <- seq(2147483645 : 3000000000) do c := c + 1 end
+  println("B1 a range with a numeral beyond ZZ32, elements " c.asString)
+end
+
+end

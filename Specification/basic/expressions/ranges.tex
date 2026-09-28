@@ -40,8 +40,12 @@ for indexing an array or controlling a \KWD{for} loop.  Generators in
 general are discussed further in \secref{generators}.
 
 An \emph{explicit range}
-is self-contained and completely describes a set of integers.  Assume that
-$a$, $b$, and $c$ are expressions that produce integer values.
+is self-contained and completely describes a set of integers.  Its
+components are values of type \EXP{\mathbb{Z}32}: assume that
+$a$, $b$, and $c$ are expressions that produce such values.
+An integer numeral converts to \EXP{\mathbb{Z}32} (\secref{literals}), and
+it is a static error if a component of an explicit range has an integer type
+other than \EXP{\mathbb{Z}32}.
 
 \begin{itemize}
 \item The range \EXP{a\COLONOP{}b} is the set of $n=\max(0,b-a+1)$ integers $\{a, a+1, a+2, \ldots, b-2, b-1, b\}$.
@@ -70,6 +74,29 @@ If \VAR{n} is a static expression, then it is a \emph{range of static size}
 of type \EXP{\TYP{RangeOfStaticSize}\llbracket{}n\rrbracket},
 even if \VAR{a} is not a static expression.
 \end{itemize}
+
+A loop whose counter must have a wider integer type runs over a range of
+\EXP{\mathbb{Z}32} values and widens each element, as in the following
+loop, where the binding converts \VAR{i} to \EXP{\mathbb{Z}64}
+(\secref{basic-integers}):
+%for i <- 0#n do
+%  j: ZZ64 = i
+%  ...
+%end
+\begin{Fortress}
+\(\KWD{for}\:i \leftarrow 0\mathinner{\hbox{\tt\char'43}}n \KWD{do}\)\\
+{\tt~~}\pushtabs\=\+\(  j\COLON \mathbb{Z}64 = i\)\\
+\(  \ldots\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+\revision{revival-ranges}{The Working Draft of February 2011 assumed only
+that the components of an explicit range produce integer values, and named no
+integer type; two of its own examples built ranges over \EXP{\mathbb{Z}64},
+and a property of \EXP{\mathbb{Z}} a range over \EXP{\mathbb{Z}}.
+\Library\ declare the ranges over \EXP{\mathbb{Z}32} alone, as the smaller
+library of the compiled path already did: a range over another integer type
+is a static error, and a loop that needs a wider counter widens each element
+of a range of \EXP{\mathbb{Z}32} values.}
 
 Non-static components of a range expression are computed in separate
 implicit threads.  The range is constructed when all components have

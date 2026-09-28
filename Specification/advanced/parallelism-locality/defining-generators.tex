@@ -50,6 +50,13 @@ yielding the expected answer of 15350.
 \input{\home/advanced/examples/Generators.GeneratorDefn.tex}
 \caption{\figlabel{generatorDefn}Sample \TYP{Generator} definition: blocked integer ranges.}
 \end{figure}
+\revision{revival-range-examples}{The Working Draft of February 2011 defined
+the generator of \figref{generatorDefn} over \EXP{\mathbb{Z}64}, and its
+method \VAR{seq} built a range over \EXP{\mathbb{Z}64}, which \secref{ranges}
+no longer admits; the generator is defined over \EXP{\mathbb{Z}32}.
+Its midpoint was \EXP{\left\lfloor (\VAR{lo}+\VAR{hi})/2 \right\rfloor}, a
+value of type \EXP{\mathbb{Z}}, which converts to neither fixed-size type; it
+is \EXP{\VAR{lo} + (\VAR{hi} - \VAR{lo}) \div 2}.}
 
 For non-commutative reductions such as the \TYP{Concat} reduction used for
 list comprehensions in \figref{generatedExpressions}, it is important to
@@ -379,13 +386,13 @@ Overloaded instances of the \VAR{generate} method can be used to adapt
 a generator to the particular properties of the reduction being
 performed.  For example, a commutative monoid need only maintain a
 single variable \VAR{result} containing the reduced value so far:
-% value object BlockedRange(lo: ZZ64, hi: ZZ64, b: ZZ64) extends Generator[\ZZ64\]
+% value object BlockedRange(lo: ZZ32, hi: ZZ32, b: ZZ32) extends Generator[\ZZ32\]
 %   ...
-%   generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ64 -> R) : R = do
+%   generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ32 -> R) : R = do
 %     result : R = Identity[\OPLUS\]
 %     traverse(l,u) =
 %       if u-l+1 <= max(b,1) then
-%         i : ZZ64 = l
+%         i : ZZ32 = l
 %         while i <= u do
 %           t = body(i)
 %           atomic result := result OPLUS t
@@ -402,13 +409,13 @@ single variable \VAR{result} containing the reduced value so far:
 %   end
 % end
 \begin{Fortress}
-{\tt~}\pushtabs\=\+\( \KWD{value}\;\;\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}64, \VAR{hi}\COLON \mathbb{Z}64, b\COLON \mathbb{Z}64) \KWD{extends} \TYP{Generator}\llbracket\mathbb{Z}64\rrbracket\)\\
+{\tt~}\pushtabs\=\+\( \KWD{value}\;\;\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}32, \VAR{hi}\COLON \mathbb{Z}32, b\COLON \mathbb{Z}32) \KWD{extends} \TYP{Generator}\llbracket\mathbb{Z}32\rrbracket\)\\
 {\tt~~}\pushtabs\=\+\(   \ldots\)\\
-\(   \VAR{generate}\llbracket{}R \KWD{extends} \TYP{CommutativeMonoid}\llbracket\,R, \oplus\rrbracket, \KWD{opr} \mathord{\oplus}\rrbracket(\VAR{body} \mathrel{\mathtt{:}} \mathbb{Z}64 \rightarrow R) \mathrel{\mathtt{:}} R = \;\KWD{do}\)\\
+\(   \VAR{generate}\llbracket{}R \KWD{extends} \TYP{CommutativeMonoid}\llbracket\,R, \oplus\rrbracket, \KWD{opr} \mathord{\oplus}\rrbracket(\VAR{body} \mathrel{\mathtt{:}} \mathbb{Z}32 \rightarrow R) \mathrel{\mathtt{:}} R = \;\KWD{do}\)\\
 {\tt~~}\pushtabs\=\+\(     \VAR{result} \mathrel{\mathtt{:}} R = \TYP{Identity}\llbracket\mathord{\oplus}\rrbracket\)\\
 \(     \VAR{traverse}(l,u) =\)\\
 {\tt~~}\pushtabs\=\+\(       \KWD{if} u-l+1 \leq \max(b,1) \KWD{then}\)\\
-{\tt~~}\pushtabs\=\+\(         i \mathrel{\mathtt{:}} \mathbb{Z}64 = l\)\\
+{\tt~~}\pushtabs\=\+\(         i \mathrel{\mathtt{:}} \mathbb{Z}32 = l\)\\
 \(         \KWD{while} i \leq u \KWD{do}\)\\
 {\tt~~}\pushtabs\=\+\(           t = \VAR{body}(i)\)\\
 \(           \KWD{atomic} \VAR{result} \ASSIGN \VAR{result} \oplus t\)\\
@@ -425,6 +432,10 @@ single variable \VAR{result} containing the reduced value so far:
 \(   \KWD{end}\)\-\\\poptabs
 \( \KWD{end}\)\-\\\poptabs
 \end{Fortress}
+\revision{revival-range-examples}{The Working Draft of February 2011
+declared this generator over \EXP{\mathbb{Z}64}, as it declared the generator
+of \figref{generatorDefn}, whose members the ellipsis stands for; both are
+declared over \EXP{\mathbb{Z}32}.}
 
 The choice of whether to apply this transformation is left up to the
 author of the generator; when many iterations run in parallel the

@@ -1,0 +1,28 @@
+component SkRangeZZ32b
+export Executable
+
+run(): () = do
+  a: ZZ32 = 3
+  b: ZZ32 = 7
+  n: ZZ32 = -2
+  var c1: ZZ32 = 0
+  for x <- seq(3:7) do c1 := c1 + 1 end
+  println("R1 3:7 elements " c1.asString)
+  var c2: ZZ32 = 0
+  for x <- seq(a:b) do c2 := c2 + 1 end
+  println("R2 a:b elements " c2.asString)
+  var c3: ZZ32 = 0
+  for x <- seq(0#a) do c3 := c3 + 1 end
+  println("R3 0#a elements " c3.asString)
+  var c4: ZZ32 = 0
+  for x <- seq(a#n) do c4 := c4 + 1 end
+  println("R4 a#n, n negative, elements " c4.asString)
+  var c5: ZZ32 = 0
+  for x <- seq(b:a) do c5 := c5 + 1 end
+  println("R5 b:a elements " c5.asString)
+  var s: ZZ32 = 0
+  for x <- seq(a#4) do s := s + x end
+  println("R6 sum over a#4 " s.asString)
+end
+
+end

@@ -1,0 +1,57 @@
+component RespelledRanges
+import List.{...}
+export Executable
+
+object BlockedRange(lo: ZZ32, hi: ZZ32, b: ZZ32) extends Generator[\ZZ32\]
+  size : ZZ32 = hi - lo + 1
+  seq(self): SequentialGenerator[\ZZ32\] = seq(lo:hi)
+  generate[\R\](reduction: Reduction[\R\], body: ZZ32->R): R =
+    if size <= (b MAX 1) then
+      r : R := reduction.empty()
+      i : ZZ32 := lo
+      while i <= hi do
+        v : R = body(i)
+        r := reduction.join(r,v)
+        i += 1
+      end
+      r
+    else
+      mid = lo + (hi - lo) DIV 2
+      reduction.join(BlockedRange(lo,mid,b).generate[\R\](reduction,body),
+                     BlockedRange(mid+1,hi,b).generate[\R\](reduction,body))
+    end
+end
+
+mySum(i:ZZ32):ZZ64 = do
+  acc:ZZ64 := 0
+  for j <- 0:i do
+    acc := acc + j
+  end
+  acc
+end
+
+run() = do
+  println("G1 parallel <|2 x | x <- BlockedRange(1,10,3)|> = " <| 2 x | x <- BlockedRange(1,10,3) |>)
+  print("G2 seq(BlockedRange(1,10,3)) in order:")
+  for x <- seq(BlockedRange(1,10,3)) do print(" " x) end
+  println("")
+  println("G3 negative bounds <|x | x <- BlockedRange(-3,-2,1)|> = " <| x | x <- BlockedRange(-3,-2,1) |>)
+  println("G4 SUM, static argument ZZ32, over BlockedRange(-7,7,2) = " (SUM[\ZZ32\][x <- BlockedRange(-7,7,2)] x))
+  println("G5 the truncating alternative: (-3 + -2) DIV 2 = " ((-3 + -2) DIV 2) ", so it would give hi = -2 and recurse on the same range")
+  println("S1 mySum(3) = " mySum(3))
+  println("S2 mySum(100000) = " mySum(100000) ", above the ZZ32 maximum 2147483647")
+  n: ZZ32 = 3
+  acc: ZZ64 := 0
+  for i <- 0#n do
+    j: ZZ64 = i
+    acc := acc + j
+  end
+  println("W1 the ranges section's wider counter, for i <- 0#3 do j: ZZ64 = i ..., sums to " acc)
+  wk = (fn (i: ZZ32) => do k: ZZ64 = i; k end)(5)
+  typecase wk of
+    ZZ64 => println("W2 j: ZZ64 = i binds a ZZ64")
+    else => println("W2 j: ZZ64 = i does not bind a ZZ64")
+  end
+end
+
+end

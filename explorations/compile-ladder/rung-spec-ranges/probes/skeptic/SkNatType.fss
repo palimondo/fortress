@@ -1,0 +1,26 @@
+component SkNatType
+export Executable
+
+asZ[\nat n\](): ZZ32 = do
+  z: ZZ32 = n
+  z
+end
+
+asN[\nat n\](): NN32 = do
+  u: NN32 = n
+  u
+end
+
+strided[\nat n\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(1:(n-1)) do c := c + 1 end
+  c
+end
+
+run(): () = do
+  println("T1 nat n = 3 bound to a ZZ32: " (asZ[\3\]()).asString)
+  println("T2 nat n = 3, 1:(n-1) elements: " (strided[\3\]()).asString)
+  println("T3 nat n = 3 bound to an NN32: " (asN[\3\]()).asString)
+end
+
+end

@@ -1,0 +1,12 @@
+component WideMaxNumeral
+export Executable
+
+run() = do
+  b: ZZ64 = widen(3)
+  println("b MAX widen(1) = " (b MAX widen(1)))
+  println("b + 1 = " (b + 1))
+  println("b <= 1 is " (b <= 1))
+  println("b MAX 1 = " (b MAX 1))
+end
+
+end

@@ -1,0 +1,32 @@
+machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 17.09 16.80 14.27, openjdk version "25.0.4" 2026-07-21, base e933b30e6
+=== SkMidpointWide.fss walk FORTRESS_THREADS=1
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:4:39:
+IntegerOverflow
+Context:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:4:39:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:9:46-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkMidpointWide.fss walk FORTRESS_THREADS=4
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:4:39:
+IntegerOverflow
+Context:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:4:39:
+/home/user/fortress-specranges/explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMidpointWide.fss:9:46-56:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkMidpointWide.fss compile
+rc=0
+=== SkMidpointWide.fss compiled run FORTRESS_THREADS=1
+FortressException: class fortress.CompilerBuiltin$IntegerOverflow with string Integer overflow
+rc=1
+=== SkMidpointWide.fss compiled run FORTRESS_THREADS=4
+FortressException: class fortress.CompilerBuiltin$IntegerOverflow with string Integer overflow
+rc=1
+EXIT=0

@@ -1,0 +1,25 @@
+\begin{FortressCode}
+\KWD{object} \TYP{BlockedRange}(\VAR{lo}\COLON \mathbb{Z}32, \VAR{hi}\COLON \mathbb{Z}32, b\COLON \mathbb{Z}32) \KWD{extends} \TYP{Generator}\llbracket\mathbb{Z}32\rrbracket \\
+\2\+\VAR{size} \COLONOP \mathbb{Z}32 = \VAR{hi} - \VAR{lo} + 1 \\
+  \VAR{seq}(\KWDVAR{self})\COLON \TYP{SequentialGenerator}\llbracket\mathbb{Z}32\rrbracket = \VAR{seq}(\VAR{lo}\COLONOP\VAR{hi}) \\
+  \VAR{generate}\llbracket{}R\rrbracket\bigl(\VAR{reduction}\COLON \TYP{Reduction}\llbracket{}R\rrbracket, \VAR{body}\COLON \mathbb{Z}32\rightarrow{}R\bigr)\COLON R = \\
+  \2\+\KWD{if} \VAR{size} \leq (b \OPR{MAX} 1) \KWD{then} \\
+    \2\+\fortressonelinecomment{(*}{ Blocks smaller than b run sequentially }{*)} \\
+      r \COLONOP R \ASSIGN \VAR{reduction}.\VAR{empty}(\ultrathin) \\
+      i \COLONOP \mathbb{Z}32 \ASSIGN \VAR{lo} \\
+      \KWD{while} i \leq \VAR{hi} \KWD{do} \\
+      \2\+v \COLONOP R = \VAR{body}(i) \\
+        r \ASSIGN \VAR{reduction}.\VAR{join}(r,v) \\
+        i \mathrel{\mathrel{+}=} 1\- \\
+      \KWD{end} \\
+      r\- \\
+    \KWD{else} \\
+    \2\+\fortressonelinecomment{(*}{ Blocks larger than b are split in half and generated in parallel. }{*)} \\
+      \VAR{mid} = \VAR{lo} + (\VAR{hi} - \VAR{lo}) \div 2 \\
+      \VAR{reduction}.\VAR{join}(\+\TYP{BlockedRange}(\VAR{lo},\VAR{mid},b).\VAR{generate}\llbracket{}R\rrbracket(\VAR{reduction},\VAR{body}), \\
+                     \TYP{BlockedRange}(\VAR{mid}+1,\VAR{hi},b).\VAR{generate}\llbracket{}R\rrbracket(\VAR{reduction},\VAR{body}))\-\- \\
+    \KWD{end}\-\- \\
+\KWD{end} \\
+ \\
+f(\ultrathin) = \bigl\langle\,2\, x \bigm| x \leftarrow \TYP{BlockedRange}(1,10,3)\,\bigr\rangle
+\end{FortressCode}

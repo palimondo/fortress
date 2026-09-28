@@ -1,0 +1,20 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.20 2.70 1.47; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 26c5d3dd7
+# walk explorations/compile-ladder/rung-spec-ranges/probes/examples/WideMaxNumeral.fss
+b MAX widen(1) = 3
+b + 1 = 4
+b <= 1 is false
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specranges/tmp/walk-cache/work/WideMaxNumeral.fss:9:25:
+Ambiguous coercion, args = (3: ZZ64,1: ZZ32), applicable with coercion = {coerced MAX(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-specranges/Library/FortressLibrary.fss:584:5-585:102),coerced MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-specranges/Library/FortressLibrary.fss:286:5-71),coerced MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-specranges/Library/FortressLibrary.fss:267:5-66),coerced MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-specranges/Library/FortressLibrary.fss:253:5-254:1)}
+Context:
+/home/user/fortress-specranges/tmp/walk-cache/work/WideMaxNumeral.fss:9:25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

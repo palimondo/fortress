@@ -1,0 +1,12 @@
+component SkRangeNN32
+export Executable
+
+run(): () = do
+  one: NN32 = 1
+  three: NN32 = 3
+  var c: ZZ32 = 0
+  for x <- seq(one:three) do c := c + 1 end
+  println("N1 an NN32 range, elements " c.asString)
+end
+
+end

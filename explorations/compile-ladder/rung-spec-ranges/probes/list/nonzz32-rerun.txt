@@ -1,0 +1,32 @@
+ProjectFortress/tests/XXXRangeBoundsRungO.fss:19: wideTop = (lMax - widen(2)) # widen(three)
+    [#: 2)) | widen(three]
+ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss:10: r = widen(one):widen(three)
+    [:: one) | widen(three]
+ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss:17: rN = uOne:uThree
+    [:: uOne | uThree]
+ProjectFortress/tests/XXXSeqRangeTopRungO.fss:19: wideTop = seq(lLo:lMax)
+    [:: lLo | lMax; seq]
+ProjectFortress/tests/XXXSeqRangeTopRungO.fss:21: for i <- wideTop do
+    [generator over wideTop]
+ProjectFortress/tests/longPrim.fss:17: tstEq(s:String, a:ZZ64, b:ZZ64):() = assert(a,b,s)
+    [:: b:ZZ64) | (]
+Library/ChunkedSparseArray.fss:117: d1.init(i,d[i]), i <- 0:(i2-1)
+    [:: 0 | (i2-1]
+Library/ChunkedSparseArray.fss:119: d1.init(i+1,d[i]), i <- i2:(|d| - 1)
+    [:: i2 | (|d| - 1]
+Library/IntMap.fss:386: checkU(u:ZZ64, d: ZZ64): () =
+    [:: d: ZZ64) | (]
+Library/IntMap.fss:393: checkLU(l:ZZ64, u:ZZ64, d: ZZ64): () =
+    [:: d: ZZ64) | (]
+Library/IntMap.fss:629: checkL(l:ZZ64, d: ZZ64): () = do
+    [:: d: ZZ64) | (]
+Library/IntMap.fss:639: checkU(u:ZZ64, d: ZZ64): () = do
+    [:: d: ZZ64) | (]
+Library/IntMap.fss:649: checkLU(l:ZZ64, u:ZZ64, d: ZZ64): () = do
+    [:: d: ZZ64) | (]
+SpecData/examples/advanced/Generators.GeneratorDefn.fss:21: seq(self): SequentialGenerator[\ZZ64\] = seq(lo:hi)
+    [:: lo | hi; seq; seq]
+SpecData/examples/basic/Expr.Do.mySum.fss:21: for j <- 0:i do
+    [:: 0 | i]
+SpecData/examples/basic/MemModel.Aliases.jkl.fss:19: j(x: ZZ64[2], y: ZZ64): () = x[0] := y
+    [:: y: ZZ64) | (]

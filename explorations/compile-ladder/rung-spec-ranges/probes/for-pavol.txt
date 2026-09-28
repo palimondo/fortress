@@ -1,0 +1,36 @@
+Rung U (climb batch 7R, rung-spec-ranges): the points for Pavol that this rung does not settle,
+one per entry, each with its evidence. The same list is the forPavol field of the rung's structured
+result; REPORT.md's "For Pavol" section carries it too.
+
+1. A nat parameter as a range's component: not settled by the ranges decision or by J's section.
+   The specification lets a nat parameter "appear in any context that a variable of type NN32 can
+   appear" (Specification/basic/trait-parameters.tex:82-84) and gives it the type NaturalStatic
+   (Specification/basic/expressions/constant.tex:96-97); the revised ranges section makes a
+   component of another integer type than ZZ32 a static error (Specification/basic/expressions/ranges.tex:47-48)
+   and converts a numeral (:46). The specification's own nat-bounded ranges:
+   SpecData/examples/basic/Fun.Decl.fss:23; Specification/advanced-lib/binary.tex:716-717, :951,
+   :1086-1089; Specification/basic/matrix-unpasting.tex:160-161. Under walk a nat parameter is a
+   ZZ32 (probes/examples/NatBoundRange-base-walk.txt). Candidates: (a) it converts to ZZ32 as a
+   numeral does; (b) it is refused like an NN32; (c) the static-expression chapter decides once
+   static expressions are supported. Left unrevised; "Passages not yet revised" says it is open
+   (Specification/appendices/changes.tex:1255-1259); ledger row 485 (record.md).
+   Pavol's decision of 2026-09-27, a size's range (explorations/coordinator/POSITIONS.md): "A nat
+   parameter is an NN32 value and an int parameter a ZZ32 (trait-parameters.tex:82-90); a larger
+   one is refused". It fixes the parameter's magnitude, not whether it converts in a range, so it
+   does not settle the question; read with ranges.tex:47-48 it can be read as candidate (b).
+   Measured by the skeptic: the compiled run accepts seq(0#n) and 1:(n-1) for nat n = 3 (3 and 2
+   elements) and binds n at both ZZ32 and NN32, while walk binds it at ZZ32 only
+   (probes/skeptic/differential.txt:224-237, probes/skeptic/differential2.txt:58-97).
+2. Walk refuses b MAX 1 for a ZZ64 b, "Ambiguous coercion" among QQ's MAX and the MAX ZZ64
+   inherits from the generic order traits (Library/FortressLibrary.fss:253, :267, :286, :584;
+   probes/examples/WideMaxNumeral-base-walk.txt): whether batch N's promotion rule is to cover a
+   numeral against a method a number type inherits from a generic trait. Row 484.
+3. The adapted BlockedRange (Specification/advanced/parallelism-locality/defining-generators.tex:382-427
+   at the base), found beyond measurement C's list, was respelled over ZZ32 with the figure it adapts;
+   the decision's "its two ZZ64 examples" did not name it (decision-record.md section 5, decision 5).
+4. Appendix I's introduction (Specification/appendices/changes.tex:41-58) names two decision records
+   and says every change follows from route A; rung A's entry and this rung's two depart from it
+   (probes/list.txt, L10), and no rung has been given that paragraph to edit.
+5. ant testSpecData had at least one red example on the base, the original Generators.GeneratorDefn
+   (probes/examples/GeneratorDefn-base-walk.txt); its red count, which explorations/coordinator/PLAN.md:217
+   waits for, is still unmeasured.

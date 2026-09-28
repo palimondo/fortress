@@ -1,0 +1,6 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.17 2.81 2.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 3be1fecd7 with climb batch 7R's rung U applied in the index and the gather's edits
+# walk ProjectFortress/tests/FixedWidthOverflowRungB.fss
+REACHED
+PASS
+rc=0
+# 7 s

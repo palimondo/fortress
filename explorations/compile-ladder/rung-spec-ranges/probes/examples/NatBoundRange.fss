@@ -1,0 +1,21 @@
+component NatBoundRange
+export Executable
+
+sizeOf[\nat n\](): ZZ32 = |0#n|
+upper[\nat n\](): ZZ32 = |1:(n-1)|
+kind[\nat n\](): String = do
+  x = n
+  typecase x of
+    ZZ32 => "ZZ32"
+    NN32 => "NN32"
+    else => "another type"
+  end
+end
+
+run() = do
+  println("N1 |0#n| with nat n = 3: " sizeOf[\3\]())
+  println("N2 |1:(n-1)| with nat n = 3, Fun.Decl's shape: " upper[\3\]())
+  println("N3 a nat parameter in value position is a " kind[\3\]() " under walk")
+end
+
+end

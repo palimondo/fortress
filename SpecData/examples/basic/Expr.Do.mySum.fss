@@ -16,7 +16,7 @@ component Expr.Do.mySum
 export Executable
 
 (** EXAMPLE **)
-mySum(i:ZZ64):ZZ64 = do
+mySum(i:ZZ32):ZZ64 = do
   acc:ZZ64 := 0
   for j <- 0:i do
     acc := acc + j

@@ -1,0 +1,508 @@
+5448d5447
+< sin(x) + 1
+5449a5449
+> sin(x) + 1
+5456c5456
+< mySum(i: Z64): Z64 = do
+---
+> mySum(i: Z32): Z64 = do
+5462a5463,5466
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.19
+> The Working Draft of February 2011 declared the parameter of mySum of type Z64 , so that its loop ran over a range of Z64
+> values, which Section 13.16 no longer admits; the parameter is of type Z32 , and the sum keeps its type Z64
+5658,5659c5662,5664
+< An explicit range is self-contained and completely describes a set of integers. Assume that a, b, and c are expressions
+< that produce integer values.
+---
+> An explicit range is self-contained and completely describes a set of integers. Its components are values of type Z32 :
+> assume that a, b, and c are expressions that produce such values. An integer numeral converts to Z32 (Section 13.1),
+> and it is a static error if a component of an explicit range has an integer type other than Z32
+5676a5682,5693
+> A loop whose counter must have a wider integer type runs over a range of Z32 values and widens each element, as in
+> the following loop, where the binding converts i to Z64 (Section 33.2):
+> for i ← 0 # n do
+> j: Z64 = i
+> ...
+> end
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.18
+> The Working Draft of February 2011 assumed only that the components of an explicit range produce integer values, and named
+> no integer type; two of its own examples built ranges over Z64 , and a property of Z a range over Z . The Fortress standard
+> libraries declare the ranges over Z32 alone, as the smaller library of the compiled path already did: a range over another
+> integer type is a static error, and a loop that needs a wider counter widens each element of a range of Z32 values.
+6274,6275d6290
+< The new fortify fixes
+< this.
+6281a6297,6298
+> The new fortify fixes
+> this.
+6283a6301,6302
+> The new fortify fixes
+> this.
+6297d6315
+< 
+6298a6317
+> 
+6302,6304d6320
+< 1 As of March 2008, the Fortress library provides Arrayk types for 1 ≤ k ≤ 3.
+< The new fortify fixes
+< this.
+6370a6387
+> 1 As of March 2008, the Fortress library provides Arrayk types for 1 ≤ k ≤ 3.
+6451d6467
+< Type Ascription
+6453a6470
+> Type Ascription
+6464d6480
+< Expr
+6465a6482
+> Expr
+6485,6489d6501
+< I manually added
+< space
+< around
+< the second ⇒ –
+< Sukyoung
+6494a6507,6511
+> I manually added
+> space
+> around
+> the second ⇒ –
+> Sukyoung
+6505a6523,6524
+> The function tests whether its argument has a given type and returns a boolean value. For convenience, the function
+> instanceOf is included in the Fortress standard libraries.
+6511,6512d6529
+< The function tests whether its argument has a given type and returns a boolean value. For convenience, the function
+< instanceOf is included in the Fortress standard libraries.
+6517,6519d6533
+< The function discards the value of its argument and returns () . For example, the following:
+< ignore(f x)
+< is equivalent to:
+6522a6537,6542
+> I manually added
+> space between f
+> and x – Sukyoung
+> The function discards the value of its argument and returns () . For example, the following:
+> ignore(f x)
+> is equivalent to:
+6530,6532d6549
+< I manually added
+< space between f
+< and x – Sukyoung
+10020a10038,10042
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.19
+> The Working Draft of February 2011 defined the generator of Figure 23.2 over Z64 , and its method seq built a range over
+> Z64 , which Section 13.16 no longer admits; the generator is defined over Z32 . Its midpoint was ⌊(lo + hi)/2⌋ , a value of
+> type Z , which converts to neither fixed-size type; it is lo + (hi − lo) ÷ 2
+10024,10032c10046,10048
+< is permitted to group reduction operations in any way it likes consistent with its natural order, and insert an arbitrary
+< number of empty elements.
+< Figure 23.2 defines a generator that generates the integers between lo and hi in sequential blocks of size at most b
+< In this example, we divide the range in half if it is larger than the block size b ; these two halves are computed in
+< parallel (recall that the arguments to the method call reduction.join are evaluated in parallel). If the range is smaller
+< than b , then it is enumerated serially using a while loop, accumulating the result r as it goes. Observe that the
+< object BlockedRange(lo: Z64, hi : Z64, b: Z64) extends GeneratorJZ64K
+< size : Z64 = hi − lo + 1
+< seq(self): SequentialGeneratorJZ64K = seq(lo : hi )
+---
+> object BlockedRange(lo: Z32, hi : Z32, b: Z32) extends GeneratorJZ32K
+> size : Z32 = hi − lo + 1
+> seq(self): SequentialGeneratorJZ32K = seq(lo : hi )
+10034c10050
+< generateJRK reduction: ReductionJRK, body: Z64 → R : R =
+---
+> generateJRK reduction: ReductionJRK, body: Z32 → R : R =
+10038c10054
+< i : Z64 := lo
+---
+> i : Z32 := lo
+10047,10050c10063
+< 
+< 
+< lo + hi
+< mid =
+---
+> mid = lo + (hi − lo) ÷ 2
+10064,10090c10077,10082
+< expr
+< P
+< e
+< type
+< N
+< wrapper
+< SUMJN K
+< u(body)
+< identityJN K(e)
+< r
+< SumReductionJN K
+< ListJEK
+< ()
+< BIG⟨JEK ⟩
+< built in
+< singletonJE K(e)
+< ignore(lv := e)
+< ConcatJEK
+< NoReduction
+< gs
+< ⟨ e | gs ⟩
+< lv := e,gs
+< Figure
+< 23.4: Examples of wrappers for expressions with generator clause lists. Top to bottom: big operators (here
+< P
+< is used as an example; the appropriate library function is called on the right-hand side), comprehensions (here list
+< comprehensions are shown; other comprehensions are similar to list comprehensions) and generated assignment.
+---
+> is permitted to group reduction operations in any way it likes consistent with its natural order, and insert an arbitrary
+> number of empty elements.
+> Figure 23.2 defines a generator that generates the integers between lo and hi in sequential blocks of size at most b
+> In this example, we divide the range in half if it is larger than the block size b ; these two halves are computed in
+> parallel (recall that the arguments to the method call reduction.join are evaluated in parallel). If the range is smaller
+> than b , then it is enumerated serially using a while loop, accumulating the result r as it goes. Observe that the
+10117a10110,10136
+> expr
+> P
+> e
+> type
+> N
+> wrapper
+> SUMJN K
+> u(body)
+> identityJN K(e)
+> r
+> SumReductionJN K
+> ListJEK
+> ()
+> BIG⟨JEK ⟩
+> built in
+> singletonJE K(e)
+> ignore(lv := e)
+> ConcatJEK
+> NoReduction
+> gs
+> ⟨ e | gs ⟩
+> lv := e,gs
+> Figure
+> 23.4: Examples of wrappers for expressions with generator clause lists. Top to bottom: big operators (here
+> P
+> is used as an example; the appropriate library function is called on the right-hand side), comprehensions (here list
+> comprehensions are shown; other comprehensions are similar to list comprehensions) and generated assignment.
+10137a10157
+> −→
+10145d10164
+< −→
+10149a10169,10170
+> 4 In future, it is likely that Fortress will use a desugaring that in fact yields a Generator rather than a higher-order function. This permits
+> type-directed nesting and composition of generators.
+10160,10161d10180
+< 4 In future, it is likely that Fortress will use a desugaring that in fact yields a Generator rather than a higher-order function. This permits
+< type-directed nesting and composition of generators.
+10200c10219
+< value object BlockedRange(lo: Z64, hi : Z64, b: Z64) extends GeneratorJZ64K
+---
+> value object BlockedRange(lo: Z32, hi : Z32, b: Z32) extends GeneratorJZ32K
+10202c10221
+< generateJR extends CommutativeMonoidJ R, ⊕K, opr ⊕K(body : Z64 → R) : R = do
+---
+> generateJR extends CommutativeMonoidJ R, ⊕K, opr ⊕K(body : Z32 → R) : R = do
+10206c10225
+< i : Z64 = l
+---
+> i : Z32 = l
+10221a10241,10244
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.19
+> The Working Draft of February 2011 declared this generator over Z64 , as it declared the generator of Figure 23.2, whose
+> members the ellipsis stands for; both are declared over Z32
+13061,13062c13084
+< opr #JI extends AnyIntegralK(lo : I, ex : I): CompactFullRangeJIK
+< opr #JI extends AnyIntegral, J extends AnyIntegralK
+---
+> opr #(lo: Z32, ex : Z32): CompactFullRangeJZ32K
+13066,13067c13088
+< lo : (I, J), ex : (I, J) : CompactFullRange (I, J)
+< opr #JI extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK
+---
+> opr # lo: (Z32, Z32), ex : (Z32, Z32) : CompactFullRange (Z32, Z32)
+13071,13073c13092,13093
+< lo : (I, J, K), ex : (I, J, K) : CompactFullRange (I, J, K)
+< opr : JI extends AnyIntegralK(lo : I, hi : I): CompactFullRangeJIK
+< opr : JI extends AnyIntegral, J extends AnyIntegralK
+---
+> opr # lo: (Z32, Z32, Z32), ex : (Z32, Z32, Z32) : CompactFullRange (Z32, Z32, Z32)
+> opr : (lo: Z32, hi : Z32): CompactFullRangeJZ32K
+13077,13078c13097
+< lo : (I, J), hi : (I, J) : CompactFullRange (I, J)
+< opr : JI extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK
+---
+> opr : lo: (Z32, Z32), hi : (Z32, Z32) : CompactFullRange (Z32, Z32)
+13082c13101
+< lo : (I, J, K), hi : (I, J, K) : CompactFullRange (I, J, K)
+---
+> opr : lo: (Z32, Z32, Z32), hi : (Z32, Z32, Z32) : CompactFullRange (Z32, Z32, Z32)
+13084c13103,13113
+< opr (x : I) # JI extends AnyIntegralK : LeftRangeJIK
+---
+> opr (x: Z32)# : LeftRangeJZ32K
+> 
+> 
+> 
+> opr p: (Z32, Z32) # : LeftRange (Z32, Z32)
+> 
+> opr t: (Z32, Z32, Z32) # :
+> 
+> 
+> LeftRange (Z32, Z32, Z32)
+> opr (x: Z32): : LeftRangeJZ32K
+13088c13117
+< opr p : (I, J) # JI extends AnyIntegral, J extends AnyIntegralK : LeftRange (I, J)
+---
+> opr x: (Z32, Z32) : : LeftRange (Z32, Z32)
+13090d13118
+< opr t : (I, J, K) # JI extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK :
+13093,13095c13121,13122
+< LeftRange (I, J, K)
+< opr (x : I) : JIK : LeftRangeJIK
+< opr #JI extends AnyIntegralK(x : I) : ExtentRangeJIK
+---
+> opr x: (Z32, Z32, Z32) : : LeftRange (Z32, Z32, Z32)
+> opr #(x: Z32) : ExtentRangeJZ32K
+13099c13126
+< opr #JI extends AnyIntegral, J extends AnyIntegralK xy : (I, J) : ExtentRange (I, J)
+---
+> opr # xy: (Z32, Z32) : ExtentRange (Z32, Z32)
+13101c13128
+< opr #JIextends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK xyz : (I, J, K) :
+---
+> opr # xyz : (Z32, Z32, Z32) :
+13104,13105c13131,13132
+< ExtentRange (I, J, K)
+< opr : JI extends AnyIntegralK(x : I) : RightRangeJIK
+---
+> ExtentRange (Z32, Z32, Z32)
+> opr : (x: Z32) : RightRangeJZ32K
+13109c13136
+< opr : JI extends AnyIntegral, J extends AnyIntegralK xy : (I, J) : RightRange (I, J)
+---
+> opr : xy: (Z32, Z32) : RightRange (Z32, Z32)
+13111c13138
+< opr : JIextends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK xyz : (I, J, K) :
+---
+> opr : xyz : (Z32, Z32, Z32) :
+13114c13141
+< RightRange (I, J, K)
+---
+> RightRange (Z32, Z32, Z32)
+13124,13125c13151,13169
+< opr (l : I) :: JIK : LeftRangeJIK
+< opr ::JI extends AnyIntegralK(s : I) : OpenRangeJIK
+---
+> opr (l: Z32):: : LeftRangeJZ32K
+> 
+> 
+> 
+> opr l: (Z32, Z32) :: : LeftRange (Z32, Z32)
+> 
+> 
+> 
+> opr l: (Z32, Z32, Z32) :: : LeftRange (Z32, Z32, Z32)
+> opr ::(s: Z32) : OpenRangeJZ32K
+> 
+> 
+> 
+> opr :: ij : (Z32, Z32) : OpenRange (Z32, Z32)
+> 
+> 
+> 
+> opr :: ijk : (Z32, Z32, Z32) : OpenRange (Z32, Z32, Z32)
+> opr ::(l: Z32, s: Z32): LeftRangeJZ32K
+13129,13130c13173
+< opr ::JI extends AnyIntegral, J extends AnyIntegralK ij : (I, J) : OpenRange (I, J)
+< opr ::JI extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegralK
+---
+> opr :: l: (Z32, Z32), s: (Z32, Z32) : LeftRange (Z32, Z32)
+13134,13135c13177
+< ijk : (I, J, K) : OpenRange (I, J, K)
+< opr ::JIK(l : I, s : I): LeftRangeJIK
+---
+> opr :: l: (Z32, Z32, Z32), s: (Z32, Z32, Z32) : LeftRange (Z32, Z32, Z32)
+13438c13480,13481
+< ←−
+---
+> ←
+> −
+15365,15367c15408,15410
+< subtype of Q , which coerces from it. The library’s integer types hold no infinite value. A generic call or a range over two
+< different integer types is to infer the narrowest type that both coerce into, by a rule to be written into Chapter 20 together with
+< its implementation; until then such a call writes its static argument, as in f JZ64K(a, b)
+---
+> subtype of Q , which coerces from it. The library’s integer types hold no infinite value. A generic call over two different
+> integer types is to infer the narrowest type that both coerce into, by a rule to be written into Chapter 20 together with its
+> implementation; until then such a call writes its static argument, as in f JZ64K(a, b)
+15635c15678,15682
+< property ∀(m) m! =
+---
+> property 0! = 1
+> property ∀(m) m ≥ 0 → (m + 1)! = (m + 1) m!
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.19
+> The Working Draft of February 2011 stated this property as m! =
+15637c15684
+< k
+---
+> k , a product over a range of Z values, which
+15639c15686,15688
+< 33.2.49 opr CHOOSE(self, other : Z): Z
+---
+> Section 13.16 no longer admits; the two properties above state it by the value at 0 and a recurrence, for every natural m
+> 33.2.49
+> opr CHOOSE(self, other : Z): Z
+28179c28228
+< on sums and products. The alternative not taken, route C, is described once, in Section I.1.19.
+---
+> on sums and products. The alternative not taken, route C, is described once, in Section I.1.21.
+28208c28257
+< Route C Replaces this rule by the rule of Section I.1.19.
+---
+> Route C Replaces this rule by the rule of Section I.1.21.
+28359c28408
+< this entry, Section I.1.18 said of the calculi:
+---
+> this entry, Section I.1.20 said of the calculi:
+28394,28397c28443,28446
+< call or a range over two different integer types writes its static argument until the rule that infers the narrowest
+< type both coerce into is written into Chapter 20 together with its implementation. The conversion from N32
+< into R64 , though exact, stays explicit, since the decision names only Z32 and the numerals. The library’s R32
+< stays below R64 , as before, a value object that adds no instantiation of its own.
+---
+> call over two different integer types writes its static argument until the rule that infers the narrowest type both
+> coerce into is written into Chapter 20 together with its implementation. The conversion from N32 into R64 ,
+> though exact, stays explicit, since the decision names only Z32 and the numerals. The library’s R32 stays
+> below R64 , as before, a value object that adds no instantiation of its own.
+28767a28817,28922
+> The integer type of a range
+> Affected sections Section 13.16; Section 33.2; Section I.1.10; Section I.1.20.
+> Change The components of an explicit range are values of type Z32 , into which an integer numeral converts, and it is
+> a static error if a component has another integer type. A paragraph shows how a loop whose counter must have
+> a wider integer type is written: over a range of Z32 values, widening each element. The box in Section 33.2,
+> the effect of Section I.1.10 and Section I.1.20 no longer say that a range over two different integer types infers
+> the narrowest type that both coerce into; they keep that rule for a generic call.
+> Rationale This change does not follow from route A; the revival decided it on 27 September 2026. The Working Draft named no integer type for a range, and the Fortress standard libraries declared their ranges generic
+> over an integer type named by a type parameter. The compiled type checker refused that code wherever
+> it converted a numeral to the range’s integer type, since a numeral does not convert to a type named by a
+> type parameter (Section 17.3). The compiled path’s own smaller library declares its ranges over Z32 alone
+> (Library/CompilerLibrary.fsi, lines 173–174), and on the Java Virtual Machine, which runs Fortress,
+> an array holds at most 231 − 1 elements, so a range of Z32 values indexes any of them. With every range
+> over Z32 , no range is over two different integer types, and the rule that infers the narrowest type that both
+> coerce into concerns a generic call alone. The full reasoning is in explorations/compile-ladder/
+> rung-spec-ranges/decision-record.md in the revival’s repository.
+> Effect A program writes a range over Z32 where it wrote one over Z64 , N32 , N64 or Z , and widens its elements
+> where it needs a wider counter; a range over another integer type is refused. Whether a nat parameter may be
+> a component of a range is not settled (Section I.1.20).
+> Original text Specification-1.0-frozen/basic/expressions/ranges.tex, lines 42–44:
+> An explicit range is self-contained and completely describes a set of integers. Assume that a, b, and
+> c are expressions that produce integer values.
+> The box in Section 33.2 and two sentences of this appendix are the revival’s own text of 27 September 2026,
+> not the Working Draft’s. The box said, in Specification/basic-lib/basic-integers.tex, lines
+> 61–65, before this revision:
+> A generic call or a range over two different integer types is to infer the narrowest type that both
+> coerce into, by a rule to be written into Chapter 20 together with its implementation; until then such
+> a call writes its static argument, as in f JZ64K(a, b)
+> The effect of Section I.1.10 said:
+> A generic call or a range over two different integer types writes its static argument until the rule that
+> infers the narrowest type both coerce into is written into Chapter 20 together with its implementation.
+> and Section I.1.20 said:
+> The rule by which a generic call or a range over two different integer types infers the narrowest type
+> that both coerce into is to be written into Chapter 20 together with its implementation (Section I.1.10).
+> Route C The same under route C.
+> I.1.19
+> Examples and a property with ranges over wider integer types
+> Affected sections Section 13.11; Section 23.8, Figure 23.2 and the generator adapted to a commutative monoid;
+> Section 33.2.
+> Change The function mySum of Section 13.11 takes a parameter of type Z32 and keeps its sum of type Z64 . The
+> generator of Figure 23.2, and the generator of Section 23.8 that adapts it to a commutative monoid, are declared
+> over Z32 , and the figure’s midpoint is lo + (hi − lo) ÷ 2 . The factorial property of Z is stated by the value
+> at 0 and a recurrence, without a range.
+> Rationale Each built a range over an integer type other than Z32 (Section I.1.18): the loop of mySum over 0 : i with
+> i of type Z64 , the method seq of the figure’s generator over lo : hi with bounds of type Z64 , and the property’s
+> product over 1 : m with m of type Z . The adapted generator builds no range in its own text, but its ellipsis
+> stands for the figure’s members. The figure’s midpoint ⌊(lo + hi )/2⌋ is a value of type Z (Section 33.1),
+> which converts to neither Z64 nor Z32 (Section 33.2), so the recursive construction of the generator did not
+> accept it; the new midpoint is a Z32 value equal to it whenever lo ≤ hi and the generator’s size hi − lo + 1
+> is a Z32 value, and it does not form the sum lo + hi , which exceeds Z32 when both bounds are large. The
+> property of Z holds for every natural m ; over a range of Z32 values it would hold only below 231 and need
+> two conversions, so it is stated by a recurrence, as Section 33.2 states the binomial coefficient by Pascal’s rule.
+> Effect None beyond the examples and the property.
+> Original text The two examples are typeset from the files SpecData/examples/basic/Expr.Do.mySum.
+> fss and SpecData/examples/advanced/Generators.GeneratorDefn.fss of the revival’s
+> repository, identical in the commit of 2 February 2011 of which Specification-1.0-frozen/ is
+> a copy and unchanged until this revision; Specification-1.0-frozen/basic/expressions/
+> blocks.tex, line 72, and Specification-1.0-frozen/advanced/parallelism-locality/
+> defining-generators.tex, line 50, input them. As typeset from those files:
+> mySum(i: Z64): Z64 = do
+> acc: Z64 := 0
+> for j ← 0 : i do
+> acc := acc + j
+> end
+> acc
+> end
+> and
+> object BlockedRange(lo: Z64, hi : Z64, b: Z64) extends GeneratorJZ64K
+> size : Z64 = hi − lo + 1
+> seq(self): SequentialGeneratorJZ64K = seq(lo : hi )
+> 
+> generateJRK reduction: ReductionJRK, body: Z64 → R : R =
+> if size ≤ (b MAX 1) then
+> (* Blocks smaller than b run sequentially *)
+> r : R := reduction.empty()
+> i : Z64 := lo
+> while i ≤ hi do
+> v : R = body(i)
+> r := reduction.join(r, v)
+> i += 1
+> end
+> r
+> else
+> (* Blocks larger than b are split in half and generated in parallel. *)
+> 
+> mid =
+> lo + hi
+> 
+> reduction.join(BlockedRange(lo, mid , b).generateJRK(reduction, body),
+> BlockedRange(mid + 1, hi , b).generateJRK(reduction, body))
+> end
+> end
+> f () = 2 x x ← BlockedRange(1, 10, 3)
+> Specification-1.0-frozen/advanced/parallelism-locality/
+> defining-generators.tex, lines 405, 407 and 411, the three lines of the adapted generator that
+> named Z64 , quoted without their indentation and alignment commands:
+> value object BlockedRange(lo: Z64, hi : Z64, b: Z64) extends GeneratorJZ64K
+> generateJR extends CommutativeMonoidJ R, ⊕K, opr ⊕K(body : Z64 → R) : R = do
+> i : Z64 = l
+> Specification-1.0-frozen/basic-lib/basic-integers.tex, lines 559–561:
+> Q
+> k
+> property ∀(m) m! =
+> k←1:m
+> Route C The same under route C.
+> I.1.20
+28769,28773c28924,28930
+< No passage that instantiation exclusion or the reorganized numeric types contradict is known to be unrevised. The
+< rule by which a generic call or a range over two different integer types infers the narrowest type that both coerce into
+< is to be written into Chapter 20 together with its implementation (Section I.1.10). The result of an integer raised to a
+< negative power is not yet given (Section 33.2; Section I.1.12). Before the number chapters were revised, this section
+< said:
+---
+> No passage that instantiation exclusion or the reorganized numeric types contradict is known to be unrevised. The rule
+> by which a generic call over two different integer types infers the narrowest type that both coerce into is to be written
+> into Chapter 20 together with its implementation (Section I.1.10). The result of an integer raised to a negative power
+> is not yet given (Section 33.2; Section I.1.12). Whether a nat parameter, which may appear wherever a variable
+> of type N32 can (Section 12.2), may be a component of a range is not settled (Section I.1.18); the static ranges of
+> Section 13.16 and the examples whose ranges a nat parameter bounds are not revised. Before the number chapters
+> were revised, this section said:
+28780c28937
+< I.1.19
+---
+> I.1.21
