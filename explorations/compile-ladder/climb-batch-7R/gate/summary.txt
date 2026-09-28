@@ -1,0 +1,137 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	784	0	0	0
+fast-library/LibraryJUTest	83	0	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+system-0/SystemJUTest	106	0	0	0
+system-1/SystemJUTest	108	0	0	0
+system-2/SystemJUTest	106	0	0	0
+system-3/SystemJUTest	105	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 24 seconds
+# testFast: BUILD SUCCESSFUL
+# testFast: Total time: 7 minutes 46 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 3 minutes 10 seconds
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT DOWN   22 -> 10, declared none
+# checker     9c9
+# checker     < RangeInternals	42
+# checker     ---
+# checker     > RangeInternals	18
+# checker     14,15c14,15
+# checker     < #total	22
+# checker     < #locations	19
+# checker     ---
+# checker     > #total	10
+# checker     > #locations	13
+# distance DISTANCE DOWN   940 -> 627 (-313)
+# distance     kind overloading            184 -> 148    (-36)
+# distance     kind abstract-method         30 -> 14     (-16)
+# distance     kind wellformed              93 -> 36     (-57)
+# distance     kind typecheck              591 -> 388    (-203)
+# distance     kind export                  11 -> 10     (-1)
+# distance     class L1                     81 -> 39     (-42)  overloading: the static-parameter sentence's families
+# distance     class M1                    103 -> 109    (+6)  overloading: the Meet Rule
+# distance     class D2                     18 -> 2      (-16)  abstract method: RangeInternals' CAP, IN, |_|
+# distance     class X1                     11 -> 10     (-1)  export: component against api
+# distance     class I2                     20 -> 2      (-18)  integers in generic code: the dummy-ZZ32 device of # and :
+# distance     class I5                     15 -> 0      (-15)  integers in generic code: Integral[\I\] declares no |self|
+# distance     class I1                     82 -> 4      (-78)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+# distance     class I3                    148 -> 8      (-140)  integers in generic code: a numeral where a type parameter is expected
+# distance     class I6                      8 -> 0      (-8)  integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]
+# distance     class TS                      8 -> 0      (-8)  ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))
+# distance     class RG                     29 -> 18     (-11)  ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+# distance     class BR                     11 -> 10     (-1)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+# distance     class OT                    124 -> 143    (+19)  other body errors (one-off library slips and checker limits)
+# distance     unit api RangeInternals      21 -> 9      (-12)
+# distance     unit component FortressLibrary    408 -> 361    (-47)
+# distance     unit component RangeInternals    330 -> 76     (-254)
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4284:1-4289:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4265:1-4278:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# machine nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4, FORTRESS_THREADS=1 (4 for the atomic runs), HEAD 4368621b6
+# machine load average at start 0.04 0.06 0.35 (2026-09-28T11:28:42Z), before distance 0.83 0.28 0.41 (run beside the library rebuild, testFast, testSystem, atomic and the ladder; 800 s), before library 0.85 0.31 0.42, before testFast 2.24 1.05 0.68, before testSystem 4.34 4.73 2.81, before atomic 3.20 5.28 3.53, before ladder 1.43 4.24 3.33, before checker 1.44 2.97 3.06
