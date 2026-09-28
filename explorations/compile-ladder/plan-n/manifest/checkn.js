@@ -1,10 +1,15 @@
 // Splices climb batch N's MANIFEST block (genn.py's tmp/manifestn.js) into scratch copies of the
-// workflow script and checks it: node --check; the block evaluated with the script's own key validation
-// and scatter order under each RUN; the tails against the record's section 3; the lists against
-// listsn.py; and the whole spliced script run as the body of an async function with the workflow
-// globals stubbed (args, agent, pipeline, log): the first run with every agent approving, the first run
-// with rung I stopping (T must be withheld), and the second run. Nothing is launched. The form is batch
-// 7R's check7r.js (explorations/compile-ladder/plan-7r/manifest/).
+// workflow script and checks it: node --check; the launch values (RUN, LEDGER_FROM, CHECKER_BASE)
+// refused when unset or wrong; the block evaluated with the script's own key validation and scatter
+// order under each RUN; each tail equal to its rung's section of the record's section 3 followed by its
+// briefing's reasons, one line per key in order; the lists against listsn.py; no backtick or non-ASCII
+// character in any string the agents read; and the whole spliced script run as the body of an async
+// function with the workflow globals stubbed (args, agent, pipeline, log): the first run with every
+// agent approving, the first run with rung I stopping (T must be withheld), and the second run. The
+// launch values are unset in the block (the coordinator sets them at launch), so the evaluations and
+// the stubbed runs set LEDGER_FROM to 500 and CHECKER_BASE to 75, placeholders. Nothing is launched.
+// The form is batch 7R's check7r.js with batch 6.5's checks of the reasons and the launch values
+// (explorations/compile-ladder/plan-6.5/manifest/check65.js). Its last line counts the problems.
 // Usage: node checkn.js [script ...]; with no argument it checks the script as committed at HEAD and
 // the working copy.
 const fs = require('fs')
@@ -14,9 +19,12 @@ const ROOT = process.env.FORTRESS_HOME || '/home/user/fortress'
 const TMP = path.join(ROOT, 'tmp')   // ignored
 const REC = path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-N.md')
 const block = fs.readFileSync(path.join(TMP, 'manifestn.js'), 'utf8')
-const lists = JSON.parse(cp.execFileSync('python3', ['-c',
-  'import sys, json; sys.path.insert(0, sys.argv[1]); from listsn import LISTS; print(json.dumps(LISTS))',
-  path.join(ROOT, 'explorations/compile-ladder/plan-n/manifest')], { encoding: 'utf8' }))
+const py = JSON.parse(cp.execFileSync('python3', ['-c',
+  'import sys, json; sys.path.insert(0, sys.argv[1]); from listsn import LISTS, REASONS; print(json.dumps({"lists": LISTS, "reasons": REASONS}))',
+  path.join(ROOT, 'explorations/compile-ladder/plan-n/manifest')], { encoding: 'utf8', cwd: ROOT }))
+const lists = py.lists, reasons = py.reasons
+const LEDGER = 500, BASE_TOTAL = 75   // placeholders for the two launch values
+const REASONS_HEAD = "**Your briefing, entry by entry.**"
 
 function sources() {
   const out = []
@@ -40,6 +48,12 @@ function splice(orig) {
   return { spliced, start: start + 1, end, total: lines.length }
 }
 const withRun = (text, run) => text.replace(/^const RUN = '[a-z]+'/m, "const RUN = '" + run + "'")
+const withValues = (text, ledger, base) => {
+  let t = text
+  if (ledger !== null) t = t.replace(/^const LEDGER_FROM = null/m, 'const LEDGER_FROM = ' + ledger)
+  if (base !== null) t = t.replace(/^const CHECKER_BASE = null/m, 'const CHECKER_BASE = ' + base)
+  return t
+}
 
 const rec = fs.readFileSync(REC, 'utf8')
 const s3 = rec.slice(rec.indexOf('\n## 3. The rungs\n'), rec.indexOf('\n## 4. '))
@@ -60,7 +74,7 @@ function renderedKeys(prompt) {
 }
 
 async function stubbedRun(spliced, scenario) {
-  const body = withRun(spliced, scenario.run).replace(/^export const meta/m, 'const meta')
+  const body = withValues(withRun(spliced, scenario.run), LEDGER, BASE_TOTAL).replace(/^export const meta/m, 'const meta')
   const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   const calls = [], logs = []
   const agent = async (prompt, opts) => {
@@ -111,20 +125,30 @@ async function main() {
     const vs = sl.findIndex(l => l.startsWith('const LOOKUP_TOOL = ')), ve = sl.findIndex(l => l.startsWith('const keysOf = '))
     const validation = sl.slice(vs, ve + 1).join('\n')
     const scatterLine = sl.find(l => l.startsWith('const SCATTER = '))
-    const evalWith = (ledger, run) => new Function(withRun(ledger === null ? manifest.replace(/^const LEDGER_FROM = \d+/m, 'const LEDGER_FROM = null') : manifest, run)
-      + '\n' + validation + '\n' + scatterLine + '\nreturn { BATCH, BATCH_RECORD, RUNGS, SCATTER, BATCH_INTRO, BATCH_OVERLAPS, LEDGER_FROM, RUN }')()
-    try { evalWith(null, 'first'); console.log('LEDGER_FROM unset: did NOT throw (bad)'); bad++ } catch (e) { console.log('LEDGER_FROM unset: throws: ' + e.message) }
-    try { evalWith(456, 'all'); console.log('RUN all: did NOT throw (bad)'); bad++ } catch (e) { console.log('RUN all: throws: ' + e.message) }
+    const evalWith = (ledger, base, run) => new Function(withValues(withRun(manifest, run), ledger, base)
+      + '\n' + validation + '\n' + scatterLine + '\nreturn { BATCH, BATCH_RECORD, RUNGS, SCATTER, BATCH_INTRO, BATCH_OVERLAPS, LEDGER_FROM, CHECKER_BASE, RUN }')()
+    try { evalWith(null, null, 'first'); console.log('as generated, both launch values unset: did NOT throw (bad)'); bad++ } catch (e) { console.log('as generated, both launch values unset: throws: ' + e.message) }
+    try { evalWith(null, BASE_TOTAL, 'first'); console.log('LEDGER_FROM unset: did NOT throw (bad)'); bad++ } catch (e) { console.log('LEDGER_FROM unset: throws: ' + e.message) }
+    try { evalWith(LEDGER, null, 'first'); console.log('CHECKER_BASE unset: did NOT throw (bad)'); bad++ } catch (e) { console.log('CHECKER_BASE unset: throws: ' + e.message) }
+    try { evalWith(LEDGER, BASE_TOTAL, 'all'); console.log('RUN all: did NOT throw (bad)'); bad++ } catch (e) { console.log('RUN all: throws: ' + e.message) }
     for (const run of ['first', 'second']) {
-      const r = evalWith(456, run)
-      console.log('block, RUN ' + run + ': batch ' + r.BATCH + ', record ' + r.BATCH_RECORD + ', LEDGER_FROM ' + r.LEDGER_FROM + ', rungs ' + r.RUNGS.map(x => x.id + (x.landsOnlyWith ? ' (lands only with ' + x.landsOnlyWith.join(', ') + ')' : '')).join(', ')
+      const r = evalWith(LEDGER, BASE_TOTAL, run)
+      console.log('block, RUN ' + run + ' (LEDGER_FROM ' + LEDGER + ', CHECKER_BASE ' + BASE_TOTAL + ' set for the check): batch ' + r.BATCH + ', record ' + r.BATCH_RECORD + ', rungs ' + r.RUNGS.map(x => x.id + (x.landsOnlyWith ? ' (lands only with ' + x.landsOnlyWith.join(', ') + ')' : '') + (x.expectedCheckerCount !== undefined ? ' (predicts ' + x.expectedCheckerCount + ')' : '')).join(', ')
         + ', scatter ' + r.SCATTER.map(x => x.id).join(', ') + ', intro ' + r.BATCH_INTRO.length + ' chars, overlaps ' + r.BATCH_OVERLAPS.length + ' chars')
       for (const x of r.RUNGS) {
         const tl = x.tail.split('\n')
-        if (tl.slice(7, tl.length - 1).join('\n') !== section(x.id)) { bad++; console.log('  tail ' + x.id + ' differs from its section') }
+        const rh = tl.findIndex(l => l.startsWith(REASONS_HEAD))
+        if (rh < 0) { bad++; console.log('  tail ' + x.id + ' has no reasons block'); continue }
+        if (tl.slice(7, rh - 1).join('\n') !== section(x.id) || tl[rh - 1] !== '') { bad++; console.log('  tail ' + x.id + ' differs from its section') }
+        const rs = tl.slice(rh + 1, tl.length - 1)
+        const keys = x.briefing || []
+        const want = reasons[x.id].map(([k, why]) => '- ' + k + ': ' + why)
+        if (rs.length !== keys.length || JSON.stringify(rs) !== JSON.stringify(want) || !keys.every((k, i) => rs[i].startsWith('- ' + k + ': '))) { bad++; console.log('  tail ' + x.id + ': the reasons are not one line per briefing key, in order') }
+        if (tl[tl.length - 1] !== '') { bad++; console.log('  tail ' + x.id + ' does not end with an empty line') }
         for (const [n, t] of [['tail ' + x.id, x.tail], ['blurb ' + x.id, x.blurb]]) if (/[^\x00-\x7f]/.test(t) || /`/.test(t)) { bad++; console.log('  ' + n + ' holds a backtick or non-ASCII') }
         if (JSON.stringify(x.briefing) !== JSON.stringify(lists[x.id][0]) || JSON.stringify(x.checks) !== JSON.stringify(lists[x.id][1])) { bad++; console.log('  lists of ' + x.id + ' differ from listsn.py') }
-        console.log('  ' + x.id + ': ' + x.slug + ', ' + x.path + ', ' + x.branch + ', expectedMinutes ' + x.expectedMinutes + ', testIsStage ' + x.testIsStage + ', writesState ' + x.writesState + ', briefing ' + x.briefing.length + ' keys, checks ' + x.checks.length + ', tail ' + tl.length + ' lines')
+        if (!(x.checks || []).every(k => x.briefing.includes(k))) { bad++; console.log('  checks not a sub-list: ' + x.id) }
+        console.log('  ' + x.id + ': ' + x.slug + ', ' + x.path + ', ' + x.branch + ', expectedMinutes ' + x.expectedMinutes + ', testIsStage ' + x.testIsStage + ', writesState ' + x.writesState + ', briefing ' + x.briefing.length + ' keys with ' + rs.length + ' reasons, checks ' + x.checks.length + ', tail ' + tl.length + ' lines')
       }
       for (const [n, t] of [['intro', r.BATCH_INTRO], ['overlaps', r.BATCH_OVERLAPS]]) if (/[^\x00-\x7f]/.test(t) || /`/.test(t)) { bad++; console.log('  ' + n + ' holds a backtick or non-ASCII') }
     }
@@ -135,7 +159,7 @@ async function main() {
       console.log('  agents in order: ' + calls.map(c => c.label).join(', '))
       console.log('  rungs: ' + result.rungs.map(x => x.rung + ' ' + x.state + (x.withheldReason ? ' (' + x.withheldReason + ')' : '')).join('; ') + '; landed ' + result.landed + (result.reason ? ', reason: ' + result.reason : ''))
       for (const c of calls) {
-        const m = /^(rung|skeptic):([IKTQ])$/.exec(c.label); if (!m) continue
+        const m = /^(rung|skeptic):([IKTMQ])$/.exec(c.label); if (!m) continue
         const keys = renderedKeys(c.prompt)
         const want = lists[m[2]][m[1] === 'rung' ? 0 : 1]
         const ok = keys && JSON.stringify(keys) === JSON.stringify(want)
@@ -143,9 +167,9 @@ async function main() {
         console.log('  ' + c.label + ' step 1 renders ' + (keys ? keys.length : 0) + ' keys, ' + (ok ? 'its ' + (m[1] === 'rung' ? 'briefing' : 'checks') + ' in order' : 'NOT its list'))
       }
       const g = calls.find(c => c.label === 'gather')
-      if (g) console.log('  gather: ledger numbering ' + (/provisional \(from 456\)/.test(g.prompt) ? 'from 456' : '?') + ', manifest order ' + ((/MANIFEST order \(([^)]*)\)/.exec(g.prompt) || [])[1] || '?'))
+      if (g) console.log('  gather: ledger numbering ' + (new RegExp('provisional \\(from ' + LEDGER + '\\)').test(g.prompt) ? 'from the LEDGER_FROM set' : '?') + ', manifest order ' + ((/MANIFEST order \(([^)]*)\)/.exec(g.prompt) || [])[1] || '?'))
       const k = calls.find(c => c.label === 'commit')
-      if (k) console.log('  commit: the gate tables land under ' + (['n', 'nb'].filter(b => k.prompt.includes('explorations/compile-ladder/climb-batch-' + b + '/gate')).map(b => 'explorations/compile-ladder/climb-batch-' + b + '/gate/').join(', ') || '?'))
+      if (k) console.log('  commit: the gate tables land under ' + (['N', 'Nb'].filter(b => k.prompt.includes('explorations/compile-ladder/climb-batch-' + b + '/gate')).map(b => 'explorations/compile-ladder/climb-batch-' + b + '/gate/').join(', ') || '?'))
     }
   }
   console.log('problems: ' + bad)
