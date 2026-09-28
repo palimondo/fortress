@@ -1,0 +1,3 @@
+# build-opt2.sh 2026-09-28T14:06:01Z; tree 696f949eb; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.91 5.08 3.86; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+wrote o2s/shadow-src-opt2/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+built opt2 in 30 s: 6 class files

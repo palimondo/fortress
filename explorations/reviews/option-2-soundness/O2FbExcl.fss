@@ -1,0 +1,22 @@
+component O2FbExcl
+export Executable
+(* The F-bounded generic arm beside a plain arm whose declared domain it excludes: no T within the
+   bound holds both a ZZ32 and a ZZ64, so (ZZ32, ZZ64) and the generic's domain share no argument and
+   the pair is valid by exclusion. The call eqop(z, w) fits the plain arm as it is and the generic arm
+   only by promotion. *)
+eqop[\T extends Equality[\T\]\](a: T, b: T): String = "eqop generic[" (typeOf a) "," (typeOf b) "]"
+eqop(a: ZZ32, b: ZZ64): String = "eqop z32z64[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("eqop(z, w): " eqop(z, w))
+    println("eqop(z, z): " eqop(z, z))
+    println("eqop(w, w): " eqop(w, w))
+  end
+end

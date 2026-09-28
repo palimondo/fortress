@@ -1,0 +1,22 @@
+component O2FbMeet
+export Executable
+(* O2FbMeetNo with the meet of the two declared domains, (ZZ32, ZZ32): under instantiation exclusion
+   a T within the bound that takes a ZZ32 is ZZ32 itself, so the overlap is (ZZ32, ZZ32). The call
+   eqop(z, w) is outside that overlap: the generic arm reaches it only by promotion. *)
+eqop[\T extends Equality[\T\]\](a: T, b: T): String = "eqop generic[" (typeOf a) "," (typeOf b) "]"
+eqop(a: ZZ32, b: Any): String = "eqop z32any[" (typeOf a) "," (typeOf b) "]"
+eqop(a: ZZ32, b: ZZ32): String = "eqop meet[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("eqop(z, w): " eqop(z, w))
+    println("eqop(z, z): " eqop(z, z))
+    println("eqop(w, w): " eqop(w, w))
+  end
+end

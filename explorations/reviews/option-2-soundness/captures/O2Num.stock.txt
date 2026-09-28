@@ -1,0 +1,9 @@
+# compiled O2Num stock 2026-09-28T13:49:14Z; tree 0e6769ae3 (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.90 2.44 2.05; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(1, w):  op generic[ IntLiteral , ZZ64 ]
+op(w, 1):  op generic[ ZZ64 , IntLiteral ]
+op(1, z):  op generic[ IntLiteral , ZZ32 ]
+op(1, 2):  op generic[ IntLiteral , IntLiteral ]
+run rc=0

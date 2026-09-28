@@ -1,0 +1,10 @@
+# compiled O2Z64 opt2 2026-09-28T14:06:40Z; tree 696f949eb (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.87 5.43 4.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(z, w):  op plain64[ ZZ64 , ZZ64 ]
+op(w, w):  op plain64[ ZZ64 , ZZ64 ]
+op(z, z):  op generic[ ZZ32 , ZZ32 ]
+op[ZZ64](z, w):  op plain64[ ZZ64 , ZZ64 ]
+op[ZZ64](w, w):  op plain64[ ZZ64 , ZZ64 ]
+run rc=0

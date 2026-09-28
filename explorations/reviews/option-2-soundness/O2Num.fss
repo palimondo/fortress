@@ -1,0 +1,21 @@
+component O2Num
+export Executable
+(* Check 5: numerals beside the pair. On the compiled path a numeral is the compiler library's
+   IntLiteral, which excludes every number type and converts into each (the numeral switch's model). *)
+op[\T extends Number\](a: T, b: T): String = "op generic[" (typeOf a) "," (typeOf b) "]"
+op(a: Any, b: Any): String = "op plain[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("op(1, w): " op(1, w))
+    println("op(w, 1): " op(w, 1))
+    println("op(1, z): " op(1, z))
+    println("op(1, 2): " op(1, 2))
+  end
+end

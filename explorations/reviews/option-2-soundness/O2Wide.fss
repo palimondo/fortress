@@ -1,0 +1,24 @@
+component O2Wide
+export Executable
+(* Check 2: static types wider than the run-time types. n is a Number holding a ZZ32, m a Number
+   holding a ZZ64, a an Any holding a ZZ32. *)
+op[\T extends Number\](a: T, b: T): String = "op generic[" (typeOf a) "," (typeOf b) "]"
+op(a: Any, b: Any): String = "op plain[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    n: Number = z
+    m: Number = w
+    a: Any = z
+    println("op(n, w): " op(n, w))
+    println("op(z, m): " op(z, m))
+    println("op(n, m): " op(n, m))
+    println("op(a, w): " op(a, w))
+  end
+end

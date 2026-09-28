@@ -1,0 +1,27 @@
+component O2Excl
+export Executable
+(* Sets that are valid by exclusion or by the Subtype Rule, where a generic arm fits a call only by
+   promotion. lo: a generic arm bounded by ZZ64 beside the plain arm (ZZ32, ZZ64), whose declared
+   domains share no argument. two: two generic arms whose declared domains exclude, (ZZ64, ZZ64) and
+   (ZZ, ZZ), each below a plain arm over Any; two(z, z) fits each generic arm only by promotion. *)
+lo[\T extends ZZ64\](a: T, b: T): String = "lo generic[" (typeOf a) "," (typeOf b) "]"
+lo(a: ZZ32, b: ZZ64): String = "lo z32z64[" (typeOf a) "," (typeOf b) "]"
+two[\T extends ZZ64\](a: T, b: T): String = "two z64[" (typeOf a) "," (typeOf b) "]"
+two[\U extends ZZ\](a: U, b: U): String = "two zz[" (typeOf a) "," (typeOf b) "]"
+two(a: Any, b: Any): String = "two plain[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("lo(z, w): " lo(z, w))
+    println("lo(w, w): " lo(w, w))
+    println("two(z, z): " two(z, z))
+    println("two(w, w): " two(w, w))
+  end
+end

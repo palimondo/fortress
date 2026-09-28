@@ -1,0 +1,23 @@
+component O2Tie
+export Executable
+(* A generic arm bounded by ZZ64 beside a plain arm (ZZ32, Any). The declared domains, (ZZ64, ZZ64)
+   and (ZZ32, Any), share no argument. The call g(z, w) fits the plain arm as it is and the generic arm
+   only by promotion (T = ZZ64, z converted); on declared domains, and on the promoted instance
+   (ZZ64, ZZ64), neither domain is more specific than the other: position 1 favours the plain arm
+   (ZZ32 converts into ZZ64), position 2 the generic arm (ZZ64 below Any). *)
+g[\T extends ZZ64\](a: T, b: T): String = "g generic[" (typeOf a) "," (typeOf b) "]"
+g(a: ZZ32, b: Any): String = "g z32any[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("g(z, w): " g(z, w))
+    println("g(w, w): " g(w, w))
+    println("g(z, \"s\"): " g(z, "s"))
+  end
+end

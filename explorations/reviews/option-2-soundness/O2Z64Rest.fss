@@ -1,0 +1,20 @@
+component O2Z64Rest
+export Executable
+(* O2Z64 without its first call, op(z, w), which stops the stock run: the other calls stock. *)
+op[\T extends Number\](a: T, b: T): String = "op generic[" (typeOf a) "," (typeOf b) "]"
+op(a: ZZ64, b: ZZ64): String = "op plain64[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("op(w, w): " op(w, w))
+    println("op(z, z): " op(z, z))
+    println("op[ZZ64](z, w): " op[\ZZ64\](z, w))
+    println("op[ZZ64](w, w): " op[\ZZ64\](w, w))
+  end
+end

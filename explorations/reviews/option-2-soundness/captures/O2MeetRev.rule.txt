@@ -1,0 +1,9 @@
+# compiled O2MeetRev rule 2026-09-28T13:49:57Z; tree 0e6769ae3 (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.81 2.73 2.16; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(z, w):  op meet[ ZZ32 , ZZ64 ]
+op(z, z):  op meet[ ZZ32 , ZZ32 ]
+op(w, w):  op generic[ ZZ64 , ZZ64 ]
+op(z, "s"):  op z32any[ ZZ32 , other ]
+run rc=0

@@ -1,0 +1,10 @@
+# compiled O2Lone stock 2026-09-28T13:56:01Z; tree bf7e08a45 (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.13 3.55 2.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+same(z, w):  same[ ZZ32 , ZZ64 ]
+same(n, w):  same[ ZZ32 , ZZ64 ]
+op(a, a2):  op generic[ ZZ32 , ZZ32 ]
+op(a, aw):  op plain[ ZZ32 , ZZ64 ]
+op(aw, aw):  op generic[ ZZ64 , ZZ64 ]
+run rc=0

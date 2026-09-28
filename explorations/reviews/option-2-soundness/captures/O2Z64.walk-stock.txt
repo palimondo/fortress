@@ -1,0 +1,13 @@
+# walk O2Z64 stock 2026-09-28T13:51:42Z; tree 0e6769ae3 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.08 2.75 2.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: O2Z64.fss:6:1-74: and
+O2Z64.fss:5:1-88:
+
+op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2Z64.fss:5:1-88 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+O2Z64.fss:6:1-74:
+O2Z64.fss:5:1-88:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

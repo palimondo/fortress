@@ -1,0 +1,15 @@
+# compiled O2FbMeetNo rule 2026-09-28T13:59:14Z; tree 696f949eb (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.09 4.20 3.11; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+O2FbMeetNo.fss:5:1-99:
+O2FbMeetNo.fss:6:1-76:
+    Invalid overloading of eqop in component O2FbMeetNo:
+     (ZZ32, Any)->String @ O2FbMeetNo.fss:6:1-76
+ and [\T extends CompilerAlgebra.Equality[\T\]\](T, T)->String @ O2FbMeetNo.fss:5:1-99
+File O2FbMeetNo.fss has 1 error.
+compile rc=255
+## run
+Could not load O2FbMeetNo
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : O2FbMeetNo.class
+	... 4 more
+run rc=1

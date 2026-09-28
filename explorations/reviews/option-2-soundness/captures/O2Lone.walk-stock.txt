@@ -1,0 +1,7 @@
+# walk O2Lone stock 2026-09-28T13:56:14Z; tree bf7e08a45 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.49 3.65 2.73; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+same(z, w): same[ZZ32,ZZ64]
+same(n, w): same[ZZ32,ZZ64]
+op(a, a2): op generic[ZZ32,ZZ32]
+op(a, aw): op generic[ZZ32,ZZ64]
+op(aw, aw): op generic[ZZ64,ZZ64]
+rc=0

@@ -1,0 +1,13 @@
+# compiled O2FbLone stock 2026-09-28T13:58:29Z; tree 696f949eb (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.44 3.95 2.97; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+O2FbLone.fss:14:30-40:
+    Could not check call to function eqonly
+    - [\T extends CompilerAlgebra.Equality[\T\]\](T, T)->String is not applicable to an argument of type (ZZ32, ZZ64).
+File O2FbLone.fss has 1 error.
+compile rc=255
+## run
+Could not load O2FbLone
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : O2FbLone.class
+	... 4 more
+run rc=1

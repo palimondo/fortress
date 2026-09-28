@@ -1,0 +1,5 @@
+# walk O2Tie stock 2026-09-28T14:18:52Z; tree d4a6addd3 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.64 3.38 3.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+g(z, w): g z32any[ZZ32,ZZ64]
+g(w, w): g generic[ZZ64,ZZ64]
+g(z, "s"): g z32any[ZZ32,other]
+rc=0

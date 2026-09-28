@@ -1,0 +1,22 @@
+component O2Z64
+export Executable
+(* Check 3's second shape: the plain arm is (ZZ64, ZZ64), more specific than the generic arm on the
+   declared domains and equal to its promoted instance; op(z, w) needs a conversion under both arms. *)
+op[\T extends Number\](a: T, b: T): String = "op generic[" (typeOf a) "," (typeOf b) "]"
+op(a: ZZ64, b: ZZ64): String = "op plain64[" (typeOf a) "," (typeOf b) "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    println("op(z, w): " op(z, w))
+    println("op(w, w): " op(w, w))
+    println("op(z, z): " op(z, z))
+    println("op[ZZ64](z, w): " op[\ZZ64\](z, w))
+    println("op[ZZ64](w, w): " op[\ZZ64\](w, w))
+  end
+end

@@ -1,0 +1,15 @@
+# compiled O2FbMeet stock 2026-09-28T13:59:56Z; tree 696f949eb (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.68 4.21 3.15; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+O2FbMeet.fss:6:1-99:
+O2FbMeet.fss:7:1-76:
+    Invalid overloading of eqop in component O2FbMeet:
+     (ZZ32, Any)->String @ O2FbMeet.fss:7:1-76
+ and [\T extends CompilerAlgebra.Equality[\T\]\](T, T)->String @ O2FbMeet.fss:6:1-99
+File O2FbMeet.fss has 1 error.
+compile rc=255
+## run
+Could not load O2FbMeet
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : O2FbMeet.class
+	... 4 more
+run rc=1
