@@ -12,7 +12,8 @@ F = 'explorations/reviews/numerics-plan-fable'
 I_BRIEFING = [
   "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
   "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-19 answering the open question",
-  "positions:2026-09-21 library route", "positions:2026-09-26 answer 12", "positions:2026-09-22 on planning",
+  "positions:2026-09-21 library route", "positions:2026-09-26 answer 12", "positions:2026-09-22 a design principle",
+  "positions:2026-09-22 on planning",
   "positions:2026-09-27 launch of phase 3's batches", "positions:2026-09-27 stops a batch record reserves",
   "positions:2026-09-26 rung D's stop",
   "ledger:401", "ledger:388", "ledger:455", "ledger:447", "ledger:425", "ledger:432", "ledger:79",
@@ -57,7 +58,8 @@ I_BRIEFING = [
   "map:README.md#Touch this@scala_src/typechecker",
 ]
 I_CHECKS = [
-  "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 stops a batch record reserves",
+  "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
+  "positions:2026-09-22 a design principle", "positions:2026-09-27 stops a batch record reserves",
   "ledger:401", "ledger:388", "ledger:455", "ledger:447",
   "doc:" + SH + ".md#5. The compiler's tests",
   "doc:" + SH + ".md#7. What the rule does not reach, and the forks it meets",
@@ -118,7 +120,7 @@ K_CHECKS = [
 
 T_BRIEFING = [
   "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
-  "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
+  "positions:2026-09-22 a design principle", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
   "positions:2026-09-24 requirement on the plan", "positions:2026-09-26 number chapters under S2",
   "positions:2026-09-26 answer 9", "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop",
   "ledger:447", "ledger:425", "ledger:455", "ledger:401", "ledger:388",
@@ -145,7 +147,8 @@ T_BRIEFING = [
   "map:README.md#Touch this@Specification/ (the standard)",
 ]
 T_CHECKS = [
-  "positions:2026-09-27 numerics plans", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+  "positions:2026-09-27 numerics plans", "positions:2026-09-22 a design principle", "positions:2026-09-26 S1",
+  "positions:2026-09-26 first of the batch-5 answers",
   "positions:2026-09-27 stops a batch record reserves", "ledger:447",
   "doc:" + SH + ".md#7. What the rule does not reach, and the forks it meets", "doc:Specification/basic/inference.tex",
   "code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in",
@@ -201,7 +204,8 @@ Q_BRIEFING = [
   "map:README.md#Touch this@interpreter/ (evaluator",
 ]
 Q_CHECKS = [
-  "positions:2026-09-27 numeral's type", "positions:2026-09-27 numerics plans", "positions:2026-09-27 stops a batch record reserves",
+  "positions:2026-09-27 numeral's type", "positions:2026-09-27 numerics plans", "positions:2026-09-22 a design principle",
+  "positions:2026-09-27 stops a batch record reserves",
   "positions:2026-09-26 rung D's stop", "ledger:79", "ledger:443", "ledger:454", "ledger:387",
   "doc:explorations/compile-ladder/plan-6.5/NOTES.md#1. A numeral's type",
   "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait IntLiteral extends",

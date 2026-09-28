@@ -1,9 +1,9 @@
-I briefing keys 66 exit 0 | Total: 8 parts print 183782 bytes, about 76200 tokens.
-I checks keys 15 exit 0 | Total: 3 parts print 59835 bytes, about 24900 tokens.
+I briefing keys 67 exit 0 | Total: 8 parts print 184823 bytes, about 76700 tokens.
+I checks keys 17 exit 0 | Total: 3 parts print 62250 bytes, about 25900 tokens.
 K briefing keys 57 exit 0 | Total: 6 parts print 149562 bytes, about 62000 tokens.
 K checks keys 14 exit 0 | Total: 2 parts print 45083 bytes, about 18700 tokens.
-T briefing keys 41 exit 0 | Total: 5 parts print 109834 bytes, about 45600 tokens.
-T checks keys 11 exit 0 | Total: 1 part prints 24682 bytes, about 10200 tokens.
+T briefing keys 42 exit 0 | Total: 5 parts print 110875 bytes, about 46000 tokens.
+T checks keys 12 exit 0 | Total: 1 part prints 25723 bytes, about 10700 tokens.
 Q briefing keys 71 exit 0 | Total: 7 parts print 172488 bytes, about 71500 tokens.
-Q checks keys 13 exit 0 | Total: 2 parts print 42827 bytes, about 17800 tokens.
+Q checks keys 14 exit 0 | Total: 2 parts print 43868 bytes, about 18200 tokens.
 bad lists 0
