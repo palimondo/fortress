@@ -1,0 +1,8 @@
+--- SkTcBind, walk-edit, skeptic of rung H, 81946b524, 2026-09-28T00:41:05Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.09 8.42 10.92; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+rel
+plain
+rel arrow
+plain arrow
+done
+[rc=0]

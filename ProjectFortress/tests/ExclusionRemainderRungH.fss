@@ -1,0 +1,112 @@
+component ExclusionRemainderRungH
+import List.{...}
+import Generator2.{...}
+export Executable
+
+(*) explorations/compile-ladder/rung-exclusion-remainder/REPORT.md
+
+orders(a: TotalComparison, b: TotalComparison): String = do
+    (lo, hi) = a MINMAX b
+    "" (a = b) " " (a < b) " " (a > b) " " (a <= b) " " (a >= b) " " (a MIN b) " " (a MAX b) " " lo " " hi
+  end
+
+comparisons(): () = do
+    assert(orders(LessThan, LessThan), "true false false true true LessThan LessThan LessThan LessThan", "today's value: LessThan against LessThan")
+    assert(orders(LessThan, EqualTo), "false true false true false LessThan EqualTo LessThan EqualTo", "today's value: LessThan against EqualTo")
+    assert(orders(LessThan, GreaterThan), "false true false true false LessThan GreaterThan LessThan GreaterThan", "today's value: LessThan against GreaterThan")
+    assert(orders(EqualTo, LessThan), "false false true false true LessThan EqualTo LessThan EqualTo", "today's value: EqualTo against LessThan")
+    assert(orders(EqualTo, EqualTo), "true false false true true EqualTo EqualTo EqualTo EqualTo", "today's value: EqualTo against EqualTo")
+    assert(orders(EqualTo, GreaterThan), "false true false true false EqualTo GreaterThan EqualTo GreaterThan", "today's value: EqualTo against GreaterThan")
+    assert(orders(GreaterThan, LessThan), "false false true false true LessThan GreaterThan LessThan GreaterThan", "today's value: GreaterThan against LessThan")
+    assert(orders(GreaterThan, EqualTo), "false false true false true EqualTo GreaterThan EqualTo GreaterThan", "today's value: GreaterThan against EqualTo")
+    assert(orders(GreaterThan, GreaterThan), "true false false true true GreaterThan GreaterThan GreaterThan GreaterThan", "today's value: GreaterThan against GreaterThan")
+    assert(LessThan CMP LessThan, EqualTo, "today's value: LessThan CMP LessThan")
+    assert(LessThan CMP EqualTo, GreaterThan, "today's value, the converse of LessThan < EqualTo: row 456 (provisional)")
+    assert(LessThan CMP GreaterThan, GreaterThan, "today's value, the converse of LessThan < GreaterThan: row 456 (provisional)")
+    assert(EqualTo CMP LessThan, GreaterThan, "today's value: EqualTo CMP LessThan")
+    assert(EqualTo CMP EqualTo, EqualTo, "today's value: EqualTo CMP EqualTo")
+    assert(EqualTo CMP GreaterThan, LessThan, "today's value: EqualTo CMP GreaterThan")
+    assert(GreaterThan CMP LessThan, LessThan, "today's value, the converse of LessThan < GreaterThan: row 456 (provisional)")
+    assert(GreaterThan CMP EqualTo, LessThan, "today's value, the converse of EqualTo < GreaterThan: row 456 (provisional)")
+    assert(GreaterThan CMP GreaterThan, EqualTo, "today's value: GreaterThan CMP GreaterThan")
+    assert(LessThan LEXICO GreaterThan, LessThan, "advanced-lib/comparison.tex:65-66: LEXICO returns its left argument unless it is EqualTo")
+    assert(EqualTo LEXICO GreaterThan, GreaterThan, "advanced-lib/comparison.tex:65-66: LEXICO returns its right argument if the left is EqualTo")
+    assert(GreaterThan LEXICO LessThan, GreaterThan, "advanced-lib/comparison.tex:65-66: LEXICO returns its left argument unless it is EqualTo")
+    assert(EqualTo LEXICO EqualTo, EqualTo, "advanced-lib/comparison.tex:65-66: LEXICO of EqualTo and EqualTo")
+    assert(EqualTo LEXICO (fn () => LessThan), LessThan, "today's value: LEXICO with a thunk")
+    assert(GreaterThan LEXICO (fn () => LessThan), GreaterThan, "today's value: LEXICO with a thunk")
+    assert(Unordered LEXICO LessThan, Unordered, "advanced-lib/comparison.tex:168-178: LEXICO with Unordered on the left")
+    assert(EqualTo LEXICO Unordered, Unordered, "advanced-lib/comparison.tex:168-178: LEXICO of EqualTo and Unordered")
+    assert(BIG LEXICO <|[\TotalComparison\] EqualTo, EqualTo, GreaterThan, LessThan |>, GreaterThan, "advanced-lib/comparison.tex:23-24: the first non-EqualTo decides")
+    assert(BIG LEXICO <|[\TotalComparison\] |>, EqualTo, "advanced-lib/comparison.tex:23-24: EqualTo is the identity for LEXICO")
+    assert(INVERSE LessThan, GreaterThan, "today's value: INVERSE LessThan")
+    assert(INVERSE EqualTo, EqualTo, "today's value: INVERSE EqualTo")
+    assert(INVERSE GreaterThan, LessThan, "today's value: INVERSE GreaterThan")
+    assert(LessThan CMP Unordered, Unordered, "today's value: LessThan CMP Unordered")
+    assert(Unordered CMP GreaterThan, Unordered, "today's value: Unordered CMP GreaterThan")
+    assert(Unordered CMP Unordered, EqualTo, "today's value: Unordered CMP Unordered")
+    assert(Unordered = Unordered, true, "today's value: Unordered = Unordered")
+    deny(EqualTo = Unordered, "today's value: EqualTo = Unordered")
+    deny(GreaterThan >= Unordered, "today's value: GreaterThan >= Unordered")
+    deny(LessThan < Unordered, "today's value: LessThan < Unordered")
+    deny(Unordered < LessThan, "today's value: Unordered < LessThan")
+    c: Comparison = LessThan
+    d: Comparison = GreaterThan
+    assert(c CMP d, GreaterThan, "today's value, the converse of LessThan < GreaterThan: row 456 (provisional)")
+    assert(c <= d, true, "today's value: <= on comparisons typed Comparison")
+    assert(c >= d, false, "today's value: >= on comparisons typed Comparison")
+    assert(c LEXICO d, LessThan, "advanced-lib/comparison.tex:168-169: LEXICO on comparisons typed Comparison")
+  end
+
+maybes(): () = do
+    j3: Maybe[\ZZ32\] = Just[\ZZ32\](3)
+    j4: Maybe[\ZZ32\] = Just[\ZZ32\](4)
+    n: Maybe[\ZZ32\] = Nothing[\ZZ32\]
+    assert(Just[\ZZ32\](3) = Just[\ZZ32\](3), true, "today's value: Just(3) = Just(3)")
+    assert(j3 = j4, false, "today's value: Just(3) = Just(4)")
+    assert(j3 = n, false, "today's value: Just(3) = Nothing")
+    assert(n = j3, false, "today's value: Nothing = Just(3)")
+    assert(n = Nothing[\ZZ32\], true, "today's value: Nothing = Nothing")
+    assert(j3 =/= n, true, "today's value: Just(3) =/= Nothing")
+    assert(just(3) = Just(3), true, "today's value: just(3) = Just(3)")
+    assert(NotUnique[\ZZ32\] = n, false, "today's value: NotUnique = Nothing")
+    assert(n = NotUnique[\ZZ32\], false, "today's value: Nothing = NotUnique")
+    assert("" (j3 SQCAP j3) " " (j3 SQCAP j4) " " (j3 SQCUP n) " " (n SQCAP j3), "Just(3) Nothing Just(3) Nothing", "today's value: SQCAP and SQCUP on Maybe")
+    assert("" <|[\ZZ32\] x + 1 | x <- j3 |>, "<|4|>", "today's value; the Maybe api's comment: Just is a one-element generator")
+    assert("" <|[\ZZ32\] x + 1 | x <- n |>, "<||>", "today's value; the Maybe api's comment: Nothing is an empty generator")
+    assert(|j3|, 1, "today's value: |Just(3)|")
+    assert(|n|, 0, "today's value: |Nothing|")
+    assert(3 IN j3, true, "today's value: 3 IN Just(3)")
+    assert(3 IN n, false, "today's value: 3 IN Nothing")
+    acc: ZZ32 := 0
+    for x <- seq(j4) do acc += x end
+    for x <- seq(n) do acc += 100 x end
+    assert(acc, 4, "today's value: for over Just(4) and Nothing")
+    assert(if x <- j3 then x + 10 else 0 end, 13, "today's value: Just as a condition")
+    assert(if x <- n then x + 10 else 0 end, 0, "today's value: Nothing as a condition")
+    assert(j3.holds, true, "today's value: Just holds")
+    assert(n.holds, false, "today's value: Nothing holds")
+    assert(n.getDefault(7), 7, "today's value: Nothing getDefault")
+  end
+
+conditions(): () = do
+    xs : ZZ32[10] = [ 2 5 3 4 8 6 9 7 1 0 ]
+    p1 = relationalPredicate[\ZZ32\](fn (a, b) => |a-b| < 4)
+    p2 = relationalPredicate[\ZZ32\](fn (a, b) => a < b)
+    both = <|[\ZZ32\] SUM[\ZZ32\] ys | ys <- inits xs, p1 ys, p2 ys |>
+    naive = <|[\ZZ32\] SUM[\ZZ32\] xs[0:i] | i <- (0#(|xs|)), p1 xs[0:i], p2 xs[0:i] |>
+    assert("" both, "<|2, 7|>", "today's value: two relational predicates combined by AND")
+    assert("" naive, "<|2, 7|>", "today's value: the same two predicates on the prefixes")
+    assert(relational[\ZZ32\](p1), true, "Generator2.fss:88-93: a relational predicate")
+    g = (inits xs).filter(p1).filter(p2)
+    assert(relational[\ZZ32\](g.p), true, "Generator2.fss:88-93: two relational predicates combined by filter stay relational")
+  end
+
+run(): () = do
+    comparisons()
+    maybes()
+    conditions()
+    println("ExclusionRemainderRungH: comparisons, Maybe and relational conditions as before")
+  end
+
+end

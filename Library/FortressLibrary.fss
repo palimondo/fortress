@@ -156,7 +156,7 @@ object Unordered extends Comparison
 end
 
 trait TotalComparison
-        extends { Comparison, StandardTotalOrder[\TotalComparison\] }
+        extends { Comparison }
         comprises { LessThan, EqualTo, GreaterThan }
     (* We're both a partial order (including Unordered) and a total
        order (TotalComparison alone).  Avoid ambiguity between the
@@ -167,6 +167,12 @@ trait TotalComparison
     opr <(self, other:Unordered): Boolean = false
     opr >=(self, other:Unordered): Boolean = false
     opr >=(self, other:Comparison): Boolean = NOT (other < self)
+    opr >=(self, other:TotalComparison): Boolean = NOT (self < other)
+    opr <=(self, other:TotalComparison): Boolean = NOT (other < self)
+    opr MIN(self, other:TotalComparison): TotalComparison = if other < self then other else self end
+    opr MAX(self, other:TotalComparison): TotalComparison = if other < self then self else other end
+    opr MINMAX(self, other:TotalComparison): (TotalComparison,TotalComparison) =
+        if other < self then (other, self) else (self, other) end
     opr LEXICO(self, other:TotalComparison): TotalComparison = self
     opr LEXICO(self, other:()->TotalComparison): TotalComparison = self
     opr INVERSE(self): TotalComparison
@@ -1391,8 +1397,9 @@ object traversals until the moment the resulting generator is used.
 
 (* This makes excludes work without where clauses, and allows opr =()
    to remain non-parametric. *)
-value trait AnyMaybe extends { Equality[\AnyMaybe\], AnyUniqueItem } excludes Number
+value trait AnyMaybe extends { AnyUniqueItem } excludes Number
         (** \vspace{-4ex} NOT YET: %comprises Maybe[\T\] where [\T\]% *)
+    opr =(self, other:AnyMaybe): Boolean = self SEQV other
 end
 
 just(t:Any):AnyMaybe = Just(t)
@@ -4494,9 +4501,9 @@ end
 trait FilterGenerator2[\ E \]
   extends { Generator2[\ E \], FilterGenerator[\ Generator[\ E \] \] }
   filter(p': Generator[\ E \] -> Condition[\()\]): SimpleFilterGenerator2[\E\] =
-  SimpleFilterGenerator2[\E\](self.g, self.p ANDCOND p')
+  SimpleFilterGenerator2[\E\](self.g, andCondCombine[\E\](self.p, p'))
   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = self.g.__generate2filtered[\ R, L1, L2 \](q,r,self.p,f)
-  __generate2filtered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p' : Generator[\E\] -> Condition[\()\], f : E -> R) : R = self.g.__generate2filtered[\R, L1, L2\](q,r,self.p ANDCOND p',f)
+  __generate2filtered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p' : Generator[\E\] -> Condition[\()\], f : E -> R) : R = self.g.__generate2filtered[\R, L1, L2\](q,r,andCondCombine[\E\](self.p, p'),f)
 
   theoremsFiltered[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\] = self.g.theoremsFiltered[\R, L1, L2\]()
 
@@ -4513,7 +4520,7 @@ end
 
 (*---------------------------Relational Predicates -------------------------*)
 (* base of relational predicates condition *)
-trait RelationalPredicateCondition[\E\] extends { Condition[\()\] } excludes Condition[\()\]
+trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }
   relation() : (E, E) -> Boolean
   target() : Generator[\ E \]
   cond[\G\](t: () -> G, e: () -> G) : G = do
@@ -4536,7 +4543,17 @@ object ConcreteRelationalPredicateCondition[\E\](r : (E, E) -> Boolean, x : Gene
 end
 
 (* combining two relational predicates into a new relational predicate *)
-opr ANDCOND[\E\](p : Generator[\ E \] -> RelationalPredicateCondition[\ E \] , q : Generator[\ E \] -> RelationalPredicateCondition[\ E \] ) : Generator[\ E \] -> Condition[\ () \] = (fn (x : Generator[\ E \]) : AndRelationalPredicateCondition[\ E \] => AndRelationalPredicateCondition[\ E \](p, q, x))
+andRelCond[\E\](p : Generator[\ E \] -> RelationalPredicateCondition[\ E \] , q : Generator[\ E \] -> RelationalPredicateCondition[\ E \] ) : Generator[\ E \] -> Condition[\ () \] = (fn (x : Generator[\ E \]) : AndRelationalPredicateCondition[\ E \] => AndRelationalPredicateCondition[\ E \](p, q, x))
+
+andCondCombine[\E\](p : Generator[\E\] -> Condition[\()\], q : Generator[\E\] -> Condition[\()\]) : Generator[\E\] -> Condition[\()\] =
+  typecase p of
+    rp:(Generator[\E\] -> RelationalPredicateCondition[\E\]) =>
+      typecase q of
+        rq:(Generator[\E\] -> RelationalPredicateCondition[\E\]) => andRelCond[\E\](rp, rq)
+        else => (p ANDCOND q) typed (Generator[\E\] -> Condition[\()\])
+      end
+    else => (p ANDCOND q) typed (Generator[\E\] -> Condition[\()\])
+  end
 
 (* Combined condition for relational predicates *)
 object AndRelationalPredicateCondition[\ E \](fst : Generator[\ E \] -> RelationalPredicateCondition[\ E \], snd : Generator[\ E \] -> RelationalPredicateCondition[\ E \], x : Generator[\ E \])

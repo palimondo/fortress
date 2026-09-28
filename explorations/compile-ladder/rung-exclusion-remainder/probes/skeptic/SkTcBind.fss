@@ -1,0 +1,32 @@
+component SkTcBind
+export Executable
+
+trait Cond end
+trait Rel extends Cond end
+object R extends Rel end
+object C extends Cond end
+
+useRel(r: Rel): String = "rel"
+useRelF(f: ZZ32 -> Rel): String = "rel arrow"
+
+pick(c: Cond): String =
+  typecase c of
+    r:Rel => useRel(r)
+    else => "plain"
+  end
+
+pickF(p: ZZ32 -> Cond): String =
+  typecase p of
+    rp:(ZZ32 -> Rel) => useRelF(rp)
+    else => "plain arrow"
+  end
+
+run() = do
+    println(pick(R))
+    println(pick(C))
+    println(pickF(fn (x: ZZ32): Rel => R))
+    println(pickF(fn (x: ZZ32): Cond => C))
+    println("done")
+  end
+
+end

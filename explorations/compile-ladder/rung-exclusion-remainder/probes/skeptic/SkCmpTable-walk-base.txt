@@ -1,0 +1,19 @@
+--- SkCmpTable, walk-base, skeptic of rung H, 81946b524, 2026-09-28T00:37:49Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.88 8.47 11.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+LessThan LessThan: < F <= T > F >= T = T CMP EqualTo LEXICO LessThan
+LessThan EqualTo: < T <= T > F >= F = F CMP GreaterThan LEXICO LessThan
+LessThan GreaterThan: < T <= T > F >= F = F CMP GreaterThan LEXICO LessThan
+EqualTo LessThan: < F <= F > T >= T = F CMP GreaterThan LEXICO LessThan
+EqualTo EqualTo: < F <= T > F >= T = T CMP EqualTo LEXICO EqualTo
+EqualTo GreaterThan: < T <= T > F >= F = F CMP LessThan LEXICO GreaterThan
+GreaterThan LessThan: < F <= F > T >= T = F CMP LessThan LEXICO GreaterThan
+GreaterThan EqualTo: < F <= F > T >= T = F CMP LessThan LEXICO GreaterThan
+GreaterThan GreaterThan: < F <= T > F >= T = T CMP EqualTo LEXICO GreaterThan
+LessThan Unordered (as Comparison): < F <= F > F >= F = F CMP Unordered LEXICO Unordered
+EqualTo Unordered (as Comparison): < F <= F > F >= F = F CMP Unordered LEXICO Unordered
+GreaterThan Unordered (as Comparison): < F <= F > F >= F = F CMP Unordered LEXICO Unordered
+Unordered LessThan (as Comparison): < F <= F > F >= F = F CMP Unordered LEXICO Unordered
+Unordered Unordered (as Comparison): < F <= T > F >= T = T CMP EqualTo LEXICO Unordered
+LessThan GreaterThan (as Comparison): < T <= T > F >= F = F CMP GreaterThan LEXICO LessThan
+done
+[rc=0]

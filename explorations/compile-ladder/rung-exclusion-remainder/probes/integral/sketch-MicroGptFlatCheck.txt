@@ -1,0 +1,27 @@
+--- walk MicroGptFlatCheck, library /home/user/fortress-remainder/tmp/libs/sketch 2026-09-27T20:23:43Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 17.59 15.88 12.32 22/375 20583
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-remainder/explorations/run-c4/src/FlatArrays.fss:26:1-123: and
+/home/user/fortress-remainder/tmp/libs/sketch/FortressLibrary.fss:662:5-27:
+
+/[\I\](a:Array[\FortressLibrary.RR64,I\],b:Array[\FortressLibrary.RR64,I\]):Array[\FortressLibrary.RR64,I\]/home/user/fortress-remainder/explorations/run-c4/src/FlatArrays.fss:26:1-123 and
+Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\]./(self:Integral[\I\],other:I):FortressLibrary.QQ/home/user/fortress-remainder/tmp/libs/sketch/FortressLibrary.fss:662:5-27 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-remainder/explorations/run-c4/src/FlatArrays.fss:26:1-123:
+/home/user/fortress-remainder/explorations/run-c4/src/MicroGptFlatCheck.fss:72:74:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=82
+EXIT=0

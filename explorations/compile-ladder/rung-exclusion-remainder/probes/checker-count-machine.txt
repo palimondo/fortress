@@ -1,0 +1,6 @@
+checker-count-preedit.txt: explorations/coordinator/tools/checker-count/run.sh on the worktree at ff1649cea (the batch's base), 2026-09-27T19:53:04Z, after ant compileAll
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz 2100.000; load average at start 7.36 4.36 2.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; wall 38.7 s
+checker-count-postedit.txt: run.sh on the worktree with the edit applied (HEAD dbee29285 plus the uncommitted edit), 2026-09-27T21:05:35Z
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz 2100.000; load average at start 15.35 16.64 16.76; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+checker-count-postedit.txt re-run on the final library (HEAD b264fc0ce), 2026-09-27T22:55:05Z: the table byte-identical, the error list identical (stage-errors.py)
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz 2100.000; load average at start 9.78 12.77 15.65; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1

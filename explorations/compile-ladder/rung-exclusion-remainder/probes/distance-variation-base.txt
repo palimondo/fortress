@@ -1,0 +1,6 @@
+# Two distance runs on the untouched library ff1649cea: probes/distance-preedit.txt (the worktree, 19:54) and probes/distance-preedit-second.txt (a shadow home, tmp/dhome-base, 22:58).
+# first 1747, second 1747; 2 only in the first, 2 only in the second
+first-only 1 typecheck	Function body has type String, but declared return type is Comprehension[\..\].	component FortressLibrary	FortressLibrary.fss:3419 Function body has type String, but declared return type is Comprehension[\Any,String,String,AnyMaybe\].
+first-only 1 typecheck	Function body has type T, but declared return type is BigReduction[\..\].	component FortressLibrary	FortressLibrary.fss:3187 Function body has type T, but declared return type is BigReduction[\T,AnyMaybe\].
+second-only 1 typecheck	Function body has type RR64, but declared return type is BigReduction[\..\].	component FortressLibrary	FortressLibrary.fss:3217 Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
+second-only 1 typecheck	Function body has type RR64, but declared return type is BigReduction[\..\].	component FortressLibrary	FortressLibrary.fss:3224 Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].

@@ -1,0 +1,7 @@
+tests	BooleanOps.fss	BooleanOps	255		11	
+tests	ExclusionRemainderRungH.fss	ExclusionRemainderRungH	255		5	
+tests	GS3.fss	GS3	255		7	
+tests	Generator2Test.fss	Generator2Test	255		4	
+tests	RangePrototype.fss	RangePrototype	255		8	
+tests	genericTest3.fss	genericTest3	255		9	
+tests	tupleInfer.fss	tupleInfer	255		2	

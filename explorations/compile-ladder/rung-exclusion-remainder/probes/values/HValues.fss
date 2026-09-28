@@ -1,0 +1,55 @@
+component HValues
+import List.{...}
+import Generator2.{...}
+export Executable
+
+tc(): List[\TotalComparison\] = <|[\TotalComparison\] LessThan, EqualTo, GreaterThan |>
+
+run(): () = do
+  for a <- seq(tc()) do
+    for b <- seq(tc()) do
+      println(a " " b ": CMP " (a CMP b) " LEXICO " (a LEXICO b) " = " (a = b) " < " (a < b) " > " (a > b)
+              " <= " (a <= b) " >= " (a >= b) " MIN " (a MIN b) " MAX " (a MAX b) " MINMAX " (a MINMAX b))
+    end
+  end
+  for a <- seq(tc()) do
+    println(a " INVERSE " (INVERSE a) " LEXICO thunk GreaterThan " (a LEXICO (fn () => GreaterThan))
+            " CMP Unordered " (a CMP Unordered) " LEXICO Unordered " (a LEXICO Unordered)
+            " = Unordered " (a = Unordered) " >= Unordered " (a >= Unordered) " < Unordered " (a < Unordered))
+    println(a " Unordered CMP " (Unordered CMP a) " Unordered LEXICO " (Unordered LEXICO a)
+            " Unordered = " (Unordered = a) " Unordered < " (Unordered < a) " Unordered >= " (Unordered >= a))
+  end
+  println("Unordered = Unordered " (Unordered = Unordered) " Unordered CMP Unordered " (Unordered CMP Unordered))
+  println("BIG LEXICO " (BIG LEXICO <|[\TotalComparison\] EqualTo, EqualTo, GreaterThan, LessThan |>))
+  println("BIG LEXICO empty " (BIG LEXICO <|[\TotalComparison\] |>))
+  c: Comparison = LessThan
+  d: Comparison = GreaterThan
+  println("as Comparison: CMP " (c CMP d) " <= " (c <= d) " >= " (c >= d) " LEXICO " (c LEXICO d))
+  j3: Maybe[\ZZ32\] = Just[\ZZ32\](3)
+  j4: Maybe[\ZZ32\] = Just[\ZZ32\](4)
+  n: Maybe[\ZZ32\] = Nothing[\ZZ32\]
+  println("Just(3)=Just(3) " (Just[\ZZ32\](3) = Just[\ZZ32\](3)) " Just(3)=Just(4) " (j3 = j4)
+          " Just(3)=Nothing " (j3 = n) " Nothing=Just(3) " (n = j3) " Nothing=Nothing " (n = Nothing[\ZZ32\])
+          " Just(3)=/=Nothing " (j3 =/= n) " just(3)=Just(3) " (just(3) = Just(3)))
+  println("NotUnique=Nothing " (NotUnique[\ZZ32\] = n) " Nothing=NotUnique " (n = NotUnique[\ZZ32\])
+          " Just(3) SQCAP Just(3) " (j3 SQCAP j3) " Just(3) SQCAP Just(4) " (j3 SQCAP j4)
+          " Just(3) SQCUP Nothing " (j3 SQCUP n) " Nothing SQCAP Just(3) " (n SQCAP j3))
+  println("gen Just " <|[\ZZ32\] x + 1 | x <- j3 |> " gen Nothing " <|[\ZZ32\] x + 1 | x <- n |>
+          " |Just| " |j3| " |Nothing| " |n| " 3 IN Just(3) " (3 IN j3) " 3 IN Nothing " (3 IN n))
+  acc: ZZ32 := 0
+  for x <- seq(j4) do acc += x end
+  for x <- seq(n) do acc += 100 x end
+  println("for over Just(4) and Nothing: " acc)
+  println("if Just " (if x <- j3 then x + 10 else 0 end) " if Nothing " (if x <- n then x + 10 else 0 end))
+  println("Just holds " j3.holds " Nothing holds " n.holds " Just get " j3.get " Nothing getDefault " n.getDefault(7))
+  xs : ZZ32[10] = [ 2 5 3 4 8 6 9 7 1 0 ]
+  p1 = relationalPredicate[\ZZ32\](fn (a, b) => |a-b| < 4)
+  p2 = relationalPredicate[\ZZ32\](fn (a, b) => a < b)
+  both = <|[\ZZ32\] SUM[\ZZ32\] ys | ys <- inits xs, p1 ys, p2 ys |>
+  naive = <|[\ZZ32\] SUM[\ZZ32\] xs[0:i] | i <- (0#(|xs|)), p1 xs[0:i], p2 xs[0:i] |>
+  println("relational AND: " both " naive " naive " max " (BIG MAX[\ZZ32\] both))
+  g = (inits xs).filter(p1).filter(p2)
+  println("relational(p1) " relational[\ZZ32\](p1) " combined by filter relational " relational[\ZZ32\](g.p))
+  println("user-level ANDCOND relational " relational[\ZZ32\](p1 ANDCOND p2))
+end
+end

@@ -1,0 +1,30 @@
+--- XXXCoercionTupleOverloadRungC, the base library ff1649cea, library /home/user/fortress-remainder/tmp/libs/base 2026-09-27T22:09:57Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 24.61 28.33 30.32 24/442 18050
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+flags=[] run 1 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[] run 2 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[] run 3 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[] run 4 rc=1 first: pair():(Wide,
+flags=[] run 5 rc=1 first: pair():(Wide,
+flags=[] run 6 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[-XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:ActiveProcessorCount=1] run 1 rc=1 first: pair():(Wide,
+flags=[-XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:ActiveProcessorCount=1] run 2 rc=1 first: pair():(Wide,
+--- XXXCoercionTupleOverloadRungC, rung H edit, library /home/user/fortress-remainder/tmp/libs/final2 2026-09-27T22:17:36Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 23.00 25.64 28.22 17/374 24192
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+flags=[] run 1 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[] run 2 rc=1 first: pair():(Wide,
+flags=[] run 3 rc=1 first: pair():(Wide,
+flags=[] run 4 rc=1 first: pair():(Wide,
+flags=[] run 5 rc=1 first: pair():(Wide,
+flags=[] run 6 rc=1 first: pair(param_pair:(Wide, FortressLibrary.ZZ32)):()
+flags=[-XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:ActiveProcessorCount=1] run 1 rc=1 first: pair():(Wide,
+flags=[-XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:ActiveProcessorCount=1] run 2 rc=1 first: pair():(Wide,

@@ -1,0 +1,21 @@
+--- SkMaybeEq, compiled, skeptic of rung H, 81946b524, 2026-09-28T00:40:31Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.21 8.48 11.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkMaybeEq.fss:9:8-14:
+    AnyMaybe is undefined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkMaybeEq.fss:10:8-14:
+    AnyMaybe is undefined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkMaybeEq.fss:11:8-14:
+    AnyMaybe is undefined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkMaybeEq.fss:12:8-14:
+    AnyMaybe is undefined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkMaybeEq.fss:13:8-19:
+    AnyUniqueItem is undefined.
+File SkMaybeEq.fss has 5 errors.
+[compile rc=255]
+## run
+Could not load SkMaybeEq
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMaybeEq.class
+	... 4 more
+[run rc=1]

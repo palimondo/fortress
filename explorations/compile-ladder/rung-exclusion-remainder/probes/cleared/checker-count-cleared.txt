@@ -1,0 +1,36 @@
+# The checker-count stage on two copies of the edit's first form (andCondCombine in P3d's shorthand typecase, the rest as landed; the final form's own table and error list are identical to the first form's, probes/checker-count-machine.txt, last line): final, the edit alone (44); final-cleared, the edit plus the sketch's shape for AnyIntegral, Integral[\I\] without AnyIntegral (190). apply-h.py and cc-variant.sh, 2026-09-27 20:45-20:48 UTC.
+#variant	final
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	2
+List	0
+NatReflect	0
+NativeArray	44
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	44
+#locations	27
+#crash	none
+#variant	final-cleared
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	294
+List	0
+NatReflect	0
+NativeArray	44
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	190
+#locations	84
+#crash	none
+EXIT=0

@@ -1,0 +1,22 @@
+component SkMaybeEq
+export Executable
+
+run() = do
+    j3: Maybe[\ZZ32\] = Just[\ZZ32\](3)
+    js: Maybe[\String\] = Just[\String\]("a")
+    n: Maybe[\ZZ32\] = Nothing[\ZZ32\]
+    ns: Maybe[\String\] = Nothing[\String\]
+    a: AnyMaybe = j3
+    b: AnyMaybe = Just[\ZZ32\](3)
+    c: AnyMaybe = n
+    d: AnyMaybe = ns
+    u: AnyUniqueItem = NotUnique[\ZZ32\]
+    println("Just(3)=Just(\"a\") " (j3 = js) "; Nothing[ZZ32]=Nothing[String] " (n = ns) "; as AnyMaybe: a=b " (a = b) " c=d " (c = d) " a=c " (a = c))
+    println("AnyMaybe = AnyUniqueItem: " (a = u) " " (u = a) " " (c = u))
+    println("just(3) = just(3): " (just(3) = just(3)) "; just(3) = Just(3): " (just(3) = Just(3)) "; just(\"a\") = just(3): " (just("a") = just(3)))
+    println("=/=: " (j3 =/= js) " " (n =/= ns) " " (a =/= b))
+    println("Just(3) SQCAP Just(3) = Just(3): " ((j3 SQCAP j3) = j3) "; Nothing SQCUP Just(3): " (n SQCUP j3))
+    println("done")
+  end
+
+end

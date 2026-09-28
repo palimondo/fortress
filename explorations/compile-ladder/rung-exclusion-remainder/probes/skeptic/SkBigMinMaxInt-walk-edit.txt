@@ -1,0 +1,14 @@
+--- SkBigMinMaxInt, walk-edit, skeptic of rung H, 81946b524, 2026-09-28T01:03:14Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 6.91 7.90 8.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+BIG MIN of ZZ32: 1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-remainder/Library/FortressLibrary.fss:3215:5-96:
+Unification error: Closure/Constructor for Comprehension param 2 ($reduction:ActualReduction[\AnyMaybe,AnyMaybe\]) got arg MinMaxReduction[\ZZ32\] of type MinMaxReduction[\ZZ32\]
+Context:
+/home/user/fortress-remainder/Library/FortressLibrary.fss:3215:5-96:
+/home/user/fortress-remainder/Library/FortressLibrary.fss:3217:50-68:
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkBigMinMaxInt.fss:7:37-68:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+[rc=1]

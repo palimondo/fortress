@@ -1,0 +1,7 @@
+--- edit 3: the final library (andCondCombine's else branches typed): Generator2Test, which reaches andCondCombine, and the two tests that timed out in edit pass 1, timeout 1800 s 2026-09-27T22:54:44Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 9.21 12.88 15.75 8/295 16488
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

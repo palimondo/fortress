@@ -1,0 +1,19 @@
+--- SkCmpMinMax, compiled, skeptic of rung H, 81946b524, 2026-09-28T00:40:47Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.31 8.49 10.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkCmpMinMax.fss:5:16:
+    Could not check call to operator MINMAX
+    - (IntLiteral, IntLiteral)->(IntLiteral, IntLiteral) is not applicable to an argument of type (TotalComparison, TotalComparison).
+    - (NN32, NN32)->(NN32, NN32) is not applicable to an argument of type (TotalComparison, TotalComparison).
+    - (NN64, NN64)->(NN64, NN64) is not applicable to an argument of type (TotalComparison, TotalComparison).
+    - (ZZ, ZZ)->(ZZ, ZZ) is not applicable to an argument of type (TotalComparison, TotalComparison).
+    - (ZZ32, ZZ32)->(ZZ32, ZZ32) is not applicable to an argument of type (TotalComparison, TotalComparison).
+    - (ZZ64, ZZ64)->(ZZ64, ZZ64) is not applicable to an argument of type (TotalComparison, TotalComparison).
+File SkCmpMinMax.fss has 1 error.
+[compile rc=255]
+## run
+Could not load SkCmpMinMax
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkCmpMinMax.class
+	... 4 more
+[run rc=1]

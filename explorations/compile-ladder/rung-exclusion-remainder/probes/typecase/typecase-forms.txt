@@ -1,0 +1,407 @@
+# The checker's typecase narrowing of an arrow type, three forms, each type-checked in the compiler's own world (fortress typecheck) and run under walk.
+# TcNested: the shorthand form 'typecase p of (A -> B) =>', as zero's P3d writes it; TcClause: the clause binding 'rp:(A -> B) =>', as the library's cast does (FortressLibrary.fss:33-37).
+# The 'Ill-formed type: Cond[\()\]' errors are the compiler world's implicit bound Object on Cond's parameter, the same in both, and are not the question.
+## TcNested typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:11:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:11:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:11:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:15:35-16:8:
+    Could not check call to function andRel
+    - [\E\](Gen[\E\]->Rel[\E\], Gen[\E\]->Rel[\E\])->Gen[\E\]->Cond[\()\] is not applicable to an argument of type (Gen[\E\]->Cond[\()\], Gen[\E\]->Cond[\()\]).
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcNested.fss:22:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcNested.fss has 13 errors.
+rc=255
+## TcNested walk
+RelObj[\ZZ32\]
+CondObj
+rc=0
+## TcClause typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:11:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:11:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:11:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcClause.fss:22:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcClause.fss has 12 errors.
+rc=255
+## TcClause walk
+RelObj[\ZZ32\]
+CondObj
+rc=0
+
+# TcTuple and TcBind: the specification's binding form 'typecase x = e of' (Specification/basic/expressions/typecase.tex:55-62, :88-93), refused by both paths.
+## TcTuple typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:12:13:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:12:17:
+    Variable rq is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:13:65:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:13:69:
+    Variable rq is not defined.
+File TcTuple.fss has 4 errors.
+rc=255
+## TcTuple walk
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:12:13:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:12:17:
+    Variable rq is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:13:65:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTuple.fss:13:69:
+    Variable rq is not defined.
+rc=255
+## TcBind typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:12:12:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:14:16:
+    Variable rq is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:15:47:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:15:51:
+    Variable rq is not defined.
+File TcBind.fss has 4 errors.
+rc=255
+## TcBind walk
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:12:12:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:14:16:
+    Variable rq is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:15:47:
+    Variable rp is not defined.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcBind.fss:15:51:
+    Variable rq is not defined.
+rc=255
+
+# TcTrait: the shorthand form on a trait type
+## TcTrait typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcTrait.fss:14:17-29:
+    Could not check call to function useRel
+    - [\E\]Rel[\E\]->E is not applicable to an argument of type Cond.
+File TcTrait.fss has 1 error.
+rc=255
+## TcTrait walk
+5
+0
+rc=0
+
+# TcElseInfer, TcElseAsif, TcElseLocal, TcElseTyped: the else branch calls a generic operator whose type parameter appears only in parameter and result arrows (ANDY, the shape of ANDCOND);
+# written bare the checker infers it at BottomType and refuses the typecase's union as the function's body; an 'asif' is refused by walk; a typed local and the specification's 'typed' ascription (Specification/basic/expressions/type-annotation.tex:27-29) check and run.
+## TcElseInfer typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:11:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:11:45-52:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:11:63-70:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:11:87-94:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:12:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:12:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:12:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:13:3-20:4:
+    Function body has type OR(BottomType->Cond[\()\],OR(Gen[\E\]->Cond[\()\],BottomType->Cond[\()\])), but declared return type is Gen[\E\]->Cond[\()\].
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseInfer.fss:23:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcElseInfer.fss has 17 errors.
+rc=255
+## TcElseInfer walk
+RelObj[\ZZ32\]
+CondObj
+rc=0
+## TcElseAsif typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11:45-52:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11:63-70:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11:87-94:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:12:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:12:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:12:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:17:46-53:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:19:42-49:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:23:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+Type checker generated.:0:0:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcElseAsif.fss has 19 errors.
+rc=255
+## TcElseAsif walk
+RelObj[\ZZ32\]
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:25:33-48:
+Failed to find any matching overload, args = ((FnExpr at /home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11.76 Gen[\ZZ32\]->Cond[\()\] /home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:11:76-27:2 asif Gen[\ZZ32\]->Cond[\()\]),GenObj[\ZZ32\]), overload = {
+Context:
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseAsif.fss:25:33-48:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+## TcElseLocal typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:11:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:11:45-52:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:11:63-70:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:11:87-94:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:12:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:12:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:12:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:17:35-42:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:19:31-38:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseLocal.fss:23:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+Type checker generated.:0:0:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcElseLocal.fss has 19 errors.
+rc=255
+## TcElseLocal walk
+RelObj[\ZZ32\]
+CondObj
+rc=0
+## TcElseTyped typecheck
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:4:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:6:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:9:76-83:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:9:107-114:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:10:30-37:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:10:57-64:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:10:82-89:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:10:113-120:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:11:24-31:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:11:45-52:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:11:63-70:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:11:87-94:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:12:29-36:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:12:56-63:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:12:81-88:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:17:47-54:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:19:43-50:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/typecase/TcElseTyped.fss:23:28-35:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+Type checker generated.:0:0:
+    Ill-formed type: Cond[\()\]
+    The static argument () does not satisfy the corresponding bound Object.
+File TcElseTyped.fss has 19 errors.
+rc=255
+## TcElseTyped walk
+RelObj[\ZZ32\]
+CondObj
+rc=0

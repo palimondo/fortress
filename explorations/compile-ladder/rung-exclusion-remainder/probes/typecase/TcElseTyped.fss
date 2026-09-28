@@ -1,0 +1,27 @@
+component TcElseTyped
+export Executable
+trait Cond[\T\] end
+trait Rel[\E\] extends Cond[\()\] end
+object RelObj[\E\](e: E) extends Rel[\E\] end
+object CondObj extends Cond[\()\] end
+trait Gen[\E\] end
+object GenObj[\E\](e: E) extends Gen[\E\] end
+andRel[\E\](p: Gen[\E\] -> Rel[\E\], q: Gen[\E\] -> Rel[\E\]): Gen[\E\] -> Cond[\()\] = fn (x: Gen[\E\]): Cond[\()\] => p(x)
+andPlain[\E\](p: Gen[\E\] -> Cond[\()\], q: Gen[\E\] -> Cond[\()\]): Gen[\E\] -> Cond[\()\] = fn (x: Gen[\E\]): Cond[\()\] => q(x)
+opr ANDY[\I\](p1: I -> Cond[\()\], p2: I -> Cond[\()\]): I -> Cond[\()\] = fn (i: I): Cond[\()\] => p2(i)
+combine[\E\](p: Gen[\E\] -> Cond[\()\], q: Gen[\E\] -> Cond[\()\]): Gen[\E\] -> Cond[\()\] =
+  typecase p of
+    rp:(Gen[\E\] -> Rel[\E\]) =>
+      typecase q of
+        rq:(Gen[\E\] -> Rel[\E\]) => andRel[\E\](rp, rq)
+        else => (p ANDY q) typed (Gen[\E\] -> Cond[\()\])
+      end
+    else => (p ANDY q) typed (Gen[\E\] -> Cond[\()\])
+  end
+run(): () = do
+  r = fn (x: Gen[\ZZ32\]): Rel[\ZZ32\] => RelObj[\ZZ32\](1)
+  c = fn (x: Gen[\ZZ32\]): Cond[\()\] => CondObj
+  println(combine[\ZZ32\](r, r)(GenObj[\ZZ32\](0)))
+  println(combine[\ZZ32\](r, c)(GenObj[\ZZ32\](0)))
+end
+end

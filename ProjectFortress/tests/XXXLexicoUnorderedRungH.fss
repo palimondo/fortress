@@ -1,0 +1,14 @@
+component XXXLexicoUnorderedRungH
+export Executable
+
+(*) explorations/compile-ladder/rung-exclusion-remainder/REPORT.md
+
+run() = do
+    println("REACHED")
+    assert(LessThan LEXICO Unordered, LessThan, "row 457 (provisional), advanced-lib/comparison.tex:168-178: LEXICO returns its left argument unless it is EqualTo")
+    assert(GreaterThan LEXICO Unordered, GreaterThan, "row 457 (provisional), advanced-lib/comparison.tex:168-178: LEXICO returns its left argument unless it is EqualTo")
+    assert(EqualTo LEXICO Unordered, Unordered, "advanced-lib/comparison.tex:168-178: LEXICO returns its right argument if the left is EqualTo")
+    println("PASS")
+  end
+
+end

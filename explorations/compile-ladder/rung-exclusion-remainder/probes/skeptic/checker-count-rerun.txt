@@ -1,0 +1,30 @@
+--- the gate's checker-count stage, run by the skeptic of rung H on wip/rung-exclusion-remainder at 81946b524, 2026-09-28T00:30:20Z
+4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+load: 6.22 9.71 13.72 6/242 8384
+FORTRESS_THREADS=1
+openjdk version "25.0.4" 2026-07-21
+## the table (explorations/coordinator/tools/checker-count/run.sh, in the worktree, scratch under tmp/)
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	2
+List	0
+NatReflect	0
+NativeArray	44
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	44
+#locations	27
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
+## the FortressLibrary api's one error (the stage's full output)
+Library/FortressLibrary.fsi:436:1-474:2:
+    Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+    but its immediate subtype Integral is not eligible to extend it.

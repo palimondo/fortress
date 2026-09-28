@@ -118,12 +118,17 @@ end
     and a total order (%TotalComparison% alone).  Its method
     definitions avoid ambiguities between these orderings. *)
 trait TotalComparison
-        extends { Comparison, StandardTotalOrder[\TotalComparison\] }
+        extends { Comparison }
         comprises { LessThan, EqualTo, GreaterThan }
     opr =(self, other:Comparison): Boolean
     opr CMP(self, other:Unordered): Comparison
     opr >=(self, other:Unordered): Boolean
     opr >=(self, other:Comparison): Boolean
+    opr >=(self, other:TotalComparison): Boolean
+    opr <=(self, other:TotalComparison): Boolean
+    opr MIN(self, other:TotalComparison): TotalComparison
+    opr MAX(self, other:TotalComparison): TotalComparison
+    opr MINMAX(self, other:TotalComparison): (TotalComparison,TotalComparison)
     opr LEXICO(self, other:TotalComparison): TotalComparison
     opr LEXICO(self, other:()->TotalComparison): TotalComparison
     abstract opr INVERSE(self): TotalComparison
@@ -876,7 +881,7 @@ sequential[\T\](g:Generator[\T\]):SequentialGenerator[\T\]
 
 ** This trait makes excludes work without where clauses, and allows opr =
    to remain non-parametric. *)
-value trait AnyMaybe extends { Equality[\AnyMaybe\], AnyUniqueItem } excludes Number
+value trait AnyMaybe extends { AnyUniqueItem } excludes Number
         (** not yet: ``%comprises Maybe[\T\] where [\T\]%'' *)
     abstract getter holds() : Boolean
     opr =(self, other:AnyMaybe): Boolean
@@ -2555,7 +2560,7 @@ end
 
 (*---------------------------Relational Predicates -------------------------*)
 (* base of relational predicates condition *)
-trait RelationalPredicateCondition[\E\] extends { Condition[\()\] } excludes Condition[\()\]
+trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }
   relation() : (E, E) -> Boolean
   target() : Generator[\ E \]
   cond[\G\](t: () -> G, e: () -> G) : G

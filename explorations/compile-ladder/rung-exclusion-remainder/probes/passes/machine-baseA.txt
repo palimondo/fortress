@@ -1,0 +1,7 @@
+--- base A (tests, walk, count-run.sh) at ff1649cea 2026-09-27T20:02:15Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 6.10 6.54 4.54 7/189 26117
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1

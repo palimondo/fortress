@@ -1,0 +1,11 @@
+--- walk Generator2Test, library /home/user/fortress-remainder/tmp/libs/final3 2026-09-27T22:34:55Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 19.90 17.17 19.71 15/416 4942
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+res = 46, ggres = 46
+res = 15, ggres = 15
+res = 8, ggres = 8
+rc=0 secs=68

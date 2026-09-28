@@ -1,0 +1,10 @@
+component SkCmpBigMinMax
+import List.{...}
+export Executable
+
+run() = do
+    println("BIG MINMAX of comparisons: " (BIG MINMAX <|[\TotalComparison\] GreaterThan, EqualTo, LessThan |>))
+    println("done")
+  end
+
+end

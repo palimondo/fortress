@@ -1,0 +1,13 @@
+--- SkCmpMinMax, walk-edit, skeptic of rung H, 81946b524, 2026-09-28T00:40:31Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.21 8.48 11.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+LessThan LessThan: MIN LessThan MAX LessThan MINMAX LessThan,LessThan
+LessThan EqualTo: MIN LessThan MAX EqualTo MINMAX LessThan,EqualTo
+LessThan GreaterThan: MIN LessThan MAX GreaterThan MINMAX LessThan,GreaterThan
+EqualTo LessThan: MIN LessThan MAX EqualTo MINMAX LessThan,EqualTo
+EqualTo EqualTo: MIN EqualTo MAX EqualTo MINMAX EqualTo,EqualTo
+EqualTo GreaterThan: MIN EqualTo MAX GreaterThan MINMAX EqualTo,GreaterThan
+GreaterThan LessThan: MIN LessThan MAX GreaterThan MINMAX LessThan,GreaterThan
+GreaterThan EqualTo: MIN EqualTo MAX GreaterThan MINMAX EqualTo,GreaterThan
+GreaterThan GreaterThan: MIN GreaterThan MAX GreaterThan MINMAX GreaterThan,GreaterThan
+done
+[rc=0]

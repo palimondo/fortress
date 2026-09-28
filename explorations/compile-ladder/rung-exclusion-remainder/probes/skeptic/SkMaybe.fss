@@ -1,0 +1,14 @@
+component SkMaybe
+export Executable
+
+run() = do
+    j3 = Just[\ZZ32\](3)
+    println("Just(3) as a condition: " (if x <- j3 then x + 10 else 0 end))
+    s: ZZ32 := 0
+    for x <- j3 do s += x end
+    println("Just(3) as a generator: " s)
+    println("Just(3) holds: " j3.holds)
+    println("done")
+  end
+
+end

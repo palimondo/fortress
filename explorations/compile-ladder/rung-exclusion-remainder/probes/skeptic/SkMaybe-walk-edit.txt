@@ -1,0 +1,7 @@
+--- SkMaybe, walk-edit, skeptic of rung H, 81946b524, 2026-09-28T00:39:54Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 9.06 8.63 11.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+Just(3) as a condition: 13
+Just(3) as a generator: 3
+Just(3) holds: true
+done
+[rc=0]

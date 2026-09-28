@@ -1,0 +1,36 @@
+--- walk MaybeEq, library /home/user/fortress-remainder/tmp/libs/base 2026-09-27T21:57:12Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 31.52 31.64 30.92 34/558 8223
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+Nothing[ZZ32] = Nothing[String]: false
+Just[ZZ32](3) = Just[RR64](3.0): false
+Nothing[ZZ32] = Nothing[ZZ32]: true
+Just[ZZ32](3) = Nothing[ZZ32]: false
+rc=0 secs=91
+--- walk MaybeEq, library /home/user/fortress-remainder/tmp/libs/final2 2026-09-27T21:58:43Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 34.19 32.58 31.33 29/568 9251
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+Nothing[ZZ32] = Nothing[String]: false
+Just[ZZ32](3) = Just[RR64](3.0): false
+Nothing[ZZ32] = Nothing[ZZ32]: true
+Just[ZZ32](3) = Nothing[ZZ32]: false
+rc=0 secs=91
+--- walk MaybeEq, library /home/user/fortress-remainder/tmp/libs/noeq 2026-09-27T22:00:14Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 36.17 33.60 31.81 36/566 10398
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+Nothing[ZZ32] = Nothing[String]: false
+Just[ZZ32](3) = Just[RR64](3.0): false
+Nothing[ZZ32] = Nothing[ZZ32]: true
+Just[ZZ32](3) = Nothing[ZZ32]: false
+rc=0 secs=84

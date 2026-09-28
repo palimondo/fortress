@@ -1,0 +1,13 @@
+--- SkMaybe, compiled, skeptic of rung H, 81946b524, 2026-09-28T00:40:13Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.90 8.61 11.13; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+Compiler internal generated.:0:0:
+    Variable __cond is not defined.
+File SkMaybe.fss has 1 error.
+[compile rc=255]
+## run
+Could not load SkMaybe
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkMaybe.class
+	... 4 more
+[run rc=1]

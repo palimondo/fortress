@@ -1,0 +1,13 @@
+--- SkCmpBigMinMax, walk-edit, skeptic of rung H, 81946b524, 2026-09-28T01:02:41Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 7.23 8.05 8.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkCmpBigMinMax.fss:6:44-109:
+Failed to find any matching overload, args = (ArrayList[\TotalComparison\]), overload = {
+	BIG MINMAX[\T extends StandardMinMax[\T\]\]():Comprehension[\T,FortressLibrary.AnyMaybe,FortressLibrary.AnyMaybe,FortressLibrary.AnyMaybe\]/home/user/fortress-remainder/Library/FortressLibrary.fss:3213:1-3215:97
+	BIG MINMAX[\T extends StandardMinMax[\T\]\](g:Generator[\T\]):(T, T)/home/user/fortress-remainder/Library/FortressLibrary.fss:3216:1-3217:71}:OverloadedFunction
+Context:
+/home/user/fortress-remainder/explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkCmpBigMinMax.fss:6:44-109:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+[rc=1]

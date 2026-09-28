@@ -1,0 +1,31 @@
+component SkCmpTable
+export Executable
+
+tb(x: Boolean): String = if x then "T" else "F" end
+
+row(a: TotalComparison, b: TotalComparison): () =
+    println(a.asString " " b.asString ": < " tb(a < b) " <= " tb(a <= b) " > " tb(a > b) " >= " tb(a >= b) " = " tb(a = b) " CMP " (a CMP b).asString " LEXICO " (a LEXICO b).asString)
+
+rowP(a: Comparison, b: Comparison): () =
+    println(a.asString " " b.asString " (as Comparison): < " tb(a < b) " <= " tb(a <= b) " > " tb(a > b) " >= " tb(a >= b) " = " tb(a = b) " CMP " (a CMP b).asString " LEXICO " (a LEXICO b).asString)
+
+run() = do
+    row(LessThan, LessThan)
+    row(LessThan, EqualTo)
+    row(LessThan, GreaterThan)
+    row(EqualTo, LessThan)
+    row(EqualTo, EqualTo)
+    row(EqualTo, GreaterThan)
+    row(GreaterThan, LessThan)
+    row(GreaterThan, EqualTo)
+    row(GreaterThan, GreaterThan)
+    rowP(LessThan, Unordered)
+    rowP(EqualTo, Unordered)
+    rowP(GreaterThan, Unordered)
+    rowP(Unordered, LessThan)
+    rowP(Unordered, Unordered)
+    rowP(LessThan, GreaterThan)
+    println("done")
+  end
+
+end

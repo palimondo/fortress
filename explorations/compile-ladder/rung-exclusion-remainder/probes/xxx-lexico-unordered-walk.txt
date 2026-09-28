@@ -1,0 +1,37 @@
+--- walk XXXLexicoUnorderedRungH, library /home/user/fortress-remainder/tmp/libs/none 2026-09-27T20:33:55Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 18.81 19.24 15.98 18/319 4509
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+REACHED
+FAIL: a Unordered: Unordered =/= a LessThan: LessThan; row 457 (provisional), advanced-lib/comparison.tex:168-178: LEXICO returns its left argument unless it is EqualTo
+/home/user/fortress-remainder/tmp/libs/none/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-remainder/tmp/libs/none/FortressLibrary.fss:56:5-23:
+/home/user/fortress-remainder/tmp/libs/none/FortressLibrary.fss:310:9-311:5:
+/home/user/fortress-remainder/ProjectFortress/tests/XXXLexicoUnorderedRungH.fss:8:5-163:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=65
+--- walk XXXLexicoUnorderedRungH, library /home/user/fortress-remainder/tmp/libs/lexfix 2026-09-27T20:35:01Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 21.53 19.86 16.41 21/376 6107
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+REACHED
+PASS
+rc=0 secs=66
+EXIT=0

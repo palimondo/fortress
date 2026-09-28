@@ -1,0 +1,178 @@
+# unmask-classify.py over errors-sketch.txt, the same classification with CMP restated on TotalComparison: the two more NEW rows are LessThan's and GreaterThan's CMP against the restated declaration (decision D2).
+UNMASKED  overloading  ivmap                          FortressLibrary.fsi:1239 FortressLibrary.fsi:853
+UNMASKED  overloading  ivmap                          FortressLibrary.fsi:1239 FortressLibrary.fsi:853
+UNMASKED  overloading  ivmap                          FortressLibrary.fsi:1239 FortressLibrary.fsi:853
+UNMASKED  overloading  map                            FortressLibrary.fsi:1240 FortressLibrary.fsi:825
+UNMASKED  overloading  map                            FortressLibrary.fsi:1240 FortressLibrary.fsi:852
+NEW       return-type  CMP                            FortressLibrary.fsi:134 FortressLibrary.fsi:INSERTED
+          FortressLibrary.fsi:125 FortressLibrary.fsi:140 For CMP, the return type of (LessThan, LessThan)->Comparison @ FortressLibrary.fsi:140 should be a subtype of the return type of ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->TotalComparison @ FortressLibrary.fsi:125
+NEW       return-type  CMP                            FortressLibrary.fsi:145 FortressLibrary.fsi:INSERTED
+          FortressLibrary.fsi:125 FortressLibrary.fsi:151 For CMP, the return type of (GreaterThan, GreaterThan)->Comparison @ FortressLibrary.fsi:151 should be a subtype of the return type of ((TotalComparison & {LessThan, EqualTo, GreaterThan}), TotalComparison)->TotalComparison @ FortressLibrary.fsi:125
+UNMASKED  overloading  seq                            FortressLibrary.fsi:1285 FortressLibrary.fsi:2072
+UNMASKED  overloading  seq                            FortressLibrary.fsi:1285 FortressLibrary.fsi:824
+UNMASKED  overloading  seq                            FortressLibrary.fsi:1335 FortressLibrary.fsi:2072
+UNMASKED  overloading  seq                            FortressLibrary.fsi:1335 FortressLibrary.fsi:824
+UNMASKED  return-type  shift                          FortressLibrary.fsi:1355 FortressLibrary.fsi:1749
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1361
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1380
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1380
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1360 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1379
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1379
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1399
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1399
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1399
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1399
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1399
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1361 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1379 FortressLibrary.fsi:1380
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1379 FortressLibrary.fsi:1380
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1379 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1379 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1380 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1380 FortressLibrary.fsi:1432
+UNMASKED  return-type  CMP                            FortressLibrary.fsi:134 FortressLibrary.fsi:135
+UNMASKED  return-type  shift                          FortressLibrary.fsi:1398 FortressLibrary.fsi:1749
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1400
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1399 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1431
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1400 FortressLibrary.fsi:1432
+UNMASKED  overloading  copy                           FortressLibrary.fsi:1402 FortressLibrary.fsi:1433
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  overloading  fill                           FortressLibrary.fsi:1431 FortressLibrary.fsi:1432
+UNMASKED  return-type  CMP                            FortressLibrary.fsi:145 FortressLibrary.fsi:146
+UNMASKED  return-type  array1                         FortressLibrary.fsi:1551 FortressLibrary.fsi:1552
+UNMASKED  return-type  array2                         FortressLibrary.fsi:1661 FortressLibrary.fsi:1662
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+UNMASKED  overloading  lift                           FortressLibrary.fsi:1792 FortressLibrary.fsi:1831
+NEW       overloading  isLeftZero                     FortressLibrary.fsi:1850 FortressLibrary.fsi:93
+          FortressLibrary.fsi:1856 FortressLibrary.fsi:93 Invalid overloading of isLeftZero in trait LexicographicReduction: (LexicographicReduction, Comparison)->Boolean @ FortressLibrary.fsi:93 and (ReductionWithZeroes[\TotalComparison,TotalComparison\], TotalComparison)->Boolean @ FortressLibrary.fsi:1856
+UNMASKED  return-type  MIN                            FortressLibrary.fsi:185 FortressLibrary.fsi:209
+UNMASKED  overloading  MIN                            FortressLibrary.fsi:185 FortressLibrary.fsi:2585
+UNMASKED  overloading  MIN                            FortressLibrary.fsi:185 FortressLibrary.fsi:2586
+UNMASKED  return-type  MAX                            FortressLibrary.fsi:196 FortressLibrary.fsi:210
+UNMASKED  overloading  MAX                            FortressLibrary.fsi:196 FortressLibrary.fsi:2587
+UNMASKED  overloading  MAX                            FortressLibrary.fsi:196 FortressLibrary.fsi:2588
+UNMASKED  overloading  seq                            FortressLibrary.fsi:2072 FortressLibrary.fsi:824
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2104 FortressLibrary.fsi:761
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2104 FortressLibrary.fsi:860
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2123 FortressLibrary.fsi:2143
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2123 FortressLibrary.fsi:2164
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2123 FortressLibrary.fsi:2176
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2123 FortressLibrary.fsi:2183
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2123 FortressLibrary.fsi:2184
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2124 FortressLibrary.fsi:2143
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2124 FortressLibrary.fsi:2164
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2124 FortressLibrary.fsi:2176
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2124 FortressLibrary.fsi:2183
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2124 FortressLibrary.fsi:2184
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2125 FortressLibrary.fsi:2142
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2125 FortressLibrary.fsi:761
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2125 FortressLibrary.fsi:860
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2142 FortressLibrary.fsi:761
+UNMASKED  overloading  IN                             FortressLibrary.fsi:2142 FortressLibrary.fsi:860
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2143 FortressLibrary.fsi:2164
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2143 FortressLibrary.fsi:2176
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2143 FortressLibrary.fsi:2183
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2143 FortressLibrary.fsi:2184
+UNMASKED  overloading  MIN                            FortressLibrary.fsi:209 FortressLibrary.fsi:2585
+UNMASKED  overloading  MIN                            FortressLibrary.fsi:209 FortressLibrary.fsi:2586
+UNMASKED  return-type  MIN                            FortressLibrary.fsi:209 FortressLibrary.fsi:321
+UNMASKED  return-type  MIN                            FortressLibrary.fsi:209 FortressLibrary.fsi:407
+UNMASKED  overloading  MAX                            FortressLibrary.fsi:210 FortressLibrary.fsi:2587
+UNMASKED  overloading  MAX                            FortressLibrary.fsi:210 FortressLibrary.fsi:2588
+UNMASKED  return-type  MAX                            FortressLibrary.fsi:210 FortressLibrary.fsi:322
+UNMASKED  return-type  MAX                            FortressLibrary.fsi:210 FortressLibrary.fsi:408
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2164 FortressLibrary.fsi:2176
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2164 FortressLibrary.fsi:2183
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2164 FortressLibrary.fsi:2184
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2176 FortressLibrary.fsi:2183
+UNMASKED  overloading  FORWARD_CMP                    FortressLibrary.fsi:2176 FortressLibrary.fsi:2184
+UNMASKED  overloading  juxtaposition                  FortressLibrary.fsi:2389 FortressLibrary.fsi:2391
+UNMASKED  overloading  juxtaposition                  FortressLibrary.fsi:2389 FortressLibrary.fsi:271
+UNMASKED  overloading  juxtaposition                  FortressLibrary.fsi:2390 FortressLibrary.fsi:271
+UNMASKED  overloading  juxtaposition                  FortressLibrary.fsi:2391 FortressLibrary.fsi:271
+UNMASKED  return-type  unsigned                       FortressLibrary.fsi:458 FortressLibrary.fsi:542
+UNMASKED  overloading  generate                       FortressLibrary.fsi:686 FortressLibrary.fsi:851
+UNMASKED  overloading  generate                       FortressLibrary.fsi:686 FortressLibrary.fsi:851
+UNMASKED  overloading  generate                       FortressLibrary.fsi:686 FortressLibrary.fsi:851
+UNMASKED  overloading  generate                       FortressLibrary.fsi:686 FortressLibrary.fsi:851
+NEW       overloading  SQCAP                          FortressLibrary.fsi:898 FortressLibrary.fsi:918
+          FortressLibrary.fsi:904 FortressLibrary.fsi:924 Invalid overloading of SQCAP in API FortressLibrary: [\T\]((Maybe[\T\] & {Nothing[\T\], Just[\T\]}), Maybe[\T\])->Maybe[\T\] @ FortressLibrary.fsi:904 and [\T\](Just[\T\], UniqueItem[\T\])->Maybe[\T\] @ FortressLibrary.fsi:924
+# tally
+NEW       overloading  SQCAP                          1
+NEW       overloading  isLeftZero                     1
+NEW       return-type  CMP                            2
+UNMASKED  overloading  FORWARD_CMP                    19
+UNMASKED  overloading  IN                             7
+UNMASKED  overloading  MAX                            4
+UNMASKED  overloading  MIN                            4
+UNMASKED  overloading  copy                           1
+UNMASKED  overloading  fill                           73
+UNMASKED  overloading  generate                       4
+UNMASKED  overloading  ivmap                          3
+UNMASKED  overloading  juxtaposition                  4
+UNMASKED  overloading  lift                           6
+UNMASKED  overloading  map                            2
+UNMASKED  overloading  seq                            5
+UNMASKED  return-type  CMP                            2
+UNMASKED  return-type  MAX                            3
+UNMASKED  return-type  MIN                            3
+UNMASKED  return-type  array1                         1
+UNMASKED  return-type  array2                         1
+UNMASKED  return-type  shift                          2
+UNMASKED  return-type  unsigned                       1
+# UNMASKED 145  NEW 4

@@ -1,0 +1,14 @@
+--- ProjectFortress/tests/XXXLexicoUnorderedRungH.fss under walk (bin/fortress), the worktree's library at 81946b524, the skeptic, 2026-09-28 (rc=1, the expected failure)
+nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; FORTRESS_THREADS=1; load 7 to 9
+REACHED
+FAIL: a Unordered: Unordered =/= a LessThan: LessThan; row 457 (provisional), advanced-lib/comparison.tex:168-178: LEXICO returns its left argument unless it is EqualTo
+Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+Library/FortressLibrary.fss:56:5-23:
+Library/FortressLibrary.fss:305:9-306:5:
+ProjectFortress/tests/XXXLexicoUnorderedRungH.fss:8:5-163:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable

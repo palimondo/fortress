@@ -1,0 +1,11 @@
+component SkBigMinMaxInt
+import List.{...}
+export Executable
+
+run() = do
+    println("BIG MIN of ZZ32: " (BIG MIN <|[\ZZ32\] 3, 1, 2 |>))
+    println("BIG MINMAX of ZZ32: " (BIG MINMAX <|[\ZZ32\] 3, 1, 2 |>))
+    println("done")
+  end
+
+end

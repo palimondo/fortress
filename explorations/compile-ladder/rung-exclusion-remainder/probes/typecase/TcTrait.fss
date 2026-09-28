@@ -1,0 +1,21 @@
+component TcTrait
+export Executable
+trait Cond end
+trait Rel[\E\] extends Cond
+  rel(): E
+end
+object RelObj[\E\](e: E) extends Rel[\E\]
+  rel(): E = e
+end
+object CondObj extends Cond end
+useRel[\E\](r: Rel[\E\]): E = r.rel()
+pick[\E\](c: Cond, d: E): E =
+  typecase c of
+    Rel[\E\] => useRel[\E\](c)
+    else => d
+  end
+run(): () = do
+  println(pick[\ZZ32\](RelObj[\ZZ32\](5), 0))
+  println(pick[\ZZ32\](CondObj, 0))
+end
+end

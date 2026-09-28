@@ -1,0 +1,7 @@
+--- SkCmpBig, walk-minmax, skeptic of rung H, 81946b524, 2026-09-28T00:43:35Z
+nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 5.71 7.33 10.14; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+BIG LEXICO: GreaterThan
+BIG MAX of comparisons: GreaterThan
+BIG MIN of comparisons: LessThan
+done
+[rc=0]

@@ -1,0 +1,22 @@
+component SkCmpMinMax
+export Executable
+
+show(a: TotalComparison, b: TotalComparison): () = do
+    (lo, hi) = a MINMAX b
+    println(a.asString " " b.asString ": MIN " (a MIN b).asString " MAX " (a MAX b).asString " MINMAX " lo.asString "," hi.asString)
+  end
+
+run() = do
+    show(LessThan, LessThan)
+    show(LessThan, EqualTo)
+    show(LessThan, GreaterThan)
+    show(EqualTo, LessThan)
+    show(EqualTo, EqualTo)
+    show(EqualTo, GreaterThan)
+    show(GreaterThan, LessThan)
+    show(GreaterThan, EqualTo)
+    show(GreaterThan, GreaterThan)
+    println("done")
+  end
+
+end
