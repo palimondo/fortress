@@ -1,0 +1,116 @@
+Climb batches 6b, 7 and 7R: what the agents read and what it cost
+ITE = input-token equivalents, the baseline's unit (worker-context-cost.md, "Sources and method").
+
+1. Every agent. b = the briefing (facts-extract.sh and its read-backs): calls, parts read / announced,
+   bytes, ITE with every later re-read, and the index of its first call (0 = the first tool call).
+   g = gathering (the baseline's rule): calls, ITE. Direct reads (calls, any category that reads):
+   map, INDEX, FACTS, POSITIONS, ledger, Library.
+bat role              turns calls   whole |  b# parts  bytes   bITE   at |   g#   gITE    g% | map INDEX FACTS POS ledger Library
+6b  rung:O              173   174   8.22M |   5  3/4    112K  1.05M    8 |   74  1.91M   23% |   3     0     0   2      7       7
+6b  skeptic:O           146   150   3.15M |   3  2/2     31K   124K    1 |   70   502K   16% |   0     0     0   3     11      20
+6b  judge:O              56    64   1.39M |   3  2/2     31K    50K    0 |   51   259K   19% |   0     0     5   3      4       6
+6b  repair:O             16    16    327K |   3  2/2     31K    24K    1 |   12    57K   18% |   0     0     0   0      0       2
+6b  repair:O             61    61   1.42M |   2  0/4     28K    45K    6 |   20    57K    4% |   0     0     2   0      1       6
+6b  skeptic2:O           56    56   1.35M |   3  2/2     31K    50K    1 |   23    60K    4% |   1     0     1   1      1       3
+6b  gather               73    74   1.56M |   0  0/0       0      0    - |   40   157K   10% |   0     1    10   3     18       0
+6b  gate                 37    38    577K |   0  0/0       0      0    - |   11    49K    8% |   0     0     0   0      0       0
+6b  review               91    92   2.02M |   0  0/0       0      0    - |   74   812K   40% |   0     0    12   3     11       2
+6b  judge:review         47    49   1.05M |   3  2/2     33K    47K    0 |   39   179K   17% |   1     0     5   2      2       5
+6b  repair:review        49    51    659K |   2  2/2     31K    47K    0 |   17    86K   13% |   0     0     2   1      5       2
+6b  review2              92    93   1.38M |   0  0/0       0      0    - |   48   343K   25% |   0     0     9   4     13       2
+6b  gate:after-review    37    38    517K |   0  0/0       0      0    - |   10    34K    7% |   0     0     0   0      0       0
+6b  commit               32    33    461K |   0  0/0       0      0    - |   17   101K   22% |   0     0     2   1      2       0
+6b  rung:O               35    37    574K |   6  4/4    109K   104K    9 |   13    50K    9% |   0     0     0   0      0       1
+7   rung:A              299   308  17.46M |   6  4/4    106K  1.39M    1 |  106  4.85M   28% |   1     0     0   0      2      23
+7   rung:H              459   468  19.46M |  10  6/6    147K  1.79M    1 |  195  4.91M   25% |   2     1    13   9      9      30
+7   rung:B              239   245   8.40M |   6  4/4    107K   901K    1 |  127  2.54M   30% |   2     0     2   0      9      22
+7   skeptic:A           156   160   3.94M |   3  2/2     31K   149K    1 |   76   683K   17% |   0     0     3   0      8      25
+7   skeptic:H           149   151   3.40M |   4  2/2     46K   186K    2 |   74   701K   21% |   1     0     4   0     11      19
+7   skeptic:B           118   120   2.37M |   3  2/2     42K   123K    1 |   56   329K   14% |   0     0     1   0      5      16
+7   gather              158   159   5.32M |   0  0/0       0      0    - |   91  1.30M   24% |   0     1    11   4     10      11
+7   gate                 36    38    614K |   0  0/0       0      0    - |   11    68K   11% |   0     0     0   0      0       1
+7   review              137   138   3.48M |   0  0/0       0      0    - |  104  1.43M   41% |   0     0     4   3     13      16
+7   judge:review         70    71   1.25M |   5  1/2     41K    41K   18 |   59   352K   28% |   0     1     5   4      4       1
+7   repair:review        41    41    612K |   9  2/2    108K   134K    1 |   21    93K   15% |   0     0     2   1      3       2
+7   review2              95    96   1.80M |   0  0/0       0      0    - |   74   683K   38% |   0     0     8   2     12      13
+7   gate:after-review    44    44    564K |   0  0/0       0      0    - |   10    13K    2% |   0     0     0   0      0       1
+7   commit               57    58    871K |   0  0/0       0      0    - |   35   221K   25% |   0     0     4   0      4       0
+7R  rung:J              261   271  14.33M |   9  7/7    181K  1.77M    5 |  102  3.38M   24% |   0     0     1   0      4      18
+7R  rung:U              183   198   4.69M |   6  4/4     97K   404K    5 |  112  1.26M   27% |   4     0     4   1      8       7
+7R  skeptic:U           109   111   2.09M |   2  1/1     26K    71K    0 |   68   342K   16% |   1     0     4   1      8       6
+7R  rung:J              184   193   4.98M |   9  7/7    181K   751K    5 |   85   703K   14% |   2     0     3   1     11      28
+7R  skeptic:J           153   153   3.89M |   6  3/3     53K   219K    1 |   57   595K   15% |   0     0     1   1      3      14
+7R  gather              152   162   4.15M |   1  1/0      2K     3K   99 |   71   680K   16% |   0     0    10   1     11       5
+7R  gate                 42    43    620K |   0  0/0       0      0    - |   14    66K   11% |   0     0     0   0      0       0
+7R  review              129   131   3.67M |   0  0/0       0      0    - |   85  1.73M   47% |   1     0     9   2     13      10
+7R  judge:review         86    88   1.62M |   6  4/3     73K   164K    0 |   71   389K   24% |   0     0     6   4      5       5
+7R  repair:review        64    66    964K |   8  4/3     91K   162K    1 |   33   154K   16% |   0     0     0   0      4       2
+7R  review2             119   124   2.55M |   0  0/0       0      0    - |   80   873K   34% |   0     0    17   2     17      13
+7R  gate:after-review    32    33    507K |   0  0/0       0      0    - |    5    10K    2% |   0     0     0   0      0       0
+7R  commit               48    51    640K |   0  0/0       0      0    - |   32   173K   27% |   0     0     4   0      3       0
+
+2. The briefing read, by role. "ran" = ran facts-extract.sh or read a saved copy of its output;
+   "first" = as the first or second tool call (the second after a git log of the branch);
+   "whole" = every part the tool announced. Keys: agents whose briefing carried a map / INDEX /
+   FACTS / POSITIONS / ledger key. Direct: agents that opened the file themselves at least once.
+  rung           n= 8  ran  8  first  3  whole  7 | keys: map  8 INDEX  5 FACTS  8 POSITIONS  8 ledger  8 | direct: map  6 INDEX  1 FACTS  5 POSITIONS  4 ledger  7 Library  8
+  repair         n= 2  ran  2  first  1  whole  1 | keys: map  0 INDEX  0 FACTS  1 POSITIONS  1 ledger  1 | direct: map  0 INDEX  0 FACTS  1 POSITIONS  0 ledger  1 Library  2
+  skeptic        n= 7  ran  7  first  7  whole  7 | keys: map  0 INDEX  0 FACTS  7 POSITIONS  7 ledger  6 | direct: map  3 INDEX  0 FACTS  6 POSITIONS  4 ledger  7 Library  7
+  all three      n=17  ran 17  first 11  whole 15 | keys: map  8 INDEX  5 FACTS 16 POSITIONS 16 ledger 15 | direct: map  9 INDEX  1 FACTS 12 POSITIONS  8 ledger 15 Library 17
+  judge          n= 4  ran  4  first  3  whole  3 | keys: map  0 INDEX  0 FACTS  4 POSITIONS  4 ledger  4 | direct: map  1 INDEX  1 FACTS  4 POSITIONS  4 ledger  4 Library  4
+  review repair  n= 3  ran  3  first  3  whole  3 | keys: map  0 INDEX  0 FACTS  3 POSITIONS  3 ledger  3 | direct: map  0 INDEX  0 FACTS  2 POSITIONS  2 ledger  3 Library  3
+  review         n= 6  ran  0  first  0  whole  0 | keys: map  0 INDEX  0 FACTS  0 POSITIONS  0 ledger  0 | direct: map  1 INDEX  0 FACTS  6 POSITIONS  6 ledger  6 Library  6
+  gather         n= 3  ran  1  first  0  whole  1 | keys: map  0 INDEX  0 FACTS  1 POSITIONS  0 ledger  0 | direct: map  0 INDEX  2 FACTS  3 POSITIONS  3 ledger  3 Library  2
+  gate           n= 6  ran  0  first  0  whole  0 | keys: map  0 INDEX  0 FACTS  0 POSITIONS  0 ledger  0 | direct: map  0 INDEX  0 FACTS  0 POSITIONS  0 ledger  0 Library  2
+  commit         n= 3  ran  0  first  0  whole  0 | keys: map  0 INDEX  0 FACTS  0 POSITIONS  0 ledger  0 | direct: map  0 INDEX  0 FACTS  3 POSITIONS  1 ledger  3 Library  0
+  Baseline (worker-global-decisions.md, "What the agents read"), 58 Opus 5.5 workers and skeptics of
+  batches 3 to 6: map 25, FACTS 37, INDEX 2, POSITIONS 38, ledger 56, Library 53; batch 6 alone map 2 of 12.
+
+3. Cost per agent, means, against the baseline (worker-context-cost.md section 1, Opus 5.5).
+   gather = the baseline's gathering; brief = the briefing, read, with its re-reads; both = the two.
+   The baseline's "brief" column is the cost it projected for a 29K-token briefing read first.
+group      batch    n turns calls   whole |    g# gBytes   gITE    g%   pre c/I | bBytes   bITE    b% |   both both%
+rung       6b-7R    8   229   237   9.77M |   102   327K  2.45M   25%   28%/ 60% |   130K  1.02M   10% |  3.47M   36%
+           base    18   212   219   5.47M |   117   363K  1.72M   31%   41%/ 71% | (29K t)   358K proj. |
+repair     6b-7R    2    38    38    875K |    16    61K    57K    6%   50%/ 73% |    29K    35K    4% |    92K   10%
+           base    12   103   108   2.03M |    46   104K   232K   11%   24%/ 41% | (29K t)   187K proj. |
+skeptic    6b-7R    7   127   129   2.88M |    61   150K   459K   16%   33%/ 63% |    37K   132K    5% |   591K   20%
+           base    26    98   101   1.84M |    55   145K   309K   17%   38%/ 70% | (29K t)   176K proj. |
+all three  6b-7R   17   165   169   5.89M |    75   223K  1.35M   23%   30%/ 60% |    80K   538K    9% |  1.89M   32%
+           base    56   136   140   3.05M |    73   206K   746K   24%   38%/ 69% | (29K t)   237K proj. |
+
+4. Per agent, per turn: gathering and briefing ITE, so that longer runs do not read as more gathering.
+  rung       turns  1833  gathering calls per turn 0.44  gathering bytes per turn 1429  gathering ITE per turn 10692  briefing ITE per turn  4449
+  repair     turns    77  gathering calls per turn 0.42  gathering bytes per turn 1591  gathering ITE per turn  1478  briefing ITE per turn   900
+  skeptic    turns   887  gathering calls per turn 0.48  gathering bytes per turn 1183  gathering ITE per turn  3621  briefing ITE per turn  1039
+  all three  turns  2797  gathering calls per turn 0.45  gathering bytes per turn 1355  gathering ITE per turn  8196  briefing ITE per turn  3270
+  Baseline, Opus 5.5 (worker-context-cost.md section 3): 0.54 gathering calls and 1.5 KB per turn.
+
+5. Totals over the 17 workers and skeptics, and over every agent of the three runs.
+  workers and skeptics   n=17  whole 100.05M  gathering 22.92M (23%)  briefing 9.15M (9%)  briefing bytes 1.36M  briefing tokens 568K
+  every agent            n=42  whole 138.88M  gathering 33.17M (24%)  briefing 9.79M (7%)  briefing bytes 1.77M  briefing tokens 740K
+
+6. What the gathering read after the briefing, workers and skeptics: calls and ITE by target class.
+  records                      calls   313  ITE   6.41M   28%
+  brief                        calls    69  ITE   6.30M   27%
+  library                      calls   212  ITE   3.24M   14%
+  source                       calls   156  ITE   2.07M    9%
+  spec                         calls   202  ITE   2.00M    9%
+  own                          calls   123  ITE    984K    4%
+  tests                        calls    86  ITE    965K    4%
+  (none: a tree-wide search)   calls    70  ITE    729K    3%
+  kb                           calls    39  ITE    220K    1%
+
+7. What the gathering read, per agent means over the 17 workers and skeptics (a call naming several
+   kinds is shared among them), beside the baseline's Opus 5.5 column (worker-context-cost.md section 1,
+   "What the gathering read"). "own" is the classifier's scratch and rung-directory class.
+  source               now   9.2 calls    19K bytes   122K ITE   baseline  18.5 calls    42K bytes   144K ITE
+  library              now  12.5 calls    28K bytes   191K ITE   baseline   8.9 calls    19K bytes    78K ITE
+  specification        now  11.9 calls    25K bytes   117K ITE   baseline  13.8 calls    32K bytes   101K ITE
+  tests and harness    now   5.0 calls    12K bytes    57K ITE   baseline   6.7 calls    14K bytes    43K ITE
+  other records        now  18.4 calls    58K bytes   377K ITE   baseline  13.3 calls    52K bytes   198K ITE
+  the batch record     now   4.0 calls    52K bytes   371K ITE   baseline   2.7 calls    28K bytes   110K ITE
+  FACTS, INDEX, maps   now   2.3 calls     5K bytes    13K ITE   baseline   1.7 calls     8K bytes    34K ITE
+  own                  now   7.2 calls    11K bytes    58K ITE   baseline (not a class there)
+  (none)               now   4.1 calls    12K bytes    43K ITE   baseline (not a class there)
+  the briefing          now   5.1 calls    80K bytes   538K ITE   baseline (none)

@@ -1,0 +1,6 @@
+batch 6b  run: 15 agents, 24.65M ITE, 6.3 agent-hours
+batch 7   run: 14 agents, 69.54M ITE, 14.0 agent-hours
+batch 7R  run: 13 agents, 44.69M ITE, 9.0 agent-hours
+all three runs: 138.88M ITE
+conformance review, batches 6b and 7    104 turns,  110 calls, 3.15M ITE, 21 min
+conformance review, batch 7R            107 turns,  113 calls, 2.83M ITE, 23 min
