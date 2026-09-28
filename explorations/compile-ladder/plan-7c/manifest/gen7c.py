@@ -20,7 +20,8 @@ ORDER = 'YX'
 
 # The rise the decision names, measured on the tree at 81f0151be: the clause's one error gone and the
 # FortressLibrary api's 66 overloading and return-type errors in (22 to 87). Rung Y's prediction is
-# COUNT_BASE, the #total of batch 7R's landed checker-count.txt, plus this.
+# COUNT_BASE, the #total of batch 7R's landed checker-count.txt (10), plus this: 75, a prediction only,
+# since 7R rewrote the range operators under that measurement.
 COUNT_RISE = 65
 META = {
   'Y': dict(path='/home/user/fortress-comprises', minutes=150, writesState=False, testIsStage=False, landsOnlyWith=None,
@@ -136,22 +137,22 @@ for c in [
  '// an answer letter: section 1\'s one question, Q1, is whether this batch runs',
  '// alone or rides in batch N\'s first run, and this block is launched only when',
  '// it runs alone. Two values are set at launch and nowhere else: LEDGER_FROM,',
- '// one above the highest row of the gap ledger at the launch, which holds the',
- '// drafting\'s value, 476, and is reset at the launch, since batch 7R, which',
- '// runs first, opens its rows from 476 too; and COUNT_BASE, the #total of',
- '// batch 7R\'s landed gate/checker-count.txt, which holds the drafting tree\'s',
- '// 22. Y\'s expectedCheckerCount is COUNT_BASE plus 65, the rise measured on',
- '// the tree at 81f0151be (the clause\'s error gone, the api\'s 66 in), printed',
- '// beside the measured total and never red; X changes nothing the stage reads.',
+ '// one above the highest row of the gap ledger at the launch, 487 once batch',
+ '// 7R had landed (row 486 its highest at 3c3e832d3), confirmed at the launch;',
+ '// and COUNT_BASE, the #total of batch 7R\'s landed gate/checker-count.txt,',
+ '// 10. Y\'s expectedCheckerCount is COUNT_BASE plus 65, 75, the rise measured',
+ '// before 7R on the tree at 81f0151be (the clause\'s error gone, the api\'s 66',
+ '// in), a prediction only, printed beside the total Y measures and declares',
+ '// and never red; X changes nothing the stage reads.',
  '// Manifest order is the ledger numbering order: Y, X. The scatter starts the',
  '// longest expected first: Y, X. No rung declares a ladder move. The base is',
  '// <base>, passed at launch as args.base, not written here.',
  '// ===========================================================================',
  '']:
     A(c)
-A("const LEDGER_FROM = 476   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch (476 at the drafting, 1f50087e6; reset at the launch, since batch 7R opens rows from 476)")
+A("const LEDGER_FROM = 487   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch (487: row 486 the highest after batch 7R landed, at 3c3e832d3)")
 A("if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\\'s launch')")
-A("const COUNT_BASE = 22    // SET AT LAUNCH: the #total of explorations/compile-ladder/climb-batch-7r/gate/checker-count.txt, batch 7R's landed table (22 on the drafting tree)")
+A("const COUNT_BASE = 10    // SET AT LAUNCH: the #total of explorations/compile-ladder/climb-batch-7R/gate/checker-count.txt, batch 7R's landed table (10)")
 A("if (!Number.isInteger(COUNT_BASE)) throw new Error('COUNT_BASE is not set: the #total of batch 7R\\'s landed checker-count.txt')")
 A('')
 A("const BATCH = '7c'")

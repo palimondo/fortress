@@ -1,10 +1,12 @@
 // Splices climb batch 7C's MANIFEST block (gen7c.py's output, $MANIFEST_OUT or tmp/manifest7c.js)
 // into scratch copies of the workflow script and checks it: node --check; the block evaluated with the
 // script's own key validation and scatter order, with LEDGER_FROM and COUNT_BASE each unset and with
-// two values of COUNT_BASE; the tails against the record's section 3; and the whole spliced script run
-// as the body of an async function with the workflow globals stubbed (args, agent, pipeline, log),
-// every agent approving, and again with rung Y stopping. Nothing is launched. The form is batch 7R's
-// check7r.js. Scratch copies go to $CHECK_TMP, by default tmp/ (ignored).
+// two values of COUNT_BASE, the block's own and 22; the tails against the record's section 3; and the
+// whole spliced script run as the body of an async function with the workflow globals stubbed (args,
+// agent, pipeline, log), every agent approving, and again with rung Y stopping, the gather's ledger
+// numbering and the gate's declared count checked against the block's LEDGER_FROM and COUNT_BASE + 65.
+// Nothing is launched. The form is batch 7R's check7r.js. Scratch copies go to $CHECK_TMP, by default
+// tmp/ (ignored).
 // Usage: node check7c.js [script ...]; with no argument it checks the script as committed at HEAD
 // and the working copy.
 const fs = require('fs')
@@ -15,6 +17,10 @@ const TMP = process.env.CHECK_TMP || path.join(ROOT, 'tmp')
 const BLOCK = process.env.MANIFEST_OUT || path.join(ROOT, 'tmp', 'manifest7c.js')
 const REC = path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-7C.md')
 const block = fs.readFileSync(BLOCK, 'utf8')
+// the two launch values as the block sets them
+const LF0 = Number((/^const LEDGER_FROM = (\d+)/m.exec(block) || [])[1])
+const CB0 = Number((/^const COUNT_BASE = (\d+)/m.exec(block) || [])[1])
+if (!Number.isInteger(LF0) || !Number.isInteger(CB0)) throw new Error('the block sets no LEDGER_FROM or COUNT_BASE')
 const lists = JSON.parse(cp.execFileSync('python3', ['-c',
   'import sys, json; sys.path.insert(0, sys.argv[1]); from lists7c import LISTS; print(json.dumps(LISTS))',
   path.join(ROOT, 'explorations/compile-ladder/plan-7c/manifest')], { encoding: 'utf8' }))
@@ -120,16 +126,16 @@ async function main() {
       return new Function(m + '\n' + validation + '\n' + scatterLine
         + '\nreturn { BATCH, BATCH_RECORD, RUNGS, SCATTER, BATCH_INTRO, BATCH_OVERLAPS, LEDGER_FROM, COUNT_BASE }')()
     }
-    for (const [what, lf, cb] of [['LEDGER_FROM unset', 'null', '22'], ['COUNT_BASE unset', '476', 'null']]) {
+    for (const [what, lf, cb] of [['LEDGER_FROM unset', 'null', String(CB0)], ['COUNT_BASE unset', String(LF0), 'null']]) {
       try { evalWith(lf, cb); console.log(what + ': did NOT throw (bad)'); bad++ } catch (e) { console.log(what + ': throws: ' + e.message) }
     }
-    for (const cb of [22, 10]) {
-      const y = evalWith(476, cb).RUNGS.find(x => x.id === 'Y')
+    for (const cb of [...new Set([CB0, 22])]) {
+      const y = evalWith(LF0, cb).RUNGS.find(x => x.id === 'Y')
       const want = cb + 65
       if (y.expectedCheckerCount !== want) bad++
-      console.log('COUNT_BASE ' + cb + ': Y expectedCheckerCount ' + y.expectedCheckerCount + (y.expectedCheckerCount === want ? '' : ' (bad, want ' + want + ')'))
+      console.log('COUNT_BASE ' + cb + (cb === CB0 ? ' (the block\'s)' : '') + ': Y expectedCheckerCount ' + y.expectedCheckerCount + (y.expectedCheckerCount === want ? '' : ' (bad, want ' + want + ')'))
     }
-    const r = evalWith(476, 22)
+    const r = evalWith(LF0, CB0)
     console.log('block: batch ' + r.BATCH + ', record ' + r.BATCH_RECORD + ', LEDGER_FROM ' + r.LEDGER_FROM + ', COUNT_BASE ' + r.COUNT_BASE + ', rungs ' + r.RUNGS.map(x => x.id + (x.landsOnlyWith ? ' (lands only with ' + x.landsOnlyWith.join(', ') + ')' : '')).join(', ')
       + ', scatter ' + r.SCATTER.map(x => x.id).join(', ') + ', intro ' + r.BATCH_INTRO.length + ' chars, overlaps ' + r.BATCH_OVERLAPS.length + ' chars')
     for (const x of r.RUNGS) {
@@ -157,9 +163,17 @@ async function main() {
         console.log('  ' + c.label + ' step 1 renders ' + (keys ? keys.length : 0) + ' keys, ' + (ok ? 'its ' + (m[1] === 'rung' ? 'briefing' : 'checks') + ' in order' : 'NOT its list'))
       }
       const g = calls.find(c => c.label === 'gather')
-      if (g) console.log('  gather: ledger numbering ' + (/provisional \(from 476\)/.test(g.prompt) ? 'from 476' : '?') + ', manifest order ' + ((/MANIFEST order \(([^)]*)\)/.exec(g.prompt) || [])[1] || '?'))
+      if (g) {
+        const ok = g.prompt.includes('provisional (from ' + LF0 + ')')
+        if (!ok) bad++
+        console.log('  gather: ledger numbering ' + (ok ? 'from ' + LF0 : '? (bad, want from ' + LF0 + ')') + ', manifest order ' + ((/MANIFEST order \(([^)]*)\)/.exec(g.prompt) || [])[1] || '?'))
+      }
       const gate = calls.find(c => c.label === 'gate')
-      if (gate) console.log('  gate: the declared count ' + (/Y: 87/.test(gate.prompt) ? 'Y: 87 in its prompt' : 'not found in its prompt'))
+      if (gate) {
+        const want = 'Y: ' + (CB0 + 65), ok = gate.prompt.includes(want)
+        if (!ok) bad++
+        console.log('  gate: the declared count ' + (ok ? want + ' in its prompt' : want + ' not found in its prompt (bad)'))
+      }
     }
   }
   console.log('problems: ' + bad)
