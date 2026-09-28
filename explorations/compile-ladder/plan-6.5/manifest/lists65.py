@@ -16,6 +16,7 @@ FROZEN = "The frozen copy is the Working Draft of February 2011: quote originals
 
 E_BRIEFING = [
   ("positions:2026-09-27 size's range", "The decision this rung builds: a nat parameter is an NN32 value, an int one a ZZ32, a larger one refused; cite it in every refusal and every restated NatRtBigSize line."),
+  ("positions:2026-09-28 size used as a value", "Pavol's item 25: a size used as a value converts to ZZ32 as a numeral does; keep the checker's IntLiteral, and list each read of a size beyond 2^31-1 as a value, where batch N meets you."),
   ("positions:2026-09-22 ledger row 334", "The decision for GCD and LCM, nonnegative and IntegerOverflow when the multiple does not fit, on both paths; NN32's and NN64's LCM follow it."),
   ("positions:2026-09-24 ledger row 379", "The decision that walk raises the specification's catchable IntegerOverflow in its natives, the count of changed interpreter outputs measured and brought to Pavol; your natives follow it."),
   ("positions:2026-09-26 fifth batch-5 answer", "The unsigned types follow the signed ones, overflow raising IntegerOverflow; the rule for NN32's and NN64's LCM, CHOOSE and power."),
@@ -31,6 +32,7 @@ E_BRIEFING = [
   ("ledger:347", "Int.rc's uncatchable error, still reached from Int$Choose and Int$Pow; it closes if your fix leaves no uncatchable caller, which you show."),
   ("ledger:450", "The three range bodies that relied on wrapping, their tests and their fix; you repair them and promote the two tests."),
   ("ledger:451", "The sequential step past the last element, its test and its fix; you repair it and promote the test."),
+  ("ledger:503", "The six tuple shifts beside your range bodies, refused by the checker and never run under walk; probe them under walk and give a failure its XXX test, the bodies unedited."),
   ("ledger:438", "Integer power declared RR64: not yours, so leave the power's declared type as it is."),
   ("ledger:441", "A negative power's result, Pavol's to choose: leave the negative branch of each Pow native as it is."),
   ("ledger:307", "The checker's nat and int handling, with the note that the arithmetic refusal names nat for an int; say what your int refusal says."),
@@ -105,10 +107,10 @@ E_BRIEFING = [
   ("map:README.md#Touch this@interpreter/ (evaluator", "What an evaluator edit moves and which tests guard it; run those."),
 ]
 E_CHECKS = [
-  "positions:2026-09-27 size's range", "positions:2026-09-22 ledger row 334", "positions:2026-09-24 ledger row 379",
+  "positions:2026-09-27 size's range", "positions:2026-09-28 size used as a value", "positions:2026-09-22 ledger row 334", "positions:2026-09-24 ledger row 379",
   "positions:2026-09-26 fifth batch-5 answer", "positions:2026-09-26 rung O of climb batch 4",
   "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "positions:2026-09-28 rungs re-running measurements",
-  "ledger:418", "ledger:334", "ledger:347", "ledger:450", "ledger:451",
+  "ledger:418", "ledger:334", "ledger:347", "ledger:450", "ledger:451", "ledger:503",
   "doc:explorations/reviews/batch-6b-7-conformance.md#Findings@Nine natives still give no catchable",
   "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters",
   "doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators",

@@ -1,6 +1,6 @@
 $ node check65.js
 the spliced block sets RUN = 'first'
-original script: MANIFEST block is lines 58 to 355 of 1947
+original script: MANIFEST block is lines 58 to 825 of 2417
 node --check climb-batch-workflow.js exit 0 
 node --check wf-spliced.js exit 0 
 LEDGER_FROM unset: did NOT throw (bad)
@@ -8,13 +8,13 @@ CHECKER_BASE unset: did NOT throw (bad)
 RUN bogus: throws: RUN is not one of first, second, all
 as spliced: batch 6.5, rungs G, P, scatter G, P
 RUN first: batch 6.5, rungs G, P, scatter G, P, intro 5590 chars, overlaps 1687 chars
-RUN second: batch 6.5b, rungs E, V, scatter E, V, intro 6205 chars, overlaps 2600 chars
-RUN all: batch 6.5, rungs G, P, E, V, scatter G, E, V, P, intro 7682 chars, overlaps 2995 chars
+RUN second: batch 6.5b, rungs E, V, scatter E, V, intro 6271 chars, overlaps 2660 chars
+RUN all: batch 6.5, rungs G, P, E, V, scatter G, E, V, P, intro 7748 chars, overlaps 2995 chars
 tail/section or character problems: 0
 
 $ RUN65=second node check65.js
 the spliced block sets RUN = 'second'
-original script: MANIFEST block is lines 58 to 355 of 1947
+original script: MANIFEST block is lines 58 to 825 of 2417
 node --check climb-batch-workflow.js exit 0 
 node --check wf-spliced.js exit 0 
 LEDGER_FROM unset: did NOT throw (bad)
@@ -22,6 +22,6 @@ CHECKER_BASE unset: did NOT throw (bad)
 RUN bogus: throws: RUN is not one of first, second, all
 as spliced: batch 6.5b, rungs E, V, scatter E, V
 RUN first: batch 6.5, rungs G, P, scatter G, P, intro 5590 chars, overlaps 1687 chars
-RUN second: batch 6.5b, rungs E, V, scatter E, V, intro 6205 chars, overlaps 2600 chars
-RUN all: batch 6.5, rungs G, P, E, V, scatter G, E, V, P, intro 7682 chars, overlaps 2995 chars
+RUN second: batch 6.5b, rungs E, V, scatter E, V, intro 6271 chars, overlaps 2660 chars
+RUN all: batch 6.5, rungs G, P, E, V, scatter G, E, V, P, intro 7748 chars, overlaps 2995 chars
 tail/section or character problems: 0
