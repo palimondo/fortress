@@ -1,0 +1,17 @@
+28971,28978c28971,28977
+< the requirement on a trait with static parameters over the declarations it sees: a trait or object declared in another
+< component, below such a trait and a subtype of no listed type, is not refused (row 487 of the revival’s gap ledger).
+< It compares the declarations it sees by their names: for a parameterized T its verdict can depend on how an
+< extender spells its static parameters, and a trait of the same simple name in another API counts as an extender
+< (rows 489 and 490). The interpreter does not check comprises clauses. The passages that read a comprises
+< clause at the level of types, the intersection of two traits with such clauses (Section 6.10, Section 24.4) and the
+< definitions an abstract function declaration requires (Section 9.3), are not revised; whether they are to be restated
+< at the level of values is not settled.
+---
+> the requirement on a trait with static parameters over the declarations it sees: a trait or object declared in another component, below such a trait and a subtype of no listed type, is not refused (row 487 of the revival’s gap
+> ledger). It compares the declarations it sees by their names: for a parameterized T its verdict can depend on
+> how an extender spells its static parameters, and a trait or object that extends a trait of the same simple name
+> in another API counts as an extender (rows 489 and 490). The interpreter does not check comprises clauses.
+> The passages that read a comprises clause at the level of types, the intersection of two traits with such clauses
+> (Section 6.10, Section 24.4) and the definitions an abstract function declaration requires (Section 9.3), are not
+> revised; whether they are to be restated at the level of values is not settled.

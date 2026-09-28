@@ -1306,7 +1306,7 @@ has no static parameters, is still not allowed.
 The compiled type checker enforces the requirement on a trait with static
 parameters over the declarations it sees: a trait or object declared in
 another component, below such a trait and a subtype of no listed type, is
-not refused (row~487 of the revival's gap ledger). It compares the declarations it sees by their names: for a parameterized \VAR{T} its verdict can depend on how an extender spells its static parameters, and a trait of the same simple name in another API counts as an extender (rows~489 and~490).
+not refused (row~487 of the revival's gap ledger). It compares the declarations it sees by their names: for a parameterized \VAR{T} its verdict can depend on how an extender spells its static parameters, and a trait or object that extends a trait of the same simple name in another API counts as an extender (rows~489 and~490).
 The interpreter does not check \KWD{comprises} clauses.
 The passages that read a \KWD{comprises} clause at the level of types, the
 intersection of two traits with such clauses (\secref{internal-types},

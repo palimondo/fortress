@@ -1,0 +1,22 @@
+(* See explorations/compile-ladder/rung-spec-comprises/REPORT.md. *)
+component XXXComprisesMeetWalk
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait V extends { S, T } end
+trait W extends T end
+object X extends V end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () = do
+    g: S = X
+    assert(f(g), 3, "row 492: V is the intersection of S and T by their comprises clauses, so f(V) disambiguates f(S) and f(T) and is the most specific declaration applicable to a V; Specification/advanced/overloading.tex:282-307")
+    println("PASS")
+  end
+
+end

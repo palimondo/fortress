@@ -94,7 +94,7 @@ Every citation of a line of `traits.tex` or `changes.tex` in the messages and co
 
 - **Both paths refuse the Meet Rule's own `comprises` example** (`MeetExample.txt`). The specification settles it: the example is valid (`overloading.tex:258-262`, `:275-307`). So its home is 2: an `XXX` walk test in `ProjectFortress/tests/` and an `XXX` compiler test in `ProjectFortress/compiler_tests/`.
   - The tests are owed and not written. This rung's files are the specification's passage, its entry and two tests' messages (the batch record, section 3, X, "Files it may touch"), and it edits no Java or Scala, which a deliberate local fix to show the first `XXX` red would need.
-  - The row 492 (provisional 489) carries the probe both ways and names the owed tests and where the fix lies, as row 407 names its owed test.
+  - The row 492 (provisional 489) carries the probe both ways and names the owed tests and where the fix lies, as row 407 names its owed test. Written at the repair after the merged-diff review: `ProjectFortress/tests/XXXComprisesMeetWalk.fss` and `ProjectFortress/compiler_tests/XXXComprisesMeetCompiled.test` (`explorations/compile-ladder/climb-batch-7C/JUDGE-review.md` section 2).
 - **The passages that read a clause at the level of types** (P1 to P4): home 3, the probe `BetweenTwoClosed.fss` with its capture and the row 491 (provisional 488). Neither the decision nor Y's section settles their new text; the record says so, and the rung does not choose (the stop).
 - **Stale citations in test messages**: not a defect of the language or of either path. The two in files this rung owns are repaired by the re-anchoring; the other 7, in 5 files of chapters rung S edited, are reported for the gather.
 
@@ -139,6 +139,6 @@ The points this rung does not settle (`probes/for-pavol.txt`):
 
 ## What is not done
 
-- The `XXX` tests of row 492 (outside this rung's files).
+- The `XXX` tests of row 492 (outside this rung's files). Written at the repair after the merged-diff review (`explorations/compile-ladder/climb-batch-7C/REPAIR-review.md`).
 - The 7 stale citations of other chapters (not this rung's files).
 - Nothing of Y's is checked here: its code is not in this tree, so the text is checked against the shadow and Y's section, and the gather checks it against Y's landed code.
