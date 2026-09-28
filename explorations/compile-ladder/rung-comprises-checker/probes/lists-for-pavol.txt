@@ -69,3 +69,5 @@
 ## For Pavol: points this rung does not settle
 
 1. The header comment of checkDeclComprises (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:143-147) restates the eligibility rule's three cases and does not name the fourth this rung adds; the team's own statement of the rule (ProjectFortress/compiler_tests/Compiled10.i.fss:15-21, an existing test) likewise lists three. The record lets rung Y edit only isEligibleToExtend with its comment (:247-256) and one new method, so both were left; a two-line addition at :146-147 would keep the first true.
+
+# Note added at the merged-diff review of climb batch 7C: item 4's numbers are final (the gather kept 487 and 488), and row 488's text was replaced at the gather by the skeptic's (SKEPTIC.md section 17): the BR moves are caused by the rule's subtype queries, deterministically, not variation between setups (probes/skeptic/distance-attribution.txt). The skeptic's two rows are 489 and 490.
