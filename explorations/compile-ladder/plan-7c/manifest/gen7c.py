@@ -50,7 +50,7 @@ OVERLAP_RUNG = {
   'X': "X edits the passage at Specification/basic/traits.tex:234-246, adds its subsection to Specification/appendices/changes.tex, and re-anchors the traits.tex citations in the messages and comments of two tests (ProjectFortress/tests/XXXFlatStringSplitRungL.fss and ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss); never Specification-1.0-frozen/ or Specification/fortress.pdf.",
 }
 OVERLAPS_TAIL = ("No file is shared. X's text states Y's rule and lands only with it. "
-  "Batch 7R (J and U) has landed in the base: Y edits no file J edits (J's Scala edit, if it made one, is at the case site of Functionals.scala), and no library line; X inserts its Appendix I subsection after U's, before Passages not yet revised, and edits no line U edits. "
+  "Batch 7R (J and U) has landed in the base: Y edits no file J edits (J's edits there are the case site of Functionals.scala, :15 and :871-881, and Types.java:133-139), and no library line; X inserts its Appendix I subsection after U's, before Passages not yet revised, and edits no line U edits. "
   "The checker count reads Y's change: the FortressLibrary api, which stops at its hierarchy pass on AnyIntegral's clause since batch 7, reaches its overloading and return-type checks; X changes nothing the stage reads. "
   "The files both rungs reach are the three record files, folded centrally by the gather.")
 

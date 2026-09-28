@@ -6,7 +6,7 @@ LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at 
 COUNT_BASE unset: throws: COUNT_BASE is not set: the #total of batch 7R's landed checker-count.txt
 COUNT_BASE 10 (the block's): Y expectedCheckerCount 75
 COUNT_BASE 22: Y expectedCheckerCount 87
-block: batch 7c, record explorations/coordinator/CLIMB-BATCH-7C.md, LEDGER_FROM 487, COUNT_BASE 10, rungs Y, X (lands only with Y), scatter Y, X, intro 6125 chars, overlaps 1243 chars
+block: batch 7c, record explorations/coordinator/CLIMB-BATCH-7C.md, LEDGER_FROM 487, COUNT_BASE 10, rungs Y, X (lands only with Y), scatter Y, X, intro 6125 chars, overlaps 1267 chars
   Y: rung-comprises-checker, /home/user/fortress-comprises, wip/rung-comprises-checker, expectedMinutes 150, testIsStage false, writesState false, expectedCheckerCount 75, briefing 58 keys, checks 16, tail 58 lines
   X: rung-spec-comprises, /home/user/fortress-speccomprises, wip/rung-spec-comprises, expectedMinutes 90, testIsStage false, writesState false, expectedCheckerCount undefined, briefing 32 keys, checks 10, tail 53 lines
 stubbed run, every agent approves:
@@ -34,7 +34,7 @@ LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at 
 COUNT_BASE unset: throws: COUNT_BASE is not set: the #total of batch 7R's landed checker-count.txt
 COUNT_BASE 10 (the block's): Y expectedCheckerCount 75
 COUNT_BASE 22: Y expectedCheckerCount 87
-block: batch 7c, record explorations/coordinator/CLIMB-BATCH-7C.md, LEDGER_FROM 487, COUNT_BASE 10, rungs Y, X (lands only with Y), scatter Y, X, intro 6125 chars, overlaps 1243 chars
+block: batch 7c, record explorations/coordinator/CLIMB-BATCH-7C.md, LEDGER_FROM 487, COUNT_BASE 10, rungs Y, X (lands only with Y), scatter Y, X, intro 6125 chars, overlaps 1267 chars
   Y: rung-comprises-checker, /home/user/fortress-comprises, wip/rung-comprises-checker, expectedMinutes 150, testIsStage false, writesState false, expectedCheckerCount 75, briefing 58 keys, checks 16, tail 58 lines
   X: rung-spec-comprises, /home/user/fortress-speccomprises, wip/rung-spec-comprises, expectedMinutes 90, testIsStage false, writesState false, expectedCheckerCount undefined, briefing 32 keys, checks 10, tail 53 lines
 stubbed run, every agent approves:
