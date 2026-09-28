@@ -1,0 +1,204 @@
+# the library's call sites and declarations changed by rung A, git diff -U0 ff1649cea -- Library
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 8cbd0205b..955ed0dfb 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -1360 +1360 @@ trait ReadableArray[\E,I\]
+-    abstract fill(f:I->E):ReadableArray[\E,I\]
++    abstract tabulate(f:I->E):ReadableArray[\E,I\]
+@@ -1379 +1379 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
+-    abstract fill(f:I->E):ImmutableArray[\E,I\]
++    abstract tabulate(f:I->E):ImmutableArray[\E,I\]
+@@ -1399 +1399 @@ trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
+-    abstract fill(f:I->E):Array[\E,I\]
++    abstract tabulate(f:I->E):Array[\E,I\]
+@@ -1431,2 +1431,2 @@ trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],
+-    fill(f:I->E):T
+-    fill(v:E):T
++    abstract tabulate(f:I->E):T
++    abstract fill(v:E):T
+@@ -1440,0 +1441,2 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
++    tabulate(f:I->E):T
++    fill(v:E):T
+@@ -1492,0 +1495,2 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
++    fill(v:T):ImmutableArray1[\T,b0,s0\]
++    tabulate(f:ZZ32->T):ImmutableArray1[\T,b0,s0\]
+@@ -1552 +1556 @@ array1[\T, nat s0\](v:T):Array1[\T,0,s0\]
+-array1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\]
++tabulatedArray1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\]
+@@ -1559 +1563 @@ vector[\T extends Number, nat s0\](v:T):Vector[\T,s0\]
+-vector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\]
++tabulatedVector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\]
+@@ -1662 +1666 @@ array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\]
+-array2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
++tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
+@@ -1773,0 +1778 @@ array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
++tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index b76172cfe..1b092d83e 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1954 +1954 @@ trait ReadableArray[\E,I\]
+-    fill(f:I->E):ReadableArray[\E,I\]
++    tabulate(f:I->E):ReadableArray[\E,I\]
+@@ -1979 +1979 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
+-    fill(f:I->E):ImmutableArray[\E,I\]
++    tabulate(f:I->E):ImmutableArray[\E,I\]
+@@ -2012 +2012 @@ trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
+-    fill(f:I->E):Array[\E,I\]
++    tabulate(f:I->E):Array[\E,I\]
+@@ -2076,8 +2076,2 @@ trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],
+-    fill(f:I->E):T = do
+-        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+-        self
+-      end
+-    fill(v:E):T = do
+-        for i <- zeroIndices() do init0(i,v) end
+-        self
+-      end
++    tabulate(f:I->E):T
++    fill(v:E):T
+@@ -2098,0 +2093,8 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
++    tabulate(f:I->E):T = do
++        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
++        self
++      end
++    fill(v:E):T = do
++        for i <- zeroIndices() do init0(i,v) end
++        self
++      end
+@@ -2182 +2184,9 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
+-        replica[\T\]().fill(fn (i:ZZ32):T => get(i-b0))
++        replica[\T\]().tabulate(fn (i:ZZ32):T => get(i-b0))
++    fill(v:T):ImmutableArray1[\T,b0,s0\] = do
++        for i <- zeroIndices() do init0(i,v) end
++        self
++      end
++    tabulate(f:ZZ32->T):ImmutableArray1[\T,b0,s0\] = do
++        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
++        self
++      end
+@@ -2185 +2195 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
+-        __builtinFactory1[\T,b0,s0\]().fill(fn (i:ZZ32):T => get(i-b0))
++        __builtinFactory1[\T,b0,s0\]().tabulate(fn (i:ZZ32):T => get(i-b0))
+@@ -2188 +2198 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
+-        replica[\R\]().fill(fn (i:ZZ32):R => f(get(i-b0)))
++        replica[\R\]().tabulate(fn (i:ZZ32):R => f(get(i-b0)))
+@@ -2190 +2200 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
+-        replica[\R\]().fill(fn (i:ZZ32):R => f(i,get(i-b0)))
++        replica[\R\]().tabulate(fn (i:ZZ32):R => f(i,get(i-b0)))
+@@ -2232 +2242 @@ trait Array1[\T, nat b0, nat s0\]
+-        replica[\T\]().fill(fn (i:ZZ32):T => get(i-b0))
++        replica[\T\]().tabulate(fn (i:ZZ32):T => get(i-b0))
+@@ -2235 +2245 @@ trait Array1[\T, nat b0, nat s0\]
+-        __immutableFactory1[\T,b0,s0\]().fill(fn (i:ZZ32):T => get(i-b0))
++        __immutableFactory1[\T,b0,s0\]().tabulate(fn (i:ZZ32):T => get(i-b0))
+@@ -2238 +2248 @@ trait Array1[\T, nat b0, nat s0\]
+-        replica[\R\]().fill(fn (i:ZZ32):R => f(get(i-b0)))
++        replica[\R\]().tabulate(fn (i:ZZ32):R => f(get(i-b0)))
+@@ -2240 +2250 @@ trait Array1[\T, nat b0, nat s0\]
+-        replica[\R\]().fill(fn (i:ZZ32):R => f(i,get(i-b0)))
++        replica[\R\]().tabulate(fn (i:ZZ32):R => f(i,get(i-b0)))
+@@ -2348 +2358 @@ array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
+-array1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(f)
++tabulatedArray1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\] = array1[\T,s0\]().tabulate(f)
+@@ -2357,2 +2367,2 @@ vector[\T extends Number, nat s0\](v:T):Vector[\T,s0\] =
+-vector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\] =
+-    vector[\T,s0\]().fill(f)
++tabulatedVector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\] =
++    vector[\T,s0\]().tabulate(f)
+@@ -2494 +2504 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+-      self.replica[\T\]().fill(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
++      self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
+@@ -2500 +2510 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+-      replica[\R\]().fill(fn (i:ZZ32,j:ZZ32):R => f(get(i-b0,j-b1)))
++      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f(get(i-b0,j-b1)))
+@@ -2502 +2512 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+-      replica[\R\]().fill(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
++      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
+@@ -2654 +2664 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
+-        vector[\T,s0\]().fill(row)
++        vector[\T,s0\]().tabulate(row)
+@@ -2659 +2669 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
+-        vector[\T,s1\]().fill(col)
++        vector[\T,s1\]().tabulate(col)
+@@ -2709,2 +2719,2 @@ array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =
+-array2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
+-  array2[\T,s0,s1\]().fill(f)
++tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
++  array2[\T,s0,s1\]().tabulate(f)
+@@ -2718 +2728 @@ matrix[\T extends Number, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\] =
+-  array2[\T,s0,s1\]().fill(fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end)
++  array2[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end)
+@@ -2866,2 +2876,2 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+-        self.replica[\T\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
+-                                     get(i-b0,j-b1,k-b2))
++        self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
++                                         get(i-b0,j-b1,k-b2))
+@@ -2869,2 +2879,2 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+-        replica[\R\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
+-                                f(get(i-b0,j-b1,k-b2)))
++        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
++                                    f(get(i-b0,j-b1,k-b2)))
+@@ -2872,2 +2882,2 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+-        replica[\R\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
+-                                f((i,j,k),get(i-b0,j-b1,k-b2)))
++        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
++                                    f((i,j,k),get(i-b0,j-b1,k-b2)))
+@@ -2926,2 +2936,2 @@ array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\] =
+-array3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\] =
+-  array3[\T,s0,s1,s2\]().fill(f)
++tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\] =
++  array3[\T,s0,s1,s2\]().tabulate(f)
+diff --git a/Library/Generator22D.fss b/Library/Generator22D.fss
+index e7ffcfa6b..dad52a790 100644
+--- a/Library/Generator22D.fss
++++ b/Library/Generator22D.fss
+@@ -58 +58 @@ do
+-  array[\Generator[\E\]\](iu-il+1).fill(fn i =>g[(i,jl)#(1,ju-jl+1)])
++  array[\Generator[\E\]\](iu-il+1).tabulate(fn i =>g[(i,jl)#(1,ju-jl+1)])
+@@ -101 +101 @@ do
+-  array[\Generator[\E\]\](ju-jl+1).fill(fn j =>g[(il,j)#(iu-il+1,1)])
++  array[\Generator[\E\]\](ju-jl+1).tabulate(fn j =>g[(il,j)#(iu-il+1,1)])
+@@ -146 +146 @@ do
+-  ret = array[\Generator[\E\]\](ss0, ss1).fill(
++  ret = array[\Generator[\E\]\](ss0, ss1).tabulate(
+@@ -314 +314 @@ gemm[\T, nat s0, nat s1, nat s2 \](op:Reduction[\T\], ot:Reduction[\T\], sel:Arr
+-opr BSD[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s0, 0, s2\]) : Array2[\T, 0, s0, 0, s1 + s2\] = array2[\T, s0, s1 + s2\]().fill(fn (i, j) => if j < s1 then x[(i,j)] else y[(i, j - s1)] end)
++opr BSD[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s0, 0, s2\]) : Array2[\T, 0, s0, 0, s1 + s2\] = array2[\T, s0, s1 + s2\]().tabulate(fn (i, j) => if j < s1 then x[(i,j)] else y[(i, j - s1)] end)
+@@ -318 +318 @@ opr BSD[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\
+-opr ABV[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s2, 0, s1\]) : Array2[\T, 0, s0 + s2, 0, s1\] = array2[\T, s0 + s2, s1\]().fill(fn (i, j) => if i < s0 then x[(i,j)] else y[(i-s0, j)] end)
++opr ABV[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s2, 0, s1\]) : Array2[\T, 0, s0 + s2, 0, s1\] = array2[\T, s0 + s2, s1\]().tabulate(fn (i, j) => if i < s0 then x[(i,j)] else y[(i-s0, j)] end)
+@@ -324 +324 @@ opr ABV[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\
+-tri[\T, nat s0, nat s1, nat s2, nat s3\](x : Array2[\T, 0, s0, 0, s1\], u: Array2[\T, 0, s0, 0, s2\], y : Array2[\T, 0, s2, 0, s3\], z : T) : Array2[\T, 0, s0 + s2, 0, s1 + s3\] = array2[\T, s0 + s2, s1 + s3\]().fill(fn (i, j) => if i < s0 AND j < s1 then x[(i,j)] elif i < s0 AND j >= s1 then u[(i, j-s1)] elif i >= s0 AND j >= s1 then y[(i-s0, j-s1)] else z end)
++tri[\T, nat s0, nat s1, nat s2, nat s3\](x : Array2[\T, 0, s0, 0, s1\], u: Array2[\T, 0, s0, 0, s2\], y : Array2[\T, 0, s2, 0, s3\], z : T) : Array2[\T, 0, s0 + s2, 0, s1 + s3\] = array2[\T, s0 + s2, s1 + s3\]().tabulate(fn (i, j) => if i < s0 AND j < s1 then x[(i,j)] elif i < s0 AND j >= s1 then u[(i, j-s1)] elif i >= s0 AND j >= s1 then y[(i-s0, j-s1)] else z end)
+@@ -327 +327 @@ tri[\T, nat s0, nat s1, nat s2, nat s3\](x : Array2[\T, 0, s0, 0, s1\], u: Array
+-createArray2[\T, nat s0, nat s1\](_:Array2[\T, 0, s0, 0, s1\], f:(ZZ32,ZZ32)->T) : Array2[\T, 0, s0, 0, s1\] = array2[\T, s0, s1\]().fill(f)
++createArray2[\T, nat s0, nat s1\](_:Array2[\T, 0, s0, 0, s1\], f:(ZZ32,ZZ32)->T) : Array2[\T, 0, s0, 0, s1\] = array2[\T, s0, s1\]().tabulate(f)
+diff --git a/Library/List.fss b/Library/List.fss
+index 062578125..ccbc24e27 100644
+--- a/Library/List.fss
++++ b/Library/List.fss
+@@ -462 +462 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
+-        primitiveImmutableArray[\G\](|self|).fill(
++        primitiveImmutableArray[\G\](|self|).tabulate(
+@@ -467 +467 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
+-        primitiveImmutableArray[\G\](|self|).fill(
++        primitiveImmutableArray[\G\](|self|).tabulate(
+diff --git a/Library/Random.fss b/Library/Random.fss
+index de13cf581..628ce3e3a 100644
+--- a/Library/Random.fss
++++ b/Library/Random.fss
+@@ -292 +292 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
+-        refresh(vector[\N,degree\](fn i => seed.get(i)))
++        refresh(tabulatedVector[\N,degree\](fn i => seed.get(i)))
+@@ -315 +315 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
+-        newseed = vector[\ZZ64,degree\](fn i => state[i] BITXOR perturbvec'[i])
++        newseed = tabulatedVector[\ZZ64,degree\](fn i => state[i] BITXOR perturbvec'[i])
+diff --git a/Library/System.fss b/Library/System.fss
+index c39c39449..e2b4b8922 100644
+--- a/Library/System.fss
++++ b/Library/System.fss
+@@ -34 +34 @@ getProgramArgs[\T extends String, int n\](r0:PrimImmutableArray[\T,n\]): PrimImm
+-    r0.replica[\String\]().fill(fn (i:ZZ32): String => r0.get(i))
++    r0.replica[\String\]().tabulate(fn (i:ZZ32): String => r0.get(i))

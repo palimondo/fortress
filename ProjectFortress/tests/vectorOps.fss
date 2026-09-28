@@ -18,7 +18,7 @@ run() = do
   n : RR64 = ||x0||
   assert(n^2,55,"n^2")
   x1 = vector[\RR64,5\](3.0)
-  x11 = vector[\RR64,5\]().fill(fn (i:ZZ32) => 3.0)
+  x11 = vector[\RR64,5\]().tabulate(fn (i:ZZ32) => 3.0)
   (* assert(x1,x11) *)
   assert((x1 + x0)[0],4.0,"x1+x0")
   assert(x1 DOT x0, 45,"x1 x0")

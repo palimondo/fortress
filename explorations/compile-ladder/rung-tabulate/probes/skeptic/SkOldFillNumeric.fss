@@ -1,0 +1,7 @@
+component SkOldFillNumeric
+export Executable
+run():() = do
+  a = array[\ZZ32\](3).fill(fn (i:ZZ32):ZZ32 => 5 i)
+  println("a: " a[0] " " a[1] " " a[2])
+end
+end

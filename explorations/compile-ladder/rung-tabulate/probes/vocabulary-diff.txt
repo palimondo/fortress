@@ -1,0 +1,65 @@
+# the approved microGPT vocabulary lines (12) and probe lines (4) as applied, git diff -U0 ff1649cea -- explorations/run-c4 explorations/apl; compare explorations/reviews/overloading-judgement.md:122-152
+diff --git a/explorations/apl/mg/AplMg.fss b/explorations/apl/mg/AplMg.fss
+index 91ebf784d..cb8d610d4 100644
+--- a/explorations/apl/mg/AplMg.fss
++++ b/explorations/apl/mg/AplMg.fss
+@@ -14 +14 @@ ravel[\T extends Number, nat r, nat c\](m: Matrix[\T,r,c\]): Array[\T,ZZ32\] = d
+-    array[\T\](nr nc).fill(fn (i: ZZ32): T => m[i DIV nc, i MOD nc])
++    array[\T\](nr nc).tabulate(fn (i: ZZ32): T => m[i DIV nc, i MOD nc])
+@@ -19 +19 @@ cols[\nat r, nat c, nat k\](m: Matrix[\ZZ32,r,c\], ks: Vector[\ZZ32,k\]): Array[
+-    array[\ZZ32\](nr, |ks|).fill(fn (i: ZZ32, j: ZZ32): ZZ32 => m[i, ks[j]])
++    array[\ZZ32\](nr, |ks|).tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => m[i, ks[j]])
+diff --git a/explorations/apl/mg/FlatArrays2.fss b/explorations/apl/mg/FlatArrays2.fss
+index 2a75159f1..2aef5a564 100644
+--- a/explorations/apl/mg/FlatArrays2.fss
++++ b/explorations/apl/mg/FlatArrays2.fss
+@@ -12 +12 @@ import NatReflect.{...}
+-vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
++vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).tabulate(f)
+@@ -14,2 +14,2 @@ zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
+-keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
+-mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
++keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).tabulate(f)
++mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).tabulate(f)
+@@ -175 +175 @@ gather[\T extends Number\](m: Array[\T,(ZZ32,ZZ32)\], ks: Array[\ZZ32,ZZ32\]): A
+-    array[\T\](|ks|, nc).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
++    array[\T\](|ks|, nc).tabulate(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
+@@ -178 +178 @@ onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
+-    array[\RR64\](|ks|, width).fill(fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
++    array[\RR64\](|ks|, width).tabulate(fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+@@ -181 +181 @@ pick[\nat k, nat c\](m: Matrix[\RR64,k,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,Z
+-    array[\RR64\](|ks|).fill(fn (i: ZZ32): RR64 => m[i, ks[i]])
++    array[\RR64\](|ks|).tabulate(fn (i: ZZ32): RR64 => m[i, ks[i]])
+diff --git a/explorations/apl/mg/elemwise_nat_probe.fss b/explorations/apl/mg/elemwise_nat_probe.fss
+index 6f52e947b..b89ce644d 100644
+--- a/explorations/apl/mg/elemwise_nat_probe.fss
++++ b/explorations/apl/mg/elemwise_nat_probe.fss
+@@ -14 +14 @@ run(): () = do
+-    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
++    m = array[\RR64\](2,3).tabulate(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+diff --git a/explorations/apl/mg/elemwise_rank_probe.fss b/explorations/apl/mg/elemwise_rank_probe.fss
+index 35e2c0ec8..7081bf3cb 100644
+--- a/explorations/apl/mg/elemwise_rank_probe.fss
++++ b/explorations/apl/mg/elemwise_rank_probe.fss
+@@ -14,3 +14,3 @@ run(): () = do
+-    v = array[\RR64\](3).fill(fn (i: ZZ32): RR64 => 1.0 i)
+-    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+-    t = array[\RR64\](2,2,3).fill(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
++    v = array[\RR64\](3).tabulate(fn (i: ZZ32): RR64 => 1.0 i)
++    m = array[\RR64\](2,3).tabulate(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
++    t = array[\RR64\](2,2,3).tabulate(fn (p: ZZ32, i: ZZ32, j: ZZ32): RR64 => 1.0 (6 p + 3 i + j))
+diff --git a/explorations/run-c4/src/FlatArrays.fss b/explorations/run-c4/src/FlatArrays.fss
+index 4b54600c0..d9c39e633 100644
+--- a/explorations/run-c4/src/FlatArrays.fss
++++ b/explorations/run-c4/src/FlatArrays.fss
+@@ -14 +14 @@ import NatReflect.{...}
+-vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
++vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).tabulate(f)
+@@ -16,2 +16,2 @@ zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
+-keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
+-mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
++keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).tabulate(f)
++mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).tabulate(f)
+@@ -171 +171 @@ gather[\T extends Number, nat r, nat c, nat k\](m: Matrix[\T,r,c\], ks: Vector[\
+-    array[\T\](|ks|, nc).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
++    array[\T\](|ks|, nc).tabulate(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])

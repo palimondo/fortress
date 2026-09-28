@@ -1361,8 +1361,8 @@ trait ReadableArray[\E,I\]
 
     (** Bulk initialization of an array using a given function or
         value.  These are defined with more specific self types in
-        StandardImmutableArrayType. **)
-    abstract fill(f:I->E):ReadableArray[\E,I\]
+        StandardMutableArrayType and ImmutableArray1. **)
+    abstract tabulate(f:I->E):ReadableArray[\E,I\]
     abstract fill(v:E):ReadableArray[\E,I\]
 
     abstract copy():ReadableArray[\E,I\]
@@ -1381,7 +1381,7 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
     abstract ivmap[\R\](f:(I,E)->R): ImmutableArray[\R, I\]
     abstract map[\R\](f:E->R): ImmutableArray[\R, I\]
     abstract shift(newOrigin:I):ImmutableArray[\E,I\]
-    abstract fill(f:I->E):ImmutableArray[\E,I\]
+    abstract tabulate(f:I->E):ImmutableArray[\E,I\]
     abstract fill(v:E):ImmutableArray[\E,I\]
     abstract copy():ImmutableArray[\E,I\]
     abstract replica[\U\]():ImmutableArray[\U,I\]
@@ -1401,7 +1401,7 @@ trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
     abstract ivmap[\R\](f:(I,E)->R): Array[\R, I\]
     abstract map[\R\](f:E->R): Array[\R, I\]
     abstract shift(newOrigin:I):Array[\E,I\]
-    abstract fill(f:I->E):Array[\E,I\]
+    abstract tabulate(f:I->E):Array[\E,I\]
     abstract fill(v:E):Array[\E,I\]
     abstract assign(f:I->E):Array[\E,I\]
     abstract copy():Array[\E,I\]
@@ -1433,8 +1433,8 @@ primitiveImmutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
     it should also extend %ImmutableArray% explicitly. **)
 trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I\]
         extends { ReadableArray[\E,I\] }
-    fill(f:I->E):T
-    fill(v:E):T
+    abstract tabulate(f:I->E):T
+    abstract fill(v:E):T
     abstract copy():T
 end
 
@@ -1443,6 +1443,8 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
         extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
     assign(v:T):T
     assign(f:I->E):T
+    tabulate(f:I->E):T
+    fill(v:E):T
 end
 
 (** Canonical partitioning of a positive number %x% into two pieces.  If
@@ -1495,6 +1497,8 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
     replica[\U\]():ImmutableArray1[\U,b0,s0\]
 
     copy():ImmutableArray1[\T,b0,s0\]
+    fill(v:T):ImmutableArray1[\T,b0,s0\]
+    tabulate(f:ZZ32->T):ImmutableArray1[\T,b0,s0\]
 
     thaw():Array1[\T,b0,s0\]
     map[\R\](f:T->R): ImmutableArray1[\R,b0,s0\]
@@ -1554,14 +1558,14 @@ __immutableFactory1[\T, nat b0, nat s0\]():ReadableArray1[\T,b0,s0\]
 
 array1[\T, nat s0\]():Array1[\T,0,s0\]
 array1[\T, nat s0\](v:T):Array1[\T,0,s0\]
-array1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\]
+tabulatedArray1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\]
 
 immutableArray1[\T, nat s0\](): ImmutableArray1[\T,0,s0\]
 
 (** %vector% is the same as %array1%, but specialized to numeric type arguments. *)
 vector[\T extends Number, nat s0\]():Vector[\T,s0\]
 vector[\T extends Number, nat s0\](v:T):Vector[\T,s0\]
-vector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\]
+tabulatedVector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\]
 
 
 opr +[\ T extends Number, nat n, nat m \]
@@ -1664,7 +1668,7 @@ __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\]
 (** %array2% is a factory for 0-based 2-D arrays. **)
 array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\]
 array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\]
-array2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
+tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
 
 (** %matrix% is the same as %array2%, but specialized to numeric type
    arguments, except that the default value (if given) is used to
@@ -1776,6 +1780,7 @@ __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
         Array3[\T,b0,s0,b1,s1,b2,s2\]
 
 array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
+tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
 
 (************************************************************
 * \subsection*{Reductions}

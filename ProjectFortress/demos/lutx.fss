@@ -59,7 +59,7 @@ upper[\N extends Number, nat n\](mem:Matrix[\N,n,n\]) = Upper[\N,n\](mem)
 
 lutx[\nat n\](A:Matrix[\RR64,n,n\]):
     (Matrix[\RR64,n,n\],Vector[\ZZ32,n\]) = do
-  p : Vector[\ZZ32,n\] = vector[\ZZ32,n\](identity[\ZZ32\])
+  p : Vector[\ZZ32,n\] = tabulatedVector[\ZZ32,n\](identity[\ZZ32\])
   for k <- seq(0#n-1) do
     rest = k+1 # n-k-1
     t:(RR64,ZZ32) := (|A[k,k]|,k)
@@ -106,10 +106,10 @@ end
 
 run():() = do
   a : RR64[6,6] = matrix[\RR64,6,6\]()
-  a.fill(fn (i,j) => if j <= i then 7.0-i else 7 6 5 2.0 end)
+  a.tabulate(fn (i,j) => if j <= i then 7.0-i else 7 6 5 2.0 end)
   mtest(a)
   b : RR64[6,6] = matrix[\RR64,6,6\]()
-  b.fill(fn (i,j) => if j >= i then 7.0-j else 7 6 5 2.0 end)
+  b.tabulate(fn (i,j) => if j >= i then 7.0-j else 7 6 5 2.0 end)
   mtest(b)
 end
 

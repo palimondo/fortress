@@ -1,0 +1,37 @@
+# the compile ladder's subset (subset.txt), base (tmp/basetree at ff1649cea) against the edit, by run-subset.sh; each .compile output with the tree root replaced by FH, stack frames dropped, compared whole
+# base: === ladder start 2026-09-27T20:19:45+00:00 ===; edit: === ladder start 2026-09-27T20:27:33+00:00 ===
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; JDK 25.0.4; FORTRESS_THREADS=1; load during the runs 17 to 18
+file ArrayOperatorsBesideLibrary.fss  crc base 255  crc edit 255
+file ArrayScalarExtension.fss  crc base 255  crc edit 255
+file RandomTest.fss  crc base 255  crc edit 255
+file ShuffleTest.fss  crc base 255  crc edit 255
+file matrixOps.fss  crc base 255  crc edit 255
+file sparseMatrix.fss  crc base 255  crc edit 255
+file vectorOps.fss  crc base 255  crc edit 255
+== ArrayOperatorsBesideLibrary.fss.compile
+  identical
+== ArrayScalarExtension.fss.compile
+  identical
+== RandomTest.fss.compile
+  identical
+== ShuffleTest.fss.compile
+  identical
+== matrixOps.fss.compile
+5,10c5,10
+< FH/ProjectFortress/tests/matrixOps.fss:27:20-35:
+<     Function array2 is not defined.
+< FH/ProjectFortress/tests/matrixOps.fss:28:20-35:
+<     Function array2 is not defined.
+< FH/ProjectFortress/tests/matrixOps.fss:29:20-35:
+<     Function array2 is not defined.
+---
+> FH/ProjectFortress/tests/matrixOps.fss:27:20-44:
+>     Function tabulatedArray2 is not defined.
+> FH/ProjectFortress/tests/matrixOps.fss:28:20-44:
+>     Function tabulatedArray2 is not defined.
+> FH/ProjectFortress/tests/matrixOps.fss:29:20-44:
+>     Function tabulatedArray2 is not defined.
+== sparseMatrix.fss.compile
+  identical
+== vectorOps.fss.compile
+  identical

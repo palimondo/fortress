@@ -1957,8 +1957,8 @@ trait ReadableArray[\E,I\]
 
     (** Bulk initialization of an array using a given function or
         value.  These are defined with more specific self types in
-        StandardImmutableArrayType. **)
-    fill(f:I->E):ReadableArray[\E,I\]
+        StandardMutableArrayType and ImmutableArray1. **)
+    tabulate(f:I->E):ReadableArray[\E,I\]
     fill(v:E):ReadableArray[\E,I\]
 
     copy():ReadableArray[\E,I\]
@@ -1983,7 +1983,7 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
     ivmap[\R\](f:(I,E)->R): ImmutableArray[\R, I\]
     map[\R\](f:E->R): ImmutableArray[\R, I\]
     shift(newOrigin:I):ImmutableArray[\E,I\]
-    fill(f:I->E):ImmutableArray[\E,I\]
+    tabulate(f:I->E):ImmutableArray[\E,I\]
     fill(v:E):ImmutableArray[\E,I\]
     copy():ImmutableArray[\E,I\]
     replica[\U\]():ImmutableArray[\U,I\]
@@ -2016,7 +2016,7 @@ trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
     ivmap[\R\](f:(I,E)->R): Array[\R, I\]
     map[\R\](f:E->R): Array[\R, I\]
     shift(newOrigin:I):Array[\E,I\]
-    fill(f:I->E):Array[\E,I\]
+    tabulate(f:I->E):Array[\E,I\]
     fill(v:E):Array[\E,I\]
     assign(f:I->E):Array[\E,I\]
     copy():Array[\E,I\]
@@ -2080,14 +2080,8 @@ __piarr[\E, nat n\](w:()->E,x:N[\n\]):PrimImmutableArray[\E,n\] =
     it should also extend ImmutableArray explicitly. **)
 trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I\]
         extends { ReadableArray[\E,I\] }
-    fill(f:I->E):T = do
-        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
-        self
-      end
-    fill(v:E):T = do
-        for i <- zeroIndices() do init0(i,v) end
-        self
-      end
+    tabulate(f:I->E):T
+    fill(v:E):T
 
     copy():T
 end
@@ -2101,6 +2095,14 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
       end
     assign(f:I->E):T = do
         for i <- zeroIndices() do put(i,f(toIndex(i))) end
+        self
+      end
+    tabulate(f:I->E):T = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
+    fill(v:E):T = do
+        for i <- zeroIndices() do init0(i,v) end
         self
       end
 end
@@ -2186,15 +2188,23 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
     replica[\U\]():ImmutableArray1[\U,b0,s0\] = __immutableFactory1[\U,b0,s0\]()
 
     copy():ImmutableArray1[\T,b0,s0\] =
-        replica[\T\]().fill(fn (i:ZZ32):T => get(i-b0))
+        replica[\T\]().tabulate(fn (i:ZZ32):T => get(i-b0))
+    fill(v:T):ImmutableArray1[\T,b0,s0\] = do
+        for i <- zeroIndices() do init0(i,v) end
+        self
+      end
+    tabulate(f:ZZ32->T):ImmutableArray1[\T,b0,s0\] = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
 
     thaw():Array1[\T,b0,s0\] =
-        __builtinFactory1[\T,b0,s0\]().fill(fn (i:ZZ32):T => get(i-b0))
+        __builtinFactory1[\T,b0,s0\]().tabulate(fn (i:ZZ32):T => get(i-b0))
 
     map[\R\](f:T->R): ImmutableArray1[\R,b0,s0\] =
-        replica[\R\]().fill(fn (i:ZZ32):R => f(get(i-b0)))
+        replica[\R\]().tabulate(fn (i:ZZ32):R => f(get(i-b0)))
     ivmap[\R\](f:(ZZ32,T)->R): ImmutableArray1[\R,b0,s0\] =
-        replica[\R\]().fill(fn (i:ZZ32):R => f(i,get(i-b0)))
+        replica[\R\]().tabulate(fn (i:ZZ32):R => f(i,get(i-b0)))
 end
 
 (** Array1[\T,b0,s0\] is a 1-dimension array whose s0 elements are of
@@ -2236,15 +2246,15 @@ trait Array1[\T, nat b0, nat s0\]
     replica[\U\]():Array1[\U,b0,s0\] = __builtinFactory1[\U,b0,s0\]()
 
     copy():Array1[\T,b0,s0\] =
-        replica[\T\]().fill(fn (i:ZZ32):T => get(i-b0))
+        replica[\T\]().tabulate(fn (i:ZZ32):T => get(i-b0))
 
     freeze():ImmutableArray1[\T,b0,s0\] =
-        __immutableFactory1[\T,b0,s0\]().fill(fn (i:ZZ32):T => get(i-b0))
+        __immutableFactory1[\T,b0,s0\]().tabulate(fn (i:ZZ32):T => get(i-b0))
 
     map[\R\](f:T->R): Array1[\R,b0,s0\] =
-        replica[\R\]().fill(fn (i:ZZ32):R => f(get(i-b0)))
+        replica[\R\]().tabulate(fn (i:ZZ32):R => f(get(i-b0)))
     ivmap[\R\](f:(ZZ32,T)->R): Array1[\R,b0,s0\] =
-        replica[\R\]().fill(fn (i:ZZ32):R => f(i,get(i-b0)))
+        replica[\R\]().tabulate(fn (i:ZZ32):R => f(i,get(i-b0)))
 end
 
 (* WORK AROUND absence of type inference in method calls. *)
@@ -2352,7 +2362,7 @@ array1[\T, nat s0\]():Array1[\T,0,s0\] =
         else => PrimitiveArray[\T,s0\]()
     end
 array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
-array1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(f)
+tabulatedArray1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\] = array1[\T,s0\]().tabulate(f)
 
 immutableArray1[\T, nat s0\](): ImmutableArray1[\T,0,s0\] =
     PrimImmutableArray[\T,s0\]()
@@ -2361,8 +2371,8 @@ immutableArray1[\T, nat s0\](): ImmutableArray1[\T,0,s0\] =
 vector[\T extends Number, nat s0\]():Vector[\T,s0\] = __DefaultVector[\T,s0\]()
 vector[\T extends Number, nat s0\](v:T):Vector[\T,s0\] =
     vector[\T,s0\]().fill(v)
-vector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\] =
-    vector[\T,s0\]().fill(f)
+tabulatedVector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\] =
+    vector[\T,s0\]().tabulate(f)
 
 pmul[\ T extends Number, nat k \]
     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\] = a.pmul(b)
@@ -2498,15 +2508,15 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   replica[\U\]():Array2[\U,b0,s0,b1,s1\] =
       __builtinFactory2[\U,b0,s0,b1,s1\]()
   copy():Array2[\T,b0,s0,b1,s1\] =
-      self.replica[\T\]().fill(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
+      self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
   put(t1:(ZZ32, ZZ32), v:T) : ()
   get(t1:(ZZ32, ZZ32)):T
   t():Array2[\T,b1,s1,b0,s0\] = TransposedArray2[\T,b1,s1,b0,s0\](self)
   (* Copied here for better return type information. *)
   map[\R\](f:T->R): Array2[\R,b0,s0,b1,s1\] =
-      replica[\R\]().fill(fn (i:ZZ32,j:ZZ32):R => f(get(i-b0,j-b1)))
+      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f(get(i-b0,j-b1)))
   ivmap[\R\](f:((ZZ32,ZZ32),T)->R): Array2[\R,b0,s0,b1,s1\] =
-      replica[\R\]().fill(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
+      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
 
   freeze():ImmutableArray[\T,(ZZ32,ZZ32)\] = fail("Freeze not defined yet!")
 end
@@ -2658,12 +2668,12 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
     rmul(v: Vector[\T,s1\]): Vector[\T,s0\] = do
         row(i:ZZ32):T =
             SUM[\T\][(j,v_j)<-v.indexValuePairs] get(i,j) v_j
-        vector[\T,s0\]().fill(row)
+        vector[\T,s0\]().tabulate(row)
       end
     lmul(v: Vector[\T,s0\]): Vector[\T,s1\] = do
         col(i:ZZ32):T =
             SUM[\T\][(j,v_j)<-v.indexValuePairs] v_j get(j,i)
-        vector[\T,s1\]().fill(col)
+        vector[\T,s1\]().tabulate(col)
       end
     t(): Matrix[\T,s1,s0\] = TransposedMatrix[\T,s1,s0\](self)
 end
@@ -2713,8 +2723,8 @@ array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\] =
     end
 array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =
   array2[\T,s0,s1\]().fill(v)
-array2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
-  array2[\T,s0,s1\]().fill(f)
+tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
+  array2[\T,s0,s1\]().tabulate(f)
 
 (* matrix is the same as array1, but specialized to numeric type
    arguments, except that the default value (if given) is used to
@@ -2722,7 +2732,7 @@ array2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
 matrix[\T extends Number, nat s0, nat s1\]():Matrix[\T,s0,s1\] =
   __DefaultMatrix[\T,s0,s1\]()
 matrix[\T extends Number, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\] =
-  array2[\T,s0,s1\]().fill(fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end)
+  array2[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end)
 
 (* Matrix multiplication; used to use a cache-oblivious algorithm, but
    we ran into trouble due to lack of support for atomic increment of
@@ -2870,14 +2880,14 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
     replica[\U\]():Array3[\U,b0,s0,b1,s1,b2,s2\] =
         __DefaultArray3[\U,b0,s0,b1,s1,b2,s2\]()
     copy():Array3[\T,b0,s0,b1,s1,b2,s2\] =
-        self.replica[\T\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
-                                     get(i-b0,j-b1,k-b2))
+        self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
+                                         get(i-b0,j-b1,k-b2))
     map[\R\](f:T->R): Array3[\R,b0,s0,b1,s1,b2,s2\] =
-        replica[\R\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
-                                f(get(i-b0,j-b1,k-b2)))
+        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
+                                    f(get(i-b0,j-b1,k-b2)))
     ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): Array3[\R,b0,s0,b1,s1,b2,s2\] =
-        replica[\R\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
-                                f((i,j,k),get(i-b0,j-b1,k-b2)))
+        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
+                                    f((i,j,k),get(i-b0,j-b1,k-b2)))
 
     freeze():ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] =
         fail("Freeze not defined yet!")
@@ -2930,8 +2940,8 @@ array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\] =
   __DefaultArray3[\T,0,s0,0,s1,0,s2\]()
 array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\] =
   array3[\T,s0,s1,s2\]().fill(v)
-array3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\] =
-  array3[\T,s0,s1,s2\]().fill(f)
+tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\] =
+  array3[\T,s0,s1,s2\]().tabulate(f)
 
 (*************
 

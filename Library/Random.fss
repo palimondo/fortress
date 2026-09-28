@@ -289,7 +289,7 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
         s'
     end
     private refresh(s:Indexed[\N,ZZ32\]): Vector[\N,degree\] =
-        refresh(vector[\N,degree\](fn i => seed.get(i)))
+        refresh(tabulatedVector[\N,degree\](fn i => seed.get(i)))
 
     reseed(seedvec:Indexed[\N,ZZ32\]): MersenneTwister[\N,wordsize,degree\] =
         do state := refresh(seedvec); current := 0; self end
@@ -312,7 +312,7 @@ object MersenneTwister[\N, nat wordsize, nat degree\]
         (*) XXX Not statistically tested!
         perturbgen = MersenneTwisterInit(0)
         perturbvec' = perturbgen.perturbed(perturbvec).randomMany(degree)
-        newseed = vector[\ZZ64,degree\](fn i => state[i] BITXOR perturbvec'[i])
+        newseed = tabulatedVector[\ZZ64,degree\](fn i => state[i] BITXOR perturbvec'[i])
         MersenneTwister[\N,wordsize,degree\](newseed, coeff, middle, pivot, tampershift0,
             tampershift1, tampershift2, tampershift3, tampermask1, tampermask2)
     end

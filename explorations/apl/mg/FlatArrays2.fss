@@ -9,10 +9,10 @@ export FlatArrays2
 import NatReflect.{...}
 
 (* ------------------------------------------------------- constructors ---- *)
-vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).tabulate(f)
 zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
-keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
-mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).tabulate(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).tabulate(f)
 
 (* ------------------------------------------- the elementwise algebra ----- *)
 (* × and the array-by-array / are the two of the thirteen with two array
@@ -172,13 +172,13 @@ rows[\nat p, nat n, nat d\](f: (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) -> Array
 (* ----------------------------------------------------------- keys -------- *)
 gather[\T extends Number\](m: Array[\T,(ZZ32,ZZ32)\], ks: Array[\ZZ32,ZZ32\]): Array[\T,(ZZ32,ZZ32)\] = do
     (nr, nc) = m.sizes
-    array[\T\](|ks|, nc).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
+    array[\T\](|ks|, nc).tabulate(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
   end
 onehot(ks: Array[\ZZ32,ZZ32\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =
-    array[\RR64\](|ks|, width).fill(fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
+    array[\RR64\](|ks|, width).tabulate(fn (i: ZZ32, j: ZZ32): RR64 => if ks[i] = j then 1.0 else 0.0 end)
 (* one key per row of m: the shared k *)
 pick[\nat k, nat c\](m: Matrix[\RR64,k,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,ZZ32\] =
-    array[\RR64\](|ks|).fill(fn (i: ZZ32): RR64 => m[i, ks[i]])
+    array[\RR64\](|ks|).tabulate(fn (i: ZZ32): RR64 => m[i, ks[i]])
 flat(ms: Array[\RR64,(ZZ32,ZZ32)\]...): Array[\RR64,ZZ32\] = do
     out = array[\RR64\](SUM[\ZZ32\][m <- ms] |m|).fill(0.0)
     off: ZZ32 := 0

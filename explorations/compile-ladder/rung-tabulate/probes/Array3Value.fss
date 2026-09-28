@@ -1,0 +1,10 @@
+component Array3Value
+export Executable
+run():() = do
+  v1 = array1[\ZZ32,2\](5)
+  v2 = array2[\ZZ32,2,2\](5)
+  println("array1 value factory " v1[1] "; array2 value factory " v2[1,1])
+  v3 = array3[\ZZ32,2,2,2\](5)
+  println("array3 value factory " v3[1,1,1])
+end
+end

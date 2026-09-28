@@ -1,0 +1,113 @@
+# the demos' lines respelled by rung A (decision D4), git diff -U0 ff1649cea -- ProjectFortress/demos; mg.fss:20 is left (REPORT.md section 7)
+diff --git a/ProjectFortress/demos/BiCGSTAB.fss b/ProjectFortress/demos/BiCGSTAB.fss
+index 49e469f94..83acace5d 100644
+--- a/ProjectFortress/demos/BiCGSTAB.fss
++++ b/ProjectFortress/demos/BiCGSTAB.fss
+@@ -91,7 +91,7 @@ do
+-  Ap.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
+-  Ae.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  Aw.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  An.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  As.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  At.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  Ab.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Ap.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
++  Ae.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Aw.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  An.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  As.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  At.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Ab.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+@@ -130,2 +130,2 @@ do
+-  x.fill(fn (i:ZZ32):RR64 => 0.0)
+-  b.fill(fn (i:ZZ32):RR64 => 0.0)
++  x.tabulate(fn (i:ZZ32):RR64 => 0.0)
++  b.tabulate(fn (i:ZZ32):RR64 => 0.0)
+diff --git a/ProjectFortress/demos/BiCGSTAB2.fss b/ProjectFortress/demos/BiCGSTAB2.fss
+index cd00bcf00..679d389b6 100644
+--- a/ProjectFortress/demos/BiCGSTAB2.fss
++++ b/ProjectFortress/demos/BiCGSTAB2.fss
+@@ -77,7 +77,7 @@ do
+-  Ap.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
+-  Ae.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  Aw.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  An.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  As.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  At.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+-  Ab.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Ap.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
++  Ae.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Aw.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  An.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  As.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  At.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
++  Ab.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+@@ -117,2 +117,2 @@ do
+-  x.fill(fn (i:ZZ32):RR64 => 0.0)
+-  b.fill(fn (i:ZZ32):RR64 => 0.0)
++  x.tabulate(fn (i:ZZ32):RR64 => 0.0)
++  b.tabulate(fn (i:ZZ32):RR64 => 0.0)
+diff --git a/ProjectFortress/demos/DemoGenerator22D.fss b/ProjectFortress/demos/DemoGenerator22D.fss
+index 736843f44..7bb98aeda 100644
+--- a/ProjectFortress/demos/DemoGenerator22D.fss
++++ b/ProjectFortress/demos/DemoGenerator22D.fss
+@@ -61 +61 @@ rundemo(i) = do
+-  xs = array[\Number\]( (sizes[i],sizes[i]) ).fill(fn (ij):ZZ32 => |\random(10)-5/|)
++  xs = array[\Number\]( (sizes[i],sizes[i]) ).tabulate(fn (ij):ZZ32 => |\random(10)-5/|)
+diff --git a/ProjectFortress/demos/Generator2Demo.fss b/ProjectFortress/demos/Generator2Demo.fss
+index f88039e03..a843376aa 100644
+--- a/ProjectFortress/demos/Generator2Demo.fss
++++ b/ProjectFortress/demos/Generator2Demo.fss
+@@ -62,3 +62,3 @@ run() : () = do
+-  xit = array[\Number\]( 400 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
+-  xs = array[\Number\]( 50 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
+-  xu = array[\Number\]( 5 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
++  xit = array[\Number\]( 400 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
++  xs = array[\Number\]( 50 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
++  xu = array[\Number\]( 5 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
+diff --git a/ProjectFortress/demos/conjGrad.fss b/ProjectFortress/demos/conjGrad.fss
+index d8cddb579..7b65e29f4 100644
+--- a/ProjectFortress/demos/conjGrad.fss
++++ b/ProjectFortress/demos/conjGrad.fss
+@@ -35 +35 @@ mkMatrix[\nat n\]() : RR64[n,n] = do
+-  l = Csr[\RR64,n,n\](array1[\SparseVector[\RR64,n\],n\](row))
++  l = Csr[\RR64,n,n\](tabulatedArray1[\SparseVector[\RR64,n\],n\](row))
+@@ -43 +43 @@ mkVector[\nat n\]() : RR64[n] = do
+-  array1[\RR64,n\](f)
++  tabulatedArray1[\RR64,n\](f)
+diff --git a/ProjectFortress/demos/lutx.fss b/ProjectFortress/demos/lutx.fss
+index 814fe213a..8ccad2d0f 100644
+--- a/ProjectFortress/demos/lutx.fss
++++ b/ProjectFortress/demos/lutx.fss
+@@ -62 +62 @@ lutx[\nat n\](A:Matrix[\RR64,n,n\]):
+-  p : Vector[\ZZ32,n\] = vector[\ZZ32,n\](identity[\ZZ32\])
++  p : Vector[\ZZ32,n\] = tabulatedVector[\ZZ32,n\](identity[\ZZ32\])
+@@ -109 +109 @@ run():() = do
+-  a.fill(fn (i,j) => if j <= i then 7.0-i else 7 6 5 2.0 end)
++  a.tabulate(fn (i,j) => if j <= i then 7.0-i else 7 6 5 2.0 end)
+@@ -112 +112 @@ run():() = do
+-  b.fill(fn (i,j) => if j >= i then 7.0-j else 7 6 5 2.0 end)
++  b.tabulate(fn (i,j) => if j >= i then 7.0-j else 7 6 5 2.0 end)
+diff --git a/ProjectFortress/demos/npbft.fss b/ProjectFortress/demos/npbft.fss
+index 8b8bcd1e5..4b39561aa 100644
+--- a/ProjectFortress/demos/npbft.fss
++++ b/ProjectFortress/demos/npbft.fss
+@@ -85 +85 @@ fft3core(u, n1, n2, n3, f1) = do
+-      line = array[\Complex\](n1).fill(fn(n) => r[n, k, l])
++      line = array[\Complex\](n1).tabulate(fn(n) => r[n, k, l])
+@@ -92 +92 @@ fft3core(u, n1, n2, n3, f1) = do
+-      line = array[\Complex\](n2).fill(fn(n) => r[j, n, l])
++      line = array[\Complex\](n2).tabulate(fn(n) => r[j, n, l])
+@@ -99 +99 @@ fft3core(u, n1, n2, n3, f1) = do
+-      line = array[\Complex\](n3).fill(fn(n) => r[j, k, n])
++      line = array[\Complex\](n3).tabulate(fn(n) => r[j, k, n])
+@@ -135 +135 @@ dobenchmark(n1, n2, n3, N) = do
+-    W = array[\Complex\](n1, n2, n3).fill(fn (j, k, l) => 
++    W = array[\Complex\](n1, n2, n3).tabulate(fn (j, k, l) => 
+diff --git a/ProjectFortress/demos/posFeedback.fss b/ProjectFortress/demos/posFeedback.fss
+index aaa2bd159..82f8c13f5 100644
+--- a/ProjectFortress/demos/posFeedback.fss
++++ b/ProjectFortress/demos/posFeedback.fss
+@@ -121 +121 @@ object Entity(var positivity: ZZ32,
+-        array1[\ZZ32,10\](filler)
++        tabulatedArray1[\ZZ32,10\](filler)

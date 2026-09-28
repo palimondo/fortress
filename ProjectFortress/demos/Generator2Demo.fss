@@ -59,9 +59,9 @@ snd(x) = do (a, b) = x; b end
 run() : () = do
 
   (* arrays *)
-  xit = array[\Number\]( 400 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
-  xs = array[\Number\]( 50 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
-  xu = array[\Number\]( 5 ).fill(fn (x:ZZ32):Number => |\random(10)-5/|)
+  xit = array[\Number\]( 400 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
+  xs = array[\Number\]( 50 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
+  xu = array[\Number\]( 5 ).tabulate(fn (x:ZZ32):Number => |\random(10)-5/|)
 
   (* lists *)
   lxit = <|[\Number\] a | a <- xit|>

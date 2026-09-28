@@ -11,7 +11,7 @@ opr ×[\T extends Number, I\](a: Array[\T,I\], b: Array[\T,I\]): Array[\T,I\] = 
 opr ×[\T extends Number, nat n, nat d\](a: Matrix[\T,n,d\], b: Matrix[\T,n,d\]): Matrix[\T,n,d\] = a.ivmap[\T\](fn (i, e) => e b[i])
 
 run(): () = do
-    m = array[\RR64\](2,3).fill(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
+    m = array[\RR64\](2,3).tabulate(fn (i: ZZ32, j: ZZ32): RR64 => 1.0 (3 i + j))
     p = m × m
     println "both declarations accepted: " p[1,2]
   end

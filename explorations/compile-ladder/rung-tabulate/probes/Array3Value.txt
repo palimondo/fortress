@@ -1,0 +1,5 @@
+# bin/fortress walk explorations/compile-ladder/rung-tabulate/probes/Array3Value.fss, this branch after the edit, 2026-09-27T20:22Z
+# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 16.37 15.20 11.76; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+array1 value factory 5; array2 value factory 5
+array3 value factory 5
+exit=0

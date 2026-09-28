@@ -82,21 +82,21 @@ fft3core(u, n1, n2, n3, f1) = do
   var r:Array[\Complex, (ZZ32, ZZ32, ZZ32)\] = u.copy()
   for k<-0:n2-1 do
     for l<-0:n3-1 do
-      line = array[\Complex\](n1).fill(fn(n) => r[n, k, l])
+      line = array[\Complex\](n1).tabulate(fn(n) => r[n, k, l])
       rline = f1(line, n1)
       for j<-0:n1-1 do r[j, k, l] := rline[j] end
     end
   end
   for j<-0:n1-1 do
     for l<-0:n3-1 do
-      line = array[\Complex\](n2).fill(fn(n) => r[j, n, l])
+      line = array[\Complex\](n2).tabulate(fn(n) => r[j, n, l])
       rline = f1(line, n2)
       for k<-0:n2-1 do r[j, k, l] := rline[k] end
     end
   end
   for j<-0:n1-1 do
     for k<-0:n2-1 do
-      line = array[\Complex\](n3).fill(fn(n) => r[j, k, n])
+      line = array[\Complex\](n3).tabulate(fn(n) => r[j, k, n])
       rline = f1(line, n3)
       for l<-0:n3-1 do r[j, k, l] := rline[l] end
     end
@@ -132,7 +132,7 @@ dobenchmark(n1, n2, n3, N) = do
     bar2(x, n) = if 0 <= x < (n DIV 2) then x^2 else (x-n)^2 end
     barsum(j, k, l) = bar2(j, n1)+bar2(k, n2)+bar2(l, n3)
     println "Calculating W..."
-    W = array[\Complex\](n1, n2, n3).fill(fn (j, k, l) => 
+    W = array[\Complex\](n1, n2, n3).tabulate(fn (j, k, l) => 
       e^(-4 alpha pi^2 barsum(j, k, l) t) V[j, k, l])
     println "Calculating IFT..."
     X = ifft3(W, n1, n2, n3)

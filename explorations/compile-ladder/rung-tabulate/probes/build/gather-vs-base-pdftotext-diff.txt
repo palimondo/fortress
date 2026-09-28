@@ -1,0 +1,219 @@
+# pdftotext -layout of the committed Specification/fortress.pdf at 952892a00 (the base's, 621 pages) and of the gather's build on the merged tree, rungs B, H and A applied (623 pages),
+# whitespace collapsed, empty lines dropped, every standalone number replaced by # (page and section numbers shift); unified diff, 1 line of context
+--- base-pdf
++++ merged-build
+@@ -8054,3 +8054,3 @@
+ Calls f at each index and initializes the corresponding element with the
+-a.fill (f : I → E)
++a.tabulate(f : I → E)
+ result of the call.
+@@ -8071,2 +8071,7 @@
+ at the bottom of the figure.
++R EVISED BY THE # REVIVAL SEE Section I.1.17
++The Working Draft of February # gave the method of Figure 23.1 that calls f at each index the name fill , which is also
++the name of the method above it that initializes every element with one value. When the element type E is Any or a function
++type, a function is a value of type E as well as a function from I to E , and the two declarations are ambiguous; the method
++that calls f is named tabulate , and fill keeps the value.
+ Each array element may be initialized at most once using the methods of Figure 23.1; the programmer must assure
+@@ -8081,5 +8086,5 @@
+ array element ai resides, a.region(i) , from the region in which the object referred to by the array element resides,
++# The present implementation signals a fatal error in case of duplicate initialization, or if an uninitialized element is read.
+ region(ai ) . The former describes the region of the array itself; the latter describes the region of the data referred to
+ by the array. These may differ.
+-# The present implementation signals a fatal error in case of duplicate initialization, or if an uninitialized element is read.
+ 23.5 Abortable Atomicity
+@@ -8242,10 +8247,2 @@
+ than b , then it is enumerated serially using a while loop, accumulating the result r as it goes. Observe that the
+-parallelism obtained from a generator is dictated by the code of the generate method. While programmers using a
+-generator should assume that calls to body may occur in parallel, the library programmer is free to choose the amount
+-of parallelism that is actually exposed.
+-This example uses recursive subdivision to divide a blocked range into approximately equal-sized chunks of work.
+-Recursive subdivision is the recommended technique for exposing large amounts of parallelism in a Fortress program
+-because it adjusts easily to varying machine sizes and can be dynamically load balanced.
+-Generator defines the functional method seq(self) that returns an equivalent generator that runs iterations of the
+-body sequentially in natural order. In most cases (such as in this example), it is prudent to override the default definition
+ object BlockedRange(lo: Z64, hi : Z64, b: Z64) extends GeneratorJZ64K
+@@ -8291,2 +8288,10 @@
+ comprehensions are shown; other comprehensions are similar to list comprehensions) and generated assignment.
++parallelism obtained from a generator is dictated by the code of the generate method. While programmers using a
++generator should assume that calls to body may occur in parallel, the library programmer is free to choose the amount
++of parallelism that is actually exposed.
++This example uses recursive subdivision to divide a blocked range into approximately equal-sized chunks of work.
++Recursive subdivision is the recommended technique for exposing large amounts of parallelism in a Fortress program
++because it adjusts easily to varying machine sizes and can be dynamically load balanced.
++Generator defines the functional method seq(self) that returns an equivalent generator that runs iterations of the
++body sequentially in natural order. In most cases (such as in this example), it is prudent to override the default definition
+ of this method; the default implementation of seq effectively collects the generated elements together in parallel and
+@@ -8351,2 +8356,4 @@
+ Monoid, so it is not difficult to guarantee that ReductionPair itself also extends Monoid.
++# In future, it is likely that Fortress will use a desugaring that in fact yields a Generator rather than a higher-order function. This permits
++type-directed nesting and composition of generators.
+ 23.8.2 Accounting for Dependencies among Generators
+@@ -8356,4 +8363,2 @@
+ pairs. For example, it is possible for the join method to take the generator list i ← # # 100, j ← # # # and generate
+-# In future, it is likely that Fortress will use a desugaring that in fact yields a Generator rather than a higher-order function. This permits
+-type-directed nesting and composition of generators.
+ a blocked two-dimensional traversal. This could then be joined with k ← # # # to obtain a three-dimensional
+@@ -9024,3 +9029,3 @@
+ opr ◦JA, B, CK(f : B → C, g: A → B): A → C
+-fail JT K(s: String) : T
++fail JT extends ObjectK(s: String) : T
+ Control over locality and location
+@@ -9084,4 +9089,3 @@
+ trait TotalComparison
+-
+-extends Comparison, StandardTotalOrderJTotalComparisonK
++extends { Comparison }
+ comprises { LessThan, EqualTo, GreaterThan }
+@@ -9091,2 +9095,7 @@
+ opr ≥(self, other : Comparison): Boolean
++opr ≥(self, other : TotalComparison): Boolean
++opr ≤(self, other : TotalComparison): Boolean
++opr MIN(self, other : TotalComparison): TotalComparison
++opr MAX(self, other : TotalComparison): TotalComparison
++opr MINMAX(self, other : TotalComparison): (TotalComparison, TotalComparison)
+ opr LEXICO(self, other : TotalComparison): TotalComparison
+@@ -9166,4 +9175,4 @@
+ abstract opr MINMAX(self, other : T ): (T, T )
+-opr MIN(self, other : T ): (T, T )
+-opr MAX(self, other : T ): (T, T )
++opr MIN(self, other : T ): T
++opr MAX(self, other : T ): T
+ end
+@@ -9216,4 +9225,3 @@
+ Exponentiation need only deal with natural exponents.
+-self,other :Z64
+-opr :T
++oprself,other :Z64 : T
+ end
+@@ -9780,4 +9788,3 @@
+ non-parametric.
+-
+-value trait AnyMaybe extends EqualityJAnyMaybeK, AnyUniqueItem excludes Number
++value trait AnyMaybe extends { AnyUniqueItem } excludes Number
+ not yet: ‘‘comprises MaybeJT K where JT K ’’
+@@ -10216,4 +10223,4 @@
+ Bulk initialization of an array using a given function or value. These are
+-defined with more specific self types in StandardImmutableArrayType.
+-abstract fill (f : I → E): ReadableArrayJE, IK
++defined with more specific self types in StandardMutableArrayType and ImmutableArray1.
++abstract tabulate(f : I → E): ReadableArrayJE, IK
+ abstract fill (v : E): ReadableArrayJE, IK
+@@ -10236,3 +10243,3 @@
+ abstract shift(newOrigin : I): ImmutableArrayJE, IK
+-abstract fill (f : I → E): ImmutableArrayJE, IK
++abstract tabulate(f : I → E): ImmutableArrayJE, IK
+ abstract fill (v : E): ImmutableArrayJE, IK
+@@ -10256,3 +10263,3 @@
+ abstract shift(newOrigin : I): ArrayJE, IK
+-abstract fill (f : I → E): ArrayJE, IK
++abstract tabulate(f : I → E): ArrayJE, IK
+ abstract fill (v : E): ArrayJE, IK
+@@ -10287,4 +10294,4 @@
+ extends ReadableArrayJE, IK
+-fill (f : I → E) : T
+-fill (v : E) : T
++abstract tabulate(f : I → E) : T
++abstract fill (v : E) : T
+ abstract copy() : T
+@@ -10297,2 +10304,4 @@
+ assign(f : I → E) : T
++tabulate(f : I → E) : T
++fill (v : E) : T
+ end
+@@ -10339,2 +10348,4 @@
+ copy(): ImmutableArray1JT, b0 , s0 K
++fill (v : T ): ImmutableArray1JT, b0 , s0 K
++tabulate(f : Z32 → T ): ImmutableArray1JT, b0 , s0 K
+ thaw (): Array1JT, b0 , s0 K
+@@ -10395,3 +10406,3 @@
+ array # JT, nat s0 K(v : T ): Array1JT, 0, s0 K
+-array # JT, nat s0 K(f : Z32 → T ): Array1JT, 0, s0 K
++tabulatedArray # JT, nat s0 K(f : Z32 → T ): Array1JT, 0, s0 K
+ immutableArray # JT, nat s0 K(): ImmutableArray1JT, 0, s0 K
+@@ -10400,3 +10411,3 @@
+ vector JT extends Number, nat s0 K(v : T ): VectorJT, s0 K
+-vector JT extends Number, nat s0 K(f : Z32 → T ): VectorJT, s0 K
++tabulatedVector JT extends Number, nat s0 K(f : Z32 → T ): VectorJT, s0 K
+ opr +J T extends Number, nat n, nat m K
+@@ -10508,3 +10519,3 @@
+ 
+-array # JT, nat s0 , nat s1 K f : (Z32, Z32) → T : Array2JT, 0, s0 , 0, s1 K
++tabulatedArray # JT, nat s0 , nat s1 K f : (Z32, Z32) → T : Array2JT, 0, s0 , 0, s1 K
+ matrix is the same as array # , but specialized to numeric type arguments, except that
+@@ -10610,2 +10621,4 @@
+ array # JT, nat s0 , nat s1 , nat s2 K(): Array3JT, 0, s0 , 0, s1 , 0, s2 K
++
++tabulatedArray # JT, nat s0 , nat s1 , nat s2 K f : (Z32, Z32, Z32) → T : Array3JT, 0, s0 , 0, s1 , 0, s2 K
+ Reductions
+@@ -11307,4 +11320,4 @@
+ (* base of relational predicates condition *)
+-  
+-trait RelationalPredicateConditionJEK extends ConditionJ()K excludes Condition ()
++
++trait RelationalPredicateConditionJEK extends ConditionJ()K
+ relation() : (E, E) → Boolean
+@@ -11375,3 +11388,3 @@
+ to work with, and the boilerplate packing and unpacking of values is done for you.
+-builtinPrimitiveJT K(javaClass: String) : T
++builtinPrimitiveJT extends ObjectK(javaClass: String) : T
+ trait Object extends Any
+@@ -11631,3 +11644,3 @@
+  
+-opr BIG JT K : Comprehension T, ListJT K, ListJT K, ListJT K
++opr BIG JT extends ObjectK : Comprehension T, ListJT K, ListJT K, ListJT K
+ opr BIG JT K g: GeneratorJT K : ListJT K
+@@ -18661,3 +18674,4 @@
+ ampersand is removed after the transformation, unless the ampersand is the first or last non-whitespace character on
+-the line. Thus, the expression Why leave the first?
++Why leave the first?
++the line. Thus, the expression
+ (GREEK_SMALL_LETTER_PHI&GREEK_SMALL_LETTER_PSI +
+@@ -21885,3 +21899,3 @@
+ # September # that follow from route A: on the refined number types, on conversions between number types, and
+-on sums and products. The alternative not taken, route C, is described once, in Section I.1.18.
++on sums and products. The alternative not taken, route C, is described once, in Section I.1.19.
+ I.1.1 Instantiation exclusion
+@@ -21917,3 +21931,3 @@
+ 0-frozen/basic/traits.tex, lines 218–222).
+-Route C Replaces this rule by the rule of Section I.1.18.
++Route C Replaces this rule by the rule of Section I.1.19.
+ I.1.2 Where-clause variables in extends clauses
+@@ -22069,3 +22083,3 @@
+ Specification-1.0-frozen/appendices/calculi/acffd/static.tex, lines 46–88. Before
+-this entry, Section I.1.17 said of the calculi:
++this entry, Section I.1.18 said of the calculi:
+ The calculi of Appendix A predate the rule and are not yet revised: the calculus with where clauses
+@@ -22410,3 +22424,26 @@
+ Route C The same under route C.
+-I.1.17 Passages not yet revised
++I.1.17 Initializing an array from a function
++Affected section Section 23.4.
++Change In Figure 23.1, the method that calls a function at each index and initializes the corresponding element with
++the result is named tabulate ; fill keeps the method that initializes every element with one value.
++Rationale This change does not follow from route A; the revival decided it on # September 2026. The library
++declares the element type E of an array without a bound and instantiates it at tuple types, which the implicit
++bound Object of Section 12.1 excludes; the interpreter reads such a parameter as bounded by Any, and so does
++the compiled type checker when it checks the library. E may then be Any or a function type, and a function
++passed to fill is a value of type E as well as a function from I to E : both declarations apply to the call and
++neither is more specific, which the overloading rules forbid (Section 24.3). The compiled type checker refuses
++the pair; the interpreter chose between the two by the argument’s run-time type, so that on an array of element
++type Any a function meant as the value was called at each index instead of being stored. Where the library
++derived a second name, it gave it to a form that takes a function (ivmap beside map ); most languages that have
++both operations name them differently, keeping fill for the value; and tabulate is Scala’s name for the other.
++Effect A program initializes an array from a function with tabulate . A call of fill with a function stores the function,
++on an array whose element type admits it. The library’s factories that build an array from a function are renamed
++with the method; this specification does not list them.
++Original text Specification-1.0-frozen/advanced/parallelism-locality/
++arrays-distributed.tex, line 55, a row of the lower table of the figure:
++Calls f at each index and initializes the corresponding ele-
++a.fill (f : I → E)
++ment with the result of the call.
++Route C The same under route C.
++I.1.18 Passages not yet revised
+ No passage that instantiation exclusion or the reorganized numeric types contradict is known to be unrevised. The
+@@ -22423,3 +22460,3 @@
+ then the rule refuses the tower these chapters describe.
+-I.1.18 Route C, the alternative not taken
++I.1.19 Route C, the alternative not taken
+ The team’s # patent applications (US 8,843,887 and US 8,898,632; Chase, Steele, Naden, Hilburn, and Luchangco)

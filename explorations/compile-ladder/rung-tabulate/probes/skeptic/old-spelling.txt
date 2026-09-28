@@ -1,0 +1,69 @@
+# skeptic, rung A: programs written in the old spelling (fill with a function, the old function factories), run under walk on the base and on this branch (sk-walk.sh)
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; FORTRESS_THREADS=1; load while the probes ran 6 to 29 (other rungs' workers on the box)
+
+## SkOldFillNumeric.fss on the base
+a: 0 5 10
+rc=0
+## SkOldFillNumeric.fss on the edit
+com.sun.fortress.exceptions.ProgramError: FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldFillNumeric.fss:4:7-51:
+Unification error: Closure/Constructor for fill param 1 (v:ZZ32) got arg FnExpr at FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldFillNumeric.fss:4.29 ZZ32->ZZ32 FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldFillNumeric.fss:4:29-51 of type ZZ32->ZZ32
+Context:
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldFillNumeric.fss:4:7-51:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+rc=1
+
+## SkOldFillAny.fss on the base
+a[2] is the number 10
+b[2] is the number 10
+rc=0
+## SkOldFillAny.fss on the edit
+a[2] is not a number
+b[2] is not a number
+rc=0
+
+## SkOldVector.fss on the base
+v: 0.0 1.5 3.0
+rc=0
+## SkOldVector.fss on the edit
+com.sun.fortress.exceptions.ProgramError: FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldVector.fss:4:7-48:
+Failed to find any matching overload, args = (FnExpr at FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldVector.fss:4.24 ZZ32->RR64 FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldVector.fss:4:24-48), overload = {
+	vector[\T extends FortressLibrary.Number,nat s0\]():Vector[\T,s0\][\RR64,3\] ()->Vector[\RR64,3\] FH/Library/FortressLibrary.fss:2364:1-79
+	vector[\T extends FortressLibrary.Number,nat s0\](v:T):Vector[\T,s0\][\RR64,3\] RR64->Vector[\RR64,3\] FH/Library/FortressLibrary.fss:2365:1-2366:28}:OverloadedFunction
+Context:
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldVector.fss:4:7-48:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+rc=1
+
+## SkOldArray1.fss on the base
+v: 0 7 14
+rc=0
+## SkOldArray1.fss on the edit
+com.sun.fortress.exceptions.ProgramError: FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldArray1.fss:4:7-46:
+Failed to find any matching overload, args = (FnExpr at FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldArray1.fss:4.24 ZZ32->ZZ32 FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldArray1.fss:4:24-46), overload = {
+	array1[\T,nat s0\]():Array1[\T,0,s0\][\ZZ32,3\] ()->Array1[\ZZ32,0,3\] FH/Library/FortressLibrary.fss:2352:1-2356:6
+	array1[\T,nat s0\](v:T):Array1[\T,0,s0\][\ZZ32,3\] ZZ32->Array1[\ZZ32,0,3\] FH/Library/FortressLibrary.fss:2357:1-68}:OverloadedFunction
+Context:
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldArray1.fss:4:7-46:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+rc=1
+
+## SkTwiceInit.fss on the base
+a: 3 3
+a after a second fill: 3 3
+rc=0
+## SkTwiceInit.fss on the edit
+a: 3 3
+a after a second fill: 3 3
+rc=0
+
+## SkTab3.fss on the edit (tabulatedArray3 with a tuple-parameter and a three-parameter function)
+tuple-parameter function: 101 11
+three-parameter function: 110
+method, tuple parameter: 3
+rc=0

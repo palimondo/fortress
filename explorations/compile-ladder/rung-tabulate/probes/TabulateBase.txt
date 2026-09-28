@@ -1,0 +1,20 @@
+# bin/fortress walk explorations/compile-ladder/rung-tabulate/probes/TabulateBase.fss, on the base ff1649cea (before the edit), 2026-09-27T19:58Z
+# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 9.40 6.76 4.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+a1 1 2 5 10
+f1 0.0 2.0 4.0
+v1 1.0 2.0 3.0
+s1 50 60 70
+m1 7 6 5
+a2 0 2 10 12
+f2 0 2 10 12
+r2 1.0 2.0 3.0 4.0
+a3 0 11 101 110
+f3 0 11 101 110
+copies 10 12 110
+maps 20 13 111
+rmul 3.0 7.0
+d 105
+c tabulated 11
+g tabulated 21
+h tabulated 31
+exit=0

@@ -1,0 +1,42 @@
+# skeptic, rung A: the compiled path (fortress compile, then fortress run), against the compiler's own prelude, with the library-order bytecode cache built in a private FORTRESS_CACHES
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; FORTRESS_THREADS=1; load while the probes ran 6 to 29 (other rungs' workers on the box)
+
+## fortress compile SkOldFillNumeric.fss
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkOldFillNumeric.fss:4:7-17:
+    Function array is not defined.
+File SkOldFillNumeric.fss has 1 error.
+rc=255
+
+## fortress compile SkTab3.fss
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkTab3.fss:4:7-33:
+    Function tabulatedArray3 is not defined.
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkTab3.fss:6:7-33:
+    Function tabulatedArray3 is not defined.
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkTab3.fss:8:7-24:
+    Function array3 is not defined.
+File SkTab3.fss has 3 errors.
+rc=255
+
+## fortress compile SkShapes.fss
+FH/Library/List.fsi:67:36-52:
+    LexicographicOrder is undefined.
+FH/Library/List.fsi:109:19-30:
+    Comprehension is undefined.
+FH/Library/List.fsi:112:24-34:
+    BigReduction is undefined.
+FH/Library/List.fsi:130:28-41:
+    MonoidReduction is undefined.
+File SkShapes.fss has 4 errors.
+rc=255
+
+## SkZZ32VectorFill.fss (the compiler prelude's own ZZ32Vector, whose function form is still fill, CompilerBuiltin.fsi:578)
+== compile
+== run
+v  0   5   10
+w  7   7
+## SkZZ32VectorFill.fss under walk on the edit
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkZZ32VectorFill.fss:4:7-19:
+    Variable makeZZ32Vector is not defined.
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkZZ32VectorFill.fss:6:7-19:
+    Variable makeZZ32Vector is not defined.
+rc=255

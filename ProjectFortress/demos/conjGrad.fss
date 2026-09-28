@@ -32,7 +32,7 @@ mkMatrix[\nat n\]() : RR64[n,n] = do
     end
     SparseVector[\RR64,n\](trim(mem0,o))
   end
-  l = Csr[\RR64,n,n\](array1[\SparseVector[\RR64,n\],n\](row))
+  l = Csr[\RR64,n,n\](tabulatedArray1[\SparseVector[\RR64,n\],n\](row))
   (* We multiply by the transpose and hope the result is positive-definite.
      It will be with high probability. *)
   l l.t()
@@ -40,7 +40,7 @@ end
 
 mkVector[\nat n\]() : RR64[n] = do
   f(i): RR64 = random(4.0)-2.0
-  array1[\RR64,n\](f)
+  tabulatedArray1[\RR64,n\](f)
 end
 
 testSparse[\nat n\](A: Csr[\RR64,n,n\]) = do

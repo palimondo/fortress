@@ -1,0 +1,254 @@
+# skeptic, rung A: walk differentials, the base (ff1649cea's Library/ and LibraryBuiltin/ by git archive, FORTRESS_AUTOHOME) against this branch, with sk-walk.sh
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; FORTRESS_THREADS=1; load while the probes ran 6 to 29 (other rungs' workers on the box)
+
+## SkShapes: base spelling (SkShapes.base.fss or the same file) on the base
+a value fill: 4 4 4
+b function form: 0 3 6
+c immutable value fill: 9 9
+cc immutable copy: 9
+cm immutable map: 10
+ct thaw: 9
+d 2-D value fill: 5
+e 2-D function form, transposed: 12 10
+f,g freeze/thaw: 3 3
+h generic function form: 0.5
+hv generic value fill: 2.5
+k function elements by the function form: 12
+p tuple value fill: 1 2
+q tuple function form: 1 2
+r two-argument tuple fill: 0 7
+mm matrix(v): 3.0 0.0 3.0
+vv vector function factory: 1.0 2.0
+lm Matrix.lmul: 3.0 6.0
+rm Matrix.rmul: 3.0 6.0
+a1 array1 function factory: 4
+a2 array2 function factory: -1 1
+lmap ArrayList.map: <|10, 20, 30|>
+livmap ArrayList.ivmap: <|1, 102, 203|>
+a3c 3-D copy: 101
+a3m 3-D ivmap: 112
+rc=0
+## SkShapes: this branch's spelling on the edit
+a value fill: 4 4 4
+b function form: 0 3 6
+c immutable value fill: 9 9
+cc immutable copy: 9
+cm immutable map: 10
+ct thaw: 9
+d 2-D value fill: 5
+e 2-D function form, transposed: 12 10
+f,g freeze/thaw: 3 3
+h generic function form: 0.5
+hv generic value fill: 2.5
+k function elements by the function form: 12
+p tuple value fill: 1 2
+q tuple function form: 1 2
+r two-argument tuple fill: 0 7
+mm matrix(v): 3.0 0.0 3.0
+vv vector function factory: 1.0 2.0
+lm Matrix.lmul: 3.0 6.0
+rm Matrix.rmul: 3.0 6.0
+a1 array1 function factory: 4
+a2 array2 function factory: -1 1
+lmap ArrayList.map: <|10, 20, 30|>
+livmap ArrayList.ivmap: <|1, 102, 203|>
+a3c 3-D copy: 101
+a3m 3-D ivmap: 112
+rc=0
+
+## SkGen22D: base spelling (SkGen22D.base.fss or the same file) on the base
+xs = [0#3,0#3]
+[ -2 -1 0
+  1 2 -2
+  -1 0 1 ]
+rows xs = [0#1,0#3]
+[ -2 -1 0 ],[0#1,0#3]
+[ 1 2 -2 ],[0#1,0#3]
+[ -1 0 1 ]
+cols xs = [0#3,0#1]
+[ -2
+  1
+  -1 ],[0#3,0#1]
+[ -1
+  2
+  0 ],[0#3,0#1]
+[ 0
+  -2
+  1 ]
+com.sun.fortress.exceptions.ProgramError: BASE/Library/Generator22D.fss:146:9-40:
+Failed to find any matching overload, args = (Ratio,Ratio), overload = {
+	array[\E\](x:FortressLibrary.ZZ32):Array[\E,FortressLibrary.ZZ32\][\Generator[\Number\]\] ZZ32->Array[\Generator[\Number\],ZZ32\] BASE/Library/FortressLibrary.fss:2024:1-70
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32)\] BASE/Library/FortressLibrary.fss:2025:1-2026:49
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32,z:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32,ZZ32)\] BASE/Library/FortressLibrary.fss:2027:1-2031:67}:OverloadedFunction
+Context:
+BASE/Library/Generator22D.fss:146:9-40:
+BASE/Library/Generator22D.fss:176:9-26:
+BASE/Library/FortressLibrary.fss:1166:5-23:
+BASE/Library/FortressLibrary.fss:1166:5-23:
+BASE/Library/FortressLibrary.fss:1065:41-48:
+BASE/Library/FortressLibrary.fss:1223:25-47:
+BASE/Library/FortressLibrary.fss:1065:34-56:
+BASE/Library/FortressLibrary.fss:4109:42-50:
+BASE/Library/FortressLibrary.fss:4125:45-47:
+BASE-COPY/SkGen22D.fss:11:11-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+rc=1
+## SkGen22D: this branch's spelling on the edit
+xs = [0#3,0#3]
+[ -2 -1 0
+  1 2 -2
+  -1 0 1 ]
+rows xs = [0#1,0#3]
+[ -2 -1 0 ],[0#1,0#3]
+[ 1 2 -2 ],[0#1,0#3]
+[ -1 0 1 ]
+cols xs = [0#3,0#1]
+[ -2
+  1
+  -1 ],[0#3,0#1]
+[ -1
+  2
+  0 ],[0#3,0#1]
+[ 0
+  -2
+  1 ]
+com.sun.fortress.exceptions.ProgramError: FH/Library/Generator22D.fss:146:9-40:
+Failed to find any matching overload, args = (Ratio,Ratio), overload = {
+	array[\E\](x:FortressLibrary.ZZ32):Array[\E,FortressLibrary.ZZ32\][\Generator[\Number\]\] ZZ32->Array[\Generator[\Number\],ZZ32\] FH/Library/FortressLibrary.fss:2024:1-70
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32)\] FH/Library/FortressLibrary.fss:2025:1-2026:49
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32,z:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32,ZZ32)\] FH/Library/FortressLibrary.fss:2027:1-2031:67}:OverloadedFunction
+Context:
+FH/Library/Generator22D.fss:146:9-40:
+FH/Library/Generator22D.fss:176:9-26:
+FH/Library/FortressLibrary.fss:1166:5-23:
+FH/Library/FortressLibrary.fss:1166:5-23:
+FH/Library/FortressLibrary.fss:1065:41-48:
+FH/Library/FortressLibrary.fss:1223:25-47:
+FH/Library/FortressLibrary.fss:1065:34-56:
+FH/Library/FortressLibrary.fss:4119:42-50:
+FH/Library/FortressLibrary.fss:4135:45-47:
+FH/explorations/compile-ladder/rung-tabulate/probes/skeptic/SkGen22D.fss:11:11-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+rc=1
+
+## SkMss: base spelling (SkMss.base.fss or the same file) on the base
+above: (14, [0#1,0#1]
+[ 10 ] [0#1,0#1]
+[ 11 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#1]
+[ 3
+  7 ] [0#2,0#1]
+[ 3
+  7 ] [0#2,0#1]
+[ 7
+  4 ] [0#2,0#1]
+[ 3
+  7 ] [0#1,0#1]
+[ 7 ] [0#2,0#2]
+[ 3 7
+  0 4 ])
+beside: (14, [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#1,0#1]
+[ 11 ] [0#1,0#1]
+[ 10 ] [0#1,0#2]
+[ 7 4 ] [0#1,0#2]
+[ 3 7 ] [0#1,0#2]
+[ 7 4 ] [0#1,0#2]
+[ 3 7 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#1,0#1]
+[ 7 ])
+both: (56, [0#2,0#2]
+[ 10 21
+  0 11 ] [0#2,0#2]
+[ 11 22
+  0 10 ] [0#2,0#2]
+[ 11 21
+  0 10 ] [0#2,0#2]
+[ 10 21
+  0 11 ] [0#2,0#2]
+[ 7 4
+  14 7 ] [0#2,0#2]
+[ 3 7
+  7 14 ] [0#2,0#2]
+[ 14 7
+  7 3 ] [0#2,0#2]
+[ 3 7
+  7 14 ] [0#2,0#2]
+[ 7 14
+  0 7 ] [0#2,0#2]
+[ 7 14
+  0 7 ])
+rc=0
+## SkMss: this branch's spelling on the edit
+above: (14, [0#1,0#1]
+[ 10 ] [0#1,0#1]
+[ 11 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#1]
+[ 3
+  7 ] [0#2,0#1]
+[ 3
+  7 ] [0#2,0#1]
+[ 7
+  4 ] [0#2,0#1]
+[ 3
+  7 ] [0#1,0#1]
+[ 7 ] [0#2,0#2]
+[ 3 7
+  0 4 ])
+beside: (14, [0#2,0#2]
+[ 3 7
+  0 4 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#1,0#1]
+[ 11 ] [0#1,0#1]
+[ 10 ] [0#1,0#2]
+[ 7 4 ] [0#1,0#2]
+[ 3 7 ] [0#1,0#2]
+[ 7 4 ] [0#1,0#2]
+[ 3 7 ] [0#2,0#2]
+[ 3 7
+  0 4 ] [0#1,0#1]
+[ 7 ])
+both: (56, [0#2,0#2]
+[ 10 21
+  0 11 ] [0#2,0#2]
+[ 11 22
+  0 10 ] [0#2,0#2]
+[ 11 21
+  0 10 ] [0#2,0#2]
+[ 10 21
+  0 11 ] [0#2,0#2]
+[ 7 4
+  14 7 ] [0#2,0#2]
+[ 3 7
+  7 14 ] [0#2,0#2]
+[ 14 7
+  7 3 ] [0#2,0#2]
+[ 3 7
+  7 14 ] [0#2,0#2]
+[ 7 14
+  0 7 ] [0#2,0#2]
+[ 7 14
+  0 7 ])
+rc=0
+
+## SkArgs.fss alpha beta gamma (System.args, built by System.fss:34's function form) on the base
+args: 3 alpha gamma
+rc=0
+## SkArgs.fss alpha beta gamma on the edit
+args: 3 alpha gamma
+rc=0

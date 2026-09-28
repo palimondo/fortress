@@ -1,0 +1,28 @@
+# the first placement, fill and tabulate redeclared in the four leaf traits (ImmutableArray1, Array1, Array2, Array3) with StandardImmutableArrayType abstract, as committed in 77b429e01; superseded (REPORT.md, decision D1)
+DISTANCE DOWN   1747 -> 1432 (-315)
+    kind overloading            502 -> 204    (-298)
+    kind return-type             91 -> 86     (-5)
+    kind typecheck              980 -> 968    (-12)
+    class A1                    244 -> 0      (-244)  fill: function form against value form
+    class A2                     58 -> 2      (-56)  fill: the array diamond
+    class M1                    100 -> 102    (+2)  overloading: the Meet Rule
+    class R3                     40 -> 35     (-5)  return type: other declared-type slips
+    class I1                     81 -> 83     (+2)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+    class S1                     28 -> 26     (-2)  self type: a generic trait's self is not its type parameter
+    class V1                     44 -> 36     (-8)  arrays: element type bounded by Number, which declares no arithmetic
+    class V2                     39 -> 32     (-7)  arrays: a sized array's body or factory (sizes lost in joins and factories)
+    class G1                     18 -> 11     (-7)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+    class BR                     10 -> 7      (-3)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+    class OT                    116 -> 129    (+13)  other body errors (one-off library slips and checker limits)
+    unit api FortressLibrary    178 -> 106    (-72)
+    unit api NativeArray         22 -> 0      (-22)
+    unit component FortressLibrary    842 -> 623    (-219)
+    unit component NativeArray      9 -> 7      (-2)
+    crash gone   decl	FnDecl FortressLibrary.fss:4267:1-4272:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash gone   decl	TraitDecl FortressLibrary.fss:2764:1-2877:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2800.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+    crash gone   decl	TraitDecl FortressLibrary.fss:2391:1-2505:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2409.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+    crash gone   decl	FnDecl FortressLibrary.fss:4248:1-4261:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	TraitDecl FortressLibrary.fss:2401:1-2523:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2419.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+    crash new    decl	TraitDecl FortressLibrary.fss:2782:1-2903:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2818.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+    crash new    decl	FnDecl FortressLibrary.fss:4293:1-4298:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	FnDecl FortressLibrary.fss:4274:1-4287:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0

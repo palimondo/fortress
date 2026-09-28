@@ -1,0 +1,11 @@
+component SkTab3
+export Executable
+run():() = do
+  t = tabulatedArray3[\ZZ32,2,2,2\](fn (ix:(ZZ32,ZZ32,ZZ32)):ZZ32 => do (i,j,k) = ix; 100 i + 10 j + k end)
+  println("tuple-parameter function: " t[1,0,1] " " t[0,1,1])
+  u = tabulatedArray3[\ZZ32,2,2,2\](fn (i:ZZ32,j:ZZ32,k:ZZ32):ZZ32 => 100 i + 10 j + k)
+  println("three-parameter function: " u[1,1,0])
+  w = array3[\ZZ32,2,2,2\]().tabulate(fn (ix:(ZZ32,ZZ32,ZZ32)):ZZ32 => do (i,j,k) = ix; i + j + k end)
+  println("method, tuple parameter: " w[1,1,1])
+end
+end

@@ -1,0 +1,13 @@
+# bin/fortress walk ProjectFortress/tests/TabulateRungA.fss, on the base ff1649cea (before the edit), 2026-09-27T20:00Z
+# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 6.93 6.65 4.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+/home/user/fortress-tabulate/ProjectFortress/tests/TabulateRungA.fss:16:8-30:
+    Function tabulatedArray1 is not defined.
+/home/user/fortress-tabulate/ProjectFortress/tests/TabulateRungA.fss:18:8-30:
+    Function tabulatedVector is not defined.
+/home/user/fortress-tabulate/ProjectFortress/tests/TabulateRungA.fss:26:8-32:
+    Function tabulatedArray2 is not defined.
+/home/user/fortress-tabulate/ProjectFortress/tests/TabulateRungA.fss:32:8-34:
+    Function tabulatedArray3 is not defined.
+/home/user/fortress-tabulate/ProjectFortress/tests/TabulateRungA.fss:42:16-38:
+    Function tabulatedVector is not defined.
+exit=255

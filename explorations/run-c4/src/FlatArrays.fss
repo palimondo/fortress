@@ -11,10 +11,10 @@ export FlatArrays
 import NatReflect.{...}
 
 (* ------------------------------------------------------- constructors ---- *)
-vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(f)
+vec(n: ZZ32, f: ZZ32 -> RR64): Array[\RR64,ZZ32\] = array[\RR64\](n).tabulate(f)
 zeros(n: ZZ32): Array[\RR64,ZZ32\] = array[\RR64\](n).fill(0.0)
-keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).fill(f)
-mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).fill(f)
+keys(n: ZZ32, f: ZZ32 -> ZZ32): Array[\ZZ32,ZZ32\] = array[\ZZ32\](n).tabulate(f)
+mat(r: ZZ32, c: ZZ32, f: (ZZ32,ZZ32) -> RR64): Array[\RR64,(ZZ32,ZZ32)\] = array[\RR64\](r,c).tabulate(f)
 
 (* ------------------------------------------- the elementwise algebra ----- *)
 (* One declaration per operator, generic in the index type I, so a vector
@@ -168,7 +168,7 @@ rows[\nat a, nat b, nat c, nat a2, nat b2, nat c2\](f: (Array[\RR64,ZZ32\], Arra
 (* the rows of m at the keys: m[ks;]; the elements of v at the keys: v[ks] *)
 gather[\T extends Number, nat r, nat c, nat k\](m: Matrix[\T,r,c\], ks: Vector[\ZZ32,k\]): Array[\T,(ZZ32,ZZ32)\] = do
     (nr, nc) = m.sizes
-    array[\T\](|ks|, nc).fill(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
+    array[\T\](|ks|, nc).tabulate(fn (i: ZZ32, j: ZZ32): T => m[ks[i], j])
   end
 (* ks ∘.= ⍳width, as 0/1 *)
 onehot[\nat k\](ks: Vector[\ZZ32,k\], width: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =

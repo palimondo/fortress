@@ -74,13 +74,13 @@ do
   As = array3[\RR64, imax, jmax, kmax\]()
   At = array3[\RR64, imax, jmax, kmax\]()
   Ab = array3[\RR64, imax, jmax, kmax\]()
-  Ap.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
-  Ae.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
-  Aw.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
-  An.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
-  As.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
-  At.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
-  Ab.fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  Ap.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 2.0)
+  Ae.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  Aw.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  An.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  As.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  At.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
+  Ab.tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):RR64 => 1.0)
 
   for j <- 0#jmax do
     for k <- 0#kmax do
@@ -114,8 +114,8 @@ do
   b = array1[\RR64, (imax jmax kmax) + (2 jmax imax)\]()
   x = array1[\RR64, (imax jmax kmax) + (2 jmax imax)\]()
 
-  x.fill(fn (i:ZZ32):RR64 => 0.0)
-  b.fill(fn (i:ZZ32):RR64 => 0.0)
+  x.tabulate(fn (i:ZZ32):RR64 => 0.0)
+  b.tabulate(fn (i:ZZ32):RR64 => 0.0)
 
   for i <- 0#imax do
     for j <- 0#jmax do

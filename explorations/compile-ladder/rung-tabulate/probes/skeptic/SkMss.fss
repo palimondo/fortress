@@ -1,0 +1,14 @@
+component SkMss
+import Generator22D.{...}
+export Executable
+
+run() = do
+  x = mssBody[\ZZ32\](3)
+  y = mssBody[\ZZ32\](4)
+  ra = MSS2DReductionAbove[\ZZ32\](SumReduction[\ZZ32\], SumReduction[\ZZ32\])
+  println("above: " ra.simpleJoin(x, y))
+  rb = MSS2DReductionBeside[\ZZ32\](SumReduction[\ZZ32\], SumReduction[\ZZ32\])
+  println("beside: " rb.simpleJoin(x, y))
+  println("both: " rb.simpleJoin(ra.simpleJoin(x, y), ra.simpleJoin(y, x)))
+end
+end

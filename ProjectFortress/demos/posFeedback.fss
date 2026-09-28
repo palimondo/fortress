@@ -118,7 +118,7 @@ object Entity(var positivity: ZZ32,
             if i < negFacts then factNeg
             elif i < totFacts then factPos
             else factUnk end
-        array1[\ZZ32,10\](filler)
+        tabulatedArray1[\ZZ32,10\](filler)
       end
 
     getter asString(): String =

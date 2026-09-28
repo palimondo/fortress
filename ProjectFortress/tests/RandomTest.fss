@@ -93,7 +93,7 @@ run(): () = do
     linearCongruential'(seed:Indexed[\ZZ64,ZZ32\]): SeededRandomGen[\ZZ64,ZZ64\] =
         linearCongruential(seed[0])
     mersenneTwister'(seed:Indexed[\ZZ64,ZZ32\]): SeededRandomGen[\ZZ64,ZZ64\] =
-        mersenneTwister(vector[\ZZ64,624\](fn i => seed.get(i)))
+        mersenneTwister(tabulatedVector[\ZZ64,624\](fn i => seed.get(i)))
     check[\ZZ64,ZZ64\](linearCongruential', SystemRandomGen.randomMany(1))
     check[\ZZ64,ZZ64\](mersenneTwister', SystemRandomGen.randomMany(624))
 end

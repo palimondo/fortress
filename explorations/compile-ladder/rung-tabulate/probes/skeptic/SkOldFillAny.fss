@@ -1,0 +1,11 @@
+component SkOldFillAny
+export Executable
+run():() = do
+  a = array[\Any\](3).fill(fn (i:ZZ32):ZZ32 => 5 i)
+  x = a[2]
+  println("a[2] is " (typecase x of ZZ32 => "the number " x; else => "not a number" end))
+  b = array1[\Any,3\](fn (i:ZZ32):ZZ32 => 5 i)
+  y = b[2]
+  println("b[2] is " (typecase y of ZZ32 => "the number " y; else => "not a number" end))
+end
+end

@@ -1,0 +1,11 @@
+# the printed values of each microGPT check, base (tmp/basetree at ff1649cea) against the edit, each from an empty cache (mg-run.sh, MG_TIMEOUT=10800),
+# with the machine lines, the timings ('(N ms)', 'total N s', 'secs=') and the tree and Rats! paths masked; an empty diff means identical printed values
+## MicroGptFlatCheck
+(diff rc=0)
+base: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+edit: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+## MicroGptAplCheck
+(diff rc=0)
+base: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+edit: VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+# the first base runs (5400 s timeout) reached it four fifths of the way through and are not kept (mg-run.sh's header)

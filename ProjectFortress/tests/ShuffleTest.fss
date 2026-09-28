@@ -17,7 +17,7 @@ import QuickSort.{...}
 
 run(): () = do
     lt(a:ZZ32,b:ZZ32): Boolean = a < b
-    a = array[\ZZ32\](50).fill(fn i => i)
+    a = array[\ZZ32\](50).tabulate(fn i => i)
     matches : ZZ32 := 0
     for _ <- seq(1#10) do
         println(a)

@@ -55,7 +55,7 @@ do
   bs = g.bounds
   (il, jl) = bs.lower
   (iu, ju) = bs.upper
-  array[\Generator[\E\]\](iu-il+1).fill(fn i =>g[(i,jl)#(1,ju-jl+1)])
+  array[\Generator[\E\]\](iu-il+1).tabulate(fn i =>g[(i,jl)#(1,ju-jl+1)])
 end
 
 (* Generator2 Rows *)
@@ -98,7 +98,7 @@ do
   bs = g.bounds
   (il, jl) = bs.lower
   (iu, ju) = bs.upper
-  array[\Generator[\E\]\](ju-jl+1).fill(fn j =>g[(il,j)#(iu-il+1,1)])
+  array[\Generator[\E\]\](ju-jl+1).tabulate(fn j =>g[(il,j)#(iu-il+1,1)])
 end
 
 (* Generator2 Cols *)
@@ -143,7 +143,7 @@ do
   s1 = ju - jl + 1
   ss0 = (s0 (s0+1))/2
   ss1 = (s1 (s1+1))/2
-  ret = array[\Generator[\E\]\](ss0, ss1).fill(
+  ret = array[\Generator[\E\]\](ss0, ss1).tabulate(
 fn (i,j) => do
 
 est_n(u) = narrow(|\ SQRT(2 u) /|)
@@ -311,20 +311,20 @@ gemm[\T, nat s0, nat s1, nat s2 \](op:Reduction[\T\], ot:Reduction[\T\], sel:Arr
       end
 
 (* concatenation of 2D arrays: [A] BSD [B] = [A B] *)
-opr BSD[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s0, 0, s2\]) : Array2[\T, 0, s0, 0, s1 + s2\] = array2[\T, s0, s1 + s2\]().fill(fn (i, j) => if j < s1 then x[(i,j)] else y[(i, j - s1)] end)
+opr BSD[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s0, 0, s2\]) : Array2[\T, 0, s0, 0, s1 + s2\] = array2[\T, s0, s1 + s2\]().tabulate(fn (i, j) => if j < s1 then x[(i,j)] else y[(i, j - s1)] end)
 
 (* concatenation of 2D arrays: [A] ABV [B] = [A
                                               B] *)
-opr ABV[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s2, 0, s1\]) : Array2[\T, 0, s0 + s2, 0, s1\] = array2[\T, s0 + s2, s1\]().fill(fn (i, j) => if i < s0 then x[(i,j)] else y[(i-s0, j)] end)
+opr ABV[\T, nat s0, nat s1, nat s2\](x : Array2[\T, 0, s0, 0, s1\], y : Array2[\T, 0, s2, 0, s1\]) : Array2[\T, 0, s0 + s2, 0, s1\] = array2[\T, s0 + s2, s1\]().tabulate(fn (i, j) => if i < s0 then x[(i,j)] else y[(i-s0, j)] end)
 
 (* construction of block-upper-triangular array:
      tri(A, B, C, z) = [A B
                         Z C] , where Z is an array filled with z (zero).
 *)
-tri[\T, nat s0, nat s1, nat s2, nat s3\](x : Array2[\T, 0, s0, 0, s1\], u: Array2[\T, 0, s0, 0, s2\], y : Array2[\T, 0, s2, 0, s3\], z : T) : Array2[\T, 0, s0 + s2, 0, s1 + s3\] = array2[\T, s0 + s2, s1 + s3\]().fill(fn (i, j) => if i < s0 AND j < s1 then x[(i,j)] elif i < s0 AND j >= s1 then u[(i, j-s1)] elif i >= s0 AND j >= s1 then y[(i-s0, j-s1)] else z end)
+tri[\T, nat s0, nat s1, nat s2, nat s3\](x : Array2[\T, 0, s0, 0, s1\], u: Array2[\T, 0, s0, 0, s2\], y : Array2[\T, 0, s2, 0, s3\], z : T) : Array2[\T, 0, s0 + s2, 0, s1 + s3\] = array2[\T, s0 + s2, s1 + s3\]().tabulate(fn (i, j) => if i < s0 AND j < s1 then x[(i,j)] elif i < s0 AND j >= s1 then u[(i, j-s1)] elif i >= s0 AND j >= s1 then y[(i-s0, j-s1)] else z end)
 
 (* generates with function an array of the same size as the given array. *)
-createArray2[\T, nat s0, nat s1\](_:Array2[\T, 0, s0, 0, s1\], f:(ZZ32,ZZ32)->T) : Array2[\T, 0, s0, 0, s1\] = array2[\T, s0, s1\]().fill(f)
+createArray2[\T, nat s0, nat s1\](_:Array2[\T, 0, s0, 0, s1\], f:(ZZ32,ZZ32)->T) : Array2[\T, 0, s0, 0, s1\] = array2[\T, s0, s1\]().tabulate(f)
 
 (* the lifted data structure for
    oprimized computation of nested reduction with rects. *)

@@ -31,7 +31,7 @@ getProgramArgsPrim(): ImmutableArray[\String,ZZ32\] = builtinPrimitive("com.sun.
 
 (* Impedence matcher to get types right.  Sigh. *)
 getProgramArgs[\T extends String, int n\](r0:PrimImmutableArray[\T,n\]): PrimImmutableArray[\String,n\] =
-    r0.replica[\String\]().fill(fn (i:ZZ32): String => r0.get(i))
+    r0.replica[\String\]().tabulate(fn (i:ZZ32): String => r0.get(i))
 
 (** programName is the name by which the Fortress program was invoked. **)
 programName : String = ""

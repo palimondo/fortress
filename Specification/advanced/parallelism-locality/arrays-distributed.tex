@@ -52,13 +52,21 @@ initialization methods described at the bottom of the figure.
 \hline
 \EXP{\VAR{a}.\VAR{fill}(v\COLONOP{}E)} & {Initializes all elements with value \VAR{v}.} \\
 \hline
-\EXP{\VAR{a}.\VAR{fill}(f\COLONOP{}I\rightarrow{}E)} & {Calls \VAR{f} at each index and initializes the corresponding element with the result of the call.} \\
+\EXP{\VAR{a}.\VAR{tabulate}(f\COLONOP{}I\rightarrow{}E)} & {Calls \VAR{f} at each index and initializes the corresponding element with the result of the call.} \\
 \hline
 \EXP{\VAR{a}.\VAR{init}(i\COLONOP{}I, v\COLONOP{}E)} & {Initializes element at index \VAR{i} with value \VAR{v}.} \\
 \hline
 \end{tabular}
 \caption{\figlabel{arrayFactories}Factories for creating arrays and methods for initializing their elements}
 \end{figure}
+\revision{revival-tabulate}{The Working Draft of February 2011 gave the
+method of \figref{arrayFactories} that calls \VAR{f} at each index the name
+\VAR{fill}, which is also the name of the method above it that initializes
+every element with one value.
+When the element type \VAR{E} is \TYP{Any} or a function type, a function
+is a value of type \VAR{E} as well as a function from \VAR{I} to \VAR{E},
+and the two declarations are ambiguous; the method that calls \VAR{f} is
+named \VAR{tabulate}, and \VAR{fill} keeps the value.}
 
 Each array element may be initialized at most once using the methods of \figref{arrayFactories}; the programmer must assure that this initialization completes before any other access to the corresponding array element.  The programmer must also assure that an element is initialized before it is first read.\footnote{The present implementation signals a fatal error in case of duplicate initialization, or if an uninitialized element is read.}  Note that these factories and methods are intended to be used to library programmers to build higher-level functionality (for example, the \VAR{fill} methods themselves are defined in terms of calls to \VAR{init}, and the \VAR{array} factory is defined in terms of \EXP{{array}_{1}}, \EXP{{array}_{2}}, and so forth).
 

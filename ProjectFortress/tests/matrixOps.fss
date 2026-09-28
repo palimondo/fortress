@@ -24,9 +24,9 @@ run() = do
                      0.0 0.0 5.0 13.0 ]
   i3 : RR64[3,3] = matrix[\RR64,3,3\](1.0)
   i4 : RR64[4,4] = matrix[\RR64,4,4\](1.0)
-  z3 : RR64[3,3] = array2[\RR64,3,3\](fn (i,j) => 0.0)
-  z4 : RR64[4,4] = array2[\RR64,4,4\](fn (i,j) => 0.0)
-  z0 : RR64[3,4] = array2[\RR64,3,4\](fn (i,j) => 0.0)
+  z3 : RR64[3,3] = tabulatedArray2[\RR64,3,3\](fn (i,j) => 0.0)
+  z4 : RR64[4,4] = tabulatedArray2[\RR64,4,4\](fn (i,j) => 0.0)
+  z0 : RR64[3,4] = tabulatedArray2[\RR64,3,4\](fn (i,j) => 0.0)
   v3 : RR64[3] = vector[\RR64,3\](1.0)
   v4 : RR64[4] = vector[\RR64,4\](1.0)
   assert(m0.copy(), m0, "copy")

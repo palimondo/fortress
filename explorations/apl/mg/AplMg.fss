@@ -11,12 +11,12 @@ iota(n: ZZ32): Array[\ZZ32,ZZ32\] = keys(n, fn (i: ZZ32): ZZ32 => i)
 
 ravel[\T extends Number, nat r, nat c\](m: Matrix[\T,r,c\]): Array[\T,ZZ32\] = do
     (nr, nc) = m.sizes
-    array[\T\](nr nc).fill(fn (i: ZZ32): T => m[i DIV nc, i MOD nc])
+    array[\T\](nr nc).tabulate(fn (i: ZZ32): T => m[i DIV nc, i MOD nc])
   end
 
 cols[\nat r, nat c, nat k\](m: Matrix[\ZZ32,r,c\], ks: Vector[\ZZ32,k\]): Array[\ZZ32,(ZZ32,ZZ32)\] = do
     (nr, nc) = m.sizes
-    array[\ZZ32\](nr, |ks|).fill(fn (i: ZZ32, j: ZZ32): ZZ32 => m[i, ks[j]])
+    array[\ZZ32\](nr, |ks|).tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => m[i, ks[j]])
   end
 
 gatherV[\nat s, nat k\](v: Vector[\ZZ32,s\], ks: Vector[\ZZ32,k\]): Array[\ZZ32,ZZ32\] =

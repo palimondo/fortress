@@ -58,7 +58,7 @@ end
 
 (* the optimization works well *)
 rundemo(i) = do
-  xs = array[\Number\]( (sizes[i],sizes[i]) ).fill(fn (ij):ZZ32 => |\random(10)-5/|)
+  xs = array[\Number\]( (sizes[i],sizes[i]) ).tabulate(fn (ij):ZZ32 => |\random(10)-5/|)
   demo() = do
     st = nanoTime()
     ans=BIG MAX[\Number\] <|[\Number\] SUM[\Number\] r | r <- rects xs |>

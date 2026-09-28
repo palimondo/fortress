@@ -1025,6 +1025,49 @@ no static argument.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{Initializing an array from a function}
+\seclabel{revival-tabulate}
+
+\begin{description}
+\item[Affected section] \secref{arrays}.
+\item[Change] In \figref{arrayFactories}, the method that calls a function at
+each index and initializes the corresponding element with the result is named
+\VAR{tabulate}; \VAR{fill} keeps the method that initializes every element with
+one value.
+\item[Rationale] This change does not follow from route~A; the revival decided
+it on 26~September 2026.
+The library declares the element type \VAR{E} of an array without a bound and
+instantiates it at tuple types, which the implicit bound \TYP{Object} of
+\secref{type-param} excludes; the interpreter reads such a parameter as bounded
+by \TYP{Any}, and so does the compiled type checker when it checks the library.
+\VAR{E} may then be \TYP{Any} or a function type, and a function passed to
+\VAR{fill} is a value of type \VAR{E} as well as a function from \VAR{I} to
+\VAR{E}: both declarations apply to the call and neither is more specific, which
+the overloading rules forbid (\secref{incompatibility-rule}).
+The compiled type checker refuses the pair; the interpreter chose between the two
+by the argument's run-time type, so that on an array of element type \TYP{Any} a
+function meant as the value was called at each index instead of being stored.
+Where the library derived a second name, it gave it to a form that takes a
+function (\VAR{ivmap} beside \VAR{map}); most languages that have both operations
+name them differently, keeping \VAR{fill} for the value; and \VAR{tabulate} is
+Scala's name for the other.
+\item[Effect] A program initializes an array from a function with
+\VAR{tabulate}. A call of \VAR{fill} with a function stores the function, on an
+array whose element type admits it. The library's factories that build an array
+from a function are renamed with the method; this specification does not list
+them.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/advanced/parallelism-locality/arrays-distributed.tex},
+line 55, a row of the lower table of the figure:
+\begin{quote}
+\begin{tabular}{|m{2.0in}|m{3.4in}|}
+\hline
+\EXP{\VAR{a}.\VAR{fill}(f\COLONOP{}I\rightarrow{}E)} & {Calls \VAR{f} at each index and initializes the corresponding element with the result of the call.} \\
+\hline
+\end{tabular}
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

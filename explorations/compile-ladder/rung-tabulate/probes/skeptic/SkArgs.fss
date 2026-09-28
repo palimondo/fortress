@@ -1,0 +1,5 @@
+component SkArgs
+import System.{args}
+export Executable
+run():() = println("args: " |args| " " args[0] " " args[2])
+end

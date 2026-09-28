@@ -459,12 +459,12 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
         end
       end
     mapArr[\G\](f:E->G):ImmutableArray[\G,ZZ32\] =
-        primitiveImmutableArray[\G\](|self|).fill(
+        primitiveImmutableArray[\G\](|self|).tabulate(
             fn (i:ZZ32):G => f(underlying.get(i+firstUsed)))
     map[\G\](f:E->G): ArrayList[\G\] =
         fromImmutableArray[\G\](mapArr[\G\](f))
     ivmapArr[\G\](f:(ZZ32,E)->G):ImmutableArray[\G,ZZ32\] =
-        primitiveImmutableArray[\G\](|self|).fill(
+        primitiveImmutableArray[\G\](|self|).tabulate(
             fn (i:ZZ32):G => f(i,underlying.get(i+firstUsed)))
     ivmap[\G\](f:(ZZ32,E)->G): ArrayList[\G\] =
         fromImmutableArray[\G\](ivmapArr[\G\](f))

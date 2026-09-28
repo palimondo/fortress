@@ -184,3 +184,140 @@ H's own citations were correct as written, since B moves no line.
 - its handover paragraph.
 
 **For the gate.** H adds two files to `ProjectFortress/tests/`, `ExclusionRemainderRungH.fss` (passes) and `XXXLexicoUnorderedRungH.fss` (an expected failure, shown red on a deliberate fix). The checker count by H's measurement alone is 44, the crash row `none`, and the distance stage 1,661.
+
+## Rung A (`rung-tabulate`)
+
+**Inherited from the branch.** Thirteen commits, `0b908ebb4` to `a9399b8b8`:
+- the new test and the recorded failure on the base (`0b908ebb4`), before the library edit;
+- the rename with `fill` redeclared in the leaves, and the recorded pass (`77b429e01`);
+- the comparison scripts, the ladder subset and the specification build's diff (`a997fc42c`);
+- the declarations moved to the diamond's meet (`b11534cd1`), the base runners' `FORTRESS_AUTOHOME` (`08837e8a3`), the distance stage after the edit (`e6279bc82`);
+- the specification's final build and the lists for Pavol (`42c7496a1`), the second distance run on the base (`706d9528c`), the demos (`742a80846`), the three-pass comparison (`15e6e1c19`) and the microGPT checks (`8300fb985`);
+- the skeptic's judgement (`04b1eb643`, `a9399b8b8`).
+
+`SKEPTIC.md` was on the branch, byte-identical to the structured result's `skepticText`. `REPORT.md` and `record.md` were not, because the harness refused both of the worker's writes. There is no `JUDGE.md` and no first skeptic round.
+
+**Written at the gather.** `explorations/compile-ladder/rung-tabulate/REPORT.md` and `record.md`, from the worker's `reportText` and `recordText`, byte for byte; then the gather's edits below.
+
+**Applied.** `git apply --3way --index` of `git diff --binary ff1649cea...wip/rung-tabulate` applied every file cleanly, with no conflict. Compared with the branch on every path of the patch, 113 of the 116 paths match. The other three, `Library/FortressLibrary.fsi`, `.fss` and `Library/List.fss`, are the branch's files plus exactly B's and H's lines: the changed lines of `git diff ff1649cea HEAD` over the three files equal those of `git diff --cached wip/rung-tabulate` over them. The hunks are separate, as the batch record's section 4 expected.
+
+**Corrections, both closed.**
+1. `REPORT.md` section 9, D2, cites `Specification/basic/types-vals-vars.tex:434-437` for "arrow types never exclude". Opened at the gather, those lines read "An arrow type excludes any non-arrow type other than Any ... However, arrow types do not exclude other arrow types". The structured `specCitations` is not a file.
+2. The doc comment above `ReadableArray`'s `tabulate` and `fill` now names `StandardMutableArrayType` and `ImmutableArray1` as the traits that define the two forms, in the same three lines of each file (`Library/FortressLibrary.fsi:1362-1364`, `Library/FortressLibrary.fss:1958-1960`). `REPORT.md` section 2 records the edit. The `.fsi` comment is rendered into Part IV, and the rebuilt PDF carries it (below).
+
+**Recommended rows, each opened.** The skeptic's three:
+- **The second initialization of an array element**, silently ignored under walk against the specification's footnote: opened as row 466. It cites `probes/skeptic/SkTwiceInit.fss`, `probes/skeptic/old-spelling.txt:56-63`, `ProjectFortress/LibraryBuiltin/NativeArray.fss:25-29` and the footnote at `Specification/advanced/parallelism-locality/arrays-distributed.tex:71` (its line with A's callout in), each opened.
+- **`copy` refused at `StandardMutableArrayType` by the Meet Rule**: opened as row 467, with `probes/skeptic/copy-meet-refusal.txt:3-4`, `:28-29` and the Meet Rule for dotted methods (`Specification/advanced/overloading.tex:224`, `:338-346`).
+- **`Generator22D`'s `rects` under walk**: opened as row 468, with `probes/skeptic/SkGen22D.fss`, `probes/skeptic/walk-base-edit.txt:79`, `:118` and `Library/Generator22D.fss:144-150`, opened.
+
+**The stop the skeptic found met.** "A changed walk output": the demo `ProjectFortress/demos/mg.fss` now stops at `:20` instead of `:159`, with the same exit code (`probes/demos-compare.txt:4-13`). The worker's `REPORT.md` section 16 says no stop was met and counts the demo in its section 7 and row 464. The skeptic reads it as the stop, reversible and lifted by the decision of 2026-09-27 on the stops a batch record reserves, and this record follows the skeptic. The standing stops the worker names, a declaration gated tests use renamed and team test lines restated with their values, are lifted by answer 10. Nothing holds the push.
+
+**Folded.**
+- `FACTS.md`:
+  - the record's bullet "`fill` takes a value and `tabulate` a function, both defined where the array diamond meets", after the last entry of "The library's arrays and algebra";
+  - its italic notes appended to "The `fill` refusals, counted on the one library, and how each path treats the pair" and to "The true distance to the switch-over".
+- The ledger:
+  - row 247 closed: its status is now "NEGATIVE-VERIFIED (at `ff1649cea`), POSITIVE-VERIFIED (the fix, `<short hash>`)", and its note is appended;
+  - notes are appended to rows 437 and 430;
+  - rows 464 and 465 from the record and 466 to 468 from the skeptic are added in numeric order between row 463 and row 469;
+  - "The ledger" entry of `FACTS.md` is re-anchored (`:796` to `:801`, `:656` to `:661`).
+- The handover: one paragraph, after rung H's.
+- `PLAN.md`: item 23 and four parked lines.
+
+**Decisions of the gather.**
+- **Row 247's status.** The record says the row is closed and gives no status text. The status follows the form used for row 421 in this batch and for batch 6's fixed rows. The other way, leaving "NEGATIVE-VERIFIED" with a "Fixed" note, would leave the status contradicting the note.
+- **Row 467's class and specification cell.** The skeptic gave neither. Its class is "library gap vs spec", since the Meet Rule refuses the library's declarations, and its specification cell is the Meet Rule for dotted methods, which the gather opened.
+- **The note "provisional" in H's test messages.** `ProjectFortress/tests/ExclusionRemainderRungH.fss` (five messages) and `XXXLexicoUnorderedRungH.fss` (two) cited "row 456 (provisional)" and "row 457 (provisional)". Both numbers are final, so the word goes, in the messages only and in this commit. H's commit should have carried it; the gather found it on the merged-tree run below and did not rewrite H's commit. The two tests were run again after the edit (below).
+- **Left as the rung wrote it.** The skeptic's finding that needs no correction, the Appendix I entry's example "ivmap beside map" (`Specification/appendices/changes.tex:1050-1051`), is left. The skeptic allows a rewording and requires none, and the sentence is not false.
+
+**Re-anchored in this commit.**
+- **A's `record.md`**, written on A's branch, is re-anchored by symbol to `main`. H's commit, applied first, adds 5 api lines above A's lines and 7 component lines. The lines move from `.fsi:1360-1496` to `:1365-1501`, `.fss:2093-2100` to `:2100-2107`, `:2185-2192` to `:2192-2199`, `.fsi:1778` to `:1783`, `.fss:2936-2937` to `:2943-2944` and `.fss:2728` to `:2735`. Each line's text was compared on the branch and on the merged tree. Its opening paragraph says so.
+- **A's commit moves B's and H's landed citations**: 5 api lines from `.fsi:1784` on, and in the component a net 10 lines from `.fss:2945` on. Each was mapped through the staged diff and its text compared:
+  - `FACTS.md`, B's entry: `.fss:3223` to `:3233`, `.fsi:1932` to `:1937`.
+  - `FACTS.md`, H's append on the exclusion rule: `.fss:4504`, `:4506`, `:4546-4556` to `:4514`, `:4516`, `:4556-4566`. H's typecase entry: `:4548-4556` to `:4558-4566`.
+  - Row 421's note: `.fss:3202` to `:3212`, `.fsi:1920` to `:1925`, `:3203` to `:3213`.
+  - Row 447's note and `PLAN.md` item 18: `.fss:2511` to `:2521`.
+  - Row 472: `.fss:3202` to `:3212` (two), `.fsi:1920` to `:1925`, `:3203` to `:3213`. Row 473: `:3215` to `:3225`, `:3205` to `:3215`.
+  - Row 458: `.fss:4504`, `:4506`, `:4546-4556` to `:4514`, `:4516`, `:4556-4566`. Row 460: `:4548-4556` to `:4558-4566`. Row 351's note: `:4550-4552` to `:4560-4562`.
+
+**Offsets onto `main` for the rungs' own files.** The rungs' `REPORT.md`, `record.md` and `SKEPTIC.md` keep the lines of their branches, except A's `record.md` (above).
+- **A's `REPORT.md` and `SKEPTIC.md`** cite the branch's lines, as A's section 2 says. Read `FortressLibrary.fsi:N` from 127 as N+5 and `FortressLibrary.fss:N` from 1396 as N+7; every A citation of those files lies in those ranges. Lines marked "at `ff1649cea`" are the base's.
+- **H's files** cite H's branch. Read `FortressLibrary.fsi:N` from 1784 as N+5 and `FortressLibrary.fss:N` from 2945 as N+10. H cites nothing between.
+- **B's files** cite the base. Read `FortressLibrary.fsi:N` as N+5 from 127 and N+10 from 1779; read `FortressLibrary.fss:N` as N+6 from 170, N+7 from 1396, N+17 from 2938 and N+27 from 4540. B's citations between `.fss:1954` and `:2937` (the variation sites `:2182`, `:2190`, `:2232`, `:2347`, `:2504`, `:2710`) lie among A's hunks and move by part of A's 10 lines; map them by symbol.
+
+**Items for Pavol, as `PLAN.md` holds them:**
+- **A.worker.1 and A.skeptic.1**: one point, D1's placement at the meet. The parked line "Climb batch 7's rung A put `fill` and `tabulate` where the array diamond meets ...", his to confirm; the landed shape is the default.
+- **A.worker.2 and A.skeptic.2**: one point, D2's factory names. The parked line "Climb batch 7's rung A named the factories' function forms ...".
+- **A.worker.3 and A.skeptic.3**: one point, D4's demos and `mg.fss:20` (row 464). The parked line "Climb batch 7's rung A respelled 32 lines of eight demos ...".
+- **A.worker.4 and A.skeptic.4**: one point, Appendix I's introduction. Item 23, under "Before batch 7b, raised by climb batch 7", since batch 7b's rung S writes the next entries of that appendix.
+- **A.worker.5 and A.skeptic.5**: one point, the arrays paragraph on `init`. The parked line "The paragraph after the specification's arrays figure ...".
+
+**Rebuilt on the merged tree.** `./ant genSource` and then `./ant tex`, in `Specification/fortress/`, in the main tree with the three rungs applied. The logs are `explorations/compile-ladder/rung-tabulate/probes/build/gather-genSource.txt` and `gather-tex.txt`, each headed by its machine line; both read `BUILD SUCCESSFUL`, in 45 s and 41 s.
+- The PDF was copied to `Specification/fortress.pdf`, byte-identical to the build's. It has 623 pages, as rung A's own build did.
+- `fortress.log` has no `LaTeX Warning: Reference`, no "There were undefined references", no multiply defined label, no citation warning and no `! Undefined control sequence` (each counted 0). Its one line beginning "! " is inside a macro trace.
+- The normalised text against the committed PDF (the base's, 621 pages) is `explorations/compile-ladder/rung-tabulate/probes/build/gather-vs-base-pdftotext-diff.txt`, 32 hunks, each with a cause:
+  - 8 are A's specification text: the figure's row, the callout, the footnote the callout moved, the Appendix I entry, and the four references to "Passages not yet revised" and "Route C", renumbered from I.1.17 and I.1.18 to I.1.18 and I.1.19.
+  - 18 are Part IV's renderings of the three rungs' `.fsi` edits: B's `fail`, `StandardMinMax`'s `MIN` and `MAX`, `builtinPrimitive` and `List`'s nullary comprehension (4); H's `TotalComparison` header and restated members, `AnyMaybe` and `RelationalPredicateCondition` (4); A's `fill` and `tabulate` declarations, the corrected doc comment and the four factories (10).
+  - 6 are layout: a paragraph and a footnote that the two added pages moved across a float (4 hunks), a margin note ("Why leave the first?") placed on another line, and the extraction order of an unchanged exponent line.
+- Then `git clean -fXq -- Specification` removed the build's 15 ignored products, the 380 MB `fortress.log` among them. `git status --short --ignored Specification` then shows no ignored path. The build changed no tracked file but `Specification/fortress.pdf`, and before the build no ignored product was there.
+
+**Placeholders.** Every `<short hash>` that rung A's commit adds names A's commit:
+- the six in `record.md`, where the worker wrote `<landed>`;
+- its `FACTS.md` bullet and its two italic notes;
+- row 247's status and note, and the notes on rows 437 and 430;
+- its handover paragraph.
+
+**For the gate.** A adds one file to `ProjectFortress/tests/`, `TabulateRungA.fss`, which passes, and restates twelve lines of seven team tests (`ArrayOperatorsBesideLibrary`, `ArrayScalarExtension`, `RandomTest`, `ShuffleTest`, `matrixOps`, `sparseMatrix`, `vectorOps`), each keeping its value. The checker count by A's measurement alone is 40, the crash row `none`, and the distance stage 1,434.
+
+## The four new tests on the merged tree
+
+Before the last commit, each new test ran once under walk on the merged tree (rungs B, H and A applied), from an empty private cache at `FORTRESS_THREADS=1`. The captures are under `explorations/compile-ladder/climb-batch-7/merged-tests/`, each headed by its machine line:
+- `ExclusionRemainderRungH.fss`: `rc=0`.
+- `XXXLexicoUnorderedRungH.fss`: `rc=1`, failing as expected on its first assertion, `LessThan LEXICO Unordered`.
+- `TabulateRungA.fss`: `rc=0`.
+- `ResultBoundsRungB.fss`: `rc=0`, `PASS`.
+
+H's two were run again after the gather dropped "(provisional)" from their messages, and the captures are those runs. This is not the gate, which the coordinator runs on the merged tree.
+
+## Other writers in the tree during the gather
+
+None: `main` stayed at `4a2b9385c` below the gather's commits. Every commit was staged by an explicit list and read with `git diff --cached --stat` first. The gather's walk runs used private caches under its scratch directory, so `default_repository/caches/` is as the gather found it. Twice a gather script wrote a scratch file into the tree's root (`row459p.txt`, `A_hand.txt`); each was untracked, never staged, and moved out before the next commit.
+
+## For the gate
+
+What the landed commits predict against batch 6b's landed gate (`explorations/compile-ladder/climb-batch-6b/gate/summary.txt`, `gate/checker-count.txt`):
+- `testSystem`: 423 as the sum of its shards: 419, H's two new files (one an expected failure), A's one and B's one. The batch record expected 422, one file per rung, and H adds two.
+- The compiler track: 779, unchanged, since no rung touches `ProjectFortress/compiler_tests/` or the compiled path's prelude. The library track and `testFast`'s other suites are unchanged, and so are the four-thread `atomic` runs.
+- The checker count, by reading and not measured on the merged tree, is 22 (`FortressLibrary` 2, `NativeArray` 0, `RangeInternals` 42 in the stage's doubled rows), the crash row `none`:
+  - H takes the `FortressLibrary` api from 19 errors to 1 and A takes `NativeArray` from 22 to 0, and B moves nothing on the count stage.
+  - The api still stops at its hierarchy pass on `AnyIntegral`'s error (item 21 of `PLAN.md`), so neither A's removal of the api's `fill` refusals nor B's removal of row 421's errors shows there, and no new layer appears.
+  - The count is reported, never red on its own.
+- The distance stage is not predicted: B alone reads 1,337, H alone 1,661 and A alone 1,434, from 1,747, and the families that vary move between setups. The merged-diff review ties each row to a rung edit.
+- The ladder: none of the 85 files of `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt` is a file any rung edits or adds, and the compiled path's prelude is untouched. A's own subset saw only `matrixOps.fss`'s messages name `tabulatedArray2`, a file not on the pass list. The eighteen microGPT components are held at their phase, and A's vocabulary and probe lines are the approved ones.
+- After `ant compileAll`, the library-order cache rebuild comes before the compiler track, as always. The interpreter's caches must start empty for `testSystem`, since all three rungs change the interpreter's library.
+
+## After the last commit: the tracked-path check
+
+The check of the gather's brief ran over the report files of the three commits (`HEAD~3..HEAD`: rung B's `de22fd928`, rung H's `952892a00` and rung A's, the last). It covers every `REPORT.md`, `SKEPTIC.md` and `record.md` of this batch, and it printed nothing: every `explorations/` path they cite that exists is tracked.
+
+An extended pass followed, over those nine files, this record and the lines the folds added to `FACTS.md`, the ledger, the handover and `PLAN.md`. It reads citations relative to `explorations/` (`compile-ladder/...`, `perf-probes/...`, `reviews/...`) and `probes/...` relative to each rung's directory. It found no cited file untracked. What it printed was expected:
+- glob patterns (`probes/mg/before-*.txt`, `probes/checker-count-*.machine.txt`, `probes/compcheck/BoundCheck.*`, `probes/passes/df-before-*.txt`), each matching tracked files;
+- one pre-existing citation inside row 430's older text;
+- the two `__pycache__` directories this record names as left untracked.
+
+The last commit was amended once, before anything was pushed, to add this section and to regroup this batch's parked lines of `PLAN.md` by rung in manifest order. It changed no other file.
+
+## For the commit stage
+
+- **Placeholders.** Every `<short hash>` sits in a phrase that names its rung: "rung B" or "rung H" or "rung A" beside it, "Fixed `<short hash>` (climb batch 7, rung ...)", or the handover's "rung B (`rung-result-bounds`) landed as". Each rung's section above lists where its own placeholders are.
+  - B's are in its FACTS bullet and appended sentence, row 421's status and note, the notes on rows 309 and 447, its handover paragraph and `record.md`.
+  - H's are in its three FACTS appends and FACTS entry, the notes on rows 407 and 351, its handover paragraph and `record.md`.
+  - A's are in its FACTS bullet and two notes, row 247's status and note, the notes on rows 437 and 430, its handover paragraph and `record.md`.
+  - Rows 430 and 447 each carry notes from two sources. Row 430 has H's note, which names no commit, and A's, after it. Row 447 has B's skeptic's note, B's.
+- **Stops met, all lifted.**
+  - B: the line count, lifted by the decision of 2026-09-27, the numerics plans.
+  - H: a new distance error shown as caused, and a changed walk output (twice).
+  - A: a changed walk output, the demo `mg.fss`, which its skeptic found.
+
+  The stops of H and A are reversible and landed under the decision of 2026-09-27 on the stops a batch record reserves. No stop met is left unlifted, so none holds the push.
+- **The handover.** Its paragraph "The last landing is climb batch 6b" and the checker count in its second paragraph describe the tree before this batch. They are left for the commit stage, which writes the landing's line after the gate.

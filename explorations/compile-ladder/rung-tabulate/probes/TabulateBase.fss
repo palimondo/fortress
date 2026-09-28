@@ -1,0 +1,52 @@
+component TabulateBase
+export Executable
+
+filled[\T\](v:T): Array[\T,ZZ32\] = array[\T\](2).fill(v)
+
+stored(x: Any): String = typecase x of
+    ZZ32 => "tabulated " x
+    else => "stored"
+  end
+
+run():() = do
+  a1 = array[\ZZ32\](4).fill(fn (i:ZZ32):ZZ32 => i i + 1)
+  println("a1 " a1[0] " " a1[1] " " a1[2] " " a1[3])
+  f1 = array1[\RR64,3\](fn (i:ZZ32):RR64 => 2.0 i)
+  println("f1 " f1[0] " " f1[1] " " f1[2])
+  v1 = vector[\RR64,3\](fn (i:ZZ32):RR64 => 1.0 + i)
+  println("v1 " v1[0] " " v1[1] " " v1[2])
+  s1 = array1[\ZZ32,3\]().shift(5).fill(fn (i:ZZ32):ZZ32 => 10 i)
+  println("s1 " s1[5] " " s1[6] " " s1[7])
+  m1 = immutableArray[\ZZ32\](3).fill(fn (i:ZZ32):ZZ32 => 7 - i)
+  println("m1 " m1[0] " " m1[1] " " m1[2])
+  a2 = array[\ZZ32\](2,3).fill(fn (i:ZZ32,j:ZZ32):ZZ32 => 10 i + j)
+  println("a2 " a2[0,0] " " a2[0,2] " " a2[1,0] " " a2[1,2])
+  f2 = array2[\ZZ32,2,3\](fn (i:ZZ32,j:ZZ32):ZZ32 => 10 i + j)
+  println("f2 " f2[0,0] " " f2[0,2] " " f2[1,0] " " f2[1,2])
+  r2 = array[\RR64\](2,2).fill(fn (i:ZZ32,j:ZZ32):RR64 => 1.0 + 2.0 i + j)
+  println("r2 " r2[0,0] " " r2[0,1] " " r2[1,0] " " r2[1,1])
+  a3 = array[\ZZ32\](2,2,2).fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):ZZ32 => 100 i + 10 j + k)
+  println("a3 " a3[0,0,0] " " a3[0,1,1] " " a3[1,0,1] " " a3[1,1,0])
+  f3 = array3[\ZZ32,2,2,2\]().fill(fn (i:ZZ32,j:ZZ32,k:ZZ32):ZZ32 => 100 i + 10 j + k)
+  println("f3 " f3[0,0,0] " " f3[0,1,1] " " f3[1,0,1] " " f3[1,1,0])
+  c1 = a1.copy()
+  c2 = a2.copy()
+  c3 = a3.copy()
+  println("copies " c1[3] " " c2[1,2] " " c3[1,1,0])
+  p1 = a1.map[\ZZ32\](fn (x:ZZ32):ZZ32 => 2 x)
+  p2 = a2.ivmap[\ZZ32\](fn (ij:(ZZ32,ZZ32), x:ZZ32):ZZ32 => x + 1)
+  p3 = a3.map[\ZZ32\](fn (x:ZZ32):ZZ32 => x + 1)
+  println("maps " p1[3] " " p2[1,2] " " p3[1,1,0])
+  mv = r2.rmul(vector[\RR64,2\](fn (i:ZZ32):RR64 => 1.0))
+  println("rmul " mv[0] " " mv[1])
+  d = array[\ZZ32->ZZ32\](2).fill(fn (i:ZZ32):ZZ32 => i + 100)
+  println("d " (d[1])(5))
+  c = array[\Any\](3).fill(fn (i:ZZ32):Any => i + 10)
+  println("c " stored(c[1]))
+  g = array1[\Any,3\](fn (i:ZZ32):Any => i + 20)
+  println("g " stored(g[1]))
+  h = filled[\Any\](fn (i:ZZ32):Any => i + 30)
+  println("h " stored(h[1]))
+end
+
+end
