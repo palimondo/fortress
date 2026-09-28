@@ -27,4 +27,11 @@ for s in walk any; do
     python3 $P/compare.py --sites -v $PDD/full-$s-$v.tsv $O/full-L0-$s-rule.tsv | cut -c1-400 > $O/compare-sites-L0-$s-D$v-vs-rule.txt
   done
 done
+# what the numeral switch costs, stock and under the rule: A0 against L0, by site, A0's lines carried
+# back to L0's by compare.py's line map (the library copies are in the scratch directory, env.sh's $X)
+LIBS=/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/irs/work-dist/libs
+for s in walk any; do for v in stock rule; do
+  [ -s $O/full-L0-$s-$v.tsv ] && [ -s $O/full-A0-$s-$v.tsv ] && [ -d $LIBS/A0 ] &&
+    python3 $P/compare.py --sites -v --map $LIBS/L0 $LIBS/A0 $O/full-L0-$s-$v.tsv $O/full-A0-$s-$v.tsv | cut -c1-400 > $O/compare-sites-L0-vs-A0-$s-$v.txt
+done; done
 ls $O
