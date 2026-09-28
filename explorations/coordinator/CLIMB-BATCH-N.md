@@ -50,7 +50,7 @@ In plain words: when a program calls a generic function without writing its type
 
 **What the batch leaves out.** Rows 425 and 447 (above); the other places the checker drops the expected type (an argument, a `let` body, an `if` with no `else`, `typecase`, a loose `f x`); walk inferring a generic method's type arguments (row 21); `FloatLiteral`; decision D's sized signatures (phase 5); everything of batch 7b's.
 
-**Cost.** By arithmetic from the batch records, not measured. A rung is 3 to 5 agents and 1M to 2M tokens; a run's tail from the gather to the commit about 8 agents and 2M. Run 1: I 1.5M to 2.5M, K 1.5M to 2.5M, T 1M to 1.5M, the tail 2M; 14 to 20 agents, 6M to 8.5M tokens, 6 to 9 hours of the two-agent queue. Run 2: Q 2M to 3.5M and its tail; 8 to 11 agents, 4M to 5.5M tokens, 4 to 6 hours. The two probes, 0.4M to 0.8M tokens and 2 to 3 hours each.
+**Cost.** By arithmetic from the batch records, not measured. A rung is 3 to 5 agents and 1M to 2M tokens; a run's tail from the gather to the commit about 8 agents and 2M. Run 1: I 1.5M to 2.5M, K 1.5M to 2.5M, T 1M to 1.5M, the tail 2M; 17 to 23 agents, 6M to 8.5M tokens, 6 to 9 hours of the two-agent queue. Run 2: Q 2M to 3.5M and its tail; 11 to 13 agents, 4M to 5.5M tokens, 4 to 6 hours. The two probes, 0.4M to 0.8M tokens and 2 to 3 hours each.
 
 **What "go" commits you to.**
 - Run 1: the compiled checker infers with coercion and the promotion rule and keeps the expected type at `f(x)`; walk does the same; the inference chapter is written with Q1's default in it; four expected-failure tests become plain tests (rows 401, 388 twice, 389); answer 8's promotion is built on both paths.
@@ -389,8 +389,574 @@ The files each rung may edit, from section 3:
 
 ## 7. The manifest
 
-MANIFEST_PLACEHOLDER
+The block below is drafted to replace the `MANIFEST` block of `explorations/coordinator/climb-batch-workflow.js`, from the rule above the `MANIFEST` comment to the line before `END MANIFEST` (`:58-651` of the script at `ce0961e9c`, where it holds batch 7's first run); it is not spliced in. It was generated from section 3 of this record and from the rungs' `briefing` and `checks` lists by a script, in batch 7R's form with batch 7's `RUN` switch: each tail is its rung's section word for word, with the code-span backticks dropped, each line JSON-quoted, ASCII only. I's, T's and Q's tails open with the answers line `Q1 = (1)`, section 1's default, which the coordinator changes at the launch if Pavol answers otherwise. Two values are set at each launch and nowhere else: `RUN`, `'first'` (batch `n`: I, K and T) or `'second'` (batch `nb`: Q, once the first has landed), and `LEDGER_FROM`, one above the highest row of `explorations/fortress-gap-ledger.md` at that launch; it holds 456 here, the value at the drafting (row 455 the highest), and is reset, since batches 7 and 7R, which run first, open their new rows from 456. No rung predicts the checker total. The coordinator fills `<base>` at launch through `args.base`.
+
+Checked on scratch copies of the script as committed at `3c10d0b29` and of the working copy, both byte for byte the script batch 7's first run launched with (`ff1649cea`), the block spliced in place of `:58-651`, every line outside it byte-identical (`explorations/compile-ladder/plan-n/manifest/checkn.txt`):
+- `node --check` exits 0 on the spliced script under `RUN = 'first'` and under `RUN = 'second'`, as on the unmodified one.
+- With `LEDGER_FROM` unset the block throws with its message; with `RUN` other than `'first'` or `'second'` it throws with its own.
+- The block with the script's own key validation and scatter line gives, under `'first'`, batch `n`, the record `CLIMB-BATCH-N.md`, the rungs I, K and T with T landing only with I, and the scatter K, I, T; under `'second'`, batch `nb` and the rung Q. Each tail equals its section of section 3 with the backticks dropped (70, 55, 45 and 68 lines); no tail, blurb, intro or overlap string holds a backtick or a non-ASCII character; each `checks` list is a sub-list of its `briefing`, as the script's own check at load requires.
+- The whole spliced script, run as the body of an async function with the workflow globals stubbed (`args`, `agent`, `pipeline`, `log`). Under `'first'` with every agent approving it calls rung K, skeptic K, rung I, skeptic I, rung T, skeptic T, the gather, the gate, the review and the commit, and lands; each worker's step 1 renders its rung's `briefing` keys in order (57, 66, 41) and each skeptic's its `checks` (14, 15, 11); the gather numbers new ledger rows from 456 in the order I, K, T; the commit lands the gate's tables under `explorations/compile-ladder/climb-batch-n/gate/`. With I stopping and its judge ruling stop, T is withheld by `applyLandsOnlyWith` ("T lands only with I ... and I is stopped") and K lands alone. Under `'second'` it calls rung Q, skeptic Q, the gather, the gate, the review and the commit, the step 1s rendering 71 and 13 keys, the tables under `explorations/compile-ladder/climb-batch-nb/gate/`.
+- Every key of the eight lists matches exactly one place under `explorations/coordinator/tools/facts-extract.sh --check` on `main` (`explorations/compile-ladder/plan-n/manifest/lists-check.txt`). By the tool's size line, the briefings print about 76K tokens (I, 8 parts), 62K (K), 46K (T) and 72K (Q), their `checks` 25K, 19K, 10K and 18K.
+- Nothing was launched.
+
+The generator, the lists, the check and their outputs are `explorations/compile-ladder/plan-n/manifest/`: `python3 genn.py` (it writes `tmp/manifestn.js`), then `node checkn.js`, then `python3 listsn.py`. The block is regenerated there and pasted here, never edited by hand.
+
+```js
+// ===========================================================================
+// MANIFEST - the coordinator replaces everything between this line and the
+// "END MANIFEST" line, and changes nothing else in this file.
+//
+// Concurrency, which the manifest does NOT set: at most two agents at once here
+// (FACTS.md, "The Workflow harness runs two agents at once on this box"), a
+// freed slot going to the next queued agent, FIFO. k is 3 in the first run
+// (I, K, T) and 1 in the second (Q).
+// Per rung: id, slug, path, branch, expectedMinutes (the scatter's start order
+// only), tail (the brief), blurb (one line for the shared prefix's table),
+// writesState, expectedMoves, and the checker-count fields testIsStage,
+// expectedCheckerCount (a printed prediction, never red) and
+// expectedCheckerCrash (compared exactly with the table's #crash field; no
+// rung of this batch declares one, so any change of the crash row is red).
+// Optional: landsOnlyWith, the ids of the rungs a rung lands only with; T
+// names I, and the script applies it after the scatter, so T reaches the
+// gather only when I is approved. briefing: the rung's mission briefing, which
+// the planner writes from the record so that the agents learn in context what
+// they were never trained on: the keys of
+// explorations/coordinator/tools/facts-extract.sh for the POSITIONS.md entries
+// (positions:DATE WORDS), gap-ledger rows (ledger:ROW) and earlier rulings
+// (doc:PATH#HEADING) the rung rests on; the notes already written on the
+// subject, found through INDEX.md (doc:); the specification's sections its
+// subject touches (doc: on a .tex heading, code: on a passage); the library,
+// checker and interpreter code that is the precedent for the same kind of
+// problem (code:PATH#FROM..TO); and the FACTS.md entries and map rows of its
+// area; in reading order, decisions first. The rung worker reads it whole as
+// its step 1. And checks, the sub-list of briefing that the skeptic, the
+// repair round and the judges read as their step 1: the decisions and ledger
+// rows their checks need, and the specification's sections and the precedent
+// code those checks compare against. No key holds a double quote, backtick,
+// dollar sign or backslash, since each is rendered in double quotes. Each list
+// is checked with the tool's --check to match exactly one place per key (on
+// main at the drafting; re-checked at each launch).
+//
+// Batch N's values are CLIMB-BATCH-N.md, sections 3, 6 and 7. Each tail is
+// that rung's section of section 3 word for word, with the record's code-span
+// backticks dropped (this file carries none); ASCII only. I's, T's and Q's
+// sections open with their answers line, Q1 = (1), the default of section 1,
+// which the coordinator changes at launch if Pavol answers otherwise. Two
+// values are set at each launch and nowhere else: RUN ('first' is batch N,
+// rungs I, K and T; 'second' is batch Nb, rung Q, launched once the first has
+// landed; the record's section 1, "Two runs of one record") and LEDGER_FROM,
+// one above the highest row of the gap ledger at that launch; it holds the
+// drafting's value, 456, and is reset, since batches 7 and 7R open their rows
+// from 456 first. Manifest order is the ledger numbering order: I, K, T in the
+// first run, Q in the second. The scatter starts the longest expected first:
+// K, I, T. No rung predicts the checker total. No rung declares a ladder move.
+// The base is <base>, passed at launch as args.base, not written here.
+// ===========================================================================
+
+const RUN = 'first'     // SET AT LAUNCH: 'first' (batch N: I, K and T) or 'second' (batch Nb: Q, once the first run has landed); the record's section 1, "Two runs of one record"
+const LEDGER_FROM = 456   // SET AT LAUNCH: one above the highest row of explorations/fortress-gap-ledger.md at this run's launch (456 at the drafting, ce0961e9c; reset at the launch, since batches 7 and 7R open rows from 456)
+if (!Number.isInteger(LEDGER_FROM)) throw new Error('LEDGER_FROM is not set: the first free ledger row at this run\'s launch')
+if (!['first', 'second'].includes(RUN)) throw new Error('RUN is not one of first, second')
+
+const BATCH = RUN === 'second' ? 'nb' : 'n'
+const BATCH_RECORD = 'explorations/coordinator/CLIMB-BATCH-N.md'
+
+const I_TAIL = [
+"",
+"## Your rung: I - inference with coercion in the checker",
+"",
+"SLUG is rung-inference-checker. WORKTREE is /home/user/fortress-infer, branch wip/rung-inference-checker.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-N.md, section 3, under \"I. Inference with coercion in the checker\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** Q1 = (1). (Section 1 of the batch record gives the question and its options; where this section says \"under Q1 = (1)\", that text applies while the coordinator has written that answer here; under (2) the default is the expected type then a refusal, under (3) a refusal.)",
+"",
+"**Its briefing.** The decisions the rung rests on (the numerics plans, answer 8, a numeral's type, route A, the library's practice, the library route, answer 12, the probe rule, the launch of phase 3's batches, the stops, rung D's stop); ledger rows 401, 388, 455, 447, 425, 432 and 79; the shadow note's answers and its sections on the edit, the probes, microGPT, the distance, the compiler's tests and the forks, with rule.patch and RuleCRun.fss; the synthesis's decision 3; the Fable plan's faces A and C; evidence B's sections on how a static argument is inferred, whether the expected type is used and whether coercion is considered; measurement D's sections on the other drops and on what the kept context changes; the specification's inference chapter, its sections on applicability with coercion, coercion resolution and applicability to named calls; the checker's applicability methods, checkApplication, the tight juxtaposition's cases, inferStaticParams, the coercion oracle's getCoercionsTo and substitutableFor; the two libraries' IntLiteral; the two expected failures it promotes; the FACTS entries on inference, the expected type, a numeral's type, the coercion refused by an inferred generic, microGPT's checker errors, the specification's silence, the distance, rung R's refusal, the size checks and the harness; the walkthrough's section on how the checker walks the tree and the map's checker row. The keys are in section 7; checks is the decisions, the rows, the shadow's sections on the tests and the forks, rule.patch, the applicability section, the applicability methods, the two tests and the harness entry on a pinned expected failure.",
+"",
+"**The problem.**",
+"- The checker infers a generic's static arguments from the arguments' types by subtyping alone. Its constraint is \"argType <: domain\", with \"range <: context\" when a context is given (ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:928-947); the solver binds each variable to the join of its lower bounds, a union (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:527); checkApplicableWithInference is documented \"with static argument inference and no coercion\" (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:171-173), and coercions are built only for a candidate with no static parameter left (:278-340). So a numeral or a narrower number for a declared parameter of a generic is refused (row 401: scale(Box[\\3\\](2), 3) with m: ZZ32, under the compiler library, whose IntLiteral is not a ZZ32; row 388: gf[\\T\\](x: Wide, y: T) with a Narrow, and the container shape scale(b, z) for b: Box[\\RR64\\]), and a call over mixed widths infers a union (pick(l, 3) is OR(ZZ64,IntLiteral)), where answer 8 names the narrowest type both convert into (FACTS.md, \"Static arguments are inferred from the arguments alone, on both paths, and never through a coercion\").",
+"- The expected type is dropped at a call written f(x): the parser builds it as a tight juxtaposition, which the checker turns into a MathPrimary and then a _RewriteFnApp without passing expected (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala:85, :345, :197; :89-90 is reached only by desugarings), while a method invocation and an operator keep it (row 455). Kept alone, the context refuses calls that pass today by converting their result afterwards (a: ZZ64 = idt(3), 6 of 12 probe calls; FACTS.md, \"Keeping the expected type at a call written f(x) is four one-token edits\").",
+"- Under the numeral switch (rung Q, run 2) a numeral is no longer a ZZ32 in the one library, and every such call meets these refusals: on the switch's library copy the checker refuses every range that starts with a numeral in both microGPT programs (13 and 11 declarations) and row 401's shape in heads, unheads and onehot (FACTS.md, \"MicroGPT's own programs through the compiled checker against the one library\").",
+"",
+"**The decisions.** The numerics plans, decision 3 (explorations/coordinator/POSITIONS.md, 2026-09-27): the checker infers a static argument with coercion, answer 8's promotion rule its number case, and keeps the expected type at f(x) with a retry without it, so that a binding's coercion still applies. Answer 8 (2026-09-26): a call over mixed widths infers the narrowest type both sides convert into, ZZ64 for ZZ32 with NN32 though neither argument is a ZZ64; ZZ64 does not convert into RR64. Under Q1 = (1): a type parameter that only numerals fix, whose bound IntLiteral does not meet, takes ZZ32 (or ZZ64 or ZZ for a numeral whose value ZZ32 cannot hold, where the value is at hand), and a call whose declarations each take a numeral only by coercion, none most specific, takes the ZZ32 declaration. Answer 12 (2026-09-26): a size the call cannot fix stays refused at the call (batch 6's rung R, in checkApplication). Not this rung's: walk (rung K); the one library's numeral (rung Q, run 2); a type parameter that only the result mentions, which stays BottomType (rows 425 and 447; 447's candidates are Pavol's); the other places the expected type is dropped (measurement D section 1.3).",
+"",
+"**What the tree and the team already do.** Evidence, not the brief; the rung lists every way before it chooses.",
+"- The shadow (explorations/reviews/inference-rule-shadow.md, section 1; explorations/reviews/inference-rule-shadow/rule.patch) is one way, measured: measurement D's four one-token edits in Operators.scala; in Functionals.scala, a call's candidates tried by subtyping with the expected type, then with coercion, then without the expected type, the last kept only when the most specific candidate's result converts to the expected type; a method checkApplicableWithCoercion that infers from the positions whose declared types mention a static parameter other than as the whole type, chooses for a lone type parameter the narrowest of its arguments' types and its bound, and admits every argument by subtyping or by a coercion built as checkApplicableWithoutInference builds one; and a union bound to a lone parameter replaced by its narrowest member when every argument converts into it. It left the solver, the coercion oracle and the library alone. What it did not build: a type neither argument's (ZZ32 with NN32), Q1's default, and any change for a structured position or a result-only parameter.",
+"- The team's pieces: checkApplicableWithoutInference builds coercions for a non-generic candidate (Functionals.scala:278-340); the coercion oracle answers substitutableFor and buildCoercion (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:118, :141) and finds the coercions into a target, not out of a source (getCoercionsTo, :85-115; a trait type only, :92); the trait table can be iterated (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:99-110), which is what a lookup from a source to its targets needs; the solver's own heuristic extension tries a single lower bound's ancestors (Formula.scala:528-541); Steele's comments at STypesUtil.scala:1002-1003 on BottomType as an upper bound. The team's intent, in commented-out text: \"a variant of local type inference is used by the type checker to infer instantiations of polymorphic function applications\" (Papers/Types/discussion.tick:7); and in 2009 \"ZZ32 now coerces IntLiteral as described in the spec ... as we gradually migrate to a flat numeric hierarchy\" (128f313b5).",
+"- Peers: Java and Scala infer a generic method's type argument from the expected type as well as the arguments; Julia promotes mixed numbers to a common type; Haskell defaults an unresolved numeric literal.",
+"- The compiler tests pin one message a retry could change, XXX6bu's compile_err_equals: the shadow's first build kept the retry whatever the result and changed it; the condition on the result kept it (shadow section 1).",
+"",
+"**The test, first.** In ProjectFortress/compiler_tests/, each captured failing on the base and passing after:",
+"- The two expected failures the rule turns green, promoted: XXXNatLitArgChecker (row 401) and XXXCoercionGenericFnCompiledRungC (row 388's compiled half) become plain tests by git mv, each .test driving compile, link and run with run_out_contains=PASS. On the base the plain test fails at compile, which is the recorded failure; after the edit it passes. Left as they are they would go red, since the harness reports an XXX test whose program compiles as a wrong failure (FACTS.md, \"An XXX compile test pinned by compile_err_contains whose program compiles is reported as a wrong failure\"). XXXCoercionGenericFnCompiledRungC's own assertion then fails on the compiled path's spacing, \"gf got  2  and  two\" (row 76; shadow section 5), so its promoted form states what the call must return in a way both paths print alike, and its changed line is listed with its before and after.",
+"- One new test of the rule's shapes, from explorations/reviews/inference-rule-shadow/probes/RuleCRun.fss (compiled and run under the shadow): row 401's shape with sizes; a numeral and a ZZ32 for a declared ZZ64 parameter of a generic; a lone parameter fixed by another argument (scale(b, 3), scale(b, z)); promotion (pick(z, l) a ZZ64); answer 8's ZZ32 with NN32 giving ZZ64; the expected type fixing a parameter (a: BoxT[\\ZZ64\\] = wrapT(3)); the retry (a: ZZ64 = idt(3)); each asserting its value and, where the compiled path can show it, its type.",
+"- One new XXX test, pinned by compile_err_contains, of what the rule must still refuse: a narrowing, a: BoxT[\\ZZ32\\] = wrapT(l) with l: ZZ64 (shadow section 2.4).",
+"- Under the one library, where no program can yet be compiled: a probe under probes/, the shadow's RuleL.fss shapes and Q1's cases through the shadow's driver (explorations/reviews/inference-rule-shadow/check.sh) on today's library and on the switch's library copy (A0, explorations/perf-probes/prelude/distance-triage/variants.py A0, with the ranges copy of batch 7R's tree), before and after (home 3, the record saying that no program compiles against the one library before the switch-over).",
+"- The distance stage (explorations/coordinator/tools/distance/run.sh), before and after, each through run_bg, captured as probes/distance-preedit.txt and probes/distance-postedit.txt and compared with compare.sh; the checker-count stage before and after.",
+"",
+"**What it writes.** The checker change; the tests and the probe; its report and record, which name every attempt's order and every choice with the ways not taken.",
+"",
+"**The measurements.** The 382 .fss files the gate's compiler tests compile or link, through the shadow's ctests.sh method, before and after, every file whose diagnostics change named with its cause (expected: the two promoted); the 85 files of explorations/compile-ladder/baseline-2026-09-19/pass-list.txt under the subset driver, phase and stdout, before and after; the compiler library's five components rebuilt in library order after the edit; the machine line on every capture.",
+"",
+"**What it clears.** Measured by the shadow on the library of 917bb7b32, before batch 7 (explorations/reviews/inference-rule-shadow.md):",
+"- Probe programs: 375 error sites to 160 over five programs, three settings and two libraries, none new; 3 sites per run keep their refusal with the call's message instead of the binding's.",
+"- Compiler tests: 2 of 382 files change, the two promoted; 469 errors to 466; every other file's diagnostics identical, XXX6bu's pinned message included.",
+"- The distance on today's library: 1,736 to 1,385 under walk's setting and 1,748 to 1,401 under any, all of it the kept expected type's (340 natives, 10 fail calls); against measurement D's expected type alone, by site, only the run-to-run variation differs. On this batch's base batch 7's rung B has cleared those by its written bound (its branch: 1,747 to 1,337 under any), so by arithmetic this rung moves the distance by about nothing, and the coercion attempt and the promotion change nothing on today's library.",
+"- On the switch's library copy: the switch's cost falls from 36 errors to 3 under any; microGPT's refusals at # from 13 to 2 and 11 to 2, none on the copy with ranges over ZZ32; row 401's shape accepted (five of five probe calls).",
+"- Not measured by the shadow: ZZ32 with NN32; Q1's default; the rule on batch 7's and 7R's library; code generation beyond RuleCRun and the compiler library's five components.",
+"",
+"**Files it may touch.**",
+"- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala: checkApplicable, checkApplicableWithInference, checkApplicableWithoutInference only if the coercion step shares it, the second checkApplication (the one taking iargs), and new methods beside them. Not its SCaseExpr case (batch 7R's rung J's site).",
+"- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala: the four cases of checkExprOperators named above.",
+"- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala, and TraitTable.scala only if the lookup from a source to its coercion targets needs it.",
+"- New and promoted files under ProjectFortress/compiler_tests/; its own directory.",
+"- Not: ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java, whose copy the count stage checks, nor the files the distance stage patches as it runs (explorations/coordinator/tools/distance/shadow-patch.py, add-patch.py); the solver, Formula.scala; Library/, ProjectFortress/LibraryBuiltin/, interpreter/, Specification/.",
+"",
+"**Java or Scala.** Scala. ant compileAll, default_repository/caches/global.map restored after it (FACTS.md, \"ant compileAll deletes a tracked file\"), and the library-order cache rebuild before any compiled test (explorations/repo-internals.md).",
+"",
+"**The checker count.** Reported, not predicted: the count stage checks the apis, where the rule has little to change. Captured before and after and declared, with the distance stage's totals.",
+"",
+"**What must stay green, or keep its verdict.** Every compiler test other than the two promoted, rung R's refusals (XXXNatUnknownSizeArm, XXXNatUnknownSizeVal, XXXNatUnknownSizeFnValue) and XXX6bu among them; the ladder's 85 files; the compiler library's rebuild.",
+"",
+"**Stops.**",
+"- A compiled test's verdict changing other than the two promoted and the rung's own.",
+"- A new checker error the distance stage shows as caused rather than unmasked, which the report does not account for.",
+"- A ladder file moving down.",
+"- An edit to the solver, to StaticChecker.java or to a file the count or distance stage shadows; any library, walk or specification edit.",
+"- A binding chosen for a type parameter that nothing at the call fixes other than today's (row 447's candidates are Pavol's).",
+"- A line of explorations/run-c4/src/ or explorations/apl/mg/ (shown to Pavol as a diff first, POSITIONS 2026-09-19).",
+"- Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged; it is a ledger row (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** The two promoted tests failing on the base and passing after; the shadow's probe programs (explorations/reviews/inference-rule-shadow/probes/, measurement D's DCtx, DArg, DMore, DComp) through the shadow's drivers against the rung's build, their error sites compared with the shadow's captures; answer 8's ZZ32 with NN32 and Q1's cases on the switch's library copy; the 382 files' diagnostics; the distance tables, each new site classified as unmasked or caused; the compiled runs of the new test against walk on the same shapes where walk's library has them.",
+"",
+"**What comes back to Pavol.** The messages that changed; the attempts' order; Q1's default as built; the lookup behind answer 8's promotion.",
+"",
+"**What it closes.** Row 401 (fixed). Row 455 (fixed). Row 388's compiled half; the row closes with rung K. A note appended to row 447: the expected type kept at f(x) binds a result-only parameter to BottomType as before, measured.",
+"",
+].join('\n')
+
+const K_TAIL = [
+"",
+"## Your rung: K - inference with coercion in walk",
+"",
+"SLUG is rung-inference-walk. WORKTREE is /home/user/fortress-walkinfer, branch wip/rung-inference-walk.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-N.md, section 3, under \"K. Inference with coercion in walk\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** None of section 1's question changes this rung: walk's numeral is a ZZ32, ZZ64 or ZZ until rung Q, so Q1's cases do not arise under walk in this run, and Q builds walk's default in run 2.",
+"",
+"**Its briefing.** The decisions (the numerics plans, answer 8, a numeral's type, route A, the library's practice, rung C's held push and batch 5's masks, answer 9, the probe rule, the launch of phase 3's batches, the stops, rung D's stop); ledger rows 388, 389, 387, 432, 20, 21, 364, 424 and 430; the shadow note's answers, its section on what walk would need and its forks, with the one-shape walk program; the synthesis's decision 3 and the Fable plan's face A; evidence B's sections on walk's inference, rung C's coercion at a generic callee and how the three interact; the plan-6.5 probe of the numeral; rung C's report on what changed and its decisions; the specification's sections on applicability with coercion, coercion resolution and applicability to named calls; walk's inferAndInstantiateGenericFunction, bestMatchWithCoercion, bestMatchInternal, coercionFor, typecheckParams and FType.join; the two expected failures it promotes, the test form and the helper that shows a value with its type; the FACTS entries on walk's coercion, inference, the refused container shape, a numeral's type, the flat tower and the harness; the map's interpreter row. The keys are in section 7; checks is the decisions, rows 388, 389 and 432, the shadow's walk section, coercion resolution, the three walk methods, rung C's entry and the harness entry on an XXX test.",
+"",
+"**The problem.**",
+"- Walk infers a generic's static arguments in EvaluatorBase.inferAndInstantiateGenericFunction (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java:50-251): it unifies every argument's run-time type with its declared parameter type, whether or not that type mentions a static parameter, before any conversion (:131-181), and joins two lower bounds to a common supertype (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java:350-380). So gf(NarrowOf(2), \"two\") is refused, \"Cannot unify NarrowOf ... with Wide\" (row 388), scale64(BoxT[\\String\\](2), 3) is refused, \"Cannot unify Int ... with FortressLibrary.ZZ64\", and scale(b, z) for b: Box[\\RR64\\] instantiates T at Number and fails, \"Unification error: ... (b:Box[\\Number\\]) got arg Box[\\RR64\\]\" (FACTS.md, \"An inferred generic refuses a coercion that the method it forwards to accepts, on both paths\"). A call over mixed widths converts nothing: same(z, w) runs with T a common supertype and its arguments unconverted, where answer 8 names ZZ64.",
+"- Rung C's coercion pass for an overloaded call skips every generic declaration (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:826, if (sfn instanceof GenericFunctionOrMethod) continue;), so a generic declaration is never chosen by coercion.",
+"- A generic trait's coercion is not applied: Coercions.coercionFor instantiates the target's lifted coercion from the value alone, before the target's static arguments are known (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:48-71, :59; row 389).",
+"",
+"**The decisions.** The numerics plans, decision 3 (explorations/coordinator/POSITIONS.md, 2026-09-27): \"walk does the same at dispatch\" as the checker, inference with coercion and answer 8's promotion. Answer 8 (2026-09-26): the narrowest type every number argument converts into, ZZ64 for ZZ32 with NN32. Walk has no static context, so the checker's expected type has no counterpart; a typed binding already converts after the call (Coercions.coerceToDeclared, Coercions.java:124). Not this rung's: the numeral's run-time type and walk's numeral default (rung Q, run 2); walk's conversion at a declared return type (row 387, rung Q); how walk compares a generic declaration with a plain one on declared domains and its load-time check (batch 7b's rung W, answer 9); a generic method's own static arguments (row 21).",
+"",
+"**What the tree and the team already do.** Evidence, not the brief; the rung lists every way before it chooses.",
+"- The shadow's reading of walk (explorations/reviews/inference-rule-shadow.md section 6, not built): three places. The argument loop of inferAndInstantiateGenericFunction split in two passes as the checker's edit splits the positions: first unify only the arguments whose declared type is not a type parameter alone; then, for a lone parameter the first pass fixed, leave its arguments to the binding's conversion; for one nothing fixed, try its arguments' run-time types and its bound and keep the narrowest each argument matches (typeMatch) or converts into (Coercions.coercionFor(t, a) != null). In OverloadedFunction.bestMatchWithCoercion (:821-852), instantiate a generic declaration by that inference and build its per-argument coercions against the instantiated domain, as :829-837 builds them for a plain one. In Coercions.coercionFor, instantiate a generic target's lifted coercion with the target's static arguments first, as the checker does (\"the lifted args are given in U\", ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:193-196).",
+"- The admission half exists: an instantiated function's arguments are converted at binding by rung C's Coercions.coerce in NonPrimitive.buildEnvFromParams and typecheckParams (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java:134-185, :212-257), reached from FunctionClosure.applyInnerPossiblyGeneric; a generic that is not overloaded is applied through GenericFunctionOrConstructor.applyInnerPossiblyGeneric (evaluator/values/GenericFunctionOrConstructor.java:50-57), whose instantiated closure converts at binding, so place 1 serves it.",
+"- Walk's run-time types are the implementation objects under the library's traits (Int, Long, BigNum, Float, NN32), not the traits: SUM <|1, 2, 3|> fails because Int is not an AdditiveGroup[\\Int\\] (row 432), and the checker's solver meets the same case with its ancestor heuristic (Formula.scala:528-541). How a choice among a lone parameter's candidates reads an argument's type is the rung's to decide and report.",
+"- The one-shape walk cases, each with its capture (explorations/reviews/numerics-plan-fable/probes/one-shape/walk/: ScaleZ, Scale3, SameZW, SameZR, LohiZW, LohiZU, AddZW, AddZR, SumLit), as one program in explorations/reviews/inference-rule-shadow/probes/OneShapeW.fss.",
+"",
+"**The evidence on file.** Probe K's measurement (section 6), a logging shadow of the three places over every file of ProjectFortress/tests/, the demos and the two microGPT checks, printing each call whose chosen declaration, inferred static arguments or converted arguments change: to be written here before the launch.",
+"",
+"**The test, first.** In ProjectFortress/tests/, each captured failing on the base and passing after:",
+"- The two expected failures promoted by git mv to plain names: XXXCoercionGenericFnRungC.fss (row 388's walk half) and XXXCoercionGenericTraitRungC.fss (row 389). Each fails on the base as a plain test and passes after; left as XXX files they would go red once they pass (FACTS.md, \"An XXX*.fss in the interpreter corpus IS a gated expected-failure test\").",
+"- One new test in the form of ProjectFortress/tests/roundBug.fss, each assertion's message citing its source, each value shown with its type as ProjectFortress/tests/IntSemanticsRungI.fss's zz32Shown shows it: scale(b, z) and scale(b, 3) for b: Box[\\RR64\\] (T = RR64, the argument converted); same(z, w) and sameAdd(z, w) (ZZ64, both converted); same(z, r) (RR64); lohi(z, w); twice(l, z) with T extends Integral[\\T\\] (ZZ64); pick(z, u) with u: NN32 (ZZ64, answer 8); pick(l, r) with l: ZZ64, r: RR64 (no promotion, as answer 8 keeps ZZ64 into RR64 explicit); an overloaded generic chosen by coercion.",
+"",
+"**The comparison.** As batch 6b's rung O's (explorations/compile-ladder/rung-walk-overflow/count-run.sh, count-compare.py): every file of ProjectFortress/tests/ except the new test, in three passes, base A, the edit, base B, one JVM per test with private caches, normalised as batch 5 normalised, XXXInheritedOverload.fss listed as unstable (row 430); every changed output listed with its call, the declaration or static arguments that changed and the specification's answer, against probe K's list. The two microGPT checks from an empty cache at FORTRESS_THREADS=1, 40 of 40 with their printed values unchanged. The demos under ProjectFortress/demos/, one pass before and one after, each run cut at 120 seconds, outputs compared. The machine line on every capture; each pass's caches deleted once its outputs are captured, and df read before each pass.",
+"",
+"**What it clears.** Nothing is measured: the shadow read walk and did not build it. Rows 388's walk half and 389, by their tests. Probe K gives the changed outputs.",
+"",
+"**Files it may touch.** ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java (inferAndInstantiateGenericFunction); ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java (bestMatchWithCoercion and what it calls, not bestMatchInternal's comparison or the load-time check, which are batch 7b's rung W's; a change there that the coercion pass needs is reported); ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java (coercionFor); ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java only if the promotion's lookup needs it; the promoted and new tests; its own directory. Not: interpreter/glue/prim/, FIntLiteral.java and the return check of Simple_fcn.java (rung Q's, run 2); the library; the checker; the specification.",
+"",
+"**Java or Scala.** Java. ant compileAll before the tests can pass, default_repository/caches/global.map restored after it, the interpreter's caches wiped before every run.",
+"",
+"**The checker count.** Unchanged: the stage reads neither the interpreter nor the tests. Captured before and after.",
+"",
+"**What must stay green, or keep its verdict.** Every interpreter test's verdict other than the two promoted; the library loads under walk; CoercionRedispatchRungC.fss, CoercionOverloadRungC.fss, CoercionMostSpecificRungC.fss and the other rung C tests; FlatTowerRungF.fss; the two microGPT checks at 40 of 40 with unchanged values.",
+"",
+"**Stops.**",
+"- A changed output or exit code that the comparison does not account for as a call whose inference changed as the decision gives.",
+"- A changed value printed by either microGPT check.",
+"- An overload set of the library or of a test that walk loads today and refuses after, or the reverse.",
+"- An edit to bestMatchInternal's comparison or the load-time check beyond what the coercion pass needs, unreported; any edit under interpreter/glue/prim/, to FIntLiteral.java, or to the library, the checker or the specification.",
+"- Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged; it is a ledger row (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** The differential is walk against the compiled run on the one-shape shapes, RuleCRun's and the new test's, with rung I's checker where the compiler library has the shape; each changed output against probe K's list and its stated cause; the two promoted tests red on the base; the microGPT checks' values; the load-time verdicts before and after.",
+"",
+"**What comes back to Pavol.** The changed outputs with their causes; any microGPT value that moved; how a lone parameter's choice reads a run-time type; whether bestMatchInternal changed.",
+"",
+"**What it closes.** Row 389 (fixed). Row 388's walk half; with rung I the row closes. A note appended to row 432 with what the rung found at a structured position.",
+"",
+].join('\n')
+
+const T_TAIL = [
+"",
+"## Your rung: T - the type-inference chapter",
+"",
+"SLUG is rung-spec-inference. WORKTREE is /home/user/fortress-specinfer, branch wip/rung-spec-inference.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-N.md, section 3, under \"T. The type-inference chapter\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** Q1 = (1): the chapter names ZZ32 as the type a numeral takes when nothing but its own coercions fixes it (under (2), the expected type then a refusal; under (3), a refusal). T lands only if I lands (its manifest entry's landsOnlyWith).",
+"",
+"**Its briefing.** The decisions (the numerics plans, answer 8, a numeral's type, the S1 form, the name of the unrevised copy, the lineage note, the requirement on the plan, the number chapters under S2, answer 9, the stops, rung D's stop); ledger rows 447, 425, 455, 401 and 388; the shadow note's answers, its edit and its forks; the synthesis's decision 3; evidence B's sections on the inference chapter the text cites, on coercion at a call and on the later Types chapter and the papers; the specification's inference chapter, its sections on applicability with coercion, coercion resolution and applicability to named calls, the integer chapter's callout, and Appendix I's \"Passages not yet revised\" and its reductions entry; the two earlier decision records' form sections; the FACTS entries on the specification's silence, its lineage, the frozen copy, instantiation exclusion's revision, the number chapters, a generic object without its static arguments, inference and the expected type; the map's specification row. The keys are in section 7; checks is the decisions, row 447, the shadow's forks, the chapter, the callout, \"Passages not yet revised\", the form and the entry on the specification's silence.",
+"",
+"**The problem.** The chapter that the overloading rules (Specification/basic/overloading.tex:170-175, static parameters \"inferred as described in \\chapref{type-inference} before checking the applicability\"), Specification/basic/expressions/var-ref.tex:35-40 and Specification/basic/expressions/method-invocation.tex:49-52 cite, Specification/basic/inference.tex, is 27 lines of heading and notes: \"This chapter will include the Fortress static type inference mechanism.\" (:15), with three open items, the last \"Do we want to forbid such cases where type inference infers BottomTypes for static parameters?\" (:24-25). The revival's own text points into it: answer 8's callout, \"A generic call or a range over two different integer types is to infer the narrowest type that both coerce into, by a rule to be written into \\chapref{type-inference} together with its implementation; until then such a call writes its static argument\" (Specification/basic-lib/basic-integers.tex:51-65 as batch 7R's rung U leaves it, which drops \"or a range\"), and the paragraph of Appendix I's \"Passages not yet revised\" that repeats it (Specification/appendices/changes.tex:1033-1036). Once rung I lands, the checker infers by a rule no text states: an open discrepancy (POSITIONS 2026-09-24, the requirement on the plan). The later restart's Types chapter never says \"infer\" (FACTS.md, \"The specification never wrote static-argument inference, a numeral's type hierarchy or a range's integer width\").",
+"",
+"**The decisions.** The numerics plans, decision 3 (explorations/coordinator/POSITIONS.md, 2026-09-27): \"the specification's type-inference chapter is written in the S1 form and lands only with the checker rung\". Answer 8 (2026-09-26): the promotion rule is \"written into the specification's empty inference chapter\". Under Q1 = (1), the chapter states the numeral's default. The form, S1 (2026-09-26): the normative text edited in place, a \\revision callout at each changed passage (Specification/fortress/fortress.tex:87), an Appendix I entry per change quoting the original as \"the Working Draft of February 2011\" by its path and line in Specification-1.0-frozen/ (2026-09-26, the first of the batch-5 answers), and the reasons in a decision record; the later Types chapter cited beside where it covers the topic (2026-09-26, the lineage note). Not this rung's: the overloading chapters, which batch 7b's rung S rewrites after this batch; the literals section and the coercion chapter's note on the interpreter's numerals (rung Q, run 2); the reductions callout (Specification/basic/expressions/reductions.tex:27-44), whose rows 424 and 425 stay open.",
+"",
+"**What the specification and the team already say.** Evidence, not the brief.",
+"- Applicability with coercion is defined by substitutability, \"T <: U or T coerces to U\", and names no static parameter (Specification/basic/conversions-coercions.tex:417-432, :455-457); a declaration applicable without coercion is chosen first, otherwise \"the coercion that yields the most specific type\" (:472-480, :533-553); coercion happens where the context expects a type, among them \"arguments to functionals and constructors where the corresponding parameters have declared types\" and \"body expressions of functionals and constructors where the return types are declared\" (:102-127); \"types named by type parameters do not have coercions\" (:363-365); the expected type re-chooses a declaration only in widening, \"not yet supported\" (:806-848, :15).",
+"- A numeral has a type of its own, and \"Libraries define coercions from numerals to integers\" (Specification/basic/expressions/literals.tex:127-148); its hierarchy is a note (:87-96).",
+"- The team's papers: static inference with the results \"passed to the run-time system to ensure that run-time type inference at a function call is sound\" (Papers/Types/discussion.tick:34-38, commented out); run-time inference of a dispatched declaration's type parameters \"beyond the scope of this paper\" (Papers/Types/rules.tick:118-129); the join of two argument types in the code generator's plan (Papers/Implementation/MethodMapping.tex:309-319). The later Types chapter gives the coercion relation (Documentation/Specification/Prose/Language/types.tick:938-947), a generic type's coercion (:393-400) and valid instantiation (:771-789), and no inference.",
+"- The models: batch 5's rung S (explorations/compile-ladder/rung-spec-route-a/decision-record.md, section 3.9, the form) and batch 6's rung T (explorations/compile-ladder/rung-spec-numbers/decision-record.md).",
+"",
+"**What it writes.** First, before any edit, the list: every passage of Specification/ outside library/apis/ that cites the chapter or presumes its rule, with what the decision makes of it, whether it is revised now or left, and the source that settles it. Then:",
+"- the chapter: what a static argument is inferred from, stated as far as rung I builds it and no further: the arguments whose declared parameter types mention the static parameter, by subtyping; the expected type of the call, including a call written f(x), and the retry without it when the result converts; the other arguments then admitted by substitutability against the instantiated parameter types, a coercion applied where one is needed; a type parameter that stands alone as a parameter's type, fixed by nothing else, taking the narrowest of its arguments' types and its bound; answer 8's promotion, the narrowest type every number argument converts into; under Q1 = (1), the numeral's default; that run-time dispatch infers a dispatched declaration's static arguments by the same rule from the arguments' run-time types (walk's implementation is rung K's; if K has not landed the callout says what walk does); and what the chapter leaves open, the team's note on BottomType kept (row 447), with a result-only parameter and a type fixed through a structure named as not covered;",
+"- the \\revision callout at the chapter;",
+"- answer 8's callout at Specification/basic-lib/basic-integers.tex:51-65, as batch 7R's rung U leaves it, and the paragraph of \"Passages not yet revised\" that repeats it, revised to say the rule is written, keeping the rest of each;",
+"- the Appendix I entry, a new subsection inserted immediately before \"Passages not yet revised\", after the entries batch 7's rung A and batch 7R's rung U add there (re-read on the base), quoting the original chapter from Specification-1.0-frozen/basic/inference.tex:12-27 and the revival's callout from git show <base>:Specification/basic-lib/basic-integers.tex, since the callout is not the Working Draft's;",
+"- the decision record, explorations/compile-ladder/rung-spec-inference/decision-record.md;",
+"- every citation of a line of a chapter it edits in the messages and comments of ProjectFortress/tests/, compiler_tests/ and library_tests/, re-anchored by the map of unchanged lines from git show <base>:<chapter> to its tree, never an assertion; an edit to the callout that changes its line count moves every test citation of basic-integers.tex below it (seven files at the 7R review: WrapOperatorsRungD.fss, FixedWidthOverflowRungB.fss, IntSemanticsRungI.fss, compiler_tests/IntLiteralWrapRepairR2.fss, IntSemanticsRungB.fss, XXXShiftDeclRungI.fss, library_tests/IntegralOpsRungN.fss; re-read on the base).",
+"",
+"**How it is checked.** No test can go red for a prose edit. The specification is built as rungs S and T built it (./ant genSource, then ./ant tex, in Specification/fortress/, with FORTRESS_HOME the worktree), on the base and after, the four logs captured; pdftotext of the two PDFs diffed, showing only the new chapter, the callouts, the appendix entry and page shifts; git diff --stat showing only the listed files; every re-anchored citation opened. Any example the chapter prints is run on both paths after rungs I and K land, at the gather. The rung does not commit Specification/fortress.pdf; the gather rebuilds it once on the merged tree.",
+"",
+"**Files it may touch.** Specification/basic/inference.tex; Specification/basic-lib/basic-integers.tex, the callout only; Specification/appendices/changes.tex, its new subsection at its place and the paragraph of \"Passages not yet revised\" that names the rule; the messages and comments of the tests whose citations its edits move; its own directory. Not: Specification-1.0-frozen/; Specification/fortress.pdf; Specification/basic/overloading.tex and advanced/overloading.tex (batch 7b's rung S); Specification/basic/expressions/literals.tex and conversions-coercions.tex (rung Q); any source, library or test assertion.",
+"",
+"**Java or Scala.** Neither.",
+"",
+"**The checker count.** Unchanged: the rung edits nothing the stage reads. Not captured.",
+"",
+"**Stops.** Any edit under Specification-1.0-frozen/. Normative text stating more than rung I builds, an answer to the team's BottomType question among it. A passage whose new text neither the decisions nor rung I's section settles: the rung reports it and does not choose. An assertion changed in a re-anchored test. A file another rung edits. Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** Every sentence of the chapter against the decisions and against rung I's section (rung I's checker is not in T's tree; the gather checks the text against I's landed tests once both are applied); every quoted original against git show <base>:<path> and against the frozen copy's line; the two builds and the pdftotext diff; each re-anchored citation opened; the list against the passages evidence B section 1.2 names.",
+"",
+"**What comes back to Pavol.** The chapter as the pdftotext diff; the Appendix I entry; the list, with what was left and why.",
+"",
+"**What it closes.** No row by number. Notes appended to rows 447 and 425: the chapter keeps the team's question on BottomType open. The FACTS entry \"The specification never wrote static-argument inference, a numeral's type hierarchy or a range's integer width\" is corrected at the gather: the chapter is written.",
+"",
+].join('\n')
+
+const Q_TAIL = [
+"",
+"## Your rung: Q - the numeral's own type",
+"",
+"SLUG is rung-numeral-type. WORKTREE is /home/user/fortress-numeral, branch wip/rung-numeral-type.",
+"",
+"Your brief is this rung's section of the batch record (explorations/coordinator/CLIMB-BATCH-N.md, section 3, under \"Q. The numeral's own type\"), carried below word for word; where it says what the rung does, decides or records, that is you. The decisions it builds are quoted in section 2 of the record; read them there.",
+"",
+"**The answers this rung follows.** Q1 = (1): under walk a type parameter that only numerals fix, whose bound IntLiteral does not meet, takes ZZ32 (or ZZ64 or ZZ for a value ZZ32 cannot hold), and a call whose declarations each take a numeral only by coercion, none most specific, takes the ZZ32 declaration, as rung I built for the checker in run 1 (under (2), the expected type is not walk's to use, so a refusal; under (3), a refusal). This rung runs in run 2, on the tree where run 1 (rungs I, K and T) has landed.",
+"",
+"**Its briefing.** The decisions (a numeral's type, the numerics plans, answer 8, answer 7, route A, the library's practice, the library route, the model lines, the JVM principle, rung C's held push and batch 5's masks, the S1 form, the name of the unrevised copy, the launch of phase 3's batches, the stops, rung D's stop); ledger rows 79, 443, 454, 387, 426, 432, 437, 401, 325, 318, 442 and 20; the plan-6.5 probe of the numeral with its library and Java patches; the Fable plan's face B; evidence B's sections on where a numeral gets its type on the checker and under walk, the compiler library, the library's devices for a T in generic code and microGPT's numerals; the shadow note's one-shape cases, microGPT, the distance and the forks; the specification's literals section, the coercion chapter's note on integers in floating-point expressions and its Appendix I entry, and \"Passages not yet revised\"; the two libraries' IntLiteral, the library's identity functions, FIntLiteral.make, the return check walk switches off, the IntLiteral natives; the tests on numerals and on a converted return; the FACTS entries on a numeral's type and value, the sum's identity, the flat tower, walk's coercion, microGPT's checker errors, the distance by root cause, the specification's silence and the harness; the map's library and interpreter rows. The keys are in section 7; checks is the decisions, rows 79, 443, 454 and 387, the plan-6.5 probe, the compiler library's IntLiteral, FIntLiteral.make, the literals section and the entry on a numeral's type.",
+"",
+"**The problem.**",
+"- A numeral's type is modelled three ways (FACTS.md, \"A numeral's type depends on the path and on the library in scope, and only x.one and the witness typecase produce a T in generic code on both paths\"). The compiled checker types every integer numeral IntLiteral (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:467-473): with the compiler library a trait that each integer type converts from (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390), with the one library object IntLiteral extends { ZZ32 }, its arithmetic withheld \"until coercion is implemented\" (ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:117, :125-127). Walk makes an integer numeral an Int, a Long or a BigNum by magnitude (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java:40-56).",
+"- The rows it makes: typecase on a numeral answers other compiled and ZZ32 under walk, and the same split reaches overload dispatch, ee(5) giving walk 1 and compiled 2 (row 79); s: RR64 = 3000000000 is refused under walk, \"RHS expression type Long is not assignable to LHS type RR64\" (row 443); a: NN32 = 3 and a: NN64 = 3 are refused on both paths (row 454's integer half); SUM <|1, 2, 3|> is refused under walk (row 432); matrix(v)'s numeral 0 does not reach an NN32 or NN64 element (row 437); answer 7's identity functions pass numerals through cast[\\T\\], which does not convert (row 426's numeral half; Library/FortressLibrary.fss:3107-3131 today).",
+"- What the switch meets, measured by the plan-6.5 probe (explorations/compile-ladder/plan-6.5/NOTES.md section 1): with walk's numeral an IntLiteral and the compiler library's model in the one library, the library does not finish loading. Model A0 stops at 0 <= r (\"Ambiguous coercion\": ZZ32's own <= comes from the generic StandardTotalOrder[\\T\\], which the coercion pass skipped until rung K); A1, with ZZ32's comparisons stated on ZZ32 itself as ZZ64 states them, stops at 2:46 (a generic range, gone with batch 7R); B stops at the dummy 0 asif ZZ32, which the specification refuses since the subexpression of asif must be a subtype (Specification/basic/expressions/type-annotation.tex:40-52); the library writes a numeral asif a number type at 38 sites. By reading, then: a numeral returned at a declared number type, getter zero(): ZZ32 = 0, which walk does not convert (row 387; ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:42-45, \"Jam on, for now.\"); and the identity functions' cast[\\T\\](0) and widen(0). On the checker, the switch's library copy under rung I's rule costs 3 errors on the library of 2026-09-27 (shadow section 4): three numeral-only ranges, which batch 7R's ZZ32 ranges take by coercion, and three CMP 0 comparisons that resolve to a declaration answering Comparison where TotalComparison is declared; widen(4) resolves to NN32's declaration (shadow section 2.3). Walk's changed outputs under the whole switch are probe Q's to measure (section 6).",
+"",
+"**The decisions.** A numeral's type (explorations/coordinator/POSITIONS.md, 2026-09-27): \"walk needs to be corrected and switched to using IntLiteral\"; the one library takes the compiler library's IntLiteral, \"a numeral's own type that each number type converts from\", the implementers' later word weighing more than the unfinished text; the changed interpreter outputs measured first; \"Rows 79, 432, 437 and 443 are its measure.\" The numerics plans, decision 3 (2026-09-27): \"the one library and walk take the compiler library's sibling IntLiteral with its coercions\". Answer 8 (2026-09-26): integer literals coerce into RR64; under route A (2026-09-24) each wider type declares its coerce. Under Q1 = (1), walk's default as above. The library's practice (2026-09-19) and the library route (2026-09-21): the compiler library is not edited. Not this rung's: FloatLiteral (the decision names the integer numeral; row 454's RR32 half); the compiled cast's failure to match (row 426's compiled half, batch 6.5's rung G); whether \"exact\" in answer 8 excludes a numeral above 2^53 (parked; the coercion rounds once); a type parameter's coercion in the checker (row 437's checker half).",
+"",
+"**What the libraries and the tree already do.** Evidence, not the brief; the rung lists every way before it chooses.",
+"- The compiler library's model (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390-429): trait IntLiteral extends { Number, Equality[\\IntLiteral\\] } excludes {ZZ32, ZZ64, NN32, RR64, RR32, Character, Boolean, String, NN64, ZZ} with abstract getters asZZ32, asZZ64, asNN32, asZZ, asNN64, asRR64, its own arithmetic, comparison and bit operators, and a coerce(x: IntLiteral) on ZZ, ZZ64, ZZ32, NN32 and NN64 (:104, :148, :211, :274, :333), none on RR64 (row 442).",
+"- The plan-6.5 probe's patches (explorations/compile-ladder/plan-6.5/probes/numeral/numeral-lib-A0.patch, numeral-lib-A1.patch, numeral-lib-B.patch, numeral-java.patch) are a measurement, not a proposed edit: object IntLiteral extends Number, Number's comprises clause taking it, ZZ32's giving it up, a coerce(x: IntLiteral) on ZZ32, ZZ64, NN32, NN64, ZZ, QQ and RR64, the team's arithmetic block enabled, five conversion natives beside the team's IntLiteral natives (ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java), and FIntLiteral.make returning an IntLiteral for every numeral.",
+"- The flat tower's pattern: a number type with arithmetic carries its algebra at its own type (RR64 and QQ extend AdditiveGroup and MultiplicativeRing at their own type; FACTS.md, \"The one library's number tower is flat\"); SUM is generic over AdditiveGroup[\\T\\].",
+"- The library's devices for a number of a known type: a typed binding converts (rung C); x.zero and x.one need an element in hand; widen, unsigned, big name a fixed type (evidence B section 6.2).",
+"- The team's tests on numerals: ProjectFortress/tests/NumeralTest.fss, litCoercion.fss, and XXXextendIntLiteral.fss, which asserts that a program cannot extend IntLiteral: the object form keeps it an expected failure, a trait form would turn it green.",
+"- Walk's conversion at a declared return type is switched off at Simple_fcn.check (:42-45); its expected failure is ProjectFortress/tests/XXXCoercionReturnRungC.fss (row 387); rung C's typed-binding conversion is Coercions.coerceToDeclared (Coercions.java:124).",
+"",
+"**The evidence on file.** Probe Q's measurement (section 6), the switch as a walk shadow on the tree after run 1 over every file of ProjectFortress/tests/, the demos and the two microGPT checks: to be written here before the launch, with any real choice it finds brought to Pavol first.",
+"",
+"**The test, first.** In ProjectFortress/tests/, each captured failing on the base and passing after:",
+"- XXXCoercionReturnRungC.fss promoted by git mv to a plain name (row 387), if the rung takes walk's conversion at a declared return.",
+"- One new test in the form of ProjectFortress/tests/roundBug.fss, each assertion citing its source: typecase 7 answering the specification's branch, other beside a ZZ32 clause, and ee(5) taking the declaration applicable without coercion (row 79); s: RR64 = 3000000000 holding a float (row 443); a: NN32 = 3 and a: NN64 = 3 (row 454); SUM <|1, 2, 3|> (row 432, if the rung's device carries it); matrix(v) for NN32 elements (row 437's walk half); the empty SUM and PROD over ZZ32, ZZ64 and NN32 through the identity functions (row 426's numeral half); twice(3, 4), lohi(2, 46) and widen(0) under Q1's default; row 401's shape with an untyped numeral binding passed to a ZZ32 parameter of a generic, as microGPT's heads passes blockSize; and 3 + 4, 2147483647 + 1 with numeral operands and with ZZ32 operands, each value with its type.",
+"- On the checker, the count stage and the distance stage before and after, each through run_bg, captured and compared.",
+"",
+"**What it writes.** The one library's IntLiteral as the compiler library's sibling, with its coercions and the declarations its arithmetic needs; walk's numeral; walk's default under Q1 in EvaluatorBase.inferAndInstantiateGenericFunction and OverloadedFunction.bestMatchWithCoercion as rung K left them; the library's numeral sites that the switch breaks, each respelled with the library's own devices and listed with its before and after; the literals section's numeral passage (Specification/basic/expressions/literals.tex:83-96, :127-148) and the sentence of the coercion chapter's note that says the interpreter does not yet convert a numeral outside ZZ32 (Specification/basic/conversions-coercions.tex:74-88), each in the S1 form with its Appendix I entry, inserted after rung T's; the tests; its report, record and decision record.",
+"",
+"**The comparison.** As rung K's: every file of ProjectFortress/tests/ in three passes, the same runner and normalisation, XXXInheritedOverload.fss unstable; every changed output listed with its cause against probe Q's list. The two microGPT checks from an empty cache, 40 of 40 with their printed values unchanged. The demos, one pass before and one after, cut at 120 seconds. The specification's examples under SpecData/examples/ that hold an integer numeral, under walk before and after, reported, not gated. The machine line on every capture; pass caches deleted once captured; df read before each pass.",
+"",
+"**What it clears.** On the checker, measured by the shadow on the switch's library copy of 2026-09-27 under the rule: the switch's cost 3 errors under any (1,404 against 1,401), microGPT's own errors unchanged on the copy with ranges over ZZ32; on this batch's base, by arithmetic, fewer, since batch 7R's ZZ32 ranges take the numeral-only ranges by coercion and batch 7's rung B has bounded the 24 IntLiteral natives' result. Under walk nothing is measured: probe Q gives the changed outputs.",
+"",
+"**Files it may touch.**",
+"- ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi and .fss: IntLiteral and its members, NN32's coercions.",
+"- Library/FortressLibrary.fsi and .fss: Number's comprises clause, ZZ32's comprises clause, a coerce(x: IntLiteral) in each of ZZ32, ZZ64, NN64, ZZ, QQ and RR64, ZZ32's comparison operators if the rung states them on ZZ32 itself, and the numeral sites the switch breaks, each named (the identity functions among them). Not the headers of AnyIntegral and Integral (batch 7's rung H), fail and StandardMinMax (rung B), the fill and tabulate members (rung A), or any declaration batch 7b's rung L names.",
+"- Any other library file whose numeral site the switch breaks, found by the rung's comparison and named.",
+"- ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java (make), ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java, Simple_fcn.java's return check (or the site the rung finds for row 387), and EvaluatorBase.java's and OverloadedFunction.java's methods rung K edited, for walk's default only.",
+"- Specification/basic/expressions/literals.tex, the note and the paragraph named; Specification/basic/conversions-coercions.tex, the one sentence named; Specification/appendices/changes.tex, its new subsection.",
+"- The new test, the promoted one; its own directory.",
+"- Not: Library/CompilerLibrary.*, Library/CompilerAlgebra.*, ProjectFortress/LibraryBuiltin/Compiler* (POSITIONS 2026-09-21, the library route); the checker; Specification-1.0-frozen/; explorations/run-c4/ and explorations/apl/.",
+"",
+"**Java or Scala.** Java. ant compileAll, default_repository/caches/global.map restored after it, the interpreter's caches wiped before every run.",
+"",
+"**The checker count.** Reported: the FortressBuiltin and FortressLibrary apis change. Captured before and after and declared, with the distance stage's totals.",
+"",
+"**What must stay green, or keep its verdict.** Every interpreter test's verdict other than those the comparison accounts for; XXXextendIntLiteral.fss an expected failure; FlatTowerRungF.fss, FixedWidthOverflowRungB.fss, IntSemanticsRungI.fss, WrapOperatorsRungD.fss; rung K's tests; the two microGPT checks at 40 of 40 with unchanged values; every compiled test (the compiler library is untouched).",
+"",
+"**Stops.**",
+"- A changed walk output that the comparison does not account for against probe Q's list.",
+"- A changed value printed by either microGPT check, or any line of explorations/run-c4/src/ or explorations/apl/mg/ (shown to Pavol as a diff first, POSITIONS 2026-09-19).",
+"- A team test line changed, or an expected failure of the team's turning green (XXXextendIntLiteral.fss among them).",
+"- A new checker error the distance stage shows as caused rather than unmasked, which the report does not account for.",
+"- An edit to the compiler library, the checker, Specification-1.0-frozen/, or a declaration another batch's rung owns (above) beyond a numeral site the switch breaks, unreported.",
+"- Not a stop: an output difference that the untouched tree already shows from run to run, with the test's verdict unchanged (POSITIONS 2026-09-26, rung D's stop).",
+"",
+"**For the skeptic.** The new test's assertions red on the base and green after; walk against the compiled run on the same numerals (typecase 7, ee(5), s: RR64 = 3000000000, the empty sums) with the compiler library, and against the checker's view on the one library; each respelled library site against its before, value by value; each changed output against probe Q's list; the distance tables; the microGPT checks' values; the specification text against the library as landed.",
+"",
+"**What comes back to Pavol.** The changed outputs with their causes; the library sites respelled; whether IntLiteral is an object or a trait and what algebra it carries; the specification's new text as a pdftotext diff.",
+"",
+"**What it closes.** Rows 79, 443 and 387 (fixed); row 454's integer half; row 426's numeral half; row 432 if the new test carries it; row 437's walk half, its checker half left open with the reason. Notes appended to rows 318 and 442 (the compiler library's model is the one library's now; both close at the switch-over). Batch 6.5's question 1 is answered.",
+"",
+].join('\n')
+
+const I_ENTRY = { id: 'I', slug: 'rung-inference-checker', path: '/home/user/fortress-infer', branch: 'wip/rung-inference-checker', tail: I_TAIL, expectedMinutes: 200, writesState: false, testIsStage: false,
+    blurb: "the compiled checker infers a generic's static arguments with coercion, answer 8's promotion rule its number case and Q1's default for a numeral, and keeps the expected type at a call written f(x) with a retry without it; rows 401 and 455, row 388's compiled half; Scala.",
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-19 answering the open question", "positions:2026-09-21 library route",
+      "positions:2026-09-26 answer 12", "positions:2026-09-22 on planning", "positions:2026-09-27 launch of phase 3's batches",
+      "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:401", "ledger:388", "ledger:455", "ledger:447",
+      "ledger:425", "ledger:432", "ledger:79", "doc:explorations/reviews/inference-rule-shadow.md#The answers",
+      "doc:explorations/reviews/inference-rule-shadow.md#1. The edit", "doc:explorations/reviews/inference-rule-shadow.md#2. The probes",
+      "doc:explorations/reviews/inference-rule-shadow.md#3. microGPT and row 401", "doc:explorations/reviews/inference-rule-shadow.md#4. The distance",
+      "doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets",
+      "doc:explorations/reviews/inference-rule-shadow/rule.patch", "doc:explorations/reviews/inference-rule-shadow/probes/RuleCRun.fss",
+      "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 3. The rule and the numeral switch as one batch, before 7b",
+      "doc:explorations/reviews/numerics-plan-fable.md#3.1 Face A: inference does not consider coercion",
+      "doc:explorations/reviews/numerics-plan-fable.md#3.3 Face C: inference with nothing to infer from",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.2 How a static argument is inferred",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.3 Whether the expected type is used",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.4 Whether a coercion is considered while solving",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-D.md#1.3 The same drop elsewhere, not changed",
+      "doc:explorations/reviews/numerics-plan-coordinator/measure-D.md#2.2 What else the kept context changes", "doc:Specification/basic/inference.tex",
+      "doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#Type check the application of the given arrow candidates to the given args",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala#case SJuxt(info, multi, infix, front::rest, false, true)..case SJuxt(info, multi, infix, front::rest, true, true)",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def inferStaticParams(fnType: ArrowType,",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala#def getCoercionsTo(uu: Type)",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala#def substitutableFor(t: Type, u: Type)",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait IntLiteral extends",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#object IntLiteral extends", "doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss",
+      "doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.test", "doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss",
+      "doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.test", "Static arguments are inferred from the arguments alone, on both paths",
+      "Keeping the expected type at a call written", "A numeral's type depends on the path and on the library in scope",
+      "An inferred generic refuses a coercion that the method it forwards to accepts",
+      "MicroGPT's own programs through the compiled checker against the one library", "The specification never wrote static-argument inference",
+      "The true distance to the switch-over", "The compiled checker refuses a call whose most specific arm has a size the call cannot fix",
+      "The compiled type checker checks nat and int static parameters", "An XXX compile test pinned by compile_err_contains whose program compiles",
+      "The XXX expected-failure mechanism in compiler_tests", "ant compileAll deletes a tracked file", "The checker-count stage's table",
+      "map:compile-path-walkthrough.md#How it walks the tree", "map:README.md#Touch this@scala_src/typechecker"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 stops a batch record reserves", "ledger:401",
+      "ledger:388", "ledger:455", "ledger:447", "doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets",
+      "doc:explorations/reviews/inference-rule-shadow/rule.patch", "doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion",
+      "code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(",
+      "doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss", "doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss",
+      "An XXX compile test pinned by compile_err_contains whose program compiles"],
+    expectedMoves: [] }
+
+const K_ENTRY = { id: 'K', slug: 'rung-inference-walk', path: '/home/user/fortress-walkinfer', branch: 'wip/rung-inference-walk', tail: K_TAIL, expectedMinutes: 220, writesState: false, testIsStage: false,
+    blurb: "walk infers a generic's static arguments with coercion at dispatch by the same rule, its coercion pass considers generic declarations, and a generic trait's coercion is applied; rows 389 and 388's walk half; Java.",
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type",
+      "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-19 answering the open question",
+      "positions:2026-09-26 climb batch 4's held push", "positions:2026-09-26 climb batch 5 (coordinator", "positions:2026-09-26 answer 9",
+      "positions:2026-09-22 on planning", "positions:2026-09-27 launch of phase 3's batches", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:388", "ledger:389", "ledger:387", "ledger:432", "ledger:20", "ledger:21", "ledger:364", "ledger:424",
+      "ledger:430", "doc:explorations/reviews/inference-rule-shadow.md#The answers",
+      "doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets",
+      "doc:explorations/reviews/inference-rule-shadow/probes/OneShapeW.fss",
+      "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 3. The rule and the numeral switch as one batch, before 7b",
+      "doc:explorations/reviews/numerics-plan-fable.md#3.1 Face A: inference does not consider coercion",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#4.2 How a generic call's static arguments are inferred",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#4.3 Rung C's coercion at dispatch meets a generic callee",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#8. How the three interact: observations, with their sources",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#1. A numeral's type",
+      "doc:explorations/compile-ladder/rung-interp-coercion/REPORT.md#1. What changed",
+      "doc:explorations/compile-ladder/rung-interp-coercion/REPORT.md#5. Decisions",
+      "doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchInternal",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java#public List<FValue> typecheckParams",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java#public static Set<FType> join(List<FValue> evaled)",
+      "doc:ProjectFortress/tests/XXXCoercionGenericFnRungC.fss", "doc:ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss",
+      "doc:ProjectFortress/tests/roundBug.fss", "code:ProjectFortress/tests/IntSemanticsRungI.fss#zz32Shown(v: Any): String",
+      "Under walk, the interpreter converts by coercion at its three kinds of type check",
+      "Static arguments are inferred from the arguments alone, on both paths",
+      "An inferred generic refuses a coercion that the method it forwards to accepts", "A numeral's type depends on the path and on the library in scope",
+      "The one library's number tower is flat", "An XXX*.fss in the interpreter corpus IS a gated expected-failure test",
+      "testSystem's four shards are one suite split by sorted index", "The interpreter's overload-ambiguity message names its two declarations",
+      "Three heaps run the interpreter", "ant compileAll deletes a tracked file", "map:README.md#Touch this@interpreter/ (evaluator"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:388", "ledger:389", "ledger:432",
+      "doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need", "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor",
+      "Under walk, the interpreter converts by coercion at its three kinds of type check",
+      "An XXX*.fss in the interpreter corpus IS a gated expected-failure test"],
+    expectedMoves: [] }
+
+const T_ENTRY = { id: 'T', slug: 'rung-spec-inference', path: '/home/user/fortress-specinfer', branch: 'wip/rung-spec-inference', tail: T_TAIL, expectedMinutes: 110, writesState: false, testIsStage: false, landsOnlyWith: ["I"],
+    blurb: "the specification's type-inference chapter, today notes only, written to rung I's rule in the S1 form, with answer 8's callout and Appendix I; lands only with I; no source and no test assertion.",
+    briefing: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8", "positions:2026-09-27 numeral's type", "positions:2026-09-26 S1",
+      "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note", "positions:2026-09-24 requirement on the plan",
+      "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 answer 9", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:447", "ledger:425", "ledger:455", "ledger:401", "ledger:388",
+      "doc:explorations/reviews/inference-rule-shadow.md#The answers", "doc:explorations/reviews/inference-rule-shadow.md#1. The edit",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets",
+      "doc:explorations/reviews/numerics-plan-synthesis.md#Decision 3. The rule and the numeral switch as one batch, before 7b",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#1.2 Static arguments, and the inference chapter the text cites",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#1.3 Coercion at a call and in a typed binding",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#2. The team's later Types chapter and the Types papers",
+      "doc:Specification/basic/inference.tex", "doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion",
+      "doc:Specification/basic/conversions-coercions.tex#Coercion Resolution",
+      "doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls",
+      "code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:Specification/appendices/changes.tex#Reductions whose element type nothing fixes",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form",
+      "doc:explorations/compile-ladder/rung-spec-numbers/decision-record.md#5. Decisions taken inside the rung",
+      "The specification never wrote static-argument inference", "The team's latest word on types", "Specification-1.0-frozen/ is byte for byte",
+      "The specification states instantiation exclusion, and its refused examples", "The specification's number chapters describe the flat library",
+      "A generic object referenced without its static arguments is a static error on the compiled path",
+      "Static arguments are inferred from the arguments alone, on both paths", "Keeping the expected type at a call written",
+      "map:README.md#Touch this@Specification/ (the standard)"],
+    checks: [
+      "positions:2026-09-27 numerics plans", "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers",
+      "positions:2026-09-27 stops a batch record reserves", "ledger:447",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets", "doc:Specification/basic/inference.tex",
+      "code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form", "The specification never wrote static-argument inference"],
+    expectedMoves: [] }
+
+const Q_ENTRY = { id: 'Q', slug: 'rung-numeral-type', path: '/home/user/fortress-numeral', branch: 'wip/rung-numeral-type', tail: Q_TAIL, expectedMinutes: 260, writesState: false, testIsStage: false,
+    blurb: "the numeral's own type: the one library takes the compiler library's sibling IntLiteral with its coercions, walk gives every integer numeral that type and converts a body to its declared return type, the library's numeral sites the switch breaks respelled; rows 79, 443, 387, 454's integer half; library, Java and specification.",
+    briefing: [
+      "positions:2026-09-27 numeral's type", "positions:2026-09-27 numerics plans", "positions:2026-09-26 answer 8",
+      "positions:2026-09-26 answer 7 catch-all", "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-19 answering the open question",
+      "positions:2026-09-21 library route", "positions:2026-09-19 on the FlatArrays review", "positions:2026-09-22 a design principle",
+      "positions:2026-09-26 climb batch 4's held push", "positions:2026-09-26 climb batch 5 (coordinator", "positions:2026-09-26 S1",
+      "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-27 launch of phase 3's batches",
+      "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "ledger:79", "ledger:443", "ledger:454", "ledger:387",
+      "ledger:426", "ledger:432", "ledger:437", "ledger:401", "ledger:325", "ledger:318", "ledger:442", "ledger:20",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#1. A numeral's type",
+      "doc:explorations/compile-ladder/plan-6.5/probes/numeral/numeral-lib-A0.patch",
+      "doc:explorations/compile-ladder/plan-6.5/probes/numeral/numeral-java.patch",
+      "doc:explorations/reviews/numerics-plan-fable.md#3.2 Face B: a numeral's type is modelled three ways",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.1 Where a numeral gets",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#4.1 A numeral's run-time type",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#5. The compiler library",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#6.2 The library's devices for a number of type T in generic code",
+      "doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#7.1 Where a numeral meets a non-",
+      "doc:explorations/reviews/inference-rule-shadow.md#2.3 Fable's one-shape cases",
+      "doc:explorations/reviews/inference-rule-shadow.md#3. microGPT and row 401", "doc:explorations/reviews/inference-rule-shadow.md#4. The distance",
+      "doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets",
+      "doc:Specification/basic/expressions/literals.tex#Literals", "code:Specification/basic/conversions-coercions.tex#revision{revival-int-float}",
+      "doc:Specification/appendices/changes.tex#Integers in floating-point expressions",
+      "doc:Specification/appendices/changes.tex#Passages not yet revised",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait IntLiteral extends",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#object IntLiteral extends",
+      "code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#object IntLiteral extends ZZ32",
+      "code:Library/FortressLibrary.fss#The identity of + and of juxtaposition for the number type named by the..multiplicativeIdentity[",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java#public static FValue make(BigInteger v)",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java#protected FValue check(FValue x)",
+      "doc:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java", "doc:ProjectFortress/tests/XXXCoercionReturnRungC.fss",
+      "doc:ProjectFortress/tests/NumeralTest.fss", "doc:ProjectFortress/tests/litCoercion.fss", "doc:ProjectFortress/tests/XXXextendIntLiteral.fss",
+      "A numeral's type depends on the path and on the library in scope", "A numeral's value reaches the compiled world intact",
+      "The replacement for SUM's and PROD's catch-all", "The one library's number tower is flat",
+      "Under walk, the interpreter converts by coercion at its three kinds of type check",
+      "MicroGPT's own programs through the compiled checker against the one library", "The distance to the switch-over by root cause",
+      "The specification never wrote static-argument inference", "An XXX*.fss in the interpreter corpus IS a gated expected-failure test",
+      "testSystem's four shards are one suite split by sorted index", "The interpreter's overload-ambiguity message names its two declarations",
+      "Three heaps run the interpreter", "ant compileAll deletes a tracked file", "map:README.md#Touch this@Library/FortressLibrary.fss and the other",
+      "map:README.md#Touch this@interpreter/ (evaluator"],
+    checks: [
+      "positions:2026-09-27 numeral's type", "positions:2026-09-27 numerics plans", "positions:2026-09-27 stops a batch record reserves",
+      "positions:2026-09-26 rung D's stop", "ledger:79", "ledger:443", "ledger:454", "ledger:387",
+      "doc:explorations/compile-ladder/plan-6.5/NOTES.md#1. A numeral's type",
+      "code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait IntLiteral extends",
+      "code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java#public static FValue make(BigInteger v)",
+      "doc:Specification/basic/expressions/literals.tex#Literals", "A numeral's type depends on the path and on the library in scope"],
+    expectedMoves: [] }
+
+const RUNGS = RUN === 'first' ? [I_ENTRY, K_ENTRY, T_ENTRY] : [Q_ENTRY]
+const HAS_RUNG = (id) => RUNGS.some(r => r.id === id)
+
+const INTRO_RUNG = {
+  I: "I makes the compiled checker infer a generic's static arguments with coercion, answer 8's promotion rule its number case (the narrowest type every number argument converts into), and keep the expected type at a call written f(x), with a retry without it so that a binding's coercion still applies (POSITIONS.md, 2026-09-27, the numerics plans, decision 3).",
+  K: "K makes walk infer a generic's static arguments with coercion at dispatch, by the same rule: the arguments whose declared types mention a static parameter fix it, the others are converted, and a parameter that stands alone takes the narrowest type its arguments convert into; its coercion pass considers generic declarations, and a generic trait's coercion is applied (row 389).",
+  T: "T writes the specification's type-inference chapter, today notes only, to the rule rung I builds, in the S1 form; it lands only with I.",
+  Q: "Q gives a numeral its own type: the one library takes the compiler library's sibling IntLiteral with a coercion into each number type, walk gives every integer numeral that type and converts a body to its declared return type (row 387), and the library's numeral sites the switch breaks are respelled (POSITIONS.md, 2026-09-27, a numeral's type).",
+}
+const INTRO_STOPS = {
+  I: "for I, a compiled test's verdict changing other than the two it promotes and its own, a new checker error the distance stage shows as caused and the report does not account for, a ladder file moving down, an edit to the solver, to compiler/StaticChecker.java or to a file the count or distance stage shadows, any library, walk or specification edit, a binding chosen for a type parameter nothing at the call fixes other than today's, and a line of explorations/run-c4/src/ or explorations/apl/mg/",
+  K: "for K, a changed walk output its comparison does not account for, a changed microGPT value, an overload set whose load-time verdict changes, an edit to bestMatchInternal's comparison or the load-time check beyond what the coercion pass needs, unreported, and any edit under interpreter/glue/prim/, to FIntLiteral.java, or to the library, the checker or the specification",
+  T: "for T, any edit under Specification-1.0-frozen/, normative text stating more than rung I builds (an answer to the team's BottomType question among it), a passage whose new text neither the decisions nor I's section settles (reported, not chosen), an assertion changed in a re-anchored test, and a file another rung edits",
+  Q: "for Q, a changed walk output its comparison does not account for against probe Q's list, a changed microGPT value or any line of explorations/run-c4/src/ or explorations/apl/mg/, a team test line changed or a team expected failure turning green (XXXextendIntLiteral.fss among them), a new checker error the distance stage shows as caused and the report does not account for, and an edit to the compiler library, the checker, Specification-1.0-frozen/ or another batch's declaration beyond a numeral site the switch breaks, unreported",
+}
+const INTRO_LIFTED = {
+  I: "I makes the checker accept calls it refuses today, changes the message of a call no attempt accepts, and promotes two expected-failure compiler tests (POSITIONS.md, 2026-09-27, the numerics plans, decision 3)",
+  K: "K changes which static arguments walk infers and which arguments it converts at a generic call, and promotes two expected-failure interpreter tests (the same decision)",
+  T: "T writes a chapter of the specification (the same decision)",
+  Q: "Q changes the one library's declared numeral type and every integer numeral's run-time type under walk, declares IntLiteral as the compiler library does, respells library numeral sites, and promotes an expected-failure interpreter test (POSITIONS.md, 2026-09-27, a numeral's type, and the numerics plans)",
+}
+const OVERLAP_RUNG = {
+  I: "I edits, in ProjectFortress/src/com/sun/fortress/scala_src/typechecker/, impls/Functionals.scala (checkApplicable, checkApplicableWithInference, the checkApplication taking iargs and new methods beside them, not its SCaseExpr case), impls/Operators.scala (four cases of checkExprOperators), CoercionOracle.scala and possibly TraitTable.scala; and adds and promotes tests in ProjectFortress/compiler_tests/.",
+  K: "K edits, in ProjectFortress/src/com/sun/fortress/interpreter/evaluator/, EvaluatorBase.java (inferAndInstantiateGenericFunction), values/OverloadedFunction.java (bestMatchWithCoercion), values/Coercions.java (coercionFor) and possibly types/FType.java; and adds one test and promotes two in ProjectFortress/tests/.",
+  T: "T edits Specification/basic/inference.tex, the callout of Specification/basic-lib/basic-integers.tex, its subsection and one paragraph of Specification/appendices/changes.tex, and the messages of tests whose citations its edits move; never Specification-1.0-frozen/ or Specification/fortress.pdf.",
+  Q: "Q edits IntLiteral and NN32's coercions in ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi and .fss; in Library/FortressLibrary.fsi and .fss the comprises clauses of Number and ZZ32, a coerce member in six number types, possibly ZZ32's comparison operators, and the numeral sites the switch breaks, each named; FIntLiteral.java, interpreter/glue/prim/IntLiteral.java, the return check of Simple_fcn.java and, for walk's default, the two methods rung K edited; Specification/basic/expressions/literals.tex, one sentence of conversions-coercions.tex and its subsection of changes.tex; and adds one test and promotes one in ProjectFortress/tests/.",
+}
+
+const BATCH_INTRO = [
+  RUN === 'first'
+    ? "This run is climb batch N, the inference rule with the numeral switch, as Pavol decided it on 2026-09-27 (POSITIONS.md, the numerics plans, the synthesis's decision 3, \"Agreed.\"), in its first run: the checker's rule, walk's rule and the specification's chapter. It runs after climb batches 7 and 7R have landed. Its second run, batch Nb, rung Q, the numeral's own type, runs once this one has landed, because the switch under walk needs walk's rule in its worker's tree (the record's section 1)."
+    : "This run is climb batch Nb, the second run of batch N, the inference rule with the numeral switch, as Pavol decided it on 2026-09-27 (POSITIONS.md, the numerics plans, the synthesis's decision 3, and a numeral's type): rung Q, the numeral's own type. Batch N's first run (rungs I, K and T: the checker's rule, walk's rule and the inference chapter) has landed before it.",
+  RUNGS.map(r => INTRO_RUNG[r.id]).join(' '),
+  "Each rung's section of the record opens with the answers of its section 1 that it follows; section 1 asks one question, Q1, whose answer the coordinator writes into those lines at launch.",
+  'The stops reserved for Pavol in this run, on top of the standing ones: ' + RUNGS.map(r => INTRO_STOPS[r.id]).join('; ') + '; and any rung editing a file another rung of the run owns, or a declaration section 4 of the record names as another batch\'s rung\'s.',
+  RUNGS.some(r => INTRO_LIFTED[r.id]) ? 'Standing stops lifted by his decisions and by nothing else, none of them deleting a test: ' + RUNGS.filter(r => INTRO_LIFTED[r.id]).map(r => INTRO_LIFTED[r.id]).join('; ') + '.' : '',
+  "Every stop reserved for Pavol in this run is reversible (POSITIONS.md, 2026-09-27, on the stops a batch record reserves for him: \"These don't need me now. They are reversible things I can review later. Don't block start of next batches on these.\"): a rung that meets one finishes as its section says, lists it in stopsMet with liftedBy citing that entry, POSITIONS.md 2026-09-27, the stops, and lands; the stop is listed for his review, and neither the push nor the next run waits for it. A stop the record does not reserve, or one that cannot be undone, holds the commit stage's push as before.",
+  "An output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row and not a stop (POSITIONS.md, 2026-09-26, rung D's stop).",
+  "A rung that edits a chapter of Specification/ re-anchors, in its own commit, every citation of a line of that chapter that its edit moves in the messages and comments of ProjectFortress/tests/, compiler_tests/ and library_tests/, by the map of unchanged lines from git show <base>:<chapter> to its tree, and never changes an assertion (explorations/compile-ladder/climb-batch-6/JUDGE-review.md, finding 1); it leaves the files another rung edits, and the gather re-anchors those the same way after every rung is applied.",
+  HAS_RUNG('T') ? "The gather's rules: T lands only if I lands, whatever the approved list says (T's landsOnlyWith); after both are applied, the gather checks every rule T's chapter states against I's landed tests and the refusals they pin, fixes T's text where the decisions settle a mismatch, and reports any other to the review as blocking." : '',
+  "No rung commits Specification/fortress.pdf: after every rung is applied, the gather rebuilds the specification on the merged tree (./ant genSource, then ./ant tex, in Specification/fortress, the PDF copied to Specification/fortress.pdf), since a rung edits the specification and Part IV is rendered from the library's .fsi files, and removes the build's ignored products.",
+  "The worktrees share one disk: a rung that runs the three-pass comparison over ProjectFortress/tests/ or a distance run deletes each pass's caches and each run's scratch directory under its tmp/ once the outputs are captured, and reads df before each.",
+  "If the harness refuses an agent's write of REPORT.md, record.md or SKEPTIC.md, the agent says so and carries the text in its structured result as fully as the fields allow, and every list a rung hands Pavol is also a capture under probes/; the gather composes the file from them, as in batches 3.5 to 7R.",
+  "Cite a FACTS.md entry by its bold title beside its line, and a POSITIONS.md decision by its date and entry name, since both files' line numbers move.",
+  "Any timing anyone records carries its machine: nproc, the CPU model name and MHz from /proc/cpuinfo, the load average when the run started, the JDK and FORTRESS_THREADS (protocol.md, principle 2).",
+].filter(Boolean).join(' ')
+const BATCH_OVERLAPS = RUNGS.map(r => OVERLAP_RUNG[r.id]).join(' ') + ' ' + (RUN === 'first' ? "No file is shared among I, K and T. T's text states I's rule and lands only with it; after both are applied the gather checks T's chapter against I's landed tests. Batches 7 and 7R have landed in the base: I edits no declaration of theirs (7R's rung J's SCaseExpr case of Functionals.scala lies below I's methods); T revises the callout and the paragraph of Passages not yet revised as 7R's rung U left them, and inserts its Appendix I subsection after U's. The checker count and the distance read I's change; K and T change nothing they read. The files every rung reaches are the three record files, folded centrally by the gather." : "Q is alone in this run. Batch N's first run has landed in the base: Q edits two methods rung K edited, for walk's numeral default only, and inserts its Appendix I subsection after rung T's. Batches 7 and 7R landed earlier: Q edits no declaration of their rungs beyond a numeral site the switch breaks, each named (the dummy 0 asif ZZ32 arguments of the range operators, if 7R's rung J kept them, among them). The checker count and the distance read Q's changes to the FortressBuiltin and FortressLibrary apis. The files Q reaches beside its own are the three record files, folded centrally by the gather.")
+```
 
 ## 8. Script readiness
 
-READINESS_PLACEHOLDER
+Read against `explorations/coordinator/climb-batch-workflow.js` as committed at `ce0961e9c`, byte for byte the script batch 7's first run launched with (`ff1649cea`, run `wf_8a018276-f71`). What this batch needs is in it and serves unchanged:
+- every agent call retried through `callAgent`; the report texts carried in structured results; the push held only on a stop that no `POSITIONS.md` line lifts (`pushHeldBy`);
+- `landsOnlyWith`, which withholds T when I is not approved (seen in the stubbed run of section 7);
+- each rung's `briefing` and `checks`, rendered as every role's step 1;
+- a manifest that chooses its rungs by a `RUN` switch, as batch 7's does: the script reads only `RUNGS`, `BATCH`, `BATCH_RECORD`, `LEDGER_FROM`, `BATCH_INTRO` and `BATCH_OVERLAPS` from the block, and a run of one rung is scattered and gathered like any other;
+- the distance stage in the gate, reported and never red, against `last_landed_distance`; I's and Q's tails ask for the stage's table before and after their edits through `run_bg`, which the rung worker's step allows;
+- the checker count with the overloading memo off.
+
+Three things are needed before each run, none a change to the script's code:
+1. **The manifest**, as section 6 says under "Before each launch": the block replaces the one the script then holds (batch 7R's, once 7R's launch has spliced it), with `RUN` and `LEDGER_FROM` set, Q1's answer in the answers lines of I, T and Q, the lists re-checked with `facts-extract.sh --check` and the line numbers each run's sections cite re-read on the launch tree; a changed key or line is changed in section 3 or in `listsn.py`, and the block regenerated, never edited by hand. Then `node --check`, commit and push before the worktrees are cut.
+2. **The comparands.** Batch 7R's commit stage lands its gate's `summary.txt`, `checker-count.txt` and `distance.txt` under `explorations/compile-ladder/climb-batch-7r/gate/`; the gate's `last_landed_summary`, `last_landed_checker_count` and `last_landed_distance` take the newest commit touching `climb-batch-*/gate/`, so run 1 compares against batch 7R (or against 6.5, if it lands in between) and run 2 against run 1, with nothing to set. `BATCH` is `n` and then `nb`, which name `explorations/compile-ladder/climb-batch-n/` and `climb-batch-nb/`, and `tmp/gate-batch-n/` and `tmp/gate-batch-nb/`.
+3. **The probes' results**: probe K's written into K's section, "The evidence on file", before run 1, and probe Q's into Q's before run 2; the block is then regenerated, since each tail is its section.
+
+Nothing else is needed. The intro tells a rung that meets a reserved stop to cite `POSITIONS.md`, 2026-09-27, the stops, in `liftedBy`, and `pushHeldBy` counts such an entry as lifted. The re-anchoring rule and the gather's check of T against I are carried in the intro, as batch 7R carried its own, so they need no change to the shared prefix or the gather's role.
