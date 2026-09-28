@@ -27,7 +27,7 @@ M="$(date -u +%FT%TZ) $(machine_line)"
 S=$(date +%s)
 ( cd "$L" && timeout -k 10 1800 java -Xmx4g -Xss64m -Djava.io.tmpdir="$TMP" -Dfortress.caches="$C" "$SP" \
      -Dfortress.analyzer.overload.cache=false "$@" \
-     -cp "$W/classes:${NO_P1_SHADOW:+/nonexistent}${NO_P1_SHADOW:-$X/p1/classes}:$CP" WorldFlip "$L/FortressLibrary.fss" ) > "$W/run-$LBL.txt" 2>&1
+     -cp "$W/classes:${NO_P1_SHADOW:+/nonexistent}${NO_P1_SHADOW:-${P1_CLASSES:-$X/p1/classes}}:$CP" WorldFlip "$L/FortressLibrary.fss" ) > "$W/run-$LBL.txt" 2>&1
 RC=$?; E=$(( $(date +%s) - S ))
 rm -rf "$C" "$TMP"
 R=$W/run-$LBL.txt

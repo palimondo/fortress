@@ -1,5 +1,5 @@
-# build.sh 2026-09-28T04:44:40Z; tree e8ee3789e; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.31 2.24 1.63; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# build.sh 2026-09-28T09:33:33Z; tree 9102042ae; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.35 2.76 3.64; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 shadowed com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
 shadowed com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
-built in 6 s: 11 class files
-shadow.patch: 118 lines added, 4 removed
+built in 12 s: 11 class files
+shadow.patch: 123 lines added, 4 removed

@@ -11,7 +11,7 @@
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/../env.sh"
 STEP=$1; TAG=$2; shift 2
-SH="$X/p1/classes:"
+SH="${P1_CLASSES:-$X/p1/classes}:"
 mkdir -p "$O/P1/comp"
 case $STEP in
 libcache)

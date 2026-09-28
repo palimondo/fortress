@@ -1,5 +1,5 @@
 diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
-index 525c697a7..fb44da79a 100644
+index 525c697a7..2be4a4fd7 100644
 --- a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
 +++ b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
 @@ -25,6 +25,7 @@ import com.sun.fortress.scala_src.nodes._
@@ -10,7 +10,7 @@ index 525c697a7..fb44da79a 100644
  import com.sun.fortress.scala_src.types.TypeAnalyzer
  import com.sun.fortress.scala_src.types.TypeSchemaAnalyzer
  import com.sun.fortress.scala_src.useful.ErrorLog
-@@ -191,6 +192,96 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
+@@ -191,6 +192,101 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
  //     }
  //   }
    
@@ -100,7 +100,12 @@ index 525c697a7..fb44da79a 100644
 +        val nta = ta.extend(sp1 ++ glifted, None)
 +        val str = new StaticTypeReplacer(gown, fown.map(p => staticParamToArg(p)))
 +        val r2id = str.replaceIn(r2)
-+        if (isTrue(nta.subtype(r1, r2id))(nta)) "agree" else "return"
++        // Probe P1, second build: the more-specific relation must also hold under the identification
++        // (Java's subsignature condition for overriding generic methods), which the team's
++        // ProjectFortress/tests/XXXGenericOverload2.fss asks of walk ("Should not compile").
++        val d2id = str.replaceIn(d2)
++        if (System.getProperty("probe.positional.domain") != null && !isTrue(nta.subtype(d1, d2id))(nta)) "domain"
++        else if (isTrue(nta.subtype(r1, r2id))(nta)) "agree" else "return"
 +    }
 +  }
 +

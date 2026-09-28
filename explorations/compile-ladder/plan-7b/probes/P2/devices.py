@@ -17,12 +17,16 @@ match exactly once.  Marker names are placeholders for the measurement, not prop
      as climb batch 7's rung A redeclared tabulate and fill there)
   S  two one-line declared-type slips the triage listed: AssociativeReduction.lift(r:R) and
      LexicographicReduction.isLeftZero(_:TotalComparison)
-Usage: devices.py <dir> [letters], default all."""
+  R  (not in the default set; with G and without F) Range's abstract IN declared on PartialRange
+     instead, so that a full range takes IN from Generator (through Indexed) and a partial range
+     from PartialRange, which G makes exclude Generator: the declaration moved below the meet
+Usage: devices.py <dir> [letters], default KGFMQCS."""
 import os
 import sys
 
 D = sys.argv[1]
 WHICH = sys.argv[2] if len(sys.argv) > 2 else "KGFMQCS"
+assert not ("R" in WHICH and ("F" in WHICH or "G" not in WHICH)), "R goes with G and without F"
 P = os.path.join(D, "FortressLibrary.fsi")
 s = open(P, encoding="utf-8").read()
 
@@ -64,12 +68,15 @@ if "K" in WHICH:
     sub("trait RightRange[\\I\\] extends { RangeWithRight[\\I\\], PartialRange[\\I\\] }\n",
         "trait RightRange[\\I\\] extends { RangeWithRight[\\I\\], PartialRange[\\I\\], AnyRightRange }\n")
     sub("trait FullRange[\\I\\] extends { RangeWithLeft[\\I\\], RangeWithRight[\\I\\], RangeWithExtent[\\I\\], Indexed[\\I, I\\] }\n",
-        "trait FullRange[\\I\\] extends { RangeWithLeft[\\I\\], RangeWithRight[\\I\\], RangeWithExtent[\\I\\], Indexed[\\I, I\\], AnyFullRange }\n"
-        + ("    opr IN(n: I, self): Boolean\n" if "F" in WHICH else ""))
-elif "F" in WHICH:
-    sub("trait FullRange[\\I\\] extends { RangeWithLeft[\\I\\], RangeWithRight[\\I\\], RangeWithExtent[\\I\\], Indexed[\\I, I\\] }\n",
-        "trait FullRange[\\I\\] extends { RangeWithLeft[\\I\\], RangeWithRight[\\I\\], RangeWithExtent[\\I\\], Indexed[\\I, I\\] }\n"
-        "    opr IN(n: I, self): Boolean\n")
+        "trait FullRange[\\I\\] extends { RangeWithLeft[\\I\\], RangeWithRight[\\I\\], RangeWithExtent[\\I\\], Indexed[\\I, I\\], AnyFullRange }\n")
+if "F" in WHICH:
+    sub("    opr FORWARD_CMP(self, other: FullRange[\\I\\]): Comparison\nend\n",
+        "    opr FORWARD_CMP(self, other: FullRange[\\I\\]): Comparison\n    opr IN(n: I, self): Boolean\nend\n")
+if "R" in WHICH:
+    sub("    abstract opr IN(n: I, self): Boolean\n    opr CMP(self, other:Range[\\I\\]): Comparison\n",
+        "    opr CMP(self, other:Range[\\I\\]): Comparison\n")
+    sub("trait PartialRange[\\I\\] extends { Range[\\I\\], AnyPartialRange } end\n",
+        "trait PartialRange[\\I\\] extends { Range[\\I\\], AnyPartialRange }\n    abstract opr IN(n: I, self): Boolean\nend\n")
 if "M" in WHICH:
     sub("        extends { AnyMaybe, Condition[\\T\\], ZeroIndexed[\\T\\], UniqueItem[\\T\\] }\n        comprises { Nothing[\\T\\], Just[\\T\\] }\n",
         "        extends { AnyMaybe, Condition[\\T\\], ZeroIndexed[\\T\\], UniqueItem[\\T\\] }\n        comprises { Nothing[\\T\\], Just[\\T\\] }\n"

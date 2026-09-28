@@ -4,3 +4,4 @@ last commit to ProjectFortress/src Library ProjectFortress/LibraryBuiltin: f3b62
 ProjectFortress/build/scalac-compileAll.args: 2026-09-28T03:36:36Z
 sources newer than the build's args file: 0
 home: 40M build, 11M the rest
+# 2026-09-28T10:17:53Z: explorations/apl/reference and explorations/run-c/goldens added to the home from HEAD (the microGPT checks read them); unchanged since 81f0151be: 0 files differ

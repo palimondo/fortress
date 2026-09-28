@@ -45,7 +45,7 @@ stage)
   S=$(date +%s)
   ( cd "$H" && timeout -k 30 5400 java -Xmx4g -Xss64m -XX:-OmitStackTraceInFastThrow -Djava.io.tmpdir="$C/tmp" -Dfortress.caches="$C" \
       -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false "$@" \
-      -cp "$X/p1/classes:$W/shadow-classes:$W/classes:$CP" DistanceMulti -order check -setting any $T ) > "$W/run-$LBL.txt" 2>&1
+      -cp "${P1_CLASSES:-$X/p1/classes}:$W/shadow-classes:$W/classes:$CP" DistanceMulti -order check -setting any $T ) > "$W/run-$LBL.txt" 2>&1
   RC=$?; E=$(( $(date +%s) - S )); rm -rf "$C"
   R=$W/run-$LBL.txt
   { printf '#distance\tsetting any; overload memo off; 12 components of %s in one JVM; switches: %s\n' "$v" "${*:-none}"

@@ -1,0 +1,50 @@
+# files: stock 382, shadow 382; stock rc != 0: 234; shadow rc != 0: 234; blocks that differ: 4
+# errors reported in all: stock 469, shadow 470
+
+## Compiled6.bu.fss: stock rc=-1 errors=1; shadow rc=-1 errors=1
+--- stock
++++ shadow
+@@ -2,3 +2,3 @@
+     Could not check method invocation Foo.doIt
+-    - [\T extends Object\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).
++    - [\T\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).
+ File Compiled6.bu.fss has 1 error.
+
+## Compiled6.bv.fss: stock rc=-1 errors=1; shadow rc=-1 errors=1
+--- stock
++++ shadow
+@@ -2,3 +2,3 @@
+     Could not check method invocation Foo.doIt
+-    - [\T extends Object\](T, String)->T is not applicable to an argument of type (ZZ32, ZZ32).
++    - [\T\](T, String)->T is not applicable to an argument of type (ZZ32, ZZ32).
+ File Compiled6.bv.fss has 1 error.
+
+## XXXCoercionGenericFnCompiledRungC.fss: stock rc=-1 errors=1; shadow rc=-1 errors=2
+--- stock
++++ shadow
+@@ -1,4 +1,14 @@
++<snap>XXXCoercionGenericFnCompiledRungC.fss:20:34-58:
++    Could not check call to operator juxtaposition
++    - (IntLiteral, IntLiteral)->IntLiteral is not applicable to an argument of type (String, T).
++    - (NN32, NN32)->NN32 is not applicable to an argument of type (String, T).
++    - (NN64, NN64)->NN64 is not applicable to an argument of type (String, T).
++    - (RR64, RR64)->RR64 is not applicable to an argument of type (String, T).
++    - (String, Object)->String is not applicable to an argument of type (String, T).
++    - (ZZ, ZZ)->ZZ is not applicable to an argument of type (String, T).
++    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (String, T).
++    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (String, T).
+ <snap>XXXCoercionGenericFnCompiledRungC.fss:24:12-32:
+     Could not check call to function gf
+-    - [\T extends Object\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
+-File XXXCoercionGenericFnCompiledRungC.fss has 1 error.
++    - [\T\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
++File XXXCoercionGenericFnCompiledRungC.fss has 2 errors.
+
+## XXXNatLitArgChecker.fss: stock rc=-1 errors=2; shadow rc=-1 errors=2
+--- stock
++++ shadow
+@@ -5,3 +5,3 @@
+     Could not check call to function scaleT
+-    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
++    - [\T\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+ File XXXNatLitArgChecker.fss has 2 errors.

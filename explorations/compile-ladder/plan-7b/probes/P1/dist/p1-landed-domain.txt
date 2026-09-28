@@ -1,0 +1,33 @@
+@@P1 POS domain name=array1 own=2/2 eq=false
+   [\T, nat s0\]()->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fsi:1559:1-38
+   [\T, nat s0\]T->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fsi:1560:1-42
+@@P1 POS domain name=array2 own=3/3 eq=false
+   [\T, nat s0, nat s1\]()->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1669:1-51
+   [\T, nat s0, nat s1\]T->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1670:1-55
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](NoReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1821:5-1822:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS domain name=array3 own=4/4 eq=false
+   [\T, nat s0, nat s1, nat s2\]()->Array3[\T,0,s0,0,s1,0,s2\] @ <lib>/FortressLibrary.fss:2939:1-2940:39
+   [\T, nat s0, nat s1, nat s2\]T->Array3[\T,0,s0,0,s1,0,s2\] @ <lib>/FortressLibrary.fss:2941:1-2942:32
+@@P1 POS domain name=array1 own=2/2 eq=false
+   [\T, nat s0\]()->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fss:2359:1-2363:6
+   [\T, nat s0\]T->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fss:2364:1-68
+@@P1 POS domain name=array2 own=3/3 eq=false
+   [\T, nat s0, nat s1\]()->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fss:2719:1-2723:6
+   [\T, nat s0, nat s1\]T->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fss:2724:1-2725:29
+@@P1 POS return name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](Row[\T,b1,s1\], ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fss:2610:5-2611:54
+   [\nat b, nat s, nat o\](Array1[\T,b1,s1\], ZZ32)->Array1[\T,b,s\] @ <lib>/FortressLibrary.fss:2239:5-2242:6
+@@P1 POS return name=map own=1/1 eq=false
+   [\G\](SimpleMappedIndexed[\E,F,I\], F->G)->SimpleMappedIndexed[\E,G,I\] @ <lib>/FortressLibrary.fss:3509:5-3510:63
+   [\G\](MappedGenerator[\E,F\], F->G)->SimpleMappedGenerator[\E,G\] @ <lib>/FortressLibrary.fss:3482:5-3483:63
+@@P1 POS return name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](Col[\T,b0,s0\], ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fss:2599:5-2600:54
+   [\nat b, nat s, nat o\](Array1[\T,b0,s0\], ZZ32)->Array1[\T,b,s\] @ <lib>/FortressLibrary.fss:2239:5-2242:6

@@ -1,0 +1,24 @@
+#variant	devices-rules	<X>/p1/libs/sketch-devices
+#switches	-Dprobe.rtr=forced -Dprobe.positional=true
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	116
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	18
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	66
+#locations	55
+#crash	
+#positional-errors	0
+#p1-lines	524
+#p1	    521 @@P1 POS agree
+#p1	      3 @@P1 RTR stock=true paper=false forced=false
+#seconds	219 rc=255
+#machine	2026-09-28T09:30:29Z nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.35 3.00 3.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1

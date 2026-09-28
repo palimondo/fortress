@@ -15,6 +15,11 @@
  * The choice: among the declarations today's code finds applicable (a generic one instantiated at the
  * arguments, as today), the one strictly below every other on this relation, taken greedily in the
  * order bestMatchInternal walks (the first kept on a tie, as today).
+ * Only a declaration with static parameters of its own is read this way (ownGeneric): a functional
+ * method of a generic trait (walk's GenericFunctionalMethod) carries only its trait's parameters, is
+ * instantiated from its self argument's type, and keeps today's instance domain; a set with no
+ * own-generic declaration is not compared.  The load-time verdict is compared only for pairs with an
+ * own-generic declaration.
  */
 package com.sun.fortress.interpreter.evaluator.values;
 

@@ -1,0 +1,17 @@
+# comp XXXGenericOverload2 domain (-Dprobe.rtr=forced -Dprobe.positional=true -Dprobe.positional.domain=true; library cache forced) 2026-09-28T09:39:55Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.45 2.61 3.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+@@P1 POS domain name=f own=2/2 eq=false
+   [\U extends Object, V extends Object\](V, U, A)->IntLiteral @ XXXGenericOverload2.fss:25:1-33
+   [\U extends Object, V extends Object\](U, V, B)->IntLiteral @ XXXGenericOverload2.fss:24:1-32
+XXXGenericOverload2.fss:24:1-32:
+XXXGenericOverload2.fss:25:1-33:
+    Positional rule (domain) for f: the static parameters of [\U extends Object, V extends Object\](V, U, A)->IntLiteral @ XXXGenericOverload2.fss:25:1-33
+    do not agree position by position with those of [\U extends Object, V extends Object\](U, V, B)->IntLiteral @ XXXGenericOverload2.fss:24:1-32
+File XXXGenericOverload2.fss has 1 error.
+compile rc=255
+## run
+Could not load XXXGenericOverload2
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXGenericOverload2.class
+	... 4 more
+run rc=1

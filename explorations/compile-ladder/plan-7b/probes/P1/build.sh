@@ -6,15 +6,15 @@
 # and build.txt.
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/../env.sh"
-P1=$O/P1; W=$X/p1
+P1=$O/P1; W=$X/p1; CL=${P1_CLASSES:-$W/classes}
 cd "$FORTRESS_HOME"
-rm -rf "$W/shadow-src" "$W/classes"; mkdir -p "$W/classes"
+rm -rf "$W/shadow-src" "$CL"; mkdir -p "$CL"
 { echo "# build.sh $(date -u +%FT%TZ); tree $(git rev-parse --short HEAD); $(machine_line)"
   python3 "$P1/make-shadow.py" ProjectFortress/src "$W/shadow-src" || exit 1
   B=$(date +%s)
-  java -Xmx2g -cp "$CP" scala.tools.nsc.Main -nowarn -d "$W/classes" -classpath "$CP" -encoding UTF-8 \
+  java -Xmx2g -cp "$CP" scala.tools.nsc.Main -nowarn -d "$CL" -classpath "$CP" -encoding UTF-8 \
        $(find "$W/shadow-src" -name '*.scala' | sort) 2>&1 || { echo "scalac failed"; exit 1; }
-  echo "built in $(( $(date +%s) - B )) s: $(find "$W/classes" -name '*.class' | wc -l) class files"
+  echo "built in $(( $(date +%s) - B )) s: $(find "$CL" -name '*.class' | wc -l) class files"
 } > "$P1/build.txt" 2>&1
 cat "$P1/build.txt"
 for f in overloading/OverloadingOracle typechecker/OverloadingChecker; do

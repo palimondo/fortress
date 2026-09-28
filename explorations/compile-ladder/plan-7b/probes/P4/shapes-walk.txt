@@ -1,0 +1,27 @@
+start 2026-09-28T09:01:24Z shards: 1 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.39 4.40 4.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+done 2026-09-28T09:02:18Z: 9 logs; load 4.42 4.43 4.03
+=== GenPlainSub (walk, logging shadow)
+generic
+generic
+generic
+
+rc=0 secs=3
+
+=== GenPlainSubPlainFirst (walk, logging shadow)
+circle
+generic
+circle
+
+rc=0 secs=4
+
+=== GenPlainRTR (walk, logging shadow)
+com.sun.fortress.exceptions.ProgramError: shapes/GenPlainRTR.fss:11:1-26: and
+shapes/GenPlainRTR.fss:10:1-37:
+
+ident[\T extends Shape\](x:T):Tshapes/GenPlainRTR.fss:10:1-37 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+shapes/GenPlainRTR.fss:11:1-26:
+shapes/GenPlainRTR.fss:10:1-37:
+
+Turn on "-debug interpreter" f

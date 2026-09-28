@@ -1,0 +1,6 @@
+=== GenPlainSub
+DISPATCH describe args=(Circle)
+    today:    generic describe[\T extends Shape\](x:T):FortressLibrary.Stringshapes/GenPlainSub.fss:10:1-53 @ shapes/GenPlainSub.fss:10:1-53
+    declared: plain describe(x:Circle):FortressLibrary.String Circle->String shapes/GenPlainSub.fss:11:1-38 @ shapes/GenPlainSub.fss:11:1-38
+# programs run: 9; with shadow lines: 1
+# lines by kind:       1 DISPATCH;

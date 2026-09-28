@@ -19,7 +19,9 @@ text edits that must each match exactly once:
         section 3.4): when a declaration with static parameters of its own is more specific than
         another with static parameters of its own, the two declare the same number and kinds of
         them, position by position, and the more specific one's return type is a subtype of the
-        other's under that identification.  Returns "agree", "shape" or "return".
+        other's under that identification.  Returns "agree", "shape" or "return"; with
+        -Dprobe.positional.domain set (second build, 2026-09-28 09:45 UTC) also "domain", when the
+        more specific one's domain is not a subtype of the other's under the identification.
   OverloadingChecker.scala  returnTypeCheck computes the three return-type verdicts and the positional
     verdict for every pair it is called on (the pairs the checker accepts, in both orders) and
     prints one line per pair where the three return-type verdicts do not all agree (@@P1 RTR) and one per pair
@@ -135,7 +137,12 @@ ORACLE_ADD = r'''
         val nta = ta.extend(sp1 ++ glifted, None)
         val str = new StaticTypeReplacer(gown, fown.map(p => staticParamToArg(p)))
         val r2id = str.replaceIn(r2)
-        if (isTrue(nta.subtype(r1, r2id))(nta)) "agree" else "return"
+        // Probe P1, second build: the more-specific relation must also hold under the identification
+        // (Java's subsignature condition for overriding generic methods), which the team's
+        // ProjectFortress/tests/XXXGenericOverload2.fss asks of walk ("Should not compile").
+        val d2id = str.replaceIn(d2)
+        if (System.getProperty("probe.positional.domain") != null && !isTrue(nta.subtype(d1, d2id))(nta)) "domain"
+        else if (isTrue(nta.subtype(r1, r2id))(nta)) "agree" else "return"
     }
   }
 '''

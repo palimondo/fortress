@@ -1,0 +1,22 @@
+#variant	sketch-p2r	<X>/p2/libs/sketch-p2r
+#switches	none
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	52
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	47
+#locations	45
+#crash	
+#positional-errors	0
+#p1-lines	0
+#seconds	124 rc=255
+#machine	2026-09-28T09:34:12Z nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.49 3.04 3.70; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
