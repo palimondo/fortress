@@ -1,4 +1,4 @@
-== script at 1f50087e6
+== script at HEAD, as last committed at 26c5d3dd7
 MANIFEST block of the original: lines 58 to 374 of 1965; every line outside it byte-identical in the splice
 node --check wf7c-orig.js: exit 0
 node --check wf7c-spliced.js: exit 0

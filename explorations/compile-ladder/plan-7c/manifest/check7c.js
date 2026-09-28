@@ -22,8 +22,8 @@ const lists = JSON.parse(cp.execFileSync('python3', ['-c',
 function sources() {
   const out = []
   const head = cp.execFileSync('git', ['-C', ROOT, 'show', 'HEAD:explorations/coordinator/climb-batch-workflow.js'], { encoding: 'utf8', maxBuffer: 1 << 26 })
-  const rev = cp.execFileSync('git', ['-C', ROOT, 'rev-parse', '--short', 'HEAD'], { encoding: 'utf8' }).trim()
-  out.push(['script at ' + rev, head])
+  const rev = cp.execFileSync('git', ['-C', ROOT, 'log', '-1', '--format=%h', '--', 'explorations/coordinator/climb-batch-workflow.js'], { encoding: 'utf8' }).trim()
+  out.push(['script at HEAD, as last committed at ' + rev, head])
   const wc = fs.readFileSync(path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js'), 'utf8')
   out.push([wc === head ? 'working copy (identical to HEAD)' : 'working copy (differs from HEAD)', wc])
   return out
