@@ -1,0 +1,14 @@
+component SkNestedClause
+export Executable
+trait Top comprises { Leaf } end
+trait Leaf extends Top end
+trait Mid extends Top comprises { Gen[\ZZ32\] } end
+trait Gen[\X\] extends Mid end
+trait Both extends { Leaf, Gen[\ZZ32\] } end
+object W extends Both end
+kind(t: Top): String = typecase t of
+    Leaf => "leaf"
+    else => "other"
+  end
+run(): () = println(kind(W))
+end

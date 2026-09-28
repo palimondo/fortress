@@ -1,0 +1,14 @@
+component SkTwoLevel
+export Executable
+trait Shape comprises { Round } end
+trait Round extends Shape end
+trait Sized[\X\] extends Shape end
+trait Sized2[\X\] extends Sized[\X\] end
+trait Ball extends { Round, Sized2[\ZZ32\] } end
+object B extends Ball end
+kind(s: Shape): String = typecase s of
+    Round => "round"
+    else => "other"
+  end
+run(): () = println(kind(B))
+end

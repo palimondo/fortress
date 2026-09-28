@@ -1,0 +1,46 @@
+# diff of the ways note's shadow (explorations/reviews/anyintegral-comprises-ways/shadow-thc.py applied to the base's TypeHierarchyChecker.scala at 715816bdd, three switches) against the landed file ('<' the shadow only, '>' the landed file only)
+47,53d46
+<   // SHADOW (reviews/anyintegral-comprises-ways): three switches, each off by default.
+<   private final val aicwRelax: Boolean =
+<     com.sun.fortress.repository.ProjectProperties.getBoolean("probe.aicw.eligibleRelax", false)
+<   private final val aicwNarrow: Boolean =
+<     com.sun.fortress.repository.ProjectProperties.getBoolean("probe.aicw.eligibleNarrow", false)
+<   private final val aicwInstance: Boolean =
+<     com.sun.fortress.repository.ProjectProperties.getBoolean("probe.aicw.comprisesInstance", false)
+240,242c233
+< 					     new_analyzer, errors) &&
+<                            ! (aicwInstance && ! tt.getArgs.isEmpty &&
+<                               extendsSomeInstance(tt.getName.getText, subst_extends, errors, 0)) )
+---
+> 					     new_analyzer, errors) )
+261c252,255
+<    *     clause is eligible to extend S
+---
+>    *     clause is eligible to extend S, or
+>    *  4) T is generic, and the trait table knows at least one type that
+>    *     immediately extends T and each such type is a subtype of a type
+>    *     in S's comprises clause
+267,268c261
+<     (aicwRelax && !tt.getArgs.isEmpty) ||
+<     (aicwNarrow && !tt.getArgs.isEmpty &&
+---
+>     (!tt.getArgs.isEmpty &&
+280c273,274
+<   /** SHADOW: the narrow form, perf-probes/nat/shadow.patch's everyKnownSubtypeListed verbatim. */
+---
+>   /** Whether the trait table knows at least one type that immediately extends
+>    *  the generic trait 'tt', and each such type is a subtype of a type in 'comprises'. */
+294,306d287
+< 
+<   /** SHADOW: whether some type in 'extendsC', or above it, is an instantiation of the trait named 'target'. */
+<   private def extendsSomeInstance(target: String, extendsC: List[Type],
+<                                   errors: JavaList[StaticError], depth: Int): Boolean =
+<     depth < 32 && extendsC.exists(ty => ty match {
+<       case STraitType(_, name, args, _) =>
+<         name.getText.equals(target) || (getTypes(name, errors) match {
+<           case ti:TraitIndex =>
+<             extendsSomeInstance(target, toListFromImmutable(ti.extendsTypes).map(tw => substitute(
+<                                   args, toListFromImmutable(ti.staticParameters), tw.getBaseType)),
+<                                 errors, depth + 1)
+<           case _ => false })
+<       case _ => false })

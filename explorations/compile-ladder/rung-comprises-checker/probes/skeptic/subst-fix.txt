@@ -1,0 +1,82 @@
+# variant-compile.sh substFix over six probes, then junit.sh substFix over the rung's tests and XXX9z, XXX10i (substFix: variants.txt); nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; the other rung of batch 7C on the box; load at start 0.40 1.35 1.48; 2026-09-28
+== compile SkGenericRenamed, substFix checker
+rc=0
+== run SkGenericRenamed
+full
+== compile SkGenericSameName, substFix checker
+rc=0
+== run SkGenericSameName
+full
+== compile SkCrossedSameName, substFix checker
+explorations/compile-ladder/rung-comprises-checker/probes/skeptic/SkCrossedSameName.fss:5:1-37:
+    Invalid comprises clause: Box has a comprises clause
+    but its immediate subtype Tag is not eligible to extend it.
+File SkCrossedSameName.fss has 1 error.
+rc=255
+== compile SkCrossedRenamed, substFix checker
+explorations/compile-ladder/rung-comprises-checker/probes/skeptic/SkCrossedRenamed.fss:5:1-37:
+    Invalid comprises clause: Box has a comprises clause
+    but its immediate subtype Tag is not eligible to extend it.
+File SkCrossedRenamed.fss has 1 error.
+rc=255
+== compile SkObjectExtender, substFix checker
+rc=0
+== run SkObjectExtender
+round   sized
+== compile SkNestedClause, substFix checker
+rc=0
+== run SkNestedClause
+leaf
+########## [substFix] fortress junit compiler_tests/ComprisesGenericSubtrait.test
+. link compiler_tests/ComprisesGenericSubtrait  OK (time = 4272ms)
+. run compiler_tests/ComprisesGenericSubtrait (606ms) PASS
+Passed
+
+Time: 4.888
+
+OK (2 tests)
+
+exit=0
+########## [substFix] fortress junit compiler_tests/XXXComprisesGenericUnlisted.test
+. compile compiler_tests/XXXComprisesGenericUnlisted ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:7:1-39:
+    Invalid comprises clause: Closed has a comprises clause
+    but its immediate subtype Unextended is not eligible to extend it.
+ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:11:1-34:
+    Invalid comprises clause: Shut has a comprises clause
+    but its immediate subtype Outside is not eligible to extend it.
+File XXXComprisesGenericUnlisted.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.391
+
+OK (1 test)
+
+exit=0
+########## [substFix] fortress junit compiler_tests/XXX9z.test
+. compile compiler_tests/Compiled9.z.fss ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+    Invalid comprises clause: Bar[\U,T\] is included in the comprises clause of Foo
+    but Bar does not extend Foo[\T,U\].
+ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+    Invalid comprises clause: Foo has a comprises clause
+    but its immediate subtype Bar is not eligible to extend it.
+File Compiled9.z.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.383
+
+OK (1 test)
+
+exit=0
+########## [substFix] fortress junit compiler_tests/XXX10i.test
+. compile compiler_tests/Compiled10.i ProjectFortress/compiler_tests/Compiled10.i.fss:26:1-32:
+    Invalid comprises clause: Uu has a comprises clause
+    but its immediate subtype TT is not eligible to extend it.
+File Compiled10.i.fss has 1 error.
+ Saw expected failure
+
+Time: 1.228
+
+OK (1 test)
+
+exit=0
+EXIT=0

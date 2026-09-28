@@ -1,0 +1,16 @@
+(* See explorations/compile-ladder/rung-comprises-checker/REPORT.md. *)
+component XXXComprisesGenericUnlisted
+export Executable
+
+trait Closed comprises { Listed } end
+trait Listed extends Closed end
+trait Unextended[\X\] extends Closed end
+
+trait Shut comprises { Named } end
+trait Named extends Shut end
+trait Outside[\X\] extends Shut end
+object Stray extends Outside[\ZZ32\] end
+
+run(): () = println("FAIL")
+
+end

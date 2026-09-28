@@ -1,0 +1,71 @@
+# Rung Y (climb batch 7C, rung-comprises-checker): the lists handed to Pavol, kept here as a capture because the harness refused this session's write of REPORT.md.
+
+## What comes back to Pavol (the record's section 3, Y)
+
+1. The Scala edit, as a diff against the base 715816bdd (the only source file changed):
+    diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+    index 3f02bce04..1ba1a3ea0 100644
+    --- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+    +++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+    @@ -249,12 +249,17 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+        *  1) S does not have any comprises clause, or (already checked)
+        *  2) S's comprises clause contains T's supertype, or
+        *  3) T has a comprises clause and every type in the comprises
+    -   *     clause is eligible to extend S
+    +   *     clause is eligible to extend S, or
+    +   *  4) T is generic, and the trait table knows at least one type that
+    +   *     immediately extends T and each such type is a subtype of a type
+    +   *     in S's comprises clause
+        */
+       private def isEligibleToExtend(tt: TraitType, comprises: Set[NamedType],
+     				 analyzer: TypeAnalyzer,
+     				 errors:JavaList[StaticError]): Boolean = {
+         comprisesContains(comprises, tt, analyzer) ||
+    +    (!tt.getArgs.isEmpty &&
+    +       everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+         (getTypes(tt.getName, errors) match {
+           case ti:ProperTraitIndex =>
+     	val t_comprises = ti.comprisesTypes
+    @@ -265,6 +270,22 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+          })
+       }
+     
+    +  /** Whether the trait table knows at least one type that immediately extends
+    +   *  the generic trait 'tt', and each such type is a subtype of a type in 'comprises'. */
+    +  private def everyKnownSubtypeListed(tt: TraitType, comprises: Set[NamedType],
+    +				      analyzer: TypeAnalyzer): Boolean = {
+    +    val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
+    +      toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
+    +        case st: TraitType => st.getName.getText.equals(tt.getName.getText)
+    +        case _ => false }))
+    +    subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+    +      case Some(self) => SNodeUtil.getTraitType(self) match {
+    +        case Some(sub) => comprisesContains(comprises, sub,
+    +			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
+    +        case _ => false }
+    +      case _ => false })
+    +  }
+    +
+       private def comprisesContains(comprises: Set[NamedType],
+     				decl: Type,
+     				analyzer: TypeAnalyzer): Boolean = {
+
+2. The count stage's move, api by api (probes/checker-count-preedit.txt, probes/checker-count-postedit.txt):
+    FortressLibrary   2 -> 132   (each error counted twice: the clause's error gone, 66 in)
+    RangeInternals   18 -> 18
+    the ten others    0 -> 0
+    total            10 -> 75    (the record's prediction, 10 + 65)
+    crash          none -> none
+
+3. The 66, by name, against the ways note's list (captures/count/narrow-base.txt, 81f0151be), positions masked: identical, 66 of 66, none new (probes/checker-count-compare.txt).
+    overloading  FORWARD_CMP 19, IN 7, lift 6, seq 5, juxtaposition 4, generate 4, MIN 4, MAX 4, ivmap 3, map 2, isLeftZero 1, copy 1, SQCAP 1   (61)
+    return type  CMP 2, shift 2, unsigned 1                                                                                                   (5)
+   The ways note's 87 against today's 75 differ only in the RangeInternals row, all batch 7R's rung J (3be1fecd7): 12 CAP errors gone, 9 errors respelled with I read as ZZ32.
+
+4. The new rows, numbered provisionally (record.md, "Ledger"):
+    487  the checker checks a comprises clause at immediate subtypes only: a type declared in another unit below a generic subtrait of a closed trait (a program's own trait MyIntegral extends Integral[\MyIntegral\]) is accepted; home 3, the probe and capture already on file; the sound check is at an object declaration; batch 8 or later.
+    488  the compiled checker's errors in big operators' bodies move between setups of one tree (the distance stage's one BR error beside H2's two); home 3.
+
+## For Pavol: points this rung does not settle
+
+1. The header comment of checkDeclComprises (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:143-147) restates the eligibility rule's three cases and does not name the fourth this rung adds; the team's own statement of the rule (ProjectFortress/compiler_tests/Compiled10.i.fss:15-21, an existing test) likewise lists three. The record lets rung Y edit only isEligibleToExtend with its comment (:247-256) and one new method, so both were left; a two-line addition at :146-147 would keep the first true.

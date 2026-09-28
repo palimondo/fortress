@@ -1,0 +1,12 @@
+tests=XXXComprisesGenericUnlisted
+STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
+compile
+compile_err_equals=\
+${STATIC_TESTS_DIR}/XXXComprisesGenericUnlisted.fss:7:1-39:\n\
+\ Invalid comprises clause: Closed has a comprises clause\n\
+\ but its immediate subtype Unextended is not eligible to extend it.\n\
+${STATIC_TESTS_DIR}/XXXComprisesGenericUnlisted.fss:11:1-34:\n\
+\ Invalid comprises clause: Shut has a comprises clause\n\
+\ but its immediate subtype Outside is not eligible to extend it.\n\
+File XXXComprisesGenericUnlisted.fss has 2 errors.\n
+compile_out_equals=

@@ -1,0 +1,69 @@
+# probes/broad-red.sh on the deliberate broad form (the diff below, not committed), after ant compileAll and the library-order cache rebuild; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.30 1.86 2.15; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T13:02:21Z; the other rung of batch 7C running on this box
+# diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+# index 1ba1a3ea0..13f6275d1 100644
+# --- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+# +++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala
+# @@ -258,8 +258,7 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
+#  				 analyzer: TypeAnalyzer,
+#  				 errors:JavaList[StaticError]): Boolean = {
+#      comprisesContains(comprises, tt, analyzer) ||
+# -    (!tt.getArgs.isEmpty &&
+# -       everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+# +    (!tt.getArgs.isEmpty) ||
+#      (getTypes(tt.getName, errors) match {
+#        case ti:ProperTraitIndex =>
+#  	val t_comprises = ti.comprisesTypes
+########## fortress junit compiler_tests/XXXComprisesGenericUnlisted.test
+. compile compiler_tests/XXXComprisesGenericUnlisted 
+ Saw failure, but did not satisfy compile_err_equals; expected
+ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:7:1-39:
+ Invalid comprises clause: Closed has a comprises clause
+ but its immediate subtype Unextended is not eligible to extend it.
+ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:11:1-34:
+ Invalid comprises clause: Shut has a comprises clause
+ but its immediate subtype Outside is not eligible to extend it.
+File XXXComprisesGenericUnlisted.fss has 2 errors.
+
+F
+Time: 1.566
+There was 1 failure:
+1) compiler_tests/XXXComprisesGenericUnlisted(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## fortress junit compiler_tests/XXX9z.test
+. compile compiler_tests/Compiled9.z.fss ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+    Invalid comprises clause: Bar[\U,T\] is included in the comprises clause of Foo
+    but Bar does not extend Foo[\T,U\].
+File Compiled9.z.fss has 1 error.
+
+ Saw failure, but did not satisfy compile_err_equals; expected
+ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+ Invalid comprises clause: Bar[\U,T\] is included in the comprises clause of Foo
+ but Bar does not extend Foo[\T,U\].
+ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+ Invalid comprises clause: Foo has a comprises clause
+ but its immediate subtype Bar is not eligible to extend it.
+File Compiled9.z.fss has 2 errors.
+
+F
+Time: 1.065
+There was 1 failure:
+1) compiler_tests/Compiled9.z.fss(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## fortress junit compiler_tests/ComprisesGenericSubtrait.test
+. link compiler_tests/ComprisesGenericSubtrait  OK (time = 4039ms)
+. run compiler_tests/ComprisesGenericSubtrait (576ms) PASS
+Passed
+
+Time: 4.628
+
+OK (2 tests)
+
+exit=0

@@ -1,0 +1,83 @@
+# The skeptic's variants of TypeHierarchyChecker.scala, each built by scalac (build-variants.sh) into its own class directory and put ahead of ProjectFortress/build on the classpath; the landed build is used as it is. Each diff is landed file -> variant. base is git show 715816bdd:<file>; substFix is built separately by the command in SKEPTIC.md.
+
+## base
+252,255c252
+<    *     clause is eligible to extend S, or
+<    *  4) T is generic, and the trait table knows at least one type that
+<    *     immediately extends T and each such type is a subtype of a type
+<    *     in S's comprises clause
+---
+>    *     clause is eligible to extend S
+261,262d257
+<     (!tt.getArgs.isEmpty &&
+<        everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+271,286d265
+<   }
+< 
+<   /** Whether the trait table knows at least one type that immediately extends
+<    *  the generic trait 'tt', and each such type is a subtype of a type in 'comprises'. */
+<   private def everyKnownSubtypeListed(tt: TraitType, comprises: Set[NamedType],
+< 				      analyzer: TypeAnalyzer): Boolean = {
+<     val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
+<       toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
+<         case st: TraitType => st.getName.getText.equals(tt.getName.getText)
+<         case _ => false }))
+<     subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+<       case Some(self) => SNodeUtil.getTraitType(self) match {
+<         case Some(sub) => comprisesContains(comprises, sub,
+< 			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
+<         case _ => false }
+<       case _ => false })
+
+## broad
+261,262c261
+<     (!tt.getArgs.isEmpty &&
+<        everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+---
+>     (!tt.getArgs.isEmpty) ||
+
+## noNonEmpty
+281c281
+<     subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+---
+>     subs.forall(ti => toOption(ti.typeOfSelf) match {
+
+## noForall
+281c281
+<     subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+---
+>     subs.nonEmpty || false && subs.forall(ti => toOption(ti.typeOfSelf) match {
+
+## substFix
+277,281c277,284
+<     val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
+<       toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
+<         case st: TraitType => st.getName.getText.equals(tt.getName.getText)
+<         case _ => false }))
+<     subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+---
+>     val tparams = analyzer.typeCons(tt.getName) match {
+>       case gi: TraitIndex => toListFromImmutable(gi.staticParameters)
+>       case _ => List() }
+>     val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.flatMap(ti =>
+>       toListFromImmutable(ti.extendsTypes).flatMap(tw => tw.getBaseType match {
+>         case st: TraitType if st.getName.getText.equals(tt.getName.getText) => List((ti, st))
+>         case _ => List() }))
+>     subs.nonEmpty && subs.forall(p => toOption(p._1.typeOfSelf) match {
+283,284c286,288
+<         case Some(sub) => comprisesContains(comprises, sub,
+< 			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
+---
+>         case Some(sub) => comprisesContains(
+> 			    comprises.map(c => substitute(toListFromImmutable(p._2.getArgs), tparams, c).asInstanceOf[NamedType]),
+> 			    sub, analyzer.extend(toListFromImmutable(p._1.staticParameters), None))
+
+## the scratch copies of the two stage drivers, one line each (tools under explorations/coordinator/tools/ are not edited)
+57c57
+< CP=$("$FH/bin/fortress_classpath" 2>/dev/null | tail -1)
+---
+> CP=${PRECP:-}$("$FH/bin/fortress_classpath" 2>/dev/null | tail -1)
+86c86
+< CP=$("$FH/bin/fortress_classpath" 2>/dev/null | tail -1 | sed 's#:[^:]*/default_repository/caches/bytecode_cache##')
+---
+> CP=${PRECP:-}$("$FH/bin/fortress_classpath" 2>/dev/null | tail -1 | sed 's#:[^:]*/default_repository/caches/bytecode_cache##')

@@ -1,0 +1,54 @@
+# The count stage re-run by the skeptic: a scratch copy of explorations/coordinator/tools/checker-count/run.sh that puts $PRECP ahead of the classpath (variants.txt), post-edit with the landed build (124 s), pre-edit with the base's TypeHierarchyChecker ahead of it (34 s); nproc 4;  Intel(R) Xeon(R) Processor @ 2.10GHz;  2100.000 MHz; load 1.35 1.45 1.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T13:34:33Z
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	132
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	18
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	75
+#locations	62
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
+# checker-count: full output /home/user/fortress-comprises/tmp/sk/count-post-scratch/run.txt, rc=255
+post-secs=124
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	2
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	18
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	10
+#locations	13
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
+# checker-count: full output /home/user/fortress-comprises/tmp/sk/count-pre-scratch/run.txt, rc=255
+pre-secs=34
+
+## errlist.py over each run, paths made relative, against the rung's lists (probes/checker-count-postedit-errors.txt, checker-count-preedit-errors.txt): diff output follows, empty when identical
+### post
+### pre
+
+## the rung's count-compare.py over the skeptic's two lists and the ways note's narrow-base.txt
+## pre-edit against post-edit: 1 only in pre, 66 only in post
+## ways note narrow-base (81f0151be, shadow switch on) against post-edit (this base, the edit landed): 21 only in narrow-base, 9 only in post
+## the 66 errors the edit brought in, against the ways note narrow-base: 66 of them in its list, 0 not; the 1 the edit removed: FortressLibrary.fsi:L: :: Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend it.
+## the edit brought in by name (66 errors): overloading FORWARD_CMP 19, overloading IN 7, overloading lift 6, overloading seq 5, overloading MAX 4, overloading MIN 4, overloading generate 4, overloading juxtaposition 4, overloading ivmap 3, overloading map 2, return type CMP 2, return type shift 2, overloading SQCAP 1, overloading copy 1, overloading isLeftZero 1, return type unsigned 1
+## ways note narrow-base by name (87 errors): overloading FORWARD_CMP 19, overloading CAP 12, overloading IN 8, overloading lift 6, overloading seq 5, overloading MAX 4, overloading MIN 4, overloading generate 4, overloading juxtaposition 4, overloading map 4, overloading ivmap 3, overloading openRangeHelper 3, return type CMP 2, return type atMost 2, return type shift 2, overloading SQCAP 1, overloading copy 1, overloading isLeftZero 1, return type every 1, return type unsigned 1
+## post-edit by name (75 errors): overloading FORWARD_CMP 19, overloading IN 8, overloading lift 6, overloading seq 5, overloading MAX 4, overloading MIN 4, overloading generate 4, overloading juxtaposition 4, overloading map 4, overloading ivmap 3, overloading openRangeHelper 3, return type CMP 2, return type atMost 2, return type shift 2, overloading SQCAP 1, overloading copy 1, overloading isLeftZero 1, return type every 1, return type unsigned 1
+## pre-edit by name (10 errors): overloading openRangeHelper 3, overloading map 2, return type atMost 2, Invalid comprises clause: FortressLibrary.AnyIntegral has a  1, overloading IN 1, return type every 1

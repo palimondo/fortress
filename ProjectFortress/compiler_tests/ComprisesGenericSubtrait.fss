@@ -1,0 +1,41 @@
+(* See explorations/compile-ladder/rung-comprises-checker/REPORT.md. *)
+component ComprisesGenericSubtrait
+export Executable
+
+trait AnyWhole comprises { SmallWhole, LargeWhole } end
+trait Whole[\W extends Whole[\W\]\] extends AnyWhole
+    getter size(): ZZ32
+    doubled(): W
+end
+trait SmallWhole extends { AnyWhole, Whole[\SmallWhole\] } end
+trait LargeWhole extends { AnyWhole, Whole[\LargeWhole\] } end
+object SmallW(n: ZZ32) extends SmallWhole
+    getter size(): ZZ32 = n
+    doubled(): SmallWhole = SmallW(n + n)
+end
+object LargeW(n: ZZ32) extends LargeWhole
+    getter size(): ZZ32 = n + 100
+    doubled(): LargeWhole = LargeW(n + n)
+end
+
+sizeDoubled[\W extends Whole[\W\]\](w: W): ZZ32 = w.doubled().size
+
+trait Closed comprises { Listed } end
+trait Listed extends Closed end
+trait Tagged[\X\] extends Closed end
+trait ListedTagged extends { Listed, Tagged[\ZZ32\] } end
+object Witness extends ListedTagged end
+
+isListed(c: Closed): Boolean = typecase c of
+    Listed => true
+    else => false
+  end
+
+run(): () = do
+    assert(sizeDoubled[\SmallWhole\](SmallW(3)), 6, "every value of AnyWhole is a SmallWhole or a LargeWhole; Documentation/Specification/Prose/Language/types.tick:384-390")
+    assert(sizeDoubled[\LargeWhole\](LargeW(3)), 106, "every value of AnyWhole is a SmallWhole or a LargeWhole; Documentation/Specification/Prose/Language/types.tick:384-390")
+    assert(isListed(Witness), "every value of Closed belongs to Listed; Papers/Welterweight/grammar.tick:21-22")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,10 @@
+component SkOverloadMeet
+export Executable
+trait Shape comprises { Round } end
+trait Round extends Shape end
+trait Sized[\X\] extends Shape end
+object Ball extends { Round, Sized[\ZZ32\] } end
+g(x: Round): String = "round"
+g(x: Sized[\ZZ32\]): String = "sized"
+run(): () = println(g(Ball))
+end

@@ -1,0 +1,408 @@
+# junit.sh landed over every compiler test whose own source declares a comprises clause, except the four compiler-library tests (CompilerBuiltinAPI, CompilerBuiltinComponent, CompilerLibraryAPI, CompilerLibraryComponent, whose cache entries the driver would delete), plus XXX10p (its clause is in Compiled10.pAPI.fsi); nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; the other rung of batch 7C on the box; 2026-09-28
+########## [landed] fortress junit compiler_tests/ComprisesGenericSubtrait.test
+. link compiler_tests/ComprisesGenericSubtrait  OK (time = 6242ms)
+. run compiler_tests/ComprisesGenericSubtrait (933ms) PASS
+Passed
+
+Time: 7.184
+
+OK (2 tests)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10d.test
+. compile compiler_tests/Compiled10.d ProjectFortress/compiler_tests/Compiled10.d.fss:14:13-17:
+    Could not check call to function g
+    - O->() is not applicable to an argument of type (T & {O, P}).
+File Compiled10.d.fss has 1 error.
+ Saw expected failure
+
+Time: 1.698
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10e.test
+. compile compiler_tests/Compiled10.e ProjectFortress/compiler_tests/Compiled10.e.fss:20:26:
+    S is undefined.
+File Compiled10.e.fss has 1 error.
+ Saw expected failure
+
+Time: 1.478
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10f.test
+. compile compiler_tests/Compiled10.f ProjectFortress/compiler_tests/Compiled10.f.fss:30:18-24:
+    Ill-formed type: T[\O,P\]
+    The static argument P does not satisfy the corresponding bound T[\O,P\].
+ProjectFortress/compiler_tests/Compiled10.f.fss:31:18-24:
+    Ill-formed type: T[\P,O\]
+    The static argument O does not satisfy the corresponding bound T[\P,O\].
+File Compiled10.f.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.754
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10g.test
+. compile compiler_tests/Compiled10.g ProjectFortress/compiler_tests/Compiled10.g.fss:25:1-11:
+    Invalid comprises clause: Q is included in the comprises clause of T
+    but Q does not extend T[\U,S\].
+File Compiled10.g.fss has 1 error.
+ Saw expected failure
+
+Time: 1.78
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10h.test
+. compile compiler_tests/Compiled10.h ProjectFortress/compiler_tests/Compiled10.h.fss:25:1-29:
+    Invalid comprises clause: Q is included in the comprises clause of T
+    but Q does not extend T[\U,S\].
+ProjectFortress/compiler_tests/Compiled10.h.fss:31:3-5:
+    Could not check call to function f
+    - T[\Q,Q\]->() is not applicable to an argument of type P.
+File Compiled10.h.fss has 2 errors.
+ Saw expected failure
+
+Time: 2.162
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10i.test
+. compile compiler_tests/Compiled10.i ProjectFortress/compiler_tests/Compiled10.i.fss:26:1-32:
+    Invalid comprises clause: Uu has a comprises clause
+    but its immediate subtype TT is not eligible to extend it.
+File Compiled10.i.fss has 1 error.
+ Saw expected failure
+
+Time: 1.866
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10j.test
+. compile compiler_tests/Compiled10.j ProjectFortress/compiler_tests/Compiled10.j.fss:16:1-41:
+    Invalid comprises clause: Foo has a comprises clause
+    but its immediate subtype Doo is not eligible to extend it.
+ProjectFortress/compiler_tests/Compiled10.j.fss:16:20-27:
+    Ill-formed type: Foo[\Baz\]
+    The static argument Baz does not satisfy the corresponding bound Foo[\Baz\].
+File Compiled10.j.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.707
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10k.test
+. compile compiler_tests/Compiled10.k ProjectFortress/compiler_tests/Compiled10.k.fss:27:5-9:
+    Could not check call to function k
+    - Q->() is not applicable to an argument of type (T[\U\] & {U}).
+ProjectFortress/compiler_tests/Compiled10.k.fss:30:5-7:
+    Could not check call to function j
+    - U->() is not applicable to an argument of type T[\U\].
+ProjectFortress/compiler_tests/Compiled10.k.fss:31:5-7:
+    Could not check call to function k
+    - Q->() is not applicable to an argument of type T[\U\].
+ProjectFortress/compiler_tests/Compiled10.k.fss:35:5-7:
+    Could not check call to function k
+    - Q->() is not applicable to an argument of type U.
+ProjectFortress/compiler_tests/Compiled10.k.fss:37:5-7:
+    Could not check call to function i
+    - T[\U\]->() is not applicable to an argument of type Q.
+ProjectFortress/compiler_tests/Compiled10.k.fss:38:5-7:
+    Could not check call to function j
+    - U->() is not applicable to an argument of type Q.
+File Compiled10.k.fss has 6 errors.
+ Saw expected failure
+
+Time: 2.359
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10n.test
+. compile compiler_tests/Compiled10.n ProjectFortress/compiler_tests/Compiled10.n.fss:16:1-41:
+    Invalid comprises clause: Hoo is included in the comprises clause of Foo
+    but Hoo does not extend Foo[\T\].
+File Compiled10.n.fss has 1 error.
+ Saw expected failure
+
+Time: 1.653
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10o.test
+. compile compiler_tests/Compiled10.o ProjectFortress/compiler_tests/Compiled10.o.fss:24:3-12:
+    Could not check call to function f
+    - Bar->() is not applicable to an argument of type Hoo[\Bar\].
+ProjectFortress/compiler_tests/Compiled10.o.fss:25:3-12:
+    Could not check call to function f
+    - Bar->() is not applicable to an argument of type Hoo[\Baz\].
+ProjectFortress/compiler_tests/Compiled10.o.fss:28:3-12:
+    Could not check call to function g
+    - Foo[\Bar\]->() is not applicable to an argument of type Hoo[\Baz\].
+File Compiled10.o.fss has 3 errors.
+ Saw expected failure
+
+Time: 1.815
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10q.test
+. compile compiler_tests/Compiled10.q ProjectFortress/compiler_tests/Compiled10.q.fss:14:13-21:
+    Ill-formed type: Bar[\S,T\]
+    The static argument S does not satisfy the corresponding bound Bar[\S,T\].
+ProjectFortress/compiler_tests/Compiled10.q.fss:14:13-21:
+    Ill-formed type: Bar[\S,T\]
+    The static argument T does not satisfy the corresponding bound Bar[\S,T\].
+ProjectFortress/compiler_tests/Compiled10.q.fss:16:19-27:
+    Types Bar[\O,P\] and Bar[\P,O\] exclude each other.  O must not extend them.
+ProjectFortress/compiler_tests/Compiled10.q.fss:16:19-28:
+    Type O excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.q.fss:16:32-40:
+    Types Bar[\P,O\] and Bar[\O,P\] exclude each other.  O must not extend them.
+ProjectFortress/compiler_tests/Compiled10.q.fss:16:32-41:
+    Type O excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.q.fss:17:19-27:
+    Types Bar[\O,P\] and Bar[\P,O\] exclude each other.  P must not extend them.
+ProjectFortress/compiler_tests/Compiled10.q.fss:17:19-28:
+    Type P excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.q.fss:17:32-40:
+    Types Bar[\P,O\] and Bar[\O,P\] exclude each other.  P must not extend them.
+ProjectFortress/compiler_tests/Compiled10.q.fss:17:32-41:
+    Type P excludes Bar but it extends Bar.
+File Compiled10.q.fss has 10 errors.
+ Saw expected failure
+
+Time: 1.831
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10s.test
+. compile compiler_tests/Compiled10.s ProjectFortress/compiler_tests/Compiled10.s.fss:16:19-27:
+    Types Bar[\O,P\] and Bar[\P,O\] exclude each other.  O must not extend them.
+ProjectFortress/compiler_tests/Compiled10.s.fss:16:19-28:
+    Type O excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.s.fss:16:32-40:
+    Types Bar[\P,O\] and Bar[\O,P\] exclude each other.  O must not extend them.
+ProjectFortress/compiler_tests/Compiled10.s.fss:16:32-41:
+    Type O excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.s.fss:17:19-27:
+    Types Bar[\O,P\] and Bar[\P,O\] exclude each other.  P must not extend them.
+ProjectFortress/compiler_tests/Compiled10.s.fss:17:19-28:
+    Type P excludes Bar but it extends Bar.
+ProjectFortress/compiler_tests/Compiled10.s.fss:17:32-40:
+    Types Bar[\P,O\] and Bar[\O,P\] exclude each other.  P must not extend them.
+ProjectFortress/compiler_tests/Compiled10.s.fss:17:32-41:
+    Type P excludes Bar but it extends Bar.
+File Compiled10.s.fss has 8 errors.
+ Saw expected failure
+
+Time: 1.823
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX3q.test
+. compile compiler_tests/Compiled3.q ProjectFortress/test_library/Compiled3.q.fsi:14:3-23:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+ Saw expected failure
+
+Time: 1.259
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX3r.test
+. compile compiler_tests/Compiled3.r ProjectFortress/compiler_tests/Compiled3.r.fss:18:1-11:
+    Invalid comprises clause: P is included in the comprises clause of T
+    but P does not extend T.
+File Compiled3.r.fss has 1 error.
+ Saw expected failure
+
+Time: 1.632
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX3s.test
+. compile compiler_tests/Compiled3.s ProjectFortress/compiler_tests/Compiled3.s.fss:19:1-21:
+    Invalid comprises clause: T has a comprises clause
+    but its immediate subtype Q is not eligible to extend it.
+ProjectFortress/compiler_tests/Compiled3.s.fss:19:18:
+    Type Q excludes T but it extends T.
+File Compiled3.s.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.547
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5au.test
+. compile compiler_tests/Compiled5.au ProjectFortress/compiler_tests/Compiled5.au.fss:14:9-18:
+    Comprises clauses should not be empty.
+File Compiled5.au.fss has 1 error.
+ Saw expected failure
+
+Time: 1.163
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5bp.test
+. compile compiler_tests/Compiled5.bp ProjectFortress/compiler_tests/Compiled5.bp.fsi:13:1-11:
+    Invalid comprises clause: Compiled5.bp.P is included in the comprises clause of T
+    but Compiled5.bp.P does not extend T.
+File Compiled5.bp.fss has 1 error.
+ Saw expected failure
+
+Time: 1.908
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5bq.test
+. compile compiler_tests/Compiled5.bq ProjectFortress/compiler_tests/Compiled5.bq.A.fsi:14:1-21:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled5.bq.T, should not be extended.
+ProjectFortress/compiler_tests/Compiled5.bq.fsi:15:1-21:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled5.bq.T, should not be extended.
+File Compiled5.bq.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.511
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5f.test
+. compile compiler_tests/Compiled5.f ProjectFortress/compiler_tests/Compiled5.f.fss:15:35-36:
+    Operator name, AT, is not a valid type name.
+ProjectFortress/compiler_tests/Compiled5.f.fss:16:35-36:
+    Operator name, BT, is not a valid type name.
+ProjectFortress/compiler_tests/Compiled5.f.fss:18:1-17:
+    AT is not a valid trait name.
+ProjectFortress/compiler_tests/Compiled5.f.fss:19:1-17:
+    BT is not a valid trait name.
+ProjectFortress/compiler_tests/Compiled5.f.fss:26:19:
+    Operator name, AT, is not a valid type name.
+ProjectFortress/compiler_tests/Compiled5.f.fss:27:19:
+    Operator name, BT, is not a valid type name.
+File Compiled5.f.fss has 6 errors.
+ Saw expected failure
+
+Time: 1.102
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5j.test
+. compile compiler_tests/Compiled5.j ProjectFortress/compiler_tests/Compiled5.j.fss:22:1-19:
+ProjectFortress/compiler_tests/Compiled5.j.fss:23:1-19:
+    Invalid overloading of f in component Compiled5.j:
+     A->String @ ProjectFortress/compiler_tests/Compiled5.j.fss:22:1-19
+ and B->String @ ProjectFortress/compiler_tests/Compiled5.j.fss:23:1-19
+File Compiled5.j.fss has 1 error.
+ Saw expected failure
+
+Time: 2.426
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5x.test
+. compile compiler_tests/Compiled5.x.fsi ProjectFortress/compiler_tests/Compiled5.x.fsi:15:1-21:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled5.x.T, should not be extended.
+File Compiled5.x.fsi has 1 error.
+ Saw expected failure
+
+Time: 1.6
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX5y.test
+. compile compiler_tests/Compiled5.y ProjectFortress/compiler_tests/Compiled5.y.fsi:15:1-11:
+    Invalid comprises clause: Compiled5.y.O is included in the comprises clause of T
+    but Compiled5.y.O does not extend Compiled5.y.T.
+File Compiled5.y.fss has 1 error.
+ Saw expected failure
+
+Time: 1.809
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX6c.test
+. compile compiler_tests/Compiled6.c ProjectFortress/compiler_tests/Compiled6.c.fss:18:1-19:2:
+    Invalid comprises clause: T has a comprises clause
+    but its immediate subtype Mumble is not eligible to extend it.
+ProjectFortress/compiler_tests/Compiled6.c.fss:18:23:
+    Type Mumble excludes T but it extends T.
+File Compiled6.c.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.669
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX9z.test
+. compile compiler_tests/Compiled9.z.fss ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+    Invalid comprises clause: Bar[\U,T\] is included in the comprises clause of Foo
+    but Bar does not extend Foo[\T,U\].
+ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
+    Invalid comprises clause: Foo has a comprises clause
+    but its immediate subtype Bar is not eligible to extend it.
+File Compiled9.z.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.502
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXXComprisesGenericUnlisted.test
+. compile compiler_tests/XXXComprisesGenericUnlisted ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:7:1-39:
+    Invalid comprises clause: Closed has a comprises clause
+    but its immediate subtype Unextended is not eligible to extend it.
+ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:11:1-34:
+    Invalid comprises clause: Shut has a comprises clause
+    but its immediate subtype Outside is not eligible to extend it.
+File XXXComprisesGenericUnlisted.fss has 2 errors.
+ Saw expected failure
+
+Time: 1.69
+
+OK (1 test)
+
+exit=0
+########## [landed] fortress junit compiler_tests/XXX10p.test
+. compile compiler_tests/Compiled10.p ProjectFortress/compiler_tests/Compiled10.pAPI.fsi:13:1-20:
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+ Saw expected failure
+
+Time: 1.463
+
+OK (1 test)
+
+exit=0
+EXIT=0

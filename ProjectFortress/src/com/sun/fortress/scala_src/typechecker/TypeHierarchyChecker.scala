@@ -249,12 +249,17 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
    *  1) S does not have any comprises clause, or (already checked)
    *  2) S's comprises clause contains T's supertype, or
    *  3) T has a comprises clause and every type in the comprises
-   *     clause is eligible to extend S
+   *     clause is eligible to extend S, or
+   *  4) T is generic, and the trait table knows at least one type that
+   *     immediately extends T and each such type is a subtype of a type
+   *     in S's comprises clause
    */
   private def isEligibleToExtend(tt: TraitType, comprises: Set[NamedType],
 				 analyzer: TypeAnalyzer,
 				 errors:JavaList[StaticError]): Boolean = {
     comprisesContains(comprises, tt, analyzer) ||
+    (!tt.getArgs.isEmpty &&
+       everyKnownSubtypeListed(tt, comprises, analyzer)) ||
     (getTypes(tt.getName, errors) match {
       case ti:ProperTraitIndex =>
 	val t_comprises = ti.comprisesTypes
@@ -263,6 +268,22 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
 											    comprises, analyzer, errors))
       case _ => false
      })
+  }
+
+  /** Whether the trait table knows at least one type that immediately extends
+   *  the generic trait 'tt', and each such type is a subtype of a type in 'comprises'. */
+  private def everyKnownSubtypeListed(tt: TraitType, comprises: Set[NamedType],
+				      analyzer: TypeAnalyzer): Boolean = {
+    val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
+      toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
+        case st: TraitType => st.getName.getText.equals(tt.getName.getText)
+        case _ => false }))
+    subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
+      case Some(self) => SNodeUtil.getTraitType(self) match {
+        case Some(sub) => comprisesContains(comprises, sub,
+			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
+        case _ => false }
+      case _ => false })
   }
 
   private def comprisesContains(comprises: Set[NamedType],

@@ -1,0 +1,236 @@
+# The distance stage run four times by the skeptic, through a scratch copy of explorations/coordinator/tools/distance/run.sh that puts $PRECP ahead of the classpath (variants.txt): the landed build; the broad form (the new disjunct replaced by !tt.getArgs.isEmpty, no call of everyKnownSubtypeListed); the base's TypeHierarchyChecker. Each table's #machine row gives its load at start; the three ran on nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4, FORTRESS_THREADS=1, with other sessions on the box. Sites: errors.py's errors.tsv from each run's scratch, sorted and diffed against the rung's own pre-edit and post-edit lists (the rung's tmp/distance-pre-errors.tsv and tmp/distance-post-errors.tsv, the lists its probes/distance-sites-diff.txt was made from).
+
+######## landed
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	626
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	148
+#kind	return-type	29
+#kind	abstract-method	14
+#kind	bound-Object	0
+#kind	wellformed	36
+#kind	typecheck	389
+#kind	export	10
+#class	L1	39	overloading: the static-parameter sentence's families
+#class	M1	109	overloading: the Meet Rule
+#class	R2	2	return type: the comparisons' CMP
+#class	R3	27	return type: other declared-type slips
+#class	D1	12	abstract method: a bodyless function under compiled desugaring
+#class	D2	2	abstract method: RangeInternals' CAP, IN, |_|
+#class	X1	10	export: component against api
+#class	Z1	11	sizes: arithmetic on nat static arguments
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	I2	2	integers in generic code: the dummy-ZZ32 device of # and :
+#class	I1	4	integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+#class	I3	8	integers in generic code: a numeral where a type parameter is expected
+#class	I4	3	integers in generic code: a fixed width where a type parameter is expected
+#class	S1	28	self type: a generic trait's self is not its type parameter
+#class	R4	4	StandardMinMax's (T,T) slip in bodies (row 421)
+#class	V1	36	arrays: element type bounded by Number, which declares no arithmetic
+#class	V2	32	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	12	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	MB	7	Maybe: Just and Nothing do not join to Maybe
+#class	SF	22	String: an object's field read as an inherited method (left, right)
+#class	GB	7	generators: a function argument inferred at BottomType (COMPOSE, map)
+#class	RG	18	ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+#class	BR	11	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	CV	10	a call covered only by the union of its overloads' arms (walk chooses at run time)
+#class	NM	54	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	9	generators: a filter that failed for another reason
+#class	OT	143	other body errors (one-off library slips and checker limits)
+#unit	api FortressLibrary	66
+#unit	api RangeInternals	9
+#unit	component FlatString	8
+#unit	component FortressBuiltin	9
+#unit	component FortressLibrary	361
+#unit	component List	23
+#unit	component NatReflect	3
+#unit	component RangeInternals	76
+#unit	component Stream	3
+#unit	component String	67
+#unit	component Writer	1
+#crash	decl	FnDecl FortressLibrary.fss:1226:1-1230:4	InterpreterBug	** bug! FortressLibrary.fss:1228:10 Type is not inferred.
+#crash	decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl String.fss:322:1-332:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	ObjectDecl FortressBuiltin.fss:583:1-695:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressBuiltin.fss:37:1-52:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressLibrary.fss:2408:1-2522:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2426.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+#crash	decl	TraitDecl FortressLibrary.fss:2781:1-2894:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2817.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+#crash	stage	component Stream variance	OptionUnwrapException	null
+#seconds	823	FortressLibrary 528
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.56 1.17 1.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
+
+######## broad
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	625
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	148
+#kind	return-type	29
+#kind	abstract-method	14
+#kind	bound-Object	0
+#kind	wellformed	36
+#kind	typecheck	388
+#kind	export	10
+#class	L1	39	overloading: the static-parameter sentence's families
+#class	M1	109	overloading: the Meet Rule
+#class	R2	2	return type: the comparisons' CMP
+#class	R3	27	return type: other declared-type slips
+#class	D1	12	abstract method: a bodyless function under compiled desugaring
+#class	D2	2	abstract method: RangeInternals' CAP, IN, |_|
+#class	X1	10	export: component against api
+#class	Z1	11	sizes: arithmetic on nat static arguments
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	I2	2	integers in generic code: the dummy-ZZ32 device of # and :
+#class	I1	4	integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+#class	I3	8	integers in generic code: a numeral where a type parameter is expected
+#class	I4	3	integers in generic code: a fixed width where a type parameter is expected
+#class	S1	28	self type: a generic trait's self is not its type parameter
+#class	R4	4	StandardMinMax's (T,T) slip in bodies (row 421)
+#class	V1	36	arrays: element type bounded by Number, which declares no arithmetic
+#class	V2	32	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	12	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	MB	7	Maybe: Just and Nothing do not join to Maybe
+#class	SF	22	String: an object's field read as an inherited method (left, right)
+#class	GB	7	generators: a function argument inferred at BottomType (COMPOSE, map)
+#class	RG	18	ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+#class	BR	10	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	CV	10	a call covered only by the union of its overloads' arms (walk chooses at run time)
+#class	NM	54	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	9	generators: a filter that failed for another reason
+#class	OT	143	other body errors (one-off library slips and checker limits)
+#unit	api FortressLibrary	66
+#unit	api RangeInternals	9
+#unit	component FlatString	8
+#unit	component FortressBuiltin	9
+#unit	component FortressLibrary	360
+#unit	component List	23
+#unit	component NatReflect	3
+#unit	component RangeInternals	76
+#unit	component Stream	3
+#unit	component String	67
+#unit	component Writer	1
+#crash	decl	FnDecl FortressLibrary.fss:1226:1-1230:4	InterpreterBug	** bug! FortressLibrary.fss:1228:10 Type is not inferred.
+#crash	decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl String.fss:322:1-332:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	ObjectDecl FortressBuiltin.fss:583:1-695:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressBuiltin.fss:37:1-52:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressLibrary.fss:2408:1-2522:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2426.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+#crash	decl	TraitDecl FortressLibrary.fss:2781:1-2894:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2817.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+#crash	stage	component Stream variance	OptionUnwrapException	null
+#seconds	822	FortressLibrary 527
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.68 1.16 1.38; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
+
+######## base
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	627
+#kind	exclusion	0
+#kind	comprises	2
+#kind	overloading	148
+#kind	return-type	29
+#kind	abstract-method	14
+#kind	bound-Object	0
+#kind	wellformed	36
+#kind	typecheck	388
+#kind	export	10
+#class	H2	2	comprises: AnyIntegral's clause
+#class	L1	39	overloading: the static-parameter sentence's families
+#class	M1	109	overloading: the Meet Rule
+#class	R2	2	return type: the comparisons' CMP
+#class	R3	27	return type: other declared-type slips
+#class	D1	12	abstract method: a bodyless function under compiled desugaring
+#class	D2	2	abstract method: RangeInternals' CAP, IN, |_|
+#class	X1	10	export: component against api
+#class	Z1	11	sizes: arithmetic on nat static arguments
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	I2	2	integers in generic code: the dummy-ZZ32 device of # and :
+#class	I1	4	integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+#class	I3	8	integers in generic code: a numeral where a type parameter is expected
+#class	I4	3	integers in generic code: a fixed width where a type parameter is expected
+#class	S1	28	self type: a generic trait's self is not its type parameter
+#class	R4	4	StandardMinMax's (T,T) slip in bodies (row 421)
+#class	V1	36	arrays: element type bounded by Number, which declares no arithmetic
+#class	V2	32	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	12	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	MB	7	Maybe: Just and Nothing do not join to Maybe
+#class	SF	22	String: an object's field read as an inherited method (left, right)
+#class	GB	7	generators: a function argument inferred at BottomType (COMPOSE, map)
+#class	RG	18	ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+#class	BR	10	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	CV	10	a call covered only by the union of its overloads' arms (walk chooses at run time)
+#class	NM	54	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	9	generators: a filter that failed for another reason
+#class	OT	143	other body errors (one-off library slips and checker limits)
+#unit	api FortressLibrary	67
+#unit	api RangeInternals	9
+#unit	component FlatString	8
+#unit	component FortressBuiltin	9
+#unit	component FortressLibrary	361
+#unit	component List	23
+#unit	component NatReflect	3
+#unit	component RangeInternals	76
+#unit	component Stream	3
+#unit	component String	67
+#unit	component Writer	1
+#crash	decl	FnDecl FortressLibrary.fss:1226:1-1230:4	InterpreterBug	** bug! FortressLibrary.fss:1228:10 Type is not inferred.
+#crash	decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl String.fss:322:1-332:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	ObjectDecl FortressBuiltin.fss:583:1-695:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressBuiltin.fss:37:1-52:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressLibrary.fss:2408:1-2522:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2426.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+#crash	decl	TraitDecl FortressLibrary.fss:2781:1-2894:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2817.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+#crash	stage	component Stream variance	OptionUnwrapException	null
+#seconds	893	FortressLibrary 550
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.05 2.80 2.28; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
+
+######## compare.sh, the rung's tables against the skeptic's
+## compare.sh probes/distance-postedit.txt skeptic-landed
+DISTANCE SAME   626
+## compare.sh probes/distance-preedit.txt skeptic-base
+DISTANCE SAME   627
+## compare.sh probes/distance-preedit.txt skeptic-broad
+DISTANCE DOWN   627 -> 625 (-2)
+    kind comprises                2 -> 0      (-2)
+    class H2                      2 -> 0      (-2)  comprises: AnyIntegral's clause
+    unit api FortressLibrary     67 -> 66     (-1)
+    unit component FortressLibrary    361 -> 360    (-1)
+## compare.sh probes/distance-postedit.txt skeptic-broad
+DISTANCE DOWN   626 -> 625 (-1)
+    kind typecheck              389 -> 388    (-1)
+    class BR                     11 -> 10     (-1)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+    unit component FortressLibrary    361 -> 360    (-1)
+
+######## sites
+## landed (skeptic) against the rung's post-edit run: diff, empty when identical
+## base via the classpath (skeptic) against the rung's pre-edit run: diff, empty when identical
+## broad (skeptic) against the rung's pre-edit run ('<' pre only, '>' broad only)
+16,17d15
+< comprises	-	-	api FortressLibrary	acyclic	FortressLibrary.fsi:436	Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend it.
+< comprises	-	-	component FortressLibrary	acyclic	FortressLibrary.fss:650	Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend it.
+## broad (skeptic) against the rung's post-edit run ('<' post only, '>' broad only)
+316,317c316,317
+< typecheck	Could not check call to operator BIG || - ()->Comprehension[\..\] is not applicable to an argument of type Any	-	component FortressLibrary	typecheck	FortressLibrary.fss:304	Could not check call to operator BIG || - ()->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any. - [\T\]Generator[\T\]->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any.
+< typecheck	Could not check call to operator BIG || - ()->Comprehension[\..\] is not applicable to an argument of type Any	-	component FortressLibrary	typecheck	FortressLibrary.fss:314	Could not check call to operator BIG || - ()->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any. - [\T\]Generator[\T\]->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any.
+---
+> typecheck	Could not check call to operator BIG || - ()->Comprehension[\..\]->String is not applicable to an argument of 	-	component FortressLibrary	typecheck	FortressLibrary.fss:304	Could not check call to operator BIG || - ()->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any. - [\T\]Generator[\T\]->String is not applicable to an argument of type Any.
+> typecheck	Could not check call to operator BIG || - ()->Comprehension[\..\]->String is not applicable to an argument of 	-	component FortressLibrary	typecheck	FortressLibrary.fss:314	Could not check call to operator BIG || - ()->Comprehension[\Any,String,String,String\] is not applicable to an argument of type Any. - [\T\]Generator[\T\]->String is not applicable to an argument of type Any.
+515c515
+< typecheck	Function body has type String, but declared return type is Comprehension[\..\].	-	component FortressLibrary	typecheck	FortressLibrary.fss:3416	Function body has type String, but declared return type is Comprehension[\Any,String,String,String\].
+---
+> typecheck	Function body has type String, but declared return type is Comprehension[\..\].	-	component FortressLibrary	typecheck	FortressLibrary.fss:3436	Function body has type String, but declared return type is Comprehension[\Any,String,String,AnyMaybe\].
+518d517
+< typecheck	Function body has type UniqueItem[\..\].	-	component FortressLibrary	typecheck	FortressLibrary.fss:1535	Function body has type UniqueItem[\T\], but declared return type is BigReduction[\UniqueItem[\T\],UniqueItem[\T\]\].
+
+######## checksums of the sorted site lists (sha256 of 'sort <list>'), so that the equalities above can be checked without committing the 375 KB lists
+79fff1e868fbfee9  628 lines  tmp/distance-pre-errors.tsv
+f9f0f402377252b3  627 lines  tmp/distance-post-errors.tsv
+f9f0f402377252b3  627 lines  tmp/sk/dist-landed-errors.tsv
+79fff1e868fbfee9  628 lines  tmp/sk/dist-base-errors.tsv
+fcbfd744395f02e1  626 lines  tmp/sk/dist-broad-errors.tsv

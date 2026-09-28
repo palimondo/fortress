@@ -1,0 +1,16 @@
+component SkObjectExtender
+export Executable
+trait Shape comprises { Round } end
+trait Round extends Shape end
+trait Sized[\X\] extends Shape end
+object Ball extends { Round, Sized[\ZZ32\] } end
+kind(s: Shape): String = typecase s of
+    Round => "round"
+    else => "other"
+  end
+sized(s: Shape): String = typecase s of
+    Sized[\ZZ32\] => "sized"
+    else => "unsized"
+  end
+run(): () = println(kind(Ball) " " sized(Ball))
+end

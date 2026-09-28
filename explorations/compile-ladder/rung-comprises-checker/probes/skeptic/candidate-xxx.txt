@@ -1,0 +1,43 @@
+# junit-cand.sh: the candidate candidate/XXXComprisesGenericRenamed.test under the landed build, substFix and the base; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; the other rung of batch 7C on the box; 2026-09-28
+########## [landed] fortress junit ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.test
+. compile ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.fss:7:1-42:
+    Invalid comprises clause: Crate has a comprises clause
+    but its immediate subtype Marked is not eligible to extend it.
+File XXXComprisesGenericRenamed.fss has 1 error.
+ Saw expected failure
+
+Time: 1.854
+
+OK (1 test)
+
+exit=0
+########## [substFix] fortress junit ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.test
+. compile ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed 
+ Saw failure, but did not satisfy compile_err_equals; expected
+explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.fss:7:1-42:
+ Invalid comprises clause: Crate has a comprises clause
+ but its immediate subtype Marked is not eligible to extend it.
+File XXXComprisesGenericRenamed.fss has 1 error.
+
+F
+Time: 2.259
+There was 1 failure:
+1) ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## [base] fortress junit ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.test
+. compile ../explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate/XXXComprisesGenericRenamed.fss:7:1-42:
+    Invalid comprises clause: Crate has a comprises clause
+    but its immediate subtype Marked is not eligible to extend it.
+File XXXComprisesGenericRenamed.fss has 1 error.
+ Saw expected failure
+
+Time: 1.577
+
+OK (1 test)
+
+exit=0
+EXIT=0

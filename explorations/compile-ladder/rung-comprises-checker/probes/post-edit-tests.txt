@@ -1,0 +1,26 @@
+# probes/rung-tests.sh with the edit (TypeHierarchyChecker.scala, the narrow form without a switch), after ant compileAll and the library-order cache rebuild; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.70 4.02 2.62; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T12:47:18Z; the distance stage's post-edit run and the other rung of batch 7C running on this box
+########## fortress junit compiler_tests/ComprisesGenericSubtrait.test
+. link compiler_tests/ComprisesGenericSubtrait  OK (time = 5931ms)
+. run compiler_tests/ComprisesGenericSubtrait (963ms) PASS
+Passed
+
+Time: 6.908
+
+OK (2 tests)
+
+exit=0
+########## fortress junit compiler_tests/XXXComprisesGenericUnlisted.test
+. compile compiler_tests/XXXComprisesGenericUnlisted ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:7:1-39:
+    Invalid comprises clause: Closed has a comprises clause
+    but its immediate subtype Unextended is not eligible to extend it.
+ProjectFortress/compiler_tests/XXXComprisesGenericUnlisted.fss:11:1-34:
+    Invalid comprises clause: Shut has a comprises clause
+    but its immediate subtype Outside is not eligible to extend it.
+File XXXComprisesGenericUnlisted.fss has 2 errors.
+ Saw expected failure
+
+Time: 2.015
+
+OK (1 test)
+
+exit=0
