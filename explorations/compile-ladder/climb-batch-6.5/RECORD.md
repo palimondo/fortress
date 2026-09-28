@@ -34,7 +34,7 @@ Each commit appends its rows after the last row of section 10 of the ledger (row
 **Recommended rows, each opened.** The skeptic's five, in the words of its section 12, now also in `record.md`'s last section so that it and the ledger agree:
 - **The slot-0 defect of task bodies**: row 497, home 2. The cause cited was opened on the landed tree: `CodeGen.java:4739` is `generateTaskCompute`, `:4742` its `visitCode`, `:3509` `forFnExpr`'s `cg.mv.reserveSlot0()`. The home-2 pair the skeptic recommended is written at the gather (below).
 - **`try … catch` in an arm**: a note on row 322 (`probes/skeptic/try-in-arm.txt:6`, `:41`, `:74`, opened).
-- **The ASM frame failure without a coercion**: a note on row 340, beside the rung's own (`clause-task-ops.txt:5`, `:26`, `:46`, `typecase-task-ops.txt:4`, `:17`, `:33`, `tuple-clause-spread.txt:4`, `:21`, `:41`, opened; `tuple-spread.txt` prints `s7` on all three runs).
+- **The ASM frame failure in two more shapes**: a note on row 340, beside the rung's own (`clause-task-ops.txt:5`, `:26`, `:46`, `typecase-task-ops.txt:4`, `:17`, `:33`, `tuple-clause-spread.txt:4`, `:21`, `:41`, opened; `tuple-spread.txt` prints `s7` on all three runs). Corrected by the judge's repair, where this line had carried the skeptic's "without a coercion": that holds for the tuple shape only. The two task-operand probes end in `else => 0` in a function declared `ZZ32`, row 340's own coercion, and each compiles and prints walk's answer once that `else` answers no numeral (`explorations/compile-ladder/climb-batch-6.5/judge-repair/task-ops-split.txt`).
 - **Pattern-bound names**: row 498, home 3, the chapter deferring patterns (`Specification/basic/expressions/typecase.tex:15`, opened).
 - **The interim dispatch answer**: row 499, a new row rather than a note on row 493, since row 493 is closed and this one stays open until answer 9's checker rung refuses the pairs; home 3, the passages disagreeing.
 
@@ -167,3 +167,43 @@ Made 2026-09-28 on `main` at `581356f32`, over the batch's two commits (`fd5cb48
 Row 391's new face (the coercion chain) is not among them: the row records "No gated test, by decision", since an `XXX` test cannot hold a compile that should fail and succeeds.
 
 **Stops.** G meets none. P meets "normative text for a rule neither path runs" (`Specification/basic/operators/opr-overview.tex:264-268`, the `NN32` and `NN64` half), and, by its skeptic's reading of the rung's text, "a passage whose new text neither the decisions nor the landed code settles" for the listing's sentence (`rung-spec-integer-rules/SKEPTIC.md:11`), whose landed wording the gather chose on RC2 and whose `RR64` half says less than the batch record's (`coordinator/CLIMB-BATCH-6.5.md:26`; `Specification/basic-lib/numbers.tex:217-220`); both reversible, lifted by `coordinator/POSITIONS.md:120`, and the second is the parked line for P.worker.1.
+
+## The judge's repair
+
+The ruling is `JUDGE-review.md` (`930811df4`): all five findings of the merged-diff review hold, the first narrowed to the test. What was done, step by step, its deviations and the homes of what it measured are in `REPAIR-review.md`. Nothing was built; the gate's build and library cache served, since no source changed after the gate's `ant compileAll`.
+
+**Changed.**
+- `ProjectFortress/compiler_tests/WitnessIdentityRungG.fss`: the `ZZ64` branches of `zeroOf` and `oneOf` widen `v: ZZ32`, and `run` widens `seven: ZZ32` and `eight: ZZ32`; no numeral reaches `widen`. Messages, comment line and `.test` unchanged. `Library/FortressLibrary.fss` unchanged.
+- `explorations/fortress-gap-ledger.md`: notes on rows 391 (the varying pick), 159 (its deferral sentence replaced by the two walk tests), 322 and 497 (the try-in-arm pair), 340 (the skeptic note's "without a coercion" corrected by the split, the two compile tests appended), 442 and 349 (the three prelude tests).
+- `explorations/coordinator/FACTS.md`: one sentence in "The replacement for `SUM`'s and `PROD`'s catch-all, judged on both paths".
+- `explorations/coordinator/PLAN.md`: phase 3's batch N line (rung I's tests to include `cast[\ZZ64\](widen(0))` over the compiled prelude); the parked walk line (the two files gate it, rung W promotes them); the parked P.worker.2 line (`XXXZZNarrowRungP` goes with the text); a new parked line for judge-review.1.
+- `explorations/microgpt-run-c-handover.md:25`: walk's refusal of α-renamed generic pairs is gated as an expected failure.
+- `explorations/compile-ladder/rung-generic-runtime/REPORT.md:166` and `:118`, `record.md:71` and `:153`; `explorations/compile-ladder/rung-spec-integer-rules/REPORT.md:88`; this file's line 37.
+
+**Added.**
+- `ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss`, `XXXDispatchSwappedArmWalkRungG.fss` (row 159).
+- `ProjectFortress/compiler_tests/XXXTryInArmRungG.fss` with `XXXTryInArmRungG.test` (`run`, `run_out_contains=REACHED`) and `TryInArmRungGLink.test` (`link`) (rows 322 and 497).
+- `ProjectFortress/compiler_tests/XXXTypecaseBodyCoerceRungG.fss/.test` and `XXXTupleClauseSpreadRungG.fss/.test`, each `compile` with `compile_exception_contains=Error trying to close method scope` (row 340). `XXXClauseTaskOpsRungG` was not written: without the numeral `else`, both task-operand probes compile.
+- `ProjectFortress/compiler_tests/XXXNNShiftRungP.fss/.test`, `XXXNNGcdLcmRungP.fss/.test`, `XXXZZNarrowRungP.fss/.test`, each `compile` with `compile_err_contains` set to the message measured (rows 442 and 349).
+- `explorations/compile-ladder/climb-batch-6.5/REPAIR-review.md`.
+
+**Captures**, each with its script beside it under `explorations/compile-ladder/climb-batch-6.5/judge-repair/`:
+- `witness-suite-javap.txt`: the `testFast` jar is gone; the gate's diagnostic rerun's jar calls `coerce_NN32` then `widen(FNN32): FNN64`.
+- `witness-identity-after.txt`: three fresh junit runs `OK`, no `widen` fed by a `coerce_*`, walk `PASS`.
+- `walk-dispatch-xxx.txt`, `try-in-arm-xxx.txt`, `task-ops-split.txt`, `codegen-crash-xxx.txt` (with `codegen-crash-oneline.txt`, the one-line `typecase` the parser refuses), `prelude-integer-xxx.txt`, `new-tests-check.txt`.
+
+**Controls shown red**, each an `XXX`-named copy in a scratch directory under the same `.test` file:
+- the two walk tests, with the arms over one parameter name: walk prints `PASS`, and the harness says `Missing expected failure`;
+- the try-in-arm run test, with the `try` before the `do … also`: `PASS`, `Did not see expected failure`;
+- `XXXTypecaseBodyCoerceRungG`, the `typecase` wrapped in `do … end`, and `XXXTupleClauseSpreadRungG`, the plain local spread: each compiles and runs `PASS`, and the test fails;
+- `XXXNNShiftRungP` with `<<` and `>>`, `XXXNNGcdLcmRungP` with a `ZZ32` `GCD` and `LCM` converted, and `XXXZZNarrowRungP` narrowing a `ZZ64`: each compiles and runs `PASS`, and the test fails.
+
+Walk prints `PASS` for every new compiled test's unmodified file, so no walk row is owed by step 9.
+
+**Predictions for the gate that runs again.**
+- `CompilerJUTest` 822: 815 and one per new command line, seven, one in each new `.test` file. Counted as lines that are exactly one of `FileTests`'s command words, 543 at `930811df4` and 550 here (the gather's expression at `:64` is not recorded; `REPAIR-review.md`, deviation 4). No `XXXClauseTaskOpsRungG`.
+- `LibraryJUTest` 84.
+- `testSystem` 430, the gate's 428 and the two walk tests.
+- 42 four-thread PASS lines.
+- The checker count 75 and the distance 626: no library or api line changes.
+- The ladder unchanged.

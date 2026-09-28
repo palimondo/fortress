@@ -1,0 +1,35 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXDispatchRenamedArmWalkRungG
+export Executable
+
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object Red end
+object Blue end
+object SubBlue extends Sub[\Blue\] end
+object TagBlue extends Tag[\Blue\] end
+trait Marker[\X\] end
+object TagM[\X\] extends Marker[\X\] end
+object SubM[\X\] extends Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = TagM[\X\]
+grab[\Y\](t: Sub[\Y\]): Marker[\Y\] = SubM[\Y\]
+
+name(m: Any): String = typecase m of
+    TagM[\Red\] => "TagM[Red]"
+    TagM[\Blue\] => "TagM[Blue]"
+    SubM[\Red\] => "SubM[Red]"
+    SubM[\Blue\] => "SubM[Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  println("REACHED")
+  b2: Tag[\Blue\] = SubBlue
+  assert(name(grab(b2)), "SubM[Blue]", "a generic arm that names its parameter differently, row 159, Specification/basic/overloading.tex:100-107, :262-276")
+  b3: Tag[\Blue\] = TagBlue
+  assert(name(grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex:100-107, :262-276")
+  println("PASS")
+end
+
+end

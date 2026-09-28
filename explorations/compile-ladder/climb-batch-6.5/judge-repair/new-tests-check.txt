@@ -1,0 +1,25 @@
+# judge's repair of climb batch 6.5, step 10: checks over every new test; 2026-09-28T21:14:44Z; tree HEAD 930811df4 plus the repair's working-tree files; no build or run
+## 1. comment lines per new .fss (each must be exactly one), and each comment line
+1  ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXTryInArmRungG.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXTypecaseBodyCoerceRungG.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXTupleClauseSpreadRungG.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXNNShiftRungP.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXNNGcdLcmRungP.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+1  ProjectFortress/compiler_tests/XXXZZNarrowRungP.fss: (* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+## 2. lines outside the assert/deny messages that carry a citation (Specification/, row N, .tex:): must be none besides the comment line
+(end)
+## 3. each new component name over ProjectFortress/tests, compiler_tests, library_tests, Library and ProjectFortress/src/com/sun/fortress: the files that name it
+XXXDispatchRenamedArmWalkRungG: ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss 
+XXXDispatchSwappedArmWalkRungG: ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss 
+XXXTryInArmRungG: ProjectFortress/compiler_tests/TryInArmRungGLink.test ProjectFortress/compiler_tests/XXXTryInArmRungG.fss ProjectFortress/compiler_tests/XXXTryInArmRungG.test 
+XXXTypecaseBodyCoerceRungG: ProjectFortress/compiler_tests/XXXTypecaseBodyCoerceRungG.fss ProjectFortress/compiler_tests/XXXTypecaseBodyCoerceRungG.test 
+XXXTupleClauseSpreadRungG: ProjectFortress/compiler_tests/XXXTupleClauseSpreadRungG.fss ProjectFortress/compiler_tests/XXXTupleClauseSpreadRungG.test 
+XXXNNShiftRungP: ProjectFortress/compiler_tests/XXXNNShiftRungP.fss ProjectFortress/compiler_tests/XXXNNShiftRungP.test 
+XXXNNGcdLcmRungP: ProjectFortress/compiler_tests/XXXNNGcdLcmRungP.fss ProjectFortress/compiler_tests/XXXNNGcdLcmRungP.test 
+XXXZZNarrowRungP: ProjectFortress/compiler_tests/XXXZZNarrowRungP.fss ProjectFortress/compiler_tests/XXXZZNarrowRungP.test 
+## 4. a widen, unsigned, narrow, big, signed or asZZ32 call applied directly to a numeral in the new compiled tests (must be empty)
+(end)
+## 5. the same grep over every compiled and library test, the ruling's count of section 2 (four sites before the repair, in WitnessIdentityRungG only)
+(end)

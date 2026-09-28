@@ -1,0 +1,26 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXNNGcdLcmRungP
+export Executable
+
+run(): () = do
+  println("REACHED")
+  twelve: ZZ32 = 12
+  eighteen: ZZ32 = 18
+  six: ZZ32 = 6
+  thirtySix: ZZ32 = 36
+  a32: NN32 = unsigned(twelve)
+  b32: NN32 = unsigned(eighteen)
+  g32: NN32 = a32 GCD b32
+  l32: NN32 = a32 LCM b32
+  assert(g32 = unsigned(six), "GCD on NN32, 12 GCD 18 is 6, row 442; Specification/basic/operators/opr-overview.tex:256-263")
+  assert(l32 = unsigned(thirtySix), "LCM on NN32, 12 LCM 18 is 36, row 442; Specification/basic/operators/opr-overview.tex:256-263")
+  a64: NN64 = widen(a32)
+  b64: NN64 = widen(b32)
+  g64: NN64 = a64 GCD b64
+  l64: NN64 = a64 LCM b64
+  assert(g64 = widen(unsigned(six)), "GCD on NN64, row 442; Specification/basic/operators/opr-overview.tex:256-263")
+  assert(l64 = widen(unsigned(thirtySix)), "LCM on NN64, row 442; Specification/basic/operators/opr-overview.tex:256-263")
+  println("PASS")
+end
+
+end

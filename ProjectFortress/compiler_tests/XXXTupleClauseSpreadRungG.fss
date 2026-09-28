@@ -1,0 +1,22 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXTupleClauseSpreadRungG
+export Executable
+
+second(a: ZZ32, s: String): String = s || a.asString
+
+localHead(z: ZZ32): String = do
+  t: (ZZ32, String) = (z, "s")
+  typecase t of
+      p: (ZZ32, String) => second(p)
+      else => "other"
+    end
+end
+
+run(): () = do
+  println("REACHED")
+  z: ZZ32 = 3 + 4
+  assert(localHead(z), "s7", "a named tuple clause spread into a two-parameter call, row 340; Specification/basic/expressions/typecase.tex:88-99")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXTryInArmRungG
+run
+run_out_contains=REACHED

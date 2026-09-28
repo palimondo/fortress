@@ -1,0 +1,3 @@
+tests=XXXZZNarrowRungP
+compile
+compile_err_contains=Could not check call to function narrow

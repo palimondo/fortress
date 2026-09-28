@@ -1,0 +1,3 @@
+tests=XXXNNGcdLcmRungP
+compile
+compile_err_contains=Could not check call to operator GCD

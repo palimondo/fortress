@@ -1,0 +1,25 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXTryInArmRungG
+export Executable
+
+object Oops(code: ZZ32) extends CheckedException end
+boomU(k: ZZ32): () = throw Oops(k)
+var hit: ZZ32 = 0
+note(k: ZZ32): () = atomic do hit := hit + k end
+
+tryInArm(k: ZZ32): () = do
+  do
+    note(1)
+  also do
+    try boomU(k) catch e Oops => note(e.code) end
+  end
+end
+
+run(): () = do
+  println("REACHED")
+  tryInArm(5)
+  assert(hit, 6, "a try ... catch in a do ... also arm, rows 322 and 497; Specification/basic/expressions/also.tex:17-21, Specification/basic/expressions/try.tex:56-60")
+  println("PASS")
+end
+
+end

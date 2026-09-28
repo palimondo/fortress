@@ -1,0 +1,102 @@
+# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.25 0.31 0.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T21:05:35Z; tree HEAD 930811df4 plus the repair's working-tree files
+=================== XXXDispatchRenamedArmWalkRungG
+=== walk: bin/fortress ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:16:1-48: and
+ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:15:1-47:
+
+grab[\Y\](t:Sub[\Y\]):Marker[\Y\]ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:16:1-48 and
+grab[\X\](t:Tag[\X\]):Marker[\X\]ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:15:1-47 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:16:1-48:
+ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss:15:1-47:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+=== the testSystem harness over the test alone (harness-one.sh, fresh caches)
+tmp/judge-repair-6.5/h-XXXDispatchRenamedArmWalkRungG/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e9d66d39_16
+. interpret tmp/judge-repair-6.5/h-XXXDispatchRenamedArmWalkRungG/tests/XXXDispatchRenamedArmWalkRungG  OK Saw expected exception
+
+Time: 14.257
+
+OK (1 test)
+
+exit=0
+=== the control, XXXDispatchRenamedArmWalkRungG.fss in a scratch directory with its two arms over one parameter name; the diff:
+16c16
+< grab[\Y\](t: Sub[\Y\]): Marker[\Y\] = SubM[\Y\]
+---
+> grab[\X\](t: Sub[\X\]): Marker[\X\] = SubM[\X\]
+=== walk: bin/fortress <scratch>/control/XXXDispatchRenamedArmWalkRungG.fss
+REACHED
+PASS
+exit=0
+=== the testSystem harness over the control alone (fresh caches): the expected failure must be missing
+tmp/judge-repair-6.5/hc-XXXDispatchRenamedArmWalkRungG/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e9d6b27e_16
+. interpret tmp/judge-repair-6.5/hc-XXXDispatchRenamedArmWalkRungG/tests/XXXDispatchRenamedArmWalkRungG 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 14.003
+There was 1 failure:
+1) tmp/judge-repair-6.5/hc-XXXDispatchRenamedArmWalkRungG/tests/XXXDispatchRenamedArmWalkRungG(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. Interp
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+=================== XXXDispatchSwappedArmWalkRungG
+=== walk: bin/fortress ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:16:1-59: and
+ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:15:1-55:
+
+pair[\B,A\](t:SubTwo[\B,A\]):Marker[\B,A\]ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:16:1-59 and
+pair[\A,B\](t:Two[\A,B\]):Marker[\A,B\]ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:15:1-55 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:16:1-59:
+ProjectFortress/tests/XXXDispatchSwappedArmWalkRungG.fss:15:1-55:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+exit=1
+=== the testSystem harness over the test alone (harness-one.sh, fresh caches)
+tmp/judge-repair-6.5/h-XXXDispatchSwappedArmWalkRungG/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e9d6f5a0_16
+. interpret tmp/judge-repair-6.5/h-XXXDispatchSwappedArmWalkRungG/tests/XXXDispatchSwappedArmWalkRungG  OK Saw expected exception
+
+Time: 14.266
+
+OK (1 test)
+
+exit=0
+=== the control, XXXDispatchSwappedArmWalkRungG.fss in a scratch directory with its two arms over one parameter name; the diff:
+16c16
+< pair[\B,A\](t: SubTwo[\B,A\]): Marker[\B,A\] = SubM[\B,A\]
+---
+> pair[\A,B\](t: SubTwo[\A,B\]): Marker[\A,B\] = SubM[\A,B\]
+=== walk: bin/fortress <scratch>/control/XXXDispatchSwappedArmWalkRungG.fss
+REACHED
+PASS
+exit=0
+=== the testSystem harness over the control alone (fresh caches): the expected failure must be missing
+tmp/judge-repair-6.5/hc-XXXDispatchSwappedArmWalkRungG/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e9d73a5a_16
+. interpret tmp/judge-repair-6.5/hc-XXXDispatchSwappedArmWalkRungG/tests/XXXDispatchSwappedArmWalkRungG 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 14.094
+There was 1 failure:
+1) tmp/judge-repair-6.5/hc-XXXDispatchSwappedArmWalkRungG/tests/XXXDispatchSwappedArmWalkRungG(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. Interp
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+EXIT=0

@@ -1,0 +1,25 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXZZNarrowRungP
+export Executable
+
+run(): () = do
+  println("REACHED")
+  one: ZZ32 = 1
+  minusOne: ZZ32 = -1
+  k: ZZ32 = 65536
+  five: ZZ32 = 5
+  z1: ZZ = one
+  zm1: ZZ = minusOne
+  zk: ZZ = k
+  zfive: ZZ = five
+  zwide: ZZ = zk DOT zk + zfive
+  n1: ZZ32 = narrow(z1)
+  nm1: ZZ32 = narrow(zm1)
+  nwide: ZZ32 = narrow(zwide)
+  assert(n1, 1, "narrow on ZZ keeps a value ZZ32 holds, row 349; Specification/basic-lib/basic-integers.tex:39-45")
+  assert(nm1, -1, "narrow on ZZ, row 349; Specification/basic-lib/basic-integers.tex:39-45")
+  assert(nwide, 5, "narrow on ZZ keeps the low 32 bits, 2^32+5 gives 5, row 349; Specification/basic-lib/basic-integers.tex:39-45")
+  println("PASS")
+end
+
+end

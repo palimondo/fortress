@@ -1,0 +1,23 @@
+(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+component XXXNNShiftRungP
+export Executable
+
+run(): () = do
+  println("REACHED")
+  one: ZZ32 = 1
+  maxZZ32: ZZ32 = 2147483647
+  half: NN32 = unsigned(maxZZ32)
+  top32: NN32 = half + half + unsigned(one)
+  left32: NN32 = top32 LSHIFT one
+  right32: NN32 = top32 RSHIFT one
+  assert(left32 = half + half, "LSHIFT on NN32, 2^32-1 LSHIFT 1 is 4294967294, row 442; Specification/basic-lib/basic-integers.tex:47-62")
+  assert(right32 = half, "RSHIFT on NN32, row 442; Specification/basic-lib/basic-integers.tex:47-62")
+  top64: NN64 = widen(top32)
+  left64: NN64 = top64 LSHIFT one
+  right64: NN64 = top64 RSHIFT one
+  assert(left64 = top64 + top64, "LSHIFT on NN64, row 442; Specification/basic-lib/basic-integers.tex:47-62")
+  assert(right64 = widen(half), "RSHIFT on NN64, row 442; Specification/basic-lib/basic-integers.tex:47-62")
+  println("PASS")
+end
+
+end

@@ -9,7 +9,9 @@ zeroOf[\T\](): T =
         () -> ZZ32 =>
             v: ZZ32 = 0
             cast[\T\](v)
-        () -> ZZ64 => cast[\T\](widen(0))
+        () -> ZZ64 =>
+            v: ZZ32 = 0
+            cast[\T\](widen(v))
         () -> RR64 =>
             v: RR64 = 0.0
             cast[\T\](v)
@@ -21,7 +23,9 @@ oneOf[\T\](): T =
         () -> ZZ32 =>
             v: ZZ32 = 1
             cast[\T\](v)
-        () -> ZZ64 => cast[\T\](widen(1))
+        () -> ZZ64 =>
+            v: ZZ32 = 1
+            cast[\T\](widen(v))
         () -> RR64 =>
             v: RR64 = 1.0
             cast[\T\](v)
@@ -31,8 +35,10 @@ oneOf[\T\](): T =
 run(): () = do
     assert(zeroOf[\ZZ32\]() + 7, 7, "the identity from the static argument, answer 7 (POSITIONS 2026-09-26), ledger row 426")
     assert(oneOf[\ZZ32\]() + 7, 8, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
-    assert(zeroOf[\ZZ64\]() + widen(7) = widen(7), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
-    assert(oneOf[\ZZ64\]() + widen(7) = widen(8), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    seven: ZZ32 = 7
+    eight: ZZ32 = 8
+    assert(zeroOf[\ZZ64\]() + widen(seven) = widen(seven), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+    assert(oneOf[\ZZ64\]() + widen(seven) = widen(eight), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
     assert(zeroOf[\RR64\]() + 1.5 = 1.5, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
     assert(oneOf[\RR64\]() + 1.5 = 2.5, "answer 7 (POSITIONS 2026-09-26), ledger row 426")
     println("PASS")

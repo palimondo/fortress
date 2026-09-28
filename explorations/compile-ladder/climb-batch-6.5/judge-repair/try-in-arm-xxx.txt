@@ -1,0 +1,79 @@
+# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.71 0.86 0.55; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; 2026-09-28T21:07:02Z; tree HEAD 930811df4 plus the repair's working-tree files
+########## [test] ../bin/fortress junit compiler_tests/TryInArmRungGLink.test
+. link compiler_tests/XXXTryInArmRungG  OK (time = 3551ms)
+
+Time: 3.557
+
+OK (1 test)
+
+exit=0
+########## [test] ../bin/fortress junit compiler_tests/XXXTryInArmRungG.test
+. run compiler_tests/XXXTryInArmRungG (261ms) REACHED
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Inconsistent stackmap frames at branch target 43
+Exception Details:
+  Location:
+    XXXTryInArmRungG$task0.compute()V @39: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @39
+    flags: { }
+    locals: { 'XXXTryInArmRungG$Oops' }
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FVoid' }
+  Stackmap Frame:
+    bci: @43
+    flags: { }
+    locals: { 'java/lang/Object' }
+    stack: { 'java/lang/Object', 'com/sun/fortress/compiler/runtimeValues/FVoid' }
+  Bytecode:
+    0000000: 2a59 b800 192a b400 14b8 0021 a700 1f59
+    0000010: b600 25c1 0027 9900 14b6 0025 c000 274b
+    0000020: 2ab6 002b b800 2ea7 0004 bfb5 0032 b1  
+  Exception Handler Table:
+    bci [5, 12] => handler: 15
+  Stackmap Table:
+    same_locals_1_stack_item_frame(@15,Object[#27])
+    same_locals_1_stack_item_frame(@42,Object[#27])
+    full_frame(@43,{Object[#52]},{Object[#52],Object[#54]})
+
+Saw expected failure (Exit code != 0)
+
+Time: 0.272
+
+OK (1 test)
+
+exit=0
+########## the control: the same two .test files over a copy whose try is outside the do ... also; the diff:
+10a11
+>   try boomU(k) catch e Oops => note(e.code) end
+14c15
+<     try boomU(k) catch e Oops => note(e.code) end
+---
+>     note(0)
+########## [control] ../bin/fortress junit /home/user/fortress/tmp/judge-repair-6.5/try-control/TryInArmRungGLink.test
+. link tmp/judge-repair-6.5/try-control/XXXTryInArmRungG  OK (time = 3156ms)
+
+Time: 3.161
+
+OK (1 test)
+
+exit=0
+########## [control] ../bin/fortress junit /home/user/fortress/tmp/judge-repair-6.5/try-control/XXXTryInArmRungG.test
+. run tmp/judge-repair-6.5/try-control/XXXTryInArmRungG (347ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.374
+There was 1 failure:
+1) tmp/judge-repair-6.5/try-control/XXXTryInArmRungG(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest tmp/judge-repair-6.5/try-control/XXXTryInArmRungG
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## walk: ../bin/fortress compiler_tests/XXXTryInArmRungG.fss
+REACHED
+PASS
+exit=0
+EXIT=0
