@@ -1,17 +1,17 @@
 the key of a size used as a value: in the lists (its POSITIONS.md entry is committed)
-I reasons 94 for 94 briefing keys | problems 0
-I briefing keys 94 exit 0 | Total: 11 parts print 262064 bytes, about 108700 tokens.
-I checks keys 22 exit 0 | Total: 4 parts print 79559 bytes, about 33100 tokens.
-K reasons 72 for 72 briefing keys | problems 0
-K briefing keys 72 exit 0 | Total: 8 parts print 193094 bytes, about 80000 tokens.
+I reasons 90 for 90 briefing keys | problems 0
+I briefing keys 90 exit 0 | Total: 10 parts print 248790 bytes, about 103100 tokens.
+I checks keys 22 exit 0 | Total: 3 parts print 71673 bytes, about 29700 tokens.
+K reasons 64 for 64 briefing keys | problems 0
+K briefing keys 64 exit 0 | Total: 7 parts print 167191 bytes, about 69300 tokens.
 K checks keys 17 exit 0 | Total: 2 parts print 52975 bytes, about 21900 tokens.
-T reasons 56 for 56 briefing keys | problems 0
-T briefing keys 56 exit 0 | Total: 7 parts print 153300 bytes, about 63600 tokens.
+T reasons 53 for 53 briefing keys | problems 0
+T briefing keys 53 exit 0 | Total: 6 parts print 140000 bytes, about 58100 tokens.
 T checks keys 16 exit 0 | Total: 2 parts print 42092 bytes, about 17500 tokens.
 M reasons 37 for 37 briefing keys | problems 0
-M briefing keys 37 exit 0 | Total: 3 parts print 60435 bytes, about 25100 tokens.
+M briefing keys 37 exit 0 | Total: 3 parts print 60557 bytes, about 25200 tokens.
 M checks keys 12 exit 0 | Total: 1 part prints 16256 bytes, about 6800 tokens.
-Q reasons 88 for 88 briefing keys | problems 0
-Q briefing keys 88 exit 0 | Total: 8 parts print 208154 bytes, about 86200 tokens.
-Q checks keys 19 exit 0 | Total: 2 parts print 52058 bytes, about 21600 tokens.
+Q reasons 85 for 85 briefing keys | problems 0
+Q briefing keys 85 exit 0 | Total: 8 parts print 186598 bytes, about 77400 tokens.
+Q checks keys 19 exit 0 | Total: 2 parts print 44439 bytes, about 18400 tokens.
 bad lists 0

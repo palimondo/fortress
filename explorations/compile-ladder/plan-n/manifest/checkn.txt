@@ -1,4 +1,4 @@
-== script at 6016fac3f
+== script at 0aaf6114f
 MANIFEST block of the original: lines 58 to 825 of 2417; every line outside it byte-identical in the splice
 node --check wfn-orig.js: exit 0
 node --check wfn-spliced.js: exit 0
@@ -8,21 +8,21 @@ LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at 
 CHECKER_BASE unset: throws: CHECKER_BASE is not set: the #total of the last landed checker-count.txt
 RUN all: throws: RUN is not one of first, second
 block, RUN first (LEDGER_FROM 500, CHECKER_BASE 75 set for the check): batch N, record explorations/coordinator/CLIMB-BATCH-N.md, rungs I, K (predicts 75), T (lands only with I) (predicts 75), M, scatter K, I, T, M, intro 10058 chars, overlaps 2808 chars
-  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 94 keys with 94 reasons, checks 22, tail 176 lines
-  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 72 keys with 72 reasons, checks 17, tail 134 lines
-  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 56 keys with 56 reasons, checks 16, tail 105 lines
+  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 90 keys with 90 reasons, checks 22, tail 172 lines
+  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 64 keys with 64 reasons, checks 17, tail 126 lines
+  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 53 keys with 53 reasons, checks 16, tail 102 lines
   M: rung-integer-minmax, /home/user/fortress-minmax, wip/rung-integer-minmax, expectedMinutes 90, testIsStage false, writesState false, briefing 37 keys with 37 reasons, checks 12, tail 93 lines
 block, RUN second (LEDGER_FROM 500, CHECKER_BASE 75 set for the check): batch Nb, record explorations/coordinator/CLIMB-BATCH-N.md, rungs Q, scatter Q, intro 6616 chars, overlaps 1524 chars
-  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 88 keys with 88 reasons, checks 19, tail 164 lines
+  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 85 keys with 85 reasons, checks 19, tail 161 lines
 stubbed run, first run, every agent approves:
   Climb batch N: 4 rungs (I, K, T, M), two at a time in the order K, I, T, M (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:K, skeptic:K, rung:I, skeptic:I, rung:T, skeptic:T, rung:M, skeptic:M, gather, gate, review, commit
   rungs: I approved; K approved; T approved; M approved; landed true
-  rung:K step 1 renders 72 keys, its briefing in order
+  rung:K step 1 renders 64 keys, its briefing in order
   skeptic:K step 1 renders 17 keys, its checks in order
-  rung:I step 1 renders 94 keys, its briefing in order
+  rung:I step 1 renders 90 keys, its briefing in order
   skeptic:I step 1 renders 22 keys, its checks in order
-  rung:T step 1 renders 56 keys, its briefing in order
+  rung:T step 1 renders 53 keys, its briefing in order
   skeptic:T step 1 renders 16 keys, its checks in order
   rung:M step 1 renders 37 keys, its briefing in order
   skeptic:M step 1 renders 12 keys, its checks in order
@@ -32,10 +32,10 @@ stubbed run, first run, I stops, its judge rules stop:
   Climb batch N: 4 rungs (I, K, T, M), two at a time in the order K, I, T, M (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:K, skeptic:K, rung:I, judge:I:stop, rung:T, skeptic:T, rung:M, skeptic:M, gather, gate, review, commit
   rungs: I stopped; K approved; T withheld (T lands only with I (landsOnlyWith in the manifest), and I is stopped: not applied, its findings folded); M approved; landed true
-  rung:K step 1 renders 72 keys, its briefing in order
+  rung:K step 1 renders 64 keys, its briefing in order
   skeptic:K step 1 renders 17 keys, its checks in order
-  rung:I step 1 renders 94 keys, its briefing in order
-  rung:T step 1 renders 56 keys, its briefing in order
+  rung:I step 1 renders 90 keys, its briefing in order
+  rung:T step 1 renders 53 keys, its briefing in order
   skeptic:T step 1 renders 16 keys, its checks in order
   rung:M step 1 renders 37 keys, its briefing in order
   skeptic:M step 1 renders 12 keys, its checks in order
@@ -45,7 +45,7 @@ stubbed run, second run, every agent approves:
   Climb batch Nb: 1 rungs (Q), two at a time in the order Q (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:Q, skeptic:Q, gather, gate, review, commit
   rungs: Q approved; landed true
-  rung:Q step 1 renders 88 keys, its briefing in order
+  rung:Q step 1 renders 85 keys, its briefing in order
   skeptic:Q step 1 renders 19 keys, its checks in order
   gather: ledger numbering from the LEDGER_FROM set, manifest order Q
   commit: the gate tables land under explorations/compile-ladder/climb-batch-Nb/gate/
@@ -59,21 +59,21 @@ LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at 
 CHECKER_BASE unset: throws: CHECKER_BASE is not set: the #total of the last landed checker-count.txt
 RUN all: throws: RUN is not one of first, second
 block, RUN first (LEDGER_FROM 500, CHECKER_BASE 75 set for the check): batch N, record explorations/coordinator/CLIMB-BATCH-N.md, rungs I, K (predicts 75), T (lands only with I) (predicts 75), M, scatter K, I, T, M, intro 10058 chars, overlaps 2808 chars
-  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 94 keys with 94 reasons, checks 22, tail 176 lines
-  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 72 keys with 72 reasons, checks 17, tail 134 lines
-  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 56 keys with 56 reasons, checks 16, tail 105 lines
+  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 90 keys with 90 reasons, checks 22, tail 172 lines
+  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 64 keys with 64 reasons, checks 17, tail 126 lines
+  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 53 keys with 53 reasons, checks 16, tail 102 lines
   M: rung-integer-minmax, /home/user/fortress-minmax, wip/rung-integer-minmax, expectedMinutes 90, testIsStage false, writesState false, briefing 37 keys with 37 reasons, checks 12, tail 93 lines
 block, RUN second (LEDGER_FROM 500, CHECKER_BASE 75 set for the check): batch Nb, record explorations/coordinator/CLIMB-BATCH-N.md, rungs Q, scatter Q, intro 6616 chars, overlaps 1524 chars
-  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 88 keys with 88 reasons, checks 19, tail 164 lines
+  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 85 keys with 85 reasons, checks 19, tail 161 lines
 stubbed run, first run, every agent approves:
   Climb batch N: 4 rungs (I, K, T, M), two at a time in the order K, I, T, M (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:K, skeptic:K, rung:I, skeptic:I, rung:T, skeptic:T, rung:M, skeptic:M, gather, gate, review, commit
   rungs: I approved; K approved; T approved; M approved; landed true
-  rung:K step 1 renders 72 keys, its briefing in order
+  rung:K step 1 renders 64 keys, its briefing in order
   skeptic:K step 1 renders 17 keys, its checks in order
-  rung:I step 1 renders 94 keys, its briefing in order
+  rung:I step 1 renders 90 keys, its briefing in order
   skeptic:I step 1 renders 22 keys, its checks in order
-  rung:T step 1 renders 56 keys, its briefing in order
+  rung:T step 1 renders 53 keys, its briefing in order
   skeptic:T step 1 renders 16 keys, its checks in order
   rung:M step 1 renders 37 keys, its briefing in order
   skeptic:M step 1 renders 12 keys, its checks in order
@@ -83,10 +83,10 @@ stubbed run, first run, I stops, its judge rules stop:
   Climb batch N: 4 rungs (I, K, T, M), two at a time in the order K, I, T, M (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:K, skeptic:K, rung:I, judge:I:stop, rung:T, skeptic:T, rung:M, skeptic:M, gather, gate, review, commit
   rungs: I stopped; K approved; T withheld (T lands only with I (landsOnlyWith in the manifest), and I is stopped: not applied, its findings folded); M approved; landed true
-  rung:K step 1 renders 72 keys, its briefing in order
+  rung:K step 1 renders 64 keys, its briefing in order
   skeptic:K step 1 renders 17 keys, its checks in order
-  rung:I step 1 renders 94 keys, its briefing in order
-  rung:T step 1 renders 56 keys, its briefing in order
+  rung:I step 1 renders 90 keys, its briefing in order
+  rung:T step 1 renders 53 keys, its briefing in order
   skeptic:T step 1 renders 16 keys, its checks in order
   rung:M step 1 renders 37 keys, its briefing in order
   skeptic:M step 1 renders 12 keys, its checks in order
@@ -96,7 +96,7 @@ stubbed run, second run, every agent approves:
   Climb batch Nb: 1 rungs (Q), two at a time in the order Q (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
   agents in order: rung:Q, skeptic:Q, gather, gate, review, commit
   rungs: Q approved; landed true
-  rung:Q step 1 renders 88 keys, its briefing in order
+  rung:Q step 1 renders 85 keys, its briefing in order
   skeptic:Q step 1 renders 19 keys, its checks in order
   gather: ledger numbering from the LEDGER_FROM set, manifest order Q
   commit: the gate tables land under explorations/compile-ladder/climb-batch-Nb/gate/
