@@ -1,0 +1,10 @@
+#variant	bare	<scratch>/lib/bare
+#switches	no shadow	none
+#api	errors
+#total	1
+#locations	1
+#crash	none
+#rc	255	7 s
+#machine	2026-09-28T06:33:30Z nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.64 7.21 8.82; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#errors
+FortressLibrary.fsi:433:78-84: :: Type requires static arguments: FortressLibrary.Integral

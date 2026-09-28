@@ -19,6 +19,11 @@ The variants (the note's ways, section 3):
             AnyStandardMax, extended by StandardMin and StandardMax and excluded by HasRank
   markeronly  the placeholder device alone, AnyIntegral's clause kept (for the checker's accommodation)
   skmark    skexcl and the placeholder device
+  ground    open, and the scalar block written per element type, seven arms for each of its eight
+            generic declarations (the team's shipped block was the ZZ32 arm alone)
+  groundmark  ground, and the placeholder device
+  bare      the generic named without its parameter in AnyIntegral's list, as Java's permits clause
+            and Scala's sealed name a class (section 5)
 """
 import io
 import os
@@ -74,9 +79,34 @@ VARIANTS = {
     'numlist2': merge(OPEN, both(NUMBER, "        comprises { RR64, QQ, AnyIntegral, ZZ, ZZ64, ZZ32, NN64, NN32 }\n")),
     'marker': merge(OPEN, PLACEHOLDERS),
     'markeronly': PLACEHOLDERS,
+    'ground': OPEN,
+    'groundmark': merge(OPEN, PLACEHOLDERS),
+    'bare': both(ANYINT, ANYINT.replace("NN32 }", "NN32, Integral }")),
     'skmark': merge(both(INTEGRAL, INTEGRAL.replace(", AnyIntegral }", " }")[:-1]
                          + "\n        excludes { " + NUMBER_EXCLUDERS + " }\n"), PLACEHOLDERS),
 }
+
+
+# The ground form of the scalar block, the shape of the team's shipped block (one element type,
+# ZZ32, before 02d09a39f generalised it), extended to the seven number types of the flat library:
+# each of the eight generic declarations over [\\T extends Number, I\\] becomes seven over [\\I\\].
+GROUND = ('ground', 'groundmark')
+SEVEN = ['RR64', 'QQ', 'ZZ', 'ZZ64', 'ZZ32', 'NN64', 'NN32']
+
+
+def ground(s, f):
+    import re
+    pat = re.compile(r'^opr (\+|-|MIN|MAX)\[\\T extends Number, I\\\](.*)$', re.M)
+    n = len(pat.findall(s))
+    if n != 8:
+        sys.exit('%s: %d generic scalar-block lines, expected 8' % (f, n))
+    def one(m):
+        out = []
+        for t in SEVEN:
+            rest = re.sub(r'\bT\b', t, m.group(2))
+            out.append('opr %s[\\I\\]%s' % (m.group(1), rest))
+        return '\n'.join(out)
+    return pat.sub(one, s)
 
 
 def make(out, name):
@@ -87,6 +117,8 @@ def make(out, name):
     subs = VARIANTS[name]
     for f in FILES:
         s = io.open(f, encoding='utf-8', newline='').read()
+        if name in GROUND and f in (FSI, FSS):
+            s = ground(s, f)
         for a, b in subs.get(f, []):
             n = s.count(a)
             if n != 1:

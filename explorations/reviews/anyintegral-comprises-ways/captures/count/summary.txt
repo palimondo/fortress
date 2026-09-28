@@ -1,22 +1,22 @@
-# The count stage (tools/checker-count's WorldFlip driver, memo off) per way, 2026-09-28, on library copies of the tree at 81f0151be (no Library/ or LibraryBuiltin/ change since deadeba01).
-# columns: variant, shadow switches, FortressLibrary api row (each error counted twice), total distinct, seconds
-apionly         none                                                                   FortressLibrary 132  total 87   121 s
-base            none                                                                   FortressLibrary 2    total 22   45 s
-instance-y2008  -Dprobe.aicw.comprisesInstance=true                                    FortressLibrary 206  total 124  274 s
-marker          none                                                                   FortressLibrary 116  total 79   130 s
-narrow-base     -Dprobe.aicw.eligibleNarrow=true                                       FortressLibrary 132  total 87   173 s
-narrow-marker   -Dprobe.aicw.eligibleNarrow=true                                       FortressLibrary 116  total 79   182 s
-numlist         none                                                                   FortressLibrary 2    total 22   60 s
-numlist2        none                                                                   FortressLibrary 132  total 87   164 s
-open            none                                                                   FortressLibrary 132  total 87   104 s
-relax-base      -Dprobe.aicw.eligibleRelax=true                                        FortressLibrary 132  total 87   186 s
-self            none                                                                   FortressLibrary 132  total 87   113 s
-sketch          none                                                                   FortressLibrary 132  total 87   133 s
-skexcl          none                                                                   FortressLibrary 132  total 87   165 s
-stock-base      none                                                                   FortressLibrary 2    total 22   68 s
-y2008           none                                                                   FortressLibrary 10   total 26   108 s
-
-# machine lines
-      1 #machine	2026-09-28T04:54:53Z nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.21 5.89 4.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-      1 #machine	2026-09-28T04:56:08Z nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.08 6.85 4.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-      1 #machine	2026-09-28T04:57:52Z nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.68 6.91 4.80; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# The count stage (tools/checker-count's WorldFlip driver and table, overloading memo off; count.sh) per library variant (make-libs.py) and checker switch (shadow-thc.py), 2026-09-28 04:54-07:12 UTC, on library copies of the tree at 81f0151be (no change to Library/, ProjectFortress/LibraryBuiltin/ or ProjectFortress/src/ since deadeba01). stock-base, relax-base, narrow-base, narrow-marker*, instance-y2008: the shadow classes ahead, with the switch named (stock-base: none). Every run's machine line is in its file; nproc 4, Intel Xeon @ 2.10GHz, 2100 MHz, load 6 to 17, JDK 25.0.4, FORTRESS_THREADS=1. No timing here is a comparison.
+# columns: variant, switches, the FortressLibrary api row (each error counted twice), the total of distinct errors, seconds
+apionly            none                                     FortressLibrary 132  total 87   121 s
+bare               none                                     FortressLibrary -    total 1    7 s
+base               none                                     FortressLibrary 2    total 22   45 s
+ground             none                                     FortressLibrary 172  total 107  163 s
+groundmark         none                                     FortressLibrary 116  total 79   173 s
+instance-y2008     -Dprobe.aicw.comprisesInstance=true      FortressLibrary 206  total 124  274 s
+marker             none                                     FortressLibrary 116  total 79   130 s
+narrow-base        -Dprobe.aicw.eligibleNarrow=true         FortressLibrary 132  total 87   173 s
+narrow-marker      -Dprobe.aicw.eligibleNarrow=true         FortressLibrary 116  total 79   182 s
+narrow-markeronly  -Dprobe.aicw.eligibleNarrow=true         FortressLibrary 116  total 79   135 s
+numlist            none                                     FortressLibrary 2    total 22   60 s
+numlist2           none                                     FortressLibrary 132  total 87   164 s
+open               none                                     FortressLibrary 132  total 87   104 s
+relax-base         -Dprobe.aicw.eligibleRelax=true          FortressLibrary 132  total 87   186 s
+self               none                                     FortressLibrary 132  total 87   113 s
+sketch             none                                     FortressLibrary 132  total 87   133 s
+skexcl             none                                     FortressLibrary 132  total 87   165 s
+skmark             none                                     FortressLibrary 116  total 79   131 s
+stock-base         none                                     FortressLibrary 2    total 22   68 s
+y2008              none                                     FortressLibrary 10   total 26   108 s

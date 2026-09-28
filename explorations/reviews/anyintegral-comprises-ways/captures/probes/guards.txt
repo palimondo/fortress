@@ -1,0 +1,33 @@
+# 2026-09-28T07:17:27Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 30.03 15.07 11.65; openjdk version "25.0.4" 2026-07-21
+## Compiled3.q, tree (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+## Compiled3.q, shadow-off (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+## Compiled3.q, relax (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+## Compiled3.q, narrow (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled3.q.T, should not be extended.
+File Compiled3.q.fss has 1 error.
+## Compiled10.p, tree (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+## Compiled10.p, shadow-off (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+## Compiled10.p, relax (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
+## Compiled10.p, narrow (rc=255)
+    Invalid comprises clause: a trait with a comprises ...,
+    such as Compiled10.pAPI.T, should not be extended.
+File Compiled10.p.fss has 1 error.
