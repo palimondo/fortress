@@ -25,9 +25,11 @@
 +                r = inferRule(args, appliedThing, envForInference);
 +            }
 +            catch (RuntimeException ex) {
++                ProbeK.fault("infer " + appliedThing, ex);
 +                r = null;
 +            }
-+            catch (EmptyLatticeIntervalError ex) {
++            catch (Error ex) {   // StackOverflowError, EmptyLatticeIntervalError, FType's "Not supposed to happen"
++                ProbeK.fault("infer " + appliedThing, ex);
 +                r = null;
 +            }
 +            return r != null ? r : inferToday(args, appliedThing, envForInference);
@@ -46,19 +48,15 @@
 +            ProbeK.restore(old);
 +        }
 +        Simple_fcn rule = null;
-+        String ruleNote = "";
 +        old = ProbeK.force(Boolean.TRUE);
 +        try {
 +            rule = inferRule(args, appliedThing, envForInference);
 +        }
 +        catch (RuntimeException ex) {
-+            ruleNote = " rule-threw " + firstLine(ex);
++            ProbeK.fault("infer " + appliedThing, ex);
 +        }
-+        catch (EmptyLatticeIntervalError ex) {
-+            ruleNote = " rule-threw EmptyLatticeInterval";
-+        }
-+        catch (StackOverflowError ex) {
-+            ruleNote = " rule-threw StackOverflowError";
++        catch (Error ex) {   // StackOverflowError, EmptyLatticeIntervalError, FType's "Not supposed to happen"
++            ProbeK.fault("infer " + appliedThing, ex);
 +        }
 +        finally {
 +            ProbeK.restore(old);
@@ -362,9 +360,11 @@
 +                }
 +            }
 +            catch (RuntimeException ex) {
++                ProbeK.fault("candidate " + c + " for " + n, ex);
 +                continue;
 +            }
-+            catch (EmptyLatticeIntervalError ex) {
++            catch (Error ex) {
++                ProbeK.fault("candidate " + c + " for " + n, ex);
 +                continue;
 +            }
 +            ok.add(c);
@@ -404,7 +404,7 @@
  import com.sun.fortress.exceptions.FortressException;
  import static com.sun.fortress.exceptions.InterpreterBug.bug;
  import com.sun.fortress.exceptions.ProgramError;
-@@ -785,6 +788,131 @@
+@@ -785,6 +788,134 @@
       * @throws Error
       */
      public SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads) throws Error {
@@ -431,12 +431,15 @@
 +            rule = bestMatchMode(args, someOverloads, true);
 +        }
 +        catch (RuntimeException ex) {
-+            ruleEx = ex;
++            if (ex instanceof FortressException) {
++                ruleEx = ex;
++            } else {
++                ProbeK.fault("dispatch " + fnName.stringName(), ex);
++                ruleOk = false;
++            }
 +        }
-+        catch (StackOverflowError ex) {
-+            ruleOk = false;
-+        }
-+        catch (EmptyLatticeIntervalError ex) {
++        catch (Error ex) {   // StackOverflowError, EmptyLatticeIntervalError, FType's "Not supposed to happen"
++            ProbeK.fault("dispatch " + fnName.stringName(), ex);
 +            ruleOk = false;
 +        }
 +        finally {
@@ -538,17 +541,18 @@
          SingleFcn best = bestMatchInternal(args, someOverloads);
 --- a/com/sun/fortress/interpreter/evaluator/values/Coercions.java
 +++ b/com/sun/fortress/interpreter/evaluator/values/Coercions.java
-@@ -7,6 +7,9 @@
+@@ -7,6 +7,10 @@
  import com.sun.fortress.interpreter.evaluator.Environment;
  import com.sun.fortress.interpreter.evaluator.EvalType;
  import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 +import com.sun.fortress.interpreter.evaluator.ProbeK;
++import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
 +import com.sun.fortress.interpreter.evaluator.types.FTypeGeneric;
 +import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
  import com.sun.fortress.interpreter.evaluator.types.FTraitOrObject;
  import com.sun.fortress.interpreter.evaluator.types.FType;
  import com.sun.fortress.interpreter.evaluator.types.FTypeRest;
-@@ -46,6 +49,171 @@
+@@ -46,6 +50,173 @@
       * do not chain), or null.
       */
      static SingleFcn coercionFor(FType target, FValue v) {
@@ -574,9 +578,11 @@
 +            rule = coercionForRule(target, v);
 +        }
 +        catch (RuntimeException ex) {
++            ProbeK.fault("coerce to " + target, ex);
 +            ruleOk = false;
 +        }
-+        catch (StackOverflowError ex) {
++        catch (Error ex) {   // StackOverflowError, EmptyLatticeIntervalError, FType's "Not supposed to happen"
++            ProbeK.fault("coerce to " + target, ex);
 +            ruleOk = false;
 +        }
 +        finally {
@@ -707,7 +713,7 @@
 +        }
 +        if (within != null) envs.add(within.getTopLevel());
 +        FType vt = v.type();
-+        if (vt != null && vt.getWithin() != null) envs.add(vt.getWithin().getTopLevel());
++        if (vt instanceof FTraitOrObjectOrGeneric && vt.getWithin() != null) envs.add(vt.getWithin().getTopLevel());
 +        for (Environment e : envs) {
 +            for (FType t : coercionTypes(e)) {
 +                if (!res.contains(t) && !t.typeMatch(v) && coercionFor(t, v) != null) res.add(t);
@@ -720,7 +726,7 @@
          Fcn lifted = liftedCoercions(target);
          if (lifted == null) return null;
          List<FValue> args = Collections.singletonList(v);
-@@ -267,5 +435,14 @@
+@@ -267,5 +438,14 @@
          public String toString() {
              return "coerced " + target;
          }
@@ -760,7 +766,7 @@
              // now we reply on foo.apply to do type inference if necessary.
 --- /dev/null
 +++ b/com/sun/fortress/interpreter/evaluator/ProbeK.java
-@@ -0,0 +1,112 @@
+@@ -0,0 +1,125 @@
 +package com.sun.fortress.interpreter.evaluator;
 +
 +import com.sun.fortress.useful.HasAt;
@@ -856,6 +862,19 @@
 +            if (!library(a)) return "at " + inner + " from " + a;
 +        }
 +        return "at " + inner + " from (library only)";
++    }
++
++    /* A failure of the shadow's own code on the rule's side (not a Fortress error, not a bound's
++       empty interval, not a stack overflow): written as SHADOW-FAULT; the answer is then today's. */
++    public static void fault(String where, Throwable ex) {
++        if (ex instanceof com.sun.fortress.exceptions.FortressException) return;
++        if (ex instanceof com.sun.fortress.useful.EmptyLatticeIntervalError) return;
++        if (ex instanceof StackOverflowError) return;
++        StackTraceElement[] st = ex.getStackTrace();
++        String m = String.valueOf(ex.getMessage());
++        int i = m.indexOf('\n');
++        log("SHADOW-FAULT", where + "\t" + ex.getClass().getName() + ": " + (i < 0 ? m : m.substring(0, i)) +
++                            (st.length > 0 ? " at " + st[0] : ""));
 +    }
 +
 +    private static PrintStream out;

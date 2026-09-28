@@ -15,3 +15,4 @@ SHADOW=$X/classes          # the shadow's compiled classes, put ahead of $CP
 machine_line () {   # protocol.md, principle 2
   echo "nproc=$(nproc); $(grep -m1 'model name' /proc/cpuinfo | sed 's/.*: //'); $(grep -m1 'cpu MHz' /proc/cpuinfo | sed 's/.*: //') MHz; load $(cut -d' ' -f1-3 /proc/loadavg); $(java -version 2>&1 | head -1); FORTRESS_THREADS=$FORTRESS_THREADS"
 }
+BASE=158aa7dce             # the commit the private home was archived from (snapshot.txt); the shadow patches its sources

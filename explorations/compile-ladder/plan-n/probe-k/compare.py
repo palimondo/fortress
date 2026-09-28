@@ -7,8 +7,14 @@ is read with its work directory's path replaced by W and the trailer's secs= dro
 when base A equals base B.  A stable test whose edit-run output equals A is SAME.  Otherwise two things,
 and nothing else, are masked in all three outputs before they are compared again: the Java line number
 of a printed stack frame, (Foo.java:123) -> (Foo.java:N), and an object's identity hash, @ followed by
-hex digits -> @HASH.  A stable test equal after this is NORMALISED; one still different, or whose exit
-code differs, is CHANGED.  A test whose two base runs differ is UNSTABLE and printed with whether the
+hex digits -> @HASH; and, in a printed Java stack trace, a frame of a method the shadow adds beside the
+tree's (its wrappers keep today's code under a new name: functionInvocationStock, bestMatchMode,
+bestMatchStock, inferToday, inferRule, inferRuleInner, coercionForToday, coercionForRule) is dropped.  A
+stable test equal after this is NORMALISED; one whose masked lines are the same
+lines in another order, with the same exit code, is ORDER (an overload listing's order, which follows the
+FTypes' creation counter, FACTS "The interpreter's overload-ambiguity message names its two declarations in
+an order that is not a property of the program", row 430); one still different, or whose exit code differs,
+is CHANGED.  A test whose two base runs differ is UNSTABLE and printed with whether the
 edit run equals either base run once masked.
 
 With --xxx, each test's verdict is also read the way FileTests' InterpreterTest reads it
@@ -33,13 +39,25 @@ def load(d, t):
     return s.splitlines()
 
 
+SHADOW_FRAMES = re.compile(r'^\s+at com\.sun\.fortress\.interpreter\.evaluator\.(values\.)?\w+\.'
+                           r'(functionInvocationStock|bestMatchMode|bestMatchStock|inferToday|inferRule|'
+                           r'inferRuleInner|coercionForToday|coercionForRule)\(')
+
+
 def mask(lines):
     out = []
     for l in lines or []:
+        if SHADOW_FRAMES.match(l):
+            continue
         l = re.sub(r'\(([A-Za-z0-9_$]+\.java):\d+\)', r'(\1:N)', l)
         l = re.sub(r'@[0-9a-f]{4,}', '@HASH', l)
         out.append(l)
     return out
+
+
+def unordered(lines):
+    """the lines as a multiset, an overload listing's closing '}:OverloadedX' taken off its last entry"""
+    return sorted(re.sub(r'\}:Overloaded\w+$', '', l) for l in lines)
 
 
 def first_diff(a, b):
@@ -71,7 +89,7 @@ def main():
     lst, da, db, de = sys.argv[1:5]
     xxx = '--xxx' in sys.argv
     tests = [os.path.basename(l.strip())[:-4] for l in open(lst) if l.strip()]
-    n = {'SAME': 0, 'NORMALISED': 0, 'CHANGED': 0, 'UNSTABLE': 0, 'MISSING': 0}
+    n = {'SAME': 0, 'NORMALISED': 0, 'ORDER': 0, 'CHANGED': 0, 'UNSTABLE': 0, 'MISSING': 0}
     verdicts = []
     for t in tests:
         a, b, e = load(da, t), load(db, t), load(de, t)
@@ -91,6 +109,12 @@ def main():
                 d = first_diff(a, e)
                 print('NORMALISED %s  line %d\n    base: %s\n    edit: %s' % (t, d[0], d[1][:220], d[2][:220]))
                 continue
+            if unordered(ma) == unordered(me) and rc(a) == rc(e):
+                n['ORDER'] += 1
+                d = first_diff(ma, me)
+                print('ORDER      %s  the same lines in another order, from line %d\n    base: %s\n    edit: %s'
+                      % (t, d[0], d[1][:300], d[2][:300]))
+                continue
             n['CHANGED'] += 1
             d = first_diff(ma, me) or first_diff(a, e)
             print('CHANGED    %s  rc %s -> %s  line %d\n    base: %s\n    edit: %s'
@@ -105,8 +129,8 @@ def main():
                      dab[1][:220], dab[2][:220]))
     for v in verdicts:
         print(v)
-    print('tests %d  same %d  normalised %d  changed %d  unstable %d  missing %d%s'
-          % (len(tests), n['SAME'], n['NORMALISED'], n['CHANGED'], n['UNSTABLE'], n['MISSING'],
+    print('tests %d  same %d  normalised %d  order only %d  changed %d  unstable %d  missing %d%s'
+          % (len(tests), n['SAME'], n['NORMALISED'], n['ORDER'], n['CHANGED'], n['UNSTABLE'], n['MISSING'],
              ('  verdicts changed %d' % len(verdicts)) if xxx else ''))
 
 
