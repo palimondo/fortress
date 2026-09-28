@@ -1,0 +1,67 @@
+# merged-diff review of climb batch 6.5, the gate's red CompilerJUTest line; read from the gate's untracked logs, nothing run in the tree
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at capture 1.51 2.31 3.64; openjdk version "25.0.4" 2026-07-21; 2026-09-28T20:14:27Z; tree HEAD 581356f32
+
+## 1. The suite's run, tmp/gate-batch-6.5/testFast.txt:1598-1611 (CompilerJUTest 815, 1 failure)
+    [junit]  run /home/user/fortress/ProjectFortress/compiler_tests/WitnessIdentityRungG (662ms) FortressException: class fortress.CompilerLibrary$CastException with string Cast exception
+    [junit] 	at fortress.CompilerLibrary?$\=cast?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64??$\=?Arrow?fortress\|AnyType\%Any,T?.the_function(Unknown Source)
+    [junit] 	at fortress.CompilerLibrary?$\=cast?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64??$\=?Arrow?fortress\|AnyType\%Any,T?.apply(Unknown Source)
+    [junit] 	at WitnessIdentityRungG?$\=zeroOf?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64??$?Arrow??,T?.the_function(Unknown Source)
+    [junit] 	at WitnessIdentityRungG?$\=zeroOf?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ64??$?Arrow??,T?.apply(Unknown Source)
+    [junit] 	at WitnessIdentityRungG.run(/home/user/fortress/ProjectFortress/compiler_tests/WitnessIdentityRungG.fss:33)
+    [junit] 	at WitnessIdentityRungG.compute(/home/user/fortress/ProjectFortress/compiler_tests/WitnessIdentityRungG.fss)
+    [junit] 	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+    [junit] 	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+    [junit] 	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+    [junit] 	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+    [junit] 	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+    [junit] Failed to satisfy run_out_contains; expected
+    [junit] PASS
+
+## 2. The gate's own repro, a fresh cache (tmp/gate-batch-6.5/repro/): compile, then three runs
+--- compile.txt
+
+real	0m5.877s
+user	0m5.181s
+sys	0m0.307s
+--- run1.txt
+PASS
+--- run2.txt
+PASS
+--- run3.txt
+PASS
+
+## 3. javap -c of the repro's zeroOf template (tmp/gate-batch-6.5/repro/caches/bytecode_cache/WitnessIdentityRungG.jar), its invoke lines
+## the ZZ64 branch (bytecode 35-58) calls coerce_ZZ32 on the numeral, then CompilerBuiltin.widen(FZZ32): FZZ64
+1: invokespecial #8                  // Method "AbstractArrow??,T?"."<init>":()V
+0: invokestatic  #13                 // Method the_function:()LT;
+4: invokestatic  #25                 // Method "\\=AbstractArrow??,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ32?".isA:(Ljava/lang/Object;)Z
+15: invokestatic  #31                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+18: invokestatic  #37                 // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+26: invokeinterface #47,  2           // InterfaceMethod "\\=Arrow?fortress\\|AnyType\\%Any,T?".apply:(Lfortress/AnyType$Any;)LT;
+35: invokestatic  #52                 // Method "\\=AbstractArrow??,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FZZ64?".isA:(Ljava/lang/Object;)Z
+49: invokestatic  #31                 // Method com/sun/fortress/compiler/runtimeValues/FIntLiteral.make:(I)Lcom/sun/fortress/compiler/runtimeValues/FIntLiteral;
+52: invokestatic  #37                 // Method fortress/CompilerBuiltin.coerce_ZZ32:(Lfortress/CompilerBuiltin$IntLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FZZ32;
+55: invokestatic  #56                 // Method fortress/CompilerBuiltin.widen:(Lcom/sun/fortress/compiler/runtimeValues/FZZ32;)Lcom/sun/fortress/compiler/runtimeValues/FZZ64;
+58: invokeinterface #47,  2           // InterfaceMethod "\\=Arrow?fortress\\|AnyType\\%Any,T?".apply:(Lfortress/AnyType$Any;)LT;
+67: invokestatic  #59                 // Method "\\=AbstractArrow??,com\\|sun\\|fortress\\|compiler\\|runtimeValues\\|FRR64?".isA:(Ljava/lang/Object;)Z
+77: ldc2_w        #60                 // double 0.0d
+80: invokestatic  #66                 // Method com/sun/fortress/compiler/runtimeValues/FFloatLiteral.make:(D)Lcom/sun/fortress/compiler/runtimeValues/FFloatLiteral;
+83: invokestatic  #70                 // Method fortress/CompilerBuiltin.coerce_RR64:(Lfortress/CompilerBuiltin$FloatLiteral;)Lcom/sun/fortress/compiler/runtimeValues/FRR64;
+91: invokeinterface #47,  2           // InterfaceMethod "\\=Arrow?fortress\\|AnyType\\%Any,T?".apply:(Lfortress/AnyType$Any;)LT;
+107: invokespecial #82                 // Method com/sun/fortress/compiler/runtimeValues/FException."<init>":(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V
+4: invokespecial #95                 // Method "<init>":()V
+
+## 4. The compiled prelude: an IntLiteral coerces to both ZZ32 and NN32, and both declare widen (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi)
+210: trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
+211:     coerce(x: IntLiteral)
+269:     widen(self): ZZ64
+273: trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
+274:     coerce(x: IntLiteral)
+328:     widen(self): NN64
+
+## 5. The test line and the library lines with the same shape
+ProjectFortress/compiler_tests/WitnessIdentityRungG.fss:12:         () -> ZZ64 => cast[\T\](widen(0))
+ProjectFortress/compiler_tests/WitnessIdentityRungG.fss:34:     assert(zeroOf[\ZZ64\]() + widen(7) = widen(7), "answer 7 (POSITIONS 2026-09-26), ledger row 426")
+## the trace names zeroOf and cast at FZZ64, which is the statement at :34; its frame for run reads :33, the line before
+Library/FortressLibrary.fss:3129:         () -> ZZ64 => cast[\T\](widen(0))
+Library/FortressLibrary.fss:3146:         () -> ZZ64 => cast[\T\](widen(1))
