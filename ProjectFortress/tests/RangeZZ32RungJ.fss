@@ -1,0 +1,99 @@
+(*) explorations/compile-ladder/rung-ranges-zz32/REPORT.md
+
+component RangeZZ32RungJ
+export Executable
+
+opr #(x: String, y: String): String = x "#" y
+opr #(x: String, y: ZZ32): String = x "#" y
+
+run(): () = do
+    n: ZZ32 = 4
+    assert((3#n).asString, "[3,4,5,6]", "ranges.tex:64-65")
+    assert((3#n).asDebugString, "CompactFullParScalarRange(3,6)", "ranges.tex:64-65")
+    assert((2:6).asString, "[2,3,4,5,6]", "ranges.tex:47")
+    assert((2:6).asDebugString, "CompactFullParScalarRange(2,6)", "ranges.tex:47")
+    assert((1:10:3).asString, "[1,4,7,10]", "ranges.tex:54-56")
+    assert((1:10:3).asDebugString, "StridedFullParScalarRange(1,10,3)", "ranges.tex:54-56")
+    assert(((1:10):3).asDebugString, "StridedFullParScalarRange(1,10,3)", "ranges.tex:54-56")
+    assert((0#n).asString, "[0,1,2,3]", "ranges.tex:64-65")
+    assert((0#n).asDebugString, "CompactFullParScalarRange(0,3)", "ranges.tex:64-65")
+    assert(((1,2)#(2,3)).asString, "([1,2] BY [2,3,4])", "ranges.tex:64-65")
+    assert(((1,2)#(2,3)).asDebugString, "CompactFullRange2D(1,2, 2,4)", "ranges.tex:64-65")
+    assert(((1,1):(2,3)).asString, "([1,2] BY [1,2,3])", "ranges.tex:47")
+    assert(((1,1):(2,3)).asDebugString, "CompactFullRange2D(1,1, 2,3)", "ranges.tex:47")
+    assert(((1,2,3)#(2,2,2)).asString, "([1,2] BY [2,3] BY [3,4])", "ranges.tex:64-65")
+    assert(((1,2,3)#(2,2,2)).asDebugString, "CompactFullRange3D(1,2,3, 2,3,4)", "ranges.tex:64-65")
+    assert(((0,0,0):(1,1,1)).asString, "([0,1] BY [0,1] BY [0,1])", "ranges.tex:47")
+    assert(((0,0,0):(1,1,1)).asDebugString, "CompactFullRange3D(0,0,0, 1,1,1)", "ranges.tex:47")
+    assert((5#).asString, "[5,6,7,8,9...", "ranges.tex:88")
+    assert((5#).asDebugString, "LeftScalarRange(5,1)", "ranges.tex:88")
+    assert((5:).asDebugString, "LeftScalarRange(5,1)", "ranges.tex:88")
+    assert((#3).asString, "l,l+1,...l+2", "ranges.tex:91")
+    assert((#3).asDebugString, "ExtentScalarRange(3,1)", "ranges.tex:91")
+    assert((:4).asString, "...0,1,2,3,4]", "ranges.tex:85")
+    assert((:4).asDebugString, "RightScalarRange(4,1)", "ranges.tex:85")
+    assert((openRange[\ZZ32\]()).asString, "...o,o+1...", "ranges.tex:82")
+    assert((openRange[\ZZ32\]()).asDebugString, "OpenScalarRange(1)", "ranges.tex:82")
+    assert((::2).asString, "...o,o+2...", "ranges.tex:83-84")
+    assert((::2).asDebugString, "OpenScalarRange(2)", "ranges.tex:83-84")
+    assert((3::).asDebugString, "LeftScalarRange(3,1)", "ranges.tex:88")
+    assert((3::2).asString, "[3,5,7,9,11...", "ranges.tex:89-90")
+    assert((3::2).asDebugString, "LeftScalarRange(3,2)", "ranges.tex:89-90")
+    assert(((1,2)#).asString, "([1,2,3,4,5... BY [2,3,4,5,6...)", "ranges.tex:88")
+    assert(((1,2)#).asDebugString, "LeftRange2D(1,2, 1,1)", "ranges.tex:88")
+    assert(((1,2):).asDebugString, "LeftRange2D(1,2, 1,1)", "ranges.tex:88")
+    assert((#(2,3)).asString, "(l,l+1 BY l,l+1,...l+2)", "ranges.tex:91")
+    assert((#(2,3)).asDebugString, "ExtentRange2D(2,3, 1,1)", "ranges.tex:91")
+    assert((:(2,3)).asString, "(...-2,-1,0,1,2] BY ...-1,0,1,2,3])", "ranges.tex:85")
+    assert((:(2,3)).asDebugString, "RightRange2D(2,3, 1,1)", "ranges.tex:85")
+    assert((::(1,2)).asString, "(...o,o+1... BY ...o,o+2...)", "ranges.tex:83-84")
+    assert((::(1,2)).asDebugString, "OpenRange2D(1,2)", "ranges.tex:83-84")
+    assert(((1,2)::).asDebugString, "LeftRange2D(1,2, 1,1)", "ranges.tex:88")
+    assert(((1,2)::(2,3)).asDebugString, "LeftRange2D(1,2, 2,3)", "ranges.tex:89-90")
+    assert(((1,2,3)#).asString, "([1,2,3,4,5... BY [2,3,4,5,6... BY [3,4,5,6,7...)", "ranges.tex:88")
+    assert(((1,2,3)#).asDebugString, "LeftRange3D(1,2,3, 1,1,1)", "ranges.tex:88")
+    assert(((1,2,3):).asDebugString, "LeftRange3D(1,2,3, 1,1,1)", "ranges.tex:88")
+    assert((#(2,3,4)).asString, "(l,l+1 BY l,l+1,...l+2 BY l,l+1,...l+3)", "ranges.tex:91")
+    assert((#(2,3,4)).asDebugString, "ExtentRange3D(2,3,4, 1,1,1)", "ranges.tex:91")
+    assert((:(2,3,4)).asString, "(...-2,-1,0,1,2] BY ...-1,0,1,2,3] BY ...0,1,2,3,4])", "ranges.tex:85")
+    assert((:(2,3,4)).asDebugString, "RightRange3D(2,3,4, 1,1,1)", "ranges.tex:85")
+    assert((::(1,2,3)).asDebugString, "OpenRange3D(1,2,3)", "ranges.tex:83-84")
+    assert(((1,2,3)::).asDebugString, "LeftRange3D(1,2,3, 1,1,1)", "ranges.tex:88")
+    assert(((1,2,3)::(2,3,4)).asDebugString, "LeftRange3D(1,2,3, 2,3,4)", "ranges.tex:89-90")
+    assert((openRange[\(ZZ32,ZZ32,ZZ32)\]()).asDebugString, "OpenRange3D(1,1,1)", "ranges.tex:82")
+    assert((seq(1:5)).asString, "seq(1,2,3,4,5)", "ranges.tex:47")
+    assert((seq(1:5)).asDebugString, "CompactFullSeqScalarRange(1,5)", "ranges.tex:47")
+    assert((seq(1:9:2)).asDebugString, "StridedFullSeqScalarRange(1,9,2)", "ranges.tex:54-56")
+    assert(((1:10) CAP (5:15)).asDebugString, "CompactFullParScalarRange(5,10)", "ranges.tex:101")
+    assert(((3#n) CAP (0:4)).asDebugString, "CompactFullParScalarRange(3,4)", "ranges.tex:101")
+    assert(((5#) # 3).asDebugString, "CompactFullParScalarRange(5,7)", "ranges.tex:64-65")
+    assert(((1::2)#3).asDebugString, "StridedFullParScalarRange(1,5,2)", "ranges.tex:54-56")
+    assert(4 IN (2:6), true, "ranges.tex:94")
+    assert(7 IN (2:6), false, "ranges.tex:94")
+    assert((1,2) IN ((1,1):(2,3)), true, "ranges.tex:94")
+    assert(5 IN (1:10:2), true, "ranges.tex:94")
+    assert(6 IN (1:10:2), false, "ranges.tex:94")
+    assert(|2:6|, 5, "ranges.tex:103-106")
+    assert(|1:10:3|, 4, "ranges.tex:103-106")
+    assert(|(1,1):(2,3)|, 6, "ranges.tex:103-106")
+    assert(|(0,0,0):(1,1,1)|, 8, "ranges.tex:103-106")
+    assert(|0#n|, 4, "ranges.tex:103-106")
+    assert((2:6).size, 5, "ranges.tex:103-106")
+    assert((1:10:3).size, 4, "ranges.tex:103-106")
+    assert((0#n).size, 4, "ranges.tex:103-106")
+    var seen: ZZ32 := 0
+    for i <- seq(3#n) do seen := seen + i end
+    assert(seen, 18, "ranges.tex:64-65")
+    var total: ZZ64 := 0
+    for i <- seq(0#20) do
+        j: ZZ64 = widen(i)
+        total := total + j 100000000
+    end
+    assert(total, 19000000000, "ranges.tex:64-65")
+    assert(SUM[\ZZ32\][i <- 1#n] i, 10, "ranges.tex:64-65")
+    assert((openRange[\(ZZ32,ZZ32)\]()).asDebugString, "OpenRange2D(1,1)", "ranges.tex:82")
+    assert("a" # "b", "a#b", "traits.tex:223-233")
+    assert("a" # 3, "a#3", "traits.tex:223-233")
+  end
+
+end

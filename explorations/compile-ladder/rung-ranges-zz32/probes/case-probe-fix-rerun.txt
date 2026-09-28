@@ -1,0 +1,12 @@
+# re-run of the case probe by the relaunched worker, on the shadow classes of the verification run of the distance stage (tmp/dist-verify, the tree at 994b2f4b0, the checker fix in)
+--- case-probe explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss (shadow classes of tmp/dist-verify) 2026-09-28T08:05:34Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.75 7.02 7.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 168a0b35f; git status --short Library ProjectFortress/src: []
+$ java ... DistanceMulti -order check -setting any explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss
+rc=0
+--- the probe's own lines (its errors and crashes), and the run's summary
+1:### order=check setting=any (extendsObject=false compiledExpr=true) prelude=INTERPRETER targets=[explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss] overloadCache=false
+2:### target explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss componentOnly=false
+117:@@TC DECL-OK	FnDecl	explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss:4:1-8:4	errors=0
+118:@@TC DECL-OK	FnDecl	explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss:10:1-13:4	errors=0
+119:@@TC DECL-OK	FnDecl	explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss:15:1-34	errors=0
+126:### done explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss rc=0 seconds=94
+127:### all seconds=94 rc=0

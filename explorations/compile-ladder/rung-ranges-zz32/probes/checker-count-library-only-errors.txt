@@ -1,0 +1,75 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[Library/FortressLibrary.fss]
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi List
+@@PROBE checkApi List -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Writer
+@@PROBE checkApi Writer -> errors=0
+@@PROBE checkApi NativeArray
+@@PROBE checkApi NativeArray -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi TypeProxy
+@@PROBE checkApi TypeProxy -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=2
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi RangeInternals
+@@PROBE checkApi RangeInternals -> errors=18
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:436:1-474:2:
+    Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+    but its immediate subtype Integral is not eligible to extend it.
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5:
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47:
+    Invalid overloading of map in trait CompactFullSeqScalarRange:
+     [\G\](SequentialGenerator[\ZZ32\], ZZ32->G)->SequentialGenerator[\G\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47
+ and [\R\](Indexed[\ZZ32,ZZ32\], ZZ32->R)->Indexed[\R,ZZ32\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5:
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47:
+    Invalid overloading of map in trait StridedFullSeqScalarRange:
+     [\G\](SequentialGenerator[\ZZ32\], ZZ32->G)->SequentialGenerator[\G\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47
+ and [\R\](Indexed[\ZZ32,ZZ32\], ZZ32->R)->Indexed[\R,ZZ32\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2158:5-34:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:240:5-241:4:
+    For every,
+the return type of (RangeInternals.LeftScalarRange, ZZ32)->RangeInternals.ScalarRange @ /home/user/fortress-ranges/Library/RangeInternals.fsi:240:5-241:4 should be a subtype of the
+    return type of (BoundedRange[\ZZ32\], ZZ32)->BoundedRange[\ZZ32\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2158:5-34
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:242:5-32:
+    For atMost,
+the return type of (RangeInternals.LeftScalarRange, ZZ32)->RangeInternals.ScalarRange @ /home/user/fortress-ranges/Library/RangeInternals.fsi:242:5-32 should be a subtype of the
+    return type of (BoundedRange[\ZZ32\], ZZ32)->FullRange[\ZZ32\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:298:5-32:
+    For atMost,
+the return type of (RangeInternals.RightScalarRange, ZZ32)->RangeInternals.ScalarRange @ /home/user/fortress-ranges/Library/RangeInternals.fsi:298:5-32 should be a subtype of the
+    return type of (BoundedRange[\ZZ32\], ZZ32)->FullRange[\ZZ32\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32
+/home/user/fortress-ranges/Library/RangeInternals.fsi:400:5-401:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:475:5-476:5:
+    Invalid overloading of IN in API RangeInternals:
+     (ZZ32, RangeInternals.CompactFullScalarRange)->Boolean @ /home/user/fortress-ranges/Library/RangeInternals.fsi:400:5-401:5
+ and (ZZ32, RangeInternals.StridedFullScalarRange)->Boolean @ /home/user/fortress-ranges/Library/RangeInternals.fsi:475:5-476:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:580:1-46:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:582:1-50:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     ()->(ZZ32, ZZ32)->RangeInternals.OpenRange2D @ /home/user/fortress-ranges/Library/RangeInternals.fsi:582:1-50
+ and ()->ZZ32->RangeInternals.OpenScalarRange @ /home/user/fortress-ranges/Library/RangeInternals.fsi:580:1-46
+/home/user/fortress-ranges/Library/RangeInternals.fsi:580:1-46:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:584:1-56:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     ()->(ZZ32, ZZ32, ZZ32)->RangeInternals.OpenRange3D @ /home/user/fortress-ranges/Library/RangeInternals.fsi:584:1-56
+ and ()->ZZ32->RangeInternals.OpenScalarRange @ /home/user/fortress-ranges/Library/RangeInternals.fsi:580:1-46
+/home/user/fortress-ranges/Library/RangeInternals.fsi:582:1-50:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:584:1-56:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     ()->(ZZ32, ZZ32)->RangeInternals.OpenRange2D @ /home/user/fortress-ranges/Library/RangeInternals.fsi:582:1-50
+ and ()->(ZZ32, ZZ32, ZZ32)->RangeInternals.OpenRange3D @ /home/user/fortress-ranges/Library/RangeInternals.fsi:584:1-56
+File FortressLibrary.fss has 10 errors.
+### rc=-1

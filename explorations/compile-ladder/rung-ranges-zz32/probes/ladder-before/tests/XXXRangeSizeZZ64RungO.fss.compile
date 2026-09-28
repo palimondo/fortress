@@ -1,0 +1,4 @@
+/home/user/fortress-ranges/ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss:10:9-17:
+    Could not check call to operator :
+    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (ZZ64, ZZ64).
+File XXXRangeSizeZZ64RungO.fss has 1 error.

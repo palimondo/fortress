@@ -1,0 +1,62 @@
+component GuardProbe
+export Executable
+
+show(what: String, r: Any): () = println(what " " r.asString " | " r.asDebugString)
+
+run(): () = do
+    n: ZZ32 = 4
+    show("hash", 3#n)
+    show("colon", 2:6)
+    show("strided", 1:10:3)
+    show("stridedParen", (1:10):3)
+    show("numeralHash", 0#n)
+    show("hash2", (1,2)#(2,3))
+    show("colon2", (1,1):(2,3))
+    show("hash3", (1,2,3)#(2,2,2))
+    show("colon3", (0,0,0):(1,1,1))
+    show("left", 5#)
+    show("leftColon", 5:)
+    show("extent", #3)
+    show("right", :4)
+    show("open", openRange[\ZZ32\]())
+    show("openStride", ::2)
+    show("leftColons", 3::)
+    show("leftStride", 3::2)
+    show("left2", (1,2)#)
+    show("leftColon2", (1,2):)
+    show("extent2", #(2,3))
+    show("right2", :(2,3))
+    show("openStride2", ::(1,2))
+    show("leftColons2", (1,2)::)
+    show("left3", (1,2,3)#)
+    show("leftColon3", (1,2,3):)
+    show("extent3", #(2,3,4))
+    show("right3", :(2,3,4))
+    show("openStride3", ::(1,2,3))
+    show("leftColons3", (1,2,3)::)
+    (*open2*)
+    show("open3", openRange[\(ZZ32,ZZ32,ZZ32)\]())
+    show("seq", seq(1:5))
+    show("seqStrided", seq(1:9:2))
+    show("cap", (1:10) CAP (5:15))
+    show("hashCap", (3#n) CAP (0:4))
+    show("atMost", (5#) # 3)
+    show("strideHash", (1::2)#3)
+    println("in " (4 IN (2:6)) " " (7 IN (2:6)) " " ((1,2) IN ((1,1):(2,3))) " " (5 IN (1:10:2)) " " (6 IN (1:10:2)))
+    println("card " |2:6| " " |1:10:3| " " |(1,1):(2,3)| " " |(0,0,0):(1,1,1)| " " |0#n|)
+    println("size " (2:6).size " " (1:10:3).size " " (0#n).size)
+    println("leftStride2 " ((1,2)::(2,3)).asDebugString)
+    println("leftStride3 " ((1,2,3)::(2,3,4)).asDebugString)
+    var seen: ZZ32 := 0
+    for i <- seq(3#n) do seen := seen + i end
+    println("seqsum " seen)
+    var total: ZZ64 := 0
+    for i <- seq(0#20) do
+        j: ZZ64 = widen(i)
+        total := total + j 100000000
+    end
+    println("widen " total)
+    println("sumhash " (SUM[\ZZ32\][i <- 1#n] i))
+  end
+
+end

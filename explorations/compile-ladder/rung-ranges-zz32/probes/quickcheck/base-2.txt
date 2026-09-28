@@ -1,0 +1,53 @@
+--- walk-copy tmp/baselib QuickCheckTest.fss 2026-09-28T06:25:55Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.58 7.42 9.64; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD ff8c43834; git status --short Library ProjectFortress/src: []
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true false true true false false true false true true true false false false false true
+genZZ32: 58 -6854908 508383070 -4382648 193602 10700 -26 18320 -7990 20 -18 -563671080
+genZZ64: -46 8446847323842871 -1280951 -3413 7389 104862723306878 -102010920109 1015669218463751916
+genZZ: 4354117380567449851 5993023902054264791 -159224855 1406651943690983748 -27255113590667695 3260898744865322520 80203790389 -37610378570
+genQQ: 8288416/29223805825544163 888284319/559638859759869091 -780326509498114105/2205665357510858736 -7703522942243105323/1110654630058480780
+genRR32: 2.4097795E8 -7583.4595 8.324111E8 -5.760769 45868.516 380714.88 -1956679.5 -11589.165
+genRR64: -356667.1068584947 6.942038690046332E12 1479.4326959293346 1966.6584466542445
+genChar: j m 4 v A 6 Y P @ o x ) < c I B O a 0 z Y z * b m O 6 s N * o %
+genString: rL`zX| L0zX|>V~JnQ L`#X5 L0zX| L0z `zX5>V~_7M#bN;U:3 0zX5>V~_7M#bN- 0#5>V~JnQ zX5>V~_7M#bN;U:D|> #5>V~J_7M#b #5>V~Jn7M#bN X5>V~_7M#bN;U:3 X5>V~_7M#bN;U: 5>V~Jn7M#bN 5>V~J_7M#b 5>V~_7M#bN-
+genMaybe(genChar): Just(X) Just(|) Nothing Nothing Nothing Just(>) Nothing Just(V)
+genList(genZZ32): <|-7087546, 42, 17007, 2877283, 18857, -3911238, 23569, 30018, 477415, -8869, -113, 1482626898, 278437431, -96|> <|-7087546, 42, 2877283, 18857, -3911238, 23569, 30018, 477415, -8869, -113, 88, -1425499659, -10, 90, 7923326, 23906, -23783, -890707, 5785458, 1952457943, -32448, 222509949, -25442, -450734718, -89|>
+genList(genString): <|b;U:3D|tJz'6v, ;U:3|>^-+'V, ;U:3|>^, ;UD|>tL+', D|t+'6vi, D|tJz'6v, |>tL+, tJz'61!0QKI<2, ^-z, tL'6!`K&2R^XFSyC-zUX|> <|b;U:3D|tJz'6v, ;U:3|>^-+'V, ;U:3|>^, ;UD|>tL+', U:D|tJzS|>
+genList(genMaybe(genList(genString))): <|Nothing, Just(<|3|>tL, D|tL+, |>tL+, tL+'6v, tL'61!0`(K, L'61!0`(KI, +'6{s, '6!`&2RH^XFSyC-zUX|>), Just(<|, |t, , ^, -, z|>), Just(<||>tz, ^, t, +6, z'|>), Just(<|tJz'6v, +vi1!, '6i1!, vi1, v1!0, 1!0, `K&2R^XFS, Q&2H, Q, &<2H>^, &RH, 2)H, RH^XSZzU4"P188, R|>), Just(<|+vi1!, '6{s, 6!(?2RHX', i1, !, 0Q&2R, |>), Just(<|vi1!, v!0, 1!0, `, K, <, R, H^, @, ^, FSy, yZz, ZzU, -zU, zU4", 4"P18|>), Just(<|6{s, i, 1|>), Just(<|1!0, !(K&, Q?, , 2, R, , ^, X, yZz, y, -zU, z4"P|>), Nothing, Nothing|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-1928489882|->({false,true},{1,V,i,v}), -4761679|->({false,true},{-,<,H,R,S,U,^,l,q,y,z}), -115|->({false,true},{!,(,0,1,`}), 42|->({false,true},{',+,-,3,:,;,>,U,V,^,|}), 88|->({false},{!,&,(,K}), 90|->({false,true},{&,2,H,K,R,S,^,l,q,y}), 18857|->({false,true},{!,',(,2,6,>,D,F,H,J,R,X,^,t,z}), 23569|->({false,true},{!,',(,-,0,1,6,<,C,F,H,K,L,R,S,X,`,y,z}), 2877283|->({false,true},{',+,6,D,U,i,t,v,|}), 278437431|->({false},{&,Q})}
+genRange(genZZ32): [-6892583,-6892582,-6892581,-6892580,... -5159749] [-7266956,-7266955,-7266954,-7266953,... 846] [] [-15018,-15017,-15016,-15015,-15014...
+genTuple3(genZZ32,genMaybe(genChar),genString): (-1720208640,Just(:),|tJz'6v) (63,Just(l),tL'6!BQK&2RH^qlSyC-zUX"\.) (30018,Just(^),+Vvi1) (-7,Just(z),6!BQK&2RH^qlSyC-zU4"PH)
+genTestStatus: TestFail TestPass TestPass TestFail TestPass TestSkip TestSkip TestSkip
+genList(genTestStatus): <|TestPass, TestFail, TestFail, TestPass, TestPass, TestFail, TestFail, TestFail, TestSkip, TestSkip, TestSkip, TestSkip, TestFail, TestFail|> <|TestPass, TestFail, TestFail, TestPass, TestFail, TestFail, TestFail, TestSkip, TestSkip, TestFail, TestSkip, TestFail, TestPass, TestSkip, TestFail, TestPass, TestPass|>
+genArrow(genZZ32,genZZ32):
+    -8723 4122977
+    -8723 4122977
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    -8375866 9810 1166901658 -25090
+    -8375866 9810 1166901658 -25090
+
+Passed 100 test(s).
+Failed in 49 test(s): (-0.41655996232199705,23.39743123906199,3.78207071794913E8)
+Failed in 106 test(s): -193033976
+Tag(s) of failing properties:
+    no sign extension
+Passed 150 test(s) (and skipped 148 test(s)).
+Passed 20 test(s).
+Passed 30 test(s) (and skipped 190 test(s)) but reached the maximum of 220 tests.
+Collected test data:
+    20%: 2 digits
+    9%: 3 digits or more
+    1%: 1 digit
+Shrinking a failed instance...
+Failed in 100 test(s) (and shrank in 6 test(s)): '
+Shrinking a failed instance.........................
+Failed in 256 test(s) (and shrank in 325 test(s)): }
+Shrinking a failed instance.....
+Failed in 100 test(s) (and partially shrank in 291 test(s)): ('{@jc?|y'n$)pe+_%5eC\l\!(0epg3AlaV`Cw>]y2VSDfOWT,'{@jc?|y'n$)pe+_%5eC\l!(0T])
+Shrinking a failed instance.............
+Failed in 256 test(s) (and shrank in 91 test(s)): (<,)
+Shrinking a failed instance............
+Failed in 100 test(s) (and partially shrank in 502 test(s)): <|Piy_qxZCKL, iy_qxWSNl<xD, Viy_q>, iy_qxWS, iy_q>Z|>
+Shrinking a failed instance...........................
+Failed in 256 test(s) (and shrank in 385 test(s)): <|4|>
+
+rc=0 secs=96

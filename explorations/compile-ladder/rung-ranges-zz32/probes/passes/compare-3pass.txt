@@ -1,0 +1,138 @@
+# base 26c5d3dd7e436ff3b200d32346f92b8f1af1a33e; files whose positions are mapped: Library/FortressLibrary.fsi Library/FortressLibrary.fss Library/Random.fsi Library/Random.fss Library/RangeInternals.fsi Library/RangeInternals.fss ProjectFortress/tests/RangePrototype.fss ProjectFortress/tests/RangeSizeRungO.fss ProjectFortress/tests/RangeZZ32RungJ.fss ProjectFortress/tests/XXXRangeBoundsRungO.fss ProjectFortress/tests/XXXRangeWideRungJ.fss ProjectFortress/tests/XXXSeqRangeTopRungO.fss explorations/compile-ladder/rung-ranges-zz32/probes/CaseProbeJ.fss explorations/compile-ladder/rung-ranges-zz32/probes/GuardProbe.fss explorations/compile-ladder/rung-ranges-zz32/probes/RestatedLinesProbe.fss
+UNSTABLE   ArrayListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+CHANGED    BadBounds  rc 0 -> 0
+    after normalising: -CompactFullRange2D[\ZZ32,ZZ32\]
+    after normalising: +CompactFullRange2D
+    after normalising: -CompactFullRange3D[\ZZ32,ZZ32,ZZ32\]
+    after normalising: +CompactFullRange3D
+    raw: -CompactFullRange2D[\ZZ32,ZZ32\]
+    raw: +CompactFullRange2D
+    raw: -CompactFullRange3D[\ZZ32,ZZ32,ZZ32\]
+    raw: +CompactFullRange3D
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   HeapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   QuickCheckTest  rc A 0 B 0 edit 124  edit=A False  edit=B False  (normalised)
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+NORMALISED XXXArrayLiteralArgRungC  rc 1
+    raw: -	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4603:1-4606:88
+    raw: -	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4607:1-101
+    raw: +	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4604:1-4607:88
+    raw: +	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4608:1-101
+UNSTABLE   XXXCoercionTupleOverloadRungC  rc A 1 B 1 edit 1  edit=A False  edit=B True  (normalised)
+NORMALISED XXXFnRenderRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4126:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4127:42-50:
+    raw: -Library/FortressLibrary.fss:4126:42-50:
+    raw: -Library/FortressLibrary.fss:4142:45-47:
+    raw: -Library/FortressLibrary.fss:4227:29-32:
+    raw: +Library/FortressLibrary.fss:4127:42-50:
+    raw: +Library/FortressLibrary.fss:4143:45-47:
+    raw: +Library/FortressLibrary.fss:4228:29-32:
+CHANGED    XXXInheritedOverload  rc 1 -> 1
+    after normalising: -com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    after normalising: +com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+    after normalising: +ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+    after normalising: +Overloading of
+    after normalising: +	(first) a(x:Base,y:Sub2):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 and
+    after normalising: +	(second) a(x:Sub1,y:Base):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 fails because
+    after normalising: +	(first) y is more specific than (second) y but
+    after normalising: +	(first) x is less specific than (second) x
+    after normalising: +Context:
+    after normalising: -Overloading of
+    after normalising: -	(first) a(x:Sub1,y:Base):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 and
+    after normalising: -	(second) a(x:Base,y:Sub2):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 fails because
+    raw: -com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    raw: +com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+    raw: +ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+    raw: +Overloading of
+    raw: +	(first) a(x:Base,y:Sub2):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 and
+    raw: +	(second) a(x:Sub1,y:Base):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 fails because
+    raw: +	(first) y is more specific than (second) y but
+    raw: +	(first) x is less specific than (second) x
+    raw: +Context:
+    raw: -Overloading of
+    raw: -	(first) a(x:Sub1,y:Base):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28 and
+    raw: -	(second) a(x:Base,y:Sub2):FortressLibrary.ZZ32ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28 fails because
+    raw: -	(first) x is more specific than (second) x but
+    raw: -	(first) y is less specific than (second) y
+    raw: -Context:
+    raw: -ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28:
+CHANGED    XXXRangeBoundsRungO  rc 1 -> 1
+    after normalising: -Library/RangeInternals.fss:1423:39:
+    after normalising: +Library/RangeInternals.fss:HUNK1379:34:
+    after normalising: -Library/RangeInternals.fss:1423:39:
+    after normalising: -Library/FortressLibrary.fss:3905:78-106:
+    after normalising: +Library/RangeInternals.fss:HUNK1379:34:
+    after normalising: +Library/FortressLibrary.fss:HUNK3905:54-70:
+    raw: -Library/RangeInternals.fss:1423:39:
+    raw: +Library/RangeInternals.fss:1379:34:
+    raw: -Library/RangeInternals.fss:1423:39:
+    raw: -Library/FortressLibrary.fss:3905:78-106:
+    raw: +Library/RangeInternals.fss:1379:34:
+    raw: +Library/FortressLibrary.fss:3905:54-70:
+CHANGED    XXXRangeEmptyHashRungO  rc 1 -> 1
+    after normalising: -Library/RangeInternals.fss:1423:39:
+    after normalising: +Library/RangeInternals.fss:HUNK1379:34:
+    after normalising: -Library/RangeInternals.fss:1423:39:
+    after normalising: -Library/FortressLibrary.fss:3905:78-106:
+    after normalising: +Library/RangeInternals.fss:HUNK1379:34:
+    after normalising: +Library/FortressLibrary.fss:HUNK3905:54-70:
+    raw: -Library/RangeInternals.fss:1423:39:
+    raw: +Library/RangeInternals.fss:1379:34:
+    raw: -Library/RangeInternals.fss:1423:39:
+    raw: -Library/FortressLibrary.fss:3905:78-106:
+    raw: +Library/RangeInternals.fss:1379:34:
+    raw: +Library/FortressLibrary.fss:3905:54-70:
+MISSING    XXXRangeSizeZZ64RungO
+NORMALISED XXXSeqRangeTopRungO  rc 1
+    raw: -Library/RangeInternals.fss:1081:13-18:
+    raw: +Library/RangeInternals.fss:1048:13-18:
+    raw: -Library/RangeInternals.fss:1081:13-18:
+    raw: +Library/RangeInternals.fss:1048:13-18:
+NORMALISED XXXTupleSevenRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4126:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4127:42-50:
+    raw: -Library/FortressLibrary.fss:4126:42-50:
+    raw: -Library/FortressLibrary.fss:4142:45-47:
+    raw: +Library/FortressLibrary.fss:4127:42-50:
+    raw: +Library/FortressLibrary.fss:4143:45-47:
+NORMALISED XXXUnwrittenSumRungF  rc 1
+    raw: -Library/RangeInternals.fss:1023:13-22:
+    raw: +Library/RangeInternals.fss:990:13-22:
+NORMALISED XXXloopError  rc 1
+    raw: -Library/RangeInternals.fss:1042:21-1043:16:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1048:25-36:
+    raw: -Library/RangeInternals.fss:1053:13-1054:9:
+    raw: +Library/RangeInternals.fss:1009:21-1010:16:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1015:25-36:
+    raw: +Library/RangeInternals.fss:1020:13-1021:9:
+NORMALISED XXXseqLoopError  rc 1
+    raw: -Library/RangeInternals.fss:1080:13-1081:12:
+    raw: +Library/RangeInternals.fss:1047:13-1048:12:
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   buffons  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   taskTrace2  rc A 0 B 0 edit 0  edit=A True  edit=B True  (normalised)
+UNSTABLE   taskTrace3  rc A 0 B 0 edit 0  edit=A True  edit=B True  (normalised)
+tests 422  same 390  normalised 7  changed 4  unstable 20  missing 1

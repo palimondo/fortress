@@ -131,6 +131,14 @@ public final class Types {
     }
 
     /**
+     * Whether {@code t} is an instance of the library's generic trait {@code Contains}.
+     */
+    public static boolean isContainsType(Type t) {
+        return t instanceof TraitType &&
+            NodeUtil.nameString(((TraitType) t).getName()).equals(fortressLibrary() + "." + containsTypeName);
+    }
+
+    /**
      * Create a type {@code FortressLibrary.Condition[\typeArg\]}.
      */
     public static TraitType makeConditionType(Type typeArg) {

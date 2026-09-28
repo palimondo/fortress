@@ -1,0 +1,7 @@
+--- sk-walk2 RestatedLinesProbe.fss 2026-09-28T09:07:34Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.66 5.22 4.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 03a06cfa3; git status --short Library ProjectFortress/src: []
+== base library
+PASS 3 3 CompactFullParScalarRange(1,3) CompactFullParScalarRange(1,3)
+rc=0
+== tree library
+PASS 3 3 CompactFullParScalarRange(1,3) CompactFullParScalarRange(1,3)
+rc=0

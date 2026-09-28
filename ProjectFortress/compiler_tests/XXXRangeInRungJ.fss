@@ -1,0 +1,16 @@
+(*) explorations/compile-ladder/rung-ranges-zz32/REPORT.md
+
+component XXXRangeInRungJ
+export Executable
+
+run(): () = do
+    println("REACHED")
+    n: ZZ32 = 4
+    assert(4 IN (2:6), "ranges.tex:47, :94")
+    assert(6 IN (3#n), "ranges.tex:64-65, :94")
+    assert(NOT (7 IN (2:6)), "ranges.tex:47, :94")
+    assert(NOT (1 IN (3#n)), "ranges.tex:64-65, :94")
+    println("PASS")
+  end
+
+end

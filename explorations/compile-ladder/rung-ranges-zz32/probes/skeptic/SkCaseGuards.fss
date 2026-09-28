@@ -1,0 +1,48 @@
+component SkCaseGuards
+export Executable
+
+litGuard(x: ZZ32): String = case x of
+    1 => "one"
+    else => "other"
+  end
+
+rangeGuard(x: ZZ32): String = case x of
+    1:3 => "low"
+    else => "high"
+  end
+
+varGuard[\R extends Range[\ZZ32\]\](r: R, x: ZZ32): String = case x of
+    r => "in"
+    else => "out"
+  end
+
+unionGuard(b: Boolean, x: ZZ32): String = case x of
+    (if b then 1:3 else 5#) => "in"
+    else => "out"
+  end
+
+genGuard(g: Generator[\ZZ32\], x: ZZ32): String = case x of
+    g => "in"
+    else => "out"
+  end
+
+containsGuard(c: Contains[\ZZ32\], x: ZZ32): String = case x of
+    c => "in"
+    else => "out"
+  end
+
+rangeCond(r: Range[\ZZ32\]): String = case r of
+    1:3 => "same"
+    else => "other"
+  end
+
+stringGuard(s: String): String = case s of
+    "abc" => "abc"
+    else => "other"
+  end
+
+run(): () = do
+    println(litGuard(1) " " rangeGuard(2) " " varGuard(1:3, 2) " " unionGuard(true, 2))
+    println(genGuard(1:3, 2) " " containsGuard(1:3, 2) " " rangeCond(1:3) " " stringGuard("abc"))
+  end
+end

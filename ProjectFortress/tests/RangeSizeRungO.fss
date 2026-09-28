@@ -1,20 +1,20 @@
-(*) explorations/compile-ladder/rung-overflow-natives/REPORT.md
+(*) explorations/compile-ladder/rung-ranges-zz32/REPORT.md
 
-component XXXRangeSizeZZ64RungO
+component RangeSizeRungO
 export Executable
 
 run(): () = do
     println("REACHED")
     one: ZZ32 = 1
     three: ZZ32 = 3
-    r = widen(one):widen(three)
+    r = narrow(widen(one)):narrow(widen(three))
     rSize = r.size
     assert(rSize = 3, "ranges.tex:103-106")
     rCard = |r|
     assert(rCard = 3, "ranges.tex:103-106")
     uOne: NN32 = unsigned(one)
     uThree: NN32 = unsigned(three)
-    rN = uOne:uThree
+    rN = signed(uOne):signed(uThree)
     rNCard = |rN|
     assert(rNCard = 3, "ranges.tex:103-106")
     println("PASS")

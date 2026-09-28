@@ -1,0 +1,19 @@
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	2
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	42
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	22
+#locations	19
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
+#machine	2026-09-28T04:35:32Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.41 1.32 0.77; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1

@@ -1,0 +1,21 @@
+--- walk-copy tmp/baselib IntegrationStats.fss 2026-09-28T07:59:26Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.17 9.03 7.71; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+Tolerance	1.0E-9
+Time(s)		n		avg			var
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/demos/IntegrationStats.fss:100:13-40:
+Unification error: Closure/Constructor for elapsedSec param 1 (init:RR64) got arg 48057473051724: ZZ64 of type Long
+Context:
+ProjectFortress/demos/IntegrationStats.fss:100:13-40:
+ProjectFortress/demos/IntegrationStats.fss:109:9-68:
+tmp/baselib/RangeInternals.fss:1080:13-1081:12:
+ProjectFortress/demos/IntegrationStats.fss:108:9-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=63

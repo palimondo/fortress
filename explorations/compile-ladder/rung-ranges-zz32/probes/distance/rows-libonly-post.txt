@@ -1,0 +1,2 @@
+499a500
+> typecheck	-	RangeInternals.fss:425	No such method Range[\ZZ32\].intersectWithExtent.

@@ -1,0 +1,1 @@
+machine: 2026-09-28T08:29:20Z nproc=4  Intel(R) Xeon(R) Processor @ 2.10GHz MHz= 2100.000 load=2.08 2.38 3.59 jdk=openjdk version "25.0.4" 2026-07-21 FORTRESS_THREADS=1 HEAD=03a06cfa3

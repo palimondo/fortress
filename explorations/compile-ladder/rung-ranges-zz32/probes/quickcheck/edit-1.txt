@@ -1,0 +1,54 @@
+--- walk ProjectFortress/tests/QuickCheckTest.fss 2026-09-28T06:21:36Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.44 8.35 10.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD ff8c43834; git status --short Library ProjectFortress/src: []
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/qe1/caches bin/fortress ProjectFortress/tests/QuickCheckTest.fss
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true false false false true true true false true false true false true true true false
+genZZ32: -33 49 -45 -1339 6222727 -28903 123 2036909 -23633 4022145 35 83166101
+genZZ64: -20265 8017129 21579 32342674700951108 -5654370 19336 -21196922068770715 1787519527
+genZZ: 51372112648912 1546 84 46 -2905959840542725606 6770803196478395909 -8742223615970225349 -10259
+genQQ: -476881876942/539952901699440939 -1503083319551211/14912 33237299329725/7249984 7345809/21044
+genRR32: 20.516165 -4416.8306 -1.431157E8 377.98895 2.7365696E7 68765.17 47.621925 -5870360.0
+genRR64: 1.7750409675914572E11 -748812.0647598155 7.689873431448474E15 -3.1338854860523418E13
+genChar: \ n B r \ o b n j a | < k K q O O _ f < , A Z O N C ~ Z f 4 P M
+genString: :ZCkT]Df Td;kT^f4(T TdCkT] TZCk ZCkT]D ZCkT^f4 ZCk CkT^o| CkT^o CT^f4(Th kT^f4(T kT^f4 T^f4(Th T^f4| T^f4 ^f4|TbCU"O$gxOw~_
+genMaybe(genChar): Just(1) Just(T) Just(]) Just(D) Just(f) Just(4) Just(|) Nothing
+genList(genZZ32): <|-6461289, -6408956, 1203, 3541479, 1419654544, -2035, 709570158, -3250941, 2133856348, -9655|> <|-6461289, -6408956, 1203, 3541479, 1419654544, -2035, 709570158, -3250941, 2133856348|>
+genList(genString): <|xOgxOW8uB, x$gxOw, OgxOW8uB, $g, xiw~_, xOW8ux, OW8uxA|> <|xOgxO_uB, x$gxOw, OgxO87B3@^}, $g, xOw~_, O_uB, w~, uB3@qjg41, B3|aqjg_1, B3@, 3@aq, 3@aq, aqj4&'5,JGw;I8, j41&E, j4E'5,JGw, 4&'5,JGw;I80!|>
+genList(genMaybe(genList(genString))): <|Nothing, Just(<|xOrW, OrW8, , _u, _|>), Just(<|G|>), Nothing, Just(<|uBl@^}, B3@^}, B3@, A, 3|>), Just(<|B3|aqjg_1, B3@, 3@aq, @^qjg_, @aj41&|>), Just(<|B3|aqjg, 3|=qjg_|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-91|->({false,true},{8,O,W,u,x}), -34|->({false,true},{3,8,@,O,W,a,g,j,q,u,x}), 26624|->({false,true},{$,O,g,w,x}), 1419654544|->({false,true},{&,0,1,3,4,B,a,g,j,q,u,|})}
+genRange(genZZ32): : [-6461289,-6461288,-6461287,-6461286,... 7582377] [] :
+genTuple3(genZZ32,genMaybe(genChar),genString): (-111,Just(j),xOW8ux) (-503236660,Nothing,w~_) (1419654544,Just(O),8u) (1033610767,Just(W),B3|aqjg_)
+genTestStatus: TestPass TestSkip TestSkip TestPass TestSkip TestFail TestFail TestFail
+genList(genTestStatus): <|TestSkip, TestSkip, TestSkip, TestPass, TestPass, TestPass, TestFail, TestPass, TestPass, TestFail, TestFail, TestSkip, TestPass, TestFail, TestPass, TestPass, TestFail, TestPass, TestPass, TestPass|> <|TestSkip, TestSkip, TestSkip, TestPass, TestPass, TestPass, TestFail, TestPass, TestPass, TestFail, TestFail, TestSkip, TestPass, TestFail, TestPass, TestPass, TestFail, TestPass, TestPass|>
+genArrow(genZZ32,genZZ32):
+    29743 115
+    29743 115
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    1835612 10325456 -6352656 -4
+    1835612 10325456 -6352656 -4
+
+Passed 73 test(s).
+Failed in 51 test(s): (2.6799795384027172E16,-7404.57283565395,-9677.453047180423)
+Failed in 190 test(s): -3099732
+Tag(s) of failing properties:
+    no sign extension
+Passed 84 test(s) (and skipped 109 test(s)) but reached the maximum of 193 tests.
+Passed 20 test(s).
+Passed 82 test(s) (and skipped 518 test(s)) but reached the maximum of 600 tests.
+Collected test data:
+    56%: 2 digits
+    18%: 3 digits or more
+    8%: 1 digit
+Shrinking a failed instance..............
+Failed in 100 test(s) (and shrank in 105 test(s)): =
+Shrinking a failed instance.....
+Failed in 256 test(s) (and shrank in 15 test(s)): 1
+Shrinking a failed instance...................
+Failed in 100 test(s) (and partially shrank in 458 test(s)): (;odvA9SUZ7i03Zh0,)
+Shrinking a failed instance.................................
+Failed in 256 test(s) (and shrank in 561 test(s)): (%,)
+Shrinking a failed instance..
+Failed in 100 test(s) (and partially shrank in 77 test(s)): <|OZ_h9h@, Z_'hah@{'|r;, _'hah@{'|rSvP{O(FaQ@, hah@{''r, @{'|, h@, |w|, '|r, 'r, , ', Sv{O(9F, vP, v*{, *O(Fk~~k+y=, {O(KFk~, O(FaQ@3|>
+Shrinking a failed instance.....................................................................................
+Failed in 256 test(s) (and shrank in 3123 test(s)): <|$|>
+
+rc=0

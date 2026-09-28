@@ -1,0 +1,63 @@
+PREFIX   ArrayListLong                rc 124/124  secs 120/120  lines 10 / 7
+PREFIX   BiCGSTAB                     rc 124/124  secs 120/120  lines 1 / 1
+PREFIX   BiCGSTAB2                    rc 124/124  secs 120/120  lines 4 / 3
+MOVED    BirdCount1m                  rc 1/1  secs 74/93  
+MOVED    BirdCount1n                  rc 1/1  secs 34/59  
+MOVED    BirdCount1o                  rc 1/1  secs 52/56  
+PREFIX   BirdCount1p                  rc 124/1  secs 120/104  lines 0 / 74
+PREFIX   BirdCount1q                  rc 124/124  secs 120/120  lines 0 / 74
+PREFIX   BirdCount1r                  rc 124/124  secs 121/120  lines 0 / 0
+PREFIX   BirdCount1s                  rc 124/124  secs 120/120  lines 0 / 0
+PREFIX   BirdCount1t                  rc 124/124  secs 120/120  lines 0 / 0
+PREFIX   BirdCount1u                  rc 124/124  secs 120/120  lines 0 / 0
+PREFIX   BirdCount1v                  rc 124/1  secs 120/104  lines 0 / 74
+PREFIX   BirdCount1w                  rc 124/1  secs 121/94  lines 0 / 76
+PREFIX   BirdCount1y                  rc 124/124  secs 121/121  lines 0 / 0
+PREFIX   BirdCount1z                  rc 124/124  secs 121/120  lines 0 / 0
+MOVED    BirdCount2a                  rc 1/1  secs 19/26  
+MOVED    BirdCount2b                  rc 1/1  secs 25/26  
+MOVED    BirdCount2c                  rc 1/1  secs 26/19  
+SAME     BirdCount2d                  rc 255/255  secs 6/8  
+SAME     Cfa                          rc 0/0  secs 44/32  
+CHANGED  Generator2Demo               rc 124/124  secs 121/120  first difference at line 3:
+      base: product sum of inits of x = -76
+      edit: product sum of inits of x = 4
+SAME     GenomeUtil                   rc 1/1  secs 21/15  
+SAME     GenomeUtil1y                 rc 1/1  secs 19/18  
+SAME     GenomeUtil1z                 rc 1/1  secs 20/16  
+SAME     GenomeUtil2a                 rc 1/1  secs 19/22  
+SAME     GenomeUtil2b                 rc 1/1  secs 21/20  
+SAME     GenomeUtil2c                 rc 1/1  secs 21/19  
+SAME     GenomeUtil2d                 rc 255/255  secs 8/5  
+PREFIX   HeapShakedown                rc 124/1  secs 121/107  lines 1 / 26
+PREFIX   Integrate2                   rc 124/124  secs 120/120  lines 1 / 1
+PREFIX   IntegrationStats             rc 1/124  secs 105/120  lines 19 / 2
+SAME     LogFib                       rc 0/0  secs 15/12  
+PREFIX   PureListLong                 rc 124/124  secs 121/121  lines 11 / 11
+CHANGED  SatEx                        rc 1/1  secs 23/25  first difference at line 3:
+      base: Failed to find any matching overload, args = (31811595: ZZ64,1.0E9:RR64), overload = {
+      edit: Failed to find any matching overload, args = (85698646: ZZ64,1.0E9:RR64), overload = {
+SAME     Words                        rc 0/0  secs 21/15  
+SAME     aStar                        rc 1/1  secs 9/12  
+SAME     buffons                      rc 1/1  secs 17/16  
+CHANGED  conjGrad                     rc 0/0  secs 30/34  first difference at line 5:
+      base: [ 2.431195718394286 0 0 0.4405134616695572 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6335038536632427 0 0.8801319181909156 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3122734308935682 0 0 0 0 0 0 0
+      edit: [ 0.0280959521226258 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.0020766778544062496 0 0.11673413337741179 0 0 0 0 0 0 0 0 0 0 0 0 0
+SAME     fact64                       rc 0/0  secs 19/11  
+SAME     lutx                         rc 0/0  secs 14/13  
+MOVED    mg                           rc 1/1  secs 26/19  
+SAME     mm                           rc 0/0  secs 23/20  
+SAME     mm64                         rc 0/0  secs 66/47  
+SAME     mm64x                        rc 0/0  secs 73/84  
+SAME     newtictactoe                 rc 0/0  secs 13/14  
+MOVED    npbft                        rc 1/1  secs 14/15  
+MOVED    posFeedback                  rc 1/1  secs 84/52  
+SAME     prebuffons                   rc 0/0  secs 13/14  
+SAME     sudoku                       rc 0/0  secs 15/14  
+SAME     tennisRanking                rc 0/0  secs 17/14  
+SAME     tictactoe                    rc 0/0  secs 19/9  
+SAME     trips                        rc 0/0  secs 44/35  
+SAME     turnersParaffins0            rc 0/0  secs 93/59  
+PREFIX   wordcount                    rc 124/124  secs 120/120  lines 1 / 1
+SAME     wordcount2                   rc 1/1  secs 15/14  
+# CHANGED 3, MOVED 9, PREFIX 18, SAME 26 of 56 demos

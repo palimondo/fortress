@@ -1,0 +1,135 @@
+### world=INTERPRETER-LIBRARIES (FortressLibrary/FortressBuiltin/AnyType)  phases=codegen  target=[Library/FortressLibrary.fss]
+@@PROBE checkApi String
+@@PROBE checkApi String -> errors=0
+@@PROBE checkApi FlatString
+@@PROBE checkApi FlatString -> errors=0
+@@PROBE checkApi List
+@@PROBE checkApi List -> errors=0
+@@PROBE checkApi AnyType
+@@PROBE checkApi AnyType -> errors=0
+@@PROBE checkApi Writer
+@@PROBE checkApi Writer -> errors=0
+@@PROBE checkApi NativeArray
+@@PROBE checkApi NativeArray -> errors=0
+@@PROBE checkApi FortressBuiltin
+@@PROBE checkApi FortressBuiltin -> errors=0
+@@PROBE checkApi TypeProxy
+@@PROBE checkApi TypeProxy -> errors=0
+@@PROBE checkApi FortressLibrary
+@@PROBE checkApi FortressLibrary -> errors=2
+@@PROBE checkApi NatReflect
+@@PROBE checkApi NatReflect -> errors=0
+@@PROBE checkApi Stream
+@@PROBE checkApi Stream -> errors=0
+@@PROBE checkApi RangeInternals
+@@PROBE checkApi RangeInternals -> errors=42
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:436:1-474:2:
+    Invalid comprises clause: FortressLibrary.AnyIntegral has a comprises clause
+    but its immediate subtype Integral is not eligible to extend it.
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5:
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47:
+    Invalid overloading of map in trait CompactFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5:
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47:
+    Invalid overloading of map in trait StridedFullSeqScalarRange:
+     [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:830:5-47
+ and [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:1245:5-1250:5
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2158:5-34:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:257:5-258:4:
+    For every,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:257:5-258:4 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->BoundedRange[\I\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2158:5-34
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:259:5-34:
+    For atMost,
+the return type of (RangeInternals.LeftScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:259:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32
+/home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:319:5-34:
+    For atMost,
+the return type of (RangeInternals.RightScalarRange[\I\], I)->RangeInternals.ScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:319:5-34 should be a subtype of the
+    return type of (BoundedRange[\I\], I)->FullRange[\I\] @ /home/user/fortress-ranges/Library/FortressLibrary.fsi:2159:5-32
+/home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.ScalarRange[\I\], Range[\I\])->Range[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:46:5-47:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58
+/home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58
+/home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58
+/home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58
+/home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], Range[\(I, J)\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:63:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.Range2D[\I,J\], RangeInternals.Range2D[\I,J\])->Range[\(I, J)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:64:5-58
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], Range[\(I, J, K)\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:98:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64:
+    Invalid overloading of CAP in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.Range3D[\I,J,K\], RangeInternals.Range3D[\I,J,K\])->Range[\(I, J, K)\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:99:5-64
+ and [\I extends Integral[\I\]\](RangeInternals.BoundedScalarRange[\I\], RangeInternals.ScalarRange[\I\])->RangeInternals.BoundedScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:237:5-238:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:429:5-430:5:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:505:5-506:5:
+    Invalid overloading of IN in API RangeInternals:
+     [\I extends Integral[\I\]\](I, RangeInternals.CompactFullScalarRange[\I\])->Boolean @ /home/user/fortress-ranges/Library/RangeInternals.fsi:429:5-430:5
+ and [\I extends Integral[\I\]\](I, RangeInternals.StridedFullScalarRange[\I\])->Boolean @ /home/user/fortress-ranges/Library/RangeInternals.fsi:505:5-506:5
+/home/user/fortress-ranges/Library/RangeInternals.fsi:612:1-75:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:614:1-104:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:614:1-104
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:612:1-75
+/home/user/fortress-ranges/Library/RangeInternals.fsi:612:1-75:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\]\]()->I->RangeInternals.OpenScalarRange[\I\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:612:1-75
+/home/user/fortress-ranges/Library/RangeInternals.fsi:614:1-104:
+/home/user/fortress-ranges/Library/RangeInternals.fsi:616:1-135:
+    Invalid overloading of openRangeHelper in API RangeInternals:
+     [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\]()->(I, J, K)->RangeInternals.OpenRange3D[\I,J,K\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:616:1-135
+ and [\I extends Integral[\I\], J extends Integral[\J\]\]()->(I, J)->RangeInternals.OpenRange2D[\I,J\] @ /home/user/fortress-ranges/Library/RangeInternals.fsi:614:1-104
+File FortressLibrary.fss has 22 errors.
+### rc=-1

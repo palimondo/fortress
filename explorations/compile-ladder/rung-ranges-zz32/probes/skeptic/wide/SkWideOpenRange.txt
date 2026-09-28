@@ -1,0 +1,21 @@
+--- sk-walk2 SkWideOpenRange.fss 2026-09-28T08:53:36Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.02 3.93 3.60; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 03a06cfa3; git status --short Library ProjectFortress/src: []
+== base library
+REACHED
+OpenScalarRange(1)
+BUILT
+rc=0
+== tree library
+REACHED
+com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:3961:36-67:
+Failed to find any matching overload, args = (__thrower[\T\]():T[\ZZ64\] ()->ZZ64 Library/FortressLibrary.fss:2356:1-2358:41), overload = {
+	openRangeHelper(_:()->FortressLibrary.ZZ32):RangeInternals.OpenScalarRange ()->ZZ32->OpenScalarRange Library/RangeInternals.fss:1430:1-1431:40
+	openRangeHelper(_:()->(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.OpenRange2D ()->(ZZ32,ZZ32)->OpenRange2D Library/RangeInternals.fss:1432:1-1433:34
+	openRangeHelper(_:()->(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.OpenRange3D ()->(ZZ32,ZZ32,ZZ32)->OpenRange3D Library/RangeInternals.fss:1434:1-76}:OverloadedFunction
+Context:
+Library/FortressLibrary.fss:3961:36-67:
+explorations/compile-ladder/rung-ranges-zz32/probes/skeptic/wide/SkWideOpenRange.fss:8:9-26:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

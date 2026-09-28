@@ -1,0 +1,12 @@
+--- cross-path explorations/compile-ladder/rung-ranges-zz32/probes/skeptic/SkExtremum.fss 2026-09-28T09:04:00Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.84 3.82 3.85; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 03a06cfa3; git status --short Library ProjectFortress/src: []
+== walk
+most > picks three
+walk rc=0
+== compiled
+Exception in thread "main" java.lang.Error: Not yet implemented
+compile rc=1
+Could not load SkExtremum
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkExtremum.class
+	... 4 more
+run rc=1

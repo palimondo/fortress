@@ -46,9 +46,9 @@ trait RandomGen[\T extends Number\] extends AnyRandomGen excludes Indexed[\T,ZZ3
 
     (** Generates a uniform random number from the given `range`. It makes
         use of `UniformDistribution` distribution defined below. **)
-    randomR(range:FullScalarRange[\ZZ32\]): ZZ32
+    randomR(range:FullScalarRange): ZZ32
     (** Same as `randomR` but generates multiple random numbers. **)
-    randomManyR(n:ZZ32, range:FullScalarRange[\ZZ32\]): ReadableArray[\ZZ32,ZZ32\]
+    randomManyR(n:ZZ32, range:FullScalarRange): ReadableArray[\ZZ32,ZZ32\]
 
     (** A proxy `RandomGen` that is adapted to the given `RandomDistribution`.
         The original generator can be used later, but both the original
@@ -255,7 +255,7 @@ mersenneTwister(): MersenneTwister[\ZZ64,32,624\]
 
 (** Uniform random distribution within the given `range`. It uses a classic
     retrial method. **)
-object UniformDistribution[\T\](range:FullScalarRange[\T\])
+object UniformDistribution[\T\](range:FullScalarRange)
     extends RandomDistribution[\T\]
 
     min[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\]

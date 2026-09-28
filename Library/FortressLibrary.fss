@@ -2125,7 +2125,7 @@ trait ReadableArray1[\T, nat b0, nat s0\]
         extends { Indexed1[\s0\], Rank1, ReadableArray[\T,ZZ32\] }
         comprises { ImmutableArray1[\T,b0,s0\], Array1[\T,b0,s0\] }
     getter size():ZZ32 = s0
-    getter bounds():CompactFullRange[\ZZ32\] = sized1Range[\ZZ32\](0,b0,s0)
+    getter bounds():CompactFullRange[\ZZ32\] = sized1Range(b0,s0)
     getter mutability():String
     getter asString(): String = do
         r = "[" b0 "#" s0 "]" self.mutability "["
@@ -2151,7 +2151,7 @@ trait ReadableArray1[\T, nat b0, nat s0\]
     end
     toIndex(i:ZZ32):ZZ32 = i + b0
 
-    zeroIndices(): CompactFullRange[\ZZ32\] = sized1Range[\ZZ32\](0,0,s0)
+    zeroIndices(): CompactFullRange[\ZZ32\] = sized1Range(0,s0)
 end
 
 trait ImmutableArray1[\T, nat b0, nat s0\]
@@ -2411,7 +2411,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
     excludes { Number, String }
   getter size():ZZ32 = s0 s1
   getter sizes():(ZZ32,ZZ32) = (s0, s1)
-  getter bounds():CompactFullRange2D[\ZZ32,ZZ32\] = sized2Range[\ZZ32,ZZ32\](0,0,b0,b1,s0,s1)
+  getter bounds():CompactFullRange2D = sized2Range(b0,b1,s0,s1)
   getter asString(): String = do
     r : String := "[" b0 "#" s0 "," b1 "#" s1 "]"
     row(i) =
@@ -2503,7 +2503,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
       SubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0,m1,o1)
     end
 
-  zeroIndices():CompactFullRange2D[\ZZ32,ZZ32\] = sized2Range[\ZZ32,ZZ32\](0,0,0,0,s0,s1)
+  zeroIndices():CompactFullRange2D = sized2Range(0,0,s0,s1)
 
   replica[\U\]():Array2[\U,b0,s0,b1,s1\] =
       __builtinFactory2[\U,b0,s0,b1,s1\]()
@@ -2792,8 +2792,8 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
 
     getter size():ZZ32 = s0 s1 s2
     getter sizes():(ZZ32,ZZ32,ZZ32) = (s0, s1, s2)
-    getter bounds():CompactFullRange3D[\ZZ32,ZZ32,ZZ32\] =
-        sized3Range[\ZZ32,ZZ32,ZZ32\](0,0,0,b0,b1,b2,s0,s1,s2)
+    getter bounds():CompactFullRange3D =
+        sized3Range(b0,b1,b2,s0,s1,s2)
 
     getter asString():String = do
       r : String := "[" b0 "#" s0 "," b1 "#" s1 "," b2 "#" s2 "]"
@@ -2874,8 +2874,8 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
         SubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0,m1,o1,m2,o2)
       end
 
-    zeroIndices():CompactFullRange3D[\ZZ32,ZZ32,ZZ32\] =
-        sized3Range[\ZZ32,ZZ32,ZZ32\](0,0,0,0,0,0,s0,s1,s2)
+    zeroIndices():CompactFullRange3D =
+        sized3Range(0,0,0,s0,s1,s2)
 
     replica[\U\]():Array3[\U,b0,s0,b1,s1,b2,s2\] =
         __DefaultArray3[\U,b0,s0,b1,s1,b2,s2\]()
@@ -3705,7 +3705,7 @@ end
       a < b iff all points in a are strictly contained in b.
  **)
 trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
-        excludes Number (* Important or the strided factories can't overload! *)
+        excludes { Number, String } (* Important or the strided factories can't overload! *)
     getter stride(): I
     getter left(): Maybe[\I\]
     getter right(): Maybe[\I\]
@@ -3902,54 +3902,52 @@ end
 trait StridedFullRange[\I\] extends FullRange[\I\] end
 
 (** The # and : operators serve as factories for parallel ranges. **)
-opr #[\I extends AnyIntegral\](lo:I, ex:I): CompactFullParScalarRange[\I\] = sized1Range(0 asif ZZ32,lo,ex)
-opr #[\I extends AnyIntegral, J extends AnyIntegral\]
-     (lo:(I,J), ex:(I,J)): CompactFullRange2D[\I,J\] =
-    do (l1,l2)=lo; (x1,x2)=ex; sized2Range(0 asif ZZ32,0 asif ZZ32,l1,l2,x1,x2) end
-opr #[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-     (lo:(I,J,K), ex:(I,J,K)): CompactFullRange3D[\I,J,K\] =
+opr #(lo:ZZ32, ex:ZZ32): CompactFullParScalarRange = sized1Range(lo,ex)
+opr #(lo:(ZZ32,ZZ32), ex:(ZZ32,ZZ32)): CompactFullRange2D =
+    do (l1,l2)=lo; (x1,x2)=ex; sized2Range(l1,l2,x1,x2) end
+opr #(lo:(ZZ32,ZZ32,ZZ32), ex:(ZZ32,ZZ32,ZZ32)): CompactFullRange3D =
     do (l1,l2,l3)=lo; (x1,x2,x3)=ex
-       sized3Range(0 asif ZZ32,0 asif ZZ32,0 asif ZZ32,l1,l2,l3,x1,x2,x3)
+       sized3Range(l1,l2,l3,x1,x2,x3)
     end
 
-opr :[\I extends AnyIntegral\](lo:I, hi:I): CompactFullParScalarRange[\I\] =
-        bounded1Range(0 asif ZZ32,lo,hi)
-opr :[\I extends AnyIntegral, J extends AnyIntegral\]
-     (lo:(I,J), hi:(I,J)): CompactFullRange2D[\I,J\] =
-    do (l1,l2)=lo; (h1,h2)=hi; bounded2Range(0 asif ZZ32,0 asif ZZ32,l1,l2,h1,h2) end
-opr :[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-     (lo:(I,J,K), hi:(I,J,K)): CompactFullRange3D[\I,J,K\] = do
+opr :(lo:ZZ32, hi:ZZ32): CompactFullParScalarRange =
+        bounded1Range(lo,hi)
+opr :(lo:(ZZ32,ZZ32), hi:(ZZ32,ZZ32)): CompactFullRange2D =
+    do (l1,l2)=lo; (h1,h2)=hi; bounded2Range(l1,l2,h1,h2) end
+opr :(lo:(ZZ32,ZZ32,ZZ32), hi:(ZZ32,ZZ32,ZZ32)): CompactFullRange3D = do
     (l1,l2,l3)=lo; (h1,h2,h3)=hi
-    bounded3Range(0 asif ZZ32,0 asif ZZ32,0 asif ZZ32,l1,l2,l3,h1,h2,h3)
+    bounded3Range(l1,l2,l3,h1,h2,h3)
   end
 
 (** Factories for incomplete ranges **)
-opr (x:I)#[\I extends AnyIntegral\] : LeftRange[\I\] = left1Range(0 asif ZZ32, x)
-opr (p:(I,J))#[\I extends AnyIntegral, J extends AnyIntegral\] : LeftRange[\(I,J)\] = do
+opr (x:ZZ32)# : LeftRange[\ZZ32\] = left1Range(x)
+opr (p:(ZZ32,ZZ32))# : LeftRange[\(ZZ32,ZZ32)\] = do
     (x, y) = p
-    left2Range(0 asif ZZ32,0 asif ZZ32, x,y)
+    left2Range(x,y)
   end
-opr (t:(I,J,K))#[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\] :
-         LeftRange[\(I,J,K)\] = do
+opr (t:(ZZ32,ZZ32,ZZ32))# :
+         LeftRange[\(ZZ32,ZZ32,ZZ32)\] = do
     (x, y, z) = t
-    left3Range(0 asif ZZ32,0 asif ZZ32,0 asif ZZ32, x,y,z)
+    left3Range(x,y,z)
   end
 
-opr (x:I):[\I\] : LeftRange[\I\] = x#
+opr (x:ZZ32): : LeftRange[\ZZ32\] = x#
+opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = x#
+opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = x#
 
-opr #[\I extends AnyIntegral\](x:I) : ExtentRange[\I\] = extent1Range(0 asif ZZ32, x)
-opr #[\I extends AnyIntegral, J extends AnyIntegral\](xy:(I,J)) : ExtentRange[\(I,J)\] =
-    do (x,y) = xy; extent2Range(0 asif ZZ32,0 asif ZZ32, x,y) end
-opr #[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](xyz:(I,J,K)) :
-         ExtentRange[\(I,J,K)\] =
-    do (x,y,z) = xyz; extent3Range(0 asif ZZ32,0 asif ZZ32,0 asif ZZ32, x,y,z) end
+opr #(x:ZZ32) : ExtentRange[\ZZ32\] = extent1Range(x)
+opr #(xy:(ZZ32,ZZ32)) : ExtentRange[\(ZZ32,ZZ32)\] =
+    do (x,y) = xy; extent2Range(x,y) end
+opr #(xyz:(ZZ32,ZZ32,ZZ32)) :
+         ExtentRange[\(ZZ32,ZZ32,ZZ32)\] =
+    do (x,y,z) = xyz; extent3Range(x,y,z) end
 
-opr :[\I extends AnyIntegral\](x:I) : RightRange[\I\] = right1Range(0 asif ZZ32, x)
-opr :[\I extends AnyIntegral, J extends AnyIntegral\](xy:(I,J)) : RightRange[\(I,J)\] =
-    do (x,y) = xy; right2Range(0 asif ZZ32,0 asif ZZ32, x,y) end
-opr :[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](xyz:(I,J,K)) :
-         RightRange[\(I,J,K)\] =
-    do (x,y,z) = xyz; right3Range(0 asif ZZ32,0 asif ZZ32,0 asif ZZ32, x,y,z) end
+opr :(x:ZZ32) : RightRange[\ZZ32\] = right1Range(x)
+opr :(xy:(ZZ32,ZZ32)) : RightRange[\(ZZ32,ZZ32)\] =
+    do (x,y) = xy; right2Range(x,y) end
+opr :(xyz:(ZZ32,ZZ32,ZZ32)) :
+         RightRange[\(ZZ32,ZZ32,ZZ32)\] =
+    do (x,y,z) = xyz; right3Range(x,y,z) end
 
 (* Actually want for above:
 opr (x:I)#[\I\] : LeftRange[\I\] = LeftRange[\I\](x)
@@ -3971,16 +3969,19 @@ openRange[\I\](): OpenRange[\I\] = openRangeHelper( __thrower[\I\] )
 
 *)
 
-opr (l:I)::[\I\] : LeftRange[\I\] = l#
+opr (l:ZZ32):: : LeftRange[\ZZ32\] = l#
+opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\] = l#
+opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = l#
 
-opr ::[\I extends AnyIntegral\](s:I) : OpenRange[\I\] = open1Range(0 asif ZZ32, s)
-opr ::[\I extends AnyIntegral, J extends AnyIntegral\](ij:(I,J)) : OpenRange[\(I,J)\] =
-    do (i,j) = ij; open2Range(0 asif ZZ32, 0 asif ZZ32, i,j) end
-opr ::[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-      (ijk:(I,J,K)) : OpenRange[\(I,J,K)\] =
-    do (i,j,k) = ijk; open3Range(0 asif ZZ32, 0 asif ZZ32, 0 asif ZZ32, i,j,k) end
+opr ::(s:ZZ32) : OpenRange[\ZZ32\] = open1Range(s)
+opr ::(ij:(ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32)\] =
+    do (i,j) = ij; open2Range(i,j) end
+opr ::(ijk:(ZZ32,ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32,ZZ32)\] =
+    do (i,j,k) = ijk; open3Range(i,j,k) end
 
-opr ::[\I\](l:I,s:I): LeftRange[\I\] = (l:):s
+opr ::(l:ZZ32,s:ZZ32): LeftRange[\ZZ32\] = (l:):s
+opr ::(l:(ZZ32,ZZ32),s:(ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32)\] = (l:):s
+opr ::(l:(ZZ32,ZZ32,ZZ32),s:(ZZ32,ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32,ZZ32)\] = (l:):s
 
 (** Operators on ranges.
 

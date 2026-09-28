@@ -1,0 +1,14 @@
+(*) explorations/compile-ladder/rung-ranges-zz32/REPORT.md
+
+component XXXRangeWideRungJ
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    wide = widen(one):widen(three)
+    println("PASS")
+  end
+
+end

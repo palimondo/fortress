@@ -1,0 +1,13 @@
+component SkWidePair
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    r = (widen(one), 2) : (widen(three), 4)
+    println(r.asDebugString)
+    println("BUILT")
+  end
+
+end

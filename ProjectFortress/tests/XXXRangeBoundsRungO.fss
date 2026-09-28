@@ -16,8 +16,8 @@ run(): () = do
     topThree = (zMax - 2) # three
     topThreeSize = |topThree|
     assert(topThreeSize = 3, "ranges.tex:64-65, :103-106")
-    wideTop = (lMax - widen(2)) # widen(three)
-    wideTopSize = wideTop.size
+    wideTop = 0 # three
+    wideTopSize = SUM[\ZZ32\][k <- wideTop, (lMax - widen(2)) + widen(k) <= lMax] 1
     assert(wideTopSize = 3, "ranges.tex:64-65, :103-106")
     r = one:zMin
     rSize = r.size

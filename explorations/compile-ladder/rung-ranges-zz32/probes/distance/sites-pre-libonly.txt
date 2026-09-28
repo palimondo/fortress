@@ -1,0 +1,34 @@
+# before 940, after 626; kept 621 after-sites at a site with an error before (4 of them matched by message, the line map missing them), new 5, gone 299 before-sites
+
+## NEW sites
+CAUSED    FortressLibrary.fss:3241(base 3241-3241)  typecheck/-
+      in FortressLibrary.fss:3240 [opr BIG MAXNUM(g: Generator[\RR64\]) =]
+      Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
+UNMASKED  RangeInternals.fss:145(base 146-147)  typecheck/-
+      in RangeInternals.fss:144 [trait ScalarRange extends { Range[\ZZ32\] }]
+      Function body has type Range[\ZZ32\], but declared return type is RangeInternals.ScalarRangeWithLeft.
+UNMASKED  RangeInternals.fss:1399(base 1449-1449)  typecheck/-
+      in RangeInternals.fss:1398 [extent1Range(x:ZZ32):ExtentRange[\ZZ32\] =]
+      Function body has type OR(RangeInternals.ExtentScalarRange,RangeInternals.CompactFullParScalarRange), but declared return type is ExtentRange[\ZZ32\].
+UNMASKED  RangeInternals.fss:1407(base 1457-1457)  typecheck/-
+      in RangeInternals.fss:1405 [extent2Range(x:ZZ32,y:ZZ32):]
+      Function body has type OR(RangeInternals.ExtentRange2D,RangeInternals.CompactFullRange2D), but declared return type is ExtentRange[\(ZZ32, ZZ32)\].
+UNMASKED  RangeInternals.fss:1415(base 1466-1466)  typecheck/-
+      in RangeInternals.fss:1414 [extent3Range(x:ZZ32,y:ZZ32,z:ZZ32): ExtentRange[\(ZZ32,ZZ32,ZZ32)\] =]
+      Function body has type OR(RangeInternals.ExtentRange3D,RangeInternals.CompactFullRange3D), but declared return type is ExtentRange[\(ZZ32, ZZ32, ZZ32)\].
+
+## KEPT by message (the line map missed the site)
+  FortressLibrary.fsi:2159,RangeInternals.fsi:242  return-type/-
+      For atMost, the return type of (RangeInternals.LeftScalarRange, ZZ32)->RangeInternals.ScalarRange @ RangeInternals.fsi:242:5-32 should be a subtype of the return type of (BoundedRange[\ZZ32\], ZZ32)->FullRange[\ZZ32\] @ FortressLibrary.fsi:2159:5-32
+  FortressLibrary.fsi:2159,RangeInternals.fsi:298  return-type/-
+      For atMost, the return type of (RangeInternals.RightScalarRange, ZZ32)->RangeInternals.ScalarRange @ RangeInternals.fsi:298:5-32 should be a subtype of the return type of (BoundedRange[\ZZ32\], ZZ32)->FullRange[\ZZ32\] @ FortressLibrary.fsi:2159:5-32
+  FortressLibrary.fsi:2158,RangeInternals.fsi:240  return-type/-
+      For every, the return type of (RangeInternals.LeftScalarRange, ZZ32)->RangeInternals.ScalarRange @ RangeInternals.fsi:240:5-241:4 should be a subtype of the return type of (BoundedRange[\ZZ32\], ZZ32)->BoundedRange[\ZZ32\] @ FortressLibrary.fsi:2158:5-34
+  FortressLibrary.fss:3436  typecheck/-
+      Function body has type String, but declared return type is Comprehension[\Any,String,String,AnyMaybe\].
+
+## GONE sites, by kind and subclass
+   198  typecheck / -
+    52  wellformed / -
+    36  overloading / sentence
+    13  abstract-method / -

@@ -1,0 +1,14 @@
+component SkWideSeq
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    var k: ZZ32 := 0
+    for i <- seq(widen(one) : widen(three)) do k += 1 end
+    println(k)
+    println("BUILT")
+  end
+
+end

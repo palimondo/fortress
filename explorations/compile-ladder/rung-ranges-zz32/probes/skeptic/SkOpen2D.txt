@@ -1,0 +1,20 @@
+--- sk-walk2 SkOpen2D.fss 2026-09-28T09:01:24Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.39 4.40 4.00; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 03a06cfa3; git status --short Library ProjectFortress/src: []
+== base library
+OpenScalarRange(1)
+OpenRange3D(1,1,1)
+com.sun.fortress.exceptions.ProgramError: tmp/sk-baselib/RangeInternals.fss:1485:26-39:
+Generic instantiation (size) mismatch, expected [I extends Integral[\I\],J extends Integral[\J\]] got [I]
+Context:
+tmp/sk-baselib/RangeInternals.fss:1485:26-39:
+tmp/sk-baselib/FortressLibrary.fss:3963:36-67:
+explorations/compile-ladder/rung-ranges-zz32/probes/skeptic/SkOpen2D.fss:7:13-37:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+== tree library
+OpenScalarRange(1)
+OpenRange3D(1,1,1)
+OpenRange2D(1,1)
+rc=0

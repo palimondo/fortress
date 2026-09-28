@@ -1,0 +1,9 @@
+component SkSumPlain
+export Executable
+
+run(): () = do
+    s = SUM[i <- 1:4] i
+    println("SUM 1:4: " s)
+  end
+
+end

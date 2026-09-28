@@ -1,0 +1,11 @@
+component SkExtremum
+export Executable
+
+pick(): String = case most > of
+    1 => "one"
+    3 => "three"
+    2 => "two"
+  end
+
+run(): () = println("most > picks " pick())
+end

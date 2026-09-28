@@ -1,0 +1,39 @@
+--- ro-trace: rangeOperators.fss under walk, library base, instrumented OverloadedFunction ahead of the build 2026-09-28T06:52:24Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.66 9.19 8.48; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD db29d9f1e; git status --short Library ProjectFortress/src: []
+--- the test's opr #(x:String, y:String) (rangeOperators.fss:20) against the library's generic #[\I\](r: PartialRange[\I\], size: I)
+Checking exclusion of [String, String] and [PartialRange[\I@baselib/FortressLibrary.fss:3905:1-107\], I@baselib/FortressLibrary.fss:3905:1-107]:
+0: String and PartialRange[\I@baselib/FortressLibrary.fss:3905:1-107\], [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [Range[\I@baselib/FortressLibrary.fss:3905:1-107\]], 
+Checking for supertype exclusion of String: Not PartialRange[\I@baselib/FortressLibrary.fss:3905:1-107\]; Not Range[\I@baselib/FortressLibrary.fss:3905:1-107\]; Not StandardPartialOrder[\Range[\I@baselib/FortressLibrary.fss:3905:1-107\]\]; Not Contains[\I@baselib/FortressLibrary.fss:3905:1-107\]; Not Equality[\Range[\I@baselib/FortressLibrary.fss:3905:1-107\]\]; Not Object; Not Any; 
+Checking for supertype exclusion of PartialRange[\I@baselib/FortressLibrary.fss:3905:1-107\]: Not String; Not StandardTotalOrder[\String\]; Not ZeroIndexed[\Char\]; Not DelegatedIndexed[\Char,ZZ32\]; Not StandardPartialOrder[\String\]; Not StandardMinMax[\String\]; Not Indexed[\Char,ZZ32\]; Not Equality[\String\]; Not StandardMin[\String\]; Not StandardMax[\String\]; Not Generator[\Char\]; Not Contains[\Char\]; Not Object; Not Any; No comprises clauses, no exclusion.
+Unrelated.
+1: String and I@baselib/FortressLibrary.fss:3905:1-107, [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [AnyIntegral], Other excludes (transitive closure just happened).
+distinct.
+@@EX distinct=true sawSymbolic2=true unrelated=0
+--- the run's error, if any, and its exit code
+rc=0
+--- ro-trace: rangeOperators.fss under walk, library tree, instrumented OverloadedFunction ahead of the build 2026-09-28T06:53:00Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.17 9.37 8.57; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD db29d9f1e; git status --short Library ProjectFortress/src: []
+--- the test's opr #(x:String, y:String) (rangeOperators.fss:20) against the library's generic #[\I\](r: PartialRange[\I\], size: I)
+Checking exclusion of [String, String] and [PartialRange[\I@Library/FortressLibrary.fss:4042:1-4046:62\], I@Library/FortressLibrary.fss:4042:1-4046:62]:
+0: String and PartialRange[\I@Library/FortressLibrary.fss:4042:1-4046:62\], [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [Range[\I@Library/FortressLibrary.fss:4042:1-4046:62\]], Other excludes (transitive closure just happened).
+distinct.
+1: String and I@Library/FortressLibrary.fss:4042:1-4046:62, [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [Any], 
+Flipping;Checking exclusion of upper bound; No upper bound exclusion.
+Unrelated.
+@@EX distinct=true sawSymbolic2=true unrelated=1
+--- the run's error, if any, and its exit code
+rc=0
+--- ro-trace: rangeOperators.fss under walk, library extra, instrumented OverloadedFunction ahead of the build 2026-09-28T06:53:35Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.61 9.56 8.66; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD db29d9f1e; git status --short Library ProjectFortress/src: []
+--- the test's opr #(x:String, y:String) (rangeOperators.fss:20) against the library's generic #[\I\](r: PartialRange[\I\], size: I)
+Checking exclusion of [String, String] and [PartialRange[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\], I@tmp/j1/FortressLibrary.fss:4042:1-4046:62]:
+0: String and PartialRange[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\], [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [Range[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]], 
+Checking for supertype exclusion of String: Not PartialRange[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]; Not Range[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]; Not StandardPartialOrder[\Range[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]\]; Not Contains[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]; Not Equality[\Range[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]\]; Not Object; Not Any; 
+Checking for supertype exclusion of PartialRange[\I@tmp/j1/FortressLibrary.fss:4042:1-4046:62\]: Not String; Not StandardTotalOrder[\String\]; Not ZeroIndexed[\Char\]; Not DelegatedIndexed[\Char,ZZ32\]; Not StandardPartialOrder[\String\]; Not StandardMinMax[\String\]; Not Indexed[\Char,ZZ32\]; Not Equality[\String\]; Not StandardMin[\String\]; Not StandardMax[\String\]; Not Generator[\Char\]; Not Contains[\Char\]; Not Object; Not Any; No comprises clauses, no exclusion.
+Unrelated.
+1: String and I@tmp/j1/FortressLibrary.fss:4042:1-4046:62, [StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\]] and [Any], 
+Flipping;Checking exclusion of upper bound; No upper bound exclusion.
+@@EX distinct=false sawSymbolic2=true unrelated=0
+--- the run's error, if any, and its exit code
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/rangeOperators.fss:20:1-43: and
+tmp/j1/FortressLibrary.fss:4042:1-4046:62:
+
+#[\I\](r:PartialRange[\I\],size:I):Range[\I\]tmp/j1/FortressLibrary.fss:4042:1-4046:62 has a parameter
+rc=1

@@ -1,0 +1,15 @@
+component SkWideUniform
+import Random.{ UniformDistribution, mersenneTwister }
+export Executable
+
+run(): () = do
+    println("REACHED")
+    u = UniformDistribution[\ZZ64\](1:3)
+    m = u.min[\ZZ64\](mersenneTwister()).get
+    println("min " m " is ZZ64: " (typecase m of ZZ64 => "yes"; else => "no" end))
+    g = u.generate[\ZZ64\](mersenneTwister())
+    println("generated " g " is ZZ64: " (typecase g of ZZ64 => "yes"; else => "no" end))
+    println("BUILT")
+  end
+
+end

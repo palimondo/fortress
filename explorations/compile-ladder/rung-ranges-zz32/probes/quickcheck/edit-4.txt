@@ -1,0 +1,56 @@
+--- walk ProjectFortress/tests/QuickCheckTest.fss 2026-09-28T06:27:47Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 7.29 7.72 9.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD ff8c43834; git status --short Library ProjectFortress/src: []
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/qe4/caches bin/fortress ProjectFortress/tests/QuickCheckTest.fss
+genVoid: () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () () ()
+genBoolean: true false false true true false true true true true false true false false true true
+genZZ32: 75 2125821 -4475009 81 2628979 101 -4441 -71 -24805 -4081971 25295 -31839
+genZZ64: 11715 81041761206300 -1015117258 -9170821013046072981 29 -97 -15 -109
+genZZ: -15500339403486036 2228257570414630255 5992578494388878898 23868 1103035478 16896 8142821208990209886 -516630207994757029
+genQQ: 333309427/31780219633354642 -1417208647704654722/4973 -1131248858/7154354878753372321 -51295033399884/9766072845198563
+genRR32: 2.409659 -1.5906344E8 -19.792225 -110.05883 -3.8789163 1033134.56 -26.39313 1.2716025
+genRR64: 1.5326234643544742E18 7374.331029928258 -1.5600815942619135E11 21.940265476869474
+genChar: . z k ] o L v j W b ` 9 ! , f ? I 8 b Z 0 R * 6 c 0 F ; ( E - P
+genString: rLd0H*oU}"]:SH& rLdlF*oU}@]zEHn rLdlF*oU}@]z 0L LdlF*oU}@]z= LdlF*oU}@]z df0H*oU}"] dfS dlF*oU}@]z 0H*oU}"]:Sx&vQ 0H*oU}"]:Sx 0H*oU}"]:S 0H*oU}"K: 0H*oU} F*oU}@]:EH F*oU}"K:
+genMaybe(genChar): Just(S) Just(0) Just(F) Just(H) Nothing Just(*) Just(o) Just(U)
+genList(genZZ32): <|8101596, -25911, -31580, -79, 98|> <|8101596, -21158, 95, 90832339, 29959, 29488, -2618835|>
+genList(genString): <|EH, &vspY:, vspY(t;&eLtRo, spY(t;&eLtRo, pY(t;&eLtRo, Y(t;&eLtRom, :Ct;&eLu|> <|H&4s, &48p, vspY(t;&eLtRo, spY(t;&eLtRo, pY(t;&eLtRom|>
+genList(genMaybe(genList(genString))): <|Just(<|spY(t;&eLtRo, pY(t;&eLtRom, Y(t;&eLtRom, (t;&eLtRo6`6G, Ct;&etR@6`6, t&eLtR@6, &euaI, tR@6`6G, aI@6, t@6, @6`G+~~, @6, 6I, `6+~, `G+~|>), Just(<|pY(t;&eLtRo, Y(t;&eLtRom|>), Nothing, Just(<|(t;&eLtRo6`6G, Ct;&etR@6`6, t&eLtR@6, &eJt, Lua, JtR, tR, @6`P, @6, 6I, `6G~}mKW|>)|>
+genMap(genZZ32,genTuple2(genSet(genBoolean),genSet(genChar))): {-6279935|->({false,true},{&,+,6,@,G,L,`,e,t}), -883350|->({false,true},{&,),6,;,@,R,e,t}), -79|->({false,true},{&,(,;,L,R,Y,e,o,p,t}), 29959|->({false,true},{&,(,;,L,R,e,o,t}), 4373803|->({false,true},{&,(,;,L,R,Y,e,o,p,s,t,v})}
+genRange(genZZ32): [] [] [-79,-78,-77,-76,... 90832339] []
+genTuple3(genZZ32,genMaybe(genChar),genString): (29488,Just(e),t;&eLtR) (21807,Just(C),&eLtR@6) (-695406862,Just(;),etR@6)) (114905705,Nothing,tR@6)
+genTestStatus: TestSkip TestSkip TestFail TestFail TestSkip TestSkip TestSkip TestFail
+genList(genTestStatus): <|TestSkip, TestPass, TestFail, TestSkip, TestSkip, TestSkip, TestFail, TestFail, TestFail, TestSkip, TestPass|> <|TestSkip, TestPass, TestFail, TestSkip, TestSkip, TestSkip, TestFail, TestFail, TestFail, TestSkip|>
+genArrow(genZZ32,genZZ32):
+    1796 1070867304
+    1796 1070867304
+genArrow(genZZ32,genArrow(genZZ32,genZZ32)):
+    79 -667432813 5731 -822674945
+    79 -667432813 5731 -822674945
+
+Passed 200 test(s).
+Failed in 108 test(s): (9.681681921768141E7,-1.8098653361233008E13,1.0547409058643817E18)
+Failed in 29 test(s): -91
+Tag(s) of failing properties:
+    no sign extension
+Passed 60 test(s) (and skipped 74 test(s)).
+Passed 20 test(s).
+Passed 37 test(s) (and skipped 289 test(s)) but reached the maximum of 326 tests.
+Collected test data:
+    21%: 2 digits
+    6%: 3 digits or more
+    6%: 2 digits, ends with zero
+    3%: 3 digits or more, ends with zero
+    1%: 1 digit
+Shrinking a failed instance............
+Failed in 100 test(s) (and shrank in 78 test(s)): @
+Shrinking a failed instance........
+Failed in 256 test(s) (and shrank in 36 test(s)): -
+Shrinking a failed instance........
+Failed in 100 test(s) (and partially shrank in 230 test(s)): ()?XH,7=`3u&]oU`pY8[&,)?XH,7=`3)
+Shrinking a failed instance...........
+Failed in 256 test(s) (and shrank in 66 test(s)): (9,)
+Shrinking a failed instance...
+Failed in 100 test(s) (and partially shrank in 93 test(s)): <|%}4hI=K, %}hI=';X;, hI=';X;, x=K', =K;XoE, =';X;, K;Xoq_O|>
+Shrinking a failed instance............................................................................................
+Failed in 256 test(s) (and shrank in 3093 test(s)): <|&|>
+
+rc=0 secs=109

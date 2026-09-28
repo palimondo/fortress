@@ -1,0 +1,53 @@
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:20:22:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:24:22:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:33:24-33:
+    AnyIntegral is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:58:8:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:60:8:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:62:8:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:64:8:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:66:8:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:81:17-20:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:82:19-22:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:83:34-37:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:83:54-57:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:86:14-17:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:89:11-14:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:90:10-13:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:93:13-16:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:94:11-14:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:117:23:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:125:24:
+    QQ is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:140:23-27:
+    Vector is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:144:21-25:
+    Array2 is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:173:11-14:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:178:8-11:
+    Array is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:183:9-13:
+    Vector is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:187:9-13:
+    Vector is undefined.
+/home/user/fortress-ranges/ProjectFortress/tests/FlatTowerRungF.fss:187:34:
+    QQ is undefined.
+File FlatTowerRungF.fss has 26 errors.

@@ -1,0 +1,27 @@
+# Rung J (climb batch 7R, rung-ranges-zz32): the lists this rung hands Pavol, as a capture beside its report
+# (the harness refused this session's write of REPORT.md and record.md; their full text is in the rung's structured result)
+
+## forPavol (points this rung does not settle)
+1. Row 452's test, restated to a ZZ32 range of converted bounds, is promoted to a plain test and renamed
+   ProjectFortress/tests/XXXRangeSizeZZ64RungO.fss -> ProjectFortress/tests/RangeSizeRungO.fss: the batch record's
+   reading of the ranges decision, listed for his review (explorations/coordinator/CLIMB-BATCH-7R.md section 1,
+   "Row 452 closes"); evidence explorations/compile-ladder/rung-ranges-zz32/probes/restated-lines.txt:18-30,
+   explorations/compile-ladder/rung-ranges-zz32/probes/harness-final.txt:8.
+
+## stopsMet
+none
+
+## What comes back to Pavol with the landing (not open points)
+- The restated test lines, before and after: explorations/compile-ladder/rung-ranges-zz32/probes/restated-lines.txt
+  (XXXRangeBoundsRungO :19-20, XXXSeqRangeTopRungO :19, :21-22, RangeSizeRungO :1, :3, :10, :17, RangePrototype 85 lines).
+- The checker fix's shape and the ways not taken: the one-library world asks whether the case guard's type has Contains
+  among its ancestors (Specification/basic/expressions/case.tex:47-51; walk's Evaluator.java:415); the compiler's world
+  keeps GeneratorZZ32. Not taken: Generator[\ZZ32\] re-pointed; the team's commented Generator-with-inference-variable form;
+  a static re-pointed by useFortressLibraries().
+- rangeOperators's cause and repair: walk's overload check shares one symbolic instantiation among same-named generic
+  overloads whose static parameters share a name (GenericFunctionOrMethod.java:44-58, NodeComparator.java:402-404), so on the
+  base the partial-range # borrowed AnyIntegral from opr #[\I extends AnyIntegral\](lo:I, ex:I); repaired by
+  Range excludes { Number, String } (Library/FortressLibrary.fss:3708). Probes: probes/rangeoperators/.
+- The distance table's move by family: 940 -> 627 (probes/distance/compare-pre-post.txt); the count 22 -> 10.
+- The dummy arguments: gone, with the helpers' throwaway parameters (36 `0 asif ZZ32` in 18 calls, 12 literal 0s in the
+  array getters' 6 calls).

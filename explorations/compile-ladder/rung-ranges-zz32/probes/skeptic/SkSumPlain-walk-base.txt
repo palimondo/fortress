@@ -1,0 +1,24 @@
+--- walk-copy tmp/sk-baselib SkSumPlain.fss 2026-09-28T08:39:45Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.07 2.58 3.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 03a06cfa3; git status --short Library ProjectFortress/src: []
+com.sun.fortress.exceptions.ProgramError: tmp/sk-baselib/RangeInternals.fss:1032:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 2: ZZ32 of type Int
+Context:
+tmp/sk-baselib/RangeInternals.fss:1032:21-58:
+tmp/sk-baselib/RangeInternals.fss:1032:46-57:
+tmp/sk-baselib/RangeInternals.fss:1032:30-43:
+tmp/sk-baselib/RangeInternals.fss:1034:13-1035:9:
+tmp/sk-baselib/FortressLibrary.fss:1172:5-23:
+tmp/sk-baselib/FortressLibrary.fss:1172:5-23:
+explorations/compile-ladder/rung-ranges-zz32/probes/skeptic/SkSumPlain.fss:5:13-19:
+tmp/sk-baselib/FortressLibrary.fss:1229:25-47:
+explorations/compile-ladder/rung-ranges-zz32/probes/skeptic/SkSumPlain.fss:5:9-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=16

@@ -1,0 +1,4 @@
+/home/user/fortress-ranges/ProjectFortress/tests/XXXSeqRangeTopRungO.fss:19:19-20:
+    Could not check call to operator :
+    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (ZZ64, ZZ64).
+File XXXSeqRangeTopRungO.fss has 1 error.

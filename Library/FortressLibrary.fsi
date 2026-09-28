@@ -2204,35 +2204,33 @@ end
 trait StridedFullRange[\I\] extends FullRange[\I\] end
 
 (** The %#% and %:% operators serve as factories for parallel ranges. **)
-opr #[\I extends AnyIntegral\](lo:I, ex:I): CompactFullRange[\I\]
-opr #[\I extends AnyIntegral, J extends AnyIntegral\]
-     (lo:(I,J), ex:(I,J)): CompactFullRange[\(I,J)\]
-opr #[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-     (lo:(I,J,K), ex:(I,J,K)): CompactFullRange[\(I,J,K)\]
+opr #(lo:ZZ32, ex:ZZ32): CompactFullRange[\ZZ32\]
+opr #(lo:(ZZ32,ZZ32), ex:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\]
+opr #(lo:(ZZ32,ZZ32,ZZ32), ex:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr :[\I extends AnyIntegral\](lo:I, hi:I): CompactFullRange[\I\]
-opr :[\I extends AnyIntegral, J extends AnyIntegral\]
-     (lo:(I,J), hi:(I,J)): CompactFullRange[\(I,J)\]
-opr :[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-     (lo:(I,J,K), hi:(I,J,K)): CompactFullRange[\(I,J,K)\]
+opr :(lo:ZZ32, hi:ZZ32): CompactFullRange[\ZZ32\]
+opr :(lo:(ZZ32,ZZ32), hi:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\]
+opr :(lo:(ZZ32,ZZ32,ZZ32), hi:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
 
 (** Factories for incomplete ranges. **)
-opr (x:I)#[\I extends AnyIntegral\] : LeftRange[\I\]
-opr (p:(I,J))#[\I extends AnyIntegral, J extends AnyIntegral\] : LeftRange[\(I,J)\]
-opr (t:(I,J,K))#[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\] :
-         LeftRange[\(I,J,K)\]
+opr (x:ZZ32)# : LeftRange[\ZZ32\]
+opr (p:(ZZ32,ZZ32))# : LeftRange[\(ZZ32,ZZ32)\]
+opr (t:(ZZ32,ZZ32,ZZ32))# :
+         LeftRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr (x:I):[\I\] : LeftRange[\I\]
+opr (x:ZZ32): : LeftRange[\ZZ32\]
+opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\]
+opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr #[\I extends AnyIntegral\](x:I) : ExtentRange[\I\]
-opr #[\I extends AnyIntegral, J extends AnyIntegral\](xy:(I,J)) : ExtentRange[\(I,J)\]
-opr #[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](xyz:(I,J,K)) :
-         ExtentRange[\(I,J,K)\]
+opr #(x:ZZ32) : ExtentRange[\ZZ32\]
+opr #(xy:(ZZ32,ZZ32)) : ExtentRange[\(ZZ32,ZZ32)\]
+opr #(xyz:(ZZ32,ZZ32,ZZ32)) :
+         ExtentRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr :[\I extends AnyIntegral\](x:I) : RightRange[\I\]
-opr :[\I extends AnyIntegral, J extends AnyIntegral\](xy:(I,J)) : RightRange[\(I,J)\]
-opr :[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\](xyz:(I,J,K)) :
-         RightRange[\(I,J,K)\]
+opr :(x:ZZ32) : RightRange[\ZZ32\]
+opr :(xy:(ZZ32,ZZ32)) : RightRange[\(ZZ32,ZZ32)\]
+opr :(xyz:(ZZ32,ZZ32,ZZ32)) :
+         RightRange[\(ZZ32,ZZ32,ZZ32)\]
 
 (* Actually want:
 opr (x:T)#[\T\] : LeftRange[\T\]
@@ -2254,14 +2252,17 @@ openRange[\I\](): OpenRange[\I\]
 
 *)
 
-opr (l:I)::[\I\] : LeftRange[\I\]
+opr (l:ZZ32):: : LeftRange[\ZZ32\]
+opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\]
+opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr ::[\I extends AnyIntegral\](s:I) : OpenRange[\I\]
-opr ::[\I extends AnyIntegral, J extends AnyIntegral\](ij:(I,J)) : OpenRange[\(I,J)\]
-opr ::[\I extends AnyIntegral, J extends AnyIntegral, K extends AnyIntegral\]
-      (ijk:(I,J,K)) : OpenRange[\(I,J,K)\]
+opr ::(s:ZZ32) : OpenRange[\ZZ32\]
+opr ::(ij:(ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32)\]
+opr ::(ijk:(ZZ32,ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr ::[\I\](l:I,s:I): LeftRange[\I\]
+opr ::(l:ZZ32,s:ZZ32): LeftRange[\ZZ32\]
+opr ::(l:(ZZ32,ZZ32),s:(ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32)\]
+opr ::(l:(ZZ32,ZZ32,ZZ32),s:(ZZ32,ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32,ZZ32)\]
 
 (** Operators on ranges.
 

@@ -1,0 +1,5 @@
+--- walk tmp/restated/RangeSizeRungO.fss 2026-09-28T04:58:42Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.20 6.46 4.76; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 81ffe33d0; git status --short Library ProjectFortress/src: []
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/w4/caches bin/fortress tmp/restated/RangeSizeRungO.fss
+REACHED
+PASS
+rc=0

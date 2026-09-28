@@ -1,0 +1,5 @@
+--- walk ProjectFortress/tests/XXXRangeWideRungJ.fss 2026-09-28T04:45:39Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.07 2.77 1.84; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 26c5d3dd7; git status --short Library ProjectFortress/src: []
+$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/w2/caches bin/fortress ProjectFortress/tests/XXXRangeWideRungJ.fss
+REACHED
+PASS
+rc=0

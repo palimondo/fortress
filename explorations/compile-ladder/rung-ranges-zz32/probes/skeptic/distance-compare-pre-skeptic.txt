@@ -1,0 +1,26 @@
+DISTANCE DOWN   940 -> 627 (-313)
+    kind overloading            184 -> 148    (-36)
+    kind abstract-method         30 -> 14     (-16)
+    kind wellformed              93 -> 36     (-57)
+    kind typecheck              591 -> 388    (-203)
+    kind export                  11 -> 10     (-1)
+    class L1                     81 -> 39     (-42)  overloading: the static-parameter sentence's families
+    class M1                    103 -> 109    (+6)  overloading: the Meet Rule
+    class D2                     18 -> 2      (-16)  abstract method: RangeInternals' CAP, IN, |_|
+    class X1                     11 -> 10     (-1)  export: component against api
+    class I2                     20 -> 2      (-18)  integers in generic code: the dummy-ZZ32 device of # and :
+    class I5                     15 -> 0      (-15)  integers in generic code: Integral[\I\] declares no |self|
+    class I1                     82 -> 4      (-78)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+    class I3                    148 -> 8      (-140)  integers in generic code: a numeral where a type parameter is expected
+    class I6                      8 -> 0      (-8)  integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]
+    class TS                      8 -> 0      (-8)  ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))
+    class RG                     29 -> 18     (-11)  ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+    class BR                     11 -> 10     (-1)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+    class OT                    124 -> 143    (+19)  other body errors (one-off library slips and checker limits)
+    unit api RangeInternals      21 -> 9      (-12)
+    unit component FortressLibrary    408 -> 361    (-47)
+    unit component RangeInternals    330 -> 76     (-254)
+    crash gone   decl	FnDecl FortressLibrary.fss:4284:1-4289:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash gone   decl	FnDecl FortressLibrary.fss:4265:1-4278:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0

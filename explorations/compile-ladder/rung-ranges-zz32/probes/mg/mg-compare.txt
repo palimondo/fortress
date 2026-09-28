@@ -1,0 +1,15 @@
+== MicroGptFlatCheck
+printed values identical
+== MicroGptAplCheck
+2,3c2,3
+< Processing /home/user/fortress-ranges/tmp/mg-base/tmp-MicroGptAplCheck/fortress5694937186021574293rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+< Note: /home/user/fortress-ranges/tmp/mg-base/tmp-MicroGptAplCheck/fortress5694937186021574293rats/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+---
+> Processing /home/user/fortress-ranges/tmp/mg-edit/tmp-MicroGptAplCheck/fortress5510441064235050805rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+> Note: /home/user/fortress-ranges/tmp/mg-edit/tmp-MicroGptAplCheck/fortress5510441064235050805rats/com/sun/fortress/parser/templateparser/TemplateParser395.java uses unchecked or unsafe operations.
+7,8c7,8
+< Processing /home/user/fortress-ranges/tmp/mg-base/tmp-MicroGptAplCheck/fortress6657706442309261045rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+< Note: /home/user/fortress-ranges/tmp/mg-base/tmp-MicroGptAplCheck/fortress6657706442309261045rats/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.
+---
+> Processing /home/user/fortress-ranges/tmp/mg-edit/tmp-MicroGptAplCheck/fortress8598221448141060131rats/com/sun/fortress/parser/templateparser/TemplateParser.rats ...
+> Note: /home/user/fortress-ranges/tmp/mg-edit/tmp-MicroGptAplCheck/fortress8598221448141060131rats/com/sun/fortress/parser/templateparser/TemplateParser593.java uses unchecked or unsafe operations.

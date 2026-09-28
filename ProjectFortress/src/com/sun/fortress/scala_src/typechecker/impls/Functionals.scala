@@ -12,6 +12,7 @@
 package com.sun.fortress.scala_src.typechecker.impls
 
 import com.sun.fortress.compiler.Types
+import com.sun.fortress.compiler.WellKnownNames
 import com.sun.fortress.compiler.index._
 import com.sun.fortress.exceptions._
 import com.sun.fortress.exceptions.InterpreterBug.bug
@@ -867,14 +868,16 @@ trait Functionals { self: STypeChecker with Common =>
                   // Check both = and IN operators
                   // we first want to do <: generator test.
                   // If both are sat, we use =, if only IN is sat, we use IN
-                  val isG_match =
-                      isSubtype(getType(matchE).get,
-                                Types.makeGeneratorZZ32Type(span))
+                  def isContainsSubtype(t: Type): Boolean =
+                    if (WellKnownNames.areCompilerLibraries())
+                      isSubtype(t, Types.makeGeneratorZZ32Type(span))
                                 // Types.makeGeneratorType(NF.make_InferenceVarType(span)))
-                  val isG_cond =
-                      isSubtype(getType(p).get,
-                                Types.makeGeneratorZZ32Type(span))
-                                // Types.makeGeneratorType(NF.make_InferenceVarType(span)))
+                    else t match {
+                      case tt: TraitType => (self.analyzer.ancestors(tt) + tt).exists(Types.isContainsType(_))
+                      case _ => false
+                    }
+                  val isG_match = isContainsSubtype(getType(matchE).get)
+                  val isG_cond = isContainsSubtype(getType(p).get)
                   val newOp = if (isG_match && !isG_cond) Some(checkOp(newIn))
                               else Some(checkOp(newEquals))
                   SCaseClause(info, matchE, block, newOp)

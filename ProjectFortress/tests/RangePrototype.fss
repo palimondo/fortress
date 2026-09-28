@@ -18,26 +18,26 @@ export Executable
     This portion of the spec was causing a great deal of trouble,
     so it was pulled out so that ExtentScalarRange[\I\] could be added sensibly.
 **)
-intersectUnbounded[\I extends Integral[\I\]\](this:ScalarRange[\I\], other:ScalarRange[\I\], resultStride:I): ScalarRange[\I\] = label intersection
+intersectUnbounded(this:ScalarRange, other:ScalarRange, resultStride:ZZ32): ScalarRange = label intersection
     typecase (this,other) of
-        (this':OpenScalarRange[\I\], other':ScalarRange[\I\]) =>
+        (this':OpenScalarRange, other':ScalarRange) =>
             other'.every(resultStride DIV other'.stride)
-        (this':ScalarRange[\I\], other':OpenScalarRange[\I\]) =>
+        (this':ScalarRange, other':OpenScalarRange) =>
             intersectUnbounded(other',this',resultStride)
-        (this':ExtentScalarRange[\I\], other':ExtentScalarRange[\I\]) =>
+        (this':ExtentScalarRange, other':ExtentScalarRange) =>
             x = this'.extent.get MIN other'.extent.get
             s = if (this'.stride < 0 OR other'.stride < 0) AND resultStride > 0
                 then -resultStride
                 else resultStride end
             if this'.fromLeft AND other'.fromLeft then
-                extentScalarRange[\I\](x,s)
+                extentScalarRange(x,s)
             else
-                extentScalarRange[\I\](-x,s)
+                extentScalarRange(-x,s)
             end
-        (this':ExtentScalarRange[\I\], other':ScalarRange[\I\]) =>
+        (this':ExtentScalarRange, other':ScalarRange) =>
             if NOT this'.fromLeft then
                 exit intersection with
-                    intersectUnbounded(extentScalarRange[\I\](this'.extent.get, this'.stride),
+                    intersectUnbounded(extentScalarRange(this'.extent.get, this'.stride),
                                        other'.flip(), resultStride).flip()
             end
             everyStride = resultStride DIV other'.stride
@@ -48,15 +48,15 @@ intersectUnbounded[\I extends Integral[\I\]\](this:ScalarRange[\I\], other:Scala
                     other'.flip().every(everyStride).atMost(this'.extent.get)
                 end
             if this'.stride < 0 then res.flip() else res end
-        (this':ScalarRange[\I\], other':ExtentScalarRange[\I\]) =>
+        (this':ScalarRange, other':ExtentScalarRange) =>
             intersectUnbounded(other',this',resultStride)
     end
   end intersection
 
 (** This is the old spec for intersection.  It's been replaced by INTERSECTNEW below. **)
-opr INTERSECTOLD[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: ScalarRange[\I\]): ScalarRange[\I\] = label intersection
+opr INTERSECTOLD(this:ScalarRange, other: ScalarRange): ScalarRange = label intersection
     checkEmpty(): () =
-        if this.isEmpty OR other.isEmpty then exit intersection with emptyScalarRange[\I\]() end
+        if this.isEmpty OR other.isEmpty then exit intersection with emptyScalarRange() end
     adjustDirection(): () =
         if this.stride < 0 OR other.stride < 0 then
             s = if this.stride < 0 then this.flip() else this end
@@ -64,8 +64,8 @@ opr INTERSECTOLD[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: Scalar
             exit intersection with (s INTERSECTION o).flip()
         end
     resultStride = (this.stride DIV (this.stride GCD other.stride)) DOT other.stride
-    firstMeetingPointAbove(l0:I,l1:I):Maybe[\I\] = do
-        (l_min,s_min,l_max,s_max) : (I,I,I,I) :=
+    firstMeetingPointAbove(l0:ZZ32,l1:ZZ32):Maybe[\ZZ32\] = do
+        (l_min,s_min,l_max,s_max) : (ZZ32,ZZ32,ZZ32,ZZ32) :=
             if l0 <= l1 then
                 (l0, this.stride,  l1,other.stride)
             else
@@ -76,129 +76,129 @@ opr INTERSECTOLD[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: Scalar
             l_new = atOrAboveGoingUp(l_min,l_max,s_min)
             (l_min, s_min, l_max, s_max) := (l_max, s_max, l_new, s_min)
         end
-        if l_min =/= l_max then exit intersection with emptyScalarRange[\I\]() end
+        if l_min =/= l_max then exit intersection with emptyScalarRange() end
         l_min
       end
-    firstMeetingPointBelow(r0:I,r1:I):Maybe[\I\] = do
+    firstMeetingPointBelow(r0:ZZ32,r1:ZZ32):Maybe[\ZZ32\] = do
         tooHigh = firstMeetingPointAbove(r0,r1)
         r_min = r0 MIN r1
         atOrBelowGoingDown(tooHigh,r_min,resultStride)
       end
-    trimRight(l:I,r:I): I =
+    trimRight(l:ZZ32,r:ZZ32): ZZ32 =
         if l <= r then atOrBelowGoingUp(l,r,resultStride)
         else atOrBelowGoingDown(l,r,resultStride) end
-    trimLeft(l:I,r:I): I =
+    trimLeft(l:ZZ32,r:ZZ32): ZZ32 =
         if l <= r then atOrAboveGoingDown(r,l,resultStride)
         else atOrAboveGoingUp(r,l,resultStride) end
     typecase (this.left,other.left,this.right,other.right) of
-        (l0:Just[\I\],l1:Just[\I\],r0:Just[\I\],r1:Just[\I\]) =>
+        (l0:Just[\ZZ32\],l1:Just[\ZZ32\],r0:Just[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             l = firstMeetingPointAbove(l0.get,l1.get)
             r = trimRight(l,r0.get MIN r1.get)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Just[\I\],l1:Just[\I\],r0:Just[\I\],r1:Nothing[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Just[\ZZ32\],l1:Just[\ZZ32\],r0:Just[\ZZ32\],r1:Nothing[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             l = firstMeetingPointAbove(l0.get,l1.get)
             r = trimRight(l,r0.get)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Just[\I\],l1:Just[\I\],r0:Nothing[\I\],r1:Just[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Just[\ZZ32\],l1:Just[\ZZ32\],r0:Nothing[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             l = firstMeetingPointAbove(l0.get,l1.get)
             r = trimRight(l,r1.get)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Just[\I\],l1:Just[\I\],r0:Nothing[\I\],r1:Nothing[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Just[\ZZ32\],l1:Just[\ZZ32\],r0:Nothing[\ZZ32\],r1:Nothing[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             l = firstMeetingPointAbove(l0.get,l1.get)
-            leftScalarRange[\I\](l,resultStride)
-        (l0:Nothing[\I\],l1:Nothing[\I\],r0:Just[\I\],r1:Just[\I\]) =>
+            leftScalarRange(l,resultStride)
+        (l0:Nothing[\ZZ32\],l1:Nothing[\ZZ32\],r0:Just[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             r = firstMeetingPointBelow(r0.get,r1.get)
-            rightScalarRange[\I\](r,resultStride)
-        (l0:Just[\I\],l1:Nothing[\I\],r0:Just[\I\],r1:Just[\I\]) =>
+            rightScalarRange(r,resultStride)
+        (l0:Just[\ZZ32\],l1:Nothing[\ZZ32\],r0:Just[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             r = firstMeetingPointBelow(r0.get,r1.get)
             l = trimLeft(l0.get,r)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Nothing[\I\],l1:Just[\I\],r0:Just[\I\],r1:Just[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Nothing[\ZZ32\],l1:Just[\ZZ32\],r0:Just[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             r = firstMeetingPointBelow(r0.get,r1.get)
             l = trimLeft(l1.get,r)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Just[\I\],l1:Nothing[\I\],r0:Nothing[\I\],r1:Just[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Just[\ZZ32\],l1:Nothing[\ZZ32\],r0:Nothing[\ZZ32\],r1:Just[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             actual_l1 = atOrAboveGoingDown(r1.get,l0.get,other.stride)
             l = firstMeetingPointAbove(l0.get,actual_l1)
             r = trimRight(l,r1.get)
-            fullScalarRange[\I\](l,r,resultStride)
-        (l0:Nothing[\I\],l1:Just[\I\],r0:Just[\I\],r1:Nothing[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (l0:Nothing[\ZZ32\],l1:Just[\ZZ32\],r0:Just[\ZZ32\],r1:Nothing[\ZZ32\]) =>
             checkEmpty()
             adjustDirection()
             actual_l0 = atOrAboveGoingDown(r0.get,l1.get,this.stride)
             l = firstMeetingPointAbove(actual_l0,l1.get)
             r = trimRight(l,r0.get)
-            fullScalarRange[\I\](l,r,resultStride)
-        (Nothing[\I\],Maybe[\I\],Nothing[\I\],Maybe[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (Nothing[\ZZ32\],Maybe[\ZZ32\],Nothing[\ZZ32\],Maybe[\ZZ32\]) =>
             intersectUnbounded(this,other,resultStride)
-        (Maybe[\I\],Nothing[\I\],Maybe[\I\],Nothing[\I\]) =>
+        (Maybe[\ZZ32\],Nothing[\ZZ32\],Maybe[\ZZ32\],Nothing[\ZZ32\]) =>
             intersectUnbounded(this,other,resultStride)
     end
   end intersection
 
 (** This is the current spec for INTERSECTION **)
-opr INTERSECTNEW[\I extends Integral[\I\]\](this:ScalarRange[\I\], other: ScalarRange[\I\]): ScalarRange[\I\] = label intersection
+opr INTERSECTNEW(this:ScalarRange, other: ScalarRange): ScalarRange = label intersection
     checkEmpty(): () =
-        if this.isEmpty OR other.isEmpty then exit intersection with emptyScalarRange[\I\]() end
+        if this.isEmpty OR other.isEmpty then exit intersection with emptyScalarRange() end
     adjustDirection(): () =
         if this.stride < 0 OR other.stride < 0 then
             s = if this.stride < 0 then this.flip() else this end
             o = if other.stride < 0 then other.flip() else other end
             exit intersection with (s INTERSECTION o).flip()
         end
-    meetingPt(p0:I,s0:I,p1:I,s1:I,s:I): I =
+    meetingPt(p0:ZZ32,s0:ZZ32,p1:ZZ32,s1:ZZ32,s:ZZ32): ZZ32 =
         if p <- meetingPoint(p0,s0,p1,s1,s) then
             p
         else
-            exit intersection with emptyScalarRange[\I\]()
+            exit intersection with emptyScalarRange()
         end
     resultStride = (this.stride DIV (this.stride GCD other.stride)) DOT other.stride
     commute():() =
         exit intersection with other INTERSECTNEW this
     typecase (this,other) of
-        (t:FullScalarRange[\I\], o:BoundedScalarRange[\I\]) =>
+        (t:FullScalarRange, o:BoundedScalarRange) =>
             adjustDirection()
             checkEmpty()
             p = meetingPt(t.left.get,t.stride,o.leftOrRight,o.stride,resultStride)
             l = atOrAbove(p,t.maxLeft(o),resultStride)
             r = atOrBelow(l,t.minRight(o),resultStride)
-            fullScalarRange[\I\](l,r,resultStride)
-        (BoundedScalarRange[\I\], FullScalarRange[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (BoundedScalarRange, FullScalarRange) =>
             commute()
-        (t:LeftScalarRange[\I\], o:LeftScalarRange[\I\]) =>
+        (t:LeftScalarRange, o:LeftScalarRange) =>
             adjustDirection()
             p = meetingPt(t.left.get,t.stride,o.left.get,o.stride,resultStride)
             l = atOrAbove(p,t.left.get MAX o.left.get,resultStride)
-            leftScalarRange[\I\](l,resultStride)
-        (t:LeftScalarRange[\I\], o:RightScalarRange[\I\]) =>
+            leftScalarRange(l,resultStride)
+        (t:LeftScalarRange, o:RightScalarRange) =>
             adjustDirection()
             p = meetingPt(t.left.get,t.stride,o.right.get,o.stride,resultStride)
             l = atOrAbove(p,t.left.get,resultStride)
             r = atOrBelow(l,o.right.get,resultStride)
-            fullScalarRange[\I\](l,r,resultStride)
-        (RightScalarRange[\I\],LeftScalarRange[\I\]) =>
+            fullScalarRange(l,r,resultStride)
+        (RightScalarRange,LeftScalarRange) =>
             commute()
-        (t:RightScalarRange[\I\], o:RightScalarRange[\I\]) =>
+        (t:RightScalarRange, o:RightScalarRange) =>
             adjustDirection()
             p = meetingPt(t.right.get,t.stride,o.right.get,o.stride,resultStride)
             r = atOrBelow(p,t.right.get MIN o.right.get,resultStride)
-            rightScalarRange[\I\](r,resultStride)
+            rightScalarRange(r,resultStride)
         else => intersectUnbounded(this,other,resultStride)
     end
   end intersection
@@ -208,7 +208,7 @@ object dumpShow[\I\](r:Range[\I\]) extends Equality[\dumpShow[\I\]\]
     opr =(self, other:dumpShow[\I\]): Boolean = self.r = other.r
 end
 
-object StrideReduction[\I extends Integral[\I\]\](f:FullScalarRange[\I\]) extends AssociativeReduction[\(I,I,I)\]
+object StrideReduction(f:FullScalarRange) extends AssociativeReduction[\(ZZ32,ZZ32,ZZ32)\]
     getter asString():String = "StrideReduction " f.asDebugString " " f
     simpleJoin(l:Any,r:Any):Any = do
         (ll,sl,lr) = l
@@ -218,9 +218,9 @@ object StrideReduction[\I extends Integral[\I\]\](f:FullScalarRange[\I\]) extend
       end
 end
 
-strideUnit[\I extends Integral[\I\]\](f:FullScalarRange[\I\]): I->Maybe[\(I,I,I)\] = fn (e:I):Maybe[\(I,I,I)\] => do
+strideUnit(f:FullScalarRange): ZZ32->Maybe[\(ZZ32,ZZ32,ZZ32)\] = fn (e:ZZ32):Maybe[\(ZZ32,ZZ32,ZZ32)\] => do
     assert(e IN f, true, "Membership test failed for enumerated element ",e," of ",f)
-    Just[\(I,I,I)\](e,1,e)
+    Just[\(ZZ32,ZZ32,ZZ32)\](e,1,e)
   end
 
 run():() =
@@ -229,12 +229,12 @@ run():() =
     (* Spot-test failures first *)
     assert(0:9:3, (0:9).narrowToRange(::3), "narrowing 0:9 to ::3")
     assert(|5:3|, 0, "Empty range should have 0 size.")
-    assert(1:12:3, StridedFullParScalarRange[\ZZ32\](1,10,3),"Strided upward")
-    assert(1:12:1, CompactFullParScalarRange[\ZZ32\](1,12),"Unit stride")
-    assert(1:12:-1, StridedFullParScalarRange[\ZZ32\](1,12,-1),"Very empty")
-    assert(12:1:3, StridedFullParScalarRange[\ZZ32\](12,1,3),"Upward very empty")
-    assert(12:1:-1, StridedFullParScalarRange[\ZZ32\](12,1,-1),"Backward from 12")
-    assert(12:1:-3, StridedFullParScalarRange[\ZZ32\](12,3,-3),"Backward strided from 12")
+    assert(1:12:3, StridedFullParScalarRange(1,10,3),"Strided upward")
+    assert(1:12:1, CompactFullParScalarRange(1,12),"Unit stride")
+    assert(1:12:-1, StridedFullParScalarRange(1,12,-1),"Very empty")
+    assert(12:1:3, StridedFullParScalarRange(12,1,3),"Upward very empty")
+    assert(12:1:-1, StridedFullParScalarRange(12,1,-1),"Backward from 12")
+    assert(12:1:-3, StridedFullParScalarRange(12,3,-3),"Backward strided from 12")
 
     assert((1:0:2).extent.get,0,"Emptiness 0")
     assert((1:1).isEmpty,false,"Emptiness 1")
@@ -243,11 +243,11 @@ run():() =
     assert((1:1:-1),(1:1),"Singleton equality 2")
     assert((0:23).every(-2), (23:1:-2), "Backward every")
     assert((0:23) INTERSECTION (::-2), (23:1:-2), "Backward intersection")
-    assert((0:23) INTERSECTION extentScalarRange[\ZZ32\](-3,3),
+    assert((0:23) INTERSECTION extentScalarRange(-3,3),
            (17:23:3), "Right end intersection")
-    assert((0:23) INTERSECTION extentScalarRange[\ZZ32\](-1,1),
+    assert((0:23) INTERSECTION extentScalarRange(-1,1),
            (23:23), "Right singleton intersection")
-    assert((23:0:-1) INTERSECTION extentScalarRange[\ZZ32\](-3,3),
+    assert((23:0:-1) INTERSECTION extentScalarRange(-3,3),
            (6:0:-3), "Right end of backwards range")
 
     strides = <|[\ZZ32\] 1,2,3,4,-1,-3|>
@@ -256,13 +256,13 @@ run():() =
 
     (* Start by testing later implemented stuff: 2D ranges *)
     println("2D ranges")
-    pairOpen = combine2D(open[\ZZ32\](),open[\ZZ32\]())
-    pairOpens = <|[\Range2D[\ZZ32,ZZ32\]\] pairOpen |>
-    pairLefts = <|[\Range2D[\ZZ32,ZZ32\]\] (-1,2):, (0,25)::(2,-3) |>
-    pairRights = <|[\Range2D[\ZZ32,ZZ32\]\] :(17,22), :(-3,19):(-2,5) |>
-    pairExtents = <|[\Range2D[\ZZ32,ZZ32\]\] #(5,4), (::(2,-3))#(-5,-7) |>
-    pairFulls = <|[\Range2D[\ZZ32,ZZ32\]\] (-1,1):(34,17), (17,0):(1,39):(-2,3) |>
-    pairTestRanges = concat <|[\List[\Range2D[\ZZ32,ZZ32\]\]\] pairOpens,
+    pairOpen = combine2D(open(),open())
+    pairOpens = <|[\Range2D\] pairOpen |>
+    pairLefts = <|[\Range2D\] (-1,2):, (0,25)::(2,-3) |>
+    pairRights = <|[\Range2D\] :(17,22), :(-3,19):(-2,5) |>
+    pairExtents = <|[\Range2D\] #(5,4), (::(2,-3))#(-5,-7) |>
+    pairFulls = <|[\Range2D\] (-1,1):(34,17), (17,0):(1,39):(-2,3) |>
+    pairTestRanges = concat <|[\List[\Range2D\]\] pairOpens,
                               pairLefts, pairRights, pairExtents, pairFulls |>
     for r <- seq(pairFulls) do
         rg1 = r.range1
@@ -323,7 +323,7 @@ run():() =
 
     (* Then continue by testing 1D ranges. *)
     print("fullScalarRanges")
-    fullScalarRanges = <|[\ScalarRange[\ZZ32\]\] (0:-1), (0:0), (0:0:2), (0:0:-3),
+    fullScalarRanges = <|[\ScalarRange\] (0:-1), (0:0), (0:0:2), (0:0:-3),
                  (0:-1:2), (0:1:-1), (0:1:-4),
                  (0:4), (1:9:2), (2:11:3),
                  (4:0:-1), (9:1:-2), (11:2:-3),
@@ -333,8 +333,8 @@ run():() =
 (*
         print("\n " dumpShow(f))
 *)
-        g = f.generate[\AnyMaybe\](StrideReduction(f),strideUnit[\ZZ32\](f))
-        gg = seq(f).generate[\AnyMaybe\](StrideReduction(f),strideUnit[\ZZ32\](f))
+        g = f.generate[\AnyMaybe\](StrideReduction(f),strideUnit(f))
+        gg = seq(f).generate[\AnyMaybe\](StrideReduction(f),strideUnit(f))
         assert(g,gg,"Par and seq generation differ ",g,gg)
         if (l0,sz0,r0) <- g then
             if l <- f.left then
@@ -368,7 +368,7 @@ run():() =
         end
     end
     print("\nleftScalarRanges")
-    leftScalarRanges = <|[\ScalarRange[\ZZ32\]\] 0:, 2::-1, 45::-3, (-2):, -2::3, 4::4 |>
+    leftScalarRanges = <|[\ScalarRange\] 0:, 2::-1, 45::-3, (-2):, -2::3, 4::4 |>
     print(" (" |leftScalarRanges| ")")
     (*
     print("\n " dumpShow(l)), l <- leftScalarRanges
@@ -382,7 +382,7 @@ run():() =
         assert(rng.stride,s,rng,".stride")
     end
     print("\nrightScalarRanges")
-    rightScalarRanges = <|[\ScalarRange[\ZZ32\]\] :0, :2, :45:3, :-2:-1, :-2:-3, :4:-4 |>
+    rightScalarRanges = <|[\ScalarRange\] :0, :2, :45:3, :-2:-1, :-2:-3, :4:-4 |>
     print(" (" |rightScalarRanges| ")")
     (*
     print("\n " dumpShow(l)), l <- rightScalarRanges
@@ -396,7 +396,7 @@ run():() =
         assert(rng.stride,s,rng,".stride")
     end
     print("\nopenScalarRanges")
-    openScalarRanges = <|[\ScalarRange[\ZZ32\]\] ::1, ::-1, ::3, ::-2|>
+    openScalarRanges = <|[\ScalarRange\] ::1, ::-1, ::3, ::-2|>
     print(" (" |openScalarRanges| ")")
     for rng <- openScalarRanges do
         (*
@@ -412,7 +412,7 @@ run():() =
     end
     boundedScalarRanges = leftScalarRanges || rightScalarRanges || fullScalarRanges
     print("\nextentScalarRanges")
-    extentScalarRanges = <|[\ScalarRange[\ZZ32\]\] #1, #-1, (::-3)#1, (::-2)#3, #-2, (::3)#5 |>
+    extentScalarRanges = <|[\ScalarRange\] #1, #-1, (::-3)#1, (::-2)#3, #-2, (::3)#5 |>
     print(" (" |extentScalarRanges| ")")
     for rng <- extentScalarRanges do
         (*
@@ -424,8 +424,8 @@ run():() =
         assert(rng.right.holds,false,rng,".right")
         assert(rng.extent.holds,true,rng,".extent")
     end
-    testScalarRangess = <|[\List[\ScalarRange[\ZZ32\]\]\] openScalarRanges, leftScalarRanges, rightScalarRanges, fullScalarRanges, extentScalarRanges |>
-    testScalarRanges : List[\ScalarRange[\ZZ32\]\] = concat(testScalarRangess)
+    testScalarRangess = <|[\List[\ScalarRange\]\] openScalarRanges, leftScalarRanges, rightScalarRanges, fullScalarRanges, extentScalarRanges |>
+    testScalarRanges : List[\ScalarRange\] = concat(testScalarRangess)
     println("\ntestScalarRanges (" |testScalarRanges| ")")
     print("\nspec match")
     for i <- seq(testScalarRanges), j <- seq(testScalarRanges) do
@@ -508,21 +508,21 @@ run():() =
     print("\nintersection")
     print("\nempty intersection")
     for i <- testScalarRanges, i.isEmpty, j <- testScalarRanges do
-        assert((i INTERSECTION j),emptyScalarRange[\ZZ32\](),"nonempty intersection of ",i," and ",j)
-        assert((j INTERSECTION i),emptyScalarRange[\ZZ32\](),"nonempty intersection of ",j," and ",i)
+        assert((i INTERSECTION j),emptyScalarRange(),"nonempty intersection of ",i," and ",j)
+        assert((j INTERSECTION i),emptyScalarRange(),"nonempty intersection of ",j," and ",i)
     end
     print("\nidentity intersection")
     for i <- testScalarRanges do
-        assert(open[\ZZ32\]() INTERSECTION i, i, " open not an identity when intersected.")
-        assert(i INTERSECTION open[\ZZ32\](), i, " open not an identity when intersected'.")
+        assert(open() INTERSECTION i, i, " open not an identity when intersected.")
+        assert(i INTERSECTION open(), i, " open not an identity when intersected'.")
     end
     print("\nsingleton")
     for i <- testScalarRanges, i.extent.getDefault(3) = 1, l <- i.left, j <- testScalarRanges do
-        assert(i INTERSECTION j, if l IN j then i else emptyScalarRange[\ZZ32\]() end,
+        assert(i INTERSECTION j, if l IN j then i else emptyScalarRange() end,
                " singleton intersection of ", dumpShow(i), " with ", dumpShow(j),
                " namely ", dumpShow(i INTERSECTION j),
                " doesn't match membership test of ", l, " in ", j)
-        assert(j INTERSECTION i, if l IN j then i else emptyScalarRange[\ZZ32\]() end,
+        assert(j INTERSECTION i, if l IN j then i else emptyScalarRange() end,
                " singleton intersection of ", j, " with ", i,
                " doesn't match membership test.")
     end

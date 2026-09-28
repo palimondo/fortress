@@ -1,0 +1,4 @@
+MicroGptFlatCheck: skeptic's run on the tree against the worker's base run, machine line, Rats! temp paths, 'total' and '(N ms)' timings masked: 0 differing lines
+MicroGptFlatCheck: skeptic's run on the tree against the worker's edit run, machine line, Rats! temp paths, 'total' and '(N ms)' timings masked: 0 differing lines
+MicroGptAplCheck: skeptic's run on the tree against the worker's base run, machine line, Rats! temp paths, 'total' and '(N ms)' timings masked: 0 differing lines
+MicroGptAplCheck: skeptic's run on the tree against the worker's edit run, machine line, Rats! temp paths, 'total' and '(N ms)' timings masked: 0 differing lines

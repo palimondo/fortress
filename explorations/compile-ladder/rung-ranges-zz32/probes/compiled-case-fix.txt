@@ -1,0 +1,58 @@
+--- compiled-case fix 2026-09-28T06:38:30Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.74 5.75 7.73; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD ff8c43834; git status --short Library ProjectFortress/src: [ M ProjectFortress/src/com/sun/fortress/compiler/Types.java  M ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala ]
+$ (cd compiler_tests && fortress compile Compiled140.fss); fortress run Compiled140
+compile rc=0
+SUCCESS
+run rc=0
+$ (cd compiler_tests && fortress compile Compiled280.fss); fortress run Compiled280
+Library/CovariantCollection.fsi:23:25-37:
+    ImmutableArray is undefined.
+Library/CovariantCollection.fsi:24:16-19:
+    Array is undefined.
+Library/CovariantCollection.fsi:25:24-27:
+    Array is undefined.
+Library/CovariantCollection.fsi:45:33-46:
+    MonoidReduction is undefined.
+Library/CovariantCollection.fsi:53:5-16:
+    Comprehension is undefined.
+Library/Set.fsi:25:17-26:
+    ZeroIndexed is undefined.
+Library/Set.fsi:56:51-62:
+    Comprehension is undefined.
+Library/Set.fsi:59:55-65:
+    BigReduction is undefined.
+Library/Set.fsi:62:27-51:
+    CommutativeMonoidReduction is undefined.
+Library/Set.fsi:65:9-19:
+    BigReduction is undefined.
+File Compiled280.fss has 10 errors.
+compile rc=255
+Could not load Compiled280
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : Compiled280.class
+	... 4 more
+run rc=1
+$ fortress typecheck compiler_tests/Compiled9.ah.fss
+typecheck rc=0
+$ fortress typecheck compiler_tests/Compiled9.ai.fss
+typecheck rc=0
+$ fortress junit compiler_tests/XXX5at.test
+. compile compiler_tests/Compiled5.at ProjectFortress/compiler_tests/Compiled5.at.fss:16:5-6:
+    Operator declarations are not allowed in block expressions.
+ProjectFortress/compiler_tests/Compiled5.at.fss:27:21-22:
+    Operator declarations are not allowed in block expressions.
+ProjectFortress/compiler_tests/Compiled5.at.fss:39:7-8:
+    Operator declarations are not allowed in block expressions.
+ProjectFortress/compiler_tests/Compiled5.at.fss:45:5-6:
+    Operator declarations are not allowed in block expressions.
+ProjectFortress/compiler_tests/Compiled5.at.fss:57:5-6:
+    Operator declarations are not allowed in block expressions.
+ProjectFortress/compiler_tests/Compiled5.at.fss:65:5-6:
+    Operator declarations are not allowed in block expressions.
+File Compiled5.at.fss has 6 errors.
+ Saw expected failure
+
+Time: 1.793
+
+OK (1 test)
+
+junit rc=0

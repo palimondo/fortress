@@ -1,0 +1,26 @@
+SAME   OpenRangeCase.fss                rc 255/ -> 255/
+SAME   QuickCheckTest.fss               rc 255/ -> 255/
+SAME   ReflectTest.fss                  rc 255/ -> 255/
+SAME   TransitiveImportMethodLookup.fss rc 255/ -> 255/
+SAME   XXXcaseTest.fss                  rc 0/1 -> 0/1
+SAME   caseTest.fss                     rc 1/ -> 1/
+SAME   caseWithSemicolons.fss           rc 255/ -> 255/
+SAME   RangePrototype.fss               rc 255/ -> 255/
+SAME   RandomTest.fss                   rc 255/ -> 255/
+SAME   ReflectiveQuickCheckTest.fss     rc 255/ -> 255/
+SAME   atomic1.fss                      rc 255/ -> 255/
+SAME   wrongOverload.fss                rc 1/ -> 1/
+SAME   XXXRangeBoundsRungO.fss          rc 255/ -> 255/
+SAME   XXXSeqRangeTopRungO.fss          rc 255/ -> 255/
+MOVED  XXXRangeSizeZZ64RungO.fss -> RangeSizeRungO.fss rc 255/ -> 255/
+    before:     Could not check call to operator :
+    after:      Range has no getter called size
+SAME   rangeOperators.fss               rc 255/ -> 255/
+SAME   RangeTest.fss                    rc 255/ -> 255/
+SAME   subArray.fss                     rc 255/ -> 255/
+SAME   array3test.fss                   rc 1/ -> 1/
+SAME   StringTests.fss                  rc 255/ -> 255/
+SAME   FlatTowerRungF.fss               rc 255/ -> 255/
+SAME   RangeZZ32RungJ.fss               rc 255/ -> 255/
+SAME   XXXRangeWideRungJ.fss            rc 255/ -> 255/
+# 22 of 23 files with the same exit codes and first message

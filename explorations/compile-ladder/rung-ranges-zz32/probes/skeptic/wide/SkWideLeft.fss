@@ -1,0 +1,14 @@
+component SkWideLeft
+export Executable
+
+run(): () = do
+    println("REACHED")
+    one: ZZ32 = 1
+    three: ZZ32 = 3
+    w: ZZ64 = widen(one)
+    r = (w#)
+    println(r.asDebugString)
+    println("BUILT")
+  end
+
+end

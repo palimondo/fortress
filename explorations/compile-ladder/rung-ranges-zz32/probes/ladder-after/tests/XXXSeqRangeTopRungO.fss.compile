@@ -1,0 +1,4 @@
+/home/user/fortress-ranges/ProjectFortress/tests/XXXSeqRangeTopRungO.fss:27:26-23:
+    Could not check call to operator :
+    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral).
+File XXXSeqRangeTopRungO.fss has 1 error.

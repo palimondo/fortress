@@ -1,0 +1,14 @@
+# the base's library (tmp/baselib, git show 26c5d3dd7 of Library/ and ProjectFortress/LibraryBuiltin/)
+--- walk-copy tmp/baselib RangeZZ32RungJ.fss 2026-09-28T08:03:45Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.21 7.36 7.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/RangeZZ32RungJ.fss:7:1-44: and
+tmp/baselib/FortressLibrary.fss:4041:1-4045:62:
+
+#[\I\](r:PartialRange[\I\],size:I):Range[\I\]tmp/baselib/FortressLibrary.fss:4041:1-4045:62 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/tests/RangeZZ32RungJ.fss:7:1-44:
+ProjectFortress/tests/RangeZZ32RungJ.fss:96:16:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1 secs=56

@@ -1,0 +1,76 @@
+--- walk-copy tmp/baselib BirdCount1p.fss 2026-09-28T07:52:43Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.22 3.52 5.91; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+tmp/baselib/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+tmp/baselib/FortressLibrary.fss:36:13-27:
+tmp/baselib/FortressLibrary.fss:3139:23-33:
+tmp/baselib/FortressLibrary.fss:3185:18-45:
+tmp/baselib/RangeInternals.fss:1068:23-32:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1p.fss:373:14-34:
+tmp/baselib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1p.fss:373:9-69:
+ProjectFortress/demos/BirdCount1p.fss:366:91-165:
+tmp/baselib/FortressBuiltin.fss:557:22-25:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1p.fss:366:193-199:
+tmp/baselib/FortressLibrary.fss:52:63-68:
+tmp/baselib/RangeInternals.fss:1027:21-1028:16:
+tmp/baselib/RangeInternals.fss:1034:13-1035:9:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:1880:9-43:
+tmp/baselib/FortressLibrary.fss:1880:9-43:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1p.fss:366:180-198:
+tmp/baselib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1p.fss:366:4-198:
+ProjectFortress/demos/BirdCount1p.fss:380:20-82:
+tmp/baselib/FortressLibrary.fss:52:63-68:
+tmp/baselib/RangeInternals.fss:1027:21-1028:16:
+tmp/baselib/RangeInternals.fss:1032:30-43:
+tmp/baselib/RangeInternals.fss:1032:46-57:
+tmp/baselib/RangeInternals.fss:1032:30-43:
+tmp/baselib/RangeInternals.fss:1032:46-57:
+tmp/baselib/RangeInternals.fss:1032:30-43:
+tmp/baselib/RangeInternals.fss:1032:30-43:
+tmp/baselib/RangeInternals.fss:1032:30-43:
+tmp/baselib/RangeInternals.fss:1034:13-1035:9:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:1935:9-43:
+tmp/baselib/FortressLibrary.fss:1935:9-43:
+tmp/baselib/FileSupport.fss:176:24-51:
+tmp/baselib/FileSupport.fss:176:24-51:
+tmp/baselib/FileSupport.fss:176:54-68:
+tmp/baselib/FileSupport.fss:176:54-68:
+tmp/baselib/FileSupport.fss:176:54-68:
+tmp/baselib/FileSupport.fss:176:54-68:
+tmp/baselib/FileSupport.fss:178:13-23:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+tmp/baselib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1p.fss:380:98-109:
+tmp/baselib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1p.fss:380:16-109:
+ProjectFortress/demos/BirdCount1p.fss:396:23-56:
+tmp/baselib/FortressLibrary.fss:52:63-68:
+tmp/baselib/RangeInternals.fss:1071:17-22:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:1160:25-55:
+tmp/baselib/FortressLibrary.fss:1160:25-55:
+ProjectFortress/demos/BirdCount1p.fss:395:9-46:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=81

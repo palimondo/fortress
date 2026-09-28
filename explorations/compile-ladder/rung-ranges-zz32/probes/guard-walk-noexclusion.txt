@@ -1,0 +1,14 @@
+# the library of the edit without Range's String exclusion (tmp/j1: Library/FortressLibrary.fss:3708 reading 'excludes Number' as on the base)
+--- walk-copy tmp/j1 RangeZZ32RungJ.fss 2026-09-28T08:03:45Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.21 7.36 7.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/tests/RangeZZ32RungJ.fss:6:1-45: and
+tmp/j1/FortressLibrary.fss:4042:1-4046:62:
+
+#[\I\](r:PartialRange[\I\],size:I):Range[\I\]tmp/j1/FortressLibrary.fss:4042:1-4046:62 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+ProjectFortress/tests/RangeZZ32RungJ.fss:6:1-45:
+ProjectFortress/tests/RangeZZ32RungJ.fss:96:16:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1 secs=56

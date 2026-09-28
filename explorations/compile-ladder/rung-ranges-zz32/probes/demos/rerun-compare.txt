@@ -1,0 +1,7 @@
+# the five demos whose exit code differed at the 120 s cut (demos-compare.txt, PREFIX), re-run to the end (walk-copy.sh, WALK_TIMEOUT=900), each with the base's library copy (tmp/baselib) and the edit's (tmp/editlib) side by side; compared by demos-compare.py, the copies' directory masked as LIB/; the runs' machine lines are in rerun/
+MOVED    BirdCount1p                  rc 1/1  secs 81/81  
+MOVED    BirdCount1v                  rc 1/1  secs 120/118  
+MOVED    BirdCount1w                  rc 1/1  secs 119/118  
+MOVED    HeapShakedown                rc 1/1  secs 80/82  
+MOVED    IntegrationStats             rc 1/1  secs 63/62  
+# MOVED 5 of 5 demos

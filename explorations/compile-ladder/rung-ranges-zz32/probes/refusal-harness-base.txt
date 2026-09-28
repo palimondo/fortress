@@ -1,0 +1,17 @@
+--- harness ProjectFortress/tests/XXXRangeWideRungJ.fss 2026-09-28T04:46:07Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.46 3.24 2.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 26c5d3dd7; git status --short Library ProjectFortress/src: []
+$ explorations/compile-ladder/rung-interp-coercion/harness-one.sh tmp/h1 ProjectFortress/tests/XXXRangeWideRungJ.fss
+tmp/h1/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e655a5df_16
+. interpret tmp/h1/tests/XXXRangeWideRungJ 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 26.239
+There was 1 failure:
+1) tmp/h1/tests/XXXRangeWideRungJ(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/h1/tests/XXXRangeWideRungJ
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+rc=0

@@ -1,0 +1,13 @@
+component StrHashTwo
+export Executable
+
+opr #(x: String, y: String): String = x "#" y
+opr #(x: String, y: ZZ32): String = x "#" y
+
+run(): () = do
+    n: ZZ32 = 4
+    assert((3#n).asDebugString, "CompactFullParScalarRange(3,6)", "ranges.tex:64-65")
+    assert("a" # "b", "a#b", "traits.tex:223-233")
+    assert("a" # 3, "a#3", "traits.tex:223-233")
+  end
+end

@@ -1,0 +1,39 @@
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:32:13-27:
+    Function openRange is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:33:13-27:
+    Function openRange is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:34:13-14:
+    Operator prefix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:35:13-14:
+    Operator prefix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:36:14-15:
+    Operator postfix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:37:14-15:
+    Operator :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:38:14-15:
+    Operator :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:46:13-14:
+    Operator prefix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:47:13-14:
+    Operator prefix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:48:18-19:
+    Operator postfix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:49:18-19:
+    Operator :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:57:13-14:
+    Operator prefix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:58:20-21:
+    Operator postfix :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:59:20-21:
+    Operator :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:60:13-39:
+    Function openRange is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:64:20-21:
+    Operator CAP is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:65:19-20:
+    Operator CAP is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:67:15-16:
+    Operator :: is not defined.
+/home/user/fortress-ranges/ProjectFortress/tests/RangeZZ32RungJ.fss:91:13-34:
+    Function openRange is not defined.
+File RangeZZ32RungJ.fss has 19 errors.

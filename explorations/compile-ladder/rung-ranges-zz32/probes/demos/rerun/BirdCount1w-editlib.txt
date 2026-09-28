@@ -1,0 +1,78 @@
+--- walk-copy tmp/editlib BirdCount1w.fss 2026-09-28T07:56:05Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.23 7.14 6.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+tmp/editlib/FortressLibrary.fss:36:13-27:
+CastError
+Context:
+tmp/editlib/FortressLibrary.fss:36:13-27:
+tmp/editlib/FortressLibrary.fss:3139:23-33:
+tmp/editlib/FortressLibrary.fss:3185:18-45:
+tmp/editlib/RangeInternals.fss:1035:23-32:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1w.fss:171:50-70:
+tmp/editlib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1w.fss:171:45-101:
+ProjectFortress/demos/BirdCount1w.fss:166:46-100:
+tmp/editlib/FortressBuiltin.fss:557:22-25:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1w.fss:167:33-39:
+tmp/editlib/FortressLibrary.fss:52:63-68:
+tmp/editlib/RangeInternals.fss:994:21-995:16:
+tmp/editlib/RangeInternals.fss:1001:13-1002:9:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:1880:9-43:
+tmp/editlib/FortressLibrary.fss:1880:9-43:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1w.fss:167:6-38:
+tmp/editlib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1w.fss:165:3-167:38:
+ProjectFortress/demos/BirdCount1w.fss:184:18-60:
+tmp/editlib/FortressLibrary.fss:52:63-68:
+tmp/editlib/RangeInternals.fss:994:21-995:16:
+tmp/editlib/RangeInternals.fss:999:46-57:
+tmp/editlib/RangeInternals.fss:999:46-57:
+tmp/editlib/RangeInternals.fss:999:30-43:
+tmp/editlib/RangeInternals.fss:999:30-43:
+tmp/editlib/RangeInternals.fss:999:30-43:
+tmp/editlib/RangeInternals.fss:999:46-57:
+tmp/editlib/RangeInternals.fss:999:30-43:
+tmp/editlib/RangeInternals.fss:999:30-43:
+tmp/editlib/RangeInternals.fss:1001:13-1002:9:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:1935:9-43:
+tmp/editlib/FortressLibrary.fss:1935:9-43:
+tmp/editlib/FileSupport.fss:176:24-51:
+tmp/editlib/FileSupport.fss:176:24-51:
+tmp/editlib/FileSupport.fss:176:54-68:
+tmp/editlib/FileSupport.fss:176:54-68:
+tmp/editlib/FileSupport.fss:176:54-68:
+tmp/editlib/FileSupport.fss:178:13-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1w.fss:184:76-87:
+tmp/editlib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1w.fss:184:14-87:
+ProjectFortress/demos/BirdCount1w.fss:196:46-85:
+tmp/editlib/FortressLibrary.fss:52:63-68:
+tmp/editlib/RangeInternals.fss:1038:17-22:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:3479:9-48:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+tmp/editlib/FortressLibrary.fss:1172:5-23:
+ProjectFortress/demos/BirdCount1w.fss:196:90-113:
+tmp/editlib/FortressLibrary.fss:1229:25-47:
+ProjectFortress/demos/BirdCount1w.fss:195:44-196:113:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=118

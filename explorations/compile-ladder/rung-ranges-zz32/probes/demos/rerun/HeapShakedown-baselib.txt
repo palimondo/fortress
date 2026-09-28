@@ -1,0 +1,28 @@
+--- walk-copy tmp/baselib HeapShakedown.fss 2026-09-28T07:58:04Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.26 8.53 7.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
+....................................................................................................................................................com.sun.fortress.exceptions.ProgramError: ProjectFortress/demos/HeapShakedown.fss:128:9-18:
+Type of expression, Ratio, not a subtype of RR64.
+Context:
+ProjectFortress/demos/HeapShakedown.fss:128:9-18:
+ProjectFortress/demos/HeapShakedown.fss:144:9-51:
+ProjectFortress/demos/HeapShakedown.fss:174:15-78:
+tmp/baselib/FortressLibrary.fss:52:63-68:
+tmp/baselib/RangeInternals.fss:1027:21-1028:16:
+tmp/baselib/RangeInternals.fss:1032:46-57:
+tmp/baselib/RangeInternals.fss:1034:13-1035:9:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:3479:9-48:
+tmp/baselib/FortressLibrary.fss:1880:9-43:
+tmp/baselib/FortressLibrary.fss:1880:9-43:
+ProjectFortress/demos/HeapShakedown.fss:165:35-175:10:
+ProjectFortress/demos/HeapShakedown.fss:165:35-175:10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=80

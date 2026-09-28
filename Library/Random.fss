@@ -52,10 +52,10 @@ trait RandomGen[\T extends Number\] extends AnyRandomGen excludes Indexed[\T,ZZ3
     (** Generates a uniform random number from the given `range`. It makes
         use of `UniformDistribution` distribution defined below. **)
     (* XXX fix some glitches around general FullScalarRange[\U\] traits *)
-    randomR(*[\U\]*)(range:FullScalarRange[\ZZ32(*U*)\]): ZZ32(*U*) =
+    randomR(*[\U\]*)(range:FullScalarRange): ZZ32(*U*) =
         UniformDistribution[\ZZ32(*U*)\](range).generate[\T\](self)
     (** Same as `randomR` but generates multiple random numbers. **)
-    randomManyR(*[\U\]*)(n:ZZ32, range:FullScalarRange[\ZZ32(*U*)\]): ReadableArray[\ZZ32(*U*),ZZ32\] = do
+    randomManyR(*[\U\]*)(n:ZZ32, range:FullScalarRange): ReadableArray[\ZZ32(*U*),ZZ32\] = do
         arr = array[\ZZ32(*U*)\](n)
         for i <- seq(0#n) do arr[i] := randomR(*[\U\]*)(range) end
         arr
@@ -367,7 +367,7 @@ mersenneTwister(): MersenneTwister[\ZZ64,32,624\] =
 
 (** Uniform random distribution within the given `range`. It uses a classic
     retrial method. **)
-object UniformDistribution[\T\](range:FullScalarRange[\T\])
+object UniformDistribution[\T\](range:FullScalarRange)
     extends RandomDistribution[\T\]
 
     min[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\] = just range.lower

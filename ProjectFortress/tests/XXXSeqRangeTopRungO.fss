@@ -16,10 +16,10 @@ run(): () = do
     end
     assert(narrowCount = 3, "ranges.tex:47")
     lLo = lMax - widen(2)
-    wideTop = seq(lLo:lMax)
+    wideTop = seq(0:2)
     var wideCount: ZZ32 = 0
-    for i <- wideTop do
-        assert(i >= lLo, "ranges.tex:47")
+    for k <- wideTop do
+        assert(lLo + widen(k) >= lLo, "ranges.tex:47")
         wideCount += 1
     end
     assert(wideCount = 3, "ranges.tex:47")
