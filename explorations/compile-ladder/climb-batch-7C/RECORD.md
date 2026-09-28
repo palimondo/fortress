@@ -219,3 +219,73 @@ Made 2026-09-28 on `main` at `d8e0cd28e`, over the batch's two commits (`079f54e
 **For the coordinator: row 486's owed test has not reached N's record.** Batch 7R's judge left row 486's walk test (walk refuses `u: NN32 = n` for a `nat` parameter) to "batch N's walk rung" (`explorations/compile-ladder/climb-batch-7R/JUDGE-review.md:84`). `explorations/coordinator/CLIMB-BATCH-N.md` does not mention row 486, and neither does the held list's "Before N's launch" (`explorations/coordinator/postmortem-2026-09-19/held-list.md:7`). It needs carrying into N's record, for rung K, when that record is re-anchored to the tree after 7R and 7C.
 
 **The gate, by reading** (`JUDGE-review.md` section 6). The compiler track 789: the first gate's 788 (`RECORD.md:169`) plus `XXXComprisesMeetCompiled.test`, an expected failure. `testSystem` 426: 425 plus `XXXComprisesMeetWalk.fss`, in one of its four shards. Everything else as the first gate had it: every other suite, the checker table at 75 with the crash row `none`, the distance stage at 626, 39 of 39 four-thread `atomic` runs, and the ladder. No gate stage reads the specification's two changed files, and the variants under `repair/` are in no gated corpus.
+
+## The second merged-diff review
+
+Made 2026-09-28 on `main` at `f052e82f5`, over the batch's five commits: `079f54ea9` (Y), `d8e0cd28e` (X), `d357c9cc4` (the first review's corrections), `18e4ffabe` (the judge's ruling) and `f052e82f5` (the repair). No gate ran beside it. The run in `tmp/gate-batch-7c/` is the first gate's, on `d8e0cd28e` (`tmp/gate-batch-7c/head-at-start.txt`), and no JVM was running. The script runs the gate again after this review (`explorations/coordinator/climb-batch-workflow.js:1896-1907`). Another agent's edits were in the tree during the review: `explorations/compile-ladder/plan-6.5/manifest/`, `explorations/coordinator/CLIMB-BATCH-6.5.md` and the untracked `explorations/reviews/conversion-overloading-*`. The review's commit is staged by an explicit list and carries none of them. Its only edit is this section.
+
+**Checked and holding.**
+- **Batch rule 1, from the hunks.**
+  - Y's hunks: the comment above `isEligibleToExtend`, the disjunct and the new method (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:252-255`, `:261-262`, `:273-287`), and three new compiler tests.
+  - X's hunks: `Specification/basic/traits.tex:235-267`, a new subsection inserted into `Specification/appendices/changes.tex` (94 lines, `:1246-1338`, no line removed), and the citation digits of two test messages.
+  - The repair's hunks: one line, `changes.tex:1309`, and three new files, `ProjectFortress/tests/XXXComprisesMeetWalk.fss`, `ProjectFortress/compiler_tests/XXXComprisesMeetCompiled.fss` and its `.test`. Their component names are new, and their traits are local to each component.
+  - No declaration, method, trait body or operator is changed twice.
+- **Rule 2.** The repair's tests hold the Meet Rule's example, which has no parameterized trait. The base's checker and rung Y's refuse it alike (`explorations/compile-ladder/climb-batch-7C/merged-tests/between-y.txt`), so the tests depend on neither rung's edit. X's Effect depends on Y's code: that is the one dependence, and `landsOnlyWith` holds it.
+- **The landed method against the approved shadow.** `TypeHierarchyChecker.scala:275-287` is `explorations/reviews/anyintegral-comprises-ways/shadow-thc.py:52-64` byte for byte (`diff`). The disjunct at `:260-263` is the shadow's `:45-49` with two things removed: the broad form's disjunct `(aicwRelax && !tt.getArgs.isEmpty) ||`, and `aicwNarrow &&`.
+- **Footers.** The footers on all five commits are exact. No commit's message or added lines carry a model identifier. `079f54ea9`, `d8e0cd28e` and `f052e82f5` touch paths outside `explorations/`, and each carries a `historical:` line naming the 2012 tree's files it edits. The two specification commits also name `Specification/fortress.pdf`, which the revival first committed (`414b790e3`), as batch 7R's `17c6052bb` did.
+- **The ledger.**
+  - It has 491 rows: the base's 485 and rows 487 to 492. Row 148 is still the one vacant number, no number is duplicated, and the base's rows keep their order.
+  - The other rows the batch touches:
+    - Rows 22, 53, 55, 77, 115, 118, 150, 226, 354, 356, 357, 371, 372, 380, 397, 405, 406, 407 and 414 only gain appended notes.
+    - Row 459 gains its status and its note, in batch 7R's form for a closed row.
+    - Rows 484 and 485 each change one citation.
+  - Rows 487 to 492 have ten cells each, and the repair's notes on rows 490 and 492 sit inside the last cell.
+  - The counts by kind still cover rows 1 to 310. `FACTS.md`'s anchors `:680` and `:820` hold.
+- **`FACTS.md`.** The batch's entries were re-read at `f052e82f5`, and every file:line they cite holds.
+  - The published `Specification/fortress.pdf` has 627 pages and prints the repaired Effect sentence (`pdftotext`). Its sha256 is the one `REPAIR-review.md` section 3 gives.
+- **The handover.**
+  - Its two paragraphs for this batch agree with the ledger and `PLAN.md` after the repair: row 492's tests are written, and item 26 alone is open for Pavol.
+  - Its lead paragraph still gives the count as 10 since climb batch 7R. The commit stage rewrites that paragraph, as batch 7R's `65f1e40ca` did.
+- **Corrections, recommended rows, provenance.**
+  - The twelve corrections the gather closed still hold at `f052e82f5`. Neither the first review nor the repair undid any of them.
+  - Every recommended row is opened.
+  - Each provenance block has five lines, each ending in a file:line (rung Y's `REPORT.md:3-7`, rung X's `REPORT.md:3-7`). Both `SKEPTIC.md` files say every line was opened (Y's `:29-31`, X's `:14-16`).
+- **The three homes.**
+  - Row 459 is in home 1 (`ComprisesGenericSubtrait`).
+  - Row 489 is in home 2 (`XXXComprisesGenericRenamed`).
+  - Row 492 has been in home 2 since the repair. Each of its two `XXX` files turns red on its variant (`explorations/compile-ladder/climb-batch-7C/repair/red.txt`).
+  - Rows 487 and 490 are in home 3. Each is an acceptance that no `XXX` compile test can hold (`JUDGE-review.md` section 5).
+  - Row 488 is in home 3, where the specification is silent.
+  - Row 491 is in home 3: it is not settled, and it is open for Pavol.
+  - The note on row 414 carries its probes. The four walk divergences of rung X's skeptic are row 22's.
+  - No defect this batch repaired is traced only by a `FACTS.md` line.
+- **Tracked paths.** Every path the landed records cite resolves to a tracked file or directory, including the rung-relative `probes/` paths. The records checked are both rungs' `REPORT.md`, `record.md` and `SKEPTIC.md`, rung X's `decision-record.md`, this record, `JUDGE-review.md`, `REPAIR-review.md`, and the lines the batch added to `FACTS.md`, the ledger, `PLAN.md` and the handover. The exceptions are the ones the records already name:
+  - the brief's spelling `climb-batch-7c/`;
+  - `ProjectFortress/build`;
+  - the other agent's untracked `explorations/reviews/conversion-overloading-ways*`;
+  - `Specification/library/apis/`, which is named only to say that it is not cited.
+- **Items for Pavol.** The eleven ids of the rungs are in `coordinator/PLAN.md` where the gather put them:
+  - items 26 and 27, under "Pavol's answers, in the order they are needed";
+  - five lines under "Off the path, parked", at `:200-204`.
+
+  Item 27 is marked settled in place by the judge. The evidence lines the entries cite hold.
+
+**The checker table.** Diffed against the last landed one, `compile-ladder/climb-batch-7R/gate/checker-count.txt`, the table has no new row and one risen row. It is the first gate's run on `d8e0cd28e` (`tmp/gate-batch-7c/out/checker-count.txt`, with its `#shadow` row). Since then no `.fsi`, Java or Scala file has changed (`git diff --name-only d8e0cd28e f052e82f5`), so it also stands for `f052e82f5`.
+- `FortressLibrary` went from 2 to 132, as the first review explained.
+- `tmp/gate-batch-7c/checker-count/run.txt` has no `comprises` error and no error at `Library/FortressLibrary.fsi:433-436`.
+- So `StaticChecker.java:268-272` no longer stops the api before its overloading and return-type checks.
+- `#total` went from 10 to 75, and `#crash` is `none`.
+
+**Observed, not changed.**
+- "For the commit stage" (`:141`) gives the first gate's expectations: the compiler track at 788, and `testSystem` keeping its sum. After the repair the gate should read 789 and 426 (`:221`).
+- Batch N's record plans rung T's Appendix I subsection "after the entries batch 7's rung A and batch 7R's rung U add there" (`coordinator/CLIMB-BATCH-N.md:220`). Rung X's I.1.20 now also sits before "Passages not yet revised". This is part of the re-anchoring of N's record to the tree after 7R and 7C, which the handover already lists before N's launch.
+
+**Stops.**
+- Rung Y meets none of its reserved stops (`compile-ladder/rung-comprises-checker/SKEPTIC.md:213-215`).
+- Rung X meets two, and both are lifted as reversible by POSITIONS 2026-09-27, on the stops a batch record reserves for him:
+  - P1 to P4, reported and not chosen (`compile-ladder/rung-spec-comprises/REPORT.md:103`, `SKEPTIC.md:117`);
+  - the normative text as the rung worded it, which admitted a `where`-clause variable in a listed type. The gather's correction 1 closed it (`Specification/basic/traits.tex:238-240`; `SKEPTIC.md:118`).
+- Each rung's standing stop is lifted by the `comprises` decision (POSITIONS 2026-09-28, `AnyIntegral`'s `comprises` clause).
+- The repair meets none (`JUDGE-review.md` section 5).
+
+**Items for Pavol from this review.** None.
