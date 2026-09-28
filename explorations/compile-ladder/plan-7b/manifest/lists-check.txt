@@ -1,0 +1,13 @@
+S reasons 64 for 64 briefing keys | problems 0
+S briefing keys 64 exit 0 | Total: 8 parts print 189203 bytes, about 78500 tokens.
+S checks keys 22 exit 0 | Total: 3 parts print 65447 bytes, about 27200 tokens.
+C reasons 60 for 60 briefing keys | problems 0
+C briefing keys 60 exit 0 | Total: 7 parts print 166780 bytes, about 69100 tokens.
+C checks keys 19 exit 0 | Total: 3 parts print 53145 bytes, about 22100 tokens.
+W reasons 58 for 58 briefing keys | problems 0
+W briefing keys 58 exit 0 | Total: 6 parts print 160247 bytes, about 66400 tokens.
+W checks keys 20 exit 0 | Total: 3 parts print 57059 bytes, about 23700 tokens.
+L reasons 51 for 51 briefing keys | problems 0
+L briefing keys 51 exit 0 | Total: 5 parts print 126133 bytes, about 52300 tokens.
+L checks keys 15 exit 0 | Total: 2 parts print 34873 bytes, about 14500 tokens.
+bad lists 0
