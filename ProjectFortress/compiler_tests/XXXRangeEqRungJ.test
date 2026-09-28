@@ -1,0 +1,3 @@
+tests=XXXRangeEqRungJ
+run
+run_out_contains=REACHED

@@ -1,0 +1,3 @@
+tests=XXXExtremumRungJ
+compile
+compile_exception_contains=Not yet implemented

@@ -1,0 +1,87 @@
+--- junit-new: 1. the tree as it stands 2026-09-28T11:00:55Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.53 0.68 1.80; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD d7424cb28; git status --short Library ProjectFortress/src: []
+$ fortress junit compiler_tests/RangeEqRungJLink.test
+. link compiler_tests/XXXRangeEqRungJ  OK (time = 3829ms)
+
+Time: 3.834
+
+OK (1 test)
+
+junit rc=0
+$ fortress junit compiler_tests/XXXRangeEqRungJ.test
+. run compiler_tests/XXXRangeEqRungJ (534ms) REACHED
+FAIL:  ranges.tex:124-126, :51, :68-69
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  ranges.tex:124-126, :51, :68-69
+	at fortress.CompilerLibrary.fail(Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(Library/CompilerLibrary.fss:87)
+	at XXXRangeEqRungJ.run(ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss:8)
+	at XXXRangeEqRungJ.compute(ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss)
+Saw expected failure (Exit code != 0)
+
+Time: 0.545
+
+OK (1 test)
+
+junit rc=0
+$ fortress junit compiler_tests/XXXExtremumRungJ.test
+. compile compiler_tests/XXXExtremumRungJ java.lang.Error: Not yet implemented
+ OK Saw expected exception
+
+Time: 1.329
+
+OK (1 test)
+
+junit rc=0
+--- junit-new: 2. a deliberate local fix of = in the compiler library 2026-09-28T11:01:02Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.73 0.72 1.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD d7424cb28; git status --short Library ProjectFortress/src: []
+ Library/CompilerLibrary.fss | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+compile CompilerLibrary.fss rc=0
+compile CompilerAlgebra.fss rc=0
+compile CompilerSystem.fss rc=0
+$ fortress junit compiler_tests/RangeEqRungJLink.test
+. link compiler_tests/XXXRangeEqRungJ  OK (time = 3359ms)
+
+Time: 3.366
+
+OK (1 test)
+
+junit rc=0
+$ fortress junit compiler_tests/XXXRangeEqRungJ.test
+. run compiler_tests/XXXRangeEqRungJ (701ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.712
+There was 1 failure:
+1) compiler_tests/XXXRangeEqRungJ(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest compiler_tests/XXXRangeEqRungJ
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+junit rc=0
+--- junit-new: 3. the fix undone 2026-09-28T11:01:33Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.43 0.89 1.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD d7424cb28; git status --short Library ProjectFortress/src: [ M Library/CompilerLibrary.fss ]
+compile CompilerLibrary.fss rc=0
+compile CompilerAlgebra.fss rc=0
+compile CompilerSystem.fss rc=0
+$ fortress junit compiler_tests/RangeEqRungJLink.test
+. link compiler_tests/XXXRangeEqRungJ  OK (time = 2903ms)
+
+Time: 2.909
+
+OK (1 test)
+
+junit rc=0
+$ fortress junit compiler_tests/XXXRangeEqRungJ.test
+. run compiler_tests/XXXRangeEqRungJ (464ms) REACHED
+FAIL:  ranges.tex:124-126, :51, :68-69
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  ranges.tex:124-126, :51, :68-69
+	at fortress.CompilerLibrary.fail(Library/CompilerLibrary.fss:75)
+	at fortress.CompilerLibrary.assert(Library/CompilerLibrary.fss:87)
+	at XXXRangeEqRungJ.run(ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss:8)
+	at XXXRangeEqRungJ.compute(ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss)
+Saw expected failure (Exit code != 0)
+
+Time: 0.475
+
+OK (1 test)
+
+junit rc=0

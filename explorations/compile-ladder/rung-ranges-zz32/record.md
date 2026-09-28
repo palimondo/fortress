@@ -56,7 +56,7 @@ Rows are never renumbered or moved. The new rows are numbered provisionally from
 ## For the gather
 
 - **Manifest values:** `expectedCheckerCount: 10` (the count stage went 22 → 10). The count stage's crash line does not move (none), so there is no `expectedCheckerCrash`. The distance stage, reported and never red: 940 → 627, with the crash rows unchanged in number (9); two `Character` rows re-line, from `FortressLibrary.fss:4265` and `:4284` to `:4266` and `:4285`.
-- **The gate:** `testSystem` gains two files (`RangeZZ32RungJ.fss`, `XXXRangeWideRungJ.fss`); the renamed `RangeSizeRungO.fss` keeps its count. The compiler track gains two tests, `compiler_tests/RangeInRungJLink.test` (passes) and `compiler_tests/XXXRangeInRungJ.test` (an expected failure).
+- **The gate:** `testSystem` gains two files (`RangeZZ32RungJ.fss`, `XXXRangeWideRungJ.fss`); the renamed `RangeSizeRungO.fss` keeps its count. The compiler track gains two tests, `compiler_tests/RangeInRungJLink.test` (passes) and `compiler_tests/XXXRangeInRungJ.test` (an expected failure). On the judge's ruling at the merged-diff review (`compile-ladder/climb-batch-7R/JUDGE-review.md`) it gains three more, `compiler_tests/RangeEqRungJLink.test` (passes), `compiler_tests/XXXRangeEqRungJ.test` and `compiler_tests/XXXExtremumRungJ.test` (expected failures): 784 in all.
 - **Re-anchoring**, after rung U: J's files that cite lines of `Specification/basic/expressions/ranges.tex` in their messages or comments are:
   - `ProjectFortress/tests/RangeZZ32RungJ.fss`, `RangeSizeRungO.fss`, `XXXRangeBoundsRungO.fss` and `XXXSeqRangeTopRungO.fss`;
   - `ProjectFortress/compiler_tests/XXXRangeInRungJ.fss`.

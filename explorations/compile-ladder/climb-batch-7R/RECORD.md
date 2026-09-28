@@ -182,3 +182,36 @@ Made 2026-09-28 on `main` at `17c6052bb`, over the batch's two commits (`3be1fec
 - The handover's paragraph "The last landing is climb batch 7" and `PLAN.md`'s phase line for batch 7R ("running since 04:32 UTC") are the commit stage's.
 
 **Stops.** Rung J meets none of those the record reserves for it: every changed walk output is accounted for (`BadBounds`'s type names, row 450's moved line, row 430's order), `rangeOperators` among them; `RangePrototype.fss` is the one team test changed; the three restated revival tests change their `ZZ64` and `NN32` lines and row 452's restatement only; no public range trait loses its parameter; no compiled test's verdict changes and no ladder file moves. Rung U meets two, as it and its skeptic list them, and a third on one reading: the `nat`-bounded ranges, reported and not chosen (`Specification/appendices/changes.tex:1255-1259`); the Working Draft's `Generators.GeneratorDefn`, which did not run under walk on the base (`compile-ladder/rung-spec-ranges/probes/examples/GeneratorDefn-base-walk.txt`); and the adapted `BlockedRange`, respelled though the decision names two examples (`Specification/advanced/parallelism-locality/defining-generators.tex:389-438`), which the rung reads as settled by the figure it adapts (`compile-ladder/rung-spec-ranges/decision-record.md:87`) and lists for Pavol. Each is lifted as reversible by POSITIONS 2026-09-27, on the stops a batch record reserves for him, and none holds the push. The review meets no stop and adds no item for Pavol.
+
+## Repair after the judge's ruling
+
+The judge ruled the review's finding repaired: rows 481 and 482 each get a gated expected-failure test in `ProjectFortress/compiler_tests/` (`explorations/compile-ladder/climb-batch-7R/JUDGE-review.md`, `d7424cb28`). The repair ran on `main` at `d7424cb28`, after the gate had finished (no gate process and no `ant` JVM in the tree). Rung J's `REPORT.md` section 14 gives it in full.
+
+**Placed.**
+- `ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss`, for row 481: it prints `REACHED` and asserts `(1:3) = (1#3)`, `(3:1) = (5:4)` and `NOT ((2:4) = (2:5))`. Ranges compare as sets with `=` (`Specification/basic/expressions/ranges.tex:124-126`, with `:51` and `:68-69`). The third assertion keeps the file failing under a `=` that answers `true` always.
+- `ProjectFortress/compiler_tests/RangeEqRungJLink.test` (`link`, passes) and `ProjectFortress/compiler_tests/XXXRangeEqRungJ.test` (`run`, `run_out_contains=REACHED`, an expected failure): row 479's two-file shape.
+- `ProjectFortress/compiler_tests/XXXExtremumRungJ.fss`, for row 482: it asserts that `case most > of 1 => "one"; 3 => "three"; 2 => "two" end` is `"three"`, since the clause with the extremum guard is the one evaluated (`Specification/basic/expressions/case.tex:107-112`).
+- `ProjectFortress/compiler_tests/XXXExtremumRungJ.test` (`compile`, `compile_exception_contains=Not yet implemented`, an expected failure, the shape of `XXXTryAtomicCodegenRungB.test`).
+- Each file has the one comment line pointing at rung J's `REPORT.md`. The ledger's rows 481 and 482 have a note each, and J's `REPORT.md` (section 10, and a new section 14) and `record.md` (the gate line) carry the new tests.
+
+**Captures**, under `explorations/compile-ladder/climb-batch-7R/repair/`:
+- `competing-names.txt:1-5`: the two names occur only in the five new files.
+- `cross-path-eq.txt`: walk prints `REACHED`, `PASS`, `walk rc=0` (`:3-5`). Compiled, `compile rc=0` (`:7`), then `REACHED`, the `FAIL` whose message is the first assertion's, and `run rc=1` (`:8-11`).
+- `cross-path-extremum.txt`: walk prints `PASS`, `walk rc=0` (`:3-4`). Compiled, `java.lang.Error: Not yet implemented`, `compile rc=1` (`:6-7`).
+- `junit-new.txt`, from `junit-new.sh` (rung J's `xxx-in-red.sh` adapted, with a private cache).
+  - Phase 1, the tree as it stands (`:1-33`): the link test OK. `XXXRangeEqRungJ` prints `REACHED`, fails at `XXXRangeEqRungJ.fss:8`, "Saw expected failure", OK. `XXXExtremumRungJ` gives "OK Saw expected exception", OK.
+  - Phase 2, a deliberate local fix of `=` at `Library/CompilerLibrary.fss:314` (`:34-60`): the three compiler-library compiles rc=0; link OK; the run prints `REACHED`, `PASS`, "Did not see expected failure", one failure.
+  - Phase 3, the fix undone (`:61-87`): as phase 1 for the pair.
+  - Afterwards `git status --short Library ProjectFortress default_repository` listed only the five new files.
+- No fallback was taken. Row 482 has no red demonstration, as ruled (`JUDGE-review.md`, section 3); its walk run stands in its place.
+- The repair departs from the ruling's text in two citations of row 482's note, and it adds a failed compile's output to `relib`. Each is recorded with the line that settles it in `explorations/compile-ladder/climb-batch-7R/REPAIR-review.md`, which the commit carries beside the listed paths.
+
+**The machine.** `nproc` 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4 (2026-07-21), `FORTRESS_THREADS=1`. The load average was 0.22 0.51 1.87 at the first capture's start (10:59:08 UTC, `cross-path-eq.txt:1`), and each capture carries its own. Nothing else ran: no `ant` target, no gate, and no interpreter run beyond the two walk runs.
+
+**The gate's expectations.** `ant testFast` alone, with nothing built first. The compiler track is expected at 784 (781 and the three new `.test` files) with 0 failures, and the other tracks as the gate recorded them. `testSystem` 425, the checker table (10, crash none), the distance stage 627, the atomic runs, the ladder and the microGPT comparison stand, since none of them reads `ProjectFortress/compiler_tests/` (`climb-batch-6b/JUDGE-review.md:76-86`). The gate summary's `testFast` lines are replaced by that run's.
+
+**Stops.** None met. The new files are outside J's listed files (`explorations/coordinator/CLIMB-BATCH-7R.md:113-120`), which is not among its stops (`:128-135`). No existing test's verdict changes. Nothing is added for Pavol.
+
+**The tree.** Step 1c's `git status --short ProjectFortress Library default_repository` printed nothing. Batch 7b's modified and untracked files under `explorations/compile-ladder/plan-7b/probes/` were in the tree throughout, and none is in the commit.
+
+**The tracked-path check**, over rung J's `REPORT.md` and `record.md`, this record, `JUDGE-review.md` and `REPAIR-review.md`, printed one line: `MISSING explorations/compile-ladder/climb-batch-7r/`. That is the ruling's sentence naming the brief's spelling (`explorations/compile-ladder/climb-batch-7R/JUDGE-review.md:5`), a directory that does not exist by design. Every other path cited is tracked.

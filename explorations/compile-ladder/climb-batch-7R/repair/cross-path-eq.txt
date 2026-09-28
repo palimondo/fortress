@@ -1,0 +1,11 @@
+--- cross-path ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss 2026-09-28T10:59:08Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.22 0.51 1.87; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD d7424cb28; git status --short Library ProjectFortress/src: []
+== walk
+REACHED
+PASS
+walk rc=0
+== compiled
+compile rc=0
+REACHED
+FAIL:  ranges.tex:124-126, :51, :68-69
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  ranges.tex:124-126, :51, :68-69
+run rc=1

@@ -402,6 +402,10 @@ The names this rung adds are the components `RangeZZ32RungJ`, `XXXRangeWideRungJ
      - Commands: `fortress junit compiler_tests/RangeInRungJLink.test` and `fortress junit compiler_tests/XXXRangeInRungJ.test`.
      - Shown red on a deliberate local fix of the stub (`probes/xxx-in-red.txt`, `xxx-in-red.sh`). The fix gave `FilteredRange` an `opr IN(x:ZZ32, self): Boolean = lo <= x AND x <= hi AND p(x)`, and the three compiler-library components were recompiled into a private cache. The run printed "PASS" and "Did not see expected failure", one failure; with the fix undone, the expected failure came back.
      - This is the rung's first `XXX` file in `compiler_tests/`. Its first in the interpreter corpus, `XXXRangeWideRungJ.fss`, was shown red on the base's library (`probes/refusal-harness-base.txt`).
+   - **The compiled path's range equality is always `false`** (`Library/CompilerLibrary.fss:314`; row 481, measured by the skeptic).
+     - Gated, on the judge's ruling at the merged-diff review, by `ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss` with `RangeEqRungJLink.test` (link, passes) and `XXXRangeEqRungJ.test` (run, `run_out_contains=REACHED`, an expected failure); shown red on a local fix of the stub (section 14).
+   - **An extremum expression stops the compiled checker** (`ProjectFortress/src/com/sun/fortress/compiler/Types.java:363-368`; row 482, measured by the skeptic).
+     - Gated, on the same ruling, by `ProjectFortress/compiler_tests/XXXExtremumRungJ.fss` with `XXXExtremumRungJ.test` (compile, `compile_exception_contains=Not yet implemented`, an expected failure); walk passes the same file (section 14).
 3. **Home 3: deferred, and the specification is silent.**
    - **Walk's shared symbolic instantiation** (section 7). Probes: `probes/rangeoperators/Bound*.fss` with their captures, and `ro-trace.txt`.
      - `Specification/basic/overloading.tex:100-107` makes every one of the four probe sets an error: static parameters may not differ, nor may one declaration have them and another not. So walk's acceptance of three of them is wrong against the text as it stands, and its refusal of the fourth is right by accident.
@@ -438,3 +442,38 @@ The text is in `record.md`.
 ## 13. Machine
 
 Every capture carries its machine line (`machine.sh`: date, `nproc`, CPU model and MHz, load, JDK, `FORTRESS_THREADS`, HEAD and the tree's status). The box has 4 CPUs (Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz), openjdk 25.0.4, and `FORTRESS_THREADS=1`. Another batch's rung ran beside every run; the loads at the starts, given above, range from 1.6 to 26.9.
+
+## 14. Repair after the merged-diff review
+
+The merged-diff review found that rows 481 and 482, which this rung's skeptic measured and placed in home 2 (`SKEPTIC.md:198-199`), had landed without their gated tests. The judge ruled a repair (`explorations/compile-ladder/climb-batch-7R/JUDGE-review.md`, committed as `d7424cb28`), and the repair ran on `main` at `d7424cb28`, after the gate had finished. Nothing outside `ProjectFortress/compiler_tests/` and `explorations/` changed.
+
+**The five files**, in `ProjectFortress/compiler_tests/`, each with the one comment line pointing at this report; the assert messages cite the specification's lines as they read at `9c46c2206`:
+- `XXXRangeEqRungJ.fss` prints `REACHED`, asserts `(1:3) = (1#3)` (`:8`, "ranges.tex:124-126, :51, :68-69"), `(3:1) = (5:4)` (`:9`, both empty) and `NOT ((2:4) = (2:5))` (`:10`, which keeps the file failing under a `=` that answers `true` always), and prints `PASS`.
+- `RangeEqRungJLink.test`: `link` of that file; it passes.
+- `XXXRangeEqRungJ.test`: `run` with `run_out_contains=REACHED`; an expected failure. With the link test, row 479's two-file shape.
+- `XXXExtremumRungJ.fss`: `pick()` is `case most > of 1 => "one"; 3 => "three"; 2 => "two" end`, and `run` asserts `pick() = "three"` ("case.tex:107-112") and prints `PASS`.
+- `XXXExtremumRungJ.test`: `compile` with `compile_exception_contains=Not yet implemented`, the shape of `XXXTryAtomicCodegenRungB.test`; an expected failure whose failure is named, so that a change that moves the crash elsewhere turns it red.
+
+**The commands**, from the repository root, with `J=explorations/compile-ladder/rung-ranges-zz32` and `R=explorations/compile-ladder/climb-batch-7R/repair`:
+- The names: `grep -rn 'RangeEqRungJ\|ExtremumRungJ' ProjectFortress Library SpecData --include=*.fss --include=*.fsi --include=*.test --include=*.java --include=*.scala > $R/competing-names.txt`.
+- Walk and compiled, each from a private cache: `bash $J/cross-path.sh ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss > $R/cross-path-eq.txt 2>&1`, and the same for `XXXExtremumRungJ.fss` into `$R/cross-path-extremum.txt`.
+- The harness, with the red demonstration: `bash $R/junit-new.sh $R/junit-new.txt`, in the background. `junit-new.sh` is `xxx-in-red.sh` adapted: its own private cache (`tmp/xxx-repair-7r`), `junit` over the test names it is given, and three phases, the tree as it stands, a deliberate local fix of `=` in the compiler library, and the fix undone. The fix replaces `Library/CompilerLibrary.fss:314`, `opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean = false`, with a body that compares the two ranges' elements joined by `seqgenerate(StringConcatenation, …)` (declared at `:308`), recompiles `CompilerLibrary`, `CompilerAlgebra` and `CompilerSystem` into the private cache, and is undone by `git checkout`. One addition to `xxx-in-red.sh`'s `relib`: it prints a compile's output when the compile fails; no compile failed.
+
+**The captures**, each under `explorations/compile-ladder/climb-batch-7R/repair/` and each headed by its machine line:
+- `competing-names.txt:1-5`: five lines, all in the five new files; no other file names either component.
+- `cross-path-eq.txt`: walk prints `REACHED` and `PASS`, `walk rc=0` (`:3-5`); compiled, `compile rc=0` (`:7`), then `REACHED` and `FAIL:  ranges.tex:124-126, :51, :68-69`, the message of `XXXRangeEqRungJ.fss:8` alone, and `run rc=1` (`:8-11`). The capture drops stack lines; the harness's capture shows the frame at `:8` (`junit-new.txt:16`). This is the shape of `probes/skeptic/SkJDiff-cross-t1.txt`.
+- `cross-path-extremum.txt`: walk prints `PASS`, `walk rc=0` (`:3-4`); compiled, `java.lang.Error: Not yet implemented` and `compile rc=1` (`:6-7`), and the run finds no class, `run rc=1` (`:8-12`). This is the shape of `probes/skeptic/SkExtremum-cross.txt`.
+- `junit-new.txt`, phase 1, the tree as it stands (`:1-33`): the link test OK (`:3`, `:7`); `XXXRangeEqRungJ` prints `REACHED`, fails at `XXXRangeEqRungJ.fss:8` (`:11-16`), "Saw expected failure" (`:18`), OK (1 test) (`:22`); `XXXExtremumRungJ` "java.lang.Error: Not yet implemented" and "OK Saw expected exception" (`:26-27`), OK (1 test) (`:31`).
+- `junit-new.txt`, phase 2, the local fix (`:34-60`): one file changed, 3 insertions and 1 deletion (`:35-36`); the three compiles rc=0 (`:37-39`); the link test OK (`:41`, `:45`); the run prints `REACHED` and `PASS`, "Did not see expected failure", and the harness reports one failure (`:49-58`). The file goes red exactly when `=` compares ranges as sets, the empty pair included.
+- `junit-new.txt`, phase 3, the fix undone (`:61-87`): the three compiles rc=0 (`:62-64`); the link test OK (`:66`, `:70`); `REACHED`, the failure at `:8`, "Saw expected failure", OK (1 test) (`:74-85`).
+- `junit-new.sh`: the script. After it, `git status --short Library ProjectFortress default_repository` listed only the five new files, and `default_repository/caches` held the same 67 files, none newer than the ruling.
+
+**No red demonstration for row 482**, as the ruling holds (`JUDGE-review.md`, section 3): the deliberate fix would be two Java sites and a rebuild. The walk run of the same file (`cross-path-extremum.txt:3-4`) shows that its one assertion is the answer where the construct is implemented.
+
+**The machine.** `nproc` 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4 (2026-07-21), `FORTRESS_THREADS=1`. The load average was 0.22 0.51 1.87 at the first capture's start (`cross-path-eq.txt:1`, 10:59:08 UTC), and 0.36 to 1.43 at the later starts, each in its capture's machine line. No `ant` target, no gate and no interpreter pass beyond the two walk runs ran.
+
+**The gate's expectation.** `ant testFast` alone, with nothing built first: the compiler track at 784 (781 and the three new `.test` files) with 0 failures, and the other tracks as the gate recorded them. `testSystem` 425, the checker table (10, crash none), the distance stage 627, the atomic runs, the ladder and the microGPT comparison stand, since none of them reads `ProjectFortress/compiler_tests/`.
+
+**Fallbacks.** None was taken: the caches were current, the local fix compiled at the first attempt, and `XXXExtremumRungJ` showed the expected exception with the key as written.
+
+**Where the repair departs from the ruling's text**, with the line that settles it (`explorations/compile-ladder/climb-batch-7R/REPAIR-review.md`): row 482's note cites `CaseExprDesugarer.java:89-92`, since the `throw` is at `:92`; and it says that a fix of the checker's extremum rule alone, not of `makeTotalOperatorOrder` alone, moves the failure to the desugarer, since no library declares a `TotalOperatorOrder` for the rule's subtype test (`Functionals.scala:894-899`).
