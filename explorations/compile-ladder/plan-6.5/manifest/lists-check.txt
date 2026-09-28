@@ -1,9 +1,13 @@
-E briefing keys 42 exit 0 | Total: 3 parts print 70524 bytes, about 29200 tokens.
-E checks keys 13 exit 0 | Total: 1 part prints 26953 bytes, about 11200 tokens.
-P briefing keys 54 exit 0 | Total: 7 parts print 157315 bytes, about 65300 tokens.
-P checks keys 22 exit 0 | Total: 2 parts print 38024 bytes, about 15800 tokens.
-G briefing keys 54 exit 0 | Total: 5 parts print 110760 bytes, about 46000 tokens.
-G checks keys 19 exit 0 | Total: 2 parts print 45687 bytes, about 19000 tokens.
-V briefing keys 37 exit 0 | Total: 4 parts print 92094 bytes, about 38200 tokens.
-V checks keys 13 exit 0 | Total: 2 parts print 30912 bytes, about 12900 tokens.
+E reasons 88 for 88 briefing keys | problems 0
+E briefing keys 88 exit 0 | Total: 6 parts print 155147 bytes, about 64300 tokens.
+E checks keys 29 exit 0 | Total: 3 parts print 59943 bytes, about 24900 tokens.
+P reasons 57 for 57 briefing keys | problems 0
+P briefing keys 57 exit 0 | Total: 7 parts print 163358 bytes, about 67700 tokens.
+P checks keys 24 exit 0 | Total: 2 parts print 41502 bytes, about 17200 tokens.
+G reasons 58 for 58 briefing keys | problems 0
+G briefing keys 58 exit 0 | Total: 5 parts print 114516 bytes, about 47500 tokens.
+G checks keys 21 exit 0 | Total: 2 parts print 47422 bytes, about 19700 tokens.
+V reasons 38 for 38 briefing keys | problems 0
+V briefing keys 38 exit 0 | Total: 4 parts print 94010 bytes, about 39000 tokens.
+V checks keys 14 exit 0 | Total: 2 parts print 31869 bytes, about 13300 tokens.
 bad lists 0
