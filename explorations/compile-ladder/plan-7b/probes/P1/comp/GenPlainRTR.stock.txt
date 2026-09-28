@@ -1,0 +1,32 @@
+# comp GenPlainRTR stock (; library cache forced) 2026-09-28T08:42:11Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.04 2.40 3.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+@@P1 RTR stock=true paper=false forced=false name=ident
+   Round->Round @ GenPlainRTR.fss:11:1-26
+   [\T extends Shape\]T->T @ GenPlainRTR.fss:10:1-37
+compile rc=0
+## run
+java.lang.VerifyError
+Caused by: java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    GenPlainRTR?$\=ident?GenPlainRTR\%Circle??$?Arrow?T,T?.the_function(LGenPlainRTR$Circle;)LGenPlainRTR$Circle; @14: areturn
+  Reason:
+    Type 'GenPlainRTR$Round' (current frame, stack[0]) is not assignable to 'GenPlainRTR$Circle' (from method signature)
+  Current Frame:
+    bci: @14
+    flags: { }
+    locals: { 'GenPlainRTR$Circle' }
+    stack: { 'GenPlainRTR$Round' }
+  Bytecode:
+    0000000: 2ac1 0011 9900 0b2a c000 11b8 0017 b02a
+    0000010: b900 1d01 004c 2b59 b200 235f b600 2999
+    0000020: 0006 a700 0757 a700 1a4d b200 2d12 2f2c
+    0000030: b800 35c0 0037 2ab9 003c 0200 c000 3eb0
+    0000040: b800 44bf                              
+  Stackmap Table:
+    same_frame(@15)
+    full_frame(@37,{Object[#62],Object[#37]},{Object[#37]})
+    same_locals_1_stack_item_frame(@41,Object[#37])
+    same_frame(@64)
+
+run rc=1

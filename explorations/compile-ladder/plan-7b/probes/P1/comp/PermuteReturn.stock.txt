@@ -1,0 +1,10 @@
+# comp PermuteReturn stock (; library cache forced) 2026-09-28T08:42:16Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.28 2.44 3.08; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+@@P1 POS return name=make own=2/2 eq=false
+   [\A extends Any, B extends Any\]M->Pr[\B,A\] @ PermuteReturn.fss:13:3-68
+   [\A extends Any, B extends Any\]Maker->Pr[\A,B\] @ PermuteReturn.fss:10:3-11:1
+compile rc=0
+## run
+java.lang.ClassCastException
+Caused by: java.lang.ClassCastException: class PermuteReturn$\=Pr?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String? cannot be cast to class PermuteReturn$\=Pr?fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? (PermuteReturn$\=Pr?com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32,fortress\|CompilerBuiltin\%String? and PermuteReturn$\=Pr?fortress\|CompilerBuiltin\%String,com\|sun\|fortress\|compiler\|runtimeValues\|FZZ32? are in unnamed module of loader com.sun.fortress.runtimeSystem.InstantiatingClassloader @5e2de80c)
+run rc=1

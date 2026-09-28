@@ -1,0 +1,306 @@
+# comp.sh libcache paper (-Dprobe.rtr=paper -Dprobe.positional=true) 2026-09-28T08:42:22Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.70 2.53 3.10; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G11 extends Any\](Condition[\T\], Reduction[\G11\], T->G11)->G11 @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:662:5-84
+   [\R extends Any\](Generator[\T\], Reduction[\R\], T->R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:624:5-73
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+== ProjectFortress/LibraryBuiltin/AnyType.fss rc=0 27 s
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G11 extends Any\](Condition[\T\], Reduction[\G11\], T->G11)->G11 @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:662:5-84
+   [\R extends Any\](Generator[\T\], Reduction[\R\], T->R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:624:5-73
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+== ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss rc=0 36 s
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G11 extends Any\](Condition[\T\], Reduction[\G11\], T->G11)->G11 @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:662:5-84
+   [\R extends Any\](Generator[\T\], Reduction[\R\], T->R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:624:5-73
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+== Library/CompilerAlgebra.fss rc=0 27 s
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\T\], T->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G4 extends Any\](SequentialGenerator[\T\], T->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G11 extends Any\](Condition[\T\], Reduction[\G11\], T->G11)->G11 @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:662:5-84
+   [\R extends Any\](Generator[\T\], Reduction[\R\], T->R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:624:5-73
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\T\], T->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\T\], T->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\T\], T->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\F1 extends Any\](SequentialGenerator[\T\], SequentialGenerator[\F1\])->SequentialGenerator[\(T, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G14 extends Any\](Condition[\T\], Generator[\G14\])->Generator[\(T, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\T\], SequentialGenerator[\G17\])->SequentialGenerator[\(T, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\T\], Generator[\G2\])->Generator[\(T, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\T\], T->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\T\], T->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\T\], T->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+== Library/CompilerLibrary.fss rc=0 30 s
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\E20\], E20->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\E20\], E20->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\E20\], SequentialGenerator[\G17\])->SequentialGenerator[\(E20, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G14 extends Any\](Condition[\E20\], Generator[\G14\])->Generator[\(E20, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\E20\], SequentialGenerator[\G17\])->SequentialGenerator[\(E20, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\E20\], Generator[\G2\])->Generator[\(E20, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\E20\], SequentialGenerator[\G17\])->SequentialGenerator[\(E20, G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\F1 extends Any\](SequentialGenerator[\E20\], SequentialGenerator[\F1\])->SequentialGenerator[\(E20, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G14 extends Any\](Condition[\E20\], Generator[\G14\])->Generator[\(E20, G14)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:667:5-82
+   [\G2 extends Any\](Generator[\E20\], Generator[\G2\])->Generator[\(E20, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F1 extends Any\](SequentialGenerator[\E20\], SequentialGenerator[\F1\])->SequentialGenerator[\(E20, F1)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:643:5-644:1
+   [\G2 extends Any\](Generator[\E20\], Generator[\G2\])->Generator[\(E20, G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G3 extends Any\](SequentialGenerator[\E20\], E20->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+   [\Gyy extends Any\](Generator[\E20\], E20->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\E20\], E20->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\G3 extends Any\](SequentialGenerator[\E20\], E20->G3)->SequentialGenerator[\G3\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:640:5-72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G12 extends Any\](Condition[\E20\], E20->G12)->Condition[\G12\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:663:5-66
+   [\Gyy extends Any\](Generator[\E20\], E20->Gyy)->Generator[\Gyy\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:625:5-626:52
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G13 extends Any\](Condition[\E20\], E20->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+   [\G1 extends Any\](Generator[\E20\], E20->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G4 extends Any\](SequentialGenerator[\E20\], E20->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\E20\], E20->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G4 extends Any\](SequentialGenerator[\E20\], E20->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+   [\G1 extends Any\](Generator[\E20\], E20->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\E20\], E20->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\E20\], E20->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\E20\], E20->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G1 extends Any\](Generator[\E20\], E20->Generator[\G1\])->Generator[\G1\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:628:5-78
+@@P1 RTR stock=true paper=false forced=true name=nest
+   [\G18 extends Any\](Condition[\E20\], E20->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\E20\], E20->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\E20\], E20->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G13 extends Any\](Condition[\E20\], E20->Generator[\G13\])->Generator[\G13\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:665:5-82
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G18 extends Any\](Condition[\E20\], E20->SequentialGenerator[\G18\])->SequentialGenerator[\G18\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:666:5-102
+   [\G4 extends Any\](SequentialGenerator[\E20\], E20->SequentialGenerator[\G4\])->SequentialGenerator[\G4\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:641:5-98
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G11 extends Any\](Condition[\E20\], Reduction[\G11\], E20->G11)->G11 @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:662:5-84
+   [\R extends Any\](Generator[\E20\], Reduction[\R\], E20->R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:624:5-73
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R extends Any\](Condition[\()\], ()->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:669:5-74
+   [\R extends Any\](Generator[\()\], ()->R, (R, R)->R, R)->R @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:631:5-78
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G17 extends Any\](Condition[\()\], SequentialGenerator[\G17\])->SequentialGenerator[\((), G17)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:668:5-102
+   [\G2 extends Any\](Generator[\()\], Generator[\G2\])->Generator[\((), G2)\] @ <home>/ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:630:5-78
+== Library/CompilerSystem.fss rc=0 28 s

@@ -1,0 +1,1572 @@
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\Char,ZZ32\], Char->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\Char\], Char->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\Char,ZZ32\], Char->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\Char\], Char->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\Char,ZZ32\], Char->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\Char\], Char->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\Char,ZZ32\], Char->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\Char\], Char->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,ZZ32\], E->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](Array1[\T,0,s0\], ZZ32)->Array1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1523:5-1525:5
+   [\nat b, nat s, nat o\]((ReadableArray1[\T,0,s0\] & {ImmutableArray1[\T,0,s0\], Array1[\T,0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1471:5-1474:36
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,0,s0\]->Array1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,0,s0\]->Array1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](ImmutableArray1[\T,0,s0\], ZZ32)->ImmutableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1493:5-1497:5
+   [\nat b, nat s, nat o\]((ReadableArray1[\T,0,s0\] & {ImmutableArray1[\T,0,s0\], Array1[\T,0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1471:5-1474:36
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray1[\T,0,s0\]->ImmutableArray1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1497:5-46
+   [\U\]ImmutableArray[\T,ZZ32\]->ImmutableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1387:5-1389:45
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray[\T,ZZ32\]->ImmutableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1387:5-1389:45
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray1[\T,0,s0\]->ImmutableArray1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1497:5-46
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], T->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], T->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], T->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,0,s0\], T->R)->ImmutableArray1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\()\], ()->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\()\], ()->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\()\], ()->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\()\], ()->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\()\], Reduction[\G\], ()->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\()\], Reduction[\R\], ()->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\()\], ()->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\()\], ()->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\()\], Generator[\F\])->Generator[\((), F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\()\], Generator[\F\])->Generator[\((), F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=array2 own=3/3 eq=false
+   [\T, nat s0, nat s1\]()->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1669:1-51
+   [\T, nat s0, nat s1\]T->Array2[\T,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1670:1-55
+@@P1 POS agree name=array1 own=2/2 eq=false
+   [\T, nat s0\]()->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fsi:1559:1-38
+   [\T, nat s0\]T->Array1[\T,0,s0\] @ <lib>/FortressLibrary.fsi:1560:1-42
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\()\], ()->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\()\], ()->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\()\], ()->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\()\], ()->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\()\], ()->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\()\], Reduction[\G\], ()->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\()\], Reduction[\R\], ()->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\G\](RelationalPredicateCondition[\E\], ()->G, ()->G)->G @ <lib>/FortressLibrary.fsi:2571:3-2572:1
+   [\G\](Condition[\()\], ()->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\()\], ()->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\()\], ()->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\()\], ()->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\()\], Generator[\F\])->Generator[\((), F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\()\], Generator[\F\])->Generator[\((), F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\()\], Generator[\G\])->Generator[\((), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,ZZ32\], E->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\E,I\]->Array[\U,I\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\E,I\]->ReadableArray[\U,I\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\E,I\], (I, E)->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\E,I\], (I, E)->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](Array1[\T,b0,s0\], ZZ32)->Array1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1523:5-1525:5
+   [\nat b, nat s, nat o\]((ReadableArray1[\T,b0,s0\] & {ImmutableArray1[\T,b0,s0\], Array1[\T,b0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1471:5-1474:36
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,b0,s0\]->Array1[\U,b0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,b0,s0\]->Array1[\U,b0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], (ZZ32, T)->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], (ZZ32, T)->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], (ZZ32, T)->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], T->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], T->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], T->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,b0,s0\], T->R)->Array1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\E,I\]->Array[\U,I\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\E,I\]->ReadableArray[\U,I\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\E,I\], (I, E)->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\E,I\], (I, E)->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\E,I\], E->R)->Array[\R,I\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,ZZ32\], E->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\E,I\], (I, E)->R)->ImmutableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\E,I\], (I, E)->R)->ImmutableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray[\E,I\]->ImmutableArray[\U,I\] @ <lib>/FortressLibrary.fsi:1387:5-1389:45
+   [\U\]ReadableArray[\E,I\]->ReadableArray[\U,I\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\E,I\], E->R)->ImmutableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\E,I\], E->R)->ImmutableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\E,I\], E->R)->ImmutableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](ImmutableArray1[\T,b0,s0\], ZZ32)->ImmutableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1493:5-1497:5
+   [\nat b, nat s, nat o\]((ReadableArray1[\T,b0,s0\] & {ImmutableArray1[\T,b0,s0\], Array1[\T,b0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1471:5-1474:36
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], (ZZ32, T)->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1505:5-1506:1
+   [\R\](ImmutableArray[\T,ZZ32\], (ZZ32, T)->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1381:5-59
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray1[\T,b0,s0\]->ImmutableArray1[\U,b0,s0\] @ <lib>/FortressLibrary.fsi:1497:5-46
+   [\U\]ImmutableArray[\T,ZZ32\]->ImmutableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1387:5-1389:45
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray1[\T,b0,s0\]->ImmutableArray1[\U,b0,s0\] @ <lib>/FortressLibrary.fsi:1497:5-46
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]ImmutableArray[\T,ZZ32\]->ImmutableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1387:5-1389:45
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], T->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], T->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], T->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray1[\T,b0,s0\], T->R)->ImmutableArray1[\R,b0,s0\] @ <lib>/FortressLibrary.fsi:1504:5-1505:4
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ImmutableArray[\T,ZZ32\], T->R)->ImmutableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1382:5-53
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](NotUnique[\T\], T->G)->NotUnique[\G\] @ <lib>/FortressLibrary.fsi:982:5-37
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](NotUnique[\T\], T->G)->NotUnique[\G\] @ <lib>/FortressLibrary.fsi:982:5-37
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](NotUnique[\T\], T->G)->NotUnique[\G\] @ <lib>/FortressLibrary.fsi:982:5-37
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](NotUnique[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:979:5-45
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](NotUnique[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:979:5-45
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\R\](NotUnique[\T\], T->R, ()->R)->R @ <lib>/FortressLibrary.fsi:978:5-33
+   [\G\](Condition[\T\], T->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](NotUnique[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:985:5-986:5
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](NotUnique[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:985:5-986:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](NotUnique[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:983:5-54
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](NotUnique[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:983:5-54
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](NotUnique[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:983:5-54
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1828:5-1829:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\E\], E->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\E\], E->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\E\], E->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\E\], E->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\E\], Reduction[\G\], E->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\E\], Generator[\F\])->Generator[\(E, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\E\], Generator[\F\])->Generator[\(E, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array2[\T,b0,s0,b1,s1\]->Array2[\U,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1639:3-40
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,(ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array2[\T,b0,s0,b1,s1\]->Array2[\U,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1639:3-40
+   [\U\]Array[\T,(ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], T->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], T->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], T->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,b0,s0,b1,s1\], T->R)->Array2[\R,b0,s0,b1,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\Char,ZZ32\], Char->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\Char\], Char->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Just[\T\], T->G)->Just[\G\] @ <lib>/FortressLibrary.fsi:916:5-32
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Just[\T\], T->G)->Just[\G\] @ <lib>/FortressLibrary.fsi:916:5-32
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Just[\T\], T->G)->Just[\G\] @ <lib>/FortressLibrary.fsi:916:5-32
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Just[\T\], T->G)->Just[\G\] @ <lib>/FortressLibrary.fsi:916:5-32
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](Just[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:913:5-45
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](Just[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:913:5-45
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\R\](Just[\T\], T->R, ()->R)->R @ <lib>/FortressLibrary.fsi:912:5-33
+   [\G\](Condition[\T\], T->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Just[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:918:5-919:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Just[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:918:5-919:5
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Just[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:917:5-53
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Just[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:917:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Just[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:917:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Nothing[\T\], T->G)->Nothing[\G\] @ <lib>/FortressLibrary.fsi:940:5-35
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Nothing[\T\], T->G)->Nothing[\G\] @ <lib>/FortressLibrary.fsi:940:5-35
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Nothing[\T\], T->G)->Nothing[\G\] @ <lib>/FortressLibrary.fsi:940:5-35
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Nothing[\T\], T->G)->Nothing[\G\] @ <lib>/FortressLibrary.fsi:940:5-35
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](Nothing[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:937:5-45
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](Nothing[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:937:5-45
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\R\](Nothing[\T\], T->R, ()->R)->R @ <lib>/FortressLibrary.fsi:936:5-33
+   [\G\](Condition[\T\], T->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Nothing[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:943:5-944:5
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Nothing[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:943:5-944:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Nothing[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:941:5-54
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Nothing[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:941:5-54
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Nothing[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:941:5-54
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\E\], E->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\E\], Generator[\F\])->Generator[\(E, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\E\], E->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array3[\T,b0,s0,b1,s1,b2,s2\]->Array3[\U,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1771:5-48
+   [\U\]Array[\T,(ZZ32, ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,(ZZ32, ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array3[\T,b0,s0,b1,s1,b2,s2\]->Array3[\U,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1771:5-48
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1774:5-73
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1774:5-73
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1774:5-73
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], ((ZZ32, ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32, ZZ32)\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], T->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1773:5-1774:4
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], T->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1773:5-1774:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], T->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1773:5-1774:4
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array3[\T,b0,s0,b1,s1,b2,s2\], T->R)->Array3[\R,b0,s0,b1,s1,b2,s2\] @ <lib>/FortressLibrary.fsi:1773:5-1774:4
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,(ZZ32, ZZ32, ZZ32)\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(E, F),ZZ32\], Reduction[\R\], (E, F)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(E, F)\], Reduction[\R\], (E, F)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(E, F),ZZ32\], (E, F)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(E, F)\], (E, F)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(E, F),ZZ32\], (E, F)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(E, F)\], (E, F)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(E, F),ZZ32\], Generator[\G\])->Generator[\((E, F), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(E, F)\], Generator[\G\])->Generator[\((E, F), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 RTR stock=true paper=false forced=false name=cond
+   [\G\](NoReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1821:5-1822:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=cond own=1/1 eq=false
+   [\G\](NoReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1821:5-1822:1
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:853:5-855:57
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\SomeReductionPair[\R\]\], Generator[\F\])->Generator[\(SomeReductionPair[\R\], F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\SomeReductionPair[\R\]\], Generator[\G\])->Generator[\(SomeReductionPair[\R\], G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](FilterGenerator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:2079:5-2080:5
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], (I, E)->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\E,I\], (I, E)->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\E\], Reduction[\R\], E->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\E,I\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\E\], E->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\E,I\], E->R)->ReadableArray[\R,I\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\E,I\], E->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\E\], E->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\E,I\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\E\], Generator[\G\])->Generator[\(E, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array2[\T,0,s0,0,s1\]->Array2[\U,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1639:3-40
+   [\U\]Array[\T,(ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,(ZZ32, ZZ32)\]->Array[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array2[\T,0,s0,0,s1\]->Array2[\U,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1639:3-40
+   [\U\]ReadableArray[\T,(ZZ32, ZZ32)\]->ReadableArray[\U,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], ((ZZ32, ZZ32), T)->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1646:3-60
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], ((ZZ32, ZZ32), T)->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], T->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], T->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,(ZZ32, ZZ32)\], T->R)->Indexed[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], T->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,(ZZ32, ZZ32)\], T->R)->Array[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array2[\T,0,s0,0,s1\], T->R)->Array2[\R,0,s0,0,s1\] @ <lib>/FortressLibrary.fsi:1645:3-1646:2
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], T->R)->ReadableArray[\R,(ZZ32, ZZ32)\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,(ZZ32, ZZ32)\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](Condition[\T\], T->G)->Condition[\G\] @ <lib>/FortressLibrary.fsi:857:5-858:4
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\G\](Condition[\T\], Reduction[\G\], T->G)->G @ <lib>/FortressLibrary.fsi:856:5-52
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](Generator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](Condition[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:859:5-53
+   [\G\](SequentialGenerator[\T\], T->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](Condition[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:861:5-862:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\F\](SequentialGenerator[\T\], Generator[\F\])->Generator[\(T, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](Condition[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:860:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=subarray own=3/3 eq=false
+   [\nat b, nat s, nat o\](Array1[\T,0,s0\], ZZ32)->Array1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1523:5-1525:5
+   [\nat b, nat s, nat o\]((ReadableArray1[\T,0,s0\] & {ImmutableArray1[\T,0,s0\], Array1[\T,0,s0\]}), ZZ32)->ReadableArray1[\T,b,s\] @ <lib>/FortressLibrary.fsi:1471:5-1474:36
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,0,s0\]->Array1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+   [\U\]ReadableArray[\T,ZZ32\]->ReadableArray[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1372:5-49
+@@P1 POS agree name=replica own=1/1 eq=false
+   [\U\]Array1[\T,0,s0\]->Array1[\U,0,s0\] @ <lib>/FortressLibrary.fsi:1525:5-37
+   [\U\]Array[\T,ZZ32\]->Array[\U,ZZ32\] @ <lib>/FortressLibrary.fsi:1408:5-1410:47
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](Indexed[\T,ZZ32\], (ZZ32, T)->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1244:5-43
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], (ZZ32, T)->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1530:5-1531:1
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+@@P1 POS agree name=ivmap own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], (ZZ32, T)->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1401:5-50
+   [\R\](ReadableArray[\T,ZZ32\], (ZZ32, T)->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1354:5-58
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\T\], T->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array[\T,ZZ32\], T->R)->Array[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1402:5-44
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Array1[\T,0,s0\], T->R)->Array1[\R,0,s0\] @ <lib>/FortressLibrary.fsi:1529:5-1530:4
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\T,ZZ32\], T->R)->Indexed[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], T->R)->ReadableArray[\R,ZZ32\] @ <lib>/FortressLibrary.fsi:1355:5-1359:38
+   [\G\](Generator[\T\], T->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\T,ZZ32\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\T\], Generator[\G\])->Generator[\(T, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\T\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](ReadableArray[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1339:5-51
+   [\R\](DelegatedIndexed[\T,ZZ32\], Reduction[\R\], T->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.RightScalarRange[\I\], RangeInternals.RightScalarRange[\J\], RangeInternals.RightScalarRange[\K\])->RangeInternals.RightRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:346:1-347:59
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ExtentScalarRange[\I\], RangeInternals.ExtentScalarRange[\J\], RangeInternals.ExtentScalarRange[\K\])->RangeInternals.ExtentRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:215:1-216:61
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.LeftScalarRange[\I\], RangeInternals.LeftScalarRange[\J\], RangeInternals.LeftScalarRange[\K\])->RangeInternals.LeftRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:286:1-186
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.OpenScalarRange[\I\], RangeInternals.OpenScalarRange[\J\], RangeInternals.OpenScalarRange[\K\])->RangeInternals.OpenRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:155:1-186
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScalarRange[\J\], RangeInternals.FullScalarRange[\K\])->RangeInternals.FullRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:549:1-186
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.CompactFullScalarRange[\J\], RangeInternals.CompactFullScalarRange[\K\])->RangeInternals.CompactFullRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:476:1-477:71
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\], RangeInternals.ScalarRange[\K\])->RangeInternals.Range3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:83:1-84:1
+@@P1 POS agree name=combine3D own=3/3 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.CompactFullScalarRange[\J\], RangeInternals.CompactFullScalarRange[\K\])->RangeInternals.CompactFullRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:476:1-477:71
+   [\I extends Integral[\I\], J extends Integral[\J\], K extends Integral[\K\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScalarRange[\J\], RangeInternals.FullScalarRange[\K\])->RangeInternals.FullRange3D[\I,J,K\] @ <home>/Library/RangeInternals.fsi:549:1-186
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.OpenScalarRange[\I\], RangeInternals.OpenScalarRange[\J\])->RangeInternals.OpenRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:141:1-133
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ExtentScalarRange[\I\], RangeInternals.ExtentScalarRange[\J\])->RangeInternals.ExtentRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:200:1-139
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.CompactFullScalarRange[\J\])->RangeInternals.CompactFullRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:458:1-154
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.RightScalarRange[\I\], RangeInternals.RightScalarRange[\J\])->RangeInternals.RightRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:331:1-136
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScalarRange[\J\])->RangeInternals.FullRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:532:1-133
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.LeftScalarRange[\I\], RangeInternals.LeftScalarRange[\J\])->RangeInternals.LeftRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:271:1-133
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.ScalarRange[\I\], RangeInternals.ScalarRange[\J\])->RangeInternals.Range2D[\I,J\] @ <home>/Library/RangeInternals.fsi:51:1-52:1
+@@P1 POS agree name=combine2D own=2/2 eq=false
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.CompactFullScalarRange[\I\], RangeInternals.CompactFullScalarRange[\J\])->RangeInternals.CompactFullRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:458:1-154
+   [\I extends Integral[\I\], J extends Integral[\J\]\](RangeInternals.FullScalarRange[\I\], RangeInternals.FullScalarRange[\J\])->RangeInternals.FullRange2D[\I,J\] @ <home>/Library/RangeInternals.fsi:532:1-133
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J, K),(I, J, K)\], (I, J, K)->R)->Indexed[\R,(I, J, K)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J, K)\], (I, J, K)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J, K),(I, J, K)\], (I, J, K)->R)->Indexed[\R,(I, J, K)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J, K)\], (I, J, K)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\T\](RangeInternals.StridedFullParScalarRange[\I\], Reduction[\T\], I->T)->T @ <home>/Library/RangeInternals.fsi:517:5-57
+   [\R\](Generator[\I\], Reduction[\R\], I->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\T\](RangeInternals.CompactFullParScalarRange[\I\], Reduction[\T\], I->T)->T @ <home>/Library/RangeInternals.fsi:443:5-57
+   [\R\](Generator[\I\], Reduction[\R\], I->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\I\], I->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\I\], I->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\I\], Generator[\F\])->Generator[\(I, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\I\], Generator[\G\])->Generator[\(I, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\T\](RangeInternals.CompactFullSeqScalarRange[\I\], Reduction[\T\], I->T)->T @ <home>/Library/RangeInternals.fsi:454:5-57
+   [\R\](Generator[\I\], Reduction[\R\], I->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J),(I, J)\], (I, J)->R)->Indexed[\R,(I, J)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J)\], (I, J)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J),(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J, K),(I, J, K)\], (I, J, K)->R)->Indexed[\R,(I, J, K)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J, K)\], (I, J, K)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J, K)\], (I, J, K)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J, K)\], Generator[\G\])->Generator[\((I, J, K), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J, K),(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J, K)\], Reduction[\R\], (I, J, K)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\G\](SequentialGenerator[\I\], I->G)->SequentialGenerator[\G\] @ <lib>/FortressLibrary.fsi:830:5-47
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=nest own=1/1 eq=false
+   [\G\](SequentialGenerator[\I\], I->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:831:5-53
+   [\G\](Generator[\I\], I->Generator[\G\])->Generator[\G\] @ <lib>/FortressLibrary.fsi:714:5-718:47
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\F\](SequentialGenerator[\I\], Generator[\F\])->Generator[\(I, F)\] @ <lib>/FortressLibrary.fsi:832:5-833:1
+   [\G\](Generator[\I\], Generator[\G\])->Generator[\(I, G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\T\](RangeInternals.StridedFullSeqScalarRange[\I\], Reduction[\T\], I->T)->T @ <home>/Library/RangeInternals.fsi:528:5-57
+   [\R\](Generator[\I\], Reduction[\R\], I->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J),(I, J)\], (I, J)->R)->Indexed[\R,(I, J)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J)\], (I, J)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J),(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\I,I\], I->R)->Indexed[\R,I\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\I\], I->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=map own=1/1 eq=false
+   [\R\](Indexed[\(I, J),(I, J)\], (I, J)->R)->Indexed[\R,(I, J)\] @ <lib>/FortressLibrary.fsi:1245:5-1250:5
+   [\G\](Generator[\(I, J)\], (I, J)->G)->Generator[\G\] @ <lib>/FortressLibrary.fsi:699:5-701:72
+@@P1 POS agree name=mapReduce own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:1292:5-1293:5
+   [\R\](Generator[\(I, J)\], (I, J)->R, (R, R)->R, R)->R @ <lib>/FortressLibrary.fsi:755:5-758:5
+@@P1 POS agree name=cross own=1/1 eq=false
+   [\G\](DelegatedIndexed[\(I, J),(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:1291:5-53
+   [\G\](Generator[\(I, J)\], Generator[\G\])->Generator[\((I, J), G)\] @ <lib>/FortressLibrary.fsi:748:5-754:66
+@@P1 POS agree name=generate own=1/1 eq=false
+   [\R\](DelegatedIndexed[\(I, J),(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:1289:5-51
+   [\R\](Generator[\(I, J)\], Reduction[\R\], (I, J)->R)->R @ <lib>/FortressLibrary.fsi:691:5-698:31

@@ -1,0 +1,22 @@
+# comp PermuteOverride forced (-Dprobe.rtr=forced -Dprobe.positional=true; library cache forced) 2026-09-28T08:42:06Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.87 2.37 3.06; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+@@P1 POS return name=pick own=2/2 eq=false
+   [\A extends Any, B extends Any\](P, A, B)->B @ PermuteOverride.fss:11:3-57
+   [\A extends Any, B extends Any\](Picker, A, B)->A @ PermuteOverride.fss:8:3-9:1
+PermuteOverride.fss:11:3-57:
+PermuteOverride.fss:8:3-9:1:
+    For pick,
+the return type of [\A extends Any, B extends Any\](P, A, B)->B @ PermuteOverride.fss:11:3-57 should be a subtype of the
+    return type of [\A extends Any, B extends Any\](Picker, A, B)->A @ PermuteOverride.fss:8:3-9:1
+PermuteOverride.fss:11:3-57:
+PermuteOverride.fss:8:3-9:1:
+    Positional rule (return) for pick: the static parameters of [\A extends Any, B extends Any\](P, A, B)->B @ PermuteOverride.fss:11:3-57
+    do not agree position by position with those of [\A extends Any, B extends Any\](Picker, A, B)->A @ PermuteOverride.fss:8:3-9:1
+File PermuteOverride.fss has 2 errors.
+compile rc=255
+## run
+Could not load PermuteOverride
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : PermuteOverride.class
+	... 4 more
+run rc=1

@@ -1,0 +1,13 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+index 75a2735e1..f1074f845 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+@@ -133,7 +133,7 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
+ 
+     @Override
+     public Node forStaticParam(StaticParam that) {
+-	if (!Shell.getExtendsObjectPreDesugaring()) {
++	if (!Shell.getExtendsObjectPreDesugaring() || Boolean.getBoolean("probe.p5")) {   // probe P5
+ 	    return super.forStaticParam(that);
+ 	} else {
+ 	    ASTNodeInfo info_result = (ASTNodeInfo) recur(that.getInfo());

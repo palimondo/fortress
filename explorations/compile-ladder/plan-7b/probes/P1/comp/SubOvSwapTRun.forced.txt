@@ -1,0 +1,17 @@
+# comp SubOvSwapTRun forced (-Dprobe.rtr=forced -Dprobe.positional=true; library cache forced) 2026-09-28T08:42:09Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.04 2.40 3.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+@@P1 POS return name=sub own=2/2 eq=false
+   [\U extends Object, V extends Object\](Dn[\U0,V0\], ZZ32)->Dn[\V,U\] @ SubOvSwapTRun.fss:9:5-56
+   [\U extends Object, V extends Object\](Up[\U0,V0\], ZZ32)->Up[\U,V\] @ SubOvSwapTRun.fss:5:5-6:1
+SubOvSwapTRun.fss:5:5-6:1:
+SubOvSwapTRun.fss:9:5-56:
+    Positional rule (return) for sub: the static parameters of [\U extends Object, V extends Object\](Dn[\U0,V0\], ZZ32)->Dn[\V,U\] @ SubOvSwapTRun.fss:9:5-56
+    do not agree position by position with those of [\U extends Object, V extends Object\](Up[\U0,V0\], ZZ32)->Up[\U,V\] @ SubOvSwapTRun.fss:5:5-6:1
+File SubOvSwapTRun.fss has 1 error.
+compile rc=255
+## run
+Could not load SubOvSwapTRun
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SubOvSwapTRun.class
+	... 4 more
+run rc=1
