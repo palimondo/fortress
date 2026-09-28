@@ -83,6 +83,9 @@ SHAPES = [
     ('PickZU', 'pick(z, u)'), ('PickLR', 'pick(l, r)'), ('PickZS', 'pick(z, "s")'),
     ('OvZW', 'ov(z, w)'), ('OgZ', 'og(b, z)'),
     ('GfNarrow', 'gf(NarrowOf(2), "two")'), ('FgNarrowG', 'fg(NarrowGOf[\\ZZ32\\](2))'),
+    # the range factories' dummy ZZ32 (Library/RangeInternals.fss:1418-1441), met in XXXRangeSizeZZ64RungO
+    ('RangeUU', 'typeOf((u:u).lower)'), ('RangeWW', 'typeOf((w:w).lower)'), ('HashUU', 'typeOf((u#u).lower)'),
+    ('RangeZZ', 'typeOf((z:z).lower)'),
 ]
 
 
