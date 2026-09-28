@@ -1,0 +1,70 @@
+#total	1784
+#kind	exclusion	38
+#kind	comprises	2
+#kind	overloading	502
+#kind	return-type	91
+#kind	abstract-method	30
+#kind	bound-Object	0
+#kind	wellformed	93
+#kind	typecheck	1017
+#kind	export	11
+#class	H1	38	exclusion: the comparisons, Maybe, Condition
+#class	H2	2	comprises: AnyIntegral's clause
+#class	A1	244	fill: function form against value form
+#class	A2	58	fill: the array diamond
+#class	L1	85	overloading: the static-parameter sentence's families
+#class	M1	100	overloading: the Meet Rule
+#class	O1	15	overloading: same parameter type (LEXICO, INVERSE, SQCAP)
+#class	R1	32	return type: StandardMinMax's (T,T) slip (row 421)
+#class	R2	19	return type: the comparisons' CMP
+#class	R3	40	return type: other declared-type slips
+#class	D1	12	abstract method: a bodyless function under compiled desugaring
+#class	D2	18	abstract method: RangeInternals' CAP, IN, |_|
+#class	X1	11	export: component against api
+#class	Z1	11	sizes: arithmetic on nat static arguments
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	N1	364	natives: builtinPrimitive's T not inferred
+#class	N2	23	a result-only static parameter not inferred (fail, ...)
+#class	I2	19	integers in generic code: the dummy-ZZ32 device of # and :
+#class	I5	15	integers in generic code: Integral[\I\] declares no |self|
+#class	I1	80	integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+#class	I3	167	integers in generic code: a numeral where a type parameter is expected
+#class	I4	3	integers in generic code: a fixed width where a type parameter is expected
+#class	I6	8	integers in generic code: [\ZZ32,ZZ32\] written for [\I,J\]
+#class	S1	28	self type: a generic trait's self is not its type parameter
+#class	R4	18	StandardMinMax's (T,T) slip in bodies (row 421)
+#class	V1	44	arrays: element type bounded by Number, which declares no arithmetic
+#class	V2	37	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	14	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	MB	7	Maybe: Just and Nothing do not join to Maybe
+#class	SF	22	String: an object's field read as an inherited method (left, right)
+#class	GB	7	generators: a function argument inferred at BottomType (COMPOSE, map)
+#class	TS	9	ranges: a tuple shift adds or subtracts a whole tuple (K - (I,J,K))
+#class	RG	28	ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+#class	BR	9	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	CV	10	a call covered only by the union of its overloads' arms (walk chooses at run time)
+#class	NM	52	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	9	generators: a filter that failed for another reason
+#class	OT	122	other body errors (one-off library slips and checker limits)
+#unit	api FortressLibrary	180
+#unit	api NativeArray	22
+#unit	api RangeInternals	21
+#unit	component FlatString	24
+#unit	component FortressBuiltin	216
+#unit	component FortressLibrary	848
+#unit	component List	28
+#unit	component NatReflect	4
+#unit	component NativeArray	9
+#unit	component RangeInternals	343
+#unit	component Stream	3
+#unit	component String	74
+#unit	component Writer	12
+#crash	decl	FnDecl FortressLibrary.fss:1226:1-1230:4	InterpreterBug	** bug! FortressLibrary.fss:1228:10 Type is not inferred.
+#crash	decl	FnDecl FortressLibrary.fss:4254:1-4267:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl FortressLibrary.fss:4273:1-4278:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	FnDecl String.fss:322:1-332:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	ObjectDecl FortressBuiltin.fss:589:1-701:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressBuiltin.fss:37:1-52:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+#crash	decl	TraitDecl FortressLibrary.fss:2397:1-2511:2	TypeError	FortressLibrary.fss:2406:9: Missing parameter type for i
+#crash	decl	TraitDecl FortressLibrary.fss:2770:1-2883:2	TypeError	FortressLibrary.fss:2789:11: Missing parameter type for i
+#crash	stage	component Stream variance	OptionUnwrapException	null
