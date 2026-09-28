@@ -280,6 +280,9 @@
 <!-- 2026-09-27, first cleanup, 892687076: removed as a remark the protocol now carries -->
 - 2026-09-27, 01:10 UTC: "No need to duplicate any and all of my utterances in multiple places either." What he says is recorded once, here; the boot note, the batch records and FACTS point to the entry instead of restating it.
 
+<!-- 2026-09-28: replaced by his decision to run one combined review after every batch -->
+- 2026-09-27, on reviews after a batch: "Running a review of a batch is my call ... you can propose running the automatic conformance review, but you cannot decide this on your own." The coordinator offers a conformance review after each batch; none is built into the workflow.
+
 ## How he wants to be spoken to
 
 <!-- 2026-09-27: merged in POSITIONS.md into one entry on the register -->
