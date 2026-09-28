@@ -1,0 +1,7 @@
+(* The same, in the library's own leaf form (ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }):
+   AnyIntegral is now an immediate supertype, so its comprises clause is consulted. *)
+component UserIntegralLeaf
+export Executable
+trait MyIntegral extends { AnyIntegral, Integral[\MyIntegral\] } end
+run(): () = println("UserIntegralLeaf")
+end
