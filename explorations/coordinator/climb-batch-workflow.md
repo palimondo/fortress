@@ -32,6 +32,8 @@ New: a `run_bg`/`wait_for` pair at five-second granularity (item 7); a committed
 2. **deferred, specification settles it** → a gated expected-failure test named `XXX…` asserting the specification's answer. The mechanism is cited so it can be checked: `FileTests.java:932` sets `shouldFail` from the name and `:587`/`:654` make `shouldFail != failed` the failure condition, so the suite goes red the day the test starts passing; `:851` names the case and the author's warning at `:853` is why a rung's first `XXX` file is shown to go red on a deliberate local fix (item b);
 3. **deferred, specification silent** → a probe with a committed `.txt` capture and a ledger row, the record saying the silence is the reason (item c).
 
+A home-2 test is owed in the batch that measures the defect, even when a later rung or batch is planned to repair it; the argument that it can wait for the repairing rung was ruled against three times (batches 6b, 7R and 7C; `reviews/batch-7C-review.md`, the repeat; `reviews/process-review-6b-7-7R.md`, measure 3). The rule text the agents read carries the same sentence.
+
 The tracked-path check is here too: every `explorations/` path a record cites is `git ls-files --error-unmatch`'d before the rung reports (item g, gap 4).
 
 ## Rung worker
