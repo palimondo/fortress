@@ -26,6 +26,7 @@ for s in walk any; do
   for v in stock fix; do
     python3 $P/compare.py --sites -v $PDD/full-$s-$v.tsv $O/full-L0-$s-rule.tsv | cut -c1-400 > $O/compare-sites-L0-$s-D$v-vs-rule.txt
   done
+  [ -s $O/full-L0-$s-stock.tsv ] && python3 $P/compare.py --sites -v $PDD/full-$s-stock.tsv $O/full-L0-$s-stock.tsv | cut -c1-400 > $O/compare-sites-L0-$s-Dstock-vs-stock.txt
 done
 # what the numeral switch costs, stock and under the rule: A0 against L0, by site, A0's lines carried
 # back to L0's by compare.py's line map (the library copies are in the scratch directory, env.sh's $X)
