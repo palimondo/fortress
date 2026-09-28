@@ -366,3 +366,39 @@ Finding 2: row 460's binding form has home 3, not an `XXX` test. The section's n
 Item for Pavol: judge-review.1, typecase's binding syntax, under "Off the path, parked" in `PLAN.md`.
 
 The tracked-path check over rung H's `REPORT.md` and `record.md`, this record and `JUDGE-review.md` printed one line, `UNTRACKED explorations/compile-ladder/plan-n/manifest/__pycache__/`, the Python bytecode directory this record's preconditions name as left untracked (`:5`); every other path they cite exists and is tracked. Every path this repair added to the ledger, `FACTS.md`, `PLAN.md` and H's `REPORT.md` is tracked and holds the cited text at the cited line: `typecase.tex:15`, `:53-93` and `:126-133`; `DelimitedExpr.rats:122` and `:237-251`; `Fortress.ast:594-607`; `CompilerLibrary.fss:40-43`; `Compiled6.av.fss:16-19`; and `typecase-forms.txt:94-136`, with `TcBind.fss` and `TcTuple.fss` beside it.
+
+## The second merged-diff review
+
+Made 2026-09-28 on `main` at `e75fca14b`, over the batch's three commits and the first review's, the judge's and the repair's, beside the gate's result. Its corrections are one commit, "Fold the review's corrections", inside `explorations/` only, so the gate's result stands.
+
+**Checked and holding.**
+- Batch rules 1 and 2, read from the hunks again: B's ten one-line replacements, H's `TotalComparison`, `AnyMaybe`, `RelationalPredicateCondition` and `Condition` functions, and A's `fill` and `tabulate` members, factories and call sites share no declaration, method, trait body or operator. H's restated members carry `StandardTotalOrder`'s bodies (`Library/FortressLibrary.fss:283-288`), and no new test asserts another rung's edit. A leaves no function-form `fill` call in `Library/`, `ProjectFortress/tests/` or `ProjectFortress/demos/` but `TabulateRungA`'s two value-form calls and `mg.fss:20` (row 464). `ImmutableArray1` and `StandardMutableArrayType` are the only traits that extend `StandardImmutableArrayType`, whose two forms A made abstract, and both define them.
+- Each rung's directory is in its own commit alone, besides the review's corrections. A's vocabulary and probe lines are the 16 approved, each `.fill(` to `.tabulate(`.
+- Footers are exact on all six commits. No model identifier is in their messages or added lines. Each of the three rung commits has a `historical:` line.
+- The ledger: 472 rows in the base's order, 148 the one vacant number, and 456-473 in order after 455. Rows 247, 309, 351, 407, 421, 430, 437 and 447 change only by appended text, and only the closed rows 247 and 421 change a status cell. The counts cover rows 1-310, as they say. `FACTS.md`'s anchors `:661` and `:801` are right. No provisional number is left as a row citation.
+- The FACTS lines and the new rows were read against their citations on `main`, and the figures add up: 22 = (2 + 0 + 42) / 2; 190 = 147 + 22 + 21; 1,747 − 420 + 10 = 1,337.
+- The corrections the gather closed were spot-checked (A1, B1, B2, H1, H6), and every recommended row is opened.
+- Each provenance block has five lines, each ending in a file:line, and each `SKEPTIC.md` says the lines were opened. Every path the records cite is tracked, apart from the two `__pycache__` directories named at `:5`.
+
+**The checker table.** `tmp/gate-batch-7/out/checker-count.txt` against `compile-ladder/climb-batch-6b/gate/checker-count.txt`: no api row is new and none rose.
+- `FortressLibrary` 38 to 2: rung H cleared the 18 exclusion errors. The one left is `AnyIntegral`'s clause, reported at `Library/FortressLibrary.fsi:436` (`tmp/gate-batch-7/checker-count/run.txt:26-28`) and counted twice.
+- `NativeArray` 44 to 0: rung A.
+- `RangeInternals` 42, unchanged.
+- The new `#cache` line is the stage's setting (`explorations/coordinator/tools/checker-count/run.sh:93`; `explorations/coordinator/CLIMB-BATCH-7.md:1048`), not an api row.
+- `#total` 62 to 22, `#crash` none. The gate's `testSystem` shards sum to 423.
+
+**Corrected in the records.**
+- H's FACTS append and its `record.md` said `TotalComparison` extends `Comparison` alone "as the specification's does". The specification's `TotalComparison` extends `Comparison` and the three traits of `LEXICO`'s algebra (`Specification/advanced-lib/comparison.tex:28-32`). H's `REPORT.md` says so correctly (`compile-ladder/rung-exclusion-remainder/REPORT.md:6`, `:163`). Both texts now say it extends no order, as the specification's does.
+- A's provenance `historical:` line listed `ArrayOperatorsBesideLibrary.fss` and `ArrayScalarExtension.fss` among the 2012 tree's files. Both were added by the revival at `02d09a39f` (2026-09-19), and the line now names them as the revival's own.
+- Rows 466, 467 and 468, opened from rung A's skeptic, did not say which home each takes or why. Each now does:
+  - 466: home 3. The normative sentence puts the duty on the programmer, and the footnote describes the 2012 implementation.
+  - 467: the fourth case, with the distance stage as its report-only home.
+  - 468: home 3, since the specification describes neither `Generator22D` nor `rects`.
+
+**Observed, not changed.** Two commit messages carry the two claims corrected above: H's (`952892a00`, "as the compiler prelude's and the specification's do") and A's `historical:` line (`f3b62bc83`). They are local commits whose hashes committed lines cite. The judge ruled against rewriting them for a like reason (`compile-ladder/climb-batch-7/JUDGE-review.md`, finding 1), so the records carry the correction.
+
+**Stops.** They are as "For the commit stage" lists them, each lifted:
+- B's line count, by the numerics plans (`explorations/coordinator/POSITIONS.md:128`);
+- H's new distance errors and its two changed walk outputs, and A's `mg.fss`, as reversible stops (`POSITIONS.md:120`).
+
+The review meets no stop and adds no item for Pavol.
