@@ -1,0 +1,89 @@
+== script at 2ab336d5f
+MANIFEST block of the original: lines 58 to 651 of 2242; every line outside it byte-identical in the splice
+node --check wfn-orig.js: exit 0
+node --check wfn-spliced.js: exit 0
+node --check wfn-spliced-second.js: exit 0
+LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
+RUN all: throws: RUN is not one of first, second
+block, RUN first: batch n, record explorations/coordinator/CLIMB-BATCH-N.md, LEDGER_FROM 456, rungs I, K, T (lands only with I), scatter K, I, T, intro 6383 chars, overlaps 1651 chars
+  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 66 keys, checks 15, tail 70 lines
+  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 57 keys, checks 14, tail 55 lines
+  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 41 keys, checks 11, tail 45 lines
+block, RUN second: batch nb, record explorations/coordinator/CLIMB-BATCH-N.md, LEDGER_FROM 456, rungs Q, scatter Q, intro 4616 chars, overlaps 1252 chars
+  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 71 keys, checks 13, tail 68 lines
+stubbed run, first run, every agent approves:
+  Climb batch n: 3 rungs (I, K, T), two at a time in the order K, I, T (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:K, skeptic:K, rung:I, skeptic:I, rung:T, skeptic:T, gather, gate, review, commit
+  rungs: I approved; K approved; T approved; landed true
+  rung:K step 1 renders 57 keys, its briefing in order
+  skeptic:K step 1 renders 14 keys, its checks in order
+  rung:I step 1 renders 66 keys, its briefing in order
+  skeptic:I step 1 renders 15 keys, its checks in order
+  rung:T step 1 renders 41 keys, its briefing in order
+  skeptic:T step 1 renders 11 keys, its checks in order
+  gather: ledger numbering from 456, manifest order I, K, T
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-n/gate/
+stubbed run, first run, I stops, its judge rules stop:
+  Climb batch n: 3 rungs (I, K, T), two at a time in the order K, I, T (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:K, skeptic:K, rung:I, judge:I:stop, rung:T, skeptic:T, gather, gate, review, commit
+  rungs: I stopped; K approved; T withheld (T lands only with I (landsOnlyWith in the manifest), and I is stopped: not applied, its findings folded); landed true
+  rung:K step 1 renders 57 keys, its briefing in order
+  skeptic:K step 1 renders 14 keys, its checks in order
+  rung:I step 1 renders 66 keys, its briefing in order
+  rung:T step 1 renders 41 keys, its briefing in order
+  skeptic:T step 1 renders 11 keys, its checks in order
+  gather: ledger numbering from 456, manifest order I, K, T
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-n/gate/
+stubbed run, second run, every agent approves:
+  Climb batch nb: 1 rungs (Q), two at a time in the order Q (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:Q, skeptic:Q, gather, gate, review, commit
+  rungs: Q approved; landed true
+  rung:Q step 1 renders 71 keys, its briefing in order
+  skeptic:Q step 1 renders 13 keys, its checks in order
+  gather: ledger numbering from 456, manifest order Q
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-nb/gate/
+== working copy (identical to HEAD)
+MANIFEST block of the original: lines 58 to 651 of 2242; every line outside it byte-identical in the splice
+node --check wfn-orig.js: exit 0
+node --check wfn-spliced.js: exit 0
+node --check wfn-spliced-second.js: exit 0
+LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
+RUN all: throws: RUN is not one of first, second
+block, RUN first: batch n, record explorations/coordinator/CLIMB-BATCH-N.md, LEDGER_FROM 456, rungs I, K, T (lands only with I), scatter K, I, T, intro 6383 chars, overlaps 1651 chars
+  I: rung-inference-checker, /home/user/fortress-infer, wip/rung-inference-checker, expectedMinutes 200, testIsStage false, writesState false, briefing 66 keys, checks 15, tail 70 lines
+  K: rung-inference-walk, /home/user/fortress-walkinfer, wip/rung-inference-walk, expectedMinutes 220, testIsStage false, writesState false, briefing 57 keys, checks 14, tail 55 lines
+  T: rung-spec-inference, /home/user/fortress-specinfer, wip/rung-spec-inference, expectedMinutes 110, testIsStage false, writesState false, briefing 41 keys, checks 11, tail 45 lines
+block, RUN second: batch nb, record explorations/coordinator/CLIMB-BATCH-N.md, LEDGER_FROM 456, rungs Q, scatter Q, intro 4616 chars, overlaps 1252 chars
+  Q: rung-numeral-type, /home/user/fortress-numeral, wip/rung-numeral-type, expectedMinutes 260, testIsStage false, writesState false, briefing 71 keys, checks 13, tail 68 lines
+stubbed run, first run, every agent approves:
+  Climb batch n: 3 rungs (I, K, T), two at a time in the order K, I, T (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:K, skeptic:K, rung:I, skeptic:I, rung:T, skeptic:T, gather, gate, review, commit
+  rungs: I approved; K approved; T approved; landed true
+  rung:K step 1 renders 57 keys, its briefing in order
+  skeptic:K step 1 renders 14 keys, its checks in order
+  rung:I step 1 renders 66 keys, its briefing in order
+  skeptic:I step 1 renders 15 keys, its checks in order
+  rung:T step 1 renders 41 keys, its briefing in order
+  skeptic:T step 1 renders 11 keys, its checks in order
+  gather: ledger numbering from 456, manifest order I, K, T
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-n/gate/
+stubbed run, first run, I stops, its judge rules stop:
+  Climb batch n: 3 rungs (I, K, T), two at a time in the order K, I, T (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:K, skeptic:K, rung:I, judge:I:stop, rung:T, skeptic:T, gather, gate, review, commit
+  rungs: I stopped; K approved; T withheld (T lands only with I (landsOnlyWith in the manifest), and I is stopped: not applied, its findings folded); landed true
+  rung:K step 1 renders 57 keys, its briefing in order
+  skeptic:K step 1 renders 14 keys, its checks in order
+  rung:I step 1 renders 66 keys, its briefing in order
+  rung:T step 1 renders 41 keys, its briefing in order
+  skeptic:T step 1 renders 11 keys, its checks in order
+  gather: ledger numbering from 456, manifest order I, K, T
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-n/gate/
+stubbed run, second run, every agent approves:
+  Climb batch nb: 1 rungs (Q), two at a time in the order Q (longest expected worker first), each judged by its own skeptic before the merge; then gather, review beside the gate, commit. Base BASE.
+  agents in order: rung:Q, skeptic:Q, gather, gate, review, commit
+  rungs: Q approved; landed true
+  rung:Q step 1 renders 71 keys, its briefing in order
+  skeptic:Q step 1 renders 13 keys, its checks in order
+  gather: ledger numbering from 456, manifest order Q
+  commit: the gate tables land under explorations/compile-ladder/climb-batch-nb/gate/
+problems: 0
