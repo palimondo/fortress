@@ -1,0 +1,12 @@
+--- compiled CEdgeNN64ZZ64Max; tree a7df9bfbe 2026-09-29T03:06:25Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 5.15 1.80 1.60 6/187 4390
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+v MAX w =  18446744073709551615  :  ZZ
+run rc=0

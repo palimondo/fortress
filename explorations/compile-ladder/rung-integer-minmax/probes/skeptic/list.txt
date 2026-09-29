@@ -1,0 +1,37 @@
+ControlMaxNumZZ64	b MAX 1	[b: ZZ64 = widen(3)]	CControlMaxNumZZ64
+MaxnumNumZZ64	b MAXNUM 1	[b: ZZ64 = widen(3)]	-
+MinnumNumZZ64	b MINNUM 1	[b: ZZ64 = widen(3)]	-
+MaxnumNumZZ	b MAXNUM 1	[b: ZZ = big(3)]	-
+MaxnumVarZZ64ZZ32	w MAXNUM z	[w: ZZ64 = widen(4) ; z: ZZ32 = 3]	-
+MaxnumVarNN64NN32	v MAXNUM u	[v: NN64 = unsigned(widen(4)) ; u: NN32 = unsigned(3)]	-
+MaxnumNumZZ32	b MAXNUM 1	[b: ZZ32 = 3]	-
+MaxnumVarZZ64ZZ64	w MAXNUM y	[w: ZZ64 = widen(4) ; y: ZZ64 = widen(3)]	-
+MaxZZ32QQ	z MAX q	[z: ZZ32 = 3 ; q: QQ = 7/2]	-
+MaxZZ64QQ	w MAX q	[w: ZZ64 = widen(3) ; q: QQ = 7/2]	-
+MaxZZQQ	g MAX q	[g: ZZ = big(3) ; q: QQ = 7/2]	-
+MinQQNN64	q MIN v	[q: QQ = 7/2 ; v: NN64 = unsigned(widen(3))]	-
+MaxZZ32RR64	z MAX f	[z: ZZ32 = 3 ; f: RR64 = 2.5]	CMaxZZ32RR64
+MaxZZ64RR64	w MAX f	[w: ZZ64 = widen(3) ; f: RR64 = 2.5]	CMaxZZ64RR64
+MaxNN32RR64	u MAX f	[u: NN32 = unsigned(3) ; f: RR64 = 2.5]	CMaxNN32RR64
+EdgeNN32ZZ32Max	u MAX z	[u: NN32 = unsigned(-1) ; z: ZZ32 = -1]	CEdgeNN32ZZ32Max
+EdgeNN32ZZ32Min	u MIN z	[u: NN32 = unsigned(-1) ; z: ZZ32 = -1]	CEdgeNN32ZZ32Min
+EdgeNN32NN32Min	u MIN t	[u: NN32 = unsigned(-1) ; t: NN32 = unsigned(1)]	CEdgeNN32NN32Min
+EdgeNN64NN64Min	v MIN y	[v: NN64 = unsigned(widen(-1)) ; y: NN64 = unsigned(widen(1))]	CEdgeNN64NN64Min
+EdgeNN64ZZ64Max	v MAX w	[v: NN64 = unsigned(widen(-1)) ; w: ZZ64 = widen(-5)]	CEdgeNN64ZZ64Max
+EdgeNN64NN32Max	v MAX u	[v: NN64 = unsigned(widen(-1)) ; u: NN32 = unsigned(-1)]	CEdgeNN64NN32Max
+EdgeZZ32ZZ64Min	z MIN w	[z: ZZ32 = -2147483647 - 1 ; w: ZZ64 = widen(-2147483647) TIMES widen(2147483647)]	CEdgeZZ32ZZ64Min
+EdgeZZZZ64Max	g MAX w	[g: ZZ = big(2147483647) TIMES big(2147483647) TIMES big(2147483647) ; w: ZZ64 = widen(-1)]	CEdgeZZZZ64Max
+EdgeZZ64ZZMin	w MIN g	[g: ZZ = big(2147483647) TIMES big(2147483647) TIMES big(2147483647) ; w: ZZ64 = widen(-1)]	CEdgeZZ64ZZMin
+NumeralBigZZ32	z MAX 3000000000	[z: ZZ32 = 3]	CNumeralBigZZ32
+NumeralBigZZ64	w MAX 3000000000	[w: ZZ64 = widen(3)]	CNumeralBigZZ64
+NumeralHugeZZ64	w MAX 100000000000000000000	[w: ZZ64 = widen(3)]	CNumeralHugeZZ64
+NumeralBigNN32	u MIN 3000000000	[u: NN32 = unsigned(3)]	CNumeralBigNN32
+EqualZZ64ZZ32Max	w MAX z	[w: ZZ64 = widen(3) ; z: ZZ32 = 3]	CEqualZZ64ZZ32Max
+EqualZZ32ZZ64Min	z MIN w	[w: ZZ64 = widen(3) ; z: ZZ32 = 3]	CEqualZZ32ZZ64Min
+EqualNN32ZZ32Minmax	u MINMAX z	[u: NN32 = unsigned(3) ; z: ZZ32 = 3]	CEqualNN32ZZ32Minmax
+GenericZZ64	bigger(w, y)	[w: ZZ64 = widen(3) ; y: ZZ64 = widen(7)]	CGenericZZ64
+GenericNN32	bigger(u, t)	[u: NN32 = unsigned(3) ; t: NN32 = unsigned(7)]	CGenericNN32
+GenericExplicitZZ64	bigger[\ZZ64\](w, z)	[w: ZZ64 = widen(3) ; z: ZZ32 = 7]	CGenericExplicitZZ64
+PrintNN64	v	[v: NN64 = unsigned(widen(-1))]	CPrintNN64
+BigMaxZZ64	BIG MAX [i <- 1#5] widen(i)	[ignored: ZZ32 = 0]	-
+BigMinZZ	BIG MIN [i <- 1#5] big(i)	[ignored: ZZ32 = 0]	-

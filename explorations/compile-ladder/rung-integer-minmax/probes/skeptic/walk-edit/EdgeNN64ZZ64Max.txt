@@ -1,0 +1,9 @@
+--- walk edit EdgeNN64ZZ64Max; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:14:22Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.01 7.03 4.38 9/165 12948
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+v MAX w = 18446744073709551615 : ZZ
+rc=0 secs=26

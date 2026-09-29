@@ -1,0 +1,38 @@
+# step 7: declarations of MIN, MAX or MINMAX in both corpora and the test libraries (grep -rnE 'opr (MIN|MAX|MINMAX)\b' ProjectFortress/tests/ ProjectFortress/*_tests/ ProjectFortress/test_library/), and the names in src/com/sun/fortress/ (grep -rn '"MAX"\|"MIN"\|"MINMAX"')
+ProjectFortress/tests/ResultBoundsRungB.fss:8:    opr MINMAX(self, other: Pt): (Pt, Pt) =
+ProjectFortress/compiler_tests/patternMatching1.fss:22:opr MAX(x: ZZ32, y: ZZ32) = if y < x then x else y end
+ProjectFortress/compiler_tests/Compiled17ee.fss:133:    opr MIN(self, other:T): T
+ProjectFortress/compiler_tests/Compiled17ee.fss:144:    opr MAX(self, other:T): T
+ProjectFortress/compiler_tests/Compiled17ee.fss:156:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/compiler_tests/Compiled17ee.fss:157:    opr MIN(self, other:T): (T,T) = do (r,_) = self MINMAX other; r end
+ProjectFortress/compiler_tests/Compiled17ee.fss:158:    opr MAX(self, other:T): (T,T) = do (_,r) = self MINMAX other; r end
+ProjectFortress/compiler_tests/Compiled17ee.fss:176:    opr MIN(self, other:Self): Self = if other < self then other else self end
+ProjectFortress/compiler_tests/Compiled17ee.fss:177:    opr MAX(self, other:Self): Self = if other < self then self else other end
+ProjectFortress/compiler_tests/Compiled17ee.fss:178:    opr MINMAX(self, other:Self): (Self,Self) =
+ProjectFortress/not_working_library_tests/MatchErrorBug.fsi:14:    opr MIN(self, other:Self): Self
+ProjectFortress/not_working_library_tests/MatchErrorBug.fsi:15:    opr MAX(self, other:Self): Self
+ProjectFortress/not_working_library_tests/MatchErrorBug.fsi:16:    opr MINMAX(self, other:Self): (Self,Self)
+ProjectFortress/not_working_library_tests/MatchErrorBug1.fss:23:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/not_working_library_tests/MatchErrorBug1.fss:35:    opr MINMAX(self, other:Self): (Self,Self) =
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:23:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:24:    opr MIN(self, other:T): T = do (r,_) = self MINMAX other; r end
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:25:    opr MAX(self, other:T): T = do (_,r) = self MINMAX other; r end
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:37:    opr MIN(self, other:Self): Self = if other < self then other else self end
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:38:    opr MAX(self, other:Self): Self = if other < self then self else other end
+ProjectFortress/not_working_library_tests/MatchErrorBug.fss:39:    opr MINMAX(self, other:Self): (Self,Self) =
+ProjectFortress/not_working_library_tests/MatchErrorBug2.fss:23:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/not_working_library_tests/MatchErrorBug2.fss:35:    opr MINMAX(self, other:StandardTotalOrder[\Self\]):
+ProjectFortress/not_working_library_tests/MatchErrorBug1.fsi:15:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/not_working_library_tests/MatchErrorBug1.fsi:21:    opr MINMAX(self, other:Self): (Self,Self)
+ProjectFortress/not_working_library_tests/MatchErrorBug2.fsi:15:    opr MINMAX(self, other:T): (T,T)
+ProjectFortress/not_working_library_tests/MatchErrorBug2.fsi:21:    opr MINMAX(self, other:StandardTotalOrder[\Self\]):
+ProjectFortress/obsolete_interpreter_tests/monoidal.fss:42:    opr MAX(self, other:Nn):Nn = Nn(x MAX other.x)
+ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:3:opr MINMAX(x: Array[\RR64,ZZ32\], y: RR64): Array[\RR64,ZZ32\]
+ProjectFortress/test_library/ArrayOperatorVocabulary.fsi:4:opr MINMAX(y: RR64, x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\]
+ProjectFortress/test_library/ArrayOperatorVocabulary.fss:4:opr MINMAX(x: Array[\RR64,ZZ32\], y: RR64): Array[\RR64,ZZ32\] = x.map[\RR64\](fn (e: RR64): RR64 => (e MIN y) MAX y)
+ProjectFortress/test_library/ArrayOperatorVocabulary.fss:5:opr MINMAX(y: RR64, x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x.map[\RR64\](fn (e: RR64): RR64 => (y MIN e) MAX e)
+--
+ProjectFortress/src/com/sun/fortress/parser_util/precedence_resolver/PrecedenceMap.java:533:        return Useful.set(VarArgs.make("MAX", "MIN", "REM", "MOD", "GCD", "LCM", "CHOOSE", "per"));
+ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:83:		if (op.equals("MIN"))
+ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:85:		if (op.equals("MAX"))
+ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:87:		if(op.equals("MINMAX"))

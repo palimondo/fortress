@@ -1,0 +1,54 @@
+MaxNumZZ64	b MAX 1	b: ZZ64 = widen(3)
+MinNumZZ64	b MIN 1	b: ZZ64 = widen(3)
+MinmaxNumZZ64	b MINMAX 1	b: ZZ64 = widen(3)
+MaxNumZZ32	b MAX 1	b: ZZ32 = 3
+MinNumZZ32	b MIN 1	b: ZZ32 = 3
+MinmaxNumZZ32	b MINMAX 1	b: ZZ32 = 3
+MaxNumNN32	b MAX 1	b: NN32 = unsigned(3)
+MinNumNN32	b MIN 1	b: NN32 = unsigned(3)
+MinmaxNumNN32	b MINMAX 1	b: NN32 = unsigned(3)
+MaxNumNN64	b MAX 1	b: NN64 = unsigned(widen(3))
+MinNumNN64	b MIN 1	b: NN64 = unsigned(widen(3))
+MinmaxNumNN64	b MINMAX 1	b: NN64 = unsigned(widen(3))
+MaxNumZZ	b MAX 1	b: ZZ = big(3)
+MinNumZZ	b MIN 1	b: ZZ = big(3)
+MinmaxNumZZ	b MINMAX 1	b: ZZ = big(3)
+MaxNumRR64	b MAX 1	b: RR64 = 3.5
+MinNumRR64	b MIN 1	b: RR64 = 3.5
+MinmaxNumRR64	b MINMAX 1	b: RR64 = 3.5
+MaxNumLeftZZ64	1 MAX b	b: ZZ64 = widen(3)
+MaxVarZZ64ZZ32	w MAX z	w: ZZ64 = widen(4) ; z: ZZ32 = 3
+MaxVarZZ32ZZ64	z MAX w	w: ZZ64 = widen(4) ; z: ZZ32 = 3
+PlusNumNN64	b + 1	b: NN64 = unsigned(widen(3))
+PlusNumZZ	b + 1	b: ZZ = big(3)
+PairZZ32ZZ32	x MAX y	x: ZZ32 = 4 ; y: ZZ32 = 3
+PairZZ32ZZ64	x MAX y	x: ZZ32 = 4 ; y: ZZ64 = widen(3)
+PairZZ32NN32	x MAX y	x: ZZ32 = 4 ; y: NN32 = unsigned(3)
+PairZZ32NN64	x MAX y	x: ZZ32 = 4 ; y: NN64 = unsigned(widen(3))
+PairZZ32ZZ	x MAX y	x: ZZ32 = 4 ; y: ZZ = big(3)
+PairZZ64ZZ32	x MAX y	x: ZZ64 = widen(4) ; y: ZZ32 = 3
+PairZZ64ZZ64	x MAX y	x: ZZ64 = widen(4) ; y: ZZ64 = widen(3)
+PairZZ64NN32	x MAX y	x: ZZ64 = widen(4) ; y: NN32 = unsigned(3)
+PairZZ64NN64	x MAX y	x: ZZ64 = widen(4) ; y: NN64 = unsigned(widen(3))
+PairZZ64ZZ	x MAX y	x: ZZ64 = widen(4) ; y: ZZ = big(3)
+PairNN32ZZ32	x MAX y	x: NN32 = unsigned(4) ; y: ZZ32 = 3
+PairNN32ZZ64	x MAX y	x: NN32 = unsigned(4) ; y: ZZ64 = widen(3)
+PairNN32NN32	x MAX y	x: NN32 = unsigned(4) ; y: NN32 = unsigned(3)
+PairNN32NN64	x MAX y	x: NN32 = unsigned(4) ; y: NN64 = unsigned(widen(3))
+PairNN32ZZ	x MAX y	x: NN32 = unsigned(4) ; y: ZZ = big(3)
+PairNN64ZZ32	x MAX y	x: NN64 = unsigned(widen(4)) ; y: ZZ32 = 3
+PairNN64ZZ64	x MAX y	x: NN64 = unsigned(widen(4)) ; y: ZZ64 = widen(3)
+PairNN64NN32	x MAX y	x: NN64 = unsigned(widen(4)) ; y: NN32 = unsigned(3)
+PairNN64NN64	x MAX y	x: NN64 = unsigned(widen(4)) ; y: NN64 = unsigned(widen(3))
+PairNN64ZZ	x MAX y	x: NN64 = unsigned(widen(4)) ; y: ZZ = big(3)
+PairZZZZ32	x MAX y	x: ZZ = big(4) ; y: ZZ32 = 3
+PairZZZZ64	x MAX y	x: ZZ = big(4) ; y: ZZ64 = widen(3)
+PairZZNN32	x MAX y	x: ZZ = big(4) ; y: NN32 = unsigned(3)
+PairZZNN64	x MAX y	x: ZZ = big(4) ; y: NN64 = unsigned(widen(3))
+PairZZZZ	x MAX y	x: ZZ = big(4) ; y: ZZ = big(3)
+PairMinNN32ZZ32	x MIN y	x: NN32 = unsigned(4) ; y: ZZ32 = 3
+PairMinmaxNN32ZZ32	x MINMAX y	x: NN32 = unsigned(4) ; y: ZZ32 = 3
+PairMinNN64NN32	x MIN y	x: NN64 = unsigned(widen(4)) ; y: NN32 = unsigned(3)
+PairMinmaxNN64NN32	x MINMAX y	x: NN64 = unsigned(widen(4)) ; y: NN32 = unsigned(3)
+PairMinNN64ZZ64	x MIN y	x: NN64 = unsigned(widen(4)) ; y: ZZ64 = widen(3)
+PairMinmaxNN64ZZ64	x MINMAX y	x: NN64 = unsigned(widen(4)) ; y: ZZ64 = widen(3)

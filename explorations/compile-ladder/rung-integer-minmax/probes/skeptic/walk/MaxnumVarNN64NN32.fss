@@ -1,0 +1,22 @@
+component MaxnumVarNN64NN32
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    v: NN64 = unsigned(widen(4))
+    u: NN32 = unsigned(3)
+    r = v MAXNUM u
+    println("v MAXNUM u = " r " : " typeOf(r))
+  end
+
+end

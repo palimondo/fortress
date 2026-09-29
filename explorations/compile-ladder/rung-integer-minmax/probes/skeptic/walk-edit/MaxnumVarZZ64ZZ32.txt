@@ -1,0 +1,22 @@
+--- walk edit MaxnumVarZZ64ZZ32; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:12:10Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.37 6.46 3.80 6/148 11603
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-minmax/explorations/compile-ladder/rung-integer-minmax/probes/skeptic/walk/MaxnumVarZZ64ZZ32.fss:18:9:
+Ambiguous coercion, args = (4: ZZ64,3: ZZ32), applicable with coercion = {coerced MAXNUM(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-minmax/Library/FortressLibrary.fss:630:5-631:102),coerced MAXNUM(self:Integral[\I\],other:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:662:5-48)}
+Context:
+/home/user/fortress-minmax/explorations/compile-ladder/rung-integer-minmax/probes/skeptic/walk/MaxnumVarZZ64ZZ32.fss:18:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=25

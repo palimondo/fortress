@@ -1,0 +1,17 @@
+--- base bce66f1fa (the four library files checked out at the base in the worktree) XXXInheritedOverload x8 2026-09-29T02:25:46Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 7.55 8.13 8.03 7/166 14954
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+run 1 rc=1 first: (first) a(x:Sub1,y:Base):FortressLibrary.ZZ32XXXInheritedOverload.fss:25:3-28 and
+run 2 rc=1 first: (first) a(x:Base,y:Sub2):FortressLibrary.ZZ32XXXInheritedOverload.fss:29:3-28 and
+run 3 rc=1 first: (first) a(x:Sub1,y:Base):FortressLibrary.ZZ32XXXInheritedOverload.fss:25:3-28 and
+run 4 rc=1 first: (first) a(x:Base,y:Sub2):FortressLibrary.ZZ32XXXInheritedOverload.fss:29:3-28 and
+run 5 rc=1 first: (first) a(x:Base,y:Sub2):FortressLibrary.ZZ32XXXInheritedOverload.fss:29:3-28 and
+run 6 rc=1 first: (first) a(x:Base,y:Sub2):FortressLibrary.ZZ32XXXInheritedOverload.fss:29:3-28 and
+run 7 rc=1 first: (first) a(x:Sub1,y:Base):FortressLibrary.ZZ32XXXInheritedOverload.fss:25:3-28 and
+run 8 rc=1 first: (first) a(x:Sub1,y:Base):FortressLibrary.ZZ32XXXInheritedOverload.fss:25:3-28 and
+      4 rc=1 first: (first) a(x:Base,y:Sub2):FortressLibrary.ZZ32XXXInheritedOverload.fss:29:3-28 and
+      4 rc=1 first: (first) a(x:Sub1,y:Base):FortressLibrary.ZZ32XXXInheritedOverload.fss:25:3-28 and

@@ -1,0 +1,34 @@
+# class	landed	after	after, positions mapped to the base	left after mapping
+L1	39	39	39	+0	overloading: the static-parameter sentence's families
+M1	109	109	109	+0	overloading: the Meet Rule
+R2	2	2	2	+0	return type: the comparisons' CMP
+R3	27	27	27	+0	return type: other declared-type slips
+D1	12	12	12	+0	abstract method: a bodyless function under compiled desugaring
+D2	2	2	2	+0	abstract method: RangeInternals' CAP, IN, |_|
+X1	10	10	10	+0	export: component against api
+Z1	11	11	11	+0	sizes: arithmetic on nat static arguments
+F1	4	4	4	+0	reductions: fusion pairs' bound (row 433)
+I2	2	2	2	+0	integers in generic code: the dummy-ZZ32 device of # and :
+I1	5	6	5	+0	integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+I3	8	8	8	+0	integers in generic code: a numeral where a type parameter is expected
+I4	3	3	3	+0	integers in generic code: a fixed width where a type parameter is expected
+S1	29	29	29	+0	self type: a generic trait's self is not its type parameter
+R4	3	3	3	+0	StandardMinMax's (T,T) slip in bodies (row 421)
+V1	36	36	36	+0	arrays: element type bounded by Number, which declares no arithmetic
+V2	32	32	32	+0	arrays: a sized array's body or factory (sizes lost in joins and factories)
+G1	10	8	10	+0	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+MB	7	7	7	+0	Maybe: Just and Nothing do not join to Maybe
+SF	22	22	22	+0	String: an object's field read as an inherited method (left, right)
+GB	7	7	7	+0	generators: a function argument inferred at BottomType (COMPOSE, map)
+RG	18	18	18	+0	ranges: a range method's declared type narrower than the range it builds (check, recombine, combine2D/3D)
+BR	11	12	12	+1	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+CV	10	10	10	+0	a call covered only by the union of its overloads' arms (walk chooses at run time)
+NM	54	54	54	+0	names the api does not declare (getters and methods of Range, String, Generator)
+GF	9	9	9	+0	generators: a filter that failed for another reason
+OT	144	145	144	+0	other body errors (one-off library slips and checker limits)
+total	626	627	627	+1
+
+# the sites whose class differs between the after list as it is and with positions mapped to the base: classify.py's hard-coded ranges (TUPLECMP_FL = (4320, 4425), ANYINTEGRAL_FL = (3886, 3966), explorations/coordinator/tools/distance/classify.py:25, :32) read the shifted line
+FortressLibrary.fss:4432 (base FortressLibrary.fss:4416): OT as the table reads it, G1 with the shift undone; Could not check call to operator CMP - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Comparison is not applicable to an argument of type (A, A). - ((T
+FortressLibrary.fss:4432 (base FortressLibrary.fss:4416): OT as the table reads it, G1 with the shift undone; Could not check call to operator CMP - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->Comparison is not applicable to an argument of type (B, B). - ((T
+FortressLibrary.fss:3898 (base FortressLibrary.fss:3882): I1 as the table reads it, OT with the shift undone; Function body has type BoundedRange[\I\], but declared return type is FullRange[\I\].

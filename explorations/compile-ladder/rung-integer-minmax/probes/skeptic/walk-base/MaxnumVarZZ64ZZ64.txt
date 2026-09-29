@@ -1,0 +1,9 @@
+--- walk base MaxnumVarZZ64ZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax/tmp/skbase 2026-09-29T03:07:05Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 7.66 2.89 1.98 6/174 6008
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+w MAXNUM y = 4 : ZZ64
+rc=0 secs=31

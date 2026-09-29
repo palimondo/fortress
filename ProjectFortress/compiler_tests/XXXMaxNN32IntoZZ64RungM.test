@@ -1,0 +1,3 @@
+tests=XXXMaxNN32IntoZZ64RungM
+run
+run_out_contains=REACHED

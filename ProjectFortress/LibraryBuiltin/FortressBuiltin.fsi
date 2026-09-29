@@ -83,6 +83,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32
     opr =(self, b:NN32):Boolean
     opr <(self, b:NN32):Boolean
+    opr MIN(self, other:NN32): NN32
+    opr MAX(self, other:NN32): NN32
+    opr MINMAX(self, other:NN32): (NN32, NN32)
     opr -(self):NN32
     opr DOTMINUS(self):NN32
     opr +(self,b:NN32):NN32

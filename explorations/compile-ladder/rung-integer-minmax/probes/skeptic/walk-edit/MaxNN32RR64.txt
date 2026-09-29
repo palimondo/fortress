@@ -1,0 +1,65 @@
+--- walk edit MaxNN32RR64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:13:30Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.20 6.84 4.16 6/146 12511
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-minmax/explorations/compile-ladder/rung-integer-minmax/probes/skeptic/walk/MaxNN32RR64.fss:18:9:
+Failed to find any matching overload, args = (3: NN32,2.5), overload = {
+	MAX(native Max)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress-minmax/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:97:5-98:76)
+	MAX(native Max)fn meth(self 0):(RR32,RR64)->RR64 (/home/user/fortress-minmax/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:265:5-266:75)
+	MAX(self:FortressBuiltin.NN32,other:FortressBuiltin.NN32):FortressBuiltin.NN32fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-minmax/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:404:5-77)
+	MAX(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:428:5-61)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\RR64\],RR64)->RR64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\RR64\],RR64)->RR64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:(FortressLibrary.ZZ32 & {FortressBuiltin.Int, FortressBuiltin.IntLiteral}),other:FortressLibrary.ZZ32):FortressLibrary.ZZ32fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:708:5-77)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\Char\],Char)->Char (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\Char\],Char)->Char (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\Char\],Char)->Char (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:(FortressLibrary.ZZ64 & {FortressBuiltin.Long}),other:FortressLibrary.ZZ64):FortressLibrary.ZZ64fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:796:5-77)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\NN32\],NN32)->NN32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\NN32\],NN32)->NN32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\NN32\],NN32)->NN32 (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:(FortressLibrary.NN64 & {FortressBuiltin.UnsignedLong}),other:FortressLibrary.NN64):FortressLibrary.NN64fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:868:5-77)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\NN64\],NN64)->NN64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\NN64\],NN64)->NN64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\NN64\],NN64)->NN64 (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\Boolean\],Boolean)->Boolean (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\Boolean\],Boolean)->Boolean (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\Boolean\],Boolean)->Boolean (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:(FortressLibrary.ZZ & {FortressBuiltin.BigNum}),other:FortressLibrary.ZZ):FortressLibrary.ZZfn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-minmax/Library/FortressLibrary.fss:949:5-73)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\ZZ\],ZZ)->ZZ (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\ZZ\],ZZ)->ZZ (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\ZZ\],ZZ)->ZZ (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:(FortressLibrary.TotalComparison & {FortressLibrary.LessThan, FortressLibrary.EqualTo, FortressLibrary.GreaterThan}),other:FortressLibrary.TotalComparison):FortressLibrary.TotalComparisonfn meth(self 0):(TotalComparison,TotalComparison)->TotalComparison (/home/user/fortress-minmax/Library/FortressLibrary.fss:173:5-99)
+	StandardMax[\T extends StandardMax[\T\]\](uninstantiated)[\T extends StandardMax[\T\]\].MAX(self:StandardMax[\T\],other:T):T/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1
+	StandardMinMax[\T extends StandardMinMax[\T\]\](uninstantiated)[\T extends StandardMinMax[\T\]\].MAX(self:StandardMinMax[\T\],other:T):T/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66
+	StandardTotalOrder[\T extends StandardTotalOrder[\T\]\](uninstantiated)[\T extends StandardTotalOrder[\T\]\].MAX(self:StandardTotalOrder[\T\],other:T):T/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71
+	MAX(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-minmax/Library/FortressLibrary.fss:584:5-585:102)
+	MAX[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-minmax/Library/FortressLibrary.fss:4635:1-105
+	MAX[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-minmax/Library/FortressLibrary.fss:4636:1-4637:1
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\QQ\],QQ)->QQ (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\QQ\],QQ)->QQ (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)
+	MAX(self:StandardTotalOrder[\T\],other:T):Tfn meth(self 0):(StandardTotalOrder[\String\],String)->String (/home/user/fortress-minmax/Library/FortressLibrary.fss:286:5-71)
+	MAX(self:StandardMinMax[\T\],other:T):Tfn meth(self 0):(StandardMinMax[\String\],String)->String (/home/user/fortress-minmax/Library/FortressLibrary.fss:267:5-66)
+	MAX(self:StandardMax[\T\],other:T):Tfn meth(self 0):(StandardMax[\String\],String)->String (/home/user/fortress-minmax/Library/FortressLibrary.fss:253:5-254:1)}:OverloadedFunction
+Context:
+/home/user/fortress-minmax/explorations/compile-ladder/rung-integer-minmax/probes/skeptic/walk/MaxNN32RR64.fss:18:9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1 secs=26

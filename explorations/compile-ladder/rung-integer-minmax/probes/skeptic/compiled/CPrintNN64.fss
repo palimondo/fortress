@@ -1,0 +1,22 @@
+component CPrintNN64
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    m3: ZZ32 = -1
+    v: NN64 = unsigned(widen(m3))
+    r = v
+    println("v = " r " : " typeOf(r))
+  end
+
+end

@@ -1,0 +1,9 @@
+--- walk edit GenericNN32; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:16:06Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 7.66 7.14 4.70 9/168 14026
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+bigger(u, t) = 7 : NN32
+rc=0 secs=27

@@ -1,0 +1,22 @@
+component MaxZZ32RR64
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    f: RR64 = 2.5
+    r = z MAX f
+    println("z MAX f = " r " : " typeOf(r))
+  end
+
+end

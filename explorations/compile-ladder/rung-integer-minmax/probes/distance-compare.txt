@@ -1,0 +1,20 @@
+# explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-6.5/gate/distance.txt (the last landed table, the before) explorations/compile-ladder/rung-integer-minmax/probes/distance-postedit.txt (rung M's tree, 4eeb9603a)
+DISTANCE UP   626 -> 627 (+1)
+    kind typecheck              389 -> 390    (+1)
+    class I1                      5 -> 6      (+1)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+    class G1                     10 -> 8      (-2)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+    class BR                     11 -> 12     (+1)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+    class OT                    144 -> 145    (+1)  other body errors (one-off library slips and checker limits)
+    unit component FortressLibrary    361 -> 362    (+1)
+    crash gone   decl	TraitDecl FortressLibrary.fss:2781:1-2894:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2817.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+    crash gone   decl	FnDecl FortressLibrary.fss:4293:1-4298:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash gone   decl	ObjectDecl FortressBuiltin.fss:583:1-695:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash gone   decl	TraitDecl FortressLibrary.fss:2408:1-2522:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2426.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+    crash gone   decl	FnDecl FortressLibrary.fss:4274:1-4287:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash gone   decl	FnDecl FortressLibrary.fss:1226:1-1230:4	InterpreterBug	** bug! FortressLibrary.fss:1228:10 Type is not inferred.
+    crash new    decl	FnDecl FortressLibrary.fss:4309:1-4314:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	FnDecl FortressLibrary.fss:1242:1-1246:4	InterpreterBug	** bug! FortressLibrary.fss:1244:10 Type is not inferred.
+    crash new    decl	ObjectDecl FortressBuiltin.fss:587:1-699:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	TraitDecl FortressLibrary.fss:2797:1-2910:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2833.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+    crash new    decl	FnDecl FortressLibrary.fss:4290:1-4303:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+    crash new    decl	TraitDecl FortressLibrary.fss:2424:1-2538:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2442.11 fn (i) => do r := r // " " row(i) end Expected type was: ...

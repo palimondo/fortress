@@ -1,0 +1,21 @@
+component CNumeralHugeZZ64
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    w: ZZ64 = 3
+    r = w MAX 100000000000000000000
+    println("w MAX 100000000000000000000 = " r " : " typeOf(r))
+  end
+
+end

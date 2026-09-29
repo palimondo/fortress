@@ -1,0 +1,23 @@
+component CGenericExplicitZZ64
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+bigger[\T extends StandardTotalOrder[\T\]\](a: T, c: T): T = a MAX c
+run(): () = do
+    w: ZZ64 = 3
+    z: ZZ32 = 7
+    r = bigger[\ZZ64\](w, z)
+    println("bigger[ZZ64](w, z) = " r " : " typeOf(r))
+  end
+
+end

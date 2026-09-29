@@ -1,0 +1,34 @@
+--- Library/FortressLibrary.fss
+710a711,712
+>     opr MINNUM(self, other:ZZ32): ZZ32 = self MIN other
+>     opr MAXNUM(self, other:ZZ32): ZZ32 = self MAX other
+798a801,802
+>     opr MINNUM(self, other:ZZ64): ZZ64 = self MIN other
+>     opr MAXNUM(self, other:ZZ64): ZZ64 = self MAX other
+870a875,876
+>     opr MINNUM(self, other:NN64): NN64 = self MIN other
+>     opr MAXNUM(self, other:NN64): NN64 = self MAX other
+951a958,959
+>     opr MINNUM(self, other:ZZ): ZZ = self MIN other
+>     opr MAXNUM(self, other:ZZ): ZZ = self MAX other
+--- Library/FortressLibrary.fsi
+485a486,487
+>     opr MINNUM(self, other:NN64): NN64
+>     opr MAXNUM(self, other:NN64): NN64
+528a531,532
+>     opr MINNUM(self, other:ZZ32): ZZ32
+>     opr MAXNUM(self, other:ZZ32): ZZ32
+579a584,585
+>     opr MINNUM(self, other:ZZ64): ZZ64
+>     opr MAXNUM(self, other:ZZ64): ZZ64
+617a624,625
+>     opr MINNUM(self, other:ZZ): ZZ
+>     opr MAXNUM(self, other:ZZ): ZZ
+--- ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+406a407,408
+>     opr MINNUM(self, other:NN32): NN32 = self MIN other
+>     opr MAXNUM(self, other:NN32): NN32 = self MAX other
+--- ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+88a89,90
+>     opr MINNUM(self, other:NN32): NN32
+>     opr MAXNUM(self, other:NN32): NN32

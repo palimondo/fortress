@@ -1,0 +1,9 @@
+--- walk edit BigMaxZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:16:33Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 7.80 7.21 4.79 6/161 14342
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+BIG MAX [i <- 1#5] widen(i) = 5 : ZZ64
+rc=0 secs=26

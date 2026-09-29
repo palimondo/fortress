@@ -1,0 +1,22 @@
+component EqualNN32ZZ32Minmax
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    u: NN32 = unsigned(3)
+    z: ZZ32 = 3
+    (r, s) = u MINMAX z
+    println("u MINMAX z = (" r ", " s ") : (" typeOf(r) ", " typeOf(s) ")")
+  end
+
+end

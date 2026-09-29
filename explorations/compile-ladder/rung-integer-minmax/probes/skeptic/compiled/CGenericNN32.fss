@@ -1,0 +1,25 @@
+component CGenericNN32
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+bigger[\T extends StandardTotalOrder[\T\]\](a: T, c: T): T = a MAX c
+run(): () = do
+    k: ZZ32 = 3
+    o: ZZ32 = 7
+    u: NN32 = unsigned(k)
+    t: NN32 = unsigned(o)
+    r = bigger(u, t)
+    println("bigger(u, t) = " r " : " typeOf(r))
+  end
+
+end

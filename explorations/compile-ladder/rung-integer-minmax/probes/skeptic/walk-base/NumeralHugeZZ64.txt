@@ -1,0 +1,9 @@
+--- walk base NumeralHugeZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax/tmp/skbase 2026-09-29T03:09:56Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.39 5.39 3.10 10/167 9750
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+w MAX 100000000000000000000 = 100000000000000000000 : QQ
+rc=0 secs=26

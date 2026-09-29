@@ -1,0 +1,22 @@
+component MaxnumVarZZ64ZZ64
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    w: ZZ64 = widen(4)
+    y: ZZ64 = widen(3)
+    r = w MAXNUM y
+    println("w MAXNUM y = " r " : " typeOf(r))
+  end
+
+end

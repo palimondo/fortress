@@ -1,0 +1,12 @@
+--- compiled CPrintNN64; tree a7df9bfbe 2026-09-29T03:08:26Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 8.36 4.26 2.54 10/195 8102
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+v =  -1  :  NN64
+run rc=0

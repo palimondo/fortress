@@ -1,0 +1,12 @@
+--- compiled CPairZZ32ZZ64: x MAX y; tree 4eeb9603a 2026-09-29T02:16:29Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 9.94 10.00 8.00 6/195 32175
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+x MAX y =  4  :  ZZ64
+run rc=0

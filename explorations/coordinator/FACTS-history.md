@@ -770,3 +770,8 @@
 
 <!-- replaced in FACTS.md § The specification and the repository's lineage, entry "The specification's number chapters describe the flat library ...": one clause -->
 - answer 8's interim rule, that a generic call over two integer types writes its static argument until the promotion rule is written with its implementation, is a callout at `basic-integers.tex:80-94`, for a generic call only
+
+## Replaced 2026-09-29, at climb batch N's gather (rung M: the specification rebuilt)
+
+<!-- replaced in FACTS.md § The specification and the repository's lineage, entry "The in-repo `Specification/` is the later draft with the implementers' notes": one clause, the draft's page count -->
+- 262 pages, against the draft's 627 since climb batch 7C, whose gather rebuilt and committed it and whose judge's repair rebuilt it again at the same length (`compile-ladder/climb-batch-7C/RECORD.md`, "The specification rebuilt on the merged tree" and "The judge's ruling and the repair"; `map/spec-to-implementation.md` §1.2)

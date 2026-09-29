@@ -1,0 +1,22 @@
+component EqualZZ32ZZ64Min
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    w: ZZ64 = widen(3)
+    z: ZZ32 = 3
+    r = z MIN w
+    println("z MIN w = " r " : " typeOf(r))
+  end
+
+end

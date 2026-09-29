@@ -480,6 +480,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr |self| : NN64
     opr =(self, b:NN64):Boolean
     opr <(self, b:NN64):Boolean
+    opr MIN(self, other:NN64): NN64
+    opr MAX(self, other:NN64): NN64
+    opr MINMAX(self, other:NN64): (NN64, NN64)
     opr -(self):NN64
     opr DOTMINUS(self):NN64
     opr +(self,b:NN64):NN64
@@ -520,6 +523,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr |self| : ZZ32
     opr =(self, b:ZZ32):Boolean
     opr <(self, b:ZZ32):Boolean
+    opr MIN(self, other:ZZ32): ZZ32
+    opr MAX(self, other:ZZ32): ZZ32
+    opr MINMAX(self, other:ZZ32): (ZZ32, ZZ32)
 
     opr -(self):ZZ32
     opr DOTMINUS(self):ZZ32
@@ -568,6 +574,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr >=(self, b:ZZ64):Boolean
     opr <=(self, b:ZZ64):Boolean
     opr CMP(self, b:ZZ64): TotalComparison
+    opr MIN(self, other:ZZ64): ZZ64
+    opr MAX(self, other:ZZ64): ZZ64
+    opr MINMAX(self, other:ZZ64): (ZZ64, ZZ64)
 
     opr -(self):ZZ64
     opr DOTMINUS(self):ZZ64
@@ -603,6 +612,9 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: ZZ64)
     coerce(x: NN32)
     coerce(x: NN64)
+    opr MIN(self, other:ZZ): ZZ
+    opr MAX(self, other:ZZ): ZZ
+    opr MINMAX(self, other:ZZ): (ZZ, ZZ)
     opr /(self,other:ZZ):QQ
     numerator(self): ZZ
     narrow(self): ZZ32

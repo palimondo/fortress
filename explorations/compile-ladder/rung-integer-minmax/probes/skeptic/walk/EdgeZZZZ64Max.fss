@@ -1,0 +1,22 @@
+component EdgeZZZZ64Max
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    g: ZZ = big(2147483647) TIMES big(2147483647) TIMES big(2147483647)
+    w: ZZ64 = widen(-1)
+    r = g MAX w
+    println("g MAX w = " r " : " typeOf(r))
+  end
+
+end

@@ -1,0 +1,12 @@
+--- compiled CMaxNumLeftZZ64: 1 MAX b; tree 4eeb9603a 2026-09-29T02:18:06Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 10.33 9.76 8.09 13/255 3716
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+1 MAX b =  3  :  ZZ64
+run rc=0

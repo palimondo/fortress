@@ -1,0 +1,9 @@
+# the printed values of each microGPT check, base (bce66f1fa, library unedited) against the edit (4eeb9603a), with the machine lines (1-7), the timings ('(N ms)', 'total N s', 'secs=') and any Rats temp path removed; an empty diff means identical printed values
+## MicroGptFlatCheck
+(diff rc=0)
+mg-base-MicroGptFlatCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+mg-edit-MicroGptFlatCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+## MicroGptAplCheck
+(diff rc=0)
+mg-base-MicroGptAplCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+mg-edit-MicroGptAplCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS

@@ -1,0 +1,22 @@
+component EdgeNN32ZZ32Min
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    u: NN32 = unsigned(-1)
+    z: ZZ32 = -1
+    r = u MIN z
+    println("u MIN z = " r " : " typeOf(r))
+  end
+
+end
