@@ -15,6 +15,7 @@ transcript is pushed, and the branch the infrastructure clones is current.
 | session transcripts | orphan branches `transcripts` and `transcripts-blinded` | no shared history with `main`; large blobs live only there |
 | live transcripts on disk | `/root/.claude/projects/-home-user-fortress/` | `<session>.jsonl`, plus per-session directories |
 | the snapshot scripts | `<worktree>/scripts/` on each orphan branch — **these are the copies that run** | reference copy in `explorations/coordinator/transcript-backup/` |
+| the backup's log and state | `<worktree>/.backup.log`, `.backup.state`, `.backup.lock`, `.backup.pending` | never committed (the branch's `.gitignore`: `/.backup.*`) |
 
 Two orphan branches exist because the blinded microGPT runs were a controlled
 experiment: neither run's container was to hold the other's transcripts.
@@ -25,20 +26,41 @@ costs nothing — see *Reading another session's transcript*.
 ## How the snapshot works
 
 A `Stop` hook in `~/.claude/settings.json` runs `<worktree>/scripts/backup.sh`
-at the end of every assistant turn. That script calls
-`backup_transcripts.py`, which copies the live JSONL into the worktree with two
-policy redactions (deck page images, HANDOVER.md contents), then commits and
-pushes, then packs loose objects. Three properties matter:
+at the end of every assistant turn. Since `transcripts-blinded@974d9be7`
+(2026-09-29) the hook returns at once: it records a request
+(`.backup.pending`) and, unless a runner already holds the lock
+(`.backup.lock`, taken with `flock`), starts `backup.sh --run` detached in the
+background, and exits 0. The runner makes one pass per request until none is
+left. `backup_transcripts.py` copies the live JSONL into the worktree with two
+policy redactions (deck page images, HANDOVER.md contents); the runner then
+commits `projects/`, pushes whenever the branch is ahead of its upstream
+(retrying after 2, 4, 8 and 16 s), and packs loose objects. Each pass writes
+one line to `<worktree>/.backup.log`, the last 200 kept: its time, the
+copier's time and exit code, the commit, how far the branch was ahead, and the
+push's result. The copier is incremental: `.backup.state` records each
+source's size and modification time and the files written for it, and a
+source whose record and snapshot files still match is skipped without being
+read. A pass takes about 10 s (8.5 to 11.7 s between 17:50 and 18:00 UTC on
+2026-09-29, the copier about 1 s of it). These properties matter:
 
 - **It fires on the main session's Stop, not on any agent's completion.** A
   session that sits inside one long turn is not being backed up, however much
   work its agents are doing. This is the single largest gap in the design.
-- **It swallows every error and always exits 0**, so it can never block a
-  session — and so a failing push is silent. Check
-  `git -C <worktree> status -sb` if in doubt.
+- **It swallows every error and never holds up the session**, so a failing
+  push is silent. Read the `push=` field of the last line of `.backup.log`, or
+  `git -C <worktree> status -sb`.
 - **It snapshots every session in the container**, not just the current one.
+- **A container that dies within about 10 s of a turn ending loses that turn's
+  snapshot**: the pass runs after the hook has returned, and takes that long.
+- **Only `index.lock` is cleaned automatically.** A git process killed
+  mid-command leaves its lock behind. The runner removes an `index.lock` at
+  least 10 s old that no process has open, and waits out a younger one. A
+  stale lock on the branch's ref, `/home/user/fortress/.git/refs/heads/transcripts-blinded.lock`
+  (the worktree shares the main repository's refs), is not cleaned: every
+  later commit fails on it, `commit=failed` in the log, until it is removed by
+  hand, after checking that no git process is running.
 - A `SessionStart` hook with matcher `compact` (2026-09-27, on Pavol's yes) injects, after every compaction, the instruction to boot by `coordinator/README.md` before anything else. It is in the tracked `.claude/settings.json` and in `~/.claude/settings.json`; a fresh container copies the second from the first.
-- The harness's other Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn; they are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
+- The platform's own Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn. It comes from the launcher: the session's process is started with `--settings /root/.claude/launcher-settings.json`, whose `Stop` hook runs that script, and the script is rewritten at every process start. At Pavol's request on 2026-09-29 it was replaced by a no-op that reads its input and exits 0; the original is kept in the session scratchpad, `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/stop-hook-git-check.sh.orig`. It returns at each restart of the process, and turning it off again is Pavol's to do, in manual mode: the auto-mode permission check refused scheduling it. The coordinator's push loop covers what it protected: `autopush.sh` in the same scratchpad, every 4 minutes, pushes `main` and the container branch when every unpushed commit touches only `explorations/`, and otherwise pushes `main` to `wip/main-backup` only, so that a container reset loses nothing and `main` stays gated; it is started again after a process restart. While the hook is back, its reminders are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
 
 ## Re-arming it in a fresh container
 
@@ -47,11 +69,20 @@ git -C /home/user/fortress worktree add /home/user/fortress-transcripts-blinded 
 # then register the Stop hook in ~/.claude/settings.json:
 #   {"hooks":{"Stop":[{"hooks":[{"type":"command",
 #     "command":"/home/user/fortress-transcripts-blinded/scripts/backup.sh"}]}]}}
-/home/user/fortress-transcripts-blinded/scripts/backup.sh   # verify: a snapshot commit appears
+/home/user/fortress-transcripts-blinded/scripts/backup.sh --run   # one pass, in the foreground
+tail -1 /home/user/fortress-transcripts-blinded/.backup.log       # verify
 ```
 
+The verify step: the log's last line reads `copier_rc=0` and either
+`commit=<hash>` with `push=ok`, or, when nothing changed since the last pass,
+`commit=none ahead=0 push=none`; `git -C <worktree> status -sb` shows the
+branch not ahead of its upstream. Run by hand, `--run` waits for any runner at
+work and then makes a pass. The hook's own form, without `--run`, returns at
+once, and its pass shows in the log about 10 s later.
+
 `explorations/experiment/setup.sh` does this for the blinded lineage. Substitute
-`transcripts` for the coordinating lineage. The script that runs is the one in
+`transcripts` for the coordinating lineage, whose `scripts/` are still those of
+2026-09-17: copy the reference copies in first. The script that runs is the one in
 the worktree, on the branch — if you edit the reference copy under
 `explorations/`, nothing changes until it is copied into the worktree.
 
@@ -80,7 +111,10 @@ every earlier part byte-identical. Rejoin with `cat <session>.jsonl.parts/*.json
 **The loose-object pile.** The container's clone ships `gc.auto=0`, and each
 snapshot writes whole files with no delta, so the object store grows by tens of
 megabytes per commit: 21.3 GiB of loose objects by 2026-09-17, which packed down
-to 609 MB. `backup.sh` now ends with `git -c gc.auto=1000 gc --auto`. Unrelated
+to 609 MB. `backup.sh` now ends with `git -c gc.auto=1000 gc --auto`, run with
+the runner's lock closed: until 2026-09-29 the detached `git gc` inherited the
+lock and held it for as long as it ran, and every snapshot requested meanwhile
+was silently skipped. Unrelated
 but same symptom: the Rats! temp directories in `FACTS.md` § The container.
 
 **Worktree state that is never committed.** The first repair batch forbade its
