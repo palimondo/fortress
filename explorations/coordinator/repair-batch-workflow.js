@@ -143,7 +143,7 @@ const RUNG_ROLE = [
 '',
 '## The order of work - test first, and the failure observed',
 '',
-'From explorations/coordinator/PLAN.md, and this is the part Pavol called load-bearing:',
+'From explorations/coordinator/PLAN.md and Pavol\'s rule of 2026-09-17: the test first, seen failing, then the fix, the test staying in the corpus:',
 '',
 '1. Write the failing test FIRST, into ProjectFortress/compiler_tests/ (checker and codegen rungs) or ProjectFortress/library_tests/ (library rungs): a .fss component that prints PASS, plus a .test file in the format of ProjectFortress/library_tests/Boolean.test (a tests= line naming the components, then link, run, run_out_WIcontains=PASS).',
 '2. Run it and capture the failure output to a file BEFORE the edit exists. A report with no recorded failure is refused by your skeptic. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',

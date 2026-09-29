@@ -161,7 +161,7 @@ A second defect of the current loop, which the batch does not cause and should n
 
 ## 7. Validity, and what it costs
 
-Every rung still writes its test first, and this design makes the discipline checkable rather than assumed: the worker runs the new test **before** the edit exists, records the failure output in its report, then makes the edit, then records the pass. A rung whose report has no recorded failure is refused. This is the part of Pavol's order of 2026-09-17 that is load-bearing (`POSITIONS.md`), together with the rule that the check is permanent: a one-off proof that leaves nothing in the corpus is not an acceptable result.
+Every rung still writes its test first, and this design makes the discipline checkable rather than assumed: the worker runs the new test **before** the edit exists, records the failure output in its report, then makes the edit, then records the pass. A rung whose report has no recorded failure is refused. Pavol's order of 2026-09-17 is the test written first and seen failing, and the check permanent (`POSITIONS.md`); the recorded failure in the report is this plan's own addition, not his (post-mortem 2026-09-29, `archaeology-testing.md` § 4): a one-off proof that leaves nothing in the corpus is not an acceptable result.
 
 Whether the suite runs per edit or per landed batch is an engineering choice and per batch is in line with that order, confirmed by Pavol on 2026-09-17.
 
