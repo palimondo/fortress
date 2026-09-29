@@ -2,7 +2,17 @@
 
 # The array questions: every way, the library's own first
 
-PENDING-IN-SHORT
+## In short
+
+- **Decision D, the model's sized types.** D1 sizes in the model's types through the library's own devices (the re-based diff); D2 the vocabulary over the unsized `Array`, the model unchanged; D3 D1 in the specification's `T^n` notation; D4 every size static from the top, the batch size fixed at compile time.
+- **Decision A, `double[]` under the generic traits.** A1 the library's witness `typecase` in the generic factories, returning an `RR64` store through the library's `cast`; A2 a plain `RR64` factory beside the generic one, chosen by dispatch; A3 a factory name per element type; A4 the loader stamps an `RR64` class, the team's `Unbox` direction; A5 a special type, as `ZZ32Vector`.
+- **Item 15, arithmetic in a size.** 15a the checker compares size expressions by structure and folds numerals; 15b the storing objects make their field at run time with the library's `primitiveArray`; 15c the specification's static arithmetic in full; 15d a native store per rank.
+- **A size known only at run time.** 4a the library's `reflect`, with the checker taught the team's commented rule for opening it; 4b `reflect` built in over design B's size factory; 4c run-time sizes stay unsized; 4d no run-time sizes in the step; 4e a `typecase` that binds a size, after `where` clauses.
+- **The element width.** 5a `RR64` as written; 5b `RR32` throughout, with float32 goldens from the reference; 5c the model generic in its width; 5d the width named once by a type alias; 5e `RR32` storage with `RR64` sums, the draft's `Extended`.
+- **The bounds of `Vector` and `Matrix`.** 6a `T extends Number` as landed; 6b the storing objects take their traits' bound, a slip under every way; 6c the library's `MultiplicativeRing[\T\]`; 6d a bound per operation, the products moved out of the traits; 6e the specification's algebra, after `where` clauses; 6f arithmetic on `Number`, against route A.
+- **The re-based diff, measured today.** The model: 21 lines out, 29 in, the same lines as on 2026-09-27. C4's own errors on the compiled checker: 26 as written, 14 with the diff (24 and 12 on 2026-09-27; the three `fail` errors are gone and five numeral powers are newly refused as an ambiguous coercion). The diagnostic copies: 28 and 18 with the tuple bindings split; 14 with the dead sizes also deleted; 7 when the powers are written so one declaration applies, the old 10 less the three `fail` errors. Walk: 40 of 40, every value identical.
+- **Measured here for the first time.** PENDING-SHORT-MEASURED
+- **The forks, in the order they need deciding** (section 8): item 15; the bounds; a run-time size; the element width; decision D; decision A.
 
 ## 0. Words used below
 
@@ -44,7 +54,7 @@ PENDING-IN-SHORT
   - With the diff: 12 → 14 (`measure/d.own.txt`). All 15 of decision D are gone as such; 3 `DOT`s fail on the library api's dead sizes (decision E's E3), 1 is the `adam` bridge, 1 is `numbersOf`'s discarded count, 5 are the powers, 4 are old small items.
   - The diagnostic copies, which write C4's three top-level tuple bindings as single bindings on the same lines (row 474's silent stop; not a model change): 25 → 28 before the diff, 15 → 18 after (`measure/base-split.own.txt`, `measure/d-split.own.txt`).
   - The split copy after the diff, beside a library copy without the 17 dead sizes (E3): 10 → 14 (`measure/d-split-e3.own.txt`). Here the powers do more than add errors. A refused power ends the check of its block, so `stepN` is now checked only to its mask line (`MicroGptFlat.fss:61` of the patched copy) and `adamN` to its update line (`:87`), where on 2026-09-27 the whole of `stepN` checked clean.
-  - PENDING-POW
+  - With the powers also written so that one declaration applies (a diagnostic copy, `rebase-2026-09-29/pow-variant.py`, not a model change): 7 (`measure/d-split-e3-pow.own.txt`). They are the old 10 less the three `fail` errors: the two bridges, `adamN`'s vector-plus-scalar division (row 475), `numbersOf`'s discarded count, the varargs `SUM` and export, `codePoint`. Two planted errors, one inside `rmsn_b` and one after `stepN`'s last statement, are both reported (`measure/d-split-e3-pow-plant.own.txt`), so the check reaches the end of the step: the forward and backward passes check clean at their sizes.
 - Walk runs the patched C4: `MicroGptFlatCheck`, private cache, `FORTRESS_THREADS=1`, 40 PASS of 40 in 826 s at a load of 6 at the start, every line identical to `run-c4/checks/threads1.txt` once the timings are masked (`rebase-2026-09-29/walk-threads1.txt`). Not run: four threads.
 
 **The specification, under every spelling.**
@@ -254,7 +264,7 @@ PENDING-IN-SHORT
 - The checker, the batch N gate: class V1, 36 errors (`compile-ladder/climb-batch-N/gate/distance-sites.tsv`, classified).
   - 15 refuse arithmetic at `(T, T)`: `+`, `-` and juxtaposition in the `Vector` and `Matrix` bodies (`FortressLibrary.fss:2328-2336`, `:2636-2691`), "not applicable to an argument of type (T, T)".
   - 21 refuse a type, "The static argument T does not satisfy the corresponding bound Number": the storing objects `__DefaultVector` (`:2339`), `__DefaultMatrix` (`:2698`) and `TransposedMatrix` (`:2706`) declare their own `T` with no bound and extend `Vector[\T,…\]` or `Matrix[\T,…\]`, so every type they write is ill formed.
-- PENDING-NUMOBJ
+- The slip, 6b below, measured on a library copy through the distance stage (`reviews/array-design-ways/captures/distance-NUMOBJ.table` and `distance-NUMOBJ.arrays.txt`; 823 s at a load of 3): the total goes 627 → 606. V1 goes 36 → 17: 19 of the 21 well-formedness errors go, the 15 arithmetic refusals stay, and two remain at the factories `vector` (`FortressLibrary.fss:2387`) and `matrix` (`:2748`), by a cause not traced here. Two big-operator errors (class BR) go with them; no other class moves. Under walk the team's seven array tests (`vectorOps`, `matrixOps`, `ArrayScalarExtension`, `ArrayOperatorsBesideLibrary`, `FlatTowerRungF`, `TabulateRungA`, `sparseMatrix`) print the same against the copy as against an unchanged one (`captures/walk-NUMOBJ-*.txt`, `captures/walk-L0-*.txt`).
 - PENDING-RING
 
 **The specification.**
@@ -303,4 +313,9 @@ The order follows what each answer unblocks (my reading of `coordinator/PLAN.md`
 - **The comment that decision D's note of 2026-09-27 called the library's own is the revival's.** "sized arrays under a compiler need per-shape declarations beside these" was written by the revival on 2026-09-23 (`c2b4e2c95`) and reworded on 2026-09-28 (`581356f32`); today it reads "a static checker sees only Array[\T,I\], so the rank and size of a sized argument are lost to it in the result" (`Library/FortressLibrary.fsi:2595-2600`). The team's own statement on per-type storage is Maessen's commit message of 2008 (section 3).
 - **Decision E's patch applies again.** `rebase-2026-09-29/library-e3.patch` is the 17 dead sizes regenerated on today's library; `git apply --check` passes.
 
-PENDING-TAIL
+## 10. What is measured, what is read, what was not run
+
+- **Measured here:** the re-based diff on seven checker copies and under walk (section 2); the four decision A probes on both paths (section 3); the three library copies through the distance stage and the team's array tests under walk (sections 4 and 7); the width pair (section 6).
+- **Cited from the record, not re-run:** the batch N gate's distance table and sites, today's tree (V1, V2, Z1); the boxing costs of `perf-probes/kernels/` and `reviews/array-design-review.md`; the design B size machinery (FACTS lines 42, 43, 114); the peers' survey of `reviews/size-runtime-design-brief.md` § 6 and `reviews/nat-checking-plan.md` § g.
+- **Read, not measured:** the checker rules of 15a and 4a and what they would clear; 4b, A4 and A5, which need `.java` work; D3's `T^n` on the checker; D4; 5c, 5d, 5e; 6d; the costs marked "my reading".
+- **Not run:** the gate (nothing tracked outside this note's directories changed); the four-thread check; the compiled path for C4 beyond the checker; the APL program's twin of the diff (`apl/mg/FlatArrays2`).

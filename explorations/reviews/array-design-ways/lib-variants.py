@@ -13,6 +13,9 @@ RING    Question 6, way "the ring bound": NUMOBJ's three objects, and every T ex
         array section and the scalar-extension block, in the component and the api, bounded by
         T extends MultiplicativeRing[\\T\\] (the library's own algebra trait, which extends
         AdditiveGroup[\\T\\] and which every number type of the flat tower carries at its own type).
+RINGVM  Question 6, the ring bound on Vector and Matrix alone: RING without the scalar-extension block,
+        whose own T extends Number is left as it is (under walk the block's MAX with the ring bound is
+        refused beside StandardTotalOrder's MAX, captures/walk-RING-vectorOps.txt).
 STORE   Question 3, the library's own way around the checker's refusal of arithmetic in a size:
         the three storing objects whose field is sized by a product (__DefaultArray2,
         __DefaultMatrix, __DefaultArray3) make it with the library's run-time-size factory
@@ -53,6 +56,10 @@ def main(d, v):
         fss = sub_lines(fss, 4620, 4640, r'\bT extends Number\b', ring, 8, 'component scalar extension')
         fsi = sub_lines(fsi, 1540, 1735, r'\bT extends Number\b', ring, 32, 'api arrays')
         fsi = sub_lines(fsi, 2595, 2615, r'\bT extends Number\b', ring, 8, 'api scalar extension')
+    elif v == 'RINGVM':
+        fss = objects(fss, 'MultiplicativeRing[\\T\\]')
+        fss = sub_lines(fss, 2300, 2800, r'\bT extends Number\b', ring, 26, 'component arrays')
+        fsi = sub_lines(fsi, 1540, 1735, r'\bT extends Number\b', ring, 32, 'api arrays')
     elif v == 'STORE':
         fss = sub_exact(fss, 'mem:PrimitiveArray[\\T, (s0 s1) \\] = PrimitiveArray[\\T, (s0 s1) \\]()',
                         'mem:Array[\\T,ZZ32\\] = primitiveArray[\\T\\](s0 s1)', 2, 'rank-2 stores')
