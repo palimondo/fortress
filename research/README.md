@@ -70,6 +70,33 @@ and commentary with brief attributed quotations, never document reproductions.
     (`Specification/advanced/domain-specific-languages.tex`, `\cite{fool09}`), so
     this is the only prose specification of the mechanism the APL probes exercise.
 
+- **"Polymorphic Symmetric Multiple Dispatch with Variance"** — Gyunghee
+  Park, Jaemin Hong, Guy L. Steele Jr., Sukyoung Ryu; Proc. ACM Program.
+  Lang. 3, POPL, Article 11, January 2019, 28 pages; doi:10.1145/3290324.
+  - PDF: https://dl.acm.org/doi/pdf/10.1145/3290324 (the publisher's open
+    copy, behind a Cloudflare challenge for scripts). Open copy the record's
+    text came from, fetched 2026-09-23:
+    `https://web.archive.org/web/20240415191855id_/https://dl.acm.org/doi/pdf/10.1145/3290324`.
+    On 2026-09-29 neither could be fetched from the container: ACM answered
+    403 and the Wayback tunnel closed on every attempt. The KAIST lab's Google
+    Drive link asks for a sign-in.
+  - License: Creative Commons Attribution-NonCommercial 4.0, per Crossref's
+    record deposited by ACM (https://api.crossref.org/works/10.1145/3290324).
+    **Not yet confirmed on the paper's first page.** If confirmed, it permits
+    non-commercial redistribution with attribution. The PDF and full text stay
+    uncommitted all the same until the coordinator decides with Pavol.
+  - Local copy: `decks/ParkPOPL2019.pdf` and `decks/ParkPOPL2019.txt`
+    (`pdftotext -layout`) once fetched, with its SHA-256 recorded here. Until
+    then `decks/ParkPOPL2019.passages.txt` holds the passages a worker printed
+    from the Wayback copy on 2026-09-23, recovered from its transcript.
+    Committed working extract, written from those passages:
+    `extracts/ParkPOPL2019-extract.md`.
+  - The type group's last published word on Fortress's type system. Its
+    calculus FGFV keeps the exclusion rule as an ancestor rule
+    ([Anc-Same-Trait]), adds declaration-site variance, and makes dispatch
+    check the call's static return type. It proves the whole sound. It has no
+    self types, numeric tower, closed types or nominal exclusion.
+
 ## Recovery technique (Wayback CDX)
 
 The APEX server serves documents by DOC_ID under per-session URLs, so filename
