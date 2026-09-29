@@ -47,6 +47,8 @@ The one library binds every native with `builtinPrimitive("…")`. That construc
 - Objects of a `native component`, whose Java class walk loads by name (`interpreter/evaluator/BuildNativeEnvironment.java:42-47`): 32.
 - Names walk binds at start-up: `true`, `false`, `Any` (`interpreter/evaluator/Primitives.java:38-52`).
 
+Counted at `f55fd68e2`. Recounted on `main` at `e455ccd98`, after rung V made `RR32` a sibling of `RR64` (`git show` copies under a private directory, the same scripts): 424 live, one `RR32` binding of class C fewer, nothing else moved.
+
 Matched against the compiler prelude's 366 declarations whose bodies call an `import java` alias (`CompilerBuiltin.fss` 364, `CompilerLibrary.fss` 1, `CompilerSystem.fss` 1), over 369 public static helpers in 25 classes (`natives-shape/helpers-javap.txt`). Matching is by owner, name and signature, the owner mapped between the two spellings (`Int` and `ZZ32` to `ZZ32`, `Float` to `RR64`, `Char` to `Character`, `FlatString` to `JavaString`), and then by operation: each glue class to the helper that computes the same thing. Scripts: `natives-shape/count/extract.py`, `match.py`, `classify.py`; every binding's class is in `count/classified.tsv`.
 
 ### The classes
