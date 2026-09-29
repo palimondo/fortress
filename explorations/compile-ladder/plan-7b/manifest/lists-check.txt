@@ -1,28 +1,13 @@
-S reasons 83 for 83 briefing keys | problems 0
-S briefing keys 83 exit 1 | Total: 10 parts print 250486 bytes, about 103800 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1. The verdicts the paper bears on NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-   PROBLEM doc:research/extracts/ParkPOPL2019-extract.md#4.2 The dynamic choice NOT FOUND: no such file: research/extracts/ParkPOPL2019-extract.md
-S checks keys 33 exit 1 | Total: 4 parts print 97305 bytes, about 40300 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1. The verdicts the paper bears on NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
+S reasons 84 for 84 briefing keys | problems 0
+S briefing keys 84 exit 0 | Total: 11 parts print 277158 bytes, about 114800 tokens.
+S checks keys 34 exit 0 | Total: 5 parts print 118171 bytes, about 49000 tokens.
 C reasons 75 for 75 briefing keys | problems 0
-C briefing keys 75 exit 1 | Total: 8 parts print 206061 bytes, about 85400 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.2 Answer 9 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.6 Item 30 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.9 Row 516 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-C checks keys 28 exit 1 | Total: 4 parts print 79407 bytes, about 33000 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.6 Item 30 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
+C briefing keys 75 exit 0 | Total: 9 parts print 216584 bytes, about 89800 tokens.
+C checks keys 28 exit 0 | Total: 4 parts print 85216 bytes, about 35400 tokens.
 W reasons 69 for 69 briefing keys | problems 0
-W briefing keys 69 exit 1 | Total: 7 parts print 173382 bytes, about 71900 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.6 Item 30 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-   PROBLEM doc:explorations/reviews/decisions-review/popl-recheck.md#1.9 Row 516 NOT FOUND: no such file: explorations/reviews/decisions-review/popl-recheck.md
-W checks keys 25 exit 1 | Total: 3 parts print 71307 bytes, about 29600 tokens.
-   PROBLEM positions:2026-09-29 paper's instance rule                 NOT FOUND: no entry of POSITIONS.md or POSITIONS-history.md dated 2026-09-29 has a head holding every word; the heads of that date: "2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (" (POSITIONS.md:136); "2026-
-L reasons 51 for 51 briefing keys | problems 0
-L briefing keys 51 exit 0 | Total: 6 parts print 129166 bytes, about 53600 tokens.
-L checks keys 15 exit 0 | Total: 2 parts print 34873 bytes, about 14500 tokens.
-bad lists 6
+W briefing keys 69 exit 0 | Total: 8 parts print 181252 bytes, about 75200 tokens.
+W checks keys 25 exit 0 | Total: 3 parts print 74703 bytes, about 31000 tokens.
+L reasons 52 for 52 briefing keys | problems 0
+L briefing keys 52 exit 0 | Total: 6 parts print 131471 bytes, about 54600 tokens.
+L checks keys 16 exit 0 | Total: 2 parts print 35984 bytes, about 15000 tokens.
+bad lists 0
