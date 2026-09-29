@@ -1,0 +1,29 @@
+== Reading cost, means per agent
+6.5b rung workers              n= 2 context  692K  briefing   29K ( 4%)  searching  157K (23%)  per turn 0.39 calls  517 tokens  before the first edit or probe 25%
+6.5b repair rounds             n= 1 context  524K  briefing    8K ( 2%)  searching   49K ( 9%)  per turn 0.29 calls  405 tokens  before the first edit or probe 31%
+6.5b skeptics                  n= 3 context  390K  briefing   25K ( 6%)  searching   64K (16%)  per turn 0.49 calls  515 tokens  before the first edit or probe 29%
+6.5b all three                 n= 6 context  513K  briefing   23K ( 5%)  searching   92K (18%)  per turn 0.41 calls  504 tokens  before the first edit or probe 27%
+N rung workers                 n= 4 context  564K  briefing   63K (11%)  searching  148K (26%)  per turn 0.49 calls  797 tokens  before the first edit or probe 42%
+N repair rounds                n= 3 context  425K  briefing   23K ( 5%)  searching   45K (11%)  per turn 0.26 calls  327 tokens  before the first edit or probe 21%
+N skeptics                     n= 7 context  368K  briefing   21K ( 6%)  searching   61K (17%)  per turn 0.47 calls  587 tokens  before the first edit or probe 39%
+N all three                    n=14 context  436K  briefing   33K ( 8%)  searching   83K (19%)  per turn 0.43 calls  613 tokens  before the first edit or probe 38%
+7C rung workers                n= 2 context  422K  briefing   41K (10%)  searching  118K (28%)  per turn 0.55 calls  820 tokens  before the first edit or probe 42%
+7C skeptics                    n= 2 context  369K  briefing   11K ( 3%)  searching   84K (23%)  per turn 0.54 calls  670 tokens  before the first edit or probe 43%
+7C all three                   n= 4 context  395K  briefing   26K ( 7%)  searching  101K (26%)  per turn 0.55 calls  750 tokens  before the first edit or probe 43%
+6b-7R rung workers             n= 8 context  497K  briefing   54K (11%)  searching  146K (29%)  per turn 0.44 calls  635 tokens  before the first edit or probe 28%
+6b-7R repair rounds            n= 2 context  211K  briefing   12K ( 6%)  searching   27K (13%)  per turn 0.42 calls  699 tokens  before the first edit or probe 50%
+6b-7R skeptics                 n= 7 context  362K  briefing   16K ( 4%)  searching   68K (19%)  per turn 0.48 calls  538 tokens  before the first edit or probe 33%
+6b-7R all three                n=17 context  408K  briefing   33K ( 8%)  searching  100K (24%)  per turn 0.45 calls  606 tokens  before the first edit or probe 30%
+
+== Briefing, map and INDEX, batch 6.5b
+rung:E         briefing first at call  5, parts 1/8,   12K; keys FACTS=13;POSITIONS=13;code=31;doc-note=37;doc-spec=4;ledger=11;map=3; map files opened 0, INDEX opened 0
+rung:V         briefing first at call  6, parts 3/4,   45K; keys FACTS=6;POSITIONS=14;code=7;doc-note=8;doc-spec=3;ledger=2;map=1; map files opened 0, INDEX opened 0
+skeptic:E      briefing first at call  2, parts 3/4,   36K; keys FACTS=3;POSITIONS=10;code=10;doc-note=3;doc-spec=3;ledger=8; map files opened 0, INDEX opened 0
+skeptic:V      briefing first at call  1, parts 2/2,   14K; keys FACTS=1;POSITIONS=7;code=4;doc-spec=2;ledger=1; map files opened 1, INDEX opened 0
+judge:E        briefing first at call  0, parts 4/4,   39K; keys FACTS=2;POSITIONS=10;code=10;doc-note=3;doc-spec=3;ledger=8; map files opened 0, INDEX opened 0
+repair:E       briefing first at call  3, parts 4/4,    8K; keys FACTS=2;POSITIONS=10;code=10;doc-note=3;doc-spec=3;ledger=8; map files opened 0, INDEX opened 0
+skeptic2:E     briefing first at call  3, parts 4/4,   23K; keys FACTS=22;POSITIONS=10;code=10;doc-note=3;doc-spec=3;ledger=8; map files opened 0, INDEX opened 0
+judge:review   briefing first at call  1, parts 5/4,   44K; keys FACTS=4;POSITIONS=15;code=14;doc-note=3;doc-spec=5;ledger=9; map files opened 0, INDEX opened 0
+repair:review  briefing first at call  1, parts 4/4,   53K; keys FACTS=3;POSITIONS=15;code=14;doc-note=3;doc-spec=5;ledger=9; map files opened 0, INDEX opened 0
+judge:gate     briefing first at call  0, parts 3/3,   30K; keys FACTS=1;POSITIONS=15;code=4;doc-spec=2;ledger=9; map files opened 0, INDEX opened 0
+repair:gate    briefing first at call  0, parts 4/4,   55K; keys FACTS=3;POSITIONS=15;code=14;doc-note=3;doc-spec=5;ledger=9; map files opened 0, INDEX opened 0
