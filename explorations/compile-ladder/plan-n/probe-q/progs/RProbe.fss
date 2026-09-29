@@ -1,0 +1,38 @@
+(* RProbe -- probe Q: the three kinds of site the switch's first corpus pass broke, one line each,
+   under device A (a numeral at an AnyIntegral parameter), device B (numerals in a tuple at a tuple
+   parameter) and device C (a numeral asif a number type).  Walk's refusals cannot be caught, so
+   run.sh runs one line per program (RProbe<n>); this file holds them all for the record. *)
+component RProbe
+export Executable
+
+ty(v: Any): String =
+  typecase v of
+    IntLiteral => v.asString || " : IntLiteral"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    ZZ => v.asString || " : ZZ"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : other"
+  end
+
+run(): () = do
+  z: ZZ32 = 245
+  w10: ZZ64 = widen(10)
+  r: RR64 = 1.5
+  m = array2[\RR64,2,2\]().fill(1.0)
+  m[0,1] := 2.0
+  println("A widen(1) LSHIFT 40 [1099511627776 : ZZ64]: " ty(widen(1) LSHIFT 40))
+  println("A z LSHIFT 1 [490 : ZZ32]: " ty(z LSHIFT 1))
+  println("A z RSHIFT 2 [61 : ZZ32]: " ty(z RSHIFT 2))
+  println("A w10^2 [100 : ZZ64]: " ty(w10^2))
+  println("A r^2 [2.25 : RR64]: " ty(r^2))
+  println("A z^2 [60025]: " ty(z^2))
+  println("A 1 LSHIFT 3 [8]: " ty(1 LSHIFT 3))
+  println("A big(1) LSHIFT 64 [18446744073709551616 : ZZ]: " ty(big(1) LSHIFT 64))
+  println("B m[0,1] [2.0 : RR64]: " ty(m[0,1]))
+  println("B (0#3, 0#3) bounds shifted by (2,5): " ((0#3).bounds))
+  println("C 0 asif ZZ32 [0 : ZZ32]: " ty(0 asif ZZ32))
+  println("END")
+end
+end

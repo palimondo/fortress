@@ -1,0 +1,10 @@
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -379,6 +379,7 @@
+         z: NN32 => do q: QQ = z; q end
+         z: NN64 => do q: QQ = z; q end
+         z: ZZ => do q: QQ = z; q end
++        z: IntLiteral => do q: QQ = z; q end
+         else => Ratio(0, 0)
+     end
+ 

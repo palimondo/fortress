@@ -1,0 +1,16 @@
+(* ListProbe -- probe Q: an aggregate of numerals under the switch (the list literal's element type,
+   opr <|[\E\] xs: E... |>, List.fsi:107). *)
+component ListProbe
+import List.{...}
+export Executable
+
+run(): () = do
+  a = <|1, 2, 3|>
+  println("<|1, 2, 3|>: " a " is a List[\\ZZ32\\]: " (typecase a of List[\ZZ32\] => "yes"; else => "no" end) "; a List[\\IntLiteral\\]: " (typecase a of List[\IntLiteral\] => "yes"; else => "no" end))
+  b = <|0 asif ZZ32, 1, 2|>
+  println("<|0 asif ZZ32, 1, 2|> is a List[\\ZZ32\\]: " (typecase b of List[\ZZ32\] => "yes"; else => "no" end))
+  c: List[\ZZ32\] = <|4, 5|>
+  println("c: List[\\ZZ32\\] = <|4, 5|>: " c)
+  println("END")
+end
+end

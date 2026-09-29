@@ -1,0 +1,467 @@
+--- a/com/sun/fortress/interpreter/evaluator/BaseEnv.java
++++ b/com/sun/fortress/interpreter/evaluator/BaseEnv.java
+@@ -625,14 +625,24 @@
+         putValueRaw(str, FBool.make(f2));
+     }
+ 
++    /* Probe Q (row 486): with -Dprobe.q.nat=literal, a nat or int parameter's
++       value is a numeral, a value of IntLiteral, instead of a ZZ32. */
++    private static final boolean probeQNatLiteral = "literal".equals(System.getProperty("probe.q.nat"));
++
++    private static FValue sizeValue(Number f2) {
++        if (probeQNatLiteral)
++            return com.sun.fortress.interpreter.evaluator.values.FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue()));
++        return FInt.make(f2.intValue());
++    }
++
+     public void putNat(String str, Number f2) {
+         putNatRaw(str, f2);
+-        putValueRaw(str, FInt.make(f2.intValue()));
++        putValueRaw(str, sizeValue(f2));
+     }
+ 
+     public void putInt(String str, Number f2) {
+         putIntRaw(str, f2);
+-        putValueRaw(str, FInt.make(f2.intValue()));
++        putValueRaw(str, sizeValue(f2));
+     }
+ 
+     public void putType(String str, FType f2) {
+--- a/com/sun/fortress/interpreter/evaluator/Evaluator.java
++++ b/com/sun/fortress/interpreter/evaluator/Evaluator.java
+@@ -111,7 +111,14 @@
+         Type ty = x.getAnnType();
+         FType fty = EvalType.getFType(ty, e);
+         if (val.type().subtypeOf(fty)) return new FAsIf(val, fty);
+-        else return error(x, e, errorMsg("Type of expression, ", val.type(), ", not a subtype of ", fty, "."));
++        /* Probe Q, device C (-Dprobe.q.asif=convert): a value that is not of the assumed type
++           converts to it by one coercion, as the compiled checker's asif does
++           (Misc.scala SAsIfExpr, checkExpr with an expected type builds a coercion). */
++        if ("convert".equals(System.getProperty("probe.q.asif"))) {
++            FValue c = Coercions.coerce(fty, val);
++            if (c != null) return new FAsIf(c, fty);
++        }
++        return error(x, e, errorMsg("Type of expression, ", val.type(), ", not a subtype of ", fty, "."));
+     }
+ 
+     // We ask lhs to accept twice (with this and an LHSEvaluator) in
+--- a/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -150,6 +150,18 @@
+             else if (p == null) return null;
+             if (NodeUtil.isVarargsParam(p)) {
+                 Type ty = p.getVarargsType().unwrap();
++                /* Probe Q, device F (-Dprobe.q.varargs=rule): a varargs parameter whose element
++                   type is a type parameter alone takes the rule as a lone parameter does (row 511). */
++                if ("rule".equals(System.getProperty("probe.q.varargs"))
++                    && ty instanceof VarType && typeParams.contains(NodeUtil.nameString(((VarType) ty).getName()))) {
++                    String n = NodeUtil.nameString(((VarType) ty).getName());
++                    if (!lone.containsKey(n)) {
++                        lone.put(n, new ArrayList<FValue>());
++                        loneType.put(n, ty);
++                    }
++                    lone.get(n).add(a);
++                    continue;
++                }
+                 fixedElsewhere.addAll(mentions(ty, tp_set));
+                 at.unify(envForInference, tp_set, abm, ty);
+                 continue;
+@@ -287,6 +299,7 @@
+             admitted.add(c);
+         }
+         FType best = null;
++        boolean tie = false;
+         for (FType c : admitted) {
+             boolean narrower = true;
+             for (FType d : admitted) {
+@@ -296,11 +309,37 @@
+                 }
+             }
+             if (narrower) {
+-                if (best != null && best != c) return null;
++                if (best != null && best != c) tie = true;
+                 best = c;
+             }
+         }
+-        return best;
++        if (best != null && !tie) return best;
++        /* Probe Q, Q1's default: a type parameter that only numerals fix and that
++           no narrowest type fixes takes ZZ32, or ZZ64 or ZZ for a value ZZ32
++           cannot hold, when that type is admitted. */
++        String dflt = numeralDefault(vals);
++        if (dflt != null) {
++            for (FType c : admitted) {
++                if (dflt.equals(c.getName())) return c;
++            }
++        }
++        return null;
++    }
++
++    /**
++     * Probe Q: "ZZ32", "ZZ64" or "ZZ", the type a numeral reads as by its
++     * magnitude, for the widest of vals, when every one of vals is a numeral;
++     * otherwise null.
++     */
++    public static String numeralDefault(List<FValue> vals) {
++        if (vals.isEmpty()) return null;
++        int bits = 0;
++        for (FValue v : vals) {
++            if (!(v instanceof com.sun.fortress.interpreter.evaluator.values.FIntLiteral)) return null;
++            java.math.BigInteger b = ((com.sun.fortress.interpreter.evaluator.values.FIntLiteral) v).getLit();
++            bits = Math.max(bits, b.bitLength());
++        }
++        return bits <= 31 ? "ZZ32" : bits <= 63 ? "ZZ64" : "ZZ";
+     }
+ 
+     /**
+--- a/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java
++++ b/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java
+@@ -38,21 +38,9 @@
+     }
+ 
+     public static FValue make(BigInteger v) {
+-        if (v.compareTo(INT_MAX) > 0) {
+-            if (v.compareTo(LONG_MAX) > 0) {
+-                return FBigNum.make(v);
+-            } else {
+-                return FLong.make(v.longValue());
+-            }
+-        } else if (v.compareTo(INT_MIN) < 0) {
+-            if (v.compareTo(LONG_MIN) < 0) {
+-                return new FIntLiteral(v);
+-            } else {
+-                return FLong.make(v.longValue());
+-            }
+-        } else {
+-            return FInt.make(v.intValue());
+-        }
++        // Probe (plan 6.5, numeral): every integer numeral is a value of the library's
++        // IntLiteral, the compiler library's model, instead of an Int, Long or BigNum by width.
++        return new FIntLiteral(v);
+     }
+ 
+     public String getString() {
+@@ -60,10 +48,12 @@
+     }
+ 
+     public int getInt() {
++        if (value.bitLength() <= 31) return value.intValue();
+         throw new ProgramError(errorMsg("Value ", value, " does not fit in ZZ32."));
+     }
+ 
+     public long getLong() {
++        if (value.bitLength() <= 63) return value.longValue();
+         throw new ProgramError(errorMsg("Value ", value, " does not fit in ZZ64."));
+     }
+ 
+--- a/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java
++++ b/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java
+@@ -81,7 +81,9 @@
+             // selfName() was rewritten to our special "$self", and
+             // we don't care about shadowing here.
+             eval.e.putValueRaw(selfName(), selfValue);
+-            return eval.eval(body);
++            FValue result = eval.eval(body);
++            // Probe Q (row 387): a method's result converts to its declared return type.
++            return probeQReturn ? convertReturn(ret_type, result) : result;
+         } else if (def instanceof Method) {
+             return ((Method) def).applyMethod(selfValue, args);
+         } else {
+--- a/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
++++ b/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+@@ -846,6 +846,13 @@
+                 FValue a = oargs.get(j);
+                 if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
+                     coercions[j] = Coercions.coercionFor(t, a);
++                    /* Probe Q, device B (-Dprobe.q.tuple=convert): a tuple converts element by
++                       element at dispatch, as it does at a typed binding (Coercions.coerceTuple). */
++                    if (coercions[j] == null && t instanceof FTypeTuple && a instanceof FTuple
++                        && "convert".equals(System.getProperty("probe.q.tuple"))
++                        && Coercions.coerce(t, a) != null) {
++                        coercions[j] = new TupleCoercion((FTypeTuple) t, this);
++                    }
+                     applies = coercions[j] != null;
+                     converts = true;
+                 }
+@@ -860,6 +867,11 @@
+         }
+         for (Coercions.CoercedCall c : applicable) {
+             if (c != best && !Coercions.moreSpecific(best.getDomain(), c.getDomain(), best.arity())) {
++                /* Probe Q, Q1's default: a tie where arguments are numerals; each
++                   numeral is read as ZZ32 (ZZ64 or ZZ by magnitude) and the call
++                   resolves as arguments of those types would. */
++                SingleFcn byNumeral = numeralTieDefault(args, someOverloads);
++                if (byNumeral != null) return byNumeral;
+                 return error(errorMsg("Ambiguous coercion, args = ",
+                                       Useful.listInParens(args),
+                                       ", applicable with coercion = ",
+@@ -870,6 +882,169 @@
+     }
+ 
+     /**
++     * Probe Q, Q1's default: when some of args are numerals, the call with
++     * each numeral converted to the type its magnitude reads as (ZZ32, ZZ64
++     * or ZZ), dispatched again as an ordinary call; or null when no numeral is
++     * among args, no such conversion exists, or the converted arguments still
++     * find no declaration by subtyping.
++     */
++    private SingleFcn numeralTieDefault(List<FValue> args, List<Overload> someOverloads) {
++        if (System.getProperty("probe.q.tie", "on").equals("off")) return null;
++        List<FValue> read = new ArrayList<FValue>(args);
++        boolean any = false;
++        for (int j = 0; j < args.size(); j++) {
++            FValue a = args.get(j);
++            if (!(a instanceof FIntLiteral)) continue;
++            String n = com.sun.fortress.interpreter.evaluator.EvaluatorBase.numeralDefault(Collections.singletonList(a));
++            FType target = null;
++            for (FType t : Coercions.coercionTargets(a, getWithin())) {
++                if (n.equals(t.getName())) target = t;
++            }
++            if (target == null) return null;
++            FValue c;
++            try {
++                c = Coercions.coerce(target, a);
++            }
++            catch (FortressException ex) {
++                return null;
++            }
++            if (c == null) return null;
++            read.set(j, c);
++            any = true;
++        }
++        if (!any) return null;
++        SingleFcn chosen = bestMatchInternal(read, someOverloads, true);
++        if (chosen == null) return null;
++        return new NumeralDefaultCall(chosen, this);
++    }
++
++    /** Probe Q, device B: a tuple's conversion element by element, as a one-argument function. */
++    static final class TupleCoercion extends SingleFcn {
++        private final FTypeTuple target;
++        private final OverloadedFunction owner;
++
++        TupleCoercion(FTypeTuple target, OverloadedFunction owner) {
++            super(owner.getWithin());
++            this.target = target;
++            this.owner = owner;
++        }
++
++        @Override
++        public FValue applyInnerPossiblyGeneric(List<FValue> args) {
++            FValue c = Coercions.coerce(target, args.get(0));
++            if (c == null) return error(errorMsg("Probe Q: tuple ", args.get(0), " does not convert to ", target));
++            return c;
++        }
++
++        @Override
++        public String at() {
++            return "tuple-coercion";
++        }
++
++        public String stringName() {
++            return "tuple-coercion";
++        }
++
++        @Override
++        public List<FType> getDomain() {
++            return Collections.<FType>singletonList(FTypeTop.ONLY);
++        }
++
++        @Override
++        public FType getRange() {
++            return target;
++        }
++
++        @Override
++        public IdOrOpOrAnonymousName getFnName() {
++            return owner.getFnName();
++        }
++
++        @Override
++        public FType type() {
++            return owner.type();
++        }
++
++        @Override
++        public boolean seqv(FValue other) {
++            return this == other;
++        }
++
++        @Override
++        public String toString() {
++            return "tuple-coercion to " + target;
++        }
++    }
++
++    /** Probe Q: each numeral argument converted by its own magnitude, then an ordinary call. */
++    static final class NumeralDefaultCall extends SingleFcn {
++        private final SingleFcn target;
++        private final OverloadedFunction owner;
++
++        NumeralDefaultCall(SingleFcn target, OverloadedFunction owner) {
++            super(target.getWithin());
++            this.target = target;
++            this.owner = owner;
++        }
++
++        @Override
++        public FValue applyInnerPossiblyGeneric(List<FValue> args) {
++            List<FValue> read = new ArrayList<FValue>(args);
++            for (int j = 0; j < args.size(); j++) {
++                FValue a = args.get(j);
++                if (!(a instanceof FIntLiteral)) continue;
++                String n = EvaluatorBase.numeralDefault(Collections.singletonList(a));
++                FValue c = null;
++                for (FType t : Coercions.coercionTargets(a, owner.getWithin())) {
++                    if (n.equals(t.getName())) c = Coercions.coerce(t, a);
++                }
++                if (c == null) return error(errorMsg("Probe Q: numeral ", a, " has no ", n, " reading"));
++                read.set(j, c);
++            }
++            return owner.applyInnerPossiblyGeneric(read);
++        }
++
++        @Override
++        public String at() {
++            return target.at();
++        }
++
++        public String stringName() {
++            return target.stringName();
++        }
++
++        @Override
++        public List<FType> getDomain() {
++            return target.getDomain();
++        }
++
++        @Override
++        public FType getRange() {
++            return target.getRange();
++        }
++
++        @Override
++        public IdOrOpOrAnonymousName getFnName() {
++            return target.getFnName();
++        }
++
++        @Override
++        public FType type() {
++            return target.type();
++        }
++
++        @Override
++        public boolean seqv(FValue other) {
++            return this == other;
++        }
++
++        @Override
++        public String toString() {
++            return "numeral-default " + target;
++        }
++    }
++
++    /**
+      * The most specific overload applicable to args without coercion, a
+      * generic one instantiated by EvaluatorBase.inferByUnification, or null.
+      * With reinstantiate, a generic overload chosen is instantiated again by
+--- a/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java
++++ b/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java
+@@ -41,7 +41,9 @@
+ 
+     protected FValue check(FValue x) {
+         FType t = ret_type;
+-        // Jam on, for now.
++        // Probe Q (row 387): a result that is not of the declared return type
++        // converts to it by one coercion when one applies; otherwise jam on.
++        if (probeQReturn) x = convertReturn(t, x);
+         if (true || t.typeMatch(x)) return x;
+         return bug(errorMsg("Function ",
+                             this,
+@@ -53,6 +55,25 @@
+                             x.type().getTransitiveExtends()));
+     }
+ 
++    static final boolean probeQReturn = !"off".equals(System.getProperty("probe.q.return"));
++
++    /** Probe Q (row 387): x converted to the declared return type t by one coercion, or x. */
++    static FValue convertReturn(FType t, FValue x) {
++        if (t == null || x == null || t instanceof BottomType
++            || t instanceof com.sun.fortress.interpreter.evaluator.types.FTypeTop) return x;
++        try {
++            if (t.typeMatch(x)) return x;
++            FValue c = Coercions.coerce(t, x);
++            return c == null ? x : c;
++        }
++        catch (com.sun.fortress.exceptions.FortressException ex) {
++            return x;
++        }
++        catch (RuntimeException ex) {
++            return x;
++        }
++    }
++
+     public String getString() {
+         return at() + ": " + getFnName().toString() + Useful.listInParens(getDomain()) + ":" + getRange();
+     }
+--- a/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
++++ b/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
+@@ -17,6 +17,8 @@
+ import com.sun.fortress.interpreter.glue.NativeMeth0;
+ import com.sun.fortress.interpreter.glue.NativeMeth1;
+ import com.sun.fortress.nodes.ObjectConstructor;
++import com.sun.fortress.exceptions.ProgramError;
++import static com.sun.fortress.exceptions.ProgramError.errorMsg;
+ 
+ import java.math.BigInteger;
+ import java.util.List;
+@@ -253,6 +255,49 @@
+         }
+     }
+ 
++    // Probe (plan 6.5, numeral): the conversions a number type's coerce(x: IntLiteral) calls.
++    static private abstract class K2V extends NativeMeth0 {
++        protected abstract FValue f(BigInteger x);
++
++        public final FValue applyMethod(FObject x) {
++            return f(toB(x));
++        }
++    }
++
++    public static final class ToZZ32 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.bitLength() > 31) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in ZZ32"));
++            return FInt.make(x.intValue());
++        }
++    }
++
++    public static final class ToZZ64 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.bitLength() > 63) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in ZZ64"));
++            return FLong.make(x.longValue());
++        }
++    }
++
++    public static final class ToNN32 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.signum() < 0 || x.bitLength() > 32) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in NN32"));
++            return FNN32.make(x.intValue());
++        }
++    }
++
++    public static final class ToNN64 extends K2V {
++        protected FValue f(BigInteger x) {
++            if (x.signum() < 0 || x.bitLength() > 64) throw new ProgramError(errorMsg("Numeral ", x, " does not fit in NN64"));
++            return FNN64.make(x.longValue());
++        }
++    }
++
++    public static final class ToZZ extends K2V {
++        protected FValue f(BigInteger x) {
++            return FBigNum.make(x);
++        }
++    }
++
+     private static BigInteger choose(BigInteger n, BigInteger k) {
+         BigInteger nmk = n.subtract(k);
+         if (nmk.compareTo(k) < 0) {
