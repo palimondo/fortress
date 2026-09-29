@@ -114,4 +114,6 @@ All four of the second judgement's are also in `record.md`, "Added at the gather
 
 ## After the two commits
 
-The tracked-path check of the role, run over both commits' `REPORT.md`, `record.md`, `SKEPTIC.md` and `JUDGE.md` (and this record), is in the gather's result; every cited path that exists is tracked.
+The tracked-path check of the role, run over every `REPORT.md`, `SKEPTIC.md`, `JUDGE.md` and `record.md` the two commits carry, printed nothing: every `explorations/` path they cite that exists is tracked. Run over this record and `decision-record.md` too, it names only the two untracked `__pycache__/` directories of the preconditions, cited as untracked on purpose, and no path either record cites is missing.
+
+A follow-up commit, after rung E's, keeps in `coordinator/FACTS-history.md` the text rung E's fold replaced in three entries of `FACTS.md` (the rule in `FACTS.md`'s header: where an entry is shortened or replaced, its earlier text goes there), under "Replaced 2026-09-29, at climb batch 6.5b's gather", and brings this section to the check's result. It changes nothing outside `explorations/`.
