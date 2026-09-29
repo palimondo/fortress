@@ -1,6 +1,8 @@
 # probe Q: the two microGPT checks under the switch with devices A, B, C and F (variant r), one JVM each from an empty cache, FORTRESS_THREADS=1 (queue.sh), against the stock lines probe K recorded (../probe-k/captures/mg.txt), each step's wall time and the total masked (mg-values.py)
 start 2026-09-29T11:51:13Z variant: r props: -Dprobe.q.asif=convert -Dprobe.q.tuple=convert -Dprobe.q.varargs=rule (queue.sh, one JVM at a time); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 26.92 27.02 27.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
 MicroGptFlatCheck r rc=0 secs=5025 load 7.28
+MicroGptAplCheck r rc=0 secs=4240 load 3.29
 == MicroGptFlatCheck: stock (on file) 43 lines, switch 43 lines, rc=0 secs=5025; 0 lines differ once masked
    switch VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
-== MicroGptAplCheck: stock (on file) 43 lines, switch 4 lines, rc=?; 39 lines differ once masked
+== MicroGptAplCheck: stock (on file) 43 lines, switch 43 lines, rc=0 secs=4240; 0 lines differ once masked
+   switch VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS

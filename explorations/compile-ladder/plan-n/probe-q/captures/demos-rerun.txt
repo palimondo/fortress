@@ -1,0 +1,22 @@
+# probe Q: the four demos the 120 s cut left unmeasured, run again alone at 600 s, base then the switch r, one JVM at a time (queue.sh); compare.py d4 stock-600 stock-600 r-600 --mask-lib; each job's seconds and the load when it ended
+BiCGSTAB2 stock rc=1 secs=152 load 2.28
+BirdCount1y stock rc=1 secs=75 load 5.66
+BirdCount1z stock rc=1 secs=72 load 4.62
+wordcount stock rc=1 secs=96 load 3.82
+BiCGSTAB2 r rc=1 secs=246 load 2.21
+BirdCount1y r rc=1 secs=139 load 7.88
+BirdCount1z r rc=1 secs=121 load 4.06
+wordcount r rc=1 secs=136 load 2.65
+CHANGED    BiCGSTAB2  rc 1 -> 1  line 32
+    base: Failed to find any matching overload, args = (135134846359: ZZ64,1.0E9), overload = {
+    edit: Failed to find any matching overload, args = (227525280988: ZZ64,1.0E9), overload = {
+NORMALISED BirdCount1y  line 5
+    base: H/Library/FortressLibrary.fss:3161:13-3162:8:
+    edit: H/Library/FortressLibrary.fss:3174:13-3175:8:
+NORMALISED BirdCount1z  line 5
+    base: H/Library/FortressLibrary.fss:3161:13-3162:8:
+    edit: H/Library/FortressLibrary.fss:3174:13-3175:8:
+CHANGED    wordcount  rc 1 -> 1  line 3
+    base: Failed to find any matching overload, args = (92521858016: ZZ64,1000000.0:RR64), overload = {
+    edit: Failed to find any matching overload, args = (131777048191: ZZ64,1000000.0:RR64), overload = {
+tests 4  same 0  normalised 2  order only 0  changed 2  unstable 0  missing 0
