@@ -383,7 +383,7 @@ Then the check: the new test passes; `ant compileAll` (only when Java or Scala c
 - Changed since: in a batch the gate runs once on the merged tree: `compileAll`, `testFast`, `testSystem`, the four-thread `atomic` runs, the ladder regression over `compile-ladder/baseline-2026-09-19/pass-list.txt`, and the checker count, reported and never red on its own (`coordinator/climb-batch-workflow.md`; FACTS § The harness and the gate, § The checker and the one library).
 
 Then one commit: the edit, the test, the FACTS line, the handover state line, and a note on the ledger row it closes (rows are never renumbered; a closed row gets "fixed <commit>" appended to its notes). Footer as in `protocol.md`. Push the branch and fast-forward main.
-- Changed since: in a batch each rung lands as one commit composed at the gather from its branch's net change, and the batch record names each (`compile-ladder/climb-batch-*/RECORD.md`); pushes follow protocol § 4, and a worker commits its own files as it goes (protocol § 5, 2026-09-26).
+- Changed since: in a batch each rung lands as one commit composed at the gather from its branch's net change, and that net change is the edit, the test and the reports; the worker's scratch never enters the branch (post-mortem 2026-09-29). The batch record names each (`compile-ladder/climb-batch-*/RECORD.md`); pushes follow protocol § 4, and a worker commits its own files as it goes (protocol § 5, 2026-09-26).
 
 Shadow first when the edit is in Java or Scala and the outcome is uncertain (`perf-probes/template-check/run-all.sh` is the recipe); library edits need no shadow, `fortress compile` reads the `.fss` directly. A fork a probe can settle is probed before the batch is briefed (POSITIONS 2026-09-22).
 
@@ -396,6 +396,8 @@ Golden output where a value matters: a run test may carry a `run_out_equals` exp
 Tiers named: positive (compiles and runs), negative (`XXX` prefix, `compile_err_equals`), conformance (`SpecData/examples/`, 133 spec programs, today outside the gate). `ant testSpecData` joins the gate when its red count is known.
 
 Not adopted: rewriting the harness on lit and FileCheck, inline diagnostic annotations. Cost without gain on the path.
+
+Not adopted (post-mortem 2026-09-29): a corpus-wide comparison of outputs before and after a change. The suite is pass or fail; a value that matters is asserted in its test, and a count of the programs a change reaches is a probe taken once for a decision.
 
 ## Stop conditions for autonomous work (widened 2026-09-17 on Pavol's word; kept)
 
