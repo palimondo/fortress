@@ -274,3 +274,5 @@
 - `explorations/reviews/numerics-plan-coordinator/measure-D.md`: Measure D for the same plan: the expected type kept at a call written `f(x)`, as a checker shadow; measurement only.
 - `explorations/reviews/numerics-plan-fable/README.md`: The probes, scripts and captures behind `numerics-plan-fable.md`, 2026-09-27, with the machine each ran on.
 - `explorations/reviews/numerics-plan-synthesis/README.md`: The probes behind `numerics-plan-synthesis.md`, 2026-09-27, among them the block-stop probe (the checker stops a block at its first failing statement).
+- `explorations/coordinator/postmortem-2026-09-29/script-review.md`: The review of the batch script's rewrite before batch 7b, 2026-09-29: two blocking findings (the merged-tree repair's stops and unrepaired findings; the test-first exemption for a prose-only rung) and ten smaller ones, fixed in `ce3d0be9f`, with the scenarios run on scratch copies.
+- `explorations/coordinator/postmortem-2026-09-29/cleanup.md`: The cleaning of the landed batches' committed scratch, 2026-09-29 (`9269f7bd2`): the rule as applied, files removed and kept by folder, and every borderline case with its reason, for Pavol's review.
