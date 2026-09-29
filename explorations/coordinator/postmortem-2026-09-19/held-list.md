@@ -41,6 +41,12 @@ Continuing (18:42 UTC), a major failure in his words:
 - Connect the practice to the top-level output: the landing report, the issues put on file (ledger, facts, plan), the rung reports; what he pays the tokens for.
 - Meanwhile a bounded, git-only characterization of each batch as a parallel workflow, one worker per batch, as input for the reviews; no busywork.
 
+On the output comparison (18:52 UTC):
+
+- The Fortress suite is pass or fail; a value that matters belongs in the test as an assertion, so why compare outputs across runs at all; if the comparison is needed, the suite's design needs changing, not a ritual beside it.
+- Was the before-and-after output comparison the team's practice or the revival's invention.
+- Dig up the early discussion comparing Fortress's test suite with the Swift compiler's (lit, expected output written in the test).
+
 ## The research he asked for, answered
 
 Was the compiler-library direction chosen without pricing the array re-implementation, and why: yes. `postmortem-2026-09-19/direction-history-documents.md` and `direction-history-transcripts.md`. The direction was fixed in four steps (08-24 framing, 09-15 step one, 09-16/17 plan and accepted order, 09-19 the design's one line); he proposed one library himself on 09-15 at 23:51 and the probe favoured it; the coordinator's recommendation of 09-17 01:19 inverted that evidence and priced its own route at nothing; the fork was "reserved, yours" at every batch and never put to him with both prices; the next-climb analysis of 09-17 said the decision was not which name to add next and it was never answered. Not wasted: runtime and code-generator repairs, the map, the measurements, the batch machinery, yesterday's library repair. Wasted: the library-name rungs of the eight-rung climb, batch 1, and rungs W and B of batch 2.
