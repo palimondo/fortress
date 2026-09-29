@@ -82,9 +82,9 @@ Facts that save time:
 
 ## Project goal
 
-Finish what the designers intended, judged by the latest committed
-specification (`Specification/`, the July 2012 draft), not redesign the
-language; the measuring stick is one program, microGPT, compiled to bytecode
+Finish what the designers intended, judged by the specification in
+`Specification/`, the Working Draft of 2010-12 as the revival revises it, not
+redesign the language; the measuring stick is one program, microGPT, compiled to bytecode
 and running fast (Pavol, 2026-09-16, `explorations/coordinator/POSITIONS.md`).
 `Specification/` stays the standard; where the Types chapter of the team's
 later, unfinished restart of the specification

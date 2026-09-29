@@ -295,6 +295,22 @@ Shortened 2026-09-29 in POSITIONS.md (item 26 decided that day, its own entry; t
 Replaced 2026-09-29 in POSITIONS.md (item 30 decided, option 1); the entry as it stood:
 - 2026-09-28, PLAN item 30 (a generic declaration beside a plain one at run time, row 496), before batch 7b. After the clean list (`reviews/plain-beside-generic-ways.md`): "Yes, Fable for both." (19:50 UTC; the other was item 26, decided 2026-09-29 below); the judgement is `reviews/plain-beside-generic-judgement.md`, recommending its option 1. His answer to items 26 and 30 then: "Carry on overnight; I'll answer 26 and 30 in the morning, or you need to fill the queue, take the Fable's recommendation." (20:10 UTC). Not decided: if batch 7b launches before he answers, it takes option 1, listed for his review. Which declaration runs is his decision of 19:06 (the two decisions of the conversion judgement, decision 1); only the instance a generic declaration reached at run time takes is new.
 
+Rewritten 2026-09-29 in POSITIONS.md (the review of his decisions, item 11: the goal's wording corrected, "let's adjust it", 15:49 UTC); the entry as it stood:
+
+- 2026-09-16: the goal restated: finish what the designers intended, judged by the latest committed spec (`Specification/`, the July 2012 draft), not redesign the language; the measuring stick is one program, microGPT compiled to bytecode and running fast; a pure-Java microGPT will be written later as the floor to measure against; the tree is tagged at the unsealing point and the next phase modifies the original sources with the lessons of the explorations.
+
+Replaced 2026-09-29 in POSITIONS.md (ledger row 330 decided again, the review of his decisions' item 1: `floor` and `ceiling` on the float types keep the float); the entry as it stood:
+
+- 2026-09-21, ledger row 330, `floor`/`ceiling`/`round`/`truncate` and the brackets ⌊x⌋/⌈x⌉ on the float types: decided by Pavol for the specification's rule — all of them return the unbounded ℤ, for floats as for rationals, and the library's inconsistent spellings of `truncate` and `round` are tidied to the same. His reasoning: ℤ sits under ℚ under ℝ64 in the tower, so an integer result goes back into float arithmetic by promotion, and being unbounded it cannot overflow, "we are not going to ZZ64"; the remaining cost (a bignum per call on a hot float path) is eliminated later in the code generator by static type, the same family as the unboxing work of array decision B, and nothing in microGPT has `floor` on a hot path. Shape: a library rung after the switch-over, gated, with the count of interpreter tests whose output changes measured first.
+
+Replaced 2026-09-29 in POSITIONS.md (the paper's instance rule of 17:34 UTC replaced item 30's instance; which declaration runs stands as decided on 2026-09-28); the entry as it stood:
+
+- 2026-09-29, PLAN item 30, a generic declaration beside a plain one at run time (row 496), before batch 7b: "Stated this way, I think it's obvious that only option one makes sense." (11:37 UTC), after the Fable judgement he asked for on 2026-09-28 ("Yes, Fable for both.", 19:50 UTC; `reviews/plain-beside-generic-judgement.md`, on the clean list `reviews/plain-beside-generic-ways.md`). Which declaration runs was already his decision of 2026-09-28, 19:06 (the two decisions of the conversion judgement, decision 1); the new part is the instance: the generic declaration runs at the instance the value fixes, the least instance where it fixes none. In batch 7b: one sentence and an example in rung S, row 157's fix in rung W, two expected-failure pairs in rung C for the compiled path's two crashes, which stay on phase 5's code-generation list; Naden's return-type restriction recorded as future work.
+
+Taken 2026-09-29 at 15:18 UTC and replaced at 17:34 UTC by the paper's instance rule before it was written into POSITIONS.md; the decision as the coordinator noted it:
+
+- 2026-09-29, R2 (row 447, PLAN item 18; the review of his decisions, section 6, item 2): "This all sounds like option one is the only reasonable choice. Let's record it." The code generator compiles a call typed `Bottom` as a `throw`, one rung before phase 4; item 18's nine steps and Fable judgement not run.
+
 ## How he wants to be spoken to
 
 <!-- 2026-09-27: merged in POSITIONS.md into one entry on the register -->
