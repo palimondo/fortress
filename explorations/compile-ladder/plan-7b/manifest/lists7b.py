@@ -25,7 +25,8 @@ ADD = "doc:explorations/reviews/comprises-type-level-proof-addendum.md#"
 CONV = "positions:2026-09-28 two decisions of Fable's judgement"
 BOUND = "positions:2026-09-29 implicit bound"
 COERC = "positions:2026-09-29 walk's run-time choice of coercions"
-PIR = "positions:2026-09-29 paper's instance rule"
+PIR = "positions:2026-09-29 type parameter arguments do not fix"   # the paper's instance rule, POSITIONS 2026-09-29, 17:34 UTC
+I2223 = "positions:2026-09-29 batch 7b's items 22 and 23"
 REC = "doc:explorations/reviews/decisions-review/popl-recheck.md#"
 EXT = "doc:research/extracts/ParkPOPL2019-extract.md#"
 
@@ -47,6 +48,7 @@ S_BRIEFING = [
   (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration runs; which declaration your dispatch sentence and example give rests on it, its instance on the next entry."),
   (PIR, "The paper's instance rule: each type parameter at its declared bound under the call's static return type; your dispatch sentence, its callout and the inference chapter's bound in place of the union follow it."),
   (COERC, "Item 16 decided: walk's choice of a coercion on the value is the interpreter's limit; your one callout at the coercion chapter's resolved-statically passage says so, cites its two tests and names the switch-over."),
+  (I2223, "Item 23 decided, option (a): you reword Appendix I's introduction so that its entries follow the revival's decisions, route A the first of them, each naming its own, and change no other entry."),
   ("positions:2026-09-19 answering the open question", LIB_PRACTICE),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
   ("ledger:19", "Walk's coercion, chosen on the value, and the two expected failures where that differs from the text's static choice; your callout cites them, and you append that the text now records the difference."),
@@ -94,7 +96,7 @@ S_BRIEFING = [
   ("doc:Specification/appendices/changes.tex#Instantiation exclusion", "Route A's entry, whose Rationale gains one citation under the recheck's item 1.1, the paper's ancestor rule beside the 2011 paper and the Types chapter; nothing else of it changes."),
   ("doc:explorations/reviews/batch-N-review.md#Findings@chapter says it states no more", "Why the inference chapter is yours: four gated rows contradict its claim, their tests named here, and batch 7C's rung X listed its checker's departures the same way."),
   ("doc:Specification/appendices/future.tex#Functions and Overloading", "The future-work entries on overloading: mark the relaxation done, and answer Jan's pair and the exclusion question."),
-  ("doc:Specification/appendices/changes.tex#Initializing an array from a function", "An entry that does not follow from route A and says so; the model for your entries' first sentence, and under item 23's default you reword the introduction to say the entries follow the revival's decisions, each naming its own."),
+  ("doc:Specification/appendices/changes.tex#Initializing an array from a function", "An entry that does not follow from route A and says so; the model for your entries' first sentence, and under item 23's decision, (a), you reword the introduction to say the entries follow the revival's decisions, each naming its own."),
   ("doc:Specification/appendices/changes.tex#Passages not yet revised", "The subsection your entries go before; add the passages you leave, each with its item."),
   ("doc:Documentation/Specification/Prose/Language/overloading.tick#Principles of Overloading", "The team's 2012 restart of the chapter, which dropped the sentence; cite it beside the passage."),
   ("doc:Papers/Types/rules.tick#Overloading Rules", "The paper's three rules as it states them; your text states them the same way."),
@@ -116,7 +118,7 @@ S_BRIEFING = [
 ]
 S_CHECKS = [
   ANSWER9, CONV, "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
-  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30, PIR, BOUND, COERC,
+  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30, PIR, BOUND, COERC, I2223,
   "ledger:491", "ledger:496", "ledger:499", "ledger:487", "ledger:516",
   REC + "1. The verdicts the paper bears on",
   "doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says",
@@ -325,13 +327,14 @@ L_BRIEFING = [
   ("positions:2026-09-24 override shape diagonal", "A fork put to Pavol names the library's own way first; list the library's device before any other for each family."),
   ("positions:2026-09-25 preventing failure mode", "List every way the language and the library offer before you choose a device, the library's first."),
   ("positions:2026-09-27 launch of phase 3's batches", "Q2 taken at its default: you choose the seq device per pair and report each choice with the other way."),
+  (I2223, "Item 22 decided, option (b), on the recommendation: you write TotalComparison's StandardMinMax parent in the api and the component, the five restated members kept, and close row 461."),
   (CONV, "Decision 2 gave each integer type its own MIN, MAX and MINMAX in batch N; read them on your base beside the array MIN and MAX."),
   ("positions:2026-09-24 exclusion route P's fork", "Route A, the rule the library conforms to; every device you add states an exclusion or a meet the rule reads."),
   ("positions:2026-09-19 FlatArrays review's repair", "A line of the model is never changed to suit the checker; no model or vocabulary line is yours."),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
   ("positions:2026-09-26 rung D's stop", RUN_TO_RUN),
   ("positions:2026-09-28 rungs re-running measurements", GATE_BEFORE),
-  ("ledger:461", "BIG MIN and BIG MAX over total comparisons, item 22; under its default (b), in your answers line, you give TotalComparison the StandardMinMax parent, assert both in your test and close the row."),
+  ("ledger:461", "BIG MIN and BIG MAX over total comparisons, item 22; under its decision, (b), in your answers line, you give TotalComparison the StandardMinMax parent, assert both in your test and close the row."),
   ("ledger:478", "Its note: the api's Range lacks the component's excludes clause, which you move into the api."),
   ("ledger:421", "StandardMinMax's MIN and MAX, fixed in batch 7; the neighbour of your markers."),
   ("doc:explorations/reviews/overloading-judgement.md#3.6 The library's refused set, repaired", "Each family's library device as the judgement measured it; the ways you list start here."),
@@ -339,14 +342,14 @@ L_BRIEFING = [
   ("doc:explorations/compile-ladder/plan-7b/probes/P1.md#5. L's devices, measured", "The devices measured in the apis, and why the components need the same markers."),
   ("doc:explorations/compile-ladder/plan-7b/probes/P2.md#The answers", "What the Meet Rule class leaves to batch 8, String's own juxtaposition pair among it; not yours."),
   ("doc:explorations/compile-ladder/rung-exclusion-remainder/REPORT.md#16. Decisions@TotalComparison drops its order", "TotalComparison's shape as landed and the library's device beside it, item 22's two ways."),
-  ("doc:explorations/compile-ladder/rung-exclusion-remainder/SKEPTIC.md#5. The precedent search, and a device the rung did not list", "The measured device for item 22's default, with its numbers on a copy before batches 7R, 7C and N; measure it again on your base."),
+  ("doc:explorations/compile-ladder/rung-exclusion-remainder/SKEPTIC.md#5. The precedent search, and a device the rung did not list", "The measured device for item 22's decision, (b), with its numbers on a copy before batches 7R, 7C and N; measure it again on your base."),
   ("doc:explorations/reviews/batch-7R-conformance.md#Findings@Row 478 belongs", "Why the Range clause goes into the api, and that rung L may take it."),
   ("doc:Specification/advanced/overloading.tex#Meet Rule", "The rule your devices satisfy: an exclusion, or a declaration on the meet."),
   ("code:Library/FortressLibrary.fsi#(** Potemkin exclusion traits..trait Rank3", "The library's plain exclusion traits where a generic excludes cannot be written; the device for a family told apart by a plain parent."),
   ("code:Library/FortressLibrary.fsi#trait StandardMin[", "StandardMin's header, which your marker for the array MIN sits over."),
   ("code:Library/FortressLibrary.fsi#trait StandardMax[", "StandardMax's header, the same for the array MAX."),
-  ("code:Library/FortressLibrary.fsi#trait StandardMinMax[", "StandardMinMax, the library's device for a partial order that also has MIN and MAX; item 22's second way uses it."),
-  ("code:Library/FortressLibrary.fsi#trait TotalComparison", "TotalComparison as batch 7's rung H left it; yours under item 22's default: one header line in the api and the component, the five restated members kept."),
+  ("code:Library/FortressLibrary.fsi#trait StandardMinMax[", "StandardMinMax, the library's device for a partial order that also has MIN and MAX, as RR64, RR32 and QQ declare it; item 22's second way uses it."),
+  ("code:Library/FortressLibrary.fsi#trait TotalComparison", "TotalComparison as batch 7's rung H left it; yours under item 22's decision, (b): one header line in the api and the component, the five restated members kept."),
   ("code:Library/FortressLibrary.fsi#trait ReadableArray[", "ReadableArray's header and its seq; the header takes the exclusion of the markers."),
   ("code:Library/FortressLibrary.fsi#trait SequentialGenerator[", "SequentialGenerator's seq, one of the seq pairs."),
   ("code:Library/FortressLibrary.fsi#trait FilterGenerator[", "FilterGenerator's seq, one of the seq pairs."),
@@ -374,7 +377,7 @@ L_BRIEFING = [
 ]
 L_CHECKS = [
   ANSWER9, "positions:2026-09-19 answering the open question", "positions:2026-09-24 override shape diagonal",
-  "positions:2026-09-27 launch of phase 3's batches", "positions:2026-09-28 rungs re-running measurements",
+  "positions:2026-09-27 launch of phase 3's batches", I2223, "positions:2026-09-28 rungs re-running measurements",
   "ledger:461", "ledger:478",
   "doc:explorations/reviews/overloading-judgement.md#3.6 The library's refused set, repaired",
   "doc:explorations/compile-ladder/plan-7b/probes/P1.md#4. The landed library",
