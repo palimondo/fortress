@@ -62,3 +62,6 @@
 
 # Gate and driver logs kept beside a run and never committed (climb-batch-workflow.js)
 /tmp/
+
+# Python bytecode caches written by the probe and manifest scripts
+__pycache__/
