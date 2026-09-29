@@ -40,7 +40,7 @@ The machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjd
 
 ## 4. For the gate
 
-The six `.test` files and the walk file are outside the gate that ran. The push waits for a gate that includes them: `ant testFast` with 883 compiler tests (877 and one command line in each new `.test` file), and `ant testSystem` with one more interpreter file, `XXXInferLoneUnionWalk.fss`. The checker count and the distance are unaffected, since neither stage reads a test (`explorations/coordinator/tools/checker-count/run.sh:1-9`).
+The six `.test` files and the walk file are outside the gate that ran, on `2770550c3`. The batch landed on that first gate, by Pavol's decision (`explorations/coordinator/POSITIONS.md`, 2026-09-29, on rerunning the gate after a repair that only added tests: "Land on the first gate."): this repair's runs of the seven in the harness on the merged tree (`repair-junit-placed.txt`, `repair-walk-placed.txt`), each with its expected verdict, are recorded as `# repair-tests` lines after the gate's own rows in `explorations/compile-ladder/climb-batch-N/gate/summary.txt`, by which the next gate's counts rise beyond those rows: `ant testFast` with 883 compiler tests (877 and one command line in each new `.test` file), and `ant testSystem` with one more interpreter file, `XXXInferLoneUnionWalk.fss`. The checker count and the distance are unaffected, since neither stage reads a test (`explorations/coordinator/tools/checker-count/run.sh:1-9`).
 
 ## 5. Checks
 
