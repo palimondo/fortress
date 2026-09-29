@@ -1063,10 +1063,19 @@ object STypesUtil {
 
   /**
    * Define an ordering relation on arrows with their instantiations. That is,
-   * is candidate1 more specific than candidate2?
+   * is candidate1 more specific than candidate2? A generic candidate may carry
+   * its declared arrow, and is then compared on its declared domain: between
+   * two candidates without coercion, by subtyping on declared domains; between
+   * two with coercion, by that when it relates them one way, and otherwise by
+   * the coercion chapter's order on their domains. The coercions the promotion
+   * introduced into a promoted candidate are not counted.
    */
   def moreSpecificCandidate(candidate1: AppCandidate,
-    candidate2: AppCandidate)(implicit coercions: CoercionOracle): Boolean = {
+    candidate2: AppCandidate,
+    declared1: Option[ArrowType] = None,
+    declared2: Option[ArrowType] = None,
+    promoted1: Boolean = false,
+    promoted2: Boolean = false)(implicit coercions: CoercionOracle): Boolean = {
 
     val AppCandidate(SArrowType(_, domain1, range1, _, _, mi1), _, args1, _, _) = candidate1
     val AppCandidate(SArrowType(_, domain2, range2, _, _, mi2), _, args2, _, _) = candidate2
@@ -1083,14 +1092,22 @@ object STypesUtil {
     }
 
     // Determine if a coercion occurred.
-    val coercion1 = args1.exists(_.isInstanceOf[CoercionInvocation])
-    val coercion2 = args2.exists(_.isInstanceOf[CoercionInvocation])
+    val coercion1 = !promoted1 && args1.exists(_.isInstanceOf[CoercionInvocation])
+    val coercion2 = !promoted2 && args2.exists(_.isInstanceOf[CoercionInvocation])
+    lazy val d1 = declared1.getOrElse(candidate1.arrow)
+    lazy val d2 = declared2.getOrElse(candidate2.arrow)
 
     // If one did not use coercions and the other did, the one without coercions
     // is more specific.
     (coercion1, coercion2) match {
       case (true, false) => false
       case (false, true) => true
+      case (false, false) if declared1.isDefined || declared2.isDefined =>
+        coercions.moreSpecificDeclared(d1, d2)
+      case (true, true) if declared1.isDefined || declared2.isDefined =>
+        if (coercions.moreSpecificDeclared(d1, d2)) true
+        else if (coercions.moreSpecificDeclared(d2, d1)) false
+        else coercions.moreSpecific(newDomain1, newDomain2)
       case _ => coercions.moreSpecific(newDomain1, newDomain2)
     }
   }

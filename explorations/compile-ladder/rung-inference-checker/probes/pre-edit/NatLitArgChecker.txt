@@ -1,0 +1,37 @@
+# runtests.sh one NatLitArgChecker 2026-09-28T23:10:54Z; tree bce66f1fa with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.05 1.86 1.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/NatLitArgChecker.test
+. compile ProjectFortress/compiler_tests/NatLitArgChecker ProjectFortress/compiler_tests/NatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/NatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File NatLitArgChecker.fss has 2 errors.
+ FAIL
+F. link ProjectFortress/compiler_tests/NatLitArgChecker ProjectFortress/compiler_tests/NatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/NatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File NatLitArgChecker.fss has 2 errors.
+ FAIL
+F. run ProjectFortress/compiler_tests/NatLitArgChecker (360ms) Could not load NatLitArgChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : NatLitArgChecker.class
+	... 5 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 8.404
+There were 3 failures:
+1) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+2) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+3) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/NatLitArgChecker
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+SuiteI result: runs=3 failures=3 errors=0
+exit=0 9 s

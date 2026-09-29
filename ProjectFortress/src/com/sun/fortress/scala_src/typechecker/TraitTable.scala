@@ -22,6 +22,7 @@ import com.sun.fortress.compiler.GlobalEnvironment
 import com.sun.fortress.compiler.index.ApiIndex
 import com.sun.fortress.compiler.index.CompilationUnitIndex
 import com.sun.fortress.compiler.index.ComponentIndex
+import com.sun.fortress.compiler.index.TraitIndex
 import com.sun.fortress.compiler.index.TypeConsIndex
 import com.sun.fortress.repository.ProjectProperties
 import com.sun.fortress.scala_src.useful.Iterators._
@@ -95,6 +96,10 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
         if (raced == null) result else raced
       case v => v
     }
+
+  /** The traits that declare a coercion, for the lookup from a coercion's source to its targets. */
+  lazy val coercingTraits: List[TraitIndex] =
+    iterator.toList.collect { case ti: TraitIndex if !ti.coercions.isEmpty => ti }
 
   override def iterator = {
     var result: Set[TypeConsIndex] = new HashSet()

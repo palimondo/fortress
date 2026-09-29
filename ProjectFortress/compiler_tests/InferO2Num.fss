@@ -1,0 +1,23 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferO2Num
+export Executable
+
+op[\T extends Number\](a: T, b: T): String = "op generic[" || typeOf(a) || "," || typeOf(b) || "]"
+op(a: Any, b: Any): String = "op plain[" || typeOf(a) || "," || typeOf(b) || "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    assert(op(1, w), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64")
+    assert(op(w, 1), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64")
+    assert(op(1, z), "op generic[ZZ32,ZZ32]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ32")
+    assert(op(1, 2), "op generic[IntLiteral,IntLiteral]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): numerals alone")
+    println("PASS")
+  end
+end

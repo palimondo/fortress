@@ -1,0 +1,24 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferO2Meet
+export Executable
+
+op[\T extends Number\](a: T, b: T): String = "op generic[" || typeOf(a) || "," || typeOf(b) || "]"
+op(a: ZZ32, b: Any): String = "op z32any[" || typeOf(a) || "," || typeOf(b) || "]"
+op(a: ZZ32, b: Number): String = "op meet[" || typeOf(a) || "," || typeOf(b) || "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    assert(op(z, w), "op meet[ZZ32,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a promoted declaration is compared on its declared domain")
+    assert(op(z, z), "op meet[ZZ32,ZZ32]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    assert(op(w, w), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    assert(op(z, "s"), "op z32any[ZZ32,other]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    println("PASS")
+  end
+end

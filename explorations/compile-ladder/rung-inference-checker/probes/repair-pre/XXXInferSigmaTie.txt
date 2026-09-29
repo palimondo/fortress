@@ -1,0 +1,16 @@
+# runtests.sh one XXXInferSigmaTie 2026-09-29T03:25:22Z; tree e16135bb1 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.60 2.32 3.41; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/XXXInferSigmaTie.test
+. compile ProjectFortress/compiler_tests/XXXInferSigmaTie 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Ambiguous coercion in call to function f
+F
+Time: 1.689
+There was 1 failure:
+1) ProjectFortress/compiler_tests/XXXInferSigmaTie(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+SuiteI result: runs=1 failures=1 errors=0
+exit=0 2 s

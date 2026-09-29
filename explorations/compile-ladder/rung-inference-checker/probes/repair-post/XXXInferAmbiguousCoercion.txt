@@ -1,0 +1,14 @@
+# runtests.sh one XXXInferAmbiguousCoercion 2026-09-29T03:57:34Z; tree 4a51a0ef4 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.60 9.35 7.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion.test
+. compile ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion.fss:24:13-19:
+    Ambiguous coercion in call to function f: of the declarations applicable to an argument of type NOf only by coercion, none is more specific than every other: B->String; A->String.
+File XXXInferAmbiguousCoercion.fss has 1 error.
+ Saw expected failure
+
+Time: 5.752
+
+OK (1 test)
+
+SuiteI result: runs=1 failures=0 errors=0
+exit=0 6 s

@@ -1,0 +1,28 @@
+component SkNumeralSmall
+export Executable
+
+pickn(x: NN32): String = "NN32"
+pickn(x: ZZ32): String = "ZZ32"
+pickn(x: ZZ64): String = "ZZ64"
+
+object O
+  m(x: NN32): String = "m NN32"
+  m(x: ZZ32): String = "m ZZ32"
+end
+
+opr FOO(x: NN32, y: NN32): String = "FOO NN32"
+opr FOO(x: ZZ32, y: ZZ32): String = "FOO ZZ32"
+
+q(x: NN32, y: ZZ64): String = "q NN32,ZZ64"
+q(x: ZZ32, y: ZZ64): String = "q ZZ32,ZZ64"
+
+run(): () = do
+    z: ZZ32 = 7
+    println("pickn(3): " || pickn(3))
+    println("pickn(-1): " || pickn(-1))
+    println("O.m(3): " || O.m(3))
+    println("3 FOO 4: " || (3 FOO 4))
+    println("q(3, z): " || q(3, z))
+end
+
+end

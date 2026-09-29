@@ -1,0 +1,86 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferCoercionShapes
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+object BoxV[\T\](v: T) end
+object Box[\T\](v: T)
+    accept(x: T): T = x
+end
+object M[\nat r, nat c\]() end
+trait P excludes { Q }
+  getter n(): ZZ32
+end
+trait Q excludes { P }
+  getter n(): ZZ32
+end
+trait R excludes { P, Q }
+  coerce(x: P) = ROf(x.n)
+  coerce(x: Q) = ROf(x.n)
+end
+object POf(k: ZZ32) extends P
+  getter n(): ZZ32 = k
+end
+object QOf(k: ZZ32) extends Q
+  getter n(): ZZ32 = k
+end
+object ROf(k: ZZ32) extends R end
+
+hd[\nat r, nat c\](base: M[\r, c\], p: ZZ32, nh: ZZ32, k: ZZ32): ZZ32 = p nh k
+scale64[\T\](b: BoxT[\T\], x: ZZ64): ZZ64 = x + x
+scale[\T\](b: Box[\T\], x: T): String = typeOf(b.accept(x))
+pick[\T\](x: T, y: T): String = typeOf(x) || "," || typeOf(y)
+lohi32[\I extends ZZ32\](lo: I, hi: I): String = typeOf(lo) || "," || typeOf(hi)
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](7)
+wrapV[\T\](x: T): BoxV[\T\] = BoxV[\T\](x)
+idt[\T\](x: T): T = x
+fst[\T\](b: BoxV[\T\]): T = b.v
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    R => "R"
+    P => "P"
+    Q => "Q"
+    else => "other"
+  end
+
+bs = 16
+nhd = 4
+
+run(): () = do
+    z: ZZ32 = 3
+    l: ZZ64 = 4
+    bL: Box[\ZZ64\] = Box[\ZZ64\](1)
+    bS: BoxT[\String\] = BoxT[\String\](2)
+    three: ZZ64 = 3
+    six: ZZ64 = 6
+    assert(hd(M[\16, 16\](), bs, nhd, 2), 128, "row 401: numerals for declared ZZ32 parameters of a generic whose sizes a structured argument fixes")
+    assert(scale64(bS, 3) = six, "row 401: a numeral for a declared ZZ64 parameter of a generic")
+    assert(scale64(bS, z) = six, "row 388: a ZZ32 for a declared ZZ64 parameter of a generic")
+    assert(scale(bL, 3), "ZZ64", "a lone type parameter fixed by another argument, the numeral converted")
+    assert(scale(bL, z), "ZZ64", "a lone type parameter fixed by another argument, the ZZ32 converted")
+    assert(pick(z, l), "ZZ64,ZZ64", "answer 8 (POSITIONS 2026-09-26): the narrowest type both arguments convert into")
+    assert(pick(3, l), "ZZ64,ZZ64", "answer 8 (POSITIONS 2026-09-26): a numeral beside a ZZ64")
+    assert(pick(3, z), "ZZ32,ZZ32", "answer 8 (POSITIONS 2026-09-26): a numeral beside a ZZ32")
+    pp: P = POf(1)
+    qq: Q = QOf(2)
+    assert(pick(pp, qq), "R,R", "answer 8 (POSITIONS 2026-09-26): the narrowest type both arguments convert into, neither argument's own")
+    assert(pick(3, 4), "IntLiteral,IntLiteral", "numerals alone keep their own type where it meets the bound")
+    assert(lohi32(2, 46), "ZZ32,ZZ32", "numerals at a bound the numeral's type does not meet")
+    a: BoxV[\ZZ64\] = wrapV(3)
+    assert(typeOf(a.v), "ZZ64", "row 455: the expected type fixes the static argument at a call written f(x)")
+    b: BoxT[\ZZ64\] = wrapT(3)
+    assert(b.v, 7, "row 455: the expected type fixes the static argument at a call written f(x)")
+    c: ZZ64 = idt(3)
+    assert(c = three, "the numerics plans, decision 3 (POSITIONS 2026-09-27): a numeral converted at the argument under the expected type")
+    bz: BoxV[\ZZ32\] = BoxV[\ZZ32\](z)
+    d: ZZ64 = fst(bz)
+    assert(d = three, "the numerics plans, decision 3 (POSITIONS 2026-09-27): the retry without the expected type, the binding converting the result")
+    println("PASS")
+  end
+
+end

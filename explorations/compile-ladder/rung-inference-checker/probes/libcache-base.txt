@@ -1,0 +1,11 @@
+# the compiler library's five components compiled in library order on the base's build into default_repository/caches (then copied to tmp/caches-base); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 0.25 0.27 0.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== LibraryBuiltin/AnyType.fss
+rc=0 secs=14
+== LibraryBuiltin/CompilerBuiltin.fss
+rc=0 secs=54
+== ../Library/CompilerLibrary.fss
+rc=0 secs=22
+== ../Library/CompilerAlgebra.fss
+rc=0 secs=1
+== ../Library/CompilerSystem.fss
+rc=0 secs=2

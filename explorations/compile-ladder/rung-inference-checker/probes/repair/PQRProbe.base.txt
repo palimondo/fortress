@@ -1,0 +1,7 @@
+# comp.sh PQRProbe base 2026-09-29T03:30:52Z; tree e16135bb1 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/repair/PQRProbe.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.52 1.74 2.82; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+P
+P,Q
+run rc=0

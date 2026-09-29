@@ -1,0 +1,3 @@
+tests=XXXInferFallbackMessage
+compile
+compile_err_contains=Right-hand side has type ZZ64, but declared type is String.

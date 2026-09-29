@@ -1,0 +1,13 @@
+# onelib.sh base A0 DArg 2026-09-29T04:25:10Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/tmp/build-base; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.00 2.68 4.71; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 84 s
+# the program's own error lines (with 3 lines of context each):
+17:DArg.fss:14:28-32:
+18-    Right-hand side has type IntLiteral, but declared type is String.
+19:DArg.fss:15:34-40:
+20-    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+21:DArg.fss:19:15-19:
+22-    Could not check call to function inc
+23-    - [\T extends Integral[\T\]\]T->T is not applicable to an argument of type IntLiteral.
+24-File DArg.fss has 3 errors.
+# tallies:
+File DArg.fss has 3 errors.
+### rc=-1

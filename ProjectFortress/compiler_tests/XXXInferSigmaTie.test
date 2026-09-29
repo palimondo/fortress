@@ -1,0 +1,3 @@
+tests=XXXInferSigmaTie
+compile
+compile_err_contains=Ambiguous coercion in call to function f

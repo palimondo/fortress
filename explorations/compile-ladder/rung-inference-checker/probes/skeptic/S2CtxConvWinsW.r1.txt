@@ -1,0 +1,7 @@
+# comp.sh S2CtxConvWinsW r1 2026-09-29T05:24:59Z; tree 2348ea6b1 with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/skeptic/S2CtxConvWinsW.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.37 0.80 0.96; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-r1)
+## run
+k(NOf(1)) into V: 99
+k(NOf(1)) untyped: 1
+run rc=0

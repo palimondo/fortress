@@ -1,0 +1,9 @@
+# comp.sh O2Wide base 2026-09-28T23:13:06Z; tree bce66f1fa with its working changes; source explorations/reviews/option-2-soundness/O2Wide.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.07 2.50 1.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(n, w):  op generic[ ZZ32 , ZZ64 ]
+op(z, m):  op generic[ ZZ32 , ZZ64 ]
+op(n, m):  op generic[ ZZ32 , ZZ64 ]
+op(a, w):  op plain[ ZZ32 , ZZ64 ]
+run rc=0

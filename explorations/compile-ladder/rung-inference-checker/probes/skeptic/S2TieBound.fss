@@ -1,0 +1,37 @@
+component S2TieBound
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait W excludes { N }
+  coerce(x: N) = WOf(x.n)
+end
+object WOf(k: ZZ32) extends W end
+
+f[\T extends ZZ32\](x: T, y: W): String = "f[T<:ZZ32](" || typeOf(x) || ", W)"
+f(x: NN32, y: W): String = "f(NN32, W)"
+g[\T extends Number\](x: T, y: W): String = "g[T<:Number](" || typeOf(x) || ", W)"
+g(x: NN32, y: W): String = "g(NN32, W)"
+q(x: ZZ64, y: W): String = "q(ZZ64, W)"
+q(x: NN64, y: W): String = "q(NN64, W)"
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    NN32 => "NN32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+
+run(): () = do
+    println("f(3, NOf(1)): " || f(3, NOf(1)))
+    println("g(3, NOf(1)): " || g(3, NOf(1)))
+    println("q(3, NOf(1)): " || q(3, NOf(1)))
+    println("q(3000000000, NOf(1)): " || q(3000000000, NOf(1)))
+end
+
+end

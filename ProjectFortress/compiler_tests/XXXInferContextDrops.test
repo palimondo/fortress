@@ -1,0 +1,3 @@
+tests=XXXInferContextDrops
+compile
+compile_err_contains=File XXXInferContextDrops.fss has 3 errors.

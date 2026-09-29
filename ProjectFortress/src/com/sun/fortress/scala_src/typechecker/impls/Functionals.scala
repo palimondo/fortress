@@ -126,7 +126,9 @@ trait Functionals { self: STypeChecker with Common =>
   def checkApplicable(preCandidate: PreAppCandidate,
                       context: Option[Type],
                       args: List[Either[Expr, FnExpr]],
-                      mOpName: Option[Op])
+                      mOpName: Option[Op],
+                      coerce: Boolean = false,
+                      promote: Option[List[StaticArg]] = None)
                      (implicit errorFactory: ApplicationErrorFactory)
                       : Either[AppCandidate, OverloadingError] = {
     val arrow = preCandidate.arrow
@@ -159,7 +161,10 @@ trait Functionals { self: STypeChecker with Common =>
     // Are there static params? i.e., do we need more inference?
     val candidateOrError =
       if (hasStaticParams(liftedArrow))
-        checkApplicableWithInference(liftedArrow, preCandidate, context, args)
+        if (coerce || promote.isDefined)
+          checkApplicableWithCoercion(liftedArrow, preCandidate, context, args, promote)
+        else
+          checkApplicableWithInference(liftedArrow, preCandidate, context, args)
       else
         checkApplicableWithoutInference(liftedArrow, preCandidate, args)
 
@@ -270,6 +275,149 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Do the recursion to check the args.
     recurOnArgs(args)
+  }
+
+  /**
+   * Check that the arrow type is applicable to these args with static argument
+   * inference and coercion. The static args are inferred from the args whose
+   * parameter types mention a static parameter other than as the whole type,
+   * and from the context. A type parameter that is the whole type of a
+   * parameter and appears in no other parameter type takes the narrowest type,
+   * under the coercion chapter's no-less-specific relation, among its args'
+   * types, the types they coerce to and its declared bound, that each of its
+   * args is substitutable for; where numerals alone fix it and no one type is
+   * narrowest, the numerals are read as ZZ32 (ZZ64 or ZZ by magnitude). Every
+   * arg is then admitted against the instantiated parameter type by subtyping
+   * or by a coercion. With `promote`, the static args inference by subtyping
+   * found: only a type parameter they bind to a union is chosen again.
+   */
+  def checkApplicableWithCoercion(
+          arrow: ArrowType,
+          preCandidate: PreAppCandidate,
+          context: Option[Type],
+          args: List[Either[Expr, FnExpr]],
+          promote: Option[List[StaticArg]])
+          (implicit errorFactory: ApplicationErrorFactory)
+           : Either[AppCandidate, OverloadingError] = {
+    def notApplicable = Right(errorFactory.makeNotApplicableError(preCandidate.arrow, args))
+    if (args.exists(_.isRight)) return notApplicable
+    val checked = args.map(_.left.get)
+    val params = getStaticParams(arrow).filter(!_.isLifted)
+    // The order in which inferStaticParams returns the static args.
+    val order = params.filter(_.getDominatesClause.isEmpty) ++ params.filterNot(_.getDominatesClause.isEmpty)
+    val names: Set[IdOrOp] = params.map(_.getName).toSet
+    val typeNames: Set[IdOrOp] = params.filter(_.getKind.isInstanceOf[KindType]).map(_.getName).toSet
+    def mentioned(t: Type): Set[IdOrOp] = {
+      var found = Set[IdOrOp]()
+      object finder extends Walker {
+        override def walk(node: Any): Any = node match {
+          case n: VarType if names(n.getName) => found += n.getName; node
+          case n: IntRef if names(n.getName) => found += n.getName; node
+          case _ => super.walk(node)
+        }
+      }
+      finder(t); found
+    }
+    def bare(d: Type): Option[IdOrOp] = d match {
+      case v: VarType if typeNames(v.getName) => Some(v.getName)
+      case _ => None
+    }
+    val positions = zipWithDomain(checked.map(e => normalize(getType(e).get)), arrow.getDomain)
+    val numerals = zipWithDomain(checked, arrow.getDomain).map(p => isNumeral(p._1))
+    val fixedElsewhere = positions.filter(p => bare(p._2).isEmpty).flatMap(p => mentioned(p._2)).toSet
+    val chosen = positions.flatMap(p => bare(p._2)).distinct.filterNot(fixedElsewhere)
+    def valueOf(sargs: List[StaticArg], n: IdOrOp): Option[Type] =
+      order.zip(sargs).collectFirst { case (sp, STypeArg(_, _, t)) if sp.getName == n => t }
+    def own(n: IdOrOp): List[(Type, Expr)] =
+      positions.zip(checked).collect { case ((t, d), e) if bare(d) == Some(n) &&
+        !t.isInstanceOf[BottomType] && !hasInferenceVars(t) => (t, e) }
+    // The types a chosen parameter may take: its args' types, the types they
+    // coerce to, and its declared bound.
+    def named(n: IdOrOp): List[Type] = {
+      val ts = own(n).map(_._1)
+      val bound = params.find(_.getName == n).toList.
+                    flatMap(sp => toListFromImmutable(sp.getExtendsClause)).
+                    filter(b => b.isInstanceOf[TraitType] && mentioned(b).isEmpty &&
+                                !Set("Object", "Any")(b.asInstanceOf[TraitType].getName.getText))
+      (ts ++ ts.flatMap(coercions.getCoercionTargetsFrom(_)) ++ bound).distinct
+    }
+    val choices: List[List[Option[Type]]] = chosen.map { n =>
+      promote match {
+        case Some(sargs) => valueOf(sargs, n) match {
+          case Some(_: UnionType) => named(n).map(Some(_))
+          case v => List(v)
+        }
+        case None => None :: named(n).map(Some(_))
+      }
+    }
+    if (promote.isDefined && !chosen.exists(n => valueOf(promote.get, n).exists(_.isInstanceOf[UnionType])))
+      return notApplicable
+    val combos = choices.foldRight(List(List[Option[Type]]())) { (cs, acc) => for (c <- cs; m <- acc) yield c :: m }
+    if (combos.size > 64) return notApplicable
+    def attempt(combo: List[Option[Type]]): Option[AppCandidate] = {
+      val pick = Map(chosen.zip(combo): _*)
+      // Only the positions that fix a static parameter by subtyping, the
+      // chosen types and the context constrain the inference.
+      val tys = positions.map { case (a, d) => bare(d) match {
+        case Some(n) => pick.getOrElse(n, None)
+        case None => if (mentioned(d).isEmpty) None else Some(a)
+      }}
+      def constraint(inf: ArrowType, ops: Map[Op, Op]): CFormula =
+        Formula.and(context.map(c => analyzer.subtype(inf.getRange, c)).toList ++
+                    zipWithDomain(tys, inf.getDomain).collect { case (Some(t), d) => analyzer.subtype(t, d) })
+      val (resultArrow, sargs) =
+        inferStaticParamsHelper(arrow, constraint, false, true).getOrElse(return None)
+      if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
+      val newArgs = zipWithDomain(checked, resultArrow.getDomain).map { case (e, p) =>
+        if (isSubtype(getType(e).get, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
+      }
+      if (!isSubtype(getArgType(newArgs.map(e => Left(e): Either[Expr, FnExpr])), resultArrow.getDomain)) return None
+      Some(AppCandidate(resultArrow, sargs, newArgs, preCandidate.overloading, preCandidate.fnl))
+    }
+    val found = combos.flatMap(attempt(_))
+    def noWider(a: AppCandidate, b: AppCandidate) = chosen.forall { n =>
+      (valueOf(a.sargs, n), valueOf(b.sargs, n)) match {
+        case (Some(s), Some(t)) => coercions.noLessSpecific(s, t)
+        case _ => false
+      }
+    }
+    def narrowest(cs: List[AppCandidate]) = cs.find(a => cs.forall(noWider(a, _)))
+    narrowest(found).orElse {
+      // A parameter that numerals alone fix, with no one type narrowest: the
+      // numerals are read as ZZ32, or as ZZ64 or ZZ by magnitude.
+      val byNumerals = chosen.filter(n => own(n).nonEmpty && own(n).forall(p => isNumeral(p._2)))
+      if (byNumerals.isEmpty) None
+      else {
+        val readings = byNumerals.map(n => numeralReading(own(n).map(_._2)))
+        if (readings.exists(_.isEmpty)) None
+        else narrowest(found.filter(c => byNumerals.zip(readings.map(_.get)).forall { case (n, r) =>
+                 valueOf(c.sargs, n).exists(coercions.substitutableFor(r, _)) }))
+      }
+    } match {
+      case Some(c) => Left(c)
+      case None => notApplicable
+    }
+  }
+
+  /** Whether the expression is a numeral, or a size used as a value, which the checker types as one. */
+  def isNumeral(e: Expr): Boolean = getType(e) match {
+    case Some(t) => Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL))
+    case None => false
+  }
+
+  /**
+   * The type numerals are read as when nothing narrower fixes them: ZZ32, or
+   * ZZ64 or ZZ when a numeral's value does not fit; the supertype or coercion
+   * target of the numeral type with that name.
+   */
+  def numeralReading(es: List[Expr]): Option[Type] = {
+    val big = es.collect { case l: IntLiteralExpr => l.getIntVal }
+    val name =
+      if (big.forall(v => v.bitLength < 32)) "ZZ32"
+      else if (big.forall(v => v.bitLength < 64)) "ZZ64"
+      else "ZZ"
+    (analyzer.ancestors(Types.INT_LITERAL).toList.collect { case t: TraitType => t } ++
+     coercions.getCoercionTargetsFrom(Types.INT_LITERAL)).find(_.getName.getText == name)
   }
 
   /**
@@ -415,13 +563,14 @@ trait Functionals { self: STypeChecker with Common =>
    */
   def checkApplication(preCandidates: List[PreAppCandidate],
                        arg: Expr,
-                       context: Option[Type])
+                       context: Option[Type],
+                       fallBackWithoutContext: Boolean)
                       (implicit errorFactory: ApplicationErrorFactory)
                        : Option[List[AppCandidate]] = {
 
     // Check the application using the args extrapolated from arg.
     val args = getArgList(arg)
-    checkApplication(preCandidates, args, context) map { candidates =>
+    checkApplication(preCandidates, args, context, None, fallBackWithoutContext) map { candidates =>
 
       // Combine the separated args back into a single arg in the resulting app
       // candidate.
@@ -435,21 +584,85 @@ trait Functionals { self: STypeChecker with Common =>
    * This returns the statically applicable candidates (with their corresponding
    * inferred static args and updated arguments) with the most specific one at
    * the head.
+   *
+   * The candidates are tried by subtyping with the context; failing that, with
+   * coercion; failing that, both again without the context. An attempt by
+   * subtyping counts only the candidates that fit without a coercion the call
+   * needs, so that when none does, the attempt with coercion ranks every
+   * candidate applicable with coercion, generic or not, a generic one on its
+   * declared domain. An attempt is kept when the most specific candidate's
+   * result converts to the context, so that a coercion of the result still
+   * applies. A call no attempt accepts takes the first attempt with the
+   * context that holds a candidate, and with `fallBackWithoutContext` the first
+   * without it, so that the refusal is reported where and as it is without it. A
+   * candidate inferred by subtyping whose static args bind a type parameter to
+   * a union is instantiated by the promotion instead, and is ranked on its
+   * declared domain with the promotion's coercions uncounted. A call with no
+   * most specific candidate is an error when coercions are in the tie, unless
+   * the tie is a numeral's, which the numeral read as ZZ32 settles.
    */
   def checkApplication(preCandidates: List[PreAppCandidate],
                        iargs: List[Expr],
                        context: Option[Type],
-                       mOpName: Option[Op] = None)
+                       mOpName: Option[Op] = None,
+                       fallBackWithoutContext: Boolean = false)
                       (implicit errorFactory: ApplicationErrorFactory)
                        : Option[List[AppCandidate]] = {
 
     // Check all the checkable args and make sure they all have types.
     val args = partitionArgs(iargs).getOrElse(return None)
 
-    // Filter the overloadings that are applicable.
-    val es = preCandidates.map(pc => checkApplicable(pc, context, args, mOpName))
-    val (candidates, overloadingErrors) =
-        (for (Left(x) <- es) yield x, for (Right(x) <- es) yield x)
+    // A candidate, with its declaration's arrow when it is compared on its
+    // declared domain, and whether the promotion instantiated it.
+    type Ranked = (AppCandidate, Option[ArrowType], Boolean)
+    type Attempt = List[(Either[AppCandidate, OverloadingError], Option[ArrowType], Boolean)]
+    def moreSpecific(a: Ranked, b: Ranked) = moreSpecificCandidate(a._1, b._1, a._2, b._2, a._3, b._3)
+    def isUnion(sarg: StaticArg) = sarg match {
+      case STypeArg(_, false, _: UnionType) => true
+      case _ => false
+    }
+    def generic(pc: PreAppCandidate) = getStaticParams(pc.arrow).exists(!_.isLifted)
+
+    // Filter the overloadings that are applicable, by subtyping or with
+    // coercion. A candidate without static parameters is checked alike in
+    // every attempt, so it is checked once.
+    val plain = scala.collection.mutable.Map[Int, (Either[AppCandidate, OverloadingError], Option[ArrowType], Boolean)]()
+    def applicable(ctx: Option[Type], coerce: Boolean): Attempt = preCandidates.zipWithIndex.map { case (pc, i) =>
+      if (getStaticParams(pc.arrow).isEmpty)
+        plain.getOrElseUpdate(i, (checkApplicable(pc, ctx, args, mOpName, coerce), None, false))
+      else checkApplicable(pc, ctx, args, mOpName, coerce) match {
+        case Left(c) if !coerce && c.sargs.exists(isUnion) =>
+          checkApplicable(pc, ctx, args, mOpName, false, Some(c.sargs.filter(!_.isLifted))) match {
+            case Left(promoted) => (Left(promoted), Some(pc.arrow), true)
+            case _ => (Left(c), None, false)
+          }
+        case Left(c) if coerce && generic(pc) => (Left(c), Some(pc.arrow), false)
+        case e => (e, None, false)
+      }
+    }
+    def candidatesOf(es: Attempt): List[Ranked] = es.collect { case (Left(c), d, p) => (c, d, p) }
+    // A coercion the call needs, not one the promotion introduced.
+    def counted(c: Ranked) = !c._3 && c._1.args.exists(_.isInstanceOf[CoercionInvocation])
+    // An attempt by subtyping holds the candidates that fit the call without a
+    // coercion it needs; an attempt with coercion holds all it finds.
+    def holds(es: Attempt, coerce: Boolean) =
+      if (coerce) candidatesOf(es).nonEmpty else candidatesOf(es).exists(!counted(_))
+    def kept(es: Attempt, coerce: Boolean) = holds(es, coerce) && context.forall(c =>
+      coercions.substitutableFor(candidatesOf(es).sortWith(moreSpecific).head._1.arrow.getRange, c))
+    val attempts: List[(Boolean, () => Attempt)] =
+      List((false, () => applicable(context, false)), (true, () => applicable(context, true))) ++
+      (if (context.isDefined) List((false, () => applicable(None, false)), (true, () => applicable(None, true)))
+       else Nil)
+    val tried = attempts.to(LazyList).map { case (coerce, a) => (coerce, a()) }
+    val es = tried.find { case (coerce, a) => kept(a, coerce) }.map(_._2).getOrElse {
+      // No attempt is kept: of the attempts with the context, or for a call
+      // written f(x) of those without it, the first that holds a candidate,
+      // whatever its result, and otherwise the first.
+      val from = if (fallBackWithoutContext && context.isDefined) tried.drop(2) else tried.take(2)
+      from.find { case (coerce, a) => holds(a, coerce) }.getOrElse(from.head)._2
+    }
+    val candidates = candidatesOf(es)
+    val overloadingErrors = es.collect { case (Right(e), _, _) => e }
 
     // If there were no candidates, report errors.
     if (candidates.isEmpty) {
@@ -459,13 +672,12 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Sort the arrows and instantiations to find the statically most
     // applicable. Then update each candidate's Overloading node.
-    val sorted = Some(candidates.sortWith(moreSpecificCandidate))
-    // ensure that head is actually more specific.
-    
+    val sorted = candidates.sortWith(moreSpecific)
+
     // An overloading more specific than every candidate, whose size the call
     // does not fix, makes the call an error.
     val unfixed = overloadingErrors.filter {
-      case NoContextError(_, _, Some(u)) => candidates.forall(moreSpecificCandidate(u, _))
+      case NoContextError(_, _, Some(u)) => candidates.forall(c => moreSpecificCandidate(u, c._1, None, c._2, false, c._3))
       case _ => false
     }
     if (!unfixed.isEmpty) {
@@ -473,7 +685,90 @@ trait Functionals { self: STypeChecker with Common =>
       return None
     }
 
-    sorted
+    // Ensure that the head is the most specific: the one candidate no other
+    // is more specific than.
+    val top = candidates.filter(c => !candidates.exists(d => !(d eq c) && moreSpecific(d, c)))
+    def paramTypes(c: Ranked) = zipWithDomain(c._1.args, c._1.arrow.getDomain).map(_._2)
+    def sameTypes(a: List[Type], b: List[Type]) =
+      a.size == b.size && a.zip(b).forall(p => Formula.isTrue(analyzer.equivalent(p._1, p._2)))
+
+    // A tie whose tied candidates differ only where the argument is a numeral:
+    // each numeral is read as ZZ32 (ZZ64 or ZZ by magnitude), and the call
+    // resolves as an argument of that type would, over every candidate: of
+    // those the readings fit, the ones they fit without coercion first. At a
+    // position whose declared type is a bare type parameter, a reading fits a
+    // candidate compared on its declared arrow by that parameter's bound.
+    def numeralTie(): Option[Ranked] = {
+      val exprs = args.map(_.left.toOption)
+      val n = exprs.size
+      if (top.exists(c => paramTypes(c).size != n)) return None
+      val tiedTypes = top.map(paramTypes)
+      val differ = (0 until n).filter(i =>
+        tiedTypes.exists(t => !Formula.isTrue(analyzer.equivalent(t(i), tiedTypes.head(i))))).toList
+      if (differ.isEmpty || !differ.forall(i => exprs(i).exists(isNumeral))) return None
+      val readings = (0 until n).toList.flatMap(i => exprs(i).filter(isNumeral).map(e => (i, numeralReading(List(e)))))
+      if (readings.exists(_._2.isEmpty)) return None
+      // The types a reading must fit at position i of a candidate.
+      def targets(c: Ranked, i: Int, r: Type): List[Type] = {
+        val bare = c._2.flatMap { d =>
+          val sps = getStaticParams(d).filter(sp => !sp.isLifted && sp.getKind.isInstanceOf[KindType])
+          zipWithDomain(args, d.getDomain).lift(i).map(_._2) match {
+            case Some(v: VarType) => sps.find(_.getName == v.getName).map { sp =>
+              object subst extends Walker {
+                override def walk(node: Any): Any = node match {
+                  case w: VarType if w.getName == v.getName => r
+                  case _ => super.walk(node)
+                }
+              }
+              toListFromImmutable(sp.getExtendsClause).map(b => subst(b).asInstanceOf[Type])
+            }
+            case _ => None
+          }
+        }
+        bare.getOrElse(List(paramTypes(c)(i)))
+      }
+      def fitsBy(c: Ranked, rel: (Type, Type) => Boolean) = readings.forall { case (i, r) =>
+        targets(c, i, r.get).forall(t => rel(r.get, t)) }
+      val fits = candidates.filter(fitsBy(_, coercions.substitutableFor))
+      val unconverted = fits.filter(fitsBy(_, (r, t) => isSubtype(r, t)))
+      val among = if (unconverted.nonEmpty) unconverted else fits
+      among.filter(c => !among.exists(d => !(d eq c) && moreSpecific(d, c))) match {
+        case List(c) => Some(c)
+        case _ => None
+      }
+    }
+
+    val head: Option[Ranked] =
+      if (top.size == 1) top.headOption
+      // A tie among candidates that fit the call as it is, or among candidates
+      // with one parameter type, keeps the sort's head.
+      else if (top.isEmpty || !top.exists(counted) ||
+               top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head)))) sorted.headOption
+      else numeralTie().orElse {
+        signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
+        return None
+      }
+    Some(head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1))
+  }
+
+  /** Signal that no candidate of a call with coercion is more specific than every other. */
+  private def signalAmbiguity(tied: List[ArrowType], args: List[Either[Expr, FnExpr]])
+                             (implicit errorFactory: ApplicationErrorFactory): scala.Unit = {
+    val app = errorFactory.app
+    if (app == null) {
+      errors.signal(errorFactory.makeApplicationError(Nil))
+      return
+    }
+    val kind = app match {
+      case S_RewriteFnApp(_, f: FunctionalRef, _) => "call to function %s".format(f.getOriginalName)
+      case _: _RewriteFnApp => "function application"
+      case o: OpExpr => "call to operator %s".format(o.getOp.getOriginalName)
+      case m: MethodInvocation => "method invocation %s.%s".format(errorFactory.recvrType.getOrElse(""), m.getMethod)
+      case o: SubscriptExpr => "call to subscript operator %s.%s".format(errorFactory.recvrType.getOrElse(""), o.getOp.unwrap)
+      case _ => "call"
+    }
+    signal(app, "Ambiguous coercion in %s: of the declarations applicable to an argument of type %s only by coercion, none is more specific than every other: %s.".
+                format(kind, normalize(getArgType(args)), tied.map(_.toString).mkString("; ")))
   }
 
   /**
@@ -613,7 +908,7 @@ trait Functionals { self: STypeChecker with Common =>
 
       // Type check the application.
       val candidates =
-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
+        checkApplication(preCandidates, arg, expected, false).getOrElse(return expr)
 
       // We only care about the most specific one. We know the args pattern
       // match succeeds because all app candidates generated for method
@@ -703,7 +998,7 @@ trait Functionals { self: STypeChecker with Common =>
 
       // Type check the application.
       val candidates =
-        checkApplication(preCandidates, arg, expected).getOrElse(return expr)
+        checkApplication(preCandidates, arg, expected, true).getOrElse(return expr)
 
       // We know the arg pattern match succeeds because all app candidates
       // generated for functions include a single arg.

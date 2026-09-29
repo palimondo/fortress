@@ -1,0 +1,24 @@
+# onelib.sh repair L0 RuleL 2026-09-29T04:02:34Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.31 9.39 7.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 173 s
+# the program's own error lines (with 3 lines of context each):
+17:RuleL.fss:95:20:
+18-    Could not check call to operator #
+19-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ64, IntLiteral).
+20-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ64, IntLiteral).
+--
+23:RuleL.fss:96:20:
+24-    Could not check call to operator #
+25-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+26-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+--
+29:RuleL.fss:97:20:
+30-    Could not check call to operator :
+31-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+32-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+--
+35:RuleL.fss:108:34-40:
+36-    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+37-File RuleL.fss has 4 errors.
+38-### rc=-1
+# tallies:
+File RuleL.fss has 4 errors.
+### rc=-1

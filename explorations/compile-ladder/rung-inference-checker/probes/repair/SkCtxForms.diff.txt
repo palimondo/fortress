@@ -1,0 +1,49 @@
+#### SkCtxForms: the rung's repaired build (compiled)
+# comp.sh SkCtxForms after 2026-09-29T04:30:14Z; tree 4a51a0ef4 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkCtxForms.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.16 2.01 3.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+SkCtxForms.fss:28:23-29:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+File SkCtxForms.fss has 1 error.
+compile rc=255
+## run
+Could not load SkCtxForms
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkCtxForms.class
+	... 5 more
+run rc=1
+#### SkCtxForms: the base's build (compiled)
+# comp.sh SkCtxForms base 2026-09-29T04:30:16Z; tree 4a51a0ef4 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkCtxForms.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.15 2.01 3.67; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+SkCtxForms.fss:20:23-32:
+    Could not check method invocation Fac.wrap
+    - [\T extends Object\]T->BoxV[\T\] is not applicable to an argument of type IntLiteral.
+SkCtxForms.fss:22:29:
+    Could not check call to operator BOXOF
+    - [\T extends Object\]T->BoxV[\T\] is not applicable to an argument of type IntLiteral.
+SkCtxForms.fss:24:23:
+    Could not check call to operator OPLUS
+    - (Boolean, Boolean)->Boolean is not applicable to an argument of type (IntLiteral, IntLiteral).
+    - [\T extends Object\](T, ZZ32)->BoxV[\T\] is not applicable to an argument of type (IntLiteral, IntLiteral).
+SkCtxForms.fss:26:24-30:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+SkCtxForms.fss:28:23-29:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+File SkCtxForms.fss has 5 errors.
+compile rc=255 (build /home/user/fortress-infer/tmp/build-base)
+## run
+Could not load SkCtxForms
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkCtxForms.class
+	... 5 more
+run rc=1
+#### SkCtxForms: walk
+# walk SkCtxForms 2026-09-29T04:30:17Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 2.15 2.01 3.67; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-infer/tmp/walk-cache-SkCtxForms/src/SkCtxForms.fss:20:23-32:
+** bug! Symbolic type T@/home/user/fortress-infer/tmp/walk-cache-SkCtxForms/src/SkCtxForms.fss:12:1-14:2 is being matched to value 3: ZZ32
+Context:
+/home/user/fortress-infer/tmp/walk-cache-SkCtxForms/src/SkCtxForms.fss:20:23-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1

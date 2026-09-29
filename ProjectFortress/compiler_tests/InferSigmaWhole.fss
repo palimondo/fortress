@@ -1,0 +1,34 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferSigmaWhole
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait W2 excludes { N }
+  coerce(x: N) = W2Of(x.n)
+end
+trait W1 extends W2
+  coerce(x: N) = W1Of(x.n)
+end
+object W2Of(k: ZZ32) extends W2 end
+object W1Of(k: ZZ32) extends W1 end
+
+g[\T\](x: W1, y: T): String = "g(W1, T)"
+g(x: W2, y: Any): String = "g(W2, Any)"
+p(x: W1, y: Any): String = "p(W1, Any)"
+p(x: W2, y: Any): String = "p(W2, Any)"
+h[\T\](x: W2, y: T): String = "h(W2, T)"
+h(x: W2, y: ZZ64): String = "h(W2, ZZ64)"
+
+run(): () = do
+    assert(g(NOf(1), 5), "g(W1, T)", "the conversion judgement's decision 1 (POSITIONS 2026-09-28); Specification/basic/conversions-coercions.tex:533-553")
+    assert(p(NOf(1), 5), "p(W1, Any)", "Specification/basic/conversions-coercions.tex:533-553")
+    assert(h(NOf(1), 3), "h(W2, ZZ64)", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a generic compared on its declared domain")
+    println("PASS")
+end
+
+end

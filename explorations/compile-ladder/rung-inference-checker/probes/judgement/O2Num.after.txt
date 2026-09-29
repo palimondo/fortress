@@ -1,0 +1,9 @@
+# comp.sh O2Num after 2026-09-28T23:52:50Z; tree 8de87af6c with its working changes; source explorations/reviews/option-2-soundness/O2Num.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.61 7.17 7.25; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+op(1, w):  op generic[ ZZ64 , ZZ64 ]
+op(w, 1):  op generic[ ZZ64 , ZZ64 ]
+op(1, z):  op generic[ ZZ32 , ZZ32 ]
+op(1, 2):  op generic[ IntLiteral , IntLiteral ]
+run rc=0

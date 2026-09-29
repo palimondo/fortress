@@ -1,0 +1,164 @@
+# runtests.sh suite seed 1790391622322 2026-09-29T03:44:59Z; tree d85223560 with its working changes; cold cache; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.52 5.56 3.62; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (shuffled, seed 1790391622322):
+  ProjectFortress/compiler_tests/XXXInferContextDrops.test
+  ProjectFortress/compiler_tests/NatRtBigSize.test
+  ProjectFortress/compiler_tests/InferOpAnyZW.test
+  ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC.test
+  ProjectFortress/compiler_tests/WitnessIdentityRungG.test
+  ProjectFortress/compiler_tests/XXXInferLambdaArg.test
+  ProjectFortress/compiler_tests/InferO2Pos.test
+  ProjectFortress/compiler_tests/XXX6bu.test
+  ProjectFortress/compiler_tests/InferPromoteNN32Link.test
+  ProjectFortress/compiler_tests/InferO2Z64.test
+  ProjectFortress/compiler_tests/XXXInferSigmaTie.test
+  ProjectFortress/compiler_tests/XXXInferComboCap.test
+  ProjectFortress/compiler_tests/XXXInferPromoteNN32.test
+  ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test
+  ProjectFortress/compiler_tests/InferO2Meet.test
+  ProjectFortress/compiler_tests/InferO2Num.test
+  ProjectFortress/compiler_tests/CoercionAnyOverloadRungCLink.test
+  ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion.test
+  ProjectFortress/compiler_tests/InferBetweenTie.test
+  ProjectFortress/compiler_tests/InferNumeralTie.test
+  ProjectFortress/compiler_tests/XXXInferFallbackMessage.test
+  ProjectFortress/compiler_tests/InferSigmaWhole.test
+  ProjectFortress/compiler_tests/XXXInferNarrowing.test
+  ProjectFortress/compiler_tests/NatLitArgChecker.test
+  ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.test
+  ProjectFortress/compiler_tests/NatKnownSizeArm.test
+  ProjectFortress/compiler_tests/InferCoercionShapes.test
+. compile ProjectFortress/compiler_tests/XXXInferContextDrops ProjectFortress/compiler_tests/XXXInferContextDrops.fss:12:15-32:
+    Could not check call to function takesBox64
+    - BoxT[\ZZ64\]->ZZ32 is not applicable to an argument of type BoxT[\IntLiteral\].
+ProjectFortress/compiler_tests/XXXInferContextDrops.fss:13:15-28:
+    Could not check call to function takesBox64
+    - BoxT[\ZZ64\]->ZZ32 is not applicable to an argument of type BoxT[\BottomType\].
+ProjectFortress/compiler_tests/XXXInferContextDrops.fss:16:23-29:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+File XXXInferContextDrops.fss has 3 errors.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 4272ms)
+. link ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 153914ms)
+. compile ProjectFortress/compiler_tests/InferOpAnyZW  OK (time = 946ms)
+. link ProjectFortress/compiler_tests/InferOpAnyZW  OK (time = 1770ms)
+. compile ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC  OK (time = 324ms)
+. link ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC  OK (time = 1146ms)
+. link ProjectFortress/compiler_tests/WitnessIdentityRungG  OK (time = 2538ms)
+. compile ProjectFortress/compiler_tests/XXXInferLambdaArg ProjectFortress/compiler_tests/XXXInferLambdaArg.fss:10:35-55:
+    Could not check call to function appl
+    - [\T extends Object\](BoxT[\T\], ZZ32->ZZ32, ZZ64)->ZZ64 is not applicable to any type of the form (BoxT[\String\], _->_, IntLiteral).
+File XXXInferLambdaArg.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/InferO2Pos  OK (time = 466ms)
+. link ProjectFortress/compiler_tests/InferO2Pos  OK (time = 1420ms)
+. compile ProjectFortress/compiler_tests/Compiled6.bu ProjectFortress/compiler_tests/Compiled6.bu.fss:21:11-20:
+    Could not assign an expression of type ZZ32 to variable a2 of type String.
+File Compiled6.bu.fss has 1 error.
+
+ Saw failure, but did not satisfy compile_err_equals; expected
+ProjectFortress/compiler_tests/Compiled6.bu.fss:21:11-20:
+ Could not check method invocation Foo.doIt
+ - [\T extends Object\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).
+File Compiled6.bu.fss has 1 error.
+
+F. link ProjectFortress/compiler_tests/XXXInferPromoteNN32  OK (time = 1691ms)
+. compile ProjectFortress/compiler_tests/InferO2Z64  OK (time = 1086ms)
+. link ProjectFortress/compiler_tests/InferO2Z64  OK (time = 1052ms)
+. compile ProjectFortress/compiler_tests/XXXInferSigmaTie ProjectFortress/compiler_tests/XXXInferSigmaTie.fss:24:22-32:
+    Ambiguous coercion in call to function f: of the declarations applicable to an argument of type (NOf, IntLiteral) only by coercion, none is more specific than every other: (A, T)->String; (B, Any)->String.
+File XXXInferSigmaTie.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/XXXInferComboCap ProjectFortress/compiler_tests/XXXInferComboCap.fss:8:35-47:
+    Could not check call to function g3
+    - [\A extends Object, B extends Object, C extends Object\](A, B, C, ZZ64)->ZZ64 is not applicable to an argument of type (IntLiteral, IntLiteral, IntLiteral, IntLiteral).
+File XXXInferComboCap.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/InferO2Meet  OK (time = 2714ms)
+. link ProjectFortress/compiler_tests/InferO2Meet  OK (time = 1570ms)
+. compile ProjectFortress/compiler_tests/InferO2Num  OK (time = 1449ms)
+. link ProjectFortress/compiler_tests/InferO2Num  OK (time = 1721ms)
+. link ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC  OK (time = 1569ms)
+. compile ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion.fss:24:13-19:
+    Ambiguous coercion in call to function f: of the declarations applicable to an argument of type NOf only by coercion, none is more specific than every other: B->String; A->String.
+File XXXInferAmbiguousCoercion.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/InferBetweenTie  OK (time = 769ms)
+. link ProjectFortress/compiler_tests/InferBetweenTie  OK (time = 1365ms)
+. compile ProjectFortress/compiler_tests/InferNumeralTie  OK (time = 1295ms)
+. link ProjectFortress/compiler_tests/InferNumeralTie  OK (time = 912ms)
+. compile ProjectFortress/compiler_tests/XXXInferFallbackMessage ProjectFortress/compiler_tests/XXXInferFallbackMessage.fss:10:17-29:
+    Right-hand side has type ZZ64, but declared type is String.
+File XXXInferFallbackMessage.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/InferSigmaWhole  OK (time = 804ms)
+. link ProjectFortress/compiler_tests/InferSigmaWhole  OK (time = 1242ms)
+. compile ProjectFortress/compiler_tests/XXXInferNarrowing ProjectFortress/compiler_tests/XXXInferNarrowing.fss:10:23-29:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+File XXXInferNarrowing.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/NatLitArgChecker  OK (time = 915ms)
+. link ProjectFortress/compiler_tests/NatLitArgChecker  OK (time = 1170ms)
+. compile ProjectFortress/compiler_tests/XXXNatUnknownSizeArm ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.fss:10:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeArm.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/NatKnownSizeArm  OK (time = 625ms)
+. link ProjectFortress/compiler_tests/NatKnownSizeArm  OK (time = 872ms)
+. compile ProjectFortress/compiler_tests/InferCoercionShapes  OK (time = 3682ms)
+. link ProjectFortress/compiler_tests/InferCoercionShapes  OK (time = 1102ms)
+. run ProjectFortress/compiler_tests/NatRtBigSize (2493ms) 2147483647
+2147483648
+3000000000
+4294967295
+9223372036854775807
+9223372036854775808
+18446744073709551615
+PASS
+Passed
+. run ProjectFortress/compiler_tests/InferOpAnyZW (1728ms) PASS
+Passed
+.
+ run ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC (1582ms) REACHED
+PASS
+Passed
+. run ProjectFortress/compiler_tests/WitnessIdentityRungG (2115ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferO2Pos (623ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferO2Z64 (2204ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/XXXInferPromoteNN32 (2506ms) REACHED
+FAIL:  ZZ,ZZ =/= ZZ64,ZZ64; Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  ZZ,ZZ =/= ZZ64,ZZ64; Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC (1331ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String XXXCoercionAnyOverloadRungC.\=p{_|ProjectFortress|compiler_tests|XXXCoercionAnyOverloadRungC\,fss\!20\!1-30,_|ProjectFortress|compiler_tests|XXXCoercionAnyOverloadRungC\,fss\!21\!1-29}(fortress.AnyType$Any)'
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/InferO2Meet (1899ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferO2Num (2169ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferBetweenTie (1112ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferNumeralTie (2460ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferSigmaWhole (1500ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/NatLitArgChecker (2575ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/NatKnownSizeArm (2263ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferCoercionShapes (3059ms) PASS
+Passed
+
+Time: 253.477
+There was 1 failure:
+1) ProjectFortress/compiler_tests/Compiled6.bu(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 54,  Failures: 1,  Errors: 0
+
+SuiteI result: runs=54 failures=1 errors=0
+exit=0 254 s

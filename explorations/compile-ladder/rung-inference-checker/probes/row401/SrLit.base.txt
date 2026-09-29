@@ -1,0 +1,20 @@
+# row 401's method-invocation and constructor forms (explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss, SrLitCtor.fss) through TestsD, build base (/home/user/fortress-infer/tmp/build-base); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 3.87 5.31 7.58; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+=== SrLitMeth.fss
+ProjectFortress/compiler_tests/SrLitMeth.fss:14:13-43:
+    Could not check method invocation Box[\3\].pair
+    - [\nat j\](Box[\j\], ZZ32)->ZZ32 is not applicable to an argument of type (Box[\2\], IntLiteral).
+ProjectFortress/compiler_tests/SrLitMeth.fss:16:13-54:
+    Could not check method invocation BoxT[\ZZ32\].pairT
+    - [\U extends Object\](BoxT[\U\], ZZ32)->ZZ32 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitMeth.fss has 2 errors.
+### rc=-1 SrLitMeth.fss ms=15876
+=== SrLitCtor.fss
+ProjectFortress/compiler_tests/SrLitCtor.fss:12:13-31:
+    Could not check call to function Pair
+    - [\nat k\](Box[\k\], ZZ32)->Pair[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/SrLitCtor.fss:14:13-38:
+    Could not check call to function PairT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->PairT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File SrLitCtor.fss has 2 errors.
+### rc=-1 SrLitCtor.fss ms=158
+### all ms=16037

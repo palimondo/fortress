@@ -1,0 +1,23 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component XXXInferPromoteNN32
+export Executable
+
+pick[\T\](x: T, y: T): String = typeOf(x) || "," || typeOf(y)
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    ZZ => "ZZ"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    u: NN32 = 5
+    println("REACHED")
+    assert(pick(z, u), "ZZ64,ZZ64", "Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442")
+    println("PASS")
+end
+
+end

@@ -1,0 +1,11 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component XXXInferComboCap
+export Executable
+
+g3[\A, B, C\](a: A, b: B, c: C, m: ZZ64): ZZ64 = m + m
+
+run(): () = do
+    println("g3(1, 2, 3, 4): " || g3(1, 2, 3, 4))
+end
+
+end

@@ -1,0 +1,7 @@
+# comp.sh SizeValue after 2026-09-28T23:54:24Z; tree 8de87af6c with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/SizeValue.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 13.79 9.15 7.95; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+pickn(n): ZZ32
+pick(n, l): ZZ64,ZZ64
+run rc=0

@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component XXXInferNarrowing
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](7)
+
+run(): () = do
+    l: ZZ64 = 4
+    a: BoxT[\ZZ32\] = wrapT(l)
+    println("PASS")
+end
+
+end

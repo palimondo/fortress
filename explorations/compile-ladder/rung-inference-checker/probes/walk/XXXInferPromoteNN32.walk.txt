@@ -1,0 +1,11 @@
+# walk.sh XXXInferPromoteNN32 2026-09-29T03:55:41Z; tree 4a51a0ef4; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.79 8.71 6.52; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-infer/tmp/walk-cache-XXXInferPromoteNN32/src/XXXInferPromoteNN32.fss:17:5-12:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+/home/user/fortress-infer/tmp/walk-cache-XXXInferPromoteNN32/src/XXXInferPromoteNN32.fss:17:5-12:
+/home/user/fortress-infer/tmp/walk-cache-XXXInferPromoteNN32/src/XXXInferPromoteNN32.fss:17:5-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

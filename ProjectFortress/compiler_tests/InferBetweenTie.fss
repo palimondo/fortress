@@ -1,0 +1,26 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferBetweenTie
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+trait G[\X\] extends { S, T } end
+object H extends { G[\ZZ32\], V } end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () = do
+    assert(f(Vo), 3, "the meet declaration")
+    assert(f(Uo), 1, "the declaration for S")
+    g: G[\ZZ32\] = H
+    assert(f(g), 3, "a static type between two declarations that fit the call as it is keeps today's typing: explorations/reviews/comprises-type-level-judgement.md section 2")
+    println("PASS")
+end
+
+end

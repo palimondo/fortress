@@ -1,0 +1,3 @@
+tests=XXXInferLambdaArg
+compile
+compile_err_contains=is not applicable to any type of the form (BoxT[\\String\\], _->_, IntLiteral)

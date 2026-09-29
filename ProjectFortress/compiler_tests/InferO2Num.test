@@ -1,0 +1,5 @@
+tests=InferO2Num
+compile
+link
+run
+run_out_contains=PASS

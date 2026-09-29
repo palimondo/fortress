@@ -1,0 +1,13 @@
+component SkBottomRun
+export Executable
+
+fAny[\T extends Any\](): T = throw InvalidRange
+c1(): ZZ32 = fAny()
+
+run(): () = do
+    println("before")
+    r = try c1() catch e InvalidRange => -1 end
+    println("c1: " || r)
+end
+
+end

@@ -1,0 +1,11 @@
+# onelib.sh repair L0 DMore 2026-09-29T04:10:52Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.53 7.08 7.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 100 s
+# the program's own error lines (with 3 lines of context each):
+17:DMore.fss:15:16-20:
+18-    Non-last expression in a block has type IntLiteral, but it must have () type.
+19:DMore.fss:22:15-19:
+20-    Could not check call to function make
+21-    - Could not infer static argument T without context.
+22-File DMore.fss has 2 errors.
+# tallies:
+File DMore.fss has 2 errors.
+### rc=-1

@@ -1,0 +1,6 @@
+# comp.sh CtxOverload repair 2026-09-29T03:57:52Z; tree 4a51a0ef4 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/CtxOverload.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.21 9.57 7.14; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+PASS
+run rc=0

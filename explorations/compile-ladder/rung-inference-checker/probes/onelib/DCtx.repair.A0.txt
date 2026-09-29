@@ -1,0 +1,15 @@
+# onelib.sh repair A0 DCtx 2026-09-29T04:17:53Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.14 5.29 6.46; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 86 s
+# the program's own error lines (with 3 lines of context each):
+17:DCtx.fss:27:23-27:
+18-    Could not check call to function make
+19-    - Could not infer static argument T without context.
+20:DCtx.fss:29:20-24:
+21-    Could not check call to function make
+22-    - Could not infer static argument T without context.
+23:DCtx.fss:44:24-30:
+24-    Could not check call to function make1
+25-    - Could not infer static argument T without context.
+26-File DCtx.fss has 3 errors.
+# tallies:
+File DCtx.fss has 3 errors.
+### rc=-1

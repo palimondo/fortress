@@ -1,0 +1,14 @@
+# runtests.sh one InferCoercionShapes 2026-09-29T03:25:30Z; tree e16135bb1 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.79 2.33 3.41; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/InferCoercionShapes.test
+. compile ProjectFortress/compiler_tests/InferCoercionShapes  OK (time = 3788ms)
+. link ProjectFortress/compiler_tests/InferCoercionShapes  OK (time = 1714ms)
+. run ProjectFortress/compiler_tests/InferCoercionShapes (884ms) PASS
+Passed
+
+Time: 6.395
+
+OK (3 tests)
+
+SuiteI result: runs=3 failures=0 errors=0
+exit=0 7 s

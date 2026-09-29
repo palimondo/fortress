@@ -1,0 +1,36 @@
+component SkPromoteFormsW
+export Executable
+
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    IntLiteral => "IntLiteral"
+    String => "String"
+    else => "other"
+  end
+
+object O
+  pk[\T\](x: T, y: T): String = typeOf(x) || "," || typeOf(y)
+end
+opr PK[\T\](x: T, y: T): String = typeOf(x) || "," || typeOf(y)
+pick3[\T\](x: T, y: T, v: T): String = typeOf(x) || "," || typeOf(y) || "," || typeOf(v)
+pick[\T\](x: T, y: T): String = typeOf(x) || "," || typeOf(y)
+idt[\T\](x: T): T = x
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    u: NN32 = unsigned(5)
+    println("O.pk(z, w): " || O.pk(z, w))
+    println("z PK w: " || (z PK w))
+    println("pick3(z, u, w): " || pick3(z, u, w))
+    println("pick(z, \"s\"): " || pick(z, "s"))
+    println("pick(idt(z), w): " || pick(idt(z), w))
+    a: ZZ64 = idt(z)
+    println("a: ZZ64 = idt(z): " || typeOf(a))
+end
+
+end

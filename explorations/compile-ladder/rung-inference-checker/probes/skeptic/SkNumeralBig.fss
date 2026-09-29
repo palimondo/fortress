@@ -1,0 +1,12 @@
+component SkNumeralBig
+export Executable
+
+pickn(x: NN32): String = "NN32"
+pickn(x: ZZ32): String = "ZZ32"
+pickn(x: ZZ64): String = "ZZ64"
+
+run(): () = do
+    println("3000000000: " || pickn(3000000000))
+end
+
+end

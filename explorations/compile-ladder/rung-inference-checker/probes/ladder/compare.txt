@@ -1,0 +1,5 @@
+# the 85 files of explorations/compile-ladder/baseline-2026-09-19/pass-list.txt through run-subset.sh (compile, then run), the base's build and library cache against the rung's; phase and stdout compared
+# base run: === ladder start 2026-09-28T23:15:01+00:00 ===; after run: === ladder start 2026-09-28T23:51:48+00:00 ===
+# phase (compile rc / run rc): base  85 0/0;, after  85 0/0;
+# stdout compared with each run's timing masked (sed 's/[0-9.]*ms//g'; three nestedTransactions files print 'Operation took <t>ms')
+# files whose stdout differs: 0 of 85

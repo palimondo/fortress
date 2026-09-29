@@ -1,0 +1,19 @@
+# SolverResultOnly through TestsD (the compiler's type checker, the compiler library), build base (/home/user/fortress-infer/tmp/build-base); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 8.19 7.52 7.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+=== SolverResultOnly.fss
+ProjectFortress/compiler_tests/SolverResultOnly.fss:13:19-23:
+    Could not check call to function fAny
+    - Could not infer static argument T extends Any without context.
+ProjectFortress/compiler_tests/SolverResultOnly.fss:15:19-23:
+    Could not check call to function bAny
+    - Could not infer static argument T extends Any without context.
+ProjectFortress/compiler_tests/SolverResultOnly.fss:17:14-18:
+    Could not check call to function fAny
+    - Could not infer static argument T extends Any without context.
+ProjectFortress/compiler_tests/SolverResultOnly.fss:19:14-18:
+    Could not check call to function bAny
+    - Could not infer static argument T extends Any without context.
+ProjectFortress/compiler_tests/SolverResultOnly.fss:20:14-18:
+    Function body has type BoxT[\BottomType\], but declared return type is Seen.
+File SolverResultOnly.fss has 5 errors.
+### rc=-1 SolverResultOnly.fss ms=26317
+### all ms=26328

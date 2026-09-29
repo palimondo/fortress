@@ -1,0 +1,4 @@
+# DComp (measurement D's program under the compiler's library) through TestsD, build after (/home/user/fortress-infer/ProjectFortress/build); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 10.33 10.38 10.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+=== DComp.fss
+### rc=0 DComp.fss ms=27983
+### all ms=27995

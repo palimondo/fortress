@@ -1,0 +1,13 @@
+# walk.sh InferO2Num 2026-09-29T00:26:59Z; tree 5a949ad17; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.97 7.84 9.38; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+FAIL: J21/0:op generic[ZZ32,ZZ64] =/= J21/0:op generic[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64
+/home/user/fortress-infer/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-infer/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-infer/Library/FortressLibrary.fss:305:9-306:5:
+/home/user/fortress-infer/tmp/walk-cache-InferO2Num/src/InferO2Num.fss:17:5-133:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

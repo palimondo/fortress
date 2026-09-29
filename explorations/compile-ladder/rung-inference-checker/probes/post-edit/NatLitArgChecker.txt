@@ -1,0 +1,14 @@
+# runtests.sh one NatLitArgChecker 2026-09-28T23:47:53Z; tree 4dc6f90c4 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.57 6.93 7.38; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/NatLitArgChecker.test
+. compile ProjectFortress/compiler_tests/NatLitArgChecker  OK (time = 3548ms)
+. link ProjectFortress/compiler_tests/NatLitArgChecker  OK (time = 2663ms)
+. run ProjectFortress/compiler_tests/NatLitArgChecker (1023ms) PASS
+Passed
+
+Time: 7.244
+
+OK (3 tests)
+
+SuiteI result: runs=3 failures=0 errors=0
+exit=0 7 s

@@ -1,0 +1,15 @@
+component SkCtxMsg
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+scale64[\T\](b: BoxT[\T\], x: ZZ64): ZZ64 = x + x
+plain64(b: BoxT[\String\], x: ZZ64): ZZ64 = x + x
+
+run(): () = do
+    bS: BoxT[\String\] = BoxT[\String\](2)
+    s: String = scale64(bS, 3)
+    t: String = plain64(bS, 3)
+    println(s || t)
+end
+
+end

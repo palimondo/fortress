@@ -1,0 +1,26 @@
+component SkSigmaTie
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait A excludes { B, N }
+  coerce(x: N) = AOf(x.n)
+end
+trait B excludes { A, N }
+  coerce(x: N) = BOf(x.n)
+end
+object AOf(k: ZZ32) extends A end
+object BOf(k: ZZ32) extends B end
+
+f[\T\](x: A, y: T): String = "f(A, T)"
+f(x: B, y: Any): String = "f(B, Any)"
+
+run(): () = do
+    println("f: " || f(NOf(1), 5))
+end
+
+end

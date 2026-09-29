@@ -1,0 +1,49 @@
+== RuleL on L0: after 4 sites, repair 4; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 15, rule 1
+  both    95:20      after: Could not check call to operator #
+  both    96:20      after: Could not check call to operator #
+  both    97:20      after: Could not check call to operator :
+  both    108:34-40  after: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+== RuleL on A0: after 4 sites, repair 4; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 33, rule 7
+  both    95:20      after: Could not check call to operator #
+  both    96:20      after: Could not check call to operator #
+  both    97:20      after: Could not check call to operator :
+  both    108:34-40  after: Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+== RuleLI on L0: after 11 sites, repair 11; cleared 0, new 0
+  both    15:43      after: Right-hand side has type IntLiteral, but declared type is Seen.
+  both    16:43      after: Right-hand side has type ZZ32, but declared type is Seen.
+  both    17:51      after: Right-hand side has type IntLiteral, but declared type is Seen.
+  both    18:40      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    19:40      after: Right-hand side has type ZZ32, but declared type is Seen.
+  both    20:39      after: Right-hand side has type TotalComparison, but declared type is Seen.
+  both    23:42      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    25:42      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    26:46-53   after: Could not check call to function seq
+  both    27:46-53   after: Could not check call to function seq
+  both    28:46-39   after: Function body has type Range[\ZZ32\], but declared return type is Seen.
+== RuleLI on A0: after 11 sites, repair 11; cleared 0, new 0
+  both    15:43      after: Right-hand side has type ZZ32, but declared type is Seen.
+  both    16:43      after: Right-hand side has type ZZ32, but declared type is Seen.
+  both    17:51      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    18:40      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    19:40      after: Right-hand side has type ZZ32, but declared type is Seen.
+  both    20:20      after: Ambiguous coercion in call to operator CMP: of the declarations applicable to an argument of type (ZZ32, IntLiteral) only by coercion, none is more specific tha
+  both    23:42      after: Right-hand side has type ZZ64, but declared type is Seen.
+  both    25:42      after: Right-hand side has type NN32, but declared type is Seen.
+  both    26:46-53   after: Could not check call to function seq
+  both    27:46-53   after: Could not check call to function seq
+  both    28:46-39   after: Function body has type Range[\ZZ32\], but declared return type is Seen.
+== DCtx on L0: after 3 sites, repair 3; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 14, rule 3
+  both    27:23-27   after: Could not check call to function make
+  both    29:20-24   after: Could not check call to function make
+  both    44:24-30   after: Could not check call to function make1
+== DArg on L0: after 1 sites, repair 1; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 2, rule 1
+  both    14:28-32   after: Right-hand side has type IntLiteral, but declared type is String.
+== DMore on L0: after 2 sites, repair 2; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 5, rule 2
+  both    15:16-20   after: Non-last expression in a block has type IntLiteral, but it must have () type.
+  both    22:15-19   after: Could not check call to function make
+== OneShapeW on L0: after 5 sites, repair 5; cleared 0, new 0; the shadow's run (library of 917bb7b32): stock 7, rule 3
+  both    7:70       after: Could not check call to operator +
+  both    132:35     after: Could not check call to operator #
+  both    148:35     after: Could not check call to operator :
+  both    156:35     after: Could not check call to operator :
+  both    228:32-46  after: Could not check call to operator BIG +

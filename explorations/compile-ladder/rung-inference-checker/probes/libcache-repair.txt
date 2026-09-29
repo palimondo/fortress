@@ -1,0 +1,21 @@
+# the compiler library's five components compiled from an empty cache in library order with the repaired checker (tree d85223560 with its working changes), into tmp/caches-after; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 6.75 8.92 6.10; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== LibraryBuiltin/AnyType.fss
+rc=0 secs=13
+== LibraryBuiltin/CompilerBuiltin.fss
+rc=0 secs=57
+== ../Library/CompilerLibrary.fss
+rc=0 secs=25
+== ../Library/CompilerAlgebra.fss
+rc=0 secs=1
+== ../Library/CompilerSystem.fss
+rc=0 secs=2
+analyzed_cache
+bytecode_cache
+environment_cache
+global.map
+interpreter_cache
+interpreter_parsed_cache
+logs
+nativewrapper_cache
+presyntax_cache
+syntax_cache

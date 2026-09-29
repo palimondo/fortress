@@ -1,0 +1,21 @@
+#### SkSigmaMore: the rung's build (compiled)
+# comp.sh SkSigmaMore after 2026-09-29T01:35:12Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaMore.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.35 0.74 1.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+g: g(W2, Any)
+p: p(W1, Any)
+run rc=0
+#### SkSigmaMore: the base's build (compiled)
+# comp.sh SkSigmaMore base 2026-09-29T01:35:16Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaMore.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.80 0.86 1.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+g: g(W2, Any)
+p: p(W1, Any)
+run rc=0
+#### SkSigmaMore: walk
+# walk SkSigmaMore 2026-09-29T01:35:19Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 2.80 0.86 1.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+g: g(W2, Any)
+p: p(W1, Any)
+walk rc=0

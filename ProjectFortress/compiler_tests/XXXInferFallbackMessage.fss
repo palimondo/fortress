@@ -1,0 +1,14 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component XXXInferFallbackMessage
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+scale64[\T\](b: BoxT[\T\], x: ZZ64): ZZ64 = x + x
+
+run(): () = do
+    bS: BoxT[\String\] = BoxT[\String\](2)
+    s: String = scale64(bS, 3)
+    println(s)
+end
+
+end

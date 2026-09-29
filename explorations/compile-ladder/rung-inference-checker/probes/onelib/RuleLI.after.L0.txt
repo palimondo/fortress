@@ -1,0 +1,35 @@
+# onelib.sh after L0 RuleLI 2026-09-29T00:21:49Z; tree 8de87af6c with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.09 10.36 10.57; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 114 s
+# the program's own error lines (with 3 lines of context each):
+17:RuleLI.fss:15:43:
+18-    Right-hand side has type IntLiteral, but declared type is Seen.
+19:RuleLI.fss:16:43:
+20-    Right-hand side has type ZZ32, but declared type is Seen.
+21:RuleLI.fss:17:51:
+22-    Right-hand side has type IntLiteral, but declared type is Seen.
+23:RuleLI.fss:18:40:
+24-    Right-hand side has type ZZ64, but declared type is Seen.
+25:RuleLI.fss:19:40:
+26-    Right-hand side has type ZZ32, but declared type is Seen.
+27:RuleLI.fss:20:39:
+28-    Right-hand side has type TotalComparison, but declared type is Seen.
+29:RuleLI.fss:23:42:
+30-    Right-hand side has type ZZ64, but declared type is Seen.
+31:RuleLI.fss:25:42:
+32-    Right-hand side has type ZZ64, but declared type is Seen.
+33:RuleLI.fss:26:46-53:
+34-    Could not check call to function seq
+35-    - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type Range[\ZZ32\].
+36-    - FilterGenerator[\E\]->SequentialGenerator[\E\] is not applicable to an argument of type Range[\ZZ32\].
+--
+40:RuleLI.fss:27:46-53:
+41-    Could not check call to function seq
+42-    - DelegatedIndexed[\E,I\]->SequentialGenerator[\E\] is not applicable to an argument of type Range[\ZZ32\].
+43-    - FilterGenerator[\E\]->SequentialGenerator[\E\] is not applicable to an argument of type Range[\ZZ32\].
+--
+47:RuleLI.fss:28:46-39:
+48-    Function body has type Range[\ZZ32\], but declared return type is Seen.
+49-File RuleLI.fss has 11 errors.
+50-### rc=-1
+# tallies:
+File RuleLI.fss has 11 errors.
+### rc=-1

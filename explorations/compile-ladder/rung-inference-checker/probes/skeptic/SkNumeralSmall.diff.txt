@@ -1,0 +1,28 @@
+#### SkNumeralSmall: the rung's build (compiled)
+# comp.sh SkNumeralSmall after 2026-09-29T01:38:00Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkNumeralSmall.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.14 3.01 2.16; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+pickn(3): ZZ32
+pickn(-1): ZZ32
+O.m(3): m ZZ32
+3 FOO 4: FOO ZZ32
+q(3, z): q ZZ32,ZZ64
+run rc=0
+#### SkNumeralSmall: the base's build (compiled)
+# comp.sh SkNumeralSmall base 2026-09-29T01:38:05Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkNumeralSmall.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.13 3.06 2.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+pickn(3): NN32
+java.lang.Error: java.lang.Error: Not in range for NN32: -1
+Caused by: java.lang.Error: Not in range for NN32: -1
+run rc=1
+#### SkNumeralSmall: walk
+# walk SkNumeralSmall 2026-09-29T01:38:10Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 6.68 3.22 2.24; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+pickn(3): ZZ32
+pickn(-1): ZZ32
+O.m(3): m ZZ32
+3 FOO 4: FOO ZZ32
+q(3, z): q ZZ32,ZZ64
+walk rc=0

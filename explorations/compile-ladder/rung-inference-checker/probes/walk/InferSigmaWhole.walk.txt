@@ -1,0 +1,13 @@
+# walk.sh InferSigmaWhole 2026-09-29T03:54:46Z; tree 4a51a0ef4; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.27 7.90 6.13; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-infer/tmp/walk-cache-InferSigmaWhole/src/InferSigmaWhole.fss:25:1-42: and
+/home/user/fortress-infer/tmp/walk-cache-InferSigmaWhole/src/InferSigmaWhole.fss:24:1-40:
+
+h[\T\](x:W2,y:T):FortressLibrary.String/home/user/fortress-infer/tmp/walk-cache-InferSigmaWhole/src/InferSigmaWhole.fss:24:1-40 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-infer/tmp/walk-cache-InferSigmaWhole/src/InferSigmaWhole.fss:25:1-42:
+/home/user/fortress-infer/tmp/walk-cache-InferSigmaWhole/src/InferSigmaWhole.fss:24:1-40:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

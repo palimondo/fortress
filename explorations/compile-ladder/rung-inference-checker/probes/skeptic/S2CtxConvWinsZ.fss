@@ -1,0 +1,22 @@
+component S2CtxConvWinsZ
+export Executable
+
+k(x: ZZ64): ZZ64 = 64
+k[\T\](x: T): T = x
+
+object O
+  km(x: ZZ64): ZZ64 = 64
+  km[\T\](x: T): T = x
+end
+
+run(): () = do
+    z: ZZ32 = 5
+    a: ZZ64 = k(z)
+    println("k(z) into ZZ64: " || a)
+    b = k(z)
+    println("k(z) untyped: " || b)
+    c: ZZ64 = O.km(z)
+    println("O.km(z) into ZZ64: " || c)
+end
+
+end

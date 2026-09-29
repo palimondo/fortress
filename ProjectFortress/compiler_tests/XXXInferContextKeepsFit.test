@@ -1,0 +1,3 @@
+tests=XXXInferContextKeepsFit
+run
+run_out_contains=REACHED

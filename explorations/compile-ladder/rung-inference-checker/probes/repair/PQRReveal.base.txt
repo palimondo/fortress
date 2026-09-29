@@ -1,0 +1,12 @@
+# comp.sh PQRReveal base 2026-09-29T03:30:50Z; tree e16135bb1 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/repair/PQRReveal.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.48 1.73 2.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+PQRReveal.fss:36:17:
+    Right-hand side has type OR(P,Q), but declared type is String.
+File PQRReveal.fss has 1 error.
+compile rc=255 (build /home/user/fortress-infer/tmp/build-base)
+## run
+Could not load PQRReveal
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : PQRReveal.class
+	... 5 more
+run rc=1

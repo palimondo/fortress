@@ -1,0 +1,18 @@
+#### SkSigmaTie: the rung's build (compiled)
+# comp.sh SkSigmaTie after 2026-09-29T01:35:42Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaTie.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.53 1.43 1.61; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+f: f(B, Any)
+run rc=0
+#### SkSigmaTie: the base's build (compiled)
+# comp.sh SkSigmaTie base 2026-09-29T01:35:45Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaTie.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.53 1.43 1.61; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+f: f(B, Any)
+run rc=0
+#### SkSigmaTie: walk
+# walk SkSigmaTie 2026-09-29T01:35:49Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 4.73 1.53 1.64; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+f: f(B, Any)
+walk rc=0

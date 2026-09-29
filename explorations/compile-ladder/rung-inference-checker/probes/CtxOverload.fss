@@ -1,0 +1,13 @@
+component CtxOverload
+export Executable
+(* A generic declaration beside a plain one over Any, called f(x) under an expected type the generic
+   instance's result converts to and the plain one's does not: the expected type must not hand the
+   call to the plain declaration. *)
+h[\T\](x: T): T = x
+h(x: Any): Any = x
+run(): () = do
+    z: ZZ32 = 3
+    a: ZZ64 = h(z)
+    println("PASS")
+end
+end

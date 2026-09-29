@@ -1,0 +1,8 @@
+# comp.sh O2Tie after 2026-09-28T23:53:12Z; tree 8de87af6c with its working changes; source explorations/reviews/option-2-soundness/O2Tie.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.90 7.68 7.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+g(z, w):  g z32any[ ZZ32 , ZZ64 ]
+g(w, w):  g generic[ ZZ64 , ZZ64 ]
+g(z, "s"):  g z32any[ ZZ32 , other ]
+run rc=0

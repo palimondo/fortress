@@ -1,0 +1,12 @@
+# comp.sh TiePicks after 2026-09-28T23:54:06Z; tree 8de87af6c with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/TiePicks.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.93 8.68 7.77; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+TiePicks.fss:32:30-36:
+    Ambiguous coercion in call to function f: of the declarations applicable to an argument of type NOf only by coercion, none is more specific than every other: A->String; B->String.
+File TiePicks.fss has 1 error.
+compile rc=255
+## run
+Could not load TiePicks
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : TiePicks.class
+	... 5 more
+run rc=1

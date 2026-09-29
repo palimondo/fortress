@@ -1,0 +1,33 @@
+#### SkPromoteFormsW: the rung's build (compiled)
+# comp.sh SkPromoteFormsW after 2026-09-29T01:51:58Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkPromoteFormsW.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.33 9.76 6.76; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+O.pk(z, w): ZZ64,ZZ64
+z PK w: ZZ64,ZZ64
+pick3(z, u, w): ZZ,ZZ,ZZ
+pick(z, "s"): ZZ32,String
+pick(idt(z), w): ZZ64,ZZ64
+a: ZZ64 = idt(z): ZZ64
+run rc=0
+#### SkPromoteFormsW: the base's build (compiled)
+# comp.sh SkPromoteFormsW base 2026-09-29T01:52:09Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkPromoteFormsW.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.68 9.88 6.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+O.pk(z, w): ZZ32,ZZ64
+z PK w: ZZ32,ZZ64
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+run rc=1
+#### SkPromoteFormsW: walk
+# walk SkPromoteFormsW 2026-09-29T01:52:17Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 11.81 9.97 6.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-infer/tmp/walk-cache-SkPromoteFormsW/src/SkPromoteFormsW.fss:27:31-39:
+** bug! Symbolic type T@/home/user/fortress-infer/tmp/walk-cache-SkPromoteFormsW/src/SkPromoteFormsW.fss:15:1-17:2 is being matched to value 3: ZZ32
+Context:
+/home/user/fortress-infer/tmp/walk-cache-SkPromoteFormsW/src/SkPromoteFormsW.fss:27:31-39:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1

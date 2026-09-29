@@ -1,0 +1,29 @@
+# onelib.sh repair A0 OneShapeW 2026-09-29T04:22:20Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.88 3.19 5.28; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 95 s
+# the program's own error lines (with 3 lines of context each):
+19:OneShapeW.fss:7:70:
+20-    Could not check call to operator +
+21-    - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (T, T).
+22-    - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type (T, T).
+--
+36:OneShapeW.fss:132:35:
+37-    Could not check call to operator #
+38-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+39-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+--
+42:OneShapeW.fss:148:35:
+43-    Could not check call to operator :
+44-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, NN32).
+45-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, NN32).
+--
+48:OneShapeW.fss:156:35:
+49-    Could not check call to operator :
+50-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+51-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+--
+54:OneShapeW.fss:228:32-46:
+55-    Could not check call to operator BIG +
+56-    - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\].
+57-    - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is not applicable to an argument of type List.List[\IntLiteral\].
+# tallies:
+File OneShapeW.fss has 5 errors.
+### rc=-1

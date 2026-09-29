@@ -1,0 +1,22 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferO2Pos
+export Executable
+
+gg[\T extends Number\](x: ZZ32, y: T): String = "gg generic[" || typeOf(x) || "," || typeOf(y) || "]"
+gg(x: Any, y: Any): String = "gg plain[" || typeOf(x) || "," || typeOf(y) || "]"
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+
+run(): () = do
+    w: ZZ64 = 4
+    assert(gg(5, w), "gg plain[IntLiteral,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a declaration that fits the call as it is runs")
+    assert(ee(5), 2, "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a declaration that fits the call as it is runs")
+    println("PASS")
+  end
+end

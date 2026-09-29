@@ -82,12 +82,12 @@ trait Operators { self: STypeChecker with Common =>
           EF.makeParenthesisDelimitedMI(span, exp)
         else EF.makeNonParenthesisDelimitedMI(span, exp)
       }
-      checkExpr(SMathPrimary(info, multi, infix, front, rest.map(toMathItem)))
+      checkExpr(SMathPrimary(info, multi, infix, front, rest.map(toMathItem)), expected)
     }
 
     // If this juxt is actually a fn app, then rewrite to a fn app.
     case SJuxt(info, multi, infix, front::rest, true, true) => rest.length match {
-      case 1 => checkExpr(S_RewriteFnApp(info, front, rest.head))
+      case 1 => checkExpr(S_RewriteFnApp(info, front, rest.head), expected)
       case n => // Make sure it is just two exprs.
         signal(expr, errorMsg("TightJuxt denoted as function application but has ",
                               int2Integer(n), "(!= 2) expressions."))
@@ -194,7 +194,7 @@ trait Operators { self: STypeChecker with Common =>
     // is going to be called for both tight Juxt and MathPrimary
 
     // Base case of recursion: If there is no 'rest', return the Expr
-    case SMathPrimary(info, multi, infix, front, Nil) => checkExpr(front)
+    case SMathPrimary(info, multi, infix, front, Nil) => checkExpr(front, expected)
 
     case mp@SMathPrimary(info@SExprInfo(span,paren,optType),
                          multi, infix, front, rest@second::remained) => {
@@ -342,7 +342,7 @@ trait Operators { self: STypeChecker with Common =>
             // and recur.
             val fn = EF.make_RewriteFnApp(front,
                                           second.asInstanceOf[ExprMI].getExpr)
-            checkExpr(SMathPrimary(info, multi, infix, fn, remained))
+            checkExpr(SMathPrimary(info, multi, infix, fn, remained), expected)
           // THE FRONT ITEM WAS NOT A FN FOLLOWED BY AN EXPR, REASSOCIATE REST
           } else {
             val (head, tail) = associateMathItems( newFront, rest )

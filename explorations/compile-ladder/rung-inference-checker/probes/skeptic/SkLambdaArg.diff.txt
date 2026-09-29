@@ -1,0 +1,44 @@
+#### SkLambdaArg: the rung's build (compiled)
+# comp.sh SkLambdaArg after 2026-09-29T01:50:14Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkLambdaArg.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.21 9.18 6.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+SkLambdaArg.fss:10:35-55:
+    Could not check call to function appl
+    - [\T extends Object\](BoxT[\T\], ZZ32->ZZ32, ZZ64)->ZZ64 is not applicable to any type of the form (BoxT[\String\], _->_, IntLiteral).
+File SkLambdaArg.fss has 1 error.
+compile rc=255
+## run
+Could not load SkLambdaArg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkLambdaArg.class
+	... 5 more
+run rc=1
+#### SkLambdaArg: the base's build (compiled)
+# comp.sh SkLambdaArg base 2026-09-29T01:50:19Z; tree 3e3a8adbf with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkLambdaArg.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.36 9.24 6.27; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+SkLambdaArg.fss:9:33-67:
+    Could not check call to function appl
+    - [\T extends Object\](BoxT[\T\], ZZ32->ZZ32, ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32->ZZ32, IntLiteral).
+SkLambdaArg.fss:10:35-55:
+    Could not check call to function appl
+    - [\T extends Object\](BoxT[\T\], ZZ32->ZZ32, ZZ64)->ZZ64 is not applicable to any type of the form (BoxT[\String\], _->_, IntLiteral).
+File SkLambdaArg.fss has 2 errors.
+compile rc=255 (build /home/user/fortress-infer/tmp/build-base)
+## run
+Could not load SkLambdaArg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkLambdaArg.class
+	... 5 more
+run rc=1
+#### SkLambdaArg: walk
+# walk SkLambdaArg 2026-09-29T01:50:24Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 11.41 9.29 6.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-infer/tmp/walk-cache-SkLambdaArg/src/SkLambdaArg.fss:9:33-67:
+Unification error: /home/user/fortress-infer/tmp/walk-cache-SkLambdaArg/src/SkLambdaArg.fss:5:45-47:
+Cannot unify Int(class com.sun.fortress.interpreter.evaluator.types.FTypeObject)
+  with FortressLibrary.ZZ64(class com.sun.fortress.nodes.VarType) abm=T=(String,Any)
+Context:
+/home/user/fortress-infer/tmp/walk-cache-SkLambdaArg/src/SkLambdaArg.fss:9:33-67:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1

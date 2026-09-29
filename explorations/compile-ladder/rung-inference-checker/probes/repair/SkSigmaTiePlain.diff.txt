@@ -1,0 +1,31 @@
+#### SkSigmaTiePlain: the rung's repaired build (compiled)
+# comp.sh SkSigmaTiePlain after 2026-09-29T04:28:59Z; tree 4a51a0ef4 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaTiePlain.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.44 1.91 3.79; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+SkSigmaTiePlain.fss:23:22-32:
+    Ambiguous coercion in call to function f: of the declarations applicable to an argument of type (NOf, IntLiteral) only by coercion, none is more specific than every other: (A, Any)->String; (B, Any)->String.
+File SkSigmaTiePlain.fss has 1 error.
+compile rc=255
+## run
+Could not load SkSigmaTiePlain
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkSigmaTiePlain.class
+	... 5 more
+run rc=1
+#### SkSigmaTiePlain: the base's build (compiled)
+# comp.sh SkSigmaTiePlain base 2026-09-29T04:29:01Z; tree 4a51a0ef4 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkSigmaTiePlain.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.44 1.91 3.79; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+f: f(A, Any)
+run rc=0
+#### SkSigmaTiePlain: walk
+# walk SkSigmaTiePlain 2026-09-29T04:29:03Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 1.44 1.91 3.79; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-infer/tmp/walk-cache-SkSigmaTiePlain/src/SkSigmaTiePlain.fss:23:22-32:
+Ambiguous coercion, args = (NOf,5: ZZ32), applicable with coercion = {coerced f(x:A,y:Any):FortressLibrary.String (A,Any)->String /home/user/fortress-infer/tmp/walk-cache-SkSigmaTiePlain/src/SkSigmaTiePlain.fss:19:1-37,coerced f(x:B,y:Any):FortressLibrary.String (B,Any)->String /home/user/fortress-infer/tmp/walk-cache-SkSigmaTiePlain/src/SkSigmaTiePlain.fss:20:1-38}
+Context:
+/home/user/fortress-infer/tmp/walk-cache-SkSigmaTiePlain/src/SkSigmaTiePlain.fss:23:22-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+walk rc=1

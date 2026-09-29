@@ -1,0 +1,16 @@
+# runtests.sh suite seed 1790391622322 2026-09-29T03:57:48Z; tree 4a51a0ef4 with its working changes; cold cache; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.97 9.49 7.10; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (shuffled, seed 1790391622322):
+  ProjectFortress/compiler_tests/InferPromoteNN32Link.test
+  ProjectFortress/compiler_tests/XXXInferPromoteNN32.test
+. link ProjectFortress/compiler_tests/XXXInferPromoteNN32  OK (time = 181137ms)
+. run ProjectFortress/compiler_tests/XXXInferPromoteNN32 (1963ms) REACHED
+FAIL:  ZZ,ZZ =/= ZZ64,ZZ64; Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  ZZ,ZZ =/= ZZ64,ZZ64; Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442
+Saw expected failure (Exit code != 0)
+
+Time: 183.142
+
+OK (2 tests)
+
+SuiteI result: runs=2 failures=0 errors=0
+exit=0 184 s

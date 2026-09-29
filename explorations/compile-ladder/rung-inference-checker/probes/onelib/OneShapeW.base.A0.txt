@@ -1,0 +1,97 @@
+# onelib.sh base A0 OneShapeW 2026-09-29T04:28:06Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/tmp/build-base; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.59 2.27 4.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 93 s
+# the program's own error lines (with 3 lines of context each):
+19:OneShapeW.fss:7:70:
+20-    Could not check call to operator +
+21-    - ((NN64 & {UnsignedLong}), NN64)->NN64 is not applicable to an argument of type (T, T).
+22-    - ((RR64 & {Float, FloatLiteral, RR32}), RR64)->RR64 is not applicable to an argument of type (T, T).
+--
+36:OneShapeW.fss:24:15-21:
+37-    Right-hand side has type NN64, but declared type is ZZ64.
+38:OneShapeW.fss:32:15-21:
+39-    Right-hand side has type NN64, but declared type is ZZ64.
+40:OneShapeW.fss:40:15-21:
+41-    Right-hand side has type NN64, but declared type is ZZ64.
+42:OneShapeW.fss:48:15-21:
+43-    Right-hand side has type NN64, but declared type is ZZ64.
+44:OneShapeW.fss:56:15-21:
+45-    Right-hand side has type NN64, but declared type is ZZ64.
+46:OneShapeW.fss:64:15-21:
+47-    Right-hand side has type NN64, but declared type is ZZ64.
+48:OneShapeW.fss:72:15-21:
+49-    Right-hand side has type NN64, but declared type is ZZ64.
+50:OneShapeW.fss:80:15-21:
+51-    Right-hand side has type NN64, but declared type is ZZ64.
+52:OneShapeW.fss:88:15-21:
+53-    Right-hand side has type NN64, but declared type is ZZ64.
+54:OneShapeW.fss:92:29-38:
+55-    Could not check call to function lohi
+56-    - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+57:OneShapeW.fss:96:15-21:
+58-    Right-hand side has type NN64, but declared type is ZZ64.
+59:OneShapeW.fss:100:28-36:
+60-    Could not check call to function lohi
+61-    - [\I extends AnyIntegral\](I, I)->String is not applicable to an argument of type (IntLiteral, ZZ32).
+62:OneShapeW.fss:104:15-21:
+63-    Right-hand side has type NN64, but declared type is ZZ64.
+64:OneShapeW.fss:112:15-21:
+65-    Right-hand side has type NN64, but declared type is ZZ64.
+66:OneShapeW.fss:120:15-21:
+67-    Right-hand side has type NN64, but declared type is ZZ64.
+68:OneShapeW.fss:128:15-21:
+69-    Right-hand side has type NN64, but declared type is ZZ64.
+70:OneShapeW.fss:132:35:
+71-    Could not check call to operator #
+72-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+73-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (IntLiteral, ZZ64).
+--
+76:OneShapeW.fss:136:15-21:
+77-    Right-hand side has type NN64, but declared type is ZZ64.
+78:OneShapeW.fss:144:15-21:
+79-    Right-hand side has type NN64, but declared type is ZZ64.
+80:OneShapeW.fss:148:35:
+81-    Could not check call to operator :
+82-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, NN32).
+83-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, NN32).
+--
+86:OneShapeW.fss:152:15-21:
+87-    Right-hand side has type NN64, but declared type is ZZ64.
+88:OneShapeW.fss:156:35:
+89-    Could not check call to operator :
+90-    - ((ZZ32, ZZ32), (ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+91-    - ((ZZ32, ZZ32, ZZ32), (ZZ32, ZZ32, ZZ32))->CompactFullRange[\(ZZ32, ZZ32, ZZ32)\] is not applicable to an argument of type (ZZ32, ZZ64).
+--
+94:OneShapeW.fss:160:15-21:
+95-    Right-hand side has type NN64, but declared type is ZZ64.
+96:OneShapeW.fss:168:15-21:
+97-    Right-hand side has type NN64, but declared type is ZZ64.
+98:OneShapeW.fss:176:15-21:
+99-    Right-hand side has type NN64, but declared type is ZZ64.
+100:OneShapeW.fss:184:15-21:
+101-    Right-hand side has type NN64, but declared type is ZZ64.
+102:OneShapeW.fss:192:15-21:
+103-    Right-hand side has type NN64, but declared type is ZZ64.
+104:OneShapeW.fss:200:15-21:
+105-    Right-hand side has type NN64, but declared type is ZZ64.
+106:OneShapeW.fss:204:29-38:
+107-    Could not check call to function scale
+108-    - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], IntLiteral).
+109:OneShapeW.fss:208:15-21:
+110-    Right-hand side has type NN64, but declared type is ZZ64.
+111:OneShapeW.fss:216:15-21:
+112-    Right-hand side has type NN64, but declared type is ZZ64.
+113:OneShapeW.fss:220:29-38:
+114-    Could not check call to function scale
+115-    - [\T\](Box[\T\], T)->String is not applicable to an argument of type (Box[\RR64\], ZZ32).
+116:OneShapeW.fss:224:15-21:
+117-    Right-hand side has type NN64, but declared type is ZZ64.
+118:OneShapeW.fss:228:32-46:
+119-    Could not check call to operator BIG +
+120-    - [\T extends AdditiveGroup[\T\]\]()->BigReduction[\T,T\] is not applicable to an argument of type List.List[\IntLiteral\].
+121-    - [\T extends AdditiveGroup[\T\]\]Generator[\T\]->T is not applicable to an argument of type List.List[\IntLiteral\].
+122:OneShapeW.fss:232:15-21:
+123-    Right-hand side has type NN64, but declared type is ZZ64.
+124-File OneShapeW.fss has 36 errors.
+125-### rc=-1
+# tallies:
+File OneShapeW.fss has 36 errors.
+### rc=-1

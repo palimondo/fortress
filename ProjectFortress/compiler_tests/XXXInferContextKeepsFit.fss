@@ -1,0 +1,29 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component XXXInferContextKeepsFit
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait V excludes { N }
+  coerce(x: N) = VOf(x.n)
+  getter n(): ZZ32
+end
+object VOf(k: ZZ32) extends V
+  getter n(): ZZ32 = k
+end
+
+k[\T extends N\](x: T): T = x
+k(x: V): V = VOf(99)
+
+run(): () = do
+    println("REACHED")
+    a: V = k(NOf(1))
+    assert(a.n, 1, "Specification/basic/conversions-coercions.tex:472-476, :529-537; the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    println("PASS")
+end
+
+end

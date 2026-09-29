@@ -1,0 +1,21 @@
+#### S2Walk: the rung's build (compiled)
+# comp.sh S2Walk after 2026-09-29T05:18:25Z; tree 2348ea6b1 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/S2Walk.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.18 0.52 0.94; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+q(3, NOf(1)): q(ZZ64, W)
+q(3000000000, NOf(1)): q(ZZ64, W)
+run rc=0
+#### S2Walk: the base's build (compiled)
+# comp.sh S2Walk base 2026-09-29T05:18:27Z; tree 2348ea6b1 with its working changes; source /home/user/fortress-infer/explorations/compile-ladder/rung-inference-checker/probes/skeptic/S2Walk.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.33 0.56 0.95; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+q(3, NOf(1)): q(ZZ64, W)
+q(3000000000, NOf(1)): q(ZZ64, W)
+run rc=0
+#### S2Walk: walk
+# walk S2Walk 2026-09-29T05:18:29Z; machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 1.33 0.56 0.95; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+q(3, NOf(1)): q(ZZ64, W)
+q(3000000000, NOf(1)): q(ZZ64, W)
+walk rc=0

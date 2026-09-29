@@ -1,0 +1,15 @@
+# runtests.sh one XXXInferLambdaArg 2026-09-29T03:25:37Z; tree e16135bb1 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.06 2.33 3.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/XXXInferLambdaArg.test
+. compile ProjectFortress/compiler_tests/XXXInferLambdaArg ProjectFortress/compiler_tests/XXXInferLambdaArg.fss:10:35-55:
+    Could not check call to function appl
+    - [\T extends Object\](BoxT[\T\], ZZ32->ZZ32, ZZ64)->ZZ64 is not applicable to any type of the form (BoxT[\String\], _->_, IntLiteral).
+File XXXInferLambdaArg.fss has 1 error.
+ Saw expected failure
+
+Time: 1.466
+
+OK (1 test)
+
+SuiteI result: runs=1 failures=0 errors=0
+exit=0 2 s

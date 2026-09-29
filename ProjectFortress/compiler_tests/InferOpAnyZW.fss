@@ -1,0 +1,21 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferOpAnyZW
+export Executable
+
+op[\T extends Number\](a: T, b: T): String = "op generic[" || typeOf(a) || "," || typeOf(b) || "]"
+op(a: Any, b: Any): String = "op plain[" || typeOf(a) || "," || typeOf(b) || "]"
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    assert(op(z, w), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): the generic declaration fits as it is, then answer 8 instantiates it at ZZ64")
+    assert(op(z, z), "op generic[ZZ32,ZZ32]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    println("PASS")
+  end
+end

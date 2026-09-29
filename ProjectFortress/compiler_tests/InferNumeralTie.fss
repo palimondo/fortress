@@ -1,0 +1,36 @@
+(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+component InferNumeralTie
+export Executable
+
+pickn(x: NN32): String = "NN32"
+pickn(x: ZZ32): String = "ZZ32"
+pickb(x: NN32): String = "NN32"
+pickb(x: ZZ32): String = "ZZ32"
+pickb(x: ZZ64): String = "ZZ64"
+
+witness[\T\](): T = throw InvalidRange
+
+zeroOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ64 => cast[\T\](widen(0))
+        else => throw InvalidRange
+    end
+
+oneOf[\T\](): T =
+    typecase witness[\T\] of
+        () -> ZZ64 => cast[\T\](widen(1))
+        else => throw InvalidRange
+    end
+
+run(): () = do
+    assert(pickn(3), "ZZ32", "a numeral reached by coercion alone, no declaration most specific, takes the ZZ32 declaration: the conversion judgement's decision 1 (POSITIONS 2026-09-28), ledger row 391")
+    assert(pickb(3000000000), "ZZ64", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral read as ZZ64 by magnitude")
+    assert(pickb(3), "ZZ32", "the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    seven: ZZ64 = 7
+    eight: ZZ64 = 8
+    assert(zeroOf[\ZZ64\]() + seven = seven, "widen(0) takes ZZ32's widen: the conversion judgement's decision 1 (POSITIONS 2026-09-28), ledger row 391")
+    assert(oneOf[\ZZ64\]() + seven = eight, "widen(1) takes ZZ32's widen: the conversion judgement's decision 1 (POSITIONS 2026-09-28), ledger row 391")
+    println("PASS")
+end
+
+end

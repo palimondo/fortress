@@ -1,0 +1,9 @@
+# comp.sh TiePicks base 2026-09-28T23:18:06Z; tree bce66f1fa with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/TiePicks.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 11.08 7.47 3.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0
+## run
+pickn(3): NN32
+typeOf(widen(0)): ZZ64
+typeOf(widen(1)): ZZ64
+f(NOf(1)): f(A)
+run rc=0

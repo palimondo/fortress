@@ -1,0 +1,6 @@
+# the 85 files of explorations/compile-ladder/baseline-2026-09-19/pass-list.txt through run-subset.sh (compile, then run), the repaired tree's build and library cache against the base's, both run in this round, one after the other (the base's through a FORTRESS_HOME of links to the worktree whose ProjectFortress/build is the base's build snapshot tmp/build-base, with probes/ladder/run-subset-home.sh, run-subset.sh setting FORTRESS_HOME from LADDER_HOME after sourcing tmp/h.sh)
+# repaired run: === ladder start 2026-09-29T03:53:43+00:00 ===; base run: === ladder start 2026-09-29T04:07:24+00:00 ===
+# machine at the start: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 3.41 6.95 5.72; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+# phase (compile rc / run rc): base 85 0/0; repaired 85 0/0; the same file by file, and the same as results-base.tsv and results-after.tsv of the first pass
+# stdout and stderr of every compile and run (170 files) compared with each run's timing masked (sed 's/[0-9.]*ms//g'; three nestedTransactions files print 'Operation took <t>ms')
+# files whose output differs: 0 of 170

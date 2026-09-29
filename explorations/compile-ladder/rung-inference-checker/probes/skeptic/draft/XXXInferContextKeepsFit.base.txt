@@ -1,0 +1,7 @@
+# comp.sh XXXInferContextKeepsFit base 2026-09-29T05:29:35Z; tree 2348ea6b1 with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/skeptic/draft/XXXInferContextKeepsFit.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.31 0.71 0.90; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+## compile
+compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
+## run
+REACHED
+PASS
+run rc=0

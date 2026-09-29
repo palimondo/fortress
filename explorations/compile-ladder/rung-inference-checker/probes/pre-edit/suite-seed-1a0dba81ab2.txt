@@ -1,0 +1,213 @@
+# runtests.sh suite seed 1790391622322 2026-09-28T23:14:04Z; tree bce66f1fa with its working changes; cold cache; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.58 2.66 1.62; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (shuffled, seed 1790391622322):
+  ProjectFortress/compiler_tests/InferBetweenTie.test
+  ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion.test
+  ProjectFortress/compiler_tests/WitnessIdentityRungG.test
+  ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC.test
+  ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.test
+  ProjectFortress/compiler_tests/NatKnownSizeArm.test
+  ProjectFortress/compiler_tests/InferNumeralTie.test
+  ProjectFortress/compiler_tests/CoercionAnyOverloadRungCLink.test
+  ProjectFortress/compiler_tests/InferO2Meet.test
+  ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test
+  ProjectFortress/compiler_tests/InferOpAnyZW.test
+  ProjectFortress/compiler_tests/InferO2Z64.test
+  ProjectFortress/compiler_tests/NatLitArgChecker.test
+  ProjectFortress/compiler_tests/InferO2Pos.test
+  ProjectFortress/compiler_tests/XXXInferNarrowing.test
+  ProjectFortress/compiler_tests/XXX6bu.test
+  ProjectFortress/compiler_tests/InferO2Num.test
+  ProjectFortress/compiler_tests/NatRtBigSize.test
+  ProjectFortress/compiler_tests/InferCoercionShapes.test
+. compile ProjectFortress/compiler_tests/InferBetweenTie  OK (time = 20772ms)
+. link ProjectFortress/compiler_tests/InferBetweenTie  OK (time = 116399ms)
+. compile ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion 
+ Saw failure, but did not satisfy compile_err_contains; expected
+Ambiguous coercion in call to function f
+F. link ProjectFortress/compiler_tests/WitnessIdentityRungG  OK (time = 3981ms)
+. compile ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC.fss:24:12-32:
+    Could not check call to function gf
+    - [\T extends Object\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
+File CoercionGenericFnCompiledRungC.fss has 1 error.
+ FAIL
+F. link ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC.fss:24:12-32:
+    Could not check call to function gf
+    - [\T extends Object\](Wide, T)->String is not applicable to an argument of type (NarrowOf, String).
+File CoercionGenericFnCompiledRungC.fss has 1 error.
+ FAIL
+F. compile ProjectFortress/compiler_tests/XXXNatUnknownSizeArm ProjectFortress/compiler_tests/XXXNatUnknownSizeArm.fss:10:13-16:
+    Could not check call to function ee
+    - Could not infer static argument nat n without context.
+File XXXNatUnknownSizeArm.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/NatKnownSizeArm  OK (time = 1131ms)
+. link ProjectFortress/compiler_tests/NatKnownSizeArm  OK (time = 2199ms)
+. compile ProjectFortress/compiler_tests/InferNumeralTie  OK (time = 951ms)
+. link ProjectFortress/compiler_tests/InferNumeralTie  OK (time = 957ms)
+. link ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC  OK (time = 1281ms)
+. compile ProjectFortress/compiler_tests/InferO2Meet  OK (time = 1651ms)
+. link ProjectFortress/compiler_tests/InferO2Meet  OK (time = 1527ms)
+. compile ProjectFortress/compiler_tests/InferOpAnyZW  OK (time = 426ms)
+. link ProjectFortress/compiler_tests/InferOpAnyZW  OK (time = 734ms)
+. compile ProjectFortress/compiler_tests/InferO2Z64  OK (time = 665ms)
+. link ProjectFortress/compiler_tests/InferO2Z64  OK (time = 673ms)
+. compile ProjectFortress/compiler_tests/NatLitArgChecker ProjectFortress/compiler_tests/NatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/NatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File NatLitArgChecker.fss has 2 errors.
+ FAIL
+F. link ProjectFortress/compiler_tests/NatLitArgChecker ProjectFortress/compiler_tests/NatLitArgChecker.fss:15:12-31:
+    Could not check call to function scale
+    - [\nat k\](Box[\k\], ZZ32)->Box[\k\] is not applicable to an argument of type (Box[\3\], IntLiteral).
+ProjectFortress/compiler_tests/NatLitArgChecker.fss:16:12-38:
+    Could not check call to function scaleT
+    - [\T extends Object\](BoxT[\T\], ZZ32)->BoxT[\T\] is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+File NatLitArgChecker.fss has 2 errors.
+ FAIL
+F. compile ProjectFortress/compiler_tests/InferO2Pos  OK (time = 516ms)
+. link ProjectFortress/compiler_tests/InferO2Pos  OK (time = 972ms)
+. compile ProjectFortress/compiler_tests/XXXInferNarrowing ProjectFortress/compiler_tests/XXXInferNarrowing.fss:10:23-29:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is BoxT[\ZZ32\].
+File XXXInferNarrowing.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/Compiled6.bu ProjectFortress/compiler_tests/Compiled6.bu.fss:21:11-20:
+    Could not check method invocation Foo.doIt
+    - [\T extends Object\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).
+File Compiled6.bu.fss has 1 error.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/InferO2Num  OK (time = 442ms)
+. link ProjectFortress/compiler_tests/InferO2Num  OK (time = 1043ms)
+. compile ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 1468ms)
+. link ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 1524ms)
+. compile ProjectFortress/compiler_tests/InferCoercionShapes ProjectFortress/compiler_tests/InferCoercionShapes.fss:41:12-39:
+    Could not check call to function hd
+    - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral, IntLiteral, IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:42:12-24:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:43:12-24:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:44:12-22:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:45:12-22:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], ZZ32).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:51:12-23:
+    Could not check call to function lohi32
+    - [\I extends ZZ32\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:52:23-29:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:54:23-29:
+    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+File InferCoercionShapes.fss has 8 errors.
+ FAIL
+F. link ProjectFortress/compiler_tests/InferCoercionShapes ProjectFortress/compiler_tests/InferCoercionShapes.fss:41:12-39:
+    Could not check call to function hd
+    - [\nat r, nat c\](M[\r,c\], ZZ32, ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (M[\16,16\], IntLiteral, IntLiteral, IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:42:12-24:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:43:12-24:
+    Could not check call to function scale64
+    - [\T extends Object\](BoxT[\T\], ZZ64)->ZZ64 is not applicable to an argument of type (BoxT[\String\], ZZ32).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:44:12-22:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:45:12-22:
+    Could not check call to function scale
+    - [\T extends Object\](Box[\T\], T)->String is not applicable to an argument of type (Box[\ZZ64\], ZZ32).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:51:12-23:
+    Could not check call to function lohi32
+    - [\I extends ZZ32\](I, I)->String is not applicable to an argument of type (IntLiteral, IntLiteral).
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:52:23-29:
+    Right-hand side has type BoxV[\IntLiteral\], but declared type is BoxV[\ZZ64\].
+ProjectFortress/compiler_tests/InferCoercionShapes.fss:54:23-29:
+    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+File InferCoercionShapes.fss has 8 errors.
+ FAIL
+F. run ProjectFortress/compiler_tests/InferBetweenTie (1347ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/WitnessIdentityRungG (2000ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC (433ms) Could not load CoercionGenericFnCompiledRungC
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : CoercionGenericFnCompiledRungC.class
+	... 5 more
+Failed to satisfy run_out_contains; expected
+PASS
+F. run ProjectFortress/compiler_tests/NatKnownSizeArm (1176ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferNumeralTie (2048ms) FAIL:  NN32 =/= ZZ32; a numeral reached by coercion alone, no declaration most specific, takes the ZZ32 declaration: the conversion judgement's decision 1 (POSITIONS 2026-09-28), ledger row 391
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  NN32 =/= ZZ32; a numeral reached by coercion alone, no declaration most specific, takes the ZZ32 declaration: the conversion judgement's decision 1 (POSITIONS 2026-09-28), ledger row 391
+Failed to satisfy run_out_contains; expected
+PASS
+F. run ProjectFortress/compiler_tests/InferO2Meet (1353ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC (680ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String XXXCoercionAnyOverloadRungC.\=p{_|ProjectFortress|compiler_tests|XXXCoercionAnyOverloadRungC\,fss\!20\!1-30,_|ProjectFortress|compiler_tests|XXXCoercionAnyOverloadRungC\,fss\!21\!1-29}(fortress.AnyType$Any)'
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/InferOpAnyZW (1553ms) FAIL:  op generic[ZZ32,ZZ64] =/= op generic[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): the generic declaration fits as it is, then answer 8 instantiates it at ZZ64
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  op generic[ZZ32,ZZ64] =/= op generic[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): the generic declaration fits as it is, then answer 8 instantiates it at ZZ64
+Failed to satisfy run_out_contains; expected
+PASS
+F. run ProjectFortress/compiler_tests/InferO2Z64 (1454ms) FAIL:  op generic[ZZ32,ZZ64] =/= op plain64[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): the converted call dispatches to the more specific declaration
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  op generic[ZZ32,ZZ64] =/= op plain64[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): the converted call dispatches to the more specific declaration
+Failed to satisfy run_out_contains; expected
+PASS
+F. run ProjectFortress/compiler_tests/NatLitArgChecker (380ms) Could not load NatLitArgChecker
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : NatLitArgChecker.class
+	... 5 more
+Failed to satisfy run_out_contains; expected
+PASS
+F.
+ run ProjectFortress/compiler_tests/InferO2Pos (882ms) PASS
+Passed
+. run ProjectFortress/compiler_tests/InferO2Num (1854ms) FAIL:  op generic[IntLiteral,ZZ64] =/= op generic[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  op generic[IntLiteral,ZZ64] =/= op generic[ZZ64,ZZ64]; the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64
+Failed to satisfy run_out_contains; expected
+PASS
+F. run ProjectFortress/compiler_tests/NatRtBigSize (2663ms) 2147483647
+2147483648
+3000000000
+4294967295
+9223372036854775807
+9223372036854775808
+18446744073709551615
+PASS
+Passed
+. run ProjectFortress/compiler_tests/InferCoercionShapes (499ms) Could not load InferCoercionShapes
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : InferCoercionShapes.class
+	... 5 more
+Failed to satisfy run_out_contains; expected
+PASS
+F
+Time: 185.388
+There were 14 failures:
+1) ProjectFortress/compiler_tests/XXXInferAmbiguousCoercion(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+2) ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+3) ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+4) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+5) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+6) ProjectFortress/compiler_tests/InferCoercionShapes(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output compile
+7) ProjectFortress/compiler_tests/InferCoercionShapes(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Must satisfy FAIL or fail should not appear in output link
+8) ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/CoercionGenericFnCompiledRungC
+9) ProjectFortress/compiler_tests/InferNumeralTie(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/InferNumeralTie
+10) ProjectFortress/compiler_tests/InferOpAnyZW(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/InferOpAnyZW
+11) ProjectFortress/compiler_tests/InferO2Z64(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/InferO2Z64
+12) ProjectFortress/compiler_tests/NatLitArgChecker(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/NatLitArgChecker
+13) ProjectFortress/compiler_tests/InferO2Num(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/InferO2Num
+14) ProjectFortress/compiler_tests/InferCoercionShapes(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/compiler_tests/InferCoercionShapes
+
+FAILURES!!!
+Tests run: 44,  Failures: 14,  Errors: 0
+
+SuiteI result: runs=44 failures=14 errors=0
+exit=0 186 s

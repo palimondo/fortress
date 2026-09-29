@@ -1,0 +1,9 @@
+# onelib.sh repair A0 DArg 2026-09-29T04:19:22Z; tree 4a51a0ef4 with its working changes; build /home/user/fortress-infer/ProjectFortress/build; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.77 4.33 6.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; rc=255; 88 s
+# the program's own error lines (with 3 lines of context each):
+17:DArg.fss:14:28-32:
+18-    Right-hand side has type IntLiteral, but declared type is String.
+19-File DArg.fss has 1 error.
+20-### rc=-1
+# tallies:
+File DArg.fss has 1 error.
+### rc=-1

@@ -1,0 +1,13 @@
+# walk.sh InferO2Meet 2026-09-29T00:27:18Z; tree 5a949ad17; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.29 7.79 9.33; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-infer/tmp/walk-cache-InferO2Meet/src/InferO2Meet.fss:6:1-82: and
+/home/user/fortress-infer/tmp/walk-cache-InferO2Meet/src/InferO2Meet.fss:5:1-98:
+
+op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.String/home/user/fortress-infer/tmp/walk-cache-InferO2Meet/src/InferO2Meet.fss:5:1-98 has a parameter
+with generic type, at least one pair of parameters must have excluding types
+Context:
+/home/user/fortress-infer/tmp/walk-cache-InferO2Meet/src/InferO2Meet.fss:6:1-82:
+/home/user/fortress-infer/tmp/walk-cache-InferO2Meet/src/InferO2Meet.fss:5:1-98:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

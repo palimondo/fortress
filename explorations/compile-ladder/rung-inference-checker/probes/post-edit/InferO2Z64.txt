@@ -1,0 +1,14 @@
+# runtests.sh one InferO2Z64 2026-09-28T23:48:33Z; tree 4dc6f90c4 with its working changes; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.54 6.76 7.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+SuiteI order (as given):
+  ProjectFortress/compiler_tests/InferO2Z64.test
+. compile ProjectFortress/compiler_tests/InferO2Z64  OK (time = 3803ms)
+. link ProjectFortress/compiler_tests/InferO2Z64  OK (time = 2682ms)
+. run ProjectFortress/compiler_tests/InferO2Z64 (1048ms) PASS
+Passed
+
+Time: 7.56
+
+OK (3 tests)
+
+SuiteI result: runs=3 failures=0 errors=0
+exit=0 8 s

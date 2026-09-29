@@ -19,6 +19,7 @@ import com.sun.fortress.nodes_util.{ExprFactory => EF}
 import com.sun.fortress.nodes_util.{NodeFactory => NF}
 import com.sun.fortress.nodes_util.{NodeUtil => NU}
 import com.sun.fortress.scala_src.nodes._
+import com.sun.fortress.scala_src.overloading.OverloadingOracle
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.typechecker.staticenv.KindEnv
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -72,6 +73,16 @@ class CoercionOracle(traits: TraitTable,
   def moreSpecific(t: Type, u: Type): Boolean =
     noLessSpecific(t, u) && !isTrue(analyzer.equivalent(t, u))
 
+  /**
+   * The `moreSpecific` relation on two declarations' arrows, compared on their
+   * declared, quantified domains by subtyping, as the overloading oracle
+   * compares declarations.
+   */
+  def moreSpecificDeclared(f: ArrowType, g: ArrowType): Boolean = {
+    val oracle = new OverloadingOracle()(analyzer)
+    oracle.lteq(f, g) && !oracle.lteq(g, f)
+  }
+
   /** The `noLessSpecific` relation. */
   def noLessSpecific(t: Type, u: Type): Boolean =
     isTrue(analyzer.subtype(t, u)) ||
@@ -117,6 +128,19 @@ class CoercionOracle(traits: TraitTable,
   /** Determines if T is substitutable for U. */
   def substitutableFor(t: Type, u: Type): Boolean =
     isTrue(analyzer.subtype(t, u)) || coercesTo(t, u)
+
+  /**
+   * The trait types without static parameters that define a coercion from T or
+   * a supertype of T: the types T can be coerced to, found from T where
+   * `getCoercionsTo` goes from the target.
+   */
+  def getCoercionTargetsFrom(t: Type): List[TraitType] =
+    traits.coercingTraits.filter(_.staticParameters.isEmpty).flatMap { ti =>
+      val sources = toSet(ti.coercions).toList.flatMap(c => makeArrowFromFunctional(c)).
+                      filter(a => !hasStaticParams(a)).map(_.getDomain)
+      if (sources.exists(s => isTrue(analyzer.subtype(t, s)))) toOption(ti.typeOfSelf).flatMap(getTraitType)
+      else None
+    }
 
   /**
    * Determine if T is substitutable for U. If T <: U, then return Some(None).
