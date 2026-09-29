@@ -1,0 +1,20 @@
+# junit.sh placed 2026-09-29T17:20:37Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.26 0.28 0.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree ee0f277da; tests from /home/user/fortress/ProjectFortress/library_tests
+########## [placed] fortress junit RR32EqualityRungVLink.test
+. link ProjectFortress/library_tests/XXXRR32EqualityRungV  OK (time = 4089ms)
+
+Time: 4.094
+
+OK (1 test)
+
+exit=0
+########## [placed] fortress junit XXXRR32EqualityRungV.test
+. run ProjectFortress/library_tests/XXXRR32EqualityRungV (555ms) REACHED
+java.lang.AbstractMethodError
+Caused by: java.lang.AbstractMethodError: Receiver class com.sun.fortress.compiler.runtimeValues.FRR32 does not define or inherit an implementation of the resolved method 'abstract com.sun.fortress.compiler.runtimeValues.FBoolean =?0(com.su
+Saw expected failure (Exit code != 0)
+
+Time: 0.566
+
+OK (1 test)
+
+exit=0
