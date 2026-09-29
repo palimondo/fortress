@@ -1,0 +1,151 @@
+# probe Q: the switch as scoped (variant eq1, device 1 for =) against the base, the 130 tests the first pass reached before it was stopped at 10:44 UTC (compare.py ... --xxx --mask-lib); the rest is queued
+start 2026-09-29T10:12:44Z variant: eq1 props: none shards: 2 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.27 19.91 12.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+/dev/vda        252G   23G   15G  61% /
+CHANGED    ArrayListQuick  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayListQuick.fss:79:32-41:
+CHANGED    ArrayOperatorsBesideLibrary  rc 0 -> 1  line 3
+    base: (m + t)[1,0,1] = 12.0
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss:23:29-41:
+CHANGED    ArrayScalarExtension  rc 0 -> 1  line 9
+    base: (m + 1.0)[0,1] = -2.0
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayScalarExtension.fss:32:29-41:
+CHANGED    BadBounds  rc 0 -> 1  line 4
+    base: CompactFullRange2D
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/BadBounds.fss:22:14-28:
+CHANGED    BitTwiddle  rc 0 -> 1  line 1
+    base: ZZ32 OK
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/BitTwiddle.fss:31:11:
+CHANGED    CovCollTest  rc 0 -> 1  line 1
+    base: Warmup 1 1 76.546582ms
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/Timing.fss:21:23-27:
+CHANGED    CovariantTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/CovariantTest.fss:17:33-42:
+CHANGED    FileConversion  rc 0 -> 1  line 1
+    base: CGACGTAGATGCTAGCTGACTCGATGC has 27 charachters 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FileConversion.fss:38:31-40:
+CHANGED    FixedWidthOverflowRungB  rc 0 -> 1  line 2
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FixedWidthOverflowRungB.fss:48:35-37:
+CHANGED    FlatTowerRungF  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FlatTowerRungF.fss:132:13-19:
+CHANGED    HeapTest  rc 0 -> 1  line 1
+    base: n	n lg n	lbuild	lbuild/n	lbuild/nlgn	lconsume	lconsume/n	lconsume/nlgn	lgen	lgen/n	lgen/nlgn	build	build/n	build/nlgn	consume	consume/n	consume/nlgn	gen	gen/n	gen/nlgn
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/HeapTest.fss:121:33-42:
+CHANGED    InferCoercionRungK  rc 0 -> 1  line 1
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/InferCoercionRungK.fss:65:19-28:
+CHANGED    IntSemanticsRungI  rc 0 -> 1  line 1
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/IntSemanticsRungI.fss:35:12-15:
+CHANGED    ListNullPointer  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ListNullPointer.fss:24:28-39:
+CHANGED    ListTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ListTest.fss:25:29-38:
+CHANGED    LongStringTests  rc 0 -> 1  line 42
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/LongStringTests.fss:128:13-23:
+CHANGED    MapTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/MapTest.fss:36:60-68:
+CHANGED    NumberPrintTest  rc 0 -> 1  line 4
+    base: ZZ64
+    edit: IntLiteral
+CHANGED    PureListQuick  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/PureListQuick.fss:79:32-41:
+CHANGED    QuickCheckTest  rc 0 -> 1  line 2
+    base: genBoolean: true false false true true false false true true false false true true false true true
+    edit: genBoolean: false false false true false false false false true true false true true false true false
+CHANGED    RandomTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RandomTest.fss:46:33:
+CHANGED    RangePrototype  rc 0 -> 1  line 2
+    base: fullScalarRanges (16)
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RangePrototype.fss:261:40-44:
+CHANGED    RangeZZ32RungJ  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RangeZZ32RungJ.fss:20:13-16:
+CHANGED    RationalTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RationalTest.fss:699:11-16:
+CHANGED    ReflectTest  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: 42 is not a subtype of ZZ32 but IntLiteral
+CHANGED    ReflectiveQuickCheckTest  rc 0 -> 1  line 4
+    base: Passed 100 test(s).
+    edit: Exception in thread "main" java.lang.BootstrapMethodError: java.lang.BootstrapMethodError: bootstrap method initialization exception
+CHANGED    ResultBoundsRungB  rc 0 -> 1  line 1
+    base: PASS
+    edit: FAIL: a ArrayList[\Int\]: <|11, 12, 13|> =/= a ArrayList[\IntLiteral\]: <|11, 12, 13|>; trait-parameters.tex:53: a list comprehension at an arrow type
+CHANGED    SetTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/SetTest.fss:36:22-51:
+CHANGED    ShuffleTest  rc 0 -> 0  line 2
+    base: [0#50][ 22 6 3 34 9 7 20 46 26 24 27 17 0 23 14 33 11 41 45 37 49 47 4 21 29 13 43 48 18 10 44 12 31 42 8 1 28 16 15 32 25 19 38 40 36 35 30 39 5 2 ]
+    edit: [0#50][ 42 25 21 30 35 2 26 14 27 13 16 47 1 28 18 4 40 48 3 24 43 0 15 19 5 31 20 49 34 22 10 32 29 36 17 12 6 38 9 45 44 23 8 39 33 46 37 7 41 11 ]
+CHANGED    SkipListTest  rc 0 -> 0  line 1
+    base: {[0#1][ Emily ], [0#2][ { [], [{[0#1][ David ], [0#2][ <<Cathy>> <<David>> ]}] } {[0#1][ Nathi ], [0#2][ {[0#1][ John ], [0#2][ <<Emily>> <<John>> ]} {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]} ]}
+    edit: {[0#1][ Emily ], [0#2][ { [], [{[0#1][ David ], [0#2][ { [], [<<Cathy>>] } { [], [<<David>>] } ]}] } { [], [{[0#2][ John Nathi ], [0#3][ { [], [<<Emily>>] } { [], [<<John>>] } {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]}] } ]}
+CHANGED    StringTests  rc 0 -> 1  line 1
+    base: 
+    edit: Exception in thread "main" java.lang.ClassCastException
+CHANGED    TabulateRungA  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/TabulateRungA.fss:25:46-51:
+CHANGED    TimingTests  rc 0 -> 1  line 1
+    base: fib(1) 0.436411ms
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/Timing.fss:21:23-27:
+CHANGED    TreapTest  rc 0 -> 0  line 3
+    base: Athree
+    edit: Aone
+CHANGED    UnsignedTest  rc 0 -> 1  line 1
+    base: PASS?
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/UnsignedTest.fss:28:39:
+CHANGED    WordCountSmall  rc 0 -> 0  line 2
+    base: Acquired words in 815.092874ms
+    edit: Acquired words in 11731.787272ms
+CHANGED    XXXAsExpr  rc 1 -> 1  line 2
+    base: The type of expression Int is not a subtype of String.
+    edit: The type of expression IntLiteral is not a subtype of String.
+CHANGED    XXXCoercionReturnRungC  rc 1 -> 0  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+    edit: PASS
+VERDICT    ArrayListQuick  base A pass, edit FAIL
+VERDICT    ArrayOperatorsBesideLibrary  base A pass, edit FAIL
+VERDICT    ArrayScalarExtension  base A pass, edit FAIL
+VERDICT    BadBounds  base A pass, edit FAIL
+VERDICT    BitTwiddle  base A pass, edit FAIL
+VERDICT    CovCollTest  base A pass, edit FAIL
+VERDICT    CovariantTest  base A pass, edit FAIL
+VERDICT    FileConversion  base A pass, edit FAIL
+VERDICT    FixedWidthOverflowRungB  base A pass, edit FAIL
+VERDICT    FlatTowerRungF  base A pass, edit FAIL
+VERDICT    HeapTest  base A pass, edit FAIL
+VERDICT    InferCoercionRungK  base A pass, edit FAIL
+VERDICT    IntSemanticsRungI  base A pass, edit FAIL
+VERDICT    ListNullPointer  base A pass, edit FAIL
+VERDICT    ListTest  base A pass, edit FAIL
+VERDICT    LongStringTests  base A pass, edit FAIL
+VERDICT    MapTest  base A pass, edit FAIL
+VERDICT    NumberPrintTest  base A pass, edit FAIL
+VERDICT    PureListQuick  base A pass, edit FAIL
+VERDICT    QuickCheckTest  base A pass, edit FAIL
+VERDICT    RandomTest  base A pass, edit FAIL
+VERDICT    RangePrototype  base A pass, edit FAIL
+VERDICT    RangeZZ32RungJ  base A pass, edit FAIL
+VERDICT    RationalTest  base A pass, edit FAIL
+VERDICT    ReflectTest  base A pass, edit FAIL
+VERDICT    ReflectiveQuickCheckTest  base A pass, edit FAIL
+VERDICT    ResultBoundsRungB  base A pass, edit FAIL
+VERDICT    SetTest  base A pass, edit FAIL
+VERDICT    StringTests  base A pass, edit FAIL
+VERDICT    TabulateRungA  base A pass, edit FAIL
+VERDICT    TimingTests  base A pass, edit FAIL
+VERDICT    UnsignedTest  base A pass, edit FAIL
+VERDICT    XXXCoercionReturnRungC  base A pass, edit FAIL(missing expected failure)
+tests 130  same 92  normalised 0  order only 0  changed 38  unstable 0  missing 0  verdicts changed 33

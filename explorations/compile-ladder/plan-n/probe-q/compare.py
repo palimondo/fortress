@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """compare.py <list-file> <baseA-dir> <baseB-dir> <edit-dir> [--xxx]
 
+Probe Q's copy of probe K's compare.py: each log's private home ($X/home-<variant>) is also replaced
+by H, since the base and the edit ran in different homes; with --mask-lib, a position in the four
+library files the switch edits (FortressLibrary.fs[si], FortressBuiltin.fs[si]) is also masked, since the
+edit moves their lines.  Otherwise unchanged.
+
 Compares the logs run-pass.sh wrote, as rung O's count-compare.py with batch 5's masks (the comparison
 of CLIMB-BATCH-N.md, section 3, K, "The comparison"; POSITIONS 2026-09-26, batch 5's masks).  Each log
 is read with its work directory's path replaced by W and the trailer's secs= dropped.  A test is STABLE
@@ -35,6 +40,8 @@ def load(d, t):
     except FileNotFoundError:
         return None
     s = s.replace(os.path.abspath(d), 'W')
+    s = re.sub(r'/tmp/claude-0/[^\s:]*/scratchpad/pq/home-[a-z0-9]+', 'H', s)   # probe Q: the private home
+    s = s.replace('/home/user/fortress-probeq', 'H')
     s = re.sub(r'^(rc=\S+) secs=\d+$', r'\1', s, flags=re.M)
     return s.splitlines()
 
@@ -51,8 +58,13 @@ def mask(lines):
             continue
         l = re.sub(r'\(([A-Za-z0-9_$]+\.java):\d+\)', r'(\1:N)', l)
         l = re.sub(r'@[0-9a-f]{4,}', '@HASH', l)
+        if MASK_LIB:   # probe Q: a line and column in the four library files the switch edits
+            l = re.sub(r'((?:FortressLibrary|FortressBuiltin)\.fs[si]):\d+:\d+(-\d+(:\d+)?)?', r'\1:L', l)
         out.append(l)
     return out
+
+
+MASK_LIB = '--mask-lib' in sys.argv
 
 
 def unordered(lines):

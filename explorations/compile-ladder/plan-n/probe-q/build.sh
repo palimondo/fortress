@@ -1,5 +1,5 @@
 #!/bin/bash
-# build.sh : the switch's Java shadow.  Compiles the edited copies of the seven interpreter sources
+# build.sh : the switch's Java shadow.  Compiles the edited copies of the ten interpreter sources
 # the switch changes (java-switch.patch applied to the sources of $BASE, or, with --from-copies, the
 # copies in $X/edit/java as they stand) with javac against the worktree's classpath into $SHADOW,
 # which run-pass.sh puts ahead of the build in the switch's modes (probe K's technique).
@@ -10,7 +10,7 @@ cd "$W"
 FILES="interpreter/evaluator/Evaluator.java interpreter/evaluator/values/FIntLiteral.java interpreter/glue/prim/IntLiteral.java
        interpreter/evaluator/values/Simple_fcn.java interpreter/evaluator/values/MethodClosure.java
        interpreter/evaluator/EvaluatorBase.java interpreter/evaluator/values/OverloadedFunction.java
-       interpreter/evaluator/BaseEnv.java"
+       interpreter/evaluator/BaseEnv.java interpreter/glue/prim/FlatString.java interpreter/glue/prim/ReflectCollection.java"
 S=$X/edit/java/com/sun/fortress
 if [ "${1:-}" != "--from-copies" ]; then
   rm -rf "$X/edit/java"

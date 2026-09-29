@@ -7,7 +7,7 @@
 #   default_repository/configuration                                   a copy; caches/ empty
 # Variants: stock (as archived); sw (the switch: lib-switch.patch); eq0m, eq1, eq2, eq3 (the switch with
 # lib-eq0m.patch to lib-eq3.patch on top; make-eq.py says what each is); r (the switch with device 1
-# and lib-r.patch, device A; make-r.py).
+# and lib-r.patch, device A; make-r.py); r1 (r with lib-r1.patch, ZZ32's comparisons on ZZ32; make-r1.py).
 # Writes $O/homes.txt: the base commit, each variant's patches.
 set -eu
 source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
@@ -27,6 +27,7 @@ for v in "$@"; do
     sw) patches="lib-switch.patch" ;;
     eq0m|eq1|eq2|eq3) patches="lib-switch.patch lib-$v.patch" ;;
     r) patches="lib-switch.patch lib-eq1.patch lib-r.patch" ;;
+    r1) patches="lib-switch.patch lib-eq1.patch lib-r.patch lib-r1.patch" ;;
     *) echo "unknown variant $v"; exit 2 ;;
   esac
   for p in $patches; do (cd "$H" && patch -s -p1 --forward < "$O/$p"); done

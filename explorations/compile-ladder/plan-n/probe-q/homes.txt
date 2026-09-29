@@ -8,3 +8,4 @@
 2026-09-29T10:08:21Z home-eq2: fe918ba5d + lib-switch.patch lib-eq2.patch
 2026-09-29T10:09:31Z home-eq0m: fe918ba5d + lib-switch.patch lib-eq0m.patch
 2026-09-29T10:24:46Z home-r: fe918ba5d + lib-switch.patch lib-eq1.patch lib-r.patch
+2026-09-29T11:59:16Z home-r1: fe918ba5d + lib-switch.patch lib-eq1.patch lib-r.patch lib-r1.patch
