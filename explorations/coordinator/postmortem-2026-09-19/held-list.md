@@ -22,6 +22,16 @@ Reacting to the coordinator's reply on the gap ledger (07:47 UTC): its purpose, 
 
 Also waiting for his answer (PLAN.md, "Asked 2026-09-27"): the three worker questions, skeptic checks 11-13 and the gather's filing of items for him, for 6b; the principle 5 review line; a Fable judge overnight.
 
+
+Reacting to the coordinator's account of batch 6.5b's cost and files (2026-09-29, 18:25 UTC):
+
+- Archaeology: when and why committing captured run outputs, build logs, citation dumps and probe programs with a batch became practice; he does not recall accepting it.
+- His rule to weigh: a batch commits the Fortress change and the real findings (report, ledger, plan) only; evidence made for a skeptic or judge stays as scratch for review; the tool calls are already in the transcripts.
+- A cleaning pass to remove the committed scratch from the repository.
+- Test file names carrying batch and rung suffixes (`RungE`, `RungV`) in a Fortress corpus: unreasonable, or useful for finding them later.
+- He wants to understand the tests added, e.g. why `PowChooseLcmRungE` has 50 checks; maybe a review of the added and changed tests.
+- Redesign what a batch asks of its workers: trace the practice's origin, discuss, correct the rules, define the new practice; no batch runs before that (7b held).
+
 ## The research he asked for, answered
 
 Was the compiler-library direction chosen without pricing the array re-implementation, and why: yes. `postmortem-2026-09-19/direction-history-documents.md` and `direction-history-transcripts.md`. The direction was fixed in four steps (08-24 framing, 09-15 step one, 09-16/17 plan and accepted order, 09-19 the design's one line); he proposed one library himself on 09-15 at 23:51 and the probe favoured it; the coordinator's recommendation of 09-17 01:19 inverted that evidence and priced its own route at nothing; the fork was "reserved, yours" at every batch and never put to him with both prices; the next-climb analysis of 09-17 said the decision was not which name to add next and it was never answered. Not wasted: runtime and code-generator repairs, the map, the measurements, the batch machinery, yesterday's library repair. Wasted: the library-name rungs of the eight-rung climb, batch 1, and rungs W and B of batch 2.
