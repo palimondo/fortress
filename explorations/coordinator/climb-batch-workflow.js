@@ -2656,8 +2656,16 @@ if (reviewBlocks) {
   report.review2 = review
   routers.push(review)
   mergedItems.push(...numbered('review2', review && review.forPavol))
-  if (!review || !review.approved) {
-    return finish({ landed: false, reason: 'review still blocking after one repair' })
+  if (!review) {
+    return finish({ landed: false, reason: 'the second review returned nothing' })
+  }
+  // Pavol, 2026-09-29 (POSITIONS.md, a review that still blocks after its repair):
+  // it does not hold a batch whose gate is green. The batch lands, and the
+  // review's remaining findings go to the next batch and are listed for him.
+  if (!review.approved) {
+    log('The review still blocks after one repair (' + strings(review.blocking).length + ' finding(s)); by Pavol\'s rule of 2026-09-29 the batch lands on a green gate and they go to the next batch')
+    report.reviewStillBlocking = strings(review.blocking)
+    mergedItems.push(...numbered('review2-blocking', review.blocking))
   }
   gateIsStale = true
 }

@@ -112,6 +112,10 @@ The commit stage replaces the `<short hash>` placeholders, lands the gate's summ
 
 An output difference that the untouched tree already shows from run to run, with the test's verdict unchanged, is a ledger row and not a stop (POSITIONS 2026-09-26, rung D's stop).
 
+## A review that still blocks after its repair (2026-09-29)
+
+The merged-diff review gets one judge and one repair. If the second review still blocks, the batch lands anyway when the gate on the repaired tree is green: its remaining findings go into the run's items for the next batch and are listed for Pavol, and the post-batch review follows as always (POSITIONS 2026-09-29; batch N's first run stopped on two owed expected-failure tests with every rung approved and the gate green). A red gate after its repair still stops the batch.
+
 ## After the landing: the coordinator's routing (2026-09-28)
 
 At each landing the coordinator files every open row, every record default and every item a rung lists for Pavol, each with a batch or as a parked line of `PLAN.md` (`reviews/process-review-6b-7-7R.md`), and the combined post-batch review checks that routing (POSITIONS 2026-09-28, on reviews after a batch). Before an item a batch adds to `PLAN.md` is called open, put to Pavol or briefed to a worker, it is checked against `POSITIONS.md` and the notes `INDEX.md` lists. Batch 6.5's gather wrote item 30 as having no default when his decision of 19:06 the same day already settled which declaration runs, and a clean worker and a Fable judgement were briefed on it before he pointed that out.
