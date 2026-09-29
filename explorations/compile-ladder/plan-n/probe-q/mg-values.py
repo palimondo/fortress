@@ -16,7 +16,7 @@ def section(title):
         if l.startswith('== '):
             on = (l.strip() == title)
             continue
-        if on and l.strip():
+        if on and l.strip() and not l.startswith('rc='):
             out.append(l)
     return out
 
