@@ -1146,6 +1146,8 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 'The default bound is 480 s so that one wait_for call stays inside the tool\'s 10-minute ceiling; ant testFast is longer than that, so call wait_for again until it prints the BUILD line. Do not chain shorter sleeps in one call.',
 '',
+'Stop or kill only processes that run under your own worktree\'s path (readlink /proc/<pid>/cwd, or the path in their arguments), never by a script\'s name across the box: the other agents of the batch run copies of the same scripts in their own trees, and climb batch 6.5b\'s rung V, stopping its own pass by the name count-run.sh, killed rung E\'s corpus passes (explorations/reviews/batch-6.5b-review.md, finding 4).',
+'',
 'A capture you intend to commit is named .txt. Never .out and never .log: .gitignore:42,46 swallow both, which is how four probe captures cited by two ledger rows were nearly landed untracked.',
 '',
 '## Your briefing - read it before you search the tree',
@@ -1181,7 +1183,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 '1. **Measured by anyone and repaired in this rung** - by the worker in its own first pass, by the skeptic, or in a repair round: it gets an ASSERTION in the rung\'s own gated test, and that assertion exists and passes BEFORE the second skeptic runs. Not a FACTS line, not a probe: an assertion. The cheapest form is an extra assert in the .fss file the rung already added; a new file is only needed when the defect is in another area. The assert message string carries the citation - the ledger row number or the specification line - and nothing else does: no provenance comment in the source (see "What you write" below).',
 '',
-'2. **Deferred, and the specification settles it** - the rung does not repair it, but the specification says what the answer is: it gets a gated EXPECTED-FAILURE test, whose file name starts with XXX. The harness makes this a real check, not a wish. FileTests.java:932 sets shouldFail = s.startsWith("XXX") from the file name; :587 and :654 make (shouldFail != failed) the failure condition, so an XXX test that STARTS PASSING turns the suite red, and :851 says the suite prints "XXX tests that succeed". So write XXX<Name>.fss asserting what the SPECIFICATION says, with a .test file beside it; it fails today, which is expected, and the day anyone repairs the defect without closing the ledger row the gate says so. 224 XXX*.test files in compiler_tests/ already use this. One caveat, from the harness\'s own author at FileTests.java:853 -"WARNING: expect_failure is not treated consistently" - so the first XXX file a rung adds is shown to go red on a deliberate local fix, and the report says it was shown. The test is owed in the batch that measures the defect, even when a later rung or batch is planned to repair it: "its test can wait for the rung that fixes it" was ruled against at the gather or review of batches 6b, 7R and 7C (explorations/reviews/batch-7C-review.md, the repeat).',
+'2. **Deferred, and the specification settles it** - the rung does not repair it, but the specification says what the answer is: it gets a gated EXPECTED-FAILURE test, whose file name starts with XXX. The harness makes this a real check, not a wish. FileTests.java:932 sets shouldFail = s.startsWith("XXX") from the file name; :587 and :654 make (shouldFail != failed) the failure condition, so an XXX test that STARTS PASSING turns the suite red, and :851 says the suite prints "XXX tests that succeed". So write XXX<Name>.fss asserting what the SPECIFICATION says, with a .test file beside it; it fails today, which is expected, and the day anyone repairs the defect without closing the ledger row the gate says so. 224 XXX*.test files in compiler_tests/ already use this. In compiler_tests/ and library_tests/ a run test whose run_out_ check is unmet fails whatever its name, because :583-585 fail it (the check at :534-539) before :587 reads the flag, and a run test with no run_out_ check demands PASS (:276-282): so a program that compiles and then dies at run time is two .test files over one component, a plain link test and an XXX run test whose key names output the failing run does print before it dies, run_out_contains=REACHED with REACHED printed before the failing call, or run_out_does_not_contain=REACHED where it dies before any output, never run_out_contains=PASS (FACTS.md, "The XXX expected-failure mechanism in compiler_tests/ and library_tests/ can express a compile-stage failure only, and a run-time defect needs two .test files", and "Two constraints of the test and native machinery, measured by rung S"; climb batch 6.5b\'s gate went red on a PASS key, explorations/reviews/batch-6.5b-review.md, finding 1). One caveat, from the harness\'s own author at FileTests.java:853 -"WARNING: expect_failure is not treated consistently" - so the first XXX file a rung adds is shown through the harness itself, not only by a direct compile and run of its program: placed where the gate reads it, the harness counting it an expected failure, and on a deliberate local fix, the harness failing it (explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh for compiler_tests/ and library_tests/, its link test before its run test; explorations/compile-ladder/rung-inference-walk/harness-one.sh for tests/), and the report cites both captures. A program the checker accepts that then fails JVM verification, linkage or a range check at run time is settled by the specification under every reading, so its home is 2, not 3 (explorations/reviews/batch-N-review.md, measure 6). The test is owed in the batch that measures the defect, even when a later rung or batch is planned to repair it: "its test can wait for the rung that fixes it" was ruled against at the gather or review of batches 6b, 7R and 7C (explorations/reviews/batch-7C-review.md, the repeat).',
 '',
 '3. **Deferred, and the specification is silent** - a probe file with its captured output, named .txt, committed under probes/, and a ledger row that cites it. This is the only home that is not a gated test, and the record says explicitly that it is here because the specification is silent, not because it was easier.',
 '',
@@ -2054,6 +2056,13 @@ function repairTestsStep(kind, failing) {
 JSON.stringify(strings(failing), null, 2),
 '',
 'In failingAnswered return one entry per line, in order: the line, and the test file of testRuns whose passing run now answers it, or empty where no run of yours does (an atomic run, the ladder, a suite count, the checker count). The gate does not run again only when every line is answered and your commit changed no path that reruns it.',
+] : strings(failing).length ? [
+'',
+'The gate that ran beside the review was red on these lines:',
+'',
+JSON.stringify(strings(failing), null, 2),
+'',
+'Your ruling is the review\'s, not the gate\'s: do not take on a line it does not touch. Where your ruling\'s edit is to the test a line names, and your harness run above passes it, that run answers the line. In failingAnswered return one entry per line, in order: the line, and the test file of testRuns whose passing run now answers it, or empty where no run of yours does (a line your ruling does not touch, an atomic run, the ladder, a suite count, the checker count). When every line is answered and your commit changed no path that reruns the gate, no gate judge and no gate repair run after you, and the first gate\'s tables stand beside your runs (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests).',
 ] : []),
 '',
   ]
@@ -2194,7 +2203,7 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
         verdict: { type: 'string', enum: ['pass', 'fail'], description: 'pass only when the run that held it printed OK' },
         capture: { type: 'string', description: 'the path of that run\'s capture, shared by the files of the run' },
       }, required: ['file', 'paths', 'suite', 'cases', 'verdict', 'capture'] } },
-    failingAnswered: { type: 'array', description: 'the gate\'s repair only: one entry per line of the gate\'s failing list, in order; empty for the review\'s repair',
+    failingAnswered: { type: 'array', description: 'the gate\'s repair, and the review\'s repair when the gate beside the review was red and its lines are in your role: one entry per line of the gate\'s failing list, in order; otherwise empty',
       items: { type: 'object', properties: {
         failing: { type: 'string' },
         file: { type: 'string', description: 'the testRuns file whose passing run answers it; empty if none does' },
@@ -2209,7 +2218,10 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
 // not exercised by a passing run of the repair's; when the repair did not say what
 // it changed; and, after the gate's repair (redGate, the gate it repaired), when the
 // gate's own counts fell or a suite went, when it named no failing line, or when a
-// line it failed on is not answered by a passing run. Otherwise the first gate's
+// line it failed on is not answered by a passing run. After the review's repair,
+// redGate is the red gate that ran beside the review, asked of a repair the first
+// call found to be of tests and records only: whether its runs already answer that
+// gate's lines, so that no gate judge runs (below "The run."). Otherwise the first gate's
 // tables stand and the repair's runs are recorded beside its summary. The second
 // review's corrections no longer enter it: since 2026-09-29 that review runs beside
 // the commit, after this decision, and a path it changes outside explorations/ holds
@@ -2665,6 +2677,15 @@ if (gateIsStale) {
   log('The review\'s corrections touched ' + review.pathsOutsideExplorations.length + ' path(s) outside explorations/ ('
       + review.pathsOutsideExplorations.join(', ') + '); the gate that ran beside it is stale and runs again')
 }
+// A red gate beside the review, which that review's repair may already answer: its
+// lines go to the review's repair, and when that repair changed test files and
+// records only and its passing runs answer every line, no gate judge and no gate
+// repair run (Pavol's rule of 2026-09-29 on rerunning the gate after a repair that
+// only added tests, extended; in climb batch 6.5b the review's repair had fixed and
+// run the one test the gate failed on, and a gate judge and its repair ran the same
+// pair again, 42 minutes and 0.38M tokens: reviews/batch-6.5b-review.md, finding 2).
+const redBeside = !!(gate && !gate.stopped && !gate.green && !gateIsStale)
+let redAnswered = false
 
 if (reviewBlocks) {
   const decision = reviewDecision
@@ -2680,7 +2701,7 @@ if (reviewBlocks) {
   } else if (!decision || decision.decision !== 'repair') {
     return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   } else {
-    report.repairReview = await callAgent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
+    report.repairReview = await callAgent(PREFIX + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
     routers.push(report.repairReview)
     secondReview = true
     // Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate after a repair that only
@@ -2696,8 +2717,17 @@ if (reviewBlocks) {
       log('After the review\'s repair the gate runs again: ' + after.why)
       gateIsStale = true
     } else {
-      log('The review\'s repair changed ' + after.why + ' (' + after.runs.length + ' test file(s) run in the harness by the repair); by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand')
-      beside.push({ kind: 'review', runs: after.runs, answered: [] })
+      const red = redBeside ? repairRerun(report.repairReview, strings(review && review.pathsOutsideExplorations), gate) : null
+      if (red) report.repairReviewRed = red
+      if (red && !red.rerun) {
+        redAnswered = true
+        log('The review\'s repair changed ' + red.why + ' and its runs answer the ' + strings(gate.failing).length + ' line(s) the gate beside the review was red on; by Pavol\'s rule of 2026-09-29 the gate does not run again, no gate judge or gate repair runs, and its tables stand beside the runs')
+        beside.push({ kind: 'review', runs: red.runs, answered: red.answered })
+      } else {
+        if (red) log('The gate beside the review was red, and the review\'s repair does not answer it (' + red.why + '); the gate judge rules on it as before')
+        log('The review\'s repair changed ' + after.why + ' (' + after.runs.length + ' test file(s) run in the harness by the repair); by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand')
+        beside.push({ kind: 'review', runs: after.runs, answered: [] })
+      }
       gateIsStale = false
     }
   }
@@ -2712,7 +2742,7 @@ if (gateIsStale || !gate) {
 if (!gate || gate.stopped) {
   return finish({ landed: false, reason: 'gate could not run' })
 }
-if (!gate.green) {
+if (!gate.green && !redAnswered) {
   log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
   const decision = await callAgent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)), recoverJudgeMain('gate'))
   report.gateJudge = decision
