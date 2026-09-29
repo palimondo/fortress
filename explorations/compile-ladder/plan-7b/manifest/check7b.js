@@ -4,8 +4,8 @@
 // apostrophe the harness refused, 70ac397dd to 2a55fa570); every line outside the block byte-identical; the three launch
 // values refused when unset or wrong; the rungs, their order, the scatter and the entries' fields; each tail equal to its
 // rung's section of the record followed by its briefing's reasons, one per key in order; no backtick or non-ASCII
-// character in any string the agents read; each checks list a sub-list of its briefing. Its last line counts the
-// problems. Reads $OUT7B/manifest7b.js (gen7b.py's output) and writes the spliced copy beside it.
+// character in any string the agents read; each checks list a sub-list of its briefing; the record's section 7 holds
+// no copy of the block (post-mortem 2026-09-29, synthesis item 64). Its last line counts the problems. Reads $OUT7B/manifest7b.js (gen7b.py's output) and writes the spliced copy beside it.
 //   node check7b.js [RECORD]      RECORD defaults to explorations/coordinator/CLIMB-BATCH-7.md
 const fs = require('fs')
 const cp = require('child_process')
@@ -100,10 +100,9 @@ for (const q4 of [1, 2]) {
     if (/[^\x00-\x7f]/.test(text) || /`/.test(text)) { bad++; console.log('  ' + name + ' holds a backtick or non-ASCII') }
   }
 }
-// the block the record carries in section 7 is the one generated
-const i7 = rec.indexOf('\n## 7. The manifest\n')
-const j7 = rec.indexOf('\n```js\n', i7) + '\n```js\n'.length
-const k7 = rec.indexOf('\n```\n', j7 - 1)
-if (rec.slice(j7, k7 + 1) !== block) { bad++; console.log('the record\'s section 7 does not carry the generated block (run gen7b.py --paste)') }
-else console.log('the record\'s section 7 carries the generated block, byte for byte')
+// the record's section 7 names the generator and holds no copy of the block
+const i7 = rec.indexOf('\n## 7. The manifest\n'), e7 = rec.indexOf('\n## 8. ', i7)
+const s7 = i7 < 0 || e7 < 0 ? '' : rec.slice(i7, e7)
+if (!s7 || s7.includes('```') || s7.includes('const RUNGS') || !s7.includes('gen7b.py')) { bad++; console.log('the record\'s section 7 is not the one sentence naming gen7b.py, or holds a copy of the block') }
+else console.log('the record\'s section 7 names gen7b.py and holds no copy of the block')
 console.log('problems:', bad)

@@ -1,4 +1,4 @@
-# The briefing and checks lists of climb batch 7b's four rungs, S, C, W and L (CLIMB-BATCH-7.md, section 7), in
+# The briefing and checks lists of climb batch 7b's four rungs, S, C, W and L (CLIMB-BATCH-7.md, section 3), in
 # batch 6.5's form (explorations/compile-ladder/plan-6.5/manifest/lists65.py). Each briefing entry is a pair: its
 # facts-extract.sh key and one line on why it is there and what the rung does with it (the process review's measure 5,
 # explorations/reviews/process-review-6b-7-7R.md section 9, approved by Pavol on 2026-09-28 at 14:18 UTC). gen7b.py
@@ -14,8 +14,8 @@ OF = SRC + '/interpreter/evaluator/values/OverloadedFunction.java'
 VALS = SRC + '/interpreter/evaluator/values'
 
 STOPS = "Every stop reserved for Pavol is reversible: finish, list it in stopsMet with liftedBy citing this entry, and land."
-RUN_TO_RUN = "An output the untouched tree already varies from run to run, its verdict unchanged, is a ledger row and not a stop; apply it to every comparison you run."
-GATE_BEFORE = "The rule for your count and distance tables: the last landed gate's tables are your before, not a run of the stage on your unchanged base; capture only the after."
+RUN_TO_RUN = "An output the untouched tree already varies from run to run, its verdict unchanged, is a ledger row and not a stop."
+GATE_BEFORE = "The rule for your count and distance tables: the last landed gate's tables are your before, not a run of the stage on your unchanged base; run only the after, into tmp/."
 FROZEN = "The frozen copy is the Working Draft of February 2011: quote originals from it, and never edit it (a stop)."
 LIB_PRACTICE = "The library's own practice is the standard; find its device for the same kind of problem before any other way."
 ANSWER9 = "positions:2026-09-26 answer 9"
@@ -189,7 +189,7 @@ C_BRIEFING = [
   (REC + "1.6 Item 30", "Where the paper's instance and the value's type differ, the Box shape your expected-failure pair asserts, and where they agree."),
   (REC + "1.9 Row 516", "The union replaced by the bound; your rewrite of the lone-parameter test and its unbounded expected failure, for batch 8's checker rung to flip."),
   ("doc:ProjectFortress/compiler_tests/XXXInferLoneBoundUnion.fss", "The compiled test that pins the union; you rewrite it to the written bound and rename it, and move the unbounded case into an expected failure of its own."),
-  ("doc:explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.txt", "Both paths' refusal of the Meet Rule's example; the recorded failure of row 492's test."),
+  ("doc:explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.txt", "Both paths' refusal of the Meet Rule's example; what row 492's test shows failing on the base."),
   ("doc:Specification/advanced/overloading.tex#Overloaded Functional Declarations", "The rules the checker enforces, in the specification's words; the Meet Rule's example is in it."),
   ("doc:Papers/Types/rules.tick#Overloading Rules", "The paper's three rules, the standard your return-type rule is checked against."),
   ("doc:Papers/Types/overloading-check.tick#Mechanically Checking the Rules", "The paper's special arrow and theorem for the return-type rule over every instance."),
@@ -207,7 +207,7 @@ C_BRIEFING = [
   ("A generic arm of a template dispatcher is called at the dispatcher's own static parameters", "Rung G's run-time reading, which answers row 499's two programs against the text; the defect your expected failures pin for phase 5."),
   ("The XXX expected-failure mechanism in compiler_tests/ and library_tests/", "How your expected failures are written: a compile-stage failure alone, and a run-time defect in two test files."),
   ("A thrown CompilerError takes a third path through the test harness", "The check stream a checker crash takes, if one of your tests meets it."),
-  ("An XXX compile test pinned by compile_err_contains whose program compiles is reported as a wrong failure", "What your two refusal tests report on the base; that capture is the recorded failure."),
+  ("An XXX compile test pinned by compile_err_contains whose program compiles is reported as a wrong failure", "What your two refusal tests report on the base; that run is their failure before the edit."),
   ("ant compileAll deletes a tracked file", "Restore default_repository/caches/global.map after every ant compileAll."),
   ("The true distance to the switch-over", "The distance stage your rules move; read it by class."),
   ("map:compile-path-walkthrough.md#How it differs from the interpreter's run-time dispatch", "Where the checker's choice and walk's dispatch part; your rules act on the checker's side."),
@@ -244,7 +244,7 @@ W_BRIEFING = [
   (COERC, "Item 16 decided and closed, not yours: walk's choice of a coercion on the value stays, recorded by rung S's callout; keep XXXCoercionStaticRungC's and XXXCoercionStaticNarrowRungC's verdicts."),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
   ("positions:2026-09-26 rung D's stop", RUN_TO_RUN),
-  ("positions:2026-09-28 rungs re-running measurements", GATE_BEFORE),
+  ("positions:2026-09-28 rungs re-running measurements", "The landed gate's verdicts and tables are your before; your edit touches no path the count or distance stages read, so you run neither."),
   ("ledger:478", "Walk's shared symbolic instantiation, with its four probes; the cache key gains the bounds, and you close the row."),
   ("ledger:159", "Walk's refusal of generic pairs the specification allows; the renamed and swapped pairs, whose two expected-failure walk tests batch 6.5's judge wrote for you to promote."),
   ("ledger:157", "Walk dropping a generic declaration declared to return Any; under item 30's decision you close it with a forAnyType case, walk's best under the paper's instance rule."),
@@ -253,7 +253,7 @@ W_BRIEFING = [
   ("ledger:491", "Item 26's programs: SkBetweenAssign keeps its walk verdict, BetweenTwoClosed runs once row 492's walk half lands; report both."),
   ("ledger:496", "Walk answers a generic beside a plain declaration both ways today, the plain one only through row 157; report its answers after your change."),
   ("ledger:499", "The compiled path's positional reading; report walk's answers to its two programs."),
-  ("ledger:430", "The unstable ambiguity message; list XXXInheritedOverload as unstable in every comparison."),
+  ("ledger:430", "The ambiguity message that varies from run to run; an output of XXXInheritedOverload that differs between your runs, its verdict unchanged, is this row, not your change."),
   ("ledger:395", "Item 16's second point, the tuple bindings the judge chose to convert; keep its tests' verdicts and report."),
   ("ledger:390", "XXXCoercionAnyOverloadRungC stays this row's expected failure under the conversion rule; keep its verdict."),
   ("doc:explorations/compile-ladder/plan-7b/probes/P4.md#The answers", "Walk on declared domains measured by shadow: no corpus output changes, and two load verdicts move; your expectations and your stop."),
@@ -277,7 +277,7 @@ W_BRIEFING = [
   (REC + "1.6 Item 30", "Why walk cannot apply the paper's instance rule, having no static types, and why row 157's fix stands as walk's best."),
   (REC + "1.9 Row 516", "The union replaced by the bound; your rewrite of walk's lone-parameter test and its unbounded expected failure."),
   ("doc:ProjectFortress/tests/XXXInferLoneUnionWalk.fss", "Walk's test that pins the union; you rewrite it to the written bound and rename it, and move the unbounded case into an expected failure of its own."),
-  ("doc:explorations/reviews/plain-beside-generic-ways/captures/both-paths.txt", "The probes on both paths: PbgLone dying on the AnyType visitor under walk; your failing capture."),
+  ("doc:explorations/reviews/plain-beside-generic-ways/captures/both-paths.txt", "The probes on both paths: PbgLone dying on the AnyType visitor under walk; what your test shows failing on the base."),
   ("doc:explorations/reviews/plain-beside-generic-ways/captures/ret-object.txt", "The same pair returning Object, running the generic declaration on both paths; the answer your test asserts."),
   ("doc:explorations/compile-ladder/rung-generic-runtime/REPORT.md#10. Every measured defect and its home", "Rung G's defects and homes; row 159's walk half, whose two expected-failure tests batch 6.5's judge wrote and you promote."),
   ("doc:Specification/basic/overloading.tex#Overloading Resolution", "Dispatch as the specification states it: the most specific declaration applicable to the values."),
@@ -372,7 +372,7 @@ L_BRIEFING = [
   ("The true distance to the switch-over", "The distance stage your devices move; read it by family."),
   ("map:spec-to-implementation.md#4.2 The tower in", "The library's tower and traits, where your markers sit."),
   ("map:dormant-code.md#1.1 Commented-out declarations in", "The library's commented-out declarations and not-yet notes; a device the team began may be there."),
-  ("map:README.md#Touch this@Library/FortressLibrary.fss", "What a library edit moves: walk, the count stage, and the gather's PDF."),
+  ("map:README.md#Touch this@Library/FortressLibrary.fss", "What a library edit moves: walk, the count stage, and the commit stage's PDF."),
   ("index:overloading", "The notes on file on overloading; open those your families touch."),
 ]
 L_CHECKS = [
