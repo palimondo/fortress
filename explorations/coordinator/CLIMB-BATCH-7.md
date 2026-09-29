@@ -97,7 +97,7 @@ In plain words: after this batch the specification says what both implementation
   3. **Refuse the pair at the declaration.** Reverses part of answer 9, and refuses the library's `APPCOV`, pair `=` and the eight tests.
   4. **Refuse such a call.** Refuses the library's own bodies. Listed for completeness.
 - A yes to (1) commits you to this record as amended in S, W and C, and to two defaults listed for your review: the least instance where the value does not fix it, and Naden's return-type restriction recorded as future work, not built. Row 496 moves to home 2 and closes in phase 5. The case where nothing fixes the parameter (row 446, item 17) stays yours and comes on its own.
-- What the batch does if no answer comes before the launch: (1), the judgement's recommendation, as your answer of 20:10 UTC allows (POSITIONS 2026-09-28, PLAN item 30), listed for your review. Under another answer the coordinator rewrites S's, W's and C's answers lines and the text they mark before the launch.
+- Decided 2026-09-29: option 1, "Stated this way, I think it's obvious that only option one makes sense." (POSITIONS 2026-09-29, PLAN item 30).
 - **Recommended by the judgement: (1).**
 
 **Read from the record, not asked.** Each follows from a decision on record or from a probe; one word from you changes it.
@@ -138,7 +138,7 @@ Cited by date and entry name in `explorations/coordinator/POSITIONS.md`. The fir
 - **The launch of phase 3's batches**, 2026-09-27: "This is approved." Q2 and Q3 take their defaults and are listed for his review.
 - **`AnyIntegral`'s `comprises` clause**, 2026-09-28: "Option 1." The checker reads a `comprises` clause as the 2012 texts do (batch 7C). It is the reading behind rows 491 and 492 and item 26; he was told the 66 errors it brings onto the count stage are resolved by batch 7b's families and batch 8.
 - **PLAN item 26**, 2026-09-29: "Yes" (11:25 UTC) to option 1 of the Fable judgement (`explorations/reviews/comprises-type-level-judgement.md`) with the three points of Astra's proof addendum built into this batch's briefs (`explorations/reviews/comprises-type-level-proof-addendum.md`), written at his request. The four passages restated at the level of values, "covers" defined once, the Meet Rule's closed-trait case, row 492 repaired on both paths, in rungs S, C and W; the proof appendix keeps its existence lemmas and gives up static uniqueness for run-time uniqueness, a call whose argument's static type sits between typed by the intersection of its candidates' return types. The three points: no performance price is claimed for such a call, since Fortress already dispatches at run time with one static winner; the coverage search stays local to overload checking and does not widen assignment or ordinary subtyping; the proof holds only where closed families are closed, which row 487 leaves unenforced across some component boundaries. The addendum's acceptance pair goes into rung C as written; the record's fallback, row 492's repair to batch 8, is used if the implementation needs broader subtype or closure repairs.
-- **PLAN item 30**, 2026-09-28, not decided: the Fable judgement he asked for recommends option 1, and his answer of 20:10 UTC lets a batch 7b that launches before he answers take it, listed for his review. Which declaration runs is decision 1 of the conversion judgement above; only the instance is new.
+- **PLAN item 30**, decided 2026-09-29, option 1 (POSITIONS 2026-09-29, PLAN item 30): the generic declaration runs at the instance the value fixes, the least instance where it fixes none. Which declaration runs is decision 1 of the conversion judgement above; only the instance was new.
 - **The library's practice is the standard**, 2026-09-19: no fix is designed from a reading of the specification alone or from a user-side workaround; the library's own way is found first, and a fork put to him names it first (2026-09-24, after the diagonal).
 - **The specification's changes**: the requirement on the plan (2026-09-24); the S1 form (2026-09-26, S1); the unrevised copy called "the Working Draft of February 2011", cited by path and line in `Specification-1.0-frozen/` (2026-09-26, the first of the batch-5 answers); the later Types chapter cited beside where it covers a topic (2026-09-26, the lineage note); the implementers' later word weighing more than the text where they conflict (2026-09-23).
 - **The stops**, 2026-09-27: "These don't need me now. They are reversible things I can review later. Don't block start of next batches on these." A reversible stop lands and is listed for his review.
@@ -664,7 +664,7 @@ const S_TAIL = [
 "- positions:2026-09-27 launch of phase 3's batches: Q2 and Q3 taken at their defaults and listed for his review; you follow Q3's default.",
 "- positions:2026-09-28 comprises clause row 459: Batch 7C's value reading of a comprises clause, which item 26's decision carries into the four passages and the Meet Rule's closed-trait case.",
 "- positions:2026-09-29 PLAN item 26: Item 26 decided: option 1 with the proof addendum's three points; your four passages, covering, the Meet Rule's case and the proof appendix's revision rest on it.",
-"- positions:2026-09-28 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; your dispatch sentence follows it, as your answers line says.",
+"- positions:2026-09-29 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; your dispatch sentence follows it, as your answers line says.",
 "- positions:2026-09-19 answering the open question: The library's own practice is the standard; find its device for the same kind of problem before any other way.",
 "- positions:2026-09-27 stops a batch record reserves: Every stop reserved for Pavol is reversible: finish, list it in stopsMet with liftedBy citing this entry, and land.",
 "- ledger:398: The permuted override the positional rule refuses; append the note that the specification now states the rule.",
@@ -793,7 +793,7 @@ const C_TAIL = [
 "- positions:2026-09-26 answer 12: Decision 3 in overload sets, a size the call cannot fix refused at the call; your rules keep that refusal.",
 "- positions:2026-09-28 comprises clause row 459: Batch 7C's checker reading of a clause; row 492's coverage check sits beside it, local to overload checking.",
 "- positions:2026-09-29 PLAN item 26: Item 26 decided: option 1 with the proof addendum's three points; row 492's checker half, the typing of the call between and the acceptance pair rest on it.",
-"- positions:2026-09-28 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; row 496's expected-failure pairs rest on it.",
+"- positions:2026-09-29 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; row 496's expected-failure pairs rest on it.",
 "- positions:2026-09-21 library route: No declaration goes into the compiler's prelude; a library declaration your rules refuse is repaired in the library, by rung L.",
 "- positions:2026-09-26 answer 11: The count is reported and never red on its own; declare the total you measure.",
 "- positions:2026-09-27 stops a batch record reserves: Every stop reserved for Pavol is reversible: finish, list it in stopsMet with liftedBy citing this entry, and land.",
@@ -910,7 +910,7 @@ const W_TAIL = [
 "- positions:2026-09-27 numerics plans: Walk does at dispatch what the checker does; batch N's rung K built the inference you hand the chosen declaration to.",
 "- positions:2026-09-28 comprises clause row 459: Batch 7C's reading of a clause; row 492's walk half reads clauses the same way.",
 "- positions:2026-09-29 PLAN item 26: Item 26 decided: option 1 with the proof addendum's three points; row 492's walk half rests on it, your load check on rung C's coverage contract.",
-"- positions:2026-09-28 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; row 157's fix rests on it.",
+"- positions:2026-09-29 PLAN item 30: Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; row 157's fix rests on it.",
 "- positions:2026-09-27 stops a batch record reserves: Every stop reserved for Pavol is reversible: finish, list it in stopsMet with liftedBy citing this entry, and land.",
 "- positions:2026-09-26 rung D's stop: An output the untouched tree already varies from run to run, its verdict unchanged, is a ledger row and not a stop; apply it to every comparison you run.",
 "- positions:2026-09-28 rungs re-running measurements: The rule for your count and distance tables: the last landed gate's tables are your before, not a run of the stage on your unchanged base; capture only the after.",
@@ -1079,7 +1079,7 @@ const S_ENTRY = { id: 'S', slug: 'rung-spec-overloading', path: '/home/user/fort
       "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
       "positions:2026-09-23 fork weighed", "positions:2026-09-26 second batch-5 answer", "positions:2026-09-26 third batch-5 answer",
       "positions:2026-09-27 numerics plans", "positions:2026-09-27 launch of phase 3's batches", "positions:2026-09-28 comprises clause row 459",
-      "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30", "positions:2026-09-19 answering the open question",
+      "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30", "positions:2026-09-19 answering the open question",
       "positions:2026-09-27 stops a batch record reserves", "ledger:398", "ledger:412", "ledger:478", "ledger:491", "ledger:492", "ledger:487",
       "ledger:496", "ledger:499", "doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says",
       "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
@@ -1128,7 +1128,7 @@ const S_ENTRY = { id: 'S', slug: 'rung-spec-overloading', path: '/home/user/fort
     checks: [
       "positions:2026-09-26 answer 9", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-26 S1",
       "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note", "positions:2026-09-28 comprises clause row 459",
-      "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30", "ledger:491", "ledger:496", "ledger:499", "ledger:487",
+      "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30", "ledger:491", "ledger:496", "ledger:499", "ledger:487",
       "doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says",
       "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
       "doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule", "doc:explorations/compile-ladder/plan-7b/probes/P1.md#The answers",
@@ -1150,7 +1150,7 @@ const C_ENTRY = { id: 'C', slug: 'rung-return-type-rule', path: '/home/user/fort
     briefing: [
       "positions:2026-09-26 answer 9", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-24 exclusion route P's fork",
       "positions:2026-09-26 second batch-5 answer", "positions:2026-09-26 answer 12", "positions:2026-09-28 comprises clause row 459",
-      "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30", "positions:2026-09-21 library route", "positions:2026-09-26 answer 11",
+      "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30", "positions:2026-09-21 library route", "positions:2026-09-26 answer 11",
       "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "positions:2026-09-28 rungs re-running measurements",
       "ledger:398", "ledger:492", "ledger:491", "ledger:487", "ledger:499", "ledger:495", "ledger:496", "ledger:494",
       "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
@@ -1194,7 +1194,7 @@ const C_ENTRY = { id: 'C', slug: 'rung-return-type-rule', path: '/home/user/fort
       "map:modules-and-phases.md#B.7 Overloading", "map:README.md#Touch this@scala_src/typechecker/", "index:overloading"],
     checks: [
       "positions:2026-09-26 answer 9", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-24 exclusion route P's fork",
-      "positions:2026-09-28 comprises clause row 459", "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30",
+      "positions:2026-09-28 comprises clause row 459", "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30",
       "positions:2026-09-28 rungs re-running measurements", "ledger:398", "ledger:492", "ledger:491", "ledger:487", "ledger:499",
       "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
       "doc:explorations/compile-ladder/plan-7b/probes/P1.md#The answers", "doc:explorations/compile-ladder/plan-7b/probes/P1.md#4. The landed library",
@@ -1213,7 +1213,7 @@ const W_ENTRY = { id: 'W', slug: 'rung-walk-dispatch', path: '/home/user/fortres
     blurb: "walk's choice between a generic and a plain declaration made on declared domains (answer 9; defect 1), the conversion decision's four items (compare on declared domains, hand the chosen generic to rung K's inference, dispatch the converted call again, lift the load check for O2Z64 and O2Meet), row 478's cache key, row 157's AnyType case, row 159's two walk tests promoted and row 492's walk half, its runtime selection the ordered candidate family the proof covers; Java under interpreter/.",
     briefing: [
       "positions:2026-09-26 answer 9", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-27 numerics plans",
-      "positions:2026-09-28 comprises clause row 459", "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30",
+      "positions:2026-09-28 comprises clause row 459", "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30",
       "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "positions:2026-09-28 rungs re-running measurements",
       "ledger:478", "ledger:159", "ledger:157", "ledger:492", "ledger:491", "ledger:496", "ledger:499", "ledger:430", "ledger:395", "ledger:390",
       "doc:explorations/compile-ladder/plan-7b/probes/P4.md#The answers", "doc:explorations/compile-ladder/plan-7b/probes/P4.md#1. The shadow",
@@ -1253,7 +1253,7 @@ const W_ENTRY = { id: 'W', slug: 'rung-walk-dispatch', path: '/home/user/fortres
       "map:test-coverage.md#B. Interpreter versus compiler", "index:overloading"],
     checks: [
       "positions:2026-09-26 answer 9", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-28 comprises clause row 459",
-      "positions:2026-09-29 PLAN item 26", "positions:2026-09-28 PLAN item 30", "positions:2026-09-26 rung D's stop", "ledger:478", "ledger:159",
+      "positions:2026-09-29 PLAN item 26", "positions:2026-09-29 PLAN item 30", "positions:2026-09-26 rung D's stop", "ledger:478", "ledger:159",
       "ledger:492", "ledger:491", "ledger:496", "doc:explorations/compile-ladder/plan-7b/probes/P4.md#The answers",
       "doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time",
       "doc:explorations/reviews/conversion-overloading-judgement.md#5. Where it lands, and in what order",

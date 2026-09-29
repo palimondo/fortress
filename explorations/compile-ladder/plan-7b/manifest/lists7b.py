@@ -20,7 +20,7 @@ FROZEN = "The frozen copy is the Working Draft of February 2011: quote originals
 LIB_PRACTICE = "The library's own practice is the standard; find its device for the same kind of problem before any other way."
 ANSWER9 = "positions:2026-09-26 answer 9"
 ITEM26 = "positions:2026-09-29 PLAN item 26"
-ITEM30 = "positions:2026-09-28 PLAN item 30"
+ITEM30 = "positions:2026-09-29 PLAN item 30"
 ADD = "doc:explorations/reviews/comprises-type-level-proof-addendum.md#"
 CONV = "positions:2026-09-28 two decisions of Fable's judgement"
 
