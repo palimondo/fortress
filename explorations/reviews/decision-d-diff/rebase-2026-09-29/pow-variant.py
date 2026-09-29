@@ -20,3 +20,6 @@ for f, es in edits.items():
         s = s.replace(a, b)
     open(p, 'w').write(s)
 print('pow: written')
+# The planted copy d-split-e3-pow-plant (run.sh's check and capture, 2026-09-29) is this copy with two typed
+# locals of the wrong type appended to lines 31 (inside rmsn_b) and 76 (stepN's last statement before its
+# result): plantA: ZZ32 = "..." and plantB: ZZ32 = "...".  Both reported means the check reached them.
