@@ -1,0 +1,59 @@
+component XAll
+export Executable
+
+kind(v: Any): String = typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    ZZ64 => v.asString || " : ZZ64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : other"
+  end
+
+gen[\T extends Number\](x: T, y: T): T = x
+
+run(): () = do
+    a: RR32 = narrow(1.5)
+    b: RR32 = narrow(2.5)
+    f: RR64 = asFloat(3.0)
+    z: ZZ64 = 3
+    println("PowZZ32: " kind(a^2))
+    println("PowZZ64: " kind(a^z))
+    println("PowFloatLit: " kind(a^2.5))
+    println("PowQQ: " kind(a^(1/2)))
+    println("PowRR32: " kind(a^b))
+    println("PowFloat: " kind(a^f))
+    println("MinRR32: " kind(a MIN b))
+    println("MinFloat: " kind(a MIN f))
+    println("MinLit: " kind(a MIN 2.5))
+    println("MinMaxFloatLo: " kind(do (l, h) = a MINMAX f; l end))
+    println("MinMaxFloatHi: " kind(do (l, h) = a MINMAX f; h end))
+    println("MinMaxRR32Lo: " kind(do (l, h) = a MINMAX b; l end))
+    println("MaxLit: " kind(a MAX 2.5))
+    println("EqLit: " kind(a = 1.5))
+    println("EqFloat: " kind(a = f))
+    println("EqRR32: " kind(a = b))
+    println("LessLit: " kind(a < 2.5))
+    println("LessFloat: " kind(a < f))
+    println("CmpLit: " kind(a CMP 2.5))
+    println("CmpFloat: " kind(a CMP f))
+    println("LitLess: " kind(2.5 < a))
+    println("FloatEq: " kind(f = a))
+    println("AddLit: " kind(a + 2.5))
+    println("LitAdd: " kind(2.5 + a))
+    println("AddZZ32: " kind(a + 2))
+    println("AddFloat: " kind(a + f))
+    println("AddRR32: " kind(a + b))
+    println("DivRR32: " kind(a / b))
+    println("SqrtRR32: " kind(SQRT a))
+    println("Sin: " kind(sin(a)))
+    println("Narrow: " kind(narrow(a)))
+    println("Abs: " kind(|a|))
+    println("Floor: " kind(floor(a)))
+    println("Round: " kind(round(a)))
+    println("Zero: " kind(a.zero))
+    println("Bind: " kind(do x: RR64 = a; x end))
+    println("Generic: " kind(gen(a, f)))
+    println("GenericSame: " kind(gen(a, b)))
+    println("TypecaseRR64: " kind((typecase a of RR64 => "an RR64"; else => "not an RR64" end)))
+  end
+end

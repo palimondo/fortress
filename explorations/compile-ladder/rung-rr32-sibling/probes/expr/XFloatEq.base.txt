@@ -1,0 +1,3 @@
+# walk1.sh XFloatEq base 2026-09-29T10:10:20Z; tree 382b9fe7f +  1 file changed, 1 insertion(+); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 19.49 17.72 10.62; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+FloatEq: false : other
+rc=0

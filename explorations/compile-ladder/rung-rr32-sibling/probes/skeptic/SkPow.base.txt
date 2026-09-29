@@ -1,0 +1,11 @@
+# sk-walk.sh base SkPow 2026-09-29T13:11:58Z; worktree fc0aec57d; FORTRESS_HOME=/home/user/fortress-rr32/tmp/skbase; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.34 5.22 5.79; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+REACHED
+01 a^0            1.0 : RR64
+02 a^(-2)         0.4444444444444444 : RR64
+03 a^big(3)       3.375 : RR64
+04 a^unsigned(2)  2.25 : RR64
+05 a^widen(unsigned(2)) 2.25 : RR64
+06 narrow(3.0E38)^2 9.000000032986535E76 : RR64
+07 a^100000       Infinity : RR64
+DONE
+rc=0

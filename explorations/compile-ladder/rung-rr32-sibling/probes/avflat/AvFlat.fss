@@ -1,0 +1,15 @@
+component AvFlat
+export Executable
+
+kind(v: Any): String = typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : other"
+  end
+
+run(): () = do
+    s = "abcd" || "efgh"
+    st = s.stats()
+    println("avFlat: " kind(st.avFlat))
+  end
+end

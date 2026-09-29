@@ -1,0 +1,4 @@
+# exit codes of the 440 tests of count-list.txt in each pass (the edit's RR32MixedRungF counted once, under its new name)
+baseA:     347 rc=0      86 rc=1       7 rc=255 
+baseB:     347 rc=0      86 rc=1       7 rc=255 
+edit:     347 rc=0      85 rc=1       1 rc=124       7 rc=255 

@@ -1,0 +1,44 @@
+# the three tests unstable-check.txt prints OUTSIDE, looked at by hand: each is random data or thread interleaving, its edit output of the same kind as base A's and base B's, rc 0 in all three passes
+## QuickCheckTest: line counts (A, B, edit) 55 53 53; its 'Collected test data' statistics have a random number of lines, so later lines align differently; its RR32 generator line in each pass:
+p-baseA: genRR32: -41.325363 14383.296 -2.3465066E8 20.177189 -1.1824162E7 13.71577 637638.6 1409851.6
+p-baseB: genRR32: -2.6584877E8 -1262965.2 259.68948 3.6654874E8 5.8367206E8 14764.524 -6.3947354E8 -318063.03
+p-edit: genRR32: -2481398.2 7068.594 2356048.5 5061.2427 156.34871 -2638252.8 1354571.6 2.2109626E8
+## TreapTest: the single-name picks are random; with the picks of A's names masked, A differs from B at 46 lines and from the edit at 62, each a pick of another name:
+     11 > Bfive
+      9 < Bone
+      8 < Bseven
+      7 > Bthree
+      6 > APICK
+      6 < Bfive
+      5 > Bone
+      4 < Bthree
+      4 < APICK
+      2 > Bseven
+## abortBlock: one line repeated by each worker thread, a random number of times, with random dots of interleaving; each pass's distinct lines with counts (worker and pool numbers masked):
+== p-baseA
+      1 
+    583  Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 . Thread ForkJoinPool-N-worker-N operating on value Aborting
+      2 .. Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 ... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      2 ...... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 .......... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 rc=0
+== p-baseB
+      1 
+   1270  Thread ForkJoinPool-N-worker-N operating on value Aborting
+      7 . Thread ForkJoinPool-N-worker-N operating on value Aborting
+      2 ... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 .... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 ...... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 ....... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 rc=0
+== p-edit
+      1 
+   1084  Thread ForkJoinPool-N-worker-N operating on value Aborting
+      5 . Thread ForkJoinPool-N-worker-N operating on value Aborting
+      2 .. Thread ForkJoinPool-N-worker-N operating on value Aborting
+      2 ... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 .... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 ........... Thread ForkJoinPool-N-worker-N operating on value Aborting
+      1 rc=0

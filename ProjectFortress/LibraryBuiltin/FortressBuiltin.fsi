@@ -44,7 +44,8 @@ end
 object FloatLiteral extends RR64
 end
 
-value object RR32 extends RR64
+value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                            AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean
     (** returns true if the value is an IEEE infinity **)
@@ -65,6 +66,54 @@ value object RR32 extends RR64
     getter nextUp():RR32
     (** next lower IEEE float **)
     getter nextDown():RR32
+    opr |self| : RR32
+    opr =(self, b:RR32):Boolean
+    opr =/=(self, b:RR32):Boolean
+    opr <(self, b:RR32):Boolean
+    opr <=(self, b:RR32):Boolean
+    opr >(self, b:RR32):Boolean
+    opr >=(self, b:RR32):Boolean
+    opr CMP(self, b:RR32):Comparison
+    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
+        total order. **)
+    opr MIN(self, b:RR32):RR32
+    opr MAX(self, b:RR32):RR32
+    opr MINMAX(self, b:RR32): (RR32,RR32)
+    opr -(self):RR32
+    opr +(self,b:RR32):RR32
+    opr -(self,b:RR32):RR32
+    opr DOT(self,b:RR32):RR32
+    opr TIMES(self,b:RR32):RR32
+    opr juxtaposition
+         (self,b:RR32):RR32
+    opr /(self,b:RR32):RR32
+    opr SQRT(self):RR32
+    opr PLUS_UP(self,b:RR32):RR32
+    opr MINUS_UP(self,b:RR32):RR32
+    opr DOT_UP(self,b:RR32):RR32
+    opr SLASH_UP(self,b:RR32):RR32
+    opr SQRT_UP(self):RR32
+    opr PLUS_DOWN(self,b:RR32):RR32
+    opr MINUS_DOWN(self,b:RR32):RR32
+    opr DOT_DOWN(self,b:RR32):RR32
+    opr SLASH_DOWN(self,b:RR32):RR32
+    opr SQRT_DOWN(self):RR32
+    opr IEEE_PLUS_UP(self,b:RR32):RR32
+    opr IEEE_MINUS_UP(self,b:RR32):RR32
+    opr IEEE_DOT_UP(self,b:RR32):RR32
+    opr IEEE_SLASH_UP(self,b:RR32):RR32
+    opr IEEE_PLUS_DOWN(self,b:RR32):RR32
+    opr IEEE_MINUS_DOWN(self,b:RR32):RR32
+    opr IEEE_DOT_DOWN(self,b:RR32):RR32
+    opr IEEE_SLASH_DOWN(self,b:RR32):RR32
+    opr ^(self, b:Float):RR64
+    opr ^(self, b:AnyIntegral):RR32
+    floor(self):RR32
+    opr |\self/| : ZZ64
+    ceiling(self):RR32
+    opr |/self\| : ZZ64
+    truncate(self):ZZ64
+    round(self):ZZ64
     opr ^(self, b:RR32):RR32
     (** %MINNUM% and %MAXNUM% return a numeric result where possible (avoiding NaN).
         Note that %MINNUM% and %MAX% form a lattice with NaN at the top, and

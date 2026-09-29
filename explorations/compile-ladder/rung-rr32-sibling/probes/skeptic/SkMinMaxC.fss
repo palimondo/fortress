@@ -1,0 +1,17 @@
+component SkMinMaxC
+export Executable
+
+kind(v: Any): String = typecase v of
+    RR32 => "RR32"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+    a: RR32 = 1.5
+    f: RR64 = 3.0
+    (lo, hi) = a MINMAX f
+    println("a MINMAX f " kind(lo) " " kind(hi))
+    println("DONE")
+  end
+end

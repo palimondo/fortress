@@ -1,0 +1,3 @@
+# walk1.sh AvFlat edit 2026-09-29T11:02:04Z; tree 0b931ae12 +  1 file changed, 116 insertions(+); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.35 12.99 20.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+avFlat: 8.0 : RR64
+rc=0

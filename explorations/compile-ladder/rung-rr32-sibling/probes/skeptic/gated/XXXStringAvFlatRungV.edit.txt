@@ -1,0 +1,20 @@
+# sk-walk.sh edit XXXStringAvFlatRungV 2026-09-29T13:13:53Z; worktree fc0aec57d; FORTRESS_HOME=/home/user/fortress-rr32; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.00 6.85 6.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+REACHED
+FAIL: J10/0:8.0 : RR64 =/= J10/0:8.0 : RR32; String.fss:508 declares avFlat an RR32; conversions-coercions.tex:121-122, numbers.tex:46: its RR64 body does not convert, so the body must be an RR32
+/home/user/fortress-rr32/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+/home/user/fortress-rr32/Library/FortressLibrary.fss:56:5-23:
+/home/user/fortress-rr32/Library/FortressLibrary.fss:305:9-306:5:
+/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/skeptic/gated/XXXStringAvFlatRungV.fss:17:5-196:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

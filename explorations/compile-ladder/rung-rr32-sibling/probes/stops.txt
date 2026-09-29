@@ -1,0 +1,7 @@
+# Rung V (rung-rr32-sibling): the stops the batch record's intro reserves for V, and whether the rung met each
+
+- A changed walk output its comparison does not account for: not met. Six outputs changed and each has its cause (probes/passes/compare-normalised.txt; probes/changed/; the REPORT's section 7): the promoted expected failure passes; XXXArrayLiteralArgRungC's candidate list; three messages re-anchored; ReflectiveQuickCheckTest's 600-second limit under load, rerun to base A's output (probes/rqc/ReflectiveQuickCheckTest.edit-long.txt).
+- A team test line changed other than one that asserts RR32 below RR64, keeping its value: not met. No team test line changed; the six re-anchored files are the revival's, messages only (probes/reanchor/reanchor-apply.txt).
+- A coercion beyond RR64's from RR32: not met. The one coercion added is Library/FortressLibrary.fsi:296, .fss:392.
+- The specification's sentence stating more than the landed library: not met. Specification/basic-lib/numbers.tex:31, :43 and the callout :50-56 state RR32 a sibling under Number and RR64's coercion from it, each landed (decision-record.md, section 3).
+- Any rung editing a file another rung of this run owns: not met. Library/FortressLibrary.fss is shared with rung E on disjoint declarations, as the record plans (V's hunks :359-392).

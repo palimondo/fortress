@@ -1,0 +1,17 @@
+# walk1.sh XMinMaxFloatHi base 2026-09-29T12:20:56Z; tree b402db0ac + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 14.69 13.59 16.19; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:268:22-24:
+getRR32 not implemented for FFloat
+Context:
+/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:268:22-24:
+/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinMaxFloatHi.fss:19:48:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

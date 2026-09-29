@@ -1,0 +1,18 @@
+# sk-walk.sh edit SkCtx 2026-09-29T13:01:59Z; worktree fc0aec57d; FORTRESS_HOME=/home/user/fortress-rr32; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.14 4.55 5.74; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+01 retR64(a)        1.5 : RR32
+02 num(a)           1.5 : RR32
+03 xn: Number = a   1.5 : RR32
+04 m: RR64 := a     1.5 : RR64
+05 Box(a).v         1.5 : RR64
+06 idT(a)           1.5 : RR32
+07 narrow(a)        1.5 : RR32
+08 SUM <a,b>        4.0 : RR32
+09 PROD <a,b>       3.75 : RR32
+10 BIG MAX <a,b>    2.5 : RR32
+11 if a<b then a else f 1.5 : RR32
+12 <|a, f|>[0]      1.5 : RR32
+13 <|a, f|>[1]      3.0 : RR64
+14 arr[0] := a      1.5 : RR64
+15 bound64(f)       3.0 : RR64
+DONE
+rc=0

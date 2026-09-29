@@ -1,0 +1,59 @@
+# walk1.sh XPowQQ base 2026-09-29T10:35:13Z; tree 76f4829b3 +  3 files changed, 31 insertions(+); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 31.54 32.88 27.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:38-44:
+Failed to find any matching overload, args = (1.5:RR32,{
+	asFloat(self:FortressBuiltin.Float):FortressBuiltin.Floatfn meth(self 0):Float->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:75:5-76:40)
+	asFloat(native AsFloat)fn meth(self 0):FloatLiteral->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:199:5-200:87)
+	asFloat(native AsFloat)fn meth(self 0):RR32->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:238:5-239:80)
+	asFloat(native AsFloat)fn meth(self 0):Int->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:374:5-375:78)
+	asFloat(native AsFloat)fn meth(self 0):Long->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:383:5-384:79)
+	asFloat(native AsFloat)fn meth(self 0):NN32->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:395:5-396:80)
+	asFloat(native AsFloat)fn meth(self 0):UnsignedLong->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:470:5-471:87)
+	asFloat(native AsFloat)fn meth(self 0):IntLiteral->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:482:5-483:86)
+	asFloat(native AsFloat)fn meth(self 0):BigNum->Float (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:546:5-547:81)
+	asFloat(self:(FortressLibrary.Number & {FortressLibrary.RR64, FortressLibrary.QQ, FortressLibrary.AnyIntegral})):FortressLibrary.RR64fn meth(self 0):Number->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:360:5-363:30)
+	asFloat(self:Ratio):FortressLibrary.RR64fn meth(self 0):Ratio->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:642:5-53)}:OverloadedFunction), overload = {
+	^(native Pow)fn meth(self 0):(Float,Float)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:154:5-155:76)
+	^(native Pow)fn meth(self 0):(Float,RR32)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:156:5-157:76)
+	^(native Pow)fn meth(self 0):(Float,AnyIntegral)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160:5-161:76)
+	^(self:FortressBuiltin.Float,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(Float,Number)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:158:5-159:50)
+	^(native Pow)fn meth(self 0):(RR32,Float)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:325:5-326:76)
+	^(native Pow)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:323:5-324:75)
+	^(self:FortressBuiltin.RR32,b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR32,Number)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:5-328:50)
+	^(native Pow)fn meth(self 0):(RR32,ZZ64)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:329:5-330:75)
+	^(native Pow)fn meth(self 0):(NN32,AnyIntegral)->RR64 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:452:5-453:75)
+	^(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(RR64,AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:460:5-55)
+	^(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.Number):FortressLibrary.RR64fn meth(self 0):(RR64,Number)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:458:5-459:50)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\RR64\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	^(native Pow)fn meth(self 0):(ZZ32,AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:756:5-757:74)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ32\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ32\],AnyIntegral)->ZZ32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	^(native Pow)fn meth(self 0):(ZZ64,AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:844:5-845:75)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ64\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ64\],AnyIntegral)->ZZ64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN32\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\NN32\],AnyIntegral)->NN32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	^(native Pow)fn meth(self 0):(NN64,AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:915:5-916:83)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\NN64\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\NN64\],AnyIntegral)->NN64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	^(native Pow)fn meth(self 0):(ZZ,AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:1009:5-1010:77)
+	^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64fn meth(self 0):(Integral[\ZZ\],AnyIntegral)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\ZZ\],AnyIntegral)->ZZ (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)
+	MultiplicativeRing[\T extends MultiplicativeRing[\T\]\](uninstantiated)[\T extends MultiplicativeRing[\T\]\].^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):T/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1
+	^(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.AnyIntegral):FortressLibrary.QQfn meth(self 0):(QQ,AnyIntegral)->QQ (/home/user/fortress-rr32/Library/FortressLibrary.fss:613:5-618:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].^(self:Integral[\I\],b:FortressLibrary.AnyIntegral):FortressLibrary.RR64/home/user/fortress-rr32/Library/FortressLibrary.fss:688:5-35
+	^(self:FortressLibrary.String,n:FortressLibrary.ZZ32):FortressLibrary.Stringfn meth(self 0):(String,ZZ32)->String (/home/user/fortress-rr32/Library/FortressLibrary.fss:4115:5-4121:8)
+	^(self:MultiplicativeRing[\T\],other:FortressLibrary.AnyIntegral):Tfn meth(self 0):(MultiplicativeRing[\QQ\],AnyIntegral)->QQ (/home/user/fortress-rr32/Library/FortressLibrary.fss:355:5-356:1)}:OverloadedFunction
+Context:
+/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:327:38-44:
+/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowQQ.fss:19:28-33:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:424)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+rc=1

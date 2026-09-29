@@ -1,0 +1,178 @@
+# base 382b9fe7f225607a8e4f39df7d8c4a441be6b832; files whose positions are mapped: Library/FortressLibrary.fsi Library/FortressLibrary.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi ProjectFortress/LibraryBuiltin/FortressBuiltin.fss ProjectFortress/library_tests/XXXRR32EqualityRungV.fss ProjectFortress/tests/FlatTowerRungF.fss ProjectFortress/tests/RR32MixedRungF.fss ProjectFortress/tests/RR32SiblingRungV.fss ProjectFortress/tests/RoundHalfEvenRungR.fss ProjectFortress/tests/XXXQQPowerExponent.fss ProjectFortress/tests/XXXRadixTenPointNumeral.fss ProjectFortress/tests/XXXRationalUnorderedRungP.fss ProjectFortress/tests/XXXRoundNearTieNumeral.fss ProjectFortress/tests/XXXStringAvFlatRungV.fss explorations/compile-ladder/rung-rr32-sibling/probes/avflat/AvFlat.fss explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp.fss explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp2.fss explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp3.fss explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32CompEq.fss explorations/compile-ladder/rung-rr32-sibling/probes/comp/XXXRR32EqualityRungV.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr-all/XAll.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XAbs.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XAddFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XAddLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XAddRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XAddZZ32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XBind.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XCmpFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XCmpLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XDivRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XEqFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XEqLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XEqRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XFloatEq.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XFloor.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XGeneric.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XGenericSame.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XLessFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XLessLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XLitAdd.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XLitLess.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMaxLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinMaxFloatHi.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinMaxFloatLo.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinMaxRR32Lo.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XMinRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XNarrow.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowFloat.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowFloatLit.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowQQ.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowZZ32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XPowZZ64.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XRound.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XSin.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XSqrtRR32.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XTypecaseRR64.fss explorations/compile-ladder/rung-rr32-sibling/probes/expr/XZero.fss explorations/compile-ladder/rung-rr32-sibling/probes/test/RR32SiblingRungV.fss
+UNSTABLE   ArrayListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   HeapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   QuickCheckTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+CHANGED    ReflectiveQuickCheckTest  rc 0 -> 124
+    after normalising: -Passed 100 test(s).
+    after normalising: -rc=0
+    after normalising: +rc=124
+    raw: -Passed 100 test(s).
+    raw: -rc=0
+    raw: +rc=124
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+CHANGED    XXXArrayLiteralArgRungC  rc 1 -> 1
+    after normalising: -	-(native Sub)fn meth(self 0):(RR32,RR64)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+    after normalising: +	-(native Sub)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:REWRITTEN274:5-275:75)
+    after normalising: -	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (/home/user/fortress-rr32/Librar
+    after normalising: +	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:
+    after normalising: +	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR32\],RR32)->RR32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:340:5-46)
+    raw: -	-(native Sub)fn meth(self 0):(RR32,RR64)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+    raw: -	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:416:5-417:75)
+    raw: -	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (/home/user/fortress-rr32/Librar
+    raw: +	-(native Sub)fn meth(self 0):(RR32,RR32)->RR32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:275:5-276:75)
+    raw: +	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (/home/user/fortress-rr32/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:414:5-415:75)
+    raw: +	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:
+    raw: -	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:720:5-721:74)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:723:5-724:74)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21)
+    raw: -	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:808:5-809:75)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:811:5-812:75)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21)
+    raw: -	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:879:5-880:83)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21)
+    raw: +	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR32\],RR32)->RR32 (/home/user/fortress-rr32/Library/FortressLibrary.fss:340:5-46)
+    raw: +	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:882:5-883:83)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21)
+    raw: -	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-rr32/Library/FortressLibrary.fss:963:5-964:77)
+    raw: -	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21)
+    raw: +	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (/home/user/fortress-rr32/Library/FortressLibrary.fss:966:5-967:77)
+    raw: +	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21)
+    raw: -	-(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-rr32/Library/FortressLibrary.fss:600:5-45)
+    raw: -	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-rr32/Library/FortressLibrary.fss:669:5-21
+    raw: -	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-rr32/Library/FortressLibrary.fss:23
+    raw: -	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-rr32/Library
+    raw: -	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4628:1-4631:88
+    raw: -	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4632:1-101
+    raw: +	-(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-rr32/Library/FortressLibrary.fss:603:5-45)
+    raw: +	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):I/home/user/fortress-rr32/Library/FortressLibrary.fss:672:5-21
+    raw: +	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]/home/user/fortress-rr32/Library/FortressLibrary.fss:23
+    raw: +	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]/home/user/fortress-rr32/Library
+    raw: +	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4631:1-4634:88
+    raw: +	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4635:1-101
+NORMALISED XXXEmptyGroupSumRungF  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:1245:16-47:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:1248:16-47:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:1245:16-47:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:1248:16-47:
+NORMALISED XXXFnRenderRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:4151:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:4154:42-50:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:4151:42-50:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:4167:45-47:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:4252:29-32:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:4154:42-50:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:4170:45-47:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:4255:29-32:
+NORMALISED XXXIntegerMaxNumRungM  rc 1
+    raw: -Ambiguous coercion, args = (3: ZZ64,1: ZZ32), applicable with coercion = {coerced MAXNUM(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-r
+    raw: +Ambiguous coercion, args = (3: ZZ64,1: ZZ32), applicable with coercion = {coerced MAXNUM(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (/home/user/fortress-r
+CHANGED    XXXQQPowerExponent  rc 1 -> 1
+    after normalising: -/home/user/fortress-rr32/ProjectFortress/tests/XXXQQPowerExponent.fss:8:13-23:
+    after normalising: +/home/user/fortress-rr32/ProjectFortress/tests/XXXQQPowerExponent.fss:REWRITTEN8:13-23:
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:617:40-62:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:620:40-62:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:617:40-62:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:620:40-62:
+CHANGED    XXXRR32MixedRungF  rc 1 -> 0
+    after normalising: -com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-rr32/ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+    after normalising: -getRR32 not implemented for FFloatLiteral
+    after normalising: -Context:
+    after normalising: -/home/user/fortress-rr32/ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+    after normalising: -toplevel:
+    after normalising: +PASS
+    after normalising: -Turn on "-debug interpreter" for Java-level stack trace.
+    after normalising: -java.lang.Throwable
+    after normalising: -	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:N)
+    after normalising: -	at com.sun.fortress.Shell.walk(Shell.java:N)
+    after normalising: -	at com.sun.fortress.Shell.walk(Shell.java:N)
+    after normalising: -	at com.sun.fortress.Shell.subMain(Shell.java:N)
+    raw: -com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-rr32/ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+    raw: -getRR32 not implemented for FFloatLiteral
+    raw: -Context:
+    raw: -/home/user/fortress-rr32/ProjectFortress/tests/XXXRR32MixedRungF.fss:8:17-26:
+    raw: -toplevel:
+    raw: +PASS
+    raw: -Turn on "-debug interpreter" for Java-level stack trace.
+    raw: -java.lang.Throwable
+    raw: -	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+    raw: -	at com.sun.fortress.Shell.walk(Shell.java:1166)
+    raw: -	at com.sun.fortress.Shell.walk(Shell.java:1116)
+    raw: -	at com.sun.fortress.Shell.subMain(Shell.java:424)
+    raw: -	at com.sun.fortress.Shell.main(Shell.java:362)
+    raw: -	at com.sun.fortress.Shell.main(Shell.java:349)
+    raw: -
+    raw: -rc=1
+    raw: +rc=0
+NORMALISED XXXRangeBoundsRungO  rc 1
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:3929:54-70:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:3932:54-70:
+NORMALISED XXXRangeEmptyHashRungO  rc 1
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:3929:54-70:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:3932:54-70:
+NORMALISED XXXRangeWideRungJ  rc 1
+    raw: -	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange /home/user/fortress-rr32/Library/FortressLibrary.fss:3984:1-45
+    raw: -	:(lo:FortressLibrary.ZZ32,hi:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange /home/user/fortress-rr32/Library/FortressLibrary.fss:3937:1-3938:28
+    raw: -	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D /home/user/fortress-rr32/Library/Fortre
+    raw: -	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->Comp
+    raw: -	:[\I\](r:Range[\I\],stride:I):Range[\I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4061:1-4064:3}:OverloadedFunction
+    raw: +	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange /home/user/fortress-rr32/Library/FortressLibrary.fss:3987:1-45
+    raw: +	:(lo:FortressLibrary.ZZ32,hi:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange /home/user/fortress-rr32/Library/FortressLibrary.fss:3940:1-3941:28
+    raw: +	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D /home/user/fortress-rr32/Library/Fortre
+    raw: +	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->Comp
+    raw: +	:[\I\](r:Range[\I\],stride:I):Range[\I\]/home/user/fortress-rr32/Library/FortressLibrary.fss:4064:1-4067:3}:OverloadedFunction
+CHANGED    XXXRationalUnorderedRungP  rc 1 -> 1
+    after normalising: -FAIL: row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex:365-369
+    after normalising: +FAIL: row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex:372-376
+    after normalising: -/home/user/fortress-rr32/ProjectFortress/tests/XXXRationalUnorderedRungP.fss:9:5-131:
+    after normalising: +/home/user/fortress-rr32/ProjectFortress/tests/XXXRationalUnorderedRungP.fss:REWRITTEN9:5-131:
+    raw: -FAIL: row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex:365-369
+    raw: +FAIL: row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex:372-376
+CHANGED    XXXRoundNearTieNumeral  rc 1 -> 1
+    after normalising: -FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:455-457
+    after normalising: +FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:462-464
+    after normalising: -/home/user/fortress-rr32/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:7:5-125:
+    after normalising: +/home/user/fortress-rr32/ProjectFortress/tests/XXXRoundNearTieNumeral.fss:REWRITTEN7:5-125:
+    raw: -FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:455-457
+    raw: +FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:462-464
+NORMALISED XXXTupleSevenRungS  rc 1
+    raw: -com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:4151:42-50:
+    raw: +com.sun.fortress.exceptions.ProgramError: /home/user/fortress-rr32/Library/FortressLibrary.fss:4154:42-50:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:4151:42-50:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:4167:45-47:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:4154:42-50:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:4170:45-47:
+NORMALISED XXXUnwrittenSumRungF  rc 1
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:3144:13-3145:8:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:3193:18-39:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:3147:13-3148:8:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:3196:18-39:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:1188:5-23:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:1188:5-23:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:1191:5-23:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:1191:5-23:
+    raw: -/home/user/fortress-rr32/Library/FortressLibrary.fss:1245:25-47:
+    raw: +/home/user/fortress-rr32/Library/FortressLibrary.fss:1248:25-47:
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   buffons  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  edit=A False  edit=B False  (normalised)
+UNSTABLE   taskTrace2  rc A 0 B 0 edit 0  edit=A True  edit=B True  (normalised)
+NORMALISED taskTrace3  rc 0
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@5b763813
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@460dbf8
+    raw: -Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@6fbe9083
+    raw: +Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@503d1969
+tests 440  same 407  normalised 9  changed 6  unstable 18  missing 0

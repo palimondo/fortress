@@ -356,7 +356,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
-        comprises { RR64, QQ, AnyIntegral }
+        comprises { RR64, RR32, QQ, AnyIntegral }
     asFloat(self): RR64
     (** Two exact numbers of different types compare as rationals; a float
         compares with any number after %asFloat%, so an exact value equals
@@ -364,8 +364,10 @@ trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
     opr =(self, other:Number):Boolean =
         typecase self of
             RR64 => (asFloat(self) = asFloat(other))
+            RR32 => (asFloat(self) = asFloat(other))
             else => typecase other of
                         RR64 => (asFloat(self) = asFloat(other))
+                        RR32 => (asFloat(self) = asFloat(other))
                         else => (exactValue(self) = exactValue(other))
                     end
         end
@@ -384,9 +386,10 @@ exactValue(x: Number): QQ =
 
 trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
-        excludes { QQ, AnyIntegral }
-        comprises { Float, FloatLiteral, RR32 }
+        excludes { QQ, AnyIntegral, RR32 }
+        comprises { Float, FloatLiteral }
     coerce(x: ZZ32) = asFloat(x)
+    coerce(x: RR32) = asFloat(x)
     getter zero(): RR64 = 0.0
     getter one(): RR64 = 1.0
     (** returns true if the value is an IEEE NaN **)

@@ -279,7 +279,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
-        comprises { RR64, QQ, AnyIntegral }
+        comprises { RR64, RR32, QQ, AnyIntegral }
     (** The value as a float, the explicit conversion into %RR64%. **)
     asFloat(self): RR64
     (** Two exact numbers of different types compare as rationals; a float
@@ -290,9 +290,10 @@ end
 
 trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
-        excludes { QQ, AnyIntegral }
-        comprises { Float, FloatLiteral, RR32 }
+        excludes { QQ, AnyIntegral, RR32 }
+        comprises { Float, FloatLiteral }
     coerce(x: ZZ32)
+    coerce(x: RR32)
     getter zero(): RR64
     getter one(): RR64
     (** returns true if the value is an IEEE NaN **)

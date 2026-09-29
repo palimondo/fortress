@@ -1,0 +1,39 @@
+PowZZ32	a^2
+PowZZ64	a^z
+PowFloatLit	a^2.5
+PowQQ	a^(1/2)
+PowRR32	a^b
+PowFloat	a^f
+MinRR32	a MIN b
+MinFloat	a MIN f
+MinLit	a MIN 2.5
+MinMaxFloatLo	do (l, h) = a MINMAX f; l end
+MinMaxFloatHi	do (l, h) = a MINMAX f; h end
+MinMaxRR32Lo	do (l, h) = a MINMAX b; l end
+MaxLit	a MAX 2.5
+EqLit	a = 1.5
+EqFloat	a = f
+EqRR32	a = b
+LessLit	a < 2.5
+LessFloat	a < f
+CmpLit	a CMP 2.5
+CmpFloat	a CMP f
+LitLess	2.5 < a
+FloatEq	f = a
+AddLit	a + 2.5
+LitAdd	2.5 + a
+AddZZ32	a + 2
+AddFloat	a + f
+AddRR32	a + b
+DivRR32	a / b
+SqrtRR32	SQRT a
+Sin	sin(a)
+Narrow	narrow(a)
+Abs	|a|
+Floor	floor(a)
+Round	round(a)
+Zero	a.zero
+Bind	do x: RR64 = a; x end
+Generic	gen(a, f)
+GenericSame	gen(a, b)
+TypecaseRR64	(typecase a of RR64 => "an RR64"; else => "not an RR64" end)

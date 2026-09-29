@@ -1,0 +1,7 @@
+# the printed values of each microGPT check: rung M's landed edit (compile-ladder/rung-integer-minmax/probes/mg/mg-edit-*.txt, tree 4eeb9603a) against this rung's edit, with the machine lines (1-7), the timings ('(N ms)', 'total N s', 'secs=') and any Rats temp path removed; an empty diff means identical printed values
+## MicroGptFlatCheck
+(diff rc=0)
+explorations/compile-ladder/rung-rr32-sibling/probes/mg/mg-edit-MicroGptFlatCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+## MicroGptAplCheck
+(diff rc=0)
+explorations/compile-ladder/rung-rr32-sibling/probes/mg/mg-edit-MicroGptAplCheck.txt:VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS

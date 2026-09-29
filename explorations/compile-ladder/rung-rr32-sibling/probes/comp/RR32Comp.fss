@@ -1,0 +1,34 @@
+component RR32Comp
+export Executable
+
+kind(v: Any): String = typecase v of
+    RR32 => "RR32"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+gen[\T extends Number\](x: T, y: T): T = x
+
+run(): () = do
+    a: RR32 = 1.5
+    b: RR32 = 2.5
+    f: RR64 = 3.0
+    println("a is " kind(a))
+    println("a + b is " kind(a + b))
+    println(a + b)
+    println("a + 2.5 is " kind(a + 2.5))
+    println(a + 2.5)
+    println("a + f is " kind(a + f))
+    println(a + f)
+    println("a / b is " kind(a / b))
+    println("a MIN b is " kind(a MIN b))
+    println("a MIN f is " kind(a MIN f))
+    println(a MIN f)
+    x: RR64 = a
+    println("x is " kind(x))
+    println(x)
+    println("a = b " (a = b))
+    println("a < f " (a < f))
+    println("gen(a, f) is " kind(gen(a, f)))
+  end
+end

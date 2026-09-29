@@ -1,0 +1,72 @@
+component SkOps
+export Executable
+
+sh(v: Any): String =
+  typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    ZZ => v.asString || " : ZZ"
+    Boolean => v.asString || " : Boolean"
+    Comparison => v.asString || " : Comparison"
+    else => v.asString || " : other"
+  end
+
+run() = do
+  a: RR32 = narrow(1.5)
+  b: RR32 = narrow(2.5)
+  f: RR64 = asFloat(3.0)
+  n: RR32 = narrow(0.0/0.0)
+  println("01 a =/= b      " sh(a =/= b))
+  println("02 a TIMES b    " sh(a TIMES b))
+  println("03 a DOT b      " sh(a DOT b))
+  println("04 a - b        " sh(a - b))
+  println("05 |(-a)|       " sh(|(-a)|))
+  println("06 a >= b       " sh(a >= b))
+  println("07 a <= b       " sh(a <= b))
+  println("08 a MAXNUM b   " sh(a MAXNUM b))
+  println("09 n MINNUM a   " sh(n MINNUM a))
+  println("10 n = n        " sh(n = n))
+  println("11 n CMP a      " sh(n CMP a))
+  println("12 n MIN a      " sh(n MIN a))
+  println("13 a SLASH_UP b " sh(a SLASH_UP b))
+  println("14 a^(-1)       " sh(a^(-1)))
+  println("15 a^a          " sh(a^a))
+  println("16 truncate(a)  " sh(truncate(a)))
+  println("17 ceiling(a)   " sh(ceiling(a)))
+  println("18 a.one        " sh(a.one))
+  println("19 a.isNaN      " sh(a.isNaN))
+  println("20 n.isNaN      " sh(n.isNaN))
+  println("21 a.rawBits    " sh(a.rawBits))
+  println("22 a.nextUp     " sh(a.nextUp))
+  println("23 f^a          " sh(f^a))
+  println("24 a DOT f      " sh(a DOT f))
+  println("25 f a          " sh(f a))
+  println("26 a - 1        " sh(a - 1))
+  println("27 1 - a        " sh(1 - a))
+  println("28 a >= f       " sh(a >= f))
+  println("29 f <= a       " sh(f <= a))
+  println("30 a > 2        " sh(a > 2))
+  println("31 2 < a        " sh(2 < a))
+  println("32 a MINNUM f   " sh(a MINNUM f))
+  println("33 a PLUS_UP f  " sh(a PLUS_UP f))
+  println("34 atan2(a, f)  " sh(atan2(a, f)))
+  (mlo, mhi) = a MINMAX 2
+  println("35 a MINMAX 2    " sh(mlo) ", " sh(mhi))
+  println("36 a = (3/2)    " sh(a = (3/2)))
+  println("37 (3/2) = a    " sh((3/2) = a))
+  println("38 a = 1        " sh(a = 1))
+  println("39 widen(1) = a " sh(widen(1) = a))
+  println("40 a CMP 2      " sh(a CMP 2))
+  println("41 a MAX 2      " sh(a MAX 2))
+  println("42 log(a)       " sh(log(a)))
+  println("43 a.asString   " a.asString)
+  println("44 a =/= f      " sh(a =/= f))
+  println("45 a =/= 1.5    " sh(a =/= 1.5))
+  println("46 n < a        " sh(n < a))
+  println("47 n < f        " sh(n < f))
+  println("DONE")
+end
+
+end

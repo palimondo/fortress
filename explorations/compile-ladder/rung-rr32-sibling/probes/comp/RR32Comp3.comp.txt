@@ -1,0 +1,10 @@
+# comp.sh RR32Comp3 2026-09-29T10:05:32Z; tree 382b9fe7f; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.19 14.16 7.20; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+## fortress compile RR32Comp3.fss (private cache, compiler's world)
+compile rc=0
+## run
+r64(a) is  RR64
+a MAX f is  RR64
+3.0
+gen(a, f) is  RR64
+gen(a, b) is  RR32
+run rc=0

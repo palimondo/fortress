@@ -1,0 +1,49 @@
+component SkCtx
+import List.{...}
+export Executable
+
+sh(v: Any): String =
+  typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    ZZ32 => v.asString || " : ZZ32"
+    else => v.asString || " : other"
+  end
+
+object Box(v: RR64) end
+
+retR64(x: RR32): RR64 = x
+bound64[\T extends RR64\](x: T): String = sh(x)
+num(x: Number): String = sh(x)
+idT[\T\](x: T): T = x
+
+run() = do
+  a: RR32 = narrow(1.5)
+  b: RR32 = narrow(2.5)
+  f: RR64 = asFloat(3.0)
+  println("01 retR64(a)        " sh(retR64(a)))
+  println("02 num(a)           " num(a))
+  xn: Number = a
+  println("03 xn: Number = a   " sh(xn))
+  m: RR64 := f
+  m := a
+  println("04 m: RR64 := a     " sh(m))
+  bx = Box(a)
+  println("05 Box(a).v         " sh(bx.v))
+  println("06 idT(a)           " sh(idT(a)))
+  println("07 narrow(a)        " sh(narrow(a)))
+  println("08 SUM <a,b>        " sh(SUM[\RR32\] <|a, b|>))
+  println("09 PROD <a,b>       " sh(PROD[\RR32\] <|a, b|>))
+  println("10 BIG MAX <a,b>    " sh(BIG MAX[\RR32\] <|a, b|>))
+  println("11 if a<b then a else f " sh(if a < b then a else f end))
+  l = <|a, f|>
+  println("12 <|a, f|>[0]      " sh(l[0]))
+  println("13 <|a, f|>[1]      " sh(l[1]))
+  arr: RR64[2] = [f f]
+  arr[0] := a
+  println("14 arr[0] := a      " sh(arr[0]))
+  println("15 bound64(f)       " bound64(f))
+  println("DONE")
+end
+
+end

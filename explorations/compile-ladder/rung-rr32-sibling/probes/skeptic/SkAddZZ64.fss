@@ -1,0 +1,19 @@
+component SkAddZZ64
+export Executable
+
+sh(v: Any): String =
+  typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : other"
+  end
+
+
+run() = do
+  a: RR32 = narrow(1.5)
+  println("REACHED")
+  println("a + widen(3) " sh(a + widen(3)))
+  println("DONE")
+end
+
+end

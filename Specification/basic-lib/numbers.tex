@@ -28,7 +28,7 @@ The number types of this chapter are
 the integer types \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32},
 \EXP{\mathbb{N}64}, and \EXP{\mathbb{N}32} (\secref{basic-integers}),
 the rational type \EXP{\mathbb{Q}},
-and the floating-point type \EXP{\mathbb{R}64} (\STR{RR64}).
+and the floating-point types \EXP{\mathbb{R}64} (\STR{RR64}) and \EXP{\mathbb{R}32} (\STR{RR32}).
 They are siblings under the trait \TYP{Number}:
 each is a subtype of \TYP{Number}, and none is a subtype of another.
 Some conversions between them are coercions (\chapref{conversions-coercions}),
@@ -40,13 +40,20 @@ the others are these:
 \begin{tabbing}
 \EXP{\mathbb{Q}} (\STR{QQ}) coerces from \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}64}, and \EXP{\mathbb{N}32}.
 \\
-\EXP{\mathbb{R}64} (\STR{RR64}) coerces from \EXP{\mathbb{Z}32}, and from integer numerals (\secref{literals}).
+\EXP{\mathbb{R}64} (\STR{RR64}) coerces from \EXP{\mathbb{R}32}, from \EXP{\mathbb{Z}32}, and from integer numerals (\secref{literals}).
 \end{tabbing}
 
 Every other conversion between number types is written explicitly;
 in particular, a conversion into \EXP{\mathbb{R}64} from
 \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32}, or \EXP{\mathbb{Q}}
 is explicit, written \EXP{\VAR{asFloat}(x)} with the method that \library\ declare on \TYP{Number}.
+\revision{revival-rr32}{Before this revision the passage named \EXP{\mathbb{R}64}
+as the one floating-point type, and \library\ declared \EXP{\mathbb{R}32} a
+subtype of it, so that a value of \EXP{\mathbb{R}32} was also a value of
+\EXP{\mathbb{R}64}, which \secref{types-libraries} excludes.
+It now names \EXP{\mathbb{R}32} beside \EXP{\mathbb{R}64}, a sibling under
+\TYP{Number} as \library\ now declare it, with the coercion into
+\EXP{\mathbb{R}64} that the example of \secref{widening} relies on.}
 
 It is often desirable to know that a value lies in a subset of its type,
 such as the positive values, the nonzero values, or the finite values.

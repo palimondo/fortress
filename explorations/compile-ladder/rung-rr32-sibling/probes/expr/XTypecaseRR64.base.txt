@@ -1,0 +1,3 @@
+# walk1.sh XTypecaseRR64 base 2026-09-29T12:17:54Z; tree b402db0ac + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 14.70 13.12 16.66; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+TypecaseRR64: an RR64 : other
+rc=0

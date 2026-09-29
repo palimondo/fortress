@@ -1,4 +1,4 @@
-component XXXRR32MixedRungF
+component RR32MixedRungF
 export Executable
 
 (*) explorations/compile-ladder/rung-flat-tower/REPORT.md

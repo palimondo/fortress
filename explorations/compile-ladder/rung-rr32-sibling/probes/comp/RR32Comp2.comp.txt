@@ -1,0 +1,28 @@
+# comp.sh RR32Comp2 2026-09-29T10:04:21Z; tree 382b9fe7f; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.95 12.16 6.06; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+## fortress compile RR32Comp2.fss (private cache, compiler's world)
+compile rc=0
+## run
+a < f  true
+a < 2.5  true
+java.lang.AbstractMethodError
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)
+	at java.base/java.util.concurrent.ForkJoinTask.getException(ForkJoinTask.java:564)
+	at java.base/java.util.concurrent.ForkJoinTask.reportException(ForkJoinTask.java:580)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:670)
+	at java.base/java.util.concurrent.ForkJoinPool.invoke(ForkJoinPool.java:3149)
+	at RR32Comp2.main(/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp2.fss)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at com.sun.fortress.runtimeSystem.MainWrapper.main(MainWrapper.java:68)
+Caused by: java.lang.AbstractMethodError: Receiver class com.sun.fortress.compiler.runtimeValues.FRR32 does not define or inherit an implementation of the resolved method 'abstract com.sun.fortress.compiler.runtimeValues.FBoolean =?0(com.sun.fortress.compiler.runtimeValues.FRR32)' of interface fortress.CompilerAlgebra$\=Equality?com\|sun\|fortress\|compiler\|runtimeValues\|FRR32?.
+	at fortress.CompilerAlgebra?$\==?com\|sun\|fortress\|compiler\|runtimeValues\|FRR32??$\=?Arrow?Tuple?fortress\|CompilerAlgebra\%Equality?T?,T?,com\|sun\|fortress\|compiler\|runtimeValues\|FBoolean?.the_function(Unknown Source)
+	at RR32Comp2.run(/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp2.fss:20)
+	at RR32Comp2.compute(/home/user/fortress-rr32/explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp2.fss)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:194)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:511)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1450)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2019)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187)
+run rc=1

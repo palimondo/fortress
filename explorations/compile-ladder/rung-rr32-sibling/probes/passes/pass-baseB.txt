@@ -1,0 +1,3 @@
+start 2026-09-29T12:14:58Z load: 9.07 11.82 17.08 shadow: none
+done 2026-09-29T12:40:13Z: 440 logs
+EXIT=0

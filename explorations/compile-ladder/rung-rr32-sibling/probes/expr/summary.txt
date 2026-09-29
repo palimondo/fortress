@@ -1,0 +1,41 @@
+# expr-list.txt's expressions (a, b : RR32 = narrow(1.5), narrow(2.5); f : RR64 = asFloat(3.0); z : ZZ64 = 3): each on the base, one program per expression (probes/expr/X<Name>.base.txt), and on the edit, all in one program (probes/expr-all/XAll.edit.txt); a value is printed with its run-time class, an error by its first line
+name	expression	base	edit
+PowZZ32	a^2	2.25 : RR64	2.25 : RR32
+PowZZ64	a^z	getRR32 not implemented for FLong	3.375 : RR32
+PowFloatLit	a^2.5	Failed to find any matching overload, args = (1.5:RR32,{	2.7556759606310752 : RR64
+PowQQ	a^(1/2)	Failed to find any matching overload, args = (1.5:RR32,{	1.224744871391589 : RR64
+PowRR32	a^b	2.755676 : RR32	2.755676 : RR32
+PowFloat	a^f	3.375 : RR64	3.375 : RR64
+MinRR32	a MIN b	1.5 : RR32	1.5 : RR32
+MinFloat	a MIN f	getRR32 not implemented for FFloat	1.5 : RR64
+MinLit	a MIN 2.5	getRR32 not implemented for FFloatLiteral	1.5 : RR64
+MinMaxFloatLo	do (l, h) = a MINMAX f; l end	getRR32 not implemented for FFloat	1.5 : RR64
+MinMaxFloatHi	do (l, h) = a MINMAX f; h end	getRR32 not implemented for FFloat	3.0 : RR64
+MinMaxRR32Lo	do (l, h) = a MINMAX b; l end	1.5 : RR32	1.5 : RR32
+MaxLit	a MAX 2.5	getRR32 not implemented for FFloatLiteral	2.5 : RR64
+EqLit	a = 1.5	getRR32 not implemented for FFloatLiteral	true : other
+EqFloat	a = f	getRR32 not implemented for FFloat	false : other
+EqRR32	a = b	false : other	false : other
+LessLit	a < 2.5	getRR32 not implemented for FFloatLiteral	true : other
+LessFloat	a < f	getRR32 not implemented for FFloat	true : other
+CmpLit	a CMP 2.5	getRR32 not implemented for FFloatLiteral	LessThan : other
+CmpFloat	a CMP f	getRR32 not implemented for FFloat	LessThan : other
+LitLess	2.5 < a	false : other	false : other
+FloatEq	f = a	false : other	false : other
+AddLit	a + 2.5	getRR32 not implemented for FFloatLiteral	4.0 : RR64
+LitAdd	2.5 + a	4.0 : RR64	4.0 : RR64
+AddZZ32	a + 2	getRR32 not implemented for FFloat	3.5 : RR64
+AddFloat	a + f	getRR32 not implemented for FFloat	4.5 : RR64
+AddRR32	a + b	4.0 : RR32	4.0 : RR32
+DivRR32	a / b	0.6 : RR32	0.6 : RR32
+SqrtRR32	SQRT a	1.2247449 : RR32	1.2247449 : RR32
+Sin	sin(a)	0.9974949866040544 : RR64	0.9974949866040544 : RR64
+Narrow	narrow(a)	1.5 : RR32	1.5 : RR32
+Abs	|a|	1.5 : RR32	1.5 : RR32
+Floor	floor(a)	1.0 : RR32	1.0 : RR32
+Round	round(a)	2 : ZZ64	2 : ZZ64
+Zero	a.zero	0.0 : RR32	0.0 : RR32
+Bind	do x: RR64 = a; x end	1.5 : RR32	1.5 : RR64
+Generic	gen(a, f)	1.5 : RR32	1.5 : RR64
+GenericSame	gen(a, b)	1.5 : RR32	1.5 : RR32
+TypecaseRR64	(typecase a of RR64 => "an RR64"; else => "not an RR64" end)	an RR64 : other	not an RR64 : other

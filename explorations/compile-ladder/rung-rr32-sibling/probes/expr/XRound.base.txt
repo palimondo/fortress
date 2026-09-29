@@ -1,0 +1,3 @@
+# walk1.sh XRound base 2026-09-29T12:15:05Z; tree b402db0ac + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.55 11.88 17.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
+Round: 2 : ZZ64
+rc=0
