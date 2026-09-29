@@ -43,9 +43,19 @@ An \emph{explicit range}
 is self-contained and completely describes a set of integers.  Its
 components are values of type \EXP{\mathbb{Z}32}: assume that
 $a$, $b$, and $c$ are expressions that produce such values.
-An integer numeral converts to \EXP{\mathbb{Z}32} (\secref{literals}), and
-it is a static error if a component of an explicit range has an integer type
-other than \EXP{\mathbb{Z}32}.
+An integer numeral converts to \EXP{\mathbb{Z}32} (\secref{literals}), and a
+\KWD{nat} or \KWD{int} parameter (\secref{natparams}) used as a component
+converts to \EXP{\mathbb{Z}32} as an integer numeral does; it is a static error
+if any other component of an explicit range has an integer type other than
+\EXP{\mathbb{Z}32}.
+\revision{revival-inference}{The revival's first revision of this section
+(\secref{revival-ranges}) left open whether a \KWD{nat} parameter, which may
+appear wherever a variable of type \EXP{\mathbb{N}32} can (\secref{natparams}),
+may be a component of a range.
+The sentence above settles it, as both implementations of the revival already
+run it: the compiled type checker gives a \KWD{nat} or \KWD{int} parameter used
+as a value the type of a numeral, and the interpreter makes it a
+\EXP{\mathbb{Z}32}.}
 
 \begin{itemize}
 \item The range \EXP{a\COLONOP{}b} is the set of $n=\max(0,b-a+1)$ integers $\{a, a+1, a+2, \ldots, b-2, b-1, b\}$.

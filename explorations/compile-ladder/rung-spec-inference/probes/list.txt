@@ -1,0 +1,271 @@
+The list of rung T (climb batch N, rung-spec-inference), written before any edit, at bce66f1fa.
+
+Every passage of Specification/ outside library/apis/ that cites the type-inference chapter
+(\chapref{type-inference}, Specification/basic/inference.tex) or presumes its rule, with what the
+decisions make of it, whether it is revised now or left, and the source that settles that. In
+inference.tex and in every file below except basic-integers.tex, ranges.tex, changes.tex,
+trait-parameters.tex and conversions-coercions.tex (each revised by the revival since the import)
+the base's lines equal the frozen copy's; inference.tex equals
+Specification-1.0-frozen/basic/inference.tex byte for byte (diff, no output).
+
+"The decisions": POSITIONS.md 2026-09-27, the numerics plans, decision 3 (the chapter in the S1
+form, landing only with the checker rung); 2026-09-28, the two decisions of the conversion
+judgement, decision 1 (choice on declared domains, then instantiation by answer 8's promotion,
+static insertion, dispatch, the numeral tie once); 2026-09-26, answer 8; 2026-09-28, a size used
+as a value (item 25). "I": the batch record's section for rung I,
+explorations/coordinator/CLIMB-BATCH-N.md section 3. "The judgement":
+explorations/reviews/conversion-overloading-judgement.md, sections 1, 4 and 5. "S": batch 7b's
+rung S, which rewrites the overloading chapters and writes the coercion chapter's cross-reference
+after this batch (POSITIONS 2026-09-26, answer 9; the judgement, section 5).
+
+How the list was made: grep over Specification/**/*.tex outside library/apis/ for
+"type-inference" (17 hits), for "infer" in any case (51 hits), for "static argument(s)"
+with is/are/may/can/must, "writes its static", "narrowest", "promot", "BottomType" and "implicit";
+each hit read with ten lines either side; evidence B section 1.2's passages
+(explorations/reviews/numerics-plan-coordinator/evidence-B.md:47-60) checked one by one against
+the hits; the passages the brief names (the coercion chapter's applicability, resolution and
+type-parameter sentences, the implicit bound, the naked-Any rule, the ranges section, the literals
+section, the nat parameters' section) read whole.
+
+REVISED NOW
+
+R1. Specification/basic/inference.tex:12-27 (frozen :12-27), the whole chapter: its heading, its
+    label, the note "This chapter will include the Fortress static type inference mechanism."
+    (:15) and a note of three open items (:17-26), the last "Do we want to forbid such cases where
+    type inference infers BottomTypes for static parameters?" (:24-25). The decisions: the
+    promotion rule is written into this chapter (answer 8); the chapter states the instantiation
+    step as the second step after the coercion chapter's resolution, with the static insertion,
+    the dispatch of the converted call, the numeral default once and a callout that walk applies
+    the same rule from run-time types (the conversion judgement's decision 1; the judgement,
+    section 5, rung T); the expected type kept at a call written f(x), with the retry without it
+    (the numerics plans, decision 3; row 455). Revised now: the first note is replaced by the
+    chapter's text, stated as far as I builds it; the second note, the team's, is kept whole, its
+    BottomType question open (row 447); a \revision callout names Any as the bound the chapter
+    assumes, S as the rung that revises trait-parameters.tex:49-50 with the naked-Any rule, the
+    overloading chapter's three sentences as S's, and what walk does. Source: the decisions; I.
+
+R2. Specification/basic/expressions/ranges.tex:45-48 (the revival's text, climb batch 7R's rung U,
+    65f1e40ca; frozen :42-44 is the Working Draft's): "An integer numeral converts to ZZ32
+    (\secref{literals}), and it is a static error if a component of an explicit range has an
+    integer type other than ZZ32." The decision on a size used as a value (item 25): a nat or int
+    parameter used as a value converts to ZZ32 as a numeral does, which both paths run today (the
+    checker types either as a numeral, ProjectFortress/src/com/sun/fortress/scala_src/
+    typechecker/staticenv/KindEnv.scala:67-68, and converts it at the range operators over ZZ32;
+    walk makes it a ZZ32; to be measured on this base by probes/examples/SizeAsComponent.fss
+    before the edit). Revised now: one sentence names the parameter beside the numeral, and the
+    callout after the bullets gains one sentence. Source: item 25; the probe.
+
+R3. Specification/basic-lib/basic-integers.tex:80-94, the callout revival-numbers (the revival's
+    text: climb batch 6's rung T, d9c415395; its range half dropped by 7R's rung U), its last
+    rule: "A generic call over two different integer types is to infer the narrowest type that
+    both coerce into, by a rule to be written into \chapref{type-inference} together with its
+    implementation; until then such a call writes its static argument, as in f[\ZZ64\](a, b)."
+    (:90-94). The decisions: the rule is written (answer 8; the numerics plans, decision 3).
+    Revised now: the last rule says that such a call infers the narrowest type both convert
+    into, by the rule of \chapref{type-inference}; the rest of the callout is kept word for word.
+    Source: answer 8; I.
+
+R4. Specification/appendices/changes.tex:1552-1555, "Passages not yet revised", the paragraph that
+    repeats R3: "The rule by which a generic call over two different integer types infers the
+    narrowest type that both coerce into is to be written into \chapref{type-inference} together
+    with its implementation (\secref{revival-numbers})." Revised now: the sentence goes, since
+    the passage is revised; the sentence after it (the negative power) is kept. Source: as R3.
+
+R5. Specification/appendices/changes.tex:1556-1560, "Passages not yet revised", the paragraph on
+    a nat parameter in a range: "Whether a nat parameter, which may appear wherever a variable
+    of type NN32 can (\secref{natparams}), may be a component of a range is not settled
+    (\secref{revival-ranges}); the static ranges of \secref{ranges} and the examples whose
+    ranges a nat parameter bounds are not revised." Item 25 settles it. Revised now: the sentence
+    goes from this section, which lists only what is unrevised; the new Appendix I entry says
+    the question is settled and where. Source: item 25; row 485.
+
+R6. Specification/appendices/changes.tex:1107-1108, the Effect of "The integer type of a range"
+    (rung U's): "Whether a nat parameter may be a component of a range is not settled
+    (\secref{revival-notrevised})." Revised now: it says that a nat or int parameter converts
+    to ZZ32 as an integer numeral does, and points to the new entry. Source: item 25.
+
+R7. Specification/appendices/changes.tex, a new subsection before "Passages not yet revised"
+    (:1547), after "The algebra of the rational trait" (:1502-1545, batch 6.5's rung P,
+    581356f32): the Appendix I entry for R1 to R6, quoting the chapter from
+    Specification-1.0-frozen/basic/inference.tex:12-27 and the revival's own sentences
+    (ranges.tex:45-48, basic-integers.tex:90-94, changes.tex:1552-1560 and :1107-1108) from
+    git show bce66f1fa:<path>. Source: the S1 form (POSITIONS 2026-09-26, S1; the first of the
+    batch-5 answers).
+
+LEFT, WITH THE REASON AND THE SOURCE THAT LEAVES IT
+
+L1. Specification/basic/overloading.tex:170-175 ("If the parameter type Ps includes static
+    parameters, they are inferred as described in \chapref{type-inference} before checking the
+    applicability of the declaration to the call"), :202-207 (the same for dotted methods),
+    :291-296 ("... before comparing their parameter types to determine which declaration is more
+    specific") and :136-138 ("We assume throughout this chapter that all static variables in
+    functional calls have been instantiated or inferred"). Under the conversion rule a generic
+    declaration is applicable when some instance within its bounds is, declarations are compared
+    on their declared, quantified domains, and inference instantiates the chosen declaration; it
+    does not precede the comparison (answer 9; explorations/reviews/overloading-judgement.md
+    section 3.4; the judgement, section 1). These sentences say the reverse order. Left: S
+    rewrites them (the judgement, section 5, "Batch 7b. Rung S: ... beside its rewrite of
+    basic/overloading.tex:170-175 and :292-295"; the brief's "Not: ... overloading.tex").
+    The chapter's callout names them and says which order the chapter states.
+
+L2. Specification/basic/trait-parameters.tex:49-50: "If a type parameter does not have an extends
+    clause, it has an implicit extends Object clause." Batch 7's question 1 (a) made the bound
+    Any for the library, walk and the gate (POSITIONS 2026-09-27, the numerics plans).
+    Left: S revises the sentence together with the naked-Any rule (L3), since under Any that rule
+    reads as forbidding any overload of array1(v: T) (explorations/reviews/overloading-judgement.md
+    section 10, item 4; explorations/reviews/batch-6b-7-conformance.md finding 6). The chapter's
+    callout names Any as the bound its rule assumes and S as the rung that revises the sentence.
+
+L3. Specification/advanced/overloading.tex:114-127, the naked-Any rule ("a functional which takes
+    a single parameter of type a naked type parameter of bound Any cannot be overloaded").
+    Left: S (as L2).
+
+L4. Specification/basic/conversions-coercions.tex:470-480, :533-553 (resolution: a declaration
+    applicable without coercion first; otherwise the most specific coercion) and :598-601
+    ("coercion is resolved statically ... the statically chosen coercion is applied at run
+    time"). The chapter's first step is this resolution, cited and not restated, and its
+    instantiation step inserts the instance's coercions statically in the sense of :598-601.
+    Left: the resolution stays the coercion chapter's, and its cross-reference sentence to the
+    new chapter at :472-476, :539-541 and :598-605 is S's (the judgement, section 5; the brief,
+    "Not: ... conversions-coercions.tex (rung Q; the cross-reference, rung S)").
+
+L5. Specification/basic/conversions-coercions.tex:95-98 ("coercion occurs only when the declared
+    type of the corresponding parameter in the functional declaration is exactly the type U being
+    coerced to"), :102-127 (the contexts, among them "arguments to functionals and constructors
+    where the corresponding parameters have declared types"), :270-282 (the rewriting does not
+    occur if a declaration is applicable before it), :417-432 and :455-457 (applicability with
+    coercion by substitutability). For a declaration with static parameters the chapter reads
+    "declared type" as the parameter type of the instance the inference gives, and admits the
+    arguments against it by substitutability. Left: consistent with the chapter; S's
+    cross-reference is where the coercion chapter would name it.
+
+L6. Specification/basic/conversions-coercions.tex:348-387, :363-365 ("types named by type
+    parameters do not have coercions"). The chapter converts an argument into the instance's
+    parameter type, a type the static argument names once the parameter is instantiated, not
+    into a type parameter; inside the generic declaration the sentence holds as written. Left:
+    consistent.
+
+L7. Specification/basic/conversions-coercions.tex:15 and :793-862, widening: the one place the
+    expected type re-chooses a declaration, "not yet supported". The chapter's expected type
+    fixes static arguments of the declaration already chosen and chooses no declaration. Left:
+    not supported by either path; the chapter says it chooses nothing.
+
+L8. Specification/basic/conversions-coercions.tex:209-238, coercions with static parameters and
+    where clauses ("widens or coerces"), "not yet supported" (:15). Left, as L7.
+
+L9. Specification/basic/expressions/var-ref.tex:35-40 ("the static arguments are statically
+    inferred from the context of the function call (as described in \chapref{type-inference})")
+    and Specification/basic/expressions/method-invocation.tex:49-52 (the same for a method
+    invocation). The chapter now describes it, from the arguments and the expected type, for a
+    function call and a method invocation (I: all three call kinds reach checkApplication, row
+    401). Left: consistent; the typo "include them.;" at var-ref.tex:38 is the Working Draft's.
+
+L10. Specification/basic/expressions/type-annotation.tex:27-29 ("Type ascription can be used to
+    provide type information when type inference (see \chapref{type-inference}) cannot infer a
+    type"). A type ascription is not a coercion context (conversions-coercions.tex:107-109); the
+    chapter does not list it among the contexts that give a call an expected type. Left: true as
+    written; what an ascription gives the inference is not described (named as not covered if
+    the chapter's list of contexts is closed).
+
+L11. Specification/basic/types-vals-vars.tex:569-581 (intersection and union types, "used solely
+    for type inference (as described in \chapref{type-inference})"). The checker's inference
+    binds a type parameter to the union of its lower bounds where nothing narrower is found
+    (Formula.scala:527; row 455's reading); the chapter says where. Left: the chapter gives the
+    sentence its referent.
+
+L12. Specification/basic/types-vals-vars.tex:497-515 (BottomType uninhabited, "programmers must
+    not write BottomType") with inference.tex:24-25. Whether inference may produce BottomType for
+    a static parameter is the team's open question; the checker binds a result-only parameter to
+    BottomType under a written bound and refuses it under Any (explorations/reviews/
+    batch-6b-7-conformance.md finding 5; rows 425, 447). Left: the question stays open (row 447's
+    candidates are Pavol's, PLAN item 18); the chapter names both behaviours as not covered.
+
+L13. Specification/basic/components/type-inference.tex:15-18 ("Type inference for Fortress has
+    been described as a procedure performed over a whole Fortress program in
+    \chapref{type-inference}") and :26-46. The chapter describes the inference of a call's
+    static arguments, not the inference of the types a declaration elides over a whole program.
+    Left: nothing decided or built writes the whole-program procedure; the chapter says what it
+    does not describe.
+
+L14. Specification/basic/expressions/reductions.tex:27-44 (the callout revival-reductions: neither
+    implementation directs a reduction's desugaring by type; a clause form whose element type no
+    argument fixes writes its static argument; rows 424 and 425), with
+    Specification/appendices/changes.tex:995-1026 and
+    Specification/advanced/parallelism-locality/defining-generators.tex:154-164 (the
+    type-directed desugaring, SUM[\N\] for the type N of the expression). Left: rows 424 and 425
+    stay open (the brief, "Not this rung's: ... the reductions callout"); the chapter names a
+    static parameter that no argument fixes, a reduction's element type among it, as not covered.
+
+L15. Specification/basic/trait-parameters.tex:440-485 with the callout revival-empty: Empty "needs the
+    element type written at each use until the static arguments of a generic object can be
+    inferred" (:483-485). A generic object named without a call is a static error on the compiled
+    path, and the checker never consults the expected type for it (FACTS.md, "A generic object
+    referenced without its static arguments is a static error on the compiled path"). The chapter
+    infers the static arguments of a call, a constructor call among them (row 401), not of an
+    object named without arguments. Left: true as written; the chapter names the bare generic
+    object as not covered.
+
+L16. Specification/basic/trait-parameters.tex:82-90 (a nat parameter "may ... appear in any
+    context that a variable of type NN32 can appear"; an int parameter, ZZ32) and
+    Specification/basic/expressions/constant.tex:95-99 (a nat parameter's value has type
+    NaturalStatic). Item 25 converts a size used as a value to ZZ32 as a numeral does; the ranges
+    sentence (R2) names the range; its other contexts, an NN32 binding among them (row 486), are
+    rung Q's to build and to write (the brief, ledger:486's line). Left.
+
+L17. Specification/basic/expressions/literals.tex:83-96 (the note "We need to describe the Numeral
+    type hierarchy") and :127-148 (numerals have their own types; libraries define coercions from
+    numerals to integers). The chapter's numeral default is written for a numeral of its own type
+    that each number type converts from (POSITIONS 2026-09-27, a numeral's type). Left: rung Q's
+    (run 2), with the coercion chapter's note on the interpreter's numerals.
+
+L18. Specification/basic/expressions/ranges.tex:50-75 (static ranges and ranges of static size,
+    whose static expressions include nat parameters, constant.tex:95) and the specification's own
+    ranges bounded by a nat parameter: SpecData/examples/basic/Fun.Decl.fss:23 (input by
+    Specification/basic/functions.tex:190), Specification/advanced-lib/binary.tex:716-717, :951,
+    :1086-1089, Specification/basic/matrix-unpasting.tex:160-161. Under item 25 each converts its
+    nat parameter as a numeral and stands as written. Left: no revision needed once R2 is
+    written; R5 says so.
+
+L19. Specification/appendices/changes.tex:478-481, the Effect of "The number types" (rung T of
+    batch 6, the revival's): "A generic call over two different integer types writes its static
+    argument until the rule that infers the narrowest type both coerce into is written into
+    \chapref{type-inference} together with its implementation." With the chapter written and I
+    landed, its "until" is met; the sentence stays true as the effect of that change. Left: not
+    among the passages the brief gives this rung (a decision, recorded); the new entry says that
+    this interim ends.
+
+L20. Specification/appendices/changes.tex:1071-1141 other than R6: the Change, Rationale and
+    Original text of "The integer type of a range", which record that the box and the two
+    paragraphs kept the rule for a generic call only. Left: the history of that change, true.
+
+L21. Specification/basic/trait-parameters.tex:420-427 ("It must be possible to infer which method
+    is referred to at the call site" for where-clause variables in an extends clause), and
+    Specification/appendices/calculi/where/syntax.tex:84-90 (the where calculus annotates every
+    method invocation with static types "by type inference"). The declaration the first concerns
+    is not allowed (revival-every); the second is a calculus. Left.
+
+L22. Passages on elided types of declarations that do not cite the chapter:
+    Specification/preliminaries/overview.tex:76-78, :302-304, :914-916;
+    Specification/preliminaries/intro/nutshell.tex:77-84; Specification/basic/variables.tex:107-108;
+    Specification/basic/functions.tex:171-172, :179-180;
+    Specification/basic/components/source-code.tex:334-340;
+    Specification/basic/matrix-unpasting.tex:142-143; Specification/basic/dimensions.tex:219-221
+    (units). Not static-argument inference. Left.
+
+L23. Commented or note text: Specification/fortress/preamble.tex:128-142 (commented out: "inference
+    of static parameter instantiations is based on the runtime types of the arguments to a
+    functional call", of the 1.0 beta reference implementation); Specification/appendices/
+    future.tex:484-499 (Victor: "until we get type inference for function/method calls worked
+    out"). Left: the team's notes.
+
+L24. Specification/advanced/overloading.tex:98-103 (static parameters "ignored in the remainder of
+    this chapter") and :449-470 (the two facts on resolution; "the most specific declaration that
+    is applicable to a dynamic call is more specific than the most specific declaration that is
+    applicable to the corresponding static call"), with Specification/appendices/
+    overloading-coercion.tex. The chapter's dispatch step rests on the second. Left: S's
+    (answer 9).
+
+The later restart: Documentation/Specification/Prose/Language/types.tick never says "infer"
+(grep -c -i infer: 0); it gives the coercion relation (:938-947), a generic type's coercion
+(:393-400) and valid instantiation (:771-789). It is cited beside the chapter where it covers
+the topic (POSITIONS 2026-09-26, the lineage note).

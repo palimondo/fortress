@@ -1,0 +1,20 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.50 0.72 2.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkNumTie.fss walk
+N1 g(0) with g(NN32) declared first: g(ZZ32)
+N2 h(0) with h(ZZ32) declared first: h(ZZ32)
+rc=0
+=== SkNumTie.fss compile
+rc=0
+=== SkNumTie.fss compiled run
+N1 g(0) with g(NN32) declared first:  g(NN32)
+N2 h(0) with h(ZZ32) declared first:  h(ZZ32)
+rc=0
+=== fresh compile 2
+N1 g(0) with g(NN32) declared first:  g(NN32)
+N2 h(0) with h(ZZ32) declared first:  h(ZZ32)
+=== fresh compile 3
+N1 g(0) with g(NN32) declared first:  g(NN32)
+N2 h(0) with h(ZZ32) declared first:  h(ZZ32)
+=== fresh compile 4
+N1 g(0) with g(NN32) declared first:  g(NN32)
+N2 h(0) with h(ZZ32) declared first:  h(ZZ32)

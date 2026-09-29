@@ -1,0 +1,15 @@
+component SkIntParam
+export Executable
+
+object TagI[\int k\](v: ZZ32) end
+object TagN[\nat n\](v: ZZ32) end
+
+untagI[\int k\](t: TagI[\k\]): ZZ32 = t.v + k
+untagN[\nat n\](t: TagN[\n\]): ZZ32 = t.v + n
+
+run(): () = do
+  println("I1 untagN(TagN[\\3\\](4)), a nat parameter the argument's type fixes: " untagN(TagN[\3\](4)))
+  println("I2 untagI(TagI[\\3\\](4)), an int parameter the argument's type fixes: " untagI(TagI[\3\](4)))
+end
+
+end

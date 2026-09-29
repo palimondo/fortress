@@ -1,0 +1,19 @@
+(*) explorations/compile-ladder/rung-spec-inference/SKEPTIC.md
+
+component XXXMethodStaticArgRungT
+export Executable
+
+object Box[\T\](v: T) end
+
+object O
+  get[\T\](b: Box[\T\]): T = b.v
+end
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 3
+    assert(O.get(Box[\ZZ32\](z)) = 3, "a method call need not write its static arguments; inference.tex:15-18, :73-76; row 21")
+    println("PASS")
+  end
+
+end

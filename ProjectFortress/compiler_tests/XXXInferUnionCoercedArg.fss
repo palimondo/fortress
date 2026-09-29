@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/climb-batch-N/RECORD.md. *)
+component XXXInferUnionCoercedArg
+export Executable
+
+g0[\T\](x: T, y: T, k: ZZ64): String = "g0"
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    r: RR64 = 2.5
+    assert(g0(w, r, z), "g0", "some instance within the bound fits, T the union with z converted: ledger row 515; Specification/basic/inference.tex:95-98; the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    println("PASS")
+end
+
+end

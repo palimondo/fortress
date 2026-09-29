@@ -1,0 +1,332 @@
+299a300,301
+> 20.1 The Static Arguments of a Call
+> 20.2 A Numeral Whose Conversions Tie
+5679c5681,5687
+< and it is a static error if a component of an explicit range has an integer type other than Z32
+---
+> and a nat or int parameter (Section 12.2) used as a component converts to Z32 as an integer numeral does; it is a
+> static error if any other component of an explicit range has an integer type other than Z32
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.25
+> The revival’s first revision of this section (Section I.1.18) left open whether a nat parameter, which may appear wherever a
+> variable of type N32 can (Section 12.2), may be a component of a range. The sentence above settles it, as both implementations of the revival already run it: the compiled type checker gives a nat or int parameter used as a value the type of a
+> numeral, and the interpreter makes it a Z32
+5683d5690
+< 
+5687c5694
+< • The range a : b : c is the set of n = max 0, b−a+c
+---
+> 
+5689a5697
+> • The range a : b : c is the set of n = max 0, b−a+c
+5992c6000,6001
+< A. [Sukyoung & Eric] No. We may want to use the feature for reasoning and debugging in a devlopment environment. Some IDE may give a warning.
+---
+> A. [Sukyoung & Eric] No. We may want to use the feature for reasoning and debugging in a devlopment environ-
+> ment. Some IDE may give a warning.
+6305a6315,6316
+> The new fortify fixes
+> this.
+6316,6317d6326
+< The new fortify fixes
+< this.
+6350d6358
+< T 0
+6351a6360
+> T 0
+6358,6359c6367
+< Vector
+< of columns (or rows), though two elements in different rows (columns) need not have the same number of columns
+---
+> Vector of columns (or rows), though two elements in different rows (columns) need not have the same number of columns
+6388a6397
+> A: Z322,2 =
+6389a6399
+> 1 As of March 2008, the Fortress library provides Arrayk types for 1 ≤ k ≤ 3.
+6391,6392c6401,6403
+< 
+< A: Z322,2 =
+---
+> 
+> 
+> 
+6398,6400c6409
+< 
+< 
+< 
+---
+> 
+6402d6410
+< 1 As of March 2008, the Fortress library provides Arrayk types for 1 ≤ k ≤ 3.
+6496d6503
+< ::=
+6497a6505
+> ::=
+8386,8387c8394,8505
+< D RAFT NOTE
+< This chapter will include the Fortress static type inference mechanism.
+---
+> A call of a function, a method or an operator whose declaration has static parameters, or of the constructor of an object
+> that has static parameters, need not write its static arguments, and most calls do not (Section 13.2, Section 13.4).
+> The static arguments of a call that does not write them are inferred statically. This chapter describes that inference
+> for type parameters (Section 12.1) and for nat and int parameters (Section 12.2); the inference of the static arguments of other kinds of static parameter, and the inference over a whole program of the types that declarations elide
+> (Section 22.6), are not yet described.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.25
+> The Working Draft of February 2011 left this chapter a heading and two draft notes, the second of which is kept at its end,
+> although Chapter 15, Section 13.2 and Section 13.4 cite it. The rule this chapter states is the one the revival decided on 26,
+> 27 and 28 September 2026 and built into the compiled type checker with this text; the Working Draft had no counterpart to
+> the rule for a numeral whose conversions tie (Section 20.2). It assumes that a type parameter declared without an extends
+> clause is bounded by Any , as the Fortress standard libraries and the interpreter take it, where Section 12.1 says Object, as
+> the compiled path still takes it for a program’s own declarations (row 412 of the revival’s gap ledger). Chapter 15 still says
+> that static parameters are inferred before the applicability of a declaration is checked and before declarations are compared
+> (Section 15.2, Section 15.3, Section 15.5), where this chapter chooses a declaration first. Those sentences, the implicit bound
+> of Section 12.1, and the rule of Chapter 24 that a functional whose single parameter has as its type a naked type parameter of
+> bound Any cannot be overloaded, which under that bound would forbid overloading any functional whose single parameter’s
+> type is a type parameter declared without an extends clause, are to be revised together, in the revision of the overloading
+> chapters that the revival decided on 26 September 2026. The team’s later Types chapter gives the coercion relation and the
+> valid instantiations of a quantified type, and says nothing of inference.
+> 20.1
+> The Static Arguments of a Call
+> The static arguments of a call that does not write them are found in two steps: the declaration that the call invokes is
+> chosen first, and it is instantiated second.
+> Choice. The declaration is chosen as Section 17.5 describes. A declaration with static parameters is applicable to
+> a call, without or with coercion, if some instance of it whose static arguments satisfy their bounds is applicable to
+> the call. Declarations are compared on the parameter types they declare, a declaration with static parameters on its
+> parameter types taken over every instance that its bounds allow, and not on an instance inferred for the call. So a
+> coercion is applied only to make a call possible: it never changes which declaration is chosen when one is applicable
+> to the call without it.
+> Instantiation. The static arguments of the chosen declaration are then inferred, and with them the instance of the
+> declaration that the call invokes:
+> • A type parameter, or a nat or int parameter, that the declared type of a parameter mentions other than as the
+> whole type, as b: ListJT K mentions T , is fixed by the argument at that position, whose type must be a subtype
+> of the parameter type of the instance.
+> • Where the call has an expected type (below), a type parameter that the declared return type mentions other than
+> as the whole type is fixed by the expected type as well.
+> • A type parameter that is the whole declared type of one or more parameters, as T is of x: T , and that is not fixed
+> as above, takes, among the types of the arguments at those positions and the types to which they can be coerced,
+> the narrowest under ⊴ (Section 17.5) that every one of those arguments is substitutable for (Section 17.4) and
+> that the bounds of the type parameter permit. For number arguments this is the narrowest type into which every
+> one of them converts: Z64 for a Z32 and a Z64 , and also for a Z32 and an N32 , though neither of them is
+> a Z64 (Section 33.2). Where there is no such narrowest type, and the rule for numerals (Section 20.2) does not
+> settle the tie, the type parameter takes the union of the types of those arguments (Section 6.10), if its bounds
+> permit that, and none of those arguments is converted.
+> • Every argument is then admitted against the corresponding parameter type of the instance by substitutability: an
+> argument whose type is a subtype of it is passed as it is, and any other argument is coerced to it (Section 17.1),
+> as an argument is coerced to the declared type of a parameter of a declaration without static parameters.
+> The coercions that the instance needs are inserted into the call statically, as is any coercion that Section 17.5 chooses.
+> The expected type. A call has an expected type in these contexts: as the right-hand side of a variable or field declaration
+> that declares its type, that type; as the right-hand side of an assignment to a variable whose type is declared, that type;
+> as the body of a functional that declares its return type, that type; as the last expression of a block that has an expected
+> type, where no local declaration precedes it in the block, the block’s expected type; and as a branch of an if expression
+> with an else clause that has an expected type, the expected type of the if expression. The expected type is used
+> whether the call is written by tight juxtaposition, as f (x) (Section 16.8), or as a method invocation or an operator
+> application. The return type of the instance that the steps above find must be a subtype of the expected type. If they
+> find no such instance, the static arguments are inferred again without the expected type, and the call is accepted only
+> if the return type of the instance then found is a subtype of the expected type or can be coerced to it; in the second case
+> the result of the call is coerced to the expected type (Section 17.1). So, for the declarations wrapJT K(x: T ): ListJT K
+> and id JT K(x: T ): T , the variable declaration a: ListJZ64K = wrap(3) instantiates wrap at Z64 , which the expected
+> type fixes, and coerces the numeral, while b: Z64 = id (3) instantiates id at the numeral’s own type (Section 13.1)
+> and coerces the result.
+> Dispatch. The call, with the coercions of its instance inserted, dispatches at run time as Section 15.5 describes, by
+> subtyping and without further coercion, to the most specific declaration applicable to the converted values.
+> For example, of the declarations opJT extends NumberK(a: T, b: T ) and op(a: Any, b: Any) , the call op(z, w) ,
+> where z has type Z32 and w has type Z64 , chooses the first, which is applicable without coercion, since its instance
+> at Number is, and is more specific than the second; the first is instantiated at Z64 , z is coerced, and the converted
+> call runs that instance.
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.25
+> The interpreter has no static types and applies the same rule at dispatch, from the run-time types of the arguments: it infers the
+> static arguments of a declaration with static parameters with coercion, and instantiates the declaration that its dispatch chooses
+> by the rule for a type parameter that is a parameter’s whole type. So where the declared type of a variable is wider than the
+> type of its value, or an argument’s static type is Any , it may run a declaration at a narrower instance than the compiled path,
+> which instantiates it at the static types. It does not yet fix a type parameter by the expected type, compare declarations with
+> static parameters on the parameter types they declare, nor dispatch a converted call again.
+> 20.2
+> A Numeral Whose Conversions Tie
+> A numeral has a type of its own, from which the Fortress standard libraries define coercions to the number types
+> (Section 13.1). Where the types to which a numeral can be converted are incomparable under ⊴, as Z32 and N32
+> are, each taking a numeral and neither converting into the other, the numeral is read as a Z32 , or as a Z64 or a Z
+> when its value does not fit in the narrower type. This holds in either step: in the choice among declarations that are
+> applicable to the call only with coercion and that the numeral would otherwise leave tied, and in the instantiation of
+> a type parameter that only numerals fix. So of the declarations g(x: N32) and g(x: Z32) , the call g(0) invokes the
+> second; and a type parameter that only numerals fix, whose bounds Z32 and N32 satisfy and the numeral’s own type
+> does not, is instantiated at Z32 when Z32 holds the numerals’ values.
+> The rule settles only a tie that a numeral makes. Where an argument that is not a numeral leaves the declarations
+> applicable to a call only with coercion tied, no declaration is the most specific, and the call is a static error.
+> This chapter does not yet describe:
+> • the static arguments of a bool , dim , unit or operator parameter (Section 12.3, Section 12.4, Section 12.5);
+> • a static parameter that neither an argument nor the expected type fixes, such as a type parameter that only
+> the return type mentions, as its whole type, or the element type of a reduction that only its generator clauses
+> determine (Section 13.17); whether inference may give such a parameter BottomType, which programmers
+> must not write (Section 6.8), is left open;
+> • whether an argument whose declared parameter type mentions a static parameter inside another type may be
+> converted where only a conversion of its elements would satisfy the bounds of the parameter; under the rule
+> above such an argument fixes the parameter by subtyping and is not converted;
+> • an expected type in any context other than those listed above, such as an argument of another call, an expression
+> that a local declaration precedes in a block, an if expression without an else clause, a typecase expression,
+> the body of a for loop, or a call written by loose juxtaposition, as f x ;
+> • the static arguments of an object with static parameters that is named without a call, which a program writes
+> (Section 12.6);
+> • the inference over a whole program of the types that declarations elide (Section 22.6).
+> R EVISED BY THE 2026 REVIVAL
+> SEE Section I.1.25
+> For a type parameter that only the return type mentions, the compiled type checker binds the parameter to BottomType,
+> except that it refuses a call that has no expected type when the parameter is declared extends Any ; the interpreter erases
+> such a parameter to BottomType (rows 424, 425 and 447 of the revival’s gap ledger). Whether inference may do so is the
+> team’s question, kept in the draft note below. Neither implementation infers a bool parameter yet: the compiled type checker
+> refuses by name to infer a bool , dim or unit parameter, and the interpreter does not unify a bool one (rows 21 and 307 of
+> the revival’s gap ledger). The example of Section 12.3, a coercion whose bool parameter only its parameter type mentions,
+> can be applied only if its argument fixes that parameter.
+15467,15468c15585,15586
+< integer types is to infer the narrowest type that both coerce into, by a rule to be written into Chapter 20 together with its
+< implementation; until then such a call writes its static argument, as in f JZ64K(a, b)
+---
+> integer types infers the narrowest type that both coerce into, by the rule of Chapter 20, and need not write its static argument:
+> with a of type Z32 and b of type Z64 , f (a, b) infers Z64 , as f JZ64K(a, b) writes it.
+28305c28423
+< on sums and products. The alternative not taken, route C, is described once, in Section I.1.26.
+---
+> on sums and products. The alternative not taken, route C, is described once, in Section I.1.27.
+28334c28452
+< Route C Replaces this rule by the rule of Section I.1.26.
+---
+> Route C Replaces this rule by the rule of Section I.1.27.
+28485c28603
+< this entry, Section I.1.25 said of the calculi:
+---
+> this entry, Section I.1.26 said of the calculi:
+28895c29013
+< Affected sections Section 13.16; Section 33.2; Section I.1.10; Section I.1.25.
+---
+> Affected sections Section 13.16; Section 33.2; Section I.1.10; Section I.1.26.
+28899c29017
+< the effect of Section I.1.10 and Section I.1.25 no longer say that a range over two different integer types infers
+---
+> the effect of Section I.1.10 and Section I.1.26 no longer say that a range over two different integer types infers
+28911,28912c29029,29031
+< where it needs a wider counter; a range over another integer type is refused. Whether a nat parameter may be
+< a component of a range is not settled (Section I.1.25).
+---
+> where it needs a wider counter; a range over another integer type is refused. Whether a nat parameter may be a
+> component of a range, which this change left open, is settled by Section I.1.25: it converts to Z32 as an integer
+> numeral does.
+28925c29044
+< and Section I.1.25 said:
+---
+> and Section I.1.26 said:
+29047c29166
+< Route C The same under route C, under which the self-typed traits carry comprises clauses of their own (Section I.1.26): a parameterized trait between a closed trait and its listed types then meets the requirement through
+---
+> Route C The same under route C, under which the self-typed traits carry comprises clauses of their own (Section I.1.27): a parameterized trait between a closed trait and its listed types then meets the requirement through
+29162a29282,29368
+> The inference of a call’s static arguments
+> Affected sections Chapter 20; Section 13.16; Section 33.2; Section I.1.18; Section I.1.26.
+> Change Chapter 20, which held a heading and two draft notes, states how the static arguments of a call that does not
+> write them are inferred, for type parameters and for nat and int parameters. The declaration is chosen first,
+> as Section 17.5 chooses it, a declaration with static parameters being applicable to a call if some instance of it
+> within its bounds is, and compared on the parameter types it declares. Its static arguments are then inferred: a
+> type, nat or int parameter that a parameter type mentions inside another type is fixed by the argument, and
+> a type parameter that the return type mentions inside another type by the expected type; a type parameter that
+> is the whole type of parameters takes the narrowest type that their arguments are substitutable for, which for
+> number arguments is the narrowest type into which every one of them converts, and otherwise the union of their
+> types; every argument is admitted by substitutability, the coercions the instance needs are inserted statically,
+> and the converted call dispatches by subtyping. A call written by tight juxtaposition, as a method invocation or
+> as an operator application, has an expected type in the contexts the chapter lists, a variable or field declaration
+> and an assignment to a variable among them, and is inferred again without it when its result then converts.
+> A numeral whose conversions tie is read as a Z32 , or as a Z64 or a Z by its value; any other tie among
+> declarations applicable only with coercion is a static error. The chapter lists what it does not yet describe, the
+> static arguments of a bool , dim , unit or operator parameter among them, keeps the second of the two draft
+> notes, and has three boxes: on the Working Draft, the bound it assumes and the passages it leaves to the revision
+> of the overloading chapters; on the interpreter; and on a type parameter that only the return type mentions and on
+> the bool parameters that neither implementation infers. The ranges section says that a nat or int parameter
+> used as a component converts to Z32 as an integer numeral does, with a box. The box in Section 33.2 says
+> that a generic call over two different integer types infers the narrowest type that both coerce into by the rule of
+> Chapter 20. Section I.1.26 says that the rule is written and names the passages the chapter leaves unrevised, and
+> it and the effect of Section I.1.18 say that the question of a nat parameter in a range is settled.
+> Rationale This change does not follow from route A. The revival decided on 26 September 2026 that a generic
+> call over two different integer types infers the narrowest type that both coerce into, by a rule written into this
+> chapter; on 27 September 2026 that the compiled type checker infers static arguments with coercion and keeps
+> the expected type at a call written as f (x) , with a retry without it so that a coercion of the result still applies,
+> and that the chapter is written with it; and on 28 September 2026 that a coercion makes a call possible and never
+> changes which declaration runs when one is applicable without it, the declaration chosen being then instantiated
+> by that rule, that a numeral whose conversions tie is read as a Z32 , and that a nat parameter used as a value
+> converts to Z32 as a numeral does. Chapter 15, Section 13.2 and Section 13.4 said that static arguments are
+> inferred as Chapter 20 describes, and it described nothing; once the compiled type checker infers them by a rule
+> the text does not state, the text and the implementation disagree, so the chapter states the rule that the checker
+> builds, and no more. The order, a declaration chosen and then instantiated, is that of Section 17.5, read on
+> the parameter types that declarations declare, as the type group’s paper of 2011 reads a declaration with static
+> parameters: it “is applicable to a type if and only if at least one of its instances is” (Papers/Types/setup.
+> tick, lines 396–397, in the revival’s repository). The numeral’s default is what the interpreter did before
+> this change, giving a numeral the narrowest of Z32 , Z64 and Z that holds its value, the Fortress standard
+> libraries declaring their numeral type below Z32 ; the compiled path, whose library declares its numeral type
+> beside Z32 and excluding it, took one of the declarations that a numeral left tied, and not always the same
+> one (row 391 of the revival’s gap ledger). It is also the Java programming language’s type for an integer
+> literal. The compiled type checker gives a nat or int parameter used as a value the type of a numeral,
+> and the interpreter makes it a Z32 , so an int parameter is read as a nat parameter is; on the Java Virtual
+> Machine the length and the indices of an array are 32-bit integers. The team’s later Types chapter (Luchangco,
+> 2012) gives the coercion relation, the coercion of a generic type and the valid instantiations of a quantified
+> type (Documentation/Specification/Prose/Language/types.tick, lines 938–947, 393–400
+> and 771–789, in the revival’s repository) and never uses the word “infer”; the type group’s paper leaves the runtime inference of the static arguments of a dispatched declaration “beyond the scope of this paper” (Papers/
+> Types/rules.tick, lines 118–129). The full reasoning is in explorations/compile-ladder/
+> rung-spec-inference/decision-record.md in the revival’s repository.
+> Effect A generic call over two different integer types, or over a number type and a numeral, need not write its static
+> argument, and the interim rule of the effect of Section I.1.10 ends. A declared type fixes a type parameter that
+> the return type of a call written as f (x) mentions inside another type, and a call whose result the declared
+> type converts is accepted as before. Where the conversions of a numeral tie, the Z32 declaration or instance
+> is taken; where another argument’s conversions tie, the call is a static error. A nat or int parameter may
+> be a component of a range, as in the specification’s own examples. Until the overloading chapters are revised,
+> Chapter 15 says that static parameters are inferred before applicability is checked, and Section 12.1 gives a type
+> parameter without an extends clause the bound Object.
+> Original text Specification-1.0-frozen/basic/inference.tex, lines 12–27, which held after the
+> chapter’s heading two draft notes:
+> This chapter will include the Fortress static type inference mechanism.
+> and the note that the chapter keeps:
+> • There seems to be a circular dependency between inference and juxtaposition disambiguation –
+> you have to know if the subexpressions have arrow types to disambiguate, but you can’t do that
+> without using inference, which requires knowing how the variable of unknown type is used.
+> • Type Inference (Dan’s email titled “Comments on a first reading of the spec” on 06/05/07)
+> • Do we want to forbid such cases where type inference infers BottomTypes for static parameters?
+> The other passages this change revises are the revival’s own text of 27 and 28 September 2026, not the Working
+> Draft’s. The ranges section said, in Specification/basic/expressions/ranges.tex, lines 46–48,
+> before this revision:
+> An integer numeral converts to Z32 (Section 13.1), and it is a static error if a component of an
+> explicit range has an integer type other than Z32
+> The box in Section 33.2 ended, in Specification/basic-lib/basic-integers.tex, lines 90–94:
+> A generic call over two different integer types is to infer the narrowest type that both coerce into, by
+> a rule to be written into Chapter 20 together with its implementation; until then such a call writes its
+> static argument, as in f JZ64K(a, b)
+> The effect of Section I.1.18 ended:
+> Whether a nat parameter may be a component of a range is not settled (Section I.1.26).
+> and Section I.1.26 said:
+> The rule by which a generic call over two different integer types infers the narrowest type that both
+> coerce into is to be written into Chapter 20 together with its implementation (Section I.1.10).
+> and
+> Whether a nat parameter, which may appear wherever a variable of type N32 can (Section 12.2),
+> may be a component of a range is not settled (Section I.1.18); the static ranges of Section 13.16 and
+> the examples whose ranges a nat parameter bounds are not revised.
+> Route C The same under route C.
+> I.1.26
+29164,29170c29370,29379
+< No passage that instantiation exclusion or the reorganized numeric types contradict is known to be unrevised. The rule
+< by which a generic call over two different integer types infers the narrowest type that both coerce into is to be written
+< into Chapter 20 together with its implementation (Section I.1.10). The result of an integer raised to a negative power
+< is not yet given (Section 33.2; Section I.1.12). Whether a nat parameter, which may appear wherever a variable
+< of type N32 can (Section 12.2), may be a component of a range is not settled (Section I.1.18); the static ranges of
+< Section 13.16 and the examples whose ranges a nat parameter bounds are not revised. Before the number chapters
+< were revised, this section said:
+---
+> No passage that instantiation exclusion or the reorganized numeric types contradict is known to be unrevised. The
+> rule by which a generic call over two different integer types infers the narrowest type that both coerce into is written
+> into Chapter 20 together with its implementation (Section I.1.25); the passages that chapter leaves unrevised are the
+> sentences of Chapter 15 by which static parameters are inferred before the applicability of a declaration is checked
+> and before declarations are compared, the implicit bound of Section 12.1, and the rule of Chapter 24 on a naked type
+> parameter of bound Any, which are to be revised with the overloading chapters. The result of an integer raised to a
+> negative power is not yet given (Section 33.2; Section I.1.12). Whether a nat parameter, which may appear wherever
+> a variable of type N32 can (Section 12.2), may be a component of a range is settled (Section I.1.25): it converts to
+> Z32 as an integer numeral does, so the static ranges of Section 13.16 and the examples whose ranges a nat parameter
+> bounds stand as written. Before the number chapters were revised, this section said:
+29177c29386
+< I.1.26
+---
+> I.1.27

@@ -1,0 +1,14 @@
+component SizeStride
+export Executable
+
+cntNumeral(): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(0:10:3) do c := c + 1 end
+  c
+end
+
+run(): () = do
+  println("T1 0:10:3, numerals, elements " (cntNumeral()).asString)
+end
+
+end

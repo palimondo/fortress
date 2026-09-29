@@ -1,0 +1,31 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.56 2.34 3.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree b2c245fb2; walk only
+=== SkCtxTopVar.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxTopVar.fss:8:1-26:
+Type mismatch binding BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxTopVar.fss:5:1-7:2\] (type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxTopVar.fss:5:1-7:2\]) to a (type BoxT[\ZZ64\])
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxTopVar.fss:8:1-26:
+rc=1
+=== SkCtxLocal.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxLocal.fss:10:3-18:
+RHS expression type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxLocal.fss:5:1-7:2\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxLocal.fss:10:3-18:
+rc=1
+=== SkCtxBlock.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxBlock.fss:10:3-18:
+RHS expression type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxBlock.fss:5:1-7:2\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxBlock.fss:10:3-18:
+rc=1
+=== SkCtxReturn.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxReturn.fss:10:3-18:
+RHS expression type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxReturn.fss:5:1-7:2\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxReturn.fss:10:3-18:
+rc=1
+=== SkCtxIfElse.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxIfElse.fss:10:3-18:
+RHS expression type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxIfElse.fss:5:1-7:2\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkCtxIfElse.fss:10:3-18:
+rc=1

@@ -1,0 +1,20 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.52 0.71 2.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkPromote.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkPromote.fss:17:3-10:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkPromote.fss:17:3-10:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkPromote.fss:17:3-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkPromote.fss compile
+rc=0
+=== SkPromote.fss compiled run
+A1 same(z, w), ZZ32 with ZZ64 (callout: ZZ64):  [ ZZ32 , ZZ64 ]
+A2 same(z, u), ZZ32 with NN32 (chapter: ZZ64):  [ ZZ32 , NN32 ]
+A3 same(w, r), ZZ64 with RR64 (chapter: union, nothing converted):  [ ZZ64 , RR64 ]
+A4 same(z, z):  [ ZZ32 , ZZ32 ]
+rc=0

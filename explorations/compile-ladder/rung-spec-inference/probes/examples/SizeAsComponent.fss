@@ -1,0 +1,61 @@
+component SizeAsComponent
+export Executable
+
+cntHash[\nat n\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(0#n) do c := c + 1 end
+  c
+end
+
+cntColon[\nat n\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(1:(n-1)) do c := c + 1 end
+  c
+end
+
+cntFrom[\nat n\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(n:5) do c := c + 1 end
+  c
+end
+
+sumHash[\nat n\](): ZZ32 = do
+  var s: ZZ32 = 0
+  for x <- seq(0#n) do s := s + x end
+  s
+end
+
+intHash[\int k\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(0#k) do c := c + 1 end
+  c
+end
+
+intFrom[\int k\](): ZZ32 = do
+  var c: ZZ32 = 0
+  for x <- seq(k:5) do c := c + 1 end
+  c
+end
+
+asZ[\nat n\](): ZZ32 = do
+  z: ZZ32 = n
+  z
+end
+
+intAsZ[\int k\](): ZZ32 = do
+  z: ZZ32 = k
+  z
+end
+
+run(): () = do
+  println("S1 0#n, nat n = 3, elements " (cntHash[\3\]()).asString)
+  println("S2 1:(n-1), nat n = 3, elements " (cntColon[\3\]()).asString)
+  println("S3 n:5, nat n = 3, elements " (cntFrom[\3\]()).asString)
+  println("S5 sum over 0#n, nat n = 4, " (sumHash[\4\]()).asString)
+  println("S6 0#k, int k = 3, elements " (intHash[\3\]()).asString)
+  println("S7 k:5, int k = 2, elements " (intFrom[\2\]()).asString)
+  println("S8 z: ZZ32 = n, nat n = 3, " (asZ[\3\]()).asString)
+  println("S9 z: ZZ32 = k, int k = 3, " (intAsZ[\3\]()).asString)
+end
+
+end

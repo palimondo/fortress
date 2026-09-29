@@ -1,0 +1,26 @@
+# the map of unchanged lines, git show bce66f1fa:<chapter> to the tree, as difflib's equal blocks: base lines a-b -> tree lines c-d
+# regenerated in the repair round on the tree of the repair's specification commits (inference.tex and changes.tex changed; ranges.tex and basic-integers.tex as the first pass left them)
+== Specification/basic/inference.tex
+  1-14 -> 1-14
+  replace base 15-15 tree 15-224
+  16-28 -> 225-237
+== Specification/basic/expressions/ranges.tex
+  1-45 -> 1-45
+  replace base 46-48 tree 46-58
+  49-138 -> 59-148
+== Specification/basic-lib/basic-integers.tex
+  1-89 -> 1-89
+  replace base 90-94 tree 90-94
+  95-921 -> 95-921
+== Specification/appendices/changes.tex
+  1-1107 -> 1-1107
+  replace base 1108-1108 tree 1108-1110
+  1109-1546 -> 1111-1548
+  insert base 1547-1546 tree 1549-1712
+  1547-1552 -> 1713-1718
+  replace base 1553-1553 tree 1719-1719
+  1554-1554 -> 1720-1720
+  replace base 1555-1555 tree 1721-1726
+  1556-1556 -> 1727-1727
+  replace base 1557-1560 tree 1728-1731
+  1561-1608 -> 1732-1779

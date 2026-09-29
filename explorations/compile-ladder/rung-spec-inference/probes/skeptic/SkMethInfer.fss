@@ -1,0 +1,15 @@
+component SkMethInfer
+export Executable
+
+object Box[\T\](v: T) end
+
+object O
+  get[\T\](b: Box[\T\]): T = b.v
+end
+
+run(): () = do
+  z: ZZ32 = 3
+  println("H1 O.get(Box[\\ZZ32\\](z)), a generic method's own static argument fixed by its argument: " O.get(Box[\ZZ32\](z)))
+end
+
+end

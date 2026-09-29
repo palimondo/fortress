@@ -1,0 +1,13 @@
+# the base build's text of Chapter 20, Type Inference (the base PDF through norm.sh, lines 8384-8395 of its output), bce66f1fa, 631 pages
+Chapter 20
+Type Inference
+D RAFT NOTE
+This chapter will include the Fortress static type inference mechanism.
+D RAFT NOTE
+• There seems to be a circular dependency between inference and juxtaposition disambiguation – you have to
+know if the subexpressions have arrow types to disambiguate, but you can’t do that without using inference,
+which requires knowing how the variable of unknown type is used.
+• Type Inference (Dan’s email titled “Comments on a first reading of the spec” on 06/05/07)
+• Do we want to forbid such cases where type inference infers BottomTypes for static parameters?
+Chapter 21
+Memory Model

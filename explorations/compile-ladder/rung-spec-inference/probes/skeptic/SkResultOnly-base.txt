@@ -1,0 +1,119 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.38 0.67 2.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkROAnyfn.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkROAnyfn.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkROAnyfn.fss:12:15-17:
+    Could not check call to function r
+    - Could not infer static argument T extends Any without context.
+File SkROAnyfn.fss has 1 error.
+rc=255
+=== SkROAnyfn.fss compiled run
+Could not load SkROAnyfn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkROAnyfn.class
+	... 5 more
+rc=1
+=== SkROAnymeth.fss walk
+  O.r ran: a
+caught
+end
+rc=0
+=== SkROAnymeth.fss compile
+rc=0
+=== SkROAnymeth.fss compiled run
+  O.r ran:  a
+caught
+end
+rc=0
+=== SkROAnyarg.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkROAnyarg.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkROAnyarg.fss:12:13-15:
+    Could not check call to function r
+    - Could not infer static argument T extends Any without context.
+File SkROAnyarg.fss has 1 error.
+rc=255
+=== SkROAnyarg.fss compiled run
+Could not load SkROAnyarg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkROAnyarg.class
+	... 5 more
+rc=1
+=== SkROObjectfn.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkROObjectfn.fss compile
+rc=0
+=== SkROObjectfn.fss compiled run
+  r ran:  a
+caught
+end
+rc=0
+=== SkROObjectmeth.fss walk
+  O.r ran: a
+caught
+end
+rc=0
+=== SkROObjectmeth.fss compile
+rc=0
+=== SkROObjectmeth.fss compiled run
+  O.r ran:  a
+caught
+end
+rc=0
+=== SkROObjectarg.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkROObjectarg.fss compile
+rc=0
+=== SkROObjectarg.fss compiled run
+  r ran:  a
+caught
+end
+rc=0
+=== SkRONonefn.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkRONonefn.fss compile
+rc=0
+=== SkRONonefn.fss compiled run
+  r ran:  a
+caught
+end
+rc=0
+=== SkRONonemeth.fss walk
+  O.r ran: a
+caught
+end
+rc=0
+=== SkRONonemeth.fss compile
+rc=0
+=== SkRONonemeth.fss compiled run
+  O.r ran:  a
+caught
+end
+rc=0
+=== SkRONonearg.fss walk
+  r ran: a
+caught
+end
+rc=0
+=== SkRONonearg.fss compile
+rc=0
+=== SkRONonearg.fss compiled run
+  r ran:  a
+caught
+end
+rc=0

@@ -1,0 +1,113 @@
+# both.sh towed 2026-09-29T06:06:31Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.75 0.84 0.55; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 8dc1a74d9 with the next rung applied, not yet committed
+=== XXXStridedRangeRungT.fss walk
+PASS
+rc=0
+=== XXXStridedRangeRungT.fss compile
+tmp/gather-N/progs-towed/XXXStridedRangeRungT.fss:8:20-18:
+    Could not check call to operator :
+    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral).
+File XXXStridedRangeRungT.fss has 1 error.
+rc=255
+=== XXXStridedRangeRungT.fss compiled run
+Could not load XXXStridedRangeRungT
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXStridedRangeRungT.class
+	... 5 more
+rc=1
+=== XXXExpectedTypeChoiceRungT.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-towed/XXXExpectedTypeChoiceRungT.fss:7:30:
+Missing type T
+Context:
+tmp/gather-N/progs-towed/XXXExpectedTypeChoiceRungT.fss:7:30:
+tmp/gather-N/progs-towed/XXXExpectedTypeChoiceRungT.fss:8:3-28:
+tmp/gather-N/progs-towed/XXXExpectedTypeChoiceRungT.fss:6:1-9:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXExpectedTypeChoiceRungT.fss compile
+rc=0
+=== XXXExpectedTypeChoiceRungT.fss compiled run
+REACHED
+FAIL:  the generic declaration fits O.k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  the generic declaration fits O.k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+rc=1
+=== ExpectedTypeChoiceWrittenRungT.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-towed/ExpectedTypeChoiceWrittenRungT.fss:7:30:
+Missing type T
+Context:
+tmp/gather-N/progs-towed/ExpectedTypeChoiceWrittenRungT.fss:7:30:
+tmp/gather-N/progs-towed/ExpectedTypeChoiceWrittenRungT.fss:8:3-28:
+tmp/gather-N/progs-towed/ExpectedTypeChoiceWrittenRungT.fss:6:1-9:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== ExpectedTypeChoiceWrittenRungT.fss compile
+rc=0
+=== ExpectedTypeChoiceWrittenRungT.fss compiled run
+REACHED
+PASS
+rc=0
+=== ExpectedTypeFnChoiceRungT.fss walk
+PASS
+rc=0
+=== ExpectedTypeFnChoiceRungT.fss compile
+rc=0
+=== ExpectedTypeFnChoiceRungT.fss compiled run
+FAIL:  the generic declaration fits k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  the generic declaration fits k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+rc=1
+=== XXXInferredIntBindingRungT.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-towed/XXXInferredIntBindingRungT.fss:13:5-20:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ32\]
+Context:
+tmp/gather-N/progs-towed/XXXInferredIntBindingRungT.fss:13:5-20:
+tmp/gather-N/progs-towed/XXXInferredIntBindingRungT.fss:13:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXInferredIntBindingRungT.fss compile
+rc=0
+=== XXXInferredIntBindingRungT.fss compiled run
+REACHED
+PASS
+rc=0
+=== XXXMethodStaticArgRungT.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-towed/XXXMethodStaticArgRungT.fss:15:12-30:
+Unification error: Closure/Constructor for get param 1 (b:Box[\T@tmp/gather-N/progs-towed/XXXMethodStaticArgRungT.fss:8:1-10:2\]) got arg Box[\ZZ32\] of type Box[\ZZ32\]
+Context:
+tmp/gather-N/progs-towed/XXXMethodStaticArgRungT.fss:15:12-30:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXMethodStaticArgRungT.fss compile
+rc=0
+=== XXXMethodStaticArgRungT.fss compiled run
+REACHED
+PASS
+rc=0
+=== XXXExpectedTypeFixRungT.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:13:3-28:
+Type mismatch binding BoxT[\T@tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:8:1-10:2\] (type BoxT[\T@tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:8:1-10:2\]) to $f (type BoxT[\ZZ64\])
+Context:
+tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:13:3-28:
+tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:13:3-28:
+tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:12:1-14:2:
+tmp/gather-N/progs-towed/XXXExpectedTypeFixRungT.fss:12:1-14:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXExpectedTypeFixRungT.fss compile
+rc=0
+=== XXXExpectedTypeFixRungT.fss compiled run
+REACHED
+PASS
+rc=0

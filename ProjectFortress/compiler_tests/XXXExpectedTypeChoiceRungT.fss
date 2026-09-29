@@ -1,0 +1,24 @@
+(*) explorations/compile-ladder/rung-spec-inference/SKEPTIC.md
+
+component XXXExpectedTypeChoiceRungT
+export Executable
+
+object O
+  k[\T extends ZZ32\](x: T): T = x
+  k(x: ZZ64): ZZ64 = x + 100
+end
+
+opr OPLUS[\T extends ZZ32\](x: T, y: ZZ32): T = x
+opr OPLUS(x: ZZ64, y: ZZ32): ZZ64 = x + 100
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 5
+    b: ZZ64 = O.k(z)
+    assert(b = 5, "the generic declaration fits O.k(z) without coercion; inference.tex:60-69, :120-126; conversions-coercions.tex:472-476; ledger row 508")
+    d: ZZ64 = z OPLUS z
+    assert(d = 5, "the generic declaration fits z OPLUS z without coercion; inference.tex:60-69, :120-126; conversions-coercions.tex:472-476; ledger row 508")
+    println("PASS")
+  end
+
+end

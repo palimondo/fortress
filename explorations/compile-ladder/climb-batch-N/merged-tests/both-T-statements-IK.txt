@@ -1,0 +1,153 @@
+# both.sh stmt 2026-09-29T06:13:36Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.01 0.41 0.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 041682188 with the next rung applied, not yet committed
+=== GatherStmt5.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-stmt/GatherStmt5.fss:15:3-11:
+RHS expression type BoxT[\Number\] is not assignable to LHS type Seen
+Context:
+tmp/gather-N/progs-stmt/GatherStmt5.fss:15:3-11:
+tmp/gather-N/progs-stmt/GatherStmt5.fss:15:3-11:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== GatherStmt5.fss compile
+tmp/gather-N/progs-stmt/GatherStmt5.fss:15:14-22:
+    Right-hand side has type BoxT[\Number\], but declared type is Seen.
+tmp/gather-N/progs-stmt/GatherStmt5.fss:16:14-22:
+    Right-hand side has type BoxT[\Number\], but declared type is Seen.
+tmp/gather-N/progs-stmt/GatherStmt5.fss:17:14-22:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is Seen.
+tmp/gather-N/progs-stmt/GatherStmt5.fss:18:14-22:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is Seen.
+File GatherStmt5.fss has 4 errors.
+rc=255
+=== GatherStmt5.fss compiled run
+Could not load GatherStmt5
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : GatherStmt5.class
+	... 5 more
+rc=1
+=== SkIntParam.fss walk
+I1 untagN(TagN[\3\](4)), a nat parameter the argument's type fixes: 7
+I2 untagI(TagI[\3\](4)), an int parameter the argument's type fixes: 7
+rc=0
+=== SkIntParam.fss compile
+rc=0
+=== SkIntParam.fss compiled run
+I1 untagN(TagN[\3\](4)), a nat parameter the argument's type fixes:  7
+I2 untagI(TagI[\3\](4)), an int parameter the argument's type fixes:  7
+rc=0
+=== SkBoolParam.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-stmt/SkBoolParam.fss:9:87-107:
+Unification error: tmp/gather-N/progs-stmt/SkBoolParam.fss:6:20-25:
+Cannot unify Tag[\false\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with Tag[\b\](class com.sun.fortress.nodes.TraitType) abm=()
+Context:
+tmp/gather-N/progs-stmt/SkBoolParam.fss:9:87-107:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkBoolParam.fss compile
+tmp/gather-N/progs-stmt/SkBoolParam.fss:6:8-12:
+    Static argument inference for the bool static parameter b is not supported by the type checker.
+File SkBoolParam.fss has 1 error.
+rc=255
+=== SkBoolParam.fss compiled run
+Could not load SkBoolParam
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkBoolParam.class
+	... 5 more
+rc=1
+=== SkNumTie.fss walk
+N1 g(0) with g(NN32) declared first: g(ZZ32)
+N2 h(0) with h(ZZ32) declared first: h(ZZ32)
+rc=0
+=== SkNumTie.fss compile
+rc=0
+=== SkNumTie.fss compiled run
+N1 g(0) with g(NN32) declared first:  g(ZZ32)
+N2 h(0) with h(ZZ32) declared first:  h(ZZ32)
+rc=0
+=== SkPromote.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-stmt/SkPromote.fss:17:3-10:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+tmp/gather-N/progs-stmt/SkPromote.fss:17:3-10:
+tmp/gather-N/progs-stmt/SkPromote.fss:17:3-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkPromote.fss compile
+rc=0
+=== SkPromote.fss compiled run
+A1 same(z, w), ZZ32 with ZZ64 (callout: ZZ64):  [ ZZ64 , ZZ64 ]
+A2 same(z, u), ZZ32 with NN32 (chapter: ZZ64):  [ other , other ]
+A3 same(w, r), ZZ64 with RR64 (chapter: union, nothing converted):  [ ZZ64 , RR64 ]
+A4 same(z, z):  [ ZZ32 , ZZ32 ]
+rc=0
+=== SkR2ExId.fss walk
+id(3) into ZZ64: 4000000003
+rc=0
+=== SkR2ExId.fss compile
+rc=0
+=== SkR2ExId.fss compiled run
+id(3) into ZZ64:  4000000003
+rc=0
+=== SkR2ExWrapFn.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-stmt/SkR2ExWrapFn.fss:9:3-18:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+tmp/gather-N/progs-stmt/SkR2ExWrapFn.fss:9:3-18:
+tmp/gather-N/progs-stmt/SkR2ExWrapFn.fss:9:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2ExWrapFn.fss compile
+rc=0
+=== SkR2ExWrapFn.fss compiled run
+wrap(3) into BoxT[ZZ64]:  4000000003
+rc=0
+=== SkR2OpZW.fss walk
+P1 op(z, w), ZZ32 with ZZ64: generic[ZZ64,ZZ64]
+rc=0
+=== SkR2OpZW.fss compile
+rc=0
+=== SkR2OpZW.fss compiled run
+P1 op(z, w), ZZ32 with ZZ64:  generic[ ZZ64 , ZZ64 ]
+rc=0
+=== OpAnyZW.fss walk
+op(z, w): op generic[ZZ64,ZZ64]
+rc=0
+=== OpAnyZW.fss compile
+rc=0
+=== OpAnyZW.fss compiled run
+op(z, w):  op generic[ ZZ64 , ZZ64 ]
+rc=0
+=== SizeAsComponent.fss walk
+S1 0#n, nat n = 3, elements 3
+S2 1:(n-1), nat n = 3, elements 2
+S3 n:5, nat n = 3, elements 3
+S5 sum over 0#n, nat n = 4, 6
+S6 0#k, int k = 3, elements 3
+S7 k:5, int k = 2, elements 4
+S8 z: ZZ32 = n, nat n = 3, 3
+S9 z: ZZ32 = k, int k = 3, 3
+rc=0
+=== SizeAsComponent.fss compile
+rc=0
+=== SizeAsComponent.fss compiled run
+S1 0#n, nat n = 3, elements  3
+S2 1:(n-1), nat n = 3, elements  2
+S3 n:5, nat n = 3, elements  3
+S5 sum over 0#n, nat n = 4,  6
+S6 0#k, int k = 3, elements  3
+S7 k:5, int k = 2, elements  4
+S8 z: ZZ32 = n, nat n = 3,  3
+S9 z: ZZ32 = k, int k = 3,  3
+rc=0

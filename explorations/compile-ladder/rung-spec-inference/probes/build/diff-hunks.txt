@@ -1,0 +1,43 @@
+The 31 hunks of base-vs-edit-pdftotext-diff.txt (base bce66f1fa, 631 pages; edit on 6eff8916d, the repair round's
+last specification commit, 635 pages), each with its cause. Line numbers are those of the normalised text (norm.sh),
+base side first. The first pass's build (86ba0afa6, 634 pages) had the same 31 hunks; the repair round lengthened
+the chapter's hunk by 6 lines and the new entry's by 4, which moves every right-side number after them and adds a page.
+
+299a300,301            the table of contents: Chapter 20's two new sections, 20.1 and 20.2
+5679c5681,5687         Section 13.16, Ranges: the revised sentence (a nat or int parameter used as a component) and its callout
+5683d5690, 5687c5694, 5689a5697
+                       the same page: the first bullet of the ranges' definitions moves down by the callout's lines
+5992c6000,6001         Section 13.x, typecase: a draft note's line rewrapped at a page boundary moved by the callout
+6305a6315,6316, 6316,6317d6326
+                       a margin note ("The new fortify fixes this.") placed two lines earlier on its shifted page
+6350d6358, 6351a6360   a subscript "T 0" of a typeset example placed one line later
+6358,6359c6367         a line break inside "Vector of columns" moved
+6388a6397, 6389a6399, 6391,6392c6401,6403, 6398,6400c6409, 6402d6410
+                       a displayed matrix "A: Z32 2,2 =" and the footnote "As of March 2008, ..." floated to other lines of their page
+6496d6503, 6497a6505   a grammar "::=" placed one line later
+8386,8387c8394,8505    Chapter 20, Type Inference: the first draft note replaced by the chapter's text, its two sections and three
+                       callouts; the second draft note kept (unchanged lines after the hunk). Since the repair round: the scope
+                       sentence names type, nat and int parameters; the first bullet names them, the second a type parameter;
+                       the expected type's contexts add a field declaration and an assignment to a variable; the dispatch
+                       example starts with its declarations; the interpreter's callout names the expected type among what walk
+                       does not yet use; the not-described list starts with the static arguments of a
+                       bool, dim, unit or operator parameter; the third callout says the checker binds a result-only type
+                       parameter to BottomType except for a call with no expected type under extends Any, and that neither
+                       implementation infers a bool parameter, with the example of Section 12.3
+15467,15468c15585,15586  Section 33.2, the integers: the callout's last rule, answer 8's, now "infers ... by the rule of Chapter 20"
+28305c28423, 28334c28452, 28485c28603, 28895c29013, 28899c29017, 28925c29044, 29047c29166
+                       Appendix I: references renumbered, "Passages not yet revised" I.1.25 -> I.1.26 and "Route C" I.1.26 -> I.1.27, since the new entry is I.1.25
+28911,28912c29029,29031  I.1.18, "The integer type of a range", its effect's last sentence: the question of a nat parameter settled by I.1.25
+29162a29282,29368      the new entry I.1.25, "The inference of a call's static arguments". Since the repair round: its Change names
+                       the kinds, the two added contexts and the third box's bool sentence; its Rationale says the numeral default
+                       is what the interpreter did, and that the compiled path took one of the declarations a numeral left tied,
+                       not always the same one (row 391); its Effect names a type parameter fixed by the expected type
+29164,29170c29370,29379  I.1.26, "Passages not yet revised": the rule's paragraph (written; the passages left unrevised named) and the nat paragraph (settled)
+29177c29386            the heading number of "Route C, the alternative not taken", I.1.26 -> I.1.27
+
+No other page changes: every other line of the two texts is equal (diff).
+The last LaTeX pass of each build has the same warnings (probes/build/base-tex.txt, probes/build/edit-tex.txt: seven
+"Float too large", three "Marginpar moved", one mdframed bad break, one amsmath \over, six hyperref tokens, one
+pdfTeX Hfootnote destination), 422 overfull and 261 underfull boxes in each, and no undefined reference in either.
+The first pass's build had one overfull box more, the dispatch example's paragraph (57.97pt, inference.tex:137-155 on
+86ba0afa6); the repair round's reordering of that example removed it.

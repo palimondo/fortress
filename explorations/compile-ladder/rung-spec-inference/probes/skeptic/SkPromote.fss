@@ -1,0 +1,25 @@
+component SkPromote
+export Executable
+
+same[\T extends Number\](x: T, y: T): String = "[" (kind x) "," (kind y) "]"
+
+kind(v: Any): String = typecase v of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    RR64 => "RR64"
+    else => "other"
+  end
+
+run(): () = do
+  z: ZZ32 = 3
+  w: ZZ64 = 4
+  u: NN32 = 5
+  r: RR64 = 1.5
+  println("A1 same(z, w), ZZ32 with ZZ64 (callout: ZZ64): " same(z, w))
+  println("A2 same(z, u), ZZ32 with NN32 (chapter: ZZ64): " same(z, u))
+  println("A3 same(w, r), ZZ64 with RR64 (chapter: union, nothing converted): " same(w, r))
+  println("A4 same(z, z): " same(z, z))
+end
+
+end

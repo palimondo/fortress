@@ -1,0 +1,23 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 4.66 4.91 5.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree bcd9f07df
+=== SizeAsComponent.fss walk
+S1 0#n, nat n = 3, elements 3
+S2 1:(n-1), nat n = 3, elements 2
+S3 n:5, nat n = 3, elements 3
+S5 sum over 0#n, nat n = 4, 6
+S6 0#k, int k = 3, elements 3
+S7 k:5, int k = 2, elements 4
+S8 z: ZZ32 = n, nat n = 3, 3
+S9 z: ZZ32 = k, int k = 3, 3
+rc=0
+=== SizeAsComponent.fss compile
+rc=0
+=== SizeAsComponent.fss compiled run
+S1 0#n, nat n = 3, elements  3
+S2 1:(n-1), nat n = 3, elements  2
+S3 n:5, nat n = 3, elements  3
+S5 sum over 0#n, nat n = 4,  6
+S6 0#k, int k = 3, elements  3
+S7 k:5, int k = 2, elements  4
+S8 z: ZZ32 = n, nat n = 3,  3
+S9 z: ZZ32 = k, int k = 3,  3
+rc=0

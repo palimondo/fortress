@@ -1,0 +1,51 @@
+# harness-one 2026-09-29T06:20:48Z; tree 041682188; nproc=4; load 1.44 0.68 0.56; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/gather-N/ht/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ebd2af5d_16
+. interpret tmp/gather-N/ht/tests/XXXExpectedTypeFixRungT 
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/ht/tests/XXXExpectedTypeFixRungT.fss:13:3-28:
+ OK Saw expected exception
+. interpret tmp/gather-N/ht/tests/XXXMethodStaticArgRungT 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/ht/tests/XXXMethodStaticArgRungT.fss:15:12-30:
+ OK Saw expected exception
+. interpret tmp/gather-N/ht/tests/XXXInferredIntBindingRungT 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/ht/tests/XXXInferredIntBindingRungT.fss:13:5-20:
+ OK Saw expected exception
+
+Time: 14.682
+
+OK (3 tests)
+
+exit=0
+
+######## stand-ins, each with its one change
+# harness-one 2026-09-29T06:21:03Z; tree 041682188; nproc=4; load 1.85 0.81 0.61; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/gather-N/hts/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ebd2e9d7_16
+. interpret tmp/gather-N/hts/tests/XXXMethodStaticArgRungT 
+REACHED
+PASS
+
+ Missing expected failure 
+F. interpret tmp/gather-N/hts/tests/XXXExpectedTypeFixRungT 
+REACHED
+PASS
+
+ Missing expected failure 
+F. interpret tmp/gather-N/hts/tests/XXXInferredIntBindingRungT 
+REACHED
+PASS
+
+ Missing expected failure 
+F
+Time: 15.752
+There were 3 failures:
+1) tmp/gather-N/hts/tests/XXXMethodStaticArgRungT(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/gather-N/hts/tests/XXXMethodStaticArgRungT
+2) tmp/gather-N/hts/tests/XXXExpectedTypeFixRungT(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/gather-N/hts/tests/XXXExpectedTypeFixRungT
+3) tmp/gather-N/hts/tests/XXXInferredIntBindingRungT(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/gather-N/hts/tests/XXXInferredIntBindingRungT
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+exit=0

@@ -12,7 +12,216 @@
 \chapter{Type Inference}
 \chaplabel{type-inference}
 
-\note{This chapter will include the Fortress static type inference mechanism.}
+A call of a function, a method or an operator whose declaration has static
+parameters, or of the constructor of an object that has static parameters,
+need not write its static arguments, and most calls do not
+(\secref{idn-ref}, \secref{dotted-method-calls}).
+The static arguments of a call that does not write them are inferred
+statically.
+This chapter describes that inference for type parameters (\secref{type-param})
+and for \KWD{nat} and \KWD{int} parameters (\secref{natparams}); the inference
+of the static arguments of other kinds of static parameter, and the inference
+over a whole program of the types that declarations elide
+(\secref{type-inference-components}), are not yet described.
+\revision{revival-inference}{The Working Draft of February 2011 left this
+chapter a heading and two draft notes, the second of which is kept at its end,
+although \chapref{multiple-dispatch}, \secref{idn-ref} and
+\secref{dotted-method-calls} cite it.
+The rule this chapter states is the one the revival decided on 26, 27 and
+28~September 2026 and built into the compiled type checker with this text; the
+Working Draft had no counterpart to the rule for a numeral whose conversions tie
+(\secref{numeral-default}).
+It assumes that a type parameter declared without an \KWD{extends} clause is
+bounded by \TYP{Any}, as \library\ and the interpreter take it, where
+\secref{type-param} says \TYP{Object}, as the compiled path still takes it for
+a program's own declarations (row~412 of the revival's gap ledger).
+\chapref{multiple-dispatch} still says that static parameters are inferred
+before the applicability of a declaration is checked and before declarations
+are compared (\secref{functional-applicability},
+\secref{dotted-method-applicability}, \secref{resolving-overloading}), where
+this chapter chooses a declaration first.
+Those sentences, the implicit bound of \secref{type-param}, and the rule of
+\chapref{overloaded-declarations} that a functional whose single parameter has
+as its type a naked type parameter of bound \TYP{Any} cannot be overloaded,
+which under that bound would forbid overloading any functional whose single
+parameter's type is a type parameter declared without an \KWD{extends} clause,
+are to be revised together, in the revision of the overloading chapters that
+the revival decided on 26~September 2026.
+The team's later Types chapter gives the coercion relation and the valid
+instantiations of a quantified type, and says nothing of inference.}
+
+\section{The Static Arguments of a Call}
+\seclabel{static-arg-inference}
+
+The static arguments of a call that does not write them are found in two
+steps: the declaration that the call invokes is chosen first, and it is
+instantiated second.
+
+\emph{Choice.}
+The declaration is chosen as \secref{resolving-coercion} describes.
+A declaration with static parameters is applicable to a call, without or with
+coercion, if some instance of it whose static arguments satisfy their bounds is
+applicable to the call.
+Declarations are compared on the parameter types they declare, a declaration
+with static parameters on its parameter types taken over every instance that
+its bounds allow, and not on an instance inferred for the call.
+So a coercion is applied only to make a call possible: it never changes which
+declaration is chosen when one is applicable to the call without it.
+
+\emph{Instantiation.}
+The static arguments of the chosen declaration are then inferred, and with them
+the instance of the declaration that the call invokes:
+\begin{itemize}
+\item A type parameter, or a \KWD{nat} or \KWD{int} parameter, that the
+declared type of a parameter mentions other than as the whole type, as
+\EXP{b\COLON\TYP{List}\llbracket{}T\rrbracket} mentions \VAR{T}, is fixed by
+the argument at that position, whose type must be a subtype of the parameter
+type of the instance.
+\item Where the call has an expected type (below), a type parameter that the
+declared return type mentions other than as the whole type is fixed by the
+expected type as well.
+\item A type parameter that is the whole declared type of one or more
+parameters, as \VAR{T} is of \EXP{x\COLON{}T}, and that is not fixed as above,
+takes, among the types of the arguments at those positions and the types to
+which they can be coerced, the narrowest under $\morespecificeq$
+(\secref{resolving-coercion}) that every one of those arguments is
+substitutable for (\secref{applicability-with-coercion}) and that the bounds of
+the type parameter permit.
+For number arguments this is the narrowest type into which every one of them
+converts: \EXP{\mathbb{Z}64} for a \EXP{\mathbb{Z}32} and a
+\EXP{\mathbb{Z}64}, and also for a \EXP{\mathbb{Z}32} and an
+\EXP{\mathbb{N}32}, though neither of them is a \EXP{\mathbb{Z}64}
+(\secref{basic-integers}).
+Where there is no such narrowest type, and the rule for numerals
+(\secref{numeral-default}) does not settle the tie, the type parameter takes
+the union of the types of those arguments (\secref{internal-types}), if its
+bounds permit that, and none of those arguments is converted.
+\item Every argument is then admitted against the corresponding parameter type
+of the instance by substitutability: an argument whose type is a subtype of it
+is passed as it is, and any other argument is coerced to it
+(\secref{coercion}), as an argument is coerced to the declared type of a
+parameter of a declaration without static parameters.
+\end{itemize}
+The coercions that the instance needs are inserted into the call statically,
+as is any coercion that \secref{resolving-coercion} chooses.
+
+\emph{The expected type.}
+A call has an expected type in these contexts: as the right-hand side of a
+variable or field declaration that declares its type, that type; as the
+right-hand side of an assignment to a variable whose type is declared, that
+type; as the body of a functional that declares its return type, that type;
+as the last expression of a block that has an expected type, where no local
+declaration precedes it in the block, the block's expected type; and as a
+branch of an \KWD{if} expression with an \KWD{else} clause that has an
+expected type, the expected type of the \KWD{if} expression.
+The expected type is used whether the call is written by tight juxtaposition,
+as \EXP{f(x)} (\secref{juxtameaning}), or as a method invocation or an operator
+application.
+The return type of the instance that the steps above find must be a subtype of
+the expected type.
+If they find no such instance, the static arguments are inferred again without
+the expected type, and the call is accepted only if the return type of the instance
+then found is a subtype of the expected type or can be coerced to it; in the
+second case the result of the call is coerced to the expected type
+(\secref{coercion}).
+So, for the declarations
+\EXP{\VAR{wrap}\llbracket{}T\rrbracket(x\COLON{}T)\COLON\TYP{List}\llbracket{}T\rrbracket}
+and \EXP{\VAR{id}\llbracket{}T\rrbracket(x\COLON{}T)\COLON{}T},
+the variable declaration \EXP{a\COLON\TYP{List}\llbracket\mathbb{Z}64\rrbracket = \VAR{wrap}(3)}
+instantiates \VAR{wrap} at \EXP{\mathbb{Z}64}, which the expected type fixes,
+and coerces the numeral, while \EXP{b\COLON\mathbb{Z}64 = \VAR{id}(3)}
+instantiates \VAR{id} at the numeral's own type (\secref{literals}) and coerces
+the result.
+
+\emph{Dispatch.}
+The call, with the coercions of its instance inserted, dispatches at run time
+as \secref{resolving-overloading} describes, by subtyping and without further
+coercion, to the most specific declaration applicable to the converted values.
+
+For example, of the declarations
+\EXP{\VAR{op}\llbracket{}T \KWD{extends} \TYP{Number}\rrbracket(a\COLON{}T, b\COLON{}T)}
+and \EXP{\VAR{op}(a\COLON\TYP{Any}, b\COLON\TYP{Any})}, the call
+\EXP{\VAR{op}(z, w)}, where \VAR{z} has type \EXP{\mathbb{Z}32} and \VAR{w} has
+type \EXP{\mathbb{Z}64}, chooses the first, which is applicable without
+coercion, since its instance at \TYP{Number} is, and is more specific than the
+second; the first is instantiated at \EXP{\mathbb{Z}64}, \VAR{z} is coerced,
+and the converted call runs that instance.
+\revision{revival-inference}{The interpreter has no static types and applies
+the same rule at dispatch, from the run-time types of the arguments: it infers
+the static arguments of a declaration with static parameters with coercion,
+and instantiates the declaration that its dispatch chooses by the rule for a
+type parameter that is a parameter's whole type.
+So where the declared type of a variable is wider than the type of its value,
+or an argument's static type is \TYP{Any}, it may run a declaration at a
+narrower instance than the compiled path, which instantiates it at the static
+types.
+It does not yet fix a type parameter by the expected type, compare
+declarations with static parameters on the parameter types they declare, nor
+dispatch a converted call again.}
+
+\section{A Numeral Whose Conversions Tie}
+\seclabel{numeral-default}
+
+A numeral has a type of its own, from which \library\ define coercions to the
+number types (\secref{literals}).
+Where the types to which a numeral can be converted are incomparable under
+$\morespecificeq$, as \EXP{\mathbb{Z}32} and \EXP{\mathbb{N}32} are, each
+taking a numeral and neither converting into the other, the numeral is read as
+a \EXP{\mathbb{Z}32}, or as a \EXP{\mathbb{Z}64} or a \EXP{\mathbb{Z}} when its
+value does not fit in the narrower type.
+This holds in either step: in the choice among declarations that are applicable
+to the call only with coercion and that the numeral would otherwise leave tied,
+and in the instantiation of a type parameter that only numerals fix.
+So of the declarations \EXP{g(x\COLON\mathbb{N}32)} and
+\EXP{g(x\COLON\mathbb{Z}32)}, the call \EXP{g(0)} invokes the second; and a
+type parameter that only numerals fix, whose bounds \EXP{\mathbb{Z}32} and
+\EXP{\mathbb{N}32} satisfy and the numeral's own type does not, is
+instantiated at \EXP{\mathbb{Z}32} when \EXP{\mathbb{Z}32} holds the numerals'
+values.
+
+The rule settles only a tie that a numeral makes.
+Where an argument that is not a numeral leaves the declarations applicable to a
+call only with coercion tied, no declaration is the most specific, and the call
+is a static error.
+
+This chapter does not yet describe:
+\begin{itemize}
+\item the static arguments of a \KWD{bool}, \KWD{dim}, \KWD{unit} or operator
+parameter (\secref{boolparams}, \secref{dimunitparams}, \secref{opr-ident});
+\item a static parameter that neither an argument nor the expected type fixes,
+such as a type parameter that only the return type mentions, as its whole type,
+or the element type of a reduction that only its generator clauses determine
+(\secref{reduction-expr}); whether inference may give such a parameter
+\TYP{BottomType}, which programmers must not write (\secref{bottom-type}), is
+left open;
+\item whether an argument whose declared parameter type mentions a static
+parameter inside another type may be converted where only a conversion of its
+elements would satisfy the bounds of the parameter; under the rule above such
+an argument fixes the parameter by subtyping and is not converted;
+\item an expected type in any context other than those listed above, such as
+an argument of another call, an expression that a local declaration precedes in
+a block, an \KWD{if} expression without an \KWD{else} clause, a \KWD{typecase}
+expression, the body of a \KWD{for} loop, or a call written by loose
+juxtaposition, as \EXP{f\;x};
+\item the static arguments of an object with static parameters that is named
+without a call, which a program writes (\secref{where-clauses});
+\item the inference over a whole program of the types that declarations elide
+(\secref{type-inference-components}).
+\end{itemize}
+\revision{revival-inference}{For a type parameter that only the return type
+mentions and that the expected type does not fix, the compiled type checker binds the parameter to \TYP{BottomType},
+except that it refuses a call that has no expected type when the parameter is
+declared \EXP{\KWD{extends} \TYP{Any}}; the interpreter erases such a parameter of a function
+to \TYP{BottomType}, and leaves a generic method's uninstantiated (rows~21, 424, 425 and~447 of the revival's gap ledger).
+Whether inference may do so is the team's question, kept in the draft note
+below.
+Neither implementation infers a \KWD{bool} parameter yet: the compiled type
+checker refuses by name to infer a \KWD{bool}, \KWD{dim} or \KWD{unit}
+parameter, and the interpreter does not unify a \KWD{bool} one (rows~21
+and~307 of the revival's gap ledger).
+The example of \secref{boolparams}, a coercion whose \KWD{bool} parameter only
+its parameter type mentions, can be applied only if its argument fixes that
+parameter.}
 
 \note{ \begin{itemize}
  \item

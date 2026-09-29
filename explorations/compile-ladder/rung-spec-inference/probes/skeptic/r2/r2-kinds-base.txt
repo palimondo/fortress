@@ -1,0 +1,52 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.85 2.13 1.95; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 353c4125f
+=== SkR2UnitInBody.fss walk
+U2 end
+rc=0
+=== SkR2UnitInBody.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2UnitInBody.fss:6:6-10:
+    Static argument inference for the unit static parameter U is not supported by the type checker.
+File SkR2UnitInBody.fss has 1 error.
+rc=255
+=== SkR2UnitInBody.fss compiled run
+Could not load SkR2UnitInBody
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2UnitInBody.class
+	... 5 more
+rc=1
+=== SkR2DimInBody.fss walk
+D2 end
+rc=0
+=== SkR2DimInBody.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2DimInBody.fss:6:6-9:
+    Static argument inference for the dim static parameter D is not supported by the type checker.
+File SkR2DimInBody.fss has 1 error.
+rc=255
+=== SkR2DimInBody.fss compiled run
+Could not load SkR2DimInBody
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2DimInBody.class
+	... 5 more
+rc=1
+=== SkR2IntNeg.fss walk
+N1 untagI(TagI[\0-3\](4)), a negative int parameter the argument's type fixes: 1
+N2 k:3, int k = 0-2, elements 6
+rc=0
+=== SkR2IntNeg.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2IntNeg.fss:15:95-114:
+    Could not check call to function untagI
+    - [\int k\]TagI[\k\]->ZZ32 is not applicable to an argument of type TagI[\0-3\].
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2IntNeg.fss:15:110:
+    Ill-formed static argument: 0-3
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2IntNeg.fss:16:56:
+    Ill-formed static argument: 0-2
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File SkR2IntNeg.fss has 3 errors.
+rc=255
+=== SkR2IntNeg.fss compiled run
+Could not load SkR2IntNeg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2IntNeg.class
+	... 5 more
+rc=1
+EXIT=0

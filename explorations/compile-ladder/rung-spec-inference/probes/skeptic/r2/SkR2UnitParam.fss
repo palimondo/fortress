@@ -1,0 +1,14 @@
+component SkR2UnitParam
+export Executable
+
+dim Length SI_unit meter meters m
+
+object Q[\unit U\](v: ZZ32) end
+
+get[\unit U\](q: Q[\U\]): ZZ32 = q.v
+
+run(): () = do
+  println("U1 get(Q[\\meter\\](7)), a unit parameter the argument's type fixes: " get(Q[\meter\](7)))
+end
+
+end

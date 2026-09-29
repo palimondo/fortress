@@ -1105,7 +1105,9 @@ in the revival's repository.
 one over \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or
 \EXP{\mathbb{Z}}, and widens its elements where it needs a wider counter; a
 range over another integer type is refused. Whether a \KWD{nat} parameter may
-be a component of a range is not settled (\secref{revival-notrevised}).
+be a component of a range, which this change left open, is settled by
+\secref{revival-inference}: it converts to \EXP{\mathbb{Z}32} as an integer
+numeral does.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/ranges.tex},
 lines 42--44:
 \begin{quote}
@@ -1544,20 +1546,189 @@ Before this revision the listing's header was
 \item[Route C] By the revival's reading, not measured, the same under route~C.
 \end{description}
 
+\subsection{The inference of a call's static arguments}
+\seclabel{revival-inference}
+
+\begin{description}
+\item[Affected sections] \chapref{type-inference}; \secref{ranges};
+\secref{basic-integers}; \secref{revival-ranges}; \secref{revival-notrevised}.
+\item[Change] \chapref{type-inference}, which held a heading and two draft
+notes, states how the static arguments of a call that does not write them are
+inferred, for type parameters and for \KWD{nat} and \KWD{int} parameters.
+The declaration is chosen first, as \secref{resolving-coercion} chooses it, a
+declaration with static parameters being applicable to a call if some instance
+of it within its bounds is, and compared on the parameter types it declares.
+Its static arguments are then inferred: a type, \KWD{nat} or \KWD{int}
+parameter that a parameter type mentions inside another type is fixed by the
+argument, and a type parameter that the return type mentions inside another
+type by the expected type; a type parameter that
+is the whole type of parameters takes the narrowest type that their arguments
+are substitutable for, which for number arguments is the narrowest type into
+which every one of them converts, and otherwise the union of their types; every
+argument is admitted by substitutability, the coercions the instance needs are
+inserted statically, and the converted call dispatches by subtyping.
+A call written by tight juxtaposition, as a method invocation or as an operator
+application, has an expected type in the contexts the chapter lists, a variable
+or field declaration and an assignment to a variable among them, and is
+inferred again without it when its result then converts.
+A numeral whose conversions tie is read as a \EXP{\mathbb{Z}32}, or as a
+\EXP{\mathbb{Z}64} or a \EXP{\mathbb{Z}} by its value; any other tie among
+declarations applicable only with coercion is a static error.
+The chapter lists what it does not yet describe, the static arguments of a
+\KWD{bool}, \KWD{dim}, \KWD{unit} or operator parameter among them, keeps the
+second of the two draft notes, and has three boxes: on the Working Draft, the
+bound it assumes and the passages it leaves to the revision of the overloading
+chapters; on the interpreter; and on a type parameter that only the return
+type mentions and on the \KWD{bool} parameters that neither implementation
+infers.
+The ranges section says that a \KWD{nat} or \KWD{int} parameter used as a
+component converts to \EXP{\mathbb{Z}32} as an integer numeral does, with a
+box.
+The box in \secref{basic-integers} says that a generic call over two different
+integer types infers the narrowest type that both coerce into by the rule of
+\chapref{type-inference}.
+\secref{revival-notrevised} says that the rule is written and names the passages
+the chapter leaves unrevised, and it and the effect of \secref{revival-ranges}
+say that the question of a \KWD{nat} parameter in a range is settled.
+\item[Rationale] This change does not follow from route~A.
+The revival decided on 26~September 2026 that a generic call over two different
+integer types infers the narrowest type that both coerce into, by a rule
+written into this chapter; on 27~September 2026 that the compiled type checker
+infers static arguments with coercion and keeps the expected type at a call
+written as \EXP{f(x)}, with a retry without it so that a coercion of the result
+still applies, and that the chapter is written with it; and on 28~September
+2026 that a coercion makes a call possible and never changes which declaration
+runs when one is applicable without it, the declaration chosen being then
+instantiated by that rule, that a numeral whose conversions tie is read as a
+\EXP{\mathbb{Z}32}, and that a \KWD{nat} parameter used as a value converts to
+\EXP{\mathbb{Z}32} as a numeral does.
+\chapref{multiple-dispatch}, \secref{idn-ref} and \secref{dotted-method-calls}
+said that static arguments are inferred as \chapref{type-inference} describes,
+and it described nothing; once the compiled type checker infers them by a rule
+the text does not state, the text and the implementation disagree, so the
+chapter states the rule that the checker builds, and no more.
+The order, a declaration chosen and then instantiated, is that of
+\secref{resolving-coercion}, read on the parameter types that declarations
+declare, as the type group's paper of 2011 reads a declaration with static
+parameters: it ``is applicable to a type if and only if at least one of its
+instances is'' (\nolinkurl{Papers/Types/setup.tick}, lines 396--397, in the
+revival's repository).
+The numeral's default is what the interpreter did before this change, giving
+a numeral the narrowest of \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} and
+\EXP{\mathbb{Z}} that holds its value, \library\ declaring their numeral type
+below \EXP{\mathbb{Z}32}; the compiled path, whose library declares its
+numeral type beside \EXP{\mathbb{Z}32} and excluding it, took one of the
+declarations that a numeral left tied, and not always the same one (row~391 of
+the revival's gap ledger).
+It is also the Java programming language's type for an integer literal.
+The compiled type checker gives a \KWD{nat} or \KWD{int} parameter used as a
+value the type of a numeral, and the interpreter makes it a \EXP{\mathbb{Z}32},
+so an \KWD{int} parameter is read as a \KWD{nat} parameter is; on the Java
+Virtual Machine the length and the indices of an array are 32-bit integers.
+The team's later Types chapter (Luchangco, 2012) gives the coercion relation,
+the coercion of a generic type and the valid instantiations of a quantified
+type (\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
+938--947, 393--400 and 771--789, in the revival's repository) and never uses
+the word ``infer''; the type group's paper leaves the run-time inference of the
+static arguments of a dispatched declaration ``beyond the scope of this paper''
+(\nolinkurl{Papers/Types/rules.tick}, lines 118--129).
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-inference/decision-record.md}
+in the revival's repository.
+\item[Effect] A generic call over two different integer types, or over a number
+type and a numeral, need not write its static argument, and the interim rule
+of the effect of \secref{revival-numbers} ends.
+A declared type fixes a type parameter that the return type of a call written
+as \EXP{f(x)} mentions inside another type, and a call whose result the
+declared type converts is accepted as before.
+Where the conversions of a numeral tie, the \EXP{\mathbb{Z}32} declaration or
+instance is taken; where another argument's conversions tie, the call is a
+static error.
+A \KWD{nat} or \KWD{int} parameter may be a component of a range, as in the
+specification's own examples.
+Until the overloading chapters are revised, \chapref{multiple-dispatch} says
+that static parameters are inferred before applicability is checked, and
+\secref{type-param} gives a type parameter without an \KWD{extends} clause the
+bound \TYP{Object}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
+lines 12--27, which held after the chapter's heading two draft notes:
+\begin{quote}
+This chapter will include the Fortress static type inference mechanism.
+\end{quote}
+and the note that the chapter keeps:
+\begin{quote}
+\begin{itemize}
+\item There seems to be a circular dependency between inference and
+juxtaposition disambiguation -- you have to know if the subexpressions have
+arrow types to disambiguate, but you can't do that without using inference,
+which requires knowing how the variable of unknown type is used.
+\item Type Inference (Dan's email titled ``Comments on a first reading of the
+spec'' on 06/05/07)
+\item Do we want to forbid such cases where type inference infers
+\TYP{BottomType}s for static parameters?
+\end{itemize}
+\end{quote}
+The other passages this change revises are the revival's own text of 27 and
+28~September 2026, not the Working Draft's.
+The ranges section said, in
+\nolinkurl{Specification/basic/expressions/ranges.tex}, lines 46--48, before
+this revision:
+\begin{quote}
+An integer numeral converts to \EXP{\mathbb{Z}32} (\secref{literals}), and
+it is a static error if a component of an explicit range has an integer type
+other than \EXP{\mathbb{Z}32}.
+\end{quote}
+The box in \secref{basic-integers} ended, in
+\nolinkurl{Specification/basic-lib/basic-integers.tex}, lines 90--94:
+\begin{quote}
+A generic call over two different integer types is to infer the
+narrowest type that both coerce into, by a rule to be written into
+\chapref{type-inference} together with its implementation; until then such a
+call writes its static argument, as in
+\EXP{f\llbracket\mathbb{Z}64\rrbracket(a, b)}.
+\end{quote}
+The effect of \secref{revival-ranges} ended:
+\begin{quote}
+Whether a \KWD{nat} parameter may be a component of a range is not settled
+(\secref{revival-notrevised}).
+\end{quote}
+and \secref{revival-notrevised} said:
+\begin{quote}
+The rule by which a generic call over two different integer types
+infers the narrowest type that both coerce into is to be written into
+\chapref{type-inference} together with its implementation
+(\secref{revival-numbers}).
+\end{quote}
+and
+\begin{quote}
+Whether a \KWD{nat} parameter, which may appear wherever a variable of type
+\EXP{\mathbb{N}32} can (\secref{natparams}), may be a component of a range
+is not settled (\secref{revival-ranges}); the static ranges of
+\secref{ranges} and the examples whose ranges a \KWD{nat} parameter bounds are
+not revised.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
 No passage that instantiation exclusion or the reorganized numeric types
 contradict is known to be unrevised.
 The rule by which a generic call over two different integer types
-infers the narrowest type that both coerce into is to be written into
+infers the narrowest type that both coerce into is written into
 \chapref{type-inference} together with its implementation
-(\secref{revival-numbers}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+(\secref{revival-inference}); the passages that chapter leaves unrevised are the
+sentences of \chapref{multiple-dispatch} by which static parameters are inferred
+before the applicability of a declaration is checked and before declarations
+are compared, the implicit bound of \secref{type-param}, and the rule of
+\chapref{overloaded-declarations} on a naked type parameter of bound \TYP{Any},
+which are to be revised with the overloading chapters. The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
 Whether a \KWD{nat} parameter, which may appear wherever a variable of type
-\EXP{\mathbb{N}32} can (\secref{natparams}), may be a component of a range
-is not settled (\secref{revival-ranges}); the static ranges of
-\secref{ranges} and the examples whose ranges a \KWD{nat} parameter bounds are
-not revised.
+\EXP{\mathbb{N}32} can (\secref{natparams}), may be a component of a range is
+settled (\secref{revival-inference}): it converts to \EXP{\mathbb{Z}32} as an
+integer numeral does, so the static ranges of \secref{ranges} and the examples
+whose ranges a \KWD{nat} parameter bounds stand as written.
 Before the number chapters were revised, this section said:
 \begin{quote}
 The number chapters, \chapref{lib:numbers-basic} (whose integers are \secref{basic-integers})

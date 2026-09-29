@@ -1,0 +1,15 @@
+component SkR2WalkEraseMeth
+export Executable
+
+object BoxT[\T\]() end
+
+object Fac
+  mk[\T\](): BoxT[\T\] = BoxT[\T\]()
+end
+
+run(): () = do
+  a: BoxT[\ZZ64\] = Fac.mk()
+  println("accepted")
+end
+
+end

@@ -1,0 +1,14 @@
+component SkR2ExWrapFn
+export Executable
+
+object BoxT[\T\](v: T) end
+
+wrap[\T\](x: T): BoxT[\T\] = BoxT[\T\](x)
+
+run(): () = do
+  a: BoxT[\ZZ64\] = wrap(3)
+  w: ZZ64 = a.v + 4000000000
+  println("wrap(3) into BoxT[ZZ64]: " w)
+end
+
+end

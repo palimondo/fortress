@@ -10,9 +10,9 @@ run(): () = do
     zero: ZZ32 = 0
     emptyAtMin = zMin # zero
     maxInside = zMax IN emptyAtMin
-    assert(NOT maxInside, "ranges.tex:68-69")
+    assert(NOT maxInside, "ranges.tex:78-79")
     emptySize = emptyAtMin.size
-    assert(emptySize = 0, "ranges.tex:68-69, :130-133")
+    assert(emptySize = 0, "ranges.tex:78-79, :140-143")
     println("PASS")
   end
 

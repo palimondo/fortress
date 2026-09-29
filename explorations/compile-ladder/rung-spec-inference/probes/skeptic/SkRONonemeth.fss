@@ -1,0 +1,20 @@
+component SkRONonemeth
+export Executable
+
+r[\T\](s: String): T = do println("  r ran: " s); throw FailCalled(s) end
+
+object O
+  r[\T\](s: String): T = do println("  O.r ran: " s); throw FailCalled(s) end
+end
+
+run(): () = do
+  try
+    x: ZZ32 = O.r("a")
+    println(x)
+  catch e
+    FailCalled => println("caught")
+  end
+  println("end")
+end
+
+end

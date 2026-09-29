@@ -1,0 +1,152 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.06 2.32 1.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 353c4125f
+=== SkR2ROAnyInnerCtx.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ROAnyInnerCtx.fss:17:3-18:
+RHS expression type BoxT[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ROAnyInnerCtx.fss:6:1-8:2\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ROAnyInnerCtx.fss:17:3-18:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ROAnyInnerCtx.fss:17:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2ROAnyInnerCtx.fss compile
+rc=0
+=== SkR2ROAnyInnerCtx.fss compiled run
+fixed by the expected type:  BoxT[ZZ64]
+rc=0
+=== SkR2ROAnyInnerNoCtx.fss walk
+sink
+end
+rc=0
+=== SkR2ROAnyInnerNoCtx.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ROAnyInnerNoCtx.fss:13:8-15:
+    Could not check method invocation Fac.mkA
+    - Could not infer static argument T extends Any without context.
+File SkR2ROAnyInnerNoCtx.fss has 1 error.
+rc=255
+=== SkR2ROAnyInnerNoCtx.fss compiled run
+Could not load SkR2ROAnyInnerNoCtx
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2ROAnyInnerNoCtx.class
+	... 5 more
+rc=1
+=== SkR2ExWrapFn.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapFn.fss:9:3-18:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ64\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapFn.fss:9:3-18:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapFn.fss:9:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2ExWrapFn.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapFn.fss:9:21-26:
+    Right-hand side has type BoxT[\IntLiteral\], but declared type is BoxT[\ZZ64\].
+File SkR2ExWrapFn.fss has 1 error.
+rc=255
+=== SkR2ExWrapFn.fss compiled run
+Could not load SkR2ExWrapFn
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2ExWrapFn.class
+	... 5 more
+rc=1
+=== SkR2ExWrapMeth.fss walk
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapMeth.fss:11:21-28:
+** bug! Symbolic type T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapMeth.fss:6:1-8:2 is being matched to value 3: ZZ32
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapMeth.fss:11:21-28:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2ExWrapMeth.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2ExWrapMeth.fss:11:21-28:
+    Could not check method invocation O.wrap
+    - [\T extends Object\]T->BoxT[\T\] is not applicable to an argument of type IntLiteral.
+File SkR2ExWrapMeth.fss has 1 error.
+rc=255
+=== SkR2ExWrapMeth.fss compiled run
+Could not load SkR2ExWrapMeth
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2ExWrapMeth.class
+	... 5 more
+rc=1
+=== SkR2ExId.fss walk
+id(3) into ZZ64: 4000000003
+rc=0
+=== SkR2ExId.fss compile
+rc=0
+=== SkR2ExId.fss compiled run
+id(3) into ZZ64:  4000000003
+rc=0
+=== SkR2UnitParam.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2UnitParam.fss:11:90-94:
+Missing type meter
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2UnitParam.fss:11:90-94:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2UnitParam.fss:11:90-94:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2UnitParam.fss compile
+Exception in thread "main" java.lang.Error: Not yet implemented: class com.sun.fortress.nodes.DimDecl
+	at com.sun.fortress.scala_src.typechecker.impls.Misc.checkMisc(Misc.scala:199)
+	at com.sun.fortress.scala_src.typechecker.impls.Misc.checkMisc$(Misc.scala:157)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkMisc(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check(Dispatch.scala:73)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check$(Dispatch.scala:59)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.check(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.$anonfun$checkDecls$1(Decls.scala:79)
+	at scala.collection.immutable.List.map(List.scala:236)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls(Decls.scala:79)
+	at com.sun.fortress.scala_src.typechecker.impls.Decls.checkDecls$(Decls.scala:75)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.checkDecls(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check(Dispatch.scala:62)
+	at com.sun.fortress.scala_src.typechecker.impls.Dispatch.check$(Dispatch.scala:59)
+	at com.sun.fortress.scala_src.typechecker.STypeCheckerImpl.check(STypeChecker.scala:111)
+	at com.sun.fortress.scala_src.typechecker.STypeChecker.typeCheck(STypeChecker.scala:432)
+	at com.sun.fortress.compiler.StaticChecker.checkCompilationUnit(StaticChecker.java:247)
+	at com.sun.fortress.compiler.StaticChecker.checkComponents(StaticChecker.java:149)
+	at com.sun.fortress.compiler.phases.TypeCheckPhase.execute(TypeCheckPhase.java:49)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:52)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.compiler.phases.Phase.run(Phase.java:51)
+	at com.sun.fortress.Shell.analyze(Shell.java:1265)
+	at com.sun.fortress.repository.GraphRepository.parseComponent(GraphRepository.java:805)
+	at com.sun.fortress.repository.GraphRepository.refreshGraph(GraphRepository.java:511)
+	at com.sun.fortress.repository.GraphRepository.getComponent(GraphRepository.java:202)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:968)
+	at com.sun.fortress.Shell.compileWithErrorHandling(Shell.java:898)
+	at com.sun.fortress.Shell.compilerPhases(Shell.java:874)
+rc=1
+=== SkR2UnitParam.fss compiled run
+Could not load SkR2UnitParam
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2UnitParam.class
+	... 5 more
+rc=1
+=== SkR2IntNeg.fss walk
+null/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2IntNeg.fss:15:108:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkR2IntNeg.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/r2/SkR2IntNeg.fss:15:108:
+    Syntax Error
+File SkR2IntNeg.fss has 1 error.
+rc=255
+=== SkR2IntNeg.fss compiled run
+Could not load SkR2IntNeg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkR2IntNeg.class
+	... 5 more
+rc=1
+EXIT=0

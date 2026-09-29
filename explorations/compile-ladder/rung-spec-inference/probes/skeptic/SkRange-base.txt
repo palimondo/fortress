@@ -1,0 +1,72 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.09 0.84 2.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkRangeBig.fss walk
+B1 seq(n#2), nat n = 3000000000 (a size above ZZ32's range)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeBig.fss:4:11-14:
+Negative nats are unNATural: -1294967296
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeBig.fss:4:11-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkRangeBig.fss compile
+rc=0
+=== SkRangeBig.fss compiled run
+B1 seq(n#2), nat n = 3000000000 (a size above ZZ32's range)
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+rc=1
+=== SkRangeMixed.fss walk
+X1 seq(n:w), nat n = 2, w: ZZ64 (the sentence: a static error)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeMixed.fss:5:16:
+Failed to find any matching overload, args = (2: ZZ32,4: ZZ64), overload = {
+	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange /home/user/fortress-specinfer/Library/FortressLibrary.fss:3968:1-45
+	:(lo:FortressLibrary.ZZ32,hi:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange /home/user/fortress-specinfer/Library/FortressLibrary.fss:3921:1-3922:28
+	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D /home/user/fortress-specinfer/Library/FortressLibrary.fss:3923:1-3924:60
+	:(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),hi:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->CompactFullRange3D /home/user/fortress-specinfer/Library/FortressLibrary.fss:3925:1-3928:4
+	:[\I\](r:Range[\I\],stride:I):Range[\I\]/home/user/fortress-specinfer/Library/FortressLibrary.fss:4045:1-4048:3}:OverloadedFunction
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeMixed.fss:5:16:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeMixed.fss:11:3-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkRangeMixed.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeMixed.fss:5:16:
+    Could not check call to operator :
+    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (IntLiteral, ZZ64).
+File SkRangeMixed.fss has 1 error.
+rc=255
+=== SkRangeMixed.fss compiled run
+Could not load SkRangeMixed
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkRangeMixed.class
+	... 5 more
+rc=1
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.23 0.90 2.38; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkRangeBigLit.fss walk
+B3 seq(3000000000#2), the numeral itself
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeBigLit.fss:6:16-24:
+Failed to find any matching overload, args = (3000000000: ZZ64,2: ZZ32), overload = {
+	#():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange /home/user/fortress-specinfer/Library/FortressLibrary.fss:3967:1-45
+	#(lo:FortressLibrary.ZZ32,ex:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange /home/user/fortress-specinfer/Library/FortressLibrary.fss:3913:1-71
+	#(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),ex:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D /home/user/fortress-specinfer/Library/FortressLibrary.fss:3914:1-3915:58
+	#(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),ex:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->CompactFullRange3D /home/user/fortress-specinfer/Library/FortressLibrary.fss:3916:1-3919:6
+	#[\I\](r:PartialRange[\I\],size:I):Range[\I\]/home/user/fortress-specinfer/Library/FortressLibrary.fss:4050:1-4054:62}:OverloadedFunction
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeBigLit.fss:6:16-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkRangeBigLit.fss compile
+rc=0
+=== SkRangeBigLit.fss compiled run
+B3 seq(3000000000#2), the numeral itself
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+rc=1

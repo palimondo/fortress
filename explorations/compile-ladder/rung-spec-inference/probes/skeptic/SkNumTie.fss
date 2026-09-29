@@ -1,0 +1,15 @@
+component SkNumTie
+export Executable
+
+g(x: NN32): String = "g(NN32)"
+g(x: ZZ32): String = "g(ZZ32)"
+
+h(x: ZZ32): String = "h(ZZ32)"
+h(x: NN32): String = "h(NN32)"
+
+run(): () = do
+  println("N1 g(0) with g(NN32) declared first: " g(0))
+  println("N2 h(0) with h(ZZ32) declared first: " h(0))
+end
+
+end

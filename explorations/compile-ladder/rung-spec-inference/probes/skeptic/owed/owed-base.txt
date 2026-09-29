@@ -1,0 +1,45 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.22 0.47 1.67; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== XXXExpectedTypeChoiceRungT.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXExpectedTypeChoiceRungT.fss:7:30:
+Missing type T
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXExpectedTypeChoiceRungT.fss:7:30:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXExpectedTypeChoiceRungT.fss:8:3-28:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXExpectedTypeChoiceRungT.fss:6:1-9:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXExpectedTypeChoiceRungT.fss compile
+rc=0
+=== XXXExpectedTypeChoiceRungT.fss compiled run
+REACHED
+FAIL:  the generic declaration fits O.k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  the generic declaration fits O.k(z) without coercion; inference.tex:58-67, :116-122; conversions-coercions.tex:472-476
+rc=1
+=== ExpectedTypeFnChoiceRungT.fss walk
+PASS
+rc=0
+=== ExpectedTypeFnChoiceRungT.fss compile
+rc=0
+=== ExpectedTypeFnChoiceRungT.fss compiled run
+PASS
+rc=0
+=== XXXInferredIntBindingRungT.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ32\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXInferredIntBindingRungT.fss compile
+rc=0
+=== XXXInferredIntBindingRungT.fss compiled run
+REACHED
+PASS
+rc=0

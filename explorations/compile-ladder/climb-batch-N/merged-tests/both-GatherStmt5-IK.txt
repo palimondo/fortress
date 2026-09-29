@@ -1,0 +1,34 @@
+# both.sh stmt5 2026-09-29T06:15:22Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.68 0.64 0.57; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 041682188 with the next rung applied, not yet committed
+=== GatherStmt5.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-stmt5/GatherStmt5.fss:17:3-11:
+RHS expression type BoxT[\Number\] is not assignable to LHS type Seen
+Context:
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:17:3-11:
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:17:3-11:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== GatherStmt5.fss compile
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:17:14-22:
+    Right-hand side has type BoxT[\Number\], but declared type is Seen.
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:18:14-22:
+    Right-hand side has type BoxT[\Number\], but declared type is Seen.
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:19:14-22:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is Seen.
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:20:14-22:
+    Right-hand side has type BoxT[\ZZ64\], but declared type is Seen.
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:21:14-23:
+    Right-hand side has type BoxT[\OR(ZZ64,RR64)\], but declared type is Seen.
+tmp/gather-N/progs-stmt5/GatherStmt5.fss:22:14-23:
+    Could not check call to function g0
+    - [\T extends Object\](T, T, ZZ64)->BoxT[\T\] is not applicable to an argument of type (ZZ64, RR64, ZZ32).
+File GatherStmt5.fss has 6 errors.
+rc=255
+=== GatherStmt5.fss compiled run
+Could not load GatherStmt5
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : GatherStmt5.class
+	... 5 more
+rc=1

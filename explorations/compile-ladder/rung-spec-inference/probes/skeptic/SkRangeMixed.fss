@@ -1,0 +1,15 @@
+component SkRangeMixed
+export Executable
+
+mixed[\nat n\](w: ZZ64): () = do
+  for x <- seq(n:w) do println("  element " x) end
+end
+
+run(): () = do
+  w: ZZ64 = 4
+  println("X1 seq(n:w), nat n = 2, w: ZZ64 (the sentence: a static error)")
+  mixed[\2\](w)
+  println("end")
+end
+
+end

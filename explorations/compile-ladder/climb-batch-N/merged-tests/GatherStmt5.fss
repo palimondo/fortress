@@ -1,0 +1,25 @@
+(*) explorations/compile-ladder/climb-batch-N/RECORD.md
+component GatherStmt5
+export Executable
+
+trait Seen end
+object BoxT[\T\]() end
+
+pick[\T extends Number\](x: T, y: T): BoxT[\T\] = BoxT[\T\]()
+g[\T extends Number\](x: T, y: T, k: ZZ64): BoxT[\T\] = BoxT[\T\]()
+pick0[\T\](x: T, y: T): BoxT[\T\] = BoxT[\T\]()
+g0[\T\](x: T, y: T, k: ZZ64): BoxT[\T\] = BoxT[\T\]()
+
+run(): () = do
+  z: ZZ32 = 3
+  w: ZZ64 = 4
+  r: RR64 = 2.5
+  s1: Seen = pick(w, r)
+  s2: Seen = g(w, r, z)
+  s3: Seen = g(w, w, z)
+  s4: Seen = g(z, w, z)
+  s5: Seen = pick0(w, r)
+  s6: Seen = g0(w, r, z)
+end
+
+end

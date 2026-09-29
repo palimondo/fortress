@@ -87,11 +87,11 @@ As for the rationals, the text above describes the integer types \library\
 declare instead, siblings under \TYP{Number}, with the coercions they declare:
 \EXP{\mathbb{Z}} is no longer a subtype of \EXP{\mathbb{Q}}, which coerces from it.
 The library's integer types hold no infinite value.
-A generic call over two different integer types is to infer the
-narrowest type that both coerce into, by a rule to be written into
-\chapref{type-inference} together with its implementation; until then such a
-call writes its static argument, as in
-\EXP{f\llbracket\mathbb{Z}64\rrbracket(a, b)}.}
+A generic call over two different integer types infers the
+narrowest type that both coerce into, by the rule of
+\chapref{type-inference}, and need not write its static argument: with
+\VAR{a} of type \EXP{\mathbb{Z}32} and \VAR{b} of type \EXP{\mathbb{Z}64},
+\EXP{f(a, b)} infers \EXP{\mathbb{Z}64}, as \EXP{f\llbracket\mathbb{Z}64\rrbracket(a, b)} writes it.}
 
 %% trait ZZ
 %%     extends { Number, IntegerLike[\ZZ\],

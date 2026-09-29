@@ -1,0 +1,13 @@
+component SkR2WalkEraseFn
+export Executable
+
+object BoxT[\T\]() end
+
+mkf[\T\](): BoxT[\T\] = BoxT[\T\]()
+
+run(): () = do
+  a: BoxT[\ZZ64\] = mkf()
+  println("accepted")
+end
+
+end

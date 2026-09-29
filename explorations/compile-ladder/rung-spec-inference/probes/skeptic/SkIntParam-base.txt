@@ -1,0 +1,11 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.46 0.55 1.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkIntParam.fss walk
+I1 untagN(TagN[\3\](4)), a nat parameter the argument's type fixes: 7
+I2 untagI(TagI[\3\](4)), an int parameter the argument's type fixes: 7
+rc=0
+=== SkIntParam.fss compile
+rc=0
+=== SkIntParam.fss compiled run
+I1 untagN(TagN[\3\](4)), a nat parameter the argument's type fixes:  7
+I2 untagI(TagI[\3\](4)), an int parameter the argument's type fixes:  7
+rc=0

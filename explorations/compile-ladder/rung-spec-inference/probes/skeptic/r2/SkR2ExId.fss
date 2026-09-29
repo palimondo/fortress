@@ -1,0 +1,12 @@
+component SkR2ExId
+export Executable
+
+id[\T\](x: T): T = x
+
+run(): () = do
+  b: ZZ64 = id(3)
+  w: ZZ64 = b + 4000000000
+  println("id(3) into ZZ64: " w)
+end
+
+end

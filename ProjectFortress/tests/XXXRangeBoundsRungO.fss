@@ -12,21 +12,21 @@ run(): () = do
     lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
     topOne = zMax # one
     topOneSize = |topOne|
-    assert(topOneSize = 1, "ranges.tex:68-69, :130-133")
+    assert(topOneSize = 1, "ranges.tex:78-79, :140-143")
     topThree = (zMax - 2) # three
     topThreeSize = |topThree|
-    assert(topThreeSize = 3, "ranges.tex:68-69, :130-133")
+    assert(topThreeSize = 3, "ranges.tex:78-79, :140-143")
     wideTop = 0 # three
     wideTopSize = SUM[\ZZ32\][k <- wideTop, (lMax - widen(2)) + widen(k) <= lMax] 1
-    assert(wideTopSize = 3, "ranges.tex:68-69, :130-133")
+    assert(wideTopSize = 3, "ranges.tex:78-79, :140-143")
     r = one:zMin
     rSize = r.size
-    assert(rSize = 0, "ranges.tex:51, :130-133")
+    assert(rSize = 0, "ranges.tex:61, :140-143")
     rCard = |r|
-    assert(rCard = 0, "ranges.tex:51, :130-133")
+    assert(rCard = 0, "ranges.tex:61, :140-143")
     downward = zMax:zMin
     downwardCard = |downward|
-    assert(downwardCard = 0, "ranges.tex:51, :130-133")
+    assert(downwardCard = 0, "ranges.tex:61, :140-143")
     println("PASS")
   end
 

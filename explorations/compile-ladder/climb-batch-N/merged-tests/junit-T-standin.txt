@@ -1,0 +1,69 @@
+# junit.sh T-standin 2026-09-29T06:20:07Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.91 0.49 0.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 041682188 with the next rung applied, not yet committed; tests from /home/user/fortress/explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler
+########## [T-standin] fortress junit XXXStridedRangeRungT.test
+. compile explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXStridedRangeRungT 
+ Saw failure, but did not satisfy compile_err_contains; expected
+(ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral)
+F
+Time: 2.07
+There was 1 failure:
+1) explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXStridedRangeRungT(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## [T-standin] fortress junit ExpectedTypeChoiceRungTLink.test
+. link explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeChoiceRungT  OK (time = 4133ms)
+
+Time: 4.141
+
+OK (1 test)
+
+exit=0
+########## [T-standin] fortress junit XXXExpectedTypeChoiceRungT.test
+. run explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeChoiceRungT (528ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.539
+There was 1 failure:
+1) explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeChoiceRungT(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest explorations/compile-ladder/climb-batc
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## [T-standin] fortress junit ExpectedTypeFnChoiceRungTLink.test
+. link explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeFnChoiceRungT  OK (time = 3584ms)
+
+Time: 3.591
+
+OK (1 test)
+
+exit=0
+########## [T-standin] fortress junit XXXExpectedTypeFnChoiceRungT.test
+. run explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeFnChoiceRungT (502ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.511
+There was 1 failure:
+1) explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXExpectedTypeFnChoiceRungT(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest explorations/compile-ladder/climb-ba
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
+########## [T-standin] fortress junit XXXInferUnionCoercedArg.test
+. compile explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXInferUnionCoercedArg 
+ Saw failure, but did not satisfy compile_err_contains; expected
+is not applicable to an argument of type (ZZ64, RR64, ZZ32)
+F
+Time: 1.613
+There was 1 failure:
+1) explorations/compile-ladder/climb-batch-N/merged-tests/standin/compiler/XXXInferUnionCoercedArg(com.sun.fortress.tests.unit_tests.FileTests$CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0

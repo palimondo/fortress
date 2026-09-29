@@ -1,0 +1,31 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.47 0.48 1.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkRetRule.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:5:32:
+Missing type T
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:5:32:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:6:3-31:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:4:1-7:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkRetRule.fss compile
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:5:3-36:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:6:3-31:
+    For h,
+the return type of [\T extends Number\](O, T)->T @ /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:5:3-36 should be a subtype of the
+    return type of (O, Any)->String @ /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:6:3-31
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:10:1-50:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:9:1-48:
+    For OPLUS,
+the return type of [\T extends Number\](T, T)->T @ /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:9:1-48 should be a subtype of the
+    return type of (Any, Any)->String @ /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRetRule.fss:10:1-50
+File SkRetRule.fss has 2 errors.
+rc=255
+=== SkRetRule.fss compiled run
+Could not load SkRetRule
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkRetRule.class
+	... 5 more
+rc=1

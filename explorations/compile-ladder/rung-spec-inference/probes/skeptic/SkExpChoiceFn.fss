@@ -1,0 +1,18 @@
+component SkExpChoiceFn
+export Executable
+
+object BoxT[\T\](v: T) end
+
+k[\T extends ZZ32\](x: T): BoxT[\T\] = do println("  ran k generic"); BoxT[\T\](x) end
+k(x: ZZ64): BoxT[\ZZ64\] = do println("  ran k(ZZ64)"); BoxT[\ZZ64\](x) end
+
+run(): () = do
+  z: ZZ32 = 5
+  println("F1 a: BoxT[ZZ32] = k(z)")
+  a: BoxT[\ZZ32\] = k(z)
+  println("F2 b: BoxT[ZZ64] = k(z)")
+  b: BoxT[\ZZ64\] = k(z)
+  println("done")
+end
+
+end

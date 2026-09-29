@@ -1,0 +1,12 @@
+component SkBoolParam
+export Executable
+
+object Tag[\bool b\](v: ZZ32) end
+
+untag[\bool b\](t: Tag[\b\]): ZZ32 = t.v + 1
+
+run(): () = do
+  println("K1 untag(Tag[\\false\\](4)), a bool parameter the argument's type fixes: " untag(Tag[\false\](4)))
+end
+
+end

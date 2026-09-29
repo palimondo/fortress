@@ -1,0 +1,14 @@
+component SkCtxBlock
+export Executable
+
+object BoxT[\T\]() end
+object Fac
+  mk[\T\](): BoxT[\T\] = BoxT[\T\]()
+end
+
+run(): () = do
+  a: BoxT[\ZZ64\] = do Fac.mk() end
+  println("accepted")
+end
+
+end

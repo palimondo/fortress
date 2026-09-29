@@ -1,0 +1,36 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.90 0.64 1.41; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== XXXMethodStaticArgRungT.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXMethodStaticArgRungT.fss:15:12-30:
+Unification error: Closure/Constructor for get param 1 (b:Box[\T@/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXMethodStaticArgRungT.fss:8:1-10:2\]) got arg Box[\ZZ32\] of type Box[\ZZ32\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXMethodStaticArgRungT.fss:15:12-30:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXMethodStaticArgRungT.fss compile
+rc=0
+=== XXXMethodStaticArgRungT.fss compiled run
+REACHED
+PASS
+rc=0
+=== XXXInferredIntBindingRungT.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ32\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/owed/XXXInferredIntBindingRungT.fss:13:5-20:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXInferredIntBindingRungT.fss compile
+rc=0
+=== XXXInferredIntBindingRungT.fss compiled run
+REACHED
+PASS
+rc=0

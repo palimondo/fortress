@@ -1,0 +1,21 @@
+component SkR2OpZW
+export Executable
+
+kind(a: Any): String =
+  typecase a of
+    ZZ64 => "ZZ64"
+    ZZ32 => "ZZ32"
+    NN32 => "NN32"
+    else => "other"
+  end
+
+op[\T extends Number\](a: T, b: T): String = "generic[" kind(a) "," kind(b) "]"
+op(a: Any, b: Any): String = "plain[" kind(a) "," kind(b) "]"
+
+run(): () = do
+  z: ZZ32 = 3
+  w: ZZ64 = 4
+  println("P1 op(z, w), ZZ32 with ZZ64: " op(z, w))
+end
+
+end

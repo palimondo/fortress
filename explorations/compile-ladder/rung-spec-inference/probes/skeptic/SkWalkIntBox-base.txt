@@ -1,0 +1,22 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.20 0.49 1.74; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkWalkIntBox.fss walk
+W1 a: BoxT[ZZ32] = BoxT(z), the constructor (row 364's shape)
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkWalkIntBox.fss:11:3-18:
+RHS expression type BoxT[\Int\] is not assignable to LHS type BoxT[\ZZ32\]
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkWalkIntBox.fss:11:3-18:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkWalkIntBox.fss:11:3-18:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkWalkIntBox.fss compile
+rc=0
+=== SkWalkIntBox.fss compiled run
+W1 a: BoxT[ZZ32] = BoxT(z), the constructor (row 364's shape)
+  bound
+W2 b: BoxT[ZZ32] = k1(z), a generic function
+  bound
+end
+rc=0

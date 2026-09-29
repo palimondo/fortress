@@ -1,0 +1,23 @@
+component SkExpRunTop
+export Executable
+
+k[\T extends ZZ32\](x: T): T = do println("  ran k generic"); x end
+k(x: ZZ64): ZZ64 = do println("  ran k(ZZ64)"); x end
+
+opr OPLUS[\T extends ZZ32\](x: T, y: ZZ32): T = do println("  ran OPLUS generic"); x end
+opr OPLUS(x: ZZ64, y: ZZ32): ZZ64 = do println("  ran OPLUS(ZZ64, ZZ32)"); x end
+
+run(): () = do
+  z: ZZ32 = 5
+  println("T1 a: ZZ32 = k(z)")
+  a: ZZ32 = k(z)
+  println("T2 b: ZZ64 = k(z)")
+  b: ZZ64 = k(z)
+  println("T3 c: ZZ32 = z OPLUS z")
+  c: ZZ32 = z OPLUS z
+  println("T4 d: ZZ64 = z OPLUS z")
+  d: ZZ64 = z OPLUS z
+  println("values " a " " b " " c " " d)
+end
+
+end

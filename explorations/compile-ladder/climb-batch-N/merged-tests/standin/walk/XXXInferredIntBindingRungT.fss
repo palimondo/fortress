@@ -1,0 +1,20 @@
+(*) explorations/compile-ladder/rung-spec-inference/SKEPTIC.md
+
+component XXXInferredIntBindingRungT
+export Executable
+
+object BoxT[\T\](v: T) end
+
+wrap[\T\](x: T): BoxT[\T\] = BoxT[\T\](x)
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 5
+    a: BoxT[\ZZ32\] = BoxT[\ZZ32\](z)
+    assert(a.v = 5, "BoxT(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex:83-89; row 364")
+    b: BoxT[\ZZ32\] = wrap[\ZZ32\](z)
+    assert(b.v = 5, "wrap(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex:83-89; row 364")
+    println("PASS")
+  end
+
+end

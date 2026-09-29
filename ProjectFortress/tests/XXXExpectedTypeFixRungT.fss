@@ -1,0 +1,33 @@
+(*) explorations/compile-ladder/rung-spec-inference/REPORT.md
+
+component XXXExpectedTypeFixRungT
+export Executable
+
+object BoxT[\T\]() end
+
+object Fac
+  mk[\T\](): BoxT[\T\] = BoxT[\T\]()
+end
+
+object H
+  f: BoxT[\ZZ64\] = Fac.mk()
+end
+
+isZZ64Box(b: Any): Boolean =
+  typecase b of
+    BoxT[\ZZ64\] => true
+    else => false
+  end
+
+run(): () = do
+    println("REACHED")
+    a: BoxT[\ZZ64\] = Fac.mk()
+    assert(isZZ64Box(a), "the expected type fixes T in a variable declaration; inference.tex:80-82, :109-112; row 21")
+    var c: BoxT[\ZZ64\] = BoxT[\ZZ64\]()
+    c := Fac.mk()
+    assert(isZZ64Box(c), "the expected type fixes T in an assignment to a variable; inference.tex:80-82, :109-112; row 21")
+    assert(isZZ64Box(H.f), "the expected type fixes T in a field declaration; inference.tex:80-82, :109-112; row 21")
+    println("PASS")
+  end
+
+end

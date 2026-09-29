@@ -1,0 +1,20 @@
+component SkROAnyarg
+export Executable
+
+r[\T extends Any\](s: String): T = do println("  r ran: " s); throw FailCalled(s) end
+
+object O
+  r[\T extends Any\](s: String): T = do println("  O.r ran: " s); throw FailCalled(s) end
+end
+
+run(): () = do
+  try
+    println(r("a"))
+    ()
+  catch e
+    FailCalled => println("caught")
+  end
+  println("end")
+end
+
+end

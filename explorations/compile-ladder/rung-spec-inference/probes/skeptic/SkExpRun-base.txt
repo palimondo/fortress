@@ -1,0 +1,25 @@
+# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.33 0.78 2.96; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 5cc3e32f0
+=== SkExpRun.fss walk
+com.sun.fortress.exceptions.ProgramError: /home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkExpRun.fss:5:30:
+Missing type T
+Context:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkExpRun.fss:5:30:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkExpRun.fss:6:3-56:
+/home/user/fortress-specinfer/explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkExpRun.fss:4:1-7:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkExpRun.fss compile
+rc=0
+=== SkExpRun.fss compiled run
+R1 a: ZZ32 = O.k(z)
+  ran O.k generic
+R2 b: ZZ64 = O.k(z)
+  ran O.k(ZZ64)
+R3 c: ZZ32 = z OPLUS z
+  ran OPLUS generic
+R4 d: ZZ64 = z OPLUS z
+  ran OPLUS(ZZ64, ZZ32)
+values  5   5   5   5
+rc=0
