@@ -1,0 +1,24 @@
+(* A helper that raises a Fortress exception: nativeHelpers/simpleIntArith.intOverflowingAdd
+   throws `Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow")`,
+   a class of the compiled prelude.  Does the same binding text raise a catchable
+   IntegerOverflow on both paths?
+   Walk:     run-shadow.sh <shadow> <caches> NativesShapeRaise.fss
+   Compiled: ./bin/fortress compile NativesShapeRaise.fss; ./bin/fortress run NativesShapeRaise *)
+
+component NativesShapeRaise
+
+import java com.sun.fortress.nativeHelpers.{simpleIntArith.intOverflowingAdd => jAdd}
+export Executable
+
+add(a:ZZ32, b:ZZ32):ZZ32 = jAdd(a, b)
+
+run():() = do
+  println(add(2, 3))
+  try
+    println(add(2147483647, 1))
+  catch e
+    IntegerOverflow => println("IntegerOverflow caught")
+  end
+end
+
+end

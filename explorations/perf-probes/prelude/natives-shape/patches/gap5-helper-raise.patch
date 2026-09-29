@@ -1,0 +1,37 @@
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/ForeignNativeApp.java	2026-09-29 14:57:38.459743684 +0000
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/ForeignNativeApp.java	2026-09-29 14:58:36.728100697 +0000
+@@ -8,6 +8,9 @@
+ 
+ import static com.sun.fortress.exceptions.ProgramError.error;
+ import com.sun.fortress.interpreter.evaluator.values.*;
++import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
++import com.sun.fortress.exceptions.FortressError;
++import com.sun.fortress.interpreter.Driver;
+ import com.sun.fortress.nodes.Applicable;
+ 
+ import java.lang.reflect.InvocationTargetException;
+@@ -37,6 +40,8 @@
+         }
+         catch (InvocationTargetException e) {
+             Throwable t = e.getCause();
++            FortressError f = raised(t);
++            if (f != null) throw f;
+             if (t instanceof RuntimeException) throw (RuntimeException) t;
+             if (t instanceof Error) throw (Error) t;
+             return error(t.toString());
+@@ -46,6 +51,15 @@
+         }
+     }
+ 
++    /** A helper's Utility.makeFortressException("fortress.<Api>$<Name>") names a compiled class;
++        under walk it becomes the library's own exception object <Name>, as Int.overflow() raises it. */
++    static FortressError raised(Throwable t) {
++        if (!(t instanceof FortressImplementationError) || t.getMessage() == null) return null;
++        java.util.regex.Matcher m = java.util.regex.Pattern.compile("^fortress\\.\\w+\\$(\\w+)$").matcher(t.getMessage());
++        if (!m.matches()) return null;
++        return new FortressError((FObject) Driver.getFortressLibrary().getRootValue(m.group(1)));
++    }
++
+     static Object unbox(Class<?> c, FValue v) {
+         if (c == int.class) return v.getInt();
+         if (c == long.class) return v.getLong();
