@@ -190,7 +190,7 @@ From the review of his decisions, 2026-09-29 (`reviews/decisions-review/judgemen
 - R6. Phase 5's array questions (decision D's diff re-based, decision A's mechanism, item 15, the element width, the algebra bounds): the clean list now, read-only (recommended option 1).
 - R7. Walk's run-time choice of coercions: accepted as the interpreter's limit, one S1 callout at `conversions-coercions.tex:598-635` in 7b's rung S, item 16 closed (recommended option 1).
 - R8. Rung Q's brief quotes the team's `IntLiteral` warning whole and measures where arithmetic lands under walk: decided 2026-09-29, option 1 (POSITIONS); goes into rung Q's section of `CLIMB-BATCH-N.md` with probe Q's result, before N's second run.
-- R9. `NN32` coerces into `RR64`, by answer 8's own exactness (recommended option 1).
+- R9. `NN32` coerces into `RR64`, by answer 8's own exactness: decided 2026-09-29, option 1 (POSITIONS); batch 8's library work.
 - R10. The team's 21 broken demos respelled, and a report-only demo stage, when a batch has a slot (recommended option 1).
 - R11. The goal's wording: "the Working Draft of 2010-12, as the revival revises it, with the 2012 Types chapter beside it" (recommended option 1).
 
