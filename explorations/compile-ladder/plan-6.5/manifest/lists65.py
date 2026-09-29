@@ -3,7 +3,8 @@
 # review's measure 5, explorations/reviews/process-review-6b-7-7R.md section 9, approved by Pavol on 2026-09-28 at
 # 14:18 UTC). gen65.py renders the lines at the end of each rung's tail, after its section of the record, in the order
 # of the briefing. A checks list is a sub-list of its briefing's keys. `python3 lists65.py` checks every key with
-# facts-extract.sh --check (each must match exactly one place) and every reason's form.
+# facts-extract.sh --check (each must match exactly one place) and every reason's form; RUN65=second (or first, all)
+# checks only that run's rungs, since a run's lists are checked on the tree it launches from.
 SRC = 'ProjectFortress/src/com/sun/fortress'
 GLUE = SRC + '/interpreter/glue/prim'
 HELP = SRC + '/nativeHelpers'
@@ -16,7 +17,8 @@ FROZEN = "The frozen copy is the Working Draft of February 2011: quote originals
 
 E_BRIEFING = [
   ("positions:2026-09-27 size's range", "The decision this rung builds: a nat parameter is an NN32 value, an int one a ZZ32, a larger one refused; cite it in every refusal and every restated NatRtBigSize line."),
-  ("positions:2026-09-28 size used as a value", "Pavol's item 25: a size used as a value converts to ZZ32 as a numeral does; keep the checker's IntLiteral, and list each read of a size beyond 2^31-1 as a value, where batch N meets you."),
+  ("positions:2026-09-28 size used as a value", "Pavol's item 25: a size used as a value converts to ZZ32 as a numeral does, built by batch N's rung I; keep the checker's IntLiteral, and list each read of a size beyond 2^31-1 as a value, where batch N meets you."),
+  ("positions:2026-09-29 batch N's first run", "Pavol's decision that puts in your rung the tests batch N's first run owes for rows 447 and 505; write both pairs, and decide nothing about what the parameter is bound to."),
   ("positions:2026-09-22 ledger row 334", "The decision for GCD and LCM, nonnegative and IntegerOverflow when the multiple does not fit, on both paths; NN32's and NN64's LCM follow it."),
   ("positions:2026-09-24 ledger row 379", "The decision that walk raises the specification's catchable IntegerOverflow in its natives, the count of changed interpreter outputs measured and brought to Pavol; your natives follow it."),
   ("positions:2026-09-26 fifth batch-5 answer", "The unsigned types follow the signed ones, overflow raising IntegerOverflow; the rule for NN32's and NN64's LCM, CHOOSE and power."),
@@ -33,6 +35,8 @@ E_BRIEFING = [
   ("ledger:450", "The three range bodies that relied on wrapping, their tests and their fix; you repair them and promote the two tests."),
   ("ledger:451", "The sequential step past the last element, its test and its fix; you repair it and promote the test."),
   ("ledger:503", "The six tuple shifts beside your range bodies, refused by the checker and never run under walk; probe them under walk and give a failure its XXX test, the bodies unedited."),
+  ("ledger:447", "A type parameter nothing at the call fixes, bound to BottomType; q(NOf(1)) is its new shape, owed a link and an XXX run test by you; its candidates stay Pavol's (PLAN.md item 18)."),
+  ("ledger:505", "The solver's two behaviours by bound; c1(): ZZ32 = fAny() is its run-time face, owed a link and an XXX run test by you; the solver stays as it is."),
   ("ledger:438", "Integer power declared RR64: not yours, so leave the power's declared type as it is."),
   ("ledger:441", "A negative power's result, Pavol's to choose: leave the negative branch of each Pow native as it is."),
   ("ledger:307", "The checker's nat and int handling, with the note that the arithmetic refusal names nat for an int; say what your int refusal says."),
@@ -43,12 +47,25 @@ E_BRIEFING = [
   ("doc:explorations/reviews/batch-6b-7-conformance.md#Findings@Nine natives still give no catchable", "The finding that widened this rung to the nine natives, with its evidence by reading; your tests are their first measurement."),
   ("doc:explorations/reviews/batch-6b-7-conformance.md#Findings@Rows 450 and 451 have a decided repair", "The finding that placed rows 450 and 451 in this batch; check your repair covers every body it names."),
   ("doc:explorations/reviews/batch-7R-conformance.md#Findings@Rows 450 and 451 have no batch", "Why the repair matters beyond walk: the compiled path runs these bodies at the switch-over."),
+  ("doc:explorations/compile-ladder/climb-batch-N/JUDGE-review.md#2.2 What the specification settles, face by face", "The standard batch N's review applied to rows 447 and 505: no reading gives a clean compile and then a crash in the JVM; the reason each program owes its pair."),
+  ("doc:explorations/compile-ladder/climb-batch-N/JUDGE-review.md#2.3 The nat size face stays home 3", "Where item 25 is silent: an oversized size used as a value has no place of refusal decided; build none, and record walk's answer on SkRangeBig after your reading."),
+  ("doc:explorations/compile-ladder/climb-batch-N/JUDGE-review.md#2.4 The form", "The pair's form, a plain link test and an XXX run test over one component; your owed tests take it."),
+  ("doc:explorations/compile-ladder/climb-batch-N/RECORD.md#The landing@The second review", "Batch N's record of its second review's finding on rows 447 and 505, carried to this run by Pavol's rule; the finding your owed pairs answer."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/REPORT.md#6.6 The solver's two behaviours, and a size used as a value", "Rung I's c1 measured, and its conversion of a size used as a value, the half of item 25 your base carries; your tests start from both."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/REPORT.md#8. Every defect measured, and its home@A call the rule newly types", "The two shapes rung I newly compiles and the JVM refuses, filed at home 3; your pairs are their home-2 tests."),
   ("doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters", "The specification's sentence the refusal rests on; cite it in every refusal message and assertion."),
   ("doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators", "The specification's GCD, LCM and CHOOSE; cite it in the natives test's messages."),
+  ("doc:Specification/basic/inference.tex#A Numeral Whose Conversions Tie", "The numeral tie read as ZZ32, where a size used as a value reads too, and the chapter leaving open whether inference may give BottomType; cite it in the owed tests' messages."),
   ("doc:Specification/basic/expressions/ranges.tex#Ranges", "The specification's ranges, a:b, a#n and the size, sets whose every element fits; the answers your repaired bodies give at MIN and MAX."),
   ("doc:explorations/compile-ladder/plan-6.5/NOTES.md#5. NN32's LCM", "The probe that measured NN32's LCM wrapping; your test restates its case as an assertion."),
   ("doc:explorations/compile-ladder/plan-6.5/NOTES.md#7. What was not probed", "What the planner left to you: walk's size site, which you measure, and the type of a size value, which stays."),
   ("doc:explorations/compile-ladder/plan-6.5/probes/lcm/NN32Lcm.walk.txt", "The base's 2147483648 LCM 7 answering 2147483646; your failing test reproduces it."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkBottomRun.fss", "The program of row 505's run-time face; your owed pair places it."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkBottomRun.diff.txt", "Its VerifyError at load compiled, the base's refusal and walk's c1: -1; what your placed run test must show."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/probes/repair/SigmaResultOnly.fss", "The program of row 447's new shape; your owed pair places it."),
+  ("doc:explorations/compile-ladder/rung-inference-checker/probes/repair/SigmaResultOnly.diff.txt", "Its NoClassDefFoundError compiled against the base's q(W2); what your placed run test must show."),
+  ("doc:explorations/compile-ladder/climb-batch-N/merged-tests/review-bottom-walk.txt", "Both programs under walk on batch N's merged tree, c1: -1 and q: other; neither answer is asserted by your tests."),
+  ("doc:explorations/compile-ladder/rung-spec-inference/probes/skeptic/SkRangeBig.fss", "Row 325's nat size face, a size above ZZ32 used as a range component; run it under walk before and after your reading of sizes."),
   ("doc:explorations/compile-ladder/rung-overflow-natives/REPORT.md#3. The precedent search", "Rung O's devices for the natives, and its list of the ten it left; use its devices for yours."),
   ("doc:explorations/compile-ladder/rung-overflow-natives/REPORT.md#8. The comparison", "How rung O compared the interpreter corpus for its natives; run the same three passes."),
   ("doc:explorations/compile-ladder/rung-overflow-natives/REPORT.md#9. The logging pass", "Rung O's logging pass, which found the bodies that relied on a wrap; say whether yours needs one, and why."),
@@ -81,12 +98,16 @@ E_BRIEFING = [
   ("code:Library/RangeInternals.fss#object CompactFullSeqScalarRange(l:ZZ32, r:ZZ32)", "The sequential generate and loop that step past the last element (row 451); step only while the next element is in the range."),
   ("code:Library/RangeInternals.fss#object StridedFullSeqScalarRange(l:ZZ32, r:ZZ32, str:ZZ32)", "The strided sequential steps, the same defect with a stride; the same fix."),
   ("code:Library/RangeInternals.fss#sized1Range(lo:ZZ32,ex:ZZ32)..sized3Range(", "The helpers of # with lo+ex-1 (row 450); reorder, and build the empty MIN # 0 without lo-1."),
-  ("code:Library/FortressLibrary.fss#trait CompactFullRange[", "The size operator whose (u - l') + 1 overflows at the bounds (row 450); test emptiness first, the one line of FortressLibrary you may change."),
+  ("code:Library/FortressLibrary.fss#trait CompactFullRange[", "The size operator whose (u - l') + 1 overflows at the bounds (row 450), calling rung M's own ZZ32 MAX; test emptiness first, the one line of FortressLibrary you may change."),
   ("code:Library/RangeInternals.fss#meetingPoint(init0:ZZ32", "The library's own body that tries to avoid overflow by stepping; a precedent for a reorder."),
   ("doc:ProjectFortress/compiler_tests/NatRtBigSize.fss", "The revival test that gates sizes to 2^64-1; you restate it to NN32's range, each changed line listed before and after."),
   ("doc:ProjectFortress/tests/XXXNatBigSizeWalk.fss", "Row 418's expected failure; it passes once walk reads sizes exactly, and you promote it by git mv."),
   ("doc:ProjectFortress/compiler_tests/XXXNatArithChecker.fss", "The expected-failure compile test of the arithmetic refusal; your refusal test takes its shape."),
   ("doc:ProjectFortress/compiler_tests/XXXNatArithChecker.test", "Its .test file, pinned by compile_err_contains; pin your refusal's message the same way."),
+  ("doc:ProjectFortress/compiler_tests/XXXNumeralBeyondWidthMax.fss", "Batch N's owed run-time pair, the component; your two owed components take its form, a marker printed before the failing part."),
+  ("doc:ProjectFortress/compiler_tests/XXXNumeralBeyondWidthMax.test", "Its XXX run test, run with run_out_contains=REACHED; your run tests take it where the program prints before it dies."),
+  ("doc:ProjectFortress/compiler_tests/NumeralBeyondWidthMaxLink.test", "Its plain link test, red if the checker refuses the program; each of your pairs has one."),
+  ("doc:ProjectFortress/tests/XXXNatValueNN32RungK.fss", "Row 486's expected failure, walk's size value at an NN32 binding, batch N's rung Q's to fix; your reading of a size keeps its verdict."),
   ("code:ProjectFortress/tests/IntSemanticsRungI.fss#overflows(f: () -> Any): Boolean =..zz32Shown(v: Any): String =", "The helper that catches IntegerOverflow alone; assert every raise of the natives test through it."),
   ("doc:ProjectFortress/tests/XXXRangeBoundsRungO.fss", "Row 450's expected failure; it passes on your repair, and you promote it by git mv, no assertion changed."),
   ("doc:ProjectFortress/tests/XXXRangeEmptyHashRungO.fss", "Row 450's MIN # 0 expected failure; the same."),
@@ -101,16 +122,18 @@ E_BRIEFING = [
   ("What relies on fixed-width wrapping under", "Which library code meant to wrap and which must not overflow; the range bodies must not, so they are reordered."),
   ("An XXX compile test pinned by compile_err_contains", "How the harness reports an XXX compile test whose program compiles; show your refusal test failing on the base for its own reason."),
   ("An XXX*.fss in the interpreter corpus IS a gated expected-failure test", "The mechanism behind walk's refused case and the three XXX tests you promote."),
+  ("The XXX expected-failure mechanism in compiler_tests/", "Why a compiled program that crashes at run time needs two .test files, and what the harness demands when no key is set; the owed pairs of rows 447 and 505 rest on it."),
   ("ant compileAll deletes a tracked file", COMPILEALL),
   ("map:compile-path-walkthrough.md#What the specification says it is", "What a nat parameter is in the specification; the context of the refusal's wording."),
   ("map:README.md#Touch this@scala_src/typechecker", "What a checker edit moves and which tests guard it; run those."),
   ("map:README.md#Touch this@interpreter/ (evaluator", "What an evaluator edit moves and which tests guard it; run those."),
 ]
 E_CHECKS = [
-  "positions:2026-09-27 size's range", "positions:2026-09-28 size used as a value", "positions:2026-09-22 ledger row 334", "positions:2026-09-24 ledger row 379",
+  "positions:2026-09-27 size's range", "positions:2026-09-28 size used as a value", "positions:2026-09-29 batch N's first run", "positions:2026-09-22 ledger row 334", "positions:2026-09-24 ledger row 379",
   "positions:2026-09-26 fifth batch-5 answer", "positions:2026-09-26 rung O of climb batch 4",
   "positions:2026-09-27 stops a batch record reserves", "positions:2026-09-26 rung D's stop", "positions:2026-09-28 rungs re-running measurements",
-  "ledger:418", "ledger:334", "ledger:347", "ledger:450", "ledger:451", "ledger:503",
+  "ledger:418", "ledger:334", "ledger:347", "ledger:450", "ledger:451", "ledger:503", "ledger:447", "ledger:505",
+  "doc:explorations/compile-ladder/climb-batch-N/JUDGE-review.md#2.4 The form",
   "doc:explorations/reviews/batch-6b-7-conformance.md#Findings@Nine natives still give no catchable",
   "doc:Specification/basic/trait-parameters.tex#Nat and Int Parameters",
   "doc:Specification/basic/operators/opr-overview.tex#GCD, LCM, and CHOOSE Operators",
@@ -126,6 +149,7 @@ E_CHECKS = [
   "code:Library/RangeInternals.fss#object CompactFullSeqScalarRange(l:ZZ32, r:ZZ32)",
   "code:Library/RangeInternals.fss#sized1Range(lo:ZZ32,ex:ZZ32)..sized3Range(",
   "doc:ProjectFortress/compiler_tests/NatRtBigSize.fss", "The compiled type checker checks nat and int static parameters",
+  "The XXX expected-failure mechanism in compiler_tests/",
 ]
 
 P_BRIEFING = [
@@ -282,6 +306,7 @@ G_CHECKS = [
 V_BRIEFING = [
   ("positions:2026-09-24 exclusion route rung P's fork", "Route A, the number types siblings under Number with their own algebra; the reason RR32 stops being an RR64."),
   ("positions:2026-09-26 answer 8", "An exact conversion is a coercion and a lossy one explicit; RR64 converts from RR32 and from nothing more."),
+  ("positions:2026-09-28 two decisions of Fable's judgement", "Decision 1 is what batch N's rungs I and K built, whose inference reads your new coercion; decision 2, each type's own MIN, MAX and MINMAX, is the device for RR32's three you restate."),
   ("positions:2026-09-26 answer 6", "The number chapters describe the library; the chapter names RR32 once it is a sibling."),
   ("positions:2026-09-26 number chapters under S2", "The chapters are checked against the library; your sentence states no more than the landed library."),
   ("positions:2026-09-26 S1", "The form of your specification change: a callout, an Appendix I entry quoting the original, a decision record."),
@@ -308,6 +333,7 @@ V_BRIEFING = [
   ("doc:explorations/compile-ladder/rung-flat-tower/REPORT.md#11. The comparison", "Rung F's corpus comparison, the method you repeat."),
   ("code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#value object RR32 extends RR64", "RR32's api, which you restate."),
   ("code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#value object RR32 extends RR64", "RR32's component, which you restate."),
+  ("doc:explorations/compile-ladder/rung-integer-minmax/REPORT.md#3. Precedent search", "Rung M's search counts RR32's MIN, MAX and MINMAX as already declared, read while RR32 is an RR64 and typed at RR64; you restate them at RR32."),
   ("code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait RR64 extends { Number, Equality", "The compiler library's RR64 with its coerce from RR32; the team's shape."),
   ("code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait RR32 extends { Number, Equality", "The compiler library's sibling RR32."),
   ("code:Library/FortressLibrary.fsi#trait RR64 extends { Number, StandardPartialOrder", "The one library's RR64 api, the model for RR32's operators."),
@@ -320,7 +346,7 @@ V_BRIEFING = [
   ("map:spec-to-implementation.md#What the compiler prelude has of the tower", "What the compiler prelude has of the tower, for the comparison with the compiled run."),
 ]
 V_CHECKS = [
-  "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-26 answer 6",
+  "positions:2026-09-24 exclusion route rung P's fork", "positions:2026-09-26 answer 8", "positions:2026-09-28 two decisions of Fable's judgement", "positions:2026-09-26 answer 6",
   "positions:2026-09-26 number chapters under S2", "positions:2026-09-26 rung D's stop", "positions:2026-09-28 rungs re-running measurements",
   "ledger:435",
   "doc:Specification/basic/types-vals-vars.tex#Types in the Fortress Standard Libraries",
@@ -351,7 +377,11 @@ def reason_problems(rid):
 if __name__ == '__main__':
     import subprocess, re, sys, os
     bad = 0
+    run = os.environ.get('RUN65')
+    only = {'first': 'GP', 'second': 'EV', 'all': 'EPGV'}.get(run, 'EPGV')   # RUN65=second checks E and V alone
+    if run: print('RUN65=%s: checking %s' % (run, ', '.join(only)))
     for rid, (b, c) in LISTS.items():
+        if rid not in only: continue
         rp = reason_problems(rid)
         print(rid, 'reasons', len(REASONS[rid]), 'for', len(b), 'briefing keys |', 'problems', len(rp))
         for k, why in rp: print('   PROBLEM', why, ':', k[:200])

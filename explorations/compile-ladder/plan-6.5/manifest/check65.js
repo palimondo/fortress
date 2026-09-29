@@ -3,6 +3,8 @@
 // tail equal to its rung's section of the record followed by its briefing's reasons, one per key in order, and no
 // backtick or non-ASCII character in any string the agents read. Its last line counts the problems. RUN65=second
 // (or first, all) sets the block's RUN before the splice, so the spliced copy is the one that run would launch with.
+// Since 2026-09-29 (the second run's regeneration) the block may carry any RUN, and the spliced copy is also parsed
+// as the body of an async function, as the Workflow tool runs a script.
 const fs = require('fs')
 const cp = require('child_process')
 const path = require('path')
@@ -12,8 +14,8 @@ const SRC = path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
 const REC = process.argv[2] || path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-6.5.md')
 let block = fs.readFileSync(path.join(HERE, 'manifest65.js'), 'utf8')
 if (process.env.RUN65) {
-  if (!/^const RUN = 'first'/m.test(block)) throw new Error('the generated block does not set RUN to first')
-  block = block.replace(/^const RUN = 'first'/m, "const RUN = '" + process.env.RUN65 + "'")
+  if (!/^const RUN = '[a-z]+'/m.test(block)) throw new Error('the generated block does not set RUN')
+  block = block.replace(/^const RUN = '[a-z]+'/m, "const RUN = '" + process.env.RUN65 + "'")
 }
 console.log("the spliced block sets RUN = '" + /^const RUN = '([a-z]+)'/m.exec(block)[1] + "'")
 const orig = fs.readFileSync(SRC, 'utf8')
@@ -33,6 +35,15 @@ for (const f of [SRC, out]) {
   const r = cp.spawnSync('node', ['--check', f], { encoding: 'utf8' })
   console.log('node --check', path.basename(f), 'exit', r.status, r.stderr.trim().slice(0, 300))
 }
+{
+  const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
+  for (const [name, text] of [[path.basename(SRC), orig], ['wf-spliced.js', spliced]]) {
+    // the harness takes the script's one export (export const meta) out before it runs the rest as a function body
+    // (explorations/compile-ladder/plan-7b/manifest/check7b.js; FACTS.md, "node --check does not check the batch script")
+    try { new AsyncFunction('args', 'agent', 'pipeline', 'parallel', 'log', text.replace(/^export const meta/m, 'const meta')); console.log('as an async function body, its export taken out,', name, 'parses') }
+    catch (e) { console.log('as an async function body', name, 'does NOT parse:', e.message) }
+  }
+}
 // the manifest part, evaluated with the globals it needs
 const sl = spliced.split('\n')
 const s2 = sl.findIndex(l => l.startsWith('// MANIFEST - the coordinator replaces')) - 1
@@ -42,10 +53,12 @@ const valStart = sl.findIndex(l => l.startsWith("const LOOKUP_TOOL = "))
 const valEnd = sl.findIndex(l => l.startsWith("const keysOf = "))
 const validation = sl.slice(valStart, valEnd + 1).join('\n')
 const scatterLine = sl.find(l => l.startsWith('const SCATTER = '))
-function evalWith(run, ledger, base = 75) {
+// ledger and base: a number sets the value, null unsets it, undefined keeps the block's own (the block may carry
+// either null or a number since 2026-09-29, when the second run's block was generated with its launch values).
+function evalWith(run, ledger, base) {
   let m = run === null ? manifest : manifest.replace(/^const RUN = '[a-z]+'/m, "const RUN = '" + run + "'")
-  if (ledger !== null) m = m.replace(/^const LEDGER_FROM = null/m, 'const LEDGER_FROM = ' + ledger)
-  if (base !== null) m = m.replace(/^const CHECKER_BASE = null/m, 'const CHECKER_BASE = ' + base)
+  if (ledger !== undefined) m = m.replace(/^const LEDGER_FROM = \S+/m, 'const LEDGER_FROM = ' + ledger)
+  if (base !== undefined) m = m.replace(/^const CHECKER_BASE = \S+/m, 'const CHECKER_BASE = ' + base)
   const f = new Function(m + '\n' + validation + '\n' + scatterLine + '\nreturn { BATCH, BATCH_RECORD, RUNGS, SCATTER, BATCH_INTRO, BATCH_OVERLAPS, LEDGER_FROM }')
   return f()
 }
@@ -63,7 +76,7 @@ function section(id) {
   return (nx < 0 ? rest : rest.slice(0, nx)).replace(/^\n+|\n+$/g, '').replace(/`/g, '')
 }
 let bad = 0
-{ const r = evalWith(null, 493); console.log('as spliced: batch ' + r.BATCH + ', rungs ' + r.RUNGS.map(x => x.id).join(', ') + ', scatter ' + r.SCATTER.map(x => x.id).join(', ')) }
+{ const r = evalWith(null, undefined, undefined); console.log('as spliced: batch ' + r.BATCH + ', rungs ' + r.RUNGS.map(x => x.id).join(', ') + ', scatter ' + r.SCATTER.map(x => x.id).join(', ') + ', LEDGER_FROM ' + r.LEDGER_FROM + ', CHECKER_BASE ' + /^const CHECKER_BASE = (\S+)/m.exec(manifest)[1]) }
 for (const run of ['first', 'second', 'all']) {
   const r = evalWith(run, 493)
   const ids = r.RUNGS.map(x => x.id).join(', ')

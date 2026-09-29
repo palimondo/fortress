@@ -1,18 +1,9 @@
-E reasons 90 for 90 briefing keys | problems 0
-E briefing keys 90 exit 0 | Total: 6 parts print 160141 bytes, about 66300 tokens.
-E checks keys 31 exit 0 | Total: 3 parts print 65002 bytes, about 27000 tokens.
-P reasons 57 for 57 briefing keys | problems 0
-P briefing keys 57 exit 1 | Total: 7 parts print 170541 bytes, about 70700 tokens.
-   PROBLEM code:Library/FortressLibrary.fss#(*) Scalar extension: an array of numbers..declarations beside these. NOT FOUND: no line of Library/FortressLibrary.fss after :4604 holds "declarations beside these."
-   PROBLEM code:Library/FortressLibrary.fsi#(*) Scalar extension: an array of numbers..declarations beside these. NOT FOUND: no line of Library/FortressLibrary.fsi after :2583 holds "declarations beside these."
-P checks keys 24 exit 0 | Total: 2 parts print 45380 bytes, about 18800 tokens.
-G reasons 58 for 58 briefing keys | problems 0
-G briefing keys 58 exit 1 | Total: 5 parts print 110240 bytes, about 45700 tokens.
-   PROBLEM doc:ProjectFortress/compiler_tests/XXXNatRtTask.fss        NOT FOUND: no such file: ProjectFortress/compiler_tests/XXXNatRtTask.fss.md
-   PROBLEM doc:ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss    NOT FOUND: no such file: ProjectFortress/compiler_tests/XXXNatRtMethBoth.fss.md
-   PROBLEM doc:ProjectFortress/library_tests/XXXClauseBindingRungB.fss NOT FOUND: no such file: ProjectFortress/library_tests/XXXClauseBindingRungB.fss.md
-G checks keys 21 exit 0 | Total: 2 parts print 44567 bytes, about 18500 tokens.
-V reasons 38 for 38 briefing keys | problems 0
-V briefing keys 38 exit 0 | Total: 4 parts print 94285 bytes, about 39100 tokens.
-V checks keys 14 exit 0 | Total: 2 parts print 31869 bytes, about 13300 tokens.
-bad lists 2
+$ RUN65=second python3 lists65.py
+RUN65=second: checking E, V
+E reasons 111 for 111 briefing keys | problems 0
+E briefing keys 111 exit 0 | Total: 8 parts print 199140 bytes, about 82500 tokens.
+E checks keys 36 exit 0 | Total: 3 parts print 79785 bytes, about 33000 tokens.
+V reasons 40 for 40 briefing keys | problems 0
+V briefing keys 40 exit 0 | Total: 4 parts print 102491 bytes, about 42500 tokens.
+V checks keys 15 exit 0 | Total: 2 parts print 33837 bytes, about 14100 tokens.
+bad lists 0
