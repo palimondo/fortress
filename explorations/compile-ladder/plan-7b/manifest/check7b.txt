@@ -6,11 +6,11 @@ parses as an async function body, its export taken out: spliced
 LEDGER_FROM unset: throws: LEDGER_FROM is not set: the first free ledger row at this run's launch
 CHECKER_BASE unset: throws: CHECKER_BASE is not set: the #total of the last landed checker-count.txt
 Q4 = 3: throws: Q4 is not 1 or 2
-Q4 = 1: batch 7b, rungs S, C, W, L, scatter W, C, L, S, counts S=75 C=77 W=75 L=none, testIsStage L, landsOnlyWith S with C, intro 11986 chars, overlaps 2727 chars
-  S: tail 135 lines, briefing 78 keys, checks 30 keys
-  C: tail 126 lines, briefing 69 keys, checks 25 keys
-  W: tail 111 lines, briefing 64 keys, checks 23 keys
+Q4 = 1: batch 7b, rungs S, C, W, L, scatter W, C, L, S, counts S=75 C=77 W=75 L=none, testIsStage L, landsOnlyWith S with C, intro 14122 chars, overlaps 3092 chars
+  S: tail 143 lines, briefing 83 keys, checks 33 keys
+  C: tail 138 lines, briefing 75 keys, checks 28 keys
+  W: tail 117 lines, briefing 69 keys, checks 25 keys
   L: tail 98 lines, briefing 51 keys, checks 15 keys
-Q4 = 2: batch 7b, rungs S, C, W, L, scatter W, C, L, S, counts S=75 C=79 W=75 L=none, testIsStage L, landsOnlyWith S with C, intro 11986 chars, overlaps 2727 chars
+Q4 = 2: batch 7b, rungs S, C, W, L, scatter W, C, L, S, counts S=75 C=79 W=75 L=none, testIsStage L, landsOnlyWith S with C, intro 14122 chars, overlaps 3092 chars
 the record's section 7 carries the generated block, byte for byte
 problems: 0
