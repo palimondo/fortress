@@ -38,14 +38,20 @@ These are not judgement calls.
 
 - A worker commits only the paths it wrote, as it goes, in one command
   (`git add -- <paths> && git commit -m … -- <paths>`), never a directory
-  copy, and pushes only after `git log origin/main..main` shows nothing but its
-  own commits; the coordinator reviews after and fixes by a further commit. A
-  staged change of more than a few hundred lines is read with
+  copy and never its scratch: probe programs, captured outputs, build logs,
+  lists and copies of tools stay under the worktree's `tmp/`, which is
+  ignored, and it pushes only after `git log origin/main..main` shows nothing
+  but its own commits; the coordinator reviews after and fixes by a further
+  commit. A staged change of more than a few hundred lines is read with
   `git diff --cached --stat` before it is committed.
 - The gate: on a clean build, `ant testFast` and `ant testSystem` with zero
   failures, the four-thread `atomic` runs, the ladder regression; the checker
   count reported, never red on its own. Every edit under the original tree is
-  test first, the test seen failing before the fix, and is flagged at commit.
+  test first: the test is the first commit on the worker's branch, seen
+  failing through the harness before the fix and again by the skeptic's own
+  run on the base, and the edit is flagged at commit. Nothing is committed to
+  show it but the test and the report's quoted lines; the worker's transcript
+  is the record of its order of work.
 - Never the AskUserQuestion dialog; options go in plain text.
 
 ## Principles
@@ -73,6 +79,8 @@ is a deeper pass, never a halt, a rollback or a bisection of a merged batch.
 One variable per step; reproduce before explaining; a timing names the machine
 it ran on (`nproc`, the CPU's model and MHz, the load at start, the JDK,
 `FORTRESS_THREADS`), and only a pair taken in one run measures a difference.
+A timing of the interpreter is not taken or recorded, since no decision rests
+on it (POSITIONS 2026-09-19).
 
 **3. He carries the responsibility, so his attention is the scarcest thing we
 spend.** He reads on a phone, often one earlier turn at a time. One ask per
@@ -153,7 +161,9 @@ measure every way on both paths, so that it re-ran measurements already on file;
 the batch workflow applied where its purpose did not hold, so that a finished
 batch waited on a whole gate rerun for a repair that only added tests, or on
 owed tests a later batch could write (POSITIONS 2026-09-29): a rule is weighed
-by what it costs against what it protects.
+by what it costs against what it protects. Scratch committed as evidence, and
+long runs awaited by agents with large contexts, so that a batch paid more to
+record and to wait than to change Fortress (post-mortem 2026-09-29).
 
 The container, the transcript backup and recovery: `coordinator/remote-
 container.md`. The batch workflow's stages, stops and tiers:
