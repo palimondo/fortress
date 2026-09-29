@@ -23,6 +23,8 @@ ITEM26 = "positions:2026-09-29 PLAN item 26"
 ITEM30 = "positions:2026-09-29 PLAN item 30"
 ADD = "doc:explorations/reviews/comprises-type-level-proof-addendum.md#"
 CONV = "positions:2026-09-28 two decisions of Fable's judgement"
+BOUND = "positions:2026-09-29 implicit bound"
+COERC = "positions:2026-09-29 walk's run-time choice of coercions"
 
 S_BRIEFING = [
   (ANSWER9, "The decision this rung writes into the text: the sentence goes, the 2011 model with the positional rule, the original kept; cite it in every callout and entry."),
@@ -35,12 +37,15 @@ S_BRIEFING = [
   ("positions:2026-09-26 second batch-5 answer", "Every static argument except an operator argument counts in the exclusion rule; state the reduction of two quantified domains with it."),
   ("positions:2026-09-26 third batch-5 answer", "The precedent for Q3: the covariant keyword named in a callout and the decision record as a design neither path implements; name Naden's instantiation the same way."),
   ("positions:2026-09-27 numerics plans", "Q1's answer, the bound Any, and batch N's inference chapter, which your text cites for instantiation and does not restate."),
+  (BOUND, "Q1 decided in Pavol's own words: the bound is Any; your sentence says it, with a callout quoting the Working Draft's Object and naming the compile path's Object setting, row 412, as the divergence until the switch-over."),
   ("positions:2026-09-27 launch of phase 3's batches", "Q2 and Q3 taken at their defaults and listed for his review; you follow Q3's default."),
   ("positions:2026-09-28 comprises clause row 459", "Batch 7C's value reading of a comprises clause, which item 26's decision carries into the four passages and the Meet Rule's closed-trait case."),
   (ITEM26, "Item 26 decided: option 1 with the proof addendum's three points; your four passages, covering, the Meet Rule's case and the proof appendix's revision rest on it."),
   (ITEM30, "Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; your dispatch sentence follows it, as your answers line says."),
+  (COERC, "Item 16 decided: walk's choice of a coercion on the value is the interpreter's limit; your one callout at the coercion chapter's resolved-statically passage says so, cites its two tests and names the switch-over."),
   ("positions:2026-09-19 answering the open question", LIB_PRACTICE),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
+  ("ledger:19", "Walk's coercion, chosen on the value, and the two expected failures where that differs from the text's static choice; your callout cites them, and you append that the text now records the difference."),
   ("ledger:398", "The permuted override the positional rule refuses; append the note that the specification now states the rule."),
   ("ledger:412", "The compile path's Object bound; you revise the implicit bound under Q1, so append the note that the text now says Any."),
   ("ledger:478", "Walk reading one bound for two generic overloads; your text makes its four probe sets legal, so append that its home is now rung W's test."),
@@ -75,7 +80,7 @@ S_BRIEFING = [
   ("doc:Specification/basic/overloading.tex#Overloading and Multiple Dispatch", "The basic chapter whole, which you revise; read every passage on static parameters and dispatch before you choose where the model goes."),
   ("doc:Specification/advanced/overloading.tex#Overloaded Functional Declarations", "The advanced chapter whole, which you revise: the sentence's echo, the naked-Any rule, the rules and the Meet Rule's example."),
   ("doc:Specification/appendices/overloading-function.tex#Proof of Overloading Resolution for Functions", "The proof appendix whole, which you revise under item 26's decision: its lemmas and theorems by label, the original you quote from the frozen copy."),
-  ("doc:Specification/basic/conversions-coercions.tex#Coercion Resolution", "The coercion chapter's resolution, where your cross-reference sentence goes at its three passages."),
+  ("doc:Specification/basic/conversions-coercions.tex#Coercion Resolution", "The coercion chapter's resolution, where your cross-reference sentence goes at its three passages and item 16's callout at its passage on static resolution."),
   ("doc:Specification/basic/trait-parameters.tex#Type Parameters", "The implicit bound, which you revise under Q1: batch N's rung T names Any in its chapter's callout and leaves the sentence to you."),
   ("doc:Specification/basic/inference.tex#Type Inference", "Batch N's inference chapter, whole: reword its first callout for the passages you revise, add walk's named supertype to its interpreter's callout, cite its instantiation step, and leave its rule as it is."),
   ("doc:Specification/appendices/changes.tex#The inference of a call's static arguments", "Its Appendix I entry: reword the rationale's claim that the chapter states the rule the checker builds and no more, and list rows 508, 515, 516 and 518 in its Effect as the checker's departures."),
@@ -103,7 +108,7 @@ S_BRIEFING = [
 ]
 S_CHECKS = [
   ANSWER9, CONV, "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
-  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30,
+  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30, BOUND, COERC,
   "ledger:491", "ledger:496", "ledger:499", "ledger:487",
   "doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says",
   "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
@@ -217,6 +222,7 @@ W_BRIEFING = [
   ("positions:2026-09-28 comprises clause row 459", "Batch 7C's reading of a clause; row 492's walk half reads clauses the same way."),
   (ITEM26, "Item 26 decided: option 1 with the proof addendum's three points; row 492's walk half rests on it, your load check on rung C's coverage contract."),
   (ITEM30, "Item 30 not decided; Pavol's word lets this run take option 1 of its judgement, listed for his review; row 157's fix rests on it."),
+  (COERC, "Item 16 decided and closed, not yours: walk's choice of a coercion on the value stays, recorded by rung S's callout; keep XXXCoercionStaticRungC's and XXXCoercionStaticNarrowRungC's verdicts."),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
   ("positions:2026-09-26 rung D's stop", RUN_TO_RUN),
   ("positions:2026-09-28 rungs re-running measurements", GATE_BEFORE),
@@ -239,7 +245,7 @@ W_BRIEFING = [
   ("doc:explorations/reviews/option-2-soundness.md#4. Answer 9's rules", "O2Z64's shape: the converted call dispatches again to the plain declaration."),
   ("doc:explorations/compile-ladder/plan-n/probe-k/PROBE-K.md#The answers", "Walk's inference rule as batch N built it; your comparison hands it the chosen declaration."),
   ("doc:explorations/reviews/batch-7R-conformance.md#Findings@Row 478 belongs", "Why row 478 is yours and where the Range clause goes (rung L)."),
-  ("doc:explorations/reviews/batch-3.5-4-conformance.md#Findings that need Pavol@Two of rung C's points", "Item 16's two points, which reach Pavol with your landing; report whether your change moves either."),
+  ("doc:explorations/reviews/batch-3.5-4-conformance.md#Findings that need Pavol@Two of rung C's points", "Item 16's two points as they reached Pavol: the first decided on 2026-09-29, the second row 395, whose tests you keep and report if your change moves them."),
   ("doc:explorations/reviews/batch-7C-review.md#Findings@Row 492's repair is in batch 7b's files", "Why row 492's walk half is yours and what its expected-failure test means."),
   ("doc:explorations/reviews/comprises-type-level-judgement.md#6. The two paths", "Row 492's walk half as item 26's decision requires: the load check consults a clause-reading meet; the device is yours."),
   (ADD + "One replacement premise", "Cover-Meet, the coverage contract your load check shares with rung C: a covering family strictly below both domains, for every overlapping pair."),
