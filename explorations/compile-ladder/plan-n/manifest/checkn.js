@@ -5,10 +5,12 @@
 // briefing's reasons, one line per key in order; the lists against listsn.py; no backtick or non-ASCII
 // character in any string the agents read; and the whole spliced script run as the body of an async
 // function with the workflow globals stubbed (args, agent, pipeline, log): the first run with every
-// agent approving, the first run with rung I stopping (T must be withheld), the second run, and six
-// first runs through the merged-tree repairs (MERGED below: a repair of tests and records only does not
+// agent approving, the first run with rung I stopping (T must be withheld), the second run, and eight
+// first runs through the merged tree (MERGED below: a repair of tests and records only does not
 // rerun the gate and the commit records its runs beside the summary; one that changes source, or leaves a
-// changed test unrun, reruns it; Pavol, 2026-09-29, POSITIONS.md), each against its expected agents. The
+// changed test unrun, reruns it; the review's judge may rule land, and then neither a repair nor a second
+// review runs; a second review runs beside the commit's local part, and the push step follows both, held
+// on a stop it lists; Pavol, 2026-09-29, POSITIONS.md), each against its expected agents. The
 // launch values are unset in the block (the coordinator sets them at launch), so the evaluations and
 // the stubbed runs set LEDGER_FROM to 500 and CHECKER_BASE to 75, placeholders. Nothing is launched.
 // The form is batch 7R's check7r.js with batch 6.5's checks of the reasons and the launch values
@@ -89,12 +91,12 @@ async function stubbedRun(spliced, scenario) {
       if (L.startsWith('rung:') && scenario.stop === id) return { stopped: true, stopReason: 'stub stop', landed: false, summary: 'stub', stopsMet: [], forPavol: [] }
       return { landed: true, stopped: false, summary: 'stub', stopsMet: [], forPavol: [] }
     }
-    if (L.startsWith('judge:')) return { decision: 'stop', forPavol: [] }
+    if (L.startsWith('judge:')) return { decision: 'stop', forPavol: [], instructions: [] }
     if (L.startsWith('skeptic')) return { approved: true, stopsMet: [], forPavol: [] }
     if (L === 'gather') return { unresolved: false, summary: 'stub', pavolItems: [], pavolUnrouted: [] }
     if (L.startsWith('gate')) return { green: true, failing: [], stopped: false }
     if (L.startsWith('review')) return { approved: true, blocking: [], pathsOutsideExplorations: [], stopsMet: [], forPavol: [], pavolItems: [] }
-    if (L === 'commit') return { pushed: ['main'] }
+    if (L.startsWith('commit')) return /Do NOT push|Stop here: do not push/.test(prompt) ? { pushed: [] } : { pushed: ['main'] }
     return {}
   }
   const pipeline = async (items, s1, s2) => {
@@ -115,14 +117,18 @@ const repairStub = (paths, runs, answered) => () => ({ landed: true, stopped: fa
 const blockingOnce = { review: () => ({ approved: false, blocking: ['stub finding'], pathsOutsideExplorations: [], stopsMet: [], forPavol: [], pavolItems: [] }), 'judge:review': () => ({ decision: 'repair', forPavol: [] }) }
 const redOnce = { gate: () => ({ green: false, failing: ['XXXStub.test: stub'], countsDown: [], stopped: false }), 'judge:gate': () => ({ decision: 'repair', forPavol: [] }) }
 const MERGED = [
+  { name: 'first run, the review blocks, its judge rules land', run: 'first', over: Object.assign({}, blockingOnce, { 'judge:review': () => ({ decision: 'land', forPavol: [], instructions: ['1. stub step'] }) }),
+    after: 'gate, review, judge:review, commit', step1a: false, landed: true },
   { name: 'first run, the review blocks, its repair changes tests and records only', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY, [RUN_OK]) }),
-    after: 'gate, review, judge:review, repair:review, review2, commit', step1a: true, landed: true },
+    after: 'gate, review, judge:review, repair:review, commit, review2, commit:push', step1a: true, landed: true },
   { name: 'first run, the review blocks, its repair changes a checker source', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY.concat(['ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Stub.scala']), [RUN_OK]) }),
-    after: 'gate, review, judge:review, repair:review, review2, gate:after-review, commit', step1a: false, landed: true },
+    after: 'gate, review, judge:review, repair:review, gate:after-review, commit, review2, commit:push', step1a: false, landed: true },
   { name: 'first run, the review blocks, its repair adds a test it did not run', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY, []) }),
-    after: 'gate, review, judge:review, repair:review, review2, gate:after-review, commit', step1a: false, landed: true },
+    after: 'gate, review, judge:review, repair:review, gate:after-review, commit, review2, commit:push', step1a: false, landed: true },
   { name: 'first run, the review still blocks after a repair of tests only', run: 'first', over: Object.assign({}, blockingOnce, { review2: () => ({ approved: false, blocking: ['stub finding'], pathsOutsideExplorations: [], stopsMet: [], forPavol: [], pavolItems: [] }), 'repair:review': repairStub(TESTS_ONLY, [RUN_OK]) }),
-    after: 'gate, review, judge:review, repair:review, review2, commit', step1a: true, landed: true },
+    after: 'gate, review, judge:review, repair:review, commit, review2, commit:push', step1a: true, landed: true },
+  { name: 'first run, the second review beside the commit lists a stop no decision lifts', run: 'first', over: Object.assign({}, blockingOnce, { review2: () => ({ approved: true, blocking: [], pathsOutsideExplorations: [], stopsMet: [{ rung: 'I', stop: 'stub stop', evidence: 'x:1', liftedBy: '' }], forPavol: [], pavolItems: [] }), 'repair:review': repairStub(TESTS_ONLY, [RUN_OK]) }),
+    after: 'gate, review, judge:review, repair:review, commit, review2, commit:push', step1a: true, landed: false },
   { name: 'first run, the gate is red, its repair changes a test only and answers the line', run: 'first', over: Object.assign({}, redOnce, { 'repair:gate': repairStub(TESTS_ONLY, [RUN_OK], [{ failing: 'XXXStub.test: stub', file: RUN_OK.file }]) }),
     after: 'gate, review, judge:gate, repair:gate, commit', step1a: true, landed: true },
   { name: 'first run, the gate is red, its repair changes a library source', run: 'first', over: Object.assign({}, redOnce, { 'repair:gate': repairStub(['Library/FortressLibrary.fss'], [], [{ failing: 'XXXStub.test: stub', file: '' }]) }),
@@ -192,7 +198,7 @@ async function main() {
         const step1a = !!(k && /\n1a\. /.test(k.prompt) && /# repair-tests/.test(k.prompt))
         const ok = got === scenario.after && step1a === scenario.step1a && result.landed === scenario.landed
         if (!ok) bad++
-        for (const l of logs.filter(l => /gate runs again|does not run again|still blocks/.test(l))) console.log('  log: ' + l)
+        for (const l of logs.filter(l => /gate runs again|does not run again|still blocks|ruled land|beside the commit|Push held/.test(l))) console.log('  log: ' + l)
         console.log('  after the gather: ' + got + '; commit step 1a ' + (step1a ? 'present' : 'absent') + (ok ? ', as expected' : ', NOT as expected (' + scenario.after + '; step 1a ' + scenario.step1a + '; landed ' + scenario.landed + ')'))
       }
       for (const c of calls) {
