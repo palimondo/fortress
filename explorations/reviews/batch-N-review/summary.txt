@@ -1,0 +1,33 @@
+== Reading cost, means per agent
+N rung workers                 n= 4 context  564K  briefing   63K (11%)  searching  148K (26%)  per turn 0.49 calls  797 tokens  before the first edit or probe 42%
+N repair rounds                n= 3 context  425K  briefing   23K ( 5%)  searching   45K (11%)  per turn 0.26 calls  327 tokens  before the first edit or probe 21%
+N skeptics                     n= 7 context  368K  briefing   21K ( 6%)  searching   61K (17%)  per turn 0.47 calls  587 tokens  before the first edit or probe 39%
+N all three                    n=14 context  436K  briefing   33K ( 8%)  searching   83K (19%)  per turn 0.43 calls  613 tokens  before the first edit or probe 38%
+7C rung workers                n= 2 context  422K  briefing   41K (10%)  searching  118K (28%)  per turn 0.55 calls  820 tokens  before the first edit or probe 42%
+7C skeptics                    n= 2 context  369K  briefing   11K ( 3%)  searching   84K (23%)  per turn 0.54 calls  670 tokens  before the first edit or probe 43%
+7C all three                   n= 4 context  395K  briefing   26K ( 7%)  searching  101K (26%)  per turn 0.55 calls  750 tokens  before the first edit or probe 43%
+6b-7R rung workers             n= 8 context  497K  briefing   54K (11%)  searching  146K (29%)  per turn 0.44 calls  635 tokens  before the first edit or probe 28%
+6b-7R repair rounds            n= 2 context  211K  briefing   12K ( 6%)  searching   27K (13%)  per turn 0.42 calls  699 tokens  before the first edit or probe 50%
+6b-7R skeptics                 n= 7 context  362K  briefing   16K ( 4%)  searching   68K (19%)  per turn 0.48 calls  538 tokens  before the first edit or probe 33%
+6b-7R all three                n=17 context  408K  briefing   33K ( 8%)  searching  100K (24%)  per turn 0.45 calls  606 tokens  before the first edit or probe 30%
+
+== Briefing, map and INDEX, batch N
+rung:K         briefing first at call  1, parts 7/7,   70K; keys FACTS=11;POSITIONS=15;code=7;doc-note=21;doc-spec=3;ledger=7;map=1; map files opened 1, INDEX opened 0
+rung:I         briefing first at call  1, parts 10/10,  105K; keys FACTS=14;POSITIONS=17;code=10;doc-note=35;doc-spec=4;ledger=9;map=2; map files opened 0, INDEX opened 0
+rung:T         briefing first at call  1, parts 6/6,   50K; keys FACTS=8;POSITIONS=14;code=1;doc-note=14;doc-spec=9;ledger=7;map=1; map files opened 2, INDEX opened 0
+rung:M         briefing first at call  1, parts 3/3,   26K; keys FACTS=6;POSITIONS=10;code=9;doc-note=8;doc-spec=1;ledger=2;map=1; map files opened 1, INDEX opened 0
+skeptic:I      briefing first at call  1, parts 3/3,   36K; keys FACTS=1;POSITIONS=6;code=2;doc-note=6;doc-spec=1;ledger=6; map files opened 0, INDEX opened 0
+skeptic:K      briefing first at call  1, parts 2/2,   19K; keys FACTS=2;POSITIONS=5;code=3;doc-note=2;doc-spec=1;ledger=4; map files opened 0, INDEX opened 0
+skeptic:T      briefing first at call  1, parts 3/3,   24K; keys FACTS=1;POSITIONS=7;code=1;doc-note=3;doc-spec=2;ledger=2; map files opened 1, INDEX opened 0
+judge:I        briefing first at call  1, parts 3/3,   33K; keys FACTS=1;POSITIONS=6;code=2;doc-note=6;doc-spec=1;ledger=6; map files opened 0, INDEX opened 0
+skeptic:M      briefing first at call  1, parts 1/1,    7K; keys POSITIONS=5;code=3;doc-note=2;ledger=2; map files opened 0, INDEX opened 0
+judge:K        briefing first at call  1, parts 2/2,   19K; keys FACTS=2;POSITIONS=5;code=3;doc-note=2;doc-spec=1;ledger=4; map files opened 0, INDEX opened 0
+repair:I       briefing first at call  1, parts 2/3,   28K; keys FACTS=1;POSITIONS=6;code=2;doc-note=6;doc-spec=1;ledger=6; map files opened 0, INDEX opened 0
+judge:T        briefing first at call  1, parts 3/3,   21K; keys FACTS=1;POSITIONS=7;code=1;doc-note=3;doc-spec=2;ledger=2; map files opened 0, INDEX opened 0
+repair:K       briefing first at call  1, parts 2/2,   19K; keys FACTS=2;POSITIONS=5;code=3;doc-note=2;doc-spec=1;ledger=4; map files opened 0, INDEX opened 0
+repair:T       briefing first at call  1, parts 3/3,   22K; keys FACTS=1;POSITIONS=7;code=1;doc-note=3;doc-spec=2;ledger=2; map files opened 1, INDEX opened 0
+skeptic2:K     briefing first at call  1, parts 2/2,   19K; keys FACTS=2;POSITIONS=5;code=3;doc-note=2;doc-spec=1;ledger=4; map files opened 0, INDEX opened 0
+skeptic2:T     briefing first at call  1, parts 3/3,   16K; keys FACTS=1;POSITIONS=7;code=1;doc-note=3;doc-spec=2;ledger=2; map files opened 1, INDEX opened 0
+skeptic2:I     briefing first at call  5, parts 3/3,   26K; keys FACTS=1;POSITIONS=6;code=2;doc-note=6;doc-spec=1;ledger=6; map files opened 0, INDEX opened 0
+judge:review   briefing first at call 11, parts 1/1,    7K; keys FACTS=3;POSITIONS=4;doc-note=1; map files opened 0, INDEX opened 0
+repair:review  briefing first at call  2, parts 6/10,  105K; keys FACTS=9;POSITIONS=12;code=9;doc-note=11;doc-spec=4;ledger=11; map files opened 0, INDEX opened 1

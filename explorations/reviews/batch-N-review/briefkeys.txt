@@ -1,0 +1,504 @@
+== N rung:K (65 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-28 probe K's item 9
+   positions:2026-09-26 answer 8
+   positions:2026-09-26 answer 9
+   positions:2026-09-27 numeral's type
+   positions:2026-09-28 size used as a value
+   positions:2026-09-24 exclusion route rung P's fork
+   positions:2026-09-19 answering the open question
+   positions:2026-09-26 climb batch 4's held push
+   positions:2026-09-26 climb batch 5 (coordinator
+   positions:2026-09-22 on planning
+   positions:2026-09-27 launch of phase 3's batches
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:388
+   ledger:389
+   ledger:432
+   ledger:364
+   ledger:430
+   ledger:486
+   ledger:390
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time
+   doc:explorations/reviews/conversion-overloading-judgement.md#5. Where it lands, and in what order
+   doc:explorations/reviews/before-n-questions.md#A.1 What was run for question A, and why
+   doc:explorations/reviews/option-2-soundness.md#2. Static and dynamic agreement
+   doc:explorations/compile-ladder/plan-n/probe-k/PROBE-K.md#6. The forks it meets
+   doc:explorations/reviews/inference-rule-shadow.md#The answers
+   doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:explorations/reviews/inference-rule-shadow/probes/OneShapeW.fss
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#4.2 How a generic call's static arguments are inferred
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#4.3 Rung C's coercion at dispatch meets a generic callee
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#8. How the three interact: observations, with their sources
+   doc:explorations/compile-ladder/rung-interp-coercion/REPORT.md#1. What changed
+   doc:explorations/compile-ladder/rung-interp-coercion/REPORT.md#5. Decisions
+   doc:explorations/compile-ladder/climb-batch-7R/JUDGE-review.md#5. Considered and left as ruled@Row 486
+   doc:explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchInternal
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java#public List<FValue> typecheckParams
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java#public static Set<FType> join(List<FValue> evaled)
+   doc:ProjectFortress/tests/XXXCoercionGenericFnRungC.fss
+   doc:ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss
+   doc:ProjectFortress/tests/roundBug.fss
+   doc:explorations/reviews/before-n-questions/fork/OpAnyZW.fss
+   code:ProjectFortress/tests/IntSemanticsRungI.fss#zz32Shown(v: Any): String
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   Static arguments are inferred from the arguments alone, on both paths
+   An inferred generic refuses a coercion that the method it forwards to accepts
+   A numeral's type depends on the path and on the library in scope
+   The one library's number tower is flat
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+   testSystem's four shards are one suite split by sorted index
+   The interpreter's overload-ambiguity message names its two declarations
+   Three heaps run the interpreter
+   ant compileAll deletes a tracked file
+   map:README.md#Touch this@interpreter/ (evaluator
+   ${ARGS[@]}
+== N rung:I (91 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-28 probe K's item 9
+   positions:2026-09-26 answer 8
+   positions:2026-09-26 answer 9
+   positions:2026-09-27 numeral's type
+   positions:2026-09-24 exclusion route rung P's fork
+   positions:2026-09-19 answering the open question
+   positions:2026-09-21 library route
+   positions:2026-09-26 answer 12
+   positions:2026-09-28 size used as a value
+   positions:2026-09-22 a design principle
+   positions:2026-09-22 on planning
+   positions:2026-09-28 rungs re-running measurements
+   positions:2026-09-27 launch of phase 3's batches
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:401
+   ledger:388
+   ledger:455
+   ledger:447
+   ledger:484
+   ledger:485
+   ledger:488
+   ledger:390
+   ledger:391
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/conversion-overloading-judgement.md#5. Where it lands, and in what order
+   doc:explorations/reviews/conversion-overloading-judgement.md#7. The findings that stand under every way
+   doc:explorations/reviews/before-n-questions.md#A.1 What was run for question A, and why
+   doc:explorations/reviews/before-n-questions.md#A.2 Why the checker's shadow takes the plain arm
+   doc:explorations/reviews/option-2-soundness.md#2. Static and dynamic agreement
+   doc:explorations/reviews/option-2-soundness.md#5. Numerals and rung Q
+   doc:explorations/reviews/inference-rule-shadow.md#The answers
+   doc:explorations/reviews/inference-rule-shadow.md#1. The edit
+   doc:explorations/reviews/inference-rule-shadow.md#2. The probes
+   doc:explorations/reviews/inference-rule-shadow.md#3. microGPT and row 401
+   doc:explorations/reviews/inference-rule-shadow.md#4. The distance
+   doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:explorations/reviews/inference-rule-shadow/rule.patch
+   doc:explorations/reviews/inference-rule-shadow/probes/RuleCRun.fss
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.2 How a static argument is inferred
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.3 Whether the expected type is used
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#3.4 Whether a coercion is considered while solving
+   doc:explorations/reviews/numerics-plan-coordinator/measure-D.md#2.2 What else the kept context changes
+   doc:explorations/reviews/batch-6b-7-conformance.md#Findings@The checker's solver treats a parameter bounded by
+   doc:explorations/reviews/batch-7R-conformance.md#Findings@Item 25 is about a size's value
+   doc:explorations/reviews/batch-7R-conformance.md#Findings@The one library writes two numeral strides
+   doc:explorations/reviews/row-488-probe.md#What it means for batch N's rung I
+   doc:explorations/compile-ladder/climb-batch-6.5/JUDGE-review.md#7. For Pavol, out of the loop
+   doc:explorations/reviews/batch-6.5-review.md#Findings@Batch N's rung I describes the numeral tie wrongly
+   doc:explorations/reviews/batch-6.5-review.md#Findings@Batch 6.5b's half of the record predates item 25
+   doc:explorations/reviews/comprises-type-level-judgement.md#2. What was checked, and what was measured
+   doc:explorations/reviews/comprises-type-level-judgement/probes/MeetViaExclusion.fss
+   doc:Specification/basic/inference.tex
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#Type check the application of the given arrow candidates to the given args
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def moreSpecificCandidate
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala#case SJuxt(info, multi, infix, front::rest, false, true)..case SJuxt(info, multi, infix, front::rest, true, true)
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def inferStaticParams(fnType: ArrowType,
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala#def getType
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala#def getCoercionsTo(uu: Type)
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala#def substitutableFor(t: Type, u: Type)
+   code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#trait IntLiteral extends
+   code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#object IntLiteral extends
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.test
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.test
+   doc:ProjectFortress/compiler_tests/NatRtBigSize.fss
+   Static arguments are inferred from the arguments alone, on both paths
+   Keeping the expected type at a call written
+   A numeral's type depends on the path and on the library in scope
+   An inferred generic refuses a coercion that the method it forwards to accepts
+   MicroGPT's own programs through the compiled checker against the one library
+   The specification never wrote static-argument inference
+   The true distance to the switch-over
+   The compiled checker refuses a call whose most specific arm has a size the call cannot fix
+   The compiled type checker checks nat and int static parameters
+   An XXX compile test pinned by compile_err_contains whose program compiles
+   The XXX expected-failure mechanism in compiler_tests
+   ant compileAll deletes a tracked file
+   The checker-count stage's table
+   map:compile-path-walkthrough.md#How it walks the tree
+   map:README.md#Touch this@scala_src/typechecker
+   ${ARGS[@]}
+== N rung:T (54 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-26 answer 9
+   positions:2026-09-27 numeral's type
+   positions:2026-09-28 size used as a value
+   positions:2026-09-22 a design principle
+   positions:2026-09-26 S1
+   positions:2026-09-26 first of the batch-5 answers
+   positions:2026-09-26 lineage note
+   positions:2026-09-24 requirement on the plan
+   positions:2026-09-26 number chapters under S2
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:447
+   ledger:425
+   ledger:455
+   ledger:401
+   ledger:388
+   ledger:485
+   ledger:486
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/conversion-overloading-judgement.md#5. Where it lands, and in what order
+   doc:explorations/reviews/batch-6b-7-conformance.md#Findings@The checker's solver treats a parameter bounded by
+   doc:explorations/reviews/batch-6b-7-conformance.md#Findings@The specification's implicit bound stays
+   doc:explorations/reviews/overloading-judgement.md#10. Left open for him@The implicit bound
+   doc:explorations/reviews/batch-7R-conformance.md#Findings@Item 25 is about a size's value
+   doc:explorations/reviews/inference-rule-shadow.md#The answers
+   doc:explorations/reviews/inference-rule-shadow.md#1. The edit
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#1.2 Static arguments, and the inference chapter the text cites
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#1.3 Coercion at a call and in a typed binding
+   doc:explorations/reviews/numerics-plan-coordinator/evidence-B.md#2. The team's later Types chapter and the Types papers
+   doc:Specification/basic/inference.tex
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   doc:Specification/basic/overloading.tex#Applicability to Named Functional Calls
+   doc:Specification/basic/trait-parameters.tex#Type Parameters
+   doc:Specification/basic/expressions/ranges.tex#Ranges
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   doc:Specification/appendices/changes.tex#The integer type of a range
+   doc:Specification/appendices/changes.tex#Passages not yet revised
+   doc:Specification/appendices/changes.tex#Reductions whose element type nothing fixes
+   doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form
+   The specification never wrote static-argument inference
+   The team's latest word on types
+   Specification-1.0-frozen/ is byte for byte
+   The specification's number chapters describe the flat library
+   A generic object referenced without its static arguments is a static error on the compiled path
+   Static arguments are inferred from the arguments alone, on both paths
+   Keeping the expected type at a call written
+   map:README.md#Touch this@Specification/ (the standard)
+   ${ARGS[@]}
+== N rung:M (37 keys)
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-24 exclusion route rung P's fork
+   positions:2026-09-19 answering the open question
+   positions:2026-09-21 library route
+   positions:2026-09-22 a design principle
+   positions:2026-09-28 rungs re-running measurements
+   positions:2026-09-27 launch of phase 3's batches
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:484
+   ledger:421
+   doc:explorations/reviews/conversion-overloading-judgement.md#6. Question B, row 484
+   doc:explorations/reviews/before-n-questions.md#Question B: b MAX 1
+   doc:explorations/reviews/before-n-questions.md#B.1 Every walk result for question B
+   doc:explorations/reviews/before-n-questions.md#B.2 Why + and <= answer where MAX does not
+   doc:explorations/reviews/before-n-questions.md#B.3 The compiled checker, by reading
+   doc:explorations/reviews/before-n-questions.md#B.4 Rung Q, by reading
+   doc:explorations/reviews/before-n-questions.md#B.5 What option 1 would write
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   code:Library/FortressLibrary.fss#trait StandardTotalOrder
+   code:Library/FortressLibrary.fss#opr MIN(self, other:QQ):QQ =..opr MINMAX(self, other:QQ):(QQ,QQ) =
+   code:Library/FortressLibrary.fss#opr MIN(self, b:RR64):RR64 = asFloat..opr MINMAX(self, b:RR64)
+   code:Library/FortressLibrary.fss#opr <=(self, b:ZZ64):Boolean = NOT..opr +(self,b:ZZ64):ZZ64 =
+   code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi#value object NN32 extends
+   code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#opr MIN(self, other:ZZ64): ZZ64..opr MINMAX(self, other:ZZ64)
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#private static boolean noLessSpecific
+   doc:ProjectFortress/tests/roundBug.fss
+   code:ProjectFortress/tests/IntSemanticsRungI.fss#zz32Shown(v: Any): String
+   The one library's number tower is flat
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   The interpreter's overload-ambiguity message names its two declarations
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+   testSystem's four shards are one suite split by sorted index
+   The checker-count stage's table
+   map:README.md#Touch this@Library/FortressLibrary.fss and the other
+== N skeptic:I (22 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 numeral's type
+   positions:2026-09-22 a design principle
+   positions:2026-09-27 stops a batch record reserves
+   ledger:401
+   ledger:388
+   ledger:455
+   ledger:447
+   ledger:484
+   ledger:391
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def moreSpecificCandidate
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss
+   An XXX compile test pinned by compile_err_contains whose program compiles
+== N skeptic:K (17 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:388
+   ledger:389
+   ledger:432
+   ledger:486
+   doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time
+   doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+== N skeptic:T (16 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-22 a design principle
+   positions:2026-09-26 S1
+   positions:2026-09-26 first of the batch-5 answers
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-28 size used as a value
+   ledger:447
+   ledger:485
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/inference.tex
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   doc:Specification/appendices/changes.tex#Passages not yet revised
+   doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form
+   The specification never wrote static-argument inference
+== N judge:I (22 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 numeral's type
+   positions:2026-09-22 a design principle
+   positions:2026-09-27 stops a batch record reserves
+   ledger:401
+   ledger:388
+   ledger:455
+   ledger:447
+   ledger:484
+   ledger:391
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def moreSpecificCandidate
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss
+   An XXX compile test pinned by compile_err_contains whose program compiles
+== N skeptic:M (12 keys)
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-19 answering the open question
+   positions:2026-09-21 library route
+   positions:2026-09-27 stops a batch record reserves
+   ledger:484
+   ledger:421
+   doc:explorations/reviews/conversion-overloading-judgement.md#6. Question B, row 484
+   doc:explorations/reviews/before-n-questions.md#B.5 What option 1 would write
+   code:Library/FortressLibrary.fss#trait StandardTotalOrder
+   code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#opr MIN(self, other:ZZ64): ZZ64..opr MINMAX(self, other:ZZ64)
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#private static boolean noLessSpecific
+== N judge:K (17 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:388
+   ledger:389
+   ledger:432
+   ledger:486
+   doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time
+   doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+== N judge:T (16 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-22 a design principle
+   positions:2026-09-26 S1
+   positions:2026-09-26 first of the batch-5 answers
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-28 size used as a value
+   ledger:447
+   ledger:485
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/inference.tex
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   doc:Specification/appendices/changes.tex#Passages not yet revised
+   doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form
+   The specification never wrote static-argument inference
+== N skeptic2:K (17 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-26 rung D's stop
+   ledger:388
+   ledger:389
+   ledger:432
+   ledger:486
+   doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time
+   doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+== N skeptic2:T (16 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-22 a design principle
+   positions:2026-09-26 S1
+   positions:2026-09-26 first of the batch-5 answers
+   positions:2026-09-27 stops a batch record reserves
+   positions:2026-09-28 size used as a value
+   ledger:447
+   ledger:485
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/inference.tex
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   doc:Specification/appendices/changes.tex#Passages not yet revised
+   doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form
+   The specification never wrote static-argument inference
+== N skeptic2:I (22 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 numeral's type
+   positions:2026-09-22 a design principle
+   positions:2026-09-27 stops a batch record reserves
+   ledger:401
+   ledger:388
+   ledger:455
+   ledger:447
+   ledger:484
+   ledger:391
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def moreSpecificCandidate
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss
+   An XXX compile test pinned by compile_err_contains whose program compiles
+== N judge:review (8 keys)
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-22 a design principle
+   positions:2026-09-27 stops a batch record reserves
+   An XXX compile test pinned by compile_err_contains whose program compiles
+   The XXX expected-failure mechanism in compiler_tests/ and library_tests/ can express a compile-stage failure only
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+== N repair:review (56 keys)
+   positions:2026-09-27 numerics plans
+   positions:2026-09-28 two decisions of Fable's judgement
+   positions:2026-09-26 answer 8
+   positions:2026-09-27 numeral's type
+   positions:2026-09-22 a design principle
+   positions:2026-09-27 stops a batch record reserves
+   ledger:401
+   ledger:388
+   ledger:455
+   ledger:447
+   ledger:484
+   ledger:391
+   doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule
+   doc:explorations/reviews/conversion-overloading-judgement.md#4. Q1's default
+   doc:explorations/reviews/inference-rule-shadow.md#5. The compiler's tests
+   doc:explorations/reviews/inference-rule-shadow.md#7. What the rule does not reach, and the forks it meets
+   doc:Specification/basic/conversions-coercions.tex#Applicability with Coercion
+   code:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala#def checkApplicable(preCandidate: PreAppCandidate,..def checkApplicableWithoutInference(
+   code:ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala#def moreSpecificCandidate
+   doc:ProjectFortress/compiler_tests/XXXNatLitArgChecker.fss
+   doc:ProjectFortress/compiler_tests/XXXCoercionGenericFnCompiledRungC.fss
+   An XXX compile test pinned by compile_err_contains whose program compiles
+   ${I_ARGS[@]}
+   positions:2026-09-26 rung D's stop
+   ledger:389
+   ledger:432
+   ledger:486
+   doc:explorations/reviews/conversion-overloading-judgement.md#3. Walk at run time
+   doc:explorations/reviews/inference-rule-shadow.md#6. What walk would need
+   doc:Specification/basic/conversions-coercions.tex#Coercion Resolution
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java#public static Simple_fcn inferAndInstantiateGenericFunction
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java#private SingleFcn bestMatchWithCoercion
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#static SingleFcn coercionFor
+   Under walk, the interpreter converts by coercion at its three kinds of type check
+   An XXX*.fss in the interpreter corpus IS a gated expected-failure test
+   ${K_ARGS[@]}
+   positions:2026-09-26 S1
+   positions:2026-09-26 first of the batch-5 answers
+   positions:2026-09-28 size used as a value
+   ledger:485
+   doc:Specification/basic/inference.tex
+   code:Specification/basic-lib/basic-integers.tex#The Working Draft of February 2011 gave the integers..call writes its static argument, as in
+   doc:Specification/appendices/changes.tex#Passages not yet revised
+   doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.9 The form
+   The specification never wrote static-argument inference
+   ${T_ARGS[@]}
+   positions:2026-09-19 answering the open question
+   positions:2026-09-21 library route
+   ledger:421
+   doc:explorations/reviews/conversion-overloading-judgement.md#6. Question B, row 484
+   doc:explorations/reviews/before-n-questions.md#B.5 What option 1 would write
+   code:Library/FortressLibrary.fss#trait StandardTotalOrder
+   code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi#opr MIN(self, other:ZZ64): ZZ64..opr MINMAX(self, other:ZZ64)
+   code:ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java#private static boolean noLessSpecific
+   ${M_ARGS[@]}
+   $f: $(tail -1 $f | cut -c1-120)

@@ -1,0 +1,46 @@
+== pre: 200 steps, 504.4K tokens added
+   98.1K   58 calls  results   23.7K  own output   47.5K  reasoning/overhead  26.9K  edit files (scripts, sed -i, heredoc)
+   87.5K    5 calls  results    0.4K  own output   81.7K  reasoning/overhead   5.4K  copy a report/record text out of the prompt (Write)
+   68.5K   29 calls  results   43.0K  own output    4.6K  reasoning/overhead  20.9K  read: rungs' records and probes
+   43.5K   18 calls  results   13.2K  own output   12.8K  reasoning/overhead  17.5K  test runs
+   29.1K   11 calls  results    9.8K  own output    2.4K  reasoning/overhead  16.8K  git log/status/stat
+   24.5K   10 calls  results    5.3K  own output    2.0K  reasoning/overhead  17.2K  git diff/show
+   23.5K    8 calls  results   16.5K  own output    1.8K  reasoning/overhead   5.3K  read: PLAN.md
+   22.3K    3 calls  results   20.5K  own output    0.3K  reasoning/overhead   1.6K  read: batch 6.5 gather record (precedent)
+   18.9K    4 calls  results   13.4K  own output    0.3K  reasoning/overhead   5.4K  read: batch record CLIMB-BATCH-N.md
+   10.7K    6 calls  results    4.7K  own output    0.9K  reasoning/overhead   5.1K  read: other file
+    9.7K    5 calls  results    7.8K  own output    0.6K  reasoning/overhead   1.3K  read: FACTS.md
+    8.6K    7 calls  results    3.3K  own output    4.0K  reasoning/overhead   1.4K  apply, stage, commit
+    8.1K    5 calls  results    1.0K  own output    5.2K  reasoning/overhead   1.9K  build
+    7.7K    3 calls  results    0.2K  own output    6.8K  reasoning/overhead   0.7K  write a file (Write/Edit)
+    7.5K    3 calls  results    4.0K  own output    0.2K  reasoning/overhead   3.4K  read: Specification
+    7.3K    3 calls  results    2.9K  own output    0.3K  reasoning/overhead   4.1K  read: source and library
+    7.1K    2 calls  results    7.4K  own output    0.1K  reasoning/overhead   0.0K  read: workflow manual
+    6.3K    5 calls  results    5.0K  own output    0.4K  reasoning/overhead   1.0K  read: handover
+    5.9K    3 calls  results    1.0K  own output    0.5K  reasoning/overhead   4.5K  read: tests
+    3.2K    2 calls  results    2.1K  own output    0.2K  reasoning/overhead   1.0K  read: ledger
+    1.9K    3 calls  results    0.8K  own output    0.3K  reasoning/overhead   0.8K  other
+    1.6K    3 calls  results    0.2K  own output    0.3K  reasoning/overhead   1.1K  read: own captures
+    1.5K    3 calls  results    0.3K  own output    0.3K  reasoning/overhead   0.8K  build (wait and poll)
+    1.2K    1 calls  results    0.0K  own output    0.6K  reasoning/overhead   0.5K  read: own RECORD.md
+== post: 106 steps, 216.5K tokens added
+   30.5K    8 calls  results   25.6K  own output    1.0K  reasoning/overhead   3.9K  read: FACTS.md
+   24.6K   14 calls  results    3.5K  own output   12.2K  reasoning/overhead   8.9K  edit files (scripts, sed -i, heredoc)
+   20.5K   10 calls  results   13.7K  own output    1.1K  reasoning/overhead   5.7K  read: other file
+   19.7K    6 calls  results   16.8K  own output    0.6K  reasoning/overhead   2.4K  read: own scratch (task copy, scripts)
+   17.8K    7 calls  results   11.9K  own output    0.6K  reasoning/overhead   5.3K  read: PLAN.md
+   17.0K   12 calls  results    7.9K  own output    1.9K  reasoning/overhead   7.2K  git log/status/stat
+   16.0K    7 calls  results    9.8K  own output    1.6K  reasoning/overhead   4.6K  read: session transcripts
+   15.8K    9 calls  results    8.4K  own output    1.1K  reasoning/overhead   6.3K  read: rungs' records and probes
+   11.9K    5 calls  results    5.4K  own output    0.8K  reasoning/overhead   5.7K  test runs
+    8.3K    3 calls  results    0.5K  own output    5.6K  reasoning/overhead   2.2K  build
+    7.5K    3 calls  results    3.4K  own output    0.7K  reasoning/overhead   3.4K  git blame
+    6.7K    7 calls  results    2.4K  own output    1.1K  reasoning/overhead   3.2K  git diff/show
+    3.5K    2 calls  results    1.9K  own output    0.2K  reasoning/overhead   1.4K  read: own captures
+    3.4K    2 calls  results    1.2K  own output    0.3K  reasoning/overhead   1.9K  read: Specification
+    3.2K    3 calls  results    1.1K  own output    0.4K  reasoning/overhead   1.7K  read: ledger
+    3.2K    2 calls  results    2.6K  own output    0.2K  reasoning/overhead   0.4K  read: handover
+    2.7K    2 calls  results    1.2K  own output    1.0K  reasoning/overhead   0.4K  apply, stage, commit
+    1.9K    2 calls  results    0.7K  own output    0.2K  reasoning/overhead   0.9K  other
+    1.5K    1 calls  results    1.5K  own output    0.1K  reasoning/overhead   0.0K  read: own RECORD.md
+    1.0K    1 calls  results    0.2K  own output    0.5K  reasoning/overhead   0.3K  build (wait and poll)
