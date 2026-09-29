@@ -1,0 +1,23 @@
+# local fix: explorations/compile-ladder/rung-rr32-sibling/probes/comp/local-fix.patch applied to ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss in a detached worktree at b0ebf7e16, ProjectFortress/build copied from the main tree, the compiled library cache rebuilt in library order; the header's "with the next rung applied" names that patch
+# junit.sh localfix 2026-09-29T16:19:33Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.52 2.83 3.26; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree b0ebf7e16 with the next rung applied, not yet committed; tests from /home/user/fortress-review65b/ProjectFortress/library_tests
+########## [localfix] fortress junit RR32EqualityRungVLink.test
+. link ProjectFortress/library_tests/XXXRR32EqualityRungV  OK (time = 3950ms)
+
+Time: 3.954
+
+OK (1 test)
+
+exit=0
+########## [localfix] fortress junit XXXRR32EqualityRungV.test
+. run ProjectFortress/library_tests/XXXRR32EqualityRungV (533ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 0.543
+There was 1 failure:
+1) ProjectFortress/library_tests/XXXRR32EqualityRungV(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest ProjectFortress/library_tests/XXXRR32EqualityRungV
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0
