@@ -36,9 +36,9 @@ export const meta = {
     { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
     { title: 'Judge', detail: 'Opus for the first ruling on a rung or on the merged tree, Fable for a second ruling on the same one; only on a stop, a refusal, a blocking review or a red gate: reads the reports and the diff, decides, writes the decision' },
     { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
-    { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole; runs beside the gate, and a second review after a repair runs beside the commit' },
+    { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole, once, beside the gate; a finding that touches code goes to the judge and a repair, one settled by tests and records goes to the next batch' },
     { title: 'Gate', detail: 'compileAll, library rebuild, testFast, testSystem, the summary diff, the four-thread atomic runs, the ladder regression, the checker count over the interpreter library, and the distance stage in the background beside them, reported and never red' },
-    { title: 'Commit', detail: 'hashes into the ledger notes, push main, fast-forward the container branch, remove the worktrees; no push while a landed rung carries a stop that was met and not lifted' },
+    { title: 'Commit', detail: 'hashes into the ledger notes, the gate tables and the per-site list, push main, fast-forward the container branch, start the microGPT programs under walk in the background, remove the worktrees; no push while a landed rung carries a stop that was met and not lifted' },
   ],
 }
 
@@ -1006,6 +1006,7 @@ const BATCH_1_EXAMPLE = {
 
 const BATCH_DIR = 'explorations/compile-ladder/climb-batch-' + BATCH
 const GATE_DIR = BATCH_DIR + '/gate'
+const SITES = 'explorations/compile-ladder/gate/distance-sites.tsv'   // the distance stage's per-site list, one fixed path overwritten at each landing (post-mortem 2026-09-29, synthesis item 37)
 const LOG_DIR = 'tmp/gate-batch-' + BATCH          // untracked: .gitignore:64 ignores /tmp/, and .gitignore:42,46 would swallow .out/.log anywhere
 const GATE_OUT = LOG_DIR + '/out'   // the gate writes here during the run, untracked; the commit stage copies it to GATE_DIR, so a run that stops before that stage leaves nothing untracked in the tree (climb-batch-3-redesign.md, f2; Pavol, 2026-09-24)
 
@@ -1417,7 +1418,7 @@ function judgeRole(kind, rung, worker, verdict, extra) {
   const question = {
     refusal: 'The rung worker landed and its skeptic refused. Decide what the repair is: which of the two is right on each point, by citation, and exactly what the repair round must do. If the skeptic is wrong on its refusal ground, the repair round is a report-only repair that settles it, and you say so.',
     stop: 'The rung worker stopped, reporting a stop condition. Decide whether it is genuinely one of the reserved forks that reach Pavol (the array representation, the library route, a change of semantics against what the specification does say, deleting a test, and the stops the batch record\'s intro reserves for Pavol, at the head of the shared prefix above) or a silent specification that rule 4 says to think harder about. If the latter, derive the candidate behaviours with their costs and decide, and the instructions are the continuation. If the former, write what reaches Pavol: the fork, the candidates, what each costs, and your recommendation.',
-    review: 'The merged-diff review found something blocking in the source hunks after the gather. Diagnose it holistically on the merged tree and decide the repair; do not bisect rungs. The gate is still running beside you in this tree: do not read ' + GATE_OUT + '/ or wait for it; rule on the review and the merged diff alone. ' + LAND_RULE,
+    review: 'The merged-diff review found something blocking in the source hunks after the gather: its blockingCode findings, the ones whose repair touches code, are yours; its routed findings, settled by tests and records only, go to the next batch without a ruling. Diagnose it holistically on the merged tree and decide the repair; do not bisect rungs. The gate is still running beside you in this tree: do not read ' + GATE_OUT + '/ or wait for it; rule on the review and the merged diff alone. ' + LAND_RULE,
     gate: 'The gate is red on the merged tree. Read the failing evidence and decide the repair. The gate has five ways to be red and they point at different places: a failing or erroring JUnit suite (its output is under ProjectFortress/TEST-RESULTS/); a suite whose test COUNT fell against the last landed summary, which usually means a .test file or a tests= line went missing rather than a test failing; a FAIL or a repeated timeout in the four-thread runs of the compiled atomic programs, which is a lost update and is about the transaction runtime rather than about the suites; a ladder regression, where a file that compiled and ran before now reaches a lower phase or prints different output - the stage hands you the diff; and, from the checker count over the interpreter\'s library, a crash line no rung declared or a stale checker shadow (the total itself is reported and never red), which is about the distance to the one library Pavol decided on (POSITIONS.md, 2026-09-21, "the library route"; library-route-judgement.md section 2 step 1) and whose evidence is the two tables the stage diffs, ' + GATE_OUT + '/checker-count.txt against the last landed one. The distance stage (' + GATE_OUT + '/distance.txt, the whole library with every checker stage run) is reported and never red, so it is never why the gate is red, though its table may help you place a checker change. Pavol\'s standing rule: identify the source of the conflict holistically and rework that part in the merged batch; dropping a rung is the retreat, taken only when its approach is wrong rather than its code, and then it is recorded and returned to the ranking.',
   }[kind]
   return [
@@ -1439,7 +1440,7 @@ question,
 '',
 inWorktree
   ? sliceStep([rung], 'the rung\'s worktree (' + rung.path + ')').join('\n') + '\n2. The net change: git -C ' + rung.path + ' diff ' + BASE + '...HEAD, and the milestones: git log ' + BASE + '..HEAD.\n3. explorations/compile-ladder/' + rung.slug + '/REPORT.md and record.md in that worktree' + (verdict ? ', and SKEPTIC.md beside them' : '') + '.\n4. Every specification passage the two cite, by file:line with sed -n, in Specification/ under that worktree - the prose chapters, not library/apis/. Read at least ten lines either side of each.\n5. The precedents both name, at the cited lines.\n6. explorations/coordinator/map/spec-to-implementation.md only if the question is where a fix belongs.'
-  : sliceStep(RUNGS, 'the main tree (' + MAIN + ')').join('\n') + '\n2. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n3. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n4. Each rung\'s REPORT.md, SKEPTIC.md and record.md under explorations/compile-ladder/<slug>/.\n5. The specification passages the reports cite, by file:line.',
+  : sliceStep(RUNGS, 'the main tree (' + MAIN + ')').join('\n') + '\n2. The composed commits: git -C ' + MAIN + ' log ' + BASE + '..HEAD and git diff ' + BASE + '...HEAD.\n3. The stage\'s outputs named above, and for a red gate the failing tests\' own output under ProjectFortress/TEST-RESULTS/, the summary and comparison under ' + GATE_OUT + '/, and the full logs, which are NOT committed and are under ' + LOG_DIR + '/.\n4. Each rung\'s REPORT.md and SKEPTIC.md under explorations/compile-ladder/<slug>/, and the lines the gather folded from its record.md into the three record files.\n5. The specification passages the reports cite, by file:line.',
 '',
 '## How to rule',
 '',
@@ -1471,14 +1472,15 @@ const JUDGE_SCHEMA = {
 // The merged-diff review's judge has a fourth decision, land (Pavol, POSITIONS.md
 // 2026-09-29, the entry on rerunning the gate: "The same weighing of cost against
 // what a rule protects applies to the other rules of the batch workflow"). A ruling
-// whose settlement is tests and records only no longer holds the batch for a repair
-// and a second review: the batch lands on its gate, and the ruling's steps go to the
-// next batch with the findings it upholds, listed for Pavol, as a second review's
-// remaining findings have since his rule of the same day on a review that still
-// blocks after its repair (12d5525d5). In batch N the repair of such a ruling and the
-// second review after it cost about 0.7M tokens and, with the judge, 54 minutes after
-// a green gate (explorations/reviews/batch-N-review.md, question 4, item 1).
-const LAND_RULE = 'You have a fourth decision here, land (Pavol, POSITIONS.md 2026-09-29, the entry on rerunning the gate: the same weighing of cost against what a rule protects applies to every rule of the batch workflow). Decide land when every finding you uphold is settled by tests and records only: test files in ProjectFortress/tests/ or a ProjectFortress/*_tests/ directory, and files under explorations/, with no source, library, checker, interpreter or specification file changed. Then no repair and no second review run now: the batch lands on its gate, and your numbered instructions, written as for a repair worker, go to the next batch with the findings you uphold and are listed for Pavol, as a second review\'s remaining findings have gone since his rule of 2026-09-29 on a review that still blocks after its repair. The tests land one batch later, as rows 447 and 505\'s did by that rule. A finding whose settlement needs a source, library, checker, interpreter or specification change is a repair, as before, and so is a ruling that mixes the two.'
+// whose settlement is tests and records only does not hold the batch for a repair:
+// the batch lands on its gate, and the ruling's steps go to the next batch with the
+// findings it upholds, listed for Pavol. In batch N the repair of such a ruling and
+// the second review after it cost about 0.7M tokens and, with the judge, 54 minutes
+// after a green gate (explorations/reviews/batch-N-review.md, question 4, item 1).
+// Since the post-mortem of 2026-09-29 the review routes such findings itself and the
+// judge sees only those that touch code; land stays for one of them that the judge
+// finds settled by tests and records after all.
+const LAND_RULE = 'You have a fourth decision here, land (Pavol, POSITIONS.md 2026-09-29, the entry on rerunning the gate: the same weighing of cost against what a rule protects applies to every rule of the batch workflow). Decide land when every finding you uphold is settled by tests and records only: test files in ProjectFortress/tests/ or a ProjectFortress/*_tests/ directory, and files under explorations/, with no source, library, checker, interpreter or specification file changed. Then no repair runs: the batch lands on its gate, and your numbered instructions, written as for a repair worker, go to the next batch with the findings you uphold and are listed for Pavol, as the review\'s routed findings are (the post-mortem of 2026-09-29). The tests land one batch later, as rows 447 and 505\'s did by that rule. A finding whose settlement needs a source, library, checker, interpreter or specification change is a repair, as before, and so is a ruling that mixes the two.'
 const REVIEW_JUDGE_SCHEMA = Object.assign({}, JUDGE_SCHEMA, {
   properties: Object.assign({}, JUDGE_SCHEMA.properties, {
     decision: { type: 'string', enum: ['repair', 'land', 'drop', 'stop'], description: 'repair: the next Opus worker executes the instructions on the merged tree; land: every finding upheld is settled by tests and records only, so the batch lands on its gate and the instructions go to the next batch, listed for Pavol; drop: a rung\'s approach is wrong; stop: a reserved fork, this reaches Pavol' },
@@ -1631,6 +1633,8 @@ function gatherRole(approved, notLanded, items) {
 '',
 'Compose one clean local commit per approved rung on main. Nothing is merged: each rung\'s branch stays as it is and is never a parent of anything on main.',
 '',
+'The batch record the steps below name is ' + BATCH_DIR + '/RECORD.md, and you write it once: no later stage rewrites it, and the commit stage adds to it only the landed hashes, the gate\'s summary line and, when the push is held, a "Not pushed." paragraph (the post-mortem of 2026-09-29).',
+'',
 'Preconditions, checked first and reported if they fail: git status --porcelain is empty; ' + BASE + ' is an ancestor of HEAD (git merge-base --is-ancestor).',
 '',
 '## The order the commits go in',
@@ -1641,29 +1645,16 @@ function gatherRole(approved, notLanded, items) {
 '',
 '1. Its net change: git diff ' + BASE + '...<branch> > <scratch>/<slug>.patch, then git apply --3way --index <patch>. A hunk that fails in a file another rung also touched is the conflict this stage exists to see: if the hunks are in unrelated regions, resolve it by hand from both sides and say so; if both changed the same logic, do NOT guess - leave the tree clean (git checkout -- . && git clean -fd on the touched paths), and return with the conflict named.',
 '   Then the rung\'s three files. The texts its agents returned for them - reportText for REPORT.md and recordText for record.md from its last worker, skepticText for SKEPTIC.md from its last skeptic and, where there were two rounds, the first round\'s after a line "## First round" - are in the run\'s journal and not in this brief, and each rung below carries in textCommands the command that writes each file from there, byte for byte, without the text passing through your context (' + TEXT_TOOL + '; it finds the journal itself, the newest one whose last started agent is this gather, and says which on stderr). For each of the three files under explorations/compile-ladder/<slug>/ that the branch does not carry, run its command from ' + MAIN + ', and compose nothing: the rung\'s own words, not a summary of them. From there on the file is treated as one the rung wrote; read of it only what a later step needs. A file the branch carries stands as it is, and its command is not run. Name in the batch record every file written this way. A command that exits 1 wrote nothing (no journal found, or no text in the field): report that file as missing rather than composing it. In batch 5 the harness refused every rung worker\'s write of REPORT.md and the gather composed each from a 15-line summary; in batch N these texts, pasted into the gather\'s brief, were 195K tokens of it, re-read and copied back out (explorations/reviews/batch-N-review.md, question 2).',
-'2. Fold its record: explorations/compile-ladder/<slug>/record.md (now in the tree) carries finished prose for three places. The FACTS.md line goes into explorations/coordinator/FACTS.md under the section of its area (the file is grouped by area, its README gives the rule: "Landed semantics" for a rule of the language or the library as it now stands, "The harness and the gate" for test mechanics, "The checker and the one library" for the checker), after that section\'s last entry, as one bullet with its source. The ledger note is APPENDED to the notes of the row it names in explorations/fortress-gap-ledger.md - rows are never renumbered, moved or deleted; where the note needs the landed commit\'s hash write the literal placeholder <short hash>, which the commit stage replaces. The handover state line goes into the first section of explorations/microgpt-run-c-handover.md ("Where the work stands"). If record.md opens a new row, the number is provisional (from ' + LEDGER_FROM + '): assign the final numbers in MANIFEST order (' + RUNGS.map(r => r.id).join(', ') + ') as you fold, append each row to the ledger\'s last table, and correct every citation of the provisional number in that rung\'s record.md, REPORT.md and probes in the same commit. Any file:line a record cites that a previously applied rung has shifted is re-anchored by SYMBOL - find the declaration or the assert by name in the current file and cite the line it is at now, rather than trusting the number the record was written with.',
+'2. Fold its record: explorations/compile-ladder/<slug>/record.md (now in the tree) carries finished prose for three places. The FACTS.md line goes into explorations/coordinator/FACTS.md under the section of its area (the file is grouped by area, its README gives the rule: "Landed semantics" for a rule of the language or the library as it now stands, "The harness and the gate" for test mechanics, "The checker and the one library" for the checker), after that section\'s last entry, as one bullet with its source. The ledger note is APPENDED to the notes of the row it names in explorations/fortress-gap-ledger.md - rows are never renumbered, moved or deleted; where the note needs the landed commit\'s hash write the literal placeholder <short hash>, which the commit stage replaces. The handover state line goes into the first section of explorations/microgpt-run-c-handover.md ("Where the work stands"). If record.md opens a new row, the number is provisional (from ' + LEDGER_FROM + '): assign the final numbers in MANIFEST order (' + RUNGS.map(r => r.id).join(', ') + ') as you fold, append each row to the ledger\'s last table, and correct every citation of the provisional number in the lines you fold from that rung\'s record.md and in its REPORT.md, SKEPTIC.md and tests, in the same commit. Any file:line a record cites that a previously applied rung has shifted is re-anchored by SYMBOL - find the declaration or the assert by name in the current file and cite the line it is at now, rather than trusting the number the record was written with.',
 '3. Close every requiredCorrections item of that rung\'s skeptic verdicts, listed below; each is a checklist item and the last climb left two of them unmade.',
 '4. Open or refuse every recommendedRows item of that rung\'s skeptic, in one sentence each, recorded in the batch record. Opening it means a real ledger row with the probe it cites; refusing it means one sentence saying why the tree does not owe it. The last batch lost a codegen defect a skeptic had narrowed precisely, because nothing carried a recommendation that was not a required correction.',
 '5. Its items for Pavol, from the list at the end of this role. ' + PLAN_RULE + ' The evidence named is the rung\'s file that carries the point, REPORT.md, SKEPTIC.md or JUDGE.md, at the line it is now at.',
 '   A text mismatch is not blocking. Where the batch intro has you check one rung\'s specification text against another rung\'s landed code, a mismatch the decisions on record settle you fix on the side they settle, as before; one they do not settle you do NOT report to the review as blocking, whatever the intro says. It is reversible, so it lands as a reserved stop met does, listed for Pavol (POSITIONS.md, 2026-09-27, the stops; 2026-09-29, the weighing of cost against what a rule protects), with the three records that keep it from being a discrepancy no one can see (POSITIONS.md, 2026-09-24, on updating the specification): the text stands as the rung wrote it; the path that departs from it gets a ledger row and a gated home-2 test (XXX) asserting the text\'s rule; and the text\'s entry in Specification/appendices/changes.tex names that row among its departures, so that the text claims no more than holds. All three go in the commit of the later of the two rungs, and the mismatch goes in your forPavol, with its ledger row and its test, and into PLAN.md by step 5\'s rule, with the ids gather.1, gather.2 in the order of forPavol. In batch N the rule "report any other to the review as blocking" made row 516 half of the first review\'s block, a judge ruling, a repair and a second review, and the judge reversed it in one line (explorations/reviews/batch-N-review.md, question 4, item 3).',
-'6. One commit: the applied source, the tests, the rung\'s files under explorations/compile-ladder/<slug>/ (REPORT.md, record.md, SKEPTIC.md, JUDGE.md if any, and each probe and capture named one by one), the three record files, and PLAN.md when step 5 wrote to it. Stage those files by an explicit list, never by git add of the directory, and read git diff --cached --stat before you commit: 85 MB of a worker\'s experimental caches reached main that way on 2026-09-19 and the protocol\'s hard rule on worker commits now forbids it. Title line: what the repair does, in the plain register; body: the two or three sentences of record.md that say why. If git diff --name-only for this commit shows ANY path outside explorations/, the body also carries a line beginning "historical:" naming the files of the original 2012 tree the commit edits, taken from the rung\'s provenance block - the protocol\'s hard rule on the gate requires those edits to be flagged at commit time. Footer as given. Do not push.',
+'6. One commit: the applied source, the tests, the rung\'s files under explorations/compile-ladder/<slug>/ (REPORT.md, SKEPTIC.md and JUDGE.md if any, and decision-record.md for a specification rung; record.md is folded, not landed, so take it out of the index and the tree once step 2 has folded it; nothing else under the rung\'s folder), the three record files, and PLAN.md when step 5 wrote to it. Stage those files by an explicit list, never by git add of the directory, and read git diff --cached --stat before you commit: 85 MB of a worker\'s experimental caches reached main that way on 2026-09-19 and the protocol\'s hard rule on worker commits now forbids it. Title line: what the repair does, in the plain register; body: the two or three sentences of record.md that say why. If git diff --name-only for this commit shows ANY path outside explorations/, the body also carries a line beginning "historical:" naming the files of the original 2012 tree the commit edits, taken from the rung\'s provenance block - the protocol\'s hard rule on the gate requires those edits to be flagged at commit time. Footer as given. Do not push.',
 '',
 (notLanded.length
-  ? '## The rungs that did not land\n\nThese rungs stopped, were dropped, or their worker died, or the script withheld them (state withheld) because their manifest entry names in landsOnlyWith a rung that was not approved; the reason says which. Their source changes are NOT applied and their branches stay as they are. But their skeptics\' findings are about the tree, not about the rung, and they have nowhere else to go: fold them into ' + BATCH_DIR + '/RECORD.md under a heading "Not landed", one section per rung, carrying the reason it did not land, the findings of its SKEPTIC.md if it has one, and every recommendedRows entry, each opened as a real ledger row or refused in one sentence exactly as step 4 requires. Its items for Pavol go into PLAN.md as step 5 says, in the commit that carries its "Not landed" section. Take that rung\'s REPORT.md, SKEPTIC.md, record.md and the probes its findings actually cite out of its branch by an explicit list of paths (git checkout <branch> -- <path> ..., one path at a time), never the whole directory, so the probes are tracked and nothing else comes with them; where the branch lacks one of the three files, write it with its command from textCommands below, as step 1 says for a landed rung. Apply none of its source.\n\n' + JSON.stringify(notLanded.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state, reason: r.withheldReason || (r.judge && r.judge.summary) || (r.worker && r.worker.stopReason) || '', skepticFindings: (r.verdict && r.verdict.findings) || [], recommendedRows: (r.verdict && r.verdict.recommendedRows) || [] }, rungTextCommands(r))), null, 2) + '\n'
+  ? '## The rungs that did not land\n\nThese rungs stopped, were dropped, or their worker died, or the script withheld them (state withheld) because their manifest entry names in landsOnlyWith a rung that was not approved; the reason says which. Their source changes are NOT applied and their branches stay as they are. But their skeptics\' findings are about the tree, not about the rung, and they have nowhere else to go: fold them into ' + BATCH_DIR + '/RECORD.md under a heading "Not landed", one section per rung, carrying the reason it did not land, the findings of its SKEPTIC.md if it has one, and every recommendedRows entry, each opened as a real ledger row or refused in one sentence exactly as step 4 requires. Its items for Pavol go into PLAN.md as step 5 says, in the commit that carries its "Not landed" section. Take that rung\'s REPORT.md, SKEPTIC.md and record.md out of its branch by an explicit list of paths (git checkout <branch> -- <path> ..., one path at a time), never the whole directory, so that nothing else comes with them; where the branch lacks one of the three files, write it with its command from textCommands below, as step 1 says for a landed rung. Apply none of its source.\n\n' + JSON.stringify(notLanded.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state, reason: r.withheldReason || (r.judge && r.judge.summary) || (r.worker && r.worker.stopReason) || '', skepticFindings: (r.verdict && r.verdict.findings) || [], recommendedRows: (r.verdict && r.verdict.recommendedRows) || [] }, rungTextCommands(r))), null, 2) + '\n'
   : '## The rungs that did not land\n\nNone: every rung of this batch was approved.'),
-'',
-'## After the last commit: every cited path is tracked',
-'',
-'Run this over every landed rung and fix what it prints before you report:',
-'',
-'    for f in $(git show --name-only --pretty=format: HEAD~$N..HEAD | grep -E \'(REPORT|SKEPTIC|JUDGE|record)\\.md$\' | sort -u) ; do',
-'        for p in $(grep -oE \'explorations/[A-Za-z0-9._/-]+\' "$f" | sort -u) ; do',
-'            [ -e "$p" ] || continue',
-'            git ls-files --error-unmatch "$p" >/dev/null 2>&1 || echo "UNTRACKED $f -> $p"',
-'        done',
-'    done',
-'',
-'(with $N the number of commits you made). An UNTRACKED line is a defect of this stage, not of the rung: commit the file in a follow-up commit or say in your result why the citation stands without it. .gitignore:42,46 swallow *.log and *.out, which is how four captures of the last batch were nearly landed untracked.',
 '',
 'The rungs and their verdicts:',
 '',
@@ -1673,7 +1664,7 @@ JSON.stringify(approved.map(r => Object.assign({ rung: r.rung, slug: r.slug, bra
 '',
 JSON.stringify(items, null, 2),
 '',
-'Return the structured result the tool requires: the commit hash per rung, the order you applied them in and why, the conflicts met and how each was resolved, the corrections closed, the recommended rows opened or refused, the tracked-path check\'s output, forPavol, the points you find yourself (a text mismatch the decisions do not settle among them), pavolItems, one entry for every id above and every gather.N of forPavol with the PLAN.md section and entry that holds it, and pavolUnrouted, every id you could not put in with the reason, for the coordinator. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
+'Return the structured result the tool requires: the commit hash per rung, the order you applied them in and why, the conflicts met and how each was resolved, the corrections closed, the recommended rows opened or refused, forPavol, the points you find yourself (a text mismatch the decisions do not settle among them), pavolItems, one entry for every id above and every gather.N of forPavol with the PLAN.md section and entry that holds it, and pavolUnrouted, every id you could not put in with the reason, for the coordinator. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
 '',
   ].join('\n')
 }
@@ -1688,7 +1679,6 @@ const GATHER_SCHEMA = {
     correctionsClosed: { type: 'array', items: { type: 'string' } },
     rowsOpenedOrRefused: { type: 'array', items: { type: 'string' }, description: 'one line per recommendedRows entry: opened as row N, or refused because ...' },
     notLandedFolded: { type: 'array', items: { type: 'string' }, description: 'the rungs whose findings were folded without their source, and where' },
-    trackedPaths: { type: 'string', description: 'the tracked-path check\'s output and what was done about it' },
     head: { type: 'string', description: 'the hash HEAD is at when you finish' },
     forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this gather finds itself, a text mismatch the decisions do not settle among them, one entry each with its ledger row, its test and its evidence as file:line; each goes into PLAN.md as gather.1, gather.2 in this order; empty if none' },
     pavolItems: PAVOL_ROUTED,
@@ -1699,21 +1689,22 @@ const GATHER_SCHEMA = {
   required: ['commits', 'conflicts', 'unresolved', 'pavolItems', 'pavolUnrouted', 'summary'],
 }
 
-// The merged-diff review. The first runs beside the gate. A second, after a repair on
-// the merged tree, runs beside the commit stage (besideCommit): it can no longer hold a
-// batch whose gate is green (Pavol, POSITIONS.md 2026-09-29, a review that still blocks
-// after its repair), so the commit's work does not wait on it; only the push does, for
-// its stopsMet (below "The run.", the second review).
+// The merged-diff review, once, beside the gate. Since the post-mortem of 2026-09-29
+// (postmortem-2026-09-29/synthesis.md, section 2(b)) there is no second review inside a
+// batch: the post-batch review is the second look. A finding whose repair touches code
+// goes to the judge and a repair; one settled by tests and records only is routed by the
+// review to the next batch and listed for Pavol, with no judge (Pavol, POSITIONS.md
+// 2026-09-29, the weighing of cost against what a rule protects). The checker count's
+// rows are the post-batch review's to explain, so this review does not wait on the
+// gate's table.
 const COMMIT_TITLE = 'Record the landed commits\' hashes and the gate summary'
-function reviewRole(gather, label, items, besideCommit) {
+function reviewRole(gather, label, items) {
   return MAIN_TREE_ROLE + [
 '# Your role: merged-diff reviewer',
 '',
 'The rungs were judged one at a time in their own worktrees; nobody has yet read the changes together, and the rung skeptics could not see the three record files, which were folded after them. You read both.',
 '',
-(besideCommit
-  ? 'This is the second review, of the tree after the repair on the merged tree. THE COMMIT STAGE IS RUNNING BESIDE YOU, in this same tree: it lands the gate\'s summary and the landed commits\' hashes in one commit, titled "' + COMMIT_TITLE + '". The gate has run and does not run again, and your review can no longer hold the batch (Pavol, POSITIONS.md 2026-09-29, on a review that still blocks after its repair): a blocking finding of yours goes to the next batch and is listed for Pavol. That is why you run beside the commit and not before it (the same day\'s entry on rerunning the gate: the weighing of cost against what a rule protects). The push waits for you: the script holds it on any stop you list in stopsMet that no decision of his lifts, and check 10 reads the repair\'s commit (git log for REPAIR-review.md) as it reads a rung\'s hunks. The three rules below are for this.'
-  : 'THE GATE IS RUNNING BESIDE YOU, in this same tree, on the commits the gather made. That is deliberate and it costs nothing as long as your own fixes stay inside explorations/ - the gate\'s result stands. It is why the two rules below matter.'),
+'THE GATE IS RUNNING BESIDE YOU, in this same tree, on the commits the gather made. That is deliberate and it costs nothing as long as your own fixes stay inside explorations/ - the gate\'s result stands. It is why the two rules below matter.',
 '',
 'The composed commits: git log ' + BASE + '..HEAD; the whole change: git diff ' + BASE + '...HEAD. The gather stage returned:',
 '',
@@ -1726,27 +1717,16 @@ JSON.stringify(gather, null, 2),
 '4. Every requiredCorrections item the gather says it closed is actually closed, and every recommendedRows entry is opened as a real row or refused in one sentence.',
 '5. Footers present and exact; no model identifier anywhere in the commits; a historical: line in the body of every commit whose diff touches a path outside explorations/, naming the 2012-tree files it edits.',
 '6. The provenance block of every REPORT.md: five lines (problem, spec, precedent, deviation, historical), each ending in a file:line or none, and its SKEPTIC.md says the lines were opened.',
-'7. The three homes: every defect a REPORT.md or SKEPTIC.md says was measured has a gated assertion, an XXX expected-failure file, or a committed .txt probe with a ledger row - and the one it has is the one the specification allows. A defect repaired in the rung whose only trace is a FACTS line is a finding.',
-'8. Every path any of the landed records cites is tracked (git ls-files --error-unmatch).',
-'9. Last, because it needs the gate\'s table: the checker count. Its total is reported and never red on its own (explorations/coordinator/checker-gate-review.md), so explaining it falls to you. The gate writes ' + GATE_OUT + '/checker-count.txt at its step 8, and the table\'s last line is its #shadow row; its step 9, the distance stage, is reported and never red, and is not yours to explain. Wait for that row in calls of at most eight minutes, for i in $(seq 96); do grep -q \'^#shadow\' ' + GATE_OUT + '/checker-count.txt 2>/dev/null && break; sleep 5; done, and after five calls without it write "no gate table" in checkerRows and leave this check. Diff the table against the last landed one, the first path that git log --name-only --pretty=format: -- explorations/compile-ladder/gate-baseline/checker-count.txt \'explorations/compile-ladder/climb-batch-*/gate/checker-count.txt\' prints. Every row that is new or whose count rose (a row is an api, that is one .fsi file) must be explained as the consequence of a named rung edit, with its file:line: an early error a rung cleared, for example, lets the checker\'s later rules run on that api for the first time (StaticChecker.java:268-272). Where the rows alone do not say, the file:line of every error is in the gate\'s full output, ' + LOG_DIR + '/checker-count/run.txt; read it and write nothing there. One line per row goes in checkerRows. A new or risen row you cannot tie to a rung edit is blocking, for the judge and a repair. A total that misses a rung\'s declared one is not a finding by itself: the declarations are predictions.',
-'10. The stops. Every stop the batch record\'s intro reserves for Pavol that a landed rung meets - in its hunks, or where its REPORT.md, SKEPTIC.md or record.md says it met one (a passage reported without choosing, an output a comparison does not account for, a line that waits for him) - goes in stopsMet with the rung\'s id, the evidence as file:line, and in liftedBy the POSITIONS.md line of the decision of his that lifts it, or nothing. The script holds the batch\'s push on any entry with no such line, and on the rungs\' own entries too; it is not a blocking finding, and you do not fix it.',
-'11. The items for Pavol. For each id of the list below, the PLAN.md entry the gather\'s pavolItems names is in explorations/coordinator/PLAN.md, under one of the two sections, and says what the item says. An item the gather left out or placed wrong you put in yourself, in your corrections commit. Every point you yourself find that is Pavol\'s goes in forPavol, one entry each, with the ids ' + label + '.1, ' + label + '.2 in the order of forPavol. ' + PLAN_RULE + ' pavolItems lists every id you put in or moved, with its section and entry. It is not a blocking finding.',
+'7. The three homes: every defect a REPORT.md or SKEPTIC.md says was measured has a gated assertion, an XXX expected-failure file, or a test pinning today\'s behaviour with a ledger row, or a ledger row quoting the output where no program can observe it - and the one it has is the one the specification allows. A defect repaired in the rung whose only trace is a FACTS line is a finding.',
+'8. The stops. Every stop the batch record\'s intro reserves for Pavol that a landed rung meets - in its hunks, or where its REPORT.md, SKEPTIC.md or the lines folded from its record.md say it met one (a passage reported without choosing, a test whose verdict changed other than by a rung\'s own intent, a line that waits for him) - goes in stopsMet with the rung\'s id, the evidence as file:line, and in liftedBy the POSITIONS.md line of the decision of his that lifts it, or nothing. The script holds the batch\'s push on any entry with no such line, and on the rungs\' own entries too; it is not a blocking finding, and you do not fix it.',
+'9. The items for Pavol. For each id of the list below, the PLAN.md entry the gather\'s pavolItems names is in explorations/coordinator/PLAN.md, under one of the two sections, and says what the item says. An item the gather left out or placed wrong you put in yourself, in your corrections commit. Every point you yourself find that is Pavol\'s goes in forPavol, one entry each, with the ids ' + label + '.1, ' + label + '.2 in the order of forPavol. ' + PLAN_RULE + ' pavolItems lists every id you put in or moved, with its section and entry. It is not a blocking finding.',
 '',
 'The items for Pavol from the rungs and the gather, by id:',
 '',
 JSON.stringify(items, null, 2),
 '',
-'Two kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect in the source hunks - a rule broken, an edit that is not what its report says, an interaction between two rungs - you do NOT fix; you return it as blocking, precisely enough that a judge can rule on it from your words and the diff. A mismatch between one rung\'s specification text and another rung\'s code that the decisions do not settle, which the gather filed as a reversible stop met (the text as the rung wrote it, the ledger row and gated XXX test of the path that departs, the row named among the text\'s departures in Specification/appendices/changes.tex, and an item for Pavol), is not blocking: check that the four are there, complete a missing record yourself, and return a missing test as blocking. Do not run the gate and do not push.',
+'Three kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect whose repair touches a path outside explorations/ that is not a test file - source, library, checker, interpreter or specification: a rule broken, an edit that is not what its report says, an interaction between two rungs - you do NOT fix; you return it in blockingCode, precisely enough that a judge can rule on it from your words and the diff; a judge rules, a repair runs, and the gate runs again on the repaired tree. A finding settled by tests and records only that you do not fix yourself - a test owed or a test file to change - you return in routed, each with the step the next batch owes: no judge and no repair run for it, it goes to the next batch and is listed for Pavol, and it does not hold the batch (the post-mortem of 2026-09-29, section 2(b); Pavol, POSITIONS.md 2026-09-29, the weighing of cost against what a rule protects). A mismatch between one rung\'s specification text and another rung\'s code that the decisions do not settle, which the gather filed as a reversible stop met (the text as the rung wrote it, the ledger row and gated XXX test of the path that departs, the row named among the text\'s departures in Specification/appendices/changes.tex, and an item for Pavol), is not blocking: check that the four are there, complete a missing record yourself, and return a missing test in routed. Do not run the gate and do not push.',
 '',
-...(besideCommit ? [
-'## Three rules because the commit stage is running beside you',
-'',
-'First: make no edit until the commit stage\'s commit is in, so that the two of you never edit one file at once. Read and check everything first; then, before your first edit, wait for it in calls of at most eight minutes, for i in $(seq 96); do git log --format=%s ' + BASE + '..HEAD | grep -qxF "' + COMMIT_TITLE + '" && break; sleep 5; done, and after five calls without it go on and say so in your summary.',
-'',
-'Second: every correction stays inside explorations/. The gate has run on this tree and does not run again, so a correction that would need a source, library, checker, interpreter, specification or test file is not yours to make: return it as blocking, and it goes to the next batch. Record the hash HEAD is at BEFORE your corrections commit, and the hash after, run git diff --name-only <before> <after>, and return both hashes and in pathsOutsideExplorations every path it prints that is NOT under explorations/; that list must be empty, and a path in it holds the push.',
-'',
-'Third: do not touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/, from which the commit stage copies the gate\'s tables, and retry a git command that fails on index.lock.',
-] : [
 '## Two rules because the gate is running beside you',
 '',
 'First: record the hash HEAD is at BEFORE your corrections commit, and the hash after, and run',
@@ -1756,7 +1736,6 @@ JSON.stringify(items, null, 2),
 'and return both hashes and every path that command prints which is NOT under explorations/. If that list is non-empty the gate may have to run again on your result, and the script decides from your answer. Keep your own fixes inside explorations/ wherever you can; if a correction genuinely needs a source file, make it and report it rather than leaving it.',
 '',
 'Second: do not touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/, which are the gate\'s, and retry a git command that fails on index.lock.',
-]),
 '',
   ].join('\n')
 }
@@ -1764,19 +1743,19 @@ JSON.stringify(items, null, 2),
 const REVIEW_SCHEMA = {
   type: 'object',
   properties: {
-    approved: { type: 'boolean', description: 'true if nothing blocking remains after your own record fixes' },
-    blocking: { type: 'array', items: { type: 'string' }, description: 'source-level findings, each with file:line and which rule or claim it breaks' },
+    approved: { type: 'boolean', description: 'true if blockingCode is empty after your own record fixes' },
+    blockingCode: { type: 'array', items: { type: 'string' }, description: 'findings whose repair touches a path outside explorations/ that is not a test file (source, library, checker, interpreter or specification), each with file:line and which rule or claim it breaks; the judge rules on these, and the gate runs again after their repair; empty if none' },
+    routed: { type: 'array', items: { type: 'string' }, description: 'findings settled by tests and records only that you did not fix yourself, each with file:line and the step the next batch owes; no judge runs for them, they go to the next batch and are listed for Pavol; empty if none' },
     fixed: { type: 'array', items: { type: 'string' }, description: 'record or mechanical defects you fixed, and the commit hash' },
     headBefore: { type: 'string', description: 'the hash HEAD was at before your corrections commit' },
     headAfter: { type: 'string', description: 'the hash HEAD is at after it; same as headBefore if you committed nothing' },
     pathsOutsideExplorations: { type: 'array', items: { type: 'string' }, description: 'every path from git diff --name-only <headBefore> <headAfter> that is not under explorations/; empty if none' },
-    checkerRows: { type: 'array', items: { type: 'string' }, description: 'check 9: one line per row of the gate checker table that is new or rose against the last landed table - the api, was -> now, and the rung edit (file:line) that explains it; empty if none' },
     stopsMet: STOPS_MET,
     forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this review finds, one entry each with its evidence as file:line; empty if none' },
     pavolItems: PAVOL_ROUTED,
     summary: { type: 'string' },
   },
-  required: ['approved', 'blocking', 'fixed', 'stopsMet', 'forPavol', 'pavolItems', 'summary'],
+  required: ['approved', 'blockingCode', 'routed', 'fixed', 'stopsMet', 'forPavol', 'pavolItems', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -1979,7 +1958,7 @@ function gateRole(expectedMoves, expectedChecker) {
 '',
 '   Run it as checker_compare "$(last_landed_checker_count)" ' + GATE_OUT + '/checker-count.txt "' + ((expectedChecker && expectedChecker.counts && expectedChecker.counts.length) ? expectedChecker.counts.join(', ') : 'none') + '"' + ((expectedChecker && expectedChecker.crashes && expectedChecker.crashes.length) ? ' "' + expectedChecker.crashes[0].replace(/^[^:]*: /, '') + '" (the declared crash line, without its rung prefix, as the fourth argument)' : '') + ', and append its output to ' + GATE_OUT + '/summary.txt with every line prefixed by "# checker ".',
 '',
-'   The total is REPORTED and is never red on its own (explorations/coordinator/checker-gate-review.md): a fix can raise it, because the checker stops checking an api at that api\'s first errors (StaticChecker.java:268-272) and clearing them lets its later rules run there for the first time, and two rungs\' changes do not add, so neither a rise nor a missed declaration tells progress from harm. COUNT UP, COUNT DOWN and COUNT SAME each print the declared totals beside the measured one; a declaration is a prediction written before the run, printed and not enforced, and the merged-diff review beside you explains every new or risen row of your table. A CRASH CHANGED line that no rung declared stays RED, as before, and so does SHADOW STALE, which means the copy beside run.sh is no longer the checker the tree builds and the number is not this tree\'s. The per-api rows and #locations are printed either way, so print the diff in your result. What this batch declared:',
+'   The total is REPORTED and is never red on its own (explorations/coordinator/checker-gate-review.md): a fix can raise it, because the checker stops checking an api at that api\'s first errors (StaticChecker.java:268-272) and clearing them lets its later rules run there for the first time, and two rungs\' changes do not add, so neither a rise nor a missed declaration tells progress from harm. COUNT UP, COUNT DOWN and COUNT SAME each print the declared totals beside the measured one; a declaration is a prediction written before the run, printed and not enforced, and the post-batch review explains every new or risen row of the landed table. A CRASH CHANGED line that no rung declared stays RED, as before, and so does SHADOW STALE, which means the copy beside run.sh is no longer the checker the tree builds and the number is not this tree\'s. The per-api rows and #locations are printed either way, so print the diff in your result. What this batch declared:',
 '',
 (expectedChecker && expectedChecker.counts && expectedChecker.counts.length
   ? expectedChecker.counts.map(m => '     - total: ' + m).join('\n')
@@ -2046,7 +2025,7 @@ function repairTestsStep(kind, failing) {
 '',
 'Record the hash HEAD is at before your first commit and the hash after your last, and return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from that list whether the whole gate runs again after you (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests). A path outside explorations/ that is not a test file - source, library, checker, interpreter or specification - reruns it, as before. Test files and records only do not: then your runs below are the verification of your tests, the first gate\'s tables stand, and the commit stage records your tests\' lines beside the first gate\'s summary. A test file here is a .fss, .fsi or .test file directly in one of the corpora the harness reads, ProjectFortress/tests/ and the ProjectFortress/*_tests/ directories.',
 '',
-'Every test file you add or change there you run in the harness on the merged tree, placed where the gate reads it, with the gate\'s own JUnit mechanics, and all the files of one corpus TOGETHER, in one harness run, one JVM, as the gate\'s track runs them: a file that passes alone can fail beside others in one JVM, as batch 6.5\'s WitnessIdentityRungG did under the gate (explorations/reviews/batch-6.5-review.md, item 78), and running them together is the one thing a second gate would still have added (explorations/reviews/batch-N-review.md, question 4). The .test files of compiler_tests/, and those of library_tests/, each through one call of ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> <the directory> <Name.test>..., which runs fortress junit once over the list, the harness\'s FileTests.suiteFromListOfFiles, its compile and link tests before its run tests, so a link test still runs before its XXX run test; the interpreter tests of tests/ through one call of explorations/compile-ladder/rung-inference-walk/harness-one.sh <scratch dir under tmp/> <file.fss>..., which runs SystemJUTest, the class testSystem\'s shards run, once over a directory holding only the named files with testSystem\'s JVM settings. Batch N\'s repair ran each file in its own JVM (explorations/compile-ladder/climb-batch-N/merged-tests/repair-junit-placed.txt); do not. Capture each run\'s output under ' + BATCH_DIR + '/repair-' + kind + '-tests/ and commit the captures with your tests. In testRuns return one entry per file: the file, the added or changed test paths its lines in the run exercise (a .test and the .fss it names), the summary.txt row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system for tests/), the JUnit cases it adds (its lines of the run; the files of one run add up to the n of its OK (n tests) or Tests run: n), its verdict (pass only when the run that held it printed OK, so a failure anywhere in a run fails every file of it), and the path of that run\'s capture. A test path you changed that no run exercises, or a run that did not pass, reruns the gate.',
+'Every test file you add or change there you run in the harness on the merged tree, placed where the gate reads it, with the gate\'s own JUnit mechanics, and all the files of one corpus TOGETHER, in one harness run, one JVM, as the gate\'s track runs them: a file that passes alone can fail beside others in one JVM, as batch 6.5\'s WitnessIdentityRungG did under the gate (explorations/reviews/batch-6.5-review.md, item 78), and running them together is the one thing a second gate would still have added (explorations/reviews/batch-N-review.md, question 4). The .test files of compiler_tests/, and those of library_tests/, each through one call of ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> <the directory> <Name.test>..., which runs fortress junit once over the list, the harness\'s FileTests.suiteFromListOfFiles, its compile and link tests before its run tests, so a link test still runs before its XXX run test; the interpreter tests of tests/ through one call of explorations/compile-ladder/rung-inference-walk/harness-one.sh <scratch dir under tmp/> <file.fss>..., which runs SystemJUTest, the class testSystem\'s shards run, once over a directory holding only the named files with testSystem\'s JVM settings. Batch N\'s repair ran each file in its own JVM (explorations/compile-ladder/climb-batch-N/merged-tests/repair-junit-placed.txt); do not. Capture each run\'s output under ' + LOG_DIR + '/repair-' + kind + '-tests/, which is not committed (the post-mortem of 2026-09-29: no capture is committed anywhere). In testRuns return one entry per file: the file, the added or changed test paths its lines in the run exercise (a .test and the .fss it names), the summary.txt row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system for tests/), the JUnit cases it adds (its lines of the run; the files of one run add up to the n of its OK (n tests) or Tests run: n), its verdict (pass only when the run that held it printed OK, so a failure anywhere in a run fails every file of it), and the path of that run\'s capture. A test path you changed that no run exercises, or a run that did not pass, reruns the gate.',
 ...(kind === 'gate' ? [
 '',
 'The gate was red on these lines:',
@@ -2105,54 +2084,35 @@ function besideStep(beside) {
   if (!beside.length) return []
   const cases = [].concat.apply([], beside.map(b => b.runs)).reduce((n, t) => n + (Number(t.cases) || 0), 0)
   return [
-'1a. The gate below ran on the tree before a repair on the merged tree that changed test files and records only, so it was not run again (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests): its tables stand, and the repair ran its tests in the harness on the merged tree. Record them beside the summary, in the same commit as step 1, so that the next batch\'s comparand is stated honestly: after the gate\'s own lines, append to ' + GATE_DIR + '/summary.txt one line per run below, tab-separated and prefixed "# repair-tests", with the repair\'s kind, the summary row it adds to, its JUnit cases, its verdict, the file and the capture\'s path; then, for each line the gate failed on that the repair answered, a line "# repair-tests answered", the gate\'s line and the file whose run answers it; and last "# repair-tests total" with ' + cases + ', the cases these runs add, by which every count the next gate reads rises beyond this summary\'s rows. Do not change the gate\'s own rows. The runs and answers:',
+'1a. The gate below ran on the tree before a repair on the merged tree that changed test files and records only, so it was not run again (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests): its tables stand, and the repair ran its tests in the harness on the merged tree. Record them beside the summary, in the same commit as step 1, so that the next batch\'s comparand is stated honestly: after the gate\'s own lines, append to ' + GATE_DIR + '/summary.txt one line per run below, tab-separated and prefixed "# repair-tests", with the repair\'s kind, the summary row it adds to, its JUnit cases, its verdict and the file; then, for each line the gate failed on that the repair answered, a line "# repair-tests answered", the gate\'s line and the file whose run answers it; and last "# repair-tests total" with ' + cases + ', the cases these runs add, by which every count the next gate reads rises beyond this summary\'s rows. Do not change the gate\'s own rows. The runs and answers:',
 '',
 JSON.stringify(beside, null, 2),
 '',
   ]
 }
 
-// The commit stage. part is 'all' (steps 1 to 4, the usual case), or, when a second
-// review follows a repair on the merged tree, 'local' (steps 1 and 2, beside that
-// review) and then 'push' (steps 2 to 4, once the review's stops are known): the
-// commit's work does not wait on the second review, and the push still does.
-function commitRole(gather, gate, heldBy, beside, part) {
-  part = part || 'all'
+// The commit stage, steps 1 to 5. From 2026-09-29 until the post-mortem of the same
+// night a second review after a repair on the merged tree split it in two, a local
+// part beside that review and a push after it; with the second review gone it is one
+// stage again (postmortem-2026-09-29/synthesis.md, section 4, items 35 and 36).
+function commitRole(gather, gate, heldBy, beside) {
   const held = heldBy.length > 0
   beside = beside || []
   const answered = beside.some(b => strings((b.answered || []).map(a => a && a.failing)).length)
   const tree = beside.length
     ? 'The gate ran on the tree before a repair of test files and records only and was not run again; its tables stand, ' + (answered ? 'the lines it was red on answered by the repair\'s passing runs' : 'green') + ' (step 1a).'
     : 'The gate is green on the tree as it stands.'
-  if (part === 'push') return MAIN_TREE_ROLE + [
-'# Your role: commit, the push',
-'',
-'The commit stage has landed this batch on the local main, in the commit titled "' + COMMIT_TITLE + '", beside the second review of the repaired tree, whose corrections commit, if it made one, follows it (Pavol, POSITIONS.md 2026-09-29: that review no longer holds a batch whose gate is green, so the commit did not wait on it; the push did, for the stops it lists). ' + (held ? 'The script holds the push (step 3).' : 'Push it.') + ' Steps 2 to 4 of the commit stage are yours; step 1 is done, and you do not repeat it.',
-'',
-'2. Verify every commit since ' + BASE + ', the second review\'s included, ends with the two footer lines and contains no model identifier (git log ' + BASE + '..HEAD --format=%B), and that every commit whose diff touches a path outside explorations/ carries a historical: line.',
-commitPushSteps(held, heldBy)[0],
-commitPushSteps(held, heldBy)[1],
-'',
-(held
-  ? 'Return the structured result: the hash main is at locally as mainHead, pushed empty, pushHeld true, and the stops above in heldBy.'
-  : 'Return the structured result: the hash main is at on origin, the commits pushed, and what was cleaned up.'),
-'',
-  ].join('\n')
   return MAIN_TREE_ROLE + [
 '# Your role: commit',
 '',
-part === 'local'
-  ? tree + ' Land it on the local main: steps 1 and 2 below, and nothing after them. The second review of the repaired tree runs beside you in this tree; it makes no edit until your step 1 commit is in, and the script pushes after you both return, in a step of its own, holding the push on any stop that is met and not lifted (Pavol, POSITIONS.md 2026-09-29: that review no longer holds a batch whose gate is green, so the commit does not wait on it).'
-  : held
+held
   ? tree + ' Land it on the local main; the script holds the push (step 3).'
   : tree + ' Land it.',
 '',
-'1. Replace every literal <short hash> placeholder in the ledger, FACTS and the handover with the hash of the commit it refers to, from the gather stage\'s result below. Copy the gate\'s outputs into the tree first: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/ - the gate wrote them under tmp/, untracked, so that a run that stops before this stage leaves nothing untracked in the tree, and it committed nothing because the review was committing in this tree at the same time. Then add ' + GATE_DIR + '/summary.txt, ' + GATE_DIR + '/checker-count.txt, ' + GATE_DIR + '/distance.txt and ' + GATE_DIR + '/ladder/ to the same commit, and copy ' + LOG_DIR + '/distance/errors.tsv to ' + GATE_DIR + '/distance-sites.tsv and add it too: the distance stage\'s per-site list, which the next batch\'s count and distance rungs read as their "before" instead of re-running the stage on an unchanged base (POSITIONS.md, 2026-09-28, the entry on rungs re-running measurements). The checker-count and distance tables are the comparands the next batch\'s gate reads, so a batch that lands without them leaves the next gate comparing against older ones. Title it "Record the landed commits\' hashes and the gate summary". grep -rn "<short hash>" explorations/ afterwards must be empty, and the full gate logs under ' + LOG_DIR + '/ are NOT committed and never are.',
+'1. Replace every literal <short hash> placeholder in the ledger, FACTS, the handover and ' + BATCH_DIR + '/RECORD.md with the hash of the commit it refers to, from the gather stage\'s result below. RECORD.md is the gather\'s, written once: in it you replace the hashes and add the gate\'s summary line, and rewrite nothing else. Copy the gate\'s outputs into the tree first: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/ - the gate wrote them under tmp/, untracked, so that a run that stops before this stage leaves nothing untracked in the tree, and it committed nothing because the review was committing in this tree at the same time. Then add ' + GATE_DIR + '/summary.txt, ' + GATE_DIR + '/checker-count.txt, ' + GATE_DIR + '/distance.txt and ' + GATE_DIR + '/ladder/ to the same commit, and copy ' + LOG_DIR + '/distance/errors.tsv to ' + SITES + ', one fixed path overwritten at each landing (mkdir -p ' + SITES.replace(/\/[^/]*$/, '') + '), and add it too: the distance stage\'s per-site list, which the next batch\'s count and distance rungs read as their "before" instead of re-running the stage on an unchanged base (POSITIONS.md, 2026-09-28, the entry on rungs re-running measurements). The checker-count and distance tables are the comparands the next batch\'s gate reads, so a batch that lands without them leaves the next gate comparing against older ones. Title it "Record the landed commits\' hashes and the gate summary". grep -rn "<short hash>" explorations/ afterwards must be empty, and the full gate logs under ' + LOG_DIR + '/ are NOT committed and never are. When any landed commit changed a file under Specification/ (git diff --name-only ' + BASE + '..HEAD -- Specification/), run ant tex once and add Specification/fortress.pdf to this commit; its log stays under ' + LOG_DIR + '/ and is not committed. The build is the one the rungs used: in Specification/fortress/, ./ant genSource and then ./ant tex, each logged under ' + LOG_DIR + '/; copy Specification/fortress/fortress.pdf to Specification/fortress.pdf and add nothing else the build wrote.',
 ...besideStep(beside),
 '2. Verify every commit since ' + BASE + ' ends with the two footer lines and contains no model identifier (git log ' + BASE + '..HEAD --format=%B), and that every commit whose diff touches a path outside explorations/ carries a historical: line.',
-...(part === 'local' ? [
-'3. Stop here: do not push, do not remove a worktree, and write no "Not pushed." paragraph. The script\'s push step does those after the second review.',
-] : commitPushSteps(held, heldBy)),
+...commitPushSteps(held, heldBy),
 '',
 'The gather stage returned:',
 '',
@@ -2162,24 +2122,26 @@ JSON.stringify(gather, null, 2),
 '',
 JSON.stringify(gate, null, 2),
 '',
-(part === 'local'
-  ? 'Return the structured result: the hash main is at locally as mainHead, pushed empty, containerBranchAtMain false, pushHeld false (the push is the script\'s next step, not held by you), and heldBy empty.'
-  : held
+(held
   ? 'Return the structured result: the hash main is at locally as mainHead, pushed empty, pushHeld true, and the stops above in heldBy.'
   : 'Return the structured result: the hash main is at on origin, the commits pushed, and what was cleaned up.'),
 '',
   ].join('\n')
 }
 
-// Steps 3 and 4 of the commit stage: the push and the clean-up, or the held push.
+// Steps 3 to 5 of the commit stage: the push or the held push; the two microGPT
+// programs under walk, started in the background on the landed tree and not awaited
+// (Pavol, 2026-09-19: running them is a separate non-gating stage; since the
+// post-mortem of 2026-09-29 no rung runs them); and the clean-up.
 function commitPushSteps(held, heldBy) {
   return [
 held
   ? '3. Do NOT push: not main, not ' + CONTAINER_BRANCH + ', no branch. The script holds the push, because landed rungs carry stops that were met and that no decision of Pavol\'s lifts:\n\n' + heldBy.map(h => '- ' + h).join('\n') + '\n\n   Append to ' + BATCH_DIR + '/RECORD.md a paragraph headed "Not pushed." that names each of these stops with its rung and evidence, gives the hash origin/main stays at, and says that the push waits on Pavol, as batch 4\'s and batch 5\'s records did; commit it locally with the footer. The coordinator pushes once he has lifted them.'
   : '3. git push origin main; then git push origin main:' + CONTAINER_BRANCH + ' so the container\'s own branch stays at main. Retry a failed push up to four times with 2, 4, 8, 16 seconds between.',
+'4. Start the two microGPT programs under walk on the landed tree in the background, to ' + LOG_DIR + '/microgpt-walk.txt, and do not wait for them: the coordinator reads the file at the landing report or the post-batch review (Pavol, 2026-09-19: a separate non-gating stage). From ' + MAIN + ', with run_bg from the shared prefix:\n\n        run_bg ' + LOG_DIR + '/microgpt-walk.txt "explorations/coordinator/tools/mg-run.sh ' + LOG_DIR + '/microgpt-walk batch-' + BATCH + '"\n\n   The tool runs MicroGptFlatCheck and MicroGptAplCheck under walk, both at once, each from an empty private cache, about 80 minutes each; each program\'s output goes to ' + LOG_DIR + '/microgpt-walk/<name>.txt, headed by the machine line and ended by rc=, and ' + LOG_DIR + '/microgpt-walk.txt ends in EXIT= when both are done. Nothing of it is committed.',
 held
-  ? '4. Keep every wip/ worktree and its local branch: their removal follows the push, as batch 5\'s commit stage kept them while its push was held.'
-  : '4. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; then git worktree remove <worktree> and git branch -D <branch>. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
+  ? '5. Keep every wip/ worktree and its local branch: their removal follows the push, as batch 5\'s commit stage kept them while its push was held.'
+  : '5. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; then git worktree remove --force <worktree> (its tmp/ goes with it; the transcripts hold what it held) and git branch -D <branch>. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
   ]
 }
 
@@ -2199,7 +2161,7 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
         suite: { type: 'string', description: 'the summary.txt row it adds to: fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system' },
         cases: { type: 'integer', description: 'the JUnit cases it adds' },
         verdict: { type: 'string', enum: ['pass', 'fail'], description: 'pass only when the run that held it printed OK' },
-        capture: { type: 'string', description: 'the path of that run\'s capture, shared by the files of the run' },
+        capture: { type: 'string', description: 'the path of that run\'s capture under ' + LOG_DIR + '/, not committed, shared by the files of the run' },
       }, required: ['file', 'paths', 'suite', 'cases', 'verdict', 'capture'] } },
     failingAnswered: { type: 'array', description: 'the gate\'s repair, and the review\'s repair when the gate beside the review was red and its lines are in your role: one entry per line of the gate\'s failing list, in order; otherwise empty',
       items: { type: 'object', properties: {
@@ -2220,10 +2182,8 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
 // redGate is the red gate that ran beside the review, asked of a repair the first
 // call found to be of tests and records only: whether its runs already answer that
 // gate's lines, so that no gate judge runs (below "The run."). Otherwise the first gate's
-// tables stand and the repair's runs are recorded beside its summary. The second
-// review's corrections no longer enter it: since 2026-09-29 that review runs beside
-// the commit, after this decision, and a path it changes outside explorations/ holds
-// the push instead (below "The run.").
+// tables stand and the repair's runs are recorded beside its summary. No second
+// review runs after it since the post-mortem of 2026-09-29.
 function repairRerun(repair, reviewPaths, redGate) {
   if (!repair) return { rerun: true, why: 'the repair returned nothing' }
   if (!Array.isArray(repair.pathsChanged)) return { rerun: true, why: 'the repair did not list the paths it changed' }
@@ -2410,13 +2370,13 @@ function recoverGather() {
   ]
 }
 
-// The merged-diff review, first or second: its one corrections commit and the
-// head it records before it.
-function recoverReview(besideCommit) {
+// The merged-diff review: its one corrections commit and the head it records
+// before it.
+function recoverReview() {
   return [
-    'You are in the main tree, ' + MAIN + ', with ' + (besideCommit ? 'the commit stage' : 'the gate') + ' running beside you or finished. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short. A commit titled "Fold the review\'s corrections" made after the last commit of the stage before you (the gather\'s last rung commit, or the repair\'s commit on a second review' + (besideCommit ? ', with the commit stage\'s own commit possibly between' : '') + ') is the earlier attempt\'s. Then headBefore is that commit\'s parent, not the HEAD you find, so that pathsOutsideExplorations covers both attempts\' corrections; headAfter is HEAD when you finish.',
+    'You are in the main tree, ' + MAIN + ', with the gate running beside you or finished. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short. A commit titled "Fold the review\'s corrections" made after the gather\'s last rung commit is the earlier attempt\'s. Then headBefore is that commit\'s parent, not the HEAD you find, so that pathsOutsideExplorations covers both attempts\' corrections; headAfter is HEAD when you finish.',
     'Uncommitted edits under explorations/ are the earlier attempt\'s corrections in progress: read them, keep what is right, and commit them with your own, in one commit of the same title, or in one more such commit if the earlier attempt already made its own. Do not fix a finding twice.',
-    'Never touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/, and wait for the gate\'s table in check 9 exactly as the role says' + (besideCommit ? ', and for the commit stage\'s commit before your first edit.' : '.'),
+    'Never touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/.',
   ]
 }
 
@@ -2426,7 +2386,7 @@ function recoverMergedRepair(kind) {
     'You are in the main tree, ' + MAIN + ', and it need not be clean. Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --stat, ' + BATCH_DIR + '/JUDGE-' + kind + '.md, and ' + BATCH_DIR + '/REPAIR-' + kind + '.md if it exists. A commit after the one that carries JUDGE-' + kind + '.md is the earlier attempt\'s repair, uncommitted edits are its repair in progress, and the tree as you find it is your starting point.',
     'Take the judge\'s instructions one at a time and check each against the tree before acting: an edit already in place is not applied again, an assertion already in a test is not added twice, and a record line already written is not written again. Continue at the first step not done.',
     bgCheck(MAIN),
-    'The role asks for one commit. If the earlier attempt made it already, what you finish goes in one further commit, and your result says so; headBefore is then the parent of the earlier attempt\'s first commit, so that pathsChanged covers both attempts, and a test run it captured under ' + BATCH_DIR + '/repair-' + kind + '-tests/ on the tree as it still is stands and is not run again. Do not push.',
+    'The role asks for one commit. If the earlier attempt made it already, what you finish goes in one further commit, and your result says so; headBefore is then the parent of the earlier attempt\'s first commit, so that pathsChanged covers both attempts, and a test run it captured under ' + LOG_DIR + '/repair-' + kind + '-tests/ on the tree as it still is stands and is not run again. Do not push.',
   ]
 }
 
@@ -2444,19 +2404,15 @@ function recoverGate() {
   ]
 }
 
-// The commit: its local commits, and the push or the held push. part as commitRole's:
-// the push part's step 1 is done by the local part and never its to redo.
-function recoverCommit(held, part) {
-  part = part || 'all'
-  const local = part === 'push'
-    ? 'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short. The commit titled "' + COMMIT_TITLE + '" is the local part\'s, and a commit titled "Fold the review\'s corrections" after it the second review\'s; neither is yours to redo. Your steps are 2 to 4.'
-    : 'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "' + COMMIT_TITLE + '" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit. If the role has a step 1a and ' + GATE_DIR + '/summary.txt already carries "# repair-tests" lines, they are the earlier attempt\'s: do not copy the gate\'s summary over that file again and do not append them twice.'
-  if (part === 'local') return [local, 'Push nothing and remove nothing: the role stops after step 2.', 'Return the result for the state you leave, counting the earlier attempt\'s commits as done.']
+// The commit: its local commits, the microGPT programs started in the background,
+// and the push or the held push.
+function recoverCommit(held) {
   return [
-    local,
+    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "' + COMMIT_TITLE + '" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit. If the role has a step 1a and ' + GATE_DIR + '/summary.txt already carries "# repair-tests" lines, they are the earlier attempt\'s: do not copy the gate\'s summary over that file again and do not append them twice.',
+    'If ' + LOG_DIR + '/microgpt-walk.txt exists, the earlier attempt took step 4: do not start the two programs again.',
     held
       ? 'The push is held. Look for the "Not pushed." paragraph in ' + BATCH_DIR + '/RECORD.md: if the earlier attempt wrote it, do not append it again, and commit it if it is not committed. Push nothing, as the role says.'
-      : 'Check what is already pushed: git fetch origin, then git rev-parse HEAD origin/main origin/' + CONTAINER_BRANCH + '. A push the earlier attempt made is not made again; push only what origin lacks. git worktree list and git branch --list "wip/*" show which worktrees and branches step 4 has already removed; confirm that each one left shows nothing ahead of its origin before removing it.',
+      : 'Check what is already pushed: git fetch origin, then git rev-parse HEAD origin/main origin/' + CONTAINER_BRANCH + '. A push the earlier attempt made is not made again; push only what origin lacks. git worktree list and git branch --list "wip/*" show which worktrees and branches step 5 has already removed; confirm that each one left shows nothing ahead of its origin before removing it.',
     'Return the result for the state you leave, counting the earlier attempt\'s commits' + (held ? ' as done.' : ' and pushes as done: pushed lists every commit of this batch that origin/main now carries, whichever attempt pushed it.'),
   ]
 }
@@ -2647,16 +2603,26 @@ const reviewItems = rungItems.concat(gatherItems)
 // When the review blocks, its judge rules at once, while the gate runs on: in
 // batch 3 the judge waited 4.5 minutes for the gate, in batch 2 the gate outlasted
 // the review by 8.2 (climb-batch-3-redesign.md, (e); Pavol, 2026-09-24). The
-// repair waits for the gate, because both work in this tree.
+// repair waits for the gate, because both work in this tree. Since the post-mortem
+// of 2026-09-29 the judge rules only on the review's blockingCode findings, those
+// whose repair touches code; its routed findings, settled by tests and records
+// only, take the path of a judge's land ruling with no judge call (synthesis.md,
+// section 4, item 34).
 const gateRun = callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
 let review = await callAgent(PREFIX + reviewRole(gather, 'review', reviewItems), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
 report.review = review
 routers.push(review)
 mergedItems.push(...numbered('review', review && review.forPavol))
-const reviewBlocks = !!(review && !review.approved && review.blocking && review.blocking.length)
+const routedFindings = strings(review && review.routed)
+if (routedFindings.length) {
+  log('The review routed ' + routedFindings.length + ' finding(s) settled by tests and records only to the next batch, listed for Pavol; no judge runs for them')
+  report.reviewRouted = { findings: routedFindings }
+  mergedItems.push(...numbered('review-routed', routedFindings))
+}
+const reviewBlocks = !!(review && strings(review.blockingCode).length)
 let reviewDecision = null
 if (reviewBlocks) {
-  log('Review found blocking: ' + review.blocking.length + ' item(s); the judge rules while the gate runs on')
+  log('Review found ' + strings(review.blockingCode).length + ' finding(s) that touch code; the judge rules while the gate runs on')
   reviewDecision = await callAgent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: REVIEW_JUDGE_SCHEMA }, judgeTier(null)), recoverJudgeMain('review'))
   report.reviewJudge = reviewDecision
   mergedItems.push(...numbered('judge-review', reviewDecision && reviewDecision.forPavol))
@@ -2670,7 +2636,6 @@ report.gate = gate
 // land ruling nothing runs after the judge but what a green gate always leads to.
 let gateIsStale = !!(review && review.pathsOutsideExplorations && review.pathsOutsideExplorations.length)
 const beside = []   // the repairs whose runs stand beside the gate's summary instead of a second gate
-let secondReview = false   // a repair on the merged tree ran after a blocking review: the second review runs beside the commit
 if (gateIsStale) {
   log('The review\'s corrections touched ' + review.pathsOutsideExplorations.length + ' path(s) outside explorations/ ('
       + review.pathsOutsideExplorations.join(', ') + '); the gate that ran beside it is stale and runs again')
@@ -2690,25 +2655,22 @@ if (reviewBlocks) {
   if (decision && decision.decision === 'land') {
     // Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate: the same weighing of cost
     // against what a rule protects applies to the other rules): a ruling settled by
-    // tests and records only does not hold the batch. No repair and no second review
-    // run; the batch lands on its gate, and the ruling's steps go to the next batch,
-    // listed for him, as a second review's remaining findings do (LAND_RULE).
-    log('The review\'s judge ruled land: its ' + strings(decision.instructions).length + ' step(s) of tests and records go to the next batch with the review\'s findings, listed for Pavol (' + BATCH_DIR + '/JUDGE-review.md); no repair and no second review run, and the batch lands on its gate')
-    report.reviewRouted = { findings: strings(review.blocking), instructions: strings(decision.instructions), ruling: BATCH_DIR + '/JUDGE-review.md' }
+    // tests and records only does not hold the batch. No repair runs; the batch lands
+    // on its gate, and the ruling's steps go to the next batch, listed for him, as the
+    // review's routed findings do (LAND_RULE).
+    log('The review\'s judge ruled land: its ' + strings(decision.instructions).length + ' step(s) of tests and records go to the next batch with the review\'s findings, listed for Pavol (' + BATCH_DIR + '/JUDGE-review.md); no repair runs, and the batch lands on its gate')
+    report.reviewRouted = { findings: routedFindings.concat(strings(review.blockingCode)), instructions: strings(decision.instructions), ruling: BATCH_DIR + '/JUDGE-review.md' }
     mergedItems.push(...numbered('judge-review-land', decision.instructions))
   } else if (!decision || decision.decision !== 'repair') {
     return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   } else {
     report.repairReview = await callAgent(PREFIX + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
     routers.push(report.repairReview)
-    secondReview = true
     // Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate after a repair that only
     // added tests): the gate runs again only when the repair, or the review's
     // corrections, changed a path outside explorations/ that is not a test file, or
     // a test path no passing run of the repair's exercised (repairRerun); otherwise
-    // the repair's own runs verify its tests and the first gate's tables stand. The
-    // second review no longer decides it: it runs beside the commit and changes
-    // nothing outside explorations/ (reviewRole, besideCommit).
+    // the repair's own runs verify its tests and the first gate's tables stand.
     const after = repairRerun(report.repairReview, strings(review && review.pathsOutsideExplorations), null)
     report.repairReviewRerun = after
     if (after.rerun) {
@@ -2771,7 +2733,7 @@ if (!gate.green && !redAnswered) {
 }
 
 // Commit: hashes into the notes, the gate summary added, push, fast-forward the
-// container branch, clean up; or, while a landed rung carries a stop that was met
+// container branch, the microGPT programs started in the background, clean up; or, while a landed rung carries a stop that was met
 // and not lifted, the same without the push and the clean-up (pushHeldBy).
 // The items for Pavol that no stage put into PLAN.md, for the coordinator: the
 // commit stage does not wait on them, and the result carries each with inPlan.
@@ -2779,50 +2741,8 @@ const notInPlan = pavolStatus().filter(i => !i.inPlan)
 if (notInPlan.length) log('Items for Pavol not in PLAN.md, for the coordinator: ' + notInPlan.map(i => i.id).join(', ')
     + ((gather && Array.isArray(gather.pavolUnrouted) && gather.pavolUnrouted.length) ? '; the gather says why: ' + gather.pavolUnrouted.map(u => u && (u.id + ': ' + u.why)).join('; ') : ''))
 
-if (!secondReview) {
-  const heldBy = pushHeldBy(approved, review)
-  if (heldBy.length) log('Push held: ' + heldBy.length + ' stop(s) met and not lifted: ' + heldBy.join('; '))
-  const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
-  report.commit = commit
-  return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, besideGate: beside })
-}
-
-// The second review, after a repair on the merged tree, runs BESIDE the commit
-// (Pavol, POSITIONS.md 2026-09-29: it no longer holds a batch whose gate is green,
-// and the same weighing of cost against what a rule protects applies to the other
-// rules). In batch N it sat alone on the critical path for 17 minutes. The commit's
-// local work (the hashes, the gate's tables, step 1a, the footer check) does not
-// wait on it; the push does, because the push is held on a stop that is met and not
-// lifted, and a stop the repair met is one only this review checks before the push
-// (its check 10). So: the local commit and the review together, then a push step
-// that reads the review's stops. After rather than beside would save nothing before
-// the script returns, which is when the coordinator's landing steps begin. The
-// review edits nothing until the commit's commit is in, and nothing outside
-// explorations/: the gate does not run again on it.
-log('The second review runs beside the commit; the push waits for its stops')
-const commitLocal = callAgent(PREFIX + commitRole(gather, gate, [], beside, 'local'), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(false, 'local'))
-const review2 = await callAgent(PREFIX + reviewRole(gather, 'review2', reviewItems, true), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview(true))
-report.review2 = review2
-routers.push(review2)
-mergedItems.push(...numbered('review2', review2 && review2.forPavol))
-// Pavol, 2026-09-29 (POSITIONS.md, a review that still blocks after its repair): it
-// does not hold a batch whose gate is green. The batch lands, and the review's
-// remaining findings go to the next batch and are listed for him.
-if (review2 && !review2.approved) {
-  log('The second review still blocks (' + strings(review2.blocking).length + ' finding(s)); by Pavol\'s rule of 2026-09-29 the batch lands on its green gate and they go to the next batch')
-  report.reviewStillBlocking = strings(review2.blocking)
-  mergedItems.push(...numbered('review2-blocking', review2.blocking))
-}
-const local = await commitLocal
-report.commitLocal = local
-if (!local) {
-  return finish({ landed: false, reason: 'the commit stage returned nothing', besideGate: beside })
-}
-const heldBy = pushHeldBy(approved, review2 || review)
-if (!review2) heldBy.push('review2: the second review returned nothing, so no review has checked the repair on the merged tree for a stop')
-const late = strings(review2 && review2.pathsOutsideExplorations).map(repoPath).filter(p => !p.startsWith('explorations/'))
-if (late.length) heldBy.push('review2: its corrections changed ' + late.join(', ') + ' after the gate, which has not run on them')
+const heldBy = pushHeldBy(approved, review)
 if (heldBy.length) log('Push held: ' + heldBy.length + ' stop(s) met and not lifted: ' + heldBy.join('; '))
-const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy, beside, 'push'), { label: 'commit:push', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0, 'push'))
+const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
 return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, besideGate: beside })

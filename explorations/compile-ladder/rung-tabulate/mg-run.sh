@@ -1,5 +1,5 @@
 #!/bin/bash
-# mg-run.sh <tree> <work-dir> <label>: rung F's mg-run.sh (explorations/compile-ladder/rung-flat-tower/mg-run.sh)
+# mg-run.sh <tree> <work-dir> <label>: rung F's mg-run.sh (explorations/coordinator/tools/mg-run.sh)
 # with the tree to run as its first argument, so that the base checks run a checkout of the base and the
 # edit's this worktree, both on this worktree's ProjectFortress/build. The two microGPT checks under walk,
 # each from an empty private cache (FORTRESS_CACHES), each run from its own directory, both at once, with
