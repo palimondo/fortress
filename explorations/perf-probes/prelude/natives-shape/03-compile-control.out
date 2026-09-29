@@ -1,0 +1,16 @@
+$ ./bin/fortress compile explorations/perf-probes/prelude/natives-shape/NativesShape.fss
+### compile rc=0
+$ ./bin/fortress run NativesShape
+true
+false
+5.5
+### run rc=0
+
+$ ./bin/fortress compile explorations/perf-probes/prelude/natives-shape/NativesShapeOne.fss
+### compile rc=0
+$ ./bin/fortress run NativesShapeOne
+true
+false
+5.5
+### run rc=0
+

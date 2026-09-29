@@ -1,0 +1,5 @@
+$ run-shadow.sh tmp/shadow-g1234b (gaps 1 to 4 patched, closure parameters initialized) explorations/perf-probes/prelude/natives-shape/NativesShape.fss
+true
+false
+5.5
+### rc=0
