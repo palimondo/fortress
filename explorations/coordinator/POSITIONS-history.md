@@ -283,6 +283,10 @@
 <!-- 2026-09-28: replaced by his decision to run one combined review after every batch -->
 - 2026-09-27, on reviews after a batch: "Running a review of a batch is my call ... you can propose running the automatic conformance review, but you cannot decide this on your own." The coordinator offers a conformance review after each batch; none is built into the workflow.
 
+<!-- 2026-09-29: shortened -->
+Replaced 2026-09-29 in POSITIONS.md (the Fable rule: a Fable judgement on a design question that meets its conditions runs without asking); the entry as it stood:
+- 2026-09-20, on which tier runs what, an order: "please never run Fable workers without first consulting with me and getting permission. You can spend as much Opus workers as you want." His reason, in his words: the highest-risk decisions touch all three of specification, interpreter and compiler, which may disagree, and the design intent has to be inferred from the breadcrumbs left in all of them; the cheaper tier gathers the evidence into a condensed brief, and the high-level judgement of what makes sense given all the signals and what design balance lets the project grow belongs to the top tier — not because the cheaper tier is incapable, but because that is the work the top tier is for. Two workers launched on the wrong tier that morning cost him what he counts as 1.7 million tokens "down the drain". The protocol carries the rule (its hard rules and principle 5).
+
 ## How he wants to be spoken to
 
 <!-- 2026-09-27: merged in POSITIONS.md into one entry on the register -->

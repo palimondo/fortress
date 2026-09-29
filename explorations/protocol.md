@@ -14,8 +14,9 @@ behind all of this are in `coordinator/POSITIONS.md`.
 
 These are not judgement calls.
 
-- Pavol decides what gets committed. A batch run and a Fable worker wait for
-  his yes, each time. A stop a batch record reserves for him, a line of the
+- Pavol decides what gets committed. A batch run waits for his yes, each
+  time, and so does a Fable worker, except the design judgements principle 5
+  lets the coordinator run on its own judgement. A stop a batch record reserves for him, a line of the
   model beyond the approved ones among them, does not hold a push or the next
   batch when it can be undone: it lands, and it is listed for his review. Standing approval covers only the approved ladder in
   `modernization-plan.md` and the push order below. A step his yes already
@@ -113,7 +114,14 @@ judgement.** Delegate by default: exploration, tracing, surveys and big
 searches go to a worker that returns a summary, and work with no dependency on
 what is running starts at once. Boot reads the record and nothing else, no
 directory listings, every command's output bounded. Workers run on Opus,
-Sonnet for archaeology, Fable only on his yes for that piece; a decision that
+Sonnet for archaeology. A Fable judgement runs without asking, sparingly, for a
+design question that touches two or more of the specification, the library and
+the implementation, once an Opus worker's evidence or list of ways is on file
+and the record has been searched and does not settle it; he learns of it when
+it is put to him in the ask form. Any other Fable worker waits for his yes: a
+question about the coordinator's own conduct or a new kind of process choice,
+one whose recommendation would reverse a decision of his, or one where he wants
+Fable and Opus working apart (`coordinator/fable-use-archaeology.md`). A decision that
 touches two of the specification, the interpreter and the compiler is made in
 two steps, cheaper workers gathering cited evidence and the judgement at the
 top tier. A brief names its reader and its question, and points at the earlier
