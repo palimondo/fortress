@@ -4,7 +4,8 @@
 
 Boot, at session start and after every compaction, in this order: `CLAUDE.md`
 → `explorations/protocol.md` → `FACTS.md` (whole, in one pass) →
-`POSITIONS.md` → `INDEX.md` →
+`POSITIONS.md` → `INDEX.md`, then `check-index.sh` run and every note it
+reports missing given its line (Pavol, 2026-09-24) →
 `explorations/microgpt-run-c-handover.md`, first section → the boot note
 (`postmortem-2026-09-19/held-list.md`, line 7). If the boot note says a batch
 is running, its `CLIMB-BATCH-*.md` next, only the sections for Pavol, on the
@@ -45,6 +46,9 @@ How they are kept:
   launches, since the batch's agents read it: what a new fact supersedes is
   folded into the current entry and the old text moves verbatim to
   `FACTS-history.md`.
+  Before each commit of such a consolidation,
+  `tools/check-verbatim.py <base> <file> <history>` shows every entry of the
+  file at the base verbatim in the file or in its history, and in one only.
 - One home per thing. His words are written once, in `POSITIONS.md`; every
   other file points to the entry. Nothing is written twice.
 - A remark is not a decision, and neither is a one-off go. A change to how we
