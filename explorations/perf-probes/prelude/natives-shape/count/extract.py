@@ -134,7 +134,7 @@ def cprelude():
             if not used: continue
             h = ln[:sep.start()].strip()
             kind, name = decl_name(h)
-            rows.append((f, li + 1, own[li], kind, name, h, used[0], alias[used[0]]))
+            rows.append((f, li + 1, own[li], kind, name, h, used[0], ' '.join(dict.fromkeys(alias[u] for u in used))))
     return rows
 
 if __name__ == '__main__':
@@ -148,7 +148,7 @@ if __name__ == '__main__':
         for r in objs: fh.write('\t'.join(map(str, r)) + '\n')
     cr = cprelude()
     with open(os.path.join(out, 'cprelude.tsv'), 'w') as fh:
-        fh.write('file\tline\towner\tkind\tname\theader\talias\tjavamethod\n')
+        fh.write('file\tline\towner\tkind\tname\theader\talias\tjavamethods\n')
         for r in cr: fh.write('\t'.join(map(str, r)) + '\n')
     from collections import Counter
     print('bindings', len(rows), Counter(r[0] for r in rows))

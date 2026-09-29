@@ -1,0 +1,7 @@
+$ run-shadow.sh tmp/shadow-g1234b compile explorations/perf-probes/prelude/natives-shape/NativesShape.fss   (the compiled path with the four-gap shadow)
+### compile rc=0
+$ ./bin/fortress run NativesShape
+true
+false
+5.5
+### run rc=0
