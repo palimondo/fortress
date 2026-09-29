@@ -1,0 +1,22 @@
+component XXXInferLoneUnionWalk
+export Executable
+
+(*) explorations/compile-ladder/climb-batch-N/JUDGE-review.md
+
+object BoxU[\T\]() end
+
+pickU[\T\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Number\] => "BoxU[Number]"
+    else => "other"
+  end
+
+run() = do
+    l: ZZ64 = widen(7)
+    r: RR64 = 2.5
+    assert(kindU(pickU(l, r)), "other", "ledger row 516: the union of ZZ64 and RR64, not Number; Specification/basic/inference.tex:95-98, basic/types-vals-vars.tex:575-581")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,35 @@
+# both.sh repair-325 2026-09-29T07:48:38Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.03 0.59 0.73; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree e3a1e87ef
+=== XXXNumeralBeyondWidthMax.fss walk
+REACHED
+PASS
+rc=0
+=== XXXNumeralBeyondWidthMax.fss compile
+rc=0
+=== XXXNumeralBeyondWidthMax.fss compiled run
+REACHED
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+rc=1
+=== XXXNumeralBeyondZZ32Range.fss walk
+REACHED
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-repair-325/XXXNumeralBeyondZZ32Range.fss:7:16-24:
+Failed to find any matching overload, args = (3000000000: ZZ64,2: ZZ32), overload = {
+	#():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange Library/FortressLibrary.fss:3983:1-45
+	#(lo:FortressLibrary.ZZ32,ex:FortressLibrary.ZZ32):RangeInternals.CompactFullParScalarRange (ZZ32,ZZ32)->CompactFullParScalarRange Library/FortressLibrary.fss:3929:1-71
+	#(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32),ex:(FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange2D ((ZZ32,ZZ32),(ZZ32,ZZ32))->CompactFullRange2D Library/FortressLibrary.fss:3930:1-3931:58
+	#(lo:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32),ex:(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)):RangeInternals.CompactFullRange3D ((ZZ32,ZZ32,ZZ32),(ZZ32,ZZ32,ZZ32))->CompactFullRange3D Library/FortressLibrary.fss:3932:1-3935:6
+	#[\I\](r:PartialRange[\I\],size:I):Range[\I\]Library/FortressLibrary.fss:4066:1-4070:62}:OverloadedFunction
+Context:
+tmp/gather-N/progs-repair-325/XXXNumeralBeyondZZ32Range.fss:7:16-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== XXXNumeralBeyondZZ32Range.fss compile
+rc=0
+=== XXXNumeralBeyondZZ32Range.fss compiled run
+REACHED
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 3000000000
+Caused by: java.lang.Error: Not in range for ZZ32: 3000000000
+rc=1

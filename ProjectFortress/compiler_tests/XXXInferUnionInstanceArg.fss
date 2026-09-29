@@ -1,0 +1,17 @@
+(* See explorations/compile-ladder/climb-batch-N/REPAIR-review.md. *)
+component XXXInferUnionInstanceArg
+export Executable
+
+object BoxT[\T\]() end
+
+pick0[\T\](x: T, y: T): BoxT[\T\] = BoxT[\T\]()
+one[\T\](a: BoxT[\T\]): String = "one"
+
+run(): () = do
+  w: ZZ64 = 4
+  r: RR64 = 2.5
+  assert(one(pick0(w, r)), "one", "ledger row 518: an argument at a union instance fixes the type parameter it mentions; Specification/basic/inference.tex:75-79, :95-98, basic/types-vals-vars.tex:575-581")
+  println("PASS")
+end
+
+end

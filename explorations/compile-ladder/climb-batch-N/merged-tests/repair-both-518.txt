@@ -1,0 +1,37 @@
+# both.sh repair-518 2026-09-29T07:48:50Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.62 0.75 0.78; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree e3a1e87ef
+=== RepairUnionArg.fss walk
+u1 one
+u2 one
+u3 idt
+u4 one
+rc=0
+=== RepairUnionArg.fss compile
+tmp/gather-N/progs-repair-518/RepairUnionArg.fss:16:20-33:
+    Could not check call to function one
+    - [\T extends Object\]BoxT[\T\]->String is not applicable to an argument of type BoxT[\OR(ZZ64,RR64)\].
+tmp/gather-N/progs-repair-518/RepairUnionArg.fss:17:20-41:
+    Could not check call to function one
+    - [\T extends Object\]BoxT[\T\]->String is not applicable to an argument of type BoxT[\OR(Apple,Berry)\].
+File RepairUnionArg.fss has 2 errors.
+rc=255
+=== RepairUnionArg.fss compiled run
+Could not load RepairUnionArg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : RepairUnionArg.class
+	... 5 more
+rc=1
+=== XXXInferUnionInstanceArg.fss walk
+PASS
+rc=0
+=== XXXInferUnionInstanceArg.fss compile
+tmp/gather-N/progs-repair-518/XXXInferUnionInstanceArg.fss:13:10-23:
+    Could not check call to function one
+    - [\T extends Object\]BoxT[\T\]->String is not applicable to an argument of type BoxT[\OR(ZZ64,RR64)\].
+File XXXInferUnionInstanceArg.fss has 1 error.
+rc=255
+=== XXXInferUnionInstanceArg.fss compiled run
+Could not load XXXInferUnionInstanceArg
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : XXXInferUnionInstanceArg.class
+	... 5 more
+rc=1

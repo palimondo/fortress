@@ -1,0 +1,12 @@
+(* See explorations/compile-ladder/climb-batch-N/JUDGE-review.md. *)
+component XXXNumeralBeyondZZ32Range
+export Executable
+
+run(): () = do
+  println("REACHED")
+  for x <- seq(3#2) do println("  element " x) end
+  assert(true, "ledger row 325: a numeral beyond ZZ32 as a range component is a static error; Specification/basic/expressions/ranges.tex:43-50, basic/expressions/literals.tex:83-86")
+  println("PASS")
+end
+
+end

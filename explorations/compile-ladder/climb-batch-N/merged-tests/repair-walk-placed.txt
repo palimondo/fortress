@@ -1,0 +1,13 @@
+# harness-one 2026-09-29T07:49:14Z; tree e3a1e87ef; nproc=4; load 1.99 0.90 0.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/judge-N/ht/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ec23a6aa_16
+. interpret tmp/judge-N/ht/tests/XXXInferLoneUnionWalk 
+FAIL: J12/0:BoxU[Number] =/= J5/0:other; ledger row 516: the union of ZZ64 and RR64, not Number; Specification/basic/inference.tex:95-98, basic/types-vals-vars.tex:575-581
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 15.954
+
+OK (1 test)
+
+exit=0
