@@ -1,0 +1,5 @@
+# 2026-09-29T14:59:59Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 9.00 6.39 4.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 00ee7b0db
+WayACastSized RR64  DVec16   1.5
+WayACastSized ZZ32  other   7
+WayACastSized shared size  1.5
+exit 0

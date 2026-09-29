@@ -1,0 +1,11 @@
+# walk, 2026-09-29T16:17:27Z, load 2.92 2.25 3.15
+com.sun.fortress.exceptions.ProgramError: TPow.fss:13:67-79:
+Unification error: TPow.fss:7:19-24:
+Cannot unify __DefaultVector[\RR64,3\](class com.sun.fortress.interpreter.evaluator.types.FTypeObjectInstance)
+  with MatrixType at TPow.fss:7.19(class com.sun.fortress.nodes.MatrixType) abm=()
+Context:
+TPow.fss:13:67-79:
+toplevel:
+
+java.lang.Throwable
+exit 1

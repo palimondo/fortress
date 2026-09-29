@@ -1,0 +1,2 @@
+# walk TabulateRungA against library copy L0 2026-09-29T15:04:04Z; nproc=4; load 3.31 5.19 4.46; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
+exit 0; elapsed 4 s

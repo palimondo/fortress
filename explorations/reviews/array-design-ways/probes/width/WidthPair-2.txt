@@ -1,0 +1,12 @@
+# 2026-09-29T16:02:38Z nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 1.31 2.87 4.98; openjdk version "25.0.4" 2026-07-21; beside one distance-stage JVM of this note
+round 1  kdot double 808097 ns  kdot float 954219 ns  kmat double 833795 ns  kmat float 678230 ns
+round 2  kdot double 952223 ns  kdot float 944044 ns  kmat double 833525 ns  kmat float 677735 ns
+round 3  kdot double 954024 ns  kdot float 945836 ns  kmat double 751332 ns  kmat float 593224 ns
+round 4  kdot double 994505 ns  kdot float 958915 ns  kmat double 534901 ns  kmat float 628184 ns
+round 5  kdot double 969464 ns  kdot float 964746 ns  kmat double 660561 ns  kmat float 744917 ns
+round 6  kdot double 965325 ns  kdot float 971074 ns  kmat double 555175 ns  kmat float 422793 ns
+round 7  kdot double 935819 ns  kdot float 942383 ns  kmat double 543875 ns  kmat float 457604 ns
+round 8  kdot double 938406 ns  kdot float 951003 ns  kmat double 562563 ns  kmat float 524207 ns
+round 9  kdot double 982953 ns  kdot float 960370 ns  kmat double 538509 ns  kmat float 428388 ns
+checksums: dot double 231145.26854219884 float 231146.2; mat double 208.0 float 208.0
+sinks 4.233748614322253E7 4.23377E7

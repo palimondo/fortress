@@ -1,0 +1,2 @@
+# walk FlatTowerRungF against library copy NUMOBJ 2026-09-29T15:06:19Z; nproc=4; load 4.32 4.87 4.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
+exit 0; elapsed 8 s

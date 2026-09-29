@@ -1,0 +1,2 @@
+# walk matrixOps against library copy RING 2026-09-29T15:04:28Z; nproc=4; load 3.28 5.03 4.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
+exit 0; elapsed 4 s

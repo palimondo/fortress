@@ -1,0 +1,12 @@
+# walk vectorOps against library copy RING 2026-09-29T15:04:12Z; nproc=4; load 3.34 5.13 4.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
+com.sun.fortress.exceptions.ProgramError: FortressLibrary.fss:4635:1-122: and
+FortressLibrary.fss:286:5-71:
+
+MAX[\T extends MultiplicativeRing[\T\],I\](x:Array[\T,I\],y:T):Array[\T,I\]FortressLibrary.fss:4635:1-122 and
+StandardTotalOrder[\T extends StandardTotalOrder[\T\]\](uninstantiated)[\T extends StandardTotalOrder[\T\]\].MAX(self:StandardTotalOrder[\T\],other:T):TFortressLibrary.fss:286:5-71 have parameters
+with generic type, at least one pair of parameters must have excluding types
+Context:
+FortressLibrary.fss:4635:1-122:
+FortressBuiltin.fss:358:18-19:
+
+exit 1; elapsed 16 s

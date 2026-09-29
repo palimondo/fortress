@@ -1,0 +1,26 @@
+# L0.full.tsv: 625 errors; NUMOBJ.full.tsv: 606 errors; 21 sites gone, 2 new (keyed by class and location)
+## gone
+BR	typecheck	FortressLibrary.fss:130	Function body has type TotalComparison, but declared return type is BigReduction[\TotalComparison,TotalComparison\].
+BR	typecheck	FortressLibrary.fss:3265	Function body has type RR64, but declared return type is BigReduction[\RR64,RR64\].
+V1	wellformed	FortressLibrary.fss:2339	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2640	Ill-formed type: Matrix[\T,s1,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2684	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2684	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2689	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2689	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2694	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2699	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2706	Ill-formed type: Matrix[\T,s1,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2707	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2713	Ill-formed type: Matrix[\T,s1,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2714	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2715	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2716	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2717	Ill-formed type: Matrix[\T,s0,s1\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2718	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2718	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2719	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+V1	wellformed	FortressLibrary.fss:2719	Ill-formed type: Vector[\T,s0\] The static argument T does not satisfy the corresponding bound Number.
+## new
+BR	typecheck	FortressLibrary.fss:3365	Function body has type Boolean, but declared return type is BigReduction[\Boolean,Boolean\].
+BR	typecheck	FortressLibrary.fss:3460	Function body has type String, but declared return type is Comprehension[\Any,String,String,AnyMaybe\].
