@@ -32,6 +32,15 @@ Reacting to the coordinator's account of batch 6.5b's cost and files (2026-09-29
 - He wants to understand the tests added, e.g. why `PowChooseLcmRungE` has 50 checks; maybe a review of the added and changed tests.
 - Redesign what a batch asks of its workers: trace the practice's origin, discuss, correct the rules, define the new practice; no batch runs before that (7b held).
 
+Continuing (18:42 UTC), a major failure in his words:
+
+- One report characterizing the batch practice: what the tokens are spent on, what artifacts are produced and committed, and whether they add value to the project.
+- On it, a review proposing a better practice by an Opus worker, and independently by Fable.
+- Archaeology: how we got here, batch by batch from the first, since the process may have drifted.
+- The original team's test-suite practice against ours: are we following their principles, or a pretrained cargo cult of writing tests.
+- Connect the practice to the top-level output: the landing report, the issues put on file (ledger, facts, plan), the rung reports; what he pays the tokens for.
+- Meanwhile a bounded, git-only characterization of each batch as a parallel workflow, one worker per batch, as input for the reviews; no busywork.
+
 ## The research he asked for, answered
 
 Was the compiler-library direction chosen without pricing the array re-implementation, and why: yes. `postmortem-2026-09-19/direction-history-documents.md` and `direction-history-transcripts.md`. The direction was fixed in four steps (08-24 framing, 09-15 step one, 09-16/17 plan and accepted order, 09-19 the design's one line); he proposed one library himself on 09-15 at 23:51 and the probe favoured it; the coordinator's recommendation of 09-17 01:19 inverted that evidence and priced its own route at nothing; the fork was "reserved, yours" at every batch and never put to him with both prices; the next-climb analysis of 09-17 said the decision was not which name to add next and it was never answered. Not wasted: runtime and code-generator repairs, the map, the measurements, the batch machinery, yesterday's library repair. Wasted: the library-name rungs of the eight-rung climb, batch 1, and rungs W and B of batch 2.
