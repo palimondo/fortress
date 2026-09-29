@@ -1,0 +1,39 @@
+# sk-heap edit shard 0/8 2026-09-29T02:24:40Z; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.73 7.83 7.93; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+exit=0
+Time: 67.673
+Tests run: 54,  Failures: 1,  Errors: 0
+gc log lines: 136
+-- live heap after each Full or Remark-cleanup collection, and the last 12 young collections:
+GC(40) Pause Remark 76M->76M(210M) 45.887ms
+GC(40) Pause Cleanup 77M->77M(210M) 0.060ms
+GC(44) Pause Remark 95M->95M(210M) 56.165ms
+GC(44) Pause Cleanup 106M->106M(210M) 0.075ms
+GC(48) Pause Remark 83M->83M(210M) 22.635ms
+GC(48) Pause Cleanup 126M->126M(210M) 0.045ms
+GC(55) Pause Remark 79M->79M(258M) 18.000ms
+GC(55) Pause Cleanup 122M->122M(258M) 0.050ms
+GC(60) Pause Remark 156M->156M(267M) 13.896ms
+GC(60) Pause Cleanup 79M->79M(267M) 0.056ms
+GC(65) Pause Remark 120M->120M(260M) 8.931ms
+GC(65) Pause Cleanup 132M->132M(260M) 0.039ms
+GC(69) Pause Remark 173M->173M(260M) 46.100ms
+GC(69) Pause Cleanup 186M->186M(260M) 0.042ms
+GC(75) Pause Remark 144M->144M(288M) 32.311ms
+GC(75) Pause Cleanup 145M->145M(288M) 0.058ms
+GC(79) Pause Remark 134M->126M(288M) 21.494ms
+GC(79) Pause Cleanup 143M->143M(288M) 0.039ms
+GC(83) Pause Remark 219M->219M(289M) 21.324ms
+GC(83) Pause Cleanup 248M->248M(289M) 0.053ms
+GC(70) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 231M->108M(260M) 57.832ms
+GC(71) Pause Young (Mixed) (G1 Evacuation Pause) 234M->106M(288M) 64.345ms
+GC(72) Pause Young (Normal) (G1 Evacuation Pause) 262M->111M(288M) 9.751ms
+GC(73) Pause Young (Normal) (G1 Evacuation Pause) 263M->119M(288M) 27.926ms
+GC(74) Pause Young (Concurrent Start) (G1 Evacuation Pause) 256M->118M(288M) 20.358ms
+GC(76) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 257M->115M(288M) 18.670ms
+GC(77) Pause Young (Mixed) (G1 Evacuation Pause) 258M->108M(288M) 8.618ms
+GC(78) Pause Young (Concurrent Start) (G1 Evacuation Pause) 262M->112M(288M) 11.316ms
+GC(80) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 255M->112M(288M) 44.084ms
+GC(81) Pause Young (Mixed) (G1 Evacuation Pause) 257M->121M(289M) 64.483ms
+GC(82) Pause Young (Concurrent Start) (G1 Evacuation Pause) 253M->136M(289M) 69.817ms
+GC(84) Pause Young (Prepare Mixed) (G1 Evacuation Pause) 250M->136M(289M) 32.662ms
+EXIT=0

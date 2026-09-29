@@ -787,7 +787,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     public SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads) throws Error {
         if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
 
-        SingleFcn best = bestMatchInternal(args, someOverloads);
+        SingleFcn best = bestMatchInternal(args, someOverloads, true);
         if (best == null) {
             best = bestMatchWithCoercion(args, someOverloads);
         }
@@ -806,41 +806,57 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * The most specific overload applicable to args without coercion, or null.
      */
     public SingleFcn bestMatchWithoutCoercion(List<FValue> args) {
-        return bestMatchInternal(args, overloads);
+        return bestMatchInternal(args, overloads, false);
     }
 
     /**
      * For args that no overload takes without coercion: the most specific of
-     * the non-generic overloads applicable with coercion, as a call that
+     * the overloads applicable with coercion, a generic one instantiated by
+     * EvaluatorBase.inferAndInstantiateGenericFunction, as a call that
      * converts its arguments first and then dispatches the converted
      * arguments as an ordinary call; or null.  The coercions depend only on
      * the argument types, so the call may be kept in the per-argument-type
      * cache.  It is an error when no one of them is more specific than all
-     * the others.
+     * the others.  A generic overload whose instance takes args without a
+     * coercion is that instance.
      */
     private SingleFcn bestMatchWithCoercion(List<FValue> args, List<Overload> someOverloads) {
         Coercions.CoercedCall best = null;
+        SingleFcn bestUnconverted = null;
         List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
         for (Overload o : someOverloads) {
             SingleFcn sfn = o.getFn();
-            if (sfn instanceof GenericFunctionOrMethod) continue;
+            if (sfn instanceof GenericFunctionOrMethod) {
+                GenericFunctionOrMethod gsfn = (GenericFunctionOrMethod) sfn;
+                try {
+                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, gsfn, gsfn.getWithin());
+                }
+                catch (FortressException pe) {
+                    continue;
+                }
+            }
             List<FValue> oargs = sfn.fixupArgCount(args);
             if (oargs == null) continue;
             List<FType> domain = sfn.getDomain();
             SingleFcn[] coercions = new SingleFcn[oargs.size()];
             boolean applies = true;
+            boolean converts = false;
             for (int j = 0; applies && j < oargs.size(); j++) {
                 FType t = Useful.clampedGet(domain, j).deRest();
                 FValue a = oargs.get(j);
                 if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
                     coercions[j] = Coercions.coercionFor(t, a);
                     applies = coercions[j] != null;
+                    converts = true;
                 }
             }
             if (!applies) continue;
             Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions, this);
             applicable.add(c);
-            if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) best = c;
+            if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) {
+                best = c;
+                bestUnconverted = converts ? null : sfn;
+            }
         }
         for (Coercions.CoercedCall c : applicable) {
             if (c != best && !Coercions.moreSpecific(best.getDomain(), c.getDomain(), best.arity())) {
@@ -850,11 +866,19 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                                       Useful.listInDelimiters("{", applicable, "}")));
             }
         }
-        return best;
+        return bestUnconverted != null ? bestUnconverted : best;
     }
 
-    private SingleFcn bestMatchInternal(List<FValue> args, List<Overload> someOverloads) {
+    /**
+     * The most specific overload applicable to args without coercion, a
+     * generic one instantiated by EvaluatorBase.inferByUnification, or null.
+     * With reinstantiate, a generic overload chosen is instantiated again by
+     * EvaluatorBase.inferAndInstantiateGenericFunction, whose instance may
+     * convert args at binding.
+     */
+    private SingleFcn bestMatchInternal(List<FValue> args, List<Overload> someOverloads, boolean reinstantiate) {
         SingleFcn best_sfn = null;
+        GenericFunctionOrMethod best_generic = null;
 
         if (debugMatch) {
             System.err.println("Seeking best match for " + args);
@@ -871,7 +895,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             if (sfn instanceof GenericFunctionOrMethod) {
                 GenericFunctionOrMethod gsfn = (GenericFunctionOrMethod) sfn;
                 try {
-                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(oargs, gsfn, gsfn.getWithin());
+                    sfn = EvaluatorBase.inferByUnification(oargs, gsfn, gsfn.getWithin());
                     if (debugMatch) System.err.println("Inferred from " + gsfn + " to " + sfn);
                 }
                 catch (FortressException pe) {
@@ -889,8 +913,17 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             if (oargs != null && argsMatchTypes(oargs, sfn.getDomain()) &&
                 (best_sfn == null || FTypeTuple.moreSpecificThan(sfn.getDomain(), best_sfn.getDomain()))) {
                 best_sfn = sfn;
+                best_generic = o.getFn() instanceof GenericFunctionOrMethod ? (GenericFunctionOrMethod) o.getFn() : null;
             }
 
+        }
+        if (reinstantiate && best_generic != null) {
+            try {
+                best_sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, best_generic, best_generic.getWithin());
+            }
+            catch (FortressException pe) {
+                // the instance chosen stands
+            }
         }
         return best_sfn;
     }

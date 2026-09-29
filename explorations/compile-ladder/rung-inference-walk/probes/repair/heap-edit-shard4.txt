@@ -1,0 +1,39 @@
+# sk-heap edit shard 0/4 2026-09-29T03:43:24Z; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 7.03 3.75 2.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+exit=0
+Time: 103.163
+Tests run: 107,  Failures: 1,  Errors: 0
+gc log lines: 121
+-- live heap after each Full or Remark-cleanup collection, and the last 12 young collections:
+GC(15) Pause Remark 98M->80M(120M) 14.216ms
+GC(15) Pause Cleanup 92M->92M(120M) 0.052ms
+GC(22) Pause Remark 189M->118M(357M) 58.950ms
+GC(22) Pause Cleanup 118M->118M(357M) 0.061ms
+GC(29) Pause Remark 211M->210M(324M) 125.723ms
+GC(29) Pause Cleanup 268M->268M(324M) 0.046ms
+GC(34) Pause Remark 168M->163M(260M) 33.221ms
+GC(34) Pause Cleanup 202M->202M(260M) 0.057ms
+GC(38) Pause Remark 117M->117M(210M) 35.544ms
+GC(38) Pause Cleanup 122M->122M(210M) 0.046ms
+GC(42) Pause Remark 81M->81M(210M) 27.660ms
+GC(42) Pause Cleanup 90M->90M(210M) 0.044ms
+GC(46) Pause Remark 143M->143M(210M) 31.117ms
+GC(46) Pause Cleanup 168M->168M(210M) 0.049ms
+GC(50) Pause Remark 159M->159M(210M) 21.393ms
+GC(50) Pause Cleanup 71M->71M(210M) 0.058ms
+GC(55) Pause Remark 220M->220M(224M) 18.464ms
+GC(55) Pause Cleanup 100M->100M(226M) 0.045ms
+GC(60) Pause Remark 154M->154M(220M) 23.038ms
+GC(60) Pause Cleanup 174M->174M(220M) 0.044ms
+GC(72) Pause Young (Normal) (G1 Evacuation Pause) 273M->70M(342M) 5.769ms
+GC(73) Pause Young (Normal) (G1 Evacuation Pause) 273M->75M(342M) 27.819ms
+GC(74) Pause Young (Normal) (G1 Evacuation Pause) 273M->73M(342M) 9.241ms
+GC(75) Pause Young (Normal) (G1 Evacuation Pause) 273M->77M(342M) 40.143ms
+GC(76) Pause Young (Normal) (G1 Evacuation Pause) 273M->74M(342M) 20.354ms
+GC(77) Pause Young (Normal) (G1 Evacuation Pause) 273M->79M(342M) 86.001ms
+GC(78) Pause Young (Normal) (G1 Evacuation Pause) 273M->78M(342M) 29.864ms
+GC(79) Pause Young (Normal) (G1 Evacuation Pause) 273M->95M(342M) 65.056ms
+GC(80) Pause Young (Normal) (G1 Evacuation Pause) 274M->94M(342M) 78.710ms
+GC(81) Pause Young (Normal) (G1 Evacuation Pause) 290M->92M(342M) 66.127ms
+GC(82) Pause Young (Normal) (G1 Evacuation Pause) 290M->90M(342M) 14.266ms
+GC(83) Pause Young (Normal) (G1 Evacuation Pause) 290M->86M(342M) 9.148ms
+EXIT=0

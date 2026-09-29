@@ -16,6 +16,7 @@ Where one rung's records cite lines of a file another rung edits, the order deci
 
 From 504, the first free row (`LEDGER_FROM`), in manifest order, each commit appending its rows after the last row of section 10 of the ledger (row 503 before this batch):
 - I: its provisional rows 504 to 507 keep their numbers; its second skeptic's row, the expected type leaving out a generic that fits, is 508.
+- K: its provisional rows 504 to 507 are 509 to 512 (the instance split, the expected type at a generic result under walk, varargs and tuple parameters over mixed widths, the compiled union of three types); its second skeptic's row, a generic trait's coercion with its own static parameter, is 513. The provisional numbers are corrected in its `record.md`, `REPORT.md` and `probes/for-pavol.txt`; `SKEPTIC.md` and `JUDGE.md` gain one note line under their titles mapping them (two lines, so their sections sit two lines lower than written; nothing cites them by line).
 
 ## Rung I (`rung-inference-checker`)
 
@@ -70,3 +71,55 @@ The second skeptic's three, made at the gather:
 **Stops.** Met and lifted, each reversible under POSITIONS 2026-09-27, the stops: the worker's five (`probes/stops-met.txt`, entries 1 to 5, the solver stop among them) and the second skeptic's (entry 6, row 508). None holds the push.
 
 **For the gate.** The compiler track gains 42 command lines (`record.md`, "For the manifest and the gate"). The checker count stays 75 and the distance 626 (`probes/checker-count-repair.txt`, `probes/distance-repair.txt`). Rung I's Scala edits need `ant compileAll`.
+
+## Rung K (`rung-inference-walk`)
+
+**Inherited from the branch.** Thirteen commits, `0dc881cb9` to `4dc01b453`: the first pass's failing tests and base capture, its edit, its comparisons and `record.md` (`0dc881cb9`, `a686b4504`, `3218bed4b`, `34235e4b2`, `b9d21288f`, `7f8399e45`); the first skeptic's refusal with its probes (`7a483c856`, `48c5d3f05`); the judge's ruling, refusal ruled with repair instructions (`f2f3c5e27`); the repair round's reset, tests, captures and amended `record.md` (`7d92018b8`, `b04c56b62`, `4b2bc9fb2`); the second skeptic's judgement with its probes (`4dc01b453`). `record.md`, `SKEPTIC.md` (both judgements, the second first) and `JUDGE.md` were on the branch and stand as they are, with the gather's edits below. `REPORT.md` was not, the harness having refused both passes' writes.
+
+**Written at the gather.** `explorations/compile-ladder/rung-inference-walk/REPORT.md` from the repair round's `reportText` (46,819 bytes, ending with a newline as the text does), decoded by `json.load` from the literal as for rung I.
+
+**Applied.** `git apply --3way --index` of `git diff --binary bce66f1fa...wip/rung-inference-walk`, on top of I's commit, applied without a conflict; its only warnings were whitespace in captures (151 lines). All 174 paths of the patch match the branch in the index, the two renames among them. No path is shared with I's commit.
+
+**Corrections.** The first skeptic's five, which the repair round made, each checked:
+1. The cache that outlived a run: `Coercions.reset()` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:166-168`) called from `Init.initializeEverything` (`Init.java:44`, its import `:17`), and the heap re-measured flat (`probes/repair/heap-summary.txt`; the second skeptic's `probes/skeptic/round2/heap-summary.txt`, the whole suite in one JVM tracking the base).
+2. Row 388's container shapes: nine assertions at `ProjectFortress/tests/InferCoercionRungK.fss:59-67`, each message citing row 388; named in the row 388 note and the FACTS entry.
+3. The varargs shape: `ProjectFortress/tests/XXXInferVarargsRungK.fss`, failing at `:20`, and its row (511), which also names the tuple shape.
+4. Decision B and the FACTS entry state the reach to a user coercion; `record.md`'s "For the gather" asks for `SkK17` on rung I's build (below).
+5. The FACTS entry's "Not reached" names varargs and tuple positions.
+
+The second skeptic's three, made at the gather:
+1. **Row 389's sibling, home 2.** `ProjectFortress/tests/XXXCoercionOwnStaticRungK.fss`, a byte-for-byte copy of `probes/skeptic/round2/draft/XXXCoercionOwnStaticRungK.fss`. `record.md`'s `testSystem` line says rung K adds five files and that run 1's sum is the comparand's plus six with M's test (the run's total with the gather's later additions is under "For the gate", below).
+2. **Row 389's closure scoped.** `record.md`'s closing note on row 389, its FACTS entry's clause on a generic trait's coercion, the sentence appended to "Under `walk`, the interpreter converts by coercion at its three kinds of type check …" and the handover line say that the fix covers a coercion whose static parameters are the trait's own, and that a coercion with its own static parameter is still refused, row 513, gated by the new test. The row's status reads "FIXED (…), for a coercion whose static parameters are the trait's own; a coercion with its own static parameter is row 513". The cause was opened: `CoercionLifter.scala:151-153` (the trait's static parameters followed by the coercion's), `Coercions.java:117` (the count test that skips it).
+3. **The varargs binding.** Row 511's notes (`record.md`), `REPORT.md` decision K and section 9 now give the measured fact: the binding stores each element through the array's `init` method, whose declared parameter converts (`ProjectFortress/src/com/sun/fortress/interpreter/glue/IndexedArrayWrapper.java:43`, `:67-71`, `WellKnownNames.java:54`, opened), so `varR[\ZZ64\](z, w)` prints `[3:ZZ64,4:ZZ64]` at the base and after (`probes/skeptic/round2/walk-base.txt:27`, `walk-edit.txt:24`, opened), and the repair is the first pass's varargs branch alone (`EvaluatorBase.java:151-156`, opened), inside rung K's file.
+
+**Re-anchored.** Rung I's edit moved the checker's lifted-coercion lines that K's report cites as its precedent: `CoercionOracle.scala:193-196` at the base is `:217-220` on the landed tree ("the lifted args are given in U", found by symbol), in `REPORT.md`'s provenance block and sections 2 and 4 and in row 513. `SKEPTIC.md`'s two citations of the base's lines stand, and its gather note says so. `record.md`'s placeholder `<landing commit>` is written `<short hash>`, the commit stage's.
+
+**Recommended rows.**
+- The compiled three-type union: row 512, the rung's own provisional 507, gated by `XXXUnionOfThreeRungK` (opened).
+- Walk's varargs and tuple positions: row 511, the rung's own provisional 506 (opened).
+- The user coercion on row 504, now 509: in the row's text as the repair round wrote it, and the measurement the recommendation asks the gather for appended as a note (below).
+- A generic trait's coercion with its own static parameter: row 513 (opened, correction 2).
+- Tuple values for a lone parameter: a note on row 511, in the skeptic's words (`probes/skeptic/round2/walk-edit.txt:19-21`, `compiled.txt:31-41`, opened).
+- A dotted generic method's own static arguments over mixed widths: a note on row 21 (`probes/skeptic/round2/walk-base.txt:10-14`, `walk-edit.txt:10-14`, `compiled.txt:15-19`, opened).
+
+**The gather's measurements on the merged tree** (rung I's commit with rung K's patch, built by `ant compileAll` in the main tree, 42 s, and the five library components compiled in library order by rung I's checker, AnyType 14 s, CompilerBuiltin 60 s, CompilerLibrary 23 s, CompilerAlgebra 2 s, CompilerSystem 2 s; `tmp/gather-N/`, not committed):
+- `SkK17`, as `record.md` asks (`explorations/compile-ladder/climb-batch-N/merged-tests/both-SkK17-SkExpRun.txt`): walk prints `Aaa Aaa`, and compiled with rung I's checker it prints `Aaa   Aaa` (row 76's spaces). Rung I's promotion takes the union bound for `AaaOf` and `CccOf` to `Aaa`, a coercion target of `CccOf`, as walk does, so the two paths agree; rung T's chapter names the same candidates (the arguments' types and the types they coerce to). The batch record's narrower statement for the checker ("the narrowest of its arguments' types and its bound", `coordinator/CLIMB-BATCH-N.md:245`) is not what either path does. A note on row 509 records it.
+- `XXXUnionOfThreeRungK` with its link test (`merged-tests/junit-IK.txt`): the link test is `OK`, and the run prints `REACHED`, the `NoSuchMethodError`, "Saw expected failure". Rung I's build does not make it pass, so row 512 stays open and the pair keeps its names. The same run shows rung I's `XXXInferContextKeepsFit` failing as expected on the merged tree.
+- Rung K's six walk tests and the new `XXXCoercionOwnStaticRungK` through the `testSystem` harness (`merged-tests/walk-K-IK.txt`, the rung's `harness-one.sh`): three `PASS`, four "OK Saw expected exception", "OK (7 tests)".
+
+**Folded.**
+- `FACTS.md`: the record's new entry after the last entry of "Landed semantics" (the record asks for the place after "Under `walk`, the interpreter converts by coercion …"; the gather's rule puts it after the section's last entry, rung J's ranges entry), and its three appends; "The ledger"'s citations re-anchored to `:841` and `:701`.
+- The ledger: row 389 closed with its note; row 388 closed, both halves having landed (`FIXED`, rung I at `8dc1a74d9`, rung K at `<short hash>`), with K's note and the closing sentence; notes on rows 486, 432, 430 and 364; rows 509 to 513 after row 508, row 512's `||` escaped; the skeptic's notes on rows 511 and 21; the gather's note on row 509.
+- The handover: one paragraph after rung I's.
+- `PLAN.md`: five parked lines, and the parked line on the conversion judgement's defaults names row 509 as the row "batch N's gather opens".
+
+**Items for Pavol, as `PLAN.md` holds them:**
+- **K.worker.1, K.skeptic.1, K.skeptic2.1 and K.judge.1**, the promotion's reach to user coercions: one parked line, with the gather's measurement that rung I's checker gives the same answer; default as landed.
+- **K.worker.2 and K.judge.2**, `Init.java` outside the rung's list: one parked line; default as landed.
+- **K.worker.3 and K.judge.3**, the compiled union test's home 2 in K's repair: one parked line; default as landed.
+- **K.worker.4**, walk's expected type at a generic result (row 510): one parked line on walk's static-argument inference against the specification, which rung T's items extend; default walk as it is, the gap gated.
+- **K.worker.5**, `Coercions.addSource`: one parked line; default left.
+
+**Stops.** One listed by the worker and both skeptics, the edit to `bestMatchInternal`, reported whole and read as the re-instantiation the record permits; reversible and lifted by POSITIONS 2026-09-27, the stops (`probes/stops-met.txt`). The repair round's and the gather's additions meet none: `Init.java` and the new test files are no other rung's.
+
+**For the gate.** `testSystem` gains five files for K (`InferCoercionRungK`, `XXXNatValueNN32RungK`, `XXXInferExpectedTypeRungK`, `XXXInferVarargsRungK`, `XXXCoercionOwnStaticRungK`); the two renamed files keep their count. The compiler track gains 2 command lines (`UnionOfThreeRungKLink.test`, `XXXUnionOfThreeRungK.test`). The checker count stays 75. Rung K's Java edits need `ant compileAll`.

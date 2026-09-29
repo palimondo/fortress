@@ -1,0 +1,57 @@
+# both.sh tk 2026-09-29T06:05:25Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.73 0.80 0.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 8dc1a74d9 with the next rung applied, not yet committed
+=== SkK17.fss walk
+userS(AaaOf,CccOf) = Aaa Aaa
+rc=0
+=== SkK17.fss compile
+rc=0
+=== SkK17.fss compiled run
+userS(AaaOf,CccOf) =  Aaa   Aaa
+rc=0
+=== SkExpRunTop.fss walk
+T1 a: ZZ32 = k(z)
+  ran k generic
+T2 b: ZZ64 = k(z)
+  ran k generic
+T3 c: ZZ32 = z OPLUS z
+  ran OPLUS generic
+T4 d: ZZ64 = z OPLUS z
+  ran OPLUS generic
+values 5 5 5 5
+rc=0
+=== SkExpRunTop.fss compile
+rc=0
+=== SkExpRunTop.fss compiled run
+T1 a: ZZ32 = k(z)
+  ran k generic
+T2 b: ZZ64 = k(z)
+  ran k(ZZ64)
+T3 c: ZZ32 = z OPLUS z
+  ran OPLUS generic
+T4 d: ZZ64 = z OPLUS z
+  ran OPLUS(ZZ64, ZZ32)
+values  5   5   5   5
+rc=0
+=== SkExpRun.fss walk
+com.sun.fortress.exceptions.ProgramError: tmp/gather-N/progs-tk/SkExpRun.fss:5:30:
+Missing type T
+Context:
+tmp/gather-N/progs-tk/SkExpRun.fss:5:30:
+tmp/gather-N/progs-tk/SkExpRun.fss:6:3-56:
+tmp/gather-N/progs-tk/SkExpRun.fss:4:1-7:2:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+=== SkExpRun.fss compile
+rc=0
+=== SkExpRun.fss compiled run
+R1 a: ZZ32 = O.k(z)
+  ran O.k generic
+R2 b: ZZ64 = O.k(z)
+  ran O.k(ZZ64)
+R3 c: ZZ32 = z OPLUS z
+  ran OPLUS generic
+R4 d: ZZ64 = z OPLUS z
+  ran OPLUS(ZZ64, ZZ32)
+values  5   5   5   5
+rc=0

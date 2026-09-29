@@ -1,0 +1,87 @@
+# compare.py over the three passes of ProjectFortress/tests/ (429 files at the base; the rung's three new files excluded): base A, the edit, base B, one JVM per test, one core per JVM, private caches per shard, from private homes (snapshot.sh)
+# baseA:
+#   start 2026-09-28T23:13:31Z home: /home/user/fortress-walkinfer/tmp/home-base shards: 2 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.20 2.35 1.48; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#   # snapshot.sh 2026-09-28T23:07:28Z of bce66f1fa9179dc309e10c09a76e7ad83ed64fb3; worktree HEAD bce66f1fa
+#   build: scalac-compileAll.args 2026-09-28T21:42:13Z; EvaluatorBase.class 2026-09-28T19:48:21Z
+#   uncommitted source edits: 0
+#   /dev/vda        252G   22G   16G  58% /
+#   done 2026-09-28T23:37:19Z: 429 logs; load 6.94 8.78 7.80
+# edit:
+#   start 2026-09-28T23:39:50Z home: /home/user/fortress-walkinfer/tmp/home-edit shards: 1 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.66 6.80 7.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#   # snapshot.sh 2026-09-28T23:39:28Z of tree; worktree HEAD 0dc881cb9
+#   build: scalac-compileAll.args 2026-09-28T23:15:08Z; EvaluatorBase.class 2026-09-28T23:17:33Z
+#   uncommitted source edits: 3
+#   /dev/vda        252G   22G   16G  58% /
+#   done 2026-09-29T00:32:51Z: 429 logs; load 5.45 6.03 8.07
+# baseB:
+#   start 2026-09-29T00:32:59Z home: /home/user/fortress-walkinfer/tmp/home-base shards: 1 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.22 5.96 8.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#   # snapshot.sh 2026-09-28T23:07:28Z of bce66f1fa9179dc309e10c09a76e7ad83ed64fb3; worktree HEAD bce66f1fa
+#   build: scalac-compileAll.args 2026-09-28T21:42:13Z; EvaluatorBase.class 2026-09-28T19:48:21Z
+#   uncommitted source edits: 0
+#   /dev/vda        252G   22G   16G  59% /
+#   done 2026-09-29T01:01:38Z: 429 logs; load 4.53 4.80 5.30
+# the sum of the per-test wall times, not a comparison (the passes ran at different loads beside another rung; probes/warm-time.txt is the controlled one): baseA 2693 s; edit 3174 s; baseB 1716 s; 
+UNSTABLE   ArrayListQuick  rc A 0 B 0 edit 0  A/B line 7 (masked: differ); edit equals neither
+    A:    Succeeded in 0.633s
+    B:    Succeeded in 0.545s
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    Warmup 1 1 40.336564ms
+    B:    Warmup 1 1 12.426079ms
+UNSTABLE   HeapTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    11	33	4199781/500000	4199781/5500000	1399927/5500000	8298961/500000	754451/500000	754451/1500000	40275877/500000	40275877/5500000	40275877/16500000	2951427/1000000	2951427/11000000	983809/11000000	2257633/500000	2257633/
+    B:    11	33	4442611/500000	4442611/5500000	4442611/16500000	10120687/1000000	10120687/11000000	10120687/33000000	24633111/500000	24633111/5500000	8211037/5500000	396303/200000	396303/2200000	132101/2200000	1729367/1000000	1729
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  A/B line 7 (masked: differ); edit equals neither
+    A:    Succeeded in 0.629s
+    B:    Succeeded in 0.595s
+UNSTABLE   QuickCheckTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    genBoolean: true false true false true false false false false false false true true true false false
+    B:    genBoolean: true false true true false false true true false false false true false true true false
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    [0#50][ 32 27 34 12 9 15 17 2 7 41 8 33 6 18 25 22 38 47 44 40 1 21 39 30 49 35 13 5 11 26 19 3 24 10 0 42 14 4 23 29 37 45 31 36 28 20 48 46 16 43 ]
+    B:    [0#50][ 24 22 37 27 45 16 32 10 5 46 28 2 12 40 17 38 23 49 20 47 13 43 3 29 1 44 0 34 48 39 9 30 36 21 15 11 26 4 42 25 35 14 6 33 18 31 41 8 19 7 ]
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    {[0#5][ David Emily John Nathi Paul ], [0#6][ { [], [<<Cathy>>] } { [], [<<David>>] } { [], [<<Emily>>] } { [], [<<John>>] } { [], [<<Nathi>>] } { [], [<<Paul>>] } ]}
+    B:    {[0#2][ Emily John ], [0#3][ {[0#1][ David ], [0#2][ { [], [<<Cathy>>] } { [], [<<David>>] } ]} { [], [{ [], [<<Emily>>] }] } {[0#1][ Nathi ], [0#2][ { [], [<<John>>] } {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]} ]}
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    fib(1) 0.480053ms
+    B:    fib(1) 0.270172ms
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  A/B line 3 (masked: differ); edit equals neither
+    A:    Atwo
+    B:    Aone
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Acquired words in 935.093611ms
+    B:    Acquired words in 688.757922ms
+CHANGED    XXXCoercionGenericFnRungC (edit: CoercionGenericFnRungC)  rc 1 -> 0  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXCoercionGenericFnRungC.fss:25:12-32:
+    edit: PASS
+CHANGED    XXXCoercionGenericTraitRungC (edit: CoercionGenericTraitRungC)  rc 1 -> 0  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXCoercionGenericTraitRungC.fss:25:12-33:
+    edit: PASS
+LISTED     XXXInheritedOverload  rc A 1 B 1 edit 1; A =/= B, edit =/= A
+    A:    com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  A/B line 13 (masked: differ); edit equals neither
+    A:     Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    B:    ... Thread ForkJoinPool-2-worker-1 operating on value Aborting
+UNSTABLE   buffons  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    estimated Pi = 3.0397435897435896
+    B:    estimated Pi = 3.1961982348947724
+CHANGED    commonSuper  rc 0 -> 0  line 2
+    base: 5
+    edit: 5.0
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals B
+    A:    Operation took 20ms
+    B:    Operation took 14ms
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 66ms
+    B:    Operation took 13ms
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 75ms
+    B:    Operation took 20ms
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 37ms
+    B:    Operation took 11ms
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    random fill 65.850113ms
+    B:    random fill 34.807854ms
+tests 429  same 408  normalised 0  order only 0  changed 3  unstable 17  listed 1  missing 0  verdicts changed 0

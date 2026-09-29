@@ -1,0 +1,14 @@
+# sk-run walk-base 2026-09-29T02:35:14Z; tree 7f8399e45; home /home/user/fortress-walkinfer/tmp/home-base; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.99 2.45 5.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== OpAnyZW  op(z, w) beside op(a: Any, b: Any)   [the conversion rule: the generic chosen, then at ZZ64]
+op(z, w): op generic[ZZ32,ZZ64]
+rc=0
+# sk-run walk-edit 2026-09-29T02:35:19Z; tree 7f8399e45; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.47 2.52 5.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== OpAnyZW  op(z, w) beside op(a: Any, b: Any)   [the conversion rule: the generic chosen, then at ZZ64]
+op(z, w): op generic[ZZ64,ZZ64]
+rc=0
+# sk-run compiled 2026-09-29T02:35:23Z; tree 7f8399e45; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.47 2.52 5.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== OpAnyZW  op(z, w) beside op(a: Any, b: Any)   [the conversion rule: the generic chosen, then at ZZ64]
+compile rc=0
+op(z, w):  op generic[ ZZ32 , ZZ64 ]
+run rc=0
+EXIT=0

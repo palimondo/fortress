@@ -1,0 +1,40 @@
+# the rung's six walk tests and the skeptic's draft XXXCoercionOwnStaticRungK through the testSystem harness
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+# harness-one 2026-09-29T05:03:30Z; tree 4b2bc9fb2; nproc=4; load 0.56 1.67 1.80; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/sk2-h/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0eb8beb50_16
+. interpret tmp/sk2-h/tests/XXXInferVarargsRungK 
+REACHED
+FAIL: J20/0:[3 : ZZ32, 4 : ZZ64] =/= J20/0:[3 : ZZ64, 4 : ZZ64]; answer 8 (POSITIONS 2026-09-26): a generic call over mixed widths infers the narrowest type both coerce into, through a varargs parameter T...
+FortressException: FailCalled
+ OK Saw expected exception
+. interpret tmp/sk2-h/tests/CoercionGenericFnRungC 
+REACHED
+PASS
+ OK (time = 160ms)
+. interpret tmp/sk2-h/tests/XXXInferExpectedTypeRungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/sk2-h/tests/XXXInferExpectedTypeRungK.fss:22:5-20:
+ OK Saw expected exception
+. interpret tmp/sk2-h/tests/XXXCoercionOwnStaticRungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/sk2-h/tests/XXXCoercionOwnStaticRungK.fss:25:12-41:
+ OK Saw expected exception
+. interpret tmp/sk2-h/tests/CoercionGenericTraitRungC 
+REACHED
+PASS
+ OK (time = 162ms)
+. interpret tmp/sk2-h/tests/XXXNatValueNN32RungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/sk2-h/tests/XXXNatValueNN32RungK.fss:19:3-10:
+ OK Saw expected exception
+. interpret tmp/sk2-h/tests/InferCoercionRungK 
+PASS
+ OK (time = 323ms)
+
+Time: 15.598
+
+OK (7 tests)
+
+exit=0

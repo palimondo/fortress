@@ -1,0 +1,24 @@
+# harness-one 2026-09-28T23:43:10Z; tree a686b4504; nproc=4; load 8.99 8.55 7.87; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/h1/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ea66a731_16
+. interpret tmp/h1/tests/InferCoercionRungK 
+PASS
+ OK (time = 24584ms)
+. interpret tmp/h1/tests/XXXNatValueNN32RungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/h1/tests/XXXNatValueNN32RungK.fss:19:3-10:
+ OK Saw expected exception
+. interpret tmp/h1/tests/CoercionGenericTraitRungC 
+REACHED
+PASS
+ OK (time = 435ms)
+. interpret tmp/h1/tests/CoercionGenericFnRungC 
+REACHED
+PASS
+ OK (time = 467ms)
+
+Time: 26.167
+
+OK (4 tests)
+
+exit=0

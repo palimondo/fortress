@@ -1,0 +1,28 @@
+# the two microGPT checks from an empty cache at FORTRESS_THREADS=1, at the base and after (run-pass.sh, two JVMs, one core each), compared by mg-compare.py: each step's (N ms) masked
+# mgbase:
+#   start 2026-09-28T23:39:50Z home: /home/user/fortress-walkinfer/tmp/home-base shards: 2 timeout: 5400; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.66 6.80 7.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#   # snapshot.sh 2026-09-28T23:07:28Z of bce66f1fa9179dc309e10c09a76e7ad83ed64fb3; worktree HEAD bce66f1fa
+#   build: scalac-compileAll.args 2026-09-28T21:42:13Z; EvaluatorBase.class 2026-09-28T19:48:21Z
+#   uncommitted source edits: 0
+#   /dev/vda        252G   22G   16G  58% /
+#   done 2026-09-29T00:34:33Z: 2 logs; load 3.95 5.35 7.61
+# mgedit:
+#   start 2026-09-29T00:37:53Z home: /home/user/fortress-walkinfer/tmp/home-edit shards: 2 timeout: 5400; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.70 4.65 6.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#   # snapshot.sh 2026-09-28T23:39:28Z of tree; worktree HEAD 0dc881cb9
+#   build: scalac-compileAll.args 2026-09-28T23:15:08Z; EvaluatorBase.class 2026-09-28T23:17:33Z
+#   uncommitted source edits: 3
+#   /dev/vda        252G   22G   16G  58% /
+#   done 2026-09-29T01:06:48Z: 2 logs; load 4.99 4.93 5.21
+# the total wall times are not a comparison: the base ran beside another rung's heavier stages (load 3.7 to 11), the edit at load 3.7 to 5
+== MicroGptFlatCheck: base 43 lines, 41 PASS, rc=0 secs=3217; edit 43 lines, 41 PASS, rc=0 secs=1718; 1 lines differ
+   line 42
+     base: total 3176 s
+     edit: total 1697 s
+   base VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+   edit VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+== MicroGptAplCheck: base 43 lines, 41 PASS, rc=0 secs=3282; edit 43 lines, 41 PASS, rc=0 secs=1735; 1 lines differ
+   line 42
+     base: total 3227 s
+     edit: total 1704 s
+   base VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS
+   edit VERDICT: 40 PASS, 0 FAIL of 40 -- ALL PASS

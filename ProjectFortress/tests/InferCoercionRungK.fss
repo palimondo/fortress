@@ -1,0 +1,71 @@
+component InferCoercionRungK
+export Executable
+
+(*) explorations/compile-ladder/rung-inference-walk/REPORT.md
+
+shownK(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : other"
+  end
+
+object BoxK[\T\](v: T)
+  accept(x: T): String = shownK(x)
+end
+
+scaleK[\T\](b: BoxK[\T\], x: T): String = b.accept(x)
+sameK[\T extends Number\](a: T, b: T): String = "[" shownK(a) ", " shownK(b) "]"
+sameAddK[\T extends Number\](a: T, b: T): String = shownK(a + b) " from [" shownK(a) ", " shownK(b) "]"
+lohiK[\I extends AnyIntegral\](lo: I, hi: I): String = "[" shownK(lo) ", " shownK(hi) "]"
+twiceK[\T extends Integral[\T\]\](a: T, b: T): String = shownK(a + b) " from [" shownK(a) ", " shownK(b) "]"
+pickK[\T\](a: T, b: T): String = "[" shownK(a) ", " shownK(b) "]"
+ogK[\T\](b: BoxK[\T\], x: T): String = "ogK generic " b.accept(x)
+ogK(b: String, x: String): String = "ogK strings"
+opK[\T extends Number\](a: T, b: T): String = "opK generic [" shownK(a) ", " shownK(b) "]"
+opK(a: Any, b: Any): String = "opK plain [" shownK(a) ", " shownK(b) "]"
+
+run() = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    l: ZZ64 = widen(7)
+    r: RR64 = 2.5
+    u: NN32 = unsigned(5)
+    b: BoxK[\RR64\] = BoxK[\RR64\](1.0)
+    assert(scaleK(b, r), "2.5 : RR64", "control: an RR64 for T fixed at RR64 by BoxK[\\RR64\\]")
+    assert(scaleK(b, z), "3.0 : RR64", "row 388: T fixed at RR64 by b, z converted at binding; conversions-coercions.tex:119-120, :430-432")
+    assert(scaleK(b, 3), "3.0 : RR64", "row 388: T fixed at RR64 by b, the numeral converted at binding; conversions-coercions.tex:119-120, :430-432")
+    assert(sameK(z, z), "[3 : ZZ32, 3 : ZZ32]", "control: two ZZ32 arguments keep T = ZZ32")
+    assert(sameK(z, w), "[3 : ZZ64, 4 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): ZZ32 with ZZ64 infers ZZ64 and converts z")
+    assert(sameAddK(z, w), "7 : ZZ64 from [3 : ZZ64, 4 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): both arguments ZZ64 before the sum")
+    assert(sameK(z, r), "[3.0 : RR64, 2.5 : RR64]", "answer 8 (POSITIONS 2026-09-26): ZZ32 with RR64 infers RR64, ZZ32 coercing into RR64 exactly")
+    assert(lohiK(z, w), "[3 : ZZ64, 4 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): I extends AnyIntegral, ZZ32 with ZZ64 infers ZZ64")
+    assert(twiceK(l, z), "10 : ZZ64 from [7 : ZZ64, 3 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): T extends Integral[\\T\\], ZZ64 with ZZ32 infers ZZ64")
+    assert(pickK(z, u), "[3 : ZZ64, 5 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): ZZ32 with NN32 infers ZZ64, the narrowest type both convert into")
+    assert(pickK(l, r), "[7 : ZZ64, 2.5 : RR64]", "answer 8 (POSITIONS 2026-09-26): ZZ64 into RR64 stays explicit, so nothing is converted")
+    assert(ogK(b, z), "ogK generic 3.0 : RR64", "row 388: a generic declaration of an overloaded function is chosen by coercion; conversions-coercions.tex:533-553")
+    assert(opK(z, w), "opK generic [3 : ZZ64, 4 : ZZ64]", "conversion rule (POSITIONS 2026-09-28): the generic declaration chosen, then instantiated by answer 8's promotion")
+    assert(opK(z, z), "opK generic [3 : ZZ32, 3 : ZZ32]", "control: two ZZ32 arguments keep the generic declaration at ZZ32")
+    m = matrix[\RR64,2,2\]()
+    m[0,0] := 1.5
+    m[0,1] := 2.0
+    m[1,0] := 0.5
+    m[1,1] := 4.0
+    a: Array[\RR64,ZZ32\] = array[\RR64\](2)
+    a[0] := 1.5
+    a[1] := 0.25
+    assert(shownK((a + z)[1]), "3.25 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((z + a)[1]), "3.25 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((a - z)[1]), "-2.75 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((z - a)[1]), "2.75 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((a MIN z)[0]), "1.5 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((z MAX a)[0]), "3.0 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((m z)[0,0]), "4.5 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((z m)[0,0]), "4.5 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    assert(shownK((m DOT z)[0,0]), "4.5 : RR64", "row 388: the container fixes T at RR64 and the ZZ32 scalar converts at binding; conversions-coercions.tex:119-120")
+    println("PASS")
+  end
+
+end

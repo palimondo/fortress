@@ -1,0 +1,164 @@
+# walk-run 2026-09-28T23:04:31Z; tree bce66f1fa; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.34 0.87 0.58; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; JAVA_FLAGS=-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-walkinfer/tmp
+== KS00
+   scaleK(b, r): 2.5 : RR64
+   rc=0
+== KS01
+   ! ProgramError: KS01.fss:36:31-41:
+   ! Unification error: Closure/Constructor for scaleK param 1 (b:BoxK[\Number\]) got arg BoxK[\RR64\] of type BoxK[\RR64\]
+   rc=1
+== KS02
+   ! ProgramError: KS02.fss:36:31-41:
+   ! Unification error: Closure/Constructor for scaleK param 1 (b:BoxK[\Number\]) got arg BoxK[\RR64\] of type BoxK[\RR64\]
+   rc=1
+== KS03
+   sameK(z, z): [3 : ZZ32, 3 : ZZ32]
+   rc=0
+== KS04
+   sameK(z, w): [3 : ZZ32, 4 : ZZ64]
+   rc=0
+== KS05
+   sameAddK(z, w): 7 : ZZ64 from [3 : ZZ32, 4 : ZZ64]
+   rc=0
+== KS06
+   sameK(z, r): [3 : ZZ32, 2.5 : RR64]
+   rc=0
+== KS07
+   lohiK(z, w): [3 : ZZ32, 4 : ZZ64]
+   rc=0
+== KS08
+   ! ProgramError: KS08.fss:36:31-41:
+   ! Unification error: KS08.fss:22:19-29:
+   ! Cannot unify AnyIntegral(class com.sun.fortress.interpreter.evaluator.types.FTypeTrait)
+     with Integral[\T\](class com.sun.fortress.nodes.TraitType) abm=T=(AnyIntegral,Any)
+   rc=1
+== KS09
+   pickK(z, u): [3 : ZZ32, 5 : NN32]
+   rc=0
+== KS10
+   pickK(l, r): [7 : ZZ64, 2.5 : RR64]
+   rc=0
+== KS11
+   ! ProgramError: KS11.fss:36:28-35:
+   ! Failed to find any matching overload, args = (BoxK[\RR64\],3: ZZ32), overload = {
+   ! 	ogK[\T\](b:BoxK[\T\],x:T):FortressLibrary.StringKS11.fss:24:1-65
+   	ogK(b:FortressLibrary.String,x:FortressLibrary.String):FortressLibrary.String (String,String)->String KS11.fss:25:1-49}:OverloadedFunction
+   rc=1
+== KS12
+   opK(z, w): opK generic [3 : ZZ32, 4 : ZZ64]
+   rc=0
+== KS13
+   opK(z, z): opK generic [3 : ZZ32, 3 : ZZ32]
+   rc=0
+== OpAnyZW
+   op(z, w): op generic[ZZ32,ZZ64]
+   rc=0
+== O2Excl
+   lo(z, w): lo z32z64[ZZ32,ZZ64]
+   lo(w, w): lo generic[ZZ64,ZZ64]
+   two(z, z): two plain[ZZ32,ZZ32]
+   two(w, w): two z64[ZZ64,ZZ64]
+   rc=0
+== O2Explicit
+   op(z, w): op generic[ZZ32,ZZ64]
+   op[ZZ64](z, w): op generic[ZZ64,ZZ64]
+   op[ZZ64](z, z): op generic[ZZ64,ZZ64]
+   rc=0
+== O2FbAny
+   eqop(z, w): eqop plain[ZZ32,ZZ64]
+   eqop(z, z): eqop generic[ZZ32,ZZ32]
+   eqop(w, w): eqop generic[ZZ64,ZZ64]
+   eqop[ZZ64](z, w): eqop generic[ZZ64,ZZ64]
+   rc=0
+== O2FbExcl
+   eqop(z, w): eqop z32z64[ZZ32,ZZ64]
+   eqop(z, z): eqop generic[ZZ32,ZZ32]
+   eqop(w, w): eqop generic[ZZ64,ZZ64]
+   rc=0
+== O2FbLone
+   ! ProgramError: O2FbLone.fss:14:30-40:
+   ! Unification error: O2FbLone.fss:4:19-29:
+   ! Cannot unify AnyIntegral(class com.sun.fortress.interpreter.evaluator.types.FTypeTrait)
+     with Equality[\T\](class com.sun.fortress.nodes.TraitType) abm=T=(AnyIntegral,Any)
+   rc=1
+== O2FbMeet
+   eqop(z, w): eqop z32any[ZZ32,ZZ64]
+   eqop(z, z): eqop generic[ZZ32,ZZ32]
+   eqop(w, w): eqop generic[ZZ64,ZZ64]
+   rc=0
+== O2FbMeetNo
+   eqop(z, w): eqop z32any[ZZ32,ZZ64]
+   rc=0
+== O2Lone
+   same(z, w): same[ZZ32,ZZ64]
+   same(n, w): same[ZZ32,ZZ64]
+   op(a, a2): op generic[ZZ32,ZZ32]
+   op(a, aw): op generic[ZZ32,ZZ64]
+   op(aw, aw): op generic[ZZ64,ZZ64]
+   rc=0
+== O2Meet
+   ! ProgramError: O2Meet.fss:6:1-72: and
+   ! O2Meet.fss:5:1-88:
+   ! 
+   op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2Meet.fss:5:1-88 has a parameter
+   with generic type, at least one pair of parameters must have excluding types
+   rc=1
+== O2MeetNo
+   ! ProgramError: O2MeetNo.fss:5:1-72: and
+   ! O2MeetNo.fss:4:1-88:
+   ! 
+   op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2MeetNo.fss:4:1-88 has a parameter
+   with generic type, at least one pair of parameters must have excluding types
+   rc=1
+== O2MeetRev
+   ! ProgramError: O2MeetRev.fss:6:1-88: and
+   ! O2MeetRev.fss:5:1-72:
+   ! 
+   op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2MeetRev.fss:6:1-88 has a parameter
+   with generic type, at least one pair of parameters must have excluding types
+   rc=1
+== O2Num
+   op(1, w): op generic[ZZ32,ZZ64]
+   op(w, 1): op generic[ZZ64,ZZ32]
+   op(1, z): op generic[ZZ32,ZZ32]
+   op(1, 2): op generic[ZZ32,ZZ32]
+   rc=0
+== O2Pos
+   gg(5, w): gg generic[ZZ32,ZZ64]
+   ee(5): 1
+   rc=0
+== O2Rev
+   op(z, w): op generic[ZZ32,ZZ64]
+   op(z, z): op generic[ZZ32,ZZ32]
+   op(n, w): op generic[ZZ32,ZZ64]
+   rc=0
+== O2Tie
+   g(z, w): g z32any[ZZ32,ZZ64]
+   g(w, w): g generic[ZZ64,ZZ64]
+   g(z, "s"): g z32any[ZZ32,other]
+   rc=0
+== O2Wide
+   op(n, w): op generic[ZZ32,ZZ64]
+   op(z, m): op generic[ZZ32,ZZ64]
+   op(n, m): op generic[ZZ32,ZZ64]
+   op(a, w): op generic[ZZ32,ZZ64]
+   rc=0
+== O2Z64
+   ! ProgramError: O2Z64.fss:6:1-74: and
+   ! O2Z64.fss:5:1-88:
+   ! 
+   op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2Z64.fss:5:1-88 has a parameter
+   with generic type, at least one pair of parameters must have excluding types
+   rc=1
+== O2Z64Rest
+   ! ProgramError: O2Z64Rest.fss:5:1-74: and
+   ! O2Z64Rest.fss:4:1-88:
+   ! 
+   op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.StringO2Z64Rest.fss:4:1-88 has a parameter
+   with generic type, at least one pair of parameters must have excluding types
+   rc=1
+== SkNatType
+   T1 nat n = 3 bound to a ZZ32: 3
+   T2 nat n = 3, 1:(n-1) elements: 2
+   ! ProgramError: SkNatType.fss:10:3-10:
+   ! RHS expression type Int is not assignable to LHS type NN32
+   rc=1

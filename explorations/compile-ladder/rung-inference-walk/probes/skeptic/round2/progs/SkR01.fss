@@ -1,0 +1,18 @@
+component SkR01
+export Executable
+
+trait BoxR[\T\] getter v(): T end
+object BoxROf[\T\](v: T) extends BoxR[\T\] end
+
+hR[\T\](b: BoxR[\T\], x: T): String = "generic"
+hR(b: BoxR[\RR64\], x: RR64): String = "plain"
+
+run(): () = do
+    b: BoxR[\RR64\] = BoxROf[\RR64\](1.0)
+    z: ZZ32 = 3
+    r: RR64 = 2.0
+    println("hR(b, r) = " || hR(b, r))
+    println("hR(b, z) = " || hR(b, z))
+  end
+
+end

@@ -1,0 +1,26 @@
+SkK01|tri(z,u,w)|ZZ64 each: the narrowest type every argument converts into (answer 8)
+SkK02|tri(u,u,u)|control: NN32 each
+SkK03|tri(z,z,r)|RR64 each: ZZ32 into RR64 exact (answer 8)
+SkK04|tri(u,z,r)|no common conversion target unless NN32 converts into RR64
+SkK05|firstS(z,w)|result at T = ZZ64: the ZZ32 converted
+SkK06|mulS(z,w)|T = ZZ64 under an F-bound: 20000000000:ZZ64
+SkK07|biggerS(z,w)|T = ZZ64 under StandardTotalOrder: 200000:ZZ64
+SkK08|PairS(z,w)|generic constructor, T = ZZ64
+SkK09|fillS(CellS[RR64],z,r)|T fixed by the cell, z converted
+SkK10|lastS(z,CellS[ZZ64])|the lone argument before the one that fixes T
+SkK11|sizedS(z,z)|a declared ZZ64 parameter of a generic, the ZZ32 converted (row 388)
+SkK12|ovS(z,w)|overloaded generic chosen as today, re-instantiated at ZZ64
+SkK13|ovS(z,z)|control: the generic at ZZ32
+SkK14|ovS(z,"s")|no declaration: refused
+SkK15|takeW(NarrowS[String])|row 389 at another type argument
+SkK16|takeWZ(NarrowS[ZZ32])|no coercion from NarrowS[ZZ32] into WideS[ZZ64]: refused
+SkK17|userS(AaaOf,CccOf)|a user coercion at a lone parameter
+SkK18|userS(CccOf,CccOf)|control
+SkK19|varS(z,w)|varargs over mixed widths
+SkK20|tupS((z,w))|a tuple parameter over mixed widths
+SkK21|wrapS(z,w).put(w)|T only in the result structure and lone
+SkK22|evS(z,u)|a bound no promotion meets: refused
+SkK23|triQ(Q1,Q2,Q3)|three sibling objects: the join of three types
+SkK24|(a + i)[1]|row 388 flat-tower consequence
+SkK25|(i MAX a)[0]|row 388 flat-tower consequence
+SkK26|(m i)[0,0]|row 388 flat-tower consequence

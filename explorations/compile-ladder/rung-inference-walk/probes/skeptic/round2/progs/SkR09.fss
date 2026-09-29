@@ -1,0 +1,27 @@
+component SkR09
+export Executable
+
+trait NarrowQ[\T\]
+  getter v(): T
+end
+object NarrowQOf[\T\](v0: T) extends NarrowQ[\T\]
+  getter v(): T = v0
+end
+
+trait WideQ[\T\]
+  coerce(x: NarrowQ[\T\]) = WideQOf[\T\](x.v)
+  getter w(): T
+end
+object WideQOf[\T\](w0: T) extends WideQ[\T\]
+  getter w(): T = w0
+end
+
+gQ(x: WideQ[\ZZ64\]): String = "gQ got " || x.w.asString
+
+run(): () = do
+    println(gQ(WideQOf[\ZZ64\](widen(1))))
+    println(gQ(NarrowQOf[\ZZ64\](widen(2))))
+    println(gQ(NarrowQOf[\ZZ32\](3)))
+  end
+
+end

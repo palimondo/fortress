@@ -1,0 +1,60 @@
+# the first form of compiler_tests/XXXUnionOfThreeRungK.fss, as the judge wrote it from SkK23 (triK's result by string juxtaposition, kindK(a) " " kindK(b) " " kindK(c)); kept because its stand-in, the static argument written, fails its assertion on row 76's spaces (" OneK   TwoK   ThreeK"), so that form could never turn red on a repair of the union; the committed file uses || instead (xxx-union-compiled.txt)
+# junit on the compiled path, 2026-09-29T03:58:32Z; tree 7d92018b8 with the repair's uncommitted test files; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.94 9.43 7.18; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; bytecode cache rebuilt in library order just before (AnyType 16 s, CompilerBuiltin 68 s, CompilerLibrary 30 s, CompilerAlgebra 3 s, CompilerSystem 2 s)
+########## compiler_tests/UnionOfThreeRungKLink.test
+. link compiler_tests/XXXUnionOfThreeRungK  OK (time = 9165ms)
+
+Time: 9.177
+
+OK (1 test)
+
+exit=0
+########## compiler_tests/XXXUnionOfThreeRungK.test
+. run compiler_tests/XXXUnionOfThreeRungK (894ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+Saw expected failure (Exit code != 0)
+
+Time: 0.933
+
+OK (1 test)
+
+exit=0
+########## compiler_tests/XXXUnionOfThreeRungK.fss under walk (walk-run.sh, private cache)
+# walk-run 2026-09-29T03:58:55Z; tree 7d92018b8; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 9.55 9.39 7.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; JAVA_FLAGS=-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-walkinfer/tmp
+== XXXUnionOfThreeRungK
+REACHED
+PASS
+rc=0
+########## the red check: a stand-in copy in a scratch directory whose one change writes the static argument, so the run passes and the XXX test must fail ("Missing expected failure" or its equivalent); the stand-in's diff against the committed file:
+22c22
+<     assert(triK(OneK, TwoK, ThreeK), "OneK TwoK ThreeK", "a generic call whose static argument joins three types; overloading.tex:170-174")
+---
+>     assert(triK[\KindK\](OneK, TwoK, ThreeK), "OneK TwoK ThreeK", "a generic call whose static argument joins three types; overloading.tex:170-174")
+. run tmp/xxx-union-standin/XXXUnionOfThreeRungK (539ms) REACHED
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+Saw expected failure (Exit code != 0)
+
+Time: 0.56
+
+OK (1 test)
+
+exit=0
+########## the same red check, now linking the stand-in first (the run test alone reuses the class the committed file's link compiled, so the run above ran the committed program: 539 ms, no compile)
+. link tmp/xxx-union-standin/XXXUnionOfThreeRungK  OK (time = 5711ms)
+
+Time: 5.726
+
+OK (1 test)
+
+exit=0
+. run tmp/xxx-union-standin/XXXUnionOfThreeRungK (776ms) REACHED
+FAIL:  OneK   TwoK   ThreeK =/= OneK TwoK ThreeK; a generic call whose static argument joins three types; overloading.tex:170-174
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  OneK   TwoK   ThreeK =/= OneK TwoK ThreeK; a generic call whose static argument joins three types; overloading.tex:170-174
+Saw expected failure (Exit code != 0)
+
+Time: 0.796
+
+OK (1 test)
+
+exit=0

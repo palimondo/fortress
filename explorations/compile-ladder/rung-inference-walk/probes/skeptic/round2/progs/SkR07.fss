@@ -1,0 +1,23 @@
+component SkR07
+export Executable
+
+shownR(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    v3: NN32 => v3.asString || ":NN32"
+    v4: RR64 => v4.asString || ":RR64"
+    v5: String => v5 || ":String"
+    else => "other"
+  end
+
+sameR[\T\](a: T, b: T): String = "[" || shownR(a) || "," || shownR(b) || "]"
+
+run(): () = do
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    println("sameR(3, w) = " || sameR(3, w))
+    println("sameR(3, r) = " || sameR(3, r))
+    println("sameR(3, 4) = " || sameR(3, 4))
+  end
+
+end

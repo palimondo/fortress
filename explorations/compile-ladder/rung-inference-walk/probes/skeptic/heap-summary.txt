@@ -1,0 +1,6 @@
+# the live heap from test to test in one harness JVM (sk-heap.sh: SystemJUTest over shard 0/4 of the base's ProjectFortress/tests, 107 tests, -Xmx768m, FORTRESS_THREADS=1, as build.xml's systemShard runs one shard); the G1 log's heap after each young collection, averaged over each fifth of the run, and the last ten; machine lines in heap-*-shard4.txt
+base     young GCs 87; MB after GC by fifths: 64 92 72 71 63 ; last 10: 67 63 72 69 61 63 63 63 58 63 
+edit     young GCs 71; MB after GC by fifths: 70 88 101 120 140 ; last 10: 127 122 130 140 148 156 161 160 160 159 
+overlay  young GCs 90; MB after GC by fifths: 66 84 77 78 76 ; last 10: 75 77 75 83 91 90 89 90 81 74 
+# base: tmp/home-base's build (bce66f1fa); edit: the rung's build (7f8399e45); overlay: the rung's build with one scratch Coercions.class first on the class path that clears coercionTypesByEnv whenever Driver.getFortressLibrary() changes (overlay-Coercions.diff), nothing else changed
+# each run's one failure (edit, overlay) is XXXCoercionGenericTraitRungC under its base name, which the rung repairs: Missing expected failure

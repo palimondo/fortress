@@ -1,0 +1,16 @@
+# walk-run 2026-09-29T03:53:40Z; tree 7d92018b8; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.10 6.95 5.71; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; JAVA_FLAGS=-Xmx4g -Xss64m -Djava.io.tmpdir=/home/user/fortress-walkinfer/tmp
+== XXXInferVarargsRungK
+REACHED
+FAIL: J20/0:[3 : ZZ32, 4 : ZZ64] =/= J20/0:[3 : ZZ64, 4 : ZZ64]; answer 8 (POSITIONS 2026-09-26): a generic call over mixed widths infers the narrowest type both coerce into, through a varargs parameter T...
+Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+Library/FortressLibrary.fss:56:5-23:
+Library/FortressLibrary.fss:305:9-306:5:
+tmp/walk-run/XXXInferVarargsRungK/XXXInferVarargsRungK.fss:20:5-191:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+EXIT=0

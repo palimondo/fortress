@@ -1,0 +1,23 @@
+component SkR08
+export Executable
+
+shownR(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    v3: NN32 => v3.asString || ":NN32"
+    v4: RR64 => v4.asString || ":RR64"
+    v5: String => v5 || ":String"
+    else => "other"
+  end
+
+boundR[\T extends ZZ64\](a: T, b: T): String = "[" || shownR(a) || "," || shownR(b) || "]"
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    println("boundR(w, w) = " || boundR(w, w))
+    println("boundR(z, w) = " || boundR(z, w))
+    println("boundR(z, z) = " || boundR(z, z))
+  end
+
+end

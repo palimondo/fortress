@@ -4,20 +4,29 @@ import com.sun.fortress.compiler.NamingCzar;
 import com.sun.fortress.exceptions.FortressException;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
+import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.types.FTraitOrObject;
+import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
 import com.sun.fortress.interpreter.evaluator.types.FType;
+import com.sun.fortress.interpreter.evaluator.types.FTypeGeneric;
 import com.sun.fortress.interpreter.evaluator.types.FTypeRest;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
+import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.useful.Useful;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Coercion at run time.  A trait's or object's coerce declarations reach the
@@ -43,9 +52,14 @@ public final class Coercions {
 
     /**
      * The coercion to target that applies to v without a coercion (coercions
-     * do not chain), or null.
+     * do not chain), or null.  A generic target's coercions are instantiated
+     * with the target's own static arguments first.
      */
     static SingleFcn coercionFor(FType target, FValue v) {
+        if (target instanceof GenericTypeInstance) {
+            SingleFcn g = genericCoercionFor((GenericTypeInstance) target, v);
+            if (g != null) return g;
+        }
         Fcn lifted = liftedCoercions(target);
         if (lifted == null) return null;
         List<FValue> args = Collections.singletonList(v);
@@ -56,7 +70,7 @@ public final class Coercions {
         if (lifted instanceof GenericFunctionOrMethod) {
             GenericFunctionOrMethod g = (GenericFunctionOrMethod) lifted;
             try {
-                f = EvaluatorBase.inferAndInstantiateGenericFunction(args, g, g.getWithin());
+                f = EvaluatorBase.inferByUnification(args, g, g.getWithin());
             }
             catch (FortressException ex) {
                 return null;
@@ -68,6 +82,140 @@ public final class Coercions {
         }
         List<FValue> fargs = f.fixupArgCount(args);
         return fargs != null && OverloadedFunction.argsMatchTypes(fargs, f.getDomain()) ? f : null;
+    }
+
+    /**
+     * The most specific of the generic target's lifted coercions, each
+     * instantiated with the target's static arguments, that applies to v
+     * without a coercion; or null.
+     */
+    private static SingleFcn genericCoercionFor(GenericTypeInstance target, FValue v) {
+        FTypeGeneric generic = target.getGeneric();
+        String name = NamingCzar.LIFTED_COERCION_PREFIX + generic.getName();
+        Fcn lifted = null;
+        for (Environment e : new Environment[] {((FType) target).getWithin(), generic.getWithin()}) {
+            if (e == null) continue;
+            FValue f = e.getTopLevel().getRootValueNull(name);
+            if (f instanceof Fcn) {
+                lifted = (Fcn) f;
+                break;
+            }
+        }
+        if (lifted == null) return null;
+        List<GenericFunctionOrMethod> generics = new ArrayList<GenericFunctionOrMethod>();
+        if (lifted instanceof OverloadedFunction) {
+            for (Overload o : ((OverloadedFunction) lifted).getOverloads()) {
+                if (o.getFn() instanceof GenericFunctionOrMethod) generics.add((GenericFunctionOrMethod) o.getFn());
+            }
+        } else if (lifted instanceof GenericFunctionOrMethod) {
+            generics.add((GenericFunctionOrMethod) lifted);
+        }
+        List<FType> targs = target.getTypeParams();
+        List<FValue> args = Collections.singletonList(v);
+        SingleFcn best = null;
+        for (GenericFunctionOrMethod g : generics) {
+            if (g.getStaticParams().size() != targs.size()) continue;
+            SingleFcn f;
+            try {
+                f = g.typeApply(targs);
+            }
+            catch (FortressException ex) {
+                continue;
+            }
+            List<FValue> fargs = f.fixupArgCount(args);
+            if (fargs == null || !OverloadedFunction.argsMatchTypes(fargs, f.getDomain())) continue;
+            if (best == null || FTypeTuple.moreSpecificThan(f.getDomain(), best.getDomain())) best = f;
+        }
+        return best;
+    }
+
+    /**
+     * t admits v: v is a t, or converts to t by one coercion (a tuple element
+     * by element).
+     */
+    public static boolean admits(FType t, FValue v) {
+        if (t.typeMatch(v)) return true;
+        if (t instanceof FTypeTuple) {
+            if (!(v instanceof FTuple)) return false;
+            List<FType> types = ((FTypeTuple) t).getTypes();
+            List<FValue> vals = ((FTuple) v).getVals();
+            if (types.size() != vals.size()) return false;
+            for (int j = 0; j < types.size(); j++) {
+                if (types.get(j) instanceof FTypeRest) return false;
+                if (!admits(types.get(j), vals.get(j))) return false;
+            }
+            return true;
+        }
+        return coercionFor(t, v) != null;
+    }
+
+    /**
+     * A value of type c converts to d: d declares a coercion from a supertype
+     * of c.
+     */
+    public static boolean convertsInto(FType c, FType d) {
+        for (FType a : coercionSources(d)) {
+            if (c.subtypeOf(a)) return true;
+        }
+        return false;
+    }
+
+    private static final Map<Environment, List<FType>> coercionTypesByEnv =
+            new IdentityHashMap<Environment, List<FType>>();
+
+    public static synchronized void reset() {
+        coercionTypesByEnv.clear();
+    }
+
+    /**
+     * The non-generic trait and object types named at the top level of e that
+     * declare a coercion.
+     */
+    private static synchronized List<FType> coercionTypes(Environment e) {
+        List<FType> l = coercionTypesByEnv.get(e);
+        if (l != null) return l;
+        l = new ArrayList<FType>();
+        Set<String> seen = new HashSet<String>();
+        for (String s : e.youngestFrame()) {
+            if (!s.startsWith(NamingCzar.LIFTED_COERCION_PREFIX) || !seen.add(s)) continue;
+            FType t;
+            try {
+                t = e.getTypeNull(s.substring(NamingCzar.LIFTED_COERCION_PREFIX.length()));
+            }
+            catch (FortressException ex) {
+                t = null;
+            }
+            if (t instanceof FTraitOrObject && !(t instanceof FTypeGeneric)) l.add(t);
+        }
+        coercionTypesByEnv.put(e, l);
+        return l;
+    }
+
+    /**
+     * The types v converts to by one coercion and is not already of: the
+     * coercions declared at the top level of the library, of within, and of
+     * the component of v's type.
+     */
+    public static List<FType> coercionTargets(FValue v, Environment within) {
+        Set<Environment> envs = new LinkedHashSet<Environment>();
+        Environment library = null;
+        try {
+            library = Driver.getFortressLibrary();
+        }
+        catch (RuntimeException ex) {
+            library = null;
+        }
+        if (library != null) envs.add(library.getTopLevel());
+        if (within != null) envs.add(within.getTopLevel());
+        FType vt = v.type();
+        if (vt instanceof FTraitOrObjectOrGeneric && vt.getWithin() != null) envs.add(vt.getWithin().getTopLevel());
+        List<FType> targets = new ArrayList<FType>();
+        for (Environment e : envs) {
+            for (FType t : coercionTypes(e)) {
+                if (!targets.contains(t) && !t.typeMatch(v) && coercionFor(t, v) != null) targets.add(t);
+            }
+        }
+        return targets;
     }
 
     /**

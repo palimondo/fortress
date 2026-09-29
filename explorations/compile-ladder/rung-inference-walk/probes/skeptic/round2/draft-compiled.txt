@@ -1,0 +1,7 @@
+# the draft on the compiled path (stock compiler; the rung edits nothing of it): fortress compile, then fortress run
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+load 1.36 1.75 1.82; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+compile rc=0
+REACHED
+PASS
+run rc=0

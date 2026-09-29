@@ -1,0 +1,26 @@
+component SkR06
+export Executable
+
+trait TagR[\S\]
+  getter s(): String
+end
+object TagROf[\S\](s0: String) extends TagR[\S\]
+  getter s(): String = s0
+end
+
+trait WideR[\T\]
+  coerce[\S\](x: TagR[\S\]) = WideROf[\T\](x.s)
+  getter s(): String
+end
+object WideROf[\T\](s0: String) extends WideR[\T\]
+  getter s(): String = s0
+end
+
+fR(x: WideR[\ZZ32\]): String = "fR got " || x.s
+
+run(): () = do
+    println(fR(WideROf[\ZZ32\]("direct")))
+    println(fR(TagROf[\String\]("coerced")))
+  end
+
+end

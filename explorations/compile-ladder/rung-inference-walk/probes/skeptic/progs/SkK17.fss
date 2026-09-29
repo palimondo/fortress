@@ -1,0 +1,42 @@
+component SkK17
+export Executable
+
+shw(v: Any): String =
+  typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    v3: NN32 => v3.asString || ":NN32"
+    v4: RR64 => v4.asString || ":RR64"
+    v5: String => v5 || ":String"
+    else => "other"
+  end
+
+trait Aaa excludes { Ccc }
+  coerce(x: Ccc) = AaaOf(x.k)
+  getter n(): ZZ32
+end
+object AaaOf(m: ZZ32) extends Aaa
+  getter n(): ZZ32 = m
+end
+trait Ccc excludes { Aaa }
+  getter k(): ZZ32
+end
+object CccOf(m: ZZ32) extends Ccc
+  getter k(): ZZ32 = m
+end
+kindS(x: Any): String = typecase x of
+    Aaa => "Aaa"
+    Ccc => "Ccc"
+    else => "other"
+  end
+userS[\T\](a: T, b: T): String = kindS(a) " " kindS(b)
+
+run(): () = do
+    z: ZZ32 = 100000
+    w: ZZ64 = widen(200000)
+    u: NN32 = unsigned(7)
+    r: RR64 = 0.5
+    println("userS(AaaOf,CccOf) = " (userS(AaaOf(1), CccOf(2))))
+  end
+
+end

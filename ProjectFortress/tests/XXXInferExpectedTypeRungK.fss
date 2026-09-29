@@ -1,0 +1,27 @@
+component XXXInferExpectedTypeRungK
+export Executable
+
+(*) explorations/compile-ladder/rung-inference-walk/REPORT.md
+
+shownK(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    else => v.asString || " : other"
+  end
+
+object BoxK[\T\](v: T) end
+
+idK[\T\](x: T): T = x
+wrapK[\T\](x: T): BoxK[\T\] = BoxK[\T\](x)
+
+run() = do
+    println("REACHED")
+    i: ZZ64 = idK(3)
+    assert(shownK(i), "3 : ZZ64", "control: a typed binding converts a call's result after the call")
+    a: BoxK[\ZZ64\] = wrapK(3)
+    assert(shownK(a.v), "3 : ZZ64", "the expected type fixes T at a call written f(x), POSITIONS 2026-09-27, the numerics plans, decision 3; var-ref.tex:38-40")
+    println("PASS")
+  end
+
+end

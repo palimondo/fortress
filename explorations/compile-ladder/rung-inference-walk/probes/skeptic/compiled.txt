@@ -1,0 +1,191 @@
+# sk-run compiled 2026-09-29T02:19:15Z; tree 7f8399e45; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.23 9.36 8.08; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+== SkK01  tri(z,u,w)   [ZZ64 each: the narrowest type every argument converts into (answer 8)]
+compile rc=0
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+run rc=1
+== SkK02  tri(u,u,u)   [control: NN32 each]
+compile rc=0
+tri(u,u,u) =  7:NN32   7:NN32   7:NN32
+run rc=0
+== SkK03  tri(z,z,r)   [RR64 each: ZZ32 into RR64 exact (answer 8)]
+compile rc=0
+tri(z,z,r) =  100000:ZZ32   100000:ZZ32   0.5:RR64
+run rc=0
+== SkK04  tri(u,z,r)   [no common conversion target unless NN32 converts into RR64]
+compile rc=0
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+run rc=1
+== SkK05  firstS(z,w)   [result at T = ZZ64: the ZZ32 converted]
+compile rc=0
+firstS(z,w) =  100000:ZZ32
+run rc=0
+== SkK06  mulS(z,w)   [T = ZZ64 under an F-bound: 20000000000:ZZ64]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK06.fss:14:17-23:
+    Integral is undefined.
+File SkK06.fss has 1 error.
+compile rc=255
+Could not load SkK06
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK06.class
+	... 5 more
+run rc=1
+== SkK07  biggerS(z,w)   [T = ZZ64 under StandardTotalOrder: 200000:ZZ64]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK07.fss:21:36-47:
+    Could not check call to function biggerS
+    - [\T extends CompilerAlgebra.StandardTotalOrder[\T\]\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ64).
+File SkK07.fss has 1 error.
+compile rc=255
+Could not load SkK07
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK07.class
+	... 5 more
+run rc=1
+== SkK08  PairS(z,w)   [generic constructor, T = ZZ64]
+compile rc=0
+PairS(z,w) =  100000:ZZ32   200000:ZZ64
+run rc=0
+== SkK09  fillS(CellS[RR64],z,r)   [T fixed by the cell, z converted]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK09.fss:25:42-71:
+    Could not check call to function fillS
+    - [\T extends Object\](CellS[\T\], T, T)->String is not applicable to an argument of type (CellS[\RR64\], ZZ32, RR64).
+File SkK09.fss has 1 error.
+compile rc=255
+Could not load SkK09
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK09.class
+	... 5 more
+run rc=1
+== SkK10  lastS(z,CellS[ZZ64])   [the lone argument before the one that fixes T]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK10.fss:25:40-64:
+    Could not check call to function lastS
+    - [\T extends Object\](T, CellS[\T\])->String is not applicable to an argument of type (ZZ32, CellS[\ZZ64\]).
+File SkK10.fss has 1 error.
+compile rc=255
+Could not load SkK10
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK10.class
+	... 5 more
+run rc=1
+== SkK11  sizedS(z,z)   [a declared ZZ64 parameter of a generic, the ZZ32 converted (row 388)]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK11.fss:21:31-41:
+    Could not check call to function sizedS
+    - [\T extends Object\](T, ZZ64)->String is not applicable to an argument of type (ZZ32, ZZ32).
+File SkK11.fss has 1 error.
+compile rc=255
+Could not load SkK11
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK11.class
+	... 5 more
+run rc=1
+== SkK12  ovS(z,w)   [overloaded generic chosen as today, re-instantiated at ZZ64]
+compile rc=0
+ovS(z,w) =  generic  100000:ZZ32   200000:ZZ64
+run rc=0
+== SkK13  ovS(z,z)   [control: the generic at ZZ32]
+compile rc=0
+ovS(z,z) =  generic  100000:ZZ32   100000:ZZ32
+run rc=0
+== SkK14  ovS(z,"s")   [no declaration: refused]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK14.fss:22:32-41:
+    Could not check call to function ovS
+    - (String, String)->String is not applicable to an argument of type (ZZ32, String).
+    - [\T extends Number\](T, T)->String is not applicable to an argument of type (ZZ32, String).
+File SkK14.fss has 1 error.
+compile rc=255
+Could not load SkK14
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK14.class
+	... 5 more
+run rc=1
+== SkK15  takeW(NarrowS[String])   [row 389 at another type argument]
+compile rc=0
+takeW(NarrowS[String]) =  s
+run rc=0
+== SkK16  takeWZ(NarrowS[ZZ32])   [no coercion from NarrowS[ZZ32] into WideS[ZZ64]: refused]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK16.fss:35:41-66:
+    Could not check call to function takeWZ
+    - WideS[\ZZ64\]->String is not applicable to an argument of type NarrowSOf[\ZZ32\].
+File SkK16.fss has 1 error.
+compile rc=255
+Could not load SkK16
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK16.class
+	... 5 more
+run rc=1
+== SkK17  userS(AaaOf,CccOf)   [a user coercion at a lone parameter]
+compile rc=0
+userS(AaaOf,CccOf) =  Aaa   Ccc
+run rc=0
+== SkK18  userS(CccOf,CccOf)   [control]
+compile rc=0
+userS(CccOf,CccOf) =  Ccc   Ccc
+run rc=0
+== SkK19  varS(z,w)   [varargs over mixed widths]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK19.fss:14:35-39:
+    No such method T._[_].
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK19.fss:14:50-54:
+    No such method T._[_].
+File SkK19.fss has 2 errors.
+compile rc=255
+Could not load SkK19
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK19.class
+	... 5 more
+run rc=1
+== SkK20  tupS((z,w))   [a tuple parameter over mixed widths]
+compile rc=0
+tupS((z,w)) =  100000:ZZ32   200000:ZZ64
+run rc=0
+== SkK21  wrapS(z,w).put(w)   [T only in the result structure and lone]
+compile rc=0
+wrapS(z,w).put(w) =  200000:ZZ64
+run rc=0
+== SkK22  evS(z,u)   [a bound no promotion meets: refused]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK22.fss:21:28-35:
+    Could not check call to function evS
+    - [\T extends ZZ32\](T, T)->String is not applicable to an argument of type (ZZ32, NN32).
+File SkK22.fss has 1 error.
+compile rc=255
+Could not load SkK22
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK22.class
+	... 5 more
+run rc=1
+== SkK23  triQ(Q1,Q2,Q3)   [three sibling objects: the join of three types]
+compile rc=0
+java.lang.NoSuchMethodError
+Caused by: java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.RTTI Union$RTTIc.factory(com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI, com.sun.fortress.compiler.runtimeValues.RTTI)'
+run rc=1
+== SkK24  (a + i)[1]   [row 388 flat-tower consequence]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK24.fss:21:8-11:
+    Array is undefined.
+File SkK24.fss has 1 error.
+compile rc=255
+Could not load SkK24
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK24.class
+	... 5 more
+run rc=1
+== SkK25  (i MAX a)[0]   [row 388 flat-tower consequence]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK25.fss:21:8-11:
+    Array is undefined.
+File SkK25.fss has 1 error.
+compile rc=255
+Could not load SkK25
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK25.class
+	... 5 more
+run rc=1
+== SkK26  (m i)[0,0]   [row 388 flat-tower consequence]
+explorations/compile-ladder/rung-inference-walk/probes/skeptic/progs/SkK26.fss:21:8-11:
+    Array is undefined.
+File SkK26.fss has 1 error.
+compile rc=255
+Could not load SkK26
+java.lang.ClassNotFoundException: IO Exception in reading class file: 
+Caused by: java.io.IOException: Resource not found : SkK26.class
+	... 5 more
+run rc=1
+EXIT=0

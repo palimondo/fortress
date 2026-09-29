@@ -1,0 +1,22 @@
+# the red check: the stand-in whose one change writes the conversion by hand (diff below) must make the harness report the XXX file's missing failure
+25c25
+<     assert(fO(TagOOf[\String\]("coerced")), "coerced", "a generic trait's coercion with its own static parameter converts; conversions-coercions.tex:119-120, :209-211")
+---
+>     assert(fO(WideOOf[\ZZ32\](TagOOf[\String\]("coerced").s)), "coerced", "a generic trait's coercion with its own static parameter converts; conversions-coercions.tex:119-120, :209-211")
+# harness-one 2026-09-29T05:03:46Z; tree 4b2bc9fb2; nproc=4; load 1.06 1.70 1.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/sk2-hs/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0eb8c294e_16
+. interpret tmp/sk2-hs/tests/XXXCoercionOwnStaticRungK 
+REACHED
+PASS
+
+ Missing expected failure 
+F
+Time: 14.249
+There was 1 failure:
+1) tmp/sk2-hs/tests/XXXCoercionOwnStaticRungK(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/sk2-hs/tests/XXXCoercionOwnStaticRungK
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+exit=0

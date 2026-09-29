@@ -1,0 +1,23 @@
+component SkR04
+export Executable
+
+shownR(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    v3: NN32 => v3.asString || ":NN32"
+    v4: RR64 => v4.asString || ":RR64"
+    v5: String => v5 || ":String"
+    else => "other"
+  end
+
+firstR[\T\](a: T, b: T): T = a
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    p = firstR((z, z), (w, w))
+    (p1, p2) = p
+    println("firstR((z, z), (w, w)) = (" || shownR(p1) || "," || shownR(p2) || ")")
+  end
+
+end

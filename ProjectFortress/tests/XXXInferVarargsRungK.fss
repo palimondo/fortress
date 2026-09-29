@@ -1,0 +1,24 @@
+component XXXInferVarargsRungK
+export Executable
+
+(*) explorations/compile-ladder/rung-inference-walk/REPORT.md
+
+shownK(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    else => v.asString || " : other"
+  end
+
+varK[\T\](xs: T...): String = "[" shownK(xs[0]) ", " shownK(xs[1]) "]"
+
+run() = do
+    println("REACHED")
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(varK(z, z), "[3 : ZZ32, 3 : ZZ32]", "control: two ZZ32 arguments keep T = ZZ32")
+    assert(varK(z, w), "[3 : ZZ64, 4 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): a generic call over mixed widths infers the narrowest type both coerce into, through a varargs parameter T...")
+    println("PASS")
+  end
+
+end

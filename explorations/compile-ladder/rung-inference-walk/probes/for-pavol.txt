@@ -1,0 +1,52 @@
+# Rung K (rung-inference-walk): the points this rung does not settle, one per entry, each with its evidence.
+# The reports the batch record's "What comes back to Pavol" names for K (the changed outputs, microGPT, how a
+# lone parameter reads a run-time type, the edit to bestMatchInternal, the instance split) reach him with the
+# landing and are in REPORT.md sections 7, 6 (B, C) and 8, not here.
+
+1. The expected type at a generic result, a divergence the batch record did not foresee. Under walk
+   a: BoxK[\ZZ64\] = wrapK(3) is refused, "RHS expression type BoxK[\Int\] is not assignable to LHS type
+   BoxK[\ZZ64\]", at the base and after rung K (probes/xxx-expected-type.txt; RuleCRun's last line,
+   probes/rulecrun-walk.txt), where the checker under rung I keeps the expected type at a call written f(x)
+   and infers T = ZZ64 (POSITIONS 2026-09-27, the numerics plans, decision 3). The record reads walk's side
+   as covered because "a typed binding already converts after the call"; that holds when the result is the
+   type parameter (a: ZZ64 = idK(3), the test's passing control) and not when it is a generic instance of
+   it, which no coercion converts. Gated as an expected failure, ProjectFortress/tests/XXXInferExpectedTypeRungK.fss:22
+   (home 2, on decision 3 and Specification/basic/expressions/var-ref.tex:38-40); row 510 (505 provisionally). The
+   repair lies outside rung K's files: a typed binding whose right-hand side is a generic call would pass its
+   declared type into that call's inference (LHSEvaluator, BuildEnvironments). Whether walk should carry the
+   expected type at all, and when, is his; rung T's callout that walk applies the same rule from run-time
+   types is inexact on this point, which the gather's check of T's chapter should meet.
+
+2. One more site of walk's coercion code that sets generic declarations aside, left and not measured:
+   Coercions.addSource (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:301-305 since the repair round's reset; :297-301 in the first pass)
+   leaves a generic coerce out of the sources the specificity relation reads, so a choice between two
+   coercions into a generic trait can only be "Ambiguous coercion"; no library, test or microGPT declaration
+   reaches it (every coerce of the one library is a number type's). Named so it is not lost; no row opened.
+
+# Added by the repair round (JUDGE.md section 5, and the judge's third point), 2026-09-29.
+
+3. The reach of answer 8's promotion to user coercions under walk. Rung K's rule converts a user-typed
+   argument through a coercion into another argument's type or supertype: userS[\T\](a: T, b: T) with
+   (AaaOf(1), CccOf(2)), where trait Aaa declares coerce(x: Ccc), runs at T = Aaa with the CccOf converted,
+   where the stock compiled run converts nothing (probes/skeptic/walk-edit.txt:56-57, probes/skeptic/compiled.txt:117-119).
+   Either candidate source yields Aaa by reading: the supertypes of AaaOf(1)
+   (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java:259) and the reverse lookup of
+   the lifted coercions (:260). It matches the record's words for K, "a parameter that stands alone takes the
+   narrowest type its arguments convert into" (explorations/coordinator/CLIMB-BATCH-N.md:1503); rung T's chapter
+   states the general case as "the narrowest of its arguments' types and its bound" (:245); whether rung I's build
+   agrees is the gather's measurement (SkK17 on the merged tree). Unlike row 509, the body sees a different value,
+   not a narrower number instance. The options: leave walk as built and widen the chapter's statement; narrow walk
+   to library or number coercions, a heuristic walk cannot ground, since it cannot tell this call from the same
+   call over variables declared Aaa and Ccc; or record the split beside row 509's. Left as built; reversible.
+
+4. One file outside rung K's list of files, a decision taken by the judge: the cache's reset is called from
+   Init.initializeEverything (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Init.java:17, :44), the
+   team's idiom for every static cache of interpreter objects (Init.java:28-45). The alternative was a cache in
+   Coercions.java that clears itself when the library changes, measured flat (probes/skeptic/heap-summary.txt) but a
+   new idiom. Reversible.
+
+5. A compiled defect measured by K's skeptic gets home 2 in K's repair: a generic call whose lone type parameter
+   joins three types dies with NoSuchMethodError Union$RTTIc.factory(RTTI,RTTI,RTTI). It is gated by
+   ProjectFortress/compiler_tests/XXXUnionOfThreeRungK.fss with UnionOfThreeRungKLink.test beside it, in row 366's
+   shape; row 512 (probes/repair/xxx-union-compiled.txt). The skeptic had recommended home 3; the judge
+   ruled home 2 by row 366's precedent (JUDGE.md section 2, finding 5).

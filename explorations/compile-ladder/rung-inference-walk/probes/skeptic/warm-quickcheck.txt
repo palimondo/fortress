@@ -1,0 +1,6 @@
+# warm-time QuickCheckTest 2026-09-29T02:28:58Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.18 5.90 7.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+base run 1: 53492 ms; load 1.10
+edit run 1: 62672 ms; load 1.12
+base run 2: 63170 ms; load 1.07
+edit run 2: 58933 ms; load 1.16
+EXIT=0

@@ -1,0 +1,89 @@
+# sk-run walk-edit 2026-09-29T02:35:14Z; tree 7f8399e45; home /home/user/fortress-walkinfer; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.99 2.45 5.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=4
+== SkK01  tri(z,u,w)   [ZZ64 each: the narrowest type every argument converts into (answer 8)]
+tri(z,u,w) = 100000:ZZ64 7:ZZ64 200000:ZZ64
+rc=0
+== SkK02  tri(u,u,u)   [control: NN32 each]
+tri(u,u,u) = 7:NN32 7:NN32 7:NN32
+rc=0
+== SkK03  tri(z,z,r)   [RR64 each: ZZ32 into RR64 exact (answer 8)]
+tri(z,z,r) = 100000.0:RR64 100000.0:RR64 0.5:RR64
+rc=0
+== SkK04  tri(u,z,r)   [no common conversion target unless NN32 converts into RR64]
+tri(u,z,r) = 7:NN32 100000:ZZ32 0.5:RR64
+rc=0
+== SkK05  firstS(z,w)   [result at T = ZZ64: the ZZ32 converted]
+firstS(z,w) = 100000:ZZ64
+rc=0
+== SkK06  mulS(z,w)   [T = ZZ64 under an F-bound: 20000000000:ZZ64]
+mulS(z,w) = 20000000000:ZZ64
+rc=0
+== SkK07  biggerS(z,w)   [T = ZZ64 under StandardTotalOrder: 200000:ZZ64]
+biggerS(z,w) = 200000:ZZ64
+rc=0
+== SkK08  PairS(z,w)   [generic constructor, T = ZZ64]
+PairS(z,w) = 100000:ZZ64 200000:ZZ64
+rc=0
+== SkK09  fillS(CellS[RR64],z,r)   [T fixed by the cell, z converted]
+fillS(CellS[RR64],z,r) = 100000.0:RR64 0.5:RR64
+rc=0
+== SkK10  lastS(z,CellS[ZZ64])   [the lone argument before the one that fixes T]
+lastS(z,CellS[ZZ64]) = 100000:ZZ64
+rc=0
+== SkK11  sizedS(z,z)   [a declared ZZ64 parameter of a generic, the ZZ32 converted (row 388)]
+sizedS(z,z) = 100000:ZZ32 100000:ZZ64
+rc=0
+== SkK12  ovS(z,w)   [overloaded generic chosen as today, re-instantiated at ZZ64]
+ovS(z,w) = generic 100000:ZZ64 200000:ZZ64
+rc=0
+== SkK13  ovS(z,z)   [control: the generic at ZZ32]
+ovS(z,z) = generic 100000:ZZ32 100000:ZZ32
+rc=0
+== SkK14  ovS(z,"s")   [no declaration: refused]
+com.sun.fortress.exceptions.ProgramError: tmp/sk/run-walk-edit/SkK14.fss:22:32-41:
+Failed to find any matching overload, args = (100000: ZZ32,"s"), overload = {
+	ovS[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.Stringtmp/sk/run-walk-edit/SkK14.fss:14:1-74
+	ovS(a:FortressLibrary.String,b:FortressLibrary.String):FortressLibrary.String (String,String)->String tmp/sk/run-walk-edit/SkK14.fss:15:1-46}:OverloadedFunction
+tmp/sk/run-walk-edit/SkK14.fss:22:32-41:
+rc=1
+== SkK15  takeW(NarrowS[String])   [row 389 at another type argument]
+takeW(NarrowS[String]) = s
+rc=0
+== SkK16  takeWZ(NarrowS[ZZ32])   [no coercion from NarrowS[ZZ32] into WideS[ZZ64]: refused]
+com.sun.fortress.exceptions.ProgramError: tmp/sk/run-walk-edit/SkK16.fss:35:41-67:
+Unification error: Closure/Constructor for takeWZ param 1 (x:WideS[\ZZ64\]) got arg NarrowSOf[\ZZ32\] of type NarrowSOf[\ZZ32\]
+tmp/sk/run-walk-edit/SkK16.fss:35:41-67:
+rc=1
+== SkK17  userS(AaaOf,CccOf)   [a user coercion at a lone parameter]
+userS(AaaOf,CccOf) = Aaa Aaa
+rc=0
+== SkK18  userS(CccOf,CccOf)   [control]
+userS(CccOf,CccOf) = Ccc Ccc
+rc=0
+== SkK19  varS(z,w)   [varargs over mixed widths]
+varS(z,w) = 100000:ZZ32 200000:ZZ64
+rc=0
+== SkK20  tupS((z,w))   [a tuple parameter over mixed widths]
+tupS((z,w)) = 100000:ZZ32 200000:ZZ64
+rc=0
+== SkK21  wrapS(z,w).put(w)   [T only in the result structure and lone]
+wrapS(z,w).put(w) = 200000:ZZ64
+rc=0
+== SkK22  evS(z,u)   [a bound no promotion meets: refused]
+com.sun.fortress.exceptions.ProgramError: tmp/sk/run-walk-edit/SkK22.fss:21:28-35:
+Unification error: tmp/sk/run-walk-edit/SkK22.fss:14:32:
+Actual type NN32 out of bounds for variable T
+tmp/sk/run-walk-edit/SkK22.fss:21:28-35:
+rc=1
+== SkK23  triQ(Q1,Q2,Q3)   [three sibling objects: the join of three types]
+triQ(Q1,Q2,Q3) = Q1 Q2 Q3
+rc=0
+== SkK24  (a + i)[1]   [row 388 flat-tower consequence]
+(a + i)[1] = 3.25:RR64
+rc=0
+== SkK25  (i MAX a)[0]   [row 388 flat-tower consequence]
+(i MAX a)[0] = 3.0:RR64
+rc=0
+== SkK26  (m i)[0,0]   [row 388 flat-tower consequence]
+(m i)[0,0] = 4.5:RR64
+rc=0
+EXIT=0

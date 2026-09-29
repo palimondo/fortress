@@ -1,4 +1,4 @@
-component XXXCoercionGenericTraitRungC
+component CoercionGenericTraitRungC
 export Executable
 
 (*) explorations/compile-ladder/rung-interp-coercion/REPORT.md

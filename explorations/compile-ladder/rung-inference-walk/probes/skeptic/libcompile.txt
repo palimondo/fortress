@@ -1,0 +1,12 @@
+# the bytecode cache rebuilt in library order on the worktree (tree 7f8399e45) before the compiled runs of compiled.txt; started 2026-09-29T02:06:53Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 6.65 (another rung of the batch on the same cores); openjdk 25.0.4; the times are the clock at each step's start
+== LibraryBuiltin/AnyType.fss 02:06:53
+rc=0
+== LibraryBuiltin/CompilerBuiltin.fss 02:07:14
+rc=0
+== ../Library/CompilerLibrary.fss 02:08:24
+rc=0
+== ../Library/CompilerAlgebra.fss 02:08:59
+rc=0
+== ../Library/CompilerSystem.fss 02:09:03
+rc=0
+EXIT=0

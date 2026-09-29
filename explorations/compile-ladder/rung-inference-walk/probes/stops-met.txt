@@ -1,0 +1,23 @@
+# Rung K (rung-inference-walk): the stops the batch record's intro reserves for Pavol that this rung met.
+
+1. Listed in case the review reads it as met: "an edit to bestMatchInternal beyond the re-instantiation of
+   the declaration its subtyping pass chooses, or to the load-time check, unreported". The edit to
+   bestMatchInternal is reported whole (REPORT.md section 6, decision C): a flag on its signature
+   (OverloadedFunction.java:879), its loop's inference call renamed to today's inference so that its choice
+   stays today's (:898), the winner's generic declaration remembered (:881, :916) and re-instantiated after
+   the loop (:920-927). Its comparison (:912-913) and the load-time check (:416-425, :519-527) are untouched.
+   Lifted by: POSITIONS.md, 2026-09-27, on the stops a batch record reserves for him (reversible; lands and is
+   listed for review); the re-instantiation itself by POSITIONS.md, 2026-09-28, the two decisions of Fable's
+   judgement, decision 1 with the judgement's section 3.
+
+No other reserved stop was met: every changed walk output is accounted for (probes/passes/tests-compare.txt,
+probes/passes/demos-compare.txt), no microGPT value moved (probes/passes/mg-compare.txt), no load-time verdict
+changed, nothing under interpreter/glue/prim/, FIntLiteral.java, the library, the checker or the specification
+was edited.
+
+The repair round (2026-09-29) meets no reserved stop. It edits ProjectFortress/src/com/sun/fortress/interpreter/
+evaluator/Init.java (one import, :17, and Coercions.reset(), :44), a file outside the record's list for K, which no
+reserved stop names and no other rung of the run edits; it adds new files in ProjectFortress/tests/ and
+ProjectFortress/compiler_tests/, none another rung's; the skeptic's 26 programs print under walk what they printed
+before the reset (probes/repair/walk-repair-diff.txt); nothing under interpreter/glue/prim/, FIntLiteral.java, the
+library, the checker or the specification is edited.

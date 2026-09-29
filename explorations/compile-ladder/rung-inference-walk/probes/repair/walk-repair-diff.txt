@@ -1,0 +1,2 @@
+# diff of repair/walk-repair.txt against skeptic/walk-edit.txt after each file's machine line (the skeptic's 26 programs under walk, sk-run.sh walk-edit: the rung's build before the reset, 7f8399e45, and the repair round's, 7d92018b8); 2026-09-29T04:06:06Z
+no difference: all 88 lines after the machine line are equal

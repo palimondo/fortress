@@ -1,0 +1,38 @@
+component SkK15
+export Executable
+
+shw(v: Any): String =
+  typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    v3: NN32 => v3.asString || ":NN32"
+    v4: RR64 => v4.asString || ":RR64"
+    v5: String => v5 || ":String"
+    else => "other"
+  end
+
+trait WideS[\T\] excludes { NarrowS[\T\] }
+  coerce(x: NarrowS[\T\]) = WideSOf[\T\](x.v)
+  getter w(): T
+end
+trait NarrowS[\T\] excludes { WideS[\T\] }
+  getter v(): T
+end
+object WideSOf[\T\](a: T) extends WideS[\T\]
+  getter w(): T = a
+end
+object NarrowSOf[\T\](a: T) extends NarrowS[\T\]
+  getter v(): T = a
+end
+takeW(x: WideS[\String\]): String = x.w
+takeWZ(x: WideS[\ZZ64\]): String = shw(x.w)
+
+run(): () = do
+    z: ZZ32 = 100000
+    w: ZZ64 = widen(200000)
+    u: NN32 = unsigned(7)
+    r: RR64 = 0.5
+    println("takeW(NarrowS[String]) = " (takeW(NarrowSOf[\String\]("s"))))
+  end
+
+end

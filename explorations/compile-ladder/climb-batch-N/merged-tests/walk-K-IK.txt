@@ -1,0 +1,37 @@
+# harness-one 2026-09-29T06:08:18Z; tree 8dc1a74d9; nproc=4; load 1.11 0.97 0.63; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+tmp/gather-N/hk/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ebc73e9b_16
+. interpret tmp/gather-N/hk/tests/CoercionGenericTraitRungC 
+REACHED
+PASS
+ OK (time = 14675ms)
+. interpret tmp/gather-N/hk/tests/XXXCoercionOwnStaticRungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/hk/tests/XXXCoercionOwnStaticRungK.fss:25:12-41:
+ OK Saw expected exception
+. interpret tmp/gather-N/hk/tests/XXXNatValueNN32RungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/hk/tests/XXXNatValueNN32RungK.fss:19:3-10:
+ OK Saw expected exception
+. interpret tmp/gather-N/hk/tests/CoercionGenericFnRungC 
+REACHED
+PASS
+ OK (time = 148ms)
+. interpret tmp/gather-N/hk/tests/InferCoercionRungK 
+PASS
+ OK (time = 400ms)
+. interpret tmp/gather-N/hk/tests/XXXInferExpectedTypeRungK 
+REACHED
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/gather-N/hk/tests/XXXInferExpectedTypeRungK.fss:22:5-20:
+ OK Saw expected exception
+. interpret tmp/gather-N/hk/tests/XXXInferVarargsRungK 
+REACHED
+FAIL: J20/0:[3 : ZZ32, 4 : ZZ64] =/= J20/0:[3 : ZZ64, 4 : ZZ64]; answer 8 (POSITIONS 2026-09-26): a generic call over mixed widths infers the narrowest type both coerce into, through a varargs parameter T...
+FortressException: FailCalled
+ OK Saw expected exception
+
+Time: 15.934
+
+OK (7 tests)
+
+exit=0

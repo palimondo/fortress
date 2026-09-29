@@ -1,0 +1,30 @@
+component XXXNatValueNN32RungK
+export Executable
+
+(*) explorations/compile-ladder/rung-inference-walk/REPORT.md
+
+shownK(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    NN32 => v.asString || " : NN32"
+    else => v.asString || " : other"
+  end
+
+asZZ32K[\nat n\](): ZZ32 = do
+  z: ZZ32 = n
+  z
+end
+
+asNN32K[\nat n\](): NN32 = do
+  u: NN32 = n
+  u
+end
+
+run() = do
+    println("REACHED")
+    assert(shownK(asZZ32K[\3\]()), "3 : ZZ32", "control: a nat parameter used as a value at a ZZ32 binding")
+    assert(shownK(asNN32K[\3\]()), "3 : NN32", "row 486: a nat parameter used as a value at an NN32 binding; trait-parameters.tex:83-86, a size used as a value (POSITIONS 2026-09-28)")
+    println("PASS")
+  end
+
+end
