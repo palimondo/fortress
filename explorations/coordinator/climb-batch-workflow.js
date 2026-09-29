@@ -1890,7 +1890,7 @@ JSON.stringify(items, null, 2),
 '',
 '    git diff --name-only <before> <after>',
 '',
-'and return both hashes and every path that command prints which is NOT under explorations/. If that list is non-empty the gate must be run again on your result, and the script uses your answer to decide. Keep your own fixes inside explorations/ wherever you can; if a correction genuinely needs a source file, make it and report it rather than leaving it.',
+'and return both hashes and every path that command prints which is NOT under explorations/. If that list is non-empty the gate may have to run again on your result, and the script decides from your answer. Keep your own fixes inside explorations/ wherever you can; if a correction genuinely needs a source file, make it and report it rather than leaving it.',
 '',
 'Second: do not touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/, which are the gate\'s, and retry a git command that fails on index.lock.',
 '',
@@ -2163,7 +2163,39 @@ const GATE_SCHEMA = {
   required: ['green', 'failing', 'stopped', 'summary'],
 }
 
-function mergedRepairRole(decision, kind) {
+// Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate after a repair that only
+// added tests): a repair on the merged tree that changes no source, library,
+// checker, interpreter or specification file does not rerun the gate. It runs the
+// test files it added or changed in the harness, the gate's own JUnit mechanics
+// for those files, and the first gate's tables stand. A test file is a .fss, .fsi
+// or .test file directly in one of the corpora the harness reads, the directories
+// named tests or ending in _tests under ProjectFortress/ (FileTests reads them flat).
+const TEST_FILE = /^ProjectFortress\/(tests|[A-Za-z_]+_tests)\/[^/]+\.(fss|fsi|test)$/
+const repoPath = (p) => p.trim().replace(/^\.\//, '')
+const codePathsOf = (paths) => strings(paths).map(repoPath).filter(p => !p.startsWith('explorations/') && !TEST_FILE.test(p))
+const testPathsOf = (paths) => strings(paths).map(repoPath).filter(p => TEST_FILE.test(p))
+
+function repairTestsStep(kind, failing) {
+  return [
+'',
+'## Your tests, and whether the gate runs again',
+'',
+'Record the hash HEAD is at before your first commit and the hash after your last, and return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from that list whether the whole gate runs again after you (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests). A path outside explorations/ that is not a test file - source, library, checker, interpreter or specification - reruns it, as before. Test files and records only do not: then your runs below are the verification of your tests, the first gate\'s tables stand, and the commit stage records your tests\' lines beside the first gate\'s summary. A test file here is a .fss, .fsi or .test file directly in one of the corpora the harness reads, ProjectFortress/tests/ and the ProjectFortress/*_tests/ directories.',
+'',
+'Every test file you add or change there you run in the harness on the merged tree, placed where the gate reads it, with the gate\'s own JUnit mechanics for that one file, as batch N\'s repair did (explorations/compile-ladder/climb-batch-N/merged-tests/repair-junit-placed.txt): a .test file of compiler_tests/ or library_tests/ through explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> <its directory> <Name.test>..., which runs fortress junit, the harness\'s FileTests.suiteFromListOfFiles, each link test before its XXX run test; an interpreter test of tests/ through explorations/compile-ladder/rung-inference-walk/harness-one.sh <scratch dir under tmp/> <file.fss>..., which runs SystemJUTest, the class testSystem\'s shards run, over a directory holding only the named files with testSystem\'s JVM settings. Capture each run\'s output under ' + BATCH_DIR + '/repair-' + kind + '-tests/ and commit the captures with your tests. In testRuns return one entry per file run: the file, the added or changed test paths that run exercises (a .test and the .fss it names), the summary.txt row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system for tests/), the JUnit cases it adds (the n of OK (n tests) or Tests run: n), its verdict (pass only when the harness printed OK), and the capture\'s path. A test path you changed that no run exercises, or a run that did not pass, reruns the gate.',
+...(kind === 'gate' ? [
+'',
+'The gate was red on these lines:',
+'',
+JSON.stringify(strings(failing), null, 2),
+'',
+'In failingAnswered return one entry per line, in order: the line, and the test file of testRuns whose passing run now answers it, or empty where no run of yours does (an atomic run, the ladder, a suite count, the checker count). The gate does not run again only when every line is answered and your commit changed no path that reruns it.',
+] : []),
+'',
+  ]
+}
+
+function mergedRepairRole(decision, kind, failing) {
   return MAIN_TREE_ROLE + [
 '# Your role: repair on the merged tree (' + kind + ')',
 '',
@@ -2175,8 +2207,8 @@ JSON.stringify(decision, null, 2),
 '',
 (strings(decision && decision.forPavol).length
   ? 'The judge marked these for Pavol. ' + PLAN_RULE + ' The entries go in your commit, and pavolItems lists each by its id.\n\n' + JSON.stringify(numbered('judge-' + kind, decision.forPavol), null, 2) + '\n\n'
-  : '') + 'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you. Do not push.',
-'',
+  : '') + 'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you when the section below says it does. Do not push.',
+...repairTestsStep(kind, failing),
   ].join('\n')
 }
 
@@ -2196,16 +2228,35 @@ function pushHeldBy(landed, review) {
   return own.concat(reviewed)
 }
 
-function commitRole(gather, gate, heldBy) {
+// The repairs whose tests stand beside the gate's summary instead of a second gate
+// (repairRerun): each { kind, runs, answered } as the script kept it.
+function besideStep(beside) {
+  if (!beside.length) return []
+  const cases = [].concat.apply([], beside.map(b => b.runs)).reduce((n, t) => n + (Number(t.cases) || 0), 0)
+  return [
+'1a. The gate below ran on the tree before a repair on the merged tree that changed test files and records only, so it was not run again (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests): its tables stand, and the repair ran its tests in the harness on the merged tree. Record them beside the summary, in the same commit as step 1, so that the next batch\'s comparand is stated honestly: after the gate\'s own lines, append to ' + GATE_DIR + '/summary.txt one line per run below, tab-separated and prefixed "# repair-tests", with the repair\'s kind, the summary row it adds to, its JUnit cases, its verdict, the file and the capture\'s path; then, for each line the gate failed on that the repair answered, a line "# repair-tests answered", the gate\'s line and the file whose run answers it; and last "# repair-tests total" with ' + cases + ', the cases these runs add, by which every count the next gate reads rises beyond this summary\'s rows. Do not change the gate\'s own rows. The runs and answers:',
+'',
+JSON.stringify(beside, null, 2),
+'',
+  ]
+}
+
+function commitRole(gather, gate, heldBy, beside) {
   const held = heldBy.length > 0
+  beside = beside || []
+  const answered = beside.some(b => strings((b.answered || []).map(a => a && a.failing)).length)
+  const tree = beside.length
+    ? 'The gate ran on the tree before a repair of test files and records only and was not run again; its tables stand, ' + (answered ? 'the lines it was red on answered by the repair\'s passing runs' : 'green') + ' (step 1a).'
+    : 'The gate is green on the tree as it stands.'
   return MAIN_TREE_ROLE + [
 '# Your role: commit',
 '',
 held
-  ? 'The gate is green on the tree as it stands. Land it on the local main; the script holds the push (step 3).'
-  : 'The gate is green on the tree as it stands. Land it.',
+  ? tree + ' Land it on the local main; the script holds the push (step 3).'
+  : tree + ' Land it.',
 '',
 '1. Replace every literal <short hash> placeholder in the ledger, FACTS and the handover with the hash of the commit it refers to, from the gather stage\'s result below. Copy the gate\'s outputs into the tree first: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/ - the gate wrote them under tmp/, untracked, so that a run that stops before this stage leaves nothing untracked in the tree, and it committed nothing because the review was committing in this tree at the same time. Then add ' + GATE_DIR + '/summary.txt, ' + GATE_DIR + '/checker-count.txt, ' + GATE_DIR + '/distance.txt and ' + GATE_DIR + '/ladder/ to the same commit, and copy ' + LOG_DIR + '/distance/errors.tsv to ' + GATE_DIR + '/distance-sites.tsv and add it too: the distance stage\'s per-site list, which the next batch\'s count and distance rungs read as their "before" instead of re-running the stage on an unchanged base (POSITIONS.md, 2026-09-28, the entry on rungs re-running measurements). The checker-count and distance tables are the comparands the next batch\'s gate reads, so a batch that lands without them leaves the next gate comparing against older ones. Title it "Record the landed commits\' hashes and the gate summary". grep -rn "<short hash>" explorations/ afterwards must be empty, and the full gate logs under ' + LOG_DIR + '/ are NOT committed and never are.',
+...besideStep(beside),
 '2. Verify every commit since ' + BASE + ' ends with the two footer lines and contains no model identifier (git log ' + BASE + '..HEAD --format=%B), and that every commit whose diff touches a path outside explorations/ carries a historical: line.',
 held
   ? '3. Do NOT push: not main, not ' + CONTAINER_BRANCH + ', no branch. The script holds the push, because landed rungs carry stops that were met and that no decision of Pavol\'s lifts:\n\n' + heldBy.map(h => '- ' + h).join('\n') + '\n\n   Append to ' + BATCH_DIR + '/RECORD.md a paragraph headed "Not pushed." that names each of these stops with its rung and evidence, gives the hash origin/main stays at, and says that the push waits on Pavol, as batch 4\'s and batch 5\'s records did; commit it locally with the footer. The coordinator pushes once he has lifted them.'
@@ -2229,9 +2280,68 @@ JSON.stringify(gate, null, 2),
   ].join('\n')
 }
 
-// The repair on the merged tree returns a worker's result and the items for
-// Pavol it put into PLAN.md.
-const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, { properties: Object.assign({}, RUNG_SCHEMA.properties, { pavolItems: PAVOL_ROUTED }) })
+// The repair on the merged tree returns a worker's result, the items for Pavol it
+// put into PLAN.md, the paths its commits changed and its tests' runs, from which
+// the script decides whether the gate runs again (repairRerun, below).
+const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
+  properties: Object.assign({}, RUNG_SCHEMA.properties, {
+    pavolItems: PAVOL_ROUTED,
+    headBefore: { type: 'string', description: 'the hash HEAD was at before your first commit' },
+    headAfter: { type: 'string', description: 'the hash HEAD is at after your last commit' },
+    pathsChanged: { type: 'array', items: { type: 'string' }, description: 'every path git diff --name-only <headBefore> <headAfter> prints, inside explorations/ or not' },
+    testRuns: { type: 'array', description: 'one entry per test file added or changed outside explorations/, run in the harness on the merged tree; empty if none',
+      items: { type: 'object', properties: {
+        file: { type: 'string', description: 'the file run, as the repository path' },
+        paths: { type: 'array', items: { type: 'string' }, description: 'the added or changed test paths this run exercises' },
+        suite: { type: 'string', description: 'the summary.txt row it adds to: fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system' },
+        cases: { type: 'integer', description: 'the JUnit cases it adds' },
+        verdict: { type: 'string', enum: ['pass', 'fail'], description: 'pass only when the harness printed OK' },
+        capture: { type: 'string', description: 'the path of the captured run' },
+      }, required: ['file', 'paths', 'suite', 'cases', 'verdict', 'capture'] } },
+    failingAnswered: { type: 'array', description: 'the gate\'s repair only: one entry per line of the gate\'s failing list, in order; empty for the review\'s repair',
+      items: { type: 'object', properties: {
+        failing: { type: 'string' },
+        file: { type: 'string', description: 'the testRuns file whose passing run answers it; empty if none does' },
+      }, required: ['failing', 'file'] } },
+  }),
+  required: RUNG_SCHEMA.required.concat(['headBefore', 'headAfter', 'pathsChanged', 'testRuns']),
+})
+
+// Whether the gate runs again after a repair on the merged tree. It does when the
+// repair, or the review's corrections before it (reviewPaths), changed a path
+// outside explorations/ that is not a test file; when a test path they changed is
+// not exercised by a passing run of the repair's; when the second review's
+// corrections, made after the repair's runs (laterPaths), changed any path outside
+// explorations/, as the review's role says; when the repair did not say what it
+// changed; and, after the gate's repair (redGate, the gate it repaired), when the
+// gate's own counts fell or a suite went, when it named no failing line, or when a
+// line it failed on is not answered by a passing run. Otherwise the first gate's
+// tables stand and the repair's runs are recorded beside its summary.
+function repairRerun(repair, reviewPaths, laterPaths, redGate) {
+  if (!repair) return { rerun: true, why: 'the repair returned nothing' }
+  if (!Array.isArray(repair.pathsChanged)) return { rerun: true, why: 'the repair did not list the paths it changed' }
+  const later = strings(laterPaths).map(repoPath).filter(p => !p.startsWith('explorations/'))
+  if (later.length) return { rerun: true, why: 'the second review\'s corrections changed ' + later.join(', ') + ' after the repair\'s runs' }
+  const changed = strings(repair.pathsChanged).concat(strings(reviewPaths))
+  const code = codePathsOf(changed)
+  if (code.length) return { rerun: true, why: 'changed outside explorations/, not a test file: ' + code.join(', ') }
+  const runs = Array.isArray(repair.testRuns) ? repair.testRuns.filter(t => t && typeof t === 'object') : []
+  const passing = runs.filter(t => t.verdict === 'pass')
+  if (passing.length < runs.length) return { rerun: true, why: 'a test run of the repair did not pass: ' + runs.filter(t => t.verdict !== 'pass').map(t => t.file).join(', ') }
+  const exercised = new Set([].concat.apply([], passing.map(t => testPathsOf([t.file].concat(strings(t.paths))))))
+  const unrun = testPathsOf(changed).filter(p => !exercised.has(p))
+  if (unrun.length) return { rerun: true, why: 'test path(s) no passing run of the repair exercises: ' + unrun.join(', ') }
+  const lines = redGate ? strings(redGate.failing) : []
+  if (redGate) {
+    if (strings(redGate.countsDown).length) return { rerun: true, why: 'the gate\'s own counts fell or a suite went: ' + strings(redGate.countsDown).join('; ') }
+    if (!lines.length) return { rerun: true, why: 'the gate was red and named no failing line for the repair to answer' }
+    const answers = Array.isArray(repair.failingAnswered) ? repair.failingAnswered : []
+    const passed = new Set(passing.map(t => repoPath(String(t.file))))
+    const open = lines.filter(l => !answers.some(a => a && String(a.failing).trim() === l.trim() && typeof a.file === 'string' && passed.has(repoPath(a.file))))
+    if (open.length) return { rerun: true, why: 'gate line(s) no passing run of the repair answers: ' + open.join('; ') }
+  }
+  return { rerun: false, runs: passing, answered: lines.length ? repair.failingAnswered : [], why: testPathsOf(changed).length ? 'test files and records only' : 'records only' }
+}
 
 const COMMIT_SCHEMA = {
   type: 'object',
@@ -2411,7 +2521,7 @@ function recoverMergedRepair(kind) {
     'You are in the main tree, ' + MAIN + ', and it need not be clean. Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --stat, ' + BATCH_DIR + '/JUDGE-' + kind + '.md, and ' + BATCH_DIR + '/REPAIR-' + kind + '.md if it exists. A commit after the one that carries JUDGE-' + kind + '.md is the earlier attempt\'s repair, uncommitted edits are its repair in progress, and the tree as you find it is your starting point.',
     'Take the judge\'s instructions one at a time and check each against the tree before acting: an edit already in place is not applied again, an assertion already in a test is not added twice, and a record line already written is not written again. Continue at the first step not done.',
     bgCheck(MAIN),
-    'The role asks for one commit. If the earlier attempt made it already, what you finish goes in one further commit, and your result says so. Do not push.',
+    'The role asks for one commit. If the earlier attempt made it already, what you finish goes in one further commit, and your result says so; headBefore is then the parent of the earlier attempt\'s first commit, so that pathsChanged covers both attempts, and a test run it captured under ' + BATCH_DIR + '/repair-' + kind + '-tests/ on the tree as it still is stands and is not run again. Do not push.',
   ]
 }
 
@@ -2432,7 +2542,7 @@ function recoverGate() {
 // The commit: its local commits, and the push or the held push.
 function recoverCommit(held) {
   return [
-    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "Record the landed commits\' hashes and the gate summary" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit.',
+    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "Record the landed commits\' hashes and the gate summary" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit. If the role has a step 1a and ' + GATE_DIR + '/summary.txt already carries "# repair-tests" lines, they are the earlier attempt\'s: do not copy the gate\'s summary over that file again and do not append them twice.',
     held
       ? 'The push is held. Look for the "Not pushed." paragraph in ' + BATCH_DIR + '/RECORD.md: if the earlier attempt wrote it, do not append it again, and commit it if it is not committed. Push nothing, as the role says.'
       : 'Check what is already pushed: git fetch origin, then git rev-parse HEAD origin/main origin/' + CONTAINER_BRANCH + '. A push the earlier attempt made is not made again; push only what origin lacks. git worktree list and git branch --list "wip/*" show which worktrees and branches step 4 has already removed; confirm that each one left shows nothing ahead of its origin before removing it.',
@@ -2638,8 +2748,10 @@ let gate = await gateRun
 report.gate = gate
 
 // A blocking review means a judge and a repair on the merged tree, and the gate
-// that ran beside it is discarded: the source has changed under it.
+// that ran beside it is discarded when the repair changed code under it; after a
+// repair of tests and records only its tables stand (repairRerun).
 let gateIsStale = !!(review && review.pathsOutsideExplorations && review.pathsOutsideExplorations.length)
+const beside = []   // the repairs whose runs stand beside the gate's summary instead of a second gate
 if (gateIsStale) {
   log('The review\'s corrections touched ' + review.pathsOutsideExplorations.length + ' path(s) outside explorations/ ('
       + review.pathsOutsideExplorations.join(', ') + '); the gate that ran beside it is stale and runs again')
@@ -2652,6 +2764,7 @@ if (reviewBlocks) {
   }
   report.repairReview = await callAgent(PREFIX + mergedRepairRole(decision, 'review'), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
   routers.push(report.repairReview)
+  const firstReviewPaths = strings(review && review.pathsOutsideExplorations)
   review = await callAgent(PREFIX + reviewRole(gather, 'review2', rungItems), { label: 'review2', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
   report.review2 = review
   routers.push(review)
@@ -2667,12 +2780,27 @@ if (reviewBlocks) {
     report.reviewStillBlocking = strings(review.blocking)
     mergedItems.push(...numbered('review2-blocking', review.blocking))
   }
-  gateIsStale = true
+  // Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate after a repair that only
+  // added tests): the gate runs again only when the repair, or the review's
+  // corrections, changed a path outside explorations/ that is not a test file, or
+  // a test path no passing run of the repair's exercised (repairRerun); otherwise
+  // the repair's own runs verify its tests and the first gate's tables stand.
+  const after = repairRerun(report.repairReview, firstReviewPaths, review.pathsOutsideExplorations, null)
+  report.repairReviewRerun = after
+  if (after.rerun) {
+    log('After the review\'s repair the gate runs again: ' + after.why)
+    gateIsStale = true
+  } else {
+    log('The review\'s repair changed ' + after.why + ' (' + after.runs.length + ' test file(s) run in the harness by the repair); by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand')
+    beside.push({ kind: 'review', runs: after.runs, answered: [] })
+    gateIsStale = false
+  }
 }
 
 if (gateIsStale || !gate) {
   gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
   report.gateAfterReview = gate
+  beside.length = 0   // this gate ran on the repaired tree, the repair's tests among its counts
 }
 
 if (!gate || gate.stopped) {
@@ -2686,13 +2814,25 @@ if (!gate.green) {
   if (!decision || decision.decision !== 'repair') {
     return finish({ landed: false, reason: 'gate red, judge did not order a repair' })
   }
-  report.repairGate = await callAgent(PREFIX + mergedRepairRole(decision, 'gate'), { label: 'repair:gate', phase: 'Gate', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
+  report.repairGate = await callAgent(PREFIX + mergedRepairRole(decision, 'gate', gate.failing), { label: 'repair:gate', phase: 'Gate', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
   routers.push(report.repairGate)
-  gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
-  report.gate2 = gate
-  if (!gate || !gate.green) {
-    log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
-    return finish({ landed: false, reason: 'gate red twice' })
+  // The same rule after the gate's repair: when it changed test files and records
+  // only and its passing runs answer every line the gate was red on, the gate is
+  // not run again. A red gate after its repair still stops the batch.
+  const after = repairRerun(report.repairGate, [], [], gate)
+  report.repairGateRerun = after
+  if (after.rerun) {
+    log('After the gate\'s repair the gate runs again: ' + after.why)
+    gate = await callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate2', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
+    report.gate2 = gate
+    beside.length = 0
+    if (!gate || !gate.green) {
+      log('Gate red after one repair: the batch stops here, nothing pushed; the failing tests and the diagnosis are the record')
+      return finish({ landed: false, reason: 'gate red twice' })
+    }
+  } else {
+    log('The gate\'s repair changed ' + after.why + ' and its runs answer the ' + strings(gate.failing).length + ' line(s) the gate was red on; by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand beside the runs')
+    beside.push({ kind: 'gate', runs: after.runs, answered: after.answered })
   }
 }
 
@@ -2707,6 +2847,6 @@ if (notInPlan.length) log('Items for Pavol not in PLAN.md, for the coordinator: 
 
 const heldBy = pushHeldBy(approved, review)
 if (heldBy.length) log('Push held: ' + heldBy.length + ' stop(s) met and not lifted: ' + heldBy.join('; '))
-const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
+const commit = await callAgent(PREFIX + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
-return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy })
+return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, besideGate: beside })

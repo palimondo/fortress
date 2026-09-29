@@ -5,7 +5,10 @@
 // briefing's reasons, one line per key in order; the lists against listsn.py; no backtick or non-ASCII
 // character in any string the agents read; and the whole spliced script run as the body of an async
 // function with the workflow globals stubbed (args, agent, pipeline, log): the first run with every
-// agent approving, the first run with rung I stopping (T must be withheld), and the second run. The
+// agent approving, the first run with rung I stopping (T must be withheld), the second run, and six
+// first runs through the merged-tree repairs (MERGED below: a repair of tests and records only does not
+// rerun the gate and the commit records its runs beside the summary; one that changes source, or leaves a
+// changed test unrun, reruns it; Pavol, 2026-09-29, POSITIONS.md), each against its expected agents. The
 // launch values are unset in the block (the coordinator sets them at launch), so the evaluations and
 // the stubbed runs set LEDGER_FROM to 500 and CHECKER_BASE to 75, placeholders. Nothing is launched.
 // The form is batch 7R's check7r.js with batch 6.5's checks of the reasons and the launch values
@@ -80,6 +83,7 @@ async function stubbedRun(spliced, scenario) {
   const agent = async (prompt, opts) => {
     const L = opts.label
     calls.push({ label: L, prompt })
+    if (scenario.over && scenario.over[L]) return scenario.over[L](calls.filter(c => c.label === L).length)
     if (L.startsWith('rung:') || L.startsWith('resume:') || L.startsWith('repair:')) {
       const id = L.split(':')[1]
       if (L.startsWith('rung:') && scenario.stop === id) return { stopped: true, stopReason: 'stub stop', landed: false, summary: 'stub', stopsMet: [], forPavol: [] }
@@ -102,6 +106,28 @@ async function stubbedRun(spliced, scenario) {
   const result = await new AsyncFunction('args', 'agent', 'pipeline', 'log', body)({ base: 'BASE' }, agent, pipeline, log)
   return { result, calls, logs }
 }
+
+// The merged-tree repairs, stubbed: the review blocks once and its judge orders a repair, or the gate is
+// red once and its judge orders one; the repair returns the paths it changed and its tests' runs.
+const RUN_OK = { file: 'ProjectFortress/compiler_tests/XXXStub.test', paths: ['ProjectFortress/compiler_tests/XXXStub.test', 'ProjectFortress/compiler_tests/XXXStub.fss'], suite: 'fast-compiler/CompilerJUTest', cases: 1, verdict: 'pass', capture: 'explorations/compile-ladder/climb-batch-N/repair-review-tests/stub.txt' }
+const TESTS_ONLY = ['ProjectFortress/compiler_tests/XXXStub.test', 'ProjectFortress/compiler_tests/XXXStub.fss', 'explorations/compile-ladder/climb-batch-N/REPAIR-review.md']
+const repairStub = (paths, runs, answered) => () => ({ landed: true, stopped: false, summary: 'stub', stopsMet: [], forPavol: [], pavolItems: [], headBefore: 'a', headAfter: 'b', pathsChanged: paths, testRuns: runs, failingAnswered: answered || [] })
+const blockingOnce = { review: () => ({ approved: false, blocking: ['stub finding'], pathsOutsideExplorations: [], stopsMet: [], forPavol: [], pavolItems: [] }), 'judge:review': () => ({ decision: 'repair', forPavol: [] }) }
+const redOnce = { gate: () => ({ green: false, failing: ['XXXStub.test: stub'], countsDown: [], stopped: false }), 'judge:gate': () => ({ decision: 'repair', forPavol: [] }) }
+const MERGED = [
+  { name: 'first run, the review blocks, its repair changes tests and records only', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY, [RUN_OK]) }),
+    after: 'gate, review, judge:review, repair:review, review2, commit', step1a: true, landed: true },
+  { name: 'first run, the review blocks, its repair changes a checker source', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY.concat(['ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Stub.scala']), [RUN_OK]) }),
+    after: 'gate, review, judge:review, repair:review, review2, gate:after-review, commit', step1a: false, landed: true },
+  { name: 'first run, the review blocks, its repair adds a test it did not run', run: 'first', over: Object.assign({}, blockingOnce, { 'repair:review': repairStub(TESTS_ONLY, []) }),
+    after: 'gate, review, judge:review, repair:review, review2, gate:after-review, commit', step1a: false, landed: true },
+  { name: 'first run, the review still blocks after a repair of tests only', run: 'first', over: Object.assign({}, blockingOnce, { review2: () => ({ approved: false, blocking: ['stub finding'], pathsOutsideExplorations: [], stopsMet: [], forPavol: [], pavolItems: [] }), 'repair:review': repairStub(TESTS_ONLY, [RUN_OK]) }),
+    after: 'gate, review, judge:review, repair:review, review2, commit', step1a: true, landed: true },
+  { name: 'first run, the gate is red, its repair changes a test only and answers the line', run: 'first', over: Object.assign({}, redOnce, { 'repair:gate': repairStub(TESTS_ONLY, [RUN_OK], [{ failing: 'XXXStub.test: stub', file: RUN_OK.file }]) }),
+    after: 'gate, review, judge:gate, repair:gate, commit', step1a: true, landed: true },
+  { name: 'first run, the gate is red, its repair changes a library source', run: 'first', over: Object.assign({}, redOnce, { 'repair:gate': repairStub(['Library/FortressLibrary.fss'], [], [{ failing: 'XXXStub.test: stub', file: '' }]) }),
+    after: 'gate, review, judge:gate, repair:gate, gate2, commit', step1a: false, landed: true },
+]
 
 async function main() {
   const targets = process.argv.slice(2).length
@@ -152,12 +178,23 @@ async function main() {
       }
       for (const [n, t] of [['intro', r.BATCH_INTRO], ['overlaps', r.BATCH_OVERLAPS]]) if (/[^\x00-\x7f]/.test(t) || /`/.test(t)) { bad++; console.log('  ' + n + ' holds a backtick or non-ASCII') }
     }
-    for (const scenario of [{ name: 'first run, every agent approves', run: 'first' }, { name: 'first run, I stops, its judge rules stop', run: 'first', stop: 'I' }, { name: 'second run, every agent approves', run: 'second' }]) {
+    for (const scenario of [{ name: 'first run, every agent approves', run: 'first' }, { name: 'first run, I stops, its judge rules stop', run: 'first', stop: 'I' }, { name: 'second run, every agent approves', run: 'second' }].concat(MERGED)) {
       const { result, calls, logs } = await stubbedRun(spliced, scenario)
       console.log('stubbed run, ' + scenario.name + ':')
       console.log('  ' + logs[0])
       console.log('  agents in order: ' + calls.map(c => c.label).join(', '))
       console.log('  rungs: ' + result.rungs.map(x => x.rung + ' ' + x.state + (x.withheldReason ? ' (' + x.withheldReason + ')' : '')).join('; ') + '; landed ' + result.landed + (result.reason ? ', reason: ' + result.reason : ''))
+      if (scenario.after) {
+        // The merged-tree stages (Pavol, 2026-09-29, a repair of tests and records only does not rerun the gate)
+        const g = calls.findIndex(c => c.label === 'gather')
+        const got = calls.slice(g + 1).map(c => c.label).join(', ')
+        const k = calls.find(c => c.label === 'commit')
+        const step1a = !!(k && /\n1a\. /.test(k.prompt) && /# repair-tests/.test(k.prompt))
+        const ok = got === scenario.after && step1a === scenario.step1a && result.landed === scenario.landed
+        if (!ok) bad++
+        for (const l of logs.filter(l => /gate runs again|does not run again|still blocks/.test(l))) console.log('  log: ' + l)
+        console.log('  after the gather: ' + got + '; commit step 1a ' + (step1a ? 'present' : 'absent') + (ok ? ', as expected' : ', NOT as expected (' + scenario.after + '; step 1a ' + scenario.step1a + '; landed ' + scenario.landed + ')'))
+      }
       for (const c of calls) {
         const m = /^(rung|skeptic):([IKTMQ])$/.exec(c.label); if (!m) continue
         const keys = renderedKeys(c.prompt)
