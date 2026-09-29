@@ -1,0 +1,437 @@
+######## stock NumMicro 
+# run1 stock NumMicro.fss 2026-09-29T10:32:08Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.66 33.37 26.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+7 is a ZZ32
+3 + 4 = 7
+z = 5 is a ZZ32
+z + 1 = 6
+ZZ32 6
+ZZ64 6
+RR64 6.0
+w = 3000000000
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/NumMicro.fss:21:3-10:
+RHS expression type Long is not assignable to LHS type RR64
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/NumMicro.fss:21:3-10:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/NumMicro.fss:21:3-10:
+toplevel:
+
+rc=1
+######## eq1 NumMicro 
+# run1 eq1 NumMicro.fss 2026-09-29T10:32:59Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.31 33.54 26.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+7 is an IntLiteral
+3 + 4 = 7
+z = 5 is a ZZ32
+z + 1 = 6
+ZZ32 6
+ZZ64 6
+RR64 6.0
+w = 3000000000
+s = 3.0E9
+sum over 0#4 = 6
+0 1 2 3 
+END
+rc=0
+######## stock SiteProbe 
+# run1 stock SiteProbe.fss 2026-09-29T10:33:50Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 32.25 33.10 27.04; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+seq((|x| - 2):0:-1) sums to [6]: 6 : ZZ32
+seq((|x| - 1):-1:-1) sums to [10]: 9 : ZZ32
+seq(3:0:-1) sums to [6]: 6 : ZZ32
+0 MAX (index - 1) [3 : ZZ32]: 3 : ZZ32
+0 MAX ((u - l) + 1) [6 : ZZ32]: 6 : ZZ32
+b MAX 1 [5 : ZZ32]: 5 : ZZ32
+unsigned b MAX 1 [5]: 5 : ZZ64
+zero32() [0 : ZZ32]: 0 : ZZ32
+typecase 7 [IntLiteral]: 7 : ZZ32
+ee(5) [2]: 2
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:54:3-12:
+RHS expression type Long is not assignable to LHS type RR64
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:54:3-12:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:54:3-12:
+toplevel:
+
+rc=1
+######## eq1 SiteProbe 
+# run1 eq1 SiteProbe.fss 2026-09-29T10:34:44Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 32.99 33.24 27.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+seq((|x| - 2):0:-1) sums to [6]: 6 : ZZ32
+seq((|x| - 1):-1:-1) sums to [10]: 9 : ZZ32
+seq(3:0:-1) sums to [6]: 6 : ZZ32
+0 MAX (index - 1) [3 : ZZ32]: 3 : ZZ32
+0 MAX ((u - l) + 1) [6 : ZZ32]: 6 : ZZ32
+b MAX 1 [5 : ZZ32]: 5 : ZZ32
+unsigned b MAX 1 [5]: 5 : NN32
+zero32() [0 : ZZ32]: 0 : ZZ32
+typecase 7 [IntLiteral]: 7 : IntLiteral
+ee(5) [2]: 1
+s: RR64 = 3000000000 [3.0E9 : RR64]: 3.0E9 : RR64
+a: NN32 = 3 [3 : NN32]: 3 : NN32
+a: NN64 = 3 [3 : NN64]: 3 : NN64
+twice(3, 4) [7 : ZZ32]: 7 : ZZ32
+lohi(2, 46) [2 : ZZ32, 46 : ZZ32]: 2 : ZZ32, 46 : ZZ32
+idt(5) [5 : IntLiteral]: 5 : IntLiteral
+widen(0) [0 : ZZ64]: 0 : ZZ64
+3 + 4 [7 : IntLiteral]: 7 : IntLiteral
+2147483647 + 1 [2147483648 : IntLiteral]: 2147483648 : IntLiteral
+empty SUM ZZ32 [0 : ZZ32]: 0 : ZZ32
+empty SUM ZZ64 [0 : ZZ64]: 0 : ZZ64
+empty PROD NN32 [1 : NN32]: 1 : NN32
+untyped numeral binding to a ZZ32 parameter [12 : ZZ32]: 12 : ZZ32
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:72:38-52:
+Failed to find any matching overload, args = (ArrayList[\IntLiteral\]), overload = {
+	BIG +[\T extends AdditiveGroup[\T\]\]():BigReduction[\T,T\]<X>/home-eq1/Library/FortressLibrary.fss:3208:1-3209:43
+	BIG +[\T extends AdditiveGroup[\T\]\](g:Generator[\T\]):T<X>/home-eq1/Library/FortressLibrary.fss:3211:1-3212:49}:OverloadedFunction
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:72:38-52:
+toplevel:
+
+rc=1
+######## r SiteProbe -Dprobe.q.asif=convert -Dprobe.q.tuple=convert -Dprobe.q.varargs=rule
+# run1 r SiteProbe.fss 2026-09-29T10:35:28Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 31.51 32.80 27.57; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+seq((|x| - 2):0:-1) sums to [6]: 6 : ZZ32
+seq((|x| - 1):-1:-1) sums to [10]: 9 : ZZ32
+seq(3:0:-1) sums to [6]: 6 : ZZ32
+0 MAX (index - 1) [3 : ZZ32]: 3 : ZZ32
+0 MAX ((u - l) + 1) [6 : ZZ32]: 6 : ZZ32
+b MAX 1 [5 : ZZ32]: 5 : ZZ32
+unsigned b MAX 1 [5]: 5 : NN32
+zero32() [0 : ZZ32]: 0 : ZZ32
+typecase 7 [IntLiteral]: 7 : IntLiteral
+ee(5) [2]: 1
+s: RR64 = 3000000000 [3.0E9 : RR64]: 3.0E9 : RR64
+a: NN32 = 3 [3 : NN32]: 3 : NN32
+a: NN64 = 3 [3 : NN64]: 3 : NN64
+twice(3, 4) [7 : ZZ32]: 7 : ZZ32
+lohi(2, 46) [2 : ZZ32, 46 : ZZ32]: 2 : ZZ32, 46 : ZZ32
+idt(5) [5 : IntLiteral]: 5 : IntLiteral
+widen(0) [0 : ZZ64]: 0 : ZZ64
+3 + 4 [7 : IntLiteral]: 7 : IntLiteral
+2147483647 + 1 [2147483648 : IntLiteral]: 2147483648 : IntLiteral
+empty SUM ZZ32 [0 : ZZ32]: 0 : ZZ32
+empty SUM ZZ64 [0 : ZZ64]: 0 : ZZ64
+empty PROD NN32 [1 : NN32]: 1 : NN32
+untyped numeral binding to a ZZ32 parameter [12 : ZZ32]: 12 : ZZ32
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:72:38-52:
+Failed to find any matching overload, args = (ArrayList[\IntLiteral\]), overload = {
+	BIG +[\T extends AdditiveGroup[\T\]\]():BigReduction[\T,T\]<X>/home-r/Library/FortressLibrary.fss:3214:1-3215:43
+	BIG +[\T extends AdditiveGroup[\T\]\](g:Generator[\T\]):T<X>/home-r/Library/FortressLibrary.fss:3217:1-3218:49}:OverloadedFunction
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/SiteProbe.fss:72:38-52:
+toplevel:
+
+rc=1
+######## stock O2Pos 
+# run1 stock O2Pos.fss 2026-09-29T10:36:14Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 30.59 32.40 27.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+gg(5, w): gg generic[ZZ32,ZZ64]
+ee(5): 1
+rc=0
+######## eq1 O2Pos 
+# run1 eq1 O2Pos.fss 2026-09-29T10:36:58Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 30.38 32.13 27.82; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+gg(5, w): gg plain[IntLiteral,ZZ64]
+ee(5): 2
+rc=0
+######## stock EqProbe 
+# run1 stock EqProbe.fss 2026-09-29T10:37:43Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.81 31.49 27.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ZZ32 z = 0 [true]: true; z =/= 0 [false]: false; 0 = z [true]: true; z = 1 [false]: false
+ZZ64 w = 0 [true]: true; w =/= 0 [false]: false
+NN32 u = 0 [true]: true; u =/= 0 [false]: false
+NN64 v = 0 [true]: true
+ZZ b = 0 [true]: true
+RR64 r = 0 [true]: true
+QQ q = 0 [true]: true
+0 = 0 [true]: true; 0 = 1 [false]: false
+ZZ32 z = 3000000000 [false]: false; NN32 u = -1 [false]: false
+generic isZero(z) [true]: true; isZero(w) [true]: true; isZero(u) [true]: true
+generic isThree(t) [true]: true
+assert(t, 3, msg):
+  passed
+ZZ32 i = 0 x20000: 1 true, 311 ms
+ZZ32 i = j (control, both ZZ32) x20000: 1 true, 313 ms
+END
+rc=0
+######## eq0m EqProbe 
+# run1 eq0m EqProbe.fss 2026-09-29T10:38:29Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.97 31.16 27.87; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ZZ32 z = 0 [true]: false; z =/= 0 [false]: true; 0 = z [true]: false; z = 1 [false]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ZZ64 w = 0 [true]: false; w =/= 0 [false]: true
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+NN32 u = 0 [true]: false; u =/= 0 [false]: true
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+NN64 v = 0 [true]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ZZ b = 0 [true]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+RR64 r = 0 [true]: true
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+QQ q = 0 [true]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+0 = 0 [true]: true; 0 = 1 [false]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ZZ32 z = 3000000000 [false]: false; NN32 u = -1 [false]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+generic isZero(z) [true]: false; isZero(w) [true]: false; isZero(u) [true]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+generic isThree(t) [true]: false
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+assert(t, 3, msg):
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+ Thread 14: PROBEQ-EXACTVALUE-ELSE
+FAIL: a Int: 3 =/= a IntLiteral: 3; assert(t, 3) with t: ZZ32 = 3
+<X>/home-eq0m/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+<X>/home-eq0m/Library/FortressLibrary.fss:56:5-23:
+<X>/home-eq0m/Library/FortressLibrary.fss:305:9-306:5:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/EqProbe.fss:37:3-46:
+toplevel:
+
+rc=1
+######## eq1 EqProbe 
+# run1 eq1 EqProbe.fss 2026-09-29T10:39:21Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 29.30 30.93 27.97; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ZZ32 z = 0 [true]: true; z =/= 0 [false]: false; 0 = z [true]: true; z = 1 [false]: false
+ZZ64 w = 0 [true]: true; w =/= 0 [false]: false
+NN32 u = 0 [true]: true; u =/= 0 [false]: false
+NN64 v = 0 [true]: true
+ZZ b = 0 [true]: true
+RR64 r = 0 [true]: true
+QQ q = 0 [true]: true
+0 = 0 [true]: true; 0 = 1 [false]: false
+ZZ32 z = 3000000000 [false]: false; NN32 u = -1 [false]: false
+generic isZero(z) [true]: true; isZero(w) [true]: true; isZero(u) [true]: true
+generic isThree(t) [true]: true
+assert(t, 3, msg):
+  passed
+ZZ32 i = 0 x20000: 1 true, 5505 ms
+ZZ32 i = j (control, both ZZ32) x20000: 1 true, 423 ms
+END
+rc=0
+######## eq2 EqProbe 
+# run1 eq2 EqProbe.fss 2026-09-29T10:40:17Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 30.45 30.96 28.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ZZ32 z = 0 [true]: true; z =/= 0 [false]: false; 0 = z [true]: true; z = 1 [false]: false
+ZZ64 w = 0 [true]: true; w =/= 0 [false]: false
+NN32 u = 0 [true]: true; u =/= 0 [false]: false
+NN64 v = 0 [true]: true
+ZZ b = 0 [true]: true
+RR64 r = 0 [true]: true
+QQ q = 0 [true]: true
+0 = 0 [true]: true; 0 = 1 [false]: false
+ZZ32 z = 3000000000 [false]: false; NN32 u = -1 [false]: false
+generic isZero(z) [true]: true; isZero(w) [true]: true; isZero(u) [true]: true
+generic isThree(t) [true]: true
+assert(t, 3, msg):
+  passed
+ZZ32 i = 0 x20000: 1 true, 2084 ms
+ZZ32 i = j (control, both ZZ32) x20000: 1 true, 387 ms
+END
+rc=0
+######## eq3 EqProbe 
+# run1 eq3 EqProbe.fss 2026-09-29T10:41:06Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 29.86 30.78 28.24; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+ZZ32 z = 0 [true]: false; z =/= 0 [false]: true; 0 = z [true]: false; z = 1 [false]: false
+ZZ64 w = 0 [true]: false; w =/= 0 [false]: true
+NN32 u = 0 [true]: false; u =/= 0 [false]: true
+NN64 v = 0 [true]: false
+ZZ b = 0 [true]: false
+RR64 r = 0 [true]: true
+QQ q = 0 [true]: false
+0 = 0 [true]: true; 0 = 1 [false]: false
+ZZ32 z = 3000000000 [false]: false; NN32 u = -1 [false]: false
+generic isZero(z) [true]: false; isZero(w) [true]: false; isZero(u) [true]: false
+generic isThree(t) [true]: false
+assert(t, 3, msg):
+FAIL: a Int: 3 =/= a IntLiteral: 3; assert(t, 3) with t: ZZ32 = 3
+<X>/home-eq3/Library/FortressLibrary.fss:56:5-23:
+FailCalled
+Context:
+<X>/home-eq3/Library/FortressLibrary.fss:56:5-23:
+<X>/home-eq3/Library/FortressLibrary.fss:305:9-306:5:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/EqProbe.fss:37:3-46:
+toplevel:
+
+rc=1
+######## stock RProbe 
+# run1 stock RProbe.fss 2026-09-29T10:41:48Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 29.58 30.57 28.29; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+A widen(1) LSHIFT 40 [1099511627776 : ZZ64]: 1099511627776 : ZZ64
+A z LSHIFT 1 [490 : ZZ32]: 490 : ZZ32
+A z RSHIFT 2 [61 : ZZ32]: 61 : ZZ32
+A w10^2 [100 : ZZ64]: 100 : ZZ64
+A r^2 [2.25 : RR64]: 2.25 : RR64
+A z^2 [60025]: 60025 : ZZ32
+A 1 LSHIFT 3 [8]: 8 : ZZ32
+A big(1) LSHIFT 64 [18446744073709551616 : ZZ]: 18446744073709551616 : ZZ
+B m[0,1] [2.0 : RR64]: 2.0 : RR64
+B (0#3, 0#3) bounds shifted by (2,5): [0,1,2]
+C 0 asif ZZ32 [0 : ZZ32]: 0 : ZZ32
+END
+rc=0
+######## eq1 RProbe 
+# run1 eq1 RProbe.fss 2026-09-29T10:42:34Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 30.04 30.58 28.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/RProbe.fss:25:62-68:
+Failed to find any matching overload, args = (1: ZZ64,40:IntLiteral), overload = {
+	LSHIFT(native LShift)fn meth(self 0):(NN32,AnyIntegral)->NN32 (<X>/home-eq1/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:447:5-448:78)
+	LSHIFT(native LShift)fn meth(self 0):(IntLiteral,AnyIntegral)->IntLiteral (<X>/home-eq1/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:537:5-538:84)
+	LSHIFT(native LShift)fn meth(self 0):(ZZ32,AnyIntegral)->ZZ32 (<X>/home-eq1/Library/FortressLibrary.fss:754:5-755:77)
+	LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):Ifn meth(self 0):(Integral[\ZZ32\],AnyIntegral)->ZZ32 (<X>/home-eq1/Library/FortressLibrary.fss:688:5-36)
+	LSHIFT(native LShift)fn meth(self 0):(ZZ64,AnyIntegral)->ZZ64 (<X>/home-eq1/Library/FortressLibrary.fss:843:5-844:78)
+	LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):Ifn meth(self 0):(Integral[\ZZ64\],AnyIntegral)->ZZ64 (<X>/home-eq1/Library/FortressLibrary.fss:688:5-36)
+	LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):Ifn meth(self 0):(Integral[\NN32\],AnyIntegral)->NN32 (<X>/home-eq1/Library/FortressLibrary.fss:688:5-36)
+	LSHIFT(native LShift)fn meth(self 0):(NN64,AnyIntegral)->NN64 (<X>/home-eq1/Library/FortressLibrary.fss:915:5-916:86)
+	LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):Ifn meth(self 0):(Integral[\NN64\],AnyIntegral)->NN64 (<X>/home-eq1/Library/FortressLibrary.fss:688:5-36)
+	LSHIFT(native LShift)fn meth(self 0):(ZZ,AnyIntegral)->ZZ (<X>/home-eq1/Library/FortressLibrary.fss:1008:5-1009:80)
+	LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):Ifn meth(self 0):(Integral[\ZZ\],AnyIntegral)->ZZ (<X>/home-eq1/Library/FortressLibrary.fss:688:5-36)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].LSHIFT(self:Integral[\I\],b:FortressLibrary.AnyIntegral):I<X>/home-eq1/Library/FortressLibrary.fss:688:5-36}:OverloadedFunction
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/RProbe.fss:25:62-68:
+toplevel:
+
+rc=1
+######## r RProbe -Dprobe.q.asif=convert -Dprobe.q.tuple=convert -Dprobe.q.varargs=rule
+# run1 r RProbe.fss 2026-09-29T10:43:18Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 29.74 30.44 28.46; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+A widen(1) LSHIFT 40 [1099511627776 : ZZ64]: 1099511627776 : ZZ64
+A z LSHIFT 1 [490 : ZZ32]: 490 : ZZ32
+A z RSHIFT 2 [61 : ZZ32]: 61 : ZZ32
+A w10^2 [100 : ZZ64]: 100 : ZZ64
+A r^2 [2.25 : RR64]: 2.25 : RR64
+A z^2 [60025]: 60025 : ZZ32
+A 1 LSHIFT 3 [8]: 8 : IntLiteral
+A big(1) LSHIFT 64 [18446744073709551616 : ZZ]: 18446744073709551616 : ZZ
+B m[0,1] [2.0 : RR64]: 2.0 : RR64
+B (0#3, 0#3) bounds shifted by (2,5): [0,1,2]
+C 0 asif ZZ32 [0 : ZZ32]: 0 : ZZ32
+END
+rc=0
+######## stock ListProbe 
+# run1 stock ListProbe.fss 2026-09-29T10:43:59Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.81 30.13 28.44; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+<|1, 2, 3|>: <|1, 2, 3|> is a List[\ZZ32\]: no; a List[\IntLiteral\]: no
+<|0 asif ZZ32, 1, 2|> is a List[\ZZ32\]: yes
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+RHS expression type ArrayList[\Int\] is not assignable to LHS type List[\ZZ32\]
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+toplevel:
+
+rc=1
+######## eq1 ListProbe 
+# run1 eq1 ListProbe.fss 2026-09-29T10:44:46Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.86 29.92 28.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+<|1, 2, 3|>: <|1, 2, 3|> is a List[\ZZ32\]: no; a List[\IntLiteral\]: yes
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:10:10-19:
+Type of expression, IntLiteral, not a subtype of ZZ32.
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:10:10-19:
+toplevel:
+
+rc=1
+######## r ListProbe -Dprobe.q.asif=convert -Dprobe.q.tuple=convert
+# run1 r ListProbe.fss 2026-09-29T10:45:30Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 32.45 30.70 28.78; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+<|1, 2, 3|>: <|1, 2, 3|> is a List[\ZZ32\]: no; a List[\IntLiteral\]: yes
+<|0 asif ZZ32, 1, 2|> is a List[\ZZ32\]: no
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+RHS expression type ArrayList[\IntLiteral\] is not assignable to LHS type List[\ZZ32\]
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+toplevel:
+
+rc=1
+######## r ListProbe -Dprobe.q.asif=convert -Dprobe.q.tuple=convert -Dprobe.q.varargs=rule
+# run1 r ListProbe.fss 2026-09-29T10:46:08Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 33.47 31.18 29.03; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+<|1, 2, 3|>: <|1, 2, 3|> is a List[\ZZ32\]: no; a List[\IntLiteral\]: yes
+<|0 asif ZZ32, 1, 2|> is a List[\ZZ32\]: yes
+com.sun.fortress.exceptions.ProgramError: <W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+RHS expression type ArrayList[\IntLiteral\] is not assignable to LHS type List[\ZZ32\]
+Context:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+<W>/explorations/compile-ladder/plan-n/probe-q/progs/ListProbe.fss:12:3-18:
+toplevel:
+
+rc=1
+######## eq1 XXXNatValueNN32RungK (the switch as built)
+# run1 eq1 XXXNatValueNN32RungK.fss 2026-09-29T10:46:44Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 33.67 31.53 29.23; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+REACHED
+com.sun.fortress.exceptions.ProgramError: <X>/home-eq1/ProjectFortress/tests/XXXNatValueNN32RungK.fss:19:3-10:
+RHS expression type Int is not assignable to LHS type NN32
+Context:
+<X>/home-eq1/ProjectFortress/tests/XXXNatValueNN32RungK.fss:19:3-10:
+<X>/home-eq1/ProjectFortress/tests/XXXNatValueNN32RungK.fss:19:3-10:
+<X>/home-eq1/ProjectFortress/tests/XXXNatValueNN32RungK.fss:26:19-31:
+######## eq1 XXXNatValueNN32RungK -Dprobe.q.nat=literal (a size used as a value made a numeral, BaseEnv.putNat)
+# run1 eq1 XXXNatValueNN32RungK.fss 2026-09-29T10:47:19Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 31.58 31.24 29.21; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+REACHED
+PASS
+rc=0
+######## done 2026-09-29T10:47:53Z

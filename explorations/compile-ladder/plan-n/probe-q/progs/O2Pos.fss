@@ -1,0 +1,22 @@
+component O2Pos
+export Executable
+(* Which conversions option 2 may leave uncounted. gg's first parameter has a declared type, ZZ32, so
+   a numeral there is converted by coercion resolution, not by the inference of T; ee is row 79's pair
+   (a size arm beside a plain arm over Any), whose ee(5) rung Q's test asserts takes the arm applicable
+   without coercion (CLIMB-BATCH-N.md, rung Q, the test). *)
+gg[\T extends Number\](x: ZZ32, y: T): String = "gg generic[" (typeOf x) "," (typeOf y) "]"
+gg(x: Any, y: Any): String = "gg plain[" (typeOf x) "," (typeOf y) "]"
+ee[\nat n\](x: ZZ32): ZZ32 = 1
+ee(x: Any): ZZ32 = 2
+typeOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    IntLiteral => "IntLiteral"
+    else => "other"
+  end
+run(): () = do
+    w: ZZ64 = 4
+    println("gg(5, w): " gg(5, w))
+    println("ee(5): " ee(5))
+  end
+end

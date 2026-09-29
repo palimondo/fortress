@@ -1,0 +1,75 @@
+(* SiteProbe -- probe Q: the library's numeral sites the record names, as the library writes them,
+   under the switch: the two numeral strides (FortressLibrary.fss:4616, Shuffle.fss:23), 0 MAX
+   (index - 1) (SkipList.fss:310, FortressLibrary.fss:3918-3920), a numeral returned at a declared
+   number type (row 387), the identity functions (answer 7), Q1's default, and rows 79, 432, 437,
+   443 and 454.  Each line prints a value with its run-time type. *)
+component SiteProbe
+import List.{...}
+export Executable
+
+ty(v: Any): String =
+  typecase v of
+    IntLiteral => v.asString || " : IntLiteral"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    RR64 => v.asString || " : RR64"
+    QQ => v.asString || " : QQ"
+    else => v.asString || " : other"
+  end
+
+ee(x: Any): ZZ32 = 1
+ee(x: ZZ32): ZZ32 = 2
+twice[\T extends Integral[\T\]\](a: T, b: T): T = a + b
+lohi[\T extends AnyIntegral\](a: T, b: T): (T, T) = (a, b)
+idt[\T\](x: T): T = x
+zero32(): ZZ32 = 0
+heads(n: ZZ32, blockSize: ZZ32): ZZ32 = n blockSize
+
+run(): () = do
+  x: Array[\ZZ32,ZZ32\] = array[\ZZ32\](5).fill(1)
+  s: ZZ32 := 0
+  for i <- seq((|x| - 2):0:-1) do s := s + i end
+  println("seq((|x| - 2):0:-1) sums to [6]: " ty(s))
+  s := 0
+  for i <- seq((|x| - 1):-1:-1) do s := s + i end
+  println("seq((|x| - 1):-1:-1) sums to [10]: " ty(s))
+  s := 0
+  for i <- seq(3:0:-1) do s := s + i end
+  println("seq(3:0:-1) sums to [6]: " ty(s))
+  index: ZZ32 = 4
+  println("0 MAX (index - 1) [3 : ZZ32]: " ty(0 MAX (index - 1)))
+  u: ZZ32 = 7
+  l: ZZ32 = 2
+  println("0 MAX ((u - l) + 1) [6 : ZZ32]: " ty(0 MAX ((u - l) + 1)))
+  b: ZZ32 = 5
+  println("b MAX 1 [5 : ZZ32]: " ty(b MAX 1))
+  un: NN32 = unsigned(5)
+  println("unsigned b MAX 1 [5]: " ty(un MAX 1))
+  println("zero32() [0 : ZZ32]: " ty(zero32()))
+  println("typecase 7 [IntLiteral]: " ty(7))
+  println("ee(5) [2]: " ee(5))
+  s64: RR64 = 3000000000
+  println("s: RR64 = 3000000000 [3.0E9 : RR64]: " ty(s64))
+  a32: NN32 = 3
+  println("a: NN32 = 3 [3 : NN32]: " ty(a32))
+  a64: NN64 = 3
+  println("a: NN64 = 3 [3 : NN64]: " ty(a64))
+  println("twice(3, 4) [7 : ZZ32]: " ty(twice(3, 4)))
+  (p, q) = lohi(2, 46)
+  println("lohi(2, 46) [2 : ZZ32, 46 : ZZ32]: " ty(p) ", " ty(q))
+  println("idt(5) [5 : IntLiteral]: " ty(idt(5)))
+  println("widen(0) [0 : ZZ64]: " ty(widen(0)))
+  println("3 + 4 [7 : IntLiteral]: " ty(3 + 4))
+  println("2147483647 + 1 [2147483648 : IntLiteral]: " ty(2147483647 + 1))
+  println("empty SUM ZZ32 [0 : ZZ32]: " ty(SUM[\ZZ32\][i <- 0#0] i))
+  println("empty SUM ZZ64 [0 : ZZ64]: " ty(SUM[\ZZ64\][i <- 0#0] widen(i)))
+  println("empty PROD NN32 [1 : NN32]: " ty(PROD[\NN32\][i <- 0#0] unsigned(i)))
+  blockSize = 4
+  println("untyped numeral binding to a ZZ32 parameter [12 : ZZ32]: " ty(heads(3, blockSize)))
+  println("SUM <|1, 2, 3|> [6]: " ty(SUM <|1, 2, 3|>))
+  println("END")
+end
+end

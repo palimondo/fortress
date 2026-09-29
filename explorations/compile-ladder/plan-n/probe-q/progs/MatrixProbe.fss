@@ -1,0 +1,18 @@
+(* MatrixProbe -- probe Q: row 437's walk half, matrix(v) for NN32 and NN64 elements, whose body's
+   fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end returns the numeral 0 at T
+   (Library/FortressLibrary.fss:2750-2751). *)
+component MatrixProbe
+export Executable
+
+run(): () = do
+  i: ZZ32 = 0
+  j: ZZ32 = 1
+  m32 = matrix[\NN32,2,2\](unsigned(3))
+  println("matrix NN32 [3 0; 0 3]: " m32[i,i] " " m32[i,j] " " m32[j,i] " " m32[j,j])
+  m64 = matrix[\NN64,2,2\](widen(unsigned(4)))
+  println("matrix NN64 [4 0; 0 4]: " m64[i,i] " " m64[i,j] " " m64[j,i] " " m64[j,j])
+  mz = matrix[\ZZ32,2,2\](5)
+  println("matrix ZZ32 [5 0; 0 5]: " mz[i,i] " " mz[i,j] " " mz[j,i] " " mz[j,j])
+  println("END")
+end
+end

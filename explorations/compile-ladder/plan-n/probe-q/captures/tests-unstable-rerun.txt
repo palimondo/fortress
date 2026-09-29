@@ -1,0 +1,47 @@
+# probe Q: base A and base B, the switch r and its second run r-b, over probe K's tests that vary on their own whose output moved in the r pass (compare.py unst A B r; then r r-b B), and NatParamOverloading, cut in the first passes and run again alone (A, r)
+start 2026-09-29T12:24:38Z variant: stock props: none (queue.sh, one JVM at a time); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.99 10.82 14.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+UNSTABLE   CovCollTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    Warmup 1 1 76.546582ms
+    B:    Warmup 1 1 24.038038ms
+UNSTABLE   PureListQuick  rc A 0 B 0 edit 0  A/B line 7 (masked: differ); edit equals neither
+    A:    Succeeded in 0.653s
+    B:    Succeeded in 0.796s
+UNSTABLE   ShuffleTest  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    [0#50][ 22 6 3 34 9 7 20 46 26 24 27 17 0 23 14 33 11 41 45 37 49 47 4 21 29 13 43 48 18 10 44 12 31 42 8 1 28 16 15 32 25 19 38 40 36 35 30 39 5 2 ]
+    B:    [0#50][ 31 21 1 27 11 2 48 41 15 46 39 16 32 43 20 34 33 3 6 19 23 47 29 5 38 24 30 35 7 28 42 18 25 36 0 37 4 14 44 13 17 22 26 45 12 49 8 10 40 9 ]
+UNSTABLE   SkipListTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    {[0#1][ Emily ], [0#2][ { [], [{[0#1][ David ], [0#2][ <<Cathy>> <<David>> ]}] } {[0#1][ Nathi ], [0#2][ {[0#1][ John ], [0#2][ <<Emily>> <<John>> ]} {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]} ]}
+    B:    {[0#1][ David ], [0#2][ { [], [{ [], [<<Cathy>>] }] } {[0#1][ John ], [0#2][ {[0#1][ Emily ], [0#2][ <<David>> <<Emily>> ]} {[0#2][ Nathi Paul ], [0#3][ <<John>> <<Nathi>> <<Paul>> ]} ]} ]}
+UNSTABLE   TimingTests  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    fib(1) 0.436411ms
+    B:    fib(1) 0.543314ms
+UNSTABLE   TreapTest  rc A 0 B 0 edit 0  A/B line 3 (masked: differ); edit equals neither
+    A:    Athree
+    B:    Afour
+UNSTABLE   WordCountSmall  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Acquired words in 815.092874ms
+    B:    Acquired words in 742.989275ms
+UNSTABLE   abortBlock  rc A 0 B 0 edit 0  A/B line 13 (masked: differ); edit equals neither
+    A:     Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    B:    .. Thread ForkJoinPool-2-worker-1 operating on value Aborting
+UNSTABLE   buffons  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    estimated Pi = 3.122878479293958
+    B:    estimated Pi = 3.0659767141009056
+UNSTABLE   nestedTransactions1  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 31ms
+    B:    Operation took 21ms
+UNSTABLE   nestedTransactions2  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 54ms
+    B:    Operation took 11ms
+UNSTABLE   nestedTransactions3  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 48ms
+    B:    Operation took 28ms
+UNSTABLE   nestedTransactions4  rc A 0 B 0 edit 0  A/B line 2 (masked: differ); edit equals neither
+    A:    Operation took 22ms
+    B:    Operation took 18ms
+UNSTABLE   quicksortTest  rc A 0 B 0 edit 0  A/B line 1 (masked: differ); edit equals neither
+    A:    random fill 60.474113ms
+    B:    random fill 35.874411ms
+tests 14  same 0  normalised 0  order only 0  changed 0  unstable 14  missing 0  verdicts changed 0
+tests 14  same 0  normalised 0  order only 0  changed 0  unstable 14  missing 0
+tests 1  same 1  normalised 0  order only 0  changed 0  unstable 0  missing 0  verdicts changed 0

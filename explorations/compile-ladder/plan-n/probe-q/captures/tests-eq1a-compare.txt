@@ -1,0 +1,332 @@
+# probe Q: the switch as scoped (variant eq1: the library switch, the numeral case in exactValue, Q1's default and row 387's return conversion; no device A, B, C or F) against the base, every file of ProjectFortress/tests/ (compare.py tests-list.txt A A eq1a --xxx --mask-lib). The first 130 ran from 10:12 UTC two JVMs at a time; the other 310 from 13:14 one at a time (queue.sh)
+start 2026-09-29T10:12:44Z variant: eq1 props: none shards: 2 timeout: 600; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.27 19.91 12.50; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+CHANGED    ArrayListQuick  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayListQuick.fss:79:32-41:
+CHANGED    ArrayOperatorsBesideLibrary  rc 0 -> 1  line 3
+    base: (m + t)[1,0,1] = 12.0
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss:23:29-41:
+CHANGED    ArrayScalarExtension  rc 0 -> 1  line 9
+    base: (m + 1.0)[0,1] = -2.0
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ArrayScalarExtension.fss:32:29-41:
+CHANGED    BadBounds  rc 0 -> 1  line 4
+    base: CompactFullRange2D
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/BadBounds.fss:22:14-28:
+CHANGED    BitTwiddle  rc 0 -> 1  line 1
+    base: ZZ32 OK
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/BitTwiddle.fss:31:11:
+CHANGED    CovCollTest  rc 0 -> 1  line 1
+    base: Warmup 1 1 76.546582ms
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/Timing.fss:21:23-27:
+CHANGED    CovariantTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/CovariantTest.fss:17:33-42:
+CHANGED    FileConversion  rc 0 -> 1  line 1
+    base: CGACGTAGATGCTAGCTGACTCGATGC has 27 charachters 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FileConversion.fss:38:31-40:
+CHANGED    FixedWidthOverflowRungB  rc 0 -> 1  line 2
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FixedWidthOverflowRungB.fss:48:35-37:
+CHANGED    FlatTowerRungF  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/FlatTowerRungF.fss:132:13-19:
+CHANGED    HeapTest  rc 0 -> 1  line 1
+    base: n	n lg n	lbuild	lbuild/n	lbuild/nlgn	lconsume	lconsume/n	lconsume/nlgn	lgen	lgen/n	lgen/nlgn	build	build/n	build/nlgn	consume	consume/n	consume/nlgn	gen	gen/n	gen/nlgn
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/HeapTest.fss:121:33-42:
+CHANGED    InferCoercionRungK  rc 0 -> 1  line 1
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/InferCoercionRungK.fss:65:19-28:
+CHANGED    IntSemanticsRungI  rc 0 -> 1  line 1
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/IntSemanticsRungI.fss:35:12-15:
+CHANGED    ListNullPointer  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ListNullPointer.fss:24:28-39:
+CHANGED    ListTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/ListTest.fss:25:29-38:
+CHANGED    LongStringTests  rc 0 -> 1  line 42
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/LongStringTests.fss:128:13-23:
+CHANGED    MapTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/MapTest.fss:36:60-68:
+CHANGED    NumberPrintTest  rc 0 -> 1  line 4
+    base: ZZ64
+    edit: IntLiteral
+CHANGED    PureListQuick  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/PureListQuick.fss:79:32-41:
+CHANGED    QuickCheckTest  rc 0 -> 1  line 2
+    base: genBoolean: true false false true true false false true true false false true true false true true
+    edit: genBoolean: false false false true false false false false true true false true true false true false
+CHANGED    RandomTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RandomTest.fss:46:33:
+CHANGED    RangePrototype  rc 0 -> 1  line 2
+    base: fullScalarRanges (16)
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RangePrototype.fss:261:40-44:
+CHANGED    RangeZZ32RungJ  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RangeZZ32RungJ.fss:20:13-16:
+CHANGED    RationalTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/RationalTest.fss:699:11-16:
+CHANGED    ReflectTest  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: 42 is not a subtype of ZZ32 but IntLiteral
+CHANGED    ReflectiveQuickCheckTest  rc 0 -> 1  line 4
+    base: Passed 100 test(s).
+    edit: Exception in thread "main" java.lang.BootstrapMethodError: java.lang.BootstrapMethodError: bootstrap method initialization exception
+CHANGED    ResultBoundsRungB  rc 0 -> 1  line 1
+    base: PASS
+    edit: FAIL: a ArrayList[\Int\]: <|11, 12, 13|> =/= a ArrayList[\IntLiteral\]: <|11, 12, 13|>; trait-parameters.tex:53: a list comprehension at an arrow type
+CHANGED    SetTest  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/SetTest.fss:36:22-51:
+CHANGED    ShuffleTest  rc 0 -> 0  line 2
+    base: [0#50][ 22 6 3 34 9 7 20 46 26 24 27 17 0 23 14 33 11 41 45 37 49 47 4 21 29 13 43 48 18 10 44 12 31 42 8 1 28 16 15 32 25 19 38 40 36 35 30 39 5 2 ]
+    edit: [0#50][ 42 25 21 30 35 2 26 14 27 13 16 47 1 28 18 4 40 48 3 24 43 0 15 19 5 31 20 49 34 22 10 32 29 36 17 12 6 38 9 45 44 23 8 39 33 46 37 7 41 11 ]
+CHANGED    SkipListTest  rc 0 -> 0  line 1
+    base: {[0#1][ Emily ], [0#2][ { [], [{[0#1][ David ], [0#2][ <<Cathy>> <<David>> ]}] } {[0#1][ Nathi ], [0#2][ {[0#1][ John ], [0#2][ <<Emily>> <<John>> ]} {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]} ]}
+    edit: {[0#1][ Emily ], [0#2][ { [], [{[0#1][ David ], [0#2][ { [], [<<Cathy>>] } { [], [<<David>>] } ]}] } { [], [{[0#2][ John Nathi ], [0#3][ { [], [<<Emily>>] } { [], [<<John>>] } {[0#1][ Paul ], [0#2][ <<Nathi>> <<Paul>> ]} ]}] } ]}
+CHANGED    StringTests  rc 0 -> 1  line 1
+    base: 
+    edit: Exception in thread "main" java.lang.ClassCastException
+CHANGED    TabulateRungA  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/TabulateRungA.fss:25:46-51:
+CHANGED    TimingTests  rc 0 -> 1  line 1
+    base: fib(1) 0.436411ms
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/Timing.fss:21:23-27:
+CHANGED    TreapTest  rc 0 -> 0  line 3
+    base: Athree
+    edit: Aone
+CHANGED    UnsignedTest  rc 0 -> 1  line 1
+    base: PASS?
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/UnsignedTest.fss:28:39:
+CHANGED    WordCountSmall  rc 0 -> 0  line 2
+    base: Acquired words in 815.092874ms
+    edit: Acquired words in 11731.787272ms
+CHANGED    WrapOperatorsRungD  rc 0 -> 1  line 1
+    base: PASS
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/WrapOperatorsRungD.fss:36:18-20:
+CHANGED    XXXArrayLiteralArgRungC  rc 1 -> 1  line 3
+    base: Failed to find any matching overload, args = (3: ZZ32,(1,2): (Int,Int)), overload = {
+    edit: Failed to find any matching overload, args = (3:IntLiteral,(1:IntLiteral,2:IntLiteral): (IntLiteral,IntLiteral)), overload = {
+CHANGED    XXXAsExpr  rc 1 -> 1  line 2
+    base: The type of expression Int is not a subtype of String.
+    edit: The type of expression IntLiteral is not a subtype of String.
+CHANGED    XXXCoercionReturnRungC  rc 1 -> 0  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXCoercionReturnRungC.fss:24:12-17:
+    edit: PASS
+CHANGED    XXXCoercionStaticRungC  rc 1 -> 1  line 2
+    base: FAIL: a Int: 4 =/= a Int: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:598-635
+    edit: FAIL: a IntLiteral: 4 =/= a IntLiteral: 3; row 19: coercion is resolved statically, so f(c) with c: C calls f(A) though f(B) applies to D without coercion; conversions-coercions.tex:598-635
+CHANGED    XXXCoercionTupleOverloadRungC  rc 1 -> 1  line 3
+    base: Failed to find any matching overload, args = (NarrowOf,11: ZZ32), overload = {
+    edit: Failed to find any matching overload, args = (NarrowOf,11:IntLiteral), overload = {
+CHANGED    XXXEmptyGroupSumRungF  rc 1 -> 1  line 3
+    base: Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0: ZZ32 of type Int
+    edit: Unification error: Closure/Constructor for unlift param 1 (r:M7) got arg 0:IntLiteral of type IntLiteral
+NORMALISED XXXFnRenderRungS  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:4151:42-50:
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:4158:42-50:
+CHANGED    XXXInferExpectedTypeRungK  rc 1 -> 1  line 3
+    base: RHS expression type BoxK[\Int\] is not assignable to LHS type BoxK[\ZZ64\]
+    edit: RHS expression type BoxK[\IntLiteral\] is not assignable to LHS type BoxK[\ZZ64\]
+CHANGED    XXXInheritedOverload  rc 1 -> 1  line 1
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:29:3-28: and
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXInheritedOverload.fss:25:3-28: and
+CHANGED    XXXIntegerMaxNumRungM  rc 1 -> 1  line 2
+    base: Ambiguous coercion, args = (3: ZZ64,1: ZZ32), applicable with coercion = {coerced MAXNUM(self:Integral[\I\],other:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (H/Library/FortressLibrary.fss:L),coerced MAXNUM(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth
+    edit: Ambiguous coercion, args = (3: ZZ64,1:IntLiteral), applicable with coercion = {coerced MAXNUM(self:Integral[\I\],other:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (H/Library/FortressLibrary.fss:L),coerced MAXNUM(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn
+CHANGED    XXXNumeralFloatRungP  rc 1 -> 0  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/XXXNumeralFloatRungP.fss:8:5-12:
+    edit: PASS
+NORMALISED XXXQQPowerExponent  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:617:40-62:
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:620:40-62:
+NORMALISED XXXRadixTenPointNumeral  line 26
+    base: 	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyMethod(MethodClosure.java:86)
+    edit: 	at com.sun.fortress.interpreter.evaluator.values.MethodClosure.applyMethod(MethodClosure.java:88)
+NORMALISED XXXRangeBoundsRungO  line 6
+    base: H/Library/FortressLibrary.fss:3929:54-70:
+    edit: H/Library/FortressLibrary.fss:3936:54-70:
+NORMALISED XXXRangeEmptyHashRungO  line 6
+    base: H/Library/FortressLibrary.fss:3929:54-70:
+    edit: H/Library/FortressLibrary.fss:3936:54-70:
+NORMALISED XXXRangeWideRungJ  line 4
+    base: 	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange H/Library/FortressLibrary.fss:3984:1-45
+    edit: 	:():FortressLibrary.TrivialOpenRange ()->TrivialOpenRange H/Library/FortressLibrary.fss:3991:1-45
+CHANGED    XXXRoundNearTieNumeral  rc 1 -> 1  line 1
+    base: FAIL: a Long: 2 =/= a Int: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:455-457
+    edit: FAIL: a BigNum: 2 =/= a IntLiteral: 3; numeral round(2.50000000000000001) = 3: literals.tex:162-163, numbers.tex:455-457
+NORMALISED XXXTupleSevenRungS  line 2
+    base: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:4151:42-50:
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/FortressLibrary.fss:4158:42-50:
+NORMALISED XXXUnwrittenSumRungF  line 6
+    base: H/Library/FortressLibrary.fss:3144:13-3145:8:
+    edit: H/Library/FortressLibrary.fss:3151:13-3152:8:
+CHANGED    XXXimmutable2  rc 1 -> 1  line 2
+    base: Redefinition of Mutable variable x existing value=ReferenceCell55, second value=1: ZZ32
+    edit: Redefinition of Mutable variable x existing value=ReferenceCell57, second value=1:IntLiteral
+CHANGED    abortBlock  rc 0 -> 0  line 22
+    base: . Thread ForkJoinPool-2-worker-1 operating on value Aborting
+    edit:  Thread ForkJoinPool-2-worker-1 operating on value Aborting
+CHANGED    array3test  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/array3test.fss:21:20-25:
+CHANGED    arrayBig  rc 0 -> 1  line 1
+    base: 1 32
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/arrayBig.fss:83:26-31:
+CHANGED    arrayTest1  rc 0 -> 1  line 1
+    base: 10 11
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/arrayTest1.fss:21:27-32:
+CHANGED    arrayTest2  rc 0 -> 1  line 1
+    base: 111 121 131
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/arrayTest2.fss:28:41-47:
+CHANGED    arrayTest3  rc 0 -> 1  line 1
+    base: 1 2 2
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/arrayTest3.fss:24:37-41:
+CHANGED    arrayWithTrailingSpaces  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/arrayWithTrailingSpaces.fss:19:10-14:
+CHANGED    booleanGuard  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: a ArrayList[\(Int,Int)\]: <|(17,3)|> =/= a ArrayList[\(IntLiteral,IntLiteral)\]: <|(17,3)|>;  Just
+CHANGED    buffons  rc 0 -> 0  line 2
+    base: estimated Pi = 3.122878479293958
+    edit: estimated Pi = 3.2655601659751037
+CHANGED    caseTest  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: Type error in MATCH of Contains
+CHANGED    caseWithSemicolons  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: Type error in MATCH of Contains
+CHANGED    compoundArray  rc 0 -> 1  line 1
+    base: 0.7071067811865475 0.7071067811865475
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/compoundArray.fss:19:43-47:
+CHANGED    disp2  rc 0 -> 0  line 1
+    base: f PASS
+    edit: f FAIL
+CHANGED    fib13  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/fib13.fss:17:31-36:
+CHANGED    intPrim  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/intPrim.fss:43:21-22:
+CHANGED    longPrim  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/longPrim.fss:52:18-25:
+CHANGED    nativeTestFn  rc 0 -> 0  line 7
+    base: testFn 17,wurble
+    edit: testFn 17:IntLiteral,wurble
+CHANGED    nestedTransactions1  rc 0 -> 0  line 2
+    base: Operation took 31ms
+    edit: Operation took 59ms
+CHANGED    nestedTransactions2  rc 0 -> 0  line 2
+    base: Operation took 54ms
+    edit: Operation took 20ms
+CHANGED    nestedTransactions3  rc 0 -> 0  line 2
+    base: Operation took 48ms
+    edit: Operation took 25ms
+CHANGED    nestedTransactions4  rc 0 -> 0  line 2
+    base: Operation took 22ms
+    edit: Operation took 15ms
+CHANGED    quicksortTest  rc 0 -> 1  line 1
+    base: random fill 60.474113ms
+    edit: com.sun.fortress.exceptions.ProgramError: H/Library/Timing.fss:21:23-27:
+CHANGED    rshiftbug  rc 0 -> 1  line 1
+    base: That worked!
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/rshiftbug.fss:23:30:
+CHANGED    setMakerTest0  rc 0 -> 1  line 1
+    base: { 1 2 3 4 10 }
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/setMakerTest0.fss:91:24-33:
+CHANGED    setSum  rc 0 -> 1  line 1
+    base: 
+    edit: FAIL: BC37/1:
+CHANGED    simpleSum  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/simpleSum.fss:34:32:
+CHANGED    spuriousSelf  rc 0 -> 1  line 1
+    base: true
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/spuriousSelf.fss:57:28-37:
+CHANGED    subArray  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/subArray.fss:72:14-17:
+NORMALISED taskTrace2  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@d2d71da
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@1e5e4502
+NORMALISED taskTrace3  line 1
+    base: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@6cfea255
+    edit: Tuple Task: eval = com.sun.fortress.interpreter.evaluator.Evaluator@31b2416f
+CHANGED    tupleInfer  rc 0 -> 1  line 1
+    base: 
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/tupleInfer.fss:22:3-26:5:
+CHANGED    typecaseTest  rc 0 -> 0  line 1
+    base: pass One Two Three pass 3.1415pass 1,3.1415,Hurrahpass 3.1415pass5
+    edit: pass One Two Three pass 3.1415pass 1,3.1415,Hurrahpass 3.1415FAIL
+CHANGED    zeno  rc 0 -> 1  line 1
+    base: mx = 103
+    edit: com.sun.fortress.exceptions.ProgramError: H/ProjectFortress/tests/zeno.fss:73:34-43:
+VERDICT    ArrayListQuick  base A pass, edit FAIL
+VERDICT    ArrayOperatorsBesideLibrary  base A pass, edit FAIL
+VERDICT    ArrayScalarExtension  base A pass, edit FAIL
+VERDICT    BadBounds  base A pass, edit FAIL
+VERDICT    BitTwiddle  base A pass, edit FAIL
+VERDICT    CovCollTest  base A pass, edit FAIL
+VERDICT    CovariantTest  base A pass, edit FAIL
+VERDICT    FileConversion  base A pass, edit FAIL
+VERDICT    FixedWidthOverflowRungB  base A pass, edit FAIL
+VERDICT    FlatTowerRungF  base A pass, edit FAIL
+VERDICT    HeapTest  base A pass, edit FAIL
+VERDICT    InferCoercionRungK  base A pass, edit FAIL
+VERDICT    IntSemanticsRungI  base A pass, edit FAIL
+VERDICT    ListNullPointer  base A pass, edit FAIL
+VERDICT    ListTest  base A pass, edit FAIL
+VERDICT    LongStringTests  base A pass, edit FAIL
+VERDICT    MapTest  base A pass, edit FAIL
+VERDICT    NumberPrintTest  base A pass, edit FAIL
+VERDICT    PureListQuick  base A pass, edit FAIL
+VERDICT    QuickCheckTest  base A pass, edit FAIL
+VERDICT    RandomTest  base A pass, edit FAIL
+VERDICT    RangePrototype  base A pass, edit FAIL
+VERDICT    RangeZZ32RungJ  base A pass, edit FAIL
+VERDICT    RationalTest  base A pass, edit FAIL
+VERDICT    ReflectTest  base A pass, edit FAIL
+VERDICT    ReflectiveQuickCheckTest  base A pass, edit FAIL
+VERDICT    ResultBoundsRungB  base A pass, edit FAIL
+VERDICT    SetTest  base A pass, edit FAIL
+VERDICT    StringTests  base A pass, edit FAIL
+VERDICT    TabulateRungA  base A pass, edit FAIL
+VERDICT    TimingTests  base A pass, edit FAIL
+VERDICT    UnsignedTest  base A pass, edit FAIL
+VERDICT    WrapOperatorsRungD  base A pass, edit FAIL
+VERDICT    XXXCoercionReturnRungC  base A pass, edit FAIL(missing expected failure)
+VERDICT    XXXNumeralFloatRungP  base A pass, edit FAIL(missing expected failure)
+VERDICT    array3test  base A pass, edit FAIL
+VERDICT    arrayBig  base A pass, edit FAIL
+VERDICT    arrayTest1  base A pass, edit FAIL
+VERDICT    arrayTest2  base A pass, edit FAIL
+VERDICT    arrayTest3  base A pass, edit FAIL
+VERDICT    arrayWithTrailingSpaces  base A pass, edit FAIL
+VERDICT    booleanGuard  base A pass, edit FAIL
+VERDICT    caseTest  base A pass, edit FAIL
+VERDICT    caseWithSemicolons  base A pass, edit FAIL
+VERDICT    compoundArray  base A pass, edit FAIL
+VERDICT    disp2  base A pass, edit FAIL
+VERDICT    fib13  base A pass, edit FAIL
+VERDICT    intPrim  base A pass, edit FAIL
+VERDICT    longPrim  base A pass, edit FAIL
+VERDICT    quicksortTest  base A pass, edit FAIL
+VERDICT    rshiftbug  base A pass, edit FAIL
+VERDICT    setMakerTest0  base A pass, edit FAIL
+VERDICT    setSum  base A pass, edit FAIL
+VERDICT    simpleSum  base A pass, edit FAIL
+VERDICT    spuriousSelf  base A pass, edit FAIL
+VERDICT    subArray  base A pass, edit FAIL
+VERDICT    tupleInfer  base A pass, edit FAIL
+VERDICT    typecaseTest  base A pass, edit FAIL
+VERDICT    zeno  base A pass, edit FAIL
+tests 440  same 350  normalised 10  order only 0  changed 80  unstable 0  missing 0  verdicts changed 59
