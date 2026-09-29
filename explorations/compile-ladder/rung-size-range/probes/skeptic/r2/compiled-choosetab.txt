@@ -1,0 +1,23 @@
+# compile-one.sh r2t 2026-09-29T14:12:47Z; tree 0734a3eb4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.80 4.51 3.69; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### R2ChooseTab32 compile
+compile rc=0
+#### R2ChooseTab32 run
+REACHED
+java.lang.ArrayIndexOutOfBoundsException
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 15 out of bounds for length 15
+run rc=1
+#### R2ChooseTab64 compile
+compile rc=0
+#### R2ChooseTab64 run
+REACHED
+java.lang.ArrayIndexOutOfBoundsException
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 32 out of bounds for length 32
+run rc=1
+#### R2ChooseTabN32 compile
+compile rc=0
+#### R2ChooseTabN32 run
+REACHED
+java.lang.ArrayIndexOutOfBoundsException
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 32 out of bounds for length 32
+run rc=1
+EXIT=0

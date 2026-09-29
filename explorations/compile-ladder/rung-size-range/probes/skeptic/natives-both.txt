@@ -1,0 +1,252 @@
+# sk.sh walk 2026-09-29T12:47:56Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.85 5.50 8.04; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatBoth.fss (walk)
+z1 2^31 OVF
+z2 (-2)^31 -2147483648
+z3 46341^2 OVF
+z4 46340^2 2147395600
+z5 3^20 OVF
+z6 (-3)^19 -1162261467
+z7 0^0 1
+z8 (-1)^MAX -1
+z9 (-2)^32 OVF
+z10 2^64 OVF
+c1 65536 CHOOSE 2 2147450880
+c2 65537 CHOOSE 2 OVF
+c3 MAX CHOOSE MAX 1
+c4 34 CHOOSE 16 OVF
+c5 33 CHOOSE 17 1166803110
+c6 1 CHOOSE 2 0
+c7 -1 CHOOSE -1 0
+c8 -5 CHOOSE 2 0
+c9 MAX CHOOSE 2 OVF
+c10 MAX CHOOSE (MAX-1) 2147483647
+c11 5 CHOOSE -1 0
+cl1 3037000500 CHOOSE 2 4611686016981624750
+cl2 2^32 CHOOSE 2 9223372034707292160
+cl3 (2^32+1) CHOOSE 2 OVF
+cl4 66 CHOOSE 33 7219428434016265740
+cl5 67 CHOOSE 33 OVF
+cl6 62 CHOOSE 31 465428353255261088
+cl7 MAX CHOOSE (MAX-1) 9223372036854775807
+cl8 MAX CHOOSE 2 OVF
+cl9 3 CHOOSE -1 0
+cl10 3 CHOOSE 5 0
+n1 2^31 2147483648
+n2 2^32 OVF
+n3 65535^2 4294836225
+n4 65536^2 OVF
+n5 (2^31)^1 2147483648
+n6 (2^31)^2 OVF
+n7 MAX^0 1
+k1 MAX CHOOSE MAX 1
+k2 MAX CHOOSE (MAX-1) 4294967295
+k3 92682 CHOOSE 2 4294930221
+k4 92683 CHOOSE 2 OVF
+k5 2^31 CHOOSE 1 2147483648
+k6 2^31 CHOOSE 2 OVF
+k7 3 CHOOSE 5 0
+u1 2^63 9223372036854775808
+u2 2^64 OVF
+u3 MAX^2 OVF
+u4 (2^32-1)^2 18446744065119617025
+u5 (2^32)^2 OVF
+h1 MAX CHOOSE (MAX-1) 18446744073709551615
+h2 MAX CHOOSE 2 OVF
+h3 2^63 CHOOSE 1 9223372036854775808
+h4 (2^32+1) CHOOSE 2 9223372039002259456
+h5 67 CHOOSE 33 14226520737620288370
+h6 68 CHOOSE 34 OVF
+h7 3 CHOOSE 5 0
+END
+rc=0
+#### SkTryOperand.fss (walk)
+REACHED
+ac
+END
+rc=0
+# sk.sh walkbase 2026-09-29T12:48:08Z; home tmp/baseA-home; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.33 5.53 8.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatBoth.fss (walkbase)
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBoth.fss:3:43-45:
+Overflow of ZZ32 2147483648
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBoth.fss:3:43-45:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBoth.fss:12:25-32:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+# compile-one.sh sknat2 2026-09-29T12:48:14Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.30 5.50 7.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatBoth compile
+compile rc=0
+#### SkNatBoth run
+java.lang.RuntimeException: java.lang.RuntimeException: Overflow Error:
+Caused by: java.lang.RuntimeException: Overflow Error:
+run rc=1
+#### SkTryOperand compile
+compile rc=0
+#### SkTryOperand run
+Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 49
+Exception Details:
+  Location:
+    SkTryOperand.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @45: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @45
+    flags: { }
+    locals: { top, 'fortress/CompilerLibrary$InvalidRange' }
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @49
+    flags: { }
+    locals: { }
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 1236 b800 3cb8 0042 5712 44b8 003c c000
+    0000010: 46b8 0048 a700 1d59 b600 4cc1 002b 9900
+    0000020: 12b6 004c c000 2b4c 124e b800 3ca7 0004
+    0000030: bfc0 0051 b800 554b 2ab8 0042 5712 57b8
+    0000040: 003c b800 42b0                         
+  Exception Handler Table:
+    bci [17, 20] => handler: 23
+  Stackmap Table:
+    same_locals_1_stack_item_frame(@23,Object[#41])
+    same_locals_1_stack_item_frame(@48,Object[#41])
+    full_frame(@49,{},{Object[#70],Object[#70]})
+
+run rc=1
+EXIT=0
+# compile-one.sh sknat3 2026-09-29T12:49:34Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.06 4.86 7.56; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatBoth2 compile
+compile rc=0
+#### SkNatBoth2 run
+z2 (-2)^31 -2147483648
+z4 46340^2 2147395600
+z6 (-3)^19 -1162261467
+z7 0^0 1
+z8 (-1)^MAX -1
+z11 (-3)^21 -2147483648
+z12 (-2)^33 -2147483648
+c1 65536 CHOOSE 2 2147450880
+c2 65537 CHOOSE 2 OVF
+c3 MAX CHOOSE MAX 1
+c4 34 CHOOSE 16 OVF
+c5 33 CHOOSE 17 1166803110
+c6 1 CHOOSE 2 0
+c7 -1 CHOOSE -1 0
+c8 -5 CHOOSE 2 0
+c9 MAX CHOOSE 2 OVF
+c10 MAX CHOOSE (MAX-1) 2147483647
+c11 5 CHOOSE -1 0
+cl1 3037000500 CHOOSE 2 4611686016981624750
+cl2 2^32 CHOOSE 2 9223372034707292160
+cl3 (2^32+1) CHOOSE 2 OVF
+cl4 66 CHOOSE 33 7219428434016265740
+cl5 67 CHOOSE 33 OVF
+cl6 62 CHOOSE 31 465428353255261088
+cl7 MAX CHOOSE (MAX-1) 9223372036854775807
+cl8 MAX CHOOSE 2 OVF
+cl9 3 CHOOSE -1 0
+cl10 3 CHOOSE 5 0
+n1 2^31 2147483647
+n2 2^32 OVF
+n3 65535^2 2147483647
+n4 65536^2 OVF
+n5 (2^31)^1 2147483647
+n6 (2^31)^2 OVF
+n7 MAX^0 1
+k1 MAX CHOOSE MAX 1
+k2 MAX CHOOSE (MAX-1) -1
+k3 92682 CHOOSE 2 -37075
+k4 92683 CHOOSE 2 OVF
+k5 2^31 CHOOSE 1 -2147483648
+k6 2^31 CHOOSE 2 OVF
+k7 3 CHOOSE 5 0
+u1 2^63 65
+u2 2^64 66
+u3 MAX^2 1
+u4 (2^32-1)^2 4294967297
+u5 (2^32)^2 4294967298
+u6 3^2 5
+h1 MAX CHOOSE (MAX-1) 18446744073709551615
+h2 MAX CHOOSE 2 170141183460469231704017187605319778305
+h3 2^63 CHOOSE 1 9223372036854775808
+h4 (2^32+1) CHOOSE 2 9223372039002259456
+h5 67 CHOOSE 33 14226520737620288370
+h6 68 CHOOSE 34 28453041475240576740
+h7 3 CHOOSE 5 0
+END
+run rc=0
+#### SkPowZZ32Ovf compile
+compile rc=0
+#### SkPowZZ32Ovf run
+REACHED
+java.lang.RuntimeException: java.lang.RuntimeException: Overflow Error:
+Caused by: java.lang.RuntimeException: Overflow Error:
+run rc=1
+# sk.sh walk 2026-09-29T12:49:45Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.35 4.86 7.53; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatBoth2.fss (walk)
+z2 (-2)^31 -2147483648
+z4 46340^2 2147395600
+z6 (-3)^19 -1162261467
+z7 0^0 1
+z8 (-1)^MAX -1
+z11 (-3)^21 OVF
+z12 (-2)^33 OVF
+c1 65536 CHOOSE 2 2147450880
+c2 65537 CHOOSE 2 OVF
+c3 MAX CHOOSE MAX 1
+c4 34 CHOOSE 16 OVF
+c5 33 CHOOSE 17 1166803110
+c6 1 CHOOSE 2 0
+c7 -1 CHOOSE -1 0
+c8 -5 CHOOSE 2 0
+c9 MAX CHOOSE 2 OVF
+c10 MAX CHOOSE (MAX-1) 2147483647
+c11 5 CHOOSE -1 0
+cl1 3037000500 CHOOSE 2 4611686016981624750
+cl2 2^32 CHOOSE 2 9223372034707292160
+cl3 (2^32+1) CHOOSE 2 OVF
+cl4 66 CHOOSE 33 7219428434016265740
+cl5 67 CHOOSE 33 OVF
+cl6 62 CHOOSE 31 465428353255261088
+cl7 MAX CHOOSE (MAX-1) 9223372036854775807
+cl8 MAX CHOOSE 2 OVF
+cl9 3 CHOOSE -1 0
+cl10 3 CHOOSE 5 0
+n1 2^31 2147483648
+n2 2^32 OVF
+n3 65535^2 4294836225
+n4 65536^2 OVF
+n5 (2^31)^1 2147483648
+n6 (2^31)^2 OVF
+n7 MAX^0 1
+k1 MAX CHOOSE MAX 1
+k2 MAX CHOOSE (MAX-1) 4294967295
+k3 92682 CHOOSE 2 4294930221
+k4 92683 CHOOSE 2 OVF
+k5 2^31 CHOOSE 1 2147483648
+k6 2^31 CHOOSE 2 OVF
+k7 3 CHOOSE 5 0
+u1 2^63 9223372036854775808
+u2 2^64 OVF
+u3 MAX^2 OVF
+u4 (2^32-1)^2 18446744065119617025
+u5 (2^32)^2 OVF
+u6 3^2 9
+h1 MAX CHOOSE (MAX-1) 18446744073709551615
+h2 MAX CHOOSE 2 OVF
+h3 2^63 CHOOSE 1 9223372036854775808
+h4 (2^32+1) CHOOSE 2 9223372039002259456
+h5 67 CHOOSE 33 14226520737620288370
+h6 68 CHOOSE 34 OVF
+h7 3 CHOOSE 5 0
+END
+rc=0
+#### SkPowZZ32Ovf.fss (walk)
+REACHED
+2^31 on ZZ32, caught as IntegerOverflow: OVF
+END
+rc=0
+EXIT=0

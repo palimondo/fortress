@@ -1,0 +1,17 @@
+# sk.sh walk 2026-09-29T14:12:47Z; home /home/user/fortress-sizerange; tree 0734a3eb4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.80 4.51 3.69; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### R2ChooseTab32.fss (walk)
+REACHED
+ZZ32 34 CHOOSE 17 = OVF
+END
+rc=0
+#### R2ChooseTab64.fss (walk)
+REACHED
+ZZ64 68 CHOOSE 34 = OVF
+END
+rc=0
+#### R2ChooseTabN32.fss (walk)
+REACHED
+NN32 68 CHOOSE 34 = OVF
+END
+rc=0
+EXIT=0

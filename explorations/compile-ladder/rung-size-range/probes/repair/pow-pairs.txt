@@ -1,0 +1,22 @@
+# junit.sh placed 2026-09-29T13:28:47Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.81 2.75 4.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 90d5d8057; build ProjectFortress/build; tests from ProjectFortress/compiler_tests
+. link ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE  OK (time = 4976ms)
+. link ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE  OK (time = 1766ms)
+. link ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE  OK (time = 1772ms)
+. run ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE (966ms) REACHED
+FAIL:  -2147483648 =/= OVF; ZZ32 (-3)^21 throws IntegerOverflow; basic-integers.tex:527-529, opr-overview.tex:154-155
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  -2147483648 =/= OVF; ZZ32 (-3)^21 throws IntegerOverflow; basic-integers.tex:527-529, opr-overview.tex:154-155
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE (1635ms) REACHED
+FAIL:  NN32 2^31 is 2147483648; basic-integers.tex:527-529
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  NN32 2^31 is 2147483648; basic-integers.tex:527-529
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE (722ms) REACHED
+FAIL:  NN64 3^2 is 9; basic-integers.tex:527-529
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  NN64 3^2 is 9; basic-integers.tex:527-529
+Saw expected failure (Exit code != 0)
+
+Time: 11.85
+
+OK (6 tests)
+
+exit=0

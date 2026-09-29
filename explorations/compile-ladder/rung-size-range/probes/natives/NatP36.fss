@@ -1,0 +1,27 @@
+component NatP36
+export Executable
+run() = do
+  twoTo31: NN32 = unsigned(1073741824) + unsigned(1073741824)
+  seven: NN32 = unsigned(7)
+  two: NN32 = unsigned(2)
+  six: NN32 = unsigned(6)
+  four: NN32 = unsigned(4)
+  b16: NN32 = unsigned(65536)
+  b16p: NN32 = unsigned(65537)
+  maxU: NN32 = BITNOT unsigned(0)
+  one: NN32 = unsigned(1)
+  n92682: NN32 = unsigned(92682)
+  n92683: NN32 = unsigned(92683)
+  three: NN32 = unsigned(3)
+  five: NN32 = unsigned(5)
+  m65535: NN32 = unsigned(65535)
+  caseName = "NN32 n92683 CHOOSE two = "
+  r: String = try
+      v = n92683 CHOOSE two
+      v.asString
+    catch e
+      IntegerOverflow => "IntegerOverflow"
+    end
+  println(caseName || r)
+end
+end

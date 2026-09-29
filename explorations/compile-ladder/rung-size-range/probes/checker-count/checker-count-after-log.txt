@@ -1,0 +1,27 @@
+--- checker-count-after 2026-09-29T11:59:42Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 16.26 20.30 24.38 18/358 12496
+openjdk version "25.0.4" 2026-07-21
+FORTRESS_THREADS=1
+#api	errors
+AnyType	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	132
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	18
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+#total	75
+#locations	62
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
+# checker-count: full output /home/user/fortress-sizerange/tmp/cc-after/run.txt, rc=255
+EXIT=0

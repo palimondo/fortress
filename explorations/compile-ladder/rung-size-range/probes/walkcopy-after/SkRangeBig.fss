@@ -1,0 +1,16 @@
+component SkRangeBig
+export Executable
+
+bigFirst[\nat n\](): () = do
+  for x <- seq(n#2) do println("  element " x) end
+end
+
+run(): () = do
+  println("B1 seq(n#2), nat n = 3000000000 (a size above ZZ32's range)")
+  bigFirst[\3000000000\]()
+  println("B3 seq(3000000000#2), the numeral itself")
+  for x <- seq(3000000000#2) do println("  element " x) end
+  println("end")
+end
+
+end

@@ -1,0 +1,67 @@
+component SkRangeEdge2
+export Executable
+show(f: () -> Any): String =
+  try
+    "" || f()
+  catch e
+    IntegerOverflow => "OVF"
+  end
+cnt(mk: () -> Generator[\ZZ32\]): String =
+  try
+    var n: ZZ32 = 0
+    var first: String := "-"
+    var last: String := "-"
+    g = mk()
+    for i <- seq(g) do
+      if n = 0 then first := "" || i end
+      last := "" || i
+      n += 1
+    end
+    n || " [" || first || ".." || last || "]"
+  catch e
+    IntegerOverflow => "OVF"
+  end
+parSum(mk: () -> Generator[\ZZ32\]): String =
+  try
+    g = mk()
+    "" || (SUM[i <- g] widen(i))
+  catch e
+    IntegerOverflow => "OVF"
+  end
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -zMax - 1
+  zero: ZZ32 = 0
+  one: ZZ32 = 1
+  two: ZZ32 = 2
+  mfive: ZZ32 = -5
+  println("q01 seq((MAX-2):MAX) " || cnt(fn () => (zMax - two):zMax))
+  println("q02 seq(MIN:(MIN+2)) " || cnt(fn () => zMin:(zMin + two)))
+  println("q03 seq(MAX:MAX) " || cnt(fn () => zMax:zMax))
+  println("q04 seq((MAX-4):MAX:2) " || cnt(fn () => (zMax - 4):zMax:2))
+  println("q05 seq((MAX-5):MAX:2) " || cnt(fn () => (zMax - 5):zMax:2))
+  println("q06 seq(0:MAX:MAX) " || cnt(fn () => zero:zMax:zMax))
+  println("q07 seq(MAX:0:-MAX) " || cnt(fn () => zMax:zero:(-zMax)))
+  println("q08 seq(0:MIN:MIN) " || cnt(fn () => zero:zMin:zMin))
+  println("q09 seq(-1:MIN:MIN) " || cnt(fn () => (-one):zMin:zMin))
+  println("q10 seq((MIN+4):MIN:-2) " || cnt(fn () => (zMin + 4):zMin:(-2)))
+  println("q11 seq((MIN+5):MIN:-2) " || cnt(fn () => (zMin + 5):zMin:(-2)))
+  println("q12 seq(-3:3:2) " || cnt(fn () => (-3):3:2))
+  println("q13 seq(3:-3:-2) " || cnt(fn () => 3:(-3):(-2)))
+  println("q14 seq(-7:-1:3) " || cnt(fn () => (-7):(-1):3))
+  println("q22 seq((MIN+1):MIN:-1) " || cnt(fn () => (zMin + one):zMin:(-1)))
+  println("q23 seq((MAX-1):MAX:1) " || cnt(fn () => (zMax - one):zMax:1))
+  println("q15 seq(1:0) " || cnt(fn () => one:zero))
+  println("q16 seq(5:1:1) " || cnt(fn () => 5:one:1))
+  println("q17 seq(1:5:-1) " || cnt(fn () => one:5:(-1)))
+  println("q18 seq(MIN#0) " || cnt(fn () => zMin # zero))
+  println("q19 seq((MAX-1)#2) " || cnt(fn () => (zMax - one) # two))
+  println("q20 seq(-2:1:1) " || cnt(fn () => (-two):one:1))
+  println("q21 seq(2:-1:-1) " || cnt(fn () => two:(-one):(-1)))
+  println("p01 SUM (MAX-2):MAX " || parSum(fn () => (zMax - two):zMax))
+  println("p02 SUM MIN:(MIN+2) " || parSum(fn () => zMin:(zMin + two)))
+  println("p03 SUM (MAX-4):MAX:2 " || parSum(fn () => (zMax - 4):zMax:2))
+  println("p04 SUM (MAX-1)#2 " || parSum(fn () => (zMax - one) # two))
+  println("END")
+end
+end

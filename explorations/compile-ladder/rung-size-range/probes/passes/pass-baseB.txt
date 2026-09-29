@@ -1,0 +1,8 @@
+--- baseB 2026-09-29T10:30:08Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 32.79 32.45 25.17 37/477 23494
+FORTRESS_THREADS=unset
+tree: tmp/baseB-home, git archive of 382b9fe7f (Library, ProjectFortress/LibraryBuiltin, tests, test_library, bin, default_repository) with the base build tmp/build-base as its ProjectFortress/build
+start 2026-09-29T10:30:08Z load: 32.79 32.45 25.17 shadow: none

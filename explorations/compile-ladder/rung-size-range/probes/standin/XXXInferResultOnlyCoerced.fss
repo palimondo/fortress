@@ -1,0 +1,38 @@
+(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
+component XXXInferResultOnlyCoerced
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait W2 excludes { N }
+  coerce(x: N) = W2Of(x.n)
+end
+trait W1 extends W2
+  coerce(x: N) = W1Of(x.n)
+end
+object W2Of(k: ZZ32) extends W2 end
+object W1Of(k: ZZ32) extends W1 end
+object BoxT[\T\](v: ZZ32) end
+
+q[\T\](x: W1): BoxT[\T\] = BoxT[\T\](1)
+q(x: W2): Any = "q(W2)"
+
+describe(x: Any): String = typecase x of
+    String => "q(W2)"
+    BoxT[\ZZ32\] => "BoxT[ZZ32]"
+    else => "other"
+  end
+
+run(): () = do
+    println("REACHED")
+    d = describe(q[\ZZ32\](NOf(1)))
+    println("q: " || d)
+    assert(d =/= "", "row 447: the call returns, whichever declaration it takes and whatever T is bound to; Specification/basic/inference.tex:191-196")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,13 @@
+component SkSizeBare2
+export Executable
+object Box[\nat k\](v: ZZ32) end
+bare[\nat k\](b: Box[\k\]): String = do
+  x = k
+  "" || x || " plus one " || (x + 1)
+end
+run(): () = do
+  println("REACHED")
+  println("3000000000: " || bare(Box[\3000000000\](0)))
+  println("END")
+end
+end

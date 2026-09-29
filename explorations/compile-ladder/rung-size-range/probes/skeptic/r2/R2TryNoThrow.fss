@@ -1,0 +1,10 @@
+component R2TryNoThrow
+export Executable
+g(): String = "b"
+run(): () = do
+  println("REACHED")
+  s = "a" || (try g() catch e InvalidRange => "c" end)
+  println("t3 " || s)
+  println("END")
+end
+end

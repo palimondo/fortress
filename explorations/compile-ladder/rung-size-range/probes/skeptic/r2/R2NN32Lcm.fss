@@ -1,0 +1,15 @@
+component R2NN32Lcm
+export Executable
+ln(a: NN32, b: NN32): String = try "" || (a LCM b) catch e IntegerOverflow => "OVF" end
+cn(a: NN32, b: NN32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+pn(a: NN32, b: NN32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  println("n1 65535 LCM 65537 = " || ln(unsigned(65535), unsigned(65537)))
+  println("n2 65536 LCM 65537 = " || ln(unsigned(65536), unsigned(65537)))
+  println("n3 92682 CHOOSE 2 = " || cn(unsigned(92682), unsigned(2)))
+  println("n4 92683 CHOOSE 2 = " || cn(unsigned(92683), unsigned(2)))
+  println("n5 65535^2 = " || pn(unsigned(65535), unsigned(2)))
+  println("n6 65536^2 = " || pn(unsigned(65536), unsigned(2)))
+  println("END")
+end
+end

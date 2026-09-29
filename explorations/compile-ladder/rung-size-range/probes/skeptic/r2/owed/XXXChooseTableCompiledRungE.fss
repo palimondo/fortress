@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
+component XXXChooseTableCompiledRungE
+export Executable
+
+cz(a: ZZ32, b: ZZ32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+cl(a: ZZ64, b: ZZ64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+
+run(): () = do
+    println("REACHED")
+    assert(cz(34, 17), "OVF", "ZZ32 34 CHOOSE 17 throws IntegerOverflow; basic-integers.tex:596-598, opr-overview.tex:154-155")
+    assert(cl(widen(68), widen(34)), "OVF", "ZZ64 68 CHOOSE 34 throws IntegerOverflow; basic-integers.tex:596-598, opr-overview.tex:154-155")
+    println("PASS")
+  end
+
+end

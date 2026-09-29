@@ -1,0 +1,31 @@
+# sk.sh walk 2026-09-29T13:28:54Z; home /home/user/fortress-sizerange; tree 90d5d8057; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.82 2.75 4.06; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### Strided156Only.fss (walk)
+REACHED
+Library/RangeInternals.fss:156:17:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:156:17:
+Library/FortressLibrary.fss:1455:25-27:
+Library/RangeInternals.fss:155:29-45:
+Library/FortressLibrary.fss:1455:25-27:
+Library/RangeInternals.fss:155:13-28:
+Library/RangeInternals.fss:1368:10-50:
+Library/RangeInternals.fss:806:13-49:
+Library/FortressLibrary.fss:4061:51-70:
+explorations/compile-ladder/rung-size-range/probes/repair/Strided156Only.fss:10:16-14:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+# run-harness.sh 2026-09-29T13:29:02Z; tree 90d5d8057; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.70 2.94 4.11; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/h156 ProjectFortress/tests/XXXStridedSpanWalk.fss
+tmp/h156/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ed5ac0a2_16
+. interpret tmp/h156/tests/XXXStridedSpanWalk  OK Saw expected exception
+
+Time: 38.198
+
+OK (1 test)
+
+rc=0

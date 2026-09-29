@@ -1,0 +1,37 @@
+(*) explorations/compile-ladder/rung-overflow-natives/REPORT.md
+
+component SeqRangeTopRungO
+export Executable
+
+run(): () = do
+    println("REACHED")
+    zMax: ZZ32 = 7FFFFFFF_16
+    lMax: ZZ64 = 7FFFFFFFFFFFFFFF_16
+    zLo = zMax - 2
+    narrowTop = seq(zLo:zMax)
+    var narrowCount: ZZ32 = 0
+    for i <- narrowTop do
+        assert(i >= zLo, "ranges.tex:61")
+        narrowCount += 1
+    end
+    assert(narrowCount = 3, "ranges.tex:61")
+    lLo = lMax - widen(2)
+    wideTop = seq(0:2)
+    var wideCount: ZZ32 = 0
+    for k <- wideTop do
+        assert(lLo + widen(k) >= lLo, "ranges.tex:61")
+        wideCount += 1
+    end
+    assert(wideCount = 3, "ranges.tex:61")
+    sLo = zMax - 4
+    stridedTop = seq(sLo:zMax:2)
+    var stridedCount: ZZ32 = 0
+    for i <- stridedTop do
+        assert(i >= sLo, "ranges.tex:61, :68-70")
+        stridedCount += 1
+    end
+    assert(stridedCount = 3, "ranges.tex:61, :68-70")
+    println("PASS")
+  end
+
+end

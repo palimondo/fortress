@@ -1,0 +1,9 @@
+component R2ChooseTab64
+export Executable
+ch(a: ZZ64, b: ZZ64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  println("REACHED")
+  println("ZZ64 68 CHOOSE 34 = " || ch(widen(68), widen(34)))
+  println("END")
+end
+end

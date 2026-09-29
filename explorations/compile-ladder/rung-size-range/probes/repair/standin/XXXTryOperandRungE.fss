@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
+component XXXTryOperandRungE
+export Executable
+
+f(): String = throw InvalidRange
+
+run(): () = do
+    println("REACHED")
+    t = try f() catch e InvalidRange => "c" end
+    s = "a" || t
+    assert(s, "ac", "a try expression's value is its catch clause's; try.tex:56-64")
+    println("PASS")
+  end
+
+end

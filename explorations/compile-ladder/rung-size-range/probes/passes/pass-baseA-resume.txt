@@ -1,0 +1,10 @@
+--- baseA-resume 2026-09-29T11:04:28Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 9.74 11.89 18.87 10/266 14017
+FORTRESS_THREADS=unset
+resumed in tmp/baseA-home, git archive of 382b9fe7f with the base build tmp/build-base; the logs already written in the worktree are kept, the four unfinished removed
+start 2026-09-29T11:04:28Z load: 9.74 11.89 18.87 shadow: none
+done 2026-09-29T11:39:49Z: 444 logs
+EXIT=0

@@ -627,7 +627,7 @@ abstract public class BaseEnv implements Environment, Iterable<String> {
 
     public void putNat(String str, Number f2) {
         putNatRaw(str, f2);
-        putValueRaw(str, FInt.make(f2.intValue()));
+        putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
     }
 
     public void putInt(String str, Number f2) {

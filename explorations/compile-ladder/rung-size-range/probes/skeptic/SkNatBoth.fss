@@ -1,0 +1,81 @@
+component SkNatBoth
+export Executable
+pz(a: ZZ32, b: ZZ32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cz(a: ZZ32, b: ZZ32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+cl(a: ZZ64, b: ZZ64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+pn(a: NN32, b: NN32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cn(a: NN32, b: NN32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+pu(a: NN64, b: NN64): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cu(a: NN64, b: NN64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  maxI: ZZ32 = 2147483647
+  println("z1 2^31 " || pz(2, 31))
+  println("z2 (-2)^31 " || pz(-2, 31))
+  println("z3 46341^2 " || pz(46341, 2))
+  println("z4 46340^2 " || pz(46340, 2))
+  println("z5 3^20 " || pz(3, 20))
+  println("z6 (-3)^19 " || pz(-3, 19))
+  println("z7 0^0 " || pz(0, 0))
+  println("z8 (-1)^MAX " || pz(-1, maxI))
+  println("z9 (-2)^32 " || pz(-2, 32))
+  println("z10 2^64 " || pz(2, 64))
+  println("c1 65536 CHOOSE 2 " || cz(65536, 2))
+  println("c2 65537 CHOOSE 2 " || cz(65537, 2))
+  println("c3 MAX CHOOSE MAX " || cz(maxI, maxI))
+  println("c4 34 CHOOSE 16 " || cz(34, 16))
+  println("c5 33 CHOOSE 17 " || cz(33, 17))
+  println("c6 1 CHOOSE 2 " || cz(1, 2))
+  println("c7 -1 CHOOSE -1 " || cz(-1, -1))
+  println("c8 -5 CHOOSE 2 " || cz(-5, 2))
+  println("c9 MAX CHOOSE 2 " || cz(maxI, 2))
+  println("c10 MAX CHOOSE (MAX-1) " || cz(maxI, maxI - 1))
+  println("c11 5 CHOOSE -1 " || cz(5, -1))
+  maxL: ZZ64 = 9223372036854775807
+  println("cl1 3037000500 CHOOSE 2 " || cl(3037000500, widen(2)))
+  println("cl2 2^32 CHOOSE 2 " || cl(4294967296, widen(2)))
+  println("cl3 (2^32+1) CHOOSE 2 " || cl(4294967297, widen(2)))
+  println("cl4 66 CHOOSE 33 " || cl(widen(66), widen(33)))
+  println("cl5 67 CHOOSE 33 " || cl(widen(67), widen(33)))
+  println("cl6 62 CHOOSE 31 " || cl(widen(62), widen(31)))
+  println("cl7 MAX CHOOSE (MAX-1) " || cl(maxL, maxL - widen(1)))
+  println("cl8 MAX CHOOSE 2 " || cl(maxL, widen(2)))
+  println("cl9 3 CHOOSE -1 " || cl(widen(3), widen(-1)))
+  println("cl10 3 CHOOSE 5 " || cl(widen(3), widen(5)))
+  oneN: NN32 = unsigned(1)
+  twoN: NN32 = unsigned(2)
+  maxN: NN32 = BITNOT unsigned(0)
+  twoTo31N: NN32 = unsigned(1073741824) + unsigned(1073741824)
+  println("n1 2^31 " || pn(twoN, unsigned(31)))
+  println("n2 2^32 " || pn(twoN, unsigned(32)))
+  println("n3 65535^2 " || pn(unsigned(65535), twoN))
+  println("n4 65536^2 " || pn(unsigned(65536), twoN))
+  println("n5 (2^31)^1 " || pn(twoTo31N, oneN))
+  println("n6 (2^31)^2 " || pn(twoTo31N, twoN))
+  println("n7 MAX^0 " || pn(maxN, unsigned(0)))
+  println("k1 MAX CHOOSE MAX " || cn(maxN, maxN))
+  println("k2 MAX CHOOSE (MAX-1) " || cn(maxN, maxN - oneN))
+  println("k3 92682 CHOOSE 2 " || cn(unsigned(92682), twoN))
+  println("k4 92683 CHOOSE 2 " || cn(unsigned(92683), twoN))
+  println("k5 2^31 CHOOSE 1 " || cn(twoTo31N, oneN))
+  println("k6 2^31 CHOOSE 2 " || cn(twoTo31N, twoN))
+  println("k7 3 CHOOSE 5 " || cn(unsigned(3), unsigned(5)))
+  oneU: NN64 = unsigned(widen(1))
+  twoU: NN64 = unsigned(widen(2))
+  maxU: NN64 = BITNOT unsigned(widen(0))
+  twoTo63U: NN64 = unsigned(maxL) + oneU
+  twoTo32U: NN64 = unsigned(widen(65536)) DOT unsigned(widen(65536))
+  println("u1 2^63 " || pu(twoU, unsigned(widen(63))))
+  println("u2 2^64 " || pu(twoU, unsigned(widen(64))))
+  println("u3 MAX^2 " || pu(maxU, twoU))
+  println("u4 (2^32-1)^2 " || pu(twoTo32U - oneU, twoU))
+  println("u5 (2^32)^2 " || pu(twoTo32U, twoU))
+  println("h1 MAX CHOOSE (MAX-1) " || cu(maxU, maxU - oneU))
+  println("h2 MAX CHOOSE 2 " || cu(maxU, twoU))
+  println("h3 2^63 CHOOSE 1 " || cu(twoTo63U, oneU))
+  println("h4 (2^32+1) CHOOSE 2 " || cu(twoTo32U + oneU, twoU))
+  println("h5 67 CHOOSE 33 " || cu(unsigned(widen(67)), unsigned(widen(33))))
+  println("h6 68 CHOOSE 34 " || cu(unsigned(widen(68)), unsigned(widen(34))))
+  println("h7 3 CHOOSE 5 " || cu(unsigned(widen(3)), unsigned(widen(5))))
+  println("END")
+end
+end

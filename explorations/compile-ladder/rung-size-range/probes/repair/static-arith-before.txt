@@ -1,0 +1,173 @@
+# static-arith-before.txt: the files probes/repair/static-arith-grep.py finds (tests and demos; Library/Generator22D.fss through its demo DemoGenerator22D), each under walk on the rung build before the forIntBinaryOp edit
+ProjectFortress/tests/GenericFnWithExcludes.fss:21: n+1
+ProjectFortress/tests/GenericFnWithExcludes.fss:22: m+1
+ProjectFortress/tests/XXXIntBelowZZ32Walk.fss:12: 0 - 2147483649
+ProjectFortress/tests/XXXNatArithProductWalk.fss:12: 4294967296 4294967296
+ProjectFortress/tests/XXXNatArithSumWalk.fss:12: 9223372036854775807 + 9223372036854775807 + 2
+ProjectFortress/tests/genericTest2.fss:16: n+m
+ProjectFortress/demos/BiCGSTAB.fss:121: imax jmax kmax + 2 jmax imax
+ProjectFortress/demos/BiCGSTAB.fss:122: imax jmax kmax + 2 jmax imax
+ProjectFortress/demos/BiCGSTAB.fss:127: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB.fss:128: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:108: imax jmax kmax + 2 jmax imax
+ProjectFortress/demos/BiCGSTAB2.fss:109: imax jmax kmax + 2 jmax imax
+ProjectFortress/demos/BiCGSTAB2.fss:114: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:115: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:187: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:188: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:189: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:190: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:191: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:192: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:193: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:194: (imax jmax kmax) + (2 jmax imax)
+ProjectFortress/demos/BiCGSTAB2.fss:195: (imax jmax kmax) + (2 jmax imax)
+Library/Generator22D.fss:314: s1 + s2
+Library/Generator22D.fss:314: s1 + s2
+Library/Generator22D.fss:318: s0 + s2
+Library/Generator22D.fss:318: s0 + s2
+Library/Generator22D.fss:324: s0 + s2
+Library/Generator22D.fss:324: s1 + s3
+Library/Generator22D.fss:324: s0 + s2
+Library/Generator22D.fss:324: s1 + s3
+# sk.sh walk 2026-09-29T13:33:39Z; home /home/user/fortress-sizerange; tree 6b198978c; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.38 2.85 3.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### GenericFnWithExcludes.fss (walk)
+O
+P
+PASS
+rc=0
+#### genericTest2.fss (walk)
+pass 17
+rc=0
+#### BiCGSTAB.fss (walk)
+BiCGSTAB
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:998:21-58:
+Unification error: Closure/Constructor for join param 1 (a:BOTTOM) got arg 36.0:RR64 of type Float
+Context:
+Library/RangeInternals.fss:998:21-58:
+Library/RangeInternals.fss:998:30-43:
+Library/RangeInternals.fss:998:30-43:
+Library/RangeInternals.fss:998:30-43:
+Library/RangeInternals.fss:998:30-43:
+Library/RangeInternals.fss:998:46-57:
+Library/RangeInternals.fss:998:46-57:
+Library/RangeInternals.fss:998:46-57:
+Library/RangeInternals.fss:998:30-43:
+Library/RangeInternals.fss:998:46-57:
+Library/RangeInternals.fss:1000:13-1001:9:
+Library/FortressLibrary.fss:1188:5-23:
+Library/FortressLibrary.fss:1188:5-23:
+ProjectFortress/demos/BiCGSTAB.fss:200:28-63:
+Library/FortressLibrary.fss:1245:25-47:
+ProjectFortress/demos/BiCGSTAB.fss:200:23-76:
+ProjectFortress/demos/BiCGSTAB.fss:232:16-31:
+ProjectFortress/demos/BiCGSTAB.fss:174:3-175:2:
+ProjectFortress/demos/BiCGSTAB.fss:77:3-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### BiCGSTAB2.fss (walk)
+BiCGSTAB
+1 residual = 25.19747244968508
+2 residual = 0.24054866848633175
+3 residual = 0.043436005326551855
+4 residual = 0.021668910667953272
+5 residual = 0.013225169095589713
+6 residual = 0.06838783467980036
+7 residual = 0.006595066908565606
+8 residual = 0.004239701089016346
+9 residual = 0.5132020953211748
+10 residual = 0.0023918212995412426
+11 residual = 0.003548378405257792
+12 residual = 0.003170059418670097
+13 residual = 0.0011133003246357204
+14 residual = 0.03790838799731815
+15 residual = 7.489428956149698E-4
+16 residual = 0.0014621375759011962
+17 residual = 0.002579578025964843
+18 residual = 4.396465556692296E-4
+19 residual = 3.953531019009297E-4
+20 residual = 0.0020236714630436897
+21 residual = 0.001698493939255153
+22 residual = 2.6455542931317516E-4
+23 residual = 2.1377688940500857E-4
+24 residual = 0.020960390483766286
+25 residual = 0.003990835463543206
+26 residual = 1.323275689463834E-4
+27 residual = 1.53566105153626E-4
+28 residual = 5.816811519720492E-4
+29 residual = 7.362808616895176E-5
+com.sun.fortress.exceptions.ProgramError: ProjectFortress/demos/BiCGSTAB2.fss:163:8:
+Failed to find any matching overload, args = (55983252727: ZZ64,1.0E9), overload = {
+	/(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:438:5-56)
+	/(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:608:5-612:6)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\]./(self:Integral[\I\],other:I):FortressLibrary.QQLibrary/FortressLibrary.fss:657:5-27
+	/(self:(FortressLibrary.ZZ32 & {FortressBuiltin.Int, FortressBuiltin.IntLiteral}),other:FortressLibrary.ZZ32):FortressLibrary.QQfn meth(self 0):(ZZ32,ZZ32)->QQ (Library/FortressLibrary.fss:767:5-55)
+	/(self:(FortressLibrary.ZZ64 & {FortressBuiltin.Long}),other:FortressLibrary.ZZ64):FortressLibrary.QQfn meth(self 0):(ZZ64,ZZ64)->QQ (Library/FortressLibrary.fss:855:5-55)
+	/(self:(FortressLibrary.NN64 & {FortressBuiltin.UnsignedLong}),other:FortressLibrary.NN64):FortressLibrary.QQfn meth(self 0):(NN64,NN64)->QQ (Library/FortressLibrary.fss:923:5-73)
+	/(self:(FortressLibrary.ZZ & {FortressBuiltin.BigNum}),other:FortressLibrary.ZZ):FortressLibrary.QQfn meth(self 0):(ZZ,ZZ)->QQ (Library/FortressLibrary.fss:975:5-982:6)
+	/(self:Integral[\I\],other:I):FortressLibrary.QQfn meth(self 0):(Integral[\NN32\],NN32)->QQ (Library/FortressLibrary.fss:657:5-27)
+	/(self:Integral[\I\],other:I):FortressLibrary.QQfn meth(self 0):(Integral[\ZZ32\],ZZ32)->QQ (Library/FortressLibrary.fss:657:5-27)
+	/(self:Integral[\I\],other:I):FortressLibrary.QQfn meth(self 0):(Integral[\ZZ64\],ZZ64)->QQ (Library/FortressLibrary.fss:657:5-27)
+	/(self:Integral[\I\],other:I):FortressLibrary.QQfn meth(self 0):(Integral[\NN64\],NN64)->QQ (Library/FortressLibrary.fss:657:5-27)
+	/(self:Integral[\I\],other:I):FortressLibrary.QQfn meth(self 0):(Integral[\ZZ\],ZZ)->QQ (Library/FortressLibrary.fss:657:5-27)}:OverloadedFunction
+Context:
+ProjectFortress/demos/BiCGSTAB2.fss:163:8:
+ProjectFortress/demos/BiCGSTAB2.fss:62:3-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### DemoGenerator22D.fss (walk)
+xs = [0#4,0#4]
+[ -3 2 0 0
+  -2 -2 4 -2
+  0 -1 -4 2
+  1 1 1 -3 ]
+rows xs = [0#1,0#4]
+[ -3 2 0 0 ],[0#1,0#4]
+[ -2 -2 4 -2 ],[0#1,0#4]
+[ 0 -1 -4 2 ],[0#1,0#4]
+[ 1 1 1 -3 ]
+cols xs = [0#4,0#1]
+[ -3
+  -2
+  0
+  1 ],[0#4,0#1]
+[ 2
+  -2
+  -1
+  1 ],[0#4,0#1]
+[ 0
+  4
+  -4
+  1 ],[0#4,0#1]
+[ 0
+  -2
+  2
+  -3 ]
+com.sun.fortress.exceptions.ProgramError: Library/Generator22D.fss:146:9-40:
+Failed to find any matching overload, args = (Ratio,Ratio), overload = {
+	array[\E\](x:FortressLibrary.ZZ32):Array[\E,FortressLibrary.ZZ32\][\Generator[\Number\]\] ZZ32->Array[\Generator[\Number\],ZZ32\] Library/FortressLibrary.fss:2047:1-70
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32)\] Library/FortressLibrary.fss:2048:1-2049:49
+	array[\E\](x:FortressLibrary.ZZ32,y:FortressLibrary.ZZ32,z:FortressLibrary.ZZ32):Array[\E,(FortressLibrary.ZZ32, FortressLibrary.ZZ32, FortressLibrary.ZZ32)\][\Generator[\Number\]\] (ZZ32,ZZ32,ZZ32)->Array[\Generator[\Number\],(ZZ32,ZZ32,ZZ32)\] Library/FortressLibrary.fss:2050:1-2054:67}:Overloade
+Context:
+Library/Generator22D.fss:146:9-40:
+Library/Generator22D.fss:176:9-26:
+Library/FortressLibrary.fss:1188:5-23:
+Library/FortressLibrary.fss:1188:5-23:
+Library/FortressLibrary.fss:1087:41-48:
+Library/FortressLibrary.fss:1245:25-47:
+Library/FortressLibrary.fss:1087:34-56:
+Library/FortressLibrary.fss:4151:42-50:
+Library/FortressLibrary.fss:4167:45-47:
+ProjectFortress/demos/DemoGenerator22D.fss:75:12-33:
+ProjectFortress/demos/DemoGenerator22D.fss:54:5-55:4:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

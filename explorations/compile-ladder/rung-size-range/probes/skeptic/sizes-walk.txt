@@ -1,0 +1,165 @@
+# sk.sh walk 2026-09-29T12:39:13Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.85 6.04 9.67; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSzIn.fss (walk)
+nullexplorations/compile-ladder/rung-size-range/probes/skeptic/SkSzIn.fss:34:80:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkNatBeyondDecl.fss (walk)
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondDecl.fss:3:13-16:
+Static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondDecl.fss:3:13-16:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondDecl.fss:4:1-48:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkNatBeyondTypecase.fss (walk)
+nullexplorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondTypecase.fss:7:85:
+    Syntax Error
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkNatBeyondWritten.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondWritten.fss:3:7-10:
+Static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondWritten.fss:3:7-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkIntBeyondWritten.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkIntBeyondWritten.fss:3:7-10:
+Static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkIntBeyondWritten.fss:3:7-10:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkIntBeyondDecl.fss (walk)
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkIntBeyondDecl.fss:3:14-17:
+Static argument 3000000000 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkIntBeyondDecl.fss:3:14-17:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkIntBeyondDecl.fss:4:1-49:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkNatProdWrap.fss (walk)
+REACHED
+a size written 4294967296 4294967296 (2^64) read as 0
+END
+rc=0
+#### SkNatSumWrap.fss (walk)
+REACHED
+a size written 9223372036854775807 + 9223372036854775807 + 2 (2^64) read as 0
+END
+rc=0
+#### SkIntMinArg.fss (walk)
+REACHED
+an int size of 0 - 2147483648 read as -2147483648
+END
+rc=0
+#### SkSizeZZ32Ctx.fss (walk)
+REACHED
+small 7
+2^31 as ZZ32 2147483648
+END
+rc=0
+#### SkSizeBare.fss (walk)
+REACHED
+7: 7 plus one 8
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeBare.fss:6:31:
+IntegerOverflow
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeBare.fss:6:31:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeBare.fss:11:29-53:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+EXIT=0
+# sk.sh walk 2026-09-29T12:42:29Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.08 6.60 9.28; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSzIn.fss (walk)
+v1 2147483647
+v2 2147483648
+v3 4294967295
+w1 2147483648
+w2 4294967295
+w3 0
+i1 2147483647
+i2 2147483647
+d1 d2^31
+d2 dMax
+d3 dOther
+e1 eMax
+e2 eZero
+t1 match
+t2 no
+t3 match
+END
+rc=0
+#### SkNatBeyondTypecase.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondTypecase.fss:3:13-16:
+Static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNatBeyondTypecase.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### SkSizeZZ32Type.fss (walk)
+REACHED
+plain32(widen(5)) gives 5 of kind ZZ64
+as32 of a size 2147483648 gives 2147483648 of kind ZZ64
+that value plus 2147483647 is 4294967295 of kind ZZ64
+END
+rc=0
+#### SkSizeBare2.fss (walk)
+REACHED
+3000000000: 3000000000 plus one 3000000001
+END
+rc=0
+EXIT=0
+# sk.sh walk 2026-09-29T12:43:28Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.68 6.30 9.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSizeLocal32.fss (walk)
+REACHED
+a numeral 2147483648 from a ZZ32 function: 2147483648 of kind ZZ64
+a size 2147483647 bound to a ZZ32 local: 2147483647 of kind ZZ32
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:11:3-10:
+RHS expression type Long is not assignable to LHS type ZZ32
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:11:3-10:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:11:3-10:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:18:58-81:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+# sk.sh walkbase 2026-09-29T12:43:36Z; home tmp/baseA-home; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.94 6.33 9.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSizeLocal32.fss (walkbase)
+REACHED
+a numeral 2147483648 from a ZZ32 function: 2147483648 of kind ZZ64
+a size 2147483647 bound to a ZZ32 local: 2147483647 of kind ZZ32
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:3:13-16:
+Negative nats are unNATural: -2147483648
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkSizeLocal32.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+EXIT=0

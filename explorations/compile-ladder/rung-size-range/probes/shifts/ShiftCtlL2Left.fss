@@ -1,0 +1,10 @@
+component ShiftCtlL2Left
+export Executable
+run() = do
+  r = ((1,2):)
+  println("ShiftCtlL2Left range: " || r.asDebugString)
+  s = r.shiftLeft((1,1))
+  println("ShiftCtlL2Left shifted: " || s.asDebugString)
+  println("ShiftCtlL2Left expected: a control: LeftRange2D(0,1, 1,1)")
+end
+end

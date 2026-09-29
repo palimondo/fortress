@@ -1,0 +1,164 @@
+# sk.sh walk 2026-09-29T14:07:30Z; home /home/user/fortress-sizerange; tree 0734a3eb4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.11 2.24 2.65; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### R2ArithCancel.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithCancel.fss:9:53-63:
+Static argument 4294967296 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithCancel.fss:9:53-63:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithIn.fss (walk)
+a1 3 4 + 5 = 17
+a2 2147483647 + 2147483648 = 4294967295
+a3 0 - 2147483647 - 1 = -2147483648
+a4 65536 65536 - 1 = 4294967295
+a5 9223372036854775807 - 9223372036854775807 + 7 = 7
+END
+rc=0
+#### R2ArithIntEdge.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIntEdge.fss:4:14-17:
+Static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIntEdge.fss:4:14-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithIntLow.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIntLow.fss:4:14-17:
+Static argument -2147483649 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIntLow.fss:4:14-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithNatEdge.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithNatEdge.fss:3:13-16:
+Static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithNatEdge.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithNeg64.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithNeg64.fss:9:86:
+Static argument 0-9223372036854775807-2 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithNeg64.fss:9:86:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithParamBig.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBig.fss:7:44:
+Static argument n n is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBig.fss:7:44:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBig.fss:10:44-66:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithParamBind.fss (walk)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBind.fss:3:13-16:
+Static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBind.fss:3:13-16:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBind.fss:10:34-51:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithParamOk.fss (walk)
+p1 65535 65535 = 4294836225
+END
+rc=0
+#### R2ArithParamSum.fss (walk)
+REACHED
+q1 (-1073741824) twice = -2147483648
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamSum.fss:4:14-17:
+Static argument -2147483650 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamSum.fss:4:14-17:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamSum.fss:11:42-72:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2NN32Lcm.fss (walk)
+n1 65535 LCM 65537 = 4294967295
+n2 65536 LCM 65537 = OVF
+n3 92682 CHOOSE 2 = 4294930221
+n4 92683 CHOOSE 2 = OVF
+n5 65535^2 = 4294836225
+n6 65536^2 = OVF
+END
+rc=0
+#### R2Pow64.fss (walk)
+l1 (-2)^63 = -9223372036854775808
+l2 (-2)^64 = OVF
+l3 3^39 = 4052555153018976267
+l4 3^40 = OVF
+l5 66 CHOOSE 33 = 7219428434016265740
+l6 67 CHOOSE 33 = OVF
+u1 3^40 = 12157665459056928801
+u2 3^41 = OVF
+u3 67 CHOOSE 33 = 14226520737620288370
+u4 68 CHOOSE 34 = OVF
+u5 4294967296 LCM 4294967295 = 18446744069414584320
+u6 4294967296 LCM 4294967297 = OVF
+END
+rc=0
+#### R2PowEdge.fss (walk)
+e1 (-2)^31 = -2147483648
+e2 (-1)^2147483647 = -1
+e3 0^0 = 1
+e4 (-2)^32 = OVF
+e5 46340^2 = 2147395600
+e6 46341^2 = OVF
+e7 34 CHOOSE 17 = OVF
+e8 2147483647 CHOOSE 2147483646 = 2147483647
+e9 2147483647 CHOOSE 2 = OVF
+e10 65536 CHOOSE 2 = 2147450880
+e11 65537 CHOOSE 2 = OVF
+END
+rc=0
+#### R2TryArg.fss (walk)
+REACHED
+t2 ac
+END
+rc=0
+#### R2TryFirst.fss (walk)
+REACHED
+t1 ca
+END
+rc=0
+#### R2TryNoThrow.fss (walk)
+REACHED
+t3 ab
+END
+rc=0
+#### R2TryNum.fss (walk)
+REACHED
+t4 42
+END
+rc=0
+EXIT=0

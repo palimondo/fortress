@@ -1,0 +1,218 @@
+# compile-one.sh sksz 2026-09-29T12:39:18Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.43 6.12 9.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSzIn compile
+SkSzIn.fss:34:80:
+    Syntax Error
+File SkSzIn.fss has 1 error.
+compile rc=255
+#### SkNatBeyondDecl compile
+SkNatBeyondDecl.fss:4:6-20:
+    Ill-formed type: Box[\4294967296\]
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+File SkNatBeyondDecl.fss has 1 error.
+compile rc=255
+#### SkNatBeyondTypecase compile
+SkNatBeyondTypecase.fss:7:85:
+    Syntax Error
+File SkNatBeyondTypecase.fss has 1 error.
+compile rc=255
+#### SkNatBeyondWritten compile
+SkNatBeyondWritten.fss:6:17-25:
+    Ill-formed static argument: 4294967296
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+File SkNatBeyondWritten.fss has 1 error.
+compile rc=255
+#### SkIntBeyondWritten compile
+SkIntBeyondWritten.fss:6:17-25:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File SkIntBeyondWritten.fss has 1 error.
+compile rc=255
+#### SkIntBeyondDecl compile
+SkIntBeyondDecl.fss:4:6-21:
+    Ill-formed type: IBox[\3000000000\]
+    The static argument 3000000000 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File SkIntBeyondDecl.fss has 1 error.
+compile rc=255
+#### SkSizeZZ32Ctx compile
+compile rc=0
+#### SkSizeZZ32Ctx run
+REACHED
+small 7
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 2147483648
+Caused by: java.lang.Error: Not in range for ZZ32: 2147483648
+run rc=1
+#### SkSizeBare compile
+compile rc=0
+#### SkSizeBare run
+REACHED
+7: 7 plus one 8
+2147483647: 2147483647 plus one 2147483648
+3000000000: 3000000000 plus one 3000000001
+END
+run rc=0
+EXIT=0
+# compile-one.sh sksz2 2026-09-29T12:43:28Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.68 6.30 9.01; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkSzIn compile
+compile rc=0
+#### SkSzIn run
+v1 2147483647
+v2 2147483648
+v3 4294967295
+w1 2147483648
+w2 4294967295
+w3 0
+i1 2147483647
+i2 2147483647
+d1 d2^31
+d2 dMax
+d3 dOther
+e1 eMax
+e2 eZero
+t1 match
+t2 no
+t3 match
+END
+run rc=0
+#### SkNatBeyondTypecase compile
+SkNatBeyondTypecase.fss:8:9-23:
+    Ill-formed type: Box[\4294967296\]
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+File SkNatBeyondTypecase.fss has 1 error.
+compile rc=255
+#### SkSizeZZ32Type compile
+SkSizeZZ32Type.fss:5:26:
+    Function body has type ZZ64, but declared return type is ZZ32.
+File SkSizeZZ32Type.fss has 1 error.
+compile rc=255
+#### SkSizeBare2 compile
+compile rc=0
+#### SkSizeBare2 run
+REACHED
+3000000000: 3000000000 plus one 3000000001
+END
+run rc=0
+#### SkSizeLocal32 compile
+compile rc=0
+#### SkSizeLocal32 run
+REACHED
+java.lang.Error: java.lang.Error: Not in range for ZZ32: 2147483648
+Caused by: java.lang.Error: Not in range for ZZ32: 2147483648
+run rc=1
+EXIT=0
+# compile-one.sh skmisc 2026-09-29T12:54:32Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.27 4.13 6.47; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkIntSingleton compile
+SkIntSingleton.fss:6:8-11:
+    Ill-formed type: IUnit[\3000000000\]
+    The static argument 3000000000 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File SkIntSingleton.fss has 1 error.
+compile rc=255
+#### SkMethodSize compile
+SkMethodSize.fss:9:60-68:
+    Ill-formed static argument: 3000000000
+    The static argument 3000000000 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File SkMethodSize.fss has 1 error.
+compile rc=255
+#### SkMethodSizeNat compile
+SkMethodSizeNat.fss:8:60-68:
+    Ill-formed static argument: 4294967296
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+File SkMethodSizeNat.fss has 1 error.
+compile rc=255
+#### SkNumeralBare compile
+compile rc=0
+#### SkNumeralBare run
+Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 77
+Exception Details:
+  Location:
+    SkNumeralBare.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @73: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @73
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FIntLiteral', 'fortress/CompilerBuiltin$IntegerOverflow' }
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @77
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FIntLiteral' }
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 1227 b800 2db8 0033 5712 34b8 0039 4b12
+    0000010: 3bb8 002d c000 3d12 41b8 002d c000 3d2a
+    0000020: c000 4304 b800 39b8 0047 c000 49b8 004d
+    0000030: a700 1d59 b600 51c1 0053 9900 12b6 0051
+    0000040: c000 534c 1255 b800 2da7 0004 bfc0 0049
+    0000050: b800 4db8 0033 5712 59b8 002d c000 3db2
+    0000060: 005f b200 6403 b800 39b8 0068 b900 6e02
+    0000070: 00b9 0073 0200 a700 1d59 b600 51c1 0053
+    0000080: 9900 12b6 0051 c000 534c 1255 b800 2da7
+    0000090: 0004 bfc0 0049 b800 4db8 0033 5712 75b8
+    00000a0: 002d b800 33b0                         
+  Exception Handler Table:
+    bci [23, 48] => handler: 51
+    bci [95, 118] => handler: 121
+  Stackmap Table:
+    full_frame(@51,{Object[#54]},{Object[#63]})
+    same_locals_1_stack_item_frame(@76,Object[#63])
+    full_frame(@77,{Object[#54]},{Object[#61],Object[#61]})
+    same_locals_1_stack_item_frame(@121,Object[#63])
+    same_locals_1_stack_item_frame(@146,Object[#63])
+    full_frame(@147,{Object[#54]},{Object[#61],Object[#61]})
+
+run rc=1
+#### SkExtendsSize compile
+SkExtendsSize.fss:6:20-32:
+    Ill-formed type: T[\4294967296\]
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+File SkExtendsSize.fss has 1 error.
+compile rc=255
+EXIT=0
+# compile-one.sh skarith 2026-09-29T12:58:35Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.16 4.00 5.84; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNatProdWrap compile
+SkNatProdWrap.fss:7:69-103:
+    Could not check call to function natv
+    - [\nat k\]Box[\k\]->ZZ64 is not applicable to an argument of type Box[\4294967296 4294967296\].
+SkNatProdWrap.fss:7:90-99:
+    Ill-formed static argument: 4294967296 4294967296
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File SkNatProdWrap.fss has 2 errors.
+compile rc=255
+#### SkIntMinArg compile
+SkIntMinArg.fss:7:55-83:
+    Could not check call to function intv
+    - [\int i\]IBox[\i\]->ZZ64 is not applicable to an argument of type IBox[\0-2147483648\].
+SkIntMinArg.fss:7:70-79:
+    Ill-formed static argument: 0-2147483648
+    Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal.
+File SkIntMinArg.fss has 2 errors.
+compile rc=255
+EXIT=0
+# compile-one.sh sknum 2026-09-29T12:55:07Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.23 4.14 6.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNumeralBare2 compile
+compile rc=0
+#### SkNumeralBare2 run
+REACHED
+a numeral 2147483647 bound bare, plus one: 2147483648
+END
+run rc=0
+#### SkArraySize compile
+SkArraySize.fss:5:7-21:
+    Function array1 is not defined.
+SkArraySize.fss:7:7-30:
+    Function array1 is not defined.
+File SkArraySize.fss has 2 errors.
+compile rc=255
+# sk.sh walk 2026-09-29T12:55:14Z; home WORKTREE; tree e855607a4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.86 4.29 6.41; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkNumeralBare2.fss (walk)
+REACHED
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNumeralBare2.fss:6:61:
+IntegerOverflow
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/SkNumeralBare2.fss:6:61:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+EXIT=0

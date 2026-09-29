@@ -1,0 +1,11 @@
+component SkArraySize
+export Executable
+run(): () = do
+  println("REACHED")
+  a = array1[\ZZ32, 3\](7)
+  println("array1 of static size 3: size " || |a| || ", a[2] = " || a[2])
+  b = array1[\ZZ32, 3000000000\](7)
+  println("array1 of static size 3000000000: size " || |b|)
+  println("END")
+end
+end

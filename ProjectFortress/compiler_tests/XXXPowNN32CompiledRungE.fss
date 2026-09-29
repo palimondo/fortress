@@ -1,0 +1,15 @@
+(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
+component XXXPowNN32CompiledRungE
+export Executable
+
+run(): () = do
+    println("REACHED")
+    twoN: NN32 = unsigned(2)
+    thirtyOneN: NN32 = unsigned(31)
+    r: NN32 = twoN^thirtyOneN
+    twoTo31N: NN32 = unsigned(1073741824) + unsigned(1073741824)
+    assert(r = twoTo31N, "NN32 2^31 is 2147483648; basic-integers.tex:527-529")
+    println("PASS")
+  end
+
+end

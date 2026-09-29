@@ -1,0 +1,13 @@
+component R2ArithParamBind
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object IBox[\int k\](v: ZZ32) end
+sz[\nat k\](b: Box[\k\]): ZZ64 = k
+isz[\int k\](b: IBox[\k\]): ZZ64 = k
+sq[\nat n\](b: Box[\n\]): ZZ64 = sz(Box[\n n\](0))
+run(): () = do
+  println("REACHED")
+  println("p2 65536 65536 = " || sq(Box[\65536\](0)))
+  println("END")
+end
+end

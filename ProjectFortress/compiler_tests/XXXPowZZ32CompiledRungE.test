@@ -1,0 +1,3 @@
+tests=XXXPowZZ32CompiledRungE
+run
+run_out_contains=REACHED

@@ -1,0 +1,9 @@
+component SkPowZZ32Ovf
+export Executable
+pz(a: ZZ32, b: ZZ32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  println("REACHED")
+  println("2^31 on ZZ32, caught as IntegerOverflow: " || pz(2, 31))
+  println("END")
+end
+end

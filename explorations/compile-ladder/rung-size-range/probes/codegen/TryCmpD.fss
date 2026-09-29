@@ -1,0 +1,9 @@
+component TryCmpD
+export Executable
+f(): ZZ32 = throw InvalidRange
+run(): () = do
+  r = try f() catch e InvalidRange => -1 end
+  println(r)
+  println("PASS")
+end
+end

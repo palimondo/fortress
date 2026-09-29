@@ -1,0 +1,10 @@
+component SkTryOperand
+export Executable
+f(): String = throw InvalidRange
+run(): () = do
+  println("REACHED")
+  s = "a" || (try f() catch e InvalidRange => "c" end)
+  println(s)
+  println("END")
+end
+end

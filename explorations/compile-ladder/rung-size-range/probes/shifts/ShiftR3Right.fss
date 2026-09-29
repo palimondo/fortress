@@ -1,0 +1,10 @@
+component ShiftR3Right
+export Executable
+run() = do
+  r = (:(2,3,4))
+  println("ShiftR3Right range: " || r.asDebugString)
+  s = r.shiftRight((1,1,1))
+  println("ShiftR3Right shifted: " || s.asDebugString)
+  println("ShiftR3Right expected: RightRange3D(3,4,5, 1,1,1)")
+end
+end

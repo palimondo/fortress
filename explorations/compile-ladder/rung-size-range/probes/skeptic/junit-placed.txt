@@ -1,0 +1,91 @@
+# junit.sh skplaced 2026-09-29T12:51:13Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.85 4.38 7.11; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree e855607a4; build ProjectFortress/build; tests from ProjectFortress/compiler_tests
+. compile ProjectFortress/compiler_tests/XXXNatRangeChecker ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\18446744073709551615\]
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\9223372036854775807\]
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\9223372036854775808\]
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:6:8-10:
+    Ill-formed type: IBox[\2147483648\]
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:8:7-10:
+    Ill-formed static argument: 9223372036854775807
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:9:6-9:
+    Ill-formed static argument: 18446744073709551615
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:9:6-9:
+    Ill-formed static argument: 9223372036854775808
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:10:7-10:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:13:9-23:
+    Ill-formed type: Box[\4294967296\]
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:14:9-24:
+    Ill-formed type: IBox[\2147483648\]
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:17:21-38:
+    Ill-formed static argument: 9223372036854775807
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:18:20-37:
+    Ill-formed static argument: 9223372036854775808
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:19:20-38:
+    Ill-formed static argument: 18446744073709551615
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:20:18-26:
+    Ill-formed static argument: 4294967296
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:21:18-26:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:22:22-30:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File XXXNatRangeChecker.fss has 16 errors.
+ Saw expected failure
+. compile ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 1629ms)
+. link ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 2744ms)
+. link ProjectFortress/compiler_tests/XXXInferResultOnlyAny  OK (time = 1066ms)
+. link ProjectFortress/compiler_tests/XXXInferResultOnlyCoerced  OK (time = 1419ms)
+. compile ProjectFortress/compiler_tests/XXXTryCompareCoerceRungE java.lang.Error: 
+ OK Saw expected exception
+. run ProjectFortress/compiler_tests/NatRtBigSize (1135ms) 2147483647
+2147483648
+3000000000
+4294967295
+PASS
+Passed
+. run ProjectFortress/compiler_tests/XXXInferResultOnlyAny (378ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    XXXInferResultOnlyAny.c1()Lcom/sun/fortress/compiler/runtimeValues/FZZ32; @8: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32' (from method signature)
+  Current Frame:
+    bci: @8
+    flags: { }
+    locals: { }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: b200 2db9 0033 0100 b0                 
+
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXInferResultOnlyCoerced (519ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: java/lang/Object$RTTIc
+Caused by: java.lang.ClassNotFoundException: java.lang.Object$RTTIc
+	... 8 more
+Saw expected failure (Exit code != 0)
+
+Time: 11.955
+
+OK (9 tests)
+
+exit=0
+EXIT=0

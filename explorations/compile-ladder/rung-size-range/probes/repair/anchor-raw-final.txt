@@ -1,0 +1,1865 @@
+### report-text.txt:3 cites ProjectFortress/compiler_tests/NatRtBigSize.fss:35  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context:  the compiled checker accepts a size of 18446744073709551615 (`ProjectFortress/compiler_tests/NatRtBigSize.fss:35` at 382b9fe7f); `2147483648 LCM 7` on `
+  HEAD 35: <eof>
+  BASE 35:   r7 = szZ(Box[\18446744073709551615\](0))
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-47  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]  (382b9fe7f near)
+  context:  arithmetic in a size (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-47`, `:107-108`, `:144-145` at 382b9fe7f);
+  HEAD 41:   private val sizeArithmetic =
+  HEAD 42:     "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
+  HEAD 43: 
+  HEAD 44:   private def hasSizeArithmetic(sarg: StaticArg) = sarg match {
+  HEAD 45:     case SIntArg(_, _, _: IntBinaryOp) => true
+  HEAD 46:     case _ => false
+  (BASE same)
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:107-108  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]  (382b9fe7f near)
+  context: c in a size (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-47`, `:107-108`, `:144-145` at 382b9fe7f); walk's refu
+  HEAD 107:         walk(typeDef)
+  HEAD 108:         analyzer = oldAnalyzer
+  BASE 107:       if (sargs.exists(hasSizeArithmetic))
+  BASE 108:         error("Ill-formed type: " + t + "\n    " + sizeArithmetic, t)
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:144-145  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]  (382b9fe7f near)
+  context: (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:41-47`, `:107-108`, `:144-145` at 382b9fe7f); walk's refusal of a neg
+  HEAD 144:         error("Unbound type: " + name, t)
+  HEAD 145:       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
+  BASE 144:       case a:IntArg if hasSizeArithmetic(a) =>
+  BASE 145:         error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:251-256  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: gative size where the kind is known (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:251-256`) and the rung's own out-of-range messa
+  HEAD 251: 	    } else if (NodeUtil.isNatParam(p)) {
+  HEAD 252: 		if (a instanceof IntNat) {
+  HEAD 253: 		    long l = ((IntNat) a).getValue();
+  HEAD 254: 		    if (l < 0) {
+  HEAD 255: 			// Move this check into the param-specific binding code.
+  HEAD 256: 			error(p, errorMsg("Negative nats are unNATural: " + l));
+  (BASE same)
+### report-text.txt:5 cites EvalType.java:452  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: eter/evaluator/EvalType.java:251-256`) and the rung's own out-of-range message in `forIntBase` (`EvalType.java:452`), which the static-arithmetic refusal 
+  HEAD 452: 		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int par
+  BASE 452: 		catch (FortressException p) {
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:143-147  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: c refusal reuses; `NN32$Gcd`'s widening (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:143-147`); rung O's `Math.*Exact` with `Int.ove
+  HEAD 143:     public static final class Gcd extends NN2N {
+  HEAD 144:         protected int f(int u, int v) {
+  HEAD 145:             return (int) UnsignedLong.gcd(Unsigned.toLong(u), Unsigned.toLong(v));
+  HEAD 146:         }
+  HEAD 147:     }
+  (BASE same)
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:258-261  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context:  O's `Math.*Exact` with `Int.overflow()` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:258-261`) and its unsigned divide-back product 
+  HEAD 258:     public static FortressError overflow() {
+  HEAD 259:         FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
+  HEAD 260:         return new FortressError(f);
+  HEAD 261:     }
+  (BASE same)
+### report-text.txt:5 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java:125-130  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: ts unsigned divide-back product (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java:125-130`); the compiled path's checked binomial
+  HEAD 125:     public static final class Mul extends UU2U {
+  HEAD 126:         protected long f(long x, long y) {
+  HEAD 127:             if (y != 0 && Unsigned.divide(Unsigned.multiplyToLong(x, y), y) != x) throw Int.overflow();
+  HEAD 128:             return Unsigned.multiplyToLong(x, y);
+  HEAD 129:         }
+  HEAD 130:     }
+  (BASE same)
+### report-text.txt:5 cites Library/RangeInternals.fss:1387  [Library/RangeInternals.fss]
+  context: tance (`explorations/coordinator/POSITIONS.md:81`); the library's own empty range (`Library/RangeInternals.fss:1387`); batch N's owed pair (`ProjectFortres
+  HEAD 1387: emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
+  BASE 1387: bounded2Range(l1:ZZ32,l2:ZZ32,hi1:ZZ32,hi2:ZZ32): CompactFullRange2D =
+### report-text.txt:6 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:75-87  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: l runs in both passes (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:75-87`); a size whose reference names no sche
+  HEAD 75:   private def kindsAt(schemas: List[Type], n: Int): Option[List[List[StaticParamKind]]] = {
+  HEAD 76:     val lists = schemas.map(t => toListFromImmutable(t.getInfo.getStaticParams)).filter(_.size == n)
+  HEAD 77:     if (lists.isEmpty) None else Some(List.tabulate(n)(i => lists.map(_(i).getKind)))
+  HEAD 78:   }
+  HEAD 79: 
+  HEAD 80:   private def walkStaticArgs(sargs: List[StaticArg], kinds: Option[List[List[StaticParamKind]]]) =
+  BASE 75:         walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+  BASE 76:         walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
+  BASE 77:         analyzer = oldAnalyzer
+  BASE 78:       case SObjectDecl(_,
+  BASE 79:                        STraitTypeHeader(sparams, _, _, where,
+  BASE 80:                                         throwsC, contract, extendsC,
+### report-text.txt:6 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:189-190  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: peWellFormedChecker.scala:75-87`); a size whose reference names no schema is refused only beyond both kinds (`:189-190`); walk refuses a size written as arith
+  HEAD 189:       case a:IntArg =>
+  HEAD 190:         sizeOutOfRange(a, Nil).foreach(m => error("Ill-formed static argument: " + a + "\n    " + m, a))
+  BASE 189: <eof>
+  BASE 190: <eof>
+### report-text.txt:6 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: er refuses all arithmetic in a size (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-480`, the judge's decision); the binomial d
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:6 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:340-351  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: s, where the compiled helpers use tables (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:340-351`); `CHOOSE` answers 0 for `k<0` or `k>n
+  HEAD 340:         // Dividing by g = gcd(accum, j) first leaves j/g dividing m, so a step
+  HEAD 341:         // overflows only if its coefficient, which grows with j, does.
+  HEAD 342:         long accum = 1;
+  HEAD 343:         try {
+  HEAD 344:             for (long j = 1; j <= k; j++) {
+  HEAD 345:                 long m = n - k + j;
+  BASE 340:         for (long j = 1; j <= k; j++) {
+  BASE 341:             long m = n - k + j;
+  BASE 342:             accum = accum * m;
+  BASE 343:             accum = accum / j;
+  BASE 344:         }
+  BASE 345:         return accum;
+### report-text.txt:6 cites Int.java:329  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: answers 0 for `k<0` or `k>n`, row 337's stated fix, as the specification and the compiled helper do (`Int.java:329`, `UnsignedLong.java:298`); `MIN # 0` i
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  BASE 329:         if (k > n / 2) k = n - k;
+### report-text.txt:6 cites UnsignedLong.java:298  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: >n`, row 337's stated fix, as the specification and the compiled helper do (`Int.java:329`, `UnsignedLong.java:298`); `MIN # 0` is the library's own empty
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+### report-text.txt:6 cites Library/RangeInternals.fss:1393  [Library/RangeInternals.fss]
+  context:  own empty range `CompactFullParScalarRange(0,-1)`, not a range starting at `MIN` (`Library/RangeInternals.fss:1393`)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### report-text.txt:27 cites TypeWellFormedChecker.scala:152-156  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: tree (`:268`); the kinds of a trait type's parameters come from its `TraitIndex` (`TypeWellFormedChecker.scala:152-156`), and a written reference's from the d
+  HEAD 152:         // Static arguments should satisfy the corresponding bounds.
+  HEAD 153:         val sparams = si.staticParameters
+  HEAD 154:         if ( sargs.size == sparams.size ) {
+  HEAD 155:           sargs.zip(toListFromImmutable(sparams)).foreach { case (a, p) =>
+  HEAD 156:             sizeOutOfRange(a, List(p.getKind)).foreach(m => error("Ill-formed type: " + t + "\n    " + m, t)) }
+  BASE 152:         // so checking them here either reports them unbound or fails the kind-env
+  BASE 153:         // lookup outright.  Each declaration is checked where it is declared.
+  BASE 154:         walk(args)
+  BASE 155:       case SMethodInvocation(_, getObj, getMethod, getStaticArgs, getArg, getOverloadingType, _) =>
+  BASE 156:         walk(getObj)
+### report-text.txt:29 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: lk's reading. `EvalType.forIntBase` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`) makes the size and `forIntBinaryOp` (
+  HEAD 449: 	    public FType forIntBase(IntBase n) {
+  HEAD 450: 		java.math.BigInteger v = n.getIntVal().getIntVal();
+  HEAD 451: 		if (v.bitLength() > 63) {
+  HEAD 452: 		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int par
+  HEAD 453: 		}
+  HEAD 454: 		return IntNat.make(v.longValue());
+  BASE 449: 		    FType result = env.getType(q);
+  BASE 450: 		    return result;
+  BASE 451: 		}
+  BASE 452: 		catch (FortressException p) {
+  BASE 453: 		    throw p.setContext(q, env);
+  BASE 454: 		}
+### report-text.txt:29 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: ress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`) makes the size and `forIntBinaryOp` (`:468-480`), in the same visitor, computes a size
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:29 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:251-273  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: BinaryOp` (`:468-480`), in the same visitor, computes a size written as arithmetic; `bindGenericParameters` (`:251-273`) knows the kind; `BaseEnv.putNat` (`Pr
+  HEAD 251: 	    } else if (NodeUtil.isNatParam(p)) {
+  HEAD 252: 		if (a instanceof IntNat) {
+  HEAD 253: 		    long l = ((IntNat) a).getValue();
+  HEAD 254: 		    if (l < 0) {
+  HEAD 255: 			// Move this check into the param-specific binding code.
+  HEAD 256: 			error(p, errorMsg("Negative nats are unNATural: " + l));
+  (BASE same)
+### report-text.txt:29 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:628-631  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]
+  context: 3`) knows the kind; `BaseEnv.putNat` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:628-631`) makes the value a size reads as; `Int
+  HEAD 628:     public void putNat(String str, Number f2) {
+  HEAD 629:         putNatRaw(str, f2);
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  HEAD 631:     }
+  BASE 628:     public void putNat(String str, Number f2) {
+  BASE 629:         putNatRaw(str, f2);
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+  BASE 631:     }
+### report-text.txt:29 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java:136  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java]
+  context: ads as; `IntNat.unifyStaticArg` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java:136`) compares a declared size literal with
+  HEAD 136:                 if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
+  BASE 136:                 if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+### report-text.txt:31 cites Library/RangeInternals.fss:152-161  [Library/RangeInternals.fss]
+  context: ss/compiler/codegen/CodeGen.java:2019`), `ScalarRange.check()` and `imposeStride` (`Library/RangeInternals.fss:152-161`, `:799-809`, not among the bodies of r
+  HEAD 152:     check(): ScalarRange = do
+  HEAD 153:         str = self.stride
+  HEAD 154:         if str = 0 then fail(self.asDebugString ": Zero stride") end
+  HEAD 155:         for l <- self.left, r <- self.right do
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  HEAD 157:                 fail(self.asDebugString ": Bounds don't match stride.")
+  (BASE same)
+### report-text.txt:31 cites Library/RangeInternals.fss:799-809  [Library/RangeInternals.fss]
+  context: codegen/CodeGen.java:2019`), `ScalarRange.check()` and `imposeStride` (`Library/RangeInternals.fss:152-161`, `:799-809`, not among the bodies of rows 450 and 
+  HEAD 799:     imposeStride(s:ZZ32): FullScalarRange = do
+  HEAD 800:         r = self.right.get
+  HEAD 801:         l = self.left.get
+  HEAD 802:         dist = r-l
+  HEAD 803:         str = s self.stride
+  HEAD 804:         if (str > 0) = (dist > 0) then
+  (BASE same)
+### report-text.txt:35 cites EvalType.java:443  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: to 32 bits or wraps it: four live in the rung's files, all at 382b9fe7f: `EvalType.forIntBase` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`IntNat.jav
+  HEAD 443: 		if (!(t instanceof IntNat)) {
+  BASE 443: 		return IntNat.make(n.getIntVal().getIntVal().intValue());
+### report-text.txt:35 cites IntNat.java:136  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java]  (382b9fe7f near)
+  context: 's files, all at 382b9fe7f: `EvalType.forIntBase` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`IntNat.java:136`) and `BaseEnv.putNat` (`BaseEnv.java:6
+  HEAD 136:                 if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
+  BASE 136:                 if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+### report-text.txt:35 cites BaseEnv.java:630  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]  (382b9fe7f near)
+  context: ntBase` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`IntNat.java:136`) and `BaseEnv.putNat` (`BaseEnv.java:630`), which narrowed a literal by `intValu
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+### report-text.txt:35 cites EvalType.java:457-464  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context:  (`BaseEnv.java:630`), which narrowed a literal by `intValue()`, and `EvalType.forIntBinaryOp` (`EvalType.java:457-464`; `:468-475` on the first pass's tree, 
+  HEAD 457: 	    public FType forIntRef(IntRef n) {
+  HEAD 458: 		Id q = n.getName();
+  HEAD 459: 		try {
+  HEAD 460: 		    FType result = env.getType(q);
+  HEAD 461: 		    return result;
+  HEAD 462: 		}
+  BASE 457: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  BASE 458: 		long left = longify(n.getLeft());
+  BASE 459: 		long right = longify(n.getRight());
+  BASE 460: 		if (n.getOp().getText().equals("+")) return IntNat.make(left + right);
+  BASE 461: 		else if (n.getOp().getText().equals("-")) return IntNat.make(left - right);
+  BASE 462: 		else if (n.getOp().getText().equals(" ")) return IntNat.make(left * right);
+### report-text.txt:35 cites EvalType.java:468-475  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: ava:630`), which narrowed a literal by `intValue()`, and `EvalType.forIntBinaryOp` (`EvalType.java:457-464`; `:468-475` on the first pass's tree, 801a446a6, w
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:35 cites BaseEnv.java:633-636  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]
+  context: d by the skeptic, `probes/skeptic/sizes-walk.txt:58`, `:63`); and one dormant, `BaseEnv.putInt` (`BaseEnv.java:633-636`), which nothing calls (a grep of `putI
+  HEAD 633:     public void putInt(String str, Number f2) {
+  HEAD 634:         putIntRaw(str, f2);
+  HEAD 635:         putValueRaw(str, FInt.make(f2.intValue()));
+  HEAD 636:     }
+  (BASE same)
+### report-text.txt:36 cites Int.java:250-256  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: - Uncatchable `error` in the four glue files: `Int.rc` (`Int.java:250-256`) and `NN32.rc` (`NN32.java:262-267`), 
+  HEAD 250:     public static int rc(long i) {
+  HEAD 251:         int r = (int) i;
+  HEAD 252:         if ((long) r != i) {
+  HEAD 253:             throw overflow();
+  HEAD 254:         }
+  HEAD 255:         return r;
+  BASE 250:     public static int rc(long i) {
+  BASE 251:         int r = (int) i;
+  BASE 252:         if ((long) r != i) {
+  BASE 253:             error("Overflow of ZZ32 " + i);
+  BASE 254:         }
+  BASE 255:         return r;
+### report-text.txt:36 cites NN32.java:262-267  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: - Uncatchable `error` in the four glue files: `Int.rc` (`Int.java:250-256`) and `NN32.rc` (`NN32.java:262-267`), at 382b9fe7f, called by `Int$Choose`
+  HEAD 262: 
+  HEAD 263:     public static int rc(long i) {
+  HEAD 264:         if ((i >> 32) != 0) {
+  HEAD 265:             throw Int.overflow();
+  HEAD 266:         }
+  HEAD 267:         return (int) i;
+  BASE 262:     public static int rc(long i) {
+  BASE 263:         if ((i >> 32) != 0) {
+  BASE 264:             error("Overflow of NN32 " + i);
+  BASE 265:         }
+  BASE 266:         return (int) i;
+  BASE 267:     }
+### report-text.txt:37 cites NN32.java:145  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: 2` natives handing a sign-extended `int` to `UnsignedLong`: five sites at 382b9fe7f, `Gcd` widened (`NN32.java:145`), `Lcm` (`:152-153`), `Choose` (`:159`
+  HEAD 145:             return (int) UnsignedLong.gcd(Unsigned.toLong(u), Unsigned.toLong(v));
+  (BASE same)
+### report-text.txt:37 cites NN32.java:152-153  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: ng a sign-extended `int` to `UnsignedLong`: five sites at 382b9fe7f, `Gcd` widened (`NN32.java:145`), `Lcm` (`:152-153`), `Choose` (`:159`), `Pow` (`:233`) an
+  HEAD 152:             long a = Unsigned.toLong(u);
+  HEAD 153:             long b = Unsigned.toLong(v);
+  BASE 152:             int g = (int) UnsignedLong.gcd(u, v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+### report-text.txt:37 cites NN32.java:159  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: ` to `UnsignedLong`: five sites at 382b9fe7f, `Gcd` widened (`NN32.java:145`), `Lcm` (`:152-153`), `Choose` (`:159`), `Pow` (`:233`) and `Pow`'s negative 
+  HEAD 159:         protected int f(int u, int v) {
+  BASE 159:             return rc(UnsignedLong.choose(u, v));
+### report-text.txt:37 cites NN32.java:233  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: ng`: five sites at 382b9fe7f, `Gcd` widened (`NN32.java:145`), `Lcm` (`:152-153`), `Choose` (`:159`), `Pow` (`:233`) and `Pow`'s negative branch (`:231`);
+  HEAD 233:             } else {
+  BASE 233:                 return FNN32.make(rc(UnsignedLong.pow(base, exp)));
+### report-text.txt:37 cites NN32.java:231  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]  (382b9fe7f near)
+  context: idened (`NN32.java:145`), `Lcm` (`:152-153`), `Choose` (`:159`), `Pow` (`:233`) and `Pow`'s negative branch (`:231`); the edit widens the three, and the n
+  HEAD 231:             if (exp < 0) {
+  BASE 231:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+### report-text.txt:37 cites NN32.java:232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: Pow`'s negative branch (`:231`); the edit widens the three, and the negative branch stays (row 441; `NN32.java:232` on the rung's tree).
+  HEAD 232:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 232:             } else {
+### report-text.txt:38 cites Int.java:361-372  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]  (382b9fe7f near)
+  context: - Unchecked multiplication in the four files, all at 382b9fe7f: `Int.pow` (`Int.java:361-372`), `Int.choose` (`:339-344`), `Unsigned
+  HEAD 361:             if (xi >= 0) return ri;
+  HEAD 362:             return ri + yi;
+  HEAD 363:         } else {
+  HEAD 364:             if (xi >= 0) return ri + yi;
+  HEAD 365:             return ri;
+  HEAD 366:         }
+  BASE 361:     public static long pow(long x, long y) {
+  BASE 362:         long r = 1;
+  BASE 363:         while (y > 0) {
+  BASE 364:             if ((y & 1) != 0) {
+  BASE 365:                 r *= x;
+  BASE 366:                 y--;
+### report-text.txt:38 cites Int.java:339-344  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]  (382b9fe7f near)
+  context:  Unchecked multiplication in the four files, all at 382b9fe7f: `Int.pow` (`Int.java:361-372`), `Int.choose` (`:339-344`), `UnsignedLong$Lcm` (`UnsignedLong.ja
+  HEAD 339:         // at least one of which will be a multiple of k.
+  HEAD 340:         // Dividing by g = gcd(accum, j) first leaves j/g dividing m, so a step
+  HEAD 341:         // overflows only if its coefficient, which grows with j, does.
+  HEAD 342:         long accum = 1;
+  HEAD 343:         try {
+  HEAD 344:             for (long j = 1; j <= k; j++) {
+  BASE 339:         long accum = 1;
+  BASE 340:         for (long j = 1; j <= k; j++) {
+  BASE 341:             long m = n - k + j;
+  BASE 342:             accum = accum * m;
+  BASE 343:             accum = accum / j;
+  BASE 344:         }
+### report-text.txt:38 cites UnsignedLong.java:154  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]  (382b9fe7f near)
+  context: t 382b9fe7f: `Int.pow` (`Int.java:361-372`), `Int.choose` (`:339-344`), `UnsignedLong$Lcm` (`UnsignedLong.java:154`), `UnsignedLong.choose` (`:309-313`), 
+  HEAD 154:             return multiplyExact(Unsigned.divide(u, g), v);
+  BASE 154:             return Unsigned.multiplyToLong(Unsigned.divide(u, g), v);
+### report-text.txt:38 cites UnsignedLong.java:309-313  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]  (382b9fe7f near)
+  context: a:361-372`), `Int.choose` (`:339-344`), `UnsignedLong$Lcm` (`UnsignedLong.java:154`), `UnsignedLong.choose` (`:309-313`), `UnsignedLong.pow` (`:317-328`), `NN
+  HEAD 309:         // As Int.choose, a step overflows only if its coefficient does.
+  HEAD 310:         long accum = 1;
+  HEAD 311:         for (long j = 1; j <= k; j++) {
+  HEAD 312:             long m = n - k + j;
+  HEAD 313:             long g = gcd(accum, j);
+  BASE 309:         for (long j = 1; j <= k; j++) {
+  BASE 310:             long m = n - k + j;
+  BASE 311:             accum = Unsigned.multiplyToLong(accum, m);
+  BASE 312:             accum = Unsigned.divide(accum, j);
+  BASE 313:         }
+### report-text.txt:38 cites UnsignedLong.java:317-328  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]  (382b9fe7f near)
+  context: 344`), `UnsignedLong$Lcm` (`UnsignedLong.java:154`), `UnsignedLong.choose` (`:309-313`), `UnsignedLong.pow` (`:317-328`), `NN32$Lcm`'s int product (`NN32.java
+  HEAD 317:     }
+  HEAD 318: 
+  HEAD 319:     /** x times y, unsigned; a catchable IntegerOverflow if it is not an NN64 value. */
+  HEAD 320:     public static long multiplyExact(long x, long y) {
+  HEAD 321:         long p = Unsigned.multiplyToLong(x, y);
+  HEAD 322:         if (y != 0 && Unsigned.divide(p, y) != x) throw Int.overflow();
+  BASE 317:     public static long pow(long x, long y) {
+  BASE 318:         long r = 1;
+  BASE 319:         while (y > 0) {
+  BASE 320:             if ((y & 1) != 0) {
+  BASE 321:                 r *= x;
+  BASE 322:                 y--;
+### report-text.txt:38 cites NN32.java:153  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: 4`), `UnsignedLong.choose` (`:309-313`), `UnsignedLong.pow` (`:317-328`), `NN32$Lcm`'s int product (`NN32.java:153`); `Long.java`'s own `choose` (`Project
+  HEAD 153:             long b = Unsigned.toLong(v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+### report-text.txt:38 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java:321  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java]
+  context: .java:153`); `Long.java`'s own `choose` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java:321`) and `pow` (`Long.java:354`) serve onl
+  HEAD 321:     public static long choose(long n, long k) {
+  (BASE same)
+### report-text.txt:38 cites Long.java:354  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java]
+  context: wn `choose` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java:321`) and `pow` (`Long.java:354`) serve only dormant `ZZ32.java`. The t
+  HEAD 354:     public static long pow(long x, long y) {
+  (BASE same)
+### report-text.txt:39 cites UnsignedLong.java:125-130  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: ltiplyExact` with `Int.overflow()` for the signed widths, and its divide-back product test (`UnsignedLong.java:125-130`) as `UnsignedLong.multiplyExact` for t
+  HEAD 125:     public static final class Mul extends UU2U {
+  HEAD 126:         protected long f(long x, long y) {
+  HEAD 127:             if (y != 0 && Unsigned.divide(Unsigned.multiplyToLong(x, y), y) != x) throw Int.overflow();
+  HEAD 128:             return Unsigned.multiplyToLong(x, y);
+  HEAD 129:         }
+  HEAD 130:     }
+  (BASE same)
+### report-text.txt:39 cites Int.java:276-286  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: as `UnsignedLong.multiplyExact` for the unsigned; `NN32$Gcd`'s `Unsigned.toLong`; `Int.lcm`'s shape (`Int.java:276-286`); for the static arithmetic, `Math.add
+  HEAD 276:     public static long lcm(long u, long v) {
+  HEAD 277:         if (u == 0 || v == 0) return 0;
+  HEAD 278:         long q = u / gcd(u, v);
+  HEAD 279:         if (q == java.lang.Long.MIN_VALUE || v == java.lang.Long.MIN_VALUE) throw overflow();
+  HEAD 280:         try {
+  HEAD 281:             return Math.multiplyExact(Math.abs(q), Math.abs(v));
+  (BASE same)
+### report-text.txt:39 cites EvalType.java:452  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: ithmetic, `Math.addExact`, `subtractExact` and `multiplyExact` with `forIntBase`'s own message (`EvalType.java:452`). The compiled helpers' table-driven b
+  HEAD 452: 		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int par
+  BASE 452: 		catch (FortressException p) {
+### report-text.txt:40 cites Library/RangeInternals.fss:59-80  [Library/RangeInternals.fss]
+  context: he library's own reorder device is Pavol's (`POSITIONS.md:81`) and `meetingPoint` (`Library/RangeInternals.fss:59-80`); the library's own empty range is `em
+  HEAD 59: (* Find meeting point given the two bounds; tries to avoid overflow. *)
+  HEAD 60: meetingPoint(init0:ZZ32, stride0:ZZ32, init1:ZZ32, stride1:ZZ32, stride:ZZ32): Maybe[\ZZ32\] =
+  HEAD 61:     if init0 = init1 then Just[\ZZ32\](init0)
+  HEAD 62:     else
+  HEAD 63:         (i_min,s_min,i_max,s_max) : (ZZ32,ZZ32,ZZ32,ZZ32) :=
+  HEAD 64:             if init0 < init1 then
+  (BASE same)
+### report-text.txt:40 cites Library/RangeInternals.fss:1387  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: RangeInternals.fss:59-80`); the library's own empty range is `emptyScalarRange()` (`Library/RangeInternals.fss:1387`; `:1375` at 382b9fe7f); rung O's judge
+  HEAD 1387: emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
+  BASE 1387: bounded2Range(l1:ZZ32,l2:ZZ32,hi1:ZZ32,hi2:ZZ32): CompactFullRange2D =
+### report-text.txt:40 cites Library/RangeInternals.fss:1375  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: rnals.fss:59-80`); the library's own empty range is `emptyScalarRange()` (`Library/RangeInternals.fss:1387`; `:1375` at 382b9fe7f); rung O's judge's local 
+  HEAD 1375:         CompactFullRange2D(l_i,l_j,r_i,r_j).check()
+  BASE 1375: emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
+### report-text.txt:53 cites XXXNatRangeChecker.fss:13  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context: es beyond `NN32` at `nat` parameters and beyond `ZZ32` at `int` parameters, in a type (`XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (
+  HEAD 13: gNat(b: Box[\4294967296\]): String = "a nat parameter beyond NN32 in a type"
+  BASE <absent>
+### report-text.txt:53 cites XXXNatRangeChecker.fss:14  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context: nd `NN32` at `nat` parameters and beyond `ZZ32` at `int` parameters, in a type (`XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (`:20`, 
+  HEAD 14: gInt(b: IBox[\2147483648\]): String = "an int parameter beyond ZZ32 in a type"
+  BASE <absent>
+### report-text.txt:53 cites XXXNatRangeChecker.fss:20  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context: ond `ZZ32` at `int` parameters, in a type (`XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (`:20`, `:21`) and read as values (`:17-19`, 
+  HEAD 20:   println(natOf[\4294967296\]())
+  BASE <absent>
+### report-text.txt:53 cites XXXNatRangeChecker.fss:21  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context: 32` at `int` parameters, in a type (`XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (`:20`, `:21`) and read as values (`:17-19`, `:22`).
+  HEAD 21:   println(intOf[\2147483648\]())
+  BASE <absent>
+### report-text.txt:53 cites XXXNatRangeChecker.fss:17-19  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context:  a type (`XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (`:20`, `:21`) and read as values (`:17-19`, `:22`). On the base it compiles and t
+  HEAD 17:   println(sz64(Box[\9223372036854775807\](0)))
+  HEAD 18:   println(szZ(Box[\9223372036854775808\](0)))
+  HEAD 19:   println(szZ(Box[\18446744073709551615\](0)))
+  BASE <absent>
+### report-text.txt:53 cites XXXNatRangeChecker.fss:22  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]
+  context: XXXNatRangeChecker.fss:13`, `:14`), as written static arguments (`:20`, `:21`) and read as values (`:17-19`, `:22`). On the base it compiles and the harn
+  HEAD 22:   println(iv64(IBox[\2147483648\](0)))
+  BASE <absent>
+### report-text.txt:57 cites Library/RangeInternals.fss:1379  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: .txt:31`), `XXXRangeBoundsRungO` and `XXXRangeEmptyHashRungO` `IntegerOverflow` at `Library/RangeInternals.fss:1379` (at 382b9fe7f), `XXXSeqRangeTopRungO` 
+  HEAD 1379: 
+  BASE 1379:     CompactFullParScalarRange(lo,lo+ex-1)
+### report-text.txt:57 cites Library/RangeInternals.fss:1048  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: low` at `Library/RangeInternals.fss:1379` (at 382b9fe7f), `XXXSeqRangeTopRungO` at `Library/RangeInternals.fss:1048` (at 382b9fe7f) (`probes/failure/walk-b
+  HEAD 1048:             body(i)
+  BASE 1048:             i += 1
+### report-text.txt:60 cites XXXStridedSpanWalk.fss:14-15  [ProjectFortress/tests/XXXStridedSpanWalk.fss]
+  context: - Repair round, row 522's third site: `XXXStridedSpanWalk.fss:14-15` asserts `|0:MIN:MIN|` = 2; a copy hold
+  HEAD 14:     twoFit = 0:zMin:zMin
+  HEAD 15:     assert(|twoFit|, 2, "a strided range whose two elements, 0 and the minimum, fit; ranges.tex:68-70, :140-143")
+  BASE <absent>
+### report-text.txt:60 cites Library/RangeInternals.fss:156  [Library/RangeInternals.fss]
+  context:  `|0:MIN:MIN|` = 2; a copy holding only that assertion raises `IntegerOverflow` at `Library/RangeInternals.fss:156` (`probes/repair/Strided156Only.fss`; `
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  (BASE same)
+### report-text.txt:65 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: - The checker (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87`, `:155-156`, `:189-193`, `:206`). `siz
+  HEAD 49:   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
+  HEAD 50:   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
+  HEAD 51:   private val zz32Max = java.math.BigInteger.valueOf(Int.MaxValue.toLong)
+  HEAD 52: 
+  HEAD 53:   // A literal size outside the values of every kind its parameters have: a nat parameter
+  HEAD 54:   // is an NN32 value and an int parameter a ZZ32 value.  No kinds known means either.
+  BASE 49:   private def getTypes(typ:Id) = {
+  BASE 50:     val types = typ match {
+  BASE 51:       case SId(info,Some(name),text) =>
+  BASE 52:       globalEnv.api(name).typeConses.get(SId(info,None,text))
+  BASE 53:       case _ => compilation_unit.typeConses.get(typ)
+  BASE 54:     }
+### report-text.txt:65 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:155-156  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: The checker (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87`, `:155-156`, `:189-193`, `:206`). `sizeOutOfRange`
+  HEAD 155:           sargs.zip(toListFromImmutable(sparams)).foreach { case (a, p) =>
+  HEAD 156:             sizeOutOfRange(a, List(p.getKind)).foreach(m => error("Ill-formed type: " + t + "\n    " + m, t)) }
+  BASE 155:       case SMethodInvocation(_, getObj, getMethod, getStaticArgs, getArg, getOverloadingType, _) =>
+  BASE 156:         walk(getObj)
+### report-text.txt:65 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:189-193  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87`, `:155-156`, `:189-193`, `:206`). `sizeOutOfRange` takes a lit
+  HEAD 189:       case a:IntArg =>
+  HEAD 190:         sizeOutOfRange(a, Nil).foreach(m => error("Ill-formed static argument: " + a + "\n    " + m, a))
+  HEAD 191:       case SFunctionalRef(_, args, _, _, _, _, newOverloadings, _, schema) if !args.isEmpty =>
+  HEAD 192:         val schemas = newOverloadings.flatMap(o => toOption(o.getSchema).toList) ++ schema.toList
+  HEAD 193:         walkStaticArgs(args, kindsAt(schemas, args.size))
+  BASE 189: <eof>
+  BASE 190: <eof>
+  BASE 191: <eof>
+  BASE 192: <eof>
+  BASE 193: <eof>
+### report-text.txt:65 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:206  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: tress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87`, `:155-156`, `:189-193`, `:206`). `sizeOutOfRange` takes a literal siz
+  HEAD 206:         walkStaticArgs(getStaticArgs, kindsAt(getOverloadingSchema.toList, getStaticArgs.size))
+  BASE 206: <eof>
+### report-text.txt:66 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: - Walk (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `
+  HEAD 449: 	    public FType forIntBase(IntBase n) {
+  HEAD 450: 		java.math.BigInteger v = n.getIntVal().getIntVal();
+  HEAD 451: 		if (v.bitLength() > 63) {
+  HEAD 452: 		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int par
+  HEAD 453: 		}
+  HEAD 454: 		return IntNat.make(v.longValue());
+  BASE 449: 		    FType result = env.getType(q);
+  BASE 450: 		    return result;
+  BASE 451: 		}
+  BASE 452: 		catch (FortressException p) {
+  BASE 453: 		    throw p.setContext(q, env);
+  BASE 454: 		}
+### report-text.txt:66 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:258-260  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: - Walk (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `BaseEnv.java
+  HEAD 258: 		    if (l > 4294967295L) {
+  HEAD 259: 			error(p, errorMsg("Static argument " + l + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295"));
+  HEAD 260: 		    }
+  BASE 258: 
+  BASE 259: 		    guardedPutNat(NodeUtil.getName(p), ((IntNat) a).getNumber(), what, clenv);
+  BASE 260: 		} else if (a instanceof SymbolicNat) {
+### report-text.txt:66 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:270-273  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: - Walk (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `BaseEnv.java:630`; `type
+  HEAD 270: 		    long l = ((IntNat) a).getValue();
+  HEAD 271: 		    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+  HEAD 272: 			error(p, errorMsg("Static argument " + l + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+  HEAD 273: 		    }
+  BASE 270: 		} else {
+  BASE 271: 		    error(within, clenv, errorMsg("Expected Int, got ", a, " for param ", p, " instantiating ", what));
+  BASE 272: 		}
+  BASE 273: 	    } else if (NodeUtil.isBoolParam(p)) {
+### report-text.txt:66 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `BaseEnv.java:630`; `types/IntNat.jav
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:66 cites BaseEnv.java:630  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]
+  context: m/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `BaseEnv.java:630`; `types/IntNat.java:136`). `forIntBase
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+### report-text.txt:66 cites types/IntNat.java:136  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java]
+  context: r/evaluator/EvalType.java:449-455`, `:258-260`, `:270-273`, `:468-480`; `BaseEnv.java:630`; `types/IntNat.java:136`). `forIntBase` reads the literal exact
+  HEAD 136:                 if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
+  BASE 136:                 if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+### report-text.txt:67 cites Int.java:253  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: - The natives. `Int.rc` and `NN32.rc` throw `Int.overflow()` (`Int.java:253`, `NN32.java:265`); `Int.powExact` (`In
+  HEAD 253:             throw overflow();
+  BASE 253:             error("Overflow of ZZ32 " + i);
+### report-text.txt:67 cites NN32.java:265  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: - The natives. `Int.rc` and `NN32.rc` throw `Int.overflow()` (`Int.java:253`, `NN32.java:265`); `Int.powExact` (`Int.java:369-384`) 
+  HEAD 265:             throw Int.overflow();
+  BASE 265:         }
+### report-text.txt:67 cites Int.java:369-384  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: es. `Int.rc` and `NN32.rc` throw `Int.overflow()` (`Int.java:253`, `NN32.java:265`); `Int.powExact` (`Int.java:369-384`) and `UnsignedLong.powExact` (`Unsigne
+  HEAD 369:     /** x^y for y >= 0; a catchable IntegerOverflow if it is not a ZZ64 value. */
+  HEAD 370:     public static long powExact(long x, long y) {
+  HEAD 371:         try {
+  HEAD 372:             long r = 1;
+  HEAD 373:             while (y > 0) {
+  HEAD 374:                 if ((y & 1) != 0) r = Math.multiplyExact(r, x);
+  BASE 369:             y >>>= 1;
+  BASE 370:         }
+  BASE 371:         return r;
+  BASE 372:     }
+  BASE 373: 
+  BASE 374:     @Override
+### report-text.txt:67 cites UnsignedLong.java:326-335  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: va:253`, `NN32.java:265`); `Int.powExact` (`Int.java:369-384`) and `UnsignedLong.powExact` (`UnsignedLong.java:326-335`), exponentiation by squaring that squa
+  HEAD 326:     /** x^y, x unsigned, for y >= 0; a catchable IntegerOverflow if it is not an NN64 value. */
+  HEAD 327:     public static long powExact(long x, long y) {
+  HEAD 328:         long r = 1;
+  HEAD 329:         while (y > 0) {
+  HEAD 330:             if ((y & 1) != 0) r = multiplyExact(r, x);
+  HEAD 331:             y >>>= 1;
+  BASE 326:         }
+  BASE 327:         return r;
+  BASE 328:     }
+  BASE 329: 
+  BASE 330:     @Override
+  BASE 331:     protected void unregister() {
+### report-text.txt:67 cites UnsignedLong.java:319-324  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: squares only while bits remain, with `Math.multiplyExact` and `UnsignedLong.multiplyExact` (`UnsignedLong.java:319-324`, the divide-back test); `Int.choose` a
+  HEAD 319:     /** x times y, unsigned; a catchable IntegerOverflow if it is not an NN64 value. */
+  HEAD 320:     public static long multiplyExact(long x, long y) {
+  HEAD 321:         long p = Unsigned.multiplyToLong(x, y);
+  HEAD 322:         if (y != 0 && Unsigned.divide(p, y) != x) throw Int.overflow();
+  HEAD 323:         return p;
+  HEAD 324:     }
+  BASE 319:         while (y > 0) {
+  BASE 320:             if ((y & 1) != 0) {
+  BASE 321:                 r *= x;
+  BASE 322:                 y--;
+  BASE 323:             }
+  BASE 324:             x *= x;
+### report-text.txt:67 cites Int.java:328-354  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: vide by `gcd(accum, j)` before they multiply, `multiplyExact` catching a step that leaves the width (`Int.java:328-354`, `UnsignedLong.java:297-317`); `Int$Po
+  HEAD 328:     public static long choose(long n, long k) {
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  HEAD 330:         if (k > n / 2) k = n - k;
+  HEAD 331:         if (k == 0) return 1;
+  HEAD 332:         if (k == 1) return n;
+  HEAD 333:         // k <= n/2
+  BASE 328:     public static long choose(long n, long k) {
+  BASE 329:         if (k > n / 2) k = n - k;
+  BASE 330:         if (k == 0) return 1;
+  BASE 331:         if (k == 1) return n;
+  BASE 332:         // k <= n/2
+  BASE 333:         // Will multiply (k) terms, n-k+1 through n-k+k
+### report-text.txt:67 cites UnsignedLong.java:297-317  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: e they multiply, `multiplyExact` catching a step that leaves the width (`Int.java:328-354`, `UnsignedLong.java:297-317`); `Int$Pow` and `Long$Pow` take `powEx
+  HEAD 297:     public static long choose(long n, long k) {
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  HEAD 299:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  HEAD 300:         if (k == 0) return 1;
+  HEAD 301:         if (k == 1) return n;
+  HEAD 302:         // k <= n/2
+  BASE 297:     public static long choose(long n, long k) {
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  BASE 299:         if (k == 0) return 1;
+  BASE 300:         if (k == 1) return n;
+  BASE 301:         // k <= n/2
+  BASE 302:         // Will multiply (k) terms, n-k+1 through n-k+k
+### report-text.txt:67 cites Int.java:227  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: `, `UnsignedLong.java:297-317`); `Int$Pow` and `Long$Pow` take `powExact` on the nonnegative branch (`Int.java:227`, `Long.java:239`); `NN32$Lcm` widens b
+  HEAD 227:                 return FInt.make(rc(powExact(base, exp)));
+  BASE 227:                 return FInt.make(rc(pow(base, exp)));
+### report-text.txt:67 cites Long.java:239  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java]
+  context: java:297-317`); `Int$Pow` and `Long$Pow` take `powExact` on the nonnegative branch (`Int.java:227`, `Long.java:239`); `NN32$Lcm` widens both operands and 
+  HEAD 239:                 return FLong.make(Int.powExact(base, exp));
+  BASE 239:                 return FLong.make(Int.pow(base, exp));
+### report-text.txt:67 cites NN32.java:149-156  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context:  (`Int.java:227`, `Long.java:239`); `NN32$Lcm` widens both operands and checks the 64-bit multiple (`NN32.java:149-156`); `NN32$Choose` and `NN32$Pow` widen (
+  HEAD 149:     public static final class Lcm extends NN2N {
+  HEAD 150:         protected int f(int u, int v) {
+  HEAD 151:             if (u == 0 || v == 0) return 0;
+  HEAD 152:             long a = Unsigned.toLong(u);
+  HEAD 153:             long b = Unsigned.toLong(v);
+  HEAD 154:             return rc((a / UnsignedLong.gcd(a, b)) * b);
+  BASE 149:     public static final class Lcm extends NN2N {
+  BASE 150:         protected int f(int u, int v) {
+  BASE 151:             if (u == 0 || v == 0) return 0;
+  BASE 152:             int g = (int) UnsignedLong.gcd(u, v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+  BASE 154:         }
+### report-text.txt:67 cites NN32.java:160  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context:  operands and checks the 64-bit multiple (`NN32.java:149-156`); `NN32$Choose` and `NN32$Pow` widen (`NN32.java:160`, `:234`); `UnsignedLong$Lcm`, `$Choose
+  HEAD 160:             return rc(UnsignedLong.choose(Unsigned.toLong(u), Unsigned.toLong(v)));
+  BASE 160:         }
+### report-text.txt:67 cites NN32.java:234  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: s and checks the 64-bit multiple (`NN32.java:149-156`); `NN32$Choose` and `NN32$Pow` widen (`NN32.java:160`, `:234`); `UnsignedLong$Lcm`, `$Choose` and `$
+  HEAD 234:                 return FNN32.make(rc(UnsignedLong.powExact(Unsigned.toLong(base), exp)));
+  BASE 234:             }
+### report-text.txt:67 cites UnsignedLong.java:154  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: NN32.java:160`, `:234`); `UnsignedLong$Lcm`, `$Choose` and `$Pow` take the checked helpers (`UnsignedLong.java:154`, `:160`, `:234`). The negative branche
+  HEAD 154:             return multiplyExact(Unsigned.divide(u, g), v);
+  BASE 154:             return Unsigned.multiplyToLong(Unsigned.divide(u, g), v);
+### report-text.txt:67 cites UnsignedLong.java:160  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: a:160`, `:234`); `UnsignedLong$Lcm`, `$Choose` and `$Pow` take the checked helpers (`UnsignedLong.java:154`, `:160`, `:234`). The negative branches (`Int.
+  HEAD 160:             return choose(u, v);
+  (BASE same)
+### report-text.txt:67 cites UnsignedLong.java:234  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: `:234`); `UnsignedLong$Lcm`, `$Choose` and `$Pow` take the checked helpers (`UnsignedLong.java:154`, `:160`, `:234`). The negative branches (`Int.java:224
+  HEAD 234:                 return FNN64.make(powExact(base, exp));
+  BASE 234:                 return FNN64.make(pow(base, exp));
+### report-text.txt:67 cites Int.java:224-225  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: nd `$Pow` take the checked helpers (`UnsignedLong.java:154`, `:160`, `:234`). The negative branches (`Int.java:224-225`, `Long.java:236-237`, `NN32.java:231-2
+  HEAD 224:             if (exp < 0) {
+  HEAD 225:                 return FFloat.make(1.0 / (double) pow(base, -exp));
+  (BASE same)
+### report-text.txt:67 cites Long.java:236-237  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java]
+  context: ecked helpers (`UnsignedLong.java:154`, `:160`, `:234`). The negative branches (`Int.java:224-225`, `Long.java:236-237`, `NN32.java:231-232`, `UnsignedLong.ja
+  HEAD 236:             if (exp < 0) {
+  HEAD 237:                 return FFloat.make(1.0 / (double) Int.pow(base, -exp));
+  (BASE same)
+### report-text.txt:67 cites NN32.java:231-232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: nedLong.java:154`, `:160`, `:234`). The negative branches (`Int.java:224-225`, `Long.java:236-237`, `NN32.java:231-232`, `UnsignedLong.java:231-232`) and the 
+  HEAD 231:             if (exp < 0) {
+  HEAD 232:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 231:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 232:             } else {
+### report-text.txt:67 cites UnsignedLong.java:231-232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: 234`). The negative branches (`Int.java:224-225`, `Long.java:236-237`, `NN32.java:231-232`, `UnsignedLong.java:231-232`) and the declared `RR64` of `^` are un
+  HEAD 231:             if (exp < 0) {
+  HEAD 232:                 return FFloat.make(1.0 / (double) pow(base, -exp));
+  (BASE same)
+### report-text.txt:68 cites Library/RangeInternals.fss:956  [Library/RangeInternals.fss]
+  context: - The range bodies (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-12
+  HEAD 956:         if l > r then 0 else narrow(r-l+1) end
+  BASE 956:         res = narrow(r-l+1)
+### report-text.txt:68 cites Library/RangeInternals.fss:1036-1054  [Library/RangeInternals.fss]
+  context: - The range bodies (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-14
+  HEAD 1036:         if l <= r then
+  HEAD 1037:             result := red.join(result, body(i))
+  HEAD 1038:             while i < r do
+  HEAD 1039:                 i += 1
+  HEAD 1040:                 result := red.join(result, body(i))
+  HEAD 1041:             end
+  BASE 1036:         i : ZZ32 := l
+  BASE 1037:         while i <= r do
+  BASE 1038:             b = body(i)
+  BASE 1039:             result := red.join(result, b)
+  BASE 1040:             i += 1
+  BASE 1041:         end
+### report-text.txt:68 cites Library/RangeInternals.fss:1124-1126  [Library/RangeInternals.fss]
+  context: - The range bodies (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/
+  HEAD 1124:     getter size(): ZZ32 =
+  HEAD 1125:         if self.isEmpty then 0
+  HEAD 1126:         else narrow((self.right.get-self.left.get) DIV self.stride + 1) end
+  BASE 1124:       end
+  BASE 1125:     getter isEmpty(): Boolean =
+  BASE 1126:         if self.stride > 0 then (self.left.get>self.right.get)
+### report-text.txt:68 cites Library/RangeInternals.fss:1256-1297  [Library/RangeInternals.fss]
+  context: - The range bodies (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrar
+  HEAD 1256:     generate[\T\](red:Reduction[\T\], body: ZZ32->T): T = do
+  HEAD 1257:         result : T := red.empty()
+  HEAD 1258:         i : ZZ32 := l
+  HEAD 1259:         if str > 0 then
+  HEAD 1260:             if l <= r then
+  HEAD 1261:                 result := red.join(result,body(i))
+  BASE 1256:         i : ZZ32 := l
+  BASE 1257:         if str > 0 then
+  BASE 1258:             while i <= r do
+  BASE 1259:                 b = body(i)
+  BASE 1260:                 result := red.join(result,b)
+  BASE 1261:                 i += str
+### report-text.txt:68 cites Library/RangeInternals.fss:1390-1401  [Library/RangeInternals.fss]
+  context: - The range bodies (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrary.fss:3918-392
+  HEAD 1390: sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  BASE 1390:     CompactFullRange3D(l1,l2,l3,hi1,hi2,hi3)
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+### report-text.txt:68 cites Library/FortressLibrary.fss:3918-3920  [Library/FortressLibrary.fss]
+  context: /RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrary.fss:3918-3920`). `CompactFullScalarRange.size` and `S
+  HEAD 3918:         l':ZZ32 => if u < l' then 0 else (u - l') + 1 end
+  HEAD 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; if (u1 < l1) OR (u2 < l2) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) end end
+  HEAD 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; if (u1 < l1) OR (u2 < l2) OR (u3 < l3) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) ((u3
+  BASE 3918:         l':ZZ32 => 0 MAX ((u - l') + 1)
+  BASE 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) end
+  BASE 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) (0 MAX ((u3 - l3) + 1)) end
+### report-text.txt:68 cites Library/RangeInternals.fss:1390-1393  [Library/RangeInternals.fss]
+  context: CompactFullParScalarRange(0,-1)`, the library's own empty range, when it does not (`Library/RangeInternals.fss:1390-1393`); `sized2Range` and `sized3Range` buil
+  HEAD 1390: sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1390:     CompactFullRange3D(l1,l2,l3,hi1,hi2,hi3)
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### report-text.txt:68 cites Library/RangeInternals.fss:1394-1401  [Library/RangeInternals.fss]
+  context: t does not (`Library/RangeInternals.fss:1390-1393`); `sized2Range` and `sized3Range` build on `sized1Range` (`:1394-1401`); `CompactFullRange`'s `|self|` tests 
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  HEAD 1396:     CompactFullRange2D(r1.lower,r2.lower,r1.upper,r2.upper)
+  HEAD 1397:   end
+  HEAD 1398: sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D = do
+  HEAD 1399:     (r1, r2, r3) = (sized1Range(l1,ex1), sized1Range(l2,ex2), sized1Range(l3,ex3))
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+  BASE 1396:     LeftRange3D(x,y,z,1,1,1)
+  BASE 1397: 
+  BASE 1398: extent1Range(x:ZZ32):ExtentRange[\ZZ32\] =
+  BASE 1399:     if x=0 then
+### report-text.txt:83 cites NatRtBigSize.fss:6  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: - Before and after, each changed line of `ProjectFortress/compiler_tests/NatRtBigSize.fss`: `NatRtBigSize.fss:6` at 382b9fe7f, `szZ[\nat k\](b: Box[\k\
+  HEAD 6: g(b: Box[\3000000000\]): String = "big"
+  BASE 6: szZ[\nat k\](b: Box[\k\]): ZZ = k
+### report-text.txt:83 cites XXXNatRangeChecker.fss:9  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]  (382b9fe7f near)
+  context: tRtBigSize.fss:6` at 382b9fe7f, `szZ[\nat k\](b: Box[\k\]): ZZ = k`, removed (moved to `XXXNatRangeChecker.fss:9`); `NatRtBigSize.fss:26-29` at 382b9fe7
+  HEAD 9: szZ[\nat k\](b: Box[\k\]): ZZ = k
+  BASE <absent>
+### report-text.txt:83 cites NatRtBigSize.fss:26-29  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: 2b9fe7f, `szZ[\nat k\](b: Box[\k\]): ZZ = k`, removed (moved to `XXXNatRangeChecker.fss:9`); `NatRtBigSize.fss:26-29` at 382b9fe7f, the read of 922337203685
+  HEAD 26:   assert(g(a), "big", "trait-parameters.tex:82-90")
+  HEAD 27:   b: Any = Box[\3\](0)
+  HEAD 28:   assert(g(b), "other", "trait-parameters.tex:82-90")
+  HEAD 29:   println("PASS")
+  BASE 26:   e5: ZZ64 = 9223372036854775807
+  BASE 27:   r5 = sz64(Box[\9223372036854775807\](0))
+  BASE 28:   println(r5)
+  BASE 29:   assert(r5 = e5, "literals.tex:83-85")
+### report-text.txt:83 cites NatRtBigSize.fss:30-33  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: angeChecker.fss:9`); `NatRtBigSize.fss:26-29` at 382b9fe7f, the read of 9223372036854775807, `NatRtBigSize.fss:30-33` at 382b9fe7f, of 9223372036854775808, 
+  HEAD 30: end
+  HEAD 31: end
+  HEAD 32: 
+  HEAD 33: <eof>
+  BASE 30:   e6: ZZ = 9223372036854775808
+  BASE 31:   r6 = szZ(Box[\9223372036854775808\](0))
+  BASE 32:   println(r6)
+  BASE 33:   assert(r6 = e6, "literals.tex:83-85")
+### report-text.txt:83 cites NatRtBigSize.fss:34-37  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: d of 9223372036854775807, `NatRtBigSize.fss:30-33` at 382b9fe7f, of 9223372036854775808, and `NatRtBigSize.fss:34-37` at 382b9fe7f, of 18446744073709551615,
+  HEAD 34: <eof>
+  HEAD 35: <eof>
+  HEAD 36: <eof>
+  HEAD 37: <eof>
+  BASE 34:   e7: ZZ = 18446744073709551615
+  BASE 35:   r7 = szZ(Box[\18446744073709551615\](0))
+  BASE 36:   println(r7)
+  BASE 37:   assert(r7 = e7, "literals.tex:83-85")
+### report-text.txt:83 cites XXXNatRangeChecker.fss:17-19  [ProjectFortress/compiler_tests/XXXNatRangeChecker.fss]  (382b9fe7f near)
+  context: e.fss:34-37` at 382b9fe7f, of 18446744073709551615, each four lines, removed (moved to `XXXNatRangeChecker.fss:17-19`). The reads of 2147483647, 2147483648,
+  HEAD 17:   println(sz64(Box[\9223372036854775807\](0)))
+  HEAD 18:   println(szZ(Box[\9223372036854775808\](0)))
+  HEAD 19:   println(szZ(Box[\18446744073709551615\](0)))
+  BASE <absent>
+### report-text.txt:85 cites NatRtBigSize.fss:14  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: - The reads of a size beyond 2^31-1 as a value, the lines where the two batches meet: `NatRtBigSize.fss:14`, `:18`, `:22`; `NatBigSizeWalk.fss:11`
+  HEAD 14:   r2 = sz64(Box[\2147483648\](0))
+  BASE 14:   e2: ZZ64 = 2147483648
+### report-text.txt:85 cites NatRtBigSize.fss:18  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: - The reads of a size beyond 2^31-1 as a value, the lines where the two batches meet: `NatRtBigSize.fss:14`, `:18`, `:22`; `NatBigSizeWalk.fss:11`, `:15`
+  HEAD 18:   r3 = sz64(Box[\3000000000\](0))
+  BASE 18:   e3: ZZ64 = 3000000000
+### report-text.txt:85 cites NatRtBigSize.fss:22  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: eads of a size beyond 2^31-1 as a value, the lines where the two batches meet: `NatRtBigSize.fss:14`, `:18`, `:22`; `NatBigSizeWalk.fss:11`, `:15`; `prob
+  HEAD 22:   r4 = sz64(Box[\4294967295\](0))
+  BASE 22:   e4: ZZ64 = 4294967295
+### report-text.txt:85 cites NatBigSizeWalk.fss:11  [ProjectFortress/tests/NatBigSizeWalk.fss]
+  context: 1-1 as a value, the lines where the two batches meet: `NatRtBigSize.fss:14`, `:18`, `:22`; `NatBigSizeWalk.fss:11`, `:15`; `probes/cross/SizeBounds.fss` 
+  HEAD 11:     r1 = size64(Box[\4294967295\](0))
+  BASE <absent>
+### report-text.txt:85 cites NatBigSizeWalk.fss:15  [ProjectFortress/tests/NatBigSizeWalk.fss]
+  context: a value, the lines where the two batches meet: `NatRtBigSize.fss:14`, `:18`, `:22`; `NatBigSizeWalk.fss:11`, `:15`; `probes/cross/SizeBounds.fss` (214748
+  HEAD 15:     r2 = size64(Box[\3000000000\](0))
+  BASE <absent>
+### report-text.txt:98 cites Library/RangeInternals.fss:637  [Library/RangeInternals.fss]
+  context: "Failed to find any matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))" at `Library/RangeInternals.fss:637`, and so at `:641`, `:751`, `:755` (the
+  HEAD 637:         LeftRange3D(l_i-shift_i, l_j-shift_j, l_k-amount, str_i, str_j, str_k)
+  (BASE same)
+### report-text.txt:98 cites Library/RangeInternals.fss:641  [Library/RangeInternals.fss]
+  context: y matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))" at `Library/RangeInternals.fss:637`, and so at `:641`, `:751`, `:755` (the same on both tree
+  HEAD 641:         LeftRange3D(l_i+shift_i, l_j+shift_j, l_k+amount, str_i, str_j, str_k)
+  (BASE same)
+### report-text.txt:98 cites Library/RangeInternals.fss:751  [Library/RangeInternals.fss]
+  context: ng overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))" at `Library/RangeInternals.fss:637`, and so at `:641`, `:751`, `:755` (the same on both trees) and a
+  HEAD 751:         RightRange3D(r_i-shift_i, r_j-shift_j, r_k-amount, str_i, str_j, str_k)
+  (BASE same)
+### report-text.txt:98 cites Library/RangeInternals.fss:755  [Library/RangeInternals.fss]
+  context: oad, args = (3: ZZ32,(1,1,1): (Int,Int,Int))" at `Library/RangeInternals.fss:637`, and so at `:641`, `:751`, `:755` (the same on both trees) and at `Libra
+  HEAD 755:         RightRange3D(r_i+shift_i, r_j+shift_j, r_k+amount, str_i, str_j, str_k)
+  (BASE same)
+### report-text.txt:98 cites Library/RangeInternals.fss:1316  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: ternals.fss:637`, and so at `:641`, `:751`, `:755` (the same on both trees) and at `Library/RangeInternals.fss:1316` and `:1320` at 382b9fe7f (`:1328` and 
+  HEAD 1316:     getter left(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( l_i, l_j )
+  BASE 1316:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+### report-text.txt:98 cites Library/RangeInternals.fss:1320  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: 637`, and so at `:641`, `:751`, `:755` (the same on both trees) and at `Library/RangeInternals.fss:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` on t
+  HEAD 1320:     getter asDebugString(): String = ("StridedFullRange2D(" l_i "," l_j ", " r_i "," r_j ", "
+  BASE 1320:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+### report-text.txt:98 cites Library/RangeInternals.fss:1328  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: , `:751`, `:755` (the same on both trees) and at `Library/RangeInternals.fss:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` on the rung's tree); two s
+  HEAD 1328:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+  BASE 1328: object StridedFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:ZZ32, str_i:ZZ32, str_j:ZZ32, str_k:ZZ32)
+### report-text.txt:98 cites Library/RangeInternals.fss:1332  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: 755` (the same on both trees) and at `Library/RangeInternals.fss:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` on the rung's tree); two shifts of the
+  HEAD 1332:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+  BASE 1332:             (r_i-l_i) DIV str_i,(r_j-l_j) DIV str_j, (r_k-l_k) DIV str_k)
+### report-text.txt:102 cites Library/FortressLibrary.fss:4298  [Library/FortressLibrary.fss]
+  context:  uses of the changed natives are `ZZ32` powers of ten in `strToInt` and `Timing` (`Library/FortressLibrary.fss:4298`, `Library/Timing.fss:21-25`) and `ZZ32
+  HEAD 4298:                           d radix^(n-i)
+  (BASE same)
+### report-text.txt:102 cites Library/RangeInternals.fss:428  [Library/RangeInternals.fss]
+  context: ortressLibrary.fss:4298`, `Library/Timing.fss:21-25`) and `ZZ32` `LCM` of strides (`Library/RangeInternals.fss:428`, `:519`, `:841`, `Int$Lcm`, unchanged)
+  HEAD 428:         resultStride = str LCM e.stride
+  (BASE same)
+### report-text.txt:102 cites Library/RangeInternals.fss:519  [Library/RangeInternals.fss]
+  context: ibrary.fss:4298`, `Library/Timing.fss:21-25`) and `ZZ32` `LCM` of strides (`Library/RangeInternals.fss:428`, `:519`, `:841`, `Int$Lcm`, unchanged); the `B
+  HEAD 519:                 resultStride = self.stride LCM other.stride
+  (BASE same)
+### report-text.txt:102 cites Library/RangeInternals.fss:841  [Library/RangeInternals.fss]
+  context: ss:4298`, `Library/Timing.fss:21-25`) and `ZZ32` `LCM` of strides (`Library/RangeInternals.fss:428`, `:519`, `:841`, `Int$Lcm`, unchanged); the `BirdCount
+  HEAD 841:             resultStride = self.stride LCM other.stride
+  (BASE same)
+### report-text.txt:109 cites Library/RangeInternals.fss:998  [Library/RangeInternals.fss]
+  context: r/static-arith-before.txt`, `static-arith-after.txt`); `BiCGSTAB` fails on both at `Library/RangeInternals.fss:998` and `BiCGSTAB2` at its timing division
+  HEAD 998:                     red.join(loop'(lo,mid-1),loop'(mid,hi))
+  BASE 998:                     mid   = hi BITAND (BITNOT (split DOTMINUS 1))
+### report-text.txt:114 cites NatBigSizeWalk.fss:11-17  [ProjectFortress/tests/NatBigSizeWalk.fss]
+  context: 1. Walk narrows a size to 32 bits (row 418): home 1, `NatBigSizeWalk.fss:11-17` (promoted), `XXXNatBeyondNN32Walk`, `X
+  HEAD 11:     r1 = size64(Box[\4294967295\](0))
+  HEAD 12:     println(r1)
+  HEAD 13:     assert(r1 = e1, "row 418; Specification/basic/trait-parameters.tex:84-85")
+  HEAD 14:     e2: ZZ64 = 3000000000
+  HEAD 15:     r2 = size64(Box[\3000000000\](0))
+  HEAD 16:     println(r2)
+  BASE <absent>
+### report-text.txt:116 cites ProjectFortress/tests/PowChooseLcmRungE.fss:83-87  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: 47483648 LCM 7` = 2147483646, `65536 LCM 65537` = 65536): home 1, `ProjectFortress/tests/PowChooseLcmRungE.fss:83-87`; fixed; provisional row 519.
+  HEAD 83:     assert(overflows(fn () => twoTo31N LCM sevenN), "NN32 2^31 LCM 7 throws IntegerOverflow; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POS
+  HEAD 84:     assert(overflows(fn () => b16N LCM b16pN), "NN32 65536 LCM 65537 throws IntegerOverflow; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POS
+  HEAD 85:     assert((twoTo31N LCM twoN).asString, "2147483648", "NN32 2^31 LCM 2 is 2147483648; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS
+  HEAD 86:     assert((maxN LCM oneN).asString, "4294967295", "NN32 MAX LCM 1 is 4294967295; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS 2026
+  HEAD 87:     assert((sixN LCM fourN).asString, "12", "NN32 6 LCM 4 is 12; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS 2026-09-26, the fifth
+  BASE <absent>
+### report-text.txt:118 cites Int.java:329  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: s.tex:598`) and the compiled helper say 0: this is ledger row 337, whose stated fix is the one made (`Int.java:329`, `UnsignedLong.java:298`): home 1, `Pr
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  BASE 329:         if (k > n / 2) k = n - k;
+### report-text.txt:118 cites UnsignedLong.java:298  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: led helper say 0: this is ledger row 337, whose stated fix is the one made (`Int.java:329`, `UnsignedLong.java:298`): home 1, `ProjectFortress/tests/PowCh
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+### report-text.txt:118 cites ProjectFortress/tests/PowChooseLcmRungE.fss:70-72  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: s the one made (`Int.java:329`, `UnsignedLong.java:298`): home 1, `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; fixed; row 337 
+  HEAD 70:     assert((three CHOOSE 5).asString, "0", "ZZ32 3 CHOOSE 5 is 0; basic-integers.tex:598")
+  HEAD 71:     assert((five CHOOSE (-1)).asString, "0", "ZZ32 5 CHOOSE -1 is 0; basic-integers.tex:598")
+  HEAD 72:     assert((mfive CHOOSE 2).asString, "0", "ZZ32 -5 CHOOSE 2 is 0; basic-integers.tex:598")
+  BASE <absent>
+### report-text.txt:118 cites ProjectFortress/tests/PowChooseLcmRungE.fss:82  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: made (`Int.java:329`, `UnsignedLong.java:298`): home 1, `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; fixed; row 337 closes.
+  HEAD 82:     assert((threeL CHOOSE 5).asString, "0", "ZZ64 3 CHOOSE 5 is 0; basic-integers.tex:598")
+  BASE <absent>
+### report-text.txt:118 cites ProjectFortress/tests/PowChooseLcmRungE.fss:92  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: Int.java:329`, `UnsignedLong.java:298`): home 1, `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; fixed; row 337 closes. The fi
+  HEAD 92:     assert((threeN CHOOSE fiveN).asString, "0", "NN32 3 CHOOSE 5 is 0; basic-integers.tex:598; POSITIONS 2026-09-26, the fifth batch-5 answer")
+  BASE <absent>
+### report-text.txt:118 cites ProjectFortress/tests/PowChooseLcmRungE.fss:103  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: a:329`, `UnsignedLong.java:298`): home 1, `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; fixed; row 337 closes. The first pass
+  HEAD 103:     assert((threeU CHOOSE fiveU).asString, "0", "NN64 3 CHOOSE 5 is 0; basic-integers.tex:598; POSITIONS 2026-09-26, the fifth batch-5 answer")
+  BASE <absent>
+### report-text.txt:121 cites Library/RangeInternals.fss:799-809  [Library/RangeInternals.fss]
+  context: leaves `ZZ32`, at three sites: `imposeStride` computes `r-l` before its sign test (`Library/RangeInternals.fss:799-809`, the overflow at `:802`), so `zMax:zMi
+  HEAD 799:     imposeStride(s:ZZ32): FullScalarRange = do
+  HEAD 800:         r = self.right.get
+  HEAD 801:         l = self.left.get
+  HEAD 802:         dist = r-l
+  HEAD 803:         str = s self.stride
+  HEAD 804:         if (str > 0) = (dist > 0) then
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:802  [Library/RangeInternals.fss]
+  context: s: `imposeStride` computes `r-l` before its sign test (`Library/RangeInternals.fss:799-809`, the overflow at `:802`), so `zMax:zMin:1` and `zMin:zMax:3` r
+  HEAD 802:         dist = r-l
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:1  [Library/RangeInternals.fss]
+  context: putes `r-l` before its sign test (`Library/RangeInternals.fss:799-809`, the overflow at `:802`), so `zMax:zMin:1` and `zMin:zMax:3` raise, where the bas
+  HEAD 1: (*******************************************************************************
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:3  [Library/RangeInternals.fss]
+  context:  its sign test (`Library/RangeInternals.fss:799-809`, the overflow at `:802`), so `zMax:zMin:1` and `zMin:zMax:3` raise, where the base before rung O wr
+  HEAD 3:     All rights reserved.
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:152-161  [Library/RangeInternals.fss]
+  context: re the base before rung O wrapped; `ScalarRange.check()` computes `(l-r) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), reached fr
+  HEAD 152:     check(): ScalarRange = do
+  HEAD 153:         str = self.stride
+  HEAD 154:         if str = 0 then fail(self.asDebugString ": Zero stride") end
+  HEAD 155:         for l <- self.left, r <- self.right do
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  HEAD 157:                 fail(self.asDebugString ": Bounds don't match stride.")
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:156  [Library/RangeInternals.fss]
+  context: ped; `ScalarRange.check()` computes `(l-r) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), reached from `fullScalarRange` (`:13
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  (BASE same)
+### report-text.txt:121 cites Library/RangeInternals.fss:1366-1368  [Library/RangeInternals.fss]
+  context: ) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), reached from `fullScalarRange` (`:1366-1368`) for every stride, 1 included, so `0:M
+  HEAD 1366: fullScalarRange(l:ZZ32, r:ZZ32, str:ZZ32): FullScalarRange =
+  HEAD 1367:     if str=1 then CompactFullParScalarRange(l,r).check()
+  HEAD 1368:     else StridedFullParScalarRange(l,r,str).check() end
+  BASE 1366:     end
+  BASE 1367: 
+  BASE 1368: fullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:ZZ32, str_i:ZZ32, str_j:ZZ32, str_k:ZZ32): FullRange3D =
+### report-text.txt:121 cites Library/RangeInternals.fss:156  [Library/RangeInternals.fss]
+  context: `) for every stride, 1 included, so `0:MIN:MIN`, whose two elements fit, passes `imposeStride` and raises at `:156` (found by the skeptic, `probes/skeptic
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  (BASE same)
+### report-text.txt:121 cites ProjectFortress/tests/XXXStridedSpanWalk.fss:1  [ProjectFortress/tests/XXXStridedSpanWalk.fss]
+  context: 156` too once `imposeStride` alone is fixed. Home 2, `ProjectFortress/tests/XXXStridedSpanWalk.fss` (`|MAX:MIN:1|` = 0, `|MIN:MAX:3|` = 1431655766, and 
+  HEAD 1: (*) explorations/compile-ladder/rung-size-range/REPORT.md
+  BASE <absent>
+### report-text.txt:121 cites ProjectFortress/tests/XXXStridedSpanWalk.fss:3  [ProjectFortress/tests/XXXStridedSpanWalk.fss]
+  context: seStride` alone is fixed. Home 2, `ProjectFortress/tests/XXXStridedSpanWalk.fss` (`|MAX:MIN:1|` = 0, `|MIN:MAX:3|` = 1431655766, and since the repair ro
+  HEAD 3: component XXXStridedSpanWalk
+  BASE <absent>
+### report-text.txt:121 cites Library/RangeInternals.fss:802  [Library/RangeInternals.fss]
+  context: ce the repair round `|0:MIN:MIN|` = 2, `ranges.tex:68-70`, `:140-143`), failing at `Library/RangeInternals.fss:802` on the base and the edit, red on an in
+  HEAD 802:         dist = r-l
+  (BASE same)
+### report-text.txt:124 cites EvalType.java:457-464  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: 11. Walk's static arithmetic wraps in 64 bits: `EvalType.forIntBinaryOp` (`EvalType.java:457-464` at 382b9fe7f, `:468-475` at 801a446a6)
+  HEAD 457: 	    public FType forIntRef(IntRef n) {
+  HEAD 458: 		Id q = n.getName();
+  HEAD 459: 		try {
+  HEAD 460: 		    FType result = env.getType(q);
+  HEAD 461: 		    return result;
+  HEAD 462: 		}
+  BASE 457: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  BASE 458: 		long left = longify(n.getLeft());
+  BASE 459: 		long right = longify(n.getRight());
+  BASE 460: 		if (n.getOp().getText().equals("+")) return IntNat.make(left + right);
+  BASE 461: 		else if (n.getOp().getText().equals("-")) return IntNat.make(left - right);
+  BASE 462: 		else if (n.getOp().getText().equals(" ")) return IntNat.make(left * right);
+### report-text.txt:124 cites EvalType.java:468-475  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context:  Walk's static arithmetic wraps in 64 bits: `EvalType.forIntBinaryOp` (`EvalType.java:457-464` at 382b9fe7f, `:468-475` at 801a446a6) read `Box[\4294967296 42
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:124 cites EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: txt:58`, `:63`; `probes/repair/arith-before.txt:28`, `:33`): home 1, fixed in the repair round (`EvalType.java:468-480`), gated by `ProjectFortress/tests/XXXN
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:136 cites EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: s (`explorations/compile-ladder/rung-size-range/JUDGE.md` section 2): walk's static arithmetic (`EvalType.java:468-480`) raises the out-of-range error when an
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:136 cites EvalType.java:258-260  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context:  naming the operation; a result that fits `ZZ64` is still range-checked at binding by the kind (`EvalType.java:258-260`, `:270-273`). The decision on a size's
+  HEAD 258: 		    if (l > 4294967295L) {
+  HEAD 259: 			error(p, errorMsg("Static argument " + l + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295"));
+  HEAD 260: 		    }
+  BASE 258: 
+  BASE 259: 		    guardedPutNat(NodeUtil.getName(p), ((IntNat) a).getNumber(), what, clenv);
+  BASE 260: 		} else if (a instanceof SymbolicNat) {
+### report-text.txt:136 cites EvalType.java:270-273  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: operation; a result that fits `ZZ64` is still range-checked at binding by the kind (`EvalType.java:258-260`, `:270-273`). The decision on a size's range settl
+  HEAD 270: 		    long l = ((IntNat) a).getValue();
+  HEAD 271: 		    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+  HEAD 272: 			error(p, errorMsg("Static argument " + l + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+  HEAD 273: 		    }
+  BASE 270: 		} else {
+  BASE 271: 		    error(within, clenv, errorMsg("Expected Int, got ", a, " for param ", p, " instantiating ", what));
+  BASE 272: 		}
+  BASE 273: 	    } else if (NodeUtil.isBoolParam(p)) {
+### report-text.txt:136 cites TypeWellFormedChecker.scala:41-47  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: The judge took (1): the compiled checker refuses arithmetic in a size altogether (`TypeWellFormedChecker.scala:41-47`), so walk refusing one more case diver
+  HEAD 41:   private val sizeArithmetic =
+  HEAD 42:     "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
+  HEAD 43: 
+  HEAD 44:   private def hasSizeArithmetic(sarg: StaticArg) = sarg match {
+  HEAD 45:     case SIntArg(_, _, _: IntBinaryOp) => true
+  HEAD 46:     case _ => false
+  (BASE same)
+### report-text.txt:138 cites Library/RangeInternals.fss:1393  [Library/RangeInternals.fss]
+  context: o+ex-1)` whenever that fits, and the library's own empty range `(0,-1)` otherwise (`Library/RangeInternals.fss:1393`). Rejected: `(lo, lo-1)` for every emp
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### report-text.txt:145 cites NatRtBigSize.fss:6  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: r rows 450 and 451 (`POSITIONS.md:81`), listed as reversible (`POSITIONS.md:120`). Evidence: `NatRtBigSize.fss:6` and `:26-37` at 382b9fe7f removed; `Ra
+  HEAD 6: g(b: Box[\3000000000\]): String = "big"
+  BASE 6: szZ[\nat k\](b: Box[\k\]): ZZ = k
+### report-text.txt:145 cites NatRtBigSize.fss:26-37  [ProjectFortress/compiler_tests/NatRtBigSize.fss]  (382b9fe7f near)
+  context: 0 and 451 (`POSITIONS.md:81`), listed as reversible (`POSITIONS.md:120`). Evidence: `NatRtBigSize.fss:6` and `:26-37` at 382b9fe7f removed; `RangeBoundsRung
+  HEAD 26:   assert(g(a), "big", "trait-parameters.tex:82-90")
+  HEAD 27:   b: Any = Box[\3\](0)
+  HEAD 28:   assert(g(b), "other", "trait-parameters.tex:82-90")
+  HEAD 29:   println("PASS")
+  HEAD 30: end
+  HEAD 31: end
+  BASE 26:   e5: ZZ64 = 9223372036854775807
+  BASE 27:   r5 = sz64(Box[\9223372036854775807\](0))
+  BASE 28:   println(r5)
+  BASE 29:   assert(r5 = e5, "literals.tex:83-85")
+  BASE 30:   e6: ZZ = 9223372036854775808
+  BASE 31:   r6 = szZ(Box[\9223372036854775808\](0))
+### report-text.txt:145 cites RangeBoundsRungO.fss:3  [ProjectFortress/tests/RangeBoundsRungO.fss]  (382b9fe7f near)
+  context:  (`POSITIONS.md:120`). Evidence: `NatRtBigSize.fss:6` and `:26-37` at 382b9fe7f removed; `RangeBoundsRungO.fss:3`, `RangeEmptyHashRungO.fss:3`, `SeqRang
+  HEAD 3: component RangeBoundsRungO
+  BASE <absent>
+### report-text.txt:145 cites RangeEmptyHashRungO.fss:3  [ProjectFortress/tests/RangeEmptyHashRungO.fss]  (382b9fe7f near)
+  context: ce: `NatRtBigSize.fss:6` and `:26-37` at 382b9fe7f removed; `RangeBoundsRungO.fss:3`, `RangeEmptyHashRungO.fss:3`, `SeqRangeTopRungO.fss:3`, the compone
+  HEAD 3: component RangeEmptyHashRungO
+  BASE <absent>
+### report-text.txt:145 cites SeqRangeTopRungO.fss:3  [ProjectFortress/tests/SeqRangeTopRungO.fss]  (382b9fe7f near)
+  context: nd `:26-37` at 382b9fe7f removed; `RangeBoundsRungO.fss:3`, `RangeEmptyHashRungO.fss:3`, `SeqRangeTopRungO.fss:3`, the component line alone.
+  HEAD 3: component SeqRangeTopRungO
+  BASE <absent>
+### report-text.txt:146 cites BaseEnv.java:630  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]
+  context:  to 2^32-1 now reads as a `ZZ64` value, walk's numeral of that value, where the base refused it (`BaseEnv.java:630`); below 2^31 it is `ZZ32` as before, a
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+### report-text.txt:165 cites TypeWellFormedChecker.scala:41-47  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: ize: the compiled checker refuses all of it, "not supported by the type checker" (`TypeWellFormedChecker.scala:41-47`); walk computes it and, since the repa
+  HEAD 41:   private val sizeArithmetic =
+  HEAD 42:     "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
+  HEAD 43: 
+  HEAD 44:   private def hasSizeArithmetic(sarg: StaticArg) = sarg match {
+  HEAD 45:     case SIntArg(_, _, _: IntBinaryOp) => true
+  HEAD 46:     case _ => false
+  (BASE same)
+### report-text.txt:173 cites Library/RangeInternals.fss:1394  [Library/RangeInternals.fss]
+  context: ge literal such as `zMax:zMin:1`). The seven wrong ones are those the judge named, `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:13
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+### report-text.txt:173 cites Library/RangeInternals.fss:1393  [Library/RangeInternals.fss]
+  context: ch as `zMax:zMin:1`). The seven wrong ones are those the judge named, `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### report-text.txt:173 cites Library/RangeInternals.fss:1375  [Library/RangeInternals.fss]
+  context: x:zMin:1`). The seven wrong ones are those the judge named, `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391
+  HEAD 1375:         CompactFullRange2D(l_i,l_j,r_i,r_j).check()
+  BASE 1375: emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
+### report-text.txt:173 cites Library/RangeInternals.fss:1387  [Library/RangeInternals.fss]
+  context: en wrong ones are those the judge named, `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391-1394)` and `(:1395
+  HEAD 1387: emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
+  BASE 1387: bounded2Range(l1:ZZ32,l2:ZZ32,hi1:ZZ32,hi2:ZZ32): CompactFullRange2D =
+### report-text.txt:173 cites Library/RangeInternals.fss:1391-1394  [Library/RangeInternals.fss]
+  context: se the judge named, `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391-1394)` and `(:1395-1402)` (now `(:1390-1393)
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+### report-text.txt:173 cites Library/RangeInternals.fss:1395-1402  [Library/RangeInternals.fss]
+  context:  `Library/RangeInternals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391-1394)` and `(:1395-1402)` (now `(:1390-1393)` and `(:1394-1401)
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  HEAD 1396:     CompactFullRange2D(r1.lower,r2.lower,r1.upper,r2.upper)
+  HEAD 1397:   end
+  HEAD 1398: sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D = do
+  HEAD 1399:     (r1, r2, r3) = (sized1Range(l1,ex1), sized1Range(l2,ex2), sized1Range(l3,ex3))
+  HEAD 1400:     CompactFullRange3D(r1.lower,r2.lower,r3.lower,r1.upper,r2.upper,r3.upper)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+  BASE 1396:     LeftRange3D(x,y,z,1,1,1)
+  BASE 1397: 
+  BASE 1398: extent1Range(x:ZZ32):ExtentRange[\ZZ32\] =
+  BASE 1399:     if x=0 then
+  BASE 1400:         xx = x-x
+### report-text.txt:173 cites Library/RangeInternals.fss:1390-1393  [Library/RangeInternals.fss]
+  context: nals.fss:1394` (now `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391-1394)` and `(:1395-1402)` (now `(:1390-1393)` and `(:1394-1401)`), and the `NN32$Po
+  HEAD 1390: sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1390:     CompactFullRange3D(l1,l2,l3,hi1,hi2,hi3)
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### report-text.txt:173 cites Library/RangeInternals.fss:1394-1401  [Library/RangeInternals.fss]
+  context:  `:1393`), `:1375` twice (now `:1387`), row 450's `(:1391-1394)` and `(:1395-1402)` (now `(:1390-1393)` and `(:1394-1401)`), and the `NN32$Pow` negative branch,
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  HEAD 1396:     CompactFullRange2D(r1.lower,r2.lower,r1.upper,r2.upper)
+  HEAD 1397:   end
+  HEAD 1398: sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D = do
+  HEAD 1399:     (r1, r2, r3) = (sized1Range(l1,ex1), sized1Range(l2,ex2), sized1Range(l3,ex3))
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+  BASE 1396:     LeftRange3D(x,y,z,1,1,1)
+  BASE 1397: 
+  BASE 1398: extent1Range(x:ZZ32):ExtentRange[\ZZ32\] =
+  BASE 1399:     if x=0 then
+### report-text.txt:173 cites NN32.java:230-231  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: 4)` and `(:1395-1402)` (now `(:1390-1393)` and `(:1394-1401)`), and the `NN32$Pow` negative branch, `NN32.java:230-231` and `:231` (now `:231-232` and `:232`)
+  HEAD 230:             long exp = y.getLong();
+  HEAD 231:             if (exp < 0) {
+  BASE 230:             if (exp < 0) {
+  BASE 231:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+### report-text.txt:173 cites NN32.java:231  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: -1402)` (now `(:1390-1393)` and `(:1394-1401)`), and the `NN32$Pow` negative branch, `NN32.java:230-231` and `:231` (now `:231-232` and `:232`). The eight
+  HEAD 231:             if (exp < 0) {
+  BASE 231:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+### report-text.txt:173 cites NN32.java:231-232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context:  `(:1390-1393)` and `(:1394-1401)`), and the `NN32$Pow` negative branch, `NN32.java:230-231` and `:231` (now `:231-232` and `:232`). The eight unmarked ones a
+  HEAD 231:             if (exp < 0) {
+  HEAD 232:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 231:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 232:             } else {
+### report-text.txt:173 cites NN32.java:232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context:  and `(:1394-1401)`), and the `NN32$Pow` negative branch, `NN32.java:230-231` and `:231` (now `:231-232` and `:232`). The eight unmarked ones are section 
+  HEAD 232:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 232:             } else {
+### report-text.txt:173 cites Library/RangeInternals.fss:1379  [Library/RangeInternals.fss]
+  context: `). The eight unmarked ones are section 3's unchecked multiplications, section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` 
+  HEAD 1379: 
+  BASE 1379:     CompactFullParScalarRange(lo,lo+ex-1)
+### report-text.txt:173 cites Library/RangeInternals.fss:1048  [Library/RangeInternals.fss]
+  context: t unmarked ones are section 3's unchecked multiplications, section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` and `:1320` 
+  HEAD 1048:             body(i)
+  BASE 1048:             i += 1
+### report-text.txt:173 cites Library/RangeInternals.fss:1316  [Library/RangeInternals.fss]
+  context: n 3's unchecked multiplications, section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` and `:1320` (`:1328` and `:1332` on th
+  HEAD 1316:     getter left(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( l_i, l_j )
+  BASE 1316:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+### report-text.txt:173 cites Library/RangeInternals.fss:1320  [Library/RangeInternals.fss]
+  context: ked multiplications, section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` and `:1320` (`:1328` and `:1332` on the rung's tre
+  HEAD 1320:     getter asDebugString(): String = ("StridedFullRange2D(" l_i "," l_j ", " r_i "," r_j ", "
+  BASE 1320:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+### report-text.txt:173 cites Library/RangeInternals.fss:1328  [Library/RangeInternals.fss]
+  context: plications, section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` and `:1320` (`:1328` and `:1332` on the rung's tree). The a
+  HEAD 1328:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+  BASE 1328: object StridedFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:ZZ32, str_i:ZZ32, str_j:ZZ32, str_k:ZZ32)
+### report-text.txt:173 cites Library/RangeInternals.fss:1332  [Library/RangeInternals.fss]
+  context: section 5's `Library/RangeInternals.fss:1379` and `:1048`, and section 10's `:1316` and `:1320` (`:1328` and `:1332` on the rung's tree). The ambiguous one
+  HEAD 1332:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+  BASE 1332:             (r_i-l_i) DIV str_i,(r_j-l_j) DIV str_j, (r_k-l_k) DIV str_k)
+### report-text.txt:173 cites Library/RangeInternals.fss:42  [Library/RangeInternals.fss]
+  context: ction 10's `:1316` and `:1320` (`:1328` and `:1332` on the rung's tree). The ambiguous ones are section 5's `(:42, :55, :68)`, which are `probes/failure/
+  HEAD 42: atOrBelowGoingDown(start:ZZ32,bound:ZZ32,stride:ZZ32): ZZ32 =
+  (BASE same)
+### report-text.txt:173 cites Library/RangeInternals.fss:55  [Library/RangeInternals.fss]
+  context:  10's `:1316` and `:1320` (`:1328` and `:1332` on the rung's tree). The ambiguous ones are section 5's `(:42, :55, :68)`, which are `probes/failure/walk-
+  HEAD 55: atOrAbove(start:ZZ32, bound:ZZ32, stride:ZZ32): ZZ32 =
+  (BASE same)
+### report-text.txt:173 cites Library/RangeInternals.fss:68  [Library/RangeInternals.fss]
+  context:  `:1316` and `:1320` (`:1328` and `:1332` on the rung's tree). The ambiguous ones are section 5's `(:42, :55, :68)`, which are `probes/failure/walk-base.
+  HEAD 68:             end
+  (BASE same)
+### report-text.txt:173 cites Library/RangeInternals.fss:802  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: fe7f, and the ledger note's bare line 802 after `XXXStridedSpanWalk.fss`, which is `Library/RangeInternals.fss:802`. The repair round's two texts were che
+  HEAD 802:         dist = r-l
+  (BASE same)
+### report-text.txt:173 cites EvalType.java:468-475  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: repair/anchor-check-final.txt`, `anchor-raw-final.txt`); that check found one more: the draft's `EvalType.java:468-475` "at 382b9fe7f" for `forIntBinaryOp`, w
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### report-text.txt:173 cites EvalType.java:457-464  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: that check found one more: the draft's `EvalType.java:468-475` "at 382b9fe7f" for `forIntBinaryOp`, which is `:457-464` there and `:468-475` only on the first
+  HEAD 457: 	    public FType forIntRef(IntRef n) {
+  HEAD 458: 		Id q = n.getName();
+  HEAD 459: 		try {
+  HEAD 460: 		    FType result = env.getType(q);
+  HEAD 461: 		    return result;
+  HEAD 462: 		}
+  BASE 457: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  BASE 458: 		long left = longify(n.getLeft());
+  BASE 459: 		long right = longify(n.getRight());
+  BASE 460: 		if (n.getOp().getText().equals("+")) return IntNat.make(left + right);
+  BASE 461: 		else if (n.getOp().getText().equals("-")) return IntNat.make(left - right);
+  BASE 462: 		else if (n.getOp().getText().equals(" ")) return IntNat.make(left * right);
+### report-text.txt:173 cites EvalType.java:468-475  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: more: the draft's `EvalType.java:468-475` "at 382b9fe7f" for `forIntBinaryOp`, which is `:457-464` there and `:468-475` only on the first pass's tree (801a446
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### record-text.txt:13 cites ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context:  arithmetic in a size (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:49-87`): in a trait type by the trait's param
+  HEAD 49:   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
+  HEAD 50:   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
+  HEAD 51:   private val zz32Max = java.math.BigInteger.valueOf(Int.MaxValue.toLong)
+  HEAD 52: 
+  HEAD 53:   // A literal size outside the values of every kind its parameters have: a nat parameter
+  HEAD 54:   // is an NN32 value and an int parameter a ZZ32 value.  No kinds known means either.
+  BASE 49:   private def getTypes(typ:Id) = {
+  BASE 50:     val types = typ match {
+  BASE 51:       case SId(info,Some(name),text) =>
+  BASE 52:       globalEnv.api(name).typeConses.get(SId(info,None,text))
+  BASE 53:       case _ => compilation_unit.typeConses.get(typ)
+  BASE 54:     }
+### record-text.txt:13 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: . Walk reads a size literal exactly (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `types/IntNat.java:136`), computes a 
+  HEAD 449: 	    public FType forIntBase(IntBase n) {
+  HEAD 450: 		java.math.BigInteger v = n.getIntVal().getIntVal();
+  HEAD 451: 		if (v.bitLength() > 63) {
+  HEAD 452: 		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int par
+  HEAD 453: 		}
+  HEAD 454: 		return IntNat.make(v.longValue());
+  BASE 449: 		    FType result = env.getType(q);
+  BASE 450: 		    return result;
+  BASE 451: 		}
+  BASE 452: 		catch (FortressException p) {
+  BASE 453: 		    throw p.setContext(q, env);
+  BASE 454: 		}
+### record-text.txt:13 cites types/IntNat.java:136  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java]
+  context: xactly (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:449-455`, `types/IntNat.java:136`), computes a size written as arithmeti
+  HEAD 136:                 if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
+  BASE 136:                 if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+### record-text.txt:13 cites EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: d `multiplyExact`, refusing an operation that leaves `ZZ64` with the same out-of-range message (`EvalType.java:468-480`, the rung's judge's decision), refuses
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### record-text.txt:13 cites EvalType.java:258-260  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: 67295 and an `int` outside `ZZ32` where it binds the parameter, beside its negative-size check (`EvalType.java:258-260`, `:270-273`), and gives a size read as
+  HEAD 258: 		    if (l > 4294967295L) {
+  HEAD 259: 			error(p, errorMsg("Static argument " + l + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295"));
+  HEAD 260: 		    }
+  BASE 258: 
+  BASE 259: 		    guardedPutNat(NodeUtil.getName(p), ((IntNat) a).getNumber(), what, clenv);
+  BASE 260: 		} else if (a instanceof SymbolicNat) {
+### record-text.txt:13 cites EvalType.java:270-273  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context:  `int` outside `ZZ32` where it binds the parameter, beside its negative-size check (`EvalType.java:258-260`, `:270-273`), and gives a size read as a value the
+  HEAD 270: 		    long l = ((IntNat) a).getValue();
+  HEAD 271: 		    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+  HEAD 272: 			error(p, errorMsg("Static argument " + l + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+  HEAD 273: 		    }
+  BASE 270: 		} else {
+  BASE 271: 		    error(within, clenv, errorMsg("Expected Int, got ", a, " for param ", p, " instantiating ", what));
+  BASE 272: 		}
+  BASE 273: 	    } else if (NodeUtil.isBoolParam(p)) {
+### record-text.txt:13 cites ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:630  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]
+  context: `ZZ32` up to 2^31-1 and `ZZ64` above (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:630`). The compiled type of a size read as 
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+### record-text.txt:15 cites ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:328-384  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: es the width unless the coefficient does (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:328-384`, `UnsignedLong.java:297-335`, `NN32.ja
+  HEAD 328:     public static long choose(long n, long k) {
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  HEAD 330:         if (k > n / 2) k = n - k;
+  HEAD 331:         if (k == 0) return 1;
+  HEAD 332:         if (k == 1) return n;
+  HEAD 333:         // k <= n/2
+  BASE 328:     public static long choose(long n, long k) {
+  BASE 329:         if (k > n / 2) k = n - k;
+  BASE 330:         if (k == 0) return 1;
+  BASE 331:         if (k == 1) return n;
+  BASE 332:         // k <= n/2
+  BASE 333:         // Will multiply (k) terms, n-k+1 through n-k+k
+### record-text.txt:15 cites UnsignedLong.java:297-335  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: icient does (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:328-384`, `UnsignedLong.java:297-335`, `NN32.java:149-162`); `NN32`'s `LCM`,
+  HEAD 297:     public static long choose(long n, long k) {
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  HEAD 299:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  HEAD 300:         if (k == 0) return 1;
+  HEAD 301:         if (k == 1) return n;
+  HEAD 302:         // k <= n/2
+  BASE 297:     public static long choose(long n, long k) {
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  BASE 299:         if (k == 0) return 1;
+  BASE 300:         if (k == 1) return n;
+  BASE 301:         // k <= n/2
+  BASE 302:         // Will multiply (k) terms, n-k+1 through n-k+k
+### record-text.txt:15 cites NN32.java:149-162  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: Fortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:328-384`, `UnsignedLong.java:297-335`, `NN32.java:149-162`); `NN32`'s `LCM`, `CHOOSE` and power w
+  HEAD 149:     public static final class Lcm extends NN2N {
+  HEAD 150:         protected int f(int u, int v) {
+  HEAD 151:             if (u == 0 || v == 0) return 0;
+  HEAD 152:             long a = Unsigned.toLong(u);
+  HEAD 153:             long b = Unsigned.toLong(v);
+  HEAD 154:             return rc((a / UnsignedLong.gcd(a, b)) * b);
+  BASE 149:     public static final class Lcm extends NN2N {
+  BASE 150:         protected int f(int u, int v) {
+  BASE 151:             if (u == 0 || v == 0) return 0;
+  BASE 152:             int g = (int) UnsignedLong.gcd(u, v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+  BASE 154:         }
+### record-text.txt:17 cites Library/RangeInternals.fss:956  [Library/RangeInternals.fss]
+  context: ary's own empty range `(0,-1)`, and `|…|` tests every dimension's emptiness first (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-12
+  HEAD 956:         if l > r then 0 else narrow(r-l+1) end
+  BASE 956:         res = narrow(r-l+1)
+### record-text.txt:17 cites Library/RangeInternals.fss:1036-1054  [Library/RangeInternals.fss]
+  context: n empty range `(0,-1)`, and `|…|` tests every dimension's emptiness first (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-14
+  HEAD 1036:         if l <= r then
+  HEAD 1037:             result := red.join(result, body(i))
+  HEAD 1038:             while i < r do
+  HEAD 1039:                 i += 1
+  HEAD 1040:                 result := red.join(result, body(i))
+  HEAD 1041:             end
+  BASE 1036:         i : ZZ32 := l
+  BASE 1037:         while i <= r do
+  BASE 1038:             b = body(i)
+  BASE 1039:             result := red.join(result, b)
+  BASE 1040:             i += 1
+  BASE 1041:         end
+### record-text.txt:17 cites Library/RangeInternals.fss:1124-1126  [Library/RangeInternals.fss]
+  context: `(0,-1)`, and `|…|` tests every dimension's emptiness first (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/
+  HEAD 1124:     getter size(): ZZ32 =
+  HEAD 1125:         if self.isEmpty then 0
+  HEAD 1126:         else narrow((self.right.get-self.left.get) DIV self.stride + 1) end
+  BASE 1124:       end
+  BASE 1125:     getter isEmpty(): Boolean =
+  BASE 1126:         if self.stride > 0 then (self.left.get>self.right.get)
+### record-text.txt:17 cites Library/RangeInternals.fss:1256-1297  [Library/RangeInternals.fss]
+  context: `|…|` tests every dimension's emptiness first (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrar
+  HEAD 1256:     generate[\T\](red:Reduction[\T\], body: ZZ32->T): T = do
+  HEAD 1257:         result : T := red.empty()
+  HEAD 1258:         i : ZZ32 := l
+  HEAD 1259:         if str > 0 then
+  HEAD 1260:             if l <= r then
+  HEAD 1261:                 result := red.join(result,body(i))
+  BASE 1256:         i : ZZ32 := l
+  BASE 1257:         if str > 0 then
+  BASE 1258:             while i <= r do
+  BASE 1259:                 b = body(i)
+  BASE 1260:                 result := red.join(result,b)
+  BASE 1261:                 i += str
+### record-text.txt:17 cites Library/RangeInternals.fss:1390-1401  [Library/RangeInternals.fss]
+  context: ery dimension's emptiness first (`Library/RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrary.fss:3918-392
+  HEAD 1390: sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  BASE 1390:     CompactFullRange3D(l1,l2,l3,hi1,hi2,hi3)
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+### record-text.txt:17 cites Library/FortressLibrary.fss:3918-3920  [Library/FortressLibrary.fss]
+  context: /RangeInternals.fss:956`, `:1036-1054`, `:1124-1126`, `:1256-1297`, `:1390-1401`; `Library/FortressLibrary.fss:3918-3920`), gated by `tests/RangeBoundsRungO`, `
+  HEAD 3918:         l':ZZ32 => if u < l' then 0 else (u - l') + 1 end
+  HEAD 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; if (u1 < l1) OR (u2 < l2) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) end end
+  HEAD 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; if (u1 < l1) OR (u2 < l2) OR (u3 < l3) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) ((u3
+  BASE 3918:         l':ZZ32 => 0 MAX ((u - l') + 1)
+  BASE 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) end
+  BASE 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) (0 MAX ((u3 - l3) + 1)) end
+### record-text.txt:25 cites EvalType.java:443  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: ch 6.5b rung E: walk read a size literal by `intValue()` at three sites, `EvalType.forIntBase` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`types/IntN
+  HEAD 443: 		if (!(t instanceof IntNat)) {
+  BASE 443: 		return IntNat.make(n.getIntVal().getIntVal().intValue());
+### record-text.txt:25 cites types/IntNat.java:136  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/IntNat.java]
+  context: ue()` at three sites, `EvalType.forIntBase` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`types/IntNat.java:136`) and `BaseEnv.putNat` (`BaseEnv.java:6
+  HEAD 136:                 if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
+  BASE 136:                 if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+### record-text.txt:25 cites BaseEnv.java:630  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java]  (382b9fe7f near)
+  context: ` (`EvalType.java:443`), `IntNat.unifyStaticArg` (`types/IntNat.java:136`) and `BaseEnv.putNat` (`BaseEnv.java:630`), all at 382b9fe7f; it now reads it ex
+  HEAD 630:         putValueRaw(str, FIntLiteral.make(java.math.BigInteger.valueOf(f2.longValue())));
+  BASE 630:         putValueRaw(str, FInt.make(f2.intValue()));
+### record-text.txt:25 cites EvalType.java:457-464  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: skeptic found the same silent wrong size reached through arithmetic: `EvalType.forIntBinaryOp` (`EvalType.java:457-464` at 382b9fe7f, `:468-475` after the run
+  HEAD 457: 	    public FType forIntRef(IntRef n) {
+  HEAD 458: 		Id q = n.getName();
+  HEAD 459: 		try {
+  HEAD 460: 		    FType result = env.getType(q);
+  HEAD 461: 		    return result;
+  HEAD 462: 		}
+  BASE 457: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  BASE 458: 		long left = longify(n.getLeft());
+  BASE 459: 		long right = longify(n.getRight());
+  BASE 460: 		if (n.getOp().getText().equals("+")) return IntNat.make(left + right);
+  BASE 461: 		else if (n.getOp().getText().equals("-")) return IntNat.make(left - right);
+  BASE 462: 		else if (n.getOp().getText().equals(" ")) return IntNat.make(left * right);
+### record-text.txt:25 cites EvalType.java:468-475  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]  (382b9fe7f near)
+  context: lent wrong size reached through arithmetic: `EvalType.forIntBinaryOp` (`EvalType.java:457-464` at 382b9fe7f, `:468-475` after the rung's first pass) added, su
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### record-text.txt:25 cites EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context:  and `multiplyExact` and refuses an operation that leaves `ZZ64` with the out-of-range message (`EvalType.java:468-480`, the judge's decision, `compile-ladder
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### record-text.txt:25 cites compiler_tests/NatRtBigSize.fss:14  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: t`). Where it meets item 25: the reads of a size beyond 2^31-1 as a value are `compiler_tests/NatRtBigSize.fss:14`, `:18`, `:22`, `tests/NatBigSizeWalk.f
+  HEAD 14:   r2 = sz64(Box[\2147483648\](0))
+  BASE 14:   e2: ZZ64 = 2147483648
+### record-text.txt:25 cites compiler_tests/NatRtBigSize.fss:18  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: ere it meets item 25: the reads of a size beyond 2^31-1 as a value are `compiler_tests/NatRtBigSize.fss:14`, `:18`, `:22`, `tests/NatBigSizeWalk.fss:11`,
+  HEAD 18:   r3 = sz64(Box[\3000000000\](0))
+  BASE 18:   e3: ZZ64 = 3000000000
+### record-text.txt:25 cites compiler_tests/NatRtBigSize.fss:22  [ProjectFortress/compiler_tests/NatRtBigSize.fss]
+  context: meets item 25: the reads of a size beyond 2^31-1 as a value are `compiler_tests/NatRtBigSize.fss:14`, `:18`, `:22`, `tests/NatBigSizeWalk.fss:11`, `:15`,
+  HEAD 22:   r4 = sz64(Box[\4294967295\](0))
+  BASE 22:   e4: ZZ64 = 4294967295
+### record-text.txt:25 cites tests/NatBigSizeWalk.fss:11  [ProjectFortress/tests/NatBigSizeWalk.fss]
+  context: ize beyond 2^31-1 as a value are `compiler_tests/NatRtBigSize.fss:14`, `:18`, `:22`, `tests/NatBigSizeWalk.fss:11`, `:15`, `compile-ladder/rung-size-rang
+  HEAD 11:     r1 = size64(Box[\4294967295\](0))
+  BASE <absent>
+### record-text.txt:25 cites tests/NatBigSizeWalk.fss:15  [ProjectFortress/tests/NatBigSizeWalk.fss]
+  context: ond 2^31-1 as a value are `compiler_tests/NatRtBigSize.fss:14`, `:18`, `:22`, `tests/NatBigSizeWalk.fss:11`, `:15`, `compile-ladder/rung-size-range/probe
+  HEAD 15:     r2 = size64(Box[\3000000000\](0))
+  BASE <absent>
+### record-text.txt:27 cites glue/prim/Int.java:253  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: D (the fix)". Append: "Fixed by climb batch 6.5b rung E: `Int.rc` throws `Int.overflow()` (`glue/prim/Int.java:253`), as does `NN32.rc` (`NN32.java:265`);
+  HEAD 253:             throw overflow();
+  BASE 253:             error("Overflow of ZZ32 " + i);
+### record-text.txt:27 cites NN32.java:265  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context:  batch 6.5b rung E: `Int.rc` throws `Int.overflow()` (`glue/prim/Int.java:253`), as does `NN32.rc` (`NN32.java:265`); their callers `Int$Choose`, `Int$Pow
+  HEAD 265:             throw Int.overflow();
+  BASE 265:         }
+### record-text.txt:29 cites glue/prim/Int.java:329  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: his row states: `Int.choose` and `UnsignedLong.choose` return 0 first when `k<0` or `k>n` (`glue/prim/Int.java:329`, `UnsignedLong.java:298`), so `CHOOSE`
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  BASE 329:         if (k > n / 2) k = n - k;
+### record-text.txt:29 cites UnsignedLong.java:298  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: se` and `UnsignedLong.choose` return 0 first when `k<0` or `k>n` (`glue/prim/Int.java:329`, `UnsignedLong.java:298`), so `CHOOSE` on `ZZ32`, `ZZ64`, `NN32
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+### record-text.txt:29 cites ProjectFortress/tests/PowChooseLcmRungE.fss:70-72  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context:  as the compiled helper does (`simpleIntArith.java:205`). Home 1: `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; measured in `co
+  HEAD 70:     assert((three CHOOSE 5).asString, "0", "ZZ32 3 CHOOSE 5 is 0; basic-integers.tex:598")
+  HEAD 71:     assert((five CHOOSE (-1)).asString, "0", "ZZ32 5 CHOOSE -1 is 0; basic-integers.tex:598")
+  HEAD 72:     assert((mfive CHOOSE 2).asString, "0", "ZZ32 -5 CHOOSE 2 is 0; basic-integers.tex:598")
+  BASE <absent>
+### record-text.txt:29 cites ProjectFortress/tests/PowChooseLcmRungE.fss:82  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: mpiled helper does (`simpleIntArith.java:205`). Home 1: `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; measured in `compile-l
+  HEAD 82:     assert((threeL CHOOSE 5).asString, "0", "ZZ64 3 CHOOSE 5 is 0; basic-integers.tex:598")
+  BASE <absent>
+### record-text.txt:29 cites ProjectFortress/tests/PowChooseLcmRungE.fss:92  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: helper does (`simpleIntArith.java:205`). Home 1: `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; measured in `compile-ladder/r
+  HEAD 92:     assert((threeN CHOOSE fiveN).asString, "0", "NN32 3 CHOOSE 5 is 0; basic-integers.tex:598; POSITIONS 2026-09-26, the fifth batch-5 answer")
+  BASE <absent>
+### record-text.txt:29 cites ProjectFortress/tests/PowChooseLcmRungE.fss:103  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: does (`simpleIntArith.java:205`). Home 1: `ProjectFortress/tests/PowChooseLcmRungE.fss:70-72`, `:82`, `:92`, `:103`; measured in `compile-ladder/rung-size
+  HEAD 103:     assert((threeU CHOOSE fiveU).asString, "0", "NN64 3 CHOOSE 5 is 0; basic-integers.tex:598; POSITIONS 2026-09-26, the fifth batch-5 answer")
+  BASE <absent>
+### record-text.txt:31 cites Library/RangeInternals.fss:956  [Library/RangeInternals.fss]
+  context: eorder: `CompactFullScalarRange.size` is `if l > r then 0 else narrow(r-l+1) end` (`Library/RangeInternals.fss:956`), the strided `size` tests `isEmpty` f
+  HEAD 956:         if l > r then 0 else narrow(r-l+1) end
+  BASE 956:         res = narrow(r-l+1)
+### record-text.txt:31 cites Library/RangeInternals.fss:1124-1126  [Library/RangeInternals.fss]
+  context: then 0 else narrow(r-l+1) end` (`Library/RangeInternals.fss:956`), the strided `size` tests `isEmpty` first (`:1124-1126`), `sized1Range` builds `lo+(ex-1)` for
+  HEAD 1124:     getter size(): ZZ32 =
+  HEAD 1125:         if self.isEmpty then 0
+  HEAD 1126:         else narrow((self.right.get-self.left.get) DIV self.stride + 1) end
+  BASE 1124:       end
+  BASE 1125:     getter isEmpty(): Boolean =
+  BASE 1126:         if self.stride > 0 then (self.left.get>self.right.get)
+### record-text.txt:31 cites Library/RangeInternals.fss:1390-1393  [Library/RangeInternals.fss]
+  context: library's own empty range `CompactFullParScalarRange(0,-1)` otherwise, so `MIN # 0` is empty without `lo-1` (`:1390-1393`); `sized2Range` and `sized3Range` buil
+  HEAD 1390: sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
+  HEAD 1391:     if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+  HEAD 1392:     elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+  HEAD 1393:     else CompactFullParScalarRange(0,-1) end
+  BASE 1390:     CompactFullRange3D(l1,l2,l3,hi1,hi2,hi3)
+  BASE 1391: 
+  BASE 1392: left1Range(x:ZZ32):LeftRange[\ZZ32\] = LeftScalarRange(x,1)
+  BASE 1393: left2Range(x:ZZ32,y:ZZ32):
+### record-text.txt:31 cites Library/RangeInternals.fss:1394-1401  [Library/RangeInternals.fss]
+  context: otherwise, so `MIN # 0` is empty without `lo-1` (`:1390-1393`); `sized2Range` and `sized3Range` build on it (`:1394-1401`); `CompactFullRange`'s `|self|` tests 
+  HEAD 1394: sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+  HEAD 1395:     (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+  HEAD 1396:     CompactFullRange2D(r1.lower,r2.lower,r1.upper,r2.upper)
+  HEAD 1397:   end
+  HEAD 1398: sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D = do
+  HEAD 1399:     (r1, r2, r3) = (sized1Range(l1,ex1), sized1Range(l2,ex2), sized1Range(l3,ex3))
+  BASE 1394:     LeftRange[\(ZZ32,ZZ32)\] = LeftRange2D(x,y,1,1)
+  BASE 1395: left3Range(x:ZZ32,y:ZZ32,z:ZZ32): LeftRange[\(ZZ32,ZZ32,ZZ32)\] =
+  BASE 1396:     LeftRange3D(x,y,z,1,1,1)
+  BASE 1397: 
+  BASE 1398: extent1Range(x:ZZ32):ExtentRange[\ZZ32\] =
+  BASE 1399:     if x=0 then
+### record-text.txt:31 cites Library/FortressLibrary.fss:3918-3920  [Library/FortressLibrary.fss]
+  context: ; `CompactFullRange`'s `|self|` tests each dimension's emptiness first at `ZZ32` (`Library/FortressLibrary.fss:3918-3920`). `XXXRangeBoundsRungO.fss` and `XXXRa
+  HEAD 3918:         l':ZZ32 => if u < l' then 0 else (u - l') + 1 end
+  HEAD 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; if (u1 < l1) OR (u2 < l2) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) end end
+  HEAD 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; if (u1 < l1) OR (u2 < l2) OR (u3 < l3) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) ((u3
+  BASE 3918:         l':ZZ32 => 0 MAX ((u - l') + 1)
+  BASE 3919:         l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) end
+  BASE 3920:         l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) (0 MAX ((u3 - l3) + 1)) end
+### record-text.txt:33 cites Library/RangeInternals.fss:1036-1054  [Library/RangeInternals.fss]
+  context: mpactFullSeqScalarRange`'s `generate` and `loop` visit `l` and step while `i < r` (`Library/RangeInternals.fss:1036-1054`); `StridedFullSeqScalarRange`'s step o
+  HEAD 1036:         if l <= r then
+  HEAD 1037:             result := red.join(result, body(i))
+  HEAD 1038:             while i < r do
+  HEAD 1039:                 i += 1
+  HEAD 1040:                 result := red.join(result, body(i))
+  HEAD 1041:             end
+  BASE 1036:         i : ZZ32 := l
+  BASE 1037:         while i <= r do
+  BASE 1038:             b = body(i)
+  BASE 1039:             result := red.join(result, b)
+  BASE 1040:             i += 1
+  BASE 1041:         end
+### record-text.txt:33 cites Library/RangeInternals.fss:1256-1297  [Library/RangeInternals.fss]
+  context: ted without leaving `ZZ32` (`r - str` when `r >= 0`, `i + str` when `r < 0`, mirrored for a negative stride; `:1256-1297`). `XXXSeqRangeTopRungO.fss` is promote
+  HEAD 1256:     generate[\T\](red:Reduction[\T\], body: ZZ32->T): T = do
+  HEAD 1257:         result : T := red.empty()
+  HEAD 1258:         i : ZZ32 := l
+  HEAD 1259:         if str > 0 then
+  HEAD 1260:             if l <= r then
+  HEAD 1261:                 result := red.join(result,body(i))
+  BASE 1256:         i : ZZ32 := l
+  BASE 1257:         if str > 0 then
+  BASE 1258:             while i <= r do
+  BASE 1259:                 b = body(i)
+  BASE 1260:                 result := red.join(result,b)
+  BASE 1261:                 i += str
+### record-text.txt:35 cites TypeWellFormedChecker.scala:41-42  [ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala]
+  context: 7483648 to 2147483647.'), where the arithmetic refusal still says `nat` for both (`TypeWellFormedChecker.scala:41-42`). Walk's refusal of static arithmetic 
+  HEAD 41:   private val sizeArithmetic =
+  HEAD 42:     "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
+  (BASE same)
+### record-text.txt:35 cites EvalType.java:468-480  [ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java]
+  context: Checker.scala:41-42`). Walk's refusal of static arithmetic that leaves `ZZ64` names both kinds (`EvalType.java:468-480`)."
+  HEAD 468: 	    public FType forIntBinaryOp(IntBinaryOp n) {
+  HEAD 469: 		long left = longify(n.getLeft());
+  HEAD 470: 		long right = longify(n.getRight());
+  HEAD 471: 		try {
+  HEAD 472: 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+  HEAD 473: 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+  BASE 468: 	    }
+  BASE 469: 	});
+  BASE 470:     }
+  BASE 471: 
+  BASE 472:     /* (non-Javadoc)
+  BASE 473:      * @see com.sun.fortress.interpreter.nodes.NodeVisitor#forOpParam(com.sun.fortress.interpreter.nodes.OpParam)
+### record-text.txt:45 cites Library/RangeInternals.fss:637  [Library/RangeInternals.fss]
+  context: 'Failed to find any matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at
+  HEAD 637:         LeftRange3D(l_i-shift_i, l_j-shift_j, l_k-amount, str_i, str_j, str_k)
+  (BASE same)
+### record-text.txt:45 cites Library/RangeInternals.fss:641  [Library/RangeInternals.fss]
+  context:  any matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:
+  HEAD 641:         LeftRange3D(l_i+shift_i, l_j+shift_j, l_k+amount, str_i, str_j, str_k)
+  (BASE same)
+### record-text.txt:45 cites Library/RangeInternals.fss:751  [Library/RangeInternals.fss]
+  context: ching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at
+  HEAD 751:         RightRange3D(r_i-shift_i, r_j-shift_j, r_k-amount, str_i, str_j, str_k)
+  (BASE same)
+### record-text.txt:45 cites Library/RangeInternals.fss:755  [Library/RangeInternals.fss]
+  context: erload, args = (3: ZZ32,(1,1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at 382b9fe
+  HEAD 755:         RightRange3D(r_i+shift_i, r_j+shift_j, r_k+amount, str_i, str_j, str_k)
+  (BASE same)
+### record-text.txt:45 cites Library/RangeInternals.fss:1316  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: (3: ZZ32,(1,1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at 382b9fe7f (`:1328` and 
+  HEAD 1316:     getter left(): Just[\(ZZ32,ZZ32)\] = Just[\(ZZ32,ZZ32)\]( l_i, l_j )
+  BASE 1316:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+### record-text.txt:45 cites Library/RangeInternals.fss:1320  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: 1,1): (Int,Int,Int))' at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` afte
+  HEAD 1320:     getter asDebugString(): String = ("StridedFullRange2D(" l_i "," l_j ", " r_i "," r_j ", "
+  BASE 1320:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+### record-text.txt:45 cites Library/RangeInternals.fss:1328  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: at `Library/RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` after rung E's edit moved 
+  HEAD 1328:         StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
+  BASE 1328: object StridedFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:ZZ32, str_i:ZZ32, str_j:ZZ32, str_k:ZZ32)
+### record-text.txt:45 cites Library/RangeInternals.fss:1332  [Library/RangeInternals.fss]  (382b9fe7f near)
+  context: RangeInternals.fss:637`, and at `:641`, `:751`, `:755`, and at `:1316` and `:1320` at 382b9fe7f (`:1328` and `:1332` after rung E's edit moved them), while
+  HEAD 1332:         StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
+  BASE 1332:             (r_i-l_i) DIV str_i,(r_j-l_j) DIV str_j, (r_k-l_k) DIV str_k)
+### record-text.txt:51 cites glue/prim/NN32.java:232  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: sured): `NN32$Pow`'s negative branch still hands `UnsignedLong.pow` a sign-extended base (`glue/prim/NN32.java:232`), so for a base of 2^31 or more its fl
+  HEAD 232:                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+  BASE 232:             } else {
+### record-text.txt:53 cites glue/prim/NN32.java:149-156  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: s both operands with `Unsigned.toLong` as `NN32$Gcd` does and checks the 64-bit multiple (`glue/prim/NN32.java:149-156`). Home 1: `ProjectFortress/tests/PowCh
+  HEAD 149:     public static final class Lcm extends NN2N {
+  HEAD 150:         protected int f(int u, int v) {
+  HEAD 151:             if (u == 0 || v == 0) return 0;
+  HEAD 152:             long a = Unsigned.toLong(u);
+  HEAD 153:             long b = Unsigned.toLong(v);
+  HEAD 154:             return rc((a / UnsignedLong.gcd(a, b)) * b);
+  BASE 149:     public static final class Lcm extends NN2N {
+  BASE 150:         protected int f(int u, int v) {
+  BASE 151:             if (u == 0 || v == 0) return 0;
+  BASE 152:             int g = (int) UnsignedLong.gcd(u, v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+  BASE 154:         }
+### record-text.txt:53 cites ProjectFortress/tests/PowChooseLcmRungE.fss:83-87  [ProjectFortress/tests/PowChooseLcmRungE.fss]
+  context: ecks the 64-bit multiple (`glue/prim/NN32.java:149-156`). Home 1: `ProjectFortress/tests/PowChooseLcmRungE.fss:83-87`. |
+  HEAD 83:     assert(overflows(fn () => twoTo31N LCM sevenN), "NN32 2^31 LCM 7 throws IntegerOverflow; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POS
+  HEAD 84:     assert(overflows(fn () => b16N LCM b16pN), "NN32 65536 LCM 65537 throws IntegerOverflow; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POS
+  HEAD 85:     assert((twoTo31N LCM twoN).asString, "2147483648", "NN32 2^31 LCM 2 is 2147483648; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS
+  HEAD 86:     assert((maxN LCM oneN).asString, "4294967295", "NN32 MAX LCM 1 is 4294967295; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS 2026
+  HEAD 87:     assert((sixN LCM fourN).asString, "12", "NN32 6 LCM 4 is 12; opr-overview.tex:262-265; POSITIONS 2026-09-22, ledger row 334; POSITIONS 2026-09-26, the fifth
+  BASE <absent>
+### record-text.txt:55 cites glue/prim/Int.java:227  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: fore it multiplies; `NN32`'s natives widen; the negative branches are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; 
+  HEAD 227:                 return FInt.make(rc(powExact(base, exp)));
+  BASE 227:                 return FInt.make(rc(pow(base, exp)));
+### record-text.txt:55 cites glue/prim/Int.java:253  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: multiplies; `NN32`'s natives widen; the negative branches are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.ja
+  HEAD 253:             throw overflow();
+  BASE 253:             error("Overflow of ZZ32 " + i);
+### record-text.txt:55 cites glue/prim/Int.java:328-384  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java]
+  context: es; `NN32`'s natives widen; the negative branches are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`,
+  HEAD 328:     public static long choose(long n, long k) {
+  HEAD 329:         if (k < 0 || k > n) return 0;
+  HEAD 330:         if (k > n / 2) k = n - k;
+  HEAD 331:         if (k == 0) return 1;
+  HEAD 332:         if (k == 1) return n;
+  HEAD 333:         // k <= n/2
+  BASE 328:     public static long choose(long n, long k) {
+  BASE 329:         if (k > n / 2) k = n - k;
+  BASE 330:         if (k == 0) return 1;
+  BASE 331:         if (k == 1) return n;
+  BASE 332:         // k <= n/2
+  BASE 333:         // Will multiply (k) terms, n-k+1 through n-k+k
+### record-text.txt:55 cites Long.java:239  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Long.java]
+  context: widen; the negative branches are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; 
+  HEAD 239:                 return FLong.make(Int.powExact(base, exp));
+  BASE 239:                 return FLong.make(Int.pow(base, exp));
+### record-text.txt:55 cites NN32.java:149-162  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: ve branches are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:15
+  HEAD 149:     public static final class Lcm extends NN2N {
+  HEAD 150:         protected int f(int u, int v) {
+  HEAD 151:             if (u == 0 || v == 0) return 0;
+  HEAD 152:             long a = Unsigned.toLong(u);
+  HEAD 153:             long b = Unsigned.toLong(v);
+  HEAD 154:             return rc((a / UnsignedLong.gcd(a, b)) * b);
+  BASE 149:     public static final class Lcm extends NN2N {
+  BASE 150:         protected int f(int u, int v) {
+  BASE 151:             if (u == 0 || v == 0) return 0;
+  BASE 152:             int g = (int) UnsignedLong.gcd(u, v);
+  BASE 153:             return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+  BASE 154:         }
+### record-text.txt:55 cites NN32.java:234  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: are untouched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:154`, `:23
+  HEAD 234:                 return FNN32.make(rc(UnsignedLong.powExact(Unsigned.toLong(base), exp)));
+  BASE 234:             }
+### record-text.txt:55 cites NN32.java:265  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java]
+  context: uched (row 441) (`glue/prim/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:154`, `:234`, `:29
+  HEAD 265:             throw Int.overflow();
+  BASE 265:         }
+### record-text.txt:55 cites UnsignedLong.java:154  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: im/Int.java:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:154`, `:234`, `:297-335`). Home 1: `Project
+  HEAD 154:             return multiplyExact(Unsigned.divide(u, g), v);
+  BASE 154:             return Unsigned.multiplyToLong(Unsigned.divide(u, g), v);
+### record-text.txt:55 cites UnsignedLong.java:234  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: ava:227`, `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:154`, `:234`, `:297-335`). Home 1: `ProjectFortress
+  HEAD 234:                 return FNN64.make(powExact(base, exp));
+  BASE 234:                 return FNN64.make(pow(base, exp));
+### record-text.txt:55 cites UnsignedLong.java:297-335  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: , `:253`, `:328-384`; `Long.java:239`; `NN32.java:149-162`, `:234`, `:265`; `UnsignedLong.java:154`, `:234`, `:297-335`). Home 1: `ProjectFortress/tests/PowCh
+  HEAD 297:     public static long choose(long n, long k) {
+  HEAD 298:         if (Unsigned.greaterThan(k, n)) return 0;
+  HEAD 299:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  HEAD 300:         if (k == 0) return 1;
+  HEAD 301:         if (k == 1) return n;
+  HEAD 302:         // k <= n/2
+  BASE 297:     public static long choose(long n, long k) {
+  BASE 298:         if (Unsigned.greaterThan(k, Unsigned.divide(n, 2))) k = Unsigned.subtract(n, k);
+  BASE 299:         if (k == 0) return 1;
+  BASE 300:         if (k == 1) return n;
+  BASE 301:         // k <= n/2
+  BASE 302:         // Will multiply (k) terms, n-k+1 through n-k+k
+### record-text.txt:57 cites Library/RangeInternals.fss:799-809  [Library/RangeInternals.fss]
+  context: ree sites: `imposeStride` computes `dist = r-l` before it tests the stride's sign (`Library/RangeInternals.fss:799-809`, the raise at `:802`), so `zMax:zMin:1
+  HEAD 799:     imposeStride(s:ZZ32): FullScalarRange = do
+  HEAD 800:         r = self.right.get
+  HEAD 801:         l = self.left.get
+  HEAD 802:         dist = r-l
+  HEAD 803:         str = s self.stride
+  HEAD 804:         if (str > 0) = (dist > 0) then
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:802  [Library/RangeInternals.fss]
+  context:  computes `dist = r-l` before it tests the stride's sign (`Library/RangeInternals.fss:799-809`, the raise at `:802`), so `zMax:zMin:1` (empty) and `zMin:z
+  HEAD 802:         dist = r-l
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:1  [Library/RangeInternals.fss]
+  context: ` before it tests the stride's sign (`Library/RangeInternals.fss:799-809`, the raise at `:802`), so `zMax:zMin:1` (empty) and `zMin:zMax:3` (1431655766 
+  HEAD 1: (*******************************************************************************
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:3  [Library/RangeInternals.fss]
+  context: de's sign (`Library/RangeInternals.fss:799-809`, the raise at `:802`), so `zMax:zMin:1` (empty) and `zMin:zMax:3` (1431655766 elements) raise; `ScalarRa
+  HEAD 3:     All rights reserved.
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:152-161  [Library/RangeInternals.fss]
+  context: ax:3` (1431655766 elements) raise; `ScalarRange.check()` computes `(l-r) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), which `ful
+  HEAD 152:     check(): ScalarRange = do
+  HEAD 153:         str = self.stride
+  HEAD 154:         if str = 0 then fail(self.asDebugString ": Zero stride") end
+  HEAD 155:         for l <- self.left, r <- self.right do
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  HEAD 157:                 fail(self.asDebugString ": Bounds don't match stride.")
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:156  [Library/RangeInternals.fss]
+  context: ise; `ScalarRange.check()` computes `(l-r) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), which `fullScalarRange` (`:1366-1368
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:1366-1368  [Library/RangeInternals.fss]
+  context: s `(l-r) MOD str` (`Library/RangeInternals.fss:152-161`, the difference at `:156`), which `fullScalarRange` (`:1366-1368`) reaches for every stride, 1 included,
+  HEAD 1366: fullScalarRange(l:ZZ32, r:ZZ32, str:ZZ32): FullScalarRange =
+  HEAD 1367:     if str=1 then CompactFullParScalarRange(l,r).check()
+  HEAD 1368:     else StridedFullParScalarRange(l,r,str).check() end
+  BASE 1366:     end
+  BASE 1367: 
+  BASE 1368: fullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:ZZ32, str_i:ZZ32, str_j:ZZ32, str_k:ZZ32): FullRange3D =
+### record-text.txt:57 cites Library/RangeInternals.fss:156  [Library/RangeInternals.fss]
+  context: for every stride, 1 included, so `0:MIN:MIN` (two elements, 0 and `MIN`) passes `imposeStride` and raises at `:156`; and, by reading, once built, `Strided
+  HEAD 156:             if (l-r) MOD str =/= 0 AND NOT self.isEmpty then
+  (BASE same)
+### record-text.txt:57 cites Library/RangeInternals.fss:1126  [Library/RangeInternals.fss]
+  context: ses `imposeStride` and raises at `:156`; and, by reading, once built, `StridedFullScalarRange.size`'s `r-l` (`:1126`) would overflow on a nonempty span bey
+  HEAD 1126:         else narrow((self.right.get-self.left.get) DIV self.stride + 1) end
+  BASE 1126:         if self.stride > 0 then (self.left.get>self.right.get)
+### record-text.txt:57 cites ProjectFortress/tests/XXXStridedSpanWalk.fss:1  [ProjectFortress/tests/XXXStridedSpanWalk.fss]
+  context: rung E (the third site its skeptic) | Home 2: `ProjectFortress/tests/XXXStridedSpanWalk.fss` asserts `|MAX:MIN:1|` = 0, `|MIN:MAX:3|` = 1431655766 and, 
+  HEAD 1: (*) explorations/compile-ladder/rung-size-range/REPORT.md
+  BASE <absent>
+### record-text.txt:57 cites ProjectFortress/tests/XXXStridedSpanWalk.fss:3  [ProjectFortress/tests/XXXStridedSpanWalk.fss]
+  context: ite its skeptic) | Home 2: `ProjectFortress/tests/XXXStridedSpanWalk.fss` asserts `|MAX:MIN:1|` = 0, `|MIN:MAX:3|` = 1431655766 and, since the rung's re
+  HEAD 3: component XXXStridedSpanWalk
+  BASE <absent>
+### record-text.txt:57 cites Library/RangeInternals.fss:802  [Library/RangeInternals.fss]
+  context: |` = 1431655766 and, since the rung's repair round, `|0:MIN:MIN|` = 2; it fails at `Library/RangeInternals.fss:802` on the base and after rung E, went red
+  HEAD 802:         dist = r-l
+  (BASE same)
+### record-text.txt:63 cites glue/prim/UnsignedLong.java:326-335  [ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java]
+  context: n.txt:11-13`). Fix: an unsigned checked power, as walk's `UnsignedLong.powExact` (`glue/prim/UnsignedLong.java:326-335`) computes it. |
+  HEAD 326:     /** x^y, x unsigned, for y >= 0; a catchable IntegerOverflow if it is not an NN64 value. */
+  HEAD 327:     public static long powExact(long x, long y) {
+  HEAD 328:         long r = 1;
+  HEAD 329:         while (y > 0) {
+  HEAD 330:             if ((y & 1) != 0) r = multiplyExact(r, x);
+  HEAD 331:             y >>>= 1;
+  BASE 326:         }
+  BASE 327:         return r;
+  BASE 328:     }
+  BASE 329: 
+  BASE 330:     @Override
+  BASE 331:     protected void unregister() {

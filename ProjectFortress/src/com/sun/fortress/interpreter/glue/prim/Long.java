@@ -236,7 +236,7 @@ public class Long extends NativeConstructor {
             if (exp < 0) {
                 return FFloat.make(1.0 / (double) Int.pow(base, -exp));
             } else {
-                return FLong.make(Int.pow(base, exp));
+                return FLong.make(Int.powExact(base, exp));
             }
         }
     }

@@ -1,0 +1,100 @@
+# compile-one.sh cross 2026-09-29T11:20:00Z; tree 87c73bf0e; build ProjectFortress/build, built from the edit; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 25.98 23.35 21.69; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SizeBounds compile
+compile rc=0
+#### SizeBounds run
+nat 2147483647 value 2147483647
+nat 2147483648 value 2147483648
+nat 4294967295 value 4294967295
+nat 4294967295 written 4294967295
+int 2147483647 value 2147483647
+int 2147483647 written 2147483647
+dispatch top of NN32, 2^31, other, top of ZZ32, other
+end
+run rc=0
+#### PowChooseLcmRungE compile
+PowChooseLcmRungE.fss:73:31-36:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, IntLiteral).
+PowChooseLcmRungE.fss:74:31-36:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, IntLiteral).
+PowChooseLcmRungE.fss:75:31-38:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, IntLiteral).
+PowChooseLcmRungE.fss:76:13-18:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, IntLiteral).
+PowChooseLcmRungE.fss:77:13-19:
+    Could not check call to operator ^
+    - (NN32, NN32)->NN32 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (NN64, NN64)->NN64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, RR64)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (RR64, ZZ32)->RR64 is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (String, ZZ32)->String is not applicable to an argument of type (ZZ64, IntLiteral).
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (ZZ64, IntLiteral).
+PowChooseLcmRungE.fss:83:31-37:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+PowChooseLcmRungE.fss:84:31-33:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+PowChooseLcmRungE.fss:85:13-19:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+PowChooseLcmRungE.fss:86:13-15:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+PowChooseLcmRungE.fss:87:13-15:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN32, NN32).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN32, NN32).
+PowChooseLcmRungE.fss:98:31-37:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+PowChooseLcmRungE.fss:99:13-19:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+PowChooseLcmRungE.fss:100:13-19:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+File PowChooseLcmRungE.fss has 13 errors.
+compile rc=255
+# walk-list.sh crosswalk 2026-09-29T11:20:40Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.66 24.38 22.11; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SizeBoundsW
+nat 2147483647 value 2147483647
+nat 2147483648 value 2147483648
+nat 4294967295 value 4294967295
+nat 4294967295 written 4294967295
+int 2147483647 value 2147483647
+int 2147483647 written 2147483647
+dispatch top of NN32, 2^31, other, top of ZZ32, other
+end
+rc=0
+EXIT=0

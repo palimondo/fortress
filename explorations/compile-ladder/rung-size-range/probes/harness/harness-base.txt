@@ -1,0 +1,51 @@
+CLASSES=tmp/build-base (the base build) ahead of the classpath; the three tests read no range
+# run-harness.sh 2026-09-29T11:38:00Z; tree 87c73bf0e; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.89 33.22 29.63; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/h-basexxx ProjectFortress/tests/XXXNatBeyondNN32Walk.fss ProjectFortress/tests/XXXIntBeyondZZ32Walk.fss ProjectFortress/tests/XXXIntBelowZZ32Walk.fss ProjectFortress/tests/PowChooseLcmRungE.fss
+tmp/h-basexxx/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ecf51c93_16
+. interpret tmp/h-basexxx/tests/PowChooseLcmRungE 
+ UNEXPECTED exception 
+com.sun.fortress.exceptions.ProgramError: com.sun.fortress.exceptions.ProgramError: tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:31-35:
+Overflow of ZZ32 2147483648
+Context:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:31-35:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:8:12-13:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:12-36:
+toplevel:
+
+Caused by: com.sun.fortress.exceptions.ProgramError: tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:31-35:
+Overflow of ZZ32 2147483648
+Context:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:31-35:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:8:12-13:
+tmp/h-basexxx/tests/PowChooseLcmRungE.fss:58:12-36:
+toplevel:
+
+F. interpret tmp/h-basexxx/tests/XXXIntBeyondZZ32Walk 
+REACHED
+an int parameter of 2147483648, beyond ZZ32, read as -2147483648
+PASS
+ Missing expected failure 
+F. interpret tmp/h-basexxx/tests/XXXNatBeyondNN32Walk 
+REACHED
+a nat parameter of 4294967296, beyond NN32, read as 0
+PASS
+ Missing expected failure 
+F. interpret tmp/h-basexxx/tests/XXXIntBelowZZ32Walk 
+REACHED
+an int parameter of -2147483649, below ZZ32, read as 2147483647
+PASS
+ Missing expected failure 
+F
+Time: 84.387
+There were 4 failures:
+1) tmp/h-basexxx/tests/PowChooseLcmRungE(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: InterpreterTest tmp/h-basexxx/tests/PowChooseLcmRungE
+2) tmp/h-basexxx/tests/XXXIntBeyondZZ32Walk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/h-basexxx/tests/XXXIntBeyondZZ32Walk
+3) tmp/h-basexxx/tests/XXXNatBeyondNN32Walk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/h-basexxx/tests/XXXNatBeyondNN32Walk
+4) tmp/h-basexxx/tests/XXXIntBelowZZ32Walk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/h-basexxx/tests/XXXIntBelowZZ32Walk
+
+FAILURES!!!
+Tests run: 4,  Failures: 4,  Errors: 0
+
+rc=0
+EXIT=0

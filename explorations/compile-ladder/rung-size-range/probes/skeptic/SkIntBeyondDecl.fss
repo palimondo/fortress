@@ -1,0 +1,11 @@
+component SkIntBeyondDecl
+export Executable
+object IBox[\int i\](v: ZZ32) end
+g(b: IBox[\3000000000\]): String = "never called"
+g(x: Any): String = "other"
+run(): () = do
+  println("REACHED")
+  println(g(IBox[\5\](0)))
+  println("END")
+end
+end

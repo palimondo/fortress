@@ -1,0 +1,57 @@
+# the natives probe (probes/natives/NatP00-54.fss, one program per case) under walk on the base build and on the edit; each line: case, base answer, edit answer; "error" is the base's ProgramError that no catch sees
+NatP00 ZZ32 two^31: base error: NatP00.fss:17:11-15: | Overflow of ZZ32 2147483648 ; edit IntegerOverflow
+NatP01 ZZ32 two^30: base 1073741824 ; edit 1073741824  (same)
+NatP02 ZZ32 mtwo^31: base -2147483648 ; edit -2147483648  (same)
+NatP03 ZZ32 two^64: base 0 ; edit IntegerOverflow
+NatP04 ZZ32 three^40: base error: NatP04.fss:17:11-17: | Overflow of ZZ32 -6289078614652622815 ; edit IntegerOverflow
+NatP05 ZZ32 zero^0: base 1 ; edit 1  (same)
+NatP06 ZZ32 mone^2147483647: base -1 ; edit -1  (same)
+NatP07 ZZ32 two^(-1): base 0.5 ; edit 0.5  (same)
+NatP08 ZZ32 two^(-70): base Infinity ; edit Infinity  (same)
+NatP09 ZZ32 n34 CHOOSE 17: base error: NatP09.fss:17:11-12: | Overflow of ZZ32 2333606220 ; edit IntegerOverflow
+NatP10 ZZ32 n33 CHOOSE 16: base 1166803110 ; edit 1166803110  (same)
+NatP11 ZZ32 three CHOOSE 5: base 1 ; edit 0
+NatP12 ZZ32 five CHOOSE (-1): base 1 ; edit 0
+NatP13 ZZ32 mfive CHOOSE 2: base 1 ; edit 0
+NatP14 ZZ32 maxI CHOOSE 1: base 2147483647 ; edit 2147483647  (same)
+NatP15 ZZ32 maxI CHOOSE 2147483646: base 2147483647 ; edit 2147483647  (same)
+NatP16 ZZ32 maxI CHOOSE 2: base error: NatP16.fss:17:11-13: | Overflow of ZZ32 2305843005992468481 ; edit IntegerOverflow
+NatP17 ZZ64 two^63: base -9223372036854775808 ; edit IntegerOverflow
+NatP18 ZZ64 two^62: base 4611686018427387904 ; edit 4611686018427387904  (same)
+NatP19 ZZ64 mtwo^63: base -9223372036854775808 ; edit -9223372036854775808  (same)
+NatP20 ZZ64 three^40: base -6289078614652622815 ; edit IntegerOverflow
+NatP21 ZZ64 two^64: base 0 ; edit IntegerOverflow
+NatP22 ZZ64 two^(-70): base Infinity ; edit Infinity  (same)
+NatP23 ZZ64 n66 CHOOSE 33: base 20188145145702184 ; edit 7219428434016265740
+NatP24 ZZ64 n67 CHOOSE 33: base -55587323670061641 ; edit IntegerOverflow
+NatP25 ZZ64 n68 CHOOSE 34: base -111174647340123282 ; edit IntegerOverflow
+NatP26 ZZ64 three CHOOSE 5: base 1 ; edit 0
+NatP27 ZZ64 n62 CHOOSE 31: base -129627907186982512 ; edit 465428353255261088
+NatP28 NN32 twoTo31 LCM seven: base 2147483646 ; edit IntegerOverflow
+NatP29 NN32 twoTo31 LCM two: base 2147483648 ; edit 2147483648  (same)
+NatP30 NN32 b16 LCM b16p: base 65536 ; edit IntegerOverflow
+NatP31 NN32 maxU LCM one: base 4294967295 ; edit 4294967295  (same)
+NatP32 NN32 six LCM four: base 12 ; edit 12  (same)
+NatP33 NN32 twoTo31 CHOOSE one: base error: NatP33.fss:20:11-16: | Overflow of NN32 -2147483648 ; edit 2147483648
+NatP34 NN32 b16 CHOOSE two: base 2147450880 ; edit 2147450880  (same)
+NatP35 NN32 n92682 CHOOSE two: base 4294930221 ; edit 4294930221  (same)
+NatP36 NN32 n92683 CHOOSE two: base error: NatP36.fss:20:11-15: | Overflow of NN32 4295022903 ; edit IntegerOverflow
+NatP37 NN32 three CHOOSE five: base 1 ; edit 0
+NatP38 NN32 two^32: base error: NatP38.fss:20:11-15: | Overflow of NN32 4294967296 ; edit IntegerOverflow
+NatP39 NN32 two^31: base 2147483648 ; edit 2147483648  (same)
+NatP40 NN32 m65535^2: base 4294836225 ; edit 4294836225  (same)
+NatP41 NN32 b16^2: base error: NatP41.fss:20:11-15: | Overflow of NN32 4294967296 ; edit IntegerOverflow
+NatP42 NN32 twoTo31^1: base error: NatP42.fss:20:11-19: | Overflow of NN32 -2147483648 ; edit 2147483648
+NatP43 NN32 two^(-1): base 0.5 ; edit 0.5  (same)
+NatP44 NN64 twoTo63 LCM three: base 9223372036854775808 ; edit IntegerOverflow
+NatP45 NN64 twoTo63 LCM two: base 9223372036854775808 ; edit 9223372036854775808  (same)
+NatP46 NN64 twoTo32 LCM (twoTo32 - one): base 18446744069414584320 ; edit 18446744069414584320  (same)
+NatP47 NN64 n68 CHOOSE unsigned(widen(34)): base 46683145888481198 ; edit IntegerOverflow
+NatP48 NN64 n67 CHOOSE unsigned(widen(33)): base 23341572944240599 ; edit 14226520737620288370
+NatP49 NN64 three CHOOSE five: base 1 ; edit 0
+NatP50 NN64 two^64: base 0 ; edit IntegerOverflow
+NatP51 NN64 two^63: base 9223372036854775808 ; edit 9223372036854775808  (same)
+NatP52 NN64 three^40: base 12157665459056928801 ; edit 12157665459056928801  (same)
+NatP53 NN64 three^41: base 18026252303461234787 ; edit IntegerOverflow
+NatP54 NN64 two^(-1): base 0.5 ; edit 0.5  (same)
+cases 55, same 25, changed 30

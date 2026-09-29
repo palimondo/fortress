@@ -1,0 +1,12 @@
+component R2ArithIntLow
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object IBox[\int k\](v: ZZ32) end
+sz[\nat k\](b: Box[\k\]): ZZ64 = k
+isz[\int k\](b: IBox[\k\]): ZZ64 = k
+run(): () = do
+  println("REACHED")
+  println("i2 0 - 2147483647 - 2 = " || isz(IBox[\0 - 2147483647 - 2\](0)))
+  println("END")
+end
+end

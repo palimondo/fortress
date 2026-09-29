@@ -1,0 +1,17 @@
+(*) explorations/compile-ladder/rung-size-range/REPORT.md
+
+component XXXIntBelowZZ32Walk
+export Executable
+
+object IBox[\int i\](v: ZZ32) end
+
+size64[\int i\](b: IBox[\i\]): ZZ64 = i
+
+run(): () = do
+    println("REACHED")
+    r = size64(IBox[\0 - 2147483649\](0))
+    println("an int parameter of -2147483649, below ZZ32, read as " || r)
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,15 @@
+component SkNumeralBare
+export Executable
+object Box[\nat k\](v: ZZ32) end
+bare[\nat k\](b: Box[\k\]): String = do
+  x = k
+  "" || x || " plus one " || (x + 1)
+end
+run(): () = do
+  println("REACHED")
+  y = 2147483647
+  println("a numeral 2147483647 bound bare, plus one: " || (try "" || (y + 1) catch e IntegerOverflow => "OVF" end))
+  println("a size 2147483647 bound bare, plus one: " || (try bare(Box[\2147483647\](0)) catch e IntegerOverflow => "OVF" end))
+  println("END")
+end
+end

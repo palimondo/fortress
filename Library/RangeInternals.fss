@@ -953,8 +953,7 @@ trait CompactFullScalarRange extends { FullScalarRange, CompactFullRange[\ZZ32\]
     getter size(): ZZ32 = do
         l = self.lower
         r = self.upper
-        res = narrow(r-l+1)
-        if res <= 1 AND: l>r then 0 else res end
+        if l > r then 0 else narrow(r-l+1) end
       end
     getter isEmpty(): Boolean = self.lower > self.upper
     getter indexValuePairs(): Indexed[\(ZZ32,ZZ32),ZZ32\] = do
@@ -1034,18 +1033,23 @@ object CompactFullSeqScalarRange(l:ZZ32, r:ZZ32)
     generate[\T\](red:Reduction[\T\], body: ZZ32->T): T = do
         result : T := red.empty()
         i : ZZ32 := l
-        while i <= r do
-            b = body(i)
-            result := red.join(result, b)
-            i += 1
+        if l <= r then
+            result := red.join(result, body(i))
+            while i < r do
+                i += 1
+                result := red.join(result, body(i))
+            end
         end
         result
       end
     loop(body: ZZ32->()): () = do
         i : ZZ32 := l
-        while i <= r do
+        if l <= r then
             body(i)
-            i += 1
+            while i < r do
+                i += 1
+                body(i)
+            end
         end
       end
 end
@@ -1117,11 +1121,9 @@ end
 
 trait StridedFullScalarRange
         extends { FullScalarRange, StridedFullRange[\ZZ32\] }
-    getter size(): ZZ32 = do
-        res = narrow((self.right.get-self.left.get) DIV self.stride + 1)
-        if res <= 1 AND: self.isEmpty then 0
-        else res end
-      end
+    getter size(): ZZ32 =
+        if self.isEmpty then 0
+        else narrow((self.right.get-self.left.get) DIV self.stride + 1) end
     getter isEmpty(): Boolean =
         if self.stride > 0 then (self.left.get>self.right.get)
                            else (self.left.get<self.right.get) end
@@ -1255,16 +1257,20 @@ object StridedFullSeqScalarRange(l:ZZ32, r:ZZ32, str:ZZ32)
         result : T := red.empty()
         i : ZZ32 := l
         if str > 0 then
-            while i <= r do
-                b = body(i)
-                result := red.join(result,b)
-                i += str
+            if l <= r then
+                result := red.join(result,body(i))
+                while (r >= 0 AND: (i <= r - str)) OR: (r < 0 AND: (i + str <= r)) do
+                    i += str
+                    result := red.join(result,body(i))
+                end
             end
         else (* str < 0 *)
-            while i >= r do
-                b = body(i)
-                result := red.join(result,b)
-                i += str
+            if l >= r then
+                result := red.join(result,body(i))
+                while (r < 0 AND: (i >= r - str)) OR: (r >= 0 AND: (i + str >= r)) do
+                    i += str
+                    result := red.join(result,body(i))
+                end
             end
         end
         result
@@ -1272,15 +1278,21 @@ object StridedFullSeqScalarRange(l:ZZ32, r:ZZ32, str:ZZ32)
     loop(body: ZZ32->()): () =
         if str > 0 then
             i : ZZ32 := l
-            while i <= r do
+            if l <= r then
                 body(i)
-                i += str
+                while (r >= 0 AND: (i <= r - str)) OR: (r < 0 AND: (i + str <= r)) do
+                    i += str
+                    body(i)
+                end
             end
         else (* str < 0 *)
             i : ZZ32 := l
-            while i >= r do
+            if l >= r then
                 body(i)
-                i += str
+                while (r < 0 AND: (i >= r - str)) OR: (r >= 0 AND: (i + str >= r)) do
+                    i += str
+                    body(i)
+                end
             end
         end
     shiftLeft(amount: ZZ32):StridedFullSeqScalarRange = StridedFullSeqScalarRange(l-amount, r-amount, str)
@@ -1376,11 +1388,17 @@ emptyScalarRange() : FullScalarRange = CompactFullParScalarRange(0,-1)
 
 (** Helpers for #. **)
 sized1Range(lo:ZZ32,ex:ZZ32): CompactFullParScalarRange =
-    CompactFullParScalarRange(lo,lo+ex-1)
-sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D =
-    CompactFullRange2D(l1,l2,l1+ex1-1,l2+ex2-1)
-sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D =
-    CompactFullRange3D(l1,l2,l3,l1+ex1-1,l2+ex2-1,l3+ex3-1)
+    if ex > 0 then CompactFullParScalarRange(lo,lo+(ex-1))
+    elif lo > lo.minimum - ex then CompactFullParScalarRange(lo,lo+ex-1)
+    else CompactFullParScalarRange(0,-1) end
+sized2Range(l1:ZZ32,l2:ZZ32,ex1:ZZ32,ex2:ZZ32): CompactFullRange2D = do
+    (r1, r2) = (sized1Range(l1,ex1), sized1Range(l2,ex2))
+    CompactFullRange2D(r1.lower,r2.lower,r1.upper,r2.upper)
+  end
+sized3Range(l1:ZZ32,l2:ZZ32,l3:ZZ32,ex1:ZZ32,ex2:ZZ32,ex3:ZZ32): CompactFullRange3D = do
+    (r1, r2, r3) = (sized1Range(l1,ex1), sized1Range(l2,ex2), sized1Range(l3,ex3))
+    CompactFullRange3D(r1.lower,r2.lower,r3.lower,r1.upper,r2.upper,r3.upper)
+  end
 
 (** Helpers for :. **)
 bounded1Range(lo:ZZ32,hi:ZZ32): CompactFullParScalarRange = CompactFullParScalarRange(lo,hi)

@@ -133,7 +133,7 @@ public class IntNat extends FTypeNat {
         if (val instanceof IntArg) {
             IntExpr n = ((IntArg) val).getIntVal();
             if (n instanceof IntBase) {
-                if (((IntBase) n).getIntVal().getIntVal().intValue() == this.getValue()) {
+                if (((IntBase) n).getIntVal().getIntVal().equals(java.math.BigInteger.valueOf(this.getValue()))) {
                     // no error
                     return;
                 }

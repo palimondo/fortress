@@ -3918,9 +3918,9 @@ trait CompactFullRange[\I\] extends FullRange[\I\]
     opr |self| : ZZ32 = do
       (l, u) = (self.lower, self.upper)
       typecase l of
-        l':ZZ32 => 0 MAX ((u - l') + 1)
-        l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) end
-        l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; (0 MAX ((u1 - l1) + 1)) (0 MAX ((u2 - l2) + 1)) (0 MAX ((u3 - l3) + 1)) end
+        l':ZZ32 => if u < l' then 0 else (u - l') + 1 end
+        l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; if (u1 < l1) OR (u2 < l2) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) end end
+        l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; if (u1 < l1) OR (u2 < l2) OR (u3 < l3) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) ((u3 - l3) + 1) end end
       end
     end
     forward(): CompactFullRange[\I\] = self

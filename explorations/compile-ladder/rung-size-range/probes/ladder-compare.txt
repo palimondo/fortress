@@ -1,0 +1,18 @@
+# ladder subset: the 85 files of explorations/compile-ladder/baseline-2026-09-19/pass-list.txt, phase (compile and run exit codes) and run stdout, before (the base build) and after (the edit); from probes/ladder-before/ and probes/ladder-after/
+phase unchanged: 85
+STDOUT DIFFERS tests/nestedTransactions1.fss.run
+2c2
+< Operation took 1952.63194ms
+---
+> Operation took 1684.388508ms
+STDOUT DIFFERS tests/nestedTransactions2.fss.run
+2c2
+< Operation took 2017.228095ms
+---
+> Operation took 1046.955587ms
+STDOUT DIFFERS tests/nestedTransactions4.fss.run
+2c2
+< Operation took 1388.653309ms
+---
+> Operation took 2290.58627ms
+run stdout files compared: 85, differing: 3

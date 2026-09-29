@@ -46,6 +46,47 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
     case _ => false
   }
 
+  private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
+  private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
+  private val zz32Max = java.math.BigInteger.valueOf(Int.MaxValue.toLong)
+
+  // A literal size outside the values of every kind its parameters have: a nat parameter
+  // is an NN32 value and an int parameter a ZZ32 value.  No kinds known means either.
+  private def sizeOutOfRange(sarg: StaticArg, kinds: List[StaticParamKind]): Option[String] =
+    sarg match {
+      case SIntArg(_, _, SIntBase(_, _, lit)) =>
+        val v = lit.getIntVal
+        val nat = kinds.exists(_.isInstanceOf[KindNat])
+        val int = kinds.exists(_.isInstanceOf[KindInt])
+        val fitsNat = v.signum >= 0 && v.compareTo(nn32Max) <= 0
+        val fitsInt = v.compareTo(zz32Min) >= 0 && v.compareTo(zz32Max) <= 0
+        if ((nat && fitsNat) || (int && fitsInt) || (!nat && !int && (fitsNat || fitsInt))) None
+        else if (nat && !int)
+          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.")
+        else if (int && !nat)
+          Some("The static argument " + v + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.")
+        else
+          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, and for an int parameter, whose values are those of ZZ32.")
+      case _ => None
+    }
+
+  // The kinds of the static parameters at each position, from the declared schemas of a
+  // checked reference; before type checking a reference has none, and its sizes wait.
+  private def kindsAt(schemas: List[Type], n: Int): Option[List[List[StaticParamKind]]] = {
+    val lists = schemas.map(t => toListFromImmutable(t.getInfo.getStaticParams)).filter(_.size == n)
+    if (lists.isEmpty) None else Some(List.tabulate(n)(i => lists.map(_(i).getKind)))
+  }
+
+  private def walkStaticArgs(sargs: List[StaticArg], kinds: Option[List[List[StaticParamKind]]]) =
+    sargs.zipWithIndex.foreach {
+      case (a: IntArg, i) =>
+        if (hasSizeArithmetic(a))
+          error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
+        kinds.foreach(ks => sizeOutOfRange(a, ks(i)).foreach(m =>
+          error("Ill-formed static argument: " + a + "\n    " + m, a)))
+      case (a, _) => walk(a)
+    }
+
   private def getTypes(typ:Id) = {
     val types = typ match {
       case SId(info,Some(name),text) =>
@@ -111,6 +152,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         // Static arguments should satisfy the corresponding bounds.
         val sparams = si.staticParameters
         if ( sargs.size == sparams.size ) {
+          sargs.zip(toListFromImmutable(sparams)).foreach { case (a, p) =>
+            sizeOutOfRange(a, List(p.getKind)).foreach(m => error("Ill-formed type: " + t + "\n    " + m, t)) }
           val replacer = new StaticTypeReplacer(sparams, toJavaList(sargs))
           def wfStaticArgs(pair:(StaticArg,StaticParam)) =
             for ( bound <- toListFromImmutable(pair._2.getExtendsClause);
@@ -143,6 +186,11 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case _:DimBase => // OK
       case a:IntArg if hasSizeArithmetic(a) =>
         error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
+      case a:IntArg =>
+        sizeOutOfRange(a, Nil).foreach(m => error("Ill-formed static argument: " + a + "\n    " + m, a))
+      case SFunctionalRef(_, args, _, _, _, _, newOverloadings, _, schema) if !args.isEmpty =>
+        val schemas = newOverloadings.flatMap(o => toOption(o.getSchema).toList) ++ schema.toList
+        walkStaticArgs(args, kindsAt(schemas, args.size))
       case SFunctionalRef(_, args, _, _, _, _, _, _, _) =>
         // Only the static arguments are written at the reference site.  The two
         // overloading lists and the overloading type are assembled by overload
@@ -152,10 +200,10 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         // so checking them here either reports them unbound or fails the kind-env
         // lookup outright.  Each declaration is checked where it is declared.
         walk(args)
-      case SMethodInvocation(_, getObj, getMethod, getStaticArgs, getArg, getOverloadingType, _) =>
+      case SMethodInvocation(_, getObj, getMethod, getStaticArgs, getArg, getOverloadingType, getOverloadingSchema) =>
         walk(getObj)
         walk(getMethod)
-        walk(getStaticArgs)
+        walkStaticArgs(getStaticArgs, kindsAt(getOverloadingSchema.toList, getStaticArgs.size))
         walk(getArg)
         walk(getOverloadingType)
       case SOverloading(_, _, _, t, _) => walk(t)

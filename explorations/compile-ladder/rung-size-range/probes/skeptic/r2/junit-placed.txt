@@ -1,0 +1,138 @@
+# junit.sh sk2placed 2026-09-29T14:14:18Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.20 4.25 3.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 0734a3eb4; build ProjectFortress/build; tests from ProjectFortress/compiler_tests
+. compile ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 6387ms)
+. link ProjectFortress/compiler_tests/NatRtBigSize  OK (time = 5276ms)
+. compile ProjectFortress/compiler_tests/XXXNatRangeChecker ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\18446744073709551615\]
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\9223372036854775807\]
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:5:8-9:
+    Ill-formed type: Box[\9223372036854775808\]
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:6:8-10:
+    Ill-formed type: IBox[\2147483648\]
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:8:7-10:
+    Ill-formed static argument: 9223372036854775807
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:9:6-9:
+    Ill-formed static argument: 18446744073709551615
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:9:6-9:
+    Ill-formed static argument: 9223372036854775808
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:10:7-10:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:13:9-23:
+    Ill-formed type: Box[\4294967296\]
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:14:9-24:
+    Ill-formed type: IBox[\2147483648\]
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:17:21-38:
+    Ill-formed static argument: 9223372036854775807
+    The static argument 9223372036854775807 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:18:20-37:
+    Ill-formed static argument: 9223372036854775808
+    The static argument 9223372036854775808 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:19:20-38:
+    Ill-formed static argument: 18446744073709551615
+    The static argument 18446744073709551615 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:20:18-26:
+    Ill-formed static argument: 4294967296
+    The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:21:18-26:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+ProjectFortress/compiler_tests/XXXNatRangeChecker.fss:22:22-30:
+    Ill-formed static argument: 2147483648
+    The static argument 2147483648 is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.
+File XXXNatRangeChecker.fss has 16 errors.
+ Saw expected failure
+. link ProjectFortress/compiler_tests/XXXInferResultOnlyAny  OK (time = 1481ms)
+. link ProjectFortress/compiler_tests/XXXInferResultOnlyCoerced  OK (time = 1971ms)
+. compile ProjectFortress/compiler_tests/XXXTryCompareCoerceRungE java.lang.Error: 
+ OK Saw expected exception
+. link ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE  OK (time = 1593ms)
+. link ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE  OK (time = 1247ms)
+. link ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE  OK (time = 1769ms)
+. link ProjectFortress/compiler_tests/XXXTryOperandRungE  OK (time = 1426ms)
+. run ProjectFortress/compiler_tests/NatRtBigSize (1603ms) 2147483647
+2147483648
+3000000000
+4294967295
+PASS
+Passed
+. run ProjectFortress/compiler_tests/XXXInferResultOnlyAny (719ms) Exception in thread "main" java.lang.VerifyError: Bad return type
+Exception Details:
+  Location:
+    XXXInferResultOnlyAny.c1()Lcom/sun/fortress/compiler/runtimeValues/FZZ32; @8: areturn
+  Reason:
+    Type 'java/lang/Object' (current frame, stack[0]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FZZ32' (from method signature)
+  Current Frame:
+    bci: @8
+    flags: { }
+    locals: { }
+    stack: { 'java/lang/Object' }
+  Bytecode:
+    0000000: b200 2db9 0033 0100 b0                 
+
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXInferResultOnlyCoerced (853ms) REACHED
+java.lang.NoClassDefFoundError
+Caused by: java.lang.NoClassDefFoundError: java/lang/Object$RTTIc
+Caused by: java.lang.ClassNotFoundException: java.lang.Object$RTTIc
+	... 8 more
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE (1216ms) REACHED
+FAIL:  -2147483648 =/= OVF; ZZ32 (-3)^21 throws IntegerOverflow; basic-integers.tex:527-529, opr-overview.tex:154-155
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  -2147483648 =/= OVF; ZZ32 (-3)^21 throws IntegerOverflow; basic-integers.tex:527-529, opr-overview.tex:154-155
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE (1291ms) REACHED
+FAIL:  NN32 2^31 is 2147483648; basic-integers.tex:527-529
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  NN32 2^31 is 2147483648; basic-integers.tex:527-529
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE (642ms) REACHED
+FAIL:  NN64 3^2 is 9; basic-integers.tex:527-529
+FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  NN64 3^2 is 9; basic-integers.tex:527-529
+Saw expected failure (Exit code != 0)
+. run ProjectFortress/compiler_tests/XXXTryOperandRungE (318ms) Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 49
+Exception Details:
+  Location:
+    XXXTryOperandRungE.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @45: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @45
+    flags: { }
+    locals: { top, 'fortress/CompilerLibrary$InvalidRange' }
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @49
+    flags: { }
+    locals: { }
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 1236 b800 3cb8 0042 5712 44b8 003c c000
+    0000010: 46b8 0048 a700 1d59 b600 4cc1 002b 9900
+    0000020: 12b6 004c c000 2b4c 124e b800 3ca7 0004
+    0000030: bfc0 0051 b800 554b 2a12 57b8 003c 1259
+    0000040: b800 3cb8 005f 5712 61b8 003c b800 42b0
+    0000050:                                        
+  Exception Handler Table:
+    bci [17, 20] => handler: 23
+  Stackmap Table:
+    same_locals_1_stack_item_frame(@23,Object[#41])
+    same_locals_1_stack_item_frame(@48,Object[#41])
+    full_frame(@49,{},{Object[#70],Object[#70]})
+
+Saw expected failure (Exit code != 0)
+
+Time: 28.772
+
+OK (17 tests)
+
+exit=0
+EXIT=0

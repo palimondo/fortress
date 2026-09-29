@@ -1,0 +1,33 @@
+$ python3 explorations/compile-ladder/rung-size-range/local-fix-503.py
+-        LeftRange3D(l_i-shift_i, l_j-shift_j, l_k-amount, str_i, str_j, str_k)
++        LeftRange3D(l_i-shift_i, l_j-shift_j, l_k-shift_k, str_i, str_j, str_k)
+-        LeftRange3D(l_i+shift_i, l_j+shift_j, l_k+amount, str_i, str_j, str_k)
++        LeftRange3D(l_i+shift_i, l_j+shift_j, l_k+shift_k, str_i, str_j, str_k)
+-        RightRange3D(r_i-shift_i, r_j-shift_j, r_k-amount, str_i, str_j, str_k)
++        RightRange3D(r_i-shift_i, r_j-shift_j, r_k-shift_k, str_i, str_j, str_k)
+-        RightRange3D(r_i+shift_i, r_j+shift_j, r_k+amount, str_i, str_j, str_k)
++        RightRange3D(r_i+shift_i, r_j+shift_j, r_k+shift_k, str_i, str_j, str_k)
+-        StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-amount, r_j-amount, str_i, str_j)
++        StridedFullRange2D(l_i-shift_i, l_j-shift_j, r_i-shift_i, r_j-shift_j, str_i, str_j)
+-        StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+amount, r_j+amount, str_i, str_j)
++        StridedFullRange2D(l_i+shift_i, l_j+shift_j, r_i+shift_i, r_j+shift_j, str_i, str_j)
+# run-harness.sh 2026-09-29T11:18:24Z; tree 87c73bf0e with its working changes; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 23.27 22.41 21.25; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/h-503 ProjectFortress/tests/XXXRangeTupleShiftWalk.fss
+tmp/h-503/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ece327a7_16
+. interpret tmp/h-503/tests/XXXRangeTupleShiftWalk 
+REACHED
+PASS
+ Missing expected failure 
+F
+Time: 63.178
+There was 1 failure:
+1) tmp/h-503/tests/XXXRangeTupleShiftWalk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/h-503/tests/XXXRangeTupleShiftWalk
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+rc=0
+reverted the local fix of row 503
+$ git diff HEAD --stat -- Library
+EXIT=0

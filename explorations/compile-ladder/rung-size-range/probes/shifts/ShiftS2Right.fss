@@ -1,0 +1,10 @@
+component ShiftS2Right
+export Executable
+run() = do
+  r = (((1,1):(9,9)):(2,2))
+  println("ShiftS2Right range: " || r.asDebugString)
+  s = r.shiftRight((1,1))
+  println("ShiftS2Right shifted: " || s.asDebugString)
+  println("ShiftS2Right expected: StridedFullRange2D(2,2, 10,10, 2,2)")
+end
+end

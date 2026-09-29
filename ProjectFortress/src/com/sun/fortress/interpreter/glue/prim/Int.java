@@ -224,7 +224,7 @@ public class Int extends NativeConstructor {
             if (exp < 0) {
                 return FFloat.make(1.0 / (double) pow(base, -exp));
             } else {
-                return FInt.make(rc(pow(base, exp)));
+                return FInt.make(rc(powExact(base, exp)));
             }
         }
     }
@@ -250,7 +250,7 @@ public class Int extends NativeConstructor {
     public static int rc(long i) {
         int r = (int) i;
         if ((long) r != i) {
-            error("Overflow of ZZ32 " + i);
+            throw overflow();
         }
         return r;
     }
@@ -326,6 +326,7 @@ public class Int extends NativeConstructor {
     }
 
     public static long choose(long n, long k) {
+        if (k < 0 || k > n) return 0;
         if (k > n / 2) k = n - k;
         if (k == 0) return 1;
         if (k == 1) return n;
@@ -336,11 +337,18 @@ public class Int extends NativeConstructor {
         // always be evenly divisible.
         // Proof: when we divide by k, we've multiplied by k consecutive integers,
         // at least one of which will be a multiple of k.
+        // Dividing by g = gcd(accum, j) first leaves j/g dividing m, so a step
+        // overflows only if its coefficient, which grows with j, does.
         long accum = 1;
-        for (long j = 1; j <= k; j++) {
-            long m = n - k + j;
-            accum = accum * m;
-            accum = accum / j;
+        try {
+            for (long j = 1; j <= k; j++) {
+                long m = n - k + j;
+                long g = gcd(accum, j);
+                accum = Math.multiplyExact(accum / g, m / (j / g));
+            }
+        }
+        catch (ArithmeticException e) {
+            throw overflow();
         }
         return accum;
     }
@@ -355,6 +363,22 @@ public class Int extends NativeConstructor {
         } else {
             if (xi >= 0) return ri + yi;
             return ri;
+        }
+    }
+
+    /** x^y for y >= 0; a catchable IntegerOverflow if it is not a ZZ64 value. */
+    public static long powExact(long x, long y) {
+        try {
+            long r = 1;
+            while (y > 0) {
+                if ((y & 1) != 0) r = Math.multiplyExact(r, x);
+                y >>>= 1;
+                if (y > 0) x = Math.multiplyExact(x, x);
+            }
+            return r;
+        }
+        catch (ArithmeticException e) {
+            throw overflow();
         }
     }
 

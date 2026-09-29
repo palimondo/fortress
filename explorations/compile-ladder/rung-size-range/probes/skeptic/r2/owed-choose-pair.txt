@@ -1,0 +1,27 @@
+# junit.sh sk2owed 2026-09-29T14:16:17Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.87 3.93 3.64; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 0734a3eb4; build ProjectFortress/build; tests from explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed
+. link explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed/XXXChooseTableCompiledRungE  OK (time = 4956ms)
+. run explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed/XXXChooseTableCompiledRungE (537ms) REACHED
+java.lang.ArrayIndexOutOfBoundsException
+Caused by: java.lang.ArrayIndexOutOfBoundsException: Index 15 out of bounds for length 15
+Saw expected failure (Exit code != 0)
+
+Time: 5.502
+
+OK (2 tests)
+
+exit=0
+# junit.sh sk2owedstandin 2026-09-29T14:16:23Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.20 3.98 3.66; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 0734a3eb4; build ProjectFortress/build; tests from explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed-standin
+. link explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed-standin/XXXChooseTableCompiledRungE  OK (time = 4981ms)
+. run explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed-standin/XXXChooseTableCompiledRungE (505ms) REACHED
+PASS
+Did not see expected failure
+F
+Time: 5.493
+There was 1 failure:
+1) explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed-standin/XXXChooseTableCompiledRungE(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest explorations/compile-ladder/rung-size-range/probes/skeptic/r2/owed-standin/XXXChooseTableCompiledRungE
+
+FAILURES!!!
+Tests run: 2,  Failures: 1,  Errors: 0
+
+exit=0
+EXIT=0

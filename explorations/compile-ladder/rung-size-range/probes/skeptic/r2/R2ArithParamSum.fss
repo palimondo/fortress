@@ -1,0 +1,14 @@
+component R2ArithParamSum
+export Executable
+object Box[\nat k\](v: ZZ32) end
+object IBox[\int k\](v: ZZ32) end
+sz[\nat k\](b: Box[\k\]): ZZ64 = k
+isz[\int k\](b: IBox[\k\]): ZZ64 = k
+twice[\int n\](b: IBox[\n\]): ZZ64 = isz(IBox[\n + n\](0))
+run(): () = do
+  println("REACHED")
+  println("q1 (-1073741824) twice = " || twice(IBox[\0 - 1073741824\](0)))
+  println("q2 (-1073741825) twice = " || twice(IBox[\0 - 1073741825\](0)))
+  println("END")
+end
+end

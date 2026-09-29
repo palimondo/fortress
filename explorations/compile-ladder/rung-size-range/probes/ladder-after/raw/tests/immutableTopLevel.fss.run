@@ -1,0 +1,10 @@
+x =  1
+y =  2
+z =  3
+a =  1
+b =  2
+c =  1
+d =  2
+O.p( 1 ) called
+O.p( 17 ) called
+Sideeffect count =  7 ,  PASS

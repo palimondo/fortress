@@ -1,0 +1,11 @@
+component R2TryNum
+export Executable
+h(): ZZ32 = throw InvalidRange
+run(): () = do
+  println("REACHED")
+  one: ZZ32 = 1
+  s = one + (try h() catch e InvalidRange => 41 end)
+  println("t4 " || s)
+  println("END")
+end
+end

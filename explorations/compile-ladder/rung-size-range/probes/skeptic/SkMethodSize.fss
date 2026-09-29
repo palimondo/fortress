@@ -1,0 +1,12 @@
+component SkMethodSize
+export Executable
+object O
+  natm[\nat k\](): ZZ64 = k
+  intm[\int i\](): ZZ64 = i
+end
+run(): () = do
+  println("REACHED")
+  println("a method's int size of 3000000000: " || O.intm[\3000000000\]())
+  println("END")
+end
+end

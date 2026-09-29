@@ -1,0 +1,230 @@
+# walk-list.sh natbase 2026-09-29T10:13:24Z; tree 382b9fe7f; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 26.35 21.20 13.24; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### NatP00
+com.sun.fortress.exceptions.ProgramError: NatP00.fss:17:11-15:
+Overflow of ZZ32 2147483648
+Context:
+NatP00.fss:17:11-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP01
+ZZ32 two^30 = 1073741824
+rc=0
+#### NatP02
+ZZ32 mtwo^31 = -2147483648
+rc=0
+#### NatP03
+ZZ32 two^64 = 0
+rc=0
+#### NatP04
+com.sun.fortress.exceptions.ProgramError: NatP04.fss:17:11-17:
+Overflow of ZZ32 -6289078614652622815
+Context:
+NatP04.fss:17:11-17:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP05
+ZZ32 zero^0 = 1
+rc=0
+#### NatP06
+ZZ32 mone^2147483647 = -1
+rc=0
+#### NatP07
+ZZ32 two^(-1) = 0.5
+rc=0
+#### NatP08
+ZZ32 two^(-70) = Infinity
+rc=0
+#### NatP09
+com.sun.fortress.exceptions.ProgramError: NatP09.fss:17:11-12:
+Overflow of ZZ32 2333606220
+Context:
+NatP09.fss:17:11-12:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP10
+ZZ32 n33 CHOOSE 16 = 1166803110
+rc=0
+#### NatP11
+ZZ32 three CHOOSE 5 = 1
+rc=0
+#### NatP12
+ZZ32 five CHOOSE (-1) = 1
+rc=0
+#### NatP13
+ZZ32 mfive CHOOSE 2 = 1
+rc=0
+#### NatP14
+ZZ32 maxI CHOOSE 1 = 2147483647
+rc=0
+#### NatP15
+ZZ32 maxI CHOOSE 2147483646 = 2147483647
+rc=0
+#### NatP16
+com.sun.fortress.exceptions.ProgramError: NatP16.fss:17:11-13:
+Overflow of ZZ32 2305843005992468481
+Context:
+NatP16.fss:17:11-13:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP17
+ZZ64 two^63 = -9223372036854775808
+rc=0
+#### NatP18
+ZZ64 two^62 = 4611686018427387904
+rc=0
+#### NatP19
+ZZ64 mtwo^63 = -9223372036854775808
+rc=0
+#### NatP20
+ZZ64 three^40 = -6289078614652622815
+rc=0
+#### NatP21
+ZZ64 two^64 = 0
+rc=0
+#### NatP22
+ZZ64 two^(-70) = Infinity
+rc=0
+#### NatP23
+ZZ64 n66 CHOOSE 33 = 20188145145702184
+rc=0
+#### NatP24
+ZZ64 n67 CHOOSE 33 = -55587323670061641
+rc=0
+#### NatP25
+ZZ64 n68 CHOOSE 34 = -111174647340123282
+rc=0
+#### NatP26
+ZZ64 three CHOOSE 5 = 1
+rc=0
+#### NatP27
+ZZ64 n62 CHOOSE 31 = -129627907186982512
+rc=0
+#### NatP28
+NN32 twoTo31 LCM seven = 2147483646
+rc=0
+#### NatP29
+NN32 twoTo31 LCM two = 2147483648
+rc=0
+#### NatP30
+NN32 b16 LCM b16p = 65536
+rc=0
+#### NatP31
+NN32 maxU LCM one = 4294967295
+rc=0
+#### NatP32
+NN32 six LCM four = 12
+rc=0
+#### NatP33
+com.sun.fortress.exceptions.ProgramError: NatP33.fss:20:11-16:
+Overflow of NN32 -2147483648
+Context:
+NatP33.fss:20:11-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP34
+NN32 b16 CHOOSE two = 2147450880
+rc=0
+#### NatP35
+NN32 n92682 CHOOSE two = 4294930221
+rc=0
+#### NatP36
+com.sun.fortress.exceptions.ProgramError: NatP36.fss:20:11-15:
+Overflow of NN32 4295022903
+Context:
+NatP36.fss:20:11-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP37
+NN32 three CHOOSE five = 1
+rc=0
+#### NatP38
+com.sun.fortress.exceptions.ProgramError: NatP38.fss:20:11-15:
+Overflow of NN32 4294967296
+Context:
+NatP38.fss:20:11-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP39
+NN32 two^31 = 2147483648
+rc=0
+#### NatP40
+NN32 m65535^2 = 4294836225
+rc=0
+#### NatP41
+com.sun.fortress.exceptions.ProgramError: NatP41.fss:20:11-15:
+Overflow of NN32 4294967296
+Context:
+NatP41.fss:20:11-15:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP42
+com.sun.fortress.exceptions.ProgramError: NatP42.fss:20:11-19:
+Overflow of NN32 -2147483648
+Context:
+NatP42.fss:20:11-19:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### NatP43
+NN32 two^(-1) = 0.5
+rc=0
+#### NatP44
+NN64 twoTo63 LCM three = 9223372036854775808
+rc=0
+#### NatP45
+NN64 twoTo63 LCM two = 9223372036854775808
+rc=0
+#### NatP46
+NN64 twoTo32 LCM (twoTo32 - one) = 18446744069414584320
+rc=0
+#### NatP47
+NN64 n68 CHOOSE unsigned(widen(34)) = 46683145888481198
+rc=0
+#### NatP48
+NN64 n67 CHOOSE unsigned(widen(33)) = 23341572944240599
+rc=0
+#### NatP49
+NN64 three CHOOSE five = 1
+rc=0
+#### NatP50
+NN64 two^64 = 0
+rc=0
+#### NatP51
+NN64 two^63 = 9223372036854775808
+rc=0
+#### NatP52
+NN64 three^40 = 12157665459056928801
+rc=0
+#### NatP53
+NN64 three^41 = 18026252303461234787
+rc=0
+#### NatP54
+NN64 two^(-1) = 0.5
+rc=0
+EXIT=0

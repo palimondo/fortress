@@ -1,0 +1,127 @@
+# sk.sh walkbase 2026-09-29T14:07:30Z; home tmp/baseA-home; tree 0734a3eb4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.11 2.24 2.65; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### R2ArithCancel.fss (walkbase)
+REACHED
+c1 2^64 - 2^64 = 0
+END
+rc=0
+#### R2ArithIn.fss (walkbase)
+a1 3 4 + 5 = 17
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIn.fss:3:13-16:
+Negative nats are unNATural: -1
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithIn.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithIntEdge.fss (walkbase)
+REACHED
+i1 2147483647 + 1 = -2147483648
+END
+rc=0
+#### R2ArithIntLow.fss (walkbase)
+REACHED
+i2 0 - 2147483647 - 2 = 2147483647
+END
+rc=0
+#### R2ArithNatEdge.fss (walkbase)
+REACHED
+n1 4294967295 + 1 = 0
+END
+rc=0
+#### R2ArithNeg64.fss (walkbase)
+REACHED
+m1 0 - 9223372036854775807 - 2 = -1
+END
+rc=0
+#### R2ArithParamBig.fss (walkbase)
+REACHED
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBig.fss:3:13-16:
+Negative nats are unNATural: -1
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2ArithParamBig.fss:3:13-16:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2ArithParamBind.fss (walkbase)
+REACHED
+p2 65536 65536 = 0
+END
+rc=0
+#### R2ArithParamOk.fss (walkbase)
+p1 65535 65535 = -131071
+END
+rc=0
+#### R2ArithParamSum.fss (walkbase)
+REACHED
+q1 (-1073741824) twice = -2147483648
+q2 (-1073741825) twice = 2147483646
+END
+rc=0
+#### R2NN32Lcm.fss (walkbase)
+n1 65535 LCM 65537 = 4294967295
+n2 65536 LCM 65537 = 65536
+n3 92682 CHOOSE 2 = 4294930221
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2NN32Lcm.fss:4:43:
+Overflow of NN32 4295022903
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2NN32Lcm.fss:4:43:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2NN32Lcm.fss:10:37-67:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2Pow64.fss (walkbase)
+l1 (-2)^63 = -9223372036854775808
+l2 (-2)^64 = 0
+l3 3^39 = 4052555153018976267
+l4 3^40 = -6289078614652622815
+l5 66 CHOOSE 33 = 20188145145702184
+l6 67 CHOOSE 33 = -55587323670061641
+u1 3^40 = 12157665459056928801
+u2 3^41 = 18026252303461234787
+u3 67 CHOOSE 33 = 23341572944240599
+u4 68 CHOOSE 34 = 46683145888481198
+u5 4294967296 LCM 4294967295 = 18446744069414584320
+u6 4294967296 LCM 4294967297 = 4294967296
+END
+rc=0
+#### R2PowEdge.fss (walkbase)
+e1 (-2)^31 = -2147483648
+e2 (-1)^2147483647 = -1
+e3 0^0 = 1
+com.sun.fortress.exceptions.ProgramError: explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2PowEdge.fss:3:43-45:
+Overflow of ZZ32 4294967296
+Context:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2PowEdge.fss:3:43-45:
+explorations/compile-ladder/rung-size-range/probes/skeptic/r2/R2PowEdge.fss:9:30-38:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### R2TryArg.fss (walkbase)
+REACHED
+t2 ac
+END
+rc=0
+#### R2TryFirst.fss (walkbase)
+REACHED
+t1 ca
+END
+rc=0
+#### R2TryNoThrow.fss (walkbase)
+REACHED
+t3 ab
+END
+rc=0
+#### R2TryNum.fss (walkbase)
+REACHED
+t4 42
+END
+rc=0
+EXIT=0

@@ -1,0 +1,51 @@
+component RangeBoundsProbe
+export Executable
+
+shown(f: () -> Any): String =
+  try
+    f().asString
+  catch e
+    IntegerOverflow => "IntegerOverflow"
+  end
+
+elems(r: Generator[\ZZ32\]): String =
+  try
+    var s: String := ""
+    for i <- seq(r) do s := s || " " || i end
+    s
+  catch e
+    IntegerOverflow => s0 = "IntegerOverflow"; s0
+  end
+
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -zMax - 1
+  zero: ZZ32 = 0
+  println("R1 (1:5).size " || shown(fn () => (1:5).size) || " |1:5| " || shown(fn () => |1:5|) || " elems" || elems(1:5))
+  println("R2 (5:1).size " || shown(fn () => (5:1).size) || " |5:1| " || shown(fn () => |5:1|) || " elems" || elems(5:1))
+  println("R3 (1:MIN).size " || shown(fn () => (1:zMin).size) || " |1:MIN| " || shown(fn () => |1:zMin|))
+  println("R4 |MAX:MIN| " || shown(fn () => |zMax:zMin|) || " (MAX:MIN).size " || shown(fn () => (zMax:zMin).size))
+  println("R5 seq((MAX-2):MAX)" || elems((zMax-2):zMax))
+  println("R6 seq(MIN:(MIN+2))" || elems(zMin:(zMin+2)))
+  println("R7 ZZ32 SUM over seq(1:4) " || shown(fn () => SUM[\ZZ32\][i <- seq(1:4)] i) || " ZZ64 SUM over seq((MAX-2):MAX) widened " || shown(fn () => SUM[\ZZ64\][i <- seq((zMax-2):zMax)] widen(i)))
+  println("R8 (0:MAX).size " || shown(fn () => (0:zMax).size) || " (MIN:(-1)).size " || shown(fn () => (zMin:(-1)).size) || " (-5:5).size " || shown(fn () => (-5:5).size))
+  println("S1 (1:10:3) size " || shown(fn () => (1:10:3).size) || " elems" || elems(1:10:3))
+  println("S2 (10:1:-3) size " || shown(fn () => (10:1:(-3)).size) || " elems" || elems(10:1:(-3)))
+  println("S3 seq((MAX-4):MAX:2)" || elems((zMax-4):zMax:2))
+  println("S4 seq((MIN+4):MIN:-2)" || elems((zMin+4):zMin:(-2)))
+  println("S5 (MAX:MIN:1).size " || shown(fn () => (zMax:zMin:1).size) || " (MIN:MAX:-1).size " || shown(fn () => (zMin:zMax:(-1)).size))
+  println("S6 (MIN:MAX:3).size " || shown(fn () => (zMin:zMax:3).size) || " (MIN:MAX:2).size " || shown(fn () => (zMin:zMax:2).size))
+  println("S7 (1:10:-1).size " || shown(fn () => (1:10:(-1)).size) || " elems" || elems(1:10:(-1)))
+  println("S8 seq(MIN:(-2):3) first three" || elems(zMin:(zMin+6):3) || " seq((-3):(-20):-4)" || elems((-3):(-20):(-4)) || " seq(3:20:4)" || elems(3:20:4) || " seq(20:(-3):-7)" || elems(20:(-3):(-7)))
+  println("H1 MAX#1 " || shown(fn () => (zMax # 1).asDebugString) || " size " || shown(fn () => (zMax # 1).size))
+  println("H2 (MAX-2)#3 size " || shown(fn () => ((zMax-2) # 3).size) || " elems" || elems((zMax-2) # 3))
+  println("H3 MIN#0 " || shown(fn () => (zMin # zero).asDebugString) || " size " || shown(fn () => (zMin # zero).size) || " MAX IN " || shown(fn () => zMax IN (zMin # zero)))
+  println("H4 5#0 " || shown(fn () => (5 # zero).asDebugString) || " 5#-3 " || shown(fn () => (5 # (-3)).asDebugString) || " 0#MIN " || shown(fn () => (0 # zMin).asDebugString) || " -5#MIN " || shown(fn () => ((-5) # zMin).asDebugString))
+  println("H5 (1,2)#(3,0) " || shown(fn () => ((1,2) # (3,0)).asDebugString) || " size " || shown(fn () => |(1,2) # (3,0)|))
+  println("H6 (MAX,1,1)#(1,2,2) " || shown(fn () => ((zMax,1,1) # (1,2,2)).asDebugString) || " size " || shown(fn () => |(zMax,1,1) # (1,2,2)|))
+  println("A1 |(1,1):(2,3)| " || shown(fn () => |(1,1):(2,3)|) || " |(1,1,1):(2,2,2)| " || shown(fn () => |(1,1,1):(2,2,2)|))
+  println("A2 |(0,MIN):(-1,MAX)| " || shown(fn () => |(0,zMin):((-1),zMax)|) || " |(1,1):(2,0)| " || shown(fn () => |(1,1):(2,0)|))
+  println("end")
+end
+
+end

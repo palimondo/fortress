@@ -1,0 +1,9 @@
+component SkNumeralBare2
+export Executable
+run(): () = do
+  println("REACHED")
+  y = 2147483647
+  println("a numeral 2147483647 bound bare, plus one: " || (y + 1))
+  println("END")
+end
+end

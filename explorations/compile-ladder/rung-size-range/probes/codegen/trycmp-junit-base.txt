@@ -1,0 +1,19 @@
+# junit.sh trycmp-placed-base 2026-09-29T10:27:01Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 35.87 30.95 23.13; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 382b9fe7f with its working changes; build ProjectFortress/build, built from the base; tests from ProjectFortress/compiler_tests
+. compile ProjectFortress/compiler_tests/XXXTryCompareCoerceRungE java.lang.Error: 
+ OK Saw expected exception
+
+Time: 11.697
+
+OK (1 test)
+
+exit=0
+# junit.sh trycmp-control-base 2026-09-29T10:27:14Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 35.89 31.12 23.27; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 382b9fe7f with its working changes; build ProjectFortress/build, built from the base; tests from explorations/compile-ladder/rung-size-range/probes/codegen/control
+. compile explorations/compile-ladder/rung-size-range/probes/codegen/control/XXXTryCompareCoerceRungE java.lang.Error: 
+ OK Saw expected exception
+
+Time: 10.449
+
+OK (1 test)
+
+exit=0
+EXIT=0

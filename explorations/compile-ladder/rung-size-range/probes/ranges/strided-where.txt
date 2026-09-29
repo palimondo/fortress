@@ -1,0 +1,25 @@
+# walk-list.sh stridedwhere 2026-09-29T11:31:18Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 31.76 32.14 27.77; openjdk version "2
+#### StridedWhere
+Library/RangeInternals.fss:802:16:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:802:16:
+Library/FortressLibrary.fss:4061:51-70:
+StridedWhere.fss:6:12-9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### StridedWhere2
+Library/RangeInternals.fss:802:16:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:802:16:
+Library/FortressLibrary.fss:4061:51-70:
+StridedWhere2.fss:6:12-9:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1

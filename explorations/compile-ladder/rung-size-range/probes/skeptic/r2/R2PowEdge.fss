@@ -1,0 +1,19 @@
+component R2PowEdge
+export Executable
+pz(a: ZZ32, b: ZZ32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cz(a: ZZ32, b: ZZ32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  println("e1 (-2)^31 = " || pz(-2, 31))
+  println("e2 (-1)^2147483647 = " || pz(-1, 2147483647))
+  println("e3 0^0 = " || pz(0, 0))
+  println("e4 (-2)^32 = " || pz(-2, 32))
+  println("e5 46340^2 = " || pz(46340, 2))
+  println("e6 46341^2 = " || pz(46341, 2))
+  println("e7 34 CHOOSE 17 = " || cz(34, 17))
+  println("e8 2147483647 CHOOSE 2147483646 = " || cz(2147483647, 2147483646))
+  println("e9 2147483647 CHOOSE 2 = " || cz(2147483647, 2))
+  println("e10 65536 CHOOSE 2 = " || cz(65536, 2))
+  println("e11 65537 CHOOSE 2 = " || cz(65537, 2))
+  println("END")
+end
+end

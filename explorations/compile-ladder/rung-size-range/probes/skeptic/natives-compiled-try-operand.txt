@@ -1,0 +1,526 @@
+# compile-one.sh sknat 2026-09-29T12:45:48Z; tree e855607a4; build ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.14 5.95 8.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SkPowZZ32 compile
+compile rc=0
+#### SkPowZZ32 run
+Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 199
+Exception Details:
+  Location:
+    SkPowZZ32.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @195: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @195
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @199
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/FZZ32', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 03b8 002b b800 314b 04b8 002b b800 314c
+    0000010: 05b8 002b b800 314d 06b8 002b b800 314e
+    0000020: 1232 b800 2bb8 0031 3a04 1233 b800 2bb8
+    0000030: 0031 3a05 1234 b800 2bb8 0031 3a06 1235
+    0000040: b800 2bb8 0031 3a07 1236 b800 2bb8 0031
+    0000050: 3a08 1237 b800 2bb8 0031 3a09 1238 b800
+    0000060: 2bb8 0031 3a0a 1239 b800 2bb8 0031 3a0b
+    0000070: 123a b800 2bb8 0031 3a0c 123b b800 2bb8
+    0000080: 0031 3a0d 123d b800 42c0 0044 1248 b800
+    0000090: 42c0 0044 2cc0 004a 124b b800 2bb8 0031
+    00000a0: b800 4fc0 0051 b800 55a7 001e 59b6 0059
+    00000b0: c100 5b99 0013 b600 59c0 005b 3a0e 125d
+    00000c0: b800 42a7 0004 bfc0 0051 b800 55b8 0063
+    00000d0: 5712 65b8 0042 c000 4412 48b8 0042 c000
+    00000e0: 4419 05c0 004a 124b b800 2bb8 0031 b800
+    00000f0: 4fc0 0051 b800 55a7 001e 59b6 0059 c100
+    0000100: 5b99 0013 b600 59c0 005b 3a0e 125d b800
+    0000110: 42a7 0004 bfc0 0051 b800 55b8 0063 5712
+    0000120: 67b8 0042 c000 4412 48b8 0042 c000 4419
+    0000130: 08c0 004a 05b8 002b b800 31b8 004f c000
+    0000140: 51b8 0055 a700 1e59 b600 59c1 005b 9900
+    0000150: 13b6 0059 c000 5b3a 0e12 5db8 0042 a700
+    0000160: 04bf c000 51b8 0055 b800 6357 1269 b800
+    0000170: 42c0 0044 1248 b800 42c0 0044 1907 c000
+    0000180: 4a05 b800 2bb8 0031 b800 4fc0 0051 b800
+    0000190: 55a7 001e 59b6 0059 c100 5b99 0013 b600
+    00001a0: 59c0 005b 3a0e 125d b800 42a7 0004 bfc0
+    00001b0: 0051 b800 55b8 0063 5712 6bb8 0042 c000
+    00001c0: 4412 48b8 0042 c000 442d c000 4a12 6cb8
+    00001d0: 002b b800 31b8 004f c000 51b8 0055 a700
+    00001e0: 1e59 b600 59c1 005b 9900 13b6 0059 c000
+    00001f0: 5b3a 0e12 5db8 0042 a700 04bf c000 51b8
+    0000200: 0055 b800 6357 126e b800 42c0 0044 1248
+    0000210: b800 42c0 0044 2dc0 004a 126f b800 2bb8
+    0000220: 0031 b800 4fc0 0051 b800 55a7 001e 59b6
+    0000230: 0059 c100 5b99 0013 b600 59c0 005b 3a0e
+    0000240: 125d b800 42a7 0004 bfc0 0051 b800 55b8
+    0000250: 0063 5712 71b8 0042 c000 4412 48b8 0042
+    0000260: c000 4419 06c0 004a 126f b800 2bb8 0031
+    0000270: b800 4fc0 0051 b800 55a7 001e 59b6 0059
+    0000280: c100 5b99 0013 b600 59c0 005b 3a0e 125d
+    0000290: b800 42a7 0004 bfc0 0051 b800 55b8 0063
+    00002a0: 5712 73b8 0042 c000 4412 48b8 0042 c000
+    00002b0: 442a c000 4a03 b800 2bb8 0031 b800 4fc0
+    00002c0: 0051 b800 55a7 001e 59b6 0059 c100 5b99
+    00002d0: 0013 b600 59c0 005b 3a0e 125d b800 42a7
+    00002e0: 0004 bfc0 0051 b800 55b8 0063 5712 75b8
+    00002f0: 0042 c000 4412 48b8 0042 c000 442b c000
+    0000300: 4a19 0db8 004f c000 51b8 0055 a700 1e59
+    0000310: b600 59c1 005b 9900 13b6 0059 c000 5b3a
+    0000320: 0e12 5db8 0042 a700 04bf c000 51b8 0055
+    0000330: b800 6357 1277 b800 42c0 0044 1248 b800
+    0000340: 42c0 0044 1904 c000 4a19 0db8 004f c000
+    0000350: 51b8 0055 a700 1e59 b600 59c1 005b 9900
+    0000360: 13b6 0059 c000 5b3a 0e12 5db8 0042 a700
+    0000370: 04bf c000 51b8 0055 b800 6357 1279 b800
+    0000380: 42c0 0044 1248 b800 42c0 0044 1905 c000
+    0000390: 4a12 7ab8 002b b800 31b8 004f c000 51b8
+    00003a0: 0055 a700 1e59 b600 59c1 005b 9900 13b6
+    00003b0: 0059 c000 5b3a 0e12 5db8 0042 a700 04bf
+    00003c0: c000 51b8 0055 b800 6357 127c b800 42c0
+    00003d0: 0044 1248 b800 42c0 0044 1909 c000 4a2c
+    00003e0: b800 7fc0 0051 b800 55a7 001e 59b6 0059
+    00003f0: c100 5b99 0013 b600 59c0 005b 3a0e 125d
+    0000400: b800 42a7 0004 bfc0 0051 b800 55b8 0063
+    0000410: 5712 81b8 0042 c000 4412 48b8 0042 c000
+    0000420: 4419 0ac0 004a 2cb8 007f c000 51b8 0055
+    0000430: a700 1e59 b600 59c1 005b 9900 13b6 0059
+    0000440: c000 5b3a 0e12 5db8 0042 a700 04bf c000
+    0000450: 51b8 0055 b800 6357 1283 b800 42c0 0044
+    0000460: 1248 b800 42c0 0044 2ac0 004a 2ab8 007f
+    0000470: c000 51b8 0055 a700 1e59 b600 59c1 005b
+    0000480: 9900 13b6 0059 c000 5b3a 0e12 5db8 0042
+    0000490: a700 04bf c000 51b8 0055 b800 6357 1285
+    00004a0: b800 42c0 0044 1248 b800 42c0 0044 190d
+    00004b0: c000 4a19 0db8 007f c000 51b8 0055 a700
+    00004c0: 1e59 b600 59c1 005b 9900 13b6 0059 c000
+    00004d0: 5b3a 0e12 5db8 0042 a700 04bf c000 51b8
+    00004e0: 0055 b800 6357 1287 b800 42c0 0044 1248
+    00004f0: b800 42c0 0044 190d c000 4a2a b800 7fc0
+    0000500: 0051 b800 55a7 001e 59b6 0059 c100 5b99
+    0000510: 0013 b600 59c0 005b 3a0e 125d b800 42a7
+    0000520: 0004 bfc0 0051 b800 55b8 0063 5712 89b8
+    0000530: 0042 c000 4412 48b8 0042 c000 4419 0cc0
+    0000540: 004a 128a b800 2bb8 0031 b800 7fc0 0051
+    0000550: b800 55a7 001e 59b6 0059 c100 5b99 0013
+    0000560: b600 59c0 005b 3a0e 125d b800 42a7 0004
+    0000570: bfc0 0051 b800 55b8 0063 5712 8cb8 0042
+    0000580: c000 4412 48b8 0042 c000 4419 0bc0 004a
+    0000590: 128d b800 2bb8 0031 b800 7fc0 0051 b800
+    00005a0: 55a7 001e 59b6 0059 c100 5b99 0013 b600
+    00005b0: 59c0 005b 3a0e 125d b800 42a7 0004 bfc0
+    00005c0: 0051 b800 55b8 0063 5712 8fb8 0042 c000
+    00005d0: 4412 48b8 0042 c000 442b c000 4a2c b800
+    00005e0: 7fc0 0051 b800 55a7 001e 59b6 0059 c100
+    00005f0: 5b99 0013 b600 59c0 005b 3a0e 125d b800
+    0000600: 42a7 0004 bfc0 0051 b800 55b8 0063 5712
+    0000610: 91b8 0042 c000 4412 48b8 0042 c000 4419
+    0000620: 04c0 004a 1904 b800 7fc0 0051 b800 55a7
+    0000630: 001e 59b6 0059 c100 5b99 0013 b600 59c0
+    0000640: 005b 3a0e 125d b800 42a7 0004 bfc0 0051
+    0000650: b800 55b8 0063 5712 93b8 0042 c000 4412
+    0000660: 48b8 0042 c000 4419 04c0 004a 2ab8 007f
+    0000670: c000 51b8 0055 a700 1e59 b600 59c1 005b
+    0000680: 9900 13b6 0059 c000 5b3a 0e12 5db8 0042
+    0000690: a700 04bf c000 51b8 0055 b800 6357 1295
+    00006a0: b800 42c0 0044 1248 b800 42c0 0044 190d
+    00006b0: c000 4a2c b800 7fc0 0051 b800 55a7 001e
+    00006c0: 59b6 0059 c100 5b99 0013 b600 59c0 005b
+    00006d0: 3a0e 125d b800 42a7 0004 bfc0 0051 b800
+    00006e0: 55b8 0063 5712 97b8 0042 c000 4412 48b8
+    00006f0: 0042 c000 4419 0dc0 004a 190d c000 4a2b
+    0000700: b800 9ab8 007f c000 51b8 0055 a700 1e59
+    0000710: b600 59c1 005b 9900 13b6 0059 c000 5b3a
+    0000720: 0e12 5db8 0042 a700 04bf c000 51b8 0055
+    0000730: b800 6357 129c b800 42b8 0063 b0       
+  Exception Handler Table:
+    bci [140, 169] => handler: 172
+    bci [217, 247] => handler: 250
+    bci [295, 324] => handler: 327
+    bci [372, 401] => handler: 404
+    bci [449, 478] => handler: 481
+    bci [526, 555] => handler: 558
+    bci [603, 633] => handler: 636
+    bci [681, 709] => handler: 712
+    bci [757, 780] => handler: 783
+    bci [828, 852] => handler: 855
+    bci [900, 930] => handler: 933
+    bci [978, 1001] => handler: 1004
+    bci [1049, 1072] => handler: 1075
+    bci [1120, 1142] => handler: 1145
+    bci [1190, 1214] => handler: 1217
+    bci [1262, 1285] => handler: 1288
+    bci [1333, 1363] => handler: 1366
+    bci [1411, 1441] => handler: 1444
+    bci [1489, 1511] => handler: 1514
+    bci [1559, 1583] => handler: 1586
+    bci [1631, 1654] => handler: 1657
+    bci [1702, 1725] => handler: 1728
+    bci [1773, 1804] => handler: 1807
+  Stackmap Table:
+    full_frame(@172,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#70]})
+    same_locals_1_stack_item_frame(@198,Object[#70])
+    full_frame(@199,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@250,Object[#70])
+    same_locals_1_stack_item_frame(@276,Object[#70])
+    full_frame(@277,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@327,Object[#70])
+    same_locals_1_stack_item_frame(@353,Object[#70])
+    full_frame(@354,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@404,Object[#70])
+    same_locals_1_stack_item_frame(@430,Object[#70])
+    full_frame(@431,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@481,Object[#70])
+    same_locals_1_stack_item_frame(@507,Object[#70])
+    full_frame(@508,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@558,Object[#70])
+    same_locals_1_stack_item_frame(@584,Object[#70])
+    full_frame(@585,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@636,Object[#70])
+    same_locals_1_stack_item_frame(@662,Object[#70])
+    full_frame(@663,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@712,Object[#70])
+    same_locals_1_stack_item_frame(@738,Object[#70])
+    full_frame(@739,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@783,Object[#70])
+    same_locals_1_stack_item_frame(@809,Object[#70])
+    full_frame(@810,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@855,Object[#70])
+    same_locals_1_stack_item_frame(@881,Object[#70])
+    full_frame(@882,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@933,Object[#70])
+    same_locals_1_stack_item_frame(@959,Object[#70])
+    full_frame(@960,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1004,Object[#70])
+    same_locals_1_stack_item_frame(@1030,Object[#70])
+    full_frame(@1031,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1075,Object[#70])
+    same_locals_1_stack_item_frame(@1101,Object[#70])
+    full_frame(@1102,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1145,Object[#70])
+    same_locals_1_stack_item_frame(@1171,Object[#70])
+    full_frame(@1172,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1217,Object[#70])
+    same_locals_1_stack_item_frame(@1243,Object[#70])
+    full_frame(@1244,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1288,Object[#70])
+    same_locals_1_stack_item_frame(@1314,Object[#70])
+    full_frame(@1315,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1366,Object[#70])
+    same_locals_1_stack_item_frame(@1392,Object[#70])
+    full_frame(@1393,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1444,Object[#70])
+    same_locals_1_stack_item_frame(@1470,Object[#70])
+    full_frame(@1471,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1514,Object[#70])
+    same_locals_1_stack_item_frame(@1540,Object[#70])
+    full_frame(@1541,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1586,Object[#70])
+    same_locals_1_stack_item_frame(@1612,Object[#70])
+    full_frame(@1613,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1657,Object[#70])
+    same_locals_1_stack_item_frame(@1683,Object[#70])
+    full_frame(@1684,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1728,Object[#70])
+    same_locals_1_stack_item_frame(@1754,Object[#70])
+    full_frame(@1755,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+    same_locals_1_stack_item_frame(@1807,Object[#70])
+    same_locals_1_stack_item_frame(@1833,Object[#70])
+    full_frame(@1834,{Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74],Object[#74]},{Object[#68],Object[#68]})
+
+run rc=1
+#### SkChooseZZ64 compile
+compile rc=0
+#### SkChooseZZ64 run
+Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 176
+Exception Details:
+  Location:
+    SkChooseZZ64.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @172: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @172
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @176
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/FZZ64', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 05b8 002b b800 31b8 0035 4b06 b800 2bb8
+    0000010: 0031 b800 354c 1236 b800 2bb8 0031 b800
+    0000020: 354d 1400 37b8 003b b800 3f4e 1400 40b8
+    0000030: 003b b800 3f3a 0414 0042 b800 3bb8 003f
+    0000040: 3a05 1244 b800 2bb8 0031 b800 353a 0612
+    0000050: 45b8 002b b800 31b8 0035 3a07 1246 b800
+    0000060: 2bb8 0031 b800 353a 0814 0047 b800 3bb8
+    0000070: 003f 3a09 124a b800 4fc0 0051 1255 b800
+    0000080: 4fc0 0051 2dc0 0057 2ab8 005b c000 5db8
+    0000090: 0061 a700 1e59 b600 65c1 0067 9900 13b6
+    00000a0: 0065 c000 673a 0a12 69b8 004f a700 04bf
+    00000b0: c000 5db8 0061 b800 6f57 1271 b800 4fc0
+    00000c0: 0051 1255 b800 4fc0 0051 1904 c000 572a
+    00000d0: b800 5bc0 005d b800 61a7 001e 59b6 0065
+    00000e0: c100 6799 0013 b600 65c0 0067 3a0a 1269
+    00000f0: b800 4fa7 0004 bfc0 005d b800 61b8 006f
+    0000100: 5712 73b8 004f c000 5112 55b8 004f c000
+    0000110: 5119 05c0 0057 2ab8 005b c000 5db8 0061
+    0000120: a700 1e59 b600 65c1 0067 9900 13b6 0065
+    0000130: c000 673a 0a12 69b8 004f a700 04bf c000
+    0000140: 5db8 0061 b800 6f57 1275 b800 4fc0 0051
+    0000150: 1255 b800 4fc0 0051 1906 c000 5712 76b8
+    0000160: 002b b800 31b8 0035 b800 5bc0 005d b800
+    0000170: 61a7 001e 59b6 0065 c100 6799 0013 b600
+    0000180: 65c0 0067 3a0a 1269 b800 4fa7 0004 bfc0
+    0000190: 005d b800 61b8 006f 5712 78b8 004f c000
+    00001a0: 5112 55b8 004f c000 5119 07c0 0057 1276
+    00001b0: b800 2bb8 0031 b800 35b8 005b c000 5db8
+    00001c0: 0061 a700 1e59 b600 65c1 0067 9900 13b6
+    00001d0: 0065 c000 673a 0a12 69b8 004f a700 04bf
+    00001e0: c000 5db8 0061 b800 6f57 127a b800 4fc0
+    00001f0: 0051 1255 b800 4fc0 0051 1908 c000 5712
+    0000200: 7bb8 002b b800 31b8 0035 b800 5bc0 005d
+    0000210: b800 61a7 001e 59b6 0065 c100 6799 0013
+    0000220: b600 65c0 0067 3a0a 1269 b800 4fa7 0004
+    0000230: bfc0 005d b800 61b8 006f 5712 7db8 004f
+    0000240: c000 5112 55b8 004f c000 5119 09c0 0057
+    0000250: 1909 c000 5704 b800 2bb8 0031 b800 35b8
+    0000260: 0080 b800 5bc0 005d b800 61a7 001e 59b6
+    0000270: 0065 c100 6799 0013 b600 65c0 0067 3a0a
+    0000280: 1269 b800 4fa7 0004 bfc0 005d b800 61b8
+    0000290: 006f 5712 82b8 004f c000 5112 55b8 004f
+    00002a0: c000 5119 09c0 0057 2ab8 005b c000 5db8
+    00002b0: 0061 a700 1e59 b600 65c1 0067 9900 13b6
+    00002c0: 0065 c000 673a 0a12 69b8 004f a700 04bf
+    00002d0: c000 5db8 0061 b800 6f57 1284 b800 4fc0
+    00002e0: 0051 1255 b800 4fc0 0051 2bc0 0057 2cb8
+    00002f0: 005b c000 5db8 0061 a700 1e59 b600 65c1
+    0000300: 0067 9900 13b6 0065 c000 673a 0a12 69b8
+    0000310: 004f a700 04bf c000 5db8 0061 b800 6f57
+    0000320: 1286 b800 4fc0 0051 1255 b800 4fc0 0051
+    0000330: 2cc0 0057 2bb8 005b c000 5db8 0061 a700
+    0000340: 1e59 b600 65c1 0067 9900 13b6 0065 c000
+    0000350: 673a 0a12 69b8 004f a700 04bf c000 5db8
+    0000360: 0061 b800 6f57 1288 b800 4fb8 006f b0  
+  Exception Handler Table:
+    bci [124, 146] => handler: 149
+    bci [194, 217] => handler: 220
+    bci [265, 288] => handler: 291
+    bci [336, 369] => handler: 372
+    bci [417, 450] => handler: 453
+    bci [498, 531] => handler: 534
+    bci [579, 619] => handler: 622
+    bci [667, 690] => handler: 693
+    bci [738, 760] => handler: 763
+    bci [808, 830] => handler: 833
+  Stackmap Table:
+    full_frame(@149,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#83]})
+    same_locals_1_stack_item_frame(@175,Object[#83])
+    full_frame(@176,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@220,Object[#83])
+    same_locals_1_stack_item_frame(@246,Object[#83])
+    full_frame(@247,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@291,Object[#83])
+    same_locals_1_stack_item_frame(@317,Object[#83])
+    full_frame(@318,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@372,Object[#83])
+    same_locals_1_stack_item_frame(@398,Object[#83])
+    full_frame(@399,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@453,Object[#83])
+    same_locals_1_stack_item_frame(@479,Object[#83])
+    full_frame(@480,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@534,Object[#83])
+    same_locals_1_stack_item_frame(@560,Object[#83])
+    full_frame(@561,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@622,Object[#83])
+    same_locals_1_stack_item_frame(@648,Object[#83])
+    full_frame(@649,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@693,Object[#83])
+    same_locals_1_stack_item_frame(@719,Object[#83])
+    full_frame(@720,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@763,Object[#83])
+    same_locals_1_stack_item_frame(@789,Object[#83])
+    full_frame(@790,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+    same_locals_1_stack_item_frame(@833,Object[#83])
+    same_locals_1_stack_item_frame(@859,Object[#83])
+    full_frame(@860,{Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87],Object[#87]},{Object[#81],Object[#81]})
+
+run rc=1
+#### SkUnsignedNat compile
+compile rc=0
+#### SkUnsignedNat run
+Exception in thread "main" java.lang.VerifyError: Inconsistent stackmap frames at branch target 219
+Exception Details:
+  Location:
+    SkUnsignedNat.run()Lcom/sun/fortress/compiler/runtimeValues/FVoid; @215: goto
+  Reason:
+    Current frame's stack size doesn't match stackmap.
+  Current Frame:
+    bci: @215
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'com/sun/fortress/compiler/runtimeValues/FJavaString' }
+  Stackmap Frame:
+    bci: @219
+    flags: { }
+    locals: { 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/FNN32', 'com/sun/fortress/compiler/runtimeValues/
+    stack: { 'fortress/CompilerBuiltin$String', 'fortress/CompilerBuiltin$String' }
+  Bytecode:
+    0000000: 04b8 002b b800 31b8 0035 4b05 b800 2bb8
+    0000010: 0031 b800 354c 03b8 002b b800 31b8 0035
+    0000020: 4d03 b800 2bb8 0031 b800 35c0 0037 b800
+    0000030: 3b4e 123c b800 2bb8 0031 b800 353a 0412
+    0000040: 3db8 002b b800 31b8 0035 3a05 123e b800
+    0000050: 2bb8 0031 b800 353a 0612 3fb8 002b b800
+    0000060: 31b8 0035 3a07 1240 b800 2bb8 0031 b800
+    0000070: 35c0 0037 1240 b800 2bb8 0031 b800 35b8
+    0000080: 0044 3a08 1245 b800 2bb8 0031 b800 353a
+    0000090: 0912 46b8 002b b800 31b8 0035 3a0a 1248
+    00000a0: b800 4dc0 004f 1253 b800 4dc0 004f 2bc0
+    00000b0: 0037 1909 b800 56c0 0058 b800 5ca7 001e
+    00000c0: 59b6 0060 c100 6299 0013 b600 60c0 0062
+    00000d0: 3a0b 1264 b800 4da7 0004 bfc0 0058 b800
+    00000e0: 5cb8 006a 5712 6cb8 004d c000 4f12 53b8
+    00000f0: 004d c000 4f2b c000 3719 0ab8 0056 c000
+    0000100: 58b8 005c a700 1e59 b600 60c1 0062 9900
+    0000110: 13b6 0060 c000 623a 0b12 64b8 004d a700
+    0000120: 04bf c000 58b8 005c b800 6a57 126e b800
+    0000130: 4dc0 004f 1253 b800 4dc0 004f 1904 c000
+    0000140: 372b b800 56c0 0058 b800 5ca7 001e 59b6
+    0000150: 0060 c100 6299 0013 b600 60c0 0062 3a0b
+    0000160: 1264 b800 4da7 0004 bfc0 0058 b800 5cb8
+    0000170: 006a 5712 70b8 004d c000 4f12 53b8 004d
+    0000180: c000 4f19 05c0 0037 2bb8 0056 c000 58b8
+    0000190: 005c a700 1e59 b600 60c1 0062 9900 13b6
+    00001a0: 0060 c000 623a 0b12 64b8 004d a700 04bf
+    00001b0: c000 58b8 005c b800 6a57 1272 b800 4dc0
+    00001c0: 004f 1253 b800 4dc0 004f 2dc0 0037 2ab8
+    00001d0: 0056 c000 58b8 005c a700 1e59 b600 60c1
+    00001e0: 0062 9900 13b6 0060 c000 623a 0b12 64b8
+    00001f0: 004d a700 04bf c000 58b8 005c b800 6a57
+    0000200: 1274 b800 4dc0 004f 1253 b800 4dc0 004f
+    0000210: 2dc0 0037 2cb8 0056 c000 58b8 005c a700
+    0000220: 1e59 b600 60c1 0062 9900 13b6 0060 c000
+    0000230: 623a 0b12 64b8 004d a700 04bf c000 58b8
+    0000240: 005c b800 6a57 1276 b800 4dc0 004f 1253
+    0000250: b800 4dc0 004f 1908 c000 372b b800 56c0
+    0000260: 0058 b800 5ca7 001e 59b6 0060 c100 6299
+    0000270: 0013 b600 60c0 0062 3a0b 1264 b800 4da7
+    0000280: 0004 bfc0 0058 b800 5cb8 006a 5712 78b8
+    0000290: 004d c000 4f12 53b8 004d c000 4f2d c000
+    00002a0: 372d b800 7bc0 0058 b800 5ca7 001e 59b6
+    00002b0: 0060 c100 6299 0013 b600 60c0 0062 3a0b
+    00002c0: 1264 b800 4da7 0004 bfc0 0058 b800 5cb8
+    00002d0: 006a 5712 7db8 004d c000 4f12 53b8 004d
+    00002e0: c000 4f2d c000 372d c000 372a b800 80b8
+    00002f0: 007b c000 58b8 005c a700 1e59 b600 60c1
+    0000300: 0062 9900 13b6 0060 c000 623a 0b12 64b8
+    0000310: 004d a700 04bf c000 58b8 005c b800 6a57
+    0000320: 1282 b800 4dc0 004f 1253 b800 4dc0 004f
+    0000330: 1906 c000 372b b800 7bc0 0058 b800 5ca7
+    0000340: 001e 59b6 0060 c100 6299 0013 b600 60c0
+    0000350: 0062 3a0b 1264 b800 4da7 0004 bfc0 0058
+    0000360: b800 5cb8 006a 5712 84b8 004d c000 4f12
+    0000370: 53b8 004d c000 4f19 07c0 0037 2bb8 007b
+    0000380: c000 58b8 005c a700 1e59 b600 60c1 0062
+    0000390: 9900 13b6 0060 c000 623a 0b12 64b8 004d
+    00003a0: a700 04bf c000 58b8 005c b800 6a57 1286
+    00003b0: b800 4dc0 004f 1253 b800 4dc0 004f 1908
+    00003c0: c000 372b b800 7bc0 0058 b800 5ca7 001e
+    00003d0: 59b6 0060 c100 6299 0013 b600 60c0 0062
+    00003e0: 3a0b 1264 b800 4da7 0004 bfc0 0058 b800
+    00003f0: 5cb8 006a 5712 88b8 004d c000 4f12 53b8
+    0000400: 004d c000 4f2a c000 372b b800 7bc0 0058
+    0000410: b800 5ca7 001e 59b6 0060 c100 6299 0013
+    0000420: b600 60c0 0062 3a0b 1264 b800 4da7 0004
+    0000430: bfc0 0058 b800 5cb8 006a 5712 8ab8 004d
+    0000440: c000 4f12 53b8 004d c000 4f19 08c0 0037
+    0000450: 1908 c000 372a b800 80b8 007b c000 58b8
+    0000460: 005c a700 1e59 b600 60c1 0062 9900 13b6
+    0000470: 0060 c000 623a 0b12 64b8 004d a700 04bf
+    0000480: c000 58b8 005c b800 6a57 128c b800 4db8
+    0000490: 006a b0                                
+  Exception Handler Table:
+    bci [166, 189] => handler: 192
+    bci [237, 260] => handler: 263
+    bci [308, 331] => handler: 334
+    bci [379, 402] => handler: 405
+    bci [450, 472] => handler: 475
+    bci [520, 542] => handler: 545
+    bci [590, 613] => handler: 616
+    bci [661, 683] => handler: 686
+    bci [731, 760] => handler: 763
+    bci [808, 831] => handler: 834
+    bci [879, 902] => handler: 905
+    bci [950, 973] => handler: 976
+    bci [1021, 1043] => handler: 1046
+    bci [1091, 1122] => handler: 1125
+  Stackmap Table:
+    full_frame(@192,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#81]})
+    same_locals_1_stack_item_frame(@218,Object[#81])
+    full_frame(@219,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@263,Object[#81])
+    same_locals_1_stack_item_frame(@289,Object[#81])
+    full_frame(@290,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@334,Object[#81])
+    same_locals_1_stack_item_frame(@360,Object[#81])
+    full_frame(@361,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@405,Object[#81])
+    same_locals_1_stack_item_frame(@431,Object[#81])
+    full_frame(@432,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@475,Object[#81])
+    same_locals_1_stack_item_frame(@501,Object[#81])
+    full_frame(@502,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@545,Object[#81])
+    same_locals_1_stack_item_frame(@571,Object[#81])
+    full_frame(@572,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@616,Object[#81])
+    same_locals_1_stack_item_frame(@642,Object[#81])
+    full_frame(@643,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@686,Object[#81])
+    same_locals_1_stack_item_frame(@712,Object[#81])
+    full_frame(@713,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@763,Object[#81])
+    same_locals_1_stack_item_frame(@789,Object[#81])
+    full_frame(@790,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@834,Object[#81])
+    same_locals_1_stack_item_frame(@860,Object[#81])
+    full_frame(@861,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@905,Object[#81])
+    same_locals_1_stack_item_frame(@931,Object[#81])
+    full_frame(@932,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@976,Object[#81])
+    same_locals_1_stack_item_frame(@1002,Object[#81])
+    full_frame(@1003,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@1046,Object[#81])
+    same_locals_1_stack_item_frame(@1072,Object[#81])
+    full_frame(@1073,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+    same_locals_1_stack_item_frame(@1125,Object[#81])
+    same_locals_1_stack_item_frame(@1151,Object[#81])
+    full_frame(@1152,{Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55],Object[#55]},{Object[#79],Object[#79]})
+
+run rc=1
+#### SkUnsignedLong compile
+SkUnsignedLong.fss:21:50-56:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+SkUnsignedLong.fss:22:44-46:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+SkUnsignedLong.fss:23:42-44:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+SkUnsignedLong.fss:24:43-49:
+    Could not check call to operator LCM
+    - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (NN64, NN64).
+    - (ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (NN64, NN64).
+File SkUnsignedLong.fss has 4 errors.
+compile rc=255
+EXIT=0

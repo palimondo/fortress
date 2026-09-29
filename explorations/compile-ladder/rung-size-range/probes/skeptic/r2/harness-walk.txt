@@ -1,0 +1,25 @@
+# run-harness.sh 2026-09-29T14:14:18Z; tree 0734a3eb4; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.20 4.25 3.68; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/sk2h ProjectFortress/tests/NatBigSizeWalk.fss ProjectFortress/tests/PowChooseLcmRungE.fss ProjectFortress/tests/RangeBoundsRungO.fss ProjectFortress/tests/RangeEmptyHashRungO.fss ProjectFortress/tests/SeqRangeTopRungO.fss ProjectFortress/tests/XXXIntBelowZZ32Walk.fss ProjectFortress/tests/XXXIntBeyondZZ32Walk.fss ProjectFortress/tests/XXXNatArithProductWalk.fss ProjectFortress/tests/XXXNatArithSumWalk.fss ProjectFortress/tests/XXXNatBeyondNN32Walk.fss ProjectFortress/tests/XXXRangeTupleShiftWalk.fss ProjectFortress/tests/XXXStridedSpanWalk.fss ProjectFortress/tests/GenericFnWithExcludes.fss ProjectFortress/tests/genericTest2.fss
+tmp/sk2h/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ed843323_16
+. interpret tmp/sk2h/tests/NatBigSizeWalk  OK (time = 31853ms)
+. interpret tmp/sk2h/tests/RangeBoundsRungO  OK (time = 458ms)
+. interpret tmp/sk2h/tests/genericTest2  OK (time = 316ms)
+. interpret tmp/sk2h/tests/XXXNatArithProductWalk  OK Saw expected exception
+. interpret tmp/sk2h/tests/XXXRangeTupleShiftWalk  OK Saw expected exception
+. interpret tmp/sk2h/tests/GenericFnWithExcludes  OK (time = 227ms)
+. interpret tmp/sk2h/tests/PowChooseLcmRungE  OK (time = 509ms)
+. interpret tmp/sk2h/tests/RangeEmptyHashRungO  OK (time = 150ms)
+. interpret tmp/sk2h/tests/XXXStridedSpanWalk  OK Saw expected exception
+. interpret tmp/sk2h/tests/XXXNatArithSumWalk  OK Saw expected exception
+. interpret tmp/sk2h/tests/XXXIntBelowZZ32Walk  OK Saw expected exception
+. interpret tmp/sk2h/tests/XXXNatBeyondNN32Walk  OK Saw expected exception
+. interpret tmp/sk2h/tests/XXXIntBeyondZZ32Walk  OK Saw expected exception
+. interpret tmp/sk2h/tests/SeqRangeTopRungO  OK (time = 168ms)
+
+Time: 35.328
+
+OK (14 tests)
+
+rc=0
+EXIT=0

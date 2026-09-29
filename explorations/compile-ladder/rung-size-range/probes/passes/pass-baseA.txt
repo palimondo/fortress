@@ -1,0 +1,8 @@
+--- baseA 2026-09-29T10:00:42Z
+nproc 4
+model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+cpu MHz		: 2100.000
+loadavg 9.63 6.21 2.95 9/226 11511
+FORTRESS_THREADS=unset
+HEAD 382b9fe7f status:
+start 2026-09-29T10:00:42Z load: 9.63 6.21 2.95 shadow: none

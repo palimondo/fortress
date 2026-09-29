@@ -1,0 +1,35 @@
+# run-harness.sh 2026-09-29T13:33:39Z; tree 6b198978c; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.38 2.85 3.81; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/harith ProjectFortress/tests/XXXNatArithProductWalk.fss ProjectFortress/tests/XXXNatArithSumWalk.fss
+tmp/harith/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ed5efbaa_16
+. interpret tmp/harith/tests/XXXNatArithSumWalk 
+REACHED
+a nat parameter of 9223372036854775807 + 9223372036854775807 + 2, beyond NN32 and ZZ64, read as 0
+PASS
+ Missing expected failure 
+F. interpret tmp/harith/tests/XXXNatArithProductWalk 
+REACHED
+a nat parameter of 4294967296 4294967296, beyond NN32 and ZZ64, read as 0
+PASS
+ Missing expected failure 
+F
+Time: 39.035
+There were 2 failures:
+1) tmp/harith/tests/XXXNatArithSumWalk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/harith/tests/XXXNatArithSumWalk
+2) tmp/harith/tests/XXXNatArithProductWalk(com.sun.fortress.tests.unit_tests.FileTests$InterpreterTest)junit.framework.AssertionFailedError: Expected failure or exception, saw none. InterpreterTest tmp/harith/tests/XXXNatArithProductWalk
+
+FAILURES!!!
+Tests run: 2,  Failures: 2,  Errors: 0
+
+rc=0
+# sk.sh walk 2026-09-29T13:34:19Z; home /home/user/fortress-sizerange; tree 6b198978c; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.90 3.43 3.97; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### XXXNatArithProductWalk.fss (walk)
+REACHED
+a nat parameter of 4294967296 4294967296, beyond NN32 and ZZ64, read as 0
+PASS
+rc=0
+#### XXXNatArithSumWalk.fss (walk)
+REACHED
+a nat parameter of 9223372036854775807 + 9223372036854775807 + 2, beyond NN32 and ZZ64, read as 0
+PASS
+rc=0

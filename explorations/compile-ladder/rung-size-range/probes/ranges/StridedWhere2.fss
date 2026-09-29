@@ -1,0 +1,10 @@
+component StridedWhere2
+export Executable
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -zMax - 1
+  r = zMax:zMin:1
+  println("built " || r.asDebugString)
+  println("size " || r.size)
+end
+end

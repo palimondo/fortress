@@ -1,0 +1,246 @@
+# walk-list.sh shiftbase 2026-09-29T10:13:18Z; tree 382b9fe7f; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 24.81 20.82 13.08; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### ShiftL3Left
+ShiftL3Left range: LeftRange3D(1,2,3, 1,1,1)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:637:47-48:
+Failed to find any matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int)), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:340:5-46
+	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:433:5-56)
+	-(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:600:5-45)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:669:5-21
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:720:5-721:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:808:5-809:75)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:879:5-880:83)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:963:5-964:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2329:5-2330:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2637:5-2638:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4628:1-4631:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4632:1-101
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:340:5-46)
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:416:5-417:75)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:637:47-48:
+ShiftL3Left.fss:6:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftL3Right
+ShiftL3Right range: LeftRange3D(1,2,3, 1,1,1)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:641:47-48:
+Failed to find any matching overload, args = (3: ZZ32,(1,1,1): (Int,Int,Int)), overload = {
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	+(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:432:5-56)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:716:5-717:74)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:804:5-805:75)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:339:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:875:5-876:83)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:959:5-960:77)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:339:5-28)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:339:5-28
+	+(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:594:5-599:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:667:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2327:5-2328:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2635:5-2636:60
+	+[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4626:1-101
+	+[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4627:1-101
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:339:5-28)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:641:47-48:
+ShiftL3Right.fss:6:7-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftR3Left
+ShiftR3Left range: RightRange3D(2,3,4, 1,1,1)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:751:48-49:
+Failed to find any matching overload, args = (4: ZZ32,(1,1,1): (Int,Int,Int)), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:340:5-46
+	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:433:5-56)
+	-(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:600:5-45)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:669:5-21
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:720:5-721:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:808:5-809:75)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:879:5-880:83)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:963:5-964:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2329:5-2330:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2637:5-2638:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4628:1-4631:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4632:1-101
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:340:5-46)
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:416:5-417:75)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:751:48-49:
+ShiftR3Left.fss:6:7-24:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftR3Right
+ShiftR3Right range: RightRange3D(2,3,4, 1,1,1)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:755:48-49:
+Failed to find any matching overload, args = (4: ZZ32,(1,1,1): (Int,Int,Int)), overload = {
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	+(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:432:5-56)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:716:5-717:74)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:804:5-805:75)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:339:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:875:5-876:83)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:959:5-960:77)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:339:5-28)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:339:5-28
+	+(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:594:5-599:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:667:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2327:5-2328:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2635:5-2636:60
+	+[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4626:1-101
+	+[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4627:1-101
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:339:5-28)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:755:48-49:
+ShiftR3Right.fss:6:7-25:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftS2Left
+ShiftS2Left range: StridedFullRange2D(1,1, 9,9, 2,2)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1316:66-67:
+Failed to find any matching overload, args = (9: ZZ32,(1,1): (Int,Int)), overload = {
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].-(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:340:5-46
+	-(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:433:5-56)
+	-(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:600:5-45)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].-(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:669:5-21
+	-(native Sub)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:720:5-721:74)
+	-(native Sub)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:808:5-809:75)
+	-(native Sub)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:879:5-880:83)
+	-(native Sub)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:963:5-964:77)
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].-(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2329:5-2330:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].-(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2637:5-2638:60
+	-[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4628:1-4631:88
+	-[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4632:1-101
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:340:5-46)
+	-(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:669:5-21)
+	-(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:340:5-46)
+	-(native Sub)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:105:5-106:76)
+	-(native Sub)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:274:5-275:75)
+	-(native Sub)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:416:5-417:75)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:1316:66-67:
+ShiftS2Left.fss:6:7-22:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftS2Right
+ShiftS2Right range: StridedFullRange2D(1,1, 9,9, 2,2)
+com.sun.fortress.exceptions.ProgramError: Library/RangeInternals.fss:1320:66-67:
+Failed to find any matching overload, args = (9: ZZ32,(1,1): (Int,Int)), overload = {
+	+(native Add)fn meth(self 0):(Float,Float)->RR64 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:103:5-104:76)
+	+(native Add)fn meth(self 0):(RR32,RR64)->RR32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:272:5-273:75)
+	+(native Add)fn meth(self 0):(NN32,NN32)->NN32 (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:412:5-413:75)
+	+(self:(FortressLibrary.RR64 & {FortressBuiltin.Float, FortressBuiltin.FloatLiteral, FortressBuiltin.RR32}),b:FortressLibrary.RR64):FortressLibrary.RR64fn meth(self 0):(RR64,RR64)->RR64 (Library/FortressLibrary.fss:432:5-56)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\RR64\],RR64)->RR64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ32,ZZ32)->ZZ32 (Library/FortressLibrary.fss:716:5-717:74)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ32\],ZZ32)->ZZ32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ64,ZZ64)->ZZ64 (Library/FortressLibrary.fss:804:5-805:75)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ64\],ZZ64)->ZZ64 (Library/FortressLibrary.fss:339:5-28)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN32\],NN32)->NN32 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(NN64,NN64)->NN64 (Library/FortressLibrary.fss:875:5-876:83)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\NN64\],NN64)->NN64 (Library/FortressLibrary.fss:339:5-28)
+	+(native Add)fn meth(self 0):(ZZ,ZZ)->ZZ (Library/FortressLibrary.fss:959:5-960:77)
+	+(self:Integral[\I\],b:I):Ifn meth(self 0):(Integral[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:667:5-21)
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\ZZ\],ZZ)->ZZ (Library/FortressLibrary.fss:339:5-28)
+	AdditiveGroup[\T extends AdditiveGroup[\T\]\](uninstantiated)[\T extends AdditiveGroup[\T\]\].+(self:AdditiveGroup[\T\],other:T):TLibrary/FortressLibrary.fss:339:5-28
+	+(self:(FortressLibrary.QQ & {Ratio}),other:FortressLibrary.QQ):FortressLibrary.QQfn meth(self 0):(QQ,QQ)->QQ (Library/FortressLibrary.fss:594:5-599:10)
+	Integral[\I extends Integral[\I\]\](uninstantiated)[\I extends Integral[\I\]\].+(self:Integral[\I\],b:I):ILibrary/FortressLibrary.fss:667:5-21
+	Vector[\T extends FortressLibrary.Number,nat s0\](uninstantiated)[\T extends FortressLibrary.Number,nat s0\].+(self:Vector[\T,s0\],v:Vector[\T,s0\]):Vector[\T,s0\]Library/FortressLibrary.fss:2327:5-2328:55
+	Matrix[\T extends FortressLibrary.Number,nat s0,nat s1\](uninstantiated)[\T extends FortressLibrary.Number,nat s0,nat s1\].+(self:Matrix[\T,s0,s1\],v:Matrix[\T,s0,s1\]):Matrix[\T,s0,s1\]Library/FortressLibrary.fss:2635:5-2636:60
+	+[\T extends FortressLibrary.Number,I\](x:Array[\T,I\],y:T):Array[\T,I\]Library/FortressLibrary.fss:4626:1-101
+	+[\T extends FortressLibrary.Number,I\](y:T,x:Array[\T,I\]):Array[\T,I\]Library/FortressLibrary.fss:4627:1-101
+	+(self:AdditiveGroup[\T\],other:T):Tfn meth(self 0):(AdditiveGroup[\QQ\],QQ)->QQ (Library/FortressLibrary.fss:339:5-28)}:OverloadedFunction
+Context:
+Library/RangeInternals.fss:1320:66-67:
+ShiftS2Right.fss:6:7-23:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+#### ShiftCtl2Left
+ShiftCtl2Left range: CompactFullRange2D(1,1, 9,9)
+ShiftCtl2Left shifted: CompactFullRange2D(0,0, 8,8)
+ShiftCtl2Left expected: a control: CompactFullRange2D(0,0, 8,8)
+rc=0
+#### ShiftCtlL2Left
+ShiftCtlL2Left range: LeftRange2D(1,2, 1,1)
+ShiftCtlL2Left shifted: LeftRange2D(0,1, 1,1)
+ShiftCtlL2Left expected: a control: LeftRange2D(0,1, 1,1)
+rc=0
+EXIT=0

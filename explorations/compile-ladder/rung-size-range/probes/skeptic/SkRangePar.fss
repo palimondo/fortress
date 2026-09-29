@@ -1,0 +1,24 @@
+component SkRangePar
+export Executable
+parCount(mk: () -> Generator[\ZZ32\]): String =
+  try
+    g = mk()
+    "" || (SUM[\ZZ32\][i <- g] 1)
+  catch e
+    IntegerOverflow => "OVF"
+  end
+run(): () = do
+  zMax: ZZ32 = 2147483647
+  zMin: ZZ32 = -zMax - 1
+  one: ZZ32 = 1
+  two: ZZ32 = 2
+  println("p01 count (MAX-2):MAX " || parCount(fn () => (zMax - two):zMax))
+  println("p02 count MIN:(MIN+2) " || parCount(fn () => zMin:(zMin + two)))
+  println("p03 count (MAX-4):MAX:2 " || parCount(fn () => (zMax - 4):zMax:2))
+  println("p04 count (MAX-1)#2 " || parCount(fn () => (zMax - one) # two))
+  println("p05 count (MIN+4):MIN:-2 " || parCount(fn () => (zMin + 4):zMin:(-2)))
+  println("p06 count MAX#1 " || parCount(fn () => zMax # one))
+  println("p07 count -3:3:2 " || parCount(fn () => (-3):3:2))
+  println("END")
+end
+end

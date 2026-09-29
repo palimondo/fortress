@@ -1,0 +1,23 @@
+# junit.sh skstandin 2026-09-29T12:52:37Z; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.66 3.97 6.74; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree e855607a4; build ProjectFortress/build; tests from explorations/compile-ladder/rung-size-range/probes/standin
+. link explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyAny  OK (time = 9284ms)
+. link explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyCoerced  OK (time = 2299ms)
+. run explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyAny (1144ms) REACHED
+c1: -1
+PASS
+Failed to satisfy run_out_does_not_contain; expected
+REACHED
+F. run explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyCoerced (932ms) REACHED
+q: BoxT[ZZ32]
+PASS
+Did not see expected failure
+F
+Time: 13.687
+There were 2 failures:
+1) explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyAny(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyAny
+2) explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyCoerced(com.sun.fortress.tests.unit_tests.FileTests$TestTest)junit.framework.AssertionFailedError: TestTest explorations/compile-ladder/rung-size-range/probes/standin/XXXInferResultOnlyCoerced
+
+FAILURES!!!
+Tests run: 4,  Failures: 2,  Errors: 0
+
+exit=0
+EXIT=0

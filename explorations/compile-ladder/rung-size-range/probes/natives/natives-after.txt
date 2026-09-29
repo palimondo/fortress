@@ -1,0 +1,167 @@
+# walk-list.sh natafter 2026-09-29T11:14:29Z; tree c2534dd7a with its working changes; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.59 20.96 20.54; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### NatP00
+ZZ32 two^31 = IntegerOverflow
+rc=0
+#### NatP01
+ZZ32 two^30 = 1073741824
+rc=0
+#### NatP02
+ZZ32 mtwo^31 = -2147483648
+rc=0
+#### NatP03
+ZZ32 two^64 = IntegerOverflow
+rc=0
+#### NatP04
+ZZ32 three^40 = IntegerOverflow
+rc=0
+#### NatP05
+ZZ32 zero^0 = 1
+rc=0
+#### NatP06
+ZZ32 mone^2147483647 = -1
+rc=0
+#### NatP07
+ZZ32 two^(-1) = 0.5
+rc=0
+#### NatP08
+ZZ32 two^(-70) = Infinity
+rc=0
+#### NatP09
+ZZ32 n34 CHOOSE 17 = IntegerOverflow
+rc=0
+#### NatP10
+ZZ32 n33 CHOOSE 16 = 1166803110
+rc=0
+#### NatP11
+ZZ32 three CHOOSE 5 = 0
+rc=0
+#### NatP12
+ZZ32 five CHOOSE (-1) = 0
+rc=0
+#### NatP13
+ZZ32 mfive CHOOSE 2 = 0
+rc=0
+#### NatP14
+ZZ32 maxI CHOOSE 1 = 2147483647
+rc=0
+#### NatP15
+ZZ32 maxI CHOOSE 2147483646 = 2147483647
+rc=0
+#### NatP16
+ZZ32 maxI CHOOSE 2 = IntegerOverflow
+rc=0
+#### NatP17
+ZZ64 two^63 = IntegerOverflow
+rc=0
+#### NatP18
+ZZ64 two^62 = 4611686018427387904
+rc=0
+#### NatP19
+ZZ64 mtwo^63 = -9223372036854775808
+rc=0
+#### NatP20
+ZZ64 three^40 = IntegerOverflow
+rc=0
+#### NatP21
+ZZ64 two^64 = IntegerOverflow
+rc=0
+#### NatP22
+ZZ64 two^(-70) = Infinity
+rc=0
+#### NatP23
+ZZ64 n66 CHOOSE 33 = 7219428434016265740
+rc=0
+#### NatP24
+ZZ64 n67 CHOOSE 33 = IntegerOverflow
+rc=0
+#### NatP25
+ZZ64 n68 CHOOSE 34 = IntegerOverflow
+rc=0
+#### NatP26
+ZZ64 three CHOOSE 5 = 0
+rc=0
+#### NatP27
+ZZ64 n62 CHOOSE 31 = 465428353255261088
+rc=0
+#### NatP28
+NN32 twoTo31 LCM seven = IntegerOverflow
+rc=0
+#### NatP29
+NN32 twoTo31 LCM two = 2147483648
+rc=0
+#### NatP30
+NN32 b16 LCM b16p = IntegerOverflow
+rc=0
+#### NatP31
+NN32 maxU LCM one = 4294967295
+rc=0
+#### NatP32
+NN32 six LCM four = 12
+rc=0
+#### NatP33
+NN32 twoTo31 CHOOSE one = 2147483648
+rc=0
+#### NatP34
+NN32 b16 CHOOSE two = 2147450880
+rc=0
+#### NatP35
+NN32 n92682 CHOOSE two = 4294930221
+rc=0
+#### NatP36
+NN32 n92683 CHOOSE two = IntegerOverflow
+rc=0
+#### NatP37
+NN32 three CHOOSE five = 0
+rc=0
+#### NatP38
+NN32 two^32 = IntegerOverflow
+rc=0
+#### NatP39
+NN32 two^31 = 2147483648
+rc=0
+#### NatP40
+NN32 m65535^2 = 4294836225
+rc=0
+#### NatP41
+NN32 b16^2 = IntegerOverflow
+rc=0
+#### NatP42
+NN32 twoTo31^1 = 2147483648
+rc=0
+#### NatP43
+NN32 two^(-1) = 0.5
+rc=0
+#### NatP44
+NN64 twoTo63 LCM three = IntegerOverflow
+rc=0
+#### NatP45
+NN64 twoTo63 LCM two = 9223372036854775808
+rc=0
+#### NatP46
+NN64 twoTo32 LCM (twoTo32 - one) = 18446744069414584320
+rc=0
+#### NatP47
+NN64 n68 CHOOSE unsigned(widen(34)) = IntegerOverflow
+rc=0
+#### NatP48
+NN64 n67 CHOOSE unsigned(widen(33)) = 14226520737620288370
+rc=0
+#### NatP49
+NN64 three CHOOSE five = 0
+rc=0
+#### NatP50
+NN64 two^64 = IntegerOverflow
+rc=0
+#### NatP51
+NN64 two^63 = 9223372036854775808
+rc=0
+#### NatP52
+NN64 three^40 = 12157665459056928801
+rc=0
+#### NatP53
+NN64 three^41 = IntegerOverflow
+rc=0
+#### NatP54
+NN64 two^(-1) = 0.5
+rc=0
+EXIT=0

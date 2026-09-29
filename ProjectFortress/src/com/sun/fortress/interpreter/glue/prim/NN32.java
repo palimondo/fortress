@@ -149,14 +149,15 @@ public class NN32 extends NativeConstructor {
     public static final class Lcm extends NN2N {
         protected int f(int u, int v) {
             if (u == 0 || v == 0) return 0;
-            int g = (int) UnsignedLong.gcd(u, v);
-            return Unsigned.multiplyToInt(Unsigned.divide(u, g), v);
+            long a = Unsigned.toLong(u);
+            long b = Unsigned.toLong(v);
+            return rc((a / UnsignedLong.gcd(a, b)) * b);
         }
     }
 
     public static final class Choose extends NN2N {
         protected int f(int u, int v) {
-            return rc(UnsignedLong.choose(u, v));
+            return rc(UnsignedLong.choose(Unsigned.toLong(u), Unsigned.toLong(v)));
         }
     }
 
@@ -230,7 +231,7 @@ public class NN32 extends NativeConstructor {
             if (exp < 0) {
                 return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
             } else {
-                return FNN32.make(rc(UnsignedLong.pow(base, exp)));
+                return FNN32.make(rc(UnsignedLong.powExact(Unsigned.toLong(base), exp)));
             }
         }
     }
@@ -261,7 +262,7 @@ public class NN32 extends NativeConstructor {
 
     public static int rc(long i) {
         if ((i >> 32) != 0) {
-            error("Overflow of NN32 " + i);
+            throw Int.overflow();
         }
         return (int) i;
     }

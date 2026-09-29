@@ -1,0 +1,61 @@
+== base: tmp/baseA-home, git archive of 382b9fe7f with the base build (the header names the worktree HEAD, which git finds above the copy)
+# walk-list.sh rangebase 2026-09-29T11:27:44Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 33.85 31.71 26.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### RangeBoundsProbe
+R1 (1:5).size 5 |1:5| 5 elems 1 2 3 4 5
+R2 (5:1).size 0 |5:1| 0 elems
+R3 (1:MIN).size IntegerOverflow |1:MIN| IntegerOverflow
+R4 |MAX:MIN| IntegerOverflow (MAX:MIN).size IntegerOverflow
+R5 seq((MAX-2):MAX)IntegerOverflow
+R6 seq(MIN:(MIN+2)) -2147483648 -2147483647 -2147483646
+R7 ZZ32 SUM over seq(1:4) 10 ZZ64 SUM over seq((MAX-2):MAX) widened IntegerOverflow
+R8 (0:MAX).size IntegerOverflow (MIN:(-1)).size IntegerOverflow (-5:5).size 11
+S1 (1:10:3) size 4 elems 1 4 7 10
+S2 (10:1:-3) size 4 elems 10 7 4 1
+S3 seq((MAX-4):MAX:2)IntegerOverflow
+S4 seq((MIN+4):MIN:-2)IntegerOverflow
+S5 (MAX:MIN:1).size IntegerOverflow (MIN:MAX:-1).size IntegerOverflow
+S6 (MIN:MAX:3).size IntegerOverflow (MIN:MAX:2).size IntegerOverflow
+S7 (1:10:-1).size 0 elems
+S8 seq(MIN:(-2):3) first three -2147483648 -2147483645 -2147483642 seq((-3):(-20):-4) -3 -7 -11 -15 -19 seq(3:20:4) 3 7 11 15 19 seq(20:(-3):-7) 20 13 6 -1
+H1 MAX#1 IntegerOverflow size IntegerOverflow
+Library/RangeInternals.fss:1379:34:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:1379:34:
+Library/FortressLibrary.fss:3929:54-70:
+RangeBoundsProbe.fss:41:93-95:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+== edit: the worktree
+# walk-list.sh rangeedit 2026-09-29T11:29:32Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 33.86 32.36 27.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### RangeBoundsProbe
+R1 (1:5).size 5 |1:5| 5 elems 1 2 3 4 5
+R2 (5:1).size 0 |5:1| 0 elems
+R3 (1:MIN).size 0 |1:MIN| 0
+R4 |MAX:MIN| 0 (MAX:MIN).size 0
+R5 seq((MAX-2):MAX) 2147483645 2147483646 2147483647
+R6 seq(MIN:(MIN+2)) -2147483648 -2147483647 -2147483646
+R7 ZZ32 SUM over seq(1:4) 10 ZZ64 SUM over seq((MAX-2):MAX) widened 6442450938
+R8 (0:MAX).size IntegerOverflow (MIN:(-1)).size IntegerOverflow (-5:5).size 11
+S1 (1:10:3) size 4 elems 1 4 7 10
+S2 (10:1:-3) size 4 elems 10 7 4 1
+S3 seq((MAX-4):MAX:2) 2147483643 2147483645 2147483647
+S4 seq((MIN+4):MIN:-2) -2147483644 -2147483646 -2147483648
+S5 (MAX:MIN:1).size IntegerOverflow (MIN:MAX:-1).size IntegerOverflow
+S6 (MIN:MAX:3).size IntegerOverflow (MIN:MAX:2).size IntegerOverflow
+S7 (1:10:-1).size 0 elems
+S8 seq(MIN:(-2):3) first three -2147483648 -2147483645 -2147483642 seq((-3):(-20):-4) -3 -7 -11 -15 -19 seq(3:20:4) 3 7 11 15 19 seq(20:(-3):-7) 20 13 6 -1
+H1 MAX#1 CompactFullParScalarRange(2147483647,2147483647) size 1
+H2 (MAX-2)#3 size 3 elems 2147483645 2147483646 2147483647
+H3 MIN#0 CompactFullParScalarRange(0,-1) size 0 MAX IN false
+H4 5#0 CompactFullParScalarRange(5,4) 5#-3 CompactFullParScalarRange(5,1) 0#MIN CompactFullParScalarRange(0,-1) -5#MIN CompactFullParScalarRange(0,-1)
+H5 (1,2)#(3,0) CompactFullRange2D(1,2, 3,1) size 0
+H6 (MAX,1,1)#(1,2,2) CompactFullRange3D(2147483647,1,1, 2147483647,2,2) size 4
+A1 |(1,1):(2,3)| 6 |(1,1,1):(2,2,2)| 8
+A2 |(0,MIN):(-1,MAX)| 0 |(1,1):(2,0)| 0
+end
+rc=0
+EXIT=0

@@ -1,0 +1,43 @@
+# names-new.txt 2026-09-29T13:32:37Z: each name this repair round adds, grepped in ProjectFortress/tests, compiler_tests, library_tests, demos, Library and ProjectFortress/src/com/sun/fortress; every hit listed is the round's own file (the first run of this grep, before the files were written, printed nothing for the four compiled names)
+## XXXPowZZ32CompiledRungE
+ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE.fss
+ProjectFortress/compiler_tests/PowZZ32CompiledRungELink.test
+ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE.test
+XXXPowZZ32CompiledRungE.fss
+XXXPowZZ32CompiledRungE.test
+## XXXPowNN32CompiledRungE
+ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE.fss
+ProjectFortress/compiler_tests/PowNN32CompiledRungELink.test
+ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE.test
+XXXPowNN32CompiledRungE.fss
+XXXPowNN32CompiledRungE.test
+## XXXPowNN64CompiledRungE
+ProjectFortress/compiler_tests/PowNN64CompiledRungELink.test
+ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE.fss
+ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE.test
+XXXPowNN64CompiledRungE.fss
+XXXPowNN64CompiledRungE.test
+## PowZZ32CompiledRungELink
+PowZZ32CompiledRungELink.test
+## PowNN32CompiledRungELink
+PowNN32CompiledRungELink.test
+## PowNN64CompiledRungELink
+PowNN64CompiledRungELink.test
+## XXXTryOperandRungE
+ProjectFortress/compiler_tests/XXXTryOperandRungE.test
+ProjectFortress/compiler_tests/XXXTryOperandRungE.fss
+ProjectFortress/compiler_tests/TryOperandRungELink.test
+XXXTryOperandRungE.fss
+XXXTryOperandRungE.test
+## TryOperandRungELink
+TryOperandRungELink.test
+## XXXNatArithProductWalk
+## XXXNatArithSumWalk
+## NatArithProductWalk
+## NatArithSumWalk
+## mulPow
+## mulPowN
+## mulPowU
+## twoFit
+ProjectFortress/tests/XXXStridedSpanWalk.fss
+## Strided156Only

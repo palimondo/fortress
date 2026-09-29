@@ -1,0 +1,19 @@
+(*) explorations/compile-ladder/rung-size-range/REPORT.md
+
+component XXXStridedSpanWalk
+export Executable
+
+run(): () = do
+    println("REACHED")
+    zMax: ZZ32 = 2147483647
+    zMin: ZZ32 = -zMax - 1
+    emptyAcross = zMax:zMin:1
+    assert(|emptyAcross|, 0, "a strided range whose elements all fit, empty, across the bounds; ranges.tex:68-70, :140-143")
+    wideStride = zMin:zMax:3
+    assert(|wideStride|, 1431655766, "a strided range whose elements all fit, spanning more than ZZ32's maximum; ranges.tex:68-70, :140-143")
+    twoFit = 0:zMin:zMin
+    assert(|twoFit|, 2, "a strided range whose two elements, 0 and the minimum, fit; ranges.tex:68-70, :140-143")
+    println("PASS")
+  end
+
+end

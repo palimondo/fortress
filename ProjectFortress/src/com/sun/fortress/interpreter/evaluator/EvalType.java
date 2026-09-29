@@ -255,6 +255,9 @@ public class EvalType extends NodeAbstractVisitor<FType> {
 			// Move this check into the param-specific binding code.
 			error(p, errorMsg("Negative nats are unNATural: " + l));
 		    }
+		    if (l > 4294967295L) {
+			error(p, errorMsg("Static argument " + l + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295"));
+		    }
 
 		    guardedPutNat(NodeUtil.getName(p), ((IntNat) a).getNumber(), what, clenv);
 		} else if (a instanceof SymbolicNat) {
@@ -264,6 +267,10 @@ public class EvalType extends NodeAbstractVisitor<FType> {
 		}
 	    } else if (NodeUtil.isIntParam(p)) {
 		if (a instanceof IntNat) {
+		    long l = ((IntNat) a).getValue();
+		    if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+			error(p, errorMsg("Static argument " + l + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+		    }
 		    guardedPutNat(NodeUtil.getName(p), ((IntNat) a).getNumber(), what, clenv);
 		} else if (a instanceof SymbolicNat) {
 		    // guardedPutNat(NodeUtil.getName(p), ((IntNat)a).getNumber(), what, clenv);
@@ -440,7 +447,11 @@ public class EvalType extends NodeAbstractVisitor<FType> {
 	    }
 
 	    public FType forIntBase(IntBase n) {
-		return IntNat.make(n.getIntVal().getIntVal().intValue());
+		java.math.BigInteger v = n.getIntVal().getIntVal();
+		if (v.bitLength() > 63) {
+		    return error(n, errorMsg("Static argument ", v, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+		}
+		return IntNat.make(v.longValue());
 	    }
 
 	    public FType forIntRef(IntRef n) {
@@ -457,10 +468,15 @@ public class EvalType extends NodeAbstractVisitor<FType> {
 	    public FType forIntBinaryOp(IntBinaryOp n) {
 		long left = longify(n.getLeft());
 		long right = longify(n.getRight());
-		if (n.getOp().getText().equals("+")) return IntNat.make(left + right);
-		else if (n.getOp().getText().equals("-")) return IntNat.make(left - right);
-		else if (n.getOp().getText().equals(" ")) return IntNat.make(left * right);
-		else return bug(n, errorMsg("EvalType: ", n.getClass(), " is not yet implemented."));
+		try {
+		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
+		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
+		    else if (n.getOp().getText().equals(" ")) return IntNat.make(Math.multiplyExact(left, right));
+		    else return bug(n, errorMsg("EvalType: ", n.getClass(), " is not yet implemented."));
+		}
+		catch (ArithmeticException e) {
+		    return error(n, errorMsg("Static argument ", n, " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295, and for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647"));
+		}
 	    }
 
 	    public FType defaultCase(Node x) {

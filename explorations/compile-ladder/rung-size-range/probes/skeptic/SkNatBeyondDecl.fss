@@ -1,0 +1,11 @@
+component SkNatBeyondDecl
+export Executable
+object Box[\nat k\](v: ZZ32) end
+g(b: Box[\4294967296\]): String = "never called"
+g(x: Any): String = "other"
+run(): () = do
+  println("REACHED")
+  println(g(Box[\5\](0)))
+  println("END")
+end
+end

@@ -1,0 +1,40 @@
+# walk-list.sh stridedxxx 2026-09-29T11:33:34Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 27.81 30.77 27.90; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### XXXStridedSpanWalk
+REACHED
+Library/RangeInternals.fss:802:16:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:802:16:
+Library/FortressLibrary.fss:4061:51-70:
+XXXStridedSpanWalk.fss:10:24-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+# walk-list.sh stridedxxxbase 2026-09-29T11:34:55Z; tree 87c73bf0e; classes ProjectFortress/build; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 32.65 31.42 28.36; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### XXXStridedSpanWalk
+REACHED
+Library/RangeInternals.fss:802:16:
+IntegerOverflow
+Context:
+Library/RangeInternals.fss:802:16:
+Library/FortressLibrary.fss:4061:51-70:
+XXXStridedSpanWalk.fss:10:24-21:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+rc=1
+# run-harness.sh 2026-09-29T11:36:23Z; tree 87c73bf0e; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 34.64 32.43 28.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+$ harness-one.sh tmp/h-strided ProjectFortress/tests/XXXStridedSpanWalk.fss
+tmp/h-strided/tests
+Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0ecf3a02c_16
+. interpret tmp/h-strided/tests/XXXStridedSpanWalk  OK Saw expected exception
+
+Time: 87.299
+
+OK (1 test)
+
+rc=0
+EXIT=0

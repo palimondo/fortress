@@ -1,0 +1,22 @@
+component SkSizeZZ32Type
+export Executable
+object Box[\nat k\](v: ZZ32) end
+as32[\nat k\](b: Box[\k\]): ZZ32 = k
+plain32(x: ZZ64): ZZ32 = x
+kind(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    else => "other"
+  end
+run(): () = do
+  println("REACHED")
+  five: ZZ64 = widen(5)
+  p = try plain32(five) catch e Exception => "a ZZ64 value from a ZZ32 function refused" end
+  println("plain32(widen(5)) gives " || p || " of kind " || kind(p))
+  r = as32(Box[\2147483648\](0))
+  println("as32 of a size 2147483648 gives " || r || " of kind " || kind(r))
+  q = r + 2147483647
+  println("that value plus 2147483647 is " || q || " of kind " || kind(q))
+  println("END")
+end
+end

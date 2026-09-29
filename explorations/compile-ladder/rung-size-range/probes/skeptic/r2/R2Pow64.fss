@@ -1,0 +1,26 @@
+component R2Pow64
+export Executable
+pl(a: ZZ64, b: ZZ64): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cl(a: ZZ64, b: ZZ64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+pu(a: NN64, b: NN64): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+cu(a: NN64, b: NN64): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
+lu(a: NN64, b: NN64): String = try "" || (a LCM b) catch e IntegerOverflow => "OVF" end
+run(): () = do
+  println("l1 (-2)^63 = " || pl(widen(-2), widen(63)))
+  println("l2 (-2)^64 = " || pl(widen(-2), widen(64)))
+  println("l3 3^39 = " || pl(widen(3), widen(39)))
+  println("l4 3^40 = " || pl(widen(3), widen(40)))
+  println("l5 66 CHOOSE 33 = " || cl(widen(66), widen(33)))
+  println("l6 67 CHOOSE 33 = " || cl(widen(67), widen(33)))
+  println("u1 3^40 = " || pu(unsigned(widen(3)), unsigned(widen(40))))
+  println("u2 3^41 = " || pu(unsigned(widen(3)), unsigned(widen(41))))
+  println("u3 67 CHOOSE 33 = " || cu(unsigned(widen(67)), unsigned(widen(33))))
+  println("u4 68 CHOOSE 34 = " || cu(unsigned(widen(68)), unsigned(widen(34))))
+  t32: ZZ64 = 4294967296
+  t32m: ZZ64 = 4294967295
+  t32p: ZZ64 = 4294967297
+  println("u5 4294967296 LCM 4294967295 = " || lu(unsigned(t32), unsigned(t32m)))
+  println("u6 4294967296 LCM 4294967297 = " || lu(unsigned(t32), unsigned(t32p)))
+  println("END")
+end
+end
