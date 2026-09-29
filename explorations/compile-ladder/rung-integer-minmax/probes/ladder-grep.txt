@@ -1,6 +1,0 @@
-# step 8's subset: every file of the recorded ladder baseline whose output names MIN, MAX or MINMAX as a word (grep -rlwE 'MINMAX|MIN|MAX' explorations/compile-ladder/baseline-2026-09-19/raw/), with the lines that name them and the file's first error
-== explorations/compile-ladder/baseline-2026-09-19/raw/tests/simpleSum.fss.compile
-first error: ProjectFortress/tests/simpleSum.fss:34:26-31:     Operator ? is not defined. 
-10:    Operator BIG MIN is not defined.
-12:    Operator BIG MIN is not defined.
-# the batch record names no ladder file for rung M (explorations/coordinator/CLIMB-BATCH-N.md, section 3, M), and the compile path checks and links against the compiler library (ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi, Library/CompilerLibrary.fsi), which the rung does not edit, so the subset is empty and was not run

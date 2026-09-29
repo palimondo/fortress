@@ -1,7 +1,0 @@
-# the tests the record names as must stay green, their exit code and whether the edit's output equals base A's, from the three passes
-testRR32: A rc=0 B rc=0 edit(testRR32) rc=0; same as base A (the comparison lists only what differs)
-RoundHalfEvenRungR: A rc=0 B rc=0 edit(RoundHalfEvenRungR) rc=0; same as base A (the comparison lists only what differs)
-FlatTowerRungF: A rc=0 B rc=0 edit(FlatTowerRungF) rc=0; same as base A (the comparison lists only what differs)
-IntegerMinMaxRungM: A rc=0 B rc=0 edit(IntegerMinMaxRungM) rc=0; same as base A (the comparison lists only what differs)
-InferCoercionRungK: A rc=0 B rc=0 edit(InferCoercionRungK) rc=0; same as base A (the comparison lists only what differs)
-XXXRR32MixedRungF: A rc=1 B rc=1 edit(RR32MixedRungF) rc=0; CHANGED    XXXRR32MixedRungF  rc 1 -> 0

@@ -1,7 +1,0 @@
---- pass base (bce66f1fa, library unedited) 2026-09-29T01:36:33Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 4.22 1.89 1.76 1/112 29702
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1

@@ -1,3 +1,0 @@
-tests	FixedWidthOverflowRungB.fss
-tests	intPrim.fss
-tests	longPrim.fss

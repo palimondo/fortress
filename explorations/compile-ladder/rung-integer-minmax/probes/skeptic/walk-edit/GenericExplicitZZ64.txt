@@ -1,9 +1,0 @@
---- walk edit GenericExplicitZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:16:29Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 7.61 7.16 4.76 3/165 14210
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-bigger[ZZ64](w, z) = 7 : ZZ64
-rc=0 secs=26

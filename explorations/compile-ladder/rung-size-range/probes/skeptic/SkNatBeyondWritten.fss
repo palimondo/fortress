@@ -1,9 +1,0 @@
-component SkNatBeyondWritten
-export Executable
-natw[\nat k\](): ZZ64 = k
-run(): () = do
-  println("REACHED")
-  println(natw[\4294967296\]())
-  println("END")
-end
-end

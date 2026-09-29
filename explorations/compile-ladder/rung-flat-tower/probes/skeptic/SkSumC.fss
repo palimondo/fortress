@@ -1,9 +1,0 @@
-component SkSumC
-export Executable
-count(n: ZZ32): ZZ32 = SUM[i <- 0#n] i
-run() = do
-    println(count(0))
-    println(count(10))
-    println(count(10000))
-end
-end

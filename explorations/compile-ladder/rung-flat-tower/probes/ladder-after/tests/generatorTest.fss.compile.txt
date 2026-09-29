@@ -1,5 +1,0 @@
-/home/user/fortress-flat/ProjectFortress/tests/generatorTest.fss:29:11-28:
-    Function SumReduction is not defined.
-/home/user/fortress-flat/ProjectFortress/tests/generatorTest.fss:30:11-28:
-    Function SumReduction is not defined.
-File generatorTest.fss has 2 errors.

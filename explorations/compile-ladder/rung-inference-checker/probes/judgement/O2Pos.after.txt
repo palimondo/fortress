@@ -1,7 +1,0 @@
-# comp.sh O2Pos after 2026-09-28T23:53:06Z; tree 8de87af6c with its working changes; source explorations/reviews/option-2-soundness/O2Pos.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.80 7.61 7.40; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-gg(5, w):  gg plain[ IntLiteral , ZZ64 ]
-ee(5):  2
-run rc=0

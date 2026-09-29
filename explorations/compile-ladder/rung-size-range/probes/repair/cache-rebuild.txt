@@ -1,6 +1,0 @@
-# cache-rebuild.txt: the library-order bytecode-cache rebuild after the repair round's ant compileAll (tmp/repair/compileAll.txt: BUILD SUCCESSFUL, 1 minute 16 seconds), 2026-09-29T13:41:10Z finish; nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; default_repository/caches/global.map restored with git checkout after compileAll deleted it
-LibraryBuiltin/AnyType.fss rc=0 20s
-LibraryBuiltin/CompilerBuiltin.fss rc=0 79s
-../Library/CompilerLibrary.fss rc=0 30s
-../Library/CompilerAlgebra.fss rc=0 5s
-../Library/CompilerSystem.fss rc=0 5s

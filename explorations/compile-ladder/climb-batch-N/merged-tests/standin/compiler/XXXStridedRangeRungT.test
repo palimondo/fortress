@@ -1,3 +1,0 @@
-tests=XXXStridedRangeRungT
-compile
-compile_err_contains=(ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral)

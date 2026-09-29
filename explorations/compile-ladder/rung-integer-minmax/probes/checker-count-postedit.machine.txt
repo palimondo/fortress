@@ -1,7 +1,0 @@
---- checker count, edit (4eeb9603a) 2026-09-29T01:57:59Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 2.90 6.00 6.13 6/116 15383
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1

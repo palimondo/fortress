@@ -1,8 +1,0 @@
-# comp.sh TiePicksNumeral base 2026-09-28T23:55:05Z; tree 8de87af6c with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/TiePicksNumeral.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 15.46 10.16 8.34; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
-## run
-pickn(3): NN32
-typeOf(widen(0)): ZZ64
-typeOf(widen(1)): ZZ64
-run rc=0

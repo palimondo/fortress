@@ -1,3 +1,0 @@
-# walk1.sh XSin base 2026-09-29T12:15:57Z; tree b402db0ac + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 12.06 12.20 16.88; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
-Sin: 0.9974949866040544 : RR64
-rc=0

@@ -1,3 +1,0 @@
-g took a Parent[ZZ32]
-h took a Parent[String]
-rc=0

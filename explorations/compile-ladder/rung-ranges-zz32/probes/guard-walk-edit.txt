@@ -1,3 +1,0 @@
---- walk ProjectFortress/tests/RangeZZ32RungJ.fss 2026-09-28T05:40:45Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.18 10.03 12.37; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 81ffe33d0; git status --short Library ProjectFortress/src: [ M Library/FortressLibrary.fsi  M Library/FortressLibrary.fss  M Library/Random.fsi  M Library/Random.fss  M Library/RangeInternals.fsi  M Library/RangeInternals.fss ]
-$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/q1/caches bin/fortress ProjectFortress/tests/RangeZZ32RungJ.fss
-rc=0

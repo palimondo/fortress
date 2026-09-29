@@ -1,9 +1,0 @@
-\begin{FortressCode}
-\VAR{mySum}(i\COLON\mathbb{Z}32)\COLON\mathbb{Z}64 =\; \KWD{do} \\
-\2\+\VAR{acc}\COLON\mathbb{Z}64 \ASSIGN 0 \\
-  \KWD{for} j \leftarrow 0\COLONOP{}i \KWD{do} \\
-  \2\+\VAR{acc} \ASSIGN \VAR{acc} + j\- \\
-  \KWD{end} \\
-  \VAR{acc}\- \\
-\KWD{end}
-\end{FortressCode}

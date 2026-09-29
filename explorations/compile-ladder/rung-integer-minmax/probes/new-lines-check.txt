@@ -1,4 +1,0 @@
-# new-lines.sh over the checker-count run's full output (tmp/cc-post/run.txt, not committed) and the distance stage's per-site list: every line naming a position on one of rung M's inserted lines
-positions on the inserted lines: 0
-positions on the inserted lines: 0
-positions on the inserted lines: 0

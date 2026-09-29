@@ -1,4 +1,0 @@
---- ResultBoundsRungB under walk, FORTRESS_THREADS=1, on main at 952892a00 with rungs B, H and A applied; empty private cache
-machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 1.95 0.63 0.41; openjdk version "25.0.4" 2026-07-21
-PASS
-rc=0 secs=17

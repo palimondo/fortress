@@ -1,7 +1,0 @@
---- ladder subset after the edit, 5 files, 97fd001cf 2026-09-28T00:08:09Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 32.67 27.56 18.70 31/454 25712
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1

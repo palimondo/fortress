@@ -1,1 +1,0 @@
---- demos base (extra-run.sh, 120 s, 2 shards) beside the microGPT checks 2026-09-28T05:00:02Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 4.05 5.74 4.64; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 81ffe33d0; git status --short Library ProjectFortress/src: []

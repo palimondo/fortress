@@ -1,6 +1,0 @@
-# the load-time overload check's refusals in the three passes of ProjectFortress/tests/ (the rung's first pass, tmp/passes/{baseA,edit,baseB}/log, one log per test; the passes' machine lines are in ../passes/tests-compare.txt): the tests whose log carries the check's message, 'Overloading of' or 'at least one pair of parameters must have excluding types' (OverloadedFunction.java:416-425, :519-527); recomputed by the repair round 2026-09-29T04:02:34Z
-baseA: XXXDispatchRenamedArmWalkRungG XXXDispatchSwappedArmWalkRungG XXXGenericOverload XXXGenericOverload2 XXXGenericOverload3 XXXInheritedOverload XXXoverloadTest5 XXXsubtypeRuleResultFail XXXtupleTypeParam3 
-edit: XXXDispatchRenamedArmWalkRungG XXXDispatchSwappedArmWalkRungG XXXGenericOverload XXXGenericOverload2 XXXGenericOverload3 XXXInheritedOverload XXXoverloadTest5 XXXsubtypeRuleResultFail XXXtupleTypeParam3 
-baseB: XXXDispatchRenamedArmWalkRungG XXXDispatchSwappedArmWalkRungG XXXGenericOverload XXXGenericOverload2 XXXGenericOverload3 XXXInheritedOverload XXXoverloadTest5 XXXsubtypeRuleResultFail XXXtupleTypeParam3 
-the three lists are identical: no load-time verdict changed
-# the rung's hunks in OverloadedFunction.java start at :787 (git diff bce66f1fa -- that file), after the load-time check

@@ -1,2 +1,0 @@
-# ProjectFortress/tests/FlatTowerRungF.fss under walk, edit library, tree e72dd103e, 2026-09-28T01:42:10Z, load 1.59 2.10 2.69
-rc=0

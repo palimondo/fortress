@@ -1,4 +1,0 @@
-# the matrix's two runs (count-run.sh over matrix/run-list.txt, 3 shards, one JVM per program with -XX:ActiveProcessorCount=1, private caches), their start and end lines as count-run.sh printed them, and the machine
-base (bce66f1fa): start 2026-09-29T01:34:37Z load: 0.04 0.16 1.24 shadow: none done 2026-09-29T01:36:10Z: 54 logs 
-edit (4eeb9603a's library): start 2026-09-29T01:55:59Z load: 2.86 6.83 6.34 shadow: none done 2026-09-29T01:57:28Z: 54 logs 
-nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1

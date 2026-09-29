@@ -1,3 +1,0 @@
-# walk1.sh XFloor base 2026-09-29T10:10:41Z; tree 382b9fe7f +  1 file changed, 1 insertion(+); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 20.79 18.17 10.96; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
-Floor: 1.0 : RR32
-rc=0

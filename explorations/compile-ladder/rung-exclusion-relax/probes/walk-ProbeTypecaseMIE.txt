@@ -1,3 +1,0 @@
-$ bin/fortress walk ProbeTypecaseMIE.fss
-PASS: O is a G[Boolean]
-exit=0

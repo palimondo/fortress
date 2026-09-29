@@ -1,9 +1,0 @@
-# harness-one.sh (testSystem's SystemJUTest over the one file), tree e72dd103e, 2026-09-28T01:39:58Z
-/home/user/fortress-bounds/tmp/skeptic/harness/tests
-Test shuffling seed env var = FORTRESS_UNITTESTS_SEED=1a0e5ab3681_16
-. interpret /home/user/fortress-bounds/tmp/skeptic/harness/tests/ResultBoundsRungB  OK (time = 14663ms)
-
-Time: 14.668
-
-OK (1 test)
-

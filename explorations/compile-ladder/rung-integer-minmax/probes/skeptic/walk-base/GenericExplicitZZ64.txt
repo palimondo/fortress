@@ -1,9 +1,0 @@
---- walk base GenericExplicitZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax/tmp/skbase 2026-09-29T03:17:28Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 5.06 6.65 4.75 2/117 14578
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-bigger[ZZ64](w, z) = 7 : ZZ64
-rc=0 secs=20

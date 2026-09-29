@@ -1,5 +1,0 @@
-# sk-walk.sh base SkBound64 2026-09-29T13:04:41Z; worktree fc0aec57d; FORTRESS_HOME=/home/user/fortress-rr32/tmp/skbase; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 8.69 6.11 6.12; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-REACHED
-bound64(a) 1.5 : RR32
-DONE
-rc=0

@@ -1,4 +1,0 @@
-tests	chain0.fss
-tests	rshiftbug.fss
-tests	intPrim.fss
-tests	simpleSum.fss

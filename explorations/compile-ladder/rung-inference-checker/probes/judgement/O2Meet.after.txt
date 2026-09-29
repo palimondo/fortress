@@ -1,9 +1,0 @@
-# comp.sh O2Meet after 2026-09-28T23:52:59Z; tree 8de87af6c with its working changes; source explorations/reviews/option-2-soundness/O2Meet.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.58 7.46 7.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-op(z, w):  op meet[ ZZ32 , ZZ64 ]
-op(z, z):  op meet[ ZZ32 , ZZ32 ]
-op(w, w):  op generic[ ZZ64 , ZZ64 ]
-op(z, "s"):  op z32any[ ZZ32 , other ]
-run rc=0

@@ -1,9 +1,0 @@
-component Sk2IntDiv
-export Executable
-run() = do
-  a: ZZ32 = 7
-  b: ZZ32 = 2
-  println("7/2 with ZZ32 operands:")
-  println(a / b)
-end
-end

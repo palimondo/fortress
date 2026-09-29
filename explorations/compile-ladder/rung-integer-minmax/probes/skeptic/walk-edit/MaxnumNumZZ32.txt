@@ -1,9 +1,0 @@
---- walk edit MaxnumNumZZ32; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:12:35Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 8.44 6.63 3.93 7/170 11797
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-b MAXNUM 1 = 3 : ZZ32
-rc=0 secs=28

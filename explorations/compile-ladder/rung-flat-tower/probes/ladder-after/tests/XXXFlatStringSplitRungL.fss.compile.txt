@@ -1,9 +1,0 @@
-/home/user/fortress-flat/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:9:30-37:
-    No such method String.split.
-/home/user/fortress-flat/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:10:38-56:
-    No such method String.splitWithOffsets.
-/home/user/fortress-flat/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:11:12-13:
-    Wrong number or kind of static arguments for function: BIG +
-/home/user/fortress-flat/ProjectFortress/tests/XXXFlatStringSplitRungL.fss:11:36-37:
-    Wrong number or kind of static arguments for function: BIG +
-File XXXFlatStringSplitRungL.fss has 4 errors.

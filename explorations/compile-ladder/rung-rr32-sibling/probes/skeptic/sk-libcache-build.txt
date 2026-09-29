@@ -1,7 +1,0 @@
-== LibraryBuiltin/AnyType.fss 12:58:00
-== LibraryBuiltin/CompilerBuiltin.fss 12:58:22
-== ../Library/CompilerLibrary.fss 12:59:51
-== ../Library/CompilerAlgebra.fss 13:00:32
-== ../Library/CompilerSystem.fss 13:00:35
-done 13:00:37
-EXIT=0

@@ -1,7 +1,0 @@
-component UnwrittenSum2
-export Executable
-run() = do
-    r = SUM[j <- 0#3] j
-    println(r.asString " : " r.ilkName)
-end
-end

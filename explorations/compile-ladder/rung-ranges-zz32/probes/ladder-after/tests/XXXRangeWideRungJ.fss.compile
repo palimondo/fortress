@@ -1,4 +1,0 @@
-/home/user/fortress-ranges/ProjectFortress/tests/XXXRangeWideRungJ.fss:10:12-20:
-    Could not check call to operator :
-    - (ZZ32, ZZ32)->Range is not applicable to an argument of type (ZZ64, ZZ64).
-File XXXRangeWideRungJ.fss has 1 error.

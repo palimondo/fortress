@@ -1,7 +1,0 @@
-tests	ArrayOperatorsBesideLibrary.fss
-tests	ArrayScalarExtension.fss
-tests	RandomTest.fss
-tests	ShuffleTest.fss
-tests	matrixOps.fss
-tests	sparseMatrix.fss
-tests	vectorOps.fss

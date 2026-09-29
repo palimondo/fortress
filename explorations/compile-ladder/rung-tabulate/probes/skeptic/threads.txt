@@ -1,8 +1,0 @@
-# skeptic, rung A: the differentials at FORTRESS_THREADS=4 against FORTRESS_THREADS=1 (the moved and copied bodies write array elements inside a parallel for); outputs compared whole
-# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; openjdk 25.0.4; load 9 to 16
-identical  edit SkShapes.fss (threads 1 and 4)
-identical  edit SkOldFillAny.fss (threads 1 and 4)
-identical  edit SkTab3.fss (threads 1 and 4)
-identical  edit SkMss.fss (threads 1 and 4)
-identical  base SkShapes.base.fss (threads 1 and 4)
-edit ProjectFortress/tests/TabulateRungA.fss at 4 threads: rc=0

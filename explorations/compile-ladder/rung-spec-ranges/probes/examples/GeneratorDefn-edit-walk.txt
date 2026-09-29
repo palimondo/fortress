@@ -1,4 +1,0 @@
-# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 8.27 6.47 4.31; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree cb4551e2d+working-tree-edits
-# walk SpecData/examples/advanced/Generators.GeneratorDefn.fss
-<|2, 4, 6, 8, 10, 12, 14, 16, 18, 20|>
-rc=0

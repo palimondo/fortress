@@ -1,7 +1,0 @@
-component Rnd6
-export Executable
-run() = do
-    r = round(widen(3))
-    println(r.asString " : " r.ilkName)
-end
-end

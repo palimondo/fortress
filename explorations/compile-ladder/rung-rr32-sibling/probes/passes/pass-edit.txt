@@ -1,3 +1,0 @@
-start 2026-09-29T10:54:05Z load: 12.05 22.25 26.25 shadow: none
-done 2026-09-29T12:08:33Z: 440 logs
-EXIT=0

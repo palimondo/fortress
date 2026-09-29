@@ -1,2 +1,0 @@
-# row 388's nine flat shapes (and m.scale(i) with the two controls) on the repair round's build (row388-edit.txt) against the nested tower's values (explorations/compile-ladder/rung-flat-tower/probes/row388-base.txt:8-19); diff of the result lines, empty when every shape answers the nested tower's value:
-(no difference: all twelve lines equal)

@@ -1,7 +1,0 @@
-# DComp (measurement D's program under the compiler's library) through TestsD, build base (/home/user/fortress-infer/tmp/build-base); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 10.02 10.33 10.58; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-=== DComp.fss
-ProjectFortress/compiler_tests/DComp.fss:9:34-37:
-    Right-hand side has type BoxT[\BottomType\], but declared type is BoxT[\ZZ64\].
-File DComp.fss has 1 error.
-### rc=-1 DComp.fss ms=26875
-### all ms=26885

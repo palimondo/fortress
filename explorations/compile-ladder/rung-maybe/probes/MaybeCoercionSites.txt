@@ -1,3 +1,0 @@
-compile-rc=0
-PASS
-run-rc=0

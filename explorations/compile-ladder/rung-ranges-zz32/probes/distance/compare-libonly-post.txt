@@ -1,5 +1,0 @@
-DISTANCE UP   626 -> 627 (+1)
-    kind typecheck              387 -> 388    (+1)
-    class NM                     53 -> 54     (+1)  names the api does not declare (getters and methods of Range, String, Generator)
-    unit component RangeInternals     75 -> 76     (+1)
-    crash gone   decl	ObjectDecl RangeInternals.fss:363:1-442:2	RuntimeException	Not in the trait table: FortressLibrary.GeneratorZZ32 FortressLibrary.GeneratorZZ32 @ RangeInternals.fss:370:13-386:10

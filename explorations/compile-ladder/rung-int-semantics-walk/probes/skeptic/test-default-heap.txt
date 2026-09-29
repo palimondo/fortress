@@ -1,3 +1,0 @@
-Exception in thread "main" java.lang.OutOfMemoryError
-Caused by: java.lang.OutOfMemoryError: Java heap space
-exit=1

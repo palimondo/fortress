@@ -1,6 +1,0 @@
-# the printed values of each microGPT check, base against flat (the final library at c02b558c1), with the machine lines, the
-# timings ('(N ms)', 'total N s', 'secs=') and the Rats temp path removed; an empty diff means identical printed values
-## MicroGptFlatCheck
-(diff rc=0)
-## MicroGptAplCheck
-(diff rc=0)

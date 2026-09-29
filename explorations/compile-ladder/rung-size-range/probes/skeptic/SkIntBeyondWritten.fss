@@ -1,9 +1,0 @@
-component SkIntBeyondWritten
-export Executable
-intw[\int i\](): ZZ64 = i
-run(): () = do
-  println("REACHED")
-  println(intw[\2147483648\]())
-  println("END")
-end
-end

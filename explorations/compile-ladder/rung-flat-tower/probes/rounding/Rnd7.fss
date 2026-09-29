@@ -1,7 +1,0 @@
-component Rnd7
-export Executable
-run() = do
-    r = |\widen(3)/|
-    println(r.asString " : " r.ilkName)
-end
-end

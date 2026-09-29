@@ -1,5 +1,0 @@
-ProjectFortress/compiler_tests/RangeEqRungJLink.test:1:tests=XXXRangeEqRungJ
-ProjectFortress/compiler_tests/XXXRangeEqRungJ.test:1:tests=XXXRangeEqRungJ
-ProjectFortress/compiler_tests/XXXExtremumRungJ.test:1:tests=XXXExtremumRungJ
-ProjectFortress/compiler_tests/XXXExtremumRungJ.fss:3:component XXXExtremumRungJ
-ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss:3:component XXXRangeEqRungJ

@@ -1,9 +1,0 @@
-component SkShiftFn
-export Executable
-
-shift(s: String, n: ZZ32): String = s || n.asString
-
-run(): () = do
-    println("a top-level function named shift = " || shift("x", 3))
-  end
-end

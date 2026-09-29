@@ -1,3 +1,0 @@
-# walk1.sh XPowRR32 base 2026-09-29T10:35:24Z; tree 76f4829b3 +  3 files changed, 31 insertions(+); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 31.29 32.78 27.53; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
-PowRR32: 2.755676 : RR32
-rc=0

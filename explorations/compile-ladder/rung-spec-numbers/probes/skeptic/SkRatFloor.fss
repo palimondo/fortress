@@ -1,8 +1,0 @@
-component SkRatFloor
-export Executable
-run() = do
-  pinf: QQ = 1/0
-  println("floor(1/0):")
-  println(floor(pinf))
-end
-end

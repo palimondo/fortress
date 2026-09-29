@@ -1,6 +1,0 @@
-tests	ExceptionScoping.fss
-tests	oddJuxt.fss
-tests	maybeTest.fss
-tests	naturalsTest.fss
-tests	HeapTest.fss
-tests	IntMapTest.fss

@@ -1,6 +1,0 @@
-# comp.sh OpAnyZZ base 2026-09-28T23:12:48Z; tree bce66f1fa with its working changes; source explorations/reviews/before-n-questions/fork/OpAnyZZ.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.15 2.47 1.48; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-op(z, z):  op generic[ ZZ32 , ZZ32 ]
-run rc=0

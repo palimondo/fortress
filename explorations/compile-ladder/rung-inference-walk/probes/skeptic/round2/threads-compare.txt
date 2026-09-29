@@ -1,2 +1,0 @@
-# diff of walk-edit-threads4.txt against walk-edit.txt after each file's machine line (and walk-edit.txt's df line)
-identical after each file's machine line

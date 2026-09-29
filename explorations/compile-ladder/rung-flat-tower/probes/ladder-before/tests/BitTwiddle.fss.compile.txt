@@ -1,3 +1,0 @@
-/home/user/fortress-flat/tmp/ladder-base-tests/BitTwiddle.fss:15:17-23:
-    Integral is undefined.
-File BitTwiddle.fss has 1 error.

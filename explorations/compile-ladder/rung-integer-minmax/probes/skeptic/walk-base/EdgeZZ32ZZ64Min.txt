@@ -1,9 +1,0 @@
---- walk base EdgeZZ32ZZ64Min; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax/tmp/skbase 2026-09-29T03:09:27Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 8.79 5.11 2.94 6/144 9118
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-z MIN w = -4611686014132420609 : QQ
-rc=0 secs=27

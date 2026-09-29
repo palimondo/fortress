@@ -1,3 +1,0 @@
-# walk1.sh XBind base 2026-09-29T10:03:06Z; tree 382b9fe7f + ; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 17.94 10.89 5.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
-Bind: 1.5 : RR32
-rc=0

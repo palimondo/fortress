@@ -1,2 +1,0 @@
-# pass baseA: tree tmp/basetree at ff1649cea (base library and base tests, FORTRESS_AUTOHOME set to it), this worktree's build
-# nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; MHz 2100.000; load 10.95 14.48 15.80; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; df 8.9G free

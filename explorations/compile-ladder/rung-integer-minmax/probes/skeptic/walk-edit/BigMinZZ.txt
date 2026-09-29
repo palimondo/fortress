@@ -1,9 +1,0 @@
---- walk edit BigMinZZ; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:16:55Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 7.92 7.28 4.86 3/164 14433
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-BIG MIN [i <- 1#5] big(i) = 1 : ZZ
-rc=0 secs=18

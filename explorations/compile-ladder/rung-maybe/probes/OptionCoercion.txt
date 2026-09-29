@@ -1,4 +1,0 @@
-compile-rc=0
-empty=None full=Some(7)
-PASS
-run-rc=0

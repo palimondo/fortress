@@ -1,3 +1,0 @@
-f took a Vec[3]
-g took a Vec[4]
-rc=0

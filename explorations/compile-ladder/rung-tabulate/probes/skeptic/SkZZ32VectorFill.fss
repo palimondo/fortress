@@ -1,9 +1,0 @@
-component SkZZ32VectorFill
-export Executable
-run():() = do
-  v = makeZZ32Vector(3).fill(fn (i:ZZ32):ZZ32 => 5 i)
-  println("v " v[0] " " v[1] " " v[2])
-  w = makeZZ32Vector(3).fill(7)
-  println("w " w[0] " " w[2])
-end
-end

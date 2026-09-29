@@ -1,3 +1,0 @@
-ProjectFortress/tests/Generator2Test.fss
-ProjectFortress/tests/QuickCheckTest.fss
-ProjectFortress/tests/ReflectiveQuickCheckTest.fss

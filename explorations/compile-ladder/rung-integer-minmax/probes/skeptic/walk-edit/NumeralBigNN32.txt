@@ -1,9 +1,0 @@
---- walk edit NumeralBigNN32; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax 2026-09-29T03:15:39Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 7.43 7.05 4.59 9/169 13669
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-u MIN 3000000000 = 3 : ZZ64
-rc=0 secs=25

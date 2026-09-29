@@ -1,7 +1,0 @@
---- baseA 2026-09-29T09:55:26Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 4.35 1.54 0.72 1/110 2641
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1

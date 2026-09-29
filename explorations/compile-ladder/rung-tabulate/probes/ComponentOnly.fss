@@ -1,9 +1,0 @@
-component ComponentOnly
-export Executable
-run():() = do
-  v3 = array3[\ZZ32,2,2,2\](5)
-  println("array3(v), declared in the component and not the api: " v3[1,1,1])
-  x = __thrower[\ZZ32\]()
-  println("__thrower, declared in the component and not the api: " x)
-end
-end

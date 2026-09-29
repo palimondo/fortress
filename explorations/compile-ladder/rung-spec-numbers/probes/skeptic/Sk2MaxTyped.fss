@@ -1,9 +1,0 @@
-component Sk2MaxTyped
-export Executable
-run() = do
-  n: ZZ32 = 4
-  m: ZZ32 = BIG MAX[\ZZ32\][j <- 0#n] j
-  println("BIG MAX[\\ZZ32\\][j <- 0#4] j:")
-  println(m)
-end
-end
