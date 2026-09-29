@@ -1,0 +1,9 @@
+# climb batch N merged-diff review, second pass: rung I's two Bottom-bound probes under walk on the merged tree (main at 8ec96b3e3, built by the gate from 2770550c3; no source changed since)
+# machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 0.29 0.11 0.28; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+#### SigmaResultOnly: walk (2026-09-29T08:11:48Z); source explorations/compile-ladder/rung-inference-checker/probes/repair/SigmaResultOnly.fss, run from a scratch copy
+q: other
+walk rc=0
+#### SkBottomRun: walk (2026-09-29T08:11:51Z); source explorations/compile-ladder/rung-inference-checker/probes/skeptic/SkBottomRun.fss, run from a scratch copy
+before
+c1: -1
+walk rc=0
