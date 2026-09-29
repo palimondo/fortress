@@ -16,6 +16,9 @@ RING    Question 6, way "the ring bound": NUMOBJ's three objects, and every T ex
 RINGVM  Question 6, the ring bound on Vector and Matrix alone: RING without the scalar-extension block,
         whose own T extends Number is left as it is (under walk the block's MAX with the ring bound is
         refused beside StandardTotalOrder's MAX, captures/walk-RING-vectorOps.txt).
+RINGNUM Question 6, RINGVM's places with the two-trait bound T extends { Number, MultiplicativeRing[\\T\\] },
+        the library's own form of a bound with two traits (MaxSumReductionPair, FortressLibrary.fss:3179),
+        which keeps Number's exclusions beside the ring's arithmetic.
 STORE   Question 3, the library's own way around the checker's refusal of arithmetic in a size:
         the three storing objects whose field is sized by a product (__DefaultArray2,
         __DefaultMatrix, __DefaultArray3) make it with the library's run-time-size factory
@@ -60,6 +63,11 @@ def main(d, v):
         fss = objects(fss, 'MultiplicativeRing[\\T\\]')
         fss = sub_lines(fss, 2300, 2800, r'\bT extends Number\b', ring, 26, 'component arrays')
         fsi = sub_lines(fsi, 1540, 1735, r'\bT extends Number\b', ring, 32, 'api arrays')
+    elif v == 'RINGNUM':
+        both = 'T extends { Number, MultiplicativeRing[\\T\\] }'
+        fss = objects(fss, '{ Number, MultiplicativeRing[\\T\\] }')
+        fss = sub_lines(fss, 2300, 2800, r'\bT extends Number\b', both, 26, 'component arrays')
+        fsi = sub_lines(fsi, 1540, 1735, r'\bT extends Number\b', both, 32, 'api arrays')
     elif v == 'STORE':
         fss = sub_exact(fss, 'mem:PrimitiveArray[\\T, (s0 s1) \\] = PrimitiveArray[\\T, (s0 s1) \\]()',
                         'mem:Array[\\T,ZZ32\\] = primitiveArray[\\T\\](s0 s1)', 2, 'rank-2 stores')
