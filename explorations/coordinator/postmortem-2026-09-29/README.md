@@ -14,6 +14,7 @@ His points, held while he reads, are the four groups of 18:25 to 18:52 UTC in `.
 
 - `characterization.md`: every batch from git (what each changed in Fortress, what it committed beside that, cited against uncited, its coordinator-record churn and ledger rows), the token spend of every run by stage, and the revival's tests measured against the team's test-suite practice; ten read-only readers of workflow `wf_576bd1f3-f0c`, their sections as returned.
 - `measures-6.5b.md`: the coordinator's measurements of batch 6.5b given to Pavol in chat (what it changed in Fortress, what it committed beside that, its tokens by stage, the 18 tests that vary from run to run, all the team's).
+- `archaeology-testing.md`: where the testing practice and the skeptic came from, by a Sonnet archaeology worker: Pavol's words on test-first (a failing test written first, seen failing, then the fix, a permanent check, never a captured file), the skeptic as the coordinator's role with an adversarial default, the recorded failure's growth step by step, the reviews that never questioned it, where it drifted with first commits, and his hypothesis that his ask for an adversarial skeptic was the original sin (in part, and not as his request).
 - `archaeology.md`: how the batches came to commit probes, captures and logs, and how the corpus-wide output comparison became standing; by a Sonnet archaeology worker, read-only, from both sessions' transcripts and the commit history. Its findings, in short:
   - No message ever asked Pavol whether a rung's probes, captures, build logs and scratch should go to `main`, and no rule says to commit scratch. The practice is the sum of six small steps, each put in by the coordinator or a worker (section 1).
   - On 2026-09-19 at 12:50 he asked "do we need the logs? … text would keep accumulating in the repo. And I don't think it would buy us anything." The coordinator kept the gate's full logs out, which held, and in the same change made ".txt, never .out or .log" the rule for every rung's captures so that `.gitignore` could not catch them, and did not tell him that part stood; its summary to him said "no log files in the repository" (section 8).
@@ -31,5 +32,6 @@ Read from the transcripts' model fields on 2026-09-29 by the coordinator.
 
 ## Still to come here
 
-- On those and the archaeology, a review proposing a new batch practice by an Opus worker and, independently, by Fable (Pavol, 18:42 UTC), put to him one decision at a time.
+- `review-opus.md` and `review-fable.md`: the two independent reviews proposing a new batch practice (Pavol, 18:42 UTC); his answer to their first decision is POSITIONS 2026-09-29, what a batch commits.
+- `synthesis.md`, to come: the new practice, the four remaining questions with defaults for his review, and the lines to change (POSITIONS 2026-09-29, the night's go).
 - The cleaning pass of the committed scratch, and his plan of 2026-09-20 that `main` hold only the changes to Fortress while the process record lives on its own branch (POSITIONS 2026-09-20; `PLAN.md`, the cleaner pass of `main`).
