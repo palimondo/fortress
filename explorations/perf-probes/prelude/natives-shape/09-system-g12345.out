@@ -1,0 +1,8 @@
+label g12345 shadow 'tmp/shadow-g12345' load at start: 6.22 5.38 4.00 14:58:58
+--- shard 0/2
+Shard 0/2: 223 of 446 files
+OK (220 tests)
+--- shard 1/2
+Shard 1/2: 223 of 446 files
+OK (221 tests)
+end 15:02:20

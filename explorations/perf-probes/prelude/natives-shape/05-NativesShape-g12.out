@@ -1,0 +1,101 @@
+$ run-shadow.sh tmp/shadow-g12 (gaps 1 and 2 patched) explorations/perf-probes/prelude/natives-shape/NativesShape.fss
+simpleIntArith?intSaturatingDiv(II)I
+simpleIntArith?intToDouble(I)D
+simpleIntArith?parseInt(Ljava/lang/String;)I
+simpleIntArith?intBitNot(I)I
+simpleIntArith?longOverflowingToInt(J)I
+simpleIntArith?intSaturatingSub(II)I
+simpleIntArith?intOverflowingChoose(II)I
+simpleDoubleArith?doubleExp(D)D
+simpleDoubleArith?doubleDiv(DD)D
+simpleIntArith?intOverflowingMul(II)I
+simpleIntArith?intBitRightShift(II)I
+simpleIntArith?longSaturatingToInt(J)I
+simpleIntArith?longWrappingToInt(J)I
+simpleDoubleArith?doubleMul(DD)D
+simpleDoubleArith?doubleNeg(D)D
+simpleDoubleArith?doubleLT(DD)Z
+simpleIntArith?intSaturatingNeg(I)I
+simpleDoubleArith?doubleACos(D)D
+simpleIntArith?longMaskedToInt(JI)I
+simpleDoubleArith?parseDouble(Ljava/lang/String;)D
+simpleIntArith?intWrappingSub(II)I
+simpleDoubleArith?doubleTan(D)D
+simpleIntArith?intEQ(II)Z
+simpleIntArith?intOverflowingAdd(II)I
+simpleIntArith?intDiv(II)I
+simpleIntArith?intLeftShiftByIntMod32(II)I
+simpleIntArith?intWrappingMul(II)I
+simpleDoubleArith?doubleATan2(DD)D
+simpleDoubleArith?doubleSQRT(D)D
+simpleIntArith?intMul(II)I
+simpleIntArith?intRightShiftByLongMod32(IJ)I
+simpleIntArith?intAbs(I)I
+simpleIntArith?intLT(II)Z
+simpleIntArith?intOverflowingAbs(I)I
+simpleIntArith?intWrappingAbs(I)I
+simpleDoubleArith?doubleLE(DD)Z
+simpleDoubleArith?doubleRound(D)J
+simpleIntArith?longLowHalfToInt(J)I
+simpleDoubleArith?doubleATan(D)D
+simpleDoubleArith?doubleAbs(D)D
+simpleIntArith?intToString(I)Ljava/lang/String;
+simpleIntArith?intSaturatingAdd(II)I
+simpleIntArith?intLeftShiftByLongMod32(IJ)I
+simpleIntArith?iMulL(II)J
+simpleIntArith?intNeg(I)I
+simpleIntArith?longHighHalfToInt(J)I
+simpleIntArith?intLE(II)Z
+simpleDoubleArith?doubleEQ(DD)Z
+simpleIntArith?intAdd(II)I
+simpleIntArith?intWrappingNeg(I)I
+simpleDoubleArith?doubleSub(DD)D
+simpleDoubleArith?doubleFloor(D)D
+simpleIntArith?intBitLeftShift(II)I
+simpleIntArith?intShift(II)I
+simpleDoubleArith?doubleGT(DD)Z
+simpleIntArith?intSaturatingMul(II)I
+simpleIntArith?intOverflowingNeg(I)I
+simpleDoubleArith?doubleSin(D)D
+simpleDoubleArith?doubleGE(DD)Z
+simpleIntArith?intOverflowingSub(II)I
+simpleDoubleArith?floatToDouble(F)D
+simpleDoubleArith?doubleToString(D)Ljava/lang/String;
+simpleDoubleArith?doubleCos(D)D
+simpleIntArith?intGT(II)Z
+simpleIntArith?intExp(II)I
+simpleDoubleArith?doublePow(DD)D
+simpleIntArith?intWrappingDiv(II)I
+simpleDoubleArith?doubleLog(D)D
+simpleIntArith?intRightShiftByIntMod32(II)I
+simpleIntArith?intGE(II)Z
+simpleIntArith?intBitOr(II)I
+simpleIntArith?intOverflowingDiv(II)I
+simpleIntArith?intBitXor(II)I
+simpleIntArith?intSub(II)I
+simpleIntArith?intSlowCautiousChoose(II)I
+simpleIntArith?intToIntPower(II)I
+simpleIntArith?intBitAnd(II)I
+simpleDoubleArith?doubleTruncate(D)J
+simpleDoubleArith?doubleASin(D)D
+simpleIntArith?longToInt(J)I
+simpleDoubleArith?doubleAdd(DD)D
+simpleIntArith?intWrappingAdd(II)I
+simpleDoubleArith?doubleNanoTime()D
+simpleIntArith?intSaturatingAbs(I)I
+simpleDoubleArith?doubleCeiling(D)D
+com.sun.fortress.exceptions.InterpreterBug: /home/user/fortress-natives/explorations/perf-probes/prelude/natives-shape/NativesShape.fss:20:11-19:
+** bug! Non-top-level reference to imported com.sun.fortress.nativeHelpers.simpleIntArith.intLT
+Context:
+/home/user/fortress-natives/explorations/perf-probes/prelude/natives-shape/NativesShape.fss:20:11-19:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+### rc=1

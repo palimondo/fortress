@@ -1,0 +1,30 @@
+(* The shape the library's natives mostly take: methods of a trait and an object,
+   and a functional method, whose bodies call functions bound by `import java`
+   (CompilerBuiltin.fss's form, e.g. `opr <(self, other:ZZ32): Boolean = jIntLT(self, other)`).
+   Walk:     run-shadow.sh <shadow> <caches> NativesShapeMethod.fss
+   Compiled: ./bin/fortress compile NativesShapeMethod.fss; ./bin/fortress run NativesShapeMethod *)
+
+component NativesShapeMethod
+
+import java com.sun.fortress.nativeHelpers.{simpleIntArith.intLT => jIntLT}
+import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.doubleAdd => jDoubleAdd}
+export Executable
+
+trait Measured
+  getter v(): ZZ32
+  below(self, b:ZZ32): Boolean = jIntLT(self.v, b)
+end
+
+object Box(v:ZZ32) extends Measured
+  getter asString(): String = "Box"
+  plus(a:RR64): RR64 = jDoubleAdd(a, 0.5)
+end
+
+run():() = do
+  b = Box(3)
+  println(below(b, 4))
+  println(below(b, 2))
+  println(b.plus(1.0))
+end
+
+end

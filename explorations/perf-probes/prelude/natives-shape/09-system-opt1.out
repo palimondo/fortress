@@ -1,0 +1,8 @@
+label opt1 shadow 'tmp/shadow-opt1' load at start: 4.25 4.11 3.35 14:55:52
+--- shard 0/2
+Shard 0/2: 223 of 446 files
+OK (220 tests)
+--- shard 1/2
+Shard 1/2: 223 of 446 files
+OK (221 tests)
+end 14:58:47

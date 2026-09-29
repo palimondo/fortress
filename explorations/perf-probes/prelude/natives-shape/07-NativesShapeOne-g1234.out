@@ -1,0 +1,18 @@
+$ run-shadow.sh tmp/shadow-g1234 (gaps 1 to 4 patched) explorations/perf-probes/prelude/natives-shape/NativesShapeOne.fss
+com.sun.fortress.exceptions.InterpreterBug: simpleIntArith?intLT(II)Z:0:0:
+Calling fixupArgCount on simpleIntArith.intLT with null params
+Context:
+simpleIntArith?intLT(II)Z:0:0:
+/home/user/fortress-natives/explorations/perf-probes/prelude/natives-shape/NativesShapeOne.fss:15:32-42:
+/home/user/fortress-natives/explorations/perf-probes/prelude/natives-shape/NativesShapeOne.fss:19:11-19:
+toplevel:
+
+Turn on "-debug interpreter" for Java-level stack trace.
+java.lang.Throwable
+	at com.sun.fortress.Shell.failureBoilerplate(Shell.java:748)
+	at com.sun.fortress.Shell.walk(Shell.java:1166)
+	at com.sun.fortress.Shell.walk(Shell.java:1116)
+	at com.sun.fortress.Shell.subMain(Shell.java:483)
+	at com.sun.fortress.Shell.main(Shell.java:362)
+	at com.sun.fortress.Shell.main(Shell.java:349)
+### rc=1
