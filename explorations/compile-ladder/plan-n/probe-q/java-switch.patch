@@ -66,15 +66,32 @@
                  fixedElsewhere.addAll(mentions(ty, tp_set));
                  at.unify(envForInference, tp_set, abm, ty);
                  continue;
-@@ -287,6 +299,7 @@
+@@ -256,6 +268,10 @@
+                                    List<StaticParam> rechecks, Set<String> tp_set, Environment env,
+                                    List<FType> bounds, Environment within) {
+         LinkedHashSet<FType> candidates = new LinkedHashSet<FType>();
++        /* Probe Q, variant (-Dprobe.q.numeral=zz32): a type parameter that only numerals fix takes
++           ZZ32 (ZZ64, ZZ by magnitude) whatever its bound, when that type is admitted; Q1's default
++           widened to every inference walk makes from values. */
++        String numeralRead = "zz32".equals(System.getProperty("probe.q.numeral")) ? numeralDefault(vals) : null;
+         for (FValue v : vals) candidates.addAll(v.type().getTransitiveExtends());
+         for (FValue v : vals) candidates.addAll(Coercions.coercionTargets(v, within));
+         if (bounds != null) candidates.addAll(bounds);
+@@ -286,7 +302,13 @@
+             }
              admitted.add(c);
          }
++        if (numeralRead != null) {
++            for (FType c : admitted) {
++                if (numeralRead.equals(c.getName())) return c;
++            }
++        }
          FType best = null;
 +        boolean tie = false;
          for (FType c : admitted) {
              boolean narrower = true;
              for (FType d : admitted) {
-@@ -296,11 +309,37 @@
+@@ -296,11 +318,37 @@
                  }
              }
              if (narrower) {
@@ -404,6 +421,35 @@
      public String getString() {
          return at() + ": " + getFnName().toString() + Useful.listInParens(getDomain()) + ":" + getRange();
      }
+--- a/com/sun/fortress/interpreter/glue/prim/FlatString.java
++++ b/com/sun/fortress/interpreter/glue/prim/FlatString.java
+@@ -80,7 +80,7 @@
+ 
+         @Override
+         public final FString applyMethod(FObject self, FValue lo, FValue hi) {
+-            return FString.make(f(((FString) self).getString(), ((FInt) lo).getInt(), ((FInt) hi).getInt()));
++            return FString.make(f(((FString) self).getString(), lo.getInt(), hi.getInt()));
+         }
+     }
+ 
+@@ -98,7 +98,7 @@
+ 
+         @Override
+         public final FChar applyMethod(FObject self, FValue i) {
+-            return FChar.make(f(((FString) self).getString(), ((FInt) i).getInt()));
++            return FChar.make(f(((FString) self).getString(), i.getInt()));
+         }
+     }
+ 
+@@ -116,7 +116,7 @@
+ 
+         @Override
+             public final FString applyMethod(FObject self, FValue s, FValue i) {
+-            return FString.make(f(((FString) self).getString(), ((FString) s).getString(), ((FInt) i).getInt()));
++            return FString.make(f(((FString) self).getString(), ((FString) s).getString(), i.getInt()));
+         }
+     }
+ 
 --- a/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
 +++ b/com/sun/fortress/interpreter/glue/prim/IntLiteral.java
 @@ -17,6 +17,8 @@
@@ -465,3 +511,14 @@
      private static BigInteger choose(BigInteger n, BigInteger k) {
          BigInteger nmk = n.subtract(k);
          if (nmk.compareTo(k) < 0) {
+--- a/com/sun/fortress/interpreter/glue/prim/ReflectCollection.java
++++ b/com/sun/fortress/interpreter/glue/prim/ReflectCollection.java
+@@ -104,7 +104,7 @@
+                 return error(errorMsg("This collection doesn't support a direct indexing."));
+             }
+ 
+-            int i = ((FInt) i0).getInt();
++            int i = i0.getInt();
+             try {
+                 return self.adapt(((List<Object>) collection).get(i));
+             }
