@@ -25,6 +25,9 @@ ADD = "doc:explorations/reviews/comprises-type-level-proof-addendum.md#"
 CONV = "positions:2026-09-28 two decisions of Fable's judgement"
 BOUND = "positions:2026-09-29 implicit bound"
 COERC = "positions:2026-09-29 walk's run-time choice of coercions"
+PIR = "positions:2026-09-29 paper's instance rule"
+REC = "doc:explorations/reviews/decisions-review/popl-recheck.md#"
+EXT = "doc:research/extracts/ParkPOPL2019-extract.md#"
 
 S_BRIEFING = [
   (ANSWER9, "The decision this rung writes into the text: the sentence goes, the 2011 model with the positional rule, the original kept; cite it in every callout and entry."),
@@ -41,7 +44,8 @@ S_BRIEFING = [
   ("positions:2026-09-27 launch of phase 3's batches", "Q2 and Q3 taken at their defaults and listed for his review; you follow Q3's default."),
   ("positions:2026-09-28 comprises clause row 459", "Batch 7C's value reading of a comprises clause, which item 26's decision carries into the four passages and the Meet Rule's closed-trait case."),
   (ITEM26, "Item 26 decided: option 1 with the proof addendum's three points; your four passages, covering, the Meet Rule's case and the proof appendix's revision rest on it."),
-  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration at the instance the value fixes, the least instance where it fixes none; your dispatch sentence and example follow it."),
+  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration runs; which declaration your dispatch sentence and example give rests on it, its instance on the next entry."),
+  (PIR, "The paper's instance rule: each type parameter at its declared bound under the call's static return type; your dispatch sentence, its callout and the inference chapter's bound in place of the union follow it."),
   (COERC, "Item 16 decided: walk's choice of a coercion on the value is the interpreter's limit; your one callout at the coercion chapter's resolved-statically passage says so, cites its two tests and names the switch-over."),
   ("positions:2026-09-19 answering the open question", LIB_PRACTICE),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
@@ -52,8 +56,9 @@ S_BRIEFING = [
   ("ledger:491", "The four passages that read a comprises clause at the level of types, item 26; under its decision you restate them at the level of values and close the row."),
   ("ledger:492", "Both paths refuse the Meet Rule's own example, which your chapter keeps as valid; rungs C and W repair it, and you do not reword it."),
   ("ledger:487", "The closure the coverage proof rests on, unenforced across components; name it in the proof appendix as its open assumption, not this batch's, and append that note to the row."),
-  ("ledger:496", "A generic declaration beside a plain one at run time, item 30; under its decision your dispatch sentence gives the answer, and you note the row moves to home 2."),
+  ("ledger:496", "A generic declaration beside a plain one at run time, item 30; your dispatch sentence gives the declaration and the instance, and you note the row moves to home 2."),
   ("ledger:499", "The positional reading of generic arms at run time; the passages it cites are those you rewrite, so say which answer your text gives and which it leaves."),
+  ("ledger:516", "The lone type parameter the chapter gave the union; your sentence gives the bound, both paths take a written trait bound, and the unbounded case is the departure you list."),
   ("doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says", "What the revised text states, rule by rule; your wording follows it and adds nothing it does not name."),
   ("doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces", "The two rules rung C builds; your text states exactly these, so check each sentence against it."),
   ("doc:explorations/reviews/overloading-judgement.md#8. Where this differs from the workers and from the S2 judgement", "Why row 398 is the positional rule's and not the sentence's; the decision record's account of the permuted override."),
@@ -72,7 +77,9 @@ S_BRIEFING = [
   (ADD + "Replacement lemmas and theorem", "The appendix's revision step by step: existence kept, static uniqueness replaced by run-time uniqueness, the refinement and result-type steps that give the call's type."),
   (ADD + "Application to the existing brief", "What the addendum asks of each rung; its S line is yours, and its C and W lines are what your text states they build."),
   (ADD + "What coverage checking assumes", "Why row 487 is the proof's open assumption, a closure the checker does not enforce across components; name it in the appendix, never as repaired."),
-  ("doc:explorations/reviews/plain-beside-generic-judgement.md#4. The decision", "Item 30's option 1, which Pavol took on 2026-09-29: the generic declaration runs at the instance the value fixes."),
+  ("doc:explorations/reviews/plain-beside-generic-judgement.md#4. The decision", "Item 30's option 1, which Pavol took on 2026-09-29: the generic declaration runs; its rule for an instance the value does not fix is replaced by the paper's instance rule."),
+  (REC + "1. The verdicts the paper bears on", "The recheck against the POPL 2019 paper: 1.6 and 1.9 are your dispatch and inference sentences, 1.1, 1.3, 1.4, 1.5 and 1.7 your five defaults; follow its citations, with the wording yours."),
+  (EXT + "4.2 The dynamic choice", "The paper's dispatcher in brief, its solving step and why it takes the intersection of the upper bounds; the source your dispatch sentence and its Appendix I entry cite."),
   ("doc:explorations/reviews/plain-beside-generic-judgement.md#5. The specification change, in the S1 form", "The dispatch sentence, its two cross-references and the example's second direction under item 30's decision; the wording is yours."),
   ("doc:explorations/reviews/batch-7C-review.md#Findings@Item 26 belongs before batch 7b", "Why item 26 bears on your chapter: the Meet Rule's example is in it."),
   ("doc:explorations/reviews/comprises-type-level-ways.md#For batch 7b's record", "The ways note's points for this batch: the coverage case beside answer 9's Meet Rule, stated as an addition to the paper's form."),
@@ -82,8 +89,9 @@ S_BRIEFING = [
   ("doc:Specification/appendices/overloading-function.tex#Proof of Overloading Resolution for Functions", "The proof appendix whole, which you revise under item 26's decision: its lemmas and theorems by label, the original you quote from the frozen copy."),
   ("doc:Specification/basic/conversions-coercions.tex#Coercion Resolution", "The coercion chapter's resolution, where your cross-reference sentence goes at its three passages and item 16's callout at its passage on static resolution."),
   ("doc:Specification/basic/trait-parameters.tex#Type Parameters", "The implicit bound, which you revise under Q1: batch N's rung T names Any in its chapter's callout and leaves the sentence to you."),
-  ("doc:Specification/basic/inference.tex#Type Inference", "Batch N's inference chapter, whole: reword its first callout for the passages you revise, add walk's named supertype to its interpreter's callout, cite its instantiation step, and leave its rule as it is."),
-  ("doc:Specification/appendices/changes.tex#The inference of a call's static arguments", "Its Appendix I entry: reword the rationale's claim that the chapter states the rule the checker builds and no more, and list rows 508, 515, 516 and 518 in its Effect as the checker's departures."),
+  ("doc:Specification/basic/inference.tex#Type Inference", "Batch N's inference chapter, whole: reword its first callout, add walk's named supertype to its interpreter's callout, replace its union sentence by the bound, and leave the rest of its rule and its Bottom callout."),
+  ("doc:Specification/appendices/changes.tex#The inference of a call's static arguments", "Its Appendix I entry: record the bound in its Change and Rationale, reword its claim to state no more than the checker builds, and list rows 508, 515, 516 and 518 in its Effect."),
+  ("doc:Specification/appendices/changes.tex#Instantiation exclusion", "Route A's entry, whose Rationale gains one citation under the recheck's item 1.1, the paper's ancestor rule beside the 2011 paper and the Types chapter; nothing else of it changes."),
   ("doc:explorations/reviews/batch-N-review.md#Findings@chapter says it states no more", "Why the inference chapter is yours: four gated rows contradict its claim, their tests named here, and batch 7C's rung X listed its checker's departures the same way."),
   ("doc:Specification/appendices/future.tex#Functions and Overloading", "The future-work entries on overloading: mark the relaxation done, and answer Jan's pair and the exclusion question."),
   ("doc:Specification/appendices/changes.tex#Initializing an array from a function", "An entry that does not follow from route A and says so; the model for your entries' first sentence, and under item 23's default you reword the introduction to say the entries follow the revival's decisions, each naming its own."),
@@ -108,8 +116,9 @@ S_BRIEFING = [
 ]
 S_CHECKS = [
   ANSWER9, CONV, "positions:2026-09-26 S1", "positions:2026-09-26 first of the batch-5 answers", "positions:2026-09-26 lineage note",
-  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30, BOUND, COERC,
-  "ledger:491", "ledger:496", "ledger:499", "ledger:487",
+  "positions:2026-09-28 comprises clause row 459", ITEM26, ITEM30, PIR, BOUND, COERC,
+  "ledger:491", "ledger:496", "ledger:499", "ledger:487", "ledger:516",
+  REC + "1. The verdicts the paper bears on",
   "doc:explorations/reviews/overloading-judgement.md#3.4 What the revised specification says",
   "doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces",
   "doc:explorations/reviews/conversion-overloading-judgement.md#1. The rule",
@@ -135,7 +144,8 @@ C_BRIEFING = [
   ("positions:2026-09-26 answer 12", "Decision 3 in overload sets, a size the call cannot fix refused at the call; your rules keep that refusal."),
   ("positions:2026-09-28 comprises clause row 459", "Batch 7C's checker reading of a clause; row 492's coverage check sits beside it, local to overload checking."),
   (ITEM26, "Item 26 decided: option 1 with the proof addendum's three points; row 492's checker half, the typing of the call between and the acceptance pair rest on it."),
-  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration at the instance the value fixes; row 496's expected-failure pairs rest on it."),
+  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration runs; row 496's expected-failure pairs rest on it."),
+  (PIR, "The paper's instance rule: your expected-failure pair where the paper's instance and the value's type differ, the ArrayList/List set and the lone-parameter tests rest on it; no checker change for it."),
   ("positions:2026-09-21 library route", "No declaration goes into the compiler's prelude; a library declaration your rules refuse is repaired in the library, by rung L."),
   ("positions:2026-09-26 answer 11", "The count is reported and never red on its own; declare the total you measure."),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
@@ -149,6 +159,7 @@ C_BRIEFING = [
   ("ledger:495", "Generic dotted methods keep rung G's dispatch defects; legal programs your rules must keep accepting."),
   ("ledger:496", "A generic beside a plain declaration at run time; under item 30's decision you write its two expected-failure pairs, the repair staying in phase 5."),
   ("ledger:494", "The ZZ32 spelled two ways at run time, one of row 496's two crashes; the remainder your expected failure pins."),
+  ("ledger:516", "The lone type parameter: you turn its compiled test into a test of the written bound, and pin the unbounded case, the union where the text now gives Any, as a new expected failure."),
   ("doc:explorations/reviews/overloading-judgement.md#3.5 What the checker enforces", "The recommendation's account of the two rules; one way to build the first, among the ways you list."),
   ("doc:explorations/reviews/overloading-judgement.md#3.7 The four defects", "Defects 2 and 3, their homes and tests; you open both rows."),
   ("doc:explorations/reviews/overloading-judgement.md#8. Where this differs from the workers and from the S2 judgement", "Why the paper accepts the permuted override and the positional rule refuses it."),
@@ -172,6 +183,10 @@ C_BRIEFING = [
   (ADD + "Concrete acceptance pair for rung C", "Astra's two programs, your tests as written: the good one in both declaration orders, the bad one refused on the Return Type Rule."),
   ("doc:explorations/reviews/comprises-type-level-ways.md#For batch 7b's record", "OwnClauseBetween, the shape with two minimal candidates your repair meets."),
   ("doc:explorations/reviews/plain-beside-generic-judgement.md#6. Where it lands, and what it costs", "Row 496's two expected-failure pairs and the unread annotation, under item 30's decision."),
+  (REC + "1.2 Answer 9", "The paper's ArrayList/List set and its existential reduction; your test of it, plain or an expected failure as the checker answers on the base, and no checker change."),
+  (REC + "1.6 Item 30", "Where the paper's instance and the value's type differ, the Box shape your expected-failure pair asserts, and where they agree."),
+  (REC + "1.9 Row 516", "The union replaced by the bound; your rewrite of the lone-parameter test and its unbounded expected failure, for batch 8's checker rung to flip."),
+  ("doc:ProjectFortress/compiler_tests/XXXInferLoneBoundUnion.fss", "The compiled test that pins the union; you rewrite it to the written bound and rename it, and move the unbounded case into an expected failure of its own."),
   ("doc:explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.txt", "Both paths' refusal of the Meet Rule's example; the recorded failure of row 492's test."),
   ("doc:Specification/advanced/overloading.tex#Overloaded Functional Declarations", "The rules the checker enforces, in the specification's words; the Meet Rule's example is in it."),
   ("doc:Papers/Types/rules.tick#Overloading Rules", "The paper's three rules, the standard your return-type rule is checked against."),
@@ -213,6 +228,7 @@ C_CHECKS = [
   ADD + "Review of the 7b briefing, at the same base", ADD + "Concrete acceptance pair for rung C",
   "doc:explorations/reviews/plain-beside-generic-judgement.md#6. Where it lands, and what it costs",
   "The XXX expected-failure mechanism in compiler_tests/ and library_tests/",
+  PIR, "ledger:516", REC + "1.6 Item 30",
 ]
 
 W_BRIEFING = [
@@ -221,14 +237,16 @@ W_BRIEFING = [
   ("positions:2026-09-27 numerics plans", "Walk does at dispatch what the checker does; batch N's rung K built the inference you hand the chosen declaration to."),
   ("positions:2026-09-28 comprises clause row 459", "Batch 7C's reading of a clause; row 492's walk half reads clauses the same way."),
   (ITEM26, "Item 26 decided: option 1 with the proof addendum's three points; row 492's walk half rests on it, your load check on rung C's coverage contract."),
-  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration at the instance the value fixes; row 157's fix rests on it."),
+  (ITEM30, "Item 30 decided: option 1 of its judgement, the generic declaration runs; row 157's fix rests on it."),
+  (PIR, "The paper's instance rule: walk keeps the value's type where the value does not fix a parameter, its limit, recorded by rung S; you change no interpreter code for it, only the lone-parameter test."),
   (COERC, "Item 16 decided and closed, not yours: walk's choice of a coercion on the value stays, recorded by rung S's callout; keep XXXCoercionStaticRungC's and XXXCoercionStaticNarrowRungC's verdicts."),
   ("positions:2026-09-27 stops a batch record reserves", STOPS),
   ("positions:2026-09-26 rung D's stop", RUN_TO_RUN),
   ("positions:2026-09-28 rungs re-running measurements", GATE_BEFORE),
   ("ledger:478", "Walk's shared symbolic instantiation, with its four probes; the cache key gains the bounds, and you close the row."),
   ("ledger:159", "Walk's refusal of generic pairs the specification allows; the renamed and swapped pairs, whose two expected-failure walk tests batch 6.5's judge wrote for you to promote."),
-  ("ledger:157", "Walk dropping a generic declaration declared to return Any; under item 30's decision you close it with a forAnyType case."),
+  ("ledger:157", "Walk dropping a generic declaration declared to return Any; under item 30's decision you close it with a forAnyType case, walk's best under the paper's instance rule."),
+  ("ledger:516", "The lone type parameter: you turn walk's test into a test of the written bound, and pin walk's unbounded case, Number where the text now gives Any, as a new expected failure."),
   ("ledger:492", "Walk's half of the Meet Rule example's refusal, at its load check; yours under item 26's decision."),
   ("ledger:491", "Item 26's programs: SkBetweenAssign keeps its walk verdict, BetweenTwoClosed runs once row 492's walk half lands; report both."),
   ("ledger:496", "Walk answers a generic beside a plain declaration both ways today, the plain one only through row 157; report its answers after your change."),
@@ -254,6 +272,9 @@ W_BRIEFING = [
   (ADD + "Rung size and the existing fallback", "Your load check considers a covering family, not one arm that handles part of the overlap; and when the fallback reaches your half."),
   ("doc:explorations/reviews/plain-beside-generic-judgement.md#2. The list's deciding claims, checked", "Claim 3: walk's plain answer is row 157, a missing AnyType case, not a rule; the cause your fix removes."),
   ("doc:explorations/reviews/plain-beside-generic-judgement.md#6. Where it lands, and what it costs", "Your row 157 fix, its test, and the catch in bestMatchInternal you leave alone."),
+  (REC + "1.6 Item 30", "Why walk cannot apply the paper's instance rule, having no static types, and why row 157's fix stands as walk's best."),
+  (REC + "1.9 Row 516", "The union replaced by the bound; your rewrite of walk's lone-parameter test and its unbounded expected failure."),
+  ("doc:ProjectFortress/tests/XXXInferLoneUnionWalk.fss", "Walk's test that pins the union; you rewrite it to the written bound and rename it, and move the unbounded case into an expected failure of its own."),
   ("doc:explorations/reviews/plain-beside-generic-ways/captures/both-paths.txt", "The probes on both paths: PbgLone dying on the AnyType visitor under walk; your failing capture."),
   ("doc:explorations/reviews/plain-beside-generic-ways/captures/ret-object.txt", "The same pair returning Object, running the generic declaration on both paths; the answer your test asserts."),
   ("doc:explorations/compile-ladder/rung-generic-runtime/REPORT.md#10. Every measured defect and its home", "Rung G's defects and homes; row 159's walk half, whose two expected-failure tests batch 6.5's judge wrote and you promote."),
@@ -295,6 +316,7 @@ W_CHECKS = [
   ADD + "Application to the existing brief", ADD + "Rung size and the existing fallback",
   "doc:explorations/reviews/plain-beside-generic-judgement.md#6. Where it lands, and what it costs",
   "An XXX*.fss in the interpreter corpus IS a gated expected-failure test",
+  PIR, "ledger:516",
 ]
 
 L_BRIEFING = [
