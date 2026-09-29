@@ -141,7 +141,11 @@ checked; standing orders and techniques invented when the record held one, or
 lost and re-asked; corrections appended instead of fixed, and one remark of his
 written into several files; a rule followed to the letter where that made
 clutter; a brief that told a worker to "verify, do not trust" the record and to
-measure every way on both paths, so that it re-ran measurements already on file.
+measure every way on both paths, so that it re-ran measurements already on file; a rule of
+the batch workflow applied where its purpose did not hold, so that a finished
+batch waited on a whole gate rerun for a repair that only added tests, or on
+owed tests a later batch could write (POSITIONS 2026-09-29): a rule is weighed
+by what it costs against what it protects.
 
 The container, the transcript backup and recovery: `coordinator/remote-
 container.md`. The batch workflow's stages, stops and tiers:
