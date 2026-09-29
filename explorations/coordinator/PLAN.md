@@ -184,7 +184,7 @@ From the review of his decisions, 2026-09-29 (`reviews/decisions-review/judgemen
 
 - R1. Row 330: `floor`/`ceiling` on a float keep the float, the brackets, `round` and `truncate` return ℤ; reverse the decision of 2026-09-21 before it is built (recommended option 1).
 - R2. Row 447 (item 18): the code generator treats a call typed `Bottom` as a `throw`, one rung before phase 4 (recommended option 1); item 18's nine steps and Fable judgement, approved 2026-09-29, take this as their input.
-- R3. The implicit bound: `Any` said in so many words before batch 7b's rung S writes it (recommended option 1).
+- R3. The implicit bound: `Any`, decided in so many words 2026-09-29 (POSITIONS); batch 7b's rung S writes it.
 - R4. Row 508 (item 34): the checker tries subtyping without the context first, kept when its result converts; one checker rung in batch 8 (recommended option 1).
 - R5. Phase 4's natives half: the `import java` shape probe and the 339-binding count now, one worker session, beside phase 3 (recommended option 1).
 - R6. Phase 5's array questions (decision D's diff re-based, decision A's mechanism, item 15, the element width, the algebra bounds): the clean list now, read-only (recommended option 1).

@@ -479,7 +479,7 @@ Batch N's rung K's methods in `OverloadedFunction.java` and rung I's in the chec
 1. The name for `fill`'s function form: answered, `tabulate` (answer 10); landed in the first run.
 2. `fill` in batch 6 or phase 3: phase 3, the first run.
 3. Question 3's refusal in batch 5 or 6: rung R of batch 6, landed by hand.
-4. The implicit bound: Q1, answered (a) on 2026-09-27; S writes it, batch N's rung T having named `Any` in its callout and left the sentence to S.
+4. The implicit bound: Q1, answered (a) on 2026-09-27 and confirmed by Pavol in so many words on 2026-09-29 (POSITIONS); S writes it, batch N's rung T having named `Any` in its callout and left the sentence to S.
 5. Walk and an unused unknown size: waits for E3 (section 1, read from the record).
 6. `seq`'s device: Q2, at its default (a).
 7. Naden's instantiation: Q3, at its default (a).
