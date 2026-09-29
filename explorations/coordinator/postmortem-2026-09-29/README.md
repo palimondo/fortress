@@ -12,6 +12,7 @@ His points, held while he reads, are the four groups of 18:25 to 18:52 UTC in `.
 
 ## What is here
 
+- `characterization.md`: every batch from git (what each changed in Fortress, what it committed beside that, cited against uncited, its coordinator-record churn and ledger rows), the token spend of every run by stage, and the revival's tests measured against the team's test-suite practice; ten read-only readers of workflow `wf_576bd1f3-f0c`, their sections as returned.
 - `measures-6.5b.md`: the coordinator's measurements of batch 6.5b given to Pavol in chat (what it changed in Fortress, what it committed beside that, its tokens by stage, the 18 tests that vary from run to run, all the team's).
 - `archaeology.md`: how the batches came to commit probes, captures and logs, and how the corpus-wide output comparison became standing; by a Sonnet archaeology worker, read-only, from both sessions' transcripts and the commit history. Its findings, in short:
   - No message ever asked Pavol whether a rung's probes, captures, build logs and scratch should go to `main`, and no rule says to commit scratch. The practice is the sum of six small steps, each put in by the coordinator or a worker (section 1).
@@ -30,6 +31,5 @@ Read from the transcripts' model fields on 2026-09-29 by the coordinator.
 
 ## Still to come here
 
-- `characterization.md`, when it lands: every batch from git (what each changed in Fortress, what it committed beside that, cited against uncited), the token spend of every run by stage, and the revival's tests measured against the team's test-suite practice, from the read-only workflow `wf_576bd1f3-f0c`.
 - On those and the archaeology, a review proposing a new batch practice by an Opus worker and, independently, by Fable (Pavol, 18:42 UTC), put to him one decision at a time.
 - The cleaning pass of the committed scratch, and his plan of 2026-09-20 that `main` hold only the changes to Fortress while the process record lives on its own branch (POSITIONS 2026-09-20; `PLAN.md`, the cleaner pass of `main`).
