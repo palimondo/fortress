@@ -1,0 +1,44 @@
+(* Decision A, way A1: the library's own selection device, a witness typecase in a
+   generic factory (array1, Library/FortressLibrary.fss:2375-2379), with the arm for
+   one element type returning a store written for that type alone (as NativeArray's
+   PrimImmutableRR64Array is, ProjectFortress/LibraryBuiltin/NativeArray.fss:43-52),
+   through the library's own way around the checker's refusal of such an arm: cast
+   (additiveIdentity, Library/FortressLibrary.fss:3140-3155).  No size, so nothing
+   but the device can fail. *)
+component WayACast
+export Executable
+
+trait Arr[\T\]
+  abstract get(i: ZZ32): T
+end
+object DStore(v: RR64) extends Arr[\RR64\]
+  get(i: ZZ32): RR64 = v
+end
+object BStore[\T\](x: T) extends Arr[\T\]
+  get(i: ZZ32): T = x
+end
+
+witness[\T\](): T = throw InvalidRange
+
+mk[\T\](x: T): Arr[\T\] =
+  typecase witness[\T\] of
+    () -> RR64 => cast[\Arr[\T\]\](DStore(cast[\RR64\](x)))
+    else => BStore[\T\](x)
+  end
+
+which(a: Any): String =
+  typecase a of
+    DStore => "DStore"
+    else => "BStore"
+  end
+
+run(): () = do
+  r: RR64 = 1.5
+  z: ZZ32 = 7
+  a = mk[\RR64\](r)
+  b = mk[\ZZ32\](z)
+  println("WayACast RR64 " which(a) " " a.get(0))
+  println("WayACast ZZ32 " which(b) " " b.get(0))
+end
+
+end
