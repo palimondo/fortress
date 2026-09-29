@@ -1,0 +1,127 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	899	0	0	0
+fast-library/LibraryJUTest	86	1	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+system-0/SystemJUTest	113	0	0	0
+system-1/SystemJUTest	112	0	0	0
+system-2/SystemJUTest	112	0	0	0
+system-3/SystemJUTest	114	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 1 minute 26 seconds
+# testFast: BUILD FAILED
+# testFast: Total time: 21 minutes 50 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 3 minutes 4 seconds
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic FirstLoadThreadsRungG run1 threads=4 PASS
+# atomic FirstLoadThreadsRungG run2 threads=4 PASS
+# atomic FirstLoadThreadsRungG run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT SAME   75, declared E: 75
+# distance DISTANCE DOWN   627 -> 624 (-3)
+# distance     kind typecheck              390 -> 387    (-3)
+# distance     class I1                      6 -> 10     (+4)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+# distance     class I3                      8 -> 7      (-1)  integers in generic code: a numeral where a type parameter is expected
+# distance     class BR                     12 -> 10     (-2)  big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+# distance     class OT                    145 -> 141    (-4)  other body errors (one-off library slips and checker limits)
+# distance     unit component FortressBuiltin      9 -> 6      (-3)
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4309:1-4314:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:1242:1-1246:4	InterpreterBug	** bug! FortressLibrary.fss:1244:10 Type is not inferred.
+# distance     crash gone   decl	ObjectDecl FortressBuiltin.fss:587:1-699:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2797:1-2910:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2833.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4290:1-4303:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2424:1-2538:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2442.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+# distance     crash new    decl	ObjectDecl FortressBuiltin.fss:585:1-697:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4312:1-4317:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4293:1-4306:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:1245:1-1249:4	InterpreterBug	** bug! FortressLibrary.fss:1247:10 Type is not inferred.
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2427:1-2541:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2445.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2800:1-2913:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2836.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+# repair-tests	review	fast-library/LibraryJUTest	1	pass: link OK, OK (1 test)	ProjectFortress/library_tests/RR32EqualityRungVLink.test	explorations/compile-ladder/climb-batch-6.5b/repair-review-tests/junit-placed.txt
+# repair-tests	review	fast-library/LibraryJUTest	1	pass: run REACHED, AbstractMethodError, Saw expected failure (Exit code != 0), OK (1 test)	ProjectFortress/library_tests/XXXRR32EqualityRungV.test	explorations/compile-ladder/climb-batch-6.5b/repair-review-tests/junit-placed.txt
+# repair-tests	gate	fast-library/LibraryJUTest	1	pass: link OK, OK (1 test)	ProjectFortress/library_tests/RR32EqualityRungVLink.test	explorations/compile-ladder/climb-batch-6.5b/gate-repair-tests/junit-placed-head.txt
+# repair-tests	gate	fast-library/LibraryJUTest	1	pass: run REACHED, AbstractMethodError, Saw expected failure (Exit code != 0), OK (1 test)	ProjectFortress/library_tests/XXXRR32EqualityRungV.test	explorations/compile-ladder/climb-batch-6.5b/gate-repair-tests/junit-placed-head.txt
+# repair-tests answered	fast-library/LibraryJUTest 86 tests, 1 failure: ProjectFortress/library_tests/XXXRR32EqualityRungV, REACHED then AbstractMethodError as its author meant, failed because its .test read run_out_contains=PASS, which FileTests.java:534-538 and :583-585 fail before the XXX comparison at :587 (key set to run_out_contains=REACHED in b6ee84f70)	ProjectFortress/library_tests/XXXRR32EqualityRungV.test	explorations/compile-ladder/climb-batch-6.5b/gate-repair-tests/junit-placed-head.txt
+# repair-tests total	4	JUnit cases run: two files, each run by the review's repair on b0ebf7e16 with its key edit (committed as b6ee84f70) and by the gate's repair on ee0f277da; both files are already among this summary's rows (fast-library/LibraryJUTest 86, whose 1 failure is the answered line), so the next gate's counts rise by 0 beyond these rows, and its LibraryJUTest reads 86 with 0 failures before any test the next batch adds
