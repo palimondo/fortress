@@ -2,6 +2,8 @@
 
 *Gather's note (climb batch 7b): written at the gather from the skeptic's `skepticText`; the provisional rows 534 to 536 are cited by their final numbers, 548 to 550, and the gather made the seven corrections and opened or refused the four recommended rows (`compile-ladder/climb-batch-7b/RECORD.md`, rung W).*
 
+*Review's note (climb batch 7b's merged-diff review): the provenance block of `REPORT.md`, which finding 6 below could not check, was opened line by line at the gather (the note under `REPORT.md`'s title) and again by the merged-diff review: the problem line's probe, its four captures and the base's `XXXComprisesMeetWalk.fss:13-20`, the specification lines at `811053f15`, the four precedent lines and the three historical files each hold what the block says.*
+
 **Verdict: approved, with seven required corrections.** The change does what answer 9, the conversion decision's four items, row 478, row 157, row 492's walk half and the paper's instance rule ask of walk. Its tests fail on the base and pass on the branch. No stop reserved for Pavol is met.
 
 This file was not committed to the branch. This agent's harness forbids writing report or findings files, which is the refusal the worker met for REPORT.md. Its text is carried here for the gather to write.
