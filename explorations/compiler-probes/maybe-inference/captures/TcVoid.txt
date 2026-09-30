@@ -1,8 +1,0 @@
-=== fortress walk ===
-TcVoid=A
-walk-rc=0
-=== fortress compile ===
-compile-rc=0
-=== fortress run ===
-TcVoid=A
-run-rc=0
