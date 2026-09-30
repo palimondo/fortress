@@ -1,0 +1,9 @@
+machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.66 2.85 2.33; JDK 25.0.4; FORTRESS_THREADS=1
+# build: /home/user/fortress-genrt at 8b2f53430, source edits: 
+################ PbgRetObject compiled
+compile exit=0
+peek(a1), a1: Any = RedTag ->  Marker[Red] (the generic declaration)
+run exit=0
+################ PbgRetObject walk
+peek(a1), a1: Any = RedTag -> Marker[Red] (the generic declaration)
+walk exit=0
