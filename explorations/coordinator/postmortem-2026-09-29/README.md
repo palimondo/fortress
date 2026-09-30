@@ -22,6 +22,7 @@ His points, held while he reads, are the four groups of 18:25 to 18:52 UTC in `.
   - The Swift and lit discussion of 2026-09-17 recorded "golden output where a value matters", one test at a time (`PLAN.md`, the testing techniques); the corpus-wide comparison is not that practice (section 6).
   - The rung folders grew from 286 files at batch 1 to 850 at 6.5b, 8,923 files and 55 MB under `explorations/compile-ladder/` today, 4,953 of them under `probes/`, against a projection of 2,900 over ten batches that was never shown to him (section 3).
 - `cleanup.md`: the cleaning of the landed batches' committed scratch by synthesis section 2(d), 2026-09-29: 4,366 files (11.7 MB) removed from the tree under `explorations/compile-ladder/` and the review script folders, 4,599 kept, the rule as applied and every borderline case for Pavol's review; the message of the commit that adds it holds the counts by batch folder and the recovery command, `git show <commit>^:<path>`.
+- `cleanup-review.md`, and the cleaning by kind of 2026-09-30 it proposed (branch `wip/cleanup-by-kind`, seventeen commits, one per top folder): the review of the first cleaning, then the second by Pavol's rule of kind: 9,926 files (173 MB) removed from `explorations/` and 1,080 kept, the records, the runs' programs, and what a gate, a tool or a briefing reads by path; no record rewritten, no hash added. A path under `explorations/` that is not in the tree is read from history: `git show $(git log -1 --diff-filter=D --format=%h -- <path>)^:<path>`.
 
 ## Which tier did what
 
