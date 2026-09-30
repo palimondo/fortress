@@ -53,3 +53,5 @@
 {"type":"failed","key":"v2:7858e41e71cf73a75aab94a37f670cfc9a5cf8bc33c834d4bbb43c41f4d51971","agentId":"a696099b34cfcd4a7"}
 {"type":"started","key":"v2:6989740e4a4468adcf91adbea5e0e8a36fecbfbc924f1be98b7d0061a3e0e8ee","agentId":"a06af195fd76c7afc","label":"gather:attempt3","phase":"Gather"}
 {"type":"failed","key":"v2:6989740e4a4468adcf91adbea5e0e8a36fecbfbc924f1be98b7d0061a3e0e8ee","agentId":"a06af195fd76c7afc"}
+{"type":"started","key":"v2:ffcb1b2ccf674f575fdfc1eeb7619b9b5e3b5d8a12250c61ee823e37ccee428c","agentId":"aa7c9b8e72d51e4cf","label":"skeptic:C","phase":"Skeptic"}
+{"type":"started","key":"v2:7eb17ff5165137ee082067628ac12ac2328b52de4d6afe57606eec9d3dddeb7c","agentId":"ad039a832608c389d","label":"skeptic:L","phase":"Skeptic"}
