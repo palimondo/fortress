@@ -1,9 +1,0 @@
-@@P1 RTR stock=true paper=false forced=false name=cond
-   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1831:5-1832:1
-   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:855:5-857:57
-@@P1 RTR stock=true paper=false forced=false name=cond
-   [\G\](SomeReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1831:5-1832:1
-   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:855:5-857:57
-@@P1 RTR stock=true paper=false forced=false name=cond
-   [\G\](NoReductionPair[\R\], PossibleReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:1824:5-1825:1
-   [\G\](Condition[\SomeReductionPair[\R\]\], SomeReductionPair[\R\]->G, ()->G)->G @ <lib>/FortressLibrary.fsi:855:5-857:57

@@ -1,7 +1,0 @@
-# comp.sh XXXRR32EqualityRungV 2026-09-29T10:24:15Z; tree 382b9fe7f; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 28.77 26.86 20.49; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow none
-## fortress compile XXXRR32EqualityRungV.fss (private cache, compiler's world)
-compile rc=0
-## run
-REACHED
-PASS
-run rc=0

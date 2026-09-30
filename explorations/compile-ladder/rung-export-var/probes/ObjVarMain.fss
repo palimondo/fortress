@@ -1,5 +1,0 @@
-component ObjVarMain
-import ObjVarApi.{...}
-export Executable
-run(): () = println("data.size = " data.size)
-end

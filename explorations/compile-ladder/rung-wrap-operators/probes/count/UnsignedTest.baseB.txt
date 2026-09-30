@@ -1,3 +1,0 @@
-PASS?
-
-rc=0 secs=5

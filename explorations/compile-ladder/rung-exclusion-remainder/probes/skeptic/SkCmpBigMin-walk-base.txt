@@ -1,5 +1,0 @@
---- SkCmpBigMin, walk-base, skeptic of rung H, 81946b524, 2026-09-28T01:02:31Z
-nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 7.28 8.09 8.91; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-BIG MIN of comparisons: LessThan
-done
-[rc=0]

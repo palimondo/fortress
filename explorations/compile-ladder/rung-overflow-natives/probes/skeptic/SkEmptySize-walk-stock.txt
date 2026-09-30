@@ -1,5 +1,0 @@
-# SkEmptySize, walk-stock, 2026-09-27T11:26:41Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 0.48 2.71 6.74, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
-1:MIN built; isEmpty true
-1:MIN size getter 0
-|1:MIN| 0
-rc=0

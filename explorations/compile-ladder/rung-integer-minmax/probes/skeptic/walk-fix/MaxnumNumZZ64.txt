@@ -1,9 +1,0 @@
---- walk fix MaxnumNumZZ64; FORTRESS_HOME=FORTRESS_AUTOHOME=/home/user/fortress-minmax/tmp/skfix 2026-09-29T03:20:02Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 1.59 4.41 4.19 7/139 16722
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-b MAXNUM 1 = 3 : ZZ64
-rc=0 secs=39

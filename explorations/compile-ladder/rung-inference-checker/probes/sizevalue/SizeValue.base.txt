@@ -1,7 +1,0 @@
-# comp.sh SizeValue base 2026-09-28T23:54:16Z; tree 8de87af6c with its working changes; source explorations/compile-ladder/rung-inference-checker/probes/SizeValue.fss; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 13.43 9.00 7.89; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0 (build /home/user/fortress-infer/tmp/build-base)
-## run
-pickn(n): ZZ32
-pick(n, l): IntLiteral,ZZ64
-run rc=0

@@ -1,5 +1,0 @@
-component FnMain
-import FnApi.{...}
-export Executable
-run(): () = println("f(1) = " f(1))
-end

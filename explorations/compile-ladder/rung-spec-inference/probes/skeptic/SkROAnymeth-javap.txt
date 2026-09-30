@@ -1,8 +1,0 @@
-# javap -c -p of default_repository/caches/bytecode_cache/SkROAnymeth.jar (built by run-both.sh SkROAnymeth.fss on tree 5cc3e32f0), the call site of O.r("a") in x: ZZ32 = O.r("a")
-         0: getstatic     #15                 // Field "\\=r??Arrow?fortress\\|CompilerBuiltin\\%String,fortress\\|AnyType\\%Any??table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
-         9: invokevirtual #53                 // Method SkROAnymeth$O."\\=r??Arrow?fortress\\|CompilerBuiltin\\%String,fortress\\|AnyType\\%Any?":(JLjava/lang/String;)Ljava/lang/Object;
-        12: invokestatic  #59                 // Method "\\=AbstractArrow?Tuple?SkROAnymeth\\%O,fortress\\|CompilerBuiltin\\%String?,java\\|lang\\|Object?".castTo:(Ljava/lang/Object;)L\=Arrow?Tuple?SkROAnymeth\%O,fortress\|CompilerBuiltin\%String?,java\|lang\|Object?;
-        15: getstatic     #15                 // Field "\\=r??Arrow?fortress\\|CompilerBuiltin\\%String,fortress\\|AnyType\\%Any??table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
-        17: putstatic     #15                 // Field "\\=r??Arrow?fortress\\|CompilerBuiltin\\%String,fortress\\|AnyType\\%Any??table":Lcom/sun/fortress/runtimeSystem/BAlongTree;
-        21: invokeinterface #73,  3           // InterfaceMethod "\\=Arrow?Tuple?SkROAnymeth\\%O,fortress\\|CompilerBuiltin\\%String?,java\\|lang\\|Object?".apply:(LSkROAnymeth$O;Lfortress/CompilerBuiltin$String;)Ljava/lang/Object;
-        21: invokestatic  #29                 // Method com/sun/fortress/runtimeSystem/RTHelpers.findGenericMethodClosure:(JLcom/sun/fortress/runtimeSystem/BAlongTree;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;

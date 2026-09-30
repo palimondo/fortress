@@ -1,5 +1,0 @@
-Y briefing keys 58 exit 0 | Total: 5 parts print 112594 bytes, about 46700 tokens.
-Y checks keys 16 exit 0 | Total: 2 parts print 31930 bytes, about 13300 tokens.
-X briefing keys 32 exit 0 | Total: 3 parts print 80343 bytes, about 33300 tokens.
-X checks keys 10 exit 0 | Total: 1 part prints 16204 bytes, about 6800 tokens.
-bad lists 0

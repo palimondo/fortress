@@ -1,7 +1,0 @@
---- edit (tests, walk, count-run.sh), rung H's edit on ff1649cea; pass started 2026-09-27T21:07:33Z at loadavg 17.04 16.89 16.84 2026-09-27T21:07:40Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 18.48 17.20 16.94 26/478 28632
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1

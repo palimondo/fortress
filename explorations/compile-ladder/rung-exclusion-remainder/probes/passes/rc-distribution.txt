@@ -1,5 +1,0 @@
-passA:     338 rc=0      73 rc=1       7 rc=255 
-passB:     338 rc=0      73 rc=1       7 rc=255 
-passEF:     338 rc=0      73 rc=1       7 rc=255 
-exit codes that differ between A and the final edit:
-(end)

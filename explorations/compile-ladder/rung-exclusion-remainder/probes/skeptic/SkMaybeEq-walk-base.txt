@@ -1,9 +1,0 @@
---- SkMaybeEq, walk-base, skeptic of rung H, 81946b524, 2026-09-28T00:40:24Z
-nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load 8.70 8.58 11.09; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-Just(3)=Just("a") false; Nothing[ZZ32]=Nothing[String] false; as AnyMaybe: a=b true c=d false a=c false
-AnyMaybe = AnyUniqueItem: false false false
-just(3) = just(3): true; just(3) = Just(3): true; just("a") = just(3): false
-=/=: true true false
-Just(3) SQCAP Just(3) = Just(3): true; Nothing SQCUP Just(3): Just(3)
-done
-[rc=0]

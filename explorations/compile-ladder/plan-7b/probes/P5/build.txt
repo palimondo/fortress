@@ -1,5 +1,0 @@
-# build.sh 2026-09-28T09:03:42Z; tree 0f954e399; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.81 3.88 3.87; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-shadowed com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
-Note: /tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/p7b/p5/shadow-src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-built: 1 class files

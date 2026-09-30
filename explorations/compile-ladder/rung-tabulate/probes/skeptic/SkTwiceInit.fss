@@ -1,9 +1,0 @@
-component SkTwiceInit
-export Executable
-run():() = do
-  a = array[\ZZ32\](2).fill(3)
-  println("a: " a[0] " " a[1])
-  a.fill(4)
-  println("a after a second fill: " a[0] " " a[1])
-end
-end

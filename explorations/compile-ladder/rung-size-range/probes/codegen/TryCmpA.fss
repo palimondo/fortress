@@ -1,9 +1,0 @@
-component TryCmpA
-export Executable
-f(): ZZ32 = throw InvalidRange
-run(): () = do
-  r = try f() catch e InvalidRange => -1 end
-  assert(r = -1, "x")
-  println("PASS")
-end
-end

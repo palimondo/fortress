@@ -1,9 +1,0 @@
-# explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-7C/gate/distance.txt probes/distance-postedit.txt
-DISTANCE SAME   626
-    class I1                      4 -> 5      (+1)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
-    class G1                     12 -> 10     (-2)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
-    class OT                    143 -> 144    (+1)  other body errors (one-off library slips and checker limits)
-    crash gone   decl	FnDecl FortressLibrary.fss:4266:1-4279:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
-    crash gone   decl	FnDecl FortressLibrary.fss:4285:1-4290:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
-    crash new    decl	FnDecl FortressLibrary.fss:4293:1-4298:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
-    crash new    decl	FnDecl FortressLibrary.fss:4274:1-4287:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0

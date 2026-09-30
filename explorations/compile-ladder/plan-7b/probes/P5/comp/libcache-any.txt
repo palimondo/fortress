@@ -1,6 +1,0 @@
-# comp.sh libcache any (-Dprobe.p5=true) 2026-09-28T09:39:58Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.45 2.61 3.30; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-== ProjectFortress/LibraryBuiltin/AnyType.fss rc=0 14 s
-== ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss rc=0 59 s
-== Library/CompilerAlgebra.fss rc=0 2 s
-== Library/CompilerLibrary.fss rc=0 24 s
-== Library/CompilerSystem.fss rc=0 2 s
