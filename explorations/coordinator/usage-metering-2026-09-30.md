@@ -55,3 +55,7 @@ Once the Workflow had died and nothing kept the session busy, the environment st
 - **The transcripts:** the session's transcript and its agents' transcripts, backed up on the repository's `transcripts-blinded` branch, under `projects/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d*`.
 - **The workflow:** the run's journal is `subagents/workflows/wf_61521277-479/journal.jsonl` there.
 - **Pavol's statement of it:** in `explorations/coordinator/POSITIONS.md`, under the entry on the night's usage limit.
+
+## Reported
+
+Pavol sent this report with `/feedback` on 2026-09-30; the feedback id is `41370f27-3aaa-4722-a709-55cb3b1780c2`, and the session transcript was shared with it.
