@@ -24,7 +24,8 @@
 // give A10 to A13 (climb-batch-workflow.md, "Measured, and not"), and the scenarios of the stop on a usage
 // limit (reviews/batch-7b-review.md, finding 1): L1 to L3, the resume L4, and A6's judge that returns nothing;
 // and in every scenario, each skeptic's brief carrying the worker's report text and not its record text (finding 4),
-// and every brief the whole-suite rule and the recovery text on logs, the skeptic's its reading of the result (finding 5).
+// and every brief the whole-suite rule and the recovery text on logs, the skeptic's its reading of the result (finding 5),
+// and the command that makes the rung's worktree, no brief saying the build was copied in (finding 9).
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -244,6 +245,8 @@ function check(sc, out) {
     // climb batch 7b's review, finding 5: the whole-suite rule in the prefix, the skeptic's reading of its result
     if (c.prompt.indexOf('at most once per code state in the rung\'s chain') < 0 || c.prompt.indexOf('A check whose log is complete') < 0) probs.push(c.label + ' lacks the prefix\'s whole-suite rule or its recovery text')
     if (c.label.startsWith('skeptic') && c.prompt.indexOf('nor a whole suite another way') < 0) probs.push(c.label + ' lacks the skeptic\'s whole-suite sentence')
+    // climb batch 7b's review, finding 9: the rung worker makes its worktree by the prefix's one command
+    if (c.prompt.indexOf('git -C /home/user/fortress worktree add -b BRANCH WORKTREE BASE') < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
     // climb batch 7b's review, finding 4: the skeptic is given the report's text, for a branch without REPORT.md
     if (c.label.startsWith('skeptic') && !/REPORT\.md as the worker returned it[^\n]*\n\nREPORTTEXT-SENTINEL\n/.test(c.prompt)) probs.push(c.label + ' does not carry the worker\'s report text under its line')
   }

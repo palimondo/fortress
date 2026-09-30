@@ -134,6 +134,8 @@ stays cached, ready to launch the next batch (Pavol, 2026-09-26 23:37 UTC,
 
 ## Setting up a batch's worktrees
 
+Since 2026-09-30 a climb batch's rung worker makes its own worktree, by the command in the batch script's shared prefix ("Your worktree"), and the coordinator makes none at the launch (`coordinator/climb-batch-workflow.md`, "Shared prefix"). What follows is how the first batches were set up, and how a worktree is made by hand.
+
 The workflow script cannot touch the filesystem before its first agent runs, so
 the coordinator creates the worktrees and pushes the empty branches first, from
 the commit `main` is at, which is then the script's `args.base`:

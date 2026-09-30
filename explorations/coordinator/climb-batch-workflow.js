@@ -13,8 +13,9 @@
 // now and which review item each change answers is written up in
 // explorations/coordinator/climb-batch-workflow.md.
 //
-// Launch, after the worktrees exist (remote-container.md, "Setting up a batch's
-// worktrees"):
+// Launch with no worktree made: each rung worker makes its own, by the one
+// command in the shared prefix's "Your worktree", from the base, path and branch
+// named here, and the coordinator makes none (climb batch 7b's review, finding 9):
 //   Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js',
 //             args: {base: '<the commit main is at>'}})
 //
@@ -1130,6 +1131,13 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 'Work ONLY in the worktree your tail names. The other rungs are running at the same time in their own worktrees; never read or write outside your own. Never touch /home/user/fortress, which is the main tree.',
 '',
+'Nobody made the worktree at the launch: the rung worker makes it, before its step 1, and every later role of the rung finds it made. Substitute WORKTREE and BRANCH from your tail. The command adds the worktree to the main tree\'s repository without touching its files; it reuses a worktree that exists (a relaunch after a VM restart) and a branch already pushed (a relaunch after the container died), and otherwise cuts the branch from the base, ' + BASE + ':',
+'',
+'    git -C /home/user/fortress fetch -q origin BRANCH 2>/dev/null ; [ -d WORKTREE ] || git -C /home/user/fortress worktree add WORKTREE BRANCH 2>/dev/null || git -C /home/user/fortress worktree add -b BRANCH WORKTREE ' + BASE,
+'    cd WORKTREE && mkdir -p tmp && git push -u origin BRANCH',
+'',
+'Then set up the shell as below and run ant compileAll in the worktree once, through run_bg with its log under tmp/, before your first build or test, and the library-order rebuild after it (both below): a new worktree has no ProjectFortress/build and no cache, and cannot take either from the main tree.',
+'',
 'Set up every shell (substitute your worktree path for WORKTREE):',
 '',
 '    cd WORKTREE',
@@ -1139,7 +1147,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 'env.sh sets FORTRESS_HOME from its own location, so check that echo $FORTRESS_HOME prints your worktree and not /home/user/fortress. It also runs rm -rf /tmp/fortress*rats; source it once per shell and never mid-run, because the other agent\'s Rats! temp directories live there too. The JDK is at /usr/lib/jvm/java-25-openjdk-amd64 and the box has 4 cores; do not spend a call probing for either.',
 '',
-'ProjectFortress/build has been copied in so javac is incremental, but ant compileAll\'s scalac step has no uptodate guard (build.xml:547-568) and is a full rebuild wherever it runs; budget for that. Your default_repository/caches/ starts empty and cannot be warmed from the main tree, because the analysed-cache key hashes the source path (NamingCzar.deCaseName, compiler/NamingCzar.java:243-245). So after ant compileAll you must rebuild the bytecode cache in library order:',
+'ProjectFortress/build is gitignored, so ant compileAll builds it in your worktree, about 80 s; its scalac step has no uptodate guard (build.xml:547-568), so every later ant compileAll is a full rebuild too; budget for that. Never symlink the main tree\'s build into your worktree: the classpath probe then resolves every cache path to the main tree (explorations/coordinator/batched-climb-review.md, finding 2). Your default_repository/caches/ starts empty and cannot be warmed from the main tree, because the analysed-cache key hashes the source path (NamingCzar.deCaseName, compiler/NamingCzar.java:243-245). So after ant compileAll you must rebuild the bytecode cache in library order:',
 '',
 '    cd ProjectFortress',
 '    ../bin/fortress compile LibraryBuiltin/AnyType.fss',
@@ -1234,7 +1242,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 '## Commit and push as you go - on your own branch only',
 '',
-'Your worktree is on its own wip/ branch, cut from ' + BASE + ' and already pushed. Commit on it at every milestone and push after every commit with git push -u origin <your branch>: after the failing test is written and seen failing, in a commit that holds the test alone, so that your skeptic can run it on the base; after the edit and the pass; after REPORT.md and record.md; after anything else worth not losing. The batch of 2026-09-17 kept every worktree dirty and lost all of it when the container died; this is the insurance against that, and nothing else. Write plain messages that say what state the commit captures; the landed commit is composed by the coordinator from your branch\'s net change, so your commits are not history that must be shaped. Never commit to main, never push to any branch but your own, never force-push, and never put a model identifier in a commit message. End every commit message with exactly these two lines:',
+'Your worktree is on its own wip/ branch, cut from ' + BASE + ', which you pushed when you made it. Commit on it at every milestone and push after every commit with git push -u origin <your branch>: after the failing test is written and seen failing, in a commit that holds the test alone, so that your skeptic can run it on the base; after the edit and the pass; after REPORT.md and record.md; after anything else worth not losing. The batch of 2026-09-17 kept every worktree dirty and lost all of it when the container died; this is the insurance against that, and nothing else. Write plain messages that say what state the commit captures; the landed commit is composed by the coordinator from your branch\'s net change, so your commits are not history that must be shaped. Never commit to main, never push to any branch but your own, never force-push, and never put a model identifier in a commit message. End every commit message with exactly these two lines:',
 '',
 '    Co-Authored-By: Claude <noreply@anthropic.com>',
 '    Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB',
@@ -2377,7 +2385,7 @@ const bgCheck = (tree) => 'A command the earlier attempt started with run_bg (no
 // The rung worker's first pass: its branch, its worktree, its own directory.
 function recoverRung(rung) {
   return [
-    'Your worktree is ' + rung.path + ', on ' + rung.branch + '. Set up the shell as the shared prefix says, then run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb (commits not yet pushed show as ahead) and ls -lt tmp/ | head -20, and read what exists of explorations/compile-ladder/' + rung.slug + '/, REPORT.md and record.md, and of its scratch under tmp/' + rung.slug + '/.',
+    'Your worktree is ' + rung.path + ', on ' + rung.branch + '; if it does not exist, make it by the shared prefix\'s command. Set up the shell as the shared prefix says, then run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb (commits not yet pushed show as ahead) and ls -lt tmp/ | head -20, and read what exists of explorations/compile-ladder/' + rung.slug + '/, REPORT.md and record.md, and of its scratch under tmp/' + rung.slug + '/.',
     'The shared prefix\'s section "If your branch already carries commits" applies in full: committed work is yours to verify, not to redo; uncommitted edits are yours once you have read them; a log whose last step failed or was cut off is a step still to do.',
     'Test first still holds: the test is seen failing on the base before the edit. If the earlier attempt made the edit and no test-only commit precedes it, set the edit aside (git stash), see the test fail and commit it alone, restore the edit (git stash pop), and say so in REPORT.md.',
     bgCheck(rung.path),
