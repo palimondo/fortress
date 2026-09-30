@@ -5,7 +5,7 @@ export Executable
 (*) ZZ32 and ZZ64.
 (*)
 (*) The expected values of REM and MOD are the specification's own example
-(*) table, Specification/basic-lib/basic-integers.tex:483-486, which gives all
+(*) table, Specification/basic-lib/basic-integers.tex, section "Integers", opr DIV, REM, MOD, DIVREM and DIVMOD, which gives all
 (*) four sign combinations of +8 and +3 for the truncating division and its
 (*) remainder REM and for the floor division and its remainder MOD; the four
 (*) MOD rows on +3 and +4 are the ones ProjectFortress/tests/chain0.fss:28-31
@@ -77,7 +77,7 @@ run(): () = do
   maxValue: ZZ32 = 7FFFFFFF_16
   minValue: ZZ32 = -maxValue - 1
 
-  (*) REM, the remainder of the truncating division: basic-integers.tex:483-486,
+  (*) REM, the remainder of the truncating division: basic-integers.tex, section "Integers", opr DIV, REM, MOD, DIVREM and DIVMOD,
   (*) column two, with the prose at :447-448.  The sign of the result follows
   (*) the dividend.
   assert(eight REM three, 2, "+8 REM +3")
@@ -113,21 +113,21 @@ run(): () = do
   assert(six MOD mThree, 0, "+6 MOD -3")
   assert(mSix MOD mThree, 0, "-6 MOD -3")
 
-  (*) The three properties at basic-integers.tex:506-508, as relations between
+  (*) The three properties at basic-integers.tex, section "Integers", opr DIV, REM, MOD, DIVREM and DIVMOD, as relations between
   (*) values computed at run time.
   assert((mEight + (three DOT three)) MOD three, mEight MOD three, "(m + k n) MOD n = m MOD n")
   assert(eight REM three, eight REM mThree, "m REM n = m REM (-n)")
   assert(mEight REM three, zero - (eight REM three), "(-m) REM n = -(m REM n)")
 
   (*) DIV, REM and MOD all throw DivisionByZero on a zero divisor:
-  (*) basic-integers.tex:457-458 and :477.
+  (*) basic-integers.tex, section "Integers", opr DIV, REM, MOD, DIVREM and DIVMOD.
   assert(shouldDivideByZero(fn () => eight DIV zero), "+8 DIV 0")
   assert(shouldDivideByZero(fn () => eight REM zero), "+8 REM 0")
   assert(shouldDivideByZero(fn () => eight MOD zero), "+8 MOD 0")
   assert(shouldDivideByZero(fn () => mEight MOD zero), "-8 MOD 0")
   assert(shouldDivideByZero(fn () => zero MOD zero), "0 MOD 0")
 
-  (*) The divisor -1.  basic-integers.tex:502 defines m REM n as m - n (m DIV n),
+  (*) The divisor -1.  basic-integers.tex, section "Integers", opr DIV, REM, MOD, DIVREM and DIVMOD defines m REM n as m - n (m DIV n),
   (*) which is zero for every m when n is -1, and :465-468 give MOD a value in
   (*) every sign combination; :523-524 make GCD nonnegative with 0 GCD n = n.
   assert(zero REM mOne, 0, "0 REM -1")
@@ -149,7 +149,7 @@ run(): () = do
   assert(shouldOverflow(fn () => minValue GCD zero), "MIN GCD 0 overflows")
 
   (*) GCD: the two rows of chain0.fss:33-34, then the cases the prose at
-  (*) basic-integers.tex:541-543 settles -- the result is always nonnegative,
+  (*) basic-integers.tex, section "Integers", opr GCD and LCM settles -- the result is always nonnegative,
   (*) and if either argument is zero the result is the absolute value of the other.
   assert(sixty GCD fortyEight, 12, "60 GCD 48")
   assert(sixtyFive GCD fiftyTwo, 13, "65 GCD 52")
@@ -162,7 +162,7 @@ run(): () = do
   assert(mFour GCD zero, 4, "-4 GCD 0")
 
   (*) LCM: the three rows of chain0.fss:36-38, then the cases the prose at
-  (*) basic-integers.tex:545-547 settles.
+  (*) basic-integers.tex, section "Integers", opr GCD and LCM settles.
   assert(three LCM four, 12, "3 LCM 4")
   assert(six LCM four, 12, "6 LCM 4")
   assert(six LCM fifteen, 30, "6 LCM 15")
@@ -173,7 +173,7 @@ run(): () = do
   assert(mFour LCM six, 12, "-4 LCM 6")
   assert(mFour LCM mSix, 12, "-4 LCM -6")
 
-  (*) The lattice property at basic-integers.tex:560: the product of the GCD
+  (*) The lattice property at basic-integers.tex, section "Integers", opr GCD and LCM: the product of the GCD
   (*) and the LCM is the absolute value of the product of the arguments.
   p1: ZZ32 = sixty DOT fortyEight
   p2: ZZ32 = sixtyFive DOT fiftyTwo

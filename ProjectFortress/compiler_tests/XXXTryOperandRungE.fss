@@ -7,7 +7,7 @@ f(): String = throw InvalidRange
 run(): () = do
     println("REACHED")
     s = "a" || (try f() catch e InvalidRange => "c" end)
-    assert(s, "ac", "a try expression's value is its catch clause's; try.tex:56-64")
+    assert(s, "ac", "a try expression's value is its catch clause's; try.tex, section \"Try Expressions\"")
     println("PASS")
   end
 

@@ -32,18 +32,18 @@ object SizedHolder[\nat k\](v: ZZ32)
   end
 end
 run() = do
-  assert(sumTo(Box[\5\](0)), 10, "trait-parameters.tex:94-102")
-  assert(sumOfK(Box[\4\](0)), 12, "trait-parameters.tex:94-102")
-  assert(forBody(Box[\7\](0)), 21, "trait-parameters.tex:94-102")
-  assert(viaFn(Box[\3\](10)), 3, "trait-parameters.tex:94-102")
-  assert(captured(Box[\3\](10)), 10, "trait-parameters.tex:94-102")
+  assert(sumTo(Box[\5\](0)), 10, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(sumOfK(Box[\4\](0)), 12, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(forBody(Box[\7\](0)), 21, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(viaFn(Box[\3\](10)), 3, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(captured(Box[\3\](10)), 10, "trait-parameters.tex, section \"Nat and Int Parameters\"")
   mkIn[\3\](1)
-  assert(which(last), "three", "trait-parameters.tex:94-102")
+  assert(which(last), "three", "trait-parameters.tex, section \"Nat and Int Parameters\"")
   mkIn[\4\](1)
-  assert(which(last), "four", "trait-parameters.tex:94-102")
-  assert(nestedFor(Box[\5\](0)), 20, "trait-parameters.tex:94-102")
-  assert(nestedFn(Box[\6\](0)), 6, "trait-parameters.tex:94-102")
-  assert(SizedHolder[\8\](0).total(), 16, "trait-parameters.tex:94-102")
+  assert(which(last), "four", "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(nestedFor(Box[\5\](0)), 20, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(nestedFn(Box[\6\](0)), 6, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  assert(SizedHolder[\8\](0).total(), 16, "trait-parameters.tex, section \"Nat and Int Parameters\"")
   println("PASS")
 end
 end

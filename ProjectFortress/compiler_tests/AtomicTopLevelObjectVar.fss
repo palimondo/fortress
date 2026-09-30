@@ -2,7 +2,7 @@
    assigned inside `atomic do ... end`: once at the top level of the component
    and once as a local variable of a function.
 
-   Specification/basic/expressions/atomic.tex:38-42 requires the read and the
+   Specification/basic/expressions/atomic.tex, section "Atomic Expressions" requires the read and the
    write to appear to occur in a single atomic step, and says nothing about the
    type of the value, so a transactional read and write must work for a value
    of any type.

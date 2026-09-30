@@ -15,9 +15,9 @@ run(): () = do
     println("REACHED")
     z: ZZ32 = 5
     b: ZZ64 = O.k(z)
-    assert(b = 5, "the generic declaration fits O.k(z) without coercion; inference.tex:54-63, :120-126; conversions-coercions.tex:472-476; ledger row 508")
+    assert(b = 5, "the generic declaration fits O.k(z) without coercion; inference.tex, section \"The Static Arguments of a Call\"; conversions-coercions.tex, section \"Coercion Resolution\"; ledger row 508")
     d: ZZ64 = z OPLUS z
-    assert(d = 5, "the generic declaration fits z OPLUS z without coercion; inference.tex:54-63, :120-126; conversions-coercions.tex:472-476; ledger row 508")
+    assert(d = 5, "the generic declaration fits z OPLUS z without coercion; inference.tex, section \"The Static Arguments of a Call\"; conversions-coercions.tex, section \"Coercion Resolution\"; ledger row 508")
     println("PASS")
   end
 

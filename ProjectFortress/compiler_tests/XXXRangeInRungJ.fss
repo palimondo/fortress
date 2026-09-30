@@ -6,10 +6,10 @@ export Executable
 run(): () = do
     println("REACHED")
     n: ZZ32 = 4
-    assert(4 IN (2:6), "ranges.tex:61, :131")
-    assert(6 IN (3#n), "ranges.tex:78-79, :131")
-    assert(NOT (7 IN (2:6)), "ranges.tex:61, :131")
-    assert(NOT (1 IN (3#n)), "ranges.tex:78-79, :131")
+    assert(4 IN (2:6), "ranges.tex, section \"Ranges\"")
+    assert(6 IN (3#n), "ranges.tex, section \"Ranges\"")
+    assert(NOT (7 IN (2:6)), "ranges.tex, section \"Ranges\"")
+    assert(NOT (1 IN (3#n)), "ranges.tex, section \"Ranges\"")
     println("PASS")
   end
 

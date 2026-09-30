@@ -48,13 +48,13 @@ run(): () = do
   relF = fn (x: Gen[\ZZ32\]): RelCondG[\ZZ32\] => RelOf[\ZZ32\](1)
   relG = fn (x: Gen[\ZZ32\]): RelCondG[\ZZ32\] => RelOf[\ZZ32\](2)
   plainF = fn (x: Gen[\ZZ32\]): CondG[\ZZ32\] => PlainOf[\ZZ32\]
-  assert(combine[\ZZ32\](relF, relG)(g).descr(), "rel 1 and rel 2", "a clause binding at an arrow type over the function's own type parameter, ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(combine[\ZZ32\](relF, plainF)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
-  assert(combine[\ZZ32\](plainF, relG)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
-  assert(applyRel[\ZZ32\](relG, g), "rel arrow: rel 2", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(applyRel[\ZZ32\](plainF, g), "cond arrow: plain", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
-  assert(pickZ(fn (x: ZZ32): RelCondG[\ZZ32\] => RelOf[\ZZ32\](x)), "rel arrow: rel 5", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(pickZ(fn (x: ZZ32): CondG[\ZZ32\] => PlainOf[\ZZ32\]), "cond arrow", "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
+  assert(combine[\ZZ32\](relF, relG)(g).descr(), "rel 1 and rel 2", "a clause binding at an arrow type over the function's own type parameter, ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(combine[\ZZ32\](relF, plainF)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(combine[\ZZ32\](plainF, relG)(g).descr(), "plain", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(applyRel[\ZZ32\](relG, g), "rel arrow: rel 2", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(applyRel[\ZZ32\](plainF, g), "cond arrow: plain", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(pickZ(fn (x: ZZ32): RelCondG[\ZZ32\] => RelOf[\ZZ32\](x)), "rel arrow: rel 5", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(pickZ(fn (x: ZZ32): CondG[\ZZ32\] => PlainOf[\ZZ32\]), "cond arrow", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
   println("PASS")
 end
 

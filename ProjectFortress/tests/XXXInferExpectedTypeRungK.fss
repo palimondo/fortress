@@ -20,7 +20,7 @@ run() = do
     i: ZZ64 = idK(3)
     assert(shownK(i), "3 : ZZ64", "control: a typed binding converts a call's result after the call")
     a: BoxK[\ZZ64\] = wrapK(3)
-    assert(shownK(a.v), "3 : ZZ64", "the expected type fixes T at a call written f(x), POSITIONS 2026-09-27, the numerics plans, decision 3; var-ref.tex:38-40")
+    assert(shownK(a.v), "3 : ZZ64", "the expected type fixes T at a call written f(x), POSITIONS 2026-09-27, the numerics plans, decision 3; var-ref.tex, section \"Identifier References\"")
     println("PASS")
   end
 

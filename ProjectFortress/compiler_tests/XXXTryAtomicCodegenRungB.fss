@@ -5,7 +5,7 @@ export Executable
 
 run():() = do
     x: ZZ32 = tryatomic do 1 + 1 end
-    assert(x, 2, "a tryatomic expression yields the value of its body, ledger row 353, Specification/basic/expressions/atomic.tex:45-48")
+    assert(x, 2, "a tryatomic expression yields the value of its body, ledger row 353, Specification/basic/expressions/atomic.tex, section \"Atomic Expressions\"")
     println("PASS")
 end
 

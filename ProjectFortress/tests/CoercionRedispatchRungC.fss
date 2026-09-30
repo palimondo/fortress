@@ -33,14 +33,14 @@ end
 hit(s: String): ZZ32 = if s = "g(WideOf)" then 1 else 0 end
 
 run() = do
-    assert(g(NarrowOf(2)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call, and the most specific declaration for its run-time type is applied; conversions-coercions.tex:270-282, :570-574; advanced/overloading.tex:73-78, :673-677; basic/overloading.tex:298-311")
-    assert(g(NarrowOf(3)), "g(Wide)", "row 19: the declaration is chosen per call on the converted value, not cached per argument type; conversions-coercions.tex:270-282; advanced/overloading.tex:73-78, :673-677")
-    assert(g(NarrowOf(4)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call after a call that converted to another type; advanced/overloading.tex:73-78, :673-677")
-    assert(Picker.pick(NarrowOf(2)), "pick(WideOf)", "row 19: an overloaded method's converted argument is dispatched as an ordinary call; conversions-coercions.tex:270-282, :570-574; advanced/overloading.tex:73-78, :673-677")
-    assert(Picker.pick(NarrowOf(3)), "pick(Wide)", "row 19: the method declaration is chosen per call on the converted value, not cached per argument type; advanced/overloading.tex:73-78, :673-677")
-    assert(describe(NarrowOf(6)), "WideOf.describe", "row 19: a functional method dispatches on its converted self argument; conversions-coercions.tex:451-453; advanced/overloading.tex:673-677")
-    assert(describe(NarrowOf(5)), "Wide.describe", "row 19: a functional method dispatches per call on its converted self argument; advanced/overloading.tex:673-677")
-    assert(SUM[\ZZ32\][i <- 1:100] hit(g(NarrowOf(i))), 50, "row 19: converted arguments dispatched per call in a parallel reduction; basic/overloading.tex:298-311")
+    assert(g(NarrowOf(2)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call, and the most specific declaration for its run-time type is applied; conversions-coercions.tex, sections \"Coercion Invocations\" and \"Coercion Resolution\"; advanced/overloading.tex, sections \"Principles of Overloading\" and \"Coercion and Overloading Resolution\"; basic/overloading.tex, section \"Overloading Resolution\"")
+    assert(g(NarrowOf(3)), "g(Wide)", "row 19: the declaration is chosen per call on the converted value, not cached per argument type; conversions-coercions.tex, section \"Coercion Invocations\"; advanced/overloading.tex, sections \"Principles of Overloading\" and \"Coercion and Overloading Resolution\"")
+    assert(g(NarrowOf(4)), "g(WideOf)", "row 19: the converted argument is dispatched as an ordinary call after a call that converted to another type; advanced/overloading.tex, sections \"Principles of Overloading\" and \"Coercion and Overloading Resolution\"")
+    assert(Picker.pick(NarrowOf(2)), "pick(WideOf)", "row 19: an overloaded method's converted argument is dispatched as an ordinary call; conversions-coercions.tex, sections \"Coercion Invocations\" and \"Coercion Resolution\"; advanced/overloading.tex, sections \"Principles of Overloading\" and \"Coercion and Overloading Resolution\"")
+    assert(Picker.pick(NarrowOf(3)), "pick(Wide)", "row 19: the method declaration is chosen per call on the converted value, not cached per argument type; advanced/overloading.tex, sections \"Principles of Overloading\" and \"Coercion and Overloading Resolution\"")
+    assert(describe(NarrowOf(6)), "WideOf.describe", "row 19: a functional method dispatches on its converted self argument; conversions-coercions.tex, section \"Applicability with Coercion\"; advanced/overloading.tex, section \"Coercion and Overloading Resolution\"")
+    assert(describe(NarrowOf(5)), "Wide.describe", "row 19: a functional method dispatches per call on its converted self argument; advanced/overloading.tex, section \"Coercion and Overloading Resolution\"")
+    assert(SUM[\ZZ32\][i <- 1:100] hit(g(NarrowOf(i))), 50, "row 19: converted arguments dispatched per call in a parallel reduction; basic/overloading.tex, section \"Overloading Resolution\"")
     println("PASS")
   end
 

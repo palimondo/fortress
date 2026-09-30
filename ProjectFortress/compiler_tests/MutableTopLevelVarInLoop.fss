@@ -2,9 +2,9 @@
    written from inside a nested code-generation context: the body of a `for`
    loop, and an arm of a parallel `do ... also do ... end`.
 
-   Specification/basic/expressions/bindings.tex:57-59 -- "Assigning a left-hand
+   Specification/basic/expressions/bindings.tex, section "Assignments" -- "Assigning a left-hand
    variable simply changes the binding for the variable's location to contain
-   the new value" -- and Specification/basic/expressions/var-ref.tex:26-30 -- an
+   the new value" -- and Specification/basic/expressions/var-ref.tex, section "Identifier References" -- an
    identifier reference "evaluates to the value of the name in the enclosing
    scope" and "performs a memory read operation".  There is one location per
    declaration, so a write made inside the loop body must be seen by the read
@@ -13,7 +13,7 @@
    The loop body's increment is inside `atomic do ... end` because the loop is
    a parallel generator: a bare `inLoop := inLoop + 1` there is a data race by
    construction, which
-   Specification/basic/memory-model.tex:69-75 excludes from the programming
+   Specification/basic/memory-model.tex, section "Programming Discipline" excludes from the programming
    discipline ("Updates to shared mutable locations must always be performed
    using an atomic expression"), and it made an earlier version of this test
    flake -- one run in nine gave 9 instead of 10.  The two arms write distinct

@@ -9,7 +9,7 @@ run(): () = do
     println("REACHED")
     v = Vec[\3\]()
     println(v)
-    assert(v.asString, "Vec[\\3\\]", "a written-out nat argument to an object; ledger row 307, Specification/basic/trait-parameters.tex:80-102, walk prints Vec[\\3\\]")
+    assert(v.asString, "Vec[\\3\\]", "a written-out nat argument to an object; ledger row 307, Specification/basic/trait-parameters.tex, section \"Nat and Int Parameters\", walk prints Vec[\\3\\]")
     println("PASS")
   end
 

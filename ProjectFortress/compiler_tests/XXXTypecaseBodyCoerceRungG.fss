@@ -14,8 +14,8 @@ f(o: S): ZZ32 =
 
 run(): () = do
   println("REACHED")
-  assert(f(A), 1, "a typecase as a function body whose value is coerced from a numeral, row 340; Specification/basic/expressions/typecase.tex:88-99")
-  assert(f(B), 0, "row 340; Specification/basic/expressions/typecase.tex:88-99")
+  assert(f(A), 1, "a typecase as a function body whose value is coerced from a numeral, row 340; Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(f(B), 0, "row 340; Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
   println("PASS")
 end
 

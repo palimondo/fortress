@@ -45,15 +45,15 @@ nested(x: Any, y: Any, none: ZZ32): ZZ32 =
 
 run(): () = do
   z: ZZ32 = 3 + 4
-  assert(plainTrait(Wrap(z)), "Wrap(7)", "a typecase clause binds the value, ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(plainTrait("s"), "other", "ledger row 351, Specification/basic/expressions/typecase.tex:94-99")
-  assert(plainZZ32(z), "8", "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(perimeterHalf(Sq(z), z), 14, "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
-  assert(perimeterHalf(Rect(z, z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex:94-98")
-  assert(sameName(Wrap(z)), "Wrap 7", "ledger row 351, Specification/basic/expressions/typecase.tex:105-109")
-  assert(sameName("s"), "String s", "ledger row 351, Specification/basic/expressions/typecase.tex:105-109")
-  assert(nested(Wrap(z), Wrap(z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
-  assert(nested(Wrap(z), "s", z), 7, "ledger row 351, Specification/basic/expressions/typecase.tex:88-91")
+  assert(plainTrait(Wrap(z)), "Wrap(7)", "a typecase clause binds the value, ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(plainTrait("s"), "other", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(plainZZ32(z), "8", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(perimeterHalf(Sq(z), z), 14, "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(perimeterHalf(Rect(z, z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(sameName(Wrap(z)), "Wrap 7", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(sameName("s"), "String s", "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(nested(Wrap(z), Wrap(z + z), z), 21, "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(nested(Wrap(z), "s", z), 7, "ledger row 351, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
   println("PASS")
 end
 

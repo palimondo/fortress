@@ -8,7 +8,7 @@ run(): () = do
     for x <- seq(0:10:3) do
         c += 1
     end
-    assert(c = 4, "ranges.tex:68-76")
+    assert(c = 4, "ranges.tex, section \"Ranges\"")
     println("PASS")
   end
 

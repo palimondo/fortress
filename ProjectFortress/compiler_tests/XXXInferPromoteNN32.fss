@@ -16,7 +16,7 @@ run(): () = do
     z: ZZ32 = 3
     u: NN32 = 5
     println("REACHED")
-    assert(pick(z, u), "ZZ64,ZZ64", "Specification/basic-lib/basic-integers.tex:25; answer 8 (POSITIONS 2026-09-26); ledger row 442")
+    assert(pick(z, u), "ZZ64,ZZ64", "Specification/basic-lib/basic-integers.tex, section \"Integers\"; answer 8 (POSITIONS 2026-09-26); ledger row 442")
     println("PASS")
 end
 

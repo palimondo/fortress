@@ -25,16 +25,16 @@ run(): () = do
   r: RR64 = 0.5 + 1.0
   s: String = "s"
   bz: Any = Box[\ZZ32\](z)
-  assert(cast[\String\](s), "s", "cast matches a value of type T, ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(cast[\ZZ32\](z) + 1, 8, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(cast[\RR64\](r) = r, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(castP[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:88-91")
-  assert(castP[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:88-91")
-  assert(viaT[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(viaT[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(cast[\Box[\ZZ32\]\](bz).v, 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(dogName(Dog("Rex")), "Rex", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex:94-95")
-  assert(catName(Cat), "not a Dog", "ledger row 426, Specification/basic/expressions/typecase.tex:94-99")
+  assert(cast[\String\](s), "s", "cast matches a value of type T, ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(cast[\ZZ32\](z) + 1, 8, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(cast[\RR64\](r) = r, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(castP[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(castP[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(viaT[\String\](s), "s", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(viaT[\ZZ32\](z), 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(cast[\Box[\ZZ32\]\](bz).v, 7, "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(dogName(Dog("Rex")), "Rex", "ledger rows 351 and 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+  assert(catName(Cat), "not a Dog", "ledger row 426, Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
   println("PASS")
 end
 

@@ -18,7 +18,7 @@ end
 run(): () = do
   println("REACHED")
   tryInArm(5)
-  assert(hit, 6, "a try ... catch in a do ... also arm, rows 322 and 497; Specification/basic/expressions/also.tex:17-21, Specification/basic/expressions/try.tex:56-60")
+  assert(hit, 6, "a try ... catch in a do ... also arm, rows 322 and 497; Specification/basic/expressions/also.tex, subsection \"Parallel Do Expressions\", Specification/basic/expressions/try.tex, section \"Try Expressions\"")
   println("PASS")
 end
 

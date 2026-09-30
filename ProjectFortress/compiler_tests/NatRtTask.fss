@@ -20,11 +20,11 @@ end
 which(x: Any): String = typecase x of Box[\4\] => "four"; BoxT[\String\] => "string"; else => "other" end
 run() = do
   println("REACHED")
-  assert(both(Box[\5\](0)), 10, "trait-parameters.tex:94-102")
+  assert(both(Box[\5\](0)), 10, "trait-parameters.tex, section \"Nat and Int Parameters\"")
   mkS[\4\](1)
-  assert(which(last), "four", "trait-parameters.tex:94-102")
+  assert(which(last), "four", "trait-parameters.tex, section \"Nat and Int Parameters\"")
   mkT[\String\](1)
-  assert(which(last), "string", "trait-parameters.tex:20-24")
+  assert(which(last), "string", "trait-parameters.tex, chapter \"Static Parameters\"")
   println("PASS")
 end
 end

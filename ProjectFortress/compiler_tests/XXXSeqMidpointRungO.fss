@@ -11,7 +11,7 @@ run(): () = do
     for i <- seq(lo:hi) do
         n += 1
     end
-    assert(n = 3, "ranges.tex:61")
+    assert(n = 3, "ranges.tex, section \"Ranges\"")
     println("PASS")
   end
 

@@ -6,9 +6,9 @@ export Executable
 run() = do
     println("REACHED")
     a = asFloat(narrow(1.5) + 2.5)
-    assert(a, 4.0, "conversions-coercions.tex:915-952")
+    assert(a, 4.0, "conversions-coercions.tex, section \"Automatic Widening\"")
     b = asFloat(narrow(1.5) + 2)
-    assert(b, 3.5, "conversions-coercions.tex:915-952")
+    assert(b, 3.5, "conversions-coercions.tex, section \"Automatic Widening\"")
     println("PASS")
   end
 

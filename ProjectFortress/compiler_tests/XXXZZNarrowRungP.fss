@@ -16,9 +16,9 @@ run(): () = do
   n1: ZZ32 = narrow(z1)
   nm1: ZZ32 = narrow(zm1)
   nwide: ZZ32 = narrow(zwide)
-  assert(n1, 1, "narrow on ZZ keeps a value ZZ32 holds, row 349; Specification/basic-lib/basic-integers.tex:39-45")
-  assert(nm1, -1, "narrow on ZZ, row 349; Specification/basic-lib/basic-integers.tex:39-45")
-  assert(nwide, 5, "narrow on ZZ keeps the low 32 bits, 2^32+5 gives 5, row 349; Specification/basic-lib/basic-integers.tex:39-45")
+  assert(n1, 1, "narrow on ZZ keeps a value ZZ32 holds, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
+  assert(nm1, -1, "narrow on ZZ, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
+  assert(nwide, 5, "narrow on ZZ keeps the low 32 bits, 2^32+5 gives 5, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
   println("PASS")
 end
 

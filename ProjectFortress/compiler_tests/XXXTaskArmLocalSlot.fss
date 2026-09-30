@@ -18,7 +18,7 @@ end
 
 run(): () = do
   println("REACHED")
-  assert(oneLevel(), "12", "a local declared in a do ... also arm, row 497; Specification/basic/expressions/also.tex:17-21")
+  assert(oneLevel(), "12", "a local declared in a do ... also arm, row 497; Specification/basic/expressions/also.tex, subsection \"Parallel Do Expressions\"")
   println("PASS")
 end
 

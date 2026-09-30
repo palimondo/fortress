@@ -6,9 +6,9 @@ export Executable
 run() = do
     println("REACHED")
     c: QQ = 0/0
-    deny(c = c, "row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex:372-376")
-    deny(c <= c, "row 440: 0/0 is unordered with respect to itself, so <= returns false; Specification/basic-lib/numbers.tex:372-376")
-    assert(c CMP c, Unordered, "row 440: CMP of 0/0 with itself returns Unordered; Specification/basic-lib/numbers.tex:372-376, :382-386")
+    deny(c = c, "row 440: 0/0 is unordered with respect to itself, so = returns false; Specification/basic-lib/numbers.tex, section \"Rational Numbers\", opr <, <=, =, >= and >")
+    deny(c <= c, "row 440: 0/0 is unordered with respect to itself, so <= returns false; Specification/basic-lib/numbers.tex, section \"Rational Numbers\", opr <, <=, =, >= and >")
+    assert(c CMP c, Unordered, "row 440: CMP of 0/0 with itself returns Unordered; Specification/basic-lib/numbers.tex, section \"Rational Numbers\", opr <, <=, =, >= and >, and opr CMP")
     println("PASS")
   end
 

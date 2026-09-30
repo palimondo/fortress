@@ -15,7 +15,7 @@ run(): () = do
     println("REACHED")
     z: ZZ32 = 5
     b: ZZ64 = O.k[\ZZ32\](z)
-    assert(b = 5, "the generic declaration fits O.k(z) without coercion; inference.tex:54-63, :120-126; conversions-coercions.tex:472-476")
+    assert(b = 5, "the generic declaration fits O.k(z) without coercion; inference.tex, section \"The Static Arguments of a Call\"; conversions-coercions.tex, section \"Coercion Resolution\"")
     println("PASS")
   end
 

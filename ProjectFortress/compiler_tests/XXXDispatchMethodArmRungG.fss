@@ -33,11 +33,11 @@ name(m: Any): String = typecase m of
 run(): () = do
   println("REACHED")
   b2: Tag[\Blue\] = SubBlue
-  assert(name(K.grab(b2)), "SubM[Blue]", "a generic dotted method's arm that names its parameter differently, Specification/basic/overloading.tex:100-110, :297-311")
+  assert(name(K.grab(b2)), "SubM[Blue]", "a generic dotted method's arm that names its parameter differently, Specification/basic/overloading.tex, sections \"Principles of Overloading\" and \"Overloading Resolution\"")
   b3: Tag[\Blue\] = TagBlue
-  assert(name(K.grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex:100-110, :297-311")
+  assert(name(K.grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex, sections \"Principles of Overloading\" and \"Overloading Resolution\"")
   t: Tag[\ZZ32\] = IntSub
-  assert(name(Kint.grab(t)), "SubM[ZZ32]", "a generic dotted method's arm dispatched at ZZ32, Specification/basic/overloading.tex:100-110, :297-311")
+  assert(name(Kint.grab(t)), "SubM[ZZ32]", "a generic dotted method's arm dispatched at ZZ32, Specification/basic/overloading.tex, sections \"Principles of Overloading\" and \"Overloading Resolution\"")
   println("PASS")
 end
 

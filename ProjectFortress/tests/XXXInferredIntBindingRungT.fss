@@ -11,9 +11,9 @@ run(): () = do
     println("REACHED")
     z: ZZ32 = 5
     a: BoxT[\ZZ32\] = BoxT(z)
-    assert(a.v = 5, "BoxT(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex:77-83; row 364")
+    assert(a.v = 5, "BoxT(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex, section \"The Static Arguments of a Call\"; row 364")
     b: BoxT[\ZZ32\] = wrap(z)
-    assert(b.v = 5, "wrap(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex:77-83; row 364")
+    assert(b.v = 5, "wrap(z) for z: ZZ32 is a BoxT[\\ZZ32\\]; inference.tex, section \"The Static Arguments of a Call\"; row 364")
     println("PASS")
   end
 

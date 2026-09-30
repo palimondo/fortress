@@ -5,10 +5,10 @@ import ExportVarRungXApi.{...}
 export Executable
 
 run(): () = do
-    assert(fixed, 11, "immutable top-level variable exported through an api; source-code.tex:332-343")
+    assert(fixed, 11, "immutable top-level variable exported through an api; source-code.tex, subsection \"Export Statements\"")
     assert(shared, 7, "mutable top-level variable exported through an api reads its initial value; ledger row 320")
     shared := 23
-    assert(shared, 23, "mutable top-level variable exported through an api is assignable through the api; ledger row 320, source-code.tex:340-342")
+    assert(shared, 23, "mutable top-level variable exported through an api is assignable through the api; ledger row 320, source-code.tex, subsection \"Export Statements\"")
     println("PASS")
   end
 

@@ -10,9 +10,9 @@ run(): () = do
     n1: NN32 = unsigned(z1)
     println("REACHED")
     assert((nMax BOXPLUS n1).asZZ.asString, "4294967295",
-           "boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:207-208")
+           "boxplus is saturating addition on fixed-size integers; Specification/basic/operators/opr-overview.tex, subsection \"Addition and Subtraction Operators\"")
     assert((nMax DOTPLUS n1).asZZ.asString, "0",
-           "dotplus is wraparound addition on fixed-size integers; Specification/basic/operators/opr-overview.tex:205-206")
+           "dotplus is wraparound addition on fixed-size integers; Specification/basic/operators/opr-overview.tex, subsection \"Addition and Subtraction Operators\"")
     println("PASS")
   end
 

@@ -12,8 +12,8 @@ plain(b: BoxT[\String\], m: ZZ32): BoxT[\String\] = BoxT[\String\](b.v m)
 run(): () = do
     assert(plain(BoxT[\String\](2), 3).v, 6, "a numeral at a non-generic call")
     assert(scale[\3\](Box[\3\](2), 3).v, 6, "a numeral at a generic call whose static argument is written out")
-    assert(scale(Box[\3\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex:119-120")
-    assert(scaleT(BoxT[\String\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex:119-120")
+    assert(scale(Box[\3\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert(scaleT(BoxT[\String\](2), 3).v, 6, "a numeral coerced at an argument whose parameter has a declared type; Specification/basic/conversions-coercions.tex, section \"Principles of Coercion\"")
     println("PASS")
   end
 

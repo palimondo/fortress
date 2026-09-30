@@ -11,8 +11,8 @@ f(x: Any): String = "other"
 run(): () = do
     a: Any = Arr[\ZZ32,3\](7)
     b: Any = Arr[\ZZ32,4\](7)
-    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a sized type applies to a value of that type; Specification/basic/overloading.tex:191-199, :297-311")
-    assert(f(b), "other", "and not to a value of another size; Specification/basic/overloading.tex:191-199, :297-311")
+    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a sized type applies to a value of that type; Specification/basic/overloading.tex, sections \"Applicability to Named Functional Calls\" and \"Overloading Resolution\"")
+    assert(f(b), "other", "and not to a value of another size; Specification/basic/overloading.tex, sections \"Applicability to Named Functional Calls\" and \"Overloading Resolution\"")
     println("PASS")
   end
 

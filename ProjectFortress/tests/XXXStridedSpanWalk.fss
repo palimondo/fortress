@@ -8,11 +8,11 @@ run(): () = do
     zMax: ZZ32 = 2147483647
     zMin: ZZ32 = -zMax - 1
     emptyAcross = zMax:zMin:1
-    assert(|emptyAcross|, 0, "a strided range whose elements all fit, empty, across the bounds; ranges.tex:68-70, :140-143")
+    assert(|emptyAcross|, 0, "a strided range whose elements all fit, empty, across the bounds; ranges.tex, section \"Ranges\"")
     wideStride = zMin:zMax:3
-    assert(|wideStride|, 1431655766, "a strided range whose elements all fit, spanning more than ZZ32's maximum; ranges.tex:68-70, :140-143")
+    assert(|wideStride|, 1431655766, "a strided range whose elements all fit, spanning more than ZZ32's maximum; ranges.tex, section \"Ranges\"")
     twoFit = 0:zMin:zMin
-    assert(|twoFit|, 2, "a strided range whose two elements, 0 and the minimum, fit; ranges.tex:68-70, :140-143")
+    assert(|twoFit|, 2, "a strided range whose two elements, 0 and the minimum, fit; ranges.tex, section \"Ranges\"")
     println("PASS")
   end
 

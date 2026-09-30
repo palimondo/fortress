@@ -10,7 +10,7 @@ run(): () = do
     println("REACHED")
     z: ZZ32 = 5
     b: ZZ64 = k(z)
-    assert(b = 5, "the generic declaration fits k(z) without coercion; inference.tex:54-63, :120-126; conversions-coercions.tex:472-476; ledger row 508")
+    assert(b = 5, "the generic declaration fits k(z) without coercion; inference.tex, section \"The Static Arguments of a Call\"; conversions-coercions.tex, section \"Coercion Resolution\"; ledger row 508")
     println("PASS")
   end
 

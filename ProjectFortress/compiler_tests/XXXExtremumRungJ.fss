@@ -10,7 +10,7 @@ pick(): String = case most > of
   end
 
 run(): () = do
-    assert(pick() = "three", "case.tex:107-112")
+    assert(pick() = "three", "case.tex, section \"Extremum Expressions\"")
     println("PASS")
   end
 

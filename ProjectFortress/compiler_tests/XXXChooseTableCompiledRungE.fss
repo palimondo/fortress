@@ -7,8 +7,8 @@ cl(a: ZZ64, b: ZZ64): String = try "" || (a CHOOSE b) catch e IntegerOverflow =>
 
 run(): () = do
     println("REACHED")
-    assert(cz(34, 17), "OVF", "ZZ32 34 CHOOSE 17 throws IntegerOverflow; basic-integers.tex:596-598, opr-overview.tex:154-155")
-    assert(cl(widen(68), widen(34)), "OVF", "ZZ64 68 CHOOSE 34 throws IntegerOverflow; basic-integers.tex:596-598, opr-overview.tex:154-155")
+    assert(cz(34, 17), "OVF", "ZZ32 34 CHOOSE 17 throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr CHOOSE, opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
+    assert(cl(widen(68), widen(34)), "OVF", "ZZ64 68 CHOOSE 34 throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr CHOOSE, opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
     println("PASS")
   end
 

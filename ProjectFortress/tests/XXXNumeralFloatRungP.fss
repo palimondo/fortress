@@ -6,12 +6,12 @@ export Executable
 run() = do
     println("REACHED")
     s: RR64 = 3000000000
-    assert(s, 3000000000.0, "row 443: an integer numeral outside ZZ32's range converts to RR64 at a binding; Specification/basic/conversions-coercions.tex:117-118, :158-159, Specification/basic-lib/numbers.tex:43")
+    assert(s, 3000000000.0, "row 443: an integer numeral outside ZZ32's range converts to RR64 at a binding; Specification/basic/conversions-coercions.tex, section \"Principles of Coercion\", Specification/basic-lib/numbers.tex, section \"Rational Numbers\"")
     isFloat: Boolean = typecase s of
         RR64 => true
         else => false
       end
-    assert(isFloat, "row 443: the binding holds a float; Specification/basic-lib/numbers.tex:43")
+    assert(isFloat, "row 443: the binding holds a float; Specification/basic-lib/numbers.tex, section \"Rational Numbers\"")
     println("PASS")
   end
 

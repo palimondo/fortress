@@ -17,10 +17,10 @@ run(): () = do
   u: NN32 = unsigned(five)
   z: ZZ32 = 3
   w: ZZ64 = 4
-  assert(typeOf(u MAX z), "ZZ64", "row 442, basic-integers.tex:25: ZZ64 coerces from NN32 and ZZ32, so NN32 MAX ZZ32 answers at ZZ64; conversions-coercions.tex:546-574")
-  assert(typeOf(z MAX u), "ZZ64", "row 442, basic-integers.tex:25: ZZ32 MAX NN32 answers at ZZ64; conversions-coercions.tex:546-574")
-  assert(typeOf(u MAX w), "ZZ64", "row 442, basic-integers.tex:25: NN32 MAX ZZ64 answers at ZZ64; conversions-coercions.tex:546-574")
-  assert(typeOf(w MAX u), "ZZ64", "row 442, basic-integers.tex:25: ZZ64 MAX NN32 answers at ZZ64; conversions-coercions.tex:546-574")
+  assert(typeOf(u MAX z), "ZZ64", "row 442, basic-integers.tex, section \"Integers\": ZZ64 coerces from NN32 and ZZ32, so NN32 MAX ZZ32 answers at ZZ64; conversions-coercions.tex, section \"Coercion Resolution\"")
+  assert(typeOf(z MAX u), "ZZ64", "row 442, basic-integers.tex, section \"Integers\": ZZ32 MAX NN32 answers at ZZ64; conversions-coercions.tex, section \"Coercion Resolution\"")
+  assert(typeOf(u MAX w), "ZZ64", "row 442, basic-integers.tex, section \"Integers\": NN32 MAX ZZ64 answers at ZZ64; conversions-coercions.tex, section \"Coercion Resolution\"")
+  assert(typeOf(w MAX u), "ZZ64", "row 442, basic-integers.tex, section \"Integers\": ZZ64 MAX NN32 answers at ZZ64; conversions-coercions.tex, section \"Coercion Resolution\"")
   println("PASS")
 end
 

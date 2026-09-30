@@ -5,8 +5,8 @@ import ExportVarRungXLibApi.{...}
 export Executable
 
 run(): () = do
-    assert(linked, 5, "overview.tex:33-35: a reference to an imported api resolves to a component that exports that api, whatever that component is named")
-    assert(bumpLinked(6), 7, "overview.tex:33-35: the same for an exported function")
+    assert(linked, 5, "overview.tex, section \"Overview\": a reference to an imported api resolves to a component that exports that api, whatever that component is named")
+    assert(bumpLinked(6), 7, "overview.tex, section \"Overview\": the same for an exported function")
     println("PASS")
   end
 

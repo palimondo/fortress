@@ -32,13 +32,13 @@ natr(y: String, xs: Wide...): String = builtinPrimitive("com.sun.fortress.interp
 
 run() = do
     assert(f(WideOf(widen(7))), 7, "control: a Wide where a Wide is declared")
-    assert(f(NarrowOf(3)), 3, "row 19: a function's parameter converts by the declared type's coerce; conversions-coercions.tex:115-127")
-    assert(Holder(NarrowOf(4)).w.big, 4, "row 19: a constructor's parameter converts; conversions-coercions.tex:115-127")
-    assert(Scaler(widen(2)).scale(NarrowOf(5)), 10, "row 19: a method's parameter converts; conversions-coercions.tex:115-127")
-    assert((fn (x: Wide): ZZ64 => x.big)(NarrowOf(6)), 6, "row 19: a function expression's parameter converts; conversions-coercions.tex:115-127")
-    assert(total(NarrowOf(9), WideOf(widen(1))), 10, "row 19: a varargs parameter converts; conversions-coercions.tex:115-127, :459-466")
-    assert(natf(NarrowOf(7), "native"), "testFn WideOf,native", "row 19: a native function's parameter converts; conversions-coercions.tex:115-127")
-    assert(natr("rest", NarrowOf(8)), "testFn rest,WideOf", "row 19: a native function's varargs parameter converts; conversions-coercions.tex:115-127, :459-466")
+    assert(f(NarrowOf(3)), 3, "row 19: a function's parameter converts by the declared type's coerce; conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert(Holder(NarrowOf(4)).w.big, 4, "row 19: a constructor's parameter converts; conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert(Scaler(widen(2)).scale(NarrowOf(5)), 10, "row 19: a method's parameter converts; conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert((fn (x: Wide): ZZ64 => x.big)(NarrowOf(6)), 6, "row 19: a function expression's parameter converts; conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert(total(NarrowOf(9), WideOf(widen(1))), 10, "row 19: a varargs parameter converts; conversions-coercions.tex, sections \"Principles of Coercion\" and \"Applicability with Coercion\"")
+    assert(natf(NarrowOf(7), "native"), "testFn WideOf,native", "row 19: a native function's parameter converts; conversions-coercions.tex, section \"Principles of Coercion\"")
+    assert(natr("rest", NarrowOf(8)), "testFn rest,WideOf", "row 19: a native function's varargs parameter converts; conversions-coercions.tex, sections \"Principles of Coercion\" and \"Applicability with Coercion\"")
     println("PASS")
   end
 

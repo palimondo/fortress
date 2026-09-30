@@ -7,7 +7,7 @@ run(): () = do
     threeU: NN64 = unsigned(widen(3))
     twoU: NN64 = unsigned(widen(2))
     r: NN64 = threeU^twoU
-    assert(r = unsigned(widen(9)), "NN64 3^2 is 9; basic-integers.tex:527-529")
+    assert(r = unsigned(widen(9)), "NN64 3^2 is 9; basic-integers.tex, section \"Integers\", opr ^")
     println("PASS")
   end
 

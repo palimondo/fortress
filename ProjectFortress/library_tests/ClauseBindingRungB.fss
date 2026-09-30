@@ -15,7 +15,7 @@ run():() = do
             TryAtomicFailure => e.asString
         end
     assert(caught, "Try/atomic failure",
-           "a catch clause binds the exception value, Specification/basic/expressions/try.tex:56-60")
+           "a catch clause binds the exception value, Specification/basic/expressions/try.tex, section \"Try Expressions\"")
     println("PASS")
 end
 

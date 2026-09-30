@@ -2,10 +2,10 @@
    inside `atomic do ... end` by the two implicit threads of a
    `do ... also do ... end`.
 
-   Specification/basic/expressions/atomic.tex:38-42 requires the read and the
+   Specification/basic/expressions/atomic.tex, section "Atomic Expressions" requires the read and the
    write of `counter` to appear to occur in a single atomic step with respect
    to any action of a thread dynamically outside, so the two threads together
-   must perform exactly 2 * iterations increments.  atomic.tex:96-107 gives the
+   must perform exactly 2 * iterations increments.  atomic.tex, section "Atomic Expressions" gives the
    same shape as the chapter's own example: a loop body that reads and writes a
    shared counter inside `atomic`, which "will appear to occur atomically with
    respect to all other threads -- including both other iterations of the loop

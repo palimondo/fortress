@@ -10,7 +10,7 @@ end
 run(): () = do
     println("REACHED")
     o: Shape = object extends Shape end
-    assert(o.name, "shape", "an object expression denotes an object value of an anonymous type extending its extends clause; ledger row 375, Specification/basic/expressions/object.tex:31-38")
+    assert(o.name, "shape", "an object expression denotes an object value of an anonymous type extending its extends clause; ledger row 375, Specification/basic/expressions/object.tex, section \"Object Expressions\"")
     println("PASS")
   end
 

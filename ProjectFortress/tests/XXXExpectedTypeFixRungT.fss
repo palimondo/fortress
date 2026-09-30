@@ -22,11 +22,11 @@ isZZ64Box(b: Any): Boolean =
 run(): () = do
     println("REACHED")
     a: BoxT[\ZZ64\] = Fac.mk()
-    assert(isZZ64Box(a), "the expected type fixes T in a variable declaration; inference.tex:74-76, :109-112; row 21")
+    assert(isZZ64Box(a), "the expected type fixes T in a variable declaration; inference.tex, section \"The Static Arguments of a Call\"; row 21")
     var c: BoxT[\ZZ64\] = BoxT[\ZZ64\]()
     c := Fac.mk()
-    assert(isZZ64Box(c), "the expected type fixes T in an assignment to a variable; inference.tex:74-76, :109-112; row 21")
-    assert(isZZ64Box(H.f), "the expected type fixes T in a field declaration; inference.tex:74-76, :109-112; row 21")
+    assert(isZZ64Box(c), "the expected type fixes T in an assignment to a variable; inference.tex, section \"The Static Arguments of a Call\"; row 21")
+    assert(isZZ64Box(H.f), "the expected type fixes T in a field declaration; inference.tex, section \"The Static Arguments of a Call\"; row 21")
     println("PASS")
   end
 

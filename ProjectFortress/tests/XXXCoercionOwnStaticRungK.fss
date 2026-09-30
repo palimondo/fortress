@@ -22,7 +22,7 @@ fO(x: WideO[\ZZ32\]): String = x.s
 run(): () = do
     println("REACHED")
     assert(fO(WideOOf[\ZZ32\]("direct")), "direct", "control: a WideO where a WideO is declared")
-    assert(fO(TagOOf[\String\]("coerced")), "coerced", "a generic trait's coercion with its own static parameter converts; conversions-coercions.tex:119-120, :209-211")
+    assert(fO(TagOOf[\String\]("coerced")), "coerced", "a generic trait's coercion with its own static parameter converts; conversions-coercions.tex, sections \"Principles of Coercion\" and \"Coercion Declarations\"")
     println("PASS")
   end
 

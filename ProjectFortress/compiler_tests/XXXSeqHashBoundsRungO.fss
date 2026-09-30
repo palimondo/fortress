@@ -12,15 +12,15 @@ run(): () = do
     var n: ZZ32 = 0
     for i <- seq(zMin # zero) do
         n += 1
-        assert(n < 2, "ranges.tex:78-79")
+        assert(n < 2, "ranges.tex, section \"Ranges\"")
     end
-    assert(n = 0, "ranges.tex:78-79")
+    assert(n = 0, "ranges.tex, section \"Ranges\"")
     var m: ZZ32 = 0
     for i <- seq(zMax # one) do
         m += 1
-        assert(m < 2, "ranges.tex:78-79")
+        assert(m < 2, "ranges.tex, section \"Ranges\"")
     end
-    assert(m = 1, "ranges.tex:78-79")
+    assert(m = 1, "ranges.tex, section \"Ranges\"")
     println("PASS")
   end
 

@@ -8,7 +8,7 @@ run(): () = do
     thirtyOneN: NN32 = unsigned(31)
     r: NN32 = twoN^thirtyOneN
     twoTo31N: NN32 = unsigned(1073741824) + unsigned(1073741824)
-    assert(r = twoTo31N, "NN32 2^31 is 2147483648; basic-integers.tex:527-529")
+    assert(r = twoTo31N, "NN32 2^31 is 2147483648; basic-integers.tex, section \"Integers\", opr ^")
     println("PASS")
   end
 

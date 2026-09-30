@@ -10,8 +10,8 @@ g(b: Tg[\3\]): ZZ32 = 3
 g(b: Tg[\4\]): ZZ32 = 4
 
 run(): () = do
-    assert(g(Ob3), 3, "row 416; Specification/basic/types-vals-vars.tex:218-237")
-    assert(g(Ob4), 4, "row 416; Specification/basic/types-vals-vars.tex:218-237")
+    assert(g(Ob3), 3, "row 416; Specification/basic/types-vals-vars.tex, section \"Trait Types\"")
+    assert(g(Ob4), 4, "row 416; Specification/basic/types-vals-vars.tex, section \"Trait Types\"")
     println("PASS")
   end
 

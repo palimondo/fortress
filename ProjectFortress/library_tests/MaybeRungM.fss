@@ -10,7 +10,7 @@ run():() = do
     empty = pick(false)
 
     (*) The empty case written as the unparameterised singleton and coerced
-    (*) into Maybe, which is how Specification/basic/exceptions.tex:134-137 says
+    (*) into Maybe, which is how Specification/basic/exceptions.tex, section "Information of Exceptions" says
     (*) the Working Draft spelled the default of a Maybe field.
     coerced: Maybe[\ZZ32\] = Nothing
 

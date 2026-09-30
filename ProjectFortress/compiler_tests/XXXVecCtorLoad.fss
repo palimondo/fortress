@@ -6,7 +6,7 @@ run(): () = do
     println("REACHED")
     d: ZZ32Vector = makeZZ32Vector(4)
     b: Box[\ZZ32\] = Box[\ZZ32\](d, 7)
-    assert(b.x, 7, "a constructor applies to every value of its parameter types; ledger row 408, Specification/basic/objects.tex:198-206")
+    assert(b.x, 7, "a constructor applies to every value of its parameter types; ledger row 408, Specification/basic/objects.tex, section \"Object Declarations\"")
     println("PASS")
   end
 end

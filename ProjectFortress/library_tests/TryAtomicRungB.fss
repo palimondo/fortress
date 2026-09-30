@@ -35,9 +35,9 @@ escapesUncheckedCatch(): String =
 
 run():() = do
     assert(caughtByOwnName(), "CAUGHT BY OWN NAME",
-           "thrown and caught under its own name, Specification/basic/expressions/atomic.tex:45-48")
+           "thrown and caught under its own name, Specification/basic/expressions/atomic.tex, section \"Atomic Expressions\"")
     assert(caughtAsChecked(), "CAUGHT AS CHECKED",
-           "a checked exception, Specification/advanced/parallelism-locality/transactions.tex:38")
+           "a checked exception, Specification/advanced/parallelism-locality/transactions.tex, section \"Abortable Atomicity\"")
     assert(TryAtomicFailure.asString, "Try/atomic failure",
            "asString of Library/FortressLibrary.fss:1571")
     assert(escapesUncheckedCatch(), "PROPAGATED",

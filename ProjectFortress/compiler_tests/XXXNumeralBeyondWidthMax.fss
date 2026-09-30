@@ -15,9 +15,9 @@ run(): () = do
     w: ZZ64 = 4
     println("REACHED")
     r = z MAX 3000000000
-    assert("z MAX 3000000000 = " || r || " : " || typeOf(r), "z MAX 3000000000 = 3000000000 : ZZ64", "ledger row 325: a numeral converts only into a type that holds its value; Specification/basic/expressions/literals.tex:83-86, :146-148, basic/conversions-coercions.tex:546-574")
+    assert("z MAX 3000000000 = " || r || " : " || typeOf(r), "z MAX 3000000000 = 3000000000 : ZZ64", "ledger row 325: a numeral converts only into a type that holds its value; Specification/basic/expressions/literals.tex, section \"Literals\", basic/conversions-coercions.tex, section \"Coercion Resolution\"")
     s = w MAX 100000000000000000000
-    assert("w MAX 100000000000000000000 = " || s || " : " || typeOf(s), "w MAX 100000000000000000000 = 100000000000000000000 : ZZ", "ledger row 325: a numeral converts only into a type that holds its value; Specification/basic/expressions/literals.tex:83-86, :146-148, basic/conversions-coercions.tex:546-574")
+    assert("w MAX 100000000000000000000 = " || s || " : " || typeOf(s), "w MAX 100000000000000000000 = 100000000000000000000 : ZZ", "ledger row 325: a numeral converts only into a type that holds its value; Specification/basic/expressions/literals.tex, section \"Literals\", basic/conversions-coercions.tex, section \"Coercion Resolution\"")
     println("PASS")
   end
 

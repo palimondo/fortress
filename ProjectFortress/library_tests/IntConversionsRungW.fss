@@ -84,9 +84,9 @@ run(): () = do
   assert(widen(unsigned(zMOne)).asZZ.asString, "4294967295", "widen of unsigned -1")
   assert(unsigned(widen(zMOne)).asZZ.asString, "18446744073709551615", "unsigned of widen -1")
 
-  assert(takesNN64(nAll), "4294967295", "NN32 coerced to NN64 keeps its value, conversions-coercions.tex:90-92")
-  assert(takesNN64(nHigh), "2147483648", "NN32 coerced to NN64 keeps its value at 2^31, conversions-coercions.tex:90-92")
-  assert(takesNN64(n43), "43", "NN32 coerced to NN64 keeps its value at 43, conversions-coercions.tex:90-92")
+  assert(takesNN64(nAll), "4294967295", "NN32 coerced to NN64 keeps its value, conversions-coercions.tex, section \"Principles of Coercion\"")
+  assert(takesNN64(nHigh), "2147483648", "NN32 coerced to NN64 keeps its value at 2^31, conversions-coercions.tex, section \"Principles of Coercion\"")
+  assert(takesNN64(n43), "43", "NN32 coerced to NN64 keeps its value at 43, conversions-coercions.tex, section \"Principles of Coercion\"")
 
   println("PASS")
 end

@@ -5,7 +5,7 @@ export Executable
 run(): () = do
   println("REACHED")
   for x <- seq(3000000000#2) do println("  element " x) end
-  assert(true, "ledger row 325: a numeral beyond ZZ32 as a range component is a static error; Specification/basic/expressions/ranges.tex:43-50, basic/expressions/literals.tex:83-86")
+  assert(true, "ledger row 325: a numeral beyond ZZ32 as a range component is a static error; Specification/basic/expressions/ranges.tex, section \"Ranges\", basic/expressions/literals.tex, section \"Literals\"")
   println("PASS")
 end
 

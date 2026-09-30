@@ -23,7 +23,7 @@ g(x: NarrowOf): String = "g(NarrowOf)"
 run() = do
     println("REACHED")
     n: Narrow = NarrowOf(1)
-    assert(g(n), "g(Wide)", "row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex:563-574, :619-622")
+    assert(g(n), "g(Wide)", "row 19: coercion is resolved on the static type Narrow, so g(n) calls g(Wide) though g(NarrowOf) applies to the value without coercion; conversions-coercions.tex, section \"Coercion Resolution\"")
     println("PASS")
   end
 

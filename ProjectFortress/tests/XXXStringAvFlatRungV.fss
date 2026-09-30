@@ -14,7 +14,7 @@ run() = do
     s = "abcd" || "efgh"
     st = s.stats()
     println("REACHED")
-    assert(shownA(st.avFlat), "8.0 : RR32", "String.fss:508 declares avFlat an RR32; conversions-coercions.tex:121-122, numbers.tex:46: its RR64 body does not convert, so the body must be an RR32")
+    assert(shownA(st.avFlat), "8.0 : RR32", "String.fss:508 declares avFlat an RR32; conversions-coercions.tex, section \"Principles of Coercion\", numbers.tex, section \"Rational Numbers\": its RR64 body does not convert, so the body must be an RR32")
     println("PASS")
   end
 

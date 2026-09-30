@@ -8,9 +8,9 @@ export Executable
 (*) arrived wrapped negative: 4294967295 and 18446744073709551615 both became
 (*) -1.
 (*)
-(*) Specification/basic/expressions/literals.tex:83-85 gives a numeral of
+(*) Specification/basic/expressions/literals.tex, section "Literals" gives a numeral of
 (*) digits the value of the numeral interpreted in radix ten, with nothing
-(*) bounding it; Specification/basic-lib/basic-integers.tex:398-399 and
+(*) bounding it; Specification/basic-lib/basic-integers.tex, section "Integers", binary opr +, BOXPLUS and DOTPLUS and
 (*) :400-401 give wrapping and saturating their own operator spellings and say
 (*) the ordinary operations never need to wrap or saturate.
 (*)
