@@ -1,0 +1,19 @@
+component XXXGenericBesidePlainReturnParam
+export Executable
+
+(* A plain declaration inside a generic one that returns its type parameter, its result below that of every instance it overlaps, is a valid overloading; walk refuses it at load. *)
+
+pickFirst[\T extends Number\](a: T, b: T): T = a
+pickFirst(a: ZZ64, b: ZZ64): ZZ64 = b
+
+run(): () = do
+    w: ZZ64 = widen(4)
+    v: ZZ64 = widen(5)
+    z: ZZ32 = 3
+    y: ZZ32 = 7
+    assert(pickFirst(w, v), widen(5), "two ZZ64 values take the plain declaration, whose domain lies inside the generic declaration's and whose result ZZ64 is below T for every instance at T that holds a ZZ64")
+    assert(pickFirst(z, y), 3, "two ZZ32 values take the generic declaration at ZZ32, which returns its first argument")
+    println("PASS")
+  end
+
+end

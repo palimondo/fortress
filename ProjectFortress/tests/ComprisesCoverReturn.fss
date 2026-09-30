@@ -1,0 +1,45 @@
+component ComprisesCoverReturn
+export Executable
+
+(* A declaration covering the overlap of two closed traits returns a result below both of theirs and runs, in either order of the two. *)
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+
+trait LeftResult end
+trait RightResult end
+object LeftOnly extends LeftResult end
+object RightOnly extends RightResult end
+object BothResult extends { LeftResult, RightResult } end
+
+chooseSFirst(s: S): LeftResult = LeftOnly
+chooseSFirst(t: T): RightResult = RightOnly
+chooseSFirst(v: V): BothResult = BothResult
+
+chooseTFirst(t: T): RightResult = RightOnly
+chooseTFirst(s: S): LeftResult = LeftOnly
+chooseTFirst(v: V): BothResult = BothResult
+
+kindOf(x: Any): String = typecase x of
+    BothResult => "BothResult"
+    LeftOnly => "LeftOnly"
+    RightOnly => "RightOnly"
+    else => "other"
+  end
+
+run(): () = do
+    m: M = Vo
+    left: LeftResult = chooseSFirst(m)
+    right: RightResult = chooseSFirst(m)
+    assert(kindOf(left), "BothResult", "a V takes the declaration on V, which covers the overlap of S and T (Meet Rule)")
+    assert(kindOf(right), "BothResult", "a V takes the declaration on V, whose result is both a LeftResult and a RightResult")
+    assert(kindOf(chooseTFirst(m)), "BothResult", "with the declarations on S and T written in the other order, a V still takes the declaration on V")
+    println("PASS")
+  end
+
+end

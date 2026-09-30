@@ -1,0 +1,30 @@
+component GenericReturningAny
+export Executable
+
+(* A generic declaration declared to return Any is instantiated from its argument and runs, alone and beside a plain declaration (ledger row 157). *)
+
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+object Marker[\X\] end
+
+peekLone[\X\](t: Tag[\X\]): Any = Marker[\X\]
+
+peekBeside[\X\](t: Tag[\X\]): Any = Marker[\X\]
+peekBeside(a: Any): Any = Red
+
+kindOf(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red]"
+    Red => "Red"
+    else => "other"
+  end
+
+run(): () = do
+    r: RedTag = RedTag
+    a: Any = RedTag
+    assert(kindOf(peekLone(r)), "Marker[Red]", "the generic declaration alone runs at X = Red, which the argument fixes")
+    assert(kindOf(peekBeside(a)), "Marker[Red]", "beside a declaration on Any, the generic declaration is the more specific one that fits a Tag[Red] value and runs at X = Red (Overloading Resolution)")
+    println("PASS")
+  end
+
+end

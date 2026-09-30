@@ -1,0 +1,22 @@
+component InferLoneBoundWalk
+export Executable
+
+(* A lone type parameter that the arguments do not fix, bounded by Number, takes its bound (ledger row 516). *)
+
+object BoxU[\T\]() end
+
+pickU[\T extends Number\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Number\] => "BoxU[Number]"
+    else => "other"
+  end
+
+run(): () = do
+    l: ZZ64 = widen(7)
+    r: RR64 = 2.5
+    assert(kindU(pickU(l, r)), "BoxU[Number]", "a ZZ64 and an RR64 leave the parameter to its written bound Number (Type Inference)")
+    println("PASS")
+  end
+
+end

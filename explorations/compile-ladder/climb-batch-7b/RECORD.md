@@ -137,3 +137,53 @@ Every piece of P2 lands, since C landed with row 492's expected failure renamed.
 **Stops.** The skeptic's one (its section 13, normative text for a rule neither path runs, in two places), met by the worker's text and removed by corrections 1 and 2; reversible and lifted by POSITIONS 2026-09-27, the stops. The gather's text mismatch (gather.1) lands the same way, as a reserved stop met: reversible, listed for Pavol, lifted by POSITIONS 2026-09-27, the stops, and 2026-09-29 on weighing cost against what a rule protects. No file under `Specification-1.0-frozen/` changed.
 
 **For the gate.** The compiler track gains 4 `.test` files (the gather's `InferLoneUnionClosedTraitLink`, `XXXInferLoneUnionClosedTrait`, `XXXImplicitBoundAny` and `XXXComprisesMeetGenericTrait`, and none of the rung's, which only changes messages). No source changed; the checker count and the distance are unchanged by S. The specification is rebuilt by the commit stage; on the merged tree with the gather's corrections, `./ant genSource` and `./ant tex` in `Specification/fortress/` wrote "Output written on fortress.pdf (655 pages, 2230334 bytes)", its final pass with no undefined reference (rung S's tree built at 654).
+
+## Rung W (`rung-walk-dispatch`)
+
+**Inherited from the branch.** Six commits, `b3589652e` to `1d78d7828`: the tests alone, before the edit (`b3589652e`); the edit (`adc6505c1`); two expected failures and a pin added during the work (`9b1dece71`, `ba9959f31`); the record lines (`a50c7e78f`); one more expected failure with its provisional row (`1d78d7828`). `record.md` was on the branch and is folded.
+
+**Written at the gather.** `explorations/compile-ladder/rung-walk-dispatch/REPORT.md` (39,998 bytes) from the worker's `reportText` and `SKEPTIC.md` (14,250 bytes) from the skeptic's `skepticText`, each by its `journal-text.py` command; nothing composed. Then the gather's edits below, and an italic note line under each title.
+
+**Applied.** `git apply --3way --index` of `git diff --binary 811053f15...wip/rung-walk-dispatch`, on top of S's commit, applied without a conflict; every path matches the branch in the index, the rename of `XXXComprisesMeetWalk.fss` and the deletion of `XXXInferLoneUnionWalk.fss` among them. No path is shared with C's or S's commit.
+
+**Final row numbers.** W's provisional rows 534 to 536 are 548 to 550; its skeptic's two recommended rows are 551 (walk's unchecked closure) and 552 (the lift's overlap reading). They follow row 547. W's record asked for its rows in section 4 of the ledger; the gather's rule puts every new row in the ledger's last table, after row 547, as the batches before did. The provisional numbers are corrected in `REPORT.md` and `SKEPTIC.md` (the one range "534-536" by hand); the rung's tests cite no row number.
+
+**Corrections.** The skeptic's seven, made at the gather:
+1. The unlisted extender (`SkUnlistedExtender`): row 551, its home the row alone on the rung's decision-6 reasoning, and row 492's note gains the sentence that the closure the coverage assumes is unenforced under walk within a component too, not only across components (row 487).
+2. The lift's overlap reading: `ProjectFortress/tests/XXXGenericBesidePlainTwoBounds.fss`, in `SkGenTwoBounds`'s shape with a `ZZ32` variable, asserting `meet`, `generic` and `bothAny`. Through `harness-one.sh` on the merged tree: "OK Saw expected exception"; on a stand-in with the one bound `Aa`, "PASS", "Missing expected failure", "Tests run: 2, Failures: 1". Row 552, beside row 550, names the reading's limits: two bounds, a type parameter inside another type, a bound naming a static parameter, a non-type static parameter (`OverloadedFunction.java:736-757`).
+3. The visitor lacks 11 of the AST's 18 concrete type classes, `_InferenceVarType` the eleventh (`ProjectFortress/astgen/Fortress.ast:1015-1168`, read): in the third FACTS entry and `REPORT.md` section 3.
+4. Rung S's interpreter callout (`Specification/basic/inference.tex:164-167` on the landed tree): it no longer says that walk does not compare declarations with static parameters on their declared types nor dispatch a converted call again; it says walk does both, except generic dotted methods (row 21) and a call of an overloaded method. The edit moves two citations of `inference.tex:198-203` to `:199-204` (`ProjectFortress/compiler_tests/XXXInferResultOnlyAny.fss:13`, `XXXInferResultOnlyCoerced.fss:34`), re-anchored by the map of unchanged lines from S's commit.
+5. Row 157's note says that the row's run-c reproducers now stop earlier, at the library's `fill`, on the base and after, so the row closes on `GenericReturningAny.fss`, the `nat` form fixed as well.
+6. `REPORT.md` written from `reportText`; the gather opened each file:line of its provenance block. The problem lines hold what they say (`GenPlainSub.fss:10-11` the two declarations, its capture `generic` three times, `O2Z64.walk-stock.txt:2-6` and `BoundBoundedFirstSameName.txt:3-7` the load refusals, `both-paths.txt:38-41` "Missing visitor for class ... AnyType", the base's `XXXComprisesMeetWalk.fss:13-20` the example), the specification lines are the base's (the Overloading Resolution section, the Subtype Rule, the Meet Rule and its example; the base's `basic/overloading.tex:292-295` is the sentence rung S replaced), the precedent lines hold `P4Probe`'s type-only values, the base's `bestMatchWithCoercion`, `FType`'s transitive `comprises` exclusion and the base's no-op `forTraitType`, and the historical line names `OverloadedFunction.java`, `GenericFunctionOrMethod.java` and `MakeInferenceSpecific.java`. The note under the title says so.
+7. `SkPosBox`'s compiled column in `REPORT.md` section 7: `box` for the direct call and `any` for the three `viaT` calls.
+
+**Re-anchored.** `ProjectFortress/tests/ComprisesMeetWalk.fss:18`, the renamed file, from the base's `advanced/overloading.tex:282-307` to `:346-372`, as `ComprisesMeetCompiled.fss` in S's commit. The rewritten `InferLoneBoundWalk.fss` and `XXXInferLoneUnboundedWalk.fss` cite no specification line.
+
+**Recommended rows.**
+- The unlisted extender: opened, row 551 (correction 1).
+- The lift's overlap reading: opened, row 552 beside row 550, with the test of correction 2.
+- A note on row 390 (`SkGenMeetCover`, `SkGenMeetCoverTyped`): appended, in the skeptic's words.
+- A note on row 499 (`SkPosBox` after rung W): appended.
+
+**Rung C's walk test owed here.** Rung C's report (section 12) and row 539 ask for a walk expected failure of the POPL 2019 paper's set if rung W's tree still refuses it. It does: under walk on the merged tree, "m[\Q extends Num\](y:Seq[\Q\]) ... and m[\P\](x:ArraySeq[\P\]) ... have parameters with generic type, at least one pair of parameters must have excluding types". `ProjectFortress/tests/XXXOverloadExistentialMeetWalk.fss` is rung C's program with the answers the rules give: "OK Saw expected exception" through `harness-one.sh`, and on a stand-in of two plain declarations on the two objects, "PASS", "Missing expected failure". A first stand-in over `ArraySeq[\String\]` and `ArraySeq[\One\]` was refused at load, "first parameters ... are unrelated": walk applies no instantiation exclusion, row 416, already on the ledger.
+
+**On the merged tree.** Rung W's 16 files in `ProjectFortress/tests/` (its renamed and rewritten ones among them), rung L's two and the gather's three walk tests (W's two above and L's `XXXTypecaseNoMatchWalk.fss`, below), 21 files through `harness-one.sh` in one run on the merged tree of the four rungs, rung L's library included: 11 " OK (time = ...)", 10 "OK Saw expected exception", "OK (21 tests)".
+
+**Folded.**
+- `FACTS.md`: the record's three entries after the last entry of "Execution model", with the landing placeholder, the second naming the gather's two expected failures and row 551, the third the eleven classes; the entry "Walk's overload check reads one bound for two generic overloads whose static parameters share a name", which the record replaces (row 478 fixed), moved verbatim to `FACTS-history.md` under "Replaced 2026-09-30, at climb batch 7b's gather (rung W's record)"; "The ledger"'s two citations re-anchored.
+- The ledger: rows 478 and 157 `FIXED` with their notes; row 492 `FIXED`, both halves landed (C's `e2f1aa7e8`, W's placeholder), with W's note and correction 1's sentence; notes on rows 491, 159, 516, 496, 499, 504, 21 and 430, the skeptic's on 390 and 499, the gather's on 539; rows 548 to 552 after row 547.
+- The handover: one paragraph after S's.
+- `PLAN.md`: a sentence on item 32 and five entries in "Climb batch 7b, listed for his review", with gather.2.
+
+**Items for Pavol, as `PLAN.md` holds them:**
+- **W.worker.1**, row 159's pairs and the positional keying: a sentence on item 32 ("Before batch 8"), the domain condition that Q4 = (2) names.
+- **W.worker.2**, a written static argument on a generic beside a plain declaration: its entry.
+- **W.worker.3**, row 549's home the row alone: its entry.
+- **W.worker.4**, row 550, the lifted return rule: its entry.
+- **W.skeptic.1**, the closure walk trusts and the fallback not taken: its entry, with row 551.
+- **C.worker.9**, walk's refusal of the paper's set: its entry, with the gather's test.
+- **gather.2**, the checker's verdict carried between compilations (row 547, found at C's fold): its entry.
+
+**Stops.** None met by the worker or the skeptic. The load-time verdicts that moved are the shapes the section names (`O2Z64`, `O2Meet`, rows 478 and 492, `BetweenTwoClosed`), none the other way; the gather's edits change no interpreter source.
+
+**For the gate.** `testSystem`'s file count rises by 16 with W: the rung adds 15 files and deletes 1, and the gather adds 2. Added: `ComprisesCoverReturn`, `ComprisesMeetViaExclusion`, `DispatchConvertedAgain`, `DispatchDeclaredDomain`, `DispatchMeetBesideGeneric`, `DispatchWrittenStaticArgWalk`, `GenericOverloadBoundsApart`, `GenericReturningAny`, `InferLoneBoundWalk`, `XXXComprisesCoverReturnWrong`, `XXXComprisesMeetUncovered`, `XXXDispatchGenericMethodBesidePlain`, `XXXGenericBesidePlainReturnParam`, `XXXGenericBesidePlainReturnRule`, `XXXInferLoneUnboundedWalk`, and the gather's `XXXGenericBesidePlainTwoBounds` and `XXXOverloadExistentialMeetWalk`; `XXXComprisesMeetWalk.fss` is renamed `ComprisesMeetWalk.fss`, and `XXXInferLoneUnionWalk.fss` is deleted, rewritten as `InferLoneBoundWalk.fss` with `XXXInferLoneUnboundedWalk.fss`. Rung W's Java edits need `ant compileAll`.

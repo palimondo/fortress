@@ -1,0 +1,24 @@
+component DispatchConvertedAgain
+export Executable
+
+(* A call that converts an argument for the generic declaration dispatches again, on the converted values, to the plain declaration they fit. *)
+
+opz[\T extends Number\](a: T, b: T): String = "generic[" kindOf(a) "," kindOf(b) "]"
+opz(a: ZZ64, b: ZZ64): String = "plain64[" kindOf(a) "," kindOf(b) "]"
+
+kindOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(opz(z, w), "plain64[ZZ64,ZZ64]", "the generic declaration takes a ZZ32 and a ZZ64 at ZZ64 by converting the ZZ32; the converted call then fits the plain declaration on ZZ64, the more specific, and runs it")
+    assert(opz(w, w), "plain64[ZZ64,ZZ64]", "two ZZ64 values take the plain declaration, whose domain lies inside the generic declaration's")
+    assert(opz(z, z), "generic[ZZ32,ZZ32]", "two ZZ32 values take the generic declaration at ZZ32, the only one that fits them")
+    println("PASS")
+  end
+
+end

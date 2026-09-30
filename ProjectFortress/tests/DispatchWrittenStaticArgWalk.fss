@@ -1,0 +1,23 @@
+component DispatchWrittenStaticArgWalk
+export Executable
+
+(* Pins walk's answer to a written static argument on a name with a generic and a plain declaration: the generic's instance runs, where the compiled run dispatches to the plain one (ledger row 504). *)
+
+opw[\T extends Number\](a: T, b: T): String = "generic[" kindOf(a) "," kindOf(b) "]"
+opw(a: ZZ64, b: ZZ64): String = "plain64[" kindOf(a) "," kindOf(b) "]"
+
+kindOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(opw[\ZZ64\](z, w), "generic[ZZ64,ZZ64]", "walk takes the written static argument as the generic declaration's instance at ZZ64, converting the ZZ32, and runs it")
+    assert(opw[\ZZ64\](w, w), "generic[ZZ64,ZZ64]", "walk runs the generic declaration's instance at ZZ64 for two ZZ64 values too")
+    println("PASS")
+  end
+
+end

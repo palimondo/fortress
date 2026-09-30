@@ -21,12 +21,21 @@ import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.InstantiationLock;
 import com.sun.fortress.interpreter.evaluator.types.*;
+import com.sun.fortress.nodes.BaseType;
+import com.sun.fortress.nodes.BoolRef;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
+import com.sun.fortress.nodes.IntRef;
+import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
 import com.sun.fortress.nodes.Op;
+import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.StaticArg;
 import com.sun.fortress.nodes.StaticParam;
+import com.sun.fortress.nodes.Type;
+import com.sun.fortress.nodes.TypeOrPattern;
+import com.sun.fortress.nodes.VarType;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.*;
+import edu.rice.cs.plt.tuple.Option;
 
 import java.io.IOException;
 import java.util.*;
@@ -484,6 +493,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
 
 
+            if (!distinct && !overloadOk()) {
+                if (validOnDeclaredDomains(o1, o2, new_overloads)) return;
+                if (unrelated != -1 && !sawSymbolic1 && !sawSymbolic2 && overlapCovered(o1, pl1, o2, pl2, new_overloads)) return;
+            }
+
             describeOverloadingFailure(o1, o2, within, pl1, pl2);
 
             return;
@@ -663,6 +677,271 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     static private FType deRest(FType p1) {
         if (p1 instanceof FTypeRest) p1 = ((FTypeRest) p1).getType();
         return p1;
+    }
+
+    /**
+     * A pair of one own generic and one declaration without static
+     * parameters that the parameter-by-parameter check refuses, read on the
+     * two declared domains: valid when one lies strictly inside the other and
+     * the inner one's return type is below the outer one's for every
+     * instance of the generic, its type parameters standing for themselves;
+     * or when neither lies inside the other and declarations below both
+     * cover their overlap (genericOverlapCovered).  Pairs of two generics
+     * keep that check.
+     */
+    static private boolean validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all) {
+        SingleFcn f1 = o1.getFn();
+        SingleFcn f2 = o2.getFn();
+        Overload gen;
+        Overload plain;
+        if (ownGeneric(f1) && !(f2 instanceof GenericFunctionOrMethod)) {
+            gen = o1;
+            plain = o2;
+        } else if (ownGeneric(f2) && !(f1 instanceof GenericFunctionOrMethod)) {
+            gen = o2;
+            plain = o1;
+        } else {
+            return false;
+        }
+        if (hasRest(gen.getParams()) || hasRest(plain.getParams())) return false;
+        if (gen.getParams().size() != plain.getParams().size()) return false;
+        try {
+            SingleFcn g = gen.getFn();
+            SingleFcn p = plain.getFn();
+            boolean plainInside = instanceHolding(g, plain.getParams(), true) != null;
+            boolean genInside = declaredBelow(g, null, p, p, true);
+            if (plainInside && genInside) return false;
+            if (plainInside) return p.getRange().subtypeOf(g.getRange());
+            if (genInside) return g.getRange().subtypeOf(p.getRange());
+            return genericOverlapCovered(gen, plain, all);
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    static private boolean hasRest(List<FType> l) {
+        return l.size() > 0 && l.get(l.size() - 1) instanceof FTypeRest;
+    }
+
+    /**
+     * The overlap of an own generic and a plain declaration, neither inside
+     * the other, is covered by declarations below both.  The generic's
+     * domain is read at its bounds (Any where it has none), which holds
+     * every value of it when each of its type parameters is the whole type
+     * of the parameters it occurs in and has at most one bound, a bound that
+     * names no static parameter; any other generic is not read, and the pair
+     * stays refused.
+     */
+    static private boolean genericOverlapCovered(Overload gen, Overload plain, Collection<Overload> all) {
+        GenericFunctionOrMethod g = (GenericFunctionOrMethod) gen.getFn();
+        List<StaticParam> sps = g.getStaticParams();
+        Set<String> names = new HashSet<String>();
+        for (StaticParam sp : sps) names.add(NodeUtil.getName(sp));
+        for (StaticParam sp : sps) {
+            if (!NodeUtil.isTypeParam(sp) || sp.getExtendsClause().size() > 1) return false;
+            for (BaseType b : sp.getExtendsClause()) {
+                if (!staticParamsNamed(b, names).isEmpty()) return false;
+            }
+        }
+        for (Param prm : g.getParams()) {
+            if (NodeUtil.isVarargsParam(prm)) return false;
+            Option<TypeOrPattern> ot = prm.getIdType();
+            if (ot.isNone()) return false;
+            Type ty = NodeUtil.optTypeOrPatternToType(ot).unwrap();
+            if (ty instanceof VarType && names.contains(NodeUtil.nameString(((VarType) ty).getName()))) continue;
+            if (!staticParamsNamed(ty, names).isEmpty()) return false;
+        }
+        EvalType et = new EvalType(g.getWithin());
+        List<FType> atBounds = new ArrayList<FType>(sps.size());
+        for (StaticParam sp : sps) {
+            List<BaseType> bs = sp.getExtendsClause();
+            atBounds.add(bs.isEmpty() ? FTypeTop.ONLY : et.evalType(bs.get(0)));
+        }
+        List<FType> genDomain = g.typeApply(atBounds).getNormalizedDomain();
+        return overlapCoveredBy(gen, genDomain, plain, plain.getParams(), all);
+    }
+
+    /**
+     * The names of names that ty mentions.
+     */
+    static private Set<String> staticParamsNamed(Type ty, final Set<String> names) {
+        final Set<String> found = new HashSet<String>();
+        ty.accept(new NodeDepthFirstVisitor_void() {
+            @Override
+            public void forVarTypeOnly(VarType that) {
+                String n = NodeUtil.nameString(that.getName());
+                if (names.contains(n)) found.add(n);
+            }
+
+            @Override
+            public void forIntRefOnly(IntRef that) {
+                String n = NodeUtil.nameString(that.getName());
+                if (names.contains(n)) found.add(n);
+            }
+
+            @Override
+            public void forBoolRefOnly(BoolRef that) {
+                String n = NodeUtil.nameString(that.getName());
+                if (names.contains(n)) found.add(n);
+            }
+        });
+        return found;
+    }
+
+    /**
+     * Two declarations without static parameters, neither below the other
+     * in some parameter and not excluding, whose overlap is covered by
+     * declarations below both, the overlap read through comprises clauses
+     * (overlapPieces).  Not for functional methods or dotted methods, whose
+     * Meet Rule is another.
+     */
+    static private boolean overlapCovered(Overload o1, List<FType> pl1, Overload o2, List<FType> pl2,
+                                          Collection<Overload> all) {
+        if (o1 instanceof Overload.MethodOverload || o2 instanceof Overload.MethodOverload) return false;
+        SingleFcn f1 = o1.getFn();
+        SingleFcn f2 = o2.getFn();
+        if (f1 instanceof GenericFunctionOrMethod || f2 instanceof GenericFunctionOrMethod) return false;
+        if (o1.getSelfParameterIndex() >= 0 || o2.getSelfParameterIndex() >= 0) return false;
+        if (hasRest(pl1) || hasRest(pl2) || pl1.size() != pl2.size()) return false;
+        return overlapCoveredBy(o1, pl1, o2, pl2, all);
+    }
+
+    /** The bound on the steps of one overlap search. */
+    static private final int OVERLAP_STEPS = 10000;
+
+    /** The bound on the parts of one overlap, position by position. */
+    static private final int OVERLAP_PARTS = 4096;
+
+    /**
+     * The overlap of the domains d1 of o1 and d2 of o2 is covered by
+     * declarations of all without static parameters whose domains lie below
+     * both: the overlap, position by position, is a union of parts, each part
+     * an intersection of types (overlapPieces), and every combination of
+     * parts across the positions lies inside the domain of one such
+     * declaration.  An empty overlap needs no declaration.  A search that
+     * does not settle refuses.
+     */
+    static private boolean overlapCoveredBy(Overload o1, List<FType> d1, Overload o2, List<FType> d2,
+                                            Collection<Overload> all) {
+        int n = d1.size();
+        int[] steps = {OVERLAP_STEPS};
+        List<List<Set<FType>>> parts = new ArrayList<List<Set<FType>>>(n);
+        long combinations = 1;
+        for (int k = 0; k < n; k++) {
+            List<Set<FType>> pk = overlapPieces(d1.get(k), d2.get(k), new HashSet<List<FType>>(), steps);
+            if (pk == null) return false;
+            if (pk.isEmpty()) return true;
+            parts.add(pk);
+            combinations *= pk.size();
+            if (combinations > OVERLAP_PARTS) return false;
+        }
+        List<List<FType>> covers = new ArrayList<List<FType>>();
+        for (Overload o : all) {
+            if (o == o1 || o == o2 || o instanceof Overload.MethodOverload) continue;
+            SingleFcn f = o.getFn();
+            if (f instanceof GenericFunctionOrMethod) continue;
+            List<FType> d = o.getParams();
+            if (d.size() != n || hasRest(d)) continue;
+            FType dt = FTypeTuple.make(d);
+            try {
+                if (!dt.subtypeOf(FTypeTuple.make(d2))) continue;
+                if (o1.getFn() instanceof GenericFunctionOrMethod) {
+                    if (instanceHolding(o1.getFn(), d, true) == null) continue;
+                } else if (!dt.subtypeOf(FTypeTuple.make(d1))) continue;
+            }
+            catch (FortressException ex) {
+                continue;
+            }
+            covers.add(d);
+        }
+        int[] index = new int[n];
+        while (true) {
+            boolean covered = false;
+            for (List<FType> c : covers) {
+                boolean inside = true;
+                for (int k = 0; inside && k < n; k++) {
+                    inside = someBelow(parts.get(k).get(index[k]), c.get(k));
+                }
+                if (inside) {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) return false;
+            int k = 0;
+            while (k < n && ++index[k] == parts.get(k).size()) {
+                index[k] = 0;
+                k++;
+            }
+            if (k == n) return true;
+        }
+    }
+
+    static private boolean someBelow(Set<FType> part, FType t) {
+        for (FType p : part) {
+            try {
+                if (p.subtypeOf(t)) return true;
+            }
+            catch (FortressException ex) {
+                // not known to be below
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Parts whose union holds every value of both p and q, each part a set
+     * of types standing for their intersection: p or q when one is a subtype
+     * of the other; none when they exclude; otherwise the parts of each type
+     * a comprises clause of p (else of q) lists, with the other; and p with q
+     * when neither is closed.  Null when the search meets a cycle or runs
+     * out of steps, or a type is symbolic.
+     */
+    static private List<Set<FType>> overlapPieces(FType p, FType q, Set<List<FType>> path, int[] steps) {
+        if (--steps[0] < 0) return null;
+        if (p instanceof SymbolicType || q instanceof SymbolicType) return null;
+        List<Set<FType>> res = new ArrayList<Set<FType>>();
+        try {
+            if (p.subtypeOf(q)) {
+                res.add(Collections.singleton(p));
+                return res;
+            }
+            if (q.subtypeOf(p)) {
+                res.add(Collections.singleton(q));
+                return res;
+            }
+            if (p.excludesOther(q)) return res;
+            Set<FType> pc = p.getComprises();
+            Set<FType> qc = q.getComprises();
+            if (pc == null && qc == null) {
+                Set<FType> both = new HashSet<FType>();
+                both.add(p);
+                both.add(q);
+                res.add(both);
+                return res;
+            }
+            List<FType> key = Useful.<FType>list(p, q);
+            if (!path.add(key)) return null;
+            if (pc != null) {
+                for (FType c : pc) {
+                    List<Set<FType>> sub = overlapPieces(c, q, path, steps);
+                    if (sub == null) return null;
+                    res.addAll(sub);
+                }
+            } else {
+                for (FType c : qc) {
+                    List<Set<FType>> sub = overlapPieces(p, c, path, steps);
+                    if (sub == null) return null;
+                    res.addAll(sub);
+                }
+            }
+            path.remove(key);
+            return res;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
     }
 
     /**
@@ -872,12 +1151,16 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     /**
      * The most specific overload applicable to args without coercion, a
      * generic one instantiated by EvaluatorBase.inferByUnification, or null.
+     * Overloads are compared by moreSpecificDeclaration, on their declared
+     * domains where one of them has static parameters of its own.
      * With reinstantiate, a generic overload chosen is instantiated again by
-     * EvaluatorBase.inferAndInstantiateGenericFunction, whose instance may
-     * convert args at binding.
+     * EvaluatorBase.inferAndInstantiateGenericFunction; when that instance
+     * converts an argument, the result is a call that converts the arguments
+     * and dispatches the converted ones again (convertedCall).
      */
     private SingleFcn bestMatchInternal(List<FValue> args, List<Overload> someOverloads, boolean reinstantiate) {
         SingleFcn best_sfn = null;
+        SingleFcn best_decl = null;
         GenericFunctionOrMethod best_generic = null;
 
         if (debugMatch) {
@@ -909,10 +1192,10 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
             oargs = sfn.fixupArgCount(args);
 
-            // Non-generic, old code.
             if (oargs != null && argsMatchTypes(oargs, sfn.getDomain()) &&
-                (best_sfn == null || FTypeTuple.moreSpecificThan(sfn.getDomain(), best_sfn.getDomain()))) {
+                (best_sfn == null || moreSpecificDeclaration(o.getFn(), sfn, best_decl, best_sfn))) {
                 best_sfn = sfn;
+                best_decl = o.getFn();
                 best_generic = o.getFn() instanceof GenericFunctionOrMethod ? (GenericFunctionOrMethod) o.getFn() : null;
             }
 
@@ -920,12 +1203,161 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         if (reinstantiate && best_generic != null) {
             try {
                 best_sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, best_generic, best_generic.getWithin());
+                best_sfn = convertedCall(best_sfn, args);
             }
             catch (FortressException pe) {
                 // the instance chosen stands
             }
         }
         return best_sfn;
+    }
+
+    /**
+     * The instance inst itself when it takes args without a coercion, or when
+     * this is an overloaded method; otherwise a call that converts args to
+     * inst's domain and dispatches the converted arguments again, so that
+     * they reach the most specific overload that fits them.  inst also stands
+     * when some converted argument has no coercion that coercionFor finds.
+     */
+    private SingleFcn convertedCall(SingleFcn inst, List<FValue> args) {
+        if (this instanceof OverloadedMethod) return inst;
+        List<FValue> oargs = inst.fixupArgCount(args);
+        if (oargs == null) return inst;
+        List<FType> domain = inst.getDomain();
+        SingleFcn[] coercions = new SingleFcn[oargs.size()];
+        boolean converts = false;
+        for (int j = 0; j < oargs.size(); j++) {
+            FType t = Useful.clampedGet(domain, j).deRest();
+            FValue a = oargs.get(j);
+            if (!argsMatchTypes(Collections.singletonList(a), Collections.singletonList(t))) {
+                coercions[j] = Coercions.coercionFor(t, a);
+                if (coercions[j] == null) return inst;
+                converts = true;
+            }
+        }
+        return converts ? new Coercions.CoercedCall(inst, coercions, this) : inst;
+    }
+
+    /**
+     * A declaration whose own static parameters a call's arguments
+     * instantiate: a generic function or constructor.  A functional method
+     * of a generic trait is instantiated from its self argument, and a
+     * generic dotted method has no symbolic instantiation to read its
+     * declared domain from; both are compared on the instance a call makes.
+     */
+    static boolean ownGeneric(SingleFcn f) {
+        return f instanceof GenericFunctionOrConstructor && !(f instanceof GenericFunctionalMethod);
+    }
+
+    /**
+     * The domain f is compared on: an own generic's declared parameter types,
+     * each type parameter standing for itself with its bounds as its
+     * supertypes; otherwise the domain of inst, the instance a call made.
+     */
+    private static List<FType> declaredDomain(SingleFcn f, SingleFcn inst, boolean normalized) {
+        SingleFcn d = ownGeneric(f) || inst == null ? f : inst;
+        return normalized ? d.getNormalizedDomain() : d.getDomain();
+    }
+
+    /**
+     * A value that carries a type and nothing else, for finding an instance
+     * of a generic declaration from declared types.
+     */
+    private static final class TypeOnly extends FValue {
+        private final FType t;
+
+        TypeOnly(FType t) {
+            this.t = t;
+        }
+
+        public FType type() {
+            return t;
+        }
+
+        public boolean seqv(FValue other) {
+            return this == other;
+        }
+
+        public String getString() {
+            return "<" + t + ">";
+        }
+    }
+
+    /**
+     * An instance of the own generic g whose domain holds the types ts, as
+     * walk's inference finds it from values that carry only those types; or
+     * null.
+     */
+    static SingleFcn instanceHolding(SingleFcn g, List<FType> ts, boolean normalized) {
+        GenericFunctionOrMethod gg = (GenericFunctionOrMethod) g;
+        List<FValue> dummies = new ArrayList<FValue>(ts.size());
+        for (FType t : ts) dummies.add(new TypeOnly(t.deRest()));
+        try {
+            SingleFcn inst = EvaluatorBase.inferByUnification(dummies, gg, gg.getWithin());
+            List<FType> d = normalized ? inst.getNormalizedDomain() : inst.getDomain();
+            return FTypeTuple.make(ts).subtypeOf(FTypeTuple.make(d)) ? inst : null;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
+        catch (EmptyLatticeIntervalError ex) {
+            return null;
+        }
+    }
+
+    /**
+     * The declared domain of f lies inside that of g: when g is an own
+     * generic, some instance of g holds f's declared domain; otherwise f's
+     * domain is a subtype of g's.  inf and ing are the instances a call made,
+     * read for a declaration that is not an own generic.
+     */
+    static boolean declaredBelow(SingleFcn f, SingleFcn inf, SingleFcn g, SingleFcn ing, boolean normalized) {
+        try {
+            List<FType> df = declaredDomain(f, inf, normalized);
+            if (ownGeneric(g)) return instanceHolding(g, df, normalized) != null;
+            return FTypeTuple.make(df).subtypeOf(FTypeTuple.make(declaredDomain(g, ing, normalized)));
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    private final Map<List<SingleFcn>, Boolean> declaredBelowMemo =
+            Collections.synchronizedMap(new HashMap<List<SingleFcn>, Boolean>());
+
+    /**
+     * Whether a call should prefer the declaration f, applicable at its
+     * instance inf, to g, applicable at ing.  When one of them is an own
+     * generic and exactly one declared domain lies inside the other, the
+     * inner one; otherwise the instance with the more specific domain, as
+     * for two plain declarations.
+     */
+    private boolean moreSpecificDeclaration(SingleFcn f, SingleFcn inf, SingleFcn g, SingleFcn ing) {
+        if (ownGeneric(f) || ownGeneric(g)) {
+            boolean fg = memoDeclaredBelow(f, inf, g, ing);
+            boolean gf = memoDeclaredBelow(g, ing, f, inf);
+            if (fg != gf) return fg;
+        }
+        return FTypeTuple.moreSpecificThan(inf.getDomain(), ing.getDomain());
+    }
+
+    private boolean memoDeclaredBelow(SingleFcn f, SingleFcn inf, SingleFcn g, SingleFcn ing) {
+        if (!stableDomain(f) || !stableDomain(g)) return declaredBelow(f, inf, g, ing, false);
+        List<SingleFcn> key = Useful.<SingleFcn>list(f, g);
+        Boolean b = declaredBelowMemo.get(key);
+        if (b == null) {
+            b = declaredBelow(f, inf, g, ing, false);
+            declaredBelowMemo.put(key, b);
+        }
+        return b;
+    }
+
+    /**
+     * The domain the comparison reads for f does not depend on the instance
+     * a call made.
+     */
+    private static boolean stableDomain(SingleFcn f) {
+        return ownGeneric(f) || !(f instanceof GenericFunctionOrMethod) && !(f instanceof FunctionalMethod);
     }
 
     /**

@@ -1,0 +1,23 @@
+component ComprisesMeetViaExclusion
+export Executable
+
+(* Two overloads on closed traits load when a declaration covers their overlap, read through the comprises clauses and an exclusion. *)
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () = do
+    assert(f(Vo), 3, "the overlap of S and T is V, since T excludes U, so f(V) covers it and is the most specific declaration for a V (Meet Rule)")
+    assert(f(Uo), 1, "a U lies outside T and takes f(S)")
+    println("PASS")
+  end
+
+end

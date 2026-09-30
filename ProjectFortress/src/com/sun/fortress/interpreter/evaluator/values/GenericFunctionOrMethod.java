@@ -54,7 +54,18 @@ public interface GenericFunctionOrMethod {
             List<StaticParam> oltp0 = a0.getStaticParams();
             List<StaticParam> oltp1 = a1.getStaticParams();
 
-            return NodeComparator.compare(oltp0, oltp1);
+            x = NodeComparator.compare(oltp0, oltp1);
+            if (x != 0) return x;
+
+            for (int i = 0; i < oltp0.size(); i++) {
+                StaticParam p0 = oltp0.get(i);
+                StaticParam p1 = oltp1.get(i);
+                x = p0.getKind().getClass().getName().compareTo(p1.getKind().getClass().getName());
+                if (x != 0) return x;
+                x = NodeComparator.traitTypeListComparer.compare(p0.getExtendsClause(), p1.getExtendsClause());
+                if (x != 0) return x;
+            }
+            return 0;
 
         }
 

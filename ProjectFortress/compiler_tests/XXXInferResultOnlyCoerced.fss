@@ -31,7 +31,7 @@ run(): () = do
     println("REACHED")
     d = describe(q(NOf(1)))
     println("q: " || d)
-    assert(d =/= "", "row 447: the call returns, whichever declaration it takes and whatever T is bound to; Specification/basic/inference.tex:198-203")
+    assert(d =/= "", "row 447: the call returns, whichever declaration it takes and whatever T is bound to; Specification/basic/inference.tex:199-204")
     println("PASS")
   end
 

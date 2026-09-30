@@ -1,0 +1,25 @@
+component XXXDispatchGenericMethodBesidePlain
+export Executable
+
+(* A generic dotted method beside a plain one of one name is chosen by their declared domains, in either order of writing; walk refuses the object at load (ledger row 21). *)
+
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+
+object Describer
+  genericFirst[\T extends Shape\](x: T): String = "generic"
+  genericFirst(x: Circle): String = "circle"
+  plainFirst(x: Circle): String = "circle"
+  plainFirst[\T extends Shape\](x: T): String = "generic"
+end
+
+run(): () = do
+    assert(Describer.genericFirst(Circle), "circle", "the plain method on Circle, written second, lies inside the generic method's domain, so a Circle takes it")
+    assert(Describer.genericFirst(Square), "generic", "only the generic method applies to a Square")
+    assert(Describer.plainFirst(Circle), "circle", "the plain method on Circle, written first, lies inside the generic method's domain, so a Circle takes it")
+    assert(Describer.plainFirst(Square), "generic", "only the generic method applies to a Square")
+    println("PASS")
+  end
+
+end

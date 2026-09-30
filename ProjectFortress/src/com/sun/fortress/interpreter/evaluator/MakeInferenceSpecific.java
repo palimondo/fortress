@@ -69,6 +69,11 @@ public class MakeInferenceSpecific extends NodeAbstractVisitor_void {
         // and its where clauses interpreted for constraints on specificity.
     }
 
+    @Override
+    public void forAnyType(AnyType that) {
+        // Any holds no type variable to make specific.
+    }
+
     /* (non-Javadoc)
      * @see com.sun.fortress.nodes.NodeAbstractVisitor_void#forVarType(com.sun.fortress.nodes.VarType)
      */

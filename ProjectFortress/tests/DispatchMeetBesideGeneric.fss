@@ -1,0 +1,26 @@
+component DispatchMeetBesideGeneric
+export Executable
+
+(* A generic declaration and a plain one that overlap load with a declaration on their meet, which takes the calls in the overlap. *)
+
+opm[\T extends Number\](a: T, b: T): String = "generic[" kindOf(a) "," kindOf(b) "]"
+opm(a: ZZ32, b: Any): String = "z32any[" kindOf(a) "," kindOf(b) "]"
+opm(a: ZZ32, b: Number): String = "meet[" kindOf(a) "," kindOf(b) "]"
+
+kindOf(x: Any): String = typecase x of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(opm(z, w), "meet[ZZ32,ZZ64]", "a ZZ32 and a ZZ64 lie in the overlap of the generic declaration and the one on (ZZ32, Any), so the declaration on their meet (ZZ32, Number) takes them (Meet Rule)")
+    assert(opm(z, z), "meet[ZZ32,ZZ32]", "two ZZ32 values lie in the same overlap and take the declaration on the meet, whose declared domain lies inside the generic declaration's")
+    assert(opm(w, w), "generic[ZZ64,ZZ64]", "two ZZ64 values take the generic declaration at ZZ64, the only one that fits them")
+    assert(opm(z, "s"), "z32any[ZZ32,other]", "a ZZ32 and a String take the declaration on (ZZ32, Any), the only one that fits them")
+    println("PASS")
+  end
+
+end

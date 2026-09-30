@@ -1,0 +1,17 @@
+component GenericOverloadBoundsApart
+export Executable
+
+(* Two generic overloads whose type parameters share a name keep their own bounds (ledger row 478). *)
+
+sortOf[\I extends AnyIntegral\](x: I, y: I): String = "integer pair"
+sortOf[\I\](x: I, y: I, z: I): String = "triple"
+sortOf(x: String, y: String): String = "string pair"
+
+run(): () = do
+    assert(sortOf(1, 2), "integer pair", "two integers take the declaration whose parameter is bounded by AnyIntegral")
+    assert(sortOf("a", "b"), "string pair", "two strings take the declaration on String, which the AnyIntegral bound excludes")
+    assert(sortOf(true, true, true), "triple", "three arguments take the unbounded declaration of three parameters")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,21 @@
+component XXXComprisesMeetUncovered
+export Executable
+
+(* Must be refused at load: nothing covers the overlap V of S and T, so f(S) beside f(T) is not a valid overloading. *)
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+
+run(): () = do
+    assert(f(Uo), 1, "a U lies outside T and takes f(S)")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,27 @@
+component DispatchDeclaredDomain
+export Executable
+
+(* A generic declaration beside a plain one is chosen by their declared domains, in either order of writing. *)
+
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+
+describeGenericFirst[\T extends Shape\](x: T): String = "generic"
+describeGenericFirst(x: Circle): String = "circle"
+
+describePlainFirst(x: Circle): String = "circle"
+describePlainFirst[\T extends Shape\](x: T): String = "generic"
+
+run(): () = do
+    s: Shape = Circle
+    assert(describeGenericFirst(Circle), "circle", "the plain declaration on Circle, written second, lies inside the generic declaration's domain, so a Circle takes it (Overloading Resolution)")
+    assert(describeGenericFirst(Square), "generic", "only the generic declaration applies to a Square")
+    assert(describeGenericFirst(s), "circle", "a Circle held as a Shape takes the plain declaration, dispatch reading the value")
+    assert(describePlainFirst(Circle), "circle", "the plain declaration on Circle, written first, lies inside the generic declaration's domain, so a Circle takes it")
+    assert(describePlainFirst(Square), "generic", "only the generic declaration applies to a Square")
+    assert(describePlainFirst(s), "circle", "a Circle held as a Shape takes the plain declaration, dispatch reading the value")
+    println("PASS")
+  end
+
+end

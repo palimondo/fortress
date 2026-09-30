@@ -1,0 +1,19 @@
+component XXXGenericBesidePlainReturnRule
+export Executable
+
+(* Must be refused at load: the declaration on Round is more specific than ident[\T extends Shape\], but for T = Circle its result Round is not below T. *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+
+ident[\T extends Shape\](x: T): T = x
+ident(x: Round): Round = x
+
+run(): () = do
+    c: Circle = ident(Circle)
+    assert(c, Circle, "a Circle takes the declaration on Round")
+    println("PASS")
+  end
+
+end

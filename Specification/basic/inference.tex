@@ -162,9 +162,10 @@ bound is that supertype, as \TYP{Number} is for a \EXP{\mathbb{Z}64} and an
 \EXP{\mathbb{R}64}, and not for a type parameter declared without an
 \KWD{extends} clause, to which this chapter gives \TYP{Any} (row~516 of the
 revival's gap ledger).
-It does not yet fix a type parameter by the expected type, compare
-declarations with static parameters on the parameter types they declare, nor
-dispatch a converted call again.}
+It does not yet fix a type parameter by the expected type.
+It compares declarations with static parameters on the parameter types they
+declare, except generic dotted methods (row~21 of the revival's gap ledger), and
+dispatches a converted call again, except a call of an overloaded method.}
 
 \section{A Numeral Whose Conversions Tie}
 \seclabel{numeral-default}

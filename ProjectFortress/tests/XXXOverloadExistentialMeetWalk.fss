@@ -1,0 +1,23 @@
+component XXXOverloadExistentialMeetWalk
+export Executable
+
+(* Three generic declarations valid because the meet of the first two domains is the third's under instantiation exclusion: a call on an array of numbers runs the third; walk refuses the set at load. *)
+
+trait Num end
+object One extends Num end
+trait Seq[\X\] end
+trait ArraySeq[\X\] extends Seq[\X\] end
+object NumArray extends ArraySeq[\One\] end
+object StrArray extends ArraySeq[\String\] end
+
+m[\P\](x: ArraySeq[\P\]): String = "array"
+m[\Q extends Num\](y: Seq[\Q\]): String = "seq of num"
+m[\R extends Num\](z: ArraySeq[\R\]): String = "array of num"
+
+run(): () = do
+    assert(m(NumArray), "array of num", "an array of numbers gets the third declaration")
+    assert(m(StrArray), "array", "an array of strings gets the first declaration")
+    println("PASS")
+  end
+
+end
