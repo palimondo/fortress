@@ -268,6 +268,7 @@
 - `explorations/reviews/batch-6.5-review.md`: The combined post-batch review of batch 6.5's first run (rungs G and P), 2026-09-28: conformance, the process measures and the routing check, in the form of `batch-7C-review.md`.
 - `explorations/reviews/batch-N-review.md`: The combined post-batch review of batch N's first run (rungs I, K, T and M), 2026-09-29, with Pavol's four questions of that day about the gather's compaction and context.
 - `explorations/reviews/batch-6.5b-review.md`: The combined post-batch review of batch 6.5b (rungs V and E), 2026-09-29.
+- `explorations/reviews/batch-7b-review.md`: The combined post-batch review of batch 7b (rungs C, S, W and L; run `wf_61521277-479`, stopped by a VM restart and the weekly limit on its way), 2026-09-30, in the form of `batch-6.5b-review.md`: conformance, the process measures and the routing check, with two additions, whether the practice of the post-mortem of 2026-09-29 held and the tokens counted as writes only.
 - `explorations/reviews/numerics-plan-coordinator/evidence-A.md`: Evidence A for the coordinator's numerics plan, 2026-09-27: the distance triage's classes one by one; evidence only.
 - `explorations/reviews/numerics-plan-coordinator/evidence-B.md`: Evidence B for the same plan: how each part of the system decides a numeral's type, a static argument and a coercion; evidence only.
 - `explorations/reviews/numerics-plan-coordinator/measure-C.md`: Measure C for the same plan: the cheap fixes on one library copy, scalar ranges over `ZZ32`, and what other integer ranges cost; measurement only.
