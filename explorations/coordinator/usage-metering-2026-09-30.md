@@ -59,3 +59,8 @@ Once the Workflow had died and nothing kept the session busy, the environment st
 ## Reported
 
 Pavol sent this report with `/feedback` on 2026-09-30; the feedback id is `41370f27-3aaa-4722-a709-55cb3b1780c2`, and the session transcript was shared with it.
+
+## After the report
+
+- **The limit is enforced again from about 12:04 UTC on 2026-09-30.** Four background workers of the session, three on the Opus tier and one on the Sonnet tier, started between 11:33 and 11:50, stopped with "You've hit your weekly limit · resets Oct 2, 10am (UTC)" (`rate_limit`, HTTP 429); their last transcript records are at 12:03:54, 12:04:00, 12:04:18 and 12:10:54.
+- **Pavol's account of what followed**, in his words: "I have now purchased $10 of usage credits to record that I was apparently “rewarded” for my reporting of the usage bug by rescinding of the $250 Promotional credits for Claude Code Cloud. I need to get hold of some actual humans on the other end." He asked about it with `/feedback`; that feedback id is `51930d42-0796-43ea-af5b-247b6a673704`.
