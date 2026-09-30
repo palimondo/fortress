@@ -187,3 +187,61 @@ Every piece of P2 lands, since C landed with row 492's expected failure renamed.
 **Stops.** None met by the worker or the skeptic. The load-time verdicts that moved are the shapes the section names (`O2Z64`, `O2Meet`, rows 478 and 492, `BetweenTwoClosed`), none the other way; the gather's edits change no interpreter source.
 
 **For the gate.** `testSystem`'s file count rises by 16 with W: the rung adds 15 files and deletes 1, and the gather adds 2. Added: `ComprisesCoverReturn`, `ComprisesMeetViaExclusion`, `DispatchConvertedAgain`, `DispatchDeclaredDomain`, `DispatchMeetBesideGeneric`, `DispatchWrittenStaticArgWalk`, `GenericOverloadBoundsApart`, `GenericReturningAny`, `InferLoneBoundWalk`, `XXXComprisesCoverReturnWrong`, `XXXComprisesMeetUncovered`, `XXXDispatchGenericMethodBesidePlain`, `XXXGenericBesidePlainReturnParam`, `XXXGenericBesidePlainReturnRule`, `XXXInferLoneUnboundedWalk`, and the gather's `XXXGenericBesidePlainTwoBounds` and `XXXOverloadExistentialMeetWalk`; `XXXComprisesMeetWalk.fss` is renamed `ComprisesMeetWalk.fss`, and `XXXInferLoneUnionWalk.fss` is deleted, rewritten as `InferLoneBoundWalk.fss` with `XXXInferLoneUnboundedWalk.fss`. Rung W's Java edits need `ant compileAll`.
+
+## Rung L (`rung-overload-families`)
+
+**Inherited from the branch.** Three commits, `65eacfb77` to `4752c2bac`: the walk test alone, failing on the base at `BIG MAX` over total comparisons (`65eacfb77`); the edit (`f6a6fff7a`); the skeptic's judgement, approved with eight required corrections, the stage tables reproduced (`4752c2bac`). `SKEPTIC.md` was on the branch and stands, with the gather's edits below.
+
+**Written at the gather.** `explorations/compile-ladder/rung-overload-families/REPORT.md` (29,628 bytes) and `record.md` (12,168 bytes), each by its `journal-text.py` command; nothing composed. Then the gather's edits below, and an italic note line under the titles of `REPORT.md` and `SKEPTIC.md`.
+
+**Applied.** `git apply --3way --index` of `git diff --binary 811053f15...wip/rung-overload-families`, on top of W's commit, applied without a conflict (one whitespace warning in a captured line of `SKEPTIC.md`); every path matches the branch in the index. No path is shared with an earlier commit.
+
+**Final row numbers.** L's provisional rows 534 to 537 are 553 to 556; its skeptic's first two recommended rows are 557 (the checker's kind-environment crash) and 558 (walk's typecase failure); its third is a note on row 544. They follow row 552. The provisional numbers are corrected in `REPORT.md` and `SKEPTIC.md`; the rung's tests cite no row number.
+
+**Corrections.** The skeptic's eight, made at the gather:
+1. Row 555 and `REPORT.md` section 9: the library reaches the join failure today, on the base as on the edit, "Join(__DefaultVector[\ZZ32,2\], __DefaultMatrix[\ZZ32,2,2\]) not a singleton: [AnyAdditiveGroup, Generator[\ZZ32\], Indexed1[\2\]]"; the markers would widen it to every ordered type.
+2. D4, the provenance block's deviation line and row 553's note: under walk `openRange` at another index type ends the run with the `ProgramError` "typecase match failure given ()->ZZ64", which `catch e MatchFailure` does not catch, and the compiled path throws `MatchFailure`. The way not taken, `else => throw MatchFailure`, is named with a reason the gather states as its own, since the rung weighed only "something else": written out at this one typecase it would hide row 558 at the one library call that reaches it and leave every other typecase to it, whose repair is the throw at walk's own site (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:1441-1442`).
+3. `ProjectFortress/tests/XXXTypecaseNoMatchWalk.fss`, the skeptic's program byte for byte from its candidate directory; row 558 opened. On the merged tree it is an expected failure in the 21-file `harness-one.sh` run of W's section ("OK Saw expected exception").
+4. `ProjectFortress/compiler_tests/XXXGenericTraitExcludesKindEnv.fss` with its `.test` on the merged tree: the skeptic's `SkRangeLikeKind` with its component renamed and one comment line, the `.test` a compile the program should pass, pinned by `compile_err_contains=is not in the kind env` (the gather's choice over a bare compile step, so that another failure does not pass for this one). Through `junit.sh`: "I is not in the kind env [][][]", "Saw expected failure"; on a stand-in without the top-level `opr IN`, "Saw failure, but did not satisfy compile_err_contains", "Tests run: 1, Failures: 1". Row 557 opened.
+5. `REPORT.md` section 13 carries the record's "What comes back to Pavol" list (each family's device with the way not taken, the `seq` pairs' devices, the two api lines, the counts 75 -> 59 and 624 -> 598, `BIG MIN` and `BIG MAX` restored), and item 22 in plain words: generic code bounded by `StandardMin` or `StandardMax` now takes total comparisons.
+6. Row 554's note lists every api header the export message still names as differing, each after the edit: `Condition` (`Library/FortressLibrary.fsi:854` against `.fss:1330`), `Maybe` (`.fsi:916-917` against `.fss:1437-1438`), `ReductionPair`, `ActualReduction.distribute`, `String`'s `extends` clause (`.fsi:2348` against `.fss:4084`), and `List`'s `AnyList` and `List` clauses (`Library/List.fsi:55`, `:67-68` against `Library/List.fss:86`, `:112-113`), each opened on the tree.
+7. `REPORT.md` section 7 marks the lines of `compare.sh`'s output it leaves out of the quote: the class rows I1 and G1, the unit rows, the crash rows gone and new, each given in the bullets below it.
+8. Row 554 anchors each citation to one tree: `.fsi:1828` and `.fss:3017` at `811053f15` (`PossibleReductionPair`'s headers), `.fsi:1831`, `.fsi:1847`, `.fss:3036`, `.fsi:1828` and `.fss:3013` after the edit (opened: `.fsi:1828` holds `distribute` after the edit).
+
+**Row 556's home, against S's landed text.** The row asks the gather to set its home by rung S's text. S keeps the Meet Rule for Functional Methods, which asks a meet only of a type that provides both declarations, and gives it the covering case per provider (`Specification/advanced/overloading.tex:450-523`). So the checker, which applies the function rule to functional methods, is wrong, and the row's home is 2: `ProjectFortress/compiler_tests/XXXFunctionalMethodMeetPerProvider.fss` with its `.test` (compile, `compile_err_contains=Invalid overloading of toSeq`), the rung's `FnMethodMeet` with its component renamed. Through `junit.sh` on the merged tree, alone and after rung C's coverage tests in one JVM: "Invalid overloading of toSeq in component XXXFunctionalMethodMeetPerProvider", "Saw expected failure"; on a stand-in with one trait, "Saw failure, but did not satisfy compile_err_contains". This is the specification settling a checker defect, not a mismatch between S's text and C's landed tests, since the refusal is the base checker's.
+
+**Recommended rows.**
+- The kind-environment crash: opened, row 557, with correction 4's test.
+- Walk's typecase failure: opened, row 558, with correction 3's test.
+- An object inheriting two functional methods from two open traits with no meet, which walk runs (`SkFnMethodMeet3`): refused as a row of its own, since row 544, opened in C's commit, is the same mechanism (walk does not apply the Meet Rule for Functional Methods in a type that provides both); appended to row 544 as a note, with the skeptic's output and its reason that the expected-failure test is due with the fix.
+
+**Folded.**
+- `FACTS.md`: the record's entry after the last entry of "The checker and the one library", its sub-bullets joined into its one line, with the landing placeholder and final row numbers; "The ledger"'s two citations re-anchored.
+- The ledger: row 461 `FIXED` with its note; the note on row 478; rows 553 to 558 after row 552, the gather's corrections in rows 553, 554, 555 and 556; the note on row 544.
+- The handover: one paragraph after W's.
+- `PLAN.md`: two entries in "Climb batch 7b, listed for his review", and a sentence on the "For his review" entry on item 22.
+
+**Items for Pavol, as `PLAN.md` holds them:**
+- **L.worker.1 and L.skeptic.1**, the rest of `seq` (row 556): the entry "The rest of the one library's `seq` family"; default the first way, for the checker phase.
+- **L.worker.2**, `DelegatedIndexed`'s header: its entry.
+- **L.skeptic.2**, `TotalComparison`'s `StandardMinMax` parent: already in `PLAN.md`, "Pavol's answers", "For his review", the entry "Item 22, `TotalComparison` extending `StandardMinMax`, explained in more detail when he has the energy"; a sentence with the plain explanation and its evidence added there, not a new entry.
+
+**Stops.** One, met by the worker and confirmed by the skeptic: "a family whose only repair is a checker change", on `seq`'s `SequentialGenerator`/`FilterGenerator` pair and the component's `MappedGenerator`/`SequentialGenerator` pair; reversible and lifted by POSITIONS 2026-09-27, the stops. The gather's additions meet none.
+
+**For the gate.** `testSystem` gains 3 files for L (the rung's `LibraryOverloadFamilies` and `XXXInferTwoCommonParentsWalk`, and the gather's `XXXTypecaseNoMatchWalk`); the compiler track gains 2 `.test` files (the gather's `XXXFunctionalMethodMeetPerProvider` and `XXXGenericTraitExcludesKindEnv`). On L's tree alone the count stage reads 59 and the distance 598; on the merged tree rung C's two `cond` errors are cleared by L's `PossibleReductionPair` line, and the gate measures the combined total.
+
+## The gather's own points for Pavol
+
+- **gather.1**, the one text mismatch the decisions do not settle: the Meet Rule's closed-trait case for declarations with static parameters, stated by S and refused by C's checker (row 546, `XXXComprisesMeetGenericTrait`, Appendix I's `revival-meet` Effect). S's section.
+- **gather.2**, the compiled checker's verdict carried between compilations in one JVM (row 547), which may make a verdict in the gate's one-JVM compiler track depend on its order. C's section.
+
+## For the gate: the run's totals
+
+- `testSystem`: 20 files added and 1 deleted over the four rungs and the gather (W 17 added, its rung's 15 and the gather's 2, and 1 deleted; L 3 added, its rung's 2 and the gather's 1; S none; W's rename keeps its count), so its file count rises by 19; the shards are compared by their sum.
+- The compiler track: C's 34 added `.test` files (2 renamed besides), S's gather additions 4, L's gather additions 2: 40 more `.test` files.
+- Sources that need `ant compileAll`: C's three Scala files and W's three Java files. The library files (L) are read by the count and distance stages and by walk.
+- The specification changed (S's eleven files, the gather's corrections, W's callout correction): the commit stage rebuilds `Specification/fortress.pdf`; the gather's build of the merged tree's text wrote 655 pages with no undefined reference.
+
+## Other writers in the tree during the gather
+
+None seen: `git status --porcelain` was empty at the start and showed only the gather's own untracked rung folders between commits, and no other Fortress process ran on the box during the gather's harness runs (the one unexplained first run of C's pin aside, C's section).

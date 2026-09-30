@@ -156,7 +156,7 @@ object Unordered extends Comparison
 end
 
 trait TotalComparison
-        extends { Comparison }
+        extends { Comparison, StandardMinMax[\TotalComparison\] }
         comprises { LessThan, EqualTo, GreaterThan }
     (* We're both a partial order (including Unordered) and a total
        order (TotalComparison alone).  Avoid ambiguity between the
@@ -239,6 +239,7 @@ end
     otherwise the case that %a MIN b = a% when %a <= b% and that
     %a MIN b = b MIN a%. **)
 trait StandardMin[\T extends StandardMin[\T\]\]
+        excludes { HasRank }
     opr MIN(self, other:T): T
 end
 
@@ -250,6 +251,7 @@ end
     otherwise the case that %a MAX b = a% when %a <= b% and that
     %a MAX b = b MAX a%. **)
 trait StandardMax[\T extends StandardMax[\T\]\]
+        excludes { HasRank }
     opr MAX(self, other:T): T
 end
 
@@ -1301,6 +1303,7 @@ end
 
 
 trait SequentialGenerator[\E\] extends { Generator[\E\] }
+        excludes { HasRank }
     getter asString(): String = "seq(" (self asif Generator[\E\]).asString ")"
     seq(self): SequentialGenerator[\E\] = self
     map[\G\](f: E->G): SequentialGenerator[\G\] =
@@ -3546,6 +3549,7 @@ object SimpleMappedSeqGenerator[\E,F\](g0: SequentialGenerator[\E\], f0: E->F)
 end
 
 trait FilterGenerator[\E\] extends Generator[\E\]
+        excludes { HasRank }
     getter g(): Generator[\E\]
     getter p(): E -> Condition[\()\]
     getter asString(): String = self.g ".filter(self.p)"
@@ -3985,7 +3989,12 @@ opr :[\I\](x:I) : RightRange[\I\] = RightRange[\I\](x)
 
 opr #() : TrivialOpenRange = TrivialOpenRange
 opr :() : TrivialOpenRange = TrivialOpenRange
-openRange[\I\](): OpenRange[\I\] = openRangeHelper( __thrower[\I\] )
+openRange[\I\](): OpenRange[\I\] =
+    typecase __thrower[\I\] of
+        () -> ZZ32 => cast[\OpenRange[\I\]\](open1Range(1))
+        () -> (ZZ32, ZZ32) => cast[\OpenRange[\I\]\](open2Range(1, 1))
+        () -> (ZZ32, ZZ32, ZZ32) => cast[\OpenRange[\I\]\](open3Range(1, 1, 1))
+    end
 
 (** Factories for bare strided ranges.
 

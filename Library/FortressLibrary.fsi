@@ -118,7 +118,7 @@ end
     and a total order (%TotalComparison% alone).  Its method
     definitions avoid ambiguities between these orderings. *)
 trait TotalComparison
-        extends { Comparison }
+        extends { Comparison, StandardMinMax[\TotalComparison\] }
         comprises { LessThan, EqualTo, GreaterThan }
     opr =(self, other:Comparison): Boolean
     opr CMP(self, other:Unordered): Comparison
@@ -187,6 +187,7 @@ end
     otherwise the case that %a MIN b = a% when %a <= b% and that
     %a MIN b = b MIN a%. **)
 trait StandardMin[\T extends StandardMin[\T\]\]
+        excludes { HasRank }
     opr MIN(self, other:T): T
 end
 
@@ -198,6 +199,7 @@ end
     otherwise the case that %a MAX b = a% when %a <= b% and that
     %a MAX b = b MAX a%. **)
 trait StandardMax[\T extends StandardMax[\T\]\]
+        excludes { HasRank }
     opr MAX(self, other:T): T
 end
 
@@ -839,6 +841,7 @@ __cond[\E\](c:Condition[\E\], t:E->()): ()
 __whileCond[\E\](c:Condition[\E\], b:E->()): ()
 
 trait SequentialGenerator[\E\] extends { Generator[\E\] }
+        excludes { HasRank }
     seq(self): SequentialGenerator[\E\]
     map[\G\](f: E->G): SequentialGenerator[\G\]
     nest[\G\](f: E -> Generator[\G\]): Generator[\G\]
@@ -1825,7 +1828,7 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
     distribute(r: Reduction[\R\]): Maybe[\(Reduction[\R\],Reduction[\R\])\]
 end
 
-trait PossibleReductionPair[\R\] extends Condition[\SomeReductionPair[\R\]\]
+trait PossibleReductionPair[\R\] extends Condition[\PossibleReductionPair[\R\]\]
     comprises { NoReductionPair[\R\], SomeReductionPair[\R\] }
 end
 
@@ -2087,6 +2090,7 @@ embiggen[\T,opr OP\](z:T): ((Reduction[\T\],T->T) -> T) -> T
 embiggen[\T\](j:(Any,Any)->T, z:T) : Comprehension[\T,T,Any,Any\]
 
 trait FilterGenerator[\E\] extends Generator[\E\]
+        excludes { HasRank }
     getter g(): Generator[\E\]
     getter p(): E -> Condition[\()\]
     generate[\R\](r:Reduction[\R\], m: E->R): R
@@ -2106,6 +2110,7 @@ end
       %a < b% if and only if all points in %a% are strictly contained in %b%.
  **)
 trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+        excludes { Number, String }
     abstract getter stride(): I
     abstract getter left(): Maybe[\I\]
     abstract getter right(): Maybe[\I\]
@@ -2341,6 +2346,7 @@ opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\]
 ************************************************************)
 
 trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
+        excludes { AnyMultiplicativeRing }
     getter size() : ZZ32
     getter indices() : CompactFullRange[\ZZ32\]
     getter left(): Maybe[\Char\]

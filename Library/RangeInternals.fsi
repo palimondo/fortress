@@ -577,12 +577,6 @@ right2Range(x: ZZ32, y: ZZ32): RightRange[\(ZZ32, ZZ32)\]
 
 right3Range(x: ZZ32, y: ZZ32, z: ZZ32): RightRange[\(ZZ32, ZZ32, ZZ32)\]
 
-openRangeHelper(_: ()->ZZ32): OpenScalarRange
-
-openRangeHelper(_: ()->(ZZ32, ZZ32)): OpenRange2D
-
-openRangeHelper(_: ()->(ZZ32, ZZ32, ZZ32)): OpenRange3D
-
 open1Range(x: ZZ32): OpenRange[\ZZ32\]
 
 open2Range(x: ZZ32, y: ZZ32): OpenRange[\(ZZ32, ZZ32)\]

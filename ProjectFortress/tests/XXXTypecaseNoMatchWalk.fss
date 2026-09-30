@@ -1,0 +1,18 @@
+(* A typecase with no matching clause and no else clause throws MatchFailure, which a catch clause catches, under walk. *)
+component XXXTypecaseNoMatchWalk
+export Executable
+
+kind(x: Any): String =
+    typecase x of
+        String => "string"
+        Boolean => "boolean"
+    end
+
+run() = do
+    assert(kind("a"), "string", "a string takes the first clause")
+    r = try kind(3) catch e MatchFailure => "caught" end
+    assert(r, "caught", "a typecase with no matching clause throws MatchFailure, and the catch clause catches it")
+    println("PASS")
+end
+
+end

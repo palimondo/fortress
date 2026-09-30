@@ -1,0 +1,51 @@
+(* The library's overload families that the compiled checker refused, called under walk, and BIG MIN and BIG MAX over total comparisons (row 461). *)
+component LibraryOverloadFamilies
+import List.{...}
+export Executable
+
+opr :(x: String, y: String): String = x "-" y
+
+inOrder(g: Generator[\ZZ32\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x end
+    s
+end
+
+run() = do
+    a = array[\ZZ32\](3).tabulate(fn (i: ZZ32): ZZ32 => if i = 1 then 5 else i + 1 end)
+    assert(inOrder(a), "153", "an array's elements in order are 1, 5, 3")
+    assert(inOrder(a MIN 2), "122", "an array MIN a scalar takes the smaller of each element and the scalar")
+    assert(inOrder(2 MIN a), "122", "a scalar MIN an array takes the smaller of the scalar and each element")
+    assert(inOrder(a MAX 2), "253", "an array MAX a scalar takes the larger of each element and the scalar")
+    assert(inOrder(2 MAX a), "253", "a scalar MAX an array takes the larger of the scalar and each element")
+    v = array[\RR64\](2).tabulate(fn (i: ZZ32): RR64 => 2.0 i - 1.0)
+    assert((v MIN 0.0)[0], -1.0, "a float array MIN zero keeps the negative element")
+    assert((0.0 MAX v)[0], 0.0, "zero MAX a float array replaces the negative element")
+
+    assert("a" 1, "a1", "a string juxtaposed with a number appends the number's text")
+    assert(1 "a", "1a", "a number juxtaposed with a string prepends the number's text")
+    assert("a" "b", "ab", "two juxtaposed strings concatenate")
+
+    assert((openRange[\ZZ32\]()).asDebugString, "OpenScalarRange(1)", "the open range over one dimension has stride 1")
+    assert((openRange[\(ZZ32,ZZ32)\]()).asDebugString, "OpenRange2D(1,1)", "the open range over two dimensions has stride 1 in each")
+    assert((openRange[\(ZZ32,ZZ32,ZZ32)\]()).asDebugString, "OpenRange3D(1,1,1)", "the open range over three dimensions has stride 1 in each")
+
+    assert(inOrder(a.filter(fn (x: ZZ32): Boolean => x > 1)), "53", "seq of a filter generator keeps the kept elements in order")
+    assert(inOrder(seq(a)), "153", "seq of a sequential generator is that generator in order")
+
+    some = ProdReduction[\ZZ32\].distribute(SumReduction[\ZZ32\])
+    none = SumReduction[\ZZ32\].distribute(ProdReduction[\ZZ32\])
+    assert(some.cond[\String\](fn (p) => "pair", fn () => "no pair"), "pair", "product distributes over sum, so its reduction pair takes the first branch")
+    assert(none.cond[\String\](fn (p) => "pair", fn () => "no pair"), "no pair", "sum does not distribute over product, so its missing pair takes the second branch")
+    assert(if p <- some then "pair" else "no pair" end, "pair", "a generator-binding if over a reduction pair takes its then branch")
+
+    assert(("a":"b"), "a-b", "a program's own colon on two strings beside the library's ranges")
+    assert((1:10:3).asString, "[1,4,7,10]", "a strided range beside a program's own colon on strings")
+
+    assert(LessThan MIN GreaterThan, LessThan, "LessThan MIN GreaterThan is LessThan")
+    assert(LessThan MAX GreaterThan, GreaterThan, "LessThan MAX GreaterThan is GreaterThan")
+    assert(BIG MAX <|[\TotalComparison\] LessThan, GreaterThan, EqualTo |>, GreaterThan, "BIG MAX over total comparisons is the greatest, GreaterThan")
+    assert(BIG MIN <|[\TotalComparison\] GreaterThan, EqualTo, LessThan |>, LessThan, "BIG MIN over total comparisons is the least, LessThan")
+end
+
+end

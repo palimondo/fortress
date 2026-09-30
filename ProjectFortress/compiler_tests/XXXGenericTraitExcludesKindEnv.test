@@ -1,0 +1,3 @@
+tests=XXXGenericTraitExcludesKindEnv
+compile
+compile_err_contains=is not in the kind env
