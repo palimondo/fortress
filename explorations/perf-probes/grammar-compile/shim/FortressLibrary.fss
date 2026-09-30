@@ -1,4 +1,0 @@
-component FortressLibrary
-export FortressLibrary
-trait ExtentRange extends Object end
-end

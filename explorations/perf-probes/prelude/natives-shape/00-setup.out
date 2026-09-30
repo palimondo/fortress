@@ -1,6 +1,0 @@
-$ git rev-parse HEAD
-f55fd68e2f26a392dc4ed553607db34bb8ee6bd5
-$ git status --porcelain -- ProjectFortress Library
-openjdk version "25.0.4" 2026-07-21
-nproc 4; model name	: Intel(R) Xeon(R) Processor @ 2.10GHz; cpu MHz		: 2100.000; load: 1.65 2.34 2.99
-FORTRESS_CACHES=/home/user/fortress-natives/tmp/caches-walk FORTRESS_THREADS=1 JAVA_FLAGS=-Xmx4g -Xss64m
