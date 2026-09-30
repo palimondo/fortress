@@ -37,18 +37,24 @@ re-asked or re-explained; it is not a log of what he said.
 
 How they are kept:
 
-- These files describe the present. An entry that changes is rewritten in
-  place; the old text is in git, and the commit message says what changed and
-  why. No "superseded by", no "corrected", no dated updates inside an entry.
-  At each landing, or when he replaces a decision, the full text of a
-  shortened or replaced `POSITIONS.md` entry moves verbatim to
-  `POSITIONS-history.md`. `FACTS.md` is consolidated before each batch
-  launches, since the batch's agents read it: what a new fact supersedes is
-  folded into the current entry and the old text moves verbatim to
-  `FACTS-history.md`.
+- `FACTS.md` and `POSITIONS.md` are the optimized build: what is true of the
+  tree now, and what he holds now, written timelessly, with no dates, no rung
+  or commit names and no account of what changed when or what corrected
+  what; `FACTS-history.md` and `POSITIONS-history.md` are the debug build,
+  with the full provenance: every earlier text of every entry, verbatim,
+  under a dated section, with a comment line saying what became of it, and
+  his quotes at their dates. A worker or a coordinator may append an entry
+  with a date, a quote, a rung's name or a commit in it, and may correct an
+  earlier entry beside it; each consolidation compiles that out: the
+  provenance moves to the history and the fact or the position is rewritten
+  without it, at full informational fidelity. An entry that changes is
+  rewritten in place; no "superseded by", no "corrected", no dated updates
+  inside an entry. `FACTS.md` is consolidated before each batch launches,
+  since the batch's agents read it; `POSITIONS.md` at each landing or when he
+  replaces a decision.
   Before each commit of such a consolidation,
   `tools/check-verbatim.py <base> <file> <history>` shows every entry of the
-  file at the base verbatim in the file or in its history, and in one only.
+  file at the base verbatim in the file or in its history.
 - One home per thing. His words are written once, in `POSITIONS.md`; every
   other file points to the entry. Nothing is written twice.
 - A remark is not a decision, and neither is a one-off go. A change to how we
@@ -58,5 +64,7 @@ How they are kept:
 - Nothing a resumed coordinator needs is condensed for length.
 - The boot note is rewritten whole at every change, never appended to.
 - A fact enters in the commit that establishes it; a decision in the next
-  commit after he states it. A FACTS entry is cited by its bold title, which
-  stays verbatim when the entry is rewritten.
+  commit after he states it. A FACTS entry is cited by its bold title, or by
+  its opening words where it has none, and a POSITIONS entry by its bold
+  title; a title stays verbatim when the entry is rewritten, and where it no
+  longer holds the entry says so and states the present.
