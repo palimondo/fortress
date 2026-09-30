@@ -5,10 +5,11 @@ Called by facts-extract.sh beside it; run that with --help for the usage.
 The record: explorations/coordinator/FACTS.md (what is established, grouped
 by area, each entry cited by its title), explorations/coordinator/INDEX.md
 (one line per standalone note), POSITIONS.md and POSITIONS-history.md beside
-them (Pavol's decisions, dated), the gap ledger explorations/fortress-gap-ledger.md
-(one table row per gap), the maps under explorations/coordinator/map/, any
-other note by path and heading, such as a judge's ruling or a section of the
-specification's .tex sources, and code by the declaration it starts at.
+them (Pavol's decisions, each under its bold title, and their dated history),
+the gap ledger explorations/fortress-gap-ledger.md (one table row per gap),
+the maps under explorations/coordinator/map/, any other note by path and
+heading, such as a judge's ruling or a section of the specification's .tex
+sources, and code by the declaration it starts at.
 """
 
 import difflib
@@ -65,11 +66,15 @@ QUERY is one of:
   index:WORDS            the INDEX.md lines that hold every one of WORDS (at most 10)
   ledger:ROW             row ROW of the gap ledger, whole, under its section and
                          the table's header
+  positions:TITLE        the entry of POSITIONS.md whose bold title holds TITLE, as
+                         a TITLE query does in FACTS.md; exactly one must, else the
+                         nearest titles are named
   positions:DATE WORDS   the entry of POSITIONS.md dated DATE (YYYY-MM-DD, the first
                          date in the entry) whose head, the entry's text up to its
                          first colon and space, holds every one of WORDS; when no
                          entry of POSITIONS.md matches, the entry of
-                         POSITIONS-history.md, with the line saying what became of
+                         POSITIONS-history.md, from the latest of its sections
+                         that hold one, with the line saying what became of
                          it; the output says which file it came from
   map:FILE#HEADING       the section of explorations/coordinator/map/FILE whose
                          heading holds HEADING, down to the next heading of its level
@@ -630,9 +635,22 @@ def main(argv):
                     + ('' if len(hits) == 1 else '  (%d rows, not one)' % len(hits))
         elif q.startswith('positions:'):
             f = Found(q)
-            m = re.match(r'(\d{4}-\d{2}-\d{2})\s*(.*)$', q[len('positions:'):].strip())
+            key = q[len('positions:'):].strip()
+            m = re.match(r'(\d{4}-\d{2}-\d{2})\s*(.*)$', key)
             if not m:
-                f.bad, f.missing = True, 'a positions: key opens with a date, YYYY-MM-DD'
+                # A key with no date: its words as a substring of one bold title of POSITIONS.md.
+                want, name = norm(key), os.path.basename(rec.positions)
+                titled = [e for e in bullets(rec.positions)[1] if e.text[2:].startswith('**')]
+                hits = [e for e in titled if want and want in norm(e.title)]
+                if len(hits) == 1:
+                    e = hits[0]
+                    f.blocks.append(('== %s, ## %s' % (rec.rel(rec.positions), e.section), '%s:%d\n%s' % (name, e.line, e.text)))
+                    f.where = '%s:%d' % (name, e.line)
+                else:
+                    near = hits[:3] or nearest_titles(want, titled)
+                    f.bad, f.missing = True, '%s of %s %s it%s' % (
+                        '%d bold titles' % len(hits) if hits else 'no bold title', name, 'hold' if hits else 'holds',
+                        ('; nearest: ' + '; '.join('"%s" (%s:%d)' % (e.title[:90], name, e.line) for e in near)) if near else '')
             else:
                 date, words = m.group(1), norm(m.group(2)).split()
                 def match(path):
@@ -647,6 +665,10 @@ def main(argv):
                 if not hits:
                     hits, path = match(rec.history), rec.history
                     note = ', from %s, not in %s' % (os.path.basename(rec.history), os.path.basename(rec.positions))
+                    if len({e.section for e in hits}) > 1:
+                        # Several texts of one entry, each under the dated section that moved it: the latest.
+                        hits = [e for e in hits if e.section == hits[-1].section]
+                        note += ', its latest section'
                 if not hits:
                     dated = [(os.path.basename(p), e) for p in (rec.positions, rec.history) for e in bullets(p)[1]
                              if (DATE.search(head_of(e.text)) or [None])[0] == date]
