@@ -1,0 +1,137 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	959	0	0	0
+fast-library/LibraryJUTest	86	0	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+system-0/SystemJUTest	117	0	0	0
+system-1/SystemJUTest	117	0	0	0
+system-2/SystemJUTest	119	0	0	0
+system-3/SystemJUTest	117	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 44 seconds
+# testFast: BUILD SUCCESSFUL
+# testFast: Total time: 9 minutes 50 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 3 minutes 8 seconds
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic FirstLoadThreadsRungG run1 threads=4 PASS
+# atomic FirstLoadThreadsRungG run2 threads=4 PASS
+# atomic FirstLoadThreadsRungG run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT DOWN   75 -> 59, declared S: 75, C: 77, W: 75
+# checker     5c5
+# checker     < FortressLibrary	132
+# checker     ---
+# checker     > FortressLibrary	106
+# checker     9c9
+# checker     < RangeInternals	18
+# checker     ---
+# checker     > RangeInternals	12
+# checker     14,15c14,15
+# checker     < #total	75
+# checker     < #locations	62
+# checker     ---
+# checker     > #total	59
+# checker     > #locations	48
+# distance DISTANCE DOWN   624 -> 598 (-26)
+# distance     kind overloading            148 -> 123    (-25)
+# distance     kind typecheck              387 -> 386    (-1)
+# distance     class L1                     39 -> 20     (-19)  overloading: the static-parameter sentence's families
+# distance     class M1                    109 -> 103    (-6)  overloading: the Meet Rule
+# distance     class I1                     10 -> 11     (+1)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+# distance     class G1                      8 -> 6      (-2)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+# distance     unit api FortressLibrary     66 -> 53     (-13)
+# distance     unit api RangeInternals       9 -> 6      (-3)
+# distance     unit component FortressLibrary    362 -> 355    (-7)
+# distance     unit component RangeInternals     76 -> 73     (-3)
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4312:1-4317:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:4293:1-4306:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:1245:1-1249:4	InterpreterBug	** bug! FortressLibrary.fss:1247:10 Type is not inferred.
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2427:1-2541:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2445.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2800:1-2913:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2836.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2803:1-2916:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2839.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2430:1-2544:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2448.11 fn (i) => do r := r // " " row(i) end Expected type was: ...
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4321:1-4326:2	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
+# distance     crash new    decl	FnDecl FortressLibrary.fss:1247:1-1251:4	InterpreterBug	** bug! FortressLibrary.fss:1249:10 Type is not inferred.
+# distance     crash new    decl	FnDecl FortressLibrary.fss:4302:1-4315:4	RuntimeException	Not in the trait table: FortressBuiltin.Character FortressBuiltin.Character @ Compiler internal generated.:0:0
