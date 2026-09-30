@@ -1,0 +1,22 @@
+(* Two generic declarations, each on its own bare type parameter with its own bound: each call runs the most specific declaration applicable to the value. *)
+component XXXOverloadTwoGenericBare
+export Executable
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+
+name[\T extends Shape\](x: T): String = "shape"
+name[\U extends Round\](x: U): String = "round"
+
+run(): () = do
+  println("REACHED")
+  assert(name(Circle), "round", "a Circle gets the declaration bounded by Round")
+  assert(name(Square), "shape", "a Square gets the declaration bounded by Shape")
+  s: Shape = Circle
+  assert(name(s), "round", "a Circle held as a Shape gets the declaration bounded by Round")
+  println("PASS")
+end
+
+end

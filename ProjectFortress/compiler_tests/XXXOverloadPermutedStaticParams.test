@@ -1,0 +1,3 @@
+tests=XXXOverloadPermutedStaticParams
+compile
+compile_err_contains=should correspond position by position

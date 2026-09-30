@@ -1,0 +1,5 @@
+tests=CoverageReturnGood
+compile
+link
+run
+run_out_contains=PASS

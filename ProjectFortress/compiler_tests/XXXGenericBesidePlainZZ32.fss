@@ -1,0 +1,24 @@
+(* A generic declaration beside a plain one, called with a value of static type Any whose type fixes the type parameter, runs the generic declaration at that instance; ledger row 496. *)
+component XXXGenericBesidePlainZZ32
+export Executable
+
+trait Tag[\X\] end
+object IntTag extends Tag[\ZZ32\] end
+object Marker[\X\] end
+
+peek[\X\](t: Tag[\X\]): Any = Marker[\X\]
+peek(a: Any): Any = "the Any declaration"
+
+run(): () = do
+  a: Any = IntTag
+  println("REACHED")
+  answer = typecase peek(a) of
+      Marker[\ZZ32\] => "Marker[ZZ32]"
+      String => "the Any declaration"
+      else => "other"
+    end
+  assert(answer, "Marker[ZZ32]", "the value is a Tag[ZZ32], so the generic declaration runs at X = ZZ32")
+  println("PASS")
+end
+
+end

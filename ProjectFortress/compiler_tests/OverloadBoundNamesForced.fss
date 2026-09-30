@@ -1,0 +1,20 @@
+(* A generic declaration whose second type parameter is bounded by its first, beside a plain declaration that fixes the first: a valid pair, and each call runs the most specific declaration applicable to the values. *)
+component OverloadBoundNamesForced
+export Executable
+
+trait Box[\X\] end
+object SubBox extends Box[\ZZ32\] end
+object PlainBox[\X\] extends Box[\X\] end
+
+g[\X, Y extends Box[\X\]\](x: Box[\X\], y: Y): String = "generic"
+g(x: Box[\ZZ32\], y: SubBox): String = "plain"
+
+run(): () = do
+  println(g(PlainBox[\ZZ32\], SubBox))
+  println(g(PlainBox[\ZZ32\], PlainBox[\ZZ32\]))
+  assert(g(PlainBox[\ZZ32\], SubBox), "plain", "a SubBox second argument gets the plain declaration")
+  assert(g(PlainBox[\ZZ32\], PlainBox[\ZZ32\]), "generic", "a PlainBox second argument gets the generic declaration")
+  println("PASS")
+end
+
+end

@@ -21,10 +21,12 @@ import com.sun.fortress.compiler.Types.OBJECT
 import com.sun.fortress.exceptions.InterpreterBug.bug
 import com.sun.fortress.nodes._
 import com.sun.fortress.nodes_util.NodeFactory._
+import com.sun.fortress.nodes_util.{NodeUtil => NU}
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.staticenv.KindEnv
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.typechecker.TraitTable
+import com.sun.fortress.scala_src.typechecker.CFormula
 import com.sun.fortress.scala_src.types.TypeAnalyzer
 import com.sun.fortress.scala_src.types.TypeSchemaAnalyzer
 import com.sun.fortress.scala_src.useful.ErrorLog
@@ -87,8 +89,12 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	val gd = sa.makeDomainWithSelfFromArrow(ga)
 	sa.subEDsolution(fd, gd) match {
 	  case Some((newgd, newargs)) =>
-	    // A size of g that the domains leave unsolved stays g's own static
-	    // parameter, bound in the special arrow beside f's.
+	    // A static parameter of g is replaced by its solution only where the
+	    // domains force it to equal that solution; every other one, a size the
+	    // domains leave unsolved among them, stays g's own static parameter,
+	    // its bound read with the forced parameters' solutions, bound in the
+	    // special arrow beside f's, so that the rule is checked for every
+	    // instance of g and not for one solution.
 	    val escaped = sp2.zip(newargs).collect {
 	      case (p, SIntArg(_, _, v: _InferenceVarInt))
 	        if p.getKind.isInstanceOf[KindNat] || p.getKind.isInstanceOf[KindInt] => (v, p)
@@ -97,13 +103,16 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	      if (escaped.isEmpty) (t: Type) => t
 	      else insertNats(nSubstitution(Map(escaped.map { case (v, p) =>
 	             (v, staticParamToArg(p).asInstanceOf[IntArg].getIntVal) }: _*)))
-	    val nsp1 = sp1 ++ escaped.map(_._2)
+	    val forced = sp2.zip(newargs).zip(forcedArgs(fd, gd, newargs))
+	    val str = new StaticTypeReplacer(forced.collect { case ((p, _), true) => p },
+	                                      forced.collect { case ((_, a), true) => a })
+	    val kept = forced.collect { case ((p, _), false) => str.replaceStaticParam(p) }
+	    val nsp1 = sp1 ++ kept
 	    // Build the special arrow that we use when checking the return type rule
 	    val nta = ta.extend(nsp1, None)
 	    val ntsa = new TypeSchemaAnalyzer()(nta)
-	    val str = new StaticTypeReplacer(sp2, newargs)
 	    val newr2 = bindEscaped(str.replaceIn(r2))
-	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, nsp1, None), nta.meet(d1,bindEscaped(newgd)), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
+	    val ra = ntsa.normalizeUA(SArrowType(STypeInfo(s1, p1, nsp1, None), nta.meet(d1,bindEscaped(str.replaceIn(d2))), newr2, nta.mergeEffect(e1,e2), i1 && i2, None))
 	    // Now test against that special arrow
 	    val result = sa.subtypeUA(fa, ra)
 	    if (!result) {
@@ -116,6 +125,118 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
 	  case None => true
 	}
     }
+
+  // Which static parameters of the domain gd the relation fd <: gd forces equal to
+  // their solutions in newargs: the constraint of that relation, with the bounds,
+  // implies each such parameter's inference variable equal to its solution.  A size
+  // left unsolved is not forced.
+  private def forcedArgs(fd: Type, gd: Type, newargs: List[StaticArg]): List[Boolean] = {
+    val ta1 = if (getStaticParams(fd).isEmpty) ta else ta.extend(getStaticParams(fd), getWhere(fd))
+    val fd1 = if (getStaticParams(fd).isEmpty) fd else clearStaticParams(fd)
+    val nta = ta1.extend(getStaticParams(gd), getWhere(gd))
+    val sparams = getStaticParams(gd)
+    val sargs = sparams.map(makeInferenceArg)
+    val infTyp = staticInstantiation(sargs, gd, true, true)(ta1).getOrElse(return sparams.map(_ => true))
+    val c0 = nta.subtype(fd1, infTyp)
+    val ubs: List[CFormula] = sparams.zip(sargs).flatMap { case (p, a) => (a, staticParamBoundType(p)) match {
+      case (STypeArg(_, _, iv: _InferenceVarType), Some(b)) =>
+        staticInstantiation(sargs, insertStaticParams(b, sparams), true, true)(ta1).map(bb => upperBound(iv, bb))
+      case _ => None } }
+    val c = and(c0, and(ubs)(ta1))(ta1)
+    sargs.zip(newargs).map {
+      case (STypeArg(_, _, iv: _InferenceVarType), STypeArg(_, _, sol)) =>
+        implies(c, and(upperBound(iv, sol), lowerBound(iv, sol))(ta1))(ta1)
+      case (_, SIntArg(_, _, v: _InferenceVarInt)) => false
+      case _ => true
+    }
+  }
+
+  // The positional rule: when x is more specific than y and the two declare as many
+  // static parameters of their own, those are of the same kinds, position by position,
+  // and x's return type is a subtype of y's when y's own static parameters are read as
+  // x's, position by position, as a call that writes its static arguments hands them to
+  // whichever declaration of that many parameters dispatch reaches.  Declarations with
+  // different numbers of static parameters are not handed each other's.  The caller
+  // checks that x is more specific than y.
+  def satisfiesPositionalRule(x: ArrowType, y: ArrowType): Boolean = {
+    def own(a: ArrowType) = toList(a.getInfo.getStaticParams).filter(!_.isLifted)
+    val (xo, yo) = (own(x), own(y))
+    if (xo.isEmpty || xo.size != yo.size) return true
+    if (xo.zip(yo).exists { case (p, q) => p.getKind.getClass != q.getKind.getClass }) return false
+    (alphaRenameTypeSchema(x, ta.extend(toList(x.getInfo.getStaticParams), None).env),
+     alphaRenameTypeSchema(y, ta.extend(toList(y.getInfo.getStaticParams), None).env)) match {
+      case (SArrowType(STypeInfo(_, _, sp1, _), _, r1, _, _, _),
+            SArrowType(STypeInfo(_, _, sp2, _), _, r2, _, _, _)) =>
+        val nta = ta.extend(sp1 ++ sp2.filter(_.isLifted), None)
+        val str = new StaticTypeReplacer(sp2.filter(!_.isLifted),
+                                          sp1.filter(!_.isLifted).map(p => staticParamToArg(p)))
+        isTrue(nta.subtype(r1, str.replaceIn(r2)))(nta)
+    }
+  }
+
+  // The Meet Rule's closed-trait case, for fa and ga without static parameters, whose
+  // domains overlap and neither of which is below the other: the declarations hs, each
+  // below both, together hold every value of the overlap.  The overlap is cut by the
+  // comprises clauses of the closed traits in it, a trait read as the union of its
+  // listed types; a part two of whose types exclude is empty; every other part must be
+  // below the domain of one of hs.  What it cannot show is not covered: a part with no
+  // closed trait left to cut, a cut that repeats a part on its own path, and a search
+  // longer than coverageCuts cuts.  A local judgement of overload checking: its result
+  // is never a subtyping fact.
+  private val coverageCuts = 1000
+
+  def coversOverlap(fa: ArrowType, ga: ArrowType, hs: List[ArrowType]): Boolean = {
+    def ground(a: ArrowType) = getStaticParams(a).isEmpty
+    if (hs.isEmpty || !ground(fa) || !ground(ga) || !hs.forall(ground)) return false
+    def positions(d: Type): Option[List[Type]] = d match {
+      case STupleType(_, es, None, Nil) => Some(es)
+      case _: TupleType => None
+      case t => Some(List(t))
+    }
+    type Part = List[List[Type]]
+    def canon(cs: List[Type]): List[Type] = cs.distinct.sortBy(_.toString)
+    def conj(cs: List[Type]): Type = makeMaybeIntersectionType(toJavaList(cs))
+    def asType(p: Part): Type = p match {
+      case List(cs) => conj(cs)
+      case _ => makeTupleType(toJavaList(p.map(conj)))
+    }
+    def empty(p: Part) = p.exists(cs => cs.exists(a => cs.exists(b => !(a eq b) && ta.definitelyExcludes(a, b))))
+    val hds = hs.map(sa.makeDomainWithSelfFromArrow)
+    def covered(p: Part) = { val t = asType(p); hds.exists(h => ta.lteq(t, h)) }
+    // A closed trait's listed types, its static arguments substituted; a functional
+    // method's self type is read as its trait.
+    def listed(t: Type): Option[List[Type]] = t match {
+      case tt: TraitType => ta.typeCons(tt.getName) match {
+        case ti: ProperTraitIndex if !ti.comprisesTypes.isEmpty && !NU.isComprisesEllipses(ti.ast) =>
+          val cs = ta.comprisesClause(tt)
+          if (cs.size != ti.comprisesTypes.size) None else Some(canon(cs.toList))
+        case _ => None
+      }
+      case ts: TraitSelfType => listed(ts.getNamed)
+      case _ => None
+    }
+    (positions(sa.makeDomainWithSelfFromArrow(fa)), positions(sa.makeDomainWithSelfFromArrow(ga))) match {
+      case (Some(fs), Some(gs)) if fs.size == gs.size =>
+        var cuts = 0
+        var work: List[(Part, Set[Part])] = List((fs.zip(gs).map { case (a, b) => canon(List(a, b)) }, Set[Part]()))
+        while (!work.isEmpty) {
+          val (p, path) = work.head
+          work = work.tail
+          if (!empty(p) && !covered(p)) {
+            val cut = p.indices.view.flatMap(i => p(i).view.flatMap(c => listed(c).map(ls => (i, c, ls)))).headOption
+            cut match {
+              case None => return false
+              case Some((i, c, ls)) =>
+                cuts += 1
+                if (cuts > coverageCuts || path.contains(p)) return false
+                work = ls.map(l => (p.updated(i, canon(p(i).filter(_ != c) :+ l)), path + p)) ++ work
+            }
+          }
+        }
+        true
+      case _ => false
+    }
+  }
 
 //   def satisfiesReturnTypeRule(x: ArrowType, y: ArrowType): Boolean =
 //     (alphaRenameTypeSchema(x, ta.extend(toList(x.getInfo.getStaticParams), None).env),

@@ -1,0 +1,4 @@
+tests=CoverageReturnBad
+compile
+compile_err_contains=the return type of V->LeftResult @
+compile_err_does_not_contain=Invalid overloading of choose

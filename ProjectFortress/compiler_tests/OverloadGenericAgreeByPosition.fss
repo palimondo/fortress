@@ -1,0 +1,24 @@
+(* An override that keeps its static parameters in the order of the declaration it overrides is accepted, and a call writing its static arguments runs the override at them. *)
+component OverloadGenericAgreeByPosition
+export Executable
+
+trait Up[\U0, V0\]
+    v(): ZZ32
+    sub[\U, V\](m: ZZ32): Up[\U, V\]
+end
+object Dn[\U0, V0\](x: ZZ32) extends { Up[\U0, V0\] }
+    v(): ZZ32 = x
+    sub[\U, V\](m: ZZ32): Dn[\U, V\] = Dn[\U, V\](x + m)
+end
+
+run(): () = do
+  u: Up[\ZZ32, String\] = Dn[\ZZ32, String\](1)
+  w: Up[\Boolean, ZZ64\] = u.sub[\Boolean, ZZ64\](3)
+  assert(w.v(), 4, "the override's body runs")
+  typecase w of
+    Up[\Boolean, ZZ64\] => println("PASS")
+    else => println("FAIL: the result has other static arguments")
+  end
+end
+
+end

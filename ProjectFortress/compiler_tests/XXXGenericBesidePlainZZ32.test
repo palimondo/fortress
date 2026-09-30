@@ -1,0 +1,3 @@
+tests=XXXGenericBesidePlainZZ32
+run
+run_out_contains=REACHED

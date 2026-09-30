@@ -1,0 +1,30 @@
+(* One value through three static types: each call runs the generic declaration at X = Red, the plain declaration being less specific for a Tag[Red]; ledger row 496. *)
+component XXXGenericBesidePlainStatic
+export Executable
+
+trait Tag[\X\] end
+object Red end
+object RedTag extends Tag[\Red\] end
+object Marker[\X\] end
+
+grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+grab(a: Any): Any = Red
+
+name(m: Any): String = typecase m of
+    Marker[\Red\] => "Marker[Red]"
+    Red => "Red"
+    else => "other"
+  end
+
+run(): () = do
+  r: RedTag = RedTag
+  t: Tag[\Red\] = RedTag
+  a: Any = RedTag
+  assert(name(grab(r)), "Marker[Red]", "an argument of static type RedTag gets the generic declaration")
+  assert(name(grab(t)), "Marker[Red]", "an argument of static type Tag[Red] gets the generic declaration")
+  println("REACHED")
+  assert(name(grab(a)), "Marker[Red]", "a Tag[Red] held as Any gets the generic declaration at X = Red")
+  println("PASS")
+end
+
+end

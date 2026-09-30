@@ -1,0 +1,18 @@
+(* A lone type parameter with a written bound and no narrowest argument type is instantiated at the bound: pick at a ZZ64 and an RR64 is a BoxT[Number]. *)
+component InferLoneBound
+export Executable
+
+object BoxT[\T\]() end
+
+pick[\T extends Number\](x: T, y: T): BoxT[\T\] = BoxT[\T\]()
+same[\T\](a: BoxT[\T\], b: BoxT[\T\]): String = "same"
+
+run(): () = do
+  w: ZZ64 = 4
+  r: RR64 = 2.5
+  n: BoxT[\Number\] = BoxT[\Number\]()
+  assert(same(pick(w, r), n), "same", "pick with the bound Number at a ZZ64 and an RR64 is a BoxT[Number], an instance at the written bound")
+  println("PASS")
+end
+
+end

@@ -1,5 +1,5 @@
 (* See explorations/compile-ladder/rung-spec-comprises/REPORT.md. *)
-component XXXComprisesMeetCompiled
+component ComprisesMeetCompiled
 export Executable
 
 trait S comprises { U, V } end

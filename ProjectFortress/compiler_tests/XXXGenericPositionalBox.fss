@@ -1,0 +1,23 @@
+(* A call through a generic caller dispatches on the value: a Box value gets the declaration on Box whatever the caller's type argument; ledger row 499. *)
+component XXXGenericPositionalBox
+export Executable
+
+object Box[\U\](v: ZZ32) end
+object Blue end
+
+f[\T\](x: T): String = "any"
+f[\U\](x: Box[\U\]): String = "box"
+
+viaT[\T\](x: T): String = f(x)
+
+run(): () = do
+  println("REACHED")
+  b: Box[\Blue\] = Box[\Blue\](1)
+  assert(f(b), "box", "a direct call on a Box[Blue] gets the declaration on Box")
+  assert(viaT("s"), "any", "a String through the generic caller gets the declaration on T")
+  assert(viaT(b), "box", "a Box[Blue] through the generic caller gets the declaration on Box")
+  assert(viaT(Box[\ZZ32\](2)), "box", "a Box[ZZ32] through the generic caller gets the declaration on Box")
+  println("PASS")
+end
+
+end

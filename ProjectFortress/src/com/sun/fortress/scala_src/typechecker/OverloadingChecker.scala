@@ -475,7 +475,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       if (oa.lteq(fa, ga)) { true }
       else if (oa.lteq(ga, fa)) { true }
       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
-      else { oa.excludes(fa, ga) } 
+      else if (oa.excludes(fa, ga)) { true }
+      else { coverageRule(first, second, signatures, isMethod, oa) }
     
       
   /*    
@@ -520,6 +521,22 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       b2
     }
 
+    /* The Meet Rule's closed-trait case, for functions and functional methods: the
+     * declarations whose domains are below both domains together hold every value of
+     * their overlap, as the comprises clauses show (OverloadingOracle.coversOverlap). */
+    private def coverageRule(first: (ArrowType,Option[Int],Option[JavaFunctional]),
+                             second: (ArrowType,Option[Int],Option[JavaFunctional]),
+                             signatures: List[(ArrowType,Option[Int],Option[JavaFunctional])],
+                             isMethod: Boolean,
+                             oa: OverloadingOracle): Boolean = {
+      val (fa, fsp, _) = first
+      val (ga, gsp, _) = second
+      if (fsp != gsp || (isMethod && fsp.isEmpty)) false
+      else oa.coversOverlap(fa, ga, signatures.collect {
+        case (ha, hsp, _) if hsp == fsp && !(ha eq fa) && !(ha eq ga) &&
+                             oa.lteq(ha, fa) && oa.lteq(ha, ga) => ha })
+    }
+
     private def returnTypeCheck(name: IdOrOpOrAnonymousName,
     	    			first: (ArrowType,Option[Int],Option[JavaFunctional]),
                                 second: (ArrowType,Option[Int],Option[JavaFunctional]),
@@ -532,6 +549,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         error(mergeSpan(fa, ga),
 	      "For " + name + ",\nthe return type of " + typeAndSpanToString(fa) + " should be a subtype of the\n    return type of " + typeAndSpanToString(ga))
       }
+      else if (oa.lteq(fa, ga) && !oa.satisfiesPositionalRule(fa, ga))
+        error(mergeSpan(fa, ga),
+              "For " + name + ",\nthe static parameters of " + typeAndSpanToString(fa) + " should correspond position by position\n    to those of " + typeAndSpanToString(ga) +
+              ":\n    of the same kinds, with a return type that is a subtype of the other's under that correspondence.")
     }
 
 

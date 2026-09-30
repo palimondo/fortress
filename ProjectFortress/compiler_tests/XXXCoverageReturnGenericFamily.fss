@@ -1,0 +1,32 @@
+(* A call whose argument sits between two closed traits, in a family with a generic declaration that cannot apply to it, is typed by the intersection of its candidates' return types. *)
+component XXXCoverageReturnGenericFamily
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+object Box[\X\] end
+
+trait LeftResult end
+trait RightResult end
+object LeftOnly extends LeftResult end
+object RightOnly extends RightResult end
+object BothResult extends { LeftResult, RightResult } end
+
+choose(s: S): LeftResult = LeftOnly
+choose(t: T): RightResult = RightOnly
+choose(v: V): BothResult = BothResult
+choose[\X\](b: Box[\X\]): BothResult = BothResult
+
+run(): () = do
+  m: M = Vo
+  left: LeftResult = choose(m)
+  right: RightResult = choose(m)
+  println("PASS")
+end
+
+end

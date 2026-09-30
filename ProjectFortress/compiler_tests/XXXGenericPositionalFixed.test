@@ -1,0 +1,3 @@
+tests=XXXGenericPositionalFixed
+run
+run_out_contains=REACHED

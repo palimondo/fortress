@@ -1,0 +1,3 @@
+tests=XXXComprisesMeetUnexcluded
+compile
+compile_err_contains=Invalid overloading of f in component XXXComprisesMeetUnexcluded

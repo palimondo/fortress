@@ -1,0 +1,27 @@
+(* A generic declaration reached only at run time, whose type parameter the value does not fix, runs at its declared bound under the call's static return type, Box[Number], not at the value's type. *)
+component XXXGenericInstanceUnfixed
+export Executable
+
+object Box[\T\](v: Any) end
+trait Key end
+object K extends Key end
+
+wrap[\T extends Number\](x: T, k: Key): Box[\T\] = Box[\T\](x)
+wrap(x: Any, k: Any): Any = "plain"
+
+run(): () = do
+  z: ZZ32 = 3
+  k: Any = K
+  println("REACHED")
+  r: Any = wrap(z, k)
+  answer = typecase r of
+      Box[\Number\] => "Box[Number]"
+      Box[\ZZ32\] => "Box[ZZ32]"
+      String => "plain"
+      else => "other"
+    end
+  assert(answer, "Box[Number]", "the generic declaration runs, its parameter at the bound Number")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,23 @@
+(* A generic declaration beside a plain declaration on a subtype of its bound: each call runs the most specific declaration applicable to the value. *)
+component OverloadGenericBesidePlain
+export Executable
+
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+
+describe[\T extends Shape\](x: T): String = "generic"
+describe(x: Circle): String = "circle"
+
+run(): () = do
+  println(describe(Circle))
+  println(describe(Square))
+  s: Shape = Circle
+  println(describe(s))
+  assert(describe(Circle), "circle", "a Circle gets the plain declaration")
+  assert(describe(Square), "generic", "a Square gets the generic declaration")
+  assert(describe(s), "circle", "a Circle held as a Shape gets the plain declaration")
+  println("PASS")
+end
+
+end

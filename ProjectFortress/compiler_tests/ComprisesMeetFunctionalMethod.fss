@@ -1,0 +1,25 @@
+(* A functional method declared in two closed traits and in the one type both comprises clauses list: a value of that type, held as either trait, runs the declaration in that type. *)
+component ComprisesMeetFunctionalMethod
+export Executable
+
+trait S comprises { U, V }
+  tag(self): ZZ32 = 1
+end
+trait T comprises { V, W }
+  tag(self): ZZ32 = 2
+end
+trait U extends S excludes W end
+trait V extends { S, T }
+  tag(self): ZZ32 = 3
+end
+trait W extends T end
+object Vo extends V end
+
+run(): () = do
+  s: S = Vo
+  println("tag(s) = " tag(s))
+  assert(tag(s), 3, "a V held as an S runs the declaration in V")
+  println("PASS")
+end
+
+end

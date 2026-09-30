@@ -1,0 +1,20 @@
+(* The meet of S and T through S's comprises clause is V, and no declaration is on V, so f(S) and f(T) are an invalid overloading. *)
+component XXXComprisesMeetNoCover
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V } excludes U end
+trait U extends S end
+trait V extends { S, T } end
+object Vo extends V end
+object Uo extends U end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+
+run(): () = do
+    assert(f(Uo), 1, "the declaration for S")
+    println("PASS")
+end
+
+end

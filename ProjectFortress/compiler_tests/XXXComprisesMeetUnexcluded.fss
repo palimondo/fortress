@@ -1,0 +1,22 @@
+(* Without U excludes W a value of both U and W is a value of both S and T and not of V, so f(V) does not cover the overlap of f(S) and f(T). *)
+component XXXComprisesMeetUnexcluded
+export Executable
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S end
+trait V extends { S, T } end
+trait W extends T end
+object X extends V end
+
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 2
+f(v: V): ZZ32 = 3
+
+run(): () = do
+    g: S = X
+    assert(f(g), 3, "the declaration for V")
+    println("PASS")
+end
+
+end

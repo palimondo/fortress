@@ -1,0 +1,17 @@
+(* A generic declaration returning its type parameter beside a plain declaration on a subtype returning that subtype fails the Return Type Rule at the instance T = Circle. *)
+component XXXOverloadReturnEveryInstance
+export Executable
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+
+ident[\T extends Shape\](x: T): T = x
+ident(x: Round): Round = x
+
+run(): () = do
+  c: Circle = ident(Circle)
+  println("PASS")
+end
+
+end

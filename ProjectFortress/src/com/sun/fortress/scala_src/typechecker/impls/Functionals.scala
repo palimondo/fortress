@@ -566,15 +566,24 @@ trait Functionals { self: STypeChecker with Common =>
                        context: Option[Type],
                        fallBackWithoutContext: Boolean)
                       (implicit errorFactory: ApplicationErrorFactory)
-                       : Option[List[AppCandidate]] = {
+                       : Option[List[AppCandidate]] =
+    typedApplicationOfArg(preCandidates, arg, context, fallBackWithoutContext).map(_._1)
+
+  /** checkApplication with the call's type beside the candidates. */
+  def typedApplicationOfArg(preCandidates: List[PreAppCandidate],
+                            arg: Expr,
+                            context: Option[Type],
+                            fallBackWithoutContext: Boolean)
+                           (implicit errorFactory: ApplicationErrorFactory)
+                            : Option[(List[AppCandidate], Type)] = {
 
     // Check the application using the args extrapolated from arg.
     val args = getArgList(arg)
-    checkApplication(preCandidates, args, context, None, fallBackWithoutContext) map { candidates =>
+    typedApplication(preCandidates, args, context, None, fallBackWithoutContext) map { case (candidates, callType) =>
 
       // Combine the separated args back into a single arg in the resulting app
       // candidate.
-      candidates.map(_.mergeArgs(NU.getSpan(arg)))
+      (candidates.map(_.mergeArgs(NU.getSpan(arg))), callType)
     }
 
   }
@@ -607,7 +616,26 @@ trait Functionals { self: STypeChecker with Common =>
                        mOpName: Option[Op] = None,
                        fallBackWithoutContext: Boolean = false)
                       (implicit errorFactory: ApplicationErrorFactory)
-                       : Option[List[AppCandidate]] = {
+                       : Option[List[AppCandidate]] =
+    typedApplication(preCandidates, iargs, context, mOpName, fallBackWithoutContext).map(_._1)
+
+  /**
+   * checkApplication with the call's type beside the candidates: the most
+   * specific candidate's return type, or, for a tie among declarations without
+   * static parameters that fit the call without coercion, in a family with no
+   * declaration with static parameters, the intersection of the tied
+   * candidates' return types. Such a tie arises where the argument's static
+   * type sits between closed traits whose overlap other declarations cover;
+   * the declaration that runs is below every tied one, and its return type
+   * below each of theirs by the Return Type Rule.
+   */
+  def typedApplication(preCandidates: List[PreAppCandidate],
+                       iargs: List[Expr],
+                       context: Option[Type],
+                       mOpName: Option[Op],
+                       fallBackWithoutContext: Boolean)
+                      (implicit errorFactory: ApplicationErrorFactory)
+                       : Option[(List[AppCandidate], Type)] = {
 
     // Check all the checkable args and make sure they all have types.
     val args = partitionArgs(iargs).getOrElse(return None)
@@ -647,8 +675,24 @@ trait Functionals { self: STypeChecker with Common =>
     // coercion it needs; an attempt with coercion holds all it finds.
     def holds(es: Attempt, coerce: Boolean) =
       if (coerce) candidatesOf(es).nonEmpty else candidatesOf(es).exists(!counted(_))
+    def paramTypes(c: Ranked) = zipWithDomain(c._1.args, c._1.arrow.getDomain).map(_._2)
+    def sameTypes(a: List[Type], b: List[Type]) =
+      a.size == b.size && a.zip(b).forall(p => Formula.isTrue(analyzer.equivalent(p._1, p._2)))
+    // The candidates no other candidate is more specific than.
+    def minimal(cs: List[Ranked]) = cs.filter(c => !cs.exists(d => !(d eq c) && moreSpecific(d, c)))
+    val groundFamily = preCandidates.forall(pc => getStaticParams(pc.arrow).isEmpty)
+    // The type of a tie among declarations without static parameters that fit
+    // the call as it is, in a family without static parameters.
+    def tieType(top: List[Ranked]): Option[Type] =
+      if (groundFamily && top.size > 1 && !top.exists(counted) &&
+          top.forall(c => c._2.isEmpty && !c._3 && c._1.sargs.isEmpty) &&
+          !top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))))
+        Some(analyzer.meet(top.map(_._1.arrow.getRange)))
+      else None
+    def callType(cs: List[Ranked]): Type =
+      (if (groundFamily) tieType(minimal(cs)) else None).getOrElse(cs.sortWith(moreSpecific).head._1.arrow.getRange)
     def kept(es: Attempt, coerce: Boolean) = holds(es, coerce) && context.forall(c =>
-      coercions.substitutableFor(candidatesOf(es).sortWith(moreSpecific).head._1.arrow.getRange, c))
+      coercions.substitutableFor(callType(candidatesOf(es)), c))
     val attempts: List[(Boolean, () => Attempt)] =
       List((false, () => applicable(context, false)), (true, () => applicable(context, true))) ++
       (if (context.isDefined) List((false, () => applicable(None, false)), (true, () => applicable(None, true)))
@@ -687,10 +731,7 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Ensure that the head is the most specific: the one candidate no other
     // is more specific than.
-    val top = candidates.filter(c => !candidates.exists(d => !(d eq c) && moreSpecific(d, c)))
-    def paramTypes(c: Ranked) = zipWithDomain(c._1.args, c._1.arrow.getDomain).map(_._2)
-    def sameTypes(a: List[Type], b: List[Type]) =
-      a.size == b.size && a.zip(b).forall(p => Formula.isTrue(analyzer.equivalent(p._1, p._2)))
+    val top = minimal(candidates)
 
     // A tie whose tied candidates differ only where the argument is a numeral:
     // each numeral is read as ZZ32 (ZZ64 or ZZ by magnitude), and the call
@@ -748,7 +789,8 @@ trait Functionals { self: STypeChecker with Common =>
         signalAmbiguity(top.map(c => c._2.getOrElse(c._1.arrow)), args)
         return None
       }
-    Some(head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1))
+    Some((head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1),
+          tieType(top).getOrElse(head.getOrElse(sorted.head)._1.arrow.getRange)))
   }
 
   /** Signal that no candidate of a call with coercion is more specific than every other. */
@@ -878,15 +920,15 @@ trait Functionals { self: STypeChecker with Common =>
                                     preCandidates.length > 1)
 
       // Type check the application to get the checked candidates.
-      val candidates =
-        checkApplication(preCandidates, subs, expected).getOrElse(return expr)
+      val (candidates, callType) =
+        typedApplication(preCandidates, subs, expected, None, false).getOrElse(return expr)
 
       // We only care about the most specific one.
       val AppCandidate(bestArrow, bestSargs, bestSubs, _, _), _ = candidates.head
       val newSargs = if (sargs.isEmpty) bestSargs.filter(!_.isLifted) else sargs
 
       // Rewrite the new expression with its type and checked args.
-      SSubscriptExpr(SExprInfo(span, paren, Some(bestArrow.getRange)),
+      SSubscriptExpr(SExprInfo(span, paren, Some(callType)),
                      checkedObj,
                      bestSubs,
                      Some(op),
@@ -907,8 +949,8 @@ trait Functionals { self: STypeChecker with Common =>
                                     preCandidates.length > 1)
 
       // Type check the application.
-      val candidates =
-        checkApplication(preCandidates, arg, expected, false).getOrElse(return expr)
+      val (candidates, callType) =
+        typedApplicationOfArg(preCandidates, arg, expected, false).getOrElse(return expr)
 
       // We only care about the most specific one. We know the args pattern
       // match succeeds because all app candidates generated for method
@@ -922,7 +964,7 @@ trait Functionals { self: STypeChecker with Common =>
       val modifiedSchema = Some(new FnNameInfo(bestFnl.get.asInstanceOf[DeclaredMethod].originalMethod, null).normalizedSchema(bestOver.getSchema.get));
 
       // Rewrite the new expression with its type and checked args.
-      SMethodInvocation(SExprInfo(span, paren, Some(bestArrow.getRange)),
+      SMethodInvocation(SExprInfo(span, paren, Some(callType)),
                         checkedObj,
                         method,
                         newSargs,
@@ -997,8 +1039,8 @@ trait Functionals { self: STypeChecker with Common =>
                                     preCandidates.length > 1)
 
       // Type check the application.
-      val candidates =
-        checkApplication(preCandidates, arg, expected, true).getOrElse(return expr)
+      val (candidates, callType) =
+        typedApplicationOfArg(preCandidates, arg, expected, true).getOrElse(return expr)
 
       // We know the arg pattern match succeeds because all app candidates
       // generated for functions include a single arg.
@@ -1010,7 +1052,7 @@ trait Functionals { self: STypeChecker with Common =>
       // Rewrite the applicand to include the arrow and unlifted static args
       // and update the application.
       val newFn = rewriteApplicand(checkedFn, candidates, false)
-      val info = SExprInfo(span, paren, Some(bestArrow.getRange))
+      val info = SExprInfo(span, paren, Some(callType))
 
       newFn match {
         // Detect FnApp that is really method application with implicit self,
@@ -1065,14 +1107,14 @@ trait Functionals { self: STypeChecker with Common =>
       implicit val errorFactory = new ApplicationErrorFactory(expr, None, preCandidates.length > 1)
 
       // Type check the application.
-      val candidates = checkApplication(preCandidates, args, expected, Some(opName)).
+      val (candidates, callType) = typedApplication(preCandidates, args, expected, Some(opName), false).
                          getOrElse(return expr)
       val AppCandidate(bestArrow, bestSargs, bestArgs, _, _) = candidates.head
 
       // Rewrite the applicand to include the arrow and static args
       // and update the application.
       val newOp = rewriteApplicand(checkedOp, candidates, false).asInstanceOf[FunctionalRef]
-      SOpExpr(SExprInfo(span, paren, Some(bestArrow.getRange)), newOp, bestArgs)
+      SOpExpr(SExprInfo(span, paren, Some(callType)), newOp, bestArgs)
     }
 
     case SFnExpr(SExprInfo(span, paren, _),

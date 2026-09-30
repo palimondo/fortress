@@ -1,0 +1,24 @@
+(* A Fixed[Red] held as a Tag[Blue] gets the declaration on Fixed, whose parameter the value fixes at Red; ledger row 499. *)
+component XXXGenericPositionalFixed
+export Executable
+
+trait Tag[\X\] end
+trait Fixed[\Y\] extends Tag[\Blue\] end
+object Red end
+object Blue end
+object FixedRed extends Fixed[\Red\] end
+object TagBlue extends Tag[\Blue\] end
+
+grab[\X\](t: Tag[\X\]): String = "tag"
+grab[\Y\](t: Fixed[\Y\]): String = "fixed"
+
+run(): () = do
+  println("REACHED")
+  u: Tag[\Blue\] = TagBlue
+  assert(grab(u), "tag", "a TagBlue gets the declaration on Tag")
+  t: Tag[\Blue\] = FixedRed
+  assert(grab(t), "fixed", "a FixedRed held as a Tag[Blue] gets the declaration on Fixed")
+  println("PASS")
+end
+
+end

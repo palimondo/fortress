@@ -1,0 +1,3 @@
+tests=XXXGenericPositionalBox
+run
+run_out_contains=REACHED

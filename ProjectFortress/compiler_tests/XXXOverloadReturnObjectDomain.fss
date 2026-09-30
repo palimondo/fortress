@@ -1,0 +1,18 @@
+(* A generic identity beside a plain one on an object type: every instance applicable to that object returns a supertype of it, so the pair is valid and each call keeps its argument's type. *)
+component XXXOverloadReturnObjectDomain
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+object Square extends Shape end
+
+ident[\T\](x: T): T = x
+ident(x: Circle): Circle = x
+
+run(): () = do
+  c: Circle = ident(Circle)
+  s: Square = ident(Square)
+  println("PASS")
+end
+
+end
