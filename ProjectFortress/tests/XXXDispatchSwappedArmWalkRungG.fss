@@ -24,9 +24,9 @@ name(m: Any): String = typecase m of
 run(): () = do
   println("REACHED")
   t1: Two[\Red,Blue\] = RedAndBlue
-  assert(name(pair(t1)), "SubM[Red,Blue]", "a generic arm that names its parameters in the other order, row 159, Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(pair(t1)), "SubM[Red,Blue]", "a generic arm that names its parameters in the other order, row 159, Specification/basic/overloading.tex:100-110, :297-311")
   t2: Two[\Red,Blue\] = PlainPair
-  assert(name(pair(t2)), "TwoM[Red,Blue]", "Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(pair(t2)), "TwoM[Red,Blue]", "Specification/basic/overloading.tex:100-110, :297-311")
   println("PASS")
 end
 

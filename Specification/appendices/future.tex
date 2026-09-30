@@ -254,6 +254,13 @@ of the relevant paragraph).
 \(\VAR{conjugate}\llbracket{}T \KWD{extends}\:\TYP{RealNumber}\rrbracket(x\COLONOP{}T)\COLONOP{}T\)
 \end{Fortress}
   \end{itemize}
+\revision{revival-overloading}{Done: declarations of one name may have different
+static parameters, under the rules of \secref{overloading-static-params}.
+Jan's pair is still not a valid overloading, since the two declarations have the
+same parameter type and each is more specific than the other; \library\ write it
+as one factory, \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket()},
+which chooses its result by a \KWD{typecase} on its type argument, a
+\TYP{Vector} where the argument is a \TYP{Number}.}
 \item Overloaded functionals with different \KWD{throws} clauses
 
 \item Overloading with static parameters
@@ -265,6 +272,14 @@ sent on 11/08/07
 \item Do we want to consider only the exclusion between ground types or also the exclusion between the bounds of static parameters?
 
 \end{itemize}
+\revision{revival-overloading}{Answered by the existential reduction of
+\secref{overloading-static-params}: each static parameter stands for any type
+within its bound, and instantiation exclusion lets two parameter types that
+mention one parameterized trait meet only where its static arguments are the
+same.
+Whether a bound that rules out the only static arguments at which two parameter
+types could meet makes them exclude each other is not settled
+(\secref{revival-notrevised}).}
 
 \item Identifying the intersection of any two types with \KWD{comprises} clauses with the union of their common subtypes
 
@@ -283,9 +298,14 @@ sent on 11/08/07
 
 \txt{S\&T} \verb+~~+ \txt{V}
 We agreed to revise the Meet rule to address this with the coverage check.
+\revision{revival-meet}{Done: \TYP{V} covers the intersection of \TYP{S} and
+\TYP{T} (\secref{internal-types}), and the Meet Rule is also satisfied by
+declarations that together cover the intersection of two parameter types
+(\secref{more-specific-rule}).}
 
   \item overloading in multiple scopes
   \item overloading with different static parameters
+\revision{revival-overloading}{Done (\secref{overloading-static-params}).}
   \item exporting partial overloading
 
 I'm hoping we export all of an overloading, or none of it. -- Jan

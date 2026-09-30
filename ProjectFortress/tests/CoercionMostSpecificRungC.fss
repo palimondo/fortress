@@ -35,9 +35,9 @@ k(x: Mid, y: Mid): String = "k(Mid, Mid)"
 k(x: Big, y: Big): String = "k(Big, Big)"
 
 run() = do
-    assert(f(SmallOf(1)), "f(Mid) got 1", "row 19: of two coercions the one to the more specific type is chosen; conversions-coercions.tex:475-477, :542-553")
-    assert(h(SmallOf(2)), "h(Mid) got 2", "row 19: the choice does not depend on declaration order; conversions-coercions.tex:542-553")
-    assert(k(SmallOf(3), SmallOf(4)), "k(Mid, Mid)", "row 19: the most specific choice elementwise over two arguments; conversions-coercions.tex:494-501, :510-513")
+    assert(f(SmallOf(1)), "f(Mid) got 1", "row 19: of two coercions the one to the more specific type is chosen; conversions-coercions.tex:475-477, :563-574")
+    assert(h(SmallOf(2)), "h(Mid) got 2", "row 19: the choice does not depend on declaration order; conversions-coercions.tex:563-574")
+    assert(k(SmallOf(3), SmallOf(4)), "k(Mid, Mid)", "row 19: the most specific choice elementwise over two arguments; conversions-coercions.tex:507-514, :523-526")
     assert(f(MidOf(5)), "f(Mid) got 5", "control: an argument that needs no coercion")
     assert(k(MidOf(6), SmallOf(7)), "k(Mid, Mid)", "row 19: one argument plain and one converted; conversions-coercions.tex:328-347")
     b: Big = MidOf(8)

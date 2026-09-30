@@ -17,16 +17,16 @@ shown(v: Any): String =
 
 run(): () = do
     b: ZZ64 = widen(3)
-    assert(shown(b MAXNUM 1), "3 : ZZ64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:533-553: ZZ64 MAXNUM a numeral")
-    assert(shown(b MINNUM 1), "1 : ZZ64", "ledger row 517; basic-integers.tex:266, :642-645; conversions-coercions.tex:533-553: ZZ64 MINNUM a numeral")
+    assert(shown(b MAXNUM 1), "3 : ZZ64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:546-574: ZZ64 MAXNUM a numeral")
+    assert(shown(b MINNUM 1), "1 : ZZ64", "ledger row 517; basic-integers.tex:266, :642-645; conversions-coercions.tex:546-574: ZZ64 MINNUM a numeral")
     g: ZZ = big(3)
-    assert(shown(g MAXNUM 1), "3 : ZZ", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:533-553: ZZ MAXNUM a numeral")
+    assert(shown(g MAXNUM 1), "3 : ZZ", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:546-574: ZZ MAXNUM a numeral")
     w: ZZ64 = widen(4)
     z: ZZ32 = 3
-    assert(shown(w MAXNUM z), "4 : ZZ64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:533-553: ZZ64 MAXNUM ZZ32 at ZZ64, answer 8")
+    assert(shown(w MAXNUM z), "4 : ZZ64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:546-574: ZZ64 MAXNUM ZZ32 at ZZ64, answer 8")
     u: NN32 = unsigned(3)
     v: NN64 = unsigned(widen(4))
-    assert(shown(v MAXNUM u), "4 : NN64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:533-553: NN64 MAXNUM NN32 at NN64, answer 8")
+    assert(shown(v MAXNUM u), "4 : NN64", "ledger row 517; basic-integers.tex:265, :642-645; conversions-coercions.tex:546-574: NN64 MAXNUM NN32 at NN64, answer 8")
     println "PASS"
   end
 

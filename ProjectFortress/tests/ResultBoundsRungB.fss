@@ -46,17 +46,17 @@ natives(): () = do
 
 comprehensions(): () = do
     pairs = <| (k, k + 10) | k <- <|1, 2, 3|> |>
-    assert(pairs, <|(1, 11), (2, 12), (3, 13)|>, "trait-parameters.tex:53: a list comprehension at a tuple type")
+    assert(pairs, <|(1, 11), (2, 12), (3, 13)|>, "trait-parameters.tex:65: a list comprehension at a tuple type")
     triples = <| (k, "x", k > 1) | k <- <|1, 2|> |>
-    assert(triples, <|(1, "x", false), (2, "x", true)|>, "trait-parameters.tex:53: a list comprehension at a tuple type")
+    assert(triples, <|(1, "x", false), (2, "x", true)|>, "trait-parameters.tex:65: a list comprehension at a tuple type")
     units = <| () | _ <- <|1, 2|> |>
     assert(|units|, 2, "types-vals-vars.tex:136: a list comprehension at ()")
     fs = <| (fn (y: ZZ32): ZZ32 => y + k) | k <- <|1, 2, 3|> |>
-    assert(<| f(10) | f <- fs |>, <|11, 12, 13|>, "trait-parameters.tex:53: a list comprehension at an arrow type")
+    assert(<| f(10) | f <- fs |>, <|11, 12, 13|>, "trait-parameters.tex:65: a list comprehension at an arrow type")
     empty = <| (k, k) | k <- <|1, 2|>, k > 5 |>
-    assert(|empty|, 0, "trait-parameters.tex:53: an empty list comprehension at a tuple type")
+    assert(|empty|, 0, "trait-parameters.tex:65: an empty list comprehension at a tuple type")
     words = <| s | s <- <|"a", "b"|> |>
-    assert(words, <|"a", "b"|>, "trait-parameters.tex:53: a list comprehension at an object type")
+    assert(words, <|"a", "b"|>, "trait-parameters.tex:65: a list comprehension at an object type")
   end
 
 run(): () = do

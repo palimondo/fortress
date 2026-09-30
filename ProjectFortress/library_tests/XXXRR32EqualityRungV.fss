@@ -10,8 +10,8 @@ run(): () = do
     println("REACHED")
     assert(a = a, "CompilerBuiltin.fsi:475: RR32 extends Equality[\\RR32\\], so an RR32 equals itself")
     deny(a = b, "CompilerBuiltin.fsi:475: RR32 extends Equality[\\RR32\\], so RR32 1.5 = RR32 2.5 is false")
-    assert(a = 1.5, "CompilerBuiltin.fsi:476, conversions-coercions.tex:904-908: the numeral converts to RR32 and equals it")
-    assert(a = f, "CompilerBuiltin.fsi:435, conversions-coercions.tex:909-912: RR32 = RR64 by RR64's = after the coercion")
+    assert(a = 1.5, "CompilerBuiltin.fsi:476, conversions-coercions.tex:944-948: the numeral converts to RR32 and equals it")
+    assert(a = f, "CompilerBuiltin.fsi:435, conversions-coercions.tex:949-952: RR32 = RR64 by RR64's = after the coercion")
     println("PASS")
   end
 end

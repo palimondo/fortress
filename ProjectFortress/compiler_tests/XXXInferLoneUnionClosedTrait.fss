@@ -1,0 +1,14 @@
+(* A lone type parameter with no narrowest candidate, fixed by two objects of a closed trait, takes its bound, so passing the result where the closed trait's instance is expected is a static error; the compiled checker takes the union and the run fails verification. *)
+component XXXInferLoneUnionClosedTrait
+export Executable
+trait Fig comprises { Tri, Sq } end
+object Tri extends Fig end
+object Sq extends Fig end
+object BoxT[\T\] end
+pk0[\T\](x: T, y: T): BoxT[\T\] = BoxT[\T\]
+k(b: BoxT[\Fig\]): String = "BoxT[Fig]"
+run(): () = do
+  println("REACHED")
+  println("k(pk0(Tri, Sq)) -> " k(pk0(Tri, Sq)))
+end
+end

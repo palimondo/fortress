@@ -47,7 +47,19 @@ optional \KWD{extends} clause, followed by an optional
 ``\EXP{\KWD{absorbs}\;\;\KWD{unit}}'' clause (described in
 \secref{absorbing-units}).
 If a type parameter does not have an \KWD{extends} clause, it has an
-implicit ``\EXP{\KWD{extends} \TYP{Object}}'' clause.
+implicit ``\EXP{\KWD{extends} \TYP{Any}}'' clause.
+\revision{revival-bound}{The Working Draft of February 2011 gave such a type
+parameter the implicit clause ``\EXP{\KWD{extends} \TYP{Object}}''.
+\TYP{Any} holds every value, tuples and \TYP{()} among them, which \TYP{Object}
+does not (the team's later Types chapter, Luchangco, 2012); \library\ are
+written under \TYP{Any}, instantiating such parameters at tuple types, and the
+interpreter reads the bound so.
+The type group's paper of 2019 says the same: ``By default, each type parameter
+has an upper bound Any'' (Park, Hong, Steele and Ryu, POPL 2019).
+The compiled path still gives such a type parameter of a program's own
+declarations the bound \TYP{Object} (row~412 of the revival's gap ledger), a
+divergence that lasts until the compiled path is switched over to the
+interpreter's library.}
 
 
 Type parameters are instantiated with types such as trait types, tuple types,

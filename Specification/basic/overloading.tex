@@ -97,15 +97,27 @@ with every operator declaration in the same component.
 
 \note{This restriction will be relaxed.}
 
-Although there may be multiple declarations
-with the same functional name,
-it is an error for their static parameters to differ
-(up to $\alpha$-equivalence),
-or for one declaration to have static parameters
-and another to not have them.
-Hence, static parameters do not enter into the determination of which
-declarations are applicable,
-so we ignore them for most of this chapter.
+Declarations with the same functional name may have different static
+parameters, or some of them may have static parameters and others none.
+A declaration with static parameters is read as one declaration whose
+parameter type ranges over every instance of it whose static arguments
+satisfy their bounds: it is applicable to a call when some such instance is
+(\secref{functional-applicability}), and it is compared with other
+declarations on the parameter types they declare, taken over all their
+instances (\secref{resolving-overloading}).
+A declaration without static parameters is the case with none.
+The rules that a set of such declarations must satisfy are given in
+\chapref{overloaded-declarations}.
+\revision{revival-overloading}{The Working Draft of February 2011 said here that
+declarations of one name may not differ in their static parameters, nor may one
+have static parameters and another not, so that static parameters do not enter
+into applicability.
+Neither implementation enforced that: the interpreter has overloaded
+declarations with different static parameters since 2007, and the compiled type
+checker applies to them the rules of the type group's paper of 2011, which reads
+the parameter type of a declaration with static parameters as quantified over
+them; \library\ overload across different static parameters throughout.
+This chapter and \chapref{overloaded-declarations} now state that model.}
 
 
 
@@ -134,8 +146,17 @@ name $\f$ and whose argument, when evaluated, has dynamic type $\Cs$.
 it is!---then $\Xs \Ovrsubtype \As$ for all well-typed calls to $\f$.)
 We use the term \emph{call $\f(\Cs)$} to refer to static and dynamic calls
 collectively.
-We assume throughout this chapter that all static variables in functional calls
-have been instantiated or inferred.
+We assume throughout this chapter that the static arguments that a call writes
+(\secref{idn-ref}, \secref{dotted-method-calls}) have been substituted for the
+static parameters of the declarations that they instantiate.
+The static arguments that a call does not write are inferred for the
+declaration that the call selects, once it is selected
+(\chapref{type-inference}); until then a declaration with static parameters is
+taken over all its instances.
+\revision{revival-overloading}{The Working Draft of February 2011 assumed here
+that all static variables in functional calls have been instantiated or
+inferred, which with the sentences below had the static arguments a call does not
+write inferred before the declarations are compared.}
 
 
 We also use \emph{function declaration $\f(\Ps):\Us$} to refer to a
@@ -170,9 +191,18 @@ Note that static parameters may appear in the types $\Ps_0$, $\Ps$, and $\Us$.
 A declaration $\f(\Ps)$ is \emph{applicable} to a call $\f(\Cs)$
 if the call is in the scope of the declaration and $\Cs \Ovrsubtype \Ps$.
 (See \chapref{names} for the definition of scope.)
-If the parameter type $\Ps$ includes static parameters,
-they are inferred as described in \chapref{type-inference}
-before checking the applicability of the declaration to the call.
+If the declaration has static parameters, it is applicable to the call if some
+instance of it whose static arguments satisfy their bounds is, that is, if
+$\Cs \Ovrsubtype \Ps'$ for the parameter type $\Ps'$ of such an instance.
+Its static arguments are not inferred to decide this: they are inferred only for
+the declaration that the call selects, after it is selected
+(\secref{static-arg-inference}).
+\revision{revival-overloading}{The Working Draft of February 2011 said that
+static parameters in the parameter type are inferred as described in
+\chapref{type-inference} before the applicability of the declaration to the call
+is checked.
+The type group's paper of 2011 defines a declaration with static parameters to
+be applicable when at least one of its instances is.}
 
 
 
@@ -202,9 +232,14 @@ We write $\Cs_0.\f(\Cs)$ to refer to the  call.
 A dotted method declaration $\Ps_0.\f(\Ps)$ is \emph{applicable}
 to a dotted method call $\Cs_0.\f(\Cs)$ if $\Cs_0 \Ovrsubtype
 \Ps_0$ and $\Cs \Ovrsubtype \Ps$.
-If the types $\Ps_0$ and $\Ps$ include static parameters,
-they are inferred as described in \chapref{type-inference}
-before checking the applicability of the declaration to the call.
+If the declaration has static parameters, it is applicable to the call if some
+instance of it whose static arguments satisfy their bounds is, that is, if
+$\Cs_0 \Ovrsubtype \Ps_0'$ and $\Cs \Ovrsubtype \Ps'$ for the types $\Ps_0'$
+and $\Ps'$ of such an instance; its static arguments are inferred only for the
+declaration that the call selects (\secref{static-arg-inference}).
+\revision{revival-overloading}{The Working Draft of February 2011 said, as for
+named functional calls, that static parameters in $\Ps_0$ and $\Ps$ are inferred
+before the applicability of the declaration is checked.}
 
 
 
@@ -274,6 +309,44 @@ for how coercion may add to the set of applicable declarations.)
 If multiple declarations are applicable to the call at run time,
 then we choose an arbitrary declaration among the declarations such that
 no other applicable declaration is more specific than them.
+A declaration with static parameters is applicable to a call at run time, as
+to a static call, when some instance of it whose static arguments satisfy
+their bounds is applicable to the call, so the declaration to which a call
+dispatches may be one that the static call did not select.
+A declaration that the static call selected runs at the instance inferred for
+the call (\secref{static-arg-inference}); any other declaration runs at the
+instance in which each type parameter is the intersection of the upper bounds
+placed on it: its declared bound, \TYP{Any} if it has none
+(\secref{type-param}), and the bounds that the dynamic types of the arguments
+place on it through the parameter types and that the static type of the call
+places on it through the return type.
+Where the type parameter is a static argument of a parameterized trait in a
+parameter type, as \VAR{X} is in \EXP{t\COLON\TYP{Tag}\llbracket{}X\rrbracket},
+the value of the argument fixes it, since no value belongs to two
+instantiations of one parameterized trait (\secref{trait-types}); where it is
+the whole type of a parameter, the dynamic type of the argument is only a
+lower bound, and the type parameter is its bound under the static type of the
+call.
+The type parameters of a declaration that only dispatch reaches are never
+instantiated with \TYP{BottomType}, nor with the union of the types of the
+arguments.
+\revision{revival-dispatch}{The Working Draft of February 2011 did not say at
+which instance a declaration with static parameters runs when dispatch reaches
+it and the static call selected another.
+The rule stated is the one by which the dispatcher of the type group's paper of
+2019 instantiates a declaration (Park, Hong, Steele and Ryu, ``Polymorphic
+Symmetric Multiple Dispatch with Variance'', POPL 2019); the team had assumed
+the union of the lower bounds and could not prove it correct.
+Both implementations of the revival take the dynamic type of the argument where
+the value does not fix the type parameter: the interpreter because it has no
+static types, and so no static type of the call to bound the instance, as with
+its choice of coercions (\secref{resolving-coercion}); the compiled path because
+its dispatcher reads the static arguments of a dispatched declaration from the
+value and is not given the static type of the call.
+Where the value fixes the type parameter, the two rules give the same instance.
+The compiled path's departure is gated as an expected failure (row~538 of the
+revival's gap ledger), and the compiled path does not yet run the second
+example below (row~496).}
 
 
 
@@ -289,7 +362,44 @@ Restrictions on the definition of overloaded functionals
 (see \chapref{overloaded-declarations})
 guarantee that among all applicable declarations,
 one is more specific than all the others.
-If the declarations include static parameters,
-they are inferred as described in \chapref{type-inference}
-before comparing their parameter types
-to determine which declaration is more specific.
+Where declarations have static parameters, they are compared on the parameter
+types they declare, each taken over all its instances: a declaration is more
+specific than another when the second is applicable to every call to which the
+first is applicable, and not the other way round.
+Where neither has static parameters, this is the subtype relation above.
+No static arguments are inferred for the comparison.
+\revision{revival-overloading}{The Working Draft of February 2011 said that
+static parameters are inferred as described in \chapref{type-inference} before
+the parameter types are compared.
+The definition stated is that of the type group's paper of 2011, which checks
+it as subtyping of the parameter types read as existential types.}
+
+For example, where \TYP{Shape} comprises the two object types \TYP{Circle}
+and \TYP{Square}, of the declarations
+%describe[\T extends Shape\](x: T): String = "generic"
+%describe(x: Circle): String = "circle"
+\begin{Fortress}
+\(\VAR{describe}\llbracket{}T \KWD{extends} \TYP{Shape}\rrbracket(x\COLON{}T)\COLON \TYP{String} = \hbox{\rm``\STR{generic}''}\)\\
+\(\VAR{describe}(x\COLON \TYP{Circle})\COLON \TYP{String} = \hbox{\rm``\STR{circle}''}\)
+\end{Fortress}
+the second is more specific than the first, although the first has an instance
+whose parameter type is \TYP{Circle}.
+The calls \EXP{\VAR{describe}(\TYP{Circle})} and \EXP{\VAR{describe}(s)}, where
+\VAR{s} has static type \TYP{Shape} and holds \TYP{Circle}, run the second
+declaration, and \EXP{\VAR{describe}(\TYP{Square})} runs the first.
+And of the declarations
+%grab[\X\](t: Tag[\X\]): Marker[\X\] = Marker[\X\]
+%grab(a: Any): Any = Red
+\begin{Fortress}
+\(\VAR{grab}\llbracket{}X\rrbracket(t\COLON \TYP{Tag}\llbracket{}X\rrbracket)\COLON \TYP{Marker}\llbracket{}X\rrbracket = \TYP{Marker}\llbracket{}X\rrbracket\)\\
+\(\VAR{grab}(a\COLON \TYP{Any})\COLON \TYP{Any} = \TYP{Red}\)
+\end{Fortress}
+where \TYP{Marker} is an object with a type parameter and \TYP{Red} an object
+type, the call \EXP{\VAR{grab}(a)}, where \VAR{a} has static type \TYP{Any},
+selects the second declaration statically; if \VAR{a} holds a value of an
+object type that extends \EXP{\TYP{Tag}\llbracket\TYP{Red}\rrbracket}, the
+call dispatches to the first, which is applicable to that value and more
+specific, at \EXP{X = \TYP{Red}}, which the value fixes, and returns
+\EXP{\TYP{Marker}\llbracket\TYP{Red}\rrbracket}.
+\revision{revival-dispatch}{The Working Draft of February 2011 forbade both
+pairs of declarations, which differ in their static parameters.}

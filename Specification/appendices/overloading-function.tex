@@ -16,6 +16,25 @@ This section proves that the overloading rules for
 function declarations are sufficient to guarantee no undefined nor
 ambiguous call at run time (the case for methods is analogous).
 
+The proof covers declarations whose parameter types and return types have no
+static parameters, and calls to which declarations are applicable without
+coercion.
+It assumes that the declarations visible at the call satisfy the overloading
+rules, so that no two of them have the same parameter type; that each of them has
+a body and that the bodies are well typed; that the subtype relation is sound,
+so that the dynamic type of an argument is a subtype of its static type, and
+transitive; and that every value of a trait with a \KWD{comprises} clause is a
+value of one of its listed types (\secref{trait-decls}).
+The compiled type checker does not yet enforce the last assumption across
+components: a type declared in a later component below a trait with static
+parameters that stands between a trait with a \KWD{comprises} clause and its
+listed types escapes its check (row~487 of the revival's gap ledger), and where
+the assumption fails the uniqueness proved below is not guaranteed.
+The proof does not extend to declarations with static parameters, whose
+instantiation keeps obligations of its own (\secref{resolving-overloading},
+\chapref{type-inference}), nor to coercion (\secref{proof-coercion-resolution}),
+and it is not a proof of the soundness of the whole type system.
+
 Consider a static function call $\f(\As)$ at some program point $Z$
 and its corresponding dynamic function call $\f(\Xs)$.  Let $\Delta$
 be the set of parameter types of function declarations of $\f$ that
@@ -33,20 +52,52 @@ specific:
 \delta & = & \set{D \in \Delta & | & \lnot \exists D'\in\Delta: D' \strictsubtype D & }.
 \end{array}
 \]
+For a declaration whose parameter type is $\Ps$, let $R_{\Ps}$ be its return
+type.
+
+From the Meet Rule (\secref{more-specific-rule}) the proof uses the following.
+For any two declarations $\f(\Ps)$ and $\f(\Qs)$ visible at $Z$ such that
+neither $\Ps$ nor $\Qs$ is a subtype of the other and $\Ps$ does not exclude
+$\Qs$, there are declarations $\f(\Cs_1), \ldots, \f(\Cs_n)$ visible at $Z$
+such that $\Cs_i \Ovrsubtype \Ps$ and $\Cs_i \Ovrsubtype \Qs$ for each $i$, and
+every value of both $\Ps$ and $\Qs$ is a value of some $\Cs_i$: every value that
+a program can make, not only the values of a particular call.
+A declaration $\f(\Ps \inter \Qs)$ is the case of one such declaration.
+This holds of every such pair of the declarations, the pairs among the
+declarations $\f(\Cs_i)$ included.
 
 Below we prove:
 \[
 \begin{array}{l}
-|\Sigma| \neq 0 \ \text{implies} \ |\sigma| = 1, and
+|\Sigma| \neq 0 \ \text{implies} \ |\delta| = 1,
 \\
-|\Sigma| \neq 0 \ \text{implies} \ |\delta| = 1.
+\delta = \set{D} \ \text{implies} \ D \Ovrsubtype S \ \text{for every} \ S \in \Sigma, \ \text{and}
+\\
+\delta = \set{D} \ \text{implies} \ R_D \Ovrsubtype R_S \ \text{for every} \ S \in \sigma.
 \end{array}
 \]
 Informally, if any declaration is applicable to a static call then there
 exists a single most specific declaration that is applicable to the
-static call and a single most specific declaration that is applicable
-to the corresponding dynamic call.
-\\
+corresponding dynamic call; it is the same as or more specific than every
+declaration that is applicable to the static call; and its return type is a
+subtype of the return type of every declaration applicable to the static call
+that no other such declaration is more specific than, so that the value the
+call returns belongs to the intersection of those return types.
+The static call may have more than one most specific declaration: covering
+gives a declaration that holds the value of the argument, not one whose
+parameter type is a supertype of the static type of the argument.
+\revision{revival-proof}{The Working Draft of February 2011 proved that
+$|\sigma| = 1$ and $|\delta| = 1$ whenever $|\Sigma| \neq 0$, and that
+$D \Ovrsubtype S$ where $\sigma = \set{S}$ and $\delta = \set{D}$, from a Meet
+Rule that asks for a declaration on the intersection itself.
+With the case of the Meet Rule in which declarations together cover the
+intersection, the proof is revised: the lemmas of existence are kept, the
+uniqueness of the most specific declaration for the static call is given up,
+the uniqueness for the dynamic call is proved by a covering declaration, and
+two steps replace the last theorem, the refinement of every declaration
+applicable to the static call and the result type of the call.
+The scope and the assumptions stated above are new.}
+
 \begin{lemma}
 \label{lem:subset}
 $\Sigma \subseteq \Delta$.
@@ -83,53 +134,68 @@ Follows from Lemmas \ref{lem:subset} and \ref{lem:dgesge-second}.
 
 \begin{lemma}
 \label{lem:le}
-$|\sigma| \le 1$.  Also, $|\delta| \le 1$.
+$|\delta| \le 1$.
 \end{lemma}
 
 \begin{proof}
-We prove this for $\delta$, but the case for $\sigma$ is identical.
 For the purpose of contradiction suppose there are two declarations
-$\f(\Ps)$ and $\f(\Qs)$ in $\delta$.  Since both $\f(\Ps)$ and
-$\f(\Qs)$ are applicable without coercion to the call $\f(\Xs)$ we
-have $\Xs \Ovrsubtype \Ps \inter \Qs$.  Therefore it is not the case
-that $\Ps \incompatible \Qs$.  By the overloading rules, $\Ps
-\neq \Qs$ and either $\Ps \excludes \Qs$ or there is a declaration
-$\f(\Ps \inter \Qs)$ visible at $Z$.  Since it cannot be the case that
-$\Ps \excludes \Qs$ there must exist a declaration $\f(\Ps \inter
-\Qs)$ visible at $Z$.  Since $\Ps \inter \Qs \Ovrsubtype \Ps$ and $\Ps
-\inter \Qs \Ovrsubtype \Qs$ we know $\f(\Ps \inter \Qs)$ is applicable
-without coercion to the call $\f(\Xs)$.  Since $\Ps \neq \Qs$ either
-$\Ps \inter \Qs \strictsubtype \Ps$ or $\Ps \inter \Qs \strictsubtype
-\Qs$.  Either case contradicts our assumption.
+$\f(\Ps)$ and $\f(\Qs)$ in $\delta$.  Since both are in $\delta$ and
+$\Ps \neq \Qs$, neither $\Ps$ nor $\Qs$ is a subtype of the other.
+Since both $\f(\Ps)$ and $\f(\Qs)$ are applicable without coercion to the call
+$\f(\Xs)$, the value of the argument is a value of both $\Ps$ and $\Qs$, so
+$\Ps$ does not exclude $\Qs$.
+By the Meet Rule as the proof uses it, there is a declaration $\f(\Cs)$
+visible at $Z$ with $\Cs \Ovrsubtype \Ps$ and $\Cs \Ovrsubtype \Qs$ of which the
+value is a value, so that $\Xs \Ovrsubtype \Cs$ and $\Cs \in \Delta$.
+Since $\Ps$ is not a subtype of $\Qs$, $\Cs \neq \Ps$, so
+$\Cs \strictsubtype \Ps$, which contradicts $\Ps \in \delta$.
 \end{proof}
+
+The same argument does not bound $|\sigma|$: the declaration $\f(\Cs)$ holds the
+value of the argument, but $\Cs$ need not be a supertype of $\As$.
 
 \begin{theorem}
 \label{thm:overloading-subtyping}
-If $|\Sigma| \neq 0$ then $|\sigma| = 1$.  Also, if $|\Sigma| \neq 0$
-then $|\delta| = 1$.
+If $|\Sigma| \neq 0$ then $|\delta| = 1$.
 \end{theorem}
 
 \begin{proof}
-Follows from Lemmas \ref{lem:dgesge-second}, \ref{lem:ge} and \ref{lem:le}.
+Follows from Lemmas \ref{lem:ge} and \ref{lem:le}.
 \end{proof}
 
 \begin{theorem}
 \label{thm:dynamic-subtype-static}
-If $\sigma = \set{S}$ and $\delta = \set{D}$ then $D \Ovrsubtype S$.
+If $\delta = \set{D}$ then $D \Ovrsubtype S$ for every $S \in \Sigma$.
 \end{theorem}
 
 \begin{proof}
-If the declaration with parameter type $S$ and the declaration with
-parameter type $D$ satisfy the Subtype Rule then the theorem is
-proved.  Otherwise, by the definition of $\sigma$ we have $\sigma
-\subseteq \Sigma$.  Therefore $S \in \Sigma$.  By Lemma
-\ref{lem:subset}, $S \in \Delta$.  Notice that $S,D \in \Delta$ implies
-$X \Ovrsubtype S$ and $X \Ovrsubtype D$.  Therefore, $S \not \excludes
-D$.  By the More Specific Rule for Functions, there must exist a
-declaration with parameter type $S \inter D$.  Because $X
-\Ovrsubtype (S \inter D)$, $(S \inter D) \in \Delta$.
-Notice $(S \inter D) \Ovrsubtype S$ and $(S \inter D) \Ovrsubtype D$.
-By the definition of $\delta$, we have $\lnot \exists D'\in\Delta: D'
-\strictsubtype D$.  In particular, $(S \inter D) \not \strictsubtype
-D$.  Therefore $(S \inter D) = D$.
+Let $S \in \Sigma$.  By Lemma \ref{lem:subset}, $S \in \Delta$.
+If $S \strictsubtype D$ then $D \notin \delta$, a contradiction.
+Suppose that neither $S$ nor $D$ is a subtype of the other.
+The value of the argument is a value of both, so $S$ does not exclude $D$, and
+by the Meet Rule as the proof uses it there is a declaration $\f(\Cs)$ visible
+at $Z$ with $\Cs \Ovrsubtype S$, $\Cs \Ovrsubtype D$ and $\Xs \Ovrsubtype \Cs$.
+Then $\Cs \in \Delta$, and $\Cs \neq D$ since $D$ is not a subtype of $S$, so
+$\Cs \strictsubtype D$, a contradiction.
+Therefore $D \Ovrsubtype S$.
+\end{proof}
+
+\begin{theorem}
+\label{thm:result-type}
+If $\delta = \set{D}$ then $R_D \Ovrsubtype R_S$ for every $S \in \sigma$, and a
+value that the dynamic call returns belongs to the intersection of the types
+$R_S$ for $S \in \sigma$.
+\end{theorem}
+
+\begin{proof}
+Let $S \in \sigma$.  By Theorem \ref{thm:dynamic-subtype-static},
+$D \Ovrsubtype S$.  If $D = S$ the claim is immediate.
+Otherwise $D \strictsubtype S$, and the only overloading rule that accepts such
+a pair is the Subtype Rule (\secref{subtype-rule}), which requires
+$R_D \Ovrsubtype R_S$.
+The declaration with parameter type $D$ is the one that runs, and its body is
+well typed, so a value it returns belongs to $R_D$, and so to $R_S$ for every
+$S \in \sigma$.
+This proves neither that the call terminates nor that nothing else fails at
+run time.
 \end{proof}

@@ -426,7 +426,7 @@ it is not permitted to export some of them and not others.
 
 
 \note{
-2. A trait with a comprises clause is considered to have a concrete method declaration with a particular signature even if its declaration is actually abstract provided that all its immediate subtraits are considered to have concrete method declaration with that signature.  Thus, such a trait can have a method declaration that is abstract in the component, but not so declared in the API.  (And we might also allow the analogous thing for top-level functions.)
+2. A trait with a comprises clause is considered to have a concrete method declaration with a particular signature even if its declaration is actually abstract provided that all its listed types are considered to have concrete method declaration with that signature.  Thus, such a trait can have a method declaration that is abstract in the component, but not so declared in the API.  (And we might also allow the analogous thing for top-level functions.)
 
 3. A component may have a functional declaration that is not in the API provided that it is "covered" by some overloaded declaration.
 

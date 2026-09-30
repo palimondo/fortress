@@ -15,7 +15,7 @@ object Hu[\T\](v: ZZ32)
 end
 run() = do
   println("REACHED")
-  assert(Hs[\3\](0).m[\4\](Box[\4\](0)), "threefour", "trait-parameters.tex:82-90")
+  assert(Hs[\3\](0).m[\4\](Box[\4\](0)), "threefour", "trait-parameters.tex:94-102")
   assert(Ht[\String\](0).m[\ZZ32\](BoxT[\ZZ32\](0)), "stringzz32", "trait-parameters.tex:20-24")
   assert(Hu[\String\](0).m[\ZZ32\](BoxT[\ZZ32\](0)), "zz32zz32", "ledger row 420: the method's own parameter in a task operand, trait-parameters.tex:20-24")
   println("PASS")

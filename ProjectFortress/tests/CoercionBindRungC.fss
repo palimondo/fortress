@@ -33,10 +33,10 @@ run() = do
     assert(t.big, 4, "row 19: a tuple binding's typed element converts; conversions-coercions.tex:117-118")
     p: (Wide, ZZ32) = (NarrowOf(12), 13)
     (pa, pb) = p
-    assert(pa.big, 12, "row 19: a variable declared with a tuple type converts element by element; conversions-coercions.tex:117-118, :725-736")
-    assert(pb, 13, "row 19: an element already of its type is kept; conversions-coercions.tex:725-728")
+    assert(pa.big, 12, "row 19: a variable declared with a tuple type converts element by element; conversions-coercions.tex:117-118, :765-776")
+    assert(pb, 13, "row 19: an element already of its type is kept; conversions-coercions.tex:765-768")
     (qa, qb) = topPair
-    assert(qa.big, 14, "row 19: a top-level variable declared with a tuple type converts element by element; conversions-coercions.tex:117-118, :725-736")
+    assert(qa.big, 14, "row 19: a top-level variable declared with a tuple type converts element by element; conversions-coercions.tex:117-118, :765-776")
     var v: Wide = WideOf(widen(1))
     v := NarrowOf(5)
     assert(v.big, 5, "row 19: an assignment to a variable declared Wide converts; conversions-coercions.tex:125-126")

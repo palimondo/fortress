@@ -10,7 +10,7 @@ run(): () = do
     r = try c1() catch e InvalidRange => -1 end
     shown = "c1: " || r
     println(shown)
-    assert(shown =/= "", "row 505: the call returns or throws InvalidRange, whatever T is bound to; Specification/basic/inference.tex:191-196")
+    assert(shown =/= "", "row 505: the call returns or throws InvalidRange, whatever T is bound to; Specification/basic/inference.tex:198-203")
     println("PASS")
   end
 

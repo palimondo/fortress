@@ -1,0 +1,3 @@
+tests=XXXImplicitBoundAny
+compile
+compile_err_contains=does not satisfy the corresponding bound Object

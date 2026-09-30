@@ -22,7 +22,7 @@ p(x: Any): String = "p(Any)"
 
 run(): () = do
     println("REACHED")
-    assert(p(NarrowOf(1)), "p(Any)", "row 390: a declaration applicable without coercion is chosen; conversions-coercions.tex:472-475, :539-542")
+    assert(p(NarrowOf(1)), "p(Any)", "row 390: a declaration applicable without coercion is chosen; conversions-coercions.tex:472-475, :552-563")
     println("PASS")
 end
 

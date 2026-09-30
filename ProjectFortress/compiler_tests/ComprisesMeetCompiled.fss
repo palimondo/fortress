@@ -15,7 +15,7 @@ f(v: V): ZZ32 = 3
 
 run(): () = do
     g: S = X
-    assert(f(g), 3, "row 492: V is the intersection of S and T by their comprises clauses, so f(V) disambiguates f(S) and f(T) and is the most specific declaration applicable to a V; Specification/advanced/overloading.tex:282-307")
+    assert(f(g), 3, "row 492: V is the intersection of S and T by their comprises clauses, so f(V) disambiguates f(S) and f(T) and is the most specific declaration applicable to a V; Specification/advanced/overloading.tex:346-372")
     println("PASS")
   end
 

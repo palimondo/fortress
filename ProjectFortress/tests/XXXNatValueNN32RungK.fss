@@ -23,7 +23,7 @@ end
 run() = do
     println("REACHED")
     assert(shownK(asZZ32K[\3\]()), "3 : ZZ32", "control: a nat parameter used as a value at a ZZ32 binding")
-    assert(shownK(asNN32K[\3\]()), "3 : NN32", "row 486: a nat parameter used as a value at an NN32 binding; trait-parameters.tex:83-86, a size used as a value (POSITIONS 2026-09-28)")
+    assert(shownK(asNN32K[\3\]()), "3 : NN32", "row 486: a nat parameter used as a value at an NN32 binding; trait-parameters.tex:95-98, a size used as a value (POSITIONS 2026-09-28)")
     println("PASS")
   end
 

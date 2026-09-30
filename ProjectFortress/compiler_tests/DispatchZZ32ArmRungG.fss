@@ -22,9 +22,9 @@ name(m: Any): String = typecase m of
 run(): () = do
   println("REACHED")
   t: Tag[\ZZ32\] = IntSub
-  assert(name(grab(t)), "SubM[ZZ32]", "a generic arm dispatched at ZZ32, Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(grab(t)), "SubM[ZZ32]", "a generic arm dispatched at ZZ32, Specification/basic/overloading.tex:100-110, :297-311")
   u: Tag[\ZZ32\] = IntTag
-  assert(name(grab(u)), "TagM[ZZ32]", "Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(grab(u)), "TagM[ZZ32]", "Specification/basic/overloading.tex:100-110, :297-311")
   println("PASS")
 end
 

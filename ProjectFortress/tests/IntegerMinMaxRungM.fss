@@ -32,19 +32,19 @@ unchangedOnTheBase(): () = do
 
 receiverAndNumeral(): () = do
     b: ZZ64 = widen(3)
-    assert(shown(b MAX 1), "3 : ZZ64", "row 484, conversions-coercions.tex:533-553: ZZ64 MAX a numeral")
-    assert(shown(b MIN 1), "1 : ZZ64", "row 484, conversions-coercions.tex:533-553: ZZ64 MIN a numeral")
+    assert(shown(b MAX 1), "3 : ZZ64", "row 484, conversions-coercions.tex:546-574: ZZ64 MAX a numeral")
+    assert(shown(b MIN 1), "1 : ZZ64", "row 484, conversions-coercions.tex:546-574: ZZ64 MIN a numeral")
     (bp, bq) = b MINMAX 1
-    assert(pairShown(bp, bq), "(1 : ZZ64, 3 : ZZ64)", "row 484, conversions-coercions.tex:533-553: ZZ64 MINMAX a numeral")
-    assert(shown(1 MAX b), "3 : ZZ64", "row 484, conversions-coercions.tex:533-553: a numeral MAX a ZZ64")
+    assert(pairShown(bp, bq), "(1 : ZZ64, 3 : ZZ64)", "row 484, conversions-coercions.tex:546-574: ZZ64 MINMAX a numeral")
+    assert(shown(1 MAX b), "3 : ZZ64", "row 484, conversions-coercions.tex:546-574: a numeral MAX a ZZ64")
     m: ZZ64 = widen(-7)
     assert(shown(m MAX 2), "2 : ZZ64", "row 484, basic-integers.tex:642: MAX returns the larger")
     assert(shown(m MIN 2), "-7 : ZZ64", "row 484, basic-integers.tex:644: MIN returns the smaller")
     g: ZZ = big(3)
-    assert(shown(g MAX 1), "3 : ZZ", "row 484, conversions-coercions.tex:533-553: ZZ MAX a numeral")
-    assert(shown(g MIN 1), "1 : ZZ", "row 484, conversions-coercions.tex:533-553: ZZ MIN a numeral")
+    assert(shown(g MAX 1), "3 : ZZ", "row 484, conversions-coercions.tex:546-574: ZZ MAX a numeral")
+    assert(shown(g MIN 1), "1 : ZZ", "row 484, conversions-coercions.tex:546-574: ZZ MIN a numeral")
     (gp, gq) = g MINMAX 1
-    assert(pairShown(gp, gq), "(1 : ZZ, 3 : ZZ)", "row 484, conversions-coercions.tex:533-553: ZZ MINMAX a numeral")
+    assert(pairShown(gp, gq), "(1 : ZZ, 3 : ZZ)", "row 484, conversions-coercions.tex:546-574: ZZ MINMAX a numeral")
   end
 
 mixedWidths(): () = do
@@ -53,18 +53,18 @@ mixedWidths(): () = do
     u: NN32 = unsigned(5)
     v: NN64 = unsigned(widen(6))
     g: ZZ = big(7)
-    assert(shown(w MAX z), "4 : ZZ64", "row 484, conversions-coercions.tex:533-553: ZZ64 MAX ZZ32 at ZZ64, answer 8")
-    assert(shown(z MAX w), "4 : ZZ64", "row 484, conversions-coercions.tex:533-553: ZZ32 MAX ZZ64 at ZZ64, answer 8")
-    assert(shown(w MIN z), "3 : ZZ64", "row 484, conversions-coercions.tex:533-553: ZZ64 MIN ZZ32 at ZZ64, answer 8")
-    assert(shown(u MAX z), "5 : ZZ64", "row 484, conversions-coercions.tex:533-553: NN32 MAX ZZ32 at ZZ64, answer 8")
-    assert(shown(v MAX z), "6 : ZZ", "row 484, conversions-coercions.tex:533-553: NN64 MAX ZZ32 at ZZ, answer 8")
-    assert(shown(v MAX u), "6 : NN64", "row 484, conversions-coercions.tex:533-553: NN64 MAX NN32 at NN64, answer 8")
-    assert(shown(w MAX v), "6 : ZZ", "row 484, conversions-coercions.tex:533-553: ZZ64 MAX NN64 at ZZ, answer 8")
-    assert(shown(g MAX w), "7 : ZZ", "row 484, conversions-coercions.tex:533-553: ZZ MAX ZZ64 at ZZ, answer 8")
+    assert(shown(w MAX z), "4 : ZZ64", "row 484, conversions-coercions.tex:546-574: ZZ64 MAX ZZ32 at ZZ64, answer 8")
+    assert(shown(z MAX w), "4 : ZZ64", "row 484, conversions-coercions.tex:546-574: ZZ32 MAX ZZ64 at ZZ64, answer 8")
+    assert(shown(w MIN z), "3 : ZZ64", "row 484, conversions-coercions.tex:546-574: ZZ64 MIN ZZ32 at ZZ64, answer 8")
+    assert(shown(u MAX z), "5 : ZZ64", "row 484, conversions-coercions.tex:546-574: NN32 MAX ZZ32 at ZZ64, answer 8")
+    assert(shown(v MAX z), "6 : ZZ", "row 484, conversions-coercions.tex:546-574: NN64 MAX ZZ32 at ZZ, answer 8")
+    assert(shown(v MAX u), "6 : NN64", "row 484, conversions-coercions.tex:546-574: NN64 MAX NN32 at NN64, answer 8")
+    assert(shown(w MAX v), "6 : ZZ", "row 484, conversions-coercions.tex:546-574: ZZ64 MAX NN64 at ZZ, answer 8")
+    assert(shown(g MAX w), "7 : ZZ", "row 484, conversions-coercions.tex:546-574: ZZ MAX ZZ64 at ZZ, answer 8")
     (up, uq) = u MINMAX z
-    assert(pairShown(up, uq), "(3 : ZZ64, 5 : ZZ64)", "row 484, conversions-coercions.tex:533-553: NN32 MINMAX ZZ32 at ZZ64, answer 8")
+    assert(pairShown(up, uq), "(3 : ZZ64, 5 : ZZ64)", "row 484, conversions-coercions.tex:546-574: NN32 MINMAX ZZ32 at ZZ64, answer 8")
     (vp, vq) = v MINMAX u
-    assert(pairShown(vp, vq), "(5 : NN64, 6 : NN64)", "row 484, conversions-coercions.tex:533-553: NN64 MINMAX NN32 at NN64, answer 8")
+    assert(pairShown(vp, vq), "(5 : NN64, 6 : NN64)", "row 484, conversions-coercions.tex:546-574: NN64 MINMAX NN32 at NN64, answer 8")
   end
 
 run(): () = do

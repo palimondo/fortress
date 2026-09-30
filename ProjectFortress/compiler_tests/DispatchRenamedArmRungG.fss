@@ -26,9 +26,9 @@ name(m: Any): String = typecase m of
 run(): () = do
   println("REACHED")
   b2: Tag[\Blue\] = SubBlue
-  assert(name(grab(b2)), "SubM[Blue]", "a generic arm that names its parameter differently, Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(grab(b2)), "SubM[Blue]", "a generic arm that names its parameter differently, Specification/basic/overloading.tex:100-110, :297-311")
   b3: Tag[\Blue\] = TagBlue
-  assert(name(grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex:100-107, :262-276")
+  assert(name(grab(b3)), "TagM[Blue]", "Specification/basic/overloading.tex:100-110, :297-311")
   println("PASS")
 end
 

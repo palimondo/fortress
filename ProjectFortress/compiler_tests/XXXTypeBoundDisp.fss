@@ -14,8 +14,8 @@ run(): () = do
     println("REACHED")
     a: Any = Ar[\ZZ32,Three\](7)
     b: Any = Ar[\ZZ32,Four\](7)
-    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a generic instantiation applies to a value of that type; Specification/basic/overloading.tex:170-175, :262-276")
-    assert(f(b), "other", "and not to a value of another instantiation; Specification/basic/overloading.tex:170-175, :262-276")
+    assert(f(a), "bounded", "a dispatched arm whose static parameter is bounded by a generic instantiation applies to a value of that type; Specification/basic/overloading.tex:191-199, :297-311")
+    assert(f(b), "other", "and not to a value of another instantiation; Specification/basic/overloading.tex:191-199, :297-311")
     println("PASS")
   end
 

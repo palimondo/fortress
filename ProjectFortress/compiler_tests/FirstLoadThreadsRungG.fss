@@ -38,7 +38,7 @@ run(): () = do
   if sAcc = 3600 then
     println("PASS")
   else
-    println("FAIL: sum " sAcc " expected 3600, ledger row 417, Specification/basic/overloading.tex:262-276")
+    println("FAIL: sum " sAcc " expected 3600, ledger row 417, Specification/basic/overloading.tex:297-311")
   end
 end
 

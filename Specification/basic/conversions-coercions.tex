@@ -478,6 +478,19 @@ chosen.  \secref{restrictions-coercion} and
 \chapref{overloaded-declarations} describe overloading rules for the
 declarations of coercions and overloaded functionals that guarantee
 there exists always a most specific coercion when two or more are possible.
+A declaration with static parameters is applicable, without or with coercion,
+when some instance of it whose static arguments satisfy their bounds is, and
+declarations are compared on the parameter types they declare
+(\secref{functional-applicability}, \secref{resolving-overloading}); the
+declaration selected is then instantiated as \secref{static-arg-inference}
+describes, with the rule for a numeral whose conversions tie
+(\secref{numeral-default}).
+\revision{revival-overloading}{The Working Draft of February 2011 did not say
+here when a declaration with static parameters is applicable.
+The revival decided on 28~September 2026 that a coercion makes a call possible
+and never changes which declaration runs when one is applicable without it:
+declarations are chosen in the order this section gives, on the parameter types
+they declare, and the declaration chosen is then instantiated.}
 
 We first define a notion of more specific types in the presence of coercion.
 Recall from \secref{type-relations} that Fortress defines an
@@ -539,6 +552,14 @@ applicable with coercion to the call.
 If $\Sigma$ is not empty then we use the overloading resolution
 described in \secref{resolving-overloading} to determine which
 element of $\Sigma$ is called.
+The parameter type of a declaration with static parameters is in $\Sigma$, or
+in $\Sigma'$, when some instance of the declaration whose static arguments
+satisfy their bounds is applicable to the call, without or with coercion; the
+static arguments of the declaration selected are inferred afterwards
+(\secref{static-arg-inference}).
+\revision{revival-overloading}{The Working Draft of February 2011 did not say
+when the parameter type of a declaration with static parameters is in these
+sets.}
 If $\Sigma$ is empty but $\Sigma'$ is not, then we rewrite the call as
 follows.  Define: \[\mathpzc{C} = \{T \in \Sigma' \mid S \coercedefto T
 \logicand \As \Ovrsubtype S\}.\] Let $T \in \mathpzc{C}$ be the most
@@ -599,6 +620,12 @@ Notice that coercion is resolved statically.  Once a coercion is
 statically chosen for a call, this coercion is conceptually inserted
 into the call.
 This means that the statically chosen coercion is applied at run time.
+The coercions that the instance of a declaration with static parameters needs
+are chosen and inserted into the call in the same way
+(\secref{static-arg-inference}).
+\revision{revival-overloading}{The Working Draft of February 2011 did not say
+how the coercions of an instance of a declaration with static parameters are
+chosen.}
 
 For example, in the following program:
 %trait A
@@ -633,6 +660,19 @@ the call to \EXP{f(C)} resolves to the declaration
 %dynamically directly
 applicable to the dynamic call \EXP{f(D)} and does not require
 coercion.
+\revision{revival-coercion-walk}{The compiled path of the revival resolves the
+example as this section says and runs \EXP{f(A)}.
+The interpreter has no static types, so it chooses a coercion on the value:
+for \EXP{f(c)} it finds \EXP{f(B)} applicable to the value without coercion and
+runs it, and it answers the same way wherever an argument's static type needs a
+coercion and the argument's value is of a type that another declaration already
+fits.
+The two cases are gated as expected failures of the interpreter
+(\nolinkurl{ProjectFortress/tests/XXXCoercionStaticRungC.fss} and
+\nolinkurl{XXXCoercionStaticNarrowRungC.fss}, row~19 of the revival's gap
+ledger).
+The interpreter is to follow this section once the compiled type checker checks
+the programs it runs and it takes the coercions that the checker inserts.}
 
 
 

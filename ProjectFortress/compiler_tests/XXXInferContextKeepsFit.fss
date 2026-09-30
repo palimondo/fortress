@@ -22,7 +22,7 @@ k(x: V): V = VOf(99)
 run(): () = do
     println("REACHED")
     a: V = k(NOf(1))
-    assert(a.n, 1, "Specification/basic/conversions-coercions.tex:472-476, :529-537; the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
+    assert(a.n, 1, "Specification/basic/conversions-coercions.tex:472-476, :542-550; the conversion judgement's decision 1 (POSITIONS 2026-09-28)")
     println("PASS")
 end
 

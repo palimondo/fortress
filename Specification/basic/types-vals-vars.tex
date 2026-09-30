@@ -586,6 +586,19 @@ subset of $S$ is a subtype of $U$.
 Similarly, the union of a set of types $S$ is equal to a named type $U$ when
 any supertype of every type $T \in S$ and of the union of every
 subset of $S$ is a supertype of $U$.
+
+A type $U$ \emph{covers} a type $T$ when every value of $T$ is a value of $U$.
+A type covers each of its subtypes, and a trait with a \KWD{comprises} clause
+is covered by the union of the types listed in the clause
+(\secref{trait-decls}).
+Covering is a relation between the values of types and not the subtype
+relation: a type may cover another type that is not its subtype.
+\revision{revival-covering}{The Working Draft of February 2011 did not define
+covering.
+The team's later Types chapter (Luchangco, 2012) names covering beside
+subtyping and exclusion as a relation between types, and says that an
+instantiation of a trait with a \KWD{comprises} clause is covered by the union of
+the listed types.}
 For example:
 %trait S comprises {U,V} end
 %trait T comprises {V,W} end
@@ -600,8 +613,18 @@ For example:
 \(\KWD{trait} W \KWD{extends} T \KWD{end}\)
 \end{Fortress}
 because of the \KWD{comprises} clauses of $S$ and $T$ and the \KWD{excludes}
-clause of $U$, any subtype of both $S$ and $T$ must be a subtype of
-$V$.  Thus, $V = S \inter T$.
+clause of $U$, any value of both $S$ and $T$ is a value of
+$V$.  Thus, $V$ covers $S \inter T$.
+A trait may stand between $S$ or $T$ and their listed types
+(\secref{trait-decls}), so $S \inter T$ is not in general equal to a named
+type.
+\revision{revival-covering}{The Working Draft of February 2011 concluded that
+any subtype of both $S$ and $T$ must be a subtype of $V$, so that
+$V = S \inter T$.
+Since the revision of \secref{trait-decls}, a trait with static parameters may
+extend both $S$ and $T$ unlisted when every trait or object that extends it is
+a subtype of $V$; an instantiation of it is a subtype of $S$ and of $T$ and not
+of $V$, though every value of it is a value of $V$.}
 
 
 Intersection types (denoted by $\inter$) possess the following properties:

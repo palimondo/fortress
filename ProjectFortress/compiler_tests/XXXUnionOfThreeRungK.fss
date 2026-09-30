@@ -19,7 +19,7 @@ triK[\T\](a: T, b: T, c: T): String = kindK(a) || " " || kindK(b) || " " || kind
 
 run(): () = do
     println("REACHED")
-    assert(triK(OneK, TwoK, ThreeK), "OneK TwoK ThreeK", "a generic call whose static argument joins three types; overloading.tex:170-174")
+    assert(triK(OneK, TwoK, ThreeK), "OneK TwoK ThreeK", "a generic call whose static argument joins three types; overloading.tex:191-199")
     println("PASS")
   end
 

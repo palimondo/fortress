@@ -1,0 +1,9 @@
+(* A type parameter declared without an extends clause has the bound Any, so an object's type parameter may be instantiated at Any. *)
+component XXXImplicitBoundAny
+export Executable
+object Seal[\X\] end
+kind(s: Seal[\Any\]): String = "Seal at Any"
+run(): () = do
+  println("kind of a Seal at Any -> " kind(Seal[\Any\]))
+end
+end

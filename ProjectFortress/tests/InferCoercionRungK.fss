@@ -45,7 +45,7 @@ run() = do
     assert(twiceK(l, z), "10 : ZZ64 from [7 : ZZ64, 3 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): T extends Integral[\\T\\], ZZ64 with ZZ32 infers ZZ64")
     assert(pickK(z, u), "[3 : ZZ64, 5 : ZZ64]", "answer 8 (POSITIONS 2026-09-26): ZZ32 with NN32 infers ZZ64, the narrowest type both convert into")
     assert(pickK(l, r), "[7 : ZZ64, 2.5 : RR64]", "answer 8 (POSITIONS 2026-09-26): ZZ64 into RR64 stays explicit, so nothing is converted")
-    assert(ogK(b, z), "ogK generic 3.0 : RR64", "row 388: a generic declaration of an overloaded function is chosen by coercion; conversions-coercions.tex:533-553")
+    assert(ogK(b, z), "ogK generic 3.0 : RR64", "row 388: a generic declaration of an overloaded function is chosen by coercion; conversions-coercions.tex:546-574")
     assert(opK(z, w), "opK generic [3 : ZZ64, 4 : ZZ64]", "conversion rule (POSITIONS 2026-09-28): the generic declaration chosen, then instantiated by answer 8's promotion")
     assert(opK(z, z), "opK generic [3 : ZZ32, 3 : ZZ32]", "control: two ZZ32 arguments keep the generic declaration at ZZ32")
     m = matrix[\RR64,2,2\]()

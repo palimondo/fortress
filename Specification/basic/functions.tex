@@ -374,12 +374,17 @@ For an abstract function declaration with name \VAR{f}, argument type
 \VAR{T}, and return type \VAR{U} (\VAR{T} and \VAR{U} may be tuple types),
 any concrete declaration for \VAR{f} must be for a function whose argument
 type is a subtype of \VAR{T} and whose return type is a subtype of \VAR{U}.
-Furthermore, the union of the argument types of the concrete declarations for
-\VAR{f} must be equal to \VAR{T}.
+Furthermore, the argument types of the concrete declarations for
+\VAR{f} must together cover \VAR{T} (\secref{internal-types}).
 Concrete function declarations must satisfy the overloading rules.
 Unless \VAR{T} has a \KWD{comprises} clause (or is a tuple type, at least
 one of whose entries has a \KWD{comprises} clause), this implies that some
 concrete declaration for \VAR{f} must have argument type \VAR{T}.
+\revision{revival-covering}{The Working Draft of February 2011 said that the
+union of the argument types of the concrete declarations must be equal to
+\VAR{T}; under a \KWD{comprises} clause read at the level of values
+(\secref{trait-decls}) the union of the listed types covers \VAR{T} without being
+equal to it.}
 
 Syntactically, an abstract function declaration is a function declaration
 without a body.  Parameter names may be elided but parameter types cannot
@@ -411,8 +416,19 @@ or could write:
 \(\VAR{printMolecule}(\VAR{molecule}\COLON \TYP{InorganicMolecule}) = \ldots\)
 \end{Fortress}
 For the latter, the programmer must provide a
-definition for every immediate subtype of \TYP{Molecule}, or
+definition for every type listed in the \KWD{comprises} clause of
+\TYP{Molecule}, or definitions that together cover those types, or
 it is a static error.
+\revision{revival-covering}{The Working Draft of February 2011 asked here for a
+definition for every immediate subtype of \TYP{Molecule}.
+Where a trait with static parameters stands unlisted between a trait with a
+\KWD{comprises} clause and its listed types, the immediate subtypes and the
+listed types differ; the type group's calculus Welterweight Fortress (2012) asks
+for definitions for all the types comprised.
+The compiled type checker checks, at each object declaration, that the
+object's concrete methods cover the abstract methods it inherits, reading no
+\KWD{comprises} clause; top-level abstract function declarations run on neither
+implementation of the revival.}
 
 \section{Function Contracts}
 \seclabel{contracts}

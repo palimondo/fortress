@@ -1,0 +1,21 @@
+(* The Meet Rule's closed-trait case for the functional methods of traits with static parameters: the declaration in V covers the overlap of those in S and T, so the overloading is valid and tag of a V answers 3. *)
+component XXXComprisesMeetGenericTrait
+export Executable
+trait S[\X\] comprises { U[\X\], V[\X\] }
+  tag(self): ZZ32 = 1
+end
+trait T[\X\] comprises { V[\X\], W[\X\] }
+  tag(self): ZZ32 = 2
+end
+trait U[\X\] extends S[\X\] excludes W[\X\] end
+trait V[\X\] extends { S[\X\], T[\X\] }
+  tag(self): ZZ32 = 3
+end
+trait W[\X\] extends T[\X\] end
+object Vo extends V[\ZZ32\] end
+run(): () = do
+  s: S[\ZZ32\] = Vo
+  println("tag(s) = " tag(s))
+  if tag(s) = 3 then println("PASS") else println("FAIL") end
+end
+end

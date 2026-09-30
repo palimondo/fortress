@@ -1,0 +1,3 @@
+tests=XXXInferLoneUnionClosedTrait
+run
+run_out_does_not_contain=REACHED

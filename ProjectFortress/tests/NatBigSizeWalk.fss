@@ -10,11 +10,11 @@ run(): () = do
     e1: ZZ64 = 4294967295
     r1 = size64(Box[\4294967295\](0))
     println(r1)
-    assert(r1 = e1, "row 418; Specification/basic/trait-parameters.tex:84-85")
+    assert(r1 = e1, "row 418; Specification/basic/trait-parameters.tex:96-97")
     e2: ZZ64 = 3000000000
     r2 = size64(Box[\3000000000\](0))
     println(r2)
-    assert(r2 = e2, "row 418; Specification/basic/trait-parameters.tex:84-85")
+    assert(r2 = e2, "row 418; Specification/basic/trait-parameters.tex:96-97")
     println("PASS")
   end
 

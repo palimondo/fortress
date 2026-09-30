@@ -9,7 +9,7 @@ run(): () = do
     println("REACHED")
     o = Op[\+\]()
     println(o)
-    assert(o.asString, "Op[\\+\\]", "an object with an opr static parameter; Specification/basic/trait-parameters.tex:156-176, walk prints Op[\\+\\]")
+    assert(o.asString, "Op[\\+\\]", "an object with an opr static parameter; Specification/basic/trait-parameters.tex:168-188, walk prints Op[\\+\\]")
     println("PASS")
   end
 

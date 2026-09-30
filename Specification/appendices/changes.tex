@@ -45,12 +45,15 @@ and, for the number chapters,
 \nolinkurl{explorations/compile-ladder/rung-spec-numbers/decision-record.md},
 in the same repository.
 
-Every change below follows from one decision of the revival, taken on
-24~September 2026 and called \emph{route~A}: the compiled type checker keeps
+Each change below follows a decision of the revival.
+The first of those decisions, taken on
+24~September 2026 and called \emph{route~A}, is that the compiled type checker keeps
 the type group's rule that no type is a subtype of two different
 instantiations of one parameterized trait, a rule this working draft never
-stated, and the library's numeric types are reorganized so that they
+stated, and that the library's numeric types are reorganized so that they
 satisfy it.
+An entry whose change does not follow from route~A says so, and names the
+decision it follows or gives its reason.
 The revision of the number chapters (\secref{revival-numbers} to
 \secref{revival-reductions}) also carries out three decisions of
 26~September 2026 that follow from route~A: on the refined number types, on
@@ -80,6 +83,11 @@ Multiple Inheritance'', OOPSLA 2011), and the compiled type checker has
 enforced it since 2010.
 The team's later, unfinished Types chapter (Luchangco, 2012) states it in
 the two parts used here, under the name \emph{instantiation exclusion}.
+The type group's paper of 2019 states it as its rule [Anc-Same-Trait], which
+it credits to Steele and Chase in 2012: a class that extends two instances of
+a trait extends an instance below both, which for an invariant static
+parameter is the same instance (Park, Hong, Steele and Ryu, ``Polymorphic
+Symmetric Multiple Dispatch with Variance'', POPL 2019, Figure~4).
 Operator arguments do not count: an operator argument only names the
 operator a subtrait inherits (\secref{opr-ident}), neither implementation
 distinguishes instantiations by it at run time, and the algebra of the
@@ -1311,12 +1319,6 @@ parameters over the declarations it sees: a trait or object declared in
 another component, below such a trait and a subtype of no listed type, is
 not refused (row~487 of the revival's gap ledger). It compares the declarations it sees by their names: for a parameterized \VAR{T} its verdict can depend on how an extender spells its static parameters, and a trait or object that extends a trait of the same simple name in another API counts as an extender (rows~489 and~490).
 The interpreter does not check \KWD{comprises} clauses.
-The passages that read a \KWD{comprises} clause at the level of types, the
-intersection of two traits with such clauses (\secref{internal-types},
-\secref{more-specific-rule}) and the definitions an abstract function
-declaration requires (\secref{abstractFunctionDeclarations}), are not
-revised; whether they are to be restated at the level of values is not
-settled.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/traits.tex},
 lines 230--241, a draft note:
 \begin{quote}
@@ -1565,7 +1567,8 @@ argument, and a type parameter that the return type mentions inside another
 type by the expected type; a type parameter that
 is the whole type of parameters takes the narrowest type that their arguments
 are substitutable for, which for number arguments is the narrowest type into
-which every one of them converts, and otherwise the union of their types; every
+which every one of them converts, and otherwise, since 29~September 2026, its
+bound (below); every
 argument is admitted by substitutability, the coercions the instance needs are
 inserted statically, and the converted call dispatches by subtyping.
 A call written by tight juxtaposition, as a method invocation or as an operator
@@ -1591,6 +1594,20 @@ integer types infers the narrowest type that both coerce into by the rule of
 \secref{revival-notrevised} says that the rule is written and names the passages
 the chapter leaves unrevised, and it and the effect of \secref{revival-ranges}
 say that the question of a \KWD{nat} parameter in a range is settled.
+On 29~September 2026 one sentence of the rule changed.
+Of a type parameter that is the whole type of parameters, where no narrowest
+candidate exists and the rule for numerals does not settle the tie, the
+chapter said that it ``takes the union of the types of those arguments
+(\secref{internal-types}), if its bounds permit that, and none of those
+arguments is converted''; it now takes the intersection of its upper bounds,
+its declared bound, \TYP{Any} if it has none, and what the expected type
+requires of the declared return type, none of those arguments converted, with
+a box.
+With the revision of the overloading chapters (\secref{revival-overloading}),
+the first box points to this entry's list of the cases in which the compiled
+type checker departs from the chapter and no longer names the passages that revision revised, and the box
+on the interpreter says to which type the interpreter binds such a type
+parameter.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1607,7 +1624,20 @@ instantiated by that rule, that a numeral whose conversions tie is read as a
 said that static arguments are inferred as \chapref{type-inference} describes,
 and it described nothing; once the compiled type checker infers them by a rule
 the text does not state, the text and the implementation disagree, so the
-chapter states the rule that the checker builds, and no more.
+chapter states the rule the checker was built to, and the effect below lists
+where the checker departs from it.
+The bound in place of the union is the rule by which the dispatcher of the type
+group's paper of 2019 instantiates a type parameter that the arguments do not
+fix, the intersection of its upper bounds, never \TYP{BottomType}; the team
+had assumed the union of the lower bounds, of which the authors write ``we were
+unable to complete the proofs of correctness'' (Park, Hong, Steele and Ryu,
+``Polymorphic Symmetric Multiple Dispatch with Variance'', POPL 2019,
+Section~5.4).
+The paper gives no algorithm for static inference and asks of it only that it
+never instantiate at \TYP{BottomType}; its one example of a static call is
+typed at the union of its arguments' types.
+The revival decided on 29~September 2026 to take the paper's rule for static
+inference as well, which the paper allows and does not require.
 The order, a declaration chosen and then instantiated, is that of
 \secref{resolving-coercion}, read on the parameter types that declarations
 declare, as the type group's paper of 2011 reads a declaration with static
@@ -1647,10 +1677,29 @@ instance is taken; where another argument's conversions tie, the call is a
 static error.
 A \KWD{nat} or \KWD{int} parameter may be a component of a range, as in the
 specification's own examples.
-Until the overloading chapters are revised, \chapref{multiple-dispatch} says
-that static parameters are inferred before applicability is checked, and
-\secref{type-param} gives a type parameter without an \KWD{extends} clause the
-bound \TYP{Object}.
+The overloading chapters compare declarations on the parameter types they
+declare and infer static arguments after the selection, and \secref{type-param}
+gives a type parameter without an \KWD{extends} clause the bound \TYP{Any}
+(\secref{revival-overloading}, \secref{revival-bound}).
+The compiled type checker departs from the chapter in five cases, each gated by
+an expected failure of its tests: the expected type can let a declaration
+applicable only with coercion be chosen over a declaration with static
+parameters that is applicable without it (row~508 of the revival's gap ledger);
+a call that the rule instantiates at the bound, with another argument
+converted, is refused (row~515); a type parameter declared without an
+\KWD{extends} clause, which has no narrowest candidate, is instantiated at the
+union of the arguments' types where the chapter gives \TYP{Any} (row~516);
+an argument that is an instance at a union, which only the checker's own union
+makes, is refused where it fixes a type parameter (row~518); and an argument
+whose static type is an intersection, which the typing of a call between two
+traits with \KWD{comprises} clauses gives (\secref{revival-meet}), fixes a type
+parameter at one of its conjuncts (row~541).
+A written bound, such as \TYP{Number}, is taken by both implementations where
+the chapter gives it.
+The item of this chapter's list of what it does not yet describe on a static
+parameter that neither an argument nor the expected type fixes, and the box on
+the compiled type checker's binding of such a parameter, are left to the next
+revision of this chapter.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -1789,6 +1838,654 @@ value object that adds no instantiation of its own.
 whichever rule on instantiations the compiled type checker keeps.
 \end{description}
 
+\subsection{Overloading with static parameters}
+\seclabel{revival-overloading}
+
+\begin{description}
+\item[Affected sections] \secref{overloading-terms};
+\secref{functional-applicability}; \secref{dotted-method-applicability};
+\secref{resolving-overloading}; \secref{principles-overloading};
+\secref{overloading-static-params}; \secref{resolving-coercion}; and, in a
+draft build, the proposed features of the appendix ``Internal Document''.
+\item[Change] The sentence of \secref{overloading-terms} that declarations of
+one name may not differ in their static parameters, and its echo in
+\secref{principles-overloading}, are replaced: declarations of one name may have
+different static parameters, or some of them static parameters and others none,
+and a declaration with static parameters is read as one declaration whose
+parameter type ranges over its instances.
+Such a declaration is applicable to a call when some instance of it within its
+bounds is, and it is compared with others on the parameter types they declare,
+taken over all their instances; the static arguments that a call does not write
+are inferred for the declaration it selects, after the selection
+(\chapref{type-inference}).
+The three sentences of \chapref{multiple-dispatch} that inferred static
+parameters before applicability was checked and before declarations were
+compared, and the chapter's assumption that the static variables of a call have
+been instantiated or inferred, are rewritten to match.
+A new section, \secref{overloading-static-params}, states for declarations with
+static parameters the three rules of the type group's paper of 2011, the No
+Duplicates Rule, the Meet Rule and the Return Type Rule, the last checked over
+every instance of the less specific declaration; how two parameter types with
+static parameters exclude each other, by existential reduction with
+instantiation exclusion; and a pair that the Return Type Rule refuses, in the
+shape of that paper's own example, beside the pair that repairs it.
+A box in that section states the restriction that the compiled implementation
+adds, that of two declarations with as many static parameters of their own, one
+of which is more specific than the other, the two agree on their static
+parameters position by position, with an override that reorders them as its
+example.
+\secref{resolving-coercion} says in three places that a declaration with static
+parameters is applicable when some instance of it is, that it is compared on the
+parameter types it declares, and that the declaration selected is then
+instantiated, the coercions of its instance inserted statically.
+In the internal document, the proposed features on relaxing the restrictions on
+the static parameters of overloaded functionals and on overloading with static
+parameters are marked done, Jan's example answered by \library's factory and the
+questions on exclusion by the existential reduction.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 26~September 2026 that the sentence goes and that this working draft states
+the model of the type group's paper of 2011 (Allen, Hilburn, Kilpatrick,
+Luchangco, Ryu, Chase, and Steele, ``Type Checking Modular Multiple Dispatch
+with Parametric Polymorphism and Multiple Inheritance'', OOPSLA 2011;
+\nolinkurl{Papers/Types/rules.tick}, lines 132--180, and
+\nolinkurl{Papers/Types/setup.tick}, lines 393--397, in the revival's
+repository), which the compiled type checker applies, with two changes to the
+checker: the Return Type Rule checked over every instance, and the positional
+restriction.
+On 28~September 2026 it decided that a coercion makes a call possible and never
+changes which declaration runs when one is applicable without it, declarations
+being chosen on the parameter types they declare and the declaration chosen
+being then instantiated.
+Neither implementation enforced the sentence: the interpreter has overloaded
+declarations with different static parameters since May 2007, the compiled type
+checker applies the rules of that paper to them, and \library\ overload across
+different static parameters throughout.
+The sentence is text of 2009.
+The Fortress~1.0 release of 2008 compared generic declarations instead by
+using ``their bounds as their supertypes'', in a section whose type relations
+``may be replaced when the static type checker and the type inference engine
+are implemented'' (\nolinkurl{Specification-1.0-frozen/fortress.1.0.pdf},
+Section~15.6.1), and the team's unfinished restart of this specification in
+2012 dropped the sentence
+(\nolinkurl{Documentation/Specification/Prose/Language/overloading.tick},
+lines 100--114, in the revival's repository).
+The restart's Types chapter (Luchangco, 2012) gives function types that hold
+generic and plain declarations together, as sets of arrow types and universal
+arrow types, and drops from a quantified type a static parameter that appears
+in none of its types
+(\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
+553--558, 764--767 and 794--801).
+The positional restriction is the compiled implementation's and not the
+language's: its code generator hands the static arguments that a call writes,
+by position, to whichever declaration dispatch reaches (row~398 of the
+revival's gap ledger), while the type group's paper of 2019 instantiates a
+dispatched declaration by substitution and renames static parameters freely
+(Park, Hong, Steele and Ryu, ``Polymorphic Symmetric Multiple Dispatch with
+Variance'', POPL 2019, Sections~4 and~5.2).
+That paper's soundness proof excludes an upper bound that names a type
+parameter, its own included, and closed types, so that \library's families over a type parameter
+bounded by an instance of a trait at itself, such as \STR{SUM}, \STR{BIG~MAX}
+and those over \TYP{Integral}, rest on the rules of 2011 as the compiled type
+checker implements them, and not on the proof of 2019.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+in the revival's repository.
+\item[Effect] Declarations of one name may differ in their static parameters,
+as \library's do.
+The compiled type checker refuses the pair of the Return Type Rule's example,
+which it accepted before and whose compiled class then failed verification, and
+an override whose return type reorders its static parameters, which it accepted
+before and which then failed at run time (row~398).
+Neither implementation runs every set these rules allow.
+The compiled type checker refuses more than the Return Type Rule where the more
+specific declaration's parameter type is an object type, as in
+\EXP{\VAR{ident}\llbracket{}T\rrbracket(x\COLON{}T)\COLON{}T} beside
+\EXP{\VAR{ident}(x\COLON \TYP{Circle})\COLON \TYP{Circle}} where \TYP{Circle} is an
+object (row~542); the compiled code generator fails on two declarations with
+static parameters whose bounds differ, the pair the Return Type Rule allows in
+\secref{overloading-static-params} among them, and on the example of the type
+group's paper of 2019 that overloads a method over an array list and a list
+(row~537); and the interpreter refuses at load two declarations with static
+parameters of which no pair of parameter types excludes each other (row~159),
+that example among them (row~539).
+Jan's example is still not a valid overloading, its two declarations having the
+same parameter type.
+The calculus of \appref{overloading-calculus} keeps its rule that two
+declarations with the same number of parameters have static parameters with the
+same bounds; it admits fewer overloadings than these chapters, so that its valid
+programs are still valid, and its rules and its soundness claim are unchanged
+(\secref{revival-calculi}).
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/overloading.tex},
+lines 100--108:
+\begin{quote}
+Although there may be multiple declarations with the same functional name,
+it is an error for their static parameters to differ (up to
+$\alpha$-equivalence), or for one declaration to have static parameters and
+another to not have them.
+Hence, static parameters do not enter into the determination of which
+declarations are applicable, so we ignore them for most of this chapter.
+\end{quote}
+lines 137--138:
+\begin{quote}
+We assume throughout this chapter that all static variables in functional calls
+have been instantiated or inferred.
+\end{quote}
+lines 173--175, and in the same words for the types $\Ps_0$ and $\Ps$ of a
+dotted method declaration, lines 205--207:
+\begin{quote}
+If the parameter type $\Ps$ includes static parameters, they are inferred as
+described in \chapref{type-inference} before checking the applicability of the
+declaration to the call.
+\end{quote}
+lines 292--295:
+\begin{quote}
+If the declarations include static parameters, they are inferred as described
+in \chapref{type-inference} before comparing their parameter types to determine
+which declaration is more specific.
+\end{quote}
+and \nolinkurl{Specification-1.0-frozen/advanced/overloading.tex}, lines
+95--103:
+\begin{quote}
+Overloaded declarations must have static parameters that are identical (up to
+$\alpha$-equivalence).  Also, valid overloadings for declarations that contain
+keyword or varargs parameters are determined by analyzing the expansion of these
+declarations as described in \secref{applicability-with-special-params}.
+Therefore, static parameters, keyword parameters, and varargs parameters are
+ignored in the remainder of this chapter.
+\end{quote}
+The sentences added to \secref{resolving-coercion}, after the Working Draft's
+lines 455--459, 522--524 and 567--570 of
+\nolinkurl{Specification-1.0-frozen/basic/conversions-coercions.tex}, and the new
+section have no counterpart there.
+\item[Route C] The same under route~C, except that the existential reduction
+uses the rule of \secref{revival-routec} in place of instantiation exclusion.
+\end{description}
+
+\subsection{The implicit bound of a type parameter}
+\seclabel{revival-bound}
+
+\begin{description}
+\item[Affected sections] \secref{type-param}; \secref{principles-overloading}.
+\item[Change] A type parameter declared without an \KWD{extends} clause has the
+implicit clause ``\EXP{\KWD{extends} \TYP{Any}}'' in place of
+``\EXP{\KWD{extends} \TYP{Object}}'', with a box.
+The restriction of \chapref{overloaded-declarations} that a functional whose
+single parameter's type is a naked type parameter of bound \TYP{Any} cannot be
+overloaded is stated for a bound written \TYP{Any}, and a sentence says that a
+type parameter declared without an \KWD{extends} clause does not fall under it,
+with \library's value factory of one-dimensional arrays as its example, and a
+box.
+\item[Rationale] This change does not follow from route~A; the revival took
+\TYP{Any} as the implicit bound on 27~September 2026 and decided it on
+29~September 2026.
+\TYP{Any} holds every value, tuples, functions and \TYP{()} among them; the
+team's later Types chapter makes \TYP{Object} a supertype of every trait type,
+arrow type and function type that excludes \TYP{()} and every tuple type
+(Luchangco, 2012,
+\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
+232--236, in the revival's repository).
+\Library\ instantiate type parameters declared without a bound at tuple types,
+an array indexed by pairs among them, which the bound \TYP{Object} would refuse;
+the interpreter, and the compiled type checker when it checks \library, read
+such a parameter as bounded by \TYP{Any}.
+The type group's paper of 2019 gives the same default: ``By default, each type
+parameter has an upper bound Any and a lower bound Bottom'' (Park, Hong, Steele
+and Ryu, POPL 2019, Section~3.2).
+Under the implicit bound \TYP{Any}, the restriction on a naked type parameter of
+bound \TYP{Any} would forbid overloading every functional whose single
+parameter's type is a type parameter declared without a bound, \library's
+factory \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket(v\COLON{}T)}
+beside \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket()} among them;
+the compiled type checker applies the restriction only to a bound written
+\TYP{Any}, and draws no such refusal on \library.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+in the revival's repository.
+\item[Effect] A type parameter declared without a bound may be instantiated
+with a tuple type or with \TYP{()}.
+The compiled path still gives such a type parameter of a program's own
+declarations the bound \TYP{Object} (row~412 of the revival's gap ledger), a
+divergence that lasts until the compiled path is switched over to the
+interpreter's library.
+The rationale of \secref{revival-tabulate}, written before this change, speaks
+of the implicit bound \TYP{Object}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
+lines 49--50:
+\begin{quote}
+If a type parameter does not have an \KWD{extends} clause, it has an
+implicit ``\EXP{\KWD{extends} \TYP{Object}}'' clause.
+\end{quote}
+and \nolinkurl{Specification-1.0-frozen/advanced/overloading.tex}, lines
+114--116:
+\begin{quote}
+In addition, a functional which takes a single parameter of type a naked type
+parameter of bound \TYP{Any} cannot be overloaded.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The instance at which a dispatched declaration runs}
+\seclabel{revival-dispatch}
+
+\begin{description}
+\item[Affected section] \secref{resolving-overloading}.
+\item[Change] The paragraph on dispatch gains sentences: a declaration with
+static parameters is applicable to a call at run time when some instance of it
+within its bounds is, so the declaration to which a call dispatches may be one
+that the static call did not select; a declaration that the static call
+selected runs at the instance inferred for the call, and any other at the
+instance in which each type parameter is the intersection of the upper bounds
+placed on it, its declared bound and those that the dynamic types of the
+arguments and the static type of the call place on it, fixed by the value where
+the type parameter is a static argument of a parameterized trait in a parameter
+type, and never \TYP{BottomType} nor the union of the types of the arguments.
+A box says that both implementations take the dynamic type of the argument where
+the value does not fix the type parameter.
+Two examples follow the definition of ``more specific'': a generic declaration
+beside a plain one that is more specific, and a generic declaration that a call
+reaches only by dispatch, at the instance the value fixes, with a box.
+\item[Rationale] This change does not follow from route~A.
+Which declaration runs follows from the revival's decision of 28~September 2026
+that declarations are compared on the parameter types they declare, a
+declaration with static parameters being applicable when some instance of it is;
+the revival confirmed on 29~September 2026 that a generic declaration that a
+call reaches only by dispatch runs.
+The instance is the rule of the type group's paper of 2019, which the revival
+took on 29~September 2026: its dispatcher solves the bounds that the dynamic
+types of the arguments and the static type of the call place on each type
+parameter and ``computes a substitution \ldots\ by taking the intersection of
+the upper bounds'', never instantiating a type parameter with \TYP{BottomType};
+the team had assumed ``that once the tightest possible upper and lower bounds
+for a method type parameter have been found, then the union (or pseudo-union) of
+the lower bounds should be chosen'', and for it ``we were unable to complete the
+proofs of correctness'' (Park, Hong, Steele and Ryu, POPL 2019, Sections~5.2
+and~5.4).
+Naden's notes of 2012 on instantiation at run time restricted by the return type
+(\nolinkurl{Papers/RuntimeInstantiation/}, in the revival's repository) are the
+type group's draft of that rule; the type group's paper of 2011 left the
+run-time inference of the static arguments of a dispatched declaration ``beyond
+the scope of this paper'' (\nolinkurl{Papers/Types/rules.tick}, lines 118--129).
+The paper's dispatcher solves every call so; this text keeps the instance
+inferred for the declaration that the static call selected, which differs from
+the paper's only for a type parameter that neither the static type of the call
+nor an invariant position in a parameter type constrains.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+in the revival's repository.
+\item[Effect] No value that a valid program computes changes.
+The interpreter, which has no static types, and the compiled path, whose
+dispatcher is not given the static type of the call, take the dynamic type of
+the argument where the value does not fix the type parameter; the compiled
+path's departure is gated as an expected failure (row~538 of the revival's gap
+ledger).
+The compiled path does not yet run a generic declaration that a call reaches
+only by dispatch beside a plain one (row~496).
+The instance of a \KWD{nat} or \KWD{int} parameter that nothing fixes at run
+time is not described (\secref{revival-notrevised}).
+\item[Original text] The paragraph is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/overloading.tex}, lines 263--276:
+\begin{quote}
+To evaluate a given functional call, it is necessary to determine which
+functional declaration to dispatch to.
+To do so, we consider the declarations that are applicable to that call at run
+time.
+If there is exactly one such declaration, then the call dispatches to that
+declaration.
+If there is no such declaration, then the call is \emph{undefined}, which is a
+static error.
+(However, see \secref{applicability-with-coercion} for how coercion may add to
+the set of applicable declarations.)
+If multiple declarations are applicable to the call at run time, then we choose
+an arbitrary declaration among the declarations such that no other applicable
+declaration is more specific than them.
+\end{quote}
+The Working Draft forbade both pairs of the examples, by its lines 100--105,
+quoted in \secref{revival-overloading}.
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The interpreter's choice of a coercion}
+\seclabel{revival-coercion-walk}
+
+\begin{description}
+\item[Affected section] \secref{resolving-coercion}.
+\item[Change] One box after the example of the paragraph that says that
+coercion is resolved statically; the paragraph and its example are unchanged.
+The box says that the compiled path follows the text; that the interpreter,
+which has no static types, chooses a coercion on the value and so runs
+\EXP{f(B)} for the example's \EXP{f(c)}, and answers the same way wherever an
+argument's value is of a type that another declaration already fits; that both
+cases are gated as expected failures; and that the interpreter is to follow the
+text once it takes the coercions that the compiled type checker inserts.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 29~September 2026 that the interpreter's choice of a coercion on the value is
+its limit, since it has no static types from which to resolve a coercion
+statically, and that the interpreter is made to follow the text once the
+compiled type checker checks the programs it runs and it takes the coercions the
+checker inserts.
+The type group's paper of 2019 also carries the static types of calls to run
+time for its dispatcher, which the interpreter does not have.
+\item[Effect] None on the language.
+The interpreter's answer, 4 where the text gives 3, and its answer in the
+narrower case are gated by
+\nolinkurl{ProjectFortress/tests/XXXCoercionStaticRungC.fss} and
+\nolinkurl{ProjectFortress/tests/XXXCoercionStaticNarrowRungC.fss} (row~19 of
+the revival's gap ledger).
+\item[Original text] The passage is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/conversions-coercions.tex}, lines
+567--604, which begin:
+\begin{quote}
+Notice that coercion is resolved statically.  Once a coercion is statically
+chosen for a call, this coercion is conceptually inserted into the call.
+This means that the statically chosen coercion is applied at run time.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{Traits with comprises clauses read at the level of values}
+\seclabel{revival-covering}
+
+\begin{description}
+\item[Affected sections] \secref{internal-types};
+\secref{abstractFunctionDeclarations}; a draft note in the subsection ``Export
+Statements'' of \secref{components}; the effect of \secref{revival-comprises}.
+\item[Change] \secref{internal-types} defines covering: a type covers another
+when every value of the second is a value of the first; a type covers each of
+its subtypes, and a trait with a \KWD{comprises} clause is covered by the union
+of its listed types; covering is not the subtype relation.
+Its example concludes that $V$ covers $S \inter T$, where it concluded that
+$V = S \inter T$, and a sentence says that a trait may stand between $S$ or $T$
+and their listed types, so that $S \inter T$ is not in general equal to a named
+type.
+\secref{abstractFunctionDeclarations} asks the argument types of the concrete
+declarations to cover the argument type of the abstract declaration, where it
+asked their union to equal it, and, in its example, for a definition for every
+type listed in the \KWD{comprises} clause of \TYP{Molecule} or definitions that
+together cover those types, where it asked for one for every immediate subtype.
+Each of these four passages has a box.
+The draft note says ``all its listed types'' where it said ``all its immediate
+subtraits''; a draft note prints only in a draft build, so it has no box.
+The effect of \secref{revival-comprises} no longer says that these passages are
+not revised.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 29~September 2026 that the passages that read a \KWD{comprises} clause at the
+level of types are restated at the level of values, which is how
+\secref{trait-decls} reads the clause since its revision of 28~September 2026
+(\secref{revival-comprises}).
+The team's later Types chapter names covering beside subtyping and exclusion as
+a relation between types, and says that an instantiation of a trait with a
+\KWD{comprises} clause ``is covered by the union'' of the listed types
+(\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines 36--38
+and 384--390, in the revival's repository).
+Welterweight Fortress, the type group's calculus of 2012, reads the clause at
+the level of values and counts an abstract declaration as covered when it is
+implemented for all the types comprised
+(\nolinkurl{Papers/Welterweight/grammar.tick}, lines 21--22;
+\nolinkurl{Papers/Welterweight/fig-covered.tick}).
+Under that reading a trait with static parameters may stand unlisted between a
+trait with a \KWD{comprises} clause and its listed types; an instantiation of it
+is then a subtype of the closed trait and of no listed type, though every value
+of it is a value of a listed type, so the passages' conclusions hold of values
+and not of types.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+and \nolinkurl{explorations/reviews/comprises-type-level-judgement.md} in the
+revival's repository.
+\item[Effect] No example of this specification becomes invalid.
+Covering is not subtyping: where an instantiation of a trait with static
+parameters stands between $S$ and $T$ and their listed types, its value is a
+value of $V$ but its static type is not a subtype of $V$, and the compiled type
+checker refuses to assign it to a variable of type $V$; the interpreter, which
+has no static types, runs such an assignment.
+The compiled type checker checks, at each object declaration, that the
+object's concrete methods cover the abstract methods it inherits, and reads no
+\KWD{comprises} clause to do so; top-level abstract function declarations run
+on neither implementation.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
+lines 568--570:
+\begin{quote}
+because of the \KWD{comprises} clauses of $S$ and $T$ and the \KWD{excludes}
+clause of $U$, any subtype of both $S$ and $T$ must be a subtype of $V$.  Thus,
+$V = S \inter T$.
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic/functions.tex}, lines 377--378:
+\begin{quote}
+Furthermore, the union of the argument types of the concrete declarations for
+\VAR{f} must be equal to \VAR{T}.
+\end{quote}
+and lines 413--415:
+\begin{quote}
+For the latter, the programmer must provide a definition for every immediate
+subtype of \TYP{Molecule}, or it is a static error.
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic/components/source-code.tex}, line
+429, the words of the draft note's second item that changed:
+\begin{quote}
+provided that all its immediate subtraits are considered to have concrete
+method declaration with that signature.
+\end{quote}
+The effect of \secref{revival-comprises}, the revival's text of 28~September
+2026, ended:
+\begin{quote}
+The passages that read a \KWD{comprises} clause at the level of types, the
+intersection of two traits with such clauses (\secref{internal-types},
+\secref{more-specific-rule}) and the definitions an abstract function
+declaration requires (\secref{abstractFunctionDeclarations}), are not revised;
+whether they are to be restated at the level of values is not settled.
+\end{quote}
+\item[Route C] The same under route~C: the reading of a \KWD{comprises} clause
+at the level of values does not depend on the rule on instantiations.
+\end{description}
+
+\subsection{The Meet Rule for traits with comprises clauses}
+\seclabel{revival-meet}
+
+\begin{description}
+\item[Affected sections] \secref{principles-overloading};
+\secref{more-specific-rule}; \secref{overloading-static-params};
+\secref{overloading-coercion-resolution}; and, in a draft build, the proposed
+features of the appendix ``Internal Document''.
+\item[Change] Where the Meet Rule for functions, or for functional methods,
+asks for a declaration on the intersection of two parameter types, declarations
+whose parameter types are each a subtype of both and together cover the
+intersection also satisfy it, every pair of those declarations satisfying the
+rules in turn; the case does not apply to the condition on the types from which
+the two parameter types define coercions.
+A box at the rule answers the draft note that asks what the intersection of two
+declarations is; the Meet Rule of \secref{overloading-static-params} gains the
+same case, with a box.
+The Meet Rule's example concludes that $V$ covers $S \inter T$, and that $f(V)$
+is applicable to and more specific for any call at run time to which $f(S)$ and
+$f(T)$ are applicable.
+\secref{principles-overloading} says that a static call whose argument's static
+type stands between a trait with a \KWD{comprises} clause and its listed types
+may have several declarations applicable to it that no other applicable
+declaration is more specific than, and is not a static error.
+The second of the two facts of \secref{overloading-coercion-resolution} keeps a
+single most specific declaration for the dynamic call and, but for such a call,
+for the static call; the declaration that the dynamic call runs is the same as
+or more specific than every declaration applicable to the static call, its
+return type a subtype of theirs; the type of a static call whose most specific
+declarations, and every declaration more specific than them that the call may
+run, have no static parameters is the intersection of their return types; and a sentence gives the scope of the proof.
+In the internal document, the proposed feature on the intersection of two types
+with \KWD{comprises} clauses is marked done.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 29~September 2026 that the Meet Rule gains the case of declarations that
+together cover the intersection, and that a call whose argument's static type
+stands between two traits with \KWD{comprises} clauses is typed by the
+intersection of its candidates' return types, with the proof of
+\appref{overloaded-functional} revised to the uniqueness of the most specific
+declaration at run time (\secref{revival-proof}).
+The team's list of proposed features records the same plan for the example:
+``We agreed to revise the Meet rule to address this with the coverage check''.
+Under the reading of \secref{trait-decls}, the intersection of two traits with
+\KWD{comprises} clauses is not in general equal to a named type, and without the
+case the Meet Rule would refuse the example given to illustrate it.
+The case is an addition to the Meet Rule of the type group's paper of 2011,
+which asks for a declaration on the meet, as the type group's calculus
+Welterweight Fortress does (\nolinkurl{Papers/Welterweight/fig-meetrule.tick},
+in the revival's repository).
+The typing of such a call follows from the Return Type Rule: the declaration
+that runs is below every most specific declaration of the static call, and its
+return type below each of theirs.
+For a declaration with static parameters one instance would have to meet every
+one of those return types at once, which the proof does not show, so the typing
+is stated for declarations without static parameters only.
+The covering is a judgement of the overloading rules alone: it makes no type a
+subtype of another.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+and \nolinkurl{explorations/reviews/comprises-type-level-proof-addendum.md} in
+the revival's repository.
+\item[Effect] The Meet Rule's example is valid; both implementations refused it
+before this change (row~492 of the revival's gap ledger).
+A static call whose argument's static type stands between two traits with
+\KWD{comprises} clauses, as an instantiation of a trait with static parameters
+that extends both unlisted does, is not a static error: it runs the declaration
+that covers its value, and, where those declarations and every declaration more
+specific than them that the call may run have no static parameters, its type is
+the intersection of the return types of its most specific declarations.
+The compiled type checker departs from this in four ways: it types such a call
+by the intersection only in a family none of whose declarations has static
+parameters, and otherwise by one of its most specific declarations (row~543 of
+the revival's gap ledger); its code generator stops at a method call on a value
+of such a type (row~540); it refuses the case for declarations with static
+parameters (row~546); and its verdict on a trait between the two that provides
+both declarations of a functional method can depend on the components it
+compiled before (row~547).
+The Meet Rule for dotted methods keeps its form, asking for a declaration on the
+intersection (\secref{revival-notrevised}).
+\item[Original text] The Working Draft's rules are unchanged, the cases being
+added after them.
+\nolinkurl{Specification-1.0-frozen/advanced/overloading.tex}, lines 303--307,
+the example's conclusion:
+\begin{quote}
+Because of the \KWD{comprises} clauses of $S$ and $T$ and the \KWD{excludes}
+clause of $U$, any subtype of both $S$ and $T$ must be a subtype of $V$.  Thus,
+$V = S \inter T$, and the declaration $f(V)$ ``disambiguates'' $f(S)$ and
+$f(T)$, i.e., it is applicable to and more specific for any call to which both
+$f(S)$ and $f(T)$ are applicable.
+\end{quote}
+and lines 460--468, the second fact and the sentence after the two:
+\begin{quote}
+If any declaration is applicable to a static call then there exists a single
+most specific declaration that is applicable to the static call and a single
+most specific declaration that is applicable to the corresponding dynamic call.
+
+Moreover, we can prove that the most specific declaration that is applicable to
+a dynamic call is more specific than the most specific declaration that is
+applicable to the corresponding static call.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The proof of overloading resolution}
+\seclabel{revival-proof}
+
+\begin{description}
+\item[Affected section] \secref{proof-overloading-resolution}.
+\item[Change] The proof states its scope and its assumptions: declarations
+whose parameter and return types have no static parameters, calls to which
+declarations are applicable without coercion, the overloading rules, bodies
+that exist and are well typed, a sound and transitive subtype relation, and
+every value of a trait with a \KWD{comprises} clause a value of one of its
+listed types, which the compiled type checker does not yet enforce across
+components.
+It states the Meet Rule as it uses it: declarations below both parameter types
+that together hold every value of both, of which a declaration on the
+intersection is the case of one.
+Lemma~\ref{lem:le} proves only that the dynamic call has at most one most
+specific declaration, taking a covering declaration where it took the
+declaration on the intersection;
+Theorem~\ref{thm:overloading-subtyping} proves only that the dynamic call has
+exactly one when the static call has any;
+Theorem~\ref{thm:dynamic-subtype-static} proves that the declaration that runs
+is the same as or more specific than every declaration applicable to the static
+call; and a new Theorem~\ref{thm:result-type} proves that its return type is a
+subtype of the return type of every most specific declaration of the static
+call.
+The lemmas of existence are unchanged.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 29~September 2026, with the case of the Meet Rule of \secref{revival-meet},
+that the proof keeps its lemmas of existence and gives up the uniqueness of the
+most specific declaration for the static call for its uniqueness for the
+dynamic call, with its scope and its assumption on \KWD{comprises} clauses
+marked.
+Covering gives a declaration that holds the value of the argument, not one
+whose parameter type is a supertype of the static type of the argument, so the
+static call may have more than one most specific declaration.
+The type group's paper of 2019 keeps a unique most specific declaration for
+every call as a theorem (Park, Hong, Steele and Ryu, POPL 2019, Theorem~4.1);
+a call whose argument's static type stands between two traits with
+\KWD{comprises} clauses is outside that paper, which has no closed types, and
+the revival gives up the unique most specific declaration for the static call
+there on the assumptions this proof states.
+The full reasoning is in
+\nolinkurl{explorations/reviews/comprises-type-level-proof-addendum.md} and
+\nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
+in the revival's repository.
+\item[Effect] The appendix proves that no call is undefined or ambiguous at run
+time within its scope and on its assumptions; it does not prove the soundness of
+declarations with static parameters, of inference or of coercion.
+Where a type declared in a later component escapes the check of a
+\KWD{comprises} clause (row~487 of the revival's gap ledger), the uniqueness of
+the most specific declaration for the dynamic call is not guaranteed.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/appendices/overloading-function.tex},
+lines 37--48:
+\begin{quote}
+Below we prove: $|\Sigma| \neq 0$ implies $|\sigma| = 1$, and $|\Sigma| \neq 0$
+implies $|\delta| = 1$.
+Informally, if any declaration is applicable to a static call then there exists
+a single most specific declaration that is applicable to the static call and a
+single most specific declaration that is applicable to the corresponding
+dynamic call.
+\end{quote}
+lines 84--135, the lemma and the two theorems this change revises:
+\begin{quote}
+\emph{Lemma.} $|\sigma| \le 1$.  Also, $|\delta| \le 1$.
+
+\emph{Proof.} We prove this for $\delta$, but the case for $\sigma$ is
+identical.
+For the purpose of contradiction suppose there are two declarations
+$\f(\Ps)$ and $\f(\Qs)$ in $\delta$.  Since both $\f(\Ps)$ and
+$\f(\Qs)$ are applicable without coercion to the call $\f(\Xs)$ we
+have $\Xs \Ovrsubtype \Ps \inter \Qs$.  Therefore it is not the case
+that $\Ps \incompatible \Qs$.  By the overloading rules, $\Ps
+\neq \Qs$ and either $\Ps \excludes \Qs$ or there is a declaration
+$\f(\Ps \inter \Qs)$ visible at $Z$.  Since it cannot be the case that
+$\Ps \excludes \Qs$ there must exist a declaration $\f(\Ps \inter
+\Qs)$ visible at $Z$.  Since $\Ps \inter \Qs \Ovrsubtype \Ps$ and $\Ps
+\inter \Qs \Ovrsubtype \Qs$ we know $\f(\Ps \inter \Qs)$ is applicable
+without coercion to the call $\f(\Xs)$.  Since $\Ps \neq \Qs$ either
+$\Ps \inter \Qs \strictsubtype \Ps$ or $\Ps \inter \Qs \strictsubtype
+\Qs$.  Either case contradicts our assumption.
+
+\emph{Theorem.} If $|\Sigma| \neq 0$ then $|\sigma| = 1$.  Also, if
+$|\Sigma| \neq 0$ then $|\delta| = 1$.
+
+\emph{Proof.} Follows from the three lemmas before it.
+
+\emph{Theorem.} If $\sigma = \set{S}$ and $\delta = \set{D}$ then
+$D \Ovrsubtype S$.
+
+\emph{Proof.} If the declaration with parameter type $S$ and the declaration
+with parameter type $D$ satisfy the Subtype Rule then the theorem is
+proved.  Otherwise, by the definition of $\sigma$ we have $\sigma
+\subseteq \Sigma$.  Therefore $S \in \Sigma$.  By the first lemma,
+$S \in \Delta$.  Notice that $S,D \in \Delta$ implies
+$X \Ovrsubtype S$ and $X \Ovrsubtype D$.  Therefore, $S \not \excludes
+D$.  By the More Specific Rule for Functions, there must exist a
+declaration with parameter type $S \inter D$.  Because $X
+\Ovrsubtype (S \inter D)$, $(S \inter D) \in \Delta$.
+Notice $(S \inter D) \Ovrsubtype S$ and $(S \inter D) \Ovrsubtype D$.
+By the definition of $\delta$, we have $\lnot \exists D'\in\Delta: D'
+\strictsubtype D$.  In particular, $(S \inter D) \not \strictsubtype
+D$.  Therefore $(S \inter D) = D$.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
@@ -1797,12 +2494,39 @@ contradict is known to be unrevised.
 The rule by which a generic call over two different integer types
 infers the narrowest type that both coerce into is written into
 \chapref{type-inference} together with its implementation
-(\secref{revival-inference}); the passages that chapter leaves unrevised are the
-sentences of \chapref{multiple-dispatch} by which static parameters are inferred
-before the applicability of a declaration is checked and before declarations
-are compared, the implicit bound of \secref{type-param}, and the rule of
-\chapref{overloaded-declarations} on a naked type parameter of bound \TYP{Any},
-which are to be revised with the overloading chapters. The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+(\secref{revival-inference}); the passages that chapter left unrevised, the
+sentences of \chapref{multiple-dispatch} by which static parameters were
+inferred before the applicability of a declaration was checked and before
+declarations were compared, the implicit bound of \secref{type-param}, and the
+rule of \chapref{overloaded-declarations} on a naked type parameter of bound
+\TYP{Any}, are revised with the overloading chapters (\secref{revival-overloading},
+\secref{revival-bound}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+The item of the list of \chapref{type-inference} of what it does not yet
+describe on a static parameter that neither an argument nor the expected type
+fixes, and its box on the compiled type checker's binding of such a parameter,
+are not yet revised to the rule of \secref{resolving-overloading} by which a
+dispatched declaration is instantiated (\secref{revival-dispatch}).
+The instance of a \KWD{nat} or \KWD{int} parameter of a declaration that a call
+reaches only by dispatch, where nothing fixes it at run time, is not described;
+the rule of \secref{resolving-overloading} is for type parameters (row~446 of the
+revival's gap ledger).
+The sentence of \secref{where-clauses} that a \KWD{where}-clause variable may
+not appear as a static argument in an \KWD{extends} clause also refuses a
+variable that a constraint fixes to one type; whether it is to be narrowed is
+not settled.
+The Meet Rule for dotted methods (\secref{more-specific-rule}) asks for a
+declaration on the intersection of two parameter types; whether declarations
+that together cover the intersection satisfy it too is not settled.
+The type of a static call whose argument's static type stands between two
+traits with \KWD{comprises} clauses, where its most specific declarations, or a
+declaration more specific than them that the call may run, have static
+parameters, is not given (\secref{revival-meet}).
+Whether two parameter types exclude each other when the only static arguments
+at which they could meet are ones that a bound rules out is not settled: the
+compiled type checker takes them to exclude where the static argument that the
+two parameter types force is a named type that fails the bound, and not where
+it would reason through the ancestors of the parameter types
+(\secref{overloading-static-params}).
 Whether a \KWD{nat} parameter, which may appear wherever a variable of type
 \EXP{\mathbb{N}32} can (\secref{natparams}), may be a component of a range is
 settled (\secref{revival-inference}): it converts to \EXP{\mathbb{Z}32} as an

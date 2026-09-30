@@ -76,6 +76,20 @@ specific declaration is identified statically, and the runtime
 dispatch mechanism need only consider dispatching among that
 declaration plus declarations that are more specific than that
 declaration (proof of this is given in \secref{proof-overloading-resolution}).
+One case is an exception.
+Where the static type of a call's argument stands between a trait with a
+\KWD{comprises} clause and its listed types, several declarations applicable to
+the static call may each have no other applicable declaration more specific
+than them (\secref{more-specific-rule}).
+Such a call is not a static error: it dispatches to a declaration no less
+specific than each of them, and where they, and every declaration more specific
+than them that the call may run, have no static parameters, its type is the
+intersection of their return types (\secref{overloading-coercion-resolution}).
+\revision{revival-meet}{The Working Draft of February 2011 knew no such call:
+it read a \KWD{comprises} clause as saying which types are below a trait, where
+\secref{trait-decls} now says which values belong to it, so that a trait with
+static parameters may stand unlisted between a trait with a \KWD{comprises}
+clause and its listed types.}
 
 This chapter outlines several criteria for valid functional
 overloading.  At any given program point, there is a set of overloaded
@@ -92,15 +106,21 @@ possible for new rules to be added which allow additional
 overloadings.
 
 \label{adv-over-kwd}
-Overloaded declarations must have static parameters that are identical
-(up to $\alpha$-equivalence).  Also, valid overloadings for
+Overloaded declarations may have different static parameters, or some of them
+may have static parameters and others none (\secref{overloading-terms});
+\secref{overloading-static-params} states how the rules of this chapter apply
+to declarations with static parameters.  Valid overloadings for
 declarations that contain keyword or
 varargs parameters are determined
 by analyzing the expansion of these declarations as described in
-\secref{applicability-with-special-params}.  Therefore, static
-parameters, keyword parameters,
-and varargs parameters are ignored in
-the remainder of this chapter.
+\secref{applicability-with-special-params}.  Therefore, keyword
+parameters and varargs parameters are ignored in
+the remainder of this chapter, and static parameters are ignored until
+\secref{overloading-static-params}.
+\revision{revival-overloading}{The Working Draft of February 2011 said here
+that overloaded declarations must have static parameters that are identical up
+to $\alpha$-equivalence, and ignored static parameters in the remainder of this
+chapter.}
 
 An operator method declaration whose name is one of the operator parameters
 (described in \secref{opr-ident})
@@ -111,8 +131,9 @@ with every operator declaration in the same component.
 
 
 
-In addition, a functional which takes a single parameter of type
-a naked type parameter of bound \TYP{Any} cannot be
+In addition, a functional which takes a single parameter whose type is
+a naked type parameter declared with the bound \TYP{Any} written, as
+\EXP{T \KWD{extends} \TYP{Any}}, cannot be
 overloaded.  This restriction prevents ambiguous overloadings such as
 the following:
 %makeSet[\T extends Any\](x: T): Set[\T\]
@@ -125,6 +146,20 @@ The type parameter of \EXP{\VAR{makeSet}} may be instantiated with
 \TYP{(\mathbb{Z}, \mathbb{Z})} or \TYP{\mathbb{Z}}.  If this is the
 case then the call \EXP{\VAR{makeSet}(3, 4)}, where 3 and 4 have type
 \TYP{\mathbb{Z}}, is ambiguous.
+A type parameter declared without an \KWD{extends} clause, whose bound is
+\TYP{Any} as well (\secref{type-param}), does not fall under this restriction:
+\library\ declare the factory
+\EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket(v\COLON{}T)}
+beside \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket()}.
+\revision{revival-bound}{The Working Draft of February 2011 stated this
+restriction for a naked type parameter of bound \TYP{Any} while a type parameter
+declared without an \KWD{extends} clause was bounded by \TYP{Object}
+(\secref{type-param}).
+Under the implicit bound \TYP{Any} it would forbid overloading every functional
+whose single parameter's type is such a type parameter, the factory above among
+them.
+The restriction is stated as the compiled type checker applies it, to a bound
+written \TYP{Any}; the checker draws no such refusal on \library.}
 
 \secref{subtype-rule} states the \emph{Subtype Rule}, which stipulates
 that the parameter type of one declaration be a subtype of the
@@ -272,6 +307,35 @@ there is a declaration $\f(\Ps' \inter \Qs')$ in the scope.
 \end{itemize}
 \end{itemize}
 
+Where the Meet Rule for functions asks for a declaration $\f(\Ps \inter \Qs)$ in
+the scope, it is also satisfied by declarations in the scope whose parameter
+types are each a subtype of both $\Ps$ and $\Qs$ and together cover
+$\Ps \inter \Qs$ (\secref{internal-types}): every value of both $\Ps$ and $\Qs$
+is a value of the parameter type of one of them, for every value a program can
+make, not only for the values a program does make.
+Each such declaration is more specific than both $\f(\Ps)$ and $\f(\Qs)$, and
+at run time it is applicable to every argument whose value its parameter type
+holds.
+Every pair of the covering declarations must satisfy the overloading rules in
+turn, as every pair of the set must.
+This case does not apply to the condition on the types from which $\Ps$ and
+$\Qs$ define coercions: covering does not choose between two coercions.
+\revision{revival-meet}{The Working Draft of February 2011 asked for a
+declaration on the intersection itself, and the draft note above asked what the
+intersection of two declarations is.
+The answer is the one the team's list of proposed features records for two
+traits with \KWD{comprises} clauses, ``We agreed to revise the Meet rule to
+address this with the coverage check''.
+It is an addition to the Meet Rule of the type group's paper of 2011, which asks
+for a declaration on the meet; the paper of 2019 has no traits with
+\KWD{comprises} clauses.
+Where a trait with static parameters stands between two traits with
+\KWD{comprises} clauses and their listed types, the intersection of the two is
+not equal to a named type (\secref{internal-types}), and only declarations that
+together cover it can disambiguate them.
+The coverage is a judgement of the overloading rules alone: it makes no type a
+subtype of another (row~492 of the revival's gap ledger).}
+
 Recall that $\Ps \inter \Qs$ is the intersection of types $\Ps$ and $\Qs$
 as defined in \secref{internal-types}.
 We write $\Ps \inter \Qs$ to denote the intersection of types $\Ps$ and $\Qs$.
@@ -301,10 +365,19 @@ For example, suppose the following:
 \(f(v\COLONOP{}V) = 1\)
 \end{Fortress}
 Because of the \KWD{comprises} clauses of $S$ and $T$ and the \KWD{excludes}
-clause of $U$, any subtype of both $S$ and $T$ must be a subtype of
-$V$.  Thus, $V = S \inter T$, and the declaration $f(V)$
+clause of $U$, any value of both $S$ and $T$ is a value of
+$V$.  Thus, $V$ covers $S \inter T$, and the declaration $f(V)$
 ``disambiguates'' $f(S)$ and $f(T)$, i.e., it is applicable to and more
-specific for any call to which both $f(S)$ and $f(T)$ are applicable.
+specific for any call at run time to which both $f(S)$ and $f(T)$ are
+applicable.
+\revision{revival-meet}{The Working Draft of February 2011 concluded that any
+subtype of both $S$ and $T$ must be a subtype of $V$, so that $V = S \inter T$.
+That holds of types only while no type stands between $S$ or $T$ and their
+listed types; a trait with static parameters may (\secref{trait-decls}), and a
+static call whose argument has such a type has $f(S)$ and $f(T)$ applicable and
+$f(V)$ not.
+It runs $f(V)$, and its type is given in
+\secref{overloading-coercion-resolution}.}
 
 The Meet Rule shall not be difficult to obey, especially because
 the compiler can give useful feedback.  For example:
@@ -433,6 +506,15 @@ there is a declaration $\f(\Ps' \inter \Qs')$ provided by $C$.
 \end{itemize}
 \end{itemize}
 
+As for functions, where this rule asks for a declaration
+$\f(\Ps \inter \Qs)$ provided by $C$, it is also satisfied by declarations
+provided by $C$, having self parameter at $i$, whose parameter types are each a
+subtype of both $\Ps$ and $\Qs$ and together cover $\Ps \inter \Qs$; the case
+does not apply to the condition on the types from which $\Ps$ and $\Qs$ define
+coercions.
+\revision{revival-meet}{The Working Draft of February 2011 asked here, as for
+functions, for a declaration on the intersection itself.}
+
 Notice that the Meet Rule for functional methods requires the self
 parameters of two overloaded declarations to be in the same position.
 This requirement guarantees that no ambiguity is caused by the
@@ -446,7 +528,130 @@ a function declaration is
 determined by applying the (more restrictive) Meet Rule for functions
 to both declarations.
 
+\section{Declarations with Static Parameters}
+\seclabel{overloading-static-params}
+
+The rules above compare the parameter types and the return types of
+declarations without static parameters.
+A declaration with static parameters is read as one declaration whose parameter
+type ranges over every instance of it whose static arguments satisfy their
+bounds (\secref{overloading-terms}).
+A declaration $d_1$ is more specific than a declaration $d_2$ when $d_2$ is
+applicable to every call to which $d_1$ is applicable, and not the other way
+round (\secref{resolving-overloading}); where neither has static parameters,
+this is the relation $\Ps \strictsubtype \Qs$ of the rules above.
+A set of overloaded declarations, some or all of which have static parameters,
+is a valid overloading when every pair $d_1$, $d_2$ of them satisfies the
+following three rules:
+\begin{itemize}
+\item
+The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each more specific than
+the other.
+\item
+The \emph{Meet Rule}: $d_1$ and $d_2$ exclude each other, or one of them is more
+specific than the other, or some declaration of the set is more specific than
+both and applicable to every call to which both are applicable.
+\item
+The \emph{Return Type Rule}: if $d_1$ is more specific than $d_2$, then for
+every argument type other than \TYP{BottomType} to which $d_1$ is applicable,
+and for every instance of $d_2$ that is applicable to it, some instance of $d_1$
+is applicable to it whose return type is a subtype of the return type of that
+instance of $d_2$.
+\end{itemize}
+The Subtype Rule, the Incompatibility Rule and the Meet Rule above are these
+rules for declarations without static parameters, with the conditions that
+coercion adds; the Return Type Rule is the Subtype Rule's condition on return
+types, checked over every instance of the less specific declaration and not
+over one instance chosen for the pair.
+
+As in \secref{more-specific-rule}, declarations of the set that are each more
+specific than both $d_1$ and $d_2$ and that together cover every argument to
+which both are applicable also satisfy the Meet Rule.
+\revision{revival-meet}{The type group's paper of 2011 states the Meet Rule
+without this case.}
+
+Two parameter types with static parameters exclude each other, for the Meet
+Rule and the Incompatibility Rule, as the type group's paper of 2011 decides it
+by \emph{existential reduction}: each static parameter stands for any type
+within its bound, and where the two parameter types mention one parameterized
+trait, instantiation exclusion (\secref{trait-types}) lets them meet only where
+the static arguments of those mentions are the same, every static argument but
+an operator argument counting.
+So where \TYP{Box} and \TYP{Pair} are distinct object types with static
+parameters, the parameter types \EXP{\TYP{Box}\llbracket{}T\rrbracket} and
+\EXP{\TYP{Pair}\llbracket{}A, B\rrbracket} of two declarations exclude each
+other whatever \VAR{T}, \VAR{A} and \VAR{B} stand for.
+
+The Return Type Rule refuses the following pair, where trait \TYP{Round}
+extends trait \TYP{Shape} and object \TYP{Circle} extends \TYP{Round}:
+%(* Not allowed! *)
+%ident[\T extends Shape\](x: T): T = x
+%ident(x: Round): Round = x
+\begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
+\(\VAR{ident}\llbracket{}T \KWD{extends} \TYP{Shape}\rrbracket(x\COLON{}T)\COLON{}T = x\)\\
+\(\VAR{ident}(x\COLON \TYP{Round})\COLON \TYP{Round} = x\)
+\end{Fortress}
+The second declaration is more specific than the first.
+For an argument of type \TYP{Circle}, the instance of the first at \TYP{Circle}
+is applicable and returns a \TYP{Circle}, but the second, which runs for such an
+argument, returns only a \TYP{Round}, and it has no other instance.
+The pair is allowed when the second declaration is itself generic:
+%ident[\T extends Shape\](x: T): T = x
+%ident[\T extends Round\](x: T): T = x
+\begin{Fortress}
+\(\VAR{ident}\llbracket{}T \KWD{extends} \TYP{Shape}\rrbracket(x\COLON{}T)\COLON{}T = x\)\\
+\(\VAR{ident}\llbracket{}T \KWD{extends} \TYP{Round}\rrbracket(x\COLON{}T)\COLON{}T = x\)
+\end{Fortress}
+Its instance at any type to which it is applicable returns that type.
+\revision{revival-overloading}{This section is new.
+The Working Draft of February 2011 required overloaded declarations to have
+identical static parameters and ignored them.
+The rules stated are those of the type group's paper of 2011 (Allen, Hilburn,
+Kilpatrick, Luchangco, Ryu, Chase, and Steele, ``Type Checking Modular Multiple
+Dispatch with Parametric Polymorphism and Multiple Inheritance'', OOPSLA 2011),
+which the compiled type checker applies, with its Return Type Rule checked over
+every instance of the less specific declaration; the pair refused above has the
+shape of that paper's own example, which the compiled path used to accept and
+then fail to verify.
+Neither implementation runs the pair allowed above today: the interpreter
+refuses it at load, since it asks two declarations with static
+parameters for a pair of parameter types that exclude each other (row~159 of the
+revival's gap ledger), and the compiled code generator fails on it (row~537).
+The compiled implementation adds one restriction that is not a rule of the
+language.
+When one declaration with static parameters is more specific than another that
+declares as many static parameters of its own, the two must declare them of the
+same kinds, position by position, and the return type of the more specific one
+must be a subtype of the other's when their static parameters are identified
+position by position; for its code generator hands the static arguments that a call writes,
+by position, to whichever declaration the call dispatches to (row~398 of the
+revival's gap ledger).
+So it refuses this override, whose return type names its static parameters in
+the other order, where \TYP{Pr} is an object with two type parameters:
+%trait Maker
+%  make[\A, B\](): Pr[\A, B\]
+%end
+%object M extends Maker
+%  make[\A, B\](): Pr[\B, A\] = Pr[\B, A\](1)
+%end
+\begin{Fortress}
+\(\KWD{trait} \TYP{Maker}\)\\
+{\tt~~}\pushtabs\=\+\(  \VAR{make}\llbracket{}A, B\rrbracket()\COLON \TYP{Pr}\llbracket{}A, B\rrbracket\)\-\\\poptabs
+\(\KWD{end}\)\\
+\(\KWD{object} M \KWD{extends} \TYP{Maker}\)\\
+{\tt~~}\pushtabs\=\+\(  \VAR{make}\llbracket{}A, B\rrbracket()\COLON \TYP{Pr}\llbracket{}B, A\rrbracket = \TYP{Pr}\llbracket{}B, A\rrbracket(1)\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+The type group's paper of 2019 (Park, Hong, Steele and Ryu, POPL 2019)
+instantiates a dispatched declaration from the dynamic types of the arguments
+and the static type of the call, renaming static parameters freely
+(\secref{resolving-overloading}); under it the override is valid, and the
+restriction goes when the compiled dispatcher instantiates a declaration that
+way.}
+
 \section{Coercion and Overloading Resolution}
+\seclabel{overloading-coercion-resolution}
 
 The overloading rules given in this chapter are
 sufficient to prove the following two facts:
@@ -458,14 +663,23 @@ single most specific declaration that is applicable with coercion to
 the static call.
 \item
 If any declaration is applicable to a static call then there exists a
-single most specific declaration that is applicable to the static call
-and a single most specific declaration that is applicable to the
-corresponding dynamic call.
+single most specific declaration that is applicable to the
+corresponding dynamic call and, unless the static type of the argument
+stands between a trait with a \KWD{comprises} clause and its listed types
+(\secref{more-specific-rule}), a single most specific declaration that is
+applicable to the static call.
 \end{enumerate}
 
 Moreover, we can prove that the most specific declaration that is
-applicable to a dynamic call is more specific than the most specific
-declaration that is applicable to the corresponding static call.
+applicable to a dynamic call is the same as or more specific than every
+declaration that is applicable to the corresponding static call, so that, by
+the Return Type Rule, its return type is a subtype of the return type of each
+of them.
+Where the declarations applicable to a static call that no other applicable
+declaration is more specific than, and every declaration more specific than them
+that the call may run, have no static parameters, the type of the static call is
+the intersection of their return types; where there is one such declaration,
+that is its return type.
 
 \appref{overloaded-functional} formally proves that
 the rules discussed in the previous sections guarantee the static resolution of
@@ -476,3 +690,21 @@ the overloading rules for
  function declarations are sufficient to guarantee no
 undefined nor ambiguous calls at run time (again,
 the case for methods is analogous).
+That proof covers declarations without static parameters and calls to which
+declarations are applicable without coercion, and it rests on every value of a
+trait with a \KWD{comprises} clause being a value of one of its listed types
+(\secref{trait-decls}); the appendix states its scope.
+\revision{revival-meet}{The Working Draft of February 2011 said that a single
+most specific declaration is applicable to every static call to which any is
+applicable, and that the one the dynamic call runs is more specific than it.
+With the closed-trait case of the Meet Rule, a static call whose argument's
+static type stands between two traits with \KWD{comprises} clauses and their
+listed types may have several; the declaration that runs is below every one of
+them, and the call's type is the intersection of their return types, which the
+Return Type Rule makes sound for declarations without static parameters.
+For declarations with static parameters one instance would have to meet every
+one of those return types at once, and the type of such a call is not yet
+given.
+The compiled type checker does not yet enforce across components that every
+value of a trait with a \KWD{comprises} clause is a value of one of its listed
+types (row~487 of the revival's gap ledger), which the proof assumes.}

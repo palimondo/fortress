@@ -28,25 +28,19 @@ chapter a heading and two draft notes, the second of which is kept at its end,
 although \chapref{multiple-dispatch}, \secref{idn-ref} and
 \secref{dotted-method-calls} cite it.
 The rule this chapter states is the one the revival decided on 26, 27 and
-28~September 2026 and built into the compiled type checker with this text; the
-Working Draft had no counterpart to the rule for a numeral whose conversions tie
-(\secref{numeral-default}).
-It assumes that a type parameter declared without an \KWD{extends} clause is
-bounded by \TYP{Any}, as \library\ and the interpreter take it, where
-\secref{type-param} says \TYP{Object}, as the compiled path still takes it for
-a program's own declarations (row~412 of the revival's gap ledger).
-\chapref{multiple-dispatch} still says that static parameters are inferred
-before the applicability of a declaration is checked and before declarations
-are compared (\secref{functional-applicability},
-\secref{dotted-method-applicability}, \secref{resolving-overloading}), where
-this chapter chooses a declaration first.
-Those sentences, the implicit bound of \secref{type-param}, and the rule of
-\chapref{overloaded-declarations} that a functional whose single parameter has
-as its type a naked type parameter of bound \TYP{Any} cannot be overloaded,
-which under that bound would forbid overloading any functional whose single
-parameter's type is a type parameter declared without an \KWD{extends} clause,
-are to be revised together, in the revision of the overloading chapters that
-the revival decided on 26~September 2026.
+28~September 2026, and on 29~September 2026 for a lone type parameter with no
+narrowest candidate; the compiled type checker was built with this text, and
+the cases in which it departs from the text are listed in
+\secref{revival-inference}.
+The Working Draft had no counterpart to the rule for a numeral whose
+conversions tie (\secref{numeral-default}).
+A type parameter declared without an \KWD{extends} clause is bounded by
+\TYP{Any} (\secref{type-param}); the compiled path still takes \TYP{Object} for
+such a parameter of a program's own declarations (row~412 of the revival's gap
+ledger).
+\chapref{multiple-dispatch} and \chapref{overloaded-declarations} were revised
+with this chapter's order, a declaration chosen on the parameter types it
+declares and then instantiated (\secref{revival-overloading}).
 The team's later Types chapter gives the coercion relation and the valid
 instantiations of a quantified type, and says nothing of inference.}
 
@@ -94,8 +88,14 @@ converts: \EXP{\mathbb{Z}64} for a \EXP{\mathbb{Z}32} and a
 (\secref{basic-integers}).
 Where there is no such narrowest type, and the rule for numerals
 (\secref{numeral-default}) does not settle the tie, the type parameter takes
-the union of the types of those arguments (\secref{internal-types}), if its
-bounds permit that, and none of those arguments is converted.
+the intersection of its upper bounds: its declared bound, \TYP{Any} if it has
+none (\secref{type-param}), and what the expected type (below), where the call
+has one, requires of the declared return type, provided the types of those
+arguments are subtypes of it; none of those arguments is converted.
+\revision{revival-inference}{The revival's text of 28~September 2026 gave such
+a type parameter the union of the types of those arguments; on 29~September 2026
+the revival took the rule by which the dispatcher of the type group's paper of
+2019 instantiates a type parameter, which gives the bound.}
 \item Every argument is then admitted against the corresponding parameter type
 of the instance by substitutability: an argument whose type is a subtype of it
 is passed as it is, and any other argument is coerced to it
@@ -155,6 +155,13 @@ So where the declared type of a variable is wider than the type of its value,
 or an argument's static type is \TYP{Any}, it may run a declaration at a
 narrower instance than the compiled path, which instantiates it at the static
 types.
+Where no argument's type is the narrowest, it binds a type parameter that is the
+whole type of parameters to the narrowest named common supertype of the
+arguments' run-time types that the bounds permit: that is the bound where the
+bound is that supertype, as \TYP{Number} is for a \EXP{\mathbb{Z}64} and an
+\EXP{\mathbb{R}64}, and not for a type parameter declared without an
+\KWD{extends} clause, to which this chapter gives \TYP{Any} (row~516 of the
+revival's gap ledger).
 It does not yet fix a type parameter by the expected type, compare
 declarations with static parameters on the parameter types they declare, nor
 dispatch a converted call again.}
