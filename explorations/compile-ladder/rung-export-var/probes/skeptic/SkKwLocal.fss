@@ -1,9 +1,0 @@
-component SkKwLocal
-export Executable
-var shared: ZZ32 = 7
-run(): () = do
-    println("shared = " shared)
-    shared := 9
-    println("shared = " shared)
-  end
-end

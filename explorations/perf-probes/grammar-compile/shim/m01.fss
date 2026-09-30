@@ -1,5 +1,0 @@
-component m01
-import MatrixC.{...}
-export Executable
-run():() = println(m1⦇  ⦈)
-end

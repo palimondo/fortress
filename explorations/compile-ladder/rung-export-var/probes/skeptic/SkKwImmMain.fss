@@ -1,8 +1,0 @@
-component SkKwImmMain
-import SkKwImmApi.{...}
-export Executable
-run(): () = do
-    println("other = " other)
-    println("shared = " shared)
-  end
-end

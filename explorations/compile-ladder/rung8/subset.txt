@@ -1,4 +1,0 @@
-tests/restTest.fss
-tests/restTest2.fss
-tests/restTest2a.fss
-tests/simpleSum.fss

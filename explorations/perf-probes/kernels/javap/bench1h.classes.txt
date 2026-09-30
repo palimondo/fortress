@@ -1,3 +1,0 @@
---- bench1h: classes in the jar
-./bench1h$/=fn@14/!7-28.class
-./bench1h.class

@@ -1,3 +1,0 @@
-# SkLitThunk, walk-edit, 2026-09-27T11:26:49Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 1.26 2.80 6.73, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
-2147483647
-rc=0

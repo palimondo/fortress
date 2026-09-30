@@ -1,7 +1,0 @@
-# comp.sh ScopeArmsLegal 2026-09-27T10:23:19Z; tree 2851e5086; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 17.51 15.42 12.77; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow /home/user/fortress-plan65/tmp/shadow-disp
-## fortress compile ScopeArmsLegal.fss (private cache, compiler's world)
-compile rc=0
-## run
-grab(b2), b2: Tag[Blue] = SubBlue ->  SubM[Blue]
-grab(b3), b3: Tag[Blue] = TagBlue ->  TagM[Blue]
-run rc=0

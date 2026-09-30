@@ -1,3 +1,0 @@
-# walk Lohi2Z 2026-09-27T16:02:28Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.22 2.99 1.35; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-lohi(2, z): lohi[ZZ32,ZZ32]
-rc=0

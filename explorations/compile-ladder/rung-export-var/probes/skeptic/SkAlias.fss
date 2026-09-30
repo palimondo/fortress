@@ -1,9 +1,0 @@
-component SkAlias
-import SkVarApi.{counter => ctr}
-export Executable
-run(): () = do
-    println("ctr0 = " ctr)
-    ctr := 42
-    println("ctr1 = " ctr)
-  end
-end

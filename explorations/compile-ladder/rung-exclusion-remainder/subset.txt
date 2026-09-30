@@ -1,7 +1,0 @@
-tests	BooleanOps.fss
-tests	ExclusionRemainderRungH.fss
-tests	GS3.fss
-tests	Generator2Test.fss
-tests	RangePrototype.fss
-tests	genericTest3.fss
-tests	tupleInfer.fss

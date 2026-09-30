@@ -1,9 +1,0 @@
-component BwB5RR64Big
-export Executable
-(* evidence-B probe; walk *)
-shown(v: Any): String = v.asString || " : " || v.ilkName
-run(): () = do
-    a: RR64 = 3000000000
-    println("a: RR64 = 3000000000 -> " shown(a))
-  end
-end

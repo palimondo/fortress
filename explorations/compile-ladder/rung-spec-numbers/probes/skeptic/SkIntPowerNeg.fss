@@ -1,9 +1,0 @@
-component SkIntPowerNeg
-export Executable
-run() = do
-  a: ZZ32 = 2
-  b: ZZ32 = -1
-  println("2^(-1) with ZZ32 operands:")
-  println(a^b)
-end
-end

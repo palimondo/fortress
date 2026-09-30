@@ -1,5 +1,0 @@
-# walk O2FbLone apply 2026-09-28T14:09:17Z; tree 696f949eb (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 7.10 6.10 4.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-eqonly(z, w): eqonly[ZZ64,ZZ64]
-rc=0
-## the shadow's difference lines
-PROBE-K INFER	eqonly[\T extends Equality[\T\]\](a:T,b:T):FortressLibrary.StringO2FbLone.fss:4:1-95	args (Int,Long)	today ERROR UnificationError: O2FbLone.fss:4:19-29:	rule eqonly[\T extends Equality[\T\]\](a:T,b:T):FortressLibrary.String[\ZZ64\] (ZZ64,ZZ64)->String O2FbLone.fss:4:1-95 cv1:ZZ64	at O2FbLone.fss:14:30-40

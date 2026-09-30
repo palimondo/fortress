@@ -1,8 +1,0 @@
-component SkMinAlphaFirst
-import SkMinApi.{...}
-export Executable
-run(): () = do
-    println("alpha = " alpha)
-    println("beta = " beta)
-  end
-end

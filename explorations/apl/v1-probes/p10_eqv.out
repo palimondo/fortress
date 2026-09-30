@@ -1,3 +1,0 @@
-user-defined EQV, v ≡ v : true
-user-defined EQV, v ≡ m : false
-user-defined NEQV       : true

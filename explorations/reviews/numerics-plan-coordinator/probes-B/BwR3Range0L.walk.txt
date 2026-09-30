@@ -1,7 +1,0 @@
-# walk.sh BwR3Range0L 2026-09-27T16:11:35Z; tree 219cd7038; nproc=4; load 9.88 6.69 3.56; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-R3 0#l (l: ZZ64 = 5) element -> 0 : Int
-R3 0#l (l: ZZ64 = 5) element -> 1 : Int
-R3 0#l (l: ZZ64 = 5) element -> 2 : Int
-R3 0#l (l: ZZ64 = 5) element -> 3 : Int
-R3 0#l (l: ZZ64 = 5) element -> 4 : Int
-rc=0

@@ -1,3 +1,0 @@
-# walk.sh L0 rangeOperators 2026-09-27T16:37:51Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.11 5.88 3.99; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-rc=0
-ELAPSED 28 s

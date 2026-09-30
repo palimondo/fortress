@@ -1,9 +1,0 @@
-# walk O2Num apply 2026-09-28T13:54:17Z; tree cc96c0103 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.50 3.06 2.43; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-op(1, w): op plain[ZZ32,ZZ64]
-op(w, 1): op plain[ZZ64,ZZ32]
-op(1, z): op generic[ZZ32,ZZ32]
-op(1, 2): op generic[ZZ32,ZZ32]
-rc=0
-## the shadow's difference lines
-PROBE-K DISPATCH	op	args (Int,Long)	today op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.String[\AnyIntegral\] (AnyIntegral,AnyIntegral)->String O2Num.fss:5:1-88	rule op(a:Any,b:Any):FortressLibrary.String (Any,Any)->String O2Num.fss:6:1-70	at O2Num.fss:16:26-32
-PROBE-K DISPATCH	op	args (Long,Int)	today op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.String[\AnyIntegral\] (AnyIntegral,AnyIntegral)->String O2Num.fss:5:1-88	rule op(a:Any,b:Any):FortressLibrary.String (Any,Any)->String O2Num.fss:6:1-70	at O2Num.fss:17:26-32

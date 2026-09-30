@@ -1,4 +1,0 @@
---- walk explorations/compile-ladder/rung-ranges-zz32/probes/rangeoperators/BoundUnboundedFirstSameName.fss 2026-09-28T07:56:28Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 10.37 7.37 6.97; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; HEAD 994b2f4b0; git status --short Library ProjectFortress/src: []
-$ FORTRESS_THREADS=1 FORTRESS_CACHES=tmp/bp-BoundUnboundedFirstSameName/caches bin/fortress explorations/compile-ladder/rung-ranges-zz32/probes/rangeoperators/BoundUnboundedFirstSameName.fss
-integer pair / string pair / triple
-rc=0 secs=35

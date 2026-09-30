@@ -1,7 +1,0 @@
-/home/user/fortress/ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
-    Invalid comprises clause: Bar[\U,T\] is included in the comprises clause of Foo
-    but Bar does not extend Foo[\T,U\].
-/home/user/fortress/ProjectFortress/compiler_tests/Compiled9.z.fss:15:1-40:
-    Invalid comprises clause: Foo has a comprises clause
-    but its immediate subtype Bar is not eligible to extend it.
-File Compiled9.z.fss has 2 errors.

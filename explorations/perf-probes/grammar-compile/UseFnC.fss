@@ -1,4 +1,0 @@
-(* the stub component every grammar api needs (ledger row 269) *)
-component UseFnC
-export UseFnC
-end

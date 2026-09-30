@@ -1,9 +1,0 @@
-component BwB1NN32
-export Executable
-(* evidence-B probe; walk *)
-shown(v: Any): String = v.asString || " : " || v.ilkName
-run(): () = do
-    a: NN32 = 3
-    println("a: NN32 = 3 -> " shown(a))
-  end
-end

@@ -1,6 +1,0 @@
-# comp.sh ScopeZZ32Sub 2026-09-27T10:23:01Z; tree 2851e5086; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 16.81 15.15 12.63; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; shadow /home/user/fortress-plan65/tmp/shadow-disp
-## fortress compile ScopeZZ32Sub.fss (private cache, compiler's world)
-compile rc=0
-## run
-grab(t), t: Tag[ZZ32] = IntSub ->  SubM[ZZ32]
-run rc=0

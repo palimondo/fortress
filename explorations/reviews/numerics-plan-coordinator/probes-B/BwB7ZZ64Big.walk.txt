@@ -1,3 +1,0 @@
-# walk.sh BwB7ZZ64Big 2026-09-27T16:14:45Z; tree 219cd7038; nproc=4; load 6.78 7.19 4.39; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-a: ZZ64 = 3000000000 -> 3000000000 : Long
-rc=0

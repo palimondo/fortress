@@ -1,6 +1,0 @@
-# comp Same3W 2026-09-27T16:02:08Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 5.81 2.69 1.22; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-same(3, w):  same[ other ]
-run rc=0

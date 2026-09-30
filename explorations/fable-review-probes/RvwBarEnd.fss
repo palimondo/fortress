@@ -1,8 +1,0 @@
-component RvwBarEnd
-import List.{...}
-export Executable
-run(): () = do
-  a = <|[\ZZ32\] 1 |> ||
-      <|[\ZZ32\] 2 |>
-  println(a)
-end

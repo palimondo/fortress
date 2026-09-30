@@ -1,9 +1,0 @@
-tests=XXXComprisesGenericRenamed
-STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/explorations/compile-ladder/rung-comprises-checker/probes/skeptic/candidate
-compile
-compile_err_equals=\
-${STATIC_TESTS_DIR}/XXXComprisesGenericRenamed.fss:7:1-42:\n\
-\ Invalid comprises clause: Crate has a comprises clause\n\
-\ but its immediate subtype Marked is not eligible to extend it.\n\
-File XXXComprisesGenericRenamed.fss has 1 error.\n
-compile_out_equals=

@@ -1,9 +1,0 @@
-component BoundUnboundedFirstSameName
-export Executable
-
-f[\I\](x: I, y: I, z: I): String = "triple"
-f[\I extends AnyIntegral\](x: I, y: I): String = "integer pair"
-f(x: String, y: String): String = "string pair"
-
-run(): () = println(f(1, 2) " / " f("a", "b") " / " f(true, true, true))
-end

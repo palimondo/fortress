@@ -1,9 +1,0 @@
-component R2ChooseTabN32
-export Executable
-ch(a: NN32, b: NN32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
-run(): () = do
-  println("REACHED")
-  println("NN32 68 CHOOSE 34 = " || ch(unsigned(68), unsigned(34)))
-  println("END")
-end
-end

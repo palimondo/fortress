@@ -1,7 +1,0 @@
-# reanchor.py 715816bdd --apply, on the tree 8e75787bc with the two tests restored to the base; each citation mapped from the chapter at the commit that wrote it
-ProjectFortress/tests/RangeZZ32RungJ.fss:95: written at 3be1fecd7: traits:223-233 -> traits:223-233  text equal
-ProjectFortress/tests/RangeZZ32RungJ.fss:96: written at 3be1fecd7: traits:223-233 -> traits:223-233  text equal
-ProjectFortress/tests/XXXFlatStringSplitRungL.fss:11: written at 763ba87bc: traits:525-531 -> traits:585-591  text equal
-ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:21: written at b628871a2: traits:446-448 -> traits:506-508  text equal
-ProjectFortress/compiler_tests/XXXTupleVarFieldCompiledRungC.fss:22: written at b628871a2: traits:446-448 -> traits:506-508  text equal
-# 3 citation groups changed (applied)

@@ -1,5 +1,0 @@
-# machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.84 2.42 2.77; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 3be1fecd7 with climb batch 7R's rung U applied in the index and the gather's edits
-# walk SpecData/examples/basic/Expr.Do.mySum.fss
-6
-rc=0
-# 5 s

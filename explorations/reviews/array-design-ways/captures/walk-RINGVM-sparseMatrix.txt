@@ -1,5 +1,0 @@
-# walk sparseMatrix against library copy RINGVM 2026-09-29T15:21:45Z; nproc=4; load 6.65 3.84 3.67; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree d318b19c4
-dense OK
-dense^2 OK
-Dv OK
-exit 0; elapsed 9 s

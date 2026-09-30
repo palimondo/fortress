@@ -1,3 +1,0 @@
-# build.sh 2026-09-28T05:38:24Z; base 158aa7dce; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 7.93 12.16 13.32; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-patch: 832 lines starting with +, 5 with -, over 5 files
-classes: 11

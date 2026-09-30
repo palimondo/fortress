@@ -1,7 +1,0 @@
-machine: nproc 4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 2.25 2.19 2.29; JDK 25.0.4
-# tree: 675f49714 with source edits: 
-compile(rung) exit=0
-s7
-run(rung, FORTRESS_THREADS=1) exit=0
-s7
-walk(FORTRESS_THREADS=1) exit=0

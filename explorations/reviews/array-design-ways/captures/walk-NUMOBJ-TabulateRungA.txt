@@ -1,2 +1,0 @@
-# walk TabulateRungA against library copy NUMOBJ 2026-09-29T15:06:30Z; nproc=4; load 4.12 4.81 4.42; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
-exit 0; elapsed 7 s

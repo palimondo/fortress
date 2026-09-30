@@ -1,5 +1,0 @@
-# walk.sh BwR7ColonL 2026-09-27T16:12:07Z; tree 219cd7038; nproc=4; load 9.30 6.85 3.72; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-R7 l:widen(7) element -> 5 : Long
-R7 l:widen(7) element -> 6 : Long
-R7 l:widen(7) element -> 7 : Long
-rc=0

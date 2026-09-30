@@ -1,4 +1,0 @@
-/home/user/fortress/ProjectFortress/compiler_tests/Compiled10.n.fss:16:1-41:
-    Invalid comprises clause: Hoo is included in the comprises clause of Foo
-    but Hoo does not extend Foo[\T\].
-File Compiled10.n.fss has 1 error.

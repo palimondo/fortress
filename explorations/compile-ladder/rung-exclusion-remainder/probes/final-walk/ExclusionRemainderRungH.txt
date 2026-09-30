@@ -1,9 +1,0 @@
---- walk ExclusionRemainderRungH, library /home/user/fortress-remainder/tmp/libs/final3 2026-09-27T22:36:03Z
-nproc 4
-model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
-cpu MHz		: 2100.000
-loadavg 19.13 17.50 19.66 17/398 5634
-openjdk version "25.0.4" 2026-07-21
-FORTRESS_THREADS=1
-ExclusionRemainderRungH: comparisons, Maybe and relational conditions as before
-rc=0 secs=40

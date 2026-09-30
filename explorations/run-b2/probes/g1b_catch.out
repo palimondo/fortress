@@ -1,5 +1,0 @@
-f(3) = 9
-caught CallerViolation from f(-1)
-caught CalleeViolation from g(5)
-h(3) = 3   (provided-guard false, ensures skipped)
-caught CalleeViolation from h(20)

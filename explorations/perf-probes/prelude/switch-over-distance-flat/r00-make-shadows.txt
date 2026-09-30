@@ -1,9 +1,0 @@
-shadow sources written to <work-dir>/shadow-src
-probe.all edits written to <work-dir>/shadow-src/com/sun/fortress/compiler/StaticChecker.java
-shadow <work-dir>/shadow-src/com/sun/fortress/compiler/Desugarer.java
-shadow <work-dir>/shadow-src/com/sun/fortress/nodes_util/NodeComparator.java
-Note: <work-dir>/shadow-src/com/sun/fortress/compiler/codegen/CodeGen.java uses or overrides a deprecated API.
-Note: Recompile with -Xlint:deprecation for details.
-Note: <work-dir>/shadow-src/com/sun/fortress/compiler/codegen/CodeGen.java uses unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-shadow classes in <work-dir>/shadow-classes

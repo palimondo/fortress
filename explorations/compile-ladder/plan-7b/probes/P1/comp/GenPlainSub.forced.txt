@@ -1,8 +1,0 @@
-# comp GenPlainSub forced (-Dprobe.rtr=forced -Dprobe.positional=true; library cache forced) 2026-09-28T08:42:01Z; private home of 81f0151be; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.78 2.36 3.06; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-circle
-generic
-circle
-run rc=0

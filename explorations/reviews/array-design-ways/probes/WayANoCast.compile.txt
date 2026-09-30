@@ -1,5 +1,0 @@
-# 2026-09-29T14:59:12Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 8.00 5.81 4.16; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 00ee7b0db
-WayANoCast.fss:19:3-22:4:
-    Function body has type OR(DStore,BStore[\T\]), but declared return type is Arr[\T\].
-File WayANoCast.fss has 1 error.
-exit 255

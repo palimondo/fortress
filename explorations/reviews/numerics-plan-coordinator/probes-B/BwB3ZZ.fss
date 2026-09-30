@@ -1,9 +1,0 @@
-component BwB3ZZ
-export Executable
-(* evidence-B probe; walk *)
-shown(v: Any): String = v.asString || " : " || v.ilkName
-run(): () = do
-    a: ZZ = 3
-    println("a: ZZ = 3 -> " shown(a))
-  end
-end

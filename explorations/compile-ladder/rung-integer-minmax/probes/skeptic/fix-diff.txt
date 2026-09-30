@@ -1,6 +1,0 @@
-798a799,800
->     opr MINNUM(self, other:ZZ64): ZZ64 = self MIN other
->     opr MAXNUM(self, other:ZZ64): ZZ64 = self MAX other
-579a580,581
->     opr MINNUM(self, other:ZZ64): ZZ64
->     opr MAXNUM(self, other:ZZ64): ZZ64

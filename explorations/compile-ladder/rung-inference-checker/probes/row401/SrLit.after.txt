@@ -1,6 +1,0 @@
-# row 401's method-invocation and constructor forms (explorations/compile-ladder/rung-nat-checker/probes/skeptic/SrLitMeth.fss, SrLitCtor.fss) through TestsD, build after (/home/user/fortress-infer/ProjectFortress/build); machine: nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz @ 2100.000 MHz; load 3.83 5.23 7.52; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-=== SrLitMeth.fss
-### rc=0 SrLitMeth.fss ms=18406
-=== SrLitCtor.fss
-### rc=0 SrLitCtor.fss ms=622
-### all ms=19038

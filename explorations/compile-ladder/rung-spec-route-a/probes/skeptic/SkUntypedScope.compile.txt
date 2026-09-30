@@ -1,4 +1,0 @@
-SkUntypedScope.fss:7:9:
-    Missing parameter type for x
-File SkUntypedScope.fss has 1 error.
-rc=255

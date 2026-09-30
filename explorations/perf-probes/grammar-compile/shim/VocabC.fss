@@ -1,5 +1,0 @@
-component VocabC
-export VocabC
-mydoublec(x: ZZ32): ZZ32 = 2 x
-applytoc(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(x)
-end

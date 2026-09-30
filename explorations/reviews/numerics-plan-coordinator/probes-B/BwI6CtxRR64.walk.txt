@@ -1,3 +1,0 @@
-# walk.sh BwI6CtxRR64 2026-09-27T16:10:32Z; tree 219cd7038; nproc=4; load 9.71 5.83 3.07; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-I6 r: RR64 = idt(3) -> 3.0 : Float
-rc=0

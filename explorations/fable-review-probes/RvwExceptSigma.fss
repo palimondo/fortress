@@ -1,5 +1,0 @@
-component RvwExceptSigma
-import FortressLibrary.{...} except { opr ∑ }
-export Executable
-run(): () = println("except { opr ∑ } parsed")
-end

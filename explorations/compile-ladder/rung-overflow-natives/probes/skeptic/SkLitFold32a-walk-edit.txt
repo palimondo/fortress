@@ -1,4 +1,0 @@
-# SkLitFold32a, walk-edit, 2026-09-27T11:23:55Z, nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, load 1.86 3.95 7.83, openjdk version "25.0.4" 2026-07-21, FORTRESS_THREADS=1, HEAD 927da51ee
-F01 ZZ32 numerals 2147483647 + 1 = IntegerOverflow
-END
-rc=0

@@ -1,4 +1,0 @@
-# 2026-09-29T15:00:11Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; load 9.14 6.55 4.52; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 00ee7b0db
-WayASpec RR64 through generic code  DStore   1.5
-WayASpec ZZ32 through generic code  BStore   7
-exit 0

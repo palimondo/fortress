@@ -1,5 +1,0 @@
-component g06
-export Executable
-(* exponent notation in numerals *)
-run(): () = println(1e-5)
-end

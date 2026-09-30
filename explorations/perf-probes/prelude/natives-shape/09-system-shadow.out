@@ -1,8 +1,0 @@
-label shadow shadow 'tmp/shadow-g1234b' load at start: 3.40 3.25 3.13 14:32:21
---- shard 0/2
-Shard 0/2: 223 of 446 files
-OK (220 tests)
---- shard 1/2
-Shard 1/2: 223 of 446 files
-OK (221 tests)
-end 14:35:20

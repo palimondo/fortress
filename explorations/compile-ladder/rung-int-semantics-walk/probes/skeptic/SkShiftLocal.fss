@@ -1,8 +1,0 @@
-component SkShiftLocal
-export Executable
-
-run(): () = do
-    shift: ZZ32 = 3
-    println("a local named shift = " || shift.asString)
-  end
-end

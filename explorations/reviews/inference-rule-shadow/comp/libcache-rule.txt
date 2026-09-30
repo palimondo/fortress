@@ -1,6 +1,0 @@
-# comp.sh libcache rule 2026-09-27T21:04:54Z; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 15.80 16.89 16.84; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-== LibraryBuiltin/AnyType.fss rc=0 35 s
-== LibraryBuiltin/CompilerBuiltin.fss rc=0 130 s
-== Library/CompilerAlgebra.fss rc=0 7 s
-== Library/CompilerLibrary.fss rc=0 76 s
-== Library/CompilerSystem.fss rc=0 7 s

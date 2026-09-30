@@ -1,2 +1,0 @@
-# programs run: 62; with shadow lines: 0
-# lines by kind: 

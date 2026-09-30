@@ -1,3 +1,0 @@
-# walk.sh BwB3ZZ 2026-09-27T16:14:09Z; tree 219cd7038; nproc=4; load 7.72 7.39 4.32; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-a: ZZ = 3 -> 3 : BigNum
-rc=0
