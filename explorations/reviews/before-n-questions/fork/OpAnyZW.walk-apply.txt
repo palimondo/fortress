@@ -1,5 +1,0 @@
-# walk OpAnyZW apply 2026-09-28T12:39:45Z; tree 7a81cdf44 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 1.87 2.14 1.51; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-op(z, w): op plain[ZZ32,ZZ64]
-rc=0
-## the shadow's difference lines
-PROBE-K DISPATCH	op	args (Int,Long)	today op[\T extends FortressLibrary.Number\](a:T,b:T):FortressLibrary.String[\AnyIntegral\] (AnyIntegral,AnyIntegral)->String OpAnyZW.fss:5:1-88	rule op(a:Any,b:Any):FortressLibrary.String (Any,Any)->String OpAnyZW.fss:6:1-70	at OpAnyZW.fss:15:26-32

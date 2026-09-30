@@ -1,9 +1,0 @@
-component BwB9RR64Int
-export Executable
-(* evidence-B probe; walk *)
-shown(v: Any): String = v.asString || " : " || v.ilkName
-run(): () = do
-    a: RR64 = 3
-    println("a: RR64 = 3 -> " shown(a))
-  end
-end

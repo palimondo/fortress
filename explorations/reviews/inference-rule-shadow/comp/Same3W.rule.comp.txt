@@ -1,6 +1,0 @@
-# comp Same3W rule 2026-09-27T21:11:08Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 22.86 19.96 18.09; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-same(3, w):  same[ ZZ64 ]
-run rc=0

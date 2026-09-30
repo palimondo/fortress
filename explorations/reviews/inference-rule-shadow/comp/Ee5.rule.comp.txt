@@ -1,7 +1,0 @@
-# comp Ee5 rule 2026-09-27T21:09:32Z; tree ff99071d3 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 21.38 18.78 17.55; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-java.lang.NoSuchMethodError
-Caused by: java.lang.NoSuchMethodError: 'fortress.CompilerBuiltin$String Ee5.\=ee{|tmp|claude-0|-home-user-fortress|fe616d40-a9c6-56d7-9da1-7168a172765d|scratchpad|irs|comp-run|Ee5-rule|src|Ee5\,fss\!18\!1-32,|tmp|claude-0|-home-user-fortress|fe616d40-a9c6-56d7-9da1-7168a172765d|scratchpad|irs|comp-run|Ee5-rule|src|Ee5\,fss\!19\!1-30}(fortress.AnyType$Any)'
-run rc=1

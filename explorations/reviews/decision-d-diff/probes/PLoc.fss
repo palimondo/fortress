@@ -1,8 +1,0 @@
-component PLoc
-export Executable
-l1(): () = do (a, b) = (16, 4); z: String = b; zz: ZZ32 = "after l1" end
-l2(x: RR64, y: RR64): () = do (a, b) = (x, y); z: String = b; zz: ZZ32 = "after l2" end
-l3[\nat n\](v: Vector[\RR64,n\]): () = do (a, b) = (v, v); z: String = b; zz: ZZ32 = "after l3" end
-l4(): () = do a = 16; z: String = a; zz: ZZ32 = "after l4" end
-run(): () = ()
-end

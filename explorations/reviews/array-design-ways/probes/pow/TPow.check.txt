@@ -1,5 +1,0 @@
-# checker, one library, setting any, 2026-09-29T16:15:36Z, load 1.60 1.81 3.14
-@@SC STAGE	component TPow	hierarchy	errors=0
-@@SC STAGE	component TPow	apiextract	errors=0
-@@TC COMPONENT-CRASH	TPow	com.sun.fortress.exceptions.ProgramError	com.sun.fortress.exceptions.ProgramError.error(ProgramError.java:98)	Desugaring MatrixType at TPow.fss:7.19 to TraitType is not yet supported.
-### done TPow.fss rc=0 seconds=98

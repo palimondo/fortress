@@ -1,3 +1,0 @@
-# walk SameZZ 2026-09-27T16:03:13Z; tree 219cd7038; nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.32 3.47 1.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-same(z, z) control: same[ZZ32,ZZ32]
-rc=0

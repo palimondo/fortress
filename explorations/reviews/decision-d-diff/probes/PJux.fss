@@ -1,5 +1,0 @@
-component PJux
-export Executable
-pA(m: Array[\RR64,ZZ32\]): ZZ32 = 0.5 m
-run(): () = ()
-end

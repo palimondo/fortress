@@ -1,3 +1,0 @@
-# walk.sh BwG4IncNN32 2026-09-27T16:08:29Z; tree 219cd7038; nproc=4; load 6.24 3.48 2.02; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-G4 inc(u: NN32) -> 6 : Long
-rc=0

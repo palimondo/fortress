@@ -1,9 +1,0 @@
-round 1  kdot double 1174867 ns  kdot float 980841 ns  kmat double 537268 ns  kmat float 687572 ns
-round 2  kdot double 998095 ns  kdot float 1410488 ns  kmat double 508334 ns  kmat float 421221 ns
-round 3  kdot double 948256 ns  kdot float 1149950 ns  kmat double 649720 ns  kmat float 440800 ns
-round 4  kdot double 941038 ns  kdot float 1023673 ns  kmat double 334272 ns  kmat float 337941 ns
-round 5  kdot double 1080422 ns  kdot float 985398 ns  kmat double 729363 ns  kmat float 437330 ns
-round 6  kdot double 1023692 ns  kdot float 1035527 ns  kmat double 562890 ns  kmat float 436059 ns
-round 7  kdot double 943496 ns  kdot float 964831 ns  kmat double 548259 ns  kmat float 1246415 ns
-checksums: dot double 231145.26854219884 float 231146.2; mat double 208.0 float 208.0
-sinks 3.308335540153452E7 3.3083466E7

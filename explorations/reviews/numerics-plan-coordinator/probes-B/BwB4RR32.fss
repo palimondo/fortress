@@ -1,9 +1,0 @@
-component BwB4RR32
-export Executable
-(* evidence-B probe; walk *)
-shown(v: Any): String = v.asString || " : " || v.ilkName
-run(): () = do
-    a: RR32 = 1.5
-    println("a: RR32 = 1.5 -> " shown(a))
-  end
-end

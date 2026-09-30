@@ -1,5 +1,0 @@
-# walk O2Explicit stock 2026-09-28T13:51:26Z; tree 0e6769ae3 (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 2.88 2.69 2.20; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-op(z, w): op generic[ZZ32,ZZ64]
-op[ZZ64](z, w): op generic[ZZ64,ZZ64]
-op[ZZ64](z, z): op generic[ZZ64,ZZ64]
-rc=0

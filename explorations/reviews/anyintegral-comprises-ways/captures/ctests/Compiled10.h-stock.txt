@@ -1,7 +1,0 @@
-/home/user/fortress/ProjectFortress/compiler_tests/Compiled10.h.fss:25:1-29:
-    Invalid comprises clause: Q is included in the comprises clause of T
-    but Q does not extend T[\U,S\].
-/home/user/fortress/ProjectFortress/compiler_tests/Compiled10.h.fss:31:3-5:
-    Could not check call to function f
-    - T[\Q,Q\]->() is not applicable to an argument of type P.
-File Compiled10.h.fss has 2 errors.

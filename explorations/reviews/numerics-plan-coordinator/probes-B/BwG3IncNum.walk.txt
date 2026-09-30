@@ -1,3 +1,0 @@
-# walk.sh BwG3IncNum 2026-09-27T16:07:48Z; tree 219cd7038; nproc=4; load 1.32 2.31 1.59; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-G3 inc(5) -> 6 : Int
-rc=0

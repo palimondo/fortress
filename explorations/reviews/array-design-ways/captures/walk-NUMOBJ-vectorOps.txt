@@ -1,2 +1,0 @@
-# walk vectorOps against library copy NUMOBJ 2026-09-29T15:05:36Z; nproc=4; load 4.42 4.97 4.45; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1; tree 04ac067af
-exit 0; elapsed 22 s

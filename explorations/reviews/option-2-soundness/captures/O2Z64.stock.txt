@@ -1,7 +1,0 @@
-# compiled O2Z64 stock 2026-09-28T13:50:53Z; tree 0e6769ae3 (checker and compiler library of the inference-rule shadow's snapshot, 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 3.26 2.73 2.20; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-java.lang.Error: java.lang.Error: Overloading instanceof match failure: Should not happen!
-Caused by: java.lang.Error: Overloading instanceof match failure: Should not happen!
-run rc=1

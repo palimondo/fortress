@@ -1,8 +1,0 @@
-# comp XXXCoercionGenericFnCompiledRungC rule 2026-09-27T21:13:00Z; tree ba1540a06 (snapshot of 59a84a385); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 32.05 23.46 19.53; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-## compile
-compile rc=0
-## run
-REACHED
-FAIL:  gf got  2  and  two =/= gf got 2 and two; row 388: a generic function's parameter of a declared type converts; conversions-coercions.tex:119-120
-FortressException: class fortress.CompilerLibrary$FailCalled with string FAIL:  gf got  2  and  two =/= gf got 2 and two; row 388: a generic function's parameter of a declared type converts; conversions-coercions.tex:119-120
-run rc=1

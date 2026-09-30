@@ -1,6 +1,0 @@
-# walk O2FbAny stock 2026-09-28T14:08:22Z; tree 696f949eb (probe K's private home of 158aa7dce); nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load 6.60 5.93 4.37; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-eqop(z, w): eqop plain[ZZ32,ZZ64]
-eqop(z, z): eqop generic[ZZ32,ZZ32]
-eqop(w, w): eqop generic[ZZ64,ZZ64]
-eqop[ZZ64](z, w): eqop generic[ZZ64,ZZ64]
-rc=0

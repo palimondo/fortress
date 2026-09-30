@@ -1,9 +1,0 @@
-(* A program's own integral trait, declared as the library's generic Integral invites:
-   it extends Integral[\MyIntegral\] and nothing else. AnyIntegral's comprises clause
-   lists five types and not this one, so the clause is false of this program's values;
-   the checker's rule looks only at a trait's immediate supertypes, and AnyIntegral is not one. *)
-component UserIntegralTrait
-export Executable
-trait MyIntegral extends Integral[\MyIntegral\] end
-run(): () = println("UserIntegralTrait")
-end

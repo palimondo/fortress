@@ -1,5 +1,0 @@
-# walk.sh BwR4RangeNN 2026-09-27T16:11:37Z; tree 219cd7038; nproc=4; load 9.88 6.69 3.56; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-R4 u#unsigned(3) (NN32) element -> 5 : NN32
-R4 u#unsigned(3) (NN32) element -> 6 : Long
-R4 u#unsigned(3) (NN32) element -> 7 : Long
-rc=0

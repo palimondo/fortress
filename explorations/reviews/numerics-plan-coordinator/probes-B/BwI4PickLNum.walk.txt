@@ -1,3 +1,0 @@
-# walk.sh BwI4PickLNum 2026-09-27T16:10:01Z; tree 219cd7038; nproc=4; load 9.43 5.34 2.83; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-I4 pick(l: ZZ64, 3) -> 5 : Long
-rc=0

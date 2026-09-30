@@ -1,3 +1,0 @@
-# walk.sh BwI3TwiceNums 2026-09-27T16:09:55Z; tree 219cd7038; nproc=4; load 9.21 5.23 2.78; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
-I3 twice(3, 4) -> 7 : Int
-rc=0
