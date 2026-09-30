@@ -1,3 +1,0 @@
-neg inf by division: -Infinity  exp = 0.0
-3 + (-inf) = -Infinity  max(3, -inf) = 3.0
-mask row 0: 0.0 -Infinity -Infinity
