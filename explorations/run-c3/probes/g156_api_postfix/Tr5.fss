@@ -1,4 +1,0 @@
-component Tr5
-export Tr5
-opr (m: Matrix[\RR64,r,c\])![\nat r, nat c\]: Matrix[\RR64,c,r\] = m.t()
-end
