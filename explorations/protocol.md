@@ -144,8 +144,10 @@ first, and measures only where no record answers it.
 
 **6. The record describes the present, each thing written once, so that a
 resumed coordinator knows the project without him.** A fact in FACTS with its
-source, at the length the finding takes; a decision in POSITIONS, dated, in his
-words; what is in flight in the boot note, rewritten whole. A wrong line is
+source, at the length the finding takes and with no date; a position in
+POSITIONS as it stands, under its title, his words only where they are the
+position; the provenance of both in the history files; what is in flight in
+the boot note, rewritten whole. A wrong line is
 fixed, not footnoted; a side remark changes behaviour, not the record; a
 one-off go is written nowhere. The rest is `coordinator/README.md`.
 
