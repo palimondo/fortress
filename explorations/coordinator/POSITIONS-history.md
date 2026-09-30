@@ -870,3 +870,8 @@ His instruction, 2026-09-30, about 05:25 UTC, verbatim:
 
 <!-- 2026-09-30: rewritten timeless; the position is in POSITIONS.md under "Estimates in the project's units" -->
 - 2026-09-27: "I'm on a max plan. Talk to me in tokens." Costs are given in tokens, never in dollars.
+
+## Moved 2026-09-30, a token count counts writes only
+
+<!-- 2026-09-30: rewritten in place: his rule of 2026-09-30 07:11 UTC added, "Token counts, always report only writes. Cached reads are de-facto free vis-a-vis writes." -->
+- **Estimates in the project's units.** Estimates in days or weeks are not accepted; sizes are given in the units the project has measured (a rung, a worker session, a check run). "I'm on a max plan. Talk to me in tokens." Costs are given in tokens, never in dollars.
