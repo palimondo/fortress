@@ -1341,6 +1341,10 @@ function skepticRole(rung, workerReport, round) {
 '',
 JSON.stringify(Object.assign({}, workerReport, { reportText: undefined, recordText: undefined }), null, 2),
 '',
+// The report's text, which the script cannot tell is on the branch: the harness refused the worker's write of
+// REPORT.md in every rung of climb batch 7b, and its skeptics searched the run's transcripts for it
+// (explorations/reviews/batch-7b-review.md, finding 4).
+...(workerReport && workerReport.reportText ? ['REPORT.md as the worker returned it in reportText, word for word. Where the branch carries explorations/compile-ladder/' + rung.slug + '/REPORT.md, the file is the report and this is its copy; where it does not (the harness refused the worker\'s write in every rung of climb batch 7b), this is the report, and your checks of REPORT.md are checks of this text:', '', workerReport.reportText, ''] : []),
 '## What you must check',
 '',
 ...sliceStep([rung], 'the rung\'s worktree (' + rung.path + ')'),

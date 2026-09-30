@@ -22,7 +22,8 @@
 // scen.js of 2026-09-29 (postmortem-2026-09-29/script-review.md, "The scenarios run"; run in a scratchpad and
 // not committed), whose 22 paths and one resume are carried here with the landings the fixes of that night
 // give A10 to A13 (climb-batch-workflow.md, "Measured, and not"), and the scenarios of the stop on a usage
-// limit (reviews/batch-7b-review.md, finding 1): L1 to L3, the resume L4, and A6's judge that returns nothing.
+// limit (reviews/batch-7b-review.md, finding 1): L1 to L3, the resume L4, and A6's judge that returns nothing;
+// and in every scenario, each skeptic's brief carrying the worker's report text and not its record text (finding 4).
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -239,7 +240,8 @@ function check(sc, out) {
     const m = /.{0,60}(undefined|\[object Object\]|NaN).{0,60}/.exec(c.prompt)
     if (m) probs.push(c.label + ' prompt holds: ' + JSON.stringify(m[0]))
     if (c.label.startsWith('skeptic') && c.prompt.indexOf(RECORD_SENTINEL) >= 0) probs.push(c.label + ' carries the worker\'s record text')
-    if (c.label.startsWith('skeptic') && c.prompt.indexOf(REPORT_SENTINEL) >= 0) probs.push(c.label + ' carries the worker\'s report text')
+    // climb batch 7b's review, finding 4: the skeptic is given the report's text, for a branch without REPORT.md
+    if (c.label.startsWith('skeptic') && !/REPORT\.md as the worker returned it[^\n]*\n\nREPORTTEXT-SENTINEL\n/.test(c.prompt)) probs.push(c.label + ' does not carry the worker\'s report text under its line')
   }
   return probs
 }
