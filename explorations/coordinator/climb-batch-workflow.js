@@ -27,6 +27,9 @@
 // Every agent() call goes through callAgent (above "The run."), which runs the
 // role again, up to two more times, when its agent comes back with nothing
 // (2026-09-27; climb-batch-workflow.md, "An agent that comes back with nothing").
+// A usage or rate limit, or a skeptic or judge that comes back with nothing after
+// its attempts, stops the run there and decides nothing; resumeFromRunId with the
+// same script and args then runs that role again (climb batch 7b's review, finding 1).
 
 export const meta = {
   name: 'fortress-climb-batch',
@@ -2275,9 +2278,43 @@ const COMMIT_SCHEMA = {
 // carries a label ending ":attempt<n>", so no two attempts of a role share a
 // prompt, options or key. Attempt 1 passes the call's prompt and options
 // unchanged, byte for byte, so its key is the one the unwrapped call had.
+//
+// A stop that decides nothing (climb batch 7b's review, finding 1; approved by
+// Pavol on 2026-09-30). At the account's weekly limit, at 02:16 UTC on 2026-09-30,
+// every agent of run wf_61521277-479 came back with nothing: agent() returned
+// null, the harness logging "[skeptic:C] failed: You've hit your weekly limit".
+// callAgent ran each role three times within seconds; the stage below read each
+// null skeptic as a refusal and each null judge as a drop, and the script marked
+// C, S and L dropped and started the gather with W alone, which failed on the
+// limit too, the only thing that kept W from landing alone
+// (explorations/reviews/batch-7b-review.md, section 3). A limit stops every agent
+// at once, and the script has no clock to wait it out with. So the run stops,
+// before anything more is started or decided, in two cases: agent() throws an
+// error that names a usage or rate limit (LIMIT_ERROR), and the role is not run
+// again; or a skeptic or a judge (callAgent's needed) comes back with nothing
+// after its attempts, whatever the cause, since a null does not say it. Once the
+// run stops, callAgent throws at every attempt before it starts an agent, a stage
+// of the scatter that throws drops its rung to null, and the script throws below
+// the scatter. The journal holds every agent that finished, and each empty attempt
+// as failed, so resumeFromRunId with the same script and args returns the finished
+// agents from it and runs the stopped role again. A worker, the gather, the
+// review, the gate and the commit that come back with nothing, and no limit error
+// thrown, keep their paths (worker-died, gather unresolved, review-missing, the
+// gate run once more, not landed).
 // ---------------------------------------------------------------------------
 
 const ATTEMPTS = 3   // the first attempt and up to two more: Pavol asked for the retry on 2026-09-27, the coordinator's brief set the count
+const LIMIT_ERROR = /usage limit|rate limit|rate_limit|ratelimit|weekly limit|daily limit|hit your .{0,30}limit|limit reached|reached your .{0,30}limit|too many requests|\b429\b/i
+let runStop = null   // why the run stops, once it does
+
+// The error that stops the run, and its one log line, written when the stop is first met.
+function stopRun(why) {
+  if (!runStop) {
+    runStop = why
+    log('The run stops here, nothing decided: ' + why + '. No agent starts after this. Resume it with resumeFromRunId, the same script and the same args, once the cause is gone (a usage limit reset): the agents that finished come back from the journal, and this role runs again.')
+  }
+  return new Error('Run stopped, nothing decided: ' + runStop + '. Resume it with resumeFromRunId, the same script and the same args, once the cause is gone; the agents that finished come back from the journal, and the role that stopped it runs again.')
+}
 
 // What every retry is told first, at the head of its prompt, before the shared
 // prefix. recovery is the stage's own list of what the earlier attempt may have
@@ -2298,9 +2335,11 @@ earlier + ' at this same role ended without returning a result to the script: a 
   ].join('\n')
 }
 
-async function callAgent(prompt, opts, recovery) {
+// needed: a skeptic's or a judge's call, whose nothing after its attempts stops the run.
+async function callAgent(prompt, opts, recovery, needed) {
   const role = opts.label
   for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
+    if (runStop) throw stopRun()
     const retry = attempt > 1
     let result = null
     let why = 'no result (null: the agent died, was blocked, or was skipped)'
@@ -2308,8 +2347,10 @@ async function callAgent(prompt, opts, recovery) {
       result = await agent(retry ? retryHead(role, attempt, recovery) + prompt : prompt,
                            retry ? Object.assign({}, opts, { label: role + ':attempt' + attempt }) : opts)
     } catch (e) {
+      const msg = String((e && e.message) || e).slice(0, 300)
+      if (LIMIT_ERROR.test(msg)) throw stopRun(role + ', attempt ' + attempt + ' of ' + ATTEMPTS + ', failed on a usage or rate limit (' + msg + '), and is not run again now')
       result = null
-      why = 'an error thrown by agent(): ' + String((e && e.message) || e).slice(0, 300)
+      why = 'an error thrown by agent(): ' + msg
     }
     if (result !== null && result !== undefined) {
       if (retry) log(role + ': attempt ' + attempt + ' of ' + ATTEMPTS + ' returned its result')
@@ -2318,8 +2359,9 @@ async function callAgent(prompt, opts, recovery) {
     log(role + ': attempt ' + attempt + ' of ' + ATTEMPTS + ' ended with ' + why
         + (attempt < ATTEMPTS
           ? '; running the role again as attempt ' + (attempt + 1) + ', told to take over what this one left'
-          : '; no attempt left, so the script takes its path for a dead agent'))
+          : needed ? '; no attempt left' : '; no attempt left, so the script takes its path for a dead agent'))
   }
+  if (needed) throw stopRun(role + ' returned nothing after ' + ATTEMPTS + ' attempts, and a skeptic or judge that returns nothing is read neither as a refusal nor as a drop')
   return null
 }
 
@@ -2470,7 +2512,7 @@ const results = await pipeline(
         label: 'judge:' + rung.id + ':stop',
         phase: 'Judge',
         schema: JUDGE_SCHEMA,
-      }, judgeTier(null)), recoverJudgeRung(rung, 'stop'))
+      }, judgeTier(null)), recoverJudgeRung(rung, 'stop'), true)
       if (!judgeOnStop || judgeOnStop.decision !== 'repair') {
         return out('stopped', { worker, verdict: null, judge: judgeOnStop })
       }
@@ -2491,7 +2533,7 @@ const results = await pipeline(
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
       model: OPUS,
-    }, recoverSkeptic(rung, 1))
+    }, recoverSkeptic(rung, 1), true)
 
     if (verdict && verdict.approved) {
       return out('approved', { worker, verdict, repaired: false, judge: judgeOnStop })
@@ -2503,7 +2545,7 @@ const results = await pipeline(
       label: 'judge:' + rung.id,
       phase: 'Judge',
       schema: JUDGE_SCHEMA,
-    }, judgeTier(judgeOnStop)), recoverJudgeRung(rung, 'refusal'))
+    }, judgeTier(judgeOnStop)), recoverJudgeRung(rung, 'refusal'), true)
     if (!decision || decision.decision === 'drop') {
       return out('dropped', { worker, verdict, firstVerdict: verdict, judge: decision, repaired: false })
     }
@@ -2523,7 +2565,7 @@ const results = await pipeline(
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
       model: OPUS,
-    }, recoverSkeptic(rung, 2))
+    }, recoverSkeptic(rung, 2), true)
 
     return out((verdict2 && verdict2.approved) ? 'approved-after-repair' : 'dropped', {
       worker: repaired || worker,
@@ -2534,6 +2576,11 @@ const results = await pipeline(
     })
   },
 )
+
+// A run stopped inside the scatter (callAgent, "A stop that decides nothing") has a
+// rung whose stage threw and came back null: nothing is read from the scatter, so
+// no rung is marked dropped, withheld or not landed, and the gather does not start.
+if (runStop) throw stopRun()
 
 // Back into manifest order: the ledger numbers and the record are ordered by the
 // manifest, never by the order the scatter happened to run in.
@@ -2632,6 +2679,7 @@ const reviewItems = rungItems.concat(gatherItems)
 // only, take the path of a judge's land ruling with no judge call (synthesis.md,
 // section 4, item 34).
 const gateRun = callAgent(PREFIX + gateRole(expectedMoves, expectedChecker), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
+gateRun.catch(() => null)   // a run stopped beside the review throws from the review's call first; the gate's own stop is thrown where it is awaited
 let review = await callAgent(PREFIX + reviewRole(gather, 'review', reviewItems), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
 report.review = review
 routers.push(review)
@@ -2654,7 +2702,7 @@ const reviewBlocks = !!(review && strings(review.blockingCode).length)
 let reviewDecision = null
 if (reviewBlocks) {
   log('Review found ' + strings(review.blockingCode).length + ' finding(s) that touch code; the judge rules while the gate runs on')
-  reviewDecision = await callAgent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: REVIEW_JUDGE_SCHEMA }, judgeTier(null)), recoverJudgeMain('review'))
+  reviewDecision = await callAgent(PREFIX + judgeRole('review', null, null, null, review), Object.assign({ label: 'judge:review', phase: 'Judge', schema: REVIEW_JUDGE_SCHEMA }, judgeTier(null)), recoverJudgeMain('review'), true)
   report.reviewJudge = reviewDecision
   mergedItems.push(...numbered('judge-review', reviewDecision && reviewDecision.forPavol))
 }
@@ -2749,7 +2797,7 @@ if (!gate || gate.stopped) {
 }
 if (!gate.green && !redAnswered) {
   log('Gate red: ' + gate.failing.length + ' failing; the judge diagnoses on the merged tree')
-  const decision = await callAgent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)), recoverJudgeMain('gate'))
+  const decision = await callAgent(PREFIX + judgeRole('gate', null, null, null, gate), Object.assign({ label: 'judge:gate', phase: 'Judge', schema: JUDGE_SCHEMA }, judgeTier(report.reviewJudge)), recoverJudgeMain('gate'), true)
   report.gateJudge = decision
   mergedItems.push(...numbered('judge-gate', decision && decision.forPavol))
   if (!decision || decision.decision !== 'repair') {
