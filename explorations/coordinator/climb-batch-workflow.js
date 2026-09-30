@@ -28,8 +28,8 @@
 // Every agent() call goes through callAgent (above "The run."), which runs the
 // role again, up to two more times, when its agent comes back with nothing
 // (2026-09-27; climb-batch-workflow.md, "An agent that comes back with nothing").
-// A usage or rate limit, or a skeptic or judge that comes back with nothing after
-// its attempts, stops the run there and decides nothing; resumeFromRunId with the
+// A usage or rate limit, or a rung worker, skeptic or judge that comes back with
+// nothing after its attempts, stops the run there and decides nothing; resumeFromRunId with the
 // same script and args then runs that role again (climb batch 7b's review, finding 1).
 
 export const meta = {
@@ -2305,16 +2305,16 @@ const COMMIT_SCHEMA = {
 // at once, and the script has no clock to wait it out with. So the run stops,
 // before anything more is started or decided, in two cases: agent() throws an
 // error that names a usage or rate limit (LIMIT_ERROR), and the role is not run
-// again; or a skeptic or a judge (callAgent's needed) comes back with nothing
-// after its attempts, whatever the cause, since a null does not say it. Once the
+// again; or a rung worker, a skeptic or a judge (callAgent's needed) comes back
+// with nothing after its attempts, whatever the cause, since a null does not say it. Once the
 // run stops, callAgent throws at every attempt before it starts an agent, a stage
 // of the scatter that throws drops its rung to null, and the script throws below
 // the scatter. The journal holds every agent that finished, and each empty attempt
 // as failed, so resumeFromRunId with the same script and args returns the finished
-// agents from it and runs the stopped role again. A worker, the gather, the
-// review, the gate and the commit that come back with nothing, and no limit error
-// thrown, keep their paths (worker-died, gather unresolved, review-missing, the
-// gate run once more, not landed).
+// agents from it and runs the stopped role again. The gather, the review, the
+// gate, the commit and a repair on the merged tree that come back with nothing, and
+// no limit error thrown, keep their paths (gather unresolved, review-missing, the
+// gate run once more, not landed, review-unrepaired).
 // ---------------------------------------------------------------------------
 
 const ATTEMPTS = 3   // the first attempt and up to two more: Pavol asked for the retry on 2026-09-27, the coordinator's brief set the count
@@ -2349,7 +2349,7 @@ earlier + ' at this same role ended without returning a result to the script: a 
   ].join('\n')
 }
 
-// needed: a skeptic's or a judge's call, whose nothing after its attempts stops the run.
+// needed: a rung worker's, a skeptic's or a judge's call, whose nothing after its attempts stops the run.
 async function callAgent(prompt, opts, recovery, needed) {
   const role = opts.label
   for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
@@ -2375,7 +2375,7 @@ async function callAgent(prompt, opts, recovery, needed) {
           ? '; running the role again as attempt ' + (attempt + 1) + ', told to take over what this one left'
           : needed ? '; no attempt left' : '; no attempt left, so the script takes its path for a dead agent'))
   }
-  if (needed) throw stopRun(role + ' returned nothing after ' + ATTEMPTS + ' attempts, and a skeptic or judge that returns nothing is read neither as a refusal nor as a drop')
+  if (needed) throw stopRun(role + ' returned nothing after ' + ATTEMPTS + ' attempts, and a rung worker, skeptic or judge that returns nothing is read neither as a dead worker, a refusal nor a drop')
   return null
 }
 
@@ -2512,7 +2512,7 @@ const results = await pipeline(
     phase: 'Rung',
     schema: RUNG_SCHEMA,
     model: OPUS,
-  }, recoverRung(rung)),
+  }, recoverRung(rung), true),
 
   // Stage 2: the skeptic, with one repair round; the judge on a stop or a refusal.
   async (worker, rung) => {
@@ -2535,7 +2535,7 @@ const results = await pipeline(
         phase: 'Rung',
         schema: RUNG_SCHEMA,
         model: OPUS,
-      }, recoverRungRepair(rung, false))
+      }, recoverRungRepair(rung, false), true)
       if (!resumed || resumed.stopped || !resumed.landed) {
         return out('stopped', { worker: resumed || worker, verdict: null, judge: judgeOnStop })
       }
@@ -2572,7 +2572,7 @@ const results = await pipeline(
       phase: 'Rung',
       schema: RUNG_SCHEMA,
       model: OPUS,
-    }, recoverRungRepair(rung, true))
+    }, recoverRungRepair(rung, true), true)
 
     const verdict2 = await callAgent(PREFIX + skepticRole(rung, repaired || worker, 2), {
       label: 'skeptic2:' + rung.id,

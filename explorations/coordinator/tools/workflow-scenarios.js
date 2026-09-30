@@ -22,7 +22,8 @@
 // scen.js of 2026-09-29 (postmortem-2026-09-29/script-review.md, "The scenarios run"; run in a scratchpad and
 // not committed), whose 22 paths and one resume are carried here with the landings the fixes of that night
 // give A10 to A13 (climb-batch-workflow.md, "Measured, and not"), and the scenarios of the stop on a usage
-// limit (reviews/batch-7b-review.md, finding 1): L1 to L3, the resume L4, and A6's judge that returns nothing;
+// limit (reviews/batch-7b-review.md, finding 1): L1 to L3 and L5, the resume L4, A6's judge and A19's worker that
+// return nothing;
 // and in every scenario, each skeptic's brief carrying the worker's report text and not its record text (finding 4),
 // and every brief the whole-suite rule and the recovery text on logs, the skeptic's its reading of the result (finding 5),
 // and the command that makes the rung's worktree, no brief saying the build was copied in (finding 9).
@@ -127,8 +128,9 @@ const SCEN = [
     after: 'gather, gate, review, judge:review, commit', landed: true, items: ['review-routed.1', 'review-routed.2', 'judge-review-land.1'] },
   { name: 'A16 the gather is unresolved', over: { gather: () => ({ unresolved: true, summary: 'conflict', commits: [], conflicts: ['x'], pavolItems: [], pavolUnrouted: [] }) },
     after: 'gather', landed: false },
+  // Since the same finding, extended by Pavol's approval: a rung worker that returns nothing stops the run too.
   { name: 'A19 rung W\'s worker returns nothing on all three attempts', over: { 'rung:W': nul },
-    after: 'gather, gate, review, commit', landed: true, notLanded: { W: 'worker-died' } },
+    agents: 'rung:W, rung:W:attempt2, rung:W:attempt3', halts: 'rung:W' },
   { name: 'A20 the gate cannot run (stopped)', over: { gate: () => ({ green: false, failing: [], stopped: true, countsDown: [] }) },
     after: 'gather, gate, review', landed: false },
   { name: 'A17 a held push: the microGPT start and the kept worktrees', over: { 'skeptic:W': () => ({ approved: true, stopsMet: [{ stop: 'stub', evidence: 'x:1', liftedBy: '' }], forPavol: [] }) },
@@ -139,6 +141,8 @@ const SCEN = [
   { name: 'L2 a usage limit that agent() throws, at C\'s skeptic: no second attempt', over: {}, limitAt: 'skeptic:C', limitAs: 'throw',
     agents: 'rung:W, skeptic:W, rung:C, skeptic:C', halts: 'skeptic:C' },
   // The review starts beside the gate before the gate's error is back, and stops on the limit too.
+  { name: 'L5 the limit as a null while the last rung\'s worker runs alone, every other chain done', over: {}, limitAt: 'rung:S', limitAs: 'null',
+    agents: 'rung:W, skeptic:W, rung:C, skeptic:C, rung:L, skeptic:L, rung:S, rung:S:attempt2, rung:S:attempt3', halts: 'rung:S' },
   { name: 'L3 a usage limit that agent() throws at the gate, beside the review', over: {}, limitAt: 'gate', limitAs: 'throw',
     after: 'gather, gate, review', halts: 'gate' },
 ]
