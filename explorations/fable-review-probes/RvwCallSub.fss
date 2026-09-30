@@ -1,6 +1,0 @@
-component RvwCallSub
-import List.{...}
-export Executable
-f(): List[\ZZ32\] = <|[\ZZ32\] 7, 8 |>
-run(): () = println(f()[0])
-end
