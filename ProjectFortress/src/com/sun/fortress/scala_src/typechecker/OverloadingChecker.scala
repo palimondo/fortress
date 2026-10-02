@@ -53,6 +53,7 @@ import com.sun.fortress.scala_src.useful._
 import com.sun.fortress.scala_src.useful.Lists._
 import com.sun.fortress.scala_src.useful.Options._
 import com.sun.fortress.scala_src.useful.STypesUtil._
+import com.sun.fortress.scala_src.useful.SNodeUtil.alphaRename
 import com.sun.fortress.scala_src.useful.Sets._
 import com.sun.fortress.scala_src.nodes._
 
@@ -127,30 +128,67 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			   else None,
 			   Some(f)))
 
-    // for functional methods
-    private def toFunctionalMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)]):
-        List[(ArrowType,Option[Int],Option[JavaFunctional])] =
-      set.filter(p => p match { case (f, _, _) => isFunctionalMethod(f) && f.asInstanceOf[JavaFunction].body.isSome})
-         .toList.map(p => p match { case (f, replacer, _) =>
+    // for functional methods: in a component those with a body, as for the top-level set;
+    // in an api every one, but an abstract one implemented by a declaration of a subtype
+    // with the same parameter types
+    private def toFunctionalMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)],
+                                         oracle: OverloadingOracle):
+        List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
+      val inComponent = compilation_unit.isInstanceOf[ComponentIndex]
+      val arrows = set.filter(p => p match { case (f, _, _) => isFunctionalMethod(f) &&
+                                               (!inComponent || f.asInstanceOf[JavaFunction].body.isSome)})
+         .toList.map(p => p match { case (f, replacer, tt) =>
               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
-              (NF.makeArrowType(f.getSpan,
-                                replacer.replaceIn(paramsToType(f.parameters, f.getSpan)),
-                                replacer.replaceIn(f.getReturnType.unwrap),
-				getStaticParameters(f, false)),
+              val (sparams, apart) = ownStaticParamsApart(f)
+              ((NF.makeArrowType(f.getSpan,
+                                replacer.replaceIn(apart(paramsToType(f.parameters, f.getSpan))),
+                                replacer.replaceIn(apart(f.getReturnType.unwrap)),
+				sparams),
                Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition),
-	       Some(f))})
+	       Some(f)), tt)})
+      def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional]), tt: TraitType) =
+        a._3.get.asInstanceOf[JavaFunction].body.isNone &&
+        arrows.exists(p => p match { case (c, ctt) =>
+          !(c._1 eq a._1) && c._2 == a._2 && typeAnalyzer.lteq(ctt, tt) && !typeAnalyzer.lteq(tt, ctt) &&
+          oracle.equiv(a._1, c._1) })
+      arrows.filter(p => !implemented(p._1, p._2)).map(_._1)
+    }
 
     // for dotted methods
     private def toMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)])
                            : List[(ArrowType,Option[Int],Option[JavaFunctional])] =
       set.filter(p => p match { case (f, _, _) => isDeclaredMethod(f)})
          .toList.map(p => p match { case (f, replacer, _) =>
+              val (sparams, apart) = ownStaticParamsApart(f)
               (NF.makeArrowType(f.getSpan,
-	                        replacer.replaceIn(paramsToType(f.asInstanceOf[JavaMethod].selfType.unwrap, f.parameters, f.getSpan)),
-                		replacer.replaceIn(f.getReturnType.unwrap),
-				getStaticParameters(f, false)),
+	                        replacer.replaceIn(apart(paramsToType(f.asInstanceOf[JavaMethod].selfType.unwrap, f.parameters, f.getSpan))),
+                		replacer.replaceIn(apart(f.getReturnType.unwrap)),
+				sparams),
                None,
 	       Some(f))})
+
+    /* An inherited method's own static parameters, each whose name is a static parameter
+     * of the trait or object being checked renamed apart, so that the arguments the
+     * replacer puts in place of the declaring trait's parameters are not captured. */
+    private def ownStaticParamsApart(f: JavaFunctional): (JavaList[StaticParam], Type => Type) = {
+      val own = toListFromImmutable(getStaticParameters(f, false))
+      val env = typeAnalyzer.env
+      val taken = own.map(_.getName.getText).toSet
+      val clash = own.filter(p => env.contains(p.getName))
+      if (clash.isEmpty) return (getStaticParameters(f, false), (t: Type) => t)
+      val subst: List[(IdOrOp, IdOrOp)] = clash.map { p =>
+        val n = p.getName
+        val fresh = Iterator.from(1).map(i => NF.makeId(NU.getSpan(n), n.getText + "$" + i))
+                            .find(m => !env.contains(m) && !taken.contains(m.getText)).get
+        (n, fresh) }
+      def apart(t: Type): Type = alphaRename(subst, t).asInstanceOf[Type]
+      val renamed = own.map(p => subst.find(_._1 == p.getName) match {
+        case Some((_, m)) =>
+          NF.makeStaticParam(p, m.asInstanceOf[Id],
+                             toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType])))
+        case None => p })
+      (toJavaList(renamed), apart)
+    }
 
 
     /* Called by com.sun.fortress.compiler.StaticChecker.checkComponent
@@ -287,6 +325,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
             // Add static parameters of the enclosing trait or object
             typeAnalyzer = typeAnalyzer.extend(toListFromImmutable(traitOrObject.staticParameters),
                                                None)
+            staticParamsInScope = toListFromImmutable(traitOrObject.staticParameters)
             val oracle = new OverloadingOracle()(typeAnalyzer)
             /* The parameter type of a setter must be the same as the return type
              * of a getter with the same name, if any.
@@ -317,9 +356,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	      	      		  		     	     	      m.asInstanceOf[JavaMethod].selfType.isSome })  // unsure why this second condition
 	              checkMethodOverloading(traitKindAndName, f, toMethodArrows(dottedMethods), oracle)
 	              val functionalMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaFunction]})
-	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods), oracle)
+	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
 	        }
             typeAnalyzer = oldTypeAnalyzer
+            staticParamsInScope = Nil
         }
         toJavaList(errors)
     }
@@ -438,7 +478,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                        toList(sp.getExtendsClause).exists(_.isInstanceOf[AnyType]))
       } else false
 
-    private val validOverloadingMemo = new scala.collection.mutable.HashMap[(JavaFunctional, JavaFunctional), Boolean]()
+    /* A pair's validity depends on its two signatures as instantiated where it is checked,
+     * on the other signatures there, on whether they are dotted methods and on the static
+     * parameters in scope, so a valid answer is reused only where all of these are equal. */
+    private var staticParamsInScope: List[StaticParam] = Nil
+    private val validOverloadingMemo = new scala.collection.mutable.HashMap[
+        (ArrowType, Option[Int], ArrowType, Option[Int], Set[(ArrowType, Option[Int])], Boolean, List[StaticParam]), Boolean]()
 
     private def validOverloading(first: (ArrowType,Option[Int],Option[JavaFunctional]),
 				 second: (ArrowType,Option[Int],Option[JavaFunctional]),
@@ -449,7 +494,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         val fnal1 = first._3
         val fnal2 = second._3
         if (cacheOverloadChecks && !fnal1.isEmpty && !fnal2.isEmpty) {
-            val key = (fnal1.get, fnal2.get)
+            val key = (first._1, first._2, second._1, second._2,
+                       signatures.map(s => (s._1, s._2)).toSet, isMethod, staticParamsInScope)
             val cv = validOverloadingMemo.get(key)
             if (!cv.isEmpty && cv.get)
 	        true
@@ -474,6 +520,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       
       if (oa.lteq(fa, ga)) { true }
       else if (oa.lteq(ga, fa)) { true }
+      else if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
       else if (oa.excludes(fa, ga)) { true }
       else { coverageRule(first, second, signatures, isMethod, oa) }
@@ -497,6 +544,16 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       //if (b1) !b2 else ( b2 || b3 || b4 )  //JT: It looks like the duplicate rule IS enforced somewhere else
       //(b1 || b2 || b3 || b4)
     }
+
+    /* The Meet Rule for Functional Methods: two functional methods with their self
+     * parameters at one position are a valid overloading among the top-level functionals;
+     * the meet the rule asks of a trait or object that provides both is checked for that
+     * trait or object (checkOverloading's loop over them). */
+    private def functionalMethodsAtOnePosition(first: (ArrowType,Option[Int],Option[JavaFunctional]),
+                                               second: (ArrowType,Option[Int],Option[JavaFunctional]),
+                                               isMethod: Boolean): Boolean =
+      !isMethod && first._2.isDefined && first._2 == second._2 &&
+      first._3.exists(isFunctionalMethod) && second._3.exists(isFunctionalMethod)
 
     private def meetRule(first: (ArrowType,Option[Int],Option[JavaFunctional]),
     	                 second: (ArrowType,Option[Int],Option[JavaFunctional]),
