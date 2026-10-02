@@ -1,0 +1,14 @@
+component XXXOverloadSingleParamBoundAny
+export Executable
+
+(* A functional whose single parameter's type is a naked type parameter with the bound Any written cannot be overloaded, so the program is refused at load (row 534); Specification/advanced/overloading.tex, section "Principles of Overloading". *)
+
+f[\T extends Any\](x: T): ZZ32 = 1
+f(x: ZZ32, y: ZZ32): ZZ32 = 2
+
+run(): () = do
+    println(f(3))
+    println(f(3, 4))
+  end
+
+end
