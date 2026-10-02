@@ -62,7 +62,7 @@ public final class Types {
     public static final TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
     public static final TraitType ZZ32 = makeTraitType(span, fortressLibrary(), "ZZ32");
     public static final TraitType BOOLEAN = makeTraitType(span, fortressBuiltin(), "Boolean");
-    public static final TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
+    public static TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
     public static TraitType STRING = makeTraitType(span, fortressLibrary(), "String");
     public static TraitType JAVASTRING = makeTraitType(span, fortressLibrary(), "JavaString");
     public static TraitType EXCEPTION = makeTraitType(span, fortressLibrary(), "Exception");
@@ -72,15 +72,18 @@ public final class Types {
     /**
      * It's necessary to set STRING when using the compiler libraries because the location of String
      * in the compiler libraries differs from its location in the full libraries.
-     * Similarly for JavaString and Exception and CheckedException.
+     * Similarly for JavaString and Exception and CheckedException, and for the character type,
+     * which the full libraries name Char.
      */
     public static void useCompilerLibraries() {
+        CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
         STRING = makeTraitType(span, fortressBuiltin(), "String");
         JAVASTRING = makeTraitType(span, fortressBuiltin(), "JavaString");
         EXCEPTION = makeTraitType(span, fortressBuiltin(), "Exception");
         CHECKED_EXCEPTION = makeTraitType(span, fortressBuiltin(), "CheckedException");
     }
     public static void useFortressLibraries() {
+        CHARACTER = makeTraitType(span, fortressBuiltin(), "Char");
         STRING = makeTraitType(span, fortressLibrary(), "String");
         JAVASTRING = makeTraitType(span, fortressLibrary(), "JavaString");
         EXCEPTION = makeTraitType(span, fortressLibrary(), "Exception");

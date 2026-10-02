@@ -1,0 +1,22 @@
+(* A generic method inherited by a trait whose own static parameter has the same name: the method's parameter stays its own, so the inherited declarations are a valid overloading. *)
+component InheritedMethodStaticParamSameName
+export Executable
+
+trait Gen[\E\]
+    gen[\R\](f: E -> R): R
+end
+trait Cond[\E\] extends Gen[\E\]
+    gen[\G\](f: E -> G): G
+end
+trait Pair[\R\] extends Cond[\Pair[\R\]\]
+end
+object P[\T\](x: T) extends Pair[\T\]
+    gen[\G\](f: Pair[\T\] -> G): G = f(self)
+end
+
+run(): () = do
+    p = P[\ZZ32\](3)
+    assert(p.gen[\String\](fn (q: Pair[\ZZ32\]): String => "gen"), "gen", "the inherited generic method runs on the object")
+    println("PASS")
+end
+end

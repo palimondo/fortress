@@ -1,0 +1,19 @@
+(* A generic functional method of a trait with static parameters overridden in a subtrait and inherited by an object: the program is valid and the call runs the subtrait's declaration. *)
+component XXXGenericTraitFunctionalMethodOverride
+export Executable
+
+trait Gen[\E\]
+    gen[\R\](self, x: E, f: E -> R): R = f(x)
+end
+trait Cond[\E\] extends Gen[\E\]
+    gen[\G\](self, x: E, f: E -> G): G = f(x)
+end
+object P(y: ZZ32) extends Cond[\ZZ32\]
+end
+
+run(): () = do
+    p = P(3)
+    assert(gen[\String\](p, 3, fn (q: ZZ32): String => "gen"), "gen", "the subtrait's generic functional method runs")
+    println("PASS")
+end
+end

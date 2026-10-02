@@ -1,0 +1,29 @@
+(* Two traits each declare a functional method of one name with the self parameter second of three, and the object extending both declares its own on their meet, narrower than each in a different parameter: the overloading is valid and each call runs its most specific declaration. *)
+component XXXFunctionalMethodMeetNarrowedSelfNotFirst
+export Executable
+
+trait N0 end
+trait N1 extends N0 end
+object N1o extends N1 end
+trait S0 end
+trait S1 extends S0 end
+object S1o extends S1 end
+trait A
+    pick(n: N0, self, s: S1): String = "A"
+end
+trait B
+    pick(n: N1, self, s: S0): String = "B"
+end
+object C extends { A, B }
+    pick(n: N1, self, s: S1): String = "C"
+end
+object Ao extends A end
+
+run(): () = do
+    println("REACHED")
+    assert(pick(N1o, C, S1o), "C", "the object that provides both declarations runs its own declaration on their meet (overloading.tex, sections Meet Rule and Overloading Resolution)")
+    assert(pick(N1o, Ao, S1o), "A", "an object that provides one declaration runs that declaration (overloading.tex, section Overloading Resolution)")
+    println("PASS")
+end
+
+end

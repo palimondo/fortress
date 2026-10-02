@@ -1,0 +1,22 @@
+(* A generic trait with an excludes clause, an object below it that provides its functional method, and a top-level function of the same name are a valid program: the object excludes the function's second parameter type, so each call runs the one declaration applicable to it. *)
+component GenericTraitExcludesKindEnv
+export Executable
+
+trait Numeric0 end
+trait Str0 end
+object Five extends Numeric0 end
+object Word extends Str0 end
+trait Rg[\I\] excludes { Numeric0, Str0 }
+    opr IN(n: I, self): Boolean
+end
+object R1 extends Rg[\ZZ32\]
+    opr IN(n: ZZ32, self): Boolean = n > 0
+end
+opr IN(n: Numeric0, s: Str0): Boolean = false
+
+run(): () = do
+    assert(3 IN R1, "3 IN R1 runs the object's declaration and answers true")
+    assert(NOT (Five IN Word), "Five IN Word runs the top-level function and answers false")
+    println("PASS")
+end
+end

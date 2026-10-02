@@ -437,7 +437,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     // TODO: Check what happens when stem s = stem t
     case (s: TraitType, t: TraitType) =>
       def checkEC(s: TraitType, t: TraitType): CFormula = {
-        def cEC(s: TraitType, t: TraitType) = pOr(excludesClause(s).map(pSub(t, _)))
+        def cEC(s: TraitType, t: TraitType) = pOr(excludesClause(s).map(e => withClauseParams(e).pSub(t, e)))
         pOr(cEC(s, t), cEC(t, s))
       }
       def checkCC(s: TraitType, t: TraitType): CFormula = {
@@ -759,6 +759,22 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     }
   }
   
+  /* The analyzer in which a type an excludes clause names is read: a trait that excludes
+   * another is added to the other's clause at its own static parameters
+   * (IndexBuilder.checkTraitClauses), which are not in scope where that clause is read,
+   * so the ones not in scope are added. */
+  private def withClauseParams(e: TraitType): TypeAnalyzer = {
+    val free = toListFromImmutable(e.getArgs).collect {
+      case STypeArg(_, _, SVarType(_, n, _)) if !env.contains(n) => n.getText }
+    if (free.isEmpty) this
+    else typeCons(e.getName) match {
+      case ti: TraitIndex =>
+        val params = toListFromImmutable(ti.staticParameters).filter(p => free.contains(p.getName.getText))
+        if (params.isEmpty) this else extend(params, None)
+      case _ => this
+    }
+  }
+
   def excludesClause(t: TraitType): Set[TraitType] = traits.memoExcludesClause(t) {
     val ti = typeCons(t.getName).asInstanceOf[TraitIndex]
     val args = toListFromImmutable(t.getArgs)

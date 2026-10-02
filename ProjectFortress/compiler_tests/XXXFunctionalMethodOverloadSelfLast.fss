@@ -1,0 +1,27 @@
+(* An object overloads a functional method it inherits, with the self parameter last, by two declarations of its own, one on the meet: each call runs its one applicable or most specific declaration. *)
+component XXXFunctionalMethodOverloadSelfLast
+export Executable
+
+trait N0 end
+trait N1 extends N0 end
+object N1o extends N1 end
+trait S0 end
+trait S1 extends S0 end
+object S1o extends S1 end
+object S0o extends S0 end
+trait A
+    pick(n: N0, s: S1, self): String = "A"
+end
+object C extends A
+    pick(n: N1, s: S0, self): String = "C0"
+    pick(n: N1, s: S1, self): String = "C1"
+end
+
+run(): () = do
+    println("REACHED")
+    assert(pick(N1o, S1o, C), "C1", "the declaration on the meet is the most specific applicable one (overloading.tex, section Overloading Resolution)")
+    assert(pick(N1o, S0o, C), "C0", "the one applicable declaration runs (overloading.tex, section Overloading Resolution)")
+    println("PASS")
+end
+
+end

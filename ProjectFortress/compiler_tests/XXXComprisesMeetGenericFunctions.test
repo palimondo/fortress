@@ -1,0 +1,3 @@
+tests=XXXComprisesMeetGenericFunctions
+compile
+compile_err_contains=Invalid overloading of tag

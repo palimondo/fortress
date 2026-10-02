@@ -1,0 +1,26 @@
+(* Two traits each declare functional methods of one name with the self parameter second, and the object extending both declares its own: the meet is compared without the self parameter wherever it sits, so the overloading is valid. *)
+component FunctionalMethodMeetSelfSecond
+export Executable
+
+trait A
+    pick(n: ZZ32, self): String = "A"
+    opr IN(n: ZZ32, self): Boolean = false
+end
+trait B
+    pick(n: ZZ32, self): String = "B"
+    opr IN(n: ZZ32, self): Boolean = false
+end
+object C extends { A, B }
+    pick(n: ZZ32, self): String = "C"
+    opr IN(n: ZZ32, self): Boolean = true
+end
+object Ao extends A end
+
+run(): () = do
+    assert(pick(3, C), "C", "the object that provides both declarations, self second, runs its own declaration on their meet (overloading.tex, section Meet Rule, the Meet Rule for Functional Methods)")
+    assert(pick(3, Ao), "A", "an object that provides one declaration, self second, runs that declaration (overloading.tex, section Overloading Resolution)")
+    assert(if 3 IN C then "in" else "out" end, "in", "the object that provides both operator declarations, self second, runs its own declaration on their meet (overloading.tex, section Meet Rule, the Meet Rule for Functional Methods)")
+    println("PASS")
+end
+
+end

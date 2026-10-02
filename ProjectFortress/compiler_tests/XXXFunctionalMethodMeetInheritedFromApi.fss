@@ -1,0 +1,13 @@
+(* An object extending two api traits that each declare a functional method of one name, with no declaration of its own on their meet, is an invalid overloading in that object. *)
+component XXXFunctionalMethodMeetInheritedFromApi
+import FunctionalMethodPairApi.{...}
+export Executable
+
+object Z extends { Fa, Fb } end
+object Q extends Fa end
+
+run(): () = do
+    println(pick(Q))
+end
+
+end

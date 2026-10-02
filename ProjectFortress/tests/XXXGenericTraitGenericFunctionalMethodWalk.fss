@@ -1,0 +1,16 @@
+(* A generic functional method declared in a trait with static parameters and inherited by an object, run under walk: the call runs the declaration and answers what its function argument returns. *)
+component XXXGenericTraitGenericFunctionalMethodWalk
+export Executable
+
+trait Gen[\E\]
+    gen[\R\](self, x: E, f: E -> R): R = f(x)
+end
+object P(y: ZZ32) extends Gen[\ZZ32\]
+end
+
+run() = do
+    p = P(3)
+    assert(gen[\String\](p, 3, fn (q: ZZ32): String => "gen"), "gen", "the inherited generic functional method runs")
+    println("PASS")
+end
+end

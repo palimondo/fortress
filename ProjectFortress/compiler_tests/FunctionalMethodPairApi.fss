@@ -1,0 +1,12 @@
+(* The component of FunctionalMethodPairApi: two traits each declaring a functional method of one name. *)
+component FunctionalMethodPairApi
+export FunctionalMethodPairApi
+
+trait Fa
+    pick(self): String = "a"
+end
+trait Fb
+    pick(self): String = "b"
+end
+
+end

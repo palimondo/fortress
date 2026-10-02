@@ -1,0 +1,3 @@
+tests=XXXFunctionalMethodMeetSelfSecondNoMeet
+compile
+compile_err_contains=Invalid overloading of pick in trait D

@@ -1,0 +1,20 @@
+(* A trait below two closed traits, whose one listed type declares their functional method, declares none of its own, so the overloading is invalid in that trait whatever order the checker visits the traits in. *)
+component XXXFunctionalMethodMeetJoinOfClosedTraits
+export Executable
+trait Left comprises { Mid, Both } 
+  side(self): String = "L"
+end
+trait Right comprises { Both, Other }
+  side(self): String = "R"
+end
+trait Mid extends Left excludes Other end
+trait Join extends { Left, Right } comprises { Both } end
+trait Both extends Join
+  side(self): String = "B"
+end
+trait Other extends Right end
+object Bo extends Both end
+run(): () = do
+  println(side(Bo))
+end
+end
