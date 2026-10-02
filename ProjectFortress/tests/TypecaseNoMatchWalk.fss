@@ -12,6 +12,13 @@ run() = do
     assert(kind("a"), "string", "a string takes the first clause")
     r = try kind(3) catch e MatchFailure => "caught" end
     assert(r, "caught", "a typecase with no matching clause throws MatchFailure, and the catch clause catches it")
+    o = try
+          openRange[\ZZ64\]()
+          "opened"
+        catch e
+          MatchFailure => "caught"
+        end
+    assert(o, "caught", "the library's openRange at an index type its typecase does not list throws MatchFailure (typecase.tex, section \"Typecase Expressions\")")
     println("PASS")
 end
 

@@ -117,7 +117,9 @@ public abstract class FTraitOrObjectOrGeneric extends FType {
                     FnDecl fndod = (FnDecl) dod;
                     String fndodname = NodeUtil.nameString(NodeUtil.getName(fndod));
 
-                    Fcn cl = new FunctionalMethod(getWithin(), fndod, spi, tooog);
+                    Fcn cl = NodeUtil.getStaticParams(fndod).isEmpty() ?
+                             new FunctionalMethod(getWithin(), fndod, spi, tooog) :
+                             new GenericFunctionalMethod.Own(getWithin(), fndod, spi, tooog);
                     if (tooog instanceof GenericTypeInstance) {
                         topLevel.putFunctionalMethodInstance(fndodname, cl);
                     } else {

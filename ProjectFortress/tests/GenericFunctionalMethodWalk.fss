@@ -18,6 +18,7 @@ end
 
 run() = do
     assert(pick[\String\](Q, fn (): String => "plain"), "plain", "a generic functional method of a trait without static parameters runs")
+    assert(pick(Q, fn (): String => "inferred"), "inferred", "a generic functional method of a trait without static parameters runs with its static argument inferred")
     p = P(3)
     assert(gen[\String\](p, 3, fn (q: ZZ32): String => "gen"), "gen", "the generic functional method that a generic subtrait overrides runs")
     println("PASS")
