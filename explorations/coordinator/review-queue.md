@@ -1,4 +1,4 @@
-<!-- The items waiting for Pavol's word or review across the record (the boot note's list, the held list, PLAN's lists for his review and its parked items), merged, each with its home, its state and its default, in the order they need him; built 2026-10-02 by a read-only worker at `99f68f37e`. Entry 4 (the merged-diff review) was answered at 15:39 UTC: kept (POSITIONS, "A blocking second review does not hold a green batch."). The coordinator keeps this file current as items are answered. -->
+<!-- The items waiting for Pavol's word or review across the record (the boot note's list, the held list, PLAN's lists for his review and its parked items), merged, each with its home, its state and its default, in the order they need him; built 2026-10-02 by a read-only worker at `99f68f37e`. Entry 4 (the merged-diff review) was answered at 15:39 UTC: kept (POSITIONS, "A blocking second review does not hold a green batch."). Entry 5 was wrongly put to him at 15:40 UTC: it was settled in the post-mortem (POSITIONS, "The suite's verdict is the check."), and entries 19 and 21 are settled with it. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript; an entry built from a record's offer or default is not open until that search says so. The coordinator keeps this file current as items are answered. -->
 
 What waits for Pavol's word or review, 2026-10-02
 
@@ -44,9 +44,8 @@ When batch 8 lands, its own section 1 "Read from the record, not asked" and its 
    - Default: the review stays; in force.
    - Waits on it: how batch 9 runs.
 5. **An expected-output file beside an interpreter test.** A `Foo.out` beside `Foo.fss`, compared when present: a standing net now that the output comparison is gone. One small harness rung.
-   - Home: synthesis §2(a) and §6 default 1 ("Say so and it is briefed").
-   - State: an open offer. Default: not built.
-   - Waits on it: nothing until he asks.
+   - Home: synthesis §2(a) and §6 default 1.
+   - State: settled, not an offer: his position of 2026-09-29 18:52 UTC, restated at 15:48 UTC 2026-10-02 when it was wrongly put to him again (POSITIONS, "The suite's verdict is the check."). Never to be offered again.
 6. **A protocol line: a worker's change is reviewed by reading the change, not its report.**
    - Home: PLAN:229, "Asked 2026-09-27".
    - State: open. No such line is in `explorations/protocol.md`; its principle 5 is now about delegation, since the protocol was renumbered.
@@ -108,9 +107,9 @@ When batch 8 lands, its own section 1 "Read from the record, not asked" and its 
 Unless an entry says otherwise, the default is the landed state, it is in force, and nothing waits on his review.
 
 **The batch practice and decisions he took on recommendation**
-19. Synthesis default 1: no rung runs the interpreter corpus to compare outputs; the one-time counts his decisions name are kept. Home: synthesis §2(a); POSITIONS:108; held-list.md:44-48.
-20. Synthesis default 2: one skeptic per rung; one merged review beside the gate, whose judge and repair act on code defects only; no second review. Home: synthesis §2(b).
-21. Synthesis default 3, which answers his 18:25 point (held-list.md:31): new tests are named by topic; the existing `Rung<X>` test files are not renamed. Home: synthesis §2(c). Its one-time strip of `.tex` line numbers is done (`dc0eee2fe`, `2040cd056`).
+19. Synthesis default 1: no rung runs the interpreter corpus to compare outputs. Settled by his own position, not a default to review (POSITIONS, "The suite's verdict is the check."). Home: synthesis §2(a); held-list.md:44-48.
+20. Synthesis default 2: one skeptic per rung; one merged review beside the gate (kept by his word, 15:39 UTC 2026-10-02), whose judge and repair act on code defects only; no second review. The last two are the defaults for his review. Home: synthesis §2(b).
+21. Synthesis default 3, which answers his 18:25 point (held-list.md:31), settled by it: new tests are named by topic; the existing `Rung<X>` test files are not renamed. Home: synthesis §2(c). Its one-time strip of `.tex` line numbers is done (`dc0eee2fe`, `2040cd056`).
 22. Item 22: `TotalComparison` extends `StandardMinMax`. He took it on recommendation and asked for a fuller explanation "when he has the energy". Home: PLAN:223; POSITIONS:88.
 23. Rung S's inference sentence extends the POPL 2019 paper's run-time rule to static inference. Home: PLAN:224.
 24. Item 30's clause departs from the paper where nothing constrains the type parameter. Home: PLAN:225.

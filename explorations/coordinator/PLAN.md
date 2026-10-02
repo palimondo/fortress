@@ -443,7 +443,7 @@ Then one commit: the edit, the test, the FACTS line, the handover state line, an
 
 Shadow first when the edit is in Java or Scala and the outcome is uncertain (`perf-probes/template-check/run-all.sh` is the recipe); library edits need no shadow, `fortress compile` reads the `.fss` directly. A fork a probe can settle is probed before the batch is briefed (POSITIONS 2026-09-22).
 
-## Testing techniques adopted, decided 2026-09-17 (kept)
+## Testing techniques written 2026-09-17 (never put to Pavol for a yes, `postmortem-2026-09-29/archaeology.md` § 6; his position is POSITIONS, "The suite's verdict is the check.")
 
 One corpus, both backends: the interpreter tests (`ProjectFortress/tests/`, 381 programs then, one `assert` per operator where it matters) are the ladder for the compiler path; the ladder driver in `explorations/compile-ladder/` runs them unchanged through `fortress compile` and `run` and records the phase each reaches. Progress is the count that passes. Kotlin's box tests are the model. Since 2026-09-19 the ladder is a gate stage over the measured pass list, 85 of 410 files at batch 4's gate (inventory B1 step 2; FACTS § The harness and the gate).
 
