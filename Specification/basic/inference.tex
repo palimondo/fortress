@@ -96,6 +96,26 @@ arguments are subtypes of it; none of those arguments is converted.
 a type parameter the union of the types of those arguments; on 29~September 2026
 the revival took the rule by which the dispatcher of the type group's paper of
 2019 instantiates a type parameter, which gives the bound.}
+\item A type parameter that neither an argument nor the expected type fixes as
+above, such as a type parameter that only the return type mentions, as its whole
+type, likewise takes the intersection of its upper bounds: its declared bound,
+\TYP{Any} if it has none (\secref{type-param}), and what the expected type
+(below), where the call has one, requires of the declared return type.
+Inference never instantiates a static parameter at \TYP{BottomType}, which
+programmers must not write (\secref{bottom-type}).
+So, for the declaration
+\EXP{\VAR{stop}\llbracket{}T\rrbracket(s\COLON\TYP{String})\COLON{}T}, the
+variable declaration
+\EXP{x\COLON\mathbb{Z}32 = \VAR{stop}(\hbox{\rm``\STR{no}''})} instantiates
+\VAR{stop} at \EXP{\mathbb{Z}32}, and the same call with no expected type
+instantiates it at \TYP{Any}.
+\revision{revival-inference}{The revival's text of 28~September 2026 did not
+describe such a type parameter and left open whether inference may give it
+\TYP{BottomType}, which the team's draft note at the end of this chapter asks.
+The revival decided on 29~September 2026 that the rule by which the dispatcher of
+the type group's paper of 2019 instantiates a type parameter that the arguments
+do not fix, the intersection of its upper bounds, which never instantiates a
+type parameter at \TYP{BottomType}, is the rule of static inference as well.}
 \item Every argument is then admitted against the corresponding parameter type
 of the instance by substitutability: an argument whose type is a subtype of it
 is passed as it is, and any other argument is coerced to it
@@ -196,12 +216,12 @@ This chapter does not yet describe:
 \begin{itemize}
 \item the static arguments of a \KWD{bool}, \KWD{dim}, \KWD{unit} or operator
 parameter (\secref{boolparams}, \secref{dimunitparams}, \secref{opr-ident});
-\item a static parameter that neither an argument nor the expected type fixes,
-such as a type parameter that only the return type mentions, as its whole type,
-or the element type of a reduction that only its generator clauses determine
-(\secref{reduction-expr}); whether inference may give such a parameter
-\TYP{BottomType}, which programmers must not write (\secref{bottom-type}), is
-left open;
+\item a \KWD{nat} or \KWD{int} parameter that neither an argument nor the
+expected type fixes;
+\item the element type of a reduction that only its generator clauses determine
+(\secref{reduction-expr}): the rule above gives a static parameter of the big
+operator that nothing at the call fixes its bounds, not the type of the
+elements;
 \item whether an argument whose declared parameter type mentions a static
 parameter inside another type may be converted where only a conversion of its
 elements would satisfy the bounds of the parameter; under the rule above such
@@ -216,13 +236,24 @@ without a call, which a program writes (\secref{where-clauses});
 \item the inference over a whole program of the types that declarations elide
 (\secref{type-inference-components}).
 \end{itemize}
-\revision{revival-inference}{For a type parameter that only the return type
-mentions and that the expected type does not fix, the compiled type checker binds the parameter to \TYP{BottomType},
-except that it refuses a call that has no expected type when the parameter is
-declared \EXP{\KWD{extends} \TYP{Any}}; the interpreter erases such a parameter of a function
-to \TYP{BottomType}, and leaves a generic method's uninstantiated (rows~21, 424, 425 and~447 of the revival's gap ledger).
-Whether inference may do so is the team's question, kept in the draft note
-below.
+\revision{revival-inference}{The compiled type checker instantiates a type
+parameter that neither an argument nor the expected type fixes at the
+intersection of its upper bounds, as \secref{static-arg-inference} says; on the
+compiled path a type parameter of a program's own declaration that is declared
+without an \KWD{extends} clause is bounded by \TYP{Object} (row~412 of the
+revival's gap ledger), so that a call that fixes such a parameter by nothing
+else, where the expected type is one that \TYP{Object} excludes, such as
+\TYP{()}, is a static error there.
+A reduction's big operator is an argument of the call that the reduction's
+desugaring makes, so no expected type reaches it: the compiled type checker
+instantiates a generic big operator whose static argument the reduction does
+not write at its bound (row~425 of the revival's gap ledger).
+The interpreter erases a type parameter that nothing at a call fixes, of a
+function, to \TYP{BottomType}, and leaves a generic method's uninstantiated
+(rows~21 and~424 of the revival's gap ledger).
+The third item of the team's draft note below asks whether inference may give a
+static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
+taken from the type group's paper of 2019, answers that it may not.
 Neither implementation infers a \KWD{bool} parameter yet: the compiled type
 checker refuses by name to infer a \KWD{bool}, \KWD{dim} or \KWD{unit}
 parameter, and the interpreter does not unify a \KWD{bool} one (rows~21
