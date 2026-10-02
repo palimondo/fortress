@@ -282,7 +282,7 @@ The gate's steps and snippets; the briefing and `facts-extract.sh`; the three ho
 What changes in how a batch runs, from batch 7b on.
 
 - A batch commits only the change to Fortress, its tests, the reports, the ledger rows, the FACTS and plan lines, and any script that is reusable. No captured outputs, logs, probes or copies, on `main` or on any branch. Scratch stays in the worker's own folder and is thrown away with the worktree. The transcripts are the record of how a worker got there.
-- Test first is shown by a run, not a file. The worker's first commit is the test alone, a clean minimal program of the ledger row's problem, seen failing. The skeptic runs it on the old code and sees it fail, then on the new code and sees it pass.
+- Test first is shown by a run, not a file. The worker's first commit is the test alone, a clean minimal program of the ledger row's problem, seen failing. The skeptic reads that order in the worker's transcript and runs no build to repeat it (POSITIONS, "Test first, the test kept."; corrected 2026-10-02: this sentence had the skeptic rebuild the old code and the new, against his words of 2026-09-29 20:42 UTC).
 - No rung runs the whole test corpus to compare printed outputs, and no rung runs the microGPT programs under the interpreter. The microGPT run happens once per batch, after the landing, in the background.
 - The skeptic refuses only for a wrong change or a wrong test. A wrong citation is a correction, not a refusal.
 - One review of the merged batch, beside the gate. If it finds a defect in the code, one judge, one repair, and the gate runs again. If it finds only missing tests or record slips, they go to the next batch and onto your list. No second review inside the batch. The review after the batch stays.

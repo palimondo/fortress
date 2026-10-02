@@ -341,3 +341,10 @@ A Sonnet worker read all 772 of his typed messages in session `fe616d40` and POS
 **Open, never answered by him:** 1 (not ripe), 6, 7, 8, 9 (he agreed it comes to him on its own, 09-26 00:32), 12, 13, 14, 18 (not ripe), 97, 99, 101, 102, 105.
 
 **Partly settled, the open part only:** 11 (re-sort, grouping, home, the views); 15 and 16 (where, with phase 4's design); 100 (the forks); 103 (the re-gate line); 104 (row 48 only, which he asked for one message each on 09-26 00:00 and never got; POSITIONS-history's "not taken" is the coordinator's reading); 107 (checker side or library side, no model line changed); 108 (the root README's line on `Specification-1.0-frozen/` only); 109 (the move list, re-checked after the cleaning).
+
+## Since, 2026-10-02 evening
+
+- 95 done: Pavol deleted on GitHub every `wip/` branch but batch 8's four, and `astra/comprises-proof-addendum`, `astra/numeric-hierarchy-review`, `astra/sum-replacement-verdict`, `run-c`, `notes/postmortem-2026-09-19`, `blinded-fable` and `spike/scala-upgrade`, each checked against `main`; batch 8's four and `claude/handover-reading-vn8zgr` are his after the landing. He also pushed the `modernization/*` tags and `sealed-tree` (`coordinator/lineage.md`; PLAN, step 0).
+- 110 answered at 16:19 UTC (the testing archaeology's section 7, in plain words).
+- New, group 4: `explorations/astra/README.md:109-127` links `archive/process-evidence.tar.xz`, which is not on `main`; it is only on `codex/astra-microgpt` (tip `6193bed2b`, 178 files not on `main`), kept; his to decide: tag that branch or restore the archive.
+- New, settled: the skeptic's scope (Fable's `coordinator/skeptic-scope-judgement.md`; POSITIONS, "Test first, the test kept." and "Nothing is built or run twice on the same code."), built into the batch script before batch 9.
