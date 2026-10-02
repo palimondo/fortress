@@ -8,6 +8,7 @@
   - The memo is keyed on the check's inputs.
   - An excludes clause's reciprocal entry is read with its trait's parameters in scope.
   - A character literal is typed by each world's library.
+  - An object expression is checked by no per-provider rule, so a pair only it provides goes unchecked (row 568, home 2, behind row 375's code-generation stop).
   - Distance 598 to 607: 78 top-level pairs and 22 captured sites gone; 58 per-provider pairs new in the apis and 44 in the components; 6 errors unmasked by the `Character` fix. Count 59 to 83.
   - Gated by `compiler_tests/FunctionalMethodMeetPerProvider`, `FunctionalMethodMeetSelfSecond`, `XXXFunctionalMethodMeetInheritedFromApi`, `GenericTraitExcludesKindEnv`, `InheritedMethodStaticParamSameName`, `InheritedFunctionalMethodStaticParamSameName` and `XXXFunctionalMethodMeetJoinOfClosedTraits`.
 
