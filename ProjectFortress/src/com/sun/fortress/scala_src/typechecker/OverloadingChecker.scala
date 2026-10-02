@@ -128,15 +128,17 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			   else None,
 			   Some(f)))
 
-    // for functional methods: in a component those with a body, as for the top-level set;
-    // in an api every one, but an abstract one implemented by a declaration of a subtype
+    // for functional methods: in a component those with a body and every one inherited from
+    // an api, as the top-level set reads a component's own declarations and an imported api's;
+    // in an api every one; but an abstract one implemented by a declaration of a subtype
     // with the same parameter types
     private def toFunctionalMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)],
                                          oracle: OverloadingOracle):
         List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
       val inComponent = compilation_unit.isInstanceOf[ComponentIndex]
-      val arrows = set.filter(p => p match { case (f, _, _) => isFunctionalMethod(f) &&
-                                               (!inComponent || f.asInstanceOf[JavaFunction].body.isSome)})
+      val arrows = set.filter(p => p match { case (f, _, tt) => isFunctionalMethod(f) &&
+                                               (!inComponent || f.asInstanceOf[JavaFunction].body.isSome ||
+                                                !declaredInUnit(tt))})
          .toList.map(p => p match { case (f, replacer, tt) =>
               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
               val (sparams, apart) = ownStaticParamsApart(f)
@@ -152,6 +154,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
           !(c._1 eq a._1) && c._2 == a._2 && typeAnalyzer.lteq(ctt, tt) && !typeAnalyzer.lteq(tt, ctt) &&
           oracle.equiv(a._1, c._1) })
       arrows.filter(p => !implemented(p._1, p._2)).map(_._1)
+    }
+
+    // whether the trait or object is declared in this compilation unit, not in an api it imports
+    private def declaredInUnit(tt: TraitType): Boolean = {
+      val ti = typeAnalyzer.traits.typeCons(tt.getName)
+      if (ti.isNone) return false
+      val own = compilation_unit.typeConses.values.iterator
+      while (own.hasNext) if (own.next eq ti.unwrap) return true
+      false
     }
 
     // for dotted methods
@@ -570,12 +581,24 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
               val a1 = (hsp == fsp) 
               val a2 = a1 && oa.lteq(ha, fa) 
               val a3 = a2 && oa.lteq(ha, ga) 
-              val a4 = a3 && oa.isMeet(ha, fa, ga, isMethod, debug)
+              val a4 = a3 && (if (isMethod && fsp.isDefined)
+                                oa.isMeet(withoutSelf(ha, fsp.get), withoutSelf(fa, fsp.get), withoutSelf(ga, fsp.get), false, debug)
+                              else oa.isMeet(ha, fa, ga, isMethod, debug))
      //         if (debug)
      //             println("" + ha + " " + a1 + a2 + a3 + a4)
                    
               a4}})
       b2
+    }
+
+    // the self parameter of a functional method is compared as a dotted method's receiver is, wherever it sits
+    private def withoutSelf(a: ArrowType, i: Int): ArrowType = {
+      val d = a.getDomain match {
+        case t: TupleType =>
+          NF.makeTupleType(NU.getSpan(t), toJavaList(toListFromImmutable(t.getElements).zipWithIndex.filter(_._2 != i).map(_._1)))
+        case t => NF.makeTupleType(NU.getSpan(t), toJavaList(List[Type]()))
+      }
+      NF.makeArrowType(NU.getSpan(a), d, a.getRange, a.getInfo.getStaticParams)
     }
 
     /* The Meet Rule's closed-trait case, for functions and functional methods: the
