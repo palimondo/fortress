@@ -1,0 +1,12 @@
+component XXXComprisesLibraryTraitUnlistedExtender
+export Executable
+
+(* An object that explicitly extends the library's trait Number, whose comprises clause lists RR64, RR32, QQ, AnyIntegral and IntLiteral, and is below none of them is refused at load (row 22); Specification/basic/traits.tex, section "Trait Declarations". *)
+
+object Value extends Number end
+
+run(): () = do
+    println(Value)
+  end
+
+end

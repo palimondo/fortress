@@ -1,0 +1,12 @@
+component XXXComprisesGenericChildAcrossComponents
+export Executable
+
+(* A trait of the program that extends the library's Integral, a trait with static parameters standing unlisted between AnyIntegral and its listed types, and is below none of them breaks AnyIntegral's comprises clause, so the program is refused at load (row 487); Specification/basic/traits.tex, section "Trait Declarations". *)
+
+trait MyIntegral extends Integral[\MyIntegral\] end
+
+run(): () = do
+    println("loaded")
+  end
+
+end

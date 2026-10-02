@@ -1,0 +1,1 @@
+load_exception_contains=Invalid comprises clause: Number has a comprises clause but its immediate subtype Value is not eligible to extend it

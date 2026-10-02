@@ -1,0 +1,39 @@
+component ComprisesEligibleExtenders
+export Executable
+
+(* A program loads when every type that extends a trait with a comprises clause is a subtype of a listed type, or a trait whose own clause lists only such types, or a trait with static parameters every extender of which is below a listed type. *)
+
+trait AnyI comprises { A, B } end
+trait I[\X extends I[\X\]\] extends AnyI end
+trait A extends I[\A\] end
+trait B extends I[\B\] end
+object Ao extends A end
+object Bo extends B end
+
+trait S comprises { U, V } end
+trait U extends S end
+trait V extends S end
+trait M extends S comprises { Mv } end
+trait Mv extends { M, V } end
+object Mo extends Mv end
+object Low extends U end
+
+trait Opt[\T\] comprises { None[\T\], Some[\T\] } end
+object None[\T\] extends Opt[\T\] end
+object Some[\T\](x: T) extends Opt[\T\] end
+
+kind(x: AnyI): String = typecase x of A => "A"; else => "B" end
+side(x: S): String = typecase x of U => "U"; else => "V" end
+present[\T\](x: Opt[\T\]): Boolean = typecase x of Some[\T\] => true; else => false end
+
+run(): () = do
+    assert(kind(Bo), "B", "Integral's shape: the trait with static parameters I stands unlisted between AnyI and its listed types A and B, and every type that extends it is listed; Specification/basic/traits.tex, section \"Trait Declarations\"")
+    assert(kind(Ao), "A", "an object below the listed type A")
+    assert(side(Mo), "V", "M is unlisted, but its own comprises clause lists only Mv, a subtype of the listed type V")
+    assert(side(Low), "U", "an object below the listed type U")
+    assert(present(Some[\ZZ32\](3)), true, "a generic object listed at its own static parameters")
+    assert(present(None[\ZZ32\]), false, "the other listed generic object")
+    println("PASS")
+  end
+
+end
