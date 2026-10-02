@@ -1,3 +1,191 @@
+# Skeptic, rung Q (rung-numeral-library), second judgement
+
+**Verdict: approved, with required corrections.** The repair round did what the judge's ruling asked. `IntLiteral` now declares the members that a numeral no longer reaches through `ZZ32`. `ZZ`'s api states its arithmetic. The two new tests fail where they should and pass at the head, and the `XXX` test is a real check. The Appendix I Effect, the test messages and the provenance block now say what the tree does.
+
+My own probes found two more kinds of numeral call that the compiled checker over the one library accepted on the base and refuses at the head:
+- a numeral `IN` a range built with `#` or `:`;
+- `(3).minimum` and `(3).maximum`.
+
+Neither can be repaired with this rung's declarations:
+- The `IN` refusal comes from a Meet Rule gap in the ranges that predates the rung. Section 4 of the record gives the ranges' `IN` to no rung of this batch.
+- The getters are `ZZ32`'s range bounds, which a numeral has no reason to have. The compiler library's `IntLiteral` does not declare them either.
+
+Each takes a ledger row (recommendedRows), and the report and the FACTS entry must name them. The rung is not wrong for this: its change follows the decision, and the specification settles the `IN` case against the library's ranges, not against the rung.
+
+## What I ran
+
+All runs used one thread. The repair round adds declarations and api lines; it touches no mutable state.
+
+**The failure, seen.** I checked out the test-only commit `4a8c27003` (the base library with the first pass's two tests), put the repair round's two tests beside them, ran `ant compileAll` (the glue back to the base), and ran the harness:
+
+    bash explorations/compile-ladder/rung-inference-walk/harness-one.sh .../skeptic/r2/h-base ProjectFortress/tests/IntLiteralValue.fss ProjectFortress/tests/XXXNumeralWithNN32.fss
+    # harness-one 2026-10-02T18:00:40Z; tree 4a8c27003; ...
+    FAIL: J14/0:0 : IntLiteral =/= J8/0:0 : ZZ32; literals.tex, section "Literals": the libraries define a coercion from the numeral type IntLiteral to ZZ32; IntLiteral at a ZZ32 binding is the ZZ32 zero
+     OK Saw expected exception
+    Tests run: 2,  Failures: 1,  Errors: 0
+
+The four assertions on `IntLiteral`'s new members fail on the first pass's library. I checked out `9d75bb063`, whose Java equals the head's, with the head's `IntLiteralValue.fss` beside it:
+
+    # harness-one 2026-10-02T17:59:03Z; tree 9d75bb063; ...
+    Failed to find any matching overload, args = (0:IntLiteral), overload = { ... odd(self:Integral[\I\]) ... (Library/FortressLibrary.fss:676:5-40)
+    Tests run: 2,  Failures: 1,  Errors: 0
+
+**The pass, at the head** (`32ba2ab5e`, the code of `f447a4be4` plus `record.md`), all six tests of the rung:
+
+    # harness-one 2026-10-02T17:59:31Z; tree 32ba2ab5e; ...
+    . interpret .../XXXNumeralWithNN32
+     OK Saw expected exception
+    . interpret .../XXXextendIntLiteral
+     OK Saw expected exception
+    OK (6 tests)
+
+**The home-2 test, shown red on a deliberate fix.** I made my own copy of `XXXNumeralWithNN32.fss` with the three answers set to walk's `ZZ64`:
+
+    # harness-one 2026-10-02T18:29:26Z; tree 32ba2ab5e; ...
+    PASS
+     Missing expected failure
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+**The library copies.** The worker's probe libraries are byte-equal to the commits they claim:
+- `check/libs/base` to `493b4076f`;
+- `edit2` to `9d75bb063`;
+- `edit3` to the head.
+
+This holds for all five library files (`cmp` against `git show`).
+
+**The suites.** The rung's one whole-suite run is the edit pass on `f447a4be4`, "changed=0 tracked files differ from the commit". The head adds only `record.md`, so its code state is the edit pass's. Its comparison (`edit-pass/compare3.txt`) reads `tests 469  same 439  normalised 9  changed 2  unstable 18 (exit code changed in 0)  missing 0  new 5  gone 1`. The two changed outputs are the overload listings that name `IntLiteral`'s `-`, each with its exit code unchanged. I did not run it again.
+
+**The stages.** `tmp/rung-numeral-library/stages3/checker-count.txt` reads `#total 58`, and `stages3/distance.txt` reads `#total 596`. These agree with the report, `record.md`'s handover line and the structured summary.
+
+**The `unsigned` cost.** `check/libs/widen` differs from `base` only at `Library/FortressLibrary.fsi:466` (`unsigned(self):AnyIntegral`). `UnsignedCk.widen.check.txt` reads "UnsignedCk.fss:3:20-29: Function body has type AnyIntegral, but declared return type is NN64."; `base` and `edit3` read rc=0.
+
+**The specification build.** `specbuild/build3.log` reads "Output written on fortress.pdf (549 pages, 2010652 bytes)." on both passes.
+
+**A trap I met.** My `ant compileAll` runs emptied `default_repository/caches/bytecode_cache` but left the analysed `.tfi` files. So the library-order `fortress compile` wrote no jar until I wiped the caches. In between, the compiled probes died with `NoSuchMethodError` on `CompilerBuiltin.odd(IntLiteral)` and `coerce_ZZ(IntLiteral)`. Every compiled result below is from after the wipe and the rebuild.
+
+## Differentials (my own programs, under `tmp/rung-numeral-library/skeptic/r2/p/`)
+
+1. **`SkqR2w`, under walk: numeral-only calls of the members `IntLiteral` now declares, and the object `IntLiteral`'s new members.**
+   - Lines `A1` to `A8` (`odd(3)`, `even(4)`, `3 TIMES 4`, `2^3`, `2^(-1)`, `3 DIVIDES 6`, `0 DIVIDES 0`, `floor(3)`, `ceiling(-3)`, `truncate(7)`, `(3).zero`, `(3).one`) are byte-identical on the base library and the head: `true true`, `12 ZZ32`, `8 ZZ32`, `0.5 RR64`, `true false false`, `3 ZZ32 -3 ZZ32 7 ZZ32`, `0 ZZ32 1 ZZ32`. Walk's numeral is an `Int` and reaches none of them.
+   - The object, at the head:
+     - `x DIVIDES x` is `false` (`Integral`'s body gives `false` for a zero divisor, as for the numeral 0);
+     - `x TIMES x` is `0 ZZ32`;
+     - `x^x` and `2^x` are `1 ZZ32`;
+     - `x.zero` and `x.one` are `0 ZZ32` and `1 ZZ32`;
+     - `floor(x)` is `0 IntLiteral`;
+     - `odd(x)` is `false`.
+   - The object, on the base: the run dies at its first use, "Value 0 does not fit in ZZ64.".
+   - The `ZZ32` answers are row 563 (home 3, pinned).
+2. **`SkqR2c` and `SkqR2c2`, compiled (the compiler library).**
+   - `odd(3)` compiles and throws `CompilerFailureDetectedAtRunTime` at run time; walk answers `true`. The specification settles this against the compiled run. The compiler library's `IntLiteral` declares `even` and `odd` with no implementation, which ledger row 318 lists among its stubbed family. That library is deleted at the switch-over, so this is not this rung's.
+   - So the model the repair round followed for `even` and `odd` (`CompilerBuiltin.fsi:429-430`) exists only in its api.
+   - `3 4` at `ZZ32` is `12 ZZ32` on both paths.
+3. **`ZZ` arithmetic.**
+   - Walk (`SkqR2wz`): `g + h`, `g - h`, `-g`, `g TIMES h`, `g DOT h`, `g h`, `g + 1`, `1 + g`, `g 2`, `g DOTPLUS h`, `g DOTMINUS h`, `DOTMINUS g`, `g DOTTIMES h`, `g + w` and `w + g` print `7 ZZ`, `-1 ZZ`, `-3 ZZ`, `12 ZZ` (three times), `4 ZZ`, `4 ZZ`, `6 ZZ`, `7 ZZ`, `-1 ZZ`, `-3 ZZ`, `12 ZZ`, `8 ZZ`, `8 ZZ`. The output is byte-identical on base and head.
+   - Compiled (`SkqR2c2`, the compiler library's `ZZ`): the same values wherever that library declares the operator (`7 -1 -3 ZZ`, `12 12`, `4 4 6`, `7 -1 -3`). The paths agree.
+4. **`SkqR2in`, a numeral `IN` a range.**
+   - Walk: `3 IN (0#5)`, `3 IN (1:5)`, `7 IN (0#z)` and `(3 + 1) IN (0#5)` print `true true false true`, the same on base and head.
+   - Compiled: `false` four times. That is row 479: the compiler library's `IN` is always `false`, so it is not this rung's.
+   - The checker over the one library (5 below): refused at the head, accepted on the base.
+5. **The compiled checker over the one library** (the worker's `check.sh`, `-stop typecheck`, with the libraries `base` and `edit3`):
+   - `SkqR2b`, ten `IN` calls. On `base`: no error. On `edit3`: five errors, `3 IN r` for `r: CompactFullRange[\ZZ32\]` or `FullRange[\ZZ32\]`, `3 IN (1:5)`, `3 IN (0#z)` and `(3 + 1) IN (0#5)`:
+
+         ./check.sh SkqR2b edit3
+         SkqR2b.fss:7:18: Ambiguous coercion in call to operator IN: of the declarations applicable to an argument of type (IntLiteral, CompactFullRange[\ZZ32\]) only by coercion, none is more specific than every other: (ZZ32, Range[\ZZ32\])->Boolean; (ZZ32, Generator[\ZZ32\])->Boolean.
+
+     Accepted on both: a typed `z IN (0#5)`, and `3 IN r` for `r` a `Range[\ZZ32\]`, a `Generator[\ZZ32\]` or an `Array`.
+   - `SkqR2g`. `4 IN (2:6)`, the form of `ProjectFortress/tests/RangeZZ32RungJ.fss:71`, is refused on `edit3` only, with the same message. Accepted on both: `5 IN (1:10:2)`, `3 IN Just(3)`, `3 IN l` for a `List`, `3 IN <|1, 2, 3|>`, `3 IN m` for a `Maybe` and `3 IN r` for a `Range`.
+   - `SkqR2f`. `(3).minimum` and `(3).maximum` are "IntLiteral has no getter called minimum" (and `maximum`) on `edit3` only. Accepted on both: `big(3)`, `narrow(3)`, `partitionL(3)`, `asFloat(3)`, `(3).asString`, `|3|`, `3 =/= 4` and `z.zero + 3`.
+   - `SkqR2c`, 27 operators by `RR64` and `QQ`, each with a numeral. Both libraries give the same two errors: `x^2` and `x^(-1)` for an `RR64` `x` tie `RR64`'s `^` with `MultiplicativeRing`'s, which is row 533. `QQ` checks throughout.
+   - `SkqR2d`: no error on either library. It covers generic functions bounded by `Integral[\I\]`, `AnyIntegral`, `Number` or nothing, applied to a numeral at `ZZ32`; the array-and-scalar operators with a numeral; the tuple comparisons; `a[0] := 1`; `a.fill(0)`; `vector[\RR64,3\](0)`; and `+3`.
+   - `SkqR2e`, indexing with a numeral on strings, ranges, arrays, vectors and matrices, and string juxtaposition and power: the same on both libraries, only my own slip (`r.shift`).
+   - `SkqR2a`: the half-open ranges `3#`, `3:`, `#3` and `:3` at `ZZ32` ranges, `Just(3)`, `(3, 4)`, `"a" || 3`, `array[\ZZ32\](3)`, `3 DOTTIMES 4`, `3 TIMES z` and `7 REM 2` are accepted on both. Only `3 IN (0#5)` is new.
+
+**Which outcome each divergence is in.**
+- Walk against the checker on a numeral `IN` a full range is the first outcome, settled against the library.
+  - `FullRange[\I\]` provides `Range[\I\]`'s `opr IN(n: I, self)` (`Library/FortressLibrary.fsi:2179`) and `Generator[\I\]`'s, through `Indexed` (`Library/FortressLibrary.fsi:828`, `:1245`). It declares none on their meet (`Library/FortressLibrary.fsi:2254-2262`).
+  - The coercion chapter relies on the overloading restrictions for a unique most specific declaration (`Specification/basic/conversions-coercions.tex`, section "Coercion Resolution": "The restrictions given in ... guarantee that such a T exists and that it is unique").
+  - The Meet Rule for functional methods asks a declaration of a type that provides both (`Specification/advanced/overloading.tex`, "Meet Rule").
+  - So the specification settles that the library owes a declaration of `IN` on `FullRange`. With it, the call resolves.
+  - The base hid the gap because a numeral was a `ZZ32` and took the checker's no-coercion path.
+  - Section 4 of the record names the ranges' `IN` as no rung's ("Neither: the ranges' `FORWARD_CMP` and `IN`"), so this is the fourth case: it lands, with a row.
+- `(3).minimum` is the third outcome. The specification's prose names no getter of a numeral's type; the only prose mentions of `IntLiteral` are this rung's own sentences (`grep -rn IntLiteral Specification/basic Specification/basic-lib`: `literals.tex`, the `conversions-coercions.tex` callout, and the grammar nonterminal `IntLiteralExpr` in `comprehensions.tex:42`). So it takes a row. No gated program observes the checker over the one library, so the row is the whole home.
+
+## Findings
+
+1. **Two more numeral calls that the checker over the one library refuses at the head and accepted on the base, with no home** (differential 5).
+   - The repair round's enumeration covered the members of `Integral[\I\]` and a few top-level functions (`NumeralOnly.fss`, 29 calls). It reached neither of these two kinds:
+     - a numeral `IN` a `#` or `:` range (five calls of `SkqR2b`, and `4 IN (2:6)` in `SkqR2g`);
+     - `ZZ32`'s getters `minimum` and `maximum` on a numeral.
+   - The structured summary says "NumeralOnly, SkqCk2, NumeralCk and NumeralCk2 report no error". That is true and scoped to those probes.
+   - The FACTS entry's title, "declares the members a numeral no longer reaches through `ZZ32`", reads as complete, and is not.
+   - The `IN` case is the one that matters at the switch-over. An interpreter test of the corpus writes it (`ProjectFortress/tests/RangeZZ32RungJ.fss:71-75`, `4 IN (2:6)` among them, the `:` range form that `SkqR2g` refuses). The checker over the one library will meet it there when the switch-over compiles those programs.
+2. **The dormant-code map goes stale.**
+   - `explorations/coordinator/map/dormant-code.md:44` lists `IntLiteral`'s 19 operators as "finished, unwired" under the team's warning, and ledger row 318's note says the same arithmetic "stays open" under that note.
+   - This rung enables the block.
+   - The map is the document every agent is told to read. `record.md` should carry the line for the gather.
+3. **Checked and holding.**
+   - The provenance block. I opened every line: base `FortressBuiltin.fsi:169` and `:177-198`; base `XXXIntegerMaxNumRungM.fss:20`; `CompilerBuiltin.fsi:390-431`, `:104`, `:148`, `:211`, `:274`, `:333` and `:429-430`; base `FortressLibrary.fsi:574-579` and `.fss:712-715`; `FortressLibrary.fss:671-673` and `:711-712`; `FortressBuiltin.fsi:179-180`, `:199` and `:213-219`; `FortressLibrary.fsi:635` and `:657-666`; base `:466`; `ReflectiveQuickCheck.fss:147`; `literals.tex:132-165`; `conversions-coercions.tex:405-410` and `:473-575`; `basic-integers.tex:524-527` and `:625-645`.
+     - Each says what the block says. `glue/prim/IntLiteral.java:34-37` holds the native constructor at `:35-37`.
+     - The `historical:` line names every file of the 2012 tree that the diff edits.
+   - The test messages:
+     - `IntLiteralValue.fss` and `XXXNumeralWithNN32.fss` carry one comment line each.
+     - Their citations name sections whose text says what the message says: `literals.tex`, section "Literals" (`:146-153`); `conversions-coercions.tex`, section "Principles of Coercion" (integer numerals convert to `RR64`); section "Coercion Resolution"; and `basic-integers.tex`, section "Integers" (`opr ^`: "If the power is 0, then the result is always 1, even if the base is 0"; `MAXNUM`).
+     - The six reworded messages of `IntegerOrderNumerals.fss:70-75` say what they pin, with no citation.
+   - `record.md`. Its cited lines are right (`FortressLibrary.fss:732-733`, `:824-825`, `:907-908`, `:992-993`; `FortressBuiltin.fss:413-414`, `:553`; `FortressLibrary.fsi:299`, `:400`, `:486`, `:531`, `:588`, `:646`; `FortressBuiltin.fsi:132`; `FortressLibrary.fss:702-704`). Row 561 is dropped as the judge allowed. Row 563 states that the specification is silent, and my grep above confirms it.
+   - The Appendix I Effect now says what walk reaches. Its "or answered at Q" wording matches my first round's `SkqNN` on the base (`u MAXNUM 1` gave `5 QQ`).
+   - The precedent. `zero` and `one` take `ZZ32`'s form (`Library/FortressLibrary.fss:711-712`). `floor`, `ceiling` and `truncate` take `Integral`'s bodies (`:671-673`). `DIVIDES`, `even` and `odd` read through `asZZ`, as `QQ`'s coercion does (`:566`). The `TIMES` api line matches its body. `ZZ`'s api lines take `ZZ64`'s form (`Library/FortressLibrary.fsi:609-618`). The same api omission elsewhere is counted: `Integral`'s floor brackets and `round`, row 564.
+   - The decisions. The numeral switch's Q-lib is built as worded and the compiler library is untouched. Answer 8 holds (first round, `SkqCmp` `B10`). R9 remains a fork for Pavol, as the judge ruled.
+   - Check 7. The repair round adds no top-level name. `IntLiteral`'s and `ZZ`'s members are members of types this rung owns.
+
+## Required corrections (the commit stage closes these)
+
+1. **Homes for finding 1.**
+   - REPORT section 6 (the table and the paragraph after it) and section 14 add the two kinds of call, with the probe lines above:
+     - a numeral `IN` a `#` or `:` range, refused at the head with "Ambiguous coercion in call to operator IN ... (ZZ32, Range[\ZZ32\])->Boolean; (ZZ32, Generator[\ZZ32\])->Boolean";
+     - `(3).minimum` and `(3).maximum`, "IntLiteral has no getter called minimum".
+   - Each gets a provisional row: recommendedRows 1 and 2 of this judgement, whose text the gather opens.
+   - `record.md`'s FACTS entry scopes its title to "the members of `Integral[\I\]` and the getters `zero` and `one`" and names the two refusals left, with their rows.
+   - The structured summary says the same.
+2. **`record.md` carries a line for the gather.**
+   - `explorations/coordinator/map/dormant-code.md:44`, the row of `IntLiteral`'s operators "finished, unwired", is wired by this rung (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:194-219`, `.fss:515-559`).
+   - Ledger row 318's sentence that the interpreter's arithmetic "stays open" under the team's note gets a note saying the same.
+
+## Stops met
+
+- **The `unsigned` stop**, as in the first judgement, kept by the judge. Evidence: `Library/FortressLibrary.fsi:635` with base `Library/FortressLibrary.fsi:466`. It is lifted by POSITIONS.md:98, "Reversible stops do not hold a batch".
+
+No other reserved stop is met by the repair round:
+- Its changed walk outputs are accounted for: two overload listings and the five new and one gone test.
+- It adds no comparison.
+- It touches no team test line, the compiler library, the checker, walk's evaluator, `Number`'s `=` or a declaration of rung M's.
+- The microGPT checks were not re-run, as the judge ruled: no walk numeral reaches `IntLiteral`'s members, and `ZZ`'s api lines change no body.
+
+## For Pavol
+
+- **A numeral `IN` a `#` or `:` range** is refused by the compiled checker over the one library since the numeral became a sibling. Evidence: `SkqR2b`, `SkqR2g`; `Library/FortressLibrary.fsi:2179`, `:828`, `:2254-2262`; `ProjectFortress/tests/RangeZZ32RungJ.fss:71`.
+  - The repair is a declaration of `IN` on `FullRange`, the meet the functional-method Meet Rule asks for. Section 4 of the record gives the ranges' `IN` to no rung, so it waits for whoever takes the ranges' Meet Rule pairs.
+  - Until then the switch-over meets it in interpreter tests like `RangeZZ32RungJ`.
+- The judge's and the worker's entries stand unchanged: R9 against answer 8, the `unsigned` stop, `IntLiteral`'s own declarations, `z = 0` and `Number`'s catch-all, `Library/ReflectiveQuickCheck.fss:147`, and the microGPT inputs.
+
+## Recommended rows
+
+1. **Under the compiled checker over the one library, a numeral `IN` a range built with `#` or `:` is refused since climb batch 8's rung Q made `IntLiteral` a sibling under `Number`.**
+   - The calls: `3 IN (0#5)`, `3 IN (1:5)`, `4 IN (2:6)`, `3 IN (0#z)`, `(3 + 1) IN (0#5)`, and `3 IN r` for an `r` of type `CompactFullRange[\ZZ32\]` or `FullRange[\ZZ32\]`. The message: "Ambiguous coercion in call to operator IN: of the declarations applicable to an argument of type (IntLiteral, CompactFullRange[\ZZ32\]) only by coercion, none is more specific than every other: (ZZ32, Range[\ZZ32\])->Boolean; (ZZ32, Generator[\ZZ32\])->Boolean."
+   - The base accepted all of them, and a typed `z IN (0#5)` is still accepted.
+   - The cause: `FullRange[\I\]` provides `Range[\I\]`'s `IN` and `Generator[\I\]`'s through `Indexed` (`Library/FortressLibrary.fsi:2179`, `:828`, `:1245`) and declares none on their meet (`:2254-2262`). That is a Meet Rule gap the base hid, because a numeral was a `ZZ32` there and the call needed no coercion.
+   - Specification: `Specification/advanced/overloading.tex`, "Meet Rule" (functional methods); `Specification/basic/conversions-coercions.tex`, section "Coercion Resolution" (the restrictions guarantee a unique most specific declaration).
+   - Probe: the skeptic's `SkqR2b.fss` and `SkqR2g.fss`, `check.sh <Name> base` against `edit3`. Walk prints `true` for each, on base and head alike (`SkqR2in`), and the compiled run prints `false` (row 479).
+   - The repair: an `opr IN(n: I, self)` on `FullRange`. It is in the ranges' declarations, which climb batch 8 gives to no rung.
+   - Status: NEGATIVE-VERIFIED, library gap vs spec. The row is the home, since no gated program observes the checker over the one library before the switch-over. `ProjectFortress/tests/RangeZZ32RungJ.fss:71` is the corpus line the switch-over will meet.
+2. **Under the compiled checker over the one library, `(3).minimum` and `(3).maximum` are refused, "IntLiteral has no getter called minimum".**
+   - These are `ZZ32`'s getters (`Library/FortressLibrary.fsi:534-535`), which a numeral reached as a `ZZ32` on the base. The one library's `IntLiteral` does not declare them, and neither does the compiler library's (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390-431`).
+   - The specification is silent on a numeral type's getters.
+   - Probe: the skeptic's `SkqR2f.fss`, `check.sh SkqR2f base` (no error) against `edit3` (2 errors).
+   - Home 3, the row alone. The open question is whether a numeral has range bounds at all, which its own type, being unbounded, suggests it has not.
+
+---
+
 # Skeptic, rung Q (rung-numeral-library), first judgement
 
 **Verdict: refused.** The one thing that must change: the sibling `IntLiteral` makes the compiled checker over the one library refuse eight numeral-only calls it accepted on the base (`odd(3)`, `even(4)`, `2^3`, `2^(-1)`, `floor(3)`, `ceiling(3)`, `truncate(3)`, `3 DIVIDES 6`). The rung gives them no home, and its report says no checker refusal is new. They are siblings of the 15 ties the rung did repair (REPORT section 6, decision 4). Each needs a home. Where the library has a device, repair it: `IntLiteral`'s own `even` and `odd`, which the compiler library's model declares (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:429-430`), and an `IntLiteral` declaration for the `^` tie that the per-type `^(self, b: IntLiteral)` creates. Use a re-run of the checker probe as the evidence. Where a refusal is not repaired, open a ledger row that quotes the probe lines.
