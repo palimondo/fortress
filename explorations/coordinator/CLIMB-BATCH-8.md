@@ -60,6 +60,7 @@ In plain words: after this batch the compiled checker never binds a type paramet
   - (2) A fifth rung in this run, Scala, about 1M: a third compiler rebuild in every worktree's chain beside I's and O's, and a merged table harder to read by class.
 - A yes to (2) adds a rung to this run and to this record before the launch.
 - Recommendation: (1). **Default: (1), a later checker batch.**
+- **Answered: (1)**, Pavol, 2026-10-02 at about 12:54 UTC, after the evidence: the specification allows arithmetic in a size and gives no rule for when two size expressions are the same type, and the choice between the checker comparing sizes by form and the library making its stores at run time stays with the array questions after the switch-over (PLAN item 15).
 
 **Read from the record, not asked.** Each follows from a decision on record or from the tree; one word from you changes it.
 - **The paper's instance rule and the attempt order are one rung.** Each POSITIONS entry names "one checker rung in batch 8". Both edit `typedApplication` and `checkApplicableWithCoercion` in `Functionals.scala` and the inference chapter's Appendix I entry, and the bound "under what the expected type requires" is exactly what the new attempt order decides when to use. Two rungs would branch from one base and miss each other.
