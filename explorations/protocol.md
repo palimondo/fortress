@@ -144,7 +144,8 @@ first, and measures only where no record answers it.
 
 **6. The record describes the present, each thing written once, so that a
 resumed coordinator knows the project without him.** A fact in FACTS with its
-source, at the length the finding takes and with no date; a position in
+source and its test, in a few lines with the detail left in the report it
+cites, and with no date; a position in
 POSITIONS as it stands, under its title, his words only where they are the
 position; the provenance of both in the history files; what is in flight in
 the boot note, rewritten whole. A wrong line is

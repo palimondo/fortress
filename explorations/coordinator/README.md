@@ -23,7 +23,8 @@ him.
 The coordinator is two things and keeps two records. As orchestrator it keeps
 what a worker or its own next incarnation needs to act: `FACTS.md` (what is
 established about the language, the library, the runtime and this container,
-each fact at the length it takes, with its source), `INDEX.md` (one line per
+each fact in a few lines with its source and its test, the detail left in
+the report it cites), `INDEX.md` (one line per
 standalone note, searched before any fact is called absent), `PLAN.md` (the
 phases, the open issues in the order they need deciding, the parked items),
 the handover's first section (where the work stands) and the boot note, whose
@@ -61,7 +62,9 @@ How they are kept:
   work is a protocol line rewritten; a go or a push is written nowhere, the
   launch or the commit being its trace; a question is answered where the
   answer belongs; he is not told about record edits.
-- Nothing a resumed coordinator needs is condensed for length.
+- Nothing a resumed coordinator needs is lost: what a `FACTS.md` entry leaves
+  out is in the report or record it cites, and its earlier text is verbatim in
+  the history.
 - The boot note is rewritten whole at every change, never appended to.
 - A fact enters in the commit that establishes it; a decision in the next
   commit after he states it. A FACTS entry is cited by its bold title, or by
