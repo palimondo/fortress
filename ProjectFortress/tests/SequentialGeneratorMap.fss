@@ -1,0 +1,19 @@
+(* Mapping a sequential mapped or nested generator answers a sequential generator, as SequentialGenerator's map declares. *)
+component SequentialGeneratorMap
+export Executable
+
+isSequential(g: Any): Boolean =
+  typecase g of
+    SequentialGenerator[\ZZ32\] => true
+    else => false
+  end
+
+run() = do
+    mapped = seq(0#3).map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+    assert(isSequential(mapped.map[\ZZ32\](fn (x: ZZ32): ZZ32 => 2 x)), true, "a sequential mapped generator mapped again is sequential; Specification/basic/evaluation/parallelism.tex, section \"Threads and Parallelism\": only a SequentialGenerator runs its iterations in order")
+    nested = seq(0#2).nest[\ZZ32\](fn (i: ZZ32): SequentialGenerator[\ZZ32\] => seq((10 i)#2))
+    assert(isSequential(nested.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)), true, "a sequential nested generator mapped is sequential; Specification/basic/evaluation/parallelism.tex, section \"Threads and Parallelism\": only a SequentialGenerator runs its iterations in order")
+    println("PASS")
+end
+
+end

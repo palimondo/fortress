@@ -1,0 +1,95 @@
+(* The library declarations whose Meet Rule pairs and declared types the compiled checker refused, called under walk with the values they answer. *)
+component LibraryMeetDeclarations
+import List.{...}
+import Random.{...}
+export Executable
+
+inOrder(g: Generator[\ZZ32\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+run() = do
+    j = Just[\ZZ32\](3)
+    n = Nothing[\ZZ32\]
+    m: Maybe[\ZZ32\] = j
+    assert(j.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1).asString, "Just(4)", "Just(3) mapped by adding one is Just(4)")
+    assert(m.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1).asString, "Just(4)", "a Maybe holding 3 mapped by adding one is Just(4)")
+    assert(n.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1).asString, "Nothing", "Nothing mapped is Nothing")
+    assert(j.ivmap[\ZZ32\](fn (i: ZZ32, x: ZZ32): ZZ32 => i + x + 10).asString, "Just(13)", "Just(3) mapped with its index 0 is Just(13)")
+    assert(m.ivmap[\ZZ32\](fn (i: ZZ32, x: ZZ32): ZZ32 => i + x + 10).asString, "Just(13)", "a Maybe holding 3 mapped with its index 0 is Just(13)")
+    assert(n.ivmap[\ZZ32\](fn (i: ZZ32, x: ZZ32): ZZ32 => i + x + 10).asString, "Nothing", "Nothing mapped with its index is Nothing")
+
+    a = array[\ZZ32\](3).fill(7)
+    c = a.copy()
+    c[1] := 9
+    assert(a[1], 7, "writing to an array's copy leaves the array unchanged")
+    assert(c[1], 9, "an array's copy takes the write")
+
+    assert(MaxReduction[\ZZ32\].lift(3).asString, "Just(3)", "an associative reduction lifts its operand into Just")
+    assert(LessThan CMP LessThan, EqualTo, "LessThan CMP LessThan is EqualTo")
+    assert(GreaterThan CMP GreaterThan, EqualTo, "GreaterThan CMP GreaterThan is EqualTo")
+    assert(LexicographicReduction.isLeftZero(LessThan), false, "today's value: the lexicographic reduction answers its inherited isLeftZero for a total comparison")
+    assert(BIG MAX[x <- 0#4] x, 3, "BIG MAX over 0#4 is 3, one element")
+
+    nested = (0#3).nest[\ZZ32\](fn (i: ZZ32): Generator[\ZZ32\] => (10 i)#2)
+    assert(inOrder(seq(nested)), "0,1,10,11,20,21,", "seq of a nested generator generates the inner elements in order")
+    assert(seq((0#2).cross[\ZZ32\](0#2)).asString, "seq(seq(0,1).cross(seq(0,1)))", "seq of a pair generator is the sequential pair of the two sequential generators")
+
+    kept = (0#6).filter(fn (x: ZZ32): Boolean => x > 1)
+    assert(inOrder(kept.filter(fn (x: ZZ32): Boolean => x < 5)), "2,3,4,", "a filter generator filtered again keeps the elements both predicates keep")
+    mappedIndexed = (0#3).map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+    twice = mappedIndexed.map[\ZZ32\](fn (x: ZZ32): ZZ32 => 10 x)
+    assert(inOrder(twice), "10,20,30,", "an indexed generator mapped twice applies both functions in order")
+    assert(twice[1], 20, "an indexed generator mapped twice is still indexed")
+    mapped = kept.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+    assert(inOrder(mapped.map[\ZZ32\](fn (x: ZZ32): ZZ32 => 10 x)), "30,40,50,60,", "a mapped generator mapped again composes the two functions")
+
+    increasing = relationalPredicate[\ZZ32\](fn (x: ZZ32, y: ZZ32): Boolean => x < y)
+    rising = increasing(0#3)
+    assert(rising.holds, true, "0, 1, 2 is increasing")
+    assert(rising.relation()(1, 2), true, "the relation of an increasing predicate holds of 1 and 2")
+    assert(inOrder(rising.target()), "0,1,2,", "a relational predicate's target is the generator it was applied to")
+    assert(increasing(<|[\ZZ32\] 2, 1|>).holds, false, "2, 1 is not increasing")
+
+    empty = ""
+    flat = "abc"
+    assert(empty.split().asString, "Nothing", "the empty string splits into no pieces")
+    assert(empty.splitWithOffsets().asString, "Nothing", "the empty string splits into no pieces with offsets")
+    assert(flat.split().asString, "Nothing", "a flat string answers no subdivision")
+    assert(flat.splitWithOffsets().asString, "Nothing", "a flat string answers no subdivision with offsets")
+
+    assert((3:).atMost(2).asString, "[3,4]", "the left range 3: limited to two elements is [3,4]")
+    assert((:3).atMost(2).asString, "[2,3]", "the right range :3 limited to two elements is [2,3]")
+    assert((3:).every(2).atMost(3).asString, "[3,5,7]", "the left range 3: every second element, three of them, is [3,5,7]")
+
+    cube = array[\ZZ32\](2,2,2).fill(5)
+    cube[(1,1,1)] := 9
+    moved = cube.shift((1,1,1))
+    assert(moved[(2,2,2)], 9, "a three-dimensional array shifted to origin (1,1,1) holds the element of (1,1,1) at (2,2,2)")
+    same = cube.shift((0,0,0))
+    assert(same[(1,1,1)], 9, "a three-dimensional array shifted to its own origin is unchanged")
+
+    assert(("a" 1), "a1", "a string juxtaposed with a number appends the number's text")
+    assert((1 "a"), "1a", "a number juxtaposed with a string prepends the number's text")
+    assert(("a" "b"), "ab", "two juxtaposed strings concatenate")
+    assert((true "x"), "truex", "a boolean juxtaposed with a string prepends its text")
+
+    msg = seq(0#3).map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)
+    assert(inOrder(msg.map[\ZZ32\](fn (x: ZZ32): ZZ32 => 2 x)), "2,4,6,", "a sequential mapped generator mapped again composes the two functions in order")
+    nsg = seq(0#2).nest[\ZZ32\](fn (i: ZZ32): SequentialGenerator[\ZZ32\] => seq((10 i)#2))
+    assert(inOrder(nsg.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1)), "1,2,11,12,", "a sequential nested generator mapped applies the function to each inner element in order")
+    assert(inOrder(nsg.nest[\ZZ32\](fn (x: ZZ32): Generator[\ZZ32\] => x#1)), "0,1,10,11,", "a sequential nested generator nested again generates each inner element in order")
+    assert(inOrder(seq(0#3).map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 10)), "10,11,12,", "today's value: a sequential range mapped generates the mapped elements in order")
+
+    g = linearCongruential(42)
+    u = UniformDistribution[\ZZ32\](1:3)
+    assert(u.min[\ZZ64\](g).asString, "Just(1)", "a uniform distribution over 1:3 has minimum 1")
+    assert(u.max[\ZZ64\](g).asString, "Just(3)", "a uniform distribution over 1:3 has maximum 3")
+    drawn = u.generate[\ZZ64\](g)
+    assert(drawn IN (1:3), true, "a uniform distribution over 1:3 draws a value in 1:3")
+    println("PASS")
+end
+
+end
