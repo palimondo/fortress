@@ -16,6 +16,7 @@ import com.sun.fortress.exceptions.FortressException;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
+import com.sun.fortress.interpreter.env.CUWrapper;
 import com.sun.fortress.interpreter.env.LazilyEvaluatedCell;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.*;
@@ -26,7 +27,11 @@ import com.sun.fortress.useful.HasAt;
 import com.sun.fortress.useful.Useful;
 import edu.rice.cs.plt.tuple.Option;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This comment is not yet true; it is a goal.
@@ -1044,5 +1049,306 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         return pass;
     }
 
+    /**
+     * Refuses a program whose types break a comprises clause of its main
+     * component.  A trait or object of the program that explicitly extends a
+     * trait with a comprises clause declared in main must be a subtype of a
+     * type the clause lists, or a trait with a comprises clause of its own each
+     * of whose listed types meets this requirement, or a trait with static
+     * parameters that at least one trait or object of the program extends,
+     * each of them a subtype of a listed type.  Types are read from the
+     * declarations as written, each name resolved in its declaration's
+     * environment and each static parameter replaced by the static argument
+     * given it.
+     */
+    public static void checkComprisesClauses(List<? extends CUWrapper> units, CUWrapper main) {
+        int m = units.indexOf(main);
+        if (m >= 0) new ComprisesCheck(units).check(m);
+    }
+
+    private static final class ComprisesCheck {
+
+        /** A trait or object declaration of the program, in unit unit. */
+        private static final class Declared {
+            final TraitObjectDecl decl;
+            final FType type;
+            final Environment env;
+            final int unit;
+            final List<String> params = new ArrayList<String>();
+
+            Declared(TraitObjectDecl decl, FType type, Environment env, int unit) {
+                this.decl = decl;
+                this.type = type;
+                this.env = env;
+                this.unit = unit;
+                for (StaticParam sp : NodeUtil.getStaticParams(decl)) params.add(NodeUtil.getName(sp));
+            }
+
+            String name() {
+                return NodeUtil.getName(decl).getText();
+            }
+        }
+
+        /**
+         * A type or static argument as a declaration writes it: a declared
+         * type with its static arguments, a static parameter of the
+         * declaration being read (by position), or other text with its parts.
+         */
+        private static final class Term {
+            final FType head;
+            final int param;
+            final String text;
+            final List<Term> args;
+
+            Term(FType head, int param, String text, List<Term> args) {
+                this.head = head;
+                this.param = param;
+                this.text = text;
+                this.args = args;
+            }
+
+            /** This term with each static parameter replaced by actuals' term at its position. */
+            Term with(List<Term> actuals) {
+                if (param >= 0) return actuals.get(param);
+                if (args.isEmpty()) return this;
+                List<Term> as = new ArrayList<Term>(args.size());
+                for (Term a : args) as.add(a.with(actuals));
+                return new Term(head, -1, text, as);
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (!(o instanceof Term)) return false;
+                Term t = (Term) o;
+                return head == t.head && param == t.param && (text == null ? t.text == null : text.equals(t.text)) &&
+                       args.equals(t.args);
+            }
+
+            @Override
+            public int hashCode() {
+                return System.identityHashCode(head) + 31 * param + (text == null ? 0 : text.hashCode()) +
+                       args.hashCode();
+            }
+        }
+
+        /** A declaration's extends entry, over that declaration's static parameters. */
+        private static final class Extension {
+            final Declared by;
+            final Term entry;
+
+            Extension(Declared by, Term entry) {
+                this.by = by;
+                this.entry = entry;
+            }
+        }
+
+        private final List<Declared> declarations = new ArrayList<Declared>();
+        private final Map<FType, Declared> declared = new IdentityHashMap<FType, Declared>();
+        private final Map<Declared, List<Term>> supertypes = new IdentityHashMap<Declared, List<Term>>();
+        private final Map<FType, List<Extension>> extenders = new IdentityHashMap<FType, List<Extension>>();
+
+        ComprisesCheck(List<? extends CUWrapper> units) {
+            int unit = 0;
+            for (CUWrapper cw : units) {
+                CompilationUnit cu = cw.getCompilationUnit();
+                Environment env = cw.getEnvironment();
+                if (cu instanceof Component) {
+                    for (Decl d : ((Component) cu).getDecls()) {
+                        if (!(d instanceof TraitDecl || d instanceof ObjectDecl)) continue;
+                        TraitObjectDecl tod = (TraitObjectDecl) d;
+                        FType t = env.getRootTypeNull(NodeUtil.getName(tod).getText());
+                        if (t == null || declared.containsKey(t)) continue;
+                        Declared x = new Declared(tod, t, env, unit);
+                        declarations.add(x);
+                        declared.put(t, x);
+                    }
+                }
+                unit++;
+            }
+            for (Declared x : declarations) {
+                for (Term e : supertypesOf(x)) {
+                    if (e.head == null) continue;
+                    List<Extension> l = extenders.get(e.head);
+                    if (l == null) {
+                        l = new ArrayList<Extension>();
+                        extenders.put(e.head, l);
+                    }
+                    l.add(new Extension(x, e));
+                }
+            }
+        }
+
+        /** Checks every explicit extension of a trait with a comprises clause declared in unit main. */
+        void check(int main) {
+            for (Declared x : declarations) {
+                for (Term e : supertypesOf(x)) {
+                    Declared h = e.head == null ? null : declared.get(e.head);
+                    if (h == null || h.unit != main) continue;
+                    List<Term> listed = listedBy(h, e.args);
+                    if (listed == null) continue;
+                    String why = ineligible(x, listed);
+                    if (why != null) error(x.decl, errorMsg("Invalid comprises clause: ",
+                                                            h.name(),
+                                                            " has a comprises clause but its immediate subtype ",
+                                                            x.name(),
+                                                            " is not eligible to extend it",
+                                                            why));
+                }
+            }
+        }
+
+        /**
+         * Null when x may extend a trait whose clause lists listed (over x's
+         * static parameters); otherwise the reason it may not, to follow the
+         * message, or the empty string.
+         */
+        private String ineligible(Declared x, List<Term> listed) {
+            Term self = self(x);
+            if (below(self, listed)) return null;
+            if (closedAndCovered(self, listed, new ArrayList<Declared>())) return null;
+            if (!x.params.isEmpty() && x.decl instanceof TraitDecl) {
+                List<Extension> exts = extenders.get(x.type);
+                if (exts == null) return "; no trait or object extends it";
+                for (Extension ext : exts) {
+                    if (ext.entry.args.size() != x.params.size()) continue;
+                    List<Term> forExt = new ArrayList<Term>(listed.size());
+                    for (Term l : listed) forExt.add(l.with(ext.entry.args));
+                    if (!below(self(ext.by), forExt)) return errorMsg("; ",
+                                                                      ext.by.name(),
+                                                                      " extends it and is a subtype of none of the types the clause lists");
+                }
+                return null;
+            }
+            return "";
+        }
+
+        /**
+         * t is a trait with a comprises clause of its own, each of whose
+         * listed types is a subtype of one of listed or is such a trait.
+         */
+        private boolean closedAndCovered(Term t, List<Term> listed, List<Declared> seen) {
+            Declared d = t.head == null ? null : declared.get(t.head);
+            if (d == null || seen.contains(d)) return false;
+            List<Term> own = listedBy(d, t.args);
+            if (own == null) return false;
+            seen.add(d);
+            for (Term l : own) {
+                if (!below(l, listed) && !closedAndCovered(l, listed, seen)) return false;
+            }
+            seen.remove(d);
+            return true;
+        }
+
+        /** The types h's comprises clause lists, its static parameters given actuals; null if it has none. */
+        private List<Term> listedBy(Declared h, List<Term> actuals) {
+            if (!(h.decl instanceof TraitDecl) || actuals.size() != h.params.size()) return null;
+            TraitDecl td = (TraitDecl) h.decl;
+            Option<List<NamedType>> comprs = td.getComprisesClause();
+            if (comprs.isNone() || comprs.unwrap().isEmpty() || td.isComprisesEllipses()) return null;
+            List<Term> res = new ArrayList<Term>();
+            for (NamedType n : comprs.unwrap()) res.add(termOf(n, h).with(actuals));
+            return res;
+        }
+
+        private boolean below(Term t, List<Term> listed) {
+            for (Term l : listed) {
+                if (subtype(t, l, 0)) return true;
+            }
+            return false;
+        }
+
+        /** a is b, or extends b through the declarations' extends clauses. */
+        private boolean subtype(Term a, Term b, int depth) {
+            if (a.equals(b)) return true;
+            if (depth > 64 || a.head == null) return false;
+            Declared d = declared.get(a.head);
+            if (d == null || a.args.size() != d.params.size()) return false;
+            for (Term s : supertypesOf(d)) {
+                if (subtype(s.with(a.args), b, depth + 1)) return true;
+            }
+            return false;
+        }
+
+        private Term self(Declared x) {
+            List<Term> as = new ArrayList<Term>(x.params.size());
+            for (int i = 0; i < x.params.size(); i++) as.add(new Term(null, i, null, Collections.<Term>emptyList()));
+            return new Term(x.type, -1, null, as);
+        }
+
+        private List<Term> supertypesOf(Declared x) {
+            List<Term> res = supertypes.get(x);
+            if (res == null) {
+                res = new ArrayList<Term>();
+                for (BaseType b : NodeUtil.getTypes(NodeUtil.getExtendsClause(x.decl))) res.add(termOf(b, x));
+                supertypes.put(x, res);
+            }
+            return res;
+        }
+
+        /** n as declaration x writes it, x's static parameters by position. */
+        private Term termOf(Node n, Declared x) {
+            List<Term> none = Collections.<Term>emptyList();
+            if (n instanceof TypeArg) return termOf(((TypeArg) n).getTypeArg(), x);
+            if (n instanceof IntArg) {
+                IntExpr ie = ((IntArg) n).getIntVal();
+                if (ie instanceof IntRef) return named(((IntRef) ie).getName(), x);
+                if (ie instanceof IntBase) return new Term(null, -1, "nat " + ((IntBase) ie).getIntVal().getIntVal(), none);
+            }
+            if (n instanceof BoolArg) {
+                BoolExpr be = ((BoolArg) n).getBoolArg();
+                if (be instanceof BoolRef) return named(((BoolRef) be).getName(), x);
+                if (be instanceof BoolBase) return new Term(null, -1, "bool " + ((BoolBase) be).isBoolVal(), none);
+            }
+            if (n instanceof VarType) {
+                VarType v = (VarType) n;
+                if (x.params.contains(NodeUtil.nameString(v.getName()))) return named(v.getName(), x);
+                FType h;
+                try {
+                    h = x.env.getTypeNull(v);
+                }
+                catch (RuntimeException ex) {
+                    h = null;
+                }
+                if (h != null) return new Term(h, -1, null, none);
+                return named(v.getName(), x);
+            }
+            if (n instanceof AnyType) return new Term(FTypeTop.ONLY, -1, null, none);
+            if (n instanceof TraitType) {
+                TraitType tt = (TraitType) n;
+                FType h;
+                try {
+                    h = x.env.getType(tt);
+                }
+                catch (RuntimeException ex) {
+                    h = null;
+                }
+                if (h != null) {
+                    List<Term> as = new ArrayList<Term>(tt.getArgs().size());
+                    for (StaticArg a : tt.getArgs()) as.add(termOf(a, x));
+                    return new Term(h, -1, null, as);
+                }
+            }
+            if (n instanceof TupleType && ((TupleType) n).getVarargs().isNone() &&
+                ((TupleType) n).getKeywords().isEmpty()) {
+                List<Term> as = new ArrayList<Term>();
+                for (Type t : ((TupleType) n).getElements()) as.add(termOf(t, x));
+                return new Term(null, -1, "( )", as);
+            }
+            if (n instanceof ArrowType) {
+                List<Term> as = new ArrayList<Term>(2);
+                as.add(termOf(((ArrowType) n).getDomain(), x));
+                as.add(termOf(((ArrowType) n).getRange(), x));
+                return new Term(null, -1, "->", as);
+            }
+            return new Term(null, -1, "@" + System.identityHashCode(n), none);
+        }
+
+        private Term named(Id name, Declared x) {
+            String s = NodeUtil.nameString(name);
+            int i = x.params.indexOf(s);
+            if (i >= 0) return new Term(null, i, null, Collections.<Term>emptyList());
+            return new Term(null, -1, "var " + s, Collections.<Term>emptyList());
+        }
+    }
 
 }
