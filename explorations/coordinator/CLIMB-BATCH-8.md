@@ -51,6 +51,7 @@ In plain words: after this batch the compiled checker never binds a type paramet
   - (2) Taken: the probe of the factories' repair first, about 0.4M, then a checker rule, a specification sentence and the factories' repair in a later batch. It cannot join this run.
 - A yes to (2) commits a rule beyond answer 9's three and the positional rule, and three library declarations changed; no model line.
 - Recommendation: (1). **Default: (1), not taken.**
+- **Answered: (1)**, Pavol, 2026-10-02 at about 11:24 UTC.
 
 **Q4. Item 15, arithmetic in a size: a fifth rung in this run, or a later checker batch?**
 - A refresher. The checker refuses a size written as arithmetic, where the one library stores every rank-2 and rank-3 array in a field sized by a product. The default on record is (a): the checker compares size expressions by their structure and folds numeral products, one small checker rung (PLAN item 15; phase 3's batch 8 line, "here or later"). It holds class Z1, 11 errors. It is also fork 1 of the array questions (item 13), whose decisions you placed after the switch-over (POSITIONS 2026-09-22), though item 13's note reads this fork as on phase 3's road.
