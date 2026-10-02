@@ -26,7 +26,9 @@
 // return nothing;
 // and in every scenario, each skeptic's brief carrying the worker's report text and not its record text (finding 4),
 // and every brief the whole-suite rule and the recovery text on logs, the skeptic's its reading of the result (finding 5),
-// and the command that makes the rung's worktree, no brief saying the build was copied in (finding 9).
+// and the command that makes the rung's worktree, no brief saying the build was copied in (finding 9); and,
+// since the strip of line numbers from the tests (dc0eee2fe), the prefix's rule that a test cites the specification
+// by file and section, no role asking for tests re-anchored, and the skeptic's check of a citation's section.
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -251,6 +253,10 @@ function check(sc, out) {
     if (c.label.startsWith('skeptic') && c.prompt.indexOf('nor a whole suite another way') < 0) probs.push(c.label + ' lacks the skeptic\'s whole-suite sentence')
     // climb batch 7b's review, finding 9: the rung worker makes its worktree by the prefix's one command
     if (c.prompt.indexOf('git -C /home/user/fortress worktree add -b BRANCH WORKTREE BASE') < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
+    // the strip of line numbers from the tests (dc0eee2fe): tests cite a section, and no brief asks for a re-anchoring of tests
+    // (a batch's tail, from its record, is the planner's: batch 7b's rung S's asks for a re-anchoring, and is left)
+    if (c.prompt.indexOf('never by a line, as every test of the corpora has cited it since the one-time strip') < 0 || /messages and comments of tests re-anchored|test files whose change is a message or a comment/.test(c.prompt)) probs.push(c.label + ' lacks the citation rule, or its role asks for tests re-anchored')
+    if (c.label.startsWith('skeptic') && c.prompt.indexOf('never a line, and that the named section') < 0) probs.push(c.label + ' lacks check 6\'s citation check')
     // climb batch 7b's review, finding 4: the skeptic is given the report's text, for a branch without REPORT.md
     if (c.label.startsWith('skeptic') && !/REPORT\.md as the worker returned it[^\n]*\n\nREPORTTEXT-SENTINEL\n/.test(c.prompt)) probs.push(c.label + ' does not carry the worker\'s report text under its line')
   }
