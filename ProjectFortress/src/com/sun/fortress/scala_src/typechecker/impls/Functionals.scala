@@ -284,9 +284,11 @@ trait Functionals { self: STypeChecker with Common =>
    * and from the context. A type parameter that is the whole type of a
    * parameter and appears in no other parameter type takes the narrowest type,
    * under the coercion chapter's no-less-specific relation, among its args'
-   * types, the types they coerce to and its declared bound, that each of its
-   * args is substitutable for; where numerals alone fix it and no one type is
-   * narrowest, the numerals are read as ZZ32 (ZZ64 or ZZ by magnitude). Every
+   * types, the types they coerce to, its declared bound and the intersection
+   * of its upper bounds (its declared bound, Any if none, and what the context
+   * requires), that each of its args is substitutable for; where numerals
+   * alone fix it and no one type is narrowest, the numerals are read as ZZ32
+   * (ZZ64 or ZZ by magnitude). Every
    * arg is then admitted against the instantiated parameter type by subtyping
    * or by a coercion. With `promote`, the static args inference by subtyping
    * found: only a type parameter they bind to a union is chosen again.
@@ -332,7 +334,7 @@ trait Functionals { self: STypeChecker with Common =>
       positions.zip(checked).collect { case ((t, d), e) if bare(d) == Some(n) &&
         !t.isInstanceOf[BottomType] && !hasInferenceVars(t) => (t, e) }
     // The types a chosen parameter may take: its args' types, the types they
-    // coerce to, and its declared bound.
+    // coerce to, and its declared bound. None leaves it to its upper bounds.
     def named(n: IdOrOp): List[Type] = {
       val ts = own(n).map(_._1)
       val bound = params.find(_.getName == n).toList.
@@ -344,7 +346,7 @@ trait Functionals { self: STypeChecker with Common =>
     val choices: List[List[Option[Type]]] = chosen.map { n =>
       promote match {
         case Some(sargs) => valueOf(sargs, n) match {
-          case Some(_: UnionType) => named(n).map(Some(_))
+          case Some(_: UnionType) => None :: named(n).map(Some(_))
           case v => List(v)
         }
         case None => None :: named(n).map(Some(_))
@@ -366,7 +368,7 @@ trait Functionals { self: STypeChecker with Common =>
         Formula.and(context.map(c => analyzer.subtype(inf.getRange, c)).toList ++
                     zipWithDomain(tys, inf.getDomain).collect { case (Some(t), d) => analyzer.subtype(t, d) })
       val (resultArrow, sargs) =
-        inferStaticParamsHelper(arrow, constraint, false, true).getOrElse(return None)
+        inferStaticParamsHelper(arrow, constraint, false, true, true).getOrElse(return None)
       if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
       val newArgs = zipWithDomain(checked, resultArrow.getDomain).map { case (e, p) =>
         if (isSubtype(getType(e).get, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
@@ -594,8 +596,11 @@ trait Functionals { self: STypeChecker with Common =>
    * inferred static args and updated arguments) with the most specific one at
    * the head.
    *
-   * The candidates are tried by subtyping with the context; failing that, with
-   * coercion; failing that, both again without the context. An attempt by
+   * The candidates are tried by subtyping without the context; failing that,
+   * by subtyping with the context; failing that, with coercion and the
+   * context; failing that, with coercion without it. So a candidate that fits
+   * the call as it is is not passed over for one reached by coercion whose
+   * result fits the context. An attempt by
    * subtyping counts only the candidates that fit without a coercion the call
    * needs, so that when none does, the attempt with coercion ranks every
    * candidate applicable with coercion, generic or not, a generic one on its
@@ -693,17 +698,20 @@ trait Functionals { self: STypeChecker with Common =>
       (if (groundFamily) tieType(minimal(cs)) else None).getOrElse(cs.sortWith(moreSpecific).head._1.arrow.getRange)
     def kept(es: Attempt, coerce: Boolean) = holds(es, coerce) && context.forall(c =>
       coercions.substitutableFor(callType(candidatesOf(es)), c))
-    val attempts: List[(Boolean, () => Attempt)] =
-      List((false, () => applicable(context, false)), (true, () => applicable(context, true))) ++
-      (if (context.isDefined) List((false, () => applicable(None, false)), (true, () => applicable(None, true)))
-       else Nil)
-    val tried = attempts.to(LazyList).map { case (coerce, a) => (coerce, a()) }
-    val es = tried.find { case (coerce, a) => kept(a, coerce) }.map(_._2).getOrElse {
+    // Each attempt: whether it is given the context, whether it coerces, and
+    // the attempt itself.
+    val attempts: List[(Boolean, Boolean, () => Attempt)] =
+      if (context.isDefined)
+        List((false, false, () => applicable(None, false)), (true, false, () => applicable(context, false)),
+             (true, true, () => applicable(context, true)), (false, true, () => applicable(None, true)))
+      else List((true, false, () => applicable(None, false)), (true, true, () => applicable(None, true)))
+    val tried = attempts.to(LazyList).map { case (withContext, coerce, a) => (withContext, coerce, a()) }
+    val es = tried.find { case (_, coerce, a) => kept(a, coerce) }.map(_._3).getOrElse {
       // No attempt is kept: of the attempts with the context, or for a call
       // written f(x) of those without it, the first that holds a candidate,
       // whatever its result, and otherwise the first.
-      val from = if (fallBackWithoutContext && context.isDefined) tried.drop(2) else tried.take(2)
-      from.find { case (coerce, a) => holds(a, coerce) }.getOrElse(from.head)._2
+      val from = tried.filter(_._1 != (fallBackWithoutContext && context.isDefined))
+      from.find { case (_, coerce, a) => holds(a, coerce) }.getOrElse(from.head)._3
     }
     val candidates = candidatesOf(es)
     val overloadingErrors = es.collect { case (Right(e), _, _) => e }

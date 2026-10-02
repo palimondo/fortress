@@ -134,6 +134,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     // Intersection types
     case (s, SIntersectionType(_,ts)) =>
       pAnd(ts.map(pSub(s, _)))  
+    // An intersection bounds an inference variable from below as a whole
+    case (s: IntersectionType, t: _InferenceVarType) => pLowerBound(t, s)
     case (SIntersectionType(_,ss), t) => {
 //       val specialTerm =
 //         if (ss.size > 0 && ss.exists(!_.isInstanceOf[ArrowType])) pTrue()

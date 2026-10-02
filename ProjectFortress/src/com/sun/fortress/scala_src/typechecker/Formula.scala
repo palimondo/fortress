@@ -484,17 +484,27 @@ object Formula{
    */
   
   def solve(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] = 
-    slv(reduce(c))
+    slv(reduce(c), false)
+
+  /*
+   * Solves a constraint formula on the static arguments of a call. A type
+   * inference variable that no lower bound fixes takes the intersection of its
+   * upper bounds, its declared bound and what the expected type requires, and
+   * one the formula leaves unconstrained takes Any; none takes BottomType, and a
+   * lower bound BottomType fixes nothing.
+   */
+  def solveToBounds(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] =
+    slv(reduce(c), true)
   
-  private def slv(c: CFormula)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] = c match {
+  private def slv(c: CFormula, toBounds: Boolean)(implicit ta: TypeAnalyzer): Option[(Type => Type, Op => Op, IntExpr => IntExpr)] = c match {
     // False cannot be solved
     case False => None
     // True has the trivial solution
-    case True => Some((tEmptySub, oEmptySub, nEmptySub))
+    case True => Some((if (toBounds) TU.topIvars else tEmptySub, oEmptySub, nEmptySub))
     // We solve an Or by solving one of its branches
     case Or(cs) => 
       for (e <- cs) {
-        val se = slv(e)
+        val se = slv(e, toBounds)
         if(se.isDefined)
           return se
       }
@@ -511,7 +521,7 @@ object Formula{
     case _:And => 
       val (newCon, tUnifier, oUnifier, nUnifier) = unify(c).getOrElse(return None)
       newCon match {
-        case True => Some((tUnifier, oUnifier, nUnifier))
+        case True => Some((if (toBounds) TU.topIvars compose tUnifier else tUnifier, oUnifier, nUnifier))
         case False => None
         case nc0@And(ts, os, ns) =>
 //	  println("nc: " + nc0)
@@ -521,8 +531,13 @@ object Formula{
           // with only disequalities left is left unsolved
           if (ns.exists{case (_, NPrimitive(pe, _)) => !pe.isEmpty}) return None
           val nc = And(ts, os)
-          val sub = TU.killIvars compose 
+          val sub = (if (toBounds) TU.topIvars else TU.killIvars) compose
             tSubstitution(ts.map{
+              case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne))
+                  if toBounds && pl.forall(l => TU.hasInferenceVars(l) || l.isInstanceOf[BottomType]) =>
+                val upper = ta.meet(pu.filterNot(TU.hasInferenceVars))
+                if (upper.isInstanceOf[BottomType]) return None
+                (k, upper)
               case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne)) => {
                 var uni = ta.join(pl.filterNot(TU.hasInferenceVars))
                 // Heuristic extension to Dan Smith's algorithm:
