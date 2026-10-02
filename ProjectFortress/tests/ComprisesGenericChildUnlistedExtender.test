@@ -1,0 +1,1 @@
+load_exception_contains=Invalid comprises clause: AnyI has a comprises clause but its immediate subtype I is not eligible to extend it; C extends it and is a subtype of none of the types the clause lists
