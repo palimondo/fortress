@@ -133,6 +133,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32
     opr =(self, b:NN32):Boolean
     opr <(self, b:NN32):Boolean
+    opr >(self, b:NN32):Boolean
+    opr >=(self, b:NN32):Boolean
+    opr <=(self, b:NN32):Boolean
     opr CMP(self, b:NN32): TotalComparison
     opr MIN(self, other:NN32): NN32
     opr MAX(self, other:NN32): NN32
@@ -162,6 +165,8 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr RSHIFT(self,b:AnyIntegral):NN32
     opr BITNOT(self):NN32
     opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b:IntLiteral):RR64
+    opr /(self, other:NN32):QQ
     widen(self):NN64
     partitionL(self):NN32
     signed(self):ZZ32

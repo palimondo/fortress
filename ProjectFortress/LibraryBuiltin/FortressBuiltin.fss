@@ -399,6 +399,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Eq")
     opr <(self, b:NN32):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Less")
+    opr >(self, b:NN32):Boolean = b < self
+    opr >=(self, b:NN32):Boolean = NOT (self < b)
+    opr <=(self, b:NN32):Boolean = NOT (b < self)
     opr CMP(self, b:NN32): TotalComparison =
         if self < b then LessThan
         elif b < self then GreaterThan
@@ -456,6 +459,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
     opr ^(self, b:AnyIntegral):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
+    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
     partitionL(self):NN32 =

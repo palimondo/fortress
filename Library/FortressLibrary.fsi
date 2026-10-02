@@ -487,6 +487,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr |self| : NN64
     opr =(self, b:NN64):Boolean
     opr <(self, b:NN64):Boolean
+    opr >(self, b:NN64):Boolean
+    opr >=(self, b:NN64):Boolean
+    opr <=(self, b:NN64):Boolean
     opr CMP(self, b:NN64): TotalComparison
     opr MIN(self, other:NN64): NN64
     opr MAX(self, other:NN64): NN64
@@ -516,6 +519,8 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr RSHIFT(self,b:AnyIntegral):NN64
     opr BITNOT(self):NN64
     opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b:IntLiteral):RR64
+    opr /(self, other:NN64):QQ
     narrow(self):NN32
     signed(self):NN64
 end
@@ -551,6 +556,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr -(self,b:ZZ32):ZZ32
     opr DOTMINUS(self,b:ZZ32):ZZ32
     opr DOT(self,b:ZZ32):ZZ32
+    opr TIMES(self,b:ZZ32):ZZ32
     opr juxtaposition(self,b:ZZ32):ZZ32
     opr DOTTIMES(self,b:ZZ32):ZZ32
     opr DIV(self,b:ZZ32):ZZ32
@@ -565,6 +571,8 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ32
     opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
+    opr ^(self, b:IntLiteral):RR64
+    opr /(self, other:ZZ32):QQ
     widen(self):ZZ64
     partitionL(self):ZZ32
     unsigned(self):NN32
@@ -620,6 +628,8 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ64
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
+    opr ^(self, b:IntLiteral):RR64
+    opr /(self, other:ZZ64):QQ
     narrow(self):ZZ32
     widen(self):ZZ64
     unsigned(self):NN64
@@ -634,6 +644,10 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: NN32)
     coerce(x: NN64)
     coerce(x: IntLiteral)
+    opr <(self, other:ZZ): Boolean
+    opr <=(self, other:ZZ): Boolean
+    opr >(self, other:ZZ): Boolean
+    opr >=(self, other:ZZ): Boolean
     opr CMP(self, other:ZZ): TotalComparison
     opr MIN(self, other:ZZ): ZZ
     opr MAX(self, other:ZZ): ZZ
@@ -641,6 +655,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr MINNUM(self, other:ZZ): ZZ
     opr MAXNUM(self, other:ZZ): ZZ
     opr /(self,other:ZZ):QQ
+    opr ^(self, b:IntLiteral):RR64
     numerator(self): ZZ
     narrow(self): ZZ32
     widen(self): ZZ64
