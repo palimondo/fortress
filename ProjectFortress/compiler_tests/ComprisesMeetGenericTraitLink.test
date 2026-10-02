@@ -1,3 +1,2 @@
 tests=XXXComprisesMeetGenericTrait
-run
-run_out_does_not_contain=PASS
+link

@@ -1,0 +1,18 @@
+(* The Meet Rule's closed-trait case for top-level functions over traits with static parameters: the declaration on V covers the overlap of those on S and T, so the overloading is valid and tag of a V answers 3. *)
+component XXXComprisesMeetGenericFunctions
+export Executable
+trait S[\X\] comprises { U[\X\], V[\X\] } end
+trait T[\X\] comprises { V[\X\], W[\X\] } end
+trait U[\X\] extends S[\X\] excludes W[\X\] end
+trait V[\X\] extends { S[\X\], T[\X\] } end
+trait W[\X\] extends T[\X\] end
+object Vo extends V[\ZZ32\] end
+tag[\X\](s: S[\X\]): ZZ32 = 1
+tag[\X\](t: T[\X\]): ZZ32 = 2
+tag[\X\](v: V[\X\]): ZZ32 = 3
+run(): () = do
+  s: S[\ZZ32\] = Vo
+  assert(tag(s), 3, "tag of a V held as an S runs the declaration on V")
+  println("PASS")
+end
+end

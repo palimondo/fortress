@@ -1,0 +1,3 @@
+tests=XXXGenericTraitGenericFunctionalMethod
+run
+run_out_contains=REACHED
