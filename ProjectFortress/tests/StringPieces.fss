@@ -2,7 +2,23 @@
 component StringPieces
 import String.{...}
 import FlatString.{...}
+import Stream.{...}
 export Executable
+
+object PieceCollector() extends WriteStream
+    var text: String := ""
+    getter collected(): String = text
+    write(s: String): () = do text := text || s end
+    write(c: Char): () = do text := text || c end
+    flush(): () = ()
+    close(): () = ()
+end
+
+writtenBy(s: String): String = do
+    c = PieceCollector()
+    s.writeOn(c)
+    c.collected
+end
 
 piecesOf(g: Generator[\(ZZ32, String)\]): String = do
     s: String := ""
@@ -16,11 +32,25 @@ run() = do
     cs = a || b
     flat = "abc"
     assert(cs.ilkName, "CatString", "two twenty-character strings concatenate into a CatString")
+    assert(cs.left, cs.asFlatString.left, "a concatenated string's first character is that of its flat form")
+    assert(cs.right, cs.asFlatString.right, "a concatenated string's last character is that of its flat form")
+    assert(cs.first, a, "the first half of the concatenated string is its first twenty characters")
+    assert(cs.second, b, "the second half of the concatenated string is its last twenty characters")
+    assert(cs.size, 40, "the concatenated string has forty characters")
+    assert(cs.bounds = (0#40), true, "the concatenated string's bounds are 0#40")
     sub = cs[18#5]
     assert(sub.ilkName, "SubString", "five characters across the two halves of a CatString are a SubString")
 
     assert(piecesOf(cs.splitWithOffsets()), "0:" || a || ";20:" || b || ";", "a concatenated string splits into its two halves at offsets 0 and 20")
     assert(piecesOf(sub.splitWithOffsets()), "0:aa;2:bcd;", "a substring across the halves splits into its part of each half")
+    for (o, p) <- seq(sub.splitWithOffsets()) do
+        assert(p.ilkName, "SubString", "each piece of the substring is a substring of a flat half")
+        assert(writtenBy(p), p.asFlatString, "a substring of a flat string writes its own characters")
+    end
+    assert(writtenBy(sub), "aabcd", "the substring writes aabcd")
+    assert(writtenBy(cs), a || b, "the concatenated string writes both halves")
+    csv = cs || "vw"
+    assert(piecesOf(csv.splitWithOffsets()), "0:" || a || ";20:" || b || "vw;", "a short flat string concatenated onto a concatenated string joins its second half")
     assert(cs[0], 'a', "the first character of the concatenated string is a")
     assert(cs[|cs| - 1], 'u', "the last character of the concatenated string is u")
 
@@ -62,6 +92,12 @@ run() = do
     assert(newline, lineSeparator, "newline is the line separator")
 
     assert(cs.stats().asString, "size = 40; depth = 1; maxFlat = 20; minFlat = 20; avFlat = 20.0; numFlat = 2", "the statistics of the concatenated string")
+    st = cs.stats()
+    assert(st.minFlat, 20, "the shortest flat piece of the concatenated string has twenty characters")
+    assert(st.maxFlat, 20, "the longest flat piece of the concatenated string has twenty characters")
+    assert(st.numFlat, 2, "the concatenated string has two flat pieces")
+    assert(st.ssize, 40, "the statistics' size of the concatenated string is forty")
+    assert(st.sdepth, 1, "the statistics' depth of the concatenated string is one")
     assert(sub.stats().asString, "size = 5; depth = 1; maxFlat = 20; minFlat = 20; avFlat = 2.5; numFlat = 2", "the statistics of the substring count its base's flat pieces")
     assert(flat.stats().asString, "size = 3; depth = 0; maxFlat = 3; minFlat = 3; avFlat = 3.0; numFlat = 1", "the statistics of a flat string")
 
@@ -80,6 +116,11 @@ run() = do
     assert(EmptyString[0#0], "", "the empty string indexed by an empty range is empty")
     assert(EmptyString.bounds.asString, "[]", "the empty string's bounds are the empty range")
     shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => EmptyString.get(0))
+    out = PieceCollector()
+    out.print("ab", 'c', 1, (2, 3))
+    assert(out.collected, "abc1(2,3)", "print writes its arguments' strings in order")
+    out.println("x")
+    assert(out.collected, "abc1(2,3)x" || newline, "println writes its argument and a newline")
     println("pieces " cs " " sub)
     println("PASS")
 end
