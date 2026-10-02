@@ -1,0 +1,17 @@
+(* An object expression extending two traits that each declare a functional method of one name, with no declaration of its own on their meet, is an invalid overloading; the compiled checker does not check an object expression per provider, and code generation stops on the object expression first. *)
+component XXXFunctionalMethodMeetObjectExpression
+export Executable
+
+trait A
+    pick(self): String = "A"
+end
+trait B
+    pick(self): String = "B"
+end
+
+run(): () = do
+    z = object extends { A, B } end
+    println(pick(z))
+end
+
+end
