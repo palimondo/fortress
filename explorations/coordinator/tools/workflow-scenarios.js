@@ -35,7 +35,10 @@
 // build, an ant target, a rebuild or a checkout (its rung's paragraph for the skeptic, the record's words, aside),
 // and each carries that paragraph, the transcript commands and the rung's copy of the base; a second skeptic's
 // brief is its own short one (S1); the gate after a repair reruns only for a path it reads (D1 to D4); and the
-// script refuses to start without args.baseBuild (B1).
+// script refuses to start without args.baseBuild (B1). And, the same day: a second skeptic's text that the harness
+// refused to write, beside a first skeptic's committed SKEPTIC.md, reaches the gather as a command of its own (G1; none
+// when the second committed its file, S1); every brief caps wait_for's bound at 270; the stage-blind paths name the test
+// harness's sources; the skeptic's check 8 is the review's check 3.
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -148,7 +151,9 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: false, held: true },
   // 2026-10-02: the second skeptic's own short brief (POSITIONS.md, "Nothing is built or run twice on the same code.").
   { name: 'S1 rung C refused, the judge orders a repair, its second skeptic approves: the second brief is its own', over: { 'skeptic:C': refuse, 'judge:C': () => ({ decision: 'repair', forPavol: [], instructions: ['1. stub instruction'], ruling: 'stub ruling' }) },
-    after: 'gather, gate, review, commit', landed: true, secondBrief: 'C' },
+    after: 'gather, gate, review, commit', landed: true, secondBrief: 'C', secondText: false },
+  { name: 'G1 C\'s second skeptic carries its text, the harness having refused its write, beside the first one\'s committed file: the gather gets the command that writes it', over: { 'skeptic:C': refuse, 'judge:C': () => ({ decision: 'repair', forPavol: [], instructions: ['1. stub instruction'] }), 'skeptic2:C': () => ({ approved: true, stopsMet: [], forPavol: [], skepticText: 'SECOND-JUDGEMENT-SENTINEL', findings: ['the harness refused the write of SKEPTIC.md'] }) },
+    after: 'gather, gate, review, commit', landed: true, secondBrief: 'C', secondText: true },
   // 2026-10-02: the gate after a repair reruns only for a path it reads (ProjectFortress/, Library/, build.xml);
   // batch 8's second gate repeated the first after a repair of one sentence of changes.tex.
   { name: 'D1 a code finding whose repair changes only the specification\'s text: no second gate, recorded beside it', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['Specification/appendices/changes.tex', 'explorations/compile-ladder/climb-batch-7b/REPAIR-review.md'], []) }),
@@ -255,6 +260,15 @@ function check(sc, out) {
   if (sc.held !== undefined && result && !!result.pushHeld !== sc.held) probs.push('pushHeld ' + result.pushHeld + ' (expected ' + sc.held + ')')
   if (commit && /1a\. The gate below ran/.test(commit.prompt) !== !!sc.step1a) probs.push('step 1a ' + !sc.step1a)
   if (sc.ungatedIn1a && !(commit && commit.prompt.indexOf('# repair-ungated') >= 0 && commit.prompt.indexOf(sc.ungatedIn1a) >= 0)) probs.push('step 1a does not record ' + sc.ungatedIn1a + ' under # repair-ungated')
+  if (sc.secondText !== undefined) {
+    const g = calls.find(c => c.label === 'gather')
+    let entry = null
+    try { const i = g.prompt.indexOf('The rungs and their verdicts:'), j = g.prompt.indexOf('[', i); entry = JSON.parse(g.prompt.slice(j, g.prompt.indexOf('\n]\n', j) + 2)).find(x => x.rung === sc.secondBrief) } catch (e) { probs.push('the gather\'s list of rungs does not parse: ' + e.message) }
+    const cmd = entry && entry.textCommands && entry.textCommands['SKEPTIC.md, when the branch carries it']
+    if (!!cmd !== sc.secondText) probs.push('the gather ' + (cmd ? 'has' : 'lacks') + ' the second judgement\'s command for ' + sc.secondBrief)
+    if (cmd && !(cmd.indexOf('skepticText skeptic2:' + sc.secondBrief) >= 0 && cmd.indexOf('grep -q \'^# Second judgement\'') >= 0 && cmd.indexOf('## First round') >= 0 && !/["\\]/.test(cmd))) probs.push('the second judgement\'s command is not the one built: ' + cmd)
+    if (sc.secondText && g.prompt.indexOf('when the branch carries it" had a second skeptic whose write the harness refused') < 0) probs.push('the gather\'s step 1 does not say when to run it')
+  }
   if (sc.secondBrief) {
     const r = (result && result.rungs || []).find(x => x.rung === sc.secondBrief)
     if (!labels.includes('skeptic2:' + sc.secondBrief)) probs.push('no second skeptic ran for ' + sc.secondBrief)
@@ -284,6 +298,12 @@ function check(sc, out) {
     if (c.prompt.indexOf('at most once per code state in the rung\'s chain') < 0 || c.prompt.indexOf('A check whose log is complete') < 0) probs.push(c.label + ' lacks the prefix\'s whole-suite rule or its recovery text')
     if (c.label.startsWith('skeptic') && c.prompt.indexOf('nor a whole suite another way') < 0) probs.push(c.label + ' lacks the skeptic\'s whole-suite sentence')
     // climb batch 7b's review, finding 9: the rung worker makes its worktree by the prefix's one command
+    // 2026-10-02: wait_for caps its bound at 270 (reviews/batch-8-review.md, finding 5); the stage-blind paths name the
+    // harness's sources (CLIMB-BATCH-9.md, section 8, item 2); the skeptic's check 8 is the review's check 3 (item 4)
+    if (c.prompt.indexOf('[ "$max" -gt 270 ] && max=270') < 0) probs.push(c.label + ' lacks wait_for\'s cap at 270')
+    if (c.prompt.indexOf('explorations/, Specification/, Documentation/, ProjectFortress/tests/') >= 0 && c.prompt.indexOf('ProjectFortress/*_tests/, ProjectFortress/src/com/sun/fortress/tests/, ') < 0) probs.push(c.label + ' renders the stage-blind paths without the harness\'s sources')
+    if (/^skeptic:/.test(c.label) && c.prompt.indexOf('8. Not yours: the record.md fragment') < 0) probs.push(c.label + ' still checks the record.md fragment')
+    if (c.label === 'review' && c.prompt.indexOf('its check 8 moved here') < 0) probs.push('the review\'s check 3 does not take the skeptic\'s check 8')
     // since 2026-10-02 the command seeds the worktree from the base build (build-cache-exploration.md)
     if (c.prompt.indexOf(SEED_CMD) < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
     // the strip of line numbers from the tests (dc0eee2fe): tests cite a section, and no brief asks for a re-anchoring of tests
