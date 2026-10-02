@@ -2570,13 +2570,21 @@ type (\secref{basic-rationals}) and \EXP{\mathbb{R}64} from integer numerals
 integer type, \EXP{\mathbb{Q}} or \EXP{\mathbb{R}64} that its context expects,
 \EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} among them, which refused a numeral
 before.
-A numeral beside a value of an integer type is converted to that type, whose
-own declaration of the operator is then the most specific
+A numeral beside a value of an integer type is converted to that type where no
+declaration of the operator is applicable to the two without coercion, and that
+type's own declaration of the operator is then the most specific
 (\secref{resolving-coercion}); \library\ state on each integer type the
-comparisons, \OPR{CMP}, \OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral
-exponent, which the types inherited before from a declaration that a
-converted numeral leaves tied with those of \EXP{\mathbb{Z}64},
-\EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+comparisons \EXP{<}, \EXP{\leq}, \EXP{>} and \EXP{\geq}, \OPR{CMP},
+\OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral exponent, which the types
+inherited before from a declaration that a converted numeral leaves tied with
+those of \EXP{\mathbb{Z}64}, \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+Equality and inequality are not converted so: the declaration of \EXP{=} on
+\TYP{Number} is applicable to an integer value and a numeral without coercion,
+and so is the top-level declaration of \EXP{\neq}, whose parameters are of type
+\TYP{Any}; the compiled type checker selects these and converts neither
+operand, and \EXP{=} then compares the two as rationals, through the case for a
+numeral that this change adds to \VAR{exactValue}, the function by which
+\TYP{Number}'s \EXP{=} takes an exact value.
 \EXP{\mathbb{Z}} states in its api, for the same reason, the additive and
 multiplicative operators its body declares.
 \TYP{IntLiteral} declares its own \VAR{zero}, \VAR{one}, \VAR{even},

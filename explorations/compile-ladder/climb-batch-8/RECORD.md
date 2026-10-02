@@ -138,7 +138,7 @@ The second judgement's two, made at the gather:
 
 ## The gather's own point
 
-gather.1: the Effect of Appendix I's entry "The type of an integer numeral" (`Specification/appendices/changes.tex:2573-2574`) says that a numeral beside a value of an integer type is converted to that type, whose own declaration is then the most specific; for `=` the checker over the one library takes `Number`'s catch-all, applicable without coercion (rung Q's judge, `JUDGE.md` section 6). The text stands as the rung wrote it; it is in the `PLAN.md` entry on `z = 0`. No ledger row and no test: no gated program observes the checker over the one library before the switch-over.
+gather.1: the Effect of Appendix I's entry "The type of an integer numeral" (`Specification/appendices/changes.tex:2573-2574`) says that a numeral beside a value of an integer type is converted to that type, whose own declaration is then the most specific; for `=` the checker over the one library takes `Number`'s catch-all, applicable without coercion (rung Q's judge, `JUDGE.md` section 6). The text stands as the rung wrote it; it is in the `PLAN.md` entry on `z = 0`. No ledger row and no test: no gated program observes the checker over the one library before the switch-over. The review's judge upheld the review's finding on it, adding `=/=` beside `=`, and the review's repair rewrote the sentence (`JUDGE-review.md`, section 4).
 
 ## Not done here
 
