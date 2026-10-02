@@ -281,7 +281,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
-        comprises { RR64, RR32, QQ, AnyIntegral }
+        comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }
     (** The value as a float, the explicit conversion into %RR64%. **)
     asFloat(self): RR64
     (** Two exact numbers of different types compare as rationals; a float
@@ -296,6 +296,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
         comprises { Float, FloatLiteral }
     coerce(x: ZZ32)
     coerce(x: RR32)
+    coerce(x: IntLiteral)
     getter zero(): RR64
     getter one(): RR64
     (** returns true if the value is an IEEE NaN **)
@@ -396,6 +397,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     coerce(x: NN32)
     coerce(x: NN64)
     coerce(x: ZZ)
+    coerce(x: IntLiteral)
     getter zero(): QQ
     getter one(): QQ
     getter isNaN(): Boolean
@@ -433,7 +435,9 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     opr MAXNUM(self, other:QQ):QQ
 end
 
-trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 } end
+trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }
+    coerce(x: IntLiteral)
+end
         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
 
 trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
@@ -463,7 +467,6 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     opr RSHIFT(self,b:AnyIntegral):I
     opr BITNOT(self):I
     opr ^(self, b:AnyIntegral):RR64
-    unsigned(self):NN64
     opr /(self, other:I):QQ
     numerator(self): ZZ
     denominator(self): ZZ
@@ -480,12 +483,16 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         excludes { ZZ, NN32 }
         comprises { UnsignedLong }
     coerce(x: NN32)
+    coerce(x: IntLiteral)
     opr |self| : NN64
     opr =(self, b:NN64):Boolean
     opr <(self, b:NN64):Boolean
+    opr CMP(self, b:NN64): TotalComparison
     opr MIN(self, other:NN64): NN64
     opr MAX(self, other:NN64): NN64
     opr MINMAX(self, other:NN64): (NN64, NN64)
+    opr MINNUM(self, other:NN64): NN64
+    opr MAXNUM(self, other:NN64): NN64
     opr -(self):NN64
     opr DOTMINUS(self):NN64
     opr +(self,b:NN64):NN64
@@ -515,7 +522,8 @@ end
 
 trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
         excludes { ZZ64, ZZ, NN64, NN32 }
-        comprises { Int, IntLiteral }
+        comprises { Int }
+    coerce(x: IntLiteral)
     getter zero(): ZZ32
     getter one(): ZZ32
     getter minimum(): ZZ32
@@ -526,9 +534,15 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr |self| : ZZ32
     opr =(self, b:ZZ32):Boolean
     opr <(self, b:ZZ32):Boolean
+    opr >(self, b:ZZ32):Boolean
+    opr >=(self, b:ZZ32):Boolean
+    opr <=(self, b:ZZ32):Boolean
+    opr CMP(self, b:ZZ32): TotalComparison
     opr MIN(self, other:ZZ32): ZZ32
     opr MAX(self, other:ZZ32): ZZ32
     opr MINMAX(self, other:ZZ32): (ZZ32, ZZ32)
+    opr MINNUM(self, other:ZZ32): ZZ32
+    opr MAXNUM(self, other:ZZ32): ZZ32
 
     opr -(self):ZZ32
     opr DOTMINUS(self):ZZ32
@@ -563,6 +577,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
         comprises { Long }
     coerce(x: ZZ32)
     coerce(x: NN32)
+    coerce(x: IntLiteral)
     getter zero(): ZZ64
     getter one(): ZZ64
     getter minimum(): ZZ64
@@ -580,6 +595,8 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr MIN(self, other:ZZ64): ZZ64
     opr MAX(self, other:ZZ64): ZZ64
     opr MINMAX(self, other:ZZ64): (ZZ64, ZZ64)
+    opr MINNUM(self, other:ZZ64): ZZ64
+    opr MAXNUM(self, other:ZZ64): ZZ64
 
     opr -(self):ZZ64
     opr DOTMINUS(self):ZZ64
@@ -605,6 +622,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr BITNOT(self):ZZ64
     narrow(self):ZZ32
     widen(self):ZZ64
+    unsigned(self):NN64
     big(self):ZZ
 end
 
@@ -615,9 +633,13 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: ZZ64)
     coerce(x: NN32)
     coerce(x: NN64)
+    coerce(x: IntLiteral)
+    opr CMP(self, other:ZZ): TotalComparison
     opr MIN(self, other:ZZ): ZZ
     opr MAX(self, other:ZZ): ZZ
     opr MINMAX(self, other:ZZ): (ZZ, ZZ)
+    opr MINNUM(self, other:ZZ): ZZ
+    opr MAXNUM(self, other:ZZ): ZZ
     opr /(self,other:ZZ):QQ
     numerator(self): ZZ
     narrow(self): ZZ32

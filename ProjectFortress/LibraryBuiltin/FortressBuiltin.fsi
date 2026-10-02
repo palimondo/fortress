@@ -129,12 +129,16 @@ value object Long extends ZZ64
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+    coerce(x: IntLiteral)
     opr |self| : NN32
     opr =(self, b:NN32):Boolean
     opr <(self, b:NN32):Boolean
+    opr CMP(self, b:NN32): TotalComparison
     opr MIN(self, other:NN32): NN32
     opr MAX(self, other:NN32): NN32
     opr MINMAX(self, other:NN32): (NN32, NN32)
+    opr MINNUM(self, other:NN32): NN32
+    opr MAXNUM(self, other:NN32): NN32
     opr -(self):NN32
     opr DOTMINUS(self):NN32
     opr +(self,b:NN32):NN32
@@ -166,7 +170,13 @@ end
 value object UnsignedLong extends NN64
 end
 
-object IntLiteral extends { ZZ32 }
+object IntLiteral extends { Number }
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
+    opr |self| : IntLiteral
     opr =(self, b: IntLiteral):Boolean
     opr <(self, other:IntLiteral): Boolean
     opr <=(self, other:IntLiteral): Boolean
@@ -174,9 +184,6 @@ object IntLiteral extends { ZZ32 }
     opr >=(self, other:IntLiteral): Boolean
     opr CMP(self, other:IntLiteral): TotalComparison
 
-(*
-Do not enable these until coercion is implemented; doing so will
-cause all our arithmetic to occur on IntLiterals.
     opr -(self): IntLiteral
     opr +(self, b: IntLiteral): IntLiteral
     opr -(self, b: IntLiteral): IntLiteral
@@ -195,7 +202,6 @@ cause all our arithmetic to occur on IntLiterals.
     opr RSHIFT(self, b:AnyIntegral): IntLiteral
     opr BITNOT(self): IntLiteral
     opr ^(self, b:AnyIntegral):RR64
-*)
 end
 
 object BigNum extends ZZ end

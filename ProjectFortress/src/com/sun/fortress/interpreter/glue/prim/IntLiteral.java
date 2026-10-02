@@ -17,6 +17,8 @@ import com.sun.fortress.interpreter.evaluator.values.*;
 import com.sun.fortress.interpreter.glue.NativeMeth0;
 import com.sun.fortress.interpreter.glue.NativeMeth1;
 import com.sun.fortress.nodes.ObjectConstructor;
+import com.sun.fortress.exceptions.ProgramError;
+import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -250,6 +252,52 @@ public class IntLiteral extends NativeConstructor {
             } else {
                 return FIntLiteral.make(u.pow((int) v));
             }
+        }
+    }
+
+    static private abstract class K2V extends NativeMeth0 {
+        protected abstract FValue f(BigInteger x);
+
+        public final FValue applyMethod(FObject x) {
+            return f(toB(x));
+        }
+    }
+
+    private static ProgramError doesNotFit(BigInteger x, java.lang.String type) {
+        return new ProgramError(errorMsg("Value ", x, " does not fit in ", type, "."));
+    }
+
+    public static final class ToZZ32 extends K2V {
+        protected FValue f(BigInteger x) {
+            if (x.bitLength() > 31) throw doesNotFit(x, "ZZ32");
+            return FInt.make(x.intValue());
+        }
+    }
+
+    public static final class ToZZ64 extends K2V {
+        protected FValue f(BigInteger x) {
+            if (x.bitLength() > 63) throw doesNotFit(x, "ZZ64");
+            return FLong.make(x.longValue());
+        }
+    }
+
+    public static final class ToNN32 extends K2V {
+        protected FValue f(BigInteger x) {
+            if (x.signum() < 0 || x.bitLength() > 32) throw doesNotFit(x, "NN32");
+            return FNN32.make(x.intValue());
+        }
+    }
+
+    public static final class ToNN64 extends K2V {
+        protected FValue f(BigInteger x) {
+            if (x.signum() < 0 || x.bitLength() > 64) throw doesNotFit(x, "NN64");
+            return FNN64.make(x.longValue());
+        }
+    }
+
+    public static final class ToZZ extends K2V {
+        protected FValue f(BigInteger x) {
+            return FBigNum.make(x);
         }
     }
 
