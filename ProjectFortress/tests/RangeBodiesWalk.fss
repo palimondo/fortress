@@ -1,0 +1,19 @@
+(* Range bodies of rank 2 and 3, and the scalar ranges' indices, that build the range their declarations name. *)
+component RangeBodiesWalk
+export Executable
+
+run() = do
+    println("REACHED")
+    assert(((0,0):(2,2)).flip().asDebugString, "StridedFullRange2D(2,2, 0,0, -1,-1)", "(0,0):(2,2) flipped runs from (2,2) to (0,0) with stride (-1,-1)")
+    assert(((0,0,0):(2,3,1)).flip().asDebugString, "StridedFullRange3D(2,3,1, 0,0,0, -1,-1,-1)", "(0,0,0):(2,3,1) flipped runs from (2,3,1) to (0,0,0) with stride (-1,-1,-1)")
+    assert((((0,0):(5,5))[(1,1):(2,3)]).asDebugString, "CompactFullRange2D(1,1, 2,3)", "(0,0):(5,5) subscripted by (1,1):(2,3) is (1,1):(2,3)")
+    assert((((0,0):(10,10)):(2,2))[(1,1):(2,3)].asDebugString, "StridedFullRange2D(2,2, 4,6, 2,2)", "(0,0):(10,10):(2,2) subscripted by (1,1):(2,3) is (2,2):(4,6):(2,2)")
+    assert((((0,0,0):(5,5,5))[(1,1,1):(2,3,2)]).asDebugString, "CompactFullRange3D(1,1,1, 2,3,2)", "(0,0,0):(5,5,5) subscripted by (1,1,1):(2,3,2) is (1,1,1):(2,3,2)")
+    assert(((1,1,1):(3,4,5)).bounds.asDebugString, "CompactFullRange3D(0,0,0, 2,3,4)", "the bounds of (1,1,1):(3,4,5) are (0,0,0):(2,3,4)")
+    assert((3:5).indices.asString, "mapped(0,1,2)", "the indices of 3:5 are 0, 1, 2")
+    assert((0:6:2).indices.asString, "mapped(0,1,2,3)", "the indices of 0:6:2 are 0, 1, 2, 3")
+    assert(seq(seq(0:6:2)).asDebugString, "StridedFullSeqScalarRange(0,6,2)", "seq of the sequential range seq(0:6:2) is itself")
+    println("PASS")
+end
+
+end

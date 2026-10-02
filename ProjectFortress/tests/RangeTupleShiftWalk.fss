@@ -1,6 +1,6 @@
 (*) explorations/compile-ladder/rung-size-range/REPORT.md
 
-component XXXRangeTupleShiftWalk
+component RangeTupleShiftWalk
 export Executable
 
 run(): () = do

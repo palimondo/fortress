@@ -9,6 +9,9 @@ run(): () = do
     println("REACHED")
     assert(w.min[\ZZ64\](g).asString, "Just(2)", "a uniform distribution over the strided range 2:8:3 has minimum 2")
     assert(w.max[\ZZ64\](g).asString, "Just(8)", "a uniform distribution over the strided range 2:8:3 has maximum 8")
+    b = UniformDistribution[\ZZ32\]((8:2):(-3))
+    assert(b.min[\ZZ64\](g).asString, "Just(2)", "a uniform distribution over the backward range 8:2:-3 has minimum 2")
+    assert(b.max[\ZZ64\](g).asString, "Just(8)", "a uniform distribution over the backward range 8:2:-3 has maximum 8")
     println("PASS")
 end
 
