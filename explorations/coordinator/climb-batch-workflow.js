@@ -13,11 +13,13 @@
 // now and which review item each change answers is written up in
 // explorations/coordinator/climb-batch-workflow.md.
 //
-// Launch with no worktree made: each rung worker makes its own, by the one
+// Launch with no rung worktree made: each rung worker makes its own, by the one
 // command in the shared prefix's "Your worktree", from the base, path and branch
-// named here, and the coordinator makes none (climb batch 7b's review, finding 9):
+// named here (climb batch 7b's review, finding 9), seeding it from the batch's
+// one base build, which the coordinator makes and builds before the launch
+// (climb-batch-workflow.md, "Before the launch"):
 //   Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js',
-//             args: {base: '<the commit main is at>'}})
+//             args: {base: '<the commit main is at>', baseBuild: '<the base build, a built worktree at that commit>'}})
 //
 // Every worker, skeptic, gather, review and gate agent is pinned to Opus, and so
 // is a judge's first ruling on a rung or on the merged tree; a second ruling on
@@ -37,7 +39,7 @@ export const meta = {
   description: 'One batch of Fortress compile-ladder rungs in isolated worktrees, each judged by its own skeptic, gathered, reviewed and gated once (suite counts, four-thread atomic runs, ladder regression, the checker count over the interpreter library, and the distance to the switch-over reported beside them) before it lands',
   phases: [
     { title: 'Rung', detail: 'test-first repair in an isolated worktree, committed and pushed to wip/ as it goes; never runs the full gate' },
-    { title: 'Skeptic', detail: 'independent judgement with its own walk-vs-compiled differential; one repair round allowed' },
+    { title: 'Skeptic', detail: 'independent judgement that builds nothing: test-first read in the worker transcript, its own walk-vs-compiled differential on the rung build and a copy of the base build; one repair round allowed, then a second judgement of the repair alone' },
     { title: 'Judge', detail: 'Opus for the first ruling on a rung or on the merged tree, Fable for a second ruling on the same one; only on a stop, a refusal, a blocking review or a red gate: reads the reports and the diff, decides, writes the decision' },
     { title: 'Gather', detail: 'net change of each approved branch applied to main, record folded, one local commit per rung' },
     { title: 'Review', detail: 'the merged diff against the batch rules and the folded record as a whole, once, beside the gate; a finding that touches code goes to the judge and a repair, one settled by tests and records goes to the next batch' },
@@ -56,6 +58,17 @@ const FABLE = 'fable' // a judge's second ruling on the same rung or tree
 const judgeTier = (priorRuling) => priorRuling ? { model: FABLE } : { model: OPUS }
 const BASE = args && args.base
 if (!BASE) throw new Error('args.base is required: the commit every wip/ branch was cut from')
+// The batch's one base build (POSITIONS.md, "Nothing is built or run twice on the same
+// code."): a worktree at BASE that the coordinator built once before the launch and that
+// nobody compiles or runs in. Every rung worktree is seeded from it, and so is each
+// rung's private copy of the base, WORKTREE-base, where the old code runs
+// (explorations/coordinator/build-cache-exploration.md, section 5;
+// explorations/coordinator/tools/seed-worktree.sh).
+const BASE_BUILD = args && args.baseBuild
+if (typeof BASE_BUILD !== 'string' || !/^\/[A-Za-z0-9._\/-]+$/.test(BASE_BUILD) || /\/$/.test(BASE_BUILD))
+  throw new Error('args.baseBuild is required: the absolute path of the worktree at the base, built once before the launch (climb-batch-workflow.md, "Before the launch"), with no trailing slash, space or quote')
+const SEED = BASE_BUILD + '/explorations/coordinator/tools/seed-worktree.sh'
+const baseCopy = (rung) => rung.path + '-base'   // a rung's private copy of the base, for the old code
 const CONTAINER_BRANCH = 'claude/worker-brief-fable-vnnuv8'   // this container's infrastructure branch; kept at main
 const MAIN = '/home/user/fortress'
 
@@ -835,7 +848,7 @@ open + ' run ' + (sliced.length > 1 ? 'these commands' : 'this command') + ' in 
 const PREFIX = [
 "# Fortress climb batch " + BATCH + " - shared prefix",
 "",
-"You are an agent in the Fortress revival's compile-path climb (@palimondo's revival of Sun's Fortress programming language). " + BATCH_INTRO + " Your brief carries your rung's section of " + BATCH_RECORD + " word for word and your briefing prints the decisions it rests on; read the record's sections 1 and 2 only where your tail points you there, and never the whole file.",
+"You are an agent in the Fortress revival's compile-path climb (@palimondo's revival of Sun's Fortress programming language). " + BATCH_INTRO + " A rung worker's brief, and its repair round's, carries the rung's section of " + BATCH_RECORD + " word for word as its tail; a skeptic's carries that section's paragraph for the skeptic; a judge's and those of the stages on the merged tree carry what they rule on and read. Each role's briefing prints the decisions the rung rests on. Read the record's sections 1 and 2 only where your brief points you there, and never the whole file.",
 "",
 "## The batch manifest",
 "",
@@ -847,14 +860,14 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 '## Your worktree',
 '',
-'Work ONLY in the worktree your tail names. The other rungs are running at the same time in their own worktrees; never read or write outside your own. Never touch /home/user/fortress, which is the main tree.',
+'Work ONLY in the worktree your tail names, and in the rung\'s private copy of the base beside it, WORKTREE-base ("The old code beside the new", below). The other rungs are running at the same time in their own worktrees; never read or write outside your own. Never touch /home/user/fortress, which is the main tree.',
 '',
-'Nobody made the worktree at the launch: the rung worker makes it, before its step 1, and every later role of the rung finds it made. Substitute WORKTREE and BRANCH from your tail. The command adds the worktree to the main tree\'s repository without touching its files; it reuses a worktree that exists (a relaunch after a VM restart) and a branch already pushed (a relaunch after the container died), and otherwise cuts the branch from the base, ' + BASE + ':',
+'Nobody made the worktree at the launch: the rung worker makes it, before its step 1, and every later role of the rung finds it made. Substitute WORKTREE and BRANCH from your tail. The command adds the worktree to the main tree\'s repository without touching its files; it reuses a worktree that exists (a relaunch after a VM restart) and a branch already pushed (a relaunch after the container died), and otherwise cuts the branch from the base, ' + BASE + '. And it seeds the worktree from the batch\'s base build, ' + BASE_BUILD + ', a worktree at the base that the coordinator built once before the launch: it copies that build\'s ProjectFortress/build and default_repository/caches and translates the caches\' path keys, in about 3 s, so that the worktree runs walk and the compiled path at once, the library already compiled in order (explorations/coordinator/build-cache-exploration.md; POSITIONS, "Nothing is built or run twice on the same code."):',
 '',
-'    git -C /home/user/fortress fetch -q origin BRANCH 2>/dev/null ; [ -d WORKTREE ] || git -C /home/user/fortress worktree add WORKTREE BRANCH 2>/dev/null || git -C /home/user/fortress worktree add -b BRANCH WORKTREE ' + BASE,
-'    cd WORKTREE && mkdir -p tmp && git push -u origin BRANCH',
+'    ' + SEED + ' ' + BASE_BUILD + ' WORKTREE BRANCH ' + BASE,
+'    cd WORKTREE && git push -u origin BRANCH',
 '',
-'Then set up the shell as below and run ant compileAll in the worktree once, through run_bg with its log under tmp/, before your first build or test, and the library-order rebuild after it (both below): a new worktree has no ProjectFortress/build and no cache, and cannot take either from the main tree.',
+'Build nothing to set it up: no ant compileAll and no library order, until an edit of yours needs one ("After an edit", below). A worktree that already has a build is left as it is, so a relaunch keeps your own. If the command exits 2 (the base build missing or not clean) it made nothing: then make the worktree with git -C /home/user/fortress worktree add -b BRANCH WORKTREE ' + BASE + ' (without -b BRANCH for a branch that exists), build it once as "After an edit" says for Java or Scala, and say so in REPORT.md.',
 '',
 'Set up every shell (substitute your worktree path for WORKTREE):',
 '',
@@ -865,7 +878,17 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 'env.sh sets FORTRESS_HOME from its own location, so check that echo $FORTRESS_HOME prints your worktree and not /home/user/fortress. It also runs rm -rf /tmp/fortress*rats; source it once per shell and never mid-run, because the other agent\'s Rats! temp directories live there too. The JDK is at /usr/lib/jvm/java-25-openjdk-amd64 and the box has 4 cores; do not spend a call probing for either.',
 '',
-'ProjectFortress/build is gitignored, so ant compileAll builds it in your worktree, about 80 s; its scalac step has no uptodate guard (build.xml:547-568), so every later ant compileAll is a full rebuild too; budget for that. Never symlink the main tree\'s build into your worktree: the classpath probe then resolves every cache path to the main tree (explorations/coordinator/batched-climb-review.md, finding 2). Your default_repository/caches/ starts empty and cannot be warmed from the main tree, because the analysed-cache key hashes the source path (NamingCzar.deCaseName, compiler/NamingCzar.java:243-245). So after ant compileAll you must rebuild the bytecode cache in library order:',
+'## After an edit, and after a failed build',
+'',
+'ProjectFortress/build and default_repository/caches are gitignored and your worktree\'s own, seeded from the base build. Never symlink another tree\'s build into your worktree: the classpath probe then resolves every cache path to that tree (explorations/coordinator/batched-climb-review.md, finding 2). Fortress notices an edit only when you compile what you edited: compiling your own program never recompiles the library under it, and a step skipped runs the old code with no warning or dies with NoSuchMethodError. Wipe the caches for none of these (explorations/coordinator/build-cache-exploration.md, section 2):',
+'',
+'- A library component\'s .fss edited, and not its .fsi: fortress compile that component alone (CompilerBuiltin about 60 s, CompilerLibrary about 25 s, the others 2 to 16 s). Programs need no recompile.',
+'- The .fsi of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra edited, the roots every api depends on: all five in the library order below, about 100 s. CompilerSystem.fsi edited: CompilerSystem alone.',
+'- Under walk nothing is needed: walk reads an edited library source again on its next run.',
+'- Java or Scala edited: ant compileAll through run_bg, 25 to 40 s on a built tree. It deletes default_repository/caches first (build.xml:356-360, :715), so restore the one tracked file in it, git checkout -- default_repository/caches/global.map, and run the library order before your next compiled run (fortress compile, fortress run, junit.sh). harness-one.sh, the checker count, the distance stage and the suites use caches of their own and need neither.',
+'- ant compileAll failed: fix the error and run it again; the caches are already gone, and global.map and the library order follow as above. A fortress compile of a library component that failed or was killed wrote nothing, or only its jar: fix it and compile that component again before any compiled run, since until then programs link its old jar without a warning. A NoSuchMethodError from a compiled run means a component was not recompiled after an edit or after ant compileAll: recompile it, or run the library order.',
+'',
+'The library order, from your worktree:',
 '',
 '    cd ProjectFortress',
 '    ../bin/fortress compile LibraryBuiltin/AnyType.fss',
@@ -874,7 +897,20 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '    ../bin/fortress compile ../Library/CompilerAlgebra.fss',
 '    ../bin/fortress compile ../Library/CompilerSystem.fss',
 '',
-'about 145 s cold: AnyType 21, CompilerBuiltin 104, CompilerLibrary 17, CompilerAlgebra 2, CompilerSystem 1. Two operational traps measured in rung 7: a fortress compile whose source has not changed writes nothing and exits 0; and a change to a native helper\'s signature leaves a stale class in default_repository/caches/nativewrapper_cache that must be deleted or the old signature is what the run links against.',
+'about 100 s after ant compileAll: AnyType 17, CompilerBuiltin 63, CompilerLibrary 27, CompilerAlgebra 2, CompilerSystem 2. Two traps measured in rung 7: a fortress compile whose source has not changed writes nothing and exits 0; and a change to a native helper\'s signature leaves a stale class in default_repository/caches/nativewrapper_cache that must be deleted or the old signature is what the run links against.',
+'',
+'## The old code beside the new',
+'',
+'A run on the base\'s code once your worktree holds an edit (a test, or a program of your own run old against new) never reverts and rebuilds your worktree. It runs in the rung\'s private copy of the base, WORKTREE-base: a detached worktree at the base, seeded from the base build in about 3 s by the first role of the rung that needs it, and reused by the rung\'s later roles, since the command leaves a copy that exists as it is:',
+'',
+'    ' + SEED + ' ' + BASE_BUILD + ' WORKTREE-base - ' + BASE,
+'',
+'Run in it from your own scratch directory with FORTRESS_HOME set on the command line, because bin/fortress takes FORTRESS_HOME from the shell whenever it is set (bin/fortress_home) and env.sh set it to your worktree; the first line is the compiled path, the second walk:',
+'',
+'    FORTRESS_HOME=WORKTREE-base WORKTREE-base/bin/fortress compile P.fss && FORTRESS_HOME=WORKTREE-base WORKTREE-base/bin/fortress run P',
+'    FORTRESS_HOME=WORKTREE-base WORKTREE-base/bin/fortress P.fss',
+'',
+'Each rung has its own copy and the roles of one rung run one after another, so no two agents ever compile into one cache: every compile rewrites cache files of the tree it runs in. Never compile or run anything in ' + BASE_BUILD + ' itself, from which every worktree of the batch is seeded and which must stay clean, nor in another rung\'s worktree or copy.',
 '',
 '## Long commands: run them in the background and poll, and never pipe ant through tail',
 '',
@@ -960,7 +996,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 '## Commit and push as you go - on your own branch only',
 '',
-'Your worktree is on its own wip/ branch, cut from ' + BASE + ', which you pushed when you made it. Commit on it at every milestone and push after every commit with git push -u origin <your branch>: after the failing test is written and seen failing, in a commit that holds the test alone, so that your skeptic can run it on the base; after the edit and the pass; after REPORT.md and record.md; after anything else worth not losing. The batch of 2026-09-17 kept every worktree dirty and lost all of it when the container died; this is the insurance against that, and nothing else. Write plain messages that say what state the commit captures; the landed commit is composed by the coordinator from your branch\'s net change, so your commits are not history that must be shaped. Never commit to main, never push to any branch but your own, never force-push, and never put a model identifier in a commit message. End every commit message with exactly these two lines:',
+'Your worktree is on its own wip/ branch, cut from ' + BASE + ', which you pushed when you made it. Commit on it at every milestone and push after every commit with git push -u origin <your branch>: after the failing test is written and seen failing, in a commit that holds the test alone, so that your skeptic sees in the history, and in your transcript, that it came first; after the edit and the pass; after REPORT.md and record.md; after anything else worth not losing. The batch of 2026-09-17 kept every worktree dirty and lost all of it when the container died; this is the insurance against that, and nothing else. Write plain messages that say what state the commit captures; the landed commit is composed by the coordinator from your branch\'s net change, so your commits are not history that must be shaped. Never commit to main, never push to any branch but your own, never force-push, and never put a model identifier in a commit message. End every commit message with exactly these two lines:',
 '',
 '    Co-Authored-By: Claude <noreply@anthropic.com>',
 '    Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB',
@@ -1011,7 +1047,7 @@ function rungRole(rung, repairRound) {
 ...(repairRound ? sliceStep([rung], 'your worktree (' + rung.path + ')') : briefingStep(rung, 'your worktree (' + rung.path + ')')),
 ...(rung.testIsStage ? [
 '2. Your rung declares testIsStage: its failing-then-passing test is the gate\'s checker-count stage (gate step 8) and NOT a .fss program: no program can yet be compiled against the interpreter\'s prelude, and this is the one place the test-first rule is met by a permanent stage instead of a test file (explorations/coordinator/library-route-judgement.md section 2 step 1; Pavol\'s decision of 2026-09-21, POSITIONS.md, "the library route"). Its before is the last landed gate\'s table and per-site list, which the batch intro and your tail name (POSITIONS.md, 2026-09-28: a rung does not re-run the stage on an unchanged base); read them, and do not run the stage before your edit.',
-'3. Once steps 4 and 5 below are done (the edit and its rebuild), run the stage once in your worktree, to tmp/SLUG/checker-count-postedit.txt; read the header of explorations/coordinator/tools/checker-count/run.sh first, and ant compileAll must have run in your worktree:',
+'3. Once steps 4 and 5 below are done (the edit and its rebuild), run the stage once in your worktree, to tmp/SLUG/checker-count-postedit.txt; read the header of explorations/coordinator/tools/checker-count/run.sh first; it runs on the worktree\'s ProjectFortress/build, the seed\'s or, after a Java or Scala edit, your ant compileAll\'s:',
 '',
 '        explorations/coordinator/tools/checker-count/run.sh tmp/SLUG/checker-count-postedit.txt tmp/SLUG/cc-post',
 '',
@@ -1026,11 +1062,11 @@ function rungRole(rung, repairRound) {
 '        run_out_contains=PASS',
 '',
 '   run_out_WIcontains, which Boolean.test and PLAN.md write, is implemented in the harness as of 2026-09-19 (FileTests.java:147-155, whitespace-insensitive containment beside _contains) but this batch writes _contains: one key, one meaning, and the seventeen older files are not this batch\'s business. A native-helper rung whose declarations are library declarations is a library rung: rung 7 put its test in library_tests/ (IntLiteralArithRung7).',
-'3. Run it through the harness BEFORE the edit exists and see it fail. Commit the test alone. Quote the failing lines, two to five, in REPORT.md with the command. A test your skeptic cannot see fail on the base is refused. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',
+'3. Run it through the harness BEFORE the edit exists and see it fail. Commit the test alone. Quote the failing lines, two to five, in REPORT.md with the command. Your skeptic reads this order in your transcript (the test committed alone, seen failing through the harness on the base\'s code, then the fix) and runs nothing again; a test it does not find failing there is refused. The process this rules out is the one-off validation script: proving once by hand that something works and going ahead without leaving a permanent check in the corpus.',
 '   A rung that edits only the specification or other prose, where no test can go red (a prose edit of Specification/ or Documentation/, which moves no test\'s citation, since tests name the section and not the line), makes no test-only commit and has no failure to see: steps 2, 3 and 6 do not apply, its report says so, and its skeptic checks its text against the tree and the decisions on record instead. It commits no build log, capture or PDF: if it builds the specification to see its text compile, it commits nothing the build writes, and the commit stage builds the PDF once for the batch.',
 ]),
 '4. Make the edit, as small as the test needs.',
-'5. Rebuild: ant compileAll if you touched .java or .scala, then the library-order bytecode-cache rebuild. A rung that edits only CompilerLibrary rebuilds CompilerLibrary, CompilerAlgebra and CompilerSystem (25-30 s); one that edits CompilerBuiltin rebuilds from CompilerBuiltin down (about 125 s); the full five only after ant compileAll.',
+'5. Build what the edit needs, by the shared prefix\'s "After an edit": a library component\'s .fss, that component alone; a root api\'s .fsi, the five in library order; Java or Scala, ant compileAll, global.map restored and the library order before a compiled run.',
 '6. Run the test again through the harness and see it pass; quote its verdict line in REPORT.md.',
 '7. Grep BOTH corpora - ProjectFortress/tests/ and every *_tests/ directory - for a competing declaration of every name you add. Rung 1 lost a full cycle to library_tests/MaybeTest9.fss declaring its own trait Equality, which only a full run revealed; this grep costs seconds and covers it. And grep src/com/sun/fortress/ whole, not compiler/ and runtimeSystem/ alone, for every name you add: rung M found Maybe, Just and Nothing named from syntax_abstractions/, outside the scope the climb had been grepping.',
 '8. Run the ladder subset for the files your names were blocking, after the edit only. The before is the last landed gate\'s ladder stage, or for a file the gate does not run, the baseline\'s recorded output (explorations/compile-ladder/baseline-2026-09-19/raw/); run a file on the base only when neither covers it or the tree changed under it, and say which. Use the restricted driver explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh with a subset.txt (corpus<TAB>file per line) listing the files the batch record names for your rung plus any file whose recorded first error in explorations/compile-ladder/baseline-2026-09-19/raw/ names one of your names. The driver writes its subset.txt and outputs beside itself (its OUT), so copy it into tmp/SLUG/ladder/ as the gate copies it, point its OUT there and LADDER_ROOT at tmp/SLUG/ladder/root: the copy is scratch and is never committed. Never run the full-corpus driver with its default root: that root is shared and its cache pruning corrupts a parallel run.',
@@ -1047,22 +1083,92 @@ function rungRole(rung, repairRound) {
 }
 
 // ---------------------------------------------------------------------------
-// The skeptic's role block. batched-climb-plan.md section 3.
+// The skeptic's role blocks. batched-climb-plan.md section 3, as Pavol's decisions
+// of 2026-10-02 narrowed them (POSITIONS.md, "Test first, the test kept." and
+// "Nothing is built or run twice on the same code."; the four changes of
+// explorations/coordinator/skeptic-scope-judgement.md, section 5, that he took): the
+// skeptic builds nothing and reads test-first in the worker's transcript; it compiles
+// and runs only its own small programs, with the rung's build for the new code and the
+// rung's copy of the base build for the old; its brief carries the rung's paragraph
+// for the skeptic, not a pointer to the batch record; SKEPTIC.md is committed, not read
+// back and sent again; and the second skeptic checks only the repair against its own
+// refusal. climb-batch-workflow.md, "Climb batch 9: one base build, and a skeptic that
+// reads".
 // ---------------------------------------------------------------------------
 
-function skepticRole(rung, workerReport, round) {
+// The rung's paragraph for the skeptic, from its tail, which carries the rung's section
+// of the batch record word for word. Until 2026-10-02 the prefix said the skeptic's brief
+// carried that section, and it carried none: every skeptic of climb batch 8 read the
+// record for it, 7K to 15K tokens each (skeptic-scope-judgement.md, section 5, item 4).
+function forTheSkeptic(rung) {
+  const lines = typeof rung.tail === 'string' ? rung.tail.split('\n') : (Array.isArray(rung.tail) ? rung.tail : [])
+  const para = lines.find(l => typeof l === 'string' && l.startsWith('**For the skeptic.**'))
+  return ['## What the batch record asks of this rung\'s skeptic', ''].concat(para
+    ? ['The rung\'s section of ' + BATCH_RECORD + ' (section 3) has a paragraph for the skeptic, here word for word. The rest of that section is the worker\'s brief, and you do not read it. Where the paragraph asks for a build, a stage run again or the test run by you, the worker\'s recorded run stands in its place, by "You build nothing" below:', '', para, '']
+    : ['The rung\'s section of ' + BATCH_RECORD + ' has no paragraph for the skeptic. Read that section, under the rung\'s heading in section 3, only for a point a check below needs, and never the whole file.', ''])
+}
+
+// The transcripts a skeptic reads instead of running again what their agents ran: the
+// worker's (rung:, resume:) or the repair round's (repair:). The harness writes each
+// agent's transcript as agent-<id>.jsonl beside agent-<id>.meta.json, whose description
+// is the label this script gives the agent, in the run's directory beside its journal;
+// the newest meta file that carries the skeptic's own label is in this run's directory.
+// The two jq programs were tried on climb batch 8's transcripts (run wf_603242ca-111):
+// the list is 30 to 61 lines for a worker, and rung I's shows its base run at 13:10,
+// its test-only commit at 13:13:16, the first build of its edit at 13:13:23.
+const JQ_LIST = 'select(.type == "assistant") | .timestamp as $t | .message.content[]? | select(.type == "tool_use") | select(.name == "Edit" or .name == "Write" or (.name == "Bash" and (.input.command | test("git (commit|stash)|junit|harness|run_bg|wait_for|fortress compile|compileAll")))) | [$t[11:19], .id[-6:], .name, ((.input.command // .input.file_path) | gsub("[[:space:]]+"; " ") | .[0:150])] | join("  ")'
+const JQ_CALL = 'select(.message.content | type == "array") | .timestamp as $t | .message.content[] | select((.type == "tool_use" and (.id | endswith($id))) or (.type == "tool_result" and (.tool_use_id | endswith($id)))) | $t[11:19] + "  " + (if .type == "tool_use" then (.input.command // .input.file_path // (.input | tostring)) else (.content | if type == "array" then map(.text // "") | join("\\n") else . end) end)'
+function transcriptStep(rung, own, labels, whose) {
+  const id = rung.id.replace(/[^A-Za-z0-9]/g, '.')
+  return [
+'## ' + whose + ' transcript',
+'',
+whose + ' transcripts are in this run\'s directory, beside your own, under the labels ' + labels.map(l => l + ':' + rung.id).join(' and ') + ' (a retry adds :attempt2 and on). These two lines print their paths, oldest first, finding the run\'s directory by your own label, ' + own + ':' + rung.id + ':',
+'',
+'    D=$(dirname "$(ls -t ~/.claude/projects/*/*/subagents/workflows/*/agent-*.meta.json | xargs grep -lE \'"description":"' + own + ':' + id + '(:attempt[0-9]+)?"\' | head -1)")',
+'    grep -lE \'"description":"(' + labels.join('|') + '):' + id + '(:attempt[0-9]+)?"\' $(ls -tr "$D"/agent-*.meta.json) | sed \'s/[.]meta[.]json$/.jsonl/\'',
+'',
+'A transcript runs to megabytes: never read one whole. For a transcript T, the first command below lists its edits, commits, builds and harness runs in order, each with its time (UTC) and the last six characters of its call\'s id, 30 to 60 lines for a worker of climb batch 8; the second prints one call\'s command and its output by that id:',
+'',
+'    jq -r \'' + JQ_LIST + '\' T',
+'    jq -r --arg id ID \'' + JQ_CALL + '\' T | head -80',
+'',
+  ]
+}
+
+// What a skeptic runs, and what it does not (POSITIONS.md, "Test first, the test kept."
+// and "Nothing is built or run twice on the same code."). In climb batch 8 the first and
+// second skeptics ran ant compileAll 15 times, each on a code state a worker had already
+// built (reviews/batch-8-review.md, section 4), 8 to 14 minutes a skeptic with their
+// harness runs (skeptic-scope-judgement.md, section 2).
+function buildsNothing(rung, whose) {
+  const copy = baseCopy(rung)
+  return [
+'## You build nothing',
+'',
+whose + ' built this rung\'s code and ran its test, and the gate builds the merged tree and runs every suite on it, so you run no build of your own (POSITIONS, "Test first, the test kept." and "Nothing is built or run twice on the same code."). You start no build tool and no library compile, and you leave the rung\'s worktree on the commit it is at, with its build as it stands. Whether the test came first, was seen failing and then passing, you read in the transcript and the recorded runs, and you run neither the test nor a stage again. What you compile and run is your own small programs: for the new code with the rung\'s own build, in its worktree, where you write them under tmp/' + rung.slug + '/skeptic/; for the old code in the rung\'s private copy of the base, ' + copy + ', seeded from the batch\'s one base build as the shared prefix\'s "The old code beside the new" says. The first line below makes the copy if no role of the rung has made it yet (about 3 s) and leaves it as it is if one has; the second compiles and runs a program P on the old code:',
+'',
+'    ' + SEED + ' ' + BASE_BUILD + ' ' + copy + ' - ' + BASE,
+'    FORTRESS_HOME=' + copy + ' ' + copy + '/bin/fortress compile P.fss && FORTRESS_HOME=' + copy + ' ' + copy + '/bin/fortress run P',
+'',
+'Where the rung\'s last build is older than its last commit that changes code, its recorded runs are not of its head: that is a finding for your verdict, never a reason to build.',
+'',
+  ]
+}
+
+function skepticRole(rung, workerReport) {
+  const copy = baseCopy(rung)
   return [
 '',
 '---',
 '',
 '# Your role: skeptic for ' + rung.id + ', ' + rung.slug,
 '',
-(round > 1
-  ? 'This is the SECOND judgement of this rung. You refused it once, the worker made one repair, and this is the re-judgement. Under the design, a second refusal drops the rung from the batch: it is recorded with the reason and returned to the ranking, not retried. So refuse again only if the rung is genuinely wrong, not if it is merely improvable.'
-  : 'This is the first judgement of this rung. You may refuse once; the worker then gets exactly one repair round in the same worktree.'),
+'This is the first judgement of this rung. You may refuse once; the worker then gets exactly one repair round in the same worktree.',
 '',
 'You did not do this work and you are not here to be agreeable. Your job is to decide whether the claim is true and whether the record is honest. The worktree is ' + rung.path + ' and it is dirty on purpose; read the diff with git diff and git status in that worktree.',
 '',
+...forTheSkeptic(rung),
 '## What the worker reported',
 '',
 'This is the worker\'s own account. Treat it as a claim to be checked, not as evidence.',
@@ -1073,35 +1179,37 @@ JSON.stringify(Object.assign({}, workerReport, { reportText: undefined, recordTe
 // REPORT.md in every rung of climb batch 7b, and its skeptics searched the run's transcripts for it
 // (explorations/reviews/batch-7b-review.md, finding 4).
 ...(workerReport && workerReport.reportText ? ['REPORT.md as the worker returned it in reportText, word for word. Where the branch carries explorations/compile-ladder/' + rung.slug + '/REPORT.md, the file is the report and this is its copy; where it does not (the harness refused the worker\'s write in every rung of climb batch 7b), this is the report, and your checks of REPORT.md are checks of this text:', '', workerReport.reportText, ''] : []),
+...buildsNothing(rung, 'The worker'),
+...transcriptStep(rung, 'skeptic', ['rung', 'resume'], 'The worker\'s'),
 '## What you must check',
 '',
 ...sliceStep([rung], 'the rung\'s worktree (' + rung.path + ')'),
 '2. The provenance block under REPORT.md\'s title: FIVE lines now - problem, spec, precedent, deviation, historical. Open every file:line it cites with sed -n and check that the line says what the block says. A missing line, a line that does not say it, a spec: line that cites only Specification/library/apis/, or a historical: line that omits a file of the 2012 tree the diff edits, is a required correction, not a refusal (the rule after check 12).',
 (rung.testIsStage
-  ? '3. The failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh). The before is the last landed gate\'s table; the after is tmp/' + rung.slug + '/checker-count-postedit.txt in the worktree; check that the report\'s diff is the diff of those two, and RUN THE STAGE YOURSELF in the worktree to see the post-edit table come out again: that run is your check that the test passes, in place of running a .fss test. A rung of this kind whose post-edit table you cannot reproduce is refused exactly as a test you cannot see fail would be; a report whose diff is not the diff of those two tables is a required correction. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved: the gate prints the declared total beside the one it measures, and a crash line no rung declared makes the batch\'s gate red. Check 10 compares that total with the table. Where the rung\'s tail asks for the distance stage\'s tables too, re-run explorations/coordinator/tools/distance/run.sh in the worktree through run_bg (13 to 24 minutes) and compare your table with the worker\'s post-edit one with explorations/coordinator/tools/distance/compare.sh: they agree within the checker\'s run-to-run variation of 2 to 4 errors. Everything else in this list is unchanged.'
-  : '3. The failure, seen by you. Check out the worker\'s test-only commit, or put the new test on the base alone, rebuild what the edit touched (ant compileAll for Java or Scala, then the library-order rebuild), and run it through the harness: it must fail as the report quotes. Then git checkout ' + rung.branch + ', rebuild, and run it at the branch\'s head: it must pass. Your own programs below run on that tree, and you commit on that branch. A test you cannot see fail on the base is refused - this is not negotiable and it is the point of the whole discipline. A rung that edits only the specification or other prose, where no test can go red (the order of work says which), has no failure to see: check that git diff --name-only ' + BASE + '...HEAD lists no path outside Specification/, Documentation/ and explorations/ but a test file whose change is its citation of a section the rung renamed or removed, and check its text against the tree and the decisions on record instead, each sentence it adds or changes stating what the code and the decisions do. It is not refused for a failure no test can show.'),
+  ? '3. The failure, which for THIS rung is a table and not a program. Its manifest entry sets testIsStage: no program can yet be compiled against the interpreter\'s prelude, so the failing-then-passing test is the gate\'s checker-count stage (gate step 8, explorations/coordinator/tools/checker-count/run.sh). The before is the last landed gate\'s table; the after is tmp/' + rung.slug + '/checker-count-postedit.txt in the worktree. Check that the report\'s diff is the diff of those two, and in the worker\'s transcript (above) that the run that wrote the after table ran after the edit was built, on the head\'s code, by its command and its time: that run is the test seen passing. You run neither the count nor the distance stage: the worker ran them on this code, and the gate measures both on the merged tree (POSITIONS, "Nothing is built or run twice on the same code."; skeptic-scope-judgement.md, section 5, item 2). A rung of this kind whose after table the transcript does not show written on the head\'s code is refused exactly as a test not seen failing would be; a report whose diff is not the diff of those two tables is a required correction. Check also that the report names the total the manifest must declare as expectedCheckerCount, and the crash line as expectedCheckerCrash if that moved: the gate prints the declared total beside the one it measures, and a crash line no rung declared makes the batch\'s gate red. Check 10 compares that total with the table. Where the rung\'s record asks for the distance stage\'s tables too, run explorations/coordinator/tools/distance/compare.sh on the last landed table and the worker\'s post-edit one, a file read, and check that what it prints is what the report says moved, within the checker\'s run-to-run variation of 2 to 4 errors. Everything else in this list is unchanged.'
+  : '3. Test first, read in the worker\'s transcript (above), each point by its time and its call\'s id: the test committed alone, in a commit that changes no source or library file, before the commit that holds the fix (git log --stat ' + BASE + '..HEAD shows both); the test seen failing through the harness on the base\'s code, with the failing lines recordedFailure quotes, in a run that ended before the edit was first built or, for a run under walk, which reads the library\'s sources afresh, before a library source it reads was edited; and the test seen passing through the harness on the edit, in the worker\'s last such run, after its last commit that changes code, with the verdict line recordedPass quotes. A test the transcript does not show failing on the base\'s code is refused - this is not negotiable and it is the point of the whole discipline. A passing run older than the head\'s last change of code is a finding, and a ground to refuse unless that change cannot alter the verdict. You run the test neither on the base nor at the head: the worker ran it, and the gate runs it with every suite on the merged tree. A rung that edits only the specification or other prose, where no test can go red (the order of work says which), has no failure to see: check that git diff --name-only ' + BASE + '...HEAD lists no path outside Specification/, Documentation/ and explorations/ but a test file whose change is its citation of a section the rung renamed or removed, and check its text against the tree and the decisions on record instead, each sentence it adds or changes stating what the code and the decisions do. It is not refused for a failure no test can show.'),
 '4. The diff, read line by line against the specification passages cited and against the provenance block. Does the edit do what the report says, and only that? Is it as small as the test needs?',
 '5. The precedent search. Did the worker find what the team already did here, and did it follow the right precedent? Where a precedent repaired a defect, did the worker count the other sites in that file and give the number? If the worker followed none, look for one yourself in the interpreter\'s library, the compiler prelude and the team\'s tests: a device the rung invented where the library already has one is a finding, with the library\'s file:line.',
-'6. The test. Does it actually exercise the defect? The rung\'s tail names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay, and that each specification citation in its messages names the file and the section or entry, never a line, and that the named section\'s text says what the message says.'
+'6. The test. Does it actually exercise the defect? The paragraph for the skeptic above names the cases that matter for this rung. Check also that the test file carries at most one comment line and no provenance essay, and that each specification citation in its messages names the file and the section or entry, never a line, and that the named section\'s text says what the message says.'
   + (rung.testIsStage ? ' This rung writes no test file: what you check instead is that the two tables differ in the way the report says, and that the difference is the defect and not a cache or a build artefact.' : ''),
 '7. The competing-declaration grep across both corpora AND across src/com/sun/fortress/ whole.',
 '8. The record.md fragment. Are the FACTS lines true as written and sourced? Does the ledger note cite an existing row without renumbering anything? Would a reader six months from now be able to check it?',
-'9. The three homes. For every defect the report names as measured: home 1 (repaired in this rung) must be a passing assertion in the rung\'s gated test, and you run the test yourself to see it pass; home 2 (deferred, specification settles it) must be an XXX-named file that the harness treats as expected-to-fail, and you check the name and the .test file; home 3 (deferred, specification silent) must be a test pinning today\'s behaviour, or a ledger row quoting the output where no program can observe it, and the report must say the specification is silent and show the grep. A defect in your OWN findings that the worker then repairs is home 1 too, and its assertion is in place before you approve.',
+'9. The three homes. For every defect the report names as measured: home 1 (repaired in this rung) must be a passing assertion in the rung\'s gated test, in the worker\'s last passing run of check 3; home 2 (deferred, specification settles it) must be an XXX-named file that the harness treats as expected-to-fail, and you check the name and the .test file; home 3 (deferred, specification silent) must be a test pinning today\'s behaviour, or a ledger row quoting the output where no program can observe it, and the report must say the specification is silent and show the grep. A defect in your OWN findings that the worker then repairs is home 1 too, and its assertion is in place before you approve.',
 (rung.testIsStage
   ? '10. The rung\'s own count table against its report: a file read, nothing to run. Its brief names the table: tmp/' + rung.slug + '/checker-count-postedit.txt in the worktree.'
-  : '10. The rung\'s own count table against its report: a file read, nothing to run. The general part of its brief names no table, because the rung does not set testIsStage; its tail may name one, and the report says which table, if any, it wrote under tmp/.')
+  : '10. The rung\'s own count table against its report: a file read, nothing to run. The general part of its brief names no table, because the rung does not set testIsStage; its section of the record may name one, and the report says which table, if any, it wrote under tmp/.')
   + ' Take the table\'s #total row and compare it with the total the report declares in REPORT.md, record.md and the structured report'
   + (rung.expectedCheckerCount !== undefined ? '; write the manifest\'s expectedCheckerCount, ' + rung.expectedCheckerCount + ', beside the two in SKEPTIC.md, as the prediction it is, not a value the table must meet' : '')
   + '. A mismatch between the table and the report is a finding for repair, not a stop: put it in requiredCorrections with both numbers, so that the report is corrected, and do not refuse the rung over it alone. If no table path is named and the rung declares a count, in its report or as expectedCheckerCount, report "no count table" in findings. A rung that declares no count and names no table has nothing to compare; one line saying so is enough.'
   + (rung.testIsStage ? '' : ' Nor does a rung that says its count and distance are unchanged and not run because its edit touches no path the two stages read: check its paths against git diff --name-only ' + BASE + '...HEAD, which must list none outside ' + STAGE_BLIND_TEXT + ' (the rule of the worker\'s order of work); a path outside them without a table is the finding "no count table".'),
 '11. The ledger and the sibling sites. Search explorations/fortress-gap-ledger.md with terms of your own for rows that bear on the rung, and the tree for every other site of the defect the rung repairs: in the files it edits, in the sibling types and widths, and on the other path. A missed row that changes what the rung should do is a finding; a sibling site the rung leaves gets one of the three homes or a recommendedRows entry.',
-'12. The decisions on record. For each entry of explorations/coordinator/POSITIONS.md that the briefing printed or the rung\'s section of ' + BATCH_RECORD + ' cites, check that the landed text says what the decision says, in its scope and its words. A rule stated narrower or broader than the decision, or a case the decision names that the landed text leaves out, is a finding for repair; a landed text that contradicts a decision is a ground to refuse.',
+'12. The decisions on record. For each entry of explorations/coordinator/POSITIONS.md that the briefing printed or the paragraph for the skeptic above cites, check that the landed text says what the decision says, in its scope and its words. A rule stated narrower or broader than the decision, or a case the decision names that the landed text leaves out, is a finding for repair; a landed text that contradicts a decision is a ground to refuse.',
 '',
 'Refuse only for the change or the test: the change is wrong or larger than its test needs, the test does not test it or was not seen failing, a sibling defect has no home, a decision on record was not followed. A citation off by a line, a wording, a missing cross-reference is a required correction, not a refusal.',
 '',
 '## Your required differential - this is not optional',
 '',
-'For every construct the rung touches, write your OWN small program, run it under the interpreter (bin/fortress FILE.fss) and under the compiler path (bin/fortress compile then bin/fortress run), and compare the answers. Do not satisfy this by reading the rung\'s own test; write programs the worker did not write. This requirement exists because four of the 26 items the last climb\'s skeptics raised came from differential probes they invented on their own initiative, and those four were the highest-value findings of eight rungs.',
+'For every construct the rung touches, write your OWN small program, run it under the interpreter (bin/fortress FILE.fss) and under the compiler path (bin/fortress compile then bin/fortress run), and compare the answers. Do not satisfy this by reading the rung\'s own test; write programs the worker did not write. This requirement exists because four of the 26 items the last climb\'s skeptics raised came from differential probes they invented on their own initiative, and those four were the highest-value findings of eight rungs. Run each at the rung\'s head with its own build and, where the rung changes what the program does, on the old code in ' + copy + ' as well ("You build nothing", above).',
 '',
 (rung.writesState
   ? 'THIS RUNG TOUCHES MUTABLE STATE, A TRANSACTION, OR LIBRARY CODE THAT WRITES, so run every one of your differentials TWICE: once with FORTRESS_THREADS=1 and once with FORTRESS_THREADS=4, as a command-line prefix that overrides env.sh (FORTRESS_THREADS=4 ../bin/fortress run X). Report both columns. The reason is on record: the repair batch found AtomicTopLevelVar failing at four threads and passing at one on the same tree (34,104 of 40,000), and every batch-1 skeptic ran everything at one thread by construction, including the first library write to the transactional cell from inside a transaction. A program that is correct cannot lose an update at four threads; a disagreement between the two columns is a finding, not noise.'
@@ -1121,9 +1229,68 @@ JSON.stringify(Object.assign({}, workerReport, { reportText: undefined, recordTe
 '',
 'Every point you find that is Pavol\'s and that the rung does not settle - a decision the rung took on a question that was his, a fork, a defect or divergence that lands unrepaired and needs his word - goes in forPavol, one entry each with its evidence as file:line. The gather puts each into PLAN.md.',
 '',
-'Write your findings to explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md in that worktree, and your own programs and their outputs under tmp/' + rung.slug + '/skeptic/, which is never committed; quote in SKEPTIC.md the lines of theirs a finding rests on, with the command. Commit SKEPTIC.md alone. ' + (round > 1
-  ? 'Carry the text of this second judgement, word for word, in skepticText, and not the first judgement\'s, which the script already holds from the first round: a file the branch does not carry is written by the gather from the two fields verbatim, this judgement first, so if the harness refuses your write, say so in findings and go on.'
-  : 'Carry SKEPTIC.md\'s full text, word for word, in skepticText: a file the branch does not carry is written by the gather from that field verbatim, so if the harness refuses your write, say so in findings and go on.') + ' In stopsMet, name every stop the batch record\'s intro reserves for Pavol that the rung as it stands meets, whether or not the worker named it, with its evidence as file:line; a stop the intro names as lifted, or that another decision of his lifts, carries in liftedBy the POSITIONS.md line of that decision. Your approval does not lift a stop: an entry without such a line holds the batch\'s push until he lifts it. Do not edit the worker\'s source changes yourself and do not run ant testFast or ant testSystem, nor a whole suite another way: where the worker or the repair round ran the one whole-suite run the shared prefix allows a checker or walk rung, on the branch\'s head, read its verdict in REPORT.md and check that its command and commit are the head\'s; where none ran, the suites\' verdict is the gate\'s. Commit SKEPTIC.md on the rung\'s branch, ' + rung.branch + ', with the footer the shared prefix gives, and push it; touch nothing else in the commit. The worker\'s own commits are on that branch, so git log ' + BASE + '..HEAD shows its milestones and git diff ' + BASE + '...HEAD its net change.',
+'Write your findings to explorations/compile-ladder/' + rung.slug + '/SKEPTIC.md in that worktree, and your own programs and their outputs under tmp/' + rung.slug + '/skeptic/, which is never committed; quote in SKEPTIC.md the lines of theirs a finding rests on, with the command. Commit SKEPTIC.md alone on the rung\'s branch, ' + rung.branch + ', with the footer the shared prefix gives, and push it; touch nothing else in the commit. In skepticText put the single word committed once that commit is made: the gather reads the file from your branch, so do not read SKEPTIC.md back to copy it. Only if the harness refused your write, say so in findings and carry the file\'s text, word for word, in skepticText instead, since the gather writes a file the branch does not carry from that field verbatim. In judgedHead put the hash the branch\'s HEAD was at before your SKEPTIC.md commit, the head this verdict judges: a second judgement reads the repair\'s diff from it. In stopsMet, name every stop the batch record\'s intro reserves for Pavol that the rung as it stands meets, whether or not the worker named it, with its evidence as file:line; a stop the intro names as lifted, or that another decision of his lifts, carries in liftedBy the POSITIONS.md line of that decision. Your approval does not lift a stop: an entry without such a line holds the batch\'s push until he lifts it. Do not edit the worker\'s source changes yourself, and run neither of the gate\'s suites (testFast, testSystem) nor a whole suite another way: where the worker ran the one whole-suite run the shared prefix allows a checker or walk rung, on the branch\'s head, read its verdict in REPORT.md and check that its command and commit are the head\'s; where none ran, the suites\' verdict is the gate\'s. The worker\'s own commits are on that branch, so git log ' + BASE + '..HEAD shows its milestones and git diff ' + BASE + '...HEAD its net change.',
+'',
+  ].join('\n')
+}
+
+// The second judgement, after a refusal, the judge's ruling and the one repair round:
+// only the repair against the skeptic's own refusal (POSITIONS.md, "Nothing is built or
+// run twice on the same code."; skeptic-scope-judgement.md, section 5, item 1). In climb
+// batch 8 the second skeptic had the first brief with one paragraph changed and re-did
+// the whole list, about half of its 350K and 15 to 20 minutes of each refused rung.
+function secondSkepticRole(rung, firstVerdict, decision, repaired) {
+  const dir = 'explorations/compile-ladder/' + rung.slug + '/'
+  const given = firstVerdict && typeof firstVerdict.judgedHead === 'string' ? firstVerdict.judgedHead.trim() : ''
+  const head = /^[0-9a-f]{7,40}$/.test(given) ? given : ''
+  const refused = head || '"$REFUSED"'
+  return [
+'',
+'---',
+'',
+'# Your role: skeptic for ' + rung.id + ', ' + rung.slug + ', second judgement',
+'',
+'This is the SECOND judgement of this rung. You refused it once; the judge ruled on your refusal, and the worker made its one repair round in the same worktree, ' + rung.path + '. You judge the repair, and one question is yours, nothing else of the first judgement\'s list: does the repair answer your refusal, each finding of it the judge upheld and each step the judge ordered, without breaking what your first judgement approved? (POSITIONS, "Nothing is built or run twice on the same code.": the second skeptic checks only the repair against its own refusal; skeptic-scope-judgement.md, section 5, item 1.) Under the design a second refusal drops the rung from the batch: it is recorded with the reason and returned to the ranking, not retried. So refuse again only if the repair does not answer your refusal or breaks what you approved, not if the rung is merely improvable.',
+'',
+'## Your first judgement, which refused',
+'',
+'Your structured verdict as the script holds it. Where its skepticText is the word committed, its text is the first judgement in ' + dir + 'SKEPTIC.md on the branch; read of it only what a point below needs.',
+'',
+JSON.stringify(firstVerdict, null, 2),
+'',
+'## The judge\'s ruling',
+'',
+JSON.stringify(decision, null, 2),
+'',
+'Its full text is ' + dir + 'JUDGE.md in the worktree; read it only where the ruling above leaves a point open.',
+'',
+'## The repair',
+'',
+'The repair round\'s own account, a claim to be checked:',
+'',
+JSON.stringify(Object.assign({}, repaired, { reportText: undefined, recordText: undefined }), null, 2),
+'',
+'Its commits and its diff since the head you refused' + (head ? ', ' + head : '') + ', your SKEPTIC.md and the judge\'s JUDGE.md left out:',
+'',
+'    cd ' + rung.path,
+...(head ? [] : ['    REFUSED=$(git log --format=%H --reverse ' + BASE + '..HEAD -- ' + dir + 'SKEPTIC.md | head -1)^    # your first verdict named no head: the parent of the commit that brought SKEPTIC.md']),
+'    git log --format="%h %ci %s" ' + refused + '..HEAD',
+'    git diff ' + refused + '..HEAD -- . ":(exclude)' + dir + 'SKEPTIC.md" ":(exclude)' + dir + 'JUDGE.md"',
+'',
+...buildsNothing(rung, 'The worker and its repair round'),
+...transcriptStep(rung, 'skeptic2', ['repair'], 'The repair round\'s'),
+'## How you answer it',
+'',
+'1. Each finding of your refusal that the judge upheld, and each step it ordered, is done in the diff above. A defect the repair repairs is closed by an assertion in the rung\'s gated test, home 1 of the shared prefix: your own program that measured it showed it at the head you refused (its output is under tmp/' + rung.slug + '/skeptic/), and the repair round\'s recorded run at the repaired head shows the assertion passing (its recordedPass above, its REPORT.md and its transcript). A finding the judge settled another way, by home 2 or 3, by a correction of the report, or against you, is checked as the ruling says. Each specification citation in a message the repair adds names the file and the section or entry, never a line, and that the named section\'s text says what the message says.',
+'2. What you approved stands. The diff changes nothing beyond what the ruling asks, or what it changes beyond that you read against the specification as you read the first diff. Run again at the repaired head, with the rung\'s build, those of your programs under tmp/' + rung.slug + '/skeptic/ that the refusal rests on or whose answers the diff could change, and compare their output with what you recorded at the head you refused. For a construct the repair touches you may write new small programs of your own, old against new as in your first judgement; that is the whole of your differential.',
+'',
+'Refuse only for the repair: a finding the judge upheld left open, an assertion missing or not passing, or a change of the repair\'s that breaks what you approved. A citation, a wording or a cross-reference is a required correction.',
+'',
+'## Your verdict',
+'',
+'Approve, or refuse with the one thing that must change. Corrections go in requiredCorrections, precisely; a defect you measure that the rung does not repair goes in recommendedRows with its probe; a point for Pavol goes in forPavol with its evidence as file:line; and stopsMet names every stop the batch record\'s intro reserves for Pavol that the rung as it now stands meets, with liftedBy the POSITIONS.md line of a decision of his that lifts it, or nothing. Your approval does not lift a stop.',
+'',
+'Write this judgement at the top of ' + dir + 'SKEPTIC.md, under a heading "# Second judgement", with your first judgement below it as it stands, and your new programs and their outputs under tmp/' + rung.slug + '/skeptic/, which is never committed. Commit SKEPTIC.md alone on ' + rung.branch + ' with the footer the shared prefix gives, and push it. In skepticText put the single word committed once that commit is made; only if the harness refused your write, say so in findings and carry this second judgement\'s text, word for word, in skepticText (not the first\'s, which the script already holds). In judgedHead put the hash HEAD was at before your commit. Do not edit the source yourself, and run neither of the gate\'s suites nor a whole suite another way: the repair round\'s one whole-suite run, where the shared prefix allows it one, is read in its REPORT.md.',
 '',
   ].join('\n')
 }
@@ -1146,7 +1313,7 @@ function repairPrompt(rung, verdict, decision) {
 '',
 JSON.stringify(decision, null, 2),
 '',
-'Read the judge\'s full ruling in explorations/compile-ladder/' + rung.slug + '/JUDGE.md' + (verdict ? ' and the skeptic\'s findings in SKEPTIC.md beside it' : '') + '. Carry out the judge\'s instructions in order. Where an instruction turns out wrong against a primary source, do what the source says, and say so in REPORT.md with the file:line that settles it - the judge read the two reports and the diff, not the whole tree.',
+'Read the judge\'s full ruling in explorations/compile-ladder/' + rung.slug + '/JUDGE.md' + (verdict ? ' and the skeptic\'s findings in SKEPTIC.md beside it' : '') + '. Carry out the judge\'s instructions in order. Where an instruction turns out wrong against a primary source, do what the source says, and say so in REPORT.md with the file:line that settles it - the judge read the two reports and the diff, not the whole tree. Where you need the old code beside your edit, run it in the rung\'s private copy of the base, ' + baseCopy(rung) + ', by the shared prefix\'s "The old code beside the new"; never revert and rebuild your worktree for it, and build in your worktree only what your own edit needs ("After an edit").',
 '',
 'Every defect this round repairs - including one the skeptic measured and you now fix - gets its assertion in the rung\'s gated test, in place and passing, BEFORE you report: the second skeptic will look for it and its absence is a refusal ground. A defect this round does not repair gets home 2 or home 3 of the shared prefix, and the report says which. Re-run the test through the harness and quote its verdict line, update REPORT.md and record.md (including the historical: line of the provenance block if the repair touched a file of the 2012 tree) and, with them, reportText, recordText, stopsMet and forPavol in your structured result, forPavol carrying every point for Pavol the rung still has, the earlier pass\'s included, commit and push on your branch, and do not run the full gate.',
 '',
@@ -1328,18 +1495,19 @@ const SKEPTIC_SCHEMA = {
     refusalReason: { type: 'string', description: 'empty unless refused; the one thing that must change' },
     requiredCorrections: { type: 'array', items: { type: 'string' }, description: 'corrections the commit stage must close even on an approval' },
     recommendedRows: { type: 'array', items: { type: 'string' }, description: 'ledger rows this skeptic recommends opening that are NOT required corrections: the proposed row text and the probe that establishes it; the gather opens or refuses each in one sentence' },
-    failureWasRecorded: { type: 'boolean', description: 'whether you saw the new test fail on the base by your own run (check 3); false for a rung that edits only prose, which has none' },
+    failureWasRecorded: { type: 'boolean', description: 'first judgement: whether the worker\'s transcript shows the new test failing through the harness on the base\'s code before the edit was built, and then passing (check 3); second judgement: whether each assertion that closes a finding of your refusal was shown failing at the refused head by your own program and passes in the repair round\'s recorded run; false for a rung that edits only prose, which has none' },
     differentialsRun: { type: 'array', items: { type: 'string' }, description: 'the skeptic\'s OWN probes: program, walk answer, compiled answer, verdict; with both thread columns where the rung writes state' },
     threadCounts: { type: 'string', description: 'which thread counts the differentials were run at and why' },
     defectHomes: { type: 'array', items: { type: 'string' }, description: 'one line per defect this skeptic measured: its home (1, 2 or 3) and where the check now is' },
     loudToQuiet: { type: 'string', description: 'whether a loud failure became a quiet value, and what the value is' },
     findings: { type: 'array', items: { type: 'string' } },
     stopsMet: STOPS_MET,
-    skepticText: { type: 'string', description: 'the full text of SKEPTIC.md, word for word; the gather writes it verbatim when the branch does not carry the file' },
+    skepticText: { type: 'string', description: 'the single word committed once SKEPTIC.md is committed on the rung\'s branch, where the gather reads it; the full text of this judgement, word for word, only when the harness refused your write, for the gather to write verbatim' },
+    judgedHead: { type: 'string', description: 'the hash the branch\'s HEAD was at before your SKEPTIC.md commit: the head this verdict judges' },
     forPavol: { type: 'array', items: { type: 'string' }, description: 'every point for Pavol this skeptic finds that the rung does not settle, one entry each with its evidence as file:line; the gather puts each into PLAN.md; empty if none' },
     summary: { type: 'string' },
   },
-  required: ['slug', 'approved', 'failureWasRecorded', 'differentialsRun', 'stopsMet', 'summary'],
+  required: ['slug', 'approved', 'failureWasRecorded', 'differentialsRun', 'stopsMet', 'judgedHead', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -1398,7 +1566,7 @@ function gatherRole(approved, notLanded, items) {
 'For each rung, in that order:',
 '',
 '1. Its net change: git diff ' + BASE + '...<branch> > <scratch>/<slug>.patch, then git apply --3way --index <patch>. A hunk that fails in a file another rung also touched is the conflict this stage exists to see: if the hunks are in unrelated regions, resolve it by hand from both sides and say so; if both changed the same logic, do NOT guess - leave the tree clean (git checkout -- . && git clean -fd on the touched paths), and return with the conflict named.',
-'   Then the rung\'s three files. The texts its agents returned for them - reportText for REPORT.md and recordText for record.md from its last worker, skepticText for SKEPTIC.md from its last skeptic and, where there were two rounds, the first round\'s after a line "## First round" - are in the run\'s journal and not in this brief, and each rung below carries in textCommands the command that writes each file from there, byte for byte, without the text passing through your context (' + TEXT_TOOL + '; it finds the journal itself, the newest one whose last started agent is this gather, and says which on stderr). For each of the three files under explorations/compile-ladder/<slug>/ that the branch does not carry, run its command from ' + MAIN + ', and compose nothing: the rung\'s own words, not a summary of them. From there on the file is treated as one the rung wrote; read of it only what a later step needs. A file the branch carries stands as it is, and its command is not run. Name in the batch record every file written this way. A command that exits 1 wrote nothing (no journal found, or no text in the field): report that file as missing rather than composing it. In batch 5 the harness refused every rung worker\'s write of REPORT.md and the gather composed each from a 15-line summary; in batch N these texts, pasted into the gather\'s brief, were 195K tokens of it, re-read and copied back out (explorations/reviews/batch-N-review.md, question 2).',
+'   Then the rung\'s three files. The texts its agents returned for them - reportText for REPORT.md and recordText for record.md from its last worker, skepticText for SKEPTIC.md from its last skeptic and, where there were two rounds, the first round\'s after a line "## First round" - are in the run\'s journal and not in this brief, and each rung below carries in textCommands the command that writes each file from there, byte for byte, without the text passing through your context (' + TEXT_TOOL + '; it finds the journal itself, the newest one whose last started agent is this gather, and says which on stderr). For each of the three files under explorations/compile-ladder/<slug>/ that the branch does not carry, run its command from ' + MAIN + ', and compose nothing: the rung\'s own words, not a summary of them. From there on the file is treated as one the rung wrote; read of it only what a later step needs. A file the branch carries stands as it is, and its command is not run. Name in the batch record every file written this way. A command that exits 1 wrote nothing (no journal found, or no text in the field): report that file as missing rather than composing it. So is a SKEPTIC.md the command wrote whose text is only the word committed, which a skeptic puts in skepticText once its commit of the file is made: delete the file it wrote, and report it as missing. In batch 5 the harness refused every rung worker\'s write of REPORT.md and the gather composed each from a 15-line summary; in batch N these texts, pasted into the gather\'s brief, were 195K tokens of it, re-read and copied back out (explorations/reviews/batch-N-review.md, question 2).',
 '2. Fold its record: explorations/compile-ladder/<slug>/record.md (now in the tree) carries finished prose for three places. The FACTS.md line goes into explorations/coordinator/FACTS.md under the section of its area (the file is grouped by area, its README gives the rule: "Landed semantics" for a rule of the language or the library as it now stands, "The harness and the gate" for test mechanics, "The checker and the one library" for the checker), after that section\'s last entry, as one bullet with its source: the fact, its source and its test in a few lines, the detail left in the rung\'s report, which it cites (a longer entry from record.md is cut to that before it is folded). The ledger note is APPENDED to the notes of the row it names in explorations/fortress-gap-ledger.md - rows are never renumbered, moved or deleted; where the note needs the landed commit\'s hash write the literal placeholder <short hash>, which the commit stage replaces. The handover state line goes into the first section of explorations/microgpt-run-c-handover.md ("Where the work stands"). If record.md opens a new row, the number is provisional (from ' + LEDGER_FROM + '): assign the final numbers in MANIFEST order (' + RUNGS.map(r => r.id).join(', ') + ') as you fold, append each row to the ledger\'s last table, and correct every citation of the provisional number in the lines you fold from that rung\'s record.md and in its REPORT.md, SKEPTIC.md and tests, in the same commit. Any file:line a record cites that a previously applied rung has shifted is re-anchored by SYMBOL - find the declaration or the assert by name in the current file and cite the line it is at now, rather than trusting the number the record was written with.',
 '3. Close every requiredCorrections item of that rung\'s skeptic verdicts, listed below; each is a checklist item and the last climb left two of them unmade.',
 '4. Open or refuse every recommendedRows item of that rung\'s skeptic, in one sentence each, recorded in the batch record. Opening it means a real ledger row with the probe it cites; refusing it means one sentence saying why the tree does not owe it. The last batch lost a codegen defect a skeptic had narrowed precisely, because nothing carried a recommendation that was not a required correction.',
@@ -1479,7 +1647,7 @@ JSON.stringify(gather, null, 2),
 '',
 JSON.stringify(items, null, 2),
 '',
-'Three kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect whose repair touches a path outside explorations/ that is not a test file - source, library, checker, interpreter or specification: a rule broken, an edit that is not what its report says, an interaction between two rungs - you do NOT fix; you return it in blockingCode, precisely enough that a judge can rule on it from your words and the diff; a judge rules, a repair runs, and the gate runs again on the repaired tree. A finding settled by tests and records only that you do not fix yourself - a test owed or a test file to change - you return in routed, each with the step the next batch owes: no judge and no repair run for it, it goes to the next batch and is listed for Pavol, and it does not hold the batch. Put each routed finding into explorations/coordinator/PLAN.md by check 9\'s rule, with the ids review-routed.1, review-routed.2 in the order of routed, in your corrections commit, and list the ids in pavolItems (the post-mortem of 2026-09-29, section 2(b); Pavol, POSITIONS.md 2026-09-29, the weighing of cost against what a rule protects). A mismatch between one rung\'s specification text and another rung\'s code that the decisions do not settle, which the gather filed as a reversible stop met (the text as the rung wrote it, the ledger row and gated XXX test of the path that departs, the row named among the text\'s departures in Specification/appendices/changes.tex, and an item for Pavol), is not blocking: check that the four are there, complete a missing record yourself, and return a missing test in routed. Do not run the gate and do not push.',
+'Three kinds of finding. A record-only or mechanical defect you fix yourself, in one local commit titled "Fold the review\'s corrections", listed in your return. A defect whose repair touches a path outside explorations/ that is not a test file - source, library, checker, interpreter or specification: a rule broken, an edit that is not what its report says, an interaction between two rungs - you do NOT fix; you return it in blockingCode, precisely enough that a judge can rule on it from your words and the diff; a judge rules, a repair runs, and the gate runs again on the repaired tree when the repair changed a path it reads (' + GATE_READS + '; a repair of the specification\'s text alone leaves the first gate\'s tables standing). A finding settled by tests and records only that you do not fix yourself - a test owed or a test file to change - you return in routed, each with the step the next batch owes: no judge and no repair run for it, it goes to the next batch and is listed for Pavol, and it does not hold the batch. Put each routed finding into explorations/coordinator/PLAN.md by check 9\'s rule, with the ids review-routed.1, review-routed.2 in the order of routed, in your corrections commit, and list the ids in pavolItems (the post-mortem of 2026-09-29, section 2(b); Pavol, POSITIONS.md 2026-09-29, the weighing of cost against what a rule protects). A mismatch between one rung\'s specification text and another rung\'s code that the decisions do not settle, which the gather filed as a reversible stop met (the text as the rung wrote it, the ledger row and gated XXX test of the path that departs, the row named among the text\'s departures in Specification/appendices/changes.tex, and an item for Pavol), is not blocking: check that the four are there, complete a missing record yourself, and return a missing test in routed. Do not run the gate and do not push.',
 '',
 '## Two rules because the gate is running beside you',
 '',
@@ -1498,7 +1666,7 @@ const REVIEW_SCHEMA = {
   type: 'object',
   properties: {
     approved: { type: 'boolean', description: 'true if blockingCode is empty after your own record fixes' },
-    blockingCode: { type: 'array', items: { type: 'string' }, description: 'findings whose repair touches a path outside explorations/ that is not a test file (source, library, checker, interpreter or specification), each with file:line and which rule or claim it breaks; the judge rules on these, and the gate runs again after their repair; empty if none' },
+    blockingCode: { type: 'array', items: { type: 'string' }, description: 'findings whose repair touches a path outside explorations/ that is not a test file (source, library, checker, interpreter or specification), each with file:line and which rule or claim it breaks; the judge rules on these, and the gate runs again after their repair when it changed a path the gate reads (under ProjectFortress/ or Library/, or build.xml); empty if none' },
     routed: { type: 'array', items: { type: 'string' }, description: 'findings settled by tests and records only that you did not fix yourself, each with file:line and the step the next batch owes; no judge runs for them, they go to the next batch and are listed for Pavol, and you put each into PLAN.md as review-routed.N; empty if none' },
     fixed: { type: 'array', items: { type: 'string' }, description: 'record or mechanical defects you fixed, and the commit hash' },
     headBefore: { type: 'string', description: 'the hash HEAD was at before your corrections commit' },
@@ -1767,17 +1935,31 @@ const GATE_SCHEMA = {
 // for those files, and the first gate's tables stand. A test file is a .fss, .fsi
 // or .test file directly in one of the corpora the harness reads, the directories
 // named tests or ending in _tests under ProjectFortress/ (FileTests reads them flat).
+//
+// Since 2026-10-02 (POSITIONS.md, "Nothing is built or run twice on the same code.")
+// the gate reruns only for a path it reads: under ProjectFortress/ (a test file there
+// only when no passing run of the repair's exercised it), under Library/, or build.xml.
+// Every other path - the specification's text and other prose under Specification/ or
+// Documentation/ among them - leaves the first gate's tables standing, recorded as such
+// beside its summary (besideStep). In climb batch 8 the gate ran a second time, 24
+// minutes on the critical path, after a repair of one sentence of
+// Specification/appendices/changes.tex, and its tables came out identical but for
+// timing (build-cache-exploration.md, section 4; reviews/batch-8-review.md, section 4).
 const TEST_FILE = /^ProjectFortress\/(tests|[A-Za-z_]+_tests)\/[^/]+\.(fss|fsi|test)$/
 const repoPath = (p) => p.trim().replace(/^\.\//, '')
 const codePathsOf = (paths) => strings(paths).map(repoPath).filter(p => !p.startsWith('explorations/') && !TEST_FILE.test(p))
 const testPathsOf = (paths) => strings(paths).map(repoPath).filter(p => TEST_FILE.test(p))
+const GATE_READS = 'ProjectFortress/, Library/ or build.xml'
+const gateReads = (p) => /^(ProjectFortress|Library)\//.test(p) || p === 'build.xml'
+const gateCodeOf = (paths) => codePathsOf(paths).filter(gateReads)       // rerun the gate
+const ungatedOf = (paths) => codePathsOf(paths).filter(p => !gateReads(p)) // the gate does not read them
 
 function repairTestsStep(kind, failing) {
   return [
 '',
 '## Your tests, and whether the gate runs again',
 '',
-'Record the hash HEAD is at before your first commit and the hash after your last, and return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from that list whether the whole gate runs again after you (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests). A path outside explorations/ that is not a test file - source, library, checker, interpreter or specification - reruns it, as before. Test files and records only do not: then your runs below are the verification of your tests, the first gate\'s tables stand, and the commit stage records your tests\' lines beside the first gate\'s summary. A test file here is a .fss, .fsi or .test file directly in one of the corpora the harness reads, ProjectFortress/tests/ and the ProjectFortress/*_tests/ directories.',
+'Record the hash HEAD is at before your first commit and the hash after your last, and return both, and in pathsChanged every path git diff --name-only <before> <after> prints. The script decides from that list whether the whole gate runs again after you (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests; POSITIONS.md, "Nothing is built or run twice on the same code."). A path the gate reads that is not a test file - under ProjectFortress/ or Library/, or build.xml: source, library, checker, interpreter or build - reruns it. A path no gate stage reads, the specification\'s text and other prose under Specification/ or Documentation/ among them, does not: the first gate\'s tables stand, and the commit stage records beside them that your repair changed only such paths. Test files and records do not either: then your runs below are the verification of your tests, and the commit stage records your tests\' lines beside the first gate\'s summary. A test file here is a .fss, .fsi or .test file directly in one of the corpora the harness reads, ProjectFortress/tests/ and the ProjectFortress/*_tests/ directories.',
 '',
 'Every test file you add or change there you run in the harness on the merged tree, placed where the gate reads it, with the gate\'s own JUnit mechanics, and all the files of one corpus TOGETHER, in one harness run, one JVM, as the gate\'s track runs them: a file that passes alone can fail beside others in one JVM, as batch 6.5\'s WitnessIdentityRungG did under the gate (explorations/reviews/batch-6.5-review.md, item 78), and running them together is the one thing a second gate would still have added (explorations/reviews/batch-N-review.md, question 4). The .test files of compiler_tests/, and those of library_tests/, each through one call of ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> <the directory> <Name.test>..., which runs fortress junit once over the list, the harness\'s FileTests.suiteFromListOfFiles, its compile and link tests before its run tests, so a link test still runs before its XXX run test; the interpreter tests of tests/ through one call of explorations/compile-ladder/rung-inference-walk/harness-one.sh <scratch dir under tmp/> <file.fss>..., which runs SystemJUTest, the class testSystem\'s shards run, once over a directory holding only the named files with testSystem\'s JVM settings. Batch N\'s repair ran each file in its own JVM (explorations/compile-ladder/climb-batch-N/merged-tests/repair-junit-placed.txt); do not. Capture each run\'s output under ' + LOG_DIR + '/repair-' + kind + '-tests/, which is not committed (the post-mortem of 2026-09-29: no capture is committed anywhere). In testRuns return one entry per file: the file, the added or changed test paths its lines in the run exercise (a .test and the .fss it names), the summary.txt row it adds to (fast-compiler/CompilerJUTest, fast-library/LibraryJUTest, or system for tests/), the JUnit cases it adds (its lines of the run; the files of one run add up to the n of its OK (n tests) or Tests run: n), its verdict (pass only when the run that held it printed OK, so a failure anywhere in a run fails every file of it), and the path of that run\'s capture. A test path you changed that no run exercises, or a run that did not pass, reruns the gate.',
 ...(kind === 'gate' ? [
@@ -1811,7 +1993,7 @@ JSON.stringify(decision, null, 2),
 '',
 (strings(decision && decision.forPavol).length
   ? 'The judge marked these for Pavol. ' + PLAN_RULE + ' The entries go in your commit, and pavolItems lists each by its id.\n\n' + JSON.stringify(numbered('judge-' + kind, decision.forPavol), null, 2) + '\n\n'
-  : '') + 'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Rebuild what the edit needs (ant compileAll for Java, then the library-order rebuild), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you when the section below says it does. Do not push.',
+  : '') + 'Its full ruling is in ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order. Where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Build what the edit needs by the shared prefix\'s "After an edit" (a library component alone after its .fss, ant compileAll, global.map restored and the library order after Java or Scala), run the tests the ruling names, and commit locally, one commit, with the record files updated where the ruling says and a historical: line in the body if the commit touches a file of the 2012 tree. Every defect this repair measures and fixes gets its assertion in a gated test, as the shared prefix requires. Do not run the full gate; the gate stage runs it after you when the section below says it does. Do not push.',
 ...repairTestsStep(kind, failing),
   ].join('\n')
 }
@@ -1836,13 +2018,19 @@ function pushHeldBy(landed, review, repairs) {
   return own.concat(reviewed, repaired)
 }
 
-// The repairs whose tests stand beside the gate's summary instead of a second gate
-// (repairRerun): each { kind, runs, answered } as the script kept it.
+// The repairs whose tests, or whose paths no gate stage reads, stand beside the gate's
+// summary instead of a second gate (repairRerun): each { kind, runs, answered, ungated,
+// commits } as the script kept it; kind review-corrections is the review's own commit.
 function besideStep(beside) {
   if (!beside.length) return []
-  const cases = [].concat.apply([], beside.map(b => b.runs)).reduce((n, t) => n + (Number(t.cases) || 0), 0)
+  const cases = [].concat.apply([], beside.map(b => b.runs || [])).reduce((n, t) => n + (Number(t.cases) || 0), 0)
+  const runs = beside.some(b => (b.runs || []).length)
+  const ungated = beside.some(b => strings(b.ungated).length)
   return [
-'1a. The gate below ran on the tree before a repair on the merged tree that changed test files and records only, so it was not run again (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests): its tables stand, and the repair ran its tests in the harness on the merged tree. Record them beside the summary, in the same commit as step 1, so that the next batch\'s comparand is stated honestly: after the gate\'s own lines, append to ' + GATE_DIR + '/summary.txt one line per run below, tab-separated and prefixed "# repair-tests", with the repair\'s kind, the summary row it adds to, its JUnit cases, its verdict and the file; then, for each line the gate failed on that the repair answered, a line "# repair-tests answered", the gate\'s line and the file whose run answers it; and last "# repair-tests total" with ' + cases + ', the cases these runs add, by which every count the next gate reads rises beyond this summary\'s rows. Do not change the gate\'s own rows. The runs and answers:',
+'1a. The gate below ran on the tree before a repair on the merged tree, or the review\'s corrections, that changed no path the gate reads (' + GATE_READS + ') but test files the repair ran, so it was not run again (Pavol, POSITIONS.md 2026-09-29, on rerunning the gate after a repair that only added tests; POSITIONS.md, "Nothing is built or run twice on the same code."): its tables stand. Record that beside the summary, in the same commit as step 1, so that the next batch\'s comparand is stated honestly. After the gate\'s own lines, append to ' + GATE_DIR + '/summary.txt, tab-separated:'
+  + ' ' + [ungated ? 'for each entry below with ungated paths, a line "# repair-ungated" with its kind, its commits and those paths, which no gate stage reads, saying that the tables above are of the tree before them' : '',
+           runs ? 'one line per run below, prefixed "# repair-tests", with the repair\'s kind, the summary row it adds to, its JUnit cases, its verdict and the file; then, for each line the gate failed on that the repair answered, a line "# repair-tests answered", the gate\'s line and the file whose run answers it; and last "# repair-tests total" with ' + cases + ', the cases these runs add, by which every count the next gate reads rises beyond this summary\'s rows' : ''].filter(Boolean).join('; then ')
+  + '. Do not change the gate\'s own rows. The entries:',
 '',
 JSON.stringify(beside, null, 2),
 '',
@@ -1858,7 +2046,7 @@ function commitRole(gather, gate, heldBy, beside) {
   beside = beside || []
   const answered = beside.some(b => strings((b.answered || []).map(a => a && a.failing)).length)
   const tree = beside.length
-    ? 'The gate ran on the tree before a repair of test files and records only and was not run again; its tables stand, ' + (answered ? 'the lines it was red on answered by the repair\'s passing runs' : 'green') + ' (step 1a).'
+    ? 'The gate ran on the tree before a repair, or the review\'s corrections, that changed no path the gate reads but test files the repair ran, and was not run again; its tables stand, ' + (answered ? 'the lines it was red on answered by the repair\'s passing runs' : 'green') + ' (step 1a).'
     : 'The gate is green on the tree as it stands.'
   return MAIN_TREE_ROLE + [
 '# Your role: commit',
@@ -1899,7 +2087,7 @@ held
 '4. Start the two microGPT programs under walk on the landed tree in the background, to ' + LOG_DIR + '/microgpt-walk.txt, and do not wait for them: the coordinator reads the file at the landing report or the post-batch review (Pavol, 2026-09-19: a separate non-gating stage). From ' + MAIN + ', with run_bg from the shared prefix, and only if no earlier attempt or run started them, as the log exists once they are started:\n\n        [ -e ' + LOG_DIR + '/microgpt-walk.txt ] || run_bg ' + LOG_DIR + '/microgpt-walk.txt "explorations/coordinator/tools/mg-run.sh ' + LOG_DIR + '/microgpt-walk batch-' + BATCH + '"\n\n   A second start would delete the private caches of the programs already running and put four JVMs of 4 GB on the box. The tool runs MicroGptFlatCheck and MicroGptAplCheck under walk, both at once, each from an empty private cache, about 80 minutes each; each program\'s output goes to ' + LOG_DIR + '/microgpt-walk/<name>.txt, headed by the machine line and ended by rc=, and ' + LOG_DIR + '/microgpt-walk.txt ends in EXIT= when both are done. Nothing of it is committed.',
 held
   ? '5. Keep every wip/ worktree and its local branch: their removal follows the push, as batch 5\'s commit stage kept them while its push was held.'
-  : '5. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; restore the one tracked file a build deletes, git -C <worktree> checkout -- default_repository/caches/global.map (FACTS.md, "ant compileAll deletes a tracked file"); then git worktree remove <worktree>, without --force (its ignored tmp/ goes with it; the transcripts hold what it held), and git branch -D <branch>. A worktree git refuses to remove holds uncommitted or untracked work: keep it and its branch, and name it in your result with its git status --short; the coordinator decides. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
+  : '5. For each wip/ branch: confirm git -C <worktree> status -sb shows nothing ahead of its origin; restore the one tracked file a build deletes, git -C <worktree> checkout -- default_repository/caches/global.map (FACTS.md, "ant compileAll deletes a tracked file"); then git worktree remove <worktree>, without --force (its ignored tmp/ goes with it; the transcripts hold what it held), and git branch -D <branch>. Then each rung\'s private copy of the base, <worktree>-base, where one was made (' + RUNGS.map(baseCopy).join(', ') + '): git -C <copy> checkout -- default_repository/caches/global.map, and git worktree remove <copy>, without --force; it is detached and has no branch. The base build, ' + BASE_BUILD + ', is the coordinator\'s and stays. A worktree git refuses to remove holds uncommitted or untracked work: keep it and its branch, and name it in your result with its git status --short; the coordinator decides. Leave the remote wip/ branches: the proxy refuses branch deletion from here, and Pavol removes them in the GitHub UI.',
   ]
 }
 
@@ -1931,8 +2119,10 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
 })
 
 // Whether the gate runs again after a repair on the merged tree. It does when the
-// repair, or the review's corrections before it (reviewPaths), changed a path
-// outside explorations/ that is not a test file; when a test path they changed is
+// repair, or the review's corrections before it (reviewPaths), changed a path the
+// gate reads that is not a test file (gateReads: under ProjectFortress/ or Library/,
+// or build.xml; since 2026-10-02 a path no stage reads, such as the specification's
+// text, does not, and is returned as ungated); when a test path they changed is
 // not exercised by a passing run of the repair's; when the repair did not say what
 // it changed; and, after the gate's repair (redGate, the gate it repaired), when the
 // gate's own counts fell or a suite went, when it named no failing line, or when a
@@ -1946,8 +2136,8 @@ function repairRerun(repair, reviewPaths, redGate) {
   if (!repair) return { rerun: true, why: 'the repair returned nothing' }
   if (!Array.isArray(repair.pathsChanged)) return { rerun: true, why: 'the repair did not list the paths it changed' }
   const changed = strings(repair.pathsChanged).concat(strings(reviewPaths))
-  const code = codePathsOf(changed)
-  if (code.length) return { rerun: true, why: 'changed outside explorations/, not a test file: ' + code.join(', ') }
+  const code = gateCodeOf(changed)
+  if (code.length) return { rerun: true, why: 'changed a path the gate reads (' + GATE_READS + '), not a test file: ' + code.join(', ') }
   const runs = Array.isArray(repair.testRuns) ? repair.testRuns.filter(t => t && typeof t === 'object') : []
   const passing = runs.filter(t => t.verdict === 'pass')
   if (passing.length < runs.length) return { rerun: true, why: 'a test run of the repair did not pass: ' + runs.filter(t => t.verdict !== 'pass').map(t => t.file).join(', ') }
@@ -1963,7 +2153,9 @@ function repairRerun(repair, reviewPaths, redGate) {
     const open = lines.filter(l => !answers.some(a => a && String(a.failing).trim() === l.trim() && typeof a.file === 'string' && passed.has(repoPath(a.file))))
     if (open.length) return { rerun: true, why: 'gate line(s) no passing run of the repair answers: ' + open.join('; ') }
   }
-  return { rerun: false, runs: passing, answered: lines.length ? repair.failingAnswered : [], why: testPathsOf(changed).length ? 'test files and records only' : 'records only' }
+  const ungated = ungatedOf(changed)
+  const kinds = [testPathsOf(changed).length ? 'test files' : '', ungated.length ? 'paths no gate stage reads (' + ungated.join(', ') + ')' : ''].filter(Boolean)
+  return { rerun: false, runs: passing, answered: lines.length ? repair.failingAnswered : [], ungated, why: (kinds.length ? kinds.join(', ') + ' and ' : '') + 'records only' }
 }
 
 const COMMIT_SCHEMA = {
@@ -2105,7 +2297,7 @@ function recoverRung(rung) {
   return [
     'Your worktree is ' + rung.path + ', on ' + rung.branch + '; if it does not exist, make it by the shared prefix\'s command. Set up the shell as the shared prefix says, then run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb (commits not yet pushed show as ahead) and ls -lt tmp/ | head -20, and read what exists of explorations/compile-ladder/' + rung.slug + '/, REPORT.md and record.md, and of its scratch under tmp/' + rung.slug + '/.',
     'The shared prefix\'s section "If your branch already carries commits" applies in full: committed work is yours to verify, not to redo; uncommitted edits are yours once you have read them; a log whose last step failed or was cut off is a step still to do.',
-    'Test first still holds: the test is seen failing on the base before the edit. If the earlier attempt made the edit and no test-only commit precedes it, set the edit aside (git stash), see the test fail and commit it alone, restore the edit (git stash pop), and say so in REPORT.md.',
+    'Test first still holds: the test is seen failing on the base before the edit. If the earlier attempt made the edit and no test-only commit precedes it, see the test fail through the harness on the base\'s code in the rung\'s private copy of the base (the shared prefix\'s "The old code beside the new"), not by reverting and rebuilding your worktree; commit the test alone (git stash the edit around that commit, git stash pop after it), and say so in REPORT.md.',
     bgCheck(rung.path),
     'Commit what you took over once you have read it, push what is committed and not pushed, and go on with the order of work from the first step not done.',
   ]
@@ -2128,9 +2320,9 @@ function recoverSkeptic(rung, round) {
   return [
     'The worktree is ' + rung.path + ', on ' + rung.branch + '. Run git log --oneline ' + BASE + '..HEAD, git status --short, git status -sb and ls -lt tmp/ | head -20, and read ' + f + ' and the scratch under tmp/' + rung.slug + '/skeptic/.',
     round > 1
-      ? 'SKEPTIC.md already held the first judgement, which refused, before the repair round. Only a second-judgement section written after the repair round\'s last commit on the branch is the earlier attempt\'s work; the first judgement is not your verdict.'
+      ? 'SKEPTIC.md already held the first judgement, which refused, before the repair round. Only a "# Second judgement" section written after the repair round\'s last commit on the branch is the earlier attempt\'s work; the first judgement is not your verdict.'
       : 'This is the rung\'s first judgement, so whatever SKEPTIC.md and tmp/' + rung.slug + '/skeptic/ hold is the earlier attempt\'s work.',
-    'If the earlier attempt\'s verdict is complete (a verdict, the checks of the role below, the differentials with their outputs under tmp/' + rung.slug + '/skeptic/), it is your verdict. Confirm that each output it quotes is there and says what the verdict quotes it for, commit and push SKEPTIC.md if it is not committed and pushed, and return it, with skepticText ' + (round > 1 ? 'this second judgement\'s text' : 'the file\'s text') + ' word for word. It may have been returned already and lost on the way, which is the case this retry exists for.',
+    'If the earlier attempt\'s verdict is complete (a verdict, the checks of the role below, the differentials with their outputs under tmp/' + rung.slug + '/skeptic/), it is your verdict. Confirm that each output it quotes is there and says what the verdict quotes it for, commit and push SKEPTIC.md if it is not committed and pushed, and return it, with skepticText the word committed once the file is committed on the branch (' + (round > 1 ? 'this second judgement\'s text' : 'the file\'s text') + ' word for word only if the harness refuses the write) and judgedHead the head the verdict judges. It may have been returned already and lost on the way, which is the case this retry exists for.',
     'If it is partial, finish the checks and differentials it has not done and complete the file in place: never a second copy of a section. A differential whose output exists and is whole is not run again.',
     bgCheck(rung.path),
   ]
@@ -2205,7 +2397,7 @@ function recoverGate() {
 // and the push or the held push.
 function recoverCommit(held) {
   return [
-    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "' + COMMIT_TITLE + '" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit. If the role has a step 1a and ' + GATE_DIR + '/summary.txt already carries "# repair-tests" lines, they are the earlier attempt\'s: do not copy the gate\'s summary over that file again and do not append them twice.',
+    'You are in the main tree, ' + MAIN + '. Read git log --format="%h %s" ' + BASE + '..HEAD and git status --short, and run grep -rn "<short hash>" explorations/. A commit titled "' + COMMIT_TITLE + '" is the earlier attempt\'s step 1: do not make it again, and finish what it left uncommitted, if anything, in one further commit. If the role has a step 1a and ' + GATE_DIR + '/summary.txt already carries "# repair-tests" or "# repair-ungated" lines, they are the earlier attempt\'s: do not copy the gate\'s summary over that file again and do not append them twice.',
     'If ' + LOG_DIR + '/microgpt-walk.txt exists, the earlier attempt took step 4: do not start the two programs again.',
     held
       ? 'The push is held. Look for the "Not pushed." paragraph in ' + BATCH_DIR + '/RECORD.md: if the earlier attempt wrote it, do not append it again, and commit it if it is not committed. Push nothing, as the role says.'
@@ -2260,7 +2452,7 @@ const results = await pipeline(
       worker = resumed
     }
 
-    const verdict = await callAgent(PREFIX + skepticRole(rung, worker, 1), {
+    const verdict = await callAgent(PREFIX + skepticRole(rung, worker), {
       label: 'skeptic:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
@@ -2292,7 +2484,9 @@ const results = await pipeline(
       model: OPUS,
     }, recoverRungRepair(rung, true), true)
 
-    const verdict2 = await callAgent(PREFIX + skepticRole(rung, repaired || worker, 2), {
+    // The second skeptic's own short brief: its refusal, the judge's ruling, the repair's
+    // diff since the refused head, and the one question (secondSkepticRole).
+    const verdict2 = await callAgent(PREFIX + secondSkepticRole(rung, verdict, decision, repaired || worker), {
       label: 'skeptic2:' + rung.id,
       phase: 'Skeptic',
       schema: SKEPTIC_SCHEMA,
@@ -2442,14 +2636,23 @@ let gate = await gateRun
 report.gate = gate
 
 // A blocking review means a judge, and on a repair ruling a repair on the merged
-// tree; the gate that ran beside it is discarded when the repair changed code under
-// it; after a repair of tests and records only its tables stand (repairRerun). On a
-// land ruling nothing runs after the judge but what a green gate always leads to.
-let gateIsStale = !!(review && review.pathsOutsideExplorations && review.pathsOutsideExplorations.length)
-const beside = []   // the repairs whose runs stand beside the gate's summary instead of a second gate
+// tree; the gate that ran beside it is discarded when the repair changed a path the
+// gate reads under it; after a repair of tests, records or paths no stage reads its
+// tables stand (repairRerun). On a land ruling nothing runs after the judge but what a
+// green gate always leads to. The review's own corrections follow the same path rule
+// since 2026-10-02 (gateReads; POSITIONS.md, "Nothing is built or run twice on the same
+// code.").
+const reviewPaths = strings(review && review.pathsOutsideExplorations)
+const reviewGated = reviewPaths.map(repoPath).filter(gateReads)
+const reviewUngated = ungatedOf(reviewPaths)
+let gateIsStale = reviewGated.length > 0
+const beside = []   // the repairs whose runs, or whose paths no gate stage reads, stand beside the gate's summary instead of a second gate
 if (gateIsStale) {
-  log('The review\'s corrections touched ' + review.pathsOutsideExplorations.length + ' path(s) outside explorations/ ('
-      + review.pathsOutsideExplorations.join(', ') + '); the gate that ran beside it is stale and runs again')
+  log('The review\'s corrections touched ' + reviewGated.length + ' path(s) the gate reads ('
+      + reviewGated.join(', ') + '); the gate that ran beside it is stale and runs again')
+} else if (reviewUngated.length) {
+  log('The review\'s corrections touched ' + reviewUngated.length + ' path(s) outside explorations/ that no gate stage reads ('
+      + reviewUngated.join(', ') + '); the gate that ran beside it stands, and the commit stage records why')
 }
 // A red gate beside the review, which that review's repair may already answer: its
 // lines go to the review's repair, and when that repair changed test files and
@@ -2488,10 +2691,12 @@ if (reviewBlocks) {
       mergedItems.push(...numbered('review-unrepaired', review.blockingCode))
     }
     // Pavol, 2026-09-29 (POSITIONS.md, rerunning the gate after a repair that only
-    // added tests): the gate runs again only when the repair, or the review's
-    // corrections, changed a path outside explorations/ that is not a test file, or
-    // a test path no passing run of the repair's exercised (repairRerun); otherwise
-    // the repair's own runs verify its tests and the first gate's tables stand.
+    // added tests) and 2026-10-02 ("Nothing is built or run twice on the same code."):
+    // the gate runs again only when the repair, or the review's corrections, changed a
+    // path the gate reads that is not a test file (gateReads), or a test path no
+    // passing run of the repair's exercised (repairRerun); otherwise the repair's own
+    // runs verify its tests, and the first gate's tables stand beside a record of the
+    // paths no gate stage reads.
     const after = repairRerun(report.repairReview, strings(review && review.pathsOutsideExplorations), null)
     report.repairReviewRerun = after
     if (after.rerun) {
@@ -2503,12 +2708,12 @@ if (reviewBlocks) {
       if (red && !red.rerun) {
         redAnswered = true
         log('The review\'s repair changed ' + red.why + ' and its runs answer the ' + strings(gate.failing).length + ' line(s) the gate beside the review was red on; by Pavol\'s rule of 2026-09-29 the gate does not run again, no gate judge or gate repair runs, and its tables stand beside the runs')
-        beside.push({ kind: 'review', runs: red.runs, answered: red.answered })
+        beside.push({ kind: 'review', runs: red.runs, answered: red.answered, ungated: red.ungated, commits: (rr.headBefore || '?') + '..' + (rr.headAfter || '?') })
       } else {
         if (red) log('The gate beside the review was red, and the review\'s repair does not answer it (' + red.why + '); the gate judge rules on it as before')
         if (strings(rr && rr.pathsChanged).length) {
-          log('The review\'s repair changed ' + after.why + ' (' + after.runs.length + ' test file(s) run in the harness by the repair); by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand')
-          beside.push({ kind: 'review', runs: after.runs, answered: [] })
+          log('The review\'s repair changed ' + after.why + ' (' + after.runs.length + ' test file(s) run in the harness by the repair); by Pavol\'s rules of 2026-09-29 and 2026-10-02 the gate does not run again and its tables stand')
+          beside.push({ kind: 'review', runs: after.runs, answered: [], ungated: after.ungated, commits: (rr.headBefore || '?') + '..' + (rr.headAfter || '?') })
         } else {
           log('The review\'s repair changed nothing: the gate\'s tables are the tree\'s, and no repair runs stand beside them')
         }
@@ -2516,6 +2721,12 @@ if (reviewBlocks) {
       gateIsStale = false
     }
   }
+}
+
+// The review's corrections alone touched paths no gate stage reads, and no repair's
+// entry carries them: they stand beside the summary too.
+if (!gateIsStale && reviewUngated.length && !beside.some(b => b.kind === 'review')) {
+  beside.push({ kind: 'review-corrections', runs: [], answered: [], ungated: reviewUngated, commits: ((review && review.headBefore) || '?') + '..' + ((review && review.headAfter) || '?') })
 }
 
 if (gateIsStale || !gate) {
@@ -2553,7 +2764,7 @@ if (!gate.green && !redAnswered) {
     }
   } else {
     log('The gate\'s repair changed ' + after.why + ' and its runs answer the ' + strings(gate.failing).length + ' line(s) the gate was red on; by Pavol\'s rule of 2026-09-29 the gate does not run again and its tables stand beside the runs')
-    beside.push({ kind: 'gate', runs: after.runs, answered: after.answered })
+    beside.push({ kind: 'gate', runs: after.runs, answered: after.answered, ungated: after.ungated, commits: ((report.repairGate && report.repairGate.headBefore) || '?') + '..' + ((report.repairGate && report.repairGate.headAfter) || '?') })
   }
 }
 

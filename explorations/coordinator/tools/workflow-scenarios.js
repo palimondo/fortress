@@ -29,6 +29,13 @@
 // and the command that makes the rung's worktree, no brief saying the build was copied in (finding 9); and,
 // since the strip of line numbers from the tests (dc0eee2fe), the prefix's rule that a test cites the specification
 // by file and section, no role asking for tests re-anchored, and the skeptic's check of a citation's section.
+// Since 2026-10-02 (POSITIONS.md, "Test first, the test kept." and "Nothing is built or run twice on the same
+// code."; coordinator/skeptic-scope-judgement.md; coordinator/build-cache-exploration.md): every brief makes the
+// worktree by seed-worktree.sh from the base build that args.baseBuild names; no skeptic's role text asks for a
+// build, an ant target, a rebuild or a checkout (its rung's paragraph for the skeptic, the record's words, aside),
+// and each carries that paragraph, the transcript commands and the rung's copy of the base; a second skeptic's
+// brief is its own short one (S1); the gate after a repair reruns only for a path it reads (D1 to D4); and the
+// script refuses to start without args.baseBuild (B1).
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -37,6 +44,8 @@ const crypto = require('crypto')
 const ROOT = process.env.FORTRESS_HOME || path.resolve(__dirname, '../../..')
 const SCRIPT_PATH = 'explorations/coordinator/climb-batch-workflow.js'
 const BLOCK_REV = '811053f15'   // the script as climb batch 7b launched: rungs S, C, W and L, LEDGER_FROM 534, CHECKER_BASE 75, Q4 1
+const BASE_BUILD = '/home/user/fortress-base'   // args.baseBuild in every scenario but B1
+const SEED_CMD = BASE_BUILD + '/explorations/coordinator/tools/seed-worktree.sh ' + BASE_BUILD + ' WORKTREE BRANCH BASE'
 const TMP = path.join(ROOT, 'tmp', 'workflow-scenarios')
 const target = process.argv[2] || path.join(ROOT, SCRIPT_PATH)
 const orig = fs.readFileSync(target, 'utf8')
@@ -83,7 +92,7 @@ const codeFinding = { review: review({ approved: false, blockingCode: ['stub cod
 const red = (lines) => () => ({ green: false, failing: lines || ['XXXStub.test: stub'], countsDown: [], stopped: false })
 const REPORT_SENTINEL = 'REPORTTEXT-SENTINEL', RECORD_SENTINEL = 'RECORDTEXT-SENTINEL'
 const worker = (x) => () => Object.assign({ landed: true, stopped: false, summary: 'stub', stopsMet: [], forPavol: [], reportText: REPORT_SENTINEL, recordText: RECORD_SENTINEL }, x || {})
-const refuse = () => ({ approved: false, refusalReason: 'stub refusal', stopsMet: [], forPavol: [], findings: ['f'], requiredCorrections: [], recommendedRows: [] })
+const refuse = () => ({ approved: false, refusalReason: 'stub refusal', stopsMet: [], forPavol: [], findings: ['f'], requiredCorrections: [], recommendedRows: [], judgedHead: 'abc1234', skepticText: 'committed' })
 const nul = () => null
 // What agent() gave the script at the weekly limit in climb batch 7b: null, the harness logging
 // "[skeptic:C] failed: You've hit your weekly limit" (run wf_61521277-479, its result's logs).
@@ -137,6 +146,21 @@ const SCEN = [
     after: 'gather, gate, review', landed: false },
   { name: 'A17 a held push: the microGPT start and the kept worktrees', over: { 'skeptic:W': () => ({ approved: true, stopsMet: [{ stop: 'stub', evidence: 'x:1', liftedBy: '' }], forPavol: [] }) },
     after: 'gather, gate, review, commit', landed: false, held: true },
+  // 2026-10-02: the second skeptic's own short brief (POSITIONS.md, "Nothing is built or run twice on the same code.").
+  { name: 'S1 rung C refused, the judge orders a repair, its second skeptic approves: the second brief is its own', over: { 'skeptic:C': refuse, 'judge:C': () => ({ decision: 'repair', forPavol: [], instructions: ['1. stub instruction'], ruling: 'stub ruling' }) },
+    after: 'gather, gate, review, commit', landed: true, secondBrief: 'C' },
+  // 2026-10-02: the gate after a repair reruns only for a path it reads (ProjectFortress/, Library/, build.xml);
+  // batch 8's second gate repeated the first after a repair of one sentence of changes.tex.
+  { name: 'D1 a code finding whose repair changes only the specification\'s text: no second gate, recorded beside it', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['Specification/appendices/changes.tex', 'explorations/compile-ladder/climb-batch-7b/REPAIR-review.md'], []) }),
+    after: 'gather, gate, review, judge:review, repair:review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/appendices/changes.tex' },
+  { name: 'D2 the repair changes a library source: the gate runs again', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['Library/CompilerLibrary.fss', 'Specification/appendices/changes.tex'], []) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true },
+  { name: 'D3 the repair changes build.xml: the gate runs again', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['build.xml'], []) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true },
+  { name: 'D4 the review\'s own corrections touch only the specification\'s text: the gate stands, recorded beside it', over: { review: review({ pathsOutsideExplorations: ['Specification/basic/types.tex'], fixed: ['types.tex'], headBefore: 'h1', headAfter: 'h2' }) },
+    after: 'gather, gate, review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/basic/types.tex' },
+  // 2026-10-02: the batch's one base build is a launch argument; without it the script does not start.
+  { name: 'B1 launched without args.baseBuild', over: {}, args: { base: 'BASE' }, agents: '', threwWith: 'args.baseBuild is required' },
   // Climb batch 7b's review, finding 1: a usage or rate limit stops the run and decides nothing.
   { name: 'L1 the weekly limit as batch 7b met it: W done, every agent from C\'s skeptic on returns nothing', over: {}, limitAt: 'skeptic:C', limitAs: 'null',
     agents: 'rung:W, skeptic:W, rung:C, skeptic:C, skeptic:C:attempt2, skeptic:C:attempt3', halts: 'skeptic:C' },
@@ -198,7 +222,7 @@ async function run(sc, journal, replay) {
   }
   let result, threw = null
   try {
-    const pr = new AsyncFunction('args', 'agent', 'pipeline', 'parallel', 'log', body)({ base: 'BASE' }, agent, pipeline, null, (s) => logs.push(String(s)))
+    const pr = new AsyncFunction('args', 'agent', 'pipeline', 'parallel', 'log', body)(sc.args || { base: 'BASE', baseBuild: BASE_BUILD }, agent, pipeline, null, (s) => logs.push(String(s)))
     result = await Promise.race([pr, new Promise(res => setTimeout(() => res(sc.killed ? '__STOPPED__' : '__HUNG__'), 300))])
     if (result === '__STOPPED__') { threw = new Error('process stopped in the commit stage'); result = null }
     else if (result === '__HUNG__') { threw = new Error('the run did not finish (a stall)'); result = null }
@@ -215,7 +239,9 @@ function check(sc, out) {
   const labels = calls.map(c => c.label)
   const after = labels.filter(l => !/^(rung|skeptic|resume|repair:[SCWL]|judge:[SCWL])/.test(l)).join(', ')
   const commit = calls.find(c => c.label === 'commit')
-  if (sc.halts) {
+  if (sc.threwWith) {
+    if (!threw || threw.message.indexOf(sc.threwWith) < 0) probs.push('expected the script to refuse to start with "' + sc.threwWith + '": ' + (threw ? threw.message.slice(0, 200) : 'it did not'))
+  } else if (sc.halts) {
     if (!threw) probs.push('the run did not stop: ' + (result ? 'landed ' + result.landed + (result.reason ? ' (' + result.reason + ')' : '') : 'no result'))
     else if (!HALT_TEXT.test(threw.message) || !RESUME_TEXT.test(threw.message) || threw.message.indexOf(sc.halts) < 0) probs.push('stopped with an error that does not name ' + sc.halts + ', say that nothing was decided and name resumeFromRunId: ' + threw.message.slice(0, 300))
     if (!logs.some(l => HALT_TEXT.test(l) && l.indexOf(sc.halts) >= 0)) probs.push('no log line says the run stops on ' + sc.halts)
@@ -228,6 +254,12 @@ function check(sc, out) {
   if (sc.landed !== undefined && (!result || !!result.landed !== sc.landed)) probs.push('landed ' + (result && result.landed) + ' (expected ' + sc.landed + ')')
   if (sc.held !== undefined && result && !!result.pushHeld !== sc.held) probs.push('pushHeld ' + result.pushHeld + ' (expected ' + sc.held + ')')
   if (commit && /1a\. The gate below ran/.test(commit.prompt) !== !!sc.step1a) probs.push('step 1a ' + !sc.step1a)
+  if (sc.ungatedIn1a && !(commit && commit.prompt.indexOf('# repair-ungated') >= 0 && commit.prompt.indexOf(sc.ungatedIn1a) >= 0)) probs.push('step 1a does not record ' + sc.ungatedIn1a + ' under # repair-ungated')
+  if (sc.secondBrief) {
+    const r = (result && result.rungs || []).find(x => x.rung === sc.secondBrief)
+    if (!labels.includes('skeptic2:' + sc.secondBrief)) probs.push('no second skeptic ran for ' + sc.secondBrief)
+    if (!r || r.state !== 'approved-after-repair') probs.push(sc.secondBrief + ' state ' + (r && r.state) + ' (expected approved-after-repair)')
+  }
   if (sc.items) {
     const ids = (result && result.forPavol || []).map(i => i.id)
     for (const id of sc.items) if (!ids.includes(id)) probs.push('item ' + id + ' not in the result (' + ids.join(', ') + ')')
@@ -252,13 +284,41 @@ function check(sc, out) {
     if (c.prompt.indexOf('at most once per code state in the rung\'s chain') < 0 || c.prompt.indexOf('A check whose log is complete') < 0) probs.push(c.label + ' lacks the prefix\'s whole-suite rule or its recovery text')
     if (c.label.startsWith('skeptic') && c.prompt.indexOf('nor a whole suite another way') < 0) probs.push(c.label + ' lacks the skeptic\'s whole-suite sentence')
     // climb batch 7b's review, finding 9: the rung worker makes its worktree by the prefix's one command
-    if (c.prompt.indexOf('git -C /home/user/fortress worktree add -b BRANCH WORKTREE BASE') < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
+    // since 2026-10-02 the command seeds the worktree from the base build (build-cache-exploration.md)
+    if (c.prompt.indexOf(SEED_CMD) < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
     // the strip of line numbers from the tests (dc0eee2fe): tests cite a section, and no brief asks for a re-anchoring of tests
     // (a batch's tail, from its record, is the planner's: batch 7b's rung S's asks for a re-anchoring, and is left)
     if (c.prompt.indexOf('never by a line, as every test of the corpora has cited it since the one-time strip') < 0 || /messages and comments of tests re-anchored|test files whose change is a message or a comment/.test(c.prompt)) probs.push(c.label + ' lacks the citation rule, or its role asks for tests re-anchored')
     if (c.label.startsWith('skeptic') && c.prompt.indexOf('never a line, and that the named section') < 0) probs.push(c.label + ' lacks check 6\'s citation check')
     // climb batch 7b's review, finding 4: the skeptic is given the report's text, for a branch without REPORT.md
-    if (c.label.startsWith('skeptic') && !/REPORT\.md as the worker returned it[^\n]*\n\nREPORTTEXT-SENTINEL\n/.test(c.prompt)) probs.push(c.label + ' does not carry the worker\'s report text under its line')
+    if (/^skeptic:/.test(c.label) && !/REPORT\.md as the worker returned it[^\n]*\n\nREPORTTEXT-SENTINEL\n/.test(c.prompt)) probs.push(c.label + ' does not carry the worker\'s report text under its line')
+    // 2026-10-02: a skeptic builds nothing and checks nothing out (POSITIONS.md, "Test first, the test kept." and
+    // "Nothing is built or run twice on the same code."); the record's paragraph for the skeptic is the planner's words
+    if (c.label.startsWith('skeptic')) {
+      const role = c.prompt.slice(c.prompt.indexOf('# Your role: skeptic'))
+      const own = role.split('\n').filter(l => !l.startsWith('**For the skeptic.**')).join('\n')
+      const asks = /(^|[^A-Za-z])ant |rebuil|git (checkout|switch|stash|reset)|worktree add/.exec(own)
+      if (asks) probs.push(c.label + ' role text asks for a build or a checkout: ' + JSON.stringify(own.slice(Math.max(0, asks.index - 60), asks.index + 60)))
+      const id = c.label.split(':')[1]
+      const copy = BASE_BUILD + '/explorations/coordinator/tools/seed-worktree.sh ' + BASE_BUILD + ' /home/user/'
+      if (own.indexOf('## You build nothing') < 0 || own.indexOf(copy) < 0 || !/-base - BASE\n/.test(own)) probs.push(c.label + ' lacks "You build nothing" or the command for the rung\'s copy of the base')
+      if (own.indexOf('"description":"' + c.label.split(':')[0] + ':' + id + '(:attempt') < 0) probs.push(c.label + ' lacks the command that finds the transcripts')
+      if (/^skeptic:/.test(c.label) && role.indexOf('\n**For the skeptic.**') < 0) probs.push(c.label + ' does not carry its rung\'s paragraph for the skeptic')
+      if (/^skeptic:/.test(c.label) && own.indexOf('In skepticText put the single word committed') < 0) probs.push(c.label + ' still asks for SKEPTIC.md\'s text in skepticText')
+    }
+    // the second skeptic's own short brief: its refusal, the ruling, the repair's diff since the refused head, one question
+    if (c.label.startsWith('skeptic2')) {
+      const role = c.prompt.slice(c.prompt.indexOf('# Your role: skeptic'))
+      const first = calls.find(x => x.label === 'skeptic:' + c.label.split(':')[1])
+      const firstRole = first ? first.prompt.slice(first.prompt.indexOf('# Your role: skeptic')) : ''
+      if (!/, second judgement\n/.test(role.split('\n')[0] + '\n')) probs.push(c.label + ' is not headed as the second judgement')
+      if (role.indexOf('stub refusal') < 0) probs.push(c.label + ' lacks its first refusal')
+      if (role.indexOf('## The judge\'s ruling') < 0 || role.indexOf('stub instruction') < 0 && role.indexOf('"instructions"') < 0) probs.push(c.label + ' lacks the judge\'s ruling')
+      if (role.indexOf('git diff abc1234..HEAD') < 0) probs.push(c.label + ' lacks the repair\'s diff since the refused head')
+      if (role.indexOf('without breaking what your first judgement approved') < 0) probs.push(c.label + ' lacks the one question')
+      if (/## What you must check|The provenance block under|## Your required differential|\*\*For the skeptic\.\*\*|1\. Before anything else/.test(role)) probs.push(c.label + ' carries the first judgement\'s list')
+      if (firstRole && role.length >= firstRole.length) probs.push(c.label + ' brief is ' + role.length + ' characters, not shorter than the first\'s ' + firstRole.length)
+    }
   }
   return probs
 }
