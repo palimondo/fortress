@@ -1,5 +1,5 @@
 (* A uniform distribution over a strided range has the range's least and greatest elements as its minimum and maximum; ledger row 586. *)
-component XXXUniformDistributionStridedRange
+component UniformDistributionStridedRange
 import Random.{...}
 export Executable
 
