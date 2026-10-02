@@ -1,0 +1,15 @@
+(* A lone type parameter with no narrowest argument type takes its bound while another argument of the call is converted; ledger row 515. *)
+component InferUnionCoercedArg
+export Executable
+
+g0[\T\](x: T, y: T, k: ZZ64): String = "g0"
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = 4
+    r: RR64 = 2.5
+    assert(g0(w, r, z), "g0", "g0(w, r, z) is applicable with coercion: T at its bound, which both w and r are subtypes of, and z converted to ZZ64; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+end
+
+end

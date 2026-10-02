@@ -1,2 +1,3 @@
 tests=InferContextKeepsFit
-link
+run
+run_out_contains=PASS

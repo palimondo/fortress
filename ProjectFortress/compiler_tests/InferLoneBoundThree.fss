@@ -1,0 +1,24 @@
+(* A generic call whose lone type parameter has three argument types and no narrowest takes its bound and runs; ledger row 512. *)
+component InferLoneBoundThree
+export Executable
+
+trait KindK end
+object OneK extends KindK end
+object TwoK extends KindK end
+object ThreeK extends KindK end
+
+kindK(x: Any): String = typecase x of
+    OneK => "OneK"
+    TwoK => "TwoK"
+    ThreeK => "ThreeK"
+    else => "other"
+  end
+
+triK[\T\](a: T, b: T, c: T): String = kindK(a) || " " || kindK(b) || " " || kindK(c)
+
+run(): () = do
+    assert(triK(OneK, TwoK, ThreeK), "OneK TwoK ThreeK", "triK(OneK, TwoK, ThreeK) instantiates T at its bound, no argument type being narrowest, and runs, each argument passed as it is; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"; Specification/basic/overloading.tex, section \"Applicability to Named Functional Calls\"")
+    println("PASS")
+  end
+
+end

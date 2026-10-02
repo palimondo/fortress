@@ -1,0 +1,28 @@
+(* A generic declaration that fits the call without coercion is chosen over one reached by coercion whose result fits the expected type; ledger row 508. *)
+component InferContextKeepsFit
+export Executable
+
+trait N
+  getter n(): ZZ32
+end
+object NOf(k: ZZ32) extends N
+  getter n(): ZZ32 = k
+end
+trait V excludes { N }
+  coerce(x: N) = VOf(x.n)
+  getter n(): ZZ32
+end
+object VOf(k: ZZ32) extends V
+  getter n(): ZZ32 = k
+end
+
+k[\T extends N\](x: T): T = x
+k(x: V): V = VOf(99)
+
+run(): () = do
+    a: V = k(NOf(1))
+    assert(a.n, 1, "a: V = k(NOf(1)) runs the generic k, which fits NOf(1) without coercion, and converts its result to V, so a.n is 1 and not the 99 of k(V); Specification/basic/conversions-coercions.tex, section \"Coercion Resolution\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+end
+
+end

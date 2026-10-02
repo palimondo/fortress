@@ -1,0 +1,13 @@
+(* A type parameter only the result mentions, where no expected type reaches the call, takes its bound Any, so an if clause without else made of such a call is refused. *)
+component XXXInferResultOnlyNoContext
+export Executable
+
+stop[\T extends Any\](s: String): T = throw InvalidRange
+check(c: Boolean): () = if c then stop("bad") end
+
+run(): () = do
+    check(false)
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,23 @@
+(* A type parameter only the result mentions takes its declared bound under what the expected type requires of the result; ledger row 505. *)
+component InferResultOnlyAny
+export Executable
+
+object BoxA[\T extends Any\]() end
+object BoxO[\T extends Object\]() end
+
+fAny[\T extends Any\](): T = throw InvalidRange
+c1(): ZZ32 = fAny()
+eAny[\T extends Any\](): BoxA[\T\] = BoxA[\T\]()
+eObj[\T extends Object\](): BoxO[\T\] = BoxO[\T\]()
+sameA[\T extends Any\](a: BoxA[\T\], b: BoxA[\T\]): String = "same"
+sameO[\T extends Object\](a: BoxO[\T\], b: BoxO[\T\]): String = "same"
+
+run(): () = do
+    r = try c1() catch e InvalidRange => -1 end
+    assert("c1: " || r, "c1: -1", "fAny() as the body of c1, whose return type is ZZ32, is instantiated at ZZ32, its bound Any under that expected type, and its body throws InvalidRange; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(sameA(eAny(), BoxA[\Any\]()), "same", "eAny() with nothing expected of its result is a BoxA[Any], T at its declared bound Any; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(sameO(eObj(), BoxO[\Object\]()), "same", "eObj() with nothing expected of its result is a BoxO[Object], T at its declared bound Object; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

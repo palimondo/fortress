@@ -1,0 +1,15 @@
+(* A generic function that fits the call without coercion is chosen over a declaration reached by coercion whose result fits the expected type; ledger row 508. *)
+component ExpectedTypeFnChoice
+export Executable
+
+k[\T extends ZZ32\](x: T): T = x
+k(x: ZZ64): ZZ64 = x + 100
+
+run(): () = do
+    z: ZZ32 = 5
+    b: ZZ64 = k(z)
+    assert(b = 5, "b: ZZ64 = k(z) runs the generic k, which fits z without coercion, and converts its result, so b is 5 and not the 105 of k(ZZ64); Specification/basic/conversions-coercions.tex, section \"Coercion Resolution\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,20 @@
+(* A type parameter only the result mentions, of the more specific of two overloaded declarations, takes its bound and the call runs; ledger row 447. *)
+component InferResultOnlyOverloaded
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+
+et[\T\](x: ZZ32): BoxT[\T\] = BoxT[\T\](1)
+et(x: Any): Any = "any"
+
+run(): () = do
+    z: ZZ32 = 5
+    r: Any = et(z)
+    d = typecase r of String => "a string"; else => "other" end
+    assert(d, "other", "r: Any = et(z) runs the generic et, more specific than et(Any), at the bound of T, which nothing at the call fixes; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    s = et(z)
+    assert(s.v, 1, "s = et(z) is the BoxT the generic et makes, whose v is 1; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

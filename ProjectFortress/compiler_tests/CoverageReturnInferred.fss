@@ -1,5 +1,5 @@
-(* A generic function applied to a call whose argument sits between two closed traits takes the call's type, the intersection of its candidates' return types, for its type parameter. *)
-component XXXCoverageReturnInferred
+(* A generic function applied to a call whose argument sits between two closed traits takes the call's type, the intersection of its candidates' return types, for its type parameter, and its instance at that intersection runs; ledger row 541. *)
+component CoverageReturnInferred
 export Executable
 
 trait S comprises { U, V } end
@@ -23,6 +23,7 @@ choose(v: V): BothResult = BothResult
 pass[\X\](x: X): X = x
 
 run(): () = do
+  println("REACHED")
   m: M = Vo
   y = pass(choose(m))
   l: LeftResult = y

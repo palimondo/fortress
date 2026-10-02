@@ -1608,6 +1608,27 @@ the first box points to this entry's list of the cases in which the compiled
 type checker departs from the chapter and no longer names the passages that revision revised, and the box
 on the interpreter says to which type the interpreter binds such a type
 parameter.
+A later revision adds an item to the rule: a type parameter that neither an
+argument nor the expected type fixes, such as one that only the return type
+mentions, as its whole type, likewise takes the intersection of its upper
+bounds, and inference never instantiates a static parameter at
+\TYP{BottomType}, with an example and a box.
+The list of what the chapter does not yet describe named instead ``a static
+parameter that neither an argument nor the expected type fixes, such as a type
+parameter that only the return type mentions, as its whole type, or the element
+type of a reduction that only its generator clauses determine'', and left open
+``whether inference may give such a parameter \TYP{BottomType}''; it now names
+a \KWD{nat} or \KWD{int} parameter that nothing fixes, and the element type of
+a reduction that only its generator clauses determine, to which the rule gives
+the bound of the big operator's static parameter.
+The box after the list said that the compiled type checker binds such a type
+parameter to \TYP{BottomType}, except that it refuses a call with no expected
+type when the parameter is declared \EXP{\KWD{extends} \TYP{Any}}, and that
+``whether inference may do so is the team's question, kept in the draft note
+below''; it now says that the checker follows the rule, what the compiled path's
+bound \TYP{Object} makes of it, what reaches a reduction's big operator and what
+the interpreter does, and that the rule answers the third item of the team's
+draft note, which the chapter keeps.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1638,6 +1659,15 @@ never instantiate at \TYP{BottomType}; its one example of a static call is
 typed at the union of its arguments' types.
 The revival decided on 29~September 2026 to take the paper's rule for static
 inference as well, which the paper allows and does not require.
+The same rule gives a type parameter that neither an argument nor the expected
+type fixes the intersection of its upper bounds: the paper's solving step
+``never instantiates method type parameters with Bottom'' (Section~5.2), which
+answers the question the Working Draft's own note asks, whether type inference
+may infer \TYP{BottomType} for a static parameter.
+The reasoning for that item, and for the order in which the compiled type
+checker tries a call, is in
+\nolinkurl{explorations/compile-ladder/rung-instance-bound/decision-record.md}
+in the revival's repository.
 The order, a declaration chosen and then instantiated, is that of
 \secref{resolving-coercion}, read on the parameter types that declarations
 declare, as the type group's paper of 2011 reads a declaration with static
@@ -1681,25 +1711,41 @@ The overloading chapters compare declarations on the parameter types they
 declare and infer static arguments after the selection, and \secref{type-param}
 gives a type parameter without an \KWD{extends} clause the bound \TYP{Any}
 (\secref{revival-overloading}, \secref{revival-bound}).
-The compiled type checker departs from the chapter in five cases, each gated by
-an expected failure of its tests: the expected type can let a declaration
-applicable only with coercion be chosen over a declaration with static
-parameters that is applicable without it (row~508 of the revival's gap ledger);
-a call that the rule instantiates at the bound, with another argument
-converted, is refused (row~515); a type parameter declared without an
-\KWD{extends} clause, which has no narrowest candidate, is instantiated at the
-union of the arguments' types where the chapter gives \TYP{Any} (row~516);
-an argument that is an instance at a union, which only the checker's own union
-makes, is refused where it fixes a type parameter (row~518); and an argument
-whose static type is an intersection, which the typing of a call between two
-traits with \KWD{comprises} clauses gives (\secref{revival-meet}), fixes a type
-parameter at one of its conjuncts (row~541).
+A type parameter that nothing at a call fixes is instantiated at its bound
+under the expected type and never at \TYP{BottomType}: a call whose compiled
+run failed loading an instance over \TYP{BottomType}, or failed verification
+where the call's result was carried as one, now runs; a call with no expected
+type whose type parameter is declared \EXP{\KWD{extends} \TYP{Any}} is
+accepted; and a call where the bound and the expected type have no common
+subtype, such as a type parameter bounded by \TYP{Object} where \TYP{()} is
+expected, is a static error unless the result of the instance at the bound
+converts to the expected type.
+The compiled type checker departed from the chapter in five cases, each gated
+by an expected failure of its tests, until it was revised with the item above:
+the expected type could let a declaration applicable only with coercion be
+chosen over a declaration with static parameters that is applicable without it
+(row~508 of the revival's gap ledger); a call that the rule instantiates at the
+bound, with another argument converted, was refused (row~515); a type parameter
+declared without an \KWD{extends} clause, which has no narrowest candidate, was
+instantiated at the union of the arguments' types where the chapter gives
+\TYP{Any} (row~516); an argument that is an instance at a union, which only the
+checker's own union made, was refused where it fixes a type parameter
+(row~518); and an argument whose static type is an intersection, which the
+typing of a call between two traits with \KWD{comprises} clauses gives
+(\secref{revival-meet}), fixed a type parameter at one of its conjuncts
+(row~541).
+It now follows the chapter in each, trying a call by subtyping without the
+expected type first and keeping that attempt when its result converts to the
+expected type, and the five tests are plain tests of the rule.
+The compiled path's run time does not yet load an instance at an intersection
+type (row~559), which the rule gives by two routes: an argument whose static
+type is an intersection, as in the last of them, and a type parameter that
+nothing at a call fixes whose declared bound and expected type are two traits
+that meet at their intersection.
+A program that the compiled path ran before this revision, at one conjunct of
+such an intersection or at \TYP{BottomType}, now dies loading that instance.
 A written bound, such as \TYP{Number}, is taken by both implementations where
 the chapter gives it.
-The item of this chapter's list of what it does not yet describe on a static
-parameter that neither an argument nor the expected type fixes, and the box on
-the compiled type checker's binding of such a parameter, are left to the next
-revision of this chapter.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -2501,11 +2547,10 @@ declarations were compared, the implicit bound of \secref{type-param}, and the
 rule of \chapref{overloaded-declarations} on a naked type parameter of bound
 \TYP{Any}, are revised with the overloading chapters (\secref{revival-overloading},
 \secref{revival-bound}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
-The item of the list of \chapref{type-inference} of what it does not yet
-describe on a static parameter that neither an argument nor the expected type
-fixes, and its box on the compiled type checker's binding of such a parameter,
-are not yet revised to the rule of \secref{resolving-overloading} by which a
-dispatched declaration is instantiated (\secref{revival-dispatch}).
+The box of \secref{reduction-expr} still says that the compiled type checker
+takes \TYP{BottomType} for the element type of a reduction that no argument of
+its big operator fixes; it now takes the bound of the big operator's static
+parameter (\secref{revival-inference}).
 The instance of a \KWD{nat} or \KWD{int} parameter of a declaration that a call
 reaches only by dispatch, where nothing fixes it at run time, is not described;
 the rule of \secref{resolving-overloading} is for type parameters (row~446 of the

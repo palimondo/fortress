@@ -1,0 +1,19 @@
+(* A type parameter nothing fixes, whose declared bound and the expected type are two unrelated traits, takes their intersection; ledger row 559. *)
+component InferBoundMeetsExpectedTrait
+export Executable
+
+trait A end
+trait B end
+
+mk[\T extends A\](): T = throw InvalidRange
+g(): B = mk()
+describe(b: B): String = "returned"
+
+run(): () = do
+    println("REACHED")
+    r = try describe(g()) catch e InvalidRange => "caught" end
+    assert(r, "caught", "mk() as the body of g, whose return type is B, is instantiated at the intersection of its bound A and the expected type B, and its body throws InvalidRange; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

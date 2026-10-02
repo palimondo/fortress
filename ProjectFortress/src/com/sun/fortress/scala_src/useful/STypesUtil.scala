@@ -943,7 +943,7 @@ object STypesUtil {
     }
 
     // Do the inference.
-    inferStaticParamsHelper(fnType, makeConstraint, false, true)
+    inferStaticParamsHelper(fnType, makeConstraint, false, true, true)
   }
 
   /**
@@ -959,13 +959,18 @@ object STypesUtil {
    *     default value is true.
    * @param inferUnlifted If true, unlifted static parameters will be inferred.
    *     The default value is false.
+   * @param toBounds If true, the static arguments are those of a call: a type
+   *     parameter that no lower bound fixes takes the intersection of its
+   *     upper bounds, and never BottomType (Formula.solveToBounds). The
+   *     default value is false.
    * @return If successful, a pair of the instantiated type and the static args
    *     that instantiated it.
    */
   def inferStaticParamsHelper[T <: Type](typ: T,
       				   	 constraintMaker: (T, Map[Op, Op]) => CFormula,
 					 inferLifted: Boolean = true,
-					 inferUnlifted: Boolean = true)(implicit analyzer: TypeAnalyzer):
+					 inferUnlifted: Boolean = true,
+					 toBounds: Boolean = false)(implicit analyzer: TypeAnalyzer):
         Option[(T, List[StaticArg])] = {
 
     // Substitute inference variables for static parameters in typ.
@@ -1014,7 +1019,8 @@ object STypesUtil {
     val lowerBounds = And(Map(infVars.zip(sparamLowerBounds): _*), Map())
     
     // 6. solve C to yield a substitution S' = [$T_i -> U_i]
-    val (tSub, oSub, nSub) = solve(and(constraint, and(upperBounds,lowerBounds))).getOrElse(return None)
+    val bounded = and(constraint, and(upperBounds,lowerBounds))
+    val (tSub, oSub, nSub) = (if (toBounds) solveToBounds(bounded) else solve(bounded)).getOrElse(return None)
 
     // 7. instantiate infArrow with [U_i] to get resultArrow
     val prenorm = tSub(infTyp)
@@ -1058,7 +1064,7 @@ object STypesUtil {
     }
 
     // Do the inference.
-    inferStaticParamsHelper(fnType, makeConstraint, true, false)
+    inferStaticParamsHelper(fnType, makeConstraint, true, false, true)
   }
 
   /**
@@ -1953,6 +1959,12 @@ object STypesUtil {
 
   def killIvars: Type => Type = liftSubstitution(new PartialFunction[_InferenceVarType, Type] {
     def apply(y: _InferenceVarType) = BOTTOM
+    def isDefinedAt(y: _InferenceVarType) = true
+  })
+
+  /** Binds every type inference variable left open to Any, the top. */
+  def topIvars: Type => Type = liftSubstitution(new PartialFunction[_InferenceVarType, Type] {
+    def apply(y: _InferenceVarType) = ANY
     def isDefinedAt(y: _InferenceVarType) = true
   })
 

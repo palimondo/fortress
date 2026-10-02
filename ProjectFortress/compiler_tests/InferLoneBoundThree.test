@@ -1,0 +1,3 @@
+tests=InferLoneBoundThree
+run
+run_out_contains=PASS

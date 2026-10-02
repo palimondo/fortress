@@ -1,0 +1,3 @@
+tests=XXXInferResultOnlyNoContext
+compile
+compile_err_contains=An 'if' clause without corresponding 'else' has type Any instead of type ().

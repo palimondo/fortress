@@ -76,7 +76,7 @@ run(): () = do
     b: BoxT[\ZZ64\] = wrapT(3)
     assert(b.v, 7, "row 455: the expected type fixes the static argument at a call written f(x)")
     c: ZZ64 = idt(3)
-    assert(c = three, "the numerics plans, decision 3 (POSITIONS 2026-09-27): a numeral converted at the argument under the expected type")
+    assert(c = three, "c: ZZ64 = idt(3) instantiates idt at the numeral's own type and converts its result to ZZ64; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
     bz: BoxV[\ZZ32\] = BoxV[\ZZ32\](z)
     d: ZZ64 = fst(bz)
     assert(d = three, "the numerics plans, decision 3 (POSITIONS 2026-09-27): the retry without the expected type, the binding converting the result")

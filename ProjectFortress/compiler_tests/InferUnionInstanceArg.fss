@@ -1,0 +1,17 @@
+(* An argument that a lone type parameter's instance at its bound makes fixes the type parameter of the enclosing call; ledger row 518. *)
+component InferUnionInstanceArg
+export Executable
+
+object BoxT[\T\]() end
+
+pick0[\T\](x: T, y: T): BoxT[\T\] = BoxT[\T\]()
+one[\T\](a: BoxT[\T\]): String = "one"
+
+run(): () = do
+  w: ZZ64 = 4
+  r: RR64 = 2.5
+  assert(one(pick0(w, r)), "one", "pick0(w, r) is an instance at the bound of its type parameter, not at the union of ZZ64 and RR64, and as the argument of one it fixes one's type parameter; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+  println("PASS")
+end
+
+end

@@ -1,3 +1,4 @@
-tests=XXXCoverageReturnInferred
-compile
-compile_err_contains=but declared type is
+tests=CoverageReturnInferred
+run
+run_out_does_not_contain=REACHED
+run_err_contains=Intersection
