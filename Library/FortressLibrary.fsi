@@ -985,6 +985,7 @@ value object Just[\T\](x:T) extends Maybe[\T\]
     reduce(_: Reduction[\T\]):T
     loop(f:T->()): ()
     opr =(self,o:Just[\T\]): Boolean
+    opr SQCAP(self, o:Maybe[\T\]): Maybe[\T\]
     opr SQCAP(self, o:UniqueItem[\T\]): Maybe[\T\]
     opr SQCUP(self, o:UniqueItem[\T\]): UniqueItem[\T\]
     unique(self): Maybe[\T\]
@@ -2197,7 +2198,7 @@ trait OpenRange[\I\] extends PartialRange[\I\]
     getter right(): Nothing[\I\]
     getter extent(): Nothing[\I\]
     getter isEmpty(): Boolean
-    narrowToRange(other:OpenRange[\I\]): OpenRange[\I\]
+    narrowToRange(other:OpenRange[\I\]): Range[\I\]
     opr FORWARD_CMP(self, other:OpenRange[\I\]): Comparison
     opr FORWARD_CMP(self, other:Range[\I\]): Comparison
     opr IN(n: I, self): Boolean
@@ -2248,7 +2249,7 @@ end
 
 trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
     getter left(): Nothing[\I\]
-    getter leftOrRight(): Just[\I\]
+    getter leftOrRight(): I
     getter extent(): Nothing[\I\]
     getter isEmpty(): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison
@@ -2258,6 +2259,7 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
     getter extent(): Just[\I\]
     narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
     narrowToRange(other:Range[\I\]): FullRange[\I\]
+    abstract opr IN(n: I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison
     opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
 end
@@ -2390,6 +2392,21 @@ opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
 *)
 
 opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\]
+
+object SimpleMappedSeqIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
+        extends { SequentialGenerator[\F\], Indexed[\F,I\] }
+    getter size(): ZZ32
+    getter bounds(): CompactFullRange[\I\]
+    getter indexValuePairs(): Indexed[\(I,F),I\]
+    getter indices(): Generator[\I\]
+    opr |self| : ZZ32
+    opr[i:I] : F
+    opr[r:Range[\I\]] : Indexed[\F,I\]
+    generate[\R\](r: Reduction[\R\], m: F->R): R
+    seq(self): SimpleMappedSeqIndexed[\E,F,I\]
+    ivmap[\R\](ff:(I,F)->R): Indexed[\R,I\]
+    map[\G\](f': F->G): SimpleMappedSeqIndexed[\E,G,I\]
+end
 
 (************************************************************
 * STRINGS
