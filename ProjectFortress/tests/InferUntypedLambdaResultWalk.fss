@@ -1,7 +1,7 @@
 component InferUntypedLambdaResultWalk
 export Executable
 
-(* Pins walk's instance for a type parameter that only the result of a function expression without a declared return type fixes: BottomType, neither that result's type nor the bound (ledger row 587). *)
+(* Pins walk's instance for a type parameter that only the result of a function expression without a declared return type fixes: BottomType, neither that result's type nor the bound. *)
 
 trait Fruit end
 object Apple extends Fruit end

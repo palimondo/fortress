@@ -16,6 +16,8 @@ pairF[\T extends Fruit\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
 thunks[\T\](g: () -> T, h: () -> T): BoxU[\T\] = BoxU[\T\]()
 thunksF[\T extends Fruit\](g: () -> T, h: () -> T): BoxU[\T\] = BoxU[\T\]()
 several[\T\](xs: T...): BoxU[\T\] = BoxU[\T\]()
+either[\T\](a: T, b: T): String = "generic"
+either(a: ZZ32, b: ZZ32): String = "plain"
 
 kindU(x: Any): String = typecase x of
     BoxU[\Red\] => "BoxU[Red]"
@@ -33,6 +35,7 @@ run() = do
     assert(kindU(thunks(fn (): Apple => Apple, fn (): Cherry => Cherry)), "BoxU[Any]", "two thunks returning an Apple and a Cherry leave the unbounded parameter to its bound Any (inference.tex, section \"The Static Arguments of a Call\")")
     assert(kindU(thunksF(fn (): Apple => Apple, fn (): Cherry => Cherry)), "BoxU[Fruit]", "two thunks returning an Apple and a Cherry leave a parameter bounded by Fruit to its bound Fruit (inference.tex, section \"The Static Arguments of a Call\")")
     assert(kindU(several(Apple, Cherry)), "BoxU[Any]", "a varargs parameter given an Apple and a Cherry takes its bound Any (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(either(Apple, Cherry), "generic", "beside a declaration over ZZ32 that does not apply, the generic declaration runs for an Apple and a Cherry (inference.tex, section \"The Static Arguments of a Call\")")
     v = vector[\ZZ32,2\](1)
     m = matrix[\ZZ32,2,2\](1)
     assert(same(v, m), "joined", "a ZZ32 vector and a ZZ32 matrix, whose minimal common supertypes are several, instantiate the parameter and run")

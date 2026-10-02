@@ -1,0 +1,19 @@
+(* A generic declaration beside a declaration over Any, called with two arguments that share two unrelated minimal supertypes, is applicable and the more specific, under walk. *)
+component XXXDispatchTwoCommonParentsWalk
+export Executable
+
+trait Fruit end
+trait Red extends Fruit end
+trait Round extends Fruit end
+object Apple extends { Red, Round } end
+object Cherry extends { Red, Round } end
+
+g[\T\](a: T, b: T): String = "generic"
+g(a: Any, b: Any): String = "plain"
+
+run(): () = do
+    assert(g(Apple, Cherry), "generic", "the generic declaration, applicable at an instance within its bound and more specific than the declaration over Any, is chosen for an Apple and a Cherry (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end
