@@ -1,0 +1,25 @@
+(* A generic functional method of a trait without static parameters, and one overridden in a generic subtrait, run under walk (ledger row 567). *)
+component GenericFunctionalMethodWalk
+export Executable
+
+trait Plain
+    pick[\R\](self, f: () -> R): R = f()
+end
+object Q extends Plain end
+
+trait Gen[\E\]
+    gen[\R\](self, x: E, f: E -> R): R = f(x)
+end
+trait Cond[\E\] extends Gen[\E\]
+    gen[\G\](self, x: E, f: E -> G): G = f(x)
+end
+object P(y: ZZ32) extends Cond[\ZZ32\]
+end
+
+run() = do
+    assert(pick[\String\](Q, fn (): String => "plain"), "plain", "a generic functional method of a trait without static parameters runs")
+    p = P(3)
+    assert(gen[\String\](p, 3, fn (q: ZZ32): String => "gen"), "gen", "the generic functional method that a generic subtrait overrides runs")
+    println("PASS")
+end
+end

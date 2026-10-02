@@ -1,5 +1,5 @@
 (* A typecase with no matching clause and no else clause throws MatchFailure, which a catch clause catches, under walk. *)
-component XXXTypecaseNoMatchWalk
+component TypecaseNoMatchWalk
 export Executable
 
 kind(x: Any): String =

@@ -1,0 +1,26 @@
+component InferLoneUnboundedWalk
+export Executable
+
+(* A lone type parameter whose arguments have no narrowest type takes its declared bound, Any if it has none, not their common supertype (ledger row 516). *)
+
+object BoxU[\T\]() end
+
+pickU[\T\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+pickO[\T extends Object\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Any\] => "BoxU[Any]"
+    BoxU[\Object\] => "BoxU[Object]"
+    BoxU[\Number\] => "BoxU[Number]"
+    else => "other"
+  end
+
+run(): () = do
+    l: ZZ64 = widen(7)
+    r: RR64 = 2.5
+    assert(kindU(pickU(l, r)), "BoxU[Any]", "a ZZ64 and an RR64 leave the unbounded parameter to its bound Any (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(pickO(l, r)), "BoxU[Object]", "a ZZ64 and an RR64 leave a parameter bounded by Object to its bound Object, not their common supertype Number (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

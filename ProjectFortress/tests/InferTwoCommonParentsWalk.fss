@@ -1,0 +1,36 @@
+(* A generic call whose arguments share two unrelated minimal supertypes runs at the type parameter's bound under walk (ledger row 555). *)
+component InferTwoCommonParentsWalk
+export Executable
+
+trait Fruit end
+trait Red extends Fruit end
+trait Round extends Fruit end
+object Apple extends { Red, Round } end
+object Cherry extends { Red, Round } end
+
+object BoxU[\T\]() end
+
+same[\T\](a: T, b: T): String = "joined"
+pair[\T\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+pairF[\T extends Fruit\](a: T, b: T): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Red\] => "BoxU[Red]"
+    BoxU[\Round\] => "BoxU[Round]"
+    BoxU[\Fruit\] => "BoxU[Fruit]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+run() = do
+    println("REACHED")
+    assert(same(Apple, Cherry), "joined", "a generic call whose two arguments share the two unrelated supertypes Red and Round instantiates its type parameter and runs")
+    assert(kindU(pair(Apple, Cherry)), "BoxU[Any]", "the unbounded parameter takes its bound Any, not one of the minimal supertypes Red and Round (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(pairF(Apple, Cherry)), "BoxU[Fruit]", "a parameter bounded by Fruit takes its bound Fruit (inference.tex, section \"The Static Arguments of a Call\")")
+    v = vector[\ZZ32,2\](1)
+    m = matrix[\ZZ32,2,2\](1)
+    assert(same(v, m), "joined", "a ZZ32 vector and a ZZ32 matrix, whose minimal common supertypes are several, instantiate the parameter and run")
+    println("PASS")
+end
+
+end

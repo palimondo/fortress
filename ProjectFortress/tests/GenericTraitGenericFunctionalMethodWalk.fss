@@ -1,5 +1,5 @@
 (* A generic functional method declared in a trait with static parameters and inherited by an object, run under walk: the call runs the declaration and answers what its function argument returns. *)
-component XXXGenericTraitGenericFunctionalMethodWalk
+component GenericTraitGenericFunctionalMethodWalk
 export Executable
 
 trait Gen[\E\]
