@@ -1,0 +1,1 @@
+load_exception_contains=Invalid comprises clause: S has a comprises clause but its immediate subtype Z is not eligible to extend it
