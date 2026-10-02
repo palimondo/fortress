@@ -560,7 +560,7 @@ object LeftScalarRange(l:ZZ32, str:ZZ32)
     flip(): RightScalarRange = rightScalarRange(l, -str)
     forward(): BoundedScalarRange =
         if str < 0 then self.flip() else self end
-    every(s:ZZ32): ScalarRange =
+    every(s:ZZ32): BoundedScalarRange =
         if s < 0 then
             flip().every(-s)
         else
@@ -568,7 +568,7 @@ object LeftScalarRange(l:ZZ32, str:ZZ32)
         end
     imposeStride(s:ZZ32): LeftScalarRange =
         leftScalarRange(l, s str)
-    atMost(n:ZZ32): ScalarRange =
+    atMost(n:ZZ32): FullScalarRange =
         fullScalarRange(l, l + ( |n| - 1 ) str, str)
     opr =(self, b:LeftScalarRange): Boolean = l = b.l AND str = b.str
     opr IN(n:ZZ32, self): Boolean =
@@ -680,7 +680,7 @@ object RightScalarRange(r:ZZ32, str:ZZ32)
         end
     imposeStride(s:ZZ32): RightScalarRange =
         rightScalarRange(r, s str)
-    atMost(n:ZZ32): ScalarRange =
+    atMost(n:ZZ32): FullScalarRange =
         fullScalarRange(r - ( |n| - 1 ) str, r, str)
     opr =(self, b:RightScalarRange): Boolean = r = b.r AND str = b.str
     opr IN(n:ZZ32, self): Boolean =

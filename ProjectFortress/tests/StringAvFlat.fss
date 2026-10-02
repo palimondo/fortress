@@ -1,4 +1,4 @@
-component XXXStringAvFlatRungV
+component StringAvFlat
 export Executable
 
 (*) explorations/compile-ladder/rung-rr32-sibling/REPORT.md

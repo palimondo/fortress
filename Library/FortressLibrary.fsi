@@ -136,7 +136,7 @@ end
 
 object LessThan extends TotalComparison
     opr =(self, other:LessThan): Boolean
-    opr CMP(self, other:LessThan): Comparison
+    opr CMP(self, other:LessThan): TotalComparison
     opr CMP(self, other:TotalComparison): TotalComparison
     opr <(self, other:LessThan): Boolean
     opr <(self, other:TotalComparison): Boolean
@@ -147,7 +147,7 @@ end
 
 object GreaterThan extends TotalComparison
     opr =(self, other:GreaterThan): Boolean
-    opr CMP(self, other:GreaterThan): Comparison
+    opr CMP(self, other:GreaterThan): TotalComparison
     opr CMP(self, other:TotalComparison): TotalComparison
     opr <(self, other:TotalComparison): Boolean
     opr SYMMETRIC_PARTIAL(self, other:GreaterThan): GreaterThan
@@ -917,6 +917,8 @@ value trait Maybe[\T\]
         extends { AnyMaybe, Condition[\T\], ZeroIndexed[\T\], UniqueItem[\T\] }
         comprises { Nothing[\T\], Just[\T\] }
     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\]
+    map[\G\](f: T->G): Maybe[\G\]
+    ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\]
 end
 
 value object Just[\T\](x:T) extends Maybe[\T\]
@@ -1461,6 +1463,7 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
     assign(f:I->E):T
     tabulate(f:I->E):T
     fill(v:E):T
+    copy():T
 end
 
 (** Canonical partitioning of a positive number %x% into two pieces.  If
@@ -1771,7 +1774,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
     opr[r:Range[\(ZZ32,ZZ32,ZZ32)\]]: Array[\T,(ZZ32,ZZ32,ZZ32)\]
     opr[_:OpenRange[\ZZ32\]] : Array3[\T,0,s0,0,s1,0,s2\]
     opr[_:TrivialOpenRange] : Array3[\T,0,s0,0,s1,0,s2\]
-    shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32)\]
+    shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32,ZZ32)\]
 
     (** 3-D subarray given static subarray parameters.
         %(bo0,bo1,bo2)#(so0,so1,so2)% are output bounds.
@@ -1854,7 +1857,7 @@ trait AssociativeReduction[\R\] extends ActualReduction[\R,AnyMaybe\]
     empty(): Nothing[\R\]
     join(a: AnyMaybe, b: AnyMaybe): AnyMaybe
     abstract simpleJoin(a:Any, b:Any): Any
-    lift(r:Any): AnyMaybe
+    lift(r:R): AnyMaybe
     unlift(r:AnyMaybe): R
 end
 
@@ -1945,7 +1948,7 @@ object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduc
     simpleJoin(a:(T,T),b:(T,T)): (T,T)
 end
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\]():
-        Comprehension[\T,AnyMaybe,AnyMaybe,AnyMaybe\]
+        Comprehension[\T,(T,T),(T,T),AnyMaybe\]
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\](g:Generator[\T\]):(T,T)
 
 opr BIG MINNUM(): BigReduction[\RR64,RR64\]
@@ -2415,11 +2418,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
     opr |||(self, b:Any): String
     opr |||(a:Any, self): String
 
-    (** Right now for backward compatibility juxtaposition works like %||% **)
-    opr juxtaposition(a:Any, self):String
-    opr juxtaposition(self, b:String):String
-    opr juxtaposition(self, b:Any):String
-
     (** opr // concatenates with a single newline separator. **)
     opr //(self) : String
     opr //(self, a:String): String
@@ -2438,6 +2436,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
    join[\E\](g:Generator[\E\]):String
 
 end String
+
+(** Right now for backward compatibility juxtaposition works like %||% **)
+opr juxtaposition(a:Any, b:String):String
+opr juxtaposition(a:String, b:String):String
+opr juxtaposition(a:String, b:Any):String
 
 object StringJoinReduction(s:String) extends Reduction[\Maybe[\String\]\] end
 

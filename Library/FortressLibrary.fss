@@ -1438,6 +1438,10 @@ value trait Maybe[\T\]
         extends { AnyMaybe, Condition[\T\], UniqueItem[\T\] }
         comprises { Nothing[\T\], Just[\T\] }
     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\] = Nothing[\T\]    (*) semilattice "meet" operator
+    map[\G\](f: T->G): Maybe[\G\] =
+        cond[\Maybe[\G\]\](fn (e:T):Maybe[\G\] => Just[\G\](f(e)), fn ():Maybe[\G\] => Nothing[\G\])
+    ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\] =
+        cond[\Maybe[\G\]\](fn (e:T):Maybe[\G\] => Just[\G\](f(0,e)), fn ():Maybe[\G\] => Nothing[\G\])
 end
 
 value object Just[\T\](x:T) extends Maybe[\T\]
@@ -2127,6 +2131,7 @@ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\
         for i <- zeroIndices() do init0(i,v) end
         self
       end
+    copy():T
 end
 
 (* Canonical partitioning of a positive number x into two pieces.  If
@@ -2618,7 +2623,7 @@ object Col[\T, nat b0, nat s0\](mem: Array2[\T,b0,s0,0,1\])
     init0(i:ZZ32,v:T): () = mem.init0((i,0),v)
     offset(i:ZZ32): ZZ32 = do (r,_) = mem.offset(i,0); r end
     toIndex(i:ZZ32): ZZ32 = do (r,_) = mem.toIndex(i,0); r end
-    subarray[\nat b, nat s, nat o\](m: ZZ32): ReadableArray1[\T, b, s\] =
+    subarray[\nat b, nat s, nat o\](m: ZZ32): Array1[\T, b, s\] =
         Col[\T,b,s\](mem.subarray[\b,s,0,1,o,0\](m,1))
 end
 
@@ -2629,7 +2634,7 @@ object Row[\T, nat b1, nat s1\](mem: Array2[\T,0,1,b1,s1\])
     init0(i:ZZ32,v:T): () = mem.init0((0,i),v)
     offset(i:ZZ32): ZZ32 = do (_,r) = mem.offset(0,i); r end
     toIndex(i:ZZ32): ZZ32 = do (_,r) = mem.toIndex(0,i); r end
-    subarray[\nat b, nat s, nat o\](m: ZZ32): ReadableArray1[\T, b, s\] =
+    subarray[\nat b, nat s, nat o\](m: ZZ32): Array1[\T, b, s\] =
         Row[\T,b,s\](mem.subarray[\0,1,b,s,0,o\](1,m))
 end
 
@@ -2873,7 +2878,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
       end
     opr[_:TrivialOpenRange] : Array3[\T,0,s0,0,s1,0,s2\] =
         subarray[\0,s0,0,s1,0,s2,0,0,0\](1,1,1)
-    shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32)\] = do
+    shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32,ZZ32)\] = do
         (o0,o1,o2)=t
         if o0=0 AND o1=0 AND o2=0 then
             self
@@ -3239,7 +3244,7 @@ object MaxReduction[\T extends StandardMax[\T\]\] extends CommutativeReduction[\
 end
 opr BIG MAX[\T extends StandardMax[\T\]\](): BigReduction[\T,AnyMaybe\] =
     BigReduction[\T,AnyMaybe\](MaxReduction[\T\])
-opr BIG MAX[\T extends StandardMax[\T\]\](g: Generator[\T\]):(T,T) =
+opr BIG MAX[\T extends StandardMax[\T\]\](g: Generator[\T\]): T =
     __bigOperatorSugar[\T,T,T,AnyMaybe\](BIG MAX[\T\](), g)
 
 object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduction[\(T,T)\]
@@ -3251,8 +3256,8 @@ object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduc
       end
 end
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\]():
-        Comprehension[\T,AnyMaybe,AnyMaybe,AnyMaybe\] =
-    Comprehension[\T,AnyMaybe,AnyMaybe,AnyMaybe\](fn x => x, MinMaxReduction[\T\], fn x => (x,x))
+        Comprehension[\T,(T,T),(T,T),AnyMaybe\] =
+    Comprehension[\T,(T,T),(T,T),AnyMaybe\](fn x => x, MinMaxReduction[\T\], fn x => (x,x))
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\](g:Generator[\T\]):(T,T) =
     __bigOperatorSugar[\T,(T,T),(T,T),AnyMaybe\](BIG MINMAX[\T\](), g)
 
@@ -3509,7 +3514,7 @@ trait MappedGenerator[\E,F\] extends SomeMappedGenerator[\F\]
         self.g.generate[\R\](r, m COMPOSE self.f)
     reduce(r: Reduction[\F\]): F =
         self.g.generate[\F\](r, self.f)
-    map[\G\](f': F->G): SimpleMappedGenerator[\E,G\] =
+    map[\G\](f': F->G): MappedGenerator[\E,G\] =
         SimpleMappedGenerator[\E,G\](self.g, f' COMPOSE self.f)
     seq(self): SimpleMappedSeqGenerator[\E,F\] = SimpleMappedSeqGenerator[\E,F\](seq(self.g),self.f)
 end
@@ -3546,6 +3551,8 @@ object SimpleMappedSeqGenerator[\E,F\](g0: SequentialGenerator[\E\], f0: E->F)
     getter f() = f0
     getter asString() = "mapped(" (self asif SequentialGenerator[\F\]).asString ")"
     seq(self): SimpleMappedSeqGenerator[\E,F\] = self
+    map[\G\](f': F->G): SimpleMappedSeqGenerator[\E,G\] =
+        SimpleMappedSeqGenerator[\E,G\](g0, f' COMPOSE f0)
 end
 
 trait FilterGenerator[\E\] extends Generator[\E\]
@@ -3558,7 +3565,7 @@ trait FilterGenerator[\E\] extends Generator[\E\]
         self.g.generate[\R\](r, fn(e:E):R => if (self.p)(e).holds then m(e) else r.empty() end)
     reduce(r: Reduction[\E\]): E =
         self.g.generate[\E\](r, fn(e:E):E => if (self.p)(e).holds then e else r.empty() end)
-    filter(p': E -> Condition[\()\]): SimpleFilterGenerator[\E\] =
+    filter(p': E -> Condition[\()\]): FilterGenerator[\E\] =
         SimpleFilterGenerator[\E\](self.g, self.p ANDCOND p')
     seq(self): SequentialGenerator[\E\] = SimpleSeqFilterGenerator[\E\](seq(self.g),self.p)
 end
@@ -3607,7 +3614,7 @@ object SimpleNestedGenerator[\E,F\](g0: Generator[\E\], f0: E->Generator[\F\])
     getter g() = g0
     getter f() = f0
     getter asString() = self.g ".nest(f)"
-    seq(self): SequentialGenerator[\E\] = do
+    seq(self): SequentialGenerator[\F\] = do
         ff = self.f
         typecase ff of
             ff':(E -> SequentialGenerator[\F\]) =>
@@ -3625,6 +3632,10 @@ object SimpleNestedSeqGenerator[\E,F\]
     getter g() = g0
     getter f() = f0
     getter asString() = "seq(" self.g ".nest(f))"
+    map[\G\](h:F->G): SimpleNestedSeqGenerator[\E,G\] =
+        SimpleNestedSeqGenerator[\E,G\](g0, fn (e:E):SequentialGenerator[\G\] => f0(e).map[\G\](h))
+    nest[\G\](h:F->Generator[\G\]): Generator[\G\] =
+        g0.nest[\G\](fn (e:E):Generator[\G\] => f0(e).nest[\G\](h))
 end
 
 trait PairGenerator[\E,F\] extends Generator[\(E,F)\]
@@ -3645,7 +3656,7 @@ object SimplePairGenerator[\E,F\](e0: Generator[\E\], f0: Generator[\F\])
     getter e() = e0
     getter f() = f0
     getter asString()=(e0 ".cross(" f0 ")" )
-    seq(self): SequentialGenerator[\E\] = SimplePairSeqGenerator[\E,F\](seq(e0),seq(f0))
+    seq(self): SequentialGenerator[\(E,F)\] = SimplePairSeqGenerator[\E,F\](seq(e0),seq(f0))
 end
 
 object SimplePairSeqGenerator[\E,F\]
@@ -4173,11 +4184,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
     opr |||(self, b:Any): String = self ||| (""||b)
     opr |||(a:Any, self): String = (""||a) ||| self
 
-    (** Right now for backward compatibility juxtaposition works like %||% **)
-    opr juxtaposition(a:Any, self):String = (""||a) || self
-    opr juxtaposition(self, b:String):String = self || b
-    opr juxtaposition(self, b:Any):String = self || b
-
     (** opr %//% appends a single line separator.  Note that as
         with %||% and %|||% at least one argument must be a String.
         There is a postfix version defined as a top-level operator in
@@ -4227,6 +4233,11 @@ object StringJoinReduction(s:String) extends Reduction[\Maybe[\String\]\]
         end
     end
 end
+
+(** Right now for backward compatibility juxtaposition works like %||% **)
+opr juxtaposition(a:Any, b:String):String = (""||a) || b
+opr juxtaposition(a:String, b:String):String = a || b
+opr juxtaposition(a:String, b:Any):String = a || b
 
 reverse(sequence:String):String = BIG || [c<-sequence.reverse()] c
 
@@ -4584,7 +4595,7 @@ trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }
 end
 
 (* condition returned by relational predicate *)
-object ConcreteRelationalPredicateCondition[\E\](r : (E, E) -> Boolean, x : Generator[\ E \]) extends RelationalPredicateCondition[\()\]
+object ConcreteRelationalPredicateCondition[\E\](r : (E, E) -> Boolean, x : Generator[\ E \]) extends RelationalPredicateCondition[\E\]
   relation() : (E, E) -> Boolean = r
   target() : Generator[\ E \] = x
 end

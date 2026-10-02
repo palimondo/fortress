@@ -1,6 +1,6 @@
 (* See explorations/compile-ladder/rung-library-defects/record.md. *)
 
-component XXXFlatStringSplitRungL
+component FlatStringSplit
 export Executable
 
 run(): () = do

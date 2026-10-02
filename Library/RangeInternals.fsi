@@ -237,9 +237,9 @@ object LeftScalarRange(l: ZZ32, str: ZZ32)
 
     flip(): RightScalarRange
     forward(): BoundedScalarRange
-    every(s: ZZ32): ScalarRange
+    every(s: ZZ32): BoundedScalarRange
     imposeStride(s: ZZ32): LeftScalarRange
-    atMost(n: ZZ32): ScalarRange
+    atMost(n: ZZ32): FullScalarRange
     opr =(self, b: LeftScalarRange): Boolean
     opr IN(n: ZZ32, self): Boolean
     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): ScalarRangeWithLeft
@@ -295,7 +295,7 @@ object RightScalarRange(r: ZZ32, str: ZZ32)
     forward(): BoundedScalarRange
     every(s: ZZ32): RightScalarRange
     imposeStride(s: ZZ32): RightScalarRange
-    atMost(n: ZZ32): ScalarRange
+    atMost(n: ZZ32): FullScalarRange
     opr =(self, b: RightScalarRange): Boolean
     opr IN(n: ZZ32, self): Boolean
     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): ScalarRangeWithRight

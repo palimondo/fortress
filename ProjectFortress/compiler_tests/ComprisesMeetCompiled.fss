@@ -15,7 +15,7 @@ f(v: V): ZZ32 = 3
 
 run(): () = do
     g: S = X
-    assert(f(g), 3, "row 492: V is the intersection of S and T by their comprises clauses, so f(V) disambiguates f(S) and f(T) and is the most specific declaration applicable to a V; Specification/advanced/overloading.tex, paragraph \"The Meet Rule for Functions\"")
+    assert(f(g), 3, "by the comprises clauses of S and T and the excludes clause of U every value of both S and T is a value of V, so V covers their intersection, f(V) disambiguates f(S) and f(T) and is the most specific declaration applicable to a V; Specification/advanced/overloading.tex, paragraph \"The Meet Rule for Functions\"")
     println("PASS")
   end
 
