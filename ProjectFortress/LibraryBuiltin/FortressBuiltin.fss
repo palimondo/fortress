@@ -481,6 +481,8 @@ value object UnsignedLong extends NN64
 end
 
 object IntLiteral extends Number
+    getter zero(): IntLiteral = 0
+    getter one(): IntLiteral = 1
     getter asZZ32(): ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ32")
     getter asZZ64(): ZZ64 =
@@ -548,6 +550,13 @@ object IntLiteral extends Number
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitNot")
     opr ^(self, b:AnyIntegral):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Pow")
+    opr ^(self, b: IntLiteral): RR64 = self^(b.asZZ32)
+    opr DIVIDES(self, b: IntLiteral): Boolean = self.asZZ DIVIDES b.asZZ
+    floor(self): IntLiteral = self
+    ceiling(self): IntLiteral = self
+    truncate(self): IntLiteral = self
+    even(self): Boolean = even(self.asZZ)
+    odd(self): Boolean = odd(self.asZZ)
 end
 
 value object BigNum extends ZZ

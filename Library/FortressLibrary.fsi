@@ -654,6 +654,16 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr MINMAX(self, other:ZZ): (ZZ, ZZ)
     opr MINNUM(self, other:ZZ): ZZ
     opr MAXNUM(self, other:ZZ): ZZ
+    opr -(self): ZZ
+    opr DOTMINUS(self): ZZ
+    opr +(self, b: ZZ): ZZ
+    opr DOTPLUS(self, b: ZZ): ZZ
+    opr -(self, b: ZZ): ZZ
+    opr DOTMINUS(self, b: ZZ): ZZ
+    opr DOT(self, b: ZZ): ZZ
+    opr juxtaposition(self, b: ZZ): ZZ
+    opr TIMES(self, b: ZZ): ZZ
+    opr DOTTIMES(self, b: ZZ): ZZ
     opr /(self,other:ZZ):QQ
     opr ^(self, b:IntLiteral):RR64
     numerator(self): ZZ

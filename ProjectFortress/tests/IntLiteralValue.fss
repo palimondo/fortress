@@ -1,7 +1,7 @@
 component IntLiteralValue
 export Executable
 
-(*) The object IntLiteral converts into each number type at a typed binding, equals a zero of another type, and its own + answers as today's interpreter gives it.
+(*) The object IntLiteral converts into each number type at a typed binding, equals a zero of another type, takes its own declarations, and its own + answers as today's interpreter gives it.
 
 shown(v: Any): String =
   typecase v of
@@ -33,6 +33,10 @@ run(): () = do
     r: RR64 = x
     assert(shown(r), "0.0 : RR64", "conversions-coercions.tex, section \"Principles of Coercion\": an integer numeral converts to RR64 by coercion; IntLiteral at an RR64 binding is the RR64 zero")
     assert(x = widen(0), "pins the library: the numeral case of exactValue makes IntLiteral equal to the ZZ64 zero")
+    assert(even(x) AND NOT odd(x), "pins the library: IntLiteral's own even and odd find the object IntLiteral even")
+    assert(shown(floor(x)) || " " || shown(ceiling(x)) || " " || shown(truncate(x)), "0 : IntLiteral 0 : IntLiteral 0 : IntLiteral", "pins the library: IntLiteral's own floor, ceiling and truncate give the object IntLiteral itself")
+    assert(x^x = 1, "basic-integers.tex, section \"Integers\", opr ^: a power 0 gives 1 even when the base is 0; the object IntLiteral to the power IntLiteral is 1")
+    assert((x.zero = 0) AND (x.one = 1), "pins the library: IntLiteral's own zero and one are 0 and 1")
     assert(shown(x + x), "0 : ZZ32", "pins today's interpreter: IntLiteral's own + answers a ZZ32")
     println "PASS"
   end

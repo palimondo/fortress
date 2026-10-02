@@ -176,6 +176,8 @@ value object UnsignedLong extends NN64
 end
 
 object IntLiteral extends { Number }
+    getter zero(): IntLiteral
+    getter one(): IntLiteral
     getter asZZ32(): ZZ32
     getter asZZ64(): ZZ64
     getter asNN32(): NN32
@@ -194,6 +196,7 @@ object IntLiteral extends { Number }
     opr -(self, b: IntLiteral): IntLiteral
     opr DOT(self, b: IntLiteral): IntLiteral
     opr juxtaposition(self, b: IntLiteral): IntLiteral
+    opr TIMES(self, b: IntLiteral): IntLiteral
     opr DIV(self, b: IntLiteral): IntLiteral
     opr REM(self, b: IntLiteral): IntLiteral
     opr MOD(self, b: IntLiteral): IntLiteral
@@ -207,6 +210,13 @@ object IntLiteral extends { Number }
     opr RSHIFT(self, b:AnyIntegral): IntLiteral
     opr BITNOT(self): IntLiteral
     opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b: IntLiteral): RR64
+    opr DIVIDES(self, b: IntLiteral): Boolean
+    floor(self): IntLiteral
+    ceiling(self): IntLiteral
+    truncate(self): IntLiteral
+    even(self): Boolean
+    odd(self): Boolean
 end
 
 object BigNum extends ZZ end
