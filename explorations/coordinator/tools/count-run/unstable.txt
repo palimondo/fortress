@@ -1,0 +1,22 @@
+# The 18 interpreter tests whose output varies from run to run on an untouched tree, one per line, read by
+# compare-normalised.py beside this file in place of a second base pass (postmortem-2026-09-29/synthesis.md,
+# section 2(a)). The list is postmortem-2026-09-29/measures-6.5b.md, "The interpreter tests that vary from
+# run to run": all the team's own, present at a874948ac, using random inputs, timings or thread order.
+ArrayListQuick
+CovCollTest
+HeapTest
+PureListQuick
+QuickCheckTest
+ReflectiveQuickCheckTest
+ShuffleTest
+SkipListTest
+TimingTests
+TreapTest
+WordCountSmall
+abortBlock
+buffons
+nestedTransactions1
+nestedTransactions2
+nestedTransactions3
+nestedTransactions4
+quicksortTest
