@@ -1,0 +1,20 @@
+(* Two open traits each declare a functional method of one name and the object extending both declares its own: the Meet Rule for functional methods asks the meet only of a type that provides both, so the overloading is valid and the call on the object runs its own declaration. *)
+component FunctionalMethodMeetPerProvider
+export Executable
+
+trait AsSeq
+    toSeq(self): String = "seq"
+end
+trait AsFilt
+    toSeq(self): String = "filt"
+end
+object SeqFilt extends { AsSeq, AsFilt }
+    toSeq(self): String = "both"
+end
+
+run(): () = do
+    assert(toSeq(SeqFilt), "both", "toSeq of the object that provides both declarations runs its own declaration")
+    println("PASS")
+end
+
+end

@@ -1,0 +1,5 @@
+tests=FunctionalMethodMeetPerProvider
+compile
+link
+run
+run_out_contains=PASS
