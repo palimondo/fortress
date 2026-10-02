@@ -30,6 +30,7 @@ In plain words: after this batch the compiled checker never binds a type paramet
 - A yes to (a) commits the checker to the text's rule for functional methods. A family that mixes a top-level function with functional methods keeps today's check, since the text does not say which rule governs it (row 545). Walk is unchanged: walk applies no Meet Rule for functional methods at all, which is row 544, the walk rung's.
 - Recommendation: (a). It brings the checker to the text rather than the library to the checker, the rule the `comprises` judgement applied to the same kind of choice. It reverses no decision of yours: P2's shape was the record's reading.
 - **Default: (a).**
+- **Answered: (a)**, Pavol, 2026-10-02 at about 11:11 UTC: the checker is brought in line with the specification's text, which clears the 78, rather than the library bent to the checker, which would depart from the text.
 
 **Q2. The self-typed bodies: a later batch after a judgement, or way 3 in this run?**
 - A refresher. A self-typed trait is a generic trait whose parameter stands for the type itself, `trait Integral[\I extends Integral[\I\]\]`. Its bodies return `self` where the declared type says `I`, as `floor(self): I = self`. The checker types `self` as `Integral[\I\]`, not as `I`, and refuses the body. This is the distance stage's class S1, 28 errors.
