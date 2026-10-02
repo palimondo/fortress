@@ -29,7 +29,7 @@ Reacting to the coordinator's account of batch 6.5b's cost and files (2026-09-29
 - His rule to weigh: a batch commits the Fortress change and the real findings (report, ledger, plan) only; evidence made for a skeptic or judge stays as scratch for review; the tool calls are already in the transcripts.
 - A cleaning pass to remove the committed scratch from the repository.
 - Test file names carrying batch and rung suffixes (`RungE`, `RungV`) in a Fortress corpus: unreasonable, or useful for finding them later.
-- He wants to understand the tests added, e.g. why `PowChooseLcmRungE` has 50 checks; maybe a review of the added and changed tests.
+- He wants to understand the tests added, e.g. why `PowChooseLcmRungE` has 50 checks; in the same message he withdrew a full review ("Maybe I don't need a full review"), so what is owed is the answer to the 50 checks.
 - Redesign what a batch asks of its workers: trace the practice's origin, discuss, correct the rules, define the new practice; no batch runs before that (7b held).
 
 Continuing (18:42 UTC), a major failure in his words:

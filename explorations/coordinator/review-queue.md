@@ -1,4 +1,4 @@
-<!-- The items waiting for Pavol's word or review across the record (the boot note's list, the held list, PLAN's lists for his review and its parked items), merged, each with its home, its state and its default, in the order they need him; built 2026-10-02 by a read-only worker at `99f68f37e`. Entry 4 (the merged-diff review) was answered at 15:39 UTC: kept (POSITIONS, "A blocking second review does not hold a green batch."). Entry 5 was wrongly put to him at 15:40 UTC: it was settled in the post-mortem (POSITIONS, "The suite's verdict is the check."), and entries 19 and 21 are settled with it. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript; an entry built from a record's offer or default is not open until that search says so. The coordinator keeps this file current as items are answered. -->
+<!-- The items waiting for Pavol's word or review across the record (the boot note's list, the held list, PLAN's lists for his review and its parked items), merged, each with its home, its state and its default, in the order they need him; built 2026-10-02 by a read-only worker at `99f68f37e`. Entry 4 (the merged-diff review) was answered at 15:39 UTC: kept (POSITIONS, "A blocking second review does not hold a green batch."). Entry 5 was wrongly put to him at 15:40 UTC: it was settled in the post-mortem (POSITIONS, "The suite's verdict is the check."), and entries 19 and 21 are settled with it. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript; an entry built from a record's offer or default is not open until that search says so. The section at the end, "Checked against his words, 2026-10-02", strikes and narrows entries of groups 1, 2, 4 and 5. The coordinator keeps this file current as items are answered. -->
 
 What waits for Pavol's word or review, 2026-10-02
 
@@ -316,3 +316,28 @@ These are possible later checker or specification rungs.
 
 **Synthesis**
 - Default 4, the cleaning's scope: overtaken by the cleaning by kind (`cleanup-review.md` §2; `d2d5e83a8`).
+
+## Checked against his words, 2026-10-02
+
+A Sonnet worker read all 772 of his typed messages in session `fe616d40` and POSITIONS for entries 1-18 and 95-116 (group 3 not checked). Times UTC.
+
+**Struck: his words settle them, or nothing is owed to him.**
+- 2: the wait and the order are his Q2 answer of 10-02 11:19; nothing to put until the judgement exists.
+- 3: the standing go (09-27 20:28, "I think you just carry on running the sequence of batches"); the week's pacing is the coordinator's estimate, not his.
+- 10: the script already names the stops the record's intro reserves (`climb-batch-workflow.js:625-633`); the coordinator's to close.
+- 17: walk is not touched until the switch-over gives it types (09-29 14:07); rows 510, 21 and 364 stay gated.
+- 95: deleting the `wip/` branches is his own idea and chore, and he asked not to be reminded (09-21 20:57); the POSITIONS line that made a remark a rule is fixed.
+- 96: his decision (09-20 07:49, 09-30 05:32); his machine, nothing to put.
+- 98: his own deferred idea (09-20 08:01).
+- 106: his rule that the specification changes when it meets reality (09-23 07:26); default (a).
+- 111: he withdrew the full review in the same message (09-29 18:25); the answer to "why 50 checks" is owed instead.
+- 112, 114: he said apply the consolidation review's fixes (09-30 05:14); the how is engineering.
+- 113: his criterion is the record's fidelity (09-29 21:27); the coordinator's call under it.
+- 115: his own later idea, "whenever he asks".
+- 116: nothing traceable is owed.
+
+**Answers owed to him, not decisions:** 110 (the testing archaeology's answer to his question whether asking for an adversarial skeptic was the original sin; `postmortem-2026-09-29/archaeology-testing.md` § 7); 111 (why `PowChooseLcmRungE` has 50 checks); 100 (why microGPT uses `RR64`, not `RR32`, 09-25 23:29); 11 (the explanation of the ledger proposal he asked for, 09-27 07:57).
+
+**Open, never answered by him:** 1 (not ripe), 6, 7, 8, 9 (he agreed it comes to him on its own, 09-26 00:32), 12, 13, 14, 18 (not ripe), 97, 99, 101, 102, 105.
+
+**Partly settled, the open part only:** 11 (re-sort, grouping, home, the views); 15 and 16 (where, with phase 4's design); 100 (the forks); 103 (the re-gate line); 104 (row 48 only, which he asked for one message each on 09-26 00:00 and never got; POSITIONS-history's "not taken" is the coordinator's reading); 107 (checker side or library side, no model line changed); 108 (the root README's line on `Specification-1.0-frozen/` only); 109 (the move list, re-checked after the cleaning).
