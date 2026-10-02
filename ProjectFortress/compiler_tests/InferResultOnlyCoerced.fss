@@ -1,5 +1,5 @@
-(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
-component XXXInferResultOnlyCoerced
+(* A type parameter only the result mentions, of a generic declaration chosen with coercion, takes its bound and the call runs; ledger row 447. *)
+component InferResultOnlyCoerced
 export Executable
 
 trait N
@@ -28,10 +28,9 @@ describe(x: Any): String = typecase x of
   end
 
 run(): () = do
-    println("REACHED")
     d = describe(q(NOf(1)))
     println("q: " || d)
-    assert(d =/= "", "row 447: the call returns, whichever declaration it takes and whatever T is bound to; Specification/basic/inference.tex, section \"A Numeral Whose Conversions Tie\"")
+    assert(d, "other", "q(NOf(1)) runs the generic q, applicable with coercion and more specific than q(W2), at the bound of T, which nothing at the call fixes: its result is neither the String of q(W2) nor a BoxT[ZZ32]; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
     println("PASS")
   end
 

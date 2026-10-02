@@ -1,0 +1,22 @@
+(* A generic method and a generic operator that fit the call without coercion are chosen over declarations reached by coercion whose result fits the expected type; ledger row 508. *)
+component ExpectedTypeChoice
+export Executable
+
+object O
+  k[\T extends ZZ32\](x: T): T = x
+  k(x: ZZ64): ZZ64 = x + 100
+end
+
+opr OPLUS[\T extends ZZ32\](x: T, y: ZZ32): T = x
+opr OPLUS(x: ZZ64, y: ZZ32): ZZ64 = x + 100
+
+run(): () = do
+    z: ZZ32 = 5
+    b: ZZ64 = O.k(z)
+    assert(b = 5, "b: ZZ64 = O.k(z) runs the generic method k, which fits z without coercion, and converts its result, so b is 5 and not the 105 of k(ZZ64); Specification/basic/conversions-coercions.tex, section \"Coercion Resolution\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    d: ZZ64 = z OPLUS z
+    assert(d = 5, "d: ZZ64 = z OPLUS z runs the generic OPLUS, which fits z and z without coercion, and converts its result, so d is 5 and not the 105 of OPLUS(ZZ64, ZZ32); Specification/basic/conversions-coercions.tex, section \"Coercion Resolution\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

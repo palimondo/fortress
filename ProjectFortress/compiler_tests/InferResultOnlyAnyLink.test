@@ -1,2 +1,2 @@
-tests=XXXInferResultOnlyAny
+tests=InferResultOnlyAny
 link

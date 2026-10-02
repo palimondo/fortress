@@ -1,0 +1,35 @@
+(* A generic big operator's clause form whose static argument is not written instantiates the operator at its bound; ledger row 425. *)
+component InferBigOperatorUnwritten
+export Executable
+
+trait Red[\T\]
+  empty(): T
+  join(a: T, b: T): T
+end
+object Last[\T extends ZZ32\](e: T) extends Red[\T\]
+  empty(): T = e
+  join(a: T, b: T): T = b
+end
+
+opr BIG LAST[\T extends ZZ32\](): Red[\T\] = do
+    z: ZZ32 = 0
+    Last[\T\](cast[\T\](z))
+  end
+
+idt[\T\](x: T): T = x
+__bigOperator[\T extends ZZ32\](o: Red[\T\], desugaredClauses: (Red[\T\], T->T)->T): T = desugaredClauses(o, idt[\T\])
+__generate[\T extends ZZ32\](g: GeneratorZZ32, r: Red[\T\], f: ZZ32->T): T = do
+    var acc: T = r.empty()
+    for i <- seq(g) do acc := r.join(acc, f(i)) end
+    acc
+  end
+
+run(): () = do
+    lo: ZZ32 = 1
+    n: ZZ32 = 3
+    s: ZZ32 = BIG LAST[j <- lo#n] (3 j)
+    assert(s, 9, "BIG LAST[j <- lo#n] (3 j) with its static argument unwritten instantiates BIG LAST at its bound ZZ32 and gives the last of 3, 6 and 9; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"; Specification/basic/expressions/reductions.tex, section \"Summations and Other Reduction Expressions\"")
+    println("PASS")
+  end
+
+end

@@ -1,5 +1,5 @@
 (* A lone type parameter bounded by Any with no narrowest argument type is instantiated at Any, so pick0 at a ZZ64 and an RR64 is a BoxT[Any]; ledger row 516. *)
-component XXXInferLoneUnbounded
+component InferLoneUnbounded
 export Executable
 
 object BoxT[\T extends Any\]() end
@@ -11,7 +11,7 @@ run(): () = do
   w: ZZ64 = 4
   r: RR64 = 2.5
   a: BoxT[\Any\] = BoxT[\Any\]()
-  assert(same(pick0(w, r), a), "same", "pick0 at a ZZ64 and an RR64, with nothing expected of its result, is a BoxT[Any], an instance at its bound Any")
+  assert(same(pick0(w, r), a), "same", "pick0 at a ZZ64 and an RR64, with nothing expected of its result, is a BoxT[Any], an instance at its bound Any; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
   println("PASS")
 end
 
