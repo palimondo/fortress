@@ -41,6 +41,7 @@ In plain words: after this batch the compiled checker never binds a type paramet
   - (2) Way 3 now, on `Integral` alone: a probe of its walk verdicts and distance first, about 0.4M, then a fifth rung in walk (the six-line edit, row 407), a specification callout that makes a type variable legal in a `comprises` clause (a form the type group's 2012 calculus dropped, the judgement's section 2), and the library's first self type under route A. Its walk tests, microGPT checks and distance were never run. It reaches 8 of the 28 at most.
 - A yes to (1) commits you to nothing new. A yes to (2) commits the library to a self type under route A and the specification to the type-variable clause before the other 20 have a way.
 - Recommendation: (1). **Default: (1), not in this batch.**
+- **Answered: (1)**, Pavol, 2026-10-02 at about 11:20 UTC: the class waits until there is better information, to keep this run's risk and scope small.
 
 **Q3. Item 32, the domain condition on answer 9's positional rule: still not taken?**
 - A refresher. Answer 9's positional rule compares two generic declarations in the more-specific relation by their return types, position by position on their static parameters. Java's overriding rule also asks that their parameter types agree under that correspondence; that extra condition is item 32. The default on record is not taken (PLAN item 32; `coordinator/climb-batch-7b-review.md`, change 2), and PLAN's batch 8 line names it "if he takes item 32".
