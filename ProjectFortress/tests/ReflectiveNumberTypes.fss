@@ -1,0 +1,19 @@
+component ReflectiveNumberTypes
+import QuickCheck.{...}
+import ReflectiveQuickCheck.{...}
+import Reflect.{...}
+export Executable
+
+(*) The reflective generator finds a generator for every type that Number's comprises clause lists.
+
+found(t: Type): Boolean = if _ <- reflectiveArbitrary.genFromType(false, t) then true else false end
+
+run(): () = do
+    assert(found(theType[\IntLiteral\]()), "literals.tex, section \"Literals\": a numeral's type IntLiteral extends Number; the reflective generator finds a generator for it")
+    assert(found(theType[\ZZ32\]()), "basic-integers.tex, section \"Integers\": ZZ32 is one of the types under Number; the reflective generator finds a generator for it")
+    assert(found(theType[\QQ\]()), "numbers.tex, section \"Rational Numbers\": QQ is one of the types under Number; the reflective generator finds a generator for it")
+    assert(found(theType[\RR64\]()), "numbers.tex, section \"Rational Numbers\": RR64 is one of the types under Number; the reflective generator finds a generator for it")
+    println "PASS"
+  end
+
+end

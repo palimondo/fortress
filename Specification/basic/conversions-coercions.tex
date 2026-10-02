@@ -81,8 +81,11 @@ precision, and \library\ declare the coercion into \EXP{\mathbb{R}64} from
 The conversion from \EXP{\mathbb{N}32}, though exact, stays explicit, since
 that decision names only \EXP{\mathbb{Z}32} and the numerals.
 The examples of this paragraph convert numerals and are unchanged.
-The interpreter gives an integer numeral outside the range of \EXP{\mathbb{Z}32}
-a wider integer type, and so does not yet convert it.
+\Library\ give an integer numeral the type \TYP{IntLiteral}, from which
+\EXP{\mathbb{R}64} coerces, and the compiled type checker types a numeral so
+(\secref{literals}, \secref{revival-numeral-type}).
+The interpreter does not yet: it gives an integer numeral outside the range of
+\EXP{\mathbb{Z}32} a wider integer type, and so does not yet convert it.
 The compiled path's own library declares no coercion into \EXP{\mathbb{R}64}
 from an integer type or an integer numeral; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
 numerals convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}

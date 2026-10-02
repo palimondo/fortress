@@ -1,0 +1,26 @@
+component XXXNumeralWithNN32
+export Executable
+
+(*) An NN32 with an integer numeral answers at NN32, the numeral converting into NN32; row 484.
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    QQ => v.asString || " : QQ"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : another type"
+  end
+
+run(): () = do
+    u: NN32 = unsigned(5)
+    assert(shown(u + 1), "6 : NN32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": the numeral converts into NN32, whose + is the most specific; an NN32 5 plus the numeral 1 is the NN32 6")
+    assert(shown(u MAX 1), "5 : NN32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": the numeral converts into NN32, whose MAX is the most specific; an NN32 5 MAX the numeral 1 is the NN32 5")
+    assert(shown(u MAXNUM 1), "5 : NN32", "basic-integers.tex, section \"Integers\", opr MAXNUM, with literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": the numeral converts into NN32; an NN32 5 MAXNUM the numeral 1 is the NN32 5")
+    println "PASS"
+  end
+
+end

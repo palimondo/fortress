@@ -1,0 +1,85 @@
+component IntegerOrderNumerals
+import Shuffle.{...}
+export Executable
+
+(*) Each integer type compares and takes MAXNUM and MINNUM at its own type, and the library's numeral sites keep their values; row 517.
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    QQ => v.asString || " : QQ"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : another type"
+  end
+
+cmpShown(c: TotalComparison): String =
+  if c = LessThan then "LessThan" elif c = GreaterThan then "GreaterThan" else "EqualTo" end
+
+eachTypeCompares(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(3)
+    g: ZZ = big(3)
+    u: NN32 = unsigned(3)
+    v: NN64 = widen(unsigned(3))
+    assert(cmpShown(z CMP 0), "GreaterThan", "basic-integers.tex, section \"Integers\", opr CMP: a ZZ32 3 against the numeral 0 is GreaterThan")
+    assert(cmpShown(w CMP 0), "GreaterThan", "basic-integers.tex, section \"Integers\", opr CMP: a ZZ64 3 against the numeral 0 is GreaterThan")
+    assert(cmpShown(g CMP 0), "GreaterThan", "basic-integers.tex, section \"Integers\", opr CMP: a ZZ 3 against the numeral 0 is GreaterThan")
+    assert(cmpShown(u CMP 0), "GreaterThan", "basic-integers.tex, section \"Integers\", opr CMP: an NN32 3 against the numeral 0 is GreaterThan")
+    assert(cmpShown(v CMP 0), "GreaterThan", "basic-integers.tex, section \"Integers\", opr CMP: an NN64 3 against the numeral 0 is GreaterThan")
+    assert(cmpShown(z CMP 7), "LessThan", "basic-integers.tex, section \"Integers\", opr CMP: a ZZ32 3 against the numeral 7 is LessThan")
+    assert(cmpShown(z CMP 3), "EqualTo", "basic-integers.tex, section \"Integers\", opr CMP: a ZZ32 3 against the numeral 3 is EqualTo")
+    assert(cmpShown(u CMP unsigned(7)), "LessThan", "basic-integers.tex, section \"Integers\", opr CMP: an NN32 3 against an NN32 7 is LessThan")
+    assert(cmpShown(v CMP v), "EqualTo", "basic-integers.tex, section \"Integers\", opr CMP: an NN64 against itself is EqualTo")
+    assert((z > 0) AND (z >= 3) AND (z <= 3) AND NOT (z > 3), "basic-integers.tex, section \"Integers\", opr <, <=, >= and >: a ZZ32 3 is above 0, at least 3 and at most 3")
+  end
+
+eachTypeMaxNum(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(3)
+    g: ZZ = big(3)
+    u: NN32 = unsigned(3)
+    v: NN64 = widen(unsigned(3))
+    assert(shown(z MAXNUM 1), "3 : ZZ32", "basic-integers.tex, section \"Integers\", opr MAXNUM: the larger of a ZZ32 and a numeral, a ZZ32")
+    assert(shown(z MINNUM 1), "1 : ZZ32", "basic-integers.tex, section \"Integers\", opr MINNUM: the smaller of a ZZ32 and a numeral, a ZZ32")
+    assert(shown(w MAXNUM 1), "3 : ZZ64", "basic-integers.tex, section \"Integers\", opr MAXNUM: the larger of a ZZ64 and a numeral, a ZZ64")
+    assert(shown(w MINNUM 1), "1 : ZZ64", "basic-integers.tex, section \"Integers\", opr MINNUM: the smaller of a ZZ64 and a numeral, a ZZ64")
+    assert(shown(g MAXNUM 1), "3 : ZZ", "basic-integers.tex, section \"Integers\", opr MAXNUM: the larger of a ZZ and a numeral, a ZZ")
+    assert(shown(g MINNUM 1), "1 : ZZ", "basic-integers.tex, section \"Integers\", opr MINNUM: the smaller of a ZZ and a numeral, a ZZ")
+    assert(shown(u MAXNUM unsigned(1)), "3 : NN32", "basic-integers.tex, section \"Integers\", opr MAXNUM: the larger of two NN32 values, an NN32")
+    assert(shown(u MINNUM unsigned(1)), "1 : NN32", "basic-integers.tex, section \"Integers\", opr MINNUM: the smaller of two NN32 values, an NN32")
+    assert(shown(v MAXNUM widen(unsigned(1))), "3 : NN64", "basic-integers.tex, section \"Integers\", opr MAXNUM: the larger of two NN64 values, an NN64")
+    assert(shown(v MINNUM widen(unsigned(1))), "1 : NN64", "basic-integers.tex, section \"Integers\", opr MINNUM: the smaller of two NN64 values, an NN64")
+  end
+
+librarySites(): () = do
+    x: Array[\ZZ32,ZZ32\] = array[\ZZ32\](5).fill(1)
+    s = SUFFIX_SUM x
+    assert(shown(s[0]) || " " || shown(s[4]), "5 : ZZ32 1 : ZZ32", "ranges.tex, section \"Ranges\", a strided range: SUFFIX_SUM steps down from |x| - 2 to 0 by -1")
+    a = array[\ZZ32\](5).tabulate(fn i => i)
+    shuffle(a)
+    assert(shown(SUM a) || " " || shown(BIG MAX a), "10 : ZZ32 4 : ZZ32", "ranges.tex, section \"Ranges\", a strided range: shuffle steps down from |a| - 1 to 0 by -1 and keeps every element")
+    index: ZZ32 = 4
+    assert(shown(0 MAX (index - 1)), "3 : ZZ32", "basic-integers.tex, section \"Integers\", opr MAX: the numeral 0 against a ZZ32 3, a ZZ32")
+    first: ZZ32 = 0
+    assert(shown(0 MAX (first - 1)), "0 : ZZ32", "basic-integers.tex, section \"Integers\", opr MAX: the numeral 0 against a ZZ32 -1, a ZZ32")
+    assert(shown(SUM[\ZZ32\][j <- 0#0] j), "0 : ZZ32", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty sum over ZZ32 is the ZZ32 zero")
+    assert(shown(SUM[\ZZ64\][j <- 0#0] widen(j)), "0 : ZZ64", "pins the library: an empty SUM over ZZ64 is the ZZ64 zero")
+    assert(shown(SUM[\NN32\][j <- 0#0] unsigned(j)), "0 : NN32", "pins the library: an empty SUM over NN32 is the NN32 zero")
+    assert(shown(PROD[\ZZ32\][j <- 1#0] j), "1 : ZZ32", "pins the library: an empty PROD over ZZ32 is the ZZ32 one")
+    assert(shown(PROD[\ZZ64\][j <- 1#0] widen(j)), "1 : ZZ64", "pins the library: an empty PROD over ZZ64 is the ZZ64 one")
+    assert(shown(PROD[\NN32\][j <- 1#0] unsigned(j)), "1 : NN32", "pins the library: an empty PROD over NN32 is the NN32 one")
+    assert(shown(widen(0)), "0 : ZZ64", "pins the library: widen of the numeral 0 is the ZZ64 zero")
+  end
+
+run(): () = do
+    eachTypeCompares()
+    eachTypeMaxNum()
+    librarySites()
+    println "PASS"
+  end
+
+end

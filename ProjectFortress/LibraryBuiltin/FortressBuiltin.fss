@@ -383,6 +383,7 @@ value object Long extends ZZ64
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+    coerce(x: IntLiteral) = x.asNN32
     getter zero(): Number = unsigned(0)
     getter one(): Number = unsigned(1)
     getter asString(): String =
@@ -398,10 +399,19 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Eq")
     opr <(self, b:NN32):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Less")
+    opr >(self, b:NN32):Boolean = b < self
+    opr >=(self, b:NN32):Boolean = NOT (self < b)
+    opr <=(self, b:NN32):Boolean = NOT (b < self)
+    opr CMP(self, b:NN32): TotalComparison =
+        if self < b then LessThan
+        elif b < self then GreaterThan
+        else EqualTo end
     opr MIN(self, other:NN32): NN32 = if other < self then other else self end
     opr MAX(self, other:NN32): NN32 = if other < self then self else other end
     opr MINMAX(self, other:NN32): (NN32, NN32) =
         if other < self then (other, self) else (self, other) end
+    opr MINNUM(self, other:NN32): NN32 = self MIN other
+    opr MAXNUM(self, other:NN32): NN32 = self MAX other
 
     opr -(self):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Negate")
@@ -449,6 +459,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
     opr ^(self, b:AnyIntegral):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
+    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
     partitionL(self):NN32 =
@@ -469,9 +480,19 @@ value object UnsignedLong extends NN64
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$AsFloat")
 end
 
-object IntLiteral extends ZZ32
-    getter zero(): IntLiteral = big(0)
-    getter one(): IntLiteral = big(1)
+object IntLiteral extends Number
+    getter zero(): IntLiteral = 0
+    getter one(): IntLiteral = 1
+    getter asZZ32(): ZZ32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ32")
+    getter asZZ64(): ZZ64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ64")
+    getter asNN32(): NN32 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToNN32")
+    getter asNN64(): NN64 =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToNN64")
+    getter asZZ(): ZZ =
+        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ")
     getter asString(): String =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToString")
     getter asExprString(): String =
@@ -480,7 +501,7 @@ object IntLiteral extends ZZ32
     asFloat(self): Float =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$AsFloat")
 
-    opr |self| : ZZ32 = if self>=0 then self else -self end
+    opr |self| : IntLiteral = if self>=0 then self else -self end
     opr =(self, b: IntLiteral):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Eq")
     opr <(self, other:IntLiteral): Boolean = self.cmp(other) < 0
@@ -490,10 +511,6 @@ object IntLiteral extends ZZ32
     opr CMP(self, other:IntLiteral): TotalComparison = self.cmp(other) CMP 0
     cmp(b:IntLiteral): ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Cmp")
-
-(*
-Do not enable these until coercion is implemented; doing so will
-cause all our arithmetic to occur on IntLiterals.
 
     opr -(self): IntLiteral =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Negate")
@@ -533,7 +550,13 @@ cause all our arithmetic to occur on IntLiterals.
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitNot")
     opr ^(self, b:AnyIntegral):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Pow")
-*)
+    opr ^(self, b: IntLiteral): RR64 = self^(b.asZZ32)
+    opr DIVIDES(self, b: IntLiteral): Boolean = self.asZZ DIVIDES b.asZZ
+    floor(self): IntLiteral = self
+    ceiling(self): IntLiteral = self
+    truncate(self): IntLiteral = self
+    even(self): Boolean = even(self.asZZ)
+    odd(self): Boolean = odd(self.asZZ)
 end
 
 value object BigNum extends ZZ

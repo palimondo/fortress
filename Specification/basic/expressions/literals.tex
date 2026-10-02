@@ -146,6 +146,23 @@ in Fortress).
 \Library\ define coercions
 from numerals to integers (for simple numerals)
 and rational numbers (for compound numerals).
+In \library, every numeral without a radix point has the type
+\TYP{IntLiteral}, which extends \TYP{Number} and none of the number types
+(\secref{basic-rationals}); each of the five integer types
+(\secref{basic-integers}), \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64} declares a
+coercion from it.
+\revision{revival-numeral-type}{The Working Draft of February 2011 described
+the numeral types above, which no library declares, and did not name the type
+that \library\ give a numeral.
+The revival decided on 29~September 2026 that a numeral has a type of its own,
+\TYP{IntLiteral}, from which each number type converts, the type the compiled
+path's own library gives it, and \library\ now declare it so.
+The compiled type checker gives every numeral without a radix point that type.
+The interpreter does not yet: it gives such a numeral the type
+\EXP{\mathbb{Z}32}, or \EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} when its value
+does not fit in the narrower type, and it is to give it the type
+\TYP{IntLiteral} once it runs with the static types of the compiled type
+checker.}
 
 
 \marginnote{What is an ``integer'' in this context?}

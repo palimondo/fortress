@@ -1,0 +1,44 @@
+component IntLiteralValue
+export Executable
+
+(*) The object IntLiteral converts into each number type at a typed binding, equals a zero of another type, takes its own declarations, and its own + answers as today's interpreter gives it.
+
+shown(v: Any): String =
+  typecase v of
+    IntLiteral => v.asString || " : IntLiteral"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    QQ => v.asString || " : QQ"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : another type"
+  end
+
+run(): () = do
+    x = IntLiteral
+    z: ZZ32 = x
+    assert(shown(z), "0 : ZZ32", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to ZZ32; IntLiteral at a ZZ32 binding is the ZZ32 zero")
+    w: ZZ64 = x
+    assert(shown(w), "0 : ZZ64", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to ZZ64; IntLiteral at a ZZ64 binding is the ZZ64 zero")
+    g: ZZ = x
+    assert(shown(g), "0 : ZZ", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to ZZ; IntLiteral at a ZZ binding is the ZZ zero")
+    q: QQ = x
+    assert(shown(q), "0 : QQ", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to QQ; IntLiteral at a QQ binding is the QQ zero")
+    u: NN32 = x
+    assert(shown(u), "0 : NN32", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to NN32; IntLiteral at an NN32 binding is the NN32 zero")
+    v: NN64 = x
+    assert(shown(v), "0 : NN64", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to NN64; IntLiteral at an NN64 binding is the NN64 zero")
+    r: RR64 = x
+    assert(shown(r), "0.0 : RR64", "conversions-coercions.tex, section \"Principles of Coercion\": an integer numeral converts to RR64 by coercion; IntLiteral at an RR64 binding is the RR64 zero")
+    assert(x = widen(0), "pins the library: the numeral case of exactValue makes IntLiteral equal to the ZZ64 zero")
+    assert(even(x) AND NOT odd(x), "pins the library: IntLiteral's own even and odd find the object IntLiteral even")
+    assert(shown(floor(x)) || " " || shown(ceiling(x)) || " " || shown(truncate(x)), "0 : IntLiteral 0 : IntLiteral 0 : IntLiteral", "pins the library: IntLiteral's own floor, ceiling and truncate give the object IntLiteral itself")
+    assert(x^x = 1, "basic-integers.tex, section \"Integers\", opr ^: a power 0 gives 1 even when the base is 0; the object IntLiteral to the power IntLiteral is 1")
+    assert((x.zero = 0) AND (x.one = 1), "pins the library: IntLiteral's own zero and one are 0 and 1")
+    assert(shown(x + x), "0 : ZZ32", "pins today's interpreter: IntLiteral's own + answers a ZZ32")
+    println "PASS"
+  end
+
+end
