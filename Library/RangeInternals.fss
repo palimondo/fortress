@@ -672,7 +672,7 @@ object RightScalarRange(r:ZZ32, str:ZZ32)
     flip(): LeftScalarRange = leftScalarRange(r, -str)
     forward(): BoundedScalarRange =
         if str < 0 then self.flip() else self end
-    every(s:ZZ32): RightScalarRange =
+    every(s:ZZ32): BoundedScalarRange =
         if s < 0 then
             flip().every(-s)
         else

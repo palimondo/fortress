@@ -3552,7 +3552,7 @@ object SimpleMappedSeqGenerator[\E,F\](g0: SequentialGenerator[\E\], f0: E->F)
     getter asString() = "mapped(" (self asif SequentialGenerator[\F\]).asString ")"
     seq(self): SimpleMappedSeqGenerator[\E,F\] = self
     map[\G\](f': F->G): SimpleMappedSeqGenerator[\E,G\] =
-        SimpleMappedSeqGenerator[\E,G\](g0, f' COMPOSE f0)
+        SimpleMappedSeqGenerator[\E,G\](g0, fn (e:E):G => f'(f0(e)))
 end
 
 trait FilterGenerator[\E\] extends Generator[\E\]

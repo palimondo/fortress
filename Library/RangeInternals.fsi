@@ -293,7 +293,7 @@ object RightScalarRange(r: ZZ32, str: ZZ32)
 
     flip(): LeftScalarRange
     forward(): BoundedScalarRange
-    every(s: ZZ32): RightScalarRange
+    every(s: ZZ32): BoundedScalarRange
     imposeStride(s: ZZ32): RightScalarRange
     atMost(n: ZZ32): FullScalarRange
     opr =(self, b: RightScalarRange): Boolean
