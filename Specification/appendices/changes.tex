@@ -2531,13 +2531,27 @@ comparisons, \OPR{CMP}, \OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral
 exponent, which the types inherited before from a declaration that a
 converted numeral leaves tied with those of \EXP{\mathbb{Z}64},
 \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+\EXP{\mathbb{Z}} states in its api, for the same reason, the additive and
+multiplicative operators its body declares.
+\TYP{IntLiteral} declares its own \VAR{zero}, \VAR{one}, \VAR{even},
+\VAR{odd}, \VAR{floor}, \VAR{ceiling}, \VAR{truncate}, \OPR{DIVIDES},
+\OPR{TIMES} and a power with a numeral exponent, which a numeral reached
+before as a \EXP{\mathbb{Z}32}, since no member of \TYP{Integral} is
+applicable to a numeral of that type, even with coercion
+(\secref{applicability-with-coercion}).
 A numeral given where any integer type is accepted, as the count of a shift,
 is converted to the narrowest of \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} and
 \EXP{\mathbb{Z}} that holds its value, as \secref{numeral-default} reads a
 numeral whose conversions tie.
-The interpreter is unchanged: it gives an integer numeral the type
-\EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} by its value, as
-before, and its calls reach the declarations they reached before.
+The interpreter still gives an integer numeral the type \EXP{\mathbb{Z}32},
+\EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} by its value, so a numeral reaches none
+of the declarations of \TYP{IntLiteral} there.
+Its calls of the comparisons, \OPR{CMP}, \OPR{MAXNUM} and \OPR{MINNUM} on an
+integer type reach that type's own declarations, which answer as the
+declarations inherited before did, except that \OPR{MAXNUM} and \OPR{MINNUM}
+with a converted argument, which stopped at a tie with those of
+\EXP{\mathbb{Q}} or answered at \EXP{\mathbb{Q}}, now answer at the integer
+type both arguments convert to.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex},
 lines 146--148, which stand unchanged and are now followed by the new
 sentence:

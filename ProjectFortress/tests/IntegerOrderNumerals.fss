@@ -67,12 +67,12 @@ librarySites(): () = do
     first: ZZ32 = 0
     assert(shown(0 MAX (first - 1)), "0 : ZZ32", "basic-integers.tex, section \"Integers\", opr MAX: the numeral 0 against a ZZ32 -1, a ZZ32")
     assert(shown(SUM[\ZZ32\][j <- 0#0] j), "0 : ZZ32", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty sum over ZZ32 is the ZZ32 zero")
-    assert(shown(SUM[\ZZ64\][j <- 0#0] widen(j)), "0 : ZZ64", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty sum over ZZ64 is the ZZ64 zero")
-    assert(shown(SUM[\NN32\][j <- 0#0] unsigned(j)), "0 : NN32", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty sum over NN32 is the NN32 zero")
-    assert(shown(PROD[\ZZ32\][j <- 1#0] j), "1 : ZZ32", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty product over ZZ32 is the ZZ32 one")
-    assert(shown(PROD[\ZZ64\][j <- 1#0] widen(j)), "1 : ZZ64", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty product over ZZ64 is the ZZ64 one")
-    assert(shown(PROD[\NN32\][j <- 1#0] unsigned(j)), "1 : NN32", "reductions.tex, section \"Summations and Other Reduction Expressions\": an empty product over NN32 is the NN32 one")
-    assert(shown(widen(0)), "0 : ZZ64", "basic-integers.tex, section \"Integers\", widen: the numeral 0 widened is the ZZ64 zero")
+    assert(shown(SUM[\ZZ64\][j <- 0#0] widen(j)), "0 : ZZ64", "pins the library: an empty SUM over ZZ64 is the ZZ64 zero")
+    assert(shown(SUM[\NN32\][j <- 0#0] unsigned(j)), "0 : NN32", "pins the library: an empty SUM over NN32 is the NN32 zero")
+    assert(shown(PROD[\ZZ32\][j <- 1#0] j), "1 : ZZ32", "pins the library: an empty PROD over ZZ32 is the ZZ32 one")
+    assert(shown(PROD[\ZZ64\][j <- 1#0] widen(j)), "1 : ZZ64", "pins the library: an empty PROD over ZZ64 is the ZZ64 one")
+    assert(shown(PROD[\NN32\][j <- 1#0] unsigned(j)), "1 : NN32", "pins the library: an empty PROD over NN32 is the NN32 one")
+    assert(shown(widen(0)), "0 : ZZ64", "pins the library: widen of the numeral 0 is the ZZ64 zero")
   end
 
 run(): () = do
