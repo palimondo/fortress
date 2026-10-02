@@ -9,10 +9,10 @@ export Executable
 found(t: Type): Boolean = if _ <- reflectiveArbitrary.genFromType(false, t) then true else false end
 
 run(): () = do
-    assert(found(theType[\IntLiteral\]()), "literals.tex, section \"Literals\": IntLiteral is a type under Number, and the reflective generator has a generator for it")
-    assert(found(theType[\ZZ32\]()), "basic-integers.tex, section \"Integers\": the reflective generator has a generator for ZZ32")
-    assert(found(theType[\QQ\]()), "numbers.tex, section \"Rational Numbers\": the reflective generator has a generator for QQ")
-    assert(found(theType[\RR64\]()), "numbers.tex, section \"Rational Numbers\": the reflective generator has a generator for RR64")
+    assert(found(theType[\IntLiteral\]()), "literals.tex, section \"Literals\": a numeral's type IntLiteral extends Number; the reflective generator finds a generator for it")
+    assert(found(theType[\ZZ32\]()), "basic-integers.tex, section \"Integers\": ZZ32 is one of the types under Number; the reflective generator finds a generator for it")
+    assert(found(theType[\QQ\]()), "numbers.tex, section \"Rational Numbers\": QQ is one of the types under Number; the reflective generator finds a generator for it")
+    assert(found(theType[\RR64\]()), "numbers.tex, section \"Rational Numbers\": RR64 is one of the types under Number; the reflective generator finds a generator for it")
     println "PASS"
   end
 

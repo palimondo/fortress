@@ -2486,6 +2486,77 @@ D$.  Therefore $(S \inter D) = D$.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The type of an integer numeral}
+\seclabel{revival-numeral-type}
+
+\begin{description}
+\item[Affected sections] \secref{literals}; \secref{coercion}.
+\item[Change] \secref{literals} says that \library\ give every numeral without a
+radix point the type \TYP{IntLiteral}, which extends \TYP{Number} and none of the
+number types, and that each of the five integer types, \EXP{\mathbb{Q}} and
+\EXP{\mathbb{R}64} declares a coercion from it.
+The box of \secref{coercion} says the same of the coercion into
+\EXP{\mathbb{R}64}, and that the interpreter does not yet give a numeral that
+type.
+\item[Rationale] This change does not follow from route~A; the revival decided
+on 29~September 2026 that a numeral has a type of its own, \TYP{IntLiteral},
+from which each number type converts, the compiled path's own library's working
+version taken in place of the numeral types of \secref{literals}, which no
+library declares, and that \library\ take it before the interpreter does, since
+the interpreter can give a numeral that type without changing the declarations
+its calls reach only once it runs with the static types of the compiled type
+checker.
+\Library\ declared their numeral type an object extending \EXP{\mathbb{Z}32},
+its arithmetic withheld by the comment ``Do not enable these until coercion is
+implemented; doing so will cause all our arithmetic to occur on IntLiterals.''
+(\nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fss}, lines
+495--496 before this change, in the revival's repository).
+Coercion is implemented on both paths now, and \library\ declare the type as
+the compiled path's own library does
+(\nolinkurl{ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi}, lines
+390--431): beside the number types under \TYP{Number}, with the arithmetic that
+comment withheld, each integer type declaring a coercion from it.
+\EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}, which that library does not declare from
+a numeral, coerce from it too, since \EXP{\mathbb{Q}} coerces from every integer
+type (\secref{basic-rationals}) and \EXP{\mathbb{R}64} from integer numerals
+(\secref{revival-int-float}).
+\item[Effect] The compiled type checker converts an integer numeral to the
+integer type, \EXP{\mathbb{Q}} or \EXP{\mathbb{R}64} that its context expects,
+\EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} among them, which refused a numeral
+before.
+A numeral beside a value of an integer type is converted to that type, whose
+own declaration of the operator is then the most specific
+(\secref{resolving-coercion}); \library\ state on each integer type the
+comparisons, \OPR{CMP}, \OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral
+exponent, which the types inherited before from a declaration that a
+converted numeral leaves tied with those of \EXP{\mathbb{Z}64},
+\EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+A numeral given where any integer type is accepted, as the count of a shift,
+is converted to the narrowest of \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} and
+\EXP{\mathbb{Z}} that holds its value, as \secref{numeral-default} reads a
+numeral whose conversions tie.
+The interpreter is unchanged: it gives an integer numeral the type
+\EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} by its value, as
+before, and its calls reach the declarations they reached before.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex},
+lines 146--148, which stand unchanged and are now followed by the new
+sentence:
+\begin{quote}
+\Library\ define coercions
+from numerals to integers (for simple numerals)
+and rational numbers (for compound numerals).
+\end{quote}
+The box of \secref{coercion} is the revival's own text of 26~September 2026,
+not the Working Draft's; it said, in
+\nolinkurl{Specification/basic/conversions-coercions.tex}, lines 84--85,
+before this revision:
+\begin{quote}
+The interpreter gives an integer numeral outside the range of \EXP{\mathbb{Z}32}
+a wider integer type, and so does not yet convert it.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
