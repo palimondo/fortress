@@ -1,0 +1,18 @@
+(* Two traits each declare a functional method of one name with the self parameter second, and a trait extending both declares none of its own, so the overloading is invalid in that trait. *)
+component XXXFunctionalMethodMeetSelfSecondNoMeet
+export Executable
+
+trait A
+    pick(n: ZZ32, self): String = "A"
+end
+trait B
+    pick(n: ZZ32, self): String = "B"
+end
+trait D extends { A, B } end
+object Ao extends A end
+
+run(): () = do
+    println(pick(3, Ao))
+end
+
+end

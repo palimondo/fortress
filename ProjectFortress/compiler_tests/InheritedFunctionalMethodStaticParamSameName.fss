@@ -1,0 +1,13 @@
+(* A generic functional method inherited by a trait whose own static parameter has the same name: the method's parameter stays its own, so the inherited and the declared method are a valid overloading. *)
+component InheritedFunctionalMethodStaticParamSameName
+export Executable
+trait Gen[\E\]
+  gen[\R\](self, x: E, f: E -> R): R = f(x)
+end
+trait Pair[\R\] extends Gen[\Pair[\R\]\]
+  gen[\G\](self, x: Pair[\R\], f: Pair[\R\] -> G): G = f(x)
+end
+run(): () = do
+  println("compiled")
+end
+end

@@ -1,0 +1,17 @@
+(* An object extending two api traits that each declare a functional method of one name, with its own declaration on their meet, is a valid overloading, and each call runs the declaration its argument provides. *)
+component FunctionalMethodMeetInheritedFromApi
+import FunctionalMethodPairApi.{...}
+export Executable
+
+object Z extends { Fa, Fb }
+    pick(self): String = "z"
+end
+object Q extends Fa end
+
+run(): () = do
+    assert(pick(Z), "z", "the object that provides both api declarations runs its own declaration on their meet (overloading.tex, section Meet Rule, the Meet Rule for Functional Methods)")
+    assert(pick(Q), "a", "an object that provides one api declaration runs that declaration (overloading.tex, section Meet Rule, the Meet Rule for Functional Methods)")
+    println("PASS")
+end
+
+end
