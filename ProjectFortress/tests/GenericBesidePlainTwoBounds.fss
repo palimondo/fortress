@@ -1,0 +1,23 @@
+component GenericBesidePlainTwoBounds
+export Executable
+
+(* A generic declaration whose type parameter has two bounds, beside two plain declarations one of which covers their overlap, is a valid overloading, and each call runs the most specific declaration. *)
+
+trait Aa end
+trait Bb end
+object Both extends { Aa, Bb } end
+object Both2 extends { Aa, Bb } end
+
+w[\T extends { Aa, Bb }\](x: T, y: ZZ32): String = "generic"
+w(x: Both, y: Any): String = "bothAny"
+w(x: Both, y: ZZ32): String = "meet"
+
+run(): () = do
+    z: ZZ32 = 3
+    assert(w(Both, z), "meet", "a Both with a ZZ32 takes the declaration on Both and ZZ32, below the other two; the generic declaration and the one on Both and Any overlap only where Both and ZZ32 meet, and that declaration covers it; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(w(Both2, z), "generic", "another object below both bounds with a ZZ32 takes the generic declaration")
+    assert(w(Both, "s"), "bothAny", "a Both with a String takes the declaration on Both and Any")
+    println("PASS")
+  end
+
+end
