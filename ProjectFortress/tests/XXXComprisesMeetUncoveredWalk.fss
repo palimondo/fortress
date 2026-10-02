@@ -1,4 +1,4 @@
-component XXXComprisesMeetUncovered
+component XXXComprisesMeetUncoveredWalk
 export Executable
 
 (* Must be refused at load: nothing covers the overlap V of S and T, so f(S) beside f(T) is not a valid overloading. *)

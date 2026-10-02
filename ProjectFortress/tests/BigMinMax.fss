@@ -1,0 +1,15 @@
+(* BIG MINMAX over a generator answers its least and greatest elements (row 473). *)
+component BigMinMax
+export Executable
+
+run() = do
+    (lo, hi) = BIG MINMAX[\ZZ32\][x <- 0#4] x
+    assert(lo, 0, "BIG MINMAX at ZZ32 over 0#4 answers 0 as its least element")
+    assert(hi, 3, "BIG MINMAX at ZZ32 over 0#4 answers 3 as its greatest element")
+    (least, greatest) = BIG MINMAX (3#4)
+    assert(least, 3, "BIG MINMAX applied to the generator 3#4 answers 3 as its least element")
+    assert(greatest, 6, "BIG MINMAX applied to the generator 3#4 answers 6 as its greatest element")
+    println("PASS")
+end
+
+end

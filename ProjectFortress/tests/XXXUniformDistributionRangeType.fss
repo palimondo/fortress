@@ -1,0 +1,14 @@
+(* Must be refused: a uniform distribution's type parameter is its range's element type, so a ZZ64 distribution over the ZZ32 range 1:3 is not built (row 483). *)
+component XXXUniformDistributionRangeType
+import Random.{...}
+export Executable
+
+run(): () = do
+    g = linearCongruential(42)
+    d = UniformDistribution[\ZZ64\](1:3)
+    println("REACHED")
+    println(d.min[\ZZ64\](g))
+    println("PASS")
+end
+
+end

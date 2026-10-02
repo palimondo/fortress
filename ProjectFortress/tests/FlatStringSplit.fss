@@ -1,0 +1,15 @@
+(* A flat string's split and splitWithOffsets answer the generators its api declares; ledger row 356. *)
+
+component FlatStringSplit
+export Executable
+
+run(): () = do
+    println("REACHED")
+    s: String = "hello"
+    g: Generator[\String\] = s.split()
+    p: Generator[\(ZZ32, String)\] = s.splitWithOffsets()
+    assert(SUM[\ZZ32\] [_ <- g] 1, SUM[\ZZ32\] [_ <- p] 1, "a flat string's split() and splitWithOffsets() are the api's Generator[\\String\\] and Generator[\\(ZZ32, String)\\] and generate the same number of pieces; Specification/basic/traits.tex, section \"Method Declarations\"")
+    println("PASS")
+  end
+
+end

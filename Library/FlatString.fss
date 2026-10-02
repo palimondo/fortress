@@ -143,8 +143,8 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
             flatConcat(self, b)
         end
 
-    splitWithOffsets():Maybe⟦Generator⟦(ZZ32, String)⟧⟧ = Nothing⟦Generator⟦(ZZ32, String)⟧⟧
-    split():Maybe⟦Generator⟦(ZZ32, String)⟧⟧ = Nothing⟦Generator⟦(ZZ32, String)⟧⟧
+    splitWithOffsets():Generator⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
+    split():Generator⟦String⟧ = Nothing⟦String⟧
 
     writeOn(stream: WriteStream): () = stream.write(self)
 

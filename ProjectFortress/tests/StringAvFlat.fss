@@ -1,7 +1,7 @@
-component XXXStringAvFlatRungV
+component StringAvFlat
 export Executable
 
-(*) explorations/compile-ladder/rung-rr32-sibling/REPORT.md
+(* A string's statistics answer avFlat as the RR32 its declaration states; ledger row 531. *)
 
 shownA(v: Any): String =
   typecase v of

@@ -1,0 +1,15 @@
+(* A uniform distribution over a strided range has the range's least and greatest elements as its minimum and maximum; ledger row 586. *)
+component XXXUniformDistributionStridedRange
+import Random.{...}
+export Executable
+
+run(): () = do
+    g = linearCongruential(7)
+    w = UniformDistribution[\ZZ32\](2:8:3)
+    println("REACHED")
+    assert(w.min[\ZZ64\](g).asString, "Just(2)", "a uniform distribution over the strided range 2:8:3 has minimum 2")
+    assert(w.max[\ZZ64\](g).asString, "Just(8)", "a uniform distribution over the strided range 2:8:3 has maximum 8")
+    println("PASS")
+end
+
+end
