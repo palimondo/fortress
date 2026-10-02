@@ -70,7 +70,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
      */
     private static final String TRACE = System.getProperty("fortress.inference.trace");
 
-    public static void traceInstance(String rule, Object decl, String param, Object before, Object after, Object args) {
+    private static void traceInstance(String rule, Object decl, String param, Object before, Object after, Object args) {
         if (TRACE == null) return;
         synchronized (EvaluatorBase.class) {
             try {
@@ -91,30 +91,34 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     }
 
     /**
-     * A bounding map for a call's static parameters whose lower bound, where
-     * two of the types joined into it have several minimal common supertypes
-     * and both lie under its upper bound, is that upper bound: the type
-     * parameter takes its bound, not one of those supertypes.
+     * A bounding map for a call's static parameters.  With bounded, where a
+     * type joined into a lower bound has several minimal common supertypes
+     * with it, or none, and both lie under the upper bound, the lower bound
+     * becomes that upper bound, Any where there is none: the type parameter
+     * takes its bound, not one of those supertypes.  Without, the lattice's
+     * join decides, as when a declaration is chosen.
      */
     static final class BoundingIntervals extends LatticeIntervalMap<String, FType, TypeLatticeOps> {
-        BoundingIntervals() {
+        private final boolean bounded;
+
+        BoundingIntervals(boolean bounded) {
             super(TypeLatticeOps.V, DefaultComparator.V);
+            this.bounded = bounded;
         }
 
         @Override
         public FType joinPut(String k, FType v) {
-            try {
-                return super.joinPut(k, v);
-            }
-            catch (EmptyLatticeIntervalError ex) {
-                FType lower = getLower(k);
+            FType lower = bounded ? getLower(k) : null;
+            if (lower != null && lower.join(v).size() != 1) {
                 FType upper = getUpper(k);
-                if (lower == null || upper == null || lower.join(v).size() < 2 || !lower.subtypeOf(upper) ||
-                    !v.subtypeOf(upper)) throw ex;
-                traceInstance("several", k, k, lower + " join " + v, upper, "");
-                putPair(k, upper, upper);
-                return upper;
+                FType bound = upper == null ? FTypeTop.ONLY : upper;
+                if (lower.subtypeOf(bound) && v.subtypeOf(bound)) {
+                    traceInstance("several", k, k, lower + " join " + v, bound, "");
+                    putPair(k, bound, bound);
+                    return bound;
+                }
             }
+            return super.joinPut(k, v);
         }
     }
 
@@ -206,7 +210,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         List<StaticParam> tparams = appliedThing.getStaticParams();
         List<Param> params = appliedThing.getParams();
         EvalType et = new EvalType(appliedThing.getWithin());
-        BoundingIntervals abm = new BoundingIntervals();
+        BoundingIntervals abm = new BoundingIntervals(true);
         Set<String> tp_set = new HashSet<String>();
         Set<String> typeParams = new HashSet<String>();
         Map<String, List<FType>> bounds = new HashMap<String, List<FType>>();
@@ -482,7 +486,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         EvalType et = new EvalType(appliedThing.getWithin());// e);
         // The types of the actual parameters ought to unify with the
         // types of the formal parameters.
-        BoundingIntervals abm = new BoundingIntervals();
+        BoundingIntervals abm = new BoundingIntervals(bounded);
         Set<String> fixable = new HashSet<String>();
         Param p = null;
         Set<String> tp_set = new HashSet<String>();
