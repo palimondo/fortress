@@ -11,28 +11,35 @@
 #   <new-worktree>   where the new worktree goes; made by `git worktree add`, reused if it already exists.
 #   <branch>         the branch it checks out: an existing local branch, else origin's, else a new branch
 #                    cut from <start-point>, which defaults to B; `-` makes a detached worktree at
-#                    <start-point> instead (a skeptic's or a repair's copy of the base, for old-against-new runs).
+#                    <start-point> instead. Old-against-new runs need no copy of the base: tools/old-fortress.sh
+#                    runs the base build itself with a private caches folder.
 #
 # What it does, in order: adds the worktree; copies ProjectFortress/build, ProjectFortress/.dependencies
 # and default_repository/caches from the base; renames every file of the AST caches (analyzed_cache,
 # interpreter_cache, interpreter_parsed_cache) to the hash of its source's new path (NamingCzar.deCaseName,
 # compiler/NamingCzar.java:244-245; GraphNode.java:33 hashes the canonical path) and rewrites the base path
 # inside it; rewrites the base path in the bytecode-cache jars' SourceFile attributes (debug information
-# only: jars copied unchanged also run, but their stack traces would name the base's files); stamps every
-# copied file with one time after the checkout, because the repository uses a cached entry only when it is
-# not older than its source (repository/GraphRepository.java:244, :283); and, where the new worktree's
-# files differ from B, stamps the differing library sources later still, so that the next `fortress compile`
-# of each rebuilds it (a changed api also makes everything that imports it stale, GraphRepository.java:600-620).
-# A worktree whose ProjectFortress/src differs from B is seeded too, with a warning: the copied build is B's,
-# so the worker runs ant compileAll (which deletes the caches, build.xml:715 and :356) and the library-order
-# recompile before its first compiled run.
+# only: jars copied unchanged also run, but their stack traces would name the base's files); and makes the
+# new worktree the base's replica in its file dates too. The copies keep the base's dates (cp -a), every
+# tracked file whose content is the base's takes the base file's date, and every tracked file that differs
+# from B, committed or not, is stamped later than everything copied. Dates decide three things. The
+# repository uses a cached entry only when it is not older than its source (repository/GraphRepository.java:244,
+# :283; a changed api also makes everything that imports it stale, :600-620). Ant regenerates the AST
+# nodes, the parsers and Operators.java when an input is newer than the generated file (build.xml:371-384,
+# :450-467, :1335-1400); the checkout's own dates make it regenerate them, and javac then recompiles 1,077
+# files. And javac recompiles a source newer than its class (build-cache-exploration.md, section 6). So the
+# next `fortress compile` of a differing library source rebuilds it, and a worktree whose ProjectFortress/src
+# differs from B is seeded with a warning: the copied build is B's, so the worker runs ant compileAll, which
+# recompiles the differing sources (and deletes the caches, build.xml:715 and :356), and the library-order
+# recompile before its first compiled run. The base's own dates must be a build's: a base built in place by
+# ant, or seeded by this script.
 #
 # A worktree that already has ProjectFortress/build is left alone (a relaunch keeps the worker's own build);
 # SEED_FORCE=1 replaces its build and caches with the base's.
 #
 # Prints one line per step with its time, and the seeded worktree's path last. Exits non-zero, having
 # removed nothing, if the base is not built or not clean. Never touches the base or the main tree.
-# Run it from anywhere; it needs bash, git, python3, realpath and GNU touch.
+# Run it from anywhere; it needs bash, git, python3, realpath and bc.
 set -euo pipefail
 
 BASE_ARG=${1:?usage: seed-worktree.sh <base-worktree> <new-worktree> <branch> [<start-point>]}
@@ -163,27 +170,47 @@ print('ast caches: %d renamed, %d kept, %d rewritten; jars: %d constants rewritt
 PY
 step "translate paths"
 
-# One stamp after the checkout for everything copied, so each cached entry is as new as its source:
-# nanoseconds, since a stamp truncated to the second can fall before the checkout's own writes.
-STAMP=$(date +%s.%N)
-STAMPED=("$NEW/ProjectFortress/build" "$C")
-[ -d "$NEW/ProjectFortress/.dependencies" ] && STAMPED+=("$NEW/ProjectFortress/.dependencies")
-find "${STAMPED[@]}" -print0 | xargs -0 touch -h -c -d "@$STAMP"
+# Dates: the base's for every tracked file whose content is the base's, as the copies above kept the base's
+# for the build and the caches (and the translation's rewrites are newer still), so every date comparison
+# comes out as it does in the base. Every tracked file that differs from B, committed or not, and every file
+# the base itself has changed, is stamped two seconds after all of it: Java's lastModified counts
+# milliseconds, and a cached entry not older than its source counts as current.
 git -C "$NEW" checkout -q -- default_repository/caches/global.map
-# Library sources that differ from the base's commit, committed or not, are made newer than the cache.
+python3 - "$BASE" "$NEW" "$B" <<'PY'
+import os, sys, subprocess, time
+base, new, b = sys.argv[1], sys.argv[2], sys.argv[3]
+def names(cwd, *args):
+    out = subprocess.run(['git', '-C', cwd] + list(args), capture_output=True, check=True).stdout
+    return [p for p in out.decode('utf-8', 'surrogateescape').split('\0') if p]
+later = set(names(new, 'diff', '--name-only', '-z', '--no-renames', b))   # the new worktree against B
+later |= set(names(base, 'diff', '--name-only', '-z', '--no-renames', 'HEAD'))   # the base's own changes
+stamp = time.time() + 2
+same = stamped = 0
+for p in names(new, 'ls-files', '-z'):
+    np = os.path.join(new, p)
+    if not os.path.lexists(np): continue
+    bp = os.path.join(base, p)
+    if p in later or not os.path.lexists(bp):
+        os.utime(np, (stamp, stamp), follow_symlinks=False); stamped += 1
+    else:
+        st = os.lstat(bp)
+        os.utime(np, ns=(st.st_atime_ns, st.st_mtime_ns), follow_symlinks=False); same += 1
+print('tracked files: %d dated as the base\'s, %d stamped later' % (same, stamped))
+PY
+git -C "$NEW" update-index -q --refresh || true     # record the new dates, so the first git status is quick
 CHANGED_LIB=$(git -C "$NEW" diff --name-only --diff-filter=d "$B" -- Library ProjectFortress/LibraryBuiltin | grep '\.fs[si]$' || true)
 if [ -n "$CHANGED_LIB" ]; then
-    ( cd "$NEW" && echo "$CHANGED_LIB" | xargs touch -d "@$(echo "$STAMP + 2" | bc)" )
     echo "library sources newer than the base's cache (recompile them, and the library order after them):"
     echo "$CHANGED_LIB" | sed 's/^/    /'
 fi
 CHANGED_SRC=$(git -C "$NEW" diff --name-only "$B" -- ProjectFortress/src ProjectFortress/astgen build.xml | head -5)
 if [ -n "$CHANGED_SRC" ]; then
     echo "WARNING: the branch changes the compiler's sources since the base; the copied build is the base's."
-    echo "         Run ant compileAll, restore global.map and the library-order recompile before any run:"
+    echo "         Run ant compileAll (it recompiles the changed sources, stamped newer than the build),"
+    echo "         restore global.map and run the library-order recompile before any run:"
     echo "$CHANGED_SRC" | sed 's/^/    /'
 fi
-step "stamp dates"
+step "date tracked files"
 [ -z "$(git -C "$NEW" status --porcelain -- default_repository)" ] \
   || { echo "seed-worktree: default_repository differs from the index in $NEW:" ; git -C "$NEW" status --short -- default_repository | head -5 ; }
 printf 'seeded from %s (%s) in %.0f s\n%s\n' "$BASE" "$(git -C "$BASE" rev-parse --short HEAD)" \
