@@ -18,6 +18,7 @@ import _root_.edu.rice.cs.plt.tuple.{Option => JOption}
 import _root_.java.util.{Set => JSet}
 // import collection.jcl.Hashtable
 import com.sun.fortress.compiler.index._
+import com.sun.fortress.compiler.Types
 import com.sun.fortress.exceptions.InterpreterBug.bug
 import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
@@ -181,7 +182,8 @@ object STypeEnv extends StaticEnvCompanion[Type] {
   protected def extractNodeBindings(node: Node): Iterable[TypeBinding] =
     node match{
       case SParam(_, name, mods, _, _, Some(vaTyp)) =>
-        List(makeBinding(name, vaTyp, mods, false))
+        // In the body a varargs parameter is the sequence of its arguments.
+        List(makeBinding(name, Types.makeVarargsParamType(vaTyp), mods, false))
       case SParam(_, name, mods, Some(typ), _, _) =>
         typ match {
           case p@SPattern(_,_,_) => bug("Pattern should be desugared away: " + p)

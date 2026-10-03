@@ -25,6 +25,7 @@ import com.sun.fortress.compiler.Types
 import com.sun.fortress.exceptions.StaticError
 import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
+import com.sun.fortress.nodes_util.NodeFactory
 import com.sun.fortress.nodes_util.NodeUtil
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
@@ -58,7 +59,44 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
       checkAcyclicity(typ, List(), errors)
       checkDeclComprises(typ, errors, analyzer)
     }
+    if (!isApi) checkObjectExprComprises(compilation_unit.ast, errors, analyzer)
     toJavaList(removeDuplicates(toListFromImmutable(errors)))
+  }
+
+  /* An object expression that extends a trait with a comprises clause, explicitly or
+   * through the traits it extends, must be a subtype of a listed type, as the trait's
+   * extenders together must be: an object expression has no static parameters and no
+   * comprises clause of its own, and the trait table does not know it. */
+  private def checkObjectExprComprises(ast: Node,
+                                       errors: JavaList[StaticError],
+                                       analyzer: TypeAnalyzer): Unit = {
+    object finder extends Walker {
+      var scope = analyzer
+      private def within(sparams: JavaList[StaticParam], node: Any): Any = {
+        val outer = scope
+        scope = scope.extend(toListFromImmutable(sparams), None)
+        super.walk(node)
+        scope = outer
+        node
+      }
+      override def walk(node: Any): Any = node match {
+        case d: TraitObjectDecl => within(NodeUtil.getStaticParams(d), node)
+        case f: FnDecl => within(NodeUtil.getStaticParams(f), node)
+        case o: ObjectExpr =>
+          val extended = toListFromImmutable(o.getHeader.getExtendsClause).map(_.getBaseType).collect {
+            case t: TraitType => t }
+          val self = NodeFactory.makeMaybeIntersectionType(toJavaList(extended))
+          val closed = (extended ++ extended.flatMap(t => scope.ancestors(t).collect { case a: TraitType => a })).distinct
+          for (t <- closed; listed <- scope.comprisedTypes(t))
+            if (!comprisesContains(listed.map(_.asInstanceOf[NamedType]).toSet, self, scope))
+              error(errors, "Invalid comprises clause: " + t.getName +
+                    " has a comprises clause\n    but an object expression that extends it" +
+                    " is not a subtype of a type it lists.", o)
+          super.walk(node)
+        case _ => super.walk(node)
+      }
+    }
+    finder(ast)
   }
 
   private def getTypes(typ:Id, errors:JavaList[StaticError]) = {

@@ -1,3 +1,3 @@
 tests=XXXVarargsParamNotItsElement
 compile
-compile_err_contains=but declared return type is String
+compile_err_contains=The body uses the varargs parameter rest, whose type ImmutableArray[\\String,ZZ32\\]

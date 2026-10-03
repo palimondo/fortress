@@ -144,6 +144,9 @@ public class FnNameInfo {
      */
     static ArrowType typeAndParamsToArrow(Span span, Type rt, List<Param> lp) {
         Type dt = null;
+        for (Param p : lp)
+            if (NodeUtil.isVarargsParam(p))
+                return NodeFactory.makeArrowType(span, NodeUtil.getParamType(lp, span), rt);
         switch (lp.size()) {
         case 0:
             dt = NodeFactory.makeVoidType(span);

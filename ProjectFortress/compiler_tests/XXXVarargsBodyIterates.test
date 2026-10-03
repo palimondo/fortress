@@ -1,0 +1,3 @@
+tests=XXXVarargsBodyIterates
+compile
+compile_err_contains=The body uses the varargs parameter rest, whose type ImmutableArray[\\ZZ32,ZZ32\\] the libraries do not declare

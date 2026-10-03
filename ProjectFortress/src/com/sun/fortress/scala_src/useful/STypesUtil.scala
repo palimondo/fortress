@@ -158,15 +158,22 @@ object STypesUtil {
     case f: DummyVariableFunction => Some(f.getArrowType())
     case _ =>
       val returnType = toOption(f.getReturnType).getOrElse(return None)
-      val originalParams = toListFromImmutable(f.parameters).map(NU.getParamType)
-      val params = if (omitSelf)
-                     f match { case fhst: HasSelfType => 
+      val originalParams = toListFromImmutable(f.parameters)
+      val keptParams = if (omitSelf)
+                     f match { case fhst: HasSelfType =>
                                  if (fhst.selfPosition >= 0)
                                    (originalParams.take(fhst.selfPosition) ++
 				    originalParams.drop(fhst.selfPosition + 1))
 				 else originalParams }
                    else originalParams
-      val argType = makeArgumentType(declarer match { case Some(x) => params :+ x; case None => params })
+      val params = keptParams.filterNot(p => NU.isVarargsParam(p)).map(p => NU.getParamType(p))
+      val plainTypes = declarer match { case Some(x) => params :+ x; case None => params }
+      // A varargs parameter is the domain's varargs type, after its plain types.
+      val argType = keptParams.find(p => NU.isVarargsParam(p)) match {
+        case Some(v) => NF.makeTupleType(NF.typeSpan, false, toJavaList(plainTypes), v.getVarargsType,
+                                         toJavaList(List[KeywordType]()))
+        case None => makeArgumentType(plainTypes)
+      }
       val effect = NF.makeEffect(f.thrownTypes)
       val where = f match {
         case f: Constructor => f.where

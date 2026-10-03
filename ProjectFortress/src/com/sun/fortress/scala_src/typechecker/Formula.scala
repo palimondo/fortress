@@ -531,13 +531,9 @@ object Formula{
           // with only disequalities left is left unsolved
           if (ns.exists{case (_, NPrimitive(pe, _)) => !pe.isEmpty}) return None
           val nc = And(ts, os)
-          val sub = (if (toBounds) TU.topIvars else TU.killIvars) compose
-            tSubstitution(ts.map{
-              case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne))
-                  if toBounds && pl.forall(l => TU.hasInferenceVars(l) || l.isInstanceOf[BottomType]) =>
-                val upper = ta.meet(pu.filterNot(TU.hasInferenceVars))
-                if (upper.isInstanceOf[BottomType]) return None
-                (k, upper)
+          def boundOnly(p: TPrimitive) =
+            toBounds && p.pl.forall(l => TU.hasInferenceVars(l) || l.isInstanceOf[BottomType])
+          val lowered = ts.filterNot(e => boundOnly(e._2)).map{
               case (k, p@TPrimitive(pl,nl,pu,nu,pe,ne)) => {
                 var uni = ta.join(pl.filterNot(TU.hasInferenceVars))
                 // Heuristic extension to Dan Smith's algorithm:
@@ -562,7 +558,29 @@ object Formula{
 //                println("slv: new (k->uni) = " + k + "->" + uni)
                 (k, uni)
               }
-            })
+            }.toMap
+          // A variable that no lower bound fixes takes the meet of its upper bounds, each
+          // at the solutions of the other variables it mentions once those are found, as a
+          // bound that mentions another static parameter is taken at that parameter's
+          // instance; a bound that still mentions a variable, the variable itself among
+          // them, is left out.
+          var solved: Map[_InferenceVarType, Type] = lowered
+          var pending = ts.toList.filter(e => boundOnly(e._2))
+          def waits(k: _InferenceVarType, p: TPrimitive) =
+            p.pu.exists(u => TU.getInferenceVars(tSubstitution(solved)(u)).exists(v => v != k && pending.exists(_._1 == v)))
+          var ready = pending.filterNot(e => waits(e._1, e._2))
+          while (ready.nonEmpty || pending.nonEmpty) {
+            val now = if (ready.nonEmpty) ready else pending
+            val known = tSubstitution(solved)
+            for ((k, p) <- now) {
+              val upper = ta.meet(p.pu.map(known).filterNot(TU.hasInferenceVars))
+              if (upper.isInstanceOf[BottomType]) return None
+              solved = solved + (k -> upper)
+            }
+            pending = pending.filterNot(e => now.exists(_._1 == e._1))
+            ready = pending.filterNot(e => waits(e._1, e._2))
+          }
+          val sub = (if (toBounds) TU.topIvars else TU.killIvars) compose tSubstitution(solved)
 	  val newMap = cMap(nc, sub)
 //	  println("newMap: " + newMap)
           if(isTrue(newMap))

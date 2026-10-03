@@ -92,11 +92,11 @@ class AbstractMethodChecker(component: ComponentIndex,
     // For each abstract method, check to see whether it is covered by one or more concrete definitions.
     for ((meth, str, tt) <- methods.secondSet) {
       if (isAbstractMethod(meth, tt)) {
-        val thisDomain = str.replaceIn(tsa.makeDomainFromArrow(makeArrowWithoutSelfFromFunctional(meth).get))
+        val thisDomain = str.replaceIn(domainApart(meth))
 	val relevantConcreteMethods = concreteMethods.filter(x => x match { case (meth2, _, _) =>
             (meth2.name == meth.name) && (meth.asInstanceOf[HasSelfType].selfPosition == meth2.asInstanceOf[HasSelfType].selfPosition)})
         val concreteMethodsAndDomains = relevantConcreteMethods.map(x => x match { case (meth2, str2, _) =>
-            (meth2, str2.replaceIn(tsa.makeDomainFromArrow(makeArrowWithoutSelfFromFunctional(meth2).get)))}).toList
+            (meth2, str2.replaceIn(domainApart(meth2)))}).toList
         val moreSpecificConcreteMethodsAndDomains = concreteMethodsAndDomains.filter(x => x match { case (meth2, dom2) => tsa.subtypeED(dom2, thisDomain)})
         val domainList = moreSpecificConcreteMethodsAndDomains.map(x => x match { case (concMeth, domain) => domain }).toList
         val domainUnion = domainList.fold(BOTTOM)(tsa.joinED)
@@ -115,6 +115,31 @@ class AbstractMethodChecker(component: ComponentIndex,
       }
     }
     typeAnalyzer = oldTypeAnalyzer
+  }
+
+  /* The domain of an inherited method, without self, as a type schema over the method's
+   * own static parameters, each whose name is a static parameter of the object being
+   * checked renamed apart, so that the arguments the replacer puts in place of the
+   * declaring trait's parameters are not captured, as the overloading checker's
+   * ownStaticParamsApart does; the declaring trait's parameters are left to the replacer. */
+  private def domainApart(f: JavaFunctional): Type = {
+    val a = makeArrowWithoutSelfFromFunctional(f).get
+    val own = toListFromImmutable(getStaticParameters(f, false))
+    val env = typeAnalyzer.env
+    val taken = own.map(_.getName.getText).toSet
+    val clash = own.filter(p => env.contains(p.getName))
+    if (clash.isEmpty) return insertStaticParams(a.getDomain, own)
+    val subst: List[(IdOrOp, IdOrOp)] = clash.map { p =>
+      val n = p.getName
+      val fresh = Iterator.from(1).map(i => NF.makeId(NU.getSpan(n), n.getText + "$" + i))
+                          .find(m => !env.contains(m) && !taken.contains(m.getText)).get
+      (n, fresh) }
+    val renamed = own.map(p => subst.find(_._1 == p.getName) match {
+      case Some((_, m)) =>
+        NF.makeStaticParam(p, m.asInstanceOf[Id],
+                           toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType])))
+      case None => p })
+    insertStaticParams(alphaRename(subst, a.getDomain).asInstanceOf[Type], renamed)
   }
 
   private def traceObjectExprMethods(o: ObjectExpr, ms: Relation[IdOrOpOrAnonymousName, (JavaFunctional, StaticTypeReplacer, TraitType)]) = {

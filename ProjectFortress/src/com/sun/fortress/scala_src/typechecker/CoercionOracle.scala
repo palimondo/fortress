@@ -23,6 +23,7 @@ import com.sun.fortress.scala_src.overloading.OverloadingOracle
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.typechecker.staticenv.KindEnv
 import com.sun.fortress.scala_src.types.TypeAnalyzer
+import com.sun.fortress.scala_src.types.TypeAnalyzerUtil
 import com.sun.fortress.scala_src.useful.ASTGenHelper._
 import com.sun.fortress.scala_src.useful.Iterators._
 import com.sun.fortress.scala_src.useful.ErrorLog
@@ -174,6 +175,9 @@ class CoercionOracle(traits: TraitTable,
     case (_, u:TraitType) => checkCoercionTrait(t, u, expr)
     case (_, u:TraitSelfType) => checkCoercion(t, u.getNamed, expr)
     case (t:TupleType, u:TupleType) => checkCoercionTuple(t, u, expr)
+    // one argument for a domain with varargs, as subtyping reads it
+    case (_, u@STupleType(_, _, Some(_), _)) =>
+      checkCoercion(t, TypeAnalyzerUtil.disjunctFromTuple(u, 1), expr)
     case (t:ArrowType, u:ArrowType) => checkCoercionArrow(t, u, expr)
     case _ => None
   }

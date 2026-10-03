@@ -48,6 +48,19 @@ trait Decls { self: STypeChecker with Common =>
   // ---------------------------------------------------------------------------
   // HELPER METHODS ------------------------------------------------------------
 
+  /** Whether the expression refers to the variable of the given name. */
+  private def mentions(e: Expr, n: Id): Boolean = {
+    var found = false
+    object finder extends Walker {
+      override def walk(node: Any): Any = node match {
+        case v: VarRef if v.getVarId.getText == n.getText => found = true; node
+        case _ => if (found) node else super.walk(node)
+      }
+    }
+    finder(e)
+    found
+  }
+
   /** Check the body exprs of a LetExpr. */
   protected def checkLetBody(bodyChecker: STypeChecker,
                              body: Block)
@@ -135,11 +148,6 @@ trait Decls { self: STypeChecker with Common =>
         case Some(e) => Some(method_checker.check(e).asInstanceOf[Contract])
         case _ => contract
       }
-      // Extend method checker with fields
-      method_checker = decls.foldRight(method_checker)
-                                      { (d:Decl, c:STypeChecker) => d match {
-                                        case SVarDecl(_,lhs,_) => c.extend(lhs)
-                                        case _ => c } }
       // Check method declarations.
       toOption(traits.typeCons(name.asInstanceOf[Id])) match {
         case None => signal(name, errorMsg(name, " is not found.")); o
@@ -150,6 +158,13 @@ trait Decls { self: STypeChecker with Common =>
           val inheritedMethods = commonInheritedMethods(extendsC, analyzer.traits)
           val methods = inheritedMethods ++ dottedMethods
           method_checker = method_checker.extendWithListOfFunctions(methods)
+          // Extend method checker with fields, over the methods: a naked
+          // reference to a field reads the field, not a getter of its name
+          method_checker = method_checker.extend(List[StaticParam](), params, None)
+          method_checker = decls.foldRight(method_checker)
+                                          { (d:Decl, c:STypeChecker) => d match {
+                                            case SVarDecl(_,lhs,_) => c.extend(lhs)
+                                            case _ => c } }
           // Extend method checker with self
           selfType match {
             case Some(ty) =>
@@ -192,6 +207,16 @@ trait Decls { self: STypeChecker with Common =>
     case f@SFnDecl(info,
                    SFnHeader(statics,mods,name,wheres,throws,contract,params,rType),
                    unambiguousName, Some(body), implementsUnambiguousName) => {
+      // The body sees a varargs parameter at the libraries' varargs parameter type,
+      // which a body that uses the parameter cannot be checked without.
+      params.find(p => NU.isVarargsParam(p) && mentions(body, p.getName)) match {
+        case Some(p) if toOption(traits.typeCons(Types.immutableHeapSeqName())).isEmpty =>
+          signal(p, errorMsg("The body uses the varargs parameter ", p.getName, ", whose type ",
+                             Types.makeVarargsParamType(p.getVarargsType.unwrap),
+                             " the libraries do not declare."))
+          return f
+        case _ =>
+      }
       val newChecker = this.extend(statics, Some(params), wheres)
       val newContract = contract.map(c => newChecker.check(c))
 

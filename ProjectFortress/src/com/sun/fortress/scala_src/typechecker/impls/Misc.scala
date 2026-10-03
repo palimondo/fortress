@@ -370,11 +370,6 @@ trait Misc { self: STypeChecker with Common =>
         case Some(e) => Some(method_checker.check(e).asInstanceOf[Contract])
         case _ => contract
       }
-      // Extend the type checker with all of the field decls
-      method_checker = decls.foldRight(method_checker)
-                                      { (d:Decl, c:STypeChecker) => d match {
-                                        case SVarDecl(_,lhs,_) => c.extend(lhs)
-                                        case _ => c } }
       // Extend type checker with methods and functions
       // that will now be in scope as regular functions
       val oi = IndexBuilder.buildObjectExprIndex(o)
@@ -383,6 +378,12 @@ trait Misc { self: STypeChecker with Common =>
       val methods = (omethods.toList ++ imethods)
       method_checker = method_checker.extendWithListOfFunctions(methods)
       method_checker = method_checker.extendWithFunctions(oi.asInstanceOf[ObjectTraitIndex].functionalMethods)
+      // Extend the type checker with all of the field decls, over the methods: a
+      // naked reference to a field reads the field, not a getter of its name
+      method_checker = decls.foldRight(method_checker)
+                                      { (d:Decl, c:STypeChecker) => d match {
+                                        case SVarDecl(_,lhs,_) => c.extend(lhs)
+                                        case _ => c } }
       // Extend method checker with self
       selfType match {
         case Some(ty) =>
