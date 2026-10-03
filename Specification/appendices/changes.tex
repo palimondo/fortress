@@ -2757,7 +2757,8 @@ of the binding or convertible to it; and it types the parameter in the body at
 \EXP{\TYP{ImmutableArray}\llbracket{}T, \mathbb{Z}32\rrbracket} of \library,
 where it typed it as \VAR{T}.
 Under the compiled path's own library, which declares no \TYP{ImmutableArray},
-it refuses a body that uses a varargs parameter, naming the type.
+it refuses every use of a varargs parameter, in a body, a contract or a
+function expression, naming the type.
 The code generator does not yet compile a function with a varargs parameter,
 so no program with one runs on the compiled path.
 The interpreter is unchanged.

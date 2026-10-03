@@ -190,7 +190,8 @@ interpreter binds the parameter to an immutable one-dimensional array of the
 arguments, and the compiled type checker types the parameter in the body at
 that type.
 The compiled path's own library declares no such type, so there the compiled
-type checker refuses a body that uses a varargs parameter; and the code
+type checker refuses every use of a varargs parameter, in a body, a contract
+or a function expression, naming the type; and the code
 generator does not yet compile a function with a varargs parameter.}
 Note that the type of a varargs parameter cannot be omitted.
 If a function does not have a varargs parameter
