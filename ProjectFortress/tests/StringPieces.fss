@@ -72,6 +72,18 @@ run() = do
     assert('b' IN sub, true, "b is in the substring")
     assert('z' IN sub, false, "z is not in the substring")
     assert(sub.balanced(), "aabcd", "the substring balanced is aabcd")
+    assert("abcdef"[0:4:2], "ace", "abcdef at the strided range 0:4:2 is its characters at 0, 2 and 4, ace (ranges.tex, section Ranges)")
+    assert(cs[20:30:2], "bdfhjl", "the concatenated string at 20:30:2 is its characters at every second index from 20 to 30, bdfhjl (ranges.tex, section Ranges)")
+    s2 = cs[18:24:2]
+    assert(s2, "abdf", "the concatenated string at 18:24:2, across its two halves, is abdf (ranges.tex, section Ranges)")
+    assert(|s2|, 4, "the strided slice 18:24:2 has four characters (ranges.tex, section Ranges)")
+    assert(s2.asFlatString, "abdf", "the strided slice across the halves flattens to abdf (ranges.tex, section Ranges)")
+    assert(writtenBy(s2), "abdf", "the strided slice across the halves writes abdf (ranges.tex, section Ranges)")
+    assert(sub[0:4:2], "abd", "the substring aabcd at 0:4:2 is abd (ranges.tex, section Ranges)")
+    subPairs = sub.splitWithOffsets()
+    (_, piece) = subPairs[1]
+    assert(piece CASE_INSENSITIVE_CMP "BCD", EqualTo, "the substring's second piece, bcd, compares equal to BCD ignoring case")
+    assert("BCD" CASE_INSENSITIVE_CMP piece, EqualTo, "BCD compares equal to the substring's second piece, bcd, ignoring case")
 
     assert(flat[1:], "bc", "abc from 1 is bc")
     assert(flat[3:], "", "abc from 3 is empty")
