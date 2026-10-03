@@ -1,0 +1,88 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index 5e81dd557..ce45a2968 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -172,6 +172,20 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+             if (t == null) t = BottomType.ONLY;
+             tl.add(t);
+         }
++        if (bounded && rechecks != null) {
++            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
++            for (int i = 0; i < tparams.size(); i++) {
++                StaticParam tp = tparams.get(i);
++                String n = NodeUtil.getName(tp);
++                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) || !rechecks.contains(tp) ||
++                    !(tl.get(i) instanceof BottomType) || !mentionsItself(tp)) continue;
++                FType u = unfixedSelfBounded(tp, appliedThing);
++                if (u != null) {
++                    traceInstance("p1", appliedThing, n, BottomType.ONLY, u, typesOf(args));
++                    tl.set(i, u);
++                }
++            }
++        }
+         if (!bounds || rechecks == null) return tl;
+         for (int i = 0; i < tparams.size(); i++) {
+             StaticParam tp = tparams.get(i);
+@@ -407,6 +421,62 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         return sfcn;
+     }
+ 
++    /**
++     * Whether a bound of the type parameter tp mentions tp itself (an F-bound).
++     */
++    private static boolean mentionsItself(StaticParam tp) {
++        Set<String> self = Collections.singleton(NodeUtil.getName(tp));
++        for (Type tr : tp.getExtendsClause()) if (!mentions(tr, self).isEmpty()) return true;
++        return false;
++    }
++
++    /**
++     * Probe P1, way "the bound without the parameter": an F-bounded type parameter that nothing at the call fixes
++     * takes the narrowest named supertype of its bounds that does not mention it (each bound evaluated with the
++     * parameter at BottomType, and its supertypes that are instances with a BottomType argument dropped); Any where
++     * no one such type is narrowest.
++     */
++    private static FType unfixedSelfBounded(StaticParam tp, GenericFunctionOrMethod g) {
++        String name = NodeUtil.getName(tp);
++        Environment e = g.getWithin().extend();
++        e.putType(name, BottomType.ONLY);
++        EvalType et = new EvalType(e);
++        List<FType> cands = new ArrayList<FType>();
++        for (Type tr : tp.getExtendsClause()) {
++            FType b;
++            try {
++                b = et.evalType(tr);
++            }
++            catch (FortressException ex) {
++                return FTypeTop.ONLY;
++            }
++            List<FType> sups = new ArrayList<FType>(b.getTransitiveExtends());
++            if (!sups.contains(b)) sups.add(0, b);
++            for (FType c : sups) {
++                if (c instanceof FTypeTop || c instanceof BottomType || mentionsBottom(c)) continue;
++                if (!cands.contains(c)) cands.add(c);
++            }
++        }
++        FType best = null;
++        for (FType c : cands) {
++            boolean narrowest = true;
++            for (FType d : cands) if (d != c && !c.subtypeOf(d)) { narrowest = false; break; }
++            if (narrowest) {
++                if (best != null && best != c) return FTypeTop.ONLY;
++                best = c;
++            }
++        }
++        return best == null ? FTypeTop.ONLY : best;
++    }
++
++    private static boolean mentionsBottom(FType c) {
++        if (c instanceof BottomType) return true;
++        if (c instanceof GenericTypeInstance) {
++            for (FType a : ((GenericTypeInstance) c).getTypeParams()) if (mentionsBottom(a)) return true;
++        }
++        return false;
++    }
++
+     /**
+      * The names of tp_set that ty mentions.
+      */

@@ -1,0 +1,132 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
+index 0ef1b4236..d1ab09ec7 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
+@@ -101,7 +101,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
+         FValue val = expr.accept(this);
+         Type ty = x.getAnnType();
+         FType fty = EvalType.getFType(ty, e);
+-        if (val.type().subtypeOf(fty)) return val;
++        if (val.type().subtypeOf(fty) || fty == com.sun.fortress.interpreter.evaluator.types.BottomType.OPEN) return val;
+         else return error(x, e, errorMsg("The type of expression ", val.type(), " is not a subtype of ", fty, "."));
+     }
+ 
+@@ -110,7 +110,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
+         FValue val = expr.accept(this);
+         Type ty = x.getAnnType();
+         FType fty = EvalType.getFType(ty, e);
+-        if (val.type().subtypeOf(fty)) return new FAsIf(val, fty);
++        if (val.type().subtypeOf(fty) || fty == com.sun.fortress.interpreter.evaluator.types.BottomType.OPEN) return new FAsIf(val, fty);
+         else return error(x, e, errorMsg("Type of expression, ", val.type(), ", not a subtype of ", fty, "."));
+     }
+ 
+@@ -1393,7 +1393,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
+                singletons and the subtype test below ought to be correct. */
+             FType matchTy = EvalType.getFType(typ, ev.e);
+             List<Id> ids = collectIds(match);
+-            if (resTy.subtypeOf(matchTy)) {
++            if (resTy.subtypeOf(matchTy) || matchTy == com.sun.fortress.interpreter.evaluator.types.BottomType.OPEN) {
+                 if (c.getName().isSome() || ids.size() == 1) {
+                     String name;
+                     if (c.getName().isSome()) name = c.getName().unwrap().getText();
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index 5e81dd557..9cf6d395a 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -172,6 +172,20 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+             if (t == null) t = BottomType.ONLY;
+             tl.add(t);
+         }
++        if (bounded && rechecks != null) {
++            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
++            for (int i = 0; i < tparams.size(); i++) {
++                StaticParam tp = tparams.get(i);
++                String n = NodeUtil.getName(tp);
++                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) || !rechecks.contains(tp) ||
++                    !(tl.get(i) instanceof BottomType) || !mentionsItself(tp)) continue;
++                FType u = unfixedSelfBounded(tp, appliedThing);
++                if (u != null) {
++                    traceInstance("p1", appliedThing, n, BottomType.ONLY, u, typesOf(args));
++                    tl.set(i, u);
++                }
++            }
++        }
+         if (!bounds || rechecks == null) return tl;
+         for (int i = 0; i < tparams.size(); i++) {
+             StaticParam tp = tparams.get(i);
+@@ -407,6 +421,23 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         return sfcn;
+     }
+ 
++    /**
++     * Whether a bound of the type parameter tp mentions tp itself (an F-bound).
++     */
++    private static boolean mentionsItself(StaticParam tp) {
++        Set<String> self = Collections.singleton(NodeUtil.getName(tp));
++        for (Type tr : tp.getExtendsClause()) if (!mentions(tr, self).isEmpty()) return true;
++        return false;
++    }
++
++    /**
++     * Probe P1, way "left open": an F-bounded type parameter that nothing at the call fixes takes OPEN, a type
++     * below every type as BottomType is, which every value matches (BottomType.OPEN).
++     */
++    private static FType unfixedSelfBounded(StaticParam tp, GenericFunctionOrMethod g) {
++        return BottomType.OPEN;
++    }
++
+     /**
+      * The names of tp_set that ty mentions.
+      */
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java
+index 9ac5fba10..6f370e18a 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java
+@@ -216,7 +216,7 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
+                 if (type.isSome()) {
+                     Type t = NodeUtil.optTypeOrPatternToType(type).unwrap();
+                     outerType = EvalType.getFType(t, evaluator.e);
+-                    if (value.type().subtypeOf(outerType)) evaluator.e.putVariable(s, value, outerType);
++                    if (value.type().subtypeOf(outerType) || outerType == com.sun.fortress.interpreter.evaluator.types.BottomType.OPEN) evaluator.e.putVariable(s, value, outerType);
+                     else {
+                         FValue v = Coercions.coerce(outerType, value);
+                         if (v != null) evaluator.e.putVariable(s, v, outerType);
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/BottomType.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/BottomType.java
+index 7d8201367..5c32ac1a5 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/BottomType.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/BottomType.java
+@@ -27,6 +27,21 @@ public class BottomType extends FType {
+ 
+     static public final BottomType ONLY = new BottomType("BottomType");
+ 
++    /**
++     * Probe P1: a type parameter left open, below every type as BOTTOM is, and matched by every value.
++     */
++    static public final BottomType OPEN = new BottomType("OpenType") {
++        @Override
++        public boolean typeMatch(com.sun.fortress.interpreter.evaluator.values.FValue val) {
++            return val != null;
++        }
++
++        @Override
++        public String toString() {
++            return "OPEN";
++        }
++    };
++
+     public String toString() {
+         return "BOTTOM";
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java
+index ef1da9744..ffb9dd487 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java
+@@ -312,7 +312,7 @@ abstract public class FType implements Comparable<FType> {
+     public boolean subtypeOf(FType other) {
+         if (this == other) return true;
+         if (other == FTypeTop.ONLY) return true;
+-        if (other == BottomType.ONLY) return false;
++        if (other instanceof BottomType) return false;
+         bug(errorMsg("Couldn't figure out ", this, " <: ", other));
+         return false;
+         // // This is the old reflection-loving subtype check.

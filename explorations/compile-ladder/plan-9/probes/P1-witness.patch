@@ -1,0 +1,64 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index 5e81dd557..7516fe876 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -172,6 +172,20 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+             if (t == null) t = BottomType.ONLY;
+             tl.add(t);
+         }
++        if (bounded && rechecks != null) {
++            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
++            for (int i = 0; i < tparams.size(); i++) {
++                StaticParam tp = tparams.get(i);
++                String n = NodeUtil.getName(tp);
++                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) || !rechecks.contains(tp) ||
++                    !(tl.get(i) instanceof BottomType) || !mentionsItself(tp)) continue;
++                FType u = unfixedSelfBounded(tp, appliedThing);
++                if (u != null) {
++                    traceInstance("p1", appliedThing, n, BottomType.ONLY, u, typesOf(args));
++                    tl.set(i, u);
++                }
++            }
++        }
+         if (!bounds || rechecks == null) return tl;
+         for (int i = 0; i < tparams.size(); i++) {
+             StaticParam tp = tparams.get(i);
+@@ -407,6 +421,38 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         return sfcn;
+     }
+ 
++    /**
++     * Whether a bound of the type parameter tp mentions tp itself (an F-bound).
++     */
++    private static boolean mentionsItself(StaticParam tp) {
++        Set<String> self = Collections.singleton(NodeUtil.getName(tp));
++        for (Type tr : tp.getExtendsClause()) if (!mentions(tr, self).isEmpty()) return true;
++        return false;
++    }
++
++    /**
++     * Probe P1, way "the witness's first type": an F-bounded type parameter that nothing at the call fixes takes
++     * ZZ32, the first type the library's witness typecases test, where ZZ32 meets its bounds with the parameter at
++     * ZZ32; else BottomType as before.
++     */
++    private static FType unfixedSelfBounded(StaticParam tp, GenericFunctionOrMethod g) {
++        Environment within = g.getWithin();
++        FType z = within.getTypeNull("ZZ32");
++        if (z == null) return null;
++        Environment e = within.extend();
++        e.putType(NodeUtil.getName(tp), z);
++        EvalType et = new EvalType(e);
++        for (Type tr : tp.getExtendsClause()) {
++            try {
++                if (!z.subtypeOf(et.evalType(tr))) return null;
++            }
++            catch (FortressException ex) {
++                return null;
++            }
++        }
++        return z;
++    }
++
+     /**
+      * The names of tp_set that ty mentions.
+      */
