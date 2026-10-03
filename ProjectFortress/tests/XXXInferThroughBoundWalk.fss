@@ -1,0 +1,28 @@
+(* A type parameter that only another type parameter's bound mentions takes its own bound, not the argument's type, under walk. *)
+component XXXInferThroughBoundWalk
+export Executable
+
+trait Fruit end
+object Apple extends Fruit end
+
+object BoxU[\T\]() end
+
+ap[\T, A extends T\](a: A): BoxU[\T\] = BoxU[\T\]()
+apF[\T extends Fruit, A extends T\](a: A): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Apple\] => "BoxU[Apple]"
+    BoxU[\Fruit\] => "BoxU[Fruit]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+run(): () = do
+    b = ap(Apple)
+    bF = apF(Apple)
+    assert(kindU(b), "BoxU[Any]", "a type parameter that only the bound of another type parameter mentions, as A extends T mentions T, is fixed by no argument and takes its own bound Any, not the argument's type Apple (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(bF), "BoxU[Fruit]", "a type parameter bounded by Fruit that only the bound of another type parameter mentions is fixed by no argument and takes its own bound Fruit, not the argument's type Apple (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

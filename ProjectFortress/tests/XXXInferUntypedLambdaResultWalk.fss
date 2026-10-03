@@ -1,0 +1,33 @@
+component XXXInferUntypedLambdaResultWalk
+export Executable
+
+(* Under walk, a function expression without a declared return type, whose body is an Apple, fixes the type parameter at a supertype of Apple, never BottomType. *)
+
+trait Fruit end
+object Apple extends Fruit end
+
+object BoxU[\T\]() end
+
+thunk[\T\](g: () -> T): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Apple\] => "BoxU[Apple]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+holdsApple(x: Any): String = typecase x of
+    BoxU[\Apple\] => "yes"
+    BoxU[\Fruit\] => "yes"
+    BoxU[\Object\] => "yes"
+    BoxU[\Any\] => "yes"
+    else => "no"
+  end
+
+run(): () = do
+    assert(kindU(thunk(fn (): Apple => Apple)), "BoxU[Apple]", "a function expression declared to return Apple fixes the parameter at Apple")
+    assert(holdsApple(thunk(fn () => Apple)), "yes", "a function expression without a declared return type returns an Apple, so its return type holds one and the type parameter it fixes is a supertype of Apple, never BottomType (inference.tex, section \"The Static Arguments of a Call\"; types-vals-vars.tex, section \"Special Types\")")
+    println("PASS")
+  end
+
+end
