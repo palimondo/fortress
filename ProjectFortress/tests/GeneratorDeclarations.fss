@@ -90,6 +90,7 @@ run() = do
     assert(inOrder(mapped[1#3].ivmap[\ZZ32\](fn (i: ZZ32, e: ZZ32): ZZ32 => i + e)), "10,21,32,", "a mapped indexed generator's slice, mapped with its indices from 0, adds each index to 10, 20 and 30")
     nested = (0#3).nest[\ZZ32\](fn (i: ZZ32): Generator[\ZZ32\] => (10 i)#2)
     assert(inOrder(nested.reverse), "21,20,11,10,1,0,", "a nested generator reversed generates the inner elements back to front")
+    assert(|((inits l).filter(increasing)).theorems[\ZZ32, AnyMaybe, ZZ32\]()|, 1, "a filtered generator of generators answers the one theorem of the generator it filters")
 end
 
 end
