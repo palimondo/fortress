@@ -38,6 +38,9 @@ run() = do
     assert(cs.second, b, "the second half of the concatenated string is its last twenty characters")
     assert(cs.size, 40, "the concatenated string has forty characters")
     assert(cs.bounds = (0#40), true, "the concatenated string's bounds are 0#40")
+    assert(cs.asFlatString.ilkName, "FlatString", "a concatenated string flattens to a FlatString")
+    assert(cs.asFlatString, a || b, "a concatenated string flattens to its forty characters")
+    assert(cs.asExprString, "\"" || a || b || "\"", "a concatenated string's expression form is its characters in one pair of quotes")
     sub = cs[18#5]
     assert(sub.ilkName, "SubString", "five characters across the two halves of a CatString are a SubString")
 

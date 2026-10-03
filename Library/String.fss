@@ -59,10 +59,10 @@ export String
       end
 
     concatAndBalanceIfNecessary(s1: CatString, s2: FlatString):String = do
-        (* This handles the case where s1.right is a short FlatString *)
-        typecase s1.right of
+        (* This handles the case where s1.second is a short FlatString *)
+        typecase s1.second of
             r:FlatString ⇒ if |r| + |s2| ≤ maxLeafSize then
-                                        s1.left || flatConcat(r, s2)
+                                        s1.first || flatConcat(r, s2)
                                     else
                                         concatAndBalanceIfNecessary(s1 asif String, s2)
                                     end
@@ -72,31 +72,36 @@ export String
 
 (* Object *)
 
-  object CatString(left: String, right:String)  extends {Concatenable, Balanceable}
-    size:ZZ32 = left.size + right.size
-    depthField:ZZ32 = 1 + (left.depth MAX right.depth)
+  object CatString(first: String, second:String)  extends {Concatenable, Balanceable}
+    sizeField:ZZ32 = first.size + second.size
+    depthField:ZZ32 = 1 + (first.depth MAX second.depth)
+    getter size():ZZ32 = sizeField
     getter depth():ZZ32 = depthField
-    getter bounds():Range[\ZZ32\] = 0#size
-    getter generator():Generator⟦Char⟧ = ConcatGenerator(left.generator, right.generator)
+    getter bounds():CompactFullRange[\ZZ32\] = 0#sizeField
+    getter generator():Generator⟦Char⟧ = ConcatGenerator(first.generator, second.generator)
     (* if this were to be used heavily, we should collect the result in a StringBuffer *)
-    getter asFlatString():String = flatConcat(left.asFlatString, right.asFlatString)
-    getter asExprString():String = left.asExprString.allButLast() || right.asExprString.allButFirst
+    getter asFlatString():String =
+        typecase (first.asFlatString, second.asFlatString) of
+            (f:FlatString, g:FlatString) ⇒ flatConcat(f, g)
+            (f:String, g:String) ⇒ f || g
+        end
+    getter asExprString():String = first.asExprString.allButLast() || second.asExprString.allButFirst()
     getter asDebugString(): String = asDebugStringIndented(0)
 
     generate⟦R⟧(r: Reduction⟦R⟧, body: Char→R): R =
-            r.join(left.generate⟦R⟧(r, body), right.generate⟦R⟧(r, body))
+            r.join(first.generate⟦R⟧(r, body), second.generate⟦R⟧(r, body))
 
-    opr ∈ (c:Char, self): Boolean = (c IN left) OR (c IN right)
+    opr ∈ (c:Char, self): Boolean = (c IN first) OR (c IN second)
 
     opr CMP(self, other: String):TotalComparison
     (*) ensures {outcome = (self.asFlatString CMP other.asFlatString)}
     = do
       result =
-        if |left| ≥ |other|
+        if |first| ≥ |other|
         then
-            (left CMP other) LEXICO: (|self| CMP |other|)
+            (first CMP other) LEXICO: (|self| CMP |other|)
         else
-            (left CMP other[0#|left|]) LEXICO: (right CMP other[(|left|):]) LEXICO: (|self| CMP |other|)
+            (first CMP other[0#|first|]) LEXICO: (second CMP other[(|first|):]) LEXICO: (|self| CMP |other|)
         end
       if result ≠ (self.asFlatString CMP other.asFlatString) then
         errorPrintln "Callee Failure, self = " self.asDebugString ", CMP other = " other.asDebugString
@@ -108,27 +113,27 @@ export String
     opr CASE_INSENSITIVE_CMP(self, other:String): TotalComparison
     (*) ensures {outcome = (self.asFlatString CASE_INSENSITIVE_CMP other.asFlatString)}
     =
-        if |left| ≥ |other|
+        if |first| ≥ |other|
         then
-            (left CASE_INSENSITIVE_CMP other) LEXICO: (|self| CMP |other|)
+            (first CASE_INSENSITIVE_CMP other) LEXICO: (|self| CMP |other|)
         else
-            (left CASE_INSENSITIVE_CMP other[0#|left|]) LEXICO: (right CASE_INSENSITIVE_CMP other[(|left|):])
+            (first CASE_INSENSITIVE_CMP other[0#|first|]) LEXICO: (second CASE_INSENSITIVE_CMP other[(|first|):])
         end
 
     (* get is, and should be, without bounds checks.  [ ] does the bounds checks,
         and then delegates to get *)
     get(i:ZZ32): Char =
-        if i ∈ left.indices then left.get(i) else right.get(i - |left|) end
+        if i ∈ first.indices then first.get(i) else second.get(i - |first|) end
 
     verify():() = do
-        assert(self.depth, (left.depth MAX right.depth) + 1, self)
-        assert(self.size, |left| + |right|, self)
+        assert(self.depth, (first.depth MAX second.depth) + 1, self)
+        assert(self.size, |first| + |second|, self)
     end
 
     asDebugStringIndented(indent: ZZ32): String =
         (spaces(indent) || self.balanceIndicator() || "C" || self.size "/" self.depth || ":")  //
-        left.asDebugStringIndented(indent+8) //
-        right.asDebugStringIndented(indent+8)
+        first.asDebugStringIndented(indent+8) //
+        second.asDebugStringIndented(indent+8)
 
     balanceIndicator():String =
         if self.isBalanced then "B" elif self.isAlmostBalanced then "b" else "u" end
@@ -137,23 +142,23 @@ export String
         (* printlnWithThread ("CatString.uncheckedSubstring " self "[" r0 "]").asFlatString *)
         if r0.isEmpty then exit method with EmptyString end
         if r0 = self.bounds then exit method with self end
-        leftBounds' = r0 ∩ left.bounds
-        rightBounds' = (r0 ≪ left.size) ∩ right.bounds
+        leftBounds' = r0 ∩ first.bounds
+        rightBounds' = (r0 ≪ first.size) ∩ second.bounds
         if leftBounds'.isEmpty then
-            exit method with right.uncheckedSubstring(rightBounds')
+            exit method with second.uncheckedSubstring(rightBounds')
         end
         if rightBounds'.isEmpty then
-            exit method with left.uncheckedSubstring(leftBounds')
+            exit method with first.uncheckedSubstring(leftBounds')
         end
         SubString(self, r0)
     end method
 
     writeOn(stream: WriteStream): () = do
-        stream.write(left)
-        stream.write(right)
+        stream.write(first)
+        stream.write(second)
     end
 
-    splitWithOffsets(): Generator⟦(ZZ32, String)⟧ = ⟨⟦(ZZ32, String)⟧ (0, left), (|left|, right) ⟩
+    splitWithOffsets(): ZeroIndexed⟦(ZZ32, String)⟧ = ⟨⟦(ZZ32, String)⟧ (0, first), (|first|, second) ⟩
     split(): Generator⟦String⟧ =  ⟨⟦String⟧ piece | (_, piece) ← self.splitWithOffsets() ⟩
 
     balanced():String
@@ -162,8 +167,8 @@ export String
       label method
         if self.isBalanced then exit method with self end
         forest = BalancingForest()
-        forest.add(self.left)
-        forest.add(self.right)
+        forest.add(self.first)
+        forest.add(self.second)
         forest.contents
       end method
   end CatString
@@ -193,7 +198,7 @@ export String
     end
 
     showSequence():() = if balanceDebug then
-        for i ← seq(sequence.indices.flip) do
+        for i ← seq(sequence.indices.reverse) do
             if sequence[i].nonEmpty then
                 errorPrintln "sequence[" i "] ="  sequence[i].asDebugString
             end
@@ -226,7 +231,7 @@ export String
         sequence[i-1] := sum
       end
 
-    add(s: FlatString):() =
+    add(s: String):() =
       do
         self.addWholeSubtree(s)
         if balanceDebug then
@@ -240,8 +245,8 @@ export String
         if s.isBalanced then
             self.addWholeSubtree(s)
         else
-            self.add(s.left)
-            self.add(s.right)
+            self.add(s.first)
+            self.add(s.second)
         end
         if balanceDebug then
             errorPrint "added C\"" s "\", "
@@ -253,7 +258,7 @@ export String
       do end
 
     add(s: SubString):() =
-        self.addWholeSubtree(s.balanced)
+        self.addWholeSubtree(s.balanced())
 
   end BalancingForest
 
@@ -269,7 +274,7 @@ export String
 
   value object EmptyString extends {String, Concatenable}
     getter size():ZZ32 = 0
-    getter bounds():Range[\ZZ32\] = 0#0
+    getter bounds():CompactFullRange[\ZZ32\] = 0#0
     getter depth():ZZ32 = 0
     getter isEmpty():Boolean = true
     getter asFlatString():String = ""
@@ -290,7 +295,7 @@ export String
         |self| CMP |other|
 
     get(i:ZZ32): Char =
-        throw IndexOutOfBounds("Can't get character (" i ") from an EmptyString")
+        throw IndexOutOfBounds[\ZZ32\](self.bounds, i)
 
     opr[r: Range⟦ZZ32⟧]: String = do
         rr = self.bounds[r]     (* to raise a bounds error *)
@@ -314,7 +319,7 @@ export String
 
     writeOn(stream: WriteStream): () = do end
 
-    splitWithOffsets():Generator⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
+    splitWithOffsets():ZeroIndexed⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
     split():Generator⟦String⟧ = Nothing⟦String⟧
 
   end EmptyString
@@ -336,7 +341,7 @@ end
 *)
 
   object SubString(baseString: String, range: Range⟦ZZ32⟧) extends  {Concatenable, DelegatedIndexed⟦Char, ZZ32⟧ }
-    getter size():ZZ32 = range.size
+    getter size():ZZ32 = range.extent.get
     getter depth():ZZ32 = baseString.depth    (* We pretend that substring nodes don't add depth *)
     getter isEmpty():Boolean = false    (* Because we take care never to construct an empty SubString *)
     getter asFlatString():String = baseString.asFlatString.uncheckedSubstring(range)
@@ -357,7 +362,7 @@ end
 
     balanced():String =
         if self.isBalanced then self
-        else baseString.balanced.uncheckedSubstring(range)
+        else baseString.balanced().uncheckedSubstring(range)
         end
 
     opr CMP(self, other: String):TotalComparison
@@ -368,14 +373,14 @@ end
             BIG LEXICO [(start, str) ← pieces] (do
                     baseSubrange = (start#|str|) ∩ range
                     baseString.uncheckedSubstring(baseSubrange) CMP
-                        other.uncheckedSubstring((baseSubrange≪range.lower) ∩ other.indices)
+                        other.uncheckedSubstring((baseSubrange≪range.left.get) ∩ other.indices)
             end)
         else
             otherPieces = other.splitWithOffsets()
             if otherPieces.nonEmpty then
                 (*) println "doing backwards comparison ... "
                 BIG LEXICO [(start, str) ← otherPieces] (do
-                        baseSubrange = ((start#|str|) ∩ self.indices) ≫ range.lower
+                        baseSubrange = ((start#|str|) ∩ self.indices) ≫ range.left.get
                         baseString.uncheckedSubstring(baseSubrange) CMP str
                 end)
             else
@@ -392,14 +397,14 @@ end
             BIG LEXICO [(start, str) ← pieces] (do
                     baseSubrange = (start#|str|) ∩ range
                     baseString.uncheckedSubstring(baseSubrange) CASE_INSENSITIVE_CMP
-                        other.uncheckedSubstring((baseSubrange≪range.lower) ∩ other.indices)
+                        other.uncheckedSubstring((baseSubrange≪range.left.get) ∩ other.indices)
             end)
         else
             otherPieces = other.splitWithOffsets()
             if otherPieces.nonEmpty then
                 (*) println "doing backwards comparison ... "
                 BIG LEXICO [(start, str) ← otherPieces] (do
-                        baseSubrange = ((start#|str|) ∩ self.indices) ≫ range.lower
+                        baseSubrange = ((start#|str|) ∩ self.indices) ≫ range.left.get
                         baseString.uncheckedSubstring(baseSubrange) CASE_INSENSITIVE_CMP str
                 end)
             else
@@ -413,7 +418,7 @@ end
         if pieces.nonEmpty  then
             BIG ∨ [(start, str) ← pieces] (do
                     baseSubrange = (start#|str|) ∩ range
-                    baseSubrange.nonEmpty AND: str.rangeContains(baseSubrange ≪ start, c)
+                    (¬ baseSubrange.isEmpty) AND: str.rangeContains(baseSubrange ≪ start, c)
                 end)
         else
             baseString.rangeContains(range, c)
@@ -421,7 +426,7 @@ end
     end inOpr
 
     rangeContains(r: Range⟦ZZ32⟧, c: Char):Boolean =
-        baseString.rangeContains((r ≫ range.lower) ∩ range, c)
+        baseString.rangeContains((r ≫ range.left.get) ∩ range, c)
 
     verify():() = label methodVerify
         baseString.verify()
@@ -432,9 +437,9 @@ end
                 "SubString ", baseString,  range, " has range greater than that of baseString ", baseString.bounds )
         typecase baseString of
             s:CatString ⇒ do
-                            deny((s.left.indices ∩ range).isEmpty,
+                            deny((s.first.indices ∩ range).isEmpty,
                                         "SubString of CatString not pushed right")
-                            deny(((s.right.indices ≫ s.left.size) ∩ range).isEmpty,
+                            deny(((s.second.indices ≫ s.first.size) ∩ range).isEmpty,
                                         "SubString of CatString not pushed left")
                 end
             EmptyString ⇒ fail "SubString of EmptyString"
@@ -442,21 +447,21 @@ end
         end
     end methodVerify
 
-    splitWithOffsets(): Generator⟦(ZZ32, String)⟧ = do
+    splitWithOffsets(): ZeroIndexed⟦(ZZ32, String)⟧ = do
     (* The pairs (start, str) that are generated are such that start[0] = 0 and start[i] = (str[0] || ... || str[i-1]).size
       and str[0] || str [1] || ... || str[n] = self
     *)
         pieces = baseString.splitWithOffsets()
-        offset = range.lower
+        offset = range.left.get
         if  pieces.nonEmpty then
             ⟨⟦(ZZ32, String)⟧ if (start#piece.size) ≤ range then
                     (start-offset, piece) asif (ZZ32, String)
                 else
                     range' = range ∩ (start#piece.size)
-                    (range'.lower-offset, SubString(piece, range'≪start)) asif (ZZ32, String)
-                end | (start, piece) ← pieces,   (range ∩ (start#piece.size)).nonEmpty ⟩
+                    (range'.left.get-offset, SubString(piece, range'≪start)) asif (ZZ32, String)
+                end | (start, piece) ← pieces,   ¬ (range ∩ (start#piece.size)).isEmpty ⟩
         else
-            Nothing⟦Generator⟦(ZZ32,String)⟧⟧
+            Nothing⟦(ZZ32,String)⟧
         end
     end
 
@@ -464,14 +469,14 @@ end
 
     get(i:ZZ32):Char = do
         (*) assert(i < range.size, "getting char " i " from a substring of size " |range|)
-        baseString.get(range.lower+i)
+        baseString.get(range.left.get+i)
     end
 
     uncheckedSubstring(r0: Range⟦ZZ32⟧):String = do
-        assert((r0≫range.lower) ≤ range, true, "asking for substring [",  r0, "] of S", self.size, " = ", self.asFlatString)
+        assert((r0≫range.left.get) ≤ range, true, "asking for substring [",  r0, "] of S", self.size, " = ", self.asFlatString)
         if r0.isEmpty then EmptyString
         elif r0 = self.bounds then self
-        else baseString.uncheckedSubstring(r0≫range.lower)
+        else baseString.uncheckedSubstring(r0≫range.left.get)
         end
     end
 
@@ -483,8 +488,8 @@ end
                     baseString.uncheckedSubstring(baseSubrange).writeOn(stream)
             end
         else
-            for i ← seq(range) do
-                        stream.write baseString.get(i)
+            for i ← seq(range.left.get # range.extent.get) do
+                        stream.write(baseString.get(i))
             end
         end
     end
@@ -492,44 +497,50 @@ end
   end SubString
 
   object StringStats()
-            var minFlat: ZZ32 := 1000000
-            var maxFlat: ZZ32 := 0
-            var numFlat: ZZ32 := 0
-            var ssize: ZZ32 := 0
-            var sdepth: ZZ32 := 0
+            var minFlatField: ZZ32 := 1000000
+            var maxFlatField: ZZ32 := 0
+            var numFlatField: ZZ32 := 0
+            var ssizeField: ZZ32 := 0
+            var sdepthField: ZZ32 := 0
+
+        getter minFlat(): ZZ32 = minFlatField
+        getter maxFlat(): ZZ32 = maxFlatField
+        getter numFlat(): ZZ32 = numFlatField
+        getter ssize(): ZZ32 = ssizeField
+        getter sdepth(): ZZ32 = sdepthField
 
         getter asString(): String =do
-            a = ("size = " ssize "; depth = " sdepth "; maxFlat = " maxFlat)
-            b = ("; minFlat = "minFlat "; avFlat = " self.avFlat)
-            c = ("; numFlat = " numFlat)
+            a = ("size = " ssizeField "; depth = " sdepthField "; maxFlat = " maxFlatField)
+            b = ("; minFlat = "minFlatField "; avFlat = " self.avFlat)
+            c = ("; numFlat = " numFlatField)
             a || b || c
         end
 
-        getter avFlat(): RR32 =  narrow(asFloat(ssize) / asFloat(numFlat))
+        getter avFlat(): RR32 =  narrow(asFloat(ssizeField) / asFloat(numFlatField))
 
         collectStatsFor(s: CatString):() = do
-            if ssize = 0 then ssize := |s| end
-            if sdepth = 0 then sdepth := s.depth end
-            self.collectStatsFor(s.left)
-            self.collectStatsFor(s.right)
+            if ssizeField = 0 then ssizeField := |s| end
+            if sdepthField = 0 then sdepthField := s.depth end
+            self.collectStatsFor(s.first)
+            self.collectStatsFor(s.second)
         end
 
-        collectStatsFor(s: FlatString):() = do
-            if ssize = 0 then ssize := |s| end
-            if sdepth = 0 then sdepth := s.depth end
-            minFlat := |s| MIN minFlat
-            maxFlat := |s| MAX maxFlat
-            numFlat := numFlat + 1
+        collectStatsFor(s: String):() = do
+            if ssizeField = 0 then ssizeField := |s| end
+            if sdepthField = 0 then sdepthField := s.depth end
+            minFlatField := |s| MIN minFlatField
+            maxFlatField := |s| MAX maxFlatField
+            numFlatField := numFlatField + 1
         end
 
         collectStatsFor(s: SubString):() = do
-            if ssize = 0 then ssize := |s| end
-            if sdepth = 0 then sdepth := s.depth end
+            if ssizeField = 0 then ssizeField := |s| end
+            if sdepthField = 0 then sdepthField := s.depth end
             self.collectStatsFor(s.baseString)
         end
 
         collectStatsFor(s: EmptyString):() = do
-            minFlat := 0
+            minFlatField := 0
         end
 
   end StringStats

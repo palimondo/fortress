@@ -2404,9 +2404,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
     getter depth() : ZZ32
     getter asFlatString(): String
     getter isBalanced(): Boolean
+    getter generator(): Generator[\Char\]
 
 
     verify() : ()       (* Verify the data structure invaraints of self *)
+    abstract asDebugStringIndented(indent: ZZ32): String
     opr |self| : ZZ32
     opr CASE_INSENSITIVE_CMP(self, other:String): TotalComparison
 
@@ -2415,6 +2417,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
         of the string, returning the empty string, in order to permit some convenient
         string-trimming idioms. **)
     opr[r0:Range[\ZZ32\]] : String
+
+    abstract get(i:ZZ32): Char
 
     (** This version is like [ ] above, but does not do the bounds checking.  Really, this
          should be in a "friends" interface.  It is the responsibility of uncheckedSubstring to do
@@ -2436,7 +2440,7 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
             str[0] || str [1] || ... || str[n] = self
     **)
 
-    abstract splitWithOffsets(): Generator[\(ZZ32, String)\]
+    abstract splitWithOffsets(): ZeroIndexed[\(ZZ32, String)\]
     abstract split(): Generator[\String\]
 
     (**  A balanced version of the receiver  **)

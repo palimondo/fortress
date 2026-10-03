@@ -17,16 +17,16 @@ import FlatString.FlatString
  ***********************************************************)
 
 trait Closeable
-    close():()
+    abstract close():()
 end
 
 trait FileStream extends Closeable
-    getter fileName():String
+    abstract getter fileName():String
 end
 
 trait Consumable
-    consume():()
-    whenUnconsumed():()
+    abstract consume():()
+    abstract whenUnconsumed():()
 end
 
 trait WriteStream extends { Closeable }
@@ -36,8 +36,8 @@ trait WriteStream extends { Closeable }
         write(FlatString) need not be part of this api, since it is covered by
         write(String) **)
 
-    write(c:Char):()
-    write(s:String):()
+    abstract write(c:Char):()
+    abstract write(s:String):()
 
     (** %write(Any)% converts its argument to a String using %toString%
         and appends the result to the stream. **)
@@ -61,10 +61,10 @@ trait WriteStream extends { Closeable }
     println(args:Any...): ()
 
     (** %flush% any output to the stream that is still buffered. **)
-    flush():()
+    abstract flush():()
 
     (** %close% the stream. **)
-    close():()
+    abstract close():()
 
 end WriteStream
 

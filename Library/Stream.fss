@@ -73,6 +73,8 @@ trait WriteStream extends { Closeable }
     (** %flush% any output to the stream that is still buffered. **)
     abstract flush():()
 
+    abstract close():()
+
 end WriteStream
 
 end Stream
