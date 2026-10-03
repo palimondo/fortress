@@ -334,13 +334,14 @@ deny(x:Any, y:Any, failMsg: Any...): () =
     end
 
 shouldRaise⟦Ex extends Exception⟧ (expr: ()→()): () = do
-    try
+    raised = try
         expr()
-        throw ForbiddenException(TestFailure)
-    catch x
-        Ex => assert(true) (* This is what we hope for *)
-    forbid Exception
-    end
+        false
+      catch x
+        Ex => true (* This is what we hope for *)
+      forbid Exception
+      end
+    if NOT raised then throw ForbiddenException(TestFailure) end
 end
 
 
