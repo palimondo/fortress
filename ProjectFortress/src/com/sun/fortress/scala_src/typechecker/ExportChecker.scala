@@ -653,6 +653,8 @@ object ExportChecker {
         modsL.equals(modsR) &&
         ((typeL, typeR) match {
            case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
+           // a varargs parameter has its type in its varargs slot
+           case (None, None) => varargsL.isDefined
            case _ => false
          }) &&
         equalOptTypes(varargsL, varargsR)
