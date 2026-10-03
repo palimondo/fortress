@@ -137,3 +137,7 @@ None found. W's reductions callout says the compiled checker takes the bound of 
 ## The rungs that did not land
 
 None.
+
+## The gate
+
+**The gate, run in full on the tree at `aa07efb31`** (2026-10-03, the workflow's gate stage): green. The review's `c14bbce87`, committed while it ran, touches `explorations/` alone (two `REPORT.md` files, `FACTS.md`, `PLAN.md` and the ledger), which no gate stage reads, so its results hold for that tree too. The gate's summary line: GREEN; `compileAll` `BUILD SUCCESSFUL` in 48 s; `testFast` 48 suites, 1,826 tests (the compiler track 1,010 to 1,043), 0 failures, 0 errors, in 11 min 11 s; `testSystem` four shards, 131 + 128 + 126 + 131 = 516 tests (504 at batch 9), 0 failures, in 3 min 46 s; 42 of 42 four-thread `atomic` runs `PASS`; the ladder unmoved (85 files at `pass`, the eighteen microGPT components at `disambiguate`); `COUNT SAME 1, declared none`, the one error the `isLeftZero` pair of `LexicographicReduction`; `DISTANCE DOWN 340 -> 253 (-87)`, reported, the `Stream` variance crash gone and the other three crash rows the same three declarations at moved lines. The outputs are in `climb-batch-10/gate/` and the per-site list at `explorations/compile-ladder/gate/distance-sites.tsv`; the hash placeholders are filled in the landing commit (N `a1b5c253d`, G `a9b9933e6`, W `833420ce4`, C `aa07efb31`).
