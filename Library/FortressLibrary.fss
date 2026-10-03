@@ -1503,6 +1503,7 @@ value object Just[\T\](x:T) extends Maybe[\T\]
     loop(f:T->()): () = f(x)
     opr IN(y:T, self): Boolean = x=y
     opr =(self,o:Just[\T\]): Boolean = x=o.get
+    opr SQCAP(self, o:Maybe[\T\]): Maybe[\T\] = Nothing[\T\]
     opr SQCAP(self, o:NotUnique[\T\]): Just[\T\] = self
     opr SQCAP(self, o:Just[\T\]): Maybe[\T\] = if o.x = x then self else Nothing[\T\] end
     opr SQCUP(self, o:Nothing[\T\]): Just[\T\] = self
@@ -3840,7 +3841,7 @@ trait OpenRange[\I\] extends PartialRange[\I\]
     getter right(): Nothing[\I\] = Nothing[\I\]
     getter extent(): Nothing[\I\] = Nothing[\I\]
     getter isEmpty(): Boolean = false
-    narrowToRange(other:OpenRange[\I\]): OpenRange[\I\] = self INTERSECTION other
+    narrowToRange(other:OpenRange[\I\]): Range[\I\] = self INTERSECTION other
     opr FORWARD_CMP(self, other:OpenRange[\I\]): Comparison = EqualTo
     opr FORWARD_CMP(self, other:Range[\I\]): Comparison = GreaterThan
     opr IN(n:I, self): Boolean = true
@@ -3930,7 +3931,7 @@ end
 
 trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
     getter left(): Nothing[\I\] = Nothing[\I\]
-    getter leftOrRight(): Just[\I\] = self.right.get
+    getter leftOrRight(): I = self.right.get
     getter extent(): Nothing[\I\] = Nothing[\I\]
     getter isEmpty(): Boolean = false
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison =
@@ -3959,6 +3960,7 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
             else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
         end
     end
+    opr IN(n:I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison = INVERSE (other FORWARD_CMP self)
     opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison =
         ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL:
@@ -4064,9 +4066,15 @@ opr ::(ij:(ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32)\] =
 opr ::(ijk:(ZZ32,ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32,ZZ32)\] =
     do (i,j,k) = ijk; open3Range(i,j,k) end
 
-opr ::(l:ZZ32,s:ZZ32): LeftRange[\ZZ32\] = (l:):s
-opr ::(l:(ZZ32,ZZ32),s:(ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32)\] = (l:):s
-opr ::(l:(ZZ32,ZZ32,ZZ32),s:(ZZ32,ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32,ZZ32)\] = (l:):s
+opr ::(l:ZZ32,s:ZZ32): LeftRange[\ZZ32\] = leftScalarRange(l,s)
+opr ::(l:(ZZ32,ZZ32),s:(ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32)\] = do
+    (l1,l2) = l; (s1,s2) = s
+    combine2D(leftScalarRange(l1,s1), leftScalarRange(l2,s2))
+  end
+opr ::(l:(ZZ32,ZZ32,ZZ32),s:(ZZ32,ZZ32,ZZ32)): LeftRange[\(ZZ32,ZZ32,ZZ32)\] = do
+    (l1,l2,l3) = l; (s1,s2,s3) = s
+    combine3D(leftScalarRange(l1,s1), leftScalarRange(l2,s2), leftScalarRange(l3,s3))
+  end
 
 (** Operators on ranges.
 
@@ -4125,6 +4133,24 @@ opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
 *)
 
 opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\] = r.atMost(size)
+
+object SimpleMappedSeqIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
+        extends { SequentialGenerator[\F\], Indexed[\F,I\] }
+    getter size(): ZZ32 = |g0|
+    getter bounds(): CompactFullRange[\I\] = g0.bounds
+    getter indexValuePairs(): Indexed[\(I,F),I\] =
+        g0.indexValuePairs.map[\(I,F)\](fn (i:I, e:E):(I,F) => (i, f0(e)))
+    getter indices(): Generator[\I\] = g0.indices
+    getter asString(): String = "mapped(" (self asif SequentialGenerator[\F\]).asString ")"
+    opr |self| : ZZ32 = |g0|
+    opr[i:I] : F = f0(g0[i])
+    opr[r:Range[\I\]] : Indexed[\F,I\] = SimpleMappedIndexed[\E,F,I\](g0[r], f0)
+    generate[\R\](r: Reduction[\R\], m: F->R): R = g0.generate[\R\](r, m COMPOSE f0)
+    seq(self): SimpleMappedSeqIndexed[\E,F,I\] = self
+    ivmap[\R\](ff:(I,F)->R): Indexed[\R,I\] = g0.ivmap[\R\](fn (i:I, e:E):R => ff(i, f0(e)))
+    map[\G\](f': F->G): SimpleMappedSeqIndexed[\E,G,I\] =
+        SimpleMappedSeqIndexed[\E,G,I\](g0, f' COMPOSE f0)
+end
 
 (************************************************************
 * STRINGS

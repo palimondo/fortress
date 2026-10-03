@@ -40,6 +40,8 @@ The last landing is climb batch 7b, the second run of `coordinator/CLIMB-BATCH-7
 
 **2026-10-03, climb batch 9 rung K (`rung-walk-load-check`) landed as `<short hash>`**, one commit composed at the gather, of which `wip/rung-walk-load-check` is not a parent: walk's harness names an expected refusal at load (`load_exception_contains` in `Name.test` beside a file of `ProjectFortress/tests/`); walk checks the main component's `comprises` clauses at load (row 551 for that component; another component's clauses and object expressions stay open, rows 551 and 597) and reads the overlap of a generic beside a plain declaration for every shape of static parameter (row 552); rows 22, 487, 534, 544, 549, 597 and 598 have expected failures by the key; reading the library's clauses waits on Pavol (rows 595, 596).
 
+**2026-10-03, climb batch 9 rung R (`rung-range-meets`) landed as `<short hash>`**, one commit composed at the gather, of which `wip/rung-range-meets` is not a parent: the range types' 97 Meet Rule pairs have declarations on the meet and 55 range slips are repaired (rows 503, 580, 583, 586 closed); on its tree the count reads 1 (56) and the distance 416 (565); 36 sites left under rows 599 to 601, each for Pavol (items 39 to 41); `StridedFullRange3D`'s missing shifts gated as an expected failure (row 602), and the reversed sequential mapped range's new rendering pinned (row 603).
+
 ## Read first
 
 `explorations/coordinator/README.md`, `FACTS.md` and `POSITIONS.md` first (created 2026-09-15): the established facts and Pavol's positions, so that nothing there is re-derived or re-explained. Then the rest of this section.

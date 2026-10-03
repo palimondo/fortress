@@ -370,8 +370,8 @@ mersenneTwister(): MersenneTwister[\ZZ64,32,624\] =
 object UniformDistribution[\T\](range:FullRange[\T\])
     extends RandomDistribution[\T\]
 
-    min[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\] = just range.lower
-    max[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\] = just range.upper
+    min[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\] = Just[\T\](range.forward().left.get)
+    max[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\] = Just[\T\](range.forward().right.get)
 
     (* XXX the current implementation requires the range of N is greater than
        the range of T *)

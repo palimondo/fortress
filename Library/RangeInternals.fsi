@@ -43,20 +43,23 @@ checkSelection[\R extends Range[\I\], I\](this: Range[\I\], other: Range[\I\], r
 
 trait ScalarRange extends Range[\ZZ32\]
     truncL(l: ZZ32): ScalarRangeWithLeft
-    opr CAP(self, other: Range[\ZZ32\]): Range[\ZZ32\]
-    intersectWithExtent(e: ExtentScalarRange): ScalarRangeWithExtent
+    abstract every(s: ZZ32): ScalarRange
+    abstract atMost(n: ZZ32): ScalarRange
+    opr CAP(self, other: Range[\ZZ32\]): ScalarRange
+    abstract intersectWithExtent(e: ExtentScalarRange): ScalarRangeWithExtent
     check(): ScalarRange
+    indexOf(n: ZZ32): Maybe[\ZZ32\]
 end
 
 combine2D(i: ScalarRange, j: ScalarRange): Range2D
 
 trait Range2D
     extends Range[\(ZZ32, ZZ32)\]
-    getter range1(): ScalarRange
-    getter range2(): ScalarRange
+    abstract getter range1(): ScalarRange
+    abstract getter range2(): ScalarRange
     getter stride(): (ZZ32, ZZ32)
 
-    every(s_i: ZZ32, s_j: ZZ32): Range2D
+    abstract every(s_i: ZZ32, s_j: ZZ32): Range2D
     atMost(n_i: ZZ32, n_j: ZZ32): Range2D
     truncL(l_i: ZZ32, l_j: ZZ32): RangeWithLeft[\(ZZ32, ZZ32)\]
     truncR(r_i: ZZ32, r_j: ZZ32): RangeWithRight[\(ZZ32, ZZ32)\]
@@ -69,25 +72,25 @@ end
 
 trait ActualRange2D[\T extends ActualRange2D[\T, Scalar1, Scalar2\], Scalar1 extends ScalarRange, Scalar2 extends ScalarRange\]
     extends Range2D
-    getter range1(): Scalar1
-    getter range2(): Scalar2
+    abstract getter range1(): Scalar1
+    abstract getter range2(): Scalar2
 
     every(s_i: ZZ32, s_j: ZZ32): T
     imposeStride(s_i: ZZ32, s_j: ZZ32): T
-    recombine(a: Scalar1, b: Scalar2): T
+    abstract recombine(a: Scalar1, b: Scalar2): T
 end
 
 combine3D(i: ScalarRange, j: ScalarRange, k: ScalarRange): Range3D
 
 trait Range3D
     extends Range[\(ZZ32, ZZ32, ZZ32)\]
-    getter range1(): ScalarRange
-    getter range2(): ScalarRange
-    getter range3(): ScalarRange
+    abstract getter range1(): ScalarRange
+    abstract getter range2(): ScalarRange
+    abstract getter range3(): ScalarRange
     getter stride(): (ZZ32, ZZ32, ZZ32)
     getter isEmpty(): Boolean
 
-    every(s_i: ZZ32, s_j: ZZ32, s_k: ZZ32): Range3D
+    abstract every(s_i: ZZ32, s_j: ZZ32, s_k: ZZ32): Range3D
     atMost(n_i: ZZ32, n_j: ZZ32, n_k: ZZ32): Range3D
     truncL(l_i: ZZ32, l_j: ZZ32, l_k: ZZ32): RangeWithLeft[\(ZZ32, ZZ32, ZZ32)\]
     truncR(r_i: ZZ32, r_j: ZZ32, r_k: ZZ32): RangeWithRight[\(ZZ32, ZZ32, ZZ32)\]
@@ -100,13 +103,13 @@ end
 
 trait ActualRange3D[\T extends ActualRange3D[\T, Scalar1, Scalar2, Scalar3\], Scalar1 extends ScalarRange, Scalar2 extends ScalarRange, Scalar3 extends ScalarRange\]
     extends Range3D
-    getter range1(): Scalar1
-    getter range2(): Scalar2
-    getter range3(): Scalar3
+    abstract getter range1(): Scalar1
+    abstract getter range2(): Scalar2
+    abstract getter range3(): Scalar3
 
     every(s_i: ZZ32, s_j: ZZ32, s_k: ZZ32): T
     imposeStride(s_i: ZZ32, s_j: ZZ32, s_k: ZZ32): T
-    recombine(a: Scalar1, b: Scalar2, c: Scalar3): T
+    abstract recombine(a: Scalar1, b: Scalar2, c: Scalar3): T
 end
 
 trait PartialScalarRange
@@ -140,6 +143,7 @@ object OpenRange2D(str_i: ZZ32, str_j: ZZ32)
     flip(): OpenRange2D
     forward(): OpenRange2D
     recombine(i: OpenScalarRange, j: OpenScalarRange): OpenRange2D
+    opr IN(n: (ZZ32, ZZ32), self): Boolean
 end
 
 combine3D(i: OpenScalarRange, j: OpenScalarRange, k: OpenScalarRange): OpenRange3D
@@ -154,6 +158,7 @@ object OpenRange3D(str_i: ZZ32, str_j: ZZ32, str_k: ZZ32)
     flip(): OpenRange3D
     forward(): OpenRange3D
     recombine(i: OpenScalarRange, j: OpenScalarRange, k: OpenScalarRange): OpenRange3D
+    opr IN(n: (ZZ32, ZZ32, ZZ32), self): Boolean
 end
 
 open(): OpenScalarRange
@@ -175,7 +180,7 @@ object ExtentScalarRange(ex: ZZ32, str: ZZ32)
     every(s: ZZ32): ExtentScalarRange
     imposeStride(s: ZZ32): ExtentScalarRange
     atMost(n: ZZ32): ScalarRange
-    opr CAP(self, other: Range[\ZZ32\]): ScalarRangeWithExtent
+    opr CAP(self, other: ScalarRange): ScalarRangeWithExtent
     intersectWithExtent(e: ExtentScalarRange): ScalarRangeWithExtent
     opr =(self, b: ExtentScalarRange): Boolean
     shiftLeft(amount: ZZ32): ExtentScalarRange
@@ -196,6 +201,7 @@ object ExtentRange2D(ex_i: ZZ32, ex_j: ZZ32, str_i: ZZ32, str_j: ZZ32)
     flip(): ExtentRange2D
     forward(): ExtentRange2D
     recombine(i: ExtentScalarRange, j: ExtentScalarRange): ExtentRange2D
+    opr IN(n: (ZZ32, ZZ32), self): Boolean
 end
 
 combine3D(i: ExtentScalarRange, j: ExtentScalarRange,
@@ -213,15 +219,20 @@ object ExtentRange3D(ex_i: ZZ32, ex_j: ZZ32, ex_k: ZZ32, str_i: ZZ32, str_j: ZZ3
     forward(): ExtentRange3D
     recombine(i: ExtentScalarRange, j: ExtentScalarRange,
             k: ExtentScalarRange): ExtentRange3D
+    opr IN(n: (ZZ32, ZZ32, ZZ32), self): Boolean
 end
 
 trait BoundedScalarRange
     extends { ScalarRange, BoundedRange[\ZZ32\] }
+    abstract flip(): BoundedScalarRange
+    abstract every(s: ZZ32): BoundedScalarRange
+    abstract atMost(n: ZZ32): FullScalarRange
+    opr CAP(self, other: Range[\ZZ32\]): BoundedScalarRange
     opr CAP(self, other: ScalarRange): BoundedScalarRange
     intersectWithExtent(e: ExtentScalarRange): FullScalarRange
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange
     nonemptyUpwardIntersection(other: BoundedScalarRange, resultStride: ZZ32): BoundedScalarRange
-    nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): BoundedScalarRange
+    abstract nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): BoundedScalarRange
 end
 
 trait ScalarRangeWithLeft
@@ -263,6 +274,8 @@ object LeftRange2D(l_i: ZZ32, l_j: ZZ32, str_i: ZZ32, str_j: ZZ32)
     flip(): RightRange2D
     forward(): BoundedRange[\(ZZ32, ZZ32)\]
     recombine(i: LeftScalarRange, j: LeftScalarRange): LeftRange2D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32)\]
+    opr CAP(self, other: Range2D): BoundedRange[\(ZZ32, ZZ32)\]
 end
 
 combine3D(i: LeftScalarRange, j: LeftScalarRange, k: LeftScalarRange): LeftRange3D
@@ -278,6 +291,8 @@ object LeftRange3D(l_i: ZZ32, l_j: ZZ32, l_k: ZZ32, str_i: ZZ32, str_j: ZZ32, st
     flip(): RightRange3D
     forward(): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
     recombine(i: LeftScalarRange, j: LeftScalarRange, k: LeftScalarRange): LeftRange3D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
+    opr CAP(self, other: Range3D): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
 end
 
 trait ScalarRangeWithRight
@@ -319,6 +334,8 @@ object RightRange2D(r_i: ZZ32, r_j: ZZ32, str_i: ZZ32, str_j: ZZ32)
     flip(): LeftRange2D
     forward(): BoundedRange[\(ZZ32, ZZ32)\]
     recombine(i: RightScalarRange, j: RightScalarRange): RightRange2D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32)\]
+    opr CAP(self, other: Range2D): BoundedRange[\(ZZ32, ZZ32)\]
 end
 
 combine3D(i: RightScalarRange, j: RightScalarRange,
@@ -336,6 +353,8 @@ object RightRange3D(r_i: ZZ32, r_j: ZZ32, r_k: ZZ32, str_i: ZZ32, str_j: ZZ32, s
     forward(): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
     recombine(i: RightScalarRange, j: RightScalarRange,
             k: RightScalarRange): RightRange3D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
+    opr CAP(self, other: Range3D): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
 end
 
 trait FullScalarRange
@@ -346,11 +365,12 @@ trait FullScalarRange
     getter bounds(): CompactFullScalarRange
 
     flip(): FullScalarRange
+    abstract forward(): FullScalarRange
     every(s: ZZ32): FullScalarRange
     imposeStride(s: ZZ32): FullScalarRange
     atMost(n: ZZ32): FullScalarRange
     opr =(self, b: FullScalarRange): Boolean
-    forwardIntersection(other: BoundedScalarRange): FullScalarRange
+    forwardIntersection(other: BoundedScalarRange): BoundedScalarRange
     nonemptyUpwardIntersection(other: BoundedScalarRange, resultStride: ZZ32): FullScalarRange
     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): FullScalarRange
     opr [ r: Range[\ZZ32\] ]: FullScalarRange
@@ -370,6 +390,9 @@ trait FullRange2D
     opr [ ij: (ZZ32, ZZ32) ]: (ZZ32, ZZ32)
     opr [ r: Range[\(ZZ32, ZZ32)\] ]: FullRange2D
     indexOf(n: (ZZ32,ZZ32)): Maybe[\(ZZ32,ZZ32)\]
+    opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32)\]
+    opr CAP(self, other: Range2D): BoundedRange[\(ZZ32, ZZ32)\]
+    opr IN(n: (ZZ32, ZZ32), self): Boolean
 end
 
 tupleFlatten[\I, J, K\](t: (I, J), k: K): (I, J, K)
@@ -379,13 +402,16 @@ trait FullRange3D
         ActualRange3D[\FullRange3D, FullScalarRange, FullScalarRange, FullScalarRange\] }
     getter extent(): Just[\(ZZ32, ZZ32, ZZ32)\]
     getter generator(): Generator[\(ZZ32, ZZ32, ZZ32)\]
-    getter indices(): Generator[\(ZZ32, ZZ32)\]
+    getter indices(): Generator[\(ZZ32, ZZ32, ZZ32)\]
 
     opr | self |: ZZ32
     flip(): FullRange3D
     opr [ ij: (ZZ32, ZZ32, ZZ32) ]: (ZZ32, ZZ32, ZZ32)
     opr [ r: Range[\(ZZ32, ZZ32, ZZ32)\] ]: FullRange3D
     indexOf(n: (ZZ32,ZZ32,ZZ32)): Maybe[\(ZZ32,ZZ32,ZZ32)\]
+    opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
+    opr CAP(self, other: Range3D): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
+    opr IN(n: (ZZ32, ZZ32, ZZ32), self): Boolean
 end
 
 trait CompactFullScalarRange
@@ -399,6 +425,7 @@ trait CompactFullScalarRange
     opr [ i: ZZ32 ]: ZZ32
     opr IN(n: ZZ32, self): Boolean
     indexOf(n: ZZ32): Maybe[\ZZ32\]
+    forward(): CompactFullScalarRange
     shiftLeft(amount: ZZ32): CompactFullScalarRange
     shiftRight(amount: ZZ32): CompactFullScalarRange
 end
@@ -424,6 +451,7 @@ object CompactFullSeqScalarRange(l: ZZ32, r: ZZ32)
 
     generate[\T\](red: Reduction[\T\], body: (ZZ32 -> T)): T
     loop(body: (ZZ32 -> ())): ()
+    map[\G\](f: ZZ32 -> G): SimpleMappedSeqIndexed[\ZZ32, G, ZZ32\]
 end
 
 combine2D(i: CompactFullScalarRange, j: CompactFullScalarRange): CompactFullRange2D
@@ -471,6 +499,7 @@ trait StridedFullScalarRange
     getter indexValuePairs(): Indexed[\(ZZ32, ZZ32), ZZ32\]
     getter indices(): Indexed[\ZZ32, ZZ32\]
 
+    opr | self |: ZZ32
     opr [ i: ZZ32 ]: ZZ32
     opr IN(n: ZZ32, self): Boolean
     indexOf(n: ZZ32): Maybe[\ZZ32\]
@@ -497,6 +526,7 @@ object StridedFullSeqScalarRange(l: ZZ32, r: ZZ32, str: ZZ32)
     seq(self): StridedFullSeqScalarRange
     generate[\T\](red: Reduction[\T\], body: (ZZ32 -> T)): T
     loop(body: (ZZ32 -> ())): ()
+    map[\G\](f: ZZ32 -> G): SimpleMappedSeqIndexed[\ZZ32, G, ZZ32\]
 end
 
 combine2D(i: FullScalarRange, j: FullScalarRange): FullRange2D
@@ -513,7 +543,7 @@ object StridedFullRange2D(l_i: ZZ32, l_j: ZZ32, r_i: ZZ32, r_j: ZZ32, str_i: ZZ3
     getter range2(): FullScalarRange
 
     forward(): FullRange2D
-    recombine(i: FullScalarRange, j: FullScalarRange): StridedFullRange2D
+    recombine(i: FullScalarRange, j: FullScalarRange): FullRange2D
 end
 
 combine3D(i: FullScalarRange, j: FullScalarRange, k: FullScalarRange): FullRange3D
@@ -533,7 +563,7 @@ object StridedFullRange3D(l_i: ZZ32, l_j: ZZ32, l_k: ZZ32, r_i: ZZ32, r_j: ZZ32,
     getter range3(): FullScalarRange
 
     forward(): FullRange3D
-    recombine(i: FullScalarRange, j: FullScalarRange, k: FullScalarRange): StridedFullRange3D
+    recombine(i: FullScalarRange, j: FullScalarRange, k: FullScalarRange): FullRange3D
 end
 
 fullScalarRange(l: ZZ32, r: ZZ32, str: ZZ32): FullScalarRange

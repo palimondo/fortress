@@ -1,0 +1,20 @@
+(* The shifts of ranges of rank 2 and 3 move each component by its own amount (row 503). *)
+
+component RangeTupleShiftWalk
+export Executable
+
+run(): () = do
+    println("REACHED")
+    left3 = ((1,2,3):)
+    right3 = (:(2,3,4))
+    strided2 = (((1,1):(9,9)):(2,2))
+    assert(left3.shiftLeft((1,1,1)).asDebugString, "LeftRange3D(0,1,2, 1,1,1)", "shiftLeft by (1,1,1) moves each component of the left range (1,2,3): by its own amount, to (0,1,2):")
+    assert(left3.shiftRight((1,1,1)).asDebugString, "LeftRange3D(2,3,4, 1,1,1)", "shiftRight by (1,1,1) moves each component of the left range (1,2,3): by its own amount, to (2,3,4):")
+    assert(right3.shiftLeft((1,1,1)).asDebugString, "RightRange3D(1,2,3, 1,1,1)", "shiftLeft by (1,1,1) moves each component of the right range :(2,3,4) by its own amount, to :(1,2,3)")
+    assert(right3.shiftRight((1,1,1)).asDebugString, "RightRange3D(3,4,5, 1,1,1)", "shiftRight by (1,1,1) moves each component of the right range :(2,3,4) by its own amount, to :(3,4,5)")
+    assert(strided2.shiftLeft((1,1)).asDebugString, "StridedFullRange2D(0,0, 8,8, 2,2)", "shiftLeft by (1,1) moves each bound of (1,1):(9,9):(2,2) by its own amount, to (0,0):(8,8):(2,2)")
+    assert(strided2.shiftRight((1,1)).asDebugString, "StridedFullRange2D(2,2, 10,10, 2,2)", "shiftRight by (1,1) moves each bound of (1,1):(9,9):(2,2) by its own amount, to (2,2):(10,10):(2,2)")
+    println("PASS")
+  end
+
+end

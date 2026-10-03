@@ -1,0 +1,13 @@
+(* A strided range of rank 3 shifts each bound by its own amount, as every other range of rank 2 and 3 does (row 602). *)
+
+component XXXStridedRange3DShiftWalk
+export Executable
+
+run(): () = do
+    strided3 = (((0,0,0):(4,4,4)):(2,2,2))
+    assert(strided3.shiftLeft((1,1,1)).asDebugString, "StridedFullRange3D(-1,-1,-1, 3,3,3, 2,2,2)", "objects.tex, section \"Object Declarations\": an object defines every method its supertraits declare but do not define, so shiftLeft by (1,1,1) moves (0,0,0):(4,4,4):(2,2,2) to (-1,-1,-1):(3,3,3):(2,2,2)")
+    assert(strided3.shiftRight((1,1,1)).asDebugString, "StridedFullRange3D(1,1,1, 5,5,5, 2,2,2)", "objects.tex, section \"Object Declarations\": an object defines every method its supertraits declare but do not define, so shiftRight by (1,1,1) moves (0,0,0):(4,4,4):(2,2,2) to (1,1,1):(5,5,5):(2,2,2)")
+    println("PASS")
+  end
+
+end
