@@ -1,3 +1,3 @@
-tests=XXXVarargsBodyIterates
+tests=XXXVarargsFunctionExpressionUse
 compile
 compile_err_contains=The varargs parameter rest is used, whose type ImmutableArray[\\ZZ32,ZZ32\\] the libraries do not declare

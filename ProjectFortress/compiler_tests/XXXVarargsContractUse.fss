@@ -1,0 +1,16 @@
+(* A contract passes its varargs parameter, a sequence of the arguments passed for it (functions.tex, section "Function Declarations"), to a function of a generator, so the program is valid; the compiled library declares no type for that sequence, so the compiled checker refuses the use. *)
+component XXXVarargsContractUse
+export Executable
+
+nonempty(g: Generator[\ZZ32\]): Boolean = true
+
+first(x: ZZ32, rest: ZZ32...): ZZ32
+    requires { nonempty(rest) }
+  = x
+
+run(): () = do
+    z: ZZ32 = 2
+    println(first(z, z, z))
+  end
+
+end

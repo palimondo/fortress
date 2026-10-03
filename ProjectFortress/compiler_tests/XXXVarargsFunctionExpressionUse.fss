@@ -1,0 +1,17 @@
+(* A function expression passes its varargs parameter, a sequence of the arguments passed for it (functions.tex, section "Function Declarations"), to a function of a generator, so the program is valid; the compiled library declares no type for that sequence, so the compiled checker refuses the use. *)
+component XXXVarargsFunctionExpressionUse
+export Executable
+
+total(g: Generator[\ZZ32\]): ZZ32 = do
+    n: ZZ32 := 0
+    for y <- g do atomic n += y end
+    n
+  end
+
+run(): () = do
+    f = fn (rest: ZZ32...): ZZ32 => total(rest)
+    z: ZZ32 = 2
+    println(f(z, z, z))
+  end
+
+end
