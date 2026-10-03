@@ -1,0 +1,9 @@
+(* A component declares a trait's method with a varargs parameter as its api does (functions.tex, section "Function Declarations"), so the component matches the api it exports. *)
+component VarargsExportMethod
+export VarargsExportMethod
+
+trait Sink
+    print(args: Any...): () = ()
+end
+
+end
