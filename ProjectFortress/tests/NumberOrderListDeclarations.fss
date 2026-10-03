@@ -5,7 +5,7 @@ export Executable
 
 numbers(): () = do
     q: QQ = 3/7
-    assert(simplestRationalBetween(q, q), q, "basic-lib/numbers.tex, section \"Rational Numbers\": the simplest rational between a number and itself is that number")
+    assert(simplestRationalBetween(q, q), q, "the simplest rational between a number and itself is that number")
     assert(simplestRationalBetween(1/3, 1/2), 1/2, "the simplest rational in [1/3, 1/2] is 1/2")
     assert(even(4) AND odd(3), "basic-integers.tex, section \"Integers\": even and odd of a ZZ32")
     assert(NOT even(widen(7)), "basic-integers.tex, section \"Integers\": even of a ZZ64")
@@ -29,11 +29,11 @@ orderings(): () = do
     deny(3, 4, "unequal numbers")
     assert((1,2), (1,2), "equal pairs")
     shouldRaise[\DivisionByZero\](fn () => throw DivisionByZero)
-    assert((1,2) < (1,3), "opr-overview.tex, section \"Comparisons Operators\": pairs compare lexicographically")
+    assert((1,2) < (1,3), "pairs compare lexicographically")
     assert(((1,2),3) < ((1,3),0), "pairs whose first elements are pairs compare lexicographically")
     assert((1,2,3) CMP (1,2,2), GreaterThan, "triples compare lexicographically")
     assert((1.5, 2) < (2.5, 1), "pairs of a float and an integer compare lexicographically")
-    assert(<|1,2|> < <|1,3|>, "opr-overview.tex, section \"Comparisons Operators\": lists compare lexicographically")
+    assert(<|1,2|> < <|1,3|>, "opr-overview.tex, subsection \"Comparisons Operators\": lists compare lexicographically when their elements support the comparison")
   end
 
 lists(): () = do

@@ -11,6 +11,27 @@ run(): () = do
           ForbiddenException => "forbidden"
         end
     assert(r, "forbidden", "an expression that raises nothing is forbidden: shouldRaise throws an exception value, and a throw expression's subexpression is an Exception (throw.tex, section \"Throw Expressions\")")
+    rExc = try
+             shouldRaise[\Exception\](fn () => ())
+             "nothing thrown"
+           catch e
+             ForbiddenException => "forbidden"
+           end
+    assert(rExc, "forbidden", "shouldRaise at Exception of an expression that raises nothing throws: a catch clause catches what its own try block throws, so the failure must be thrown after the try (try.tex, section \"Try Expressions\")")
+    rUnc = try
+             shouldRaise[\UncheckedException\](fn () => ())
+             "nothing thrown"
+           catch e
+             ForbiddenException => "forbidden"
+           end
+    assert(rUnc, "forbidden", "shouldRaise at UncheckedException of an expression that raises nothing throws: a catch clause catches what its own try block throws, so the failure must be thrown after the try (try.tex, section \"Try Expressions\")")
+    rFor = try
+             shouldRaise[\ForbiddenException\](fn () => ())
+             "nothing thrown"
+           catch e
+             ForbiddenException => "forbidden"
+           end
+    assert(rFor, "forbidden", "shouldRaise at ForbiddenException of an expression that raises nothing throws: a catch clause catches what its own try block throws, so the failure must be thrown after the try (try.tex, section \"Try Expressions\")")
     println("PASS")
   end
 
