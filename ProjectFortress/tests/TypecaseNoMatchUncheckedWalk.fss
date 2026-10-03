@@ -1,5 +1,5 @@
 (* The MatchFailure that a typecase with no matching clause throws is an unchecked exception, under walk. *)
-component XXXTypecaseNoMatchUncheckedWalk
+component TypecaseNoMatchUncheckedWalk
 export Executable
 
 kind(x: Any): String =
