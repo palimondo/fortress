@@ -191,7 +191,7 @@ The first three have one cause, a local function's omitted parameter type.
 - The first skeptic measured a third form of it. A local function with neither parameter nor result typed, `sq(n) = n n` called on a `ZZ32`, stops the checker with "** bug! Result of typechecking still contains intermediate nodes." on the base and the head, where walk prints `49` (`XXXLocalFunctionUntypedParamAndReturn`).
 - The text lets a function's parameter type be left out (`Specification/basic/functions.tex:97-103`, and `:576-591` for local functions) and leaves its inference "not yet described" (`Specification/basic/inference.tex:21-25`; `Specification/basic/components/type-inference.tex:13-45`).
 - Row 405 records that the compiled path already refuses an untyped value parameter of a top-level function or a method, "Missing parameter type for x" (`STypeEnv.scala:192-193`), and classes the text as silent (`explorations/fortress-gap-ledger.md:416`).
-- Their repair is the inference of a local function's omitted types, a checker project. They are home 2, with a row each (record.md, rows 620 to 622, provisional), on the ground of decision 9.
+- Their repair is the inference of a local function's omitted types, a checker project. They are home 2, with a row each (record.md, rows 620 to 622), on the ground of decision 9.
 
 A further crash on row 604's path, a dotted call of a varargs method (`FnNameInfo.java:152`), is repaired with row 604 and asserted by `VarargsMethodCall`.
 
@@ -304,7 +304,7 @@ By repair:
 |---|---|---|
 | row 563, the method's own parameter captured | 1 | `InheritedAbstractMethodStaticParamSameName` |
 | row 563's mechanism through the declaring trait's lifted parameter | 1 | `InheritedAbstractOperatorTraitParamSameName` |
-| row 563's sibling, a non-clashing parameter's bound left naming the renamed one, at both renaming sites | 2 | `XXXInheritedAbstractMethodBoundSameName`, row 625 (provisional) |
+| row 563's sibling, a non-clashing parameter's bound left naming the renamed one, at both renaming sites | 2 | `XXXInheritedAbstractMethodBoundSameName`, row 625 |
 | row 593, a lone parameter at its bound beside a dependent bound | 1 | `InferDependentBound` with `InferDependentBoundLink` |
 | row 604, none or many varargs arguments refused | 1 | `VarargsNoTrailingArgument`, `VarargsArgumentCounts` |
 | row 604, one argument needing a coercion refused | 1 | `VarargsNumeralArguments` |
@@ -313,7 +313,7 @@ By repair:
 | row 604, the parameter bound as its element | 1 | `XXXVarargsParamNotItsElement`, `XXXVarargsBodyIterates` (the refusal's condition is the binding's type, so their keys hold the binding, by reading) |
 | row 604, a use of the parameter crashing the checker under the compiled library, in a contract or a function expression (the first skeptic's ground) | 1 | `XXXVarargsContractUse`, `XXXVarargsFunctionExpressionUse` |
 | row 604, the compiled library declares no varargs type | 2 | `XXXVarargsBodyIterates`, row 604's note |
-| varargs code generation, "Can't compile VarArgs yet" | 2 | `XXXVarargsCodeGeneration`, row 624 (provisional) |
+| varargs code generation, "Can't compile VarArgs yet" | 2 | `XXXVarargsCodeGeneration`, row 624 |
 | varargs code generation of a trait method, `OptionUnwrapException` at `NamingCzar.java:899` | 2 | `XXXVarargsMethodCodeGeneration`, row 624's method case |
 | row 605, in an object declaration and an object expression | 1 | `FieldBesideInheritedGetter`, `FieldBesideInheritedGetterObjectExpression` |
 | row 574, the message | 1 | `XXXFunctionalMethodDuplicateSelfSecond` |
@@ -322,7 +322,7 @@ By repair:
 | the same cause's third form, neither parameter nor result typed | 2 | `XXXLocalFunctionUntypedParamAndReturn`, row 620 |
 | crashes 2 and 3, the same through a loop body | 2 | `XXXLocalFunctionUntypedParamInLoop`, rows 621 and 622 |
 | crash 4, the variance stage on a varargs parameter | 1 | `VarianceVarargsMethod`, row 623 opened and closed |
-| a typecase arm naming a type the library in use does not declare, with static arguments, crashes the checker | 2 | `XXXTypecaseUndeclaredType`, row 626 (provisional) |
+| a typecase arm naming a type the library in use does not declare, with static arguments, crashes the checker | 2 | `XXXTypecaseUndeclaredType`, row 626 |
 
 Why each defect is home 2:
 - Row 625's program is valid by traits.tex, section "Method Declarations", and its overloading half lies in a file this rung may edit only for row 574's message (JUDGE.md, J2).
