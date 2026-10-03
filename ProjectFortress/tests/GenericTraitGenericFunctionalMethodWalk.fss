@@ -1,5 +1,5 @@
 (* A generic functional method declared in a trait with static parameters and inherited by an object, run under walk: the call runs the declaration and answers what its function argument returns. *)
-component XXXGenericTraitGenericFunctionalMethodWalk
+component GenericTraitGenericFunctionalMethodWalk
 export Executable
 
 trait Gen[\E\]
@@ -11,6 +11,7 @@ end
 run() = do
     p = P(3)
     assert(gen[\String\](p, 3, fn (q: ZZ32): String => "gen"), "gen", "the inherited generic functional method runs")
+    assert(gen(p, 3, fn (q: ZZ32): String => "inferred"), "inferred", "the inherited generic functional method runs with its static argument inferred")
     println("PASS")
 end
 end

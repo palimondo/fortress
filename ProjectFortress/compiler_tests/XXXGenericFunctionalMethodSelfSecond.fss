@@ -1,0 +1,17 @@
+(* A generic functional method whose self parameter is not the first runs on the compiled path. *)
+component XXXGenericFunctionalMethodSelfSecond
+export Executable
+
+trait Shape
+    tag[\R extends Any\](x: R, self): R = x
+end
+
+object Ci extends Shape end
+
+run(): () = do
+    println("REACHED")
+    assert(tag("t", Ci), "t", "a functional method declares its self parameter at an arbitrary position, here the second, and this generic one runs and answers its first argument (traits.tex, section \"Method Declarations\")")
+    println("PASS")
+  end
+
+end

@@ -17,10 +17,12 @@ import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.*;
+import com.sun.fortress.nodes.BigFixity;
 import com.sun.fortress.nodes.BoolRef;
 import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.NodeAbstractVisitor;
 import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
+import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.Pattern;
 import com.sun.fortress.nodes.StaticParam;
@@ -35,6 +37,8 @@ import com.sun.fortress.useful.LatticeIntervalMap;
 import com.sun.fortress.useful.Useful;
 import edu.rice.cs.plt.tuple.Option;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
@@ -58,7 +62,181 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                                                                 GenericFunctionOrMethod appliedThing,
                                                                 Environment envForInference) throws ProgramError {
         Simple_fcn sfcn = inferWithCoercion(args, appliedThing, envForInference);
-        return sfcn != null ? sfcn : inferByUnification(args, appliedThing, envForInference);
+        return sfcn != null ? sfcn : inferByUnification(args, appliedThing, envForInference, true);
+    }
+
+    /**
+     * Where the system property fortress.inference.trace names a file, each
+     * instance that the bound rules below give in place of the instance the
+     * earlier rules gave is appended to it, one line per type parameter.
+     */
+    private static final String TRACE = System.getProperty("fortress.inference.trace");
+
+    private static void traceInstance(String rule, Object decl, String param, Object before, Object after, Object args) {
+        if (TRACE == null) return;
+        synchronized (EvaluatorBase.class) {
+            try {
+                FileWriter w = new FileWriter(TRACE, true);
+                w.write(rule + "\t" + decl + "\t" + param + "\t" + before + "\t" + after + "\t" + args + "\n");
+                w.close();
+            }
+            catch (IOException ex) {
+                // the trace is best effort
+            }
+        }
+    }
+
+    private static List<FType> typesOf(List<FValue> vals) {
+        List<FType> l = new ArrayList<FType>(vals.size());
+        for (FValue v : vals) l.add(v.type());
+        return l;
+    }
+
+    /**
+     * A bounding map for a call's static parameters.  With bounded, where a
+     * type joined into a lower bound has several minimal common supertypes
+     * with it, or none, and both lie under the upper bound, the lower bound
+     * becomes that upper bound, Any where there is none: the type parameter
+     * takes its bound, not one of those supertypes.  Without, the lattice's
+     * join decides, as when a declaration is chosen.
+     */
+    static final class BoundingIntervals extends LatticeIntervalMap<String, FType, TypeLatticeOps> {
+        private final boolean bounded;
+
+        BoundingIntervals(boolean bounded) {
+            super(TypeLatticeOps.V, DefaultComparator.V);
+            this.bounded = bounded;
+        }
+
+        @Override
+        public FType joinPut(String k, FType v) {
+            FType lower = bounded ? getLower(k) : null;
+            if (lower != null && lower.join(v).size() != 1) {
+                FType upper = getUpper(k);
+                FType bound = upper == null ? FTypeTop.ONLY : upper;
+                if (lower.subtypeOf(bound) && v.subtypeOf(bound)) {
+                    traceInstance("several", k, k, lower + " join " + v, bound, "");
+                    putPair(k, bound, bound);
+                    return bound;
+                }
+            }
+            return super.joinPut(k, v);
+        }
+    }
+
+    /**
+     * The bound of the type parameter n: the upper end of its interval, the
+     * meet of its declared bounds, or Any where it has none.
+     */
+    private static FType boundOf(LatticeIntervalMap<String, FType, TypeLatticeOps> abm, String n) {
+        FType upper = abm.getUpper(n);
+        return upper == null ? FTypeTop.ONLY : upper;
+    }
+
+    /**
+     * Whether g is a big operator, whose static parameters a reduction or a
+     * comprehension leaves to the elements its generator clauses produce.
+     */
+    private static boolean bigOperator(GenericFunctionOrMethod g) {
+        if (!(g.getName() instanceof Op)) return false;
+        Op op = (Op) g.getName();
+        return op.getFixity() instanceof BigFixity || op.getText().startsWith("BIG ");
+    }
+
+    /**
+     * The instance of each static parameter: its lower bound in abm, except
+     * that, with bounded, a type parameter of a declaration other than a big
+     * operator that the arguments do not fix takes its bound: where its
+     * bounds mention no static parameter (rechecks), its interval's upper
+     * end; where they mention others but not itself, its bounds at their
+     * instances.  The arguments fix a type parameter that an argument's
+     * declared parameter type mentions (fixable), and one that a bound of a
+     * type parameter they fix mentions.  Any other left open is BottomType.
+     */
+    private static ArrayList<FType> instanceOf(List<StaticParam> tparams,
+                                               LatticeIntervalMap<String, FType, TypeLatticeOps> abm,
+                                               Set<String> fixable, Collection<StaticParam> rechecks,
+                                               boolean bounded, GenericFunctionOrMethod appliedThing,
+                                               List<FValue> args) {
+        ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
+        boolean bounds = bounded && !bigOperator(appliedThing);
+        Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
+        for (StaticParam tp : tparams) {
+            String n = NodeUtil.getName(tp);
+            FType t = abm.get(n);
+            if (bounds && NodeUtil.isTypeParam(tp) && !fixed.contains(n) &&
+                (rechecks == null || !rechecks.contains(tp)) && (t == null || t instanceof BottomType)) {
+                t = boundOf(abm, n);
+                traceInstance("unfixed", appliedThing, n, BottomType.ONLY, t, typesOf(args));
+            }
+            if (t == null) t = BottomType.ONLY;
+            tl.add(t);
+        }
+        if (!bounds || rechecks == null) return tl;
+        for (int i = 0; i < tparams.size(); i++) {
+            StaticParam tp = tparams.get(i);
+            String n = NodeUtil.getName(tp);
+            if (!NodeUtil.isTypeParam(tp) || fixed.contains(n) || !rechecks.contains(tp) ||
+                !(tl.get(i) instanceof BottomType)) continue;
+            FType b = boundAtInstances(tp, tparams, tl, appliedThing);
+            if (b != null) {
+                traceInstance("unfixed", appliedThing, n, BottomType.ONLY, b, typesOf(args));
+                tl.set(i, b);
+            }
+        }
+        return tl;
+    }
+
+    /**
+     * The static parameters of tparams named in fixable, and those that a
+     * bound of one of them mentions, as A extends T mentions T.
+     */
+    private static Set<String> fixedThroughBounds(List<StaticParam> tparams, Set<String> fixable) {
+        Set<String> names = new HashSet<String>();
+        for (StaticParam tp : tparams) names.add(NodeUtil.getName(tp));
+        Set<String> fixed = new HashSet<String>(fixable);
+        boolean grew = true;
+        while (grew) {
+            grew = false;
+            for (StaticParam tp : tparams) {
+                if (!fixed.contains(NodeUtil.getName(tp))) continue;
+                for (Type tr : tp.getExtendsClause()) {
+                    for (String m : mentions(tr, names)) grew |= fixed.add(m);
+                }
+            }
+        }
+        return fixed;
+    }
+
+    /**
+     * The meet of the bounds of the type parameter tp of g at the instances
+     * tl of the static parameters they mention; null where they mention tp
+     * itself or a static parameter whose instance is BottomType, or where
+     * they cannot be evaluated.
+     */
+    private static FType boundAtInstances(StaticParam tp, List<StaticParam> tparams, List<FType> tl,
+                                          GenericFunctionOrMethod g) {
+        Map<String, FType> inst = new HashMap<String, FType>();
+        for (int i = 0; i < tparams.size(); i++) inst.put(NodeUtil.getName(tparams.get(i)), tl.get(i));
+        for (Type tr : tp.getExtendsClause()) {
+            for (String m : mentions(tr, inst.keySet())) {
+                if (m.equals(NodeUtil.getName(tp)) || inst.get(m) instanceof BottomType) return null;
+            }
+        }
+        try {
+            Environment env = g.getWithin().extendAt(tp);
+            EvalType.bindGenericParameters(tparams, tl, env, tp, tp);
+            EvalType et = new EvalType(env);
+            FType b = null;
+            for (Type tr : tp.getExtendsClause()) {
+                FType t = et.evalType(tr);
+                b = b == null ? t : TypeLatticeOps.V.meet(b, t);
+            }
+            return b;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
     }
 
     /**
@@ -68,9 +246,13 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
      * it; an argument whose declared type mentions no static parameter is left
      * to the coercion at binding; a type parameter that is the whole declared
      * type of some argument and that nothing else fixes takes the narrowest of
-     * its arguments' types, their supertypes, the types they coerce to and its
-     * bounds that each of those arguments is a subtype of or coerces to, and,
-     * when no one is narrowest, the join of its arguments' types.
+     * its arguments' types, the types they coerce to and its bounds that each
+     * of those arguments is a subtype of or coerces to, and, when no one is
+     * narrowest, its bound, where each of those arguments is a subtype of it;
+     * one whose bound mentions a static parameter takes the narrowest of those
+     * and of the arguments' supertypes, and otherwise the join of its
+     * arguments' types.  A type parameter that no argument fixes takes its
+     * bound (instanceOf).
      */
     private static Simple_fcn inferWithCoercion(List<FValue> args,
                                                 GenericFunctionOrMethod appliedThing,
@@ -109,9 +291,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         List<StaticParam> tparams = appliedThing.getStaticParams();
         List<Param> params = appliedThing.getParams();
         EvalType et = new EvalType(appliedThing.getWithin());
-        BoundingMap<String, FType, TypeLatticeOps> abm = new LatticeIntervalMap<String, FType, TypeLatticeOps>(
-                TypeLatticeOps.V,
-                DefaultComparator.V);
+        BoundingIntervals abm = new BoundingIntervals(true);
         Set<String> tp_set = new HashSet<String>();
         Set<String> typeParams = new HashSet<String>();
         Map<String, List<FType>> bounds = new HashMap<String, List<FType>>();
@@ -156,12 +336,14 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             }
             Option<TypeOrPattern> t = p.getIdType();
             if (t.isNone()) {
-                if (!(p.getName().toString().equals("self") && appliedThing instanceof GenericFunctionalMethod)) {
+                boolean isSelf = p.getName().toString().equals("self");
+                if (isSelf && appliedThing instanceof GenericFunctionalMethod.Own) continue;
+                if (!(isSelf && appliedThing instanceof GenericFunctionalMethod)) {
                     return null;
                 }
-                at.unify(envForInference, tp_set, abm,
-                         selfType.getGeneric().getInstantiationForFunctionalMethodInference());
-                fixedElsewhere.addAll(tp_set);
+                Type selfInst = selfType.getGeneric().getInstantiationForFunctionalMethodInference();
+                at.unify(envForInference, tp_set, abm, selfInst);
+                fixedElsewhere.addAll(mentions(selfInst, tp_set));
                 continue;
             }
             Type ty = NodeUtil.optTypeOrPatternToType(t).unwrap();
@@ -184,8 +366,19 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             String n = e.getKey();
             FType fixed = abm.get(n);
             if (fixedElsewhere.contains(n) && fixed != null && !(fixed instanceof BottomType)) continue;
+            boolean selfBounded = selfBounded(n, rechecks);
             FType chosen = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
-                                     appliedThing.getWithin());
+                                     appliedThing.getWithin(), selfBounded);
+            FType bound = boundOf(abm, n);
+            if (chosen == null && !selfBounded && allSubtypes(e.getValue(), bound)) chosen = bound;
+            if (TRACE != null && !selfBounded) {
+                FType before = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
+                                         appliedThing.getWithin(), true);
+                if (before == null || !before.equals(chosen)) {
+                    traceInstance("lone", appliedThing, n, before == null ? "join" : before, chosen,
+                                  typesOf(e.getValue()));
+                }
+            }
             if (chosen != null) {
                 abm.joinPut(n, chosen);
             } else {
@@ -200,12 +393,9 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             if (t == null) t = BottomType.ONLY;
             for (Type tr : tp.getExtendsClause()) t.unify(envForInference, tp_set, abm, tr);
         }
-        ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
-        for (StaticParam tp : tparams) {
-            FType t = abm.get(NodeUtil.getName(tp));
-            if (t == null) t = BottomType.ONLY;
-            tl.add(t);
-        }
+        Set<String> fixable = new HashSet<String>(fixedElsewhere);
+        fixable.addAll(lone.keySet());
+        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, rechecks, true, appliedThing, originalArgs);
         Simple_fcn sfcn = appliedThing.typeApply(tl);
         /* Every argument admitted by the instance's domain, by subtyping or by one coercion. */
         List<FValue> fargs = sfcn.fixupArgCount(originalArgs);
@@ -245,18 +435,35 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     }
 
     /**
+     * Whether a bound of the type parameter n mentions a static parameter of
+     * the declaration, so that it is checked only once n is bound (rechecks).
+     */
+    private static boolean selfBounded(String n, List<StaticParam> rechecks) {
+        for (StaticParam tp : rechecks) if (NodeUtil.getName(tp).equals(n)) return true;
+        return false;
+    }
+
+    private static boolean allSubtypes(List<FValue> vals, FType t) {
+        for (FValue v : vals) if (!v.type().subtypeOf(t)) return false;
+        return true;
+    }
+
+    /**
      * The narrowest type for the type parameter n whose arguments are vals, or
-     * null: among the arguments' types, their supertypes, the types they coerce
-     * to and n's bounds, those that each argument is a subtype of or coerces to
-     * and that n's bounds admit, the one that is a subtype of every other or
-     * coerces to it.
+     * null: among the arguments' types, the types they coerce to and n's
+     * bounds, and with supertypes the arguments' supertypes as well, those
+     * that each argument is a subtype of or coerces to and that n's bounds
+     * admit, the one that is a subtype of every other or coerces to it.
      */
     private static FType narrowest(String n, List<FValue> vals,
                                    BoundingMap<String, FType, TypeLatticeOps> abm,
                                    List<StaticParam> rechecks, Set<String> tp_set, Environment env,
-                                   List<FType> bounds, Environment within) {
+                                   List<FType> bounds, Environment within, boolean supertypes) {
         LinkedHashSet<FType> candidates = new LinkedHashSet<FType>();
-        for (FValue v : vals) candidates.addAll(v.type().getTransitiveExtends());
+        for (FValue v : vals) {
+            if (supertypes) candidates.addAll(v.type().getTransitiveExtends());
+            else candidates.add(v.type());
+        }
         for (FValue v : vals) candidates.addAll(Coercions.coercionTargets(v, within));
         if (bounds != null) candidates.addAll(bounds);
         List<FType> admitted = new ArrayList<FType>();
@@ -312,8 +519,21 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     public static Simple_fcn inferByUnification(List<FValue> args,
                                                 GenericFunctionOrMethod appliedThing,
                                                 Environment envForInference) throws ProgramError {
+        return inferByUnification(args, appliedThing, envForInference, false);
+    }
+
+    /**
+     * With bounded, a type parameter that no argument fixes and whose bounds
+     * mention no static parameter takes its bound, as in inferWithCoercion;
+     * without, it is BottomType, which is how a declaration is chosen.
+     */
+    private static Simple_fcn inferByUnification(List<FValue> args,
+                                                 GenericFunctionOrMethod appliedThing,
+                                                 Environment envForInference,
+                                                 boolean bounded) throws ProgramError {
 
         if (DUMP_INFERENCE) System.err.println("IAIGF " + appliedThing + " with " + args);
+        final List<FValue> originalArgs = args;
 
         GenericTypeInstance selfType = null; // initialized if generic functional method
 
@@ -347,9 +567,8 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         EvalType et = new EvalType(appliedThing.getWithin());// e);
         // The types of the actual parameters ought to unify with the
         // types of the formal parameters.
-        BoundingMap<String, FType, TypeLatticeOps> abm = new
-                // ABoundingMap
-                LatticeIntervalMap<String, FType, TypeLatticeOps>(TypeLatticeOps.V, DefaultComparator.V);
+        BoundingIntervals abm = new BoundingIntervals(bounded);
+        Set<String> fixable = new HashSet<String>();
         Param p = null;
         Set<String> tp_set = new HashSet<String>();
         List<StaticParam> rechecks = null;
@@ -415,14 +634,19 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                          * Fake the type for a generic functional method
                          * invocation.
                          */
-                        if (p.getName().toString().equals("self") && appliedThing instanceof GenericFunctionalMethod) {
+                        if (p.getName().toString().equals("self") &&
+                            appliedThing instanceof GenericFunctionalMethod.Own) {
+                            continue;
+                        } else if (p.getName().toString().equals("self") &&
+                                   appliedThing instanceof GenericFunctionalMethod) {
                             // Use precomputed selfType that will match declared
                             GenericTypeInstance gi = (GenericTypeInstance) selfType;
-
+                            Type selfInst = gi.getGeneric().getInstantiationForFunctionalMethodInference();
+                            fixable.addAll(mentions(selfInst, tp_set));
                             at.unify(envForInference,
                                      tp_set,
                                      abm,
-                                     gi.getGeneric().getInstantiationForFunctionalMethodInference());// instantiationAST());
+                                     selfInst);// instantiationAST());
                         } else {
                             if (DUMP_INFERENCE) System.err.println("Parameter lacks type.");
                             error("Parameter needs type for generic resolution");
@@ -430,11 +654,13 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                     } else {
                         Type ty = NodeUtil.optTypeOrPatternToType(t).unwrap();
                         if (DUMP_INFERENCE) System.err.println("Unifying " + at + " and " + ty);
+                        fixable.addAll(mentions(ty, tp_set));
                         at.unify(envForInference, tp_set, abm, ty);
                     }
                 } else { // a varargs param
                     Type ty = p.getVarargsType().unwrap();
                     if (DUMP_INFERENCE) System.err.println("Unifying " + at + " and vararg type " + ty);
+                    fixable.addAll(mentions(ty, tp_set));
                     at.unify(envForInference, tp_set, abm, ty);
                 }
             }
@@ -501,12 +727,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
          * Iterate over static parameters, choosing least-general binding for
          * each one.
          */
-        ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
-        for (StaticParam tp : tparams) {
-            FType t = abm.get(NodeUtil.getName(tp));
-            if (t == null) t = BottomType.ONLY;
-            tl.add(t);
-        }
+        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, rechecks, bounded, appliedThing, originalArgs);
         Simple_fcn sfcn = appliedThing.typeApply(tl);
         if (DUMP_INFERENCE) System.err.println("Result " + sfcn);
         return sfcn;

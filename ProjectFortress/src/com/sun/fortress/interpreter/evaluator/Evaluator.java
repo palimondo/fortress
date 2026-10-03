@@ -1438,8 +1438,8 @@ public class Evaluator extends EvaluatorBase<FValue> {
             result = ev.evalExprList(elseClauses.getExprs(), elseClauses);
             return result;
         } else {
-            // throw new MatchFailure();
-            return error(x, e, errorMsg("typecase match failure given ", resTy));
+            FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.matchFailureException);
+            throw new FortressError(x, e, f);
         }
     }
 

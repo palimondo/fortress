@@ -1,0 +1,33 @@
+(* A type parameter declared with two bounds, unfixed or fixed by arguments with no narrowest type, takes their intersection and never BottomType, under walk. *)
+component XXXInferSeveralBoundsWalk
+export Executable
+
+trait Red end
+trait Round end
+object Apple extends { Red, Round } end
+object Cherry extends { Red, Round } end
+
+thr[\T\](): T = throw ForbiddenException
+
+witnessRed[\T extends { Red, Round }\](): String = typecase thr[\T\] of
+    () -> ZZ32 => "ZZ32"
+    () -> Red => "Red"
+    else => "other"
+  end
+
+witnessRound[\T extends { Red, Round }\](): String = typecase thr[\T\] of
+    () -> ZZ32 => "ZZ32"
+    () -> Round => "Round"
+    else => "other"
+  end
+
+pick2[\T extends { Red, Round }\](a: T, b: T): String = "pick2"
+
+run(): () = do
+    assert(witnessRed(), "Red", "a type parameter with the two declared bounds Red and Round that nothing at the call fixes takes their intersection, a subtype of Red, never BottomType, so its witness takes the Red clause (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(witnessRound(), "Round", "a type parameter with the two declared bounds Red and Round that nothing at the call fixes takes their intersection, a subtype of Round, never BottomType, so its witness takes the Round clause (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(pick2(Apple, Cherry), "pick2", "a type parameter with the two declared bounds Red and Round, whose two arguments have no narrowest type, takes their intersection, never BottomType, and the call runs (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

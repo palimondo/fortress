@@ -1,0 +1,16 @@
+(* The MatchFailure that a typecase with no matching clause throws is an unchecked exception, under walk. *)
+component XXXTypecaseNoMatchUncheckedWalk
+export Executable
+
+kind(x: Any): String =
+    typecase x of
+        String => "string"
+    end
+
+run() = do
+    r = try kind(3) catch e UncheckedException => "unchecked" end
+    assert(r, "unchecked", "a typecase with no matching clause throws MatchFailure, an unchecked exception, which a catch clause for UncheckedException catches (typecase.tex, section \"Typecase Expressions\")")
+    println("PASS")
+end
+
+end

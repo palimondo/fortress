@@ -1,0 +1,24 @@
+(* A lone type parameter that another type parameter's bound mentions takes the narrowest candidate its bound permits, the argument's ZZ32, on the compiled path. *)
+component XXXInferDependentBound
+export Executable
+
+object BoxU[\T extends Any\]() end
+
+idS[\S extends Number\](s: S): BoxU[\S\] = BoxU[\S\]()
+depS[\S extends Number, U extends BoxU[\S\]\](s: S): BoxU[\S\] = BoxU[\S\]()
+
+kindS(x: Any): String = typecase x of
+    BoxU[\ZZ32\] => "BoxU[ZZ32]"
+    BoxU[\Number\] => "BoxU[Number]"
+    else => "other"
+  end
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 3
+    assert(kindS(idS(z)), "BoxU[ZZ32]", "a lone type parameter bounded by Number given a ZZ32 takes ZZ32, the narrowest candidate its bound permits (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindS(depS(z)), "BoxU[ZZ32]", "a lone type parameter bounded by Number given a ZZ32 takes ZZ32, the narrowest candidate its bound permits, also where another type parameter's bound mentions it (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end
