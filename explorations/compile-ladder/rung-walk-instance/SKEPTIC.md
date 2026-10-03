@@ -1,3 +1,65 @@
+# Second judgement
+
+Judged head: `5ff5ebf73` (branch `wip/rung-walk-instance`). The repair round's commits are `211610c19` (tests alone), `5b5c00071` (the boxes, Appendix I, the decision record) and `5ff5ebf73` (REPORT.md, record.md). None changes code: the last commit that does is still `0244b0ce4`, whose build the worktree holds and whose interpreter-suite run (486 tests, REPORT.md section 6.2) stands.
+
+**Verdict: approved.** The repair answers each part of the refusal as the judge ruled, and it changes nothing I approved.
+
+## 1. The refusal, part by part
+
+**F1, several declared bounds (home 2, row 591).** `ProjectFortress/tests/XXXInferSeveralBoundsWalk.fss` asserts the intersection for `witnessRed`, `witnessRound` and `pick2(Apple, Cherry)`. Through `harness-one.sh` on the worktree's build it fails at its first assertion, 'FAIL: J4/0:ZZ32 =/= J3/0:Red; ...' / ' OK Saw expected exception' (REPORT.md section 5.7; run at 01:32:55Z). The copy with the static arguments written prints 'PASS' / ' Missing expected failure' (REPORT.md section 5.7), so the key goes red on a fix. The copy also puts `Apple` and `Cherry` under a trait `Both`, as the ruling ordered, so that `pick2[\Both\]` exists. My `SkTwoBoundW` and `SkTwoBoundLone`, run again at `5ff5ebf73`, print what they printed at `8f5ac2199`: 'two bounds: ZZ32 clause (T is BottomType)' / 'one bound: Red clause', and 'Cannot unify Red ... with Round ... abm=T=(Red,Red)'.
+
+**F2, decision D3 (home 2, row 592).** `XXXInferThroughBoundWalk.fss` binds `ap(Apple)` and `apF(Apple)` without declared types and asserts `BoxU[Any]` and `BoxU[Fruit]`. It fails with 'FAIL: J11/0:BoxU[Apple] =/= J9/0:BoxU[Any]' and ' OK Saw expected exception', and its stand-in `ap[\Any, Apple\]`, `apF[\Fruit, Apple\]` passes. My `SkThroughBound` at the head still prints 'ap BoxU[Apple]' / 'apF BoxU[Apple]'. D3 now has its Departure line in `decision-record.md`, and the second box names it.
+
+**F3, row 587 (home 2).** The pin was moved by `git mv` to `XXXInferUntypedLambdaResultWalk.fss`. The typed assertion stays first, and the untyped one asserts a supertype of `Apple` through `holdsApple`, whose four clauses are every supertype `Apple` has here. That is the judge's J1. It fails with 'FAIL: J2/0:no =/= J3/0:yes' and ' OK Saw expected exception', and its stand-in `thunk[\Apple\]` passes. My `SkLambda` at the head still prints 'untyped other' / 'untypedF other'.
+
+**J2, the two compiled pairs (rows 593, 594).** These are `XXXInferDependentBound` and `XXXGenericFunctionalMethodSelfSecond`, each with a link test and an XXX run test keyed on `REACHED`, never `PASS`. Run through `junit.sh` in the base copy, the links pass. The run tests print 'REACHED' and then 'FAIL:  BoxU[Number] =/= BoxU[ZZ32]' (the control `idS` passes first) or 'NoSuchMethodError', each followed by 'Saw expected failure' (REPORT.md section 5.7). Their stand-ins print 'PASS' / 'Did not see expected failure' (REPORT.md section 5.7).
+
+**Order.** The harness runs (01:32:55 to 01:34:30) came before the tests-only commit `211610c19` (01:34:59), and that commit came before any text edit (the first `inference.tex` edit is at 01:37:01, transcript `agent-a9a28e9d6896a7f91`). The round built nothing. Its own probes ran walk on this build and in the base copy (`RpInside`, `RpInside2`, `RpInside3`, `RpFJoin`).
+
+**Citations.** Every new message names a file and a section, never a line. The named sections say what the messages say:
+- inference.tex, "The Static Arguments of a Call": the intersection of the upper bounds, never `BottomType`, a parameter that neither an argument nor the expected type fixes, and the narrowest candidate the bounds permit;
+- types-vals-vars.tex, "Special Types": no value has `BottomType`;
+- traits.tex, "Method Declarations": `self` "at an arbitrary position in its parameter list".
+
+**The corrections of my first judgement.**
+1. The first box now states D5's exception.
+2. The Rationale no longer says "two kinds".
+3. D2's Cost says the case is unmeasured and why.
+4. REPORT.md section 1 gives the qualification of the test-first order.
+5. Both boxes and the Effect name the several-bounds case and D3.
+
+Two departures from the ruling's wording are the round's own, and the code bears them out:
+- Walk's meet fails for any two bounds neither of which is a subtype of the other (`types/FType.java:338-348`).
+- A parameter with several bounds is bound to the arguments' narrowest named common supertype where one exists. My `SkTwoBoundNarrow` gives `pk(Apple, Cherry)` the instance `BoxU[Both]`, and `BoxU[Apple]` and `BoxU[Plum]` for two equal arguments, the same on the base. Over `Apple` and `Plum` the call fails ('Cannot unify Red ... with Round'; on the base, the join bug). Unfixed, `mk()` is still `BottomType` ('other').
+
+## 2. What I approved stands
+
+The diff changes no code. It touches:
+- three walk test files (one of them the rename) and two compiled pairs;
+- the two interpreter boxes of `inference.tex` and Appendix I's entry, with no normative sentence changed;
+- the decision record, REPORT.md and record.md.
+
+No team test line and no demo is touched. The five repaired rows keep their home-1 tests, and those tests passed through the harness on the same code (REPORT.md section 5.5).
+
+## 3. Differentials (one thread, `FORTRESS_THREADS=1`; the repair touches no shared state)
+
+- `SkTwoBoundW`, `SkTwoBoundLone`, `SkThroughBound`, `SkLambda` at `5ff5ebf73`: identical to the outputs recorded at `8f5ac2199`.
+- `SkTwoBoundNarrow` (new): the head and the base both give `pk[\T extends { Red, Round }\]` `BoxU[Both]`, `BoxU[Apple]` and `BoxU[Plum]`, and `mk()` `other`. `pk(Apple, Plum)` fails on both: a unification error on the head, the join bug on the base. Verdict: the first box's "as before ... where there is one, and where there is none ... fails" is true.
+- `SkDepLone` / `SkDepLone2` (new): `loneS`/`loneT[\S, T extends S\](a: T, b: T, s: S)`.
+  - Over `Apple, Cherry, Apple` the head gives `S` and `T` both `BoxU[Any]`, where the base stops at the join.
+  - Over `Apple, Pear, Pear` the head and the base both give `Fruit` for both.
+  - Over three `Apple`s both give `Apple`.
+  - Verdict: this is D5's reach as `decision-record.md` D5 and the round's decision R1 state it. The box is silent on the case with no narrowest supertype, by R1.
+
+## 4. Findings, none a refusal ground
+
+- The Rationale of Appendix I's entry names three kinds of departure by decision and three as defects. It leaves out D5, which the first box names: a lone parameter whose bound mentions a static parameter keeps the arguments' narrowest named common supertype, not its bound. The same holds for `decision-record.md` section 1.3. Required correction.
+- record.md's FACTS entry lists what stays at `BottomType` without row 588, which the first box names. Required correction.
+- Moving the typed control `thunk(fn (): Apple => Apple)` into an XXX file leaves it ungated: an XXX file fails as expected whichever assertion fails. It was a control, not a repaired defect, and the ruling ordered it kept first, so this is not a correction.
+- `RpFJoin`: a lone F-bounded parameter over arguments with several minimal supertypes fails on the base and on the head, but the failure changed from the join's `InterpreterBug` to a unification error. D5's text says keeping the supertypes "keeps that case unchanged without P1". The verdict is unchanged; the failure is not. The round records it as a note on row 555 (home 3, decision R2). I list it as a stop below, so that Pavol sees it.
+
+---
+
 # Skeptic, rung W (`rung-walk-instance`), first judgement
 
 Judged head: `8f5ac2199` (branch `wip/rung-walk-instance`). The last commit that changes code is `0244b0ce4`. The two commits after it, `e03f8694c` and `8f5ac2199`, change only `Specification/` and `explorations/`.
