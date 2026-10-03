@@ -32,8 +32,8 @@ run() = do
     cs = a || b
     flat = "abc"
     assert(cs.ilkName, "CatString", "two twenty-character strings concatenate into a CatString")
-    assert(cs.left, cs.asFlatString.left, "a concatenated string's left getter is String's and answers the first character as its flat form does, its halves being fields of other names (objects.tex, section Field Declarations)")
-    assert(cs.right, cs.asFlatString.right, "a concatenated string's right getter is String's and answers the last character as its flat form does (objects.tex, section Field Declarations)")
+    assert(cs.left, cs.asFlatString.left, "a concatenated string's left getter is String's and answers the first character as its flat form does, its halves being fields of other names (traits.tex, section Abstract Field Declarations)")
+    assert(cs.right, cs.asFlatString.right, "a concatenated string's right getter is String's and answers the last character as its flat form does (traits.tex, section Abstract Field Declarations)")
     assert(cs.first, a, "the first half of the concatenated string is its first twenty characters")
     assert(cs.second, b, "the second half of the concatenated string is its last twenty characters")
     assert(cs.size, 40, "the concatenated string has forty characters")
@@ -71,6 +71,8 @@ run() = do
     assert(sub CASE_INSENSITIVE_CMP "AABCD", EqualTo, "the substring compares equal to AABCD ignoring case")
     assert('b' IN sub, true, "b is in the substring")
     assert('z' IN sub, false, "z is not in the substring")
+    assert('a' IN sub, false, "pins today's answer, false: a flat string's rangeContains finds only the first occurrence of the character, and the two a's of the substring aabcd lie past the first a of its flat half")
+    assert("abca".rangeContains(3#1, 'a'), false, "pins today's answer, false: a flat string's rangeContains finds only the first occurrence of the character, so the a of abca at 3 is not found in 3#1")
     assert(sub.balanced(), "aabcd", "the substring balanced is aabcd")
     assert("abcdef"[0:4:2], "ace", "abcdef at the strided range 0:4:2 is its characters at 0, 2 and 4, ace (ranges.tex, section Ranges)")
     assert(cs[20:30:2], "bdfhjl", "the concatenated string at 20:30:2 is its characters at every second index from 20 to 30, bdfhjl (ranges.tex, section Ranges)")
