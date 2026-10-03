@@ -34,7 +34,7 @@ identity[\T extends Any\](x:T):T
 (* Function composition *)
 opr COMPOSE[\A,B,C\](f: B->C, g: A->B): A->C
 
-fail[\T extends Object\](s:String):T
+fail[\T\](s:String):T
 
 (************************************************************
 * \subsection*{Control over locality and location}
@@ -522,7 +522,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr ^(self, b:IntLiteral):RR64
     opr /(self, other:NN64):QQ
     narrow(self):NN32
-    signed(self):NN64
+    signed(self):ZZ64
 end
 
 trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
@@ -1151,6 +1151,9 @@ end
 object FloatingComparisonError extends UncheckedException
 end
 
+object MatchFailure extends UncheckedException
+end
+
 (* Checked Exceptions *)
 
 trait CheckedException extends Exception excludes UncheckedException
@@ -1160,9 +1163,6 @@ object CastError extends CheckedException
 end
 
 object IOFailure extends CheckedException
-end
-
-object MatchFailure extends CheckedException
 end
 
 (* SetsNotDisjoint? *)

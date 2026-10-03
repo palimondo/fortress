@@ -1433,6 +1433,16 @@ object StridedFullRange3D(l_i:ZZ32, l_j:ZZ32, l_k:ZZ32, r_i:ZZ32, r_j:ZZ32, r_k:
         self.recombine(self.range1.forward(), self.range2.forward(), self.range3.forward())
     recombine(i:FullScalarRange, j:FullScalarRange, k:FullScalarRange):
             FullRange3D = combine3D(i, j, k)
+    shiftLeft(amount: (ZZ32, ZZ32, ZZ32)): StridedFullRange3D = do
+        (shift_i, shift_j, shift_k) = amount
+        StridedFullRange3D(l_i-shift_i, l_j-shift_j, l_k-shift_k, r_i-shift_i, r_j-shift_j, r_k-shift_k,
+                           str_i, str_j, str_k)
+      end
+    shiftRight(amount: (ZZ32, ZZ32, ZZ32)): StridedFullRange3D = do
+        (shift_i, shift_j, shift_k) = amount
+        StridedFullRange3D(l_i+shift_i, l_j+shift_j, l_k+shift_k, r_i+shift_i, r_j+shift_j, r_k+shift_k,
+                           str_i, str_j, str_k)
+      end
   end
 
 

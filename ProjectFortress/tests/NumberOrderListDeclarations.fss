@@ -1,0 +1,68 @@
+(* The numbers', orderings', lists' and natives' declarations of the one library answer their values under walk. *)
+component NumberOrderListDeclarations
+import List.{...}
+export Executable
+
+numbers(): () = do
+    q: QQ = 3/7
+    assert(simplestRationalBetween(q, q), q, "the simplest rational between a number and itself is that number")
+    assert(simplestRationalBetween(1/3, 1/2), 1/2, "the simplest rational in [1/3, 1/2] is 1/2")
+    assert(even(4) AND odd(3), "basic-integers.tex, section \"Integers\": even and odd of a ZZ32")
+    assert(NOT even(widen(7)), "basic-integers.tex, section \"Integers\": even of a ZZ64")
+    assert(even(big(10)) AND even(unsigned(6)) AND odd(widen(unsigned(5))), "basic-integers.tex, section \"Integers\": even and odd of a ZZ, an NN32 and an NN64")
+    n: NN64 = widen(unsigned(7))
+    assert(signed(n), widen(7), "the signed reading of an NN64 is the ZZ64 of the same bits")
+    assert(instanceOf[\ZZ64\](signed(n)), "the signed reading of an NN64 is a ZZ64")
+    z: ZZ = n
+    assert(z, big(7), "basic-integers.tex, section \"Integers\": an NN64 coerces into ZZ")
+    w: ZZ64 = unsigned(5)
+    assert(w, widen(5), "an NN32 coerces into ZZ64")
+    assert(n.zero, widen(unsigned(0)), "the zero of an NN64")
+    assert(n.one, widen(unsigned(1)), "the one of an NN64")
+    inf: QQ = 1/0
+    assert(instanceOf[\QQ\](ceiling(inf)) AND instanceOf[\QQ\](truncate(inf)), "basic-lib/numbers.tex, section \"Rational Numbers\": ceiling and truncate return the argument if it is an infinity")
+    assert(partition(10), (8, 2), "partition of 10 is the largest power of 2 below it and the rest")
+  end
+
+orderings(): () = do
+    assert(3, 3, "equal numbers")
+    deny(3, 4, "unequal numbers")
+    assert((1,2), (1,2), "equal pairs")
+    shouldRaise[\DivisionByZero\](fn () => throw DivisionByZero)
+    assert((1,2) < (1,3), "pairs compare lexicographically")
+    assert(((1,2),3) < ((1,3),0), "pairs whose first elements are pairs compare lexicographically")
+    assert((1,2,3) CMP (1,2,2), GreaterThan, "triples compare lexicographically")
+    assert((1.5, 2) < (2.5, 1), "pairs of a float and an integer compare lexicographically")
+    assert(<|1,2|> < <|1,3|>, "opr-overview.tex, subsection \"Comparisons Operators\": lists compare lexicographically when their elements support the comparison")
+  end
+
+lists(): () = do
+    assert(<| k + 1 | k <- <|1,2,3|> |>, <|2,3,4|>, "a list comprehension")
+    assert(<| (k, k > 1) | k <- <|1,2|> |>, <|(1,false), (2,true)|>, "a list comprehension at a tuple type")
+    assert(|<| () | _ <- <|1,2|> |>|, 2, "a list comprehension at ()")
+    l = <|5,6,7|>
+    assert(<| (i, v) | (i, v) <- l.indexValuePairs |>, <|(0,5), (1,6), (2,7)|>, "a list's index-value pairs")
+    assert(<|1,2|> || <|3|>, <|1,2,3|>, "concatenation into the left list's space")
+    assert(<|1|> || (<|3,4|>.addLeft(2)), <|1,2,3,4|>, "concatenation into the right list's left space")
+    assert((<|1,2|>.addRight(3)).addLeft(0), <|0,1,2,3|>, "addLeft and addRight")
+    assert(<|1,2|>.concatMap[\ZZ32\](fn (x: ZZ32): List[\ZZ32\] => singleton[\ZZ32\](x) || singleton[\ZZ32\](x)).asString, "<|1, 1, 2, 2|>", "concatMap concatenates")
+    assert((<|1,2|>.generate[\List[\ZZ32\]\](Concat[\ZZ32\], singleton[\ZZ32\])).asString, "<|1, 2|>", "the list concatenation reduction")
+  end
+
+natives(): () = do
+    print("")
+    t = spawn (3 + 4)
+    assert(t.val(), 7, "parallelism.tex, section \"Threads and Parallelism\": val returns the spawned value")
+    assert(t.ready(), "a completed thread is ready")
+    assert(instanceOf[\ZZ\](big(5)), "a BigNum is a ZZ")
+  end
+
+run(): () = do
+    numbers()
+    orderings()
+    lists()
+    natives()
+    println("PASS")
+  end
+
+end

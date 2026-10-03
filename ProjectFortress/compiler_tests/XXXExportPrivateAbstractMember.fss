@@ -1,0 +1,8 @@
+(* The main component of XXXExportPrivateAbstractMember: a Square of side 3 has area 9 (row 637). *)
+component XXXExportPrivateAbstractMember
+import XXXExportPrivateAbstractMemberApi.{...}
+export Executable
+
+run(): () = println(if Square(3).area() = 9 then "PASS" else "WRONG" end)
+
+end

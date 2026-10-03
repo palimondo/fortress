@@ -51,7 +51,7 @@ identity[\T extends Any\](x:T):T = x
 (* Function composition *)
 opr COMPOSE[\A,B,C\](f: B->C, g: A->B): A->C = fn (a:A): C => f(g(a))
 
-fail[\T extends Object\](s:String):T = do
+fail[\T\](s:String):T = do
     errorPrintln("FAIL: " s)
     throw FailCalled(s)
   end
@@ -303,7 +303,15 @@ assert(flag: Boolean, failMsg: String): () =
 
 assert(x:Any, y:Any, failMsg: Any...): () =
     if x =/= y then
-        msg = x.asDebugString " =/= " y.asDebugString "; " (BIG || failMsg)  (* use || here instead of loose juxt *)
+        xs = typecase x of
+                 x':Object => x'.asDebugString
+                 else => "" x
+             end
+        ys = typecase y of
+                 y':Object => y'.asDebugString
+                 else => "" y
+             end
+        msg = xs " =/= " ys "; " (BIG || failMsg)  (* use || here instead of loose juxt *)
         fail(msg)
     end
 
@@ -313,18 +321,27 @@ deny(flag: Boolean, failMsg: String): () = assert(NOT flag, failMsg)
 
 deny(x:Any, y:Any, failMsg: Any...): () =
     if x = y then
-        msg = x.asDebugString " = " y.asDebugString "; " (BIG || failMsg)
+        xs = typecase x of
+                 x':Object => x'.asDebugString
+                 else => "" x
+             end
+        ys = typecase y of
+                 y':Object => y'.asDebugString
+                 else => "" y
+             end
+        msg = xs " = " ys "; " (BIG || failMsg)
         fail(msg)
     end
 
 shouldRaise⟦Ex extends Exception⟧ (expr: ()→()): () = do
-    try
+    raised = try
         expr()
-        throw ForbiddenException
-    catch x
-        Ex => assert(true) (* This is what we hope for *)
-    forbid Exception
-    end
+        false
+      catch x
+        Ex => true (* This is what we hope for *)
+      forbid Exception
+      end
+    if NOT raised then throw ForbiddenException(TestFailure) end
 end
 
 
@@ -515,7 +532,7 @@ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
     neg : Boolean := false
     typecase a CMP b of
         Unordered => exit done with 0/0
-        EqualTo => a
+        EqualTo => exit done with a
         GreaterThan =>
             (n0,d0,n1,d1) := (n1,d1,n0,d0)
         else => ()
@@ -674,7 +691,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     opr MINNUM(self, other:I):I = self MIN other
     opr MAXNUM(self, other:I):I = self MAX other
     odd(self): Boolean = NOT (even self)
-    even(self): Boolean = (self MOD 2) = 0
+    even(self): Boolean = (self MOD (self.one + self.one)) = self.zero
     opr -(self):I
     opr DOTMINUS(self):I
     opr +(self,b:I):I
@@ -957,7 +974,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Partition")
     narrow(self):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$FromLong")
-    signed(self):NN64 =
+    signed(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToLong")
     opr /(self, other:NN64):QQ = do a: ZZ = self; b: ZZ = other; a / b end
 end
@@ -1699,6 +1716,10 @@ object FloatingComparisonError extends UncheckedException
     getter asString(): String = "Floating comparison error"
 end
 
+object MatchFailure extends UncheckedException
+    getter asString(): String = "Match failure"
+end
+
 (* Checked Exceptions *)
 
 trait CheckedException extends Exception excludes UncheckedException
@@ -1710,10 +1731,6 @@ end
 
 object IOFailure extends CheckedException
     getter asString(): String = "I/O error"
-end
-
-object MatchFailure extends CheckedException
-    getter asString(): String = "Match failure"
 end
 
 (* SetsNotDisjoint? *)
@@ -2178,7 +2195,7 @@ end
    and n > 0 then 0 < a <= b,  n = a + b.
    As it turns out we choose a to be the largest power of 2 < n.
 *)
-partition[\I extends Integral[\I\]\](x:I):(I,I) = do
+partition(x:ZZ32):(ZZ32,ZZ32) = do
     m = partitionL(x)
     (m,x-m)
   end
@@ -2419,7 +2436,7 @@ __immutableFactory1[\T, nat b0, nat s0\]():ReadableArray1[\T,b0,s0\] = do
     end
   end
 
-__thrower[\T\](): T = throw ForbiddenException
+__thrower[\T\](): T = throw ForbiddenException(CallerViolation)
 
 (* TODO: fix when Number is covariant. *)
 array1[\T, nat s0\]():Array1[\T,0,s0\] =

@@ -52,7 +52,7 @@ api List
     into a list whose element type is as specific as possible.  This
     should not be necessary in the presence of true type
     inference. **)
-trait AnyList excludes { Number, HasRank }
+trait AnyList excludes { Number, HasRank, String }
         (** \vspace{-4ex} Not yet: ``%comprises List[\E\] where [\E\]%'' *)
     opr ||(self, f:AnyList): AnyList
     addLeft(e:Any): AnyList
@@ -73,29 +73,30 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
       element. *)
   getter left():Maybe[\E\]
   getter right():Maybe[\E\]
-  getter extractLeft(): Maybe[\(E,List[\E\])\]
-  getter extractRight(): Maybe[\(List[\E\],E)\]
+  abstract getter extractLeft(): Maybe[\(E,List[\E\])\]
+  abstract getter extractRight(): Maybe[\(List[\E\],E)\]
   getter reverse(): List[\E\]
   (** the operator %||% returns a list containing the elements of %self% followed
       by the elements of %f% *)
-  opr ||(self, other:List[\E\]): List[\E\]
+  abstract opr ||(self, other:List[\E\]): List[\E\]
   (** %addLeft% and %addRight% add an element to the left or right of
       the list, respectively *)
-  addLeft(e:E):List[\E\]
-  addRight(e:E):List[\E\]
+  abstract addLeft(e:E):List[\E\]
+  abstract addRight(e:E):List[\E\]
   (** %take% returns the leftmost %n% elements of the list; if the
       list is shorter than this, the entire list is returned. *)
-  take(n:ZZ32): List[\E\]
+  abstract take(n:ZZ32): List[\E\]
   (** %drop% drops the leftmost %n% elements of the list; if the list
       is shorter than this, an empty list is returned. *)
-  drop(n:ZZ32): List[\E\]
+  abstract drop(n:ZZ32): List[\E\]
+  abstract opr [n:ZZ32]: E
   (** %l.split(n)% is equivalent to %(l.take(n),l.drop(n))%.  Note in
       particular that appending its results yields the original
       list. *)
-  split(n:ZZ32): (List[\E\], List[\E\])
+  abstract split(n:ZZ32): (List[\E\], List[\E\])
   (** %split% splits the list into two smaller lists.  If %|l| > 1%
       both lists will be non-empty. *)
-  split(): (List[\E\], List[\E\])
+  abstract split(): (List[\E\], List[\E\])
   filter(p: E -> Boolean): List[\E\]
   (** %concatMap% is an in-place version of the %nest% method from
       %Generator%; it flattens the result into an actual list, rather than
@@ -106,7 +107,7 @@ end
 (** Vararg factory for lists; provides aggregate list constants: *)
 opr <|[\E\] xs: E... |>: List[\E\]
 (** List comprehensions: *)
-opr BIG <|[\T extends Object\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
+opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
 opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\]
 
 opr BIG CONCAT[\T\](): BigReduction[\List[\T\],List[\T\]\]
@@ -116,7 +117,7 @@ opr BIG CONCAT[\T\](g: Generator[\List[\T\]\]):List[\T\]
 list[\E\](g:Generator[\E\]):List[\E\]
 
 (** Flatten a list of lists *)
-concat[\E\](x:List[\List[\E\]\]):List[\E\]
+concat[\E\](lists:Indexed[\List[\E\],ZZ32\]):List[\E\]
 
 emptyList[\E\](): List[\E\]
 
