@@ -32,8 +32,8 @@ run() = do
     cs = a || b
     flat = "abc"
     assert(cs.ilkName, "CatString", "two twenty-character strings concatenate into a CatString")
-    assert(cs.left, cs.asFlatString.left, "a concatenated string's first character is that of its flat form")
-    assert(cs.right, cs.asFlatString.right, "a concatenated string's last character is that of its flat form")
+    assert(cs.left, cs.asFlatString.left, "a concatenated string's left getter is String's and answers the first character as its flat form does, its halves being fields of other names (objects.tex, section Field Declarations)")
+    assert(cs.right, cs.asFlatString.right, "a concatenated string's right getter is String's and answers the last character as its flat form does (objects.tex, section Field Declarations)")
     assert(cs.first, a, "the first half of the concatenated string is its first twenty characters")
     assert(cs.second, b, "the second half of the concatenated string is its last twenty characters")
     assert(cs.size, 40, "the concatenated string has forty characters")
@@ -48,7 +48,7 @@ run() = do
     assert(piecesOf(sub.splitWithOffsets()), "0:aa;2:bcd;", "a substring across the halves splits into its part of each half")
     for (o, p) <- seq(sub.splitWithOffsets()) do
         assert(p.ilkName, "SubString", "each piece of the substring is a substring of a flat half")
-        assert(writtenBy(p), p.asFlatString, "a substring of a flat string writes its own characters")
+        assert(writtenBy(p), p.asFlatString, "a substring of a flat string writes its own characters, one parenthesized write per character (method-invocation.tex, section Dotted Method Invocations)")
     end
     assert(writtenBy(sub), "aabcd", "the substring writes aabcd")
     assert(writtenBy(cs), a || b, "the concatenated string writes both halves")
