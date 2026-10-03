@@ -18,6 +18,7 @@ import com.sun.fortress.compiler.index.ComponentIndex;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.env.*;
+import com.sun.fortress.interpreter.evaluator.BuildEnvironments;
 import com.sun.fortress.interpreter.evaluator.CollectTests;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.Init;
@@ -223,6 +224,7 @@ public class Driver {
         for (CUWrapper cw : components) {
             cw.initTypes();
         }
+        BuildEnvironments.checkComprisesClauses(components, comp);
         for (CUWrapper cw : components) {
             scanAllFunctionalMethods(cw.getEnvironment());
         }

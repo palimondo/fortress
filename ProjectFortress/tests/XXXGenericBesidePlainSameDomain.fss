@@ -1,0 +1,16 @@
+component XXXGenericBesidePlainSameDomain
+export Executable
+
+(* A generic declaration whose declared domain at its bound equals a plain declaration's is no valid overloading: neither is more specific than the other and nothing excludes or disambiguates them, so the program is refused at load (row 549); Specification/advanced/overloading.tex, sections "Subtype Rule" and "Declarations with Static Parameters". *)
+
+trait Wide end
+object Narrow extends Wide end
+
+tie[\T extends Wide\](a: T, b: T): String = "generic"
+tie(a: Wide, b: Wide): String = "plain"
+
+run(): () = do
+    println(tie(Narrow, Narrow))
+  end
+
+end

@@ -31,6 +31,7 @@ import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.StaticArg;
 import com.sun.fortress.nodes.StaticParam;
 import com.sun.fortress.nodes.Type;
+import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.TypeOrPattern;
 import com.sun.fortress.nodes.VarType;
 import com.sun.fortress.nodes_util.NodeUtil;
@@ -726,40 +727,54 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
     /**
      * The overlap of an own generic and a plain declaration, neither inside
-     * the other, is covered by declarations below both.  The generic's
-     * domain is read at its bounds (Any where it has none), which holds
-     * every value of it when each of its type parameters is the whole type
-     * of the parameters it occurs in and has at most one bound, a bound that
-     * names no static parameter; any other generic is not read, and the pair
-     * stays refused.
+     * the other, is covered by declarations below both.  Each parameter of
+     * the generic is read as the types whose intersection holds every value
+     * it takes in any instance: a type parameter as its bounds that name no
+     * static parameter, a type that mentions a static parameter as Any, and
+     * any other type as itself.
      */
     static private boolean genericOverlapCovered(Overload gen, Overload plain, Collection<Overload> all) {
         GenericFunctionOrMethod g = (GenericFunctionOrMethod) gen.getFn();
         List<StaticParam> sps = g.getStaticParams();
         Set<String> names = new HashSet<String>();
         for (StaticParam sp : sps) names.add(NodeUtil.getName(sp));
-        for (StaticParam sp : sps) {
-            if (!NodeUtil.isTypeParam(sp) || sp.getExtendsClause().size() > 1) return false;
-            for (BaseType b : sp.getExtendsClause()) {
-                if (!staticParamsNamed(b, names).isEmpty()) return false;
-            }
-        }
+        List<Type> types = new ArrayList<Type>();
         for (Param prm : g.getParams()) {
             if (NodeUtil.isVarargsParam(prm)) return false;
             Option<TypeOrPattern> ot = prm.getIdType();
             if (ot.isNone()) return false;
-            Type ty = NodeUtil.optTypeOrPatternToType(ot).unwrap();
-            if (ty instanceof VarType && names.contains(NodeUtil.nameString(((VarType) ty).getName()))) continue;
-            if (!staticParamsNamed(ty, names).isEmpty()) return false;
+            types.add(NodeUtil.optTypeOrPatternToType(ot).unwrap());
         }
+        List<FType> plainDomain = plain.getParams();
+        int n = plainDomain.size();
+        if (types.size() == 1 && n != 1 && types.get(0) instanceof TupleType) {
+            TupleType tt = (TupleType) types.get(0);
+            if (tt.getVarargs().isSome() || !tt.getKeywords().isEmpty()) return false;
+            types = tt.getElements();
+        }
+        if (types.size() != n) return false;
         EvalType et = new EvalType(g.getWithin());
-        List<FType> atBounds = new ArrayList<FType>(sps.size());
-        for (StaticParam sp : sps) {
-            List<BaseType> bs = sp.getExtendsClause();
-            atBounds.add(bs.isEmpty() ? FTypeTop.ONLY : et.evalType(bs.get(0)));
+        List<List<FType>> genDomain = new ArrayList<List<FType>>(n);
+        for (Type ty : types) {
+            List<FType> holds = new ArrayList<FType>();
+            StaticParam tp = null;
+            if (ty instanceof VarType) {
+                String v = NodeUtil.nameString(((VarType) ty).getName());
+                for (StaticParam sp : sps) {
+                    if (NodeUtil.isTypeParam(sp) && NodeUtil.getName(sp).equals(v)) tp = sp;
+                }
+            }
+            if (tp != null) {
+                for (BaseType b : tp.getExtendsClause()) {
+                    if (staticParamsNamed(b, names).isEmpty()) holds.add(et.evalType(b));
+                }
+            } else if (staticParamsNamed(ty, names).isEmpty()) {
+                holds.add(et.evalType(ty));
+            }
+            if (holds.isEmpty()) holds.add(FTypeTop.ONLY);
+            genDomain.add(holds);
         }
-        List<FType> genDomain = g.typeApply(atBounds).getNormalizedDomain();
-        return overlapCoveredBy(gen, genDomain, plain, plain.getParams(), all);
+        return overlapCoveredBy(gen, genDomain, plain, plainDomain, all);
     }
 
     /**
@@ -804,7 +819,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         if (f1 instanceof GenericFunctionOrMethod || f2 instanceof GenericFunctionOrMethod) return false;
         if (o1.getSelfParameterIndex() >= 0 || o2.getSelfParameterIndex() >= 0) return false;
         if (hasRest(pl1) || hasRest(pl2) || pl1.size() != pl2.size()) return false;
-        return overlapCoveredBy(o1, pl1, o2, pl2, all);
+        List<List<FType>> d1 = new ArrayList<List<FType>>(pl1.size());
+        for (FType t : pl1) d1.add(Collections.singletonList(t));
+        return overlapCoveredBy(o1, d1, o2, pl2, all);
     }
 
     /** The bound on the steps of one overlap search. */
@@ -817,19 +834,22 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * The overlap of the domains d1 of o1 and d2 of o2 is covered by
      * declarations of all without static parameters whose domains lie below
      * both: the overlap, position by position, is a union of parts, each part
-     * an intersection of types (overlapPieces), and every combination of
+     * an intersection of types (intersectionPieces), and every combination of
      * parts across the positions lies inside the domain of one such
-     * declaration.  An empty overlap needs no declaration.  A search that
-     * does not settle refuses.
+     * declaration.  Each position of d1 is the types whose intersection it
+     * holds, one type unless o1 is an own generic.  An empty overlap needs no
+     * declaration.  A search that does not settle refuses.
      */
-    static private boolean overlapCoveredBy(Overload o1, List<FType> d1, Overload o2, List<FType> d2,
+    static private boolean overlapCoveredBy(Overload o1, List<List<FType>> d1, Overload o2, List<FType> d2,
                                             Collection<Overload> all) {
         int n = d1.size();
         int[] steps = {OVERLAP_STEPS};
         List<List<Set<FType>>> parts = new ArrayList<List<Set<FType>>>(n);
         long combinations = 1;
         for (int k = 0; k < n; k++) {
-            List<Set<FType>> pk = overlapPieces(d1.get(k), d2.get(k), new HashSet<List<FType>>(), steps);
+            List<FType> both = new ArrayList<FType>(d1.get(k));
+            both.add(d2.get(k));
+            List<Set<FType>> pk = intersectionPieces(both, new HashSet<List<FType>>(), steps);
             if (pk == null) return false;
             if (pk.isEmpty()) return true;
             parts.add(pk);
@@ -848,7 +868,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 if (!dt.subtypeOf(FTypeTuple.make(d2))) continue;
                 if (o1.getFn() instanceof GenericFunctionOrMethod) {
                     if (instanceHolding(o1.getFn(), d, true) == null) continue;
-                } else if (!dt.subtypeOf(FTypeTuple.make(d1))) continue;
+                } else {
+                    List<FType> d1Types = new ArrayList<FType>(n);
+                    for (List<FType> ts : d1) d1Types.add(ts.get(0));
+                    if (!dt.subtypeOf(FTypeTuple.make(d1Types))) continue;
+                }
             }
             catch (FortressException ex) {
                 continue;
@@ -888,6 +912,67 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
         }
         return false;
+    }
+
+    /**
+     * Parts whose union holds every value of every type of ts, each part a
+     * set of types standing for their intersection: overlapPieces for two
+     * types; for more, the types with none of the others below them, none
+     * when two of them exclude, otherwise the parts of each type the first
+     * comprises clause among them lists, with the others, and the types
+     * themselves when none is closed.  Null when the search meets a cycle or
+     * runs out of steps, or a type is symbolic.
+     */
+    static private List<Set<FType>> intersectionPieces(List<FType> ts, Set<List<FType>> path, int[] steps) {
+        if (ts.size() == 2) return overlapPieces(ts.get(0), ts.get(1), path, steps);
+        List<Set<FType>> res = new ArrayList<Set<FType>>();
+        if (ts.size() == 1) {
+            res.add(Collections.singleton(ts.get(0)));
+            return res;
+        }
+        if (--steps[0] < 0) return null;
+        for (FType t : ts) {
+            if (t instanceof SymbolicType) return null;
+        }
+        try {
+            List<FType> least = new ArrayList<FType>(ts.size());
+            for (int i = 0; i < ts.size(); i++) {
+                FType t = ts.get(i);
+                boolean above = false;
+                for (int j = 0; !above && j < ts.size(); j++) {
+                    FType u = ts.get(j);
+                    if (j != i && u.subtypeOf(t) && (j < i || !t.subtypeOf(u))) above = true;
+                }
+                if (!above) least.add(t);
+            }
+            if (least.size() < ts.size()) return intersectionPieces(least, path, steps);
+            for (int i = 0; i < least.size(); i++) {
+                for (int j = i + 1; j < least.size(); j++) {
+                    if (least.get(i).excludesOther(least.get(j))) return res;
+                }
+            }
+            int closed = -1;
+            for (int i = 0; closed < 0 && i < least.size(); i++) {
+                if (least.get(i).getComprises() != null) closed = i;
+            }
+            if (closed < 0) {
+                res.add(new HashSet<FType>(least));
+                return res;
+            }
+            if (!path.add(least)) return null;
+            for (FType c : least.get(closed).getComprises()) {
+                List<FType> next = new ArrayList<FType>(least);
+                next.set(closed, c);
+                List<Set<FType>> sub = intersectionPieces(next, path, steps);
+                if (sub == null) return null;
+                res.addAll(sub);
+            }
+            path.remove(least);
+            return res;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
     }
 
     /**

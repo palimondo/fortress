@@ -1,0 +1,45 @@
+component GenericBesidePlainOverlapShapes
+export Executable
+
+(* A generic declaration beside two plain declarations, one of which covers their overlap, is a valid overloading whatever the shape of its static parameters: a type parameter inside another type, a bound that names a static parameter, a static parameter that is not a type. *)
+
+trait Box[\T\] end
+trait IntBox extends Box[\ZZ32\] end
+object Ib extends IntBox end
+object Sb extends Box[\String\] end
+
+boxed[\T\](x: Box[\T\], y: ZZ32): String = "generic"
+boxed(x: IntBox, y: Any): String = "intBoxAny"
+boxed(x: IntBox, y: ZZ32): String = "meet"
+
+trait Ord[\T extends Ord[\T\]\] end
+trait Pt extends Ord[\Pt\] end
+object Po extends Pt end
+trait Qt extends Ord[\Qt\] end
+object Qo extends Qt end
+
+ordered[\T extends Ord[\T\]\](x: T, y: ZZ32): String = "generic"
+ordered(x: Pt, y: Any): String = "ptAny"
+ordered(x: Pt, y: ZZ32): String = "meet"
+
+trait Aa end
+object Ao extends Aa end
+
+sized[\T extends Aa, nat n\](x: T, y: ZZ32): String = "generic"
+sized(x: Ao, y: Any): String = "aoAny"
+sized(x: Ao, y: ZZ32): String = "meet"
+
+run(): () = do
+    z: ZZ32 = 3
+    assert(boxed(Ib, z), "meet", "an IntBox with a ZZ32 takes the declaration on IntBox and ZZ32: the generic declaration on Box of T and the one on IntBox and Any overlap only where IntBox and ZZ32 meet, and that declaration is more specific than both and covers it; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(boxed(Sb, z), "generic", "a Box of String with a ZZ32 takes the generic declaration")
+    assert(boxed(Ib, "s"), "intBoxAny", "an IntBox with a String takes the declaration on IntBox and Any")
+    assert(ordered(Po, z), "meet", "a Pt with a ZZ32 takes the declaration on Pt and ZZ32, though the generic declaration's bound names its own type parameter")
+    assert(ordered(Qo, z), "generic", "a Qt with a ZZ32 takes the generic declaration")
+    assert(ordered(Po, "s"), "ptAny", "a Pt with a String takes the declaration on Pt and Any")
+    assert(sized(Ao, z), "meet", "an Ao with a ZZ32 takes the declaration on Ao and ZZ32, though the generic declaration has a nat parameter")
+    assert(sized(Ao, "s"), "aoAny", "an Ao with a String takes the declaration on Ao and Any")
+    println("PASS")
+  end
+
+end

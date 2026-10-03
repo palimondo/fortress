@@ -1,0 +1,16 @@
+component XXXComprisesListedTypeExtendsEachInstance
+export Executable
+
+(* A type listed in the comprises clause of a trait with static parameters must extend each instantiation of that trait, so objects listed by Expr[\T\] that extend only Expr[\ZZ32\] and Expr[\Boolean\] are refused at load (row 598); Specification/basic/traits.tex, section "Trait Declarations". *)
+
+trait Expr[\T\] comprises { IntE, BoolE } end
+object IntE extends Expr[\ZZ32\] end
+object BoolE extends Expr[\Boolean\] end
+
+name(x: Expr[\ZZ32\]): String = "int"
+
+run(): () = do
+    println(name(IntE))
+  end
+
+end

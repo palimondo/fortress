@@ -319,6 +319,7 @@ public class FileTests {
             long start = System.nanoTime();
             //String fssFile = f + ".fss";
             int rc = 0;
+            StringMap refusal = loadRefusalKeys();
 
             try {
                 //BufferedReader in = null;
@@ -341,6 +342,10 @@ public class FileTests {
             catch (Throwable ex) {
                 String outs = wt_out.getString();
                 String errs = wt_err.getString();
+                if (refusal != null) {
+                    refusalVerdict(refusal, wt_err, wt_out, outs, errs, ex, true);
+                    return;
+                }
                 String exFirstLine = ex.toString();
                 String trueFailure = testFailed(outs, errs, exFirstLine);
                 if (f.contains("XXX")) {
@@ -378,6 +383,11 @@ public class FileTests {
                                (outs.contains("fail") || outs.contains("FAIL") ||
                                 errs.contains("fail") || errs.contains("FAIL") ||
                                 rc != 0);
+
+            if (refusal != null) {
+                refusalVerdict(refusal, wt_err, wt_out, outs, errs, null, anyFails);
+                return;
+            }
 
             String trueFailure = testFailed(outs, errs, "");
 
@@ -442,6 +452,67 @@ public class FileTests {
         }
 
         abstract protected int justTheTest() throws FileNotFoundException, IOException, Throwable;
+
+        /**
+         * The keys by which this test names a refusal at load that it
+         * expects, or null when it names none.
+         */
+        protected StringMap loadRefusalKeys() {
+            return null;
+        }
+
+        /**
+         * Whether ex was thrown while the program was loaded, before it ran.
+         */
+        protected boolean thrownAtLoad(Throwable ex) {
+            return false;
+        }
+
+        /**
+         * The verdict of a test that names a refusal at load (the load_
+         * keys, read as generalTestFailed reads the compiled tests' keys).
+         * A test succeeds when the program is refused at load and the
+         * refusal satisfies its keys.  A plain test passes when it
+         * succeeds.  An XXX test is the expected failure of that: it
+         * passes when the program loads and runs without an exception
+         * and without "fail" or "FAIL" in its output, and fails when the
+         * program is refused as the keys name, or fails in any other way.
+         * ex is the exception the program threw, or null.
+         */
+        private void refusalVerdict(StringMap keys,
+                                    WireTappedPrintStream wt_err,
+                                    WireTappedPrintStream wt_out,
+                                    String outs,
+                                    String errs,
+                                    Throwable ex,
+                                    boolean anyFails) throws IOException {
+            String exc = ex == null ? "" : ex.toString();
+            boolean atLoad = ex != null && thrownAtLoad(ex);
+            String unmet = atLoad ? generalTestFailed("load_", keys, outs, errs, exc) : null;
+            boolean refused = atLoad && unmet == null;
+            boolean ranClean = ex == null && !anyFails;
+            boolean passed = shouldFail ? ranClean : refused;
+            if (passed) {
+                wt_err.flush(printSuccess);
+                wt_out.flush(printSuccess);
+                System.out.println(shouldFail ?
+                                   " Saw expected failure: loaded and ran, not refused at load" :
+                                   " OK Saw expected refusal at load");
+                return;
+            }
+            if (printFailure) System.out.println();
+            wt_err.flush(printFailure);
+            wt_out.flush(printFailure);
+            String what;
+            if (refused) what = "Refused at load as its keys name";
+            else if (atLoad) what = "Refused at load, but did not satisfy " + unmet;
+            else if (ex != null) what = "Failed after load";
+            else if (anyFails) what = "Loaded and ran, and FAIL or fail appears in output";
+            else what = "Missing expected refusal at load";
+            System.out.println(" " + what);
+            if (ex != null && printFailure) System.out.println(exc);
+            fail(what + (shouldFail ? ", in an XXX test. " : ". ") + whoami());
+        }
 
     }
 
@@ -759,6 +830,52 @@ public class FileTests {
         public String tag() {
             // TODO Auto-generated method stub
             return "interpret";
+        }
+
+        /**
+         * The load_ keys of the file name.test beside name.fss, in the
+         * format of the compiled tests' .test files, or null when there is
+         * no such file or it has no load_ key.
+         */
+        @Override
+        protected StringMap loadRefusalKeys() {
+            File keyFile = new File(path, name + ".test");
+            if (!keyFile.isFile()) return null;
+            Properties p = new Properties();
+            try {
+                InputStream in = new BufferedInputStream(new FileInputStream(keyFile));
+                try {
+                    p.load(in);
+                }
+                finally {
+                    in.close();
+                }
+            }
+            catch (IOException ex) {
+                throw new RuntimeException("Cannot read " + keyFile, ex);
+            }
+            Map<String, String> keys = new HashMap<String, String>();
+            for (String k : p.stringPropertyNames()) {
+                if (k.startsWith("load_")) keys.put(k, p.getProperty(k));
+            }
+            if (keys.isEmpty()) return null;
+            return ProjectProperties.composedWith(new StringMap.FromMap(keys));
+        }
+
+        /**
+         * Thrown while the interpreter built the program's environments
+         * (Driver.evalComponent), where it checks the program at load.
+         */
+        @Override
+        protected boolean thrownAtLoad(Throwable ex) {
+            Set<Throwable> seen = new HashSet<Throwable>();
+            for (Throwable t = ex; t != null && seen.add(t); t = t.getCause()) {
+                for (StackTraceElement e : t.getStackTrace()) {
+                    if (e.getClassName().equals(Driver.class.getName()) && e.getMethodName().equals("evalComponent"))
+                        return true;
+                }
+            }
+            return false;
         }
 
     }

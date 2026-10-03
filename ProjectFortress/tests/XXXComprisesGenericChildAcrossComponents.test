@@ -1,0 +1,1 @@
+load_exception_contains=Invalid comprises clause: AnyIntegral has a comprises clause but its immediate subtype Integral is not eligible to extend it; MyIntegral extends it and is a subtype of none of the types the clause lists

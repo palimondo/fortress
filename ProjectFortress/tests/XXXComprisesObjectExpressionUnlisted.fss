@@ -1,0 +1,21 @@
+component XXXComprisesObjectExpressionUnlisted
+export Executable
+
+(* An object expression that explicitly extends two traits with comprises clauses and is below none of the types either lists is refused at load (row 597); Specification/basic/traits.tex, section "Trait Declarations". *)
+
+trait S comprises { U, V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait V extends { S, T } end
+trait W extends T end
+
+f(s: S): String = "f(S)"
+f(t: T): String = "f(T)"
+f(v: V): String = "f(V)"
+
+run(): () = do
+    z = object extends { S, T } end
+    println(f(z))
+  end
+
+end

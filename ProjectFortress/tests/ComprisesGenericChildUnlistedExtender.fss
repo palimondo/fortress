@@ -1,0 +1,17 @@
+component ComprisesGenericChildUnlistedExtender
+export Executable
+
+(* A trait with static parameters that stands unlisted between a trait with a comprises clause and its listed types is refused at load when a trait that extends it is a subtype of none of the listed types; Specification/basic/traits.tex, section "Trait Declarations". *)
+
+trait AnyI comprises { A, B } end
+trait I[\X extends I[\X\]\] extends AnyI end
+trait A extends I[\A\] end
+trait B extends I[\B\] end
+trait C extends I[\C\] end
+object Co extends C end
+
+run(): () = do
+    println(Co)
+  end
+
+end
