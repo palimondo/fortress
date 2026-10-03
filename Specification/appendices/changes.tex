@@ -1315,9 +1315,15 @@ in the revival's repository.
 No example of this specification changes: \TYP{ExclusiveMolecule}, which
 has no static parameters, is still not allowed.
 The compiled type checker enforces the requirement on a trait with static
-parameters over the declarations it sees: a trait or object declared in
+parameters over the declarations and object expressions it sees: a trait or object declared in
 another component, below such a trait and a subtype of no listed type, is
 not refused (row~487 of the revival's gap ledger). It compares the declarations it sees by their names: for a parameterized \VAR{T} its verdict can depend on how an extender spells its static parameters, and a trait or object that extends a trait of the same simple name in another API counts as an extender (rows~489 and~490).
+It refuses an object expression that extends a trait with a \KWD{comprises}
+clause, explicitly or through the traits it extends, and is a subtype of no
+listed type, as the requirement on the trait's extenders together demands of
+it, an object expression having neither static parameters nor a clause of its
+own; before 3~October 2026 it read no object expression against a clause
+(row~597).
 The interpreter checks at load the traits and objects that explicitly extend a
 trait with a \KWD{comprises} clause declared in the component it executes, and
 refuses one that is neither a subtype of a listed type nor another of the
@@ -2698,6 +2704,70 @@ before this revision:
 \begin{quote}
 The interpreter gives an integer numeral outside the range of \EXP{\mathbb{Z}32}
 a wider integer type, and so does not yet convert it.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
+\subsection{The type of a varargs parameter}
+\seclabel{revival-varargs}
+
+\begin{description}
+\item[Affected sections] \secref{function-decls}.
+\item[Change] A box after the sentence of \secref{function-decls} that gives a
+varargs parameter the type \EXP{\TYP{HeapSequence}\llbracket{}T\rrbracket}
+says that no library declares that type, nor the immutable sequence that the
+team's draft note at the start of \secref{function-app} agreed on in its place;
+that both implementations give the parameter the array type
+\EXP{\TYP{ImmutableArray}\llbracket{}T, \mathbb{Z}32\rrbracket} of \library;
+and that the compiled path's own library declares no such type.
+The normative text is unchanged.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 23~September 2026 that the implementers' later word
+outweighs text that the designers left unfinished.
+The text and its draft notes name \TYP{HeapSequence} and
+\TYP{ReadOnlyHeapSequence} (``We agreed to implement varargs tuples using
+\TYP{ReadOnlyHeapSequence} which is immutable and invariant.
+We'll add \TYP{MakeReadOnlyHeapSequence} into the core library.''), and no
+library declares either.
+The authors of the compiled type checker named a type for the parameter,
+\EXP{\TYP{ImmutableArray}\llbracket{}T, \mathbb{Z}32\rrbracket}, with the
+comment ``Replace ImmutableArray with ImmutableHeapSequence when
+ImmutableHeapSequence is put into the libraries''
+(\nolinkurl{ProjectFortress/src/com/sun/fortress/compiler/Types.java}, lines
+47--49, in the revival's repository), and the interpreter binds the parameter
+to an immutable one-dimensional array of the arguments that the factory
+\VAR{\_\_immutableFactory1} of \library\ builds
+(\nolinkurl{ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NonPrimitive.java},
+lines 224--251), a value of that type.
+The type is immutable, as the draft note asks.
+Before this change the compiled type checker typed the parameter in the body
+as \VAR{T}, the type of one argument, and read a parameter list with plain
+bindings before a varargs binding as if the varargs binding were one more plain
+binding, so that a call that passed no argument, or more than one, for the
+varargs binding after plain bindings was refused (row~604 of the revival's gap
+ledger).
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-defects/REPORT.md} in the
+revival's repository.
+\item[Effect] The compiled type checker applies a declaration with a varargs
+parameter to a call as \secref{function-app} and
+\secref{applicability-with-special-params} say, whatever the number of
+arguments for the varargs binding, none among them, each a subtype of the type
+of the binding or convertible to it; and it types the parameter in the body at
+\EXP{\TYP{ImmutableArray}\llbracket{}T, \mathbb{Z}32\rrbracket} of \library,
+where it typed it as \VAR{T}.
+Under the compiled path's own library, which declares no \TYP{ImmutableArray},
+it refuses a body that uses a varargs parameter, naming the type.
+The code generator does not yet compile a function with a varargs parameter,
+so no program with one runs on the compiled path.
+The interpreter is unchanged.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/functions.tex},
+lines 178--180, which stand unchanged and are now followed, after the draft
+note that refers to the library section for \TYP{HeapSequence}, by the box:
+\begin{quote}
+The type of a varargs parameter
+is \EXP{\TYP{HeapSequence}\llbracket{}T\rrbracket} where \VAR{T} is
+the type mentioned in (or inferred for) that binding.
 \end{quote}
 \item[Route C] The same under route~C.
 \end{description}
