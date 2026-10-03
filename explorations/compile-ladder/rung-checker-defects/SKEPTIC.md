@@ -1,3 +1,66 @@
+# Second judgement
+
+Judged head: `f300bf7e1fb20c1657bc2789c9170f98042b4b16` (wip/rung-checker-defects). The refused head was `4d19d17a1`, the judge's ruling is `8b1daf2f9` (`JUDGE.md`), and the repair round's commits are `76dda233a`, `d9434644f`, `08cd4b4d0` and `f300bf7e1`.
+
+**Approved.** The repair answers the refusal. Every use of a varargs parameter under the compiled library is now refused in the `VarRef` rule with a message naming the type (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:628-639`). That covers a declared body, a contract and a function expression alike, and none of them crashes now. The declaration's guard and its helper are gone from `impls/Decls.scala`. The two cases I measured are gated by `XXXVarargsFunctionExpressionUse` and `XXXVarargsContractUse`. Both were seen failing on the refused head's build with the trait-table exception, and both pass at the repaired code. Nothing I approved has moved: every program of my first judgement gives the same answer at this head, apart from the wording of the refusal's message.
+
+## 1. The repair against the refusal
+
+- **Test first.** The transcript is `agent-ac9591c66fcbf12d5.jsonl` (repair:C). The four tests were written at 09:12:14. At 09:12:37 they were run on the build of `4d19d17a1`'s code with `ONE_JVM=1 bash explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh repair-before ProjectFortress/compiler_tests XXXVarargsFunctionExpressionUse.test XXXVarargsContractUse.test XXXVarargsBodyIterates.test XXXVarargsParamNotItsElement.test`. The two new tests failed with `java.lang.RuntimeException: Not in the trait table: CompilerLibrary.ImmutableArray`, and the two rekeyed ones with ` Saw failure, but did not satisfy compile_err_contains`, giving `Tests run: 4,  Failures: 4,  Errors: 0`. They were committed alone at 09:13:03 (`76dda233a`). The source edit came at 09:13:39, and `ant compileAll` started at 09:13:44; `Misc.class` is dated 09:14:08. No source changed after that, so the build is the code of `d9434644f` and of this head.
+- **The assertions pass.** `junit.sh repair-edit` ran on the 22 `.test` files of the rung (the first pass's 20 and the two new ones) and gave `OK (28 tests)`, with ` Saw expected failure` for each of `XXXVarargsFunctionExpressionUse`, `XXXVarargsContractUse`, `XXXVarargsBodyIterates` and `XXXVarargsParamNotItsElement` (`tmp/rung-checker-defects/junit/repair-edit.log`). At the refused head my own `SkVaFnExpr4` and `SkVaContract2` measured the crash (first judgement, section 2). At this head they give `The varargs parameter rest is used, whose type ImmutableArray[\ZZ32,ZZ32\] the libraries do not declare.` The test of the contract case uses the valid form, `nonempty(g: Generator[\ZZ32\])`, as the judge ordered; my `SkVaContract2` was the invalid one, and both now get the message.
+- **The body-type finding.** This was settled by the judge's J1, and I checked it by reading. The refusal's condition is the type that the binding gives (`STypeEnv.scala:184-186`). If the binding is reverted to the element type, `k(rest: String...): String = rest` type checks, so `XXXVarargsParamNotItsElement` would fail its key. The same reasoning holds for `XXXVarargsBodyIterates`.
+- **The specification sentences.** `Specification/basic/functions.tex` (the revision box in "Function Declarations") and Appendix I's entry "The type of a varargs parameter" now say "refuses every use of a varargs parameter, in a body, a contract or a function expression, naming the type". My probes bear that out (section 2). The function-expression grammar takes a `ValParam` (`Specification/basic/expressions/function.tex`, section "Function Expressions"), which may carry a varargs binding, so the two new tests' programs are valid.
+- **Home-2 tests for my other measured defects.** Each one was run through `junit.sh repair-home2` on `d9434644f`'s code, with `OK (4 tests)`, and in the base copy, also `OK (4 tests)`:
+  - `XXXInheritedAbstractMethodBoundSameName`: row 615, ` Saw expected failure`.
+  - `XXXVarargsMethodCodeGeneration`: row 614's method case, ` OK Saw expected exception`, `OptionUnwrapException`.
+  - `XXXLocalFunctionUntypedParamAndReturn`: row 610, ` Saw expected failure`, `** bug! Result of typechecking still contains intermediate nodes.`
+  - `XXXTypecaseUndeclaredType`: row 616, ` OK Saw expected exception`, `Not in the trait table: ImmutableArray`.
+
+  Each file has one comment line, and each section it names says what the comment claims:
+  - traits.tex, "Method Declarations".
+  - functions.tex, "Function Applications", "Function Declarations" (a plain binding may omit its type) and "Local Function Declarations".
+  - declarations.tex, "Reach and Scope of Declarations" ("it is a static error for a reference to a name to occur where it is not in scope").
+- **Report and record corrections.** These are in the round's REPORT text (its refused write, which I read from the transcript) and in `record.md`:
+  - The `problem:` line reads `XXXInferDependentBound.fss:20`.
+  - Section 3 says that `XXXVarargsBodyIterates` came with `eb9161c30` and never ran on the base's code.
+  - Decision 4 and the home table put the refusal at the use, with J1's candidates.
+  - Decision 9 rests on the stop "A crash repaired by catching it without the error the text gives", and weighs row 405.
+  - Rows 610-612 cite row 405, and row 610 quotes the third crash form.
+  - Rows 615 and 616 and row 614's method case are written out.
+  - A process note covers the doubled tracks and stages.
+  - "For Pavol" carries the judge's items.
+- **The one whole-suite run.** `bash tmp/rung-checker-defects/tracks3/run.sh` ran on `08cd4b4d0` (the code of `d9434644f`, 0 uncommitted), with `OK (1037 tests)` and `OK (86 tests)`. That is 1031 plus the six new tests. Not rerunning the stages is sound by reading. The condition needs the library's trait table to lack `ImmutableArray`, and the one library declares it (`Library/FortressLibrary.fsi:1548-1550`). `grep -c "do not declare"` finds no line in any file of `tmp/rung-checker-defects/distance2/`.
+
+## 2. Differentials at the repaired head
+
+I used one thread at bin/fortress's default, with `tmp/rung-checker-defects/skeptic/run.sh`. I reran every program of my first judgement at this head (`fortress typecheck`, and also `compile` and `run` for seven of them). New programs were run on head and base.
+
+| program | walk | head (`f300bf7e1`) | base | verdict |
+|---|---|---|---|---|
+| `SkVaFnExpr4`, `SkVaFnExpr2`, `SkVaFnExpr3`, `SkVaContract`, `SkVaContract2`, `SkVaCounts`, `SkVaLocal`, `SkVaMethodBody` | (as first judgement) | each: "The varargs parameter rest is used, whose type ImmutableArray[\ZZ32,ZZ32\] the libraries do not declare." (`xs` in `SkVaMethodBody`), no exception | errors, as first judgement | refusal ground closed |
+| `Sk2LoopBody`: `rest` used inside a `for` loop's body | `12` | the varargs message, no `TryChecker` crash | "not applicable to an argument of type ZZ32" | no crash |
+| `Sk2Overloaded`: `h(rest)` with `h` overloaded on `ZZ32` and `Generator[\ZZ32\]` | `7` | the varargs message | "not applicable" | no crash |
+| `Sk2Closure`: `rest` captured by a function expression in a declared body | `6` | the varargs message | "not applicable" | no crash |
+| `Sk2ObjExpr`, `Sk2Spawn`: `rest` in an object expression's method, in `spawn` | `0`, `0` | the varargs message | "not applicable" | no crash |
+| `Sk2Forms`: `\|rest\|`, `rest[0]`, `rest` returned, `g: Generator[\ZZ32\] = rest`, `typecase rest of`, `if`, a tuple, `while`, `also do` | — | 11 errors, each a varargs message or a consequent filter error | 9 errors | no crash |
+| `Sk2Assign`: `rest := x` | — | the varargs message | "Cannot assign to immutable variable: rest" | refused either way; the use's refusal comes first |
+| `SkVaUnused`, `SkVaFnExpr` (`rest` unused) | `3` | type checks | refused zero trailing / — | unchanged from approval |
+| `SkVaUnused3` (fresh name, compiled) | — | "Can't compile VarArgs yet" | "not applicable" | row 614, as before |
+| `SkVaWrong2`, `SkVaOverload2`, `SkVarianceVa`/`Vb` | — | 7 errors; same "multiple declarations"; both covariance errors | as first judgement | unchanged |
+| `SkDepBound` (compiled) | — | `BoxU[ZZ32]`, `BoxU[ZZ32]`, `BoxU[String]`, `BoxU[ZZ32]` | as first judgement | unchanged |
+| `SkFieldGetter`, `SkMapperCapture`, `SkBoundCaptureCtl2` (compiled) | — | `4` `4` `field   field` `101`; `n 20`; `made` | as first judgement | unchanged |
+| `SkDupSelfThird`, `SkObjExprGenericOk`/`Bad`, `SkAbsWrong` | — | `(N1, N2)` / `(N1, N2, B)`; type checks / two clause errors; three errors | as first judgement | unchanged |
+| `SkBoundCapture2`, `SkVaDotted`, `SkLocalUntyped`, `SkTopUntyped`, `SkVaWalkType` | — | as first judgement | as first judgement | now home 2 (rows 615, 614, 610, 405, 616) |
+
+## 3. Corrections
+
+1. In the REPORT text, section 9, `compiler/disambiguator/TypeDisambiguator.java:375-378` should read `:376-380`, the lines that suppress "is undefined" inside a typecase clause. `record.md` row 616 already says `:376-380`.
+2. The varargs binding is at `staticenv/STypeEnv.scala:184-186`, the case line, the comment and the binding. The REPORT text, `record.md` row 604's note and the repair's `filesChanged` cite `:185-187` or `:185-186`. The judge and my first judgement cited it the same way.
+
+No stop of the batch record's intro is met. The refusal of valid varargs programs under the compiled library falls within row 604, which is the rung's own row, and the judge has carried it to Pavol.
+
+---
+
 # Rung C, first judgement: refused
 
 Judged head: `4d19d17a1f4227128a9e2287a006e2ce2f4d19f6` (wip/rung-checker-defects), base `9c9e823d5`.
