@@ -1235,13 +1235,13 @@ __nest[\E1,E2\](g:Generator[\E1\], f:E1->Generator[\E2\]):Generator[\E2\] =
 
 __singleton[\E\](body:E): Generator[\E\] = Just[\E\](body)
 
-__loop[\E,R\](g:Generator[\E\], body:E->R): () = g.loop(body)
+__loop[\E\](g:Generator[\E\], body:E->()): () = g.loop(body)
 
 __cond[\E,R\](c:Condition[\E\], t:E->R, e:()->R): R = c.cond[\R\](t,e)
 __cond[\E\](c:Condition[\E\], t:E->()): () = c.cond[\()\](t, fn () => ())
 
 (** Used in desugaring binding %while% **)
-__whileCond[\E\](c:Condition[\E\], b:E->()): () =
+__whileCond[\E\](c:Condition[\E\], b:E->()): Boolean =
     c.cond[\Boolean\](fn (e): Boolean => do b(e); true end, fn ():Boolean => false)
 
 (** Unlike the user-visible dotted map method, this method is used for
@@ -1322,7 +1322,7 @@ __bigOperator2[\I0,O0,R0,L0,I1,O1,R1,L1,E,F extends Generator[\E\]\]
          * Often the assumption is satisfied,
          * but some types are necesary to guarantee it.
          *)
-        (outer'.unwrap)(gg'.generate2[\I0,L0,L1\](o, i, fn x => (inner'.body)(innerBody(x))))
+        (outer'.unwrap)(gg'.generate2[\I0,L0,L1\](outer'.reduction, inner'.reduction, fn x => (inner'.body)(innerBody(x))))
         else =>
           ((outer.unwrap)(o.unlift(
             gg.generate[\L0\](o,fn (xs) =>
@@ -1374,12 +1374,13 @@ trait Condition[\E\] extends { ZeroIndexed[\E\], SequentialGenerator[\E\] }
     getter bounds(): CompactFullRange[\ZZ32\] = 0 # |self|
     getter indices(): Generator[\ZZ32\] = self.bounds
     getter indexValuePairs(): Condition[\(ZZ32,E)\] =
-        cond[\E\](fn (e:E) => Just[\(ZZ32,E)\](0,e), fn () => Nothing[\(ZZ32,E)\])
+        cond[\Maybe[\(ZZ32,E)\]\](fn (e:E):Maybe[\(ZZ32,E)\] => Just[\(ZZ32,E)\](0,e),
+                              fn ():Maybe[\(ZZ32,E)\] => Nothing[\(ZZ32,E)\])
     getter reverse() : Condition[\E\] = self
     opr |self|: ZZ32 = if self.holds then 1 else 0 end
     opr [i:ZZ32]:E throws NotFound = if i=0 then self.get else throw NotFound end
     opr [r:Range[\ZZ32\]]: Condition[\E\] =
-        cond[\E\](fn (e:E): Condition[\E\] => do
+        cond[\Condition[\E\]\](fn (e:E): Condition[\E\] => do
                     r1 = (0#1).narrowToRange(r)
                     if r1.isEmpty then Nothing[\E\] else self end
                   end,
@@ -1390,14 +1391,14 @@ trait Condition[\E\] extends { ZeroIndexed[\E\], SequentialGenerator[\E\] }
 
     (** For a Condition, these methods run eagerly. **)
     map[\G\](f: E->G): Condition[\G\] =
-        cond[\G\](fn (e:E) => Just[\G\](f(e)), fn () => Nothing[\G\])
+        cond[\Maybe[\G\]\](fn (e:E):Maybe[\G\] => Just[\G\](f(e)), fn ():Maybe[\G\] => Nothing[\G\])
     ivmap[\G\](f: (ZZ32,E)->G): Condition[\G\] =
-        cond[\G\](fn (e:E) => Just[\G\](f(0,e)), fn () => Nothing[\G\])
+        cond[\Maybe[\G\]\](fn (e:E):Maybe[\G\] => Just[\G\](f(0,e)), fn ():Maybe[\G\] => Nothing[\G\])
     nest[\G\](f: E -> Generator[\G\]): Generator[\G\] =
-        cond[\G\](f, fn () => Nothing[\G\])
+        cond[\Generator[\G\]\](f, fn ():Generator[\G\] => Nothing[\G\])
     cross[\G\](g: Generator[\G\]): Generator[\(E,G)\] =
-        cond[\G\](fn (e:E):Generator[\(E,G)\] => g.map[\(E,G)\](fn (g':G):(E,G) => (e,g')),
-               fn () => Nothing[\(E,G)\])
+        cond[\Generator[\(E,G)\]\](fn (e:E):Generator[\(E,G)\] => g.map[\(E,G)\](fn (g':G):(E,G) => (e,g')),
+                                  fn ():Generator[\(E,G)\] => Nothing[\(E,G)\])
     mapReduce[\R\](body: E->R, _:(R,R)->R, id:R): R =
         cond[\R\](body, fn () => id)
     reduce(_:(E,E)->E, z:E):E = cond[\E\](identity[\E\], fn ():E => z)
@@ -1596,7 +1597,7 @@ end
 opr BIG SQCAP[\T\](): BigReduction[\UniqueItem[\T\],UniqueItem[\T\]\] =
     BigReduction[\UniqueItem[\T\],UniqueItem[\T\]\](UniqueItemMeetReduction[\T\])
 
-opr BIG SQCAP[\T\](g: Generator[\UniqueItem[\T\]\]) =
+opr BIG SQCAP[\T\](g: Generator[\UniqueItem[\T\]\]): UniqueItem[\T\] =
     __bigOperatorSugar[\UniqueItem[\T\],UniqueItem[\T\],UniqueItem[\T\],UniqueItem[\T\]\](BIG SQCAP[\T\](), g)
 
 object UniqueItemJoinReduction[\T\]
@@ -1611,7 +1612,7 @@ end
 opr BIG SQCUP[\T\](): BigReduction[\UniqueItem[\T\],UniqueItem[\T\]\] =
     BigReduction[\UniqueItem[\T\],UniqueItem[\T\]\](UniqueItemJoinReduction[\T\])
 
-opr BIG SQCUP[\T\](g: Generator[\UniqueItem[\T\]\]) =
+opr BIG SQCUP[\T\](g: Generator[\UniqueItem[\T\]\]): UniqueItem[\T\] =
     __bigOperatorSugar[\UniqueItem[\T\],UniqueItem[\T\],UniqueItem[\T\],UniqueItem[\T\]\](BIG SQCUP[\T\](), g)
 
 (************************************************************
@@ -3110,7 +3111,7 @@ end
 **)
 object LiftedCommutativeMonoidReduction[\R\](org : CommutativeMonoidReduction[\R\]) extends ActualReduction[\R,AnyMaybe\]
     getter asString(): String = org.asString "(Lifted)"
-    empty(): Nothing[\R\] = Just(org.empty())
+    empty(): Just[\R\] = Just(org.empty())
     join(a: AnyMaybe, b: AnyMaybe): AnyMaybe =
         if av <- a then
             if bv <- b then
@@ -3274,7 +3275,7 @@ object MinReduction[\T extends StandardMin[\T\]\] extends CommutativeReduction[\
 end
 opr BIG MIN[\T extends StandardMin[\T\]\](): BigReduction[\T,AnyMaybe\] =
     BigReduction[\T,AnyMaybe\](MinReduction[\T\])
-opr BIG MIN[\T extends StandardMin[\T\]\](g: Generator[\T\]) =
+opr BIG MIN[\T extends StandardMin[\T\]\](g: Generator[\T\]): T =
     __bigOperatorSugar[\T,T,T,AnyMaybe\](BIG MIN[\T\](), g)
 
 object MaxReduction[\T extends StandardMax[\T\]\] extends CommutativeReduction[\T\]
@@ -3304,14 +3305,14 @@ opr BIG MINNUM(): BigReduction[\RR64,RR64\] =
     BigReduction[\RR64,RR64\](
         MapReduceReduction[\RR64\](fn (a:RR64,b:RR64):RR64 => a MINNUM b, 0.0/0.0))
 
-opr BIG MINNUM(g: Generator[\RR64\]) =
+opr BIG MINNUM(g: Generator[\RR64\]): RR64 =
     __bigOperatorSugar[\RR64,RR64,RR64,RR64\](BIG MINNUM(), g)
 
 opr BIG MAXNUM(): BigReduction[\RR64,RR64\] =
     BigReduction[\RR64,RR64\](
         MapReduceReduction[\RR64\](fn (a:RR64,b:RR64):RR64 => a MAXNUM b, 0.0/0.0))
 
-opr BIG MAXNUM(g: Generator[\RR64\]) =
+opr BIG MAXNUM(g: Generator[\RR64\]): RR64 =
     __bigOperatorSugar[\RR64,RR64,RR64,RR64\](BIG MAXNUM(), g)
 
 
@@ -3411,7 +3412,7 @@ end
 opr BIG AND[\T\](): BigReduction[\Boolean,Boolean\] =
     BigReduction[\Boolean,Boolean\](AndReduction)
 
-opr BIG AND[\T\](g: Generator[\Boolean\]) =
+opr BIG AND[\T\](g: Generator[\Boolean\]): Boolean =
     __bigOperatorSugar[\Boolean,Boolean,Boolean,Boolean\](BIG AND[\T\](), g)
 
 object OrReduction
@@ -3486,7 +3487,7 @@ opr BIG ||(): Comprehension[\Any,String,String,String\] =
     Comprehension[\Any,String,String,String\](
         identity[\String\],StringReduction,fn (x:Any)=> "" x)
 
-opr BIG ||[\T\](g: Generator[\T\]) =
+opr BIG ||[\T\](g: Generator[\T\]): String =
     __bigOperatorSugar[\Any,String,String,String\](BIG ||(), g.map[\Any\](identity[\Any\]))
 
 (** This operator performs string concatenation, first converting
@@ -3506,7 +3507,7 @@ opr BIG //(): Comprehension[\Any,String,String,AnyMaybe\] =
     Comprehension[\Any,String,String,AnyMaybe\](
         fn x => x,NewlineReduction,fn (x:Any)=> "" x)
 
-opr BIG //[\T\](g: Generator[\T\]) =
+opr BIG //[\T\](g: Generator[\T\]): String =
     __bigOperatorSugar[\Any,String,String,AnyMaybe\](BIG //(), g.map[\Any\](identity[\Any\]))
 
 (** A %MapReduceReduction% takes an associative binary function %j% on
@@ -3521,7 +3522,7 @@ end
 (** A %MIMapReduceReduction% takes an associative binary function %j% on
     arguments of type %R%, and the identity of that function %z%, and
     returns the corresponding reduction. **)
-object MIMapReduceReduction[\R\](j:(Any,Any)->R, z:Any) extends MonoidReduction[\Any\]
+object MIMapReduceReduction[\R\](j:(Any,Any)->R, z:R) extends MonoidReduction[\Any\]
     getter asString():String="MIMapReduceReduction from embiggen"
     empty(): R = z
     join(a:Any, b:Any): R = (j)(a,b)
@@ -3579,7 +3580,7 @@ object SimpleMappedIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
         SimpleMappedIndexed[\E,F,I\](self.g[r],self.f)
 
     ivmap[\R\](ff:(I,F)->R): Indexed[\R,I\] =
-        g0().ivmap[\R\](fn (i:I, e:E) => ff(i, (self.f)(e)))
+        g0.ivmap[\R\](fn (i:I, e:E) => ff(i, (self.f)(e)))
     map[\G\](f': F->G): SimpleMappedIndexed[\E,G,I\] =
         SimpleMappedIndexed[\E,G,I\](self.g, f' COMPOSE self.f)
 end
@@ -3629,7 +3630,7 @@ trait NestedGenerator[\E,F\] extends Generator[\F\]
     getter asString(): String
     getter reverse(): NestedGenerator[\E,F\] =
         SimpleNestedGenerator[\E,F\](self.g.reverse,
-            fn(e:E):Generator[\F\] => self.f(e).reverse)
+            fn(e:E):Generator[\F\] => (self.f)(e).reverse)
     generate[\R\](r: Reduction[\R\], m: F->R): R =
         self.g.generate[\R\](r,fn (e:E):R => (self.f)(e).generate[\R\](r,m))
     mapReduce[\R\](body: F->R, join:(R,R)->R, id:R): R =
@@ -4595,10 +4596,10 @@ trait Generator2[\ E \]
 
   naiveImpl[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = q.unlift(generate[\L1\](q, (fn (x) => q.lift(r.unlift(x.generate[\L2\](r,fn a => r.lift(f(a))))))))
 
-  theorems[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L1 \], E -> R)->R)\] = <| |>
+  theorems[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->R)\] = <| |>
 
 
-  naiveImplFiltered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p : Generator[\E\] -> Condition[\()\], f : E -> R) : R = q.unlift(generate[\L1\](q, (fn (x) => if (p(x)).holds() then q.lift(r.unlift(x.generate[\L2\](r, fn a => r.lift(f(a))))) else q.empty() end)))
+  naiveImplFiltered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p : Generator[\E\] -> Condition[\()\], f : E -> R) : R = q.unlift(generate[\L1\](q, (fn (x) => if (p(x)).holds then q.lift(r.unlift(x.generate[\L2\](r, fn a => r.lift(f(a))))) else q.empty() end)))
 
   (* this is just for internal use *)
   __generate2filtered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p : Generator[\E\] -> Condition[\()\], f : E -> R) : R = do
@@ -4619,7 +4620,7 @@ trait Generator2[\ E \]
   end
 
 
-  theoremsFiltered[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\] = <| |>
+  theoremsFiltered[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\] = <| |>
 
 
   filter(p: Generator[\ E \] -> Condition[\()\]): Generator2[\E\] =
@@ -4629,14 +4630,15 @@ end
 (* filtered GG *)
 trait FilterGenerator2[\ E \]
   extends { Generator2[\ E \], FilterGenerator[\ Generator[\ E \] \] }
+  getter g(): Generator2[\E\]
   filter(p': Generator[\ E \] -> Condition[\()\]): SimpleFilterGenerator2[\E\] =
   SimpleFilterGenerator2[\E\](self.g, andCondCombine[\E\](self.p, p'))
   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = self.g.__generate2filtered[\ R, L1, L2 \](q,r,self.p,f)
   __generate2filtered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p' : Generator[\E\] -> Condition[\()\], f : E -> R) : R = self.g.__generate2filtered[\R, L1, L2\](q,r,andCondCombine[\E\](self.p, p'),f)
 
-  theoremsFiltered[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\] = self.g.theoremsFiltered[\R, L1, L2\]()
+  theoremsFiltered[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\] = self.g.theoremsFiltered[\R, L1, L2\]()
 
-  theorems[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L1 \], E -> R)->R)\] = self.g.theorems[\R\]()
+  theorems[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->R)\] = self.g.theorems[\R, L1, L2\]()
 end
 
 (* object to hold predicates *)
@@ -4644,7 +4646,7 @@ object SimpleFilterGenerator2[\E\](g0:Generator2[\E\], p0: Generator[\E\]->Condi
         extends FilterGenerator2[\E\]
     getter g(): Generator2[\E\]       = g0
     getter p(): Generator[\E\] -> Condition[\()\]  = p0
-    getter seed() : Generator[\ E \] = self.g.seed()
+    getter seed() : Generator[\ E \] = self.g.seed
 end
 
 (*---------------------------Relational Predicates -------------------------*)
@@ -4692,7 +4694,7 @@ object AndRelationalPredicateCondition[\ E \](fst : Generator[\ E \] -> Relation
 end
 
 (* Shortcut to create a relational predicate *)
-relationalPredicate[\E\](relation : (E, E) -> Boolean) : E -> RelationalPredicateCondition[\ E \] = fn (x : Generator[\ E \]) : RelationalPredicateCondition[\ E \] => ConcreteRelationalPredicateCondition[\E\](relation, x)
+relationalPredicate[\E\](relation : (E, E) -> Boolean) : Generator[\ E \] -> RelationalPredicateCondition[\ E \] = fn (x : Generator[\ E \]) : RelationalPredicateCondition[\ E \] => ConcreteRelationalPredicateCondition[\E\](relation, x)
 
 
 (*) Some random stuff related to arrays and the MCKPE benchmark
