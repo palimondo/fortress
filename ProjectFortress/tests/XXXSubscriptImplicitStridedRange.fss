@@ -1,0 +1,17 @@
+component XXXSubscriptImplicitStridedRange
+import List.{...}
+export Executable
+
+(* An implicit range :b:c used as a subscript is completed as l:b:c from the lower bound l of the subscripted axis (row 609); Specification/basic/expressions/ranges.tex, section "Ranges". *)
+
+run() = do
+    arr: ZZ32[6] = [10 11 12 13 14 15]
+    l = <|"a","b","c","d","e","f"|>
+    assert((arr[:3:2])[0], 10, "ranges.tex, section \"Ranges\": the implicit range :3:2 is treated as l:3:2, here 0:3:2, so the first element of arr[:3:2] is arr[0], 10")
+    assert(|arr[:3:2]|, 2, "ranges.tex, section \"Ranges\": arr[:3:2] is arr[0:3:2], two elements")
+    assert(l[:3:2], <|"a","c"|>, "ranges.tex, section \"Ranges\": the implicit range :3:2 is treated as 0:3:2, so the list's [:3:2] is a and c")
+    assert("abcdef"[:3:2], "ac", "ranges.tex, section \"Ranges\": the implicit range :3:2 is treated as 0:3:2, so \"abcdef\"[:3:2] is ac")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,15 @@
+(* Inside an object a naked reference to a field named like an inherited getter reads the field (objects.tex, section "Field Declarations"), so the object compiles. *)
+component XXXFieldBesideInheritedGetter
+export Executable
+
+trait Sized
+    getter size(): ZZ32
+end
+
+object Box(size: ZZ32) extends Sized
+    twice(): ZZ32 = size + size
+end
+
+run(): () = println(Box(3).twice())
+
+end

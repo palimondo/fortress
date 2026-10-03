@@ -1,0 +1,147 @@
+(* The string library's flat, concatenated, sub- and empty strings, called under walk through the declarations the compiled checker could not type, with the values they answer. *)
+component StringPieces
+import String.{...}
+import FlatString.{...}
+import Stream.{...}
+export Executable
+
+object PieceCollector() extends WriteStream
+    var text: String := ""
+    getter collected(): String = text
+    write(s: String): () = do text := text || s end
+    write(c: Char): () = do text := text || c end
+    flush(): () = ()
+    close(): () = ()
+end
+
+writtenBy(s: String): String = do
+    c = PieceCollector()
+    s.writeOn(c)
+    c.collected
+end
+
+piecesOf(g: Generator[\(ZZ32, String)\]): String = do
+    s: String := ""
+    for (o, p) <- seq(g) do s := s || o || ":" || p || ";" end
+    s
+end
+
+run() = do
+    a = "a"^20
+    b = "bcdefghijklmnopqrstu"
+    cs = a || b
+    flat = "abc"
+    assert(cs.ilkName, "CatString", "two twenty-character strings concatenate into a CatString")
+    assert(cs.left, cs.asFlatString.left, "a concatenated string's left getter is String's and answers the first character as its flat form does, its halves being fields of other names (traits.tex, section Abstract Field Declarations)")
+    assert(cs.right, cs.asFlatString.right, "a concatenated string's right getter is String's and answers the last character as its flat form does (traits.tex, section Abstract Field Declarations)")
+    assert(cs.first, a, "the first half of the concatenated string is its first twenty characters")
+    assert(cs.second, b, "the second half of the concatenated string is its last twenty characters")
+    assert(cs.size, 40, "the concatenated string has forty characters")
+    assert(cs.bounds = (0#40), true, "the concatenated string's bounds are 0#40")
+    assert(cs.asFlatString.ilkName, "FlatString", "a concatenated string flattens to a FlatString")
+    assert(cs.asFlatString, a || b, "a concatenated string flattens to its forty characters")
+    assert(cs.asExprString, "\"" || a || b || "\"", "a concatenated string's expression form is its characters in one pair of quotes")
+    sub = cs[18#5]
+    assert(sub.ilkName, "SubString", "five characters across the two halves of a CatString are a SubString")
+
+    assert(piecesOf(cs.splitWithOffsets()), "0:" || a || ";20:" || b || ";", "a concatenated string splits into its two halves at offsets 0 and 20")
+    assert(piecesOf(sub.splitWithOffsets()), "0:aa;2:bcd;", "a substring across the halves splits into its part of each half")
+    for (o, p) <- seq(sub.splitWithOffsets()) do
+        assert(p.ilkName, "SubString", "each piece of the substring is a substring of a flat half")
+        assert(writtenBy(p), p.asFlatString, "a substring of a flat string writes its own characters, one parenthesized write per character (method-invocation.tex, section Dotted Method Invocations)")
+    end
+    assert(writtenBy(sub), "aabcd", "the substring writes aabcd")
+    assert(writtenBy(cs), a || b, "the concatenated string writes both halves")
+    csv = cs || "vw"
+    assert(piecesOf(csv.splitWithOffsets()), "0:" || a || ";20:" || b || "vw;", "a short flat string concatenated onto a concatenated string joins its second half")
+    assert(cs[0], 'a', "the first character of the concatenated string is a")
+    assert(cs[|cs| - 1], 'u', "the last character of the concatenated string is u")
+
+    assert(flat.left, 'a', "a string's left getter answers its first character itself")
+    assert(flat.right, 'c', "a string's right getter answers its last character itself")
+    assert(flat.get(1), 'b', "get at 1 of abc is b")
+    assert(cs.get(25), 'g', "get at 25 of the concatenated string is g")
+    assert(sub.get(2), 'b', "get at 2 of the substring aabcd is b")
+    assert(sub[4], 'd', "the substring aabcd indexed at 4 is d")
+    assert(|sub|, 5, "the substring has five characters")
+    assert(sub.asFlatString, "aabcd", "the substring flattens to aabcd")
+    assert(sub[1#3], "abc", "three characters of the substring from 1 are abc")
+    assert(sub CMP "aabcd", EqualTo, "the substring compares equal to aabcd")
+    assert(sub CMP "aabce", LessThan, "the substring compares less than aabce")
+    assert(sub CASE_INSENSITIVE_CMP "AABCD", EqualTo, "the substring compares equal to AABCD ignoring case")
+    assert('b' IN sub, true, "b is in the substring")
+    assert('z' IN sub, false, "z is not in the substring")
+    assert('a' IN sub, false, "pins today's answer, false: a flat string's rangeContains finds only the first occurrence of the character, and the two a's of the substring aabcd lie past the first a of its flat half")
+    assert("abca".rangeContains(3#1, 'a'), false, "pins today's answer, false: a flat string's rangeContains finds only the first occurrence of the character, so the a of abca at 3 is not found in 3#1")
+    assert(sub.balanced(), "aabcd", "the substring balanced is aabcd")
+    assert("abcdef"[0:4:2], "ace", "abcdef at the strided range 0:4:2 is its characters at 0, 2 and 4, ace (ranges.tex, section Ranges)")
+    assert(cs[20:30:2], "bdfhjl", "the concatenated string at 20:30:2 is its characters at every second index from 20 to 30, bdfhjl (ranges.tex, section Ranges)")
+    s2 = cs[18:24:2]
+    assert(s2, "abdf", "the concatenated string at 18:24:2, across its two halves, is abdf (ranges.tex, section Ranges)")
+    assert(|s2|, 4, "the strided slice 18:24:2 has four characters (ranges.tex, section Ranges)")
+    assert(s2.asFlatString, "abdf", "the strided slice across the halves flattens to abdf (ranges.tex, section Ranges)")
+    assert(writtenBy(s2), "abdf", "the strided slice across the halves writes abdf (ranges.tex, section Ranges)")
+    assert(sub[0:4:2], "abd", "the substring aabcd at 0:4:2 is abd (ranges.tex, section Ranges)")
+    subPairs = sub.splitWithOffsets()
+    (_, piece) = subPairs[1]
+    assert(piece CASE_INSENSITIVE_CMP "BCD", EqualTo, "the substring's second piece, bcd, compares equal to BCD ignoring case")
+    assert("BCD" CASE_INSENSITIVE_CMP piece, EqualTo, "BCD compares equal to the substring's second piece, bcd, ignoring case")
+
+    assert(flat[1:], "bc", "abc from 1 is bc")
+    assert(flat[3:], "", "abc from 3 is empty")
+    assert(flat[#2], "ab", "the first two characters of abc are ab")
+    assert(flat[0#0], "", "zero characters of abc are empty")
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => flat[2#5])
+    assert("abcdef"[2#3], "cde", "three characters of abcdef from 2 are cde")
+    assert("abcdef".javaSubstr(2), "cdef", "the Java substring of abcdef from 2 is cdef")
+
+    assert(reverse("abc"), "cba", "abc reversed is cba")
+    assert(reverse(""), "", "the empty string reversed is empty")
+    assert(reverse(cs), reverse(b) || a, "the concatenated string reversed is its second half reversed then its first")
+
+    assert(flat.asDebugString, "J3/0:abc", "a flat string's debug form")
+    assert(cs.asDebugString, "BC40/1:" || newline || spaces(8) || "J20/0:" || a || newline || spaces(8) || "J20/0:" || b, "a concatenated string's debug form indents its halves by eight")
+    assert(EmptyString.asDebugString, "E0/0", "the empty string's debug form")
+
+    assert(flatConcat("ab", "cd"), "abcd", "flatConcat of ab and cd is abcd")
+    assert(flatConcat("ab", 'c'), "abc", "flatConcat of ab and c is abc")
+    small = "ab" || CatString("cd", "ef")
+    assert(small, "abcdef", "a short flat string and a short concatenated string concatenate to abcdef")
+    assert(small.ilkName, "FlatString", "a short concatenation is flattened")
+    assert(newline, lineSeparator, "newline is the line separator")
+
+    assert(cs.stats().asString, "size = 40; depth = 1; maxFlat = 20; minFlat = 20; avFlat = 20.0; numFlat = 2", "the statistics of the concatenated string")
+    st = cs.stats()
+    assert(st.minFlat, 20, "the shortest flat piece of the concatenated string has twenty characters")
+    assert(st.maxFlat, 20, "the longest flat piece of the concatenated string has twenty characters")
+    assert(st.numFlat, 2, "the concatenated string has two flat pieces")
+    assert(st.ssize, 40, "the statistics' size of the concatenated string is forty")
+    assert(st.sdepth, 1, "the statistics' depth of the concatenated string is one")
+    assert(sub.stats().asString, "size = 5; depth = 1; maxFlat = 20; minFlat = 20; avFlat = 2.5; numFlat = 2", "the statistics of the substring count its base's flat pieces")
+    assert(flat.stats().asString, "size = 3; depth = 0; maxFlat = 3; minFlat = 3; avFlat = 3.0; numFlat = 1", "the statistics of a flat string")
+
+    var subs: String := EmptyString
+    for i <- seq(1#40) do subs := CatString(subs, sub) end
+    assert(subs.isBalanced, false, "forty substrings concatenated one by one are unbalanced")
+    rebalanced = subs.balanced()
+    assert(rebalanced.depth, 12, "forty substrings rebalanced have depth 12")
+    assert(rebalanced, subs, "rebalancing keeps the characters")
+    var pairs: String := EmptyString
+    for i <- seq(1#40) do pairs := CatString(pairs, "xy") end
+    rebalancedPairs = pairs.balanced()
+    assert(rebalancedPairs.depth, 2, "forty two-character strings rebalanced have depth 2")
+    assert(|rebalancedPairs|, 80, "forty two-character strings rebalanced have eighty characters")
+
+    assert(EmptyString[0#0], "", "the empty string indexed by an empty range is empty")
+    assert(EmptyString.bounds.asString, "[]", "the empty string's bounds are the empty range")
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => EmptyString.get(0))
+    out = PieceCollector()
+    out.print("ab", 'c', 1, (2, 3))
+    assert(out.collected, "abc1(2,3)", "print writes its arguments' strings in order")
+    out.println("x")
+    assert(out.collected, "abc1(2,3)x" || newline, "println writes its argument and a newline")
+    println("pieces " cs " " sub)
+    println("PASS")
+end
+
+end

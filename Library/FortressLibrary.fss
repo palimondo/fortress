@@ -4173,8 +4173,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
 
     opr |self| : ZZ32 = self.size
 
+    abstract get(i:ZZ32): Char
+    abstract asDebugStringIndented(indent: ZZ32): String
+
     opr CASE_INSENSITIVE_CMP(self, other:String): TotalComparison =
-      ((BIG LEXICO[i <- 0#(|self| MIN |other|) ] self.get(i) CASE_INSENSITIVE_CMP other.get(i)) LEXICO (|self| CMP |other|))
+      self.asFlatString CASE_INSENSITIVE_CMP other.asFlatString
 
     opr CMP(self, other:String): TotalComparison =
       ((BIG LEXICO[i <- 0#(|self| MIN |other|) ] self.get(i) CMP other.get(i)) LEXICO (|self| CMP |other|))
@@ -4191,8 +4194,12 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         end
 
     opr[r0:Range[\ZZ32\]] : String =  do
-        r1 = self.bounds[r0]     (* This will complete r0 if it is incomplete, and throw a bounds exception when necessary *)
-        self.uncheckedSubstring(r1)
+        r1 = self.bounds.narrowToRange(r0)     (* This will complete r0 if it is incomplete, and throw a bounds exception when necessary *)
+        if r1.stride = 1 then
+            self.uncheckedSubstring(r1)
+        else
+            BIG || [i <- r1] self.get(i)
+        end
     end
 
     uncheckedSubstring(r0: Range[\ZZ32\]) : String
@@ -4303,7 +4310,7 @@ opr juxtaposition(a:Any, b:String):String = (""||a) || b
 opr juxtaposition(a:String, b:String):String = a || b
 opr juxtaposition(a:String, b:Any):String = a || b
 
-reverse(sequence:String):String = BIG || [c<-sequence.reverse()] c
+reverse(sequence:String):String = BIG || [c<-sequence.reverse] c
 
 (***********************************************************
 * Numeric primitives

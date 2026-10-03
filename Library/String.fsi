@@ -13,13 +13,19 @@ api String
 
   concatAndBalanceIfNecessary(s1: String, s2: String): String
 
-  object CatString(left: String, right:String) extends String
+  trait Concatenable extends String
   end
 
-  value object EmptyString extends String
+  trait Balanceable extends String
   end
 
-  object SubString extends String
+  object CatString(first: String, second:String) extends {Concatenable, Balanceable}
+  end
+
+  value object EmptyString extends {String, Concatenable}
+  end
+
+  object SubString(baseString: String, range: Range[\ZZ32\]) extends {Concatenable, DelegatedIndexed[\Char, ZZ32\]}
   end
  
   object StringStats() extends Object
