@@ -1,0 +1,217 @@
+# Rung S of climb batch 9: the strings, fields read as methods, calls only walk resolves, names the api lacks
+
+problem: 84 errors of the landed per-site list in the string components, first CatString's fields `left` and `right` read by the checker as `String`'s getters of those names, `()->Maybe[\Char\]` (`explorations/compile-ladder/gate/distance-sites.tsv`; the declaration at the base, `Library/String.fss:75`)
+spec: a field declares a getter of its own name and type (`Specification/basic/traits.tex`, section "Abstract Field Declarations", `:641-646`), and a naked reference to it inside its object reads the field, not the getter (`Specification/basic/objects.tex`, section "Field Declarations", `:336-345`); an api's declaration is matched by a component definition with the same header (`Specification/basic/components/apis.tex`, section "Component and API Identity", `:249-258`); a dotted method's argument is parenthesized (`Specification/basic/expressions/method-invocation.tex`, section "Dotted Method Invocations", `:43-46`); a non-last block element of type other than `()` is written `ignore(e)` (`Specification/basic/expressions/blocks.tex`, section "Do Expressions", `:49-53`); a varargs parameter has type `HeapSequence[\T\]` and a call with no varargs argument is applicable by the tuple rule (`Specification/basic/functions.tex`, sections "Function Declarations" and "Function Applications", `:178-182`, `:264-283`); a strided range `a:b:c` is the set `{a, a+c, ..., a + floor((b-a)/c) c}` (`Specification/basic/expressions/ranges.tex`, section "Ranges", `:68-73`)
+precedent: CatString's own `depthField` beside `getter depth()` (`Library/String.fss:77-78` at the base); SubString's fields of other names than String's getters (`Library/String.fss:338` at the base); `ConcatGenerator(first, second)` (`Library/String.fss:260` at the base); the typecase that gets a FlatString before `flatConcat` (`Library/String.fss:63-70` at the base); `CompactFullRange`'s `lower` defined as `left.get` (`Library/FortressLibrary.fss:3969-3970`); List's indexing by a range, which reads `r.left.get` and `|r|` under the test `r.stride = 1` and otherwise selects element by element (`Library/List.fss:145-151`, the test at `:147`), and the arrays' `r'.left.get` and `r'.extent.get` with the stride passed on (`Library/FortressLibrary.fss:2291-2296`, `:2514-2520`, extent at `:2516`, stride at `:2295`, `:2518`); `BIG ||` building a string from characters (`reverse`, `Library/FortressLibrary.fss:4287`); the `ensures` contract of CASE_INSENSITIVE_CMP (`Library/String.fss:114`, `:393`); `IndexOutOfBounds[\ZZ32\](self.bounds,i)` in String's own indexing (`Library/FortressLibrary.fss:4164` at the base); the api's `abstract` members (`Library/FortressLibrary.fsi:2439-2440` at the base); an api header naming its helper trait (`DefaultZip`, `Library/FortressLibrary.fsi:1323-1324`); `ignore` (`Library/FortressLibrary.fsi:30`)
+deviation: the CatString typecase takes a pair, the precedent one value (`Library/String.fss:84-87`); StringStats applies `depthField`'s device to five `var` fields (`Library/String.fss:500-510`); the String api now names `Concatenable` and `Balanceable`, which the team kept out of it (`Library/String.fsi:16-20`); CatString's halves are named `first` and `second` after ConcatGenerator, not after any string type (`Library/String.fss:75`); String's strided slice is built with `BIG ||` as `reverse` builds a string, where List's builds a list comprehension (`Library/FortressLibrary.fss:4172-4176`); String's default CASE_INSENSITIVE_CMP is the library's `ensures` clause written as its body (`Library/FortressLibrary.fss:4153-4154`)
+historical: `Library/String.fsi`, `Library/String.fss`, `Library/FlatString.fss`, `Library/Stream.fsi`, `Library/Stream.fss`, `Library/FortressLibrary.fsi`, `Library/FortressLibrary.fss` (all edited; first edit `Library/FortressLibrary.fss:4150`)
+
+The first pass's text, sections 1 to 12, is kept with the corrections the judge's ruling asked for (`explorations/compile-ladder/rung-string-slips/JUDGE.md`); the repair round is section 13.
+
+## 1. What this run inherited, and what it re-verified
+
+The batch was relaunched after the VM restarted (uptime 22 minutes at 23:57 UTC). The branch held one commit, `9261317e9`, the test `ProjectFortress/tests/StringPieces.fss` alone, and the worktree held the first attempt's uncommitted edits to six library files. The first attempt's transcript (`agent-a016f9a2c67378efc.jsonl` in the workflow's subagent directory) shows its order: the test written, run through `harness-one.sh` at 23:26:51 on the worktree while every library file was still the base's (their modification times are 23:28 and later), failing, committed alone, then the library edits. Its failing run:
+
+    $ bash tmp/rung-string-slips/harness-one.sh .../h1 ProjectFortress/tests/StringPieces.fss
+    # harness-one 2026-10-02T23:26:51Z; tree fa14a190c; ...
+    com.sun.fortress.exceptions.ProgramError: ... Library/String.fss:293:15-80:
+    Unification error: Library/FortressLibrary.fss:1677:36-43:
+    Cannot unify CatString(...) with Range[\I\](...)
+
+I read every inherited edit as a colleague's, kept each one after checking it against its precedent (section 4), and re-ran nothing of theirs: the inherited development check (`tmp/rung-string-slips/dev/r1`) predated half of the edits, so my own checks below are on the finished tree. Not inherited: the CatString renaming, the StringStats getters, the String api's headers, `generator` on String's api, CatString's `asFlatString` and `asExprString`, the SubString `writeOn` loop, the two expected-failure compile tests, and the test's later assertions.
+
+## 2. The before
+
+The last landed gate's tables (`explorations/compile-ladder/climb-batch-8/gate/checker-count.txt`, `distance.txt`) and per-site list (`explorations/compile-ladder/gate/distance-sites.tsv`), landed by `6416d216f`; `git log 6416d216f..fa14a190c -- Library/ ProjectFortress/src/ ProjectFortress/LibraryBuiltin/` prints nothing, so the base has not changed under them and the stage was not run on the base. Read with the stage's own `classify.py`, the rung's 84 sites are SF 22, CV 10, NM 25 and 27 others (I3 2, the twelve `nonEmpty` of a Generator and their filters, assert and deny 6, `IndexOutOfBounds` 1, `seq` of a Range 1, `FlatString;` 1, `uncheckedSubstring` of an Indexed 1, X1 3), as the record lists them.
+
+## 3. Where the fixes belong
+
+The map's rows: `String` (`explorations/coordinator/map/spec-to-implementation.md:330`) puts the type in `Library/FortressLibrary.fss`, `Library/String.fss` and `Library/FlatString.fss`; getters (`:226`) and varargs (`:212`) name the checker's `Decls.scala` and `Functionals.scala`, and the varargs row says the compile path's handling was never read (`:446`). Every slip the stage named in the string components is a library declaration or body, so the fixes are library edits; the faults the stage exposed that are the checker's are measured in section 8 and left with rows, as the record's stops require.
+
+## 4. The repairs, each with its precedent and the way not taken
+
+- **CatString's halves (SF 22, I3 `:156`).** `object CatString(left: String, right: String)` declares two fields whose implicit getters, of the field's name and type (`Specification/basic/traits.tex`, section "Abstract Field Declarations", `:641-646`), override String's `getter left(): Maybe[\Char\]` and `right()` (`Library/FortressLibrary.fsi:2402-2403`) with type `String`, an override of the wrong type; the checker meanwhile reads the naked field inside the body as the inherited getter, against `Specification/basic/objects.tex`, section "Field Declarations" (`:336-345`; section 8, row 588). Renamed `first` and `second`, after `ConcatGenerator(first, second)` in the same file (`Library/String.fss:265`) and as SubString's fields avoid String's getter names (`:343`); every reader of the halves follows (`:63-65`, `:75-171`, `:248-249`, `:440-442`, `:524-525`), and the api's header (`Library/String.fsi:22`). Not taken: `hidden` fields, which leave the checker reading the inherited getter and do not move a site; renaming String's getters, which changes every string's api.
+- **CatString's size (I3 `:79`).** The field `size` is read by the checker as the getter `()->ZZ32` in `0#size`. Written as the object already writes its depth: `sizeField` beside `getter size()` (`Library/String.fss:76-80`, the precedent `depthField` at `:77-79`). Not taken: `0#self.size`, which moves the site as well but leaves the field beside a getter of its name, the shape the checker misreads.
+- **The calls declared per kind of string (CV 7).** `BalancingForest.add` and `StringStats.collectStatsFor` took `FlatString`, `CatString`, `EmptyString` and `SubString`, and were called with a String. The FlatString case is now declared on `String` (`Library/String.fss:234`, `:528`), the library's own way of a general declaration beside its specific ones (FlatString's `opr ||(self, b:FlatString)` beside `(self, b:String)`, `Library/FlatString.fss:119-140`); dispatch at run time is unchanged, a FlatString still reaching the general case.
+- **`flatConcat` from a String (CV `FlatString.fss:135`, and CatString's `asFlatString` unmasked by the renaming).** `asFlatString` is declared `String` and every string answers a FlatString; declaring it `FlatString` would retype string literals' uses (the checker types a literal `String`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:460-461`). Both calls go through a typecase, the device `concatAndBalanceIfNecessary` already uses before `flatConcat` (`Library/String.fss:63-70`): `Library/FlatString.fss:135-138` and, over the pair of halves as the library's tuple typecases do (`Library/CovariantCollection.fss:30-33`), `Library/String.fss:84-87`. The second clause of each is never taken at run time. Not taken: a `flatConcat(self, b:String)` declaration, which a native over two FlatStrings cannot back.
+- **Range ends and size (NM 11).** `range.lower`, `.upper` and `.size` on a `Range[\ZZ32\]` became `range.left.get`, `.right.get` and `range.extent.get` (`Library/String.fss:344`, `:376`, `:383`, `:400`, `:407`, `:429`, `:455`, `:461`, `:472`, `:476`, `:479`; `Library/FlatString.fss:64`): CompactFullRange defines `lower` as `left.get` (`Library/FortressLibrary.fss:3969-3970`) and the runtime ranges answer `Just(l)` for `left` empty or not (`Library/RangeInternals.fss:981-984`, `:1027-1030` at the base). Compact ranges read their ends as before, and String's `opr[r0]` tests the stride as List does (`Library/List.fss:145-151`, the test at `:147`; the arrays at `Library/FortressLibrary.fss:2291-2296` and `:2514-2520`, stride at `:2295` and `:2518`), so no strided range reaches these reads (the next bullet). Not taken: `lower` on Range's api, which is rung R's section.
+- **Strided slices (the repair round).** String's `opr[r0]` narrows and then, where `r1.stride = 1`, calls `uncheckedSubstring` as before; otherwise it builds the slice character by character, `BIG || [i <- r1] self.get(i)` (`Library/FortressLibrary.fss:4170-4177`): List's device (`Library/List.fss:145-151`), with `BIG ||` over characters as `reverse` builds a string (`Library/FortressLibrary.fss:4287`), and `get`, which skips the bounds check that `narrowToRange` has just made (`Library/String.fss:123-124`). Not taken: a stride guard in each of the three `uncheckedSubstring` bodies, and a loud refusal held by an XXX test (section 11).
+- **Names the api lacked (NM 9, CV-unmasked 1).** `abstract get(i:ZZ32): Char` and `abstract asDebugStringIndented(indent: ZZ32): String` declared on String in api and component (`Library/FortressLibrary.fsi:2411`, `:2421`; `Library/FortressLibrary.fss:4150-4151`), each implemented by all four string objects; `getter generator(): Generator[\Char\]` added to String's api (`Library/FortressLibrary.fsi:2407`), which the component's String has from `DelegatedIndexed`.
+- **Getters called as methods and methods as getters (NM 5).** `s.balanced` to `s.balanced()` (`Library/String.fss:261`, `:365`), `allButFirst` to `allButFirst()` (`:88`, unmasked), `self.size()` to `self.size` (`Library/FlatString.fss:89`), `sequence.reverse()` to the getter `sequence.reverse` (`Library/FortressLibrary.fss:4287`), and `indices.flip`, which Generator lacks, to Generator's `reverse` (`Library/String.fss:201`, under `balanceDebug`, never run).
+- **`nonEmpty` (NM 1, the twelve OT and GF).** `splitWithOffsets` declared `ZeroIndexed[\(ZZ32, String)\]`, what its four bodies answer (a list or a `Nothing`, both `ZeroIndexed`), in String's api and every object (`Library/FortressLibrary.fsi:2443`, `Library/String.fss:161`, `:322`, `:450`, `Library/FlatString.fss:149`); SubString's empty case answered `Nothing[\Generator[\(ZZ32,String)\]\]` and now `Nothing[\(ZZ32,String)\]` (`:464`); BoundedRange's missing `nonEmpty` became `¬ … .isEmpty` (`:421`, `:462`).
+- **String's default CASE_INSENSITIVE_CMP (the repair round).** Its body compared characters with `CASE_INSENSITIVE_CMP`, which Char does not declare, and walk reached it through SubString's fallback, `(self asif String) CASE_INSENSITIVE_CMP (other asif String)` (`Library/String.fss:411`), for every SubString whose base is flat, and through FlatString's `INVERSE (other CASE_INSENSITIVE_CMP self)` (`Library/FlatString.fss:78`). The body is now the library's own `ensures` clause, `self.asFlatString CASE_INSENSITIVE_CMP other.asFlatString` (`Library/FortressLibrary.fss:4153-4154`; the clause at `Library/String.fss:114`, `:393`), which reaches FlatString's native `cicmp` (`Library/FlatString.fss:76-77`, `:85-86`) and chooses no case folding of its own. Not taken: a Char folding with `toLowerCase` or `toUpperCase` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:281-283`), which no library string uses, and a test pinning the crash (section 11).
+- **The rest.** `throw IndexOutOfBounds[\ZZ32\](self.bounds, i)` as String's own indexing writes it (`Library/String.fss:298`); `self.bounds.narrowToRange(r0)`, which is what `bounds[r0]` computes (`Library/RangeInternals.fss:854-858` at the base), for the Indexed passed to `uncheckedSubstring` (`Library/FortressLibrary.fss:4171`); CatString's and EmptyString's `bounds` declared `CompactFullRange[\ZZ32\]` as Indexed requires (`Library/String.fss:80`, `:277`); `ignore(FlatString)` (`Library/FlatString.fss:29`, the specification's own device); SubString's character loop over `range.left.get # range.extent.get`, with the write's argument parenthesized (`Library/String.fss:491-492`, section 6).
+- **The export check (X1 3 to 2).** String's api now gives its objects the component's headers, declaring the two helper traits as `DefaultZip`'s api names `DelegatedIndexed` (`Library/String.fsi:16-29`), and StringStats' getters read renamed fields (`Library/String.fss:500-510`): String's X1 is gone. Stream's api marks its bodyless members `abstract` as String's api does, and its WriteStream declares the inherited `close` (`Library/Stream.fsi:20-67`, `Library/Stream.fss:76`); the X1 now names only `print` (section 8). FlatString's is left: its api declares `opr ||(a:FlatString, self)`, which the component does not define (`Library/FlatString.fsi:20`), String's symbolic family, PLAN item 38.
+
+Same slips elsewhere, outside this rung's files: `FullRange.lower` at `Library/FortressLibrary.fss:2236` and `Generator.size` at `:4625`, `:4628` (lines of the landed list, at the base), three sites of the landed list. `:2236`'s twin at `:2294` reads `r'.left.get` and passes the stride on at `:2295`, so a rung repairing `:2236` keeps the stride.
+
+## 5. What the specification settles
+
+`Specification/basic/traits.tex:641-646` (Abstract Field Declarations): "a field declaration implicitly declares a getter method for the field unless there is an explicit getter declared in the enclosing trait. An implicit getter method takes no arguments, has the same name as the field, and has a return type equal to the field type." `Specification/basic/objects.tex:336-345` (Field Declarations): "Within an object declaration ... a field can be accessed by a naked identifier reference ... such a reference does not invoke the getter or setter method of that name." `Specification/basic/components/apis.tex:249-258`: a matching definition has "the same name", "the header and type of d' must be the same as the header and type of d", and the component defines all but the api's `abstract` declarations. `Specification/basic/expressions/method-invocation.tex:43-46`: "the argument expression must be parenthesized, even if it is not a tuple". `Specification/basic/expressions/blocks.tex:49-53`: each non-last element "must have type ()", by `ignore(e)` or `_ = e`. `Specification/basic/functions.tex:178-182` and `:264-283`: a varargs parameter has type `HeapSequence[\T\]`, and a parameter list with a varargs binding is applicable when the argument tuple has at least as many plain types as plain bindings. `Specification/basic/expressions/ranges.tex:68-73` (Ranges): "The range a:b:c is the set of n = max(0, floor((b-a+c)/c)) integers {a, a+c, a+2c, ..., a + floor((b-a)/c) c}"; ranges are "useful for indexing an array" (`:37-40`), and implicit strided ranges are given meaning as subscripts (`:115-127`); with the library's `Indexed` contract, indexing by a range answers the elements at the narrowed range's indices (`Library/FortressLibrary.fsi:1286-1296`), and String is `ZeroIndexed[\Char\]` (`:2398`), so `"abcdef"[0:4:2]` is `"ace"`. The prose is silent on String's `left` and `right` (no passage of `Specification/basic/` or `Specification/basic-lib/` names them), on `CASE_INSENSITIVE_CMP` (no passage names the operator; the library's `ensures` clauses decide it, section 11), and on membership in a string (`Specification/basic/expressions/generators.tex` says nothing of `∈`, and `Specification/basic-lib/` has no string chapter; Generator's comment, `Library/FortressLibrary.fsi:826-827`, is library text).
+
+## 6. Walk's values: what changed
+
+Five walk values change, each a repair of a site the record names or of the line beside it. The first pass's three, by programs of my own run old against new (`tmp/rung-string-slips/probes2/ProbeCollect.fss`, the base in `/home/user/fortress-strings-base`, and the previous attempt's four probes):
+
+    base: cs.left aaaaaaaaaaaaaaaaaaaa flat.left a eq false
+    edit: cs.left a flat.left a eq true
+    base: ProgramError: Library/String.fss:487:25-53: Failed to find any matching overload, args = ((): (),'a')
+    edit: piece 0 ilk SubString written [aa]
+    base: ProgramError: Library/String.fss:293:15-80: Unification error ... Cannot unify CatString ... with Range[\I\]
+    edit: IOOB2 0 is outside the range []
+
+A CatString's `left` and `right` now answer String's first and last character, as a flat string's do, not its halves (the halves are `first` and `second`); a SubString over a flat piece writes its characters, where `stream.write baseString.get(i)` applied the getter-less `stream.write` to `()` and died; `EmptyString.get` throws `IndexOutOfBounds`, where the base died building it from a String.
+
+The repair round's two, by `tmp/rung-string-slips/repair/probe/StrideProbe.fss` (the strided slices, then a substring piece compared ignoring case both ways), run under walk on the edit and, with its comparison-only copy `CmpProbe.fss`, in `/home/user/fortress-strings-base`:
+
+    $ FORTRESS_HOME=/home/user/fortress-strings-base /home/user/fortress-strings-base/bin/fortress StrideProbe.fss    (base)
+    com.sun.fortress.exceptions.ProgramError: Library/FlatString.fss:64:40-46:
+    Cannot find definition for method upper given receiver StridedFullParScalarRange
+    $ bin/fortress StrideProbe.fss                                                                                    (edit, 14fb04c94)
+    flat[0:4:2] = [ace]
+    cs[20:30:2] = [bdfhjl]
+    s2 = [abdf] FlatString |s2| 4 flat [abdf] written [abdf]
+    sub[0:4:2] = [abd]
+
+    $ FORTRESS_HOME=/home/user/fortress-strings-base /home/user/fortress-strings-base/bin/fortress CmpProbe.fss       (base)
+    piece = [bcd] SubString
+    com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4151:50-59:
+    Failed to find any matching overload, args = ('d','D'), ...     (Context: ... Library/String.fss:406:22-33)
+    $ bin/fortress StrideProbe.fss                                                                                    (edit, 14fb04c94)
+    piece CICMP BCD = EqualTo
+    BCD CICMP piece = EqualTo
+
+A strided slice of a string, which raised on the base, now answers the specification's set; the first pass's head answered wrong characters (`"abcde"`, section 13), which no landed tree carries. String's default CASE_INSENSITIVE_CMP, which died on the base, now answers by the library's contract. The edit's probe printed the same seven lines at `FORTRESS_THREADS=4`. No program of the corpora reads `.left` or `.right` of a CatString, writes such a SubString, or slices a string with a strided range (`grep` of `ProjectFortress/tests`, `demos` and the `*_tests` corpora; the six team string tests pass, section 13). Unchanged and asserted: halves through `splitWithOffsets`, `asFlatString`, `asExprString`, `asDebugString`, comparisons, membership, compact substrings, `reverse`, `print` and `println` through a WriteStream, the statistics and their getters, rebalancing. These five are the record's stop "a repair that changes a value walk prints"; they are listed for Pavol (section 12).
+
+## 7. The test
+
+The manifest's test is the two stages (section 8). Beside them, `ProjectFortress/tests/StringPieces.fss`, by topic, calls every repaired declaration under walk. Its assertions for the repaired defects fail on the base, the rest pass on both. Its second failing run, after the assertions for CatString's getters, halves, `writeOn` and `print` were added and committed alone (`632fc9d53`), on the rung's copy of the base:
+
+    $ FORTRESS_HOME=/home/user/fortress-strings-base bash tmp/rung-string-slips/harness-one.sh .../h2 ProjectFortress/tests/StringPieces.fss
+    # harness-one 2026-10-02T23:55:44Z; tree fa14a190c; ...
+    FAIL: J20/0:aaaaaaaaaaaaaaaaaaaa =/= a Char: a; a concatenated string's first character is that of its flat form
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+The first pass's pass on its edit (`0c89ca877`): "OK (1 test)", with the six team string tests the record names and two more "OK (6 tests)" and "OK (2 tests)". The repair round's failing run, its assertions committed alone (`77a2cb2ea`), and its final pass of `StringPieces` with the six team tests in one invocation are in section 13.
+
+## 8. The stages, and the checker's faults behind the sites left
+
+Checker count, once on the repair round's library (`explorations/coordinator/tools/checker-count/run.sh tmp/rung-string-slips/repair/checker-count-repair.txt tmp/rung-string-slips/repair/cc`, tree `6ac45d2b0`, whose library is `14fb04c94`'s): identical to the landed table (the `diff` of the sorted tables is empty), `#total 56`, `#crash none`, as the first pass's was. Distance, once on the same tree (`explorations/coordinator/tools/distance/run.sh tmp/rung-string-slips/repair/distance-repair.txt tmp/rung-string-slips/repair/dist`, 1,138 s), against the landed table with `compare.sh`:
+
+    DISTANCE DOWN   565 -> 495 (-70)
+        kind typecheck              404 -> 335    (-69)
+        kind export                  10 -> 9      (-1)
+        class SF 22 -> 0, CV 10 -> 2, NM 54 -> 29, GF 10 -> 4, I3 7 -> 5, OT 183 -> 176, X1 10 -> 9, BR 10 -> 11
+        unit component String 69 -> 8, FlatString 6 -> 1, FortressLibrary 276 -> 272
+
+and against the first pass's after (`tmp/rung-string-slips/distance-postedit.txt`, 496):
+
+    DISTANCE DOWN   496 -> 495 (-1)
+        kind typecheck              336 -> 335    (-1)
+        class OT                    177 -> 176    (-1)  other body errors (one-off library slips and checker limits)
+        unit component FortressLibrary    273 -> 272    (-1)
+
+The four `#crash` rows are the landed ones, unchanged. By site, the repair's `errors.tsv`, classified with the stage's `classify.py`, against the first pass's after list, with `Library/FortressLibrary.fss` lines past `:4172` moved by the four lines the stride device adds and the numbers inside messages masked: one site gone, `FortressLibrary.fss:4154`, "Could not check call to operator CASE_INSENSITIVE_CMP - (String, String)->TotalComparison is not applicable to an argument of type (Char, Char)", the default comparison's old body, which the repair round replaced; none new, so String's `opr[r0]` with the stride test and `BIG ||` adds no error. Against the landed list: of the rung's 84, 71 are gone and 13 stay at their sites (lines mapped through the diff), every one listed below. Outside the rung's files the moves are the first pass's, since its after and this one differ only at `:4154`: in the big operators' bodies, BR +1 (two new at `Library/FortressLibrary.fss:3277`, `:3489`, one gone of `:3307`/`:3314`) and two pairs respelled at `:306`/`:316` and at upto's and beyond's `BIG MIN`, the varying family FACTS records ("The true distance to the switch-over"; row 488), none of whose declarations this rung touches.
+
+The 13 left:
+- **Seven `assert` and `deny` calls and two `writes` calls, and Stream's X1: the checker's varargs.** Zero varargs arguments after two `Any` parameters are refused (`Library/String.fss:330-336`), as are the library's five and six (`:435-436`, `:476`; `:476` was the `range.lower` site, its `assert` unmasked); in `print(args:Any...)` the parameter is typed as its element (`Library/Stream.fss:70-71`, "(Any, String)"); the export check finds WriteStream's `print`, spelled alike in api and component, unmatched (`Library/Stream.fsi:60`, `Library/Stream.fss:70`). Probes under `fortress typecheck` with the compiled prelude:
+
+      VarargsAny.fss:6:7-16: Could not check call to function g
+          - (Any, Any, (Any...))->ZZ32 is not applicable to an argument of type (String, String).
+      File VarargsAny.fss has 1 error.
+
+  where the same file's `g(true, true, "s", 3, "t")` and `h("a", "b")` over `String...` pass, and `k(rest: String...): String = rest` typechecks with no error (`tmp/rung-string-slips/cprobes/`). The specification settles the zero case (section 5): `ProjectFortress/compiler_tests/XXXVarargsNoTrailingArgument` holds it; the body's typing is an over-acceptance in the probe, which no expected-failure compile test can hold (row 584's note), so the row alone. Provisional row 587.
+- **Two of String's own bodies, respelled by the repair.** With `get` declared, String's `left` and `right` read "Function body has type OR(Char,Nothing[\Char\]), but declared return type is Maybe[\Char\]" (`Library/FortressLibrary.fss:4139-4140`): walk answers the character itself (`"abc".left` prints `a`, its ilk `Char`), and `Just` would change that value. Provisional row 589, pinned by `StringPieces`' two assertions on a flat string's `left` and `right`. The third body the first pass left here, String's default CASE_INSENSITIVE_CMP (`:4154` before the repair), is repaired (section 4): SubString's fallback (`Library/String.fss:411`) and FlatString's inverse delegation (`Library/FlatString.fss:78`) reach it, so the first pass's premise that no string runs it was false.
+- **FlatString's X1**, its api's `opr ||(a:FlatString, self)` with no definition in the component (`Library/FlatString.fsi:20`); a note on row 585.
+
+The naked-field fault (provisional row 588), whose library sites the renaming removed: under `fortress typecheck`, `object Box(size: ZZ32) extends Sized` with `twice(): ZZ32 = size + size` is refused, "(ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type (()->ZZ32, ()->ZZ32)", where walk prints `6`; `ProjectFortress/compiler_tests/XXXFieldBesideInheritedGetter` holds it.
+
+The two expected-failure tests through the harness, each counted an expected failure and each failing it on a deliberate local fix (the call given a third argument; `self.size + self.size`), then restored:
+
+    $ java ... com.sun.fortress.Shell junit compiler_tests/XXXVarargsNoTrailingArgument.test
+     Saw expected failure
+    OK (1 test)
+    $ (the same on the deliberate fix)
+    1) compiler_tests/XXXVarargsNoTrailingArgument(...CommandTest)junit.framework.AssertionFailedError: compile
+    Tests run: 1,  Failures: 1,  Errors: 0
+    $ java ... com.sun.fortress.Shell junit compiler_tests/XXXFieldBesideInheritedGetter.test
+     Saw expected failure
+    OK (1 test)
+    $ (the same on the deliberate fix)
+    1) compiler_tests/XXXFieldBesideInheritedGetter(...CommandTest)junit.framework.AssertionFailedError: Saw wrong failure. compile
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+What the manifest needs: the checker count is unchanged, `expectedCheckerCount` 56 and `expectedCheckerCrash` none as landed; the distance this rung measured alone is 495 with the landed four crash rows, and the merged tree's adds rung R's moves.
+
+## 9. Every defect measured, and its home
+
+1. CatString's halves overriding String's getters with the wrong type (walk's `cs.left` the half): repaired, home 1, `StringPieces`' assertions on `cs.left`, `cs.right`, `cs.first`, `cs.second`.
+2. SubString's `writeOn` over a flat piece dying at `stream.write baseString.get(i)`: repaired, home 1, the `writtenBy` assertions.
+3. `EmptyString.get` dying in building its exception: repaired, home 1, the `shouldRaise` assertion.
+4. The checker refusing zero varargs arguments after `Any` parameters: deferred, the specification settles it, home 2, `XXXVarargsNoTrailingArgument`; with the five- and six-argument refusals, the body's typing and the export mismatch, provisional row 587.
+5. The checker reading a naked field as the inherited getter of its name: deferred, the specification settles it, home 2, `XXXFieldBesideInheritedGetter`, provisional row 588.
+6. String's `left` and `right` answering a bare Char where they declare `Maybe[\Char\]`: deferred, the prose is silent, home 3, `StringPieces`' two assertions on `flat.left` and `flat.right`, provisional row 589.
+7. FlatString's api declaring `opr ||(a:FlatString, self)` that its component lacks: deferred, the specification settles it (apis.tex), but it is String's symbolic family, PLAN item 38; the export check is its only observer, so the ledger alone, a note on row 585.
+8. Strided slices of a string: the base raised, the first pass's head answered wrong characters (the skeptic's F1): repaired, home 1, `StringPieces`' seven assertions on `"abcdef"[0:4:2]`, `cs[20:30:2]`, `cs[18:24:2]` (its characters, size, flat form and written form) and `sub[0:4:2]`, citing ranges.tex, section Ranges.
+9. String's default CASE_INSENSITIVE_CMP dying under walk through SubString's fallback (the skeptic's F2): repaired, home 1, `StringPieces`' two assertions that the substring piece `bcd` compares `EqualTo` with `"BCD"` ignoring case, each way.
+10. `FlatString.rangeContains` finding only the first occurrence of the character (`Library/FlatString.fss:115`; the skeptic's F3): deferred, the prose is silent, home 3, `StringPieces`' two pins of today's `false` (`'a' IN sub` for the substring `aabcd`; `"abca".rangeContains(3#1, 'a')`), provisional row 590.
+
+## 10. The ladder subset and the greps
+
+The record names no ladder file for this rung, and no file's recorded first error in `explorations/compile-ladder/baseline-2026-09-19/raw/` names a name this rung adds or touches (`grep -rlE "Concatenable|Balanceable|asDebugStringIndented|sizeField|minFlatField|CatString|SubString|StringStats|splitWithOffsets|PieceCollector|\bfirst\b|\bsecond\b"` prints nothing); the compile path links the compiler's prelude, not these components, before the switch-over. So no ladder run. The names added (`first`, `second`, `sizeField`, the five `...Field`, `Concatenable` and `Balanceable` in the api, `PieceCollector`, `writtenBy`, the two XXX components and their `Sized`, `Box`) have no competing declaration in `ProjectFortress/tests`, `demos`, the `*_tests` corpora, `Library` or `ProjectFortress/src/com/sun/fortress`. The repair round adds no declaration: `subPairs`, `piece` and `s2` are locals of the test's `run`. The new interpreter test moves the `testSystem` shards, whose sum the gate compares; the two compile tests add two expected failures to the compiler track.
+
+## 11. Decisions
+
+- CatString's halves renamed rather than hidden or String's getters renamed (section 4); `first` and `second` after ConcatGenerator in the same file.
+- CatString's size and StringStats' statistics given `depthField`'s device rather than `self.` prefixes or api fields, so that no field sits beside a getter of its name.
+- String's api given the component's headers and the two helper traits, rather than leaving its X1: the specification requires the same header, and `DefaultZip` is the library's precedent for naming a helper trait in an api. The cost: `Concatenable`, `Balanceable` and SubString's constructor are importable names now.
+- SubString's constructor header in the String api (`Library/String.fsi:28`), rather than SubString left out of the api. Nothing outside `Library/String.fss` names SubString as a type (a grep of `Library/` and `ProjectFortress/`; `StringTests.fss` names it only in strings), so leaving it out is open to the component (apis.tex, section "Component and API Identity"); its cost is removing an object the team's api declared (`object SubString extends String`, `Library/String.fsi` at the base). Walk is unchanged either way (the skeptic's `SkSubCtor`).
+- `flatConcat` reached through typecase, the in-file device, rather than a declared type of `FlatString` for `asFlatString`, which string literals' type forbids.
+- Two expected-failure tests added in `ProjectFortress/compiler_tests/`, a corpus the record's file list for this rung does not name, because the homes rule owes them in the batch that measures the defects, and the faults are the compiled checker's.
+- The stride device placed in String's `opr[r0]` alone (`Library/FortressLibrary.fss:4170-4177`), the one entry point that hands a caller's range to `uncheckedSubstring`. Alternatives: a stride guard in each `uncheckedSubstring` body (`Library/FlatString.fss:55`, `Library/String.fss:141`, `:475`), three edits to the team's representation methods for a path no caller takes, since `uncheckedSubstring` is called only from `opr[r0]` and inside `String.fss` and `FlatString.fss` with ranges built by `#`, `∩`, `≫` and `≪` from compact ranges, and its api comment puts narrowing and bounds checking in `opr[ ]` and calls it a "friends" interface (`Library/FortressLibrary.fsi:2423-2427`); or the strided case kept loud with an XXX test asserting `"ace"`, which leaves String short of what `Indexed` promises while List and the arrays answer it. The device is List's (`Library/List.fss:145-151`). Taken by the judge's ruling (`JUDGE.md` section 1).
+- String's default CASE_INSENSITIVE_CMP written as the library's `ensures` clause, `self.asFlatString CASE_INSENSITIVE_CMP other.asFlatString` (`Library/String.fss:114`, `:393`), a decision under a specification silent on the operator. Alternatives: a Char folding of my choosing with `toLowerCase` or `toUpperCase` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:281-283`), which no library string uses; or a test pinning the crash. The contract reaches FlatString's native `cicmp`, the library's one case folding for strings. The first pass left the body on the false premise that no string runs it.
+- `FlatString.rangeContains` pinned rather than repaired: the prose is silent on membership in a string, the site is not one of the rung's distance sites, and its repair changes a value walk prints, for which the record's stop says "left with a row instead". Alternative: the one-line repair (row 590's text) with an assertion of `'a' IN sub`, home 1, at the cost of a reserved walk value change outside the named sites.
+- Stream's abstract markers kept though its X1 still counts: they repair the mismatches the specification settles, and leave the export check naming only the checker's.
+- The test's assertions for repaired defects fail on the base (home 1), where the record sketched a test passing before and after; the assertions of today's values pass on both, checked on the base copy with `ProbeCollect`.
+
+## 12. For Pavol
+
+- The five walk values in section 6, a stop of the record, each a repair of a named site: a CatString's `left` and `right`, a SubString's `writeOn`, `EmptyString.get`, strided slices of a string, and String's default CASE_INSENSITIVE_CMP.
+- Strided string slices now answer the specification's set, by List's device at String's `opr[r0]` (`Library/FortressLibrary.fss:4170-4177`; ranges.tex, section "Ranges"). The base raised (`Library/FlatString.fss:64`), and the first pass's head answered wrong characters.
+- String's default CASE_INSENSITIVE_CMP answers by the library's own `ensures` contract (`Library/String.fss:114`, `:393`), where walk died through SubString's fallback (`Library/String.fss:411`): a decision under a specification silent on the operator; the alternative was a Char case folding of the rung's choosing, which no library string uses.
+- `FlatString.rangeContains` finds only the first occurrence of a character (`Library/FlatString.fss:115`): `'a' IN` a substring `aabcd` is `false`. Pinned in `StringPieces` with provisional row 590; the repair is one line, and it is his because it changes a walk value.
+- `uncheckedSubstring` stays unguarded against a strided range: the api's "friends" method (`Library/FortressLibrary.fsi:2423-2427`), which no caller passes one. The alternative is a stride guard in each of its three bodies.
+- Seven sites, Stream's two `writes` and its X1 left as the checker's varargs, a stop of the record ("a site whose only repair is a checker change"), provisional row 587.
+- String's `left` and `right` answering the character itself though declared `Maybe[\Char\]`: whether to answer `Just` (a walk value change) or declare the type the bodies answer; provisional row 589.
+- FlatString's api `opr ||(a:FlatString, self)`, which its component lacks: item 38's question, a note on row 585.
+- The String api's new public names, `Concatenable`, `Balanceable` and SubString's constructor; the alternative for SubString is to leave it out of the api, which removes an object the team's api declared.
+
+## 13. The repair round
+
+The skeptic refused the first pass (`SKEPTIC.md`, judged head `3f829ce88`): its range-end reads dropped the stride, so strided slices answered wrong characters where the base raised (F1). It also found String's default CASE_INSENSITIVE_CMP reached under walk (F2), `FlatString.rangeContains` missing a later occurrence (F3), the test's getter citation naming the wrong section (F4), four provenance lines (F5) and the unlisted value change (F6). The judge ruled repair (`JUDGE.md`): List's device at String's `opr[r0]`, the default comparison by its contract, rangeContains pinned with a row, the citations corrected. F5 was half right: `ConcatGenerator` is at `Library/String.fss:260` at the base and `r'.extent.get` at `Library/FortressLibrary.fss:2516`, as the first pass wrote; the corrections are `Library/FortressLibrary.fsi:2439-2440` and `Library/List.fss:145-151`. Nothing in the judge's instructions turned out wrong against the tree; the line numbers it gave for the head before this round (`Library/FortressLibrary.fss:4170-4173`, `:4153-4154`, `:4283`) moved by the four lines the stride device adds, and this report cites the lines after it (`:4170-4177`, `:4153-4154`, `:4287`).
+
+The order. The assertions were written first: in `StringPieces`, after the substring's `balanced`, the strided slices (seven assertions, citing ranges.tex, section Ranges) and the piece compared ignoring case each way (two). A walk probe on the head's library, before any library edit, printed each value:
+
+    $ bin/fortress StrideProbe.fss          (tmp/rung-string-slips/repair/probe; tree 52ea5b5cd, the library of 3f829ce88)
+    flat[0:4:2] = [abcde]
+    cs[20:30:2] = [bcdefghijkl]
+    s2 = [aabcdef] SubString |s2| 4 flat [aabcdef] written [abcdef]
+    sub[0:4:2] = [aabcd]
+    piece = [bcd] SubString
+    com.sun.fortress.exceptions.ProgramError: Library/FortressLibrary.fss:4154:50-59:
+    Failed to find any matching overload, args = ('d','D'), ...      (Context: ... Library/String.fss:411:22-33)
+
+and its copy without the first comparison died the same way through `Library/FlatString.fss:78:78-81`. Then the harness on the test:
+
+    $ bash tmp/rung-string-slips/harness-one.sh tmp/rung-string-slips/repair/hfail ProjectFortress/tests/StringPieces.fss
+    # harness-one 2026-10-03T01:30:57Z; tree 52ea5b5cd; ...
+    FAIL: J5/0:abcde =/= J3/0:ace; abcdef at the strided range 0:4:2 is its characters at 0, 2 and 4, ace (ranges.tex, section Ranges)
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+The test was committed alone (`77a2cb2ea`) and pushed. Then the two library edits, committed together (`14fb04c94`): String's `opr[r0]` (`Library/FortressLibrary.fss:4170-4177`) and its default CASE_INSENSITIVE_CMP (`:4153-4154`); `Library/FlatString.fss:64`, SubString's reads and the three `uncheckedSubstring` bodies are unchanged. Then the two pins of `rangeContains` beside the membership assertions and the getter citation corrected to traits.tex, section Abstract Field Declarations (`6ac45d2b0`). One harness pass on that tree, `StringPieces` with the six team tests the record names, in one invocation:
+
+    $ bash tmp/rung-string-slips/harness-one.sh tmp/rung-string-slips/repair/hfinal ProjectFortress/tests/StringPieces.fss ProjectFortress/tests/StringTests.fss ProjectFortress/tests/LongStringTests.fss ProjectFortress/tests/stringJuxt.fss ProjectFortress/tests/FlatStringSplit.fss ProjectFortress/tests/StringAvFlat.fss ProjectFortress/tests/matchingStringMarks.fss
+    # harness-one 2026-10-03T01:32:47Z; tree 6ac45d2b0; ...
+    OK (7 tests)
+
+A slip of mine to record: my first harness call of the round, at 01:30:27, ran after an edit of the test that the tool had refused, so it ran the unchanged test on the unchanged head ("OK (1 test)", tree 52ea5b5cd); the run above at 01:30:57 is the one on the new assertions. The two stages ran once each on `6ac45d2b0`, whose library is `14fb04c94`'s (section 8).
