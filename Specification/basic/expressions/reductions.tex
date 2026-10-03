@@ -27,11 +27,16 @@ an optional generator clause list (described in
 \revision{revival-reductions}{The desugaring of a reduction is directed by
 type in this specification: a sum is desugared with the reduction for the type
 \VAR{N} of the expression (\secref{desugaring-generators}).
-Neither implementation directs it by type yet: when no argument of the big
-operator fixes the element type, the interpreter, and the compiled type checker
-when it checks the libraries this specification describes, each take
-\TYP{BottomType} for it, and the reduction then accepts no element
-(rows~424 and~425 of the revival's gap ledger).
+Neither implementation directs it by type yet.
+When no argument of the big operator fixes the element type, the interpreter
+takes \TYP{BottomType} for it, and the reduction then accepts no element
+(row~424 of the revival's gap ledger); the compiled type checker, when it
+checks the libraries this specification describes, takes the bound of the big
+operator's static parameter (\secref{static-arg-inference}), which is not the
+element type: a bound such as \TYP{Number} gives the reduction that type, and
+a bound that mentions the static parameter itself, as the bounds of $\sum$,
+$\prod$ and \EXP{\OPR{BIG}\:\OPR{MIN}} do, gives no instance that applies, so
+that the reduction is refused (row~425).
 Until they do, a reduction with a generator clause list whose element type no
 argument fixes writes its static argument, as the team's own tests do, as in
 \EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#i]\: f(j)};
