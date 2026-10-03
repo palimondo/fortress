@@ -175,14 +175,23 @@ So where the declared type of a variable is wider than the type of its value,
 or an argument's static type is \TYP{Any}, it may run a declaration at a
 narrower instance than the compiled path, which instantiates it at the static
 types.
-Where no argument's type is the narrowest, it binds a type parameter that is the
-whole type of parameters to the narrowest named common supertype of the
-arguments' run-time types that the bounds permit: that is the bound where the
-bound is that supertype, as \TYP{Number} is for a \EXP{\mathbb{Z}64} and an
-\EXP{\mathbb{R}64}, and not for a type parameter declared without an
-\KWD{extends} clause, to which this chapter gives \TYP{Any} (row~516 of the
-revival's gap ledger).
-It does not yet fix a type parameter by the expected type.
+Where neither an argument's type nor a type into which the arguments convert is
+the narrowest, it gives a type parameter that is the whole type of parameters
+its declared bound, \TYP{Any} if it has none, as this chapter does: for a
+\EXP{\mathbb{Z}64} and an \EXP{\mathbb{R}64}, \TYP{Number} where that is the
+bound and \TYP{Any} where the type parameter is declared without an
+\KWD{extends} clause.
+It does the same where the arguments that fix a type parameter inside other
+types, as the results of two function arguments do, have several minimal common
+supertypes.
+When its dispatch chooses among declarations, it passes over a declaration with
+static parameters whose arguments have several minimal common supertypes in
+favour of any other declaration applicable to the call without coercion
+(row~589 of the revival's gap ledger).
+It does not yet fix a type parameter by the expected type, and it instantiates
+at \TYP{BottomType} a type parameter that an argument bounds only from above,
+as a function argument bounds the type parameter of its parameter type
+(row~588 of the revival's gap ledger).
 It compares declarations with static parameters on the parameter types they
 declare, except generic dotted methods (row~21 of the revival's gap ledger), and
 dispatches a converted call again, except a call of an overloaded method.}
@@ -248,9 +257,18 @@ A reduction's big operator is an argument of the call that the reduction's
 desugaring makes, so no expected type reaches it: the compiled type checker
 instantiates a generic big operator whose static argument the reduction does
 not write at its bound (row~425 of the revival's gap ledger).
-The interpreter erases a type parameter that nothing at a call fixes, of a
-function, to \TYP{BottomType}, and leaves a generic method's uninstantiated
-(rows~21 and~424 of the revival's gap ledger).
+The interpreter instantiates a type parameter of a function that nothing at a
+call fixes at its bound, \TYP{Any} if it has none, and one whose bound mentions
+other static parameters at that bound with their instances.
+It still erases to \TYP{BottomType} a type parameter whose bound mentions the
+type parameter itself, as the big operators $\sum$ and $\prod$ declare theirs, and the
+static parameters of a big operator that a reduction or a comprehension invokes
+without its static arguments, a comprehension's collection being then built at
+the type of its elements (row~424 of the revival's gap ledger); it gives a
+function expression that declares no return type the return type
+\TYP{BottomType}, so that a type parameter that only its result fixes is
+instantiated there (row~587); and it leaves a generic method's static
+parameters uninstantiated (row~21).
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.
