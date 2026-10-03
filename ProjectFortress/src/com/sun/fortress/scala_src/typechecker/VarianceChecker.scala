@@ -137,7 +137,9 @@ private def verifyTraitDeclaration(decl: Decl, traitStaticParameters: List[Stati
          case m: FnDecl =>
            val rangeType = m.getHeader().getReturnType().unwrap()
            val domainParams = scalaify(m.getHeader().getParams()).asInstanceOf[List[Param]]
-           val domainTypes = domainParams map (_.getIdType().unwrap().asInstanceOf[Type])
+           // a varargs parameter's arguments are its element type, in the domain's position
+           val domainTypes = domainParams map (p => (if (p.getVarargsType().isSome()) p.getVarargsType()
+                                                     else p.getIdType()).unwrap().asInstanceOf[Type])
            val staticParams = scalaify(m.getHeader().getStaticParams()).asInstanceOf[List[StaticParam]]
            // First, analyze the arrow type range
            verifyType(rangeType,1)(traitStaticParameters) &&  

@@ -135,11 +135,6 @@ trait Decls { self: STypeChecker with Common =>
         case Some(e) => Some(method_checker.check(e).asInstanceOf[Contract])
         case _ => contract
       }
-      // Extend method checker with fields
-      method_checker = decls.foldRight(method_checker)
-                                      { (d:Decl, c:STypeChecker) => d match {
-                                        case SVarDecl(_,lhs,_) => c.extend(lhs)
-                                        case _ => c } }
       // Check method declarations.
       toOption(traits.typeCons(name.asInstanceOf[Id])) match {
         case None => signal(name, errorMsg(name, " is not found.")); o
@@ -150,6 +145,13 @@ trait Decls { self: STypeChecker with Common =>
           val inheritedMethods = commonInheritedMethods(extendsC, analyzer.traits)
           val methods = inheritedMethods ++ dottedMethods
           method_checker = method_checker.extendWithListOfFunctions(methods)
+          // Extend method checker with fields, over the methods: a naked
+          // reference to a field reads the field, not a getter of its name
+          method_checker = method_checker.extend(List[StaticParam](), params, None)
+          method_checker = decls.foldRight(method_checker)
+                                          { (d:Decl, c:STypeChecker) => d match {
+                                            case SVarDecl(_,lhs,_) => c.extend(lhs)
+                                            case _ => c } }
           // Extend method checker with self
           selfType match {
             case Some(ty) =>

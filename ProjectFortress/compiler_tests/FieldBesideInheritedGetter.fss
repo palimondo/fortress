@@ -1,0 +1,18 @@
+(* Inside an object a naked reference to a field named like an inherited getter reads the field (objects.tex, section "Field Declarations"), so the object compiles and its method adds the field to itself. *)
+component FieldBesideInheritedGetter
+export Executable
+
+trait Sized
+    getter size(): ZZ32
+end
+
+object Box(size: ZZ32) extends Sized
+    twice(): ZZ32 = size + size
+end
+
+run(): () = do
+    assert(Box(3).twice(), 6, "inside the object a naked size reads the field of that name, not the getter size it inherits; Specification/basic/objects.tex, section \"Field Declarations\"")
+    println("PASS")
+  end
+
+end

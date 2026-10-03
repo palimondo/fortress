@@ -420,7 +420,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                                 	case Some((at2: ArrowType,sp2,_)) =>
                                 	error(mergeSpan(at, at2),
                                 			"There are multiple declarations of " +
-                                					name + " with the same parameter type: " + globalOracle.sa.makeDomainFromArrow(at, isMethod))
+                                					name + " with the same parameter type: " + (sp match {
+                                                                          // a functional method's domain without self, wherever it sits
+                                                                          case Some(i) if isMethod => globalOracle.sa.makeDomainFromArrow(withoutSelf(at, i), false)
+                                                                          case _ => globalOracle.sa.makeDomainFromArrow(at, isMethod) }))
                                 	case None =>	
                               }	
                               if ( checkBoundAny(at.getDomain, toListFromImmutable(at.getInfo.getStaticParams)) ) {

@@ -1,0 +1,3 @@
+tests=XXXFunctionalMethodDuplicateSelfSecond
+compile
+compile_err_contains=There are multiple declarations of pick with the same parameter type: (N1)

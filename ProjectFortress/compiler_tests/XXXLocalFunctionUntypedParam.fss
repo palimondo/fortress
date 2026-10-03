@@ -1,0 +1,12 @@
+(* A local function may leave the type of its parameter undeclared (functions.tex, sections "Local Function Declarations" and "Function Declarations"), so the program is valid; the compiled checker stops on it, "Type is not inferred". *)
+component XXXLocalFunctionUntypedParam
+export Executable
+
+h(x: ZZ32): ZZ32 = do
+    body(i): ZZ32 = i + x
+    body(3)
+  end
+
+run(): () = println(h(4))
+
+end

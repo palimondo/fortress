@@ -1,5 +1,5 @@
 (* An object whose static parameter has the name of an inherited abstract generic method's own implements that method: the method's parameter stays its own, so the object is valid and the call runs the object's declaration. *)
-component XXXInheritedAbstractMethodStaticParamSameName
+component InheritedAbstractMethodStaticParamSameName
 export Executable
 
 trait Gen[\E\]
@@ -13,7 +13,7 @@ end
 
 run(): () = do
     p = P[\ZZ32\](3)
-    assert(p.gen[\String\](fn (q: Pair[\ZZ32\]): String => "gen"), "gen", "the object's declaration implements the inherited generic method and runs")
+    assert(p.gen[\String\](fn (q: Pair[\ZZ32\]): String => "gen"), "gen", "the object's declaration of gen implements the abstract method gen it inherits, whose own static parameter R is not the object's, and runs; Specification/basic/traits.tex, section \"Method Declarations\"")
     println("PASS")
 end
 end

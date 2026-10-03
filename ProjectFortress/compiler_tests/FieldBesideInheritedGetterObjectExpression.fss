@@ -1,0 +1,18 @@
+(* Inside an object expression a naked reference to a field named like an inherited getter reads the field (objects.tex, section "Field Declarations"), so the object expression type checks. *)
+component FieldBesideInheritedGetterObjectExpression
+export Executable
+
+trait Sized
+    getter size(): ZZ32
+    twice(): ZZ32
+end
+
+run(): () = do
+    b = object extends Sized
+          size: ZZ32 = 3
+          twice(): ZZ32 = size + size
+        end
+    println(b.twice())
+  end
+
+end

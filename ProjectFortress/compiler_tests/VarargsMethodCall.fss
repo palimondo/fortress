@@ -1,0 +1,16 @@
+(* A dotted method with a varargs parameter is applicable to none, one and three arguments of its type (overloading.tex, section "Applicability for Functionals with Varargs and Keyword Parameters"), so the calls type check. *)
+component VarargsMethodCall
+export Executable
+
+trait Counter
+    count(xs: ZZ32...): ZZ32 = 3
+end
+
+object C extends Counter end
+
+run(): () = do
+    z: ZZ32 = 1
+    println(C.count() + C.count(z) + C.count(z, z, z))
+  end
+
+end

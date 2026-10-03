@@ -1,0 +1,21 @@
+(* An object implements the abstract functional method it inherits from a trait instantiated at a type that mentions the object's static parameter of the trait parameter's name (traits.tex, section "Method Declarations"), so the object is valid and the call runs its declaration. *)
+component InheritedAbstractOperatorTraitParamSameName
+export Executable
+
+trait Ag[\T\]
+    opr +(self, other: T): T
+end
+
+object V[\T\](x: T) extends Ag[\V[\T\]\]
+    opr +(self, other: V[\T\]): V[\T\] = other
+    get(): T = x
+end
+
+run(): () = do
+    v = V[\ZZ32\](3)
+    w = V[\ZZ32\](4)
+    assert((v + w).get(), 4, "the object's declaration of + implements the abstract + it inherits from Ag[\\V[\\T\\]\\], whose parameter T is not the object's T, and runs; Specification/basic/traits.tex, section \"Method Declarations\"")
+    println("PASS")
+  end
+
+end

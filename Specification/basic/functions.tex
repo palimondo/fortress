@@ -180,6 +180,19 @@ The type of a varargs parameter
     the type mentioned in (or inferred for) that binding.
 \note{See the library section for a discussion of
 \TYP{HeapSequence}.}
+\revision{revival-varargs}{No library declares \TYP{HeapSequence}, nor the
+immutable sequence that the team's draft note at the start of
+\secref{function-app} agreed on in its place.
+Both implementations give a varargs parameter the array type of \library\ that
+the compiled type checker's authors named for it,
+\EXP{\TYP{ImmutableArray}\llbracket{}T, \mathbb{Z}32\rrbracket}: the
+interpreter binds the parameter to an immutable one-dimensional array of the
+arguments, and the compiled type checker types the parameter in the body at
+that type.
+The compiled path's own library declares no such type, so there the compiled
+type checker refuses every use of a varargs parameter, in a body, a contract
+or a function expression, naming the type; and the code
+generator does not yet compile a function with a varargs parameter.}
 Note that the type of a varargs parameter cannot be omitted.
 If a function does not have a varargs parameter
 then the number of arguments is fixed by the function's type.

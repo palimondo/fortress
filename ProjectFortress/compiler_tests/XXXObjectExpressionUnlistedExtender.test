@@ -1,0 +1,3 @@
+tests=XXXObjectExpressionUnlistedExtender
+compile
+compile_err_contains=Invalid comprises clause

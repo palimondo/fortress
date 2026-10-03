@@ -344,9 +344,15 @@ public class NodeUtil {
         else if ( params.size() == 1 ) return getParamType(params.get(0));
         else { // if ( params.size() > 1 )
             List<Type> types = new ArrayList<Type>( params.size() );
+            Option<Type> varargs = Option.<Type>none();
             for ( Param p : params ) {
-                types.add( getParamType(p) );
+                // A varargs parameter is the tuple's varargs type, after its plain types.
+                if ( isVarargsParam(p) ) varargs = p.getVarargsType();
+                else types.add( getParamType(p) );
             }
+            if ( varargs.isSome() )
+                return NodeFactory.makeTupleType(span, false, types, varargs,
+                                                 Collections.<KeywordType>emptyList());
             return NodeFactory.makeTupleType(span, types);
         }
     }

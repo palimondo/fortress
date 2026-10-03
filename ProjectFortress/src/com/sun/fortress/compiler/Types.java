@@ -96,8 +96,14 @@ public final class Types {
 
     public static final LabelType LABEL = NodeFactory.makeLabelType(span);
 
+    /** The name of the varargs parameter type in the library now in use. */
+    public static Id immutableHeapSeqName() {
+        return makeId(span, fortressLibrary(), IMMUTABLE_HEAP_SEQ_NAME.getText());
+    }
+
     public static final TraitType makeVarargsParamType(Type varargsType) {
-        return makeTraitType(IMMUTABLE_HEAP_SEQ_NAME, makeTypeArg(varargsType), makeTypeArg(ZZ32));
+        return makeTraitType(immutableHeapSeqName(), makeTypeArg(varargsType),
+                             makeTypeArg(makeTraitType(span, fortressLibrary(), ZZ32.getName().getText())));
     }
 
     public static TraitType makeThreadType(Type typeArg) {

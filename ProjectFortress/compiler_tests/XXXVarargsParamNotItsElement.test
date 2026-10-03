@@ -1,0 +1,3 @@
+tests=XXXVarargsParamNotItsElement
+compile
+compile_err_contains=The varargs parameter rest is used, whose type ImmutableArray[\\String,ZZ32\\]

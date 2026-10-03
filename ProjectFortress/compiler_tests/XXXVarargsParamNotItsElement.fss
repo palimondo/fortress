@@ -1,0 +1,9 @@
+(* In its body a varargs parameter is a sequence of the arguments passed for it, not one of them (functions.tex, section "Function Declarations"), so returning it where its element type is declared is refused. *)
+component XXXVarargsParamNotItsElement
+export Executable
+
+k(rest: String...): String = rest
+
+run(): () = println(k("a"))
+
+end

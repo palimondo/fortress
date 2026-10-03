@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionUntypedParamAndReturn
+compile
+compile_err_contains=Result of typechecking still contains intermediate nodes

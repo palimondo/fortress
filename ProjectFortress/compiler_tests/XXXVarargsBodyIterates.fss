@@ -1,0 +1,13 @@
+(* A body iterates over its varargs parameter, a sequence of the arguments passed for it (functions.tex, section "Function Declarations"), so the program is valid; the compiled library declares no type for that sequence, so the compiled checker refuses the body. *)
+component XXXVarargsBodyIterates
+export Executable
+
+count(rest: ZZ32...): ZZ32 = do
+    n: ZZ32 := 0
+    for x <- rest do n += 1 end
+    n
+  end
+
+run(): () = println(count())
+
+end

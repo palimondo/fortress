@@ -1,0 +1,13 @@
+(* An object expression that explicitly extends a trait with a comprises clause and is below none of the listed types is refused (traits.tex, section "Trait Declarations"); ledger row 597. *)
+component XXXObjectExpressionUnlistedExtender
+export Executable
+
+trait K comprises { L } end
+trait L extends K end
+
+run(): () = do
+    z = object extends K end
+    println("unreached")
+  end
+
+end

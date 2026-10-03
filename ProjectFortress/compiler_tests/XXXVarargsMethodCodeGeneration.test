@@ -1,0 +1,3 @@
+tests=XXXVarargsMethodCodeGeneration
+compile
+compile_exception_contains=OptionUnwrapException

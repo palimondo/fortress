@@ -1,0 +1,12 @@
+(* A typecase arm names a type that the compiled library does not declare, a reference to a name where it is not in scope and so a static error (declarations.tex, section "Reach and Scope of Declarations"); the compiled checker stops on it, "Not in the trait table". *)
+component XXXTypecaseUndeclaredType
+export Executable
+
+kind(x: Any): String = typecase x of
+    ImmutableArray[\ZZ32, ZZ32\] => "array"
+    else => "other"
+  end
+
+run(): () = println(kind(3))
+
+end
