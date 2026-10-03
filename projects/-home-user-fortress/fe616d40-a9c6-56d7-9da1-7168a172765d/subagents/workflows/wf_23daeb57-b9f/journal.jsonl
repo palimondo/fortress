@@ -1,2 +1,7 @@
 {"type":"launched"}
 {"type":"started","key":"v2:d5c7c666fb28fc2575ce142d9c593ad519239074c1754722c0f1a10515b936eb","agentId":"aff6c4395e6efec0a","label":"control-1","phase":"Control"}
+{"type":"result","key":"v2:d5c7c666fb28fc2575ce142d9c593ad519239074c1754722c0f1a10515b936eb","agentId":"aff6c4395e6efec0a","result":"probe B done"}
+{"type":"started","key":"v2:67e702d536a125517bebc34e325dd210f1303f59f2a36816a45d36559ec7f6b1","agentId":"afb52f5640c17f428","label":"control-2-identical","phase":"Control"}
+{"type":"result","key":"v2:67e702d536a125517bebc34e325dd210f1303f59f2a36816a45d36559ec7f6b1","agentId":"afb52f5640c17f428","result":"probe B done"}
+{"type":"started","key":"v2:d94d9187d932ae41075a7db1cd50a8b37503a8fe62f8f87d401137dac94b7fb4","agentId":"a6d1bbf046731ff48","label":"control-3-tail","phase":"Control"}
+{"type":"result","key":"v2:d94d9187d932ae41075a7db1cd50a8b37503a8fe62f8f87d401137dac94b7fb4","agentId":"a6d1bbf046731ff48","result":"probe B3 done"}
