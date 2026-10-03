@@ -1061,7 +1061,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
      * environment and each static parameter replaced by the static argument
      * given it.  Then refuses a program one of whose traits or objects
      * without static parameters breaks the Meet Rule for Functional Methods
-     * (OverloadedFunction.checkFunctionalMethodMeets).
+     * (OverloadedFunction.FunctionalMethodMeets).
      */
     public static void checkComprisesClauses(List<? extends CUWrapper> units, CUWrapper main) {
         int m = units.indexOf(main);
@@ -1204,9 +1204,10 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
 
         /** Checks the Meet Rule for Functional Methods for every trait or object without static parameters. */
         void checkFunctionalMethodMeets() {
+            OverloadedFunction.FunctionalMethodMeets meets = new OverloadedFunction.FunctionalMethodMeets();
             for (Declared x : declarations) {
                 if (x.type instanceof FTraitOrObject && !(x.type instanceof GenericTypeInstance) && x.params.isEmpty()) {
-                    OverloadedFunction.checkFunctionalMethodMeets((FTraitOrObject) x.type, x.decl);
+                    meets.check((FTraitOrObject) x.type, x.decl);
                 }
             }
         }

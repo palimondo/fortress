@@ -1,0 +1,22 @@
+component XXXInferAboveBoundMentionsParamWalk
+export Executable
+
+(* A type parameter that an argument bounds only from above, and whose bound mentions another static parameter that an argument fixes, takes the intersection of its upper bounds and never BottomType, under walk. *)
+
+object BoxU[\T\]() end
+
+coS[\S, T extends S\](g: T -> ZZ32, s: S): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\ZZ32\] => "BoxU[ZZ32]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+run(): () = do
+    z: ZZ32 = 3
+    assert(kindU(coS(fn (x: ZZ32): ZZ32 => x, z)), "BoxU[ZZ32]", "S is fixed at ZZ32 by z, and a function of a ZZ32 bounds T above by ZZ32 beside its bound S, so T takes their intersection, ZZ32, never BottomType (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

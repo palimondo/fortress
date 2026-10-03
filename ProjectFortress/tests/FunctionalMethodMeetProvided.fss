@@ -43,6 +43,13 @@ end
 object Go extends G end
 object Ho extends H end
 
+trait K
+  over(self, x: ZZ32): ZZ32 = 1
+end
+object Ko extends K
+  override over(self, x: Number): ZZ32 = 2
+end
+
 run(): () = do
     assert(tag(Vo), 3, "an object below a trait that provides both tag declarations and its own on their meet runs that declaration (advanced/overloading.tex, section \"Meet Rule\"; basic/overloading.tex, section \"Overloading Resolution\")")
     assert(tag(So), 1, "an object that provides one tag declaration runs it (basic/overloading.tex, section \"Overloading Resolution\")")
@@ -53,6 +60,7 @@ run(): () = do
     assert(mark(Pq, Yb), 2, "a Yb, outside the overlap, runs the declaration over B (basic/overloading.tex, section \"Overloading Resolution\")")
     assert(only(Go), 1, "no type provides both only declarations, so the Meet Rule asks for no meet and the program loads (advanced/overloading.tex, section \"Meet Rule\")")
     assert(only(Ho), 2, "an object that provides the other only declaration runs it (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(over(Ko, 3), 2, "Ko's declaration with the modifier override overrides K's over ZZ32, so Ko does not inherit K's, provides one over declaration and needs no meet, and over(Ko, 3) runs Ko's (traits.tex, section \"Method Declarations\"; advanced/overloading.tex, section \"Meet Rule\")")
     println("PASS")
   end
 

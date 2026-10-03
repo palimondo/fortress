@@ -1124,53 +1124,113 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     /**
-     * The Meet Rule for Functional Methods for the trait or object c, which
-     * declaration at declares: of every two functional methods of one name
-     * that c provides, declared in two different types with their self
-     * parameters at one position, whose parameter types are not one below the
-     * other and do not exclude, c provides a declaration whose self type is
-     * below both declaring types and whose other parameter types are their
-     * meet, or declarations like it that together cover their overlap, the
-     * overlap read through comprises clauses (overlapPieces).  A pair whose
+     * The Meet Rule for Functional Methods, checked for each trait or object
+     * given to check: of every two functional methods of one name that it
+     * provides, declared in two different types with their self parameters at
+     * one position, whose parameter types are not one below the other and do
+     * not exclude, it provides a declaration whose self type is below both
+     * declaring types and whose other parameter types are their meet, or
+     * declarations like it that together cover their overlap, the overlap
+     * read through comprises clauses (overlapPieces).  A type provides the
+     * functional methods it declares and those it inherits: those its
+     * immediate supertypes provide, except one that a declaration of its own
+     * with the modifier override overrides and one whose parameter types but
+     * the self parameter's are those of a declaration of its own.  A pair whose
      * parameter types cannot be read, or whose overlap the search does not
      * settle, is not refused.  The names checked are those the compiled
      * checker checks (OverloadingChecker.isDeclaredName): identifiers, and
      * operators whose names NodeUtil.validOp admits.
      */
-    public static void checkFunctionalMethodMeets(FTraitOrObject c, HasAt at) {
-        Map<String, List<Provided>> byName = new LinkedHashMap<String, List<Provided>>();
-        Set<FType> seen = new HashSet<FType>();
-        for (FType t : c.getTransitiveExtends()) {
-            if (!(t instanceof FTraitOrObject) || t.isSymbolic() || !seen.add(t)) continue;
-            FTraitOrObject d = (FTraitOrObject) t;
-            List<Decl> members = d.getASTmembers();
-            if (members == null) continue;
-            for (Decl m : members) {
-                if (!(m instanceof FnDecl) || !checkedName(NodeUtil.getName((FnDecl) m))) continue;
-                int self = NodeUtil.selfParameterIndex((FnDecl) m);
-                if (self < 0) continue;
-                Provided p = new Provided((FnDecl) m, self, d);
-                List<Provided> l = byName.get(p.name);
-                if (l == null) {
-                    l = new ArrayList<Provided>();
-                    byName.put(p.name, l);
+    public static final class FunctionalMethodMeets {
+        private final Map<FType, Map<String, List<Provided>>> provided =
+                new IdentityHashMap<FType, Map<String, List<Provided>>>();
+
+        public void check(FTraitOrObject c, HasAt at) {
+            for (List<Provided> l : providedBy(c, new HashSet<FType>()).values()) {
+                for (int i = 0; i < l.size(); i++) {
+                    for (int j = i + 1; j < l.size(); j++) {
+                        Provided a = l.get(i);
+                        Provided b = l.get(j);
+                        if (a.type == b.type || a.self != b.self || a.params == null || b.params == null ||
+                            a.params.size() != b.params.size()) continue;
+                        if (!meetNeeded(a, b) || meetProvided(a, b, l)) continue;
+                        error(at, errorMsg("Invalid overloading of ", a.name, " in ", c, ": ", c,
+                                           " provides the functional methods ", a, " and ", b,
+                                           ", whose parameter types are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present, and provides no declaration on their meet or declarations that cover it"));
+                    }
                 }
-                l.add(p);
             }
         }
-        for (List<Provided> l : byName.values()) {
-            for (int i = 0; i < l.size(); i++) {
-                for (int j = i + 1; j < l.size(); j++) {
-                    Provided a = l.get(i);
-                    Provided b = l.get(j);
-                    if (a.type == b.type || a.self != b.self || a.params == null || b.params == null ||
-                        a.params.size() != b.params.size()) continue;
-                    if (!meetNeeded(a, b) || meetProvided(a, b, l)) continue;
-                    error(at, errorMsg("Invalid overloading of ", a.name, " in ", c, ": ", c,
-                                       " provides the functional methods ", a, " and ", b,
-                                       ", whose parameter types are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present, and provides no declaration on their meet or declarations that cover it"));
+
+        /** The functional methods of checked names that t provides, by name. */
+        private Map<String, List<Provided>> providedBy(FType t, Set<FType> path) {
+            Map<String, List<Provided>> res = provided.get(t);
+            if (res != null) return res;
+            res = new LinkedHashMap<String, List<Provided>>();
+            if (!(t instanceof FTraitOrObject) || t.isSymbolic() || !path.add(t)) return res;
+            FTraitOrObject d = (FTraitOrObject) t;
+            List<Provided> own = new ArrayList<Provided>();
+            List<Decl> members = d.getASTmembers();
+            if (members != null) {
+                for (Decl m : members) {
+                    if (!(m instanceof FnDecl) || !checkedName(NodeUtil.getName((FnDecl) m))) continue;
+                    int self = NodeUtil.selfParameterIndex((FnDecl) m);
+                    if (self >= 0) own.add(new Provided((FnDecl) m, self, d));
                 }
             }
+            for (Provided p : own) add(res, p);
+            for (FType s : d.getExtends()) {
+                for (List<Provided> l : providedBy(s, path).values()) {
+                    for (Provided p : l) {
+                        if (inherited(p, own)) add(res, p);
+                    }
+                }
+            }
+            path.remove(t);
+            provided.put(t, res);
+            return res;
+        }
+
+        static private void add(Map<String, List<Provided>> res, Provided p) {
+            List<Provided> l = res.get(p.name);
+            if (l == null) {
+                l = new ArrayList<Provided>();
+                res.put(p.name, l);
+            }
+            for (Provided q : l) {
+                if (q == p) return;
+            }
+            l.add(p);
+        }
+
+        /**
+         * p is not overridden by a declaration of own with the modifier
+         * override, and its parameter types but the self parameter's are not
+         * those of a declaration of own.
+         */
+        static private boolean inherited(Provided p, List<Provided> own) {
+            for (Provided o : own) {
+                if (!o.name.equals(p.name) || o.self != p.self || o.params == null || p.params == null ||
+                    o.params.size() != p.params.size()) continue;
+                try {
+                    boolean below = true;
+                    boolean equal = true;
+                    for (int k = 0; k < p.params.size(); k++) {
+                        if (k == p.self) continue;
+                        FType x = p.params.get(k);
+                        FType y = o.params.get(k);
+                        boolean xy = x.subtypeOf(y);
+                        below &= xy;
+                        equal &= xy && y.subtypeOf(x);
+                    }
+                    if (equal) return false;
+                    if (below && NodeUtil.getMods(o.decl).isOverride()) return false;
+                }
+                catch (FortressException ex) {
+                    // not known to be overridden
+                }
+            }
+            return true;
         }
     }
 
