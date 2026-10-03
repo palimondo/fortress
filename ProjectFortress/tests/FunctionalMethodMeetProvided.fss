@@ -1,0 +1,59 @@
+component FunctionalMethodMeetProvided
+export Executable
+
+(* A type that provides two overlapping functional methods of one name provides a declaration on their meet, or declarations below both that cover it, so the program loads and each call runs its most specific declaration, as do two such methods that no type provides both of (row 544). *)
+
+trait S
+  tag(self): ZZ32 = 1
+end
+trait T
+  tag(self): ZZ32 = 2
+end
+trait V extends { S, T }
+  tag(self): ZZ32 = 3
+end
+object Vo extends V end
+object So extends S end
+object To extends T end
+
+trait A comprises { X1, X2, Ya } end
+trait B comprises { X1, X2, Yb } end
+object X1 extends { A, B } end
+object X2 extends { A, B } end
+object Ya extends A end
+object Yb extends B end
+
+trait P
+  mark(self, x: A): ZZ32 = 1
+end
+trait Q
+  mark(self, x: B): ZZ32 = 2
+end
+object Pq extends { P, Q }
+  mark(self, x: X1): ZZ32 = 3
+  mark(self, x: X2): ZZ32 = 4
+end
+
+trait G
+  only(self): ZZ32 = 1
+end
+trait H
+  only(self): ZZ32 = 2
+end
+object Go extends G end
+object Ho extends H end
+
+run(): () = do
+    assert(tag(Vo), 3, "an object below a trait that provides both tag declarations and its own on their meet runs that declaration (advanced/overloading.tex, section \"Meet Rule\"; basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(tag(So), 1, "an object that provides one tag declaration runs it (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(tag(To), 2, "an object that provides the other tag declaration runs it (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(mark(Pq, X1), 3, "the object that provides both mark declarations runs its declaration over X1, one of the two that cover their overlap (advanced/overloading.tex, section \"Meet Rule\")")
+    assert(mark(Pq, X2), 4, "the object runs its declaration over X2, the other that covers the overlap (advanced/overloading.tex, section \"Meet Rule\")")
+    assert(mark(Pq, Ya), 1, "a Ya, outside the overlap, runs the declaration over A (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(mark(Pq, Yb), 2, "a Yb, outside the overlap, runs the declaration over B (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(only(Go), 1, "no type provides both only declarations, so the Meet Rule asks for no meet and the program loads (advanced/overloading.tex, section \"Meet Rule\")")
+    assert(only(Ho), 2, "an object that provides the other only declaration runs it (basic/overloading.tex, section \"Overloading Resolution\")")
+    println("PASS")
+  end
+
+end
