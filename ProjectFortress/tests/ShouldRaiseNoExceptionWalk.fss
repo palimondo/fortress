@@ -1,0 +1,17 @@
+(* shouldRaise throws a ForbiddenException when its expression raises nothing, under walk. *)
+component ShouldRaiseNoExceptionWalk
+export Executable
+
+run(): () = do
+    shouldRaise[\DivisionByZero\](fn () => throw DivisionByZero)
+    r = try
+          shouldRaise[\DivisionByZero\](fn () => ())
+          "nothing thrown"
+        catch e
+          ForbiddenException => "forbidden"
+        end
+    assert(r, "forbidden", "an expression that raises nothing is forbidden: shouldRaise throws an exception value, and a throw expression's subexpression is an Exception (throw.tex, section \"Throw Expressions\")")
+    println("PASS")
+  end
+
+end
