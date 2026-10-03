@@ -1,0 +1,16 @@
+(* Numerals passed for a varargs parameter of type ZZ32 convert to it, one numeral alone among them (overloading.tex, section "Applicability for Functionals with Varargs and Keyword Parameters"; coercion as for a plain parameter), so every call type checks. *)
+component VarargsNumeralArguments
+export Executable
+
+h(rest: ZZ32...): ZZ32 = 2
+g(x: ZZ32, rest: ZZ32...): ZZ32 = 1
+
+run(): () = do
+    a = h(1)
+    b = h(1, 2)
+    c = g(1)
+    d = g(1, 2, 3)
+    println(a + b + c + d)
+  end
+
+end
