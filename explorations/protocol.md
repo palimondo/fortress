@@ -138,7 +138,10 @@ record is rediscovered. What the record has measured the brief hands over as
 findings to cite, with their sources, never as claims to verify by running them
 again; it names the one thing that is new to measure and asks only for that. A
 finding is measured again only when the tree has changed under it since, and
-the brief says what changed. The clean worker of principle 2, on a design fork,
+the brief says what changed. A worker launched outside a batch carries its estimated
+cost and a wait polled under the cache's life, and the coordinator watches its
+spend against the estimate and reacts when it passes it (POSITIONS, "The
+coordinator watches what it launches."). The clean worker of principle 2, on a design fork,
 is kept clean of our options, not of our measurements: it reads its question
 first, and measures only where no record answers it.
 
