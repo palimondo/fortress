@@ -1,0 +1,13 @@
+(* An object expression that explicitly extends a listed type of a closed trait meets the trait's comprises clause (traits.tex, section "Trait Declarations"), so the component type checks. *)
+component ObjectExpressionListedExtender
+export Executable
+
+trait K comprises { L } end
+trait L extends K end
+
+run(): () = do
+    z = object extends L end
+    println("listed")
+  end
+
+end

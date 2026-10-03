@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionUntypedParamInLoop
+compile
+compile_err_contains=TryChecker returned an untyped expr

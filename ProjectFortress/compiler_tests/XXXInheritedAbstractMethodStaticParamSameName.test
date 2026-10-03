@@ -1,3 +1,0 @@
-tests=XXXInheritedAbstractMethodStaticParamSameName
-compile
-compile_err_contains=has no concrete implementation

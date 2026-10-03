@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionUntypedParam
+compile
+compile_err_contains=Type is not inferred

@@ -1,0 +1,9 @@
+(* Passing nothing for a varargs parameter after two Any parameters is applicable by the tuple rule (functions.tex, section "Function Applications"), so the call type checks. *)
+component VarargsNoTrailingArgument
+export Executable
+
+g(x: Any, y: Any, rest: Any...): ZZ32 = 1
+
+run(): () = println(g("a", "b"))
+
+end

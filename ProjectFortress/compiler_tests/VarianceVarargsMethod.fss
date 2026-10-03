@@ -1,0 +1,16 @@
+(* A trait whose method has a varargs parameter is a valid declaration (functions.tex, section "Function Declarations"), so the checker's variance stage reads it and the component type checks. *)
+component VarianceVarargsMethod
+export Executable
+
+trait Source[\covariant T\]
+    get(): T
+    count(xs: ZZ32...): ZZ32 = 3
+end
+
+object Single[\T\](x: T) extends Source[\T\]
+    get(): T = x
+end
+
+run(): () = println(Single[\ZZ32\](3).get())
+
+end

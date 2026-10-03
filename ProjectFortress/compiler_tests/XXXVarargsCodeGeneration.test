@@ -1,0 +1,3 @@
+tests=XXXVarargsCodeGeneration
+compile
+compile_exception_contains=Can't compile VarArgs yet

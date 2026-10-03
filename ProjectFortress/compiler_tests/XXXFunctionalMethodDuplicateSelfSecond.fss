@@ -1,0 +1,14 @@
+(* Two functional methods of one trait with self second and the same parameter types are refused, and the message names their parameter types without self; ledger row 574. *)
+component XXXFunctionalMethodDuplicateSelfSecond
+export Executable
+
+trait N1 end
+
+trait B
+    pick(n: N1, self): String = "first"
+    pick(m: N1, self): String = "second"
+end
+
+run(): () = println("unreached")
+
+end

@@ -1,0 +1,21 @@
+(* A varargs parameter after plain parameters takes any number of arguments, none among them, each a subtype of its type (overloading.tex, section "Applicability for Functionals with Varargs and Keyword Parameters"), so every call type checks. *)
+component VarargsArgumentCounts
+export Executable
+
+g(x: Any, y: Any, rest: Any...): ZZ32 = 1
+h(rest: ZZ32...): ZZ32 = 2
+
+run(): () = do
+    z: ZZ32 = 3
+    a = g("a", "b")
+    b = g("a", "b", "c")
+    c = g(true, true, "s", z, "t")
+    d = g(true, true, "s", z, "t", z)
+    e = g(true, false, "s", "t", z, "u", z)
+    f = h()
+    i = h(z)
+    j = h(z, z, z)
+    println(a + b + c + d + e + f + i + j)
+  end
+
+end

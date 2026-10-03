@@ -1,0 +1,9 @@
+(* A function with a varargs parameter called with three arguments type checks (functions.tex, section "Function Applications"); code generation does not yet compile a varargs parameter. *)
+component XXXVarargsCodeGeneration
+export Executable
+
+g(x: Any, y: Any, rest: Any...): ZZ32 = 1
+
+run(): () = println(g("a", "b", "c"))
+
+end
