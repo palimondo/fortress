@@ -39,6 +39,12 @@
 // refused to write, beside a first skeptic's committed SKEPTIC.md, reaches the gather as a command of its own (G1; none
 // when the second committed its file, S1); every brief caps wait_for's bound at 270; the stage-blind paths name the test
 // harness's sources; the skeptic's check 8 is the review's check 3.
+// Since 2026-10-03, climb batch 9's review (reviews/batch-9-review.md, findings 1 to 4, 6 and 7): every brief carries the
+// prefix's rule against a partial stage run before the full one, REPORT.md's list of the specification's sentences a change
+// makes false, and the lines that find and read a resumed worker's predecessor's transcript; each first skeptic refuses
+// only where the repair touches code, a reserved reversible stop going in stopsMet; each repair on the merged tree reads
+// the slices of the rungs its instructions name only; the gather corrects the sentences a rung makes false; and the
+// commit stage writes FACTS' landed count and distance.
 const fs = require('fs')
 const path = require('path')
 const cp = require('child_process')
@@ -304,6 +310,15 @@ function check(sc, out) {
     if (c.prompt.indexOf('explorations/, Specification/, Documentation/, ProjectFortress/tests/') >= 0 && c.prompt.indexOf('ProjectFortress/*_tests/, ProjectFortress/src/com/sun/fortress/tests/, ') < 0) probs.push(c.label + ' renders the stage-blind paths without the harness\'s sources')
     if (/^skeptic:/.test(c.label) && c.prompt.indexOf('8. Not yours: the record.md fragment') < 0) probs.push(c.label + ' still checks the record.md fragment')
     if (c.label === 'review' && c.prompt.indexOf('its check 8 moved here') < 0) probs.push('the review\'s check 3 does not take the skeptic\'s check 8')
+    // 2026-10-03, climb batch 9's review (reviews/batch-9-review.md), findings 1 to 4, 6 and 7
+    const pre = c.prompt.slice(0, c.prompt.indexOf('\n# Your role') >= 0 ? c.prompt.indexOf('\n# Your role') : c.prompt.length)
+    if (pre.indexOf('Nor run a stage\'s driver on part of the library') < 0) probs.push(c.label + ' lacks the prefix\'s rule against a partial stage run before the full one (finding 4)')
+    if (pre.indexOf('And each sentence of the specification your change makes false, an Appendix I Effect') < 0) probs.push(c.label + ' lacks REPORT.md\'s list of the sentences a change makes false (finding 3)')
+    if (pre.indexOf('xargs grep -lE \'"description":"(rung|resume|repair):X(:attempt[0-9]+)?"\'') < 0 || pre.indexOf('| .label + "  " + .key[3:15] + "  " + .agentId\' "$D"/journal.jsonl') < 0 || pre.indexOf('    jq -r \'select(.type == "assistant") | .timestamp as $t') < 0) probs.push(c.label + ' lacks the lines that find and list a resumed worker\'s predecessor\'s transcript (finding 7)')
+    if (/^skeptic:/.test(c.label) && (c.prompt.indexOf('Refuse only for the change or its test, where the repair touches code') < 0 || c.prompt.indexOf('is a stopsMet entry, not a refusal') < 0 || c.prompt.indexOf('but for a departure the batch record reserves as a reversible stop, which goes in stopsMet') < 0)) probs.push(c.label + ' keeps the old refusal grounds (finding 1)')
+    if (/^repair:(review|gate)/.test(c.label) && (c.prompt.indexOf('First, before the ruling below, for the rungs its instructions name and no other, run these commands') < 0 || c.prompt.indexOf('none where the instructions name no rung') < 0)) probs.push(c.label + ' reads every rung\'s slice, not only those its instructions name (finding 2)')
+    if (c.label === 'gather' && c.prompt.indexOf('Correct, too, each sentence of the specification that the rung\'s REPORT.md lists as made false by its change, and each Appendix I Effect') < 0) probs.push('the gather does not correct the sentences a rung makes false (finding 3)')
+    if (/^commit/.test(c.label) && !/write the landed figures into explorations\/coordinator\/FACTS\.md, numbers only, from explorations\/compile-ladder\/climb-batch-7b\/gate\/distance\.txt[^\n]*"The true distance to the switch-over"[^\n]*"The checker-count stage's table"/.test(c.prompt)) probs.push(c.label + ' does not write FACTS\' landed count and distance (finding 6)')
     // since 2026-10-02 the command seeds the worktree from the base build (build-cache-exploration.md)
     if (c.prompt.indexOf(SEED_CMD) < 0 || c.prompt.indexOf('copied in') >= 0) probs.push(c.label + ' lacks the prefix\'s worktree command, or still says the build was copied in')
     // the strip of line numbers from the tests (dc0eee2fe): tests cite a section, and no brief asks for a re-anchoring of tests
