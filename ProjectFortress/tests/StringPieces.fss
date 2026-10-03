@@ -57,6 +57,8 @@ run() = do
     assert(cs[0], 'a', "the first character of the concatenated string is a")
     assert(cs[|cs| - 1], 'u', "the last character of the concatenated string is u")
 
+    assert(flat.left, 'a', "a string's left getter answers its first character itself")
+    assert(flat.right, 'c', "a string's right getter answers its last character itself")
     assert(flat.get(1), 'b', "get at 1 of abc is b")
     assert(cs.get(25), 'g', "get at 25 of the concatenated string is g")
     assert(sub.get(2), 'b', "get at 2 of the substring aabcd is b")
