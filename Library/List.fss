@@ -110,7 +110,7 @@ private addR[\T,E extends T,F extends T\](xs:List[\F\],x:E): List[\T\] =
     complexity, but return a %List% in cases (such as %map% and
     %filter%) where it will.  *)
 trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
-        excludes { Number, HasRank }
+        excludes { Number, HasRank, String }
     (** %left% and %extractLeft% return the leftmost element in the list
         (and in the latter case, the remainder of the list without its
         leftmost element).  They return %Nothing% if the list is empty.
@@ -123,6 +123,8 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
     getter asString():String = "<|" || ", ".join[\E\](self) || "|>"
     getter reverse(): List[\E\] =
         generate[\List[\E\]\](RevConcat[\E\],singleton[\E\])
+    private getter leftSpace(): ZZ32
+    private getter canExtendLeft(): OneShot
     (** the operator %||% returns a list containing the elements of %self% followed
         by the elements of %f% *)
     opr ||(self, other:List[\E\]): List[\E\]
@@ -131,6 +133,7 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
     private appendLC[\T\](other:List[\T\]): List[\E\]
     private appendR[\T\](other:List[\T\]): List[\E\]
     private appendL[\T\](other:List[\T\]): List[\E\]
+    private fill[\T\](start: ZZ32, under: ImmutableArray[\T,ZZ32\]): ()
     (** %addLeft% and %addRight% add an element to the left or right of
         the list, respectively *)
     addLeft(e:E):List[\E\]
@@ -174,7 +177,7 @@ end
 
 (** Vararg factory for lists; provides aggregate list constants **)
 opr <|[\E\] xs: E... |>: List[\E\] = list(xs)
-opr BIG <|[\T extends Object\]|>: Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\] =
+opr BIG <|[\T\]|>: Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\] =
     covariantCompr[\T,List[\T\]\](fn (cc) => fromImmutableArray(cc.toImmutableArray()))
 opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\] =
     __bigOperatorSugar[\T,List[\T\],AnyCovColl,AnyCovColl\](BIG <|[\T\]|>(), g)
@@ -204,7 +207,7 @@ list[\E\](f: ImmutableArray[\E,ZZ32\]): List[\E\] =
 list[\E\](r: List[\E\]): List[\E\] = r
 
 (** Flatten an int-indexed collection of lists **)
-concat[\E\](lists:Indexed[\List[\E\],ZZ32\]):ArrayList[\E\] = do
+concat[\E\](lists:Indexed[\List[\E\],ZZ32\]):List[\E\] = do
     (* The following just sets positions to the prefix sum of the lengths
        of the lists.  sz is the total length.  When we have prefixes we
        ought to do this step in parallel. *)
@@ -228,7 +231,7 @@ concat[\E\](lists:Indexed[\List[\E\],ZZ32\]):ArrayList[\E\] = do
   end
 
 (** A reduction object for concatenating lists. *)
-private object Concat[\E\] extends MonoidReduction[\ List[\E\] \]
+object Concat[\E\] extends MonoidReduction[\ List[\E\] \]
   getter asString():String = "List concatenation reduction"
   empty(): List[\E\] = emptyList[\E\]()
   join(a:List[\E\], b:List[\E\]): List[\E\] = a || b
@@ -273,7 +276,7 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
                                       firstUnused-1, noShot),
                        underlying.get(firstUnused-1))
         end
-    getter indices(): ZeroIndexed[\ZZ32\] = 0 # |self|
+    getter indices(): CompactFullRange[\ZZ32\] = 0 # |self|
     getter indexValuePairs(): Generator[\(ZZ32,E)\] =
         self.indices.map[\(ZZ32,E)\](fn (i:ZZ32):(ZZ32,E) =>
                                         (i,underlying.get(firstUsed+i)))
@@ -282,7 +285,7 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
 
     getter leftSpace(): ZZ32 =
         if canExtendLeft.canTry then
-            if firstUsed=0 then canExtendLeft.tryOnce() end
+            if firstUsed=0 then ignore(canExtendLeft.tryOnce()) end
             firstUsed
         else
             0
@@ -290,7 +293,7 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
     getter rightSpace(): ZZ32 =
         if canExtendRight.canTry then
             res = |underlying| - firstUnused
-            if res = 0 then canExtendRight.tryOnce() end
+            if res = 0 then ignore(canExtendRight.tryOnce()) end
             res
         else
             0
@@ -318,7 +321,7 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
         sz0 = |underlying|
         sz = (sz0 + i) MAX scale(sz0)
         fstUsed = sz - sz0
-        under = primitiveImmutableArray[\E\](sz)
+        under = primitiveImmutableArray[\T\](sz)
         fill[\T\](fstUsed,under)
         fstUnused = fstUsed + |self|
         ArrayList(under,fstUsed,noShot,fstUnused,oneShot())
@@ -329,7 +332,7 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
     enlargeRight[\T\](i:ZZ32): ArrayList[\T\] = do
         sz0 = |underlying|
         sz = (sz0 + i) MAX scale(sz0)
-        under = primitiveImmutableArray[\E\](sz)
+        under = primitiveImmutableArray[\T\](sz)
         fill[\T\](firstUsed,under)
         ArrayList(under,firstUsed,oneShot(),firstUnused,noShot)
       end

@@ -19,7 +19,7 @@ object Writer(fileName: String) extends WriteStream
     getter fileName(): String
 end
 
-object BufferedWriter(under: Writer) extends WriteStream
+object BufferedWriter(under: WriteStream, size: ZZ32) extends WriteStream
 end
 
 end

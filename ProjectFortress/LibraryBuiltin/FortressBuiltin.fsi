@@ -27,7 +27,7 @@ api FortressBuiltin
     generally easier to work with, and the boilerplate packing and
     unpacking of values is done for you.
 **)
-builtinPrimitive[\T extends Object\](javaClass:String):T
+builtinPrimitive[\T\](javaClass:String):T
 
 trait Object extends Any
     getter ilkName(): String
@@ -219,7 +219,7 @@ object IntLiteral extends { Number }
     odd(self): Boolean
 end
 
-object BigNum extends ZZ end
+value object BigNum extends ZZ end
 
 value object Boolean
     extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
@@ -284,8 +284,8 @@ value object Char extends { StandardTotalOrder[\Char\] }
 end
 
 object Thread[\T\](fcn:()->T)
-    getter val():T
-    getter ready():Boolean
+    val():T
+    ready():Boolean
     wait():()
     stop():()
 end
