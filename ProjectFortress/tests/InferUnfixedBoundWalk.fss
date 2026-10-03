@@ -10,6 +10,7 @@ thr[\T\](): T = throw ForbiddenException
 mkN[\T extends Number\](): BoxU[\T\] = BoxU[\T\]()
 mkU[\T\](): BoxU[\T\] = BoxU[\T\]()
 none[\T\](xs: T...): BoxU[\T\] = BoxU[\T\]()
+mkB[\T extends Number, U extends BoxU[\T\]\](): BoxU[\U\] = BoxU[\U\]()
 
 witness[\T extends Number\](): String = typecase thr[\T\] of
     () -> ZZ32 => "ZZ32"
@@ -18,6 +19,7 @@ witness[\T extends Number\](): String = typecase thr[\T\] of
   end
 
 kindU(x: Any): String = typecase x of
+    BoxU[\BoxU[\Number\]\] => "BoxU[BoxU[Number]]"
     BoxU[\Number\] => "BoxU[Number]"
     BoxU[\Any\] => "BoxU[Any]"
     else => "other"
@@ -28,6 +30,7 @@ run(): () = do
     assert(kindU(mkU()), "BoxU[Any]", "a type parameter without a bound that nothing at the call fixes takes Any (inference.tex, section \"The Static Arguments of a Call\")")
     assert(witness(), "Number", "the () -> T witness of a parameter bounded by Number that nothing fixes takes the Number clause, not the first (inference.tex, section \"The Static Arguments of a Call\")")
     assert(kindU(none()), "BoxU[Any]", "a varargs parameter given no argument leaves its type parameter to its bound Any (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(mkB()), "BoxU[BoxU[Number]]", "a type parameter bounded by BoxU[T] that nothing fixes takes that bound at the instance of T, which takes its bound Number (inference.tex, section \"The Static Arguments of a Call\")")
     println("PASS")
   end
 
