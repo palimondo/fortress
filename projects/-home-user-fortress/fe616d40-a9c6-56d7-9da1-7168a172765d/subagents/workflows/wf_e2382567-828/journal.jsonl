@@ -1,0 +1,7 @@
+{"type":"launched"}
+{"type":"started","key":"v2:0917a6ca772b8d1d2edd3b186c9c1721f32914cd81c8f69559a4a730a85698c5","agentId":"a50491a4b7bdf1549","label":"custom-1","phase":"Custom type"}
+{"type":"result","key":"v2:0917a6ca772b8d1d2edd3b186c9c1721f32914cd81c8f69559a4a730a85698c5","agentId":"a50491a4b7bdf1549","result":"probe A1 done"}
+{"type":"started","key":"v2:338b30d327ffc5a2c36a9f6f4bc2a2767970ef310e54693885222472bc090b5d","agentId":"a2d9f9b6e2cc923aa","label":"custom-2","phase":"Custom type"}
+{"type":"result","key":"v2:338b30d327ffc5a2c36a9f6f4bc2a2767970ef310e54693885222472bc090b5d","agentId":"a2d9f9b6e2cc923aa","result":"probe A2 done"}
+{"type":"started","key":"v2:b86122fd72dda815fb92852329864b2cad792e66a8cda80fa249b80374117b85","agentId":"af3589a595f745386","label":"custom-3","phase":"Custom type"}
+{"type":"result","key":"v2:b86122fd72dda815fb92852329864b2cad792e66a8cda80fa249b80374117b85","agentId":"af3589a595f745386","result":"probe A3 done"}
