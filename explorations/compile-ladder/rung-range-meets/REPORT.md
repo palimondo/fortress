@@ -6,7 +6,7 @@
 - spec: the Meet Rule for Functional Methods, `Specification/advanced/overloading.tex:469` (section "Meet Rule"); membership, intersection and size of ranges, `Specification/basic/expressions/ranges.tex:131`, `:138`, `:140` (section "Ranges")
 - precedent: a declaration on the meet in the type that provides both, `CompactFullScalarRange`'s own `opr IN(n: ZZ32, self)` (`Library/RangeInternals.fsi:426`, `:400` at fa14a190c) and `Nothing`'s two `SQCAP` (`Library/FortressLibrary.fsi:1014`); a new object at a meet, `SimpleMappedIndexed` (`Library/FortressLibrary.fss:3567`); `cast` for a run-time type narrower than the static one, `openRange` (`Library/FortressLibrary.fss:4043`)
 - deviation: the rank-2 and rank-3 `CAP` meets' second bodies wrap `combine2D`/`combine3D` in `cast[\BoundedRange[\…\]\]` (`Library/RangeInternals.fss:631`); `SimpleMappedSeqIndexed` takes an `Indexed` and is sequential through its callers, not by a type (`Library/FortressLibrary.fsi:2396`); `UniformDistribution` reads `range.forward().left` where row 586 named `range.left` (`Library/Random.fss:373`)
-- historical: `Library/RangeInternals.fsi`, `Library/RangeInternals.fss`, `Library/FortressLibrary.fsi`, `Library/FortressLibrary.fss`, `Library/Random.fss`
+- historical: `Library/RangeInternals.fsi`, `Library/RangeInternals.fss`, `Library/FortressLibrary.fsi`, `Library/FortressLibrary.fss`, `Library/Random.fss` (all edited; first edits `Library/RangeInternals.fsi:46`, `Library/RangeInternals.fss:106`, `Library/FortressLibrary.fsi:988`, `Library/FortressLibrary.fss:1506`, `Library/Random.fss:373`; added by climb batch 9's merged-diff review)
 
 The harness refused the write of this file; the gather writes it from this text.
 
