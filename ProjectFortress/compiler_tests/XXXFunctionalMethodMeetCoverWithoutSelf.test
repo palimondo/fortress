@@ -1,0 +1,3 @@
+tests=XXXFunctionalMethodMeetCoverWithoutSelf
+compile
+compile_err_contains=Invalid overloading of mark

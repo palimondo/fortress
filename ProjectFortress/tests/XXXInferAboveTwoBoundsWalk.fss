@@ -1,0 +1,23 @@
+component XXXInferAboveTwoBoundsWalk
+export Executable
+
+(* A type parameter that two function arguments bound only from above, by Red and by Round, takes the intersection of those bounds, so the call returns, under walk (row 616). *)
+
+trait Fruit end
+trait Red extends Fruit end
+trait Round extends Fruit end
+object Apple extends { Red, Round } end
+object Cherry extends Red end
+
+both[\T\](g: T -> ZZ32, h: T -> ZZ32, x: Any): ZZ32 = typecase x of
+    T => g(x) + h(x)
+    else => 0
+  end
+
+run(): () = do
+    assert(both(fn (x: Red): ZZ32 => 1, fn (x: Round): ZZ32 => 2, Apple), 3, "a function of a Red and a function of a Round bound T above by Red and by Round, so T is their intersection, which an Apple belongs to (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(both(fn (x: Red): ZZ32 => 1, fn (x: Round): ZZ32 => 2, Cherry), 0, "a Cherry is a Red and not a Round, so it is not in the intersection T (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

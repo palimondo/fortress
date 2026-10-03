@@ -1,0 +1,25 @@
+(* A type parameter that an argument bounds only from above, through the parameter type of a function, takes that upper bound and never BottomType, under walk. *)
+component InferContravariantWalk
+export Executable
+
+object BoxU[\T\]() end
+
+co[\T\](g: T -> ZZ32): BoxU[\T\] = BoxU[\T\]()
+coN[\T extends Number\](g: T -> ZZ32): BoxU[\T\] = BoxU[\T\]()
+co2[\T\](g: T -> ZZ32, h: T -> ZZ32): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\ZZ32\] => "BoxU[ZZ32]"
+    BoxU[\Number\] => "BoxU[Number]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+run(): () = do
+    assert(kindU(co(fn (x: ZZ32): ZZ32 => x)), "BoxU[ZZ32]", "a function of a ZZ32 bounds the type parameter above by ZZ32, which it takes, never BottomType (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(coN(fn (x: Any): ZZ32 => 1)), "BoxU[Number]", "a function of an Any bounds a type parameter declared to extend Number above by Any, and it takes the intersection of its upper bounds, Number (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindU(co2(fn (x: Number): ZZ32 => 1, fn (x: ZZ32): ZZ32 => x)), "BoxU[ZZ32]", "functions of a Number and of a ZZ32 bound the type parameter above by Number and by ZZ32, and it takes their intersection, ZZ32 (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

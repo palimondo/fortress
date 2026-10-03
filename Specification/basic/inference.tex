@@ -195,10 +195,19 @@ When its dispatch chooses among declarations, it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
 favour of any other declaration applicable to the call without coercion
 (row~589 of the revival's gap ledger).
-It does not yet fix a type parameter by the expected type, and it instantiates
-at \TYP{BottomType} a type parameter that an argument bounds only from above,
-as a function argument bounds the type parameter of its parameter type
-(row~588 of the revival's gap ledger).
+It does not yet fix a type parameter by the expected type.
+A type parameter that an argument bounds only from above, as a function
+argument bounds the type parameter of its parameter type, it instantiates at the
+intersection of the upper bounds that its declared bound and the arguments
+place on it: at \EXP{\mathbb{Z}32} for a function of a \EXP{\mathbb{Z}32} where
+the type parameter is declared without an \KWD{extends} clause, and at
+\TYP{Number} for a function of an \TYP{Any} where it is bounded by
+\TYP{Number}; such a type parameter whose bound mentions a
+static parameter, or that is declared with several bounds that it cannot meet,
+it still instantiates at \TYP{BottomType}; and where the arguments place on
+such a type parameter two upper bounds that it cannot meet, as a function over
+one trait and a function over another do when neither trait extends the other,
+the call fails with an error of unification (row~616 of the revival's gap ledger).
 It compares declarations with static parameters on the parameter types they
 declare, except generic dotted methods (row~21 of the revival's gap ledger), and
 dispatches a converted call again, except a call of an overloaded method.}

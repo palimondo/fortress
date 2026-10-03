@@ -1,0 +1,22 @@
+component OverloadSingleParamUnbounded
+export Executable
+
+(* A functional whose single parameter's type is a naked type parameter declared without an extends clause, whose bound Any is not written, may be overloaded, and each call runs its declaration (row 534). *)
+
+f[\T\](x: T): ZZ32 = 1
+f(x: ZZ32, y: ZZ32): ZZ32 = 2
+
+g[\T extends Object\](x: T): ZZ32 = 3
+g(x: ZZ32, y: ZZ32): ZZ32 = 4
+
+run(): () = do
+    a: ZZ32 = 3
+    b: ZZ32 = 4
+    assert(f(3), 1, "a type parameter declared without an extends clause does not fall under the restriction on a bound written Any, so f loads and f(3) runs the generic declaration (advanced/overloading.tex, section \"Principles of Overloading\")")
+    assert(f(a, b), 2, "f(a, b) on two ZZ32 values runs the declaration of two parameters, more specific than the generic declaration at a pair (basic/overloading.tex, section \"Overloading Resolution\")")
+    assert(g(3), 3, "a type parameter bounded by Object does not fall under the restriction on a bound written Any, so g(3) runs the generic declaration (advanced/overloading.tex, section \"Principles of Overloading\")")
+    assert(g(a, b), 4, "g(a, b) on two ZZ32 values runs the declaration of two parameters (basic/overloading.tex, section \"Overloading Resolution\")")
+    println("PASS")
+  end
+
+end

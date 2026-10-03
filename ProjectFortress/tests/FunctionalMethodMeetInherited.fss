@@ -1,4 +1,4 @@
-component XXXFunctionalMethodMeetInherited
+component FunctionalMethodMeetInherited
 export Executable
 
 (* A trait that inherits two functional methods of one name whose parameter types overlap, and provides no declaration on their meet, is no valid overloading, so the program is refused at load (row 544); Specification/advanced/overloading.tex, section "Meet Rule", paragraph "The Meet Rule for Functional Methods". *)

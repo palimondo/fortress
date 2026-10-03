@@ -1,0 +1,18 @@
+component FunctionalMethodOverrideOtherPathWalk
+export Executable
+
+(* Pins walk's refusal at load of an object that extends a trait and that trait's supertrait, where the trait's override declaration overrides the supertrait's functional method: walk counts as not inherited only what the type's own override declarations override (row 615). *)
+
+trait S
+  tag(self, x: ZZ32): ZZ32 = 1
+end
+trait W extends S
+  override tag(self, x: Number): ZZ32 = 2
+end
+object Dio extends { W, S } end
+
+run(): () = do
+    println("tag(Dio, 3) = " tag(Dio, 3))
+  end
+
+end

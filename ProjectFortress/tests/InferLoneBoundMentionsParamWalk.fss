@@ -1,0 +1,36 @@
+component InferLoneBoundMentionsParamWalk
+export Executable
+
+(* Pins walk's instance of a lone type parameter whose bound mentions another static parameter, T extends S, and of that parameter, over arguments with one narrowest named common supertype and over arguments with two; the chapter does not say whether it solves a call's type parameters jointly. *)
+
+trait Fruit end
+trait Red extends Fruit end
+trait Round extends Fruit end
+object Apple extends { Red, Round } end
+object Cherry extends { Red, Round } end
+object Pear extends Fruit end
+
+object BoxU[\T\]() end
+
+loneS[\S, T extends S\](a: T, b: T, s: S): BoxU[\S\] = BoxU[\S\]()
+loneT[\S, T extends S\](a: T, b: T, s: S): BoxU[\T\] = BoxU[\T\]()
+
+kindU(x: Any): String = typecase x of
+    BoxU[\Apple\] => "BoxU[Apple]"
+    BoxU[\Pear\] => "BoxU[Pear]"
+    BoxU[\Red\] => "BoxU[Red]"
+    BoxU[\Round\] => "BoxU[Round]"
+    BoxU[\Fruit\] => "BoxU[Fruit]"
+    BoxU[\Any\] => "BoxU[Any]"
+    else => "other"
+  end
+
+run(): () = do
+    assert(kindU(loneS(Apple, Pear, Pear)), "BoxU[Fruit]", "over an Apple, a Pear and a Pear walk gives S the arguments' narrowest named common supertype Fruit")
+    assert(kindU(loneT(Apple, Pear, Pear)), "BoxU[Fruit]", "over an Apple, a Pear and a Pear walk gives T the arguments' narrowest named common supertype Fruit")
+    assert(kindU(loneS(Apple, Cherry, Apple)), "BoxU[Any]", "over an Apple, a Cherry and an Apple, whose minimal common supertypes are Red and Round, walk gives S the bound Any")
+    assert(kindU(loneT(Apple, Cherry, Apple)), "BoxU[Any]", "over an Apple, a Cherry and an Apple walk gives T the bound Any")
+    println("PASS")
+  end
+
+end

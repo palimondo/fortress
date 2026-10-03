@@ -1,4 +1,4 @@
-component XXXOverloadSingleParamBoundAny
+component OverloadSingleParamBoundAny
 export Executable
 
 (* A functional whose single parameter's type is a naked type parameter with the bound Any written cannot be overloaded, so the program is refused at load (row 534); Specification/advanced/overloading.tex, section "Principles of Overloading". *)

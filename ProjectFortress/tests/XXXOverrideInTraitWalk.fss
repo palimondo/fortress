@@ -1,0 +1,22 @@
+component XXXOverrideInTraitWalk
+export Executable
+
+(* A trait whose method declaration with the modifier override overrides an inherited one does not inherit it, so an object below that trait runs the overriding declaration, under walk. *)
+
+trait S
+  tag(self, x: ZZ32): ZZ32 = 1
+  dot(x: ZZ32): ZZ32 = 1
+end
+trait W extends S
+  override tag(self, x: Number): ZZ32 = 2
+  override dot(x: Number): ZZ32 = 2
+end
+object Wo extends W end
+
+run(): () = do
+    assert(tag(Wo, 3), 2, "W's functional method tag over Number overrides S's over ZZ32, so W and Wo do not inherit S's and tag(Wo, 3) runs W's (traits.tex, section \"Method Declarations\")")
+    assert(Wo.dot(3), 2, "W's dotted method dot over Number overrides S's over ZZ32, so Wo.dot(3) runs W's (traits.tex, section \"Method Declarations\")")
+    println("PASS")
+  end
+
+end

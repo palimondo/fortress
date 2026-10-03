@@ -1014,15 +1014,25 @@ specification describes, it compiles against a smaller library of its own,
 whose big operators take no static argument and range over \EXP{\mathbb{Z}32}
 only, so that there the clause form runs without its static argument and a
 written one is refused. The normative text is unchanged.
+The box said at first that ``the interpreter, and the compiled type checker
+when it checks the libraries this specification describes, each take
+\TYP{BottomType} for it, and the reduction then accepts no element''; it now
+says that the interpreter does, and that the compiled type checker takes the
+bound of the big operator's static parameter, which gives the reduction the
+type of a bound such as \TYP{Number} and no instance that applies where the
+bound mentions the static parameter itself.
 \item[Rationale] The revival decided on 26~September 2026 that the library's
 \OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
 each joined with its element type's own operator and taking that type's
 identity, and that such a clause form writes its static argument, as the team's
 own tests do.
-The interpreter, and the compiled type checker when it checks the libraries this
-specification describes, each take \TYP{BottomType} for the static parameter of
-a big operator that no argument fixes (rows~424 and~425 of the revival's gap
-ledger).
+The interpreter takes \TYP{BottomType} for the static parameter of a big
+operator that no argument fixes (row~424 of the revival's gap ledger).
+The compiled type checker, when it checks the libraries this specification
+describes, took \TYP{BottomType} too until it was revised to the rule of
+\secref{static-arg-inference} for a type parameter that nothing at a call
+fixes; it now takes the parameter's bound, which is not the element type
+(row~425).
 The compiled path's own library declares $\sum$ and
 \EXP{\OPR{BIG}\:\OPR{MAX}} for \EXP{\mathbb{Z}32} alone, with no static
 parameter (\nolinkurl{Library/CompilerLibrary.fsi}, lines 180--184), and
@@ -1650,8 +1660,9 @@ before to the narrowest named common supertype of the arguments' run-time
 types, a call that fixes one of the second kind failing where there is none;
 that when it chooses among declarations it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
-favour of another applicable without coercion; and that it instantiates at
-\TYP{BottomType} a type parameter that an argument bounds only from above.
+favour of another applicable without coercion; and, until 3~October 2026, that
+it instantiates at \TYP{BottomType} a type parameter that an argument bounds
+only from above.
 The box after the list said that ``The interpreter erases a type parameter that
 nothing at a call fixes, of a function, to \TYP{BottomType}''; it now says that
 the interpreter instantiates such a type parameter at its bound, and one whose
@@ -1663,6 +1674,17 @@ that it cannot meet, one whose bound mentions the type parameter itself, a big
 operator's that a reduction or a comprehension does not write, and one that
 only the result of a function expression without a declared return type
 fixes.
+A revision of the interpreter of 3~October 2026 changes the box in
+\secref{static-arg-inference} once more.
+It said that the interpreter ``instantiates at \TYP{BottomType} a type
+parameter that an argument bounds only from above, as a function argument
+bounds the type parameter of its parameter type''; it now says that the
+interpreter instantiates such a type parameter at the intersection of the upper
+bounds that its declared bound and the arguments place on it, with two
+examples, and still at \TYP{BottomType} one whose bound mentions a static
+parameter or that is declared with several bounds that it cannot meet, and
+that a call whose arguments place on such a type parameter two upper bounds
+that it cannot meet fails.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1729,11 +1751,16 @@ case of a type parameter whose bound mentions itself, which the revival has
 not yet decided.
 As defects, each gated by an expected failure of the revival's tests, the
 interpreter erases to \TYP{BottomType} a type parameter declared with several
-bounds that it cannot meet, having no intersection type, a type parameter that
-only the result of a function expression without a declared return type fixes,
-since it gives that result the type \TYP{BottomType}, and a type parameter that
-an argument bounds only from above, since it takes the lower end of the
-interval that the arguments give the type parameter.
+bounds that it cannot meet, having no intersection type, and a type parameter
+that only the result of a function expression without a declared return type
+fixes, since it gives that result the type \TYP{BottomType}.
+Until 3~October 2026 it also erased a type parameter that an argument bounds
+only from above, taking the lower end of the interval that the arguments give
+the type parameter; it now takes the upper end, the intersection of the upper
+bounds that the rule gives, except, as defects gated by expected failures, for
+a type parameter whose bound mentions a static parameter, which it cannot
+evaluate before the instances are known, and one declared with several bounds
+that it cannot meet.
 The reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-walk-instance/decision-record.md}
 in the revival's repository.
@@ -1823,6 +1850,13 @@ a call whose arguments have several minimal common supertypes runs where it
 stopped the interpreter, unless they fix a type parameter declared with several
 bounds that the interpreter cannot meet or one whose bound mentions the type
 parameter itself.
+Since 3~October 2026, under the interpreter, a type parameter that an argument
+bounds only from above runs at the intersection of its upper bounds where it ran at
+\TYP{BottomType}, except the type parameters that the box in
+\secref{static-arg-inference} names; a call whose arguments place on such a
+type parameter two upper bounds that the interpreter cannot meet, as functions
+of two traits neither of which extends the other do, still fails with an error
+of unification, as it failed before (row~616 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -2717,10 +2751,6 @@ declarations were compared, the implicit bound of \secref{type-param}, and the
 rule of \chapref{overloaded-declarations} on a naked type parameter of bound
 \TYP{Any}, are revised with the overloading chapters (\secref{revival-overloading},
 \secref{revival-bound}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
-The box of \secref{reduction-expr} still says that the compiled type checker
-takes \TYP{BottomType} for the element type of a reduction that no argument of
-its big operator fixes; it now takes the bound of the big operator's static
-parameter (\secref{revival-inference}).
 The instance of a \KWD{nat} or \KWD{int} parameter of a declaration that a call
 reaches only by dispatch, where nothing fixes it at run time, is not described;
 the rule of \secref{resolving-overloading} is for type parameters (row~446 of the

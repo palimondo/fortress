@@ -1,0 +1,18 @@
+component XXXFunctionalMethodMeetOperator
+export Executable
+
+(* An object that inherits two operator declarations of one symbolic name whose parameter types overlap, and provides no declaration on their meet, is no valid overloading, so the program is refused at load (row 611); Specification/advanced/overloading.tex, section "Meet Rule". *)
+
+trait S
+  opr ||(self, b: ZZ32): ZZ32 = 1
+end
+trait T
+  opr ||(self, b: ZZ32): ZZ32 = 2
+end
+object Vo extends { S, T } end
+
+run(): () = do
+    println("Vo || 3 = " (Vo || 3))
+  end
+
+end

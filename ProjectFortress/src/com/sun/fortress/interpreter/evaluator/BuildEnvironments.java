@@ -1059,11 +1059,16 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
      * each of them a subtype of a listed type.  Types are read from the
      * declarations as written, each name resolved in its declaration's
      * environment and each static parameter replaced by the static argument
-     * given it.
+     * given it.  Then refuses a program one of whose traits or objects
+     * without static parameters breaks the Meet Rule for Functional Methods
+     * (OverloadedFunction.FunctionalMethodMeets).
      */
     public static void checkComprisesClauses(List<? extends CUWrapper> units, CUWrapper main) {
         int m = units.indexOf(main);
-        if (m >= 0) new ComprisesCheck(units).check(m);
+        if (m < 0) return;
+        ComprisesCheck check = new ComprisesCheck(units);
+        check.check(m);
+        check.checkFunctionalMethodMeets();
     }
 
     private static final class ComprisesCheck {
@@ -1193,6 +1198,16 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                                                             x.name(),
                                                             " is not eligible to extend it",
                                                             why));
+                }
+            }
+        }
+
+        /** Checks the Meet Rule for Functional Methods for every trait or object without static parameters. */
+        void checkFunctionalMethodMeets() {
+            OverloadedFunction.FunctionalMethodMeets meets = new OverloadedFunction.FunctionalMethodMeets();
+            for (Declared x : declarations) {
+                if (x.type instanceof FTraitOrObject && !(x.type instanceof GenericTypeInstance) && x.params.isEmpty()) {
+                    meets.check((FTraitOrObject) x.type, x.decl);
                 }
             }
         }
