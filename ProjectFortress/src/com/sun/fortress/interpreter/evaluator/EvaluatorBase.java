@@ -17,15 +17,18 @@ import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.*;
+import com.sun.fortress.nodes.ArrowType;
 import com.sun.fortress.nodes.BigFixity;
 import com.sun.fortress.nodes.BoolRef;
 import com.sun.fortress.nodes.IntRef;
+import com.sun.fortress.nodes.KeywordType;
 import com.sun.fortress.nodes.NodeAbstractVisitor;
 import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
 import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.Pattern;
 import com.sun.fortress.nodes.StaticParam;
+import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.nodes.TypeOrPattern;
 import com.sun.fortress.nodes.VarType;
@@ -146,16 +149,18 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     /**
      * The instance of each static parameter: its lower bound in abm, except
      * that, with bounded, a type parameter of a declaration other than a big
-     * operator that the arguments do not fix takes its bound: where its
-     * bounds mention no static parameter (rechecks), its interval's upper
-     * end; where they mention others but not itself, its bounds at their
-     * instances.  The arguments fix a type parameter that an argument's
-     * declared parameter type mentions (fixable), and one that a bound of a
-     * type parameter they fix mentions.  Any other left open is BottomType.
+     * operator that the arguments do not fix, or that they bound only from
+     * above (aboveOnly), takes its bound: where its bounds mention no static
+     * parameter (rechecks), its interval's upper end; where they mention
+     * others but not itself, its bounds at their instances.  The arguments fix
+     * a type parameter that an argument's declared parameter type mentions
+     * (fixable), and one that a bound of a type parameter they fix mentions.
+     * Any other left open is BottomType.
      */
     private static ArrayList<FType> instanceOf(List<StaticParam> tparams,
                                                LatticeIntervalMap<String, FType, TypeLatticeOps> abm,
-                                               Set<String> fixable, Collection<StaticParam> rechecks,
+                                               Set<String> fixable, Set<String> aboveOnly,
+                                               Collection<StaticParam> rechecks,
                                                boolean bounded, GenericFunctionOrMethod appliedThing,
                                                List<FValue> args) {
         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
@@ -164,10 +169,11 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         for (StaticParam tp : tparams) {
             String n = NodeUtil.getName(tp);
             FType t = abm.get(n);
-            if (bounds && NodeUtil.isTypeParam(tp) && !fixed.contains(n) &&
+            boolean unfixed = !fixed.contains(n);
+            if (bounds && NodeUtil.isTypeParam(tp) && (unfixed || aboveOnly.contains(n)) &&
                 (rechecks == null || !rechecks.contains(tp)) && (t == null || t instanceof BottomType)) {
                 t = boundOf(abm, n);
-                traceInstance("unfixed", appliedThing, n, BottomType.ONLY, t, typesOf(args));
+                traceInstance(unfixed ? "unfixed" : "above", appliedThing, n, BottomType.ONLY, t, typesOf(args));
             }
             if (t == null) t = BottomType.ONLY;
             tl.add(t);
@@ -185,6 +191,52 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             }
         }
         return tl;
+    }
+
+    /**
+     * The type parameters of typeParams that the declared types of params
+     * mention only where an argument bounds them from above, as the domain of
+     * a function type does: in an odd number of arrow domains, and never as
+     * a static argument of a type.
+     */
+    private static Set<String> boundedOnlyAbove(List<Param> params, Set<String> typeParams) {
+        Set<String> above = new HashSet<String>();
+        Set<String> below = new HashSet<String>();
+        for (Param p : params) {
+            Type ty;
+            if (NodeUtil.isVarargsParam(p)) ty = p.getVarargsType().unwrap();
+            else if (p.getIdType().isSome()) ty = NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap();
+            else continue;
+            polarities(ty, true, typeParams, below, above);
+        }
+        above.removeAll(below);
+        return above;
+    }
+
+    /**
+     * Files each name of names that ty mentions under below where an argument
+     * of type ty bounds it from below (positive) and under above where it
+     * bounds it from above; a mention inside a static argument goes under
+     * both.
+     */
+    private static void polarities(Type ty, boolean positive, Set<String> names, Set<String> below,
+                                   Set<String> above) {
+        if (ty instanceof VarType) {
+            String n = NodeUtil.nameString(((VarType) ty).getName());
+            if (names.contains(n)) (positive ? below : above).add(n);
+        } else if (ty instanceof ArrowType) {
+            polarities(((ArrowType) ty).getRange(), positive, names, below, above);
+            polarities(((ArrowType) ty).getDomain(), !positive, names, below, above);
+        } else if (ty instanceof TupleType) {
+            TupleType tt = (TupleType) ty;
+            for (Type e : tt.getElements()) polarities(e, positive, names, below, above);
+            if (tt.getVarargs().isSome()) polarities(tt.getVarargs().unwrap(), positive, names, below, above);
+            for (KeywordType k : tt.getKeywords()) polarities(k.getKeywordType(), positive, names, below, above);
+        } else {
+            Set<String> m = mentions(ty, names);
+            below.addAll(m);
+            above.addAll(m);
+        }
     }
 
     /**
@@ -395,7 +447,8 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         }
         Set<String> fixable = new HashSet<String>(fixedElsewhere);
         fixable.addAll(lone.keySet());
-        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, rechecks, true, appliedThing, originalArgs);
+        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, boundedOnlyAbove(params, typeParams), rechecks, true,
+                                         appliedThing, originalArgs);
         Simple_fcn sfcn = appliedThing.typeApply(tl);
         /* Every argument admitted by the instance's domain, by subtyping or by one coercion. */
         List<FValue> fargs = sfcn.fixupArgCount(originalArgs);
@@ -727,7 +780,8 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
          * Iterate over static parameters, choosing least-general binding for
          * each one.
          */
-        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, rechecks, bounded, appliedThing, originalArgs);
+        ArrayList<FType> tl = instanceOf(tparams, abm, fixable, boundedOnlyAbove(params, tp_set), rechecks, bounded,
+                                         appliedThing, originalArgs);
         Simple_fcn sfcn = appliedThing.typeApply(tl);
         if (DUMP_INFERENCE) System.err.println("Result " + sfcn);
         return sfcn;

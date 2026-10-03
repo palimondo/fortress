@@ -21,8 +21,12 @@ import com.sun.fortress.interpreter.evaluator.EvalType;
 import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.InstantiationLock;
 import com.sun.fortress.interpreter.evaluator.types.*;
+import com.sun.fortress.nodes.AnyType;
 import com.sun.fortress.nodes.BaseType;
 import com.sun.fortress.nodes.BoolRef;
+import com.sun.fortress.nodes.Decl;
+import com.sun.fortress.nodes.FnDecl;
+import com.sun.fortress.nodes.Id;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
@@ -35,6 +39,7 @@ import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.TypeOrPattern;
 import com.sun.fortress.nodes.VarType;
 import com.sun.fortress.nodes_util.NodeUtil;
+import com.sun.fortress.parser_util.IdentifierUtil;
 import com.sun.fortress.useful.*;
 import edu.rice.cs.plt.tuple.Option;
 
@@ -247,6 +252,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 }
 
                 if (!noCheck && !o1.guaranteedOK) {
+
+                    if (new_overloads.size() > 1 && singleParameterBoundAny(o1)) {
+                        error(o1, within, errorMsg("A functional which takes a single parameter of a parametric type bound by Any cannot be overloaded: ",
+                                                   o1));
+                    }
 
                     for (int j = i - 1; j >= 0; j--) {
 
@@ -614,6 +624,33 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
 
         }
+    }
+
+    /**
+     * A function, not a method, whose one parameter, neither varargs nor
+     * keyword, is declared with a type parameter of its own whose bound is
+     * written Any, as T extends Any; a type parameter without an extends
+     * clause does not count.
+     */
+    static private boolean singleParameterBoundAny(Overload o) {
+        if (o instanceof Overload.MethodOverload || o.getSelfParameterIndex() >= 0) return false;
+        SingleFcn f = o.getFn();
+        if (!(f instanceof GenericFunctionOrMethod)) return false;
+        GenericFunctionOrMethod g = (GenericFunctionOrMethod) f;
+        List<Param> ps = g.getParams();
+        if (ps.size() != 1) return false;
+        Param p = ps.get(0);
+        if (NodeUtil.isVarargsParam(p) || p.getDefaultExpr().isSome() || p.getIdType().isNone()) return false;
+        Type ty = NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap();
+        if (!(ty instanceof VarType)) return false;
+        String v = NodeUtil.nameString(((VarType) ty).getName());
+        for (StaticParam sp : g.getStaticParams()) {
+            if (!NodeUtil.isTypeParam(sp) || !NodeUtil.getName(sp).equals(v)) continue;
+            for (BaseType b : sp.getExtendsClause()) {
+                if (b instanceof AnyType) return true;
+            }
+        }
+        return false;
     }
 
     private boolean genericFMAndInstance(SingleFcn f1, SingleFcn f2) {
@@ -1026,6 +1063,199 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         }
         catch (FortressException ex) {
             return null;
+        }
+    }
+
+    /**
+     * A functional method that a trait or object provides: declared in type,
+     * its self parameter at self, params its parameter types, the self
+     * parameter's type being type; params is null where they cannot be read
+     * without an instance (static parameters of its own, a varargs or keyword
+     * parameter, a type walk cannot evaluate or a symbolic one).
+     */
+    static private final class Provided {
+        final FnDecl decl;
+        final String name;
+        final int self;
+        final FTraitOrObject type;
+        final List<FType> params;
+
+        Provided(FnDecl decl, int self, FTraitOrObject type) {
+            this.decl = decl;
+            this.name = NodeUtil.nameString(NodeUtil.getName(decl));
+            this.self = self;
+            this.type = type;
+            this.params = paramTypes(decl, self, type);
+        }
+
+        static private List<FType> paramTypes(FnDecl decl, int self, FTraitOrObject type) {
+            if (!NodeUtil.getStaticParams(decl).isEmpty()) return null;
+            List<Param> ps = NodeUtil.getParams(decl);
+            List<FType> res = new ArrayList<FType>(ps.size());
+            EvalType et = new EvalType(type.getWithin());
+            for (int k = 0; k < ps.size(); k++) {
+                if (k == self) {
+                    res.add(type);
+                    continue;
+                }
+                Param p = ps.get(k);
+                if (NodeUtil.isVarargsParam(p) || p.getDefaultExpr().isSome() || p.getIdType().isNone()) return null;
+                try {
+                    FType t = et.evalType(NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap());
+                    if (t.isSymbolic()) return null;
+                    res.add(t);
+                }
+                catch (FortressException ex) {
+                    return null;
+                }
+            }
+            return res;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder(name).append("(");
+            for (int k = 0; k < params.size(); k++) {
+                if (k > 0) sb.append(", ");
+                sb.append(k == self ? "self" : String.valueOf(params.get(k)));
+            }
+            return sb.append(") of ").append(type).toString();
+        }
+    }
+
+    /**
+     * The Meet Rule for Functional Methods for the trait or object c, which
+     * declaration at declares: of every two functional methods of one name
+     * that c provides, declared in two different types with their self
+     * parameters at one position, whose parameter types are not one below the
+     * other and do not exclude, c provides a declaration whose self type is
+     * below both declaring types and whose other parameter types are their
+     * meet, or declarations like it that together cover their overlap, the
+     * overlap read through comprises clauses (overlapPieces).  A pair whose
+     * parameter types cannot be read, or whose overlap the search does not
+     * settle, is not refused.  The names checked are those the compiled
+     * checker checks (OverloadingChecker.isDeclaredName): identifiers, and
+     * operators whose names NodeUtil.validOp admits.
+     */
+    public static void checkFunctionalMethodMeets(FTraitOrObject c, HasAt at) {
+        Map<String, List<Provided>> byName = new LinkedHashMap<String, List<Provided>>();
+        Set<FType> seen = new HashSet<FType>();
+        for (FType t : c.getTransitiveExtends()) {
+            if (!(t instanceof FTraitOrObject) || t.isSymbolic() || !seen.add(t)) continue;
+            FTraitOrObject d = (FTraitOrObject) t;
+            List<Decl> members = d.getASTmembers();
+            if (members == null) continue;
+            for (Decl m : members) {
+                if (!(m instanceof FnDecl) || !checkedName(NodeUtil.getName((FnDecl) m))) continue;
+                int self = NodeUtil.selfParameterIndex((FnDecl) m);
+                if (self < 0) continue;
+                Provided p = new Provided((FnDecl) m, self, d);
+                List<Provided> l = byName.get(p.name);
+                if (l == null) {
+                    l = new ArrayList<Provided>();
+                    byName.put(p.name, l);
+                }
+                l.add(p);
+            }
+        }
+        for (List<Provided> l : byName.values()) {
+            for (int i = 0; i < l.size(); i++) {
+                for (int j = i + 1; j < l.size(); j++) {
+                    Provided a = l.get(i);
+                    Provided b = l.get(j);
+                    if (a.type == b.type || a.self != b.self || a.params == null || b.params == null ||
+                        a.params.size() != b.params.size()) continue;
+                    if (!meetNeeded(a, b) || meetProvided(a, b, l)) continue;
+                    error(at, errorMsg("Invalid overloading of ", a.name, " in ", c, ": ", c,
+                                       " provides the functional methods ", a, " and ", b,
+                                       ", whose parameter types are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present, and provides no declaration on their meet or declarations that cover it"));
+                }
+            }
+        }
+    }
+
+    static private boolean checkedName(IdOrOpOrAnonymousName n) {
+        if (n instanceof Id) return IdentifierUtil.validId(((Id) n).getText());
+        if (n instanceof Op) return NodeUtil.validOp(((Op) n).getText());
+        return false;
+    }
+
+    /** Neither parameter list is below the other and no pair of their parameter types excludes. */
+    static private boolean meetNeeded(Provided a, Provided b) {
+        try {
+            boolean aBelow = true;
+            boolean bBelow = true;
+            for (int k = 0; k < a.params.size(); k++) {
+                FType p = a.params.get(k);
+                FType q = b.params.get(k);
+                if (p.excludesOther(q)) return false;
+                aBelow &= p.subtypeOf(q);
+                bBelow &= q.subtypeOf(p);
+            }
+            return !aBelow && !bBelow;
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Declarations of provided, at a's self position, whose self type is below
+     * both declaring types and whose other parameter types are below both of
+     * a's and b's, cover the overlap of a's and b's other parameter types; true
+     * where the search does not settle.
+     */
+    static private boolean meetProvided(Provided a, Provided b, List<Provided> provided) {
+        int n = a.params.size();
+        List<List<FType>> covers = new ArrayList<List<FType>>();
+        for (Provided m : provided) {
+            if (m.self != a.self || m.params == null || m.params.size() != n) continue;
+            boolean below = true;
+            try {
+                for (int k = 0; below && k < n; k++) {
+                    FType t = m.params.get(k);
+                    below = t.subtypeOf(a.params.get(k)) && t.subtypeOf(b.params.get(k));
+                }
+            }
+            catch (FortressException ex) {
+                below = false;
+            }
+            if (below) covers.add(m.params);
+        }
+        if (covers.isEmpty()) return false;
+        int[] steps = {OVERLAP_STEPS};
+        List<Integer> positions = new ArrayList<Integer>();
+        List<List<Set<FType>>> parts = new ArrayList<List<Set<FType>>>();
+        long combinations = 1;
+        for (int k = 0; k < n; k++) {
+            if (k == a.self) continue;
+            List<Set<FType>> pk = overlapPieces(a.params.get(k), b.params.get(k), new HashSet<List<FType>>(), steps);
+            if (pk == null || pk.isEmpty()) return true;
+            positions.add(k);
+            parts.add(pk);
+            combinations *= pk.size();
+            if (combinations > OVERLAP_PARTS) return true;
+        }
+        int[] index = new int[parts.size()];
+        while (true) {
+            boolean covered = false;
+            for (List<FType> c : covers) {
+                boolean inside = true;
+                for (int x = 0; inside && x < parts.size(); x++) {
+                    inside = someBelow(parts.get(x).get(index[x]), c.get(positions.get(x)));
+                }
+                if (inside) {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) return false;
+            int x = 0;
+            while (x < parts.size() && ++index[x] == parts.get(x).size()) {
+                index[x] = 0;
+                x++;
+            }
+            if (x == parts.size()) return true;
         }
     }
 
