@@ -885,7 +885,7 @@ __cond[\E,R\](c:Condition[\E\], t:E->R, e:()->R): R
 __cond[\E\](c:Condition[\E\], t:E->()): ()
 
 (** Used in desugaring binding %while% **)
-__whileCond[\E\](c:Condition[\E\], b:E->()): ()
+__whileCond[\E\](c:Condition[\E\], b:E->()): Boolean
 
 trait SequentialGenerator[\E\] extends { Generator[\E\] }
         excludes { HasRank }
@@ -2126,7 +2126,7 @@ end
 (** A %MIMapReduceReduction% takes an associative binary function %j% on
     arguments of type %R%, and the identity of that function %z%, and
     returns the corresponding reduction. **)
-object MIMapReduceReduction[\R\](j:(Any,Any)->R, z:Any) extends MonoidReduction[\Any\]
+object MIMapReduceReduction[\R\](j:(Any,Any)->R, z:R) extends MonoidReduction[\Any\]
     empty(): R
     join(a:Any, b:Any): R
 end
@@ -2644,12 +2644,12 @@ trait Generator2[\ E \]
 
   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R
 
-  theorems[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L1 \], E -> R)->R)\]
+  theorems[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], E -> R)->R)\]
 
   (* this is just for internal use *)
   __generate2filtered[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], p : Generator[\E\] -> Condition[\()\], f : E -> R) : R
 
-  theoremsFiltered[\R, L1, L2\]() : Generator[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\]
+  theoremsFiltered[\R, L1, L2\]() : ZeroIndexed[\((ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->Boolean, (ActualReduction[\ R, L1 \], ActualReduction[\ R, L2 \], Generator[\E\] -> Condition[\()\], E -> R)->R)\]
 
   filter(p: Generator[\ E \] -> Condition[\()\]): Generator2[\E\]
 end
@@ -2663,7 +2663,7 @@ trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }
 end
 
 (* Shortcut to create a relational predicate *)
-relationalPredicate[\E\](relation : (E, E) -> Boolean) : E -> RelationalPredicateCondition[\ E \]
+relationalPredicate[\E\](relation : (E, E) -> Boolean) : Generator[\ E \] -> RelationalPredicateCondition[\ E \]
 
 
 (*) Some random stuff related to arrays and the MCKPE benchmark

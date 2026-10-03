@@ -1,0 +1,96 @@
+(* The generator, condition, reduction and generator-of-generators declarations whose static arguments and declared types the compiled checker refused, called under walk with the values they answer. *)
+component GeneratorDeclarations
+import List.{...}
+import Generator2.{...}
+export Executable
+
+inOrder[\E\](g: Generator[\E\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+fusedMax(gg: Generator[\Generator[\ZZ32\]\]): ZZ32 =
+    __bigOperator2[\ZZ32,ZZ32,ZZ32,AnyMaybe,ZZ32,ZZ32,ZZ32,ZZ32,ZZ32,Generator[\ZZ32\]\](
+        BIG MAX[\ZZ32\](), SUM[\ZZ32\](), gg, fn (x: ZZ32): ZZ32 => x)
+
+naiveMax(gg: Generator[\Generator[\ZZ32\]\]): ZZ32 = do
+    switchDispatching(false)
+    r = fusedMax(gg)
+    switchDispatching(true)
+    r
+end
+
+run() = do
+    yes: Boolean = (1 < 2)
+    no: Boolean = (2 < 1)
+    none = NoReductionPair[\ZZ32\]
+    some = SumReduction[\ZZ32\].distribute(MaxReduction[\ZZ32\])
+
+    assert(yes.cond[\ZZ32\](fn (): ZZ32 => 1, fn (): ZZ32 => 2), 1, "a condition that holds runs its first branch")
+    assert(no.cond[\ZZ32\](fn (): ZZ32 => 1, fn (): ZZ32 => 2), 2, "a condition that does not hold runs its second branch")
+    assert(inOrder(yes.indexValuePairs), "(0,()),", "a condition that holds pairs its one element with index 0")
+    assert(inOrder(no.indexValuePairs), "", "a condition that does not hold has no index-value pairs")
+    assert(inOrder(none.indexValuePairs), "", "the empty reduction pair has no index-value pairs")
+    assert(yes.ivmap[\ZZ32\](fn (i: ZZ32, u: ()): ZZ32 => i + 7).asString, "Just(7)", "a condition that holds, mapped with its index 0 by adding 7, is Just(7)")
+    assert(no.ivmap[\ZZ32\](fn (i: ZZ32, u: ()): ZZ32 => i + 7).asString, "Nothing", "a condition that does not hold, mapped with its index, is Nothing")
+    assert(none.ivmap[\ZZ32\](fn (i: ZZ32, p: Any): ZZ32 => 5).asString, "Nothing", "the empty reduction pair mapped with its index is Nothing")
+    assert(some.ivmap[\ZZ32\](fn (i: ZZ32, p: Any): ZZ32 => i + 5).asString, "Just(5)", "a reduction pair mapped with its index 0 by adding 5 is Just(5)")
+    assert(none.map[\ZZ32\](fn (p: Any): ZZ32 => 5).asString, "Nothing", "the empty reduction pair mapped is Nothing")
+    assert(some.map[\ZZ32\](fn (p: Any): ZZ32 => 5).asString, "Just(5)", "a reduction pair mapped to 5 is Just(5)")
+
+    assert(some.inner.empty().asString, "Just(0)", "the sum lifted to fuse with the maximum has the identity Just(0)")
+    assert(some.inner.join(Just[\ZZ32\](2), Just[\ZZ32\](3)).asString, "Just(5)", "the sum lifted to fuse with the maximum joins Just(2) and Just(3) to Just(5)")
+    assert(MinReduction[\ZZ32\].simpleJoin(3, 2), 2, "the minimum reduction joins 3 and 2 to 2")
+    assert(NewlineReduction.simpleJoin("x", "y"), "x" // "y", "the newline reduction joins two strings with a newline between them")
+    mi = MIMapReduceReduction[\ZZ32\](fn (a, b) => a + b, 0)
+    assert(mi.empty(), 0, "a map-reduce reduction's identity is the identity it was given")
+    assert(mi.join(2, 3), 5, "a map-reduce reduction joins with the function it was given")
+
+    assert(__whileCond(Just[\ZZ32\](5), fn (e: ZZ32): () => ()), true, "a while condition over Just(5) answers true")
+    assert(__whileCond(Nothing[\ZZ32\], fn (e: ZZ32): () => ()), false, "a while condition over Nothing answers false")
+    n: ZZ32 := 3
+    total: ZZ32 := 0
+    while v <- (if n > 0 then Just[\ZZ32\](n) else Nothing[\ZZ32\] end) do
+        total += v
+        n -= 1
+    end
+    assert(total, 6, "a while loop binding 3, 2 and 1 from a condition sums them to 6")
+
+    assert(BIG MIN <|[\ZZ32\] 4, 2, 7 |>, 2, "the minimum of 4, 2 and 7 is 2")
+    assert(BIG MINNUM <|[\RR64\] 2.5, 1.5 |>, 1.5, "the floating minimum of 2.5 and 1.5 is 1.5")
+    assert(BIG MAXNUM <|[\RR64\] 2.5, 1.5 |>, 2.5, "the floating maximum of 2.5 and 1.5 is 2.5")
+    assert(BIG AND <|[\Boolean\] yes, no |>, false, "the conjunction of true and false is false")
+    assert(BIG || <|[\ZZ32\] 1, 2 |>, "12", "the concatenation of 1 and 2 is 12")
+    assert(BIG // <|[\String\] "a", "b" |>, "a" // "b", "the newline concatenation of a and b is a, a newline and b")
+    assert((BIG SQCAP <|[\UniqueItem[\ZZ32\]\] Just[\ZZ32\](2), Just[\ZZ32\](2) |>).asString, "Just(2)", "the meet of Just(2) and Just(2) is Just(2)")
+    assert((BIG SQCUP <|[\UniqueItem[\ZZ32\]\] Just[\ZZ32\](2), Just[\ZZ32\](3) |>).asString, "NotUnique", "the join of Just(2) and Just(3) is NotUnique")
+
+    l = <|[\ZZ32\] 1, 3, 2 |>
+    increasing = relationalPredicate[\ZZ32\](fn (a: ZZ32, b: ZZ32): Boolean => a < b)
+    assert(increasing(l).holds, false, "1, 3, 2 is not increasing")
+    assert(increasing(<|[\ZZ32\] 1, 2 |>).holds, true, "1, 2 is increasing")
+    assert(inOrder((inits l).filter(increasing).seed), "1,3,2,", "a filtered generator of generators keeps the seed of the one it filters")
+    assert(fusedMax(inits l), 6, "the maximum prefix sum of 1, 3, 2 is 6")
+    assert(fusedMax((inits l).filter(increasing)), 4, "the maximum sum of the increasing prefixes of 1, 3, 2 is 4")
+    assert(naiveMax(inits l), 6, "the maximum prefix sum of 1, 3, 2 without fusion is 6")
+    assert(naiveMax((inits l).filter(increasing)), 4, "the maximum sum of the increasing prefixes of 1, 3, 2 without fusion is 4")
+    assert(fusedMax(<|[\Generator[\ZZ32\]\] <|[\ZZ32\] 1, 2 |>, <|[\ZZ32\] 5 |> |>), 5, "the maximum of the sums of 1, 2 and of 5 is 5")
+
+    assert(inOrder(yes.nest[\ZZ32\](fn (u: ()): Generator[\ZZ32\] => 0#3)), "0,1,2,", "a condition that holds, nested, generates the inner generator")
+    assert(inOrder(no.nest[\ZZ32\](fn (u: ()): Generator[\ZZ32\] => 0#3)), "", "a condition that does not hold, nested, generates nothing")
+    assert(inOrder(some.nest[\ZZ32\](fn (p: Any): Generator[\ZZ32\] => 0#2)), "0,1,", "a reduction pair, nested, generates the inner generator")
+    assert(inOrder(none.nest[\ZZ32\](fn (p: Any): Generator[\ZZ32\] => 0#2)), "", "the empty reduction pair, nested, generates nothing")
+    assert(yes[0#1].holds, true, "a condition that holds, indexed by its one index, is still a condition that holds")
+    assert(yes[0#0].holds, false, "a condition that holds, indexed by an empty range, holds no element")
+    assert(no[0#0].holds, false, "a condition that does not hold, indexed by an empty range, holds no element")
+    assert(inOrder(none.cross[\ZZ32\](0#2)), "", "the empty reduction pair crossed with a generator generates nothing")
+    assert(SUM[\ZZ32\][(p, k) <- some.cross[\ZZ32\](10#2)] k, 21, "a reduction pair crossed with 10 and 11 pairs itself with each of them")
+    mapped = (0#5).map[\ZZ32\](fn (x: ZZ32): ZZ32 => 10 x)
+    assert(inOrder(mapped[1#3].ivmap[\ZZ32\](fn (i: ZZ32, e: ZZ32): ZZ32 => i + e)), "10,21,32,", "a mapped indexed generator's slice, mapped with its indices from 0, adds each index to 10, 20 and 30")
+    nested = (0#3).nest[\ZZ32\](fn (i: ZZ32): Generator[\ZZ32\] => (10 i)#2)
+    assert(inOrder(nested.reverse), "21,20,11,10,1,0,", "a nested generator reversed generates the inner elements back to front")
+    assert(|((inits l).filter(increasing)).theorems[\ZZ32, AnyMaybe, ZZ32\]()|, 1, "a filtered generator of generators answers the one theorem of the generator it filters")
+end
+
+end
