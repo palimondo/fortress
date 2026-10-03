@@ -1,3 +1,89 @@
+# Second judgement
+
+Rung S, climb batch 9, the skeptic's second judgement. Judged head `57ffd8486`, the repair round's last commit. **Approved.** The repair answers the refusal and each upheld finding as the judge ordered. It keeps what the first judgement approved. One wording correction is required, and one row is recommended for a range-library defect that the repair now exposes through String.
+
+## 1. The refusal and the upheld findings, one by one
+
+- **F1, the refusal: strided slices.** String's `opr[r0]` (`Library/FortressLibrary.fss:4170-4177`) keeps `r1 = self.bounds.narrowToRange(r0)` and its team comment. When `r1.stride = 1` it calls `uncheckedSubstring(r1)`; otherwise it builds `BIG || [i <- r1] self.get(i)`. This is List's device (`Library/List.fss:145-151`, the test at `:147`). The judge ordered no change to `Library/FlatString.fss:64` or to SubString's reads, and none was made. Seven assertions in `ProjectFortress/tests/StringPieces.fss:77-84` cover `"abcdef"[0:4:2]`, `cs[20:30:2]`, and `cs[18:24:2]` (its characters, size, flat form and written form), plus `sub[0:4:2]`. Each cites ranges.tex, section "Ranges". That section (`Specification/basic/expressions/ranges.tex:68-73`) gives `a:b:c` as `{a, a+c, ..., a + floor((b-a)/c) c}` with `n = max(0, floor((b-a+c)/c))` elements. So the messages' values ace, bdfhjl, abdf (four characters) and abd are what it says.
+  - *Failing before the repair, my own programs.* At the head I refused, `3f829ce88`, my programs gave `abcde` (SkStride), `bcdefghijkl` (SkS2half), `aabcdef` size 4 (SkStride, SkStflat) and `abcdef` written (SkS2write).
+  - *Failing before the repair, the repair's probe.* `sub[0:4:2]` printed `aabcd`. That was the repair round's StrideProbe at `52ea5b5cd`, whose library is `3f829ce88`'s (`git diff --stat 3f829ce88 52ea5b5cd -- Library ProjectFortress` prints nothing).
+  - *Failing through the harness.* `# harness-one 2026-10-03T01:30:57Z; tree 52ea5b5cd` gave `FAIL: J5/0:abcde =/= J3/0:ace; ...` (transcript call `dVpTLa`).
+  - *Passing.* `# harness-one 2026-10-03T01:32:47Z; tree 6ac45d2b0` gave `OK (7 tests)` (call `XqdNMy`).
+- **F2: the default `CASE_INSENSITIVE_CMP`.** The body is now `self.asFlatString CASE_INSENSITIVE_CMP other.asFlatString` (`Library/FortressLibrary.fss:4153-4154`), the library's own `ensures` clause (`Library/String.fss:114`, `:393`). The CMP default and the four symbolic families are untouched. Two assertions (`StringPieces.fss:87-88`) are in plain words with no specification section, as ordered.
+  - *Failing before the repair.* At `3f829ce88` my SkSlices died at `Library/FortressLibrary.fss:4154:50-59` through `Library/String.fss:411`. The repair's probe died both ways: through `:411`, and through `Library/FlatString.fss:78` (calls `NkFBps`, `YFu422`).
+  - *Passing.* Both assertions pass in the same 7-test run.
+- **F3: `rangeContains`.** It is pinned, not repaired, as the judge ruled (home 3). `StringPieces.fss:74-75` assert today's `false` in plain words. Provisional row 590 is in `record.md`, and `Library/FlatString.fss:115` is unchanged. My SkIn prints the same line on the head as on the base and as at the head I refused.
+- **F4: the getter citation.** `StringPieces.fss:35-36` now cite traits.tex, section "Abstract Field Declarations" (`Specification/basic/traits.tex:611`; its text at `:641-646` gives the implicit getter the field's name and type). REPORT.md's spec line and section 4 cite the same section. They cite objects.tex, section "Field Declarations", only for the naked reference.
+- **F5: the provenance lines.** These are corrected as the judge split the finding: `Library/FortressLibrary.fsi:2439-2440` at the base, and `Library/List.fss:145-151`. My F5 was wrong on the other two lines, and the judge kept the worker's: `ConcatGenerator` is at `Library/String.fss:260` at `fa14a190c` (checked with `git show`), and `extent` is at `:2516`.
+- **F6: the value changes.** REPORT.md section 6 lists five walk value changes, each with its base and edit lines. stopsMet lists the same five.
+- **The order of the work.** The transcript (`agent-a6e19b1dcfe2f1138.jsonl`) shows this sequence:
+  1. A walk probe at 01:29:55 on the refused library.
+  2. The test edit at 01:30:54.
+  3. The harness FAIL at 01:30:57.
+  4. Commit `77a2cb2ea` with the test alone (12 lines) at 01:31:19, then pushed.
+  5. The two library edits at 01:31:39-40.
+  6. Commit `14fb04c94` at 01:31:58.
+  7. The pins and the citation in commit `6ac45d2b0` at 01:32:40.
+  8. One harness pass at 01:32:47.
+  9. Each stage once on `6ac45d2b0`.
+
+  The run at 01:30:27 followed an Edit the tool had refused; REPORT.md section 13 says so. The edits are library `.fss` files read by walk, so no build is owed.
+- **The stages.** I read them and did not run them.
+  - *Checker count.* Identical to the landed table: `#total 56`, `#crash none`.
+  - *Distance by `compare.sh`.* `565 -> 495 (-70)` against the landed table, and `496 -> 495 (-1)`, class OT, against the first pass's after.
+  - *My site-by-site diff.* I compared the two `errors.tsv` files, moving `FortressLibrary.fss` lines past `:4173` by four. Only `FortressLibrary.fss:4154` is gone. The two other rows that differ, the export message at `:12` and `:4361`/`:4365`, differ only in line numbers inside their messages. Nothing is new, and the four `#crash` rows are the landed ones.
+
+## 2. What I approved stands
+
+The diff since `3f829ce88` touches two bodies in `Library/FortressLibrary.fss`, `StringPieces.fss`, REPORT.md and record.md, and nothing else. I re-ran my programs at `57ffd8486` with the rung's tree under walk:
+
+- **The strided probes.** SkStride, SkS2half, SkS2write, SkStget1, SkStflat and SkStsize now answer the specification's values: `ace`, `bdfhjl`, `abdf` with size 4, flat `abdf`, written `abdf`, and `get(1)` of `b`. Each slice is now a FlatString.
+- **Unchanged probes.** SkIn, SkListStride, SkCmp, SkHalves and SkSubCtor print what they printed before.
+- **SkSlices.** The output is byte-identical between `FORTRESS_THREADS=1` and `=4`. It is identical to its output at the refused head except for the CASE_INSENSITIVE_CMP tail, which now reads `EqualTo` twice where it died.
+
+The compiled path still cannot express a strided string slice (`CompilerBuiltin.fsi:42`, row 514), as in my first judgement.
+
+## 3. My new programs, old against new (`tmp/rung-string-slips/skeptic/r2/`)
+
+| Probe | Head `57ffd8486` | Base `fa14a190c` | Reading |
+|---|---|---|---|
+| R2a `"abcdef"[1:4:1]` | `bcde` | `bcde` | Same. |
+| R2b `[0:5:2]` | `ace` | ProgramError at `FlatString.fss:64` | Head matches the spec. |
+| R2c `[0:5:3]` | `ad` | ProgramError at `FlatString.fss:64` | Head matches the spec. |
+| R2d `[3:1:2]` | `""`, size 0 | `""`, size 0 | Same. |
+| R2e `[0:10:2]` | `IndexOutOfBounds` | `IndexOutOfBounds` | Same. |
+| R2f `[1::2]` | `bdf` | ProgramError at `FlatString.fss:64` | Head matches the spec. |
+| R2g `[::2]` | `ace` | ProgramError at `FlatString.fss:64` | Head matches the spec. |
+| R2i `[4:0:-2]` | `eca` | ProgramError at `FlatString.fss:64` | Head agrees with List (R2j: `<\|e, c, a\|>` on both trees). |
+| R2k `sub[1:3:2]`, `cs[::7]`, `cs[19:21:1]` | `ac`, `aaacjq`, `abc` (a SubString) | ProgramError | Head matches the spec. |
+| R2l: 1,000-character string, `[1:999:3]` against a sequential loop | 333 characters, equal; `s[3:999:10] = "3"^100` | ProgramError at `String.fss:471` | Head is the same at `FORTRESS_THREADS=1` and `=4`. |
+| R2m: an empty flat string | `""` | `""` | Same. |
+
+R2p compares the piece `bcd` ignoring case against "BCD", "bcd", "BCE", "BC", "BCDE", "Bcc", "", an EmptyString, the SubString `sub`, a CatString and itself, both ways.
+- *On the head.* Every answer equals the native comparison on the flat forms, the contract.
+- *Across thread counts.* The output is byte-identical at 1 and 4 threads.
+- *On the base.* It dies on the first comparison: `Failed to find any matching overload, args = ('b','B')` at `FortressLibrary.fss:4151`.
+
+The default `CMP` answers `GreaterThan` on both trees, unchanged.
+
+## 4. Measured here, not the rung's to repair
+
+R2h: `"abcdef"[:3:2]` answers `bd` on the head, where the base raised. ranges.tex, section "Ranges", says "The implicit range `:b:c` is treated as `l:b:c`", which here is `0:3:2`, `{0, 2}`, `ac`. String inherits this from the range library, as List and the arrays do:
+
+- `(0#6).narrowToRange(:3:2)` is `[1,3]` (a StridedFullParScalarRange).
+- `<|a..f|>[:3:2]` is `<|b, d|>`.
+- `array[:3:2]` is `[b d]`.
+
+R2n and R2o give the same answers on the head and the base. `RightScalarRange` is anchored at its right end: `opr IN` tests `stride DIVIDES (r-n)`, and `atMost` builds `r - (n-1) str` up to `r` (`Library/RangeInternals.fss:655-690`). That file is rung R's. String's device is right, but the range it receives is wrong.
+
+This is a loud failure turned quiet for this one form of String slice. The specification settles it, so its home is 2. It is recommended as a row with an expected-failure test, not required of this rung.
+
+## 5. Required correction
+
+REPORT.md section 6 ("A strided slice of a string ... now answers the specification's set"), section 12, and the handover line in record.md need one qualifier. The claim holds for explicit strided ranges and for the implicit forms `a::c` and `::c`. For `:b:c`, String answers what List and the arrays answer: the range library's right-anchored completion (`bd` for `"abcdef"[:3:2]`), not ranges.tex's `l:b:c`. Say so and name the recommended row.
+
+---
+
 # Rung S, climb batch 9: the skeptic's first judgement
 
 Judged head: `3f829ce884d5962af623b19a8e366aa1d2da7d51` (branch `wip/rung-string-slips`).
