@@ -625,6 +625,18 @@ trait Misc { self: STypeChecker with Common =>
     case v@SVarRef(SExprInfo(span,paren,_), id, sargs, depth) => {
       val checkedId = check(id).asInstanceOf[Id]
       val ty = getTypeFromName(checkedId).getOrElse(return expr)
+      // A varargs parameter is bound at the libraries' varargs parameter type.
+      val seqName = Types.immutableHeapSeqName()
+      ty match {
+        case STraitType(_, name, _, _)
+          if name.getText == seqName.getText &&
+             toOption(name.getApiName).map(_.getText) == toOption(seqName.getApiName).map(_.getText) &&
+             toOption(traits.typeCons(seqName)).isEmpty =>
+          signal(v, errorMsg("The varargs parameter ", checkedId, " is used, whose type ", ty,
+                             " the libraries do not declare."))
+          return expr
+        case _ =>
+      }
       if ( !sargs.isEmpty )
         // TODO: handle generic higher-order function passing here.
         ty match {

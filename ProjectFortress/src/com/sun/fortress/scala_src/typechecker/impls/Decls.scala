@@ -48,19 +48,6 @@ trait Decls { self: STypeChecker with Common =>
   // ---------------------------------------------------------------------------
   // HELPER METHODS ------------------------------------------------------------
 
-  /** Whether the expression refers to the variable of the given name. */
-  private def mentions(e: Expr, n: Id): Boolean = {
-    var found = false
-    object finder extends Walker {
-      override def walk(node: Any): Any = node match {
-        case v: VarRef if v.getVarId.getText == n.getText => found = true; node
-        case _ => if (found) node else super.walk(node)
-      }
-    }
-    finder(e)
-    found
-  }
-
   /** Check the body exprs of a LetExpr. */
   protected def checkLetBody(bodyChecker: STypeChecker,
                              body: Block)
@@ -207,16 +194,6 @@ trait Decls { self: STypeChecker with Common =>
     case f@SFnDecl(info,
                    SFnHeader(statics,mods,name,wheres,throws,contract,params,rType),
                    unambiguousName, Some(body), implementsUnambiguousName) => {
-      // The body sees a varargs parameter at the libraries' varargs parameter type,
-      // which a body that uses the parameter cannot be checked without.
-      params.find(p => NU.isVarargsParam(p) && mentions(body, p.getName)) match {
-        case Some(p) if toOption(traits.typeCons(Types.immutableHeapSeqName())).isEmpty =>
-          signal(p, errorMsg("The body uses the varargs parameter ", p.getName, ", whose type ",
-                             Types.makeVarargsParamType(p.getVarargsType.unwrap),
-                             " the libraries do not declare."))
-          return f
-        case _ =>
-      }
       val newChecker = this.extend(statics, Some(params), wheres)
       val newContract = contract.map(c => newChecker.check(c))
 
