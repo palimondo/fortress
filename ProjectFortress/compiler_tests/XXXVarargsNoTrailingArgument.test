@@ -1,0 +1,3 @@
+tests=XXXVarargsNoTrailingArgument
+compile
+compile_err_contains=is not applicable to an argument of type (String, String)
