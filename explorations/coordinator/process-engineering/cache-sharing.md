@@ -1,4 +1,4 @@
-<!-- Why sharing the built caches between worktrees was called impossible from 2026-09-17 to 2026-10-02, and whether a model given the goal finds the answer: the evidence for the process-engineering study Pavol opened on 2026-10-03, its first item. Two parts, each the worker report verbatim: a Sonnet archaeology of both sessions' transcripts and the record (models named by tier and generation, as the brief asked, POSITIONS "The record is public and names models on purpose."), and the blinded test on both tiers, each engineer given the repository at `3f3f766a2` (2026-09-17 16:09) and the question the coordinator faced then. The scripts and extracts named in it are in session `fe616d40`'s scratchpad and in `/home/user/blind-opus/wt-sim/`, not committed. -->
+<!-- Why sharing the built caches between worktrees was called impossible from 2026-09-17 to 2026-10-02, and whether a model given the goal finds the answer: the evidence for the process-engineering study Pavol opened on 2026-10-03, its first item. Three parts, each the worker report verbatim: a Sonnet archaeology of both sessions' transcripts and the record (models named by tier and generation, as the brief asked, POSITIONS "The record is public and names models on purpose."), a Sonnet pricing of every avoidable build, and the blinded test on both tiers, each engineer given the repository at `3f3f766a2` (2026-09-17 16:09) and the question the coordinator faced then. The scripts and extracts named in it are in session `fe616d40`'s scratchpad and in `/home/user/blind-opus/wt-sim/`, not committed. -->
 
 # Sharing the build and caches between worktrees: why it was called impossible
 
@@ -135,8 +135,73 @@ Decision offered: after a compiler-only rung the worker could rerun step 8 inste
 
 **Files** (in `/home/user/blind-opus/wt-sim/`, nothing committed): `meas/provision.sh`, `mtimesync.py`, `relocate.py`, `libbuild.sh`, `env.sh`; logs `ant0.log`, `ant-w1.log`, `ant-w2.log`, `lib-base.log`; `seed/` the frozen shared cache (33 MB); `w2/` a provisioned worktree; `wt-sim/a` as the earlier attempt left it.
 
-## 4. What the two parts show together
+## 4. What the rebuilds cost, every batch from the repair batch to climb batch 9 (Sonnet, read-only, 2026-10-03)
+
+REBUILD COST, REPAIR BATCH TO CLIMB BATCH 9 (read-only; nothing edited or committed)
+
+Legend. Builds are `ant compileAll` (a) and the five-component library-order recompile (b); "+Np" is N recompiles of fewer than five components. `ant compile` alone was launched 0 times in any run. Roles: W rung worker, K skeptic (first and second), Rp repair (round or review repair), Ga gather, Gt gate (every gate), O review. Judges built nothing in any batch.
+- Needed (N) = first build of a new code state.
+- Avoidable = B (a worker's first build of the base), R (a state another agent in the batch had built), or S (an agent's own repeat after a revert or A/B comparison). Each would be a 3-s seed.
+- Wall is in minutes of agent time (parallel rungs overlap). Tokens are cache writes plus new input in the calls during and right after the build.
+
+Per batch (run id prefixes; a/b by role; needed; avoidable a/b [classes], wall, tokens):
+- repair (9777a563 cut by the restart + aabc0cb2, 09-18/19): 15/13. W11/9 K2/2 Rp1/1 Gt1/1. N12. Avoid 8/8 [B4 R9 S3], 27 min, 60K.
+- 1 (a29fd04b cut + 3b5a273c, 09-19): 3/7+15p. W2/6+14p Rp+1p Gt1/1. N12. Avoid 1/5+7p [B6 S7], 30 min, 212K. 122K of that is one 305-s foreground wait that re-wrote the context.
+- 2 (d1628adb, 09-20): 6/10+6p. W2/5+3p Ga1/2+3p Gt3/3. N10. Avoid 4/7+1p [B4 R6 S2], 26 min, 39K.
+- 3 (776d7c2c, 09-22/23): 27/18+2p. W16/9+2p K3/5 Rp6/2 Ga1/1 Gt1/1. N12. Avoid 18/15+2p [B5 R16 S14], 75 min, 112K.
+- 3.5 (207012c9, 09-24): 11/9. W4/2 K0/2 Rp4/1 Ga1/1 Gt2/2 O0/1. N10. Avoid 4/6 [B2 R7 S1], 17 min, 34K.
+- 4 (f54d0e4b, 09-26): 12/10. W9/6 K0/1 Rp1/1 Gt2/2. N14. Avoid 4/4 [B5 R3], 19 min, 23K.
+- 5 (eb47c103 cut + 88172730, 09-26): 19/18. W12/10 K1/1 Rp4/5 Gt2/2. N17. Avoid 9/11 [B5 R4 S11], 33 min, 43K.
+- 6 (b262c534, 09-26/27): 5/5. W3/2 K0/1 Gt2/2. N4. Avoid 3/3 [B1 R3 S2], 10 min, 13K.
+- 6b (08949b8a cut + 2da3e152, 09-27): 5/4. W2/2 Ga1/0 Gt2/2. N3. Avoid 3/3 [B2 R4], 9 min, 14K.
+- 7 (8a018276, 09-27/28): 5/4. W3/1 K0/1 Gt2/2. N2. Avoid 4/3 [B4 R3], 14 min, 14K.
+- 7R (568733d7, 09-28): 4/5. W2/2 K0/1 Gt2/2. N4. Avoid 2/3 [B2 R3], 9 min, 17K.
+- 7C (5c4d7157, 09-28): 5/7. W3/5 Gt2/2. N6. Avoid 2/4 [B1 R3 S2], 7 min, 6K.
+- 6.5 (fa14416d, 09-28): 4/5. W2/3 Gt2/2. N5. Avoid 2/2 [B2 R2], 6 min, 7K.
+- N (4ba3c084, 09-28/29): 11/14. W4/6 K0/1 Rp4/4 Ga1/1 Gt2/2. N18. Avoid 2/5 [B2 R5], 13 min, 15K.
+- 6.5b (07b95462, 09-29): 5/5. W2/2 Rp2/2 Gt1/1. N7. Avoid 1/2 [B2 R1], 8 min, 6K.
+- 7b (61521277, 09-29/30): 26/22. W11/7 K12/12 Rp1/1 Ga1/1 Gt1/1. N13. Avoid 18/17 [B6 R26 S3], 54 min, 123K.
+- 8 (603242ca, 10-02): 35/32. W12/11 K15/14 Rp4/4 Ga2/1 Gt2/2. N17. Avoid 26/24 [B8 R38 S4], 80 min, 133K.
+- 9 (f747fd3e, 10-02/03): 15/1, plus the coordinator's base build, which is not in the run. W13/0 Ga1/0 Gt1/1. N14. Avoid 1/1 [R2: the gate repeating the gather's tree], 3 min, 2K.
+
+Totals
+- Builds found: 425 (213 a, 189 b, 23 partial). Needed: 180 (289 min). Avoidable: 245 (58%): 112 a, 123 b, 10 partial.
+  - B: 61 builds, 146 min, 274K tokens.
+  - R: 135 builds, 214 min, 393K.
+  - S: 49 builds, 79 min, 203K.
+- Avoidable wall is 439 min (7.3 h) of 728 min spent on builds. On the critical path (longest rung chain plus gather and gates, per batch) it is at most 277 min (4.6 h).
+- Net of one base build per earlier batch (194 s x 17 = 55 min) and 3 s per seed: about 6.3 h of agent time and 3.7 h of critical path.
+- Avoidable tokens written: 0.87M, of 2.38M around all builds. 0.124M of that is re-writes, all from the one batch 1 wait. Median 1.6K per build, because the cache stays warm.
+- By role, avoidable of all: W 109 of 220 (226 min, 503K); K 74 of 74 (126 min, 251K); Rp 20 of 49 (31 min, 69K); Gt 40 of 62 (53 min, 41K); Ga 1 of 19; O 1 of 1.
+- By era: repair to 7b, 193 avoidable, 355 min, 737K. Batch 8: 50, 80 min, 133K. Batch 9: 2, 3 min, 2K.
+
+Method
+1. I parsed every Bash call of the 24 Workflow runs (journal labels give roles). Scripts, functions and loops the agent wrote were expanded to find launches of `ant compileAll` and library-order recompiles. Spec builds (`ant tex`, `genSource`) and `ant testFast`/`testSystem` are excluded.
+2. Wall is the launch call to its result for foreground builds, and launch to the poll that saw the end for background ones. Where that poll was late, early or missing (about 59 of 425 rows), I used ant's Total-time line or the component times (17/63/27/2/2 s). Tokens are the cache-creation plus input of the message after the launch and after each poll, deduplicated by message.id and shared among the results one message took in. Messages after a gap over 300 s are flagged as re-writes.
+3. Classes follow the legend. A gate after a gather, and a second gate, are R. I checked with git that every review repair changed only tests and records, except batch 3.5, where `src` changed, so that gate is N.
+- Validation: batch 8 gives 35 `compileAll` and batch 9 gives 15 plus the coordinator's 1, both matching the reviews. The 1 repeated build of batch 9 matches. In batch 8 the four workers' base builds sum to 1,279 s against `build-cache-exploration.md`'s 1,302 s, skeptic I to 310 s against 310 s, and skeptic O to 790 s against 801 s.
+
+Prior measures
+- `iteration-cost.md` (eight-rung climb, one shared tree): 3 `compileAll` and 22 library recompiles, 44.6 min, 20 of the 22 compiling all five components. No per-worktree rebuild existed there.
+- `repair-batch-review.md`: 8 polled `compileAll` in 7.4 min, 14 recompiles in 2.9 min, and it calls the ten full builds forced by `.java` edits.
+- `batch-8-review.md`: 35 builds, 22 repeated; I get 26 of 35 `compileAll` avoidable because I also count every worker's base build and the gates'.
+- `postmortem-2026-09-29/characterization.md` has no build counts. It measures committed files only.
+
+What does not fit
+- The eight-rung climb's own transcripts (`wf_73833dfb-d25`, 09-17) are not on `origin/transcripts`. That branch has bdff267d's flat `subagents/` only, with no agent between 03:23 and 15:11 UTC on 09-17. So that climb is cited, not measured.
+- Not counted: the coordinator's own builds (batch 9's 200 s base) and Agent-tool workers outside the Workflow runs.
+- Counts are parsed from launch text, so they are approximate: about +/-5% on counts and +/-10% on early-batch wall.
+  - I dropped 8 false launches: 3 denied or instantly failed, 5 mentions inside quoted text.
+  - Known misses: about 3 library rebuilds that scripts hid in batch 3 (rung M's `libbuild.sh`, repair S's `repair-post.sh`).
+  - Batches repair, 1, 5 and 6b include the runs cut by restarts or interrupts; their relaunches rebuilt states already built, which I count as B or S.
+- "Avoidable" follows your definition. The repair batch's review calls its revert-and-restore rebuilds necessary: the check was needed, but its rebuilt base side was a seed. That is why I count 8 of its 15 `compileAll` as avoidable, against its "forced".
+- Left unchecked: the previous batch's gate leaves a built tree that may equal the next batch's base, which could make even the per-batch base build free.
+- Unpriced: cache reads in the turns around avoidable builds were about 97M tokens. They were read, not written.
+- Scratch is in the session's scratchpad `bc/` (`final2.py` writes `FINAL2.pkl`, one row per build; `agg.py` prints the tables).
+
+## 5. What the parts show together
 
 - Given the goal in plain words and the path-hash fact, both tiers found the translation (rename to the new path's hash, rewrite the paths inside, mind the dates) within about 15 minutes and 0.24M tokens each, counting the first starts that an accidental stop ended; the brief stated the fact and the goal, so the test does not isolate unprompted discovery (the archaeology's "Open").
+- What it cost: 245 of 425 builds avoidable over 18 batch runs, about 7.3 hours of agent time (3.7 hours of critical path net of one base build per batch), but only about 0.87M tokens written, since a build's wait mostly kept the cache warm: the waste was machine and wall time, not tokens.
 - The impossibility was not a capability limit of either tier: it was a measured fact ("the file names differ") written as an impossibility, by an Opus 5 review worker and its coordinator on 2026-09-17, never priced as a recurring cost, and carried unexamined by every later tier because it lived in INDEX, the plan and the script prefix, where no rule prompted a re-check.
 - Two measured improvements not in `coordinator/tools/seed-worktree.sh` as it stands, neither yet weighed: a skeptic's old-code runs against the one read-only base build with a private `FORTRESS_CACHES` (both reports), and the base tree's file dates copied onto a worktree's tracked files so that a Java edit does not regenerate the AST sources (Opus: 104 s to 74 s); and Fable's `ant -Dcache0=/nonexistent -Dcache1=/nonexistent compileAll`, which keeps the caches through a rebuild.
