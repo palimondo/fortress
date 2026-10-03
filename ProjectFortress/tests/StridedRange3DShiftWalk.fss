@@ -1,6 +1,6 @@
 (* A strided range of rank 3 shifts each bound by its own amount, as every other range of rank 2 and 3 does (row 602). *)
 
-component XXXStridedRange3DShiftWalk
+component StridedRange3DShiftWalk
 export Executable
 
 run(): () = do
