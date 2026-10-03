@@ -1,3 +1,106 @@
+# Second judgement
+
+Judged head: `07a8de3e8f28cca78684b597ff23580c00104936`. The repair round made two commits: `afaa4afb6`, the assertion alone, and `07a8de3e8`, `record.md`.
+
+Verdict: **approved**. The repair answers my refusal and every step the judge ordered (`JUDGE.md`, section 5). It changes nothing I approved in the first judgement.
+
+## The refusal, answered
+
+**The assertion.** It is `ProjectFortress/tests/GeneratorDeclarations.fss:93`, the judge's line word for word. It sits after the `nested.reverse` assertion and before `end`, inside the walk-stop block that starts at line 80, so the claim "the assertions up to line 79 hold on the base" stays true. `git diff acb36225c..HEAD -- ProjectFortress/ Library/` prints that one added line and nothing else. No library, Java, Scala or specification line changed.
+
+**The commit order.** `afaa4afb6` holds that line alone. In the repair round's transcript the edit is at 09:23:18 UTC (call `CHzZ8n`). The commit and push are at 09:23:20 (call `DKJAji`), and the harness run comes after them. An earlier commit attempt at 09:23:13 (call `pAHMLf`) committed nothing, because the first Edit had been refused for a file not yet read.
+
+**The passing run.** It was made on the repaired head, through the Bash tool's background mode (call `9HU4Q2`), because the session's safety check refused the prefix's `run_bg`. The command and log are the same:
+
+    bash explorations/compile-ladder/rung-inference-walk/harness-one.sh /home/user/fortress-genslips/tmp/rung-generator-slips/h3 ProjectFortress/tests/GeneratorDeclarations.fss
+    # harness-one 2026-10-03T09:23:40Z; tree afaa4afb6; nproc=4; load 2.47 1.67 1.17; openjdk version "25.0.4" 2026-07-21; FORTRESS_THREADS=1
+    . interpret tmp/rung-generator-slips/h3/tests/GeneratorDeclarations
+     OK (time = 25910ms)
+    OK (1 test)
+
+The log ends `EXIT=0`. `FORTRESS_HOME` was the worktree. The tree was clean at the run: `record.md` was written later, at 09:29. The library has been unchanged since `acb36225c`, so no build is older than the code.
+
+**The failing run, mine.** My first judgement's `g2/G2Probe.fss` measured the stop on the base. Now I ran the assertion's exact expression and the assertion itself (`second/TheoremsLine93.fss`, with `l` and `increasing` as the test defines them) on both trees.
+
+In the rung's copy of the base:
+
+    FORTRESS_HOME=/home/user/fortress-genslips-base /home/user/fortress-genslips-base/bin/fortress TheoremsLine93.fss
+    REACHED
+    com.sun.fortress.exceptions.ProgramError: /home/user/fortress-genslips-base/Library/FortressLibrary.fss:4639:189-209:
+    Generic instantiation (size) mismatch, expected [R,L1,L2] got [R]
+
+At the head, with the rung's build (`/home/user/fortress-genslips/bin/fortress TheoremsLine93.fss`):
+
+    REACHED
+    filtered theorems size 1
+    ASSERT PASSED
+
+**The message.** The assertion's message cites no specification passage, so there is no citation to check. It says what is checked and the expected answer in plain words.
+
+## The judge's other steps
+
+**REPORT.md.** The harness refused the repair round's write again (call `aTHUob`: "Subagents should return findings as text, not write report files"). The full text is in the structured result's `reportText`, for the gather to write.
+
+I diffed that text against the first pass's `reportText`. Every change is one the ruling orders:
+
+- (a) Section 1: what was inherited, and that only the harness was re-run.
+- (b) Section 4:
+  - "and its `theorems`" added;
+  - six walk stops, not five, with line 93;
+  - the harness command, its header line and `OK (1 test)`, on `afaa4afb6`.
+- (c) Section 5, FilterGenerator2 bullet: the base error quoted from "The refusal", and line 93.
+- (d) Section 5, getters bullet: the sibling count, none left in G's sections and three outside its files (`Library/Set.fss:154`, `Library/PrefixSet.fss:478`, `Library/CaseInsensitiveString.fss:27`), with row 616.
+- (e) Section 5, NestedGenerator.reverse bullet: row 91 (`explorations/fortress-gap-ledger.md:79`) and `juxtameaning.tex`, "Juxtaposition", cited.
+- (f) Section 7: the three statements, and the `FilterGenerator2.theorems` pair of runs.
+- (g) Section 8: row 616 after row 615.
+- (h) Section 10: six walk stops, `MIMapReduceReduction`'s change with no assertion owed, row 616, and the notes on rows 463 and 433.
+- (i) Section 12: decision 1 says six and adds `MIMapReduceReduction`; decision 8 is the judge's.
+- (j) Section 14: the forPavol list.
+- (k) No `POSITIONS.md:` line citation remains. The `tmp/` paths that remain name only a command's own files.
+
+Beyond these, sections 8 and 9 changed only to name the commands their measurements came from, and to say that the tables stand for the head.
+
+**record.md.** It was committed as `07a8de3e8` and pushed. Its changes:
+
+- (a) The FACTS sentence, word for word.
+- (b) Row 610's placement after rung C's merge, or its promotion.
+- (c, d) The notes on rows 433 and 463, as `JUDGE.md` section 5 quotes them.
+- (e) Row 616.
+- (f) "six walk stops" in the handover line.
+
+**stopsMet.** It carries both stops, with liftedBy cited by bold title. The walk-value entry names the six declarations and `MIMapReduceReduction`'s `z:R`.
+
+## What I approved, at the repaired head
+
+The diff since `acb36225c` touches one test line and `record.md`, so none of my first-judgement programs can answer differently. I re-ran the program the refusal rests on, `g2/G2Probe.fss`, at the head with the rung's build. It prints what I recorded at `acb36225c`:
+
+- A 46, B 15, C 8, D 46, E 46, F 23;
+- G 1, H 1, I 1, J 1;
+- K `true false`, L 8;
+- M: `EmptyReduction` for the fused maximum over the `inits` of an empty list, as on both trees before.
+
+The first judgement's other approvals rest on code the repair does not touch:
+
+- the 30 repairs and their precedents;
+- the unchanged count table;
+- `DISTANCE DOWN 340 -> 311`;
+- rows 610 to 615;
+- the six walk values;
+- `MIMapReduceReduction`'s `z:R`, kept under the judge's decision 8.
+
+## Required corrections
+
+None.
+
+## For Pavol
+
+Both points are unchanged from the judge's list:
+
+- **The walk-value stop, read under a silent record.** Six declarations that stopped walk now print their bodies' values: `Library/FortressLibrary.fss:1383`, `:1398`, `:1400-1401`, `:3583`, `:3633` and `:4641`. `MIMapReduceReduction`'s `z:R` (`Library/FortressLibrary.fss:3525`, `Library/FortressLibrary.fsi:2129`) turns walk's `3` for an ill-typed construction into a refusal.
+- **Row 615's fork** (`Library/FortressLibrary.fss:1315`).
+
+---
+
 # Skeptic, rung G of climb batch 10 (rung-generator-slips): first judgement
 
 Judged head: `acb36225ce80bb3500e3686824309edb24d39093` (the test alone at `bb9e71cda`, the library edit at `acb36225c`). Verdict: **refused**, for one thing: the edit repairs a sixth declaration that stopped walk on the base, `FilterGenerator2.theorems`, and the rung's gated test has no assertion for it (check 9: a defect measured and repaired in the rung has its assertion in place before approval). Everything else checked holds; the corrections below are for the repair round to close with it.
