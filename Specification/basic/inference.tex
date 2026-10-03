@@ -184,6 +184,13 @@ bound and \TYP{Any} where the type parameter is declared without an
 It does the same where the arguments that fix a type parameter inside other
 types, as the results of two function arguments do, have several minimal common
 supertypes.
+Neither holds of a type parameter whose bound mentions a static parameter,
+itself or another, or that is declared with several bounds that the interpreter
+cannot meet, as it cannot meet two bounds neither of which is a subtype of the
+other: such a type parameter it binds, as before, to the narrowest named common
+supertype of the arguments' run-time types that the bounds permit, where there
+is one, and where there is none a call that fixes a type parameter of the
+second kind fails (row~591 of the revival's gap ledger).
 When its dispatch chooses among declarations, it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
 favour of any other declaration applicable to the call without coercion
@@ -259,7 +266,13 @@ instantiates a generic big operator whose static argument the reduction does
 not write at its bound (row~425 of the revival's gap ledger).
 The interpreter instantiates a type parameter of a function that nothing at a
 call fixes at its bound, \TYP{Any} if it has none, and one whose bound mentions
-other static parameters at that bound with their instances.
+other static parameters at that bound with their instances, with two
+exceptions: a type parameter that only the bound of a type parameter that the
+arguments fix mentions, as \EXP{A \KWD{extends} T} mentions \VAR{T}, it
+instantiates at the arguments' type, not at its bound, since it has no expected
+type to fix it (row~592 of the revival's gap ledger); and a type parameter
+declared with several bounds that it cannot meet, as two bounds neither of which
+is a subtype of the other, it erases to \TYP{BottomType} (row~591).
 It still erases to \TYP{BottomType} a type parameter whose bound mentions the
 type parameter itself, as the big operators $\sum$ and $\prod$ declare theirs, and the
 static parameters of a big operator that a reduction or a comprehension invokes

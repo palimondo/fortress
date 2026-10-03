@@ -1636,7 +1636,11 @@ of parameters to the narrowest named common supertype of the arguments'
 run-time types that the bounds permit'', the bound only where the bound is that
 supertype; it now says that the interpreter gives such a type parameter its
 bound, \TYP{Any} if it has none, and does the same where the arguments that fix
-a type parameter inside other types have several minimal common supertypes;
+a type parameter inside other types have several minimal common supertypes,
+except a type parameter whose bound mentions a static parameter and one
+declared with several bounds that the interpreter cannot meet, which it binds as
+before to the narrowest named common supertype of the arguments' run-time
+types, a call that fixes one of the second kind failing where there is none;
 that when it chooses among declarations it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
 favour of another applicable without coercion; and that it instantiates at
@@ -1644,11 +1648,14 @@ favour of another applicable without coercion; and that it instantiates at
 The box after the list said that ``The interpreter erases a type parameter that
 nothing at a call fixes, of a function, to \TYP{BottomType}''; it now says that
 the interpreter instantiates such a type parameter at its bound, and one whose
-bound mentions other static parameters at that bound with their instances, and
-names the type parameters it still erases: one whose bound mentions the type
-parameter itself, a big operator's that a reduction or a comprehension does not
-write, and one that only the result of a function expression without a declared
-return type fixes.
+bound mentions other static parameters at that bound with their instances,
+except a type parameter that only the bound of a type parameter that the
+arguments fix mentions, which it instantiates at the arguments' type, and
+names the type parameters it still erases: one declared with several bounds
+that it cannot meet, one whose bound mentions the type parameter itself, a big
+operator's that a reduction or a comprehension does not write, and one that
+only the result of a function expression without a declared return type
+fixes.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1691,16 +1698,29 @@ in the revival's repository.
 The revival's decision of 29~September 2026 provided that the interpreter
 follow the same rule where it instantiates a declaration, from the run-time
 types of the arguments; it has no static return type to add to the bound.
-The type parameters it still erases are of two kinds.
-A type parameter whose bound mentions the type parameter itself has no bound to
-take before its own instance is known; the paper's calculus admits no type
-parameter of a method in an upper bound (p.~11:11), and the revival has not yet
-decided that case.
-A big operator's static parameter that a reduction or a comprehension does not
-write is the element type of the reduction, which this chapter does not yet
-describe; from \TYP{BottomType} the interpreter's library builds a
-comprehension's collection at the type of its elements, and from the bound it
-would build it at the bound.
+It departs from the rule for the type parameters that the two boxes name,
+three kinds by decision and the others as defects.
+By decision, a type parameter whose bound mentions the type parameter itself
+keeps \TYP{BottomType}: it has no bound to take before its own instance is
+known, the paper's calculus admits no type parameter of a method in an upper
+bound (p.~11:11), and the revival has not yet decided that case.
+By decision, so does a big operator's static parameter that a reduction or a
+comprehension does not write: it is the element type of the reduction, which
+this chapter does not yet describe, and from \TYP{BottomType} the interpreter's
+library builds a comprehension's collection at the type of its elements, where
+from the bound it would build it at the bound.
+By decision, a type parameter that only the bound of a type parameter that the
+arguments fix mentions takes the arguments' type: the interpreter has no
+expected type to fix it, and the library's operator that appends two covariant
+collections builds its result at such a type parameter, which at its bound
+would be \TYP{Any}.
+As defects, each gated by an expected failure of the revival's tests, the
+interpreter erases to \TYP{BottomType} a type parameter declared with several
+bounds that it cannot meet, having no intersection type, a type parameter that
+only the result of a function expression without a declared return type fixes,
+since it gives that result the type \TYP{BottomType}, and a type parameter that
+an argument bounds only from above, since it takes the lower end of the
+interval that the arguments give the type parameter.
 The reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-walk-instance/decision-record.md}
 in the revival's repository.
@@ -1785,8 +1805,11 @@ the chapter gives it.
 Under the interpreter, a type parameter that nothing at a call fixes runs at its
 bound where it ran at \TYP{BottomType}, and a type parameter with no narrowest
 candidate at its bound where it ran at the arguments' narrowest named common
-supertype; a call whose arguments have several minimal common supertypes runs
-where it stopped the interpreter.
+supertype, except the type parameters that the boxes on the interpreter name;
+a call whose arguments have several minimal common supertypes runs where it
+stopped the interpreter, unless they fix a type parameter declared with several
+bounds that the interpreter cannot meet or one whose bound mentions the type
+parameter itself.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
