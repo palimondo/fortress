@@ -1,0 +1,3 @@
+tests=XXXTypecaseUndeclaredType
+compile
+compile_exception_contains=Not in the trait table

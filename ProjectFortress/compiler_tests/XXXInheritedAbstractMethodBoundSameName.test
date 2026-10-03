@@ -1,0 +1,3 @@
+tests=XXXInheritedAbstractMethodBoundSameName
+compile
+compile_err_contains=has no concrete implementation

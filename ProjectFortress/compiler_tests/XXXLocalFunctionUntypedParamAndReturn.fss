@@ -1,0 +1,11 @@
+(* A local function may leave the types of its parameter and its result undeclared (functions.tex, sections "Local Function Declarations" and "Function Declarations"), so the program is valid; the compiled checker stops on it, "Result of typechecking still contains intermediate nodes". *)
+component XXXLocalFunctionUntypedParamAndReturn
+export Executable
+
+run(): () = do
+    sq(n) = n n
+    z: ZZ32 = 7
+    println(sq(z))
+  end
+
+end
