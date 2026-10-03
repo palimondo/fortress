@@ -17,10 +17,12 @@ import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.*;
+import com.sun.fortress.nodes.BigFixity;
 import com.sun.fortress.nodes.BoolRef;
 import com.sun.fortress.nodes.IntRef;
 import com.sun.fortress.nodes.NodeAbstractVisitor;
 import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
+import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.Pattern;
 import com.sun.fortress.nodes.StaticParam;
@@ -132,11 +134,24 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     }
 
     /**
+     * Whether g is a big operator, whose static parameters a reduction or a
+     * comprehension leaves to the elements its generator clauses produce.
+     */
+    private static boolean bigOperator(GenericFunctionOrMethod g) {
+        if (!(g.getName() instanceof Op)) return false;
+        Op op = (Op) g.getName();
+        return op.getFixity() instanceof BigFixity || op.getText().startsWith("BIG ");
+    }
+
+    /**
      * The instance of each static parameter: its lower bound in abm, except
-     * that, with bounded, a type parameter that no argument's declared
-     * parameter type mentions (fixable) and whose bounds mention no static
-     * parameter (rechecks) takes its bound; any other left open is
-     * BottomType.
+     * that, with bounded, a type parameter of a declaration other than a big
+     * operator that the arguments do not fix takes its bound: where its
+     * bounds mention no static parameter (rechecks), its interval's upper
+     * end; where they mention others but not itself, its bounds at their
+     * instances.  The arguments fix a type parameter that an argument's
+     * declared parameter type mentions (fixable), and one that a bound of a
+     * type parameter they fix mentions.  Any other left open is BottomType.
      */
     private static ArrayList<FType> instanceOf(List<StaticParam> tparams,
                                                LatticeIntervalMap<String, FType, TypeLatticeOps> abm,
@@ -144,10 +159,12 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                                                boolean bounded, GenericFunctionOrMethod appliedThing,
                                                List<FValue> args) {
         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
+        boolean bounds = bounded && !bigOperator(appliedThing);
+        Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
         for (StaticParam tp : tparams) {
             String n = NodeUtil.getName(tp);
             FType t = abm.get(n);
-            if (bounded && NodeUtil.isTypeParam(tp) && !fixable.contains(n) &&
+            if (bounds && NodeUtil.isTypeParam(tp) && !fixed.contains(n) &&
                 (rechecks == null || !rechecks.contains(tp)) && (t == null || t instanceof BottomType)) {
                 t = boundOf(abm, n);
                 traceInstance("unfixed", appliedThing, n, BottomType.ONLY, t, typesOf(args));
@@ -155,7 +172,71 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             if (t == null) t = BottomType.ONLY;
             tl.add(t);
         }
+        if (!bounds || rechecks == null) return tl;
+        for (int i = 0; i < tparams.size(); i++) {
+            StaticParam tp = tparams.get(i);
+            String n = NodeUtil.getName(tp);
+            if (!NodeUtil.isTypeParam(tp) || fixed.contains(n) || !rechecks.contains(tp) ||
+                !(tl.get(i) instanceof BottomType)) continue;
+            FType b = boundAtInstances(tp, tparams, tl, appliedThing);
+            if (b != null) {
+                traceInstance("unfixed", appliedThing, n, BottomType.ONLY, b, typesOf(args));
+                tl.set(i, b);
+            }
+        }
         return tl;
+    }
+
+    /**
+     * The static parameters of tparams named in fixable, and those that a
+     * bound of one of them mentions, as A extends T mentions T.
+     */
+    private static Set<String> fixedThroughBounds(List<StaticParam> tparams, Set<String> fixable) {
+        Set<String> names = new HashSet<String>();
+        for (StaticParam tp : tparams) names.add(NodeUtil.getName(tp));
+        Set<String> fixed = new HashSet<String>(fixable);
+        boolean grew = true;
+        while (grew) {
+            grew = false;
+            for (StaticParam tp : tparams) {
+                if (!fixed.contains(NodeUtil.getName(tp))) continue;
+                for (Type tr : tp.getExtendsClause()) {
+                    for (String m : mentions(tr, names)) grew |= fixed.add(m);
+                }
+            }
+        }
+        return fixed;
+    }
+
+    /**
+     * The meet of the bounds of the type parameter tp of g at the instances
+     * tl of the static parameters they mention; null where they mention tp
+     * itself or a static parameter whose instance is BottomType, or where
+     * they cannot be evaluated.
+     */
+    private static FType boundAtInstances(StaticParam tp, List<StaticParam> tparams, List<FType> tl,
+                                          GenericFunctionOrMethod g) {
+        Map<String, FType> inst = new HashMap<String, FType>();
+        for (int i = 0; i < tparams.size(); i++) inst.put(NodeUtil.getName(tparams.get(i)), tl.get(i));
+        for (Type tr : tp.getExtendsClause()) {
+            for (String m : mentions(tr, inst.keySet())) {
+                if (m.equals(NodeUtil.getName(tp)) || inst.get(m) instanceof BottomType) return null;
+            }
+        }
+        try {
+            Environment env = g.getWithin().extendAt(tp);
+            EvalType.bindGenericParameters(tparams, tl, env, tp, tp);
+            EvalType et = new EvalType(env);
+            FType b = null;
+            for (Type tr : tp.getExtendsClause()) {
+                FType t = et.evalType(tr);
+                b = b == null ? t : TypeLatticeOps.V.meet(b, t);
+            }
+            return b;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
     }
 
     /**
