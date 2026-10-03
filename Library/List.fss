@@ -123,8 +123,6 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
     getter asString():String = "<|" || ", ".join[\E\](self) || "|>"
     getter reverse(): List[\E\] =
         generate[\List[\E\]\](RevConcat[\E\],singleton[\E\])
-    private getter leftSpace(): ZZ32
-    private getter canExtendLeft(): OneShot
     (** the operator %||% returns a list containing the elements of %self% followed
         by the elements of %f% *)
     opr ||(self, other:List[\E\]): List[\E\]
@@ -368,7 +366,11 @@ object ArrayList[\E\]( underlying : ImmutableArray[\E,ZZ32\],
     opr ||(self, other:List[\E\]): List[\E\] =
         if self.rightSpace >= |other| AND: canExtendRight.tryOnce() then
             appendR[\E\](other)
-        elif other.leftSpace >= |self| AND: other.canExtendLeft.tryOnce() then
+        elif (typecase other of
+                  other':ArrayList[\E\] =>
+                      other'.leftSpace >= |self| AND: other'.canExtendLeft.tryOnce()
+                  else => false
+              end) then
             other.appendL[\E\](self)
         else
             (* Enlarge on the right.  Note missed opportunity for parallelism in

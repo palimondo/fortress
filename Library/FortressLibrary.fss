@@ -304,11 +304,11 @@ assert(flag: Boolean, failMsg: String): () =
 assert(x:Any, y:Any, failMsg: Any...): () =
     if x =/= y then
         xs = typecase x of
-                 Object => x.asDebugString
+                 x':Object => x'.asDebugString
                  else => "" x
              end
         ys = typecase y of
-                 Object => y.asDebugString
+                 y':Object => y'.asDebugString
                  else => "" y
              end
         msg = xs " =/= " ys "; " (BIG || failMsg)  (* use || here instead of loose juxt *)
@@ -322,11 +322,11 @@ deny(flag: Boolean, failMsg: String): () = assert(NOT flag, failMsg)
 deny(x:Any, y:Any, failMsg: Any...): () =
     if x = y then
         xs = typecase x of
-                 Object => x.asDebugString
+                 x':Object => x'.asDebugString
                  else => "" x
              end
         ys = typecase y of
-                 Object => y.asDebugString
+                 y':Object => y'.asDebugString
                  else => "" y
              end
         msg = xs " = " ys "; " (BIG || failMsg)
