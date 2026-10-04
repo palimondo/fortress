@@ -627,7 +627,7 @@ One corpus, both backends: the interpreter tests (`ProjectFortress/tests/`, 381 
 
 Golden output where a value matters: a run test may carry a `run_out_equals` expectation (the harness already supports it, `FileTests.java:140-271`) instead of only "contains PASS". Scala's `.check` files are the model. Applied per test, not retrofitted.
 
-Tiers named: positive (compiles and runs), negative (`XXX` prefix, `compile_err_equals`), conformance (`SpecData/examples/`, 133 spec programs, today outside the gate). `ant testSpecData` joins the gate when its red count is known.
+Tiers named: positive (compiles and runs), negative (`XXX` prefix, `compile_err_equals`), conformance (`SpecData/examples/`, 133 spec programs, today outside the gate). `ant testSpecData` joins the gate at zero red, once its five red examples are green with row 424's F-bounded half (POSITIONS, "The specification's examples join the gate at zero red."): the batch that lands that half adds it to the gate's stages.
 
 Not adopted: rewriting the harness on lit and FileCheck, inline diagnostic annotations. Cost without gain on the path.
 
