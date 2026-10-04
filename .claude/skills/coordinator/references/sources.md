@@ -46,6 +46,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Watching: POSITIONS "The coordinator watches what it launches."; the how, the `remote-container` skill's agents part ("Watching a long run").
 - Estimates: POSITIONS "Estimates in the project's units.".
 - The mission briefing: POSITIONS "The mission briefing."; the manual, "Shared prefix". After every landed batch: POSITIONS "One review after every batch."; `explorations/reviews/process-review-6b-7-7R.md` (the process measures); `explorations/reviews/batch-10-review.md` (tokens written by role).
+- Watching the spend is the coordinator's, not the worker's: POSITIONS "The coordinator watches what it launches."; the tool `explorations/coordinator/tools/spend.py`.
 
 ## decisions.md
 
