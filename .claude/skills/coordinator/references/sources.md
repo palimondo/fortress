@@ -14,6 +14,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Rules: a decision inside a report: the protocol, principle 3; POSITIONS "Ownership.". One ask, plain text, no dialog: the protocol, principle 3 and hard rule "Never the AskUserQuestion dialog". Closed decisions, a step a yes covers: the protocol, hard rule 1 and principle 4. Time: the protocol, principle 3; POSITIONS "Format.". Delegate: the protocol, principle 5. A goal unclear: the protocol, principle 4. Purposes govern, a rule weighed by its cost, propose the fix, proportion: the protocol's opening paragraph and "What keeps going wrong"; POSITIONS "A tests-only repair does not rerun the gate." (weighing cost against what a rule protects).
 - Failures to watch for: the protocol, "What keeps going wrong".
 - Pointers: the protocol's last paragraph (the container note and the batch manual); the `fortress-repo` and `remote-container` skills.
+- The description (frontmatter): put through the skill-creator's description optimization on 2026-10-04 (its `run_loop` script over 20 trigger queries); the first iteration already held the best held-out score, so the optimization kept it as written; the eval set and the scores are in `explorations/reviews/skills-description-optimization.md`.
 
 ## roles-and-records.md
 
@@ -47,6 +48,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Estimates: POSITIONS "Estimates in the project's units.".
 - The mission briefing: POSITIONS "The mission briefing."; the manual, "Shared prefix". After every landed batch: POSITIONS "One review after every batch."; `explorations/reviews/process-review-6b-7-7R.md` (the process measures); `explorations/reviews/batch-10-review.md` (tokens written by role).
 - Watching the spend is the coordinator's, not the worker's: POSITIONS "The coordinator watches what it launches."; the tool `explorations/coordinator/tools/spend.py`.
+- A brief names the `fortress-repo` skill: its description triggers on hands-on work in the tree (`explorations/reviews/skills-description-optimization.md`), and the report contract lives in its records part.
 
 ## decisions.md
 

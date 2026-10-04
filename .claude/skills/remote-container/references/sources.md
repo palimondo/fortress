@@ -7,6 +7,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Framing: FACTS "The platform stops the session's process after about 12 hours 58 minutes ...", "The VM can be restarted under a live session ...", "A container can be lost outright"; remote-container.md, opening paragraph.
 - Rules: background and 270 s: FACTS "An agent that waits longer than the prompt cache lives writes its whole context again at every wake"; the script's prefix "Long commands" (`:960-979`). Stop only your own processes: the same prefix. Never stop a turn, messages kill nothing: FACTS "Stopping a turn kills every background agent alive at that moment ..."; POSITIONS "Check-ins and stops." Disk first, resume not relaunch: FACTS "A restart of the session's own process kills its background runs ...". Nothing that takes hours only on disk: remote-container.md § Three traps ("Worktree state that is never committed"). Refusals: FACTS "The session's automatic permission check refuses a step ...".
 - The curator: the role that names the person who curates the restoration and decides what is committed; the skill names the role, never the person (the review of this skill).
+- The description (frontmatter): put through the skill-creator's description optimization on 2026-10-04 (its `run_loop` script over 20 trigger queries); it passed every query at the first iteration, so the optimization kept it as written; the eval set and the scores are in `explorations/reviews/skills-description-optimization.md`.
 
 ## machine.md
 
@@ -21,6 +22,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - `Monitor` for the main session only: FACTS "The Bash tool's 10-minute ceiling ..." (`Monitor`, 1800000 ms) read with the cache-life entry (one hour for the main session, five minutes for a subagent).
 - `nohup` commands survive a stop of the process: FACTS "A restart of the session's own process ..." ("shell scripts the workers had started in the background").
 - `pkill -f` killing its own call: seen in the session that wrote this skill (the call exited 144 when its pattern was also in its own shell's command line).
+- The network: `curl` from the container on 2026-10-04 (web.archive.org: connection reset; labs.oracle.com: a 502 from the proxy; the relay answered 200); `explorations/repo-internals.md:253-261`; `research/extracts/fortress-websites-wayback.md:11-12`.
 
 ## agents.md
 

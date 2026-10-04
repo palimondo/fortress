@@ -38,7 +38,7 @@ Only `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`) and a
 
 ## After an edit, what to rebuild
 
-Never wipe the caches: recompile what you edited. The advice to wipe in `explorations/repo-internals.md` does not hold.
+Never wipe the caches: recompile what you edited.
 
 - The `.fss` of a compiler-library component (`LibraryBuiltin/AnyType`, `LibraryBuiltin/CompilerBuiltin`, `Library/CompilerLibrary`, `Library/CompilerAlgebra`, `Library/CompilerSystem`), and not its `.fsi`: `fortress compile` that component alone (CompilerBuiltin about 60 s, CompilerLibrary about 25 s, the others 2 to 16 s). Programs need no recompile.
 - The `.fsi` of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra, the roots every api depends on: all five in the library order, about 100 s. `CompilerSystem.fsi`: CompilerSystem alone.

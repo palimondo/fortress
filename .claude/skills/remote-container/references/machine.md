@@ -14,6 +14,10 @@
 - What fills it is mostly temporary files the work never deletes. This repository's own culprit, the parser's directories in `/tmp`, and their sweep are in the `fortress-repo` skill (build and caches).
 - When it is full: stop your own background processes and delete what you created and no longer need (scratch, build output, private caches, finished worktrees). If that is not enough, commit and push, and tell the curator that this session's allowance is spent: a new session starts on a fresh machine.
 
+## The network
+
+Outbound HTTPS goes through the session's proxy. Some hosts are blocked: `web.archive.org` resets the connection and the proxy refuses `labs.oracle.com`. A research PDF from them is uploaded into the session by the curator. An archived page (not a PDF) can be read through a reader relay, as `research/extracts/fortress-websites-wayback.md` describes.
+
 ## Long commands
 
 The Bash tool's timeout is 2 minutes by default and 10 at most. A call that reaches it is cut off: killed, or moved to the background where it has to be found again. So a command that may run longer starts in the background with a log, and is polled. Never pipe a long command through `tail`: the verdict is at the end, and you would have to run it again to see it. Grep the log instead.

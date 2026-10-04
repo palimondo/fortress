@@ -15,6 +15,16 @@ The phases: parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, GRAMMAR, PRETYPECHECKDE
 
 Answer "where does this fix belong" before editing: `explorations/coordinator/map/spec-to-implementation.md` gives each feature's parser rule, checker class, interpreter site, code-generator site and prelude location; `explorations/coordinator/map/modules-and-phases.md` gives both pipelines phase by phase.
 
+## The `fortress` commands
+
+`bin/fortress <command>` is dispatched by `ProjectFortress/src/com/sun/fortress/Shell.java` (`:403-487`).
+
+- In regular use: walk (`bin/fortress P.fss`, the same as `bin/fortress walk P.fss`), `compile` and `run`, and `junit X.test` for one compiled test by hand (`tests-running.md`).
+- Stopping after a phase, to see what an early phase makes of a program: `parse` (a syntax check), `disambiguate`, `grammar`, `desugar` and `typecheck`. `typecheck` checks against the compiler's own prelude, so it says nothing about an interpreter program (below, "Known shapes").
+- `unparse` prints the syntax tree back as Fortress source: the way to see what a desugaring produced.
+- `link` links a compiled component (the `link` step of a compiled `.test` file); `api` writes a component's api; `test` runs a program's `test` declarations under walk.
+- The command chooses the library: walk and `test` call `Shell.useInterpreterLibraries()`, every other command `useCompilerLibraries()` (`Shell.java:371-386`). Each re-points `WellKnownNames` and `Types` to its prelude and sets the desugaring switches; the compiler's sets the `extends Object` bound before disambiguation, which walk's does not.
+
 ## What the code generator does
 
 - Every Fortress type becomes a JVM reference type (`RR64` becomes the run-time class `FRR64`; no primitive `double` arithmetic is emitted).

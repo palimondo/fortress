@@ -14,6 +14,12 @@
 - The shards split one sorted list by index, so a file added to `tests/` moves every later test to another shard: compare only the sum of the four. A suite whose count fell almost always means a `.test` file or a `tests=` line went missing.
 - Start them in the background and poll, never through `tail` (the `remote-container` skill, long commands).
 
+## Outside the gate
+
+- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate yet: it joins it once its five red examples, reductions written without their element type, pass.
+- `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, expected to fail, and fails when one passes.
+- Run by nothing: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. A new test never goes into a parked folder: a defect that fails today is an `XXX` test in a gated corpus (`tests-writing.md`).
+
 ## One test, or a few
 
 Interpreter tests (`ProjectFortress/tests/`), from the tree's root with `env.sh` sourced:

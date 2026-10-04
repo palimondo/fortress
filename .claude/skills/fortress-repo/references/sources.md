@@ -10,6 +10,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - The method rule ("Every claim is checked against a primary source ..."): `explorations/protocol.md`, principle 1 (no self-credit, attribution reconstructed where git does not record it, every claim verified against a primary source) and principle 2 (one variable per step; reproduce before explaining). Carried here when the coordinator skill took the protocol's conduct rules.
 - The curator: the role that names the person who curates the restoration and decides what is committed; the skill names the role, never the person (the review of this skill). This skill says nothing about the curator's review: what an agent's report holds is its contract with whoever reads the report (`area-records.md`, below), and which items reach the curator, and how, is decided outside this skill, which never points to it (the review of the skills: the dependence runs one way, through the contract).
 - The router line to `remote-container`: the container, the session, restarts and agents were split into that skill at the review of this one; its own `references/sources.md` holds their provenance.
+- The description (frontmatter): from the skill-creator's description optimization on 2026-10-04 (its `run_loop` script over 20 trigger queries; the best of two iterations by the held-out score), its last sentence reworded so that it routes only the container, the session and restarts to `remote-container`, and the reworded text scored again with the same script; the eval set, the scores and the old description are in `explorations/reviews/skills-description-optimization.md`.
 
 ## build-and-caches.md
 
@@ -61,6 +62,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - One whole-suite run per code state, no partial stage runs: the script `:1035-1039`.
 - One track by hand: the `fastTrack` macro `build.xml:930-958` (properties, env, memory); `harness-one.sh` (the same pattern for SystemJUTest, global.map seed); `explorations/compile-ladder/rung-overloading-checker/REPORT.md:438` (tracks run as one JVM each with a private cache tree through `junit.textui.TestRunner`); `CompilerJUTest.java:22-24` (main runs TestRunner); compiler track 428 s: map test-coverage D.1. The command itself is composed from these, not copied from one script. `testCompiler`/`testLibrary`/`testOtherCompiler` depend on `cleanCache, compile`: `build.xml:818, :844, :869, :588`.
 - Complete log stands: the manual "Shared prefix" (resumed worker paragraph).
+- Outside the gate: FACTS "`ant testSpecData` runs 130 of the specification's 133 extracted examples under walk ..." and POSITIONS "The specification's examples join the gate at zero red."; `build.xml:988`, `:1114`, `:1139`; `explorations/coordinator/map/test-coverage.md:228`; FACTS "The gate: two corpora, hand-ported ..." (the orphaned folders); `explorations/repo-internals.md:62-68`.
 
 ## gate.md
 
@@ -135,6 +137,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - extends Object: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`".
 - Api/component name: FACTS "An exported function fails exactly as an exported variable does ...".
 - 0-byte jar on a failed program compile: FACTS Execution model (boxing/kernels entry); failed library compile writes nothing: exploration § 2.
+- The `fortress` commands: `Shell.java:403-487` (the dispatch) and `:371-386` (the library switch), read on the tree; `explorations/repo-internals.md:41-43`, `:111-117`; the agents' use of each command counted over session `fe616d40`'s agent transcripts on 2026-10-04 (`compile`, `run`, `junit` and walk regular; `typecheck`, `parse` and `link` occasional; `api`, `test` and `unparse` almost never).
 
 ## area-library.md
 

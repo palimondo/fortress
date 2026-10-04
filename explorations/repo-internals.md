@@ -157,14 +157,18 @@ probe's own `-Dfortress.caches` directory, is not ignored):
 - `nativewrapper_cache/` — generated wrappers for `import java` natives.
 
 Rules learned the hard way:
-- **When in doubt, wipe**: `rm -rf default_repository/caches/*`. Stale or
-  order-inconsistent caches produce *misleading* runtime errors
+- **Never wipe; recompile what you edited.** Stale or order-inconsistent
+  caches produce *misleading* runtime errors
   (`NoSuchMethodError: CompilerBuiltin.println(...)`,
   `NoSuchMethodError: ...asJavaString()`, `Unable to read serialized data
   ... recommend you delete the Fortress bytecode cache and relink`). These
-  are cache problems, not compiler bugs.
-- After editing any `Library/`/`LibraryBuiltin/` `.fss`, wipe — edits are
-  otherwise invisible (cached analysis wins).
+  are cache problems, not compiler bugs: recompile the component in the
+  library order (below), and run the library order after `ant compileAll`.
+- After editing a compiler-library `.fss` (`CompilerBuiltin`,
+  `CompilerLibrary` and the rest), `fortress compile` that component; the
+  interpreter's library (`FortressLibrary.fss` and the rest) needs nothing,
+  since walk re-reads it on its next run. What to recompile after each kind
+  of edit is the `fortress-repo` skill's `build-and-caches.md`.
 - **Compile order matters** on a fresh cache, because `fortress compile` of a
   program does NOT emit the builtin-library jars, and the runtime classloader
   then falls back to the **bootstrap stubs** in `ProjectFortress/build/fortress/`
