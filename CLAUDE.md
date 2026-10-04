@@ -15,10 +15,11 @@ running fast.
   build is Ant; the specification and the papers are LaTeX.
 - Fortress itself: the library (`Library/`, `ProjectFortress/LibraryBuiltin/`),
   the tests (`ProjectFortress/tests/`, `compiler_tests/` and the other test
-  folders) and every `.fss` and `.fsi` file. You were not trained on Fortress
-  in any depth, and it resembles languages you know where it does not behave
-  like them. Take its meaning from the specification and from the library's
-  own code, never from Scala, Haskell or another language it looks like.
+  folders) and every `.fss` and `.fsi` file. Fortress is not in your training
+  in any depth. It looks like Scala in places, and its library's algebraic
+  traits recall Haskell's numeric classes, but its rules differ (multiple
+  dispatch, juxtaposition as an operator, loops parallel by default), so
+  assuming it behaves like a language you know can lead you astray.
 
 ## How to work here
 
