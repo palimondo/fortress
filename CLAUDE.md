@@ -1,14 +1,8 @@
 # Fortress revival
 
-This is @palimondo's revival of Sun/Oracle's **Fortress** programming language
-(Guy Steele's HPC language, 2003–2012; interpreter + partial JVM compiler,
-BSD-licensed). The repo is a 2018 GitHub fork of `sirinath/fortress`, a git
-conversion of the project's java.net Mercurial repository: 5,397 trunk commits
-from 2007-01-04 to 2012-08-31 (`a874948ac`), twelve old branches and the `1.0`
-tag. The conversion cut 146 parent links, so a history walk from HEAD stops
-early; see `research/authorship.md`. Everything after `a874948ac` is the
-revival's own work (2026). The curator (@palimondo) decides what gets
-committed.
+This is a revival of Sun/Oracle's **Fortress** programming language (Guy
+Steele's HPC language, 2003–2012), an interpreter and a partial JVM compiler.
+The curator (@palimondo) decides what gets committed.
 
 ## Project goal
 

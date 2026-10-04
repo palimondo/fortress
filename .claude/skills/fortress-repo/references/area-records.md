@@ -29,6 +29,10 @@ The files:
 
 The 2012 tree's own READMEs describe their era, not the current tree: check a claim of theirs against the code before acting on it.
 
+## The repository's history
+
+The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits from 2007-01-04 to 2012-08-31, ending at `a874948ac`, with twelve old branches and the `1.0` tag. Everything after `a874948ac` is the revival's own work. The conversion cut 146 parent links, so a history walk from `HEAD` stops early; how to find who wrote something, and where the lineage after 2012 comes from, is `research/authorship.md` and `explorations/coordinator/lineage.md`.
+
 ## Practices
 
 - A measurement the record holds is cited with its source and never repeated. Measure again only when the tree has changed under it, and say what changed. Measure only what is new.

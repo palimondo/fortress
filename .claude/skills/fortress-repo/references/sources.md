@@ -202,3 +202,5 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - `claude_demo.fss` once ledger row 424 is closed.
 
 - The method rule of `SKILL.md` ("Every claim is checked against a primary source ..."): `explorations/protocol.md`, principle 1 (no self-credit, attribution reconstructed where git does not record it, every claim verified against a primary source) and principle 2 (one variable per step; reproduce before explaining). Carried here when the coordinator skill took the protocol's conduct rules.
+
+- `area-records.md`, "The repository's history": moved from `CLAUDE.md`'s opening paragraph at the curator's review comment of 2026-10-04 (it is lookup material, not something every agent needs); `research/authorship.md:14-22`; FACTS, "`palimondo/fortress` is a 2018 GitHub fork ...".
