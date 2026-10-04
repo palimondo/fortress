@@ -4,7 +4,7 @@ Fortress was an experimental programming language from Sun Labs (2003–2012).
 This repository revives it: the goal is to finish the original team's design,
 judged by its specification (`Specification/`) and its type research
 (`Papers/`), and measured by one program, microGPT, compiled to bytecode and
-running fast. The curator (@palimondo) decides what gets committed.
+running fast.
 
 ## Where your training applies, and where it does not
 
