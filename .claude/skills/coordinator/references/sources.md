@@ -24,12 +24,14 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - His words only where they are the position: the protocol, principle 6 (the README says "in his words", principle 6 narrows it).
 - Folding workers' lines, reviewing after and fixing by a further commit: the protocol, hard rule on workers' commits; the script's prefix, "What you write, and what you must not touch" (`:1028-1033`).
 - The transcript as the record of a worker's order of work: the protocol, hard rule "The gate"; POSITIONS "What a batch commits.".
-- The boot note's process times: FACTS "The platform stops the session's process ..." (the last start and the next stop are the boot note's). An untitled FACTS entry cited by its opening words: the README, "How they are kept".
+- The boot note's process times: FACTS "The platform stops the session's process ..." (the last start and the next stop are the boot note's). The boot note at line 7: the README, first paragraph. An untitled FACTS entry cited by its opening words: the README, "How they are kept".
+- A record that names a model on purpose is not stripped of it: POSITIONS "The record is public and names models on purpose." (the protocol's rule against model identifiers governs what Claude itself writes and pushes).
 
 ## boot.md
 
 - The order and what is read: the README, first paragraph; the protocol, principle 5 ("Boot reads the record and nothing else").
-- FACTS in pages: the boot note (its paragraph on the container: FACTS read in pages of about 20 lines, the Read tool's page holding 25K tokens).
+- FACTS in pages of about 15 to 20 lines: the boot note (its paragraph on the container: FACTS read in pages of about 20 lines, the Read tool's page holding 25K tokens); the review of the skills read it whole in 15-line pages, the longest page about 40 KB.
+- The boot's cost, about 250K with FACTS about a third: FACTS "A boot after a compaction costs about 285K tokens of context, and `FACTS.md` is about two fifths of it" (a title that no longer holds; its text gives 250K and a third).
 - The hook and a worker's own compaction: the `remote-container` skill, its hooks part.
 - In flight from the tree: POSITIONS "While a batch runs" (the client showing stale state).
 - An order lost and re-asked: the protocol, principle 4.

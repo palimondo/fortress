@@ -31,7 +31,7 @@ The 2012 tree's own READMEs describe their era, not the current tree: check a cl
 
 ## The repository's history
 
-The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits from 2007-01-04 to 2012-08-31, ending at `a874948ac`, with twelve old branches and the `1.0` tag. Everything after `a874948ac` is the revival's own work. The conversion cut 146 parent links, so a history walk from `HEAD` stops early; how to find who wrote something, and where the lineage after 2012 comes from, is `research/authorship.md` and `explorations/coordinator/lineage.md`.
+The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits from 2007-01-04 to 2012-08-31, ending at `a874948ac`, with twelve old branches and the `1.0` tag. The commits after `a874948ac` are the revival's. The conversion cut 146 parent links, so a history walk from `HEAD` stops early; how to find who wrote something, and where the lineage after 2012 comes from, is `research/authorship.md` and `explorations/coordinator/lineage.md`.
 
 ## Practices
 
@@ -50,7 +50,7 @@ The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the pr
 
 - FACTS and POSITIONS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. A wrong line is rewritten in place; the provenance lives in `FACTS-history.md` and `POSITIONS-history.md`. A FACTS entry is the fact, its source and its test in a few lines, under a bold title, pointing to the report that holds the detail.
 - One home per thing: the curator's words are written once, in POSITIONS, and everything else points there.
-- The record is updated in the same commit as the work that establishes the fact or takes the decision.
+- A fact enters the record in the commit that establishes it; a decision in the next commit after the curator states it.
 - An agent working beside others does not edit `FACTS.md`, `POSITIONS.md`, `PLAN.md`, `INDEX.md`, the ledger, the handover, `CLAUDE.md`, `explorations/protocol.md`, the tools under `explorations/coordinator/tools/`, or `.claude/`: parallel edits of those files conflict. It writes the lines for them in its report (the FACTS entry, the ledger note, the plan line) as finished prose, for whoever folds them in.
 - Everything of ours lives under `explorations/`. `research/decks/` holds copyrighted material, is gitignored and is never committed.
 

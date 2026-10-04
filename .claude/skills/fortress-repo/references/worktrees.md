@@ -29,7 +29,7 @@ Seeding a worktree takes about 3 s and 206 MB. The result runs walk and the comp
 
 Never symlink or plainly copy another tree's build or caches: cache entries are keyed by absolute path, and a symlinked build makes every cache path resolve to the other tree. The script translates the paths.
 
-Each agent works only in its own worktree, and two agents never compile into one cache: every compile rewrites cache files of the tree it runs in. Scratch goes under `<worktree>/tmp/` (gitignored). Set up each shell as `build-and-caches.md` says, and check that `echo $FORTRESS_HOME` prints your worktree.
+Each agent works only in its own worktree, and two agents never compile into one cache: every compile rewrites cache files of the tree it runs in. Scratch goes under `<worktree>/tmp/` (gitignored). Set up each shell as `build-and-caches.md` says, and check that `echo $FORTRESS_HOME` prints your worktree. Worktrees under the main tree's `.claude/worktrees/` and agent types under `.claude/agents/` are kept out of `git status` by the untracked `.git/info/exclude`, which a fresh clone lacks.
 
 ## The old code beside the new
 

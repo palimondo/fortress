@@ -1,6 +1,6 @@
 # Committing and pushing
 
-The curator decides what is committed. Commit only when your task says to.
+The curator decides what is committed. A worker commits its own files as it goes, on its own branch (below), unless its brief says not to commit.
 
 ## What may be committed
 

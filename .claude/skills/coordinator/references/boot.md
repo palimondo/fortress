@@ -6,7 +6,7 @@ At session start and after every compaction, before any work and before anything
 
 1. `CLAUDE.md`.
 2. `explorations/protocol.md`.
-3. `explorations/coordinator/FACTS.md`, whole, in one pass, in pages the Read tool can hold.
+3. `explorations/coordinator/FACTS.md`, whole, in one pass, in pages of about 15 to 20 lines: the Read tool's page holds 25K tokens, and the lines are long.
 4. `explorations/coordinator/POSITIONS.md`.
 5. `explorations/coordinator/INDEX.md`. Then run `explorations/coordinator/check-index.sh` and give every note it reports missing its line.
 6. The first section of `explorations/microgpt-run-c-handover.md`.
@@ -17,6 +17,7 @@ If the boot note says a batch is running: its batch record, `explorations/coordi
 ## What the boot reads, and what it does not
 
 - The record and nothing else. No directory listings; every command's output bounded.
+- It costs about 250K tokens of context, `FACTS.md` about a third of it: the price of full context, paid once per boot.
 - Reports, transcripts, ledger rows and source go to a worker that returns a summary.
 - Whether a worker still runs is read from the harness's notice at the top of the turn and from `test -f` on the one output path its brief names.
 - "Is anything in flight" is answered from the tree and the run's journal, never from what the curator's client shows, which can be stale.

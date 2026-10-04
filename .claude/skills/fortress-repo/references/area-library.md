@@ -12,7 +12,7 @@ The library's practice is the standard. Before designing a change, study the exi
 What the library already decided:
 
 - Exclusion (`excludes`, `comprises`) is used all over the library. The compiled checker keeps the multiple-instantiation exclusion rule.
-- The numeric tower is flat: the fixed widths, `ZZ`, `QQ` and `RR64` are siblings under `Number`, each carrying its own algebra, and a wider type has a `coerce` from each narrower one. Walk converts by coercion at dispatch.
+- The numeric tower is flat: the fixed widths, `ZZ`, `QQ`, `RR64` and `RR32` are siblings under `Number`, each carrying its own algebra, and a wider type has a `coerce` from each narrower one. Walk converts by coercion at dispatch.
 - The implicit bound of an unbounded type parameter is `Any`, which holds tuples, functions and `()`.
 - A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.
 - A conversion is applied to make a call possible and never changes which declaration runs when one already fits.

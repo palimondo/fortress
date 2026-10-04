@@ -1,12 +1,13 @@
 # Sources of this skill (for maintaining it only)
 
-Not for a task: an agent doing work never loads this file. It says where each fact in the parts came from, so that the skill can be re-checked when the tree changes. FACTS entries are named by their bold title (print one with `explorations/coordinator/tools/facts-extract.sh 'TITLE WORDS'`). "Exploration" is `explorations/coordinator/build-cache-exploration.md`; "the script" is `explorations/coordinator/climb-batch-workflow.js`; "the manual" is `explorations/coordinator/climb-batch-workflow.md`; "brief-machine" is `explorations/coordinator/process-engineering/blind-brief/machine.md`; "the gate summary" is `explorations/compile-ladder/climb-batch-10/gate/summary.txt`.
+Not for a task: an agent doing work never loads this file. It says where each fact in the parts came from, so that the skill can be re-checked when the tree changes. FACTS entries are named by their bold title (print one with `explorations/coordinator/tools/facts-extract.sh 'TITLE WORDS'`). "Exploration" is `explorations/coordinator/build-cache-exploration.md`; "the script" is `explorations/coordinator/climb-batch-workflow.js`; "the manual" is `explorations/coordinator/climb-batch-workflow.md`; "brief-machine" is `explorations/coordinator/process-engineering/blind-brief/machine.md`; "the gate summary" is `explorations/compile-ladder/climb-batch-10/gate/summary.txt`; "the old `CLAUDE.md`" is that file before it was cut to what every session needs, `git show 9cd56be21^:CLAUDE.md`, whose facts now live in these parts and nowhere else in the tree; "the pending edit" is `explorations/coordinator/pending-script-edit.md`.
 
 ## SKILL.md
 
-- Two paths, one library goal, microGPT: `CLAUDE.md` before `9cd56be21` (Project goal); `explorations/repo-internals.md:97-123`; POSITIONS "The library route."
-- Original tree = all but explorations/, research/, CLAUDE.md: `CLAUDE.md` before `9cd56be21` (Layout).
+- Two paths, one library goal, microGPT: the old `CLAUDE.md` (Project goal); `explorations/repo-internals.md:97-123`; POSITIONS "The library route."
+- Original tree = all but explorations/, research/, CLAUDE.md: the old `CLAUDE.md` (Layout).
 - Rules: `explorations/protocol.md` hard rules (gate, test first, commit) and principles 2, 5; POSITIONS "Test first, the test kept.", "The suite's verdict is the check.", "Nothing is built or run twice on the same code.", "No re-measuring what the record holds.", "The library's own practice is the standard."; exploration § 2 (never a wipe); the script's prefix "Long commands" (`:960-979`), whose how-to is now the `remote-container` skill's.
+- The method rule ("Every claim is checked against a primary source ..."): `explorations/protocol.md`, principle 1 (no self-credit, attribution reconstructed where git does not record it, every claim verified against a primary source) and principle 2 (one variable per step; reproduce before explaining). Carried here when the coordinator skill took the protocol's conduct rules.
 - The curator: the role that names the person who curates the restoration and decides what is committed; the skill names the role, never the person (the review of this skill). This skill says nothing about the curator's review: what an agent's report holds is its contract with whoever reads the report (`area-records.md`, below), and which items reach the curator, and how, is decided outside this skill, which never points to it (the review of the skills: the dependence runs one way, through the contract).
 - The router line to `remote-container`: the container, the session, restarts and agents were split into that skill at the review of this one; its own `references/sources.md` holds their provenance.
 
@@ -14,7 +15,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 - env.sh contents: `explorations/experiment/env.sh:1-10`. Rats directories and `df` before a long run: FACTS "The disk allowance fills with parser-generation temp directories"; `distance/run.sh:16-17` (tmpdir); the script `:924` (never mid-run). Source once per shell, TMPDIR and JAVA_FLAGS with tmpdir, `echo $FORTRESS_HOME`: the script, "Your worktree" (`:918-925`); `bin/fortress_home` (takes FORTRESS_HOME from the shell); the manual `:48`.
 - Only build file: `explorations/repo-internals.md:21-22`.
-- compileAll times: brief-machine:14 (57 s, 82 s fresh, 25-40 s small edit); exploration § 1 (82 s), § 2 (25.8 s); gate summary (48 s); `CLAUDE.md` before `9cd56be21` (~80 s).
+- compileAll times: brief-machine:14 (57 s, 82 s fresh, 25-40 s small edit); exploration § 1 (82 s), § 2 (25.8 s); gate summary (48 s); the old `CLAUDE.md` (~80 s).
 - compileAll deletes caches and global.map, which is untracked and ignored and which the linker writes afresh, so nothing restores it: FACTS "`ant compileAll` deletes a tracked file"; `build.xml:539, :715, :356-360`; `.gitignore` (the `global.map` line, `clean-ladder`'s); `ProjectFortress/src/com/sun/fortress/linker/RepoState.java:366-385`.
 - After compileAll the library order before compiled runs; failed compileAll: exploration § 2 "The rules for a worker"; FACTS "`ant compileAll` leaves the bytecode cache holding no library jars".
 - Test targets do not compile: `explorations/coordinator/map/test-coverage.md` D.1; map README § 6.
@@ -31,8 +32,8 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## toolchain.md
 
-- Toolchain traps: `CLAUDE.md` before `9cd56be21` (Build and run); `explorations/repo-internals.md:189-200` (javac target, ASM 3.1), `:131` (classfile 1.6); JDKs: `CLAUDE.md` before `9cd56be21`; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7.
-- Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; `CLAUDE.md` before `9cd56be21`.
+- Toolchain traps: the old `CLAUDE.md` (Build and run); `explorations/repo-internals.md:189-200` (javac target, ASM 3.1), `:131` (classfile 1.6); JDKs: the old `CLAUDE.md`; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7. The fresh container's setup: `explorations/experiment/setup.sh:14-35` (the package list, the build stage) and its `transcripts` stage.
+- Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; the old `CLAUDE.md`.
 
 ## worktrees.md
 
@@ -40,7 +41,8 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - seed-worktree.sh usage and behaviour: its header `explorations/coordinator/tools/seed-worktree.sh:1-42`, messages `:124-132`; exploration §§ 1, 3, 6.
 - Never symlink: `explorations/coordinator/remote-container.md` § Setting up a batch's worktrees (last paragraph); the script `:928`.
 - Two agents never compile into one cache: the manual `:48`; exploration § 1.
-- old-fortress.sh: its header `explorations/coordinator/tools/old-fortress.sh:1-25`; exploration § 6; the harness line on old code: the scratchpad patch `old-fortress-script-patch.md` (session scratchpad), section "climb-batch-workflow.js".
+- old-fortress.sh: its header `explorations/coordinator/tools/old-fortress.sh:1-25`; exploration § 6; the harness line on old code: the pending edit, section "climb-batch-workflow.js" (the third command line of "The old code beside the new").
+- `.git/info/exclude` keeping `.claude/worktrees/` and `.claude/agents/` out of `git status`: the file itself, read on the machine; the boot note's paragraph on the container.
 - FORTRESS_CACHES for another build's run step: FACTS "A harness run against another build's classes must point `FORTRESS_CACHES` at that build's caches".
 
 ## tests-running.md
@@ -106,13 +108,13 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Heaps, 256 MB claims: FACTS "Three heaps run the interpreter".
 - Threads and implicit parallelism: FACTS "The gate's thread count is pinned ..." (floor(nproc/2)); Execution model, "Implicit parallelism".
 - Walk times: brief-machine:20; exploration § 1 (4.0 s), § 2 (walk re-reads, 13.7 s then 3.7 s).
-- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424; `explorations/coordinator/PLAN.md:107`; exploration § 1. BooleanOps: exploration § 5. hello.fss: `CLAUDE.md` before `9cd56be21`.
-- mg-run.sh: its header and body; model diffs: `explorations/protocol.md` principle 1.
+- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424; `explorations/coordinator/PLAN.md:107`; exploration § 1. BooleanOps: exploration § 5. hello.fss: the old `CLAUDE.md`. mandelbrot_canonical.fss as the smoke test: the old `CLAUDE.md` (Build and run), kept at the curator's choice on the skill page (`6c9dcd89e`).
+- mg-run.sh: its header and body; the permission check refusing its `rm -rf` (`mg-run.sh:16`): `explorations/microgpt-run-c-handover.md`, first section, the paragraph on climb batch 10's landing; `explorations/coordinator/PLAN.md`, the last entry under "Climb batch 10, listed for his review"; model diffs: `explorations/protocol.md` principle 1.
 - No checking under walk; typecheck uses the compiler prelude: FACTS Execution model, first three entries; `explorations/repo-internals.md:129`.
 - Coercion on the value: POSITIONS "Walk chooses coercions on the value, for now."
 - Message order: FACTS "The interpreter's overload-ambiguity message ...".
 - No interpreter timing: `explorations/protocol.md` principle 2; POSITIONS "Interpreter performance is irrelevant."
-- import java under walk: map README § 7 row `nativeHelpers/`.
+- import java under walk, wired and unfinished, no test using it: FACTS, section "The territory map", the entry opening "`import java` works on the interpreter path through `ForeignComponentWrapper` + `ClosureMaker`"; map README § 7 row `nativeHelpers/`.
 - Natives and FortressError: FACTS "Under `walk`, a native can raise a Fortress exception that a Fortress `catch` sees"; FACTS "The one library binds its natives with `builtinPrimitive`" (boxed values).
 - Load checks: FACTS "Walk checks at load the `comprises` clauses ...".
 - Suites and blind paths: the script `:1037`; FACTS "The checker-count and distance stages read only ...".
@@ -120,7 +122,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## area-compiler.md
 
-- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: `CLAUDE.md` before `9cd56be21`.
+- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: the old `CLAUDE.md`.
 - Running, times: `explorations/repo-internals.md:175-182`; brief-machine:20.
 - Phases: `explorations/repo-internals.md:127`; Shell switch: map README § 7 row `compiler/` phases 1-4.
 - Where a fix belongs: the script's prefix (territory map `:987-997`, rule 1 of `:998-1009`).
@@ -138,7 +140,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 - One library, prelude deleted, nothing added: POSITIONS "The library route."; `explorations/repo-internals.md:24-28`.
 - Library's way first: POSITIONS "The library's own practice is the standard."; `explorations/protocol.md` principle 2.
-- Decisions listed: POSITIONS "The exclusion rule stays and the tower is flat (route A).", "The implicit bound of an unbounded type parameter is `Any`", "A type parameter the arguments do not fix takes its bound ...", "Conversions never change which declaration runs."
+- Decisions listed: POSITIONS "The exclusion rule stays and the tower is flat (route A).", "The implicit bound of an unbounded type parameter is `Any`", "A type parameter the arguments do not fix takes its bound ...", "Conversions never change which declaration runs."; the siblings named, `RR32` among them: FACTS "The one library's number tower is flat".
 - Comment spans: FACTS "A comment placed after a declaration that ends in an expression or a type ...".
 - FortressAst generated: `explorations/repo-internals.md:82-86`.
 - Natives, Writer: FACTS "The one library binds its natives ...".
@@ -147,7 +149,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## area-specification.md
 
-- Standard, frozen copy, its name, types.tick: `CLAUDE.md` before `9cd56be21` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
+- Standard, frozen copy, its name, types.tick: the old `CLAUDE.md` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
 - Weighing: POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1.
 - apis/*.tex circular: FACTS "The test corpora cite the specification by file and section ..." (the generated-file note).
 - Revision form: POSITIONS "Every change to the specification is recorded with its reason.", "The S1 form", "The refused examples (S2)."; macro `Specification/fortress/fortress.tex:87-92`; entry layout `Specification/appendices/changes.tex:64-70`.
@@ -159,15 +161,16 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 ## area-records.md
 
 - facts-extract.sh queries: `explorations/coordinator/tools/facts-extract.sh --help`.
-- File roles: `explorations/coordinator/README.md`; `CLAUDE.md` before `9cd56be21`; the script's prefix (territory map list, `:987-997`).
+- File roles: `explorations/coordinator/README.md`; the old `CLAUDE.md`; the script's prefix (territory map list, `:987-997`).
 - git archaeology: `explorations/repo-internals.md:88-95, :237-244`.
-- Old READMEs: `CLAUDE.md` before `9cd56be21` (last paragraph).
+- Old READMEs: the old `CLAUDE.md` (last paragraph).
 - The coordinator's boot reads FACTS whole: `explorations/coordinator/README.md` (boot order).
 - Practices: `explorations/protocol.md` principles 2, 4, 5; POSITIONS "No re-measuring what the record holds."; the script `:1041-1043` (what you cite).
 - Ledger: `explorations/fortress-gap-ledger.md:43-53`; never renumbered: the script's record.md paragraph `:1029`; rows as bug reports: POSITIONS "Test first, the test kept."
 - FACTS/POSITIONS form, one home: `explorations/coordinator/README.md`; POSITIONS "The record's form: an optimized build and a debug build."; `explorations/protocol.md` principle 6.
-- Same commit: `CLAUDE.md` before `9cd56be21`.
+- A fact in the commit that establishes it, a decision in the next commit after the curator states it: `explorations/coordinator/README.md`, "How they are kept" (the old `CLAUDE.md` said "the same commit" of both).
 - Files a parallel agent does not edit: the script `:1033`.
+- "The repository's history": moved from the old `CLAUDE.md`'s opening paragraph at the curator's review comment of 2026-10-04 (it is lookup material, not something every agent needs); `research/authorship.md:14-22`; FACTS, "`palimondo/fortress` is a 2018 GitHub fork ...". That entry says `main` descends from the graft commit `8fe1daa8f`, which copied files onto `a874948ac`, so the part says "the commits after `a874948ac` are the revival's" and not that everything after it is the revival's own work; what the graft copied is named only in `lineage.md` (POSITIONS, "The third-party Java 9 port").
 - Everything under explorations/: POSITIONS "Where the work lives."; decks: `explorations/protocol.md` hard rules.
 - What every report holds: the review of the skills (its four items, the agent deciding nothing about what is reviewed and asking the curator nothing). Defects and their homes: the manual "Shared prefix", "What a measured defect is worth"; `tests-writing.md`'s sources. Decisions with their alternatives: the script's prefix "Register" (`:1022`, "If you make a decision, say in your report that it was a decision and what the alternatives were: a decision buried in a report is a decision not made"); POSITIONS "Ownership."; the reading acted on: `explorations/protocol.md` principle 4. Stops met, part of the work included: the script's result field `stopsMet` (`:1145`, `:1292`, `:1351`). The script's result field for points a rung puts to the curator (`:1145`) is replaced here by the decision not taken; the script itself is not changed by this skill.
 - The line in `SKILL.md` on what every report holds: the same.
@@ -175,21 +178,21 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## committing.md
 
-- All rules: `explorations/protocol.md` hard rules and principle 1; POSITIONS "What a batch commits.", "Workers commit their own files as they go."; the branch trap: `explorations/coordinator/remote-container.md` "The branch trap" (the re-provisioning itself is in the `remote-container` skill); no rule on global.map, untracked and ignored: FACTS "`ant compileAll` deletes a tracked file".
+- All rules: `explorations/protocol.md` hard rules and principle 1; POSITIONS "What a batch commits.", "Workers commit their own files as they go." (the opening line: a worker commits as it goes, so the part states that as the default and a brief's "do not commit" as the exception); the branch trap: `explorations/coordinator/remote-container.md` "The branch trap" (the re-provisioning itself is in the `remote-container` skill); no rule on global.map, untracked and ignored: FACTS "`ant compileAll` deletes a tracked file".
 - The test runs and the distance polled in the background: the `remote-container` skill's long commands; never `ant` through `tail`: the script `:960-979`.
 - Pushing `main` after every commit: FACTS "The push loop pushes `main` every 4 minutes ..." (no loop runs; the coordinator pushes after every commit); POSITIONS "Workers commit their own files as they go.".
 
 ## Where the sources disagree or are stale
 
-- Wiping caches: `CLAUDE.md` before `9cd56be21` ("wipe `default_repository/caches/*` and recompile in library order"; "wipe them if library edits seem to have no effect") and `explorations/repo-internals.md:160-167` ("When in doubt, wipe"; wipe after any library edit) against exploration § 2 ("Do not wipe the cache for any of these"; `:41`, the wipe rule "no longer holds for walk") and the script's "After an edit". The skill follows the exploration; `global.map` is untracked, so a wipe needs no restore (`repo-internals.md:201-205`).
-- The walk smoke test: `CLAUDE.md` before `6c9dcd89e` said to use `explorations/*.fss`; `explorations/claude_demo.fss` dies at its unwritten `SUM` (ledger row 424; PLAN.md:107; exploration § 1). The skill gives `ProjectFortress/tests/BooleanOps.fss` (exploration § 5).
-- The old code beside the new: the manual `:48` and the script's prefix (`:947-958`) still describe a per-worktree seeded copy `<worktree>-base`; exploration § 6, `seed-worktree.sh:14-15` and `old-fortress.sh` describe the base build run with a private caches folder, and the scratchpad patch note says the manual and script are to change accordingly. The skill gives `old-fortress.sh`.
+- Wiping caches: the old `CLAUDE.md` ("wipe `default_repository/caches/*` and recompile in library order"; "wipe them if library edits seem to have no effect") and `explorations/repo-internals.md:160-167` ("When in doubt, wipe"; wipe after any library edit) against exploration § 2 ("Do not wipe the cache for any of these"; `:41`, the wipe rule "no longer holds for walk") and the script's "After an edit". The skill follows the exploration; `global.map` is untracked, so a wipe needs no restore (`repo-internals.md:201-205`).
+- The walk smoke test: the `CLAUDE.md` before `6c9dcd89e` (`git show 6c9dcd89e^:CLAUDE.md`) named `explorations/claude_demo.fss`, which dies at its unwritten `SUM` (ledger row 424; PLAN.md:107; exploration § 1). The skill gives `explorations/mandelbrot_canonical.fss`, the curator's choice, and `ProjectFortress/tests/BooleanOps.fss` (exploration § 5).
+- The old code beside the new: the manual `:48` and the script's prefix (`:947-958`) still describe a per-worktree seeded copy `<worktree>-base`; exploration § 6, `seed-worktree.sh:14-15` and `old-fortress.sh` describe the base build run with a private caches folder, and the pending edit holds the replacement texts for the manual and the script, to be applied before the next batch. The skill gives `old-fortress.sh`.
 - Suite counts and times: brief-machine:16-17 (1,782 tests, 635 s; 504 tests, 243 s) and the distance "340 now" (brief-machine:19) predate the gate summary (1,815 and 516; distance 253). `explorations/repo-internals.md:222-224` (testFast ~12 min, testSystem 382 tests ~2 min) and map test-coverage D.1 (5 min 23 s, 2 min 8 s) are older still.
-- The checker count's time: `checker-count/run.sh:19` says 20 s; brief-machine:18 and exploration § 4 measured 139 s beside other jobs. `checker-count/run.sh`'s header and the manifest comment still say the count may only fall (the manual, "The checker count ...", says so); the count is reported and never red on its own.
+- The checker count's time: `checker-count/run.sh:19` says 20 s; brief-machine:18 and exploration § 4 measured 139 s beside other jobs. `checker-count/run.sh`'s header now says a change in the count is reported, not red; `INDEX.md:143` (the line on `tools/checker-count/`), the manual `:131` (which says the header still says it) and the manifest comment on `expectedCheckerCount` still say the count may only fall. The count is reported and never red on its own.
 - The distance stage's time: the manual "The distance stage" says 13 to 24 minutes; FACTS gives 786 to 1,212 s at gates; the newest table says 1,252 s.
 - Failed compiles: FACTS Execution model says a failed compile leaves a 0-byte jar in the bytecode cache (a program's compile, `perf-probes/kernels/REPORT.md`); exploration § 2 says a failed library compile writes nothing, and a killed one may write only its jar. The skill states both, each for its case.
 - The commit footer: `explorations/protocol.md:34-37` gives a footer naming no model; the harness's own attribution reminder may suggest one naming a model. The skill gives the protocol's.
-- The working draft's name: `CLAUDE.md` before `9cd56be21` called `Specification/` "the Working Draft of 2010-12"; Appendix I and POSITIONS "The S1 form" call the unrevised copy "the Working Draft of February 2011"; `spec-lineage.md` says the frozen sources are a January 2012 clone whose text was last edited 2010-12-09. The skill uses only the name the revision form prescribes.
+- The working draft's name: the old `CLAUDE.md` called `Specification/` "the Working Draft of 2010-12"; Appendix I and POSITIONS "The S1 form" call the unrevised copy "the Working Draft of February 2011"; `spec-lineage.md` says the frozen sources are a January 2012 clone whose text was last edited 2010-12-09. The skill uses only the name the revision form prescribes.
 - Spec citations: the ledger's header (`fortress-gap-ledger.md:51-52`) cites the specification by line; the test corpora cite by section, never by line (FACTS). The skill's rule is for tests.
 - Atomic programs: the script's comment says thirteen; its list and the gate summary have fourteen.
 - `FileTests.java` line numbers drift: `test-discipline.md` and the manual cite older lines (`:932`, `:587`) than FACTS (`:1049`, `:605-610`). The skill cites no line numbers.
@@ -202,7 +205,5 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - The atomic program list and the ladder baseline if the gate's step 6 or 7 changes.
 - The prelude files and the "add nothing" rule at the switch-over, when the compiler's prelude is deleted.
 - `claude_demo.fss` once ledger row 424 is closed.
-
-- The method rule of `SKILL.md` ("Every claim is checked against a primary source ..."): `explorations/protocol.md`, principle 1 (no self-credit, attribution reconstructed where git does not record it, every claim verified against a primary source) and principle 2 (one variable per step; reproduce before explaining). Carried here when the coordinator skill took the protocol's conduct rules.
-
-- `area-records.md`, "The repository's history": moved from `CLAUDE.md`'s opening paragraph at the curator's review comment of 2026-10-04 (it is lookup material, not something every agent needs); `research/authorship.md:14-22`; FACTS, "`palimondo/fortress` is a 2018 GitHub fork ...".
+- The `mg-run.sh` refusal once the curator has given the session an allow rule for it, or the script no longer removes directories.
+- The `import java` line under walk when the natives' one binding text is chosen (PLAN item 35) and built.
