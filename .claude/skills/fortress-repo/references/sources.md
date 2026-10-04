@@ -4,8 +4,8 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## SKILL.md
 
-- Two paths, one library goal, microGPT: `CLAUDE.md` (Project goal); `explorations/repo-internals.md:97-123`; POSITIONS "The library route."
-- Original tree = all but explorations/, research/, CLAUDE.md: `CLAUDE.md` (Layout).
+- Two paths, one library goal, microGPT: `CLAUDE.md` before `9cd56be21` (Project goal); `explorations/repo-internals.md:97-123`; POSITIONS "The library route."
+- Original tree = all but explorations/, research/, CLAUDE.md: `CLAUDE.md` before `9cd56be21` (Layout).
 - Rules: `explorations/protocol.md` hard rules (gate, test first, commit) and principles 2, 5; POSITIONS "Test first, the test kept.", "The suite's verdict is the check.", "Nothing is built or run twice on the same code.", "No re-measuring what the record holds.", "The library's own practice is the standard."; exploration § 2 (never a wipe); the script's prefix "Long commands" (`:960-979`), whose how-to is now the `remote-container` skill's.
 - The curator: the role that names the person who curates the restoration and decides what is committed; the skill names the role, never the person (the review of this skill). This skill says nothing about the curator's review: what an agent's report holds is its contract with whoever reads the report (`area-records.md`, below), and which items reach the curator, and how, is decided outside this skill, which never points to it (the review of the skills: the dependence runs one way, through the contract).
 - The router line to `remote-container`: the container, the session, restarts and agents were split into that skill at the review of this one; its own `references/sources.md` holds their provenance.
@@ -14,7 +14,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 - env.sh contents: `explorations/experiment/env.sh:1-10`. Rats directories and `df` before a long run: FACTS "The disk allowance fills with parser-generation temp directories"; `distance/run.sh:16-17` (tmpdir); the script `:924` (never mid-run). Source once per shell, TMPDIR and JAVA_FLAGS with tmpdir, `echo $FORTRESS_HOME`: the script, "Your worktree" (`:918-925`); `bin/fortress_home` (takes FORTRESS_HOME from the shell); the manual `:48`.
 - Only build file: `explorations/repo-internals.md:21-22`.
-- compileAll times: brief-machine:14 (57 s, 82 s fresh, 25-40 s small edit); exploration § 1 (82 s), § 2 (25.8 s); gate summary (48 s); `CLAUDE.md` (~80 s).
+- compileAll times: brief-machine:14 (57 s, 82 s fresh, 25-40 s small edit); exploration § 1 (82 s), § 2 (25.8 s); gate summary (48 s); `CLAUDE.md` before `9cd56be21` (~80 s).
 - compileAll deletes caches and global.map, which is untracked and ignored and which the linker writes afresh, so nothing restores it: FACTS "`ant compileAll` deletes a tracked file"; `build.xml:539, :715, :356-360`; `.gitignore` (the `global.map` line, `clean-ladder`'s); `ProjectFortress/src/com/sun/fortress/linker/RepoState.java:366-385`.
 - After compileAll the library order before compiled runs; failed compileAll: exploration § 2 "The rules for a worker"; FACTS "`ant compileAll` leaves the bytecode cache holding no library jars".
 - Test targets do not compile: `explorations/coordinator/map/test-coverage.md` D.1; map README § 6.
@@ -31,8 +31,8 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## toolchain.md
 
-- Toolchain traps: `CLAUDE.md` (Build and run); `explorations/repo-internals.md:189-200` (javac target, ASM 3.1), `:131` (classfile 1.6); JDKs: `CLAUDE.md`; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7.
-- Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; `CLAUDE.md`.
+- Toolchain traps: `CLAUDE.md` before `9cd56be21` (Build and run); `explorations/repo-internals.md:189-200` (javac target, ASM 3.1), `:131` (classfile 1.6); JDKs: `CLAUDE.md` before `9cd56be21`; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7.
+- Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; `CLAUDE.md` before `9cd56be21`.
 
 ## worktrees.md
 
@@ -106,7 +106,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Heaps, 256 MB claims: FACTS "Three heaps run the interpreter".
 - Threads and implicit parallelism: FACTS "The gate's thread count is pinned ..." (floor(nproc/2)); Execution model, "Implicit parallelism".
 - Walk times: brief-machine:20; exploration § 1 (4.0 s), § 2 (walk re-reads, 13.7 s then 3.7 s).
-- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424; `explorations/coordinator/PLAN.md:107`; exploration § 1. BooleanOps: exploration § 5. hello.fss: `CLAUDE.md`.
+- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424; `explorations/coordinator/PLAN.md:107`; exploration § 1. BooleanOps: exploration § 5. hello.fss: `CLAUDE.md` before `9cd56be21`.
 - mg-run.sh: its header and body; model diffs: `explorations/protocol.md` principle 1.
 - No checking under walk; typecheck uses the compiler prelude: FACTS Execution model, first three entries; `explorations/repo-internals.md:129`.
 - Coercion on the value: POSITIONS "Walk chooses coercions on the value, for now."
@@ -120,7 +120,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## area-compiler.md
 
-- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: `CLAUDE.md`.
+- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: `CLAUDE.md` before `9cd56be21`.
 - Running, times: `explorations/repo-internals.md:175-182`; brief-machine:20.
 - Phases: `explorations/repo-internals.md:127`; Shell switch: map README § 7 row `compiler/` phases 1-4.
 - Where a fix belongs: the script's prefix (territory map `:987-997`, rule 1 of `:998-1009`).
@@ -147,7 +147,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## area-specification.md
 
-- Standard, frozen copy, its name, types.tick: `CLAUDE.md` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
+- Standard, frozen copy, its name, types.tick: `CLAUDE.md` before `9cd56be21` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
 - Weighing: POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1.
 - apis/*.tex circular: FACTS "The test corpora cite the specification by file and section ..." (the generated-file note).
 - Revision form: POSITIONS "Every change to the specification is recorded with its reason.", "The S1 form", "The refused examples (S2)."; macro `Specification/fortress/fortress.tex:87-92`; entry layout `Specification/appendices/changes.tex:64-70`.
@@ -159,14 +159,14 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 ## area-records.md
 
 - facts-extract.sh queries: `explorations/coordinator/tools/facts-extract.sh --help`.
-- File roles: `explorations/coordinator/README.md`; `CLAUDE.md`; the script's prefix (territory map list, `:987-997`).
+- File roles: `explorations/coordinator/README.md`; `CLAUDE.md` before `9cd56be21`; the script's prefix (territory map list, `:987-997`).
 - git archaeology: `explorations/repo-internals.md:88-95, :237-244`.
-- Old READMEs: `CLAUDE.md` (last paragraph).
+- Old READMEs: `CLAUDE.md` before `9cd56be21` (last paragraph).
 - The coordinator's boot reads FACTS whole: `explorations/coordinator/README.md` (boot order).
 - Practices: `explorations/protocol.md` principles 2, 4, 5; POSITIONS "No re-measuring what the record holds."; the script `:1041-1043` (what you cite).
 - Ledger: `explorations/fortress-gap-ledger.md:43-53`; never renumbered: the script's record.md paragraph `:1029`; rows as bug reports: POSITIONS "Test first, the test kept."
 - FACTS/POSITIONS form, one home: `explorations/coordinator/README.md`; POSITIONS "The record's form: an optimized build and a debug build."; `explorations/protocol.md` principle 6.
-- Same commit: `CLAUDE.md`.
+- Same commit: `CLAUDE.md` before `9cd56be21`.
 - Files a parallel agent does not edit: the script `:1033`.
 - Everything under explorations/: POSITIONS "Where the work lives."; decks: `explorations/protocol.md` hard rules.
 - What every report holds: the review of the skills (its four items, the agent deciding nothing about what is reviewed and asking the curator nothing). Defects and their homes: the manual "Shared prefix", "What a measured defect is worth"; `tests-writing.md`'s sources. Decisions with their alternatives: the script's prefix "Register" (`:1022`, "If you make a decision, say in your report that it was a decision and what the alternatives were: a decision buried in a report is a decision not made"); POSITIONS "Ownership."; the reading acted on: `explorations/protocol.md` principle 4. Stops met, part of the work included: the script's result field `stopsMet` (`:1145`, `:1292`, `:1351`). The script's result field for points a rung puts to the curator (`:1145`) is replaced here by the decision not taken; the script itself is not changed by this skill.
@@ -179,15 +179,15 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 
 ## Where the sources disagree or are stale
 
-- Wiping caches: `CLAUDE.md` ("wipe `default_repository/caches/*` and recompile in library order"; "wipe them if library edits seem to have no effect") and `explorations/repo-internals.md:160-167` ("When in doubt, wipe"; wipe after any library edit) against exploration § 2 ("Do not wipe the cache for any of these"; `:41`, the wipe rule "no longer holds for walk") and the script's "After an edit". The skill follows the exploration; `global.map` is untracked, so a wipe needs no restore (`repo-internals.md:201-205`).
-- The walk smoke test: `CLAUDE.md` says to use `explorations/*.fss`; `explorations/claude_demo.fss` dies at its unwritten `SUM` (ledger row 424; PLAN.md:107; exploration § 1). The skill gives `ProjectFortress/tests/BooleanOps.fss` (exploration § 5).
+- Wiping caches: `CLAUDE.md` before `9cd56be21` ("wipe `default_repository/caches/*` and recompile in library order"; "wipe them if library edits seem to have no effect") and `explorations/repo-internals.md:160-167` ("When in doubt, wipe"; wipe after any library edit) against exploration § 2 ("Do not wipe the cache for any of these"; `:41`, the wipe rule "no longer holds for walk") and the script's "After an edit". The skill follows the exploration; `global.map` is untracked, so a wipe needs no restore (`repo-internals.md:201-205`).
+- The walk smoke test: `CLAUDE.md` before `6c9dcd89e` said to use `explorations/*.fss`; `explorations/claude_demo.fss` dies at its unwritten `SUM` (ledger row 424; PLAN.md:107; exploration § 1). The skill gives `ProjectFortress/tests/BooleanOps.fss` (exploration § 5).
 - The old code beside the new: the manual `:48` and the script's prefix (`:947-958`) still describe a per-worktree seeded copy `<worktree>-base`; exploration § 6, `seed-worktree.sh:14-15` and `old-fortress.sh` describe the base build run with a private caches folder, and the scratchpad patch note says the manual and script are to change accordingly. The skill gives `old-fortress.sh`.
 - Suite counts and times: brief-machine:16-17 (1,782 tests, 635 s; 504 tests, 243 s) and the distance "340 now" (brief-machine:19) predate the gate summary (1,815 and 516; distance 253). `explorations/repo-internals.md:222-224` (testFast ~12 min, testSystem 382 tests ~2 min) and map test-coverage D.1 (5 min 23 s, 2 min 8 s) are older still.
 - The checker count's time: `checker-count/run.sh:19` says 20 s; brief-machine:18 and exploration § 4 measured 139 s beside other jobs. `checker-count/run.sh`'s header and the manifest comment still say the count may only fall (the manual, "The checker count ...", says so); the count is reported and never red on its own.
 - The distance stage's time: the manual "The distance stage" says 13 to 24 minutes; FACTS gives 786 to 1,212 s at gates; the newest table says 1,252 s.
 - Failed compiles: FACTS Execution model says a failed compile leaves a 0-byte jar in the bytecode cache (a program's compile, `perf-probes/kernels/REPORT.md`); exploration § 2 says a failed library compile writes nothing, and a killed one may write only its jar. The skill states both, each for its case.
 - The commit footer: `explorations/protocol.md:34-37` gives a footer naming no model; the harness's own attribution reminder may suggest one naming a model. The skill gives the protocol's.
-- The working draft's name: `CLAUDE.md` calls `Specification/` "the Working Draft of 2010-12"; Appendix I and POSITIONS "The S1 form" call the unrevised copy "the Working Draft of February 2011"; `spec-lineage.md` says the frozen sources are a January 2012 clone whose text was last edited 2010-12-09. The skill uses only the name the revision form prescribes.
+- The working draft's name: `CLAUDE.md` before `9cd56be21` called `Specification/` "the Working Draft of 2010-12"; Appendix I and POSITIONS "The S1 form" call the unrevised copy "the Working Draft of February 2011"; `spec-lineage.md` says the frozen sources are a January 2012 clone whose text was last edited 2010-12-09. The skill uses only the name the revision form prescribes.
 - Spec citations: the ledger's header (`fortress-gap-ledger.md:51-52`) cites the specification by line; the test corpora cite by section, never by line (FACTS). The skill's rule is for tests.
 - Atomic programs: the script's comment says thirteen; its list and the gate summary have fourteen.
 - `FileTests.java` line numbers drift: `test-discipline.md` and the manual cite older lines (`:932`, `:587`) than FACTS (`:1049`, `:605-610`). The skill cites no line numbers.
