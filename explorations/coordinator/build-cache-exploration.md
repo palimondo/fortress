@@ -61,12 +61,12 @@ After an edit:
 - Edited the `.fsi` of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra: all five in library order, about 100 s. Edited `CompilerSystem.fsi`: CompilerSystem alone.
 - Compiling your own program never rebuilds the library. If you skip the step above, a body edit runs the old code with no warning, and an api edit dies with `NoSuchMethodError`.
 - Walk needs nothing: it re-analyses an edited library source on its next run.
-- Edited Java or Scala: run `ant compileAll` (25 to 40 s on a built tree), then `git checkout -- default_repository/caches/global.map`. Run the library order (about 100 s) only before a compiled run (`fortress compile`, `fortress run`, `junit.sh`). Harness-one, the checker count, the distance stage and the suites use their own caches and need neither.
+- Edited Java or Scala: run `ant compileAll` (25 to 40 s on a built tree). `global.map`, which it deletes with the caches, is untracked and ignored, and the linker writes it afresh (`linker/RepoState.java:366-385`); nothing restores it. Run the library order (about 100 s) only before a compiled run (`fortress compile`, `fortress run`, `junit.sh`). Harness-one, the checker count, the distance stage and the suites use their own caches and need neither.
 - Do not wipe the cache for any of these.
 
 After a failed build:
 
-- `ant compileAll` failed: fix the error and run it again. The cache is already gone, because cleanCache runs first; there is nothing else to clear. Then restore `global.map`, and run the library order before any compiled run.
+- `ant compileAll` failed: fix the error and run it again. The cache is already gone, because cleanCache runs first; there is nothing else to clear. Then run the library order before any compiled run.
 - `fortress compile` of a library component failed or was killed: it wrote nothing, or only its jar. Fix the error and compile that component again before any compiled run, because until then programs link its old jar without any warning. Delete nothing.
 - A `NoSuchMethodError` from a compiled run means a component was not recompiled after an edit or after `ant compileAll`. Recompile the edited component, or run the library order. Do not wipe.
 
@@ -111,7 +111,7 @@ One write that is not a repeat: rung M's poll of its distance run waited 281 s, 
 
 ## 5. What the workflow can change
 
-- At the launch: one base worktree from the batch's base. Run `ant compileAll`, restore `global.map`, run the library order and one passing walk test (for example `bin/fortress ProjectFortress/tests/BooleanOps.fss`, which warms the walk caches), about 200 s.
+- At the launch: one base worktree from the batch's base. Run `ant compileAll`, the library order and one passing walk test (for example `bin/fortress ProjectFortress/tests/BooleanOps.fss`, which warms the walk caches), about 200 s.
 - Each rung worktree: `seed-worktree.sh <base> <worktree> <branch>` in place of the shared prefix's compileAll and library order (`climb-batch-workflow.js:857`, `:868-877`). It costs 3 s and leaves the worktree warm for walk as well.
 - A skeptic's or a repair's old-against-new run: `seed-worktree.sh <base> <worktree>-base -`, a private copy, so that two agents never compile into one cache. It replaces every `git checkout <base> -- ProjectFortress/src` and rebuild in the rung's own worktree. (Superseded on 2026-10-03 by section 6: the old code runs from the base build itself with a private caches folder, `tools/old-fortress.sh`, and no copy is made.)
 - The prefix's text "cannot be warmed from the main tree" (`:868`) is true of a plain copy and false of a translated one. The worker's rules in section 2 can replace its paragraph on rebuilds (`:1033`).
@@ -181,7 +181,7 @@ The repository never checks those entries against the compiler. It judges an ent
 
 The build file states the rule the flag bypasses: "Whenever any part of the compiler source code is recompiled, we need to clean the cache because we can't ensure that existing target code is still valid (or even sensical)" (`build.xml:711-713`). The gate is not exposed to the kept caches: `testFast` and `testSystem` delete their private caches before they run (`:964`, `:1205`), and harness-one, the checker count and the distance stage use their own (section 2). The kept caches reach only the worker's own compiled runs, `junit.sh` and direct walk runs.
 
-- **Safe:** an edit that cannot change any cached form. That means walk's evaluator and its natives (`interpreter/evaluator`, `interpreter/glue`), the bodies of the run-time classes that compiled code calls (`runtimeSystem`, `compiler/runtimeValues`) with no change to a signature, or code that no compile or run uses (the test harness, `Shell`'s options). The flag saves the library order, about 100 s (section 2), and the restore of `global.map`.
+- **Safe:** an edit that cannot change any cached form. That means walk's evaluator and its natives (`interpreter/evaluator`, `interpreter/glue`), the bodies of the run-time classes that compiled code calls (`runtimeSystem`, `compiler/runtimeValues`) with no change to a signature, or code that no compile or run uses (the test harness, `Shell`'s options). The flag saves the library order, about 100 s (section 2).
 - **The library must be recompiled:** after an edit to anything the library's compile runs. That covers the parser and the AST (`Fortress.ast`, the generated nodes and their serialization), the disambiguator, the static checker (the Java and Scala type checkers, overloading, exclusion), the desugarers, and the code generator (`compiler/codegen`, `NamingCzar`, `OverloadSet`). It also covers a changed signature of a run-time class the jars call, and for walk, its rewriting passes (`interpreter/rewrite`). Most climb rungs edit the checker or the code generator.
 
 Recommendation: plain `ant compileAll` stays the rule after a Java or Scala edit. The flag can be offered only for an edit confined to the safe list, by a worker who names the edited files against that list. It is not built in.

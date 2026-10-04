@@ -5,9 +5,9 @@
 # build and the caches of a baseline worktree that has been built once, and translating the parts of the
 # caches that are keyed by the source tree's absolute path (explorations/coordinator/build-cache-exploration.md).
 #
-#   <base-worktree>  a clean worktree of this repository at some commit B, on which `ant compileAll`, the
-#                    restore of default_repository/caches/global.map and the library-order recompile
-#                    (explorations/repo-internals.md, "Compile order matters") have run, and nothing since.
+#   <base-worktree>  a clean worktree of this repository at some commit B, on which `ant compileAll` and the
+#                    library-order recompile (explorations/repo-internals.md, "Compile order matters") have
+#                    run, and nothing since.
 #   <new-worktree>   where the new worktree goes; made by `git worktree add`, reused if it already exists.
 #   <branch>         the branch it checks out: an existing local branch, else origin's, else a new branch
 #                    cut from <start-point>, which defaults to B; `-` makes a detached worktree at
@@ -92,7 +92,9 @@ cp -a "$BASE/ProjectFortress/build" "$NEW/ProjectFortress/build"
 rm -f "$NEW/ProjectFortress/build/scalac-compileAll.args"
 step "copy ProjectFortress/build"
 
-# The caches: everything but logs/, whose subdirectories spell the base's path.
+# The caches: everything but logs/, whose subdirectories spell the base's path. global.map, the linker's
+# state, comes with them: it is untracked and ignored, and the linker writes an empty one wherever it is
+# missing (ProjectFortress/src/com/sun/fortress/linker/RepoState.java:366-385).
 C="$NEW/default_repository/caches"
 rm -rf "$C" ; mkdir -p "$C"
 for d in "$BASE"/default_repository/caches/* ; do
@@ -175,7 +177,6 @@ step "translate paths"
 # comes out as it does in the base. Every tracked file that differs from B, committed or not, and every file
 # the base itself has changed, is stamped two seconds after all of it: Java's lastModified counts
 # milliseconds, and a cached entry not older than its source counts as current.
-git -C "$NEW" checkout -q -- default_repository/caches/global.map
 python3 - "$BASE" "$NEW" "$B" <<'PY'
 import os, sys, subprocess, time
 base, new, b = sys.argv[1], sys.argv[2], sys.argv[3]
@@ -207,7 +208,7 @@ CHANGED_SRC=$(git -C "$NEW" diff --name-only "$B" -- ProjectFortress/src Project
 if [ -n "$CHANGED_SRC" ]; then
     echo "WARNING: the branch changes the compiler's sources since the base; the copied build is the base's."
     echo "         Run ant compileAll (it recompiles the changed sources, stamped newer than the build),"
-    echo "         restore global.map and run the library-order recompile before any run:"
+    echo "         then the library-order recompile before any run:"
     echo "$CHANGED_SRC" | sed 's/^/    /'
 fi
 step "date tracked files"

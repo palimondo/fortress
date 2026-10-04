@@ -21,6 +21,8 @@
 /default_repository/caches/nativewrapper_cache/
 /default_repository/caches/optimizedbytecode_cache/
 /default_repository/caches/syntax_cache/
+# ... and the top-level cache index the repository writes alongside them
+/default_repository/caches/global.map
 
 # Transient test-run artifacts
 /ProjectFortress/TEST-RESULTS/

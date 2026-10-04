@@ -198,10 +198,11 @@ Rules learned the hard way:
   exactly which classfile ASM chokes on. (Surprise: JDK 11's *platform*
   classes parse fine under `SKIP_DEBUG|SKIP_FRAMES|SKIP_CODE`; it was our
   own freshly compiled v55 output that broke.)
-- `default_repository/caches/global.map` is a **tracked** file at the caches
-  root, so `rm -rf default_repository/caches/*` deletes tracked content —
-  wipe with `rm -rf default_repository/caches/*_cache
-  default_repository/caches/logs` instead, or `git checkout` it back.
+- `default_repository/caches/global.map`, the linker's state at the caches
+  root, is untracked and gitignored like the rest of the caches: the linker
+  writes an empty map wherever it is missing
+  (`linker/RepoState.java:366-385`), so `ant compileAll` or a wipe of
+  `default_repository/caches/*` needs no restore.
 
 ## Generated code
 
