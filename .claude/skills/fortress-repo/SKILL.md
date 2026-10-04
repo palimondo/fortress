@@ -32,7 +32,7 @@ This repository revives Sun's Fortress language. Two execution paths share one p
 - The compiled checker, the code generator, the run-time, compiled runs: `references/area-compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`
 - The specification (`Specification/`), Appendix I, citing it: `references/area-specification.md`
-- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; what every report holds: `references/area-records.md`
+- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history and git archaeology (the session transcripts are the `remote-container` skill's); what every report holds: `references/area-records.md`
 - Committing and pushing: `references/committing.md`
 - Anything about the container, the session, restarts or agents (the machine's limits and the disk allowance, long commands, the prompt cache and waits, process stops and interrupts, resuming a run, the hooks, the permission check, a lost container): the `remote-container` skill.
 

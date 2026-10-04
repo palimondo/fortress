@@ -29,5 +29,3 @@ running fast.
 - The coordinating session follows the boot order of
   `explorations/coordinator/README.md` at session start and after every
   compaction, and works by the `coordinator` skill.
-- Never committed: a copyrighted PDF or deck (`research/decks/` is
-  gitignored) or a model identifier.
