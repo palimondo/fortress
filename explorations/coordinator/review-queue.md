@@ -293,7 +293,7 @@ These are possible later checker or specification rungs.
   - `classify.py`;
   - rung H's two added test files;
   - the paragraph after the arrays figure;
-  - `ant testSpecData`'s red count;
+  - `ant testSpecData`'s red count (measured: 5 of 130, one cause, row 424's F-bounded half; FACTS);
   - row 404's design note.
 
 **Batch 6.5b's list**
