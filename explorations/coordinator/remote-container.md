@@ -2,6 +2,8 @@
 
 # The container, the transcripts, and recovery
 
+*The how-to for agents in this container (its limits, waits, stops, resuming, the hooks, recovery) lives in the `remote-container` skill, `.claude/skills/remote-container/`; this file is the record behind it.*
+
 A session in this setup is a conversation in a remote container that can be
 reclaimed or corrupted at any time, and is re-provisioned by cloning a branch.
 Three things therefore have to be true at all times: the work is pushed, the
@@ -60,7 +62,8 @@ read. A pass takes about 10 s (8.5 to 11.7 s between 17:50 and 18:00 UTC on
   later commit fails on it, `commit=failed` in the log, until it is removed by
   hand, after checking that no git process is running.
 - A `SessionStart` hook with matcher `compact` (2026-09-27, on Pavol's yes) injects, after every compaction, the instruction to boot by `coordinator/README.md` before anything else. It is in the tracked `.claude/settings.json` and in `~/.claude/settings.json`; a fresh container copies the second from the first.
-- The platform's own Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn. It comes from the launcher: the session's process is started with `--settings /root/.claude/launcher-settings.json`, whose `Stop` hook runs that script, and the script is rewritten at every process start. At Pavol's request on 2026-09-29 it was replaced by a no-op that reads its input and exits 0; the original is kept in the session scratchpad, `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/stop-hook-git-check.sh.orig`. It returns at each restart of the process, and turning it off again is Pavol's to do, in manual mode: the auto-mode permission check refused scheduling it. The coordinator's push loop covers what it protected: `autopush.sh` in the same scratchpad, every 4 minutes, pushes `main` and the container branch when every unpushed commit touches only `explorations/`, and otherwise pushes `main` to `wip/main-backup` only, so that a container reset loses nothing and `main` stays gated; it is started again after a process restart. While the hook is back, its reminders are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
+- The platform's own Stop hook, `~/.claude/stop-hook-git-check.sh`, posts reminders about uncommitted or unpushed work after a turn. It comes from the launcher: the session's process is started with `--settings /root/.claude/launcher-settings.json`, whose `Stop` hook runs that script, and the script is rewritten at every process start. At Pavol's request on 2026-09-29 it was replaced by a no-op that reads its input and exits 0; the original is kept in the session scratchpad, `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/stop-hook-git-check.sh.orig`. It returns at each restart of the process, and turning it off again is Pavol's to do, in manual mode: the auto-mode permission check refused scheduling it. No push loop runs: the coordinator pushes `main` and the container branch itself after every commit, which covers what the hook protected (`FACTS.md`, "The push loop pushes `main` every 4 minutes ..."). While the hook is back, its reminders are advisory, declined without a word while held or gated changes exist, and never mentioned to Pavol.
+  <!-- Earlier text of this bullet's push-loop sentence, superseded (no push loop runs; FACTS, "The push loop pushes `main` every 4 minutes ..."): "The coordinator's push loop covers what it protected: `autopush.sh` in the same scratchpad, every 4 minutes, pushes `main` and the container branch when every unpushed commit touches only `explorations/`, and otherwise pushes `main` to `wip/main-backup` only, so that a container reset loses nothing and `main` stays gated; it is started again after a process restart." -->
 
 ## Re-arming it in a fresh container
 
@@ -241,8 +244,12 @@ UTC, both issued between turns, and completed at 14:39 with all eight rungs;
 the evidence is the session's archived transcript (`bdff267d`, parts file
 `001.jsonl`: the compact boundaries, the first post-compaction turn declining to
 commit "the running workflow's rung 5", and the completion notification). So
+while a batch runs: compact freely between turns; a message sent while a turn is
+in flight kills nothing, and stopping a turn kills every background agent (the
+correction below; `FACTS.md`, "Stopping a turn kills every background agent ...").
+<!-- Earlier text of the sentence above, superseded by the correction below and FACTS: "So
 while a batch runs: compact freely between turns; do not send while a turn is
-in flight.
+in flight." -->
 
 *Corrected 2026-09-26:* the interrupt is not a message. What stops a turn, and
 every background agent with it, Workflow agents and background `Agent`-tool
