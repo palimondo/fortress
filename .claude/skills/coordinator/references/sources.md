@@ -24,6 +24,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - His words only where they are the position: the protocol, principle 6 (the README says "in his words", principle 6 narrows it).
 - Folding workers' lines, reviewing after and fixing by a further commit: the protocol, hard rule on workers' commits; the script's prefix, "What you write, and what you must not touch" (`:1028-1033`).
 - The transcript as the record of a worker's order of work: the protocol, hard rule "The gate"; POSITIONS "What a batch commits.".
+- The boot note's process times: FACTS "The platform stops the session's process ..." (the last start and the next stop are the boot note's). An untitled FACTS entry cited by its opening words: the README, "How they are kept".
 
 ## boot.md
 
@@ -42,6 +43,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - A brief: the protocol, principles 2 and 5, "What keeps going wrong" (the brief that said "verify, do not trust"); POSITIONS "A brief describes the problem, not the solution.", "No re-measuring what the record holds.", "The mission briefing."; stops reserved: the script `:682`, `:1145`.
 - Watching: POSITIONS "The coordinator watches what it launches."; the how, the `remote-container` skill's agents part ("Watching a long run").
 - Estimates: POSITIONS "Estimates in the project's units.".
+- The mission briefing: POSITIONS "The mission briefing."; the manual, "Shared prefix". After every landed batch: POSITIONS "One review after every batch."; `explorations/reviews/process-review-6b-7-7R.md` (the process measures); `explorations/reviews/batch-10-review.md` (tokens written by role).
 
 ## decisions.md
 
@@ -67,3 +69,4 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Time: the protocol, principle 3; POSITIONS "Format.", "While a batch runs" (UTC and local time, Central European).
 - What is not said: the protocol, principle 3; POSITIONS "While a batch runs"; the README, "A remark is not a decision" (record edits); the single "." for the hook's reminders: the boot note (its paragraph on the container). The stop said plainly: POSITIONS "Check-ins and stops."; `explorations/coordinator/interrupt-archaeology/judgement.md` § 1 (the curator asking whether a stop was pressed by accident).
 - Restate and hold: the protocol, principle 3; restate-and-hold, "The shape that worked" and "Proposed protocol wording"; the boot note (the UTC time of the message; no "holding" on a full answer); the README, "the held list while he reads".
+- Comments on a page: the boot note (read, answer on the thread, resolve, a few lines in chat); the ten-watch limit met in session `fe616d40` on 2026-10-04, an old page unwatched first. The `wip/` branches: POSITIONS "What a batch commits.".

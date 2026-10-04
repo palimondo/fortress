@@ -47,11 +47,12 @@ These are not judgement calls.
 - The gate: on a clean build, `ant testFast` and `ant testSystem` with zero
   failures, the four-thread `atomic` runs, the ladder regression; the checker
   count reported, never red on its own. Every edit under the original tree is
-  test first: the test is the first commit on the worker's branch, seen
-  failing through the harness before the fix and again by the skeptic's own
-  run on the base, and the edit is flagged at commit. Nothing is committed to
-  show it but the test and the report's quoted lines; the worker's transcript
-  is the record of its order of work.
+  test first: the test written and seen failing through the harness before
+  the fix, then seen passing after it, and kept in the corpus; the test and
+  the fix may land in one commit, and the edit is flagged at commit. The
+  skeptic reads that order from the worker's transcript and runs no build to
+  repeat it. Nothing is committed to show it but the test and the report's
+  quoted lines.
 - Never the AskUserQuestion dialog; options go in plain text.
 
 ## Principles

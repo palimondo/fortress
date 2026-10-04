@@ -32,10 +32,10 @@ The coordinating session is the revival's main session. It keeps the project's m
 
 - The two roles, the records each keeps, and how they are kept: `references/roles-and-records.md`
 - The boot at session start and after a compaction; telling what is in flight: `references/boot.md`
-- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, watching a long run, estimates: `references/delegation.md`
+- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, the review after every landed batch, watching a long run, estimates: `references/delegation.md`
 - Reading reports; what is consequential; the three ways a decision reaches the curator; when something goes wrong; approvals and standing goes: `references/decisions.md`
 - Putting a question or a request for a yes to the curator: `references/asking.md`
-- Talking to the curator: register, format, numbers, time, what is not said, restate and hold: `references/talking.md`
+- Talking to the curator: register, format, numbers, time, what is not said, comments on a page, restate and hold: `references/talking.md`
 
 This skill reads what the other two hold and they never point here. What every agent's report holds, the report contract, is the `fortress-repo` skill's records part, "What every report holds"; where the records are and how to print a slice of them, and committing and pushing, are that skill's too. The prompt cache and waits, stops and resuming a run, check-ins, the hooks and the permission check are the `remote-container` skill. The batch workflow's stages and its own stops are its manual, `explorations/coordinator/climb-batch-workflow.md`.
 

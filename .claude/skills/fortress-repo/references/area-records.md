@@ -18,7 +18,7 @@ Print slices of the record, whole entries in bounded parts:
 
 The files:
 
-- `explorations/coordinator/FACTS.md`: what is established, each fact with its source and its test, cited by its bold title.
+- `explorations/coordinator/FACTS.md`: what is established, each fact with its source and its test, cited by its bold title, or by its opening words where it has none.
 - `explorations/coordinator/POSITIONS.md`: what the curator has decided and already knows. A closed decision is not reopened.
 - `explorations/coordinator/INDEX.md`: one line per standalone note. Search it before saying anything is absent.
 - `explorations/coordinator/PLAN.md`: the phases and the open issues, in the order they need deciding.

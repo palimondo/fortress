@@ -22,7 +22,7 @@ The scripts that run are the copies in the worktree's `scripts/`, on the branch.
 
 `~/.claude/stop-hook-git-check.sh` comes from the launcher (`--settings /root/.claude/launcher-settings.json`) and is rewritten at every start of the session's process. It exits 2, which makes the session take another turn, whenever the tree has uncommitted changes, untracked files, or unpushed or unverifiable commits.
 
-- At the curator's request it is a no-op, the original kept in the session scratchpad as `stop-hook-git-check.sh.orig`. It comes back at every restart of the process, and turning it off again is the curator's to do, in manual mode: the automatic permission check refuses it.
+- Every start of the session's process turns it on. The curator may make it a no-op, in manual mode, since the automatic permission check refuses that step; the original is then kept in the session scratchpad as `stop-hook-git-check.sh.orig` until the next start brings the hook back.
 - While it is back, its reminders are advisory. While the tree holds work that is not to be committed or pushed yet, a reminder is declined, never answered by committing or pushing that work.
 
 ## The compaction hook

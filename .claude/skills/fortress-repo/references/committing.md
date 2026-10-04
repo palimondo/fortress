@@ -17,7 +17,7 @@ The curator decides what is committed. Commit only when your task says to.
 
 - Read a staged change of more than a few hundred lines with `git diff --cached --stat` before committing it.
 - An edit under the original tree (anything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`): the test comes before the fix (`tests-writing.md`), and the commit message flags the edit as one of the original tree.
-- The footer, exactly as the protocol gives it. It names no model, whatever another footer the harness suggests:
+- The footer, exactly as below. It names no model, whatever another footer the harness suggests:
 
       Co-Authored-By: Claude <noreply@anthropic.com>
       Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
@@ -31,3 +31,4 @@ The curator decides what is committed. Commit only when your task says to.
       git push origin main:claude/worker-brief-fable-vnnuv8
 
   The second keeps current the branch the container is re-provisioned from (the `remote-container` skill, a lost container). No other branch is pushed without permission (the transcript branches excepted).
+- A commit on `main` is pushed right after it is made, so that nothing on `main` waits on disk.

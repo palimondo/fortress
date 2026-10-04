@@ -19,7 +19,7 @@ The session is one process in a cloud container. The platform stops that process
 ## Load the part your task touches
 
 - The machine (CPUs, memory, the disk allowance and reading `df`), the Bash tool's timeout, running and polling long commands, stopping processes: `references/machine.md`
-- Agents: how many at once, starting cost, the prompt cache and waits, a prompt shared through an agent type, a null result, checking a Workflow script, watching a long run: `references/agents.md`
+- Agents: how many at once, starting cost, the prompt cache and waits, a prompt shared through an agent type, a skill written mid-session, a null result, checking a Workflow script, watching a long run: `references/agents.md`
 - The process stops, idle stops, VM restarts and interrupts, what each kills and keeps; check-ins across a stop; resuming a Workflow run; continuing or relaunching an Agent-tool worker: `references/stops-and-resume.md`
 - The transcript backup and its blind spots, the platform's git-check Stop hook, the compaction hook, the automatic permission check: `references/hooks-and-permissions.md`
 - A lost container: re-provisioning, re-arming the backup, reading another session's transcript, the recovery procedure: `references/container-loss.md`

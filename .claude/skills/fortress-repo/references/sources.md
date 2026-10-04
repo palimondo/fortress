@@ -171,11 +171,13 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Everything under explorations/: POSITIONS "Where the work lives."; decks: `explorations/protocol.md` hard rules.
 - What every report holds: the review of the skills (its four items, the agent deciding nothing about what is reviewed and asking the curator nothing). Defects and their homes: the manual "Shared prefix", "What a measured defect is worth"; `tests-writing.md`'s sources. Decisions with their alternatives: the script's prefix "Register" (`:1022`, "If you make a decision, say in your report that it was a decision and what the alternatives were: a decision buried in a report is a decision not made"); POSITIONS "Ownership."; the reading acted on: `explorations/protocol.md` principle 4. Stops met, part of the work included: the script's result field `stopsMet` (`:1145`, `:1292`, `:1351`). The script's result field for points a rung puts to the curator (`:1145`) is replaced here by the decision not taken; the script itself is not changed by this skill.
 - The line in `SKILL.md` on what every report holds: the same.
+- An untitled FACTS entry cited by its opening words: `explorations/coordinator/README.md`, "How they are kept".
 
 ## committing.md
 
 - All rules: `explorations/protocol.md` hard rules and principle 1; POSITIONS "What a batch commits.", "Workers commit their own files as they go."; the branch trap: `explorations/coordinator/remote-container.md` "The branch trap" (the re-provisioning itself is in the `remote-container` skill); no rule on global.map, untracked and ignored: FACTS "`ant compileAll` deletes a tracked file".
 - The test runs and the distance polled in the background: the `remote-container` skill's long commands; never `ant` through `tail`: the script `:960-979`.
+- Pushing `main` after every commit: FACTS "The push loop pushes `main` every 4 minutes ..." (no loop runs; the coordinator pushes after every commit); POSITIONS "Workers commit their own files as they go.".
 
 ## Where the sources disagree or are stale
 

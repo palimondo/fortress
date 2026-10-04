@@ -30,6 +30,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Null from `agent()`, a retry told what the attempt left: FACTS "`agent()` in a Workflow returns null for an agent the harness marks failed ..."; brief-machine:35.
 - The parse check: FACTS "`node --check` does not check the batch script as the Workflow harness parses it ..."; the one-line command composed from it and run on this container's Node against a two-line slip (refused, "Unexpected identifier 's'") and a clean script (parses).
 - Watching a long run: POSITIONS "The coordinator watches what it launches."
+- A skill written mid-session appearing at once: FACTS "The Workflow harness runs two agents at once on this box", its last sentence.
 
 ## stops-and-resume.md
 
@@ -49,6 +50,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - The git-check hook: FACTS "The transcript backup fires ..." (its second half); remote-container.md § How the snapshot works (the reminders advisory and declined).
 - The compaction hook: remote-container.md § How the snapshot works; `.claude/settings.json`. A worker re-reading its brief: the manual "Shared prefix" ("If your context is compacted").
 - The permission check: FACTS "The session's automatic permission check refuses a step ...".
+- The git-check hook on after every start of the process: the boot note's paragraph on the container; FACTS "The transcript backup fires ...", its second half.
 
 ## container-loss.md
 

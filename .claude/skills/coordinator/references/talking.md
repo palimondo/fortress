@@ -20,8 +20,13 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 
 - While a batch runs, the curator hears nothing about it until it lands, unless something is wrong.
 - The curator is not told about record edits.
+- The curator deletes the batches' `wip/` branches after a gate, in GitHub's web page, as the curator's own chore, and is not reminded of it.
 - The platform's git-check hook's reminders are answered silently, with a turn whose text is a single ".", declined while work is in flight, and never mentioned to the curator.
 - A stop of a turn that killed a run is the exception: it is said plainly, and the run is resumed, keeping every agent that had finished (how: the `remote-container` skill).
+
+## Comments on a page
+
+Much of the curator's review comes as comments on a published page. Read each comment's thread with the `ArtifactComments` tool (the thread id is in the notification), answer on that thread, resolve it once it is addressed, and say in chat, in a few lines, what was done. A session watches at most ten pages: unwatch an old page before watching a new one.
 
 ## Restate and hold
 

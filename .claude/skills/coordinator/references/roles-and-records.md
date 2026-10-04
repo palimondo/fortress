@@ -10,7 +10,7 @@ It keeps what a worker, or its own next incarnation after a compaction, needs to
 - `explorations/coordinator/INDEX.md`: one line per standalone note, searched before any fact is called absent.
 - `explorations/coordinator/PLAN.md`: the phases, the open issues in the order they need deciding, the parked items, and each batch's items listed for the curator's review.
 - The first section of `explorations/microgpt-run-c-handover.md`: where the work stands.
-- The boot note, at the top of `explorations/coordinator/postmortem-2026-09-19/held-list.md`. Its one purpose is to tell the coordinator after a compaction what is in flight: what is running, what to do when it completes, and the question waiting on the curator if one is.
+- The boot note, at the top of `explorations/coordinator/postmortem-2026-09-19/held-list.md`. Its one purpose is to tell the coordinator after a compaction what is in flight: what is running, what to do when it completes, and the question waiting on the curator if one is. It also gives the session's process's last start and the next stop the platform's cap brings (the `remote-container` skill).
 
 ## Executive assistant
 
@@ -31,7 +31,7 @@ Its standing goal is to model what the curator already knows and where the curat
 
       explorations/coordinator/tools/check-verbatim.py <base> <file> <history>
 
-- An entry is cited by its bold title. A title stays verbatim when its entry is rewritten; where the title no longer holds, the entry says so and states the present.
+- An entry is cited by its bold title, or by its opening words where it has none. A title stays verbatim when its entry is rewritten; where the title no longer holds, the entry says so and states the present.
 - A fact enters in the commit that establishes it; a decision in the next commit after the curator states it.
 - A remark is not a decision, and neither is a one-off go: a go or a push is written nowhere, the launch or the commit being its trace. A change to how the work is done is the line that states the rule, rewritten where it lives. A question is answered where its answer belongs.
 - The boot note is rewritten whole at every change, never appended to.

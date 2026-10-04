@@ -28,7 +28,12 @@
 - It hands over what the record has measured as findings to cite, with their sources, never as claims to verify by running them again; it never tells a worker to distrust the record. It names the one thing that is new to measure and asks only for that. A finding is measured again only when the tree has changed under it, and the brief says what changed.
 - On a design fork, the worker is kept clean of the coordinator's options, not of its measurements: it reads its question first, lists every way the language and the library offer, answers a rule that blocks an option with how the library gets around it, and measures only where no record answers.
 - A briefing written for a batch speaks of "the decisions on record", never of a person, and sets the worker no required questions about its search: it says where the ground is unfamiliar, and the worker then works on its task.
+- Each rung of a batch gets a mission briefing drawn from the territory map, which its agents read in their first turn. How it is built and carried is the batch manual's, `explorations/coordinator/climb-batch-workflow.md`, "Shared prefix"; the share of agents that use it is measured by the review after the batch.
 - It names the stops it reserves: the points the work must report as met. What else the report holds is the report contract, which the brief does not restate.
+
+## After every landed batch
+
+One combined review, by one Opus worker that only reads: conformance (each rung against the decisions on record and the designers' intent), the process measures (misses by kind, those of items in the rung's own briefing, map use, briefing cost, measurements repeated, tokens written by role) and the routing check (every finding has a home). The coordinator files what it finds in PLAN at the landing, each finding at the home it names. The earlier reviews are `explorations/reviews/batch-*-review.md`.
 
 ## Watching what it launches
 
