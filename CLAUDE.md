@@ -27,7 +27,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 export FORTRESS_HOME=<repo root>
 unset JAVA_TOOL_OPTIONS                          # proxy trust-store options confuse ant's JVM forks
 cd $FORTRESS_HOME && ant compileAll              # ~80 s
-./bin/fortress explorations/claude_demo.fss      # interpreter ("walk")
+./bin/fortress explorations/mandelbrot_canonical.fss  # interpreter ("walk")
 ```
 
 Toolchain traps: `build.xml` drives scalac through `scala.tools.nsc.Main`
@@ -50,8 +50,9 @@ Facts that save time:
   constructs still `sayWhat`), not broken.
 - **`ProjectFortress/hello.fss` runs only via the compiler path** — its July
   2012 upgrade imports `System.getProperty`/`CompilerSystem.args`, which the
-  interpreter can't resolve. Use `explorations/*.fss` as interpreter smoke
-  tests.
+  interpreter can't resolve. `explorations/mandelbrot_canonical.fss` is the
+  interpreter smoke test; `explorations/claude_demo.fss` dies under walk at its
+  unwritten `SUM` until row 424's F-bounded half lands (climb batch 11).
 - **The test suite is fully green and is the gate for every change:** `ant
   testFast` (the compiler suite among others) and `ant testSystem` (the
   interpreter tests), zero failures. The current counts are in the last
