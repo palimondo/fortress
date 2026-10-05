@@ -30,6 +30,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Symptoms: `explorations/repo-internals.md:160-173`; exploration § 2; FACTS "`ant compileAll` leaves the bytecode cache holding no library jars", "The compiled path's bytecode cache can come up empty after a library-order rebuild that reports exit 0".
 - Keeping caches flag: exploration § 6 "Keeping the caches through a rebuild".
 - Name resolution: `explorations/repo-internals.md:133-145, :24-28, :118-123, :61`.
+- The rule on wiping, scoped to what was measured (the curator's comment of 2026-10-05 on the review page, that "never wipe" had become a dogma): `explorations/coordinator/build-cache-exploration.md:65`, `:71`, `:193` (a missed recompile is fixed by recompiling; a wipe is never the fix for it); the three cases where caches are deleted are this part's own (`build.xml:356-359` for `compileAll`'s `cleanCache`; the native wrapper and the `-Dcache0` switch below).
 
 ## toolchain.md
 

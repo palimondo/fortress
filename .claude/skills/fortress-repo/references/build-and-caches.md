@@ -38,7 +38,7 @@ Only `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`) and a
 
 ## After an edit, what to rebuild
 
-Never wipe the caches: recompile what you edited.
+When a run shows old code, or dies with `NoSuchMethodError`, after an edit, recompile what you edited (below). Wiping the caches also clears it, but only by redoing the whole library order and every analysis from cold, so it is never the fix. The caches are deleted in three cases: every `ant compileAll` deletes them itself; a native helper whose signature changed leaves a stale wrapper class to delete; and caches kept through a Java rebuild with the `-Dcache0` switch, after an edit that changes a cached form, need the plain `ant compileAll` (both below). Anything else that looks like a stale cache has a cause to find before anything is deleted.
 
 - The `.fss` of a compiler-library component (`LibraryBuiltin/AnyType`, `LibraryBuiltin/CompilerBuiltin`, `Library/CompilerLibrary`, `Library/CompilerAlgebra`, `Library/CompilerSystem`), and not its `.fsi`: `fortress compile` that component alone (CompilerBuiltin about 60 s, CompilerLibrary about 25 s, the others 2 to 16 s). Programs need no recompile.
 - The `.fsi` of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra, the roots every api depends on: all five in the library order, about 100 s. `CompilerSystem.fsi`: CompilerSystem alone.

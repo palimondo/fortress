@@ -157,7 +157,7 @@ probe's own `-Dfortress.caches` directory, is not ignored):
 - `nativewrapper_cache/` — generated wrappers for `import java` natives.
 
 Rules learned the hard way:
-- **Never wipe; recompile what you edited.** Stale or order-inconsistent
+- **Recompile what you edited; a wipe is not the fix.** Stale or order-inconsistent
   caches produce *misleading* runtime errors
   (`NoSuchMethodError: CompilerBuiltin.println(...)`,
   `NoSuchMethodError: ...asJavaString()`, `Unable to read serialized data
