@@ -15,10 +15,16 @@
 `ant compileAll`, from the tree's root, is the only build (`ProjectFortress/build.xml` is a stub).
 
 - About 25 to 60 s on a built tree, about 80 s from nothing.
-- It deletes `default_repository/caches` whole before compiling, `global.map` with it. Like the rest of the caches that file is untracked and ignored, and the linker writes it afresh on the next run, so nothing is restored and `git status` shows nothing from the build.
+- Its first step deletes `default_repository/caches` whole, `global.map` with it. Like the rest of the caches that file is untracked and ignored, and the linker writes it afresh on the next run, so nothing is restored and `git status` shows nothing from the build.
 - Before the next compiled run, the library order (below) must run again. Walk, `harness-one.sh`, the checker measurements and the two ant suites need nothing more.
 - If it fails: fix the error and run it again. The caches are already gone, so there is nothing else to clear. Then run the library order.
 - Neither test target compiles: a suite run on a stale `ProjectFortress/build` silently tests the previous code.
+
+To keep the caches through a build, and so skip the library order (about 100 s), point that first step at folders that do not exist:
+
+    ant -Dcache0=/nonexistent -Dcache1=/nonexistent compileAll
+
+This is safe only after an edit that cannot change what the caches hold: walk's evaluator and natives (`interpreter/evaluator/`, `interpreter/glue/`), the bodies of the run-time classes compiled code calls (`runtimeSystem/`, `compiler/runtimeValues/`) with no signature changed, the test harness, `Shell`'s options. After an edit to anything the library's compile runs (the parser, the AST, the disambiguator, the checkers, the desugarers, the code generator with `NamingCzar` and `OverloadSet`, walk's `interpreter/rewrite/`), or to the signature of a run-time class or a native helper (`nativeHelpers/`), use the plain `ant compileAll`. Nothing checks a kept cache entry against the rebuilt compiler, so a stale one is used without warning until the caches are deleted: a native helper whose signature changed, for one, keeps its old wrapper in `nativewrapper_cache/`, and the run links the old signature.
 
 Toolchain traps and generated sources: `toolchain.md`.
 
@@ -38,15 +44,14 @@ Only `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`) and a
 
 ## After an edit, what to rebuild
 
-When a run shows old code, or dies with `NoSuchMethodError`, after an edit, recompile what you edited (below). Wiping the caches also clears it, but only by redoing the whole library order and every analysis from cold, so it is never the fix. The caches are deleted in three cases: every `ant compileAll` deletes them itself; a native helper whose signature changed leaves a stale wrapper class to delete; and caches kept through a Java rebuild with the `-Dcache0` switch, after an edit that changes a cached form, need the plain `ant compileAll` (both below). Anything else that looks like a stale cache has a cause to find before anything is deleted.
+Walk re-reads an edited Fortress source on its next run. The compiled path notices an edit only when the edited component itself is compiled: compiling your own program never recompiles the library under it. Skip the step for your edit below and a body edit runs the old code with no warning; an api edit dies with `NoSuchMethodError`.
 
 - The `.fss` of a compiler-library component (`LibraryBuiltin/AnyType`, `LibraryBuiltin/CompilerBuiltin`, `Library/CompilerLibrary`, `Library/CompilerAlgebra`, `Library/CompilerSystem`), and not its `.fsi`: `fortress compile` that component alone (CompilerBuiltin about 60 s, CompilerLibrary about 25 s, the others 2 to 16 s). Programs need no recompile.
 - The `.fsi` of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra, the roots every api depends on: all five in the library order, about 100 s. `CompilerSystem.fsi`: CompilerSystem alone.
 - A file of the interpreter's library (`Library/FortressLibrary.fss` and the rest): nothing. Walk re-reads it on its next run, compiled programs do not link it yet, and the checker measurements read it from source.
-- Java or Scala: `ant compileAll`, then the library order before the next compiled run.
-- A changed signature of a native helper (`nativeHelpers/`): also delete its stale class under `default_repository/caches/nativewrapper_cache/`, or the run links the old signature.
+- Java or Scala: `ant compileAll`, then the library order before the next compiled run. An edit that cannot change what the caches hold may keep them instead (Building, above).
 
-Compiling your own program never recompiles the library under it. Skip the step above and a body edit runs the old code with no warning; an api edit dies with `NoSuchMethodError`.
+So old code or a `NoSuchMethodError` after an edit means a step above was skipped: take it. Deleting the caches would clear it too, but only by redoing the library order and every analysis from cold, so it is never the fix. The caches go only with `ant compileAll` itself; anything else that looks like a stale cache has a cause to find before anything is deleted.
 
 The library order, about 100 to 110 s after `ant compileAll` (AnyType 17, CompilerBuiltin 63, CompilerLibrary 27, CompilerAlgebra 2, CompilerSystem 2):
 
@@ -63,8 +68,6 @@ Symptoms:
 - A `fortress compile` whose source has not changed writes nothing and exits 0.
 - A library compile that failed or was killed wrote nothing, or only its jar. Programs keep linking the old jar, silently, until you fix the error and compile that component again.
 - A library order that exits 0 can still leave the bytecode cache empty; running the same commands one at a time produced the jars.
-
-Keeping the caches through a Java rebuild, `ant -Dcache0=/nonexistent -Dcache1=/nonexistent compileAll`, is safe only for an edit that cannot change a cached form: walk's evaluator and natives (`interpreter/evaluator/`, `interpreter/glue/`), the bodies of run-time classes with no signature change, the test harness, `Shell`'s options. Anything the library's compile runs (the parser, the AST, the disambiguator, the checkers, the desugarers, the code generator, `NamingCzar`, `OverloadSet`, `interpreter/rewrite/`) needs the plain `ant compileAll`. Nothing checks a kept entry against the compiler, so a stale one stays until the caches are deleted. Plain `ant compileAll` is the default.
 
 ## Name resolution
 
