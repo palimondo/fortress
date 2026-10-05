@@ -1,6 +1,6 @@
 # The checker count and the distance to the switch-over
 
-Both measurements run the compiled type checker over the interpreter's library. That library becomes the compiler's library at the switch-over, when the compiler's own prelude (CompilerLibrary, CompilerBuiltin, CompilerAlgebra) is deleted. The two numbers say how far the checker is from accepting it. A zero is necessary, not sufficient.
+Both measurements run the compiled type checker over the interpreter's library. That library becomes the compiler's library at the switch-over, when the compiler's own prelude (CompilerLibrary, CompilerBuiltin, CompilerAlgebra) is deleted. The two numbers say how far the checker is from accepting it. A zero is needed for the switch-over, but a zero alone does not make the switch-over possible.
 
 - The checker count is the number of errors that the checker reports on each api before that api's early return. The checker stops checking an api at its first errors. The interpreter's prelude is in scope. The table has one row for each api, then `#total`, `#locations`, `#crash`, `#cache` and `#shadow`. The rows for each api count each error twice; `#total` does not.
 - The distance runs every stage of every unit, whatever the earlier stages reported. It covers the twelve prelude apis and their twelve components in one JVM. It counts every distinct error by kind, by root-cause class and by unit, and each crash. Its setting, `any`, is the compiled path with the implicit bound `Any`.

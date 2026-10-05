@@ -1,6 +1,6 @@
-# The gap ledger and the coordinator's records
+# The record: the gap ledger, FACTS, POSITIONS and the rest
 
-The record is the project's memory. Read the slice you need and cite what it holds instead of measuring it again. Apart from the coordinator's boot, nobody reads its big files whole.
+The record is the set of files under `explorations/` that hold what the project has established, decided and measured. The coordinator, the main session, keeps it. Read the slice that you need, and cite what it holds instead of measuring it again. Do not read the big files whole.
 
 ## Finding things
 
@@ -18,47 +18,62 @@ Print slices of the record, whole entries in bounded parts:
 
 The files:
 
-- `explorations/coordinator/FACTS.md`: what is established, each fact with its source and its test, cited by its bold title, or by its opening words where it has none.
-- `explorations/coordinator/POSITIONS.md`: what the curator has decided and already knows. A closed decision is not reopened.
-- `explorations/coordinator/INDEX.md`: one line per standalone note. Search it before saying anything is absent.
-- `explorations/coordinator/PLAN.md`: the phases and the open issues, in the order they need deciding.
-- `explorations/fortress-gap-ledger.md`: the known gaps, one row each.
-- `explorations/coordinator/map/`: `README.md` (section 7: what each change reaches, which tests guard it, where the gate is blind), `spec-to-implementation.md` (where a fix belongs), `modules-and-phases.md`, `test-coverage.md`, `design-intent-sources.md` (where the designers' intent is written), `dormant-code.md` (code present and switched off).
-- `explorations/repo-internals.md`: architecture, name resolution, cache anatomy, git archaeology. A `git log` of a directory is useless here (the history has parentless roots); use `git log --follow` on a file, or compare contents.
-- `explorations/microgpt-run-c-handover.md`, its first section: where the work stands.
+- `explorations/coordinator/FACTS.md`: what is established. Each fact has its source and its test. Cite a fact by its bold title, or by its opening words if it has no title.
+- `explorations/coordinator/POSITIONS.md`: what the curator has decided and already knows. Do not reopen a closed decision.
+- `explorations/coordinator/INDEX.md`: one line for each standalone note. Search it before you say that anything is absent.
+- `explorations/coordinator/PLAN.md`: the phases, and the open issues in the order they need deciding.
+- `explorations/fortress-gap-ledger.md`, the gap ledger: the known gaps, one row each.
+- `explorations/coordinator/map/`: `README.md` (section 7: what each change reaches, which tests guard it, where the gate is blind), `spec-to-implementation.md` (where a fix belongs), `modules-and-phases.md`, `test-coverage.md`, `design-intent-sources.md` (where the designers' intent is written), `dormant-code.md` (code that is present and switched off).
+- `explorations/repo-internals.md`: the architecture, name resolution, the caches, git archaeology.
+- `explorations/microgpt-run-c-handover.md`, the handover: its first section says where the work stands.
 
-The 2012 tree's own READMEs describe their era, not the current tree: check a claim of theirs against the code before acting on it.
+The 2012 tree's own READMEs describe their era, not the current tree. Check a claim of theirs against the code before you act on it.
 
 ## The repository's history
 
-The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits from 2007-01-04 to 2012-08-31, ending at `a874948ac`, with twelve old branches and the `1.0` tag. The commits after `a874948ac` are the revival's. The conversion cut 146 parent links, so a history walk from `HEAD` stops early; how to find who wrote something, and where the lineage after 2012 comes from, is `research/authorship.md` and `explorations/coordinator/lineage.md`.
+- The repository is a 2018 fork of `sirinath/fortress`. That is a git conversion of the project's java.net Mercurial repository: 5,397 trunk commits from 2007-01-04 to 2012-08-31, ending at `a874948ac`, with twelve old branches and the `1.0` tag.
+- The commits after `a874948ac` are the revival's.
+- The conversion cut 146 parent links, so a history walk from `HEAD` stops early. A `git log` of a directory is useless here. Use `git log --follow` on a file, or compare contents.
+- To find who wrote something, and where the lineage after 2012 comes from, read `research/authorship.md` and `explorations/coordinator/lineage.md`.
 
 ## Practices
 
-- A measurement the record holds is cited with its source and never repeated. Measure again only when the tree has changed under it, and say what changed. Measure only what is new.
-- Before doing something a new way, search the record for how it was done last time.
-- A timing names its machine: `nproc`, the CPU's model and MHz, the load at start, the JDK, `FORTRESS_THREADS`. Only a pair taken in one run measures a difference. No timing of the interpreter is taken.
-- A report cites the tree at file:line and quotes results, two to five lines, each with its command. It never cites a file under `tmp/`.
+- Cite a measurement that the record holds, with its source. Do not repeat it. Measure again only if the tree changed under it, and say what changed. Measure only what is new.
+- Before you do something in a new way, search the record for how it was done last time.
+- Name the machine with every timing: `nproc`, the CPU's model and MHz, the load at start, the JDK, `FORTRESS_THREADS`. Only a pair of timings taken in one run measures a difference. Do not time the interpreter.
+- In a report, cite the tree at file:line, and quote results, two to five lines, each with its command. Never cite a file under `tmp/`.
 
 ## The gap ledger
 
-- One row per claim, with a status (`POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`), a class (`implementation gap`, `library gap vs spec`, `library bug`, `design limit`, `deliberate`, `typesetter`, `packaging`) and how to reproduce it, under sections by area.
-- Rows are never renumbered or moved: reports everywhere cite them by number. A new issue gets a new row with a new number; a fixed one is closed in place.
-- Rows are the bug reports the work fixes: a fix begins by committing the row's reproduction, as a clean minimal test, to the corpus (`tests-writing.md`).
+- Each row is one claim. It has a status (`POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`), a class (`implementation gap`, `library gap vs spec`, `library bug`, `design limit`, `deliberate`, `typesetter`, `packaging`) and how to reproduce it. The rows are under sections by area.
+- Never renumber or move a row: reports everywhere cite rows by number. Give a new issue a new row with a new number. Close a fixed row in place.
+- The rows are the bug reports that the work fixes. A fix starts with the row's reproduction, written as a clean minimal test in the corpus (`tests-writing.md`).
 
 ## FACTS, POSITIONS and the rest
 
-- FACTS and POSITIONS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. A wrong line is rewritten in place; the provenance lives in `FACTS-history.md` and `POSITIONS-history.md`. A FACTS entry is the fact, its source and its test in a few lines, under a bold title, pointing to the report that holds the detail.
-- One home per thing: the curator's words are written once, in POSITIONS, and everything else points there.
-- A fact enters the record in the commit that establishes it; a decision in the next commit after the curator states it.
-- An agent working beside others does not edit `FACTS.md`, `POSITIONS.md`, `PLAN.md`, `INDEX.md`, the ledger, the handover, `CLAUDE.md`, `explorations/protocol.md`, the tools under `explorations/coordinator/tools/`, or `.claude/`: parallel edits of those files conflict. It writes the lines for them in its report (the FACTS entry, the ledger note, the plan line) as finished prose, for whoever folds them in.
-- Everything of ours lives under `explorations/`. `research/decks/` holds copyrighted material, is gitignored and is never committed.
+- FACTS and POSITIONS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. Rewrite a wrong line in place. The provenance goes in `FACTS-history.md` and `POSITIONS-history.md`.
+- Write a FACTS entry as the fact, its source and its test in a few lines, under a bold title. Point to the report that holds the detail.
+- Write each thing in one place. The curator's words are written once, in POSITIONS. Everything else points there.
+- Edit these files only if your brief asks you to: `FACTS.md`, `POSITIONS.md`, `PLAN.md`, `INDEX.md`, the ledger, the handover, `CLAUDE.md`, `explorations/protocol.md`, the tools under `explorations/coordinator/tools/`, and `.claude/`. Parallel edits of these files conflict. If your brief does not ask, write the lines for them in your report as finished prose (the FACTS entry, the ledger row or note, the plan line, the INDEX line), for whoever folds them in.
+- If you may edit FACTS, add a fact in the commit that establishes it. A decision of the curator's enters POSITIONS in the next commit after the curator states it.
+- Put new files of the work under `explorations/`. `research/` (our summaries of sources and the authorship study), `CLAUDE.md` and `.claude/` are ours too. Everything else is the original tree. `research/decks/` holds copyrighted material: it is gitignored. Never commit it.
+
+## Stops
+
+A stop is a point that your brief names, which the work must report if it reaches it. Examples from earlier briefs: a team test line changed, a checker edit in a change to the library, a changed line of the model program.
+
+- If the work reaches a stop, do what the brief says for it. For example, a brief can say that a site is left with a ledger row instead of a repair.
+- Then finish the work, and list the stop in your report as met, with its evidence. List a stop that only part of the work met too.
+- Reaching a stop does not end the work. What it holds back afterwards is decided outside the work.
+- If a step cannot be undone, or would reverse a decision on record, do not take it. Put it in your report as a decision not taken, with its alternatives.
 
 ## What every report holds
 
-Every agent that finds or decides something, in an exploration or a batch, puts it in its report in this form, whatever else its brief asks for:
+Your brief says where your report goes: a file that it names, your final message, or both. If it names no file, your report is your final message. If you add a standalone note under `explorations/`, write its INDEX line.
 
-- **Defects.** Each defect measured, with its home named: an assertion in a gated test, a gated `XXX` test, a test pinning today's behaviour with a ledger row, or the row alone (`tests-writing.md`, "Where a measured defect goes"). A row is in the ledger's form above, written in the report as finished prose when you may not edit the ledger.
-- **Decisions.** Each choice made among alternatives, named as a decision apart from the findings: what was chosen, the alternatives considered, and the evidence, cited. Where the record holds no position, none is invented: say which reading you acted on. A decision left as a line inside the findings counts as not made.
-- **Stops met.** Each stop the brief reserves that the work met, listed as met, with its evidence, including one met on part of the work.
-- **Nothing more.** The report does not choose which of its items anyone reviews, and the agent asks the curator nothing: an open question goes in the report, as a decision not taken, with its alternatives.
+Every agent that finds or decides something puts it in its report in this form, whatever else its brief asks for:
+
+- **Defects.** Each defect that you measured, with its home: an assertion in a gated test, a gated `XXX` test, a test that pins today's behaviour with a ledger row, or the row alone (`tests-writing.md`, "Where a measured defect goes"). Write a row in the ledger's form above, as finished prose in the report if you may not edit the ledger.
+- **Decisions.** Each choice that you made among alternatives, as a decision apart from the findings: what you chose, the alternatives, and the evidence, cited. If the record holds no position, do not invent one: say which reading you acted on. A decision left as a line inside the findings counts as not made.
+- **Stops met.** Each stop of your brief that the work met, listed as met, with its evidence, also one met on part of the work.
+- **Nothing more.** Do not choose which of your items anyone reviews. Do not ask the curator anything: put an open question in the report as a decision not taken, with its alternatives.

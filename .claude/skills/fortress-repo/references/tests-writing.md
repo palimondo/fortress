@@ -10,7 +10,7 @@ Start every edit under the original tree (everything outside `explorations/`, `r
 
 The test and the fix can be in one commit. The test needs no commit of its own.
 
-In your report, quote two to five lines of the failing run and the passing line, each with its command. Do not commit a capture of either run. A one-off script that proves something once is not a check. Assert each value that matters inside the test: an `assert` in an interpreter test, `run_out_equals` in a compiled test. What a test prints beyond its checks does not matter. Do not add an expected-output file to the interpreter suite.
+In your report, quote two to five lines of the failing run and the passing line, each with its command. Do not commit a capture of either run. Do not prove a result with a one-off script: put the check into a test. Assert each value that matters inside the test: an `assert` in an interpreter test, `run_out_equals` in a compiled test. What a test prints beyond its checks does not matter. Do not add an expected-output file to the interpreter suite.
 
 An edit of prose that no test can observe, in `Specification/` or `Documentation/`, has no test and no failure to see. Check its text against the tree and the decisions on record instead.
 

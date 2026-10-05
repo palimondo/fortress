@@ -1,34 +1,43 @@
 # Committing and pushing
 
-The curator decides what is committed. A worker commits its own files as it goes, on its own branch (below), unless its brief says not to commit.
+The curator decides what is committed. Your brief says whether you commit, where, and which branch you push. If it says nothing, commit your own files as you go, on the branch that you work on, and push that branch (below).
 
-## What may be committed
+## What to commit
 
-- Committed: the Fortress change, its tests, its report, the lines for the ledger, FACTS and the plan, and a script that is reusable.
-- Never: captured outputs, logs, raw run output, copies of tools, probe programs, lists, or any other scratch. Scratch lives under your tree's `tmp/`, which is gitignored; a private cache directory outside `tmp/` is not.
-- Never: a model identifier (a model is named by its tier: Fable, Opus, Sonnet); a copyrighted PDF or deck (`research/decks/` is gitignored; cite such a source by its Wayback URL; `research/extracts/` holds our own summaries with brief attributed quotations); `HANDOVER.md` or ZIP contents without the curator's go. The curator's email is for attribution only.
-- No self-credit anywhere committed. Provenance and rationale go in commit messages and reports, not in source comments.
+- Commit the Fortress change, its tests, its report, a script that is reusable, and the lines for the ledger, FACTS and the plan if your brief lets you edit those files (`area-records.md`).
+- Do not commit captured outputs, logs, raw run output, copies of tools, probe programs, lists or any other scratch. Keep scratch under your tree's `tmp/`, which is gitignored. A private caches folder outside `tmp/` is not gitignored.
+- Do not commit a model identifier. Name a model by its tier: Fable (the top tier), Opus or Sonnet.
+- Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
+- Do not commit a file that the curator uploaded to a session, `HANDOVER.md` or the contents of an uploaded ZIP, without the curator's go. `HANDOVER.md` is not the handover, `explorations/microgpt-run-c-handover.md`.
+- Use the curator's email for attribution only.
+- Claim no credit anywhere in a committed file. Put provenance and rationale in commit messages and reports, not in source comments.
 
-## How
+## How to commit
 
-- Commit only the paths you wrote, as you go, in one command, never a directory copy and never `git add -A`:
+- Commit only the paths that you wrote, as you go, in one command. Never commit a directory copy, and never use `git add -A`:
 
       git add -- <paths> && git commit -m "<message>" -- <paths>
 
-- Read a staged change of more than a few hundred lines with `git diff --cached --stat` before committing it.
-- An edit under the original tree (anything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`): the test comes before the fix (`tests-writing.md`), and the commit message flags the edit as one of the original tree.
-- The footer, exactly as below. It names no model, whatever another footer the harness suggests:
+- Other agents may have uncommitted edits in the same tree. The command above commits none of them. Leave them alone.
+- Before you commit a staged change of more than a few hundred lines, read `git diff --cached --stat`.
+- If you edited the original tree (anything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`), write the test before the fix (`tests-writing.md`). Say in the commit message that the commit edits the original tree.
+- End every commit message with this footer, exactly. It names no model, whatever footer the harness suggests. Its session line names the session that the work runs in. `explorations/protocol.md` gives that line, and changes it if the work moves to another session.
 
       Co-Authored-By: Claude <noreply@anthropic.com>
       Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
 
 ## Pushing
 
-- A worker on its own branch pushes that branch as it works (`git push -u origin <branch>` the first time), so that a lost container loses nothing. It never touches the main tree, `/home/user/fortress`.
-- To `main`: only after `git log origin/main..main` shows nothing but your own commits, and then both, in this order:
+Push after every commit, so that a lost container loses nothing.
 
-      git push origin main
-      git push origin main:claude/worker-brief-fable-vnnuv8
+- If you work on your own branch, push it: `git push -u origin <branch>` the first time, then `git push`.
+- If you work on `main`, other agents commit to it too. Push only your own commits:
+  1. Run `git log origin/main..main`. Your commits are those whose hashes your own `git commit` printed.
+  2. If it lists another agent's commit, do not push. That agent pushes right after it commits, so look again shortly. If the commit stays, push nothing, and say so in your report.
+  3. If it lists only your commits, push twice, in this order:
 
-  The second keeps current the branch the container is re-provisioned from (the `cloud-container` skill, a lost container). No other branch is pushed without permission (the transcript branches excepted).
-- A commit on `main` is pushed right after it is made, so that nothing on `main` waits on disk.
+         git push origin main
+         git push origin main:claude/worker-brief-fable-vnnuv8
+
+     The second push keeps current the branch that the container is re-provisioned from (the `cloud-container` skill, a lost container).
+- Do not push any other branch without the curator's permission. The transcript backup pushes its own orphan branches, `transcripts` and `transcripts-blinded` (the `cloud-container` skill). Do not push them yourself.
