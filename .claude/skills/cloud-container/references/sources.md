@@ -9,7 +9,7 @@ This skill was made on 2026-10-05 by splitting one skill, `remote-container`, al
 - Framing: FACTS "The platform stops the session's process after about 12 hours 58 minutes ...", "The VM can be restarted under a live session ...", "A container can be lost outright"; remote-container.md, opening paragraph.
 - Rules: Avail, not Size, checked before a long run: the disk figures read on the machine (`machine.md`, below). Nothing that takes hours only on disk: remote-container.md § Three traps ("Worktree state that is never committed"). Disk and pushes first after a stop, a restart or a loss: FACTS "A restart of the session's own process kills its background runs ...", "A container can be lost outright". The git-check reminders advisory and declined: remote-container.md § How the snapshot works.
 - The curator: the role that names the person who curates the restoration and decides what is committed; the skill names the role, never the person (the review of the `remote-container` skill).
-- The description (frontmatter): written at the split from the `remote-container` skill's description, which the skill-creator's description optimization had kept as written on 2026-10-04 (its `run_loop` script over 20 trigger queries; the eval set and the scores are in `explorations/reviews/skills-description-optimization.md`). This text has not been through the optimizer yet.
+- The description (frontmatter): written at the split from the `remote-container` skill's description. The skill-creator's description optimization on 2026-10-05 (`run_loop` over 20 trigger queries, the other two skills present) kept it as written, at 20/20. The eval set and the scores are in `explorations/reviews/skills-description-optimization-2.md`.
 
 ## machine.md
 
