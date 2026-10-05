@@ -22,7 +22,7 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 - The curator is not told about record edits.
 - The curator deletes the batches' `wip/` branches after a gate, in GitHub's web page, as the curator's own chore, and is not reminded of it.
 - The platform's git-check hook's reminders are answered silently, with a turn whose text is a single ".", declined while work is in flight, and never mentioned to the curator.
-- A stop of a turn that killed a run is the exception: it is said plainly, and the run is resumed, keeping every agent that had finished (how: the `claude-session` skill).
+- A stop of a turn that killed a run is the exception: it is said plainly, and the run is resumed, keeping every agent that had finished (how: `agents.md`).
 
 ## Comments on a page
 

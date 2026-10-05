@@ -1,6 +1,8 @@
 # The boot
 
-At session start and after every compaction, before any work and before anything is said to the curator. A hook reminds the session after a compaction; the boot is the coordinator's. A worker whose context is compacted re-reads its brief instead.
+At session start and after every compaction, before any work and before anything is said to the curator.
+
+A compaction replaces the conversation so far with a summary. After every compaction, a `SessionStart` hook with matcher `compact`, in the tracked `.claude/settings.json`, tells the session to boot by `explorations/coordinator/README.md` before anything else. The boot is the coordinating session's. If a worker's context is compacted, the worker re-reads its brief from the first message of its own transcript.
 
 ## The order
 
@@ -21,7 +23,7 @@ If the boot note says a batch is running: its batch record, `explorations/coordi
 - Reports, transcripts, ledger rows and source go to a worker that returns a summary.
 - Whether a worker still runs is read from the harness's notice at the top of the turn and from `test -f` on the one output path its brief names.
 - "Is anything in flight" is answered from the tree and the run's journal, never from what the curator's client shows, which can be stale.
-- After a stop of the process, a restart or a lost container, what is on disk and what is pushed are read before anything starts again (recovering and resuming a run: the `claude-session` skill; the platform's stops and a lost container: the `cloud-container` skill).
+- After a stop of the process, a restart or a lost container, what is on disk and what is pushed are read before anything starts again (recovering: the `fortress-repo` skill's session part; resuming a run: `agents.md`; the platform's stops and a lost container: the `cloud-container` skill).
 
 ## After the boot
 

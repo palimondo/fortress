@@ -38,11 +38,15 @@ One combined review, by one Opus worker that only reads: conformance (each rung 
 
 ## Watching what it launches
 
-Only a long or large run the coordinator launches outside a batch, such as a probe that builds and runs suites for an hour or more, is launched with an estimate and watched against it, as the `claude-session` skill's agents part says. Watching the spend is the coordinator's: no brief asks a worker to measure, project or cap its own token spend. The coordinator reads it from the agents' transcripts:
+If you launch a long or large run outside a batch, give it an estimate and watch it against the estimate. An example is a probe that builds and runs suites for an hour or more.
 
-    explorations/coordinator/tools/spend.py <since-epoch> <transcript-or-directory>...
+- If the run passes its estimate, react: give the worker an instruction, or end the run.
+- In its brief, say what keeps it efficient. That includes how the worker waits: it polls a long run in steps under 270 s, or it hands the run to a script and ends its turn.
+- Watch the spend yourself. No brief asks a worker to measure, project or cap its own token spend. Read the spend from the agents' transcripts:
 
-Ordinary workers carry no monitoring procedure, and no ask is added before a probe.
+      explorations/coordinator/tools/spend.py <since-epoch> <transcript-or-directory>...
+
+Give ordinary workers no monitoring procedure. Add no ask before a probe.
 
 ## Estimates
 
