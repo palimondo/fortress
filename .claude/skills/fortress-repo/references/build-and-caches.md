@@ -18,10 +18,12 @@ These lines give the settings of `explorations/experiment/env.sh`:
 
 The lines differ from env.sh in two ways:
 
-- The JVM's temporary directory is your tree's `tmp/`, which is gitignored. A batch brief asks the same of a rung worker, with two exports after `source env.sh`.
+- The JVM's temporary directory is your tree's `tmp/`, which is gitignored.
 - They leave out env.sh's last line, `rm -rf /tmp/fortress*rats`.
 
-Warning: do not source env.sh while any run may be live. In a batch, or beside the coordinator, some run is always live. Every run that imports a grammar makes a 5.8 MB Rats! parser directory, `fortress<random>rats`, in its JVM's temporary directory, and never deletes it. Sourcing env.sh deletes all of these directories in `/tmp`, also the directory of a run that still uses it. That run, yours in the background or another agent's, may then fail.
+If your brief tells you to source env.sh and then export `TMPDIR` and `JAVA_FLAGS` for your tree's `tmp/`, the lines above give the same settings without the deletion.
+
+Warning: do not source env.sh while any run may be live. If other agents work on the machine, assume that a run is live. Every run that imports a grammar makes a 5.8 MB Rats! parser directory, `fortress<random>rats`, in its JVM's temporary directory, and never deletes it. Sourcing env.sh deletes all of these directories in `/tmp`, also the directory of a run that still uses it. That run, yours in the background or another agent's, may then fail.
 
 With the lines above, your runs put their parser directories in `<tree>/tmp/`. Hundreds of these directories once filled the disk allowance and broke tool output. So:
 

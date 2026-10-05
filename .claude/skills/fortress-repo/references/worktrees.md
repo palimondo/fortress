@@ -4,12 +4,12 @@ Read this part if you need a worktree of your own, or the behaviour of the code 
 
 ## The base and the base build
 
-The base is the commit that your work starts from. In a batch, it is the commit that every rung's branch starts from, and the brief names it. Outside a batch, it is the commit under your first change.
+The base is the commit that your work starts from: the commit under your first change. Your brief may name it.
 
 The base build is a clean worktree at the base, built once in place by ant. Every other worktree of the work is seeded from it, and the old code runs from it. After it is built, do not compile, build or run anything in it, except through `old-fortress.sh` (below).
 
-- In a batch, the coordinator makes the base build before the launch, at a path such as `/home/user/fortress-base<N>`. The brief names it.
-- Outside a batch, `git worktree list` shows the worktrees on the machine. A worktree can be your base build if `git -C <it> rev-parse HEAD` prints your base, `git -C <it> status --porcelain` prints nothing, and it holds `default_repository/caches/bytecode_cache/fortress.CompilerBuiltin.jar`.
+- If your brief names a base build, use it. Earlier base builds are at paths such as `/home/user/fortress-base<N>`.
+- If not, `git worktree list` shows the worktrees on the machine. A worktree can be your base build if `git -C <it> rev-parse HEAD` prints your base, `git -C <it> status --porcelain` prints nothing, and it holds `default_repository/caches/bytecode_cache/fortress.CompilerBuiltin.jar`.
 - If no worktree qualifies, build one at a path of your own, outside the main tree. It takes about 200 s. Say so in your report.
 
       git -C /home/user/fortress worktree add --detach <base-build> <base-commit>
@@ -19,7 +19,7 @@ The base build is a clean worktree at the base, built once in place by ant. Ever
       bin/fortress ProjectFortress/tests/BooleanOps.fss
       git status --porcelain   # must print nothing: the seeding script refuses a base build that is not clean
 
-If you check another worker's fix against its old code, the base build's commit must be the commit that the fix starts from. Read the base build's commit with `git -C <base-build> rev-parse HEAD`. In a batch, the fix starts from the brief's base. Otherwise, it starts from `git merge-base <its branch> main`, or from the parent of its first commit on `main`. Old code from another commit measures another tree.
+If you check another agent's fix against its old code, the base build's commit must be the commit that the fix starts from. Read the base build's commit with `git -C <base-build> rev-parse HEAD`. If a brief names the fix's base, the fix starts there. Otherwise, it starts from `git merge-base <its branch> main`, or from the parent of its first commit on `main`. Old code from another commit measures another tree.
 
 ## Worktrees seeded from the base build
 
@@ -36,10 +36,7 @@ Seed a worktree instead of building it. Seeding takes about 3 s and 206 MB. The 
 
 Do not symlink or plainly copy another tree's build or caches. Cache entries are keyed by absolute path, and with a symlinked build every cache path resolves to the other tree. The script translates the paths.
 
-Two agents must never compile into one cache, because every compile rewrites cache files of the tree that it runs in.
-
-- A rung worker makes its worktree with this script, as its brief says, and works only there.
-- A worker launched alone works where its brief says, often in the main tree. If its task needs a build of its own, it seeds a worktree of its own.
+Two agents must never compile into one cache, because every compile rewrites cache files of the tree that it runs in. Your brief says where you work. If you need a build of your own, seed a worktree of your own and work only there.
 
 Put scratch under `<worktree>/tmp/`, which is gitignored. Set up each call as `build-and-caches.md` says, and check that `echo $FORTRESS_HOME` prints your worktree.
 
