@@ -143,11 +143,11 @@ Moved on 2026-10-05 from the `claude-session` skill's `long-commands.md`, `agent
 ## area-interpreter.md
 
 - Layout: `explorations/repo-internals.md:49, :97-110`.
-- Heaps, 256 MB claims: FACTS "Three heaps run the interpreter".
+- Heaps, 256 MB claims: FACTS "Three heaps run the interpreter". The flags for a run at 256 MB (the cold read's small points): `bin/fortress:28-29` (`-Xmx256m -Xss32m` when `JAVA_FLAGS` is empty), with the temporary directory of `build-and-caches.md`'s setup added.
 - Threads and implicit parallelism: FACTS "The gate's thread count is pinned ..." (floor(nproc/2)); Execution model, "Implicit parallelism".
 - Walk times: brief-machine:20; exploration § 1 (4.0 s), § 2 (walk re-reads, 13.7 s then 3.7 s).
-- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424; `explorations/coordinator/PLAN.md:107`; exploration § 1. BooleanOps: exploration § 5. hello.fss: the old `CLAUDE.md`. mandelbrot_canonical.fss as the smoke test: the old `CLAUDE.md` (Build and run), kept at the curator's choice on the skill page (`6c9dcd89e`).
-- mg-run.sh: its header and body; the permission check refusing its `rm -rf` (`mg-run.sh:16`): `explorations/microgpt-run-c-handover.md`, first section, the paragraph on climb batch 10's landing; `explorations/coordinator/PLAN.md`, the last entry under "Climb batch 10, listed for his review"; model diffs: `explorations/protocol.md` principle 1.
+- claude_demo.fss red: `explorations/fortress-gap-ledger.md` row 424 (its F-bounded half NEGATIVE-VERIFIED, the plain-bound half fixed); `explorations/coordinator/PLAN.md:107`; exploration § 1. The row's half no longer named in the part (the cold read, finding 3): the reader needs only that the program dies and why. BooleanOps: exploration § 5. hello.fss: the old `CLAUDE.md`. mandelbrot_canonical.fss as the smoke test: the old `CLAUDE.md` (Build and run), kept at the curator's choice on the skill page (`6c9dcd89e`).
+- mg-run.sh: its header and body; the permission check refusing its `rm -rf` (`mg-run.sh:16`): `explorations/microgpt-run-c-handover.md`, first section, the paragraph on climb batch 10's landing; `explorations/coordinator/PLAN.md`, the last entry under "Climb batch 10, listed for his review" (the commit agent said so in its result and did not route around it, which is what the part asks: the cold read, finding 2.7); model diffs: `explorations/protocol.md` principle 1.
 - No checking under walk; typecheck uses the compiler prelude: FACTS Execution model, first three entries; `explorations/repo-internals.md:129`.
 - Coercion on the value: POSITIONS "Walk chooses coercions on the value, for now."
 - Message order: FACTS "The interpreter's overload-ambiguity message ...".
@@ -160,15 +160,15 @@ Moved on 2026-10-05 from the `claude-session` skill's `long-commands.md`, `agent
 
 ## area-compiler.md
 
-- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: the old `CLAUDE.md`.
+- Layout: `explorations/repo-internals.md:50-58`. Incomplete not broken: the old `CLAUDE.md`. The `sayWhat` wall defined where it is first used (the cold read's terms): FACTS "A thrown `CompilerError` takes a third path ..."; `tests-writing.md`'s sources.
 - Running, times: `explorations/repo-internals.md:175-182`; brief-machine:20.
 - Phases: `explorations/repo-internals.md:127`; Shell switch: map README § 7 row `compiler/` phases 1-4.
 - Where a fix belongs: the script's prefix (territory map `:987-997`, rule 1 of `:998-1009`).
 - Code generator: `explorations/repo-internals.md:131`; FACTS Execution model (RTTIsize, generic instantiation).
-- Compiler prelude, nothing added: POSITIONS "The library route."; map README § 7 row `Library/CompilerLibrary.fss`.
-- Natives: FACTS "The one library binds its natives ..."; "Two constraints of the test and native machinery ..."; nativewrapper: the script `:945`.
+- Compiler prelude, nothing added: POSITIONS "The library route." (the three files `CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`); map README § 7 row `Library/CompilerLibrary.fss`. AnyType shared and CompilerSystem the compiled path's `System` (the cold read, finding 1.6): `build-and-caches.md`'s sources. CompilerSystem at the switch-over: no entry of POSITIONS, FACTS or PLAN names it (searched 2026-10-05).
+- Natives: FACTS "The one library binds its natives ..."; "Two constraints of the test and native machinery ..."; nativewrapper: the script `:945`. After a helper's signature changes, the plain build rather than deleting its wrapper (the cold read, 2.11): `build-and-caches.md`'s rule on kept caches (a native helper's signature takes the plain build, whose first step deletes the caches); the script's trap of rung 7 applies only to caches that survive the change.
 - Quick loop: map README § 6 (the shadow loop); `checker-count/run.sh:21-32`; caches never checked against the compiler: exploration § 6.
-- Tracks once per code state: the script `:1037`.
+- Tracks once per code state: the script `:1037`, which names the checker's and walk's source; the code-generator line follows `tests-running.md` (the cold read, finding 1.11, put to the curator).
 - Atomic runs and threads: the script `:1839`; map README § 7 row `runtimeSystem/`.
 - extends Object: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`".
 - Api/component name: FACTS "An exported function fails exactly as an exported variable does ...".
@@ -177,23 +177,23 @@ Moved on 2026-10-05 from the `claude-session` skill's `long-commands.md`, `agent
 
 ## area-library.md
 
-- One library, prelude deleted, nothing added: POSITIONS "The library route."; `explorations/repo-internals.md:24-28`.
-- Library's way first: POSITIONS "The library's own practice is the standard."; `explorations/protocol.md` principle 2.
+- One library, prelude deleted, nothing added: POSITIONS "The library route."; `explorations/repo-internals.md:24-28`. Which files of `Library/` and `LibraryBuiltin/` are the compiler's, AnyType in both (the cold read, finding 1.6): `explorations/repo-internals.md:106`; `compiler/WellKnownNames.java:113-138`; map README § 7.
+- Library's way first: POSITIONS "The library's own practice is the standard."; `explorations/protocol.md` principle 2. "A rule that refuses something" said as a rule of the language or of the checker that refuses an option (the cold read, finding 2.8): the same entry ("a fork resting on a rule that refuses something says what the library does instead"). The pointer to `area-specification.md` for a disagreement no decision settles: the manual "Rules weighed", item 4.
 - Decisions listed: POSITIONS "The exclusion rule stays and the tower is flat (route A).", "The implicit bound of an unbounded type parameter is `Any`", "A type parameter the arguments do not fix takes its bound ...", "Conversions never change which declaration runs."; the siblings named, `RR32` among them: FACTS "The one library's number tower is flat".
 - Comment spans: FACTS "A comment placed after a declaration that ends in an expression or a type ...".
 - FortressAst generated: `explorations/repo-internals.md:82-86`.
-- Natives, Writer: FACTS "The one library binds its natives ...".
+- Natives, Writer: FACTS "The one library binds its natives ..."; PLAN item 35 (the one binding text of the natives), said as a note for the switch-over (the cold read's small points).
 - Respelled test lines: POSITIONS "The gate's comparisons."
 - library_tests holds compiler-prelude tests: map README § 7 row `Library/CompilerLibrary.fss`; `explorations/repo-internals.md:109`.
 
 ## area-specification.md
 
 - Standard, frozen copy, its name, types.tick: the old `CLAUDE.md` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
-- Weighing: POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1.
+- Weighing: POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1. The type group and the late positions named (the cold read's terms): the same entry ("the type group went in and tried to make it run"; the exclusion rule, specialization kept, the tower flattened in 2011, the 2012 write-up, the POPL 2019 paper); `explorations/repo-internals.md` ("The two worlds": the compiler, 2010-2012, the team's final push); `explorations/coordinator/map/design-intent-sources.md:21` (`Papers/Types/journal`, "The Return Type Rule and Generics"); `research/extracts/ParkPOPL2019-extract.md`; POSITIONS "The exclusion rule stays and the tower is flat (route A)." (specialisation kept by the POPL paper).
 - apis/*.tex circular: FACTS "The test corpora cite the specification by file and section ..." (the generated-file note).
-- Revision form: POSITIONS "Every change to the specification is recorded with its reason.", "The S1 form", "The refused examples (S2)."; macro `Specification/fortress/fortress.tex:87-92`; entry layout `Specification/appendices/changes.tex:64-70`.
+- Revision form: POSITIONS "Every change to the specification is recorded with its reason.", "The S1 form", "The refused examples (S2)."; macro `Specification/fortress/fortress.tex:87-92`; entry layout `Specification/appendices/changes.tex:64-70`. Located (the cold read, finding 2.6): the decision an entry follows, `changes.tex:48-57` ("Each change below follows a decision of the revival ... An entry whose change does not follow from route A ... names the decision it follows or gives its reason"); the front matter's paragraph, `Specification/fortress/preamble.tex:54-64`; the decision records, `ls explorations/compile-ladder/*/decision-record.md`, `changes.tex:41-46` naming `rung-spec-route-a/decision-record.md`. No failing test for prose: `tests-writing.md`'s sources (the cold read, finding 1.12).
 - Report false sentences: the script's REPORT.md paragraph `:1028`.
-- Disagreement handling: the manual "Rules weighed", item 4.
+- Disagreement handling: the manual "Rules weighed", item 4 ("the row named among the text's departures in its `changes.tex` entry"; a passage with no entry has none to name it in, the cold read's small points).
 - Citing: FACTS "The test corpora cite ..."; the manual "Shared prefix".
 - Blind: FACTS "The checker-count and distance stages read only ..."; the manual "A repair of tests and records only".
 
