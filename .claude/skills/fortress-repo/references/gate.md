@@ -1,18 +1,41 @@
 # The gate
 
-The gate decides whether a tree lands on `main`. It runs once, on a clean build of that tree. A tree already gated is gated again only when it changed under `ProjectFortress/` (other than test files), `Library/` or `build.xml`:
+The gate is the full check of a tree before it lands on `main`. It takes about 25 minutes. Your brief says whether you run it. If your brief does not ask for it, do not run it: run your own tests, as `tests-running.md` says.
 
-    git diff --quiet <gated-commit> HEAD -- ProjectFortress Library build.xml || echo "changed: gate again unless only test files moved"
+Run the gate once for each tree. Run it again on a tree only if the tree changed under `ProjectFortress/` (test files excepted), under `Library/`, or in `build.xml`. The commit that landed the newest gate summary has the gated tree's code: that commit adds only records and the specification's PDF. So this test tells you whether to run the gate again:
 
-A test file is a `.fss`, `.fsi` or `.test` directly in `ProjectFortress/tests/` or a `ProjectFortress/*_tests/` directory. Changed test files alone are run through `harness-one.sh` and `junit.sh` instead (`tests-running.md`), the files of one corpus together in one JVM, and the gate's tables stand.
+    G=$(git log -1 --format=%H -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt')
+    git diff --quiet $G HEAD -- ProjectFortress Library build.xml || echo "changed: run the gate again, unless only test files changed"
+
+A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tests/` or in a `ProjectFortress/*_tests/` directory. If only test files changed, do not run the gate. Run the changed files through `harness-one.sh` and `junit.sh` (`tests-running.md`), the files of one corpus together in one JVM. The gate's tables then stay valid.
 
 ## What it runs
 
-On a clean build, in order: `df -h /` (under 1 GB free, sweep `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`); `rm -rf ProjectFortress/TEST-RESULTS`; `ant compileAll`; the distance stage started in the background; the library order; `ant testFast`, then `ant testSystem`, with zero failures; each suite's count compared with the newest landed summary (`tests-running.md`), red when one fell or a suite is gone; the four-thread atomic runs; the ladder regression; the checker count. The checker count is red only on a new crash line, a stale shadow or a missing total; the distance is reported and never red (`checker-measurements.md`).
+Run these steps in this order, on a clean build of the tree:
 
-It takes about 25 minutes: `ant compileAll` 25 to 60 s, the library order about 110 s, testFast 9 to 11 min, testSystem 3 to 4 min, the atomic runs about 1 min, the ladder about 4 min, the checker count 20 s to 2.5 min. The distance stage (13 to 24 min on one core) runs beside the rest from just after `ant compileAll`.
+1. Check `df -h /`. If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. (Warning: deleting `/tmp/fortress*rats` can break other live runs, `build-and-caches.md`.) If less than 500 MB is still free, stop and report.
+2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`. Then, at once, start the distance stage in the background (`checker-measurements.md`). It runs beside all the later steps.
+3. Run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
+4. Run `ant testFast`, then `ant testSystem`. Both must have zero failures.
+5. Write the summary. Compare each suite's count with the last landed summary. If a count fell or a suite is gone, the gate is red.
+6. Do the four-thread atomic runs (below).
+7. Do the ladder regression (below).
+8. Run the checker count (`checker-measurements.md`). It is red only on a new crash line, a stale shadow or a missing total. A stale shadow means that the count's private copy of `StaticChecker.java` no longer matches the tracked file.
+9. Read the distance stage's result. It is reported and never red.
 
-The atomic runs. The suites run at one thread and cannot see a lost update or a race in the class loader's first load, so fourteen compiled programs run three times each at four threads, 42 lines, from `ProjectFortress/` after the library order:
+The times: `ant compileAll` 25 to 60 s, the library order about 110 s, testFast 9 to 11 min, testSystem 3 to 4 min, the atomic runs about 1 min, the ladder about 4 min, the checker count 20 s to 2.5 min. The distance stage takes 13 to 24 min on one core, beside the other steps.
+
+## What it writes
+
+- Write the logs under your tree's `tmp/`. Never commit them.
+- The landed gates' tables are in `explorations/compile-ladder/climb-batch-<N>/gate/`: `summary.txt`, `checker-count.txt`, `distance.txt` and the ladder's tables. The distance stage's list of sites is at `explorations/compile-ladder/gate/distance-sites.tsv`.
+- The next gate compares with the newest `summary.txt` in `climb-batch-*/gate/` or `gate-baseline/`. It does not find a summary in another place or in another form. So if your brief asks you to land a gate's tables, put them there, in the same form.
+- `summary.txt` is tab-separated. It has one row for each suite: `track/suite`, tests, failures, errors, skipped, read from `ProjectFortress/TEST-RESULTS/`. Lines that start with `#` follow: each build's `BUILD` and `Total time` lines, the atomic runs, and the comparisons of the checker count and of the distance.
+- The batch script holds the commands that write and compare the summary: `gate_summary`, `gate_compare` and `last_landed_summary` in `explorations/coordinator/climb-batch-workflow.js`.
+
+## The atomic runs
+
+The suites run at one thread, so they cannot see a lost update or a race in the class loader's first load. These runs compile fourteen programs and run each one three times at four threads, 42 lines. Run them from `ProjectFortress/`, after the library order:
 
     for p in AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop FirstLoadThreadsRungG \
              atomic0 atomic1 atomic2 atomic3 atomic4 atomic5 atomic6 \
@@ -28,12 +51,37 @@ The atomic runs. The suites run at one thread and cannot see a lost update or a 
       done
     done
 
-Red: any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE. A single timeout that passes on its re-run is not red.
+The gate is red on any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE. A single timeout whose re-run passes is not red.
 
-The ladder regression compiles and runs the files listed in `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt`, compared with the baseline's recorded phase and output (`raw/`), and compiles only (never runs) the eighteen microGPT components, held at their recorded phase (`microgpt-phase.md`). Copy the subset driver `explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh` and the baseline's `classify.py`, `report.py`, `microgpt-phase.sh` and `microgpt-phase.py` into a directory under your `tmp/`, and point `OUT` and `LADDER_ROOT` in the two shell drivers there. Put copies of `default_repository/caches`, taken right after the library order, at `$LADDER_ROOT/ladder-caches` and `$LADDER_ROOT/pristine`, or the driver rebuilds the library (about 145 s). The file list:
+## The ladder regression
 
-    tail -n +2 explorations/compile-ladder/baseline-2026-09-19/pass-list.txt | cut -f1 | sed 's|/|\t|' > <dir>/subset.txt
+The ladder regression runs part of the compile ladder again and compares it with a recorded baseline. The compile ladder records how far each corpus program gets through the compiler's phases (`explorations/compile-ladder/`).
 
-Run `run-subset.sh`, then `classify.py` in that directory for `ladder.tsv`, then `microgpt-phase.sh` and `microgpt-phase.py` for the eighteen: about 200 s for the files and 35 s for the eighteen. Compare with the baseline file by file: a phase lower than recorded (in the order parse, disambiguate, typecheck, codegen, link, run, pass) is DOWN, a file with no output is MISSING, and output that differs once `Operation took <n>ms` is masked is STDOUT; each is red unless the change named it in advance as expected. A higher phase is UP, which is progress. Never run the whole-corpus driver with its default root: that root is shared, and its cache pruning corrupts a parallel run. A change's own ladder subset is the files whose recorded first error in `baseline-2026-09-19/raw/` names something it touched; their before is the last landed ladder table, or the baseline's output.
+- It compiles and runs the 85 programs listed in `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt`. It compares each program's phase and output with the baseline's record (`raw/`).
+- It compiles the eighteen components of the two microGPT programs, and never runs them. It compares each component's phase with the record in `baseline-2026-09-19/microgpt-phase.md`.
 
-The microGPT programs themselves never run in the gate.
+To run it:
+
+1. Copy the subset driver `explorations/compile-ladder/repair-r1-atomic-static/run-subset.sh`, and the baseline's `classify.py`, `report.py`, `microgpt-phase.sh` and `microgpt-phase.py`, into a directory under your `tmp/`.
+2. In the two shell drivers, point `OUT` and `LADDER_ROOT` at that directory. By default, `OUT` is a tracked folder.
+3. Put the two copies from step 3 of the gate at `$LADDER_ROOT/ladder-caches` and `$LADDER_ROOT/pristine`. With them, the driver does not build the library again (about 145 s).
+4. Write the list of files:
+
+       tail -n +2 explorations/compile-ladder/baseline-2026-09-19/pass-list.txt | cut -f1 | sed 's|/|\t|' > <dir>/subset.txt
+
+5. Run `run-subset.sh`, then `classify.py` in that directory, which writes `ladder.tsv`. Then run `microgpt-phase.sh` and `microgpt-phase.py` for the eighteen. This takes about 200 s for the files and 35 s for the eighteen.
+
+Compare the result with the baseline, file by file. The phases, from the lowest, are parse, disambiguate, typecheck, codegen, link, run and pass.
+
+- DOWN: a phase lower than the record.
+- MISSING: a file with no output.
+- STDOUT: output that differs from the record after the `Operation took <n>ms` line is masked.
+- UP: a phase higher than the record. This is progress, not red.
+
+DOWN, MISSING and STDOUT are red, unless the change declared that move as expected before the gate ran. The batch script reads such declarations from the `expectedMoves` field of its manifest.
+
+Warning: do not run the whole-corpus driver, `run-ladder.sh` (at the top of `explorations/compile-ladder/` and in `baseline-2026-09-19/`), with its default settings. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
+
+A change's own ladder subset is the files whose recorded first error in `baseline-2026-09-19/raw/` names something that the change touched. Their before is the last landed ladder table, or the baseline's output.
+
+Do not run the microGPT programs in the gate.

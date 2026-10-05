@@ -2,53 +2,79 @@
 
 ## The two suites
 
-- `ant testFast`: four tracks in parallel, each a forked JVM with its own caches. compiler: `CompilerJUTest` over `ProjectFortress/compiler_tests/` and `parser_tests/`. library: `LibraryJUTest` over `library_tests/`. othercompiler: `OtherCompilerJUTest` over `other_compiler_tests/`, the longest track, which sets the wall clock. misc: the unit `*JUTest` classes. About 9 to 11 minutes, about 1,800 tests.
-- `ant testSystem`: `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's corpus, in four shards. About 3 to 4 minutes, about 500 tests.
-- The exact counts and times of the last landed run are in the newest gate summary:
+- `ant testFast` runs four tracks in parallel. Each track is a forked JVM with its own caches. It takes about 9 to 11 minutes and runs about 1,800 tests.
+  - compiler: `CompilerJUTest` over `ProjectFortress/compiler_tests/` and `parser_tests/`.
+  - library: `LibraryJUTest` over `library_tests/`.
+  - othercompiler: `OtherCompilerJUTest` over `other_compiler_tests/`. It is the longest track, so it sets the total time.
+  - misc: the unit `*JUTest` classes.
+- `ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's corpus, in four shards. It takes about 3 to 4 minutes and runs about 500 tests.
 
-      git log -1 --name-only --format= -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt'
+The newest gate summary has the exact counts and times of the last landed run:
 
-- Run them after `ant compileAll` on the code you mean: neither compiles. Never run both at once, since both delete and reuse `ProjectFortress/test-caches`. Results land in `ProjectFortress/TEST-RESULTS/<track>/TEST-<class>.txt`.
-- `BUILD SUCCESSFUL` means zero failures. "Tests expected to pass are failing!" is the same verdict, so do not grep for it separately.
-- Both pin `FORTRESS_THREADS=1` inside `build.xml`, whatever the calling shell exports, and give each JVM 768 MB.
-- The shards split one sorted list by index, so a file added to `tests/` moves every later test to another shard: compare only the sum of the four. A suite whose count fell almost always means a `.test` file or a `tests=` line went missing.
-- Start them in the background and poll, never through `tail` (the `claude-session` skill, long commands).
+    git log -1 --name-only --format= -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt'
+
+- Neither suite compiles. Before a suite, run `ant compileAll` on the code that you mean to test.
+- Do not run both suites at once: both delete and reuse `ProjectFortress/test-caches`.
+- The results are in `ProjectFortress/TEST-RESULTS/<track>/TEST-<class>.txt`.
+- `BUILD SUCCESSFUL` means zero failures. "Tests expected to pass are failing!" gives the same verdict, so do not grep for it.
+- Both suites set `FORTRESS_THREADS=1` inside `build.xml`, whatever the shell exports, and give each JVM 768 MB. They keep their temporary files in `ProjectFortress/test-tmp/`.
+- The shards split one sorted list by index. A file added to `tests/` moves every later test to another shard. So compare only the sum of the four shards. If a suite's count fell, a `.test` file or a `tests=` line almost always went missing.
+- Start a suite in the background and poll its log (`session.md`). Do not pipe it through `tail`.
 
 ## Outside the gate
 
-- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate yet: it joins it once its five red examples, reductions written without their element type, pass.
-- `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, expected to fail, and fails when one passes.
-- Run by nothing: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. A new test never goes into a parked folder: a defect that fails today is an `XXX` test in a gated corpus (`tests-writing.md`).
+- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate yet. It joins the gate when its five red examples pass: reductions written without their element type.
+- `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
+- Warning: both of these targets run `ant compileAll` first, which deletes the tree's caches.
+- Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Do not put a new test in one of them. A defect that fails today gets an `XXX` test in a gated corpus (`tests-writing.md`).
 
 ## One test, or a few
 
-Interpreter tests (`ProjectFortress/tests/`), from the tree's root with `env.sh` sourced:
+### Interpreter tests
+
+Run interpreter tests (`ProjectFortress/tests/`) from the tree's root, after you set up the call:
 
     explorations/compile-ladder/rung-inference-walk/harness-one.sh <tree>/tmp/h1 \
         ProjectFortress/tests/X.fss [ProjectFortress/tests/X.test] [more files ...]
 
-It runs `SystemJUTest`, the class the shards run, with testSystem's JVM settings and an empty private cache, over a directory holding only the files you name. Name a test's `X.test` (its keys for a refusal at load) beside its `X.fss`. 15 to 25 s, most of it analysing the library. Several files go in one call, one JVM.
+- It runs `SystemJUTest`, the class that the shards run, with testSystem's JVM settings. It uses an empty private cache, and a directory that holds only the files that you name.
+- If a test has an `X.test` file (its keys for a refusal at load), name it beside its `X.fss`.
+- It takes 15 to 25 s, mostly to analyse the library. Name several files in one call to run them in one JVM.
 
-For the real diagnostic the harness hides:
+To see the real diagnostic that the harness hides, run the program directly:
 
     cd ProjectFortress && ../bin/fortress tests/X.fss
 
-`bin/fortress` gives its JVM 256 MB unless `JAVA_FLAGS` is set (`env.sh` sets 4 GB; the harness uses 768 MB), and a test can pass at two of these heaps and die at the third.
+A test can pass at two heaps and die at the third. `bin/fortress` gives its JVM 256 MB if `JAVA_FLAGS` is not set. Your setup sets 4 GB, and the harness uses 768 MB.
 
-Compiled tests (`.test` files in `compiler_tests/`, `library_tests/`, `other_compiler_tests/`), after the library order (`build-and-caches.md`):
+### Compiled tests
+
+Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They read the tree's `default_repository/caches`, so run the library order first (`build-and-caches.md`).
+
+The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is a fixed folder name, not a placeholder: an earlier batch of changes was called N. There is only one copy of the script.
 
     ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> \
-        ProjectFortress/compiler_tests X.test Y.test
+        ProjectFortress/compiler_tests X.test Y.test > <tree>/tmp/junit-<label>.txt 2>&1
 
-It runs `fortress junit` once over the list, compile and link tests before run tests, and removes the named components' cache entries before and after. It sources the `env.sh` of the tree it sits in, so run your own tree's copy. Without `ONE_JVM=1` each file gets its own JVM. By hand, one file:
+- `<label>` is any word. It marks the run's lines in the output. The script writes to standard output only, so redirect it to your `tmp/`.
+- With `ONE_JVM=1`, the whole list runs in one `fortress junit` run, in one JVM. The compile and link tests run before the run tests, as in the suite. Without `ONE_JVM=1`, each file gets its own JVM.
+- It removes the named components' entries from the tree's `default_repository/caches` before and after the run.
+- It runs the tree that it is in. Run your own tree's copy.
+- Warning: it sources its tree's env.sh. So each run deletes `/tmp/fortress*rats`, and its JVMs take env.sh's `JAVA_FLAGS` and keep their parser directories in `/tmp` (`build-and-caches.md`, "Setting up each call").
 
-    cd ProjectFortress && ../bin/fortress junit compiler_tests/X.test
+If another run may be live, run the same list in one JVM without the script. This skips the script's cache clean-up:
 
-Run all the new files of one corpus together, in one JVM, as the suite does: a test that passes alone can fail beside others.
+    cd ProjectFortress && ../bin/fortress junit compiler_tests/X.test compiler_tests/Y.test
 
-One unit-test class: `ant testOnly -DtestPattern=BitsJUTest`, about 90 s, most of it ant scanning `build/`. It uses the tree's own caches and the shell's `FORTRESS_THREADS`.
+`fortress junit` exits 0 whatever the verdict. Read the last lines: `OK (n tests)`, or `FAILURES!!!` with the counts.
 
-One track of testFast, whole (`CompilerJUTest`, `LibraryJUTest` or `OtherCompilerJUTest`), in its own JVM with a private cache, as `harness-one.sh` runs `SystemJUTest` and the `fastTrack` macro of `build.xml` runs the tracks; about 7 minutes for the compiler track:
+Run all the new files of one corpus together, in one JVM, as the suite does. A test that passes alone can fail beside others.
+
+### One unit-test class, or one track
+
+To run one unit-test class: `ant testOnly -DtestPattern=BitsJUTest`. It takes about 90 s, mostly for ant to scan `build/`. It uses the tree's own caches and the shell's `FORTRESS_THREADS`.
+
+To run one track of testFast whole (`CompilerJUTest`, `LibraryJUTest` or `OtherCompilerJUTest`), use its own JVM and a private cache, as the `fastTrack` macro of `build.xml` does. The compiler track takes about 7 minutes:
 
     S=<tree>/tmp/track-compiler ; rm -rf $S ; mkdir -p $S/caches $S/tmp ; printf '\0\0\0\0' > $S/caches/global.map
     CP=$(bin/fortress_classpath | tail -1)
@@ -56,13 +82,26 @@ One track of testFast, whole (`CompilerJUTest`, `LibraryJUTest` or `OtherCompile
       java -Xmx768m -Xss32m -Djava.io.tmpdir=$S/tmp -Dfortress.caches=$S/caches -Dfile.encoding=UTF-8 \
            -cp "$CP" com.sun.fortress.tests.unit_tests.CompilerJUTest > $S/out.txt 2>&1
 
-The verdict is the last lines: `OK (n tests)`, or `FAILURES!!!` with the counts. `ant testCompiler`, `ant testLibrary` and `ant testOtherCompiler` exist too, but each first runs `ant compileAll`, which deletes the tree's caches.
+The verdict is in the last lines: `OK (n tests)`, or `FAILURES!!!` with the counts.
 
-Switches the harness reads: `-Dtests=<dir>` (SystemJUTest's directory), `-Dfortress.suite.shard=i/n`, `-Dfortress.unittests.count=N`, `-Dfortress.unittests.seed=<value>` (each run prints its seed as `FORTRESS_UNITTESTS_SEED=...`), and `FORTRESS_JUNIT_VERBOSE=1` or `-Dfortress.junit.verbose=true` to see the output of passing tests.
+Warning: `ant testCompiler`, `ant testLibrary` and `ant testOtherCompiler` also exist, but each runs `ant compileAll` first, which deletes the tree's caches.
 
-## When a whole suite runs
+The harness reads these switches:
 
-- The gate (`gate.md`) runs everything once, on a clean build of the tree that lands on `main`.
-- An edit to the checker's or walk's Java or Scala may run the suite it reaches, whole, once per code state, after its last edit: the compiler and library tracks for the checker, `testSystem` for walk. Quote the verdict lines, the command and the commit. Nobody runs it again on that commit.
-- Every other change runs only its own tests, through the scripts above, and leaves the rest to the gate. A change of tests, prose or records alone runs no whole suite.
-- A tree already gated is gated again only when code it reads changed (`gate.md`).
+- `-Dtests=<dir>`: SystemJUTest's directory.
+- `-Dfortress.suite.shard=i/n`, `-Dfortress.unittests.count=N`.
+- `-Dfortress.unittests.seed=<value>`. Each run prints its seed as `FORTRESS_UNITTESTS_SEED=...`.
+- `FORTRESS_JUNIT_VERBOSE=1` or `-Dfortress.junit.verbose=true`: show the output of passing tests too.
+
+## When to run a whole suite
+
+- The gate runs every suite once, on the tree that lands (`gate.md`). Your brief says whether you run the gate.
+- If your edit changes the Java or Scala of the checker or of walk, you may run the suite that your edit reaches, whole, once for each code state, after your last edit:
+  - for the checker, the compiler and library tracks;
+  - for walk, `testSystem`.
+- A code state is a commit. Only a commit that changes code starts a new code state.
+- Quote the verdict lines, the command and the commit in your report. An agent that checks your work reads that result and does not run the suite again.
+- If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
+- The rule names the checker and walk only. After a code-generator edit, run its own tests, and the four-thread atomic runs if the edit is near transactions (`area-compiler.md`). Leave its whole tracks to the gate.
+- After every other change, run only its own tests, through the scripts above. Leave the rest to the gate. A change of tests, prose or records only needs no whole suite.
+- Run the gate again on a tree only if code that it reads changed (`gate.md`).

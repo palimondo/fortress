@@ -28,17 +28,18 @@ The original tree is the historical code that the work revives. It is everything
 
 ## Rules for every task
 
-- Do every edit under the original tree test first. Write the test and see it fail through the harness. Then make the fix and see the test pass. Keep the test in the corpus. A prose edit that no test can observe has no test (`references/tests-writing.md`).
-- Use the suite's verdict as the check. Assert every value that matters inside a test. Do not compare the printed output of the test corpora, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
-- Do not build or run anything twice on the same code. If the record or another agent's transcript holds the result of a build, a suite, a stage or a test run on the same code, cite that result. A finished log stays valid until the tree changes. A run of a new program, or a new measurement, is not a repeat.
+- Write the test before the fix for every edit under the original tree. See the test fail through the harness. Then make the fix and see the test pass. Keep the test in the corpus. A prose edit that no test can observe has no test (`references/tests-writing.md`).
+- Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the test corpora, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
+- Before you build or run something, look for its result on record. If the record or another agent's transcript holds the result of a build, a suite, a stage or a test run on the same code, cite that result and do not run it again. A finished log stays valid until the tree changes. A run of a new program, or a new measurement, is not a repeat.
 - Reproduce a behaviour before you explain it, unless such a run is already on record.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
-- Every Bash call starts a new shell. Set up each call as `references/build-and-caches.md` says. Do not source `explorations/experiment/env.sh` while any run may be live: it deletes files that other runs use.
-- The specification is the standard for what the language means. Change its text only in the revision form (`references/area-specification.md`). The library's own practice is the model for how to write a change to the library (`references/area-library.md`).
+- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not source `explorations/experiment/env.sh` while any run may be live: it deletes files that other runs use.
+- Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/area-library.md`).
+- Take the specification as the standard for what the language means. Change its text only in the revision form (`references/area-specification.md`).
 - Check every claim against a primary source: the code, the specification or a run. Change one variable per step.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite, the distance stage) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`.
-- Commit only the paths that you wrote. Do not commit scratch or a model identifier. The curator decides what is committed.
+- Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
 - In every report, give each defect's home, each decision with its alternatives and evidence, and each stop that the work met. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
 ## Parts to load
