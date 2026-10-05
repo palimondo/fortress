@@ -12,7 +12,7 @@
 
 - A full allowance breaks tool output with "no space left on device". Check Avail before a long run, and before seeding worktrees or copying builds.
 - What fills it is mostly temporary files the work never deletes. This repository's own culprit, the parser's directories in `/tmp`, and their sweep are in the `fortress-repo` skill (build and caches).
-- When it is full: stop your own background processes (the `claude-session` skill, stopping processes) and delete what you created and no longer need (scratch, build output, private caches, finished worktrees). If that is not enough, commit and push, and tell the curator (the person who curates this restoration and decides what is committed) that this session's allowance is spent: a new session starts on a fresh machine.
+- When it is full: stop your own background processes (the `fortress-repo` skill, its session part) and delete what you created and no longer need (scratch, build output, private caches, finished worktrees). If that is not enough, commit and push, and tell the curator (the person who curates this restoration and decides what is committed) that this session's allowance is spent: a new session starts on a fresh machine.
 
 ## The network
 

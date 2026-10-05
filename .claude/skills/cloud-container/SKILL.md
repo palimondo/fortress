@@ -5,7 +5,7 @@ description: "How the cloud platform this repository is worked on behaves, apart
 
 # The cloud container
 
-On the cloud platform, a Claude Code session (the `claude-session` skill) runs as one process in a cloud container: a virtual machine with its own disk, holding a clone of the branch of the repository the session was created from. The platform stops that process about every 13 hours and when the session goes idle, can restart the VM under it, and can lose the container outright. A stop or a restart keeps the disk; a lost container keeps only what was pushed. Running agents survive neither: after a stop they are resumed or relaunched, as the `claude-session` skill says.
+On the cloud platform, a Claude Code session (the `fortress-repo` skill, its session part) runs as one process in a cloud container: a virtual machine with its own disk, holding a clone of the branch of the repository the session was created from. The platform stops that process about every 13 hours and when the session goes idle, can restart the VM under it, and can lose the container outright. A stop or a restart keeps the disk; a lost container keeps only what was pushed. Running agents survive neither: after a stop the coordinating session resumes or relaunches them (the `coordinator` skill, running agents).
 
 A session run anywhere else, such as in a local container, needs none of this skill.
 
@@ -23,6 +23,6 @@ A session run anywhere else, such as in a local container, needs none of this sk
 - The transcript backup and its blind spots, the platform's git-check Stop hook: `references/hooks.md`
 - A lost container: re-provisioning, re-arming the backup, reading another session's transcript, recovering the work: `references/container-loss.md`
 
-How a Claude Code session behaves anywhere (the Bash tool's timeout, long commands, agents and the prompt cache, interrupts and resuming a run, the compaction hook, the permission check) is the `claude-session` skill. The repository's own build, tests, caches, worktrees, and committing and pushing are the `fortress-repo` skill.
+How a Claude Code session behaves anywhere (the Bash tool's timeout, long commands, the prompt cache and waits, interrupts and stops of the process, the permission check) is the `fortress-repo` skill's session part, beside that skill's build, tests, caches, worktrees, and committing and pushing. Running agents, resuming a run and the compaction hook are the coordinating session's `coordinator` skill.
 
 `references/sources.md` records where each fact in these parts comes from. It is for maintaining this skill. Do not load it for a task.

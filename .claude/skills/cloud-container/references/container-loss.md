@@ -33,5 +33,5 @@ A transcript over 64 MiB is stored as `<session>.jsonl.parts/NNN.jsonl`, cut at 
 2. Find the transcript's last record, the tail of its last part, against the last snapshot commit's time. It bounds everything recoverable.
 3. Look in that tail for edits after the last push, the mutating `Edit`, `Write` and `Bash` calls, and replay them by hand.
 4. Recover Workflow scripts and briefs from the transcript: a `Workflow` `tool_use` record carries its whole script.
-5. Do not expect to resume a Workflow run: a run is resumed only in the session that launched it (the `claude-session` skill, resuming).
+5. Do not expect to resume a Workflow run: a run is resumed only in the session that launched it (the `coordinator` skill, running agents).
 6. Write down where the work stands, from the transcript's tail and not from memory, before continuing (the coordinator's records: the `fortress-repo` skill).
