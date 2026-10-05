@@ -26,7 +26,7 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 
 ## Comments on a page
 
-Much of the curator's review comes as comments on a published page. Read each comment's thread with the `ArtifactComments` tool (the thread id is in the notification), answer on that thread, resolve it once it is addressed, and say in chat, in a few lines, what was done. A session watches at most ten pages: unwatch an old page before watching a new one.
+Much of the curator's review comes as comments on a published page. Read each comment's thread with the `ArtifactComments` tool (the thread id is in the notification), answer on that thread, resolve it once it is addressed, and say in chat, in a few lines, what was done. A comment on a skill marks a problem area, not a sentence to patch: rewrite its paragraph or section with the whole skill in mind, for a reader new to the repository, every internal reference explained. When the coordinator's own rewrites do not satisfy the curator, a writer agent with a clean context makes them from the coordinator's brief of the comment. Where a practice is in question, an archaeology worker first checks what the batch workers actually did. A session watches at most ten pages: unwatch an old page before watching a new one.
 
 ## Restate and hold
 
