@@ -10,7 +10,7 @@ It keeps what a worker, or its own next incarnation after a compaction, needs to
 - `explorations/coordinator/INDEX.md`: one line per standalone note, searched before any fact is called absent.
 - `explorations/coordinator/PLAN.md`: the phases, the open issues in the order they need deciding, the parked items, and each batch's items listed for the curator's review.
 - The first section of `explorations/microgpt-run-c-handover.md`: where the work stands.
-- The boot note, line 7 of `explorations/coordinator/postmortem-2026-09-19/held-list.md`. Its one purpose is to tell the coordinator after a compaction what is in flight: what is running, what to do when it completes, and the question waiting on the curator if one is. It also gives the session's process's last start and the next stop the platform's cap brings (the `remote-container` skill).
+- The boot note, line 7 of `explorations/coordinator/postmortem-2026-09-19/held-list.md`. Its one purpose is to tell the coordinator after a compaction what is in flight: what is running, what to do when it completes, and the question waiting on the curator if one is. It also gives the session's process's last start and the next stop the platform's cap brings (the `cloud-container` skill).
 
 ## Executive assistant
 

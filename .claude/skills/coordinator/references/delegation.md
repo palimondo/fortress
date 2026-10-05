@@ -38,7 +38,7 @@ One combined review, by one Opus worker that only reads: conformance (each rung 
 
 ## Watching what it launches
 
-Only a long or large run the coordinator launches outside a batch, such as a probe that builds and runs suites for an hour or more, is launched with an estimate and watched against it, as the `remote-container` skill's agents part says. Watching the spend is the coordinator's: no brief asks a worker to measure, project or cap its own token spend. The coordinator reads it from the agents' transcripts:
+Only a long or large run the coordinator launches outside a batch, such as a probe that builds and runs suites for an hour or more, is launched with an estimate and watched against it, as the `claude-session` skill's agents part says. Watching the spend is the coordinator's: no brief asks a worker to measure, project or cap its own token spend. The coordinator reads it from the agents' transcripts:
 
     explorations/coordinator/tools/spend.py <since-epoch> <transcript-or-directory>...
 

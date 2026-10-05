@@ -5,7 +5,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 ## The curator, and the boundary with the other skills
 
 - The human in the loop is named by role, "the curator", the person who curates the restoration and decides what is committed and what the agents are asked to do; no person's name appears in the skill (the curator's review comment on the skill page: a name in a skill is a red flag; the human in the loop described neutrally, by a role).
-- The boundary: this skill reads the other two and they never point here; workers never load it; what a report holds is the `fortress-repo` skill's contract, "What every report holds", named here and not restated (the curator's review of the skills, relayed by the coordinator: the coordinator skill will probably supersede the protocol, and the skills must not depend on each other implicitly or explicitly).
+- The boundary: this skill reads the other skills (two at first, three since `remote-container` was split) and they never point here; workers never load it; what a report holds is the `fortress-repo` skill's contract, "What every report holds", named here and not restated (the curator's review of the skills, relayed by the coordinator: the coordinator skill will probably supersede the protocol, and the skills must not depend on each other implicitly or explicitly).
 - Lines moved here from the other two skills when they were split: "A question for the curator goes in plain text, one at a time, never in a dialog tool. Time is read from the clock, never guessed."; "a step his yes already covers is taken without asking again"; "A question put to the curator names the library's own way first"; "say which reading you acted on" when a goal is unclear; "a closed decision is not reopened or re-asked"; the git-check hook's reminders answered silently and never mentioned to the curator; an accidental stop said so, and the run resumed.
 
 ## SKILL.md
@@ -13,7 +13,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Framing: the README, "The coordinator is two things"; the protocol, principles 3 and 5; POSITIONS "Ownership.", "The coordinator's standing goal".
 - Rules: a decision inside a report: the protocol, principle 3; POSITIONS "Ownership.". One ask, plain text, no dialog: the protocol, principle 3 and hard rule "Never the AskUserQuestion dialog". Closed decisions, a step a yes covers: the protocol, hard rule 1 and principle 4. Time: the protocol, principle 3; POSITIONS "Format.". Delegate: the protocol, principle 5. A goal unclear: the protocol, principle 4. Purposes govern, a rule weighed by its cost, propose the fix, proportion: the protocol's opening paragraph and "What keeps going wrong"; POSITIONS "A tests-only repair does not rerun the gate." (weighing cost against what a rule protects).
 - Failures to watch for: the protocol, "What keeps going wrong".
-- Pointers: the protocol's last paragraph (the container note and the batch manual); the `fortress-repo` and `remote-container` skills.
+- Pointers: the protocol's last paragraph (the container note and the batch manual); the `fortress-repo`, `claude-session` and `cloud-container` skills (the last two split on 2026-10-05 from one skill, `remote-container`).
 - The description (frontmatter): put through the skill-creator's description optimization on 2026-10-04 (its `run_loop` script over 20 trigger queries); the first iteration already held the best held-out score, so the optimization kept it as written; the eval set and the scores are in `explorations/reviews/skills-description-optimization.md`.
 
 ## roles-and-records.md
@@ -33,10 +33,10 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - The order and what is read: the README, first paragraph; the protocol, principle 5 ("Boot reads the record and nothing else").
 - FACTS in pages of about 15 to 20 lines: the boot note (its paragraph on the container: FACTS read in pages of about 20 lines, the Read tool's page holding 25K tokens); the review of the skills read it whole in 15-line pages, the longest page about 40 KB.
 - The boot's cost, about 250K with FACTS about a third: FACTS "A boot after a compaction costs about 285K tokens of context, and `FACTS.md` is about two fifths of it" (a title that no longer holds; its text gives 250K and a third).
-- The hook and a worker's own compaction: the `remote-container` skill, its hooks part.
+- The hook and a worker's own compaction: the `claude-session` skill, its compaction part.
 - In flight from the tree: POSITIONS "While a batch runs" (the client showing stale state).
 - An order lost and re-asked: the protocol, principle 4.
-- Reading disk and pushes after a stop: the `remote-container` skill's rules.
+- Reading disk and pushes after a stop: the rules of the `claude-session` skill (disk, resuming) and the `cloud-container` skill (pushes, a lost container).
 
 ## delegation.md
 
@@ -44,7 +44,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Tiers: the protocol, principle 5; POSITIONS "Which tier runs what.".
 - Fable without asking, pre-approvals, the yes: POSITIONS "The Fable rule.", "The judge's rulings.", "The phase-3 batches run on a standing go." (the top-tier review in place of a batch record); the protocol, hard rule 1 and principle 5.
 - A brief: the protocol, principles 2 and 5, "What keeps going wrong" (the brief that said "verify, do not trust"); POSITIONS "A brief describes the problem, not the solution.", "No re-measuring what the record holds.", "The mission briefing."; stops reserved: the script `:682`, `:1145`.
-- Watching: POSITIONS "The coordinator watches what it launches."; the how, the `remote-container` skill's agents part ("Watching a long run").
+- Watching: POSITIONS "The coordinator watches what it launches."; the how, the `claude-session` skill's agents part ("Watching a long run").
 - Estimates: POSITIONS "Estimates in the project's units.".
 - The mission briefing: POSITIONS "The mission briefing."; the manual, "Shared prefix". After every landed batch: POSITIONS "One review after every batch."; `explorations/reviews/process-review-6b-7-7R.md` (the process measures); `explorations/reviews/batch-10-review.md` (tokens written by role).
 - Watching the spend is the coordinator's, not the worker's: POSITIONS "The coordinator watches what it launches."; the tool `explorations/coordinator/tools/spend.py`.

@@ -21,7 +21,7 @@ If the boot note says a batch is running: its batch record, `explorations/coordi
 - Reports, transcripts, ledger rows and source go to a worker that returns a summary.
 - Whether a worker still runs is read from the harness's notice at the top of the turn and from `test -f` on the one output path its brief names.
 - "Is anything in flight" is answered from the tree and the run's journal, never from what the curator's client shows, which can be stale.
-- After a stop of the process, a restart or a lost container, what is on disk and what is pushed are read before anything starts again (the `remote-container` skill).
+- After a stop of the process, a restart or a lost container, what is on disk and what is pushed are read before anything starts again (recovering and resuming a run: the `claude-session` skill; the platform's stops and a lost container: the `cloud-container` skill).
 
 ## After the boot
 

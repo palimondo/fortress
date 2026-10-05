@@ -1,6 +1,6 @@
 ---
 name: fortress-repo
-description: "Use this skill for hands-on work on the Fortress language revival code in /home/user/fortress: building with ant and recompiling after editing a .fss, .fsi, Java or Scala file (recompiling what changed, not wiping caches); running programs under walk (the interpreter) or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test keys, XXX expected failures); the gate; measuring the checker count or distance to the switch-over; changes to the interpreter, compiled checker, code generator, Library or Specification; the gap ledger or git history; seeding worktrees; committing a code change. Load it before any build, test, edit or measurement there, however small, and when planning agents for that work. Not for session housekeeping, even in this repo: Stop hooks, git-check reminders, compaction, boot or handoff notes, coordinator scheduling, held lists, restarts, disk or container limits. The container, the session and restarts are the remote-container skill."
+description: "Use this skill for hands-on work on the Fortress language revival code in /home/user/fortress: building with ant and recompiling after editing a .fss, .fsi, Java or Scala file (recompiling what changed, not wiping caches); running programs under walk (the interpreter) or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test keys, XXX expected failures); the gate; measuring the checker count or distance to the switch-over; changes to the interpreter, compiled checker, code generator, Library or Specification; the gap ledger or git history; seeding worktrees; committing a code change. Load it before any build, test, edit or measurement there, however small, and when planning agents for that work. Not for session housekeeping, even in this repo: Stop hooks, git-check reminders, compaction, boot or handoff notes, coordinator scheduling, held lists, restarts, disk or container limits. Long waits and agents: claude-session skill; disk and container: cloud-container."
 ---
 
 # Working in the Fortress revival repository
@@ -15,7 +15,7 @@ The Fortress language was originally built by the team at Sun Labs from 2003 to 
 - After an edit, recompile what you edited; wiping the caches is never the fix for stale code (when the caches are deleted: `references/build-and-caches.md`).
 - The library's own way first. The specification is the standard, and every change to it takes the revision form.
 - Every claim is checked against a primary source: the code, the specification, a run. Reproduce before explaining, and change one variable per step. Where git does not record who wrote something, the attribution is reconstructed, never guessed, and no credit is claimed for the revival anywhere committed.
-- Long commands (a build, a suite, the distance stage) run in the background and are polled, as the `remote-container` skill says. Never pipe `ant` through `tail`.
+- Long commands (a build, a suite, the distance stage) run in the background and are polled, as the `claude-session` skill says. Never pipe `ant` through `tail`.
 - Commit only the paths you wrote: never scratch, never a model identifier. The curator decides what is committed.
 - Every report names each defect's home, each decision with its alternatives and evidence, and each reserved stop the work met, and asks the curator nothing (`references/area-records.md`, "What every report holds").
 
@@ -32,9 +32,10 @@ The Fortress language was originally built by the team at Sun Labs from 2003 to 
 - The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands and what each is for: `references/area-compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`
 - The specification (`Specification/`), Appendix I, citing it: `references/area-specification.md`
-- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history and git archaeology (the session transcripts are the `remote-container` skill's); what every report holds: `references/area-records.md`
+- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history and git archaeology (the session transcripts' backup branches are the `cloud-container` skill's); what every report holds: `references/area-records.md`
 - Committing and pushing: `references/committing.md`
-- Anything about the container, the session, restarts or agents (the machine's limits and the disk allowance, long commands, the prompt cache and waits, process stops and interrupts, resuming a run, the hooks, the permission check, a lost container): the `remote-container` skill.
+- The Claude Code session and its agents, wherever it runs (the Bash tool's timeout, long commands and polling, the prompt cache and waits, agents, interrupts and resuming a run, the compaction hook, the permission check): the `claude-session` skill.
+- This cloud platform (the machine's limits and the disk allowance, the network, the platform's process stops and restarts, check-ins, the transcript backup, the git-check hook, a lost container): the `cloud-container` skill.
 
 A task usually spans several: an interpreter fix needs its area, `build-and-caches.md`, `tests-writing.md` and `tests-running.md`.
 

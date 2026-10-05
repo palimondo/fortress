@@ -30,5 +30,5 @@ The curator decides what is committed. A worker commits its own files as it goes
       git push origin main
       git push origin main:claude/worker-brief-fable-vnnuv8
 
-  The second keeps current the branch the container is re-provisioned from (the `remote-container` skill, a lost container). No other branch is pushed without permission (the transcript branches excepted).
+  The second keeps current the branch the container is re-provisioned from (the `cloud-container` skill, a lost container). No other branch is pushed without permission (the transcript branches excepted).
 - A commit on `main` is pushed right after it is made, so that nothing on `main` waits on disk.

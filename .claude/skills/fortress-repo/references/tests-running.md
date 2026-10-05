@@ -12,7 +12,7 @@
 - `BUILD SUCCESSFUL` means zero failures. "Tests expected to pass are failing!" is the same verdict, so do not grep for it separately.
 - Both pin `FORTRESS_THREADS=1` inside `build.xml`, whatever the calling shell exports, and give each JVM 768 MB.
 - The shards split one sorted list by index, so a file added to `tests/` moves every later test to another shard: compare only the sum of the four. A suite whose count fell almost always means a `.test` file or a `tests=` line went missing.
-- Start them in the background and poll, never through `tail` (the `remote-container` skill, long commands).
+- Start them in the background and poll, never through `tail` (the `claude-session` skill, long commands).
 
 ## Outside the gate
 

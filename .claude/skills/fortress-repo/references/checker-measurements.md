@@ -14,7 +14,7 @@ Both need only built classes (`ant compileAll`): no library order and no warm ca
     explorations/coordinator/tools/distance/compare.sh <last-landed-distance.txt> <tree>/tmp/dist/distance.txt
 
 - The count takes about 20 s on an idle machine and up to about 2.5 min beside other jobs.
-- The distance runs one JVM on one busy core with 4 GB: 13 to 24 minutes, most of it on `FortressLibrary`. Start it in the background and poll (the `remote-container` skill, long commands).
+- The distance runs one JVM on one busy core with 4 GB: 13 to 24 minutes, most of it on `FortressLibrary`. Start it in the background and poll (the `claude-session` skill, long commands).
 - The distance's third argument, `walk` or `compile`, runs another setting, only for comparison with older measurements. Leave it off when comparing with a landed table.
 - `compare.sh` prints `DISTANCE DOWN`, `UP` or `SAME` with both totals (or `FIRST`, `NO TABLE`, `SETTING CHANGED`, `SHADOW STALE`), then each kind, class and unit whose count moved and each crash row that went or came. It always exits 0.
 - A run's per-site list, one row per error, is `errors.tsv` in its scratch directory. The landed one is `explorations/compile-ladder/gate/distance-sites.tsv`, overwritten at each landing.

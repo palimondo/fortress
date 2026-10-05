@@ -24,8 +24,10 @@ running fast.
 ## How to work here
 
 - Before any build, test run, edit, measurement, commit or agent launch, load
-  the `fortress-repo` skill; for the container, the session, restarts and
-  agents, the `remote-container` skill.
+  the `fortress-repo` skill; for long commands, waits, agents, interrupts and
+  resuming a run, the `claude-session` skill; for the cloud container's
+  machine, disk, stops and restarts, and a lost container, the
+  `cloud-container` skill.
 - The coordinating session follows the boot order of
   `explorations/coordinator/README.md` at session start and after every
   compaction, and works by the `coordinator` skill.
