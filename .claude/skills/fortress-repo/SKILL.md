@@ -33,7 +33,7 @@ The original tree is the historical code that the work revives. It is everything
 - After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
 - Reproduce a behaviour before you explain it, unless your brief cites such a run.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
-- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not source `explorations/experiment/env.sh` while any run may be live: it deletes files that other runs use.
+- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while any run may be live: the script deletes files that other runs use.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/area-library.md`).
 - Take the specification as the standard for what the language means. Change its text only in the revision form (`references/area-specification.md`).
 - Check every claim against a primary source: the code, the specification or a run. Change one variable per step.

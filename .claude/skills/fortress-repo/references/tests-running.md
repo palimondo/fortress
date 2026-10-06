@@ -60,7 +60,7 @@ The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`.
 - With `ONE_JVM=1`, the whole list runs in one `fortress junit` run, in one JVM. The compile and link tests run before the run tests, as in the suite. Without `ONE_JVM=1`, each file gets its own JVM.
 - It removes the named components' entries from the tree's `default_repository/caches` before and after the run.
 - It runs the tree that it is in. Run your own tree's copy.
-- Warning: it sources its tree's env.sh. So each run deletes `/tmp/fortress*rats`, and its JVMs take env.sh's `JAVA_FLAGS` and keep their parser directories in `/tmp` (`build-and-caches.md`, "Setting up each call").
+- Warning: it runs `source` on its tree's env.sh. So each run deletes `/tmp/fortress*rats`, and its JVMs take env.sh's `JAVA_FLAGS` and keep their parser directories in `/tmp` (`build-and-caches.md`, "Setting up each call").
 
 If another run may be live, run the same list in one JVM without the script. This skips the script's cache clean-up:
 
