@@ -1,12 +1,12 @@
 # The specification
 
-- `Specification/` is the standard. It is the team's working draft, as the revival revises it.
+- `Specification/` is the team's working draft, as the revival revises it. It says what the language means, except where a later source of the team's says otherwise (below).
 - `Specification-1.0-frozen/` is the unrevised copy, called "the Working Draft of February 2011". Only `fortress.1.0.pdf` in it is the 1.0 release. Never edit this copy.
 - `Documentation/Specification/` is the team's later restart, which they did not finish. If its Types chapter, `Documentation/Specification/Prose/Language/types.tick`, covers a topic, cite it beside `Specification/` as the designers' later word.
 
 ## Weighing the sources
 
-The aim is to finish what the designers intended, not to redesign. If two sources conflict:
+The aim is to finish what the designers intended, not to redesign. The team learned as it built, so if two of its sources conflict, the later one outweighs the earlier, whether it is a paper, the implementation or text. In particular:
 
 - The late positions of the type group outweigh the early text. The type group is the members of the original team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions include the exclusion rule; compiled code specialized to each instantiation of a generic, which they kept; the compiled number tower, which they flattened in 2011; the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`); and the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 - The implementers' later word outweighs unfinished text.
