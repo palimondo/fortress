@@ -36,7 +36,8 @@ The original tree is the historical code that the work revives. It is everything
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while any run may be live: the script deletes files that other runs use.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/area-library.md`).
 - If the team's own sources disagree, follow the later one. The team learned as it built, so a later paper, implementation or text outweighs an earlier one, the specification included. Revise the specification to match the later word, in the revision form (`references/area-specification.md`).
-- Check every claim against a primary source: the code, the specification, the papers or a run. Change one variable per step.
+- Check every claim against a primary source: the code, the specification, the papers or a run.
+- When you probe or debug, change one thing at a time, so that each result has one cause.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`.
 - Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
