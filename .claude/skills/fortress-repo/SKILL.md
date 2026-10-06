@@ -19,11 +19,11 @@ The original tree is the historical code that the work revives. It is everything
 ## Terms used in every part
 
 - The curator is the person in charge of this restoration.
-- The base is the commit that your work starts from (`references/worktrees.md`).
-- The gate is the full check of a tree before it lands (`references/gate.md`). To land a tree is to commit it to `main` and push `main`.
-- The record is the set of files under `explorations/` that hold what the project has established, decided and measured (`references/area-records.md`).
-- The harness is the suites' own test runner. `harness-one.sh` and `junit.sh` run it on the files that you name (`references/tests-running.md`).
-- A stop is a point that your brief names. If the work reaches a stop, your report must say so (`references/area-records.md`).
+- The base is the commit that your work starts from.
+- The gate is the full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
+- The record is the set of files under `explorations/` that hold what the project has established, decided and measured.
+- The harness is the suites' own test runner. `harness-one.sh` and `junit.sh` run it on the files that you name.
+- A stop is a point that your brief names. If the work reaches a stop, your report must say so.
 
 ## Rules for every task
 
