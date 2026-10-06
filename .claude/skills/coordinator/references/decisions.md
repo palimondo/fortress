@@ -4,7 +4,7 @@ The curator carries the responsibility for what the agents do, so the curator mu
 
 ## Reading what agents report
 
-Every agent's report follows the report contract of the `fortress-repo` skill: the defects it measured with their homes, the decisions it took with their alternatives and evidence, and the stops it met. The coordinator sorts each decision and each stop met by the rules below. A choice found inside the findings and not named as a decision is sorted as one. No agent puts anything to the curator: what reaches the curator, and when, is the coordinator's to decide.
+Every agent's report follows the report contract of the `fortress-repo` skill: the defects it measured with their homes, the decisions it took with their alternatives and evidence, and the points to report that the work reached. The coordinator sorts each decision and each reported point by the rules below. A choice found inside the findings and not named as a decision is sorted as one. No agent puts anything to the curator: what reaches the curator, and when, is the coordinator's to decide.
 
 ## What is consequential
 
@@ -16,13 +16,13 @@ A decision is consequential when it:
 - opens a fork, choosing among ways the record does not settle;
 - cannot be undone.
 
-Everything else an agent decided is listed for later review instead: a reversible choice inside decided ground, a default taken, a team test line respelled (with its before and after), a difference a gate comparison masked, a stop met that the record reserves as reversible. A rung's small items go to the ledger. An output difference the untouched tree already shows from run to run, the test's verdict unchanged, is a ledger row, not a stop. An engineering choice that serves a decided goal, such as how a worktree is seeded or whether the suite runs per edit or per batch, is measured and taken, not asked.
+Everything else an agent decided is listed for later review instead: a reversible choice inside decided ground, a default taken, a team test line respelled (with its before and after), a difference a gate comparison masked, a reported point that can be undone. A rung's small items go to the ledger. An output difference the untouched tree already shows from run to run, the test's verdict unchanged, is a ledger row, not a point to report. An engineering choice that serves a decided goal, such as how a worktree is seeded or whether the suite runs per edit or per batch, is measured and taken, not asked.
 
 ## How a decision reaches the curator
 
 1. **Asked before the work.** A fork known in advance is probed, then put to the curator in the ask form before the batch is briefed; the work it decides waits. A design fork across two or more of the specification, the library and the implementation gets its Fable judgement first (`delegation.md`).
 2. **Landed, then reviewed.** A consequential decision taken inside the work that can be undone does not hold a push or the next batch. It lands; the landing message names it in one line, as decided and reversible; it is filed in PLAN under the batch's list for the curator's review, with the default that landed; and it is put to the curator later, one per message, in the ask form. The items listed for later review wait in the same list and reach the curator when the curator takes it up.
-3. **A stop that holds the work.** Only what cannot be undone, or would act against the curator's word, holds the work, and it is put to the curator at once: a stop the record does not reserve, or one that cannot be undone; a red gate after its repair; a default that would reverse a decision of the curator's (that batch waits, and the repair batch takes its slot); a change of meaning against the specification; deleting a test to get green; a run or a Fable worker that no yes covers.
+3. **Work held.** Only what cannot be undone, or would act against the curator's word, holds the work, and it is put to the curator at once: a step that cannot be undone; a red gate after its repair; a default that would reverse a decision of the curator's (that batch waits, and the repair batch takes its slot); a change of meaning against the specification; deleting a test to get green; a run or a Fable worker that no yes covers.
 
 Everything waiting for the curator is merged in `explorations/coordinator/review-queue.md`, in the order it needs the curator. When the curator takes it up, each item is gone through in detail, one per message, in an order grouped by theme; how many defaults the curator reverses is not the measure.
 

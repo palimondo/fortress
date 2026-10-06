@@ -23,7 +23,6 @@ The original tree is the historical code that the work revives. It is everything
 - The gate is the full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
 - The record is the set of files under `explorations/` that hold what the project has established, decided and measured.
 - The harness is the suites' own test runner. `harness-one.sh` and `junit.sh` run it on the files that you name.
-- A stop is a point that your brief names. If the work reaches a stop, your report must say so.
 
 ## Rules for every task
 
@@ -39,7 +38,7 @@ The original tree is the historical code that the work revives. It is everything
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite, the distance stage) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`.
 - Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
-- In every report, give each defect's home, each decision with its alternatives and evidence, and each stop that the work met. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
+- In every report, give each defect's home, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
 ## Parts to load
 
@@ -56,7 +55,7 @@ Load the parts that your task touches:
 - The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/area-compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`
 - The specification (`Specification/`), Appendix I, citing it: `references/area-specification.md`
-- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; stops; what every report holds and where it goes: `references/area-records.md`
+- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; points to report; what every report holds and where it goes: `references/area-records.md`
 - Committing and pushing: `references/committing.md`
 - The Bash tool and its timeout, long commands and polling, waits and the prompt cache, stopping processes, interrupts and stops of the session's process, the automatic permission check: `references/session.md`
 - This cloud platform (the machine, the disk allowance, the network, the platform's stops, check-ins, the transcript backup, the git-check hook, a lost container): the `cloud-container` skill.

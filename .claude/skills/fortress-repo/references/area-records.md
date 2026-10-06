@@ -58,13 +58,13 @@ The 2012 tree's own READMEs describe their era, not the current tree. Check a cl
 - If you may edit FACTS, add a fact in the commit that establishes it. A decision of the curator's enters POSITIONS in the next commit after the curator states it.
 - Put new files of the work under `explorations/`. `research/` (our summaries of sources and the authorship study), `CLAUDE.md` and `.claude/` are ours too. Everything else is the original tree. `research/decks/` holds copyrighted material: it is gitignored. Never commit it.
 
-## Stops
+## Points to report
 
-A stop is a point that your brief names, which the work must report if it reaches it. Examples from earlier briefs: a team test line changed, a checker edit in a change to the library, a changed line of the model program.
+Your brief can name points to report: kinds of change or finding that the curator wants to review. Examples from earlier briefs: a changed line of a team test, a checker edit inside a change to the library, a changed line of the model program.
 
-- If the work reaches a stop, do what the brief says for it. For example, a brief can say that a site is left with a ledger row instead of a repair.
-- Then finish the work, and list the stop in your report as met, with its evidence. List a stop that only part of the work met too.
-- Reaching a stop does not end the work. What it holds back afterwards is decided outside the work.
+- If the work reaches such a point, do what the brief says for it. For example, a brief can say that a site is left with a ledger row instead of a repair.
+- Then finish the work, and list the point in your report, with its evidence. List a point that only part of the work reached too.
+- Reaching such a point does not end the work.
 - If a step cannot be undone, or would reverse a decision on record, do not take it. Put it in your report as a decision not taken, with its alternatives.
 
 ## What every report holds
@@ -75,5 +75,5 @@ Every agent that finds or decides something puts it in its report in this form, 
 
 - **Defects.** Each defect that you measured, with its home: an assertion in a gated test, a gated `XXX` test, a test that pins today's behaviour with a ledger row, or the row alone (`tests-writing.md`, "Where a measured defect goes"). Write a row in the ledger's form above, as finished prose in the report if you may not edit the ledger.
 - **Decisions.** Each choice that you made among alternatives, as a decision apart from the findings: what you chose, the alternatives, and the evidence, cited. If the record holds no position, do not invent one: say which reading you acted on. A decision left as a line inside the findings counts as not made.
-- **Stops met.** Each stop of your brief that the work met, listed as met, with its evidence, also one met on part of the work.
+- **Points to report.** Each point that your brief names and the work reached, with its evidence, also one that only part of the work reached.
 - **Nothing more.** Do not choose which of your items anyone reviews. Do not ask the curator anything: put an open question in the report as a decision not taken, with its alternatives.

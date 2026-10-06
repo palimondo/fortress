@@ -29,7 +29,7 @@
 - On a design fork, the worker is kept clean of the coordinator's options, not of its measurements: it reads its question first, lists every way the language and the library offer, answers a rule that blocks an option with how the library gets around it, and measures only where no record answers.
 - A briefing written for a batch speaks of "the decisions on record", never of a person, and sets the worker no required questions about its search: it says where the ground is unfamiliar, and the worker then works on its task.
 - Each rung of a batch gets a mission briefing drawn from the territory map, which its agents read in their first turn. How it is built and carried is the batch manual's, `explorations/coordinator/climb-batch-workflow.md`, "Shared prefix"; the share of agents that use it is measured by the review after the batch.
-- It names the stops it reserves: the points the work must report as met. What else the report holds is the report contract, which the brief does not restate.
+- It names the points to report: the kinds of change or finding that the curator wants to review. The work goes on when it reaches one; the report lists it. What else the report holds is the report contract, which the brief does not restate.
 - It tells the worker to load the `fortress-repo` skill, which holds that contract: a worker that only reads and reports would not load it on its own.
 
 ## After every landed batch
