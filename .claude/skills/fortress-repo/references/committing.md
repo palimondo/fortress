@@ -5,7 +5,7 @@ Your brief says whether you commit and push, and on which branch. If it says not
 ## What to commit
 
 - Commit the Fortress change, its tests, its report, a script that is reusable, and the lines for the ledger, FACTS and the plan if your brief lets you edit those files (`area-records.md`).
-- Do not commit captured outputs, logs, raw run output, copies of tools, probe programs, lists or any other scratch. Keep scratch under your tree's `tmp/`, which is gitignored. A private caches folder outside `tmp/` is not gitignored.
+- Do not commit captured outputs, logs, raw run output, copies of tools, probe programs, lists or any other scratch. Keep scratch under your tree's `tmp/`, which is gitignored. Do not rename a file to get it past `.gitignore`. A private caches folder outside `tmp/` is not gitignored.
 - Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
 - Use the curator's email for attribution only.
 - Claim no credit anywhere in a committed file. Put provenance and rationale in commit messages and reports, not in source comments.
