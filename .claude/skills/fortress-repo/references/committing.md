@@ -8,7 +8,6 @@ Your brief says whether you commit and push, and on which branch. If it says not
 - Do not commit captured outputs, logs, raw run output, copies of tools, probe programs, lists or any other scratch. Keep scratch under your tree's `tmp/`, which is gitignored. A private caches folder outside `tmp/` is not gitignored.
 - Do not commit a model identifier. Name a model by its tier: Fable (the top tier), Opus or Sonnet.
 - Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
-- Do not commit `HANDOVER.md`, the contents of an uploaded ZIP or any other file that the curator uploaded to a session, unless your brief says so. `HANDOVER.md` is not the handover, `explorations/microgpt-run-c-handover.md`.
 - Use the curator's email for attribution only.
 - Claim no credit anywhere in a committed file. Put provenance and rationale in commit messages and reports, not in source comments.
 
