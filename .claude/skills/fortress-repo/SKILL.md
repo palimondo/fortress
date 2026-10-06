@@ -28,8 +28,10 @@ The original tree is the historical code that the work revives. It is everything
 
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
 - Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the tests, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
-- Before you build or run something, look for its result on record. If the record or another agent's transcript holds the result of a build, a suite, a stage or a test run on the same code, cite that result and do not run it again. A finished log stays valid until the tree changes. A run of a new program, or a new measurement, is not a repeat.
-- Reproduce a behaviour before you explain it, unless such a run is already on record.
+- Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
+- Do not run again a build, a suite, a stage or a test run whose result you already have for the same code: one that your brief cites, or one that your own work ran. Cite that result instead. A result stays valid until the code changes. A run of a new program is not a repeat.
+- After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
+- Reproduce a behaviour before you explain it, unless your brief cites such a run.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not source `explorations/experiment/env.sh` while any run may be live: it deletes files that other runs use.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/area-library.md`).
