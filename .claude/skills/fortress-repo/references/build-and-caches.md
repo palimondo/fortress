@@ -30,7 +30,7 @@ With the lines above, your runs put their parser directories in `<tree>/tmp/`. H
 - When no run of yours is live, remove yours: `rm -rf <tree>/tmp/fortress*rats`.
 - Before a long run, check `df -h /`. How to read it: the `cloud-container` skill.
 
-These runs set their own temporary directory, so they put nothing in `/tmp`: the two ant suites (`ProjectFortress/test-tmp/`), `harness-one.sh`, the distance stage and `mg-run.sh`. `junit.sh` runs `source env.sh` itself and ignores your settings (`tests-running.md`).
+These runs set their own temporary directory, so they put nothing in `/tmp`: the two ant suites (`ProjectFortress/test-tmp/`), `harness-one.sh` and `mg-run.sh`. `junit.sh` runs `source env.sh` itself and ignores your settings (`tests-running.md`).
 
 ## Building
 
@@ -79,7 +79,7 @@ The caches are in `default_repository/caches/`. All of them are gitignored.
 
 Fortress uses an entry if the entry is not older than its source. A changed api makes every entry that imports it stale. Entries are keyed by absolute path, so a plain copy of another tree's caches does not work. Seed a tree instead (`worktrees.md`).
 
-Only these runs read `default_repository/caches`: `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`), and a direct walk run. These runs use private caches (`-Dfortress.caches` and `FORTRESS_CACHES`), and need neither the library order nor warm caches: `harness-one.sh`, the checker count, the distance stage, the ladder driver and both ant suites. A private caches folder outside `tmp/` is not gitignored.
+Only these runs read `default_repository/caches`: `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`), and a direct walk run. These runs use private caches (`-Dfortress.caches` and `FORTRESS_CACHES`), and need neither the library order nor warm caches: `harness-one.sh`, the ladder driver and both ant suites. A private caches folder outside `tmp/` is not gitignored.
 
 ## After an edit, what to rebuild
 

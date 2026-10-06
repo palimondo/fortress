@@ -1,6 +1,6 @@
 ---
 name: fortress-repo
-description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; measuring the checker count or distance to the switch-over; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
+description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
 ---
 
 # Working in the Fortress revival repository
@@ -38,7 +38,7 @@ The original tree is the historical code that the work revives. It is everything
 - If the team's own sources disagree, follow the later one. The team learned as it built, so a later paper, implementation or text outweighs an earlier one, the specification included. Revise the specification to match the later word, in the revision form (`references/area-specification.md`).
 - Check every claim against a primary source: the code, the specification, the papers or a run. Change one variable per step.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
-- Run long commands (a build, a suite, the distance stage) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`.
+- Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`.
 - Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
 - In every report, give each defect's home, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
@@ -52,7 +52,6 @@ Load the parts that your task touches:
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
 - The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, the home of a measured defect: `references/tests-writing.md`
-- The checker count and the distance; which edits cannot move them: `references/checker-measurements.md`
 - Walk's code (`interpreter/`), its natives, running programs under walk: `references/area-interpreter.md`
 - The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/area-compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`

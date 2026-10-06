@@ -46,5 +46,4 @@ At load, walk checks the `comprises` clauses of the program's main component. It
 
 - After you edit Java under `interpreter/`, run `ant compileAll` (`build-and-caches.md`). Run the library order only before a compiled run.
 - The suite that your edit reaches is `testSystem`. Run your own tests through `harness-one.sh`. You may run the whole `testSystem` once, on your final code. Quote its verdict (`tests-running.md`).
-- If your edit is only under `interpreter/evaluator/` and `interpreter/glue/`, it cannot move the checker count or the distance. Do not run them (`checker-measurements.md`). An edit elsewhere in `interpreter/` can move them.
 - Walk shares the parser and the early phases with the compiler. So an edit to the desugarers, the disambiguator or the switches of `Shell.java` can change both paths.

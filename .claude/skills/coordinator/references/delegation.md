@@ -32,6 +32,10 @@
 - It names the points to report: the kinds of change or finding that the curator wants to review. The work goes on when it reaches one; the report lists it. What else the report holds is the report contract, which the brief does not restate.
 - It tells the worker to load the `fortress-repo` skill, which holds that contract: a worker that only reads and reports would not load it on its own.
 
+## The batch workflow's measurements
+
+The batch workflow's gate (`explorations/coordinator/climb-batch-workflow.js`, its manual `climb-batch-workflow.md`) adds two measurements to the suites. The checker count is the errors that the compiled checker reports on the one library before each api's early return; it is red only on a new crash line, a stale shadow or a missing total. The distance to the switch-over is every error over all the prelude's apis and components; it is reported, never red. Their tools are under `explorations/coordinator/tools/checker-count/` and `distance/`, and the script's prompts say how to run them. They are the ladder's metrics: workers meet them only through the workflow or a brief that names them, never through the `fortress-repo` skill.
+
 ## After every landed batch
 
 One combined review, by one Opus worker that only reads: conformance (each rung against the decisions on record and the designers' intent), the process measures (misses by kind, those of items in the rung's own briefing, map use, briefing cost, measurements repeated, tokens written by role) and the routing check (every finding has a home). The coordinator files what it finds in PLAN at the landing, each finding at the home it names. The earlier reviews are `explorations/reviews/batch-*-review.md`.

@@ -45,4 +45,4 @@ In your report, quote every sentence of the specification that your change makes
 - In an Appendix I entry, cite the unrevised copy by path and line.
 - Inside the text, use `\secref{label}`.
 
-An edit under `Specification/` cannot move the checker count or the distance, and no suite reads it. So it needs no gate run of its own.
+No suite reads `Specification/`, so an edit there needs no gate run of its own.

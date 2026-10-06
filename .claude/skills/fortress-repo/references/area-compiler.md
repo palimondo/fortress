@@ -62,7 +62,6 @@ Natives: write `import java com.sun.fortress.nativeHelpers.{...}` in the `.fss` 
 - Give such a run its own caches (`-Dfortress.caches` and `FORTRESS_CACHES` under your `tmp/`), because nothing checks the caches against the compiler that wrote them. Then put the edit into the tree and build it for real.
 - After a checker edit, run your own tests through `junit.sh`. You may run the compiler and library tracks whole, once, on your final code (`tests-running.md`).
 - After a code-generator edit, run your own tests through `junit.sh`. The record names no whole track for this edit: leave the whole tracks to the gate (`tests-running.md`).
-- The checker count and the distance read every compiler phase. After an edit here, run each once on your final code. An edit to `compiler/StaticChecker.java`, or to a file that the distance stage patches, breaks those tools' shadows (`checker-measurements.md`).
 - If your change is near transactions, top-level mutable state or the class loader's first load, do the four-thread atomic runs (`gate.md`). Also run your own checks at `FORTRESS_THREADS=1` and `4`.
 - For the `XXX` shapes of a code-generator wall, a refusal at compile time or a crash at run time, read `tests-writing.md`.
 

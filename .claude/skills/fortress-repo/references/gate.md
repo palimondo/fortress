@@ -14,23 +14,21 @@ A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tes
 Run these steps in this order, on a clean build of the tree:
 
 1. Check `df -h /`. If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. (Warning: deleting `/tmp/fortress*rats` can break other live runs, `build-and-caches.md`.) If less than 500 MB is still free, stop and report.
-2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`. Then, at once, start the distance stage in the background (`checker-measurements.md`). It runs beside all the later steps.
+2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`.
 3. Run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
 4. Run `ant testFast`, then `ant testSystem`. Both must have zero failures.
 5. Write the summary. Compare each suite's count with the last landed summary. If a count fell or a suite is gone, the gate is red.
 6. Do the four-thread atomic runs (below).
 7. Do the ladder regression (below).
-8. Run the checker count (`checker-measurements.md`). It is red only on a new crash line, a stale shadow or a missing total. A stale shadow means that the count's private copy of `StaticChecker.java` no longer matches the tracked file.
-9. Read the distance stage's result. It is reported and never red.
 
-The times: `ant compileAll` 25 to 60 s, the library order about 110 s, testFast 9 to 11 min, testSystem 3 to 4 min, the atomic runs about 1 min, the ladder about 4 min, the checker count 20 s to 2.5 min. The distance stage takes 13 to 24 min on one core, beside the other steps.
+The times: `ant compileAll` 25 to 60 s, the library order about 110 s, testFast 9 to 11 min, testSystem 3 to 4 min, the atomic runs about 1 min, the ladder about 4 min.
 
 ## What it writes
 
 - Write the logs under your tree's `tmp/`. Never commit them.
-- The landed gates' tables are in `explorations/compile-ladder/climb-batch-<N>/gate/`: `summary.txt`, `checker-count.txt`, `distance.txt` and the ladder's tables. The distance stage's list of sites is at `explorations/compile-ladder/gate/distance-sites.tsv`.
+- The landed gates' tables are in `explorations/compile-ladder/climb-batch-<N>/gate/`: `summary.txt` and the ladder's tables.
 - The next gate compares with the newest `summary.txt` in `climb-batch-*/gate/` or `gate-baseline/`. It does not find a summary in another place or in another form. So if your brief asks you to land a gate's tables, put them there, in the same form.
-- `summary.txt` is tab-separated. It has one row for each suite: `track/suite`, tests, failures, errors, skipped, read from `ProjectFortress/TEST-RESULTS/`. Lines that start with `#` follow: each build's `BUILD` and `Total time` lines, the atomic runs, and the comparisons of the checker count and of the distance.
+- `summary.txt` is tab-separated. It has one row for each suite: `track/suite`, tests, failures, errors, skipped, read from `ProjectFortress/TEST-RESULTS/`. Lines that start with `#` follow: each build's `BUILD` and `Total time` lines and the atomic runs.
 - The batch script holds the commands that write and compare the summary: `gate_summary`, `gate_compare` and `last_landed_summary` in `explorations/coordinator/climb-batch-workflow.js`.
 
 ## The atomic runs

@@ -128,19 +128,9 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Threads 1 and 4: the script `:1276`.
 - Ambiguity message order: FACTS "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program".
 
-## checker-measurements.md
+## The checker count and the distance (removed)
 
-- What each measures, zero necessary not sufficient, per-api rows double: FACTS "The true distance to the switch-over ..."; "The checker-count stage's table ..."; `explorations/coordinator/tools/checker-count/run.sh:1-40`; `explorations/coordinator/tools/distance/run.sh:1-66`.
-- Commands, private caches, no rebuild: the two run.sh headers; `distance/compare.sh:1-20`.
-- Times: `checker-count/run.sh:19` (20 s); brief-machine:18-19; exploration § 4 (139 s, 840 s); FACTS "The true distance ..." (786-1,212 s, 14-24 min); `explorations/compile-ladder/climb-batch-10/gate/distance.txt:41` (1,252 s, FortressLibrary 749).
-- Settings: `distance/run.sh:24-37`; the manual "The distance stage".
-- Per-site lists: `distance/run.sh:123-125`; FACTS "The true distance ..." (`compile-ladder/gate/distance-sites.tsv`).
-- Landed tables as the before, no partial runs, no re-runs: POSITIONS "No re-measuring what the record holds.", "Nothing is built or run twice on the same code."; the script `:1039`; FACTS "The checker-count stage's table ..." (how the last landed table is found). Why a change runs both on its final code although a gate measures again (the cold read, finding 1.5): the manual, "The distance stage" (each rung's own tables against the landed ones tie its moved classes to its edit) and "After the landing" (the merged tables' rows tied to named edits); two changes' effects do not add: the manual "The checker count ...". Quoting the table, not committing it: POSITIONS "What a batch commits.".
-- Never red, a fix can raise it: POSITIONS "The checker count is measured, never red."; the manual "The checker count, and a rung whose test is that stage".
-- Variation and row 488: FACTS "The true distance ..."; `distance/compare.sh:14-18`. The classes BR, V2 and O1 named (the cold read's terms): `explorations/compile-ladder/climb-batch-10/gate/distance.txt`, its `#class` rows; `explorations/coordinator/tools/distance/classify.py:49` (O1).
-- Memo off: `checker-count/run.sh:34-40`; the manual "The checker count ..." (last paragraph).
-- Shadows: `checker-count/run.sh:21-32, :44` (STOCK_SHA); map README § 7 row `scala_src/typechecker/` (an edit to StaticChecker.java turns the gate red); `distance/run.sh:48-52, :90-107`.
-- Blind paths: FACTS "The checker-count and distance stages read only the compiler's phases ..."; the manual "Rules weighed", item 5.
+The part `checker-measurements.md` and its lines in `gate.md` (steps 2, 8, 9, the times, the tables), `area-compiler.md`, `area-interpreter.md`, `area-library.md`, `area-specification.md` and `SKILL.md` (the parts list, the long-commands example, the description) were removed at the curator's comment of 2026-10-06 on the review page: the two measurements are the ladder's metrics, run only by the workflow's gate or a brief that names them, and the batch script's prompts carry how to run them; the `coordinator` skill names them where it covers the batch workflow. The part's text and sources are in git history (`git show d194de9f5:.claude/skills/fortress-repo/references/checker-measurements.md`).
 
 ## area-interpreter.md
 

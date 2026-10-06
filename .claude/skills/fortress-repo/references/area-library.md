@@ -9,7 +9,6 @@ The one library is `Library/` and `ProjectFortress/LibraryBuiltin/`, without the
 Walk runs this library today. At the switch-over, the compiled checker accepts it and the compiler compiles it, and the compiler's own prelude (`CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`) is deleted. Until then:
 
 - Do not add a declaration to the compiler's prelude. Put extensions into this library itself, never into a tree of our own.
-- Every edit here can move the checker count and the distance, which measure how far the checker is from accepting this library. Run each once on your final code (`checker-measurements.md`).
 
 ## Designing a change
 
