@@ -47,7 +47,7 @@ Before you edit, find where the fix belongs:
 
 The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. It also builds `LibraryBuiltin/AnyType.fss`, the top type that both libraries share, and `Library/CompilerSystem.fss`, the compiled path's `System`.
 
-- Do not add a declaration to the three prelude files. The interpreter's library becomes the library that the compiler checks, and the three files are deleted at the switch-over. Their tests stay (`area-library.md`).
+- Do not add a declaration to the three prelude files. The interpreter's library becomes the library that the compiler checks, and the three files are deleted at the switch-over. Their tests stay (`library.md`).
 - The record does not yet say what happens to `CompilerSystem` at the switch-over.
 
 Natives: write `import java com.sun.fortress.nativeHelpers.{...}` in the `.fss` file. It binds static Java methods over plain Java values.

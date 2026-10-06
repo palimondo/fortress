@@ -15,8 +15,8 @@ Walk runs this library today. At the switch-over, the compiled checker accepts i
 - Before you design a change, study the existing parts of the library for the same family of declarations. Use their patterns to extend the library in its own way.
 - Do not design a fix from a reading of the specification alone, or from a workaround on the user's side.
 - If a rule of the language or of the checker refuses the way you want to write something, find how the library already writes that kind of thing, and do the same.
-- Before you choose, search the decisions on record (`area-records.md`).
-- The specification says what the language means (`area-specification.md`). If the library's practice and the specification's text disagree, and no decision on record settles it, do as `area-specification.md`, "When the text and an implementation disagree", says.
+- Before you choose, search the decisions on record (`records.md`).
+- The specification says what the language means (`specification.md`). If the library's practice and the specification's text disagree, and no decision on record settles it, do as `specification.md`, "When the text and an implementation disagree", says.
 
 These points are decisions on record. Do not reopen them:
 
@@ -31,7 +31,7 @@ These points are decisions on record. Do not reopen them:
 - After an edit, walk reads the file again on its next run: rebuild nothing. The compiled path does not link this library yet.
 - A comment after a declaration that ends in an expression or a type becomes part of that declaration's source span, and of the unambiguous name made from the span. So a comment-only edit changes the syntax tree. Compare parse trees or diagnostics only after you map the positions back (`explorations/compile-ladder/rung-library-comments/parse-compare.sh` and `remap-lines.py`).
 - `Library/FortressAst.fss` and `.fsi` are generated from `ProjectFortress/astgen/Fortress.ast`. Never edit them by hand.
-- Natives are `builtinPrimitive("...")` strings that name classes under `interpreter/glue/prim/` (`area-interpreter.md`).
+- Natives are `builtinPrimitive("...")` strings that name classes under `interpreter/glue/prim/` (`interpreter.md`).
 - If a library change breaks a line of a team test, respell the line and keep the value that it checks. Never delete it. List it in your report with its before and after.
 
 A note for the switch-over, not a step of a change today: the compiled path will need a static helper in `nativeHelpers/` for each native. Every program's output goes through the native `Writer`, because `println` writes through `stdOut`. So the first compiled program on this library needs `Writer`'s natives. PLAN item 35 decides the form of the binding.

@@ -102,6 +102,6 @@ The harness reads these switches:
 - A code state is a commit. Only a commit that changes code starts a new code state.
 - Quote the verdict lines, the command and the commit in your report. An agent that checks your work reads that result and does not run the suite again.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
-- The rule names the checker and walk only. After a code-generator edit, run its own tests, and the four-thread atomic runs if the edit is near transactions (`area-compiler.md`). Leave its whole tracks to the gate.
+- The rule names the checker and walk only. After a code-generator edit, run its own tests, and the four-thread atomic runs if the edit is near transactions (`compiler.md`). Leave its whole tracks to the gate.
 - After every other change, run only its own tests, through the scripts above. Leave the rest to the gate. A change of tests, prose or records only needs no whole suite.
 - Run the gate again on a tree only if code that it reads changed (`gate.md`).

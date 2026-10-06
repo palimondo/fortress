@@ -34,14 +34,14 @@ The original tree is the historical code that the work revives. It is everything
 - Reproduce a behaviour before you explain it, unless your brief cites such a run.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while any run may be live: the script deletes files that other runs use.
-- Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/area-library.md`).
-- If the team's own sources disagree, follow the later one. The team learned as it built, so a later paper, implementation or text outweighs an earlier one, the specification included. Revise the specification to match the later word, in the revision form (`references/area-specification.md`).
+- Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/library.md`).
+- If the team's own sources disagree, follow the later one. The team learned as it built, so a later paper, implementation or text outweighs an earlier one, the specification included. Revise the specification to match the later word, in the revision form (`references/specification.md`).
 - Check every claim against a primary source: the code, the specification, the papers or a run.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Commit only the paths that you wrote. Do not commit scratch: logs, captured output, probe programs. Do not rename a file to get it past `.gitignore`. Each agent's transcript keeps how the work was done (`references/committing.md`).
-- End your work with a report. List in it the defects that you found, your decisions, and the points that your brief asks for. Put a question for the curator in it as a decision not taken (`references/area-records.md`).
+- End your work with a report. List in it the defects that you found, your decisions, and the points that your brief asks for. Put a question for the curator in it as a decision not taken (`references/records.md`).
 
 ## Parts to load
 
@@ -53,15 +53,15 @@ Load the parts that your task touches:
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
 - The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
-- Walk's code (`interpreter/`), its natives, running programs under walk: `references/area-interpreter.md`
-- The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/area-compiler.md`
-- The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`
-- The specification (`Specification/`), Appendix I, citing it: `references/area-specification.md`
-- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; points to report; what every report holds and where it goes: `references/area-records.md`
+- Walk's code (`interpreter/`), its natives, running programs under walk: `references/interpreter.md`
+- The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/compiler.md`
+- The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
+- The specification (`Specification/`), Appendix I, citing it: `references/specification.md`
+- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; points to report; what every report holds and where it goes: `references/records.md`
 - Committing and pushing: `references/committing.md`
 - The Bash tool and its timeout, long commands and polling, waits and the prompt cache, stopping processes, interrupts and stops of the session's process, the automatic permission check: `references/session.md`
 - This cloud platform (the machine, the disk allowance, the network, the platform's stops, check-ins, the transcript backup, the git-check hook, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts. For example, an interpreter fix needs `area-interpreter.md`, `build-and-caches.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `area-records.md`.
+A task usually needs several parts. For example, an interpreter fix needs `interpreter.md`, `build-and-caches.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

@@ -11,7 +11,7 @@ The aim is to finish what the designers intended, not to redesign. The team lear
 - The late positions of the type group outweigh the early text. The type group is the members of the original team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions include the exclusion rule; compiled code specialized to each instantiation of a generic, which they kept; the compiled number tower, which they flattened in 2011; the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`); and the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 - The implementers' later word outweighs unfinished text.
 
-`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written. How a feature is used is the library's practice (`area-library.md`). `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard.
+`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written. How a feature is used is the library's practice (`library.md`). `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard.
 
 ## Changing the text: the revision form
 
@@ -22,7 +22,7 @@ Record the reason for every change, so that the text and the implementation neve
        \revision{<label of the Appendix I entry>}{<what changed, in a sentence or two>}
 
    `Specification/fortress/fortress.tex` defines the macro. It prints a labelled box that points to the entry's section.
-2. An entry in the revival section of Appendix I, `Specification/appendices/changes.tex`. The entry is a `\subsection` with a `\seclabel`. It gives the affected sections, the change, its rationale, its effect, the original text quoted with its path and line in `Specification-1.0-frozen/`, and what a reversal to the alternative not taken would need. Each entry names the decision on record that it follows (an entry of POSITIONS, `area-records.md`), or gives its own reason. Read the existing entries for the form.
+2. An entry in the revival section of Appendix I, `Specification/appendices/changes.tex`. The entry is a `\subsection` with a `\seclabel`. It gives the affected sections, the change, its rationale, its effect, the original text quoted with its path and line in `Specification-1.0-frozen/`, and what a reversal to the alternative not taken would need. Each entry names the decision on record that it follows (an entry of POSITIONS, `records.md`), or gives its own reason. Read the existing entries for the form.
 3. The front matter's one paragraph on the revision, in `Specification/fortress/preamble.tex`. If your change makes it false, correct it.
 4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. The existing decision records are `explorations/compile-ladder/*/decision-record.md`. Read `rung-spec-route-a/decision-record.md` for the form.
 
