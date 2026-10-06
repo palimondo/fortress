@@ -40,7 +40,7 @@ The original tree is the historical code that the work revives. It is everything
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
-- Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
+- Commit only the paths that you wrote. Do not commit scratch (`references/committing.md`).
 - In every report, give each defect's home, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
 ## Parts to load
