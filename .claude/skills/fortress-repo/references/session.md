@@ -9,7 +9,7 @@ The main session and all its agents run their commands on one machine, the sessi
 
 ## Long commands
 
-If a command can take more than a minute or two, start it in the background with a log, and poll the log. Do not pipe a long command through `tail`: `tail` keeps only the last lines, so a failure printed earlier is lost and you must run the command again to see it. Grep the log instead. Put the log under your tree's `tmp/`.
+If a command can take more than a minute or two, start it in the background with a log, and poll the log. Do not pipe a long command through `tail`: `tail` prints only after the command ends, and only its last lines. If the Bash tool's time limit stops the run first, you see nothing and must run it again. Grep the log instead. Put the log under your tree's `tmp/`.
 
 Define the two functions in each call that uses them:
 

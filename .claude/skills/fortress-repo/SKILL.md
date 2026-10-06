@@ -39,7 +39,7 @@ The original tree is the historical code that the work revives. It is everything
 - Check every claim against a primary source: the code, the specification, the papers or a run.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
-- Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: `tail` keeps only the last lines, so a failure printed earlier is lost and you must run the command again to see it.
+- Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: `tail` prints only after the command ends, and only its last lines. If the Bash tool's time limit stops the run first, you see nothing and must run it again.
 - Commit only the paths that you wrote. Do not commit scratch or a model identifier (`references/committing.md`).
 - In every report, give each defect's home, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
