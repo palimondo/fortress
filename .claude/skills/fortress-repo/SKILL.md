@@ -26,7 +26,7 @@ The original tree is the historical code that the work revives. It is everything
 
 ## Rules for every task
 
-- Write the test before the fix for every edit under the original tree. See the test fail through the harness. Then make the fix and see the test pass. Keep the test in the corpus. A prose edit that no test can observe has no test (`references/tests-writing.md`).
+- Write the test before the fix for every edit of source code in the original tree: Java, Scala, the grammars and the library. See the test fail through the harness. Then make the fix and see the test pass. Keep the test in the corpus. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
 - Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the test corpora, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
 - Before you build or run something, look for its result on record. If the record or another agent's transcript holds the result of a build, a suite, a stage or a test run on the same code, cite that result and do not run it again. A finished log stays valid until the tree changes. A run of a new program, or a new measurement, is not a repeat.
 - Reproduce a behaviour before you explain it, unless such a run is already on record.

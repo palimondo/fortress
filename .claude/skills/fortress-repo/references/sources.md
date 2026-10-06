@@ -110,7 +110,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 
 ## tests-writing.md
 
-- Test first, essence, transcript as record, no one-off script, assert inside the test: POSITIONS "Test first, the test kept.", "The suite's verdict is the check."; `explorations/protocol.md` hard rule "The gate"; the script's REPORT.md paragraph `:1028` (two to five lines quoted).
+- Test first, essence, transcript as record, no one-off script, assert inside the test: POSITIONS "Test first, the test kept." ("every sealed-tree edit", narrowed to an edit of source code at the curator's comment of 2026-10-06 on the review page: agents were unsure what test a rung that edits only the specification owes; the specification and documentation keep their own rule, below), "The suite's verdict is the check."; `explorations/protocol.md` hard rule "The gate"; the script's REPORT.md paragraph `:1028` (two to five lines quoted).
 - Seen failing before the edit is built: the manual "Climb batch 9", "The skeptic builds nothing." (the condition on the recorded failure). The test and the fix in one commit, no commit of its own: POSITIONS "Test first, the test kept." (its last sentences); the pending edit, "Also with this edit". A prose edit with no test: the manual, "Rung worker" (a rung that edits only prose has no failure to see; its skeptic checks the text against the tree and the decisions on record).
 - Interpreter pass rule, skipped names: `FileTests.java:383-421, :934-935`; `explorations/coordinator/test-discipline.md` § 5.
 - test_library apis: FACTS "An `XXX*.fss` in the interpreter corpus IS a gated expected-failure test".

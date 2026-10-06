@@ -2,7 +2,7 @@
 
 ## The order: the test, its failure, the fix, the pass
 
-Start every edit under the original tree (everything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`) from a failing test that you add to the corpus:
+Start every edit of source code in the original tree (Java, Scala, the grammars and the library's `.fss` and `.fsi` files) from a failing test that you add to the corpus:
 
 1. Write the test. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
 2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the base's code through `old-fortress.sh` (`worktrees.md`).

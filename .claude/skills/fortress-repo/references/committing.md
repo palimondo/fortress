@@ -19,7 +19,7 @@ Your brief says whether you commit and push, and on which branch. If it says not
 
 - Other agents may have uncommitted edits in the same tree. The command above commits none of them. Leave them alone.
 - Before you commit a staged change of more than a few hundred lines, read `git diff --cached --stat`.
-- If you edited the original tree (anything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`), write the test before the fix (`tests-writing.md`). Say in the commit message that the commit edits the original tree.
+- If the commit edits the original tree (anything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`), say so in its message.
 - End every commit message with this footer, exactly. It names no model, whatever footer the harness suggests. Its session line names the session that the work runs in. `explorations/protocol.md` gives that line, and changes it if the work moves to another session.
 
       Co-Authored-By: Claude <noreply@anthropic.com>
