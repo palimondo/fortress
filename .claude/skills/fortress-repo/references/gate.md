@@ -1,6 +1,6 @@
 # The gate
 
-The gate takes about 25 minutes. Your brief says whether you run it.
+The gate takes about 25 minutes. Your brief says whether you run it. If it does not ask for it, do not run it: run your own tests (`tests-running.md`).
 
 Run the gate once for each tree. Run it again on a tree only if the tree changed under `ProjectFortress/` (test files excepted), under `Library/`, or in `build.xml`. The commit that landed the newest gate summary has the gated tree's code: that commit adds only records and the specification's PDF. So this test tells you whether to run the gate again:
 

@@ -1,6 +1,6 @@
 # Committing and pushing
 
-Your brief says whether you commit and push, and on which branch.
+Your brief says whether you commit and push, and on which branch. If it says nothing, commit your own files as you go, on the branch that you work on, and push that branch (below).
 
 ## What to commit
 
