@@ -1,35 +1,32 @@
 # The gate
 
-The gate is the full check of a tree before it lands on `main`. It takes about 25 minutes. Your brief says whether you run it. If your brief does not ask for it, do not run it: run your own tests, as `tests-running.md` says.
+The gate takes about 25 minutes. Your brief says whether you run it.
 
 Run the gate once for each tree. Run it again on a tree only if the tree changed under `ProjectFortress/` (test files excepted), under `Library/`, or in `build.xml`. The commit that landed the newest gate summary has the gated tree's code: that commit adds only records and the specification's PDF. So this test tells you whether to run the gate again:
 
     G=$(git log -1 --format=%H -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt')
     git diff --quiet $G HEAD -- ProjectFortress Library build.xml || echo "changed: run the gate again, unless only test files changed"
 
-A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tests/` or in a `ProjectFortress/*_tests/` directory. If only test files changed, do not run the gate. Run the changed files through `harness-one.sh` and `junit.sh` (`tests-running.md`), the files of one test folder together in one JVM. The gate's tables then stay valid.
+A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tests/` or in a `ProjectFortress/*_tests/` directory. If only test files changed, do not run the gate. Run the changed files through `harness-one.sh` and `junit.sh` (`tests-running.md`). The gate's tables then stay valid.
 
 ## What it runs
 
 Run these steps in this order, on a clean build of the tree:
 
-1. Check `df -h /`. If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. (Warning: deleting `/tmp/fortress*rats` can break other live runs, `build-and-caches.md`.) If less than 500 MB is still free, stop and report.
+1. Check `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs (`build-and-caches.md`). If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. If less than 500 MB is still free, stop and report.
 2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`.
 3. Run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
-4. Run `ant testFast`, then `ant testSystem`. Both must have zero failures.
+4. Run `ant testFast` (9 to 11 min), then `ant testSystem` (3 to 4 min). Both must have zero failures.
 5. Write the summary. Compare each suite's count with the last landed summary. If a count fell or a suite is gone, the gate is red.
-6. Do the four-thread atomic runs (below).
-7. Do the ladder regression (below).
-
-The times: `ant compileAll` 25 to 60 s, the library order about 110 s, testFast 9 to 11 min, testSystem 3 to 4 min, the atomic runs about 1 min, the ladder about 4 min.
+6. Do the four-thread atomic runs (about 1 min, below).
+7. Do the ladder regression (about 4 min, below).
 
 ## What it writes
 
-- Write the logs under your tree's `tmp/`. Never commit them.
 - The landed gates' tables are in `explorations/compile-ladder/climb-batch-<N>/gate/`: `summary.txt` and the ladder's tables.
 - The next gate compares with the newest `summary.txt` in `climb-batch-*/gate/` or `gate-baseline/`. It does not find a summary in another place or in another form. So if your brief asks you to land a gate's tables, put them there, in the same form.
 - `summary.txt` is tab-separated. It has one row for each suite: `track/suite`, tests, failures, errors, skipped, read from `ProjectFortress/TEST-RESULTS/`. Lines that start with `#` follow: each build's `BUILD` and `Total time` lines and the atomic runs.
-- The batch script holds the commands that write and compare the summary: `gate_summary`, `gate_compare` and `last_landed_summary` in `explorations/coordinator/climb-batch-workflow.js`.
+- The shell functions `gate_summary`, `gate_compare` and `last_landed_summary` in `explorations/coordinator/climb-batch-workflow.js` write and compare the summary.
 
 ## The atomic runs
 
@@ -53,7 +50,7 @@ The gate is red on any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE. A single 
 
 ## The ladder regression
 
-The ladder regression runs part of the compile ladder again and compares it with a recorded baseline. The compile ladder records how far each test program gets through the compiler's phases (`explorations/compile-ladder/`).
+The compile ladder records how far each test program gets through the compiler's phases (`explorations/compile-ladder/`). The ladder regression runs part of it again and compares the result with a recorded baseline:
 
 - It compiles and runs the 85 programs listed in `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt`. It compares each program's phase and output with the baseline's record (`raw/`).
 - It compiles the eighteen components of the two microGPT programs, and never runs them. It compares each component's phase with the record in `baseline-2026-09-19/microgpt-phase.md`.
@@ -76,10 +73,8 @@ Compare the result with the baseline, file by file. The phases, from the lowest,
 - STDOUT: output that differs from the record after the `Operation took <n>ms` line is masked.
 - UP: a phase higher than the record. This is progress, not red.
 
-DOWN, MISSING and STDOUT are red, unless the change declared that move as expected before the gate ran. The batch script reads such declarations from the `expectedMoves` field of its manifest.
+DOWN, MISSING and STDOUT are red, unless your brief declared that move as expected before the gate ran.
 
-Warning: do not run the driver over every test program, `run-ladder.sh` (at the top of `explorations/compile-ladder/` and in `baseline-2026-09-19/`), with its default settings. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
+Warning: do not run `run-ladder.sh`, the driver over every test program (at the top of `explorations/compile-ladder/` and in `baseline-2026-09-19/`), with its default settings. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
 
 A change's own ladder subset is the files whose recorded first error in `baseline-2026-09-19/raw/` names something that the change touched. Their before is the last landed ladder table, or the baseline's output.
-
-Do not run the microGPT programs in the gate.

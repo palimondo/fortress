@@ -13,17 +13,16 @@ The newest gate summary has the exact counts and times of the last landed run:
 
     git log -1 --name-only --format= -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt'
 
-- Neither suite compiles. Before a suite, run `ant compileAll` on the code that you mean to test.
+- Neither suite compiles. Before a suite, run `ant compileAll` on the code that you mean to test. On a stale build, a suite tests the previous code and gives no warning.
 - Do not run both suites at once: both delete and reuse `ProjectFortress/test-caches`.
 - The results are in `ProjectFortress/TEST-RESULTS/<track>/TEST-<class>.txt`.
 - `BUILD SUCCESSFUL` means zero failures. "Tests expected to pass are failing!" gives the same verdict, so do not grep for it.
 - Both suites set `FORTRESS_THREADS=1` inside `build.xml`, whatever the shell exports, and give each JVM 768 MB. They keep their temporary files in `ProjectFortress/test-tmp/`.
 - The shards split one sorted list by index. A file added to `tests/` moves every later test to another shard. So compare only the sum of the four shards. If a suite's count fell, a `.test` file or a `tests=` line almost always went missing.
-- Start a suite in the background and poll its log (`session.md`). Do not pipe it through `tail`.
 
 ## Outside the gate
 
-- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate yet. It joins the gate when its five red examples pass: reductions written without their element type.
+- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate. Five of its examples fail today: reductions written without their element type.
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
 - Warning: both of these targets run `ant compileAll` first, which deletes the tree's caches.
 - Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Do not put a new test in one of them. A defect that fails today gets an `XXX` test in a gated test folder (`tests-writing.md`).
@@ -45,13 +44,13 @@ To see the real diagnostic that the harness hides, run the program directly:
 
     cd ProjectFortress && ../bin/fortress tests/X.fss
 
-A test can pass at two heaps and die at the third. `bin/fortress` gives its JVM 256 MB if `JAVA_FLAGS` is not set. Your setup sets 4 GB, and the harness uses 768 MB.
+The direct run and the harness use different heaps (`interpreter.md`, "Running a program").
 
 ### Compiled tests
 
 Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They read the tree's `default_repository/caches`, so run the library order first (`build-and-caches.md`).
 
-The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is a fixed folder name, not a placeholder: an earlier batch of changes was called N. There is only one copy of the script.
+The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is the folder's real name, not a placeholder.
 
     ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh <label> \
         ProjectFortress/compiler_tests X.test Y.test > <tree>/tmp/junit-<label>.txt 2>&1
@@ -74,15 +73,13 @@ Run all the new files of one test folder together, in one JVM, as the suite does
 
 To run one unit-test class: `ant testOnly -DtestPattern=BitsJUTest`. It takes about 90 s, mostly for ant to scan `build/`. It uses the tree's own caches and the shell's `FORTRESS_THREADS`.
 
-To run one track of testFast whole (`CompilerJUTest`, `LibraryJUTest` or `OtherCompilerJUTest`), use its own JVM and a private cache, as the `fastTrack` macro of `build.xml` does. The compiler track takes about 7 minutes:
+To run one track of testFast whole (`CompilerJUTest`, `LibraryJUTest` or `OtherCompilerJUTest`), use its own JVM and a private cache, as the `fastTrack` macro of `build.xml` does. The compiler track takes about 7 minutes. Read its verdict in the last lines of `$S/out.txt`, as for `fortress junit`:
 
     S=<tree>/tmp/track-compiler ; rm -rf $S ; mkdir -p $S/caches $S/tmp ; printf '\0\0\0\0' > $S/caches/global.map
     CP=$(bin/fortress_classpath | tail -1)
     cd ProjectFortress && FORTRESS_THREADS=1 FORTRESS_CACHES=$S/caches \
       java -Xmx768m -Xss32m -Djava.io.tmpdir=$S/tmp -Dfortress.caches=$S/caches -Dfile.encoding=UTF-8 \
            -cp "$CP" com.sun.fortress.tests.unit_tests.CompilerJUTest > $S/out.txt 2>&1
-
-The verdict is in the last lines: `OK (n tests)`, or `FAILURES!!!` with the counts.
 
 Warning: `ant testCompiler`, `ant testLibrary` and `ant testOtherCompiler` also exist, but each runs `ant compileAll` first, which deletes the tree's caches.
 
@@ -100,8 +97,7 @@ The harness reads these switches:
   - for the checker, the compiler and library tracks;
   - for walk, `testSystem`.
 - A code state is a commit. Only a commit that changes code starts a new code state.
-- Quote the verdict lines, the command and the commit in your report. An agent that checks your work reads that result and does not run the suite again.
+- Quote the verdict lines, the command and the commit in your report.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
 - The rule names the checker and walk only. After a code-generator edit, run its own tests, and the four-thread atomic runs if the edit is near transactions (`compiler.md`). Leave its whole tracks to the gate.
 - After every other change, run only its own tests, through the scripts above. Leave the rest to the gate. A change of tests, prose or records only needs no whole suite.
-- Run the gate again on a tree only if code that it reads changed (`gate.md`).

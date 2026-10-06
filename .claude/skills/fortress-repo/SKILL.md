@@ -47,21 +47,22 @@ The original tree is the historical code that the work revives. It is everything
 
 Load the parts that your task touches:
 
-- Setting up each call, building, the caches, what to rebuild after an edit: `references/build-and-caches.md`
-- The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
+- Setting up each call: `references/build-and-caches.md`
+- The Bash tool and its timeout, long commands and polling, waits and the prompt cache, stopping processes, interrupts and stops of the session's process, the automatic permission check: `references/session.md`
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
-- Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
-- The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
-- Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
+- Building, the caches, what to rebuild after an edit: `references/build-and-caches.md`
+- The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
 - Walk's code (`interpreter/`), its natives, running programs under walk: `references/interpreter.md`
 - The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification (`Specification/`), Appendix I, citing it: `references/specification.md`
-- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; points to report; what every report holds and where it goes: `references/records.md`
+- Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
+- Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
+- The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
 - Committing and pushing: `references/committing.md`
-- The Bash tool and its timeout, long commands and polling, waits and the prompt cache, stopping processes, interrupts and stops of the session's process, the automatic permission check: `references/session.md`
-- This cloud platform (the machine, the disk allowance, the network, the platform's stops, check-ins, the transcript backup, the git-check hook, a lost container): the `cloud-container` skill.
+- The gap ledger, FACTS, POSITIONS, the maps; finding what is on record; the repository's history; points to report; what every report holds and where it goes: `references/records.md`
+- This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts. For example, an interpreter fix needs `interpreter.md`, `build-and-caches.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
+A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

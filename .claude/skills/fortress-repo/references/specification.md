@@ -6,29 +6,36 @@
 
 ## Weighing the sources
 
-The aim is to finish what the designers intended, not to redesign. The team learned as it built, so if two of its sources conflict, the later one outweighs the earlier, whether it is a paper, the implementation or text. In particular:
+The type group is the members of the original team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions outweigh the early text. They include:
 
-- The late positions of the type group outweigh the early text. The type group is the members of the original team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions include the exclusion rule; compiled code specialized to each instantiation of a generic, which they kept; the compiled number tower, which they flattened in 2011; the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`); and the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
-- The implementers' later word outweighs unfinished text.
+- the exclusion rule;
+- compiled code specialized to each instantiation of a generic, which they kept;
+- the compiled number tower, which they flattened in 2011;
+- the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`);
+- the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 
-`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written. How a feature is used is the library's practice (`library.md`). `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard.
+`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written. `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard.
 
 ## Changing the text: the revision form
 
-Record the reason for every change, so that the text and the implementation never disagree where nobody can see it. A change is an edit of the original tree: say so in its commit message. No test can observe a change of prose, so it has no failing test (`tests-writing.md`). A change has four parts:
+Record the reason for every change, so that the text and the implementation never disagree where nobody can see it. A change has four parts:
 
 1. At each changed passage, a callout that prints in every build. Do not use `\note`.
 
        \revision{<label of the Appendix I entry>}{<what changed, in a sentence or two>}
 
    `Specification/fortress/fortress.tex` defines the macro. It prints a labelled box that points to the entry's section.
-2. An entry in the revival section of Appendix I, `Specification/appendices/changes.tex`. The entry is a `\subsection` with a `\seclabel`. It gives the affected sections, the change, its rationale, its effect, the original text quoted with its path and line in `Specification-1.0-frozen/`, and what a reversal to the alternative not taken would need. Each entry names the decision on record that it follows (an entry of POSITIONS, `records.md`), or gives its own reason. Read the existing entries for the form.
+2. An entry in the revival section of Appendix I, `Specification/appendices/changes.tex`: a `\subsection` with a `\seclabel`. Read the existing entries for the form. The entry gives:
+   - the affected sections, the change, its rationale and its effect;
+   - the original text, quoted with its path and line in `Specification-1.0-frozen/`;
+   - what a reversal to the alternative not taken would need;
+   - the decision on record that it follows (an entry of POSITIONS, `records.md`), or its own reason.
 3. The front matter's one paragraph on the revision, in `Specification/fortress/preamble.tex`. If your change makes it false, correct it.
-4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. The existing decision records are `explorations/compile-ladder/*/decision-record.md`. Read `rung-spec-route-a/decision-record.md` for the form.
+4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. For the form, read `explorations/compile-ladder/rung-spec-route-a/decision-record.md`.
 
-If the revision refuses an example, keep the example in the text, marked "Not allowed", as the specification itself does. The calculi of Appendix A keep their rules and soundness claims. Add a callout that says what a calculus predates.
+If the revision refuses an example, keep the example in the text, marked "Not allowed", as the specification itself does. Keep the rules and soundness claims of the calculi of Appendix A. Add a callout that says what a calculus predates.
 
-In your report, quote every sentence of the specification that your change makes false, with its file and line. Such a sentence can be an Appendix I effect, or a note on walk or on the compiled path. Then it can be corrected.
+In your report, quote every sentence of the specification that your change makes false, with its file and line. Such a sentence can be an Appendix I effect, or a note on walk or on the compiled path.
 
 ## When the text and an implementation disagree
 
@@ -41,8 +48,7 @@ In your report, quote every sentence of the specification that your change makes
 
 ## Citing it
 
-- In a test, cite by file and section or entry, never by line (`tests-writing.md`). If your change renames or removes a section that a test names, update that citation in the same commit.
-- In an Appendix I entry, cite the unrevised copy by path and line.
+- If your change renames or removes a section that a test names, update that citation in the same commit.
 - Inside the text, use `\secref{label}`.
 
 No suite reads `Specification/`, so an edit there needs no gate run of its own.

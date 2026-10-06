@@ -2,17 +2,15 @@
 
 ## The order: the test, its failure, the fix, the pass
 
-Start every edit of source code in the original tree from a failing test that you add to the test suite:
-
 1. Write the test. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
 2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the base's code through `old-fortress.sh` (`worktrees.md`).
 3. Make the fix. See the test pass in your last run after your last change of code.
 
-The test and the fix can be in one commit. The test needs no commit of its own.
+The test needs no commit of its own: the test and the fix can be in one commit.
 
-In your report, quote two to five lines of the failing run and the passing line, each with its command. Do not commit a capture of either run. Do not prove a result with a one-off script: put the check into a test. Assert each value that matters inside the test: an `assert` in an interpreter test, `run_out_equals` in a compiled test. What a test prints beyond its checks does not matter. Do not add an expected-output file to the interpreter suite.
+In your report, quote two to five lines of the failing run and the passing line, each with its command. Do not prove a result with a one-off script: put the check into a test. Assert a value with `assert` in an interpreter test, and with a `run_out_equals` key in a compiled test.
 
-An edit of prose that no test can observe, in `Specification/` or `Documentation/`, has no test and no failure to see. Check its text against the tree and the decisions on record instead.
+Check an edit of prose in `Specification/` or `Documentation/` against the tree and the decisions on record.
 
 ## Where a test goes, and how it passes
 
@@ -68,7 +66,7 @@ If a defect has a gated `XXX` test and you fix the defect, the `XXX` test starts
 
 ## How a defect is recorded
 
-Record every defect that you measure in one of three ways, and say in your report which. The rest of what a report holds is in `records.md`, "What every report holds".
+Record every defect that you measure in one of three ways, and say in your report which:
 
 1. Your change repairs it: an assertion in your gated test.
 2. It is deferred, and the specification settles it: a gated `XXX` test that asserts the specification's answer. Write it in the change that measured the defect, even if a later change will repair it. A program that the checker accepts and that then fails verification, linkage or a range check at run time belongs here.
@@ -80,7 +78,5 @@ If your brief does not let you edit the original tree (for example, a probe that
 
 - Name a test by its topic. Give it one comment line that says what it checks, with no pointer to a record.
 - Cite the specification by file and section or entry, never by line: `opr-overview.tex, subsection "GCD, LCM, and CHOOSE Operators"`. In the library chapters, name the entry too: `basic-integers.tex, section "Integers", opr CHOOSE`.
-- If your change renames or removes a section that a test names, update that citation in the same commit.
-- If your change breaks a line of a team test, respell the line and keep the value that it checks. Do not delete an assertion. List each line's before and after in your report.
+- If your change breaks a line of a test that the original team wrote, respell the line and keep the value that it checks. Do not delete an assertion. List each line's before and after in your report.
 - If your change touches mutable state, a field, an `atomic` block or a library write, run its checks at `FORTRESS_THREADS=1` and at `4`.
-- Do not pin the order in which walk's overload-ambiguity message names its two declarations: the order varies from run to run.
