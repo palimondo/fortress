@@ -4,7 +4,7 @@ The curator carries the responsibility for what the agents do, so the curator mu
 
 ## Reading what agents report
 
-Every agent's report follows the report contract of the `fortress-repo` skill: the defects it measured with their homes, the decisions it took with their alternatives and evidence, and the points to report that the work reached. The coordinator sorts each decision and each reported point by the rules below. A choice found inside the findings and not named as a decision is sorted as one. No agent puts anything to the curator: what reaches the curator, and when, is the coordinator's to decide.
+Every agent's report follows the report contract of the `fortress-repo` skill: the defects it measured, each with the test or ledger row that records it, the decisions it took with their alternatives and evidence, and the points to report that the work reached. The coordinator sorts each decision and each reported point by the rules below. A choice found inside the findings and not named as a decision is sorted as one. No agent puts anything to the curator: what reaches the curator, and when, is the coordinator's to decide.
 
 ## What is consequential
 

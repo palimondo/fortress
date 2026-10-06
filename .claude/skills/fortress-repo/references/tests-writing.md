@@ -66,15 +66,15 @@ If a defect has a gated `XXX` test and you fix the defect, the `XXX` test starts
 2. See the plain-named test fail through the harness on the base's code.
 3. Make the fix and see the test pass.
 
-## Where a measured defect goes
+## How a defect is recorded
 
-Give every defect that you measure one of three homes, and name the home in your report. The rest of what a report holds is in `area-records.md`, "What every report holds".
+Record every defect that you measure in one of three ways, and say in your report which. The rest of what a report holds is in `area-records.md`, "What every report holds".
 
 1. Your change repairs it: an assertion in your gated test.
 2. It is deferred, and the specification settles it: a gated `XXX` test that asserts the specification's answer. Write it in the change that measured the defect, even if a later change will repair it. A program that the checker accepts and that then fails verification, linkage or a range check at run time belongs here.
 3. It is deferred, and the specification is silent: a test that pins today's behaviour, and a row in the gap ledger, `explorations/fortress-gap-ledger.md` (`area-records.md`). If no program can observe the defect, write the ledger row only, and quote the output in it.
 
-If your brief does not let you edit the original tree (for example, a probe that only measures and reports), name the home in your report and write the ledger row. The change that next works there writes the test.
+If your brief does not let you edit the original tree (for example, a probe that only measures and reports), say in your report which of the three the defect needs, and write the ledger row. The change that next works there writes the test.
 
 ## Names, comments, citations
 

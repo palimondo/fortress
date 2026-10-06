@@ -73,7 +73,7 @@ Your brief says where your report goes: a file that it names, your final message
 
 Every agent that finds or decides something puts it in its report in this form, whatever else its brief asks for:
 
-- **Defects.** Each defect that you measured, with its home: an assertion in a gated test, a gated `XXX` test, a test that pins today's behaviour with a ledger row, or the row alone (`tests-writing.md`, "Where a measured defect goes"). Write a row in the ledger's form above, as finished prose in the report if you may not edit the ledger.
+- **Defects.** Each defect that you measured, and what records it: an assertion in a gated test, a gated `XXX` test, a test that pins today's behaviour with a ledger row, or the row alone (`tests-writing.md`, "How a defect is recorded"). Write a row in the ledger's form above, as finished prose in the report if you may not edit the ledger.
 - **Decisions.** Each choice that you made among alternatives, as a decision apart from the findings: what you chose, the alternatives, and the evidence, cited. If the record holds no position, do not invent one: say which reading you acted on. A decision left as a line inside the findings counts as not made.
 - **Points to report.** Each point that your brief names and the work reached, with its evidence, also one that only part of the work reached.
 - **Nothing more.** Do not choose which of your items anyone reviews. Do not ask the curator anything: put an open question in the report as a decision not taken, with its alternatives.

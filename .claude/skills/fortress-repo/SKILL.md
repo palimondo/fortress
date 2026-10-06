@@ -41,7 +41,7 @@ The original tree is the historical code that the work revives. It is everything
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Commit only the paths that you wrote. Do not commit scratch: logs, captured output, probe programs. Do not rename a file to get it past `.gitignore`. Each agent's transcript keeps how the work was done (`references/committing.md`).
-- In every report, give each defect's home, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
+- In every report, give each defect that you found and the test or ledger row that records it, each decision with its alternatives and evidence, and each point that your brief asks you to report and the work reached. Do not ask the curator anything (`references/area-records.md`, "What every report holds").
 
 ## Parts to load
 
@@ -52,7 +52,7 @@ Load the parts that your task touches:
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
 - The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
-- Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, the home of a measured defect: `references/tests-writing.md`
+- Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Walk's code (`interpreter/`), its natives, running programs under walk: `references/area-interpreter.md`
 - The compiled checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/area-compiler.md`
 - The library (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/area-library.md`
