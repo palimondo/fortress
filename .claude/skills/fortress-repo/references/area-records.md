@@ -47,7 +47,7 @@ The 2012 tree's own READMEs describe their era, not the current tree. Check a cl
 
 - Each row is one claim. It has a status (`POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`), a class (`implementation gap`, `library gap vs spec`, `library bug`, `design limit`, `deliberate`, `typesetter`, `packaging`) and how to reproduce it. The rows are under sections by area.
 - Never renumber or move a row: reports everywhere cite rows by number. Give a new issue a new row with a new number. Close a fixed row in place.
-- The rows are the bug reports that the work fixes. A fix starts with the row's reproduction, written as a clean minimal test in the corpus (`tests-writing.md`).
+- The rows are the bug reports that the work fixes. A fix starts with the row's reproduction, written as a clean minimal test in the test suite (`tests-writing.md`).
 
 ## FACTS, POSITIONS and the rest
 

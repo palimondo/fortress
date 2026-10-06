@@ -7,7 +7,7 @@
   - library: `LibraryJUTest` over `library_tests/`.
   - othercompiler: `OtherCompilerJUTest` over `other_compiler_tests/`. It is the longest track, so it sets the total time.
   - misc: the unit `*JUTest` classes.
-- `ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's corpus, in four shards. It takes about 3 to 4 minutes and runs about 500 tests.
+- `ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder, in four shards. It takes about 3 to 4 minutes and runs about 500 tests.
 
 The newest gate summary has the exact counts and times of the last landed run:
 
@@ -26,7 +26,7 @@ The newest gate summary has the exact counts and times of the last landed run:
 - `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. It is not in the gate yet. It joins the gate when its five red examples pass: reductions written without their element type.
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
 - Warning: both of these targets run `ant compileAll` first, which deletes the tree's caches.
-- Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Do not put a new test in one of them. A defect that fails today gets an `XXX` test in a gated corpus (`tests-writing.md`).
+- Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Do not put a new test in one of them. A defect that fails today gets an `XXX` test in a gated test folder (`tests-writing.md`).
 
 ## One test, or a few
 
@@ -68,7 +68,7 @@ If another run may be live, run the same list in one JVM without the script. Thi
 
 `fortress junit` exits 0 whatever the verdict. Read the last lines: `OK (n tests)`, or `FAILURES!!!` with the counts.
 
-Run all the new files of one corpus together, in one JVM, as the suite does. A test that passes alone can fail beside others.
+Run all the new files of one test folder together, in one JVM, as the suite does. A test that passes alone can fail beside others.
 
 ### One unit-test class, or one track
 

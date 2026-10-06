@@ -22,12 +22,12 @@ The original tree is the historical code that the work revives. It is everything
 - The base is the commit that your work starts from.
 - The gate is the full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
 - The record is the set of files under `explorations/` that hold what the project has established, decided and measured.
-- The harness is the suites' own test runner. `harness-one.sh` and `junit.sh` run it on the files that you name.
+- The harness is the suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class: the harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.
 
 ## Rules for every task
 
-- Write the test before the fix for every edit of source code in the original tree. See the test fail through the harness. Then make the fix and see the test pass. Keep the test in the corpus. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
-- Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the test corpora, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
+- Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
+- Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the tests, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
 - Before you build or run something, look for its result on record. If the record or another agent's transcript holds the result of a build, a suite, a stage or a test run on the same code, cite that result and do not run it again. A finished log stays valid until the tree changes. A run of a new program, or a new measurement, is not a repeat.
 - Reproduce a behaviour before you explain it, unless such a run is already on record.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).

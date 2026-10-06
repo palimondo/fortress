@@ -2,7 +2,7 @@
 
 ## The order: the test, its failure, the fix, the pass
 
-Start every edit of source code in the original tree from a failing test that you add to the corpus:
+Start every edit of source code in the original tree from a failing test that you add to the test suite:
 
 1. Write the test. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
 2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the base's code through `old-fortress.sh` (`worktrees.md`).
@@ -23,7 +23,7 @@ Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `
 - An api that it imports can be in `ProjectFortress/test_library/`.
 - The harness skips files whose names end in `Syntax.fss`, `DynamicSemantics.fss` or `Satisfiability.fss`, or contain `GenomeUtil`.
 
-Compiled: write `Name.fss` and `Name.test` in `compiler_tests/` (or `parser_tests/`), `library_tests/` or `other_compiler_tests/`. The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file:
+Compiled: write `Name.fss` and `Name.test` in `compiler_tests/` (or `parser_tests/`), `library_tests/` or `other_compiler_tests/`. The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file that names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:
 
     tests=Name                 the component(s) it drives; without it, the .test file's own name
     compile | link | typecheck each present command is one JUnit case
@@ -46,7 +46,7 @@ An `XXX` test asserts the answer that the specification gives, and fails today. 
 
 - `tests/XXXName.fss` is a gated expected failure.
 - A refusal at load under walk: put `Name.test` beside `tests/Name.fss`, with `load_exception_contains=<message>`. A plain test passes if walk refuses the program at load as named. A failure while the top-level variables are initialised counts as a refusal. An `XXX` test passes if the program loads and runs clean.
-- In the compiled corpora, the `XXX` prefix of a `.test` file applies to every stage that the file drives. An `XXX` file with `compile` or `link` demands that the compile fail. An unmet `run_out_*` check fails a run test, whatever the prefix. So:
+- In the compiled test folders, the `XXX` prefix of a `.test` file applies to every stage that the file drives. An `XXX` file with `compile` or `link` demands that the compile fail. An unmet `run_out_*` check fails a run test, whatever the prefix. So:
   - For a refusal at compile time, write one `XXX` compile test.
   - For a program that compiles and fails at run time, write two `.test` files over one component. One has a plain name and drives `link`. The other has an `XXX` name and drives `run`, with a key on output that the failing run prints before it dies (`run_out_contains=REACHED`). If the run dies before any output, use `run_out_does_not_contain=REACHED`. Never use `run_out_contains=PASS`.
   - For a code-generator wall, put the `XXX` on the component name in `tests=`, with `compile_exception_contains=<text of the exception>`. A code-generator wall is a `sayWhat` call or another thrown `CompilerError` for a construct that the code generator does not compile yet.

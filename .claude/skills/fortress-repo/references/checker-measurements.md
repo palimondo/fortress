@@ -50,7 +50,7 @@ Use them with `explorations/compile-ladder/gate/distance-sites.tsv`.
 Both stages run only the compiler's phases, which read no test, no text and no record. If every path of your edit is under the paths below, run neither stage, and name the paths in your report:
 
 - `explorations/`, `Specification/`, `Documentation/`
-- a test corpus: `ProjectFortress/tests/`, `ProjectFortress/*_tests/`
+- a test folder: `ProjectFortress/tests/`, `ProjectFortress/*_tests/`
 - the test harness: `ProjectFortress/src/com/sun/fortress/tests/`
 - walk's evaluator and natives: `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/` and `interpreter/glue/`
 

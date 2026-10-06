@@ -7,7 +7,7 @@ Run the gate once for each tree. Run it again on a tree only if the tree changed
     G=$(git log -1 --format=%H -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt')
     git diff --quiet $G HEAD -- ProjectFortress Library build.xml || echo "changed: run the gate again, unless only test files changed"
 
-A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tests/` or in a `ProjectFortress/*_tests/` directory. If only test files changed, do not run the gate. Run the changed files through `harness-one.sh` and `junit.sh` (`tests-running.md`), the files of one corpus together in one JVM. The gate's tables then stay valid.
+A test file is a `.fss`, `.fsi` or `.test` file directly in `ProjectFortress/tests/` or in a `ProjectFortress/*_tests/` directory. If only test files changed, do not run the gate. Run the changed files through `harness-one.sh` and `junit.sh` (`tests-running.md`), the files of one test folder together in one JVM. The gate's tables then stay valid.
 
 ## What it runs
 
@@ -55,7 +55,7 @@ The gate is red on any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE. A single 
 
 ## The ladder regression
 
-The ladder regression runs part of the compile ladder again and compares it with a recorded baseline. The compile ladder records how far each corpus program gets through the compiler's phases (`explorations/compile-ladder/`).
+The ladder regression runs part of the compile ladder again and compares it with a recorded baseline. The compile ladder records how far each test program gets through the compiler's phases (`explorations/compile-ladder/`).
 
 - It compiles and runs the 85 programs listed in `explorations/compile-ladder/baseline-2026-09-19/pass-list.txt`. It compares each program's phase and output with the baseline's record (`raw/`).
 - It compiles the eighteen components of the two microGPT programs, and never runs them. It compares each component's phase with the record in `baseline-2026-09-19/microgpt-phase.md`.
@@ -80,7 +80,7 @@ Compare the result with the baseline, file by file. The phases, from the lowest,
 
 DOWN, MISSING and STDOUT are red, unless the change declared that move as expected before the gate ran. The batch script reads such declarations from the `expectedMoves` field of its manifest.
 
-Warning: do not run the whole-corpus driver, `run-ladder.sh` (at the top of `explorations/compile-ladder/` and in `baseline-2026-09-19/`), with its default settings. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
+Warning: do not run the driver over every test program, `run-ladder.sh` (at the top of `explorations/compile-ladder/` and in `baseline-2026-09-19/`), with its default settings. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
 
 A change's own ladder subset is the files whose recorded first error in `baseline-2026-09-19/raw/` names something that the change touched. Their before is the last landed ladder table, or the baseline's output.
 
