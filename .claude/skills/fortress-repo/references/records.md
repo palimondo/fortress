@@ -36,8 +36,8 @@ The 2012 tree's own READMEs describe their era, not the current tree. Check a cl
 
 ## Practices
 
-- Cite a measurement that the record holds, with its source. Do not repeat it. Measure again only if the tree changed under it, and say what changed. Measure only what is new.
-- Before you do something in a new way, search the record for how it was done last time.
+- Cite a measurement that your brief cites or that your own work took, with its source. Do not take it again unless the code changed under it. Then say what changed.
+- If your brief or this skill says how to do a thing, do it that way.
 - Name the machine with every timing: `nproc`, the CPU's model and MHz, the load at start, the JDK, `FORTRESS_THREADS`. Only a pair of timings taken in one run measures a difference.
 - In a report, cite the tree at file:line, and quote results, two to five lines, each with its command. Never cite a file under `tmp/`.
 
