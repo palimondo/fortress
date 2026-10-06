@@ -1,6 +1,6 @@
 # Committing and pushing
 
-The curator decides what is committed. Your brief says whether you commit, where, and which branch you push. If it says nothing, commit your own files as you go, on the branch that you work on, and push that branch (below).
+Your brief says whether you commit and push, and on which branch. If it says nothing, commit your own files as you go, on the branch that you work on, and push that branch (below).
 
 ## What to commit
 
@@ -8,7 +8,7 @@ The curator decides what is committed. Your brief says whether you commit, where
 - Do not commit captured outputs, logs, raw run output, copies of tools, probe programs, lists or any other scratch. Keep scratch under your tree's `tmp/`, which is gitignored. A private caches folder outside `tmp/` is not gitignored.
 - Do not commit a model identifier. Name a model by its tier: Fable (the top tier), Opus or Sonnet.
 - Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
-- Do not commit a file that the curator uploaded to a session, `HANDOVER.md` or the contents of an uploaded ZIP, without the curator's go. `HANDOVER.md` is not the handover, `explorations/microgpt-run-c-handover.md`.
+- Do not commit `HANDOVER.md`, the contents of an uploaded ZIP or any other file that the curator uploaded to a session, unless your brief says so. `HANDOVER.md` is not the handover, `explorations/microgpt-run-c-handover.md`.
 - Use the curator's email for attribution only.
 - Claim no credit anywhere in a committed file. Put provenance and rationale in commit messages and reports, not in source comments.
 
@@ -40,4 +40,4 @@ Push after every commit, so that a lost container loses nothing.
          git push origin main:claude/worker-brief-fable-vnnuv8
 
      The second push keeps current the branch that the container is re-provisioned from (the `cloud-container` skill, a lost container).
-- Do not push any other branch without the curator's permission. The transcript backup pushes its own orphan branches, `transcripts` and `transcripts-blinded` (the `cloud-container` skill). Do not push them yourself.
+- Push no other branch unless your brief names it. The transcript backup pushes its own orphan branches, `transcripts` and `transcripts-blinded` (the `cloud-container` skill). Do not push them yourself.

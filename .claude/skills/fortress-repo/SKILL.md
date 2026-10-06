@@ -18,7 +18,7 @@ The original tree is the historical code that the work revives. It is everything
 
 ## Terms used in every part
 
-- The curator is the person who curates this restoration. The curator decides what is committed and what the agents do.
+- The curator is the person in charge of this restoration.
 - Your brief is the set of instructions that you were launched with. It says what you do: for example, where you work, whether you run the gate, and where you commit and push.
 - The base is the commit that your work starts from (`references/worktrees.md`).
 - The gate is the full check of a tree before it lands (`references/gate.md`). To land a tree is to commit it to `main` and push `main`.
