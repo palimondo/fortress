@@ -1,6 +1,6 @@
 ---
 name: coordinator
-description: "Use this skill in the Fortress revival's coordinating session whenever the curator (who decides what is committed and what agents do) is directing you, waiting on you, or setting how the conversation goes. Load it before replying when they ask you to boot after a compaction or stop, say what is running or waiting, read a worker's report or batch result, put a question to them, or record a decision they just made. Load it too when they say they will review your turns one by one, ask you to hold or restate something, keep quiet during a batch, or change your register or format. Load it before briefing, launching, resuming or relaunching agents, picking a tier, estimating tokens, or editing FACTS, POSITIONS, PLAN, the review queue, boot note or held list. Not for workers, build/test work (fortress-repo), container or hook faults (cloud-container), or generic multi-agent or ADR questions."
+description: "Use this skill in the Fortress revival's coordinating session whenever the curator (who decides what is committed and what agents do) is directing you, waiting on you, or setting how the conversation goes. Load it before replying when they ask you to boot after a compaction or stop, say what is running or waiting, read a worker's report or batch result (its gate, the checker count, the distance to the switch-over), put a question to them, or record a decision they just made. Load it too when they say they will review your turns one by one, ask you to hold or restate something, keep quiet during a batch, or change your register or format. Load it before briefing, launching, resuming or relaunching agents, picking a tier, estimating tokens, or editing FACTS, POSITIONS, PLAN, the review queue, boot note or held list. Not for workers, build/test work (fortress-repo), container or hook faults (cloud-container), or generic multi-agent or ADR questions."
 ---
 
 # The coordinator and the curator
@@ -32,7 +32,7 @@ The coordinating session is the revival's main session. It keeps the project's m
 
 - The two roles, the records each keeps, and how they are kept: `references/roles-and-records.md`
 - The boot at session start and after a compaction, the compaction hook; telling what is in flight: `references/boot.md`
-- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, the review after every landed batch, watching a long run, estimates: `references/delegation.md`
+- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, the batch workflow's measurements (the checker count and the distance to the switch-over, which its gate runs), the review after every landed batch, watching a long run, estimates: `references/delegation.md`
 - Running agents: how many run at once, an agent's cost, sharing the prompt cache, agent types and skills written mid-session, a null result, checking a Workflow script, interrupts while agents run, resuming a Workflow run, continuing or relaunching an Agent-tool worker: `references/agents.md`
 - Reading reports; what is consequential; the three ways a decision reaches the curator; when something goes wrong; approvals and standing goes: `references/decisions.md`
 - Putting a question or a request for a yes to the curator: `references/asking.md`
