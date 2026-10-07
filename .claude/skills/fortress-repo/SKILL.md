@@ -14,22 +14,29 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 
 Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the compiled type checker accepts the interpreter's library.
 
-- curator
-  - : Person in charge of this restoration.
-- brief
-  - : Instructions that you were launched with. It gives your mission.
-- original tree
-  - : What the team left in this repository: the code, the specification, the papers and their git history. On disk, it is everything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`.
-- record
-  - : Project's memory: the files under `explorations/` that hold what the project has established, decided and measured (below).
-- area
-  - : One part of the system: the interpreter, the compiled path (the checker, the code generator and the run-time), the library, or the specification.
-- base
-  - : Commit that your work starts from.
-- gate
-  - : Full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
-- harness
-  - : Suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class. The harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.
+**curator**
+: Person in charge of this restoration.
+
+**brief**
+: Instructions that you were launched with. It gives your mission.
+
+**original tree**
+: What the team left in this repository: the code, the specification, the papers and their git history. On disk, it is everything outside `explorations/`, `research/`, `CLAUDE.md` and `.claude/`.
+
+**record**
+: Project's memory: the files under `explorations/` that hold what the project has established, decided and measured (below).
+
+**area**
+: One part of the system: the interpreter, the compiled path (the checker, the code generator and the run-time), the library, or the specification.
+
+**base**
+: Commit that your work starts from.
+
+**gate**
+: Full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
+
+**harness**
+: Suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class. The harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.
 
 - Building is the normal mode of work. You carry out the mission of your brief. You take the facts and the curator's decisions in the record as given.
 - Exploring is the mode for a question that the record does not settle. You gather evidence, first in the record and then in the original tree. You add what you found to the record, and then go back to building.
