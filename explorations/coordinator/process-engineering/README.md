@@ -29,12 +29,12 @@ Pavol, 2026-10-03, early morning UTC: whether the way the work is run spends the
 
 ## Pending, in order
 
-1. The Fable comparison of the designs (the leaky and the blind) with batch 10 as run and `labor.md`, with what to change; the page updated with it.
-2. The same two designers at the whole project's scope (microGPT compiled and fast), designs only.
+1. The second round redesigned: the judge, the repair and the second skeptic after a refusal. In batches 8 and 9 the refusal cycle wrote 3.34M, 22.9% of everything, for two refusals a batch (`labor.md`), because each round is a new agent that pays the fixed start again (69K to 108K, the later roles' briefs carrying the earlier reports whole) and rebuilds the chain's context (42% of the followers' reading already read by an earlier agent of the chain), while the edits themselves are 1.7% of all writes. The curator asked for this redesign on 2026-10-07, and asked why the rung worker is not simply sent back to fix its own work. Two reasons to price: a Workflow script's `agent()` starts a new agent and has no way to continue a finished one (an `Agent`-tool worker can be continued with `SendMessage`); and a continued worker whose cache has lapsed, five minutes for a subagent, writes its whole context again on its first turn (FACTS, "An agent that waits longer than the prompt cache lives writes its whole context again at every wake"). The input: `checking-roles-cost.md`, batch 10's checking roles measured.
+2. The Fable comparison of the designs (the leaky and the blind) with batch 10 as run and `labor.md`, with what to change; the page updated with it.
+3. The same two designers at the whole project's scope (microGPT compiled and fast), designs only.
 
 ## Waiting on Pavol
 
-- The `fortress-repo` skill (`.claude/skills/fortress-repo/`, written at his yes of 16:12 UTC on 2026-10-03, uncommitted): his approval before it is committed; review page https://claude.ai/artifact/M2pe3bP62yWDQcsByhbrt1.
 - What the ultracode pair was for: whether a coordinator designing a workflow per batch should replace the fixed batch workflow (his message of 10:59 UTC on 2026-10-03; the page's section 7).
 
 - The rule on engineering taste, drafted from `cache-sharing.md`: an obstacle gets an attempt to engineer around it and the price of its recurring cost before it is accepted as impossible. To be put to him as one line.
