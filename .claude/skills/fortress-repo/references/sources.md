@@ -194,6 +194,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - The decisions in a section of their own, "build on" in place of "do not reopen": the reader-new entry.
 
 ## specification.md
+- An Appendix I entry names its decision or the reason its brief gives, not a reason of the worker's own: a worker does not settle a conflict (the coordinator's ruling on the writer's question of 2026-10-07, from the reader-new entry).
 
 - Standard, frozen copy, its name, types.tick: the old `CLAUDE.md` (Project goal); POSITIONS "The specification stays the standard ...", "The S1 form"; `Specification/appendices/changes.tex:18-63`; `explorations/coordinator/spec-lineage.md` Summary.
 - Weighing: POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1. The type group and the late positions named (the cold read's terms): the same entry ("the type group went in and tried to make it run"; the exclusion rule, specialization kept, the tower flattened in 2011, the 2012 write-up, the POPL 2019 paper); `explorations/repo-internals.md` ("The two worlds": the compiler, 2010-2012, the team's final push); `explorations/coordinator/map/design-intent-sources.md:21` (`Papers/Types/journal`, "The Return Type Rule and Generics"); `research/extracts/ParkPOPL2019-extract.md`; POSITIONS "The exclusion rule stays and the tower is flat (route A)." (specialisation kept by the POPL paper).

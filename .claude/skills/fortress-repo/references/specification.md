@@ -37,7 +37,7 @@ Record the reason for every change, so that the text and the implementation neve
    - the affected sections, the change, its rationale and its effect;
    - the original text, quoted with its path and line in `Specification-1.0-frozen/`;
    - what a reversal to the alternative not taken would need;
-   - the decision of the curator that it follows (its POSITIONS entry), or its own reason.
+   - the decision of the curator that it follows (its POSITIONS entry), or the reason that your brief gives.
 3. The front matter's one paragraph on the revision, in `Specification/fortress/preamble.tex`. If your change makes it false, correct it.
 4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. For the form, read `explorations/compile-ladder/rung-spec-route-a/decision-record.md`.
 
