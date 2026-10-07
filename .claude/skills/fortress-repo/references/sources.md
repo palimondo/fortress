@@ -215,6 +215,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - The INDEX search before a claim of absence: moved from `records.md` and stated once.
 
 ## records.md
+- No rule to follow the brief and the skill: every agent does that already; the record search it was bounded from is the exploring part's (the curator's comment of 2026-10-07).
 
 - facts-extract.sh queries: `explorations/coordinator/tools/facts-extract.sh --help`.
 - File roles: `explorations/coordinator/README.md`; the old `CLAUDE.md`; the script's prefix (territory map list, `:987-997`).

@@ -61,7 +61,6 @@ Cite a FACTS entry by its bold title, or by its opening words if it has no title
 
 ## Practices
 
-- If your brief or this skill says how to do a thing, do it that way.
 - Cite a measurement that your brief cites or that your own work took, with its source. Take it again only if the code changed under it, and then say what changed.
 - Name the machine with every timing: `nproc`, the CPU's model and MHz, the load at start, the JDK, `FORTRESS_THREADS`. Only a pair of timings taken in one run measures a difference.
 - In a report, cite the tree at file:line, and quote results, two to five lines, each with its command. Never cite a file under `tmp/`.
