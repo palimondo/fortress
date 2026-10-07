@@ -38,8 +38,11 @@ Each path has its own library today. At the switch-over, the compiled path moves
 **harness**
 : Suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class. The harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.
 
-- Building is the normal mode of work. You carry out the mission of your brief. You take the facts and the curator's decisions in the record as given.
-- Exploring is the mode for a question that the record does not settle. You gather evidence, first in the record and then in the original tree. You add what you found to the record, and then go back to building.
+**building**
+: Normal mode of work where you carry out the mission of your brief. You take the facts and the curator's decisions in the record as given.
+
+**exploring**
+: Mode of work for a question that the record does not settle. You gather evidence, first in the record and then in the original tree. You add what you found to the record, and then go back to building.
 
 You work with three things: your brief, the record and the original tree. Building happens in one area at a time, so this skill has one part for each area.
 
