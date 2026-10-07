@@ -2,11 +2,13 @@
 
 Your brief says whether you commit and push, and on which branch. If it says nothing, commit your own files as you go, on the branch that you work on, and push that branch (below).
 
+Scratch includes logs, captured and raw run output, copies of tools, probe programs and lists. Your tree's `tmp/` is gitignored. A private caches folder outside `tmp/` is not.
+
 ## What to commit
 
-- Commit the Fortress change and its tests, your report if it is a file, and a script that is reusable.
+- Commit the Fortress change and its tests, your report if it is a file, and a reusable script.
 - If your brief lets you edit the ledger, FACTS or the plan, commit your lines for them (`records.md`).
-- Scratch includes logs, captured and raw run output, copies of tools, probe programs and lists. Keep it under your tree's `tmp/`, which is gitignored. A private caches folder outside `tmp/` is not gitignored.
+- Keep scratch in your tree's `tmp/`.
 - Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
 - Put provenance and rationale in commit messages and reports, not in source comments.
 

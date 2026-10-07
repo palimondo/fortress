@@ -1,12 +1,20 @@
 # The specification
 
-- `Specification/` is the team's working draft, as the revival revises it. It says what the language means, except where a later source of the team's says otherwise (below).
+The specification exists in three copies:
+
+- `Specification/` is the team's working draft, as the revival revises it. It says what the language means, except where a decision of the curator says otherwise. If a later source of the team's disagrees with it, and no decision says which is correct, that is a conflict (`exploring.md`).
 - `Specification-1.0-frozen/` is the unrevised copy, called "the Working Draft of February 2011". Only `fortress.1.0.pdf` in it is the 1.0 release. Never edit this copy.
 - `Documentation/Specification/` is the team's later restart, which they did not finish. If its Types chapter, `Documentation/Specification/Prose/Language/types.tick`, covers a topic, cite it beside `Specification/` as the designers' later word.
 
+Appendix I, `Specification/appendices/changes.tex`, records the changes to the text. Its revival section has one entry for each change of the revival.
+
+`Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard. No suite reads `Specification/`, so an edit there needs no gate run of its own.
+
 ## Weighing the sources
 
-The type group is the members of the original team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions outweigh the early text. They include:
+This section describes how the curator weighs the team's sources. Use it to describe each source in your report (`exploring.md`).
+
+The type group is the members of the team who built the type checker and the compiler in the project's last years, 2010 to 2012. Their late positions outweigh the early text. They include:
 
 - the exclusion rule;
 - compiled code specialized to each instantiation of a generic, which they kept;
@@ -14,7 +22,7 @@ The type group is the members of the original team who built the type checker an
 - the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`);
 - the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 
-`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written. `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard.
+`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written.
 
 ## Changing the text: the revision form
 
@@ -25,11 +33,11 @@ Record the reason for every change, so that the text and the implementation neve
        \revision{<label of the Appendix I entry>}{<what changed, in a sentence or two>}
 
    `Specification/fortress/fortress.tex` defines the macro. It prints a labelled box that points to the entry's section.
-2. An entry in the revival section of Appendix I, `Specification/appendices/changes.tex`: a `\subsection` with a `\seclabel`. Read the existing entries for the form. The entry gives:
+2. An entry in the revival section of Appendix I: a `\subsection` with a `\seclabel`. Read the existing entries for the form. The entry gives:
    - the affected sections, the change, its rationale and its effect;
    - the original text, quoted with its path and line in `Specification-1.0-frozen/`;
    - what a reversal to the alternative not taken would need;
-   - the decision on record that it follows (an entry of POSITIONS, `records.md`), or its own reason.
+   - the decision of the curator that it follows (its POSITIONS entry), or its own reason.
 3. The front matter's one paragraph on the revision, in `Specification/fortress/preamble.tex`. If your change makes it false, correct it.
 4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. For the form, read `explorations/compile-ladder/rung-spec-route-a/decision-record.md`.
 
@@ -39,16 +47,11 @@ In your report, quote every sentence of the specification that your change makes
 
 ## When the text and an implementation disagree
 
-- If the decisions on record settle it, fix the side that they settle.
-- If they do not settle it:
-  - Leave the text as it is.
-  - Write a ledger row that records the departure.
-  - Write a gated `XXX` test that asserts the text's answer on the path that departs (`tests-writing.md`).
-  - If the passage has an Appendix I entry, name the row among the departures in that entry, so that the text claims no more than holds.
+- If a decision of the curator says which side is correct, change the other side to agree.
+- If no decision says so, it is a conflict. Switch to exploring (`exploring.md`).
+- If the passage has an Appendix I entry, add the conflict's ledger row to the departures that the entry lists. Then the text claims no more than holds.
 
 ## Citing it
 
 - If your change renames or removes a section that a test names, update that citation in the same commit.
 - Inside the text, use `\secref{label}`.
-
-No suite reads `Specification/`, so an edit there needs no gate run of its own.

@@ -2,11 +2,16 @@
 
 ## The Bash tool
 
-If a call reaches the Bash tool's timeout, the tool cuts it off. It kills the command, or it moves the command to the background, where you must find it again.
+If a call reaches the Bash tool's timeout, the tool cuts it off. It kills the command, or moves it to the background, where you must find it again.
 
 ## Long commands
 
-If a command can take more than a minute or two, start it with `run_bg` and poll its log with `wait_for`. Grep the log for the lines that you need. Every Bash call starts a new shell, so define the two functions in each call that uses them:
+Two shell functions run a long command:
+
+- `run_bg` starts the command detached. It writes the output to the log, then a last line `EXIT=<status>`.
+- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0. If not, it returns 1: call it again, in a new call.
+
+If a command can take more than a minute or two, start it with `run_bg` and poll its log with `wait_for`. Grep the log for the lines that you need. Every Bash call starts a new shell, so define both functions in each call that uses them:
 
     run_bg () {      # run_bg <logfile> "<command>"
         nohup bash -c "( $2 ) > '$1' 2>&1; echo EXIT=\$? >> '$1'" >/dev/null 2>&1 &
@@ -21,15 +26,12 @@ If a command can take more than a minute or two, start it with `run_bg` and poll
         grep -n '^BUILD \|^Total time:\|^EXIT=' "$1"
     }
 
-- `run_bg` starts the command detached. It writes the command's output to the log, then a last line `EXIT=<status>`.
-- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0. If not, it returns 1: call it again, in a new call.
-
 ## Waits and the prompt cache
 
 The prompt cache is the API's copy of a conversation's context. It lives five minutes for an agent and one hour for the main session. A call inside that time reads the cache and renews it. The first call after a longer wait writes the whole context again: late in a long task, hundreds of thousands of tokens.
 
 - In an agent, keep every wait under 270 s. Do not chain sleeps in one call past that.
-- In the main session, keep every wait under an hour. The main session can also watch a run with the `Monitor` tool.
+- In the main session, keep every wait under an hour. It can also watch a run with the `Monitor` tool.
 
 ## Sharing the machine
 
@@ -40,8 +42,8 @@ All agents of the session share the machine's cores. If you take a timing that y
 Stop or kill only the processes that run under your tree's path.
 
 - To find a process's path, read `readlink /proc/<pid>/cwd`, or the paths in its arguments.
-- Kill by process id. Other agents run copies of the same scripts, so do not kill by a script's name.
-- Do not use `pkill -f <pattern>`. If the pattern is in your own call's command line, it matches that call's shell too, and it kills your call.
+- Kill by process id, not by a script's name: other agents run copies of the same scripts.
+- Do not use `pkill -f <pattern>`. If the pattern is in your own call's command line, it matches that call's shell too, and kills your call.
 
 ## Interrupts and stops of the process
 

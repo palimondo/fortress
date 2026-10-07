@@ -1,14 +1,14 @@
 # Sources of this skill (for maintaining it only)
 
-Not for a task: an agent doing work never loads this file. It says where each fact in the parts came from, so that the skill can be re-checked when the tree changes. FACTS entries are named by their bold title (print one with `explorations/coordinator/tools/facts-extract.sh 'TITLE WORDS'`). "Exploration" is `explorations/coordinator/build-cache-exploration.md`; "the script" is `explorations/coordinator/climb-batch-workflow.js`; "the manual" is `explorations/coordinator/climb-batch-workflow.md`; "brief-machine" is `explorations/coordinator/process-engineering/blind-brief/machine.md`; "the gate summary" is `explorations/compile-ladder/climb-batch-10/gate/summary.txt`; "the old `CLAUDE.md`" is that file before it was cut to what every session needs, `git show 9cd56be21^:CLAUDE.md`, whose facts now live in these parts and nowhere else in the tree; "the pending edit" is `explorations/coordinator/pending-script-edit.md`.
+Not for a task: an agent doing work never loads this file. It says where each fact in the parts came from, so that the skill can be re-checked when the tree changes. FACTS entries are named by their bold title (print one with `explorations/coordinator/tools/facts-extract.sh 'TITLE WORDS'`). "Exploration" is `explorations/coordinator/build-cache-exploration.md`; "the script" is `explorations/coordinator/climb-batch-workflow.js`; "the manual" is `explorations/coordinator/climb-batch-workflow.md`; "brief-machine" is `explorations/coordinator/process-engineering/blind-brief/machine.md`; "the gate summary" is `explorations/compile-ladder/climb-batch-10/gate/summary.txt`; "the old `CLAUDE.md`" is that file before it was cut to what every session needs, `git show 9cd56be21^:CLAUDE.md`, whose facts now live in these parts and nowhere else in the tree; "the pending edit" is `explorations/coordinator/pending-script-edit.md`. "The reader-new entry" is POSITIONS "The skills are written for a reader new to the repository, and checked against what the workers did."; "the structure comment" is the curator's comment of 2026-10-07, relayed by the coordinator, that each part defines its terms first, describes before it instructs, and keeps each topic in one place.
 
 ## SKILL.md
 
 - Two paths, one library goal, microGPT: the old `CLAUDE.md` (Project goal); `explorations/repo-internals.md:97-123`; POSITIONS "The library route."
 - Original tree = all but explorations/, research/, CLAUDE.md: the old `CLAUDE.md` (Layout).
-- "Terms used in every part" (the cold read of 2026-10-05, its list of terms): the curator as the `coordinator` skill's `SKILL.md` defines the role; the brief is not defined (the curator's comment of 2026-10-06 on the review page: every agent acts on the instructions it was launched with, and each use of "your brief" says what the brief decides there); the base: `worktrees.md`'s sources; the gate and landing: `gate.md`'s; the record: `records.md`'s; the harness: `tests-running.md`'s; points to report are not a term (below). The terms point to no part (the curator's comment of 2026-10-06 on the review page, on the stop's pointer repeating the record's): "Parts to load" routes each term's subject to its part.
+- "Terms used in every part" (the cold read of 2026-10-05, its list of terms): the curator as the `coordinator` skill's `SKILL.md` defines the role; the brief, defined as the mission (the reader-new entry; it was left undefined at the curator's comment of 2026-10-06); the base: `worktrees.md`'s sources; the gate and landing: `gate.md`'s; the record as the project's memory: the reader-new entry; the harness: `tests-running.md`'s; points to report are not a term (below). The terms point to no part (the curator's comment of 2026-10-06 on the review page, on the stop's pointer repeating the record's): "Parts to load" routes each term's subject to its part.
 - The skill is role-neutral (the curator's word of 2026-10-05, relayed by the coordinator): it says how to do each thing (run the gate, commit, push, seed a worktree, run the old code) and leaves to the brief which of them an agent does, because who builds, checks, gates and pushes is decided by whoever writes the workflow or the brief, and the skill briefs agents that design workflows without steering them toward the batch script's roles. Where a passage assumed a role, it now says "your brief says ..."; the defaults for a silent brief went on 2026-10-06 (lens 3).
-- The later source wins, the specification included (the curator's comment of 2026-10-06 on the review page, that the specification is the oldest of the team's artifacts and the team's later learning, in papers or implementation, comes first): POSITIONS "The type group's late positions outweigh the early text."; `explorations/protocol.md` principle 1 ("where they conflict, the type group's later, implementation-informed word weighs more"). The rule had read "Take the specification as the standard", against the part's own weighing.
+- "Follow the later source" replaced by "carry out the curator's decisions" and "if the record does not settle it, explore": the reader-new entry (a worker never settles a conflict alone; the curator rules after research).
 - Rules: `explorations/protocol.md` hard rules (gate, test first, commit) and principles 2, 5; POSITIONS "Test first, the test kept.", "The suite's verdict is the check.", "Nothing is built or run twice on the same code.", "No re-measuring what the record holds.", "The library's own practice is the standard."; exploration § 2 (never a wipe); the script's prefix "Long commands" (`:960-979`), whose how-to is now `session.md`'s.
 - The harness named at first use: `harness-one.sh` and `junit.sh` headers (both run the suites' own `FileTests` cases, `SystemJUTest` and `Shell junit`). The prose edit with no test: the manual, "Rung worker" (a rung that edits only the specification or other prose makes no test-only commit and has no failure to see).
 - The ladder stage as the one output comparison: POSITIONS "The suite's verdict is the check." (no batch compares the corpus's printed outputs) against the gate's step 7 (the script `:1870-1900`, phase and stdout of the 85 baseline files), a fixed baseline, not the test corpora.
@@ -25,6 +25,10 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - The description (frontmatter): from the skill-creator's description optimization on 2026-10-05, over 20 trigger queries with the other two skills present. `run_loop` kept the old 1,065-character text, over the 1,024 limit, so the description is `improve_description`'s proposal on the loop's first iteration, with "hooks" moved to `cloud-container`'s group as "Stop hooks"; it scored 20/20. The eval set, the scores and the old description are in `explorations/reviews/skills-description-optimization-2.md`; the first run, on 2026-10-04, in `skills-description-optimization.md`.
 - "The team" introduced in the opening sentences, in the curator's wording (comments of 2026-10-05 on the review page: the word is used later for the original team and the repo as they left it, and needs its meaning where it first appears): `CLAUDE.md` (Sun Labs, 2003-2012); POSITIONS "The type group's late positions outweigh the early text."; `specification.md`, "Weighing the sources".
 - Walk as the default and a tree-walking interpreter, in the opening (the curator's comments of 2026-10-05 on the review page: said in a few words inside the original sentence): `Shell.java:420-424` and `:470-475` (`walk`, and any argument ending in `.fss`, run the interpreter); FACTS, the first entries of "Execution model" (43.5 % of a walk run is the tree walk itself); POSITIONS "Interpreter performance is irrelevant.".
+- The original tree, an area, building and exploring among the terms; "The record" with its four main files and the tool; "When to explore" with the three triggers: the reader-new entry.
+- "Starting a task", the parts loaded before the record's query: the reader-new entry.
+- `exploring.md` in the parts list after the area parts, which are labelled by area: the reader-new entry.
+- The rules grouped by subject, the reuse rule in positive form: the structure comment.
 
 ## build-and-caches.md
 
@@ -49,11 +53,13 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - The safe list for kept caches (the cold read, finding 1.7): the exploration's safe list says "code that no compile or run uses (the test harness, `Shell`'s options)"; map README § 7, row "`Shell.java` flags and phase orders" (both paths; which desugarings and checks run per path) and row `compiler/` phases 1-4 (which desugarers run is a `Shell` switch, `Shell.java:268-286`, `:371-386`). So `Shell.java` moved to the plain build, the test harness named by its package, and every path the list does not name, `interpreter/env/` among them, takes the plain build.
 - Name resolution: `explorations/repo-internals.md:133-145, :24-28, :118-123, :61`.
 - The rule on wiping, scoped to what was measured (the curator's comment of 2026-10-05 on the review page, that "never wipe" had become a dogma): `explorations/coordinator/build-cache-exploration.md:65`, `:71`, `:193` (a missed recompile is fixed by recompiling; a wipe is never the fix for it); the caches deleted only by `compileAll`'s first step, `cleanCache` (`build.xml:356-359`, `:715`). Keeping the caches with `-Dcache0`/`-Dcache1`, its safe list and its unsafe list: `build-cache-exploration.md`, "Keeping the caches through a rebuild" (by reading), measured by Fable in `process-engineering/cache-sharing.md` section 2 (the caches intact, a compile after it 4.6 s); the stale native wrapper given there as the example of a kept stale entry: the script `:945` (rung 7's traps). Placed under Building, where the deletion is, at the curator's comment of 2026-10-05 that the section be rewritten whole.
+- Api and parser directory defined first; the caches, the library order and name resolution before the steps; a skipped step's effects with its symptoms: the structure comment.
 
 ## toolchain.md
 
 - Toolchain traps: the old `CLAUDE.md` (Build and run); `explorations/modernization-plan.md` rungs 7 (ASM 9.10.1, `2f1fdbf2e`; `Opcodes` fully qualified) and 10 (javac at 25, `561064bb1`), which made stale the javac-target reason (`repo-internals.md:189-200`) and "JDKs 8 to 21 build the tree" (dropped 2026-10-06); the classfile level is `compiler.md`'s; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7. The fresh container's setup: `explorations/experiment/setup.sh:14-35` (the package list, the build stage) and its `transcripts` stage; the transcript backup said in a clause: the `cloud-container` skill, `hooks.md`.
 - Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; the old `CLAUDE.md`.
+- Facts before rules: the structure comment.
 
 ## worktrees.md
 
@@ -65,6 +71,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Never pointing `FORTRESS_CACHES` at the base build's own caches: the same reason as never running its `bin/fortress` without the tool (the manual, "Climb batch 9"; the pending edit), since `bin/fortress_classpath:25` and `ProjectProperties` take the caches from that variable.
 - `.git/info/exclude` keeping `.claude/worktrees/` and `.claude/agents/` out of `git status`: the file itself, read on the machine; the boot note's paragraph on the container. `explorations/experiment/setup.sh` does not write these lines.
 - FORTRESS_CACHES for a hand-composed run's run step: FACTS "A harness run against another build's classes must point `FORTRESS_CACHES` at that build's caches" (`compile-ladder/rung-return-type-rule/REPORT.md:90`, where "that build's caches" were the caches the run's compile wrote). The part says "the same folder as `-Dfortress.caches`", which is what the entry means, so that it is not read as the base build's own caches.
+- The base build, seeding and the old code defined first; the tool described before its commands: the structure comment.
 
 ## session.md
 
@@ -79,6 +86,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Interrupts and messages: FACTS "Stopping a turn kills every background agent alive at that moment ...", "A user interrupt of the coordinating session's turn kills a background Workflow run", "A message ... that arrives while the coordinator is inside a turn kills a running Workflow's agents ..." (does not hold). What a stop of the process kills and keeps, `nohup` commands surviving it: FACTS "A restart of the session's own process kills its background runs ...". A VM restart: the `cloud-container` skill.
 - Starting again after an interrupt or a stop, steps 1, 3 and 4: FACTS "A restart of the session's own process ..." (shell scripts survive); the manual "The distance stage" (a retry finds its run by its log). Step 2, a complete log stands unless the tree changed: the script's prefix, "If your branch already carries commits" (`:1054`); the manual, "Shared prefix".
 - The automatic permission check, its refusal after a go in chat, the way through: FACTS "The session's automatic permission check refuses a step ...". Reporting the refusal and not routing around it: `explorations/coordinator/PLAN.md`, the entry on climb batch 10's microGPT checks (the commit agent said so in its result and did not route around it).
+- `run_bg` and `wait_for` described before their code: the structure comment.
 
 ## tests-running.md
 
@@ -97,6 +105,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - One track by hand: the `fastTrack` macro `build.xml:930-958` (properties, env, memory); `harness-one.sh` (the same pattern for SystemJUTest, global.map seed); `explorations/compile-ladder/rung-overloading-checker/REPORT.md:438` (tracks run as one JVM each with a private cache tree through `junit.textui.TestRunner`); `CompilerJUTest.java:22-24` (main runs TestRunner); compiler track 428 s: map test-coverage D.1. The command itself is composed from these, not copied from one script. `testCompiler`/`testLibrary`/`testOtherCompiler` depend on `cleanCache, compile`: `build.xml:818, :844, :869, :588`.
 - Complete log stands: the manual "Shared prefix" (resumed worker paragraph).
 - Outside the gate: FACTS "`ant testSpecData` runs 130 of the specification's 133 extracted examples under walk ..." and POSITIONS "The specification's examples join the gate at zero red."; `build.xml:988`, `:1114`, `:1139` (`testNotPassing` and `testSpecData` depend on `compileAll`); `explorations/coordinator/map/test-coverage.md:228`; FACTS "The gate: two corpora, hand-ported ..." (the orphaned folders); `explorations/repo-internals.md:62-68`.
+- Track and code state defined first; the suites' facts before their rules; warnings before their commands: the structure comment.
 
 ## gate.md
 
@@ -108,6 +117,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Atomic runs: the script `:1775-1776, :1839-1869`; fourteen programs, 42 lines: the gate summary.
 - Ladder regression: the script `:1870-1900`; FACTS "The ladder-regression stage's baseline is ..."; never the full-corpus driver: the script `:1137`; ladder subset rule: the script `:1137`. `microgpt-phase.md` located: `explorations/compile-ladder/baseline-2026-09-19/microgpt-phase.md` (the script `:1870`). The whole-corpus driver named: the script `:1874` ("baseline-2026-09-19/ has only the whole-corpus run-ladder.sh"); its default root and `OUT`: `baseline-2026-09-19/run-ladder.sh:24`, `:31` and `explorations/compile-ladder/run-ladder.sh:22`, `:29` (a session's scratchpad, a tracked folder); `run-subset.sh:26`, `:33` (its `OUT` is also tracked). Declared moves: the manual "Gate" (`expectedMoves`, given to the gate in its brief). The compile ladder: `explorations/compile-ladder/CLIMB.md`, `REPORT.md`.
 - microGPT never in the gate: POSITIONS "Interpreter performance is irrelevant."
+- What it writes and when to run it before the steps; the ladder's marks and a change's subset before its steps: the structure comment.
 
 ## tests-writing.md
 
@@ -127,6 +137,8 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Respelled team test lines: POSITIONS "The gate's comparisons."
 - Threads 1 and 4: the script `:1276`.
 - Ambiguity message order: FACTS "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program" (stated in `interpreter.md` only).
+- Item 3 covers a question that a conflict leaves open, since `specification.md` no longer gives an unsettled disagreement an `XXX` test of the text: the reader-new entry.
+- Terms first (gated, `XXX`, code-generator wall); how `XXX` works before the steps that write one: the structure comment.
 
 ## The checker count and the distance (removed)
 
@@ -149,6 +161,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Load checks: FACTS "Walk checks at load the `comprises` clauses ...".
 - Suites and blind paths: the script `:1037`; FACTS "The checker-count and distance stages read only ...".
 - Shared early phases: map README § 7 row `compiler/` phases 1-4.
+- What walk does not do, natives and checks at load before running and editing; the timing rule moved to running: the structure comment.
 
 ## compiler.md
 
@@ -166,6 +179,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Api/component name: FACTS "An exported function fails exactly as an exported variable does ...".
 - 0-byte jar on a failed program compile: FACTS Execution model (boxing/kernels entry); failed library compile writes nothing: exploration § 2 (now `build-and-caches.md`'s).
 - The `fortress` commands: `Shell.java:403-487` (the dispatch) and `:371-386` (the library switch), read on the tree, and no longer given in the part; `explorations/repo-internals.md:41-43`, `:111-117`; the agents' use of each command counted over session `fe616d40`'s agent transcripts on 2026-10-04 (`compile`, `run`, `junit` and walk regular; `typecheck`, `parse` and `link` occasional; `api`, `test` and `unparse` almost never).
+- The phases and the wall first, the steps last; "`sayWhat` wall" renamed code-generator wall, as `tests-writing.md` names it: the structure comment.
 
 ## library.md
 
@@ -177,6 +191,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - The switch-over note on natives (`Writer`, PLAN item 35) dropped on 2026-10-06: no step of a change today, and PLAN holds it.
 - Respelled test lines: POSITIONS "The gate's comparisons." (stated in `tests-writing.md` only).
 - library_tests holds compiler-prelude tests: map README § 7 row `Library/CompilerLibrary.fss`; `explorations/repo-internals.md:109`.
+- The decisions in a section of their own, "build on" in place of "do not reopen": the reader-new entry.
 
 ## specification.md
 
@@ -185,9 +200,18 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - apis/*.tex circular: FACTS "The test corpora cite the specification by file and section ..." (the generated-file note).
 - Revision form: POSITIONS "Every change to the specification is recorded with its reason.", "The S1 form", "The refused examples (S2)."; macro `Specification/fortress/fortress.tex:87-92`; entry layout `Specification/appendices/changes.tex:64-70`. Located (the cold read, finding 2.6): the decision an entry follows, `changes.tex:48-57` ("Each change below follows a decision of the revival ... An entry whose change does not follow from route A ... names the decision it follows or gives its reason"); the front matter's paragraph, `Specification/fortress/preamble.tex:54-64`; the decision records, `ls explorations/compile-ladder/*/decision-record.md`, `changes.tex:41-46` naming `rung-spec-route-a/decision-record.md`. No failing test for prose: `tests-writing.md`'s sources (the cold read, finding 1.12).
 - Report false sentences: the script's REPORT.md paragraph `:1028`.
-- Disagreement handling: the manual "Rules weighed", item 4 ("the row named among the text's departures in its `changes.tex` entry"; a passage with no entry has none to name it in, the cold read's small points).
+- Disagreement handling in three points (a decision settles it; else a conflict, for exploring; the row named among an Appendix I entry's departures): the reader-new entry; the departures from the manual "Rules weighed", item 4.
 - Citing: FACTS "The test corpora cite ..."; the manual "Shared prefix".
 - Blind: FACTS "The checker-count and distance stages read only ..."; the manual "A repair of tests and records only".
+- The opening: no worker chooses the later source alone; "Weighing the sources" kept as the curator's weighing, used to describe sources in a report: the reader-new entry.
+- Appendix I defined at the top, the no-gate line moved there: the structure comment.
+
+## exploring.md
+
+- The part, loaded when a trigger fires; the record searched before the original tree; conflicts and questions about a decision left to the curator: the reader-new entry.
+- The four conditions on a worker's own choice, the form of a decision not taken, evidence out of reach, the brief first: the curator's decisions of 2026-10-07, as the coordinator's brief to the writer gives them.
+- Why the record comes first: `explorations/coordinator/process-engineering/worker-decisions-archaeology.md`, E4 case 2.
+- The INDEX search before a claim of absence: moved from `records.md` and stated once.
 
 ## records.md
 
@@ -208,6 +232,10 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Points to report (the cold read, finding 1.8; called stops in the record and the batch script, renamed at the curator's comment of 2026-10-06 on the review page, the word having misled the curator into reading them as conditions that stop the worker; not a term of the skill, since each brief names its own): the `coordinator` skill's `delegation.md` (a brief names them); the script `:680-682` (a rung that meets a reserved stop finishes as its section says, lists it in `stopsMet` and lands; a stop the record does not reserve, or one that cannot be undone, holds the push); the examples and "left with a row": the batch 10 tails' "Stops." lines, the script `:162`, `:358`, `:364`. Not taking a step that cannot be undone or would reverse a decision on record, and reporting it as a decision not taken: the `coordinator` skill's `decisions.md` (such a step holds the work and goes to the curator at once) read with the report rule (an open question is a decision not taken).
 - Where a report goes (the cold read, finding 2.3): briefs name their output file and their final message, for example `explorations/coordinator/process-engineering/design-batch10-brief.md` ("Write ...", "Your final text back: ..."); `explorations/coordinator/README.md` (a worker's output path is the one its brief names).
 - An untitled FACTS entry cited by its opening words: `explorations/coordinator/README.md`, "How they are kept".
+- The four main files moved to `SKILL.md`; "do not reopen a closed decision" now `SKILL.md`'s rule to carry out the curator's decisions: the reader-new entry.
+- A question for the curator in the form that `exploring.md` gives; "no position" read as "no decision of the curator covers it": the reader-new entry.
+- "Collide" for parallel edits, since "conflict" now names two sources that disagree: the structure comment.
+- Points to report defined first; the files, the ledger, FACTS and the history described before reading, writing and reporting: the structure comment.
 
 ## committing.md
 
@@ -218,6 +246,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Pushing after every commit: FACTS "The push loop pushes `main` every 4 minutes ..." (no loop runs; the coordinator pushes after every commit); POSITIONS "Workers commit their own files as they go.".
 - The session line of the footer: `explorations/protocol.md` gives it and was changed to name the current session when the work moved to it (`201834fa8`: "Protocol section 4 names ... this session"); `git log` carries both sessions' lines.
 - No rule on `HANDOVER.md` or an uploaded ZIP (`explorations/protocol.md`, the second hard rule; `explorations/modernization-plan.md:336`): the curator's comment of 2026-10-06 on the review page, that the rule dates from the upload that started the session and no longer instructs anyone. The transcript branches: covered by "Push no other branch". No rule on the curator's email: the system prompt carries it.
+- Scratch defined before the commit rules: the structure comment.
 
 ## Where the sources disagree or are stale
 
