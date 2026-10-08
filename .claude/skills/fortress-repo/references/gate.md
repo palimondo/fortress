@@ -26,7 +26,7 @@ If only test files changed, run the changed files through `harness-one.sh` and `
 
 Run these steps in this order, on a clean build of the tree:
 
-1. Check `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs (`build-and-caches.md`). If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. If less than 500 MB is still free, stop and report.
+1. Check `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs. If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. If less than 500 MB is still free, stop and report.
 2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`.
 3. If step 2's build printed `Caches <tree>/default_repository/caches started again, empty`, run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
 4. Run `ant testFast` (9 to 11 min), then `ant testSystem` (3 to 4 min). Both must have zero failures.

@@ -59,7 +59,7 @@ Put a `-D` switch on the `java` line of a run by hand (below). On the `ant` line
 
 - The gate runs every suite once, on the tree that lands (`gate.md`). Your brief says whether you run the gate.
 - If your edit changes the Java or Scala of the checker or of walk, you may run whole the tests that it reaches. Run them at most once for each code state: after your last edit of code, on the commit that holds it.
-  - For the checker, run the compiler and library tracks (below).
+  - For the checker, run `ant testQuick`: the compiler, othercompiler and library tracks at once (below).
   - For walk, run `ant testSystem`. It is the same as its four shards run by hand.
 - Quote the verdict lines, the command and that commit in your report.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.

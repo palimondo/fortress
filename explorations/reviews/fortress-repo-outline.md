@@ -1,16 +1,36 @@
-<!-- For each part of the fortress-repo skill, what goes in, moves out or is cut when six inputs are brought in, a new part for the revival's changes, and the decisions not taken; an outline, nothing rewritten. -->
+<!-- For each part of the fortress-repo skill, what goes in, moves out or is cut when six inputs are brought in, a new part for the revival's changes, and the decisions not taken; an outline, nothing rewritten. Brought in line on 2026-10-08 with SKILL.md's section "How a program runs" and the build of 4e0f34421 and 840368f92. -->
 
 # The fortress-repo parts: an outline of the changes
 
 A part is a file under the skill's `references/`. The numbers name the inputs: (1) the revival story's part 6; (2) its parts 1 and 2; (3) `testing-practices.md`; (4) the distillation audit, sections A and C; (5) the gap ledger's new form and `ledger.py`; (6) `context-study.md`. A tool is a proposed script, not built yet; the text that it would replace stays until it lands.
 
-Already in: audit items A1 to A8, A10 to A15, C1 to C4 but one row. Left out: A9, the gate's report-only stages, as this skill holds nothing of the checker count or the distance; the batch roles of (2) and the briefing proposals of (6), which are the `coordinator` skill's or the brief's.
+Already in: audit items A1 to A8, A10 to A15, C1 to C4 but one row; `SKILL.md`'s section "How a program runs" and the build of `4e0f34421` and `840368f92` (`071b8263b`). Left out: A9, the gate's report-only stages, as this skill holds nothing of the checker count or the distance; the batch roles of (2) and the briefing proposals of (6), which are the `coordinator` skill's or the brief's.
+
+## What `SKILL.md` preloads
+
+The test for each item: if a worker in any area would act wrongly without it, it is in `SKILL.md`. If only work in one area needs it, it is in that area's part, which the worker loads when its task touches the area.
+
+1. The goal: microGPT, compiled to JVM bytecode and running fast.
+2. The glossary: curator, brief, original tree, record, walk, compiled path, component, api, area, base, gate, harness, building, exploring.
+3. The phases of each path, and that walk runs a tree with no static types.
+4. The compiled run time: what a jar holds, the dispatch methods, the class loader that makes each instantiation, boxed numbers.
+5. The caches, and what an entry is.
+6. Parallelism and mutable state: what runs in parallel, the pool, tasks built twice, immutable and mutable variables, how code stays free of races, the suites at four threads.
+7. Fortress as a language: the points that correct an assumption from a known language.
+8. The record: its four main files and the query tool.
+9. When to explore.
+10. The rules for every task.
+11. The parts, and when to load each.
+
+Two passages of items 4 and 6 serve mainly the compiled area: the class loader's ledger rows, and the cell that tracks a variable inside `atomic`. Decision 7 below.
 
 ## build-and-caches.md
 
 - In: a build takes up to about 140 s while other agents build (3).
 - In: "Unable to read serialized data ... relink" is usually a code-generator defect; run the library order only if it names a member of a `Compiler*` or `AnyType` component (3; replaces a wrong line).
 - In: a `NoSuchMethodError` on a method of your own program is a defect, not a skipped step (3).
+- Up: the phases, the run time, the main caches and the entry are `SKILL.md`'s. "Two layers of code" keeps only what a build and a rebuild need, and points up.
+- Build: `ant compileAll` keeps the caches unless the implementation changed, and says so (`Caches <folder> kept` or `started again, empty`). The library order runs only after a build that started the caches again, or in a tree with empty caches. The `-Dcache0=/nonexistent` recipe is gone.
 - Tool: `library-order.sh` would replace the five commands and the check of the five jars (3).
 
 ## session.md
@@ -30,13 +50,16 @@ No change.
 
 - In: `-debug interpreter` shows the Java stack of a walk crash (3).
 - In: walk infers static arguments in `MakeInferenceSpecific`, with the bounds in `LatticeIntervalMap` and its dual (6).
-- In: `interpreter/rewrite/` gives each name its lexical depth, kept in `interpreter_cache` (4, the row of C4 not yet in).
+- In: `interpreter/rewrite/` gives each name its lexical depth (4, the row of C4 not yet in). Where walk keeps the result, `interpreter_cache`, is `SKILL.md`'s.
+- Up: walk's missing type check and the pool's threads point to `SKILL.md`; the part keeps the load checks and the threads that the setup sets.
 
 ## compiler.md
 
 - In: `bin/fortress compile -debug stacktrace P.fss` shows the Java stack of a checker crash (3, 6).
 - In: after a failed compile, `fortress run` prints a misleading "Could not load ... Resource not found". Read the compile's error (3).
 - In: array storage is decided as unboxed `double[]`, not built; the rest is open (2).
+- Up: what the phases do, the dispatch methods, the templates and the size descriptors point to `SKILL.md`; the phase names, the classfile level and the `value` modifier stay.
+- Up (A2): in "What the two paths share", the opening sentence and the line on tasks and transactions are `SKILL.md`'s. The values, the number natives, the dispatch files (`OverloadedFunction`, `OverloadSet`), `bin/run` and the report rule stay.
 - Tool: `probe.sh` would replace the block in "Running" (3).
 
 ## library.md
@@ -44,6 +67,7 @@ No change.
 - Cut: the decisions that `SKILL.md` states: the bound `Any`, a parameter that nothing fixes, the flat tower, the rule on conversions, the sizes. Keep ranges, wrapping, `SUM`, `ZZ64` to `RR64`.
 - In: `fill` takes a value, `tabulate` a function (2).
 - In: the desugarer's names `__loop` and `__whileCond`, beside the loops (6).
+- Stays (A10): how a loop or a reduction becomes library calls. `SKILL.md` says only that they become calls, and whose code they call.
 
 ## specification.md
 
@@ -73,11 +97,15 @@ Its line in `SKILL.md`'s list, after the specification: "What the revival change
 
 ## tests-running.md (the writer's trial)
 
-It holds what (3) proposed for it. Nothing moves out. In only if the curator says yes to his held question: one `ant testSystem` after a library edit (3). Tools: `suite.sh` would replace the recipe for one track; `harness-one.sh` and `junit.sh` at a stable path, their paths and the notes on `climb-batch-N` and `env.sh` (3).
+It holds what (3) proposed for it. Nothing moves out. In only if the curator says yes to his held question: one `ant testSystem` after a library edit (3).
+
+- Build: the suites build first and run at four threads, with `JAVA_FLAGS` pinned. `harness-one.sh` keeps its cache beside its scratch folder (`COLD_CACHE=1` starts it empty) and runs at four threads. `junit.sh` no longer sources env.sh. `ant testCompiler`, `testOtherCompiler`, `testLibrary` and `testQuick` replace the recipe for one track; after a checker edit, `ant testQuick`.
+- Tools: `harness-one.sh` and `junit.sh` at a stable path would replace their paths and the note on `climb-batch-N` (3). `suite.sh` is dropped: the ant targets do what it would.
 
 ## gate.md
 
-No text change. Tools: `ladder.sh` would replace the six steps of "To run it"; a sourced file of the gate's shell functions, the sentence that finds them in the workflow script (3).
+- Build: step 3 runs the library order only after a build that started the caches again. The suites run at four threads. Step 1's warning on deleting `/tmp/fortress*rats` stands without a pointer.
+- Tools: `ladder.sh` would replace the six steps of "To run it"; a sourced file of the gate's shell functions, the sentence that finds them in the workflow script (3).
 
 ## committing.md
 
@@ -98,6 +126,7 @@ No change.
 1. A rule that the new part also explains: (a) the area part keeps the rule, the new part the original and the reason; (b) the new part holds it all. Default (a).
 2. Changes with no contradiction behind them (story part 5, such as exact `QQ`): (a) out, by the part's terms; (b) in, as a list. Default (a).
 3. "Reversed" in `records.md`: the order above, or reading before the files. Default: above.
-4. Missing library jars, cured once by emptying the caches (3), against `SKILL.md`'s rule: (a) a symptom to report; (b) an exception. Default (a).
+4. Missing library jars, cured once by emptying the caches (3), against `build-and-caches.md`'s rule to keep the caches: (a) a symptom to report; (b) an exception. Default (a), already in the part.
 5. A command that the automatic check refused, split and run again (3): (a) keep `session.md`'s rule; (b) allow the split. Default (a).
 6. A16's Java properties that show what the code generator does, read from the code, never run: (a) out until a worker runs each; (b) in now. Default (a).
+7. The class loader's ledger rows and the transaction cell, which mainly compiled-area work needs: (a) keep them in `SKILL.md`, where the coordinator's brief placed them; (b) move them to `compiler.md`, by the preload test. Default (a).
