@@ -1,7 +1,7 @@
 # Running tests
 
 **track**
-: One of the four JVMs of `ant testFast`. Each track has its own caches.
+: One of the four JVMs of `ant testFast`. Each track has its own caches folder, so that the four JVMs do not overwrite each other's compiled files.
 
 **shard**
 : One of the four JVMs of `ant testSystem`. Shard i of n takes every n-th file of the sorted list, from index i.
@@ -33,7 +33,7 @@ The two suites work in the same way:
 
 To run a suite:
 
-- Before a suite, run `ant compileAll` on the code that you mean to test.
+- After you edit Java, Scala or a grammar, run `ant compileAll` in the same tree before you run a suite. Otherwise the suite tests the code from before your edit.
 - Run one suite at a time.
 - Read the verdict in the last line: `BUILD SUCCESSFUL` means zero failures, and `BUILD FAILED` means at least one.
 - To compare test counts, compare the sum of the four shards. A file added to `tests/` moves every later file to another shard.

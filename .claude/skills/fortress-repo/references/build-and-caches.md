@@ -29,7 +29,11 @@ The library order is the five compiles that build the compiled path's library. T
     ../bin/fortress compile ../Library/CompilerAlgebra.fss        # 2 s
     ../bin/fortress compile ../Library/CompilerSystem.fss         # 2 s
 
-Before the first compiled run, check that `default_repository/caches/bytecode_cache/` holds five jars: `fortress.AnyType.jar`, `fortress.CompilerBuiltin.jar`, `fortress.CompilerLibrary.jar`, `fortress.CompilerAlgebra.jar` and `CompilerSystem.jar`. Once, all five compiles exited 0 and the folder stayed empty. The same five commands, run again, made the jars. The cause is not known.
+Before the first compiled run, check that `default_repository/caches/bytecode_cache/` holds five jars: `fortress.AnyType.jar`, `fortress.CompilerBuiltin.jar`, `fortress.CompilerLibrary.jar`, `fortress.CompilerAlgebra.jar` and `CompilerSystem.jar`. Sometimes all five compiles exit 0 and a jar is missing. The cause is not known.
+
+- If a jar is missing, run the five commands again. Once, this made the jars.
+- If a jar is still missing, report it as a defect. Quote the commands, their exit codes and the folder's listing.
+- Keep the caches in this case too. Once, emptying them made the jars, but a deletion hides the cause.
 
 ## Name resolution
 
@@ -41,7 +45,7 @@ Before the first compiled run, check that `default_repository/caches/bytecode_ca
 
 ## Setting up each call
 
-Start each Bash call that runs Fortress, `ant` or a project tool with these lines. `<tree>` is your tree, the tree that you work in: the main tree or your worktree.
+Start each Bash call that runs Fortress, `ant` or a project tool with these lines. `<tree>` is the tree that you work in: the main tree or your worktree.
 
     cd <tree> && mkdir -p tmp
     export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64 PATH=/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
@@ -69,7 +73,7 @@ With the lines above, your runs put their parser directories in `<tree>/tmp/`. H
 
 Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortress/build.xml` is a stub.
 
-- It takes about 25 to 60 s on a built tree, and about 80 s on a new one.
+- On an idle machine, it takes about 25 to 60 s on a built tree, and about 80 s on a new one. While other agents build, it takes up to about 140 s.
 - Its first step deletes `default_repository/caches` at the tree's root, `global.map` included. Restore nothing: the caches are gitignored, and the linker writes `global.map` again on the next run.
 - After it, run the library order before the next compiled run. Walk, `harness-one.sh` and the two ant suites need nothing more.
 - If it fails, fix the error and run it again. The caches are already deleted, so clear nothing else. Then run the library order.
@@ -105,14 +109,19 @@ Walk reads an edited Fortress source again on its next run. The compiled path se
 
 ## Symptoms of a skipped step
 
-If you skip the step for your edit:
+If you skip the step for your edit, the run shows it:
 
-- after an edit of a body, the run uses the old code and gives no warning;
-- after an edit of an api, the run stops with `NoSuchMethodError`.
+- After an edit of a body, the run uses the old code and gives no warning.
+- After an edit of an api, the run stops with `NoSuchMethodError` or `NoClassDefFoundError` on a library member. Examples: `fortress.CompilerBuiltin.println`, `coerce_ZZ32`, `fortress/CompilerLibrary$GeneratorZZ32`. The run used the frozen bootstrap stubs in `ProjectFortress/build/fortress/`.
 
-If you see either, do the step now. Do not delete the caches to fix it: that works only because it repeats the library order and every analysis from cold. Only `ant compileAll` deletes the caches. If something else looks like a stale cache, find its cause before you delete anything.
+If you see either, do the step now: recompile the component, or run the library order. Do not delete the caches to fix it. A deletion works only because it repeats the library order and every analysis from cold. Only `ant compileAll` deletes the caches. If something else looks like a stale cache, find its cause before you delete anything.
 
-- `NoSuchMethodError` (for example on `fortress.CompilerBuiltin.println` or `coerce_ZZ32`), or `NoClassDefFoundError: fortress/CompilerLibrary$GeneratorZZ32`: a component was not recompiled after an edit or after `ant compileAll`. The run used the frozen bootstrap stubs in `ProjectFortress/build/fortress/`. Recompile the component, or run the library order.
-- "Unable to read serialized data ... relink": a stale cache, not a compiler bug. Run the library order.
+Two messages look like a skipped step, but usually show a defect:
+
+- A `NoSuchMethodError` on a method of your own program, often with a mangled name such as `\=tag?1??Arrow...`, is a defect of the compiled path. Record it (`tests-writing.md`).
+- "Unable to read serialized data for X, recommend you delete the Fortress bytecode cache and relink" is usually a defect of the code generator. Search the gap ledger for the message. Run the library order only if X is a member of a `Compiler*` or `AnyType` component. Keep the caches, whatever the message advises.
+
+Two more facts help you read a run:
+
 - A `fortress compile` of a source that did not change writes nothing and exits 0.
 - A library compile that failed or was killed wrote nothing, or only its jar. Programs link the old jar with no warning until you fix the error and compile that component again.

@@ -19,7 +19,7 @@ A test program has this form:
 
 - `(*)` starts a comment to the end of the line. It cannot hold `*)`: the parser ends the comment there and refuses the program. `(* ... *)` comments nest.
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`, for values of any type. The compiler's prelude declares the two-value `assert` only for `ZZ32`, `String` and `Character`.
-- Do not name a variable or a parameter after a functional method of the library, such as `even`, `numerator` or `shift`. The disambiguator refuses it: "Variable even is already declared."
+- Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator refuses it: "Variable even is already declared."
 - Under walk, a numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
 
 ## Where a test goes, and how it passes
@@ -27,7 +27,7 @@ A test program has this form:
 Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `Name`.
 
 - Every `.fss` file there is gated, with no `.test` file needed.
-- It passes if it throws no exception, exits 0, and prints neither `fail` nor `FAIL`. So a passing test must not print those words.
+- It passes if it throws no exception, exits 0, and neither its standard output nor its standard error contains `fail` or `FAIL`. A longer word counts too: `failure` fails the test. Only a file whose name contains `QuickCheckTest` is exempt.
 - An api that it imports can be in `ProjectFortress/test_library/`.
 - The harness skips files whose names end in `Syntax.fss`, `DynamicSemantics.fss` or `Satisfiability.fss`, or contain `GenomeUtil`.
 - For a refusal at load, put `Name.test` beside `tests/Name.fss`, with `load_exception_contains=<message>`. A plain test passes if walk refuses the program at load as named. A failure while the top-level variables are initialised counts as a refusal. An `XXX` test passes if the program loads and runs clean.
@@ -63,7 +63,7 @@ Record every defect that you measure in one of three ways, and say in your repor
 
 1. Your change repairs it: an assertion in your gated test.
 2. It is deferred, and the specification settles it: a gated `XXX` test that asserts the specification's answer. Write it in the change that measured the defect, even if a later change will repair it. A program that the checker accepts and that then fails verification, linkage or a range check at run time belongs here.
-3. It is deferred, and the specification is silent or a conflict leaves it open (`exploring.md`): a test that pins today's behaviour, and a row in the gap ledger (`records.md`). If no program can observe the defect, write the ledger row only, and quote the output in it.
+3. It is deferred, and the specification is silent or a conflict leaves it open (`exploring.md`): a test that pins today's behaviour, and a row in the gap ledger (`records.md`). If no program can observe the defect, write the ledger row only. Its reproducer is `none`, and its notes give the command and its output.
 
 If your brief does not let you edit the original tree, say in your report which of the three the defect needs, and write the ledger row. A probe that only measures and reports is an example. The change that next works there writes the test.
 
