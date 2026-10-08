@@ -44,6 +44,7 @@ This skill was made on 2026-10-05 by splitting one skill, `remote-container`, al
 - Re-arming: remote-container.md § Re-arming it in a fresh container; `explorations/experiment/setup.sh`, its `transcripts` stage; the two hooks in `.claude/settings.json`.
 - The lineages: remote-container.md § What is where, § Re-arming it in a fresh container; the Stop hook in this container's `~/.claude/settings.json` names `fortress-transcripts-blinded`.
 - Reading: remote-container.md § Reading another session's transcript, § Three traps ("The 100 MiB blob limit", "The workflow-transcript glob").
+- The rebuilt container (the coordinator's brief of 2026-10-08): FACTS "A container can be replaced by a fresh one whose clone fails, leaving an empty repository" (the branch read with `get_session`, `session_context.sources`; the empty `.git`, no `ant`; the recovery commands; two sessions refused on one backup branch); `session_context.sources[].git_repository.revision` and setup.sh's about 4 minutes from the brief. The sentence that setup.sh re-arms the backup moved from "Re-arming" into the restore steps.
 - Recovering: remote-container.md § Recovering a session whose container died, steps 1-6 (step 5's reason, `resumeFromRunId` working only in the launching session, is the `coordinator` skill's).
 
 ## Where the sources disagree or are stale

@@ -4,7 +4,16 @@ A container can be reclaimed, corrupted or lost at any time. What was pushed sur
 
 ## Re-provisioning
 
-The platform re-provisions a container by cloning the branch the session was created from. If that branch is behind `main`, the new container starts on a stale tree; if the branch is gone, re-provisioning fails and the session is lost. Pushing keeps that branch current (for this repository: the `fortress-repo` skill, committing). A session that cannot be re-provisioned is recovered in another container that already has the checkout and the toolchain: fast-forward it to `main`, re-arm the backup, and continue from what the work wrote down and pushed.
+The platform rebuilds a session's container from the branch that the session was created from. `get_session` shows that branch, as `session_context.sources[].git_repository.revision`. So that branch must stay on the remote, and pushing keeps it current (for this repository: the `fortress-repo` skill, committing). If the branch is behind `main`, the new container starts on a stale tree.
+
+A rebuilt container comes up blank: an empty clone, and no toolchain. If the branch is gone, the clone fails, and the repository has only an empty `.git`. To restore the container:
+
+1. Fetch `main` and check it out: `git fetch origin main`, then `git checkout -b main origin/main`.
+2. Run `explorations/experiment/setup.sh`. In about 4 minutes, it installs JDK 25 and `ant`, builds the tree and re-arms the transcript backup.
+
+If the session cannot go on, continue it in another container that has the checkout and the toolchain: fast-forward that checkout to `main`, re-arm the backup (below), and go on from what the work pushed.
+
+Only one session may back up its transcripts to a branch. The pushes of a second session to the same branch are refused.
 
 ## Re-arming the backup in a fresh container
 
@@ -13,7 +22,7 @@ The platform re-provisions a container by cloning the branch the session was cre
     /home/user/fortress-transcripts-blinded/scripts/backup.sh --run          # one pass, in the foreground
     tail -1 /home/user/fortress-transcripts-blinded/.backup.log              # verify
 
-The pass is good when the line reads `copier_rc=0` and either `commit=<hash>` with `push=ok`, or `commit=none ahead=0 push=none` when nothing changed; `git -C /home/user/fortress-transcripts-blinded status -sb` then shows the branch not ahead of its upstream. Run by hand, `--run` waits for a runner at work and then makes a pass; the hook's form, without `--run`, returns at once and its pass shows in the log about 10 s later. `explorations/experiment/setup.sh` does the whole fresh container's setup, this among it.
+The pass is good when the line reads `copier_rc=0` and either `commit=<hash>` with `push=ok`, or `commit=none ahead=0 push=none` when nothing changed; `git -C /home/user/fortress-transcripts-blinded status -sb` then shows the branch not ahead of its upstream. Run by hand, `--run` waits for a runner at work and then makes a pass; the hook's form, without `--run`, returns at once and its pass shows in the log about 10 s later.
 
 This container's sessions are backed up to `transcripts-blinded`. The sessions of the first container that the coordinating session (the main session that keeps the project's records and launches its workers) ran in are on `transcripts`, whose own `scripts/` are older (re-arming that lineage, copy the reference copies from `explorations/coordinator/transcript-backup/` in first). Keep the two apart and join them only when reading.
 
