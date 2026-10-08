@@ -1,4 +1,4 @@
-// workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR]
+// workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR] [--dump DIR]
 //
 // The scenario checker of the batch workflow script, explorations/coordinator/climb-batch-workflow.js
 // (its manual: explorations/coordinator/climb-batch-workflow.md; the practice it builds:
@@ -42,9 +42,10 @@ const crypto = require('crypto')
 
 const ROOT = process.env.FORTRESS_HOME || path.resolve(__dirname, '../../..')
 const argv = process.argv.slice(2)
-const sizesAt = argv.indexOf('--sizes')
+const sizesAt = argv.indexOf('--sizes'), dumpAt = argv.indexOf('--dump')
 const SIZES_DIR = sizesAt >= 0 ? argv[sizesAt + 1] : null
-const target = argv.filter((a, i) => a !== '--sizes' && (sizesAt < 0 || i !== sizesAt + 1))[0] || path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
+const DUMP_DIR = dumpAt >= 0 ? argv[dumpAt + 1] : null   // writes every brief of every scenario there, one file each, for reading
+const target = argv.filter((a, i) => a !== '--sizes' && a !== '--dump' && (sizesAt < 0 || i !== sizesAt + 1) && (dumpAt < 0 || i !== dumpAt + 1))[0] || path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
 const BASE_BUILD = '/home/user/fortress-base'
 const orig = fs.readFileSync(target, 'utf8')
 
@@ -331,6 +332,10 @@ function check(sc, out) {
   if (SIZES_DIR) return sizes(SIZES_DIR)
   for (const sc of SCEN) {
     const o = await run(sc)
+    if (DUMP_DIR) {
+      fs.mkdirSync(DUMP_DIR, { recursive: true })
+      for (const c of o.calls) fs.writeFileSync(path.join(DUMP_DIR, sc.name.split(' ')[0] + '--' + c.label.replace(/[^A-Za-z0-9-]+/g, '_') + '.txt'), c.prompt)
+    }
     const probs = check(sc, o)
     const ids = (o.result && o.result.forCurator || []).map(i => i.id)
     const what = o.threw ? 'stopped: ' + o.threw.message.slice(0, 120) : 'landed ' + (o.result && o.result.landed) + (o.result && o.result.pushHeld ? '; push held' : '') + (ids.length ? '; items ' + ids.join(', ') : '')
