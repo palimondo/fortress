@@ -43,6 +43,8 @@ COMMON = [
 
 PAGE_BYTES = 28000   # under the 30,000 characters an agent's shell tool shows of one command's output
 INDEX_LINES = 10     # at most this many INDEX.md lines for one topic
+FIND_ROWS = 10       # at most this many ledger rows for one ledger-find: topic
+CLAIM_CHARS = 150    # of a row's claim that ledger-find: prints
 # What a part costs an agent's context: 0.41 tokens a byte of tool output and
 # about 110 a call, fitted on 78 agents' transcripts (worker-context-cost.md,
 # "Tokens of a result").
@@ -66,6 +68,9 @@ QUERY is one of:
   index:WORDS            the INDEX.md lines that hold every one of WORDS (at most 10)
   ledger:ROW             row ROW of the gap ledger, whole, under its section and
                          the table's header
+  ledger-find:WORDS      one line for each gap ledger row that holds every one of
+                         WORDS: its number, its status and the first 150 characters
+                         of its claim (at most 10, then how many more matched)
   positions:TITLE        the entry of POSITIONS.md whose bold title holds TITLE, as
                          a TITLE query does in FACTS.md; exactly one must, else the
                          nearest titles are named
@@ -102,7 +107,7 @@ straight ones, and takes any run of spaces as one space.
   --check             print one line per query, what it matches, where, and its
                       size in bytes, then the size of the whole output, and
                       nothing else; exit 1 unless every query matches exactly
-                      one place (an index topic: at least one line)
+                      one place (an index or ledger-find topic: at least one line)
   --part N            print part N of the output (default 1)
   --page-bytes N      the size of a part (default 28000)
   --root DIR          read the record and every map: and doc: path from the
@@ -262,6 +267,21 @@ def ledger_rows(path):
         if m:
             rows.append((int(m.group(1)), n, section, header, ln))
     return rows
+
+
+def ledger_cells(row):
+    """A ledger row's cells, which open with #, claim and status; a cell ends at
+    a | that is not escaped and has a space or the line's end after it, since a
+    code span such as `opr ||(` holds bare ones."""
+    return [c.strip() for c in re.split(r'(?<!\\)\|(?=\s|$)', row.strip())[1:-1]]
+
+
+def clip(text, n):
+    """text cut to at most n characters at a word boundary, marked with … when cut."""
+    if len(text) <= n:
+        return text
+    cut = text[:n + 1]
+    return (cut[:cut.rfind(' ')] if ' ' in cut else text[:n]).rstrip() + ' …'
 
 
 # ---------------------------------------------------------------- other notes
@@ -633,6 +653,24 @@ def main(argv):
                     f.blocks.append(('== %s, ## %s' % (rec.rel(rec.ledger), sec), '%s:%d\n%s' % (name, n, '\n'.join(header + [ln]))))
                 f.where = '; '.join('%s:%d, %s' % (name, n, sec) for num, n, sec, header, ln in hits) \
                     + ('' if len(hits) == 1 else '  (%d rows, not one)' % len(hits))
+        elif q.startswith('ledger-find:'):
+            f = Found(q)
+            words = norm(q[len('ledger-find:'):]).split()
+            hits = [r for r in rows if words and holds_all(words, r[4])]
+            if not hits:
+                f.bad, f.missing = True, 'no row of %s holds every word' % rec.rel(rec.ledger)
+            else:
+                shown = hits[:FIND_ROWS]
+                out = []
+                for num, n, sec, header, ln in shown:
+                    cells = ledger_cells(ln) + ['', '', '']
+                    out.append('%d | %s | %s' % (num, cells[2], clip(cells[1], CLAIM_CHARS)))
+                if len(hits) > len(shown):
+                    out.append('... and %d more rows hold every word; add a word to narrow them' % (len(hits) - len(shown)))
+                ctx = '== %s, the rows holding "%s"%s' % (rec.rel(rec.ledger), q[len('ledger-find:'):].strip(),
+                                                         '' if len(hits) <= FIND_ROWS else ' (%d of %d)' % (len(shown), len(hits)))
+                f.blocks.append((ctx, '\n'.join(out)))
+                f.where = '%d ledger rows%s' % (len(hits), '' if len(hits) <= FIND_ROWS else ', the first %d printed' % FIND_ROWS)
         elif q.startswith('positions:'):
             f = Found(q)
             key = q[len('positions:'):].strip()
