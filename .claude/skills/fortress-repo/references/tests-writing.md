@@ -17,10 +17,10 @@ A test program has this form:
 
     end
 
-- `(*)` starts a comment to the end of the line. `(* ... *)` comments nest.
+- `(*)` starts a comment to the end of the line. It cannot hold `*)`: the parser ends the comment there and refuses the program. `(* ... *)` comments nest.
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`, for values of any type. The compiler's prelude declares the two-value `assert` only for `ZZ32`, `String` and `Character`.
 - Do not name a variable or a parameter after a functional method of the library, such as `even`, `numerator` or `shift`. The disambiguator refuses it: "Variable even is already declared."
-- A numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
+- Under walk, a numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
 
 ## Where a test goes, and how it passes
 
