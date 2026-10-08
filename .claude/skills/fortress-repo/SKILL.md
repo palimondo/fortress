@@ -79,7 +79,7 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
 - Reuse each result of a build, a suite, a stage of the gate or a test that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
 - After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
-- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while a build, a suite or a Fortress program may be running: the script deletes files that they use.
+- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while a build or a Fortress program may be running: the script deletes files that they use.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/library.md`).
