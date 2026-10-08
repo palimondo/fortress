@@ -41,9 +41,9 @@ A skill's terms open the skill, in `SKILL.md`, as a definition list with no head
 
 `explorations/coordinator/FACTS.md`, `POSITIONS.md`, the batch records and many notes were written by earlier models. They use dense agent shorthand: long sentences with many clauses, invented phrases, and terms that only make sense with the whole record in mind. Read them for their content only. Do not copy their wording or their style. Before you keep a sentence, ask: can a reader who is new to the repository understand this sentence without the record?
 
-## 4. The lenses
+## 4. The principles
 
-`explorations/reviews/skills-review-lenses.md` lists the eight questions that the curator asks of every sentence. Read it before your first edit.
+`explorations/reviews/skills-writing-principles.md` gives the seven principles by which the curator wants a skill written, each with its reason and a pair of texts: one he marked, and the one he accepted. Read it before your first edit. Apply it to every sentence that you write or keep.
 
 ## 5. How you work
 
