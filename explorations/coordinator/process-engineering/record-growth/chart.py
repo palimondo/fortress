@@ -137,5 +137,5 @@ handles = [Line2D([], [], color=NEUTRAL, lw=2, label='gap ledger'), Line2D([], [
            Line2D([], [], color='#9b9a92', lw=1, label='a batch landing')]
 fig.legend(handles=handles, loc='lower center', ncol=5, frameon=False, fontsize=9, bbox_to_anchor=(0.5, 0.0), handlelength=1.6, columnspacing=1.2)
 out = os.path.join(HERE, 'record-growth.png')
-fig.savefig(out, dpi=150)
+fig.savefig(out, dpi=300)
 print('wrote', out)
