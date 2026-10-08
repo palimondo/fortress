@@ -27,8 +27,10 @@ These are not judgement calls.
   attributed quotations); HANDOVER.md or ZIP contents without his go. His email
   is for attribution only.
 - Every push: `git push origin main`, then
-  `git push origin main:claude/worker-brief-fable-vnnuv8`; no other branch
-  without permission (the transcript orphan branches excepted). Commit footer,
+  `git push origin main:claude/worker-brief-fable-vnnuv8` and
+  `git push origin main:blinded-fable` (the branch the coordinating session was
+  created from, which a rebuilt container clones); no other branch without
+  permission (the transcript orphan branches excepted). Commit footer,
   exactly:
 
   ```
