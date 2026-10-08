@@ -159,7 +159,7 @@ Changes a programmer writing Fortress would notice, by area.
 
 **Numbers**
 
-- The number types are siblings under `Number`, not a tower. A wider type converts from a narrower one by a declared `coerce`.
+- The number types are siblings under `Number`, not a tower, as the team's compiler library already had them. A wider type converts from a narrower one by a declared `coerce`.
 - Fixed-width overflow raises `IntegerOverflow` under walk, as on the compiled path. To wrap on purpose, write ∔, ∸ or ⨰.
 - `SUM` and `PROD` are generic. A clause form whose element type nothing fixes must name it: `SUM[\ZZ32\][j <- 0#i] f(j)`.
 - `QQ` is exact. A negative shift count shifts the other way. `GCD` and `LCM` are never negative. `narrow` keeps the low 32 bits. `round` sends an exact half to the even integer.
@@ -205,32 +205,74 @@ Sources: `explorations/coordinator/process-engineering/fortress-changes-chronolo
 
 ## 6. The team's Fortress or ours
 
-The skill's section "Fortress as a language" has eleven points. The team's Fortress has two layers: the specification it wrote and the tree it left.
+The skill has a section "Fortress as a language". It has eleven points. Each point corrects a belief that an agent may bring from its training. This part says, for each point, whether it describes the language that the team left or a change that we made.
 
-**The team's, unchanged**: point 3, functional methods; point 9, juxtaposition and whitespace; point 10, declarations; point 11, specified but not built. Mostly the team's: point 1, only the compiled path checks types; point 7, parallel evaluation; point 8, loops and reductions in the library.
+### The team left three sources that disagree
 
-**Both, part by part**
+The team did not leave one consistent language. It left three sources:
 
-- Point 2, dispatch. The three overloading rules and walk's check at load are the team's. Allowing overloads that differ in static parameters, the return-type rule for every instance and walk's wider load checks are the revival's.
-- Point 4, traits. Traits, objects, `excludes` and `comprises` are the team's. So is the rule against two instantiations of one generic trait, in the papers and the checker, though not in the 2011 draft. Reading `comprises` as "every value has a listed type" is the revival's, with the team's later Types chapter.
-- Point 5, static parameters. The kinds and reified, invariant generics are the team's. The implicit bound `Any` (the draft says `Object`), the bound for a parameter nothing fixes, and sizes on the compiled path are the revival's.
-- Point 6, numbers. Flat siblings were the team's prelude. Flattening the one library, walk's coercion and walk's overflow are the revival's. The self-typed algebra is the team's.
-- Point 7: the suites run at one thread because the revival pinned it in `build.xml`.
+- the specification, the text that says what Fortress is;
+- the interpreter (walk) and its library;
+- the compiler and its own, smaller library.
 
-**Pre-training right about the team, wrong only about this tree**
+These sources disagree in places. Where they disagree, we chose one side. Usually we chose the side that works with the type checker.
 
-- The nested number tower. The team's interpreter library nested the numbers: `IntLiteral` under `ZZ32` under `ZZ64` under `ZZ`, then `AnyIntegral`, `QQ`, `RR64`. Someone who remembers "narrower below wider" remembers walk's library correctly.
-- Wrapping arithmetic under walk. The specification and the compiled path raised on overflow; the team's walk wrapped.
-- No coercion in walk. The team's walk had none, only a "TODO". The quiz guessed "a subset", which is wrong for the team and near what walk does now.
+### Example: the number types
 
-**The quiz's "errors" that are the team's own specification**
+- The team's interpreter library put the number types in a tower. A narrower type was a kind of the wider type: `ZZ32` was a kind of `ZZ64`, and `ZZ64` was a kind of `ZZ`.
+- The team's compiler library put the number types side by side, by 2009. No number type is a kind of another. A wider type converts a narrower value when a call needs it.
+- In 2010 the team added a rule to the type checker: a type may not be two versions of one generic trait. In the tower, `ZZ32` is both an `AdditiveGroup` of `ZZ32` and an `AdditiveGroup` of `ZZ64`. The rule refuses this. The side-by-side types obey the rule.
+- On 09-24 we put the interpreter's library side by side too, so that the checker accepts it.
 
-- `Monoid[\T, ⊕\]` and an algebra with laws in `property` declarations: a chapter of the specification. The library has `Monoid` only in a comment and in `Library/incomplete/`.
-- `fortress run Foo.fss`: the specification's overview says so. The team's tool runs walk with `fortress Foo.fss`; `run` runs a compiled component.
-- Complex numbers: named in the specification with a stub chapter, in no library.
-- Tests with expected output: the team's compiled tests pin output strings in their `.test` keys; its interpreter tests do not.
+So a model that remembers the tower remembers the team's interpreter library correctly. What it does not know is that the team's compiler had already left the tower.
 
-**Wrong for both**: wrapping integer types (the specification wraps by operators), and `Any` without tuples.
+### Points that are the team's
+
+These points describe the team's language with no change:
+
+- Point 3: functional methods.
+- Point 9: juxtaposition and spaces.
+- Point 10: declarations.
+- Point 11: what the specification describes that the team never built.
+
+These points are the team's, with one small change:
+
+- Point 1: only the compiled path checks types.
+- Point 7: evaluation is parallel by default. Our change: the test suites run on one thread. We set this in the build file.
+- Point 8: loops and reductions are library code.
+
+### Points that mix the team's language and our changes
+
+- **Point 2, choosing among overloaded declarations.**
+  - The team's: the checker's three rules, and walk's check when it loads a program.
+  - Ours: declarations of one name may differ in their type parameters. The checker tests the return-type rule for every instance. Walk checks more when it loads a program.
+- **Point 4, traits.**
+  - The team's: traits, objects, `excludes` and `comprises`. Also the rule that a type may not be two versions of one generic trait. The rule is in the team's papers and checker, but not in the 2011 specification.
+  - Ours: we read a `comprises` clause as "every value of the trait is a value of a listed type". This follows the team's later Types chapter of 2012.
+- **Point 5, static parameters.**
+  - The team's: the kinds of static parameter, and generics that keep their type arguments when the program runs.
+  - Ours: a type parameter with no written bound has the bound `Any`. The 2011 specification says `Object`. A type parameter that nothing in a call fixes takes its bound. Sizes work on the compiled path.
+- **Point 6, numbers.**
+  - The team's: the side-by-side number types of the compiler's library, and the algebra traits such as `AdditiveGroup`.
+  - Ours: the interpreter's library has the same side-by-side types now. Walk converts between number types. Walk raises `IntegerOverflow` when a fixed-width result does not fit.
+  - The team's walk had no conversion between number types, and it wrapped a result that did not fit.
+
+### Where the quiz was right about the team
+
+A fresh model answered a quiz on Fortress from its training alone. The audit marked some answers as wrong. Some of these answers are right about the team's Fortress:
+
+- The tower of number types: right for the team's interpreter library.
+- Arithmetic that wraps: right for the team's walk. The team's specification and compiler raised an error.
+- No conversion in walk: right for the team's walk.
+
+Other answers marked wrong come from the team's own specification. The specification describes more than the team built:
+
+- `Monoid[\T, ⊕\]` with laws: a chapter of the specification. The library has it only in a comment.
+- `fortress run Foo.fss`: the specification's overview says this. The team's tool runs a program under walk with `fortress Foo.fss`.
+- Complex numbers: named in the specification, in no library.
+- Tests that state their expected output: the team's compiler tests do this. Its interpreter tests do not.
+
+Two answers are wrong for both the team and us: integer types that wrap by themselves (the specification wraps only with its special operators), and an `Any` type that does not hold tuples.
 
 Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part B; `.claude/skills/fortress-repo/SKILL.md` ("Fortress as a language"); `explorations/reviews/fortress-pretraining-quiz.md`; `explorations/reviews/skills-distillation-audit.md` section B.
 
@@ -238,7 +280,7 @@ Sources: `explorations/coordinator/process-engineering/fortress-changes-chronolo
 
 Six changes to the section "Fortress as a language", so that an agent knows which behaviour is the team's and which the revival chose. The skill is not edited here.
 
-1. Point 6: say that the team's walk library nested the numbers, wrapped on overflow and had no coercion; the flat siblings, walk's coercions and walk's `IntegerOverflow` are the revival's. Evidence: `a874948ac:Library/FortressLibrary.fsi:335,370,406`; `a874948ac:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:100-102`; `a874948ac:.../interpreter/evaluator/values/OverloadedFunction.java:792`; commits `d846e3644`, `917bb7b32`, `b628871a2`.
+1. Point 6: say that the team's interpreter library had a tower of number types, and that the team's compiler library had them side by side, which the checker's rule against two versions of one generic trait needs; that we put the interpreter's library side by side to match; and that walk's conversions and walk's `IntegerOverflow` are ours (the team's walk had no conversion and wrapped). Evidence: `a874948ac:Library/FortressLibrary.fsi:335,370,406`; `a874948ac:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:100-102`; `a874948ac:.../interpreter/evaluator/values/OverloadedFunction.java:792`; commits `d846e3644`, `917bb7b32`, `b628871a2`.
 2. Point 5: mark the implicit bound `Any` and the bound for an unfixed parameter as revival decisions, since the 2011 draft says `Object`; say that sizes run on the compiled path since the revival. Evidence: `Specification-1.0-frozen/basic/trait-parameters.tex:50`; commits `576b4c287`, `f3032eed8`, `669b77d03`, `3f297441c`, `e893a3e00`.
 3. Point 4: say that the rule against two instantiations is the team's (papers and checker) but missing from the 2011 draft, and that "every value has a listed type" is the revival's reading of `comprises`. Evidence: `a874948ac:Papers/Types/examples.tick:5,54`; `a874948ac:.../scala_src/types/TypeAnalyzer.scala:443-457`; commits `3924e7ec3`, `d8e0cd28e`.
 4. Point 2: say that the revival dropped the rule that overloads may not differ in static parameters, checks the return-type rule for every instance and widened walk's load check. Evidence: `Specification-1.0-frozen/basic/overloading.tex:102-106`; commits `e2f1aa7e8`, `70d5486f9`, `7ed2a8387`, `833420ce4`.
