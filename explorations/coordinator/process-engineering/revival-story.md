@@ -242,9 +242,9 @@ These sources disagree in places. Where they disagree, we chose one side. Usuall
 
 So a model that remembers the tower remembers the team's interpreter library correctly. What it does not know is that the team's compiler had already left the tower.
 
-### Points that are the team's
+### Points unchanged from the original
 
-These points describe the team's language with no change:
+These points describe the original language, unchanged:
 
 - Point 3: functional methods.
 - Point 9: juxtaposition and spaces.
@@ -252,46 +252,82 @@ These points describe the team's language with no change:
 - Point 11: what the specification describes that the team never built.
 - Point 8: loops and reductions are library code. A `for` loop, a comprehension and `SUM` are not built into the language. The compiler turns each one into calls to library objects: a generator, which produces the values, and a reduction, which combines them.
 
-These points are the team's, with a small change of ours:
+These points are the original's, with a small revival change:
 
 - Point 1: only the compiled path checks types. The team's tool turns the checker on for `compile` and off for walk. We did not change this. Walk now checks some things when it loads a program, but these are not static types.
 - Point 7: evaluation is parallel by default. Our change: the test suites run on one thread. We set this in the build file.
 
-### Points that mix the team's language and our changes
+### Points where the revival resolved a contradiction
 
-- **Point 2, choosing among overloaded declarations.**
-  - The team's: the checker's three rules, and walk's check when it loads a program.
-  - Ours: declarations of one name may differ in their type parameters. The checker tests the return-type rule for every instance. Walk checks more when it loads a program.
-- **Point 4, traits.**
-  - The team's: traits, objects, `excludes` and `comprises`. Also the rule that a type may not be two versions of one generic trait. The rule is in the team's papers and checker, but not in the 2011 specification.
-  - Ours: we read a `comprises` clause as "every value of the trait is a value of a listed type". This follows the team's later Types chapter of 2012.
-- **Point 5, static parameters.**
-  - The team's: the kinds of static parameter, and generics that keep their type arguments when the program runs.
-  - Ours: a type parameter with no written bound has the bound `Any`. The 2011 specification says `Object`. A type parameter that nothing in a call fixes takes its bound. Sizes work on the compiled path.
-- **Point 6, numbers.**
-  - The team's: the side-by-side number types of the compiler's library, and the algebra traits such as `AdditiveGroup`.
-  - Ours: the interpreter's library has the same side-by-side types now. Walk converts between number types. Walk raises `IntegerOverflow` when a fixed-width result does not fit. Ranges are over `ZZ32` only. `SUM` and `PROD` are one generic declaration each, so a clause whose element type nothing fixes must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
-  - The team's walk had no conversion between number types, and it wrapped a result that did not fit.
+The revival changes the original language only for one of two reasons: two of the original sources contradict each other, or the language as it was left fails on a program. Each time, the revival follows the original's latest word that works: the compiler's library, the original team's later papers, or the specification. Every change to the specification keeps the original text and the reason, in its Appendix I.
 
-### Why we changed each point, and whose intent we followed
+Each item below gives the original contradiction, the revival's resolution and the reason for it.
 
-We change the team's language only for one of two reasons. The team left two of its sources in conflict, or the language as the team left it fails on a program. Each time, we follow the team's own latest word that works: the compiler's library, the team's later papers, or the specification. Every change to the specification keeps the original text and our reason, in its Appendix I.
+**Point 2: choosing among overloaded declarations**
 
-- **Point 2, overloads that differ in type parameters.** The specification forbids this in one sentence from 2009. Neither of the team's implementations ever enforced it. The team's type group wrote a later model in 2011 that allows it, and the team's checker runs that model. We followed the type group.
-- **Point 2, the return-type rule for every instance.** The checker tested one instance only. A counterexample from the team's own paper then passed the checker and failed the JVM's check of the bytecode. The paper's rule asks for every instance, so we made the checker do so.
-- **Point 2, walk's choice by declared types.** Walk chose between a generic and a plain declaration by their order in the file. That is a defect: the specification chooses by types, not by order.
-- **Point 4, `comprises` read as a statement about values.** Four older passages of the specification read it as a statement about types, and they fail for programs the specification allows. The team's later Types chapter of 2012 reads it about values. We followed that chapter.
-- **Point 5, the bound `Any`.** The library itself uses its generic containers with tuples, and `Object` does not hold tuples. The library already writes `Any` where it states a bound. So `Any` is the bound that lets the team's own library work.
-- **Point 5, a type parameter that nothing fixes takes its bound.** The team's last paper on the type system (Park, Hong, Steele and Ryu, 2019) gives this rule. The old behaviour gave such a parameter the empty type `Bottom`, and the compiled program crashed at load.
-- **Point 5, sizes on the compiled path.** The team's code generator had a slot reserved for a size and never filled it. We filled it in the team's own pattern for type arguments.
-- **Point 6, numbers side by side.** The checker's rule refuses the tower, and the team's compiler library was already side by side. We gave the interpreter's library the same shape.
-- **Point 6, walk converts between number types.** The specification says that a call converts its arguments when that makes it apply. The team's walk had a note "TODO add checks for COERCE" at that place. We did the TODO.
-- **Point 6, walk raises `IntegerOverflow`.** The specification says a fixed-width result that does not fit raises `IntegerOverflow`, and the team's compiled path did so. The team's walk wrapped. We made walk follow the specification. Code that means to wrap uses the specification's own wrapping operators.
-- **Point 7, one thread in the suites.** Our reason: a test run should give the same result whatever shell starts it. You asked to revisit this; it is held.
-- **Point 6, ranges over `ZZ32` only.** A range counts the indices of an array, and a JVM array has at most 2^31 - 1 elements, the size of a `ZZ32`. The team's compiler library already had its ranges over `ZZ32` only.
-- **Point 6, a generic `SUM`.** The tower's catch-all operators on `Number` went with the tower, and the old `SUM` depended on them. The new `SUM` combines the element type's own operator. It takes its zero from the element type by a device the library already uses for arrays.
+- **Overloads that differ in type parameters.**
+  - Original: one sentence of the specification, from 2009, forbids this. Neither implementation ever enforced it. The type group's later model of 2011 allows it, and the checker runs that model.
+  - Resolution: allowed. The specification now states the 2011 model.
+  - Reason: the type group's later model is the one that was built.
+- **The return-type rule.**
+  - Original: the type group's paper asks the checker to test the rule for every instance of a generic declaration. The checker tested one. A counterexample from the paper then passed the checker and failed the JVM's check of the bytecode.
+  - Resolution: the checker tests every instance.
+  - Reason: the paper's rule, and the failure.
+- **How walk chooses between a generic and a plain declaration.**
+  - Original: the specification chooses by the declarations' types. Walk chose by their order in the file.
+  - Resolution: walk chooses by the declared types.
+  - Reason: the specification.
 
-### Where the quiz was right about the team
+**Point 4: traits**
+
+- **The rule against two versions of one generic trait.**
+  - Original: the type group's papers and the checker have the rule. The 2011 specification does not state it, and some of its examples break it.
+  - Resolution: the specification states the rule. The examples that break it are kept and marked "Not allowed".
+  - Reason: the checker enforces the rule, and the type group's later Types chapter of 2012 states it.
+- **What a `comprises` clause says.**
+  - Original: four older passages of the specification read it as a statement about types. They fail for programs that the specification allows. The later Types chapter reads it as a statement about values.
+  - Resolution: about values: every value of the trait is a value of a listed type.
+  - Reason: the later Types chapter.
+
+**Point 5: static parameters**
+
+- **The bound of a type parameter with no written bound.**
+  - Original: the 2011 specification says `Object`. The library uses its generic containers with tuples, which `Object` does not hold, and it writes `Any` where it states a bound.
+  - Resolution: `Any`.
+  - Reason: the original library works only with `Any`.
+- **A type parameter that nothing in a call fixes.**
+  - Original: the implementations gave it the empty type `Bottom`, and the compiled program crashed at load. The type group's last paper, of 2019, gives it its bound.
+  - Resolution: it takes its bound.
+  - Reason: the 2019 paper.
+- **Sizes on the compiled path.**
+  - Original: the specification has size parameters. The compiled path could not carry them, but its code generator had a slot reserved for them.
+  - Resolution: the slot is filled, in the original pattern for type arguments.
+  - Reason: the original design.
+
+**Point 6: numbers**
+
+- **Tower or side by side.**
+  - Original: the interpreter's library had a tower: `ZZ32` was a kind of `ZZ64`. The compiler's library had the number types side by side. The checker's rule against two versions of one generic trait, from 2010, refuses the tower.
+  - Resolution: the one library has the number types side by side. A wider type converts from a narrower one.
+  - Reason: the checker's rule, and the shape of the compiler's library.
+- **Conversion in walk.**
+  - Original: the specification says that a call converts its arguments when that makes it apply. Walk had a note "TODO add checks for COERCE" at that place.
+  - Resolution: walk converts.
+  - Reason: the specification.
+- **Overflow.**
+  - Original: the specification and the compiled path raise `IntegerOverflow` when a fixed-width result does not fit. Walk wrapped the result.
+  - Resolution: walk raises. Code that means to wrap uses the specification's own wrapping operators.
+  - Reason: the specification.
+- **Ranges.**
+  - Original: the interpreter's ranges took any integer type. The compiler's library had ranges over `ZZ32` only.
+  - Resolution: ranges over `ZZ32` only.
+  - Reason: a range counts the indices of an array, and a JVM array index is a 32-bit integer.
+- **`SUM` and `PROD`.**
+  - Original: `SUM` used catch-all operators on `Number`. Those operators went with the tower.
+  - Resolution: one generic `SUM` and one generic `PROD`, which use the element type's own operator and take its zero or one by a device the library already uses for arrays. A clause whose element type nothing fixes must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
+  - Reason: it follows from the numbers side by side.
+
+### Where the quiz was right about the original
 
 A fresh model answered a quiz on Fortress from its training alone. The audit marked some answers as wrong. Some of these answers are right about the team's Fortress:
 
