@@ -1,0 +1,10 @@
+context_utc,compaction_utc,context_total_k,context_messages_k,boot_end_k,extras_k,facts_bytes,positions_bytes,index_bytes,facts_kb,positions_kb,index_kb,main_commit,read_facts,read_positions,read_index,note
+2026-09-19T09:49:22Z,2026-09-19T09:47:25Z,137.0,83.2,132.0,5.0,79905,9753,21983,79.9,9.8,22.0,9d053586b,1,0,1,FACTS read whole+sed; POSITIONS not read; extras 5K
+2026-09-19T17:08:33Z,2026-09-19T17:06:26Z,141.6,87.5,136.1,5.5,76515,12221,25774,76.5,12.2,25.8,252d73768,1,1,1,extras 5K
+2026-09-20T23:28:32Z,2026-09-20T23:22:07Z,123.8,70.6,123.8,0.0,52701,17720,29934,52.7,17.7,29.9,6e0542729,1,1,0,INDEX not read; extras 0
+2026-09-27T03:31:14Z,2026-09-27T03:28:58Z,245.5,192.1,203.3,42.2,155018,84034,83961,155.0,84.0,84.0,8342df84c,1,1,1,extras 42K: running batch record CLIMB-BATCH-6 (~33K) + edits
+2026-09-27T08:44:46Z,2026-09-27T08:40:07Z,245.0,190.3,214.6,30.4,170006,66936,89752,170.0,66.9,89.8,ccb680ad6,1,1,1,"extras 31K: script edit, workflow launch"
+2026-09-28T05:05:27Z,2026-09-28T04:51:51Z,238.1,184.6,226.9,11.2,215488,76064,101606,215.5,76.1,101.6,158aa7dce,1,1,1,FACTS and INDEX read via persisted tool-results (INDEX lines cut to 400 chars); extras 11K: running batch record
+2026-09-28T10:08:09Z,2026-09-28T09:35:56Z,244.5,191.0,236.1,8.4,217345,78648,102685,217.3,78.6,102.7,9102042ae,1,1,1,"extras 8K: running batch record; ctx run 32 min after boot, idle between"
+2026-09-29T21:21:31Z,2026-09-29T21:17:47Z,323.2,269.6,310.0,13.2,333011,105659,116557,333.0,105.7,116.6,8c1158937,1,1,1,"extras 13K: postmortem listing, Fable brief"
+2026-09-30T11:30:17Z,2026-09-30T11:25:48Z,284.9,230.8,284.3,0.6,308407,64615,121802,308.4,64.6,121.8,172c6e4a1,1,1,1,extras 0.6K; consolidated FACTS/POSITIONS

@@ -1,0 +1,434 @@
+commit,class_fine,batch
+0071bb931,coordinator record keeping (during a batch),
+013961b0a,coordinator record keeping,
+014dd06c5,coordinator record keeping,
+01edcdca2,probe/judgement worker outside a batch,
+02d083366,coordinator record keeping (during a batch),
+03f215fe4,consolidation/rewrite,
+041682188,batch rung/gather worker,batch N
+050ae4f4c,probe/judgement worker outside a batch,
+058adf2a5,coordinator record keeping,
+06953428d,probe/judgement worker (during a batch),
+06a5b461a,probe/judgement worker outside a batch,
+070ef39e5,batch rung/gather worker,batch 7b
+07635bf64,coordinator record keeping,
+079f54ea9,batch rung/gather worker,batch 7C
+07e243127,coordinator record keeping (during a batch),
+0839428f1,coordinator record keeping (during a batch),
+0882a70ff,coordinator record keeping (during a batch),
+0b4568a3d,coordinator record keeping,
+0bbf760af,coordinator record keeping (during a batch),
+0cf8c81ce,batch prep/post-batch routing (coordinator),
+0d2761770,coordinator record keeping (during a batch),
+0e0bb7e6b,probe/judgement worker outside a batch,
+0e6769ae3,coordinator record keeping (during a batch),
+0ec24efbb,probe/judgement worker outside a batch,
+0f954e399,batch prep/post-batch routing (coordinator),
+11cabfe4f,coordinator record keeping,
+122d3aa77,probe/judgement worker outside a batch,
+12d5525d5,coordinator record keeping (during a batch),
+136a05e5b,coordinator record keeping,
+154dbabb5,probe/judgement worker outside a batch,
+16448f2d6,coordinator record keeping (during a batch),
+17139c450,coordinator record keeping,
+172ddabf1,coordinator record keeping,
+17c6052bb,batch rung/gather worker,batch 7R
+18e4b0c51,probe/judgement worker outside a batch,
+18f548234,consolidation/rewrite,
+19179d27a,worker outside a batch,
+1bd8d3ad1,batch rung/gather worker,ladder climb
+1c0dce084,coordinator record keeping (during a batch),
+1d148572a,probe/judgement worker outside a batch,
+1d63e6acd,coordinator record keeping (during a batch),
+1e191c244,consolidation/rewrite,
+1ef07c6ed,probe/judgement worker outside a batch,
+1f01052bd,batch landing,batch 3
+1f0fcb296,probe/judgement worker (during a batch),
+1f4b744e2,coordinator record keeping,
+1fa9ea438,probe/judgement worker outside a batch,
+201834fa8,coordinator record keeping,
+2027f519b,batch rung/gather worker,ladder climb
+2152f7445,coordinator record keeping (during a batch),
+21728f9d7,coordinator record keeping (during a batch),
+219920545,coordinator record keeping,
+21c91d8e4,batch merged-diff review/judge repair,batch 6
+228b35c49,batch prep/post-batch routing (coordinator),
+22e5784f2,probe/judgement worker (during a batch),
+22ecd2d4c,coordinator record keeping,
+238a61fc8,coordinator record keeping (during a batch),
+238e15f5f,batch prep/post-batch routing (coordinator),
+24a7da450,coordinator record keeping,
+24f9d3b0a,probe/judgement worker outside a batch,
+258105b3e,probe/judgement worker outside a batch,
+2589d53d5,batch merged-diff review/judge repair,batch N
+265a0d719,coordinator record keeping (during a batch),
+266e437a5,batch landing,ladder climb
+26b681313,coordinator record keeping,
+2770550c3,batch rung/gather worker,batch N
+2821d720b,coordinator record keeping,
+295673b3c,batch prep/post-batch routing (coordinator),
+2aad855c2,batch prep/post-batch routing (coordinator),
+2b1b135ee,coordinator record keeping,
+2bae1d391,coordinator record keeping,
+2c837b175,consolidation/rewrite,
+2e75daee4,probe/judgement worker (during a batch),
+2f105225a,consolidation/rewrite,
+2f425cb36,coordinator record keeping,
+3157ce3aa,probe/judgement worker outside a batch,
+31aa17f47,batch prep/post-batch routing (coordinator),
+3296698aa,coordinator record keeping (during a batch),
+3326c7272,coordinator record keeping (during a batch),
+337e8d73c,batch prep/post-batch routing (coordinator),
+343ad91df,coordinator record keeping,
+359933449,coordinator record keeping,
+35b71782e,coordinator record keeping (during a batch),
+35ef70584,probe/judgement worker (during a batch),
+363b3f62b,probe/judgement worker outside a batch,
+36f5723d6,probe/judgement worker outside a batch,
+37a518d94,coordinator record keeping (during a batch),
+38047f033,coordinator record keeping,
+38829a636,coordinator record keeping,
+38e63e095,coordinator record keeping,
+3924e7ec3,batch rung/gather worker,batch 5
+396ee649f,batch merged-diff review/judge repair,batch 5
+3a3817c1c,coordinator record keeping,
+3ae7c4d84,coordinator record keeping,
+3b4a9312c,batch landing (follow-up),batch 5
+3be1fecd7,batch rung/gather worker,batch 7R
+3c3e832d3,coordinator record keeping,
+3cbcfffb6,batch prep/post-batch routing (coordinator),
+3cda0c60f,batch prep/post-batch routing (coordinator),
+3d2d3c968,batch merged-diff review/judge repair,batch 1
+3d675af85,batch prep/post-batch routing (coordinator),
+3d9ae073b,probe/judgement worker outside a batch,
+3dd99ecb7,batch rung record,batch 6
+3e2006681,coordinator record keeping,
+3e4a25a85,batch prep/post-batch routing (coordinator),
+3e85b709c,coordinator record keeping,
+3eacc0315,coordinator record keeping (during a batch),
+3f1fefbaa,coordinator record keeping,
+3f297441c,batch rung/gather worker,batch 4
+3f3f766a2,batch prep/post-batch routing (coordinator),
+3fb0cd8c1,batch landing,batch N
+3fb10b92e,coordinator record keeping,
+40216550c,batch rung/gather worker,ladder climb
+405a31b0e,coordinator record keeping,
+40df9f235,coordinator record keeping (during a batch),
+413f36ac0,batch rung/gather worker,batch 6.5b
+42d51c474,batch rung/gather worker,repair batch
+4368621b6,batch merged-diff review/judge repair,batch 7R
+43d4607a7,coordinator record keeping,
+44a1db973,probe/judgement worker outside a batch,
+45570dc0a,coordinator record keeping (during a batch),
+45cad71c3,batch rung/gather worker,batch 1
+46f29e70a,coordinator record keeping,
+47320a712,batch merged-diff review/judge repair,batch N
+48533ba95,coordinator record keeping (during a batch),
+488b47934,batch rung record,batch 4
+49738c3cc,post-batch review worker,
+49c58bc02,coordinator record keeping (during a batch),
+4a403cdb7,consolidation/rewrite,
+4aa55b2c3,probe/judgement worker outside a batch,
+4aa6a5313,batch merged-diff review/judge repair,batch 2
+4aae6fdf5,coordinator record keeping,
+4ab17be80,coordinator record keeping,
+4bdcb9d20,consolidation/rewrite,
+4bfdd5e19,coordinator record keeping,
+4d1e55790,probe/judgement worker outside a batch,
+4d33a78d3,coordinator record keeping (during a batch),
+4d419c9e8,batch rung/gather worker,ladder climb
+4d55747d5,coordinator record keeping (during a batch),
+4e4b80253,batch rung/gather worker,batch 2
+4e921ddb5,probe/judgement worker outside a batch,
+4ed46558d,batch rung/gather worker,batch 2
+519cb8ce3,batch merged-diff review/judge repair,batch 6b
+51bfe2ccd,coordinator record keeping (during a batch),
+51ebb643a,coordinator record keeping (during a batch),
+53362cb88,worker outside a batch,
+533f6524f,batch merged-diff review/judge repair,batch 6b
+5374b3dc3,consolidation/rewrite,
+54208c796,coordinator record keeping (during a batch),
+54861b62a,batch rung/gather worker,ladder climb
+54aee5ca0,coordinator record keeping,
+555cd9c87,probe/judgement worker (during a batch),
+560375127,coordinator record keeping,
+56465dcb9,probe/judgement worker outside a batch,
+57600bc27,batch rung/gather worker,batch 4
+576b4c287,batch rung/gather worker,batch 7b
+5777a34f0,consolidation/rewrite,
+581356f32,batch rung/gather worker,batch 6.5
+581a29510,coordinator record keeping,
+582a09ba9,probe/judgement worker outside a batch,
+582b4e17d,coordinator record keeping,
+5929339f6,probe/judgement worker outside a batch,
+59fb85c8a,probe/judgement worker (during a batch),
+5b586fb2c,batch landing (follow-up),batch 5
+5c1defe40,probe/judgement worker (during a batch),
+5c1f44b82,batch rung record,batch 3
+5ca632dea,batch merged-diff review/judge repair,batch 3.5
+5e737979a,probe/judgement worker outside a batch,
+5f03c1c0b,coordinator record keeping,
+6016fac3f,batch prep/post-batch routing (coordinator),
+6030e4b36,coordinator record keeping,
+617a5e8df,probe/judgement worker outside a batch,
+6273967fa,coordinator record keeping,
+65191b779,coordinator record keeping,
+65cc2cce7,consolidation/rewrite,
+65f1e40ca,batch landing,batch 7R
+6622465e0,coordinator record keeping (during a batch),
+666a24d06,batch landing,batch 3.5
+66b27d810,coordinator record keeping,
+66c016c80,batch landing,repair batch
+66c5fc7c8,batch landing,batch 6b
+6818952fa,coordinator record keeping (during a batch),
+6823d52b6,batch rung/gather worker,batch 1
+683bf3d0f,probe/judgement worker (during a batch),
+693c05dbe,coordinator record keeping,
+69c70f581,coordinator record keeping (during a batch),
+6a196e355,consolidation/rewrite,
+6a63980bb,batch rung/gather worker,repair batch
+6a6b36531,coordinator record keeping,
+6b4fd1227,probe/judgement worker outside a batch,
+6b788f0cc,batch landing,batch 1
+6bec1b004,batch rung/gather worker,batch 3
+6c5ebbb02,coordinator record keeping,
+6d4179307,batch landing,batch 6
+6d431bba2,coordinator record keeping,
+6d7736bc7,batch prep/post-batch routing (coordinator),
+6dc8f3e6e,coordinator record keeping,
+6f845a444,consolidation/rewrite,
+7077766c8,coordinator record keeping,
+715816bdd,batch prep/post-batch routing (coordinator),
+720db2671,batch merged-diff review/judge repair,batch 7b
+7278e11f7,batch landing (follow-up),batch 6
+7366a65dd,batch prep/post-batch routing (coordinator),
+745070c87,probe/judgement worker outside a batch,
+7519fe376,coordinator record keeping,
+75b87fee3,coordinator record keeping (during a batch),
+75cca6683,probe/judgement worker outside a batch,
+761cb9212,probe/judgement worker outside a batch,
+763ba87bc,batch merged-diff review/judge repair,batch 3
+767f7a6f6,batch merged-diff review/judge repair,batch 3
+7a401f074,consolidation/rewrite,
+7a72c2741,probe/judgement worker outside a batch,
+7b88c44bb,probe/judgement worker outside a batch,
+7b8d1745a,probe/judgement worker outside a batch,
+7b93130a9,coordinator record keeping,
+7bc8177a3,worker outside a batch,
+7c388a040,probe/judgement worker outside a batch,
+7c6330f9a,coordinator record keeping,
+7cc6c5622,coordinator record keeping (during a batch),
+7d306e7f1,batch prep/post-batch routing (coordinator),
+7d5d37009,probe/judgement worker outside a batch,
+7d9f5b998,coordinator record keeping,
+7de996739,coordinator record keeping (during a batch),
+7e16c4442,coordinator record keeping,
+7e3620cf0,coordinator record keeping (during a batch),
+7e7951154,probe/judgement worker outside a batch,
+7f9ad71e6,probe/judgement worker outside a batch,
+80605eeda,batch merged-diff review/judge repair,batch 6.5
+807185ecd,coordinator record keeping,
+8350c0bf2,coordinator record keeping (during a batch),
+8457f91d3,coordinator record keeping,
+8528c4d5e,probe/judgement worker outside a batch,
+85788d183,batch merged-diff review/judge repair,batch 6b
+8590d7a9e,worker outside a batch,
+86067615b,coordinator record keeping,
+8765fd78e,probe/judgement worker outside a batch,
+87ad36c6e,coordinator record keeping,
+886a06e1d,consolidation/rewrite,
+88cf9833a,probe/judgement worker outside a batch,
+892687076,consolidation/rewrite,
+896bacc7d,batch merged-diff review/judge repair,batch 5
+896fae47c,batch landing (follow-up),batch 5
+89a18e8ce,coordinator record keeping,
+8ab10d9de,coordinator record keeping,
+8b5c0fde9,coordinator record keeping,
+8ba96424f,coordinator record keeping,
+8c1158937,coordinator record keeping,
+8dc1a74d9,batch rung/gather worker,batch N
+8eef511fd,probe/judgement worker outside a batch,
+8f7e183d4,batch rung/gather worker,batch 7b
+8fcca6703,coordinator record keeping,
+9102042ae,coordinator record keeping (during a batch),
+917bb7b32,batch rung/gather worker,batch 6b
+92c076b90,batch merged-diff review/judge repair,batch 6.5b
+92e8789c3,consolidation/rewrite,
+9373985b4,batch rung/gather worker,ladder climb
+93eda3889,consolidation/rewrite,
+940b7ca46,coordinator record keeping,
+94585e11c,batch prep/post-batch routing (coordinator),
+946e53579,coordinator record keeping,
+94cbbb9f3,coordinator record keeping,
+952892a00,batch rung/gather worker,batch 7
+967182668,coordinator record keeping,
+9782955b1,batch rung/gather worker,batch 3
+99c4715ac,batch landing,batch 3
+9acc5ce33,consolidation/rewrite,
+9c46c2206,batch merged-diff review/judge repair,batch 7R
+9cdac099e,coordinator record keeping (during a batch),
+9d38d2108,coordinator record keeping,
+9d62feffd,coordinator record keeping,
+9e7d12c75,coordinator record keeping (during a batch),
+9ed2a2109,coordinator record keeping,
+9fed5880d,coordinator record keeping,
+a00710be9,coordinator record keeping,
+a0617d672,batch prep/post-batch routing (coordinator),
+a071fe409,batch rung record,batch 3
+a0fcf0a96,worker outside a batch,
+a27e27ef0,batch merged-diff review/judge repair,batch 2
+a38c1e746,consolidation/rewrite,
+a4cabd87f,probe/judgement worker outside a batch,
+a4e266faa,coordinator record keeping,
+a4fb9704b,batch prep/post-batch routing (coordinator),
+a654b7eb2,coordinator record keeping,
+a77ccbee1,probe/judgement worker outside a batch,
+a7ced6764,batch rung/gather worker,batch 3
+a8320da7b,coordinator record keeping,
+a8e035c2d,coordinator record keeping (during a batch),
+a8f1c5081,coordinator record keeping,
+a98c3d0b2,probe/judgement worker outside a batch,
+a996490ba,coordinator record keeping (during a batch),
+aae6256aa,coordinator record keeping (during a batch),
+abc99d512,batch merged-diff review/judge repair,batch 6.5
+accaf9a0b,coordinator record keeping,
+ad2d25f11,batch prep/post-batch routing (coordinator),
+aebca84cf,batch prep/post-batch routing (coordinator),
+aeed3a65f,coordinator record keeping (during a batch),
+af74b5cb4,coordinator record keeping,
+b014ff80d,worker outside a batch,
+b0153336a,coordinator record keeping,
+b0789fc43,probe/judgement worker (during a batch),
+b0eb41516,batch landing,batch 7b
+b176a4b79,coordinator record keeping,
+b177a9418,coordinator record keeping,
+b3b7c09ac,coordinator record keeping,
+b49f6a4ef,coordinator record keeping (during a batch),
+b52a32ac2,batch rung/gather worker,ladder climb
+b5acbe591,batch merged-diff review/judge repair,batch 4
+b628871a2,batch rung/gather worker,batch 4
+b6d8e39cd,coordinator record keeping,
+b70ed4590,batch rung/gather worker,batch 1
+b82154b30,batch prep/post-batch routing (coordinator),
+b82a03276,coordinator record keeping,
+bb3af372f,batch merged-diff review/judge repair,batch 7
+bd200b4ce,batch merged-diff review/judge repair,batch N
+bd84d76d9,coordinator record keeping,
+bde85de0e,consolidation/rewrite,
+be9a75b79,coordinator record keeping (during a batch),
+bf093ecc7,coordinator record keeping,
+bf161a8a8,batch prep/post-batch routing (coordinator),
+bf291a22d,coordinator record keeping,
+c0743eeeb,probe/judgement worker outside a batch,
+c227cbe55,probe/judgement worker outside a batch,
+c24142fe1,probe/judgement worker outside a batch,
+c2b4e2c95,batch rung/gather worker,batch 3
+c32ef9c73,coordinator record keeping (during a batch),
+c766f6cc5,batch merged-diff review/judge repair,batch 2
+c7c93f294,coordinator record keeping,
+c7fd0f13a,coordinator record keeping,
+c83f08aec,coordinator record keeping (during a batch),
+c8e482421,probe/judgement worker outside a batch,
+c8e5e6f76,probe/judgement worker outside a batch,
+c9faa7df4,batch merged-diff review/judge repair,batch 3.5
+cad3dc16c,probe/judgement worker outside a batch,
+cb242a2d8,batch prep/post-batch routing (coordinator),
+cb3cbb683,probe/judgement worker outside a batch,
+cb5bd2dd5,batch landing,batch 4
+cc1dd66a4,probe/judgement worker outside a batch,
+cc96c0103,coordinator record keeping (during a batch),
+ccd5fed01,coordinator record keeping,
+cd9305c2d,batch landing,batch 7C
+cd99b80e7,probe/judgement worker outside a batch,
+ce0c7f453,batch rung/gather worker,batch 3.5
+ce846a5cb,coordinator record keeping (during a batch),
+cedc9726d,coordinator record keeping,
+cee79d3f1,batch rung/gather worker,ladder climb
+ceecf70dd,probe/judgement worker outside a batch,
+cf1fd15cf,consolidation/rewrite,
+cfdc67f73,coordinator record keeping (during a batch),
+d11dfaf43,consolidation/rewrite,
+d1c53a36d,consolidation/rewrite,
+d28cf74d0,batch rung/gather worker,batch 3
+d31b2b984,coordinator record keeping,
+d3350baed,consolidation/rewrite,
+d357c9cc4,batch merged-diff review/judge repair,batch 7C
+d38804213,probe/judgement worker outside a batch,
+d52007b4e,batch prep/post-batch routing (coordinator),
+d5b5fa786,coordinator record keeping,
+d6faad28f,batch rung/gather worker,batch 3.5
+d7ca78bcc,coordinator record keeping,
+d820087ba,coordinator record keeping,
+d846e3644,batch rung/gather worker,batch 6
+d89839ecc,coordinator record keeping,
+d8e0cd28e,batch rung/gather worker,batch 7C
+d928b9a54,batch rung/gather worker,batch 1
+d98024425,batch rung/gather worker,batch 2
+d9c415395,batch rung/gather worker,batch 6
+d9c62446e,batch landing,batch 6.5
+da53904cd,batch merged-diff review/judge repair,batch 5
+da7771e2e,coordinator record keeping,
+da8f90907,coordinator record keeping,
+dd55a31ad,coordinator record keeping (during a batch),
+dd81491fd,coordinator record keeping,
+ddd43831d,coordinator record keeping,
+de22fd928,batch rung/gather worker,batch 7
+de6e23941,coordinator record keeping (during a batch),
+de7775d64,probe/judgement worker outside a batch,
+dea30cfcb,batch prep/post-batch routing (coordinator),
+deadeba01,batch landing,batch 7
+df1bffaf9,probe/judgement worker outside a batch,
+dfe6dad65,probe/judgement worker outside a batch,
+e0504b3c3,coordinator record keeping,
+e068a3eaa,coordinator record keeping,
+e15e1a01a,probe/judgement worker (during a batch),
+e2f1aa7e8,batch rung/gather worker,batch 7b
+e3214cbf1,batch landing,batch 6.5b
+e455ccd98,batch rung/gather worker,batch 6.5b
+e4d8a865a,probe/judgement worker outside a batch,
+e5414f5bf,coordinator record keeping,
+e6db75e8e,coordinator record keeping (during a batch),
+e6de3f86a,coordinator record keeping,
+e75fca14b,batch merged-diff review/judge repair,batch 7
+e790dc389,probe/judgement worker outside a batch,
+e870c7219,coordinator record keeping,
+e893a3e00,batch rung/gather worker,batch 5
+e93b20efb,batch prep/post-batch routing (coordinator),
+e9b325ac9,coordinator record keeping,
+e9b6b32e0,coordinator record keeping (during a batch),
+ea0cd1038,consolidation/rewrite,
+ea1b76992,consolidation/rewrite,
+eadc25319,post-batch review worker,
+eb52b16fb,coordinator record keeping,
+eb83706de,batch landing (follow-up),batch 5
+ebc134652,batch landing,batch 5
+ec68f731b,batch landing,repair batch
+eca9e9d45,coordinator record keeping,
+ed054d93c,coordinator record keeping (during a batch),
+edc815f0c,coordinator record keeping (during a batch),
+ede3883bf,coordinator record keeping (during a batch),
+ee343d779,coordinator record keeping,
+ef1fa3640,batch merged-diff review/judge repair,repair batch
+efaf0fb85,coordinator record keeping (during a batch),
+f0958b4db,consolidation/rewrite,
+f1708a5e7,coordinator record keeping,
+f206afcb7,coordinator record keeping (during a batch),
+f250c67ab,coordinator record keeping (during a batch),
+f27e82510,batch prep/post-batch routing (coordinator),
+f2a603e61,coordinator record keeping,
+f32d3d457,coordinator record keeping (during a batch),
+f3b62bc83,batch rung/gather worker,batch 7
+f4dc02009,coordinator record keeping,
+f54ffac90,batch rung/gather worker,batch N
+f9342f2f0,probe/judgement worker outside a batch,
+fa25b5508,coordinator record keeping (during a batch),
+fa6ee72bb,coordinator record keeping (during a batch),
+facce2273,probe/judgement worker outside a batch,
+fbc4c4954,coordinator record keeping,
+fcd8254c6,coordinator record keeping (during a batch),
+fd5cb4864,batch rung/gather worker,batch 6.5
+fd9ac41c7,probe/judgement worker (during a batch),
+fe5eaee2e,coordinator record keeping,
+fee7258f7,coordinator record keeping,
+ff7d7a319,probe/judgement worker outside a batch,
+ff99071d3,coordinator record keeping (during a batch),

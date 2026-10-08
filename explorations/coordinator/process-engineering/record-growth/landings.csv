@@ -1,0 +1,21 @@
+batch,run_start_utc,landing_commit,code_commits,note
+ladder climb,2026-09-17T06:01,266e437a5,1bd8d3ad1 cee79d3f1 4d419c9e8 b52a32ac2 9373985b4 54861b62a 2027f519b 40216550c,eight rungs; landing = the climb record and the re-run
+repair batch,2026-09-18T22:57,ec68f731b,42d51c474 6a63980bb,rungs R1 and R2; landing = the commit that names the two landed hashes; the record was closed by 66c016c80
+batch 1,2026-09-19T07:15,261fedd71,b70ed4590 6823d52b6 d928b9a54 45cad71c3,rungs F M N T; landing = the gate summary commit; the record was closed by 6b788f0cc
+batch 2,2026-09-20T05:29,28f3f308a,4e4b80253 d98024425 4ed46558d a27e27ef0,rungs X W B and the judge's repair; landing = hashes and gate summary
+batch 3,2026-09-22T18:52,99c4715ac,a7ced6764 c2b4e2c95 9782955b1 6bec1b004 d28cf74d0 763ba87bc 94325f0d5 5c1f44b82,rungs L C R S M and the repairs
+batch 3.5,2026-09-24T00:13,666a24d06,ce0c7f453 d6faad28f c9faa7df4,rungs B and I and the review's repair
+batch 4,2026-09-26T01:31,cb5bd2dd5,3f297441c 57600bc27 b628871a2 b5acbe591,rungs N K C and the review's fold
+batch 5,2026-09-26T11:10,ebc134652,e893a3e00 3924e7ec3 396ee649f ab914b6e0 eb2d7e1e6 09d8dd4a1,rungs Z and S; rung D (ab914b6e0) and the calculi callouts landed as follow-ups the same evening
+batch 6,2026-09-26T23:16,6d4179307,d846e3644 d9c415395 21c91d8e4 d65892d34,rungs F and T and the review's repair; rung R (d65892d34) landed by hand at 7278e11f7
+batch 6b,2026-09-27T08:42,66c5fc7c8,917bb7b32 519cb8ce3,rung O and the merged-diff review's ruling
+batch 7,2026-09-27T19:49,deadeba01,de22fd928 952892a00 f3b62bc83,rungs B H A
+batch 7R,2026-09-28T04:32,65f1e40ca,3be1fecd7 17c6052bb efff9ff1d,rungs J and U and the judge's ruling
+batch 7C,2026-09-28T12:22,cd9305c2d,079f54ea9 d8e0cd28e f052e82f5,rungs Y and X and the review's repair
+batch 6.5,2026-09-28T17:08,d9c62446e,fd5cb4864 581356f32 abc99d512,rungs G and P and the judge's repair (first run of the repair batch of phase 2b)
+batch N,2026-09-28T22:56,3fb0cd8c1,8dc1a74d9 041682188 f54ffac90 2770550c3 47320a712,rungs I K T M and the judge's repair (first run)
+batch 6.5b,2026-09-29T09:52,e3214cbf1,e455ccd98 413f36ac0 b6ee84f70,rungs V and E and the review's repair (second run of the repair batch)
+batch 7b,2026-09-29T22:52,b0eb41516,e2f1aa7e8 576b4c287 8f7e183d4 070ef39e5,rungs C S W L (second run of batch 7's record)
+batch 8,2026-10-02T12:56,6416d216f,f3032eed8 9d2e4c856 70d5486f9 0ae526b31 2c697fe52,rungs I Q O M and the review's repair
+batch 9,2026-10-02T21:38,cec70988b,669b77d03 7ed2a8387 631fb867e 1e176516c ba3651b94,rungs W K R S and the review's repair
+batch 10,2026-10-03T05:28,ec718967a,a1b5c253d a9b9933e6 833420ce4 aa07efb31,rungs N G W C
