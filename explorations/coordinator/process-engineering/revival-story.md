@@ -1,4 +1,4 @@
-<!-- The Fortress revival from 2026-08-19 to 2026-10-08 told in plain words for the curator: the exploring era, the unsealed tree and the climb batches with their decisions and the checker's errors, how the record grew, the skills and process work since 10-04, what changed in Fortress for a programmer, whose Fortress the skill's language points describe, and six changes for that section of the skill; read-only, from the record. -->
+<!-- The Fortress revival from 2026-08-19 to 2026-10-08 told in plain words for the curator: the exploring era, the unsealed tree and the climb batches with their decisions and the checker's errors, how the record grew, the skills and process work since 10-04, what changed in Fortress for a programmer, and, for each of the skill's language points, whether the revival left it as the original had it or resolved a contradiction (the first draft of the skill's part on the revival's changes); read-only, from the record. -->
 
 # The revival so far, in plain words
 
