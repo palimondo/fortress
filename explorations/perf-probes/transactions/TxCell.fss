@@ -1,0 +1,20 @@
+component TxCell
+export Executable
+(* Program 3 of REPORT.md: the second rung of perf-probes/boxing's ladder,
+   bench1b.fss (removed in fc89ee7a5): the loop of TxScalar.fss with the body
+   `acc := acc`, one read and one write of the mutable cell and no arithmetic.
+   It shows the checks against the cell alone.  Three timed rounds in one JVM,
+   as in TxScalar.fss. *)
+round(r: ZZ32): () = do
+  var acc: RR64 := 0.5
+  t0 = nanoTime()
+  for i <- seq(1#20000000) do acc := acc end
+  t1 = nanoTime()
+  println("TxCell round " || r || " result " || acc || " loop_ns " || (t1 - t0))
+end
+run() = do
+  round(1)
+  round(2)
+  round(3)
+end
+end

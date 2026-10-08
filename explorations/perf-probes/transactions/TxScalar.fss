@@ -1,0 +1,21 @@
+component TxScalar
+export Executable
+(* Program 1 of REPORT.md: the scalar loop of perf-probes/boxing/bench1t.fss
+   (removed in fc89ee7a5, readable at its parent), the same 20 M iterations
+   of the same body, `acc := acc 0.9999999 + 0.0000001` over RR64, with the
+   accumulator a mutable local that the loop's body reads and writes.  The
+   loop is timed with nanoTime and run three times in one JVM, so that the
+   later rounds show the loop after the JIT's warm-up. *)
+round(r: ZZ32): () = do
+  var acc: RR64 := 0.0
+  t0 = nanoTime()
+  for i <- seq(1#20000000) do acc := acc 0.9999999 + 0.0000001 end
+  t1 = nanoTime()
+  println("TxScalar round " || r || " result " || acc || " loop_ns " || (t1 - t0))
+end
+run() = do
+  round(1)
+  round(2)
+  round(3)
+end
+end

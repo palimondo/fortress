@@ -1,0 +1,15 @@
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java
+@@ -244,12 +244,6 @@
+     }
+ 
+     public static boolean inATransaction() {
+-        FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
+-        if (debug) debug("inATransaction: ftr = " + ftr + " task = " + ftr.getTask());
+-
+-        if (ftr.getTask() != null) 
+-            if (ftr.getTask().transaction() != null)
+-                return true;
+         return false;
+     }
+ 

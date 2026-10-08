@@ -1,0 +1,41 @@
+component TxArray
+export Executable
+(* Program 2 of REPORT.md: the hot loop of perf-probes/nat/size-cost.md,
+   section 3 (size-cost/SizedSum.fss, removed in fc89ee7a5), without the size.
+   An object makes its own eight-element ZZ32Vector; its method sums the
+   elements with a while loop over two mutable locals, `acc` and `i`, bounded
+   by the vector's length read at run time (SizedSum's control, sumN).  The
+   method is called ten million times per round from a while loop over two
+   more mutable locals, three rounds in one JVM.  The calls are resolved by
+   the checker; no dispatcher runs. *)
+object Vec()
+  data: ZZ32Vector = makeZZ32Vector(8).fill(1)
+  sumN(): ZZ32 = do
+    acc: ZZ32 := 0
+    i: ZZ32 := 0
+    n: ZZ32 = |data|
+    while i < n do
+      acc += data[i]
+      i += 1
+    end
+    acc
+  end
+end
+round(v: Vec, r: ZZ32): () = do
+  total: ZZ32 := 0
+  k: ZZ32 := 0
+  t0: RR64 = nanoTime()
+  while k < 10000000 do
+    total += v.sumN()
+    k += 1
+  end
+  t1: RR64 = nanoTime()
+  println("TxArray round " || r || " result " || total || " loop_ns " || (t1 - t0))
+end
+run() = do
+  v: Vec = Vec()
+  round(v, 1)
+  round(v, 2)
+  round(v, 3)
+end
+end
