@@ -32,7 +32,14 @@ Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `
 - The harness skips files whose names end in `Syntax.fss`, `DynamicSemantics.fss` or `Satisfiability.fss`, or contain `GenomeUtil`.
 - For a refusal at load, put `Name.test` beside `tests/Name.fss`, with `load_exception_contains=<message>`. A plain test is green if walk refuses the program at load as named. A failure while the top-level variables are initialised counts as a refusal. An `XXX` test is green if the program loads and runs clean.
 
-Compiled: write `Name.fss` and `Name.test` in `compiler_tests/` (or `parser_tests/`), `library_tests/` or `other_compiler_tests/`. The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file. It names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:
+Compiled: write `Name.fss` and `Name.test` in the compiled test folder that holds tests of its kind:
+
+- `library_tests/`: the compiler's library.
+- `parser_tests/`: the parser.
+- `compiler_tests/`: the rest, beside the team's numbered `CompiledN` tests.
+- `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series, by the comment in `OtherCompilerJUTest.java`. The revival has added none there.
+
+The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file. It names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:
 
     tests=Name                 the component(s) it drives; without it, the .test file's own name
     compile | link | typecheck each present command is one JUnit case; link compiles, then links
@@ -76,7 +83,7 @@ If your brief does not let you edit the original tree, say in your report which 
 
 The test needs no commit of its own.
 
-In your report, quote two to five lines of the failing run and the passing line, each with its command. Put every check into a test, never into a one-off script. Assert a value with `assert` in an interpreter test, and with a `run_out_equals` key in a compiled test. The harness checks the key, so it is part of the suite's verdict.
+In your report, quote two to five lines of the failing run and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A probe that only measures may use its own script. Assert a value with `assert` in an interpreter test, and with a `run_out_equals` key in a compiled test. The harness checks the key, so it is part of the suite's verdict.
 
 Check an edit of prose in `Specification/` or `Documentation/` against the tree and the curator's decisions.
 
