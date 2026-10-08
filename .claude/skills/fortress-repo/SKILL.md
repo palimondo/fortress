@@ -107,7 +107,7 @@ The parts, in the order that work meets them:
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
 - The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
 - Committing and pushing: `references/committing.md`
-- The queries of the record and its other files; the ledger, FACTS and POSITIONS; the repository's history; points to report; what every report holds and where it goes: `references/records.md`
+- What every report holds and where it goes, findings and points to report; the ledger, FACTS and POSITIONS; the repository's history; the queries of the record: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
 A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.

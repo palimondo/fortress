@@ -36,7 +36,7 @@ A FACTS entry is the fact, its source and its test in a few lines, under a bold 
 - The repository is a 2018 fork of `sirinath/fortress`, a git conversion of the project's java.net Mercurial repository. Its trunk runs from 2007-01-04 to 2012-08-31 and ends at `a874948ac`.
 - The commits after `a874948ac` are the revival's.
 - The conversion cut 146 parent links, so a history walk from `HEAD` stops early. A `git log` of a directory is useless here. Use `git log --follow` on a file, or compare contents.
-- To find who wrote something, or whether a file came from a 2018 port by a third party that was copied onto the tree, read `research/authorship.md` and `explorations/coordinator/lineage.md`.
+- To find who wrote something, or where the repository's history after 2012 comes from, read `research/authorship.md` and `explorations/coordinator/lineage.md`.
 
 ## Reading the record
 
