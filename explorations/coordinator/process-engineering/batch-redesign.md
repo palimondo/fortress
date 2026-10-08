@@ -314,3 +314,11 @@ Not measured:
 - Any of it in a live run: an agent taking the new instructions, a skeptic making a fix, the contested rule in practice, the cold reader's flags.
 - The skill's load on each role.
 - The section-5 estimate beyond its inputs.
+
+## 11. The Fable review
+
+Reviewed in place on 2026-10-08, in the curator's stead (POSITIONS, "The order of the work after batch 10."), with nothing launched, built or run as a suite. Verdict: ready to launch.
+
+- Section 9's decisions stand. Decisions 1 and 2 are a reading of the curator's words ("a judge just rules on that fix or something like that"), the narrowing to a contested fix supported by "Which decisions taken inside the work reach Pavol, and how." and "The new batch practice, and what he expects of it."; 3, 8, 10, 12 and 13 carry his decisions out; 4 to 7, 9, 11, 14 and 15 are engineering readings that no decision of his reverses, each listed for his review with its default.
+- Fixed in the script and the manual: the worker and the skeptic are told to run the one suite `tests-running.md` names for their edit, where the briefs forbade `ant testSystem`, which that part names for a walk edit, and a brief holds over the skill; an assertion or test a skeptic adds as a correction is seen failing on the base's code through the old code tool, so that "Test first, the test kept." holds for it; no stage runs after a skeptic's fix, the gate's tables being the record; a repair round's structured result describes the whole rung, since the script keeps it in the worker's place; the review's placeholder grep leaves out the batch record and this note, which name the form as an example. The script's comment on the cold read cites the position and section 2, not words of the curator the record does not hold.
+- Checked and found right: the 15 skill sections the script cites are headings in this branch's skill and in the main tree's rewrite; `lists11.py` on this tree, every key one place; `check11.js`, the tracked block equal to the generated one; the scenario checker, 48 checks, 0 problems; the script parsed as an async function body; the branch merges onto `main` at `6a4bd7178` with no conflict; every tool and file the briefs name exists, `testSpecData`'s JUnit file lands where the gate's summary reads it, `mg-run.sh` has no `rm -rf` and ends each log with `rc=`.
