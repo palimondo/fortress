@@ -7,7 +7,7 @@ The code is under `ProjectFortress/src/com/sun/fortress/`:
 - `runtimeSystem/`: `InstantiatingClassloader`, tasks and transactions.
 - `compiler/runtimeValues/` and `nativeHelpers/`.
 
-The phases are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, GRAMMAR, PRETYPECHECKDESUGAR, INTEGERLITERALFOLDING, TYPECHECK, DESUGAR, OVERLOADREWRITE and CODEGEN. The syntax tree is the only intermediate form. A switch of `Shell.java`, set for each command, decides which desugarings run; the phase list does not. The checker runs only on this path.
+`SKILL.md`, "How a program runs", says what the phases do. Their names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, GRAMMAR, PRETYPECHECKDESUGAR, INTEGERLITERALFOLDING, TYPECHECK, DESUGAR, OVERLOADREWRITE and CODEGEN. A switch of `Shell.java`, set for each command, decides which desugarings run; the phase list does not.
 
 The compiler does not compile every construct yet. For such a construct, the code generator calls `sayWhat` or throws another `CompilerError`: a code-generator wall.
 
@@ -51,11 +51,10 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 
 ## What the code generator does
 
-- It makes every Fortress type a JVM reference type. For example, `RR64` becomes the run-time class `FRR64`. It emits no primitive `double` arithmetic.
-- It gives each overloaded name one dispatch method. The method tests the argument types from the most specific declaration to the least specific.
-- It compiles a generic declaration once, as a template. At the first load of each instantiation (`Box⟦RR64⟧`), `InstantiatingClassloader` makes the instantiation by rewriting the template's bytes with ASM.
-- The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
-- A size static argument is passed at run time as a descriptor from `RTTIsize.of`.
+`SKILL.md`, "The compiled run time", gives the jars, the dispatch methods, the templates and the boxed numbers.
+
+- It emits no primitive `double` arithmetic.
+- The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier has no effect on the representation.
 
 ## The compiler's prelude, until the switch-over
@@ -92,7 +91,7 @@ The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuilt
 ## Running
 
     cd ProjectFortress
-    # after any ant compileAll: the library order (build-and-caches.md)
+    # after an ant compileAll that started the caches again: the library order (build-and-caches.md)
     ../bin/fortress compile <path>/P.fss
     ../bin/fortress run P [args]
 

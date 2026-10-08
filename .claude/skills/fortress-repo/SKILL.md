@@ -7,13 +7,6 @@ description: "Use this skill whenever you touch the code of the Fortress languag
 
 The team at Sun Labs built the Fortress language from 2003 to 2012 and left it unfinished. This repository finishes their design from what they left: the code, the specification and the papers. The goal is the model program, microGPT, compiled to JVM bytecode and running fast.
 
-`bin/fortress` has two paths. They share one parser and the early phases.
-
-- Walk is the interpreter. It interprets the syntax tree, slowly. It is the default command: `bin/fortress P.fss` is the same as `bin/fortress walk P.fss`.
-- The compiled path makes JVM bytecode and runs it: `bin/fortress compile P.fss`, then `bin/fortress run P`.
-
-Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the compiled type checker accepts the interpreter's library.
-
 **curator**
 : Person in charge of this restoration.
 
@@ -25,6 +18,18 @@ Each path has its own library today. At the switch-over, the compiled path moves
 
 **record**
 : Project's memory: the files under `explorations/` that hold what the project has established, decided and measured (below).
+
+**walk**
+: Interpreter, and the default command of `bin/fortress`: `bin/fortress P.fss` is the same as `bin/fortress walk P.fss`.
+
+**compiled path**
+: Other way to run a program: `bin/fortress compile P.fss` writes JVM bytecode, and `bin/fortress run P` runs it.
+
+**component**
+: Unit of Fortress code, in a `.fss` file of its own name. A component implements the apis that it exports, and uses the apis that it imports.
+
+**api**
+: Interface, in a `.fsi` file of its own name.
 
 **area**
 : One part of the system: the interpreter, the compiled path (the checker, the code generator and the run-time), the library, or the specification.
@@ -46,20 +51,84 @@ Each path has its own library today. At the switch-over, the compiled path moves
 
 You work with three things: your brief, the record and the original tree. Building happens in one area at a time, so this skill has one part for each area.
 
+## How a program runs
+
+Walk and the compiled path share the parser and the phases below. After those, they share almost no code.
+
+### The phases
+
+Each path runs these phases on each component, in this order (`compiler/phases/PhaseOrder.java`):
+
+1. Parse the source into a syntax tree. This tree is the only form of the program, from the parser to the bytecode.
+2. Bind each name to its declaration.
+3. Expand the DSL grammars that the component imports (`references/build-and-caches.md`).
+4. Check the static types. Walk's list holds this phase, but walk switches it off.
+5. Desugar: comprehensions and big operators become calls, and getters and setters become methods.
+6. Mark each call of an overloaded name.
+
+Walk then interprets the tree. The tree has no static types, so walk finds a type error only at run time, as a failed dispatch. A program that runs under walk can be ill-typed, unlike in Java or Scala.
+
+`fortress compile` runs the same phases with the static type checker, in Scala, switched on. Before the checker, it folds integer literals. After the phases, the code generator writes JVM bytecode into a jar. A type error stops the compile.
+
+Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the compiled type checker accepts the interpreter's library.
+
+### The compiled run time
+
+`fortress run` compiles no Fortress source. It runs the jars of the program and of the library on the JVM. A jar holds JVM class files:
+
+- the component's functions, objects and traits;
+- its closures;
+- one dispatch method for each overloaded name. It tests the run-time types of all the arguments, from the most specific declaration to the least specific. Walk also chooses at run time.
+
+A generic declaration is compiled once, as a template class. The first time that a program uses an instantiation, such as `Box[\RR64\]`, the class loader makes its class. It copies the template's bytecode, puts in the static arguments, and loads the result. A static argument is a type, or a size as a descriptor from `RTTIsize.of`. These classes are never on disk. C# specialises generics in this way. Java erases them.
+
+The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it, for sizes and for the lock on the first load of a class (ledger row 417). Open rows of the ledger are in it, such as 408 and 559. So a failure while a class loads can be a defect of the class loader.
+
+HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: `RR64` is the class `FRR64`. An array is a library object, read and written through its `get` and `put` methods.
+
+### The caches
+
+A run keeps the results of its phases in the caches, so that a later run can reuse them. The caches are folders in `default_repository/caches/`, or in a private caches folder that a run names. An entry is one file in a cache, written for one source file.
+
+- `interpreter_parsed_cache/`: walk's parsed tree of each file, `X-<hash>.tfi` for an api and `X-<hash>.tfs` for a component.
+- `interpreter_cache/`: walk's tree of each component after the phases. Walk loads it back and interprets it. The entry is a text dump of the tree. It starts `(Component @"/home/user/fortress/Library/FlatString.fss":12:1~156:2 ...`.
+- `analyzed_cache/`: the results of the phases that `fortress compile` reuses.
+- `bytecode_cache/`: one jar for each compiled component.
+
+In the first three caches, `<hash>` is a hash of the source's absolute path. So the entries of a tree copied to another path must be renamed. `explorations/coordinator/tools/seed-worktree.sh` does this (`references/worktrees.md`).
+
+`references/build-and-caches.md` says when a run reuses an entry, and when the build empties the caches.
+
+### Parallelism and mutable state
+
+Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (`FortressTaskRunnerGroup`, a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks and transactions are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`. A fix in one does not reach the other.
+
+`x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one, and `x := e` assigns to it (`Specification/basic/variables.tex`). These are Scala's `val` and `var`, or Swift's `let` and `var`. A field is immutable unless it is declared with `var`. A `value` object has only immutable fields and value semantics, like a Swift `struct`.
+
+Parallel code stays free of races in these ways:
+
+- Most data is immutable.
+- A big operator, such as `SUM` or `BIG MAX`, combines the results of its tasks, as OpenMP's reduction clause does. No task writes a shared accumulator. The specification's reduction variables are not built.
+- A write to shared state goes inside an `atomic` block. This is software transactional memory, like Haskell's `atomically` (`Specification/basic/evaluation/parallelism.tex`). The programmer writes `atomic`; the compiler adds none.
+- Tasks can write different elements of one array in parallel (`Specification/basic/memory-model.tex`, "Programming Discipline").
+
+So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The suites run at four threads, once each, so a race can show in them. A passing run does not prove that there is none.
+
+The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, it asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction, which so tracks the variables that the block touches.
+
+Three more ideas are built as "The compiled run time" says: dispatch on every argument at run time, generics specialised for each instantiation, and sizes in types. "Fortress as a language" states them as rules of the language.
+
 ## Fortress as a language
 
-Fortress is not in your training in any depth. Each point below corrects an assumption from a language that you know.
+Fortress is not in your training in any depth. Each point below corrects an assumption from a language that you know. `references/tests-writing.md` gives the form of a program.
 
-- **Only the compiled path checks types.** Walk runs a program with no static types. So a program that runs under walk can be ill-typed, unlike in Java or Scala.
 - **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The compiled checker accepts two overloads only if their parameter types exclude each other, one is more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
 - **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. Its name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
 - **Traits and objects, no classes.** A trait has methods and abstract fields, and extends several traits. An object is a leaf. `excludes {A, B}` says that no value has both types. `comprises {A, B}` says that every value has a listed type, near Scala's `sealed`. No type may extend two instantiations of one generic trait. This exclusion rule is why the number types are flat (below).
-- **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are reified, not erased as in Java. They are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound.
+- **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound.
 - **Numbers are siblings, not a tower.** `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64` are siblings under `Number`. None is a subtype of another, unlike Haskell's classes or Java's widening. A wider type declares a `coerce` from each narrower one. A conversion never changes which declaration runs when one already fits. Overflow raises `IntegerOverflow`. The algebra is self-typed traits, such as `AdditiveGroup[\T\]` with `+`, not monoids over an operator parameter. `references/library.md` gives the rest: ranges, wrapping, `SUM`.
-- **Evaluation is parallel by default.** Tuple elements, arguments, operands and `for` iterations can run at once, not in Java's left-to-right order. A loop is sequential only if every generator is `seq(...)`. A shared `var` that a loop updates is a race: use a reduction, `seq` or `atomic`. The suites run at one thread, so they do not show races.
 - **Loops and reductions are library code.** `for`, comprehensions and `SUM` call the library's generators and reductions (`references/library.md`).
 - **Juxtaposition is an operator, and whitespace counts.** `f x` applies a function. Otherwise juxtaposition is an operator that the library overloads: `2 x` multiplies, and `"a" "b"` concatenates. How three juxtaposed items group depends on their types, unlike in Haskell. An infix operator has whitespace on both sides or on neither: `a -b` is a static error. Precedence is partial: `a + b ∪ c` needs parentheses.
-- **Declarations.** `x = e` binds a name that cannot change. `var x: T = e` and `x: T := e` declare a variable, and `x := e` assigns. `references/tests-writing.md` gives the form of a program.
 - **Specified, but not built:** dimensions and units, `property` declarations, regions, reduction variables and complex numbers. Some constructs run only under walk (`references/compiler.md`).
 
 ## The record
@@ -95,8 +164,8 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
 - Reuse each result of a build, a suite, a stage of the gate or a test that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
 - After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
-- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while a build or a Fortress program may be running: the script deletes files that they use.
-- After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
+- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell.
+- After an edit, take the step that `references/build-and-caches.md` gives for the kind of file that you edited.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/library.md`).
 - Do not claim credit for the revival anywhere in a committed file. If git does not record who wrote something, reconstruct the authorship from the history. Do not guess it.

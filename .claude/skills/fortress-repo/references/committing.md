@@ -34,10 +34,11 @@ Push after every commit, so that a lost container loses nothing.
 - If you work on `main`, other agents commit to it too. Push only your own commits:
   1. Run `git log origin/main..main`. Your commits are those whose hashes your own `git commit` printed.
   2. If it lists another agent's commit, do not push. That agent pushes right after it commits, so look again shortly. If the commit stays, push nothing, and say so in your report.
-  3. If it lists only your commits, push twice, in this order:
+  3. If it lists only your commits, push three times, in this order:
 
          git push origin main
          git push origin main:claude/worker-brief-fable-vnnuv8
+         git push origin main:blinded-fable
 
-     The second push keeps current the branch that the container is re-provisioned from (the `cloud-container` skill, a lost container).
+     The third push keeps current `blinded-fable`, the branch that the coordinating session was created from. A rebuilt container clones it (the `cloud-container` skill, a lost container).
 - Push no other branch unless your brief names it.

@@ -32,7 +32,7 @@ Seed a worktree instead of building it. Seeding takes about 3 s and 206 MB. The 
 - If the script exits 2, the base build is not built or not clean, and the script made nothing. Then make the worktree with `git worktree add`, build it yourself, and say so in your report.
 - If the worktree already has a build, the script keeps it. `SEED_FORCE=1` replaces it.
 - The script lists the library sources that differ from the base. Recompile them (`build-and-caches.md`) before a compiled run.
-- If `ProjectFortress/src` differs from the base, the script warns: the copied build is the base's. Run `ant compileAll`, which recompiles the files that differ. Then run the library order.
+- If `ProjectFortress/src` differs from the base, the script warns: the copied build is the base's. Run `ant compileAll`, which recompiles the files that differ. Then run the library order. If nothing differs, `ant compileAll` keeps the seeded caches, and no library order is needed.
 - Do not symlink or plainly copy another tree's build or caches. Cache entries are keyed by absolute path, so every cache path would resolve to the other tree. The script translates the paths.
 - Build a base build in place with ant, or seed it with this script: the script needs a build's file dates.
 - Do not compile into a cache that another agent compiles into: every compile rewrites cache files of the tree that it runs in. Your brief says where you work. If you need a build of your own, seed a worktree of your own and work only there.

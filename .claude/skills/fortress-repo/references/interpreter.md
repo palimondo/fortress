@@ -4,7 +4,7 @@ The code is in `ProjectFortress/src/com/sun/fortress/interpreter/`: `evaluator/`
 
 ## What walk does not do
 
-- Walk has no type checker. Its type-checking phase does nothing, and no switch turns it on. So every "type error" that walk prints is a dispatch failure at run time, and walk accepts programs that the specification forbids. Its only static checks are those at load (below).
+- Walk has no type checker (`SKILL.md`, "The phases"), and no switch turns it on. Walk accepts programs that the specification forbids. Its only static checks are those at load (below).
 - `fortress typecheck` checks against the compiler's prelude, so it says nothing about an interpreter program.
 - Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. This is an accepted limit until the switch-over.
 - Walk's overload-ambiguity message names its two declarations in an order that varies from run to run. On one core the order is fixed for a given library, but a library edit can change it. Never compare or pin this order. The harness reads only that an `XXX` test fails.
@@ -37,14 +37,16 @@ So a library edit that adds an overload can stop every program at load. To test 
 
 - Walk searches for imports in the current directory first (`build-and-caches.md`, "Name resolution").
 - If `JAVA_FLAGS` is not set, `bin/fortress` uses `-Xmx256m -Xss32m`. Your setup gives a 4 GB heap, and the test harness uses 768 MB. A test can pass at two of these heaps and die at the third. If you claim that a run fails near a memory limit, measure the claim at 256 MB: run with `JAVA_FLAGS="-Xmx256m -Xss32m -Djava.io.tmpdir=$PWD/tmp"`.
-- `FORTRESS_THREADS` sets the size of the work-stealing pool. Your setup sets 1. If it is unset, the pool has half the CPUs. A `for` loop is parallel unless every generator is `seq`. Walk evaluates the elements of a tuple and the operands of an operator in parallel.
+- Your setup sets `FORTRESS_THREADS`, the size of the pool, to 1 (`SKILL.md`, "Parallelism and mutable state"). If it is unset, the pool has half the CPUs.
 - A small program takes about 8 s with cold caches, and about 4 s with warm caches.
 - Do not take or record a timing of walk. Do not edit anything to make walk faster.
 - To check a build, run `bin/fortress explorations/mandelbrot_canonical.fss`, which prints its picture, or `bin/fortress ProjectFortress/tests/BooleanOps.fss`, which prints nothing and exits 0. Do not use `explorations/claude_demo.fss` for this. It dies under walk at its `SUM`, which has no static argument written (ledger row 424). `ProjectFortress/hello.fss` runs only on the compiled path.
 
 ## The model program
 
-MicroGPT runs only under walk, by hand, never in the gate. `explorations/coordinator/tools/mg-run.sh <work-dir> <label> [threads]` runs its two checks at once: `explorations/run-c4/src/MicroGptFlatCheck.fss` and `explorations/apl/mg/MicroGptAplCheck.fss`. Each check starts from an empty private cache and has a 90-minute timeout.
+MicroGPT runs only under walk, by hand, never in the gate. To check the model after a library change, run `explorations/coordinator/tools/mg-run.sh <work-dir> <label> [threads]`. It runs the quick pair at once, `MicroGptFlatQuick.fss` and `MicroGptAplQuick.fss`: two forward and backward passes each, against the reference values, in about 56 s for both. Each starts from an empty private cache.
+
+- Add the word `full` only if your brief asks for it. It runs the full pair, `MicroGptFlatCheck.fss` and `MicroGptAplCheck.fss`, with 40 checks each and a 90-minute timeout.
 
 - In auto mode, the automatic permission check refuses the script's `rm -rf` of its own work directories. If it does, do as `session.md`, "The automatic permission check", says.
 - If you change a line of the model, put the change in your report as a diff.

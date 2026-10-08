@@ -28,7 +28,7 @@ Run these steps in this order, on a clean build of the tree:
 
 1. Check `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs (`build-and-caches.md`). If less than 1 GB is free, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and check again. If less than 500 MB is still free, stop and report.
 2. Run `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`.
-3. Run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
+3. If step 2's build printed `Caches <tree>/default_repository/caches started again, empty`, run the library order (`build-and-caches.md`). At once, before anything else compiles into the caches, make two copies of `default_repository/caches` for the ladder regression (step 7).
 4. Run `ant testFast` (9 to 11 min), then `ant testSystem` (3 to 4 min). Both must have zero failures.
 5. Write the summary. Compare each suite's count with the last landed summary. If a count fell or a suite is gone, the gate is red.
 6. Do the four-thread atomic runs (about 1 min).
@@ -36,7 +36,7 @@ Run these steps in this order, on a clean build of the tree:
 
 ## The atomic runs
 
-The suites run at one thread, so they cannot see a lost update or a race in the class loader's first load. These runs compile fourteen programs and run each one three times at four threads, 42 lines. Run them from `ProjectFortress/`, after the library order:
+The suites run at four threads, once each, so a rare lost update or race can pass them. These runs compile fourteen programs and run each one three times at four threads, 42 lines. Run them from `ProjectFortress/`, after the library order:
 
     for p in AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop FirstLoadThreadsRungG \
              atomic0 atomic1 atomic2 atomic3 atomic4 atomic5 atomic6 \
