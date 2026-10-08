@@ -26,7 +26,24 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 
 ## Comments on a page
 
-Much of the curator's review comes as comments on a published page. Read each comment's thread with the `ArtifactComments` tool (the thread id is in the notification), answer on that thread, resolve it once it is addressed, and say in chat, in a few lines, what was done. A comment on a skill marks a problem area, not a sentence to patch: rewrite its paragraph or section with the whole skill in mind, for a reader new to the repository, every internal reference explained. When the coordinator's own rewrites do not satisfy the curator, a writer agent with a clean context makes them from the coordinator's brief of the comment. Where a practice is in question, an archaeology worker first checks what the batch workers actually did. A session watches at most ten pages: unwatch an old page before watching a new one.
+Much of the curator's review comes as comments on a published page. The curator reads the page on a phone, without the chat beside it, and works on several comments at once. So the answer to a comment goes on its thread.
+
+- Read each comment's thread with the `ArtifactComments` tool. The notification gives the thread id.
+- Answer on that thread. Leave the thread open: the curator resolves it. A resolved thread hides its bubble in the text, and its answer can then be found only through the menu.
+- In chat, write one line at most, or nothing.
+
+A comment on a skill marks a problem area, not a sentence to patch. Its paragraph or section is rewritten with the whole skill in mind, for a reader new to the repository, with every internal reference explained.
+
+The skill writer makes every skill edit that a comment asks for. The skill writer is a headless Claude session, started and resumed by `explorations/coordinator/tools/skill-writer.sh`. Do not edit a skill yourself. Brief the writer with the comment, then:
+
+1. The writer edits the skill and commits.
+2. Push the commit.
+3. Update the review page.
+4. Answer on the thread.
+
+If a practice is in question, an archaeology worker first checks what the batch workers actually did.
+
+A session watches at most ten pages. Unwatch an old page before you watch a new one.
 
 ## Restate and hold
 
