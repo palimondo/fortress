@@ -203,9 +203,9 @@ Changes a programmer writing Fortress would notice, by area.
 
 Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A.
 
-## 6. The team's Fortress or ours
+## 6. The original Fortress and the revival's resolutions
 
-The skill has a section "Fortress as a language". It has eleven points. Each point corrects a belief that an agent may bring from its training. This part says, for each point, whether it describes the language that the team left or a change that we made.
+The skill has a section "Fortress as a language". It has eleven points. Each point corrects a belief that an agent may bring from its training. This part says, for each point, whether the revival left the original language unchanged or resolved a contradiction in it.
 
 ### The eleven points
 
@@ -255,7 +255,7 @@ These points describe the original language, unchanged:
 These points are the original's, with a small revival change:
 
 - Point 1: only the compiled path checks types. The team's tool turns the checker on for `compile` and off for walk. We did not change this. Walk now checks some things when it loads a program, but these are not static types.
-- Point 7: evaluation is parallel by default. Our change: the test suites run on one thread. We set this in the build file.
+- Point 7: evaluation is parallel by default. The revival changed one thing: the test suites run on one thread, set in the build file. This is held for your review.
 
 ### Points where the revival resolved a contradiction
 
