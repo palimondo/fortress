@@ -125,8 +125,8 @@ It builds nothing to check. It runs its own programs with the rung's build and t
 
 What it does with a finding:
 
-- **A correction** it makes and commits.
-- **A defect of the change** it fixes test first: a gated test or assertion seen failing on the worker's head, the fix, one build, the test seen passing, and the whole suite the fix reaches once after its last fix. Each fix is a commit titled "Skeptic's fix:", pushed.
+- **A correction** it makes and commits. An assertion or a test it adds is seen failing on the base's code through the old code tool and passing on the head (`worktrees.md`, "Running the old code"): the fix is already in the tree, so the base is where it fails.
+- **A defect of the change** it fixes test first: a gated test or assertion seen failing on the worker's head, the fix, one build, the test seen passing, and the whole suite the fix reaches once after its last fix. Each fix is a commit titled "Skeptic's fix:", pushed. No count or distance stage runs after a fix: the gate's tables on the merged tree are the record.
 - **A settled fix** cites the sentence of the section, the specification or a decision on record that settles it.
 - **A contested fix** is still made, in its own commit, and listed with the worker's argument and the skeptic's. A fix is contested when the worker's report argues for the behaviour it changes, when nothing on record settles it, or when it reaches beyond the rung's paths or a point to report.
 - **A refusal** comes only when the rung cannot be fixed here: the approach is wrong; the fix needs a path no rung may touch, or a decision of the curator; or it is larger than a repair round.
@@ -147,7 +147,7 @@ Its brief carries its question, the contested fixes with both arguments, and the
 
 A first ruling on a rung or the merged tree runs on Opus; a second on the same one on Fable (`judgeTier`; POSITIONS, "The judge's rulings."; "The Fable rule.").
 
-A repair round is the rung worker again, with the checks slice, the judge's decision and the rung's section. It carries out the instructions in order, test first, and updates `REPORT.md` and `record.md`, whose texts replace the worker's. No skeptic follows it: its own test, the review and the gate check it. A repair that does not land drops the rung. No second repair round is taken.
+A repair round is the rung worker again, with the checks slice, the judge's decision and the rung's section. It carries out the instructions in order, test first, and updates `REPORT.md` and `record.md`, whose texts replace the worker's; its structured result replaces the worker's too, so it describes the whole rung as it now stands. No skeptic follows it: its own test, the review and the gate check it. A repair that does not land drops the rung. No second repair round is taken.
 
 ## Gather
 
@@ -171,7 +171,7 @@ The review and the gate start together on the gather's commits. The review reads
 
 1. Overlaps between rungs, and what their changes do together.
 2. Each skeptic's fix and each repair commit, as applied: it does what its finding says, its test seen failing on the worker's head and then passing in its maker's transcript, a settled fix's citation, a reverted fix gone.
-3. The folded record: FACTS lines, `ledger.py check`, no `NEW-` placeholder left, every closed row fixed, the handover, the revival-change entries true of the landed code.
+3. The folded record: FACTS lines, `ledger.py check`, no `NEW-` placeholder left where a row is cited, every closed row fixed, the handover, the revival-change entries true of the landed code.
 4. Each specification sentence a rung listed as made false, corrected.
 5. The points to report, with `holdsPush`.
 6. The items for the curator, in `PLAN.md`.
