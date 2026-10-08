@@ -2,15 +2,6 @@
 
 A point to report is a kind of change or finding that the curator wants to review. Your brief names its points to report. Examples: a changed line of a test that the team wrote, a checker edit inside a change to the library, a changed line of the model program.
 
-## The record's other files
-
-- `explorations/coordinator/PLAN.md`: the phases, and the open issues in the order they need deciding.
-- `explorations/coordinator/map/`: `README.md` (section 7: what each change reaches, which tests guard it, where the gate is blind), `spec-to-implementation.md` (where a fix belongs), `modules-and-phases.md`, `test-coverage.md`, `design-intent-sources.md` (where the designers' intent is written), `dormant-code.md` (code that is present and switched off).
-- `explorations/repo-internals.md`: the architecture, name resolution, the caches, git archaeology.
-- `explorations/microgpt-run-c-handover.md`, the handover: its first section says where the work stands.
-
-The 2012 tree's own READMEs describe their era, not the current tree. Check a claim of theirs against the code before you act on it.
-
 ## The gap ledger
 
 Each row is one claim. It has a status (`POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`), a class (`implementation gap`, `library gap vs spec`, `library bug`, `design limit`, `deliberate`, `typesetter`, `packaging`) and how to reproduce it. The rows are under sections by area.
