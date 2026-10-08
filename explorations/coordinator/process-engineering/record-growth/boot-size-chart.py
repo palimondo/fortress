@@ -1,10 +1,11 @@
-import csv, datetime as dt
+import csv, datetime as dt, os
+HERE = os.path.dirname(os.path.abspath(__file__))   # run from anywhere: python3 <this file>
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 from matplotlib.lines import Line2D
-R=list(csv.DictReader(open('boot-size.csv')))
+R=list(csv.DictReader(open(os.path.join(HERE, 'boot-size.csv'))))
 def T(s): return dt.datetime.strptime(s,'%Y-%m-%dT%H:%M:%SZ')
 t=[T(r['compaction_utc']) for r in R]   # x = compaction that started the boot; the /context ran minutes later
 be=[float(r['boot_end_k']) for r in R]; ctx=[float(r['context_total_k']) for r in R]
@@ -52,5 +53,5 @@ h=[Line2D([],[],color=col['boot'],lw=3,marker='o',ms=8,label='boot end, K tokens
 fig.subplots_adjust(left=0.12,right=0.985,top=0.94,bottom=0.30)
 fig.text(0.5,0.235,'x: UTC time of the compaction that started each boot; axis broken between 09-21 and 09-27',ha='center',fontsize=9.5,color='#444')
 fig.legend(handles=h,loc='lower center',ncol=1,fontsize=10.5,frameon=False,bbox_to_anchor=(0.5,0.005))
-fig.savefig('boot-size.png',dpi=150)
+fig.savefig(os.path.join(HERE, 'boot-size.png'),dpi=150)
 print('ok')

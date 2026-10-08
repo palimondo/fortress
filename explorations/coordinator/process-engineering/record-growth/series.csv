@@ -43,7 +43,7 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 41,2026-08-21 18:10:06Z,6aaf238e8,0,0,0,0,0,0,0,0,0,,Document test-suite runtime investigation
 42,2026-08-21 18:54:49Z,afce2c3d1,0,0,0,0,0,0,0,0,0,,"Record README replacement plan: settled tag decision, open questions"
 43,2026-08-21 19:14:59Z,4b1e500ca,0,0,0,0,0,0,0,0,0,,"testFast: wipe the cache once per run, not once per suite"
-44,2026-08-21 19:18:07Z,bbd34ca2a,0,0,0,0,0,0,0,0,0,,Remove pluckyporcupine-era scratch files from the repo root
+44,2026-08-21 19:18:07Z,bbd34ca2a,0,0,0,0,0,0,0,0,0,,Remove [omitted]-era scratch files from the repo root
 45,2026-08-21 19:21:01Z,26587987b,0,0,0,0,0,0,0,0,0,,readme-plan: record Pavol's decisions — drafting authorized
 46,2026-08-21 19:25:18Z,b7f53317d,0,0,0,0,0,0,0,0,0,,README: replace migration-era front page with revival README (draft)
 47,2026-08-21 19:34:56Z,760f7ea2a,0,0,0,0,0,0,0,0,0,,Drop revival-era explainer comment from astgen generator templates
@@ -90,7 +90,7 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 88,2026-08-23 11:38:16Z,95cc30f42,0,0,0,0,0,0,0,0,0,,Tick C1 (README amendment) in the rebuild checklist
 89,2026-08-23 11:55:11Z,d6c2b132f,0,0,0,0,0,0,0,0,0,,C2 proposal: rewritten commit messages + ladder/* tag namespace for review
 90,2026-08-23 12:59:49Z,c50820244,0,0,0,0,0,0,0,0,0,,C2 proposal rev 2: strip all process from commit messages
-91,2026-08-23 14:12:12Z,3e3343cf6,0,0,0,0,0,0,0,0,0,,C2 proposal: reword pluckyporcupine attribution in B1
+91,2026-08-23 14:12:12Z,3e3343cf6,0,0,0,0,0,0,0,0,0,,C2 proposal: reword [omitted] attribution in B1
 92,2026-08-23 14:12:55Z,64f698a1f,0,0,0,0,0,0,0,0,0,,C2 proposal: trim research/decks rationale in B1
 93,2026-08-23 14:22:15Z,f9da20561,0,0,0,0,0,0,0,0,0,,C2 proposal: no 2018-migration references; B1 gains a content change
 94,2026-08-23 14:30:12Z,29c8a4d25,0,0,0,0,0,0,0,0,0,,Record settled C2 review decisions in the proposal
@@ -1610,3 +1610,10 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 1608,2026-10-08 09:11:07Z,a70211df3,638,1246580,248981,80303,141653,1250447,249231,80352,141755,,Boot note: before the compaction
 1609,2026-10-08 09:26:41Z,65c34582b,638,1246580,248981,81006,141653,1250447,249231,81055,141755,,"POSITIONS: the gap ledger's form, D1; boot note: his ask for the ledger check, chronology and story"
 1610,2026-10-08 09:39:21Z,bb54e2113,638,1246580,248981,81006,141653,1250447,249231,81055,141755,,"Boot note: the ledger check, chronology and consolidation in flight"
+1611,2026-10-08 09:53:10Z,6de57aef2,638,1246580,250100,81006,141653,1250447,250350,81055,141755,,FACTS consolidated after climb batch 10 landed
+1612,2026-10-08 09:54:20Z,9dd35f83e,638,1246580,250100,81006,142329,1250447,250350,81055,142431,,"Record growth: the gap ledger, FACTS, POSITIONS and INDEX measured at every commit of main from 2026-08-19 to 2026-10-08"
+1613,2026-10-08 09:54:27Z,4312ed24e,638,1246580,250100,80675,142329,1250447,250350,80724,142431,,"POSITIONS: the skills entry rewritten in place, ordered by topic"
+1614,2026-10-08 09:55:22Z,7cc27e74c,638,1246580,250100,81670,142329,1250447,250350,81719,142431,,"POSITIONS: the gap ledger's form, D2 to D6 and the tool"
+1615,2026-10-08 09:56:33Z,052a7c3fe,638,1246580,250100,81670,142828,1250447,250350,81719,142930,,The ledger checked against the batch records: four checkers' results and the summary
+1616,2026-10-08 09:58:45Z,7f515a6a1,638,1246580,250100,81670,142828,1250447,250350,81719,142930,,Boot note: the ledger rewrite workflow in flight
+1617,2026-10-08 09:59:55Z,c9e6cfc85,638,1246580,250100,81670,142828,1250447,250350,81719,142930,,Boot note: the ledger rewrite relaunched without the separate duplicate stage

@@ -45,6 +45,11 @@ FILES = [('ledger', 'explorations/fortress-gap-ledger.md'),
 ROW = re.compile(r'^\| (\d+) \|', re.M)
 
 
+def clean(subject):
+    """A subject as written to the CSVs: one third-party name, which the curator wants unmentioned, left out."""
+    return re.sub(r'pluckyporcupine', '[omitted]', subject, flags=re.I)
+
+
 def git(*a, inp=None, text=True):
     return subprocess.run(('git',) + a, cwd=ROOT, capture_output=True, text=text, input=inp).stdout
 
@@ -156,7 +161,7 @@ def main():
     meta = []
     for ln in lines:
         H, h, ci, P, s = ln.split('|', 4)
-        meta.append(dict(full=H, h=h, utc=ci, parents=P.split(), subject=s))
+        meta.append(dict(full=H, h=h, utc=ci, parents=P.split(), subject=clean(s)))
     print('first-parent commits:', len(meta), meta[0]['utc'], '->', meta[-1]['utc'])
 
     # paths touched by each first-parent commit (a merge: against its first parent)
@@ -260,7 +265,7 @@ def main():
         old = info[psha]['text'] if psha else ''
         new = info[sha]['text'] if sha else ''
         nn, nl, top = entry_delta('ledger' if name == 'ledger' else 'x', old, new)
-        sub = git('log', '-1', '--format=%s', side).strip()
+        sub = clean(git('log', '-1', '--format=%s', side).strip())
         ut = git('log', '-1', '--format=%cI', side).strip()
         h = git('log', '-1', '--format=%h', side).strip()
         cf, bt = label(h, sub, ut, set(git('diff-tree', '--no-commit-id', '--name-only', '-r', '--root', side).split()))
