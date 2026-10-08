@@ -332,25 +332,3 @@ Other answers marked wrong come from the team's own specification. The specifica
 Two answers are wrong for both the team and us: integer types that wrap by themselves (the specification wraps only with its special operators), and an `Any` type that does not hold tuples.
 
 Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part B; `.claude/skills/fortress-repo/SKILL.md` ("Fortress as a language"); `explorations/reviews/fortress-pretraining-quiz.md`; `explorations/reviews/skills-distillation-audit.md` section B.
-
-## 7. What this means for the skill
-
-Six changes to the section "Fortress as a language", so that an agent knows which behaviour is the team's and which the revival chose. The skill is not edited here.
-
-1. Point 6: say that the team's interpreter library had a tower of number types, and that the team's compiler library had them side by side, which the checker's rule against two versions of one generic trait needs; that we put the interpreter's library side by side to match; and that walk's conversions and walk's `IntegerOverflow` are ours (the team's walk had no conversion and wrapped).
-2. Point 5: mark the implicit bound `Any` and the bound for an unfixed parameter as revival decisions, since the 2011 draft says `Object`; say that sizes run on the compiled path since the revival.
-3. Point 4: say that the rule against two instantiations is the team's (papers and checker) but missing from the 2011 draft, and that "every value has a listed type" is the revival's reading of `comprises`.
-4. Point 2: say that the revival dropped the rule that overloads may not differ in static parameters, checks the return-type rule for every instance and widened walk's load check.
-5. Points 7 and 6: say that the one-thread suites are the revival's build setting; and, under point 6, that ranges over `ZZ32` only and the written element type of a `SUM` clause are revival changes that follow from the numbers.
-6. A new point: the specification promises more than the team built; `Monoid[\T, ⊕\]` with laws, complex numbers and `fortress run Foo.fss` are the draft's text, not the tree.
-
-Evidence, change by change:
-
-1. `a874948ac:Library/FortressLibrary.fsi:335,370,406`; `a874948ac:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:100-102`; `a874948ac:.../interpreter/evaluator/values/OverloadedFunction.java:792`; commits `d846e3644`, `917bb7b32`, `b628871a2`.
-2. `Specification-1.0-frozen/basic/trait-parameters.tex:50`; commits `576b4c287`, `f3032eed8`, `669b77d03`, `3f297441c`, `e893a3e00`.
-3. `a874948ac:Papers/Types/examples.tick:5,54`; `a874948ac:.../scala_src/types/TypeAnalyzer.scala:443-457`; commits `3924e7ec3`, `d8e0cd28e`.
-4. `Specification-1.0-frozen/basic/overloading.tex:102-106`; commits `e2f1aa7e8`, `70d5486f9`, `7ed2a8387`, `833420ce4`.
-5. `a874948ac:.../runtimeSystem/FortressExecutable.java:37-39`; commits `a0fcf0a96`, `3be1fecd7`, `d846e3644`.
-6. `Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex:1340`; `a874948ac:Library/FortressLibrary.fss:2823`; `Specification-1.0-frozen/preliminaries/overview.tex:62,83`; `a874948ac:ProjectFortress/src/com/sun/fortress/Shell.java:149,195,198`.
-
-Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` sections B1, B2 and B4.
