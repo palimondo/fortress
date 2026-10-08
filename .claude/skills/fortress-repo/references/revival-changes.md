@@ -65,7 +65,7 @@ A note written before the revival, and your training, can be right about the tea
 **A type parameter that a call does not fix**
 
 - Original: the implementations gave it the empty type `Bottom`, or left it unsolved, and some such compiled calls failed the JVM's verification. The type group's POPL 2019 paper gives such a parameter its bound.
-- Resolution: it takes its bound. Under walk, a parameter whose bound names the parameter itself, such as `SUM`'s, still gets `Bottom` (ledger row 424).
+- Resolution: it takes its bound, except under walk, as `SKILL.md`, "Fortress as a language", says.
 - Reason: the paper is the type group's latest word on the rule.
 
 **Sizes on the compiled path**

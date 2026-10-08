@@ -15,9 +15,23 @@ At a call of a generic function, walk infers the static arguments from the run-t
 
 Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. This is an accepted limit until the switch-over.
 
+## Where a fix of walk belongs
+
+Both paths run the same desugaring phases. Inside them, switches in `Shell.java` decide which desugarings run. Walk turns off these desugarings, which the compiled path runs:
+
+- coercion;
+- chained comparisons;
+- compound and tuple assignment, and subscripts;
+- case expressions, typecase and type ascription;
+- the marking of a bodiless declaration as abstract.
+
+Walk evaluates those nodes itself, in `interpreter/evaluator/Evaluator.java` (`forChainExpr`, `forAssignment`, `forCaseExpr`, `forTypecase`, `forAsExpr`). It converts by coercion at dispatch, in `OverloadedFunction.bestMatchWithCoercion`. So if walk is wrong on one of these nodes, fix the evaluator, not the desugarer.
+
+An edit of a phase that both paths run, or of the desugaring switches, can change both paths. An edit under `interpreter/` changes walk only.
+
 ## What walk checks
 
-Walk does not check static types (`SKILL.md`, "The phases"). No command checks them for a walk program: `fortress typecheck` checks against the compiler's prelude.
+Walk does not check static types (`SKILL.md`, "The phases"). The commands that stop after a phase, and `unparse`, use the compiler's prelude and the compiled path's desugaring switches (`compiler.md`, "The `fortress` commands"). So `fortress typecheck` does not check a walk program, and `desugar` or `unparse` does not print the tree that walk runs. That tree is the component's entry in `interpreter_cache/` (`SKILL.md`, "The caches").
 
 At load, walk checks the overload sets and some `comprises` clauses. It refuses:
 
@@ -55,11 +69,7 @@ A `catch` sees no other Java exception, so any other exception from a native end
 
 ## The model program
 
-MicroGPT runs only under walk, by hand, never in the gate. To check the model after a library change, run `explorations/coordinator/tools/mg-run.sh <work-dir> <label> [threads]`. It runs the quick pair at once, `MicroGptFlatQuick.fss` and `MicroGptAplQuick.fss`: two forward and backward passes each, against the reference values, in about 56 s for both. Each starts from an empty private cache and writes `<work-dir>/<name>.txt`. Read its `VERDICT:` line and its last line, `rc=`.
+MicroGPT runs only under walk, by hand, never in the gate. Check the model when your brief asks for it: run your tree's `explorations/coordinator/tools/mg-run.sh <work-dir> <label> [threads]`. `<work-dir>` is a folder under your tree's `tmp/`, and `threads` sets `FORTRESS_THREADS`, 1 by default. The script runs the quick pair at once, `MicroGptFlatQuick.fss` and `MicroGptAplQuick.fss`: two forward and backward passes each, against the reference values, in about 56 s for both. Each starts from an empty private cache and writes `<work-dir>/<name>.txt`. Read its `VERDICT:` line and its last line, `rc=`.
 
 - Add the word `full` only if your brief asks for it. It runs the full pair, `MicroGptFlatCheck.fss` and `MicroGptAplCheck.fss`, with 40 checks each and a 90-minute timeout.
 - If you change a line of the model, put the change in your report as a diff.
-
-## After an edit here
-
-An edit of a phase that both paths run, or of the desugaring switches in `Shell.java`, can change both paths. Walk turns some desugarings off: `compiler.md`, "Which desugarings run on each path", lists them. An edit under `interpreter/` changes walk only. `compiler.md`, "What the two paths share", says what to report then.

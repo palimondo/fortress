@@ -28,6 +28,7 @@ A test program has this form:
     end
 
 - `(*)` starts a comment to the end of the line. It cannot hold `*)`: the parser ends the comment there and refuses the program. `(* ... *)` comments nest.
+- A compiled test with a `run` key ends `run()` with `println("PASS")`, unless a `run_out` key checks its output (below).
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`, for values of any type. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
 - Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator, the phase that binds names, refuses it: "Variable even is already declared."
 - Under walk, a numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
@@ -44,7 +45,7 @@ Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `
 
 Compiled: write `Name.fss` and `Name.test` in the compiled test folder that holds tests of its kind:
 
-- `library_tests/`: the compiler's library.
+- `library_tests/`: the compiler's library. A test of the interpreter's library is an interpreter test (above).
 - `parser_tests/`: the parser.
 - `compiler_tests/`: the rest, beside the team's numbered `CompiledN` tests.
 - `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series, by the comment in `OtherCompilerJUTest.java`. The revival has added none there.
@@ -59,7 +60,7 @@ The `.test` files are the whole list of tests: a `.fss` that no `.test` file nam
                                check: contains, does_not_contain, equals, matches,
                                WIcontains (containment with runs of whitespace collapsed)
 
-A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. For example:
+A `run` fails if the program exits non-zero, if a `run_*` check fails, or, with no `run_out` check, if its output holds neither `pass` nor `PASS`. For example:
 
     tests=EqualityRung1
     link
@@ -69,7 +70,7 @@ A `run` fails if the program exits non-zero or a `run_*` check fails. With no `r
 ## How `XXX` works
 
 - Under walk, an `XXX` test is `tests/XXXName.fss`, whose component is `XXXName`. With no `.test` file, it is green when it fails as a plain test would.
-- In the compiled test folders, the `XXX` prefix of a `.test` file's name applies to every command that the file drives: each must fail.
+- In the compiled test folders, the `XXX` prefix of a `.test` file's name applies to every command that the file drives: each must fail. So a defect at run time, whose link succeeds, needs two `.test` files ("Writing an `XXX` test").
 - An unmet `run_*` check makes a run test red, whatever the prefix.
 - The harness reports any link or compile exception of a component whose name contains `XXX` as expected, whatever the `.test` file's name. Only an unmet key of that command makes it red.
 - An `XXX` compile test with a `compile_err_contains` key, whose program compiles, reports "Saw wrong failure", which is red.
@@ -80,28 +81,26 @@ A `run` fails if the program exits non-zero or a `run_*` check fails. With no `r
 Record every defect that you measure in one of three ways, and say in your report which:
 
 1. Your change repairs it: an assertion in your plain gated test. It needs no `XXX` stage.
-2. It is deferred, and the specification settles it: a gated `XXX` test that asserts the specification's answer. Write it in the change that measured the defect, even if a later change will repair it. A program that the checker accepts and that then fails the JVM's verification (`VerifyError`), linkage or a range check at run time belongs here.
-3. It is deferred, and the specification is silent or a conflict leaves it open (`exploring.md`): a test that asserts today's behaviour, and a row in the gap ledger (`records.md`). If no program can observe the defect, write the ledger row only. Its reproducer, the row's cell that names the test, is `none`, and its notes give the command and its output.
+2. It is deferred, and the specification settles it: a gated `XXX` test that asserts the specification's answer. Write it in the change that measured the defect, even if a later change will repair it. A deferred defect of a program that the checker accepts and that then fails the JVM's verification (`VerifyError`), linkage or a range check at run time is one of these.
+3. It is deferred, and the specification is silent or a conflict leaves it open (`exploring.md`): a test that asserts today's behaviour, and a row in the gap ledger (`records.md`). If no program can observe the defect, or no gated test can pass while it shows, as when walk crashes on the program, write the ledger row only. Its reproducer, the row's cell that names the test, is `none`, and its notes give the command and its output.
 
 If your brief does not let you edit the original tree, say in your report which of the three the defect needs, and write a ledger row for it, whichever it needs. A probe that only measures and reports is an example. The change that next works there writes the test.
 
 ## The order: the test, its failure, the fix, the pass
 
 1. Write the test, with a plain name. Write the essence of the defect as a clean, minimal program, not the shape in which a probe met it.
-2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the base's code through `explorations/coordinator/tools/old-fortress.sh`, which keeps its own caches (`worktrees.md`).
+2. See the test fail through the harness (`harness-one.sh` or `junit.sh`, `tests-running.md`) on the base's code. Do this in a run that ends before you first build or compile your edit. Under walk, do it before you edit a library source that the test reads. If your tree already holds the fix, run the test through the harness on the old code, as `worktrees.md`, "Running the old code", says.
 3. Make the fix. See the test pass in your last run after your last change of code.
 
-The test needs no commit of its own.
+The test needs no commit of its own. A test that comes with no fix, such as one that guards a behaviour that works today, has no failing run: see it pass through the harness.
 
-In your report, quote two to five lines of the failing run and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A probe that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key. The harness checks both, so they are part of the suite's verdict.
-
-Check an edit of prose in `Specification/` or `Documentation/` against the tree and the curator's decisions.
+In your report, quote two to five lines of the failing run, if there is one, and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A probe that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key. The harness checks both, so they are part of the suite's verdict.
 
 ## Writing an `XXX` test
 
 In a compiled test folder, name the component `XXXName`, in its file `XXXName.fss` and in its `component` line.
 
-- For a refusal at compile time, write one `XXX` compile test.
+- For a refusal at compile time, write one `XXX` compile test, with `compile` and `compile_err_contains=<the refusal's message>`.
 - For a code-generator wall (`compiler.md`, "What the compiled path cannot compile yet"), write `XXXName.test` with `tests=XXXName`, `compile` and `compile_exception_contains=<text of the exception>`.
 - For a program that compiles and fails at run time, write two `.test` files over the component:
   - `NameLink.test`, a plain name, with `tests=XXXName` and `link`. It is red if the link reports static errors, but green on an exception.
@@ -112,17 +111,17 @@ In a compiled test folder, name the component `XXXName`, in its file `XXXName.fs
 Show the first `XXX` test that your change adds, and only the first, working through the harness (`harness-one.sh`, `junit.sh` or `fortress junit`), from its place in a gated test folder. A direct compile and run does not show this. Run it twice:
 
 1. As it is: the harness must report an expected failure.
-2. Changed for one run so that it passes, then restored: the harness must report it red. For example, add the missing declaration to the test program, or set the expected string to what the run prints.
+2. Changed for one run so that the defect does not show, then restored: the harness must report it red. For example, add the missing declaration to the test program, set the expected string to what the run prints, or, in a run-time pair, remove the part that fails.
 
 ## Promoting an `XXX` test
 
-If you fix a defect that has a gated `XXX` test, the harness reports that test red. To find such a test, search the gap ledger (`records.md`): a row's reproducer names it. Also list the `XXX` files: `git ls-files 'ProjectFortress/*XXX*'`. Then:
+If your change fixes a defect that has a gated `XXX` test, the fix turns that test red. To find such a test, search the gap ledger (`records.md`): a row's reproducer names it. Also list the `XXX` files: `git ls-files 'ProjectFortress/*XXX*'`. Then promote it:
 
-1. Before you edit the code, remove the prefix: give the test a plain name by its topic. Rename each file with `git mv`, or with `mv` if the file is not committed yet, and each `XXX` name inside: the `component` line, and in a compiled test the `tests=` lines and keys.
-2. See the plain-named test fail through the harness on the base's code.
+1. Before you edit the code, remove the prefix: give the test a plain name by its topic. Rename each file with `git mv` (`committing.md` gives the commit), or with `mv` if the file is not committed yet. Rename each `XXX` name inside: the `component` line, and in a compiled test the `tests=` lines and keys. Change a run-time pair as below.
+2. See the plain-named test fail through the harness on the base's code, as "The order", step 2, says.
 3. Make the fix and see the test pass.
 
-A run-time pair keeps its stem, and becomes three files. For example, `compiler_tests/NatRtTask` was promoted so in `fd5cb4864`:
+A run-time pair keeps its three files, renamed without `XXX`. For example, `compiler_tests/NatRtTask` was promoted so in `fd5cb4864`:
 
 - `Name.fss`, with `component Name`. The program asserts its values, then prints `PASS` last.
 - `NameLink.test`: `tests=Name` and `link`.
@@ -131,6 +130,6 @@ A run-time pair keeps its stem, and becomes three files. For example, `compiler_
 ## Names, comments, citations
 
 - Name a test by its topic. Give it one comment line that says what it checks, with no pointer to a record.
-- Cite the specification by file and section or entry, never by line: `opr-overview.tex, subsection "GCD, LCM, and CHOOSE Operators"`. In the library chapters, name the entry too: `basic-integers.tex, section "Integers", opr CHOOSE`.
+- In a test, cite the specification by file and section or entry, never by line: `opr-overview.tex, subsection "GCD, LCM, and CHOOSE Operators"`. In the library chapters, name the entry too: `basic-integers.tex, section "Integers", opr CHOOSE`.
 - If your change breaks a line of a test that the team wrote, respell the line and keep the value that it checks. Keep every assertion. List each line's before and after in your report.
 - If your change touches mutable state, a field, an `atomic` block or library code that writes shared state, run its checks at one thread and at four. The same holds for the Java of tasks, transactions or the class loader. `harness-one.sh`, `junit.sh` and the suites force four threads. For one thread, run the program directly with the prefix `FORTRESS_THREADS=1` (a compiled program: `compiler.md`, "Running"), and check its exit code and output.

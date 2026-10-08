@@ -34,31 +34,42 @@ Then open the sources that the row names. Among them are the `\note{}` boxes and
 
 Every change of the text has the four parts below, so that no disagreement between the text and an implementation stays hidden.
 
-1. At each changed passage, a callout that prints in every build, unlike a `\note`:
-
-       \revision{<label>}{<what changed, in a sentence or two>}
-
-   `<label>` is the `\seclabel` of the change's Appendix I entry.
-
-2. An entry in the revival section of Appendix I: a `\subsection` with a `\seclabel`. The entry gives:
-   - the affected sections, the change, its rationale and its effect;
+1. An entry in the revival section of Appendix I: a `\subsection` with a `\seclabel`. The entry gives:
+   - the affected sections, the change, its rationale and its effect. The effect names each departure: each way in which walk or the compiled path does not do what the new text says, with its ledger row.
    - the original text, quoted with its path and line in `Specification-1.0-frozen/`;
    - what a reversal to the alternative not taken would need;
    - the decision of the curator that it follows (its POSITIONS entry), or the reason that your brief gives.
 
    For the form, print one entry, about 2 KB: `explorations/coordinator/tools/facts-extract.sh 'doc:Specification/appendices/changes.tex#choice of a coercion'`.
 
+2. At each changed passage, a callout that prints in every build, unlike a `\note`:
+
+       \revision{<label>}{<what changed, in a sentence or two>}
+
+   `<label>` is the `\seclabel` of the entry. `Specification/fortress/fortress.tex` defines `\revision`.
+
 3. The front matter's one paragraph on the revision, in `Specification/fortress/preamble.tex`. If your change makes it false, correct it.
 
-4. The full reasoning, in a decision record under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. For the form, print one passage of an earlier record, about 4 KB: `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.3'`.
+4. The full reasoning, in `decision-record.md` in the folder of your work under `explorations/`: each changed passage, the original and the new text, the reason, and the way back. For the form, print one passage of an earlier record, about 4 KB: `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-spec-route-a/decision-record.md#3.3'`.
 
 If the revision refuses an example, keep the example in the text, marked "Not allowed", as the specification itself does. If your change contradicts a calculus of Appendix A, keep the calculus's rules and soundness claims. Add a callout to it that says what it predates.
 
+Check each changed sentence of `Specification/` or `Documentation/` against the curator's decisions. If it says what walk or the compiled path does, run a program that shows it.
+
+## Building it
+
+To check your LaTeX, build the specification in a built tree, after the setup lines: `cd Specification/fortress && ./ant genSource && ./ant tex`. It takes about 90 s, so run it with `run_bg` (`session.md`).
+
+- Both commands must end in `BUILD SUCCESSFUL`, and `grep -c 'Reference .* undefined\|multiply defined\|Undefined control sequence' Specification/fortress/fortress.log` must print 0.
+- If `pdflatex` is missing, install the packages of the `PKGS` line of `explorations/experiment/setup.sh` with `apt-get update -qq && apt-get install -y`.
+- The build writes only ignored files, its log among them, which can reach 400 MB. Remove them afterwards: `git clean -fXq -- Specification`.
+- Update `Specification/fortress.pdf` only if your brief asks for it: copy `Specification/fortress/fortress.pdf` over it.
+
 ## When the text and an implementation disagree
 
-- If a decision of the curator says which side is correct, change the other side to agree.
+- If a decision of the curator says which side is correct, the other side is wrong. If the wrong side is in your area, change it to agree. If not, record the departure as `tests-writing.md`, "How a defect is recorded", says.
 - If no decision says so, the disagreement is a conflict. Switch to exploring (`exploring.md`).
-- If the passage has an Appendix I entry, add the conflict's ledger row to the departures that its effect lists. Then the text claims no more than holds.
+- If the passage has an Appendix I entry, name the departure or the conflict in the entry's effect, with its ledger row. Then the text claims no more than holds.
 
 ## Citing it
 

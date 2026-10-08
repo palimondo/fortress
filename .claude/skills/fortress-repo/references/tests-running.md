@@ -34,7 +34,7 @@ The two suites work in the same way:
 To run a suite:
 
 - Run one suite at a time in a tree, because each suite deletes the `test-caches` that the other uses.
-- Read the verdict in the last line: `BUILD SUCCESSFUL` means zero failures, and `BUILD FAILED` means at least one. Every `ant` test target ends with one of these lines, and exits non-zero when it failed.
+- Read the verdict in the line before `Total time:`: `BUILD SUCCESSFUL` means zero failures, and `BUILD FAILED` means at least one. Every `ant` test target ends with these lines, and exits non-zero when it failed.
 - To compare test counts, compare the sum of the four shards. A file added to `tests/` moves every later file to another shard.
 - If a suite's count fell, a `.test` file or a `tests=` line almost always went missing.
 
@@ -58,13 +58,13 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 ## When to run a whole suite
 
 - The gate runs every suite once, on the tree that lands (`gate.md`). Your brief says whether you run the gate.
-- If your edit changes the Java or Scala of the checker, of walk or of a phase that both paths share, run all the tests that it reaches. Run them once for each code state, after your last edit of code. The run needs no commit.
+- If your edit changes the Java or Scala of the checker, of walk or of a phase that both paths share, run all the tests that it reaches. Run them once, after your last edit of code. The run needs no commit.
   - For the checker, run `ant testQuick`: the compiler, othercompiler and library tracks at once (below).
   - For walk, run `ant testSystem`. It is the same as its four shards run by hand.
-  - For a shared phase (under `compiler/`: name binding, DSL grammars, desugaring) or the parser, run both.
+  - For a shared phase (under `compiler/`: name binding, DSL grammars, desugaring, the marking of overloaded calls in `OverloadRewriter`) or the parser, run both.
 - Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
-- After a code-generator edit, run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
+- After an edit of the code generator (`codegen/`, `OverloadSet`) or the run time (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
 - After every other change, run only your own tests, through the scripts below. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests.
 
 The suites do not check these:
@@ -91,13 +91,13 @@ Run interpreter tests (`ProjectFortress/tests/`) from the tree's root, after you
 
 - It runs `SystemJUTest` with testSystem's JVM settings, at `FORTRESS_THREADS=4`, on a folder that holds only the files that you name.
 - It keeps its cache in the folder `<scratch-dir>.cache`. It starts from that cache while the build and the library sources are those that filled it. Otherwise, or with `COLD_CACHE=1`, it starts empty. Its first line says `cache filled` or `cache empty`.
-- It runs the classes in `ProjectFortress/build/` and builds nothing. After you edit Java, Scala or a parser grammar, run `ant compileAll` first. If your tree has no build, build it first (`worktrees.md` for a new worktree).
+- It runs the classes in `ProjectFortress/build/` and builds nothing. After you edit Java, Scala or a parser grammar, run `ant compileAll` first. If your tree has no build, seed it or build it as `worktrees.md` says.
 - Give it a scratch directory that holds nothing else. The script deletes the directory when it starts and when it ends.
 - If a test has an `X.test` file (its keys for a refusal at load), name it beside its `X.fss`.
 - It takes 15 to 25 s with an empty cache, mostly to analyse the library, and about 4 s with a filled one. Name several files in one call to run them in one JVM.
 - It shows the output of passing tests too, and removes the Java stack frames.
 
-To see the whole diagnostic, with its Java stack, run the program directly:
+To see the whole diagnostic, with its Java stack, run the program directly, from `ProjectFortress/` as the harness does, because an import is looked up in the current directory first:
 
     cd ProjectFortress && ../bin/fortress -debug stacktrace tests/X.fss
 

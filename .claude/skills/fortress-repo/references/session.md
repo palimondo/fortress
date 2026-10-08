@@ -24,9 +24,9 @@ The Bash tool stops a call at 120 s, unless the call passes a longer `timeout`, 
 Two shell functions run a long command:
 
 - `run_bg` starts the command detached. It writes the output to the log, then a last line `EXIT=<status>`.
-- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0. If not, it returns 1.
+- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
 
-If a command can take more than a minute or two, start it with `run_bg`. Then run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Grep the log for the lines that you need. Define both functions in each call that uses them:
+If a command can take more than a minute or two, start it with `run_bg`. Then run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Grep the log for the lines that you need. Define both functions in each call that uses them, after the setup lines, whose exports the command inherits:
 
     run_bg () {      # run_bg <logfile> "<command>"
         nohup bash -c "( $2 ) > '$1' 2>&1; echo EXIT=\$? >> '$1'" >/dev/null 2>&1 &
@@ -38,7 +38,7 @@ If a command can take more than a minute or two, start it with `run_bg`. Then ru
             sleep 5 ; n=$((n+5))
             [ "$n" -ge "$max" ] && { echo "still running after ${n}s" ; return 1 ; }
         done
-        grep -n '^BUILD \|^Total time:\|^EXIT=' "$1"
+        grep -n '^BUILD \|^Total time:\|^OK (\|^FAILURES!!!\|^Tests run:\|^EXIT=' "$1"
     }
 
 ## Stopping processes

@@ -1,10 +1,9 @@
 # Toolchain and generated sources
 
-The build needs JDK 25: every javac task compiles at level 25 (`javaSourceVersion` in `build.xml`). The container's profile sets `JAVA_HOME` to JDK 21, under which the build stops: `invalid target release: 25`. The setup lines in `build-and-caches.md` set JDK 25.
+The build needs JDK 25: every javac task compiles at level 25 (`javaSourceVersion` in `build.xml`). The container's profile sets `JAVA_HOME` to JDK 21, under which the build stops: `invalid target release: 25`. The setup lines in `build-and-caches.md` set JDK 25, and say how to install it.
 
 Scala 2.13.18 and ASM 9.10.1 are vendored in `ProjectFortress/third_party/`. scalac runs through `scala.tools.nsc.Main`, because Scala 2.13 has no ant tasks. All sources compile as UTF-8.
 
-- If `ant` or JDK 25 is missing, run `apt-get install -y openjdk-25-jdk-headless ant`. `explorations/experiment/setup.sh` also installs LaTeX, builds the tree and sets up the transcript backup (the `cloud-container` skill).
 - In `compiler/asmbytecodeoptimizer/`, Fortress's own `Opcodes` hides `org.objectweb.asm.Opcodes`. Write ASM's constants there fully qualified.
 - Before you change the version of a tool, read its step in the modernization plan. TOOL is `JDK`, `Scala` or `ASM`. It prints 4 to 7 KB: `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/modernization-plan.md#The ladder@TOOL'`.
 

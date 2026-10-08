@@ -38,7 +38,7 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 : Commit that your work starts from.
 
 **gate**
-: Full check of a tree before it lands. To land a tree is to commit it to `main` and push `main`.
+: Full check of a tree before it lands, when a brief asks for it. To land a tree is to commit it to `main` and push `main`.
 
 **harness**
 : Suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class. The harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.
@@ -53,7 +53,7 @@ You work with three things: your brief, the record and the original tree. Buildi
 
 ## How a program runs
 
-Walk and the compiled path share the parser and the phases below. After those, they share almost no code. The Java and Scala paths in this skill are under `ProjectFortress/src/com/sun/fortress/`.
+Walk and the compiled path share the parser and the phases below. After those, they share almost no code, so a fix on one path does not reach the other. If you fix either path, say in your report whether the other has the same defect. The Java and Scala paths in this skill are under `ProjectFortress/src/com/sun/fortress/`.
 
 ### The phases
 
@@ -70,7 +70,7 @@ Walk then interprets the tree. The tree has no static types, so walk finds a typ
 
 `fortress compile` runs the same phases with the static type checker, in Scala, switched on. Before the checker, it folds integer literals. After the phases, the code generator writes JVM bytecode into a jar. A type error stops the compile.
 
-Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the checker accepts the interpreter's library.
+Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The switch-over comes when the checker accepts the interpreter's library.
 
 ### The compiled run time
 
@@ -101,7 +101,7 @@ In the first three caches, `<hash>` is a hash of the source's absolute path, and
 
 ### Parallelism and mutable state
 
-Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks, transactions and the pool are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`. A fix in one does not reach the other.
+Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks, transactions and the pool are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`.
 
 `x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one, and `x := e` assigns to it (`Specification/basic/variables.tex`). These are Scala's `val` and `var`, or Swift's `let` and `var`. A field is immutable unless it is declared with `var`. A `value` object has only immutable fields and value semantics, like a Swift `struct`.
 
@@ -123,7 +123,7 @@ Each point below corrects an assumption from a language that you know. `referenc
 - **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The checker accepts two overloads only if their parameter types exclude each other, one is more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
 - **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. A functional method's name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
 - **Traits and objects, no classes.** A trait has methods and abstract fields, and extends several traits. An object is a leaf. `excludes {A, B}` says that no value has both types. `comprises {A, B}` says that every value has a listed type, near Scala's `sealed`. No type may extend two instantiations of one generic trait. This exclusion rule is why the number types are flat (below).
-- **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound.
+- **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound. Under walk, one whose bound names the parameter itself, such as `SUM`'s, still gets the empty type `Bottom` (ledger row 424).
 - **Numbers are siblings, not a tower.** `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64` are siblings under `Number`. None is a subtype of another, unlike Haskell's classes or Java's widening. A wider type declares a `coerce` from each narrower one. A conversion never changes which declaration runs when one already fits. Overflow raises `IntegerOverflow`. The algebra is self-typed traits, such as `AdditiveGroup[\T\]` with `+`, not monoids over an operator parameter. `references/library.md` gives the rest: ranges, wrapping, `SUM`.
 - **Loops and reductions are library code.** `for`, comprehensions and `SUM` call the library's generators and reductions (`references/library.md`).
 - **Juxtaposition is an operator, and whitespace counts.** `f x` applies a function. Otherwise juxtaposition is an operator that the library overloads: `2 x` multiplies, and `"a" "b"` concatenates. How three juxtaposed items group depends on their types, unlike in Haskell. An infix operator has whitespace on both sides or on neither: `a -b` is a static error. Precedence is partial: `a + b ∪ c` needs parentheses.
@@ -148,7 +148,7 @@ Switch from building to exploring when you meet one of these:
 - A conflict: two of the team's sources disagree, and no decision of the curator says which one is correct. The team's sources are the specification, the papers, the library and the implementations.
 - New evidence against a decision of the curator. Evidence is new only if the decision did not use it. Your own view of the evidence that it used is not new evidence.
 
-When you switch, load `references/exploring.md`. The curator settles the question after research.
+When you switch, load `references/exploring.md`. It says which choices are yours and which go to the curator.
 
 ## Rules for every task
 
@@ -158,9 +158,10 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Reproduce a behaviour before you explain it: run a command that shows it, unless your brief cites the command's output.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
-- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's ladder regression is the one exception (`references/gate.md`).
-- Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
+- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's comparisons with the last landed gate and with the ladder's baseline are the exceptions (`references/gate.md`).
+- Take the tree that you start from as passing: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
 - Reuse each result of a build, a suite, a stage of the gate, a test or a measurement that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
+- Before you investigate a defect, or edit a file of the original tree, look for its rows in the gap ledger, with the queries of `references/records.md`, "Reading the record".
 - After your fix, run your own tests. Run a whole suite where `references/tests-running.md`, "When to run a whole suite", asks for it, and nowhere else.
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell.
 - After an edit, take the step that `references/build-and-caches.md` gives for the kind of file that you edited.
@@ -176,12 +177,11 @@ Load the parts below that your task touches before you run the query of the reco
 
 The parts, in the order that work meets them:
 
-- Setting up each call: `references/build-and-caches.md`
+- Setting up each call, building, the caches, what to rebuild after an edit: `references/build-and-caches.md`
 - The Bash tool and its timeout, long commands and polling, waits and the prompt cache, stopping processes, interrupts and stops of the session's process, the automatic permission check: `references/session.md`
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
-- Building, the caches, what to rebuild after an edit: `references/build-and-caches.md`
 - The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
-- The interpreter area: walk's code (`interpreter/`), its checks at load, its natives, running programs under walk, the microGPT check: `references/interpreter.md`
+- The interpreter area: walk's code (`interpreter/`), where a fix of walk belongs, its checks at load, its natives, running programs under walk, the microGPT check: `references/interpreter.md`
 - The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
@@ -194,6 +194,6 @@ The parts, in the order that work meets them:
 - What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `session.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
+A task usually needs several parts, and every task needs `records.md`, for its queries and its report. For example, a fix of walk needs `build-and-caches.md`, `session.md`, `worktrees.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. An edit of the library needs the same parts and `library.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

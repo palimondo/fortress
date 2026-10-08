@@ -28,12 +28,14 @@ These functions work on the library's generators and reductions: `trait Generato
 ## Designing a change
 
 - Put each extension into this library, outside the compiler's files. This includes an extension that only the model program needs.
-- Fix a gap in the library, not by a workaround in the program that meets it. The library's practice gives the design, not the specification's text alone.
-- If a rule of the language or the checker refuses the way that you want, find how the library writes that kind of thing. Do the same.
-- If the library's practice and the specification's text disagree, do as `specification.md`, "When the text and an implementation disagree", says.
-- When you add a method, make it dotted or functional as its family in the library does. If the family shows no practice, follow the team's proposal (`Library/incomplete/Collection.fss`): an updater, a getter or a setter, indexing included, is dotted, and every other method is functional.
+- Fix a gap in the library, not by a workaround in the program that meets it. Take the design from the library's practice as well as from the specification's text. If the two disagree, do as `specification.md`, "When the text and an implementation disagree", says.
+- If a rule of the language or the checker refuses the way that you want, find how the library writes that kind of thing. Do the same. The checker's refusals of this library reach you only through your brief: `fortress typecheck` checks against the compiler's prelude.
+- When you add a method, make it dotted or functional as its family in the library does. If the family shows no practice, follow the team's proposal, which no program can import (`Library/incomplete/Collection.fss`): an updater, a getter or a setter, indexing included, is dotted, and every other method is functional.
 - A new functional method reserves its name in every program that imports the library. The phase that binds names then refuses each program that names a variable or a parameter after it: "Variable even is already declared."
 - A dotted method shadows a top-level function of the same name (`overloading.tex`, "Principles of Overloading").
+- A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
+- A new native is a Java class under `interpreter/glue/prim/` (`interpreter.md`, "Natives"), so it is an edit of walk's Java too.
+- `interpreter.md`, "The model program", says how to check microGPT under walk.
 
 ## Editing
 

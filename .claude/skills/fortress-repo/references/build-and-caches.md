@@ -1,7 +1,7 @@
 # Setting up, building, the caches, and what to rebuild
 
 **tree**
-: Checkout of the repository: the main checkout or a worktree. In a command, `<tree>` is the tree that you work in.
+: Checkout of the repository: the main checkout or a worktree. In a command, `<tree>` is the tree that you work in: the one that your brief names, else the one that your session starts in.
 
 **library order**
 : Five compiles that build the compiled path's library into the caches.
@@ -12,6 +12,33 @@
 **parser directory**
 : New `fortress<random>rats` folder of 5.8 MB, in which a program that imports a DSL grammar gets a Rats! parser generated when it runs. The run makes it in its JVM's temporary directory and never deletes it.
 
+## Setting up each call
+
+Start every Bash call with these lines. They put you at the tree's root, where this skill's commands start unless they `cd`:
+
+    cd <tree> && mkdir -p tmp
+    export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64 PATH=/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
+    export FORTRESS_HOME=$PWD FORTRESS_THREADS=1 TMPDIR=$PWD/tmp JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=$PWD/tmp"
+    unset JAVA_TOOL_OPTIONS
+
+- If `/usr/lib/jvm/java-25-openjdk-amd64` or `ant` is missing, run `apt-get update -qq && apt-get install -y openjdk-25-jdk-headless ant` first.
+- `bin/fortress` takes `FORTRESS_HOME` from the shell whenever it is set. If it names another tree, you run that tree's code. Check it with `echo $FORTRESS_HOME`.
+- `JAVA_TOOL_OPTIONS` is unset, because the proxy's trust-store flags in it break ant's JVM forks.
+
+The lines give the settings of `explorations/experiment/env.sh`, with two differences:
+
+- The JVM's temporary directory is your tree's `tmp/`, which is gitignored.
+- They leave out env.sh's removal of old parser directories in `/tmp`, because your runs put theirs in your tree's `tmp/` (below).
+
+If your brief tells you to run `source env.sh` and then to point `TMPDIR` and `JAVA_FLAGS` at `tmp/`, use the lines above. They do the same.
+
+The library and microGPT import no DSL grammar, and of the gated tests only `ProjectFortress/syntax_abstraction_tests/ForUse.fss` does. The APL experiments under `explorations/apl/` do, and so do the ungated tests in that folder.
+
+With the lines above, your runs that import a DSL grammar put their parser directories in `<tree>/tmp/`. Hundreds of them once filled the disk allowance. So:
+
+- When no run of yours is live, remove yours: `rm -rf <tree>/tmp/fortress*rats`.
+- Before a long run, check `df -h /`. How to read it: the `cloud-container` skill.
+
 ## Two layers of code
 
 The repository holds two layers of code. Different tools build them, at different times, so "compile" means a different thing in each layer.
@@ -20,7 +47,7 @@ The implementation is the parser, walk, the compiled checker, the code generator
 
 The Fortress code is the library, the tests and the programs: the `.fss` and `.fsi` files. The `fortress` commands run the phases on it and keep the results in the caches:
 
-- Walk runs the phases on each component that a run needs. It needs no compile.
+- Walk runs the phases on each component that a run needs. It needs no `fortress compile`.
 - `fortress compile` writes a component's jar. It is for the compiled path's components only: the compiler's library, compiled tests and compiled programs.
 - `fortress run` compiles no Fortress source.
 - A command reuses an entry if no source that the entry depends on is newer than the entry: its own source, and the `.fsi` files of the apis that it imports, at any depth.
@@ -74,32 +101,6 @@ Before the first compiled run, check that `default_repository/caches/bytecode_ca
 - If both libraries use one api name, one of them breaks. For this reason, the compiler's apis have the `Compiler` prefix.
 - The top-level `CompilerLibrary/` holds `.fsi`-only stubs, not `Library/CompilerLibrary.fss`. `lib/` holds Fortress sources, not jars.
 - If paths behave wrongly, read `repository/ProjectProperties.java`. It resolves `FORTRESS_HOME`, `BASEDIR` and the cache paths.
-
-## Setting up each call
-
-Start each Bash call that runs Fortress, `ant` or a project tool with these lines:
-
-    cd <tree> && mkdir -p tmp
-    export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64 PATH=/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
-    export FORTRESS_HOME=$PWD FORTRESS_THREADS=1 TMPDIR=$PWD/tmp JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=$PWD/tmp"
-    unset JAVA_TOOL_OPTIONS
-
-- `bin/fortress` takes `FORTRESS_HOME` from the shell whenever it is set. If it names another tree, you run that tree's code. Check it with `echo $FORTRESS_HOME`.
-- `JAVA_TOOL_OPTIONS` is unset, because the proxy's trust-store flags in it break ant's JVM forks.
-
-The lines give the settings of `explorations/experiment/env.sh`, with two differences:
-
-- The JVM's temporary directory is your tree's `tmp/`, which is gitignored.
-- They leave out env.sh's removal of old parser directories in `/tmp`. That removal spares the directory of a live run.
-
-If your brief tells you to run `source env.sh` and then to point `TMPDIR` and `JAVA_FLAGS` at `tmp/`, use the lines above. They do the same.
-
-The library and microGPT import no DSL grammar, and of the gated tests only `ProjectFortress/syntax_abstraction_tests/ForUse.fss` does. The APL experiments under `explorations/apl/` do, and so do the ungated tests in that folder.
-
-With the lines above, your runs that import a DSL grammar put their parser directories in `<tree>/tmp/`. Hundreds of them once filled the disk allowance. So:
-
-- When no run of yours is live, remove yours: `rm -rf <tree>/tmp/fortress*rats`.
-- Before a long run, check `df -h /`. How to read it: the `cloud-container` skill.
 
 ## Building
 

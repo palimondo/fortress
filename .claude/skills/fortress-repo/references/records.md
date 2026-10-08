@@ -42,7 +42,7 @@ The ledger's rows are the bug reports that the work fixes. A fix of a row starts
 
 A row is one line of eight cells, at most 1,200 characters, in the table of a topic section. Reports cite a row by its number, which it keeps for good. A new issue gets a new row.
 
-- Its status is one of seven words: `POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`, `FIXED`, `DUPLICATE`. The last three close a row.
+- Its status is one of seven words: `POSITIVE-VERIFIED`, `NEGATIVE-VERIFIED`, `NEGATIVE-BOUNDED`, `CONTESTED`, `RETIRED`, `FIXED`, `DUPLICATE`. The last three close a row. The row template (below) defines each.
 - Its class is a kind and an area, such as `implementation gap (checker)`.
 - The earlier text of a changed row is in `explorations/fortress-gap-ledger-history.md`.
 
@@ -55,25 +55,25 @@ Read only the slice of the record that you need. This tool prints whole entries,
     T=explorations/coordinator/tools/facts-extract.sh
 
 - `$T 'positions:WORDS OF A TITLE'` prints one of the curator's decisions. Run it before you choose among ways to do something. If several titles hold the words, it names them.
-- `$T 'WORDS OF A TITLE'` prints each FACTS entry whose bold title holds them, and `$T 'section:HEADING'` every entry of a FACTS section. Run one before you investigate a behaviour of the tree, and when your brief or a note names an entry.
+- `$T 'WORDS OF A TITLE'` prints each FACTS entry whose bold title holds them, and `$T 'section:HEADING'` every entry of a FACTS section. Run one before you investigate a behaviour of the tree, and when your brief or a note names an entry. These queries and `positions:` read titles only: before you write that the record does not hold something, also grep FACTS and POSITIONS for its words.
 - `$T 'index:WORDS'` prints the INDEX lines that hold the words. Run it to find the notes on a topic.
 - `$T 'ledger-find:WORDS'` prints one line for each ledger row that holds every word. Run it when you meet a defect, before you investigate it.
 - `$T 'ledger:ROW'` prints one row whole. Run it for each row that you need from a find, your brief or a note.
-- `$T 'doc:PATH#HEADING'` prints a section of any note, or of a `.tex` chapter, and `$T 'map:FILE#HEADING'` a section of a note under `explorations/coordinator/map/`. Run one when your brief or a note names a section.
+- `$T 'doc:PATH#HEADING'` prints a section of any note, or of a `.tex` chapter, and `$T 'map:FILE#HEADING'` a section of a note under `explorations/coordinator/map/`. Run one when your brief or a note names a section. `#HEADING@WORDS` prints only the table rows and list items of that section that hold every one of WORDS.
 - `$T --check QUERY ...` prints only where each query matches and its size. Run it before a query whose size you do not know. `--part N` prints part N of a long output, and `--help` gives the rest.
 
 A word of a query that ends in `*` matches the start of a word. Any other word matches a whole word.
 
-Before you edit a file of the original tree, list the ledger rows that cite it:
+Before you edit a file of the original tree, list the ledger rows that cite it, and read each row that your edit can change:
 
     python3 explorations/coordinator/tools/ledger.py find --cites FILE
 
 ## Writing to the record
 
-- Add a fact to FACTS in the commit that establishes it. A decision of the curator enters POSITIONS in the next commit after the curator states it.
-- Rewrite a wrong line of FACTS or POSITIONS in place.
-- Write each thing in one place. The curator's words are written once, in POSITIONS. Everything else points there.
-- Put new files of the work under `explorations/`. If you add a standalone note there, write its INDEX line.
+- Add a fact to FACTS in the commit that establishes it, as a new entry in the section of its topic. Its source and its test can be the code at file:line, a gated test, or a command and its output. If your brief does not let you write FACTS, put the entry in your report as finished prose.
+- Rewrite a wrong line of FACTS in place.
+- POSITIONS holds the curator's decisions, in the curator's words, written once. Everything else points there. Write a decision there only if your brief gives it to you to record. If you have evidence against one, do as `exploring.md` says.
+- Put new files of the work under `explorations/`. If you add a note directly in `explorations/` or `explorations/reviews/`, add its line to INDEX: ``- `PATH`: `` and the first sentence of the note's header comment.
 
 Write the gap ledger only with `ledger.py`, which checks each line that it writes against the row template.
 
@@ -89,7 +89,7 @@ To change a row:
 
 - `$L note N TEXT` adds TEXT to the notes of row N.
 - `$L duplicate N --of M` makes row N a pointer to row M.
-- `$L close N --commit HASH --test NAME` marks row N `FIXED`, by the commit HASH and its test NAME. Run it once that commit is in `HEAD`.
+- `$L close N --commit HASH --test NAME` marks row N `FIXED`, by the commit HASH and its test NAME. Run it once that commit is in `HEAD`, and commit the close after it.
 
 ## The repository's history
 

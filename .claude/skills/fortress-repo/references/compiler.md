@@ -8,18 +8,6 @@ The code of this area is in these directories:
 
 The phases' names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, GRAMMAR, PRETYPECHECKDESUGAR, INTEGERLITERALFOLDING, TYPECHECK, DESUGAR, OVERLOADREWRITE and CODEGEN.
 
-## Which desugarings run on each path
-
-Both paths run the same desugaring phases. Inside them, switches in `Shell.java` decide which desugarings run. Walk turns off these desugarings, which the compiled path runs:
-
-- coercion;
-- chained comparisons;
-- compound and tuple assignment, and subscripts;
-- case expressions, typecase and type ascription;
-- the marking of a bodiless declaration as abstract.
-
-Walk evaluates those nodes itself, in `interpreter/evaluator/Evaluator.java` (`forChainExpr`, `forAssignment`, `forCaseExpr`, `forTypecase`, `forAsExpr`). It converts by coercion at dispatch, in `OverloadedFunction.bestMatchWithCoercion`. So if you fix one of these desugarers, only the compiled path changes. If walk is wrong there, fix the evaluator.
-
 ## What the two paths share
 
 After the phases, each path has its own code for these:
@@ -29,7 +17,7 @@ After the phases, each path has its own code for these:
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
 
-So a fix of a rule on one path is not a fix on the other. In your report, say which path you fixed, and whether the other path has the same defect.
+The phases differ too: walk turns off some desugarings that the compiled path runs (`interpreter.md`, "Where a fix of walk belongs"). A fix of one of those desugarers changes only the compiled path.
 
 ## The compiler's prelude, until the switch-over
 
@@ -117,6 +105,13 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 ## Testing an edit here
 
-- For a quick loop on an edit of the checker or the code generator, compile the edited class into a scratch directory. Compile it against the class path on the last line that `bin/fortress_classpath` prints. Put that directory first on the class path. This takes seconds, rebuilds nothing and changes nothing tracked.
-- Give such a run its own caches (`-Dfortress.caches` and `FORTRESS_CACHES` under your `tmp/`), because nothing checks the caches against the compiler that wrote them. Then put the edit into the tree and build it for real.
+- For a quick loop on an edit of the checker or the code generator, compile the edited class into a scratch directory, and run the compiler with that directory first on its class path. This takes seconds, rebuilds nothing and changes nothing tracked. Give each run a fresh copy of the caches, because nothing checks the caches against the compiler that wrote them, and a compile of an unchanged program with a jar writes nothing:
+
+      Q=$PWD/tmp/quick ; export FORTRESS_CACHES=$Q/caches ; CP=$(bin/fortress_classpath | tail -1)
+      mkdir -p $Q/classes && javac -nowarn -cp "$CP" -d $Q/classes ProjectFortress/src/com/sun/fortress/<path>/X.java
+      rm -rf $Q/caches && cp -a default_repository/caches $Q/caches
+      java $JAVA_FLAGS -Dfile.encoding=UTF-8 -Dfortress.caches=$Q/caches -cp "$Q/classes:$CP" com.sun.fortress.Shell compile P.fss
+      bin/fortress run P
+
+  For a Scala file, compile it with `java -cp "$CP" scala.tools.nsc.Main -classpath "$CP" -d $Q/classes -encoding UTF-8 X.scala`. Then put the edit into the tree and build it for real.
 - If your change is near transactions, top-level mutable state or the class loader's first load, do the four-thread atomic runs (`gate.md`).
