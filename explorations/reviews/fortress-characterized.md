@@ -23,7 +23,7 @@ Twelve rows (70-82) bound the path: what works (implicit tuple parallelism, `ato
 
 **"Implicit parallelism" in practice.** A `for` loop is parallel unless every generator is wrapped in `seq` (`Specification/basic/expressions/for.tex:28-32`), and so are the elements of a tuple and the operands of an operator (`basic/expressions/tuple-expr.tex:23-24`; row 265).
 On this tree that means: `for c <- s` over a string at one thread prints the string backwards (row 111); a bare `acc := acc + c` in a parallel loop silently loses updates at four threads and `atomic do … end` is correct (row 59); reductions and `__generate` are safe (row 60); a loop whose iterations write disjoint blocks through views is safe and 2.4× faster at four threads (row 155); and a mutable frame stack shared by the elements of one tuple crashes at pool size four (row 265).
-The runtime is a work-stealing pool on the JDK's ForkJoin (`CLAUDE.md`, toolchain paragraph); `FORTRESS_THREADS` sets the pool size, and every ledger probe ran at one thread unless stated (`fortress-gap-ledger.md:29`).
+The runtime is a work-stealing pool on the JDK's ForkJoin (`CLAUDE.md`, toolchain paragraph); `FORTRESS_THREADS` sets the pool size, and every ledger probe ran at one thread unless stated (the ledger's header comment, now in `explorations/fortress-gap-ledger-history.md`).
 
 **The syntax-extension mechanism.** A user `grammar` declared in an api adds new expression forms to the language; a Rats! parser is generated for it at run time, which costs about 40 s on a cold cache and needs a JDK with `javac` (row 266).
 A rule is a sequence of terminals and typed gaps with a template `<[ … ]>` that is parsed as Fortress; free names in a template resolve at the use site (row 270), binders written in a template are gensymmed (row 204), and a grammar may live only in an api, never in a component (row 269).
@@ -223,7 +223,7 @@ Four rows in B are packaging facts rather than language limits (67, 190, 191, 26
 
 **What C contains, by part of the design.** The compiler's prelude: 71-75, 82 (six rows, one project — `compiled-path-gaps.md:445-465`). The algebraic and linear-algebra library: 24, 35, 37, 44, 53, 100, 102, 109, 169 (nine rows: the matrix operators, the constraints library, the `Number` seal on `SUM` and on the top-level operators, `pmul`, the range assignment). The spec's own not-yet-supported notes: 26 (dimensions and units), 108 (matrix unpasting). The default library's constants and test suite: 94, 95, 123. The placeholder the brief names is not in C but in B: the spec never designed an operator-as-value form (row 165), so it is a design limit and a language addition, not an unbuilt part.
 
-**The revival worklist, checked against the 113 rows added since it was derived.** The ledger's worklist (`fortress-gap-ledger.md:459-486`) has 24 items and cites no row above 174; rows 175-287 are the 113 added since (C4's four, the APL ladder's 78, the microGPT rung's nine, the feasibility study's 18, the focused base's four).
+**The revival worklist, checked against the 113 rows added since it was derived.** The ledger's worklist (now in `explorations/fortress-gap-ledger-history.md`) has 24 items and cites no row above 174; rows 175-287 are the 113 added since (C4's four, the APL ladder's 78, the microGPT rung's nine, the feasibility study's 18, the focused base's four).
 Of the 113, 31 fall in bucket A, none in C, 32 in B and 50 in D.
 Checked item by item:
 
@@ -272,7 +272,7 @@ For: identical numbers on a 24-line smoke covering every declaration (`vocabular
 Against: it is a quality change with no new capability, the smoke is not the 40-check run, and the nine candidate rows the report carries (`vocabulary/REPORT.md:74-89`) are unmerged, so the ledger does not yet record the facts the swap rests on.
 
 **Option 3. The ledger split.** By kind (defects / design limits / positive facts), by subject, or a hybrid, with the syntax-extension rows as a lessons-learned note and the worklist re-derived — Pavol's own framing (`microgpt-run-c-handover.md:35`).
-For: the counts of section 4 give the shape — 88 defects, 74 limits, 20 never-built, 103 capabilities — and 55 of the 286 rows are about the extension mechanism rather than the language (section 16, `fortress-gap-ledger.md:356`); the worklist check above is a first pass and finds the list unchanged in its top items and missing ten small ones.
+For: the counts of section 4 give the shape — 88 defects, 74 limits, 20 never-built, 103 capabilities — and 55 of the 286 rows are about the extension mechanism rather than the language (section 16 of the ledger before its rewrite of 2026-10-08; its sections are listed in `explorations/fortress-gap-ledger-history.md`); the worklist check above is a first pass and finds the list unchanged in its top items and missing ten small ones.
 Against: the ledger already carries its counts, its cross-run and its worklist, so the split is a presentation change until a reader who is not the merge needs it; the measurable benefit is what the next port or the next fix finds faster, which no row measures.
 
 **Option 4. Further APL ground.** Tacit definition, characters, nested arrays — rungs 7 and 8, not built by decision (`apl/README.md:18-19`; `microgpt-run-c-handover.md:35`, decision 3).

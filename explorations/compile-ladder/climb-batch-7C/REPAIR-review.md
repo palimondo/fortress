@@ -54,7 +54,7 @@ The assertion's citations were read at their passages before they were relied on
 
 ## 6. Ledger notes
 
-Appended inside the last cell, before its closing ` |`, of row 492 (`explorations/fortress-gap-ledger.md:503`) and row 490 (`:501`), in the ruling's words; no other cell or row number changed, each row is still one line, and the file is 1072 lines before and after.
+Appended inside the last cell, before its closing ` |`, of row 492 (`explorations/fortress-gap-ledger.md`) and row 490, in the ruling's words; no other cell or row number changed, each row is still one line, and the file is 1072 lines before and after.
 
 ## 7. Record sites
 

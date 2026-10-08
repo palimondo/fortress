@@ -119,7 +119,7 @@ No loud failure became a quiet value. The rename moves the other way:
 ## 10. The record fragment (check 8)
 
 - The FACTS entry's numbers check against the captures and my runs: 33 call sites, 12 test lines, 32 demo lines, 62 to 40, 1,747 to 1,434, 302 plus 5 refusals gone, 391/9/17/1 of 418.
-- The appended notes cite rows that exist and are not renumbered: 247 (`fortress-gap-ledger.md:250`), 430 (`:441`) and 437 (`:448`).
+- The appended notes cite rows that exist and are not renumbered: 247, 430 and 437 (`fortress-gap-ledger.md`).
 - The new rows 456 and 457 are marked provisional for the gather's numbering. Their probes are committed `.txt` files, and I opened them: `demos-compare.txt:4-13`, `Array3Value.txt:4`, `ComponentOnly.txt:4`.
 - A reader can check each claim from the cited files.
 - One addition would help that reader. The FACTS line "Two runs of the stage on the untouched base read 1,747 and 1,745" now has two more runs, 1,747 (the gate baseline) and my 1,745, with different rows (`distance-skeptic-compare.txt:36-78`).

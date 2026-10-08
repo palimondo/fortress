@@ -189,7 +189,7 @@ I opened every cited line with `sed -n`.
 
 - **problem:** these all match:
   - `DefaultRenderRungS.fss:18` is `println(Box(1))`.
-  - `explorations/fortress-gap-ledger.md:332` is row 321.
+  - Row 321 is in `explorations/fortress-gap-ledger.md`.
   - `probes/test-preedit.txt:13` is the `StackOverflowError` line.
   - `probes/test-prerepair.txt:11` is `FAIL:  RR32 =/= 1.5; …`.
 - **spec:** these all match:

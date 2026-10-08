@@ -70,7 +70,7 @@ With every comment stripped, the base and the tree of both library files are cod
 
 ## 10. The ledger (checks 8 and 11)
 
-- **Missed, RC5.** Row 349 is about the compiled prelude's `ZZ` lacking `narrow` and `widen`, with the class "divergence, specification silent" (`explorations/fortress-gap-ledger.md:360`). This rung makes the specification state `narrow` on `ZZ` (`basic-integers.tex:39-45`), so the row's `narrow` half is no longer silent. `record.md` notes rows 394, 335, 334, 346, 381, 440, 443 and 442 but not row 349.
+- **Missed, RC5.** Row 349 is about the compiled prelude's `ZZ` lacking `narrow` and `widen`, with the class "divergence, specification silent" (`explorations/fortress-gap-ledger.md` row 349). This rung makes the specification state `narrow` on `ZZ` (`basic-integers.tex:39-45`), so the row's `narrow` half is no longer silent. `record.md` notes rows 394, 335, 334, 346, 381, 440, 443 and 442 but not row 349.
 - **Row 347.** Its first sentence still describes `narrow`, which rung I took out of `Int.rc`. The specification now says `narrow` wraps. Rung E closes the row, so I leave it to E.
 - **The FACTS lines.** They are true as written except where they repeat RC2's sentence. The second FACTS insertion ("hold away from 0/0 and the infinities") does not match the landed sentence. After RC2 the two agree.
 - **The new row.** It renumbers nothing.

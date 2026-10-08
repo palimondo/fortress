@@ -26,7 +26,7 @@ The machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjd
 | 5a-c | Rung V's `REPORT.md:225`, `:230` and `:231`, as ruled. Each edit stays within its line. | — |
 | 5d | Rung V's `record.md:7`, as ruled. | — |
 | 5e | Rung V's `SKEPTIC.md:149` and `:151`: the bracketed notes appended, the skeptic's words kept. | — |
-| 5f | Ledger row 528, `explorations/fortress-gap-ledger.md:539`: the sentence appended before the closing ` \|`. | — |
+| 5f | Ledger row 528, `explorations/fortress-gap-ledger.md`: the sentence appended before the closing ` \|`. | — |
 | 5g | `RECORD.md:52`, the sentence appended. | — |
 | 5h | This file. | — |
 | 6 | The tracked-path check (section 5). | — |

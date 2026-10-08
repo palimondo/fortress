@@ -8,7 +8,7 @@ Written 2026-09-28 on `main` at `4c92ea034`. The merged-diff review refused appr
 
 - The batch's commits: `de22fd928` (B), `952892a00` (H), `f3b62bc83` (A) and `4c92ea034` (the review's corrections). Their messages and stats, and the test-message hunks of `f3b62bc83` and `952892a00`. `origin/main` is at `4a2b9385c`, so all four commits are local.
 - The batch record: the gather's decision on "provisional" (`RECORD.md:230`), the merged-tests captures (`:272-280`), the tracked-path check (`:301`) and the review (`:325-356`).
-- The ledger at `952892a00` (`git show 952892a00:explorations/fortress-gap-ledger.md`, `:466-479`), and row 460 at `4c92ea034` (`explorations/fortress-gap-ledger.md:471`).
+- The ledger at `952892a00` (`git show 952892a00:explorations/fortress-gap-ledger.md`, `:466-479`), and row 460 at `4c92ea034` (`explorations/fortress-gap-ledger.md` row 460).
 - Rung H's `REPORT.md` sections 15 to 17 (`:136-166`), its `SKEPTIC.md:86`, `FACTS.md:65` and `:75`, and `PLAN.md:160-185`.
 - The typecase section, `Specification/basic/expressions/typecase.tex:12-160`, and its Working Draft copy, `Specification-1.0-frozen/basic/expressions/typecase.tex:15`, `:55-62`.
 - The grammar copies: `Specification-1.0-frozen/appendices/grammars/rats/DelimitedExpr.rats:29`, `:65-68`, and `Specification/appendices/grammars/concrete-syntax.tex:1019`, `:1058`.

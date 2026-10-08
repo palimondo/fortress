@@ -13,7 +13,7 @@ Reconciled with the record: tiers 1 and 2 are closed (`POSITIONS.md:35`: the six
 
 The manifest needs, per rung, `id`, `slug`, `path`, `branch`, `tail`, `blurb`, `expectedMinutes`, `writesState`, `expectedMoves` (`climb-batch-workflow.md:10-12`; the block is `climb-batch-workflow.js:44-162`). A1 to A6 fix what goes in it; A7 is the go.
 
-**A1. The `.java` slot: row 320 or row 333.** What: one rung of the batch may edit Java (`CLIMB-BATCH-1.md:63`, rule 3); four claimants exist: row 320 (`fortress-gap-ledger.md:331`, an exported top-level variable does not link), row 333 (`:344`, `0 DIV -1`, `|0|`, `-0` throw on `ZZ32`/`ZZ64`), the `Char` rename (`candidates.md:63-65`) and `printThreadInfo` (`candidates.md:119`).
+**A1. The `.java` slot: row 320 or row 333.** What: one rung of the batch may edit Java (`CLIMB-BATCH-1.md:63`, rule 3); four claimants exist: row 320 (`fortress-gap-ledger.md`, an exported top-level variable does not link), row 333 (`0 DIV -1`, `|0|`, `-0` throw on `ZZ32`/`ZZ64`), the `Char` rename (`candidates.md:63-65`) and `printThreadInfo` (`candidates.md:119`).
 Changes: which defect the batch repairs in Java. Default: row 320. Why: it is the only fork-free defect both target programs will hit, since both apis export `corpus: Corpus` (`FACTS.md:103`), and batch 1 put it first in line (`CLIMB-BATCH-1.md:9`); row 333 is a case the program never writes.
 Why not both: rule 3 allows one `.java` rung per batch; a second one is a rule change, not a manifest entry. An unverified way round: guard the three operators in their Fortress bodies instead of the natives, as the judge ruled for `REM` in batch 1 (`microgpt-run-c-handover.md:45`); nobody has checked that shape. Cost: one rung, about 42 worker minutes plus 11-17 skeptic minutes on batch 1's walls (`process-decisions-review-1.md:41`).
 
@@ -32,20 +32,20 @@ Default: batch 2 is fork-free only; `nat` checking is its own worker session and
 **A6. Batch size k.** What: batch 1 ran four rungs under the two-agent cap in a 200-minute span, scatter 129 minutes, one gate of 26.6 minutes (`process-decisions-review-1.md:41`, `:99`); the script's comment says k stays 4 (`climb-batch-workflow.js:52`), which is the plan's rule carried, not Pavol's word.
 Default: k = 3 (row 320, the conversions, `TryAtomicFailure`). Why: no fourth fork-free rung satisfies rule 1 without the fold A2 rejects, and the fork-free tail is spent, as `candidates.md:192-210` predicted after one batch. Cost: the one gate is amortised over three rungs instead of four; the scatter shrinks by about one worker-plus-skeptic pair, 55-60 minutes.
 
-**A7. Decisions the three default rungs carry, and the go.** Row 320: none against the spec; the fix is which class the code generator emits for an api-named variable (`fortress-gap-ledger.md:331`, notes on `NamingCzar.jvmClassForToplevelDecl`); the rung records it. Conversions: what `narrow` does out of range, throw or wrap; no survey located the spec passage, so rule 4 applies (think, decide, record; `CLIMB-BATCH-1.md:82`) and Pavol sees it at landing. `TryAtomicFailure`: none.
+**A7. Decisions the three default rungs carry, and the go.** Row 320: none against the spec; the fix is which class the code generator emits for an api-named variable (`fortress-gap-ledger.md` row 320, notes on `NamingCzar.jvmClassForToplevelDecl`); the rung records it. Conversions: what `narrow` does out of range, throw or wrap; no survey located the spec passage, so rule 4 applies (think, decide, record; `CLIMB-BATCH-1.md:82`) and Pavol sees it at landing. `TryAtomicFailure`: none.
 Default: the rungs carry them as batch 1's did. Then the launch itself: "go" starts background work only; a batch run needs an explicit go (`POSITIONS.md:35`). Before it the coordinator writes `CLIMB-BATCH-2.md`, creates the worktrees, sets `LEDGER_FROM` to 343 and `BATCH_OVERLAPS` (the conversions and row 320 share no file).
 
 ## Can wait
 
-**B1. The interpreter defects as their own batch.** Rows 329, 334, 336, 337, 338 (`fortress-gap-ledger.md:340,345,347-349`), plus 323 and 332 (`:334`, `:343`): each is settled by the spec against the interpreter, each is a glue-class edit gated by `testSystem`, row 329's fix is one token (`:340`, notes). Default: one interpreter batch after batch 2 under the same script, with rule 3 relaxed for it, since every one of them is `.java`. Waits on: batch 2 landing and that rule. Cost: five to seven rungs, most of them one-line.
+**B1. The interpreter defects as their own batch.** Rows 329, 334, 336, 337, 338, plus 323 and 332 (`fortress-gap-ledger.md`): each is settled by the spec against the interpreter, each is a glue-class edit gated by `testSystem`, row 329's fix is one token (`:340`, notes). Default: one interpreter batch after batch 2 under the same script, with rule 3 relaxed for it, since every one of them is `.java`. Waits on: batch 2 landing and that rule. Cost: five to seven rungs, most of them one-line.
 
-**B2. Row 321, the default `asString` rendering.** An object with no `asString` overflows the stack on the compiled path; `walk` prints its name; three candidate fixes are listed and the row says the choice is Pavol's (`fortress-gap-ledger.md:332`). Default: match `walk`, print the object's name, and let the rung pick the site. Waits on Pavol. Cost: one rung, Java or library by the site.
+**B2. Row 321, the default `asString` rendering.** An object with no `asString` overflows the stack on the compiled path; `walk` prints its name; three candidate fixes are listed and the row says the choice is Pavol's (`fortress-gap-ledger.md` row 321). Default: match `walk`, print the object's name, and let the rung pick the site. Waits on Pavol. Cost: one rung, Java or library by the site.
 
 **B3. `printTime` units.** Rung T prints real milliseconds (`341.574931ms`) where the interpreter prints whole ones, scientific notation at the extremes, and the two target programs already render elapsed time as whole milliseconds by integer division (`compile-ladder/rung-timing/record.md:33-39`). Default: whole milliseconds like the interpreter; cheap now that rung F landed `truncate` (`record.md:37`). Waits on nothing; one assertion added to `TimingRungT`. Cost: a fraction of a rung.
 
-**B4. Row 335, shift-count masking.** Rung N made `LSHIFT`/`RSHIFT` mask like `<<`/`>>`; the interpreter saturates; the spec is silent (`fortress-gap-ledger.md:346`, notes). Default: keep N's choice as recorded. Waits on Pavol only if he disagrees. Cost: none.
+**B4. Row 335, shift-count masking.** Rung N made `LSHIFT`/`RSHIFT` mask like `<<`/`>>`; the interpreter saturates; the spec is silent (`fortress-gap-ledger.md` row 335, notes). Default: keep N's choice as recorded. Waits on Pavol only if he disagrees. Cost: none.
 
-**B5. Rows 341-342, C4's `MAX` overloading** (`fortress-gap-ledger.md:352-353`). Waits on the FlatArrays review in flight (`microgpt-run-c-handover.md:62`). Not judged here.
+**B5. Rows 341-342, C4's `MAX` overloading** (`fortress-gap-ledger.md` rows 341-342). Waits on the FlatArrays review in flight (`microgpt-run-c-handover.md:62`). Not judged here.
 
 **B6. The six remote `wip/` branches.** `repair-r1-atomic-static`, `repair-r2-literal-wrap`, `rung-integral-ops`, `rung-maybe`, `rung-rr64-functions`, `rung-timing` (`git branch -r`, 2026-09-19). Pavol deletes them in the GitHub UI (`POSITIONS.md:33`). Batch 2's slugs differ, so no clash. Cost: none.
 
@@ -61,7 +61,7 @@ Default: the rungs carry them as batch 1's did. Then the launch itself: "go" sta
 
 **B12. The full-ladder cadence.** The review asked for a full run every few batches to see moves between non-pass phases (`process-decisions-review-1.md:216`); the baseline is measured at 85 of 410 (`FACTS.md:115`). Default: one full run after batch 2 lands, off the critical path. Cost: one check run, 734 s plus the library build.
 
-**B13. Rows not on the path, left open.** 319, 322, 324-328, 339, 340 (`CLIMB-BATCH-1.md:9`; `fortress-gap-ledger.md:330, 333, 335-339, 350-351`). Default: untouched until a program names them. Cost: none.
+**B13. Rows not on the path, left open.** 319, 322, 324-328, 339, 340 (`CLIMB-BATCH-1.md:9`; `fortress-gap-ledger.md`). Default: untouched until a program names them. Cost: none.
 
 ## Default manifest and two checks
 

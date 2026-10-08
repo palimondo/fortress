@@ -41,7 +41,7 @@ The six names this round adds (`CoercionRedispatchRungC`, `XXXCoercionStaticNarr
 
 Checked line by line against the tree:
 - The FACTS lines are true as written: the three checks, the cache at `OverloadedFunction.java:760-776`, `mcache` written nowhere, and the three stay-green tests identical once normalised (`probes/stay-green-repair.txt:26-28`, `:121-123`).
-- The row 19 note appends to the existing row (`explorations/fortress-gap-ledger.md:133`) and renumbers nothing. The base ledger ends at 386, and 387-397 are marked provisional for the gather.
+- The row 19 note appends to the existing row (`explorations/fortress-gap-ledger.md` row 19) and renumbers nothing. The base ledger ends at 386, and 387-397 are marked provisional for the gather.
 - The row 340 and 391 appends are word for word from my first judgement.
 - Rows 396 and 397 cite the codegen sites, and those sites say what the rows say.
 - The batch record's premise that overloaded methods share the cache (`CLIMB-BATCH-4.md:65`; `:79` names only the function cache) is wrong, as the worker says: at `47437c65f`, `OverloadedMethod.java:50` calls `bestMatch` and nothing writes `mcache`. The gather should carry that correction.

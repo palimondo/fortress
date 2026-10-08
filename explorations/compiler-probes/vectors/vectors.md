@@ -222,7 +222,7 @@ How the vectors differ [read]:
 
 What does not exist on the compiled path:
 
-- There is no vector of `RR64`, `ZZ64` or any other element type, and no generic array. `Array`, `Vector`, `Matrix` and `array[\T\]` are undefined there. [cited: ledger rows 72 and 305, `explorations/fortress-gap-ledger.md:303`, `:317`]
+- There is no vector of `RR64`, `ZZ64` or any other element type, and no generic array. `Array`, `Vector`, `Matrix` and `array[\T\]` are undefined there. [cited: ledger rows 72 and 305, `explorations/fortress-gap-ledger.md`]
 - The interpreter's library works differently. [read]
   - Its arrays are generic Fortress types that carry sizes, such as `Array1[\T, nat b0, nat s0\]` (`Library/FortressLibrary.fss:2099`) and `__DefaultVector[\T, nat s0\]` (`:2210`).
   - They sit over one generic native store, `PrimitiveArray[\T, nat s0\]`. Its `get` and `put` are interpreter natives (`LibraryBuiltin/NativeArray.fss:18-26`).

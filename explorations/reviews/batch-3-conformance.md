@@ -182,7 +182,7 @@ IEEE 754's default is round half to even. Pavol's rule of 09-22 is to correct th
   - This is recorded (`explorations/compile-ladder/rung-round-half-even/REPORT.md:167-170`; row 360), and the specification's answers are gated as an expected failure.
   - No rule applied to the double can answer them all, since three of these numerals share the double `2.5`. The row is parked (`PLAN.md:121`).
 - **Row 360's fork has moved under it.**
-  - Its option (b) rests on "the interpreter has no coercion mechanism" and on ℚ being absent from the compiled prelude (`explorations/fortress-gap-ledger.md:371`).
+  - Its option (b) rests on "the interpreter has no coercion mechanism" and on ℚ being absent from the compiled prelude (`explorations/fortress-gap-ledger.md` row 360).
   - Since then walk coerces (batch 4, `b628871a2`), `QQ` is a sibling of `RR64` (batch 6, `d846e3644`), and ℚ reaches the compiled path at the switch-over.
   - The fork's options must be derived again before it is put to him.
 - **Stale citations in its tests.**
@@ -230,7 +230,7 @@ The default-rendering judgement and Pavol's row-27 decision. The team's own `// 
   - The one library's `trait Object` declares `getter toString(): String = self.asString (* deprecated *)` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:51`, `.fsi:38`). `toString` is the specification's own name for the method (`objects.tex:47`, `:122`).
   - Every object inherits that getter.
   - S's second skeptic measured that an object which "declares or inherits" a zero-argument Fortress `toString` still overflows under `defaultAsString`: `hasOwnToString` answers true, and the call re-enters the default (`REPORT.md:135`, item 13).
-  - S's report says it outright: the repair "is a precondition of adopting the interpreter's `trait Object` … at the switch-over" (`REPORT.md:175`; ledger row 321, `fortress-gap-ledger.md:332`).
+  - S's report says it outright: the repair "is a precondition of adopting the interpreter's `trait Object` … at the switch-over" (`REPORT.md:175`; ledger row 321, `fortress-gap-ledger.md`).
   - So if the switch-over binds walk's `ObjectPrims$ToString` (`FortressBuiltin.fss:40-41`) to `defaultAsString`, the helper the prelude binds today, every object with no `asString` overflows when printed, and `DefaultRenderRungS` goes red.
   - The same report names the other helper, `typeName`, as "the compiled counterpart that declaration will need" (`REPORT.md:70`). It calls no `toString`.
   - Every value type in the one library declares its own `asString` (`FortressBuiltin.fss`: `Float` :54, `FloatLiteral` :194, `RR32` :203, `Int` :369, `Long` :378, `NN32` :387, `UnsignedLong` :459, `IntLiteral` :470, `BigNum` :537, `Boolean` :547, `Char` :583). So the reflection half is not needed there.
@@ -323,7 +323,7 @@ Pavol's weighing of 09-23: the type group's late, implementation-informed word o
 - **Row 97.**
   - P's proposed note to row 97 was never folded (`RECORD.md:96`).
   - Row 97's first shape, `Array[\RR64,ZZ32\]` beside `Array[\RR64,(ZZ32,ZZ32)\]`, is two instantiations of one generic. Under instantiation exclusion as rung S states it, they exclude each other, so the pair is a valid overloading. Walk's refusal is then row 416's defect, not a design limit.
-  - Row 97 still reads "design limit" (`fortress-gap-ledger.md:166`). It is the pair behind the APL program's workaround.
+  - Row 97 still reads "design limit" (`fortress-gap-ledger.md` row 97). It is the pair behind the APL program's workaround.
 
 ### Two compiled dispatch defects that stayed out of every list
 

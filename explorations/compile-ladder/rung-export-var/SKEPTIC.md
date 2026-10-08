@@ -201,7 +201,7 @@ components share their api's name (`MicroGptApl.fss:12-13`,
 reads `corpus` at `:38,40,72`. The correction to the batch record's premise
 stands.
 
-The ledger note cites row 320, which exists at `explorations/fortress-gap-ledger.md:331`,
+The ledger note cites row 320, which exists in `explorations/fortress-gap-ledger.md`,
 appends without renumbering, and is consistent with what the row already says --
 the row itself derived the two-part fix and predicted that fixing the class name
 alone would only move the exception. A reader six months out can check it: the

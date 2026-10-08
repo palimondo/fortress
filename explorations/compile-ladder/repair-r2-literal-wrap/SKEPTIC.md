@@ -260,8 +260,8 @@ the measurement.
 
 ## 10. The record, checked line by line
 
-Every `file:line` in `record.md` that I could check, I checked.  Row 317 exists at
-`fortress-gap-ledger.md:328` and 318 is the last row, so 319/320/321 are the next free
+Every `file:line` in `record.md` that I could check, I checked.  Row 317 exists in
+`fortress-gap-ledger.md` and 318 is the last row, so 319/320/321 are the next free
 numbers and nothing is renumbered or moved.  The stale-citation correction is right:
 `CompilerBuiltin.fss:557` is now the comment above `ceilingAverage` and the `ZZ64` coercion
 is at `:562`.  The five coercion sites (`:501`, `:562`, `:620`, `:684`, `:747`) are all

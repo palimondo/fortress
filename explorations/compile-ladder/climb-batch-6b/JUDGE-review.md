@@ -19,7 +19,7 @@ specification makes that range empty: "The range `a#n` is the set of max(0,n) in
   one library's `sized1Range` (`Library/RangeInternals.fss:1423`), not the prelude.
 
 So the measured defect sits in home 3's form: a probe and a ledger note (row 453,
-`explorations/fortress-gap-ledger.md:464`: "The prelude's `#` has no compiled gate of its own").
+`explorations/fortress-gap-ledger.md` row 453: "The prelude's `#` has no compiled gate of its own").
 - Home 3 is only for a silent specification, and this one is not silent.
 - Rung O's judge put row 453, whose claim names `:446`, in home 2 "as the prefix requires for a settled
   answer" (`explorations/compile-ladder/rung-overflow-natives/JUDGE.md:161-178`).
@@ -37,14 +37,14 @@ So the measured defect sits in home 3's form: a probe and a ledger note (row 453
   Until then, the prelude is what every compiled program runs.
 - **The gate stays useful after it.** After the switch-over the compiled path runs the one library's
   `sized1Range`, whose `lo+ex-1` raises for the same two inputs (row 450,
-  `fortress-gap-ledger.md:461`). `XXXRangeEmptyHashRungO` never compiles, so it will not reach that
+  `fortress-gap-ledger.md` row 450). `XXXRangeEmptyHashRungO` never compiles, so it will not reach that
   code on the compiled path.
 
 **The widening to `MAX # 1` is the judge's decision.** The same line `:446` fails at the top, by
 reading: for `MAX # 1`, `(lo+sz)` is `MAX + 1` and overflows before the `-1`, though the range is
 `{MAX}` (`ranges.tex:64-65`).
 - **Why both ends.** Each of the two half-fixes on record cures one end only:
-  - the written fix `lo : (lo+(sz-1))` (`fortress-gap-ledger.md:464`) cures the top and not the bottom;
+  - the written fix `lo : (lo+(sz-1))` (`fortress-gap-ledger.md` row 453) cures the top and not the bottom;
   - the second skeptic's addition, building the empty range without `lo-1`
     (`rung-overflow-natives/SKEPTIC.md:158`), cures the bottom and not the top.
 
@@ -67,7 +67,7 @@ reading: for `MAX # 1`, `(lo+sz)` is `MAX + 1` and overflows before the `-1`, th
 - **Its own file.** A separate file, because it is a separate fix from the split, as rung O's judge
   ruled for row 451 (`JUDGE.md:142`). The walk side is split the same way: `XXXRangeEmptyHashRungO`
   stands apart from `XXXRangeBoundsRungO` because the reorder turns the latter green while `MIN # 0`
-  still fails (`fortress-gap-ledger.md:461`).
+  still fails (`fortress-gap-ledger.md` row 450).
 - **No red demonstration.** None is required. The two-file mechanism was shown red on a deliberate fix
   by rung B (FACTS.md, same entry), and this rung showed its first `XXX` file red (`XXXRangeBoundsRungO`,
   `rung-overflow-natives/probes/repair/xxx-range-bounds-goes-red.txt`). A probe with controls fixes

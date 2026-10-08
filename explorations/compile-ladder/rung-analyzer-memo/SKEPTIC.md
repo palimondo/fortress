@@ -163,7 +163,7 @@ I checked the worker's refined count of the word `memo` file by file. Twelve fil
   All of them say what the rows say.
 - **The appended correction in `differential.txt:54-55`.** It is placed at the end so that `:38` does not move. I agree with that choice.
 - **The handover line and the decisions paragraph** are accurate.
-- **For the gather** (a note, not a correction): folding three rows also moves the ledger's "Counts by status" section (`fortress-gap-ledger.md:643`).
+- **For the gather** (a note, not a correction): folding three rows also moves the ledger's "Counts by status" section (now in `explorations/fortress-gap-ledger-history.md`).
 
 ## 7. The three homes
 

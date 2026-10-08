@@ -74,7 +74,7 @@ Zero tool calls in 36 agents touched `Papers/`, `research/`, `Specification/appe
 
 The honest summary: the interpreter's library was the source of truth about ten times as often as the specification's prose, the specification entered the climb mainly as a generated listing of that same library, and its prose entered once, in a repair, after review, about something the rung did not change.
 
-There is one countervailing fact, and it matters for the proposal below. The gap ledger has a **spec citation column** (`fortress-gap-ledger.md:57`), and the rows the climb wrote carry it: row 312 and 313 (rung 3), 314 and 315 (rung 4), 316 (rung 5), 317 (rung 6), 318 (rung 7) and the update to 74 (rung 8) all name a spec location; only row 311 (rung 1) has `—`. So a citation was demanded at commit time in seven of eight rungs. Two of those citations were written without the file being opened, and both are wrong in a way that matters; see §6.
+There is one countervailing fact, and it matters for the proposal below. The gap ledger has a **spec citation column** (`fortress-gap-ledger.md`, "The row template"), and the rows the climb wrote carry it: row 312 and 313 (rung 3), 314 and 315 (rung 4), 316 (rung 5), 317 (rung 6), 318 (rung 7) and the update to 74 (rung 8) all name a spec location; only row 311 (rung 1) has `—`. So a citation was demanded at commit time in seven of eight rungs. Two of those citations were written without the file being opened, and both are wrong in a way that matters; see §6.
 
 ## 5. Where a worker deviated, did it argue the deviation
 

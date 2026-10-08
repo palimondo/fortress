@@ -24,7 +24,7 @@ built or run for this ruling.
 **The skeptic is right.**
 
 - **The defect is measured in this rung, and the rung makes it live.** Row 424
-  (`explorations/fortress-gap-ledger.md:435`) was measured on a private library copy and says
+  (`explorations/fortress-gap-ledger.md` row 424) was measured on a private library copy and says
   "today's `SUM` escapes only because its reduction is typed `Number`". This rung lands that
   reduction in the one library, so an unwritten clause-form sum now fails under `walk` where the
   base computed it: the worker's own capture (`probes/unwritten-sum-flat.txt`: `SUM[j <- 0#0] j`

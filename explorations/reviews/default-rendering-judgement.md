@@ -1,6 +1,6 @@
 # Judgement: what an object with no `asString` of its own should print
 
-Question (ledger row 321, `explorations/fortress-gap-ledger.md:332`): an object or trait value that
+Question (ledger row 321, `explorations/fortress-gap-ledger.md`): an object or trait value that
 declares no `asString` cannot be rendered on the compiled path; the interpreter prints its type name;
 the specification is silent (`grep asString Specification/basic Specification/basic-lib` finds nothing).
 Decide what such a value prints on both paths, and how. Nothing was built for this review; the compiled

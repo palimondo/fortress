@@ -190,7 +190,7 @@ The landed table's four crash rows (`explorations/compile-ladder/climb-batch-9/g
 The first three have one cause, a local function's omitted parameter type.
 - The first skeptic measured a third form of it. A local function with neither parameter nor result typed, `sq(n) = n n` called on a `ZZ32`, stops the checker with "** bug! Result of typechecking still contains intermediate nodes." on the base and the head, where walk prints `49` (`XXXLocalFunctionUntypedParamAndReturn`).
 - The text lets a function's parameter type be left out (`Specification/basic/functions.tex:97-103`, and `:576-591` for local functions) and leaves its inference "not yet described" (`Specification/basic/inference.tex:21-25`; `Specification/basic/components/type-inference.tex:13-45`).
-- Row 405 records that the compiled path already refuses an untyped value parameter of a top-level function or a method, "Missing parameter type for x" (`STypeEnv.scala:192-193`), and classes the text as silent (`explorations/fortress-gap-ledger.md:416`).
+- Row 405 records that the compiled path already refuses an untyped value parameter of a top-level function or a method, "Missing parameter type for x" (`STypeEnv.scala:192-193`), and classes the text as silent (`explorations/fortress-gap-ledger.md` row 405).
 - Their repair is the inference of a local function's omitted types, a checker project. They are home 2, with a row each (record.md, rows 620 to 622), on the ground of decision 9.
 
 A further crash on row 604's path, a dotted call of a varargs method (`FnNameInfo.java:152`), is repaired with row 604 and asserted by `VarargsMethodCall`.
@@ -380,7 +380,7 @@ Not a defect, by reading: a bare undeclared name in a typecase arm (`typecase x 
 9. **Crashes 1 to 3, and the third form, are not repaired.**
    - Candidates:
      - infer a local function's omitted parameter and result types. That is the repair, a checker project that the text leaves undescribed (`Specification/basic/inference.tex:21-25`);
-     - give the team's "Missing parameter type for i" in place of the crash. The compiled path already gives this refusal to an untyped parameter of a top-level function or a method (row 405, `explorations/fortress-gap-ledger.md:416`, `STypeEnv.scala:192-193`);
+     - give the team's "Missing parameter type for i" in place of the crash. The compiled path already gives this refusal to an untyped parameter of a top-level function or a method (row 405, `explorations/fortress-gap-ledger.md`, `STypeEnv.scala:192-193`);
      - expected failures with rows (taken).
    - The ground is the record's stop "A crash repaired by catching it without the error the text gives" (`explorations/coordinator/CLIMB-BATCH-10.md:166`). The text allows the program and gives no error for it, and row 405 classes it as silent. So the team's refusal in place of the crash would be that stop.
    - Row 405 weighs the other way, since the same refusal stands for every other untyped parameter of the compiled path. Whether the local form should get that refusal until the inference is described is put to Pavol (section 12).
@@ -424,9 +424,9 @@ None of the section's stops is met:
   - Repairing only the first changes no verdict, and the second lies in a file the record limits to row 574's message (`CLIMB-BATCH-10.md:158`).
   - The defect is home 2 (`XXXInheritedAbstractMethodBoundSameName`), with row 625 for a checker rung that may edit the overloading checker.
 - Crashes 1 to 3 and the third form (a local function's untyped parameter, and its untyped result) are kept as expected failures.
-  - The open question: should the local form get the compiled path's top-level refusal "Missing parameter type for x" (row 405, `explorations/fortress-gap-ledger.md:416`) until the inference of omitted parameter types is described (`Specification/basic/inference.tex:21-25`)?
+  - The open question: should the local form get the compiled path's top-level refusal "Missing parameter type for x" (row 405, `explorations/fortress-gap-ledger.md`) until the inference of omitted parameter types is described (`Specification/basic/inference.tex:21-25`)?
   - Three library declarations hide their errors behind the crash (`Library/FortressLibrary.fss:1287`, `:2483`, `:2866-2873`).
-  - The first skeptic's claim that this blocks microGPT is not supported (JUDGE.md, section 2). Row 176 (`fortress-gap-ledger.md:148`) records untyped probe variants beside a typed source, and `explorations/microgpt.fss` and `microgpt2.fss` declare no untyped parameter.
+  - The first skeptic's claim that this blocks microGPT is not supported (JUDGE.md, section 2). Row 176 (`fortress-gap-ledger.md`) records untyped probe variants beside a typed source, and `explorations/microgpt.fss` and `microgpt2.fss` declare no untyped parameter.
 - Row 597's checker half reads every closed trait above an object expression, through the traits it extends as well as those it names. That is one step beyond the row's shape (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:66-99`; decision 8). The judge upheld it under traits.tex, section "Trait Declarations".
 - The varargs parameter's type: the text keeps `HeapSequence[\T\]` with a box, and both implementations give `ImmutableArray[\T, ZZ32\]` (decisions 3 and 4; `Specification/basic/functions.tex:183-195`).
 - The rung's files beyond the section's list (decision 10).

@@ -183,7 +183,7 @@ two libraries, the papers and the history, the library's own way first.
    without static arguments]**; the specification's inference chapter is a stub
    (`basic/inference.tex`, ledger row 21). **[read]**
 7. **Binding the where-clause variable**, the specification's own way, which ledger row 331 and
-   worklist item 12 (`fortress-gap-ledger.md:601`) hold as future work. Under route A this way
+   worklist item 12 (the ledger's revival worklist, now in `explorations/fortress-gap-ledger-history.md`) hold as future work. Under route A this way
    is closed, not only postponed: a bound `T` in an extends clause makes the type a member of
    every instantiation, which is what the rule refuses. **[inferred from the rule's definition;
    the rule measured on two instantiations in `DoubleInstance`]**

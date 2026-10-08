@@ -240,7 +240,7 @@ I also considered the shape the worker did not take and the judge did not raise:
 
 ## 3. The precedent
 
-`BaseTask.java:248`, `if (debug) debug("inATransaction: ftr = " + ftr + " task = " + ftr.getTask());` — rung 0's own fix, verified in the tree at that line and in that form, with `rung0/REPORT.md:11` and its diff hunk at `:22-23`, `coordinator/FACTS.md:14` and ledger row 302 at `explorations/fortress-gap-ledger.md:397` all saying what the report says they say. `map/modules-and-phases.md:435` is the sentence naming the defect, and the worker's correction of my `:433` to `:435` is right: `:433` is the paragraph's `Tasks:` line.
+`BaseTask.java:248`, `if (debug) debug("inATransaction: ftr = " + ftr + " task = " + ftr.getTask());` — rung 0's own fix, verified in the tree at that line and in that form, with `rung0/REPORT.md:11` and its diff hunk at `:22-23`, `coordinator/FACTS.md:14` and ledger row 302 in `explorations/fortress-gap-ledger.md` all saying what the report says they say. `map/modules-and-phases.md:435` is the sentence naming the defect, and the worker's correction of my `:433` to `:435` is right: `:433` is the paragraph's `Tasks:` line.
 
 The round followed that precedent character for character. The storage precedents of the first pass stand as I verified them the first time: `LocalMutableVar` (`VarCodeGen.java:451`) and `MutableTaskVarCodeGen` (`:609`) right, `MutableFieldVar` (`:202`, with the author's "URG, another case of meeting assumptions" at `:214`) wrong, and the rung follows the two right ones.
 

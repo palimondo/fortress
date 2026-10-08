@@ -105,7 +105,7 @@ No competing declaration changes what the rung should do.
 ## 7. The record fragment (check 8)
 
 **The ledger notes.**
-- Rows 484, 442 and 430 exist (`explorations/fortress-gap-ledger.md:495`, `:453`, `:441`). The notes append and renumber nothing.
+- Rows 484, 442 and 430 exist (`explorations/fortress-gap-ledger.md`). The notes append and renumber nothing.
 - Row 484's new status follows row 421's form.
 - The row 430 note matches `probes/order/`: the base names each order in 4 of 8 runs for `XXXInheritedOverload`, and 6 against 2 for `XXXCoercionTupleOverloadRungC`; the edit gives 8 against 0 and 6 against 2.
 

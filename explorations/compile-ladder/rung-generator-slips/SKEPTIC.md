@@ -52,7 +52,7 @@ I diffed that text against the first pass's `reportText`. Every change is one th
   - the harness command, its header line and `OK (1 test)`, on `afaa4afb6`.
 - (c) Section 5, FilterGenerator2 bullet: the base error quoted from "The refusal", and line 93.
 - (d) Section 5, getters bullet: the sibling count, none left in G's sections and three outside its files (`Library/Set.fss:154`, `Library/PrefixSet.fss:478`, `Library/CaseInsensitiveString.fss:27`), with row 633.
-- (e) Section 5, NestedGenerator.reverse bullet: row 91 (`explorations/fortress-gap-ledger.md:79`) and `juxtameaning.tex`, "Juxtaposition", cited.
+- (e) Section 5, NestedGenerator.reverse bullet: row 91 (`explorations/fortress-gap-ledger.md`) and `juxtameaning.tex`, "Juxtaposition", cited.
 - (f) Section 7: the three statements, and the `FilterGenerator2.theorems` pair of runs.
 - (g) Section 8: row 633 after row 632.
 - (h) Section 10: six walk stops, `MIMapReduceReduction`'s change with no assertion owed, row 633, and the notes on rows 463 and 433.

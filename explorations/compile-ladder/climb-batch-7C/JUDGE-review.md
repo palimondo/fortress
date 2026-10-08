@@ -29,7 +29,7 @@ A repair is the only decision under which the batch lands. Any other decision en
 **The phrase.** "and a trait or object that extends a trait of the same simple name in another API counts as an extender". "In another API" is exact: the table adds the apis of the environment to the unit (`TraitTable.scala:99-110`, the apis at `:104`), and one unit cannot declare two traits of one name.
 
 **Where the misreading came from, and its other sites** (rule 2 of the prefix: a defect found once is looked for elsewhere).
-- Row 490's claim ends "so an unrelated trait of the same name counts" (`explorations/fortress-gap-ledger.md:501`), and its body then states the measurement correctly.
+- Row 490's claim ends "so an unrelated trait of the same name counts" (`explorations/fortress-gap-ledger.md` row 490), and its body then states the measurement correctly.
 - Y's skeptic summarized it as "It counts an unrelated trait of the same simple name, in any api of the environment, as an extender" (`explorations/compile-ladder/rung-comprises-checker/SKEPTIC.md:324`; also `probes/skeptic/lists-for-pavol.txt:7`).
 - `PLAN.md`'s parked line took that wording, and the review corrected it (`RECORD.md:181`).
 - Rung Y's `REPORT.md:147` opens its bullet with "A trait of the same name in another api is counted too", and the next sentence says it correctly.
@@ -51,7 +51,7 @@ Of these six sites, the review fixed one (PLAN), and this repair fixes three: th
   - (b) This candidate is about a trait with static parameters, and the example has none.
   - (c) This candidate leaves the passage as it is.
 - Both paths refuse the example: walk at load, the compiled checker with "Invalid overloading of f" (`explorations/compile-ladder/rung-spec-comprises/probes/between/MeetExample.txt`). They also refuse the smallest shape (`probes/skeptic/SkMeetSingle.txt`), on the base's checker and on rung Y's (`explorations/compile-ladder/climb-batch-7C/merged-tests/between-y.txt`).
-- Everyone who looked put it in home 2: the rung (`rung-spec-comprises/REPORT.md:95-97`), its skeptic (`SKEPTIC.md:111`), the row (`fortress-gap-ledger.md:503`), the gather (`PLAN.md:139`) and the review.
+- Everyone who looked put it in home 2: the rung (`rung-spec-comprises/REPORT.md:95-97`), its skeptic (`SKEPTIC.md:111`), the row (`fortress-gap-ledger.md` row 492), the gather (`PLAN.md:139`) and the review.
 
 **The other reading, part by part.**
 - **"Rung X could add no test"** (`CLIMB-BATCH-7C.md:151`, `:487`).

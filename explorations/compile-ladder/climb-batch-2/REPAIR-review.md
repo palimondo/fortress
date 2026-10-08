@@ -133,7 +133,7 @@ the commit message of `4ed46558d` is history and was not rewritten.
 
 ## 4. The ledger and the records (judge steps 8-11)
 
-- Ledger row 353 (`explorations/fortress-gap-ledger.md:364`): the judge's sentences appended
+- Ledger row 353 (`explorations/fortress-gap-ledger.md`): the judge's sentences appended
   inside the last column, naming the two new files, the pin, the red capture and the harness
   path. Row 352 (`:363`): the judge's sentence on why home 3 is right for a missing static
   error, citing `FileTests.java:384` and `:1029` ("Test passes, if and only if it fails") and

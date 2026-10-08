@@ -184,7 +184,7 @@ Row 331 (the empty case of `Maybe`; decided 2026-09-21: `Nothing[\T\]` stays, th
   - A marker object with a coercion, the compiler prelude's shape. It needs a second name and reopens this row's choice; walk needs row 389 fixed.
 - Proposal: the row's future work is re-gated on the first road, and stays "not attempted". His to accept or to leave the bare spelling closed.
 
-Worklist item 12, "Implement declaration-site covariance (bind where-clause variables in `extends`)", closing rows 17, 20 and most of 21's load (`fortress-gap-ledger.md:618`). Proposed:
+Worklist item 12, "Implement declaration-site covariance (bind where-clause variables in `extends`)", closing rows 17, 20 and most of 21's load (the ledger's revival worklist, now in `explorations/fortress-gap-ledger-history.md`). Proposed:
 - The parenthesis is closed by route A; binding a where-clause variable in an extends clause is refused by design.
 - What the item can still mean is declaration-site variance by the 2012 `covariant`/`contravariant` modifiers, carried to run time on both paths (the code generator giving an instantiation the interfaces of its supertype instantiations; walk's subtyping reading variance), with the covariant form of the rule (Naden's second restriction on crossed instantiations, `justificationOfRTR.tex:540-566`; Luchangco's prose for the modifier and the covariant exclusion, `types.tick:320-339`, `:355-368`). Not on the path to microGPT.
 - Row 17 (the covariance idiom rejected with `T is undefined`) closes when rung S lands, as refused by design; its evidence stands. Rows 20 and 21 are inference rows and stay open under whatever item holds inference; variance would only reduce their symptom load.

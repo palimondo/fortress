@@ -29,7 +29,7 @@ colliding with AdditiveGroup's +(self, other: T)".
 The explainer it points at, `explorations/coordinator/postmortem-2026-09-19/library-findings-explained.md:201-203`:
 "For C4: today the plane-wise `+` loads even without the clause … The clause is what makes it legal
 rather than lucky". And the design that put the clause there, ledger row 341's settled note
-(`explorations/fortress-gap-ledger.md:352`): "scalar extension in the block's place; `Matrix + Array3`
+(`explorations/fortress-gap-ledger.md` row 341): "scalar extension in the block's place; `Matrix + Array3`
 and `Array3 Array3` as nat-typed top-level operators beside the sized products … legal under the
 `Array3` exclusion". In every one of these the operator the clause licenses is the plane-wise `+`
 between a `Matrix` and an `Array3`, and the (number, array) case is the scalar block's. "A number"
@@ -88,7 +88,7 @@ owed, because it is not an implementation defect. What the corrected sentence cl
 The worker wrote that the interpreter "does not check a user declaration's overloading against the
 library's". The explainer's sentence it came from says a *single* user declaration
 (`library-findings-explained.md:201-203`), and row 341's own trigger is "two or more declarations of
-one name with a trait-typed operand in the non-self position" (`fortress-gap-ledger.md:352`). The
+one name with a trait-typed operand in the non-self position" (`fortress-gap-ledger.md` row 341). The
 fixture declares two (`ArrayOperatorVocabulary.fsi:6-7`), so the check runs: A2 and A4 refuse it
 cold without the clause, A3 and A5 pass it warm. The worker's own gated run
 (`probes/gated-tests-postedit.txt:16-26`) followed other post-edit walks on the worktree's caches,

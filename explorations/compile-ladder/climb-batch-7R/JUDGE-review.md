@@ -22,7 +22,7 @@ Row 481's file is shown red on a deliberate local fix of the stub. Row 482's is 
   - This is rule 4's fourth case. The specification settles the question, but the repair lies outside the batch: the compiler library takes no new declaration before the switch-over (POSITIONS 2026-09-21, the library route), and the checker's extremum is no rung's in 7R. So each gets home 2 and a ledger row.
 - **The skeptic placed both in home 2** (`SKEPTIC.md:198-199`).
 - **What landed is neither home.**
-  - Row 481's note calls the test optional: "A gated expected failure, if one is wanted before, is row 479's two-file shape" (`explorations/fortress-gap-ledger.md:492`).
+  - Row 481's note calls the test optional: "A gated expected failure, if one is wanted before, is row 479's two-file shape" (`explorations/fortress-gap-ledger.md` row 481).
   - Row 482's note defers it "by a rung that may add tests" (`:493`).
   - Home 2 is a gated test. Home 3 requires a silent specification, and neither case is silent.
 
@@ -75,7 +75,7 @@ Both files carry the one comment line pointing at J's `REPORT.md`, as `XXXRangeI
   - Right to measure both defects and to put both in home 2 (`SKEPTIC.md:198-199`), and right to name row 482's owed test (`:277`).
   - Wrong to write that row 481's test was wanted only "if … before" (`:271`), against its own table. It was also wrong to leave both tests to someone else in a rung that could write them.
 - **The gather.**
-  - It copied that optional wording into row 481 (`fortress-gap-ledger.md:492`).
+  - It copied that optional wording into row 481 (`fortress-gap-ledger.md`).
   - It turned row 482's owed test into a deferral "by a rung that may add tests" (`:493`; `RECORD.md:40-41`), in the batch whose rung had just added compiled tests.
 - **Rung J's worker.** It gated the defect it found, row 479, in home 2 and showed the test red. Rows 481 and 482 were found after its pass.
 

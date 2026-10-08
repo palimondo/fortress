@@ -27,7 +27,7 @@ The wrapping-operator library rung and rung O again are decided but not placed i
 
 1. **What rung S's citations call the unrevised copy of the specification.** The unrevised copy is `Specification-1.0-frozen/`, which holds the 2011 draft, not 1.0 (FACTS.md:104). Source: POSITIONS.md:109, :129. It blocks rung S's text. No default on record. The lineage note it waited on has landed (FACTS.md:106).
 
-2. **Whether sizes and boolean arguments count in the exclusion rule, and where the checker's size case goes.** Source: POSITIONS.md:123; `reviews/spec-refused-examples-judgement.md:216`, § 6. It blocks how rung S states the rule. It also blocks where row 402's `checkP` repair lands; row 402 says that repair is "owed once rung S's revision of the prose lands" (`fortress-gap-ledger.md:413`). The Fable judgement recommends that the rule counts every static argument except operator arguments, with the checker change placed at the run-time size rung's gather (judgement § 6, § 13).
+2. **Whether sizes and boolean arguments count in the exclusion rule, and where the checker's size case goes.** Source: POSITIONS.md:123; `reviews/spec-refused-examples-judgement.md:216`, § 6. It blocks how rung S states the rule. It also blocks where row 402's `checkP` repair lands; row 402 says that repair is "owed once rung S's revision of the prose lands" (`fortress-gap-ledger.md` row 402). The Fable judgement recommends that the rule counts every static argument except operator arguments, with the checker change placed at the run-time size rung's gather (judgement § 6, § 13).
 
 3. **Whether the 2012 `covariant` keyword is mentioned in the specification's text.** Source: POSITIONS.md:127; judgement:218. It affects rung S's text only. Default on record: record only, not in the text (judgement:218).
 
@@ -93,7 +93,7 @@ The wrapping-operator library rung and rung O again are decided but not placed i
     - row 377, `import java`: home 3.
     The alternative, rows without tests, is at RECORD.md:136. The item was put on his list on 09-23 (held-list.md:59) and is still open at 07:43 UTC (held-list.md:7). By a grep of C4 and the APL port, not a record, neither program uses an object expression.
 
-23. **Row 360's fork: a numeral near a tie rounds as its nearest double on both paths.** The options are (a) a narrow patch of about 30 lines, (b) numerals as rationals, (c) the team's design recorded as a decision (`fortress-gap-ledger.md:371`; `rung-round-half-even/record.md:44`). It is in no open list of POSITIONS or the boot note. It interacts with row 330 and the float hot paths. No default.
+23. **Row 360's fork: a numeral near a tie rounds as its nearest double on both paths.** The options are (a) a narrow patch of about 30 lines, (b) numerals as rationals, (c) the team's design recorded as a decision (`fortress-gap-ledger.md` row 360; `rung-round-half-even/record.md:44`). It is in no open list of POSITIONS or the boot note. It interacts with row 330 and the float hot paths. No default.
 
 24. **Row 331's future work re-gated on static-argument inference**, or the bare `Nothing` simply closed. Source: POSITIONS.md:124; judgement:214, § 8. It touches the ledger only. The judgement proposes the re-gate.
 
@@ -318,9 +318,9 @@ POSITIONS.md changes the judgement's order in three ways:
    - `:49`: the closure is "Pavol's, item 14". Approved 09-21 (POSITIONS.md:48).
    - `:87`: O's way forward "is Pavol's". Decided 09-26 (POSITIONS.md:108).
    - `:31` counts `Juxt` (53) among "the two missing visitors". Its source says those failures are "the checker's shadow, not the code generator's" (desugar-codegen.md, § 6).
-   - `:134` anchors the worklist and the counts at `fortress-gap-ledger.md:591` and `:731`. They are at `:592` and `:732` since row 404 was added.
+   - `:134` anchors the worklist and the counts by their lines in `fortress-gap-ledger.md`, which row 404 moved down by one. (Both are now in `explorations/fortress-gap-ledger-history.md`.)
 
-7. **Ledger rows 348 and 403 do not carry the O decision of 09-26.** Row 403 still says "The repair route waits on Pavol's answer to the judge's fork" (`fortress-gap-ledger.md:414`). Row 348 still says "the decision is Pavol's" with no append (`:359`), though POSITIONS.md:108 decides it for the specification's spelling. The worklist, re-derived 2026-09-15/16, still frames item 2 as growing `CompilerLibrary` (`:609`) and item 19 as coercion on both paths (`:626`). Item 44 still lists rows 302 and 303, fixed at `53362cb88` (`:651`). Only item 12 was reworded, on 09-26.
+7. **Ledger rows 348 and 403 do not carry the O decision of 09-26.** Row 403 still says "The repair route waits on Pavol's answer to the judge's fork" (`fortress-gap-ledger.md`). Row 348 still says "the decision is Pavol's" with no append, though POSITIONS.md:108 decides it for the specification's spelling. The worklist, re-derived 2026-09-15/16, still frames item 2 as growing `CompilerLibrary` (`:609`) and item 19 as coercion on both paths (`:626`). Item 44 still lists rows 302 and 303, fixed at `53362cb88` (`:651`). Only item 12 was reworded, on 09-26.
 
 8. **The closure's five-line checker accommodation has three statuses.**
    - POSITIONS.md:48: it "goes into the first library batch".

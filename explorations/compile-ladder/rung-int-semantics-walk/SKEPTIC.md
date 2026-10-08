@@ -75,7 +75,7 @@ The FACTS lines are sourced, and I confirmed the counts they state:
 - `Int.rc`'s callers `Int.java:152` and `:225`;
 - the row 347 correction (`ZZ32.java:208` and `NN32.java:226` call their own `rc`, declared at `ZZ32.java:225` and `NN32.java:257`).
 
-Rows 334, 335, 336, 346 and 347 exist (`explorations/fortress-gap-ledger.md:345-358`), and nothing is renumbered. Three statements are not true as written:
+Rows 334, 335, 336, 346 and 347 exist (`explorations/fortress-gap-ledger.md`), and nothing is renumbered. Three statements are not true as written:
 - FACTS line 2 says "an unrepresentable left shift a catchable `IntegerOverflow`". That is false at the launcher's default heap (finding 1).
 - The row 334 note closes the row while the unbounded ℤ's `LCM` still returns `1 LCM -5` = -5 (finding 2).
 - FACTS line 2 says of the `ZZ` count only that it "is read exactly". It does not say what a `ZZ32` receiver then answers (finding 3).
@@ -259,7 +259,7 @@ This round adds no name:
 - line 5: the three heaps.
 
 **Ledger notes.**
-- The notes on rows 334, 335, 346 and 347 cite existing rows (`explorations/fortress-gap-ledger.md:345-358`) and renumber nothing. Their line citations hold (`BigNum.java:178`, `:228-254`, `:247`, `:248-253`).
+- The notes on rows 334, 335, 346 and 347 cite existing rows (`explorations/fortress-gap-ledger.md` rows 334-347) and renumber nothing. Their line citations hold (`BigNum.java:178`, `:228-254`, `:247`, `:248-253`).
 - I checked the five new rows against their captures:
   - 379: `SkWalkOnly.walk.txt:2-6`, `:9`, and `sk-base-cases.txt`;
   - 380: `SkCountType.walk.txt:1` and `.compiled.txt:2`;

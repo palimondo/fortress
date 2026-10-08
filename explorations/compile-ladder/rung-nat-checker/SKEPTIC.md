@@ -175,7 +175,7 @@ The net diff `47437c65f...HEAD` touches no stop file of the batch. A grep for `S
 
 ## R3. The precedent search
 
-The round adds what it was missing. The ledger search found row 21 (`explorations/fortress-gap-ledger.md:135`), and `REPORT.md` section 3 now says the first pass missed it. For the test shape, the round cites the api-plus-component precedent `ExportVarRungXApi`; `compiler_tests/` holds 37 other `.fsi` files. No repair round precedent is involved in code, since no source changed.
+The round adds what it was missing. The ledger search found row 21 (`explorations/fortress-gap-ledger.md`), and `REPORT.md` section 3 now says the first pass missed it. For the test shape, the round cites the api-plus-component precedent `ExportVarRungXApi`; `compiler_tests/` holds 37 other `.fsi` files. No repair round precedent is involved in code, since no source changed.
 
 ## R4. The tests
 
@@ -200,7 +200,7 @@ Two limits of the tests, neither required:
 
 - The count line is true: 321 tracked `.test` files at HEAD against 309 at `47437c65f` (`git ls-files`, `git ls-tree`).
 - The FACTS line is true and sourced. It names the export checker's repair and `NatExportChecker`, the `BOTTOM` contrast, and `dot`.
-- The note on row 307: `explorations/fortress-gap-ledger.md:318` is row 307, and every line it cites says what the note says.
+- The note on row 307: row 307 is in `explorations/fortress-gap-ledger.md`, and every line it cites says what the note says.
 - The note on row 21 (`:135` is row 21). I checked each citation: `walk-tests.txt:8-16` is `NatMethodChecker` under walk (a size), and `:42-52` is `XXXNatBoolChecker`. In `walk-probes.txt`, `:2-10` is `MethInferT`, `:11-14` is `FnInferNatVsType`, `:15-17` is `BoolWritten` and `:70-78` is `MethInferPlain`. `compile-probes.txt:23-24` and `:34-35` are the two compiles with `exit=0`. The worker is right that the judge's cited ranges did not hold these cases, and it followed the capture.
 - Rows 387 and 389-392 are provisional. The ledger ends at row 386 (`:397`), and nothing is renumbered or moved.
 - Row 390's specification cell says "silent", and that is half right: correction 2.

@@ -44,7 +44,7 @@ workflow re-runs the gate after any repair in any case
 
 ## 2. Ledger row 353 takes home 3 where home 2 is owed (blocking item 2) — upheld
 
-**What the row says and what settles it.** Row 353 (`explorations/fortress-gap-ledger.md:364`):
+**What the row says and what settles it.** Row 353 (`explorations/fortress-gap-ledger.md`):
 the compiled path cannot compile a `tryatomic` expression; `CodeGen.java` has no
 `forTryAtomicExpr` (grep of the landed file: zero hits for `TryAtomic`), so the node falls to
 `CodeGen.defaultCase` (`CodeGen.java:1669-1670`, `throw sayWhat(x)`). The specification is
@@ -286,7 +286,7 @@ review. Do not touch the `wip/` worktrees. Do not push.
    (which becomes "two ladder files are off disambiguate"). Cite
    `repair/abortTest-compile.txt` in `REPORT.md`. Do not edit `CLIMB-BATCH-2.md` or the
    workflow manifest.
-8. Ledger row 353 (`explorations/fortress-gap-ledger.md:364`, one table line; append inside
+8. Ledger row 353 (`explorations/fortress-gap-ledger.md`, one table line; append inside
    the last column, before the closing ` |`): "Gated as an expected failure by
    `ProjectFortress/compiler_tests/XXXTryAtomicCodegenRungB.fss` with
    `XXXTryAtomicCodegenRungB.test` (`compile`, `compile_exception_contains=Can't compile TryAtomicExpr`),

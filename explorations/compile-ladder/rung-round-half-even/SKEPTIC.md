@@ -16,7 +16,7 @@ All differentials ran at `FORTRESS_THREADS=1`. I also ran the walk probe at 4 th
 
 I opened each citation with `sed -n`:
 
-- **problem**: `explorations/compile-ladder/rung-rr64-functions/probes/RoundHalfWalkProbe.out:2` reads `round(2.5)     = 3`. The file is tracked despite its `.out` name (`git ls-files` lists it). `explorations/fortress-gap-ledger.md:340` is row 329. Both hold.
+- **problem**: `explorations/compile-ladder/rung-rr64-functions/probes/RoundHalfWalkProbe.out:2` reads `round(2.5)     = 3`. The file is tracked despite its `.out` name (`git ls-files` lists it). Row 329 is in `explorations/fortress-gap-ledger.md`. Both hold.
 - **spec**: `Specification/basic-lib/numbers.tex:470-472` is the half-to-even sentence, which I read at `:445-490`. The section is "Rational Numbers" (`:16`), and ℚ is a subtype of ℝ (`:37`). `Specification/basic/operators/opr-overview.tex:178-179` and `:211-212` are the two "IEEE 754 'round to nearest'" sentences, which I read at `:160-215`. Both are prose chapters, with no `library/apis/` citation. The half-to-even sentence is identical in `Specification-1.0-frozen/`. All hold. The line leaves out one passage, covered under "Corrections" below.
 - **precedent**: `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java:132-134` is `doubleRound`, `return (long) Math.rint(a);`. It holds.
 - **deviation**: `RR32.java:326` holds. `explorations/coordinator/POSITIONS.md:49` names only `Float.java:384`, as the line says. `Library/FortressLibrary.fss:296-300` is `assert(x:Any, y:Any, failMsg: Any...)`, which compares with `=/=`. All hold.
@@ -186,7 +186,7 @@ The sections above this line are the first skeptic's, left as committed (`655989
 
 I opened every citation with `sed -n`. I read each specification passage at ±10 lines or more: `literals.tex:92-185`, `numbers.tex:10-40` and `:450-490`, `opr-overview.tex:168-215`, `lexical-structure.tex:1128-1145`.
 
-- **problem.** `explorations/compile-ladder/rung-rr64-functions/probes/RoundHalfWalkProbe.out:2` is `round(2.5)     = 3`, and the file is tracked. `explorations/fortress-gap-ledger.md:340` is row 329. Holds.
+- **problem.** `explorations/compile-ladder/rung-rr64-functions/probes/RoundHalfWalkProbe.out:2` is `round(2.5)     = 3`, and the file is tracked. Row 329 is in `explorations/fortress-gap-ledger.md`. Holds.
 - **spec.**
   - `Specification/basic/expressions/literals.tex:162-163` is "Numerals containing a radix point are actually rational literals; thus 3.125 has the rational value 3125/1000".
   - `:132` is "not directly converted to any of the number types", and `:146-148` are the coercions to rationals for compound numerals.

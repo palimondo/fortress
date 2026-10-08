@@ -21,7 +21,7 @@ Wrong:
 - Decision 4, that the guard put a refusal in place of the crash. It does so only in a declared body (above).
 - The home table's entry that `XXXVarargsParamNotItsElement` holds "the body typed the parameter as its element". That test asserts the guard's message, and the guard builds the message from `Types.makeVarargsParamType` (`impls/Decls.scala:214`), not from the binding. With `STypeEnv.scala:185-187` reverted, the guard still fires and the test still passes.
 - The text, `functions.tex:192-194` and `changes.tex:2759-2760`, which is false for a contract and for a function expression.
-- Decision 9's ground. "Refuses a program the text allows" leaves out row 405 (`explorations/fortress-gap-ledger.md:416`): the compiled path already refuses an untyped parameter at top level and in a method, "Missing parameter type for x", and that row classes the text as silent. The ground that holds is the record's stop "A crash repaired by catching it without the error the text gives" (`CLIMB-BATCH-10.md:166`). The text gives no error for the program, so the team's refusal in place of the crash would be that stop.
+- Decision 9's ground. "Refuses a program the text allows" leaves out row 405 (`explorations/fortress-gap-ledger.md`): the compiled path already refuses an untyped parameter at top level and in a method, "Missing parameter type for x", and that row classes the text as silent. The ground that holds is the record's stop "A crash repaired by catching it without the error the text gives" (`CLIMB-BATCH-10.md:166`). The text gives no error for the program, so the team's refusal in place of the crash would be that stop.
 - The `problem:` line of the report cites `XXXInferDependentBound.fss:19`. At `9c9e823d5` that line is the passing `idS` assertion; the failing `depS` assertion is at `:20`.
 - The report is silent that `XXXVarargsBodyIterates` came with the edit (`eb9161c30`), keyed on a message the edit created, and never ran on the base's code.
 
@@ -36,7 +36,7 @@ Right: the refusal ground (above); the body-type test (above); row 563's sibling
 
 Wrong or overstated:
 
-- **For Pavol, microGPT.** "Row 176 records that microGPT's source declares untyped parameters at top level and locally" overstates the row. Row 176 (`explorations/fortress-gap-ledger.md:148`) records probe variants B and C (`run-c4/probes/types/`) whose losses equal "the typed source's". A search of `explorations/microgpt.fss` and `explorations/microgpt2.fss` for a definition with an untyped parameter finds none. So the open question of local untyped parameters stands for Pavol without the claim that it blocks the measuring stick.
+- **For Pavol, microGPT.** "Row 176 records that microGPT's source declares untyped parameters at top level and locally" overstates the row. Row 176 (`explorations/fortress-gap-ledger.md`) records probe variants B and C (`run-c4/probes/types/`) whose losses equal "the typed source's". A search of `explorations/microgpt.fss` and `explorations/microgpt2.fss` for a definition with an untyped parameter finds none. So the open question of local untyped parameters stands for Pavol without the claim that it blocks the measuring stick.
 - **The offer to repair `domainApart` alone in this round.** I do not take it (decision J2 below).
 
 ## 3. Decisions taken here

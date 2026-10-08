@@ -134,7 +134,7 @@ checker-count stage is the one compile-path consumer of these two files.
    between a `Matrix` and an `Array3`, and `ProjectFortress/tests/ArrayOperatorsBesideLibrary.fss:23-24`
    checks it. The fixture declares two `+`, which is ledger row 341's trigger (two or more
    declarations of one name with a trait-typed operand in the non-self position,
-   `explorations/fortress-gap-ledger.md:352`), so the interpreter does check the pair against the
+   `explorations/fortress-gap-ledger.md` row 341), so the interpreter does check the pair against the
    library's: on a cold cache it refuses it without the clause, against `AdditiveGroup`'s
    `+(self, other: T)` (.fss:333; `probes/skeptic/SkArray3Exclusion.txt` A2 and A4), and a warm
    cache passes it (A3, A5). The rung's first gated run (`probes/gated-tests-postedit.txt:16-26`)

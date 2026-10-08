@@ -78,7 +78,7 @@ X adds no test. The two re-anchored tests change only the line numbers in their 
   - `:525-531` is `:585-591`, `:446-448` is `:506-508`.
   - The base's numbering: `:299-313` is `:327-341`, `:262-279` is `:290-307`, `:241-246` is `:269-274`; `:160-162` is unmoved.
   - All are equal. Rows 22, 53, 55, 77, 150, 226, 354, 356, 357, 371, 372, 380, 397, 405, 406, 414, 115, 118 and 459 cite what the notes say they cite (`grep` of `explorations/fortress-gap-ledger.md`).
-  - One `traits.tex` citation outside the table is not named, the Astra comparison's `traits.tex:228-235` (`explorations/fortress-gap-ledger.md:663`); the record's general sentence on the Working Draft's numbering covers it.
+  - One `traits.tex` citation outside the table is not named, the Astra comparison's `traits.tex:228-235` ("Disagreements resolved", item 7, now in `explorations/fortress-gap-ledger-history.md`); the record's general sentence on the Working Draft's numbering covers it.
 - The FACTS entry: the new entry is true as written. The correction to "The tower closure of `02d09a39f` has no spelling the compiler's checker accepts" says the rendered text "refuses an extender the clause does not list unless it is a trait with static parameters whose every extender is below a listed type, `:241-248`". The text also admits an unlisted extender below a listed type, and a trait with a clause of its own (`traits.tex:241-244`; `SkThroughOwnClause`). Correction 7.
 - Rows 488 and 489 are checkable from their probes. My measurements strengthen both (recommended rows).
 
@@ -101,7 +101,7 @@ All on this tree (`a30516fa3`, the base's checker and interpreter), `FORTRESS_TH
 | `SkBetweenAssign` (`G[\X\] extends {S, T}`, `object H extends {G[\ZZ32\], V}`, `v: V = g`) | PASS | refused (G not eligible; the assignment) | refused, only "Right-hand side has type G[\ZZ32\], but declared type is V" | unsettled (P1) | row 488, measured |
 | the rung's `BetweenTwoClosed` and `MeetExample`, typechecked only (`probes/skeptic/between-narrow.txt`) | — | G not eligible (twice); "Invalid overloading" | G accepted, then "Invalid overloading of f"; MeetExample unchanged | — | the worker's "by reading" claim holds |
 
-In the four divergences marked row 22, the specification settles against the interpreter, and row 22 already records that walk never checks `comprises` (`explorations/fortress-gap-ledger.md:136`). No new row is owed. `SkBetweenAssign` is P1's question on the compiled path once Y lands. The checker holds `G[\ZZ32\]` a subtype of `S` and `T` and not of `V`, against "any subtype of both S and T must be a subtype of V" (`Specification/basic/types-vals-vars.tex:602-604`). Walk's value-level answer agrees with the coverage reading. The specification is now unsettled there, as the rung reported (row 488).
+In the four divergences marked row 22, the specification settles against the interpreter, and row 22 already records that walk never checks `comprises` (`explorations/fortress-gap-ledger.md` row 22). No new row is owed. `SkBetweenAssign` is P1's question on the compiled path once Y lands. The checker holds `G[\ZZ32\]` a subtype of `S` and `T` and not of `V`, against "any subtype of both S and T must be a subtype of V" (`Specification/basic/types-vals-vars.tex:602-604`). Walk's value-level answer agrees with the coverage reading. The specification is now unsettled there, as the rung reported (row 488).
 
 ## 10. The failure-mode question, the count, the homes
 

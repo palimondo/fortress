@@ -163,7 +163,7 @@ Where the rung writes state, both thread columns are given (`writesState`: the l
 - `SkPatternBind` fails on both paths, before and after.
 - The chapter defers patterns (`Specification/basic/expressions/typecase.tex:15`), so for this the specification is silent.
 
-**Finding 4: row 460 still says the compiled run "cannot read its binding (row 351)"** (`explorations/fortress-gap-ledger.md:471`). The record appends nothing to it.
+**Finding 4: row 460 still says the compiled run "cannot read its binding (row 351)"** (`explorations/fortress-gap-ledger.md` row 460). The record appends nothing to it.
 
 **Finding 5: home 3 for the non-template dispatcher shows no grep, and its departure from the record is not listed as a decision.**
 - The batch record plans home 2 for both remainders "where the rung shows it failing" (`explorations/coordinator/CLIMB-BATCH-6.5.md:188`). The report argues home 3 in its section 9 but lists no decision in section 12.

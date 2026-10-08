@@ -18,7 +18,7 @@ The harness's rule for subagents forbids writing report .md files, and it refuse
 (b) NumberOrderListDeclarations.fss:32 cites opr-overview.tex "Comparisons Operators" for pairs. That subsection (Specification/basic/operators/opr-overview.tex:276-295; it is a \subsection, :276) names numbers, characters, strings and lists (:291-293), not tuples, which the worker's own REPORT section 5 says.
 (c) explorations/compile-ladder/gate/distance-sites.tsv:253 is the Writer.fss:34 row, not the 60 sites.
 (d) The bare `throw ForbiddenException` occurs seven times in Library/ (QuickCheck.fss:743, :757, Reflect.fss:376, :380, ReflectiveQuickCheck.fss:181, and the two repaired), not seven in the tree. Three more are live type witnesses in revival tests: QuickCheckTest.fss:39, InferUnfixedBoundWalk.fss:8 (used only as `typecase thr[\T\] of`, :15) and XXXInferSeveralBoundsWalk.fss:10. One is commented out, ReflectTest.fss:143.
-(e) Row 627 is the capture of ledger rows 561 (fortress-gap-ledger.md:572, overloading checker, fixed) and 563 (:574, abstract-method checker, rung C's this batch) at the method-invocation site.
+(e) Row 627 is the capture of ledger rows 561 (fortress-gap-ledger.md, overloading checker, fixed) and 563 (abstract-method checker, rung C's this batch) at the method-invocation site.
 (f) `catch e CheckedException` no longer catches a typecase's MatchFailure. That is row 590's intended consequence and is owed in section 7.
 (g) The test-machinery row is right: ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:381-384 fails any output holding 'fail' or 'FAIL' except a QuickCheckTest file, and fail prints 'FAIL: ' (Library/FortressLibrary.fss:55). No ledger row states it today (grep of the ledger for FileTests.java:38x).
 

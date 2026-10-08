@@ -21,7 +21,7 @@ Base `e5414f5bf`; branch tip before this file `1c9f12c72`; worktree `/home/user/
 ### 1.2 The reductions callout. The skeptic is right.
 
 - `Specification/basic/expressions/reductions.tex:27-38` and I.1.16 (`changes.tex:967-969`) say that "the compiled type checker" takes `BottomType`, and they recommend writing `SUM[\ZZ32\][j <- 0#i]`.
-- Row 425 measured the checker on a library copy that already had answer 7's generic `SUM`. The row itself says "The compiled prelude never met it: its no-argument big operators are not generic" (`explorations/fortress-gap-ledger.md:436`).
+- Row 425 measured the checker on a library copy that already had answer 7's generic `SUM`. The row itself says "The compiled prelude never met it: its no-argument big operators are not generic" (`explorations/fortress-gap-ledger.md` row 425).
 - The compiled path as it runs programs checks against its own prelude. That prelude declares `opr BIG +(): ReductionZZ32`, `opr BIG +(g: GeneratorZZ32): ZZ32` and the same two for `BIG MAX` (`Library/CompilerLibrary.fsi:180-184`). The prelude takes no new declaration before the switch-over (`explorations/coordinator/POSITIONS.md:46`), so rung F leaves these alone (`CLIMB-BATCH-6.md` section 3, F, "Files it may touch").
 - The skeptic measured the consequence: the recommended spelling is refused, "Wrong number or kind of static arguments for function: BIG +" (`probes/skeptic/SkSumClauseTyped.t1.txt`, `.t4.txt`), and the unwritten form runs (`probes/skeptic/SkSumClause.t1.txt`).
 - Answer 7's approved content stays: the desugaring is not type-directed on either implementation, so a clause form writes its static argument, citing rows 424 and 425 (`POSITIONS.md:165`). What the repair adds is the scope: which checker takes `BottomType`, and what the compiled path does until the switch-over.
@@ -102,7 +102,7 @@ Section 6 of `decision-record.md` lists the chapters' statements for the gather 
   - The specification makes 0/0 unordered with itself (`numbers.tex:355-359`), and its `CMP` returns `Unordered` for an unordered pair (`numbers.tex:365-369`).
   - The owed `XXX` test asserts both faces.
 - **New row, the negative power:** as the skeptic recommends, home 3. One change of wording: "the compiled 0 is wrong under every reading" becomes "the compiled 0 matches no source". The sources are the Working Draft's 1/2 and the library's declared ℝ64.
-- **New row, the compiled prelude:** it lacks what the revised chapters state (the skeptic's recommendation), which I accept as a record closed by the switch-over. The precedents are rows 314 and 316, which are prelude gaps kept as rows (`explorations/fortress-gap-ledger.md:325`, `:327`).
+- **New row, the compiled prelude:** it lacks what the revised chapters state (the skeptic's recommendation), which I accept as a record closed by the switch-over. The precedents are rows 314 and 316, which are prelude gaps kept as rows (`explorations/fortress-gap-ledger.md` row 314, row 316).
   - It is not work before the switch-over (`POSITIONS.md:46`).
   - The batch record's "not a finding" (`CLIMB-BATCH-6.md` section 3, F, "For the skeptic") excuses rung F from those differences. It does not erase the measurement.
   - With 1.5, its numeral face is that `r: RR64 = 3` is refused, "Right-hand side has type IntLiteral, but declared type is RR64" (`probes/skeptic/SkNumeralFloat.t1.txt`). The prelude's ℝ64 coerces from `FloatLiteral` and `RR32` only (`CompilerBuiltin.fsi:433-435`).
