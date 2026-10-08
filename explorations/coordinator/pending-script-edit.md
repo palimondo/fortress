@@ -59,3 +59,15 @@ Also in the manual, `climb-batch-workflow.md:131`: its last sentence says two se
 
 ## Also with this edit: points to report, not stops (the curator's comment of 2026-10-06 on the skill page)
 The skills now say "points to report" where the script and the manual say "stop" for a point a rung's section reserves for review (the curator read "stop" as a condition that stops the worker). Rename the result field `stopsMet` (`climb-batch-workflow.js` `:1145`, `:1292`, `:1351`), the prefix's lines on reserved stops (`:680-682`) and the rung tails' "Stops." lines to "points to report"; a step that cannot be undone, or that would act against the curator's word, still holds the push. The manual follows.
+
+## The ledger's new form (2026-10-08, `ae4f8e38a`)
+
+The ledger is in fifteen topic sections and `explorations/coordinator/tools/ledger.py` is the only way to write a row (POSITIONS, "The gap ledger's form."). Lines of the script and its manual that assume the old form:
+
+- `climb-batch-workflow.js:1643`: "append each row to the ledger's last table", ledger notes "APPENDED" by hand, and the literal `<short hash>` placeholder. A new row goes in with `ledger.py add FILE --section TITLE`, the worker naming the section; a landed fix closes its row with `ledger.py close N --commit HASH --test NAME`.
+- `climb-batch-workflow.js:1711`: "the ledger's own counts still right". The ledger holds no counts; `ledger.py count` prints them and `ledger.py check` replaces the check.
+- `climb-batch-workflow.js:2132` and `:2474`: the commit stage replaces `<short hash>` in the ledger. `ledger.py close` writes the hash.
+- `climb-batch-workflow.js:47`: "hashes into the ledger notes".
+- `climb-batch-workflow.md:153`: "The commit stage replaces the `<short hash>` placeholders".
+- Open: numbering rows while rungs run in parallel (D7 of the gap-ledger archaeology). `ledger.py add` numbers a row max + 1, so two rung branches that each add a row collide at the gather.
+

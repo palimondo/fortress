@@ -2096,3 +2096,8 @@
 
 <!-- moved 2026-10-08 from FACTS.md § The container: the workers' date compiled out (the five Agent-tool workers of 2026-10-08); rewritten in place under the same title -->
 - **An agent launched from the coordinating session loads the `fortress-repo` skill on its own, as its first step, when its task touches the repository**: the five Agent-tool workers of 2026-10-08 (a tool edit, an archaeology, an audit, a context study, a run check) each called it first, four of them with no word about it in their briefs (their transcripts, the `Skill` call). `CLAUDE.md` tells every agent to load it before any build, test run, edit, measurement, commit or agent launch; a Workflow agent gets the same `CLAUDE.md`. Not measured: an agent that only reads and reports, which none of those words names.
+
+## Rewritten 2026-10-08, the ledger in topic sections
+
+<!-- moved 2026-10-08 from FACTS.md § The ledger: the ledger was rewritten to the row template in fifteen topic sections (`ae4f8e38a`); its line citations, counts, worklist and old section 15 no longer hold; rewritten in place under a new title -->
+- Rows are never renumbered or moved, and the reports cite them by number; the counts by kind are derived by script in the ledger's counts (`fortress-gap-ledger.md:886`), and the revival worklist (46 items, `fortress-gap-ledger.md:746`) and `apl/lessons.md` are the two derived views. Five cost rows sit in section 15; whether they get a section of their own is Pavol's call.
