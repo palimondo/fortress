@@ -23,6 +23,8 @@
 /default_repository/caches/syntax_cache/
 # ... and the top-level cache index the repository writes alongside them
 /default_repository/caches/global.map
+# ... and the stamp of the implementation the caches belong to (build.xml, checkCaches)
+/default_repository/caches/implementation.stamp
 
 # Transient test-run artifacts
 /ProjectFortress/TEST-RESULTS/

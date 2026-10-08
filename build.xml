@@ -19,7 +19,8 @@ appropriate place in the file. For the sake of readability, please
 maintain proper indentation.
 -->
 
-<project name="Fortress" default="help">
+<project name="Fortress" default="help"
+         xmlns:if="ant:if" xmlns:unless="ant:unless">
   <description>
     A reference implementation of the Fortress programming language.
   </description>
@@ -212,7 +213,7 @@ compileCommon    - build the subset of the Fortress system necessary
                    for generated files
 generated        - create all machine-generated files
 
-test             - run all tests.  Includes cleanCache and compile
+test             - run all tests.  Includes compile
                    This is the pre-push tests.
 testOnly         - together with -DtestPattern='SomeTestName' runs
                    only the junit test in class (not package) SomeTestName,
@@ -357,11 +358,192 @@ testOtherCompiler, testCruiseControl
           description="Delete any cached Fortress ASTs in the development tree">
     <delete dir="${cache0}"/>
     <delete dir="${cache1}"/>
+    <!-- Empty caches belong to the implementation now built: start them
+         with its stamp, so that the next compileAll keeps what fills them. -->
+    <loadfile property="cleanCache.stamp" srcFile="${build}/implementation.stamp"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
+    <stampCache dir="${cache0}" stamp="${cleanCache.stamp}" if:set="cleanCache.stamp"/>
+    <stampCache dir="${cache1}" stamp="${cleanCache.stamp}" if:set="cleanCache.stamp"/>
   </target>
 
   <target name="cleanScala"
           description="Delete scalac-generated files in the development tree">
     <delete dir="${scalabuild}"/>
+    <delete file="${build}/implementation.stamp"/>
+  </target>
+
+  <!--
+       The caches and the implementation.
+
+       The caches (${cache0}, ${cache1}, and the private ones the tests use)
+       hold what the implementation made from Fortress code: parsed and
+       analysed ASTs, walk's rewritten ASTs and environments, compiled jars,
+       native wrappers.  Fortress checks an entry against its Fortress sources,
+       by date, and never against the implementation, so the build decides
+       whether the caches still belong to the implementation:
+
+       - ${build}/implementation.stamp is a SHA-1 over the implementation as it
+         runs: every file of ${build}, ${PF}/third_party and bin, and
+         default_repository/configuration, each with its relative path, and
+         the JDK's version.  compileAll writes it last, after a successful
+         build, and deletes it first.
+       - A caches folder holds the stamp of the implementation it belongs to.
+         At its end, compileAll keeps a caches folder only if that stamp equals
+         the new build's: the implementation is byte for byte the one that
+         filled it.  Otherwise it deletes the folder and starts it again, empty,
+         with the new stamp.
+       - ${build}/implementation.sources is a SHA-1 over what the build is made
+         from: ${PF}/src (class files aside), ${PF}/astgen, ${PF}/third_party,
+         bin, build.xml and default_repository/configuration, and the JDK's
+         version.  When it differs at the start of compileAll, the build may
+         change the implementation, so the caches are deleted before anything
+         compiles, as cleanCache did here before: a build that then fails
+         leaves no caches behind.  So are they when the build directory is no
+         longer what the last build left (something else compiled into it).
+       - scalac runs only when its inputs (the sources) or the build directory
+         differ from what the last successful build left; for the same inputs
+         its output is the same, byte for byte.
+
+       ant cleanCache deletes the caches whatever their stamp; ant clean
+       deletes the build too.
+  -->
+
+  <!-- One SHA-1 over the contents and relative paths of the nested files,
+       with the JDK's version, into the property @{property}. -->
+  <macrodef name="fingerprint">
+    <attribute name="property"/>
+    <element name="files" implicit="yes"/>
+    <sequential>
+      <delete dir="${build}/.fingerprint" quiet="true"/>
+      <checksum algorithm="SHA-1" todir="${build}/.fingerprint"
+                totalproperty="@{property}.sha1" forceoverwrite="yes">
+        <files/>
+      </checksum>
+      <delete dir="${build}/.fingerprint" quiet="true"/>
+      <property name="@{property}"
+                value="${@{property}.sha1} java ${java.runtime.version}"/>
+    </sequential>
+  </macrodef>
+
+  <!-- What the build is made from. -->
+  <macrodef name="sourcesFingerprint">
+    <attribute name="property"/>
+    <sequential>
+      <fingerprint property="@{property}">
+        <fileset dir="${basedir}">
+          <include name="${PF}/src/**"/>
+          <include name="${PF}/astgen/**"/>
+          <include name="${PF}/third_party/**"/>
+          <include name="bin/**"/>
+          <include name="build.xml"/>
+          <include name="default_repository/configuration"/>
+          <exclude name="${PF}/src/**/*.class"/>
+        </fileset>
+      </fingerprint>
+    </sequential>
+  </macrodef>
+
+  <!-- The implementation as it runs. -->
+  <macrodef name="implementationFingerprint">
+    <attribute name="property"/>
+    <sequential>
+      <fingerprint property="@{property}">
+        <fileset dir="${basedir}">
+          <include name="${PF}/build/**"/>
+          <include name="${PF}/third_party/**"/>
+          <include name="bin/**"/>
+          <include name="default_repository/configuration"/>
+          <exclude name="${PF}/build/scalac-compileAll.args"/>
+          <exclude name="${PF}/build/implementation.*"/>
+          <exclude name="${PF}/build/.fingerprint/**"/>
+        </fileset>
+      </fingerprint>
+    </sequential>
+  </macrodef>
+
+  <!-- Keep the caches folder @{dir} if it holds the stamp @{stamp};
+       otherwise delete it, and, if it is a repository's caches folder,
+       start it again, empty, with that stamp. -->
+  <macrodef name="stampCache">
+    <attribute name="dir"/>
+    <attribute name="stamp"/>
+    <sequential>
+      <local name="cache.stamp"/>
+      <local name="cache.kept"/>
+      <local name="cache.parent"/>
+      <local name="cache.restart"/>
+      <loadfile property="cache.stamp" srcFile="@{dir}/implementation.stamp"
+                quiet="true">
+        <filterchain><striplinebreaks/></filterchain>
+      </loadfile>
+      <condition property="cache.kept">
+        <equals arg1="${cache.stamp}" arg2="@{stamp}"/>
+      </condition>
+      <dirname property="cache.parent" file="@{dir}"/>
+      <condition property="cache.restart">
+        <and>
+          <not><isset property="cache.kept"/></not>
+          <available file="${cache.parent}/configuration"/>
+        </and>
+      </condition>
+      <delete dir="@{dir}" unless:set="cache.kept"/>
+      <mkdir dir="@{dir}" if:set="cache.restart"/>
+      <echo file="@{dir}/implementation.stamp" message="@{stamp}${line.separator}"
+            if:set="cache.restart"/>
+      <echo message="Caches @{dir} kept" if:set="cache.kept"/>
+      <echo message="Caches @{dir} started again, empty" if:set="cache.restart"/>
+    </sequential>
+  </macrodef>
+
+  <!-- Read what the last successful build left, delete its stamps (they
+       come back at the end of a successful compileAll), and delete the caches
+       now if the sources or the build directory changed since that build, or
+       the caches do not belong to it. -->
+  <target name="checkCaches" depends="init">
+    <sourcesFingerprint property="sources.start"/>
+    <implementationFingerprint property="implementation.found"/>
+    <loadfile property="built.sources" srcFile="${build}/implementation.sources"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
+    <loadfile property="built.stamp" srcFile="${build}/implementation.stamp"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
+    <loadfile property="cache0.stamp" srcFile="${cache0}/implementation.stamp"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
+    <loadfile property="cache1.stamp" srcFile="${cache1}/implementation.stamp"
+              quiet="true">
+      <filterchain><striplinebreaks/></filterchain>
+    </loadfile>
+    <condition property="sources.unchanged">
+      <and>
+        <equals arg1="${sources.start}" arg2="${built.sources}"/>
+        <equals arg1="${implementation.found}" arg2="${built.stamp}"/>
+      </and>
+    </condition>
+    <condition property="cache0.keep">
+      <and>
+        <isset property="sources.unchanged"/>
+        <equals arg1="${cache0.stamp}" arg2="${built.stamp}"/>
+      </and>
+    </condition>
+    <condition property="cache1.keep">
+      <and>
+        <isset property="sources.unchanged"/>
+        <equals arg1="${cache1.stamp}" arg2="${built.stamp}"/>
+      </and>
+    </condition>
+    <delete file="${build}/implementation.stamp"/>
+    <delete file="${build}/implementation.sources"/>
+    <echo message="Sources and build as the last build left them? yes" if:set="sources.unchanged"/>
+    <echo message="Sources and build as the last build left them? no" unless:set="sources.unchanged"/>
+    <delete dir="${cache0}" unless:set="cache0.keep"/>
+    <delete dir="${cache1}" unless:set="cache1.keep"/>
   </target>
 
   <!-- Generation of Operators.java depends only on the files listed below.
@@ -536,14 +718,46 @@ testOtherCompiler, testCruiseControl
     </javac>
   </target>
 
-  <target name="compileAll" depends="compileCommon, makeAST, parser, operatorsGen"
-          description="Compile all Fortress code.">
+  <!-- scalac is up to date when the sources, after the generators ran, are
+       those of the last successful build, and the build directory is still
+       byte for byte what that build left (nothing deleted a class since). -->
+  <target name="checkScalaUptodate"
+          depends="compileCommon, makeAST, parser, operatorsGen">
+    <condition property="sources.regenerated">
+      <not>
+        <and>
+          <isset property="nodes.uptodate"/>
+          <isset property="parser.uptodate"/>
+          <isset property="operators.uptodate"/>
+        </and>
+      </not>
+    </condition>
+    <property name="sources.compiled" value="${sources.start}"
+              unless:set="sources.regenerated"/>
+    <sourcesFingerprint property="sources.compiled" if:set="sources.regenerated"/>
+    <condition property="sources.as.built">
+      <equals arg1="${sources.compiled}" arg2="${built.sources}"/>
+    </condition>
+    <implementationFingerprint property="implementation.before"
+                               if:set="sources.as.built"/>
+    <condition property="scala.uptodate">
+      <and>
+        <isset property="sources.as.built"/>
+        <equals arg1="${implementation.before}" arg2="${built.stamp}"/>
+      </and>
+    </condition>
+    <echo message="Scala classes up to date? yes" if:set="scala.uptodate"/>
+    <echo message="Scala classes up to date? no" unless:set="scala.uptodate"/>
+  </target>
+
+  <target name="compileScala" depends="checkScalaUptodate" unless="scala.uptodate"
+          description="Compile the Scala sources (part of compileAll).">
     <!-- Joint Java+Scala compilation, formerly the <scalac> Ant task
          (removed from Scala 2.13): the .java sources are passed to scalac
          too, which parses them for signatures but emits classes only for
-         the .scala sources; the javac step below then compiles the .java
-         sources for real.  The file list goes through an @argfile to keep
-         the command line short. -->
+         the .scala sources; the javac step of compileAll then compiles the
+         .java sources for real.  The file list goes through an @argfile to
+         keep the command line short. -->
     <pathconvert property="scalac.compileAll.sources" pathsep="${line.separator}">
       <fileset dir="${src}">
         <include name="**/*.java"/>
@@ -566,6 +780,11 @@ testOtherCompiler, testCruiseControl
       <arg value="-deprecation"/>
       <arg value="@${build}/scalac-compileAll.args"/>
     </java>
+  </target>
+
+  <target name="compileAll"
+          depends="compileCommon, makeAST, parser, operatorsGen, compileScala"
+          description="Compile all Fortress code.">
     <javac encoding="UTF-8" 
         srcdir="${src}"
         destdir="${build}"
@@ -574,7 +793,8 @@ testOtherCompiler, testCruiseControl
         debug="true"
         includeantruntime="false"
         fork="true"
-        memorymaximumsize="${junitMem}">
+        memorymaximumsize="${junitMem}"
+        updatedProperty="java.compiled">
       <!-- Uncomment the following line to print unchecked warnings
            (here and in the 'compileCommon' target. -->
       <!-- <compilerarg value="-Xlint:unchecked"/> -->
@@ -583,6 +803,25 @@ testOtherCompiler, testCruiseControl
       <exclude name="${usefulPackage}/*.java"/>
       <exclude name="${unicodePackage}/*.java"/>
     </javac>
+    <!-- The stamp of what was built, and the caches that belong to it.
+         When scalac was up to date and javac compiled nothing, the build
+         directory is as checkScalaUptodate found it. -->
+    <condition property="build.unchanged">
+      <and>
+        <isset property="scala.uptodate"/>
+        <not><isset property="java.compiled"/></not>
+      </and>
+    </condition>
+    <property name="implementation.built" value="${implementation.before}"
+              if:set="build.unchanged"/>
+    <implementationFingerprint property="implementation.built"
+                               unless:set="build.unchanged"/>
+    <echo file="${build}/implementation.sources"
+          message="${sources.compiled}${line.separator}"/>
+    <echo file="${build}/implementation.stamp"
+          message="${implementation.built}${line.separator}"/>
+    <stampCache dir="${cache0}" stamp="${implementation.built}"/>
+    <stampCache dir="${cache1}" stamp="${implementation.built}"/>
   </target>
 
   <target name="compile" depends="compileAll"/>
@@ -711,8 +950,10 @@ testOtherCompiler, testCruiseControl
   <!-- Whenever any part of the compiler source code is recompiled, we need to clean the cache
        because we can't ensure that existing target code is still valid (or even sensical).
        EricAllen 6/18/2009
+       checkCaches does this now, and only when the implementation changes
+       ("The caches and the implementation", above).
   -->
-  <target name="compileCommon" depends="init, cleanCache"
+  <target name="compileCommon" depends="init, checkCaches"
           description="Compile interpreter-indepedent code.">
     <depend srcdir="${src}"
             destdir="${build}"
@@ -734,7 +975,7 @@ testOtherCompiler, testCruiseControl
     </javac>
   </target>
 
-  <target name="compileCommonLint" depends="init"
+  <target name="compileCommonLint" depends="init, checkCaches"
           description="Compile interpreter-indepedent code.">
     <depend srcdir="${src}"
             destdir="${build}"
@@ -771,10 +1012,12 @@ testOtherCompiler, testCruiseControl
     </target>
 
 
-  <!-- Note that testOnly no longer depends upon compileAll, as this
-       entails a cache flush!  That rules out the only isolated method
-       we have of pinning down cache corruption bugs. -->
-  <target name="testOnly"
+  <!-- testOnly once left out compileAll, because compileAll flushed the
+       cache, which ruled out pinning down cache corruption bugs.
+       compileAll now keeps the caches unless the implementation changes
+       ("The caches and the implementation"), so testOnly builds first and
+       never runs stale classes. -->
+  <target name="testOnly" depends="compileAll"
           description="Run specific tests (use -DtestPattern=...).">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
@@ -815,105 +1058,70 @@ testOtherCompiler, testCruiseControl
           description="Clean, compile everything, and run all unit and system tests.">
   </target>
 
-  <target name ="testCompiler" depends="cleanCache, compile"
-          description="Test the native code generator">
+  <!-- The per-corpus targets run their corpus as testFast's tracks do
+       (fastTrack, below: private caches, the same JVM settings), after an
+       incremental build. Each starts its own tracks' caches empty and leaves
+       the other tracks' and default_repository/caches alone. -->
+  <target name ="testCompiler" depends="compileAll"
+          description="Test the native code generator: testFast's compiler and othercompiler tracks">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/CompilerJUTest.class"/>
-          <include name="**/OtherCompilerJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+    <delete quiet="true" dir="${test.caches}/fast-compiler"/>
+    <delete quiet="true" dir="${test.caches}/fast-othercompiler"/>
+    <parallel threadcount="2">
+      <fastTrack id="compiler">
+        <include name="**/CompilerJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="othercompiler">
+        <include name="**/OtherCompilerJUTest.class"/>
+      </fastTrack>
+    </parallel>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
-  <target name ="testOtherCompiler" depends="cleanCache, compile"
-          description="Test the native code generator on other_compiler_tests">
+  <target name ="testOtherCompiler" depends="compileAll"
+          description="Test the native code generator on other_compiler_tests: testFast's othercompiler track">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/OtherCompilerJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+    <delete quiet="true" dir="${test.caches}/fast-othercompiler"/>
+    <fastTrack id="othercompiler">
+      <include name="**/OtherCompilerJUTest.class"/>
+    </fastTrack>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
-  <target name ="testLibrary" depends="cleanCache, compile"
-          description="Test the compiler libraries">
+  <target name ="testLibrary" depends="compileAll"
+          description="Test the compiler libraries: testFast's library track">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/LibraryJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+    <delete quiet="true" dir="${test.caches}/fast-library"/>
+    <fastTrack id="library">
+      <include name="**/LibraryJUTest.class"/>
+    </fastTrack>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
-  <target name ="testQuick" depends="cleanCache, compile"
-          description="Test the native code generator">
+  <target name ="testQuick" depends="compileAll"
+          description="Test the native code generator: testFast's compiler, othercompiler and library tracks">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
-    <junit printsummary="on"
-           haltonerror="off"
-           haltonfailure="off"
-           showoutput="yes"
-           fork="true"
-           maxmemory="${junitMem}"
-           errorProperty="tests.failed"
-           failureProperty="tests.failed">
-      <classpath refid="compile.classpath"/>
-      <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
-      <formatter type="plain" usefile="true"/>
-      <batchtest fork="true" todir="${test.results}">
-        <fileset dir="${build}">
-          <include name="**/CompilerJUTest.class"/>
-          <include name="**/OtherCompilerJUTest.class"/>
-          <include name="**/LibraryJUTest.class"/>
-        </fileset>
-      </batchtest>
-    </junit>
+    <delete quiet="true" dir="${test.caches}/fast-compiler"/>
+    <delete quiet="true" dir="${test.caches}/fast-othercompiler"/>
+    <delete quiet="true" dir="${test.caches}/fast-library"/>
+    <parallel threadcount="3">
+      <fastTrack id="compiler">
+        <include name="**/CompilerJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="othercompiler">
+        <include name="**/OtherCompilerJUTest.class"/>
+      </fastTrack>
+      <fastTrack id="library">
+        <include name="**/LibraryJUTest.class"/>
+      </fastTrack>
+    </parallel>
     <delete dir="${PF}/test-tmp" />
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
@@ -924,9 +1132,13 @@ testOtherCompiler, testCruiseControl
        processes the tests fork), so tracks cannot corrupt each other or
        the tracked default_repository/caches. Per-suite resets are
        disabled: each track starts cold in a fresh directory.
-       FORTRESS_THREADS=1 is pinned here, as in systemShard below, so the
-       thread count the tests run at is a property of this target and not
-       of the shell that called ant. -->
+       FORTRESS_THREADS=4 is pinned here, as in systemShard below. Fortress
+       runs tuple elements, arguments and for iterations in parallel by
+       default, so the tests run in parallel too: a test that fails or
+       varies under parallelism is then found, not hidden by one thread.
+       The pin makes the thread count a property of this target, the same
+       on any machine, and not of the shell that called ant (unpinned, the
+       default is half the CPUs). -->
   <macrodef name="fastTrack">
     <attribute name="id"/>
     <element name="tests" implicit="yes"/>
@@ -944,7 +1156,7 @@ testOtherCompiler, testCruiseControl
         <sysproperty key="fortress.junit.reset" value="false"/>
         <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
         <env key="FORTRESS_CACHES" value="${test.caches}/fast-@{id}"/>
-        <env key="FORTRESS_THREADS" value="1"/>
+        <env key="FORTRESS_THREADS" value="4"/>
         <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
         <jvmarg value="${bigStack}" />
         <formatter type="plain" usefile="true"/>
@@ -957,7 +1169,7 @@ testOtherCompiler, testCruiseControl
     </sequential>
   </macrodef>
 
-  <target name="testFast"
+  <target name="testFast" depends="compileAll"
           description="Run all unit and system tests expected to pass.">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />
@@ -1161,13 +1373,15 @@ testOtherCompiler, testCruiseControl
     <fail message="Tests expected to pass are failing!" if="tests.failed"/>
   </target>
 
-  <!-- testSystem used to have compileAll as a target, but now does not
-       as this cleans the cache. -->
+  <!-- testSystem once left out compileAll, because compileAll cleaned the
+       cache; compileAll now keeps the caches unless the implementation
+       changes, so testSystem builds first, as testFast does. -->
 
   <!-- One shard of the parallel testSystem run. The shard spec "i/n" makes
        FileTests.interpreterSuite keep every n-th test (by sorted index,
-       offset i). Caches are redirected as in fastTrack; FORTRESS_THREADS=1
-       stops four interpreter runtimes from oversubscribing the CPUs. -->
+       offset i). Caches are redirected as in fastTrack; FORTRESS_THREADS=4
+       is pinned for the reason given there: the tests run in parallel, as
+       Fortress does, on any machine. -->
   <macrodef name="systemShard">
     <attribute name="shard"/>
     <attribute name="id"/>
@@ -1185,7 +1399,7 @@ testOtherCompiler, testCruiseControl
         <sysproperty key="fortress.suite.shard" value="@{shard}"/>
         <sysproperty key="fortress.caches" value="${test.caches}/system-@{id}"/>
         <env key="FORTRESS_CACHES" value="${test.caches}/system-@{id}"/>
-        <env key="FORTRESS_THREADS" value="1"/>
+        <env key="FORTRESS_THREADS" value="4"/>
         <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
         <jvmarg value="${bigStack}" />
         <formatter type="plain" usefile="true"/>
@@ -1198,7 +1412,7 @@ testOtherCompiler, testCruiseControl
     </sequential>
   </macrodef>
 
-  <target name="testSystem"
+  <target name="testSystem" depends="compileAll"
           description="Run SystemJUTests.">
     <mkdir dir="${test.results}"/>
     <mkdir dir="${PF}/test-tmp" />

@@ -7,7 +7,17 @@
 # of tests and records only"): the whole list in one fortress junit run, one JVM, as the gate's track runs them
 # together; Shell junit hands the list to FileTests.suiteFromListOfFiles (Shell.java:1086), which puts its
 # compile and link tests before its run tests (FileTests.java:997-1004), so a link test still runs first.
-source "$(dirname "$0")/../../../experiment/env.sh"
+# The environment is env.sh's, set here without sourcing it, since env.sh also removes parser directories in
+# /tmp. The tree is the one this script is in. FORTRESS_THREADS=4 is the pin of build.xml's fastTrack macro,
+# which runs the gate's compiled tracks. The JVMs keep their temporary files, parser directories among them,
+# in the tree's tmp/.
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64
+export PATH="$JAVA_HOME/bin:$PATH"
+export FORTRESS_HOME="$(cd "$(dirname "$0")/../../../.." && pwd)"
+unset JAVA_TOOL_OPTIONS
+export FORTRESS_THREADS=4
+mkdir -p "$FORTRESS_HOME/tmp"
+export JAVA_FLAGS="-Xmx4g -Xss64m -Djava.io.tmpdir=$FORTRESS_HOME/tmp"
 FH=$FORTRESS_HOME; L=${1:?label}; D=$(cd "${2:?dir}" && pwd); shift 2
 cd "$FH/ProjectFortress"
 CP=$(../bin/fortress_classpath | tail -1)
