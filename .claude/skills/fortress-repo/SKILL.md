@@ -46,6 +46,22 @@ Each path has its own library today. At the switch-over, the compiled path moves
 
 You work with three things: your brief, the record and the original tree. Building happens in one area at a time, so this skill has one part for each area.
 
+## Fortress as a language
+
+Fortress is not in your training in any depth. Each point below corrects an assumption from a language that you know.
+
+- **Only the compiled path checks types.** Walk runs a program with no static types. So a program that runs under walk can be ill-typed, unlike in Java or Scala.
+- **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The compiled checker accepts two overloads only if their parameter types exclude each other, one is more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
+- **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. Its name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
+- **Traits and objects, no classes.** A trait has methods and abstract fields, and extends several traits. An object is a leaf. `excludes {A, B}` says that no value has both types. `comprises {A, B}` says that every value has a listed type, near Scala's `sealed`. No type may extend two instantiations of one generic trait. This exclusion rule is why the number types are flat (below).
+- **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are reified, not erased as in Java. They are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound.
+- **Numbers are siblings, not a tower.** `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64` are siblings under `Number`. None is a subtype of another, unlike Haskell's classes or Java's widening. A wider type declares a `coerce` from each narrower one. A conversion never changes which declaration runs when one already fits. Overflow raises `IntegerOverflow`. The algebra is self-typed traits, such as `AdditiveGroup[\T\]` with `+`, not monoids over an operator parameter. `references/library.md` gives the rest: ranges, wrapping, `SUM`.
+- **Evaluation is parallel by default.** Tuple elements, arguments, operands and `for` iterations can run at once, not in Java's left-to-right order. A loop is sequential only if every generator is `seq(...)`. A shared `var` that a loop updates is a race: use a reduction, `seq` or `atomic`. The suites run at one thread, so they do not show races.
+- **Loops and reductions are library code.** `for`, comprehensions and `SUM` call the library's generators and reductions (`references/library.md`).
+- **Juxtaposition is an operator, and whitespace counts.** `f x` applies a function. Otherwise juxtaposition is an operator that the library overloads: `2 x` multiplies, and `"a" "b"` concatenates. How three juxtaposed items group depends on their types, unlike in Haskell. An infix operator has whitespace on both sides or on neither: `a -b` is not `a - b`. Precedence is partial: `a + b ∪ c` needs parentheses.
+- **Declarations.** `x = e` binds a name that cannot change. `var x: T = e` and `x: T := e` declare a variable, and `x := e` assigns. `references/tests-writing.md` gives the form of a program.
+- **Specified, but not built:** dimensions and units, `property` declarations, regions, reduction variables and complex numbers. Some constructs run only under walk (`references/compiler.md`).
+
 ## The record
 
 The record is kept in the repository, because a session can move to a new container. Memory outside the repository is lost then. Its main files:
