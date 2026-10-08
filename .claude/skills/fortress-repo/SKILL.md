@@ -71,7 +71,7 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 
 - Carry out the curator's decisions as the record states them.
 - If the record does not settle a question that your work meets, switch to exploring.
-- Check every claim against a primary source: the code, the specification, the papers or a run.
+- Cite a source for each claim that you write: your brief, an entry of the record, or a primary source (the code, the specification, the papers or a run).
 - Reproduce a behaviour before you explain it, unless your brief cites such a run.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
