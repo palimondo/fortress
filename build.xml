@@ -1138,7 +1138,15 @@ testOtherCompiler, testCruiseControl
        varies under parallelism is then found, not hidden by one thread.
        The pin makes the thread count a property of this target, the same
        on any machine, and not of the shell that called ant (unpinned, the
-       default is half the CPUs). -->
+       default is half the CPUs).
+       JAVA_FLAGS is pinned for the same reason: a compiled test's run step
+       is a bin/fortress run process, which takes its heap and stack from
+       JAVA_FLAGS, else from bin/run's default with the JVM's 1 MB thread
+       stacks.  Above one thread the program runs on the pool's worker
+       threads, and library_tests/TimingRungT, whose recursion is 1,000
+       calls deep with its operands forked, overflowed such a stack in 8 of
+       12 runs at four threads, and in none of 12 with this value, the
+       heap and stack that explorations/experiment/env.sh exports. -->
   <macrodef name="fastTrack">
     <attribute name="id"/>
     <element name="tests" implicit="yes"/>
@@ -1157,6 +1165,8 @@ testOtherCompiler, testCruiseControl
         <sysproperty key="fortress.caches" value="${test.caches}/fast-@{id}"/>
         <env key="FORTRESS_CACHES" value="${test.caches}/fast-@{id}"/>
         <env key="FORTRESS_THREADS" value="4"/>
+        <env key="JAVA_FLAGS"
+             value="-Xmx4g -Xss64m -Djava.io.tmpdir=${basedir}/${PF}/test-tmp"/>
         <jvmarg value="-Djava.io.tmpdir=${PF}/test-tmp" />
         <jvmarg value="${bigStack}" />
         <formatter type="plain" usefile="true"/>
