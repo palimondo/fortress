@@ -21,6 +21,9 @@ import unicodedata
 TOOLS = os.path.dirname(os.path.realpath(__file__))
 TREE = os.path.dirname(os.path.dirname(os.path.dirname(TOOLS)))   # the checkout this tool is in
 
+sys.path.insert(0, TOOLS)
+import ledger as ledger_tool   # ledger.py beside this file owns the gap ledger's format and parser
+
 FACTS_REL = 'explorations/coordinator/FACTS.md'
 INDEX_REL = 'explorations/coordinator/INDEX.md'
 POSITIONS_REL = 'explorations/coordinator/POSITIONS.md'
@@ -255,25 +258,8 @@ def nearest_titles(q, entries, k=3):
 
 def ledger_rows(path):
     """(row number, line, section, header lines, the row) for every gap row: a
-    table row whose first cell is a number."""
-    lines = read_lines(path)
-    rows, section, header = [], None, []
-    for n, ln in enumerate(lines, 1):
-        if ln.startswith('## '):
-            section = ln[3:].strip()
-        if ln.startswith('|') and n < len(lines) and re.match(r'\|\s*:?-{3,}', lines[n]):
-            header = [ln, lines[n]]
-        m = re.match(r'\|\s*(\d+)\s*\|', ln)
-        if m:
-            rows.append((int(m.group(1)), n, section, header, ln))
-    return rows
-
-
-def ledger_cells(row):
-    """A ledger row's cells, which open with #, claim and status; a cell ends at
-    a | that is not escaped and has a space or the line's end after it, since a
-    code span such as `opr ||(` holds bare ones."""
-    return [c.strip() for c in re.split(r'(?<!\\)\|(?=\s|$)', row.strip())[1:-1]]
+    table row whose first cell is a number, as ledger.py's parser reads it."""
+    return [(r.num, r.lineno, r.section, r.header, r) for r in ledger_tool.Ledger(path).rows]
 
 
 def clip(text, n):
@@ -649,22 +635,21 @@ def main(argv):
             else:
                 f.bad = len(hits) > 1
                 name = os.path.basename(rec.ledger)
-                for num, n, sec, header, ln in hits:
-                    f.blocks.append(('== %s, ## %s' % (rec.rel(rec.ledger), sec), '%s:%d\n%s' % (name, n, '\n'.join(header + [ln]))))
+                for num, n, sec, header, row in hits:
+                    f.blocks.append(('== %s, ## %s' % (rec.rel(rec.ledger), sec), '%s:%d\n%s' % (name, n, '\n'.join(header + [row.line]))))
                 f.where = '; '.join('%s:%d, %s' % (name, n, sec) for num, n, sec, header, ln in hits) \
                     + ('' if len(hits) == 1 else '  (%d rows, not one)' % len(hits))
         elif q.startswith('ledger-find:'):
             f = Found(q)
             words = norm(q[len('ledger-find:'):]).split()
-            hits = [r for r in rows if words and holds_all(words, r[4])]
+            hits = [r for r in rows if words and holds_all(words, r[4].line)]
             if not hits:
                 f.bad, f.missing = True, 'no row of %s holds every word' % rec.rel(rec.ledger)
             else:
                 shown = hits[:FIND_ROWS]
                 out = []
-                for num, n, sec, header, ln in shown:
-                    cells = ledger_cells(ln) + ['', '', '']
-                    out.append('%d | %s | %s' % (num, cells[2], clip(cells[1], CLAIM_CHARS)))
+                for num, n, sec, header, row in shown:
+                    out.append('%d | %s | %s' % (num, row.status, clip(row.claim, CLAIM_CHARS)))
                 if len(hits) > len(shown):
                     out.append('... and %d more rows hold every word; add a word to narrow them' % (len(hits) - len(shown)))
                 ctx = '== %s, the rows holding "%s"%s' % (rec.rel(rec.ledger), q[len('ledger-find:'):].strip(),
