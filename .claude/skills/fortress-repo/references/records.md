@@ -1,6 +1,6 @@
 # The record and the report
 
-A point to report is a kind of change or finding that the curator wants to review. Your brief names its points to report. Examples from earlier briefs: a changed line of a test that the team wrote, a checker edit inside a change to the library, a changed line of the model program.
+A point to report is a kind of change or finding that the curator wants to review. Your brief names its points to report. Examples: a changed line of a test that the team wrote, a checker edit inside a change to the library, a changed line of the model program.
 
 ## The record's other files
 
