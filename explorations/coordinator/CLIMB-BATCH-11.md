@@ -57,6 +57,8 @@
 
 ## 2. Your questions, in the order they block the batch
 
+**Answered.** The curator answered Q1 to Q4 on 2026-10-08, each at its recommendation (POSITIONS, "The order of the work after batch 10."): Q1 yes, way 11; Q2 yes to both parts, the `typecase` branch and the plan's reading of the other three contexts; Q3 the recommended readings, items 39, 40 and 41 each at way (a), so rung L runs; Q4 yes, way 1. Q5 stays out of this batch. Each rung's section in section 3 opens with the answers it follows, and section 5 gives the manifest the batch runs on.
+
 ### Q1. Probe P1: under walk, is a type parameter whose bound names itself, and that nothing at a call fixes, left open (way 11)?
 
 - **Blocks:** rung W's main part. Without a yes, W builds rows 614 and 618 only.
@@ -173,6 +175,8 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 
 ### W. Walk: a parameter whose bound names itself left open (under Q1), a trait's override, and object expressions under the Meet Rule
 
+**The answers this rung follows.** The curator's answers on record (POSITIONS, "The order of the work after batch 10."): Q1 yes, way 11, so every paragraph and bullet marked "under Q1" applies. Where this section says "you" or "your", it means the curator.
+
 **Rows.**
 - Under Q1: row 424's F-bounded half closes. One new row opens with its expected failure: an empty unwritten reduction over a type other than `ZZ32` gets `ZZ32`'s identity. Notes: row 628 unblocked for a later library rung; row 555's F-bounded form unchanged (there the arguments fix `T`); D2's entry gains the open candidate.
 - Always: row 614 (walk runs a declaration that a trait's `override` declaration overrides: with `trait W extends S` overriding `S`'s `tag` and `dot`, `object Wo extends W` runs `S`'s; the row's fix drops overridden inherited declarations when a trait's members are gathered) and row 618 (walk does not check an object expression that provides two overlapping functional methods with no declaration on their meet, `object extends { A, B } end`, and runs one of them; its load check visits declared traits and objects only, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1206-1213`; the checker's half of the same rule is row 570, section 4).
@@ -205,6 +209,8 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 
 ### C. The checker: overloading, export, a crash in the disambiguator, and row 463's tests
 
+**The answers this rung follows.** The curator's answers on record (POSITIONS, "The order of the work after batch 10."): Q4 yes, way 1, so rows 620 to 622 are this rung's and every line marked "under Q4" applies.
+
 **Rows.**
 - Row 610: the checker reads every functional method a supertype declares as provided, so it refuses the team's `tests/disp0.fss` and any `override` that widens a parameter. Fix area: `STypesUtil.gatherMethods` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1602-1620`) and `OverloadingChecker.toFunctionalMethodArrows` (`scala_src/typechecker/OverloadingChecker.scala:135-157`).
 - Row 617: the per-provider cover counts the self position; the fix gives `coversOverlap` the arrows without self (`OverloadingChecker.scala:618` against `:587-589`).
@@ -235,6 +241,8 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 
 ### E. The checker: the expected type the text gives (item 36), and a method's own static parameter at a method call (row 627)
 
+**The answers this rung follows.** The curator's answers on record (POSITIONS, "The order of the work after batch 10."): Q2 yes to both parts, so all four contexts are this rung's, the `typecase` branch by the union rule (way 1), and every line marked "under Q2" applies.
+
 **Rows.**
 - Row 560's second part (item 36), 13 sites. Without Q2's first part, all 13 wait; without its `typecase` part, 3 stay with the row.
 - Row 627, 6 sites: at a method call, a generic method's own static parameter captures the caller's parameter of the same name, so `g.mp[\(ZZ32,G)\](…)` inside `pairUp[\G\]` is refused and the same body with the caller's parameter named `H` checks. Its siblings at two other sites, rows 561 and 563, are fixed; the row's fix renames the method's own static parameters before substituting, as `OverloadingChecker.scala:181-202` does for row 561. The site of the substitution is not located.
@@ -263,6 +271,8 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 - No edit overlap with L, but two of E's sites sit in L's sections (`RangeInternals.fss:157-158` in `ScalarRange.check`; `FortressLibrary.fss:3974-3980` in `FullRange.narrowToRange(other: Range[\I\])`, whose sibling overload `narrowToRange(other: OpenRange[\I\])` at `:3973` is row 599's site and L's): L leaves those two declarations alone, and the gate measures both rungs on the merged tree.
 
 ### L. The library: the ranges under your answers to items 39 to 41, and three slips
+
+**The answers this rung follows.** The curator's answers on record (POSITIONS, "The order of the work after batch 10."): Q3 takes the recommended readings, item 39 way (a), `BoundedRange2D` and `BoundedRange3D`; item 40 way (a), the bodies moved to the `ZZ32` kinds of rank 1 to 3; item 41 way (a), the bounds' order repaired so that `|#(0,3)|` is 0 and the declared types widened to `RangeWithExtent[\...\]`. So the rung runs, and every line marked "under Q3" or "under item 41" applies, the value change of item 41 among them. Where this section says "you" or "your", it means the curator.
 
 Runs only if you answer Q3. Without it, rows 633 and 638 wait for batch 12's library rung, with row 628.
 
@@ -322,3 +332,111 @@ Runs only if you answer Q3. Without it, rows 633 and 638 wait for batch 12's lib
 - Rows 612 and 616: out, waiting on D5's and row 591's entries.
 - `classify.py` by declaration: not built; this record does not depend on it (section 1, "Before the batch runs").
 - The walk example back to `explorations/claude_demo.fss`: at W's landing, under Q1.
+
+## 5. How it is run
+
+The batch runs on the redesigned workflow: `coordinator/climb-batch-workflow.js`, its manual `coordinator/climb-batch-workflow.md`, and the practice they build, `coordinator/process-engineering/batch-redesign.md`. In short: each rung's worker does the rung test first; its skeptic checks it and fixes what it finds, test first, and a judge rules only on a fix the skeptic marks contested or on a rung the skeptic cannot fix; the gather lands the rungs on `main` and folds their record lines, their ledger rows through `coordinator/tools/ledger.py`, and their entries for the skill's part on the revival's changes; the merged-diff review and the gate run side by side, then a cold reader reads the skill text the batch added; the commit stage lands the gate's tables, runs the microGPT walk check and pushes. Section 3 is each worker's brief word for word, with the answers line it opens with; this section holds the rest of the manifest, which `explorations/compile-ladder/plan-11/manifest/gen11.py` reads with the briefings of `lists11.py` beside it.
+
+### The manifest, rung by rung
+
+Each block gives the fields of one rung's manifest entry. "Its test is the stage" means the checker count and the distance are the rung's failing-then-passing test, before from batch 10's landed tables (`compile-ladder/climb-batch-10/gate/`, `compile-ladder/gate/distance-sites.tsv`) and after once on the rung's tree. "Joins the gate" names a step the gate gains once the rung lands. The points to report are the kinds of change the curator reviews after the landing: a rung that reaches one finishes, lists it with its evidence, and lands (POSITIONS, "Reversible stops do not hold a batch."); only a step that cannot be undone, or that would act against a decision of the curator, holds the push.
+
+#### W
+- **slug:** `rung-walk-open-param`
+- **worktree:** `/home/user/fortress-walkopen`
+- **expected minutes:** 110
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** `testSpecData`
+- **blurb:** walk leaves open an F-bounded type parameter that nothing at a call fixes (Q1, way 11; row 424's F-bounded half), so the unwritten `SUM`, the specification's five red examples and the smoke test run; walk stops running a declaration a trait overrides (row 614) and checks the Meet Rule on object expressions (row 618); the inference chapter's box on walk and the reductions note in the S1 form; Java under `interpreter/evaluator/`.
+- **points to report:**
+  - An interpreter test whose verdict changes other than by the rung's intent: each with its before and after.
+  - A library type or a team test that walk now refuses at load.
+  - A change to which declaration walk runs for a set it loads today, beyond the overridden declarations of row 614.
+  - Each place a program can now print the open type `OPEN`.
+  - The empty unwritten reduction over a type other than `ZZ32` that gets `ZZ32`'s identity: its new row and expected failure.
+  - Each of the 18 demos and the smoke test, its verdict and first error line.
+  - A team test line changed or a demo edited.
+  - Normative text changed beyond the passages section 3 names.
+  - A library, checker or test-harness edit.
+
+#### C
+- **slug:** `rung-checker-overloading`
+- **worktree:** `/home/user/fortress-checkover`
+- **expected minutes:** 120
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **blurb:** the compiled checker stops refusing four valid programs and accepting one invalid one (rows 610, 617, 625, 637; row 619), reports an undeclared type in a `typecase` arm instead of crashing (row 626), and gains row 463's two owed tests; under Q4 (yes, way 1) a local function whose parameter type is left out is refused with "Missing parameter type for" instead of crashing (rows 620 to 622), with a callout and an Appendix I entry; Scala under `scala_src/` and Java in `compiler/disambiguator/`.
+- **points to report:**
+  - A compiled test whose verdict changes other than by the rung's intent.
+  - A program the text allows that the checker now refuses, or one the text refuses that it now accepts, outside the rung's rows.
+  - A crash repaired by catching it without the error the text gives.
+  - Each error the three refusals of Q4 uncover behind the crash rows, with its site.
+  - Normative text changed beyond Q4's callout and its entry.
+  - A library or walk edit, or a declaration added to the compiler's prelude.
+
+#### E
+- **slug:** `rung-checker-expected-type`
+- **worktree:** `/home/user/fortress-expected`
+- **expected minutes:** 100
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **blurb:** the compiled checker passes the type the text gives into an `if` without `else`, a block's last expression after a local declaration, a loose juxtaposition and a `typecase` branch (item 36 under Q2, row 560's second part, 13 sites), and keeps a method's own static parameter apart from the caller's at a method call (row 627, 6 sites); the inference chapter's two lists and an Appendix I entry of its own; Scala under `scala_src/typechecker/`.
+- **points to report:**
+  - A compiled test whose verdict changes other than by the rung's intent.
+  - A program the text allows that the checker now refuses, or one the text refuses that it now accepts, outside item 36's four contexts and row 627.
+  - The argument face of `XXXInferContextDrops` (row 455) cleared or changed.
+  - Normative text changed beyond the inference chapter's two lists and the rung's own Appendix I entry.
+  - A library or walk edit.
+
+#### L
+- **slug:** `rung-range-types`
+- **worktree:** `/home/user/fortress-ranges`
+- **expected minutes:** 90
+- **its test is the stage:** yes
+- **writes state:** no
+- **joins the gate:** none
+- **blurb:** the one library's ranges under Q3's answers: `BoundedRange2D` and `BoundedRange3D` (item 39, row 599), the generic bodies' comparisons moved to the `ZZ32` kinds (item 40, row 600), the bounds' order repaired and the declared types widened (item 41, row 601), up to 36 sites; three getters called without `()` (row 633) and five `throw ForbiddenException` given their argument (row 638); library declarations only.
+- **points to report:**
+  - A value walk prints that changes, each with its before and after: item 41's `|#(0,3)|` from 1 to 0 and the two pins in `ProjectFortress/tests/RangeDeclarations.fss:112-113` among them, and any other.
+  - A new api type beyond `BoundedRange2D` and `BoundedRange3D`, or a team declaration removed.
+  - A declaration of E's two sites edited (`ScalarRange.check`; `FullRange.narrowToRange(other: Range[\I\])`).
+  - A team test line changed.
+  - A checker or walk edit, or a site whose only repair is a checker change.
+
+### What every agent of the run reads first
+
+This run is climb batch 11, the record `CLIMB-BATCH-11.md`, phase 3's next batch after 10, toward the checker at a true zero: one walk rung, two checker rungs and one library rung, each at the answers on record to the record's questions Q1 to Q4. The distance stands at 253 and the count at 1 after batch 10 (`compile-ladder/climb-batch-10/gate/`). The rungs meet only in a measure: no two rungs change one declaration, and no rung builds on another rung of the batch. W edits walk alone, C and E the checker in separate files (both may touch `STypesUtil.scala` at different declarations), L the library alone; W and E edit `Specification/basic/inference.tex` at passages more than a hundred lines apart; in `Specification/appendices/changes.tex` W amends two entries and C and E each write an entry of its own; `ProjectFortress/tests/` takes W's and L's distinct files, `ProjectFortress/compiler_tests/` C's and E's. E's checker change and L's library change both move sites in the ranges' sections, and the gate measures both on the merged tree.
+
+### Before the launch
+
+The coordinator, in this order:
+1. The redesigned script, its manual and this manifest on `main`, and the skill's rewrite landed with its part on the revival's changes, `.claude/skills/fortress-repo/references/revival-changes.md`; the batch's base is `main`'s head after both, its full hash, passed as `args.base`. The run's gather folds each landed rung's entry into that part; if the part is not there at the base, the gather lists the entries for the coordinator instead.
+2. The base build, as the manual's "Before the launch" gives it: `git -C /home/user/fortress worktree add --detach /home/user/fortress-base11 <base>`, `ant compileAll` in it, the library order, one passing walk test, `git status --porcelain` empty; passed as `args.baseBuild`. One trial seed proves it (`coordinator/tools/seed-worktree.sh /home/user/fortress-base11 /home/user/fortress-seedcheck - <base>`, then `git -C /home/user/fortress worktree remove /home/user/fortress-seedcheck`), and one `coordinator/tools/old-fortress.sh /home/user/fortress-base11 /home/user/fortress-seedcheck-caches ProjectFortress/tests/BooleanOps.fss` run from the main tree proves the old code runs, its folder removed after.
+3. The briefings checked on the base: `python3 explorations/compile-ladder/plan-11/manifest/lists11.py`, every key matching one place (they did on `cd2393a08`, with W 39.6K, C 28.8K, E 30.1K and L 18.5K tokens of briefing).
+4. The block generated and spliced: `python3 explorations/compile-ladder/plan-11/manifest/gen11.py`, then `node explorations/compile-ladder/plan-11/manifest/check11.js`, which splices it into a scratch copy and checks it; then the same splice into the script itself (`check11.js --write`), `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script, and the commit. No launch value is set by hand: the batch's new ledger rows are numbered by the gather through `ledger.py add`.
+5. `df -h /` against four seeded worktrees (about 206 MB each) and the base build; `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits.
+6. Check-ins armed for the run's length, 45 minutes apart, and one after the session's predicted process stop (the `cloud-container` skill).
+
+The launch: `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<the full hash of the base>', baseBuild: '/home/user/fortress-base11'}})`. The arguments are kept byte for byte in the session's scratchpad, since a resume needs them.
+
+### The gate, and what it should show
+
+The comparands are batch 10's `summary.txt`, `checker-count.txt` (1) and `distance.txt` (253), with `distance-sites.tsv`.
+- `testSystem`: the comparand's sum (516) plus the files W and L add; a promotion moves nothing.
+- `testFast`: the compiler track 1,043 plus the cases C and E add; the library track 86, the othercompiler track 263 and the misc track unchanged.
+- `testSpecData`, a step the gate gains with W: every example green, the five of row 424 among them; its row is new in the summary and from this batch on every gate runs it.
+- The four-thread atomic runs, 42 lines: unchanged.
+- The ladder: no rung declares a move.
+- The checker count and the distance: reported, never red. By reading, E clears 19 sites, L up to 36 and C one (row 637); Q4's three refusals may add about 3 errors and uncover more; W moves neither. The distance near 200, the count 1 (`isLeftZero`, row 582).
+- A repair after the review or the gate reruns the gate only when it changed a path the gate reads (`ProjectFortress/` but test files, `Library/`, `build.xml`).
+
+### The ledger
+
+New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py add`, by the gather, in the order it applies the rungs (its `RECORD.md` says which order and why); until then a worker or a skeptic writes each new row in its `record.md` in the row template with the placeholder `NEW-<rung>-<n>` for its number (`NEW-W-1`), and the gather replaces every placeholder with the number `ledger.py` gives. Rows the rungs close (`ledger.py close`, after the rung's commit is on `main`): 424 (W, under Q1), 614, 618 (W); 610, 617, 619, 625, 626, 637, 620 to 622 (C); 560's second part and 627 (E); 599, 600, 601, 633, 638 (L), each as its test passes on the merged tree. Notes: 555, 628, 570 (W); 405 (C); 455 (E); 577 (L).
+
+### After the landing
+
+The coordinator: the landing report; the routing of every item for the curator into PLAN; FACTS consolidated; the walk example of the skill moved back to `explorations/claude_demo.fss` at the curator's word to the skill writer (section 3, W); row 638's note and PLAN's batch-10 line on "three revival tests" corrected (section 3, L); row 560's note against PLAN item 36 now that Q2 is answered; the combined post-batch review, which reports this batch's measures against batches 8 to 10 as `process-engineering/batch-redesign.md`, "The measures", defines them.
