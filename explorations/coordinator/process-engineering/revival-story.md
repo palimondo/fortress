@@ -6,13 +6,13 @@ Written 2026-10-08 for the curator. Dates are 2026, times UTC. Each part ends wi
 
 Words used throughout:
 
-- **The team**: the Sun Labs designers of Fortress. Their last commit is `a874948ac` (2012-08-31).
-- **Walk**: the interpreter. It runs a program with no static types.
-- **The compiled path**: `fortress compile`, then `fortress run`. It makes JVM bytecode.
-- **The checker**: the static type checker. It runs on the compiled path only.
-- **The library**: the Fortress code every program loads. There were two. The interpreter's is **the one library**. The compiler's own smaller one is **the prelude**.
-- **The switch-over**: the day the compiled path moves onto the one library and the prelude is deleted. It comes when the checker accepts the one library.
-- **The gap ledger**: one file with one numbered row for each known gap or defect.
+- **team**: Sun Labs designers of Fortress. Their last commit is `a874948ac` (2012-08-31).
+- **walk**: Interpreter. It runs a program with no static types.
+- **compiled path**: Path that compiles a program to JVM bytecode and runs it: `fortress compile`, then `fortress run`.
+- **checker**: Static type checker. It runs on the compiled path only.
+- **library**: Fortress code that every program loads. There were two. The interpreter's is **the one library**. The compiler's own smaller one is **the prelude**.
+- **switch-over**: Point at which the compiled path moves onto the one library and the prelude is deleted. It comes when the checker accepts the one library.
+- **gap ledger**: File with one numbered row for each known gap or defect.
 
 ## 1. The start and the exploring era (08-19 to 09-16)
 

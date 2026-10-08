@@ -35,7 +35,7 @@ Example. Bad: "Name the way that changes nothing." Good: "Tell which solution ke
 
 ## 2. The glossary form
 
-A skill's terms open the skill, in `SKILL.md`, as a definition list with no heading. Each term is bold on its own line. The definition follows on the next line, after ": ". It opens with a noun phrase. The curator chose this form. `fortress-repo`'s `SKILL.md` is the model.
+A skill's terms open the skill, in `SKILL.md`, as a definition list with no heading. Each term is bold on its own line. The definition follows on the next line, after ": ". It opens with a noun phrase. Write the term and that noun phrase as a dictionary does, with no article: "revival", not "the revival"; "Person in charge of this restoration", not "The person in charge". The curator chose this form. `fortress-repo`'s `SKILL.md` is the model.
 
 ## 3. Do not take the register of what you read
 
