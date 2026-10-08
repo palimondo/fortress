@@ -10,23 +10,23 @@ The implementation is the parser, walk, the compiled checker, the code generator
 
 - It makes the parser and the syntax tree again only if their sources changed.
 - javac compiles only the changed Java files and the files that depend on them. scalac compiles every Scala file each time.
-- Every `ant compileAll` also deletes the caches whole, because its `compileCommon` step depends on `cleanCache`.
+- It also deletes the caches whole, because its `compileCommon` step depends on `cleanCache`. Only a build that keeps the caches (below, "Keeping the caches through a build") skips this.
 
 The Fortress code is the library, the tests and the programs: the `.fss` and `.fsi` files. The `fortress` commands process it when a program runs or is compiled, and keep the results in the caches (below):
 
-- Walk parses and analyses each component that a run needs.
-- On the compiled path, `fortress compile` also checks the component and writes its jar. `fortress run` runs the jars and compiles nothing.
-- A command reuses an entry whose source is not newer than the entry.
+- Walk parses and analyses each component that a run needs. It needs no compile.
+- On the compiled path, `fortress compile` also checks the component and writes its jar. `fortress run` runs the jars and compiles nothing. `fortress compile` is for the compiled path's components only: the compiler's library, compiled tests and compiled programs.
+- A command reuses an entry if no source that the entry depends on is newer than the entry: its own source, and the `.fsi` files of the apis that it imports, at any depth.
 - The library order (below) compiles the compiled path's library ahead of time.
 
 An edit makes stale what was built from it:
 
-- Java or Scala: the classes in `ProjectFortress/build/`. Run `ant compileAll` (below). The cache entries that the edited code wrote are stale too, and no entry notices it: an entry is compared with its source, never with the implementation. For example, after a change to a native helper's signature, its old wrapper stays in `nativewrapper_cache/`, and the run links the old signature. The deletion by `ant compileAll` clears such entries.
+- Java or Scala: the classes in `ProjectFortress/build/`. Run `ant compileAll` (below). The cache entries that the edited code wrote are stale too, and no entry notices it: an entry is compared with its sources, never with the implementation. For example, after a change to a native helper's signature, its old wrapper stays in `nativewrapper_cache/`, and the run links the old signature. The build deletes the caches for this reason.
 - A parser grammar: the generated parser, and every entry that it parsed. Run `ant compileAll`.
-- A `.fss` or `.fsi` file of the library: the entries of that component, and after an `.fsi` edit, the entries of every component that imports the api. Walk analyses them again by itself. The compiled path needs a compile of the component, or the library order ("After an edit of the library").
-- A test or a program: its own entries. Walk and the harness analyse it again by themselves. On the compiled path, compile it again.
+- A `.fss` or `.fsi` file of the library: the entries of that component, and after an `.fsi` edit, the entries of every component that imports the api. Walk analyses them again by itself. A component of the compiler's library needs a compile, or the library order ("After an edit of the library").
+- A test or a program: its own entries. Walk and the harness analyse a walk test again by themselves. Compile a compiled test or program again, or let the harness do it.
 
-The suites build no implementation. They test the classes that are already in their tree's `ProjectFortress/build/`, and compile the Fortress code that they test into private caches.
+The suites build no implementation. They test the classes that are already in their tree's `ProjectFortress/build/`, and analyse or compile the Fortress code that they test, in private caches.
 
 ## The caches
 
@@ -38,11 +38,18 @@ The caches are in `default_repository/caches/`. All of them are gitignored.
 - `nativewrapper_cache/`: the wrappers for the Java classes that an api imports with `import java`.
 - `global.map`: the linker's saved state, an empty map in practice. If it is missing, the linker writes an empty one, also in a private caches folder.
 
-Only these runs read `default_repository/caches`: `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`), and a direct walk run. These runs use private caches (`-Dfortress.caches` and `FORTRESS_CACHES`), and need neither the library order nor warm caches: `harness-one.sh`, the gate's ladder regression (`gate.md`) and both ant suites.
+Only these runs read `default_repository/caches`: `fortress compile`, `fortress run`, `fortress junit` (and `junit.sh`), `ant testOnly`, and a direct walk run. These runs use private caches (`-Dfortress.caches` and `FORTRESS_CACHES`), and need neither the library order nor warm caches: `harness-one.sh`, the gate's ladder regression (`gate.md`) and both ant suites.
 
 ## The library order
 
-The library order is the five compiles that build the compiled path's library. The first, `LibraryBuiltin/AnyType`, holds the top type `Any`, which both libraries share. The other four are the compiler's own. It takes about 100 to 110 s after `ant compileAll`:
+The library order is the five compiles that build the compiled path's library. The first, `LibraryBuiltin/AnyType`, holds the top type `Any`, which both libraries share. The other four are the compiler's own. It takes about 100 to 110 s after `ant compileAll`.
+
+Run it only when the caches lack the library's jars, or hold stale ones:
+
+- after a build that deleted the caches, and in a tree whose caches are empty;
+- after an edit of a library `.fsi` that the section "After an edit of the library" names.
+
+Otherwise the jars are in place, and a compiled test or program needs no library order. The five commands:
 
     cd ProjectFortress
     ../bin/fortress compile LibraryBuiltin/AnyType.fss            # 17 s
@@ -99,8 +106,8 @@ Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortres
 
 - On an idle machine, it takes about 25 to 60 s on a built tree, and about 80 s on a new one. While other agents build, it takes up to about 140 s.
 - Its deletion of the caches takes `global.map` too. Restore nothing: the caches are gitignored, and the linker writes `global.map` again on the next run.
-- After it, run the library order before the next compiled run. Walk, `harness-one.sh` and the two ant suites need nothing more.
-- If it fails, fix the error and run it again. The caches are already deleted, so clear nothing else. Then run the library order.
+- After a build that deleted the caches, run the library order before the next compiled run. Walk, `harness-one.sh` and the two ant suites need nothing more.
+- If it fails, fix the error and run the same command again. Clear nothing by hand.
 
 ### Keeping the caches through a build
 
@@ -138,7 +145,7 @@ If you skip the step for your edit, the run shows it:
 - After an edit of a body, the run uses the old code and gives no warning.
 - After an edit of an api, the run stops with `NoSuchMethodError` or `NoClassDefFoundError` on a library member. Examples: `fortress.CompilerBuiltin.println`, `coerce_ZZ32`, `fortress/CompilerLibrary$GeneratorZZ32`. The run used the frozen bootstrap stubs in `ProjectFortress/build/fortress/`.
 
-If you see either, do the step now: recompile the component, or run the library order. Do not delete the caches to fix it. A deletion works only because it repeats the library order and every analysis from cold. Only `ant compileAll` deletes the caches whole. If something else looks like a stale cache, find its cause before you delete anything.
+If you see either, do the step now: recompile the component, or run the library order. Do not delete the caches to fix it. A deletion works only because it repeats the library order and every analysis from cold. If something else looks like a stale cache, find its cause before you delete anything.
 
 Two messages look like a skipped step, but usually show a defect:
 

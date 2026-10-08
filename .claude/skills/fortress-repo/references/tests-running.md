@@ -26,14 +26,14 @@ The newest gate summary has the exact counts and times of the last landed run:
 
 The two suites work in the same way:
 
-- Neither suite compiles. On a stale build, a suite tests the previous code and gives no warning.
+- Neither suite builds the implementation. Each tests the classes already in `ProjectFortress/build/`, and gives no warning if they are stale. Each analyses or compiles the Fortress code that it tests, in private caches.
 - Each JVM gets 768 MB, a 32 MB stack and `FORTRESS_THREADS=1`, whatever the shell exports.
 - Each suite deletes `ProjectFortress/test-caches` when it starts, and each JVM keeps its caches in a folder under it. Temporary files go to `ProjectFortress/test-tmp/`.
 - The results are in `ProjectFortress/TEST-RESULTS/fast-<track>/` and `system-<i>/`, as `TEST-<class>.txt`.
 
 To run a suite:
 
-- After you edit Java, Scala or a parser grammar (`parser/*.rats`), run `ant compileAll` in the same tree before you run a suite. Otherwise the suite tests the code from before your edit.
+- After you edit Java, Scala or a parser grammar (`parser/*.rats`), run `ant compileAll` in the same tree before you run a suite.
 - Run one suite at a time in a tree, because each suite deletes the `test-caches` that the other uses.
 - Read the verdict in the last line: `BUILD SUCCESSFUL` means zero failures, and `BUILD FAILED` means at least one.
 - To compare test counts, compare the sum of the four shards. A file added to `tests/` moves every later file to another shard.
@@ -91,7 +91,7 @@ Run interpreter tests (`ProjectFortress/tests/`) from the tree's root, after you
         ProjectFortress/tests/X.fss [ProjectFortress/tests/X.test] [more files ...]
 
 - It runs `SystemJUTest` with testSystem's JVM settings, on a folder that holds only the files that you name. It uses an empty private cache.
-- It runs the classes in `ProjectFortress/build/`. If your tree has none, build it first (`worktrees.md` for a new worktree).
+- It runs the classes in `ProjectFortress/build/`, as the suites do. After you edit Java, Scala or a parser grammar, run `ant compileAll` first. If your tree has no build, build it first (`worktrees.md` for a new worktree).
 - Give it an absolute scratch directory that holds nothing else. The script deletes the directory when it starts and when it ends. A relative path fails with "tests does not exist", because the script changes to `ProjectFortress/` first.
 - If a test has an `X.test` file (its keys for a refusal at load), name it beside its `X.fss`.
 - It takes 15 to 25 s, mostly to analyse the library. Name several files in one call to run them in one JVM.
@@ -105,7 +105,7 @@ The direct run and the harness use different heaps (`interpreter.md`, "Running a
 
 ### Compiled tests
 
-Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They read the tree's `default_repository/caches`, so run the library order first (`build-and-caches.md`).
+Compiled tests are the `.test` files in `compiler_tests/`, `library_tests/` and `other_compiler_tests/`. They link with the library's jars in the tree's `default_repository/caches`. If a build deleted the caches, or the tree's caches are empty, run the library order first (`build-and-caches.md`).
 
 The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`. `climb-batch-N` is the folder's real name, not a placeholder. Run your own tree's copy: it runs the tree that it is in.
 
