@@ -32,7 +32,7 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 : Interface, in a `.fsi` file of its own name.
 
 **area**
-: One part of the system: the interpreter, the compiled path (the checker, the code generator and the run-time), the library, or the specification.
+: One part of the system: the interpreter, the compiled path (the checker, the code generator and the run time), the library, or the specification.
 
 **base**
 : Commit that your work starts from.
@@ -62,7 +62,7 @@ Each path runs these phases on each component, in this order (`compiler/phases/P
 1. Parse the source into a syntax tree. This tree is the only form of the program, from the parser to the bytecode.
 2. Bind each name to its declaration.
 3. Expand the DSL grammars that the component imports (`references/build-and-caches.md`).
-4. Check the static types. Walk's list holds this phase, but walk switches it off.
+4. Check the static types. Walk's phase list holds this phase, but walk switches it off.
 5. Desugar: comprehensions and big operators become calls, and getters and setters become methods.
 6. Mark each call of an overloaded name.
 
@@ -70,7 +70,7 @@ Walk then interprets the tree. The tree has no static types, so walk finds a typ
 
 `fortress compile` runs the same phases with the static type checker, in Scala, switched on. Before the checker, it folds integer literals. After the phases, the code generator writes JVM bytecode into a jar. A type error stops the compile.
 
-Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the compiled type checker accepts the interpreter's library.
+Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's own library is deleted. The switch-over comes when the checker accepts the interpreter's library.
 
 ### The compiled run time
 
@@ -116,24 +116,22 @@ So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The su
 
 Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes (`references/compiler.md`).
 
-Three more ideas are built as "The compiled run time" says: dispatch on every argument at run time, generics specialised for each instantiation, and sizes in types. "Fortress as a language" states them as rules of the language.
-
 ## Fortress as a language
 
-Fortress is not in your training in any depth. Each point below corrects an assumption from a language that you know. `references/tests-writing.md` gives the form of a program.
+Each point below corrects an assumption from a language that you know. `references/tests-writing.md` gives the form of a program.
 
-- **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The compiled checker accepts two overloads only if their parameter types exclude each other, one is more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
-- **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. Its name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
+- **Dispatch is on every argument, at run time.** A call chooses among overloads by the run-time types of all its arguments, as in Julia, not by static types as in Java. The checker accepts two overloads only if their parameter types exclude each other, one is more specific, or a third covers their meet. The more specific one's return type must fit the other's. Walk checks part of this at load.
+- **Functional methods.** A method with `self` among its parameters is called `f(x)`, not `x.f()`. It overloads with top-level functions. Most operators are declared so: `opr +(self, other: T): T`. A functional method's name is reserved in every program that imports it, so do not name a variable after it. One type must not have a dotted and a functional method of the same name.
 - **Traits and objects, no classes.** A trait has methods and abstract fields, and extends several traits. An object is a leaf. `excludes {A, B}` says that no value has both types. `comprises {A, B}` says that every value has a listed type, near Scala's `sealed`. No type may extend two instantiations of one generic trait. This exclusion rule is why the number types are flat (below).
 - **Static parameters.** They are written `[\T\]`, and `[i]` indexes. Their kinds are types, sizes (`nat` is an `NN32` value, `int` a `ZZ32`), `bool` and `opr`. Generics are invariant: there is no `+T` or `-T`. An unbounded type parameter is bounded by `Any`, which holds tuples, functions and `()`, as `Object` does not. A type parameter that a call does not fix takes its bound.
 - **Numbers are siblings, not a tower.** `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64` are siblings under `Number`. None is a subtype of another, unlike Haskell's classes or Java's widening. A wider type declares a `coerce` from each narrower one. A conversion never changes which declaration runs when one already fits. Overflow raises `IntegerOverflow`. The algebra is self-typed traits, such as `AdditiveGroup[\T\]` with `+`, not monoids over an operator parameter. `references/library.md` gives the rest: ranges, wrapping, `SUM`.
 - **Loops and reductions are library code.** `for`, comprehensions and `SUM` call the library's generators and reductions (`references/library.md`).
 - **Juxtaposition is an operator, and whitespace counts.** `f x` applies a function. Otherwise juxtaposition is an operator that the library overloads: `2 x` multiplies, and `"a" "b"` concatenates. How three juxtaposed items group depends on their types, unlike in Haskell. An infix operator has whitespace on both sides or on neither: `a -b` is a static error. Precedence is partial: `a + b ∪ c` needs parentheses.
-- **Specified, but not built:** dimensions and units, `property` declarations, regions, reduction variables and complex numbers. Some constructs run only under walk (`references/compiler.md`).
+- **Specified, but not built:** dimensions and units, `property` declarations, regions and complex numbers. Some constructs run only under walk (`references/compiler.md`).
 
 ## The record
 
-The record is kept in the repository, because a session can move to a new container. Memory outside the repository is lost then. Its main files:
+The record's main files:
 
 - `explorations/coordinator/POSITIONS.md`: the curator's decisions.
 - `explorations/coordinator/FACTS.md`: what is established about the original tree. Each fact has its source and its test.
@@ -160,9 +158,9 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Reproduce a behaviour before you explain it: run a command that shows it, unless your brief cites the command's output.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
-- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
+- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's ladder regression is the one exception (`references/gate.md`).
 - Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
-- Reuse each result of a build, a suite, a stage of the gate or a test that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
+- Reuse each result of a build, a suite, a stage of the gate, a test or a measurement that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
 - After your fix, run your own tests. Run a whole suite where `references/tests-running.md`, "When to run a whole suite", asks for it, and nowhere else.
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell.
 - After an edit, take the step that `references/build-and-caches.md` gives for the kind of file that you edited.
@@ -183,16 +181,17 @@ The parts, in the order that work meets them:
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
 - Building, the caches, what to rebuild after an edit: `references/build-and-caches.md`
 - The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
-- The interpreter area: walk's code (`interpreter/`), its natives, running programs under walk: `references/interpreter.md`
-- The compiled area: the checker, the code generator, the run-time, compiled runs, the `fortress` commands: `references/compiler.md`
+- The interpreter area: walk's code (`interpreter/`), its checks at load, its natives, running programs under walk, the microGPT check: `references/interpreter.md`
+- The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
+- What the revival changed in the team's Fortress, each change with its contradiction and reason; load it when a team source, an old note or your training disagrees with this skill: `references/revival-changes.md`
 - Exploring: where to search, what to record and report, which choices are yours: `references/exploring.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
 - The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
 - Committing and pushing: `references/committing.md`
-- What every report holds and where it goes, findings and points to report; the ledger, FACTS and POSITIONS; the repository's history; the queries of the record: `references/records.md`
+- What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
 A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `session.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.

@@ -27,6 +27,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - The transcript as the record of a worker's order of work: the protocol, hard rule "The gate"; POSITIONS "What a batch commits.".
 - The boot note's process times: FACTS "The platform stops the session's process ..." (the last start and the next stop are the boot note's). The boot note at line 7: the README, first paragraph. An untitled FACTS entry cited by its opening words: the README, "How they are kept".
 - A record that names a model on purpose is not stripped of it: POSITIONS "The record is public and names models on purpose." (the protocol's rule against model identifiers governs what Claude itself writes and pushes).
+- A change covered by the `fortress-repo` skill's `revival-changes.md` added to that part at each landing: POSITIONS "The delta from the original Fortress is a part of the skill, kept current."; `explorations/reviews/fortress-repo-outline.md`, section "revival-changes.md (new)", its "Out" item; moved here from that part's writer in the rewrite of the `fortress-repo` skill of 2026-10-08.
 
 ## boot.md
 

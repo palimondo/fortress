@@ -1,17 +1,32 @@
 # The Claude Code session: the Bash tool, long commands, waits and stops
 
-## The Bash tool
+**prompt cache**
+: API's copy of a conversation's context. It lives five minutes for an agent and one hour for the main session. Each request to the API within that time reads the cache and renews it. The first request after a longer wait writes the whole context again: late in a long task, hundreds of thousands of tokens.
 
-If a call reaches the Bash tool's timeout, the tool cuts it off. It kills the command, or moves it to the background, where you must find it again.
+**interrupt**
+: Stop of the session's turn, by the stop button. It kills every agent that runs in the background at that moment, of the Agent tool or of a Workflow.
+
+**stop of the process**
+: End of the session's Claude Code process. It kills every agent. It keeps the conversation, the transcripts and the disk: worktrees, uncommitted edits and logs. A command started with `nohup`, as `run_bg` (below) starts it, survives a stop, but not a restart of the machine.
+
+**automatic permission check**
+: Check that approves each tool call in auto mode. It can refuse a call, also a call that the curator approved in chat.
+
+## The Bash tool and waits
+
+The Bash tool stops a call at 120 s, unless the call passes a longer `timeout`, at most 600 s. It kills the command, or moves it to the background. It also refuses a command that starts with `sleep N` and goes on to another command, such as `sleep 60; tail build.log`. Wait with `wait_for` instead (below).
+
+- In an agent, keep every wait under 270 s.
+- In the main session, keep every wait under an hour. The main session can also watch a run with the `Monitor` tool.
 
 ## Long commands
 
 Two shell functions run a long command:
 
 - `run_bg` starts the command detached. It writes the output to the log, then a last line `EXIT=<status>`.
-- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0. If not, it returns 1: call it again, in a new call.
+- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0. If not, it returns 1.
 
-If a command can take more than a minute or two, start it with `run_bg` and poll its log with `wait_for`. Grep the log for the lines that you need. Every Bash call starts a new shell, so define both functions in each call that uses them:
+If a command can take more than a minute or two, start it with `run_bg`. Then run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Grep the log for the lines that you need. Define both functions in each call that uses them:
 
     run_bg () {      # run_bg <logfile> "<command>"
         nohup bash -c "( $2 ) > '$1' 2>&1; echo EXIT=\$? >> '$1'" >/dev/null 2>&1 &
@@ -26,42 +41,22 @@ If a command can take more than a minute or two, start it with `run_bg` and poll
         grep -n '^BUILD \|^Total time:\|^EXIT=' "$1"
     }
 
-## Waits and the prompt cache
-
-The prompt cache is the API's copy of a conversation's context. It lives five minutes for an agent and one hour for the main session. A call inside that time reads the cache and renews it. The first call after a longer wait writes the whole context again: late in a long task, hundreds of thousands of tokens.
-
-- In an agent, keep every wait under 270 s. Do not chain sleeps in one call past that.
-- In the main session, keep every wait under an hour. It can also watch a run with the `Monitor` tool.
-
-## Sharing the machine
-
-All agents of the session share the machine's cores. If you take a timing that you will keep, run nothing else beside it. The machine's figures are in the `cloud-container` skill.
-
 ## Stopping processes
 
-Stop or kill only the processes that run under your tree's path.
+Stop only the processes that run under your tree's path. To find a process's path, read `readlink /proc/<pid>/cwd`, or the paths in its arguments.
 
-- To find a process's path, read `readlink /proc/<pid>/cwd`, or the paths in its arguments.
-- Kill by process id, not by a script's name: other agents run copies of the same scripts.
-- Do not use `pkill -f <pattern>`. If the pattern is in your own call's command line, it matches that call's shell too, and kills your call.
+Kill by process id, with `kill <pid>`. A pattern, as in `pkill -f`, also matches other agents' copies of the same scripts, and your own call's shell, which it then kills.
 
-## Interrupts and stops of the process
+## After an interrupt or a stop of the process
 
-- An interrupt is a stop of the session's turn (the stop button). It kills every agent that runs in the background at that moment, of the Agent tool or of a Workflow. A message sent while the session is busy kills nothing.
-- A stop of the session's process kills every agent. It keeps the conversation, the disk (worktrees, uncommitted edits, logs) and the transcripts. A command started with `nohup`, as `run_bg` starts it, survives the stop. On the cloud platform, such a command does not survive a restart of the VM (the `cloud-container` skill).
-
-If your work starts again after an interrupt or a stop:
+If your work starts again after an interrupt or a stop of the process:
 
 1. Read what is on disk first: `git log` and `git status` in your tree, and your logs.
-2. If a log ends with its `EXIT=` line, or its verdict or table is complete, and the tree has not changed since, that step is done. Do not run it again.
-3. If a log has no `EXIT=` line yet, its command may still run. Look for its process under your tree's path. If it runs, wait for it. Do not start a second one.
+2. If a step's log has ended and the tree has not changed since, the step is done. A log has ended if it has its `EXIT=` line, or its verdict or table is complete.
+3. If a log has no `EXIT=` line yet, its command may still run. Look for its process under your tree's path. If it runs, wait for it with `wait_for`.
 4. Continue at the first step whose log is missing, cut off or failed.
 
-## The automatic permission check
-
-In auto mode, an automatic check approves each step. It can refuse a step, also a step that the curator approved in chat.
-
-If the check refuses a step:
+## When the automatic permission check refuses a call
 
 - Do not try for the same result with another tool, by another route or in a later turn.
 - Report the refusal and what was not done because of it. The way through is the curator's: manual approval for the session, or an allow rule for the command (`/permissions`).

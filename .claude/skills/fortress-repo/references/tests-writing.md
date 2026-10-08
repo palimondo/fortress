@@ -1,6 +1,16 @@
 # Writing a test
 
-A test is gated if the gate's suites run it. The harness reports each test green, or red: a failure in JUnit's verdict. An `XXX` test is a gated expected failure: it asserts the answer that the specification gives, and fails today. The harness reports it green while it fails, and red when the defect is fixed. A code-generator wall is a `sayWhat` call or another thrown `CompilerError` for a construct that the code generator does not compile yet.
+**gated test**
+: Test that the gate's suites run.
+
+**green**
+: Harness's report on a test that JUnit counts as passed.
+
+**red**
+: Harness's report on a test that JUnit counts as failed.
+
+**`XXX` test**
+: Gated expected failure. It asserts the answer that the specification gives, and fails today. The harness reports it green while it fails, and red when the defect is fixed.
 
 ## A test program
 
@@ -63,7 +73,7 @@ A `run` fails if the program exits non-zero or a `run_*` check fails. With no `r
 - An unmet `run_*` check makes a run test red, whatever the prefix.
 - The harness reports any link or compile exception of a component whose name contains `XXX` as expected, whatever the `.test` file's name. Only an unmet key of that command makes it red.
 - An `XXX` compile test with a `compile_err_contains` key, whose program compiles, reports "Saw wrong failure", which is red.
-- A green `XXX` test prints `Saw expected failure` or `OK Saw expected exception`. JUnit's verdict counts it as passed.
+- A green `XXX` test prints `Saw expected failure` or `OK Saw expected exception`.
 
 ## How a defect is recorded
 
@@ -92,7 +102,7 @@ Check an edit of prose in `Specification/` or `Documentation/` against the tree 
 In a compiled test folder, name the component `XXXName`, in its file `XXXName.fss` and in its `component` line.
 
 - For a refusal at compile time, write one `XXX` compile test.
-- For a code-generator wall, write `XXXName.test` with `tests=XXXName`, `compile` and `compile_exception_contains=<text of the exception>`.
+- For a code-generator wall (`compiler.md`, "What the compiled path cannot compile yet"), write `XXXName.test` with `tests=XXXName`, `compile` and `compile_exception_contains=<text of the exception>`.
 - For a program that compiles and fails at run time, write two `.test` files over the component:
   - `NameLink.test`, a plain name, with `tests=XXXName` and `link`. It is red if the link reports static errors, but green on an exception.
   - `XXXName.test`, with `tests=XXXName` and `run`, and no `link`. Its run uses the plain file's link, so run the two files in one call of `junit.sh` or `fortress junit`, the plain one first.

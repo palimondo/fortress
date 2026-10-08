@@ -1,6 +1,16 @@
 # Setting up, building, the caches, and what to rebuild
 
-`SKILL.md`, "How a program runs", gives the phases, the compiled run time and the caches with their entries.
+**tree**
+: Checkout of the repository: the main checkout or a worktree. In a command, `<tree>` is the tree that you work in.
+
+**library order**
+: Five compiles that build the compiled path's library into the caches.
+
+**DSL grammar**
+: `grammar` declaration in an api, which adds syntax for a domain-specific language.
+
+**parser directory**
+: New `fortress<random>rats` folder of 5.8 MB, in which a program that imports a DSL grammar gets a Rats! parser generated when it runs. The run makes it in its JVM's temporary directory and never deletes it.
 
 ## Two layers of code
 
@@ -10,22 +20,21 @@ The implementation is the parser, walk, the compiled checker, the code generator
 
 The Fortress code is the library, the tests and the programs: the `.fss` and `.fsi` files. The `fortress` commands run the phases on it and keep the results in the caches:
 
-- Walk runs the phases on each component that a run needs, then interprets the program. It needs no compile.
-- `fortress compile` type-checks a component and writes JVM bytecode into its jar. It is for the compiled path's components only: the compiler's library, compiled tests and compiled programs.
-- `fortress run` compiles no Fortress source. Its class loader makes the class of each generic instantiation at first use.
+- Walk runs the phases on each component that a run needs. It needs no compile.
+- `fortress compile` writes a component's jar. It is for the compiled path's components only: the compiler's library, compiled tests and compiled programs.
+- `fortress run` compiles no Fortress source.
 - A command reuses an entry if no source that the entry depends on is newer than the entry: its own source, and the `.fsi` files of the apis that it imports, at any depth.
-- The library order (below) compiles the compiled path's library ahead of time.
 
 An edit makes stale what was built from it:
 
-- Java or Scala: the classes in `ProjectFortress/build/`. Run `ant compileAll` (below). The cache entries that the edited code wrote are stale too, and no entry notices it: an entry is compared with its sources, never with the implementation. For example, after a change to a native helper's signature, its old wrapper stays in `nativewrapper_cache/`, and the run links the old signature. For this reason, the build deletes the caches when the implementation changes ("Building").
+- Java or Scala: the classes in `ProjectFortress/build/`. Run `ant compileAll`. The cache entries that the edited code wrote are stale too, and no entry notices it: an entry is compared with its sources, never with the implementation. For example, after a change to a native helper's signature, its old wrapper stays in `nativewrapper_cache/`, and the run links the old signature. For this reason, the build deletes the caches when the implementation changes ("Building").
 - A parser grammar: the generated parser, and every entry that it parsed. Run `ant compileAll`.
 - A `.fss` or `.fsi` file of the library: the entries of that component, and after an `.fsi` edit, the entries of every component that imports the api. Walk analyses them again by itself. A component of the compiler's library needs a compile, or the library order ("After an edit of the library").
 - A test or a program: its own entries. Walk and the harness analyse a walk test again by themselves. Compile a compiled test or program again, or let the harness do it.
 
 ## The caches
 
-All the caches are gitignored. Beside those that `SKILL.md` describes:
+All the caches are gitignored. A caches folder also holds:
 
 - `environment_cache/`: another cache of walk's.
 - `nativewrapper_cache/`: the wrappers for the Java classes that an api imports with `import java`.
@@ -36,14 +45,14 @@ Only these runs read `default_repository/caches`: `fortress compile`, `fortress 
 
 ## The library order
 
-The library order is the five compiles that build the compiled path's library. The first, `LibraryBuiltin/AnyType`, holds the top type `Any`, which both libraries share. The other four are the compiler's own. It takes about 100 to 110 s after `ant compileAll`.
+The first of its compiles, `LibraryBuiltin/AnyType`, holds the top type `Any`, which both libraries share. The other four are the compiler's own. All five take about 100 to 110 s after `ant compileAll`.
 
 Run it only when the caches lack the library's jars, or hold stale ones:
 
 - after a build that printed `Caches <tree>/default_repository/caches started again, empty`, and in a tree whose caches are empty;
 - after an edit of a library `.fsi` that the section "After an edit of the library" names.
 
-Otherwise the jars are in place, and a compiled test or program needs no library order. The five commands, after you set up the call ("Setting up each call", below):
+Otherwise the jars are in place, and a compiled test or program needs no library order. The five commands:
 
     cd ProjectFortress
     ../bin/fortress compile LibraryBuiltin/AnyType.fss            # 17 s
@@ -68,7 +77,7 @@ Before the first compiled run, check that `default_repository/caches/bytecode_ca
 
 ## Setting up each call
 
-Start each Bash call that runs Fortress, `ant` or a project tool with these lines. A tree is a checkout of the repository: the main checkout or a worktree. `<tree>` is the tree that you work in.
+Start each Bash call that runs Fortress, `ant` or a project tool with these lines:
 
     cd <tree> && mkdir -p tmp
     export JAVA_HOME=/usr/lib/jvm/java-25-openjdk-amd64 PATH=/usr/lib/jvm/java-25-openjdk-amd64/bin:$PATH
@@ -81,11 +90,11 @@ Start each Bash call that runs Fortress, `ant` or a project tool with these line
 The lines give the settings of `explorations/experiment/env.sh`, with two differences:
 
 - The JVM's temporary directory is your tree's `tmp/`, which is gitignored.
-- They leave out env.sh's removal of old parser directories in `/tmp` (below). That removal spares the directory of a live run.
+- They leave out env.sh's removal of old parser directories in `/tmp`. That removal spares the directory of a live run.
 
 If your brief tells you to run `source env.sh` and then to point `TMPDIR` and `JAVA_FLAGS` at `tmp/`, use the lines above. They do the same.
 
-A DSL grammar is a `grammar` declaration in an api, which adds syntax for a domain-specific language. A program that imports one gets a Rats! parser generated when it runs: 5.8 MB in a new `fortress<random>rats` folder, its parser directory, in its JVM's temporary directory, never deleted. The library, microGPT and the gated tests import none; the APL experiments under `explorations/apl/` do, and so do the ungated tests in `ProjectFortress/syntax_abstraction_tests/`.
+The library and microGPT import no DSL grammar, and of the gated tests only `ProjectFortress/syntax_abstraction_tests/ForUse.fss` does. The APL experiments under `explorations/apl/` do, and so do the ungated tests in that folder.
 
 With the lines above, your runs that import a DSL grammar put their parser directories in `<tree>/tmp/`. Hundreds of them once filled the disk allowance. So:
 
@@ -101,9 +110,7 @@ Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortres
 - It decides by a stamp whether it deletes the caches. `ProjectFortress/build/implementation.stamp` is a hash of the built implementation, and each caches folder holds the stamp of the build that filled it. At its end, the build keeps `default_repository/caches` if its stamp equals the new one, and empties it if not. It does not touch a private caches folder. It prints `Caches <folder> kept` or `Caches <folder> started again, empty`. The comment "The caches and the implementation" in `build.xml` gives the rule.
 - `ant cleanCache` deletes the caches, whatever their stamp.
 - With nothing changed, it takes about 4 s. After an edit, it takes about 25 to 60 s on an idle machine, scalac about 19 s of it, and about 50 to 80 s on a new or cleaned tree. While other agents build, it takes up to about 140 s.
-- An emptied caches folder loses `global.map` too. Restore nothing: the linker writes it again on the next run.
-- Every test target of `build.xml` runs this build first. So after an edit of Java or Scala, `ant testQuick` or `ant testSystem` empties `default_repository/caches` too.
-- After a build that started the caches again, yours or a test target's, run the library order before the next compiled run. So each edit of Java or Scala costs about 2 to 3 minutes before a compiled run: the build, then the library order. Walk, `harness-one.sh` and the two ant suites need no library order.
+- After a build that started the caches again, yours or a test target's, run the library order before the next compiled run. So each edit of Java or Scala costs about 2 to 3 minutes before a compiled run: the build, then the library order.
 - If it fails, fix the error and run the same command again. Clear nothing by hand.
 
 ## After an edit of the library
