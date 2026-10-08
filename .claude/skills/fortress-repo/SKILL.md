@@ -53,7 +53,7 @@ You work with three things: your brief, the record and the original tree. Buildi
 
 ## How a program runs
 
-Walk and the compiled path share the parser and the phases below. After those, they share almost no code.
+Walk and the compiled path share the parser and the phases below. After those, they share almost no code. The Java and Scala paths in this skill are under `ProjectFortress/src/com/sun/fortress/`.
 
 ### The phases
 
@@ -82,7 +82,7 @@ Each path has its own library today. At the switch-over, the compiled path moves
 
 A generic declaration is compiled once, as a template class. The first time that a program uses an instantiation, such as `Box[\RR64\]`, the class loader makes its class. It copies the template's bytecode, puts in the static arguments, and loads the result. A static argument is a type, or a size as a descriptor from `RTTIsize.of`. These classes are never on disk. C# specialises generics in this way. Java erases them.
 
-The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it, for sizes and for the lock on the first load of a class (ledger row 417). Open rows of the ledger are in it, such as 408 and 559. So a failure while a class loads can be a defect of the class loader.
+The class loader is code of this tree that the revival changes, so a failure while a class loads can be its defect (`references/compiler.md`).
 
 HotSpot, the JVM's compiler, then compiles the hot bytecode to machine code. A number is a boxed object, also inside a specialised class: `RR64` is the class `FRR64`. An array is a library object, read and written through its `get` and `put` methods.
 
@@ -95,13 +95,13 @@ A run keeps the results of its phases in the caches, so that a later run can reu
 - `analyzed_cache/`: the results of the phases that `fortress compile` reuses.
 - `bytecode_cache/`: one jar for each compiled component.
 
-In the first three caches, `<hash>` is a hash of the source's absolute path. So the entries of a tree copied to another path must be renamed. `explorations/coordinator/tools/seed-worktree.sh` does this (`references/worktrees.md`).
+In the first three caches, `<hash>` is a hash of the source's absolute path, and the entry holds that path. So the entries of a tree copied to another path must be renamed and rewritten. `explorations/coordinator/tools/seed-worktree.sh` does this (`references/worktrees.md`).
 
 `references/build-and-caches.md` says when a run reuses an entry, and when the build empties the caches.
 
 ### Parallelism and mutable state
 
-Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (`FortressTaskRunnerGroup`, a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks and transactions are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`. A fix in one does not reach the other.
+Fortress evaluates in parallel by default, not in Java's left-to-right order. The iterations of a `for` loop, the elements of a tuple, and the arguments and operands of a call can run at once. A loop is sequential only if every generator is `seq(...)`. The parallel parts run as tasks on a work-stealing pool, the fork/join pool of Doug Lea (a `java.util.concurrent.ForkJoinPool`). `FORTRESS_THREADS` sets its number of threads. Tasks, transactions and the pool are built twice, independently: for walk in `interpreter/evaluator/tasks/`, and for the compiled path in `runtimeSystem/`. A fix in one does not reach the other.
 
 `x = e` declares an immutable variable. `var x: T = e` and `x: T := e` declare a mutable one, and `x := e` assigns to it (`Specification/basic/variables.tex`). These are Scala's `val` and `var`, or Swift's `let` and `var`. A field is immutable unless it is declared with `var`. A `value` object has only immutable fields and value semantics, like a Swift `struct`.
 
@@ -114,7 +114,7 @@ Parallel code stays free of races in these ways:
 
 So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The suites run at four threads, once each, so a race can show in them. A passing run does not prove that there is none.
 
-The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, it asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction, which so tracks the variables that the block touches.
+Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes (`references/compiler.md`).
 
 Three more ideas are built as "The compiled run time" says: dispatch on every argument at run time, generics specialised for each instantiation, and sizes in types. "Fortress as a language" states them as rules of the language.
 
@@ -160,10 +160,10 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Reproduce a behaviour before you explain it: run a command that shows it, unless your brief cites the command's output.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
-- Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the tests, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
+- Assert every value that matters inside the test, with the harness's own checks (`references/tests-writing.md`), and take the suite's pass or fail as the result. Do not compare the output of a whole run of tests with a saved copy, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
 - Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
 - Reuse each result of a build, a suite, a stage of the gate or a test that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
-- After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
+- After your fix, run your own tests. Run a whole suite where `references/tests-running.md`, "When to run a whole suite", asks for it, and nowhere else.
 - Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell.
 - After an edit, take the step that `references/build-and-caches.md` gives for the kind of file that you edited.
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
@@ -195,6 +195,6 @@ The parts, in the order that work meets them:
 - What every report holds and where it goes, findings and points to report; the ledger, FACTS and POSITIONS; the repository's history; the queries of the record: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
+A task usually needs several parts. For example, an interpreter fix needs `build-and-caches.md`, `session.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. Every report takes the form in `records.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

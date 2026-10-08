@@ -7,7 +7,7 @@
 : One of the four JVMs of `ant testSystem`. Shard i of n takes every n-th file of the sorted list, from index i.
 
 **code state**
-: Code at one commit. Only a commit that changes code makes a new code state.
+: Code of a tree as one edit leaves it. Only an edit of code makes a new code state; a commit does not.
 
 ## The two suites
 
@@ -26,7 +26,7 @@ The newest gate summary has the exact counts and times of the last landed run:
 
 The two suites work in the same way:
 
-- Each suite runs `ant compileAll` first, about 4 s if nothing changed, so it never tests stale classes. Each analyses or compiles the Fortress code that it tests, in private caches.
+- Each suite runs `ant compileAll` first, about 4 s if nothing changed, so it never tests stale classes. After an edit of Java or Scala, that build empties `default_repository/caches` (`build-and-caches.md`, "Building"). Each analyses or compiles the Fortress code that it tests, in private caches.
 - Each JVM gets 768 MB, a 32 MB stack and `FORTRESS_THREADS=4`, whatever the shell exports. The run steps of the compiled tests get `JAVA_FLAGS=-Xmx4g -Xss64m`, also whatever the shell exports.
 - Each suite deletes `ProjectFortress/test-caches` when it starts, and each JVM keeps its caches in a folder under it. Temporary files go to `ProjectFortress/test-tmp/`.
 - The results are in `ProjectFortress/TEST-RESULTS/fast-<track>/` and `system-<i>/`, as `TEST-<class>.txt`.
@@ -40,7 +40,7 @@ To run a suite:
 
 ## The switches that the harness reads
 
-Put a `-D` switch on the `java` line of a run by hand (below). On the `ant` line, it does not reach the suites' JVMs.
+Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harness-one.sh` is a model. On the `ant` line, it does not reach the suites' JVMs.
 
 - `-Dtests=<dir>`: the folder that `SystemJUTest` runs, in place of `tests/`.
 - `-Dfortress.suite.shard=i/n`: run shard i of n only.
@@ -58,13 +58,14 @@ Put a `-D` switch on the `java` line of a run by hand (below). On the `ant` line
 ## When to run a whole suite
 
 - The gate runs every suite once, on the tree that lands (`gate.md`). Your brief says whether you run the gate.
-- If your edit changes the Java or Scala of the checker or of walk, you may run whole the tests that it reaches. Run them at most once for each code state: after your last edit of code, on the commit that holds it.
+- If your edit changes the Java or Scala of the checker, of walk or of a phase that both paths share, run whole the tests that it reaches. Run them once for each code state, after your last edit of code. The run needs no commit.
   - For the checker, run `ant testQuick`: the compiler, othercompiler and library tracks at once (below).
   - For walk, run `ant testSystem`. It is the same as its four shards run by hand.
-- Quote the verdict lines, the command and that commit in your report.
+  - For a shared phase (under `compiler/`: name binding, grammars, desugaring) or the parser, run both.
+- Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
-- After a code-generator edit, run your own tests, and the four-thread atomic runs if `compiler.md` asks for them. Leave the whole tracks to the gate.
-- After every other change, run only your own tests, through the scripts below. Leave the rest to the gate. This includes an edit of the library. A change of tests, prose or records only needs no whole suite.
+- After a code-generator edit, run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
+- After every other change, run only your own tests, through the scripts below. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests. A change of tests, prose or records only needs no whole suite.
 
 The suites do not check these:
 
@@ -79,7 +80,7 @@ If your edit is in one of these, your own tests are its only check. Say so in yo
 
 ## One test, or a few
 
-Each way below, except `ant testOnly`, ends with the verdict of JUnit's text runner: `OK (n tests)`, or `FAILURES!!!` with the counts. Read the verdict there. The exit code is 0 whatever the verdict.
+Each script and `fortress junit` below ends with the verdict of JUnit's text runner: `OK (n tests)`, or `FAILURES!!!` with the counts. Read the verdict there: the exit code is 0 whatever the verdict. An `ant` target ends with `BUILD SUCCESSFUL` or `BUILD FAILED`, and exits non-zero when it failed.
 
 ### Interpreter tests
 
@@ -113,7 +114,8 @@ The script is `explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh`.
 
 - `<label>` is any word. It marks the run's lines in the output. The script writes to standard output only, so redirect it to your `tmp/`.
 - With `ONE_JVM=1`, the whole list runs in one `fortress junit` run, in one JVM. The compile and link tests run before the run tests, as in the suite. Without `ONE_JVM=1`, each file gets its own JVM.
-- It removes the named components' entries from the tree's `default_repository/caches` before and after the run.
+- It removes the named components' entries from the tree's `default_repository/caches` before the whole list and after it, not between files. So a link test and the run test that uses its jar pass in one call, with or without `ONE_JVM=1`.
+- It runs the classes in `ProjectFortress/build/` and builds nothing, as `harness-one.sh` does.
 - It removes the Java stack frames, and cuts each line at 240 characters.
 - Its JVMs keep their temporary files in the tree's `tmp/`, and run at `FORTRESS_THREADS=4`.
 

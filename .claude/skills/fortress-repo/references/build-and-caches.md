@@ -43,7 +43,7 @@ Run it only when the caches lack the library's jars, or hold stale ones:
 - after a build that printed `Caches <tree>/default_repository/caches started again, empty`, and in a tree whose caches are empty;
 - after an edit of a library `.fsi` that the section "After an edit of the library" names.
 
-Otherwise the jars are in place, and a compiled test or program needs no library order. The five commands:
+Otherwise the jars are in place, and a compiled test or program needs no library order. The five commands, after you set up the call ("Setting up each call", below):
 
     cd ProjectFortress
     ../bin/fortress compile LibraryBuiltin/AnyType.fss            # 17 s
@@ -94,15 +94,16 @@ With the lines above, your runs that import a DSL grammar put their parser direc
 
 ## Building
 
-Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortress/build.xml` is a stub. The test targets of `build.xml` run it first.
+Run `ant compileAll` from the tree's root. It is the only build: `ProjectFortress/build.xml` is a stub.
 
 - It makes the parser and the syntax tree again only if their sources changed.
 - javac compiles only the changed Java files and the files that depend on them. scalac runs only if its inputs changed, and then compiles every Scala file.
-- It decides by a stamp whether it deletes the caches. `ProjectFortress/build/implementation.stamp` is a hash of the built implementation, and each caches folder holds the stamp of the build that filled it. At its end, the build keeps a folder whose stamp equals the new one, and empties the others. It prints `Caches <folder> kept` or `Caches <folder> started again, empty`. The comment "The caches and the implementation" in `build.xml` gives the rule.
+- It decides by a stamp whether it deletes the caches. `ProjectFortress/build/implementation.stamp` is a hash of the built implementation, and each caches folder holds the stamp of the build that filled it. At its end, the build keeps `default_repository/caches` if its stamp equals the new one, and empties it if not. It does not touch a private caches folder. It prints `Caches <folder> kept` or `Caches <folder> started again, empty`. The comment "The caches and the implementation" in `build.xml` gives the rule.
 - `ant cleanCache` deletes the caches, whatever their stamp.
 - With nothing changed, it takes about 4 s. After an edit, it takes about 25 to 60 s on an idle machine, scalac about 19 s of it, and about 50 to 80 s on a new or cleaned tree. While other agents build, it takes up to about 140 s.
 - An emptied caches folder loses `global.map` too. Restore nothing: the linker writes it again on the next run.
-- After a build that started the caches again, run the library order before the next compiled run. Walk, `harness-one.sh` and the two ant suites need nothing more.
+- Every test target of `build.xml` runs this build first. So after an edit of Java or Scala, `ant testQuick` or `ant testSystem` empties `default_repository/caches` too.
+- After a build that started the caches again, yours or a test target's, run the library order before the next compiled run. So each edit of Java or Scala costs about 2 to 3 minutes before a compiled run: the build, then the library order. Walk, `harness-one.sh` and the two ant suites need no library order.
 - If it fails, fix the error and run the same command again. Clear nothing by hand.
 
 ## After an edit of the library
@@ -112,14 +113,14 @@ The compiled path sees an edit of its library only when you compile the edited c
 - If you edited the `.fss` of one of the five library components, and not its `.fsi`: run `fortress compile` on that component only. Programs need no recompile.
 - If you edited the `.fsi` of AnyType, CompilerBuiltin, CompilerLibrary or CompilerAlgebra: run the whole library order. Every api depends on these four.
 - If you edited `CompilerSystem.fsi`: compile CompilerSystem only.
-- If you edited another file of the interpreter's library (`Library/FortressLibrary.fss` and the others): do nothing. Compiled programs do not link it yet.
+- If you edited any other file of `Library/` or `ProjectFortress/LibraryBuiltin/`: it is walk's library. Do nothing: walk reads it again, and compiled programs do not link it yet.
 
 ## Symptoms of a skipped step
 
 If you skip the step for your edit, the run shows it:
 
 - After an edit of a body, the run uses the old code and gives no warning.
-- After an edit of an api, the run stops with `NoSuchMethodError` or `NoClassDefFoundError` on a library member. Examples: `fortress.CompilerBuiltin.println`, `coerce_ZZ32`, `fortress/CompilerLibrary$GeneratorZZ32`. The run used the frozen bootstrap stubs in `ProjectFortress/build/fortress/`.
+- After an edit of an api, the run stops with `NoSuchMethodError` or `NoClassDefFoundError` on a library member. Examples: `fortress.CompilerBuiltin.println`, `coerce_ZZ32`, `fortress/CompilerLibrary$GeneratorZZ32`. The run found no library jar and used the bootstrap stubs: old class files of the compiler's library that the build compiles from `ProjectFortress/src/fortress/` into `ProjectFortress/build/fortress/`.
 
 If you see either, do the step now: recompile the component, or run the library order. Do not delete the caches to fix it. A deletion works only because it repeats the library order and every analysis from cold. If something else looks like a stale cache, find its cause before you delete anything.
 

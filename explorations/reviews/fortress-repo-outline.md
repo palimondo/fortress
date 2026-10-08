@@ -22,7 +22,7 @@ The test for each item: if a worker in any area would act wrongly without it, it
 10. The rules for every task.
 11. The parts, and when to load each.
 
-Two passages of items 4 and 6 serve mainly the compiled area: the class loader's ledger rows, and the cell that tracks a variable inside `atomic`. Decision 7 below.
+Two passages of items 4 and 6 served mainly the compiled area: the class loader and the transaction cell. Each is now one sentence in `SKILL.md`, and its detail is in `compiler.md`, "The run time" (decision 7).
 
 ## build-and-caches.md
 
@@ -129,4 +129,4 @@ No change.
 4. Missing library jars, cured once by emptying the caches (3), against `build-and-caches.md`'s rule to keep the caches: (a) a symptom to report; (b) an exception. Default (a), already in the part.
 5. A command that the automatic check refused, split and run again (3): (a) keep `session.md`'s rule; (b) allow the split. Default (a).
 6. A16's Java properties that show what the code generator does, read from the code, never run: (a) out until a worker runs each; (b) in now. Default (a).
-7. The class loader's ledger rows and the transaction cell, which mainly compiled-area work needs: (a) keep them in `SKILL.md`, where the coordinator's brief placed them; (b) move them to `compiler.md`, by the preload test. Default (a).
+7. Settled by the curator, 2026-10-08: a detail of one sentence stays in `SKILL.md`, and one that takes a paragraph moves to the area's part. The class loader and the transaction cell are each one sentence in `SKILL.md`, which every worker needs: a failure while a class loads can be the class loader's defect, and inside `atomic` the compiled code tracks each mutable variable. The file names, the ledger rows and how the check works are in `compiler.md`, "The run time".

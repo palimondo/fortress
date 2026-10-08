@@ -57,6 +57,11 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier has no effect on the representation.
 
+## The run time
+
+- The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Open ledger rows name it, such as rows 408 and 559.
+- The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, the generated code asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction, which so tracks the variables that the block touches.
+
 ## The compiler's prelude, until the switch-over
 
 The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. `Library/CompilerSystem.fss` is the compiled path's `System`.
@@ -69,7 +74,7 @@ The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuilt
 `import java com.sun.fortress.nativeHelpers.{...}` in a `.fss` file binds static Java methods over plain Java values.
 
 - The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method.
-- After you change a helper's signature, run the plain `ant compileAll`: with kept caches, the run links the old signature (`build-and-caches.md`).
+- After you change a helper's signature, run `ant compileAll`. It empties the caches, so no old wrapper stays (`build-and-caches.md`).
 
 ## Known shapes
 
