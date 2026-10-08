@@ -29,7 +29,7 @@ Every other choice is the curator's.
 4. Search the original tree.
 5. Before you write that something does not exist, search the record for it, INDEX included (`index:WORDS`).
 6. Record what you found as `tests-writing.md`, "How a defect is recorded", says. For an open question, that is item 3: a row in the gap ledger, and a test that checks the current behaviour.
-7. If your brief does not let you edit the ledger, write the row in your report (`records.md`).
+7. If your brief does not let you edit the ledger, write the row in your report.
 8. If the question touches a passage of the specification, `specification.md` says what else to record.
 9. If the choice is yours, make it. Report it as a decision, with its alternatives.
 10. If the choice is the curator's, report it as a decision not taken. Give these:

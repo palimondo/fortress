@@ -57,9 +57,7 @@ Cite a FACTS entry by its bold title, or by its opening words if it has no title
 
 ## Writing to the record
 
-- Edit the following only if your brief asks you to, because edits by several agents at once collide: `FACTS.md`, `POSITIONS.md`, `explorations/coordinator/PLAN.md` (the project's plan), `INDEX.md`, the ledger, `explorations/microgpt-run-c-handover.md` (the handover), `CLAUDE.md`, `explorations/protocol.md`, the tools under `explorations/coordinator/tools/`, and `.claude/`.
-- If your brief does not ask, write your lines for them in your report as finished prose: the FACTS entry, the ledger row or note, the plan line, the INDEX line.
-- If you may edit FACTS, add a fact in the commit that establishes it. A decision of the curator enters POSITIONS in the next commit after the curator states it.
+- Add a fact to FACTS in the commit that establishes it. A decision of the curator enters POSITIONS in the next commit after the curator states it.
 - Rewrite a wrong line of FACTS or POSITIONS in place.
 - Write each thing in one place. The curator's words are written once, in POSITIONS. Everything else points there.
 - Put new files of the work under `explorations/`. If you add a standalone note there, write its INDEX line.

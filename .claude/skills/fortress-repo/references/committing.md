@@ -7,7 +7,7 @@ Scratch includes logs, captured and raw run output, copies of tools, probe progr
 ## What to commit
 
 - Commit the Fortress change and its tests, your report if it is a file, and a reusable script.
-- If your brief lets you edit the ledger, FACTS or the plan, commit your lines for them (`records.md`).
+- Commit your lines for the ledger, FACTS or the plan with your work (`records.md`, "Writing to the record").
 - Keep scratch in your tree's `tmp/`.
 - Do not commit a copyrighted PDF or deck. `research/decks/` is gitignored. Cite such a source by its Wayback URL. `research/extracts/` holds our own summaries, with brief attributed quotations.
 - Put provenance and rationale in commit messages and reports, not in source comments.
