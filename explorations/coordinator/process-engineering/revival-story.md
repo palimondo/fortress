@@ -250,12 +250,12 @@ These points describe the team's language with no change:
 - Point 9: juxtaposition and spaces.
 - Point 10: declarations.
 - Point 11: what the specification describes that the team never built.
+- Point 8: loops and reductions are library code. A `for` loop, a comprehension and `SUM` are not built into the language. The compiler turns each one into calls to library objects: a generator, which produces the values, and a reduction, which combines them.
 
 These points are the team's, with a small change of ours:
 
 - Point 1: only the compiled path checks types. The team's tool turns the checker on for `compile` and off for walk. We did not change this. Walk now checks some things when it loads a program, but these are not static types.
 - Point 7: evaluation is parallel by default. Our change: the test suites run on one thread. We set this in the build file.
-- Point 8: loops and reductions are library code. In Fortress, a `for` loop, a comprehension and `SUM` are not built into the language. The compiler turns each one into calls to library objects: a generator, which produces the values, and a reduction, which combines them. This is the team's design. Our change: `SUM` and `PROD` are now one generic declaration each, so when nothing in a clause fixes the element type, the program must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
 
 ### Points that mix the team's language and our changes
 
@@ -270,7 +270,7 @@ These points are the team's, with a small change of ours:
   - Ours: a type parameter with no written bound has the bound `Any`. The 2011 specification says `Object`. A type parameter that nothing in a call fixes takes its bound. Sizes work on the compiled path.
 - **Point 6, numbers.**
   - The team's: the side-by-side number types of the compiler's library, and the algebra traits such as `AdditiveGroup`.
-  - Ours: the interpreter's library has the same side-by-side types now. Walk converts between number types. Walk raises `IntegerOverflow` when a fixed-width result does not fit.
+  - Ours: the interpreter's library has the same side-by-side types now. Walk converts between number types. Walk raises `IntegerOverflow` when a fixed-width result does not fit. Ranges are over `ZZ32` only. `SUM` and `PROD` are one generic declaration each, so a clause whose element type nothing fixes must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
   - The team's walk had no conversion between number types, and it wrapped a result that did not fit.
 
 ### Why we changed each point, and whose intent we followed
@@ -288,7 +288,8 @@ We change the team's language only for one of two reasons. The team left two of 
 - **Point 6, walk converts between number types.** The specification says that a call converts its arguments when that makes it apply. The team's walk had a note "TODO add checks for COERCE" at that place. We did the TODO.
 - **Point 6, walk raises `IntegerOverflow`.** The specification says a fixed-width result that does not fit raises `IntegerOverflow`, and the team's compiled path did so. The team's walk wrapped. We made walk follow the specification. Code that means to wrap uses the specification's own wrapping operators.
 - **Point 7, one thread in the suites.** Our reason: a test run should give the same result whatever shell starts it. You asked to revisit this; it is held.
-- **Point 8, a generic `SUM`.** The tower's catch-all operators on `Number` went with the tower, and the old `SUM` depended on them. The new `SUM` combines the element type's own operator. It takes its zero from the element type by a device the library already uses for arrays.
+- **Point 6, ranges over `ZZ32` only.** A range counts the indices of an array, and a JVM array has at most 2^31 - 1 elements, the size of a `ZZ32`. The team's compiler library already had its ranges over `ZZ32` only.
+- **Point 6, a generic `SUM`.** The tower's catch-all operators on `Number` went with the tower, and the old `SUM` depended on them. The new `SUM` combines the element type's own operator. It takes its zero from the element type by a device the library already uses for arrays.
 
 ### Where the quiz was right about the team
 
@@ -317,7 +318,7 @@ Six changes to the section "Fortress as a language", so that an agent knows whic
 2. Point 5: mark the implicit bound `Any` and the bound for an unfixed parameter as revival decisions, since the 2011 draft says `Object`; say that sizes run on the compiled path since the revival.
 3. Point 4: say that the rule against two instantiations is the team's (papers and checker) but missing from the 2011 draft, and that "every value has a listed type" is the revival's reading of `comprises`.
 4. Point 2: say that the revival dropped the rule that overloads may not differ in static parameters, checks the return-type rule for every instance and widened walk's load check.
-5. Points 7 and 8: say that the one-thread suites are the revival's build setting, and that ranges over `ZZ32` only and the written static argument of a `SUM` clause are revival changes.
+5. Points 7 and 6: say that the one-thread suites are the revival's build setting; and, under point 6, that ranges over `ZZ32` only and the written element type of a `SUM` clause are revival changes that follow from the numbers.
 6. A new point: the specification promises more than the team built; `Monoid[\T, ⊕\]` with laws, complex numbers and `fortress run Foo.fss` are the draft's text, not the tree.
 
 Evidence, change by change:
