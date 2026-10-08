@@ -71,3 +71,7 @@ The ledger is in fifteen topic sections and `explorations/coordinator/tools/ledg
 - `climb-batch-workflow.md:153`: "The commit stage replaces the `<short hash>` placeholders".
 - Open: numbering rows while rungs run in parallel (D7 of the gap-ledger archaeology). `ledger.py add` numbers a row max + 1, so two rung branches that each add a row collide at the gather.
 
+## The push steps (2026-10-08)
+
+Every push now also goes to `blinded-fable`, the branch the coordinating session was created from and a rebuilt container clones (protocol, hard rules). The script's push steps name only `claude/worker-brief-fable-vnnuv8`: `climb-batch-workflow.js:72`, `:2159-2160`, `:2478`. Each gains `git push origin main:blinded-fable` beside it.
+

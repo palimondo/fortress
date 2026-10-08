@@ -64,9 +64,15 @@ p = '$SETTINGS'; os.makedirs(os.path.dirname(p), exist_ok=True)
 d = json.load(open(p)) if os.path.exists(p) else {}
 h = {'type': 'command', 'command': '$TB_DIR/scripts/backup.sh'}
 stop = d.setdefault('hooks', {}).setdefault('Stop', [])
-if not any(x.get('command') == h['command'] for g in stop for x in g.get('hooks', [])):
+# The repository's own .claude/settings.json registers the hook too; registering it here as well runs it twice per turn.
+proj = os.path.join('$ROOT', '.claude', 'settings.json')
+pd = json.load(open(proj)) if os.path.exists(proj) else {}
+in_proj = any('backup.sh' in x.get('command', '') for g in pd.get('hooks', {}).get('Stop', []) for x in g.get('hooks', []))
+if in_proj:
+    print('hook already registered in', proj)
+elif not any(x.get('command') == h['command'] for g in stop for x in g.get('hooks', [])):
     stop.append({'hooks': [h]})
-json.dump(d, open(p, 'w'), indent=2); print('hook registered in', p)
+    json.dump(d, open(p, 'w'), indent=2); print('hook registered in', p)
 PY
   [ -n '${SETUP_DRY_PUSH:-}' ] || {
     # The hook may already be armed from an earlier session and be mid-push when
