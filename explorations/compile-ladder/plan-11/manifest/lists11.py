@@ -1,6 +1,6 @@
 # The briefing and checks lists of climb batch 11's four rungs, W, C, E and L (CLIMB-BATCH-11.md, section 3), in
 # batch 10's form (explorations/compile-ladder/plan-10/manifest/lists10.py), made leaner for the redesigned workflow
-# (explorations/coordinator/process-engineering/batch-redesign.md, "The briefs"): each list holds what the rung's
+# (explorations/coordinator/process-engineering/batch-redesign.md, "The brief"): each list holds what the rung's
 # section cites, the decisions, the ledger rows, the specification's sections, the notes and the code it rests on,
 # and no process position or harness fact, which the brief's role text and the fortress-repo skill now carry
 # (context-study.md, section 5: none of batch 10's 87 POSITIONS and FACTS keys was named before a fix edit). Each

@@ -53,7 +53,7 @@
 
 ### Cost
 
-- Not estimated here: it depends on the redesigned workflow. For scale, batch 10 wrote 6.3M tokens for four rungs (`reviews/batch-10-review.md`, "For Pavol").
+- About 5.2M tokens, from 4.3M if no skeptic's fix is contested to 6.3M if three rungs go to a judge; a red gate adds about 0.5M. Batch 10 wrote 6.26M for four rungs (`reviews/batch-10-review.md`, "For Pavol"). The derivation, role by role, is `process-engineering/batch-redesign.md`, section 5.
 
 ## 2. Your questions, in the order they block the batch
 
@@ -417,7 +417,7 @@ The coordinator, in this order:
 2. The base build, as the manual's "Before the launch" gives it: `git -C /home/user/fortress worktree add --detach /home/user/fortress-base11 <base>`, `ant compileAll` in it, the library order, one passing walk test, `git status --porcelain` empty; passed as `args.baseBuild`. One trial seed proves it (`coordinator/tools/seed-worktree.sh /home/user/fortress-base11 /home/user/fortress-seedcheck - <base>`, then `git -C /home/user/fortress worktree remove /home/user/fortress-seedcheck`), and one `coordinator/tools/old-fortress.sh /home/user/fortress-base11 /home/user/fortress-seedcheck-caches ProjectFortress/tests/BooleanOps.fss` run from the main tree proves the old code runs, its folder removed after.
 3. The briefings checked on the base: `python3 explorations/compile-ladder/plan-11/manifest/lists11.py`, every key matching one place (they did on `cd2393a08`, with W 39.6K, C 28.8K, E 30.1K and L 18.5K tokens of briefing).
 4. The block generated and spliced: `python3 explorations/compile-ladder/plan-11/manifest/gen11.py`, then `node explorations/compile-ladder/plan-11/manifest/check11.js`, which splices it into a scratch copy and checks it; then the same splice into the script itself (`check11.js --write`), `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script, and the commit. No launch value is set by hand: the batch's new ledger rows are numbered by the gather through `ledger.py add`.
-5. `df -h /` against four seeded worktrees (about 206 MB each) and the base build; `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits.
+5. `df -h /` against four seeded worktrees (about 206 MB each) and the base build; `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits. The session's permission rules let the commit stage run `explorations/coordinator/tools/mg-run.sh`: batch 10's run of it was refused over an `rm -rf` the tool no longer has (`98ed1f5c1`).
 6. Check-ins armed for the run's length, 45 minutes apart, and one after the session's predicted process stop (the `cloud-container` skill).
 
 The launch: `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<the full hash of the base>', baseBuild: '/home/user/fortress-base11'}})`. The arguments are kept byte for byte in the session's scratchpad, since a resume needs them.
