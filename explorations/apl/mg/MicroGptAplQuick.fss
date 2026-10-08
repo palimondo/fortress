@@ -1,0 +1,62 @@
+(* MicroGptAplQuick -- the quick check of the FOCUSED base: MicroGptAplCheck's
+   first two steps of batch 1 (documents 0 and 1 from the committed weights,
+   one Adam step between them), two forward-and-backward passes in all, with
+   its loader and corpus checks, 7 checks against the same goldens of Run C
+   (explorations/run-c/goldens): the step-1 loss, the step-0 gradient and its
+   zero entries, the parameters after Adam, and the step-2 loss on the updated
+   parameters.  The program is ../../run-c4/src/MicroGptFlatQuick.fss with its
+   imports changed to MicroGptApl and its paths adjusted to this directory.
+   One line per check with the measured difference and PASS or FAIL, then an
+   aggregate verdict; any FAIL ends the run with a non-zero status.  The full
+   40 checks: MicroGptAplCheck.fss beside it.
+   Run from explorations/apl/mg:  ../../../bin/fortress MicroGptAplQuick.fss *)
+component MicroGptAplQuick
+export Executable
+import MicroGptApl.{...}
+import FlatArrays2.{...}
+import FlatData2.{...}
+import System.{...}
+
+goldensDir: String = "../../run-c/goldens"
+tolLoss: RR64 = 10.0^(-12)
+tolGrad: RR64 = 10.0^(-12)
+
+passed: ZZ32 := 0
+failed: ZZ32 := 0
+report(name: String, diff: RR64, tol: RR64): () = do
+    ok = diff <= tol
+    if ok then passed += 1 else failed += 1 end
+    println name ": diff " diff " " (if ok then "PASS" else "FAIL" end)
+  end
+maxAbsDiff(a: Array[\RR64,ZZ32\], b: Array[\RR64,ZZ32\]): RR64 = BIG MAX[\RR64\][i <- 0#|a|] |a[i] - b[i]|
+
+run(): () = do
+    println "MicroGptApl quick checks (Run APL, two steps) | threads " (getProperty("fortress.threads", "?")) " | tolerances: loss " tolLoss " grad " tolGrad
+    wall0 = nanoTime()
+    p0 = loadParams("../reference/dzaima/w", matName, 9, nParams())
+    (* 0. the loaders against the goldens' P0 and corpus rows *)
+    report("loader: max |P - P0| over 4192", maxAbsDiff(p0, readVector(goldensDir "/P0.txt", 4192)), 0.0)
+    lines = readLines(goldensDir "/corpus_first16.txt")
+    corpusDiff = BIG MAX[\RR64\][d <- 0#16] do
+        nums = numbersOf(lines[d].beyond(' '))   (* the line is: name len t0 .. t16; nums[0] is len *)
+        (BIG MAX[\RR64\][j <- 0#17] |nums[1 + j] - (1.0 corpus.token(d, j))|) MAX |nums[0] - (1.0 corpus.length(d))|
+      end
+    report("corpus: max |row - golden| over documents 0..15", corpusDiff, 0.0)
+    (* 1. batch 1, the first two of the full check's five Adam steps, on documents 0 and 1 *)
+    losses = readVector(goldensDir "/losses_batch1_5steps.txt", 5)
+    t0 = nanoTime()
+    (l0, g0) = step(p0, keys(1, fn (i: ZZ32): ZZ32 => 0))
+    report("batch 1 step 1 loss " l0 " vs " losses[0] " (" ((nanoTime() - t0) DIV 1000000) " ms)", |l0 - losses[0]|, tolLoss)
+    report("step 0 batch 1: max |gradient - golden| over 4192", maxAbsDiff(g0, readVector(goldensDir "/grad_step0.txt", 4192)), tolGrad)
+    zeroCount = SUM[\ZZ32\][i <- 0#nParams()] (if g0[i] = 0.0 then 1 else 0 end)
+    report("step 0 batch 1: zero gradient entries - 464", |1.0 zeroCount - 464.0|, 0.0)
+    (p1, m1, v1) = adam(p0, zeros(nParams()), zeros(nParams()), g0, 1, learningRate(0))
+    report("step 0 batch 1: max |P after Adam - golden| over 4192", maxAbsDiff(p1, readVector(goldensDir "/P_after_adam.txt", 4192)), tolGrad)
+    t1 = nanoTime()
+    (l1, g1) = step(p1, keys(1, fn (i: ZZ32): ZZ32 => 1))
+    report("batch 1 step 2 loss " l1 " vs " losses[1] " (" ((nanoTime() - t1) DIV 1000000) " ms)", |l1 - losses[1]|, tolLoss)
+    println "total " ((nanoTime() - wall0) DIV 1000000000) " s"
+    println "VERDICT: " passed " PASS, " failed " FAIL of " (passed + failed) (if failed = 0 then " -- ALL PASS" else " -- FAILED" end)
+    if failed > 0 then fail("MicroGptAplQuick: " failed " check(s) failed") end
+  end
+end
