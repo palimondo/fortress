@@ -1204,7 +1204,7 @@ function coldReadRole() {
 '',
 '    git -C ' + MAIN + ' diff ' + BASE + ' HEAD -- ' + DELTA_PART,
 '',
-'For each passage of those entries that would send such a reader wrong or make it search, flag it with your confidence: a term not defined where it is used, a claim a reader could not check, a sentence that reads two ways, a gotcha the entry leaves out, a sentence that breaks the part\'s register (explorations/reviews/skills-writing-principles.md, which you may read for the register only). Fix in place each flag whose fix changes no claim of the entry: its wording, a term defined, a reference made exact. Do not fix a flag whose fix would change what an entry claims (the team\'s source it contradicts, the revival\'s resolution, or the reason): return it in forCoordinator, unfixed. Commit your fixes locally in one commit titled "Cold read of the revival\'s changes, climb batch ' + BATCH + '", with the footer of the skill\'s committing.md; do not push. If a git command fails on index.lock, wait five seconds and retry, up to four times.',
+'For each passage of those entries that would send such a reader wrong or make it search, flag it with your confidence: a term not defined where it is used, a claim a reader could not check, a sentence that reads two ways, a gotcha the entry leaves out, a sentence that breaks the part\'s register (explorations/reviews/skills-writing-principles.md, which you may read for the register only). Fix in place each flag whose fix changes no claim of the entry: its wording, a term defined, a reference made exact. Do not fix a flag whose fix would change what an entry claims (the team\'s source it contradicts, the revival\'s resolution, or the reason): return it in forCoordinator, unfixed. Commit your fixes locally in one commit titled "Cold read of the revival\'s changes, climb batch ' + BATCH + '", with the footer of the skill\'s committing.md, naming that one path: git add -- ' + DELTA_PART + ' && git commit -m ... -- ' + DELTA_PART + ', since the gate runs in this tree beside you; do not push. If a git command fails on index.lock, wait five seconds and retry, up to four times.',
 '',
 'Return the structured result: every flag with its passage, its confidence and whether you fixed it, and forCoordinator.',
 '',
@@ -1975,7 +1975,16 @@ if (reviewBlocks) {
   report.reviewJudge = reviewDecision
   mergedItems.push(...numbered('judge-review', reviewDecision && reviewDecision.forCurator))
 }
-let coldRun = null
+let coldRun = null, coldDone = false
+// The cold reader commits in the main tree; it is awaited before any other agent but the gate
+// (which commits nothing) works there: a repair on the merged tree, a second gate, the commit.
+async function awaitColdRead() {
+  if (!coldRun || coldDone) return
+  coldDone = true
+  report.coldRead = await coldRun
+  const cr = report.coldRead
+  mergedItems.push(...numbered('coldread', cr ? cr.forCoordinator : ['The cold reader returned nothing after ' + ATTEMPTS + ' attempts, so no cold read was made of the entries the gather folded into ' + DELTA_PART + '.']))
+}
 if (deltaFolded.length) {
   log('The gather folded ' + deltaFolded.length + ' entr' + (deltaFolded.length === 1 ? 'y' : 'ies') + ' into ' + DELTA_PART + '; a cold reader reads them beside the gate')
   coldRun = callAgent(coldReadRole(), { label: 'coldread', phase: 'Cold read', schema: COLDREAD_SCHEMA, model: OPUS }, recoverColdRead())
@@ -2001,9 +2010,10 @@ if (reviewBlocks) {
     report.reviewRouted = { findings: routedFindings.concat(strings(review.blockingCode)), instructions: strings(decision.instructions), ruling: BATCH_DIR + '/JUDGE-review.md' }
     mergedItems.push(...numbered('judge-review-land', decision.instructions))
   } else if (!decision || decision.decision !== 'repair') {
-    if (coldRun) report.coldRead = await coldRun
+    await awaitColdRead()
     return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   } else {
+    await awaitColdRead()
     report.repairReview = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
     routers.push(report.repairReview)
     const rr = report.repairReview
@@ -2040,11 +2050,7 @@ if (!gateIsStale && reviewUngated.length && !beside.some(b => b.kind === 'review
   beside.push({ kind: 'review-corrections', runs: [], answered: [], ungated: reviewUngated, commits: ((review && review.headBefore) || '?') + '..' + ((review && review.headAfter) || '?') })
 }
 
-if (coldRun) {
-  report.coldRead = await coldRun
-  const cr = report.coldRead
-  mergedItems.push(...numbered('coldread', cr ? cr.forCoordinator : ['The cold reader returned nothing after ' + ATTEMPTS + ' attempts, so no cold read was made of the entries the gather folded into ' + DELTA_PART + '.']))
-}
+await awaitColdRead()
 
 if (gateIsStale || !gate) {
   gate = await callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
@@ -2086,5 +2092,8 @@ const heldBy = pushHeldBy(approved, review, { 'repair:review': report.repairRevi
 if (heldBy.length) log('Push held: ' + heldBy.length + ' step(s) that cannot be undone or act against a decision on record: ' + heldBy.join('; '))
 const commit = await callAgent(head('commit') + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
-if (commit && commit.microgptWalk && /FAIL/.test(commit.microgptWalk)) mergedItems.push(...numbered('microgpt-walk', ['The microGPT walk check on the landed tree reported a FAIL: ' + commit.microgptWalk]))
+// The quick pair prints "VERDICT: n PASS, 0 FAIL of n -- ALL PASS" each when it passes. Anything
+// else, a failing check, a run cut off or refused, is listed for the coordinator; it holds nothing.
+const mgPassed = (t) => typeof t === 'string' && (t.match(/-- ALL PASS/g) || []).length >= 2 && !/-- FAILED|rc=[1-9]/.test(t)
+if (commit && !mgPassed(commit.microgptWalk)) mergedItems.push(...numbered('microgpt-walk', ['The microGPT walk check on the landed tree did not show both quick programs passing: ' + ((commit.microgptWalk || '').trim() || 'no lines returned')]))
 return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, besideGate: beside, microgptWalk: commit && commit.microgptWalk })

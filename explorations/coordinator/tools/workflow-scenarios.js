@@ -93,7 +93,11 @@ const LIMIT_MESSAGE = 'You\'ve hit your weekly limit, resets Oct 2, 10am (UTC)'
 // after: the agents after the scatter, in order. agentsPrefix: every agent, in order (S<n> is the n-th rung of the
 // scatter). landed, held, items, states: the result.
 const SCEN = [
-  { name: 'R1 every agent approves; the gather folds no skill text, so no cold read', over: {}, after: 'gather, gate, review, commit', landed: true, states: { R0: 'approved', R1: 'approved' } },
+  { name: 'R1 every agent approves; the gather folds no skill text, so no cold read', over: {}, after: 'gather, gate, review, commit', landed: true, states: { R0: 'approved', R1: 'approved' }, itemsLack: ['microgpt-walk.1'] },
+  { name: 'M1 the microGPT walk check fails one program: listed, the push not held', over: { commit: (p) => ({ mainHead: 'h', pushed: ['main'], pushHeld: false, microgptWalk: MG_PASS.split('\n')[0] + '\nVERDICT: 6 PASS, 1 FAIL of 7 -- FAILED\nrc=0', summary: 's' }) },
+    after: 'gather, gate, review, commit', landed: true, items: ['microgpt-walk.1'] },
+  { name: 'M2 the microGPT walk check did not finish: listed', over: { commit: (p) => ({ mainHead: 'h', pushed: ['main'], pushHeld: false, microgptWalk: 'the run was refused', summary: 's' }) },
+    after: 'gather, gate, review, commit', landed: true, items: ['microgpt-walk.1'] },
   { name: 'F1 R0\'s skeptic fixes two findings, none contested: no judge, no repair', over: { 'skeptic:R0': skeptic({ fixes: [FIX, Object.assign({}, FIX, { commit: 'f1x0002', kind: 'correction' })] }) },
     agentsHas: ['skeptic:R0'], agentsLack: ['judge:R0', 'repair:R0'], after: 'gather, gate, review, commit', landed: true, states: { R0: 'approved' } },
   { name: 'F2 a contested fix the judge upholds: the rung stands, no repair', over: { 'skeptic:R0': contested, 'judge:R0': judge('stands', { rulings: [{ commit: 'f1x0001', ruling: 'uphold', why: 'w' }] }) },
@@ -196,7 +200,7 @@ function mkAgent(sc, calls, journal, replay) {
     else if (L.startsWith('coldread')) r = { flags: [], forCoordinator: [], summary: 's' }
     else if (L.startsWith('commit')) {
       if (sc.killAt === 'commit' && !replay) { sc.killed = true; return new Promise(() => {}) }
-      r = /Do NOT push/.test(prompt) ? { mainHead: 'h', pushed: [], pushHeld: true, microgptWalk: 'VERDICT: 7 PASS', summary: 's' } : { mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: 'VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS', summary: 's' }
+      r = /Do NOT push/.test(prompt) ? { mainHead: 'h', pushed: [], pushHeld: true, microgptWalk: MG_PASS, summary: 's' } : { mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: MG_PASS, summary: 's' }
     }
     else r = {}
     if (journal && r !== null && r !== undefined) journal.set(key, r)
@@ -232,6 +236,8 @@ async function run(sc, journal, replay) {
 
 const HALT_TEXT = /nothing decided/i
 const SCATTER_LABEL = /^(rung|skeptic|resume|repair:(?!review|gate)|judge:(?!review|gate))/
+// What the quick pair prints when both programs pass (MicroGptFlatQuick.fss:57, MicroGptAplQuick.fss:59).
+const MG_PASS = 'VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS\nrc=0 secs=31\nVERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS\nrc=0 secs=33'
 const PERSON = /Pavol/g
 const PLAN_HEADING = /Pavol\\?'s answers, in the order they are needed/g
 
@@ -266,6 +272,7 @@ function check(sc, out) {
   }
   if (sc.notLanded) { const g = calls.find(c => c.label === 'gather'); for (const k of sc.notLanded) if (!g || g.prompt.indexOf('"rung": "' + subst(k) + '"') < 0 || g.prompt.indexOf('"Not landed"') < 0) probs.push('the gather\'s prompt does not fold ' + subst(k) + ' as not landed') }
   if (sc.items) { const ids = (result && result.forCurator || []).map(i => i.id); for (const id of sc.items) if (!ids.includes(subst(id))) probs.push('item ' + subst(id) + ' not in the result (' + ids.join(', ') + ')') }
+  if (sc.itemsLack) { const ids = (result && result.forCurator || []).map(i => i.id); for (const id of sc.itemsLack) if (ids.includes(subst(id))) probs.push('item ' + subst(id) + ' is in the result, where it should not be') }
   if (sc.gateJudgeTier) { const j = calls.find(c => c.label === 'judge:gate'); if (!j || String(j.opts.model) !== sc.gateJudgeTier) probs.push('judge:gate model ' + (j && j.opts.model) + ' (expected ' + sc.gateJudgeTier + ')') }
   if (sc.specData !== undefined && JOINS.length) {
     const g = calls.find(c => c.label === 'gate')
@@ -391,7 +398,7 @@ async function sizes(dir) {
   over.gather = () => Object.assign(rename(results.gather), { deltaEntries: [{ rung: IDS[0], title: 't', folded: true }], curatorItems: [], curatorUnrouted: [] })
   over.review = () => rename(results.review)
   over.gate = () => rename(results.gate)
-  over.commit = () => Object.assign(rename(results.commit), { microgptWalk: 'VERDICT: 7 PASS' })
+  over.commit = () => Object.assign(rename(results.commit), { microgptWalk: MG_PASS })
   const o = await run({ name: 'sizes', over })
   if (o.threw) { console.log('the sizes run stopped: ' + o.threw.message); process.exit(2) }
   const mine = {}
