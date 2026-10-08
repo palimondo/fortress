@@ -29,7 +29,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - "Starting a task", the parts loaded before the record's query: the reader-new entry.
 - `exploring.md` in the parts list after the area parts, which are labelled by area: the reader-new entry.
 - The rules grouped by subject, the reuse rule in positive form: the structure comment.
-- "Run" as a noun replaced by plain words in four rules ("a command's output", "run a command that shows it", "a test", "any `bin/fortress` command may be running"): the curator's comment of 2026-10-08 that "run" was undefined there. No glossary entry: across the parts the noun has no one specialist meaning (a program's execution, a suite's, a live process, the gate's atomic runs), and each context names its own.
+- "Run" as a noun replaced by plain words in four rules ("a command's output", "run a command that shows it", "a test", "a build, a suite or a Fortress program may be running"); "a stage" of the reuse rule written "a stage of the gate" (the curator's choice of 2026-10-08): the curator's comment of 2026-10-08 that "run" was undefined there. No glossary entry: across the parts the noun has no one specialist meaning (a program's execution, a suite's, a live process, the gate's atomic runs), and each context names its own.
 
 ## build-and-caches.md
 
