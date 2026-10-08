@@ -148,6 +148,7 @@ Not yet designed as briefs. The record's shape is at least two batches (`coordin
 ### Phase 6. microGPT fast
 
 - Unboxed arithmetic chosen by static type in generated code (decision B). On array code boxing costs 6.3 to 6.5 times (inventory B1 step 18; FACTS § Execution model).
+- The transaction checks around mutable variables (row 641): the compiled code checks for a transaction before every read and write of a mutable variable, outside `atomic` too, about 1 to 2 ns a check, 64 % of a loop over an array with mutable locals and 9 to 15 % of a scalar accumulator loop (`explorations/perf-probes/transactions/REPORT.md`). What the specification's `atomic` requires of a variable no transaction can reach, and how the code generator leaves those out, is to be understood first; the curator wants the transactional memory's role in the design described before it is changed.
 - Timing against a pure-Java microGPT, which is not written yet; then compiled parallelism (inventory B1 steps 20 and 21).
 
 ## Pavol's answers, in the order they are needed
