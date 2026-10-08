@@ -6,6 +6,8 @@ The specification exists in three copies:
 - `Specification-1.0-frozen/` is the unrevised copy, called "the Working Draft of February 2011". Only `fortress.1.0.pdf` in it is the 1.0 release. Never edit this copy.
 - `Documentation/Specification/` is the team's later restart, which they did not finish. If its Types chapter, `Documentation/Specification/Prose/Language/types.tick`, covers a topic, cite it beside `Specification/` as the designers' later word.
 
+The draft build prints the team's 229 `\note{}` boxes, and a release build hides them. Many say that a feature was not built, for example "Reduction variables are not yet supported." Before you record a missing feature as a gap, grep the notes of its chapter: `grep -n '\\note{' Specification/<file>.tex`. The team's written rationale is in the Internal Document appendix: `Specification/appendices/FAQ.tex` and `future.tex`.
+
 Appendix I, `Specification/appendices/changes.tex`, records the changes to the text. Its revival section has one entry for each change of the revival.
 
 `Specification/library/apis/*.tex` is generated from the library, so do not cite it as an independent standard. No suite reads `Specification/`, so an edit there needs no gate run of its own.
@@ -22,7 +24,9 @@ The type group is the members of the team who built the type checker and the com
 - the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`);
 - the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 
-`explorations/coordinator/map/design-intent-sources.md` lists where the designers' intent is written.
+If you explore a conflict or write a decision not taken, and you need the designers' reason for a rule, print the row of its design area. WORD is a word of the area, such as `coercion`, `juxtaposition`, `dispatch` or `Arrays`. A word can match several rows, each about 1 to 2 KB. Then open the sources that the row names.
+
+    explorations/coordinator/tools/facts-extract.sh 'map:design-intent-sources.md#The map, by design area@WORD'
 
 ## Changing the text: the revision form
 

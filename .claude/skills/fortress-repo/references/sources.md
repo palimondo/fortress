@@ -62,6 +62,7 @@ Not for a task: an agent doing work never loads this file. It says where each fa
 - Toolchain traps: the old `CLAUDE.md` (Build and run); `explorations/modernization-plan.md` rungs 7 (ASM 9.10.1, `2f1fdbf2e`; `Opcodes` fully qualified) and 10 (javac at 25, `561064bb1`), which made stale the javac-target reason (`repo-internals.md:189-200`) and "JDKs 8 to 21 build the tree" (dropped 2026-10-06); the classfile level is `compiler.md`'s; installed JDKs: `ls /usr/lib/jvm`; `JAVA_HOME`: `explorations/experiment/env.sh`, brief-machine:7. The fresh container's setup: `explorations/experiment/setup.sh:14-35` (the package list, the build stage) and its `transcripts` stage; the transcript backup said in a clause: the `cloud-container` skill, `hooks.md`.
 - Generated sources, churn, S*Pattern: `explorations/repo-internals.md:80-86, :206-218`; the old `CLAUDE.md`.
 - Facts before rules: the structure comment.
+- The versions in one line, the plan's pointer replaced by a trigger and a narrow read, and the template parser's copy with the precedence resolver: `explorations/reviews/skills-distillation-audit.md`, items C2 and A7, at the curator's approval of 2026-10-08 on the review page. Checked: `build.xml:133`; `ls ProjectFortress/third_party/scala ProjectFortress/third_party/asm`; the plan query by `--check` (`@ASM` 4.6 KB, `@JDK` 6.2 KB, more than the audit's "about 4 KB"); `ls parser/templateparser/` (a module for each, and `Gaps.rats`; the copies differ from the main grammar, so "the matching change"); `templateparser/TemplateParser.rats:15-57`; `ls parser_util/precedence_resolver/`; no `grammar` declaration in a test folder (`git grep`). The audit's "through one green program only" is replaced by what was checked.
 
 ## worktrees.md
 
@@ -108,6 +109,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Complete log stands: the manual "Shared prefix" (resumed worker paragraph).
 - Outside the gate: FACTS "`ant testSpecData` runs 130 of the specification's 133 extracted examples under walk ..." and POSITIONS "The specification's examples join the gate at zero red."; `build.xml:988`, `:1114`, `:1139` (`testNotPassing` and `testSpecData` depend on `compileAll`); `explorations/coordinator/map/test-coverage.md:228`; FACTS "The gate: two corpora, hand-ported ..." (the orphaned folders); `explorations/repo-internals.md:62-68`.
 - Track and code state defined first; the suites' facts before their rules; warnings before their commands: the structure comment.
+- What the suites do not check: `explorations/reviews/skills-distillation-audit.md`, item A12, at the curator's approval of 2026-10-08 on the review page; `map/test-coverage.md` C.1 and C.3 (dated 2026-09-16). Checked: nothing outside `bin/BytecodeOptimize` calls `ByteCodeOptimizer` (`git grep`), and `default_repository/configuration:51` turns its tests off; no `grammar` declaration in a test folder. The linker's aliasing, `unparse` and the cache round trip are taken from the map, not re-checked.
 
 ## gate.md
 
@@ -212,6 +214,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Blind: FACTS "The checker-count and distance stages read only ..."; the manual "A repair of tests and records only".
 - The opening: no worker chooses the later source alone; "Weighing the sources" kept as the curator's weighing, used to describe sources in a report: the reader-new entry.
 - Appendix I defined at the top, the no-gate line moved there: the structure comment.
+- The team's `\note{}` boxes and the Internal Document appendix, and the design-intent map's pointer given a trigger and a narrow read: `explorations/reviews/skills-distillation-audit.md`, items A13 and C1, at the curator's approval of 2026-10-08 on the review page. Checked: 229 `\note{` in `Specification/**/*.tex` (Grep count); `Specification/fortress/fortress.tex:24-37` (a release build defines `\note` empty); `Specification/basic/expressions/for.tex:15`; `ls Specification/appendices/FAQ.tex future.tex`; the query by `--check` (`@coercion` 2 rows, 1.7 KB; `@dispatch` 4 rows, 3.8 KB, so the part says a word can match several rows).
 
 ## exploring.md
 

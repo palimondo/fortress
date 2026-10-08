@@ -52,6 +52,17 @@ To run them:
 - After a code-generator edit, run its own tests, and the four-thread atomic runs if the edit is near transactions (`compiler.md`). Leave its whole tracks to the gate.
 - After every other change, run only its own tests, through the scripts below. Leave the rest to the gate. A change of tests, prose or records only needs no whole suite.
 
+The suites do not check these:
+
+- the bytecode optimizer, which nothing in the compiler calls;
+- syntax abstraction: no gated test declares a grammar;
+- the linker's aliasing of apis;
+- `fortress unparse`;
+- the round trip of the `.tfi` and `.tfs` caches;
+- any behaviour above one thread, except the gate's atomic runs.
+
+If your edit is in one of these, your own tests are its only check. Say so in your report.
+
 ## One test, or a few
 
 ### Interpreter tests
