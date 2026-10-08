@@ -32,7 +32,7 @@ The lines give the settings of `explorations/experiment/env.sh`, with two differ
 
 If your brief tells you to run `source env.sh` and then to point `TMPDIR` and `JAVA_FLAGS` at `tmp/`, use the lines above. They do the same.
 
-The library and microGPT import no DSL grammar, and of the gated tests only `ProjectFortress/syntax_abstraction_tests/ForUse.fss` does. The APL experiments under `explorations/apl/` do, and so do the ungated tests in that folder.
+The library and microGPT import no DSL grammar, and of the gated tests only `ProjectFortress/syntax_abstraction_tests/ForUse.fss` does. The ungated tests beside it import one, and so do the APL experiments under `explorations/apl/`.
 
 With the lines above, your runs that import a DSL grammar put their parser directories in `<tree>/tmp/`. Hundreds of them once filled the disk allowance. So:
 

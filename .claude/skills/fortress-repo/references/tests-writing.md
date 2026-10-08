@@ -60,7 +60,7 @@ The `.test` files are the whole list of tests: a `.fss` that no `.test` file nam
                                check: contains, does_not_contain, equals, matches,
                                WIcontains (containment with runs of whitespace collapsed)
 
-A `run` fails if the program exits non-zero, if a `run_*` check fails, or, with no `run_out` check, if its output holds neither `pass` nor `PASS`. For example:
+A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. For example:
 
     tests=EqualityRung1
     link
@@ -95,6 +95,8 @@ If your brief does not let you edit the original tree, say in your report which 
 The test needs no commit of its own. A test that comes with no fix, such as one that guards a behaviour that works today, has no failing run: see it pass through the harness.
 
 In your report, quote two to five lines of the failing run, if there is one, and the passing line, each with its command. In an edit of the original tree, put every check into a gated test, never into a one-off script. A probe that only measures may use its own script. Assert a value with `assert` in an interpreter test. In a compiled test, assert it with `assert` (above), or print it and check it with a `run_out_equals` key. The harness checks both, so they are part of the suite's verdict.
+
+An edit of prose in `Specification/` or `Documentation/` has no test. Check it as `specification.md`, "Changing the text: the revision form", says.
 
 ## Writing an `XXX` test
 
