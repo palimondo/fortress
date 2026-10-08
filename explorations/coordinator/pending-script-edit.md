@@ -75,3 +75,7 @@ The ledger is in fifteen topic sections and `explorations/coordinator/tools/ledg
 
 Every push now also goes to `blinded-fable`, the branch the coordinating session was created from and a rebuilt container clones (protocol, hard rules). The script's push steps name only `claude/worker-brief-fable-vnnuv8`: `climb-batch-workflow.js:72`, `:2159-2160`, `:2478`. Each gains `git push origin main:blinded-fable` beside it.
 
+## The microGPT walk check (2026-10-08)
+
+`tools/mg-run.sh` now runs the quick pair by default (`MicroGptFlatQuick.fss`, `MicroGptAplQuick.fss`: two passes, 7 checks each, about 56 s for the pair from empty caches; `7e3fe5b7b`), and the full 40-check pair only with `full` among its arguments (POSITIONS, "The microGPT walk check is quick."). `climb-batch-workflow.js:2161` still says the run takes "about 80 minutes each"; it now takes about a minute. The commit step calls `mg-run.sh` without `full`, so it runs the quick pair, which is the intent.
+
