@@ -26,11 +26,19 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 
 ## Comments on a page
 
-Much of the curator's review comes as comments on a published page. The curator reads the page on a phone, without the chat beside it, and works on several comments at once. So the answer to a comment goes on its thread.
+Much of the curator's review comes as comments on a published page. Read each comment's thread with the `ArtifactComments` tool. The notification gives the thread id. Answer on that thread.
 
-- Read each comment's thread with the `ArtifactComments` tool. The notification gives the thread id.
-- Answer on that thread. Leave the thread open: the curator resolves it. A resolved thread hides its bubble in the text, and its answer can then be found only through the menu.
+What follows the answer depends on where the curator reads the page.
+
+While the curator says that the page is read on a phone, the chat is not beside the page, and the curator works on several comments at once. Then:
+
+- Leave the thread open: the curator resolves it. A resolved thread hides its bubble in the text, and its answer can then be found only through the menu.
 - In chat, write one line at most, or nothing.
+
+Otherwise, the curator reads on a desktop, with the chat and the page side by side. Then:
+
+- Resolve the thread once the comment is addressed.
+- In chat, say in a few lines what was done.
 
 A comment on a skill marks a problem area, not a sentence to patch. Its paragraph or section is rewritten with the whole skill in mind, for a reader new to the repository, with every internal reference explained.
 
