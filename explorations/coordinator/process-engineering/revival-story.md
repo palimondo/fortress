@@ -273,6 +273,23 @@ These points are the team's, with a small change of ours:
   - Ours: the interpreter's library has the same side-by-side types now. Walk converts between number types. Walk raises `IntegerOverflow` when a fixed-width result does not fit.
   - The team's walk had no conversion between number types, and it wrapped a result that did not fit.
 
+### Why we changed each point, and whose intent we followed
+
+We change the team's language only for one of two reasons. The team left two of its sources in conflict, or the language as the team left it fails on a program. Each time, we follow the team's own latest word that works: the compiler's library, the team's later papers, or the specification. Every change to the specification keeps the original text and our reason, in its Appendix I.
+
+- **Point 2, overloads that differ in type parameters.** The specification forbids this in one sentence from 2009. Neither of the team's implementations ever enforced it. The team's type group wrote a later model in 2011 that allows it, and the team's checker runs that model. We followed the type group.
+- **Point 2, the return-type rule for every instance.** The checker tested one instance only. A counterexample from the team's own paper then passed the checker and failed the JVM's check of the bytecode. The paper's rule asks for every instance, so we made the checker do so.
+- **Point 2, walk's choice by declared types.** Walk chose between a generic and a plain declaration by their order in the file. That is a defect: the specification chooses by types, not by order.
+- **Point 4, `comprises` read as a statement about values.** Four older passages of the specification read it as a statement about types, and they fail for programs the specification allows. The team's later Types chapter of 2012 reads it about values. We followed that chapter.
+- **Point 5, the bound `Any`.** The library itself uses its generic containers with tuples, and `Object` does not hold tuples. The library already writes `Any` where it states a bound. So `Any` is the bound that lets the team's own library work.
+- **Point 5, a type parameter that nothing fixes takes its bound.** The team's last paper on the type system (Park, Hong, Steele and Ryu, 2019) gives this rule. The old behaviour gave such a parameter the empty type `Bottom`, and the compiled program crashed at load.
+- **Point 5, sizes on the compiled path.** The team's code generator had a slot reserved for a size and never filled it. We filled it in the team's own pattern for type arguments.
+- **Point 6, numbers side by side.** The checker's rule refuses the tower, and the team's compiler library was already side by side. We gave the interpreter's library the same shape.
+- **Point 6, walk converts between number types.** The specification says that a call converts its arguments when that makes it apply. The team's walk had a note "TODO add checks for COERCE" at that place. We did the TODO.
+- **Point 6, walk raises `IntegerOverflow`.** The specification says a fixed-width result that does not fit raises `IntegerOverflow`, and the team's compiled path did so. The team's walk wrapped. We made walk follow the specification. Code that means to wrap uses the specification's own wrapping operators.
+- **Point 7, one thread in the suites.** Our reason: a test run should give the same result whatever shell starts it. You asked to revisit this; it is held.
+- **Point 8, a generic `SUM`.** The tower's catch-all operators on `Number` went with the tower, and the old `SUM` depended on them. The new `SUM` combines the element type's own operator. It takes its zero from the element type by a device the library already uses for arrays.
+
 ### Where the quiz was right about the team
 
 A fresh model answered a quiz on Fortress from its training alone. The audit marked some answers as wrong. Some of these answers are right about the team's Fortress:
