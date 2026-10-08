@@ -1,6 +1,6 @@
 #!/bin/bash
 # mg-run.sh <work-dir> <label> [threads]: the two microGPT checks under walk, each from an empty
-# private cache (FORTRESS_CACHES), each run from its own directory as its header says, both at once,
+# private cache (FORTRESS_CACHES) in a fresh folder under <work-dir> (old runs' folders stay; clear them by hand), each run from its own directory as its header says, both at once,
 # with bin/fortress's own JVM (JAVA_FLAGS -Xmx4g -Xss64m) and FORTRESS_THREADS=<threads> (default 1).
 # Output to <work-dir>/<name>.txt, headed by the machine line (machine.sh) and ended by rc=.
 set -u
@@ -13,7 +13,7 @@ L=${2:?usage}
 for f in explorations/run-c4/src/MicroGptFlatCheck.fss explorations/apl/mg/MicroGptAplCheck.fss; do
   (
     t=$(basename "$f" .fss)
-    C="$W/caches-$t"; T="$W/tmp-$t"; rm -rf "$C" "$T"; mkdir -p "$C" "$T"
+    R=$(mktemp -d "$W/run-$t-XXXX"); C="$R/caches"; T="$R/tmp"; mkdir -p "$C" "$T"   # a fresh folder per run; nothing is deleted
     printf '\0\0\0\0' > "$C/global.map"
     {
       bash explorations/compile-ladder/rung-flat-tower/machine.sh "$L $t"
