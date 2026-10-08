@@ -2,6 +2,26 @@
 
 A test is gated if the gate's suites run it. An `XXX` test is a gated expected failure: it asserts the answer that the specification gives, and fails today. If it starts to pass, the suite goes red. A code-generator wall is a `sayWhat` call or another thrown `CompilerError` for a construct that the code generator does not compile yet.
 
+## A test program
+
+A test program has this form:
+
+    component Name
+    export Executable
+
+    (* declarations *)
+
+    run(): () = do
+        assert(f(2), 4, "f(2)")
+    end
+
+    end
+
+- `(*)` starts a comment to the end of the line. `(* ... *)` comments nest.
+- Under walk, `assert(x, y, msg)` checks that `x` equals `y`, for values of any type. The compiler's prelude declares the two-value `assert` only for `ZZ32`, `String` and `Character`.
+- Do not name a variable or a parameter after a functional method of the library, such as `even`, `numerator` or `shift`. The disambiguator refuses it: "Variable even is already declared."
+- A numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
+
 ## Where a test goes, and how it passes
 
 Interpreter (walk): write `ProjectFortress/tests/Name.fss`, whose component is `Name`.

@@ -141,6 +141,7 @@ Moved on 2026-10-05 from the session skill's `long-commands.md`, `agents.md`, `i
 - Ambiguity message order: FACTS "The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program" (stated in `interpreter.md` only).
 - Item 3 covers a question that a conflict leaves open, since `specification.md` no longer gives an unsettled disagreement an `XXX` test of the text: the reader-new entry.
 - Terms first (gated, `XXX`, code-generator wall); how `XXX` works before the steps that write one: the structure comment.
+- "A test program", its form and four traps: `explorations/reviews/skills-distillation-audit.md`, item A5, at the curator's approval of 2026-10-08 on the review page. Checked: `ProjectFortress/tests/RangeZZ32RungJ.fss` (the form); `parser/Spacing.rats:53-55` (`(*)`); `Library/FortressLibrary.fsi:235-241` (`assert(x:Any, y:Any, failMsg: Any...)`); `Library/CompilerLibrary.fsi:45-49`; FACTS "Every functional-method name of the library is reserved in every program that imports it"; ledger row 454 (NEGATIVE-VERIFIED); `FortressLibrary.fsi:578` (`unsigned`), used as in `tests/IntegerOrderNumerals.fss:26`. The example program was not run. The audit's "on either path" for the numeral is left out: the compiler's prelude has no `unsigned`.
 
 ## The checker count and the distance (removed)
 
