@@ -218,6 +218,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 
 ## records.md
 - No rule to follow the brief and the skill: every agent does that already; the record search it was bounded from is the exploring part's (the curator's comment of 2026-10-07).
+- No opening that repeats `SKILL.md` (the curator's comment of 2026-10-08 on the review page: "This back reference seems like waste of tokens."): the part is loaded after `SKILL.md`, so its main files are in context; the list of what the part holds is its headings. The first heading names the record's other files. The same check on every part dropped `exploring.md`'s pointer to `SKILL.md`, "When to explore".
 
 - facts-extract.sh queries: `explorations/coordinator/tools/facts-extract.sh --help`.
 - File roles: `explorations/coordinator/README.md`; the old `CLAUDE.md`; the script's prefix (territory map list, `:987-997`).

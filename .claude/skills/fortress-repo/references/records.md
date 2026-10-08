@@ -1,10 +1,8 @@
 # The record and the report
 
-`SKILL.md` names the record's main files: POSITIONS, FACTS, INDEX and the gap ledger. This part gives the record's other files, the form of its entries, the queries that read it, and what a report holds.
-
 A point to report is a kind of change or finding that the curator wants to review. Your brief names its points to report. Examples from earlier briefs: a changed line of a test that the team wrote, a checker edit inside a change to the library, a changed line of the model program.
 
-## The other files
+## The record's other files
 
 - `explorations/coordinator/PLAN.md`: the phases, and the open issues in the order they need deciding.
 - `explorations/coordinator/map/`: `README.md` (section 7: what each change reaches, which tests guard it, where the gate is blind), `spec-to-implementation.md` (where a fix belongs), `modules-and-phases.md`, `test-coverage.md`, `design-intent-sources.md` (where the designers' intent is written), `dormant-code.md` (code that is present and switched off).

@@ -1,6 +1,6 @@
 # Exploring: a question that the record does not settle
 
-You explore when you meet a gap, a conflict, or new evidence against a decision of the curator (`SKILL.md`, "When to explore"). Exploring adds what you found to the record, so that the curator can decide. When you have added it, you go back to building.
+You explore when you meet a gap, a conflict, or new evidence against a decision of the curator. Exploring adds what you found to the record, so that the curator can decide. When you have added it, you go back to building.
 
 Your brief comes first. If it names a point to report and says what to do there, do that.
 
