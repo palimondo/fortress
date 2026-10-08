@@ -10,6 +10,8 @@ The rows are the bug reports that the work fixes. A fix of a row starts with its
 
 Reports everywhere cite rows by number. So never renumber or move a row. Give a new issue a new row with a new number. Close a fixed row in place.
 
+The ledger is large: whole, it is about 400K tokens, and one row can be 12K characters. Never read it whole, and never print whole matching lines from it. To find rows, run the `ledger-find` query with a few words (below). If it reports many more rows, add a word. Then print each row that you need with `ledger:ROW`.
+
 ## FACTS and POSITIONS
 
 FACTS and POSITIONS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. The provenance goes in `FACTS-history.md` and `POSITIONS-history.md`.
@@ -30,6 +32,7 @@ Read only the slice of the record that you need. Do not read the big files whole
     T=explorations/coordinator/tools/facts-extract.sh
     $T 'WORDS OF A TITLE'            # the FACTS.md entry whose bold title holds them
     $T 'section:HEADING'             # every FACTS.md entry of a section
+    $T 'ledger-find:WORDS'           # each ledger row that holds every word: number, status, claim's start
     $T 'ledger:424'                  # one row of the gap ledger
     $T 'positions:WORDS OF A TITLE'  # one of the curator's decisions
     $T 'index:WORDS'                 # the INDEX.md lines on a topic, one per note
