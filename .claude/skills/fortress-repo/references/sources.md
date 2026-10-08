@@ -164,6 +164,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Suites and blind paths: the script `:1037`; FACTS "The checker-count and distance stages read only ...".
 - Shared early phases: map README § 7 row `compiler/` phases 1-4.
 - What walk does not do, natives and checks at load before running and editing; the timing rule moved to running: the structure comment.
+- The checks at load widened to the overload sets, and the pointer from "After an edit here" to `compiler.md`'s two new sections: `explorations/reviews/skills-distillation-audit.md`, items A8, A1 and A2, at the curator's approval of 2026-10-08 on the review page. Checked: FACTS "Walk's load check reads a generic declaration beside a plain one ...", "Walk applies at load the Meet Rule for Functional Methods ...", "Walk checks at load the `comprises` clauses ..." (by `--check`); `OverloadedFunction.java:256-259` (the `T extends Any` refusal) and `:629-655`. The line on walk's static checking keeps its meaning and points to the load checks.
 
 ## compiler.md
 

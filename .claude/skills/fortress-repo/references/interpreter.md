@@ -4,7 +4,7 @@ The code is in `ProjectFortress/src/com/sun/fortress/interpreter/`: `evaluator/`
 
 ## What walk does not do
 
-- Walk does no static checking. Its type-checking phase does nothing, and no switch turns it on. So every "type error" that walk prints is a dispatch failure at run time, and walk accepts programs that the specification forbids.
+- Walk has no type checker. Its type-checking phase does nothing, and no switch turns it on. So every "type error" that walk prints is a dispatch failure at run time, and walk accepts programs that the specification forbids. Its only static checks are those at load (below).
 - `fortress typecheck` checks against the compiler's prelude, so it says nothing about an interpreter program.
 - Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. This is an accepted limit until the switch-over.
 - Walk's overload-ambiguity message names its two declarations in an order that varies from run to run. On one core the order is fixed for a given library, but a library edit can change it. Never compare or pin this order. The harness reads only that an `XXX` test fails.
@@ -22,7 +22,14 @@ Walk wraps every other Java exception that a native throws in a `ProgramError`, 
 
 ## Checks at load
 
-At load, walk checks the `comprises` clauses of the program's main component. It refuses a program with an extender that a clause does not allow. It does not yet check the library's clauses, another component's clauses or an object expression's clauses. To test such a refusal, name it with `load_exception_contains` in a `Name.test` file beside the program (`tests-writing.md`).
+At load, walk checks the overload sets and some `comprises` clauses. It refuses:
+
+- two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if a generic declaration beside a plain one is ordered by their declared domains, or if `comprises` clauses cover the overlap.
+- two functional methods that break the Meet Rule for their providing type.
+- an overloaded function whose one parameter has a type parameter written `T extends Any`.
+- an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses.
+
+So a library edit that adds an overload can stop every program at load. To test such a refusal, name it with `load_exception_contains` in a `Name.test` file beside the program (`tests-writing.md`).
 
 ## Running a program
 
@@ -44,5 +51,5 @@ MicroGPT runs only under walk, by hand, never in the gate. `explorations/coordin
 
 ## After an edit here
 
-- Walk shares the parser and the early phases with the compiler. So an edit to the desugarers, the disambiguator or the switches of `Shell.java` can change both paths.
+- Walk shares the parser and the early phases with the compiler. So an edit to the desugarers, the disambiguator or the switches of `Shell.java` can change both paths. But walk skips some desugarers, and after the early phases the paths share almost no code (`compiler.md`, "Which desugarings run on each path" and "What the two paths share").
 - Run your own tests through `harness-one.sh`. `tests-running.md`, "When to run a whole suite", says whether you run the whole `testSystem`.
