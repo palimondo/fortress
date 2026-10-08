@@ -71,15 +71,15 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 
 - Carry out the curator's decisions as the record states them.
 - If the record does not settle a question that your work meets, switch to exploring.
-- Cite a source for each claim that you write: your brief, an entry of the record, or a primary source (the code, the specification, the papers or a run).
-- Reproduce a behaviour before you explain it, unless your brief cites such a run.
+- Cite a source for each claim that you write: your brief, an entry of the record, or a primary source (the code, the specification, the papers or a command's output).
+- Reproduce a behaviour before you explain it: run a command that shows it, unless your brief cites the command's output.
 - When you probe or debug, change one thing at a time, so that each result has one cause.
 - Write the test before the fix for every edit of source code in the original tree. Add the test to the test suite and see it fail through the harness. Then make the fix and see the test pass. An edit of the specification or the documentation has no test (`references/tests-writing.md`).
 - Assert every value that matters inside a test, and take the suite's pass or fail as the result. Do not compare the printed output of the tests, and do not add expected-output files. The gate's ladder stage is the one exception (`references/gate.md`).
 - Take the tree that you start from as green: its suites passed before it landed. Do not run them to check that. Start with your own failing test.
-- Reuse each result that your brief cites or that your own work ran: a build, a suite, a stage or a test run. Cite it. Run it again only after the code changes. A run of a new program is not a repeat.
+- Reuse each result of a build, a suite, a stage or a test that your brief cites or that your own work ran. Cite it. Run it again only after the code changes. Running a new program is not a repeat.
 - After your fix, run your own tests. Run a whole suite only where `references/tests-running.md` says that your edit reaches it.
-- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while any run may be live: the script deletes files that other runs use.
+- Set up each Bash call as `references/build-and-caches.md` says, because every call starts a new shell. Do not run `source explorations/experiment/env.sh` while any `bin/fortress` command may be running: the script deletes files that they use.
 - After an edit, recompile what you edited. Do not delete the caches to fix stale code (`references/build-and-caches.md`).
 - Run long commands (a build, a suite) in the background with a log under your tree's `tmp/`, and poll the log (`references/session.md`). Do not pipe `ant` through `tail`: if the Bash tool's time limit stops the command, it shows nothing.
 - Before you design a change to the library, study how the library already does the same kind of thing, and follow its way (`references/library.md`).
