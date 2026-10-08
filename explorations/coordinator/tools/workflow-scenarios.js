@@ -1,4 +1,4 @@
-// workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR] [--dump DIR]
+// workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR] [--dump DIR] [--skill SKILL_DIR]
 //
 // The scenario checker of the batch workflow script, explorations/coordinator/climb-batch-workflow.js
 // (its manual: explorations/coordinator/climb-batch-workflow.md; the practice it builds:
@@ -42,10 +42,12 @@ const crypto = require('crypto')
 
 const ROOT = process.env.FORTRESS_HOME || path.resolve(__dirname, '../../..')
 const argv = process.argv.slice(2)
-const sizesAt = argv.indexOf('--sizes'), dumpAt = argv.indexOf('--dump')
+const sizesAt = argv.indexOf('--sizes'), dumpAt = argv.indexOf('--dump'), skillAt = argv.indexOf('--skill')
 const SIZES_DIR = sizesAt >= 0 ? argv[sizesAt + 1] : null
 const DUMP_DIR = dumpAt >= 0 ? argv[dumpAt + 1] : null   // writes every brief of every scenario there, one file each, for reading
-const target = argv.filter((a, i) => a !== '--sizes' && a !== '--dump' && (sizesAt < 0 || i !== sizesAt + 1) && (dumpAt < 0 || i !== dumpAt + 1))[0] || path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
+const SKILL_DIR = skillAt >= 0 ? argv[skillAt + 1] : path.join(ROOT, '.claude/skills/fortress-repo')   // the skill whose sections the script cites
+const valued = new Set([sizesAt, dumpAt, skillAt].filter(i => i >= 0).map(i => i + 1))
+const target = argv.filter((a, i) => !/^--(sizes|dump|skill)$/.test(a) && !valued.has(i))[0] || path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
 const BASE_BUILD = '/home/user/fortress-base'
 const orig = fs.readFileSync(target, 'utf8')
 
@@ -62,6 +64,32 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
   say(!ticks.length && !/[^\x00-\x7f]/.test(orig), 'the script holds ' + ticks.length + ' backtick(s) outside the gate\'s mg_phases line and ' + ((orig.match(/[^\x00-\x7f]/g) || []).length) + ' non-ASCII character(s)')
 }
 const body = orig.replace(/^export const meta/m, 'const meta')
+
+// Every section that the script cites by name, of a fortress-repo part ("the skill's tests-writing.md, "The
+// order"") or of the batch workflow's manual or the redesign's synthesis, is a heading of that file, its
+// backticks and any section number dropped, equal to the name or opening with it. The parts are read from
+// SKILL_DIR.
+{
+  const refs = path.join(SKILL_DIR, 'references')
+  const files = {}
+  if (fs.existsSync(refs)) for (const f of fs.readdirSync(refs)) if (/\.md$/.test(f) && f !== 'sources.md') files[f] = path.join(refs, f)
+  files['climb-batch-workflow.md'] = path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.md')
+  files['batch-redesign.md'] = path.join(ROOT, 'explorations/coordinator/process-engineering/batch-redesign.md')
+  const text = orig.replace(/\n\s*\/\/ ?/g, ' ')
+  const cited = new Map()
+  const re = /\b([a-z][a-z-]*\.md)(?:\s+says)?(?:,\s*|\s*\()((?:"[^"]+"(?:;\s*|\s+and\s+|,\s*)?)+)/g
+  let m
+  while ((m = re.exec(text))) {
+    if (!files[m[1]]) continue
+    for (const q of m[2].match(/"[^"]+"/g)) { const name = q.slice(1, -1).replace(/\\'/g, "'"); cited.set(m[1] + ' "' + name + '"', [m[1], name]) }
+  }
+  const missing = []
+  for (const [key, [file, name]] of cited) {
+    const heads = fs.existsSync(files[file]) ? fs.readFileSync(files[file], 'utf8').split('\n').filter(l => /^#+ /.test(l)).map(l => l.replace(/^#+\s+/, '').replace(/^\d+(\.\d+)*\.?\s+/, '').replace(/\x60/g, '')) : []
+    if (!heads.some(h => h === name || h.startsWith(name))) missing.push(key)
+  }
+  say(Object.keys(files).length > 2 && !missing.length, 'the sections the script cites by name, ' + cited.size + ' of them, are headings of their files (the skill at ' + SKILL_DIR + ')' + (missing.length ? '; not found: ' + missing.join('; ') : ''))
+}
 
 // The manifest's rungs, in order, and the one that brings a gate step.
 const runsLine = (orig.match(/^const RUNGS = \[([^\]]*)\]/m) || [])[1] || ''
