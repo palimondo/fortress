@@ -1,0 +1,12 @@
+(* An if expression whose clause is a generator binding runs its then branch with the name bound to the value a Just holds (if.tex, section "If Expressions"), so the program is valid; the compiled path refuses it, "Variable __cond is not defined". *)
+component XXXIfGeneratorClause
+export Executable
+
+run(): () = do
+    m: Maybe[\ZZ32\] = Just[\ZZ32\](3)
+    r: ZZ32 = if x <- m then x + 10 else 0 end
+    assert(r, 13, "if x <- Just(3) then x + 10 else 0 end")
+    println("PASS")
+  end
+
+end

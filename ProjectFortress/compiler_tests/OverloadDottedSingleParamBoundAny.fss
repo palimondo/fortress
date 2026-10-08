@@ -1,0 +1,15 @@
+(* A dotted method whose single parameter is a type parameter with the bound Any written cannot be overloaded (overloading.tex, section "Principles of Overloading"), so the program, which overloads one beside a method of two parameters, is refused. *)
+component OverloadDottedSingleParamBoundAny
+export Executable
+
+object Ob
+  m[\T extends Any\](x: T): ZZ32 = 1
+  m(x: ZZ32, y: ZZ32): ZZ32 = 2
+end
+
+run(): () = do
+    println("Ob.m(3) = " Ob.m(3))
+    println("Ob.m(3, 4) = " Ob.m(3, 4))
+  end
+
+end

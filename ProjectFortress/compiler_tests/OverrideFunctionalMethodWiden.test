@@ -1,0 +1,4 @@
+tests=OverrideFunctionalMethodWiden
+link
+run
+run_out_WIcontains=f PASS g PASS

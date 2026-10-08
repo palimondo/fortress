@@ -1,0 +1,20 @@
+(* An object implements an inherited abstract generic method one of whose static parameters is bounded by another that shares the name of the object's own parameter (traits.tex, section "Method Declarations"), so the program is valid, compiles and runs. *)
+component InheritedAbstractMethodBoundSameName
+export Executable
+
+object Box[\T\]() end
+
+trait Gen[\E\]
+    gen[\R, Q extends Box[\R\]\](f: E -> R, q: Q): R
+end
+
+object P[\R\](x: R) extends Gen[\P[\R\]\]
+    gen[\G, H extends Box[\G\]\](f: P[\R\] -> G, q: H): G = f(self)
+end
+
+run(): () = do
+    p = P[\ZZ32\](3)
+    println("PASS")
+  end
+
+end

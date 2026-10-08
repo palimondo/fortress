@@ -1,0 +1,16 @@
+(* A while loop whose clause is a generator binding runs its body with the name bound to the value a Just holds, once for each time the condition holds (while.tex, section "While Loops"), so the program is valid; the compiled path refuses it, "Variable __whileCond is not defined". *)
+component XXXWhileGeneratorClause
+export Executable
+
+run(): () = do
+    total: ZZ32 := 0
+    next: Maybe[\ZZ32\] := Just[\ZZ32\](3)
+    while x <- next do
+        total := total + x
+        next := if x > 1 then Just[\ZZ32\](x - 1) else NothingObject[\ZZ32\] end
+    end
+    assert(total, 6, "while x <- next, from Just(3) down to Just(1)")
+    println("PASS")
+  end
+
+end

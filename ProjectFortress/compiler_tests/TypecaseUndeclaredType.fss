@@ -1,0 +1,12 @@
+(* A typecase arm that names, with static arguments, a type no library declares refers to a name where it is not in scope, a static error (declarations.tex, section "Reach and Scope of Declarations"), so the program is refused with the name. *)
+component TypecaseUndeclaredType
+export Executable
+
+kind(x: Any): String = typecase x of
+    Nonesuch[\ZZ32\] => "nonesuch"
+    else => "other"
+  end
+
+run(): () = println(kind(3))
+
+end
