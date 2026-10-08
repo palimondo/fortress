@@ -1,4 +1,4 @@
-<!-- DRAFT, CONTENT ONLY. The record of climb batch 11, the next batch of the plan's phase 3, "the checker at a true zero", drafted 2026-10-08 by a planning worker for the coordinating session, the curator and the batch's workers, against `main` at `a8385b23a`, whose `Library/`, `ProjectFortress/`, `Specification/`, `Documentation/`, `build.xml` and `bin/` are byte for byte those of `ec718967a`, climb batch 10's landing (`git diff --stat ec718967a HEAD` over those paths is empty), so batch 10's landed tables describe this base. It says what the batch changes, why, and what the curator decides first. It holds no manifest and no workflow mechanics, since the batch workflow is being redesigned before the batch runs (POSITIONS, "The order of the work after batch 10."). Sources: PLAN.md, phase 3 items 8 and 9 and the lines under them, items 36 to 47, and the lists "Climb batch 9, listed for his review" and "Climb batch 10, listed for his review"; batch 10's landed tables (`compile-ladder/climb-batch-10/gate/distance.txt`, `checker-count.txt`, `summary.txt`) and per-site list (`compile-ladder/gate/distance-sites.tsv`); `compile-ladder/climb-batch-10/RECORD.md`; `reviews/batch-10-review.md`, section 1 ("What is left of the 253"), the findings and Part 3; `reviews/p1-judgement.md`, "The judgement"; POSITIONS.md and FACTS.md, cited by bold title; ledger rows read one at a time with `facts-extract.sh`; the form of `coordinator/CLIMB-BATCH-10.md` and its review `climb-batch-10-review.md`. Nothing was built or run: no stage, no suite, no Fortress program and no `classify.py`. The per-site list was read by file, line and message; a class named below is by reading `classify.py`'s rules against the messages, not by a run. One line per paragraph. -->
+<!-- DRAFT, CONTENT ONLY. The record of climb batch 11, the next batch of the plan's phase 3, "the checker at a true zero", drafted 2026-10-08 by a planning worker for the coordinating session, the curator and the batch's workers, against `main` at `a8385b23a`, whose `Library/`, `ProjectFortress/`, `Specification/`, `Documentation/`, `build.xml` and `bin/` are byte for byte those of `ec718967a`, climb batch 10's landing (`git diff --stat ec718967a HEAD` over those paths is empty), so batch 10's landed tables describe this base. It says what the batch changes, why, and what the curator decides first. It holds no manifest and no workflow mechanics, since the batch workflow is being redesigned before the batch runs (POSITIONS, "The order of the work after batch 10."). Sources: PLAN.md, phase 3 items 8 and 9 and the lines under them, items 36 to 47, and the lists "Climb batch 9, listed for his review" and "Climb batch 10, listed for his review"; batch 10's landed tables (`compile-ladder/climb-batch-10/gate/distance.txt`, `checker-count.txt`, `summary.txt`) and per-site list (`compile-ladder/gate/distance-sites.tsv`); `compile-ladder/climb-batch-10/RECORD.md`; `reviews/batch-10-review.md`, section 1 ("What is left of the 253"), the findings and Part 3; `reviews/p1-judgement.md`, "The judgement"; POSITIONS.md and FACTS.md, cited by bold title; ledger rows read one at a time with `facts-extract.sh`; the form of `coordinator/CLIMB-BATCH-10.md` and its review `climb-batch-10-review.md`. Nothing was built or run: no stage, no suite, no Fortress program and no `classify.py`. The per-site list was read by file, line and message; a class named below is by reading `classify.py`'s rules against the messages, not by a run. One line per paragraph. Reviewed in place on 2026-10-08 by the top-tier review `coordinator/climb-batch-11-review.md`, on the curator's standing pre-approval of such reviews (POSITIONS, "The phase-3 batches run on a standing go."), against `main` at `2f6db6625`, whose commits since `a8385b23a` touch the boot note, the revival story and the testing-practices note only; the review gives one reason per change, what it checked and found right, and the questions as they now stand. -->
 
 # Climb batch 11
 
@@ -57,7 +57,7 @@
 
 ## 2. Your questions, in the order they block the batch
 
-### Q1. P1: under walk, is a type parameter whose bound names itself, and that nothing at a call fixes, left open (way 11)?
+### Q1. Probe P1: under walk, is a type parameter whose bound names itself, and that nothing at a call fixes, left open (way 11)?
 
 - **Blocks:** rung W's main part. Without a yes, W builds rows 614 and 618 only.
 - **On file:** the top-tier judgement `reviews/p1-judgement.md` (2026-10-08), with the probe `compile-ladder/plan-9/probes/P1.md`. The short form follows.
@@ -67,18 +67,18 @@
 - **The specification.** A reduction is rewritten by the type `N` of its elements, `SUM[\N\]` (`Specification/advanced/parallelism-locality/defining-generators.tex:154-164`); the inference chapter lists this case as not yet described (`Specification/basic/inference.tex:246-249`).
 - **The library's own way.** Keep the parameter out of the way and let the elements' own types do the work: `simpleJoin(a: Any, b: Any)`, the comprehensions' `AnyCovColl` (the judgement, step 5).
 - **The peers.** C# and Rust refuse; Java keeps the hole abstract; Scala takes `Nothing`, walk's `Bottom`; Julia, the dynamic peer, reads the type from the elements (step 6).
-- **The commits.** Answer 7 removed the `Number` catch-all (`d846e3644`) and 18 of the 21 team demos stopped; batch 9's rung W (`669b77d03`) gave a plain bound its bound and kept a big operator's parameters at `Bottom` (its decision D2).
+- **The commits.** Your answer 7 (the one library's `SUM` and `PROD` typed, without the `Number` catch-all; POSITIONS, "`SUM` and `PROD` without the `Number` catch-all (answer 7)") removed the catch-all (`d846e3644`), and the 21 team demos that ran before all stopped, 18 of them at this row (row 424's note); batch 9's rung W (`669b77d03`) gave a plain bound its bound and kept a big operator's parameters at `Bottom` (its decision D2).
 - **The derivation.** The letter of your rule cannot apply; its spirit, never refuse every value, does. "The specification's examples join the gate at zero red", not respelled, rules out writing the type and refusing.
-- **The ways** (the probe's numbers): 1, a `ZZ32` default, breaks every sum of floats; 9, `Any`, runs everything but makes a set comprehension's collection a `NodeSet[\Any\]`, which a declared `Set[\ZZ32\]` refuses; 10, the bound read without `T`, as 9 and dependent on how placeholder traits are written; 11, left open, runs everything and keeps today's types; 12, refuse, leaves the examples red and refuses the library's own `upto`; 2 to 8 are not fixes or are ruled out by your decisions.
+- **The ways** (the probe's numbers; the sizes are the judgement's, by the probe's patches): 1, a `ZZ32` default, one edit in `instanceOf`, breaks every sum of floats; 9, `Any`, one block in `instanceOf` of about 20 lines, runs everything but makes a set comprehension's collection a `NodeSet[\Any\]`, which by the judgement's reading a declared `Set[\ZZ32\]` refuses; 10, the bound read without `T`, about 60 lines, as 9 and dependent on how placeholder traits are written; 11, left open, about 60 lines in five interpreter files, runs everything and keeps today's types; 12, refuse, about 25 lines, leaves the examples red and refuses the library's own `upto`; 2 to 8 are not fixes or are ruled out by your decisions.
 - **Recommendation** (the judgement's): way 11.
 - **A yes commits you to:** rung W's P1 half, about 60 Java lines in five interpreter files, no library or model line; two passages of the specification in the S1 form (a labelled callout at the passage and an entry with its reason in Appendix I; POSITIONS, "The S1 form"); `ant testSpecData` in the gate at zero red; the 18 demos and the smoke test run once and reported, none edited; a walk type named `OPEN` that a program can see where it prints such a type; one new row, an empty unwritten reduction over a type other than `ZZ32` getting `ZZ32`'s identity (`0 : Int` for an empty sum of `RR64`).
 - **Not covered by the yes:** D2's case, a big operator's plain-bounded parameters (the judgement's section 5); it stays out of this batch (section 4).
-- **Default:** none. W's P1 half waits for your word.
+- **Default:** if you give no answer, W builds rows 614 and 618 only; the P1 half, the five examples' run and the gate's new stage wait for your yes. The judgement asks for a yes.
 
 ### Q2. Item 36: does a `typecase` branch pass the enclosing expected type to its call? And do you confirm the plan's reading of the other three contexts?
 
 - **Blocks:** 3 of rung E's 19 sites; and, if you do not confirm the reading, all 13 of item 36's.
-- **On file:** PLAN item 36, narrowed by batch 8's review (`reviews/batch-8-review.md` section 2, "The 11 are less of a question than item 36 says", and finding 2): the text answers three of the four contexts, so they are "new work for a checker rung, not a fork", and "what is left for him is the `typecase` face at most". Row 560's note still calls the whole second part yours, and the inference chapter lists all four as not described, so a word from you settles which reading stands. No top-tier judgement is on file; none is needed for the three contexts the text answers.
+- **On file:** PLAN item 36, narrowed by batch 8's review (`reviews/batch-8-review.md` section 2, "The 11 are less of a question than item 36 says", and finding 2): the text answers three of the four contexts, so they are "new work for a checker rung, not a fork", and "what is left for him is the `typecase` face at most". Row 560, the ledger row that records these 13 sites, still says in its note that the whole second part is yours, and the inference chapter lists all four as not described, so a word from you settles which reading stands. No top-tier judgement is on file; none is needed for the three contexts the text answers.
 - **Terms.** The expected type is the type a context requires of an expression, such as the declared type of the variable it is assigned to. A result-only type parameter appears only in a function's return type, as `T` in `fail[\T\](s: String): T`; only the expected type can fix it. A `typecase` chooses a branch by the run-time type of a value.
 - **Type theory.** A checker that passes the required type down into an expression's parts (bidirectional checking) gives each part the type the whole requires. Where no type reaches the call, the result-only parameter takes its bound, `Any`, and an `if` without `else`, whose clauses must have type `()`, then has a clause of type `Any`.
 - **Today.** Walk runs all 13 sites. The checker refuses them, for example "An 'if' clause without corresponding 'else' has type Any instead of type ()" (`Library/FortressLibrary.fss:295`). Before batch 8 the same shapes compiled and then failed JVM verification at load (row 560).
@@ -89,10 +89,11 @@
 - **The derivation.** "A type parameter the arguments do not fix takes its bound, never `Bottom`" and "The specification stays the standard": the checker must pass in the type the text requires. It touches the specification and the checker, so it reaches you (POSITIONS, "Which decisions taken inside the work reach Pavol, and how.").
 - **The ways.**
   1. All four contexts, the `typecase` branch by the union rule. Touches `impls/Misc.scala` and `impls/Operators.scala` of the checker, the chapter's two lists and its Appendix I entry. Clears 13 sites.
-  2. The three contexts the text answers; the `typecase` branch left with row 560. Clears 10.
+  2. The three contexts the text answers; the `typecase` branch left with row 560. The same two files but the `typecase` case; the chapter's lists without it. Clears 10.
   3. None: the 13 stay, pinned by `compiler_tests/XXXInferResultOnlyNoContext`.
   4. Rejected: the library writes the type at each call, `fail[\()\](…)`. It routes round a checker gap, which the library's practice forbids (POSITIONS, "The library's own practice is the standard.").
-- **Recommendation:** way 1.
+  The costs of 1 and 2 are unmeasured; no probe ran.
+- **Recommendation:** way 1, the batch-8 review's reading of the union rule, which the planner takes; unmeasured.
 - **Default:** the three contexts, by PLAN's reading; the `typecase` branch waits for your word.
 
 ### Q3. The ranges' 36 sites: items 39, 40 and 41
@@ -116,7 +117,7 @@
   - 39: (a) `BoundedRange2D` and `BoundedRange3D`, each the meet of the rank's range trait and its `BoundedRange`, as `BoundedScalarRange` is: two api types and six `extends` clauses; clears the 15 sites and lets the six casts go. (b) A `cast` in each body: no new type; whether it ends walk's two stops is unmeasured. Recommendation: (a).
   - 40: (a) the bodies moved to the `ZZ32` kinds of rank 1 to 3, the generic traits declaring them abstract, in the way batch 7R gave the scalar ranges their `ZZ32` types; (b) generic `PCMP` and `SCMP` beside the `ZZ32` and tuple ones; (c) a bound on `I` that declares the comparisons. By reading, (c) cannot cover ranks 2 and 3, since their index type is a tuple and a tuple type extends no trait. Recommendation: (a), or a short measurement of (a) and (b) first if you want their costs.
   - 41: (a) the order repaired, `|#(0,3)|` 1 to 0, and the declared types widened to what the bodies answer (`RangeWithExtent[\…\]`, with `opr #`'s); (b) the order repaired, and a zero extent answering an empty extent range, the declared type kept; (c) left. Recommendation: (a), the library's repair of a declared type; (b) if you prefer no api change, though whether the library has an empty extent range is unmeasured.
-- **Default:** none for 39 and 40; 41 left.
+- **Default:** if you give no answer, rung L does not run: the 36 sites stay under their rows, rows 633 and 638 go to batch 12's library rung, and item 41 keeps today's values, pinned by `ProjectFortress/tests/RangeDeclarations.fss:112-113`.
 
 ### Q4. Item 47: should a local function whose parameter type is left out be refused with a message, as at top level, instead of crashing the checker?
 
@@ -134,7 +135,7 @@
   1. The refusal "Missing parameter type for i" for the local form. Small. The three crash rows become three errors; what lies behind them stays hidden until the types are known. A callout at `type-inference.tex:44-45` and an Appendix I entry, naming row 405 too.
   2. Inference of the left-out types: the repair, a checker project the text leaves undescribed. Not a rung.
   3. Left as expected failures: the default.
-- **Recommendation:** way 1. It turns a crash into a message and records a departure that already exists at top level.
+- **Recommendation:** way 1, the planner's own and unmeasured; rung C, its skeptics and its judge recommended none (`compile-ladder/rung-checker-defects/REPORT.md`, decision 9; `JUDGE.md` section 2). It turns a crash into a message and records a departure that already exists at top level.
 - **Default:** way 3, as landed.
 
 ### Q5. The self-typed bodies, 30 sites: not decidable yet
@@ -163,8 +164,8 @@ Each is yours, with its sites and where it is asked. None blocks batch 11; each 
 - The negative power of an integer (row 441, with rows 438 and 445; PLAN, "Raised by climb batch 6's rung T, the number chapters"): 5 sites wait on it.
 - Row 582, `isLeftZero`: the count's one error, 2 sites of the distance.
 - Row 631, `embiggen`: its typed form changes a declared type in the team's test `ProjectFortress/tests/WordCountSmall.fss:76`, a team test line (1 site).
-- D5's reach and row 591's entry (PLAN, "Climb batch 9, listed for his review"): rows 612 and 616 wait on them.
-- Row 615's reading of "overridden" and decision W2 (PLAN, "Climb batch 10, listed for his review"): as landed; rung W's row 614 repair follows the landed reading.
+- D5's reach (batch 9's rung W's decision D5: under walk a lone type parameter whose bound mentions another static parameter keeps the arguments' common supertype where the chapter gives the bound) and row 591's entry (walk has no intersection type, so a parameter with two bounds it cannot meet stays at `Bottom`) (PLAN, "Climb batch 9, listed for his review"): rows 612 and 616 wait on them.
+- Row 615's reading of "overridden" (walk counts as not inherited only what a type's own `override` declarations override) and decision W2 (batch 10's rung W: the traits chapter's clause on equal parameter types read at the same self position) (PLAN, "Climb batch 10, listed for his review"): as landed; rung W's row 614 repair follows the landed reading.
 
 ## 3. The rungs
 
@@ -174,7 +175,7 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 
 **Rows.**
 - Under Q1: row 424's F-bounded half closes. One new row opens with its expected failure: an empty unwritten reduction over a type other than `ZZ32` gets `ZZ32`'s identity. Notes: row 628 unblocked for a later library rung; row 555's F-bounded form unchanged (there the arguments fix `T`); D2's entry gains the open candidate.
-- Always: row 614 (walk runs a declaration that a trait's `override` declaration overrides: with `trait W extends S` overriding `S`'s `tag` and `dot`, `object Wo extends W` runs `S`'s; the row's fix drops overridden inherited declarations when a trait's members are gathered) and row 618 (walk does not check an object expression that provides two overlapping functional methods with no declaration on their meet, `object extends { A, B } end`, and runs one of them; its load check visits declared traits and objects only, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1205-1213`).
+- Always: row 614 (walk runs a declaration that a trait's `override` declaration overrides: with `trait W extends S` overriding `S`'s `tag` and `dot`, `object Wo extends W` runs `S`'s; the row's fix drops overridden inherited declarations when a trait's members are gathered) and row 618 (walk does not check an object expression that provides two overlapping functional methods with no declaration on their meet, `object extends { A, B } end`, and runs one of them; its load check visits declared traits and objects only, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1206-1213`; the checker's half of the same rule is row 570, section 4).
 
 **Distance classes.** None. The count and distance stages do not read walk (FACTS, "The checker-count and distance stages read only the compiler's phases …"). What moves is walk: under Q1, the five red examples of `ant testSpecData` (FACTS, "`ant testSpecData` runs 130 of the specification's 133 extracted examples …"), the smoke test, and by the probe 14 of the 18 team demos (`P1.md`).
 
@@ -190,14 +191,15 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 - Row 614: `ProjectFortress/tests/XXXOverrideInTraitWalk.fss` promoted.
 - Row 618: `ProjectFortress/tests/XXXFunctionalMethodMeetObjectExpressionWalk.fss` and its `.test` key promoted, the refusal at load named (`load_exception_contains=Invalid overloading of pick`).
 - Keep their verdicts: the team's `simpleSum.fss`, `setSum.fss` and `disp0.fss`; `FunctionalMethodOverrideOtherPathWalk.fss` (row 615's pin); the expected failures of rows 591, 592, 612 and 616, and without Q1's yes `XXXUnwrittenSumRungF.fss`.
-- After the edit: the interpreter suite once. Under Q1, `ant testSpecData` once, and R10's read: the 18 demos and `explorations/claude_demo.fss` each run once under walk, the verdict and first error line reported, none edited (POSITIONS, "The team demos that write no static argument for a generic reduction").
+- After the edit: the interpreter suite once. Under Q1, `ant testSpecData` once, and R10's read (R10 is your decision that the team's demos are not respelled, "Let's not touch them"): the 18 demos and `explorations/claude_demo.fss` each run once under walk, the verdict and first error line reported, none edited (POSITIONS, "The team demos that write no static argument for a generic reduction").
 
 **Specification.** Under Q1, as the judgement words it (section 3): the interpreter's box in "The Static Arguments of a Call" (`Specification/basic/inference.tex:276-300`), the revision note on reductions (`Specification/basic/expressions/reductions.tex:27-44`), and their Appendix I entries "Reductions whose element type nothing fixes" (`Specification/appendices/changes.tex:1004`) and "The inference of a call's static arguments" (`:1575`), its interpreter sentences. Rows 614 and 618: none found; no passage names either row, and the Meet Rule's text already covers object expressions (`Specification/advanced/overloading.tex`, section "Meet Rule").
 
 **Overlaps by file.**
 - No other rung edits walk.
 - `ProjectFortress/tests/`: L adds distinct files.
-- `Specification/basic/inference.tex` and the Appendix I entry "The inference of a call's static arguments": E edits the same file and entry, other passages (W the interpreter's box and sentences; E the context paragraph, the "not yet described" item and their sentences). It is the one place two rungs edit one entry; if the redesigned workflow forbids that, E's sentences go into an entry of their own.
+- `Specification/basic/inference.tex`: E edits the same file at other passages (W the interpreter's box, `:276-300`; E the context list, `:128-136`, and the "not yet described" item, `:254-258`), more than a hundred lines apart.
+- `Specification/appendices/changes.tex`: W amends the two entries the judgement names; E writes an entry of its own (E's section), so no two rungs edit one entry.
 
 **At the landing, under Q1.** The walk example of the skill returns to `explorations/claude_demo.fss` (PLAN, batch 11's line; now the skill's `references/interpreter.md:43`), at your word to the skill writer.
 
@@ -210,7 +212,7 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 - Row 625: a renamed parameter's bound is left naming the object's parameter; the fix renames every own parameter's bound in `domainApart` (`scala_src/typechecker/AbstractMethodChecker.scala:141`) and `ownStaticParamsApart` (`OverloadingChecker.scala:200`) together.
 - Row 637: the export check requires an api declaration for a component trait's private abstract method; the fix skips private members in `allAbstractsMadePublic` (`scala_src/typechecker/ExportChecker.scala:746-758`).
 - Row 626: a `typecase` arm naming with static arguments a type the library does not declare crashes the checker, "Not in the trait table"; the fix reports the undeclared name in the disambiguator (`ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java:234-238`, `:376-380`).
-- Row 463, tests only: the compiled path refuses a generator binding as an `if` or `while` clause, "Variable __cond is not defined", where walk runs it. The fix, declaring `__cond` in the compiler's prelude, is ruled out (POSITIONS, "The library route."), so the tests are its home until the switch-over (PLAN, review-routed.1).
+- Row 463, tests only: the compiled path refuses a generator binding as an `if` or `while` clause, "Variable __cond is not defined", where walk runs it. The fix, declaring `__cond` in the compiler's prelude, is ruled out (POSITIONS, "The library route."), so the tests are its home until the switch-over (PLAN, review-routed.1, the item batch 10's merged-diff review routed to the next rung that owns `compiler_tests/`).
 - Under Q4: rows 620 to 622.
 
 **Distance classes.** X1, 1 site: `List.fss:12`, the export check (row 637). The other rows have no site on the one library; their programs are tests. Under Q4 the three crash rows become three refusals and what lies behind them stays hidden, so the distance may rise by about 3.
@@ -247,18 +249,18 @@ Line numbers are on `ec718967a`. Site counts are by reading the landed per-site 
 **Files.** `scala_src/typechecker/impls/Misc.scala` (the `if` without `else` at `:582`, the block at `:411-421`, the `typecase` at `:657`); `impls/Operators.scala` (juxtaposition, `:76-100`); `impls/Functionals.scala` (the method call at `:946`) and the file where the trace finds row 627's substitution; new and rewritten files in `ProjectFortress/compiler_tests/`. Not: the library, walk, the overloading checker (C's).
 
 **Tests, first.**
-- Item 36: `compiler_tests/XXXInferResultOnlyNoContext`, which pins the refusal of an `if` without `else`, rewritten as a passing test by topic. One new test by topic for each other context, a program the text allows and the base refuses: a block whose last call follows a local declaration; a loose juxtaposition; under Q2, a `typecase` branch. `compiler_tests/XXXInferContextDrops` holds a loose juxtaposition beside two calls passed as arguments of another call, which the text does not settle (`inference.tex:255`): split it, the juxtaposition passing and the two arguments kept as an expected failure.
+- Item 36: `compiler_tests/XXXInferResultOnlyNoContext`, which pins the refusal of an `if` without `else`, rewritten as a passing test by topic. One new test by topic for each other context, a program the text allows and the base refuses: a block whose last call follows a local declaration; a loose juxtaposition (the split of `XXXInferContextDrops`, next); under Q2, a `typecase` branch. `compiler_tests/XXXInferContextDrops` holds a loose juxtaposition (`wrapV 3`) beside two calls passed as arguments of another call (`takesBox64(wrapT(3))`, `takesBox64(mk())`), a context outside item 36's four, which the inference chapter lists as not yet described (`inference.tex:254-255`) though batch N's rung I read `var-ref.tex:35-40` as settling it too (`compile-ladder/rung-inference-checker/REPORT.md:461`): split it, the juxtaposition a passing test by topic, the two arguments kept as an expected failure under row 455, not E's to clear.
 - Row 627: `compiler_tests/XXXMethodStaticArgReceiverSameName` promoted.
 - Keep their verdicts: the inference tests of batches N, 8 and 10, `InferDependentBound` and `InferBigOperatorUnwritten` among them; the ladder's 85 files.
 - After the edit: the compiler and library test tracks once; the count and distance stages once.
 
-**Specification.** In the inference chapter, the list of contexts with an expected type (`Specification/basic/inference.tex:128-136`) gains the three contexts, and under Q2 the `typecase` branch; the "not yet described" item (`:254-258`) loses them; the Appendix I entry "The inference of a call's static arguments" (`changes.tex:1575`) says so in its Effect. Row 627: none; no passage names the capture.
+**Specification.** In the inference chapter, the list of contexts with an expected type (`Specification/basic/inference.tex:128-136`) gains the three contexts, and under Q2 the `typecase` branch; the "not yet described" item (`:254-258`) loses them; a new Appendix I entry of E's own, in the S1 form, records the change with its reason, the two lists' original sentences and row 560. E does not edit the entry "The inference of a call's static arguments" (`changes.tex:1575`), which W amends. Row 627: none; no passage names the capture.
 
 **Overlaps by file.**
-- `inference.tex` and its Appendix I entry: W, other passages (W's section above).
+- `inference.tex`: W, other passages; `changes.tex`: W amends two existing entries, E adds one of its own (W's section above).
 - `STypesUtil.scala` with C, if row 627's trace leads there; different declarations.
 - `ProjectFortress/compiler_tests/`: C adds distinct files.
-- No edit overlap with L, but two of E's sites sit in L's sections (`RangeInternals.fss:157-158` in `ScalarRange.check`, `FortressLibrary.fss:3974` in `FullRange.narrowToRange`): L leaves those two declarations alone, and the gate measures both rungs on the merged tree.
+- No edit overlap with L, but two of E's sites sit in L's sections (`RangeInternals.fss:157-158` in `ScalarRange.check`; `FortressLibrary.fss:3974-3980` in `FullRange.narrowToRange(other: Range[\I\])`, whose sibling overload `narrowToRange(other: OpenRange[\I\])` at `:3973` is row 599's site and L's): L leaves those two declarations alone, and the gate measures both rungs on the merged tree.
 
 ### L. The library: the ranges under your answers to items 39 to 41, and three slips
 
@@ -268,12 +270,12 @@ Runs only if you answer Q3. Without it, rows 633 and 638 wait for batch 12's lib
 - Under Q3: rows 599 (item 39), 600 (item 40) and 601 (item 41), as section 2 gives them.
 - Row 633: three getters invoke the getter `indices` with `()`, against "A getter method must be invoked with the field access syntax" (`Specification/basic/traits.tex`, section "Method Declarations"): `Library/Set.fss:154`, `Library/PrefixSet.fss:478`, `Library/CaseInsensitiveString.fss:27`. The repair is `s.indices`.
 - Row 638: the bare constructor `throw ForbiddenException`, not an exception value, at `Library/QuickCheck.fss:743`, `:757`, `Library/Reflect.fss:376`, `:380` and `Library/ReflectiveQuickCheck.fss:181`, and as type witnesses in the revival's `ProjectFortress/tests/InferUnfixedBoundWalk.fss:8` and `XXXInferSeveralBoundsWalk.fss:10`. The repair is batch 10's rung N's for `FortressLibrary`'s two: `ForbiddenException` with its chain.
-- A correction to row 638: its third test, `ProjectFortress/tests/QuickCheckTest.fss:39`, is the team's (the file since 2010 by `git log --follow`, the line from before the revival by `git blame`), not the revival's. L leaves that line; it is a witness never called.
+- A correction to row 638: of the three tests it calls the revival's, `ProjectFortress/tests/QuickCheckTest.fss:39` is the team's (the file since 2010 by `git log --follow`; the line a boundary commit of 2012-07-19 by `git blame`), not the revival's; the row's text and PLAN's batch-10 line on row 638 say "three revival tests", and are the coordinator's to correct. L leaves that line; it is a witness never called.
 
 **Distance classes.** Under Q3, up to 36 sites: row 599 15, row 600 18, row 601 3 (their lines at `fa14a190c` in `compile-ladder/rung-range-meets/REPORT.md` section 6). The stage files them under `RG`, `I1` and `OT`, by line ranges that are stale (row 577), so the rows, not the classes, are the measure. Rows 633 and 638: none; the stages do not read those components.
 
 **Files.**
-- Under Q3: `Library/RangeInternals.fsi` and `.fss`, but `ScalarRange.check` (E's sites); the ranges section of `Library/FortressLibrary.fsi` (`:2154-2411`) and `.fss` (`:3796-4172`), but `FullRange.narrowToRange` (E's site).
+- Under Q3: `Library/RangeInternals.fsi` and `.fss`, but `ScalarRange.check` (E's sites); the ranges section of `Library/FortressLibrary.fsi` (`:2154-2411`) and `.fss` (`:3796-4172`), but `FullRange.narrowToRange(other: Range[\I\])` (`:3974-3980`, E's site); the sibling overload `narrowToRange(other: OpenRange[\I\])` at `:3973` is row 599's and L's.
 - `Library/Set.fss`, `Library/PrefixSet.fss`, `Library/CaseInsensitiveString.fss`; `Library/QuickCheck.fss`, `Library/Reflect.fss`, `Library/ReflectiveQuickCheck.fss`; the two revival test witnesses above; new tests in `ProjectFortress/tests/`.
 - Not: any other section of `FortressLibrary`; the checker; walk; the team's test lines.
 
@@ -298,7 +300,7 @@ Runs only if you answer Q3. Without it, rows 633 and 638 wait for batch 12's lib
 
 ## 4. What the batch leaves out, each with its home
 
-- **The arrays, about 95 sites** (V1, V2 and Z1 71 among them, the array support and `FortressLibrary`'s two export errors): the array questions after the switch-over (your answer to batch 8's Q4; PLAN item 15 and phase 5).
+- **The arrays, about 95 sites** (the stage's three array classes V1, V2 and Z1, 71 among them, the array support section's and `FortressLibrary`'s two export errors): the array questions after the switch-over (your answer to batch 8's Q4; PLAN item 15 and phase 5).
 - **The self-typed bodies, 30 sites:** a ways worker, a top-tier judgement, your answer, a later batch (Q5).
 - **The ranges, 36 sites,** unless you answer Q3: items 39 to 41.
 - **Your other open items, 43 sites:** items 38, 42 to 46, the negative power (row 441), `isLeftZero` (row 582) and row 631's team test line, section 2's last list.
@@ -309,7 +311,8 @@ Runs only if you answer Q3. Without it, rows 633 and 638 wait for batch 12's lib
 - **D2's case,** a big operator's plain-bounded parameters left at `Bottom`: the next walk rung, after a first measurement and your word on D2's entry (the P1 judgement, section 5).
 - **Row 555's F-bounded form:** stays open with its row; there the arguments fix `T`, and the question is walk's join (the P1 judgement, section 5).
 - **The compiled path's varargs:** the refusal under the compiled library goes with the switch-over (row 604's entry); code generation is row 624, phase 5.
-- **Phase 4 and 5 work:** the natives rungs, Q-walk, the code-generation rows (559, 564, 565, 566, 570, 571, 573, 594, 624), the compiled dispatcher's return type (PLAN, phases 4 and 5).
+- **Row 570, the checker's half of row 618:** the compiled overloading checker checks no object expression per provider, so the pair that W's row 618 repair makes walk refuse at load still passes the checker; code generation stops on every object expression first (row 375), so no compiled program runs it. Its fix needs the trait table to hold object expressions, or the team's plan of lifting them into named objects (row 597's checker note); PLAN names no rung for it (batch 8's list only). A checker defect, not a code-generation row.
+- **Phase 4 and 5 work:** the natives rungs, Q-walk (walk's half of the numeral switch), the code-generation rows (559, 564, 565, 566, 571, 573, 594, 624), the compiled dispatcher's return type (PLAN, phases 4 and 5).
 
 **What PLAN gives batch 11, and where each goes** (PLAN, phase 3 item 9):
 - P1's judgement: W, under Q1.
