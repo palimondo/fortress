@@ -207,6 +207,22 @@ Sources: `explorations/coordinator/process-engineering/fortress-changes-chronolo
 
 The skill has a section "Fortress as a language". It has eleven points. Each point corrects a belief that an agent may bring from its training. This part says, for each point, whether it describes the language that the team left or a change that we made.
 
+### The eleven points
+
+These are the bullets of the section "Fortress as a language" in the `fortress-repo` skill's `SKILL.md`, numbered in their order there:
+
+1. Only the compiled path checks types.
+2. A call chooses among overloaded declarations by the run-time types of all its arguments.
+3. Functional methods: a method with `self` among its parameters is called as `f(x)`.
+4. Traits and objects, no classes.
+5. Static parameters, written `[\T\]`.
+6. Numbers are side by side, not a tower.
+7. Evaluation is parallel by default.
+8. Loops and reductions are library code.
+9. Juxtaposition is an operator, and spaces count.
+10. Declarations: `x = e`, `var x: T = e`, `x := e`.
+11. What the specification describes and nobody built.
+
 ### The team left three sources that disagree
 
 The team did not leave one consistent language. It left three sources:
@@ -235,11 +251,11 @@ These points describe the team's language with no change:
 - Point 10: declarations.
 - Point 11: what the specification describes that the team never built.
 
-These points are the team's, with one small change:
+These points are the team's, with a small change of ours:
 
-- Point 1: only the compiled path checks types.
+- Point 1: only the compiled path checks types. The team's tool turns the checker on for `compile` and off for walk. We did not change this. Walk now checks some things when it loads a program, but these are not static types.
 - Point 7: evaluation is parallel by default. Our change: the test suites run on one thread. We set this in the build file.
-- Point 8: loops and reductions are library code.
+- Point 8: loops and reductions are library code. In Fortress, a `for` loop, a comprehension and `SUM` are not built into the language. The compiler turns each one into calls to library objects: a generator, which produces the values, and a reduction, which combines them. This is the team's design. Our change: `SUM` and `PROD` are now one generic declaration each, so when nothing in a clause fixes the element type, the program must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
 
 ### Points that mix the team's language and our changes
 
