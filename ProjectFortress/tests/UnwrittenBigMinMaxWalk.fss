@@ -1,0 +1,13 @@
+component UnwrittenBigMinMaxWalk
+export Executable
+
+(* BIG MINMAX with a generator clause list and no static argument answers the least and the greatest of its elements under walk. *)
+
+run(): () = do
+    (lo, hi) = BIG MINMAX[i <- 0#4] i
+    assert(lo, 0, "BIG MINMAX with no static argument over 0#4 answers 0 as its least element (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(hi, 3, "BIG MINMAX with no static argument over 0#4 answers 3 as its greatest element (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    println("PASS")
+  end
+
+end

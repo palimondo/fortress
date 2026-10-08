@@ -1,0 +1,13 @@
+component XXXComprehensionTypedBindingWalk
+import Set.{...}
+export Executable
+
+(* A set comprehension over ZZ32 elements with no static argument has the type Set[ZZ32], so a variable declared Set[ZZ32] admits it. *)
+
+run(): () = do
+    s: Set[\ZZ32\] = { n^2 | n <- -2:2 }
+    assert(|s|, 3, "a set comprehension of ZZ32 elements evaluates to a value of the aggregate type Set[ZZ32], which a variable declared Set[ZZ32] admits (comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end
