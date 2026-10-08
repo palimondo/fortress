@@ -261,71 +261,58 @@ These points are the original's, with a small revival change:
 
 The revival changes the original language only for one of two reasons: two of the original sources contradict each other, or the language as it was left fails on a program. Each time, the revival follows the original's latest word that works: the compiler's library, the original team's later papers, or the specification. Every change to the specification keeps the original text and the reason, in its Appendix I.
 
-Each item below gives the original contradiction, the revival's resolution and the reason for it.
+Each item below gives the original contradiction, then the revival's resolution and why the revival chose it.
 
 **Point 2: choosing among overloaded declarations**
 
 - **Overloads that differ in type parameters.**
   - Original: one sentence of the specification, from 2009, forbids this. Neither implementation ever enforced it. The type group's later model of 2011 allows it, and the checker runs that model.
-  - Resolution: allowed. The specification now states the 2011 model.
-  - Reason: the type group's later model is the one that was built.
+  - Resolution: the revival allows such overloads, and the specification now states the 2011 model. The revival follows the type group because its model is the one that was built and used.
 - **The return-type rule.**
   - Original: the type group's paper asks the checker to test the rule for every instance of a generic declaration. The checker tested one. A counterexample from the paper then passed the checker and failed the JVM's check of the bytecode.
-  - Resolution: the checker tests every instance.
-  - Reason: the paper's rule, and the failure.
+  - Resolution: the checker now tests the rule for every instance, as the paper asks. The counterexample is now refused, so the JVM no longer fails on it.
 - **How walk chooses between a generic and a plain declaration.**
   - Original: the specification chooses by the declarations' types. Walk chose by their order in the file.
-  - Resolution: walk chooses by the declared types.
-  - Reason: the specification.
+  - Resolution: walk now chooses by the declared types, as the specification says. The answer of a program no longer depends on the order of its declarations.
 
 **Point 4: traits**
 
 - **The rule against two versions of one generic trait.**
   - Original: the type group's papers and the checker have the rule. The 2011 specification does not state it, and some of its examples break it.
-  - Resolution: the specification states the rule. The examples that break it are kept and marked "Not allowed".
-  - Reason: the checker enforces the rule, and the type group's later Types chapter of 2012 states it.
+  - Resolution: the specification now states the rule. It keeps the examples that break it and marks them "Not allowed". The revival made this choice because the checker enforces the rule and the type group's later Types chapter of 2012 states it.
 - **What a `comprises` clause says.**
   - Original: four older passages of the specification read it as a statement about types. They fail for programs that the specification allows. The later Types chapter reads it as a statement about values.
-  - Resolution: about values: every value of the trait is a value of a listed type.
-  - Reason: the later Types chapter.
+  - Resolution: the revival reads it about values: every value of the trait is a value of a listed type. It follows the later Types chapter, because that reading works for the programs that the specification allows.
 
 **Point 5: static parameters**
 
 - **The bound of a type parameter with no written bound.**
   - Original: the 2011 specification says `Object`. The library uses its generic containers with tuples, which `Object` does not hold, and it writes `Any` where it states a bound.
-  - Resolution: `Any`.
-  - Reason: the original library works only with `Any`.
+  - Resolution: the bound is `Any`. The revival chose it because the original library works only with `Any`.
 - **A type parameter that nothing in a call fixes.**
   - Original: the implementations gave it the empty type `Bottom`, and the compiled program crashed at load. The type group's last paper, of 2019, gives it its bound.
-  - Resolution: it takes its bound.
-  - Reason: the 2019 paper.
+  - Resolution: such a parameter now takes its bound, as the 2019 paper says. The compiled program no longer crashes at load for this reason.
 - **Sizes on the compiled path.**
   - Original: the specification has size parameters. The compiled path could not carry them, but its code generator had a slot reserved for them.
-  - Resolution: the slot is filled, in the original pattern for type arguments.
-  - Reason: the original design.
+  - Resolution: the revival fills the reserved slot, in the original pattern for type arguments. This completes the original design, and a program with sizes now compiles and runs.
 
 **Point 6: numbers**
 
 - **Tower or side by side.**
   - Original: the interpreter's library had a tower: `ZZ32` was a kind of `ZZ64`. The compiler's library had the number types side by side. The checker's rule against two versions of one generic trait, from 2010, refuses the tower.
-  - Resolution: the one library has the number types side by side. A wider type converts from a narrower one.
-  - Reason: the checker's rule, and the shape of the compiler's library.
+  - Resolution: the one library now has the number types side by side, as the compiler's library had them. A wider type converts from a narrower one. The revival chose this shape because the checker's rule refuses the tower.
 - **Conversion in walk.**
   - Original: the specification says that a call converts its arguments when that makes it apply. Walk had a note "TODO add checks for COERCE" at that place.
-  - Resolution: walk converts.
-  - Reason: the specification.
+  - Resolution: walk now converts the arguments, as the specification says. The revival did the work that the team's note left to do.
 - **Overflow.**
   - Original: the specification and the compiled path raise `IntegerOverflow` when a fixed-width result does not fit. Walk wrapped the result.
-  - Resolution: walk raises. Code that means to wrap uses the specification's own wrapping operators.
-  - Reason: the specification.
+  - Resolution: walk now raises `IntegerOverflow`, as the specification says and the compiled path does. Code that means to wrap uses the specification's own wrapping operators.
 - **Ranges.**
   - Original: the interpreter's ranges took any integer type. The compiler's library had ranges over `ZZ32` only.
-  - Resolution: ranges over `ZZ32` only.
-  - Reason: a range counts the indices of an array, and a JVM array index is a 32-bit integer.
+  - Resolution: ranges are over `ZZ32` only, as in the compiler's library. A range counts the indices of an array, and a JVM array index is a 32-bit integer. A loop that needs a wider counter widens a `ZZ32` index.
 - **`SUM` and `PROD`.**
   - Original: `SUM` used catch-all operators on `Number`. Those operators went with the tower.
-  - Resolution: one generic `SUM` and one generic `PROD`, which use the element type's own operator and take its zero or one by a device the library already uses for arrays. A clause whose element type nothing fixes must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`.
-  - Reason: it follows from the numbers side by side.
+  - Resolution: `SUM` and `PROD` are now one generic declaration each. Each uses the element type's own operator, and it takes its zero or one by a device that the library already uses for arrays. When nothing in a clause fixes the element type, the program must write it: `SUM[\ZZ32\][j <- 0#n] f(j)`. This change follows from the number types side by side.
 
 ### Where the quiz was right about the original
 
