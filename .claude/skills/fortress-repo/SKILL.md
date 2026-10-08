@@ -87,12 +87,9 @@ When you switch, load `references/exploring.md`. The curator settles the questio
 - Commit only the paths that you wrote. Do not commit scratch: logs, captured output, probe programs. Do not rename a file to get it past `.gitignore`. Each agent's transcript keeps how the work was done (`references/committing.md`).
 - End your work with a report. List in it the defects that you found, your decisions, and the points that your brief asks for. Put a question for the curator in it as a decision not taken (`references/records.md`).
 
-## Starting a task
+## The parts
 
-1. Read your brief.
-2. Load the parts below that your task touches. They give the words that you need to read the record.
-3. If your brief gives a query of the record, run it.
-4. Do the work.
+Load the parts below that your task touches before you run the query of the record that your brief gives. The parts give the words that you need to understand what the query prints.
 
 The parts, in the order that work meets them:
 
