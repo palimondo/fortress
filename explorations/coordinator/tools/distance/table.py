@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""table.py <run.txt> : the distance stage's rows, from one DistanceMulti run (run.sh).
+"""table.py <run.txt> [<library source>] : the distance stage's rows, from one DistanceMulti run
+(run.sh). The library source is the tree the run checked (run.sh passes $FORTRESS_HOME), where
+classify.py finds the declarations that name its places; by default the tree this script is in.
 
 Every distinct error the checker printed (the @@SC ERR lines of add-patch.py's shadow), counted
 once as errors.py and the triage's fullerrs.py count it: an error is its locations and its
@@ -11,6 +13,8 @@ the @@TC DECL-CRASH, @@SC CRASH and ### target-crash lines. Prints, tab-separate
     #total <n>
     #kind <kind> <n>                in errors.py's order, then any other kind
     #class <code> <n> <name>        in classify.py's order, the classes that occur
+    #check classify.py: ...         when sites of the files that name classify.py's places fall
+                                    on no code line of the library source
     #unit <unit> <n>                the unit that printed the error first (errors.py's matrix)
     #crash <what> <where> <exception> <message>
 The distinct key and the normalisation are fullerrs.py's (perf-probes/prelude/distance-
@@ -20,6 +24,7 @@ import collections, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import classify as C
+if len(sys.argv) > 2: C.set_source(sys.argv[2])
 
 # errors.py's classify and overload_sub, without running its main block (fullerrs.py's way)
 src = open(os.path.join(HERE, "errors.py"), encoding="utf-8").read()
@@ -75,6 +80,7 @@ for k in KS + sorted(k for k in kinds if k not in KS):
 cc = collections.Counter(classes)
 for code in [c for c, _, _ in C.RULES] + ["GF", "OT"]:
     if cc[code]: print("#class\t%s\t%d\t%s" % (code, cc[code], C.NAMES[code]))
+if C.mismatch_note(): print("#check\tclassify.py: " + C.mismatch_note())
 uc = collections.Counter(units)
 for u in sorted(uc): print("#unit\t%s\t%d" % (u, uc[u]))
 for c in sorted(set(crashes)): print("#crash\t" + c)

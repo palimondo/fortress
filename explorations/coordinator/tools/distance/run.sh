@@ -44,7 +44,9 @@
 # perf-probes/prelude/switch-over-distance-flat/ (35ef70584); shadow-patch.py from
 # perf-probes/prelude/desugar-codegen/ (e5d8cdbd2); add-patch.py and errors.py from
 # perf-probes/prelude/switch-over-distance/ (a7e3df9ad, 14d2f9839); classify.py from
-# perf-probes/prelude/distance-triage/ (e17a9badc); all unchanged. table.py is new: it
+# perf-probes/prelude/distance-triage/ (e17a9badc); all unchanged but classify.py, which since
+# row 577 finds the library places that name three of its classes by their declarations in
+# the tree's sources ($FH, passed to table.py), not by line ranges. table.py is new: it
 # counts as those scripts count and prints the rows below. The shadow classes are not
 # copies: they are made from the tracked sources at every run by text edits that must each
 # match exactly once (shadow-patch.py, add-patch.py), so there is no copied checker to go
@@ -56,6 +58,8 @@
 #   #total      distinct errors
 #   #kind       by kind (errors.py): exclusion, comprises, overloading, return-type, ...
 #   #class      by root cause (classify.py, distance-triage.md section 2), with its name
+#   #check      a disagreement: errors.py's and table.py's totals, or sites classify.py cannot
+#               find in the tree's library source
 #   #unit       by the unit that printed the error first
 #   #crash      each declaration, stage or target the checker crashed on
 #   #seconds    the run's wall time, and FortressLibrary's, the part that takes it
@@ -126,7 +130,7 @@ esac
 {
     printf '#distance\tsetting %s; %s; %s\n' "$SETTING" "$FLAGS" "$(echo $COMPONENTS | wc -w) components in one JVM (DistanceMulti -order check)"
     if grep -q '^### all seconds=' "$SCRATCH/run.txt" ; then
-        python3 -B "$D/table.py" "$SCRATCH/run.txt" > "$SCRATCH/rows.txt" 2>&1
+        python3 -B "$D/table.py" "$SCRATCH/run.txt" "$FH" > "$SCRATCH/rows.txt" 2>&1
         cat "$SCRATCH/rows.txt"
         python3 "$D/errors.py" "$SCRATCH/errors.tsv" "$SCRATCH/run.txt" > "$SCRATCH/tally.txt" 2>&1
         E=$(sed -n 's/^# \([0-9]*\) distinct errors.*/\1/p' "$SCRATCH/tally.txt")
