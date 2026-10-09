@@ -1,0 +1,17 @@
+component OverrideNothingWalk
+export Executable
+
+(* A method declaration with the modifier override that overrides no inherited declaration is a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait A
+  f(x: ZZ32): String = "A"
+end
+object B extends A
+  override f(x: String): String = "B"
+end
+
+run(): () = do
+    println(B.f("s"))
+  end
+
+end

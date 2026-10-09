@@ -871,6 +871,15 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         String fname = NodeUtil.nameString(name);
         FTraitOrObjectOrGeneric ft = (FTraitOrObjectOrGeneric) containing.getRootType(fname); // toplevel
         scanForFunctionalMethodNames(ft, NodeUtil.getDecls(x));
+        if (ft instanceof FTypeTrait && declaresOverride(x)) Constructor.checkTraitOverrides((FTypeTrait) ft);
+    }
+
+    /** x declares a method with the modifier override. */
+    private static boolean declaresOverride(TraitDecl x) {
+        for (Decl d : NodeUtil.getDecls(x)) {
+            if (d instanceof FnDecl && NodeUtil.getMods((FnDecl) d).isOverride()) return true;
+        }
+        return false;
     }
 
     private void forTraitDecl4(TraitDecl x) {
@@ -997,6 +1006,53 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         }
     }
 
+    /**
+     * Refuses a trait, object or object expression with static parameters,
+     * declared as g, one of whose instances breaks the Meet Rule for
+     * Functional Methods whatever its static arguments: checks the type that
+     * stands for every instance (symbolicInstance) as a declared type without
+     * static parameters is checked (checkFunctionalMethodMeets).  A pair of
+     * functional methods whose parameter types mention a static parameter, or
+     * that a supertype mentioning one provides, is not read.
+     */
+    public static void checkGenericFunctionalMethodMeets(FTypeGeneric g, HasAt at) {
+        FTraitOrObject t = symbolicInstance(g);
+        if (t != null) new OverloadedFunction.FunctionalMethodMeets().check(t, at);
+    }
+
+    /**
+     * The type that stands for every instance of the generic declaration g:
+     * a trait or object of g's members whose static parameters are symbolic
+     * types (SingleFcn.createSymbolicInstantiation), its extends clause read
+     * with them.  It is bound in no environment, is no instance of g, and
+     * gives its functional methods to no overloading.  Null for a declaration
+     * with an opr parameter, which walk instantiates by rewriting it, and
+     * where walk cannot make the type.
+     */
+    private static FTraitOrObject symbolicInstance(FTypeGeneric g) {
+        Generic d = g.getDef();
+        TraitTypeHeader h;
+        if (d instanceof TraitObjectDecl) h = ((TraitObjectDecl) d).getHeader();
+        else if (d instanceof _RewriteObjectExpr) h = ((_RewriteObjectExpr) d).getHeader();
+        else return null;
+        for (StaticParam sp : h.getStaticParams()) {
+            if (NodeUtil.isOpParam(sp)) return null;
+        }
+        try {
+            Environment ge = g.getWithin().extendAt(d);
+            SingleFcn.createSymbolicInstantiation(h.getStaticParams(), h.getWhereClause(), ge);
+            List<FType> extends_ = new EvalType(ge).getFTypeListFromList(NodeUtil.getTypes(h.getExtendsClause()));
+            FTraitOrObject t = d instanceof TraitDecl ?
+                               new FTypeTrait(g.getName(), ge, d, h.getDecls(), (AbstractNode) d) :
+                               new FTypeObject(g.getName(), ge, d, h.getParams(), h.getDecls(), (AbstractNode) d);
+            t.setExtendsAndExcludes(extends_, null);
+            return t;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
+    }
+
     @Override
     public Boolean forTypeAlias(TypeAlias x) {
         // Id name;
@@ -1064,8 +1120,9 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
      * declarations as written, each name resolved in its declaration's
      * environment and each static parameter replaced by the static argument
      * given it.  Then refuses a program one of whose traits or objects
-     * without static parameters breaks the Meet Rule for Functional Methods
-     * (OverloadedFunction.FunctionalMethodMeets).
+     * breaks the Meet Rule for Functional Methods
+     * (OverloadedFunction.FunctionalMethodMeets), one with static parameters
+     * for every instance (checkGenericFunctionalMethodMeets).
      */
     public static void checkComprisesClauses(List<? extends CUWrapper> units, CUWrapper main) {
         int m = units.indexOf(main);
@@ -1207,15 +1264,20 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         }
 
         /**
-         * Checks the Meet Rule for Functional Methods for every trait or object
-         * without static parameters; an object expression without static
-         * parameters is checked where its type is finished (finishObjectTrait).
+         * Checks the Meet Rule for Functional Methods for every trait or object,
+         * one with static parameters through the type that stands for its
+         * instances (symbolicInstance); an object expression is checked where
+         * its type is made (finishObjectTrait, and ComponentWrapper.registerObjectExprs
+         * for one with static parameters).
          */
         void checkFunctionalMethodMeets() {
             OverloadedFunction.FunctionalMethodMeets meets = new OverloadedFunction.FunctionalMethodMeets();
             for (Declared x : declarations) {
                 if (x.type instanceof FTraitOrObject && !(x.type instanceof GenericTypeInstance) && x.params.isEmpty()) {
                     meets.check((FTraitOrObject) x.type, x.decl);
+                } else if (x.type instanceof FTypeGeneric && !x.params.isEmpty()) {
+                    FTraitOrObject t = symbolicInstance((FTypeGeneric) x.type);
+                    if (t != null) meets.check(t, x.decl);
                 }
             }
         }

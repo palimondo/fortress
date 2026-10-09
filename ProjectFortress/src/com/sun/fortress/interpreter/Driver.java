@@ -241,6 +241,10 @@ public class Driver {
         }
 
         for (CUWrapper cw : components) {
+            cw.initObjectExprs();
+        }
+
+        for (CUWrapper cw : components) {
             cw.initVars();
         }
 

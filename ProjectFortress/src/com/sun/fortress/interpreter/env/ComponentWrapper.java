@@ -183,6 +183,7 @@ public class ComponentWrapper extends NonApiWrapper {
                 // Generic constructor
                 FTypeGeneric fto = new FTypeGeneric(env, oe, NodeUtil.getDecls(oe), oe);
                 env.putType(name, fto);
+                BuildEnvironments.checkGenericFunctionalMethodMeets(fto, oe);
                 GenericConstructor con = new GenericConstructor(env, oe, NodeFactory.makeId(span, name));
                 env.putValue(name, con);
             }

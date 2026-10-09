@@ -1,0 +1,16 @@
+component ObjectExpressionImportedVariableWalk
+import ObjectExpressionVariableLib.{...}
+export Executable
+
+(* A top-level variable that reads an imported component's object expression, through its top-level variable or a function, holds the object value that the object expression denotes, under walk (object.tex, section "Object Expressions"). *)
+
+viaVariable = libChooser
+viaFunction = mkChooser()
+
+run(): () = do
+    assert(pick(viaVariable), "L", "a top-level variable reading the imported top-level variable initialized with an object expression holds its object")
+    assert(pick(viaFunction), "L", "a top-level variable initialized by an imported function that evaluates an object expression holds its object")
+    println("PASS")
+  end
+
+end

@@ -4601,3 +4601,15 @@ note added
 note added
 
 | 416 | **walk's overloading check applies no instantiation exclusion**: it refuses `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, "first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated", the type twin, and overloads on two traits extending `Tg[\3\]` and `Tg[\4\]`; the compiled run prints 3 and 4 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/types-vals-vars.tex`, "Trait Types" | `ProjectFortress/tests/XXXNatSizeExclusionWalk.fss` | climb batch 5 rung Z | siblings: 402. Instantiation exclusion makes the two parameter types exclude each other, so the pair is a valid overloading. The refusal is raised in `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:556-571` at 052a7c3fe; the site of the fix is not located beyond that check. The compiled run of the test prints PASS. full text: history, row 416 |
+
+### Row 444
+
+note added
+
+| 444 | under walk, an overloading of a dotted method across inheritance that the Meet Rule refuses is accepted and dispatched: `m(x: ZZ32)` in `trait Tm` beside `m(x: Any)` in `object Om extends Tm` prints 1 and 2 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Meet Rule" | none | climb batch 6 rung R's second skeptic | siblings: 544. `Om` provides no `m` for `(Om, ZZ32)`, and neither `(Om, Any)` nor `(Tm, ZZ32)` is below the other; the compiled checker refuses the pair, 'Invalid overloading of m in trait Om: (Om, Any)->ZZ32 and (Tm, ZZ32)->ZZ32'. The same holds with a size on the trait's arm (`m[\nat n\](x: ZZ32)`). The fix belongs in walk's overload check for a method an object inherits beside one it declares; its site is not located. Probes `explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss`, `Sk2Inherited.fss`, in the parent of `ab067d9b6`; full text: history, row 444 |
+
+### Row 653
+
+note added
+
+| 653 | a method declaration with the modifier `override` that overrides no inherited declaration is accepted: walk runs it and the compiled checker type checks it, where the traits chapter makes it a static error | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Method Declarations" | none | climb batch 11 rung C's skeptic | siblings: 610, 614, 650. `trait A` with `f(x: ZZ32): String = "A"` and `object B extends A` with `override f(x: String): String = "B"`: walk prints `B` for `B.f("s")`, and `fortress typecheck` exits 0, on 83b1cae78 and on rung C's tree; `compile` stops at 650. The chapter: "It is a static error if a declaration with the modifier override does not override any inherited declaration." A compiled expected failure stops at 650 first; the walk expected failure, a refusal at load, belongs in `ProjectFortress/tests/`. |

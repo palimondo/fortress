@@ -57,8 +57,14 @@ A note written before the revival, and your training, can be right about the tea
 **A trait's `override`, and object expressions, under walk**
 
 - Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`, "Meet Rule") skipped object expressions: anonymous objects written inside an expression, such as `object extends { A, B } end`.
-- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function. It checks the lifted object as it checks an object, unless the object has static parameters: walk checks no generic object (ledger row 647). The checker still accepts an object expression that breaks the rule (ledger row 570).
+- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function. It checks the lifted object as it checks an object. It checks a trait, object or lifted object with static parameters through a stand-in whose static parameters are symbolic, and reads no pair of declarations whose parameter types mention them. The checker still accepts an object expression that breaks the rule (ledger row 570).
 - Reason: the traits chapter (`Specification/basic/traits.tex`, "Method Declarations"), and the Meet Rule, which names object expressions.
+
+**An abstract method without a body, and an `override` that overrides nothing, under walk**
+
+- Original: the traits chapter makes both static errors. Walk loaded both: a call of the abstract method stopped with an `InterpreterBug`, "has neither body nor def", and the `override` ran. The compiled checker refuses the first and accepts the second (ledger row 653).
+- Resolution: walk refuses both at load, for an object or an object expression without static parameters, and the `override` for a trait without static parameters too. A declaration with a body of the method's name, at or below the abstract declaration's parameter types, counts as defining it (ledger row 666). Walk does not check a generic object (ledger row 665).
+- Reason: the chapter's rules. The allowance keeps the library loading: its `Pairs` component's `SingleRange` defines `RunRanges`'s abstract `BOXPLUS` only at the two types that the trait's `comprises` clause lists.
 
 **What a type provides**
 
@@ -169,7 +175,7 @@ A note written before the revival, and your training, can be right about the tea
 **The lifted type of a reduction without an identity**
 
 - Original: the interpreter's library lifted the reductions without an identity, such as `BIG MIN`, `BIG MAX` and `BIG //`, to the type `AnyMaybe`, which takes no type argument. Their `simpleJoin` took and answered `Any`, and their `lift` took `Any`, while the api declared `lift(r:R)`. The team's tests declared their own such reductions with `simpleJoin` at `Any`, and passed `AnyMaybe` to `generate`.
-- Resolution: `AssociativeReduction[\R\]` lifts to `Maybe[\R\]`. Its `simpleJoin` takes and answers `R`, and every `lift` takes `R`. A reduction that extends it declares `simpleJoin` at its element type. Under walk, one declared at `Any` or with untyped parameters leaves the abstract `simpleJoin` without a body, and the reduction stops. A static argument that names the lifted type is `Maybe[\R\]`, as in `h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing)`.
+- Resolution: `AssociativeReduction[\R\]` lifts to `Maybe[\R\]`. Its `simpleJoin` takes and answers `R`, and every `lift` takes `R`. A reduction that extends it declares `simpleJoin` at its element type. Under walk, one declared at `Any` or with untyped parameters leaves the abstract `simpleJoin` without a body: walk refuses such a reduction at load, and one with static parameters stops at its first join. A static argument that names the lifted type is `Maybe[\R\]`, as in `h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing)`.
 - Reason: the checker refused the `Any` devices at 13 places in the library, and `if av <- a` cannot bind from `AnyMaybe`, which is not a `Condition`. The api and `Set`'s `Intersection` already wrote these types. The devices had kept walk's reductions running while walk gave an unwritten static argument `Bottom`, which it no longer does.
 
 ## Specified, but not built

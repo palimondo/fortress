@@ -1,0 +1,19 @@
+component ObjectExpressionSingletonFieldWalk
+export Executable
+
+(* A field of a top-level singleton object initialized with an object expression holds the object value that the object expression denotes, under walk (object.tex, section "Object Expressions"). *)
+
+trait A
+  pick(self): String = "A"
+end
+
+object H
+  v: A = object extends A end
+end
+
+run(): () = do
+    assert(pick(H.v), "A", "the field v of the singleton H holds the object expression's object, whose functional method pick answers A")
+    println("PASS")
+  end
+
+end

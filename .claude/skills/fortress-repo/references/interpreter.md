@@ -33,12 +33,14 @@ An edit of a phase that both paths run, or of the desugaring switches, can chang
 
 Walk does not check static types (`SKILL.md`, "The phases"). The commands that stop after a phase, and `unparse`, use the compiler's prelude and the compiled path's desugaring switches (`compiler.md`, "The `fortress` commands"). So `fortress typecheck` does not check a walk program, and `desugar` or `unparse` does not print the tree that walk runs. That tree is the component's entry in `interpreter_cache/` (`SKILL.md`, "The caches").
 
-At load, walk checks the overload sets and some `comprises` clauses. It refuses:
+At load, walk checks the overload sets, some `comprises` clauses, inherited abstract methods and `override` declarations. It refuses:
 
 - two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if their declared domains order a generic declaration and a plain one, or if `comprises` clauses cover the overlap.
 - two functional methods that break the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`) in a type that provides both.
 - an overloaded function with one parameter of type `T`, where `T extends Any` is written: `f[\T extends Any\](x: T)`.
 - an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses.
+- an object or object expression without static parameters that inherits an abstract method and provides no declaration with a body of its name at or below its parameter types.
+- a declaration with the modifier `override`, in an object or object expression or a trait without static parameters, that overrides no declaration that its type's immediate supertraits provide.
 
 So a library edit that adds an overload can stop every program at load. `tests-writing.md` says how a test names a refusal at load.
 

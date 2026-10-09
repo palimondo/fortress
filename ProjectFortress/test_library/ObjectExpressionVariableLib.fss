@@ -1,0 +1,11 @@
+component ObjectExpressionVariableLib
+export ObjectExpressionVariableLib
+
+trait Chooser
+  pick(self): String = "L"
+end
+
+libChooser: Chooser = object extends Chooser end
+mkChooser(): Chooser = object extends Chooser end
+
+end

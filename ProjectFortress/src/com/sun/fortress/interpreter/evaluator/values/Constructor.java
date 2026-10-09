@@ -256,7 +256,16 @@ public class Constructor extends NonPrimitive {
         // trait environments.
         // TODO The signature map uses EQUALITY, and that might be wrong,
         // if the object can implement with a more general signature.
-        Set<Applicable> notInherited = overriddenInTraits();
+        // The checks of the declarations at load read the types without static
+        // parameters; an instance of a generic object is not checked.
+        boolean declared = !(selfType instanceof GenericTypeInstance);
+        Map<FType, List<MethodClosure>> provided = new IdentityHashMap<FType, List<MethodClosure>>();
+        List<MethodClosure> inheritable = new ArrayList<MethodClosure>();
+        for (FType s : selfType.getExtends()) {
+            inheritable.addAll(providedByTrait(s, provided, new HashSet<FType>(), declared));
+        }
+        if (declared) checkOverrides(selfType, declaredIn(bte), inheritable);
+        Set<Applicable> notInherited = overriddenInTraits(provided, inheritable);
         for (FType t : extendedTraits) {
             FTypeTrait ft = (FTypeTrait) t;
             BetterEnv e = ft.getMembers();
@@ -279,7 +288,7 @@ public class Constructor extends NonPrimitive {
             FTraitOrObject too = ent.getValue();
 
             if (too instanceof FTypeObject) objectDefinesAny = true;
-            checkForDef(sf, too);
+            checkForDef(sf, too, declared, signaturesToTraitsContainingMethods.keySet());
         }
 
         // Plan to iterate over traits at instantiation, and form closures
@@ -401,17 +410,23 @@ public class Constructor extends NonPrimitive {
 
     /**
      * Checks for definition of sf from supertrait too, fails if absent.
+     * When declared, an abstract method declaration fails too, unless a
+     * declaration with a body among provided has its name and self parameter
+     * position and parameter types each a subtype of sf's (definedBelow):
+     * "any object inheriting an abstract method must define a body expression
+     * for the method".
      *
      * @param sf
      * @param too
      * @return
      */
-    private void checkForDef(SingleFcn sf, FTraitOrObject too) {
+    private void checkForDef(SingleFcn sf, FTraitOrObject too, boolean declared, Set<SingleFcn> provided) {
         if (too instanceof FTypeObject) return;
         if (sf instanceof MethodClosure) {
             MethodClosure pdm = (MethodClosure) sf;
             Applicable a = pdm.getDef();
-            if (a instanceof FnDecl || a instanceof NativeApp) return;
+            if (a instanceof NativeApp) return;
+            if (a instanceof FnDecl && (hasBody(pdm) || !declared || definedBelow(pdm, provided))) return;
             if (a.at().equals(sf.at())) {
                 error(cfn, errorMsg("Object ",
                                     cfn.stringName(),
@@ -436,6 +451,39 @@ public class Constructor extends NonPrimitive {
         return;
     }
 
+    /** m's declaration has a body, or is a native. */
+    private static boolean hasBody(MethodClosure m) {
+        Applicable a = m.getDef();
+        return a instanceof NativeApp || (a instanceof FnDecl && ((FnDecl) a).getBody().isSome());
+    }
+
+    /**
+     * A declaration with a body among provided has the name and self
+     * parameter position of the abstract declaration m, and parameter types,
+     * the self parameter's not counted, each a subtype of m's; or the
+     * parameter types cannot be read.
+     */
+    private static boolean definedBelow(MethodClosure m, Set<SingleFcn> provided) {
+        for (SingleFcn sf : provided) {
+            if (sf == m || !(sf instanceof MethodClosure)) continue;
+            MethodClosure k = (MethodClosure) sf;
+            if (!hasBody(k) || k.selfParameterIndex != m.selfParameterIndex ||
+                !k.asMethodName().equals(m.asMethodName())) continue;
+            try {
+                List<FType> dk = k.getDomain();
+                List<FType> dm = m.getDomain();
+                if (dk.size() != dm.size()) continue;
+                boolean below = true;
+                for (int i = 0; below && i < dk.size(); i++) below = dk.get(i).subtypeOf(dm.get(i));
+                if (below) return true;
+            }
+            catch (FortressException ex) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * The method declarations of the traits that selfType extends that
      * selfType does not inherit: a trait inherits from its immediate
@@ -443,14 +491,14 @@ public class Constructor extends NonPrimitive {
      * declarations with the modifier override override, so a declaration that
      * such a declaration overrides on every path from selfType is not
      * inherited.  selfType's own override declarations are applied by name
-     * (accumulateEnvMethods).
+     * (accumulateEnvMethods).  provided holds what each trait above selfType
+     * provides, and inheritable what selfType's immediate supertraits provide
+     * (providedByTrait).
      */
-    private Set<Applicable> overriddenInTraits() {
-        Map<FType, List<MethodClosure>> provided = new IdentityHashMap<FType, List<MethodClosure>>();
+    private static Set<Applicable> overriddenInTraits(Map<FType, List<MethodClosure>> provided,
+                                                      List<MethodClosure> inheritable) {
         Set<Applicable> inherited = Collections.newSetFromMap(new IdentityHashMap<Applicable, Boolean>());
-        for (FType s : selfType.getExtends()) {
-            for (MethodClosure m : providedByTrait(s, provided, new HashSet<FType>())) inherited.add(m.getDef());
-        }
+        for (MethodClosure m : inheritable) inherited.add(m.getDef());
         Set<Applicable> res = Collections.newSetFromMap(new IdentityHashMap<Applicable, Boolean>());
         for (List<MethodClosure> l : provided.values()) {
             for (MethodClosure m : l) {
@@ -460,29 +508,92 @@ public class Constructor extends NonPrimitive {
         return res;
     }
 
-    /** The non-generic method declarations that the trait t provides: those it declares, and those it inherits. */
+    /**
+     * The non-generic method declarations that the trait t provides: those it
+     * declares, and those it inherits.  When check, refuses one of its
+     * declarations with the modifier override that overrides no inherited
+     * declaration (checkOverrides).
+     */
     private static List<MethodClosure> providedByTrait(FType t, Map<FType, List<MethodClosure>> provided,
-                                                       Set<FType> path) {
+                                                       Set<FType> path, boolean check) {
         List<MethodClosure> res = provided.get(t);
         if (res != null) return res;
         res = new ArrayList<MethodClosure>();
         if (!(t instanceof FTypeTrait) || !path.add(t)) return res;
         List<MethodClosure> own = declaredBy((FTypeTrait) t);
         res.addAll(own);
-        for (FType s : t.getExtends()) {
-            for (MethodClosure m : providedByTrait(s, provided, path)) {
-                if (!overriddenBy(m, own) && !res.contains(m)) res.add(m);
-            }
+        List<MethodClosure> inheritable = new ArrayList<MethodClosure>();
+        for (FType s : t.getExtends()) inheritable.addAll(providedByTrait(s, provided, path, check));
+        if (check) checkOverrides((FTypeTrait) t, own, inheritable);
+        for (MethodClosure m : inheritable) {
+            if (!overriddenBy(m, own) && !res.contains(m)) res.add(m);
         }
         path.remove(t);
         provided.put(t, res);
         return res;
     }
 
+    /**
+     * Refuses a declaration with the modifier override of the trait t, or of
+     * a trait above it, that overrides no inherited declaration, as an
+     * object's are refused where its methods are built (finishInitializing).
+     */
+    public static void checkTraitOverrides(FTypeTrait t) {
+        providedByTrait(t, new IdentityHashMap<FType, List<MethodClosure>>(), new HashSet<FType>(), true);
+    }
+
+    /**
+     * Refuses a declaration of own, declared by the type owner, with the
+     * modifier override that overrides none of inheritable, the declarations
+     * that owner's immediate supertraits provide (overriddenBy): "It is a
+     * static error if a declaration with the modifier override does not
+     * override any inherited declaration."  A generic declaration of own is
+     * not checked, nor is one that an inheritable declaration of its name and
+     * self parameter position, generic or with parameter types walk cannot
+     * read, may be overridden by.
+     */
+    private static void checkOverrides(FTraitOrObject owner, List<MethodClosure> own,
+                                       List<MethodClosure> inheritable) {
+        for (MethodClosure o : own) {
+            if (!o.isOverride() || o instanceof GenericMethod) continue;
+            boolean overrides = false;
+            for (MethodClosure m : inheritable) {
+                if (m.selfParameterIndex != o.selfParameterIndex || !m.asMethodName().equals(o.asMethodName())) continue;
+                if (m instanceof GenericMethod || unreadable(m) || unreadable(o) ||
+                    overriddenBy(m, Collections.singletonList(o))) {
+                    overrides = true;
+                    break;
+                }
+            }
+            if (!overrides) error(o.getAt(), errorMsg("Invalid override of ",
+                                                      o.asMethodName(),
+                                                      " in ",
+                                                      owner.getName(),
+                                                      ": ",
+                                                      o,
+                                                      " has the modifier override and does not override any inherited declaration"));
+        }
+    }
+
+    /** The parameter types of m cannot be read. */
+    private static boolean unreadable(MethodClosure m) {
+        try {
+            m.getDomain();
+            return false;
+        }
+        catch (FortressException ex) {
+            return true;
+        }
+    }
+
     /** The non-generic method declarations that the trait t declares. */
     private static List<MethodClosure> declaredBy(FTypeTrait t) {
+        return declaredIn(t.getMembers());
+    }
+
+    /** The method declarations bound in the youngest frame of e. */
+    private static List<MethodClosure> declaredIn(Environment e) {
         List<MethodClosure> res = new ArrayList<MethodClosure>();
-        BetterEnv e = t.getMembers();
         for (String s : e.youngestFrame()) {
             FValue fv = e.getLeafValue(s);
             if (fv instanceof OverloadedFunction) {

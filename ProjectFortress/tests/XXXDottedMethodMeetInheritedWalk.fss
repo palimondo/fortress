@@ -1,0 +1,18 @@
+component XXXDottedMethodMeetInheritedWalk
+export Executable
+
+(* An object extending two unrelated traits that provide a dotted method of one name and parameter types, one abstract and one with a body, with no declaration of its own, is no valid overloading, so the program is refused at load, under walk (overloading.tex, section "Meet Rule"). *)
+
+trait T1
+  g(): ZZ32
+end
+trait T2
+  g(): ZZ32 = 3
+end
+object O extends { T2, T1 } end
+
+run(): () = do
+    println(O.g())
+  end
+
+end

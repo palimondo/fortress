@@ -269,17 +269,35 @@ public class CUWrapper {
         } else throw new IllegalStateException("Must be typed before init funcs");
     }
 
+    private boolean objectExprsRegistered;
+
+    /**
+     * Binds the constructors of the object expressions, once.  The driver
+     * calls it for every component before it initializes any component's
+     * top-level variables, whose initializers may evaluate an object
+     * expression of another component.
+     */
+    public void initObjectExprs() {
+        if (objectExprsRegistered) return;
+        objectExprsRegistered = true;
+        registerObjectExprs(be.getEnvironment());
+    }
+
     public void initVars() {
         if (visitState == FUNCTIONED) {
             visitState = FINISHED;
 
             be.fourthPass();
-            be.visit(comp_unit);
 
             /*
             * TODO Need to figure out why this works (or seems to).
+            * The constructors of the object expressions are bound before
+            * the top-level variables are initialized, whose initializers
+            * may evaluate an object expression.
             */
-            registerObjectExprs(be.getEnvironment());
+            initObjectExprs();
+
+            be.visit(comp_unit);
 
         } else if (visitState == UNVISITED) throw new IllegalStateException(
                 "Must be populated, typed, and functioned before init vars");

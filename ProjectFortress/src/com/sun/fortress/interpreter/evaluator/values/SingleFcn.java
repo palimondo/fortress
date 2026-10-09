@@ -160,9 +160,9 @@ public abstract class SingleFcn extends Fcn implements HasAt {
      * @param ge  The generic environment that is being populated by this instantiation.
      * @throws Error
      */
-    static private List<FType> createSymbolicInstantiation(List<StaticParam> tpl,
-                                                           Option<WhereClause> wcl,
-                                                           Environment ge) throws Error {
+    static public List<FType> createSymbolicInstantiation(List<StaticParam> tpl,
+                                                          Option<WhereClause> wcl,
+                                                          Environment ge) throws Error {
         ArrayList<FType> a = new ArrayList<FType>();
         for (StaticParam tp : tpl) {
             String name = NodeUtil.getName(tp);
