@@ -157,3 +157,10 @@ Two more lines name it in passing:
 - `:1777` (the gate's recovery text): "when its run_bg log ends in EXIT=" becomes "when its log ends in EXIT=".
 
 The scenario checker tests step 0's guard by its text, so it changes in the same commit, `coordinator/tools/workflow-scenarios.js:383`: the pattern `/\[ -e [^\]]*microgpt-walk\.txt \] \|\| run_bg/` becomes `/\[ -e [^\]]*microgpt-walk\.txt \] \|\| nohup bash -c /`.
+
+
+**Owed, from climb batch 11's review (`explorations/reviews/batch-11-review.md`), replacement text not yet written:**
+
+- The skeptic's test-first sentence (`climb-batch-workflow.js:805`) also covers a test it adds as an `XXX` expected failure (measure 5).
+- The gate's `# machine` line records the calling shell's `FORTRESS_THREADS=1`, not the suites' pinned four (finding 8).
+- The skeptic's check 8 (`climb-batch-workflow.js:794`) drops "and on the other path" for a rung whose edit is on one path only, in line with the skill's narrowed rule (`SKILL.md`, "How a program runs", `7b3226bb2`).
