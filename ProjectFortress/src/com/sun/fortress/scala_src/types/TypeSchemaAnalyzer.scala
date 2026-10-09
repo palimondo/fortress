@@ -471,10 +471,16 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
     
     // Create a type analyzer with only the image variables and their bounds.
     val imageTa = ta.extend(imageSparams, None)
+    // The bounds are the conjuncts of their meet where each conjunct is a
+    // BaseType. The meet of bounds one of which is a trait with a comprises
+    // clause can be a union, which a bound list cannot hold; the bounds are
+    // then kept as the list they are, each already a BaseType.
     val rimageSparams = imageSparams.map{
       case SStaticParam(i, v, x, e, doms, d, a, k:KindType, l) =>
-        SStaticParam(i, v, x, conjuncts(imageTa.meet(e)).
-                             toList.map(_.asInstanceOf[BaseType]), doms, d, a, k, l)
+        val met = conjuncts(imageTa.meet(e)).toList
+        val bds = if (met.forall(_.isInstanceOf[BaseType])) met.map(_.asInstanceOf[BaseType])
+                  else removeDuplicates(e).map(_.asInstanceOf[BaseType])
+        SStaticParam(i, v, x, bds, doms, d, a, k, l)
       case x => x
     }
 //    println("  rimageSparams = " + rimageSparams)

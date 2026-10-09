@@ -361,15 +361,26 @@ trait Operators { self: STypeChecker with Common =>
                                     } else e.asInstanceOf[ExprMI].getExpr )
             // Treat the sequence that remains as a multifix application of
             // the juxtaposition operator.
-            // The rules for multifix operators then apply.
-            val multi_op_expr =
-              STypeCheckerFactory.makeTryChecker(this).
-                tryCheckExpr(EF.makeOpExpr(span,
-                                           multi,
-                                           toJavaList(head::newTail)))
+            // The rules for multifix operators then apply: the multifix
+            // application is used where it applies, whatever the expected type.
+            // Either way the application is the juxtaposition's value, so it
+            // has the juxtaposition's expected type, as for a loose juxtaposition.
+            val multiOp = EF.makeOpExpr(span, multi, toJavaList(head::newTail))
+            val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+            val multi_op_expr = tryChecker.tryCheckExpr(multiOp).map { plain =>
+              if (expected.isEmpty) plain
+              else tryChecker.tryCheckExpr(multiOp, expected).getOrElse(plain) }
             multi_op_expr.getOrElse {
-              newTail.foldLeft(head) { (r:Expr, e:Expr) =>
-                checkExpr(EF.makeOpExpr(NU.spanTwo(r, e), infix, r, e))
+              // If not, left-associate as binary applications, the outermost of
+              // which is the juxtaposition's value.
+              newTail match {
+                case Nil => head
+                case _ =>
+                  val inner = newTail.init.foldLeft(head) { (r:Expr, e:Expr) =>
+                    checkExpr(EF.makeOpExpr(NU.spanTwo(r, e), infix, r, e))
+                  }
+                  checkExpr(EF.makeOpExpr(NU.spanTwo(inner, newTail.last), infix, inner, newTail.last),
+                            expected)
               }
             }
           }
