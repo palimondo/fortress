@@ -47,7 +47,7 @@ The interpreter tests, in `ProjectFortress/tests/`:
   - `mk()`, of `mk[\T extends Cmp[\T\]\](): BoxU[\T\]`, runs, and its getter answers;
   - `"ab.c".upto('.')` is `"ab"`.
 - `XXXUnwrittenEmptyFloatSumWalk.fss`, a new expected failure (NEW-W-1): `emptyRSum(0)`, of `emptyRSum(n: ZZ32): RR64 = SUM[j <- 0#n] (j / 2.0)`, is `0.0` and an `RR64`.
-- `XXXUnwrittenBigMinMaxWalk.fss`, a new expected failure (NEW-W-2): `BIG MINMAX[i <- 0#4] i` is `(0, 3)`. It was measured first as a plain test. It stops under the open parameter as on the base, so it is gated as an expected failure, as the section says.
+- `XXXUnwrittenBigMinMaxWalk.fss`, a new expected failure (row 473's open half, whose reproducer was `none`; first written here as a new row, NEW-W-2): `BIG MINMAX[i <- 0#4] i` is `(0, 3)`. It was measured first as a plain test. It stops under the open parameter as on the base, so it is gated as an expected failure, as the section says.
 - `XXXComprehensionTypedBindingWalk.fss`, a new expected failure (NEW-W-3): `s: Set[\ZZ32\] = { n^2 | n <- -2:2 }`, and `|s|` is `3`.
 - `OverrideInTraitWalk.fss`, promoted from `XXXOverrideInTraitWalk.fss` (row 614).
 - `FunctionalMethodMeetObjectExpressionWalk.fss` and its `.test`, promoted from `XXXFunctionalMethodMeetObjectExpressionWalk.*` (row 618), with the key `load_exception_contains=Invalid overloading of pick`.
@@ -126,7 +126,7 @@ Each probe is a one-expression program under `tmp/`, run with `explorations/coor
 | `{[\ZZ32\] n^2 \| n <- -2:2 }` at the same binding | not run | `NodeSet[\ZZ32\]`, size 3 (the workaround) |
 | `mk()`, `mk[\T extends Cmp[\T\]\](): BoxU[\T\]` | `BoxU[\BOTTOM\]` | `BoxU[\OPEN\]` |
 | `"ab.c".upto('.')`, `.beyond('.')` | `ab`, `c` | the same |
-| `BIG MINMAX[i <- 0#4] i` | rc 1: InterpreterBug, simpleJoin(a:Any,b:Any) ... has neither body nor def | the same (NEW-W-2) |
+| `BIG MINMAX[i <- 0#4] i` | rc 1: InterpreterBug, simpleJoin(a:Any,b:Any) ... has neither body nor def | the same (row 473) |
 | `explorations/claude_demo.fss` | rc 1 at its `SUM` | rc 0 |
 
 Three probes of the open type's reach ran on the new code only. Each uses a generic object instantiated at the open type (`Holder[\OPEN\]`).
@@ -139,7 +139,7 @@ These methods run:
 - `over(x: T)`, overloaded with `over(x: String)`, on `3`;
 - `one(a: T)`, beside an inherited abstract `one(a: Any): Any`, on `3`.
 
-But `sj(a: (T,T), b: (T,T))`, beside an inherited abstract `sj(a: Any, b: Any): Any`, is not chosen for two pairs. The abstract one runs: "MethodClosure sj(a:Any,b:Any):Any ... has neither body nor def". The same object at `ZZ32` chooses its own `sj`. That is NEW-W-2's shape: `MinMaxReduction`'s `simpleJoin` beside `AssociativeReduction`'s.
+But `sj(a: (T,T), b: (T,T))`, beside an inherited abstract `sj(a: Any, b: Any): Any`, is not chosen for two pairs. The abstract one runs: "MethodClosure sj(a:Any,b:Any):Any ... has neither body nor def". The same object at `ZZ32` chooses its own `sj`. That is row 473's shape: `MinMaxReduction`'s `simpleJoin` beside `AssociativeReduction`'s.
 
 ## 6. Where the fixes belong, and the precedents
 
@@ -226,7 +226,7 @@ Not edited here, for the gather and the skill writer:
 - Row 614: home 1, repaired; `OverrideInTraitWalk.fss`.
 - Row 618: home 1, repaired; `FunctionalMethodMeetObjectExpressionWalk.fss` and its `.test`.
 - NEW-W-1, an empty unwritten reduction over a type other than `ZZ32` takes `ZZ32`'s identity: home 2, settled by the desugaring by `N`; `XXXUnwrittenEmptyFloatSumWalk.fss`.
-- NEW-W-2, an unwritten `BIG MINMAX` stops: home 2, the reduction's answer being `(0, 3)`; `XXXUnwrittenBigMinMaxWalk.fss`.
+- Row 473's open half (first written here as a new row, NEW-W-2), an unwritten `BIG MINMAX` stops: home 2, the reduction's answer being `(0, 3)`; `XXXUnwrittenBigMinMaxWalk.fss`.
 - NEW-W-3, a set comprehension built at its elements' run-time class is refused by a variable declared `Set[\ZZ32\]`: home 2, settled by the comprehension's aggregate type; `XXXComprehensionTypedBindingWalk.fss`. It is present on the base too.
 - The compiled path: rows 425 and 570 stay as they are. Neither is this rung's.
 
