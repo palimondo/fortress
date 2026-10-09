@@ -12,15 +12,18 @@ object Store[\nat n\](v: ZZ32) extends Sized end
 mk(): NatParamT = Nt[\3\]
 size[\nat n\](x: Nt[\n\]): ZZ32 = n
 take[\nat n\](x: Nt[\n\]): Store[\n\] = Store[\n\](n)
+sizePlus[\nat n\](x: Nt[\n\], i: ZZ32): ZZ32 = n + i
 
 run(): () = do
     z: ZZ32 = size(mk())
     s: Sized = take(mk())
+    w: ZZ32 = sizePlus(mk(), 1)
     r: String = typecase mk() of
         Nt[\0\] => "zero"
         else => "other"
       end
     println(z)
+    println(w)
     println(r)
   end
 
