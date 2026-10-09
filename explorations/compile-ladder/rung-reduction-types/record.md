@@ -15,8 +15,8 @@
 
 The entry "Under `walk`, a type parameter whose bound mentions itself and that nothing at a call fixes is left open, ..." needs three changes:
 - "row 473's open half given an expected failure" becomes "row 473's open half fixed by climb batch 12's rung G".
-- Its residue list loses `XXXUnwrittenBigMinMaxWalk.fss`, promoted to `UnwrittenBigMinMaxWalk.fss`.
-- Its sentence "so `(Int, Int)` is not below `(OPEN, OPEN)` at dispatch (row 473)" loses its witness. Row 473 no longer shows it: by reading, the abstract `simpleJoin` now has the implementer's signature, so dispatch has no second declaration to choose. The sentence's claim about dispatch itself is not re-measured.
+- Its residue list loses `XXXUnwrittenBigMinMaxWalk.fss`, promoted to `UnwrittenBigMinMaxWalk.fss`, and gains `XXXUnwrittenSetBigOperatorsWalk.fss` (row NEW-G-1, a generic type that holds the open type) and `OpenTupleDispatchWalk.fss` (row NEW-G-2, a tuple type that holds it).
+- Its sentence "so `(Int, Int)` is not below `(OPEN, OPEN)` at dispatch (row 473)" keeps its claim and changes its witness to row NEW-G-2. Row 473 no longer shows it: the abstract `simpleJoin` now has the implementer's signature, so dispatch has no second declaration to choose. The claim itself holds on the rung's tree: in a `Holder[\OPEN\]`, `pick((1, 2))` runs `pick(x: Any)` beside `pick(x: (T,T))`, and a lone `one(x: (T,T))` runs (`tests/OpenTupleDispatchWalk.fss`, gated, the same on the base).
 
 ## Ledger: rows closed
 
@@ -29,9 +29,11 @@ The entry "Under `walk`, a type parameter whose bound mentions itself and that n
 - Row 405: "In the library, `MinReduction`'s and `MaxReduction`'s `simpleJoin(a, b)` were a case of this, harmless while the abstract declaration took `Any`. Climb batch 12 rung G (`1410a62de`) typed them at `T`, as the api declares them (`Library/FortressLibrary.fss:3291`, `:3300`)."
 - Row 646: "siblings: NEW-G-1 (`Set`'s unwritten `BIG UNION` and `BIG INTERSECTION` at `Set[\OPEN\]`)."
 
-## Ledger: new row (section "8. Generators, reductions and ranges")
+## Ledger: new rows (section "8. Generators, reductions and ranges")
 
 | NEW-G-1 | under walk, `Set`'s `BIG UNION` and `BIG INTERSECTION` with a generator clause list and no static argument stop at their first element: `R` is left open and `Set[\OPEN\]` admits no `NodeSet[\ZZ32\]`, so `BIG UNION[i <- 0#3] {[\ZZ32\] i}` stops where it is `{0,1,2}` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenSetBigOperatorsWalk.fss` | climb batch 12 probe P2 and rung G | siblings: 424, 473, 646. `R extends StandardTotalOrder[\R\]` is F-bounded, so walk leaves it open (row 424's fix); the reduction's parameters are then `Set[\OPEN\]`, and a generic type holding the open type admits no more than at `BottomType` (FACTS, "Under `walk`, a type parameter whose bound mentions itself ..."). At `7fa767d48` `UNION` stopped at `Union.join`, `INTERSECTION` at the abstract `simpleJoin(a:Any, b:Any)`; at `1410a62de` both stop at `lift` in `__bigOperator` (`Library/FortressLibrary.fss:1304`), 'lift param 1 (r:Set[\OPEN\]) got arg NodeSet[\ZZ32\]'. Workaround: `BIG UNION[\ZZ32\][i <- 0#3] {[\ZZ32\] i}`. |
+
+| NEW-G-2 | under walk, a tuple of values is not below a tuple type over a self-bounded type parameter that nothing fixed when overloads are compared: in a `Holder[\OPEN\]`, `pick((1, 2))` runs `pick(x: Any)` beside `pick(x: (T,T))`, while a lone `one(x: (T,T))` runs | CONTESTED | implementation gap (walk) | silent | `ProjectFortress/tests/OpenTupleDispatchWalk.fss` | climb batch 12 rung G's skeptic | siblings: 473, NEW-G-1. Unsettled: the `revival-inference` callout of `basic/inference.tex` says the open parameter admits every value where walk checks a value against that type, and nothing of a tuple or generic type that holds it; FACTS, "Under `walk`, a type parameter whose bound mentions itself ...", records the rule. Row 473's `MinMaxReduction.simpleJoin(a:(T,T), b:(T,T))` beside `AssociativeReduction`'s abstract `simpleJoin(a:Any, b:Any)` was this shape until climb batch 12 rung G typed the abstract one at `R`; climb batch 11 rung W measured it with `sj` (`compile-ladder/rung-walk-open-param/REPORT.md`, section 5). Workaround: write the static argument. |
 
 ## The handover line
 
