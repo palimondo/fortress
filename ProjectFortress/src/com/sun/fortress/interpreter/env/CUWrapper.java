@@ -274,12 +274,16 @@ public class CUWrapper {
             visitState = FINISHED;
 
             be.fourthPass();
-            be.visit(comp_unit);
 
             /*
             * TODO Need to figure out why this works (or seems to).
+            * The constructors of the object expressions are bound before
+            * the top-level variables are initialized, whose initializers
+            * may evaluate an object expression.
             */
             registerObjectExprs(be.getEnvironment());
+
+            be.visit(comp_unit);
 
         } else if (visitState == UNVISITED) throw new IllegalStateException(
                 "Must be populated, typed, and functioned before init vars");
