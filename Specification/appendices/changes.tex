@@ -1986,6 +1986,11 @@ It still gives no expected type to an argument of another call (row~455 of the
 revival's gap ledger) or to the body of a \KWD{label} expression (row~NEW-E-1),
 as the item of the list says; the thirteenth call ends a clause of a
 \KWD{typecase} expression that ends the body of a \KWD{label} expression.
+Nor does it give one to an operator repeated between three or more operands
+that no multifix declaration accepts, as \EXP{p \oplus q \oplus r}, though the
+outer of the binary applications \EXP{(p \oplus q) \oplus r} that it stands for
+is an operator application, which the sentence after the list gives the
+expected type (row~NEW-E-3).
 The interpreter has no static types and is unchanged.
 \item[Original text] The two passages are the revival's own text of
 29~September 2026, not the Working Draft's, whose chapter held a heading and two

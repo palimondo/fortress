@@ -1,0 +1,22 @@
+(* A dotted method one of whose type parameters is bounded by a type at another, invoked with its static arguments written inside a declaration whose own type parameter has that other's name, type-checks and runs. *)
+component XXXMethodStaticArgsBoundNamesOtherSameName
+export Executable
+
+trait Gen[\E\]
+  chain[\G, K extends Gen[\G\]\](f: E->G, k: K): ZZ32
+  size(): ZZ32
+end
+object Box[\E\](x: E) extends Gen[\E\]
+  chain[\G, K extends Gen[\G\]\](f: E->G, k: K): ZZ32 = k.size() + 10
+  size(): ZZ32 = 1
+end
+object Use[\G\](g: Gen[\G\])
+  useChain(h: Gen[\G\]): ZZ32 = g.chain[\G, Gen[\G\]\](fn (e: G): G => e, h)
+end
+
+run(): () = do
+    assert(Use[\String\](Box[\String\]("a")).useChain(Box[\String\]("b")), 11, "g.chain with its static arguments written, K's bound Gen[G] at the written G; Specification/basic/expressions/method-invocation.tex, section \"Dotted Method Invocations\"")
+    println("PASS")
+  end
+
+end
