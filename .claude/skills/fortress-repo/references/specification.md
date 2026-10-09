@@ -58,7 +58,9 @@ Check each changed sentence of `Specification/` or `Documentation/` against the 
 
 ## Building it
 
-To check your LaTeX, build the specification in a built tree, after the setup lines: `cd Specification/fortress && ./ant genSource && ./ant tex`. It takes about 90 s, so run it with `run_bg` (`session.md`).
+To check your LaTeX, build the specification in a built tree, after the setup lines. It takes about 90 s, so start it detached (`session.md`, "Long commands"):
+
+    nohup bash -c '( cd Specification/fortress && ./ant genSource && ./ant tex ) > tmp/spec.txt 2>&1; echo EXIT=$? >> tmp/spec.txt' >/dev/null 2>&1 &
 
 - Both commands must end in `BUILD SUCCESSFUL`, and `grep -c 'Reference .* undefined\|multiply defined\|Undefined control sequence' Specification/fortress/fortress.log` must print 0.
 - If `pdflatex` is missing, install the packages of the `PKGS` line of `explorations/experiment/setup.sh` with `apt-get update -qq && apt-get install -y`.

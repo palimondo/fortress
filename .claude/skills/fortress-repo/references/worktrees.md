@@ -18,7 +18,7 @@ Once the base build is built, run its code only as "Running the old code" says, 
   - `git -C <it> rev-parse HEAD` prints your base;
   - `git -C <it> status --porcelain` prints nothing;
   - it holds `default_repository/caches/bytecode_cache/fortress.CompilerBuiltin.jar`.
-- If no worktree passes them, build one at a path of your own, outside the main tree. It takes about 200 s: run the build and the library order with `run_bg` (`session.md`). `<base-commit>` is your base: the commit that your brief names, else your tree's `HEAD` when you start. Say so in your report.
+- If no worktree passes them, build one at a path of your own, outside the main tree. It takes about 200 s: start the build and the library order detached, with the `nohup` line of `session.md`, "Long commands". `<base-commit>` is your base: the commit that your brief names, else your tree's `HEAD` when you start. Say so in your report.
 
       git worktree add --detach <base-build> <base-commit>
       cd <base-build>          # then set up the call as build-and-caches.md says
