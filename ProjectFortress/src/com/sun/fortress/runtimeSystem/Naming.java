@@ -1201,7 +1201,54 @@ public class Naming {
         public static final String METHOD_SPECIALS =
             NON_OVERLOADED_TAG + INDEX + GENERIC_SEPARATOR +
             LEFT_HEAVY_ANGLE + RIGHT_HEAVY_ANGLE + HEAVY_X + HEAVY_CROSS;
-        
 
-    
+    /**
+     * The value of a size operation on two numbers, the operator as the
+     * parser writes it ("+", "-", " " for a product, "^"); null if it is
+     * not computed (an unknown operator, or a power whose exponent is
+     * negative or above 4096).
+     */
+    public static java.math.BigInteger sizeOp(String op, java.math.BigInteger l, java.math.BigInteger r) {
+        if (op.equals("+")) return l.add(r);
+        if (op.equals("-")) return l.subtract(r);
+        if (op.equals(" ")) return l.multiply(r);
+        if (op.equals("^") && r.signum() >= 0 && r.compareTo(java.math.BigInteger.valueOf(4096)) <= 0)
+            return l.pow(r.intValue());
+        return null;
+    }
+
+    private static boolean isSizeNumeral(String s) {
+        int i = s.startsWith("-") ? 1 : 0;
+        if (i >= s.length()) return false;
+        for (; i < s.length(); i++) if (!Character.isDigit(s.charAt(i))) return false;
+        return true;
+    }
+
+    /**
+     * A size static argument as NamingCzar spells it, a numeral, a name, or
+     * an operation in postfix, its operands and its operator joined by ENTER,
+     * with each name that sizes maps to a numeral replaced, and each operation
+     * whose operands are then numerals computed: Box[\2 + 1\] and Box[\3\]
+     * name one class.  Text that is not such a spelling is returned unchanged.
+     */
+    public static String foldSize(String spelled, Map<String, String> sizes) {
+        if (!spelled.contains(ENTER)) return spelled;
+        String[] parts = spelled.split(ENTER, -1);
+        ArrayList<String> stack = new ArrayList<String>();
+        for (int i = 0; i < parts.length; i++) {
+            String t = parts[i];
+            boolean isOp = i > 0 && (t.equals("+") || t.equals("-") || t.equals(" ") || t.equals("^"));
+            if (isOp && stack.size() >= 2) {
+                String r = stack.remove(stack.size() - 1);
+                String l = stack.remove(stack.size() - 1);
+                java.math.BigInteger v = isSizeNumeral(l) && isSizeNumeral(r) ?
+                    sizeOp(t, new java.math.BigInteger(l), new java.math.BigInteger(r)) : null;
+                stack.add(v != null ? v.toString() : l + ENTER + r + ENTER + t);
+            } else {
+                String s = sizes == null ? null : sizes.get(t);
+                stack.add(s != null && isSizeNumeral(s) ? s : t);
+            }
+        }
+        return stack.size() == 1 ? stack.get(0) : spelled;
+    }
 }

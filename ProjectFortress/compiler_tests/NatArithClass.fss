@@ -1,0 +1,26 @@
+(* A size computed from numerals, or from static parameters once they are known, names the class of its value. *)
+component NatArithClass
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+
+isThree(a: Any): String =
+  typecase a of
+    Box[\3\] => "three"
+    else => "other"
+  end
+
+next[\nat k\](): Any = Box[\k + 1\](7)
+area[\nat r, nat c\](): Any = Box[\r c\](7)
+sz[\nat k\](b: Box[\k\]): ZZ32 = k
+
+run(): () = do
+    assert(isThree(Box[\2 + 1\](7)), "three", "constant.tex, section \"Static Expressions\": a size computed from numerals")
+    assert(isThree(next[\2\]()), "three", "constant.tex, section \"Static Expressions\": a sum computed once its static parameter is known")
+    assert(isThree(next[\3\]()), "other", "constant.tex, section \"Static Expressions\": a sum computed once its static parameter is known")
+    assert(isThree(area[\1, 3\]()), "three", "constant.tex, section \"Static Expressions\": a product computed once its static parameters are known")
+    assert(sz(Box[\2 3\](0)), 6, "constant.tex, section \"Static Expressions\": a product of numerals read as a value")
+    println("PASS")
+  end
+
+end

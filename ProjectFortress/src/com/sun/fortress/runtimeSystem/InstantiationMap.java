@@ -390,7 +390,8 @@ public class InstantiationMap  {
                      accum.append(t);
                      //accum.append(inOxfords ? t : t.substring(1));
                  } else {
-                     accum.append(s);
+                     // A size computed from static parameters: simplified at instantiation.
+                     accum.append(Naming.foldSize(s, p));
                  }
              } else {
                  accum.append(s);

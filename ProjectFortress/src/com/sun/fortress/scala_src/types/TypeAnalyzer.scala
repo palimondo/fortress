@@ -352,13 +352,15 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def equivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(false)
   def notEquivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(true)
 
-  // Sizes are equal as symbols and literals; a symbol is not any literal
-  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean): CFormula = (x, y) match {
+  // Sizes are equal when their written forms are, once numerals are folded;
+  // they differ when nDiffer says so; otherwise neither is known
+  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean): CFormula = (foldSize(x), foldSize(y)) match {
     case (a, b) if nEq(a, b) => pTrue()
     case (a: _InferenceVarInt, b: _InferenceVarInt) => and(pEquivalent(a, b), pEquivalent(b, a))
     case (a: _InferenceVarInt, b) => pEquivalent(a, b)
     case (a, b: _InferenceVarInt) => pEquivalent(b, a)
-    case _ => pFalse()
+    case (a, b) if nDiffer(a, b) => pFalse()
+    case _ => False
   }
   
   def excludes(x: Type, y: Type): CFormula =

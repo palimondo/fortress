@@ -1,0 +1,4 @@
+tests=XXXNatArithRangeChecker
+compile
+compile_err_contains=File XXXNatArithRangeChecker.fss has 2 errors.
+compile_err_WIcontains=The static argument 4294967296 is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.

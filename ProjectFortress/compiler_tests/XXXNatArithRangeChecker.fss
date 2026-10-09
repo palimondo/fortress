@@ -1,0 +1,16 @@
+(* A size computed from numerals is checked against its parameter's kind, as a numeral is. *)
+component XXXNatArithRangeChecker
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object IBox[\int i\](v: ZZ32) end
+
+gNat(b: Box[\4294967295 + 1\]): String = "a nat size computed beyond NN32"
+gInt(b: IBox[\2147483647 + 1\]): String = "an int size computed beyond ZZ32"
+hInt(b: IBox[\0 - 2\]): String = "an int size computed below zero, inside ZZ32"
+
+run(): () = do
+    println(hInt(IBox[\0 - 2\](0)))
+  end
+
+end
