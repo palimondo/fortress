@@ -1,0 +1,25 @@
+(* The getters indices and generator that the library defines by reading another value's getter, called under walk with the values they answer. *)
+component IndicesGetterCalls
+import Set.{...}
+import CaseInsensitiveString.{...}
+export Executable
+
+inOrder(g: Generator[\ZZ32\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+run() = do
+    s: Set[\ZZ32\] = {7,5,6}
+    assert(inOrder(s.indexValuePairs.indices), "0,1,2,", "the index-value pairs of a set of three have the indices 0, 1, 2")
+    c = CaseInsensitiveString("abc")
+    assert(inOrder(c.indices), "0,1,2,", "the case-insensitive string abc has the indices 0, 1, 2")
+    assert(c.indices.asDebugString, "CompactFullParScalarRange(0,2)", "the indices of the case-insensitive string abc are 0:2")
+    g: String := ""
+    for ch <- seq(c.generator) do g := g || ch end
+    assert(g, "abc", "the case-insensitive string abc generates a, b, c")
+    println("PASS")
+end
+
+end

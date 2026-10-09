@@ -1,0 +1,17 @@
+(* Every element backwards, and forward of a flipped range, answer the bounded range of rank 2 or 3 from the other end, as they do at rank 1. *)
+component RangeBoundedEveryForward
+export Executable
+
+run() = do
+    assert((((0,0)#).every(-1,-1)).asDebugString, "RightRange2D(0,0, -1,-1)", "the left range (0,0)# every element backwards is the right range to (0,0) with stride (-1,-1), as (2#).every(-1) is the right range to 2")
+    assert((((5,5)#).flip().forward()).asDebugString, "LeftRange2D(5,5, 1,1)", "the left range (5,5)# flipped and put forward is (5,5)# again")
+    assert(((:(5,5)).every(-1,-1)).asDebugString, "LeftRange2D(5,5, -1,-1)", "the right range :(5,5) every element backwards is the left range from (5,5) with stride (-1,-1)")
+    assert(((:(5,5)).flip().forward()).asDebugString, "RightRange2D(5,5, 1,1)", "the right range :(5,5) flipped and put forward is :(5,5) again")
+    assert((((0,0,0)#).every(-1,-1,-1)).asDebugString, "RightRange3D(0,0,0, -1,-1,-1)", "the left range (0,0,0)# every element backwards is the right range to (0,0,0) with stride (-1,-1,-1)")
+    assert((((5,5,5)#).flip().forward()).asDebugString, "LeftRange3D(5,5,5, 1,1,1)", "the left range (5,5,5)# flipped and put forward is (5,5,5)# again")
+    assert(((:(5,5,5)).every(-1,-1,-1)).asDebugString, "LeftRange3D(5,5,5, -1,-1,-1)", "the right range :(5,5,5) every element backwards is the left range from (5,5,5) with stride (-1,-1,-1)")
+    assert(((:(5,5,5)).flip().forward()).asDebugString, "RightRange3D(5,5,5, 1,1,1)", "the right range :(5,5,5) flipped and put forward is :(5,5,5) again")
+    println("PASS")
+end
+
+end
