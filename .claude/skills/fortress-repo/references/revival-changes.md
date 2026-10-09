@@ -57,7 +57,7 @@ A note written before the revival, and your training, can be right about the tea
 **A trait's `override`, and object expressions, under walk**
 
 - Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`, "Meet Rule") skipped object expressions: anonymous objects written inside an expression, such as `object extends { A, B } end`.
-- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk checks an object expression without static parameters as it checks an object; one in a generic function is not checked, as a generic object is not (ledger row 647). The checker still accepts an object expression that breaks the rule (ledger row 570).
+- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function. It checks the lifted object as it checks an object, unless the object has static parameters: walk checks no generic object (ledger row 647). The checker still accepts an object expression that breaks the rule (ledger row 570).
 - Reason: the traits chapter (`Specification/basic/traits.tex`, "Method Declarations"), and the Meet Rule, which names object expressions.
 
 **What a type provides**
@@ -77,7 +77,11 @@ A note written before the revival, and your training, can be right about the tea
 **A type parameter that a call does not fix**
 
 - Original: the implementations gave it the empty type `Bottom`, or left it unsolved, and some such compiled calls failed the JVM's verification. The type group's POPL 2019 paper gives such a parameter its bound.
-- Resolution: it takes its bound, except under walk, as `SKILL.md`, "Fortress as a language", says.
+- Resolution: it takes its bound on both paths. Under walk, one whose bound names itself stays open (the next entry). Walk still gives `Bottom` to these:
+  - a big operator's static parameters with a plain bound (ledger row 424);
+  - a parameter declared with two bounds, neither below the other (ledger row 591);
+  - a parameter that an argument bounds only from above, whose bound names another static parameter (ledger row 612);
+  - a parameter that only the result of a function expression without a return type fixes (ledger row 587).
 - Reason: the paper is the type group's latest word on the rule.
 
 **A type parameter whose bound names itself, under walk**

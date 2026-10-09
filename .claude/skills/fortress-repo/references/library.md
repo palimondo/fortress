@@ -22,7 +22,7 @@ These functions work on the library's generators and reductions: `trait Generato
 - Scalar ranges are over `ZZ32` only. A range over another integer type is a static error, and walk stops when it builds one. Write a wider counter as a `ZZ32` loop that widens its index.
 - `ZZ32` and numerals convert into `RR64` implicitly. `ZZ64` converts into `RR64` only explicitly, by `asFloat`.
 - For arithmetic that wraps on overflow, use the wrapping operators ∔ `DOTPLUS`, ∸ `DOTMINUS` and ⨰ `DOTTIMES`. Parenthesise every such expression fully, because their precedence is stated only among themselves.
-- `SUM` and `PROD` are generic over `AdditiveGroup` and `MultiplicativeRing`. If nothing at the call fixes the element type, write it: `SUM[\ZZ32\][j <- 0#n] f(j)`. Under walk, a call without it fails at its first element (ledger row 424).
+- `SUM` and `PROD` are generic over `AdditiveGroup` and `MultiplicativeRing`. If nothing at the call fixes the element type, write it: `SUM[\ZZ32\][j <- 0#n] f(j)`. The checker refuses a call without it (ledger row 425). Walk runs such a call, but an empty one gives `ZZ32`'s identity (ledger row 645), and `BIG MINMAX` stops (ledger row 473).
 - An array's `fill` takes a value, and its `tabulate` a function of the index: `array[\ZZ32\](4).fill(0)`, `array[\ZZ32\](4).tabulate(fn (i:ZZ32):ZZ32 => 10 i)`. The factories that take a function are `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`.
 
 ## Designing a change

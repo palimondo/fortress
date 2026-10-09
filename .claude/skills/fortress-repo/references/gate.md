@@ -4,7 +4,7 @@ The gate runs the seven steps below on one tree, in about 25 minutes. It is gree
 
 ## What it writes
 
-The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the atomic runs and the ladder's comparison.
+The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the machine that ran the gate (`# machine`), the atomic runs and the ladder's comparison. When the results land, the microGPT walk check of the landed tree adds its `VERDICT:` and `rc=` lines, as `# microgpt-walk` lines.
 
 If your brief asks you to land a gate's results, put them in a new `gate/` folder in `explorations/compile-ladder/`, under the `climb-batch-` name that your brief gives, in the form of the newest one: `summary.txt`, and in `ladder/` the files `ladder.tsv`, `microgpt-phase.md`, `comparison.txt` and `microgpt-comparison.txt`. The next gate compares with the newest summary there or in `explorations/compile-ladder/gate-baseline/`, and finds no other. Land them in a commit that changes nothing else that the gate reads.
 
@@ -31,7 +31,7 @@ If it asks, first check whether the newest gate still holds for your tree. A gat
 
 ## The steps
 
-Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gate/`, as `compileAll.txt`, `testFast.txt` and `testSystem.txt`.
+Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gate/`, as `compileAll.txt`, `testFast.txt`, `testSystem.txt` and `testSpecData.txt`.
 
 1. Read the Avail column of `df -h /`. Warning: deleting `/tmp/fortress*rats` can break other live runs. If the column shows less than 1 GB, delete `/tmp/fortress*rats`, `ProjectFortress/test-tmp` and `ProjectFortress/test-caches`, and read it again. If it still shows less than 500 MB, stop and report.
 2. Run `rm -rf ProjectFortress/TEST-RESULTS tmp/gate && mkdir -p tmp/gate`, then `ant compileAll`.
@@ -41,7 +41,7 @@ Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gat
        cp -a default_repository/caches $D/root/ladder-caches
        cp -a default_repository/caches $D/root/pristine
 
-4. Run `ant testFast`, then `ant testSystem`. Both must have zero failures.
+4. Run `ant testFast`, then `ant testSystem`, then `ant testSpecData`. All three must have zero failures.
 5. Write the summary: `gate_summary tmp/gate tmp/gate/summary.txt`. Compare it: `gate_compare "$(last_landed_summary)" tmp/gate/summary.txt`. It prints a line for a suite with failures or errors, a suite with no tests, a suite whose count of tests fell, and a suite that is gone. Each such line makes the gate red. A count that rose prints nothing.
 6. Do the atomic runs, and append their lines to the summary.
 7. Do the ladder regression.
@@ -98,7 +98,7 @@ To run it, as step 7, with step 3's copies of the caches:
            -e "s|^RAW=.*|RAW=$D/raw/microgpt|" -e "s|^TSV=.*|TSV=$D/microgpt-results.tsv|" $D/microgpt-phase.sh
        tail -n +2 $B/pass-list.txt | cut -f1 | sed 's|/|\t|' > $D/subset.txt
 
-2. Run the four scripts, with no arguments, in this order: `bash $D/run-subset.sh`, `python3 $D/classify.py`, `bash $D/microgpt-phase.sh` and `python3 $D/microgpt-phase.py`. Each reads and writes in `$D`. This takes about 200 s for the 85 and 35 s for the eighteen, so run them with `run_bg` (`session.md`). With step 3's copies, the driver skips the library's build (about 145 s).
+2. Run the four scripts, with no arguments, in this order: `bash $D/run-subset.sh`, `python3 $D/classify.py`, `bash $D/microgpt-phase.sh` and `python3 $D/microgpt-phase.py`. Each reads and writes in `$D`. This takes about 200 s for the 85 and 35 s for the eighteen, so run them in the background (`session.md`, "Long commands"). With step 3's copies, the driver skips the library's build (about 145 s).
 3. Compare: `ladder_compare $B $D`, then `diff <(mg_phases $B/microgpt-phase.md) <(mg_phases $D/microgpt-phase.md)`. Append each line that they print to the summary, with `# ladder ` before it.
 
 If your brief asks for your change's own ladder subset, write your own `subset.txt`. Put in it each file whose recorded first error in the baseline's `raw/` names something that your change touched. Run them after your edit only. Compare them with the newest landed `ladder.tsv`, or with the baseline's `raw/` for a file that the gate does not run.

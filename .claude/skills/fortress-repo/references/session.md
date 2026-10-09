@@ -7,7 +7,7 @@
 : Stop of the session's turn, by the stop button. It kills every agent that runs in the background at that moment, of the Agent tool or of a Workflow.
 
 **stop of the process**
-: End of the session's Claude Code process. It kills every agent. It keeps the conversation, the transcripts and the disk: worktrees, uncommitted edits and logs. A command started with `nohup`, as `run_bg` (below) starts it, survives a stop, but not a restart of the machine.
+: End of the session's Claude Code process. It kills every agent. It keeps the conversation, the transcripts and the disk: worktrees, uncommitted edits and logs. A command started with `nohup` (below) survives a stop, but not a restart of the machine.
 
 **automatic permission check**
 : Check that approves each tool call in auto mode. It can refuse a call, also a call that the curator approved in chat.
@@ -21,16 +21,16 @@ The Bash tool stops a call at 120 s, unless the call passes a longer `timeout`, 
 
 ## Long commands
 
-Two shell functions run a long command:
+If a command can take more than a minute or two, start it detached with `nohup`, after the setup lines, whose exports it inherits. Write the command and the log in the line itself:
 
-- `run_bg` starts the command detached. It writes the output to the log, then a last line `EXIT=<status>`.
-- `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
+    nohup bash -c '( ant compileAll ) > tmp/build.txt 2>&1; echo EXIT=$? >> tmp/build.txt' >/dev/null 2>&1 &
 
-If a command can take more than a minute or two, start it with `run_bg`. Then run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Grep the log for the lines that you need. Define both functions in each call that uses them, after the setup lines, whose exports the command inherits:
+The log gets the output, then a last line `EXIT=<status>`. The automatic permission check refuses a shell function that passes the command to `bash -c` in a variable, because it cannot read the command.
 
-    run_bg () {      # run_bg <logfile> "<command>"
-        nohup bash -c "( $2 ) > '$1' 2>&1; echo EXIT=\$? >> '$1'" >/dev/null 2>&1 &
-    }
+The shell function `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
+
+Run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Define the function in each call that uses it. Grep the log for the lines that you need.
+
     wait_for () {    # wait_for <logfile> [max seconds, at most 270]; call again until it returns 0
         local n=0 max=${2:-270}
         case "$max" in ''|*[!0-9]*) max=270 ;; esac ; [ "$max" -gt 270 ] && max=270

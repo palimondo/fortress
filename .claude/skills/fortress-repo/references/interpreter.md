@@ -65,7 +65,7 @@ A `catch` sees no other Java exception, so any other exception from a native end
 - Your setup sets `FORTRESS_THREADS`, the size of the pool, to 1 (`SKILL.md`, "Parallelism and mutable state"). If it is unset, the pool has half the CPUs.
 - A small program takes about 8 s with cold caches, and about 4 s with warm caches.
 - Do not take or record a timing of walk. Do not edit anything to make walk faster.
-- To check a build, run `bin/fortress explorations/mandelbrot_canonical.fss`, which prints its picture, or `bin/fortress ProjectFortress/tests/BooleanOps.fss`, which prints nothing and exits 0. Do not use `explorations/claude_demo.fss`: it dies under walk (ledger row 424). `ProjectFortress/hello.fss` runs only on the compiled path.
+- To check a build, run `bin/fortress explorations/claude_demo.fss`. It prints `SUM[i <- 1#100] i = 5050` among its lines, and exits 0. `ProjectFortress/hello.fss` runs only on the compiled path.
 
 ## The model program
 

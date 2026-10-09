@@ -20,6 +20,8 @@
 
 `ant testSystem` runs `SystemJUTest` over `ProjectFortress/tests/`, the interpreter's test folder. It runs about 500 tests in four shards, in about 2 to 4 minutes.
 
+`ant testSpecData` runs the specification's 130 extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk, in under a minute. The gate runs it after the two suites.
+
 The newest gate summary has the exact counts and times of the last landed run:
 
     git log -1 --name-only --format= -- 'explorations/compile-ladder/climb-batch-*/gate/summary.txt'
@@ -51,7 +53,6 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 
 ## Outside the gate
 
-- `ant testSpecData` runs the specification's extracted examples (`SpecData/examples/basic`, `preliminaries`, `advanced`) under walk. Five of its examples fail today: reductions written without their element type.
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
 - Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Put every new test in a gated test folder. A test of a defect that fails today is an `XXX` test there (`tests-writing.md`).
 
