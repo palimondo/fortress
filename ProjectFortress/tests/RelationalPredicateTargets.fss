@@ -1,0 +1,41 @@
+(* A relational predicate applied to a generator holds when its relation holds of each pair of neighbours in the generator's natural order. *)
+component RelationalPredicateTargets
+import List.{...}
+export Executable
+
+verdict(c: Condition[\()\]): String = if _ <- c then "holds" else "fails" end
+
+run(): () = do
+    increasing = relationalPredicate[\ZZ32\](fn (a: ZZ32, b: ZZ32): Boolean => a < b)
+
+    assert(verdict(increasing(<|[\ZZ32\] 1, 2, 5 |>)), "holds", "the list 1, 2, 5 is increasing")
+    assert(verdict(increasing(<|[\ZZ32\] 1, 5, 2 |>)), "fails", "the list 1, 5, 2 is not increasing")
+    assert(verdict(increasing(3#4)), "holds", "the range 3#4 is increasing")
+    assert(verdict(increasing((0#4).reverse)), "fails", "the range 0#4 reversed generates 3, 2, 1, 0, which is not increasing")
+
+    xs = array[\ZZ32\](5).tabulate(fn (i: ZZ32): ZZ32 => i)
+    xs[3] := 0
+    assert(verdict(increasing(xs[0:2])), "holds", "the slice 0, 1, 2 of an array is increasing")
+    assert(verdict(increasing(xs[0:3])), "fails", "the slice 0, 1, 2, 0 of an array is not increasing")
+
+    shifted = array[\ZZ32\](4).shift(5)
+    shifted[5] := 1
+    shifted[6] := 2
+    shifted[7] := 3
+    shifted[8] := 4
+    assert(verdict(increasing(shifted)), "holds", "an array indexed from 5 holding 1, 2, 3, 4 is increasing")
+    shifted[8] := 0
+    assert(verdict(increasing(shifted)), "fails", "an array indexed from 5 holding 1, 2, 3, 0 is not increasing")
+
+    upper = (0#10).filter(fn (x: ZZ32): Boolean => x > 4)
+    assert(verdict(increasing(upper)), "holds", "the filter 5, 6, 7, 8, 9 of 0#10 is increasing")
+    ups = <|[\ZZ32\] 3, 1, 4, 1, 5 |>
+    assert(verdict(increasing(ups.filter(fn (x: ZZ32): Boolean => x > 1))), "holds", "the filter 3, 4, 5 of 3, 1, 4, 1, 5 is increasing")
+    assert(verdict(increasing(ups.filter(fn (x: ZZ32): Boolean => x > 0))), "fails", "the filter 3, 1, 4, 1, 5 of itself is not increasing")
+
+    assert(verdict(increasing(0#0)), "holds", "an empty generator is increasing")
+    assert(verdict(increasing(<|[\ZZ32\] 7 |>)), "holds", "a generator of one element is increasing")
+    assert(verdict(increasing((0#10).filter(fn (x: ZZ32): Boolean => x > 20))), "holds", "a filter that keeps nothing is increasing")
+end
+
+end

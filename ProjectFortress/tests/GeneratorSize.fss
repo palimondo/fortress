@@ -1,0 +1,53 @@
+(* The size |g| of a generator: the type's own size where it declares one, and otherwise the number of elements it generates. *)
+component GeneratorSize
+import List.{...}
+export Executable
+
+object Countdown(n: ZZ32) extends Generator[\ZZ32\]
+    generate[\R\](r: Reduction[\R\], body: ZZ32 -> R): R =
+        (0#n).generate[\R\](r, fn (i: ZZ32): R => body(n - i))
+end
+
+object Claimed extends Generator[\ZZ32\]
+    generate[\R\](r: Reduction[\R\], body: ZZ32 -> R): R = (0#3).generate[\R\](r, body)
+    opr |self| : ZZ32 = 99
+end
+
+object EvenIndices(n: ZZ32) extends DelegatedIndexed[\ZZ32, ZZ32\]
+    getter bounds(): CompactFullRange[\ZZ32\] = 0#n
+    getter indices(): Generator[\ZZ32\] = (0#n).filter(fn (i: ZZ32): Boolean => ((i MOD 2) = 0))
+    opr[i: ZZ32]: ZZ32 = 10 i
+    opr[r: Range[\ZZ32\]]: Indexed[\ZZ32, ZZ32\] = (0#n)[r].map[\ZZ32\](fn (i: ZZ32): ZZ32 => 10 i)
+end
+
+run(): () = do
+    thirds = (0#10).filter(fn (x: ZZ32): Boolean => ((x MOD 3) = 0))
+    assert(|thirds|, 4, "the multiples of 3 below 10 filtered from 0#10 are 0, 3, 6 and 9")
+    none = (0#10).filter(fn (x: ZZ32): Boolean => x > 20)
+    assert(|none|, 0, "a filter that keeps nothing has size 0")
+    triangle = (0#4).nest[\ZZ32\](fn (i: ZZ32): Generator[\ZZ32\] => 0#i)
+    assert(|triangle|, 6, "0#4 nested with 0#i generates 0 + 1 + 2 + 3 elements")
+    doubled = thirds.map[\ZZ32\](fn (x: ZZ32): ZZ32 => 2 x)
+    assert(|doubled|, 4, "a filter mapped generates as many elements as the filter")
+    assert(|thirds.cross[\ZZ32\](0#3)|, 12, "a filter of 4 elements crossed with 0#3 has 4 times 3 pairs")
+    assert(|thirds.cross[\ZZ32\](thirds)|, 16, "a filter of 4 elements crossed with itself has 4 times 4 pairs")
+    assert(|Countdown(5)|, 5, "a generator that defines only generate is counted")
+    assert(|Countdown(0)|, 0, "a generator that generates nothing has size 0")
+    assert(|seq(Countdown(5))|, 5, "the naive sequential version of a generator has its size")
+    assert(|seq(thirds)|, 4, "the sequential version of a filter has its size")
+    evens = EvenIndices(7)
+    assert(|evens|, 4, "a DelegatedIndexed type with indices 0, 2, 4 and 6 has size 4")
+    assert(evens.size, 4, "a DelegatedIndexed type's size getter is its size")
+
+    assert(|Claimed|, 99, "a generator's own size is chosen over the count of its 3 elements")
+    assert(|(0#3).cross[\ZZ32\](0#4)|, 12, "0#3 crossed with 0#4 has 3 times 4 pairs")
+    xs = <|[\ZZ32\] 4, 5, 6 |>
+    assert(|xs|, 3, "a list of three has size 3")
+    assert(|3#5|, 5, "the range 3#5 has size 5")
+    word = "abcd"
+    assert(|word|, 4, "the string abcd has size 4")
+    a = array[\ZZ32\](6).fill(0)
+    assert(|a|, 6, "an array of 6 has size 6")
+end
+
+end
