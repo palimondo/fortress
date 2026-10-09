@@ -1,5 +1,5 @@
 (* A dotted method one of whose type parameters is bounded by a type at another, invoked with its static arguments written inside a declaration whose own type parameter has that other's name, type-checks and runs. *)
-component XXXMethodStaticArgsBoundNamesOtherSameName
+component MethodStaticArgsBoundNamesOtherSameName
 export Executable
 
 trait Gen[\E\]

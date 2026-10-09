@@ -1,0 +1,18 @@
+(* A label expression gives its body and the with values of its exits the expected type of its value, so a call that ends the body, or is the with value of an exit, instantiates a type parameter only its result mentions at that type. *)
+component InferResultOnlyLabelBody
+export Executable
+
+stop[\T extends Any\](s: String): T = throw InvalidRange
+giveUp(s: String): ZZ32 = label here
+    stop(s)
+  end here
+leaveEarly(s: String, early: Boolean): ZZ32 = label out
+    if early then exit out with stop(s) end
+    5
+  end out
+
+run(): () = do
+    println("PASS")
+  end
+
+end

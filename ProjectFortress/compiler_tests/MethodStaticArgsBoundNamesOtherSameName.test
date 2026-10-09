@@ -1,0 +1,5 @@
+tests=MethodStaticArgsBoundNamesOtherSameName
+compile
+link
+run
+run_out_contains=PASS

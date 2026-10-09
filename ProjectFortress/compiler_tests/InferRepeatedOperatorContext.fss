@@ -1,0 +1,27 @@
+(* An operator repeated between three operands has the expected type of its value, whether a multifix declaration accepts it or it is left-associated, so that type fixes a static argument that only the result mentions. *)
+component InferRepeatedOperatorContext
+export Executable
+
+object BoxV[\T\](v: T) end
+opr OPLUS[\T\](a: Any, b: ZZ32): BoxV[\T\] = throw InvalidRange
+opr OTIMES[\T\](a: ZZ32, b: ZZ32, c: ZZ32): BoxV[\T\] = throw IntegerDomainError
+binary(): String = try
+    y: BoxV[\ZZ64\] = 1 OPLUS 2 OPLUS 3
+    "value"
+  catch e
+    InvalidRange => "binary"
+  end
+multifix(): String = try
+    y: BoxV[\ZZ64\] = 1 OTIMES 2 OTIMES 3
+    "value"
+  catch e
+    IntegerDomainError => "multifix"
+  end
+
+run(): () = do
+    assert(binary(), "binary", "1 OPLUS 2 OPLUS 3, which no multifix declaration accepts, is (1 OPLUS 2) OPLUS 3, whose outer application is instantiated at ZZ64 and throws; Specification/basic/operators/chained-multifix.tex, section \"Chained and Multifix Operators\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(multifix(), "multifix", "1 OTIMES 2 OTIMES 3 is the multifix application, instantiated at ZZ64, which throws; Specification/basic/operators/chained-multifix.tex, section \"Chained and Multifix Operators\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end
