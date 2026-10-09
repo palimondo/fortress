@@ -1,0 +1,44 @@
+(* The index-value pairs an indexed value inherits by default: each element paired with its index, in the natural order, indexed as the value is. *)
+component IndexValuePairsDefault
+import CaseInsensitiveString.{...}
+import List.{...}
+export Executable
+
+inOrder[\E\](g: Generator[\E\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+run(): () = do
+    word = "abcd"
+    p = word.indexValuePairs
+    assert(inOrder(p), "(0,a),(1,b),(2,c),(3,d),", "the pairs of abcd")
+    assert(|p|, 4, "abcd has four pairs")
+    assert("" p[2], "(2,c)", "the pair at index 2 of abcd")
+    assert(inOrder(p[1#2]), "(1,b),(2,c),", "the pairs of abcd at indices 1 and 2")
+    assert("" (p[1#2])[0], "(1,b)", "the first of the pairs of abcd at indices 1 and 2")
+    assert(inOrder(p.reverse), "(3,d),(2,c),(1,b),(0,a),", "the pairs of abcd reversed")
+    assert(inOrder(p.indices), "0,1,2,3,", "the indices of the pairs of abcd")
+    labelled = word.ivmap[\String\](fn (i: ZZ32, c: Char): String => i "" c)
+    assert(inOrder(labelled), "0a,1b,2c,3d,", "abcd mapped with its indices")
+    assert(labelled[3], "3d", "abcd mapped with its indices, at index 3")
+
+    zipped = DefaultZip[\ZZ32,String\](<|[\ZZ32\] 1, 2, 3 |>, <|[\String\] "x", "y" |>)
+    zp = zipped.indexValuePairs
+    assert(inOrder(zp), "(0,(1,x)),(1,(2,y)),", "the pairs of 1, 2, 3 zipped with x, y")
+    assert(|zp|, 2, "1, 2, 3 zipped with x, y has two pairs")
+    assert("" zp[1], "(1,(2,y))", "the pair at index 1 of 1, 2, 3 zipped with x, y")
+    assert(inOrder(zp[1#1]), "(1,(2,y)),", "the pairs of 1, 2, 3 zipped with x, y at index 1")
+    assert(inOrder(zipped.ivmap[\String\](fn (i: ZZ32, e: (ZZ32, String)): String => i ":" e)), "0:(1,x),1:(2,y),", "1, 2, 3 zipped with x, y mapped with its indices")
+
+    folded = CaseInsensitiveString("AbC")
+    cp = folded.indexValuePairs
+    assert(inOrder(cp), "(0,A),(1,b),(2,C),", "the pairs of the case-insensitive AbC")
+    assert(|cp|, 3, "the case-insensitive AbC has three pairs")
+    assert("" cp[1], "(1,b)", "the pair at index 1 of the case-insensitive AbC")
+    assert(inOrder(cp[1#2]), "(1,b),(2,C),", "the pairs of the case-insensitive AbC at indices 1 and 2")
+    assert(inOrder(folded.ivmap[\String\](fn (i: ZZ32, c: Char): String => c "" i)), "A0,b1,C2,", "the case-insensitive AbC mapped with its indices")
+end
+
+end
