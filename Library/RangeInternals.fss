@@ -122,17 +122,51 @@ opr PCMP(a:(ZZ32,ZZ32,ZZ32), b:(ZZ32,ZZ32,ZZ32)): Comparison = do
 
 
 (** Bounds checks for narrowToRange *)
-checkSelection[\R extends Range[\I\], I\]
-              (this:Range[\I\], other: Range[\I\], r:R): R = do
+checkSelection[\R extends Range[\ZZ32\]\]
+              (this:Range[\ZZ32\], other: Range[\ZZ32\], r:R): R = do
     tf = this.forward()
     otf = other.forward()
     for tfl <- tf.left, ofl <- otf.left, tfl > ofl, NOT tf.isEmpty, NOT otf.isEmpty do
         errorPrintln(other " left outside bounds " this)
-        throw IndexOutOfBounds[\I\](this,ofl)
+        throw IndexOutOfBounds[\ZZ32\](this,ofl)
     end
     for tfr <- tf.right, ofr <- otf.right, tfr < ofr, NOT tf.isEmpty, NOT otf.isEmpty do
         errorPrintln(other " right outside bounds " this)
-        throw IndexOutOfBounds[\I\](this,ofr)
+        throw IndexOutOfBounds[\ZZ32\](this,ofr)
+    end
+    r
+  end
+
+checkSelection2D[\R extends Range[\(ZZ32,ZZ32)\]\]
+              (this:Range[\(ZZ32,ZZ32)\], other: Range[\(ZZ32,ZZ32)\], r:R): R = do
+    tf = this.forward()
+    otf = other.forward()
+    for tfl <- tf.left, ofl <- otf.left, (tfl PCMP ofl) = GreaterThan OR (tfl PCMP ofl) = Unordered,
+        NOT tf.isEmpty, NOT otf.isEmpty do
+        errorPrintln(other " left outside bounds " this)
+        throw IndexOutOfBounds[\(ZZ32,ZZ32)\](this,ofl)
+    end
+    for tfr <- tf.right, ofr <- otf.right, (tfr PCMP ofr) = LessThan OR (tfr PCMP ofr) = Unordered,
+        NOT tf.isEmpty, NOT otf.isEmpty do
+        errorPrintln(other " right outside bounds " this)
+        throw IndexOutOfBounds[\(ZZ32,ZZ32)\](this,ofr)
+    end
+    r
+  end
+
+checkSelection3D[\R extends Range[\(ZZ32,ZZ32,ZZ32)\]\]
+              (this:Range[\(ZZ32,ZZ32,ZZ32)\], other: Range[\(ZZ32,ZZ32,ZZ32)\], r:R): R = do
+    tf = this.forward()
+    otf = other.forward()
+    for tfl <- tf.left, ofl <- otf.left, (tfl PCMP ofl) = GreaterThan OR (tfl PCMP ofl) = Unordered,
+        NOT tf.isEmpty, NOT otf.isEmpty do
+        errorPrintln(other " left outside bounds " this)
+        throw IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\](this,ofl)
+    end
+    for tfr <- tf.right, ofr <- otf.right, (tfr PCMP ofr) = LessThan OR (tfr PCMP ofr) = Unordered,
+        NOT tf.isEmpty, NOT otf.isEmpty do
+        errorPrintln(other " right outside bounds " this)
+        throw IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\](this,ofr)
     end
     r
   end
@@ -155,6 +189,8 @@ trait ScalarRange extends { Range[\ZZ32\] }
     opr CMP(self, other:Range[\ZZ32\]): Comparison =
         ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
+    narrowToRange(other:Range[\ZZ32\]): Range[\ZZ32\] =
+        checkSelection[\Range[\ZZ32\]\](self, other, self INTERSECTION other)
     check(): ScalarRange = do
         str = self.stride
         if str = 0 then fail(self.asDebugString ": Zero stride") end
@@ -209,6 +245,8 @@ trait Range2D extends Range[\(ZZ32,ZZ32)\]
     opr CMP(self, other:Range[\(ZZ32,ZZ32)\]): Comparison =
         ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
+    narrowToRange(other:Range[\(ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32)\] =
+        checkSelection2D[\Range[\(ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
     check():Range2D = do
         _ = self.range1.check()
         _ = self.range2.check()
@@ -276,6 +314,8 @@ trait Range3D extends Range[\(ZZ32,ZZ32,ZZ32)\]
     opr CMP(self, other:Range[\(ZZ32,ZZ32,ZZ32)\]): Comparison =
         ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
+    narrowToRange(other:Range[\(ZZ32,ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32,ZZ32)\] =
+        checkSelection3D[\Range[\(ZZ32,ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
     check():Range3D = do
         _ = self.range1.check()
         _ = self.range2.check()
@@ -545,6 +585,8 @@ trait BoundedScalarRange
     atMost(n:ZZ32): FullScalarRange
     opr INTERSECTION(self, other: Range[\ZZ32\]): BoundedScalarRange =
         fail("BoundedScalarRange INTERSECTION Range!  Shouldn't happen.")
+    narrowToRange(other:Range[\ZZ32\]): BoundedRange[\ZZ32\] =
+        checkSelection[\BoundedRange[\ZZ32\]\](self, other, self INTERSECTION other)
     opr INTERSECTION(self, other: ScalarRange): BoundedScalarRange =
         typecase other of
             other':BoundedScalarRange =>
@@ -595,6 +637,8 @@ trait BoundedRange2D extends { Range2D, BoundedRange[\(ZZ32,ZZ32)\] }
         fail("other is Range[\\(ZZ32,ZZ32)\\] but not Range2D")
     opr INTERSECTION(self, other: Range2D): BoundedRange2D =
         fail("BoundedRange2D INTERSECTION Range2D!  Shouldn't happen.")
+    narrowToRange(other:Range[\(ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32)\] =
+        checkSelection2D[\BoundedRange[\(ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
 end
 
 combine3D(i:BoundedScalarRange, j:BoundedScalarRange, k:BoundedScalarRange): BoundedRange3D =
@@ -605,6 +649,8 @@ trait BoundedRange3D extends { Range3D, BoundedRange[\(ZZ32,ZZ32,ZZ32)\] }
         fail("other is Range[\\(ZZ32,ZZ32,ZZ32)\\] but not Range3D")
     opr INTERSECTION(self, other: Range3D): BoundedRange3D =
         fail("BoundedRange3D INTERSECTION Range3D!  Shouldn't happen.")
+    narrowToRange(other:Range[\(ZZ32,ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32,ZZ32)\] =
+        checkSelection3D[\BoundedRange[\(ZZ32,ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
 end
 
 trait ScalarRangeWithLeft
@@ -1028,6 +1074,13 @@ trait FullScalarRange
     opr FORWARD_CMP(self, other: FullRange[\ZZ32\]): Comparison =
         ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
+    narrowToRange(other:Range[\ZZ32\]): FullRange[\ZZ32\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\ZZ32\] => checkSelection[\FullRange[\ZZ32\]\](self, other, r')
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange =
         if self.isEmpty then self
         elif other.isEmpty then other
@@ -1102,6 +1155,13 @@ trait FullRange2D
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32,ZZ32)\]): Comparison =
         ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
+    narrowToRange(other:Range[\(ZZ32,ZZ32)\]): FullRange[\(ZZ32,ZZ32)\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\(ZZ32,ZZ32)\] => checkSelection2D[\FullRange[\(ZZ32,ZZ32)\]\](self, other, r')
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
 end
 
 tupleFlatten[\I,J,K\](t:(I,J),k:K):(I,J,K) = do (i,j)=t; (i,j,k) end
@@ -1166,6 +1226,13 @@ trait FullRange3D
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32,ZZ32,ZZ32)\]): Comparison =
         ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
+    narrowToRange(other:Range[\(ZZ32,ZZ32,ZZ32)\]): FullRange[\(ZZ32,ZZ32,ZZ32)\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\(ZZ32,ZZ32,ZZ32)\] => checkSelection3D[\FullRange[\(ZZ32,ZZ32,ZZ32)\]\](self, other, r')
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
 end
 
 trait CompactFullScalarRange extends { FullScalarRange, CompactFullRange[\ZZ32\] }

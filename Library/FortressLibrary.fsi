@@ -2177,7 +2177,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     abstract imposeStride(s:I): Range[\I\]
     abstract atMost(n: I): Range[\I\]
     abstract opr INTERSECTION(self, other: Range[\I\]): Range[\I\]
-    narrowToRange(other:Range[\I\]): Range[\I\]
+    abstract narrowToRange(other:Range[\I\]): Range[\I\]
     narrowToRange(other:OpenRange[\I\]): Range[\I\]
     opr =(self, b: Range[\I\]): Boolean
     abstract opr IN(n: I, self): Boolean
@@ -2209,6 +2209,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
     forward(): TrivialOpenRange
     check(): TrivialOpenRange
     opr CMP(self, other: Range[\Any\]): Comparison
+    narrowToRange(other: Range[\Any\]): Range[\Any\]
 end
 
 trait RangeWithExtent[\I\] extends Range[\I\]
@@ -2230,7 +2231,7 @@ trait BoundedRange[\I\] extends Range[\I\]
     atMost(n: I): FullRange[\I\]
     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\]
-    narrowToRange(other:Range[\I\]): BoundedRange[\I\]
+    abstract narrowToRange(other:Range[\I\]): BoundedRange[\I\]
 end
 
 trait RangeWithLeft[\I\] extends BoundedRange[\I\]
@@ -2260,7 +2261,7 @@ end
 trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
     getter extent(): Just[\I\]
     narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
-    narrowToRange(other:Range[\I\]): FullRange[\I\]
+    abstract narrowToRange(other:Range[\I\]): FullRange[\I\]
     abstract opr IN(n: I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison
     abstract opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison

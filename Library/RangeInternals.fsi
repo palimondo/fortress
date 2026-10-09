@@ -39,7 +39,11 @@ opr PCMP(a: (ZZ32, ZZ32), b: (ZZ32, ZZ32)): Comparison
 
 opr PCMP(a: (ZZ32, ZZ32, ZZ32), b: (ZZ32, ZZ32, ZZ32)): Comparison
 
-checkSelection[\R extends Range[\I\], I\](this: Range[\I\], other: Range[\I\], r: R): R
+checkSelection[\R extends Range[\ZZ32\]\](this: Range[\ZZ32\], other: Range[\ZZ32\], r: R): R
+
+checkSelection2D[\R extends Range[\(ZZ32, ZZ32)\]\](this: Range[\(ZZ32, ZZ32)\], other: Range[\(ZZ32, ZZ32)\], r: R): R
+
+checkSelection3D[\R extends Range[\(ZZ32, ZZ32, ZZ32)\]\](this: Range[\(ZZ32, ZZ32, ZZ32)\], other: Range[\(ZZ32, ZZ32, ZZ32)\], r: R): R
 
 trait ScalarRange extends Range[\ZZ32\]
     abstract truncL(l: ZZ32): BoundedScalarRange
@@ -50,6 +54,7 @@ trait ScalarRange extends Range[\ZZ32\]
     abstract atMost(n: ZZ32): ScalarRange
     opr CAP(self, other: Range[\ZZ32\]): ScalarRange
     opr CMP(self, other: Range[\ZZ32\]): Comparison
+    narrowToRange(other: Range[\ZZ32\]): Range[\ZZ32\]
     abstract intersectWithExtent(e: ExtentScalarRange): ScalarRangeWithExtent
     check(): ScalarRange
     indexOf(n: ZZ32): Maybe[\ZZ32\]
@@ -72,6 +77,7 @@ trait Range2D
     opr IN(n: (ZZ32, ZZ32), self): Boolean
     opr =(self, other: Range2D): Boolean
     opr CMP(self, other: Range[\(ZZ32, ZZ32)\]): Comparison
+    narrowToRange(other: Range[\(ZZ32, ZZ32)\]): Range[\(ZZ32, ZZ32)\]
     check(): Range2D
 end
 
@@ -104,6 +110,7 @@ trait Range3D
     opr IN(n: (ZZ32, ZZ32, ZZ32), self): Boolean
     opr =(self, other: Range3D): Boolean
     opr CMP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): Comparison
+    narrowToRange(other: Range[\(ZZ32, ZZ32, ZZ32)\]): Range[\(ZZ32, ZZ32, ZZ32)\]
     check(): Range3D
 end
 
@@ -239,6 +246,7 @@ trait BoundedScalarRange
     abstract atMost(n: ZZ32): FullScalarRange
     opr CAP(self, other: Range[\ZZ32\]): BoundedScalarRange
     opr CAP(self, other: ScalarRange): BoundedScalarRange
+    narrowToRange(other: Range[\ZZ32\]): BoundedRange[\ZZ32\]
     intersectWithExtent(e: ExtentScalarRange): FullScalarRange
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange
     nonemptyUpwardIntersection(other: BoundedScalarRange, resultStride: ZZ32): BoundedScalarRange
@@ -251,6 +259,7 @@ trait BoundedRange2D
     extends { Range2D, BoundedRange[\(ZZ32, ZZ32)\] }
     opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange2D
     opr CAP(self, other: Range2D): BoundedRange2D
+    narrowToRange(other: Range[\(ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32)\]
 end
 
 combine3D(i: BoundedScalarRange, j: BoundedScalarRange, k: BoundedScalarRange): BoundedRange3D
@@ -259,6 +268,7 @@ trait BoundedRange3D
     extends { Range3D, BoundedRange[\(ZZ32, ZZ32, ZZ32)\] }
     opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange3D
     opr CAP(self, other: Range3D): BoundedRange3D
+    narrowToRange(other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange[\(ZZ32, ZZ32, ZZ32)\]
 end
 
 trait ScalarRangeWithLeft
@@ -403,6 +413,7 @@ trait FullScalarRange
     atMost(n: ZZ32): FullScalarRange
     opr =(self, b: FullScalarRange): Boolean
     opr FORWARD_CMP(self, other: FullRange[\ZZ32\]): Comparison
+    narrowToRange(other: Range[\ZZ32\]): FullRange[\ZZ32\]
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange
     nonemptyUpwardIntersection(other: BoundedScalarRange, resultStride: ZZ32): FullScalarRange
     nonemptyUpwardIntersectionWithPoint(other: BoundedScalarRange, resultStride: ZZ32, p: ZZ32): FullScalarRange
@@ -427,6 +438,7 @@ trait FullRange2D
     opr CAP(self, other: Range2D): BoundedRange2D
     opr IN(n: (ZZ32, ZZ32), self): Boolean
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32, ZZ32)\]): Comparison
+    narrowToRange(other: Range[\(ZZ32, ZZ32)\]): FullRange[\(ZZ32, ZZ32)\]
 end
 
 tupleFlatten[\I, J, K\](t: (I, J), k: K): (I, J, K)
@@ -447,6 +459,7 @@ trait FullRange3D
     opr CAP(self, other: Range3D): BoundedRange3D
     opr IN(n: (ZZ32, ZZ32, ZZ32), self): Boolean
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32, ZZ32, ZZ32)\]): Comparison
+    narrowToRange(other: Range[\(ZZ32, ZZ32, ZZ32)\]): FullRange[\(ZZ32, ZZ32, ZZ32)\]
 end
 
 trait CompactFullScalarRange

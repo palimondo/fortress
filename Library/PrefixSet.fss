@@ -475,7 +475,7 @@ end
 value object IndexValuePrefixSetGenerator[\E extends StandardTotalOrder[\E\],F extends List[\E\]\](s: PrefixSet[\E,F\])
         extends ZeroIndexed[\(ZZ32,F)\]
     getter size():ZZ32 = |s|
-    getter indices(): Generator[\ZZ32\] = s.indices
+    getter indices(): Generator[\ZZ32\] = 0 # |s|
     getter isEmpty(): Boolean = s.isEmpty
     opr |self|:ZZ32 = |s|
     generate[\R\](r: Reduction[\R\], body: (ZZ32,F)->R): R = s.ivgen[\R\](0,r,body)
