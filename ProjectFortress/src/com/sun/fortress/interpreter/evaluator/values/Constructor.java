@@ -257,7 +257,9 @@ public class Constructor extends NonPrimitive {
         // TODO The signature map uses EQUALITY, and that might be wrong,
         // if the object can implement with a more general signature.
         // The checks of the declarations at load read the types without static
-        // parameters; an instance of a generic object is not checked.
+        // parameters; an instance of a generic object is not checked, and its
+        // declaration's overrides are checked at its static parameters
+        // (BuildEnvironments.checkGenericOverrides).
         boolean declared = !(selfType instanceof GenericTypeInstance);
         Map<FType, List<MethodClosure>> provided = new IdentityHashMap<FType, List<MethodClosure>>();
         List<MethodClosure> inheritable = new ArrayList<MethodClosure>();
@@ -543,24 +545,54 @@ public class Constructor extends NonPrimitive {
     }
 
     /**
+     * Refuses a declaration with the modifier override of the trait or
+     * object t, or of a trait above it, that overrides no inherited
+     * declaration, as a declared trait's (checkTraitOverrides) and a declared
+     * object's (finishInitializing) are refused.  t is the type that stands
+     * for every instance of a declaration with static parameters
+     * (BuildEnvironments.checkGenericOverrides).
+     */
+    public static void checkTypeOverrides(FTraitOrObject t) {
+        if (t instanceof FTypeTrait) {
+            checkTraitOverrides((FTypeTrait) t);
+            return;
+        }
+        t.getMembers();
+        Map<FType, List<MethodClosure>> provided = new IdentityHashMap<FType, List<MethodClosure>>();
+        List<MethodClosure> inheritable = new ArrayList<MethodClosure>();
+        for (FType s : t.getExtends()) {
+            inheritable.addAll(providedByTrait(s, provided, new HashSet<FType>(), true));
+        }
+        checkOverrides(t, declaredIn(((FTypeObject) t).getMethodExecutionEnv()), inheritable);
+    }
+
+    /**
      * Refuses a declaration of own, declared by the type owner, with the
      * modifier override that overrides none of inheritable, the declarations
-     * that owner's immediate supertraits provide (overriddenBy): "It is a
+     * that owner's immediate supertraits provide: none of its name and self
+     * parameter position has a parameter type, the self parameter's not
+     * counted, that is a strict subtype of its own, each parameter type a
+     * subtype (overriddenBy) and not all equal (sameParameterTypes): "It is a
      * static error if a declaration with the modifier override does not
      * override any inherited declaration."  A generic declaration of own is
      * not checked, nor is one that an inheritable declaration of its name and
      * self parameter position, generic or with parameter types walk cannot
-     * read, may be overridden by.
+     * read, may be overridden by.  When owner is an instance of a declaration
+     * with static parameters, equal parameter types count as overridden: the
+     * declaration is checked at its static parameters
+     * (BuildEnvironments.checkGenericOverrides), and an instance can make
+     * equal two parameter types that the declaration does not.
      */
     private static void checkOverrides(FTraitOrObject owner, List<MethodClosure> own,
                                        List<MethodClosure> inheritable) {
+        boolean instance = owner instanceof GenericTypeInstance;
         for (MethodClosure o : own) {
             if (!o.isOverride() || o instanceof GenericMethod) continue;
             boolean overrides = false;
             for (MethodClosure m : inheritable) {
                 if (m.selfParameterIndex != o.selfParameterIndex || !m.asMethodName().equals(o.asMethodName())) continue;
                 if (m instanceof GenericMethod || unreadable(m) || unreadable(o) ||
-                    overriddenBy(m, Collections.singletonList(o))) {
+                    overriddenBy(m, Collections.singletonList(o)) && (instance || !sameParameterTypes(m, o))) {
                     overrides = true;
                     break;
                 }
@@ -572,6 +604,25 @@ public class Constructor extends NonPrimitive {
                                                       ": ",
                                                       o,
                                                       " has the modifier override and does not override any inherited declaration"));
+        }
+    }
+
+    /**
+     * The parameter types of m and o, the self parameter's not counted, are
+     * equal: each is a subtype of the other's.
+     */
+    private static boolean sameParameterTypes(MethodClosure m, MethodClosure o) {
+        try {
+            List<FType> dm = m.getDomain();
+            List<FType> dov = o.getDomain();
+            if (dm.size() != dov.size()) return false;
+            for (int k = 0; k < dm.size(); k++) {
+                if (!dm.get(k).subtypeOf(dov.get(k)) || !dov.get(k).subtypeOf(dm.get(k))) return false;
+            }
+            return true;
+        }
+        catch (FortressException ex) {
+            return false;
         }
     }
 

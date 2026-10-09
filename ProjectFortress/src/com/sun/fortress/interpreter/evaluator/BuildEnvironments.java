@@ -589,7 +589,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         String fname = NodeUtil.nameString(name);
         FTraitOrObjectOrGeneric ft = (FTraitOrObjectOrGeneric) containing.getRootType(fname); // toplevel
         if (!staticParams.isEmpty()) {
-            // Do nothing
+            if (ft instanceof FTypeGeneric) checkGenericOverrides((FTypeGeneric) ft);
         } else if (params.isSome()) {
             //FTypeObject fto = (FTypeObject) ft;
             Fcn cl = (Fcn) containing.getLeafValue(fname);
@@ -871,15 +871,31 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         String fname = NodeUtil.nameString(name);
         FTraitOrObjectOrGeneric ft = (FTraitOrObjectOrGeneric) containing.getRootType(fname); // toplevel
         scanForFunctionalMethodNames(ft, NodeUtil.getDecls(x));
-        if (ft instanceof FTypeTrait && declaresOverride(x)) Constructor.checkTraitOverrides((FTypeTrait) ft);
+        if (ft instanceof FTypeTrait && declaresOverride(NodeUtil.getDecls(x))) Constructor.checkTraitOverrides((FTypeTrait) ft);
+        else if (ft instanceof FTypeGeneric) checkGenericOverrides((FTypeGeneric) ft);
     }
 
-    /** x declares a method with the modifier override. */
-    private static boolean declaresOverride(TraitDecl x) {
-        for (Decl d : NodeUtil.getDecls(x)) {
+    /** decls declares a method with the modifier override. */
+    private static boolean declaresOverride(List<Decl> decls) {
+        for (Decl d : decls) {
             if (d instanceof FnDecl && NodeUtil.getMods((FnDecl) d).isOverride()) return true;
         }
         return false;
+    }
+
+    /**
+     * Refuses a trait, object or object expression with static parameters,
+     * declared as g, that declares a method with the modifier override that
+     * overrides no inherited declaration: checks it once, at its static
+     * parameters, through the type that stands for every instance
+     * (symbolicInstance), as a declared trait or object is checked
+     * (Constructor.checkTypeOverrides).  Nothing is checked where walk cannot
+     * make that type.
+     */
+    public static void checkGenericOverrides(FTypeGeneric g) {
+        if (!declaresOverride(g.getASTmembers())) return;
+        FTraitOrObject t = symbolicInstance(g);
+        if (t != null) Constructor.checkTypeOverrides(t);
     }
 
     private void forTraitDecl4(TraitDecl x) {
