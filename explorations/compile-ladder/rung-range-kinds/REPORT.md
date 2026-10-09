@@ -2,7 +2,7 @@
 
 - problem: the nine range and array sites of rows 654, 655, 656 and 608 in the landed per-site list, `explorations/compile-ladder/gate/distance-sites.tsv:105-106` (`checkSelection`, row 655), `:132` (row 654), `:38`, `:39`, `:55`, `:56`, `:57` (row 656) and `:114` (row 608); row 657's pin, `ProjectFortress/tests/RangeKindBodies.fss:94` at the base; row 658's walk stop at `Library/PrefixSet.fss:478`
 - spec: none: `grep -rn "narrowToRange\|checkSelection\|TrivialOpenRange\|PrefixSet\|truncL\|imposeStride" Specification --include=*.tex` prints nothing, and `Specification/basic/expressions/ranges.tex:12-147` (section "Ranges") describes no range of rank 2 and no method of the open range
-- precedent: rung L's move of `CMP` to the `ZZ32` kinds, `ScalarRange`'s `opr CMP` (`Library/RangeInternals.fss:189-191`) and its rank-2 and rank-3 twins (`:246-248`, `:316-318`), the generic one abstract (`Library/FortressLibrary.fsi:2184`); the declarations on the meet of the range kinds (FACTS, "The one library's range types provide a declaration on the meet ..."), as `BoundedRange2D`'s two `CAP` (`Library/RangeInternals.fsi:267-268`); the rank-suffixed helpers `combine2D`/`combine3D` (`Library/RangeInternals.fsi:58`, `:88`); the team's typecase in `FullRange.narrowToRange` (`Library/FortressLibrary.fss:3940-3946` at the base); `ZeroIndexed`'s bounds `0 # |self|` (`Library/FortressLibrary.fss:1909`); `Array1`'s `r'.left.get` (`Library/FortressLibrary.fss:2313`)
+- precedent: rung L's move of `CMP` to the `ZZ32` kinds, `ScalarRange`'s `opr CMP` (`Library/RangeInternals.fss:189-191`) and its rank-2 and rank-3 twins (`:246-248`, `:316-318`), the generic one abstract (`Library/FortressLibrary.fsi:2184`); the declarations on the meet of the range kinds (FACTS, "The one library's range types provide a declaration on the meet ..."), as `BoundedRange2D`'s two `CAP` (`Library/RangeInternals.fsi:267-268`); the rank-suffixed helpers `combine2D`/`combine3D` (`Library/RangeInternals.fsi:64`, `:96`); the team's typecase in `FullRange.narrowToRange` (`Library/FortressLibrary.fss:3940-3946` at the base); `ZeroIndexed`'s bounds `0 # |self|` (`Library/FortressLibrary.fss:1909`); `Array1`'s `r'.left.get` (`Library/FortressLibrary.fss:2313`)
 - deviation: the bounds check is three functions named by rank, `checkSelection`, `checkSelection2D` and `checkSelection3D` (`Library/RangeInternals.fss:125-172`), not three overloads of one name, which walk refuses (row 416); at rank 2 and 3 the team's `tfl > ofl` and `tfr < ofr` are spelled `(tfl PCMP ofl) = GreaterThan OR (tfl PCMP ofl) = Unordered` and `(tfr PCMP ofr) = LessThan OR (tfr PCMP ofr) = Unordered` (`Library/RangeInternals.fss:144`, `:149`, `:161`, `:166`); each kind and each open range also declares `narrowToRange` over an open range, the meet the checker asks for (`Library/RangeInternals.fss:194`, `:251`, `:321`, `:368`, `:392`, `:411`, `:596`, `:649`, `:662`, `:1093`, `:1181`, `:1259`; `Library/FortressLibrary.fss:3886`); the stops of row 656 are tested as five refusals at load, not one test that catches them (decision 8)
 - historical: `Library/FortressLibrary.fss`, `Library/FortressLibrary.fsi`, `Library/RangeInternals.fss`, `Library/RangeInternals.fsi`, `Library/PrefixSet.fss` (first edits `Library/FortressLibrary.fss:2255`, `Library/FortressLibrary.fsi:2180`, `Library/RangeInternals.fss:125`, `Library/RangeInternals.fsi:42`, `Library/PrefixSet.fss:478`)
 
@@ -51,7 +51,7 @@ Moving the `Range`-taking body to the kinds broke a Meet Rule pair at each of th
 
 ## 2. The tests: the failing run and the passing run
 
-Six tests are written first (`44f6651a5`). Three test the repaired values and one changes a pin: `RangeNarrowKinds.fss` (each moved body at rank 1 to 3, raises that both orders give, row 654 at each rank, `(:)` narrowed to itself), the changed pin in `RangeKindBodies.fss`, `PrefixSetIndices.fss` and `ImmutableArrayRangeSubscript.fss`. The other two are five refusal pairs: `TrivialOpenRange{TruncL,TruncR,Every,ImposeStride,AtMost}Stop.fss` with their `.test` keys.
+Nine tests are written first (`44f6651a5`). Four are plain tests, three of the repaired values and one a changed pin: `RangeNarrowKinds.fss` (each moved body at rank 1 to 3, raises that both orders give, row 654 at each rank, `(:)` narrowed to itself), the changed pin in `RangeKindBodies.fss`, `PrefixSetIndices.fss` and `ImmutableArrayRangeSubscript.fss`. The other five are refusal pairs: `TrivialOpenRange{TruncL,TruncR,Every,ImposeStride,AtMost}Stop.fss` with their `.test` keys.
 
 The failing run on the base's code, before any library edit:
 
@@ -162,6 +162,15 @@ The programs were run under walk with `bin/fortress` in this tree, before the li
 
 The run's error stream prints the raise's line, e.g. `([2,3,4,5] BY [-1,0,1,2,... 5]) left outside bounds ([0,1,2,3,... 9] BY [0,1,2,3,... 9])`.
 
+The skeptic's programs found more that Q50 changes, each a value before and `IndexOutOfBounds` after: a left or a strided range of rank 2 narrowed to one whose corner is outside on one axis, and a corner of rank 3 unordered with the bounds', as `((2,2)#).narrowToRange((3,1)#)`, which was `LeftRange2D(3,2, 1,1)`, `((0,0):(8,8):(2,2)).narrowToRange((1,-1):(7,7))`, which was `StridedFullRange2D(2,0, 6,6, 2,2)`, and `((0,0,5):(9,9,9)).narrowToRange((1,1,0):(5,5,9))`, which was `CompactFullRange3D(1,1,5, 5,5,9)`. The arrays' range subscripts and subarrays of rank 2 and 3 call `narrowToRange` (`Library/FortressLibrary.fss:2534`, `:2586`, `:2929`), so they change with it. On a 3-by-3 array `a` of `10 i + j` and a 2-by-2-by-2 array `b` of `100 i + 10 j + k`:
+
+    a[(1,-1):(2,2)]                        [0#2,0#3] [ 10 11 12 / 20 21 22 ], cut to the bounds    ->  raises IndexOutOfBounds[\(ZZ32,ZZ32)\]
+    a[(0,0):(1,3)]                         [0#2,0#3] [ 0 1 2 / 10 11 12 ], cut to the bounds      ->  raises IndexOutOfBounds[\(ZZ32,ZZ32)\]
+    a.subarray[\0,1,0,4,0,0\](1,1)          [0#1,0#4] [ 0 1 2 10 ], its (0,3) read from a's (1,0)  ->  raises IndexOutOfBounds[\(ZZ32,ZZ32)\]
+    b[(1,0,-1):(1,1,1)]                    [0#1,0#2,0#2] [ 100 110 ;; 101 111 ], cut to the bounds  ->  raises IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\]
+
+A subscript outside the bounds on its first axis raised before and raises after, as `a[(-1,1):(2,2)]` does. `ProjectFortress/tests/ArrayRangeCornerBounds.fss`, the skeptic's, asserts the four raises; it fails on the base's code and passes on the rung's head (SKEPTIC.md).
+
 The pin at `ProjectFortress/tests/RangeKindBodies.fss:94`, the revival's, before:
 
     assert((((0,0):(9,9)).narrowToRange((2,-1):(5,5))).asDebugString, "CompactFullRange2D(2,0, 5,5)", "today's value: (0,0):(9,9) narrowed to (2,-1):(5,5) is (2,0):(5,5), its bounds compared in lexicographic order, so the second axis's -1 below 0 is not reported")
@@ -200,7 +209,7 @@ Unchanged, and checked: `(:).narrowToRange(:)` is `TrivialOpenRange()`, and `(:)
 
 ## 8. Points to report
 
-1. **Values that walk prints change** (section 6). These are item 50's four raises, with the pin at `ProjectFortress/tests/RangeKindBodies.fss:94` before and after; item 49's five stops, and two more through library operators; and two stops that become values (rows 608 and 658).
+1. **Values that walk prints change** (section 6). These are item 50's four raises, with the pin at `ProjectFortress/tests/RangeKindBodies.fss:94` before and after, and the raises of the arrays' range subscripts and subarrays of rank 2 and 3 with a corner outside on one axis, which the base cut to the bounds or read past them (`ProjectFortress/tests/ArrayRangeCornerBounds.fss`, the skeptic's); item 49's five stops, and two more through library operators; and two stops that become values (rows 608 and 658).
 2. **Library callers of the open range's five methods**, found by reading. `opr :[\I\](r: Range[\I\], stride:I) = r.imposeStride(stride)` (`Library/FortressLibrary.fss:4110`) reaches `imposeStride` for `(:):3`. `opr #[\I\](r: PartialRange[\I\], size:I) = r.atMost(size)` (`:4115`) reaches `atMost` for `(:)#3`. Both now stop. `Range.truncR`'s default (`:3815`) calls `truncL`, but `TrivialOpenRange` overrides `truncR`. No stop came in the interpreter suite (534 tests, 0 failures) or in the merged tree's run.
 3. **New api declarations beyond the moved bodies**:
    - `checkSelection2D` and `checkSelection3D` (`Library/RangeInternals.fsi:44`, `:46`). `checkSelection`'s own declaration is narrowed from generic in `I` to `ZZ32` (`:42`).
@@ -250,7 +259,7 @@ Unchanged, and checked: `(:).narrowToRange(:)` is `TrivialOpenRange()`, and `(:)
 **Home 1, repaired, with an assertion in a plain test:**
 
 - row 655: the count and distance stages, and `RangeNarrowKinds.fss`;
-- row 657: `RangeKindBodies.fss:94-97`;
+- row 657: `RangeKindBodies.fss:94-97`, and at the arrays' subscripts and subarrays `ArrayRangeCornerBounds.fss` (the skeptic's);
 - row 654: the stages, and `RangeNarrowKinds.fss:36-38`;
 - row 656: the stages, and the five `TrivialOpenRange*Stop` pairs;
 - row 658: `PrefixSetIndices.fss`;
