@@ -1,4 +1,4 @@
-<!-- Review of whether the decision that scalar ranges are over ZZ32 only broke a generic indexing design of the team's, with Q49's three ways read in that light; written for Pavol by a research worker reading only, on main at 720ef21e4, nothing built or run; the peers read from their own sources on 2026-10-09. -->
+<!-- Review of whether the decision that scalar ranges are over ZZ32 only broke a generic indexing design of the team's, with Q49's three ways read in that light; written for Pavol by a research worker reading only, on main at 720ef21e4, nothing built or run; the peers read from their own sources on 2026-10-09. Revised on 2026-10-09 after probe P3 (`9082945aa`, its outcome in `coordinator/CLIMB-BATCH-12.md`, Q49, "P3, measured"), by a writer reading only, on main at `8e276cf48`, nothing built or run: the short answer's lines on Q49 and point 5 are rewritten, and point 5 cites that commit's lines; points 1 to 4 are unchanged and cite `720ef21e4`, whose `Library/` and `ProjectFortress/` are those of P3's base `fe74fb738`. -->
 
 # Ranges and index types
 
@@ -11,7 +11,9 @@ No. The decision did not break a generic indexing design of the team's.
 - The team never built a range over a non-integer. Every range constructor since 2008 took an integer or a tuple of integers, and the team's own generic range bodies work only on those (point 2).
 - Lookup by a key was always separate. `Map`, `IntMap` and `PrefixMap` are not indexed types and have no ranges. The decision did not touch them (point 1).
 - What the decision did take away: ranges over the other integer widths (`ZZ64`, `NN32`, `NN64`, `ZZ`), and ranks 2 and 3 of mixed widths (point 3).
-- Q49's way (c) narrows only `(:)` as a range value at ranks 2 and 3, not indexing. My reading is in point 5.
+- Q49 decides nothing about indexing (point 5).
+  - Probe P3 measured way (c): every subscript by `(:)` stays as it is. Ways (a) and (b) do not touch the subscripts.
+  - Q49 decides what `(:)` does as a range value. Under (a), on main since climb batch 12 and now in POSITIONS, its five methods stop. Under (b), they answer as before, and five checker errors stay that the checker can never accept. Under (c), they answer at rank 1 only, and 64 of P3's 186 small programs change.
 
 ## Terms
 
@@ -158,53 +160,117 @@ No. The decision did not break a generic indexing design of the team's.
 - Julia allows ranges over characters and floats as values, but not as array indices.
 - Swift's opaque positions are the one design the team's Fortress never had. Its `Indexed` has Swift's shape, but every index type it was used at is an integer or a tuple of integers, and its maps have no positions.
 
-## 5. Q49 in that light (my reading)
+## 5. Q49 after probe P3
 
-**`(:)` has two roles today.**
-- **The subscript marker.** Every subscript that takes `(:)` names the object's own type, `TrivialOpenRange`:
-  - `Library/FortressLibrary.fsi:1298`, `:1379`, `:1419`, `:1446`, `:1466`, `:1555`, `:1588`, `:1693`, `:1824`;
-  - per axis at rank 2, `Library/FortressLibrary.fss:2553-2566`.
-  - Generic `Indexed` code turns the marker into `openRange[\I\]()` at its own `I` (`:1883`).
-- **A range value.**
-  - Its own methods (`:3869-3885`).
-  - `(:) CMP (:)`, pinned at `ProjectFortress/tests/RangeDeclarations.fss:122`.
-  - QuickCheck's `genRange` (point 2).
+This point reads main at `8e276cf48`, and its line numbers are that commit's.
 
-**Its history.**
-- Before 2008, `(:)` was `OpenRange[\Any\]`, and the subscripts took `opr[_:OpenRange[\Any\]]` (`7c1b30b2b:Library/FortressLibrary.fsi:2002-2003`, `:1041`).
-- Maessen's rewrite made it `object TrivialOpenRange extends OpenRange[\Any\]` (`0948c2b1c`, 2008-10-07; `0948c2b1c:Library/FortressLibrary.fss:3104`).
-- `Any` was the team's wildcard: the marker meant "whatever the index type".
+**Words used below.**
+- A **value**: walk runs the program and prints a result.
+- A **stop**: the run ends with an error instead.
+- A **checker site**: one place in the library that the checker refuses. The **distance** counts them. It must reach zero before the compiled path can use the interpreter's library.
 
-**(a) `fail` bodies.**
-- It keeps both roles typed as today.
-- The five methods stop at every rank. Today walk answers them at rank 1, and by reading at ranks 2 and 3 too: `truncL(x:Any) = (x#)` dispatches on a pair or triple to that rank's `#`.
-- It takes nothing from indexing.
-  - No team code calls these methods on `(:)` (Q49's grep; the QuickCheck line calls none).
-  - The library's callers on a generic range are `opr :[\I\](r, stride)` and `opr #[\I\](r, size)` (`Library/FortressLibrary.fss:4105`, `:4110`). The library's own table of tight range uses lists no `(:)` form for them (`:4054-4103`).
+**What `(:)` is.**
+- `(:)` is the open range: a range that means "everything". A bare `#` builds it too, so `a[#]` is `a[:]` (`Library/FortressLibrary.fss:4036-4037`).
+- It is one object, `TrivialOpenRange` (`:3883-3906`).
+- That object extends `OpenRange[\Any\]`. So it is a range whose index type is `Any`, the type that holds every value.
+- The team used `Any` as a wildcard: "whatever the index type". `(:)` was a value of type `OpenRange[\Any\]` before 2008 (`7c1b30b2b:Library/FortressLibrary.fsi:2002-2003`), and Maessen's rewrite made it this object (`0948c2b1c`, 2008-10-07; `0948c2b1c:Library/FortressLibrary.fss:3104`).
+- It has two jobs:
+  - **the subscript marker**: `a[:]` is all of `a`, and `m[:, j]` is column `j` of `m`;
+  - **a range value**: a program can also compare it, test membership in it, or cut it, like any other range: `(:) CMP (:)`, `3 IN (:)`, `(:).truncL(3)`.
 
-**(b) Left.** Everything stays as it is, and so do the five checker sites.
+**The five methods.**
+- Every range must provide them, because the trait `Range[\I\]` declares them (`Library/FortressLibrary.fsi:2172-2178`). A range over `ZZ32` provides them at `I = ZZ32`.
+- What each does, with what walk printed for `(:)` before climb batch 12 (`compile-ladder/rung-range-kinds/REPORT.md:187-191`):
+  - `truncL(x)` keeps the indices at or after `x`. `(:).truncL(3)` was `LeftScalarRange(3,1)`, the range `3#`: 3, 4, 5 and on.
+  - `truncR(x)` keeps those at or before `x`. `(:).truncR(3)` was `RightScalarRange(3,1)`, the range `:3`.
+  - `every(s)` keeps every `s`-th index. `(:).every(3)` was `OpenScalarRange(3)`, the range `::3`.
+  - `imposeStride(s)` does the same on `(:)`: `(:).imposeStride(3)` was `OpenScalarRange(3)` too.
+  - `atMost(k)` keeps at most `k` indices. `(:).atMost(3)` was `ExtentScalarRange(3,1)`, the range `#3`: three indices, not yet placed.
+- The team's bodies built these with the range operators: `(x#)`, `(:x)`, `(::x)`, `(::x)` and `(#k)` (`720ef21e4:Library/FortressLibrary.fss:3873-3879`).
 
-**(c) `(:)` over `ZZ32`.**
-- The marker role is unchanged at every rank and every index type, by reading, because the overloads name `TrivialOpenRange` itself.
-- Generic `Indexed` code is unchanged: it goes through `openRange[\I\]()`, not through `(:)`'s own type.
-- The value role narrows to rank 1:
-  - the five methods take a `ZZ32`; today, by reading, a pair or triple also works under walk;
-  - its `INTERSECTION`, `IN`, `=` and `CMP` with a range of rank 2 or 3 may change (Q49's own caveat).
-- It gains one thing: `(:)` becomes a `Range[\ZZ32\]`, so QuickCheck's one instantiation types. Today `(:)` types as a range at no index type but `Any`.
-- What it rules against:
-  - `(:)` as a range at any index type other than `ZZ32`. No team code builds that.
-  - The team's wildcard type for the marker.
-- At `Indexed`'s two subscripts, `opr[r:Range[\I\]]` beside `opr[_:TrivialOpenRange]`, the two overlap today at `I = Any`, and would overlap under (c) at `I = ZZ32`. The shape is the same. The team called that pair "not really a valid overloading" (`future.tex:200`). It is not measured.
+**Why the checker cannot type them.**
+- `(:)` is a range over `Any`, so it inherits each method at `I = Any`. Each takes an `Any` and must answer a range over `Any`, for example `truncL(x:Any): RangeWithLeft[\Any\]` (`Library/FortressLibrary.fss:3887`).
+- Fortress generics are invariant. A range over `ZZ32` is not a range over `Any`, though every `ZZ32` is an `Any`. Fortress has no mark like Scala's `+T` that would allow it.
+- The range operators take only a `ZZ32`, or a pair or triple of them, and answer a range over that type (`Library/FortressLibrary.fsi:2281-2339`). So `(x#)` with `x` an `Any` fits none of them. The checker says so at each of the five: "Could not check call to operator # - (ZZ32, ZZ32)->LeftRange[\(ZZ32, ZZ32)\] is not applicable to an argument of type Any" (`coordinator/CLIMB-BATCH-12.md:96`).
+- The library has no range over `Any` to answer with. So the only body the checker can accept is one that answers nothing: a `fail`.
+- Walk has no static types. It looked at the value at run time, `3`, chose the `#` over `ZZ32`, and answered.
 
-**Does (c) narrow anything the team's design needs?**
-- By reading, no. Indexing at every rank takes the marker by its own type, and no team code uses `(:)` as a range at rank 2 or 3.
-- It also matches the specification's per-axis reading of `:` (`ranges.tex:78-82`).
-- Two things are unknown:
-  - walk's values for `(:)` with ranges of rank 2 and 3, which probe P3 measures;
-  - the checker's count, which P3 does not run (`coordinator/CLIMB-BATCH-12.md:402`).
+**When the five are called.**
+- Only when code calls one of them on a value that is `(:)`. There are two ways to do that:
+  - directly: `(:).truncL(3)`;
+  - through generic range code, written for any range. The library has two such operators: `r:s`, with a range `r` on the left, calls `r.imposeStride(s)`, and `r#n` calls `r.atMost(n)` (`Library/FortressLibrary.fss:4125`, `:4130`). So `(:):3` and `(:)#3` reach them.
+- The library's subscripts never call them. Each takes `(:)` by its own type, `opr[_:TrivialOpenRange]` (`Library/FortressLibrary.fsi:1298`, `:1379`, `:1419`, `:1446`, `:1466`, `:1555`, `:1588`, `:1693`, `:1824`), and does something else:
+  - the generic `a[:]` asks for `openRange[\I\]()`, an open range at the indexed value's own index type (`Library/FortressLibrary.fss:1883`);
+  - a `ZeroIndexed` value, such as a string, a list or a set, answers itself (`:1913`);
+  - `a[:] := b` assigns over `a`'s bounds (`:1988`);
+  - the arrays of rank 1 to 3 answer a subarray of the whole (`:2259`, `:2317`, `:2540`, `:2951`);
+  - `m[:, j]` and `m[i, :]` read a column or a row (`:2561`, `:2565`).
+- The range kinds call the five only on themselves, on their own parts, which are scalar ranges over `ZZ32`, or on another scalar range (`Library/RangeInternals.fss:218-341`, `:367-370`, `:462`, `:608-616`, `:697-699`, `:866-868`, `:1041-1043`). `(:)` is none of those.
+- I searched the 2,392 tracked `.fss` and `.fsi` files outside `explorations/` and `research/`: the library, the compiler's own library, the demos and every test folder. `(:)` appears in nine files, and `(#)`, `(:):` and `(:)#` in none:
+  - the library: the five `fail` messages, and QuickCheck's `genRange` (below);
+  - `ProjectFortress/tests/RangeDeclarations.fss:122`, `(:) CMP (:)`, and `RangeNarrowKinds.fss:39`, `(:).narrowToRange(:)`; neither calls the five;
+  - the five tests `ProjectFortress/tests/TrivialOpenRange{TruncL,TruncR,Every,ImposeStride,AtMost}Stop.fss`, which climb batch 12 wrote to pin way (a)'s stops.
+- The subscripts written with a bare `:` or `#`, such as `x0[:]`, `g[#]`, `a2[1,:]` and `a2[:,2]` (`Library/Tuple.fss:30`, `Library/List.fss:194`, `ProjectFortress/tests/subArray.fss:80-81`), go to the subscripts above, by reading.
+- So no library, test or demo code calls the five on `(:)`, apart from those five tests. Before climb batch 12, none did.
 
-**So:**
-- Both (a) and (c) leave generic indexing by any `I` where the team left it.
-- (a) keeps `(:)` index-agnostic, as the team made it, and gives up five walk values.
-- (c) keeps the rank-1 values and gives up the wildcard type.
-- Neither reverts the `ZZ32` decision, and neither needs it reverted.
+**QuickCheck's `genRange`.**
+- `object genRange[\I\](genI:Gen[\I\]) extends Gen[\Range[\I\]\]` makes random ranges for testing (`Library/QuickCheck.fss:491`). Its `generate` answers `(:)` one time in 32, as a `Range[\I\]` (`:494-496`).
+- The team's comment above it: "Mostly for the testing of subscripts. (XXX not tested)" (`:490`). No code in the tree subscripts with its ranges.
+- One caller names it: the library's default `Arbitrary`, for any `Range[\I\]` (`:732-733`, called from `:763`). One gated test reaches it that way, at `ZZ32`, and prints four draws (`ProjectFortress/tests/QuickCheckTest.fss:67`). Its `perturb` reads a range's `stride`, `left` and `right` (`:506-510`), not the five.
+- This note said before that way (c) would make the `(:)` line type. That was wrong. P3 found that it types under neither (a) nor (c) (`coordinator/CLIMB-BATCH-12.md:116`).
+- Why: the checker checks `generate` once, for every `I` at once, without knowing `I`. The line must answer a `Range[\I\]` for that unknown `I`.
+  - Under (a) and (b), `(:)` is a `Range[\Any\]`. By invariance, that is a `Range[\I\]` only when `I` is `Any`.
+  - Under (c), it is a `Range[\ZZ32\]`: a `Range[\I\]` only when `I` is `ZZ32`.
+  - Neither fits an unknown `I`. That the one test uses `ZZ32` does not help: the checker does not check each use on its own.
+- By reading, `generate`'s three other branches do not type at an unknown `I` either: `:` takes only a `ZZ32` or a tuple of them (`Library/FortressLibrary.fsi:2285-2306`).
+- `QuickCheck` is also not among the twelve components that the distance measures (`coordinator/tools/distance/run.sh:83-85`). So `genRange` counts for none of the three ways.
+
+**What each way means for a program you write.**
+- Main runs way (a). Climb batch 12 built it as Q49's default (`abe8b0342`; PLAN item 49). POSITIONS now records it, "The open range `(:)` keeps its wildcard type, and its five cutting methods fail", an entry that ends "his confirmation after `explorations/reviews/ranges-and-index-types.md` and P3" (`8e276cf48`).
+- Keeping (a) changes nothing on main. Choosing (b) or (c) instead removes the five `fail` bodies and their five tests. Under (b) the five checker sites come back. Under (c) the five bodies change type, and the checker's view of them is not measured.
+- P3 compared walk's values on the library from before climb batch 12 (`fe74fb738`) with way (c). "Before" below means that library.
+
+**(a) `fail` bodies** (on main).
+- Example: `(:).truncL(3)`. Before, walk printed `LeftScalarRange(3,1)`. Now the run stops: "truncL of the trivial open range (:), whose index type is Any". The same holds for the other four, and for `(:):3` and `(:)#3`, which call two of them (`compile-ladder/rung-range-kinds/REPORT.md:187-193`).
+- By reading, the same at pairs and triples: `(:).truncL((1,2))` stops too, since the body is a `fail` whatever its argument.
+- The way edits only the five bodies. So the subscripts by `(:)`, `3 IN (:)`, `(1,2) IN (:)` and `(:) CMP (:)` are untouched.
+- The five checker sites clear (FACTS, "The one library's `narrowToRange` and its bounds check are declared at the range kinds over `ZZ32` of rank 1 to 3").
+- `(:)` stays a range "whatever the index type", as the team made it. A `fail` is the library's own way for a body that cannot answer its declared type (`coordinator/CLIMB-BATCH-12.md:98`), and (a) is the record's recommendation (`:106`).
+
+**(b) Leave the team's bodies.**
+- Example: `(:).truncL(3)` prints `LeftScalarRange(3,1)` again. The five, `(:):3` and `(:)#3` answer as before climb batch 12, at every rank.
+- The five checker sites stay. The checker can never accept them as written (`coordinator/CLIMB-BATCH-12.md:104`), so the distance cannot reach zero while they stand (`:101`).
+
+**(c) `(:)` as a range over `ZZ32`.**
+- The library change: `TrivialOpenRange extends OpenRange[\ZZ32\]`, and the five take a `ZZ32`, with the team's bodies.
+- Its `INTERSECTION`, `=`, `IN` and `CMP` must move to `ZZ32` too. Without them walk refuses the library: "Invalid overloading of CAP in TrivialOpenRange" (`CAP` is another name of `INTERSECTION`, `ProjectFortress/src/com/sun/fortress/parser_util/precedence_resolver/Operators.java:1322`).
+- By reading, `stride` must change too, from `()` to `1`: every range's `stride` is of its index type (`Library/FortressLibrary.fsi:2164`), and the checker reads that (`coordinator/CLIMB-BATCH-12.md:116`).
+- P3 ran 186 programs of one expression each under walk, on the library from before and on (c). 64 differ:
+  - **25 values become stops**, all at a pair, a triple or a string:
+    - the five at rank 2 and 3 (10): `(:).truncL((1,2))` was `LeftRange2D(1,2, 1,1)`, and `(:).every((2,2,2))` was `OpenRange3D(2,2,2)`;
+    - `(1,2) IN (:)`, `(1,2,3) IN (:)` and `"x" IN (:)`, which were `true` (3);
+    - `(:) << (1,2)`, `(:).shiftRight((1,2))` and the same at rank 3, which were `(:)` itself (4);
+    - the generic `:` and `#` on `(:)` with a pair or a triple, which were `OpenRange2D(2,2)`, `ExtentRange2D(4,4, 1,1)` and the same at rank 3 (4);
+    - generic code that takes `(:)` as a `Range[\I\]` at a pair or triple `I`, and calls `x IN r` or `r.truncL(x)` (4).
+  - **16 stops become values**, all at rank 1 with `(:)` on the left:
+    - `(:) INTERSECTION r` answers `r`, for seven kinds of scalar range `r` (7);
+    - `(:) CMP r` answers `GreaterThan`, or `EqualTo` for `::1` and `::2` (7);
+    - `(:) FORWARD_CMP (0#3)` answers `GreaterThan`, and `(:).narrowToRange(0#3)` answers `0#3` (2).
+    - Before, these stopped with "Failed to find any matching overload": the object's operators take a range over `Any`, and no range over `ZZ32` is one. No ledger row records that.
+  - **16 stops stay stops**, with another error: at rank 1 with `(:)` on the right, `r INTERSECTION (:)`, `(0#3).narrowToRange((:))` and `r CMP (:)` (15), and `genRange`'s `perturb((:), g)` (1).
+  - **7 values change**: `(:).left`, `.right` and `.extent` print `Nothing[\ZZ32\]` for `Nothing[\Any\]` (3); `(:)` becomes an instance of `Range[\ZZ32\]` and `OpenRange[\ZZ32\]`, and stops being one of `Range[\Any\]` and `OpenRange[\Any\]` (4).
+- **Unchanged:** every subscript by `(:)` (`a[:]`, `a[:] := b`, `m[:]`, `m[:, 1]`, `m[1, :]`, `"hello"[:]`, a list's `[:]`); the five at rank 1, so `(:).truncL(3)` is `LeftScalarRange(3,1)`; `3 IN (:)`; `(:)` with itself; `INTERSECTION`, `=` and `CMP` of `(:)` with ranges of rank 2 and 3.
+- The interpreter's suites, `ant testSystem`, pass on (c): 526 tests, 0 failures. No team test moves.
+- With `stride` at `1`, measured on a third copy of the library:
+  - `(:).stride` is `1`, where it was `()`;
+  - the seven `r CMP (:)` stops become values, `LessThan` (`EqualTo` for `::1`), so 23 values are gained in all;
+  - `(::1) = (:)` becomes `true`, while `(:) = (::1)` stays `false`. So `=` answers differently by side: `::1` compares strides (`Library/RangeInternals.fss:366`), while `(:)` asks whether the other is `(:)` (`Library/FortressLibrary.fss:3902`).
+- Not measured: the checker under (c). By reading, the five bodies type at `ZZ32` (`coordinator/CLIMB-BATCH-12.md:116`).
+
+**So what you decide.**
+- Not indexing. Every subscript by `(:)` works the same under all three ways. P3 measured that for (c); (a) and (b) do not touch the subscripts' code.
+- Not the `ZZ32` decision. No way reverts it, and none needs it reverted.
+- Only what `(:)` does as a range value, in a program that cuts, strides or compares it. No code in the tree does that through the five, apart from the five tests that pin way (a).
+  - (a): `(:)` stays a range over any index type. Its five methods, `(:):s` and `(:)#n` stop at every rank. The five checker sites go. This is main now, and the position POSITIONS records.
+  - (b): the five methods answer as before, at every rank. The five checker sites stay, and the checker can never accept them.
+  - (c): `(:)` becomes a range over `ZZ32` only. The five answer at rank 1 only. 25 values at pairs, triples and strings become stops, 16 uses at rank 1 of its `INTERSECTION`, `CMP`, `FORWARD_CMP` and `narrowToRange` that stopped before start working (23 with `stride` at `1`), and 7 values print differently. Four operators, and likely `stride`, change beside the five.
