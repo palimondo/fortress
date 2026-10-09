@@ -21,7 +21,7 @@ All 19 sites are gone, row 488's site at `:130` went with them, and no site came
 
 ### 1.1 Row 634's tuple half, under Q43 (17 sites)
 
-- The ten order operators on pairs and triples bound each element type: `[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\]`, and `C extends StandardPartialOrder[\C\]` on the triples. This is in the api (`Library/FortressLibrary.fsi:2628-2632`, `:2634-2638`) and the component (`Library/FortressLibrary.fss:4457`, `:4468`, `:4479`, `:4490`, `:4501`, `:4513`, `:4525`, `:4537`, `:4549`, `:4561`). The two `=` operators stay unbounded (`.fsi:2627`, `:2633`; `.fss:4450`, `:4507`).
+- The ten order operators on pairs and triples bound each element type: `[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\]`, and `C extends StandardPartialOrder[\C\]` on the triples. This is in the api (`Library/FortressLibrary.fsi:2628-2632`, `:2634-2638`) and the component (`Library/FortressLibrary.fss:4457`, `:4468`, `:4479`, `:4490`, `:4501`, `:4513`, `:4525`, `:4537`, `:4549`, `:4561`). The two `=` operators stay unbounded (`.fsi:2627`, `:2633`; `.fss:4451`, `:4507`).
 - Each of the eight `typecase`s gains `Unordered => false` (`.fss:4464`, `:4475`, `:4486`, `:4497`, `:4521`, `:4533`, `:4545`, `:4557`). That is what `RR64`'s own `<`, `<=`, `>` and `>=` answer for a NaN (`.fss:442-445` on the rung's tree, `:439-442` at the base). It is also what the specification gives `QQ`'s five comparisons at 0/0, "for compatibility with floating-point arithmetic" (`Specification/basic-lib/numbers.tex:372-376`).
 - The 2008 comment above the operators is answered and removed.
 
@@ -71,9 +71,9 @@ Two forms of `ordJoin` are used:
 
 The interpreter suite on `636d687b3` failed two tests, `ReflectTest` and `ReflectiveQuickCheckTest` (section 4).
 
-The cause: `Reflect`'s `members` getter built a set of `(String, Type, Maybe[\(Object,Any...)->Any\])` triples (`Library/Reflect.fss:135-145` at the base). The set's sort (`Library/Set.fss:86`, `Library/QuickSort.fss:49`) compared triples whose third element is no partial order. Before the bound, the third elements were never compared, since "name-type pairs *are* unique" (`Library/Reflect.fss:130`). With the bound, walk refused the call at once.
+The cause: `Reflect`'s `members` getter built a set of `(String, Type, Maybe[\(Object,Any...)->Any\])` triples (`Library/Reflect.fss:135-145` at the base). The set's sort (`Library/Set.fss:86`, `Library/QuickSort.fss:49`) compared triples whose third element is no partial order. Before the bound, the third elements were never compared, since "name-type pairs *are* unique" (`Library/Reflect.fss:131` at the base). With the bound, walk refused the call at once.
 
-The repair: the getter now builds a list, `<|[\...\] ... |>`, with `import List.{...}` (`Library/Reflect.fss:10`, `:137-146`). This follows its own documentation ("Returns a list of every members", `:121`) and the list that `ReflectiveQuickCheck`'s `properties` builds over the same members (`Library/ReflectiveQuickCheck.fss:293-297`).
+The repair: the getter now builds a list, `<|[\...\] ... |>`, with `import List.{...}` (`Library/Reflect.fss:10`, `:137-146`). This follows its own documentation ("Returns a list of every members", `:123`) and the list that `ReflectiveQuickCheck`'s `properties` builds over the same members (`Library/ReflectiveQuickCheck.fss:293-297`).
 
 The effects:
 - The members come in the order the type declares them, not sorted by name and type.
@@ -239,6 +239,11 @@ Unchanged in both runs:
 - Pairs with strings, lists, characters, booleans and comparisons as elements.
 - `BIG LEXICO [i <- 0#3] (i CMP 1)` is `LessThan`, and `LessThan LEXICO: Unordered` is `LessThan`.
 
+Measured by the skeptic, old code against the rung's tree, and not in the table above (`SKEPTIC.md`):
+- `(1,2) < (1,2.5)`, `(1,2) < (1.5,2)`, `(1,2.5) <= (1,3)` and `(1,2,3) < (1,2,3.5)` go from `true` to a refusal, `(1,2) CMP (1,2.5)` from `LessThan`, and `(1,2) < (widen(1),2)` from `false`: walk takes the element type of a position whose numbers have two run-time types at their join, which is no partial order (row 511). `TupleOrderMixedRefused` pins the first. Operands declared with one type, `p: (ZZ32,RR64) = (1,2)`, compare as before.
+- `(1,2,(3,4)) < (1,3,(0,0))` goes from `true`, and `(1,(2,3)) CMP (2,(0,0))` from `LessThan`, to a refusal: a pair as the last or the second element, of the nested pair's kind.
+- `(1, fn (x:ZZ32) => x) < (2, fn (x:ZZ32) => x)` and `(1, Nothing[\ZZ32\]) < (2, Nothing[\ZZ32\])` go from `true` to a refusal: a function and a `Maybe` as an element, of the `()` kind.
+
 The pins are both the revival's lines (climb batch 8 rung M; climb batch 10 rung N), not the team's:
 
 - `ProjectFortress/tests/LibraryMeetDeclarations.fss:33`:
@@ -262,6 +267,7 @@ Part IV renders the three new `LEXICO` api lines and the ten new headers when th
 
 1. Values walk prints that change: section 6's table. Beyond the brief's three:
    - `(1,()) < (2,())` goes from `true` to a refusal;
+   - the skeptic's further rows after section 6's table: a position whose numbers have two types, a pair nested as a later element, and a function or `Maybe` as an element, each from a value to a refusal;
    - the triples' unordered cases, and the pairs' and triples' `CMP` with an unordered first element, go from a "Failed to find any matching overload" stop to `Unordered` or `false`;
    - `Unordered LEXICO: x` goes from a stop to `Unordered`;
    - `Reflect`'s members come in declaration order.

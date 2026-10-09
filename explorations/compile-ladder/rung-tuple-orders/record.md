@@ -10,8 +10,9 @@ Add to "The checker and the one library":
   - Where it lives: `Library/FortressLibrary.fss:4457-4566`, api `.fsi:2628-2638`.
   - `Comparison` declares the lazy `LEXICO` with `TotalComparison`'s and `EqualTo`'s arms (`.fss:139`, `:179`, `:214`), whose answers are the specification's table (`Specification/advanced-lib/comparison.tex:168-180`).
   - Walk's refusal is "Failed to find any matching overload, args = ...": `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` are both refused.
+  - Walk also refuses a pair or triple whose elements at one position are numbers of two run-time types, since it takes the element type at their join, which is no `StandardPartialOrder` (row 511): `(1,2) < (1,2.5)` and `(1,2) < (widen(1),2)`. Operands declared with one type, such as `p: (ZZ32,RR64) = (1,2)`, are converted at the declaration and compare as before.
   - Walk types a function expression without a declared return type as `()->BOTTOM` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java:239`), so a thunk fits every `()->T` arm and walk takes the most specific; only `Unordered` on the left reaches `Comparison`'s lazy default.
-  - Gated by `tests/TupleOrderBounds.fss`, `TupleOrderNestedRefused.fss` and `TupleOrderUnitRefused.fss`.
+  - Gated by `tests/TupleOrderBounds.fss`, `TupleOrderNestedRefused.fss`, `TupleOrderUnitRefused.fss` and `TupleOrderMixedRefused.fss`.
 
 Rewrite in place two entries of the same section:
 - The entry "The one library's numbers, orderings, List and natives answer their declared types ...": its "Left with rows: the tuples' comparisons and `LexicographicOrder` (634)" becomes "Left with rows: `LexicographicOrder` (634's list half; the tuples' comparisons repaired by `compile-ladder/rung-tuple-orders/REPORT.md`)".
@@ -25,7 +26,7 @@ Rewrite in place two entries of the same section:
   - the eight `typecase`s answer `Unordered => false`;
   - `Comparison` gains the lazy `LEXICO` with its `TotalComparison` and `EqualTo` arms;
   - the 17 sites are gone.
-  Walk refuses `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` at the call with 'Failed to find any matching overload, args = ...', not 'Cannot unify' (`TupleOrderNestedRefused`, `TupleOrderUnitRefused`), and the pin `NumberOrderListDeclarations.fss:41` went. `Reflect`'s `members` built a set of triples whose third element is no partial order, so it now builds a list (`Library/Reflect.fss:137-146`). Left: `LexicographicOrder`'s `a CMP b` (`FortressLibrary.fss:1935` at 636d687b3), for the `where`-clause line."
+  Walk refuses `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` at the call with 'Failed to find any matching overload, args = ...', not 'Cannot unify' (`TupleOrderNestedRefused`, `TupleOrderUnitRefused`); it refuses `(1,2) < (1,2.5)` too, a pair whose second elements are numbers of two types, which it answered `true` (`TupleOrderMixedRefused`; row 511); and the pin `NumberOrderListDeclarations.fss:41` went. `Reflect`'s `members` built a set of triples whose third element is no partial order, so it now builds a list (`Library/Reflect.fss:137-146`). Left: `LexicographicOrder`'s `a CMP b` (`FortressLibrary.fss:1935` at 636d687b3), for the `where`-clause line."
 - **Row 582.** Append this note, then close it: `ledger.py close 582 --commit 636d687b3 --test LibraryMeetDeclarations`.
   Note: "Following the curator's decision (POSITIONS, '`LexicographicReduction.isLeftZero` takes `TotalComparison` ...'), climb batch 13 rung O declares `isLeftZero(_:TotalComparison)` (`Library/FortressLibrary.fss:123`, `.fsi:93` at 636d687b3). `LessThan` and `GreaterThan` answer `true` and `EqualTo` `false`, as `Specification/advanced-lib/comparison.tex`, trait `Fortress.Standard.TotalComparison`, method `isLeftZero`, gives them. The two sites are gone, and the count's api rows are all 0."
 - **Row 667.** Append this note, then close it: `ledger.py close 667 --commit 636d687b3 --test IntMapCombine`.
@@ -33,6 +34,7 @@ Rewrite in place two entries of the same section:
 - **Row 665.** Append: "Row 667's objects now define `genComb` (climb batch 13 rung O, 636d687b3), so checking each generic instance for a body would no longer refuse `IntMap`; `SeededRandomGenWithDistribution` (row 668) remains."
 - **Row 488.** Append: "On climb batch 13 rung O's tree (636d687b3), which adds the lazy `LEXICO` to `Comparison`, `TotalComparison` and `EqualTo`, the site `BIG LEXICO(g)` at `Library/FortressLibrary.fss:130` ('Function body has type TotalComparison, but declared return type is BigReduction[\..\]') is gone from the distance, BR 4 to 3 (one run)."
 - **Row 457.** Append: "The lazy `LEXICO` added by climb batch 13 rung O follows the specification's table (`LessThan LEXICO: Unordered` is `LessThan`, `Unordered LEXICO: EqualTo` is `Unordered`; `TupleOrderBounds`). The strict form this row names is unchanged, and `XXXLexicoUnorderedRungH` still saw its expected failure."
+- **Row 511.** Append: "The tuple shape now reaches the order operators on pairs and triples, whose elements climb batch 13 rung O bounds by `StandardPartialOrder` (row 634's tuple half): walk takes the element type of `(1,2) < (1,2.5)` at the join of `ZZ32` and `RR64`, which is no partial order, and refuses the call, 'Failed to find any matching overload, args = ((1,2): (Int,Int),(1,2.5): (Int,FloatLiteral))', where it answered `true`; `(1,2) < (widen(1),2)` likewise, where it answered `false` (`ProjectFortress/tests/TupleOrderMixedRefused.fss`). Operands declared with one type are converted at the declaration and compare as before."
 
 ## New rows
 
@@ -56,7 +58,7 @@ Climb batch 13 rung O (`wip/rung-tuple-orders`; 636d687b3, 069f2f0b4):
   - `Reflect`'s `members` is a list.
 - Measurements: the distance fell 153 to 133, with the 19 sites and row 488's `:130` gone and none come. The count's api rows are all 0, and its total stays 1, at item 47's crash `FortressLibrary.fss:1307`, which the clean api now lets the component check reach.
 - `ant testSystem` is green (558).
-- Values changed: walk refuses a pair or triple with an element that is no partial order, and answers `false` or `Unordered` where an unordered element decides.
+- Values changed: walk refuses a pair or triple with an element that is no partial order, or whose elements at one position are numbers of two types, and answers `false` or `Unordered` where an unordered element decides.
 - Open: two new rows (NEW-O-1, `IntMap`'s `SYMDIFF`; NEW-O-2, a NaN comparison against `opr-overview.tex`), and the count's reading at the component.
 
 ## Revival change
@@ -71,6 +73,7 @@ Add under "Static parameters" in `.claude/skills/fortress-repo/references/reviva
   - A pair whose first elements were unordered, such as a NaN against a float, stopped walk.
 - Resolution:
   - Each element type extends `StandardPartialOrder`, and walk refuses a pair or triple with an element of another type at the call, whatever the elements before it decide.
+  - Walk also refuses a pair whose elements at one position are numbers of two run-time types, such as `(1,2) < (1,2.5)`, which it answered `true`: it takes the element type at their join, which is no partial order (ledger row 511).
   - A pair or triple whose deciding elements are unordered answers `false` to `<`, `<=`, `>` and `>=`, and `Unordered` to `CMP`.
   - `Reflect`'s `members` is a list in the order the type declares its members, not a set sorted by name.
   - This is the default of Q43 (way 1b) in `explorations/coordinator/CLIMB-BATCH-13.md`, which the curator has not answered.
