@@ -191,6 +191,7 @@ trait ScalarRange extends { Range[\ZZ32\] }
          (self.forward() FORWARD_CMP other.forward()))
     narrowToRange(other:Range[\ZZ32\]): Range[\ZZ32\] =
         checkSelection[\Range[\ZZ32\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\ZZ32\]): Range[\ZZ32\] = self INTERSECTION other
     check(): ScalarRange = do
         str = self.stride
         if str = 0 then fail(self.asDebugString ": Zero stride") end
@@ -247,6 +248,7 @@ trait Range2D extends Range[\(ZZ32,ZZ32)\]
          (self.forward() FORWARD_CMP other.forward()))
     narrowToRange(other:Range[\(ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32)\] =
         checkSelection2D[\Range[\(ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32)\] = self INTERSECTION other
     check():Range2D = do
         _ = self.range1.check()
         _ = self.range2.check()
@@ -316,6 +318,7 @@ trait Range3D extends Range[\(ZZ32,ZZ32,ZZ32)\]
          (self.forward() FORWARD_CMP other.forward()))
     narrowToRange(other:Range[\(ZZ32,ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32,ZZ32)\] =
         checkSelection3D[\Range[\(ZZ32,ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32,ZZ32)\] = self INTERSECTION other
     check():Range3D = do
         _ = self.range1.check()
         _ = self.range2.check()
@@ -362,6 +365,7 @@ object OpenScalarRange(str: ZZ32)
     atMost(n:ZZ32): ScalarRangeWithExtent = extentScalarRange(n,str)
     opr =(self, b:OpenRange[\ZZ32\]): Boolean = self.stride = b.stride
     opr INTERSECTION(self, other: ScalarRange): ScalarRange = other.every(openEveryParam(other))
+    narrowToRange(other:OpenRange[\ZZ32\]): Range[\ZZ32\] = self INTERSECTION other
     intersectWithExtent(e:ExtentScalarRange): ScalarRangeWithExtent =
         e.every(openEveryParam(e))
     openEveryParam(r:ScalarRange): ZZ32 = do
@@ -385,6 +389,7 @@ object OpenRange2D(str_i:ZZ32, str_j:ZZ32)
     recombine(i:OpenScalarRange, j:OpenScalarRange): OpenRange2D =
         combine2D(i, j)
     opr IN(n:(ZZ32,ZZ32), self): Boolean = true
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32)\] = self INTERSECTION other
 end
 
 combine3D(i:OpenScalarRange, j:OpenScalarRange, k:OpenScalarRange): OpenRange3D =
@@ -403,6 +408,7 @@ object OpenRange3D(str_i:ZZ32, str_j:ZZ32, str_k:ZZ32)
     recombine(i:OpenScalarRange, j:OpenScalarRange, k:OpenScalarRange): OpenRange3D =
         combine3D(i, j, k)
     opr IN(n:(ZZ32,ZZ32,ZZ32), self): Boolean = true
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32,ZZ32)\]): Range[\(ZZ32,ZZ32,ZZ32)\] = self INTERSECTION other
 end
 
 open(): OpenScalarRange = OpenScalarRange(1)
@@ -587,6 +593,7 @@ trait BoundedScalarRange
         fail("BoundedScalarRange INTERSECTION Range!  Shouldn't happen.")
     narrowToRange(other:Range[\ZZ32\]): BoundedRange[\ZZ32\] =
         checkSelection[\BoundedRange[\ZZ32\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\ZZ32\]): BoundedRange[\ZZ32\] = self INTERSECTION other
     opr INTERSECTION(self, other: ScalarRange): BoundedScalarRange =
         typecase other of
             other':BoundedScalarRange =>
@@ -639,6 +646,7 @@ trait BoundedRange2D extends { Range2D, BoundedRange[\(ZZ32,ZZ32)\] }
         fail("BoundedRange2D INTERSECTION Range2D!  Shouldn't happen.")
     narrowToRange(other:Range[\(ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32)\] =
         checkSelection2D[\BoundedRange[\(ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32)\] = self INTERSECTION other
 end
 
 combine3D(i:BoundedScalarRange, j:BoundedScalarRange, k:BoundedScalarRange): BoundedRange3D =
@@ -651,6 +659,7 @@ trait BoundedRange3D extends { Range3D, BoundedRange[\(ZZ32,ZZ32,ZZ32)\] }
         fail("BoundedRange3D INTERSECTION Range3D!  Shouldn't happen.")
     narrowToRange(other:Range[\(ZZ32,ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32,ZZ32)\] =
         checkSelection3D[\BoundedRange[\(ZZ32,ZZ32,ZZ32)\]\](self, other, self INTERSECTION other)
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32,ZZ32)\]): BoundedRange[\(ZZ32,ZZ32,ZZ32)\] = self INTERSECTION other
 end
 
 trait ScalarRangeWithLeft
@@ -1081,6 +1090,13 @@ trait FullScalarRange
             else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
         end
     end
+    narrowToRange(other:OpenRange[\ZZ32\]): FullRange[\ZZ32\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\ZZ32\] => r'
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange =
         if self.isEmpty then self
         elif other.isEmpty then other
@@ -1162,6 +1178,13 @@ trait FullRange2D
             else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
         end
     end
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32)\]): FullRange[\(ZZ32,ZZ32)\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\(ZZ32,ZZ32)\] => r'
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
 end
 
 tupleFlatten[\I,J,K\](t:(I,J),k:K):(I,J,K) = do (i,j)=t; (i,j,k) end
@@ -1230,6 +1253,13 @@ trait FullRange3D
         r = self INTERSECTION other
         typecase r of
             r':FullRange[\(ZZ32,ZZ32,ZZ32)\] => checkSelection3D[\FullRange[\(ZZ32,ZZ32,ZZ32)\]\](self, other, r')
+            else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
+        end
+    end
+    narrowToRange(other:OpenRange[\(ZZ32,ZZ32,ZZ32)\]): FullRange[\(ZZ32,ZZ32,ZZ32)\] = do
+        r = self INTERSECTION other
+        typecase r of
+            r':FullRange[\(ZZ32,ZZ32,ZZ32)\] => r'
             else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
         end
     end

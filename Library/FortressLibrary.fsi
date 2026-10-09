@@ -2210,6 +2210,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
     check(): TrivialOpenRange
     opr CMP(self, other: Range[\Any\]): Comparison
     narrowToRange(other: Range[\Any\]): Range[\Any\]
+    narrowToRange(other: OpenRange[\Any\]): Range[\Any\]
 end
 
 trait RangeWithExtent[\I\] extends Range[\I\]

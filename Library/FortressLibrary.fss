@@ -3883,6 +3883,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
         fail("atMost of the trivial open range (:), whose index type is Any")
     opr INTERSECTION(self, other:Range[\Any\]): Range[\Any\] = other
     narrowToRange(other:Range[\Any\]): Range[\Any\] = self INTERSECTION other
+    narrowToRange(other:OpenRange[\Any\]): Range[\Any\] = self INTERSECTION other
     opr =(self, other:Range[\Any\]): Boolean = instanceOf[\TrivialOpenRange\](other)
     opr IN(_:Any, self): Boolean = true
     opr CMP(self, other:Range[\Any\]): Comparison = self FORWARD_CMP other.forward()
