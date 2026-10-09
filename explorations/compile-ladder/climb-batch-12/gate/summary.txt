@@ -1,0 +1,137 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	1086	0	0	0
+fast-library/LibraryJUTest	86	0	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+specdata/SpecDataJUTest	130	0	0	0
+system-0/SystemJUTest	138	0	0	0
+system-1/SystemJUTest	140	0	0	0
+system-2/SystemJUTest	141	0	0	0
+system-3/SystemJUTest	135	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 48 seconds
+# testFast: BUILD SUCCESSFUL
+# testFast: Total time: 10 minutes 39 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 3 minutes 13 seconds
+# testSpecData: BUILD SUCCESSFUL
+# testSpecData: Total time: 53 seconds
+# machine --- gate batch 12 2026-10-09T14:25:18Z
+# machine nproc 4
+# machine model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+# machine cpu MHz		: 2100.000
+# machine loadavg 5.11 6.29 4.36 3/132 6301
+# machine openjdk version "25.0.4.1" 2026-08-18
+# machine FORTRESS_THREADS=1
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic FirstLoadThreadsRungG run1 threads=4 PASS
+# atomic FirstLoadThreadsRungG run2 threads=4 PASS
+# atomic FirstLoadThreadsRungG run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT SAME   1, declared none
+# distance DISTANCE DOWN   207 -> 153 (-54)
+# distance     kind abstract-method          8 -> 0      (-8)
+# distance     kind wellformed              36 -> 17     (-19)
+# distance     kind typecheck              156 -> 129    (-27)
+# distance     class D1                      8 -> 0      (-8)  abstract method: a bodyless function under compiled desugaring
+# distance     class I1                      1 -> 0      (-1)  integers in generic code: the bound AnyIntegral or none where Integral[\I\] is used
+# distance     class S1                     28 -> 29     (+1)  self type: a generic trait's self is not its type parameter
+# distance     class R4                      2 -> 1      (-1)  StandardMinMax's (T,T) slip in bodies (row 421)
+# distance     class V1                     27 -> 25     (-2)  arrays: element type bounded by Number, which declares no arithmetic
+# distance     class V2                     32 -> 28     (-4)  arrays: a sized array's body or factory (sizes lost in joins and factories)
+# distance     class MB                      4 -> 0      (-4)  Maybe: Just and Nothing do not join to Maybe
+# distance     class NM                      8 -> 6      (-2)  names the api does not declare (getters and methods of Range, String, Generator)
+# distance     class OT                     67 -> 16     (-51)  other body errors (one-off library slips and checker limits)
+# distance     unit component FortressLibrary    194 -> 143    (-51)
+# distance     unit component RangeInternals      2 -> 0      (-2)
+# distance     unit component String         1 -> 0      (-1)
+# distance     class G1                      0 -> 18     (+18)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2492:1-2606:2	TypeError	FortressLibrary.fss:2501:9: Missing parameter type for i
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2865:1-2978:2	TypeError	FortressLibrary.fss:2884:11: Missing parameter type for i
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2491:1-2605:2	TypeError	FortressLibrary.fss:2500:9: Missing parameter type for i
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2880:1-2993:2	TypeError	FortressLibrary.fss:2899:11: Missing parameter type for i
+# microgpt-walk VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS
+# microgpt-walk rc=0 secs=56
+# microgpt-walk VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS
+# microgpt-walk rc=0 secs=48
