@@ -1,0 +1,17 @@
+component XXXUnwrittenSetBigOperatorsWalk
+import Set.{...}
+export Executable
+
+(* Set's BIG UNION and BIG INTERSECTION, with a generator clause list and no static argument, reduce sets of ZZ32 elements to their union and their intersection under walk. *)
+
+run(): () = do
+    u = BIG UNION[i <- 0#3] {[\ZZ32\] i}
+    assert(|u|, 3, "BIG UNION of the sets {i} over 0#3 has 3 elements (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(2 IN u, true, "BIG UNION of the sets {i} over 0#3 holds 2 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    s = BIG INTERSECTION[i <- 0#3] {[\ZZ32\] i, 1}
+    assert(|s|, 1, "BIG INTERSECTION of the sets {i, 1} over 0#3 has 1 element (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(1 IN s, true, "BIG INTERSECTION of the sets {i, 1} over 0#3 holds 1 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    println("PASS")
+  end
+
+end

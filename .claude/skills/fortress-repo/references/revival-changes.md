@@ -93,7 +93,7 @@ A note written before the revival, and your training, can be right about the tea
 **A type parameter whose bound names itself, under walk**
 
 - Original: walk gave such a parameter the empty type `Bottom` where a call did not fix it, as `SUM`'s `T extends AdditiveGroup[\T\]` in `SUM[i <- 1#100] i`. The reduction then refused its first element. The POPL 2019 paper's rule has no bound to give: such a bound is not a type until the parameter is known.
-- Resolution: walk leaves the parameter open. Wherever walk checks a value against the open parameter, every value passes, so the reduction runs on the types of its elements. An empty reduction gives `ZZ32`'s identity, whatever the type of its elements (ledger row 645). `BIG MINMAX` still stops (ledger row 473). A printed type shows the open parameter as `OPEN`: `BoxU[\OPEN\]` for an object `BoxU[\T\]`. The checker still refuses the call (ledger row 425).
+- Resolution: walk leaves the parameter open. Wherever walk checks a value against the open parameter, every value passes, so the reduction runs on the types of its elements. An empty reduction gives `ZZ32`'s identity, whatever the type of its elements (ledger row 645). `Set`'s `BIG UNION` and `BIG INTERSECTION` still stop, at `Set[\OPEN\]` (ledger row 662). A printed type shows the open parameter as `OPEN`: `BoxU[\OPEN\]` for an object `BoxU[\T\]`. The checker still refuses the call (ledger row 425).
 - Reason: walk has no static types, so it cannot take the element type from the static type of the reduced expression, as the specification's desugaring does (`Specification/basic/expressions/reductions.tex`). An open parameter refuses no element.
 
 **Sizes on the compiled path**
@@ -151,6 +151,14 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the Working Draft types `QQ`'s `floor`, `ceiling`, `round` and `truncate` ℤ, and its next sentence says they return the argument at +∞, −∞ and 0/0, a rational. The interpreter's library returned the argument, and its `round` stopped walk there.
 - Resolution: these methods and the brackets ⌊ ⌋ and ⌈ ⌉ throw `DivisionByZero` at those three values.
 - Reason: the curator kept the declared integer result. A division by zero whose result is an integer throws `DivisionByZero` (`opr-overview.tex`).
+
+## Loops and reductions are library code
+
+**The lifted type of a reduction without an identity**
+
+- Original: the interpreter's library lifted the reductions without an identity, such as `BIG MIN`, `BIG MAX` and `BIG //`, to the type `AnyMaybe`, which takes no type argument. Their `simpleJoin` took and answered `Any`, and their `lift` took `Any`, while the api declared `lift(r:R)`. The team's tests declared their own such reductions with `simpleJoin` at `Any`, and passed `AnyMaybe` to `generate`.
+- Resolution: `AssociativeReduction[\R\]` lifts to `Maybe[\R\]`. Its `simpleJoin` takes and answers `R`, and every `lift` takes `R`. A reduction that extends it declares `simpleJoin` at its element type. Under walk, one declared at `Any` or with untyped parameters leaves the abstract `simpleJoin` without a body, and the reduction stops. A static argument that names the lifted type is `Maybe[\R\]`, as in `h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing)`.
+- Reason: the checker refused the `Any` devices at 13 places in the library, and `if av <- a` cannot bind from `AnyMaybe`, which is not a `Condition`. The api and `Set`'s `Intersection` already wrote these types. The devices had kept walk's reductions running while walk gave an unwritten static argument `Bottom`, which it no longer does.
 
 ## Specified, but not built
 

@@ -1901,12 +1901,12 @@ trait ReductionPair[\R,L\] extends SomeReductionPair[\R\]
 end
 
 (** The usual lifting to Maybe for identity-less operators **)
-trait AssociativeReduction[\R\] extends ActualReduction[\R,AnyMaybe\]
+trait AssociativeReduction[\R\] extends ActualReduction[\R,Maybe[\R\]\]
     empty(): Nothing[\R\]
-    join(a: AnyMaybe, b: AnyMaybe): AnyMaybe
-    abstract simpleJoin(a:Any, b:Any): Any
-    lift(r:R): AnyMaybe
-    unlift(r:AnyMaybe): R
+    join(a: Maybe[\R\], b: Maybe[\R\]): Maybe[\R\]
+    abstract simpleJoin(a:R, b:R): R
+    lift(r:R): Maybe[\R\]
+    unlift(r:Maybe[\R\]): R
 end
 
 trait SomeCommutativeReduction end (* mark for commutative *)
@@ -1979,7 +1979,7 @@ object MinReduction[\T extends StandardMin[\T\]\] extends CommutativeReduction[\
     simpleJoin(a:T, b:T): T
 end
 
-opr BIG MIN[\T extends StandardMin[\T\]\](): BigReduction[\T,AnyMaybe\]
+opr BIG MIN[\T extends StandardMin[\T\]\](): BigReduction[\T,Maybe[\T\]\]
 
 opr BIG MIN[\T extends StandardMin[\T\]\](g: Generator[\T\]): T
 
@@ -1987,7 +1987,7 @@ object MaxReduction[\T extends StandardMax[\T\]\] extends CommutativeReduction[\
     simpleJoin(a:T, b:T): T
 end
 
-opr BIG MAX[\T extends StandardMax[\T\]\](): BigReduction[\T,AnyMaybe\]
+opr BIG MAX[\T extends StandardMax[\T\]\](): BigReduction[\T,Maybe[\T\]\]
 
 opr BIG MAX[\T extends StandardMax[\T\]\](g: Generator[\T\]): T
 
@@ -1996,7 +1996,7 @@ object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduc
     simpleJoin(a:(T,T),b:(T,T)): (T,T)
 end
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\]():
-        Comprehension[\T,(T,T),(T,T),AnyMaybe\]
+        Comprehension[\T,(T,T),(T,T),Maybe[\(T,T)\]\]
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\](g:Generator[\T\]):(T,T)
 
 opr BIG MINNUM(): BigReduction[\RR64,RR64\]
@@ -2011,19 +2011,19 @@ opr BIG MAXNUM(g: Generator[\RR64\]): RR64
 (*) MIN/MAX combinations on tuples
 
 opr BIG MIN_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\]
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\]
 opr BIG MIN_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U)
 
 opr BIG MIN_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\]
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\]
 opr BIG MIN_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U)
 
 opr BIG MAX_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\]
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\]
 opr BIG MAX_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U)
 
 opr BIG MAX_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\]
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\]
 opr BIG MAX_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U)
 
 
@@ -2111,7 +2111,7 @@ opr BIG |||(g: Generator[\Any\]): String
 (** This operator performs string concatenation with newline
     separation, first converting its inputs (of type Any) to String if
     necessary. **)
-opr BIG //(): Comprehension[\Any,String,String,AnyMaybe\]
+opr BIG //(): Comprehension[\Any,String,String,Maybe[\String\]\]
 
 opr BIG //[\T\](g: Generator[\T\]): String
 

@@ -317,9 +317,9 @@ So a reduction whose element type nothing at the call fixes runs on the types
 of its elements, the interpreter's counterpart of the desugaring by the type
 \VAR{N} of the expression (\secref{reduction-expr}); but an empty such
 reduction takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
-expression (row~645 of the revival's gap ledger), and
-\EXP{\OPR{BIG}\:\OPR{MINMAX}}, whose reduction joins pairs of elements, stops
-(row~473).
+expression (row~645 of the revival's gap ledger), and the library's set
+reductions \EXP{\bigcup} and \EXP{\bigcap}, whose reductions take sets of
+that open type, stop at their first element (row~662).
 It still erases to \TYP{BottomType} the other static parameters of a big
 operator that a reduction or a comprehension invokes without its static
 arguments, a comprehension's collection being then built at the type of its

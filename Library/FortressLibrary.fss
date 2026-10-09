@@ -3074,7 +3074,7 @@ end
     unlift(lift(x)) = x
  **)
 trait ActualReduction[\R,L\] extends Reduction[\L\]
-    lift(r: Any): L
+    lift(r: R): L
     unlift(l:L): R
     (** If this reduction left-distributes over r, return a pair of
         reductions with the same lift and unlift **)
@@ -3116,21 +3116,21 @@ trait ReductionPair[\R,L\] extends SomeReductionPair[\L\]
 end
 
 (** The usual lifting to Maybe for identity-less operators **)
-trait AssociativeReduction[\R\] extends ActualReduction[\R,AnyMaybe\]
+trait AssociativeReduction[\R\] extends ActualReduction[\R,Maybe[\R\]\]
     empty(): Nothing[\R\] = Nothing[\R\]
-    join(a: AnyMaybe, b: AnyMaybe): AnyMaybe =
+    join(a: Maybe[\R\], b: Maybe[\R\]): Maybe[\R\] =
         if av <- a then
             if bv <- b then
-                Just(simpleJoin(av,bv))
+                Just[\R\](simpleJoin(av,bv))
             else
                 a
             end
         else
             b
         end
-    simpleJoin(a:Any, b:Any): Any
-    lift(r:Any): AnyMaybe = Just(r)
-    unlift(r:AnyMaybe): R =
+    simpleJoin(a:R, b:R): R
+    lift(r:R): Maybe[\R\] = Just[\R\](r)
+    unlift(r:Maybe[\R\]): R =
         if res <- r then
             res
         else
@@ -3141,21 +3141,21 @@ end
 (** The lifting of operators to be fused with identity-less operators
     Nothing becomes zero
 **)
-object LiftedCommutativeMonoidReduction[\R\](org : CommutativeMonoidReduction[\R\]) extends ActualReduction[\R,AnyMaybe\]
+object LiftedCommutativeMonoidReduction[\R\](org : CommutativeMonoidReduction[\R\]) extends ActualReduction[\R,Maybe[\R\]\]
     getter asString(): String = org.asString "(Lifted)"
-    empty(): Just[\R\] = Just(org.empty())
-    join(a: AnyMaybe, b: AnyMaybe): AnyMaybe =
+    empty(): Just[\R\] = Just[\R\](org.empty())
+    join(a: Maybe[\R\], b: Maybe[\R\]): Maybe[\R\] =
         if av <- a then
             if bv <- b then
-                Just(org.join(av,bv))
+                Just[\R\](org.join(av,bv))
             else
                 Nothing[\R\]
             end
         else
             Nothing[\R\]
         end
-    lift(r:Any): AnyMaybe = Just(r)
-    unlift(r:AnyMaybe): R =
+    lift(r:R): Maybe[\R\] = Just[\R\](r)
+    unlift(r:Maybe[\R\]): R =
         if res <- r then
             res
         else
@@ -3174,7 +3174,7 @@ end
 
 (** Monoids don't require a special lift and unlift operation. **)
 trait MonoidReduction[\R\] extends ActualReduction[\R,R\]
-    lift(r:Any): R = r
+    lift(r:R): R = r
     unlift(r:R): R = r
 end
 
@@ -3260,13 +3260,13 @@ object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends Reducti
 end
 
 object MaxSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMax[\T\] }\]
-        extends ReductionPair[\T,AnyMaybe\]
+        extends ReductionPair[\T,Maybe[\T\]\]
     getter outer() = MaxReduction[\T\]
     getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
 end
 
 object MinSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMin[\T\] }\]
-        extends ReductionPair[\T,AnyMaybe\]
+        extends ReductionPair[\T,Maybe[\T\]\]
     getter outer() = MinReduction[\T\]
     getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
 end
@@ -3275,9 +3275,9 @@ object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidRed
     getter asString(): String = "SumReduction"
     empty(): T = additiveIdentity[\T\]()
     join(a: T, b: T): T = a + b
-    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\AnyMaybe\] =
+    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
     MaxSumReductionPair[\T\]
-    distribute(r: MinReduction[\T\]): PossibleReductionPair[\AnyMaybe\] =
+    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
     MinSumReductionPair[\T\]
 end
 
@@ -3303,21 +3303,21 @@ opr PROD[\T extends MultiplicativeRing[\T\]\](g: Generator[\T\]): T =
 
 object MinReduction[\T extends StandardMin[\T\]\] extends CommutativeReduction[\T\]
     getter asString(): String = "MinReduction"
-    simpleJoin(a, b) = a MIN b
+    simpleJoin(a:T, b:T): T = a MIN b
 end
-opr BIG MIN[\T extends StandardMin[\T\]\](): BigReduction[\T,AnyMaybe\] =
-    BigReduction[\T,AnyMaybe\](MinReduction[\T\])
+opr BIG MIN[\T extends StandardMin[\T\]\](): BigReduction[\T,Maybe[\T\]\] =
+    BigReduction[\T,Maybe[\T\]\](MinReduction[\T\])
 opr BIG MIN[\T extends StandardMin[\T\]\](g: Generator[\T\]): T =
-    __bigOperatorSugar[\T,T,T,AnyMaybe\](BIG MIN[\T\](), g)
+    __bigOperatorSugar[\T,T,T,Maybe[\T\]\](BIG MIN[\T\](), g)
 
 object MaxReduction[\T extends StandardMax[\T\]\] extends CommutativeReduction[\T\]
     getter asString(): String = "MaxReduction"
-    simpleJoin(a, b) = a MAX b
+    simpleJoin(a:T, b:T): T = a MAX b
 end
-opr BIG MAX[\T extends StandardMax[\T\]\](): BigReduction[\T,AnyMaybe\] =
-    BigReduction[\T,AnyMaybe\](MaxReduction[\T\])
+opr BIG MAX[\T extends StandardMax[\T\]\](): BigReduction[\T,Maybe[\T\]\] =
+    BigReduction[\T,Maybe[\T\]\](MaxReduction[\T\])
 opr BIG MAX[\T extends StandardMax[\T\]\](g: Generator[\T\]): T =
-    __bigOperatorSugar[\T,T,T,AnyMaybe\](BIG MAX[\T\](), g)
+    __bigOperatorSugar[\T,T,T,Maybe[\T\]\](BIG MAX[\T\](), g)
 
 object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduction[\(T,T)\]
     getter asString(): String = "MinMaxReduction"
@@ -3328,10 +3328,10 @@ object MinMaxReduction[\T extends StandardMinMax[\T\]\] extends CommutativeReduc
       end
 end
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\]():
-        Comprehension[\T,(T,T),(T,T),AnyMaybe\] =
-    Comprehension[\T,(T,T),(T,T),AnyMaybe\](fn x => x, MinMaxReduction[\T\], fn x => (x,x))
+        Comprehension[\T,(T,T),(T,T),Maybe[\(T,T)\]\] =
+    Comprehension[\T,(T,T),(T,T),Maybe[\(T,T)\]\](fn x => x, MinMaxReduction[\T\], fn x => (x,x))
 opr BIG MINMAX[\T extends StandardMinMax[\T\]\](g:Generator[\T\]):(T,T) =
-    __bigOperatorSugar[\T,(T,T),(T,T),AnyMaybe\](BIG MINMAX[\T\](), g)
+    __bigOperatorSugar[\T,(T,T),(T,T),Maybe[\(T,T)\]\](BIG MINMAX[\T\](), g)
 
 opr BIG MINNUM(): BigReduction[\RR64,RR64\] =
     BigReduction[\RR64,RR64\](
@@ -3365,10 +3365,10 @@ object TupleMinMinReduction[\T extends StandardMinMax[\T\],
       end
 end
 opr BIG MIN_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\] =
-    Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\](fn x => x, TupleMinMinReduction[\T,U\], fn x => x)
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\] =
+    Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](fn x => x, TupleMinMinReduction[\T,U\], fn x => x)
 opr BIG MIN_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U) =
-    __bigOperatorSugar[\(T,U),(T,U),(T,U),AnyMaybe\](BIG MIN_MIN[\T,U\](), g)
+    __bigOperatorSugar[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](BIG MIN_MIN[\T,U\](), g)
 
 object TupleMinMaxReduction[\T extends StandardMinMax[\T\],
                              U extends StandardMinMax[\U\]\]
@@ -3385,10 +3385,10 @@ object TupleMinMaxReduction[\T extends StandardMinMax[\T\],
       end
 end
 opr BIG MIN_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\] =
-    Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\](fn x => x, TupleMinMaxReduction[\T,U\], fn x => x)
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\] =
+    Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](fn x => x, TupleMinMaxReduction[\T,U\], fn x => x)
 opr BIG MIN_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U) =
-    __bigOperatorSugar[\(T,U),(T,U),(T,U),AnyMaybe\](BIG MIN_MAX[\T,U\](), g)
+    __bigOperatorSugar[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](BIG MIN_MAX[\T,U\](), g)
 
 object TupleMaxMinReduction[\T extends StandardMinMax[\T\],
                              U extends StandardMinMax[\U\]\]
@@ -3405,10 +3405,10 @@ object TupleMaxMinReduction[\T extends StandardMinMax[\T\],
       end
 end
 opr BIG MAX_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\] =
-    Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\](fn x => x, TupleMaxMinReduction[\T,U\], fn x => x)
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\] =
+    Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](fn x => x, TupleMaxMinReduction[\T,U\], fn x => x)
 opr BIG MAX_MIN[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U) =
-    __bigOperatorSugar[\(T,U),(T,U),(T,U),AnyMaybe\](BIG MAX_MIN[\T,U\](), g)
+    __bigOperatorSugar[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](BIG MAX_MIN[\T,U\](), g)
 
 object TupleMaxMaxReduction[\T extends StandardMinMax[\T\],
                              U extends StandardMinMax[\U\]\]
@@ -3425,10 +3425,10 @@ object TupleMaxMaxReduction[\T extends StandardMinMax[\T\],
       end
 end
 opr BIG MAX_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\]():
-        Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\] =
-    Comprehension[\(T,U),(T,U),(T,U),AnyMaybe\](fn x => x, TupleMaxMaxReduction[\T,U\], fn x => x)
+        Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\] =
+    Comprehension[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](fn x => x, TupleMaxMaxReduction[\T,U\], fn x => x)
 opr BIG MAX_MAX[\T extends StandardMinMax[\T\],U extends StandardMinMax[\U\]\](g:Generator[\(T,U)\]):(T,U) =
-    __bigOperatorSugar[\(T,U),(T,U),(T,U),AnyMaybe\](BIG MAX_MAX[\T,U\](), g)
+    __bigOperatorSugar[\(T,U),(T,U),(T,U),Maybe[\(T,U)\]\](BIG MAX_MAX[\T,U\](), g)
 
 
 (** AndReduction and OrReduction take advantage of natural zeroes for early exit. **)
@@ -3535,12 +3535,12 @@ opr BIG |||[\T\](g: Generator[\T\]): String =
 (** This operator performs string concatenation with newline
     separation, first converting its inputs (of type Any) to String if
     necessary. **)
-opr BIG //(): Comprehension[\Any,String,String,AnyMaybe\] =
-    Comprehension[\Any,String,String,AnyMaybe\](
+opr BIG //(): Comprehension[\Any,String,String,Maybe[\String\]\] =
+    Comprehension[\Any,String,String,Maybe[\String\]\](
         fn x => x,NewlineReduction,fn (x:Any)=> "" x)
 
 opr BIG //[\T\](g: Generator[\T\]): String =
-    __bigOperatorSugar[\Any,String,String,AnyMaybe\](BIG //(), g.map[\Any\](identity[\Any\]))
+    __bigOperatorSugar[\Any,String,String,Maybe[\String\]\](BIG //(), g.map[\Any\](identity[\Any\]))
 
 (** A %MapReduceReduction% takes an associative binary function %j% on
     arguments of type %R%, and the identity of that function %z%, and

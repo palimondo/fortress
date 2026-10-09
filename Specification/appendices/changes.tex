@@ -1067,8 +1067,8 @@ list whose element type nothing fixes, over a big operator whose bound mentions
 its static parameter, runs where it stopped at its first element, the
 specification's examples of that form among them; an empty one gives the
 identity of \EXP{\mathbb{Z}32} whatever the type of the expression (row~645
-of the revival's gap ledger), and \EXP{\OPR{BIG}\:\OPR{MINMAX}} still stops
-(row~473).
+of the revival's gap ledger), and the library's set reductions \EXP{\bigcup}
+and \EXP{\bigcap} still stop at their first element (row~662).
 The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
@@ -1919,8 +1919,9 @@ open where it was instantiated at \TYP{BottomType}, so that a reduction whose
 element type nothing fixes runs on the types of its elements where it stopped
 at its first element (\secref{revival-reductions}); an empty such reduction
 takes the identity of \EXP{\mathbb{Z}32} whatever the type of the expression
-(row~645), and \EXP{\OPR{BIG}\:\OPR{MINMAX}}, whose reduction joins pairs
-of elements, still stops (row~473).
+(row~645), and the library's set reductions \EXP{\bigcup} and
+\EXP{\bigcap}, whose reductions take sets of the open type, still stop
+(row~662).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}

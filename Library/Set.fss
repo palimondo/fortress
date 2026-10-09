@@ -125,11 +125,11 @@ object Union[\E extends StandardTotalOrder[\E\]\] extends CommutativeMonoidReduc
 end
 
 opr BIG INTERSECTION[\R extends StandardTotalOrder[\R\]\]():
-        BigReduction[\Set[\R\],AnyMaybe\] =
-    BigReduction[\Set[\R\],AnyMaybe\](Intersection[\R\])
+        BigReduction[\Set[\R\],Maybe[\Set[\R\]\]\] =
+    BigReduction[\Set[\R\],Maybe[\Set[\R\]\]\](Intersection[\R\])
 
 opr BIG INTERSECTION[\R extends StandardTotalOrder[\R\]\](g: Generator[\Set[\R\]\]):Set[\R\] =
-    __bigOperatorSugar[\Set[\R\],Set[\R\],Set[\R\],AnyMaybe\](BIG INTERSECTION[\R\](), g)
+    __bigOperatorSugar[\Set[\R\],Set[\R\],Set[\R\],Maybe[\Set[\R\]\]\](BIG INTERSECTION[\R\](), g)
 
 object Intersection[\E extends StandardTotalOrder[\E\]\]
         extends { CommutativeReduction[\Set[\E\]\],

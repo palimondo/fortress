@@ -1,0 +1,19 @@
+component OpenTupleDispatchWalk
+export Executable
+
+(* Under walk, a pair is not below a tuple type over a self-bounded type parameter that nothing fixed when overloads are compared, so the overload over Any runs, while a lone method over the tuple type runs for the pair. *)
+
+object Holder[\T extends StandardTotalOrder[\T\]\]()
+    pick(x: (T,T)): String = "tuple"
+    pick(x: Any): String = "any"
+    one(x: (T,T)): String = "one"
+end
+
+run(): () = do
+    h = Holder()
+    assert(h.pick((1, 2)), "any", "a pair given to pick, overloaded over a tuple of the unfixed parameter and over Any, runs the overload over Any")
+    assert(h.one((1, 2)), "one", "a pair given to one, declared only over a tuple of the unfixed parameter, runs it")
+    println("PASS")
+  end
+
+end
