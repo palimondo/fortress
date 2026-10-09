@@ -204,7 +204,7 @@ theorems[\R, L1, L2\]() =
     ot = MSS2DReductionBeside[\R\](q, r)
 
 
-    tup = op.unlift(GeneratorATWrapper(self.seed).generateAT[\AnyMaybe\](op, ot, fn a => op.lift(mssBody[\R\](f(a)))))
+    tup = op.unlift(GeneratorATWrapper(self.seed).generateAT[\Maybe[\SomeMSS2DTuple[\R\]\]\](op, ot, fn a => op.lift(mssBody[\R\](f(a)))))
     tup.b
   end
 

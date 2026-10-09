@@ -62,7 +62,7 @@ opr BIG UNION[\R extends StandardTotalOrder[\R\]\](g: Generator[\Set[\R\]\]): Se
 object Union[\E\] extends CommutativeMonoidReduction[\Set[\E\]\] end
 
 opr BIG INTERSECTION[\R extends StandardTotalOrder[\R\]\]():
-        BigReduction[\Set[\R\],AnyMaybe\]
+        BigReduction[\Set[\R\],Maybe[\Set[\R\]\]\]
 opr BIG INTERSECTION[\R extends StandardTotalOrder[\R\]\](g: Generator[\Set[\R\]\]): Set[\R\]
 
 end

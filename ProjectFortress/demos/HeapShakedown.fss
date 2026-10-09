@@ -96,7 +96,7 @@ checkGen(h:Heap[\ZZ32,ZZ32\], n:ZZ32): () = do
         end
         Just[\(ZZ32,ZZ32,ZZ32)\](k,1,k)
       end
-    (mn,sz,mx) = h.generate[\AnyMaybe\](TestReduction, sing).getDefault(0,0,0)
+    (mn,sz,mx) = h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing).getDefault(0,0,0)
     assert(n,sz," size versus computed size")
     if (sz > 0) then
         (mn_k, mn_v) = h.minimum.get

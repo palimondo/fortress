@@ -11,7 +11,7 @@ inOrder[\E\](g: Generator[\E\]): String = do
 end
 
 fusedMax(gg: Generator[\Generator[\ZZ32\]\]): ZZ32 =
-    __bigOperator2[\ZZ32,ZZ32,ZZ32,AnyMaybe,ZZ32,ZZ32,ZZ32,ZZ32,ZZ32,Generator[\ZZ32\]\](
+    __bigOperator2[\ZZ32,ZZ32,ZZ32,Maybe[\ZZ32\],ZZ32,ZZ32,ZZ32,ZZ32,ZZ32,Generator[\ZZ32\]\](
         BIG MAX[\ZZ32\](), SUM[\ZZ32\](), gg, fn (x: ZZ32): ZZ32 => x)
 
 naiveMax(gg: Generator[\Generator[\ZZ32\]\]): ZZ32 = do
