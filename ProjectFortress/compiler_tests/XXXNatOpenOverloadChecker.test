@@ -1,0 +1,4 @@
+tests=XXXNatOpenOverloadChecker
+compile
+compile_err_contains=File XXXNatOpenOverloadChecker.fss has 1 error.
+compile_err_WIcontains=There are multiple declarations of f with the same parameter type

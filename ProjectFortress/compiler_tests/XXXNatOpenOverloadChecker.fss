@@ -1,0 +1,15 @@
+(* A declaration taking a trait that lists Nt[\n\] where [\nat n\] beside a generic one taking Nt[\n\]: the checker reads them as one parameter type. *)
+component XXXNatOpenOverloadChecker
+export Executable
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+end
+value object Nt[\nat n\] extends NatParamT end
+
+mk(): NatParamT = Nt[\3\]
+f(x: NatParamT): String = "param"
+f[\nat n\](x: Nt[\n\]): String = "sized"
+
+run(): () = println(f(mk()))
+
+end

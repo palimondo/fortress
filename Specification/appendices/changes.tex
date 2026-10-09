@@ -1410,6 +1410,12 @@ value of \VAR{reflect} in \library\ is accepted where an
 reaches a type naming another size, and gives two values opened in one call
 two sizes, so it refuses a call that needs them equal where the interpreter
 runs it when they are.
+It reads a declaration whose parameter type is such a trait and a declaration
+with a \KWD{nat} parameter whose parameter type is the listed type at it as
+applicable to the same calls, and refuses the pair as duplicates, where the
+interpreter runs it and calls the second; the text does not say whether the
+opening counts for the rules of \secref{overloading-static-params}
+(row~NEW-N-8 of the revival's gap ledger).
 It does not yet open a type \KWD{where}-clause variable, as in
 \TYP{List}'s commented clause (row~636), and the code generator does not yet
 compile a trait with a \KWD{where} clause or read a size off an argument at a
@@ -3213,13 +3219,17 @@ in the revival's repository.
 \item[Effect] The compiled type checker accepts a sum, a difference, a product
 or a power in a size, computes each operation whose operands are numerals,
 checks the result against the parameter's kind as it checks a numeral, and
-compares sizes as the new sentences say; a clause
+compares sizes as the new sentences say; a power of a base other than 0, 1
+and $-1$ at an exponent above 4096 it does not compute, and refuses as outside
+every kind; a clause
 \EXP{N\llbracket{}0\rrbracket} of a \KWD{typecase} on
 \EXP{N\llbracket{}b_{0}\rrbracket} is reachable.
 It still counts two different static parameters as different sizes, which the
-text does not say, and it does not infer a static parameter from a size with a
-static parameter in it, as \EXP{k} from
-\EXP{\TYP{Box}\llbracket{}k+1\rrbracket}.
+text does not say (row~NEW-N-9 of the revival's gap ledger), and it does not
+infer a static argument written with a static parameter in it: a call of
+\EXP{\VAR{get}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i\rrbracket)}
+with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} is refused
+unless it writes \EXP{\VAR{get}\llbracket{}i-1\rrbracket} (row~NEW-N-7).
 The compiled path computes a size when it names a class, an operation on
 numerals when the program is compiled and the rest when the class is first
 loaded, so that \EXP{\TYP{Box}\llbracket{}2+1\rrbracket} and

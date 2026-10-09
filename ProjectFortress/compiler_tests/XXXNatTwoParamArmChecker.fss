@@ -1,0 +1,13 @@
+(* Two different size parameters count as different sizes: a typecase clause at one is unreachable on a selector at the other. *)
+component XXXNatTwoParamArmChecker
+export Executable
+
+value object Nt[\nat n\] end
+two[\nat a, nat b\](): String = typecase Nt[\a\] of
+    Nt[\b\] => "same"
+    else => "different"
+  end
+
+run(): () = println(two[\3, 3\]())
+
+end

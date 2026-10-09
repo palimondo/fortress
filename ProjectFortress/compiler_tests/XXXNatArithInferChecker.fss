@@ -1,0 +1,14 @@
+(* A static argument is inferred from a size written with a static parameter in it: get's i is pred's i - 1. *)
+component XXXNatArithInferChecker
+export Executable
+
+object IBox[\int i\](v: ZZ32) end
+get[\int i\](b: IBox[\i\]): ZZ32 = i
+pred[\int i\](): ZZ32 = get(IBox[\i - 1\](0))
+
+run(): () = do
+    assert(pred[\0\](), 0 - 1, "inference.tex, section \"The Static Arguments of a Call\": a size inferred as i - 1")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,4 @@
+tests=XXXNatTwoParamArmChecker
+compile
+compile_err_contains=File XXXNatTwoParamArmChecker.fss has 1 error.
+compile_err_WIcontains=The typecase clause, Nt[\\b\\], is unreachable.
