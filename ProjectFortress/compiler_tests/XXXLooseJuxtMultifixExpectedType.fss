@@ -1,0 +1,16 @@
+(* A loose juxtaposition whose chunks a multifix juxtaposition accepts is that application whatever the expected type, so where its result does not fit the declared type the program is refused, not read as binary juxtapositions. *)
+component XXXLooseJuxtMultifixExpectedType
+export Executable
+
+opr juxtaposition[\T\](a: ZZ32, b: ZZ32, c: T): T = c
+opr juxtaposition(a: ZZ32, b: Boolean): ZZ32 = a
+f(x: ZZ32): ZZ32 = x + 1
+h(x: ZZ32): Boolean = x > 0
+
+run(): () = do
+    b: Boolean = f 1 f 2 h 3
+    n: ZZ32 = f 1 f 2 h 3
+    println(if b then n else 0 end)
+  end
+
+end
