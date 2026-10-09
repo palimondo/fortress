@@ -1,0 +1,62 @@
+# Record lines of rung C of climb batch 11 (rung-checker-overloading), for the gather
+
+## FACTS entry (section "The checker and the one library")
+
+- **The compiled checker reads what a trait or object provides by the traits chapter's inheritance, and checks an overriding declaration's return type against the one it overrides** (`compile-ladder/rung-checker-overloading/REPORT.md`; rows 610, 617, 619, 625, 626, 637 fixed, and under Q4 rows 620 and 621). A type provides its own method declarations and those its immediate supertypes provide, less one that an own declaration with the modifier `override` overrides and one whose parameter types, self apart, an own declaration repeats (`STypesUtil.providedAndOverridden`, `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1622-1695`); the overloading and abstract-method checkers read that set, and each such pair has its return types checked, a pair of equal parameter types as an overloaded pair was, a widening override by subtyping. The per-provider cover reads functional methods without self; the restriction on a single parameter of a type parameter bounded by `Any` written reaches a dotted method; renaming an inherited method's static parameters apart renames every own parameter's bounds; the export check skips a private abstract member; the disambiguator refuses an undeclared name applied to static arguments in a `typecase` arm, "Nonesuch is undefined.", on both paths; a local function whose parameter type is left out is refused, "Missing parameter type for i", as at top level (Appendix I, "The type of a parameter that a declaration leaves out"). The code generator still refuses the modifier `override` (row NEW-C-1). Gated by `compiler_tests/OverrideFunctionalMethodWiden`, `OverrideAbstractMethodWiden`, `XXXOverrideInheritedThroughOtherSupertype`, `XXXOverrideReturnTypeNotSubtype`, `FunctionalMethodMeetCoverWithoutSelf`, `XXXOverloadDottedSingleParamBoundAny`, `InheritedAbstractMethodBoundSameName`, `XXXTypecaseUndeclaredType`, `ExportPrivateAbstractMember` and `XXXLocalFunctionUntypedParam` (with `…AndReturn` and `…InLoop`).
+
+The FACTS entry "The compiled checker judges two functional methods by the Meet Rule for Functional Methods, per providing type, …" says that the check "reads every declaration in an api, and in a component those with bodies and every one inherited from an api"; it now reads, of those, the ones the type provides (the entry above).
+
+## Rows the rung fixes (for `ledger.py close`, after the landing commit)
+
+- Row 610: `ProjectFortress/compiler_tests/OverrideFunctionalMethodWiden.test`.
+- Row 617: `ProjectFortress/compiler_tests/FunctionalMethodMeetCoverWithoutSelf.test`.
+- Row 619: `ProjectFortress/compiler_tests/XXXOverloadDottedSingleParamBoundAny.test` (a refusal, kept under its `XXX` name: the harness has no plain compiled refusal, `FileTests.java:416-425`).
+- Row 625: `ProjectFortress/compiler_tests/InheritedAbstractMethodBoundSameName.test`.
+- Row 626: `ProjectFortress/compiler_tests/XXXTypecaseUndeclaredType.test` (a refusal, as row 619's).
+- Row 637: `ProjectFortress/compiler_tests/ExportPrivateAbstractMember.test`.
+- Row 620: `ProjectFortress/compiler_tests/XXXLocalFunctionUntypedParam.test` (under Q4, the refusal "Missing parameter type for i").
+- Row 621: `ProjectFortress/compiler_tests/XXXLocalFunctionUntypedParamInLoop.test` (under Q4; row 622 is already its duplicate).
+
+## Ledger notes
+
+- Row 610: the program type checks since climb batch 11 rung C (`OverrideFunctionalMethodWiden`, a `typecheck` test, and `OverrideAbstractMethodWiden` for an abstract method overridden); `disp0`'s compiled run waits on the code generator's refusal of the modifier `override` (row NEW-C-1, `XXXOverrideModifierCodeGeneration`).
+- Row 620: the companion `XXXLocalFunctionUntypedParamAndReturn` is keyed on the same refusal, "Missing parameter type for n".
+- Row 405: since climb batch 11 rung C a local function's untyped parameter gets the same refusal, made where the local function is bound (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/STypeEnv.scala:69-78`); the top-level refusal is now at `STypeEnv.scala:199-200`; Appendix I's entry "The type of a parameter that a declaration leaves out" states both.
+- Row 463: reproducers since climb batch 11 rung C: `ProjectFortress/compiler_tests/XXXIfGeneratorClause.test` ('Variable __cond is not defined') and `ProjectFortress/compiler_tests/XXXWhileGeneratorClause.test` ('Variable __whileCond is not defined.'), over the compiler library's `Maybe` and `Just`; the first shown red with `__cond` declared in the program.
+- Row 488: under climb batch 11 rung C's tree the distance gained the BR site `Library/FortressLibrary.fss:130`, `BIG LEXICO(g)`, 'Function body has type TotalComparison, but declared return type is BigReduction[\TotalComparison,TotalComparison\].', a site on file in earlier per-site lists; the rung's only edit inside the type-checking stage is Q4's refusal (`STypeEnv.scala:69-78`), which turns the `InterpreterBug` at `__bigOperator`'s `body(i)` into a `TypeError` that a `TryChecker` swallows.
+
+## New rows
+
+Section "12. The compiled path: constructs, crashes and the switch-over":
+
+| NEW-C-1 | the code generator refuses a method declaration with the modifier `override`, "Don't know how to compile this kind of FnDecl", so the team's `tests/disp0.fss`, which the compiled checker accepts, does not compile | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideModifierCodeGeneration.test` | climb batch 11 rung C | siblings: 610. `CodeGen.fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 83b1cae78), and `forFnDecl` calls `sayWhat` on a declaration with any other (`:2966-2976`). The chapter's draft note says the modifier is not yet supported. Whether the compiled dispatch then leaves out a declaration a type does not provide is not measured. Walk prints `f PASS` and `g PASS`. |
+
+Section "5. Overloading on the compiled path: checker and dispatch":
+
+| NEW-C-2 | the compiled checker stops on an invocation of a dotted method with its static arguments written when one of the method's type parameters is bounded by a type at another, 'R is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/method-invocation.tex`, "Dotted Method Invocations" | `ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOther.test` | climb batch 11 rung C | siblings: 625, 627. `object O` with `gen[\R, Q extends Box[\R\]\](q: Q): ZZ32 = 1` and `O.gen[\String, Box[\String\]\](Box[\String\]())` is refused, 'R is not in the kind env [][][]', its span `CompilerBuiltin.fsi:25:7-11`, raised by `TypeAnalyzer.scala:797`; the same on 83b1cae78; a top-level `gen` so called prints `1`. Met calling row 625's `gen` on a `P[\ZZ32\]`. |
+
+Section "1. Syntax: lexing, expressions and declarations":
+
+| NEW-C-3 | keyword parameters are built on neither path: the compiled checker reads a keyword parameter as a positional one, so a call that leaves out its argument is refused, and refuses one written without a type; walk stops on such a call | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/functions.tex`, "Function Declarations" | `ProjectFortress/compiler_tests/XXXKeywordParamOmitted.test` | climb batch 11 rung C | siblings: 405. `k(x: ZZ32, y: ZZ32 = 3)` called as `k(4)`: compiled, 'Could not check call to function k - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type IntLiteral.'; with `y = 3`, 'Missing parameter type for y' (`STypeEnv.scala:199-200`), where `functions.tex:171-172` takes the type of the default expression; walk, 'InterpreterBug ... The number of parameters (2) does not match with the number of arguments (1).' The chapter's draft note says keyword parameters are not supported yet. |
+
+## Handover line
+
+Climb batch 11's rung C (`wip/rung-checker-overloading`): the compiled checker reads provides by the traits chapter and checks an override's return type (row 610, its run blocked by the code generator's refusal of `override`, row NEW-C-1), reads the per-provider cover without self (617), applies the bound-`Any` restriction to dotted methods (619), renames every own parameter's bound (625), refuses an undeclared applied name in a `typecase` arm (626, shared disambiguator), skips private abstract members in the export check (637), and under Q4 refuses a local function's untyped parameter (620 to 622, Appendix I "The type of a parameter that a declaration leaves out"); row 463 has its two expected failures; the count stays 1 and the distance 253 (X1 -1 at `List.fss:12`, BR +1 at `FortressLibrary.fss:130`, row 488's site).
+
+## Entry for `.claude/skills/fortress-repo/references/revival-changes.md`
+
+Under "## Traits and objects, no classes":
+
+**What a type provides**
+
+- Original: the traits chapter says that a type provides the method declarations it declares and inherits, and that it does not inherit one that its own `override` declaration overrides or whose parameter types its own declaration repeats. The compiled checker read every declaration of every supertype as provided, and refused the team's `tests/disp0.fss`, whose `override` widens a parameter.
+- Resolution: both paths read provides by the chapter. The checker checks the return type of an overriding declaration against the declaration that it overrides.
+- Reason: the specification's rule, which walk already followed. The team's own test is valid by it.
+
+Under a new heading "## Specified, but not built", or beside the point of `SKILL.md` that it qualifies:
+
+**A parameter whose type is left out**
+
+- Original: the components chapter says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and stopped on a local function's. Walk runs them.
+- Resolution: the compiled path refuses every such parameter of a function declaration with "Missing parameter type for x". A box in the chapter and Appendix I say so.
+- Reason: no text describes that inference. A stop of the checker is no answer, and the refusal already stood at top level.
