@@ -1,0 +1,142 @@
+#suite	tests	failures	errors	skipped
+fast-compiler/CompilerJUTest	1114	0	0	0
+fast-library/LibraryJUTest	86	0	0	0
+fast-misc/ABoundingMapJUTest	4	0	0	0
+fast-misc/AQListJUTest	4	0	0	0
+fast-misc/ASTJUTest	13	0	0	0
+fast-misc/BA2JUTest	8	0	0	0
+fast-misc/BASetJUTest	12	0	0	0
+fast-misc/BATJUTest	8	0	0	0
+fast-misc/BAlongTreeJUTest	7	0	0	0
+fast-misc/BalancedApplicativeTreeEquivalenceClasssesJUTest	8	0	0	0
+fast-misc/BitsJUTest	2	0	0	0
+fast-misc/ConstraintJUTest	4	0	0	0
+fast-misc/ConstructorsJUTest	8	0	0	0
+fast-misc/EmptyCompilerInvocationJUTest	1	0	0	0
+fast-misc/FormulaJUTest	5	0	0	0
+fast-misc/FortressTypeToJavaTypeJUTest	11	0	0	0
+fast-misc/GHashMapJUTest	13	0	0	0
+fast-misc/IdentifierUtilJUTest	11	0	0	0
+fast-misc/InstantiationMapJUTest	3	0	0	0
+fast-misc/IntNatJUTest	6	0	0	0
+fast-misc/LatticeIntervalMapJUTest	5	0	0	0
+fast-misc/ListJUTest	8	0	0	0
+fast-misc/ListsJUTest	1	0	0	0
+fast-misc/Memo2JUTest	1	0	0	0
+fast-misc/ModifiersJUTest	3	0	0	0
+fast-misc/NamingCzarJUTest	2	0	0	0
+fast-misc/NamingJUTest	8	0	0	0
+fast-misc/NodeFactoryJUTest	1	0	0	0
+fast-misc/ObjectUID_JUTest	1	0	0	0
+fast-misc/OptionsJUTest	2	0	0	0
+fast-misc/OverloadJUTest	2	0	0	0
+fast-misc/OverloadingJUTest	1	0	0	0
+fast-misc/ParserJUTest	188	0	0	0
+fast-misc/PathJUTest	5	0	0	0
+fast-misc/PrecedenceMapJUTest	14	0	0	0
+fast-misc/PureListJUTest	1	0	0	0
+fast-misc/RTTIsizeJUTest	6	0	0	0
+fast-misc/STypesUtilJUTest	1	0	0	0
+fast-misc/StaticTypeReplacerJUTest	1	0	0	0
+fast-misc/SyntaxAbstractionJUTest	1	0	0	0
+fast-misc/TemplateVarRewriterJUTest	7	0	0	0
+fast-misc/TransactionJUTest	1	0	0	0
+fast-misc/TrieMapJUTest	6	0	0	0
+fast-misc/TypeAnalyzerJUTest	4	0	0	0
+fast-misc/TypeRangeJUTest	6	0	0	0
+fast-misc/TypeSchemaAnalyzerJUTest	4	0	0	0
+fast-misc/UsefulJUTest	15	0	0	0
+fast-othercompiler/OtherCompilerJUTest	263	0	0	0
+specdata/SpecDataJUTest	130	0	0	0
+system-0/SystemJUTest	146	0	0	0
+system-1/SystemJUTest	149	0	0	0
+system-2/SystemJUTest	141	0	0	0
+system-3/SystemJUTest	144	0	0	0
+# compileAll: BUILD SUCCESSFUL
+# compileAll: Total time: 41 seconds
+# testFast: BUILD SUCCESSFUL
+# testFast: Total time: 13 minutes 29 seconds
+# testSystem: BUILD SUCCESSFUL
+# testSystem: Total time: 3 minutes 53 seconds
+# testSpecData: BUILD SUCCESSFUL
+# testSpecData: Total time: 58 seconds
+# machine --- gate batch 13 2026-10-09T22:48:28Z
+# machine nproc 4
+# machine model name	: Intel(R) Xeon(R) Processor @ 2.10GHz
+# machine cpu MHz		: 2100.000
+# machine loadavg 4.59 6.98 5.17 2/130 10693
+# machine openjdk version "25.0.4.1" 2026-08-18
+# machine FORTRESS_THREADS=1
+# atomic AtomicTopLevelObjectVar run1 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run2 threads=4 PASS
+# atomic AtomicTopLevelObjectVar run3 threads=4 PASS
+# atomic AtomicTopLevelVar run1 threads=4 PASS
+# atomic AtomicTopLevelVar run2 threads=4 PASS
+# atomic AtomicTopLevelVar run3 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run1 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run2 threads=4 PASS
+# atomic MutableTopLevelVarInLoop run3 threads=4 PASS
+# atomic FirstLoadThreadsRungG run1 threads=4 PASS
+# atomic FirstLoadThreadsRungG run2 threads=4 PASS
+# atomic FirstLoadThreadsRungG run3 threads=4 PASS
+# atomic atomic0 run1 threads=4 PASS
+# atomic atomic0 run2 threads=4 PASS
+# atomic atomic0 run3 threads=4 PASS
+# atomic atomic1 run1 threads=4 PASS
+# atomic atomic1 run2 threads=4 PASS
+# atomic atomic1 run3 threads=4 PASS
+# atomic atomic2 run1 threads=4 PASS
+# atomic atomic2 run2 threads=4 PASS
+# atomic atomic2 run3 threads=4 PASS
+# atomic atomic3 run1 threads=4 PASS
+# atomic atomic3 run2 threads=4 PASS
+# atomic atomic3 run3 threads=4 PASS
+# atomic atomic4 run1 threads=4 PASS
+# atomic atomic4 run2 threads=4 PASS
+# atomic atomic4 run3 threads=4 PASS
+# atomic atomic5 run1 threads=4 PASS
+# atomic atomic5 run2 threads=4 PASS
+# atomic atomic5 run3 threads=4 PASS
+# atomic atomic6 run1 threads=4 PASS
+# atomic atomic6 run2 threads=4 PASS
+# atomic atomic6 run3 threads=4 PASS
+# atomic nestedTransactions0 run1 threads=4 PASS
+# atomic nestedTransactions0 run2 threads=4 PASS
+# atomic nestedTransactions0 run3 threads=4 PASS
+# atomic nestedTransactions1 run1 threads=4 PASS
+# atomic nestedTransactions1 run2 threads=4 PASS
+# atomic nestedTransactions1 run3 threads=4 PASS
+# atomic nestedTransactions2 run1 threads=4 PASS
+# atomic nestedTransactions2 run2 threads=4 PASS
+# atomic nestedTransactions2 run3 threads=4 PASS
+# checker COUNT SAME   1, declared O: 0
+# checker     5c5
+# checker     < FortressLibrary	2
+# checker     ---
+# checker     > FortressLibrary	0
+# checker     15c15
+# checker     < #locations	2
+# checker     ---
+# checker     > #locations	1
+# distance DISTANCE DOWN   153 -> 105 (-48)
+# distance     kind overloading              2 -> 0      (-2)
+# distance     kind wellformed              17 -> 6      (-11)
+# distance     kind typecheck              129 -> 94     (-35)
+# distance     class M1                      2 -> 0      (-2)  overloading: the Meet Rule
+# distance     class Z1                     11 -> 0      (-11)  sizes: arithmetic on nat static arguments
+# distance     class V2                     28 -> 16     (-12)  arrays: a sized array's body or factory (sizes lost in joins and factories)
+# distance     class G1                     18 -> 1      (-17)  generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+# distance     class NM                      6 -> 3      (-3)  names the api does not declare (getters and methods of Range, String, Generator)
+# distance     class OT                     16 -> 13     (-3)  other body errors (one-off library slips and checker limits)
+# distance     unit api FortressLibrary      1 -> 0      (-1)
+# distance     unit component FortressLibrary    143 -> 99     (-44)
+# distance     unit component NatReflect      3 -> 0      (-3)
+# distance     crash gone   decl	FnDecl FortressLibrary.fss:1302:1-1306:4	TypeError	FortressLibrary.fss:1304:10: Missing parameter type for i
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2491:1-2605:2	TypeError	FortressLibrary.fss:2500:9: Missing parameter type for i
+# distance     crash gone   decl	TraitDecl FortressLibrary.fss:2880:1-2993:2	TypeError	FortressLibrary.fss:2899:11: Missing parameter type for i
+# distance     crash new    decl	FnDecl FortressLibrary.fss:1309:1-1313:4	TypeError	FortressLibrary.fss:1311:10: Missing parameter type for i
+# distance     crash new    decl	TraitDecl FortressLibrary.fss:2887:1-3000:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2923.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+# microgpt-walk VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS
+# microgpt-walk rc=0 secs=58
+# microgpt-walk VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS
+# microgpt-walk rc=0 secs=50
