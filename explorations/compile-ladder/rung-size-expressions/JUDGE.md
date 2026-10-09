@@ -1,0 +1,30 @@
+# Rung N (climb batch 13, `rung-size-expressions`): the judge's ruling
+
+Judged: `wip/rung-size-expressions` at `f2055cb6c`, the one fix the skeptic marked contested, `7dd0adf0c`. Nothing else is ruled on here. No build and no test ran for this ruling; the results it cites are the skeptic's (SKEPTIC.md, section 3).
+
+**Decision: stands.** `7dd0adf0c` is upheld; no commit is reverted, and the rung lands as the branch holds it.
+
+## The fix
+
+`7dd0adf0c` makes two changes. `Naming.sizeOp` now computes a power of 0, 1 or -1 at any exponent (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java:1212-1222`). `TypeWellFormedChecker.sizeOutOfRange` now refuses a size that still holds an operation on two numerals after folding, with the message it gives an out-of-range numeral (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:45-74`). Its tests extend the rung's own new files: `compiler_tests/XXXNatArithRangeChecker` (`Box[\2^5000\]` refused, `Box[\1^5000\]` accepted) and `compiler_tests/NatArithClass` (`Box[\3 1^5000\]` and a template's `Box[\3 1^k\]` at k = 5000 are the class of `Box[\3\]`).
+
+## Ruling: uphold
+
+1. **The defect is real, and the decisions on record settle it.** POSITIONS, "Sizes." (`explorations/coordinator/POSITIONS.md:40`) says: "A `nat` parameter is an `NN32` value and an `int` parameter a `ZZ32` ... a larger one is refused". POSITIONS, "Arithmetic in a size ..." (`POSITIONS.md:54`) says the checker "range-checks what it folds" and "the class loader computes the value when it makes a class". The specification says the same thing (`Specification/basic/trait-parameters.tex:96-101`: a `nat` parameter appears where "a variable of type ℕ32 can appear"; `Specification/basic/expressions/constant.tex:20-23`: the value "can be determined statically"). At the worker's head `9d323883f`, `Box[\2^5000\]` compiled and ran, printing "REACHED", "big", "END", and `1^k` at k = 5000 stopped the class loader with `NumberFormatException: For input string: "1?5000?^"` (SKEPTIC.md:27). The first breaks "Sizes". The second breaks 15a, which says the loader computes the value.
+
+2. **The refusal is exact for every program the parser accepts.** The size grammar's exponent is an *IntVal*, a numeral or a name (`Specification/appendices/grammars/concrete-syntax.tex:546`). The parser builds only `+`, `-`, `" "` (for both `DOT` and juxtaposition) and `^`, with an *IntVal* exponent (`ProjectFortress/src/com/sun/fortress/parser/MayNewlineHeader.rats:253`, `:261`, `:277`, `:284-289`). So at check time, an operation on two numerals that `sizeOp` leaves uncomputed is a power whose base has magnitude at least 2 and whose exponent is above 4096. Its magnitude is at least 2^4097, outside both kinds. The comment at `TypeWellFormedChecker.scala:47-48` says this, and it is true. Computing 0, 1 and -1 at any exponent is what keeps the refusal exact: `1^5000` is 1 and is accepted. The arithmetic is right: 0^0 is 1, 0^r is 0, and (-1)^r follows r's parity (`Naming.java:1217-1218`). The two cases `sizeOp` still leaves uncomputed, a negative exponent and an unknown operator, cannot occur at check time. At the loader, they are row NEW-N-1's family: a size computed from static parameters is not checked there, and its notes record that `Box[\2^k\]` at k = 5000 stops (`explorations/compile-ladder/rung-size-expressions/record.md:28`).
+
+3. **Walk's precedent agrees.** Walk refuses a size operation whose value it cannot compute with the out-of-range message (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-479`, `ArithmeticException` caught). Refusing on an intermediate value is the same choice.
+
+4. **The fix stays inside the rung.** `sizeOp` and `Naming.foldSize` are the worker's own code for 15a. `git log --oneline a1a75716a..HEAD -- ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java` prints only `f623ce187` (the worker's item-15 commit) and `7dd0adf0c`. The brief's file list names `sizeOutOfRange`, and both test files are new in this rung. The reach the skeptic named, the class loader's computed size, is already the worker's point to report (REPORT.md:169, "The class loader's computed size."). The fix does not change any class name that worked before: the one case it touches, `1^k` at a large exponent, stopped the loader. The change can be undone, so it lands, and the point is listed for the curator (SKEPTIC.md:65), as POSITIONS, "Which decisions taken inside the work reach Pavol, and how." provides for a decision that can be undone.
+
+5. **Judged as a whole, a revert would leave the tree inconsistent.** The Effect of the rung's Appendix I entry "When two sizes are the same" now states the fix's behaviour: "a power of a base other than 0, 1 and $-1$ at an exponent above 4096 it does not compute, and refuses as outside every kind" (`Specification/appendices/changes.tex:3221-3224`, from `1360a90b5`). A revert would make that sentence false. It would also make REPORT.md's claim false again: "a size computed from numerals is checked as a numeral is" (REPORT.md:18). And `Box[\2^5000\]` would be accepted again, against "Sizes".
+
+## Each side's claims
+
+- **The skeptic** is right on the defect, on the fix and on its tests. It is also right that the loader's computed size is a point to report. It is wrong to file the fix as beyond the rung: the fix's files and functions are the rung's (point 4 above).
+- **The worker** gives no argument for keeping the defect. Its report's claim that a size computed from numerals is range-checked (REPORT.md:18) was false at `9d323883f` for a power above the exponent 4096. That claim is true once the fix is in.
+
+## For the curator
+
+Nothing new. The loader's computed size, now including a power of 0, 1 or -1 at any exponent (`Naming.java:1216-1220`), was already a point to report, listed by the worker (REPORT.md:169) and the skeptic (SKEPTIC.md:65). The loader's missing range check is row NEW-N-1, which the worker lists for him.
