@@ -1,0 +1,19 @@
+(* A size name may equal a numeral: the arm for size 0 of a typecase on a generic size is reached. *)
+component NatZeroArm
+export Executable
+
+value object Nt[\nat n\] end
+
+arm[\nat b0\](): String =
+  typecase Nt[\b0\] of
+    Nt[\0\] => "zero"
+    else => "other"
+  end
+
+run(): () = do
+    assert(arm[\0\](), "zero", "internal-document.tex, subsection \"Overloaded operators\": a size name is not known to differ from a numeral")
+    assert(arm[\3\](), "other", "a typecase clause whose size differs from the selector's")
+    println("PASS")
+  end
+
+end

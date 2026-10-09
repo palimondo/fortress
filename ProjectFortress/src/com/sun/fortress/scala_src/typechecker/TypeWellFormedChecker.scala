@@ -38,37 +38,40 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
 
-  private val sizeArithmetic =
-    "Arithmetic on nat static arguments is not supported by the type checker; use a nat parameter or a literal."
-
-  private def hasSizeArithmetic(sarg: StaticArg) = sarg match {
-    case SIntArg(_, _, _: IntBinaryOp) => true
-    case _ => false
-  }
-
   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
   private val zz32Max = java.math.BigInteger.valueOf(Int.MaxValue.toLong)
 
-  // A literal size outside the values of every kind its parameters have: a nat parameter
-  // is an NN32 value and an int parameter a ZZ32 value.  No kinds known means either.
-  private def sizeOutOfRange(sarg: StaticArg, kinds: List[StaticParamKind]): Option[String] =
+  // A size, a literal or one computed from literals, outside the values of every kind its
+  // parameters have: a nat parameter is an NN32 value and an int parameter a ZZ32 value.
+  // No kinds known means either.  An operation on numerals that folding leaves uncomputed,
+  // a power beyond Naming.sizeOp's exponent, is at least 2^4097, outside every kind.
+  private def sizeOutOfRange(sarg: StaticArg, kinds: List[StaticParamKind]): Option[String] = {
+    val nat = kinds.exists(_.isInstanceOf[KindNat])
+    val int = kinds.exists(_.isInstanceOf[KindInt])
+    def outOfRange(shown: String) =
+      if (nat && !int)
+        Some("The static argument " + shown + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.")
+      else if (int && !nat)
+        Some("The static argument " + shown + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.")
+      else
+        Some("The static argument " + shown + " is out of range for a nat parameter, whose values are those of NN32, and for an int parameter, whose values are those of ZZ32.")
+    def uncomputed(e: IntExpr): Option[IntExpr] = e match {
+      case b@SIntBinaryOp(_, _, _: IntBase, _: IntBase, _) => Some(b)
+      case SIntBinaryOp(_, _, l, r, _) => uncomputed(l).orElse(uncomputed(r))
+      case _ => None
+    }
     sarg match {
-      case SIntArg(_, _, SIntBase(_, _, lit)) =>
-        val v = lit.getIntVal
-        val nat = kinds.exists(_.isInstanceOf[KindNat])
-        val int = kinds.exists(_.isInstanceOf[KindInt])
+      case SIntArg(_, _, e) if foldSize(e).isInstanceOf[IntBase] =>
+        val v = foldSize(e).asInstanceOf[IntBase].getIntVal.getIntVal
         val fitsNat = v.signum >= 0 && v.compareTo(nn32Max) <= 0
         val fitsInt = v.compareTo(zz32Min) >= 0 && v.compareTo(zz32Max) <= 0
         if ((nat && fitsNat) || (int && fitsInt) || (!nat && !int && (fitsNat || fitsInt))) None
-        else if (nat && !int)
-          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.")
-        else if (int && !nat)
-          Some("The static argument " + v + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.")
-        else
-          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, and for an int parameter, whose values are those of ZZ32.")
+        else outOfRange(v.toString)
+      case SIntArg(_, _, e) => uncomputed(foldSize(e)).flatMap(b => outOfRange(b.toString))
       case _ => None
     }
+  }
 
   // The kinds of the static parameters at each position, from the declared schemas of a
   // checked reference; before type checking a reference has none, and its sizes wait.
@@ -80,8 +83,6 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
   private def walkStaticArgs(sargs: List[StaticArg], kinds: Option[List[List[StaticParamKind]]]) =
     sargs.zipWithIndex.foreach {
       case (a: IntArg, i) =>
-        if (hasSizeArithmetic(a))
-          error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
         kinds.foreach(ks => sizeOutOfRange(a, ks(i)).foreach(m =>
           error("Ill-formed static argument: " + a + "\n    " + m, a)))
       case (a, _) => walk(a)
@@ -145,8 +146,6 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
       case t@SObjectExprType(_, tys) => tys.foreach(walk)
       case t@STraitType(_, name, sargs, _) =>
-      if (sargs.exists(hasSizeArithmetic))
-        error("Ill-formed type: " + t + "\n    " + sizeArithmetic, t)
       getTypes(name) match {
         case si:TraitIndex => // Trait name should be defined.
         // Static arguments should satisfy the corresponding bounds.
@@ -184,8 +183,6 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case SUnionType(_, elements) => elements.foreach(walk)
       case _:LabelType => // OK
       case _:DimBase => // OK
-      case a:IntArg if hasSizeArithmetic(a) =>
-        error("Ill-formed static argument: " + a + "\n    " + sizeArithmetic, a)
       case a:IntArg =>
         sizeOutOfRange(a, Nil).foreach(m => error("Ill-formed static argument: " + a + "\n    " + m, a))
       case SFunctionalRef(_, args, _, _, _, _, newOverloadings, _, schema) if !args.isEmpty =>

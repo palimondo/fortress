@@ -1,0 +1,15 @@
+(* Two sizes are the same when their written forms are, once numerals are folded: s0 s1 is not s1 s0. *)
+component XXXNatArithFormChecker
+export Executable
+
+object Store[\nat n\](v: ZZ32) end
+
+keep[\nat s0, nat s1\](m: Store[\s0 s1\]): Store[\s0 s1\] = m
+swap[\nat s0, nat s1\](m: Store[\s0 s1\]): Store[\s1 s0\] = m
+
+run(): () = do
+    println(keep[\2,3\](Store[\6\](7)).v)
+    println(swap[\2,3\](Store[\2 3\](7)).v)
+  end
+
+end

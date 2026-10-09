@@ -324,7 +324,19 @@ trait Functionals { self: STypeChecker with Common =>
       case v: VarType if typeNames(v.getName) => Some(v.getName)
       case _ => None
     }
-    val positions = zipWithDomain(checked.map(e => normalize(getType(e).get)), arrow.getDomain)
+    // An argument whose trait's comprises clause lists one type at where-clause
+    // sizes (TypeAnalyzer.opensSizes) is opened once for the call, so that its
+    // admission below meets the size its inference bound; a subtype check would
+    // open it afresh.
+    def opened(t: Type): Type = t match {
+      case tt: TraitType if analyzer.opensSizes(tt) => analyzer.comprisedTypes(tt) match {
+        case Some(cs) if cs.size == 1 => cs.head
+        case _ => t
+      }
+      case _ => t
+    }
+    val argTypes = checked.map(e => opened(normalize(getType(e).get)))
+    val positions = zipWithDomain(argTypes, arrow.getDomain)
     val numerals = zipWithDomain(checked, arrow.getDomain).map(p => isNumeral(p._1))
     val fixedElsewhere = positions.filter(p => bare(p._2).isEmpty).flatMap(p => mentioned(p._2)).toSet
     val chosen = positions.flatMap(p => bare(p._2)).distinct.filterNot(fixedElsewhere)
@@ -370,10 +382,11 @@ trait Functionals { self: STypeChecker with Common =>
       val (resultArrow, sargs) =
         inferStaticParamsHelper(arrow, constraint, false, true, true).getOrElse(return None)
       if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
-      val newArgs = zipWithDomain(checked, resultArrow.getDomain).map { case (e, p) =>
-        if (isSubtype(getType(e).get, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
+      val newArgs = zipWithDomain(checked.zip(argTypes), resultArrow.getDomain).map { case ((e, a), p) =>
+        if (isSubtype(a, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
       }
-      if (!isSubtype(getArgType(newArgs.map(e => Left(e): Either[Expr, FnExpr])), resultArrow.getDomain)) return None
+      val newArgTypes = newArgs.zip(checked.zip(argTypes)).map { case (n, (e, a)) => if (n eq e) a else getType(n).get }
+      if (!isSubtype(NF.makeMaybeTupleType(NF.typeSpan, toJavaList(newArgTypes)), resultArrow.getDomain)) return None
       Some(AppCandidate(resultArrow, sargs, newArgs, preCandidate.overloading, preCandidate.fnl))
     }
     val found = combos.flatMap(attempt(_))

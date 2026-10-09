@@ -121,7 +121,15 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
         case b:WhereBinding if b.getKind.isInstanceOf[KindType] =>
           val sp = NF.makeTypeParam(info.getSpan, b.getName, b.getSupers, none[Type], false)
           KindBinding(b.getName, sp)
-        
+
+        // A nat or int binding is a size, as a nat or int static parameter is.
+        case b:WhereBinding if b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] =>
+          val sp = NF.makeStaticParam(info.getSpan, null, b.getName,
+                                      java.util.Collections.emptyList[BaseType],
+                                      java.util.Collections.emptyList[BaseType],
+                                      none[Type], false, b.getKind)
+          KindBinding(b.getName, sp)
+
         // Other kinds not supported yet.
         case _ => NI.nyi("non-type where clause bindings")
       }

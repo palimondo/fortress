@@ -1,0 +1,4 @@
+tests=XXXNatArithInferChecker
+compile
+compile_err_contains=File XXXNatArithInferChecker.fss has 1 error.
+compile_err_WIcontains=is not applicable to an argument of type IBox[\\i-1\\].

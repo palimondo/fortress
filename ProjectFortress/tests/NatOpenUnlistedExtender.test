@@ -1,0 +1,1 @@
+load_exception_contains=Invalid comprises clause: NatParamT has a comprises clause but its immediate subtype Other is not eligible to extend it

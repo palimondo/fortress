@@ -1901,7 +1901,8 @@ public class NamingCzar {
             IntExpr l = b.getLeft();
             IntExpr r = b.getRight();
             Op op = b.getOp();
-            return p(Naming.XL_INTNAT,l.accept(this).getB() + Naming.ENTER + r.accept(this).getB() + Naming.ENTER + op.getText());
+            // Numerals are computed here; the loader computes the rest at instantiation.
+            return p(Naming.XL_INTNAT, Naming.foldSize(l.accept(this).getB() + Naming.ENTER + r.accept(this).getB() + Naming.ENTER + op.getText(), null));
         }
 
        @Override

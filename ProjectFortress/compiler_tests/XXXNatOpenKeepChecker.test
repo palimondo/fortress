@@ -1,0 +1,4 @@
+tests=XXXNatOpenKeepChecker
+compile
+compile_err_contains=File XXXNatOpenKeepChecker.fss has 2 errors.
+compile_err_WIcontains=but declared type is Nt[\\3\\].

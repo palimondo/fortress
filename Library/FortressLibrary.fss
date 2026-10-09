@@ -2504,7 +2504,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   getter bounds():CompactFullRange2D = sized2Range(b0,b1,s0,s1)
   getter asString(): String = do
     r : String := "[" b0 "#" s0 "," b1 "#" s1 "]"
-    row(i) =
+    row(i: ZZ32) =
       for j <- seq(0#s1) do
          r := r " " get(i,j)
       end
@@ -2903,11 +2903,11 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
 
     getter asString():String = do
       r : String := "[" b0 "#" s0 "," b1 "#" s1 "," b2 "#" s2 "]"
-      row(i,k) =
+      row(i: ZZ32, k: ZZ32) =
           for j <- seq(0#s1) do
             r := r " " self[b0+i,b1+j,b2+k]
           end
-      plane(k) =
+      plane(k: ZZ32) =
         if s1 > 0 then
           row(0,k)
           for i <- seq(1#(s0-1)) do

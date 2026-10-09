@@ -1,0 +1,16 @@
+(* A where clause's constraint bounds the type parameter it names: a method of the bound is found on a value of that parameter. *)
+component XXXWhereBoundChecker
+export Executable
+
+trait T
+  f(): String
+end
+object O extends T
+  f(): String = "O"
+end
+
+g[\U\](u: U): String where { U extends T } = u.f()
+
+run(): () = println(g(O))
+
+end

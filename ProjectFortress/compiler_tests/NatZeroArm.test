@@ -1,0 +1,5 @@
+tests=NatZeroArm
+compile
+link
+run
+run_out_contains=PASS

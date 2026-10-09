@@ -1,4 +1,0 @@
-tests=XXXNatArithChecker
-compile
-compile_err_contains=File XXXNatArithChecker.fss has 4 errors.
-compile_err_WIcontains=Ill-formed static argument: 2+1

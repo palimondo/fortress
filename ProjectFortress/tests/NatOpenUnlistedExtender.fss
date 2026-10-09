@@ -1,0 +1,15 @@
+component NatOpenUnlistedExtender
+export Executable
+
+(* A clause that lists Nt[\n\] where [\nat n\] admits Nt at every size and no other extender. *)
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+end
+value object Nt[\nat n\] extends NatParamT end
+object Other extends NatParamT end
+
+run(): () = do
+    println(Other)
+  end
+
+end

@@ -237,7 +237,13 @@ then every type listed in its \KWD{comprises} clause extends \VAR{T},
 and every value of type \VAR{T} is a value of one of the listed types.
 A listed type may be an instantiation of a parameterized trait,
 provided that every static variable that occurs in its static arguments
-is a static parameter of \VAR{T}.
+is a static parameter of \VAR{T}
+or a \KWD{where}-clause variable of the declaration of \VAR{T}
+(\secref{where-clauses}),
+which the listed type then holds at every value of:
+a trait declared
+\EXP{\KWD{trait}\;\TYP{NatParam}\;\KWD{comprises}\;\{N\llbracket{}n\rrbracket\}\;\KWD{where}\;\llbracket\KWD{nat}\;n\rrbracket}
+lists \EXP{N\llbracket{}n\rrbracket} at every \KWD{nat} value of \VAR{n}.
 A trait or object that explicitly extends \VAR{T}
 must be a subtype of a listed type,
 unless it is a trait with a \KWD{comprises} clause of its own
@@ -264,7 +270,10 @@ adding no value outside them,
 when at least one trait or object extends it
 and every one that does is a subtype of a listed type.
 This also answers the third question of the draft note on trait identifiers above,
-whether an instantiation of a parameterized trait may be listed: it may.}
+whether an instantiation of a parameterized trait may be listed: it may.
+A \KWD{where}-clause variable of the declaration of \VAR{T} may also occur in a
+listed type, as in the clause of the trait \TYP{NatParam} of \library,
+which the team wrote as a comment and the revival restores.}
 \note{
 If the \KWD{comprises} clause of a trait \VAR{T} includes ``\EXP{\ldots}''
 (and must therefore be in an API),

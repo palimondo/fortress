@@ -1,0 +1,3 @@
+tests=XXXWhereBoundChecker
+compile
+compile_err_contains=No such method U.f.

@@ -108,6 +108,18 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: the checker checks sizes, and the slot holds the size's descriptor (`SKILL.md`, "The compiled run time").
 - Reason: it completes the team's design, which carries a size as it carries a type argument.
 
+**Arithmetic in a size**
+
+- Original: the Working Draft allows a sum, a difference, a product or a power as a size, and fixes its value once the static parameters are known, but does not say when two such sizes are the same. The checker refused any arithmetic in a size, and counted a static parameter as different from every numeral. The compiled path spelled the expression into the class's name.
+- Resolution: two sizes are the same when they are written alike once each operation on numerals is computed: `2 3` is `6`, and `s0 s1` is not `s1 s0`. A static parameter, or an expression with one in it, is not known to differ from a numeral, so the `N[\0\]` arm of a `typecase` on `N[\b0\]` is reachable. The checker checks a computed size against its parameter's kind, as it checks a numeral. The compiled path computes a size when it names a class, so `Box[\2 + 1\]` and `Box[\3\]` are one class; the class loader does not check a size it computes (ledger row 675). Walk computes a sum, a difference and a product, and stops on a power (ledger row 676).
+- Reason: the library writes a product in the storage of its matrices and sums in result types. The team's questions and answers in the specification refuse `T[\n+1\]` beside `T[\0\]`.
+
+**A size known only at run time**
+
+- Original: `NatReflect`'s `reflect` answers a `NatParam`. The team's clause `comprises { N[\n\] } where [\ nat n \]` was a comment, with the reading that a `NatParam` passed where `N[\n\]` is expected makes `n` a static parameter. The checker refused every such call in the library; walk ran them, binding the size at dispatch.
+- Resolution: the clause is restored, and the specification allows a where-clause variable in a listed type. A value of such a trait, passed where the listed type is expected, binds the call's `nat` parameter to the value's own size, a size equal only to itself: two values passed in one call have two sizes, and the size does not reach a type that names another. Walk loads the clause and binds the size at dispatch, as before. The compiled run waits for the switch-over (`compiler_tests/XXXNatOpenRun`).
+- Reason: the team's comment, and the library's run-time factories, which pass `reflect`'s value to functions that take `N[\n\]`.
+
 **Comparing pairs and triples**
 
 - Original: the interpreter's library compared pairs and triples lexicographically with `<`, `<=`, `>`, `>=` and `CMP` over element types with no bound, under the team's comment "Shouldn't these operators have to extend something? A,B,C?". Walk compared an element only when the elements before it were equal, so `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` were `true`. A pair whose first elements were unordered, such as a NaN against a float, stopped walk.

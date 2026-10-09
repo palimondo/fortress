@@ -12,7 +12,13 @@
 \section{Static Expressions}
 \seclabel{static-expr}
 
-\note{Static expressions are not yet supported.}
+\note{Of the static expressions in a size, the interpreter computes a sum, a
+difference and a product, and stops on a power (row~676 of the revival's gap
+ledger); the compiled type checker computes each operation on numerals,
+refusing as out of range a power it does not compute, and compares other size
+expressions by their written form (\chapref{types}); the compiled path
+computes a size when it names a class. The compiled type checker does not
+infer a \KWD{bool}, \KWD{dim} or \KWD{unit} static argument.}
 
 \emph{Static expressions} denote \emph{static values}.  Conceptually,
 a static expression is not evaluated while a program is running, and

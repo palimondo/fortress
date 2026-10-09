@@ -927,6 +927,16 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
     private static EvalType processWhereClauses(WhereClause wheres, Environment interior) {
 
         if (wheres != null) {
+            // A nat or int where-clause variable stands for every size, as a
+            // static parameter does in a symbolic instantiation: comprises
+            // { N[\n\] } where [\nat n\] lists N at every n.
+            for (WhereBinding b : wheres.getBindings()) {
+                if (b.getKind() instanceof KindNat || b.getKind() instanceof KindInt) {
+                    String string_name = NodeUtil.nameString(b.getName());
+                    if (interior.getLeafTypeNull(string_name) == null)
+                        interior.putType(string_name, new SymbolicNat(string_name));
+                }
+            }
             for (WhereConstraint w : wheres.getConstraints()) {
                 if (w instanceof WhereExtends) {
                     WhereExtends we = (WhereExtends) w;
@@ -1141,6 +1151,8 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             final Environment env;
             final int unit;
             final List<String> params = new ArrayList<String>();
+            /** Its nat and int where-clause variables, each of which a type it lists may hold at any size. */
+            final List<String> wheres = new ArrayList<String>();
 
             Declared(TraitObjectDecl decl, FType type, Environment env, int unit) {
                 this.decl = decl;
@@ -1148,6 +1160,13 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                 this.env = env;
                 this.unit = unit;
                 for (StaticParam sp : NodeUtil.getStaticParams(decl)) params.add(NodeUtil.getName(sp));
+                Option<WhereClause> w = NodeUtil.getWhereClause(decl);
+                if (w.isSome()) {
+                    for (WhereBinding b : w.unwrap().getBindings()) {
+                        if (b.getKind() instanceof KindNat || b.getKind() instanceof KindInt)
+                            wheres.add(NodeUtil.nameString(b.getName()));
+                    }
+                }
             }
 
             String name() {
@@ -1342,9 +1361,32 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             return false;
         }
 
+        /**
+         * a is b, a where-clause variable of b standing for any term, the
+         * same one at each of its places.
+         */
+        private static boolean matches(Term a, Term b, Map<String, Term> bound) {
+            if (b.head == null && b.param < 0 && b.text != null && b.text.startsWith(WHERE_VARIABLE)) {
+                Term was = bound.get(b.text);
+                if (was == null) {
+                    bound.put(b.text, a);
+                    return true;
+                }
+                return was.equals(a);
+            }
+            if (a.head != b.head || a.param != b.param || !(a.text == null ? b.text == null : a.text.equals(b.text)) ||
+                a.args.size() != b.args.size()) return false;
+            for (int i = 0; i < a.args.size(); i++) {
+                if (!matches(a.args.get(i), b.args.get(i), bound)) return false;
+            }
+            return true;
+        }
+
+        private static final String WHERE_VARIABLE = "where ";
+
         /** a is b, or extends b through the declarations' extends clauses. */
         private boolean subtype(Term a, Term b, int depth) {
-            if (a.equals(b)) return true;
+            if (matches(a, b, new java.util.HashMap<String, Term>())) return true;
             if (depth > 64 || a.head == null) return false;
             Declared d = declared.get(a.head);
             if (d == null || a.args.size() != d.params.size()) return false;
@@ -1432,6 +1474,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             String s = NodeUtil.nameString(name);
             int i = x.params.indexOf(s);
             if (i >= 0) return new Term(null, i, null, Collections.<Term>emptyList());
+            if (x.wheres.contains(s)) return new Term(null, -1, WHERE_VARIABLE + s, Collections.<Term>emptyList());
             return new Term(null, -1, "var " + s, Collections.<Term>emptyList());
         }
     }

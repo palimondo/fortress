@@ -1298,7 +1298,8 @@ lines 405, 407 and 411, the three lines of the adapted generator that named
 \seclabel{revival-comprises}
 
 \begin{description}
-\item[Affected sections] \secref{trait-decls}.
+\item[Affected sections] \secref{trait-decls}; \secref{natparams}, by the
+amendment of 9~October 2026.
 \item[Change] The first sentence of a draft note in \secref{trait-decls},
 which said that the traits listed in a \KWD{comprises} clause are exactly
 the traits that immediately extend the declared trait and that they must
@@ -1316,6 +1317,14 @@ kept in its note, and the example of \TYP{Molecule} is unchanged.
 The new text answers the third question of Victor Luchangco's draft note
 on trait identifiers earlier in the section, whether an instantiation of a
 parameterized trait may be listed: it may.
+An amendment of 9~October 2026 lets the static arguments of a listed type
+contain a \KWD{where}-clause variable of the declaration of \VAR{T} as well,
+the listed type then holding at every value of the variable, and adds one
+sentence to \secref{natparams}: an argument whose type is a trait whose clause
+lists a type at a \KWD{nat} or \KWD{int} \KWD{where}-clause variable, passed
+where that listed type is expected with a \KWD{nat} or \KWD{int} parameter in
+the variable's place, instantiates that parameter, for that call, with the
+size of the value itself, a size known to equal only itself.
 \item[Rationale] This change does not follow from route~A; the revival
 decided it on 28~September 2026.
 The team's later Types chapter (Luchangco, 2012) reads a \KWD{comprises}
@@ -1349,6 +1358,26 @@ so it can be listed only at particular static arguments, and every value of it i
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-spec-comprises/decision-record.md}
 in the revival's repository.
+The amendment follows the revival's default for the third question of its
+array design, a size known only at run time, built on 9~October 2026 and
+listed for the curator's review.
+\library\ have carried on their trait \TYP{NatParam}, since 2007, the clause
+``\EXP{\KWD{comprises}\;\{N\llbracket{}n\rrbracket\}\;\KWD{where}\;\llbracket\KWD{nat}\;n\rrbracket}''
+as a comment, with the reading that a function taking an
+\EXP{N\llbracket{}n\rrbracket} may be passed a \TYP{NatParam}, and ``within
+that function n becomes a static nat parameter''
+(\nolinkurl{ProjectFortress/LibraryBuiltin/NatReflect.fss}, lines 15--26, in
+the revival's repository).
+The sentence of 28~September followed the Types chapter's rule by which one
+generic type determines another, which does not consider \KWD{where}-clause
+variables; \secref{where-clauses} allows a declaration to introduce them.
+A size so opened is bound for the call, as inference binds a type parameter
+to an argument's type, and since no program can write its name it cannot be
+equal to a size written elsewhere.
+The full reasoning of the amendment is in
+\nolinkurl{explorations/compile-ladder/rung-size-expressions/REPORT.md} and
+\nolinkurl{explorations/reviews/array-fork3-judgement.md} in the revival's
+repository.
 \item[Effect] The compiled type checker accepts the declaration of
 \TYP{AnyIntegral} in \library\ as written
 (\nolinkurl{Library/FortressLibrary.fsi}, lines 433--436).
@@ -1372,6 +1401,28 @@ It does not yet check a clause declared in another component, of the program
 or of \library\ (rows~22, 487, 551, 595 and~596), an object expression that
 extends such a trait (row~597), or that each listed type extends \VAR{T}
 (row~598).
+By the amendment, the compiled type checker reads a \KWD{nat} or \KWD{int}
+\KWD{where}-clause variable as a size, reads a listed type at every value of
+such a variable when it checks the traits and objects that extend \VAR{T}, and
+opens an argument as the new sentence of \secref{natparams} says, so that the
+value of \VAR{reflect} in \library\ is accepted where an
+\EXP{N\llbracket{}n\rrbracket} is expected; it refuses an opened size that
+reaches a type naming another size, and gives two values opened in one call
+two sizes, so it refuses a call that needs them equal where the interpreter
+runs it when they are.
+It reads a declaration whose parameter type is such a trait and a declaration
+with a \KWD{nat} parameter whose parameter type is the listed type at it as
+applicable to the same calls, and refuses the pair as duplicates, where the
+interpreter runs it and calls the second; the text does not say whether the
+opening counts for the rules of \secref{overloading-static-params}
+(row~682 of the revival's gap ledger).
+It does not yet open a type \KWD{where}-clause variable, as in
+\TYP{List}'s commented clause (row~636), and the code generator does not yet
+compile a trait with a \KWD{where} clause or read a size off an argument at a
+call (row~307).
+The interpreter binds such a variable as a size when it loads the trait, reads
+a listed type at every value of it in its check at load, and binds the size of
+an argument when it dispatches.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/traits.tex},
 lines 230--241, a draft note:
 \begin{quote}
@@ -1388,11 +1439,18 @@ but these traits may not be declared or imported by the API
 (see \secref{apis}).
 \end{quote}
 Its second sentence is kept, in its note.
+The passage of \secref{natparams} that the amendment adds to is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex}, lines 76--90.
 \item[Route C] The same under route~C, under which the self-typed traits
 carry \KWD{comprises} clauses of their own (\secref{revival-routec}): a
 parameterized trait between a closed trait and its listed types then meets
 the requirement through its own clause, and the last case of the
 requirement is not needed.
+The amendment is the same under route~C.
+A return to the text before it would put \TYP{NatParam}'s clause back into a
+comment, as \library\ had it, and leave the compiled type checker refusing
+each call that passes the value of \VAR{reflect} where an
+\EXP{N\llbracket{}n\rrbracket} is expected (row~664).
 \end{description}
 
 \subsection{Shifts and narrowing on the integer types}
@@ -3121,6 +3179,78 @@ all of these methods simply return the argument if it is
 A return to the original sentence would need the six methods and operators to
 declare a rational result, against their entries' \EXP{\mathbb{Z}}, or would
 leave them returning a value outside the type they declare.
+\end{description}
+
+\subsection{When two sizes are the same}
+\seclabel{revival-sizes}
+
+\begin{description}
+\item[Affected section] \chapref{types}.
+\item[Change] Two sentences and a box after the sentence of \chapref{types}
+on identical types, which is unchanged.
+They say that two \KWD{nat} or \KWD{int} static arguments are identical if
+and only if they are written alike once each operation whose operands are
+numerals is replaced by its value, so that \EXP{2\;3} is \EXP{6} and
+\EXP{s_{0}\;s_{1}} is not \EXP{s_{1}\;s_{0}}; that two such arguments are known
+to differ when they are two different numerals; and that a static parameter,
+or an expression in which one occurs, is not known to differ from a numeral.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 9~October 2026 on arithmetic in a size.
+The text allows a sum, a difference, a product or a power as a static
+argument (\appref{concrete-syntax}) and says that its value is determined
+once the static parameters in it are instantiated (\secref{static-expr}),
+but it never said when two such arguments are identical: the sentence on
+identical types says only that their static arguments are, beside the team's
+note that it ``isn't complete in any case''.
+\library\ write a product in the size of the storage of a matrix
+(\EXP{\VAR{mem}\COLON\TYP{PrimitiveArray}\llbracket{}T, (s_{0}\;s_{1})\rrbracket})
+and sums in result types; written forms compared once numerals are folded
+accept what they write, each product written once, with no solver of
+arithmetic, which nothing in them needs.
+The team's own questions and answers on overloaded operators, in the appendix
+``Internal Document'', refuse \EXP{f(x\COLON T\llbracket{}n+1\rrbracket)}
+beside \EXP{f(x\COLON T\llbracket{}0\rrbracket)}, ``now that \EXP{n+1} is
+necessarily nonzero'', and allow \EXP{T\llbracket{}1\rrbracket} beside
+\EXP{T\llbracket{}0\rrbracket}: a numeral differs from another numeral, and an
+expression with a static parameter in it is not known to differ from a numeral.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-size-expressions/REPORT.md}
+in the revival's repository.
+\item[Effect] The compiled type checker accepts a sum, a difference, a product
+or a power in a size, computes each operation whose operands are numerals,
+checks the result against the parameter's kind as it checks a numeral, and
+compares sizes as the new sentences say; a power of a base other than 0, 1
+and $-1$ at an exponent above 4096 it does not compute, and refuses as outside
+every kind; a clause
+\EXP{N\llbracket{}0\rrbracket} of a \KWD{typecase} on
+\EXP{N\llbracket{}b_{0}\rrbracket} is reachable.
+It still counts two different static parameters as different sizes, which the
+text does not say (row~683 of the revival's gap ledger), and it does not
+infer a static argument written with a static parameter in it: a call of
+\EXP{\VAR{get}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i\rrbracket)}
+with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} is refused
+unless it writes \EXP{\VAR{get}\llbracket{}i-1\rrbracket} (row~681).
+The compiled path computes a size when it names a class, an operation on
+numerals when the program is compiled and the rest when the class is first
+loaded, so that \EXP{\TYP{Box}\llbracket{}2+1\rrbracket} and
+\EXP{\TYP{Box}\llbracket{}3\rrbracket} are one class; it does not check a size
+computed at that time against its parameter's kind, and makes a size beyond
+\EXP{\mathbb{N}32} that the interpreter refuses (row~675 of the revival's
+gap ledger).
+The interpreter computes a sum, a difference and a product exactly when it
+instantiates a type and refuses a size outside its kind; it stops on a power
+(row~676).
+\item[Original text] The passage is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex}, lines 51--52:
+\begin{quote}
+Two types are identical if and only if they are the same kind and
+their names and static arguments (if any) are identical.
+\end{quote}
+\item[Route C] The same under route~C.
+A return to the text before this change would leave the identity of two size
+expressions unsaid, as the compiled type checker read it before 9~October
+2026: a size with arithmetic in it refused, and a static parameter counted as
+different from every numeral.
 \end{description}
 
 \subsection{Passages not yet revised}

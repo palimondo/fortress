@@ -1,0 +1,4 @@
+tests=XXXNatArithFormChecker
+compile
+compile_err_contains=File XXXNatArithFormChecker.fss has 1 error.
+compile_err_WIcontains=Function body has type Store[\\s0 s1\\], but declared return type is Store[\\s1 s0\\].

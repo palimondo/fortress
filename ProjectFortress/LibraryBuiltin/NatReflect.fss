@@ -21,7 +21,7 @@ export NatReflect
  *  parameter.
  *)
 trait NatParam
-  (* comprises { N[\n\] } where [\ nat n \] *)
+  comprises { N[\n\] } where [\ nat n \]
   getter toZZ() : ZZ32
 end
 

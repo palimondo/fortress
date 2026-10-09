@@ -20,6 +20,8 @@ package com.sun.fortress.scala_src.typechecker
 import com.sun.fortress.nodes._
 
 import com.sun.fortress.nodes_util.NodeFactory
+import com.sun.fortress.nodes_util.NodeUtil
+import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.compiler.Types.ANY
 import com.sun.fortress.compiler.Types.BOTTOM
 import com.sun.fortress.compiler.Types.OBJECT
@@ -92,15 +94,60 @@ object Formula{
   def insertNats(nmap: IntExpr => IntExpr): Type => Type =
     TU.liftSubstitution[IntExpr, _InferenceVarInt, Type]{case x:_InferenceVarInt => nmap(x)}
 
-  /* Two sizes are equal when they are the same inference variable, the same
-   * static parameter or the same literal; the generated equals compares
-   * source positions, so it is not used.  A size with arithmetic in it
-   * equals nothing: the checker does not evaluate it.
+  /* A size with each operation whose operands are numerals computed: 2 3 is
+   * 6, s0 s1 stays s0 s1.  The run time computes the same operations
+   * (Naming.sizeOp); an operation it does not compute is kept as written.
    */
-  def nEq(a: IntExpr, b: IntExpr): Boolean = (a, b) match {
+  def foldSize(e: IntExpr): IntExpr = e match {
+    case b@SIntBinaryOp(info, paren, l, r, op) =>
+      (foldSize(l), foldSize(r)) match {
+        case (x: IntBase, y: IntBase) =>
+          val v = com.sun.fortress.runtimeSystem.Naming.sizeOp(op.getText, x.getIntVal.getIntVal, y.getIntVal.getIntVal)
+          if (v == null) SIntBinaryOp(info, paren, x, y, op)
+          else NodeFactory.makeIntBase(NodeUtil.getSpan(b), paren,
+                 com.sun.fortress.nodes_util.ExprFactory.makeIntLiteralExpr(NodeUtil.getSpan(b), v))
+        case (x, y) => SIntBinaryOp(info, paren, x, y, op)
+      }
+    case _ => e
+  }
+
+  /* Two sizes are equal when their written forms are, once numerals are
+   * folded: the same inference variable, the same static parameter, the same
+   * number, or the same operation on equal sizes; s0 s1 is not s1 s0.  The
+   * generated equals compares source positions, so it is not used.
+   */
+  def nEq(a: IntExpr, b: IntExpr): Boolean = sameSize(foldSize(a), foldSize(b))
+
+  private def sameSize(a: IntExpr, b: IntExpr): Boolean = (a, b) match {
     case (x: _InferenceVarInt, y: _InferenceVarInt) => x.getId eq y.getId
     case (x: IntRef, y: IntRef) => x.getName.getText == y.getName.getText
     case (x: IntBase, y: IntBase) => x.getIntVal.getIntVal == y.getIntVal.getIntVal
+    case (SIntBinaryOp(_, _, l1, r1, o1), SIntBinaryOp(_, _, l2, r2, o2)) =>
+      o1.getText == o2.getText && sameSize(l1, l2) && sameSize(r1, r2)
+    case _ => false
+  }
+
+  /* Two sizes known to differ: two different numerals, or two different
+   * static parameters.  A name or an operation beside a numeral or an
+   * operation may be equal to it, as the specification's Q&A on overloaded
+   * operators answers (n+1 beside 0); nEq says when it is.
+   */
+  def nDiffer(a: IntExpr, b: IntExpr): Boolean = (foldSize(a), foldSize(b)) match {
+    case (x: IntBase, y: IntBase) => !sameSize(x, y)
+    case (x: IntRef, y: IntRef) => !sameSize(x, y) && !isOpenedSize(x) && !isOpenedSize(y)
+    case _ => false
+  }
+
+  /* A size opened from a value: comprises { N[\n\] } where [\nat n\] lists N
+   * at every n, and a value of the trait passed where N[\m\] is expected binds
+   * m to its own size, a name no program can write, equal only to itself and
+   * not known to differ from any size (TypeAnalyzer.openWhereSizes).
+   */
+  private val openedSizeMark = "#"
+  private val openedSizes = new java.util.concurrent.atomic.AtomicInteger()
+  def openedSizeName(where: String): String = where + openedSizeMark + openedSizes.incrementAndGet
+  def isOpenedSize(e: IntExpr): Boolean = e match {
+    case r: IntRef => r.getName.getText.contains(openedSizeMark)
     case _ => false
   }
 
@@ -451,7 +498,7 @@ object Formula{
   private def definitelyNotEqualNat(a: IntExpr, b: IntExpr): Boolean = (a, b) match {
     case (_: _InferenceVarInt, _) => false
     case (_, _:_InferenceVarInt) => false
-    case _ => !nEq(a, b)
+    case _ => nDiffer(a, b)
   }
   
   private def isContradictory[T](as: Set[Set[T]], neq: (T,T) => Boolean): Boolean =

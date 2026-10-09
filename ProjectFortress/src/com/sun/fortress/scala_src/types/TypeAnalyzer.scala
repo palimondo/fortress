@@ -111,7 +111,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
      }
      val rval = if (x == y)
            pTrue()
-         else if (cacheSubtypes)
+         else if (cacheSubtypes && !opensSizes(x))
            pSubMemo.get((x, y, negate, history)) match {
             case Some(v) => v
             case _ => 
@@ -263,6 +263,19 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     //case (STraitType(_, n1, a1,_), STraitType(_, n2, a2, _)) if (typeCons(n1)==typeCons(n2)) =>
       // println("checking " + a1 + " vs " + a2)
       //pAnd((a1, a2).zipped.map((a, b) => pEqv(a, b)))
+    // A trait whose comprises clause lists a type at where-clause sizes, as
+    // comprises { N[\n\] } where [\nat n\], is below t also when each listed
+    // type is, its sizes opened: a value passed where N[\m\] is expected binds m
+    // to its own size for that call.  A listed type extends the trait, so
+    // the trait is opened once on each path.
+    case (s: TraitType, t: TraitType) if opensSizes(s) =>
+      val parentResult = pOr(parents(s).map(pSub(_, t)))
+      val hEntry = (negate, true, s, t)
+      if (history.contains(hEntry)) parentResult
+      else comprisedTypes(s) match {
+        case Some(cs) => pOr(parentResult, pAnd(cs.map(pSub(_, t)(negate, history + hEntry))))
+        case None => parentResult
+      }
     case (s:TraitType , t: TraitType) =>
       // println("checking " + s + " <: " + t)
       val par = parents(s)
@@ -352,13 +365,15 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def equivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(false)
   def notEquivalent(x: IntExpr, y: IntExpr): CFormula = pEqv(x, y)(true)
 
-  // Sizes are equal as symbols and literals; a symbol is not any literal
-  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean): CFormula = (x, y) match {
+  // Sizes are equal when their written forms are, once numerals are folded;
+  // they differ when nDiffer says so; otherwise neither is known
+  protected def pEqv(x: IntExpr, y: IntExpr)(implicit negate: Boolean): CFormula = (foldSize(x), foldSize(y)) match {
     case (a, b) if nEq(a, b) => pTrue()
     case (a: _InferenceVarInt, b: _InferenceVarInt) => and(pEquivalent(a, b), pEquivalent(b, a))
     case (a: _InferenceVarInt, b) => pEquivalent(a, b)
     case (a, b: _InferenceVarInt) => pEquivalent(b, a)
-    case _ => pFalse()
+    case (a, b) if nDiffer(a, b) => pFalse()
+    case _ => False
   }
   
   def excludes(x: Type, y: Type): CFormula =
@@ -729,8 +744,45 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       val args = toListFromImmutable(t.getArgs)
       val params = toListFromImmutable(ti.staticParameters)
       toSet(ti.comprisesTypes).map(nt => if (!nt.isInstanceOf[TraitType]) return Set()
-                                         else substitute(args, params, nt).asInstanceOf[TraitType])
+                                         else openWhereSizes(ti, substitute(args, params, nt)).asInstanceOf[TraitType])
     case _ => Set()
+  }
+
+  /* The nat and int where-clause variables of a trait declaration with a
+   * comprises clause, as static parameters: comprises { N[\n\] } where
+   * [\nat n\] lists N at every n. */
+  def whereSizes(ti: ProperTraitIndex): List[StaticParam] =
+    if (ti.comprisesTypes.isEmpty) Nil
+    else ti.ast match {
+      case d: TraitObjectDecl => toOption(NU.getWhereClause(d)) match {
+        case Some(w) => toListFromImmutable(w.getBindings).filter(b =>
+            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt]).map(b =>
+            NF.makeStaticParam(NU.getSpan(b), null, b.getName,
+                               _root_.java.util.Collections.emptyList[BaseType],
+                               _root_.java.util.Collections.emptyList[BaseType],
+                               none[Type], false, b.getKind))
+        case None => Nil
+      }
+      case _ => Nil
+    }
+
+  /* Whether t is a trait whose comprises clause lists types at where-clause sizes. */
+  def opensSizes(t: Type): Boolean = t match {
+    case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
+      case Some(ti: ProperTraitIndex) => !whereSizes(ti).isEmpty
+      case _ => false
+    }
+    case _ => false
+  }
+
+  /* A type ti's comprises clause lists, each where-clause size opened: a
+   * fresh name, equal only to itself (Formula.openedSizeName). */
+  def openWhereSizes(ti: ProperTraitIndex, listed: Type): Type = whereSizes(ti) match {
+    case Nil => listed
+    case ws =>
+      val opened = ws.map(p => NF.makeIntArg(NU.getSpan(p),
+        NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))))
+      substitute(opened, ws, listed)
   }
   
   // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
@@ -754,7 +806,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 	val cs = index.comprisesTypes
 	if (cs.isEmpty) None
         else
-	    Some(toSet(cs).map(typ => substitute(a, toListFromImmutable(index.staticParameters), typ).asInstanceOf[BaseType]).toSet)
+	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ)).asInstanceOf[BaseType]).toSet)
       case _ => None
     }
   }

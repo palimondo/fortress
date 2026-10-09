@@ -4709,3 +4709,9 @@ closed by 74b28e9d4
 note added
 
 | 470 | the compiled checker does not check a static argument written at a call against its parameter's bound: it accepts `n[\String\]("d")` for `n[\T extends Number\](s: String): T` and `k[\(ZZ32, ZZ32)\]((1, 2))` for `k[\T extends Object\](x: T)`; walk accepts them too | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/appendices/calculi/basic/static.tex:190-201`, "Static Semantics" (rule T-Invk, the premise at `:195`) | none | climb batch 7 rung B | The checker accepts `g[\(ZZ32, ZZ32)\]` and `g[\ZZ32 -> ZZ32\]` for `g[\T extends Object\]` too. The same checker refuses the bound where it infers the argument (`k((1, 2))`, "not applicable") and in a type application (`Box[\(ZZ32, ZZ32)\]`, "Ill-formed type ... does not satisfy the corresponding bound Object"). Its probe, `explorations/compile-ladder/rung-result-bounds/probes/compcheck/BoundCheck.fss`, is no longer in the tree. No gated test can hold it: the harness has no form for a program the specification refuses and the checker accepts. Where the fix goes was not traced. full text: history, row 470 |
+
+### Row 25
+
+note added
+
+| 25 | a `nat` static argument can never be a value name; `NatReflect.reflect` + one hoisted generic per shape is the sanctioned escape | NEGATIVE-VERIFIED | design limit (specification) | `basic/trait-parameters.tex`, "Nat and Int Parameters" (a `nat` is a *static* parameter) | none | ours | `n is undefined.`: static args resolve in the type namespace. The escape works in `explorations/libvector-probes/p22_runtime_sized.fss`. `NatReflect.fss`'s own comment asks for this to be built into the language. Probe `explorations/libvector-probes/p09_runtime_size.fss`, in the parent of `e879b6a44`. full text: history, row 25 |
