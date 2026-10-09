@@ -1,0 +1,23 @@
+component PairsRunRangesWalk
+import Pairs.{...}
+import List.{...}
+export Executable
+
+(* The library's Pairs loads, and runRanges joins its single ranges and range sets by BOXPLUS into the runs of true elements, merging two runs that one false element separates (Pairs.fss, runRanges and RunRanges). *)
+
+run(): () = do
+    rs = runRanges(<|[\Boolean\] false, true, true, false, false, true |>)
+    assert(|rs|, 2, "two runs of true elements, at 1:2 and at 5:5")
+    assert(rs[0].lower, 1, "the first run starts at 1")
+    assert(rs[0].upper, 2, "the first run ends at 2")
+    assert(rs[1].lower, 5, "the second run starts at 5")
+    assert(rs[1].upper, 5, "the second run ends at 5")
+    ms = runRanges(<|[\Boolean\] true, false, true |>)
+    assert(|ms|, 1, "two runs that one false element separates merge into one")
+    assert(ms[0].lower, 0, "the merged run starts at 0")
+    assert(ms[0].upper, 2, "the merged run ends at 2")
+    assert(|runRanges(<|[\Boolean\] false, false |>)|, 0, "no true element, no run: a single range's ranges are empty")
+    println("PASS")
+  end
+
+end

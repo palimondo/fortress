@@ -1,4 +1,4 @@
-component XXXOverrideNothingGenericTraitWalk
+component OverrideNothingGenericTraitWalk
 export Executable
 
 (* A generic trait's method declaration with the modifier override that overrides no inherited declaration is a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)

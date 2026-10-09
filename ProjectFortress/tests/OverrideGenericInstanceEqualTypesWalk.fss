@@ -1,0 +1,21 @@
+component OverrideGenericInstanceEqualTypesWalk
+export Executable
+
+(* A generic trait's declaration with the modifier override whose parameter type is a strict supertype of the inherited one's at its declaration overrides it, and an instance at which the two parameter types are equal is no static error, so the program loads and runs the override, under walk (traits.tex, section "Method Declarations"). *)
+
+trait A[\T\]
+  f(x: T): String = "A"
+end
+trait G[\T\] extends A[\T\]
+  override f(x: Any): String = "G"
+end
+object O extends G[\Any\] end
+object P extends G[\ZZ32\] end
+
+run(): () = do
+    assert(O.f(3), "G", "G's f over Any overrides A's over T, and at G[\\Any\\] A[\\Any\\]'s f over Any is not inherited, so O.f(3) runs G's (traits.tex, section \"Method Declarations\")")
+    assert(P.f(3), "G", "G's f over Any overrides A[\\ZZ32\\]'s over ZZ32, so P.f(3) runs G's (traits.tex, section \"Method Declarations\")")
+    println("PASS")
+  end
+
+end

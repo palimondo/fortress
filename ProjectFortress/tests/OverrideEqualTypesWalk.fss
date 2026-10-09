@@ -1,0 +1,17 @@
+component OverrideEqualTypesWalk
+export Executable
+
+(* A method declaration with the modifier override whose parameter type equals the inherited declaration's overrides nothing, since an override's inherited parameter type is a strict subtype of its own, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait A
+  f(x: ZZ32): String = "A"
+end
+object B extends A
+  override f(x: ZZ32): String = "B"
+end
+
+run(): () = do
+    println(B.f(3))
+  end
+
+end
