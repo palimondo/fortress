@@ -16,6 +16,7 @@ pairs(): () = do
     assert((nan, 1) <= (1.0, 1), false, "a pair whose first elements are unordered is not at most")
     assert((nan, 1) > (1.0, 1), false, "a pair whose first elements are unordered is not greater")
     assert((nan, 1) >= (1.0, 1), false, "a pair whose first elements are unordered is not at least")
+    assert(nan < 1.0, false, "today's value: a float compared with a NaN by < answers false, as the pairs above do")
   end
 
 triples(): () = do
