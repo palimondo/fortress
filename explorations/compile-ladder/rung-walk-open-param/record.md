@@ -1,0 +1,65 @@
+<!-- Climb batch 11, rung W (rung-walk-open-param): the record lines that the gather folds. The fix is commit c0b2888f2 on wip/rung-walk-open-param; the tests are c022fda6e and the specification 404f62fd4. -->
+
+# Record lines of rung W, climb batch 11
+
+## FACTS
+
+A new entry, under "Landed semantics":
+
+- **Under `walk`, a type parameter whose bound mentions itself and that nothing at a call fixes is left open, an object inherits no declaration that a trait's `override` declaration overrides on every path, and an object expression is checked under the Meet Rule for Functional Methods** (`compile-ladder/rung-walk-open-param/REPORT.md`; row 424's F-bounded half and rows 614 and 618 fixed; rows NEW-W-1 to NEW-W-3 opened). `EvaluatorBase.instanceOf` gives such a parameter `BottomType.OPEN` (`interpreter/evaluator/EvaluatorBase.java:184-194`). The open type is below every type, and every value matches it where walk checks a value against a type: `typeMatch`, `as`, `asif`, a `typecase` clause and a typed local. So a reduction that writes no static argument runs on its elements' types, and `ilkName` prints such an instance as `BoxU[\OPEN\]`. A big operator's plain-bounded static parameters stay at `BottomType` (D2). `Constructor.overriddenInTraits` reads `override` per type, as the load check does (row 615). `BuildEnvironments.finishObjectTrait` runs `FunctionalMethodMeets` on an object expression without static parameters. Gated by `tests/UnwrittenReductionWalk.fss`, `InferUnfixedFBoundedWalk.fss`, `OverrideInTraitWalk.fss` and `FunctionalMethodMeetObjectExpressionWalk.fss`; the residues by `XXXUnwrittenEmptyFloatSumWalk.fss`, `XXXUnwrittenBigMinMaxWalk.fss` and `XXXComprehensionTypedBindingWalk.fss`.
+
+Rewritten in place:
+
+- "Under `walk`, a type parameter that nothing at a call fixes takes its declared bound, ...": "Left at `BottomType`: an F-bounded parameter, a big operator's static parameters (D2), a parameter ..." becomes "Left open: an F-bounded parameter that nothing at the call fixes (FACTS, "Under `walk`, a type parameter whose bound mentions itself ..."). Left at `BottomType`: a big operator's plain-bounded static parameters (D2), a parameter ...".
+- "`ant testSpecData` runs 130 ...": the bold title becomes "**`ant testSpecData` runs 130 of the specification's 133 extracted examples under walk, outside the gate, and all 130 are green**", with its source "(`ant testSpecData`, run once on climb batch 11 rung W's tree: "Tests run: 130, Failures: 0, Errors: 0")". Its sentences on `SpecDataJUTest`, `testFast`'s exclusion and `compileAll` stay. Its last sentence becomes: "The five that were red until row 424's F-bounded half was fixed, `Overview.Expression.big`, `Overview.factorial`, `OprDecl.Postfix`, `OprDecl.Bracketing` and `Generators.ReductionClass`, write no static argument on a generic big operator whose bound mentions its static parameter, which walk now leaves open."
+- "Walk applies at load the Meet Rule for Functional Methods ...": "runs `OverloadedFunction.FunctionalMethodMeets` over every trait and object without static parameters" becomes "runs `OverloadedFunction.FunctionalMethodMeets` over every trait and object without static parameters, and `BuildEnvironments.finishObjectTrait` runs it over every object expression without static parameters"; "the residues are rows 611, 612, 614, 616 and 618" becomes "the residues are rows 611, 612 and 616".
+
+## Ledger
+
+Closes, once c0b2888f2 is in main's history:
+
+- `ledger.py close 424 --commit c0b2888f2 --test UnwrittenReductionWalk --claim "under walk, a type parameter whose bound mentions itself and that nothing at a call fixes erased to BottomType, so an unwritten clause form, SUM[j <- 0#4] j, died at its first element"`. This closes the F-bounded half. The plain-bounded big operators' part is D2's decision; see the question in the rung's result.
+- `ledger.py close 614 --commit c0b2888f2 --test OverrideInTraitWalk`
+- `ledger.py close 618 --commit c0b2888f2 --test FunctionalMethodMeetObjectExpressionWalk`
+
+Notes to append:
+
+- 628: "Unblocked by row 424's F-bounded half (c0b2888f2): walk leaves an F-bounded big operator's parameter open, so a site typed at `R` admits the elements. The typing at `R` is a later library rung's, measured there. Beside an `Any` overload, a method of a lone open parameter is chosen, and one over a pair of it is not (row NEW-W-2)."
+- 555: "Unchanged by row 424's F-bounded half (c0b2888f2): here the arguments fix `T`, and walk leaves open only a parameter that nothing fixes (P1.md, probe `FJoin`, the same under every way)."
+- 425: "Under walk, the unwritten clause form runs since c0b2888f2 (row 424's F-bounded half); the two paths differ on it until this row is repaired."
+- 570: "Walk's half, row 618, is fixed (c0b2888f2): walk refuses the pair at load, 'Invalid overloading of pick', while the checker accepts it."
+- 20: "A set comprehension shows it too: row NEW-W-3."
+
+New rows. NEW-W-1 and NEW-W-2 go in section "8. Generators, reductions and ranges", and NEW-W-3 in section "2. Types: generics, static parameters, inference and coercion". Each passes `ledger.py check --rows` with a number in its first cell:
+
+| NEW-W-1 | under walk, an empty reduction with a generator clause list and no static argument, over elements of a type other than `ZZ32`, takes `ZZ32`'s identity: `emptyRSum(n: ZZ32): RR64 = SUM[j <- 0#n] (j / 2.0)` gives `0 : Int` at `n = 0`, not `RR64`'s `0.0` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenEmptyFloatSumWalk.fss` | climb batch 11 rung W | siblings: 424, 425, 628. Walk leaves `SUM`'s `T` open where nothing fixes it (row 424's fix); with no element in hand the identity `additiveIdentity[\T\]()` takes its typecase's first clause, `() -> ZZ32`, since `() -> OPEN` is below it (`Library/FortressLibrary.fss:3208-3224`), and walk returns the `Int` from a function declared `RR64` without a check. Every way of the P1 probe gave the same (`explorations/compile-ladder/plan-9/probes/P1.md`, `SumEmptyR`). The fix is the desugaring by the expression's type `N` (row 425's road) or an identity read from the generator. Workaround: `SUM[\RR64\][j <- 0#n] (j / 2.0)`. |
+| NEW-W-2 | under walk, `BIG MINMAX` with a generator clause list and no static argument stops: `BIG MINMAX[i <- 0#4] i` raises 'MethodClosure simpleJoin(a:Any,b:Any):Any ... has neither body nor def instanceof Method', where `(0, 3)` is the answer | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenBigMinMaxWalk.fss` | climb batch 11 rung W | siblings: 424, 628. Walk leaves `T` open (row 424's fix), and `MinMaxReduction[\T\]`'s `simpleJoin(a:(T,T),b:(T,T))` (`Library/FortressLibrary.fss:3309`) is then not chosen for two pairs beside `AssociativeReduction`'s abstract `simpleJoin(a:Any, b:Any)` (`:3116`), so the call at `:3109` runs the abstract one, as at `BottomType`. Probes: such a method alone runs on two pairs, and one of a lone open parameter is chosen beside an `Any` overload; the dispatch step that passes over the pairs is not located. Workaround: `BIG MINMAX[\ZZ32\][i <- 0#4] i` (`tests/BigMinMax.fss`). |
+| NEW-W-3 | under walk, a set comprehension with no static argument is built at its elements' run-time class, `NodeSet[\Int\]` for `ZZ32` elements, which a variable declared `Set[\ZZ32\]` refuses: 'RHS expression type NodeSet[\Int\] is not assignable to LHS type Set[\ZZ32\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXComprehensionTypedBindingWalk.fss` | climb batch 11 rung W | siblings: 20, 364. Measured alike at `83b1cae78` (the comprehension's parameter at `BottomType`) and with it left open (row 424's fix): the comprehensions collect into `AnyCovColl` and build the set at the elements' type (`Library/CovariantCollection.fss:144`), walk's type of a `ZZ32` value is `Int`, and generics are invariant, so the typed binding refuses it (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:219-227`). The P1 judgement read this binding as passing under the open parameter. Workaround: `{[\ZZ32\] n^2 \| n <- -2:2 }`, a `NodeSet[\ZZ32\]`. |
+
+The placeholders NEW-W-1 and NEW-W-2 also stand in the specification. The gather replaces them there with the rows' numbers, as in the tests and the report: `Specification/basic/inference.tex:294`, `:296`; `Specification/basic/expressions/reductions.tex:36`; `Specification/appendices/changes.tex:1069`, `:1071`, `:1922`, `:1923`.
+
+## PLAN
+
+D2's entry under "listed for his review" gains: the open type is a candidate for a big operator's plain-bounded static parameters too (the P1 judgement, section 5). It is not measured; D2's six tests are its measure.
+
+## Handover
+
+Climb batch 11 rung W (wip/rung-walk-open-param; c0b2888f2, 404f62fd4): walk leaves open an F-bounded type parameter that nothing at a call fixes (Q1, way 11), so `ant testSpecData` is 130 of 130 green, and the smoke test and 14 of the 18 demos run; row 424's F-bounded half and rows 614 and 618 are fixed; NEW-W-1 (an empty unwritten reduction takes `ZZ32`'s identity), NEW-W-2 (an unwritten `BIG MINMAX` stops) and NEW-W-3 (a set comprehension refused at `Set[\ZZ32\]`) are opened with expected failures; walk only, with no library, checker or harness line, so neither the count nor the distance can move.
+
+## The skill's part on what the revival changed (`.claude/skills/fortress-repo/references/revival-changes.md`)
+
+Under "Static parameters", after "A type parameter that a call does not fix":
+
+**A type parameter whose bound names itself, under walk**
+
+- Original: walk gave such a parameter the empty type `Bottom` where a call did not fix it, as `SUM`'s `T extends AdditiveGroup[\T\]` in `SUM[i <- 1#100] i`. The reduction then refused its first element. The POPL 2019 paper's rule has no bound to give: such a bound is not a type until the parameter is known.
+- Resolution: walk leaves the parameter open. It admits every value where walk checks a value against the type, so the reduction runs on the types of its elements. An empty one gives `ZZ32`'s identity, and `BIG MINMAX` still stops (ledger rows NEW-W-1 and NEW-W-2). A printed type names the open parameter `OPEN`, as in `BoxU[\OPEN\]`. The checker still refuses the call (row 425).
+- Reason: walk has no static types, so it cannot take the expression's type, as the specification's desugaring does. An open parameter refuses no element.
+
+Under "Traits and objects, no classes":
+
+**A trait's `override`, and object expressions, under walk**
+
+- Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods skipped object expressions.
+- Resolution: a trait's `override` declarations override for every type below it, read per type, as walk's load check reads them. Walk checks an object expression without static parameters as it checks an object. The checker still accepts such an object expression (ledger row 570).
+- Reason: the traits chapter, and the Meet Rule, which names object expressions.
