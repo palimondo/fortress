@@ -64,7 +64,7 @@ A note written before the revival, and your training, can be right about the tea
 
 - Original: the traits chapter makes both static errors. Walk loaded both: a call of the abstract method stopped with an `InterpreterBug`, "has neither body nor def", and the `override` ran. The compiled checker refuses the first and accepts the second (ledger row 653).
 - Resolution: walk refuses both at load, for an object or an object expression without static parameters, and the `override` for a trait without static parameters too. A declaration with a body of the method's name, at or below the abstract declaration's parameter types, counts as defining it (ledger row 666). Walk does not check a generic object (ledger row 665).
-- Reason: the chapter's rules. The allowance keeps the library loading: its `Pairs` component's `SingleRange` defines `RunRanges`'s abstract `BOXPLUS` only at the two types that the trait's `comprises` clause lists.
+- Reason: the chapter's rules. The allowance keeps the library loading: its `Pairs` component's `SingleRange` defines `RunRanges`'s abstract `BOXPLUS` only at the two types that the trait's `comprises` clause lists. By reading, `QuickCheck`'s generators and `Random`'s `MersenneTwisterInit` need it too, each providing a body for an abstract method of a trait above it only at a narrower parameter type (ledger rows 669 and 668).
 
 **What a type provides**
 
