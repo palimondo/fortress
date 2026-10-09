@@ -38,7 +38,9 @@ The answers are the specification's table (`Specification/advanced-lib/compariso
 
 The bodies over a pair (`(a1 CMP a2) LEXICO: (b1 CMP b2)`) need it. With the bound, `a1 CMP a2` is a `Comparison` and the thunk is a `()->Comparison`. Before, only `Comparison`'s `LEXICO` over a `Comparison` was declared for such a receiver, and it does not take a thunk. Without the two arms, the compiled path would send `LessThan LEXICO: thunk` to the default and answer `Unordered`. This is by reading: no compiled program links this library yet.
 
-Under walk the arms are not reached. Walk types a function expression without a declared return type as `()->BOTTOM` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java:239`; the old run's message in section 2 reads "FnExpr at Library/FortressLibrary.fss:4499.26 ()->BOTTOM"). That fits `()->TotalComparison`, the more specific arm. Only `Unordered` on the left reaches the new default, where the base found no declaration and stopped.
+Under walk the thunks that `LEXICO:` builds do not reach the two arms. Walk types a function expression without a declared return type as `()->BOTTOM` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java:239`; the old run's message in section 2 reads "FnExpr at Library/FortressLibrary.fss:4499.26 ()->BOTTOM"). That fits `()->TotalComparison`, the more specific arm. With these thunks, only `Unordered` on the left reaches the new default, where the base found no declaration and stopped.
+
+A function expression whose declared return type is `Comparison` is typed `()->Comparison`, and does reach the two arms. At the base no declaration took it, and walk stopped: `EqualTo LEXICO (fn (): Comparison => Unordered)` is now `Unordered`, and `LessThan LEXICO` of it is `LessThan` (the skeptic's `ProjectFortress/tests/ComparisonLazyLexico.fss`).
 
 ### 1.3 Row 582 (2 sites)
 
@@ -243,6 +245,8 @@ Measured by the skeptic, old code against the rung's tree, and not in the table 
 - `(1,2) < (1,2.5)`, `(1,2) < (1.5,2)`, `(1,2.5) <= (1,3)` and `(1,2,3) < (1,2,3.5)` go from `true` to a refusal, `(1,2) CMP (1,2.5)` from `LessThan`, and `(1,2) < (widen(1),2)` from `false`: walk takes the element type of a position whose numbers have two run-time types at their join, which is no partial order (row 511). `TupleOrderMixedRefused` pins the first. Operands declared with one type, `p: (ZZ32,RR64) = (1,2)`, compare as before.
 - `(1,2,(3,4)) < (1,3,(0,0))` goes from `true`, and `(1,(2,3)) CMP (2,(0,0))` from `LessThan`, to a refusal: a pair as the last or the second element, of the nested pair's kind.
 - `(1, fn (x:ZZ32) => x) < (2, fn (x:ZZ32) => x)` and `(1, Nothing[\ZZ32\]) < (2, Nothing[\ZZ32\])` go from `true` to a refusal: a function and a `Maybe` as an element, of the `()` kind.
+- `LexicographicReduction.isLeftZero(Unordered)` goes from `true` to a refusal, "Failed to find any matching overload, args = (Unordered)": the reduction's `isLeftZero` is now declared over `TotalComparison` only, as the curator's decision on row 582 says, and the team's `Comparison` overload answered `true`.
+- `EqualTo LEXICO (fn (): Comparison => Unordered)` goes from a stop, "Failed to find any matching overload, args = (EqualTo,FnExpr ... ()->Comparison ...)", to `Unordered`, and `LessThan LEXICO` of it from the same stop to `LessThan`: a thunk declared to return `Comparison` reaches the new arms (section 1.2). `ComparisonLazyLexico` asserts these.
 
 The pins are both the revival's lines (climb batch 8 rung M; climb batch 10 rung N), not the team's:
 
@@ -267,7 +271,7 @@ Part IV renders the three new `LEXICO` api lines and the ten new headers when th
 
 1. Values walk prints that change: section 6's table. Beyond the brief's three:
    - `(1,()) < (2,())` goes from `true` to a refusal;
-   - the skeptic's further rows after section 6's table: a position whose numbers have two types, a pair nested as a later element, and a function or `Maybe` as an element, each from a value to a refusal;
+   - the skeptic's further rows after section 6's table: a position whose numbers have two types, a pair nested as a later element, and a function or `Maybe` as an element, each from a value to a refusal; `LexicographicReduction.isLeftZero(Unordered)` from `true` to a refusal; a thunk declared to return `Comparison` after a total comparison, from a stop to the `LEXICO` table's answer;
    - the triples' unordered cases, and the pairs' and triples' `CMP` with an unordered first element, go from a "Failed to find any matching overload" stop to `Unordered` or `false`;
    - `Unordered LEXICO: x` goes from a stop to `Unordered`;
    - `Reflect`'s members come in declaration order.
@@ -317,7 +321,7 @@ Part IV renders the three new `LEXICO` api lines and the ten new headers when th
 - Row 634's tuple half (17 sites): home 1, repaired; tested by `TupleOrderBounds`, `TupleOrderNestedRefused`, `TupleOrderUnitRefused` and the distance. The row gets a note and stays open for the list half.
 - Row 582: home 1, repaired; tested at `LibraryMeetDeclarations.fss:33-35`. It closes.
 - Row 667: home 1, repaired; tested by `IntMapCombine`. It closes.
-- `Unordered LEXICO: x` stopped walk, since no declaration took a thunk with `Unordered` on the left: home 1, repaired by the lazy `LEXICO`; tested by `TupleOrderBounds` (`lexico()`). No row: it is part of row 634's repair.
+- `Unordered LEXICO: x` stopped walk, since no declaration took a thunk with `Unordered` on the left, and so did any comparison on the left of a thunk declared to return `Comparison`: home 1, repaired by the lazy `LEXICO`; tested by `TupleOrderBounds` (`lexico()`) and the skeptic's `ComparisonLazyLexico`. No row: it is part of row 634's repair.
 - `Reflect`'s members refused under the bound: home 1, made by this change and repaired in it; tested by `ReflectTest` and `ReflectiveQuickCheckTest`. No row.
 - `NodeIM`'s `SYMDIFF` with a `SingletonIM` keeps only the singleton nearest the other key. Under walk, `{0,1,2} SYMDIFF {5}` is `{2,5}` and `{0,1,2} SYMDIFF {1}` is `{}` (old code, probe `ProbeSymdiff.fss`); the cause is `Library/IntMap.fss:544-545` at the base, `self.seek(other.key) SYMDIFF other`.
   - Home 3: the specification is silent on `IntMap`.
