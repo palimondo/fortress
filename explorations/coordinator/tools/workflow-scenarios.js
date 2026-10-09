@@ -22,13 +22,14 @@
 // with and without a second gate, a red gate and its repair, a review that returns nothing, the judge's
 // land, the paths no gate stage reads); the push held by a step that cannot be undone and not by a
 // reversible point; the cold read after the review when the gather folded skill text, and its absence when
-// it folded none; testSpecData in the gate when the rung that brings it lands, and not when it is dropped;
-// the stops on a usage limit and the resumes. And in every scenario, each brief: no undefined, NaN or
-// object rendered; the head and the skill named (the cold reader excepted, which reads cold); no
-// global.map restore, no copy of the base, no one-thread pin, no stopsMet, no person named but in PLAN.md's
-// heading; the worker's seed command; the skeptic's old-code tool, journal command and "You build nothing
-// to check"; no skeptic brief carrying the worker's report text; the commit's three pushes and the quick
-// microGPT check.
+// it folded none; a rung's "Revival change: none" listed as no unfolded entry; testSpecData in the gate when
+// the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes. And
+// in every scenario, each brief: no undefined, NaN or object rendered; the head and the skill named (the cold
+// reader excepted, which reads cold); no global.map restore, no copy of the base, no one-thread pin, no
+// stopsMet, no run_bg (the permission check refuses it; the literal nohup form instead), no person named but
+// in PLAN.md's heading; the worker's seed command; the skeptic's old-code tool, journal command and "You
+// build nothing to check"; no skeptic brief carrying the worker's report text; the commit's three pushes and
+// the quick microGPT check.
 //
 // With --sizes RUN_DIR (a batch run's directory, journal.jsonl and agent transcripts beside it, such as
 // climb batch 10's): renders every role's brief with that run's real agent results as the stubs' returns
@@ -149,6 +150,8 @@ const SCEN = [
     after: 'gather, gate, review, coldread, commit', landed: true, items: ['coldread.1'] },
   { name: 'C2 the part is not in the tree: no cold read, the entry listed', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: false }] }) },
     after: 'gather, gate, review, commit', landed: true, items: ['delta-unfolded.1'] },
+  { name: 'C2b a rung\'s "Revival change: none" is no unfolded entry', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 'none: R0\'s record gives "Revival change: none"', folded: false }] }) },
+    after: 'gather, gate, review, commit', landed: true, itemsLack: ['delta-unfolded.1'] },
   { name: 'C3 the cold reader returns nothing three times: the batch lands, listed', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: true }] }), coldread: nul },
     after: 'gather, gate, review, coldread, coldread:attempt2, coldread:attempt3, commit', landed: true, items: ['coldread.1'] },
   { name: 'G1 the rung that brings testSpecData lands: the gate runs it', over: {}, after: 'gather, gate, review, commit', landed: true, specData: true },
@@ -321,6 +324,7 @@ function check(sc, out) {
     if (/global\.map/.test(p)) probs.push(c.label + ' still restores or names global.map')
     if (/-base - |WORKTREE-base|private copy of the base/.test(p)) probs.push(c.label + ' still names a per-rung copy of the base')
     if (/pinned to one thread/.test(p)) probs.push(c.label + ' says the gate is pinned to one thread')
+    if (/\brun_bg\b/.test(p)) probs.push(c.label + ' names run_bg, which the permission check refuses: the skill\'s session.md, "Long commands", gives the nohup form')
     if (/stopsMet|liftedBy|second judgement/.test(p)) probs.push(c.label + ' names the old stops or the second skeptic')
     const persons = (p.replace(PLAN_HEADING, '').match(PERSON) || []).length
     if (persons) probs.push(c.label + ' names the curator by name ' + persons + ' time(s) outside PLAN.md\'s heading')
@@ -342,7 +346,7 @@ function check(sc, out) {
     }
     if (c.label === 'commit') {
       if (p.indexOf('Do NOT push') < 0 && !(p.indexOf('git push origin main:claude/worker-brief-fable-vnnuv8') >= 0 && p.indexOf('git push origin main:blinded-fable') >= 0)) probs.push('the commit stage does not push to the three branches')
-      const mg = p.match(/mg-run\.sh[^"]*"/)
+      const mg = p.match(/mg-run\.sh[^']*'/)   // step 0's line, to the end of its nohup bash -c '...'
       if (!mg || / full/.test(mg[0])) probs.push('the commit stage does not run the quick microGPT check')
       if (p.indexOf('<short hash>') >= 0) probs.push('the commit stage still replaces hash placeholders')
     }
@@ -380,7 +384,7 @@ function check(sc, out) {
     const probs = []
     if (!r1.threw || !/commit stage/.test(r1.threw.message)) probs.push('run 1 did not stop in the commit stage')
     if (live.join(', ') !== 'commit') probs.push('live calls on resume: ' + live.join(', '))
-    if (!(commit && /\[ -e [^\]]*microgpt-walk\.txt \] \|\| run_bg/.test(commit.prompt))) probs.push('step 0 does not guard against a second microGPT start')
+    if (!(commit && /\[ -e [^\]]*microgpt-walk\.txt \] \|\| nohup bash -c /.test(commit.prompt))) probs.push('step 0 does not guard against a second microGPT start')
     say(!probs.length, 'A18 a process stop mid-commit, resumed with resumeFromRunId: ' + (r2.calls.length - live.length) + ' calls from the journal, live: ' + live.join(', ') + (probs.length ? '\n     ' + probs.join('\n     ') : ''))
   }
   // L4: L1 resumed once the limit has reset: the finished agents come back from the journal.
