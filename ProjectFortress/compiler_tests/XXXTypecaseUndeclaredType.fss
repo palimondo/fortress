@@ -1,5 +1,5 @@
 (* A typecase arm that names, with static arguments, a type no library declares refers to a name where it is not in scope, a static error (declarations.tex, section "Reach and Scope of Declarations"), so the program is refused with the name. *)
-component TypecaseUndeclaredType
+component XXXTypecaseUndeclaredType
 export Executable
 
 kind(x: Any): String = typecase x of

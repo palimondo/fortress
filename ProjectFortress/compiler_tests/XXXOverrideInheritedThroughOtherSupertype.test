@@ -1,0 +1,3 @@
+tests=XXXOverrideInheritedThroughOtherSupertype
+compile
+compile_err_matches=(?s).*Invalid overloading of f in trait T:.*has 1 error\\..*

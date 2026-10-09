@@ -1,0 +1,23 @@
+(* A declaration with the modifier override that widens the parameter of an inherited abstract method overrides it, in a trait or in an object, so the object neither provides nor implements the abstract method (traits.tex, section "Method Declarations"), and the program type checks. *)
+component OverrideAbstractMethodWiden
+export Executable
+
+trait A
+  f(self, other: ZZ32): String
+  g(other: ZZ32): String
+end
+
+trait B extends A
+  override f(self, other: Number): String = "f PASS"
+end
+
+object C extends B
+  override g(other: Number): String = "g PASS"
+end
+
+run(): () = do
+    println(f(C, 17))
+    println(C.g(17))
+  end
+
+end

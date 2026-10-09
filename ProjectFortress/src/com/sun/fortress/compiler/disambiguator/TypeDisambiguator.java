@@ -374,7 +374,9 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
                     _onDemandImports.add(n);
                 }
                 if (typeConses.isEmpty()) {
-                    if (forTypecaseClause)
+                    // In a typecase clause a bare name that names no type is a binding;
+                    // a name applied to static arguments cannot be one.
+                    if (forTypecaseClause && that instanceof VarType)
                         rewriteTypecaseClause = true;
                     else
                         error(NodeUtil.nameString(n) + " is undefined.", n);

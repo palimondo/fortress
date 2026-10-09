@@ -741,13 +741,14 @@ object ExportChecker {
 
   /*
    * Returns true if abstract members of a component are declared in the corresponding api  
+   * (a private member is not among them: no private declaration takes part in satisfying an api)
    */
     
   private def allAbstractsMadePublic(inAPI: List[Decl], inComp: List[Decl], original: String): (Boolean, String) = {
     var cause = original
     (inComp.forall( 
     	d => d match {
-    	  case SFnDecl(_,h,_,_,_) => if (h.getMods().isAbstract()) {
+    	  case SFnDecl(_,h,_,_,_) => if (h.getMods().isAbstract() && !h.getMods().isPrivate()) {
     	    val b = inAPI.exists(r => equalMember(d,r))
     	    if (b) true else { cause = addMessage(cause, "Asbtract method " + h.getName() + " @ " + NodeUtil.getSpan(d) + " is not declared in the API") ; false }
     	  }  else true

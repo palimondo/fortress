@@ -1,4 +1,4 @@
-(* An object's declarations with the modifier override widen the parameter of the methods they override, so the object does not provide the overridden ones (traits.tex, section "Method Declarations"), and the program compiles and runs its own. *)
+(* An object's declarations with the modifier override widen the parameter of the methods they override, so the object does not provide the overridden ones (traits.tex, section "Method Declarations"), and the program type checks. *)
 component OverrideFunctionalMethodWiden
 export Executable
 

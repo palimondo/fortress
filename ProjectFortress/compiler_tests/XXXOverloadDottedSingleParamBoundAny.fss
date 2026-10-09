@@ -1,5 +1,5 @@
 (* A dotted method whose single parameter is a type parameter with the bound Any written cannot be overloaded (overloading.tex, section "Principles of Overloading"), so the program, which overloads one beside a method of two parameters, is refused. *)
-component OverloadDottedSingleParamBoundAny
+component XXXOverloadDottedSingleParamBoundAny
 export Executable
 
 object Ob

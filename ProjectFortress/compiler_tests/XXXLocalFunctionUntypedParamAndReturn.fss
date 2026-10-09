@@ -1,5 +1,5 @@
 (* A local function that leaves the types of its parameter and its result out is refused with the name of the parameter, as a top-level function is, since the compiled checker infers no parameter type (type-inference.tex, section "Type Inference for Components", and its revision). *)
-component LocalFunctionUntypedParamAndReturn
+component XXXLocalFunctionUntypedParamAndReturn
 export Executable
 
 run(): () = do

@@ -1619,6 +1619,59 @@ object STypesUtil {
     result
   }
 
+  /**
+   * Of the method declarations gathered for the trait or object tt (gatherMethods), those
+   * it provides (Specification/basic/traits.tex, section "Method Declarations"): those it
+   * declares, and those it inherits from its immediate supertypes, that is those they
+   * provide, except one that a declaration of its own with the modifier override overrides
+   * and one whose parameter types, the self parameter's apart, are those of a declaration
+   * of its own. paramsOf gives a declaration's parameter types without self as tt has them,
+   * a type schema over the method's own static parameters, or None where they cannot be
+   * read; such a declaration excludes nothing and is excluded by nothing. A declaration
+   * whose declaring type the walk over the extends clauses does not reach is kept.
+   */
+  def providedMethods(tt: TraitType,
+                      methods: Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)],
+                      analyzer: TypeAnalyzer,
+                      paramsOf: ((Functional, StaticTypeReplacer, TraitType)) => Option[Type]):
+        Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)] = {
+    type D = (Functional, StaticTypeReplacer, TraitType)
+    val tsa = new TypeSchemaAnalyzer()(analyzer)
+    def key(n: Id) = NU.nameString(n)
+    def selfAt(f: Functional): Int = f match { case h: HasSelfType => h.selfPosition; case _ => -1 }
+    // o, declared by a type, keeps that type from inheriting p
+    def excludes(o: D, p: D): Boolean =
+      o._1.isInstanceOf[FunctionalMethod] == p._1.isInstanceOf[FunctionalMethod] &&
+      selfAt(o._1) == selfAt(p._1) &&
+      ((paramsOf(o), paramsOf(p)) match {
+        case (Some(od), Some(pd)) =>
+          tsa.equivalentED(pd, od) || (o._1.mods.isOverride && tsa.subtypeED(pd, od))
+        case _ => false })
+    def supers(n: Id): List[Id] = toOption(analyzer.traits.typeCons(n)) match {
+      case Some(ti: TraitIndex) =>
+        toListFromImmutable(ti.extendsTypes).map(_.getBaseType).collect { case t: TraitType => t.getName }
+      case _ => Nil }
+    val result = new IndexedRelation[IdOrOpOrAnonymousName, D](false)
+    for (name <- toSet(methods.firstSet)) {
+      val all = toSet(methods.matchFirst(name))
+      val byOwner = all.groupBy(d => key(d._3.getName))
+      val memo = new HashMap[String, Set[D]]()
+      def providedBy(n: Id, path: Set[String]): Set[D] = {
+        val k = key(n)
+        if (path.contains(k)) return Set()
+        memo.getOrElse(k, {
+          val own = byOwner.getOrElse(k, Set[D]())
+          val inherited = supers(n).flatMap(s => providedBy(s, path + k)).filter(p => !own.exists(o => excludes(o, p)))
+          val r = own ++ inherited
+          memo += (k -> r)
+          r })
+      }
+      for (d <- providedBy(tt.getName, Set()) ++ all.filter(d => !memo.contains(key(d._3.getName))))
+        result.add(name, d)
+    }
+    result
+  }
+
    private val nullStaticTypeReplacer = new StaticTypeReplacer(new java.util.LinkedList[StaticParam](), new java.util.LinkedList[StaticArg]())
 
   /**

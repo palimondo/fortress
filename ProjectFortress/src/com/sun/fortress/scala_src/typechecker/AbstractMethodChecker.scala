@@ -81,11 +81,15 @@ class AbstractMethodChecker(component: ComponentIndex,
   private def checkObjectDeclaration(od: ObjectDecl) = {
     val tth = od.getHeader
     val fakeArgs = staticParamsToArgs(tth.getStaticParams)
-    val methods = allMethods(NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], fakeArgs), typeAnalyzer)
-    // traceObjectDeclMethods(od, methods)
+    val tt = NF.makeTraitTypeForScala(tth.getName.asInstanceOf[Id], fakeArgs)
     val oldTypeAnalyzer = typeAnalyzer
     // Add static parameters of the enclosing trait or object
     typeAnalyzer = typeAnalyzer.extend(toList(tth.getStaticParams), None)
+    // the methods the object provides, by the traits chapter's inheritance: an abstract
+    // method that a declaration with the modifier override overrides is not inherited
+    val methods = providedMethods(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, d => d match {
+      case (meth, str, _) => makeArrowWithoutSelfFromFunctional(meth).map(_ => str.replaceIn(domainApart(meth))) })
+    // traceObjectDeclMethods(od, methods)
     val tsa = new TypeSchemaAnalyzer()(typeAnalyzer)
     val concreteMethods = methods.secondSet.filter(x => x match { case (meth, _, tt) => 
       !isAbstractMethod(meth, tt)}).toList
@@ -134,11 +138,15 @@ class AbstractMethodChecker(component: ComponentIndex,
       val fresh = Iterator.from(1).map(i => NF.makeId(NU.getSpan(n), n.getText + "$" + i))
                           .find(m => !env.contains(m) && !taken.contains(m.getText)).get
       (n, fresh) }
-    val renamed = own.map(p => subst.find(_._1 == p.getName) match {
-      case Some((_, m)) =>
-        NF.makeStaticParam(p, m.asInstanceOf[Id],
-                           toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType])))
-      case None => p })
+    // every own parameter's bounds are renamed, so that a bound naming a renamed parameter names it still
+    val renamed = own.map(p => {
+      def bounds = toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType]))
+      subst.find(_._1 == p.getName) match {
+        case Some((_, m)) => NF.makeStaticParam(p, m.asInstanceOf[Id], bounds)
+        case None => p.getName match {
+          case n: Id if !p.getExtendsClause.isEmpty => NF.makeStaticParam(p, n, bounds)
+          case _ => p }
+      } })
     insertStaticParams(alphaRename(subst, a.getDomain).asInstanceOf[Type], renamed)
   }
 

@@ -1,3 +1,3 @@
-tests=LocalFunctionUntypedParamAndReturn
+tests=XXXLocalFunctionUntypedParamAndReturn
 compile
 compile_err_contains=Missing parameter type for n
