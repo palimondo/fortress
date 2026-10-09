@@ -4721,3 +4721,45 @@ note added
 note added
 
 | 29 | multifix dispatch is absent: walk never looks for an *n*-argument definition of an infix operator repeated between three or more operands, and reassociates to binary calls | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/operators/chained-multifix.tex`, "Chained and Multifix Operators"; `Specification-1.0-frozen/fortress/preamble.tex:59` (multifix among the not-yet-supported features) | none | ours | `a OTIMES b OTIMES c = V(24.0, n=2)`: the right value with two children, so two binary calls. Probe `explorations/spec-probes/p13_multifix2.fss`, in the parent of e879b6a44. Workaround: a reduction over a concatenation monoid. |
+
+### Row 582
+
+closed by 9ba86f7da
+
+| 582 | `LexicographicReduction`'s `isLeftZero(_:Comparison)` is never reached for a total comparison: under walk `isLeftZero` of `LessThan`, `EqualTo` and `GreaterThan` answers `false` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/LibraryMeetDeclarations.fss:33` | climb batch 8 rung M | The inherited `ReductionWithZeroes.isLeftZero(l:L)` (`Library/FortressLibrary.fss:3171` at 052a7c3fe), at `L = TotalComparison`, is more specific than the team's `isLeftZero(_:Comparison): Boolean = true` (`:123`, api `Library/FortressLibrary.fsi:93`); the compiled checker refuses the pair (distance stage M1, 2; count 1). The test pins `false`. Nothing in the library or the corpora calls `isLeftZero`. The specification does not define it. Repair, two ways for the curator: see `explorations/compile-ladder/rung-library-meets/REPORT.md` section 5; full text: history, row 582 |
+
+### Row 667
+
+closed by 9ba86f7da
+
+| 667 | the library's `IntMap` objects `EmptyIM`, `SingletonIM` and `NodeIM` define no body for `IntMap`'s abstract `genComb`, which `combine` calls, so `combine` stops walk: 'MethodClosure genComb[\That,Result\](...) ... has neither body nor def' | NEGATIVE-VERIFIED | library bug (library) | `basic/traits.tex`, "Method Declarations" | none | climb batch 12 rung W | siblings: 649, 665. `Library/IntMap.fss:125` declares `genComb` without a body, `combine` calls it (`:112`), and none of the objects at `:142`, `:259`, `:406` declares it. On 7fa767d48, `m.combine[\ZZ32,ZZ32\](f, fn x => x, fn x => x, m)` over a one-entry `IntMap[\ZZ32\]`, under `old-fortress.sh`, stops at `Library/IntMap.fss:112:9-113:7` with that bug. Walk's load check skips generic objects (665). |
+
+### Row 629
+
+closed by 8f90e1e8c
+
+| 629 | library code reads a size or an index from a value typed `Generator`, which declares neither, and `Indexed`'s default `indexValuePairs` answers a `Generator` where `Indexed[\(I,E),I\]` is declared; walk runs them, the values being sized at run time | NEGATIVE-VERIFIED | design limit (library) | `Specification/advanced/parallelism-locality/defining-generators.tex`, "Use and Definition of Generators" | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 10 rung G | At `9c9e823d5`: `DelegatedIndexed`'s `opr \|self\| = \|self.indices\|` (`Library/FortressLibrary.fss:1943`), `PairGenerator`'s `\|self.e\| \|self.f\|` (`:3687`, two errors), `NaiveSeqGenerator`'s `size` and `\|self\|` from `\|g\|` (`:3765`, `:3767`), `RelationalPredicateCondition.cond`'s `x.size` and `x[i]` (`:4658` twice, `:4661`), and `indexValuePairs`'s `self.indices.map(...)` (`:1830`). The specification: a `Generator` "only needs to define the generate method". Repairs weighed: PLAN item 45 (`bounds` for `indices` recurses through `ZeroIndexed`'s `bounds = 0 # \|self\|`, `:1891-1892`). full text: history, row 629 |
+
+### Row 664
+
+closed by 7fd8fddc8
+
+| 664 | the range subscripts of `ImmutableArray1` and `Array1` pass `reflect`'s sizes, typed `NatParam`, to `__subarrayI` and `__subarray`, which take `N[\s\]`, so the compiled checker over the one library refuses both calls | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 12 rung R | `Library/FortressLibrary.fss:2257` and `:2315` at 7425daa51, after `s = reflect( \|r'\| )` and `l = reflect(r'.left.get)`: 'Could not check call to function __subarrayI ... not applicable to an argument of type (ImmutableArray1[\T,b0,s0\], NatReflect.N[\0\], NatReflect.NatParam, NatReflect.NatParam, ZZ32)'. The immutable site showed once row 608's `r'.lower` typed; the mutable one is on the landed per-site list, class V2. `reflect` answers the trait `NatParam`, no `N[\n\]` (`ProjectFortress/LibraryBuiltin/NatReflect.fsi:31`; its `comprises` a comment, `:23`): the array forks' fork 4 (`explorations/reviews/array-design-ways.md` section 4). Walk binds the size at dispatch and answers. |
+
+### Row 660
+
+closed by 7207e2719
+
+| 660 | the compiled checker gives no expected type to a tight juxtaposition of items none of which is a function: with `opr juxtaposition[\T\](a: Any, b: K): BoxV[\T\]`, `y: BoxV[\ZZ64\] = a(a)` is refused where the loose `a a` checks | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/operators/juxtameaning.tex`, "Juxtaposition"; `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferTightJuxtContext.test` | climb batch 12 rung C | siblings: 644, 455. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala:362-374` (`SMathPrimary`, items none of which is a function, at 7572db348) tries the multifix juxtaposition and then the left-associated binary ones with no expected type, so a type parameter that only the result mentions takes its bound: 'Right-hand side has type BoxV[\Object\], but declared type is BoxV[\ZZ64\].', the same on 7fa767d48; `a(b)(c)` likewise. The loose juxtaposition (`:170-197`) and the repeated operator (`:379-393`) give it. Workaround: juxtapose loosely, `a a`. |
+
+### Row 684
+
+closed by 7207e2719
+
+| 684 | the compiled checker's overloading check crashed on two overloads whose type parameter has a bound list naming a trait with a `comprises` clause one of whose listed types the other bound excludes: `TypeSchemaAnalyzer.boundsSubstitution` cast the union that the bounds' meet became to `BaseType` | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters"; `basic/trait-parameters.tex`, "Type Parameters" | `ProjectFortress/compiler_tests/OverloadTwoBoundsClosedTrait.test` | climb batch 13 rung V | `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:474-477` at a1a75716a: `conjuncts(imageTa.meet(e))` cast to `BaseType`; for `T extends { K, R[\T\] }` with `K comprises { A, B, C }` and `C` outside `R`, 'class com.sun.fortress.nodes.UnionType cannot be cast to class com.sun.fortress.nodes.BaseType' under `reduceED` (`:421`), `normalizeED` (`:216`), `subtypeEDInner` (`:171`). With the array family bounded by `{ Number, MultiplicativeRing[\T\] }` it crashed the api's and the component's overloading and the export stage (`explorations/reviews/array-fork2-judgement.md` section 3). |
+
+### Row 692
+
+closed by efd6bb2f2
+
+| 692 | under walk, a `where` clause that bounds an unbounded static parameter of a generic trait or object bounds every other unbounded static parameter of the load: with `trait W[\T\] where { T extends ZZ32 }` declared, `p(3)` runs `p[\U\](x: U)` over the more specific `p(x: ZZ32)` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/WhereBoundOverloadWalk.fss` | climb batch 13 rung W's skeptic | siblings: 478. `SymbolicType.addExtends` appended the bound in place (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/SymbolicType.java:54-57` at a1a75716a) to a list that, for a parameter with no bound, is `FTypeTop`'s one list (`types/FTraitOrObject.java:76-80`, `types/FTypeTop.java:26`), so every unbounded symbolic type took the bound; the Meet Rule check's stand-ins (`BuildEnvironments.symbolicInstance`) run before pass 3. On the base `p(3)` prints `U`. Fixed by the skeptic's contested 7b625cdf9 (the bound goes into a list of the parameter's own); the gather closes the row if it lands. |
