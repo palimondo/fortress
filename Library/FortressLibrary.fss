@@ -3629,7 +3629,7 @@ object SimpleIndexValuePairs[\E,I\](g0: Indexed[\E,I\])
     opr |self| : ZZ32 = |self.g|
     opr[i:I] : (I,E) = (i, self.g[i])
     opr[r:Range[\I\]] : Indexed[\(I,E),I\] =
-        self.g.bounds[r].map[\(I,E)\](fn (i:I):(I,E) => (i, self.g[i]))
+        self.g.bounds.narrowToRange(r).map[\(I,E)\](fn (i:I):(I,E) => (i, self.g[i]))
     generate[\R\](r: Reduction[\R\], body: (I,E)->R): R =
         self.g.indices.generate[\R\](r, fn (i:I):R => body(i, self.g[i]))
     seq(self): SequentialGenerator[\(I,E)\] =
