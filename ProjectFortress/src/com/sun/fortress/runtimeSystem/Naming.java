@@ -1205,15 +1205,19 @@ public class Naming {
     /**
      * The value of a size operation on two numbers, the operator as the
      * parser writes it ("+", "-", " " for a product, "^"); null if it is
-     * not computed (an unknown operator, or a power whose exponent is
-     * negative or above 4096).
+     * not computed (an unknown operator, a power whose exponent is
+     * negative, or a power of a base other than 0, 1 and -1 at an exponent
+     * above 4096, whose magnitude is then at least 2^4097).
      */
     public static java.math.BigInteger sizeOp(String op, java.math.BigInteger l, java.math.BigInteger r) {
         if (op.equals("+")) return l.add(r);
         if (op.equals("-")) return l.subtract(r);
         if (op.equals(" ")) return l.multiply(r);
-        if (op.equals("^") && r.signum() >= 0 && r.compareTo(java.math.BigInteger.valueOf(4096)) <= 0)
-            return l.pow(r.intValue());
+        if (op.equals("^") && r.signum() >= 0) {
+            if (r.signum() == 0) return java.math.BigInteger.ONE;
+            if (l.abs().compareTo(java.math.BigInteger.ONE) <= 0) return l.pow(r.testBit(0) ? 1 : 2);
+            if (r.compareTo(java.math.BigInteger.valueOf(4096)) <= 0) return l.pow(r.intValue());
+        }
         return null;
     }
 

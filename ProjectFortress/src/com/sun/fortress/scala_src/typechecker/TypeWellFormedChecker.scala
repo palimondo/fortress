@@ -44,24 +44,34 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   // A size, a literal or one computed from literals, outside the values of every kind its
   // parameters have: a nat parameter is an NN32 value and an int parameter a ZZ32 value.
-  // No kinds known means either.
-  private def sizeOutOfRange(sarg: StaticArg, kinds: List[StaticParamKind]): Option[String] =
+  // No kinds known means either.  An operation on numerals that folding leaves uncomputed,
+  // a power beyond Naming.sizeOp's exponent, is at least 2^4097, outside every kind.
+  private def sizeOutOfRange(sarg: StaticArg, kinds: List[StaticParamKind]): Option[String] = {
+    val nat = kinds.exists(_.isInstanceOf[KindNat])
+    val int = kinds.exists(_.isInstanceOf[KindInt])
+    def outOfRange(shown: String) =
+      if (nat && !int)
+        Some("The static argument " + shown + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.")
+      else if (int && !nat)
+        Some("The static argument " + shown + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.")
+      else
+        Some("The static argument " + shown + " is out of range for a nat parameter, whose values are those of NN32, and for an int parameter, whose values are those of ZZ32.")
+    def uncomputed(e: IntExpr): Option[IntExpr] = e match {
+      case b@SIntBinaryOp(_, _, _: IntBase, _: IntBase, _) => Some(b)
+      case SIntBinaryOp(_, _, l, r, _) => uncomputed(l).orElse(uncomputed(r))
+      case _ => None
+    }
     sarg match {
       case SIntArg(_, _, e) if foldSize(e).isInstanceOf[IntBase] =>
         val v = foldSize(e).asInstanceOf[IntBase].getIntVal.getIntVal
-        val nat = kinds.exists(_.isInstanceOf[KindNat])
-        val int = kinds.exists(_.isInstanceOf[KindInt])
         val fitsNat = v.signum >= 0 && v.compareTo(nn32Max) <= 0
         val fitsInt = v.compareTo(zz32Min) >= 0 && v.compareTo(zz32Max) <= 0
         if ((nat && fitsNat) || (int && fitsInt) || (!nat && !int && (fitsNat || fitsInt))) None
-        else if (nat && !int)
-          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, 0 to 4294967295.")
-        else if (int && !nat)
-          Some("The static argument " + v + " is out of range for an int parameter, whose values are those of ZZ32, -2147483648 to 2147483647.")
-        else
-          Some("The static argument " + v + " is out of range for a nat parameter, whose values are those of NN32, and for an int parameter, whose values are those of ZZ32.")
+        else outOfRange(v.toString)
+      case SIntArg(_, _, e) => uncomputed(foldSize(e)).flatMap(b => outOfRange(b.toString))
       case _ => None
     }
+  }
 
   // The kinds of the static parameters at each position, from the declared schemas of a
   // checked reference; before type checking a reference has none, and its sizes wait.
