@@ -1995,10 +1995,14 @@ that has an expected type, its \KWD{else} clause among them, whose expected
 type is that of the \KWD{typecase} expression.
 The sentence after the list says that the expected type is used also for a call
 written by loose juxtaposition, as \EXP{f\;x}.
+A second revision adds a third context to the list: the body of a \KWD{label}
+expression that has an expected type, and the \KWD{with} clause expression of
+each \KWD{exit} expression whose target is that \KWD{label} expression, whose
+expected type is that of the \KWD{label} expression.
 The item of the list of what the chapter does not yet describe, in
-\secref{numeral-default}, names an argument of another call, the body of a
-\KWD{for} loop and the body of a \KWD{label} expression, and no longer names
-the contexts that the list of contexts now gives.
+\secref{numeral-default}, names an argument of another call and the body of a
+\KWD{for} loop, and no longer names the contexts that the list of contexts now
+gives, the body of a \KWD{label} expression among them.
 Each changed passage has a box.
 How a call is instantiated under its expected type is unchanged.
 \item[Rationale] This change does not follow from route~A; it follows the
@@ -2030,25 +2034,45 @@ decided that the library's own practice is the standard, and the library does
 not route round a gap of the type checker.
 A reversal would take the four contexts out of the list of contexts and back
 into the item, and the compiled type checker would refuse those calls again.
+The second revision follows the revival's decision of 9~October 2026 that the
+body of a \KWD{label} expression and the \KWD{with} clause values of its exits
+take the expected type of the whole \KWD{label} expression, as the clauses of a
+\KWD{typecase} expression take that of the \KWD{typecase} expression.
+``The type of a \KWD{label} expression is the union of the type of the last
+expression of its expression block and the types of the \KWD{with} clause
+values of any \KWD{exit} expressions within the \KWD{label} expression whose
+target is the \KWD{label} expression's name'' (\secref{label-expr}), which is a
+subtype of the expected type when each of those types is.
+The thirteenth of the calls of \library\ above ends a clause of a
+\KWD{typecase} expression that ends the body of a \KWD{label} expression, and
+took the bound \TYP{Any} there (row~642 of the revival's gap ledger).
+A reversal of the second revision would take the body of a \KWD{label}
+expression and its exits' \KWD{with} clause values out of the list of contexts
+and back into the item, and the compiled type checker would refuse that call
+again.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-checker-expected-type/REPORT.md}
+and, for the second revision, in
+\nolinkurl{explorations/compile-ladder/rung-checker-contexts/REPORT.md}
 in the revival's repository.
 \item[Effect] The compiled type checker gives these contexts their expected
 types: it checks a clause of an \KWD{if} expression without an \KWD{else}
 clause against \TYP{()}, and it gives the expected type of the enclosing
 expression to the last expression of a block after local declarations, to a
-clause of a \KWD{typecase} expression and to the application that a loose
-juxtaposition makes.
-Twelve of the thirteen calls of \library\ that it refused now check.
+clause of a \KWD{typecase} expression, to the body of a \KWD{label} expression
+and the \KWD{with} clause expressions of its exits, and to the application that
+a loose juxtaposition makes.
+The thirteen calls of \library\ that it refused now check.
 It still gives no expected type to an argument of another call (row~455 of the
-revival's gap ledger) or to the body of a \KWD{label} expression (row~642),
-as the item of the list says; the thirteenth call ends a clause of a
-\KWD{typecase} expression that ends the body of a \KWD{label} expression.
-Nor does it give one to an operator repeated between three or more operands
-that no multifix declaration accepts, as \EXP{p \oplus q \oplus r}, though the
-outer of the binary applications \EXP{(p \oplus q) \oplus r} that it stands for
-is an operator application, which the sentence after the list gives the
-expected type (row~644).
+revival's gap ledger), as the item of the list says.
+It gives the expected type also to an operator repeated between three or more
+operands, as \EXP{p \oplus q \oplus r}: to the multifix application where a
+multifix declaration accepts the operands, and otherwise to the outer of the
+binary applications \EXP{(p \oplus q) \oplus r} that it stands for, each an
+operator application, which the sentence after the list gives the expected
+type; whether the multifix application applies is decided without the expected
+type, as for a loose juxtaposition.
+Until 9~October 2026 it gave none there (row~644).
 The interpreter has no static types and is unchanged.
 \item[Original text] The two passages are the revival's own text of
 29~September 2026, not the Working Draft's, whose chapter held a heading and two
@@ -2076,6 +2100,20 @@ an argument of another call, an expression that a local declaration precedes in
 a block, an \KWD{if} expression without an \KWD{else} clause, a \KWD{typecase}
 expression, the body of a \KWD{for} loop, or a call written by loose
 juxtaposition, as \EXP{f\;x};
+\end{quote}
+Before the second revision, the list of contexts ended, in lines 138--142:
+\begin{quote}
+\ldots; and as a clause of a \KWD{typecase} expression that has an expected
+type, its \KWD{else} clause among them, the expected type of the
+\KWD{typecase} expression, of which the union of the types of its clauses, the
+type of the \KWD{typecase} expression (\secref{typecase}), is then a subtype
+where the type of each clause is.
+\end{quote}
+and the item said, in lines 266--268:
+\begin{quote}
+an expected type in any context other than those listed above, such as
+an argument of another call, the body of a \KWD{for} loop or the body of a
+\KWD{label} expression;
 \end{quote}
 \item[Route C] The same under route~C.
 \end{description}

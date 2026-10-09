@@ -135,11 +135,17 @@ local declarations precede it in the block, the block's expected type; as a
 branch of an \KWD{if} expression with an \KWD{else} clause that has an
 expected type, the expected type of the \KWD{if} expression; as a clause of an
 \KWD{if} expression without an \KWD{else} clause, \TYP{()}, the type that
-every such clause must have (\secref{if-expr}); and as a clause of a
+every such clause must have (\secref{if-expr}); as a clause of a
 \KWD{typecase} expression that has an expected type, its \KWD{else} clause
 among them, the expected type of the \KWD{typecase} expression, of which the
 union of the types of its clauses, the type of the \KWD{typecase} expression
-(\secref{typecase}), is then a subtype where the type of each clause is.
+(\secref{typecase}), is then a subtype where the type of each clause is; and
+as the body of a \KWD{label} expression that has an expected type, or as the
+\KWD{with} clause expression of an \KWD{exit} expression whose target is that
+\KWD{label} expression, the expected type of the \KWD{label} expression, of
+which the union of the type of its body and the types of those \KWD{with}
+clause values, the type of the \KWD{label} expression (\secref{label-expr}),
+is then a subtype where each of those types is.
 The expected type is used whether the call is written by tight juxtaposition,
 as \EXP{f(x)} (\secref{juxtameaning}), or by loose juxtaposition, as
 \EXP{f\;x}, or as a method invocation or an operator application.
@@ -148,7 +154,12 @@ gave the last expression of a block an expected type only where no local
 declaration precedes it, and gave none to a clause of an \KWD{if} expression
 without an \KWD{else} clause, to a clause of a \KWD{typecase} expression or to
 a call written by loose juxtaposition; the revival decided on 8~October 2026
-that each has the type that the text already requires of it.}
+that each has the type that the text already requires of it.
+Its text of 8~October 2026 gave none to the body of a \KWD{label} expression
+or to the \KWD{with} clause expression of an \KWD{exit} expression; the
+revival decided on 9~October 2026 that they have the expected type of the
+\KWD{label} expression, as a clause of a \KWD{typecase} expression has that of
+the \KWD{typecase} expression.}
 The return type of the instance that the steps above find must be a subtype of
 the expected type.
 If they find no such instance, the static arguments are inferred again without
@@ -264,8 +275,7 @@ parameter inside another type may be converted where only a conversion of its
 elements would satisfy the bounds of the parameter; under the rule above such
 an argument fixes the parameter by subtyping and is not converted;
 \item an expected type in any context other than those listed above, such as
-an argument of another call, the body of a \KWD{for} loop or the body of a
-\KWD{label} expression;
+an argument of another call or the body of a \KWD{for} loop;
 \item the static arguments of an object with static parameters that is named
 without a call, which a program writes (\secref{where-clauses});
 \item the inference over a whole program of the types that declarations elide
@@ -274,7 +284,8 @@ without a call, which a program writes (\secref{where-clauses});
 \revision{revival-expected-contexts}{The revival's text of 29~September 2026
 named here also an expression that a local declaration precedes in a block, an
 \KWD{if} expression without an \KWD{else} clause, a \KWD{typecase} expression
-and a call written by loose juxtaposition, to which the list of contexts in
+and a call written by loose juxtaposition, and its text of 8~October 2026 also
+the body of a \KWD{label} expression, to which the list of contexts in
 \secref{static-arg-inference} now gives an expected type.}
 \revision{revival-inference}{The compiled type checker instantiates a type
 parameter that neither an argument nor the expected type fixes at the
