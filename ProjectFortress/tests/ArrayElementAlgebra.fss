@@ -1,0 +1,54 @@
+component ArrayElementAlgebra
+export Executable
+
+(* Vector and Matrix operations and the scalar block run for an integer and a float element type, and matrix(v) of a float puts v on the diagonal and zero off it. *)
+
+shown(v: Any): String = v.asString || " : " || v.ilkName
+
+run(): () = do
+    u = vector[\ZZ32,3\]()
+    u[0] := 1
+    u[1] := 2
+    u[2] := 3
+    w = vector[\ZZ32,3\]()
+    w[0] := 4
+    w[1] := 5
+    w[2] := 6
+    assert(shown(u.dot(w)), "32 : Int", "an integer vector's dot product stays an integer; Library/FortressLibrary.fsi, trait Vector, dot")
+    su = u.scale(2)
+    assert(shown(su[2]), "6 : Int", "an integer vector scaled by an integer; Library/FortressLibrary.fsi, trait Vector, scale")
+    assert(shown((u + w)[1]), "7 : Int", "an integer vector sum; Library/FortressLibrary.fsi, trait Vector, opr +")
+
+    rv = vector[\RR64,2\]()
+    rv[0] := 0.5
+    rv[1] := 1.5
+    assert(rv.dot(rv), 2.5, "a float vector's dot product; Library/FortressLibrary.fsi, trait Vector, dot")
+    sr = rv.scale(2.0)
+    assert(sr[1], 3.0, "a float vector scaled by a float; Library/FortressLibrary.fsi, trait Vector, scale")
+
+    k = matrix[\ZZ32,2,2\]()
+    k[0,0] := 1
+    k[0,1] := 2
+    k[1,0] := 3
+    k[1,1] := 4
+    kk = k k
+    assert(shown(kk[0,0]), "7 : Int", "an integer matrix product; Library/FortressLibrary.fsi, trait Matrix, mul")
+    assert(kk[0,1], 10, "an integer matrix product; Library/FortressLibrary.fsi, trait Matrix, mul")
+    assert(kk[1,0], 15, "an integer matrix product; Library/FortressLibrary.fsi, trait Matrix, mul")
+    assert(kk[1,1], 22, "an integer matrix product; Library/FortressLibrary.fsi, trait Matrix, mul")
+
+    iv = array[\ZZ32\](3).tabulate(fn (i: ZZ32): ZZ32 => i - 1)
+    assert(shown((iv MIN 0)[2]), "0 : Int", "an integer array's MIN with an integer; Library/FortressLibrary.fsi, opr MIN on an array and a number")
+    assert(shown((0 MAX iv)[0]), "0 : Int", "an integer's MAX with an integer array; Library/FortressLibrary.fsi, opr MAX on a number and an array")
+    assert(shown((iv + 1)[0]), "0 : Int", "an integer array plus an integer; Library/FortressLibrary.fsi, opr + on an array and a number")
+    assert(shown((1 - iv)[0]), "2 : Int", "an integer minus an integer array; Library/FortressLibrary.fsi, opr - on a number and an array")
+    fv = array[\RR64\](3).tabulate(fn (i: ZZ32): RR64 => 1.0 i - 1.0)
+    assert((fv MAX 0.5)[0], 0.5, "a float array's MAX with a float; Library/FortressLibrary.fsi, opr MAX on an array and a number")
+    assert((0.5 MIN fv)[2], 0.5, "a float's MIN with a float array; Library/FortressLibrary.fsi, opr MIN on a number and an array")
+
+    rm = matrix[\RR64,2,2\](2.0)
+    assert(rm[0,0], 2.0, "matrix(v) puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
+    assert(rm[0,1], 0.0, "matrix(v) puts zero off the diagonal; Library/FortressLibrary.fsi, matrix")
+  end
+
+end

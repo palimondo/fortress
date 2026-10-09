@@ -1,0 +1,18 @@
+(* A call of a generic function whose type parameter has two bounds, one of them a trait with a comprises clause, is applicable with a numeral converted to the declared ZZ32 of another parameter. *)
+component XXXCoerceTwoBoundsClosedTrait
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+
+f[\T extends { K, R[\T\] }\](x: T, y: ZZ32): ZZ32 = y + 1
+
+run(): () = do
+    assert(f(A, 1), 2, "f(A, 1), the numeral converted to ZZ32, is f at A; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

@@ -4715,3 +4715,9 @@ note added
 note added
 
 | 25 | a `nat` static argument can never be a value name; `NatReflect.reflect` + one hoisted generic per shape is the sanctioned escape | NEGATIVE-VERIFIED | design limit (specification) | `basic/trait-parameters.tex`, "Nat and Int Parameters" (a `nat` is a *static* parameter) | none | ours | `n is undefined.`: static args resolve in the type namespace. The escape works in `explorations/libvector-probes/p22_runtime_sized.fss`. `NatReflect.fss`'s own comment asks for this to be built into the language. Probe `explorations/libvector-probes/p09_runtime_size.fss`, in the parent of `e879b6a44`. full text: history, row 25 |
+
+### Row 29
+
+note added
+
+| 29 | multifix dispatch is absent: walk never looks for an *n*-argument definition of an infix operator repeated between three or more operands, and reassociates to binary calls | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/operators/chained-multifix.tex`, "Chained and Multifix Operators"; `Specification-1.0-frozen/fortress/preamble.tex:59` (multifix among the not-yet-supported features) | none | ours | `a OTIMES b OTIMES c = V(24.0, n=2)`: the right value with two children, so two binary calls. Probe `explorations/spec-probes/p13_multifix2.fss`, in the parent of e879b6a44. Workaround: a reduction over a concatenation monoid. |

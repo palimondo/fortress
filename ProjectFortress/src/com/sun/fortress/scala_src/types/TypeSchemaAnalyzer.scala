@@ -469,22 +469,30 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
     }
 //    println("  imageSparams = " + imageSparams)
     
-    // Create a type analyzer with only the image variables and their bounds.
-    val imageTa = ta.extend(imageSparams, None)
+    // The bounds are kept as the list they are, each already a BaseType, without
+    // Any and duplicates, and never met into one type: the meet of bounds one of
+    // which is a trait with a comprises clause can be a union, which a bound
+    // list cannot hold, and normalizing it expands that trait into its members.
     val rimageSparams = imageSparams.map{
       case SStaticParam(i, v, x, e, doms, d, a, k:KindType, l) =>
-        SStaticParam(i, v, x, conjuncts(imageTa.meet(e)).
-                             toList.map(_.asInstanceOf[BaseType]), doms, d, a, k, l)
+        val bds = removeDuplicates(e.filterNot(_.isInstanceOf[AnyType])).map(_.asInstanceOf[BaseType])
+        SStaticParam(i, v, x, bds, doms, d, a, k, l)
       case x => x
     }
 //    println("  rimageSparams = " + rimageSparams)
     val rimageTa = ta.extend(rimageSparams, None)
     // Verify that the image environment can prove that each variable's image
-    // is a subtype of all its bounds' images.
+    // is a subtype of all its bounds' images, one bound at a time. An image
+    // variable is a subtype of each bound it was given above without a proof.
     // Sizes have no bounds; a nat or int parameter is kept as it is.
     val sizeSparams = sparams.filter(sp => sp.getKind.isInstanceOf[KindNat] || sp.getKind.isInstanceOf[KindInt])
+    def declared(y: Type, b: Type) = rimageSparams.exists {
+      case SStaticParam(_, _, n, bds, _, _, _, _:KindType, _) =>
+        y.isInstanceOf[VarType] && y.asInstanceOf[VarType].getName == n && bds.contains(b)
+      case _ => false
+    }
     if (varsMap.forall { case (x, xbds) =>
-      rimageTa.lteq(phi(x), phi(imageTa.meet(xbds)))
+      xbds.forall(b => b.isInstanceOf[AnyType] || declared(phi(x), phi(b)) || rimageTa.lteq(phi(x), phi(b)))
     }) Some(rimageSparams ++ sizeSparams) // Success -- return the image's static params.
     else None             // Failure
   }

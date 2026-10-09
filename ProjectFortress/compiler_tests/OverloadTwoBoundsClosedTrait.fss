@@ -1,0 +1,21 @@
+(* Two overloaded generic functions whose type parameter has two bounds, one of them a trait whose comprises clause names an object outside the other bound, are checked, and each call runs the declaration that its second argument selects. *)
+component OverloadTwoBoundsClosedTrait
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+
+f[\T extends { K, R[\T\] }\](x: T, y: ZZ32): String = "ZZ32"
+f[\T extends { K, R[\T\] }\](x: T, y: String): String = "String"
+
+run(): () = do
+    z: ZZ32 = 1
+    assert(f(A, z), "ZZ32", "f(A, z) with z a ZZ32 runs the declaration on ZZ32; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(f(B, "s"), "String", "f(B, \"s\") runs the declaration on String; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    println("PASS")
+  end
+
+end
