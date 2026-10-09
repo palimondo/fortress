@@ -128,7 +128,7 @@ A note written before the revival, and your training, can be right about the tea
 
 - Original: the interpreter's library named a bounded range of rank 1, `BoundedScalarRange`, and none of rank 2 or 3. Its generic range traits compared indices of their type parameter, which declares no comparison. `|#(0,3)|` was 1, and walk stopped on `((0,0)#).every(-1,-1)`.
 - Resolution: `BoundedRange2D` and `BoundedRange3D` name them. The `ZZ32` kinds of each rank declare the comparisons, and the generic range traits declare them abstract. `#(0,n)` is empty, and a range made by a prefix `#` is declared a `RangeWithExtent`.
-- Reason: the checker refused 36 of the ranges' declarations, and walk stopped or answered a wrong size. The library's rank-1 kinds gave the design.
+- Reason: the checker refused the ranges' declarations at 36 sites, and walk stopped or answered a wrong size. The library's rank-1 kinds gave the design.
 
 **`SUM` and `PROD`**
 
@@ -140,6 +140,6 @@ A note written before the revival, and your training, can be right about the tea
 
 **A parameter whose type is left out**
 
-- Original: the components chapter says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and stopped on a local function's. Walk runs them.
+- Original: the components chapter says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and stopped on a local function's. Walk runs such declarations, except a method that implements an abstract declaration, which stops at its first call (ledger row 405).
 - Resolution: the compiled path refuses every such parameter of a function declaration with "Missing parameter type for x". A box in the chapter and Appendix I say so.
 - Reason: no text describes that inference. A stop of the checker is no answer, and the refusal already stood at top level.
