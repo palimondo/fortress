@@ -57,14 +57,14 @@ A note written before the revival, and your training, can be right about the tea
 **A trait's `override`, and object expressions, under walk**
 
 - Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`, "Meet Rule") skipped object expressions: anonymous objects written inside an expression, such as `object extends { A, B } end`.
-- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function. It checks the lifted object as it checks an object. It checks a trait, object or lifted object with static parameters through a stand-in whose static parameters are symbolic, and reads no pair of declarations whose parameter types mention them. The checker still accepts an object expression that breaks the rule (ledger row 570).
+- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function. It checks the lifted object as it checks an object. Walk checks a trait, object or lifted object with static parameters through a stand-in: one type for all its instances, with a symbolic type for each static parameter (`symbolicInstance` in `interpreter/evaluator/BuildEnvironments.java`). It does not check a pair of declarations whose parameter types mention a symbolic type. The checker still accepts an object expression that breaks the rule (ledger row 570).
 - Reason: the traits chapter (`Specification/basic/traits.tex`, "Method Declarations"), and the Meet Rule, which names object expressions.
 
 **An abstract method without a body, and an `override` that overrides nothing, under walk**
 
 - Original: the traits chapter makes both static errors. Walk loaded both: a call of the abstract method stopped with an `InterpreterBug`, "has neither body nor def", and the `override` ran. The compiled checker refuses the first and accepts the second (ledger row 653).
-- Resolution: walk refuses both at load, for an object or an object expression without static parameters, and the `override` for a trait without static parameters too. A declaration with a body of the method's name, at or below the abstract declaration's parameter types, counts as defining it (ledger row 666). Walk does not check a generic object (ledger row 665).
-- Reason: the chapter's rules. The allowance keeps the library loading: its `Pairs` component's `SingleRange` defines `RunRanges`'s abstract `BOXPLUS` only at the two types that the trait's `comprises` clause lists. By reading, `QuickCheck`'s generators and `Random`'s `MersenneTwisterInit` need it too, each providing a body for an abstract method of a trait above it only at a narrower parameter type (ledger rows 669 and 668).
+- Resolution: walk refuses both at load in an object or an object expression without static parameters. It refuses the `override` in a trait without static parameters too. A declaration with a body of the method's name, whose parameter types are the abstract declaration's or below them, counts as defining it (ledger row 666). Walk makes neither of these two checks on a generic object (ledger row 665).
+- Reason: the chapter's rules. Counting a body at narrower parameter types keeps the library loading: its `Pairs` component's `SingleRange` defines `RunRanges`'s abstract `BOXPLUS` only at the two types that `RunRanges`'s `comprises` clause lists. From their source, `QuickCheck`'s generators (ledger row 669) and `Random`'s `MersenneTwisterInit` (ledger row 668) need it too: each provides a body for an abstract method of a trait above it only at a narrower parameter type.
 
 **What a type provides**
 
@@ -74,7 +74,7 @@ A note written before the revival, and your training, can be right about the tea
 
 **A string's `left` and `right`**
 
-- Original: the interpreter's library declared `String`'s `left` and `right` `Maybe[\Char\]` but answered the character itself, so walk printed `a` for `"abc".left`. The specification is silent.
+- Original: the interpreter's library declared `String`'s getters `left` and `right`, its first and last characters, as `Maybe[\Char\]`, but answered the character itself, so walk printed `a` for `"abc".left`. The specification is silent.
 - Resolution: they answer `Just` of the character, and `Nothing` for the empty string, as `List`'s and the ranges' do.
 - Reason: the declared type, which the checker enforced by refusing both bodies.
 
@@ -99,7 +99,7 @@ A note written before the revival, and your training, can be right about the tea
 **A type parameter whose bound names itself, under walk**
 
 - Original: walk gave such a parameter the empty type `Bottom` where a call did not fix it, as `SUM`'s `T extends AdditiveGroup[\T\]` in `SUM[i <- 1#100] i`. The reduction then refused its first element. The POPL 2019 paper's rule has no bound to give: such a bound is not a type until the parameter is known.
-- Resolution: walk leaves the parameter open. Wherever walk checks a value against the open parameter, every value passes, so the reduction runs on the types of its elements. An empty reduction gives `ZZ32`'s identity, whatever the type of its elements (ledger row 645). `Set`'s `BIG UNION` and `BIG INTERSECTION` still stop, at `Set[\OPEN\]` (ledger row 662). A printed type shows the open parameter as `OPEN`: `BoxU[\OPEN\]` for an object `BoxU[\T\]`. The checker still refuses the call (ledger row 425).
+- Resolution: walk leaves the parameter open. Wherever walk checks a value against the open parameter, every value passes, so the reduction runs on the types of its elements. An empty reduction gives `ZZ32`'s identity, whatever the type of its elements (ledger row 645). `Set`'s `BIG UNION` and `BIG INTERSECTION` still stop at their first element, which `Set[\OPEN\]` does not admit (ledger row 662). A printed type shows the open parameter as `OPEN`: `BoxU[\OPEN\]` for an object `BoxU[\T\]`. The checker still refuses the call (ledger row 425).
 - Reason: walk has no static types, so it cannot take the element type from the static type of the reduced expression, as the specification's desugaring does (`Specification/basic/expressions/reductions.tex`). An open parameter refuses no element.
 
 **Sizes on the compiled path**
@@ -148,14 +148,14 @@ A note written before the revival, and your training, can be right about the tea
 
 **Checking a range of rank 2 or 3 against bounds**
 
-- Original: the interpreter's library checked a range against an array's bounds (`narrowToRange`) with its index type's `<` and `>`, which compare pairs and triples lexicographically. `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` answered `(2,0):(5,5)` and reported no bound outside, so an array's range subscript of rank 2 or 3 with a corner outside on a later axis was cut to the bounds, and a subarray read past them.
-- Resolution: the check compares corner by corner, by the ranges' own point order `PCMP`, and that call raises `IndexOutOfBounds`, as do such subscripts and subarrays. The check and `narrowToRange`'s bodies are declared at the range types over `ZZ32` of each rank.
-- Reason: the curator's answer to Q50. The lexicographic order serves sorting, and a corner outside the bounds on any axis is outside them.
+- Original: the interpreter's library checked a range against an array's bounds (`narrowToRange`, through `checkSelection`) with its index type's `<` and `>`, which compare pairs and triples lexicographically. `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` answered `(2,0):(5,5)` and raised no `IndexOutOfBounds`, so an array's range subscript of rank 2 or 3 with a corner outside the bounds on an axis after the first was cut to the bounds, and a subarray read past them.
+- Resolution: the check compares corner by corner, by the ranges' own point order `PCMP`, under which one point is below another only if it is below or equal on every axis. The call above raises `IndexOutOfBounds`, as do such subscripts and subarrays. The check is one function for each rank, `checkSelection`, `checkSelection2D` and `checkSelection3D` in `Library/RangeInternals.fss`, and `narrowToRange`'s bodies are declared at the range types over `ZZ32` of each rank.
+- Reason: the curator's answer to Q50 in `explorations/coordinator/CLIMB-BATCH-12.md`. The lexicographic order serves sorting, and a corner outside the bounds on any axis is outside them.
 
 **The trivial open range `(:)`**
 
 - Original: `(:)` is a range over `Any`. The interpreter's library gave its `truncL`, `truncR`, `every`, `imposeStride` and `atMost` bodies that answer ranges over `ZZ32`: `(:).truncL(3)` was `3#`.
-- Resolution: the five fail with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is Q49's default, and his answer is pending.
+- Resolution: the five throw `FailCalled`, through the library's `fail`, with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is the default of Q49 in `explorations/coordinator/CLIMB-BATCH-12.md`, which the curator has not answered.
 - Reason: generics are invariant, so a range over `ZZ32` is no range over `Any`, and no body that the five declared types allow answers a range.
 
 **`SUM` and `PROD`**
@@ -166,17 +166,17 @@ A note written before the revival, and your training, can be right about the tea
 
 **Rounding a rational at an infinity**
 
-- Original: the Working Draft types `QQ`'s `floor`, `ceiling`, `round` and `truncate` ℤ, and its next sentence says they return the argument at +∞, −∞ and 0/0, a rational. The interpreter's library returned the argument, and its `round` stopped walk there.
+- Original: the Working Draft (`Specification-1.0-frozen/basic-lib/numbers.tex`, "Rational Numbers") gives `QQ`'s `floor`, `ceiling`, `round` and `truncate` the result type ℤ, and a later paragraph of that section says they return the argument at +∞, −∞ and 0/0, a rational. The interpreter's library returned the argument, and its `round` stopped walk there.
 - Resolution: these methods and the brackets ⌊ ⌋ and ⌈ ⌉ throw `DivisionByZero` at those three values.
-- Reason: the curator kept the declared integer result. A division by zero whose result is an integer throws `DivisionByZero` (`opr-overview.tex`).
+- Reason: the curator kept the declared integer result. A division by zero whose result is an integer throws `DivisionByZero` (`Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators").
 
 ## Loops and reductions are library code
 
 **The lifted type of a reduction without an identity**
 
-- Original: the interpreter's library lifted the reductions without an identity, such as `BIG MIN`, `BIG MAX` and `BIG //`, to the type `AnyMaybe`, which takes no type argument. Their `simpleJoin` took and answered `Any`, and their `lift` took `Any`, while the api declared `lift(r:R)`. The team's tests declared their own such reductions with `simpleJoin` at `Any`, and passed `AnyMaybe` to `generate`.
-- Resolution: `AssociativeReduction[\R\]` lifts to `Maybe[\R\]`. Its `simpleJoin` takes and answers `R`, and every `lift` takes `R`. A reduction that extends it declares `simpleJoin` at its element type. Under walk, one declared at `Any` or with untyped parameters leaves the abstract `simpleJoin` without a body: walk refuses such a reduction at load, and one with static parameters stops at its first join. A static argument that names the lifted type is `Maybe[\R\]`, as in `h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing)`.
-- Reason: the checker refused the `Any` devices at 13 places in the library, and `if av <- a` cannot bind from `AnyMaybe`, which is not a `Condition`. The api and `Set`'s `Intersection` already wrote these types. The devices had kept walk's reductions running while walk gave an unwritten static argument `Bottom`, which it no longer does.
+- Original: the interpreter's library lifted the reductions without an identity, such as `BIG MIN`, `BIG MAX` and `BIG //`, to the type `AnyMaybe`, which takes no type argument. Such a reduction wraps each element in a `Just` with its `lift`, joins two wrapped elements by its `simpleJoin` of their contents, and answers `Nothing` for no element. Their `simpleJoin` took and answered `Any`, and their `lift` took `Any`, while `Library/FortressLibrary.fsi` declared `lift(r:R)`. The team's tests declared their own such reductions with `simpleJoin` at `Any`, and passed `AnyMaybe` to `generate` as its static argument.
+- Resolution: `AssociativeReduction[\R\]` lifts to `Maybe[\R\]`. Its `simpleJoin` takes and answers `R`, and every `lift` takes `R`. A reduction that extends it declares `simpleJoin` at its element type. Under walk, one declared at `Any` or with untyped parameters leaves the abstract `simpleJoin` without a body: walk refuses such a reduction at load, and one with static parameters stops at its first join. A static argument that names the lifted type is `Maybe[\R\]`, as in `h.generate[\Maybe[\(ZZ32,ZZ32,ZZ32)\]\](TestReduction, sing)` in `ProjectFortress/tests/HeapTest.fss`.
+- Reason: the checker refused the library's declarations at `Any` in 13 places, and `join`'s `if av <- a` cannot bind from `AnyMaybe`, which is not a `Condition`, a generator of zero or one element. `FortressLibrary.fsi` and `Set`'s `Intersection` already wrote these types. The declarations at `Any` had kept walk's reductions running while walk gave `Bottom` to a type parameter that a call did not fix, which it no longer does.
 
 ## Specified, but not built
 
