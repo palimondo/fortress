@@ -559,3 +559,14 @@ The coordinator's task of 2026-10-09, from climb batch 12's post-batch review (`
 - `revival-changes.md`, the open range's reason: the declared types `BoundedRange[\I\]` and `Range[\I\]` at `I = Any` (`Library/FortressLibrary.fsi:2172-2178`), ledger row 656; the wording settled by the writer under the task (the cold read's item: the old reason read two ways).
 - `revival-changes.md`, the rounding entry's heading names 0/0, as its text does: the cold read's placement item, in PLAN's entry.
 - `interpreter.md`, what a library edit can stop at load: the review's Part 3; `explorations/compile-ladder/rung-walk-load-checks/REPORT.md` section 4.
+
+## Batch 13's corrections, 2026-10-09
+
+The coordinator's task of 2026-10-09, from climb batch 13's post-batch review (`explorations/reviews/batch-13-review.md`, Part 3). Each line names its source.
+
+- `interpreter.md`, the `override` bullet: the two cases where walk does not read the bounds, and equal types at an instance: `checkOverrides`, `boundsUnread` and `symbolicDomain` (`interpreter/evaluator/values/Constructor.java:598-600`, `:641-666`); the review's Part 3, first row.
+- `revival-changes.md`, "An abstract method without a body, ...": the lenience needs the parameter types to differ (`Constructor.java:600`); the review's Part 3 and coldread.4.
+- `revival-changes.md`, "A size known only at run time": the two sizes are the checker's, and walk runs such a call (`explorations/compile-ladder/rung-size-expressions/SKEPTIC.md:25`); the review's Part 3 and coldread.3.
+- `revival-changes.md`, "Mixed number types in a generic call": the elements of a tuple or varargs argument take their join, ledger row 511; the review's Part 3 and coldread.2. Varargs added by the writer from the row.
+- `revival-changes.md`, "Comparing pairs and triples", the reason for `Reflect`'s list: rung O's `9ba86f7da`; the review's coldread.1.
+- `revival-changes.md`, "Arithmetic in a size", the power above the exponent 4096: the skeptic's `7dd0adf0c`; the review's coldread.5.
