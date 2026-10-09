@@ -1,0 +1,22 @@
+component UnwrittenTupleMinMaxWalk
+export Executable
+
+(* The library's four big operators over pairs, BIG MIN_MIN, BIG MIN_MAX, BIG MAX_MIN and BIG MAX_MAX, with a generator clause list and no static argument, answer the pair their order picks under walk. *)
+
+run(): () = do
+    (a1, a2) = BIG MIN_MIN[i <- 0#4] (i MOD 2, i)
+    assert(a1, 0, "BIG MIN_MIN over (i MOD 2, i) for i in 0#4 answers 0 first (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(a2, 0, "BIG MIN_MIN over (i MOD 2, i) for i in 0#4 answers 0 second (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    (b1, b2) = BIG MIN_MAX[i <- 0#4] (i MOD 2, i)
+    assert(b1, 0, "BIG MIN_MAX over (i MOD 2, i) for i in 0#4 answers 0 first (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(b2, 2, "BIG MIN_MAX over (i MOD 2, i) for i in 0#4 answers 2 second (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    (c1, c2) = BIG MAX_MIN[i <- 0#4] (i MOD 2, i)
+    assert(c1, 1, "BIG MAX_MIN over (i MOD 2, i) for i in 0#4 answers 1 first (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(c2, 1, "BIG MAX_MIN over (i MOD 2, i) for i in 0#4 answers 1 second (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    (d1, d2) = BIG MAX_MAX[i <- 0#4] (i MOD 2, i)
+    assert(d1, 1, "BIG MAX_MAX over (i MOD 2, i) for i in 0#4 answers 1 first (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(d2, 3, "BIG MAX_MAX over (i MOD 2, i) for i in 0#4 answers 3 second (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    println("PASS")
+  end
+
+end
