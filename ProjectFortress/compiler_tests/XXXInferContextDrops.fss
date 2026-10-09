@@ -1,11 +1,9 @@
-(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+(* A call passed as the argument of another call is given the parameter's type as its expected type, which fixes a static argument that only the result mentions or that the numeral argument would leave at the numeral's type. *)
 component XXXInferContextDrops
 export Executable
 
 object BoxT[\T\](v: ZZ32) end
-object BoxV[\T\](v: T) end
 wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](1)
-wrapV[\T\](x: T): BoxV[\T\] = BoxV[\T\](x)
 mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
 takesBox64(b: BoxT[\ZZ64\]): ZZ32 = 1
 
@@ -13,8 +11,6 @@ b07(): ZZ32 = takesBox64(wrapT(3))
 b11(): ZZ32 = takesBox64(mk())
 
 run(): () = do
-    e: BoxV[\ZZ64\] = wrapV 3
-    println(e.v)
     println(b07() + b11())
 end
 

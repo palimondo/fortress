@@ -1730,9 +1730,56 @@ object STypesUtil {
     implicit val bs = (true, true, true, false)
     val fnsAndArgs = ws.toList.flatMap{uberInheritedMethods(_)}
     fnsAndArgs.map{
-      case (m: Method, Some(as)) => m.instantiateTraitStaticParameters(toJavaList(List[StaticParam]()) , as)
+      case (m: Method, Some(as)) => instantiateMethodApart(m, as)
       case (m, None)  => bug(m + "is not a method or did not have static args.")
     }
+  }
+
+  /* An inherited method instantiated with its declaring trait's static arguments,
+   * each of its own static parameters whose name the arguments mention renamed apart
+   * first, so that the arguments are not captured, as the overloading checker's
+   * ownStaticParamsApart does. */
+  private def instantiateMethodApart(m: Method, as: JList[StaticArg]): Method = {
+    val noParams = toJavaList(List[StaticParam]())
+    val args = toListFromImmutable(as)
+    // The names of the static parameters that the arguments mention.
+    val mentioned = scala.collection.mutable.Set[String]()
+    object collect extends Walker {
+      override def walk(x: Any): Any = x match {
+        case t: VarType => mentioned += t.getName.getText; t
+        case r: IntRef => mentioned += r.getName.getText; r
+        case r: BoolRef => mentioned += r.getName.getText; r
+        case r: DimRef => mentioned += r.getName.getText; r
+        case r: UnitRef => mentioned += r.getName.getText; r
+        case _ => super.walk(x)
+      }
+    }
+    args.foreach(collect(_))
+    val own = toListFromImmutable(m.staticParameters)
+    val clash = own.filter(p => p.getName.isInstanceOf[Id] && mentioned.contains(p.getName.getText))
+    if (clash.isEmpty) return m.instantiateTraitStaticParameters(noParams, as)
+    val taken = own.map(_.getName.getText).toSet ++ mentioned
+    val subst: List[(String, Id)] = clash.map { p =>
+      val n = p.getName.asInstanceOf[Id]
+      val fresh = Iterator.from(1).map(i => NF.makeId(NU.getSpan(n), n.getText + "$" + i))
+                          .find(f => !taken.contains(f.getText)).get
+      (n.getText, fresh) }
+    val renamed = clash.zip(subst).map { case (p, (_, f)) => NF.makeStaticParam(p, f, p.getExtendsClause) }
+    // The arguments replace the trait's parameters, and the new names the clashing
+    // parameters, in the method's types and in its own parameters' declarations.
+    val replacer =
+      new StaticTypeReplacer(toJavaList(toListFromImmutable(m.traitStaticParameters) ++ clash),
+                             toJavaList(args ++ renamed.map(staticParamToArg))) {
+        override def forStaticParam(that: StaticParam): Node = {
+          val updated = super.forStaticParam(that).asInstanceOf[StaticParam]
+          subst.find(_._1 == that.getName.getText) match {
+            case Some((_, f)) if that.getName.getApiName.isNone =>
+              NF.makeStaticParam(updated, f, updated.getExtendsClause)
+            case _ => updated
+          }
+        }
+      }
+    m.instantiateTraitStaticParameters(noParams, replacer)
   }
   
   def exprInheritedMethods(ws: Iterable[TraitTypeWhere], env: NameEnv)(implicit error: ErrorSignal): Set[FnDecl] = {

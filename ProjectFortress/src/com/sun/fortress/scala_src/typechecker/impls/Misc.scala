@@ -323,7 +323,7 @@ trait Misc { self: STypeChecker with Common =>
   //   Collect pattern variables and their types using checkedType
   //   Extend the typechecker with the new id/type information
   //   Type-check the body of the typecase clause
-  def checkClause(c: TypecaseClause, checkedType: Type): TypecaseClause = {
+  def checkClause(c: TypecaseClause, checkedType: Type, expected: Option[Type]): TypecaseClause = {
     val STypecaseClause(info, nameOpt, matchType, body) = c
     // Construct the types corresponding to ids
     val checkLeft = getTypeAndIdTyList(matchType, checkedType)
@@ -337,7 +337,7 @@ trait Misc { self: STypeChecker with Common =>
                 else idty_list
     //idty_list.foreach(pair => System.out.println(pair._1 +", " + pair._2))
     val newChecker = this.extend(idty_list)
-    val checkedBody = newChecker.checkExpr(body).asInstanceOf[Block]
+    val checkedBody = newChecker.checkExpr(body, expected).asInstanceOf[Block]
     STypecaseClause(info, nameOpt, matchType, checkedBody)
   }
 
@@ -580,7 +580,8 @@ trait Misc { self: STypeChecker with Common =>
 
     // An if expression without an else.
     case SIf(SExprInfo(span,parenthesized,_), clauses, None) => {
-      val checkedClauses = clauses.map(c => handleIfClause(c, None))
+      // Each clause must have type (), which is the expected type of its body.
+      val checkedClauses = clauses.map(c => handleIfClause(c, Some(Types.VOID)))
       val clauseTypes = checkedClauses.flatMap(c => getType(c.getBody))
 
       // Check that each if/elif clause has void type
@@ -658,10 +659,12 @@ trait Misc { self: STypeChecker with Common =>
                    bindExpr, clauses, elseClause) => {
       val checkedExpr = checkExpr(bindExpr)
       val checkedType = getType(checkedExpr).getOrElse(return expr)
-      val checkedClauses = clauses.map(checkClause(_,checkedType))
+      // Each clause and the else clause have the typecase's expected type, of
+      // which their union, the typecase's type, is then a subtype.
+      val checkedClauses = clauses.map(checkClause(_,checkedType,expected))
       val clauseTypes =
         checkedClauses.map(c => getType(c.getBody).getOrElse(return expr))
-      val checkedElse = elseClause.map(checkExpr(_).asInstanceOf[Block])
+      val checkedElse = elseClause.map(checkExpr(_, expected).asInstanceOf[Block])
 
       // Build a union type of all clauses and else.
       val allTypes = checkedElse.map(getType(_).getOrElse(return expr)) match {

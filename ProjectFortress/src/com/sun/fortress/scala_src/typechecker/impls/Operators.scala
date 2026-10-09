@@ -169,14 +169,19 @@ trait Operators { self: STypeChecker with Common =>
       }
       // (2) Treat the sequence that remains as a multifix application
       //     of the juxtaposition operator.
-      //     The rules for multifix operators then apply.
-      val multiOpExpr =
-        STypeCheckerFactory.makeTryChecker(this).
-          tryCheckExpr(EF.makeOpExpr(span,
-                                     paren,
-                                     toJavaOption(optType),
-                                     multi,
-                                     toJavaList(associatedChunks)))
+      //     The rules for multifix operators then apply: the multifix
+      //     application is used where it applies, whatever the expected type.
+      //     Either way the application is the juxtaposition's value, so it
+      //     has the juxtaposition's expected type.
+      val multiOp = EF.makeOpExpr(span,
+                                  paren,
+                                  toJavaOption(optType),
+                                  multi,
+                                  toJavaList(associatedChunks))
+      val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+      val multiOpExpr = tryChecker.tryCheckExpr(multiOp).map { plain =>
+        if (expected.isEmpty) plain
+        else tryChecker.tryCheckExpr(multiOp, expected).getOrElse(plain) }
       multiOpExpr.getOrElse {
         // If not, left associate as InfixJuxts
         associatedChunks match {
@@ -185,7 +190,8 @@ trait Operators { self: STypeChecker with Common =>
             expr
           case head::tail =>
             checkExpr(tail.foldLeft(head){ (e1: Expr, e2: Expr) =>
-                                           EF.makeOpExpr(infix,e1,e2) })
+                                           EF.makeOpExpr(infix,e1,e2) },
+                      expected)
         }
       }
     }

@@ -1,0 +1,3 @@
+tests=XXXInferResultOnlyLabelBody
+compile
+compile_err_contains=Function body has type Any, but declared return type is ZZ32.

@@ -1,0 +1,23 @@
+(* An if expression without else gives each clause the expected type (), so a call that ends a clause instantiates a type parameter only its result mentions at (). *)
+component InferResultOnlyIfWithoutElse
+export Executable
+
+stop[\T extends Any\](s: String): T = throw InvalidRange
+check(c: Boolean): () = if c then stop("bad") end
+checkElif(c: Boolean, d: Boolean): () = if c then stop("c") elif d then stop("d") end
+thrown(c: Boolean, d: Boolean): String =
+    try
+        checkElif(c, d)
+        "none"
+    catch e
+        InvalidRange => "thrown"
+    end
+
+run(): () = do
+    check(false)
+    assert(thrown(false, false), "none", "no clause of the if without else runs, and its value is (); Specification/basic/expressions/if.tex, section \"If Expressions\"")
+    assert(thrown(false, true), "thrown", "the elif clause's call stop(\"d\"), instantiated at (), runs and throws; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

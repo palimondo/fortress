@@ -1923,6 +1923,105 @@ not revised.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The contexts that give a call an expected type}
+\seclabel{revival-expected-contexts}
+
+\begin{description}
+\item[Affected sections] \secref{static-arg-inference}; \secref{numeral-default}.
+\item[Change] The list of the contexts in which a call has an expected type,
+in \secref{static-arg-inference}, gives the last expression of a block the
+block's expected type whether or not local declarations precede it, and gains
+two contexts: a clause of an \KWD{if} expression without an \KWD{else} clause,
+whose expected type is \TYP{()}, and a clause of a \KWD{typecase} expression
+that has an expected type, its \KWD{else} clause among them, whose expected
+type is that of the \KWD{typecase} expression.
+The sentence after the list says that the expected type is used also for a call
+written by loose juxtaposition, as \EXP{f\;x}.
+The item of the list of what the chapter does not yet describe, in
+\secref{numeral-default}, names an argument of another call, the body of a
+\KWD{for} loop and the body of a \KWD{label} expression, and no longer names
+the contexts that the list of contexts now gives.
+Each changed passage has a box.
+How a call is instantiated under its expected type is unchanged.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 8~October 2026 that these four contexts give a call the
+type that the text already requires of them, a clause of a \KWD{typecase}
+expression by the rule for the type of the \KWD{typecase} expression.
+The text gives each context its type.
+``If there is no \KWD{else} clause in an \KWD{if} expression, then every clause
+must have type \EXP{()}'' (\secref{if-expr}).
+``If the last element of the expression block is an expression, the value and
+type of this expression are the value and type of the expression block as a
+whole'' (\secref{block-expr}), whatever local declarations precede it.
+The static arguments of an identifier reference ``are statically inferred from
+the context of the function call'' (\secref{idn-ref}), however the call is
+written.
+``The type of a \KWD{typecase} expression is the union of types of all
+right-hand sides of the typecase clauses'' (\secref{typecase}), which is a
+subtype of the expected type when the type of each clause is.
+Since the revival's decision of 29~September 2026 a type parameter that nothing
+at a call fixes takes the intersection of its upper bounds, never
+\TYP{BottomType} (\secref{revival-inference}), so a call of \VAR{fail} or
+\VAR{builtinPrimitive} of \library, whose type parameter only the result
+mentions, took the bound \TYP{Any} in these contexts, and the compiled type
+checker refused thirteen such calls of \library\ that the interpreter runs
+(row~560 of the revival's gap ledger).
+The alternative not taken was that the library write the static argument at
+each such call, as \EXP{\VAR{fail}\llbracket()\rrbracket(s)}: the revival
+decided that the library's own practice is the standard, and the library does
+not route round a gap of the type checker.
+A reversal would take the four contexts out of the list of contexts and back
+into the item, and the compiled type checker would refuse those calls again.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-expected-type/REPORT.md}
+in the revival's repository.
+\item[Effect] The compiled type checker gives these contexts their expected
+types: it checks a clause of an \KWD{if} expression without an \KWD{else}
+clause against \TYP{()}, and it gives the expected type of the enclosing
+expression to the last expression of a block after local declarations, to a
+clause of a \KWD{typecase} expression and to the application that a loose
+juxtaposition makes.
+Twelve of the thirteen calls of \library\ that it refused now check.
+It still gives no expected type to an argument of another call (row~455 of the
+revival's gap ledger) or to the body of a \KWD{label} expression (row~642),
+as the item of the list says; the thirteenth call ends a clause of a
+\KWD{typecase} expression that ends the body of a \KWD{label} expression.
+Nor does it give one to an operator repeated between three or more operands
+that no multifix declaration accepts, as \EXP{p \oplus q \oplus r}, though the
+outer of the binary applications \EXP{(p \oplus q) \oplus r} that it stands for
+is an operator application, which the sentence after the list gives the
+expected type (row~644).
+The interpreter has no static types and is unchanged.
+\item[Original text] The two passages are the revival's own text of
+29~September 2026, not the Working Draft's, whose chapter held a heading and two
+draft notes (\secref{revival-inference}).
+The list of contexts said, in \nolinkurl{Specification/basic/inference.tex},
+lines 129--139, before this revision:
+\begin{quote}
+A call has an expected type in these contexts: as the right-hand side of a
+variable or field declaration that declares its type, that type; as the
+right-hand side of an assignment to a variable whose type is declared, that
+type; as the body of a functional that declares its return type, that type;
+as the last expression of a block that has an expected type, where no local
+declaration precedes it in the block, the block's expected type; and as a
+branch of an \KWD{if} expression with an \KWD{else} clause that has an
+expected type, the expected type of the \KWD{if} expression.
+The expected type is used whether the call is written by tight juxtaposition,
+as \EXP{f(x)} (\secref{juxtameaning}), or as a method invocation or an operator
+application.
+\end{quote}
+The item of the list of what the chapter does not yet describe said, in lines
+254--258:
+\begin{quote}
+an expected type in any context other than those listed above, such as
+an argument of another call, an expression that a local declaration precedes in
+a block, an \KWD{if} expression without an \KWD{else} clause, a \KWD{typecase}
+expression, the body of a \KWD{for} loop, or a call written by loose
+juxtaposition, as \EXP{f\;x};
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{The single-precision floating-point type}
 \seclabel{revival-rr32}
 

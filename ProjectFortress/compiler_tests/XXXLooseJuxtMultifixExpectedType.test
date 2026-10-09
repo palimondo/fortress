@@ -1,0 +1,3 @@
+tests=XXXLooseJuxtMultifixExpectedType
+compile
+compile_err_contains=Right-hand side has type Boolean, but declared type is ZZ32.\nFile XXXLooseJuxtMultifixExpectedType.fss has 1 error.

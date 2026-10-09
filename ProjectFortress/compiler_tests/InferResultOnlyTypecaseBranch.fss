@@ -1,0 +1,22 @@
+(* A typecase expression gives each branch, the else branch too, the expected type of its value, so a call that ends a branch instantiates a type parameter only its result mentions at that type. *)
+component InferResultOnlyTypecaseBranch
+export Executable
+
+stop[\T extends Any\](s: String): T = throw InvalidRange
+kind(x: Any): String =
+    typecase x of
+        String => "a String"
+        Boolean => stop("a Boolean")
+        else => stop("neither")
+    end
+shown(x: Any): String = try kind(x) catch e InvalidRange => "thrown" end
+
+run(): () = do
+    z: ZZ32 = 5
+    assert(shown("a"), "a String", "kind(\"a\") runs the String branch; Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+    assert(shown(true), "thrown", "kind(true) runs the Boolean branch's stop, instantiated at String, which throws; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(shown(z), "thrown", "kind(5) runs the else branch's stop, instantiated at String, which throws; Specification/basic/expressions/typecase.tex, section \"Typecase Expressions\"")
+    println("PASS")
+  end
+
+end

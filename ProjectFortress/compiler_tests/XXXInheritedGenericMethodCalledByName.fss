@@ -1,0 +1,20 @@
+(* A generic method inherited from a generic trait and called by name inside a trait's method runs on the compiled path. *)
+component XXXInheritedGenericMethodCalledByName
+export Executable
+trait Gen[\E\]
+  mp[\G\](f: E->G): Gen[\G\]
+  count(): ZZ32
+end
+trait Twice[\H\] extends Gen[\H\]
+  again(): Gen[\String\] = mp[\String\](fn (e:H):String => "x")
+end
+object Box[\E\](x: E) extends Twice[\E\]
+  mp[\G\](f: E->G): Gen[\G\] = Box[\G\](f(x))
+  count(): ZZ32 = 1
+end
+run(): () = do
+  println("REACHED")
+  assert(Box[\ZZ32\](3).again().count(), 1, "again calls mp by name inside Twice, which Box provides; Specification/basic/traits.tex, section \"Method Declarations\"")
+  println("PASS")
+end
+end
