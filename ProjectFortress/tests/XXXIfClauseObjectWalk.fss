@@ -1,0 +1,12 @@
+component XXXIfClauseObjectWalk
+export Executable
+
+(* An if clause without a binding whose value is an object that is not a Boolean is a static error, so the program is refused at load, under walk (if.tex, section "If Expressions"). *)
+
+object O end
+
+chosen: String = if O then "then" else "else" end
+
+run(): () = println(chosen)
+
+end

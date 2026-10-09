@@ -1,0 +1,18 @@
+component RangeSubscriptPositions
+export Executable
+
+(* A range subscripted by a range takes positions counted from 0, while narrowToRange and an array indexed from 5 take indices. *)
+
+run(): () = do
+    assert("" (5#3)[0#2], "[5,6]", "the range 5#3 at positions 0 and 1")
+    assert("" (5#3).narrowToRange(5#2), "[5,6]", "the range 5#3 narrowed to the indices 5 and 6")
+    a = array[\ZZ32\](3).shift(5)
+    a[5] := 50
+    a[6] := 60
+    a[7] := 70
+    s = a[5#2]
+    assert(|s|, 2, "an array indexed from 5 at the indices 5 and 6 has two elements")
+    assert(s[0], 50, "an array indexed from 5 at the indices 5 and 6 starts with its element at 5")
+end
+
+end
