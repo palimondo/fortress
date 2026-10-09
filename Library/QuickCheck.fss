@@ -740,7 +740,7 @@ trait DefaultArbitrary extends Arbitrary
        interpreter seems to reject this... *)
     gen0[\T\](arb:Arbitrary): Gen[\T\] = do
         (* Exact match first; see the rationale in `Gen` for details. *)
-        f = fn (_:T):T => throw ForbiddenException
+        f = fn (_:T):T => throw ForbiddenException(CallerViolation)
         typecase f of
             ()->() => genVoid
             Boolean->Boolean => genBoolean
@@ -754,7 +754,7 @@ trait DefaultArbitrary extends Arbitrary
             String->String => genString
             (* Try covariant match then; we require this for every parametric types.
                Note that we still have to match exactly in the individual cases. *)
-            else => typecase fn ():T => throw ForbiddenException of
+            else => typecase fn ():T => throw ForbiddenException(CallerViolation) of
                 ()->AnyMaybe => __genMatchMaybe(arb, f)
                 ()->AnyList => __genMatchList(arb, f)
                 ()->(Any,Any) => __genMatchTuple2(arb, f)

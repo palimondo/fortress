@@ -5,7 +5,7 @@ export Executable
 
 object BoxU[\T\]() end
 
-thr[\T\](): T = throw ForbiddenException
+thr[\T\](): T = throw ForbiddenException(CallerViolation)
 
 mkN[\T extends Number\](): BoxU[\T\] = BoxU[\T\]()
 mkU[\T\](): BoxU[\T\] = BoxU[\T\]()

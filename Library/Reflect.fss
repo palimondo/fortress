@@ -373,11 +373,11 @@ private placeholderMethod: ReflectMethod = ReflectMethod()
 anyType: Type = ReflectTrait[\Any\]()
 objectType: Type = ReflectTrait[\Object\]()
 voidType: Type = ReflectTuple[\()\]()
-bottomType: Type = typeOf(fn () => throw ForbiddenException).range
+bottomType: Type = typeOf(fn () => throw ForbiddenException(CallerViolation)).range
 
 (* This constructor initialization takes place after the declaration of
    other necessary type objects. *)
-private dummyRestType: Type = typeOf(fn (x:Any...) => throw ForbiddenException).domain
+private dummyRestType: Type = typeOf(fn (x:Any...) => throw ForbiddenException(CallerViolation)).domain
 
 (** Creates an arrow type with given domain and range. **)
 arrowType(domain:Type, range:Type): ArrowType =

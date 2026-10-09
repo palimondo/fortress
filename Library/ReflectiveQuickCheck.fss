@@ -178,7 +178,7 @@ trait ReflectiveArbitrary extends DefaultArbitrary
 
     (** A wrapper for `genFromType` above. **)
     gen[\T\](): Gen[\T\] =
-        typecase fn ():T => throw ForbiddenException of
+        typecase fn ():T => throw ForbiddenException(CallerViolation) of
             ()->Object =>
                 if gen' <- genFromType(false, theType[\T\]()) then
                     gen' asif Gen[\T\]
