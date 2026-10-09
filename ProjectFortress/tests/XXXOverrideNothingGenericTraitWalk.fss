@@ -1,0 +1,17 @@
+component XXXOverrideNothingGenericTraitWalk
+export Executable
+
+(* A generic trait's method declaration with the modifier override that overrides no inherited declaration is a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait A
+  f(x: ZZ32): String = "A"
+end
+trait G[\T\] extends A
+  override f(x: String): String = "G"
+end
+
+run(): () = do
+    println("loaded")
+  end
+
+end
