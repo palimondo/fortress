@@ -210,6 +210,14 @@ private object EmptyIM[\Val\] extends IntMap[\Val\]
     ordJoin(other:NonEmptyIntMap[\Val\]): NonEmptyIntMap[\Val\] = other
     ordJoin(_:ZZ64, other:IntMap[\Val\]): IntMap[\Val\] = other
     ordJoin(_:ZZ64, other:NonEmptyIntMap[\Val\]): NonEmptyIntMap[\Val\] = other
+    genComb[\That,Result\](f:(ZZ64,SingletonIM[\Val\],SingletonIM[\That\])->IntMap[\Result\],
+                        mapThis:NonEmptyIntMap[\Val\]->IntMap[\Result\],
+                        mapThat:NonEmptyIntMap[\That\]->IntMap[\Result\],
+                        that: IntMap[\That\]): IntMap[\Result\] =
+        typecase that of
+            that':NonEmptyIntMap[\That\] => mapThat(that')
+            else => EmptyIM[\Result\]
+        end
     check(): IntMap[\Val\] = self
     checkL(l:ZZ64, d: ZZ64): Boolean = do errorPrintln("Empty in NonEmpty"); false end
     checkU(u:ZZ64, d: ZZ64): Boolean = self.checkL(u,d)
@@ -375,6 +383,24 @@ private object SingletonIM[\Val\](key:ZZ64, val:Val) extends NonEmptyIntMap[\Val
             nodeIM[\Val\](self,tk,other)
         end
       end
+    genComb[\That,Result\](f:(ZZ64,SingletonIM[\Val\],SingletonIM[\That\])->IntMap[\Result\],
+                        mapThis:NonEmptyIntMap[\Val\]->IntMap[\Result\],
+                        mapThat:NonEmptyIntMap[\That\]->IntMap[\Result\],
+                        that: IntMap[\That\]): IntMap[\Result\] =
+        typecase that of
+            that':SingletonIM[\That\] =>
+                if that'.key = key then f(key, self, that')
+                elif that'.key < key then mapThat(that').ordJoin(mapThis(self))
+                else mapThis(self).ordJoin(mapThat(that'))
+                end
+            that':NodeIM[\That\] =>
+                if key < that'.key then
+                    self.genComb[\That,Result\](f,mapThis,mapThat,that'.left).ordJoin(mapThat(that'.right))
+                else
+                    mapThat(that'.left).ordJoin(self.genComb[\That,Result\](f,mapThis,mapThat,that'.right))
+                end
+            else => mapThis(self)
+        end
     check(): IntMap[\Val\] = self
     checkL(l:ZZ64, d: ZZ64): Boolean =
         if l <= key then
@@ -604,6 +630,22 @@ private object NodeIM[\Val\](left: NonEmptyIntMap[\Val\], key:ZZ64, right: NonEm
     ordJoin(_:ZZ64, other:IntMap[\Val\]): NodeIM[\Val\] = self (* other empty *)
     ordJoin(k:ZZ64, other:NonEmptyIntMap[\Val\]): NodeIM[\Val\] =
         nodeIM[\Val\](self,k,other)
+    genComb[\That,Result\](f:(ZZ64,SingletonIM[\Val\],SingletonIM[\That\])->IntMap[\Result\],
+                        mapThis:NonEmptyIntMap[\Val\]->IntMap[\Result\],
+                        mapThat:NonEmptyIntMap[\That\]->IntMap[\Result\],
+                        that: IntMap[\That\]): IntMap[\Result\] =
+        typecase that of
+            that':SingletonIM[\That\] =>
+                if that'.key < key then
+                    left.genComb[\That,Result\](f,mapThis,mapThat,that').ordJoin(mapThis(right))
+                else
+                    mapThis(left).ordJoin(right.genComb[\That,Result\](f,mapThis,mapThat,that'))
+                end
+            that':NodeIM[\That\] =>
+                (l1,l2,k,r1,r2) = self.nodeNode[\That\](that')
+                l1.genComb[\That,Result\](f,mapThis,mapThat,l2).ordJoin(k, r1.genComb[\That,Result\](f,mapThis,mapThat,r2))
+            else => mapThis(self)
+        end
     check(): IntMap[\Val\] = do
         ld = key - left.topKey
         rd = right.topKey - key

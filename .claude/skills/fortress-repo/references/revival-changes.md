@@ -108,6 +108,12 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: the checker checks sizes, and the slot holds the size's descriptor (`SKILL.md`, "The compiled run time").
 - Reason: it completes the team's design, which carries a size as it carries a type argument.
 
+**Comparing pairs and triples**
+
+- Original: the interpreter's library compared pairs and triples lexicographically with `<`, `<=`, `>`, `>=` and `CMP` over element types with no bound, under the team's comment "Shouldn't these operators have to extend something? A,B,C?". Walk compared an element only when the elements before it were equal, so `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` were `true`. A pair whose first elements were unordered, such as a NaN against a float, stopped walk.
+- Resolution: each element type extends `StandardPartialOrder`, and walk refuses a pair or triple with an element of another type at the call, whatever the elements before it decide. Walk also refuses a pair whose elements at one position are numbers of two run-time types, such as `(1,2) < (1,2.5)`, which it answered `true`: it takes the element type at their join, which is no partial order (ledger row 511). A pair or triple whose deciding elements are unordered answers `false` to `<`, `<=`, `>` and `>=`, and `Unordered` to `CMP`. `Reflect`'s `members` is a list in the order the type declares its members, not a set sorted by name. This is the default of Q43 (way 1b) in `explorations/coordinator/CLIMB-BATCH-13.md`, which the curator has not answered.
+- Reason: the checker refused the ten operators' bodies at 17 sites. The team bounded the range points' comparisons `PCMP` and `SCMP` per element in 2008, and `false` is what `RR64`'s own comparisons answer for a NaN.
+
 ## Numbers are siblings, not a tower
 
 **Tower or siblings**

@@ -1,0 +1,9 @@
+(* The order operator on pairs refuses a pair whose second elements are numbers of two types: the element type is taken at their join, which is no partial order. *)
+component TupleOrderMixedRefused
+export Executable
+
+mixed: Boolean = (1,2) < (1,2.5)
+
+run() = println("PASS")
+
+end

@@ -1,0 +1,44 @@
+(* IntMap's combine calls its function on each key both maps hold, and its two map functions on the parts that only one map holds. *)
+component IntMapCombine
+import IntMap.{...}
+export Executable
+
+addValues(k: ZZ64, a: ZZ32, b: ZZ32): Maybe[\ZZ32\] = Just[\ZZ32\](a + b)
+dropKey(k: ZZ64, a: ZZ32, b: ZZ32): Maybe[\ZZ32\] = Nothing[\ZZ32\]
+keepAll(m: IntMap[\ZZ32\]): IntMap[\ZZ32\] = m
+dropAll(m: IntMap[\ZZ32\]): IntMap[\ZZ32\] = {[\ZZ32\] }
+tenTimes(m: IntMap[\ZZ32\]): IntMap[\ZZ32\] = m.map[\ZZ32\](fn (k: ZZ64, v: ZZ32): ZZ32 => 10 v)
+
+run(): () = do
+    noEntry = {[\ZZ32\] }
+    oneEntry = {[\ZZ32\] widen(1) |-> 10}
+    sameKey = {[\ZZ32\] widen(1) |-> 5}
+    otherKey = {[\ZZ32\] widen(2) |-> 5}
+    farKey = {[\ZZ32\] widen(-100) |-> 7}
+    eight = {[\ZZ32\] widen(k) |-> k | k <- 0#8}
+    upper = {[\ZZ32\] widen(k) |-> 100 | k <- 4#8}
+
+    assert(noEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, noEntry).isEmpty, true, "two empty maps combine to the empty map")
+    assert(noEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, oneEntry).check(), oneEntry, "the empty map combined with a map gives that map's part through the second map function")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, noEntry).check(), oneEntry, "a map combined with the empty map gives its part through the first map function")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, sameKey).check(), {[\ZZ32\] widen(1) |-> 15}, "two one-entry maps on one key combine their values by the function")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](dropKey, keepAll, keepAll, sameKey).isEmpty, true, "a key whose function answers Nothing is left out")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, otherKey).check(), {[\ZZ32\] widen(1) |-> 10, widen(2) |-> 5}, "two one-entry maps on different keys combine to both entries")
+    assert(otherKey.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, oneEntry).check(), {[\ZZ32\] widen(1) |-> 10, widen(2) |-> 5}, "the order of the maps does not change the entries of two maps on different keys")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, dropAll, dropAll, otherKey).isEmpty, true, "two one-entry maps on different keys share no key")
+
+    both = {[\ZZ32\] widen(k) |-> (if k < 4 then k elif k < 8 then k + 100 else 100 end) | k <- 0#12}
+    assert(eight.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, upper).check(), both, "two many-entry maps combine the keys both hold and keep the others")
+    assert(eight.combine[\ZZ32,ZZ32\](addValues, dropAll, dropAll, upper).check(), {[\ZZ32\] widen(k) |-> k + 100 | k <- 4#4}, "two many-entry maps with both map functions dropping keep only the keys both hold")
+    assert(eight.combine[\ZZ32,ZZ32\](dropKey, keepAll, keepAll, upper).check(), {[\ZZ32\] widen(k) |-> (if k < 4 then k else 100 end) | k <- 0#12, k < 4 OR k >= 8}, "two many-entry maps with the function answering Nothing keep the keys only one holds")
+    assert(eight.combine[\ZZ32,ZZ32\](addValues, keepAll, tenTimes, upper).check(), {[\ZZ32\] widen(k) |-> (if k < 4 then k elif k < 8 then k + 100 else 1000 end) | k <- 0#12}, "the second map function maps the keys only the second map holds")
+    assert(eight.combine[\ZZ32,ZZ32\](addValues, tenTimes, keepAll, upper).check(), {[\ZZ32\] widen(k) |-> (if k < 4 then 10 k elif k < 8 then k + 100 else 100 end) | k <- 0#12}, "the first map function maps the keys only the first map holds")
+
+    assert(eight.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, oneEntry).check(), {[\ZZ32\] widen(k) |-> (if k = 1 then 11 else k end) | k <- 0#8}, "a many-entry map combined with a one-entry map on a key it holds")
+    assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, eight).check(), {[\ZZ32\] widen(k) |-> (if k = 1 then 11 else k end) | k <- 0#8}, "a one-entry map combined with a many-entry map on a key it holds")
+    assert(|eight.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, farKey).check()|, 9, "a many-entry map combined with a one-entry map on a key below all of its keys")
+    assert(farKey.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, eight).check().member(widen(-100)).get, 7, "a one-entry map on a key below all of a many-entry map's keys keeps its entry")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,9 @@
+(* A pair with () as an element is not ordered: () is no partial order, so the order operator on pairs refuses it, also where its first elements decide. *)
+component TupleOrderUnitRefused
+export Executable
+
+unitPair: Boolean = (1,()) < (2,())
+
+run() = println("PASS")
+
+end

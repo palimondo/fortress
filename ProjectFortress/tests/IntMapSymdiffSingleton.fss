@@ -1,0 +1,17 @@
+(* IntMap's SYMDIFF of a many-entry map and a one-entry map, whose values under walk keep only the entry nearest the one-entry map's key. *)
+component IntMapSymdiffSingleton
+import IntMap.{...}
+export Executable
+
+run(): () = do
+    three = {[\ZZ32\] widen(k) |-> k | k <- 0#3}
+    five = {[\ZZ32\] widen(5) |-> 5}
+    one = {[\ZZ32\] widen(1) |-> 1}
+    assert(five SYMDIFF three, {[\ZZ32\] widen(0) |-> 0, widen(1) |-> 1, widen(2) |-> 2, widen(5) |-> 5}, "a one-entry map SYMDIFF a many-entry map on another key holds all four entries")
+    assert(one SYMDIFF three, {[\ZZ32\] widen(0) |-> 0, widen(2) |-> 2}, "a one-entry map SYMDIFF a many-entry map holding its key drops that key")
+    assert(three SYMDIFF five, {[\ZZ32\] widen(2) |-> 2, widen(5) |-> 5}, "today's value: a many-entry map SYMDIFF a one-entry map on another key keeps only the entry nearest that key")
+    assert(|three SYMDIFF one|, 0, "today's value: a many-entry map SYMDIFF a one-entry map holding its key keeps none of its entries")
+    println("PASS")
+  end
+
+end

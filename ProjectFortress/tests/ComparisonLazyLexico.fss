@@ -1,0 +1,16 @@
+(* The lazy LEXICO answers the LEXICO table for a thunk whose declared return type is Comparison, through each left operand's own declaration. *)
+component ComparisonLazyLexico
+export Executable
+
+run(): () = do
+    unordered = fn (): Comparison => Unordered
+    greater = fn (): Comparison => GreaterThan
+    assert(LessThan LEXICO unordered, LessThan, "advanced-lib/comparison.tex, trait Fortress.Standard.Comparison, opr LEXICO: LEXICO returns its left argument unless it is EqualTo")
+    assert(GreaterThan LEXICO unordered, GreaterThan, "advanced-lib/comparison.tex, trait Fortress.Standard.Comparison, opr LEXICO: LEXICO returns its left argument unless it is EqualTo")
+    assert(EqualTo LEXICO unordered, Unordered, "advanced-lib/comparison.tex, trait Fortress.Standard.Comparison, opr LEXICO: LEXICO returns its right argument if the left is EqualTo")
+    assert(EqualTo LEXICO greater, GreaterThan, "advanced-lib/comparison.tex, trait Fortress.Standard.Comparison, opr LEXICO: LEXICO returns its right argument if the left is EqualTo")
+    assert(Unordered LEXICO greater, Unordered, "advanced-lib/comparison.tex, trait Fortress.Standard.Comparison, opr LEXICO: LEXICO with Unordered on the left")
+    println("PASS")
+  end
+
+end
