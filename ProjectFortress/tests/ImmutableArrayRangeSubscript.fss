@@ -1,0 +1,14 @@
+(* An immutable array of one dimension subscripted by a range, with and without a stride, read under walk. *)
+component ImmutableArrayRangeSubscript
+export Executable
+
+run() = do
+    f = array[\ZZ32\](10).tabulate(fn (i:ZZ32):ZZ32 => 10 i).freeze()
+    assert(f[2:5].asString, "[0#4](immutable)[ 20 30 40 50 ]", "elements 2 to 5 of the frozen array of tens are 20, 30, 40, 50")
+    g = f[2:8:3]
+    assert(|g|, 3, "elements 2 to 8 by 3 of a frozen array of ten are three")
+    assert((g[0], g[1], g[2]), (20, 50, 80), "elements 2 to 8 by 3 of the frozen array of tens are 20, 50, 80")
+    println("PASS")
+end
+
+end

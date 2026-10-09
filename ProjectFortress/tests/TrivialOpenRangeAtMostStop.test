@@ -1,0 +1,2 @@
+load_exception_contains=FailCalled
+load_err_contains=atMost of the trivial open range (:), whose index type is Any

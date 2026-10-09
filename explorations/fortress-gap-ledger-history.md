@@ -4583,3 +4583,21 @@ note added
 note added
 
 | 646 | under walk, a set comprehension with no static argument is built at its elements' run-time class, `NodeSet[\Int\]` for `ZZ32` elements, which a variable declared `Set[\ZZ32\]` refuses: 'RHS expression type NodeSet[\Int\] is not assignable to LHS type Set[\ZZ32\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXComprehensionTypedBindingWalk.fss` | climb batch 11 rung W | siblings: 20, 364. Measured alike at `83b1cae78` (the comprehension's parameter at `BottomType`) and with it left open (row 424's fix): the comprehensions collect into `AnyCovColl` and build the set at the elements' type (`Library/CovariantCollection.fss:144`), walk's type of a `ZZ32` value is `Int`, and generics are invariant, so the typed binding refuses it (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:219-227`). The P1 judgement read this binding as passing under the open parameter. Workaround: `{[\ZZ32\] n^2 \| n <- -2:2 }`, a `NodeSet[\ZZ32\]`. |
+
+### Row 608
+
+note added
+
+| 608 | `ImmutableArray1`'s `opr[r: Range[\ZZ32\]]` reads `r'.lower`, which `FullRange[\ZZ32\]` does not declare: the compiled checker over the one library refuses it, 'FullRange[\ZZ32\] has no getter called lower' | NEGATIVE-VERIFIED | library bug (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 9 rung S and its skeptic | siblings: 586. `l = reflect(r'.lower)` is at `Library/FortressLibrary.fss:2255` (at 052a7c3fe); its twin in `Array1` reads `r'.left.get` (`:2313`). `FullRange` declares `left` and `right`, not `lower` (`Library/FortressLibrary.fsi`, the ranges section). The respelling `r'.left.get` is safe only because the stride is passed on separately (`m = r'.stride`, `:2256`), as the twin does (`:2314`); a repair keeps the stride. full text: history, row 608 |
+
+### Row 659
+
+note added
+
+| 659 | a bounded range of rank 2 or 3 strided backwards on some axes and forwards on the others has no range kind, so `((0,0)#).every(-1,1)` stops walk | NEGATIVE-VERIFIED | design limit (library) | silent | none | climb batch 11 rung L | `combine2D(BoundedScalarRange, BoundedScalarRange)` (`Library/RangeInternals.fss:590-591` at b28e3e7e1) fails "shouldn't happen: combine2D of non-uniform ranges ...4,3,2,1,0] and [0,1,2,3,4..." for a right and a left scalar range, as `combine2D(ScalarRange, ScalarRange)` does; before batch 11 the run stopped with "Unification error: ... recombine param 1 (i:LeftScalarRange) got arg RightScalarRange" at `:217`. Command: `bin/fortress` on a program that prints `(((0,0)#).every(-1,1)).asDebugString`. |
+
+### Row 416
+
+note added
+
+| 416 | **walk's overloading check applies no instantiation exclusion**: it refuses `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, "first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated", the type twin, and overloads on two traits extending `Tg[\3\]` and `Tg[\4\]`; the compiled run prints 3 and 4 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/types-vals-vars.tex`, "Trait Types" | `ProjectFortress/tests/XXXNatSizeExclusionWalk.fss` | climb batch 5 rung Z | siblings: 402. Instantiation exclusion makes the two parameter types exclude each other, so the pair is a valid overloading. The refusal is raised in `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:556-571` at 052a7c3fe; the site of the fix is not located beyond that check. The compiled run of the test prints PASS. full text: history, row 416 |

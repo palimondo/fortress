@@ -1,0 +1,9 @@
+(* The trivial open range (:) limited to three elements, which stops under walk: (:) ranges over Any, and no range over Any is built. *)
+component TrivialOpenRangeAtMostStop
+export Executable
+
+stopped = (:).atMost(3)
+
+run() = println("PASS")
+
+end

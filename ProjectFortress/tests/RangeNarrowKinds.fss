@@ -1,0 +1,43 @@
+(* narrowToRange of the ranges of each kind and rank, and of a full range to an open one, called under walk with the values they answer and the bounds they refuse. *)
+component RangeNarrowKinds
+export Executable
+
+run() = do
+    assert(((::1).narrowToRange(3:5)).asDebugString, "CompactFullParScalarRange(3,5)", "the open range ::1 narrowed to 3:5 is 3:5")
+    assert(((#4).narrowToRange(3:5)).asDebugString, "CompactFullParScalarRange(3,5)", "the extent range #4 narrowed to 3:5 is 3:5")
+    assert(((2#).narrowToRange(3:5)).asDebugString, "CompactFullParScalarRange(3,5)", "the left range 2# narrowed to 3:5 is 3:5")
+    assert(((:9).narrowToRange(3:5)).asDebugString, "CompactFullParScalarRange(3,5)", "the right range :9 narrowed to 3:5 is 3:5")
+    assert(((0:9).narrowToRange(2:5)).asDebugString, "CompactFullParScalarRange(2,5)", "0:9 narrowed to 2:5 is 2:5")
+    assert(((0:9:3).narrowToRange(2:5)).asDebugString, "StridedFullParScalarRange(3,3,3)", "0:9:3 narrowed to 2:5 is 3:3:3")
+    assert(((0:9).narrowToRange(2#)).asDebugString, "CompactFullParScalarRange(2,9)", "0:9 narrowed to the left range 2# is 2:9")
+    assert(((0:9).narrowToRange(5:3)).asDebugString, "CompactFullParScalarRange(5,3)", "0:9 narrowed to the empty 5:3 is 5:3")
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => (2#).narrowToRange(1:5))
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => (:9).narrowToRange(3:12))
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => (0:9).narrowToRange(-1:5))
+    shouldRaise[\IndexOutOfBounds[\ZZ32\]\](fn () => (0:9).narrowToRange(2:10))
+
+    assert(((::(1,1)).narrowToRange((1,1):(2,2))).asDebugString, "CompactFullRange2D(1,1, 2,2)", "the open range ::(1,1) narrowed to (1,1):(2,2) is (1,1):(2,2)")
+    assert(((#(4,4)).narrowToRange((1,1):(2,2))).asDebugString, "CompactFullRange2D(1,1, 2,2)", "the extent range #(4,4) narrowed to (1,1):(2,2) is (1,1):(2,2)")
+    assert((((0,0)#).narrowToRange((1,1):(3,3))).asDebugString, "CompactFullRange2D(1,1, 3,3)", "the left range (0,0)# narrowed to (1,1):(3,3) is (1,1):(3,3)")
+    assert(((:(5,5)).narrowToRange((1,1):(3,3))).asDebugString, "CompactFullRange2D(1,1, 3,3)", "the right range :(5,5) narrowed to (1,1):(3,3) is (1,1):(3,3)")
+    assert((((0,0):(9,9)).narrowToRange((2,1):(5,5))).asDebugString, "CompactFullRange2D(2,1, 5,5)", "(0,0):(9,9) narrowed to (2,1):(5,5) is (2,1):(5,5)")
+    assert((((0,0):(8,8):(2,2)).narrowToRange((2,2):(6,6))).asDebugString, "StridedFullRange2D(2,2, 6,6, 2,2)", "(0,0):(8,8):(2,2) narrowed to (2,2):(6,6) is (2,2):(6,6):(2,2)")
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => ((0,0)#).narrowToRange((-1,1):(3,3)))
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => ((0,0):(9,9)).narrowToRange((-1,2):(5,5)))
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => ((0,0):(9,9)).narrowToRange((2,2):(10,5)))
+
+    assert(((::(1,1,1)).narrowToRange((1,1,1):(2,2,2))).asDebugString, "CompactFullRange3D(1,1,1, 2,2,2)", "the open range ::(1,1,1) narrowed to (1,1,1):(2,2,2) is (1,1,1):(2,2,2)")
+    assert((((0,0,0)#).narrowToRange((1,1,1):(3,3,3))).asDebugString, "CompactFullRange3D(1,1,1, 3,3,3)", "the left range (0,0,0)# narrowed to (1,1,1):(3,3,3) is (1,1,1):(3,3,3)")
+    assert(((:(5,5,5)).narrowToRange((1,1,1):(3,3,3))).asDebugString, "CompactFullRange3D(1,1,1, 3,3,3)", "the right range :(5,5,5) narrowed to (1,1,1):(3,3,3) is (1,1,1):(3,3,3)")
+    assert((((0,0,0):(9,9,9)).narrowToRange((2,1,0):(5,5,5))).asDebugString, "CompactFullRange3D(2,1,0, 5,5,5)", "(0,0,0):(9,9,9) narrowed to (2,1,0):(5,5,5) is (2,1,0):(5,5,5)")
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\]\](fn () => ((0,0,0):(9,9,9)).narrowToRange((-1,2,2):(5,5,5)))
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\]\](fn () => ((0,0,0):(9,9,9)).narrowToRange((2,2,2):(10,5,5)))
+
+    assert(((0:9).narrowToRange(::2)).asDebugString, "StridedFullParScalarRange(0,8,2)", "0:9 narrowed to the open range ::2 is 0:8:2")
+    assert((((0,0):(9,9)).narrowToRange(::(2,3))).asDebugString, "StridedFullRange2D(0,0, 8,9, 2,3)", "(0,0):(9,9) narrowed to the open range ::(2,3) is (0,0):(8,9):(2,3)")
+    assert((((0,0,0):(9,9,9)).narrowToRange(::(2,3,1))).asDebugString, "StridedFullRange3D(0,0,0, 8,9,9, 2,3,1)", "(0,0,0):(9,9,9) narrowed to the open range ::(2,3,1) is (0,0,0):(8,9,9):(2,3,1)")
+    assert(((:).narrowToRange(:)).asDebugString, "TrivialOpenRange()", "the trivial open range (:) narrowed to itself is itself")
+    println("PASS")
+end
+
+end

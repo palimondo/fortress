@@ -1,0 +1,9 @@
+(* The trivial open range (:) cut on the left at 3, which stops under walk: (:) ranges over Any, and no range over Any is built. *)
+component TrivialOpenRangeTruncLStop
+export Executable
+
+stopped = (:).truncL(3)
+
+run() = println("PASS")
+
+end

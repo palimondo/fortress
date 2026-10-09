@@ -2252,7 +2252,7 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
     opr[r: Range[\ZZ32\]] : ImmutableArray[\T,ZZ32\] = do
         r' = self.bounds.narrowToRange(r) (*'*)
         s = reflect( |r'| )
-        l = reflect(r'.lower)
+        l = reflect(r'.left.get)
         m = r'.stride (*'*)
         __subarrayI(self,N[\0\],s,l,m)
       end
@@ -3851,8 +3851,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
         past the end of a collection to obtain the empty collection).
 
      *)
-    narrowToRange(other:Range[\I\]): Range[\I\] =
-        checkSelection[\Range[\I\], I\](self, other, self INTERSECTION other)
+    narrowToRange(other:Range[\I\]): Range[\I\]
     narrowToRange(other:OpenRange[\I\]): Range[\I\] = self INTERSECTION other
     opr =(self, b:Range[\I\]): Boolean = false
     opr IN(n:I, self): Boolean
@@ -3885,14 +3884,21 @@ object TrivialOpenRange extends OpenRange[\Any\]
     getter asString(): String = ":"
     getter asDebugString(): String = "TrivialOpenRange()"
     getter stride(): () = ()
-    truncL(x:Any): RangeWithLeft[\Any\] = (x#)
-    truncR(x:Any): RangeWithRight[\Any\] = (:x)
+    truncL(x:Any): RangeWithLeft[\Any\] =
+        fail("truncL of the trivial open range (:), whose index type is Any")
+    truncR(x:Any): RangeWithRight[\Any\] =
+        fail("truncR of the trivial open range (:), whose index type is Any")
     flip(): TrivialOpenRange = self
     forward(): TrivialOpenRange = self
-    every(x:Any): OpenRange[\Any\] = (::x)
-    imposeStride(x:Any): OpenRange[\Any\] = (::x)
-    atMost(k:Any): RangeWithExtent[\Any\] = (#k)
+    every(x:Any): OpenRange[\Any\] =
+        fail("every of the trivial open range (:), whose index type is Any")
+    imposeStride(x:Any): OpenRange[\Any\] =
+        fail("imposeStride of the trivial open range (:), whose index type is Any")
+    atMost(k:Any): RangeWithExtent[\Any\] =
+        fail("atMost of the trivial open range (:), whose index type is Any")
     opr INTERSECTION(self, other:Range[\Any\]): Range[\Any\] = other
+    narrowToRange(other:Range[\Any\]): Range[\Any\] = self INTERSECTION other
+    narrowToRange(other:OpenRange[\Any\]): Range[\Any\] = self INTERSECTION other
     opr =(self, other:Range[\Any\]): Boolean = instanceOf[\TrivialOpenRange\](other)
     opr IN(_:Any, self): Boolean = true
     opr CMP(self, other:Range[\Any\]): Comparison = self FORWARD_CMP other.forward()
@@ -3921,8 +3927,7 @@ trait BoundedRange[\I\] extends Range[\I\]
     atMost(n:I): FullRange[\I\]
     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\] = self INTERSECTION other
-    narrowToRange(other:Range[\I\]): BoundedRange[\I\] =
-        checkSelection[\BoundedRange[\I\], I\](self, other, self INTERSECTION other)
+    narrowToRange(other:Range[\I\]): BoundedRange[\I\]
 end
 
 trait RangeWithLeft[\I\] extends BoundedRange[\I\]
@@ -3951,14 +3956,14 @@ end
 
 trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I,I\] }
     getter extent(): Just[\I\]
-    narrowToRange(other:OpenRange[\I\]): FullRange[\I\] = self INTERSECTION other
-    narrowToRange(other:Range[\I\]): FullRange[\I\] = do
+    narrowToRange(other:OpenRange[\I\]): FullRange[\I\] = do
         r = self INTERSECTION other
         typecase r of
-            r':FullRange[\I\] => checkSelection[\FullRange[\I\], I\](self, other, r')
+            r':FullRange[\I\] => r'
             else => fail("Library error: FullRange INTERSECTION didn't yield FullRange")
         end
     end
+    narrowToRange(other:Range[\I\]): FullRange[\I\]
     opr IN(n:I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison = INVERSE (other FORWARD_CMP self)
     opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison

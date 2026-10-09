@@ -1,0 +1,22 @@
+(* The indices of a prefix set's index-value pairs, read under walk in order. *)
+component PrefixSetIndices
+import PrefixSet.{...}
+import List.{...}
+export Executable
+
+inOrder(g: Generator[\ZZ32\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+run() = do
+    ps = {/[\ZZ32,List[\ZZ32\]\] x | x <- <|[\List[\ZZ32\]\] <|[\ZZ32\] 1, 2|>, <|[\ZZ32\] 3|> |> /}
+    assert(|ps|, 2, "the prefix set of <|1, 2|> and <|3|> has two members")
+    assert(inOrder(ps.indexValuePairs.indices), "0,1,", "the index-value pairs of a prefix set of two have the indices 0, 1")
+    e = {/[\ZZ32,List[\ZZ32\]\] x | x <- <|[\List[\ZZ32\]\] |> /}
+    assert(inOrder(e.indexValuePairs.indices), "", "the index-value pairs of an empty prefix set have no indices")
+    println("PASS")
+end
+
+end

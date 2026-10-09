@@ -140,6 +140,18 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: `BoundedRange2D` and `BoundedRange3D` name them. The range types over `ZZ32` of each rank, in `Library/RangeInternals.fsi`, declare the comparisons `CMP` and `FORWARD_CMP`, and the generic range traits declare them abstract. `#(0,n)` is empty, and a range made by a prefix `#` is declared a `RangeWithExtent`.
 - Reason: the checker refused the ranges' declarations at 36 sites, and walk stopped or answered a wrong size. The library's range types of rank 1 gave the design.
 
+**Checking a range of rank 2 or 3 against bounds**
+
+- Original: the interpreter's library checked a range against an array's bounds (`narrowToRange`) with its index type's `<` and `>`, which compare pairs and triples lexicographically. `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` answered `(2,0):(5,5)` and reported no bound outside, so an array's range subscript of rank 2 or 3 with a corner outside on a later axis was cut to the bounds, and a subarray read past them.
+- Resolution: the check compares corner by corner, by the ranges' own point order `PCMP`, and that call raises `IndexOutOfBounds`, as do such subscripts and subarrays. The check and `narrowToRange`'s bodies are declared at the range types over `ZZ32` of each rank.
+- Reason: the curator's answer to Q50. The lexicographic order serves sorting, and a corner outside the bounds on any axis is outside them.
+
+**The trivial open range `(:)`**
+
+- Original: `(:)` is a range over `Any`. The interpreter's library gave its `truncL`, `truncR`, `every`, `imposeStride` and `atMost` bodies that answer ranges over `ZZ32`: `(:).truncL(3)` was `3#`.
+- Resolution: the five fail with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is Q49's default, and his answer is pending.
+- Reason: generics are invariant, so a range over `ZZ32` is no range over `Any`, and no body that the five declared types allow answers a range.
+
 **`SUM` and `PROD`**
 
 - Original: `SUM` and `PROD` reduced over `Number`, under the team's comment "Hack to permit any Number to work non-parametrically". Every sum had the type `Number`, and an empty sum of `RR64` values was the integer 0.
