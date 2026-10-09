@@ -1,0 +1,15 @@
+(* A type that no library declares, named in the body of a typecase clause, is a reference to a name where it is not in scope, a static error (declarations.tex, section "Reach and Scope of Declarations"), so the program is refused with the name. *)
+component XXXTypecaseBodyUndeclaredType
+export Executable
+
+kind(x: Any): ZZ32 = typecase x of
+    ZZ32 => do
+        y: Nonesuch = x
+        1
+      end
+    else => 0
+  end
+
+run(): () = println(kind(3))
+
+end

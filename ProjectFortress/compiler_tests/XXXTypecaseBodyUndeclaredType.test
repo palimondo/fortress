@@ -1,0 +1,3 @@
+tests=XXXTypecaseBodyUndeclaredType
+compile
+compile_err_contains=Nonesuch is undefined.
