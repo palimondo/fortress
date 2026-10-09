@@ -56,15 +56,15 @@ A note written before the revival, and your training, can be right about the tea
 
 **A trait's `override`, and object expressions, under walk**
 
-- Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods skipped object expressions.
-- Resolution: a trait's `override` declarations override for every type below it, read per type, as walk's load check reads them. Walk checks an object expression without static parameters as it checks an object; one in a generic function is not checked, as a generic object is not (ledger row 647). The checker still accepts such an object expression (ledger row 570).
-- Reason: the traits chapter, and the Meet Rule, which names object expressions.
+- Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`, "Meet Rule") skipped object expressions: anonymous objects written inside an expression, such as `object extends { A, B } end`.
+- Resolution: a trait's `override` declarations override for every type below it. Walk reads what each trait provides by the rule of "What a type provides", below, as its load check does. Walk checks an object expression without static parameters as it checks an object; one in a generic function is not checked, as a generic object is not (ledger row 647). The checker still accepts an object expression that breaks the rule (ledger row 570).
+- Reason: the traits chapter (`Specification/basic/traits.tex`, "Method Declarations"), and the Meet Rule, which names object expressions.
 
 **What a type provides**
 
-- Original: the traits chapter says that a type provides the method declarations it declares and inherits, and that it does not inherit one that its own `override` declaration overrides or whose parameter types its own declaration repeats. The compiled checker read every declaration of every supertype as provided, and refused the team's `tests/disp0.fss`, whose `override` widens a parameter.
-- Resolution: both paths read provides by the chapter. The checker checks the return type of an overriding declaration against the declaration that it overrides.
-- Reason: the specification's rule, which walk already followed. The team's own test is valid by it.
+- Original: the traits chapter says that a type provides the method declarations it declares and inherits, and that it does not inherit one that its own `override` declaration overrides or whose parameter types its own declaration repeats. The compiled checker read every declaration of every supertype as provided, and refused the team's `ProjectFortress/tests/disp0.fss`, whose `override` widens a parameter.
+- Resolution: both paths read what a type provides as the chapter says. The checker checks that the return type of an overriding declaration is a subtype of the return type of the declaration that it overrides.
+- Reason: the specification's rule, which walk follows (above). The team's own test is valid by it.
 
 ## Static parameters
 
@@ -83,8 +83,8 @@ A note written before the revival, and your training, can be right about the tea
 **A type parameter whose bound names itself, under walk**
 
 - Original: walk gave such a parameter the empty type `Bottom` where a call did not fix it, as `SUM`'s `T extends AdditiveGroup[\T\]` in `SUM[i <- 1#100] i`. The reduction then refused its first element. The POPL 2019 paper's rule has no bound to give: such a bound is not a type until the parameter is known.
-- Resolution: walk leaves the parameter open. It admits every value where walk checks a value against the type, so the reduction runs on the types of its elements. An empty one gives `ZZ32`'s identity, and `BIG MINMAX` still stops (ledger rows 645 and 473). A printed type names the open parameter `OPEN`, as in `BoxU[\OPEN\]`. The checker still refuses the call (row 425).
-- Reason: walk has no static types, so it cannot take the expression's type, as the specification's desugaring does. An open parameter refuses no element.
+- Resolution: walk leaves the parameter open. Wherever walk checks a value against the open parameter, every value passes, so the reduction runs on the types of its elements. An empty reduction gives `ZZ32`'s identity, whatever the type of its elements (ledger row 645). `BIG MINMAX` still stops (ledger row 473). A printed type shows the open parameter as `OPEN`: `BoxU[\OPEN\]` for an object `BoxU[\T\]`. The checker still refuses the call (ledger row 425).
+- Reason: walk has no static types, so it cannot take the element type from the static type of the reduced expression, as the specification's desugaring does (`Specification/basic/expressions/reductions.tex`). An open parameter refuses no element.
 
 **Sizes on the compiled path**
 
@@ -126,9 +126,9 @@ A note written before the revival, and your training, can be right about the tea
 
 **Bounded ranges of rank 2 and 3**
 
-- Original: the interpreter's library named a bounded range of rank 1, `BoundedScalarRange`, and none of rank 2 or 3. Its generic range traits compared indices of their type parameter, which declares no comparison. `|#(0,3)|` was 1, and walk stopped on `((0,0)#).every(-1,-1)`.
-- Resolution: `BoundedRange2D` and `BoundedRange3D` name them. The `ZZ32` kinds of each rank declare the comparisons, and the generic range traits declare them abstract. `#(0,n)` is empty, and a range made by a prefix `#` is declared a `RangeWithExtent`.
-- Reason: the checker refused the ranges' declarations at 36 sites, and walk stopped or answered a wrong size. The library's rank-1 kinds gave the design.
+- Original: the interpreter's library named a bounded range of rank 1, `BoundedScalarRange`, and none of rank 2 or 3, whose indices are pairs or triples of `ZZ32`. Its generic range traits, such as `RangeWithExtent[\I\]` in `Library/FortressLibrary.fsi`, compared indices of their type parameter, which declares no comparison. `|#(0,3)|` was 1, and walk stopped on `((0,0)#).every(-1,-1)`.
+- Resolution: `BoundedRange2D` and `BoundedRange3D` name them. The range types over `ZZ32` of each rank, in `Library/RangeInternals.fsi`, declare the comparisons `CMP` and `FORWARD_CMP`, and the generic range traits declare them abstract. `#(0,n)` is empty, and a range made by a prefix `#` is declared a `RangeWithExtent`.
+- Reason: the checker refused the ranges' declarations at 36 sites, and walk stopped or answered a wrong size. The library's range types of rank 1 gave the design.
 
 **`SUM` and `PROD`**
 
@@ -140,6 +140,6 @@ A note written before the revival, and your training, can be right about the tea
 
 **A parameter whose type is left out**
 
-- Original: the components chapter says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and stopped on a local function's. Walk runs such declarations, except a method that implements an abstract declaration, which stops at its first call (ledger row 405).
-- Resolution: the compiled path refuses every such parameter of a function declaration with "Missing parameter type for x". A box in the chapter and Appendix I say so.
-- Reason: no text describes that inference. A stop of the checker is no answer, and the refusal already stood at top level.
+- Original: the components chapter (`Specification/basic/components/type-inference.tex`) says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and crashed on a local function's. Walk runs such declarations, except a method that implements an abstract declaration, which stops at its first call (ledger row 405).
+- Resolution: the compiled path refuses every such parameter of a top-level function, a method or a local function, with "Missing parameter type for" and the parameter's name. A `\revision` box in that file and Appendix I say so.
+- Reason: no text describes that inference. A crash of the checker is no answer, and the refusal already stood at top level.
