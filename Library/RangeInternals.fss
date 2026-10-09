@@ -153,7 +153,7 @@ trait ScalarRange extends { Range[\ZZ32\] }
     intersectWithExtent(e:ExtentScalarRange): ScalarRangeWithExtent
     indexOf(n:ZZ32): Maybe[\ZZ32\] = fail("indexOf of a scalar range with no left or right end")
     opr CMP(self, other:Range[\ZZ32\]): Comparison =
-        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL:
+        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
     check(): ScalarRange = do
         str = self.stride
@@ -207,7 +207,7 @@ trait Range2D extends Range[\(ZZ32,ZZ32)\]
     opr =(self, other:Range2D): Boolean =
         self.range1 = other.range1 AND: self.range2 = other.range2
     opr CMP(self, other:Range[\(ZZ32,ZZ32)\]): Comparison =
-        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL:
+        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
     check():Range2D = do
         _ = self.range1.check()
@@ -274,7 +274,7 @@ trait Range3D extends Range[\(ZZ32,ZZ32,ZZ32)\]
     opr =(self, other:Range3D): Boolean =
         self.range1 = other.range1 AND: self.range2 = other.range2 AND: self.range3 = other.range3
     opr CMP(self, other:Range[\(ZZ32,ZZ32,ZZ32)\]): Comparison =
-        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL:
+        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL
          (self.forward() FORWARD_CMP other.forward()))
     check():Range3D = do
         _ = self.range1.check()
@@ -453,7 +453,7 @@ object ExtentScalarRange(ex:ZZ32, str:ZZ32)
         ex = b.ex AND (str = b.str OR ex=1 OR ex=-1)
     opr FORWARD_CMP(self, other: Range[\ZZ32\]): Comparison =
         if ext <- other.extent then
-            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL:
+            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL
              (if other.left.holds then GreaterThan else EqualTo end))
         elif other.left.holds OR other.right.holds then
             Unordered
@@ -494,7 +494,7 @@ object ExtentRange2D(ex_i:ZZ32, ex_j:ZZ32, str_i:ZZ32, str_j:ZZ32)
     opr IN(n:(ZZ32,ZZ32), self): Boolean = true
     opr FORWARD_CMP(self, other: Range[\(ZZ32,ZZ32)\]): Comparison =
         if ext <- other.extent then
-            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL:
+            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL
              (if other.left.holds then GreaterThan else EqualTo end))
         elif other.left.holds OR other.right.holds then
             Unordered
@@ -525,7 +525,7 @@ object ExtentRange3D(ex_i:ZZ32, ex_j:ZZ32, ex_k:ZZ32, str_i:ZZ32, str_j:ZZ32, st
     opr IN(n:(ZZ32,ZZ32,ZZ32), self): Boolean = true
     opr FORWARD_CMP(self, other: Range[\(ZZ32,ZZ32,ZZ32)\]): Comparison =
         if ext <- other.extent then
-            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL:
+            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL
              (if other.left.holds then GreaterThan else EqualTo end))
         elif other.left.holds OR other.right.holds then
             Unordered
@@ -591,16 +591,20 @@ combine2D(i:BoundedScalarRange, j:BoundedScalarRange): BoundedRange2D =
     fail("shouldn't happen: combine2D of non-uniform ranges " i " and " j)
 
 trait BoundedRange2D extends { Range2D, BoundedRange[\(ZZ32,ZZ32)\] }
-    opr INTERSECTION(self, other: Range[\(ZZ32,ZZ32)\]): BoundedRange2D
-    opr INTERSECTION(self, other: Range2D): BoundedRange2D
+    opr INTERSECTION(self, other: Range[\(ZZ32,ZZ32)\]): BoundedRange2D =
+        fail("other is Range[\\(ZZ32,ZZ32)\\] but not Range2D")
+    opr INTERSECTION(self, other: Range2D): BoundedRange2D =
+        fail("BoundedRange2D INTERSECTION Range2D!  Shouldn't happen.")
 end
 
 combine3D(i:BoundedScalarRange, j:BoundedScalarRange, k:BoundedScalarRange): BoundedRange3D =
     fail("shouldn't happen: combine3D of non-uniform ranges " i " and " j)
 
 trait BoundedRange3D extends { Range3D, BoundedRange[\(ZZ32,ZZ32,ZZ32)\] }
-    opr INTERSECTION(self, other: Range[\(ZZ32,ZZ32,ZZ32)\]): BoundedRange3D
-    opr INTERSECTION(self, other: Range3D): BoundedRange3D
+    opr INTERSECTION(self, other: Range[\(ZZ32,ZZ32,ZZ32)\]): BoundedRange3D =
+        fail("other is Range[\\(ZZ32,ZZ32,ZZ32)\\] but not Range3D")
+    opr INTERSECTION(self, other: Range3D): BoundedRange3D =
+        fail("BoundedRange3D INTERSECTION Range3D!  Shouldn't happen.")
 end
 
 trait ScalarRangeWithLeft
@@ -1022,7 +1026,7 @@ trait FullScalarRange
         (self.left = b.left AND self.right = b.right AND
             (self.stride = b.stride OR self.left=self.right))
     opr FORWARD_CMP(self, other: FullRange[\ZZ32\]): Comparison =
-        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL:
+        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
     forwardIntersection(other: BoundedScalarRange): BoundedScalarRange =
         if self.isEmpty then self
@@ -1096,7 +1100,7 @@ trait FullRange2D
         n_i IN self.range1 AND: n_j IN self.range2
       end
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32,ZZ32)\]): Comparison =
-        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL:
+        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
 end
 
@@ -1160,7 +1164,7 @@ trait FullRange3D
         n_i IN self.range1 AND: n_j IN self.range2 AND: n_k IN self.range3
       end
     opr FORWARD_CMP(self, other: FullRange[\(ZZ32,ZZ32,ZZ32)\]): Comparison =
-        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL:
+        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL
          (self.right.get PCMP other.right.get))
 end
 

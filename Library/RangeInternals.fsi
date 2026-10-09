@@ -249,16 +249,16 @@ combine2D(i: BoundedScalarRange, j: BoundedScalarRange): BoundedRange2D
 
 trait BoundedRange2D
     extends { Range2D, BoundedRange[\(ZZ32, ZZ32)\] }
-    abstract opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange2D
-    abstract opr CAP(self, other: Range2D): BoundedRange2D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32)\]): BoundedRange2D
+    opr CAP(self, other: Range2D): BoundedRange2D
 end
 
 combine3D(i: BoundedScalarRange, j: BoundedScalarRange, k: BoundedScalarRange): BoundedRange3D
 
 trait BoundedRange3D
     extends { Range3D, BoundedRange[\(ZZ32, ZZ32, ZZ32)\] }
-    abstract opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange3D
-    abstract opr CAP(self, other: Range3D): BoundedRange3D
+    opr CAP(self, other: Range[\(ZZ32, ZZ32, ZZ32)\]): BoundedRange3D
+    opr CAP(self, other: Range3D): BoundedRange3D
 end
 
 trait ScalarRangeWithLeft

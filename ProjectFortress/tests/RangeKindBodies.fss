@@ -91,6 +91,7 @@ run() = do
     assert((#0).asDebugString, "CompactFullParScalarRange(0,-1)", "#0 is the empty range 0:-1")
     assert(|#0|, 0, "#0 has no elements")
     assert((#(2,3)).asDebugString, "ExtentRange2D(2,3, 1,1)", "#(2,3) is the extent range of two by three elements")
+    assert((((0,0):(9,9)).narrowToRange((2,-1):(5,5))).asDebugString, "CompactFullRange2D(2,0, 5,5)", "today's value: (0,0):(9,9) narrowed to (2,-1):(5,5) is (2,0):(5,5), its bounds compared in lexicographic order, so the second axis's -1 below 0 is not reported")
     println("PASS")
 end
 
