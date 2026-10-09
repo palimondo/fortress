@@ -11,6 +11,7 @@ run(): () = do
     assert(verdict(increasing(<|[\ZZ32\] 1, 2, 5 |>)), "holds", "the list 1, 2, 5 is increasing")
     assert(verdict(increasing(<|[\ZZ32\] 1, 5, 2 |>)), "fails", "the list 1, 5, 2 is not increasing")
     assert(verdict(increasing(3#4)), "holds", "the range 3#4 is increasing")
+    assert(verdict(increasing((0#4).reverse)), "fails", "the range 0#4 reversed generates 3, 2, 1, 0, which is not increasing")
 
     xs = array[\ZZ32\](5).tabulate(fn (i: ZZ32): ZZ32 => i)
     xs[3] := 0
