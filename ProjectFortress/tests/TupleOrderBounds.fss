@@ -1,0 +1,48 @@
+(* The order operators on pairs and triples compare their elements lexicographically, and answer false or Unordered where a pair of elements is unordered. *)
+component TupleOrderBounds
+import List.{...}
+export Executable
+
+pairs(): () = do
+    nan = 0.0/0.0
+    assert((1,2) < (1,3), true, "pairs of integers compare by their second elements when the first are equal")
+    assert((1.5, 2) < (2.5, 1), true, "a pair of a float and an integer compares by its first elements when they differ")
+    assert(("a","b") < ("a","c"), true, "pairs of strings compare lexicographically")
+    assert((<|1,2|>, <|3|>) < (<|1,2|>, <|4|>), true, "pairs of lists compare lexicographically")
+    assert((1, 0.0/0.0) CMP (2, 0.0/0.0), LessThan, "the second elements of a pair are not compared when the first decide")
+    assert((1, nan) CMP (1, 1.0), Unordered, "a pair whose second elements are unordered is unordered when its first are equal")
+    assert((nan, 1) CMP (1.0, 1), Unordered, "a pair whose first elements are unordered is unordered")
+    assert((0.0/0.0, 1) < (1.0, 1), false, "a pair whose first elements are unordered is not less")
+    assert((nan, 1) <= (1.0, 1), false, "a pair whose first elements are unordered is not at most")
+    assert((nan, 1) > (1.0, 1), false, "a pair whose first elements are unordered is not greater")
+    assert((nan, 1) >= (1.0, 1), false, "a pair whose first elements are unordered is not at least")
+  end
+
+triples(): () = do
+    nan = 0.0/0.0
+    assert((1,2,3) CMP (1,2,2), GreaterThan, "triples compare lexicographically")
+    assert((1,2,3) <= (1,2,3), true, "a triple is at most itself")
+    assert((1,2,3) >= (1,2,4), false, "a triple is not at least a triple greater in its last element")
+    assert((1,2,3) > (1,1,9), true, "a triple greater in its second element is greater")
+    assert((1,nan,1) CMP (1,1.0,1), Unordered, "a triple whose second elements are unordered is unordered")
+    assert((nan,1,1) CMP (1.0,1,1), Unordered, "a triple whose first elements are unordered is unordered")
+    assert((1,nan,1) < (1,1.0,1), false, "a triple whose second elements are unordered is not less")
+    assert((1,nan,1) <= (1,1.0,1), false, "a triple whose second elements are unordered is not at most")
+    assert((nan,1,1) > (1.0,1,1), false, "a triple whose first elements are unordered is not greater")
+    assert((nan,1,1) >= (1.0,1,1), false, "a triple whose first elements are unordered is not at least")
+  end
+
+lexico(): () = do
+    assert(Unordered LEXICO: EqualTo, Unordered, "the lazy LEXICO of Unordered is Unordered")
+    assert(LessThan LEXICO: Unordered, LessThan, "the lazy LEXICO of a total comparison other than EqualTo is that comparison")
+    assert(EqualTo LEXICO: GreaterThan, GreaterThan, "the lazy LEXICO of EqualTo is its right operand")
+  end
+
+run(): () = do
+    pairs()
+    triples()
+    lexico()
+    println("PASS")
+  end
+
+end

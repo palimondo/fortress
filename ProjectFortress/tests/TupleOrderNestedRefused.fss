@@ -1,0 +1,9 @@
+(* A pair whose elements are pairs is not ordered: its elements are no partial order, so the order operator on pairs refuses it. *)
+component TupleOrderNestedRefused
+export Executable
+
+nested: Boolean = ((1,2),3) < ((1,3),0)
+
+run() = println("PASS")
+
+end

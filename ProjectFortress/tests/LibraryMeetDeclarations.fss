@@ -30,7 +30,9 @@ run() = do
     assert(MaxReduction[\ZZ32\].lift(3).asString, "Just(3)", "an associative reduction lifts its operand into Just")
     assert(LessThan CMP LessThan, EqualTo, "LessThan CMP LessThan is EqualTo")
     assert(GreaterThan CMP GreaterThan, EqualTo, "GreaterThan CMP GreaterThan is EqualTo")
-    assert(LexicographicReduction.isLeftZero(LessThan), false, "today's value: the lexicographic reduction answers its inherited isLeftZero for a total comparison")
+    assert(LexicographicReduction.isLeftZero(LessThan), true, "LessThan is a left zero of the lexicographic reduction")
+    assert(LexicographicReduction.isLeftZero(GreaterThan), true, "GreaterThan is a left zero of the lexicographic reduction")
+    assert(LexicographicReduction.isLeftZero(EqualTo), false, "EqualTo is no left zero of the lexicographic reduction")
     assert(BIG MAX[x <- 0#4] x, 3, "BIG MAX over 0#4 is 3, one element")
 
     nested = (0#3).nest[\ZZ32\](fn (i: ZZ32): Generator[\ZZ32\] => (10 i)#2)
