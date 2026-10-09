@@ -2571,6 +2571,15 @@ The draft note says ``all its listed types'' where it said ``all its immediate
 subtraits''; a draft note prints only in a draft build, so it has no box.
 The effect of \secref{revival-comprises} no longer says that these passages are
 not revised.
+A correction of 9~October 2026 changes the last sentence of the box after the
+example in \secref{abstractFunctionDeclarations} and the sentence of this
+entry's effect that repeats it.
+They said that the compiled type checker checks that an object's concrete
+methods cover the abstract methods it inherits, ``reading no \KWD{comprises}
+clause''; they now say that it reads such clauses to do so, so that concrete
+methods over the types that a trait lists together cover an abstract method
+over that trait.
+The normative text is unchanged.
 \item[Rationale] This change does not follow from route~A; the revival decided
 on 29~September 2026 that the passages that read a \KWD{comprises} clause at the
 level of types are restated at the level of values, which is how
@@ -2595,6 +2604,20 @@ The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
 and \nolinkurl{explorations/reviews/comprises-type-level-judgement.md} in the
 revival's repository.
+The sentence that the correction of 9~October 2026 changes was false when it was
+written: since 6~June 2012 the team's compiled type checker, testing whether an
+abstract method's parameter type is a subtype of the union of the parameter
+types of the concrete methods below it, tests whether the union of the types
+that a trait with a \KWD{comprises} clause lists is a subtype of that union
+(\nolinkurl{ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala}
+and \nolinkurl{ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala},
+in the revival's repository).
+It accepts an object whose methods over the two types that a trait lists cover
+an abstract method over that trait, and refuses the same object when the trait
+has no \KWD{comprises} clause.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-walk-override/REPORT.md} in the
+revival's repository.
 \item[Effect] No example of this specification becomes invalid.
 Covering is not subtyping: where an instantiation of a trait with static
 parameters stands between $S$ and $T$ and their listed types, its value is a
@@ -2602,9 +2625,10 @@ value of $V$ but its static type is not a subtype of $V$, and the compiled type
 checker refuses to assign it to a variable of type $V$; the interpreter, which
 has no static types, runs such an assignment.
 The compiled type checker checks, at each object declaration, that the
-object's concrete methods cover the abstract methods it inherits, and reads no
-\KWD{comprises} clause to do so; top-level abstract function declarations run
-on neither implementation.
+object's concrete methods cover the abstract methods it inherits, and reads
+\KWD{comprises} clauses to do so: concrete methods over the types that a trait
+lists together cover an abstract method over that trait; top-level abstract
+function declarations run on neither implementation.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
 lines 568--570:
 \begin{quote}
@@ -2637,6 +2661,15 @@ intersection of two traits with such clauses (\secref{internal-types},
 declaration requires (\secref{abstractFunctionDeclarations}), are not revised;
 whether they are to be restated at the level of values is not settled.
 \end{quote}
+The box after the example in \secref{abstractFunctionDeclarations}, the
+revival's text of 30~September 2026, ended:
+\begin{quote}
+The compiled type checker checks, at each object declaration, that the
+object's concrete methods cover the abstract methods it inherits, reading no
+\KWD{comprises} clause; top-level abstract function declarations run on neither
+implementation of the revival.
+\end{quote}
+and the effect of this entry said the same in its words.
 \item[Route C] The same under route~C: the reading of a \KWD{comprises} clause
 at the level of values does not depend on the rule on instantiations.
 \end{description}
