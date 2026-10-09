@@ -1,0 +1,19 @@
+component OverrideConditionalExtensionWalk
+export Executable
+
+(* A generic trait that extends a trait under a where clause bounding its static parameter by ZZ32 overrides, with an override over ZZ32, the declaration it inherits there over that parameter, so the program loads and runs it, under walk (traits.tex, sections "Traits" and "Method Declarations"). *)
+
+trait A[\T\]
+  f(x: T): String = "A"
+end
+trait G[\T\] extends A[\T\] where { T extends ZZ32 }
+  override f(x: ZZ32): String = "G"
+end
+object O extends G[\ZZ32\] end
+
+run(): () = do
+    assert(O.f(3), "G", "G's f over ZZ32 overrides A[\\T\\]'s over T, which G extends where T extends ZZ32 (traits.tex, section \"Method Declarations\")")
+    println("PASS")
+  end
+
+end

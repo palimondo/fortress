@@ -581,18 +581,23 @@ public class Constructor extends NonPrimitive {
      * with static parameters, equal parameter types count as overridden: the
      * declaration is checked at its static parameters
      * (BuildEnvironments.checkGenericOverrides), and an instance can make
-     * equal two parameter types that the declaration does not.
+     * equal two parameter types that the declaration does not.  Where
+     * owner's static parameters may have bounds walk does not read
+     * (boundsUnread), an inheritable declaration whose parameter types
+     * mention one of them and are not equal to its own may be overridden.
      */
     private static void checkOverrides(FTraitOrObject owner, List<MethodClosure> own,
                                        List<MethodClosure> inheritable) {
         boolean instance = owner instanceof GenericTypeInstance;
+        boolean boundsUnread = boundsUnread(owner.getDecl());
         for (MethodClosure o : own) {
             if (!o.isOverride() || o instanceof GenericMethod) continue;
             boolean overrides = false;
             for (MethodClosure m : inheritable) {
                 if (m.selfParameterIndex != o.selfParameterIndex || !m.asMethodName().equals(o.asMethodName())) continue;
                 if (m instanceof GenericMethod || unreadable(m) || unreadable(o) ||
-                    overriddenBy(m, Collections.singletonList(o)) && (instance || !sameParameterTypes(m, o))) {
+                    overriddenBy(m, Collections.singletonList(o)) && (instance || !sameParameterTypes(m, o)) ||
+                    boundsUnread && symbolicDomain(m) && !sameParameterTypes(m, o)) {
                     overrides = true;
                     break;
                 }
@@ -620,6 +625,39 @@ public class Constructor extends NonPrimitive {
                 if (!dm.get(k).subtypeOf(dov.get(k)) || !dov.get(k).subtypeOf(dm.get(k))) return false;
             }
             return true;
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * The static parameters of the declaration d may have bounds that walk
+     * does not read: d is an object expression, whose static parameters
+     * walk's rewrite takes from the declarations around it without their
+     * where clauses, or d extends a type under a where clause, which walk
+     * reads as extended without it.
+     */
+    private static boolean boundsUnread(AbstractNode d) {
+        if (d instanceof _RewriteObjectExpr) return true;
+        if (d instanceof TraitObjectDecl) {
+            for (TraitTypeWhere tw : NodeUtil.getExtendsClause((TraitObjectDecl) d)) {
+                if (tw.getWhereClause().isSome()) return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * A parameter type of m, the self parameter's not counted, is or
+     * mentions a static parameter (a symbolic type).
+     */
+    private static boolean symbolicDomain(MethodClosure m) {
+        try {
+            for (FType t : m.getDomain()) {
+                if (t.isSymbolic()) return true;
+            }
+            return false;
         }
         catch (FortressException ex) {
             return false;
