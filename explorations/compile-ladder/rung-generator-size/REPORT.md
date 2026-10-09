@@ -39,6 +39,7 @@ The answer followed: item 45 is not answered, and the rung builds it at the defa
 - `generate` runs over `g.indices` and hands `(i, g[i])` to the body. `seq` is `seq(g.indices)`, mapped the same way.
 - `opr[i] = (i, g[i])`. `bounds`, `indices` and `|self|` are `g`'s.
 - `opr[r]` maps the narrowed bounds: `self.g.bounds[r].map[\(I,E)\](fn (i:I):(I,E) => (i, self.g[i]))`. This is the api's own way to write a range subscript ("writing `(bounds())[r]` in order to narrow and bounds check the range", `Library/FortressLibrary.fsi:1296-1302`). A slice's pairs keep their indices, as the base's mapped range kept them (decision 1).
+  - Skeptic's correction: a range reads a range subscript as positions from 0, so for a value indexed from 5 this refused `pairs[6#2]` although `pairs.bounds` is `[5,6,7]` ("[6,7] right outside bounds [0,1,2]"). The skeptic's fix `a61ecbc55` narrows with `self.g.bounds.narrowToRange(r)`, as the arrays and `String` do; for bounds that start at 0 every slice is the same (`SKEPTIC.md`).
 - Its own `indexValuePairs` is the inherited default, pairs of pairs, well typed. `ivmap`, `map`, `reverse` and `indexOf` are `Indexed`'s defaults.
 
 The body before, `self.indices.map(...)`, answered a `Generator` where `Indexed[\(I,E),I\]` is declared, because `indices` has been a `Generator` since the team's `2f26aeded`.
@@ -208,6 +209,17 @@ The pairs' printed form, for `p = "abcd".indexValuePairs` and its relatives:
 
 The elements are the same, and in the same order. `p.reverse` generates `(3,d)` first before and after (`IndexValuePairsDefault.fss:21`). Its printed form is `SimpleReversedIndexed`'s own, which prints the value it reverses (`Library/FortressLibrary.fss:3778` at the base).
 
+Skeptic's correction: two answers that walk gave do change, measured by the skeptic's programs on the old code and on this branch (`SKEPTIC.md`, section 3):
+
+    increasing((0#10).reverse)            holds                          ->  fails (natural order 9, ..., 0; the base read x[0] to x[9])
+    pairs of a value indexed from 5:
+      pairs.bounds                        [0,1,2]                        ->  [5,6,7]
+      pairs[0]                            (5,50)                         ->  (0, the value's own [0])
+      pairs[5]                            IndexOutOfBounds stop          ->  (5,50)
+      pairs.indexOf((6,60))               Just(1)                        ->  Just(6)
+
+and walk answers where it stopped in more places than above: `cond` on a 2-D array (stopped at the base's `FortressLibrary.fss:4658`) and on a mapped generator; `p.reverse[0]` and `|p.filter(...)|` of default pairs.
+
 Unchanged, and checked:
 
 - `|p|` 4, `p[2]` `(2,c)`, `p[1#2]` `mapped((1,b),(2,c))`, `p[1#2][0]` `(1,b)`, `p[1:3]` `mapped((1,b),(2,c),(3,d))`;
@@ -235,7 +247,7 @@ What it costs, by reading (POSITIONS, "Interpreter performance is irrelevant."):
 
 ## 8. Points to report
 
-1. **A value walk prints changes, and walk now answers where it stopped** (section 6). No element and no answer that walk gave changes.
+1. **A value walk prints changes, and walk now answers where it stopped** (section 6). Skeptic's correction: two answers walk gave change, the relational predicate on a reversed indexed value and the default pairs of a value indexed from 5 (section 6); the other elements and answers stay.
    - Where it stopped, `|g|` now answers on a filter, a sequential filter, a nest, a mapped filter, a naive `seq` of an unsized generator, a cross of unsized generators and a `DelegatedIndexed` type that defines only its indices.
    - `cond` now answers on an unsized target, and on an array indexed from a nonzero bound, which it read outside the bounds.
    - Printed forms: a default pairs value prints as its elements, not `mapped(...)`. Its `indices` and `reverse` print as `[0,1,2,3]` and `SimpleReversedIndexed(...)`.
@@ -287,6 +299,7 @@ The row closes at the gather by the landed commit and `GeneratorSize`.
 - The compiled checker refuses it: "Filter expressions in generator clauses must have type Boolean, but O had type O."
 - The specification settles it: without a binding, the clause "must be an expression of type Boolean" (`Specification/basic/expressions/if.tex:49-54`).
 - Its home is an `XXX` walk test with a `.test` naming the refusal. The rung's files name three tests, so the row is the record, reproducer `none`, with the command and its output in its notes.
+- Skeptic's correction: the skeptic wrote that home, `ProjectFortress/tests/XXXIfClauseObjectWalk.fss` and its `.test` (`fc4e8e6ad`), and added NEW-G-2, the api's advice `(bounds())[r]` reading positions, with its home-3 test `RangeSubscriptPositions.fss`.
 
 **Notes, not repairs:**
 
@@ -303,4 +316,4 @@ The row closes at the gather by the landed commit and `GeneratorSize`.
 
 - Item 45 (Q45) is built at its default, ways 1, 3 and 6. `Generator`'s counted `opr |self|` is the one new api declaration, shown its precedent line, `opr IN` (section 1.1). Under the judgement's alternative, ways 5, 3 and 6, the declaration is dropped, the three bodies and `DelegatedIndexed`'s api line are deleted, and `GeneratorSize`'s failing half changes.
 - The pairs' range subscript keeps each pair's index (decision 1), where the brief's example would renumber from 0, as `Set`'s and `PrefixSet`'s own pairs do. The record holds no decision on whether a slice of index-value pairs keeps its indices.
-- NEW-G-1's `XXX` walk test (home 2) is owed by a later rung.
+- NEW-G-1's `XXX` walk test (home 2) is owed by a later rung. (Skeptic's correction: written, `XXXIfClauseObjectWalk`.)
