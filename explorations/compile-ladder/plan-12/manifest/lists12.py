@@ -1,4 +1,4 @@
-# The briefing and checks lists of climb batch 12's four rungs, W, C, R and G (CLIMB-BATCH-12.md, section 3), in
+# The briefing and checks lists of climb batch 12's five rungs, W, C, R, G and S (CLIMB-BATCH-12.md, section 3), in
 # batch 11's form (explorations/compile-ladder/plan-11/manifest/lists11.py) for the redesigned workflow
 # (explorations/coordinator/process-engineering/batch-redesign.md, "The brief"): each list holds what the rung's
 # section cites, the decisions, the ledger rows, the specification's sections, the notes and the code it rests on,
@@ -33,6 +33,13 @@ RGS = "doc:explorations/compile-ladder/rung-generator-slips/"
 P1J = "doc:explorations/reviews/p1-judgement.md#"
 LIBRULE = "doc:explorations/coordinator/process-engineering/library-extension-rule-archaeology.md#5. Restatement"
 OPENFACT = "Under walk, a type parameter whose bound mentions itself and that nothing at a call fixes is left open"
+LABELP = "positions:A label body takes the expected type"
+CORNERP = "positions:A range of rank 2 or 3 checks containment corner by corner"
+STRJUST = "positions:String's left and right answer Just(c)"
+QQRAISE = "positions:QQ's ceiling and truncate keep ZZ"
+ARRAYQ = "positions:The array design's three questions are open"
+INTEG = "positions:The integration review's checks"
+AFN = "doc:explorations/reviews/array-forks-now.md#"
 
 W_BRIEFING = [
   (STD, "The text is the standard: rows 649 and 653 are static errors by the traits chapter, row 647 by the Meet Rule, and walk refuses each at load; row 648 is a walk defect against the object expression's text."),
@@ -71,13 +78,14 @@ C_BRIEFING = [
   (PIR, "A result-only parameter the arguments do not fix takes its bound, never Bottom: so the checker must pass in the type the text requires, at a label body and at a repeated operator."),
   (STD, "The text says the type each context gives; the checker passes it in. Row 651 is a crash where the text gives a check."),
   (ORDER, "The answer to batch 11's Q2: a typecase clause takes the enclosing expected type by the union rule; Q48 reads a label body the same way."),
+  (LABELP, "Q48(a) answered yes: a label body and its exits' with values take the expected type of the whole label, by the union rule; the chapter's list and Appendix I's entry change."),
   (COUNTP, "The count and the distance are reported and never red."),
   (SPECREC, "Why the inference chapter's two lists change under Q48, in the amended Appendix I entry."),
   (S1, "The form of your text change: the lists revised in place with a callout, the entry amended with its reason."),
   ("ledger:644", "Your first repair: the multifix fallback drops the expected type; try the multifix application with it, else check the left-associated applications with it, as the loose juxtaposition does since rung E."),
   ("ledger:651", "Your second repair: a written static argument is checked against its bound with the other written arguments not put in; substitute them; promote both expected failures."),
-  ("ledger:642", "Under Q48 (default yes): the label body and the with values of its exits take the expected type; promote XXXInferResultOnlyLabelBody; one site, String.fss:431."),
-  ("ledger:455", "The argument faces, not yours at Q48's default: XXXInferContextDrops keeps them as an expected failure; a note."),
+  ("ledger:642", "Under Q48(a), answered yes: the label body and the with values of its exits take the expected type; promote XXXInferResultOnlyLabelBody; one site, String.fss:431."),
+  ("ledger:455", "The argument faces, not yours: Q48(b) waits for the curator's answer after its probe, so XXXInferContextDrops keeps them as an expected failure; a note."),
   ("ledger:560", "Item 36's thirteen sites, twelve cleared by rung E; row 642 is the thirteenth."),
   ("ledger:627", "Rung E's renaming of a method's own static parameters, which exposed row 651's second shape; the renaming is right."),
   (INF + "The Static Arguments of a Call", "The rule, and at inference.tex:128-142 the list of contexts with an expected type, whose sentence after it (:143-145) gives an operator application the type (row 644); under Q48 the label body joins the list."),
@@ -97,7 +105,7 @@ C_BRIEFING = [
   ("The compiled checker gives a call its expected type", "What rung E built: the four contexts and the renaming; your rung adds the repeated operator and, under Q48, the label body."),
 ]
 C_CHECKS = [
-  PIR, STD, ORDER,
+  PIR, STD, ORDER, LABELP,
   "ledger:644", "ledger:651", "ledger:642", "ledger:455",
   INF + "The Static Arguments of a Call", INF + "A Numeral Whose Conversions Tie",
   CHG + "The contexts that give a call an expected type",
@@ -109,12 +117,13 @@ R_BRIEFING = [
   (RANGES, "Scalar ranges are over ZZ32 and the public range traits stay generic: the bounds check moves to the ZZ32, pair and triple kinds with its callers (item 40, way a)."),
   (LIBP, "Each repair in the library's own spelling: a body its declared type cannot hold is a fail (Q49), the ranges' own order is PCMP (Q50), a missing indices is written as ZeroIndexed writes bounds (row 658)."),
   (ORDER, "The answer to batch 11's Q3: item 40's way (a), the generic bodies moved to the ZZ32 kinds, which row 655's move completes."),
+  (CORNERP, "Q50 answered (a): the moved check compares rank-2 and rank-3 bounds point by point with PCMP, and the pin at RangeKindBodies.fss:94 changes to the raise, its before and after listed."),
   (COUNTP, "The count and the distance are reported and never red; they are your rung's test, before from batch 11's landed tables."),
   (LIBRULE, "The library rule as the curator reads it: extend only where the library has a form for one type, rank or sibling and lacks it for another, and cite the precedent line; row 658's 0 # |s| cites ZeroIndexed's bounds."),
   ("ledger:655", "Your main move: checkSelection's > and < on I, two sites; it moves to the ZZ32 kinds with its three generic callers, which become abstract in the generic traits."),
-  ("ledger:657", "Under Q50 (default yes): the rank-2 and rank-3 checks compare point by point with PCMP, a value walk prints; the pin at RangeKindBodies.fss:94 changes with its before and after listed."),
+  ("ledger:657", "Under Q50, answered (a): the rank-2 and rank-3 checks compare point by point with PCMP, a value walk prints; the pin at RangeKindBodies.fss:94 changes with its before and after listed."),
   ("ledger:654", "FullRange.narrowToRange over an open range, one site: the sibling's typecase, a FullRange meet, or a body at each ZZ32 kind; the library's own way, and why."),
-  ("ledger:656", "Under Q49 (default way a): fail bodies for the open range's five methods, five sites; five values walk prints become stops, listed with their values today."),
+  ("ledger:656", "Under Q49, his word pending after P3 measured way c, at the default way a: fail bodies for the open range's five methods, five sites; five values walk prints become stops, listed."),
   ("ledger:658", "PrefixSet declares no indices, a walk stop: 0 # |s|, as ZeroIndexed's bounds; one walk test failing on the base."),
   ("ledger:608", "ImmutableArray1 reads r'.lower where FullRange declares left: r'.left.get as the Array1 twin reads, the stride kept; one site."),
   ("ledger:600", "Item 40's row, closed by rung L: the eleven sites it cleared and the seven it left, rows 655 and 656; how it moved CMP, FORWARD_CMP and |self| to the ZZ32 kinds, the model for your move."),
@@ -137,7 +146,7 @@ R_BRIEFING = [
   ("The one library's scalar ranges are over", "Batch 7R's ZZ32 kinds, the model for moving the generic bodies."),
 ]
 R_CHECKS = [
-  RANGES, LIBP, LIBRULE,
+  RANGES, LIBP, LIBRULE, CORNERP,
   "ledger:655", "ledger:657", "ledger:654", "ledger:656", "ledger:658", "ledger:608",
   RRT + "REPORT.md#9. Decisions",
   "code:Library/RangeInternals.fss#checkSelection",
@@ -185,14 +194,55 @@ G_CHECKS = [
   "code:Library/Set.fss#object Intersection",
 ]
 
-IDS = ('W', 'C', 'R', 'G')
+S_BRIEFING = [
+  (LIBP, "Each repair in the library's own spelling, its precedent line named: the bound the traits have, a twin factory's own type, a sibling with no put, the parallel block, List's Just."),
+  (LIBRULE, "The library rule as the curator reads it: your rung extends nothing; each repair writes what the library already has, in the shape it has it, and cites that line."),
+  (STRJUST, "Item 42 answered: String's left and right answer Just of the character; the pins at StringPieces.fss:35-36 and :60-61 change, each before and after listed."),
+  (QQRAISE, "Item 44 answered: QQ's ceiling and truncate keep ZZ and raise at the infinities and 0/0; the numbers.tex paragraph is revised; the pin at NumberOrderListDeclarations.fss:23 changes."),
+  (ARRAYQ, "What your rung leaves alone: the array design's questions, and every array site that needs an answer to a fork or a list of ways."),
+  (INTEG, "No blanket ring bound on the array traits: the storing objects take Number, the bound their traits already have, and nothing more."),
+  (STD, "The text is the standard: under item 44 the curator chose the declared integer result over the paragraph, which is revised so that it does not stay false."),
+  (SPECREC, "Why the rational paragraph changes: a new Appendix I entry with the reason, the original sentence and route C."),
+  (S1, "The form of your text change: the paragraph revised in place with a callout, and the entry with its reason."),
+  (COUNTP, "The count and the distance are reported and never red; they are your rung's test, before from batch 11's landed tables."),
+  ("ledger:606", "String's left and right answer a Char where they declare Maybe[Char]: two sites; the repair answers Just of the character."),
+  ("ledger:635", "QQ's ceiling and truncate answer the rational itself at an infinity and 0/0: two sites; the repair raises there."),
+  ("ledger:437", "matrix(v)'s numeral 0, not yours: its repair's form follows the bound of Vector and Matrix, so its site stays."),
+  ("ledger:330", "The float types' rounding, which QQ is to follow later, after the switch-over: not yours."),
+  ("ledger:577", "The distance stage's classes: count your sites by row and line, never by class."),
+  (AFN + "None of the six: 28", "The nine one-off slips among the array sites no fork clears, and the groups beside them that are not yours."),
+  (AFN + "Fork 2, the bound of Vector and Matrix: 44", "The storing objects' 19 bound errors, way 6b, a slip under every way, and the fork-2 sites that stay."),
+  ("doc:explorations/reviews/array-design-ways.md#7. Question 6: the bounds that give Vector and Matrix their arithmetic", "Way 6b measured on 2026-09-29: 19 of the 21 bound errors gone and none new, and walk's seven array tests printing the same."),
+  ("doc:Specification/basic-lib/numbers.tex#Rational Numbers", "The paragraph you revise: the method entries type the rounding methods Z, and the sentence after says they return the argument at an infinity."),
+  (CHG + "The rational trait", "The entry that revised the same sentence's opening words; your new entry names it."),
+  ("code:Library/FortressLibrary.fss#floor(self):ZZ = if self < 0..round(self): ZZ = do x", "QQ's rounding methods: ceiling and truncate, which you change, and floor, round and the brackets that call them."),
+  ("code:Library/FortressLibrary.fss#object __DefaultVector", "The first storing object: its T has no bound, under Vector, whose T extends Number."),
+  ("code:Library/FortressLibrary.fss#object __DefaultMatrix", "The second storing object, under Matrix."),
+  ("code:Library/FortressLibrary.fss#object TransposedMatrix", "The third storing object, whose add, subtract and negate call methods Matrix does not declare."),
+  ("code:Library/FortressLibrary.fss#trait Matrix[", "Matrix's operators the transposed methods can call, and mul's local functions that end in a parallel pair."),
+  ("code:Library/FortressLibrary.fss#():ReadableArray1[", "__immutableFactory1, declared ReadableArray1 where its two callers need ImmutableArray1; its twin __builtinFactory1 sits above it."),
+  ("code:Library/FortressLibrary.fss#object __ImmutableSubArray1", "The immutable subarray whose put calls a put that ImmutableArray1 does not declare."),
+  ("code:ProjectFortress/LibraryBuiltin/NativeArray.fss#object PrimImmutableArray[", "The immutable store, the subarray's sibling, which declares no put: your precedent."),
+  ("code:Library/FortressLibrary.fss#opr SUFFIX_SUM", "SUFFIX_SUM's seq over a strided Range, which no seq takes; PREFIX_SUM just above it is the precedent."),
+  ("code:Library/List.fss#getter left(): Maybe[..getter right():Maybe[", "The precedent for String's getters: List's left and right answer Just of the element."),
+]
+S_CHECKS = [
+  LIBP, LIBRULE, STRJUST, QQRAISE, ARRAYQ, S1,
+  "ledger:606", "ledger:635",
+  AFN + "None of the six: 28", AFN + "Fork 2, the bound of Vector and Matrix: 44",
+  "code:Library/FortressLibrary.fss#object TransposedMatrix",
+  "code:Library/FortressLibrary.fss#():ReadableArray1[",
+]
+
+IDS = ('W', 'C', 'R', 'G', 'S')
 LISTS = {
   'W': ([k for k, _ in W_BRIEFING], W_CHECKS),
   'C': ([k for k, _ in C_BRIEFING], C_CHECKS),
   'R': ([k for k, _ in R_BRIEFING], R_CHECKS),
   'G': ([k for k, _ in G_BRIEFING], G_CHECKS),
+  'S': ([k for k, _ in S_BRIEFING], S_CHECKS),
 }
-REASONS = {'W': W_BRIEFING, 'C': C_BRIEFING, 'R': R_BRIEFING, 'G': G_BRIEFING}
+REASONS = {'W': W_BRIEFING, 'C': C_BRIEFING, 'R': R_BRIEFING, 'G': G_BRIEFING, 'S': S_BRIEFING}
 
 
 def reason_problems(rid):
