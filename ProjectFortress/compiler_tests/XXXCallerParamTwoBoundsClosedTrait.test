@@ -1,0 +1,3 @@
+tests=XXXCallerParamTwoBoundsClosedTrait
+compile
+compile_err_contains=Applied a substitution to an And and got an Or

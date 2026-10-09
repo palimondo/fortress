@@ -1,0 +1,20 @@
+(* A generic declaration whose type parameter has two bounds, one of them a trait with a comprises clause, beside a declaration on that trait with the same return type is a valid overloading, the generic one the more specific. *)
+component XXXReturnRuleTwoBoundsClosedTrait
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+
+f[\T extends { K, R[\T\] }\](x: T): String = "R"
+f(x: K): String = "K"
+
+run(): () = do
+    assert(f(A), "R", "f(A) runs the generic declaration, the more specific, whose return type String is the other's; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(f(C), "K", "f(C) runs the declaration on K, the only one applicable; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    println("PASS")
+  end
+
+end

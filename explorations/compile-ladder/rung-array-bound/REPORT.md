@@ -55,7 +55,7 @@ All failing runs ran on the base's code. The tree held the base's seeded build u
       ProjectFortress/compiler_tests/InferTightJuxtContext.fss:15:25-30:
           Right-hand side has type BoxV[\Object\], but declared type is BoxV[\String\].
 
-- `XXXInferCallerTwoBoundsClosedTrait` (the brief's second test, with a container argument like the norm's) and `XXXCoerceTwoBoundsClosedTrait` (a third, which the probes found).
+- `XXXInferCallerTwoBoundsClosedTrait` (the brief's second test, written with a container argument like the norm's) and `XXXCoerceTwoBoundsClosedTrait` (a third, which the probes found). The brief's own form of the second test, `g[\T extends { K, R[\T\] }\](x: T): T = h(x)`, is not refused but crashes in `Formula.slv`, on the base and after the fix (the probe `ProbeGH` at 16:44 UTC); the skeptic added it as `XXXCallerParamTwoBoundsClosedTrait` (row NEW-V-6, `SKEPTIC.md`).
   - Both are green on the base ('Saw expected failure' in runs `base` and `base2` above).
   - Both are still green after the fix, so their causes are elsewhere. Each keeps a row (section 9).
   - `XXXInferCallerTwoBoundsClosedTrait` was shown red on a deliberate fix: `h[\T\](x)` written, `junit.sh redcheck` at 18:44:04Z, 'Saw wrong failure. compile'. Then it was restored.
@@ -152,7 +152,7 @@ The passing runs, on the final code (816251130):
   - The three `#crash decl` rows are the landed ones (`:1304`, `:2500`, `:2899`). No `#crash` stage row came.
   - `explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-12/gate/distance.txt tmp/rung-array-bound/distance-postedit.txt` prints 'DISTANCE SAME   153'.
   - By row, `tmp/rung-array-bound/dist-post/errors.tsv` against `explorations/compile-ladder/gate/distance-sites.tsv`, keyed by location and message (row 577): 0 gone, 0 come. Keyed by location and the whole message: 0 and 0 as well. No site moved. In particular `:2399` did not come, and the factory sites `:2454` and `:2831` are unchanged.
-- **The held library half (d3d31b5b2's library files on the final checker).** The count stage's own checker command was run without its 900 s limit. Its commands are `checker-count/run.sh:61-71`, with `timeout -k 10 3600` in place of `900`.
+- **The held library half (d3d31b5b2's library files on the final checker).** The count stage's own checker command was run without its 900 s limit, with the stage's overloading memo off (`explorations/coordinator/tools/checker-count/run.sh:54`, `:70`); a compile with the memo on was not timed. Its commands are `checker-count/run.sh:61-71`, with `timeout -k 10 3600` in place of `900`.
   - First run, 17:47:05 to 18:05:06 UTC: `checkApi FortressLibrary` from 17:47:1x to between 18:03:39 and 18:04:09. The load was 5 to 13, from other agents' suites.
   - Second run, with the library half reapplied for it and then taken back, 18:45:06 to 19:03:11 UTC: `checkApi FortressLibrary` from 18:45:1x to 19:02:2x. The JVM held a full core: 'ELAPSED 17:15 TIME 00:17:29'.
   - Both runs ended with '@@PROBE checkApi FortressLibrary -> errors=2' and 'File FortressLibrary.fss has 1 error.' (the `isLeftZero` Meet Rule error), so the count is unchanged at 1. Both took about 17 minutes against the stage's 900 s.
@@ -177,7 +177,10 @@ The passing runs, on the final code (816251130):
   - Home 2, `XXXInferCallerTwoBoundsClosedTrait`. The specification settles that the call is applicable: some instance within the bounds applies (`inference.tex:56-58`). The program runs once the static argument is written.
   - Its cause is not `boundsSubstitution`: the refusal stands after the fix, at `Functionals.scala:721`.
 - **NEW-V-4**, a crash in `Formula.slv` (`Formula.scala:593`), 'Applied a substitution to an And and got an Or', on a call that converts a numeral beside such a parameter. Home 2, `XXXCoerceTwoBoundsClosedTrait`, for the same reason. `Formula.scala` is rung N's file.
-- **NEW-V-5**, the analyzer's cost on a variable bounded by `{ Number, MultiplicativeRing[\T\] }`: home 3, a row only, since no gated test can wait 17 minutes. Its notes give the command and the times. `TypeAnalyzer.scala` is rung N's file.
+- **NEW-V-6** (the skeptic's), a crash in `Formula.slv` on a call whose argument is the caller's own two-bound type parameter, the brief's form of the second test: home 2, `XXXCallerParamTwoBoundsClosedTrait`.
+- **NEW-V-7** (the skeptic's), a valid overloading refused: a generic declaration with the bound list beside a declaration on the closed trait with the same return type gets a false Return Type Rule error where the base crashed: home 2, `XXXReturnRuleTwoBoundsClosedTrait`.
+- **NEW-V-8** (the skeptic's, the base's defect), a generic function's call with more arguments than parameters accepted and the extra ones dropped, a tight juxtaposition of four items among them: home 3, a row only, since a refusal the program should get cannot be an expected failure while the program compiles.
+- **NEW-V-5**, the analyzer's cost on a variable bounded by `{ Number, MultiplicativeRing[\T\] }`, with the overloading memo off as the count stage runs it: home 3, a row only, since no gated test can wait 17 minutes. Its notes give the command and the times. `TypeAnalyzer.scala` is rung N's file.
 - **NEW-V-2**, the two factory sites (`Library/FortressLibrary.fss:2454`, `:2831`): home 3, a row, as the brief gives it. Its reproducer is the distance stage's per-site list. `TypeWellFormedChecker.scala` is rung N's file. Not traced further.
 - **Row 437**, `matrix(v)`: stays open with the library half. A note adds that `RR32` is refused too.
 
