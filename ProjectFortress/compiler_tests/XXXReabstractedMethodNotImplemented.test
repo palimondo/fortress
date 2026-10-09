@@ -1,0 +1,3 @@
+tests=XXXReabstractedMethodNotImplemented
+compile
+compile_err_matches=(?s).*inherited abstract method f\\(x:ZZ32\\):ZZ32 from the trait B.*has 2 errors\\..*
