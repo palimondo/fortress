@@ -54,6 +54,12 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: every value of the closed trait is a value of a listed type. A generic trait may extend the closed trait without being listed, if each type that extends it is below a listed type.
 - Reason: read by values, the passages hold for those programs.
 
+**A trait's `override`, and object expressions, under walk**
+
+- Original: walk dropped an inherited declaration only where the object itself declared the `override`, so an object below a trait that overrides ran the overridden declaration. Its load check of the Meet Rule for Functional Methods skipped object expressions.
+- Resolution: a trait's `override` declarations override for every type below it, read per type, as walk's load check reads them. Walk checks an object expression without static parameters as it checks an object; one in a generic function is not checked, as a generic object is not (ledger row 647). The checker still accepts such an object expression (ledger row 570).
+- Reason: the traits chapter, and the Meet Rule, which names object expressions.
+
 ## Static parameters
 
 **The bound of a type parameter that has none written**
@@ -67,6 +73,12 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the implementations gave it the empty type `Bottom`, or left it unsolved, and some such compiled calls failed the JVM's verification. The type group's POPL 2019 paper gives such a parameter its bound.
 - Resolution: it takes its bound, except under walk, as `SKILL.md`, "Fortress as a language", says.
 - Reason: the paper is the type group's latest word on the rule.
+
+**A type parameter whose bound names itself, under walk**
+
+- Original: walk gave such a parameter the empty type `Bottom` where a call did not fix it, as `SUM`'s `T extends AdditiveGroup[\T\]` in `SUM[i <- 1#100] i`. The reduction then refused its first element. The POPL 2019 paper's rule has no bound to give: such a bound is not a type until the parameter is known.
+- Resolution: walk leaves the parameter open. It admits every value where walk checks a value against the type, so the reduction runs on the types of its elements. An empty one gives `ZZ32`'s identity, and `BIG MINMAX` still stops (ledger rows 645 and 473). A printed type names the open parameter `OPEN`, as in `BoxU[\OPEN\]`. The checker still refuses the call (row 425).
+- Reason: walk has no static types, so it cannot take the expression's type, as the specification's desugaring does. An open parameter refuses no element.
 
 **Sizes on the compiled path**
 

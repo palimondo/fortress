@@ -1,0 +1,33 @@
+component InferUnfixedFBoundedWalk
+import Set.{...}
+export Executable
+
+(* A type parameter whose bound mentions itself and that nothing at a call fixes is left open under walk: every value is admitted where its type is expected, so a reduction with no static argument runs on its elements' own types. *)
+
+trait Cmp[\T\] end
+
+object BoxU[\T\]()
+    getter kind(): String = "boxed"
+end
+
+mk[\T extends Cmp[\T\]\](): BoxU[\T\] = BoxU[\T\]()
+
+run(): () = do
+    r = SUM[j <- 0#4] (j / 2.0)
+    assert(r, 3.0, "a sum of RR64 elements with no static argument joins its elements with their own + (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    p = PROD[j <- 1#0] j
+    assert(p, 1, "an empty product of ZZ32 elements with no static argument is the identity 1 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    lo = BIG MIN[j <- 0#4] (j - 2)
+    assert(lo, -2, "BIG MIN with no static argument over j - 2 for j in 0#4 is -2 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    hi = BIG MAX[j <- 0#4] (j - 2)
+    assert(hi, 1, "BIG MAX with no static argument over j - 2 for j in 0#4 is 1 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    s = { n^2 | n <- -2:2 }
+    assert(|s|, 3, "a set comprehension with no static argument over n^2 for n in -2:2 holds three elements (comprehensions.tex, section \"Comprehensions\")")
+    assert((0 IN s) AND (1 IN s) AND (4 IN s), true, "the set comprehension over n^2 for n in -2:2 holds 0, 1 and 4 (comprehensions.tex, section \"Comprehensions\")")
+    b = mk()
+    assert(b.kind, "boxed", "a call that fixes no static argument of a function whose type parameter's bound mentions itself runs, and its result answers its getter (inference.tex, section \"The Static Arguments of a Call\")")
+    assert("ab.c".upto('.'), "ab", "String's upto, whose body calls BIG MIN with no static argument, answers the prefix before the character")
+    println("PASS")
+  end
+
+end

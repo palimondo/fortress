@@ -12,6 +12,7 @@
 package com.sun.fortress.interpreter.evaluator.values;
 
 import com.sun.fortress.compiler.WellKnownNames;
+import com.sun.fortress.exceptions.FortressException;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
@@ -240,6 +241,7 @@ public class Constructor extends NonPrimitive {
         //  Find all the methods in selfType, using the containing environment
         // to give them meaning.
         accumulateEnvMethods(null,
+                             null,
                              overridden,
                              signaturesToTraitsContainingMethods,
                              generics,
@@ -254,10 +256,18 @@ public class Constructor extends NonPrimitive {
         // trait environments.
         // TODO The signature map uses EQUALITY, and that might be wrong,
         // if the object can implement with a more general signature.
+        Set<Applicable> notInherited = overriddenInTraits();
         for (FType t : extendedTraits) {
             FTypeTrait ft = (FTypeTrait) t;
             BetterEnv e = ft.getMembers();
-            accumulateEnvMethods(overridden, null, signaturesToTraitsContainingMethods, generics, genericArgs, ft, e);
+            accumulateEnvMethods(overridden,
+                                 notInherited,
+                                 null,
+                                 signaturesToTraitsContainingMethods,
+                                 generics,
+                                 genericArgs,
+                                 ft,
+                                 e);
         }
 
         // Check that all methods are defined, also check to see
@@ -427,6 +437,90 @@ public class Constructor extends NonPrimitive {
     }
 
     /**
+     * The method declarations of the traits that selfType extends that
+     * selfType does not inherit: a trait inherits from its immediate
+     * supertraits the declarations they provide, except those that its own
+     * declarations with the modifier override override, so a declaration that
+     * such a declaration overrides on every path from selfType is not
+     * inherited.  selfType's own override declarations are applied by name
+     * (accumulateEnvMethods).
+     */
+    private Set<Applicable> overriddenInTraits() {
+        Map<FType, List<MethodClosure>> provided = new IdentityHashMap<FType, List<MethodClosure>>();
+        Set<Applicable> inherited = Collections.newSetFromMap(new IdentityHashMap<Applicable, Boolean>());
+        for (FType s : selfType.getExtends()) {
+            for (MethodClosure m : providedByTrait(s, provided, new HashSet<FType>())) inherited.add(m.getDef());
+        }
+        Set<Applicable> res = Collections.newSetFromMap(new IdentityHashMap<Applicable, Boolean>());
+        for (List<MethodClosure> l : provided.values()) {
+            for (MethodClosure m : l) {
+                if (!inherited.contains(m.getDef())) res.add(m.getDef());
+            }
+        }
+        return res;
+    }
+
+    /** The non-generic method declarations that the trait t provides: those it declares, and those it inherits. */
+    private static List<MethodClosure> providedByTrait(FType t, Map<FType, List<MethodClosure>> provided,
+                                                       Set<FType> path) {
+        List<MethodClosure> res = provided.get(t);
+        if (res != null) return res;
+        res = new ArrayList<MethodClosure>();
+        if (!(t instanceof FTypeTrait) || !path.add(t)) return res;
+        List<MethodClosure> own = declaredBy((FTypeTrait) t);
+        res.addAll(own);
+        for (FType s : t.getExtends()) {
+            for (MethodClosure m : providedByTrait(s, provided, path)) {
+                if (!overriddenBy(m, own) && !res.contains(m)) res.add(m);
+            }
+        }
+        path.remove(t);
+        provided.put(t, res);
+        return res;
+    }
+
+    /** The non-generic method declarations that the trait t declares. */
+    private static List<MethodClosure> declaredBy(FTypeTrait t) {
+        List<MethodClosure> res = new ArrayList<MethodClosure>();
+        BetterEnv e = t.getMembers();
+        for (String s : e.youngestFrame()) {
+            FValue fv = e.getLeafValue(s);
+            if (fv instanceof OverloadedFunction) {
+                for (Overload ov : ((OverloadedFunction) fv).getOverloads()) {
+                    if (ov.getFn() instanceof MethodClosure) res.add((MethodClosure) ov.getFn());
+                }
+            } else if (fv instanceof MethodClosure) {
+                res.add((MethodClosure) fv);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * m is overridden by a declaration of own with the modifier override: one
+     * of the same name and self parameter position whose parameter types, the
+     * self parameter's not counted, are each a supertype of m's.
+     */
+    private static boolean overriddenBy(MethodClosure m, List<MethodClosure> own) {
+        for (MethodClosure o : own) {
+            if (!o.isOverride() || o.selfParameterIndex != m.selfParameterIndex ||
+                !o.asMethodName().equals(m.asMethodName())) continue;
+            try {
+                List<FType> dm = m.getDomain();
+                List<FType> dov = o.getDomain();
+                if (dm.size() != dov.size()) continue;
+                boolean below = true;
+                for (int k = 0; below && k < dm.size(); k++) below = dm.get(k).subtypeOf(dov.get(k));
+                if (below) return true;
+            }
+            catch (FortressException ex) {
+                // not known to be overridden
+            }
+        }
+        return false;
+    }
+
+    /**
      * Iterates over the youngest (innermost) scope of e to determine
      * what things are defined there, and record the relationship
      * from signature to containing trait, and from trait to names
@@ -439,6 +533,7 @@ public class Constructor extends NonPrimitive {
      * @param e
      */
     private void accumulateEnvMethods(Set<String> alreadyOverridden,
+                                      Set<Applicable> notInherited,
                                       Set<String> newOverrides,
                                       GHashMap<SingleFcn, FTraitOrObject> signaturesToTraitsContainingMethods,
                                       MultiMap<String, GenericMethod> generics,
@@ -456,6 +551,8 @@ public class Constructor extends NonPrimitive {
                     List<Overload> overloads = ((OverloadedFunction) fv).getOverloads();
                     for (Overload ov : overloads) {
                         SingleFcn sfcn = ov.getFn();
+                        if (notInherited != null && sfcn instanceof FunctionClosure &&
+                            notInherited.contains(((FunctionClosure) sfcn).getDef())) continue;
                         if (newOverrides != null && sfcn.isOverride()) newOverrides.add(s);
                         // extract below as method, call it here.
                         signaturesToTraitsContainingMethods.putIfAbsent(sfcn, ft);
@@ -470,8 +567,10 @@ public class Constructor extends NonPrimitive {
 
                 } else if (fv instanceof MethodClosure) {
                     MethodClosure mc = (MethodClosure) fv;
-                    signaturesToTraitsContainingMethods.putIfAbsent(mc, ft);
-                    if (newOverrides != null && mc.isOverride()) newOverrides.add(s);
+                    if (notInherited == null || !notInherited.contains(mc.getDef())) {
+                        signaturesToTraitsContainingMethods.putIfAbsent(mc, ft);
+                        if (newOverrides != null && mc.isOverride()) newOverrides.add(s);
+                    }
                 } else {
                     bug(errorMsg("Don't handle ", fv, " yet"));
                 }

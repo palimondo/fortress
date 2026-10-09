@@ -1,0 +1,19 @@
+component UnwrittenReductionWalk
+export Executable
+
+(* A sum or a product with a generator clause list and no static argument, whose element type nothing at the call fixes, runs on its elements under walk, an empty one too. *)
+
+emptySum(n: ZZ32): ZZ32 = SUM[j <- 0#n] j
+
+run() = do
+    println("REACHED")
+    e = emptySum(0)
+    assert(e, 0, "reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\"")
+    s = SUM[j <- 0#4] j
+    assert(s, 6, "reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\"")
+    p = PROD[j <- 1#3] j
+    assert(p, 6, "reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\"")
+    println("PASS")
+  end
+
+end

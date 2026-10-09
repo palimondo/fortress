@@ -4445,3 +4445,9 @@ perf-probe reports).
 ## Changes after the rewrite
 
 <!-- ledger.py appends each later change of a row here: `### Row N`, what became of it, and the row's earlier line. -->
+
+### Row 20
+
+note added
+
+| 20 | an aggregate's element type is computed from the elements' **runtime class**, and `List` is invariant, so `<\|1.0,1.0\|>` is `List[\FloatLiteral\]` and explicit `[\T\]` ascriptions are mandatory in data/plumbing code | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "List Expressions" (the element type is the union of the element types) | none | ours, blinded | siblings: 96, 432. `explorations/spec-probes/p1_infer.fss` infers when the runtime class *is* the target. The same defect shows as `ArrayList[\__DefaultVector[…]\] is not assignable to List[\Vector[…]\]` (`explorations/matrix-ad-probes/REPORT.md` Q1). A declared type drives the literal: a heterogeneous `<\| a, c, o \|>` of three object types is accepted where `List[\Node\]` is declared on the left (`explorations/run-b/probes/c11_object_model.fss`), so the defect is the missing join, not the ascription. On the flat tower the run-time element type fails the F-bounds of `SUM`, `PROD` and `BIG MAX` (row 432). probe and full text: history, row 20 |

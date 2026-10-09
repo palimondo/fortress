@@ -155,7 +155,10 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
      * others but not itself, its bounds at their instances.  The arguments fix
      * a type parameter that an argument's declared parameter type mentions
      * (fixable), and one that a bound of a type parameter they fix mentions.
-     * Any other left open is BottomType.
+     * With bounded, a type parameter that the arguments do not fix and whose
+     * bound mentions the parameter itself, of any declaration, a big
+     * operator's included, is left open (BottomType.OPEN).  Any other left
+     * open is BottomType.
      */
     private static ArrayList<FType> instanceOf(List<StaticParam> tparams,
                                                LatticeIntervalMap<String, FType, TypeLatticeOps> abm,
@@ -177,6 +180,17 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             }
             if (t == null) t = BottomType.ONLY;
             tl.add(t);
+        }
+        if (bounded && rechecks != null) {
+            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
+            for (int i = 0; i < tparams.size(); i++) {
+                StaticParam tp = tparams.get(i);
+                String n = NodeUtil.getName(tp);
+                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) || !rechecks.contains(tp) ||
+                    !(tl.get(i) instanceof BottomType) || !mentionsItself(tp)) continue;
+                traceInstance("open", appliedThing, n, BottomType.ONLY, BottomType.OPEN, typesOf(args));
+                tl.set(i, BottomType.OPEN);
+            }
         }
         if (!bounds || rechecks == null) return tl;
         for (int i = 0; i < tparams.size(); i++) {
@@ -458,6 +472,15 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             if (!Coercions.admits(Useful.clampedGet(dom, j).deRest(), fargs.get(j))) return null;
         }
         return sfcn;
+    }
+
+    /**
+     * Whether a bound of the type parameter tp mentions tp itself (an F-bound).
+     */
+    private static boolean mentionsItself(StaticParam tp) {
+        Set<String> self = Collections.singleton(NodeUtil.getName(tp));
+        for (Type tr : tp.getExtendsClause()) if (!mentions(tr, self).isEmpty()) return true;
+        return false;
     }
 
     /**

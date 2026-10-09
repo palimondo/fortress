@@ -312,7 +312,7 @@ abstract public class FType implements Comparable<FType> {
     public boolean subtypeOf(FType other) {
         if (this == other) return true;
         if (other == FTypeTop.ONLY) return true;
-        if (other == BottomType.ONLY) return false;
+        if (other instanceof BottomType) return false;
         bug(errorMsg("Couldn't figure out ", this, " <: ", other));
         return false;
         // // This is the old reflection-loving subtype check.

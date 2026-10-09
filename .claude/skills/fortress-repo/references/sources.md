@@ -425,6 +425,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - Overflow: `Specification-1.0-frozen/basic/operators/opr-overview.tex:154-155`; `a874948ac:ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:60-80`; `a874948ac:ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:100-102`; POSITIONS "Fixed-width overflow raises `IntegerOverflow` under `walk`".
 - Ranges: `a874948ac:Library/FortressLibrary.fsi:2158-2162`; `a874948ac:Library/CompilerLibrary.fsi:151-152`; POSITIONS "Scalar ranges are over `ZZ32` only".
 - `SUM` and `PROD`: `a874948ac:Library/FortressLibrary.fss:3020-3045` (the comment, `empty(): Number = 0`, `join` on `Number`); `explorations/coordinator/CLIMB-BATCH-6.md`, section F (an empty `RR64` sum is `0 : Int`); POSITIONS "`SUM` and `PROD` without the `Number` catch-all (answer 7)."
+- A type parameter whose bound names itself, under walk, and a trait's `override` and object expressions under walk: `explorations/compile-ladder/rung-walk-open-param/REPORT.md` (climb batch 11's rung W, under the answer to Q1 of `explorations/coordinator/CLIMB-BATCH-11.md`, way 11), its entries folded at the batch's gather.
 
 ### exploring.md
 

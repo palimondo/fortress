@@ -22,6 +22,7 @@ import com.sun.fortress.interpreter.env.BetterEnv;
 import com.sun.fortress.interpreter.evaluator.tasks.BaseTask;
 import com.sun.fortress.interpreter.evaluator.tasks.FortressTaskRunner;
 import com.sun.fortress.interpreter.evaluator.tasks.TupleTask;
+import com.sun.fortress.interpreter.evaluator.types.BottomType;
 import com.sun.fortress.interpreter.evaluator.types.FTraitOrObject;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
@@ -101,7 +102,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
         FValue val = expr.accept(this);
         Type ty = x.getAnnType();
         FType fty = EvalType.getFType(ty, e);
-        if (val.type().subtypeOf(fty)) return val;
+        if (val.type().subtypeOf(fty) || fty == BottomType.OPEN) return val;
         else return error(x, e, errorMsg("The type of expression ", val.type(), " is not a subtype of ", fty, "."));
     }
 
@@ -110,7 +111,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
         FValue val = expr.accept(this);
         Type ty = x.getAnnType();
         FType fty = EvalType.getFType(ty, e);
-        if (val.type().subtypeOf(fty)) return new FAsIf(val, fty);
+        if (val.type().subtypeOf(fty) || fty == BottomType.OPEN) return new FAsIf(val, fty);
         else return error(x, e, errorMsg("Type of expression, ", val.type(), ", not a subtype of ", fty, "."));
     }
 
@@ -1393,7 +1394,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
                singletons and the subtype test below ought to be correct. */
             FType matchTy = EvalType.getFType(typ, ev.e);
             List<Id> ids = collectIds(match);
-            if (resTy.subtypeOf(matchTy)) {
+            if (resTy.subtypeOf(matchTy) || matchTy == BottomType.OPEN) {
                 if (c.getName().isSome() || ids.size() == 1) {
                     String name;
                     if (c.getName().isSome()) name = c.getName().unwrap().getText();

@@ -1,0 +1,19 @@
+component XXXUnwrittenEmptyFloatSumWalk
+export Executable
+
+(* An empty sum of RR64 elements with no static argument is the RR64 identity 0.0, as the sum directed by the expression's type RR64 is. *)
+
+emptyRSum(n: ZZ32): RR64 = SUM[j <- 0#n] (j / 2.0)
+
+run(): () = do
+    e = emptyRSum(0)
+    assert(e, 0.0, "an empty sum whose expression has type RR64 is zero (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    kind = typecase e of
+        RR64 => "RR64"
+        else => "other"
+      end
+    assert(kind, "RR64", "an empty sum whose expression has type RR64 is SUM[RR64] over no element, whose identity is the RR64 zero, a value of type RR64 (reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\")")
+    println("PASS")
+  end
+
+end

@@ -1,4 +1,4 @@
-component XXXOverrideInTraitWalk
+component OverrideInTraitWalk
 export Executable
 
 (* A trait whose method declaration with the modifier override overrides an inherited one does not inherit it, so an object below that trait runs the overriding declaration, under walk. *)
