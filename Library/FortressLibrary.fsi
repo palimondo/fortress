@@ -1621,7 +1621,7 @@ __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\]
 (** %__immutableFactory1% is a non-overloaded 0-parameter factory for
    0-indexed 1-D write-once arrays.  It is also mentioned in \texttt{WellKnownNames} as it
    is used to allocate storage for varargs. *)
-__immutableFactory1[\T, nat b0, nat s0\]():ReadableArray1[\T,b0,s0\]
+__immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\]
 
 array1[\T, nat s0\]():Array1[\T,0,s0\]
 array1[\T, nat s0\](v:T):Array1[\T,0,s0\]
