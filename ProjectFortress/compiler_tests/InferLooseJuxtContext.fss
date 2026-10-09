@@ -1,0 +1,18 @@
+(* A call written by loose juxtaposition is given the expected type of its value, which fixes a static argument that its argument or only its result mentions. *)
+component InferLooseJuxtContext
+export Executable
+
+object BoxV[\T\](v: T) end
+wrapV[\T\](x: T): BoxV[\T\] = BoxV[\T\](x)
+stop[\T extends Any\](s: String): T = throw InvalidRange
+giveUp(s: String): ZZ32 = stop s
+gaveUp(): String = try "value " || giveUp("x") catch e InvalidRange => "thrown" end
+
+run(): () = do
+    e: BoxV[\ZZ64\] = wrapV 3
+    assert(e.v = 3, "wrapV 3 with the expected type BoxV[ZZ64] is wrapV at ZZ64, the numeral converted; Specification/basic/expressions/var-ref.tex, section \"Identifier References\"")
+    assert(gaveUp(), "thrown", "stop s as the body of giveUp, whose return type is ZZ32, is instantiated at ZZ32 and throws; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,22 @@
+(* A method invocation does not let the method's own static parameter capture the receiver's type argument of the same name, so the call, with its static argument written or inferred, type-checks and runs. *)
+component MethodStaticArgReceiverSameName
+export Executable
+trait Gen[\E\]
+  mp[\G\](f: E->G): Gen[\G\]
+  count(): ZZ32
+end
+object Box[\E\](x: E) extends Gen[\E\]
+  mp[\G\](f: E->G): Gen[\G\] = Box[\G\](f(x))
+  count(): ZZ32 = 1
+end
+object P[\A,B\](a: A, b: B) end
+object Cell[\T\](x: T)
+  pair[\G\](g: Gen[\G\]): Gen[\P[\T,G\]\] = g.mp[\P[\T,G\]\](fn (e:G):P[\T,G\] => P[\T,G\](x,e))
+  pairInferred[\G\](g: Gen[\G\]): Gen[\P[\T,G\]\] = g.mp(fn (e:G):P[\T,G\] => P[\T,G\](x,e))
+end
+run(): () = do
+  assert(Cell[\ZZ32\](1).pair[\String\](Box[\String\]("a")).count(), 1, "g.mp with its static argument written, inside pair, whose own G is the receiver g's type argument, instantiates mp's own G, not pair's; Specification/basic/traits.tex, section \"Method Declarations\"")
+  assert(Cell[\ZZ32\](1).pairInferred[\String\](Box[\String\]("a")).count(), 1, "g.mp with its static argument inferred, inside pairInferred, infers mp's own G from the function's type, not pairInferred's; Specification/basic/traits.tex, section \"Method Declarations\"")
+  println("PASS")
+end
+end

@@ -48,13 +48,14 @@ trait Decls { self: STypeChecker with Common =>
   // ---------------------------------------------------------------------------
   // HELPER METHODS ------------------------------------------------------------
 
-  /** Check the body exprs of a LetExpr. */
+  /** Check the body exprs of a LetExpr, whose last expr has the LetExpr's expected type. */
   protected def checkLetBody(bodyChecker: STypeChecker,
-                             body: Block)
+                             body: Block,
+                             expected: Option[Type])
                              : Option[(Block, Option[Type])] = {
 
     // Check the body exprs and make sure all but the last have type ().
-    val newBody = bodyChecker.checkExpr(body).asInstanceOf[Block].getExprs
+    val newBody = bodyChecker.checkExpr(body, expected).asInstanceOf[Block].getExprs
     val newBlock = toListFromImmutable(newBody)
     if (!haveTypes(newBlock)) return None
     for (e <- newBlock.dropRight(1)) {
@@ -317,7 +318,7 @@ trait Decls { self: STypeChecker with Common =>
       // Extend typechecker with new bindings from the RHS types
       val newChecker = this.extend(lhses)
       // Check the LetExpr body.
-      val (newBody, newType) = checkLetBody(newChecker, body).getOrElse(return expr)
+      val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)
       SLocalVarDecl(SExprInfo(span, paren, newType), newBody, lhses, None)
     }
 
@@ -347,7 +348,7 @@ trait Decls { self: STypeChecker with Common =>
         // Extend typechecker with new bindings from the RHS types
         val newChecker = this.extend(newLhses)
         // Check the LetExpr body
-        val (newBody, newType) = checkLetBody(newChecker, body).getOrElse(return expr)
+        val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)
       SLocalVarDecl(SExprInfo(span, paren, newType), newBody, newLhses, Some(newRhs))
     }
 
@@ -400,7 +401,7 @@ trait Decls { self: STypeChecker with Common =>
       // Extend typechecker with new bindings from the RHS types
       val newChecker = this.extend(newLhses)
       // Check the LetExpr body.
-      val (newBody, newType) = checkLetBody(newChecker, body).getOrElse(return expr)
+      val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)
       SLocalVarDecl(SExprInfo(span, paren, newType), newBody, newLhses, Some(newRhs))
     }
 
@@ -413,7 +414,7 @@ trait Decls { self: STypeChecker with Common =>
       Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(this))
 
       // Check the contained body and FnDecls.
-      val (newBody, newType) = checkLetBody(newChecker, body).getOrElse(return expr)
+      val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)
       val newFns = fns.map(newChecker.check(_).asInstanceOf[FnDecl])
 
       SLetFn(SExprInfo(span, paren, newType), newBody, newFns)

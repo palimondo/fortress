@@ -1,0 +1,24 @@
+(* A block gives its expected type to its last expression also where a local declaration precedes it, so a call there instantiates a type parameter only its result mentions at that type. *)
+component InferResultOnlyAfterLocalDecl
+export Executable
+
+stop[\T extends Any\](s: String): T = throw InvalidRange
+giveUp(s: String): ZZ32 = do
+    t = s || "!"
+    stop(t)
+  end
+pick(n: ZZ32): ZZ32 = do
+    m = n + 1
+    if m > 1 then m else stop("small") end
+  end
+shown(n: ZZ32): String = try "value " || pick(n) catch e InvalidRange => "thrown" end
+gaveUp(): String = try "value " || giveUp("x") catch e InvalidRange => "thrown" end
+
+run(): () = do
+    assert(gaveUp(), "thrown", "the last expression of giveUp's body, stop(t) after the declaration of t, is instantiated at ZZ32 and throws; Specification/basic/expressions/blocks.tex, section \"Do Expressions\"")
+    assert(shown(5), "value 6", "pick(5) is m, 6; Specification/basic/expressions/blocks.tex, section \"Do Expressions\"")
+    assert(shown(0), "thrown", "pick(0) runs the else branch's stop(\"small\"), instantiated at ZZ32, which throws; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end
