@@ -42,7 +42,13 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
 - an object or object expression without static parameters that inherits an abstract method and provides no declaration with a body of its name at or below its parameter types.
 - a declaration with the modifier `override`, in an object or object expression or a trait without static parameters, that overrides no declaration that its type's immediate supertraits provide.
 
-So a library edit that adds an overload can stop every program at load. `tests-writing.md` says how a test names a refusal at load.
+So a library edit can stop every program at load, if it does one of these:
+
+- adds an overload;
+- leaves an inherited abstract method without a body at or below its parameter types;
+- adds an `override` that overrides nothing.
+
+`tests-writing.md` says how a test names a refusal at load.
 
 Walk's overload-ambiguity message names its two declarations in an order that varies from run to run. On one core, the order is fixed for a given library, but a library edit can change it. Do not pin or compare this order. The harness reads only that an `XXX` test fails.
 
