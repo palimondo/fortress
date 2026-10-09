@@ -379,11 +379,17 @@ trait Operators { self: STypeChecker with Common =>
     // First try to type check this expression as a multifix operator expression.
     // If that fails, type check it as some number of applications of the infix
     // operator, left associatively.
+    // As for a loose juxtaposition, the multifix application is used where it
+    // applies, whatever the expected type; either way the application is the
+    // expression's value, so it has the expression's expected type.
     case SAmbiguousMultifixOpExpr(info, infixOp, multifixOp, args) => {
       def infixAssociate(e1: Expr, e2: Expr) = SOpExpr(info, infixOp, List(e1, e2))
-      STypeCheckerFactory.makeTryChecker(this).
-        tryCheckExpr(SOpExpr(info, multifixOp, args)).
-        getOrElse(checkExpr(args.reduceLeft(infixAssociate)))
+      val multiOp = SOpExpr(info, multifixOp, args)
+      val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+      tryChecker.tryCheckExpr(multiOp).map { plain =>
+        if (expected.isEmpty) plain
+        else tryChecker.tryCheckExpr(multiOp, expected).getOrElse(plain) }.
+        getOrElse(checkExpr(args.reduceLeft(infixAssociate), expected))
     }
 
     // For a SChainExpr, we must do these steps:

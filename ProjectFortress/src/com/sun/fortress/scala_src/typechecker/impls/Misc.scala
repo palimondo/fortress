@@ -699,11 +699,15 @@ trait Misc { self: STypeChecker with Common =>
                         " for a 'label' expression.")
           label
         case None =>
-          // Initialize the set of exit types
-          labelExitTypes.put(name, Some(new JavaHashSet()))
+          // Initialize the set of exit types, which keeps the label's expected
+          // type for the with value of each exit to the label
+          labelExitTypes.put(name, Some(new LabelExitTypes(expected)))
           // Extend the checker with this label name in the type env
           val newChecker = this.extend(List(NF.makeLValue(name, Types.LABEL)))
-          val newBody = newChecker.checkExpr(body).asInstanceOf[Block]
+          // The body has the label's expected type, of which the join of the
+          // body's type and the exits' types, the label's type, is then a
+          // subtype where each of those types is.
+          val newBody = newChecker.checkExpr(body, expected).asInstanceOf[Block]
           // If the body was typed, union all the exit types with it.
           // If any exit type is none, then don't type this label.
           var labelType: Option[Type] = None
@@ -726,8 +730,13 @@ trait Misc { self: STypeChecker with Common =>
               if (! targetType.isInstanceOf[LabelType])
                 signal(exit, "Target of 'exit' is not a label name: " + target)
               else {
+                // The 'with' value has the label's expected type.
+                val labelExpected = labelExitTypes.get(target) match {
+                  case Some(exits: LabelExitTypes) => exits.expected
+                  case _ => None
+                }
                 // Append the 'with' type to the list for this label
-                val newReturn = checkExpr(returnExpr)
+                val newReturn = checkExpr(returnExpr, labelExpected)
                 getType(newReturn) match {
                   case Some(ty) =>
                     val types = labelExitTypes.get(target)
@@ -977,3 +986,9 @@ trait Misc { self: STypeChecker with Common =>
     }
   }
 }
+
+/**
+ * The types of the with values of the exits to a label, gathered while its body
+ * is checked, and the label's expected type, which each with value takes.
+ */
+class LabelExitTypes(val expected: Option[Type]) extends JavaHashSet[Type]

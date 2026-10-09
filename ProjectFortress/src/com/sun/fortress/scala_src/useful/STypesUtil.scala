@@ -770,14 +770,20 @@ object STypesUtil {
 
     def staticArgsMatchStaticParamsForApp(sparamsAndSargs: List[(StaticParam, StaticArg)])(implicit analyzer: TypeAnalyzer): Boolean = {
 
+    // A bound may name the other static parameters, which take their
+    // arguments in it.
+    val replacer = new StaticTypeReplacer(toJavaList(sparamsAndSargs.map(_._1)),
+                                          toJavaList(sparamsAndSargs.map(_._2)))
+
     // Match a single pair.
     def argMatchesParam(paramAndArg: (StaticParam, StaticArg)): Boolean = {
       val (param, arg) = paramAndArg
       (arg, param.getKind) match {
         case (_: TypeArg, _: KindType) => {
-          val extendsOK = (true /: param.getExtendsClause()) (_ && isSubtype(arg.asInstanceOf[TypeArg].getTypeArg(),_))
-          val dominatesOK = (true /: param.getDominatesClause()) (_ && isSubtype(_,arg.asInstanceOf[TypeArg].getTypeArg()))
-          extendsOK && dominatesOK          
+          val typ = arg.asInstanceOf[TypeArg].getTypeArg()
+          val extendsOK = (true /: param.getExtendsClause()) ((ok, b) => ok && isSubtype(typ, replacer.replaceIn(b)))
+          val dominatesOK = (true /: param.getDominatesClause()) ((ok, b) => ok && isSubtype(replacer.replaceIn(b), typ))
+          extendsOK && dominatesOK
         }
         case (_: IntArg, _: KindInt) => true
         case (_: BoolArg, _: KindBool) => true
