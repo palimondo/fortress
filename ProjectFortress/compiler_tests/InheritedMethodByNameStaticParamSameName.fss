@@ -1,0 +1,16 @@
+(* A generic method inherited by a trait whose own static parameter has the name of the method's, called by name inside the trait, keeps its own static parameter, so the call type-checks. *)
+component InheritedMethodByNameStaticParamSameName
+export Executable
+trait Gen[\E\]
+  mp[\G\](f: E->G): Gen[\G\]
+  count(): ZZ32
+end
+trait Twice[\G\] extends Gen[\G\]
+  again(): Gen[\String\] = mp[\String\](fn (e:G):String => "x")
+end
+object Box[\E\](x: E) extends Twice[\E\]
+  mp[\G\](f: E->G): Gen[\G\] = Box[\G\](f(x))
+  count(): ZZ32 = 1
+end
+run(): () = println(Box[\ZZ32\](3).again().count())
+end
