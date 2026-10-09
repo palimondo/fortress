@@ -1,0 +1,15 @@
+component XXXAbstractMethodUndefinedWalk
+export Executable
+
+(* An object that inherits an abstract method and declares no body for it is a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait S
+  tag(self, x: ZZ32): ZZ32
+end
+object O extends S end
+
+run(): () = do
+    println("loaded")
+  end
+
+end
