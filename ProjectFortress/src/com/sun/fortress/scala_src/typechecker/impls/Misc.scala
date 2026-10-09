@@ -980,9 +980,11 @@ trait Misc { self: STypeChecker with Common =>
 
     val message = errorMsg("A 'spawn' expression must not occur inside ",
                            enclosingExpr, ".")
-    override def checkExpr(e: Expr): Expr = e match {
+    // Every check of an expression, with an expected type or without one,
+    // goes through this overloading.
+    override def checkExpr(e: Expr, expected: Option[Type]): Expr = e match {
       case SSpawn(_, _) => syntaxError(e, message); e
-      case _ => super.checkExpr(e)
+      case _ => super.checkExpr(e, expected)
     }
   }
 }

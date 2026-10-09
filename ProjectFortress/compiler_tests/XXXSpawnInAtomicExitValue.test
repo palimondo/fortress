@@ -1,0 +1,3 @@
+tests=XXXSpawnInAtomicExitValue
+compile
+compile_err_contains=A 'spawn' expression must not occur inside an 'atomic' do block.
