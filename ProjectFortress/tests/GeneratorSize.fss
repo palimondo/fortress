@@ -3,19 +3,16 @@ component GeneratorSize
 import List.{...}
 export Executable
 
-(* A generator that defines only generate: n, n-1, ..., 1. *)
 object Countdown(n: ZZ32) extends Generator[\ZZ32\]
     generate[\R\](r: Reduction[\R\], body: ZZ32 -> R): R =
         (0#n).generate[\R\](r, fn (i: ZZ32): R => body(n - i))
 end
 
-(* A generator that declares its own size, which is not the number of elements it generates. *)
 object Claimed extends Generator[\ZZ32\]
     generate[\R\](r: Reduction[\R\], body: ZZ32 -> R): R = (0#3).generate[\R\](r, body)
     opr |self| : ZZ32 = 99
 end
 
-(* An indexed type that extends DelegatedIndexed and defines only its indices: the even indices of 0#n. *)
 object EvenIndices(n: ZZ32) extends DelegatedIndexed[\ZZ32, ZZ32\]
     getter bounds(): CompactFullRange[\ZZ32\] = 0#n
     getter indices(): Generator[\ZZ32\] = (0#n).filter(fn (i: ZZ32): Boolean => ((i MOD 2) = 0))
