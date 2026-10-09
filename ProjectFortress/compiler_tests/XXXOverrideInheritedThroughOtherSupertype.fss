@@ -1,0 +1,19 @@
+(* An object inherits a declaration through a supertype that does not override it, beside the declaration that overrides it in another supertype, so it provides both and, providing none on their meet, is refused, while the supertype that overrides it provides its own alone (traits.tex, section "Method Declarations"; overloading.tex, section "Meet Rule"). *)
+component XXXOverrideInheritedThroughOtherSupertype
+export Executable
+
+trait D
+  f(self, other: ZZ32): String = "D"
+end
+
+trait D2 extends D
+  override f(self, other: Number): String = "D2"
+end
+
+trait X extends D end
+
+object T extends { D2, X } end
+
+run(): () = println(f(T, 17))
+
+end

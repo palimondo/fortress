@@ -244,9 +244,10 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
             matchType_result = NodeFactory.makePattern(span, Option.<Type>none(),
                                                        NodeFactory.makePatternArgs(span, ps));
         }
-        Block body_result = (Block) recur(that.getBody());
+        // the body binds no name by a type: a name there that names no type is undefined
         forTypecaseClause = false;
         rewriteTypecaseClause = false;
+        Block body_result = (Block) recur(that.getBody());
         return forTypecaseClauseOnly(that, that.getInfo(), name_result, matchType_result, body_result);
     }
 
@@ -374,7 +375,9 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
                     _onDemandImports.add(n);
                 }
                 if (typeConses.isEmpty()) {
-                    if (forTypecaseClause)
+                    // In a typecase clause a bare name that names no type is a binding;
+                    // a name applied to static arguments cannot be one.
+                    if (forTypecaseClause && that instanceof VarType)
                         rewriteTypecaseClause = true;
                     else
                         error(NodeUtil.nameString(n) + " is undefined.", n);

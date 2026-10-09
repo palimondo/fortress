@@ -156,6 +156,20 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       arrows.filter(p => !implemented(p._1, p._2)).map(_._1)
     }
 
+    /* A declaration's parameter types without self, as the trait or object being checked
+     * has them, over the method's own static parameters renamed apart (ownStaticParamsApart):
+     * what STypesUtil.providedMethods compares. */
+    private def paramsWithoutSelf(d: (JavaFunctional, StaticTypeReplacer, TraitType)): Option[Type] = d match {
+      case (f, replacer, _) =>
+        val ps = toListFromImmutable(f.parameters)
+        val kept = f match {
+          case m: JavaFunctionalMethod => ps.zipWithIndex.filter(_._2 != m.selfPosition).map(_._1)
+          case _ => ps }
+        STypesUtil.paramsToType(kept, f.getSpan).map { t =>
+          val (sparams, apart) = ownStaticParamsApart(f)
+          replacer.replaceIn(insertStaticParams(apart(t), sparams)) }
+    }
+
     // whether the trait or object is declared in this compilation unit, not in an api it imports
     private def declaredInUnit(tt: TraitType): Boolean = {
       val ti = typeAnalyzer.traits.typeCons(tt.getName)
@@ -193,11 +207,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                             .find(m => !env.contains(m) && !taken.contains(m.getText)).get
         (n, fresh) }
       def apart(t: Type): Type = alphaRename(subst, t).asInstanceOf[Type]
-      val renamed = own.map(p => subst.find(_._1 == p.getName) match {
-        case Some((_, m)) =>
-          NF.makeStaticParam(p, m.asInstanceOf[Id],
-                             toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType])))
-        case None => p })
+      // every own parameter's bounds are renamed, so that a bound naming a renamed parameter names it still
+      val renamed = own.map(p => {
+        def bounds = toJavaList(toListFromImmutable(p.getExtendsClause).map(b => alphaRename(subst, b).asInstanceOf[BaseType]))
+        subst.find(_._1 == p.getName) match {
+          case Some((_, m)) => NF.makeStaticParam(p, m.asInstanceOf[Id], bounds)
+          case None => p.getName match {
+            case n: Id if !p.getExtendsClause.isEmpty => NF.makeStaticParam(p, n, bounds)
+            case _ => p }
+        } })
       (toJavaList(renamed), apart)
     }
 
@@ -359,7 +377,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
             }
 
             val tt = STypesUtil.declToTraitType(traitOrObject.ast)
-	        val methodsR = allMethods(tt, typeAnalyzer)
+	        // the methods the trait or object provides, by the traits chapter's inheritance
+	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
 
 	        for (f <- toSet(methodsR.firstSet) ; if isDeclaredName(f) ) {
                   val mset = toSet(methodsR.matchFirst(f))
@@ -369,6 +388,9 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	              val functionalMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaFunction]})
 	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
 	        }
+	        // a declaration and one it keeps from being inherited: their return types
+	        for ((f, o, p, equal) <- overridden ; if isDeclaredName(f))
+	          checkOverridingReturnType(f, o, p, equal, oracle)
             typeAnalyzer = oldTypeAnalyzer
             staticParamsInScope = Nil
         }
@@ -426,7 +448,9 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                                                                           case _ => globalOracle.sa.makeDomainFromArrow(at, isMethod) }))
                                 	case None =>	
                               }	
-                              if ( checkBoundAny(at.getDomain, toListFromImmutable(at.getInfo.getStaticParams)) ) {
+                              // a dotted method's parameters are those after its receiver
+                              val params = if (isMethod && sp.isEmpty) dropReceiver(at.getDomain) else at.getDomain
+                              if ( checkBoundAny(params, toListFromImmutable(at.getInfo.getStaticParams)) ) {
                                 		error(NU.getSpan(at), "A functional which takes a single parameter " +
                                 				"of a parametric type bound by Any\n    cannot be overloaded.")
                               }
@@ -606,7 +630,9 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 
     /* The Meet Rule's closed-trait case, for functions and functional methods: the
      * declarations whose domains are below both domains together hold every value of
-     * their overlap, as the comprises clauses show (OverloadingOracle.coversOverlap). */
+     * their overlap, as the comprises clauses show (OverloadingOracle.coversOverlap).
+     * For functional methods of a trait or object that provides them, the overlap is
+     * read without the self parameter, as meetRule reads the meet. */
     private def coverageRule(first: (ArrowType,Option[Int],Option[JavaFunctional]),
                              second: (ArrowType,Option[Int],Option[JavaFunctional]),
                              signatures: List[(ArrowType,Option[Int],Option[JavaFunctional])],
@@ -615,9 +641,53 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       val (fa, fsp, _) = first
       val (ga, gsp, _) = second
       if (fsp != gsp || (isMethod && fsp.isEmpty)) false
-      else oa.coversOverlap(fa, ga, signatures.collect {
-        case (ha, hsp, _) if hsp == fsp && !(ha eq fa) && !(ha eq ga) &&
-                             oa.lteq(ha, fa) && oa.lteq(ha, ga) => ha })
+      else {
+        val hs = signatures.collect {
+          case (ha, hsp, _) if hsp == fsp && !(ha eq fa) && !(ha eq ga) &&
+                               oa.lteq(ha, fa) && oa.lteq(ha, ga) => ha }
+        if (isMethod) {
+          val i = fsp.get
+          oa.coversOverlap(withoutSelf(fa, i), withoutSelf(ga, i), hs.map(withoutSelf(_, i)))
+        }
+        else oa.coversOverlap(fa, ga, hs)
+      }
+    }
+
+    /* The return types of a declaration o and of a declaration p that it keeps the type
+     * declaring it from inheriting (STypesUtil.providedAndOverridden). Where their parameter
+     * types are the same, the two are checked as the pair of an overloading was, o being the
+     * more specific; where o has the modifier override and widens p's, o's return type must be
+     * a subtype of p's (traits.tex, "Method Declarations"): with static parameters, at every
+     * instance of p, and where both declare as many of their own, also position by position. */
+    private def checkOverridingReturnType(name: IdOrOpOrAnonymousName,
+                                          o: (JavaFunctional, StaticTypeReplacer, TraitType),
+                                          p: (JavaFunctional, StaticTypeReplacer, TraitType),
+                                          equal: Boolean,
+                                          oracle: OverloadingOracle): Unit = {
+      def arrow(d: (JavaFunctional, StaticTypeReplacer, TraitType)) =
+        if (isFunctionalMethod(d._1)) toFunctionalMethodArrows(Set(d), oracle).headOption
+        else toMethodArrows(Set(d)).headOption
+      (arrow(o), arrow(p)) match {
+        case (Some(oa), Some(pa)) =>
+          if (equal) {
+            returnTypeCheck(name, oa, pa, oracle)
+            returnTypeCheck(name, pa, oa, oracle)
+          } else {
+            def own(a: ArrowType) = toListFromImmutable(a.getInfo.getStaticParams).filter(!_.isLifted)
+            // the self parameter, or a dotted method's receiver, apart
+            val at = oa._2.getOrElse(0)
+            val holds =
+              if (own(oa._1).isEmpty && own(pa._1).isEmpty)
+                isTrue(typeAnalyzer.subtype(oa._1.getRange, pa._1.getRange))(typeAnalyzer)
+              else oracle.sa.subtypeUA(withoutSelf(oa._1, at), withoutSelf(pa._1, at)) &&
+                   oracle.satisfiesPositionalRule(oa._1, pa._1)
+            if (!holds)
+              error(mergeSpan(oa._1, pa._1),
+                    "For " + name + ",\nthe return type of the overriding declaration " + typeAndSpanToString(oa._1) +
+                    " should be a subtype of the\n    return type of the declaration it overrides " + typeAndSpanToString(pa._1))
+          }
+        case _ =>
+      }
     }
 
     private def returnTypeCheck(name: IdOrOpOrAnonymousName,

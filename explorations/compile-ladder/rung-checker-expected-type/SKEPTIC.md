@@ -59,7 +59,7 @@ On the old code the test is green ('Saw expected failure'): the base refused the
 
 Where I differ from the worker: decision 5 gives the expected type to the multifix attempt. I keep that where the multifix applies; what the fix changes is only that the expected type no longer decides whether it applies. The worker argued for the form, not for that choice, so the fix is settled, not contested.
 
-### 2. A written static argument whose bound names a renamed parameter: the base's acceptance turns into rung C's NEW-C-2 crash (correction, home 2)
+### 2. A written static argument whose bound names a renamed parameter: the base's acceptance turns into rung C's row 651 crash (correction, home 2)
 
 `chain[\G, K extends Gen[\G\]\](f: E->G, k: K): ZZ32` invoked as `g.chain[\G, Gen[\G\]\](fn (e: G): G => e, h)` inside `object Use[\G\](g: Gen[\G\])`:
 
@@ -71,9 +71,9 @@ Where I differ from the worker: decision 5 gives the expected type to the multif
     G$1 is not in the kind env [][][G -> KindBinding(G,G extends Object)][][]
     File SkCaptureBound.fss has 1 error.
 
-Walk prints 11. With the caller's parameter named `H` both codes print 'G is not in the kind env [][][H -> KindBinding(H,H extends Object)][][]'; with the static arguments inferred both compile and print 11. The stack (`-debug stacktrace`) runs `Functionals.getCandidatesForMethod` → `STypesUtil.staticInstantiationForApp` → `staticArgsMatchStaticParamsForApp` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:771-795`) → `TypeAnalyzer.scala:797`: a written argument is checked against its parameter's bound with the other written arguments not put in. That is rung C's row NEW-C-2 (`XXXMethodStaticArgsBoundNamesOther` on `wip/rung-checker-overloading`, 'R is not in the kind env'). The base accepted the same-name shape only through row 627's capture: the bound's `G` was the caller's. The renaming is right; it exposes the deferred defect at one more shape.
+Walk prints 11. With the caller's parameter named `H` both codes print 'G is not in the kind env [][][H -> KindBinding(H,H extends Object)][][]'; with the static arguments inferred both compile and print 11. The stack (`-debug stacktrace`) runs `Functionals.getCandidatesForMethod` → `STypesUtil.staticInstantiationForApp` → `staticArgsMatchStaticParamsForApp` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:771-795`) → `TypeAnalyzer.scala:797`: a written argument is checked against its parameter's bound with the other written arguments not put in. That is rung C's row 651 (`XXXMethodStaticArgsBoundNamesOther` on `wip/rung-checker-overloading`, 'R is not in the kind env'). The base accepted the same-name shape only through row 627's capture: the bound's `G` was the caller's. The renaming is right; it exposes the deferred defect at one more shape.
 
-Not fixed here. The repair belongs in `staticArgsMatchStaticParamsForApp` (put the written arguments into the bounds, as `StaticTypeReplacer` does elsewhere), but it would turn rung C's `XXXMethodStaticArgsBoundNamesOther` red at the gate, and it repairs a defect another rung of this batch recorded and deferred. Recorded instead: `ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOtherSameName` (home 2), with notes on NEW-C-2 and row 627 in record.md:
+Not fixed here. The repair belongs in `staticArgsMatchStaticParamsForApp` (put the written arguments into the bounds, as `StaticTypeReplacer` does elsewhere), but it would turn rung C's `XXXMethodStaticArgsBoundNamesOther` red at the gate, and it repairs a defect another rung of this batch recorded and deferred. Recorded instead: `ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOtherSameName` (home 2), with notes on row 651 and row 627 in record.md:
 
     old-fortress.sh … junit …/XXXMethodStaticArgsBoundNamesOtherSameName.test …        # base, 02:40:37Z
      Saw failure, but did not satisfy compile_err_contains; expected
@@ -137,7 +137,7 @@ Commands: the worker's head, `FORTRESS_HOME=/home/user/fortress-expected FORTRES
 | the by-name run's `NoSuchMethodError` (643) | 2: the `XXXInheritedGenericMethodCalledByName` pair |
 | a numeral `try` body (row 340) | 2, already |
 | finding 1, the multifix choice | 1: `XXXLooseJuxtMultifixExpectedType` |
-| finding 2, the bound naming a renamed parameter | 2: `XXXMethodStaticArgsBoundNamesOtherSameName`, under rung C's NEW-C-2 |
+| finding 2, the bound naming a renamed parameter | 2: `XXXMethodStaticArgsBoundNamesOtherSameName`, under rung C's row 651 |
 | finding 3, the repeated operator | 2: `XXXInferRepeatedOperatorContext`, row 644 |
 
 ## The suite my fix needed
@@ -156,6 +156,6 @@ Commands: the worker's head, `FORTRESS_HOME=/home/user/fortress-expected FORTRES
 The worker's three stand (`REPORT.md` section 7). Added:
 
 - A compiled test whose verdict changes other than by the rung's intent: none; testQuick is green on the fix.
-- A program the text allows that the checker now refuses: a written static argument whose bound names a parameter the renaming renamed (finding 2), accepted on the base through the capture, now rung C's NEW-C-2 crash (`ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOtherSameName.fss:14`). Reversible.
+- A program the text allows that the checker now refuses: a written static argument whose bound names a parameter the renaming renamed (finding 2), accepted on the base through the capture, now rung C's row 651 crash (`ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOtherSameName.fss:14`). Reversible.
 - A program the text refuses that the checker accepted at the worker's head (finding 1, `ProjectFortress/compiler_tests/XXXLooseJuxtMultifixExpectedType.fss:12`): repaired by `2579d7e5b`, so it does not land.
 - Normative text: the rung's own list sentence made conditional (`Specification/basic/inference.tex:140-142`) and its own entry's Effect extended (`Specification/appendices/changes.tex:1989-1993`); both inside the inference chapter's list and the rung's own entry.

@@ -4451,3 +4451,15 @@ perf-probe reports).
 note added
 
 | 20 | an aggregate's element type is computed from the elements' **runtime class**, and `List` is invariant, so `<\|1.0,1.0\|>` is `List[\FloatLiteral\]` and explicit `[\T\]` ascriptions are mandatory in data/plumbing code | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "List Expressions" (the element type is the union of the element types) | none | ours, blinded | siblings: 96, 432. `explorations/spec-probes/p1_infer.fss` infers when the runtime class *is* the target. The same defect shows as `ArrayList[\__DefaultVector[…]\] is not assignable to List[\Vector[…]\]` (`explorations/matrix-ad-probes/REPORT.md` Q1). A declared type drives the literal: a heterogeneous `<\| a, c, o \|>` of three object types is accepted where `List[\Node\]` is declared on the left (`explorations/run-b/probes/c11_object_model.fss`), so the defect is the missing join, not the ascription. On the flat tower the run-time element type fails the F-bounds of `SUM`, `PROD` and `BIG MAX` (row 432). probe and full text: history, row 20 |
+
+### Row 651
+
+note added
+
+| 651 | the compiled checker stops on an invocation of a dotted method with its static arguments written when one of the method's type parameters is bounded by a type at another, 'R is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/method-invocation.tex`, "Dotted Method Invocations" | `ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOther.test` | climb batch 11 rung C | siblings: 625, 627. `object O` with `gen[\R, Q extends Box[\R\]\](q: Q): ZZ32 = 1` and `O.gen[\String, Box[\String\]\](Box[\String\]())` is refused, 'R is not in the kind env [][][]', its span `CompilerBuiltin.fsi:25:7-11`, raised by `TypeAnalyzer.scala:797`; the same on 83b1cae78; a top-level `gen` so called prints `1`. Met calling row 625's `gen` on a `P[\ZZ32\]`. |
+
+### Row 463
+
+note added
+
+| 463 | on the compiled path, `if x <- e then … else … end` is refused, 'Variable __cond is not defined', and `while v <- e do … end` likewise for `__whileCond`, where walk runs both | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification-1.0-frozen/basic/expressions/if.tex:29-34, 49`, "If Expressions"; `Specification/basic/expressions/while.tex`, "While Loops" | none | climb batch 7 rung H's skeptic | The pre-typecheck desugaring rewrites a generator-binding `if` into a call of `__cond` (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreTypeCheckDesugaringVisitor.java:245-280`) and the `while` into `while __whileCond(expr, fn (binds) => body) do end` (`:306-317`); no compiled prelude declares either. Walk: `Just(3)` as the condition gives 13; the `while` prints `6`. Fix: declare both in `Library/CompilerLibrary.fss`. An `XXX` compiled test can hold both, the compiler library declaring `Maybe` and `Just`. Probe `SkMaybe.fss`, gone. full text: history, row 463 |

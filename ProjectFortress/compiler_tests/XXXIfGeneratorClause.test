@@ -1,0 +1,3 @@
+tests=XXXIfGeneratorClause
+compile
+compile_err_contains=Variable __cond is not defined

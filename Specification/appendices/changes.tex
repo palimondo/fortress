@@ -2964,6 +2964,64 @@ the type mentioned in (or inferred for) that binding.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The type of a parameter that a declaration leaves out}
+\seclabel{revival-paramtype}
+
+\begin{description}
+\item[Affected section] \secref{type-inference-components}.
+\item[Change] One box after the paragraph of \secref{type-inference-components}
+that says that type inference is performed over all program constructs that
+still include elided types; the paragraph is unchanged.
+The box says that the compiled type checker does not yet infer the type of a
+parameter that a function declaration leaves out, at top level, in a trait or
+object, or local to an expression block, and refuses the component with the
+message ``Missing parameter type for'' followed by the parameter's name; and
+that the inference the paragraph asks for is not yet described.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 8~October 2026 that a local function whose parameter
+type is left out is refused with a message, as a top-level function is,
+instead of stopping the compiled type checker.
+The inference the paragraph asks for is not described:
+\chapref{type-inference} names the inference over a whole program of the types
+that declarations elide among what it does not yet describe.
+Before this change the compiled type checker refused such a parameter of a
+top-level function or a method with that message, which no passage stated
+(row~405 of the revival's gap ledger), and stopped on such a parameter of a
+local function, with ``Type is not inferred'', ``TryChecker returned an untyped
+expr'' or ``Result of typechecking still contains intermediate nodes'' (rows~620
+to 622).
+A stop of the checker is no answer that the text gives; the refusal names the
+parameter, and departs from the text as the refusal at top level already did.
+Inferring the types, from the uses of the parameter or from an arrow type that
+the context expects, is the repair, which waits until the text describes the
+inference.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-overloading/decision-record.md}
+in the revival's repository.
+\item[Effect] The compiled path refuses a component that leaves out the type
+of a parameter of a function declaration other than the self parameter of a
+method.
+Among them is a keyword parameter, whose type \secref{function-decls} infers
+from its default expression; the compiled path does not yet read a keyword
+parameter as one, and the interpreter stops on a call that leaves out its
+argument (row~652 of the revival's gap ledger).
+The parameter of a function expression is not affected: where the context
+expects an arrow type, the compiled type checker takes the parameter's type
+from it.
+The interpreter, which has no static types, runs a top-level or local function
+whose parameter type is left out, and stops on a method that leaves it out and
+implements an abstract declaration (row~405).
+\item[Original text] The passage is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/components/type-inference.tex},
+lines 44--46:
+\begin{quote}
+Once $C$ is expanded, type inference
+is performed over all program constructs that still include elided types.
+Empty bodies are ignored.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

@@ -1,0 +1,31 @@
+(* An object that provides two functional methods of one name whose overlap, self apart, its own declarations cover through comprises clauses is a valid overloading (overloading.tex, section "Meet Rule", the Meet Rule for Functional Methods), so the program compiles and each call runs its declaration. *)
+component FunctionalMethodMeetCoverWithoutSelf
+export Executable
+
+trait A comprises { X1, X2, Ya } end
+trait B comprises { X1, X2, Yb } end
+object X1 extends { A, B } end
+object X2 extends { A, B } end
+object Ya extends A end
+object Yb extends B end
+
+trait P
+  mark(self, x: A): ZZ32 = 1
+end
+trait Q
+  mark(self, x: B): ZZ32 = 2
+end
+object Pq extends { P, Q }
+  mark(self, x: X1): ZZ32 = 3
+  mark(self, x: X2): ZZ32 = 4
+end
+
+run(): () = do
+    assert(mark(Pq, X1), 3, "mark(Pq, X1)")
+    assert(mark(Pq, X2), 4, "mark(Pq, X2)")
+    assert(mark(Pq, Ya), 1, "mark(Pq, Ya)")
+    assert(mark(Pq, Yb), 2, "mark(Pq, Yb)")
+    println("PASS")
+  end
+
+end

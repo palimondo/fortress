@@ -60,6 +60,12 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: a trait's `override` declarations override for every type below it, read per type, as walk's load check reads them. Walk checks an object expression without static parameters as it checks an object; one in a generic function is not checked, as a generic object is not (ledger row 647). The checker still accepts such an object expression (ledger row 570).
 - Reason: the traits chapter, and the Meet Rule, which names object expressions.
 
+**What a type provides**
+
+- Original: the traits chapter says that a type provides the method declarations it declares and inherits, and that it does not inherit one that its own `override` declaration overrides or whose parameter types its own declaration repeats. The compiled checker read every declaration of every supertype as provided, and refused the team's `tests/disp0.fss`, whose `override` widens a parameter.
+- Resolution: both paths read provides by the chapter. The checker checks the return type of an overriding declaration against the declaration that it overrides.
+- Reason: the specification's rule, which walk already followed. The team's own test is valid by it.
+
 ## Static parameters
 
 **The bound of a type parameter that has none written**
@@ -123,3 +129,11 @@ A note written before the revival, and your training, can be right about the tea
 - Original: `SUM` and `PROD` reduced over `Number`, under the team's comment "Hack to permit any Number to work non-parametrically". Every sum had the type `Number`, and an empty sum of `RR64` values was the integer 0.
 - Resolution: each is one generic declaration over the element type's own algebra, which gives its zero or one at that type (`library.md`).
 - Reason: `Number`'s operators for any number went with the tower, so each reduction uses the element type's own operator.
+
+## Specified, but not built
+
+**A parameter whose type is left out**
+
+- Original: the components chapter says that type inference finds every type that a component leaves out. The compiled checker refused a top-level function's or a method's parameter written without a type, and stopped on a local function's. Walk runs them.
+- Resolution: the compiled path refuses every such parameter of a function declaration with "Missing parameter type for x". A box in the chapter and Appendix I say so.
+- Reason: no text describes that inference. A stop of the checker is no answer, and the refusal already stood at top level.

@@ -1,0 +1,13 @@
+(* A component's trait may declare a private abstract method that its api does not export, since no private declaration takes part in satisfying an api (source-code.tex, subsection "Export Statements"), so the component compiles. *)
+component ExportPrivateAbstractMemberApi
+export ExportPrivateAbstractMemberApi
+
+trait Shape
+    area(): ZZ32 = scaled(1)
+    private scaled(k: ZZ32): ZZ32
+end
+object Square(side: ZZ32) extends Shape
+    scaled(k: ZZ32): ZZ32 = k side side
+end
+
+end

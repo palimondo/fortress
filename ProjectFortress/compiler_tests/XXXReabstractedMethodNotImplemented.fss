@@ -1,0 +1,22 @@
+(* A trait whose own abstract declaration repeats the parameter types of an inherited method does not inherit that method, so an object below it that declares no body for it inherits an abstract method it does not define, a static error (traits.tex, section "Method Declarations"), and the program is refused for f and for g. *)
+component XXXReabstractedMethodNotImplemented
+export Executable
+
+trait A
+  f(x: ZZ32): ZZ32 = 1
+  g(self, x: ZZ32): ZZ32 = 1
+end
+
+trait B extends A
+  f(x: ZZ32): ZZ32
+  g(self, x: ZZ32): ZZ32
+end
+
+object O extends B end
+
+run(): () = do
+    println(O.f(3))
+    println(g(O, 3))
+  end
+
+end

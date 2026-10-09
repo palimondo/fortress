@@ -1,0 +1,3 @@
+tests=XXXMethodStaticArgsBoundNamesOther
+compile
+compile_err_contains=R is not in the kind env

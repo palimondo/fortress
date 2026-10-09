@@ -1,0 +1,15 @@
+(* The return type of a declaration with the modifier override must be a subtype of the return type of the declaration it overrides (traits.tex, section "Method Declarations"), so the program, whose override returns a ZZ32 where the overridden declaration returns a String, is refused. *)
+component XXXOverrideReturnTypeNotSubtype
+export Executable
+
+trait A
+  f(self, other: ZZ32): String = "A"
+end
+
+object B extends A
+  override f(self, other: Number): ZZ32 = 1
+end
+
+run(): () = println(f(B, 17))
+
+end

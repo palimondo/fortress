@@ -66,8 +66,15 @@ abstract sealed class STypeEnv extends StaticEnv[Type] {
                                                api: Option[APIName]): STypeEnv =
     new NestedSTypeEnv(this, STypeEnv.extractTypeConsBindings(m, api))
 
-  def extendWithBindingsFromFnList[T <: Functional](fns:List[T]) =
+  /** Extend me with the bindings of the given functions. A local function, a
+   *  DeclaredFunction among them, must give the type of each parameter, as the
+   *  binding of a parameter must (extractNodeBindings): its arrow is read from them. */
+  def extendWithBindingsFromFnList[T <: Functional](fns:List[T]) = {
+    for (fn <- fns ; if fn.isInstanceOf[DeclaredFunction] ;
+         p <- toListFromImmutable(fn.parameters) ; if p.getIdType.isNone && p.getVarargsType.isNone)
+      throw TypeError.make("Missing parameter type for " + p.getName, p)
     new NestedSTypeEnv(this, STypeEnv.extractFunctionBindings(fns.map( x => (x.name, Set(x))), None))
+  }
 
   /** Extend me with the bindings of the given functions relation. */
   def extendWithFunctions[T <: Functional]

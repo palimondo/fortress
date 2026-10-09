@@ -1,0 +1,11 @@
+(* The main component of ExportPrivateAbstractMember: a Square of side 3 has area 9. *)
+component ExportPrivateAbstractMember
+import ExportPrivateAbstractMemberApi.{...}
+export Executable
+
+run(): () = do
+    assert(Square(3).area(), 9, "Square(3).area()")
+    println("PASS")
+  end
+
+end

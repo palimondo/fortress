@@ -44,3 +44,10 @@ type inference ignores empty bodies.
 Once $C$ is expanded, type inference 
 is performed over all program constructs that still include elided types.
 Empty bodies are ignored.
+\revision{revival-paramtype}{The compiled type checker does not yet infer the
+type of a parameter that a function declaration leaves out, at top level, in a
+trait or object, or local to an expression block: it refuses the component
+with the message ``Missing parameter type for'' followed by the parameter's
+name.
+The inference this paragraph asks for is not yet described
+(\chapref{type-inference}).}

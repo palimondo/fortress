@@ -1,0 +1,3 @@
+tests=XXXOverrideGenericReturnTypeNotSubtype
+typecheck
+typecheck_err_matches=(?s).*the return type of the overriding declaration.*the return type of the overriding declaration.*has 2 errors\\..*

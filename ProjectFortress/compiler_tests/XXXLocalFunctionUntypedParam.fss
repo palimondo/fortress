@@ -1,4 +1,4 @@
-(* A local function may leave the type of its parameter undeclared (functions.tex, sections "Local Function Declarations" and "Function Declarations"), so the program is valid; the compiled checker stops on it, "Type is not inferred". *)
+(* A local function that leaves the type of its parameter out is refused with the name of the parameter, as a top-level function is, since the compiled checker infers no parameter type (type-inference.tex, section "Type Inference for Components", and its revision). *)
 component XXXLocalFunctionUntypedParam
 export Executable
 
