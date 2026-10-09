@@ -120,7 +120,7 @@ object LexicographicReduction
     empty(): TotalComparison = EqualTo
     join(a:TotalComparison, b:TotalComparison):TotalComparison = a LEXICO b
     isLeftZero(_:EqualTo): Boolean = false
-    isLeftZero(_:Comparison): Boolean = true
+    isLeftZero(_:TotalComparison): Boolean = true
 end
 
 opr BIG LEXICO(): BigReduction[\TotalComparison, TotalComparison\] =
@@ -136,6 +136,7 @@ trait Comparison
     opr =(self, other:Comparison): Boolean = false
     (** Lexicographic ordering.  First non-equal comparison dictates result. *)
     opr LEXICO(self, other:Comparison): Comparison = Unordered
+    opr LEXICO(self, other:()->Comparison): Comparison = Unordered
     (** Symmetric comparison (total orders only).  All comparisons
         must be compatible, or Unordered results.  Compatible means
         "all the same sense or EqualTo" in which case the sense is the
@@ -175,6 +176,7 @@ trait TotalComparison
         if other < self then (other, self) else (self, other) end
     opr LEXICO(self, other:TotalComparison): TotalComparison = self
     opr LEXICO(self, other:()->TotalComparison): TotalComparison = self
+    opr LEXICO(self, other:()->Comparison): Comparison = self
     opr INVERSE(self): TotalComparison
 end
 
@@ -209,6 +211,7 @@ object EqualTo extends TotalComparison
     opr <(self, other:TotalComparison): Boolean = false
     opr LEXICO(self, other:TotalComparison): TotalComparison = other
     opr LEXICO(self, other:()->TotalComparison): TotalComparison = other()
+    opr LEXICO(self, other:()->Comparison): Comparison = other()
     opr SYMMETRIC_PARTIAL(self, other: Comparison): Comparison = other
     opr INVERSE(self): TotalComparison = EqualTo
 end
@@ -4445,55 +4448,57 @@ opr <->(a: Boolean, b:Boolean):Boolean = a=b
 
 opr +[\T extends Number\](x:T):T = x
 
-(* Shouldn't these operators have to extend something? A,B,C? *)
-
 opr =[\A,B\](t1:(A,B), t2:(A,B)): Boolean = do
     (a1,b1) = t1
     (a2,b2) = t2
     (a1=a2) AND: (b1=b2)
   end
 
-opr <[\A,B\](t1:(A,B), t2:(A,B)): Boolean = do
+opr <[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean = do
     (a1,b1) = t1
     (a2,b2) = t2
     typecase a1 CMP a2 of
         LessThan => true
         EqualTo => b1 < b2
         GreaterThan => false
+        Unordered => false
     end
   end
 
-opr <=[\A,B\](t1:(A,B), t2:(A,B)): Boolean = do
+opr <=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean = do
     (a1,b1) = t1
     (a2,b2) = t2
     typecase a1 CMP a2 of
         LessThan => true
         EqualTo => b1 <= b2
         GreaterThan => false
+        Unordered => false
     end
   end
 
-opr >[\A,B\](t1:(A,B), t2:(A,B)): Boolean = do
+opr >[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean = do
     (a1,b1) = t1
     (a2,b2) = t2
     typecase a1 CMP a2 of
         LessThan => false
         EqualTo => b1 > b2
         GreaterThan => true
+        Unordered => false
     end
   end
 
-opr >=[\A,B\](t1:(A,B), t2:(A,B)): Boolean = do
+opr >=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean = do
     (a1,b1) = t1
     (a2,b2) = t2
     typecase a1 CMP a2 of
         LessThan => false
         EqualTo => b1 >= b2
         GreaterThan => true
+        Unordered => false
     end
   end
 
-opr CMP[\A,B\](t1:(A,B), t2:(A,B)): Comparison = do
+opr CMP[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Comparison = do
     (a1,b1) = t1
     (a2,b2) = t2
     (a1 CMP a2) LEXICO: (b1 CMP b2)
@@ -4505,47 +4510,56 @@ opr =[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean = do
     (a1=a2) AND: (b1=b2) AND: (c1=c2)
   end
 
-opr <[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean = do
+opr <[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\]
+        (t1:(A,B,C), t2:(A,B,C)): Boolean = do
     (a1,b1,c1) = t1
     (a2,b2,c2) = t2
     typecase (a1 CMP a2) LEXICO: (b1 CMP b2) of
         LessThan => true
         EqualTo => c1 < c2
         GreaterThan => false
+        Unordered => false
     end
   end
 
-opr <=[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean = do
+opr <=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\]
+        (t1:(A,B,C), t2:(A,B,C)): Boolean = do
     (a1,b1,c1) = t1
     (a2,b2,c2) = t2
     typecase (a1 CMP a2) LEXICO: (b1 CMP b2) of
         LessThan => true
         EqualTo => c1 <= c2
         GreaterThan => false
+        Unordered => false
     end
   end
 
-opr >[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean = do
+opr >[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\]
+        (t1:(A,B,C), t2:(A,B,C)): Boolean = do
     (a1,b1,c1) = t1
     (a2,b2,c2) = t2
     typecase (a1 CMP a2) LEXICO: (b1 CMP b2) of
         LessThan => false
         EqualTo => c1 > c2
         GreaterThan => true
+        Unordered => false
     end
   end
 
-opr >=[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean = do
+opr >=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\]
+        (t1:(A,B,C), t2:(A,B,C)): Boolean = do
     (a1,b1,c1) = t1
     (a2,b2,c2) = t2
     typecase (a1 CMP a2) LEXICO: (b1 CMP b2) of
         LessThan => false
         EqualTo => c1 >= c2
         GreaterThan => true
+        Unordered => false
     end
   end
 
-opr CMP[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Comparison = do
+opr CMP[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\]
+        (t1:(A,B,C), t2:(A,B,C)): Comparison = do
     (a1,b1,c1) = t1
     (a2,b2,c2) = t2
     (a1 CMP a2) LEXICO: (b1 CMP b2) LEXICO: (c1 CMP c2)

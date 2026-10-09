@@ -90,7 +90,7 @@ object LexicographicReduction
     empty(): TotalComparison
     join(a:TotalComparison, b:TotalComparison):TotalComparison
     isLeftZero(_:EqualTo): Boolean
-    isLeftZero(_:Comparison): Boolean
+    isLeftZero(_:TotalComparison): Boolean
 end
 
 opr BIG LEXICO(): BigReduction[\TotalComparison, TotalComparison\]
@@ -102,6 +102,7 @@ trait Comparison
         comprises { Unordered, TotalComparison }
     opr =(self, other:Comparison): Boolean
     opr LEXICO(self, other:Comparison): Comparison
+    opr LEXICO(self, other:()->Comparison): Comparison
     opr SYMMETRIC_PARTIAL(self, other:Comparison): Comparison
     abstract opr INVERSE(self): Comparison
 end
@@ -131,6 +132,7 @@ trait TotalComparison
     opr MINMAX(self, other:TotalComparison): (TotalComparison,TotalComparison)
     opr LEXICO(self, other:TotalComparison): TotalComparison
     opr LEXICO(self, other:()->TotalComparison): TotalComparison
+    opr LEXICO(self, other:()->Comparison): Comparison
     abstract opr INVERSE(self): TotalComparison
 end
 
@@ -162,6 +164,7 @@ object EqualTo extends TotalComparison
     opr <(self, other:TotalComparison): Boolean
     opr LEXICO(self, other:TotalComparison): TotalComparison
     opr LEXICO(self, other:()->TotalComparison): TotalComparison
+    opr LEXICO(self, other:()->Comparison): Comparison
     opr SYMMETRIC_PARTIAL(self, other: Comparison): Comparison
     opr INVERSE(self): TotalComparison
 end
@@ -2622,17 +2625,17 @@ opr <->(a: Boolean, b:Boolean):Boolean
 opr +[\T extends Number\](x:T):T
 
 opr =[\A,B\](t1:(A,B), t2:(A,B)): Boolean
-opr <[\A,B\](t1:(A,B), t2:(A,B)): Boolean
-opr <=[\A,B\](t1:(A,B), t2:(A,B)): Boolean
-opr >[\A,B\](t1:(A,B), t2:(A,B)): Boolean
-opr >=[\A,B\](t1:(A,B), t2:(A,B)): Boolean
-opr CMP[\A,B\](t1:(A,B), t2:(A,B)): Comparison
+opr <[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean
+opr <=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean
+opr >[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean
+opr >=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Boolean
+opr CMP[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\]\](t1:(A,B), t2:(A,B)): Comparison
 opr =[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean
-opr <[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean
-opr <=[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean
-opr >[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean
-opr >=[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Boolean
-opr CMP[\A,B,C\](t1:(A,B,C), t2:(A,B,C)): Comparison
+opr <[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\](t1:(A,B,C), t2:(A,B,C)): Boolean
+opr <=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\](t1:(A,B,C), t2:(A,B,C)): Boolean
+opr >[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\](t1:(A,B,C), t2:(A,B,C)): Boolean
+opr >=[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\](t1:(A,B,C), t2:(A,B,C)): Boolean
+opr CMP[\A extends StandardPartialOrder[\A\], B extends StandardPartialOrder[\B\], C extends StandardPartialOrder[\C\]\](t1:(A,B,C), t2:(A,B,C)): Comparison
 
 
 (*---------------------------- for Generators-of-Generators ---------------*)

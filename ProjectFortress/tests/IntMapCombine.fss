@@ -24,7 +24,7 @@ run(): () = do
     assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, sameKey).check(), {[\ZZ32\] widen(1) |-> 15}, "two one-entry maps on one key combine their values by the function")
     assert(oneEntry.combine[\ZZ32,ZZ32\](dropKey, keepAll, keepAll, sameKey).isEmpty, true, "a key whose function answers Nothing is left out")
     assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, otherKey).check(), {[\ZZ32\] widen(1) |-> 10, widen(2) |-> 5}, "two one-entry maps on different keys combine to both entries")
-    assert(otherKey.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, oneEntry).check(), {[\ZZ32\] widen(1) |-> 5, widen(2) |-> 10}, "the order of the maps does not change which keys the result holds")
+    assert(otherKey.combine[\ZZ32,ZZ32\](addValues, keepAll, keepAll, oneEntry).check(), {[\ZZ32\] widen(1) |-> 10, widen(2) |-> 5}, "the order of the maps does not change the entries of two maps on different keys")
     assert(oneEntry.combine[\ZZ32,ZZ32\](addValues, dropAll, dropAll, otherKey).isEmpty, true, "two one-entry maps on different keys share no key")
 
     both = {[\ZZ32\] widen(k) |-> (if k < 4 then k elif k < 8 then k + 100 else 100 end) | k <- 0#12}
