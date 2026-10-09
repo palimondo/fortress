@@ -9,7 +9,7 @@ Rewrite in place the entry of "The checker and the one library" whose title begi
   - The other sites: `impls/Decls.scala:51-58` (`checkLetBody`), `impls/Operators.scala:170-197` (the loose juxtaposition) and `:382-393` (the repeated operator). In both of the last two, whether the multifix application applies is decided without the expected type. The type is then given to the multifix application where it fits, and otherwise to the left-associated binary fallback.
   - `STypesUtil.instantiateMethodApart` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1822-1863`) instantiates each method that `commonInheritedMethods` returns. It first renames to `name$i` each of the method's own static parameters whose name the arguments mention, so the method invocation and a call by name inside a trait are repaired alike.
   - `staticArgsMatchStaticParamsForApp` (`STypesUtil.scala:771-800`) puts the written arguments into each bound with a `StaticTypeReplacer`, as `TypeWellFormedChecker.scala:157-162` does for a trait type's arguments. An argument that misses its bound is refused: 'No such method O.gen.'
-  - The checker still gives no expected type to an argument of another call (row 455, `XXXInferContextDrops`).
+  - The checker still gives no expected type to an argument of another call (row 455, `XXXInferContextDrops`), or to the application of the juxtaposition operator that a tight juxtaposition of items none of which is a function stands for, as `a(b)` (row NEW-C-1, `XXXInferTightJuxtContext`): `impls/Operators.scala:362-374` tries the multifix and the binary applications there with none.
   - Gated by `compiler_tests/InferResultOnlyIfWithoutElse`, `InferResultOnlyAfterLocalDecl`, `InferResultOnlyTypecaseBranch`, `InferLooseJuxtContext`, `InferRepeatedOperatorContext`, `InferResultOnlyLabelBody` (a `typecheck` test, since the code generator has no `label`), `MethodStaticArgReceiverSameName`, `MethodStaticArgsBoundNamesOther`, `MethodStaticArgsBoundNamesOtherSameName` and `InheritedMethodByNameStaticParamSameName`, and by `XXXLooseJuxtMultifixExpectedType`, a refusal.
 
 ## Ledger
@@ -23,10 +23,15 @@ Rewrite in place the entry of "The checker and the one library" whose title begi
 - **Row 455.** Append: "Climb batch 12 rung C gives the expected type to a label body and its exits and to a repeated operator, not to an argument. Q48(b) is unanswered, and `XXXInferContextDrops` keeps both argument faces ('Saw expected failure' in the rung's `ant testQuick`)."
 - **Row 560.** Append: "Item 36's thirteenth site, `Library/String.fss:431`, clears with row 642's repair (climb batch 12 rung C, d4697808b). The site is gone from the per-site list (`distance-sites.tsv:117`)."
 - **Row 627.** Append: "Row 651's second shape, which this renaming exposed, is repaired by climb batch 12 rung C (d4697808b) and gated by `MethodStaticArgsBoundNamesOtherSameName`. The renaming stays."
+- **Row 470.** Append: "A dotted method invocation does check a written static argument against its bound (`staticArgsMatchStaticParamsForApp`, `STypesUtil.scala:771-800`), since climb batch 12 rung C with the other written arguments put in: `O.m[\Cell[\ZZ32\]\](Cell[\ZZ32\]())` for `m[\Q extends Cell[\String\]\](q: Q)` is refused, 'No such method O.m.', on 7fa767d48 and on d4697808b. A call of a top-level function does not: `f[\Cell[\ZZ32\]\](Cell[\ZZ32\]())` for `f[\Q extends Cell[\String\]\](q: Q)`, and `gen[\String, Cell[\ZZ32\]\](Cell[\ZZ32\]())` for `gen[\R, Q extends Cell[\R\]\](q: Q)`, compile and print 1 on both, and walk prints 1 (rung C's skeptic)."
 
 ## New rows
 
-None.
+Section "2. Types: generics, static parameters, inference and coercion":
+
+| NEW-C-1 | the compiled checker gives no expected type to a tight juxtaposition of items none of which is a function: with `opr juxtaposition[\T\](a: Any, b: K): BoxV[\T\]`, `y: BoxV[\ZZ64\] = a(a)` is refused where the loose `a a` checks | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/operators/juxtameaning.tex`, "Juxtaposition"; `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferTightJuxtContext.test` | climb batch 12 rung C | siblings: 644, 455. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala:362-374` (`SMathPrimary`, items none of which is a function, at 7572db348) tries the multifix juxtaposition and then the left-associated binary ones with no expected type, so a type parameter that only the result mentions takes its bound: 'Right-hand side has type BoxV[\Object\], but declared type is BoxV[\ZZ64\].', the same on 7fa767d48; `a(b)(c)` likewise. The loose juxtaposition (`:170-197`) and the repeated operator (`:379-393`) give it. Workaround: juxtapose loosely, `a a`. |
+
+The row passes `python3 explorations/coordinator/tools/ledger.py check --rows`, apart from the placeholder number. `Specification/appendices/changes.tex` cites NEW-C-1 in the Effect of its entry "The contexts that give a call an expected type"; the gather puts the row's number there.
 
 ## Handover
 
