@@ -1,0 +1,21 @@
+component OverrideAfterWhereBoundWalk
+export Executable
+
+(* A where clause that bounds one generic trait's static parameter by ZZ32 bounds no other trait's, so a generic trait's override over ZZ32 of a declaration over its own unbounded parameter overrides nothing and the program is refused at load, under walk (trait-parameters.tex, section "Where Clauses"; traits.tex, section "Method Declarations"). *)
+
+trait W[\T\] where { T extends ZZ32 }
+  w(x: T): String = "W"
+end
+trait A[\U\]
+  g(x: U): String = "A"
+end
+trait G[\U\] extends A[\U\]
+  override g(x: ZZ32): String = "G"
+end
+object O extends G[\ZZ32\] end
+
+run(): () = do
+    println(O.g(3))
+  end
+
+end
