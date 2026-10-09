@@ -1,0 +1,26 @@
+(* A trait may list Nt[\n\] where [\nat n\]: an Nt at every size extends it, and a call opens the value to its own size. *)
+component NatOpenWalk
+export Executable
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+  getter toZZ(): ZZ32
+end
+value object Nt[\nat n\] extends NatParamT
+  getter toZZ(): ZZ32 = n
+end
+
+mk(z: ZZ32): NatParamT = if z = 0 then Nt[\0\] else Nt[\3\] end
+size[\nat n\](x: Nt[\n\]): ZZ32 = n
+
+run(): () = do
+    assert(size(mk(3)), 3, "trait-parameters.tex, section \"Nat and Int Parameters\": a value opened to its own size")
+    assert(size(mk(0)), 0, "trait-parameters.tex, section \"Nat and Int Parameters\": a value opened to its own size")
+    r = typecase mk(0) of
+          Nt[\0\] => "zero"
+          else => "other"
+        end
+    assert(r, "zero", "internal-document.tex, subsection \"Overloaded operators\": a size name is not known to differ from a numeral")
+    assert(mk(3).toZZ, 3, "a listed type at a size the clause names by a where-clause variable")
+  end
+
+end

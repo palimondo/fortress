@@ -20,7 +20,7 @@ api NatReflect
  *  parameter.
  *)
 trait NatParam
-  (* comprises { N[\n\] } where [\ nat n \] *)
+  comprises { N[\n\] } where [\ nat n \]
   abstract getter toZZ() : ZZ32
 end
 

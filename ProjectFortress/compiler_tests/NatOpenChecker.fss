@@ -1,0 +1,27 @@
+(* A value whose trait lists Nt[\n\] where [\nat n\] opens, at a call, to an Nt at its own size. *)
+component NatOpenChecker
+export Executable
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+end
+value object Nt[\nat n\] extends NatParamT end
+
+trait Sized end
+object Store[\nat n\](v: ZZ32) extends Sized end
+
+mk(): NatParamT = Nt[\3\]
+size[\nat n\](x: Nt[\n\]): ZZ32 = n
+take[\nat n\](x: Nt[\n\]): Store[\n\] = Store[\n\](n)
+
+run(): () = do
+    z: ZZ32 = size(mk())
+    s: Sized = take(mk())
+    r: String = typecase mk() of
+        Nt[\0\] => "zero"
+        else => "other"
+      end
+    println(z)
+    println(r)
+  end
+
+end

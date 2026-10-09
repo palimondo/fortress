@@ -134,7 +134,20 @@ object Formula{
    */
   def nDiffer(a: IntExpr, b: IntExpr): Boolean = (foldSize(a), foldSize(b)) match {
     case (x: IntBase, y: IntBase) => !sameSize(x, y)
-    case (x: IntRef, y: IntRef) => !sameSize(x, y)
+    case (x: IntRef, y: IntRef) => !sameSize(x, y) && !isOpenedSize(x) && !isOpenedSize(y)
+    case _ => false
+  }
+
+  /* A size opened from a value: comprises { N[\n\] } where [\nat n\] lists N
+   * at every n, and a value of the trait passed where N[\m\] is expected binds
+   * m to its own size, a name no program can write, equal only to itself and
+   * not known to differ from any size (TypeAnalyzer.openWhereSizes).
+   */
+  private val openedSizeMark = "#"
+  private val openedSizes = new java.util.concurrent.atomic.AtomicInteger()
+  def openedSizeName(where: String): String = where + openedSizeMark + openedSizes.incrementAndGet
+  def isOpenedSize(e: IntExpr): Boolean = e match {
+    case r: IntRef => r.getName.getText.contains(openedSizeMark)
     case _ => false
   }
 

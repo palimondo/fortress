@@ -234,10 +234,14 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
 			    "it is not a static parameter of " + name + ".", extension)
 		    case _ =>
 		  }
+		  // A type listed at where-clause sizes is listed at every size.
+		  val whereSizes = analyzer.whereSizes(si)
 		  val subst_comprises =
-		    comprises.map(substitute(toListFromImmutable(st.getArgs),
-					     toListFromImmutable(si.staticParameters),
-					     _).asInstanceOf[NamedType])
+		    comprises.map(c => substitute(whereSizes.map(STypesUtil.makeInferenceArg),
+						  whereSizes,
+						  substitute(toListFromImmutable(st.getArgs),
+							     toListFromImmutable(si.staticParameters),
+							     c)).asInstanceOf[NamedType])
 		  if (! comprises.isEmpty &&
 		      ! isEligibleToExtend(tt, subst_comprises, new_analyzer, errors) &&
 		      ! NodeUtil.isComprisesEllipses(si.ast) )
@@ -329,7 +333,11 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
 				analyzer: TypeAnalyzer): Boolean = {
     for (ty <- comprises) {
       ty match {
-	case _:TraitType => if (isTrue(analyzer.subtype(decl, ty))(analyzer)) return true
+	case _:TraitType =>
+	  val f = analyzer.subtype(decl, ty)
+	  if (isTrue(f)(analyzer)) return true
+	  // At some value of the sizes a listed type holds at every size
+	  if (STypesUtil.hasInferenceVars(ty) && solve(f)(analyzer).isDefined) return true
 	case _ =>
       }
     }

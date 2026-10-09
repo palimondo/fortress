@@ -1,0 +1,18 @@
+(* An opened size equals only itself: it does not reach a type that names another size, and two values opened in one call have two sizes. *)
+component XXXNatOpenKeepChecker
+export Executable
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+end
+value object Nt[\nat n\] extends NatParamT end
+
+mk(): NatParamT = Nt[\3\]
+keep[\nat n\](x: Nt[\n\]): Nt[\n\] = x
+two[\nat n\](a: Nt[\n\], b: Nt[\n\]): ZZ32 = n
+
+run(): () = do
+    y: Nt[\3\] = keep(mk())
+    println(two(mk(), mk()))
+  end
+
+end

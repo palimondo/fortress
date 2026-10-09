@@ -1,0 +1,3 @@
+tests=XXXNatOpenRun
+compile
+compile_exception_contains=Can't compile TraitDecl NatParamT
