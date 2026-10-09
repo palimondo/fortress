@@ -1,0 +1,22 @@
+component XXXFunctionalMethodMeetGenericProviderWalk
+export Executable
+
+(* A generic object, and an object expression in a generic function, extending two traits that each declare a functional method of one name, with no declaration of their own on its meet, are no valid overloading, so the program is refused at load, under walk (overloading.tex, section "Meet Rule"). *)
+
+trait A
+  pick(self): String = "A"
+end
+trait B
+  pick(self): String = "B"
+end
+
+object G[\T\]() extends { A, B } end
+
+mk[\T\](x: T): Any = object extends { A, B } end
+
+run(): () = do
+    println(pick(G[\ZZ32\]()))
+    println(pick(mk[\ZZ32\](3)))
+  end
+
+end
