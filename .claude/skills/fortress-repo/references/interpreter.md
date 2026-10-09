@@ -40,7 +40,7 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
 - an overloaded function with one parameter of type `T`, where `T extends Any` is written: `f[\T extends Any\](x: T)`.
 - an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses.
 - an object or object expression without static parameters that inherits an abstract method and provides no declaration with a body of its name at or below its parameter types.
-- a declaration with the modifier `override`, in an object or object expression or a trait without static parameters, that overrides no declaration that its type's immediate supertraits provide.
+- a declaration with the modifier `override`, in a trait, object or object expression, that overrides no declaration that its type's immediate supertraits provide. An `override` at an inherited declaration's own parameter types overrides nothing. Walk does not refuse an `override` in an object expression over a declaration at a static parameter of the function around it.
 
 So a library edit can stop every program at load, if it does one of these:
 

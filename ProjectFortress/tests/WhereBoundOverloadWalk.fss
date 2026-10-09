@@ -1,0 +1,19 @@
+component WhereBoundOverloadWalk
+export Executable
+
+(* A where clause that bounds one generic trait's static parameter by ZZ32 bounds no other declaration's, so a call over ZZ32 runs the declaration over ZZ32, more specific than the generic one over its unbounded parameter, under walk (trait-parameters.tex, section "Where Clauses"; overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait W[\T\] where { T extends ZZ32 }
+  w(x: T): String = "W"
+end
+
+p[\U\](x: U): String = "U"
+p(x: ZZ32): String = "ZZ32"
+
+run(): () = do
+    assert(p(3), "ZZ32", "p over ZZ32 is more specific than p over an unbounded U, which W's where clause does not bound (overloading.tex, section \"Declarations with Static Parameters\")")
+    assert(p("s"), "U", "only the generic p applies to a String")
+    println("PASS")
+  end
+
+end

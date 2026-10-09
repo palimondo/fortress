@@ -370,6 +370,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - Cut as stated in another part, and `import java` moved beside the natives, the coercion line beside the inference (`explorations/reviews/skills-writing-principles.md`, principles 2 and 6; the outline's "Up" item, settled by the coordinator): the library's and the tests' folders (`library.md`, `tests-writing.md`, `tests-running.md`); how a test names a refusal at load (`tests-writing.md`); walk accepting ill-typed programs and the shared early phases (`SKILL.md`, "The phases"); the harness line and the whole-suite line of "After an edit here" (`SKILL.md`, "Rules for every task"); why `claude_demo.fss` dies (`library.md`, row 424).
 - The Meet Rule named with its file (principle 1): `Specification/advanced/overloading.tex:469`.
 - The checks at load of an inherited abstract method left without a body and of an `override` that overrides nothing, and the generic providers under the Meet Rule: `explorations/compile-ladder/rung-walk-load-checks/REPORT.md` (climb batch 12's rung W; rows 647, 649 and 653's walk half), its record's two lines folded into "What walk checks" at the batch's gather, the list's lead sentence widened to name them.
+- The `override` bullet of "What walk checks", for the strict subtype, the generic declarations and the object expression over a static parameter: `explorations/compile-ladder/rung-walk-override/REPORT.md` (climb batch 13's rung W) and its `SKEPTIC.md` (ledger row 693), folded at the batch's gather.
 
 ### compiler.md
 
@@ -436,6 +437,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - Comparing pairs and triples: `explorations/compile-ladder/rung-tuple-orders/REPORT.md` (climb batch 13's rung O, at Q43's default, way 1b, of `explorations/coordinator/CLIMB-BATCH-13.md`), its entry folded at the batch's gather.
 - A generator's size, the relational predicate and the default index-value pairs: `explorations/compile-ladder/rung-generator-size/REPORT.md` (climb batch 13's rung G, at item 45's default, ways 1, 3 and 6, of `explorations/coordinator/CLIMB-BATCH-13.md`), with the skeptic's `SKEPTIC.md` and the judge's `JUDGE.md` on the pairs' range subscript, its entry folded at the batch's gather.
 - Arithmetic in a size, and a size known only at run time: `explorations/compile-ladder/rung-size-expressions/REPORT.md` (climb batch 13's rung N, under the curator's answer to item 15, 15a with its part (b), and at Q13.3's default, way 4a, of `explorations/coordinator/CLIMB-BATCH-13.md`), with the skeptic's `SKEPTIC.md` on the uncomputed power, its entries folded at the batch's gather.
+- An abstract method without a body, and an `override` that overrides nothing, under walk, as amended for the strict subtype and the generic declarations: `explorations/compile-ladder/rung-walk-override/REPORT.md` (climb batch 13's rung W, at batch 12's Q2's strict default), with the skeptic's `SKEPTIC.md` and the judge's `JUDGE.md` on the lenience where walk does not read a static parameter's bounds (ledger row 693), its entry folded at the batch's gather.
 
 ### exploring.md
 

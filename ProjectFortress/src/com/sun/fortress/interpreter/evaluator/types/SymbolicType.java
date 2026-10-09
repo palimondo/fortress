@@ -43,17 +43,23 @@ abstract public class SymbolicType extends FTypeTrait {
         return getName() + "@" + getAt().at();
     }
 
+    /*
+     * The bound goes into a list of this type's own: an unbounded static
+     * parameter's extends list is Any's (setExtendsAndExcludes), which every
+     * other unbounded one shares.
+     */
     public void addExtend(FType t) {
         if (transitiveExtends != null) bug("Extending type added after transitive extends probed.");
-
-        if (extends_ == null) extends_ = new ArrayList<FType>();
-
-        extends_.add(t);
+        List<FType> e = extends_ == null ? new ArrayList<FType>() : new ArrayList<FType>(extends_);
+        e.add(t);
+        extends_ = e;
     }
 
     public void addExtends(List<FType> t) {
         if (transitiveExtends != null) bug("Extending type added after transitive extends probed.");
-        extends_.addAll(t);
+        List<FType> e = new ArrayList<FType>(extends_);
+        e.addAll(t);
+        extends_ = e;
     }
 
     protected boolean excludesOtherInner(FType other) {
