@@ -3811,8 +3811,8 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     getter extent(): Maybe[\I\]
     getter isLeftBounded(): Boolean = self.left.holds
     getter isAnyBounded(): Boolean = self.left.holds OR self.right.holds
-    truncL(l:I): RangeWithLeft[\I\]
-    truncR(r:I): RangeWithRight[\I\] = self.flip().truncL(r).flip()
+    truncL(l:I): BoundedRange[\I\]
+    truncR(r:I): BoundedRange[\I\] = self.flip().truncL(r).flip()
     flip(): Range[\I\]
     forward(): Range[\I\]
     every(s:I): Range[\I\]
@@ -3841,9 +3841,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     narrowToRange(other:OpenRange[\I\]): Range[\I\] = self INTERSECTION other
     opr =(self, b:Range[\I\]): Boolean = false
     opr IN(n:I, self): Boolean
-    opr CMP(self, other:Range[\I\]): Comparison =
-        ((self.stride SCMP other.stride) SYMMETRIC_PARTIAL:
-         (self.forward() FORWARD_CMP other.forward()))
+    opr CMP(self, other:Range[\I\]): Comparison
     opr FORWARD_CMP(self, other:Range[\I\]): Comparison
     check(): Range[\I\]
     abstract shiftLeft(amount: I): Range[\I\] (* ensures { |outcome| = |self| } *)
@@ -3882,6 +3880,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
     opr INTERSECTION(self, other:Range[\Any\]): Range[\Any\] = other
     opr =(self, other:Range[\Any\]): Boolean = instanceOf[\TrivialOpenRange\](other)
     opr IN(_:Any, self): Boolean = true
+    opr CMP(self, other:Range[\Any\]): Comparison = self FORWARD_CMP other.forward()
     check(): TrivialOpenRange = self
 end
 
@@ -3894,15 +3893,7 @@ trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
     getter right(): Nothing[\I\] = Nothing[\I\]
     getter isEmpty(): Boolean = false
     opr IN(n:I, self): Boolean = true
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison =
-        if ext <- other.extent then
-            ((self.extent.get PCMP ext) SYMMETRIC_PARTIAL:
-             (if other.left.holds then GreaterThan else EqualTo end))
-        elif other.left.holds OR other.right.holds then
-            Unordered
-        else
-            LessThan
-        end
+    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 (* This signature is more specific, but troublesome:
     opr INTERSECTION(self, other: Range[\I\]): RangeWithExtent[\I\]
 *)
@@ -3910,6 +3901,7 @@ end
 
 trait BoundedRange[\I\] extends Range[\I\]
     getter leftOrRight(): I
+    flip(): BoundedRange[\I\]
     every(s:I): BoundedRange[\I\]
     atMost(n:I): FullRange[\I\]
     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
@@ -3927,20 +3919,7 @@ trait LeftRange[\I\] extends { RangeWithLeft[\I\], PartialRange[\I\] }
     getter right(): Nothing[\I\] = Nothing[\I\]
     getter extent(): Nothing[\I\] = Nothing[\I\]
     getter isEmpty(): Boolean = false
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison =
-        if l <- other.left then
-            sl = self.left.get
-            typecase sl PCMP l of
-                Unordered => Unordered
-                LessThan => GreaterThan
-                EqualTo => if other.right.holds then GreaterThan else EqualTo end
-                GreaterThan => if other.right.holds then Unordered else LessThan end
-            end
-        elif other.right.holds OR other.extent.holds then
-            Unordered
-        else
-            LessThan
-        end
+    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
 trait RangeWithRight[\I\] extends BoundedRange[\I\]
@@ -3952,20 +3931,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
     getter leftOrRight(): I = self.right.get
     getter extent(): Nothing[\I\] = Nothing[\I\]
     getter isEmpty(): Boolean = false
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison =
-        if r <- other.right then
-            sr = self.right.get
-            typecase sr PCMP r of
-                Unordered => Unordered
-                LessThan => if other.left.holds then Unordered else LessThan end
-                EqualTo => if other.left.holds then GreaterThan else EqualTo end
-                GreaterThan => GreaterThan
-            end
-        elif other.left.holds OR other.extent.holds then
-            Unordered
-        else
-            LessThan
-        end
+    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
 trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I,I\] }
@@ -3980,22 +3946,13 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
     end
     opr IN(n:I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison = INVERSE (other FORWARD_CMP self)
-    opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison =
-        ((other.left.get PCMP self.left.get) SYMMETRIC_PARTIAL:
-         (self.right.get PCMP other.right.get))
+    opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
 end
 
 trait CompactFullRange[\I\] extends FullRange[\I\]
     getter lower(): I = self.left.get
     getter upper(): I = self.right.get
-    opr |self| : ZZ32 = do
-      (l, u) = (self.lower, self.upper)
-      typecase l of
-        l':ZZ32 => if u < l' then 0 else (u - l') + 1 end
-        l':(ZZ32, ZZ32) => do (l1, l2) = l'; (u1, u2) = u; if (u1 < l1) OR (u2 < l2) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) end end
-        l':(ZZ32, ZZ32, ZZ32) => do (l1, l2, l3) = l'; (u1, u2, u3) = u; if (u1 < l1) OR (u2 < l2) OR (u3 < l3) then 0 else ((u1 - l1) + 1) ((u2 - l2) + 1) ((u3 - l3) + 1) end end
-      end
-    end
+    opr |self| : ZZ32
     forward(): CompactFullRange[\I\] = self
 end
 
@@ -4035,11 +3992,11 @@ opr (x:ZZ32): : LeftRange[\ZZ32\] = x#
 opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = x#
 opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = x#
 
-opr #(x:ZZ32) : ExtentRange[\ZZ32\] = extent1Range(x)
-opr #(xy:(ZZ32,ZZ32)) : ExtentRange[\(ZZ32,ZZ32)\] =
+opr #(x:ZZ32) : RangeWithExtent[\ZZ32\] = extent1Range(x)
+opr #(xy:(ZZ32,ZZ32)) : RangeWithExtent[\(ZZ32,ZZ32)\] =
     do (x,y) = xy; extent2Range(x,y) end
 opr #(xyz:(ZZ32,ZZ32,ZZ32)) :
-         ExtentRange[\(ZZ32,ZZ32,ZZ32)\] =
+         RangeWithExtent[\(ZZ32,ZZ32,ZZ32)\] =
     do (x,y,z) = xyz; extent3Range(x,y,z) end
 
 opr :(x:ZZ32) : RightRange[\ZZ32\] = right1Range(x)

@@ -2169,8 +2169,8 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     abstract getter isEmpty(): Boolean
     getter isLeftBounded(): Boolean
     getter isAnyBounded(): Boolean
-    abstract truncL(l: I): RangeWithLeft[\I\]
-    truncR(r: I): RangeWithRight[\I\]
+    abstract truncL(l: I): BoundedRange[\I\]
+    truncR(r: I): BoundedRange[\I\]
     abstract flip(): Range[\I\]
     abstract forward(): Range[\I\]
     abstract every(s: I): Range[\I\]
@@ -2181,7 +2181,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     narrowToRange(other:OpenRange[\I\]): Range[\I\]
     opr =(self, b: Range[\I\]): Boolean
     abstract opr IN(n: I, self): Boolean
-    opr CMP(self, other:Range[\I\]): Comparison
+    abstract opr CMP(self, other:Range[\I\]): Comparison
     abstract opr FORWARD_CMP(self, other:Range[\I\]): Comparison
     asDebugStriing(): String
     check(): Range[\I\]
@@ -2208,6 +2208,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
     flip(): TrivialOpenRange
     forward(): TrivialOpenRange
     check(): TrivialOpenRange
+    opr CMP(self, other: Range[\Any\]): Comparison
 end
 
 trait RangeWithExtent[\I\] extends Range[\I\]
@@ -2219,11 +2220,12 @@ trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
     getter right(): Nothing[\I\]
     getter isEmpty(): Boolean
     opr IN(n: I, self): Boolean
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
+    abstract opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
 trait BoundedRange[\I\] extends Range[\I\]
     getter leftOrRight(): I
+    abstract flip(): BoundedRange[\I\]
     every(s: I): BoundedRange[\I\]
     atMost(n: I): FullRange[\I\]
     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
@@ -2240,7 +2242,7 @@ trait LeftRange[\I\] extends { RangeWithLeft[\I\], PartialRange[\I\] }
     getter right(): Nothing[\I\]
     getter extent(): Nothing[\I\]
     getter isEmpty(): Boolean
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
+    abstract opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
 trait RangeWithRight[\I\] extends BoundedRange[\I\]
@@ -2252,7 +2254,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
     getter leftOrRight(): I
     getter extent(): Nothing[\I\]
     getter isEmpty(): Boolean
-    opr FORWARD_CMP(self, other: Range[\I\]): Comparison
+    abstract opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
 trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
@@ -2261,13 +2263,13 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
     narrowToRange(other:Range[\I\]): FullRange[\I\]
     abstract opr IN(n: I, self): Boolean
     opr FORWARD_CMP(self, other: Range[\I\]): Comparison
-    opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
+    abstract opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
 end
 
 trait CompactFullRange[\I\] extends FullRange[\I\]
     getter lower(): I
     getter upper(): I
-    opr |self| : I
+    abstract opr |self| : ZZ32
     forward(): CompactFullRange[\I\]
 end
 
@@ -2292,10 +2294,10 @@ opr (x:ZZ32): : LeftRange[\ZZ32\]
 opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\]
 opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\]
 
-opr #(x:ZZ32) : ExtentRange[\ZZ32\]
-opr #(xy:(ZZ32,ZZ32)) : ExtentRange[\(ZZ32,ZZ32)\]
+opr #(x:ZZ32) : RangeWithExtent[\ZZ32\]
+opr #(xy:(ZZ32,ZZ32)) : RangeWithExtent[\(ZZ32,ZZ32)\]
 opr #(xyz:(ZZ32,ZZ32,ZZ32)) :
-         ExtentRange[\(ZZ32,ZZ32,ZZ32)\]
+         RangeWithExtent[\(ZZ32,ZZ32,ZZ32)\]
 
 opr :(x:ZZ32) : RightRange[\ZZ32\]
 opr :(xy:(ZZ32,ZZ32)) : RightRange[\(ZZ32,ZZ32)\]

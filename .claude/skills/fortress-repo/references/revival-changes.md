@@ -124,6 +124,12 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: ranges are over `ZZ32` only (`library.md`).
 - Reason: a range counts the indices of an array, and a JVM array index is a 32-bit `int`.
 
+**Bounded ranges of rank 2 and 3**
+
+- Original: the interpreter's library named a bounded range of rank 1, `BoundedScalarRange`, and none of rank 2 or 3. Its generic range traits compared indices of their type parameter, which declares no comparison. `|#(0,3)|` was 1, and walk stopped on `((0,0)#).every(-1,-1)`.
+- Resolution: `BoundedRange2D` and `BoundedRange3D` name them. The `ZZ32` kinds of each rank declare the comparisons, and the generic range traits declare them abstract. `#(0,n)` is empty, and a range made by a prefix `#` is declared a `RangeWithExtent`.
+- Reason: the checker refused 36 of the ranges' declarations, and walk stopped or answered a wrong size. The library's rank-1 kinds gave the design.
+
 **`SUM` and `PROD`**
 
 - Original: `SUM` and `PROD` reduced over `Number`, under the team's comment "Hack to permit any Number to work non-parametrically". Every sum had the type `Number`, and an empty sum of `RR64` values was the integer 0.

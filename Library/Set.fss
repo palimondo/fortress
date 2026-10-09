@@ -151,7 +151,7 @@ end
 value object IndexValueSetGenerator[\E extends StandardTotalOrder[\E\]\](s: Set[\E\])
         extends ZeroIndexed[\(ZZ32,E)\]
     getter size(): ZZ32 = |s|
-    getter indices(): Generator[\ZZ32\] = s.indices()
+    getter indices(): Generator[\ZZ32\] = s.indices
     getter isEmpty(): Boolean = s.isEmpty
     opr |self| : ZZ32 = |s|
     generate[\R\](r: Reduction[\R\], body: (ZZ32,E)->R): R =

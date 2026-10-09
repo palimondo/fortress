@@ -7,7 +7,7 @@ trait Round end
 object Apple extends { Red, Round } end
 object Cherry extends { Red, Round } end
 
-thr[\T\](): T = throw ForbiddenException
+thr[\T\](): T = throw ForbiddenException(CallerViolation)
 
 witnessRed[\T extends { Red, Round }\](): String = typecase thr[\T\] of
     () -> ZZ32 => "ZZ32"

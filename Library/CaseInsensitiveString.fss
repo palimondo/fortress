@@ -24,8 +24,8 @@ value object CaseInsensitiveString(s:String)
     (** %asString% returns the underlying non-case-insensitive %String%, %s%. **)
     getter asString() : String = s
     getter asDebugString() : String = "CaseInsensitive " s
-    getter indices() : CompactFullRange[\ZZ32\] = s.indices()
-    getter generator() : Generator[\Char\] = s.generator()
+    getter indices() : CompactFullRange[\ZZ32\] = s.indices
+    getter generator() : Generator[\Char\] = s.generator
     opr |self| : ZZ32 = |s|
     opr =(self, other:CaseInsensitiveString): Boolean = s.cicmp(other.asString) = 0
     opr <(self, other:CaseInsensitiveString): Boolean = s.cicmp(other.asString) < 0

@@ -427,6 +427,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - `SUM` and `PROD`: `a874948ac:Library/FortressLibrary.fss:3020-3045` (the comment, `empty(): Number = 0`, `join` on `Number`); `explorations/coordinator/CLIMB-BATCH-6.md`, section F (an empty `RR64` sum is `0 : Int`); POSITIONS "`SUM` and `PROD` without the `Number` catch-all (answer 7)."
 - A type parameter whose bound names itself, under walk, and a trait's `override` and object expressions under walk: `explorations/compile-ladder/rung-walk-open-param/REPORT.md` (climb batch 11's rung W, under the answer to Q1 of `explorations/coordinator/CLIMB-BATCH-11.md`, way 11), its entries folded at the batch's gather.
 - What a type provides, and a parameter whose type is left out: `explorations/compile-ladder/rung-checker-overloading/REPORT.md` (climb batch 11's rung C; the latter under the answer to Q4 of `explorations/coordinator/CLIMB-BATCH-11.md`, way 1, with its decision record `explorations/compile-ladder/rung-checker-overloading/decision-record.md`), its entries folded at the batch's gather.
+- Bounded ranges of rank 2 and 3: `explorations/compile-ladder/rung-range-types/REPORT.md` (climb batch 11's rung L, under the answers to Q3 of `explorations/coordinator/CLIMB-BATCH-11.md`, items 39 to 41), its entry folded at the batch's gather.
 
 ### exploring.md
 
