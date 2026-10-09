@@ -173,7 +173,7 @@ G_BRIEFING = [
   ("code:Library/FortressLibrary.fsi#trait ActualReduction", "The abstract reduction with lift(r: R) and unlift(l: L), the shape every device must meet."),
   ("code:Library/FortressLibrary.fss#value trait AnyMaybe", "The trait that stays: Maybe extends it and HasRank excludes it."),
   ("code:Library/Set.fss#object Intersection", "The sibling that already names Maybe[Set[E]] as its lifted type: your precedent line."),
-  ("code:Library/FortressLibrary.fss#object UniqueItemMeetReduction", "A monoid reduction under a plain-bounded big operator, BIG SQCAP[T]: one of the clause forms P2 ran and your test asserts."),
+  ("code:Library/FortressLibrary.fss#object UniqueItemMeetReduction", "A monoid reduction under a plain-bounded big operator, BIG SQCAP[T]: its unwritten clause form stops on the base and on P2's shadows (D2's case), so your test leaves it out."),
   (OPENFACT, "What rung W built: the open parameter, every value passing where walk checks against it, and the cases that still get Bottom."),
 ]
 G_CHECKS = [
