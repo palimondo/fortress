@@ -1,0 +1,12 @@
+(* A call may leave out the argument of a keyword parameter, whose default expression then gives its value (functions.tex, sections "Function Declarations" and "Function Applications"), so k(4) is 7; the compiled checker reads the keyword parameter as a positional one and refuses the call. *)
+component XXXKeywordParamOmitted
+export Executable
+
+k(x: ZZ32, y: ZZ32 = 3): ZZ32 = x + y
+
+run(): () = do
+    assert(k(4), 7, "k(4) takes the default of y")
+    println("PASS")
+  end
+
+end

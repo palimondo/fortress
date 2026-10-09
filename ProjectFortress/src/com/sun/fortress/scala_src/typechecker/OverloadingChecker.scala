@@ -378,7 +378,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 
             val tt = STypesUtil.declToTraitType(traitOrObject.ast)
 	        // the methods the trait or object provides, by the traits chapter's inheritance
-	        val methodsR = providedMethods(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
+	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
 
 	        for (f <- toSet(methodsR.firstSet) ; if isDeclaredName(f) ) {
                   val mset = toSet(methodsR.matchFirst(f))
@@ -388,6 +388,9 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	              val functionalMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaFunction]})
 	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
 	        }
+	        // a declaration and one it keeps from being inherited: their return types
+	        for ((f, o, p, equal) <- overridden ; if isDeclaredName(f))
+	          checkOverridingReturnType(f, o, p, equal, oracle)
             typeAnalyzer = oldTypeAnalyzer
             staticParamsInScope = Nil
         }
@@ -647,6 +650,40 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
           oa.coversOverlap(withoutSelf(fa, i), withoutSelf(ga, i), hs.map(withoutSelf(_, i)))
         }
         else oa.coversOverlap(fa, ga, hs)
+      }
+    }
+
+    /* The return types of a declaration o and of a declaration p that it keeps the type
+     * declaring it from inheriting (STypesUtil.providedAndOverridden). Where their parameter
+     * types are the same, the two are checked as the pair of an overloading was, o being the
+     * more specific; where o has the modifier override and widens p's, o's return type must be
+     * a subtype of p's (traits.tex, "Method Declarations"), its own static parameters read as
+     * p's position by position. */
+    private def checkOverridingReturnType(name: IdOrOpOrAnonymousName,
+                                          o: (JavaFunctional, StaticTypeReplacer, TraitType),
+                                          p: (JavaFunctional, StaticTypeReplacer, TraitType),
+                                          equal: Boolean,
+                                          oracle: OverloadingOracle): Unit = {
+      def arrow(d: (JavaFunctional, StaticTypeReplacer, TraitType)) =
+        if (isFunctionalMethod(d._1)) toFunctionalMethodArrows(Set(d), oracle).headOption
+        else toMethodArrows(Set(d)).headOption
+      (arrow(o), arrow(p)) match {
+        case (Some(oa), Some(pa)) =>
+          if (equal) {
+            returnTypeCheck(name, oa, pa, oracle)
+            returnTypeCheck(name, pa, oa, oracle)
+          } else {
+            def own(a: ArrowType) = toListFromImmutable(a.getInfo.getStaticParams).filter(!_.isLifted)
+            val holds =
+              if (own(oa._1).isEmpty && own(pa._1).isEmpty)
+                isTrue(typeAnalyzer.subtype(oa._1.getRange, pa._1.getRange))(typeAnalyzer)
+              else oracle.satisfiesPositionalRule(oa._1, pa._1)
+            if (!holds)
+              error(mergeSpan(oa._1, pa._1),
+                    "For " + name + ",\nthe return type of the overriding declaration " + typeAndSpanToString(oa._1) +
+                    " should be a subtype of the\n    return type of the declaration it overrides " + typeAndSpanToString(pa._1))
+          }
+        case _ =>
       }
     }
 

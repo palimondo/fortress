@@ -1634,24 +1634,41 @@ object STypesUtil {
                       methods: Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)],
                       analyzer: TypeAnalyzer,
                       paramsOf: ((Functional, StaticTypeReplacer, TraitType)) => Option[Type]):
-        Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)] = {
+        Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)] =
+    providedAndOverridden(tt, methods, analyzer, paramsOf)._1
+
+  /**
+   * providedMethods, and beside it each declaration o of a type the walk reaches that keeps
+   * that type from inheriting a declaration p, as (name, o, p, equal): equal when their
+   * parameter types are the same, else o has the modifier override and p's are below o's.
+   */
+  def providedAndOverridden(tt: TraitType,
+                            methods: Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)],
+                            analyzer: TypeAnalyzer,
+                            paramsOf: ((Functional, StaticTypeReplacer, TraitType)) => Option[Type]):
+        (Relation[IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType)],
+         List[(IdOrOpOrAnonymousName, (Functional, StaticTypeReplacer, TraitType),
+               (Functional, StaticTypeReplacer, TraitType), Boolean)]) = {
     type D = (Functional, StaticTypeReplacer, TraitType)
     val tsa = new TypeSchemaAnalyzer()(analyzer)
     def key(n: Id) = NU.nameString(n)
     def selfAt(f: Functional): Int = f match { case h: HasSelfType => h.selfPosition; case _ => -1 }
-    // o, declared by a type, keeps that type from inheriting p
-    def excludes(o: D, p: D): Boolean =
-      o._1.isInstanceOf[FunctionalMethod] == p._1.isInstanceOf[FunctionalMethod] &&
-      selfAt(o._1) == selfAt(p._1) &&
-      ((paramsOf(o), paramsOf(p)) match {
+    // o, declared by a type, keeps that type from inheriting p: Some(equal), or None
+    def excludes(o: D, p: D): Option[Boolean] =
+      if (o._1.isInstanceOf[FunctionalMethod] != p._1.isInstanceOf[FunctionalMethod] ||
+          selfAt(o._1) != selfAt(p._1)) None
+      else (paramsOf(o), paramsOf(p)) match {
         case (Some(od), Some(pd)) =>
-          tsa.equivalentED(pd, od) || (o._1.mods.isOverride && tsa.subtypeED(pd, od))
-        case _ => false })
+          if (tsa.equivalentED(pd, od)) Some(true)
+          else if (o._1.mods.isOverride && tsa.subtypeED(pd, od)) Some(false)
+          else None
+        case _ => None }
     def supers(n: Id): List[Id] = toOption(analyzer.traits.typeCons(n)) match {
       case Some(ti: TraitIndex) =>
         toListFromImmutable(ti.extendsTypes).map(_.getBaseType).collect { case t: TraitType => t.getName }
       case _ => Nil }
     val result = new IndexedRelation[IdOrOpOrAnonymousName, D](false)
+    var overridden = List[(IdOrOpOrAnonymousName, D, D, Boolean)]()
     for (name <- toSet(methods.firstSet)) {
       val all = toSet(methods.matchFirst(name))
       val byOwner = all.groupBy(d => key(d._3.getName))
@@ -1661,7 +1678,11 @@ object STypesUtil {
         if (path.contains(k)) return Set()
         memo.getOrElse(k, {
           val own = byOwner.getOrElse(k, Set[D]())
-          val inherited = supers(n).flatMap(s => providedBy(s, path + k)).filter(p => !own.exists(o => excludes(o, p)))
+          val inherited = supers(n).flatMap(s => providedBy(s, path + k)).toSet.filter { p =>
+            val by = own.toList.flatMap(o => excludes(o, p).map(e => (o, e)))
+            for ((o, e) <- by ; if !overridden.exists(x => (x._2 eq o) && (x._3 eq p)))
+              overridden = (name, o, p, e) :: overridden
+            by.isEmpty }
           val r = own ++ inherited
           memo += (k -> r)
           r })
@@ -1669,7 +1690,7 @@ object STypesUtil {
       for (d <- providedBy(tt.getName, Set()) ++ all.filter(d => !memo.contains(key(d._3.getName))))
         result.add(name, d)
     }
-    result
+    (result, overridden.reverse)
   }
 
    private val nullStaticTypeReplacer = new StaticTypeReplacer(new java.util.LinkedList[StaticParam](), new java.util.LinkedList[StaticArg]())
