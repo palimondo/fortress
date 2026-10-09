@@ -468,8 +468,14 @@ negative, and otherwise returns the floor of this rational number.
 (This has the effect of taking the floor of the magnitude, also called
 ``rounding toward zero.'')
 
-All of these methods simply return the argument if it is
-\EXP{+\infty}, \EXP{-\infty}, or \EXP{0/0}.
+All of these methods throw a \TYP{DivisionByZero} if this rational number is
+\EXP{+\infty}, \EXP{-\infty}, or \EXP{0/0}, none of which has an integer value;
+so does a division by zero whose result is an integer (\chapref{operators}).
+\revision{revival-rational-rounding}{Before this revision the sentence said that
+all of these methods simply return the argument if it is \EXP{+\infty},
+\EXP{-\infty}, or \EXP{0/0}, a rational number where the entries above declare
+an integer result. It now says that they throw a \TYP{DivisionByZero} there, as
+\library\ do.}
 
 
 %%   opr ||\ self /||: ZZ
