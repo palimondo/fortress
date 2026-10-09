@@ -160,3 +160,201 @@ The thirtieth site converts an integer into `ZZ`; it gets one body per integer t
 **A yes commits you to** one measurement (one worker, 0.4M tokens, 25 machine minutes), then one checker rung in batch 14. No walk value changes. It bends a reading on record, "no self type enters the library", not route A.
 
 **Recommendation.** Option 1, with the per-type body.
+
+## The measurement
+
+Run 2026-10-09 by an Opus probe worker on the coordinator's brief: section 6's probe, plus one variant beyond it, named as such below. The base is main at `7cb479984`. The checker, the library and the build are unchanged since the per-site list landed at `32b88cd3b`: `git diff --name-only 32b88cd3b 7cb479984 -- ProjectFortress Library build.xml` prints nothing. So the landed list and `climb-batch-12/gate/distance.txt` are the before, and the base was not run again (POSITIONS, "No re-measuring what the record holds."). The worktree `/home/user/fortress-selftype` was built at that commit with `ant compileAll` and the library order. Each shadow was then built with `ant compileAll` and measured once with `explorations/coordinator/tools/distance/run.sh`. Nothing of the shadow is committed; the worktree is removed.
+
+Sites were compared row by row with `compile-ladder/gate/distance-sites.tsv`. The key is the kind, the location and the message's opening words, up to the first " - ". A message that lists candidate declarations now prints each self type as `(C[\X\] & {X})`, so its full text differs even at an unchanged site. `distance/compare.sh` against the landed table gives the class moves quoted below.
+
+| | landed, batch 12 | rule (a) alone | rule (a), confined to bodies |
+|---|---|---|---|
+| total | 153 | 145 (−8) | 123 (−30) |
+| S1 + R4 | 30 | 0 (`:685` filed under OT) | 0 (`:685` filed under OT) |
+| cleared, of the 29 | — | 29 | 29 |
+| new sites | — | 21 (R2 18, OT 3) | 0 |
+| stage, s | 1,293 (FortressLibrary 739) | 1,249 (FortressLibrary 710) | 1,222 (FortressLibrary 701) |
+| load at start | 2.07 | 1.51 | 2.60 |
+
+The machine: nproc 4, Intel Xeon @ 2.10 GHz, OpenJDK 25.0.4.1, `FORTRESS_THREADS=1`, one JVM at `-Xmx4g`. Another worker may have been measuring in `/home/user/fortress-fork2` at the same time.
+
+### Rule (a) alone, as section 6 asks
+
+- **Cleared: all 29 of shapes A and B, R4 among them.**
+  - `:223` (the call and its filter cascade, 2), `:228`, `:230`, `:282` (2), `:286`, `:287` (3), `:288` (3), `:290` (3, R4's tuple among them).
+  - `:357`, `:360`.
+  - `:688-690`, `:710`, `:719-721`.
+  - `:2175`, `:2179`, `:2183`, `:2187`.
+  - By family: the orders 16, `AdditiveGroup` 2, `Integral` 7, `StandardMutableArrayType` 4. The rule reaches dotted methods (the arrays') as well as functional ones.
+- **Stays: `:685`**, shape C, as section 3 says. Its message is now "Right-hand side has type (Integral[\I\] & {I}), but declared type is ZZ.". `classify.py`'s S1 pattern reads the old text, so the table files the site under OT, and S1 shows 0.
+- **New: 21 sites with one cause.**
+  - 18 at the overloading stage, which the classifier files as R2. The message is "For CMP, the return type of ((StandardPartialOrder[\X\] & {X}), X)->Comparison @ FortressLibrary.fsi:174 should be a subtype of the return type of ((StandardTotalOrder[\X\] & {X}), X)->TotalComparison @ FortressLibrary.fsi:229".
+    - 11 are at the api pair, with X = `String`, `Boolean`, `Char`, `NN32`, `NN64`, `ZZ32`, `ZZ64`, `ZZ`, `I`, `T` and `List[\E\]`. They are reported in the apis of FortressLibrary, FortressBuiltin, String, FlatString and List.
+    - 7 are at the component pair `.fss:221`, `:280`, with X = `I`, `NN64`, `String`, `T`, `ZZ32`, `ZZ64` and `ZZ`.
+  - 3 are bodies whose `CMP` call now types as `Comparison`:
+    - `:1004`, `ZZ`'s `CMP`, and `:1930`, `LexicographicOrder`'s, both "Function body has type Comparison, but declared return type is TotalComparison.";
+    - `:4178`, `String`'s `CMP`, "Could not check function application - TotalComparison->TotalComparison is not applicable to an argument of type Comparison".
+- **The cause**, read in the checker and confirmed by the variant below.
+  - The disambiguator writes the self type into the self parameter's declared type. That type is also the functional method's signature, so the self type reaches more than the body.
+  - At any X below `StandardTotalOrder[\X\]`, the types `StandardPartialOrder[\X\] & X` and `StandardTotalOrder[\X\] & X` are equivalent. So `StandardTotalOrder`'s `CMP` is no longer more specific than the `StandardPartialOrder` `CMP` that it overrides.
+  - `providedAndOverridden` pairs the two as equal, because it compares the parameters without self (`STypesUtil.scala:1663-1671`). `checkOverridingReturnType` then checks the Return Type Rule in both directions (`OverloadingChecker.scala:672-674`).
+  - `satisfiesReturnTypeRule` reads both domains with the self type (`OverloadingOracle.scala:83-90`, `makeDomainWithSelfFromArrow`). It therefore asks whether `Comparison <: TotalComparison`, and that fails. Call resolution meets the same tie at the three bodies.
+  - Section 3 reads that the overloading check strips a self type. That holds for `OverloadingOracle.compare` (`:365`, `:411-414`), but not for the Return Type Rule or for call resolution.
+  - A small program of the same shape compiled clean under the shadow: two F-bounded traits, the subtrait narrowing an operator's return type (`tmp/probe/SelfOrd2.fss`, not committed). So for now the stage's rows above are this class's only reproduction.
+- **The stall: none.** The overloading check's exclusion test of an intersection did not stall. Every target finished: FortressLibrary in 710 s, RangeInternals in 355 s, and the other ten in 179 s together. No thread dump was needed.
+
+### Rule (a) confined to bodies (one change beyond section 6's probe)
+
+- **What.** `compiler/index/FunctionalMethod.java` is the index entry that overloading, the Return Type Rule and call resolution read; `makeArrowFromFunctional` reads its `parameters()` (`STypesUtil.scala:161`). When the self type was read from the F-bound (a trait with no `comprises` clause), the entry now gives the self parameter the plain trait self type. A body's `self` is bound from the declaration's own parameters (`typechecker/impls/Decls.scala:198`), so it keeps the intersection. Under a `comprises` clause nothing changes, so `XXX10k`'s reading is not reached.
+- **Result.**
+  - 123 sites: the 29 cleared, no new site, and the 18 api and component errors gone (the apis report only `isLeftZero`, as landed).
+  - `:685` stays, as above.
+  - One more site went: `:130`, BR, "Function body has type TotalComparison, but declared return type is BigReduction[\TotalComparison,TotalComparison\]". This site has come and gone between landings: it is in 3 of the last 6 landed lists (`32b88cd3b`, `f9d3ec826`, `6416d216f`; absent at `ec718967a`, `cec70988b`, `b0eb41516`). So I read it as the stage's run-to-run variation ("the comparisons' … pairs", `run.sh`'s header), not as cleared.
+  - The result is 123, as section 5 expects after the rung, but `:685` still stands, waiting for its per-type `numerator`. Allowing for `:130`, the rung's own expectation is 123 to 124 before `numerator`, and 122 to 123 after it.
+- **No stall.** FortressLibrary 701 s, RangeInternals 347 s, the stage 1,222 s.
+- **The compiler's library order** compiles under both shadows: five jars, at the clean tree's times.
+
+### The compiled run of a body that returns `self` (section 3, "At the switch-over", measured)
+
+- **The probe.** `trait Shape[\S extends Shape[\S\]\]` with `getter tag(): String` and `twin(self): S = self`, and `object Pt(t: String) extends Shape[\Pt\]`; `run` prints `twin(Pt("b")).tag`.
+- **Under both shadows.** The probe compiles, and `fortress run` dies at class load with `VerifyError: Bad return type` in `Shape[\Pt\]$DefaultTraitMethods.twin`: "Type 'SelfTwin$\=Shape?SelfTwin\%Pt?' ... is not assignable to 'SelfTwin$Pt'". The default body returns the trait-typed `self` with no cast to the instance's `Pt`.
+- **The team's idiom.** The same program with `comprises S` on the trait fails the same way.
+- **Larger probes.** With `pick(self, other: S): S` and `pair(self, other: S): (S, S)` beside `twin`, the run dies with `ClassCircularityError: SelfProbe$Pt`. A `TOrd`/`POrd` pair with a body returning `self` fails the same way.
+- **Controls.** The same trait and object with no body that returns `self` as `S` compile and run: with the F-bound and without it (`SelfCtl2`, `SelfCtl`).
+- **What follows.**
+  - Section 6's first test, `SelfTypeFromBound` "compile and run", cannot pass on today's code generator. The rung takes it as typecheck only, or the code generator's cast becomes a work item of its own.
+  - The ledger has no row for it: `grep "Bad return type"` finds row 365, a function's `if` of two object types, a different shape. Whether to open one is the coordinator's call.
+  - Walk is not affected.
+
+### What it means for the rung
+
+- **Way 6 is ready for a rung**, with rule (a) built with its confinement. That is the patch below, measured at 29 sites cleared, no new site and no stall. The fallback, way 2's `cast`, is not needed.
+- **The rung still writes:**
+  - rule (b), the extender check in `TypeHierarchyChecker.scala`, unbuilt here; section 6 says it needs no probe;
+  - the object expression's case;
+  - the specification passages;
+  - the tests, with `SelfTypeFromBound` as typecheck only (above).
+- **Its distance check.** The 21 sites of rule (a) alone are the regression to watch: if the rung builds rule (a) without the confinement, the stage shows them.
+- **Its file list grows by one:** `ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java`, beside section 6's.
+- **Tests to watch.** These test sources spell an F-bounded trait, so rule (a) reaches them: `compiler_tests/ComprisesGenericSubtrait.fss` and `Compiled17ee.fss` (undriven); `tests/ComprisesEligibleExtenders.fss`, `ComprisesGenericChildUnlistedExtender.fss` and `GenericBesidePlainOverlapShapes.fss` (walk only); `library_tests/MaybeTest9.fss`. The compiler test track was not run here.
+
+### The patch
+
+Two files, +63 −4, a 114-line diff against `7cb479984`. `SelfParamDisambiguator.scala` is rule (a): +29 −2, the probe section 6 asked for. `FunctionalMethod.java` is the confinement: +34 −2. Apply both with `git apply` from the tree's root.
+
+```diff
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java b/ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java
+index 1efa6cd45..ae6dad884 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/index/FunctionalMethod.java
+@@ -40,11 +40,31 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
+     protected final int _selfPosition;
+     private final boolean _declarerIsObject;
+ 
++    /* A self type read from the F-bound (a trait with no comprises clause whose self type
++     * lists its self parameter) types self in the body only: the declaration's signature,
++     * read by overloading, the Return Type Rule and call resolution, keeps the trait type. */
++    private final boolean _selfFromBound;
++
++    private static boolean selfFromBound(TraitObjectDecl d) {
++        if (!(d instanceof TraitDecl) || d.getSelfType().isNone()) return false;
++        Option<List<NamedType>> c = ((TraitDecl) d).getComprisesClause();
++        SelfType s = d.getSelfType().unwrap();
++        return (c.isNone() || c.unwrap().isEmpty()) && s instanceof TraitSelfType &&
++               !((TraitSelfType) s).getComprised().isEmpty();
++    }
++
++    private static SelfType plain(SelfType s) {
++        return s instanceof TraitSelfType
++            ? new TraitSelfType(s.getInfo(), ((TraitSelfType) s).getNamed(), Collections.<NamedType>emptyList())
++            : s;
++    }
++
+     public FunctionalMethod(FnDecl ast, TraitObjectDecl traitDecl, List<StaticParam> traitParams) {
+         _ast = ast;
+         _declaringTrait = NodeUtil.getName(traitDecl);
+         _traitParams = CollectUtil.makeList(IterUtil.map(traitParams, liftStaticParam));
+-        _selfType = traitDecl.getSelfType();
++        _selfFromBound = selfFromBound(traitDecl);
++        _selfType = _selfFromBound ? Option.some(plain(traitDecl.getSelfType().unwrap())) : traitDecl.getSelfType();
+         _declarerIsObject = traitDecl instanceof ObjectDecl;
+         int i = 0;
+         for (Param p : NodeUtil.getParams(ast)) {
+@@ -65,6 +85,7 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
+         _declaringTrait = that._declaringTrait;
+         _traitParams = params;
+         _selfType = visitor.recurOnOptionOfSelfType(that._selfType);
++        _selfFromBound = that._selfFromBound;
+         _selfPosition = that._selfPosition;
+         _declarerIsObject = that._declarerIsObject;
+         _thunk = that._thunk;
+@@ -130,7 +151,18 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
+ 
+     @Override
+     public List<Param> parameters() {
+-        return NodeUtil.getParams(_ast);
++        List<Param> ps = NodeUtil.getParams(_ast);
++        if (!_selfFromBound) return ps;
++        List<Param> out = new java.util.ArrayList<Param>(ps.size());
++        for (Param p : ps) {
++            Option<TypeOrPattern> t = p.getIdType();
++            if (p.getName().equals(NamingCzar.SELF_NAME) && t.isSome() && t.unwrap() instanceof SelfType)
++                out.add(new Param(p.getInfo(), p.getName(), p.getMods(),
++                                  Option.<TypeOrPattern>some(plain((SelfType) t.unwrap())),
++                                  p.getDefaultExpr(), p.getVarargsType()));
++            else out.add(p);
++        }
++        return out;
+     }
+ 
+     /**
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/SelfParamDisambiguator.scala b/ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/SelfParamDisambiguator.scala
+index 24eec7bfb..78f46552f 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/SelfParamDisambiguator.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/SelfParamDisambiguator.scala
+@@ -67,8 +67,10 @@ class SelfParamDisambiguator extends Walker {
+                                        staticParamsToArgs(toJavaList(sparams)))
+       val self_type = comprisesC match {
+         case Some(comprises@_::_) => NF.makeSelfType(type_name, toJavaList(comprises))
+-        case _ => NF.makeSelfType(type_name)
+-       
++        case _ => selfParam(name, sparams) match {
++          case Some(x) => NF.makeSelfType(type_name, toJavaList(scala.List[NamedType](x)))
++          case None => NF.makeSelfType(type_name)
++        }
+       }
+       replaceSelfParamsWithType(node, self_type).asInstanceOf[TraitDecl] match {
+         case STraitDecl(info, header, _, excludes, comprises, ellipses) =>
+@@ -87,6 +89,31 @@ class SelfParamDisambiguator extends Walker {
+     case _ => super.walk(node)
+   }
+ 
++  /* With no 'comprises' clause, a type parameter X_k of a trait C[\X_1, ..., X_n\]
++   * whose extends clause lists C[\X_1, ..., X_n\], the trait at its own parameters,
++   * is the trait's self parameter, and 'self' is typed '(C[\X_1, ..., X_n\] & X_k)',
++   * as under 'comprises X_k'.
++   */
++  def selfParam(name: IdOrOpOrAnonymousName,
++                sparams: scala.List[StaticParam]): scala.Option[VarType] = {
++    def same(a: StaticArg, p: StaticParam) = (a, p.getName) match {
++      case (STypeArg(_, _, SVarType(_, i, _)), j: Id) => i.getText == j.getText
++      case (SIntArg(_, _, SIntRef(_, _, i, _)), j: Id) => i.getText == j.getText
++      case (SBoolArg(_, _, SBoolRef(_, _, i, _)), j: Id) => i.getText == j.getText
++      case _ => false
++    }
++    def own(t: BaseType) = (t, name) match {
++      case (STraitType(_, i, args, _), j: Id) =>
++        i.getText == j.getText && i.getApiName.isNone && args.length == sparams.length &&
++          (args zip sparams).forall { case (a, p) => same(a, p) }
++      case _ => false
++    }
++    sparams.collectFirst {
++      case p@SStaticParam(_, _, i: Id, ext, _, _, _, _: KindType, _) if ext.exists(own) =>
++        NF.makeVarType(NU.getSpan(p), i)
++    }
++  }
++
+   /**
+    * Replaces Parameters whose name is 'self' with a parameter with
+    * the explicit type given.
+```
