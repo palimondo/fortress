@@ -66,6 +66,12 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: both paths read what a type provides as the chapter says. The checker checks that the return type of an overriding declaration is a subtype of the return type of the declaration that it overrides.
 - Reason: the specification's rule, which walk follows (above). The team's own test is valid by it.
 
+**A string's `left` and `right`**
+
+- Original: the interpreter's library declared `String`'s `left` and `right` `Maybe[\Char\]` but answered the character itself, so walk printed `a` for `"abc".left`. The specification is silent.
+- Resolution: they answer `Just` of the character, and `Nothing` for the empty string, as `List`'s and the ranges' do.
+- Reason: the declared type, which the checker enforced by refusing both bodies.
+
 ## Static parameters
 
 **The bound of a type parameter that has none written**
@@ -139,6 +145,12 @@ A note written before the revival, and your training, can be right about the tea
 - Original: `SUM` and `PROD` reduced over `Number`, under the team's comment "Hack to permit any Number to work non-parametrically". Every sum had the type `Number`, and an empty sum of `RR64` values was the integer 0.
 - Resolution: each is one generic declaration over the element type's own algebra, which gives its zero or one at that type (`library.md`).
 - Reason: `Number`'s operators for any number went with the tower, so each reduction uses the element type's own operator.
+
+**Rounding a rational at an infinity**
+
+- Original: the Working Draft types `QQ`'s `floor`, `ceiling`, `round` and `truncate` ℤ, and its next sentence says they return the argument at +∞, −∞ and 0/0, a rational. The interpreter's library returned the argument, and its `round` stopped walk there.
+- Resolution: these methods and the brackets ⌊ ⌋ and ⌈ ⌉ throw `DivisionByZero` at those three values.
+- Reason: the curator kept the declared integer result. A division by zero whose result is an integer throws `DivisionByZero` (`opr-overview.tex`).
 
 ## Specified, but not built
 

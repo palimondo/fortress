@@ -1,0 +1,35 @@
+(* A transposed matrix adds, subtracts and negates, a matrix multiplies, and an immutable array's replica and an array's freeze answer immutable arrays, under walk. *)
+component TransposedMatrixAndFreeze
+export Executable
+
+entries(a: Matrix[\ZZ32,2,2\]): (ZZ32, ZZ32, ZZ32, ZZ32) = (a[0,0], a[0,1], a[1,0], a[1,1])
+
+run(): () = do
+    m = matrix[\ZZ32,2,2\]().tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => 2 i + j + 1)
+    n = matrix[\ZZ32,2,2\]().tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => 2 i + j + 5)
+    assert(entries(m), (1, 2, 3, 4), "the matrix m is [1 2; 3 4]")
+    assert(entries(m DOT n), (19, 22, 43, 50), "[1 2; 3 4] times [5 6; 7 8] is [19 22; 43 50]")
+    p = matrix[\ZZ32,1,4\]().tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => j + 1)
+    q = matrix[\ZZ32,4,3\]().tabulate(fn (i: ZZ32, j: ZZ32): ZZ32 => i + j)
+    pq = p DOT q
+    assert((pq[0,0], pq[0,1], pq[0,2]), (20, 30, 40), "a 1-by-4 matrix times a 4-by-3 matrix sums each column's products, 20, 30 and 40")
+
+    ia = immutableArray1[\ZZ32,3\]().fill(7)
+    words = ia.map[\String\](fn (e: ZZ32): String => "v" e)
+    assert((words.mutability, |words|, words[0], words[2]), ("(immutable)", 3, "v7", "v7"), "an immutable array's map fills an immutable replica of three strings")
+    a = array1[\ZZ32,3\]().tabulate(fn (i: ZZ32): ZZ32 => 10 i)
+    frozen = a.freeze()
+    assert((frozen.mutability, |frozen|, frozen[0], frozen[1], frozen[2]), ("(immutable)", 3, 0, 10, 20), "an array's freeze answers an immutable array of its elements")
+    sub = frozen[1#2]
+    assert((sub[0], sub[1]), (10, 20), "a subarray of an immutable array reads its elements")
+
+    mt = m.t()
+    nt = n.t()
+    assert(entries(mt), (1, 3, 2, 4), "the transpose of [1 2; 3 4] is [1 3; 2 4]")
+    assert(entries(mt.add(nt)), (6, 10, 8, 12), "a transposed matrix's add of another transposed matrix is the transpose of their sum, [6 10; 8 12]")
+    assert(entries(mt.subtract(n)), (-4, -3, -5, -4), "a transposed matrix's subtract of [5 6; 7 8] is [1 3; 2 4] minus it, [-4 -3; -5 -4]")
+    assert(entries(mt.negate()), (-1, -3, -2, -4), "a transposed matrix's negate is the negative of [1 3; 2 4]")
+    println("PASS")
+end
+
+end

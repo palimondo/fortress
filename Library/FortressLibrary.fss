@@ -643,12 +643,12 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
         end
     floor(self):ZZ = if self < 0 then -ceiling(-self) else truncate(self) end
     opr |\self/| : ZZ = floor(self)
-    ceiling(self):ZZ = if denominator(self) = 0 then self else
+    ceiling(self):ZZ = if denominator(self) = 0 then throw DivisionByZero else
         (a, b) = (numerator(self), denominator(self))
         if a < 0 then -floor(-self) else (a + b - 1) DIV b end
     end
     opr |/self\| : ZZ = ceiling(self)
-    truncate(self):ZZ = if denominator(self) = 0 then self else numerator(self) DIV denominator(self) end
+    truncate(self):ZZ = if denominator(self) = 0 then throw DivisionByZero else numerator(self) DIV denominator(self) end
     round(self): ZZ = do x = self + 1/2; z = floor(x); if z = x AND odd z then z-1 else z end end
     opr MINNUM(self, other:QQ):QQ =
         if self < other then self elif other < self then other elif self = 0/0 then other else self end
@@ -2378,7 +2378,6 @@ object __ImmutableSubArray1[\T, nat b0, nat s0, nat b_a, nat s_a\]
        extends ImmutableArray1[\T, b0, s0\]
     index(i:ZZ32):ZZ32 = i m0 + o0
     get(i:ZZ32):T = arr.get(index(i))
-    put(i:ZZ32,v:T): () = arr.put(index(i),v)
     init0(i:ZZ32,v:T): () = arr.init0(index(i),v)
     subarray[\nat b, nat s, nat o\](m:ZZ32):ImmutableArray1[\T, b, s\] = do
         boundsCheck = self.bounds.narrowToRange(o::m#s)
@@ -2404,7 +2403,7 @@ trait Vector[\T extends Number, nat s0\]
         SUM[\T\] [(i,me_i)<-self.indexValuePairs] me_i v.get(i)
 end
 
-object __DefaultVector[\T, nat s0\]() extends Vector[\T,s0\]
+object __DefaultVector[\T extends Number, nat s0\]() extends Vector[\T,s0\]
   mem: PrimitiveArray[\T,s0\] = PrimitiveArray[\T,s0\]()
   get(i:ZZ32):T = mem.get(i)
   put(i:ZZ32, v:T):() = mem.put(i,v)
@@ -2429,7 +2428,7 @@ __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\] = do
 (* immutableFactory1 is a non-overloaded 0-parameter factory for
    0-indexed 1-D arrays.  It is also mentioned in WellKnownNames as it
    is used to allocate storage for varargs. *)
-__immutableFactory1[\T, nat b0, nat s0\]():ReadableArray1[\T,b0,s0\] = do
+__immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\] = do
     r = immutableArray1[\T,s0\]()
     typecase N[\b0\] of
         N[\0\] => r
@@ -2716,7 +2715,11 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
                 res.put((a,c), res.get(a,c) + pr)
               else
                 (k0,k1) = partition(k)
-                (mma(a,i,b,j,c,k0),mma(a,i,b,j,c+k0,k1))
+                do
+                  mma(a,i,b,j,c,k0)
+                also do
+                  mma(a,i,b,j,c+k0,k1)
+                end
               end
             elif j>=i then
                 (j0,j1) = partition(j)
@@ -2724,7 +2727,11 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
                 mma(a,i,b+j0,j1,c,k)
             else
                 (i0,i1) = partition(i)
-                (mma(a,i0,b,j,c,k),mma(a+i0,i1,b,j,c,k))
+                do
+                  mma(a,i0,b,j,c,k)
+                also do
+                  mma(a+i0,i1,b,j,c,k)
+                end
             end
         mm(a:ZZ32,i:ZZ32,b:ZZ32,j:ZZ32,c:ZZ32,k:ZZ32):() =
             if k>=i AND k>=j then
@@ -2732,7 +2739,11 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
                 res.put((a,c), get(a,b) other.get(b,c))
               else
                 (k0,k1) = partition(k)
-                (mm(a,i,b,j,c,k0),mm(a,i,b,j,c+k0,k1))
+                do
+                  mm(a,i,b,j,c,k0)
+                also do
+                  mm(a,i,b,j,c+k0,k1)
+                end
               end
             elif j>=i then
                 (j0,j1) = partition(j)
@@ -2740,7 +2751,11 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
                 mma(a,i,b+j0,j1,c,k)
             else
                 (i0,i1) = partition(i)
-                (mm(a,i0,b,j,c,k),mm(a+i0,i1,b,j,c,k))
+                do
+                  mm(a,i0,b,j,c,k)
+                also do
+                  mm(a+i0,i1,b,j,c,k)
+                end
             end
         if s0=0 OR s1=0 OR s2=0 then
           res
@@ -2763,7 +2778,7 @@ trait Matrix[\T extends Number, nat s0, nat s1\]
 end
 
 (* Default matrix should match default array in column vs row-major. *)
-object __DefaultMatrix[\T, nat s0, nat s1\]()
+object __DefaultMatrix[\T extends Number, nat s0, nat s1\]()
     extends Matrix[\T, s0, s1\]
   mem:PrimitiveArray[\T, (s0 s1) \] = PrimitiveArray[\T, (s0 s1) \]()
   init0(t1:(ZZ32,ZZ32), v:T) : () = do (i,j)=t1; mem.init0(i s1 + j, v) end
@@ -2771,7 +2786,7 @@ object __DefaultMatrix[\T, nat s0, nat s1\]()
   get(t1:(ZZ32,ZZ32)):T = do (i,j)=t1; mem.get(i s1 + j) end
 end
 
-object TransposedMatrix[\T, nat s0, nat s1\](mem:Matrix[\T,s1,s0\])
+object TransposedMatrix[\T extends Number, nat s0, nat s1\](mem:Matrix[\T,s1,s0\])
         extends Matrix[\T, s0, s1\]
     replica[\U\]():Array2[\U,0,s0,0,s1\] = mem.replica[\U\]().t()
 
@@ -2779,9 +2794,9 @@ object TransposedMatrix[\T, nat s0, nat s1\](mem:Matrix[\T,s1,s0\])
     put(t1:(ZZ32,ZZ32), v:T) : () = do (i,j)=t1; mem.put((j,i),v) end
     get(t1:(ZZ32,ZZ32)):T = do (i,j)=t1; mem.get(j,i) end
     t(): Matrix[\T,s1,s0\] = mem
-    add(v:TransposedMatrix[\T,s0,s1\]): Matrix[\T,s0,s1\] = mem.add(v.t()).t()
-    subtract(v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] = mem.subtract(v.t()).t()
-    negate(): Matrix[\T,s0,s1\] = mem.negate().t()
+    add(v:TransposedMatrix[\T,s0,s1\]): Matrix[\T,s0,s1\] = (mem + v.t()).t()
+    subtract(v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] = (mem - v.t()).t()
+    negate(): Matrix[\T,s0,s1\] = (-mem).t()
     scale(f: T): Matrix[\T,s0,s1\] = mem.scale(f).t()
     rmul(v: Vector[\T,s1\]): Vector[\T,s0\] = mem.lmul(v)
     lmul(v: Vector[\T,s0\]): Vector[\T,s1\] = mem.rmul(v)
@@ -4137,8 +4152,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
     getter asString() : String = self
     getter indices() : CompactFullRange[\ZZ32\] = self.bounds
 
-    getter left(): Maybe[\Char\] = if |self| = 0 then Nothing[\Char\] else self.get(0) end
-    getter right(): Maybe[\Char\] = if |self| = 0 then Nothing[\Char\] else self.get(self.size-1) end
+    getter left(): Maybe[\Char\] = if |self| = 0 then Nothing[\Char\] else Just[\Char\](self.get(0)) end
+    getter right(): Maybe[\Char\] = if |self| = 0 then Nothing[\Char\] else Just[\Char\](self.get(self.size-1)) end
 
     (* This is the "dumb" generator.  It always works, but can be "Big O" inefficient, e.g., for
        CatString trees.  Sub-traits should override it with equivalent but more efficient code. *)
@@ -4683,7 +4698,7 @@ end
 (*) For now, use a sequential implementation
 opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\] = do
   result = x.copy()
-  for i <- seq((|x| - 2):0:-1) do result[i] += result[i+1] end
+  for i <- seq((0 # (|x| - 1)).reverse) do result[i] += result[i+1] end
   result
 end
 

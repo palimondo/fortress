@@ -58,7 +58,7 @@ eachTypeMaxNum(): () = do
 librarySites(): () = do
     x: Array[\ZZ32,ZZ32\] = array[\ZZ32\](5).fill(1)
     s = SUFFIX_SUM x
-    assert(shown(s[0]) || " " || shown(s[4]), "5 : ZZ32 1 : ZZ32", "ranges.tex, section \"Ranges\", a strided range: SUFFIX_SUM steps down from |x| - 2 to 0 by -1")
+    assert(shown(s[0]) || " " || shown(s[4]), "5 : ZZ32 1 : ZZ32", "ranges.tex, section \"Ranges\", a range as a generator: SUFFIX_SUM steps down from |x| - 2 to 0 over the reversed range (0 # (|x| - 1)).reverse")
     a = array[\ZZ32\](5).tabulate(fn i => i)
     shuffle(a)
     assert(shown(SUM a) || " " || shown(BIG MAX a), "10 : ZZ32 4 : ZZ32", "ranges.tex, section \"Ranges\", a strided range: shuffle steps down from |a| - 1 to 0 by -1 and keeps every element")

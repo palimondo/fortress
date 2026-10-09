@@ -4565,3 +4565,15 @@ closed by b872d65a1
 closed by b872d65a1
 
 | 633 | three library getters invoke the getter `indices` with `()`: `getter indices() = s.indices()` at `Library/Set.fss:154`, `Library/PrefixSet.fss:478` and `Library/CaseInsensitiveString.fss:27` | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic/traits.tex`, "Method Declarations" | none | climb batch 10, rung G's skeptic | A getter must be invoked with the field access syntax. Walk runs them: `CaseInsensitiveString("abc").indices` gives `[0,1,2]`; neither the count stage nor the distance stage reads those components, and no program observes it on either path. Repair: `s.indices`, as rung G read `seed` and `holds` (`explorations/compile-ladder/rung-generator-slips/REPORT.md` section 5). The walk run is in `explorations/compile-ladder/rung-generator-slips/SKEPTIC.md`, "Recommended rows". Found by the sibling count of rung G's getter repairs. full text: history, row 633 |
+
+### Row 514
+
+note added
+
+| 514 | the compiled path has no strided range: `seq(0:10:3)` is refused by the checker, "(ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral)", while walk runs it (4 elements) | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXStridedRangeRungT.fss` | climb batch N rung T | siblings: 71, 74, 314. The compiler library declares `opr :(lo:ZZ32, hi:ZZ32)` and `opr #(lo:ZZ32, sz:ZZ32)` only (`Library/CompilerLibrary.fsi:173-174` at 052a7c3fe), so `0:10:3` parses as `(0:10):3`; with a `nat` stride `0:10:n` the same. The compiled path compiles against its own smaller library until it is built on the one library, which declares the strided forms. The test is a `compile` `.test` pinned by `compile_err_contains`. Workaround: a `#` or `:` range and a stride computed in the body. full text: history, row 514 |
+
+### Row 577
+
+note added
+
+| 577 | the distance stage's `#class` rows misattribute errors when an edit shifts library lines, because `classify.py`'s site ranges are fixed lines read on `edc815f0c` | NEGATIVE-VERIFIED | packaging (tools) | silent | `explorations/compile-ladder/rung-numeral-library/REPORT.md` | climb batch 8 rung Q | `explorations/coordinator/tools/distance/classify.py:24-25`. Rung Q moved `FortressLibrary.fss` by up to 31 lines; the table read I1 +2, V1 -8, G1 -5, OT +9 where, with lines mapped back to the base, only R3 -1, OT -2 and BR +1 moved (reproducer, section 11, `table.py` over the remapped run). Workaround: read the per-site list with lines mapped through the diff. Rung M's report names it for its G1 -2 and I1 +1; seen again in batch 9 rung R (`explorations/compile-ladder/rung-range-meets/REPORT.md`, section 4); batch 10 rungs N and G (`rung-number-order-slips/REPORT.md`, section 6; `rung-generator-slips/REPORT.md`, section 9); full text: history, row 577 |

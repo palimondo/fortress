@@ -3065,6 +3065,63 @@ Empty bodies are ignored.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{The rounding of an infinite or indefinite rational}
+\seclabel{revival-rational-rounding}
+
+\begin{description}
+\item[Affected section] \secref{basic-rationals}.
+\item[Change] The sentence after the method entries of \VAR{floor}, \VAR{ceiling},
+\VAR{round} and \VAR{truncate} and of the enclosing operators
+\EXP{\lfloor\ldots\rfloor} and \EXP{\lceil\ldots\rceil} said that all of these
+methods simply return the argument if it is \EXP{+\infty}, \EXP{-\infty}, or
+\EXP{0/0}; it now says that they throw a \TYP{DivisionByZero} there, none of
+these values having an integer value, as a division by zero whose result is an
+integer does (\chapref{operators}).
+The entries' result type \EXP{\mathbb{Z}} is unchanged.
+The sentence's opening words, ``For types \EXP{\mathbb{Q}^*} and
+\EXP{\mathbb{Q}^{\#}},'', left it before (\secref{revival-rationals}).
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 9~October 2026 that the declared integer result and the
+peers win over the sentence.
+The method entries declare the result \EXP{\mathbb{Z}}, and \library\ declare
+it too; a method that returned its argument at \EXP{+\infty}, \EXP{-\infty} or
+\EXP{0/0} returned a rational number where it declares an integer, and the
+compiled type checker refused the two bodies of \library\ that did so (row~635
+of the revival's gap ledger).
+A rational number with the denominator zero is the quotient of a division by
+zero, and a division by zero whose result is an integer throws a
+\TYP{DivisionByZero} (\chapref{operators}); the Working Draft of February 2011 threw the same
+exception when a value \EXP{1/0} or \EXP{-1/0} was assigned to a variable of the
+rational type without the infinities (\secref{revival-literals}).
+Among the peers, Python's exact rational type refuses a zero denominator with a
+\texttt{ZeroDivisionError}, and its floor, ceiling and truncation of a
+floating-point infinity or NaN raise an error instead of returning a value.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-library-slips/REPORT.md}
+in the revival's repository.
+\item[Effect] \Library\ throw \TYP{DivisionByZero} from \VAR{ceiling} and
+\VAR{truncate} at these three values, and so from \VAR{floor}, \VAR{round} and
+the two enclosing operators, which reach them; the interpreter runs them so.
+Before this change it returned the argument from all of them but \VAR{round},
+which stopped the program there.
+The compiled path's own library, used until the one library replaces it,
+declares no rational type.
+The floating-point types' rounding methods are not affected; which of them
+keep the floating-point type, and what they return at an infinity or a NaN,
+is row~330 of the revival's gap ledger.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex},
+lines 479--481:
+\begin{quote}
+For types \EXP{\mathbb{Q}^*} and \EXP{\mathbb{Q}^{\#}},
+all of these methods simply return the argument if it is
+\EXP{+\infty}, \EXP{-\infty}, or \EXP{0/0}.
+\end{quote}
+\item[Route C] The same under route~C.
+A return to the original sentence would need the six methods and operators to
+declare a rational result, against their entries' \EXP{\mathbb{Z}}, or would
+leave them returning a value outside the type they declare.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

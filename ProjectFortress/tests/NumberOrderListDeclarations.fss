@@ -20,7 +20,15 @@ numbers(): () = do
     assert(n.zero, widen(unsigned(0)), "the zero of an NN64")
     assert(n.one, widen(unsigned(1)), "the one of an NN64")
     inf: QQ = 1/0
-    assert(instanceOf[\QQ\](ceiling(inf)) AND instanceOf[\QQ\](truncate(inf)), "basic-lib/numbers.tex, section \"Rational Numbers\": ceiling and truncate return the argument if it is an infinity")
+    assert(try ceiling(inf).asString catch e DivisionByZero => e.asString end, "Division by zero", "basic-lib/numbers.tex, section \"Rational Numbers\": floor, ceiling, round, truncate and the two brackets throw DivisionByZero at +infinity, -infinity and 0/0")
+    for x <- seq(<|inf, -inf, 0/0|>) do
+        shouldRaise[\DivisionByZero\](fn () => ceiling(x))
+        shouldRaise[\DivisionByZero\](fn () => truncate(x))
+        shouldRaise[\DivisionByZero\](fn () => floor(x))
+        shouldRaise[\DivisionByZero\](fn () => round(x))
+        shouldRaise[\DivisionByZero\](fn () => |\x/|)
+        shouldRaise[\DivisionByZero\](fn () => |/x\|)
+    end
     assert(partition(10), (8, 2), "partition of 10 is the largest power of 2 below it and the rest")
   end
 
