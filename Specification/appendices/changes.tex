@@ -3063,8 +3063,9 @@ Before this change it returned the argument from all of them but \VAR{round},
 which stopped the program there.
 The compiled path's own library, used until the one library replaces it,
 declares no rational type.
-The floating-point types' rounding methods are not affected: they keep the
-floating-point type (row~330 of the revival's gap ledger).
+The floating-point types' rounding methods are not affected; which of them
+keep the floating-point type, and what they return at an infinity or a NaN,
+is row~330 of the revival's gap ledger.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex},
 lines 479--481:
 \begin{quote}
