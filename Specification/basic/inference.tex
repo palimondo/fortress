@@ -282,15 +282,25 @@ instantiates at the arguments' type, not at its bound, since it has no expected
 type to fix it (row~592 of the revival's gap ledger); and a type parameter
 declared with several bounds that it cannot meet, as two bounds neither of which
 is a subtype of the other, it erases to \TYP{BottomType} (row~591).
-It still erases to \TYP{BottomType} a type parameter whose bound mentions the
-type parameter itself, as the big operators $\sum$ and $\prod$ declare theirs, and the
-static parameters of a big operator that a reduction or a comprehension invokes
-without its static arguments, a comprehension's collection being then built at
-the type of its elements (row~424 of the revival's gap ledger); it gives a
-function expression that declares no return type the return type
-\TYP{BottomType}, so that a type parameter that only its result fixes is
-instantiated there (row~587); and it leaves a generic method's static
-parameters uninstantiated (row~21).
+A type parameter whose bound mentions the type parameter itself, as the big
+operators $\sum$ and $\prod$ declare theirs, and that nothing at a call fixes,
+it leaves open: it does not instantiate it, and it admits every value where it
+checks a value against that type, as an argument, a variable declared with that
+type, a \KWD{typecase} clause or a type assertion.
+So a reduction whose element type nothing at the call fixes runs on the types
+of its elements, the interpreter's counterpart of the desugaring by the type
+\VAR{N} of the expression (\secref{reduction-expr}); but an empty such
+reduction takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
+expression (row~NEW-W-1 of the revival's gap ledger), and
+\EXP{\OPR{BIG}\:\OPR{MINMAX}}, whose reduction joins pairs of elements, stops
+(row~NEW-W-2).
+It still erases to \TYP{BottomType} the other static parameters of a big
+operator that a reduction or a comprehension invokes without its static
+arguments, a comprehension's collection being then built at the type of its
+elements (row~424 of the revival's gap ledger); it gives a function expression
+that declares no return type the return type \TYP{BottomType}, so that a type
+parameter that only its result fixes is instantiated there (row~587); and it
+leaves a generic method's static parameters uninstantiated (row~21).
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.

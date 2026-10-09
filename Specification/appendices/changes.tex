@@ -1021,13 +1021,35 @@ says that the interpreter does, and that the compiled type checker takes the
 bound of the big operator's static parameter, which gives the reduction the
 type of a bound such as \TYP{Number} and no instance that applies where the
 bound mentions the static parameter itself.
+A revision of the interpreter of 9~October 2026 changes the box once more.
+It said that ``When no argument of the big operator fixes the element type, the
+interpreter takes \TYP{BottomType} for it, and the reduction then accepts no
+element''; it now says that where the bound of the big operator's static
+parameter mentions the static parameter itself the interpreter leaves that
+parameter open and the reduction runs on the types of its elements, an empty
+one taking the identity of \EXP{\mathbb{Z}32}, and that until the compiled
+type checker directs the desugaring by type a program that both implementations
+are to run writes the static argument.
 \item[Rationale] The revival decided on 26~September 2026 that the library's
 \OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
 each joined with its element type's own operator and taking that type's
 identity, and that such a clause form writes its static argument, as the team's
 own tests do.
-The interpreter takes \TYP{BottomType} for the static parameter of a big
-operator that no argument fixes (row~424 of the revival's gap ledger).
+Until 9~October 2026 the interpreter took \TYP{BottomType} for the static
+parameter of a big operator that no argument fixes (row~424 of the revival's
+gap ledger).
+The revival decided on 8~October 2026 that the interpreter leaves open a type
+parameter whose bound mentions the type parameter itself and that nothing at a
+call fixes (\secref{revival-inference}): having no static types, the
+interpreter cannot take the type \VAR{N} of the expression, and an open
+parameter refuses no element where \TYP{BottomType} refused every one, so that
+the reduction runs on the types of its elements, as the desugaring by type
+would run it.
+Reversing that revision takes one block out of the interpreter's
+instantiation of a call and returns such a parameter to \TYP{BottomType}; the
+specification's examples that write no static argument for such a reduction
+would stop again at their first element, and refusing the call, as the compiled
+type checker does, would stop them too.
 The compiled type checker, when it checks the libraries this specification
 describes, took \TYP{BottomType} too until it was revised to the rule of
 \secref{static-arg-inference} for a type parameter that nothing at a call
@@ -1040,6 +1062,14 @@ refuses \EXP{\sum\llbracket\mathbb{Z}32\rrbracket [j \gets 0\#4]\: j}
 (\nolinkurl{explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkSumClauseTyped.t1.txt}).
 \item[Effect] None beyond the box: the forms without a generator clause list need
 no static argument.
+Since 9~October 2026, under the interpreter, a reduction with a generator clause
+list whose element type nothing fixes, over a big operator whose bound mentions
+its static parameter, runs where it stopped at its first element, the
+specification's examples of that form among them; an empty one gives the
+identity of \EXP{\mathbb{Z}32} whatever the type of the expression (row~NEW-W-1
+of the revival's gap ledger), and \EXP{\OPR{BIG}\:\OPR{MINMAX}} still stops
+(row~NEW-W-2).
+The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
 \end{description}
@@ -1691,6 +1721,17 @@ examples, and still at \TYP{BottomType} one whose bound mentions a static
 parameter or that is declared with several bounds that it cannot meet, and
 that a call whose arguments place on such a type parameter two upper bounds
 that it cannot meet fails.
+A revision of the interpreter of 9~October 2026 changes the box after the list
+once more.
+It said that the interpreter ``still erases to \TYP{BottomType} a type
+parameter whose bound mentions the type parameter itself, as the big operators
+$\sum$ and $\prod$ declare theirs, and the static parameters of a big operator
+that a reduction or a comprehension invokes without its static arguments''; it
+now says that the interpreter leaves open a type parameter whose bound mentions
+the type parameter itself and that nothing at a call fixes, admitting every
+value where it checks a value against that type, what that gives a reduction
+whose element type nothing fixes, and that it still erases the other static
+parameters of such a big operator.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1735,13 +1776,22 @@ follow the same rule where it instantiates a declaration, from the run-time
 types of the arguments; it has no static return type to add to the bound.
 It departs from the rule for the type parameters that the two boxes name,
 four kinds by decision and the others as defects.
-By decision, a type parameter whose bound mentions the type parameter itself
-keeps \TYP{BottomType}: it has no bound to take before its own instance is
-known, the paper's calculus admits no type parameter of a method in an upper
-bound (p.~11:11), and the revival has not yet decided that case.
-By decision, so does a big operator's static parameter that a reduction or a
-comprehension does not write: it is the element type of the reduction, which
-this chapter does not yet describe, and from \TYP{BottomType} the interpreter's
+Until 9~October 2026, by decision, a type parameter whose bound mentions the
+type parameter itself kept \TYP{BottomType}: it has no bound to take before its
+own instance is known, the paper's calculus admits no type parameter of a
+method in an upper bound (p.~11:11), and the revival had not decided that case.
+The revival decided on 8~October 2026 that the interpreter leaves such a type
+parameter open where nothing at a call fixes it: it does not instantiate it,
+and it admits every value where it checks a value against that type.
+An open type parameter is no instance: the rule that inference never
+instantiates a static parameter at \TYP{BottomType} keeps a call from an
+instance that admits no value, and an open parameter refuses none.
+The reasoning is in \nolinkurl{explorations/reviews/p1-judgement.md} in the
+revival's repository.
+By decision, a big operator's static parameter whose bound does not mention it,
+that a reduction or a comprehension does not write, keeps \TYP{BottomType}: it
+is the element type of the reduction, which this chapter does not yet
+describe, and from \TYP{BottomType} the interpreter's
 library builds a comprehension's collection at the type of its elements, where
 from the bound it would build it at the bound.
 By decision, a type parameter that only the bound of a type parameter that the
@@ -1753,8 +1803,8 @@ By decision, a lone type parameter whose bound mentions a static parameter,
 itself or another, keeps the narrowest named common supertype of the arguments
 rather than its bound: the interpreter cannot evaluate such a bound before the
 instances are known, and keeping the candidates it had leaves unchanged the
-case of a type parameter whose bound mentions itself, which the revival has
-not yet decided.
+case of a type parameter whose bound mentions itself and that the arguments
+fix, which the revival has not yet decided.
 As defects, each gated by an expected failure of the revival's tests, the
 interpreter erases to \TYP{BottomType} a type parameter declared with several
 bounds that it cannot meet, having no intersection type, and a type parameter
@@ -1863,6 +1913,14 @@ bounds only from above runs at the intersection of its upper bounds where it ran
 type parameter two upper bounds that the interpreter cannot meet, as functions
 of two traits neither of which extends the other do, still fails with an error
 of unification, as it failed before (row~616 of the revival's gap ledger).
+Since 9~October 2026, under the interpreter, a type parameter whose bound
+mentions the type parameter itself and that nothing at a call fixes is left
+open where it was instantiated at \TYP{BottomType}, so that a reduction whose
+element type nothing fixes runs on the types of its elements where it stopped
+at its first element (\secref{revival-reductions}); an empty such reduction
+takes the identity of \EXP{\mathbb{Z}32} whatever the type of the expression
+(row~NEW-W-1), and \EXP{\OPR{BIG}\:\OPR{MINMAX}}, whose reduction joins pairs
+of elements, still stops (row~NEW-W-2).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
