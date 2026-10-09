@@ -1,0 +1,19 @@
+(* An operator repeated between three operands has the expected type of its value, whether a multifix declaration accepts it or it is left-associated, so that type fixes a static argument that only the result mentions. *)
+component InferRepeatedOperatorContext
+export Executable
+
+object BoxV[\T\]() end
+tag(b: BoxV[\ZZ64\]): String = "ZZ64"
+tag(b: BoxV[\String\]): String = "String"
+opr OPLUS[\T\](a: Any, b: ZZ32): BoxV[\T\] = BoxV[\T\]()
+opr OTIMES[\T\](a: ZZ32, b: ZZ32, c: ZZ32): BoxV[\T\] = BoxV[\T\]()
+
+run(): () = do
+    y: BoxV[\ZZ64\] = 1 OPLUS 2 OPLUS 3
+    assert(tag(y), "ZZ64", "1 OPLUS 2 OPLUS 3, which no multifix declaration accepts, is (1 OPLUS 2) OPLUS 3, whose outer application the expected type BoxV[ZZ64] instantiates at ZZ64; Specification/basic/operators/chained-multifix.tex, section \"Chained and Multifix Operators\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    z: BoxV[\String\] = 1 OTIMES 2 OTIMES 3
+    assert(tag(z), "String", "1 OTIMES 2 OTIMES 3 is the multifix application, which the expected type BoxV[String] instantiates at String; Specification/basic/operators/chained-multifix.tex, section \"Chained and Multifix Operators\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

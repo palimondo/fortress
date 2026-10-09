@@ -1,3 +1,3 @@
-tests=XXXInferRepeatedOperatorContext
+tests=XXXInferTightJuxtContext
 compile
 compile_err_contains=Right-hand side has type BoxV[\\Object\\], but declared type is BoxV[\\ZZ64\\].

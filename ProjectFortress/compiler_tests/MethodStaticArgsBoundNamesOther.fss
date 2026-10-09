@@ -1,0 +1,16 @@
+(* A dotted method one of whose type parameters is bounded by a type at another of them, invoked with its static arguments written, type-checks and runs. *)
+component MethodStaticArgsBoundNamesOther
+export Executable
+
+object Box[\T\]() end
+
+object O
+  gen[\R, Q extends Box[\R\]\](q: Q): ZZ32 = 1
+end
+
+run(): () = do
+    assert(O.gen[\String, Box[\String\]\](Box[\String\]()), 1, "O.gen with its static arguments written, Q's bound Box[R] at the written R; Specification/basic/expressions/method-invocation.tex, section \"Dotted Method Invocations\"")
+    println("PASS")
+  end
+
+end

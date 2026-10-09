@@ -1,0 +1,13 @@
+(* A spawn expression that is the with value of an exit inside an atomic block is refused, as a spawn anywhere in the body of an atomic expression is. *)
+component XXXSpawnInAtomicExitValue
+export Executable
+
+leave(): Any = atomic do
+    label out
+      exit out with spawn 3
+    end out
+  end
+
+run(): () = println("PASS")
+
+end
