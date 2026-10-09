@@ -1,4 +1,4 @@
-component UnwrittenBigMinMaxWalk
+component XXXUnwrittenBigMinMaxWalk
 export Executable
 
 (* BIG MINMAX with a generator clause list and no static argument answers the least and the greatest of its elements under walk. *)

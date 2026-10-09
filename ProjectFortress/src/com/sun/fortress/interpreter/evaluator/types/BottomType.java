@@ -27,6 +27,24 @@ public class BottomType extends FType {
 
     static public final BottomType ONLY = new BottomType("BottomType");
 
+    /**
+     * The instance of a type parameter that is left open, one whose bound
+     * mentions the parameter itself and that nothing at a call fixes: below
+     * every type, as ONLY is, and matched by every value where a value is
+     * checked against a type.
+     */
+    static public final BottomType OPEN = new BottomType("OpenType") {
+        @Override
+        public boolean typeMatch(com.sun.fortress.interpreter.evaluator.values.FValue val) {
+            return val != null;
+        }
+
+        @Override
+        public String toString() {
+            return "OPEN";
+        }
+    };
+
     public String toString() {
         return "BOTTOM";
     }

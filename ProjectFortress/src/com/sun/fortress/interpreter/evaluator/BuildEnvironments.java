@@ -990,7 +990,11 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         if (wheres != null && wheres.isSome()) et = processWhereClauses(wheres.unwrap(), interior);
         else et = new EvalType(interior);
         ftt.setExtendsAndExcludes(et.getFTypeListFromList(extends_), et.getFTypeListFromList(excludes), interior);
-
+        if (x instanceof _RewriteObjectExpr && NodeUtil.getStaticParams((_RewriteObjectExpr) x).isEmpty()) {
+            // An object expression without static parameters provides its functional
+            // methods as a declared object does (checkFunctionalMethodMeets).
+            new OverloadedFunction.FunctionalMethodMeets().check(ftt, x);
+        }
     }
 
     @Override
@@ -1202,7 +1206,11 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             }
         }
 
-        /** Checks the Meet Rule for Functional Methods for every trait or object without static parameters. */
+        /**
+         * Checks the Meet Rule for Functional Methods for every trait or object
+         * without static parameters; an object expression without static
+         * parameters is checked where its type is finished (finishObjectTrait).
+         */
         void checkFunctionalMethodMeets() {
             OverloadedFunction.FunctionalMethodMeets meets = new OverloadedFunction.FunctionalMethodMeets();
             for (Declared x : declarations) {

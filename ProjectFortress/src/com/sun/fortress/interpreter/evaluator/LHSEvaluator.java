@@ -17,6 +17,7 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.Driver;
+import com.sun.fortress.interpreter.evaluator.types.BottomType;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.*;
 import com.sun.fortress.interpreter.glue.Glue;
@@ -216,7 +217,7 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
                 if (type.isSome()) {
                     Type t = NodeUtil.optTypeOrPatternToType(type).unwrap();
                     outerType = EvalType.getFType(t, evaluator.e);
-                    if (value.type().subtypeOf(outerType)) evaluator.e.putVariable(s, value, outerType);
+                    if (value.type().subtypeOf(outerType) || outerType == BottomType.OPEN) evaluator.e.putVariable(s, value, outerType);
                     else {
                         FValue v = Coercions.coerce(outerType, value);
                         if (v != null) evaluator.e.putVariable(s, v, outerType);
