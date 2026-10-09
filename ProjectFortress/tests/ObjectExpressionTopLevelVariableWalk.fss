@@ -1,4 +1,4 @@
-component XXXObjectExpressionTopLevelVariableWalk
+component ObjectExpressionTopLevelVariableWalk
 export Executable
 
 (* A top-level variable initialized with an object expression holds the object value that the object expression denotes, under walk. *)

@@ -1,0 +1,18 @@
+component FunctionalMethodMeetGenericTraitWalk
+export Executable
+
+(* A generic trait extending two traits that each declare a functional method of one name, with no declaration of its own on their meet, is no valid overloading, so the program is refused at load, under walk (overloading.tex, section "Meet Rule"). *)
+
+trait A
+  pick(self): String = "A"
+end
+trait B
+  pick(self): String = "B"
+end
+trait C[\T\] extends { A, B } end
+
+run(): () = do
+    println("loaded")
+  end
+
+end

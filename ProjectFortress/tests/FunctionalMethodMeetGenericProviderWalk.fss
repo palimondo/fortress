@@ -1,4 +1,4 @@
-component XXXFunctionalMethodMeetGenericProviderWalk
+component FunctionalMethodMeetGenericProviderWalk
 export Executable
 
 (* A generic object, and an object expression in a generic function, extending two traits that each declare a functional method of one name, with no declaration of their own on its meet, are no valid overloading, so the program is refused at load, under walk (overloading.tex, section "Meet Rule"). *)
