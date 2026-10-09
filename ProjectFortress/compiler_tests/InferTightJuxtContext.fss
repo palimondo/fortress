@@ -1,5 +1,5 @@
 (* A tight juxtaposition whose items are not functions is an application of the juxtaposition operator and has the expected type of its value, which fixes a static argument that only the result mentions. *)
-component XXXInferTightJuxtContext
+component InferTightJuxtContext
 export Executable
 
 object BoxV[\T\]() end
@@ -12,6 +12,8 @@ run(): () = do
     a: K = K()
     y: BoxV[\ZZ64\] = a(a)
     assert(tag(y), "ZZ64", "a(a), a not a function, is the juxtaposition operator applied, which the expected type BoxV[ZZ64] instantiates at ZZ64; Specification/basic/operators/juxtameaning.tex, section \"Juxtaposition\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    z: BoxV[\String\] = a(a)(a)
+    assert(tag(z), "String", "a(a)(a) is (a(a))(a), whose outer application the expected type BoxV[String] instantiates at String; Specification/basic/operators/juxtameaning.tex, section \"Juxtaposition\"; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
     println("PASS")
   end
 
