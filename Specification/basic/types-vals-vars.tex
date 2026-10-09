@@ -50,6 +50,23 @@ Victor: I don't know if the follow really belongs here.
 It isn't complete in any case, because of union/intersection types.}
 Two types are identical if and only if they are the same kind and
 their names and static arguments (if any) are identical.
+Two \KWD{nat} or \KWD{int} static arguments
+(\secref{natparams}, \secref{static-expr})
+are identical if and only if they are written alike
+once each operation whose operands are numerals is replaced by its value:
+\EXP{2\;3} and \EXP{6} are identical,
+and \EXP{s_{0}\;s_{1}} is identical to itself but not to \EXP{s_{1}\;s_{0}}.
+Two such arguments are known to differ when they are two different numerals;
+a static parameter, or an expression in which one occurs,
+is not known to differ from a numeral,
+since the parameter may be instantiated with a value at which they are equal.
+\revision{revival-sizes}{The Working Draft of February 2011 said only that the
+static arguments of identical types are identical, and did not say when two
+static arguments written as expressions are. The two sentences above say it,
+in the reading of the team's own questions and answers on overloaded operators
+in the appendix ``Internal Document'': a numeral differs from another numeral,
+and an expression with a static parameter in it is not known to differ from a
+numeral.}
 Types are related by several relationships as described in
 \secref{type-relations}.
 

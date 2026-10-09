@@ -1,0 +1,5 @@
+tests=NatArithBeyondRun
+compile
+link
+run
+run_out_equals=4294967296\nPASS\n

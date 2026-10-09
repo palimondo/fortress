@@ -1,0 +1,12 @@
+(* A power in a size denotes its number, as a sum and a product do. *)
+component XXXNatArithPowerWalk
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+sz[\nat k\](b: Box[\k\]): ZZ32 = k
+
+run(): () = do
+    assert(sz(Box[\2^3\](0)), 8, "constant.tex, section \"Static Expressions\": a power of numerals in a size")
+  end
+
+end

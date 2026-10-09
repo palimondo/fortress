@@ -100,8 +100,22 @@ An \KWD{int} parameter may be used to instantiate other
 \KWD{int} parameters, or to appear in any context that a
 variable of type \EXP{\mathbb{Z}32} can appear,
 except that it cannot be assigned to.
-
-
+An argument whose type is a trait whose \KWD{comprises} clause lists a type at a
+\KWD{nat} or \KWD{int} \KWD{where}-clause variable (\secref{trait-decls}),
+passed where that listed type is expected
+with a \KWD{nat} or \KWD{int} parameter in the variable's place,
+instantiates that parameter, for that call, with the size of the value itself,
+a size known to equal only itself:
+where
+\EXP{\KWD{trait}\;\TYP{NatParam}\;\KWD{comprises}\;\{N\llbracket{}n\rrbracket\}\;\KWD{where}\;\llbracket\KWD{nat}\;n\rrbracket}
+is declared, a \TYP{NatParam} passed to
+\EXP{f\llbracket\KWD{nat}\;m\rrbracket(x\COLON N\llbracket{}m\rrbracket)}
+instantiates \VAR{m} with the size of the \VAR{N} that it is.
+\revision{revival-comprises}{The Working Draft of February 2011 did not say how
+a size known only at run time reaches a \KWD{nat} parameter.
+The sentence above states the rule of the team's comment on the trait
+\TYP{NatParam} of \library: ``within that function n becomes a static nat
+parameter''.}
 
 For example, the following function \VAR{makeVector}:
 \input{\home/basic/examples/StatParam.Nat.tex}
