@@ -1,0 +1,21 @@
+(* The return type of a declaration with the modifier override must be a subtype of the return type of the declaration it overrides at every instance of either (traits.tex, section "Method Declarations"), so the program, whose override of a generic f returns a ZZ32 where f returns its type parameter and whose generic override of g returns a String where g returns a ZZ32, is refused twice. *)
+component XXXOverrideGenericReturnTypeNotSubtype
+export Executable
+
+trait A
+  f[\T\](x: T): T = x
+  g(x: ZZ32): ZZ32 = x
+end
+
+object B extends A
+  override f(x: Any): ZZ32 = 1
+  override g[\T\](x: T): String = "B"
+end
+
+run(): () = do
+    a: A = B
+    println(a.f[\String\]("s"))
+    println(a.g(3))
+  end
+
+end

@@ -657,8 +657,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
      * declaring it from inheriting (STypesUtil.providedAndOverridden). Where their parameter
      * types are the same, the two are checked as the pair of an overloading was, o being the
      * more specific; where o has the modifier override and widens p's, o's return type must be
-     * a subtype of p's (traits.tex, "Method Declarations"), its own static parameters read as
-     * p's position by position. */
+     * a subtype of p's (traits.tex, "Method Declarations"): with static parameters, at every
+     * instance of p, and where both declare as many of their own, also position by position. */
     private def checkOverridingReturnType(name: IdOrOpOrAnonymousName,
                                           o: (JavaFunctional, StaticTypeReplacer, TraitType),
                                           p: (JavaFunctional, StaticTypeReplacer, TraitType),
@@ -674,10 +674,13 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
             returnTypeCheck(name, pa, oa, oracle)
           } else {
             def own(a: ArrowType) = toListFromImmutable(a.getInfo.getStaticParams).filter(!_.isLifted)
+            // the self parameter, or a dotted method's receiver, apart
+            val at = oa._2.getOrElse(0)
             val holds =
               if (own(oa._1).isEmpty && own(pa._1).isEmpty)
                 isTrue(typeAnalyzer.subtype(oa._1.getRange, pa._1.getRange))(typeAnalyzer)
-              else oracle.satisfiesPositionalRule(oa._1, pa._1)
+              else oracle.sa.subtypeUA(withoutSelf(oa._1, at), withoutSelf(pa._1, at)) &&
+                   oracle.satisfiesPositionalRule(oa._1, pa._1)
             if (!holds)
               error(mergeSpan(oa._1, pa._1),
                     "For " + name + ",\nthe return type of the overriding declaration " + typeAndSpanToString(oa._1) +
