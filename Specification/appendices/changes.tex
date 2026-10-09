@@ -2074,11 +2074,18 @@ operator application, which the sentence after the list gives the expected
 type; whether the multifix application applies is decided without the expected
 type, as for a loose juxtaposition.
 Until 9~October 2026 it gave none there (row~644).
-It still gives none to the \KWD{juxtaposition} operator application that a
-tight juxtaposition of items none of which is a function stands for
-(\secref{juxtameaning}), as \EXP{a(b)} where \VAR{a} is not a function, though
-the sentence after the list gives an operator application the expected type
-(row~660).
+It gives the expected type also to the \KWD{juxtaposition} operator
+application that a tight juxtaposition of items none of which is a function
+stands for (\secref{juxtameaning}), as \EXP{a(b)} where \VAR{a} is not a
+function: to the multifix application where a multifix declaration accepts the
+items, and otherwise to the outermost of the left-associated binary
+applications that it stands for, as to \EXP{(a(b))(c)} for \EXP{a(b)(c)}, each
+an operator application, which the sentence after the list gives the expected
+type; whether the multifix application applies is decided without the expected
+type, as for a loose juxtaposition.
+Until 9~October 2026 it gave none there (row~660); the reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-array-bound/REPORT.md} in the
+revival's repository.
 The interpreter has no static types and is unchanged.
 \item[Original text] The two passages are the revival's own text of
 29~September 2026, not the Working Draft's, whose chapter held a heading and two

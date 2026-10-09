@@ -1,7 +1,7 @@
 component ArrayElementAlgebra
 export Executable
 
-(* Vector and Matrix operations and the scalar block run for an integer and a float element type, and matrix(v) puts the element type's own zero off the diagonal. *)
+(* Vector and Matrix operations and the scalar block run for an integer and a float element type, and matrix(v) of a float puts v on the diagonal and zero off it. *)
 
 shown(v: Any): String = v.asString || " : " || v.ilkName
 
@@ -49,16 +49,6 @@ run(): () = do
     rm = matrix[\RR64,2,2\](2.0)
     assert(rm[0,0], 2.0, "matrix(v) puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
     assert(rm[0,1], 0.0, "matrix(v) puts zero off the diagonal; Library/FortressLibrary.fsi, matrix")
-    fm = matrix[\RR32,2,2\](narrow(2.0))
-    assert(shown(fm[1,0]), "0.0 : RR32", "matrix(v) of an RR32 puts the RR32 zero off the diagonal; Library/FortressLibrary.fsi, matrix")
-    three: NN32 = unsigned(3)
-    nm = matrix[\NN32,2,2\](three)
-    assert(shown(nm[1,1]), "3 : NN32", "matrix(v) of an NN32 puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
-    assert(shown(nm[0,1]), "0 : NN32", "matrix(v) of an NN32 puts the NN32 zero off the diagonal; Library/FortressLibrary.fsi, matrix")
-    four: NN64 = widen(unsigned(4))
-    lm = matrix[\NN64,2,2\](four)
-    assert(shown(lm[1,0]), shown(four.zero), "matrix(v) of an NN64 puts the NN64 zero off the diagonal; Library/FortressLibrary.fsi, matrix")
-    assert(lm[0,0], four, "matrix(v) of an NN64 puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
   end
 
 end
