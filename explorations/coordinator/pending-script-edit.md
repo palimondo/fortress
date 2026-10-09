@@ -1,4 +1,4 @@
-<!-- Every section below was applied on 2026-10-08 in the redesign (branch batch-redesign; process-engineering/batch-redesign.md), each marked; what is owed outside the script is named under its section. The note can go once the coordinator has done those. Its original header follows. The batch script and manual edits waiting for the next batch, gathered by the coordinator from 2026-10-03 to 2026-10-04: the seeding change of 5b0a82d97 (the old code from the base build with a private caches folder), the separate test commit dropped (POSITIONS "Test first, the test kept."), and the global.map restores removed (6e2907707; a git checkout of the untracked path now fails). All three must be in climb-batch-workflow.js and climb-batch-workflow.md before the next batch launches; then this note goes. -->
+<!-- Every section below up to "The build's caches rule and the four-thread suites" was applied on 2026-10-08 in the redesign (branch batch-redesign; process-engineering/batch-redesign.md), each marked; what is owed outside the script is named under its section. The two sections after it, added 2026-10-09 from climb batch 11's post-batch review (reviews/batch-11-review.md), are owed, marked **Owed**. The note can go once the coordinator has done those. Its original header follows. The batch script and manual edits waiting for the next batch, gathered by the coordinator from 2026-10-03 to 2026-10-04: the seeding change of 5b0a82d97 (the old code from the base build with a private caches folder), the separate test commit dropped (POSITIONS "Test first, the test kept."), and the global.map restores removed (6e2907707; a git checkout of the untracked path now fails). All three must be in climb-batch-workflow.js and climb-batch-workflow.md before the next batch launches; then this note goes. -->
 
 # Pending batch script edits
 
@@ -103,3 +103,57 @@ Every push now also goes to `blinded-fable`, the branch the coordinating session
 
 
 `ant compileAll` keeps the Fortress caches unless the implementation changed, the test targets build first, and `fastTrack` and `systemShard` pin `FORTRESS_THREADS=4`, with `fastTrack` also pinning `JAVA_FLAGS` (`4e0f34421`, `840368f92`; `process-engineering/build-efficiency.md`). Three texts still say one thread: `climb-batch-workflow.js:1839` (the gate's step 6, "The gate is pinned to one thread"), `explorations/experiment/env.sh:6` (`FORTRESS_THREADS=1` for every probe and stage runner that sources it) and `tools/count-run/count-run.sh:23`. The gate's prompts that run `ant compileAll` before the suites can drop it, since the suites now build first, and any step that empties the caches to cure a stale build can go. Also owed, not a script line: `junit.sh`'s clean step finds no component for 52 of 609 `.test` files, the 50 whose `tests=` line has a space after `=` and the 2 that continue it on the next line (report section 8.2).
+
+## The unfolded-entry filter (climb batch 11's review, finding 4 and measure 4)
+**Owed** (2026-10-09; `reviews/batch-11-review.md`, Part 4, "The four it did not route, and gather.2").
+
+At climb batch 11's gather, rung E's record gave "Revival change: none", a right answer (the review's Part 1, rung E, standard 3). The gather listed it in `deltaEntries` as `{"rung":"E","title":"none: E's record gives \"Revival change: none\", so nothing to fold","folded":false}` (the gather's result in the run's journal, `wf_88561d30-63b`), and the script turned every entry with `folded: false` into the item delta-unfolded.1, "was not folded: the part is not in the tree", though the part is in the tree. The fix is one condition: an entry that is a rung's "none" is no unfolded entry.
+
+`climb-batch-workflow.js:1941`, now:
+```js
+const deltaLeft = (Array.isArray(gather.deltaEntries) ? gather.deltaEntries : []).filter(d => d && !d.folded)
+```
+Replace it with:
+```js
+const deltaLeft = (Array.isArray(gather.deltaEntries) ? gather.deltaEntries : []).filter(d => d && !d.folded && !/^\s*none\b|Revival change: none/i.test(String(d.title || '')))   // a rung whose record gives "Revival change: none" has nothing to fold
+```
+
+With it, beside scenario C2 in `coordinator/tools/workflow-scenarios.js:150-151`, one scenario that an entry titled `none` lists nothing:
+```js
+  { name: 'C2b a rung\'s "Revival change: none" is no unfolded entry', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 'none: R0\'s record gives "Revival change: none"', folded: false }] }) },
+    after: 'gather, gate, review, commit', landed: true, items: [] },
+```
+
+## The briefs' `run_bg` (climb batch 11's review, section 3; the coordinator, 2026-10-09)
+**Owed** (2026-10-09).
+
+The session's automatic permission check refused `run_bg` at all nine of its uses in climb batch 11, in eight agents, since it cannot read the command the function passes to `bash -c`; each agent then wrote the literal `nohup bash -c '...'`, which passed (`reviews/batch-11-review.md`, section 3, "The skill's `run_bg` was refused at its every use"). The skill's `references/session.md`, "Long commands", gives that literal form since `7b3226bb2`:
+
+    nohup bash -c '( ant compileAll ) > tmp/build.txt 2>&1; echo EXIT=$? >> tmp/build.txt' >/dev/null 2>&1 &
+
+Each brief names that section and writes its command in that form, never `run_bg`. Line numbers are the script at `f9d3ec826`.
+
+The rung's stages step, `climb-batch-workflow.js:630` and `:633`:
+```js
+'   The after runs once, on your final code, after your last edit is built, into tmp/' + rung.slug + '/: the count (20 s) at once, and the distance (13 to 24 minutes, one core) in the background, started with nohup in the form of the skill\'s session.md, "Long commands", and read when your report is written:',
+```
+```js
+'        nohup bash -c \'( ' + DIST_RUN + ' tmp/' + rung.slug + '/distance-postedit.txt tmp/' + rung.slug + '/dist-post ) > tmp/' + rung.slug + '/distance-run.txt 2>&1; echo EXIT=$? >> tmp/' + rung.slug + '/distance-run.txt\' >/dev/null 2>&1 &',
+```
+
+The gate's role, `:1244` (its last sentence) and `:1249`:
+- In `:1244`, "Use run_bg and wait_for (the skill\'s session.md) for every long step." becomes "Start every long step detached with nohup and wait for it with wait_for, both as the skill\'s session.md, \"Long commands\", gives them."
+```js
+'        nohup bash -c \'( ' + DIST_RUN + ' ' + GATE_OUT + '/distance.txt ' + LOG_DIR + '/distance ) > ' + LOG_DIR + '/distance.txt 2>&1; echo EXIT=$? >> ' + LOG_DIR + '/distance.txt\' >/dev/null 2>&1 &',
+```
+
+The commit role's step 0, `:1582`:
+```js
+'        [ -e ' + MG_LOG + ' ] || nohup bash -c \'( ' + TOOLS + '/mg-run.sh ' + MG_DIR + ' batch-' + BATCH + ' ) > ' + MG_LOG + ' 2>&1; echo EXIT=$? >> ' + MG_LOG + '\' >/dev/null 2>&1 &',
+```
+
+Two more lines name it in passing:
+- `:1695` (`bgCheck`): "A command the earlier attempt started with run_bg (nohup) may still be running." becomes "A command the earlier attempt started in the background with nohup may still be running."
+- `:1777` (the gate's recovery text): "when its run_bg log ends in EXIT=" becomes "when its log ends in EXIT=".
+
+The scenario checker tests step 0's guard by its text, so it changes in the same commit, `coordinator/tools/workflow-scenarios.js:383`: the pattern `/\[ -e [^\]]*microgpt-walk\.txt \] \|\| run_bg/` becomes `/\[ -e [^\]]*microgpt-walk\.txt \] \|\| nohup bash -c /`.
