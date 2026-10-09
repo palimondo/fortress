@@ -50,3 +50,35 @@ Rewrite in place the entry "An abstract method without a body, and an `override`
 - Reason: unchanged.
 
 In `.claude/skills/fortress-repo/references/interpreter.md`, "What walk checks", the last bullet of the first list becomes: "- a declaration with the modifier `override`, in a trait, object or object expression, that overrides no declaration that its type's immediate supertraits provide. An `override` at an inherited declaration's own parameter types overrides nothing."
+## The skeptic's additions
+
+These follow the skeptic's three fixes, two of them contested (`SKEPTIC.md`). Each line says which commit it rests on; if the judge reverts that commit, the line goes with it.
+
+### FACTS
+
+In the new entry "Walk reads an `override` by the chapter's strict subtype ...", after its fourth bullet (e8d377669):
+  - Where walk does not read a static parameter's bounds, an inherited declaration whose parameter types mention a static parameter, and are not equal to the override's, counts as possibly overridden: in an object expression, whose static parameters walk's rewrite lifts without the where clauses of the declarations around it (`nodes_util/ExprFactory.java:1127`), and in a declaration that extends a type under a `where` clause, which walk reads as unconditional (`interpreter/evaluator/values/Constructor.java:600`, `:634-666`). Gated by `tests/OverrideObjectExpressionWhereBoundWalk.fss` and `OverrideConditionalExtensionWalk.fss`; the residue, an object expression's `override` over an unbounded static parameter loading, by `XXXOverrideObjectExpressionOverParamWalk` (row NEW-W-2).
+
+A new entry in "Landed semantics", beside it (7b625cdf9):
+
+- **Under walk, a `where` clause's bound on a static parameter bounds that parameter alone** (`compile-ladder/rung-walk-override/SKEPTIC.md`; row NEW-W-1). `SymbolicType.addExtend` and `addExtends` put the bound into an extends list of the parameter's own (`interpreter/evaluator/types/SymbolicType.java:46-63`); a parameter with no bound otherwise holds `FTypeTop`'s one list (`types/FTraitOrObject.java:76-80`, `types/FTypeTop.java:26`), which every unbounded symbolic type of the load shares. Gated by `tests/WhereBoundOverloadWalk.fss` (`p(3)` runs `p(x: ZZ32)` beside `trait W[\T\] where { T extends ZZ32 }`) and `OverrideAfterWhereBoundWalk.fss`.
+
+### Ledger
+
+The skeptic's rows, checked against the template with `ledger.py add` on a copy of the ledger (they took 671 and 672 there): NEW-W-1 in "2. Types: generics, static parameters, inference and coercion", NEW-W-2 in "3. Traits, objects and components". NEW-W-1 is fixed by 7b625cdf9: the gather adds it and closes it (`ledger.py close N --commit 7b625cdf9 --test WhereBoundOverloadWalk`) if the commit lands, and keeps it open if the judge reverts it. NEW-W-2 exists only with e8d377669; if the judge reverts e8d377669 (and 02f94f4a5 with it), it is not added.
+
+| NEW-W-1 | under walk, a `where` clause that bounds an unbounded static parameter of a generic trait or object bounds every other unbounded static parameter of the load: with `trait W[\T\] where { T extends ZZ32 }` declared, `p(3)` runs `p[\U\](x: U)` over the more specific `p(x: ZZ32)` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/WhereBoundOverloadWalk.fss` | climb batch 13 rung W's skeptic | siblings: 478. `SymbolicType.addExtends` appended the bound in place (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/SymbolicType.java:54-57` at a1a75716a) to a list that, for a parameter with no bound, is `FTypeTop`'s one list (`types/FTraitOrObject.java:76-80`, `types/FTypeTop.java:26`), so every unbounded symbolic type took the bound; the Meet Rule check's stand-ins (`BuildEnvironments.symbolicInstance`) run before pass 3. On the base `p(3)` prints `U`. Fixed by the skeptic's contested 7b625cdf9 (the bound goes into a list of the parameter's own); the gather closes the row if it lands. |
+| NEW-W-2 | under walk, an `override` over an inherited declaration whose parameter types mention a static parameter is not refused when it overrides nothing, in an object expression with static parameters or a generic declaration extending a type under a `where` clause: `override f(x: String)` over `f(x: T)` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXOverrideObjectExpressionOverParamWalk.fss` | climb batch 13 rung W's skeptic | siblings: 665. Walk's rewrite gives an object expression the static parameters it uses without the where clauses of the declarations around it (`ProjectFortress/src/com/sun/fortress/nodes_util/ExprFactory.java:1127`), and the stand-in reads an extends clause under a where clause as unconditional (`BuildEnvironments.java:1060`), so `Constructor.checkOverrides` counts such an inherited declaration, unless its parameter types equal the override's, as possibly overridden (`boundsUnread`, `symbolicDomain`, skeptic's contested e8d377669). The base loads the same programs. |
+
+- **Row 665.** Append (e8d377669): "An object expression's `override` over a declaration whose parameter types mention a static parameter is not refused when it overrides nothing (NEW-W-2), since the where clauses that may bound the parameter do not reach the check."
+
+### Handover
+
+- The skeptic's 7b625cdf9 (contested): a `where` clause's bound stays its own static parameter's under walk; before it, one generic declaration's `where` bound on an unbounded parameter bounded every unbounded parameter of the load, so `p(3)` ran a generic `p[\U\]` over `p(x: ZZ32)` (also on the base), and the generic override check accepted what it refuses alone (NEW-W-1).
+- The skeptic's e8d377669 and 02f94f4a5 (contested): the generic override check does not refuse an `override` over a static parameter whose bounds walk does not read (an object expression's, or under a conditional extends clause); the residue is NEW-W-2. `ant testSystem` on e8d377669: 563, green.
+
+### Revival change, if e8d377669 lands
+
+In the resolution of "An abstract method without a body, and an `override` that overrides nothing, under walk", after "also one at the inherited declaration's own parameter types.", add: "It does not refuse one over an inherited declaration at a static parameter whose bounds it does not read: an object expression's, whose static parameters walk's rewrite lifts without the `where` clauses around them, or one under an `extends` clause's `where` clause (ledger row NEW-W-2)."
+
+In `references/interpreter.md`, the replacement bullet above ends: "... An `override` at an inherited declaration's own parameter types overrides nothing. Walk does not refuse an `override` in an object expression over a declaration at a static parameter of the function around it."
