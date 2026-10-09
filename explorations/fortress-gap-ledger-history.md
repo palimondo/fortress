@@ -4613,3 +4613,93 @@ note added
 note added
 
 | 653 | a method declaration with the modifier `override` that overrides no inherited declaration is accepted: walk runs it and the compiled checker type checks it, where the traits chapter makes it a static error | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Method Declarations" | none | climb batch 11 rung C's skeptic | siblings: 610, 614, 650. `trait A` with `f(x: ZZ32): String = "A"` and `object B extends A` with `override f(x: String): String = "B"`: walk prints `B` for `B.f("s")`, and `fortress typecheck` exits 0, on 83b1cae78 and on rung C's tree; `compile` stops at 650. The chapter: "It is a static error if a declaration with the modifier override does not override any inherited declaration." A compiled expected failure stops at 650 first; the walk expected failure, a refusal at load, belongs in `ProjectFortress/tests/`. |
+
+### Row 647
+
+closed by fdd377ead
+
+| 647 | under walk, the load check of the Meet Rule for Functional Methods skips every type with static parameters: a generic object, and an object expression in a generic function, extending two traits that each declare `pick(self)`, with no declaration on the meet, load and run `A`'s `pick` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Meet Rule" | `ProjectFortress/tests/XXXFunctionalMethodMeetGenericProviderWalk.fss` | climb batch 11 rung W's skeptic | siblings: 570, 618. `checkFunctionalMethodMeets` visits the traits and objects without static parameters (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1217` at c0b2888f2), and `finishObjectTrait` an object expression without them (`:993`); walk lifts an object expression in a generic function with the function's static parameters, so neither checks it. One in a method of a generic object has none and is refused at load. The rule covers declarations 'occurring in trait or object declarations or object expressions'. |
+
+### Row 648
+
+closed by fdd377ead
+
+| 648 | under walk, a top-level variable initialized with an object expression stops the program at load: `zz = object extends A end` raises 'Missing value: *objectexpr_ObjectExpr at ...', where the variable holds the object | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/object.tex`, "Object Expressions" | `ProjectFortress/tests/XXXObjectExpressionTopLevelVariableWalk.fss` | climb batch 11 rung W's skeptic | siblings: 127, 375. Measured alike at 83b1cae78 and at c0b2888f2. By reading, `CUWrapper.initVars` (`ProjectFortress/src/com/sun/fortress/interpreter/env/CUWrapper.java:272-283` at c0b2888f2) binds the lifted object expressions' constructors (`registerObjectExprs`) after it visits the component, whose top-level variable looks the constructor up first. An object expression inside a function or `run()` runs. Workaround: declare a named object, or build the object expression in a function. |
+
+### Row 649
+
+closed by fdd377ead
+
+| 649 | under walk, an object that inherits an abstract method and declares no body for it loads, and a call of the method stops with an `InterpreterBug`, '... has neither body nor def instanceof Method', where the program is a static error | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXAbstractMethodUndefinedWalk.fss` | climb batch 11 rung W's skeptic | siblings: 184, 572, 614. Measured alike at 83b1cae78 and at c0b2888f2: `trait S tag(self, x: ZZ32): ZZ32 end`, `object O extends S end`, `tag(O, 3)`. Walk's load checks (`BuildEnvironments.checkFunctionalMethodMeets`, `checkComprisesClauses`) read no abstract method. Row 614's repair reaches it anew: with `W extends S` declaring `override tag(self, x: Number): ZZ32` abstract over `S`'s concrete `tag`, an object below `W` ran `S`'s and now stops at the call. The rule: 'any object inheriting an abstract method must define a body expression for the method'. |
+
+### Row 644
+
+closed by 054c4bcfd
+
+| 644 | the compiled checker gives no expected type to an operator repeated between three or more operands that no multifix declaration accepts: with `opr OPLUS[\T\](a: Any, b: ZZ32): BoxV[\T\]`, `y: BoxV[\ZZ64\] = 1 OPLUS 2 OPLUS 3` is refused where `1 OPLUS 2` checks | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call"; `basic/operators/chained-multifix.tex`, "Chained and Multifix Operators" | `ProjectFortress/compiler_tests/XXXInferRepeatedOperatorContext.test` | climb batch 11 rung E | siblings: 455, 560. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala:382-387` (`SAmbiguousMultifixOpExpr`, at 2579d7e5b) tries the multifix application and then the left-associated binary ones with no expected type, so the outer application's `T` takes its bound: 'Right-hand side has type BoxV[\Object\], but declared type is BoxV[\ZZ64\].', the same on 83b1cae78; walk runs it. A loose juxtaposition's same shape gives its expected type (`impls/Operators.scala:170-197`). Workaround: parenthesise, `(1 OPLUS 2) OPLUS 3`, which checks on 83b1cae78. |
+
+### Row 651
+
+closed by 054c4bcfd
+
+| 651 | the compiled checker stops on an invocation of a dotted method with its static arguments written when one of the method's type parameters is bounded by a type at another, 'R is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/method-invocation.tex`, "Dotted Method Invocations" | `ProjectFortress/compiler_tests/XXXMethodStaticArgsBoundNamesOther.test` | climb batch 11 rung C | siblings: 625, 627. `object O` with `gen[\R, Q extends Box[\R\]\](q: Q): ZZ32 = 1` and `O.gen[\String, Box[\String\]\](Box[\String\]())` is refused, 'R is not in the kind env [][][]', its span `CompilerBuiltin.fsi:25:7-11`, raised by `TypeAnalyzer.scala:797`; the same on 83b1cae78; a top-level `gen` so called prints `1`. Met calling row 625's `gen` on a `P[\ZZ32\]`. Since climb batch 11 rung E's renaming (row 627), the same call inside a declaration whose own type parameter has the bounding parameter's name, accepted on `83b1cae78` through the capture, meets this crash too: `XXXMethodStaticArgsBoundNamesOtherSameName`, 'G$1 is not in the kind env'. |
+
+### Row 655
+
+closed by abe8b0342
+
+| 655 | `checkSelection`, the bounds check behind `narrowToRange`, compares its ranges' bounds with `>` and `<` on the index type `I`, which declares neither, so the compiled checker refuses both comparisons | NEGATIVE-VERIFIED | library bug (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 11 rung L | siblings: 657. At b28e3e7e1: `Library/RangeInternals.fss:129`, `:133`, two of row 600's sites. Its callers, `narrowToRange(other: Range[\I\])` of `Range`, `BoundedRange` and `FullRange` (`Library/FortressLibrary.fss:3839`, `:3909`, `:3940`), are generic, and the last is rung E's site in batch 11, so under item 40's way (a) the comparisons move to the `ZZ32` kinds with the three callers once rung E lands. Walk answers through the library's tuple `<` and `>` (row 657). |
+
+### Row 657
+
+closed by abe8b0342
+
+| 657 | `narrowToRange` of a range of rank 2 or 3 checks the other range's bounds in lexicographic order, so `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` answers `(2,0):(5,5)` and reports no bound outside, while `(-1,2):(5,5)` raises `IndexOutOfBounds` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/RangeKindBodies.fss` | climb batch 11 rung L | siblings: 655. `checkSelection`'s `tfl > ofl` and `tfr < ofr` (`Library/RangeInternals.fss:129`, `:133` at b28e3e7e1) dispatch on pairs and triples to the library's lexicographic `<` and `>` (`Library/FortressLibrary.fss:4436-4525`), where `narrowToRange`'s comment names the minimum and the maximum bound (`:3823-3832`); `PCMP` (`Library/RangeInternals.fss:113`) compares point by point. The test pins today's value. Repair with row 655's move: `PCMP` at the `ZZ32` kinds, a value walk prints. |
+
+### Row 654
+
+closed by abe8b0342
+
+| 654 | `FullRange.narrowToRange(other: OpenRange[\I\])` declares `FullRange[\I\]` and answers `self INTERSECTION other`, which the one library types `BoundedRange[\I\]`, so the compiled checker refuses its body | NEGATIVE-VERIFIED | library bug (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 11 rung L | At b28e3e7e1: `Library/FortressLibrary.fss:3939`, the one site of row 599 that the bounded kinds of rank 2 and 3 do not reach. Widening it to `BoundedRange[\I\]` breaks the return-type rule against its sibling `narrowToRange(other: Range[\I\]): FullRange[\I\]` (`:3940`), rung E's site in batch 11. Repair after rung E lands: the sibling's typecase on `FullRange[\I\]`, whose `else` branch E's change types; or a `FullRange` meet over an `OpenRange`. Walk answers: `(0:9).narrowToRange(::2)` is `0:8:2` (`ProjectFortress/tests/RangeDeclarations.fss:104`). |
+
+### Row 656
+
+closed by abe8b0342
+
+| 656 | `TrivialOpenRange`'s `truncL`, `truncR`, `every`, `imposeStride` and `atMost` apply `#`, `:` and `::` to an `Any` and declare ranges over `Any`, which no range of a `ZZ32` kind is, so the compiled checker refuses all five | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 11 rung L | At b28e3e7e1: `Library/FortressLibrary.fss:3873`, `:3874`, `:3877`, `:3878`, `:3879`, five of row 600's sites. Generics are invariant, so a `LeftScalarRange` is no `RangeWithLeft[\Any\]`: walk answers each, not checking a return type (`(:).truncL(3)` is `LeftScalarRange(3,1)`), and its `cast[\RangeWithLeft[\Any\]\]` of `(3#)` raises `CastError` (`Library/FortressLibrary.fss:36`). Ways, for the curator: `fail` bodies, which turn five values into stops; or leave them. The object serves as the subscript `a[:]` (`Library/FortressLibrary.fss:1883`). |
+
+### Row 658
+
+closed by abe8b0342
+
+| 658 | `PrefixSet` declares no `indices`, so `IndexValuePrefixSetGenerator.indices`, which reads `s.indices`, stops walk on every prefix set | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 11 rung L | `Library/PrefixSet.fss:478` at b28e3e7e1; `PrefixSet` extends `ContainmentGenerator`, not `ZeroIndexed` (`Library/PrefixSet.fsi:37-38`; its comment at `:27`). For `ps = {/[\ZZ32,List[\ZZ32\]\] x \| x <- <\|[\List[\ZZ32\]\] <\|[\ZZ32\] 1, 2\|>, <\|[\ZZ32\] 3\|> \|> /}`, `ps.indexValuePairs.indices` stops with "Cannot find definition for method indices given receiver fastPrefixSet" at `:478`, before and after row 633's respelling. Repair: `0 # \|s\|`, as `ZeroIndexed`'s `bounds` (`Library/FortressLibrary.fss:1909`). |
+
+### Row 608
+
+closed by abe8b0342
+
+| 608 | `ImmutableArray1`'s `opr[r: Range[\ZZ32\]]` reads `r'.lower`, which `FullRange[\ZZ32\]` does not declare: the compiled checker over the one library refuses it, 'FullRange[\ZZ32\] has no getter called lower' | NEGATIVE-VERIFIED | library bug (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 9 rung S and its skeptic | siblings: 586. `l = reflect(r'.lower)` is at `Library/FortressLibrary.fss:2255` (at 052a7c3fe); its twin in `Array1` reads `r'.left.get` (`:2313`). `FullRange` declares `left` and `right`, not `lower` (`Library/FortressLibrary.fsi`, the ranges section). The respelling `r'.left.get` is safe only because the stride is passed on separately (`m = r'.stride`, `:2256`), as the twin does (`:2314`); a repair keeps the stride. full text: history, row 608 Walk stopped too, on every strided subscript of an immutable array of rank 1: 'Cannot find definition for method lower given receiver StridedFullParScalarRange' (`f[2:8:3]`; batch 12 rung R) |
+
+### Row 628
+
+closed by aadd02f23
+
+| 628 | the reductions' `Any` and `AnyMaybe` devices, which the compiled checker refuses, keep walk's reductions running where walk erases an unwritten static argument to `Bottom` | NEGATIVE-VERIFIED | design limit (library) | `Specification/basic/expressions/if.tex`, "If Expressions"; `Specification/basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 10 rung G | At `9c9e823d5`: `AssociativeReduction`'s `simpleJoin(a:Any, b:Any): Any`, which its eight implementers declare at the element type (`Library/FortressLibrary.fss:3271` to `:3478`); the lifted type `AnyMaybe`, no `Condition`, so `if av <- a` cannot bind (`:3089` to `:3126`); `MonoidReduction`'s `lift(r:Any): R` (`:3144`) against the api's `lift(r:R)`. With `simpleJoin` at `R`, `BIG MIN <\|[\ZZ32\] 4, 2, 7 \|>` stops ('... has neither body nor def'); with `MinReduction`'s at `T` too, `BIG MIN[i <- 0#4] (3 - i)` is refused ('simpleJoin param 1 (a:BOTTOM) got arg 1: ZZ32'); the base prints `2` and `0`. Fix after row 424: both at `R`, lifted type `Maybe[\R\]`. full text: history, row 628 |
+
+### Row 473
+
+closed by aadd02f23
+
+| 473 | `BIG MINMAX` over any `StandardMinMax` generator stops walk with a unification error, its nullary building a `Comprehension[\T,AnyMaybe,AnyMaybe,AnyMaybe\]` around `MinMaxReduction`, a `CommutativeReduction[\(T,T)\]` | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 7 rung B's skeptic | Fixed half (0ae526b31, climb batch 8, rung M): the nullary is a `Comprehension[\T,(T,T),(T,T),AnyMaybe\]` (`Library/FortressLibrary.fss:3315-3317` at 052a7c3fe, api `Library/FortressLibrary.fsi:1998`), so `BIG MINMAX[\ZZ32\][x <- 0#4] x` and `BIG MINMAX (3#4)` answer (`ProjectFortress/tests/BigMinMax.fss`), and the distance stage's R4 and BR reports go. Open half: with no static argument walk binds `T` to `BOTTOM` and stops at `MinMaxReduction.simpleJoin`, '... has neither body nor def', row 424's mechanism; write the static argument. Probe `explorations/compile-ladder/rung-result-bounds/probes/skeptic/SkBigMinMax.fss`, in the parent of ab067d9b6; full text: history, row 473 |
+
+### Row 606
+
+closed by 74b28e9d4
+
+| 606 | **`String`'s `left` and `right` answer the character itself although they declare `Maybe[\Char\]`**: walk prints `a` for `"abc".left`, its ilk `Char` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/StringPieces.fss` | climb batch 9 rung S | `Library/FortressLibrary.fss:4183-4184` answer `self.get(0)` and `self.get(self.size-1)` (api `Library/FortressLibrary.fsi:2419-2420`); with `get` declared on String the checker reads 'Function body has type OR(Char,Nothing[\Char\]), but declared return type is Maybe[\Char\]'. `StringPieces.fss` pins `flat.left` answering `'a'` and `flat.right` answering `'c'`; the distance sites are in `explorations/compile-ladder/rung-string-slips/REPORT.md` section 8. Answering `Just` changes a value walk prints, so it is the curator's: answer `Just` as `Range` and `List` do, or declare the type the bodies answer. |
+
+### Row 635
+
+closed by 74b28e9d4
+
+| 635 | `QQ`'s `ceiling` and `truncate` are declared `ZZ` and return the rational itself for ±∞ and 0/0: 'Function body has type (QQ & {Ratio}), but declared return type is ZZ', and under walk `ceiling(1/0)` and `truncate(1/0)` are `1/0`, a `QQ` | NEGATIVE-VERIFIED | design limit (specification) | `Specification/basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/tests/NumberOrderListDeclarations.fss` | climb batch 10 rung N | The specification's method entries type both ℤ, and the paragraph after them says they "simply return the argument if it is +∞, −∞, or 0/0"; the library follows the paragraph (`Library/FortressLibrary.fss:629`, `:634` at `9c9e823d5`), and the test pins the `QQ`. The fork, PLAN item 44: declare ℚ, throw at an infinity, or keep ℤ with the paragraph changed. full text: history, row 635 |
