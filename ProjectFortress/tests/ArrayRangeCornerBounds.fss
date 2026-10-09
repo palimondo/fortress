@@ -1,0 +1,18 @@
+(* A range subscript or a subarray of an array of rank 2 or 3 whose corner lies outside the array's bounds on one axis raises IndexOutOfBounds under walk, as one outside on every axis does. *)
+component ArrayRangeCornerBounds
+export Executable
+
+run() = do
+    a = array[\ZZ32\](3,3).fill(0)
+    for i <- 0#3, j <- 0#3 do a[i,j] := 10 i + j end
+    assert((a[(1,1):(2,2)])[1,1], 22, "the subscript (1,1):(2,2) of the 3-by-3 array of 10 i + j has 22 at its (1,1)")
+    assert((a.subarray[\0,2,0,2,1,1\](1,1))[0,1], 12, "the 2-by-2 subarray of the 3-by-3 array at (1,1) has 12 at its (0,1)")
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => a[(1,-1):(2,2)])
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => a[(0,0):(1,3)])
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32)\]\](fn () => a.subarray[\0,1,0,4,0,0\](1,1))
+    b = array[\ZZ32\](2,2,2).fill(5)
+    shouldRaise[\IndexOutOfBounds[\(ZZ32,ZZ32,ZZ32)\]\](fn () => b[(1,0,-1):(1,1,1)])
+    println("PASS")
+end
+
+end
