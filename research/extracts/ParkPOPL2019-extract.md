@@ -11,17 +11,19 @@ reproduction of the paper.
   https://dl.acm.org/doi/pdf/10.1145/3290324?download=true, was downloaded by
   Pavol on 2026-09-29. It is 28 pages, SHA-256
   `791f978e529b17d533e3342763ed6c54a2f1027eeee5aac9869956b5cdd2b954`.
-- **Local copies (gitignored, never committed).** The PDF is at
-  `research/decks/popl19w.pdf`, and its full text (`pdftotext -layout`,
-  1,460 lines) is at `research/decks/popl19w.txt`.
+- **Copies in the repository.** The PDF is `research/extracts/ParkPOPL2019.pdf`
+  (the same SHA-256) and its full text (`pdftotext -layout`) is
+  `research/extracts/ParkPOPL2019.txt`, beside these notes, so that the paper's
+  figures and rules are read at the source.
 - **The copy the record read on 2026-09-23** (`explorations/reviews/mie-probes/literature.md`):
   http://web.archive.org/web/20240415191855/https://dl.acm.org/doi/pdf/10.1145/3290324.
 - **License**, as printed on the first page: "This work is licensed under a
   Creative Commons Attribution-NonCommercial 4.0 International License. ©
   2019 Copyright held by the owner/author(s)." That license permits
   copying and redistribution for non-commercial purposes with attribution.
-  The PDF and its text stay out of git all the same; the coordinator decides
-  that with Pavol.
+  On that license and because the work needs the paper's figures at the
+  source, the curator made it the exception to the rule that keeps copyrighted
+  PDFs out of the repository (`explorations/protocol.md`, the hard rules).
 
 Page numbers are the printed article pages (11:N). The full proofs are in a
 companion report, "Polymorphic Symmetric Multiple Dispatch with Variance

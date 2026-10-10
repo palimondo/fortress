@@ -1,0 +1,1461 @@
+Polymorphic Symmetric Multiple Dispatch with Variance
+
+GYUNGHEE PARK, KAIST, South Korea and Oracle Labs, USA
+JAEMIN HONG, KAIST, South Korea
+GUY L. STEELE JR., Oracle Labs, USA
+SUKYOUNG RYU, KAIST, South Korea
+Many object-oriented languages provide method overloading, which allows multiple method declarations with
+the same name. For a given method invocation, in order to choose what method declaration to invoke, multiple
+dispatch considers the run-time types of the arguments. While multiple dispatch can support binary methods
+(such as mathematical operators) intuitively and consistently, it is difficult to guarantee that calls will be
+neither ambiguous nor undefined at run time, especially in the presence of expressive language features such
+as multiple inheritance and parametric polymorphism. Previous efforts have formalized languages that include                   11
+such features by using overloading rules that guarantee a unique and type-sound resolution of each overloaded
+method call; in many cases, such rules resolve ambiguity by treating the arguments asymmetrically. Here we
+present the first formal specification of a strongly typed object-oriented language with symmetric multiple
+dispatch, multiple inheritance, and parametric polymorphism with variance. We define both a static (type-
+checking) semantics and a dynamic (dispatching) semantics and prove the type soundness of the language,
+thus demonstrating that our novel dynamic dispatch algorithm is consistent with the static semantics. Details
+of our dynamic dispatch algorithm address certain technical challenges that arise from structural asymmetries
+inherent in object-oriented languages (e.g., classes typically declare ancestors explicitly but not descendants).
+CCS Concepts: · Software and its engineering → General programming languages; · Social and pro-
+fessional topics → History of programming languages;
+Additional Key Words and Phrases: Method Overloading, Symmetric Multiple Dispatch, Parametric Polymor-
+phism, Variance
+ACM Reference Format:
+Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu. 2019. Polymorphic Symmetric Multiple
+Dispatch with Variance. Proc. ACM Program. Lang. 3, POPL, Article 11 (January 2019), 28 pages. https:
+//doi.org/10.1145/3290324
+
+1 INTRODUCTION
+In object-oriented languages, method overloading and its unique resolution are important features.
+Method overloading allows multiple method declarations of the same name but different parameter
+types. Thus, it enables to define different behaviors of + or equal for different parameter types,
+for example. For a given overloaded method invocation of equal, a resolution mechanism should
+select a single declaration to call among the overloaded declarations of equal using the argument
+types of the method invocation.
+   When resolving an overloaded method invocation, dynamic dispatch considers the run-time types
+of the arguments of the method invocation. When a dispatch mechanism considers the run-time
+Authors’ addresses: Gyunghee Park, KAIST, South Korea , Oracle Labs, USA; Jaemin Hong, KAIST, South Korea; Guy L.
+Steele Jr. Oracle Labs, USA; Sukyoung Ryu, KAIST, South Korea.
+
+Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee
+provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and
+the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses,
+This work
+contact  theisowner/author(s).
+               licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.
+© 2019 Copyright held by the owner/author(s).
+2475-1421/2019/1-ART11
+https://doi.org/10.1145/3290324
+
+
+                                  Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:2                                Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+type of only a single argument, usually the receiver of a method call, as in languages like C++ and
+Java, it is single dispatch. By contrast, multiple dispatch considers the run-time types of more than
+one argument as in languages like Common Lisp, Fortress, and Julia. Especially, symmetric multiple
+dispatch considers multiple arguments equally, which supports mathematical operators like binary
+methods intuitively and uniformly [Clifton et al. 2000].
+   While method overloading and its resolution by dynamic dispatch give a consistency in naming
+methods that logically perform very similar tasks, they impose two restrictions to guarantee a
+unique and type-sound resolution of each overloaded method invocation [Castagna et al. 1992, 1995].
+First, the dispatch mechanism should be able to find the most specific applicable method declaration
+for any overloaded method invocation. A method declaration is applicable to given arguments if its
+parameter types are supertypes of the types of the arguments. One method declaration is more
+specific than another if the domain type of the former is a subtype of that of the latter. Hereafter,
+we consider that every method declaration has a single parameter possibly a tuple of two or more
+components, and call the parameter type of a method declaration its domain type. Second, for
+a given overloaded method invocation, its static type should be a supertype of the return type
+of a dynamically chosen method declaration by the dispatch mechanism. Otherwise, a method
+invocation result may be used in a type-unsound manner.
+   Moreover, expressive language features often add various possibilities to make overloaded method
+invocations ambiguous. As we discuss below, such features make it difficult to design a language
+that guarantees no ambiguous nor undefined calls at run time.
+   One such a feature is multiple inheritance, which allows one class to extend multiple classes. While
+multiple inheritance supports modular and reusable code, it easily introduces ambiguous method
+calls. Because one parent class may not be more specific than another parent class, dynamically
+selecting the most specific applicable method declaration may be unclear. For example, consider
+that each of two classes A and B has a method declaration m with the same parameter type Number,
+class C extends both A and B, and c is an instance of C. Then, evaluation of c.m(0) results in an
+ambiguous call because neither A nor B is more specific than each other.
+   Another feature is parametric polymorphism, or generics. By introducing type parameters in
+class and method declarations, parametric polymorphism enables programmers to manage types
+in a fine-grained way. For example, the List class may be instantiated as either ListJStringK or
+ListJIntegerK. However, selecting the most specific applicable declaration among polymorphic
+method declarations at run time is not trivial. Moreover, many languages with parametric polymor-
+phism support automatic inference for the type arguments of polymorphic method invocations; at
+run time, dynamic dispatch must not only find the most specific applicable declaration, but also
+infer appropriate type arguments for that declaration.
+   Finally, variance defines additional subtype relations for polymorphic types [Igarashi and Viroli
+2006]. Without variance, instances of the same polymorphic type are in a subtype relation only
+when their type arguments are the same type. Variance supports subtype relationships between
+different instances of the same polymorphic type by allowing the programmer to label each type
+parameter of a class covariant, contravariant, or invariant. If a parametric type T has one covariant
+type parameter, then it preserves the subtype relation of its type argument; hence, when a type
+P is a subtype of another type Q, which we write P <: Q, it implies T JP K <: T JQ K. If the type
+parameter of T is contravariant, then T reverses the subtype relationship of its type arguments;
+hence, P <: Q implies T JQ K <: T JP K. If the type parameter of T is invariant, then T JP K <: T JQ K
+only if P ≡ Q, where P ≡ Q denotes that P and Q are equivalent, that is, P is a subtype of Q and vice
+versa. Variance annotations allow the programmer to define more expressive polymorphic methods.
+For example, consider the following excerpt from the List class source code in Scala [EPFL 2017]:
+
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                        11:3
+
+            sealed abstract class List[+A] extends Seq[A] {
+                ···
+                def :::[B >: A](prefix: List[B]): List[B] = · · ·
+                ···
+            }
+The List class takes a single covariant (denoted by +) type parameter A, and the ::: method
+concatenates two lists, its receiver and argument. If A were invariant, the element type B of the
+argument list should be a supertype of the element type A of the receiver list. However, since A
+is covariant, the method can take a list of any element type C that is less than or equal to B, and
+return a list whose element type is B, which is a common supertype of the element types of its
+receiver and argument: A<:B and C<:B. As one might expect, variance also increases the difficulty
+of overloading resolution.
+   Therefore, supporting symmetric multiple dispatch in the presence of various expressive language
+features has been a long-standing effort. Previous efforts have formalized a variety of core calculi
+that capture some of the aforementioned features in a piecemeal rather than holistic fashion. While
+they are widely different in terms of the expressivity, completeness, decidability, and correctness of
+the formalization of the target languages and their type systems, they all define a set of overloading
+rules that overloaded method declarations should satisfy to make dynamic dispatch select the most
+specific applicable method declaration with a type-safe return type.
+   For a simple object-oriented language with multiple inheritance, Allen et al. [2008, 2007] and
+Kim and Ryu [2011] presented three overloading rules: Exclusion Rule, Subtype Rule, and Meet
+Rule. Every pair of method declarations with the same name must satisfy one of these overloading
+rules. The authors proved that a set of overloaded method declarations satisfying the overloading
+rules does not produce any ambiguous method invocation at run time.
+   To understand the interplay between symmetric multiple dispatch and parametric polymorphism,
+Allen et al. [2011] focused on a type system without any specific target language and informally
+presented three other overloading rules: a No Duplicates Rule, a revised Meet Rule, and a Return
+Type Rule, where every pair of method declarations with the same name must satisfy all three
+overloading rules. The authors showed that interpreting a polymorphic method declaration as a set
+of infinitely many monomorphic declarations is not appropriate for overloading resolution. Instead,
+they considered a polymorphic method declaration as a single declaration whose domain type is
+existentially quantified over its type parameters as proposed by Bourdoncle and Merz [1997].
+   In this paper, we present a formal core calculus FGFV (Featherweight Generic Fortress with Vari-
+ance) for an object-oriented language with symmetric multiple dispatch, multiple inheritance, and
+parametric polymorphism with variance. For conciseness, FGFV omits functional methods [Allen
+et al. 2007] and declarations of closed types [Allen et al. 2011], but these could be added back to
+FGFV in an obvious way. Unlike the prior work, we formally present overloading rules for FGFV,
+define its dynamic semantics with a novel dynamic dispatch algorithm, and prove type soundness.
+As we discuss in Section 5.4, defining a provable system for an object-oriented language with
+asymmetric features requires careful tradeoffs between static expressivity and dynamic efficiency.
+   In the rest of the paper, we first describe the previous efforts in more detail with concrete
+code examples (Section 2). After presenting the FGFV calculus that represents an object-oriented
+language with symmetric multiple dispatch, multiple inheritance, parametric polymorphism, and
+variance (Section 3), we formally define the overloading rules for FGFV (Section 4). Then, we define
+both static and dynamic overloading resolution with a novel dynamic dispatch algorithm, and
+sketch proofs of the type soundness of FGFV (Section 5). Full proofs are available in a companion
+report [Park et al. 2018]. Finally, we discuss related work (Section 6) and conclude (Section 7).
+
+
+
+                           Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:4                                 Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+2 MOTIVATION
+In this section, we first discuss existing research achievements in the pursuit of formally defining
+object-oriented languages with symmetric multiple dispatch, multiple inheritance, and parametric
+polymorphism with variance. Then, we present how FGFV completes the long-standing endeavor
+by defining a core calculus with static overloading rules and a dynamic dispatch algorithm that are
+proven type-sound.
+
+2.1 Overloading Rules for Multiple Inheritance
+As we discussed in Section 1, both symmetric multiple dispatch and multiple inheritance may cause
+ambiguous method calls that cannot be resolved at run time. Let us assume that class C is the only
+subtype of both classes A and B, and they are all distinct throughout this section. Consider the
+following overloaded method declarations of m 1 :
+                    m 1 (x: B, y: C): B = · · ·               m 1 (x: C, y: B): B = · · ·
+which have the same return type B but different domain types (B, C) and (C, B). For a method
+invocation m 1 (c, c) where the run-time type of c is C, it is ambiguous which declaration to invoke
+due to symmetric multiple dispatch: both method declarations are applicable to (c, c) since both
+(B, C) and (C, B) are supertypes of (C, C), and neither declaration is more specific than the other.
+Also, consider the following overloaded declarations of m 2 :
+                    m 2 (x: A):Boolean = · · ·                m 2 (x: B):Boolean = · · ·
+which have domain types A and B, respectively. For a method invocation m 2 (c), it is ambiguous
+which declaration to invoke due to multiple inheritance: both declarations are applicable to c and
+neither declaration is more specific than the other.
+   In order to guarantee that no such ambiguous method calls are possible at run time, researchers
+have proposed several calculi with restrictions on overloaded method declarations. CF [Allen et al.
+2007], Core Fortress, is a core calculus of the Fortress programming language [Allen et al. 2008],
+which contains components, top-level functions, functional methods, and declarations of exclusive
+types in addition to multiple inheritance. However, it does not specify the language semantics and
+informally provides rules for valid overloaded method declarations. FFMM [Kim and Ryu 2011],
+Featherweight Fortress with Multiple Dispatch and Multiple Inheritance, simplified CF to focus only
+on multiple inheritance, and it has a complete formalization of the language semantics including
+overloading rules and its type soundness proof in Coq. Since the overloading rules of CF and FFMM
+are the same, we will refer to these two languages collectively as Featherweight Fortress (FF).
+   The overloading rules of FF require every pair in a set of overloaded method declarations to
+satisfy one of the following rules:
+    Exclusion Rule: Their domain types are exclusive (their intersection is Bottom, where the
+       Bottom type is a subtype of every type and no value belongs to Bottom).
+    Subtype Rule: The domain type of one declaration is a strict subtype of the domain type of
+       the other, and the return type of the former is a subtype of the return type of the latter.
+    Meet Rule: The domain types are not exclusive nor in a subtype relation, and the overloaded
+       set contains a third disambiguating method declaration which we call the meet of the pair.
+       The meet of two method declarations is more specific than each of the declarations and less
+       specific than any other method declaration that is more specific than both declarations.
+   Let us revisit the previous examples, with an additional method declaration each for m 1 and m 2 :
+d 11 : m 1 (x: B, y: C): B = · · ·        d 12 : m 1 (x: C, y: B): C = · · ·        d 13 : m 1 (x: C, y: C): C = · · ·
+d 21 : m 2 (x: A):Boolean = · · ·         d 22 : m 2 (x: B):Boolean = · · ·         d 23 : m 2 (x: C):Boolean = · · ·
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                             11:5
+
+                                                                           instances                       return
+                                                                           applicable to α                 types
+
+                                                                d2               d2          ∀               τ2
+   d1 = d2    ⇒ d1 = d2             d1 d3 d2                             ⇒                                   ∨Ü
+                                                                d1               d1          ∃               τ1
+   (a) No Duplicates Rule          (b) Meet Rule                           (c) Return Type Rule
+
+Fig. 1. Overloading rules for multiple inheritance and generics where circles denote applicable sets of generic
+method declarations and pentagons denote instantiated method declarations
+
+
+Note that, for both m 1 and m 2 , the third method declaration is the meet of the first two declarations.
+Each set of overloaded method declarations is valid since every pair satisfies one of the overloading
+rules (for i = 1 and 2, di1 and di2 satisfy the Meet Rule; di1 and di3 satisfy the Return Type Rule, as do
+di2 and di3 ).
+   The overloading rules guarantee two important properties: (1) no ambiguous method calls can
+occur at run time, and (2) types are preserved even when a method call is dispatched to a different
+method declaration at run time from a method declaration chosen at compile time. In FF, Exclusion
+Rule is for the trivial cases where no ambiguous calls can occur, Meet Rule ensures the existence of
+disambiguating method declarations, and Subtype Rule serves a key role for type preservation.
+
+2.2   Overloading Rules for Multiple Inheritance and Generics
+Similarly for multiple inheritance, generics may cause ambiguous method calls that cannot be
+resolved at run time. Consider the following overloaded declarations of sort:
+
+                            sortJP <: AK(x: ListI JP K): SortedListI JP K = · · ·
+                            sortJP <: B K(x: ListI JP K): SortedListI JP K = · · ·
+
+Their domain types are respectively łListI JP K where P is a subtype of Až and łListI JP K where P
+is a subtype of Bž; for a method invocation sort(l) where the run-time type of l is ListI JC K, both
+declarations are applicable to l and neither declaration is more specific than the other.
+   In order to support generics as well for symmetric multiple dispatch, Allen et al. [2011] proposed
+new overloading rules for given generic declarations of types and methods. Even though they
+did not present a specific language with generics, we refer to the underlying language as FGF,
+Featherweight Generic Fortress. To support generics, the authors re-defined the terms applicability
+and specificity for generic method declarations and their overloading rules. A generic method
+declaration d is applicable to a type α if there exists an instance D of d that is applicable to α, that
+is, the domain type of D is a supertype of α. For example, consider the following generic method
+declaration:
+                                          mJP <: AK(x: P): P = · · ·
+which has one type parameter P with an upper bound A. It is applicable to Bottom, C, and A, because
+they are subtypes of A. In general, a generic method declaration d 1 is more specific than d 2 if the
+applicable set of d 1 is a subset of that of d 2 , where the applicable set of a method declaration is a set
+of types to which the declaration is applicable. Note that a monomorphic method declaration is a
+generic method declaration without any type parameter.
+   The overloading rules of FGF require every pair in a set of overloaded method declarations to
+satisfy all of the following rules as illustrated in Figure 1:
+
+                               Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:6                                  Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+    No Duplicates Rule: Distinct method declarations must have different applicable sets (there
+       must be some argument type α for which one method is applicable and the other is not).
+    Meet Rule: Let S be the intersection of the applicable sets of the two method declarations; if
+       S is not empty, then the overloaded set must contain a method declaration (not necessarily
+       distinct from the two given method declarations) whose applicable set is precisely S.
+    Return Type Rule: If one method declaration d 1 is more specific than d 2 , for any non-Bottom
+       type α in the applicable set of d 1 , the return type of an instance of d 2 that is applicable to α
+       must be a supertype of the return type of some instance of d 1 that is applicable to α.
+   Let us revisit the above ambiguous sort example with an additional method declaration:
+                       d1 :          sortJP <: AK(x: ListI JP K): SortedListI JP K = · · ·
+                       d2 :          sortJP <: B K(x: ListI JP K): SortedListI JP K = · · ·
+                       d3 :          sortJP <: C K(x: ListI JP K): SortedListI JP K = · · ·
+This set of overloaded method declarations is valid. For all pairs, the No Duplicates Rule is trivially
+satisfied. In the case of d 1 and d 2 , the Meet Rule is satisfied (d 3 is their meet), and the Return Type
+Rule is vacuously satisfied since neither is more specific than the other. For d 1 and d 3 , the Meet
+Rule is satisfied with d 3 itself as the meet; to see that the Return Type Rule is satisfied, note that
+ListI is an invariant type constructor since FGF does not support variance. For any ListI JX K in
+the applicable set of d 3 , there is exactly one instance of d 1 (with X substituted for P) applicable to it:
+                                sort(x: ListI JX K): SortedListI JX K = · · · .
+Since the return type of this instance equals the return type of the corresponding instance of d 3 :
+                                sort(x: ListI JX K): SortedListI JX K = · · · ,
+d 1 and d 3 satisfy the Return Type Rule. Similarly, d 2 and d 3 also satisfy all of the overloading rules.
+    Again, the overloading rules ensure that there is no ambiguous method calls at run time, and that
+types are preserved. In FGF, No Duplicates Rule rules out the trivial ambiguous calls with duplicate
+declarations. Meet Rule plays an important role for ensuring the existence of a disambiguating
+method declaration, and Return Type Rule serves a key role for type preservation.
+
+2.3    Overloading Rules for Multiple Inheritance and Generics with Variance
+Variance, as well as symmetric multiple dispatch, multiple inheritance, and generics, may cause
+ambiguous method calls that cannot be resolved at run time. We revisit the ambiguous sort example
+in Section 2.2. This time, we define the same method in a simpler way using covariant definitions
+of ListC and SortedListC . Consider the following overloaded method declarations of sort:
+                              d1 :       sort(x: ListC JAK): SortedListC JAK = · · ·
+                              d2 :       sort(x: ListC JB K): SortedListC JB K = · · ·
+Similarly to the example in Section 2.2, for a method invocation sort(l) where the run-time type of
+l is ListC JC K, it is ambiguous which declaration to invoke: both d 1 and d 2 are applicable to l and
+neither is more specific than the other. In order to ensure that there is no ambiguous method calls
+for sort at run time, we need to add a disambiguating method declaration d 3 :
+                              d3 :       sort(x: ListC JC K): SortedListC JC K = · · ·
+with a more specific return type than those of d 1 and d 2 for type preservation.
+   Variance also adds complications in type-sound dynamic dispatch. Let us now assume that ListC
+is covariant in its type argument but SortedListI is invariant. Then, the set of three method
+declarations above replacing SortedListC with SortedListI would be invalid, because the return
+type SortedListI JAK of d 1 would not be a supertype of the return type SortedListI JC K of d 3 .
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                                    11:7
+
+  Supporting variance in a type-sound manner requires keeping track of the static types of method
+invocations at run time. Let us again assume that ListC is covariant but SortedListI is invariant,
+and consider the following overloaded set (note that d 3 now has a type parameter P):
+                            d1 :             sort(x: ListC JAK): SortedListI JAK = · · ·
+                            d2 :             sort(x: ListC JB K): SortedListI JB K = · · ·
+                            d3 :         sortJP K(x: ListC JC K): SortedListI JP K = · · ·
+as well as the following generic method declaration of merge:
+            mergeJP K(x: SortedListI JP K, y: SortedListI JP K): SortedListI JP K = · · ·
+For a method invocation merge(sort(l 1 ), sort(l 2 )) where the static types of l 1 and l 2 are both ListC JAK
+and their run-time types are ListC JAK and ListC JC K, respectively, at compile time, both method
+invocations sort(l 1 ) and sort(l 2 ) choose d 1 and their static types are both SortedListI JAK. Thus,
+the above merge call statically invokes the following instance of the generic merge declaration:
+                  merge(x: SortedListI JAK, y: SortedListI JAK): SortedListI JAK
+that is applicable to (SortedListI JAK, SortedListI JAK). However, at run time, while sort(l 1 )
+chooses d 1 and its return type is SortedListI JAK, sort(l 2 ) chooses d 3 and its return type depends
+on what actual type is inferred at run time for the type parameter P. If the dynamic type inference
+algorithm instantiates P as A, sort(l 2 ) has type SortedListI JAK, which is type sound. But it could
+equally plausibly instantiate P as some other type T , and then no dynamic instance of the generic
+merge declaration would be applicable to (SortedListI JAK, SortedListI JT K). Hence, the merge
+call would fail, despite the fact that the program successfully passed static type checking. In order to
+help run-time type inference algorithms make type-sound choices of type arguments, the language
+semantics needs to make the static types of method invocations available at run time.
+   In this paper, we present FGFV, which sheds light on the long-standing endeavor to support
+strong types, symmetric multiple dispatch, multiple inheritance, and parametric polymorphism with
+variance. We formalize the static overloading rules for FGFV using existential types and universal
+types quantified over method type parameters, and design a new dynamic dispatch algorithm that
+is proven type-sound to guarantee unambiguous method calls and type preservation at run time.
+
+3 LANGUAGE
+In this section, we define the abstract syntax of FGFV and its well-formedness requirements.
+
+3.1    Notation
+Following, for example, Vytiniotis et al. [2013] and Coughlin and Chang [2014], we use an overline
+above mathematical material to indicate an appropriately punctuated sequence of zero or more
+repetitions of the material, with a subscript added to each metavariable in the material. Thus {α }
+is equal to {α 1 , α 2 , . . . , α n }. Sometimes we write • as an explicit indication of an empty sequence.
+Overlines may be nested, in which case they are expanded outermost first, so łJ {ζ } <: Q <: {ξ } Kž
+expands first to łJ {ζ 1 } <: Q 1 <: {ξ 1 }, {ζ 2 } <: Q 2 <: {ξ 2 }, . . . , {ζn } <: Q n <: {ξ n } Kž and then to
+                              J {ζ 1 1 , ζ 1 2 , . . . , ζ 1 k1 } <: Q 1 <: {ξ 1 1 , ξ 1 2 , . . . , ξ 1 m1 },
+                                {ζ 2 1 , ζ 2 2 , . . . , ζ 2 k2 } <: Q 2 <: {ξ 2 1 , ξ 2 2 , . . . , ξ 2 m2 },
+                                ...,
+                                {ζn1 , ζn2 , . . . , ζnkn} <: Q n <: {ξ n1 , ξ n2 , . . . , ξ nmn} K
+(conceptually all on one line, broken here for reasons of space). The copies of each inner overline
+expand independently, so the sequences into which they expand may have different lengths; thus
+łJ {ζ } <: Q <: {ξ } Kž could expand into, e.g., łJ{ζ 1 1 , ζ 1 2 } <: Q 1 <: {ξ 1 1 }, {} <: Q 2 <: {ξ 2 1 , ξ 2 2 , ξ 2 3 }Kž.
+
+                                   Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:8                                Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+ Program                           Π     ::=   ψ ,e                                               
+ Class declaration                 ψ     ::=   trait T JV β K <: t µ end | object OJ β K(x: τ ) <: t   µ end
+ Method definition                 µ     ::=   mJκ K(x: τ ): τ = e
+ Class type parameter binding      β     ::=   P <: {τ }
+ Method type parameter binding     κ     ::=   {τ } <: P <: {τ }
+ Variance mark                     V     ::=   + | - | =
+ Expression                        e     ::=   z | ((x: τ ): τ ⇒ e) | e@(e ) | OJτ K(e ) | e.m(e )
+ Bindable variable                 z     ::=   x | self
+ Type                              τ     ::=   P | c | (τ ) | (τ → τ ) | Any
+ Constructed type                  c     ::=   t | OJτ K
+ Trait type                         t    ::=   T Jτ K
+
+                                          Fig. 2. Abstract syntax of FGFV
+
+
+   Following a suggestion of Steele [2017, 0:59:37], we use an underline below submaterial within
+overlined material to prevent an overline from attaching subscripts to the metavariables in the
+submaterial; the effect is to require the underlined material to be the same in each copy. Thus
+ł ∆ ⊢ ψ okž represents the sequence ł∆ ⊢ ψ 1 ok      ∆ ⊢ ψ 2 ok   ···    ∆ ⊢ ψn okž for any n ≥ 0.
+            ′                        ′
+Similarly ∆ ⊢ ξ ok expands to ł ∆ ⊢ ξ 1 ok           ′
+                                                  ∆ ⊢ ξ 2 ok     ···     ∆ ′ ⊢ ξ n okž and then to
+                            ∆ ′ ⊢ ξ 1 1 ok     ∆ ′ ⊢ ξ 1 2 ok     ···     ∆ ′ ⊢ ξ 1 m1 ok
+                            ∆ ′ ⊢ ξ 2 1 ok     ∆ ′ ⊢ ξ 2 2 ok     ···     ∆ ′ ⊢ ξ 2 m2 ok
+                            ...
+                            ∆ ′ ⊢ ξ n1 ok      ∆ ′ ⊢ ξ n2 ok      ···     ∆ ′ ⊢ ξ nmn ok
+The overline notation may explicitly bind index variables by using a range expression. In such
+cases, the index variables may appear explicitly in the covered material, and subscripts are not auto-
+                                                           3≤i ≤6
+matically attached to metavariables. For example, m(ei )           means (m(e 3 ), m(e 4 ), m(e 5 ), m(e 6 )).
+   Metavariables are expanded after overlines. Multiple occurrences of a metavariable with the
+same subscript(s) must have the same expansion, but occurrences of a metavariable with different
+subscript(s) may be expanded independently. Thus łJ {ζ } <: Q <: {ξ } Kž might ultimately expand
+into, e.g., łJ{A,B} <: U <: {ListJBooleanK}, {} <: V <: {Any,C,Number}Kž.
+   We use horizontal lines as overlines and underlines, but also in the usual Gentzen notation for
+inference rules, with premises above the line and the conclusion below. To help reduce confusion:
+(1) we use a slightly heavier and wider line for inference rules; (2) the line for inference rules has
+more space above and below it; (3) we do not use the inference rule notation for axioms (rules that
+have no premises); and (4) we do not nest the inference rule notation to present derivation trees.
+
+3.2    Syntax
+Figure 2 shows the syntax of the FGFV calculus. Metavariables T and U range over trait names;
+O ranges over object names; x ranges over variable and field names; z is either x or the keyword
+self; m ranges over method names; P, Q, S range over type parameter names; and τ , ω, ζ , ξ range
+over types.
+   A program consists of a sequence of class declarations and a top-level expression. A class is
+either a trait or an object; traits are like Java interfaces that do not have any fields, and objects are
+like Java final classes that cannot be extended. A trait may have type parameters with variance
+annotations and upper bounds, extend any number of other traits, and have method definitions.
+An object is similar to a trait except that (1) its type parameters do not have variance annotations
+because they are always invariant, and (2) it may have fields, which are initialized when an object
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                         11:9
+                                                                                                    
+instance is created. When a class does not extend any trait, we omit the empty extends clause <: .
+When a class has no type parameters, we omit the empty brackets; we write T for T J K. A method
+may have type parameters as well, but they have both lower and upper bounds. We omit clauses
+when no bounds are specified; for example, we write T J+ P K for T J+ P <: {} K and mJQ, {Q } <: S K
+for mJ {} <: Q <: {}, {Q } <: S <: {} K. By default, each type parameter has an upper bound Any and
+a lower bound Bottom, which we describe in the next subsection.
+   The bounds of a type parameter place restrictions on valid instantiations of the type parameter; a
+valid type instantiation must be a subtype of all its upper bounds and, at the same time, a supertype
+of all its lower bounds, if any. We write + for covariance, - for contravariance, and = for invariance.
+As discussed in Section 2.3, variance annotations of type parameters define subtype relations
+between different instances of a generic trait. For example, consider the following trait declarations:
+                                    trait U1       end
+                                    trait U2 <: U1           end
+                                    trait T J+ P, - Q, = S K       end
+where ł ž denotes omitted material. Because U2 is a subtype of U1 , the variance annotations of
+the type parameters of T define subtype relations such as T JU2 , U1 , U1 K <: T JU1 , U2 , U1 K.
+   Expressions and types are conventional. One can refer to a field or bound variable simply by
+mentioning it; the keyword self refers to the target object for the currently executing method.
+Functions are first-class values; ((x: τ ): τ ⇒ e) is a (typed) function constructor, and we write e@(e )
+for function calls. An object creation OJτ K(e ) makes an instance of O by instantiating its type
+parameters with τ and initializing its fields with the values of e . While tuples are not first-class
+values in FGFV (they would be trivial to add, but are not needed for our purposes), we use tuple types
+(τ ) to denote the domain types of functions and methods, which may have multiple parameters.
+The type Any is a supertype of every type (and Bottom, used below, is a subtype of every type but
+is intentionally not expressible in the surface syntax).
+
+3.3 Well-formedness
+We define well-formedness of a program and its declarations as shown in Figure 3. A type-declaration
+environment ∆ is a set of class declarations and type parameter bindings, and a variable-type
+environment Γ is a sequence of bindable variables and their types. Checking well-formedness may
+introduce internal types:
+          Internal type α ::= P | C | (α ) | (α → α) | Any | Bottom | (α ⊔ α) | (α ⊓ α)
+which contain Bottom, union types, and intersection types. Type Bottom is a subtype of every
+type; hence, Any and Bottom are the top and bottom, respectively, of the type lattice. Metavariables
+α, γ , ρ, χ, η range over internal types. We introduce metavariables K, C, J , and M, analogous to κ, c,
+t, and µ, respectively, where types τ in the latter are replaced by internal types α in the former.
+   Rule [T-Program] states that a program is well-formed if its class declarations have distinct
+names and are well-formed, and its top-level expression is well-formed. The type of a program is
+the type of its top-level expression; the metavariable д represents a ground type, which is a type
+that contains no type parameters. We describe well-formedness and type checking of expressions
+in Section 5.1.
+   Rules [D-Trait] and [D-Object] check well-formedness of class declarations. For the declaration
+of a class C, they verify that the type parameter names of the declaration are distinct, that the types
+used in the declaration are well-formed, and that the declared methods are well-formed. In addition,
+as we explain later in this subsection, they make sure that (1) the proper ancestors of C, which are all
+the traits C extends, by explicitly extending and transitively inheriting as well, are well-formed, and
+(2) the visible methods of C, which are the methods either declared by C or inherited from the traits
+
+                            Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:10                                 Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Well-formed programs:            ⊢ Π :д
+
+              Π = ψ ,e         distinct(name(ψ ))           ∆ = {ψ }        ∆ ⊢ ψ ok          ∆; • ⊢ e : ( , д)
+                                                                                                                     [T-Program]
+                                                              ⊢ Π :д
+
+Well-formed trait and object declarations: ∆ ⊢ ψ ok
+
+                    ∆ ′ = ∆ ∪ {} <: P <: {ξ }                               ∆ ′ ⊢ ξ ok         ∆ ′ ⊢ t ok
+                             
+                                                       distinct(P )
+                                                                                                  1≤i <j ≤ #( J )
+              { J } = properAncestors(∆ ′,T J P K)            ∆ ′ ; J ⊢ Ji and J j ancestors ok
+               T , name(J )          ∆ ′ ; self:T J P K; V P ⊢ µ ok           {d } = allVisible(∆ ′,T J P K)
+                                             1≤i <j ≤#(d )                                          1≤i <j ≤ #(d )
+            ∆ ′ ⊢ di not duplicate of d j                         ∆ ′ ⊢ di meet d j wrt {d } ok
+                                             1≤i <j ≤ #(d )                                            1≤i <j ≤ #(d )
+         ∆ ′ ⊢ di return type wrt d j ok                  ∆ ′ ⊢ d j return type wrt di ok
+                                                                                                                       [D-Trait]
+                                   ∆ ⊢ trait T JV P <: {ξ } K <: t µ end ok
+
+                ∆ ′ = ∆ ∪ {} <: P <: {ξ }                                  ∆ ′ ⊢ ξ ok         ∆ ′ ⊢ t ok
+                         
+                                                     distinct(P )
+                                                                                                1≤i <j ≤ #( J )
+            { J } = properAncestors(∆ ′, OJ P K)            ∆ ′ ; J ⊢ Ji and J j ancestors ok
+                       ∆ ′ ; self: OJ P K, x: τ ; = P ⊢ µ ok        {d } = allVisible(∆ ′, OJ P K)
+                                           1≤i <j ≤ #(d )                                         1≤i <j ≤#(d )
+          ∆ ′ ⊢ di not duplicate of d j                          ∆ ′ ⊢ di meet d j wrt {d } ok
+                                            1≤i <j ≤#(d )                                             1≤i <j ≤#(d )
+        ∆ ′ ⊢ di return type wrt d j ok                          ∆ ′ ⊢ d j return type wrt di ok
+                                            ∆ ′ ⊢ τ ok   distinct(x )
+                                                                                                                     [D-Object]
+                               ∆ ⊢ object OJ P <: {ξ } K(x: τ ) <: t µ end ok
+
+Well-formed method declarations: ∆; Γ; V P ⊢ µ ok
+
+                                      ∆ ′ = ∆ ∪ {ζ } <: Q <: {ξ }                ∆ ′ ⊢ ζ ok         ∆ ′ ⊢ ξ ok
+                                               
+∆ ⊢ J {ζ } <: Q <: {ξ } K ok
+     distinct(x )       ∆ ′ ⊢ τ ok        ∆ ′ ⊢ ω ok          ∆ ′ ; Γ, x: τ ⊢ e : ( , ρ)      ∆ ′ ⊢ ρ <: ω
+        distinct(P , Q )      (V = =) ∨ (∀T . (((τ ) → ω) , T [P]) ∨ (∆ ⊢ T variance V ))
+                                                                                                                     [D-Method]
+                           ∆; Γ; V P ⊢ mJ {ζ } <: Q <: {ξ } K(x: τ ): ω = e ok
+                    Fig. 3. Well-formed programs, class declarations, and method declarations
+
+
+C extends, obey the overloading rules. The only differences are that rule [D-Trait] additionally
+guarantees that a trait does not extend itself, and rule [D-Object] guarantees that the names of
+the fields are distinct.
+  Well-formedness of types is conventional. The formal rules are defined in the companion re-
+port [Park et al. 2018]. The types Any and Bottom are trivially well-formed. A type parameter P is
+well-formed under a type-declaration environment ∆, if ∆ contains a binding of P. A constructed
+type T J α K or OJ α K is well-formed, if the trait T or the object O is declared in the given type-
+declaration environment and all the type arguments α are well-formed and satisfy the declared
+bounds of their corresponding type parameters. Finally, the remaining structural types such as
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                           11:11
+
+Well-formed ancestors: ∆; J ⊢ J and J ancestors ok
+                                                      T ,T′
+                                                                                                [Anc-Diff-Trait]
+                                    ∆; J ⊢ T J α K and T ′ Jη K ancestors ok
+
+                       T Jγ K ∈ { J }     ∆ ⊢ T Jγ K <: T J α K        ∆ ⊢ T Jγ K <: T Jη K
+                                                                                               [Anc-Same-Trait]
+                                    ∆; J ⊢ T J α K and T Jη K ancestors ok
+
+Well-formed type parameter bindings: ∆ ⊢ J K K ok
+                                                    ∆ ⊢ J K ok                                   [Binding-Empty]
+                       FV( χ ′ ) ⊆ parameters(∆) ∪ {P }    FV(η ′ ) ⊆ parameters(∆)
+                                Ã ′      d ′
+                         ∆ ⊢        χ <:      η        ∆ ⊢ J { χ } <: P <: {η } K ok
+                                                                                                   [Binding-Step]
+                               ∆ ⊢ J { χ } <: P <: {η }, { χ ′ } <: P ′ <: {η ′ } K ok
+                       Fig. 4. Well-formed ancestors and type parameter bindings
+
+
+
+tuple types, arrow types, union types, and intersection types are well-formed, if all their component
+types are.
+  The proper ancestors { J } of a class C are well-formed, if every pair in { J } satisfies one of
+                                                                                                  1≤i <j ≤ #( J )
+the well-formed ancestors rules shown in Figure 4: ∆ ′; J ⊢ Ji and J j ancestors ok                  . The
+well-formed ancestors rules ensure that if a class C extends two instances of a trait T , T J α K and
+T J ρ K, then C also extends some T Jγ K (which may be T J α K, T J ρ K, or a third instance) that extends
+both T J α K and T J ρ K. Therefore, because the rules guarantee that there always exists a single
+minimal ancestor when a class extends multiple instances of a trait, no ambiguous method calls are
+possible due to multiple instances of a trait as discussed in Section 5.2.
+   The visible methods {d } = {(C, M)} of a class obey the overloading rules if every pair in {d }
+satisfies the overloading rules described in Section 4.1. The set {(C, M)} contains pairs of visible
+method declarations M and their defining classes C .
+   Rule [D-Method] checks well-formedness of method declarations. For the method declaration
+µ, it verifies that the parameter names of the declaration are distinct; that the class type parameters
+and the method type parameters of the declaration are collectively distinct; that types used in the
+declaration are well-formed; that the body expression is well-formed; and that the type of the body
+expression is a subtype of the declared return type. In addition, as we discuss below, it checks that
+method type parameter bindings are well-formed and that any references to trait type parameters
+are correctly used according to their variance annotations.
+   A sequence of method type parameter bindings is well-formed, if (1) every reference to a method
+type parameter falls within its scope (which extends to the right of its declaration), (2) no reference
+to a method type parameter appears in any of the upper bounds, and (3) for each type parameter,
+the union of its lower bounds is a subtype of the intersection of its upper bounds. As we discuss
+in Section 5.4, restriction (1) makes dynamic dispatch more efficient and restriction (2) makes it
+consistent. Figure 4 shows the rules for well-formed type parameter bindings.
+   Trait type parameters are correctly used according to their variance annotations, if covariant and
+contravariant type parameters appear only at covariant and contravariant positions, respectively.
+In order to express this restriction, we introduce a type context T , which defines positions where a
+type can appear within another type. Similarly to the conventional evaluation contexts [Wright and
+
+                              Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:12                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Felleisen 1994], a type context T is a type with one of its components replaced by a hole, denoted
+by ł□ž. The type T [τ ] results from placing a type τ in the hole of T :
+     Type context T ::= □ | T Jτ , T , τ K | OJτ , T , τ K | (τ , T , τ ) | (T → τ ) | (τ → T )
+Thus, if τ = ((P,T JQ K) → Any), then τ = T [P] = T ′ [Q] where T = ((□,T JQ K) → Any) and
+T ′ = ((P,T J□K) → Any).
+   Using type contexts, the last premise of rule [D-Method] ensures that the class type parameters
+of a method appear in correct positions. Considering the arrow type representing the method’s
+type τ ′ = ((τ ) → ω), an invariant type parameter can appear anywhere in τ ′. However, when a
+covariant or contravariant type parameter P appears in τ ′ = T [P], the variance of the type context
+of P should match the variance V of P: ∆ ⊢ T variance V . The variance of a type context is defined
+inductively: (1) the hole is covariant; (2) components of tuple types, return types of arrow types, and
+covariant type parameters of traits preserve the variance of their enclosing contexts; (3) parameter
+types of arrow types and contravariant type parameters of traits flip the variance of their enclosing
+contexts; and (4) type parameters of objects and invariant type parameters of traits are invariant.
+For example, if τ = ((P,T JQ K) → Any) is a method’s type where P and Q are class type parameters
+and T has a contravariant type parameter, then P is required to be contravariant or invariant and
+Q is required to be covariant or invariant.
+
+4 OVERLOADING RULES
+Now, we formalize the overloading rules informally discussed in Section 2.2 for FGFV.
+
+4.1     Formalization of Overloading Rules
+The overloading rules require that every pair in a set of overloaded method declarations satisfies all
+three rules defined in Figure 5. To determine whether one method declaration is more specific than
+the other, while the informal rules in Section 2.2 used the subset relation of their applicable sets,
+which is not practically checkable, we use the subtype relation of their domain types as in Allen
+et al. [2011]. Note that even though FGFV additionally supports variance annotations of trait type
+parameters, the overloading rules for FGF remain the same because covariant or contravariant types
+affect only the well-formedness of method declarations rather than the validity of overloading.
+   If two method declarations have different names, they vacuously satisfy all the rules ([No-Dup-
+Triv], [Meet-Triv], and [Return-Triv]). The No Duplicates Rule also checks whether the domain
+types of two declarations are different; if the domain type of one declaration is not a subtype of the
+domain type of the other, they satisfy the rule ([No-Dup-Not-Less] and [No-Dup-Not-Gtr]). The
+Meet Rule is satisfied if two domain types exclude each other ([Meet-Excl]), they are in a subtype
+relation ([Meet-Less] and [Meet-Gtr]), or the domain type of a third declaration of the same
+name is the intersection type of the domain types of two declarations ([Meet-Third]). The Return
+Type Rule is satisfied if two domain types are not in a subtype relation ([Return-Not-Less]), or if
+two arrow types derived from the two declarations are in a subtype relation ([Return-Test]).
+
+4.2     Quantified Types
+As proposed by Bourdoncle and Merz [1997], we represent domain types and arrow types of generic
+method declarations as existential types Ξ and universal types ϒ, respectively, collectively called
+quantified types. For presentation brevity, we omit C from d = (C, M) where a method declaration
+M = mJ K K(x: α ): ρ = e is declared in a class C. The domain type of d is dom(d) = ∃J K K(α ) and
+its arrow type is arrow(d) = ∀J K K((α ) → ρ). We compare domain types to decide whether one
+generic method declaration is more specific than the other; an existential type ∃J K Kα is a subtype
+of another existential type ∃J K ′ Kα ′ if there exists a substitution σ for the type parameters bound
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                               11:13
+
+No Duplicates Rule: ∆ ⊢ d not duplicate of d                  Meet Rule: ∆ ⊢ d meet d wrt {d } ok
+     name(d) , name(d ′ )                                                name(d) , name(d ′ )
+                                          [No-Dup-Triv]                                                       [Meet-Triv]
+  ∆ ⊢ d not duplicate of d ′                                       ∆ ⊢ d meet d ′ wrt ok
+  ¬ ∆ ⊢ dom(d) ⊑ dom(d ′ )                                    ∆ ⊢ dom(d) ⊓ dom(d ′ ) ⊑ ∃J KBottom
+                                                                                   
+                                   [No-Dup-Not-Less]                                                          [Meet-Excl]
+  ∆ ⊢ d not duplicate of d ′                                         ∆ ⊢ d meet d ′ wrt       ok
+  ¬ ∆ ⊢ dom(d ′ ) ⊑ dom(d)                                            ∆ ⊢ dom(d) ⊑ dom(d ′ )
+                           
+                                    [No-Dup-Not-Gtr]                                                          [Meet-Less]
+  ∆ ⊢ d not duplicate of d ′                                         ∆ ⊢ d meet d ′ wrt       ok
+                                                                      ∆ ⊢ dom(d ′ ) ⊑ dom(d)
+                                                                                                              [Meet-Gtr]
+                                                                     ∆ ⊢ d meet d ′ wrt       ok
+     d ′′′ ∈ {d ′′ }   name(d) = name(d ′ ) = name(d ′′′ )     ∆ ⊢ dom(d ′′′ ) ≡ dom(d) ⊓ dom(d ′ )
+                                                                                                        
+                                                                                                            [Meet-Third]
+                                         ∆ ⊢ d meet d ′ wrt {d ′′ } ok
+
+Return Type Rule: ∆ ⊢ d return type wrt d ok
+     name(d) , name(d ′ )                                        ¬ ∆ ⊢ dom(d) ⊑ dom(d ′ )
+                                                                                              
+                                        [Return-Triv]                                                [Return-Not-Less]
+ ∆ ⊢ d return type wrt d ′ ok                                   ∆ ⊢ d return type wrt d ′ ok
+
+ arrow(d) = ∀Jκ K(α → ρ)            κ = { χ } <: P <: {η }       arrow(d ′ ) = ∀Jκ ′ K(α ′ → ρ ′ )
+         κ ′ = { χ ′ } <: Q <: {η ′ }      distinct(P , Q )    ∆ ⊢ dom(d) ⊑ dom(d ′ )
+                        ∆ ⊢ ∀Jκ K(α → ρ) ⊑ ∀Jκ , κ ′ K((α ⊓ α ′ ) → ρ ′ )
+                                                                                                            [Return-Test]
+                                 ∆ ⊢ d return type wrt d ′ ok
+                                          Fig. 5. Overloading rules for FGFV
+
+
+in K ′ that makes σα ′ a supertype of α. In contrast, we compare arrow types to see whether the
+return type of a more specific generic method declaration can be a subtype of the return type of a
+less specific one; a universal type ∀J K Kα is a subtype of the other universal type ∀J K ′ Kα ′ if there
+exists a substitution σ for the type parameters bound in K that makes σα a subtype of α ′. Figure 6
+formally defines these łinnerž subtyping rules for quantified types. (We assume the conventional
+α-conversion to rename bound variables when necessary to satisfy premises that require variable
+names to be distinct.) Finally, the intersection type of two existential types ∃J K Kα and ∃J K ′ Kα ′
+used in [Meet-Excl] and [Meet-Third] is ∃J K , K ′ K(α ⊓ α ′), because whenever both σα and σ ′α ′
+are supertypes of a type τ for some σ and σ ′, (σ ◦ σ ′)(α ⊓ α ′) is a supertype of τ as well.
+   While the subtype relation of domain types is a sound approximation of the subset relation of
+applicable sets, it is not complete; when the applicable set of one declaration is a subset of that of
+the other, their domain types may not be in a subtype relation. Consider the following:
+  mJP K(x : ArrayListJP K)                 mJQ <: T K(y : ListJQ K)             mJR <: T K(z : ArrayListJR K)
+for some trait T where ArrayList is a subtype List and both traits are invariant. We call them
+d 1 , d 2 , and d 3 in order. Even though they are a valid overloading because the applicable set
+of d 3 is the intersection of those of d 1 and d 2 , the intersection of the two domain types Ξ⊓ =
+∃JP, Q <: T K(ArrayListJP K ⊓ ListJQ K) is not a subtype of the domain type of d 3 , which is Ξ3 =
+∃JR <: T KArrayListJR K. However, because ArrayList extends List and both are invariant, any sub-
+types of theirs are exclusive unless they are both ArrayListJS K for some type S that is a subtype of
+
+                                 Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:14                                   Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Existential inner subtyping: ∆ ⊢ Ξ ≲ Ξ using σ
+                                                                                      h    i
+         ∆ ′ = ∆ ∪ { { χ } <: P <: {η } }    {P } ∩ FV( χ ′ , η ′ , α ′ ) = ∅     σ = γ /Q           γ , Bottom
+                                                                    d
+                         ∆ ′ ⊢ σ on ⟨Q ⟩ obeys ⟨ { χ ′ } ⟩ and ⟨ {η ′ } ⟩          ∆ ′ ⊢ α <: σα ′
+                                                Ã
+                                                                                                                  [E-Sub]
+                           ∆ ⊢ ∃J { χ } <: P <: {η } Kα ≲ ∃J { χ ′ } <: Q <: {η ′ } Kα ′ using σ
+
+Universal inner subtyping: ∆ ⊢ ϒ ≲ ϒ using σ
+                                                                                      h    i
+         ∆ ′ = ∆ ∪ { { χ ′ } <: Q <: {η ′ } }  {Q } ∩ FV( χ , η , α) = ∅          σ = γ /P           γ , Bottom
+                           ′                                    d
+                                                                                  ∆ ′ ⊢ σα <: α ′
+                                                Ã
+                          ∆ ⊢ σ on ⟨ P ⟩ obeys ⟨ { χ } ⟩ and ⟨ {η } ⟩
+                                                                                                                  [U-Sub]
+                           ∆ ⊢ ∀J { χ } <: P <: {η } Kα ≲ ∀J { χ ′ } <: Q <: {η ′ } Kα ′ using σ
+
+                                            ≡
+Existential reduction: ∆ ⊢ Ξ −→ Ξ using σ
+
+     ∆ ⊢ α . Bottom ⇒ C              toConstraint({K }) = C ′
+   ∆ ⊢ unify(C ∧ C ′ ) = (σ , C ′′ )     toBounds(C ′′ ) = {K ′ }                           otherwise
+                                   ≡                                                           ≡
+                 ∆ ⊢ ∃J K Kα −→ ∃J K ′ Kσα using σ                              ∆ ⊢ ∃J K Kα −→ ∃J K Kα using []
+
+                                        ≡                                            ≡
+Universal reduction: ∆ ⊢ ϒ −→ ϒ using σ                              ∆ ⊢ ∃J K Kα −→ ∃J K ′ Kα ′ using σ
+                                                                                    ≡
+                                                             ∆ ⊢ ∀J K K(α → ω) −→ ∀J K ′ K(α ′ → σω) using σ
+
+Existential subtyping: ∆ ⊢ Ξ ⊑ Ξ using σ                    ∆ ⊢ Ξ⊑Ξ
+                 ≡
+        ∆ ⊢ Ξ −→ Ξ ′′ using              ∆ ⊢ Ξ ′′ ≲ Ξ ′ using σ                         ∆ ⊢ Ξ ⊑ Ξ ′ using
+                          ∆ ⊢ Ξ ⊑ Ξ ′ using σ                                              ∆ ⊢ Ξ ⊑ Ξ′
+Universal subtyping: ∆ ⊢ ϒ ⊑ ϒ using σ                    ∆ ⊢ ϒ⊑ϒ
+                     ≡
+        ∆ ⊢ ϒ ′ −→ ϒ ′′ using               ∆ ⊢ ϒ ≲ ϒ ′′ using σ                        ∆ ⊢ ϒ ⊑ ϒ ′ using
+                           ∆ ⊢ ϒ ⊑ ϒ ′ using σ                                              ∆ ⊢ ϒ ⊑ ϒ′
+
+                                       Fig. 6. Subtype relations of quantified types
+
+
+T . Thus, Ξ⊓ denotes the same applicable set as ∃JS <: T KArrayListJS K, which is a subtype of Ξ3
+using [R/S].
+    Therefore, in order to reduce the gap between the subset relation of applicable sets and the
+subtype relation of domain types, we extend the subtype relation of existential types using existential
+reduction. As defined in Figure 6, existential reduction infers a simplified existential type from a
+given existential type ∃J K Kα. It first collects constraints C that make α different from Bottom:
+∆ ⊢ α . Bottom ⇒ C. It then tries to find types that instantiate the type parameters bound in K or
+simply collects their bounds by solving C and the constraints on the type parameters; it makes a
+substitution σ for the type parameters that have types to instantiate with and constraints C ′′ for
+the type parameters that have only bounds. Using the substitution σ and type parameter bindings
+K ′ generated from C ′′, it produces a simplified existential type ∃J K ′ Kσα. Finally, in the extended
+subtype relation, one existential type is a subtype of the other if a reduced existential type of the
+former is a subtype of the latter by the inner subtyping rule as shown in Figure 6.
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                        11:15
+
+    Collecting constraints C that make a type α different from another type α ′ requires various
+relations between types such as subtype, non-subtype, equivalence, non-equivalence, exclusion,
+and non-exclusion relations. A constraint is inductively defined with boolean literals, true and
+false, and simple type relations like subtype, non-subtype, exclusion, and non-exclusion relations
+as base cases, and conjunction and disjunction of constraints as inductive steps. We also defined
+the various type relations inductively on the structure of types. In addition, we defined all the
+type relations in a way that supports complete and disjoint case analysis for types. The entire type
+relations are formally defined in the companion report [Park et al. 2018].
+    Arrow types are compared only in rule [Return-Test], to see whether the return type of a more
+specific generic method declaration can be a subtype of the return type of a less specific one. As
+the informal rule in Section 2.2 specifies, Return Type Rule checks that for two declarations d 1 and
+d 2 where d 1 is more specific than d 2 , and for any non-Bottom type γ that d 1 is applicable to, the
+return type of an instance of d 2 that is applicable to γ is a supertype of the return type of some
+instance of d 1 that is applicable to γ . When the arrow types of d 1 and d 2 are ∀Jκ K(α → ρ) and
+∀Jκ ′ K(α ′ → ρ ′), respectively, [Return-Test] checks this by checking whether the arrow type of
+d 1 is a subtype of ∀Jκ , κ ′ K((α ⊓ α ′) → ρ ′). Since d 1 is more specific than d 2 and is applicable to
+γ , there exist substitutions σ1 and σ2 that make d 1 and d 2 applicable to γ , respectively, thus both
+σ1α and σ2α ′ are supertypes of γ , therefore so is (σ1 ◦ σ2 )(α ⊓ α ′). Thus, if the arrow type of d 1 is a
+subtype of ∀Jκ , κ ′ K((α ⊓ α ′) → ρ ′) using some substitution σ , it makes σα a supertype of (α ⊓ α ′),
+which makes (σ1 ◦ σ2 ◦ σ )α a supertype of γ , and σ ρ a subtype of ρ ′. Hence, σ1 ◦ σ2 ◦ σ is the one
+that makes the instance of d 1 that is applicable to γ and has the return type that is a subtype of the
+instance of d 2 . In summary, [Return-Test] ensures that for any instance of d 2 instantiated with σ2
+that is applicable to γ , there exists an instance of d 1 instantiated with σ1 ◦ σ2 ◦ σ that is applicable
+to γ and has a return type that is a subtype of the return type of the instance of d 2 .
+    In the same manner as for existential types, we extend the subtype relation of universal types
+using universal reduction as defined in Figure 6. When [Return-Test] checks whether one universal
+type is a subtype of the other, the domain type of the latter is an intersection type. Thus, in order
+to utilize the extended expressivity by existential reduction, universal reduction takes a universally
+quantified arrow type ∀J K K(α → ω), simplifies its domain type to ∃J K ′ Kα ′ using σ via existential
+reduction, and produces a simplified universal type ∀J K ′ K(α ′ → σω). In the extended subtype
+relation, one universal type is a subtype of the other if the former is a subtype of a reduced universal
+type of the latter by the inner subtyping rule as shown in Figure 6.
+
+4.3   Unique Existence of the Most Specific Declaration
+  Theorem 4.1. For any method invocation, there always exists a unique most specific method
+declaration in its set of applicable method declarations.
+   Proof Sketch. We first show that the more specific relation of method declarations is a partial
+order. It is clearly reflexive and transitive since the existential subtype relation is reflexive and
+transitive. The No Duplicates Rule guarantees that it is antisymmetric. Under the partial order, a
+set of applicable method declarations is a meet semilattice. The Meet Rule guarantees the existence
+of a meet for every nonempty subset of the set. Proving the existence of the most specific method
+declaration is straightforward by structural induction on the meet semilattice.                     □
+
+
+5 OVERLOADING RESOLUTION
+Method overloading is resolved both at compile time for type checking and at run time for evaluation,
+and these static and dynamic overloading resolutions should be consistent. For a method invocation
+
+                             Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:16                                 Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Well-formed expressions: ∆; Γ ⊢ e : (ϵ, α)
+
+              ∆; Γ ⊢ e : (ϵ, C)       ∆; Γ ⊢ e ′ : (ϵ ′, η)        msav(∆, (C, m), (C, η)) = mJ K( ): ρ =
+                                                                                                            [T-Method]
+                                            ∆; Γ ⊢ e.m(e ′ ) : (ϵ.m(ϵ ′ ): ρ, ρ)
+
+Most specific applicable visible method: msav(∆, (C, m), α) = D
+                                                                                                        
+             mostSpecific(∆, applicable(∆, visible(∆, (C, m)), α)) = {(d, {σ })}              # (d, {σ }) = 1
+                          (d ′, {σ ′ }) ∈ {(d, {σ })}         instantiate(d ′ , σ ′ ) = D ′   D ∈ {D ′ }
+                                                                                                                [MSAV]
+                                                 msav(∆, (C, m), α) = D
+                                  Fig. 7. Well-formed method invocation expressions
+
+
+expression, static overloading resolution chooses an instance of the most specific method declaration
+that is applicable to the static types of the method arguments; dynamic overloading resolution then
+must select an instance of the most specific method declaration that is applicable to the dynamic
+types of the arguments and whose return type is a subtype of the static type of the expression.
+
+5.1     Static Overloading Resolution
+As discussed in Section 2.3, in order to make type-sound choices, the static types of method
+invocation expressions must be available at run time. Thus, checking well-formedness of an
+expression e produces its type-annotated version ϵ and its type α as shown in Figure 7. A type-
+annotated internal expression is just like an expression except that all the method invocation
+expressions in it are annotated with their static types:
+  Type-annotated internal expression          ϵ ::= z | ((x: α ): α ⇒ ϵ) | ϵ@(ϵ ) | OJ α K(ϵ ) | ϵ.m(ϵ ): α
+  Figure 7 shows only [T-Method] for method invocation, since the rules for the other kinds of
+expressions are conventional. The full definitions are available in the companion report [Park et al.
+2018]. For a method invocation e.m(e ′ ), after checking well-formedness of expressions e and e ′ ,
+the rule performs static overloading resolution via rule [MSAV] to find an instance of the most
+specific applicable visible method declaration, and annotates the method invocation with the return
+type of the chosen instance. Rule [MSAV] first selects the most specific applicable visible method
+declaration d ′ with a set of substitutions {σ ′ } using the static types of the method arguments α.
+The unique existence of the most specific applicable visible method declaration is guaranteed by
+Theorem 4.1. Then, the rule selects one instance D out of instantiations of d ′ with {σ ′ }.
+
+5.2     Dynamic Overloading Resolution
+When evaluating a method invocation expression, dynamic overloading resolution selects a method
+declaration to call by using the dynamic types of the arguments and the static type of the expression.
+We describe the dynamic overloading resolution in a top-down manner from the dynamic semantics
+rule for method invocation (Section 5.2.1) to the details of its helper judgments (Sections 5.2.2
+and 5.2.3), present a concrete example (Section 5.2.4), and prove its correctness (Section 5.2.5).
+5.2.1 Dynamic Semantics.
+   Dynamic overloading resolution uses additional metavariables as in Figure 8. A class-declaration
+environment Ψ is a set of class declarations. A ground type д is a dynamically available type, which
+is an internal type that does not contain type parameters nor Bottom; our type system requires that
+both static and dynamic type inference algorithms instantiate type parameters with non-Bottom
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                             11:17
+
+Class-declaration environment    Ψ    ::= {ψ }
+Ground type                      д    ::= T Jд K | OJд K | (д) | (д → д) | Any | (д ⊔ д) | (д ⊓ д)
+Value                            v    ::= OJд K(v ) | ((x: д): д ⇒ ϵ)
+Ilk                              k    ::= OJд K | (д) | (д → д)
+Evaluation context               E    ::= □ | E@(ϵ ) | v@(v , E, ϵ ) | OJд K(v , E, ϵ ) | E.m(ϵ ): д | v.m(v , E, ϵ ): д
+Redex                            R    ::= v@(v ) | v.m(v ): д
+
+Dynamic semantics: Ψ ⊢ E [R] −→ E [ϵ]
+
+ v ′′ = OJд K(v )     object OJ K(x: )             end ∈ Ψ    ⟨d ⟩ = topologicalSort(Ψ, visible(Ψ, (OJд K, m)))
+                    ( , mJ K(x ′ : ): = ϵ) = firstDispatchable(Ψ, ⟨d ⟩, (ilk(v ′′ ), ilk(v ′ )), д ′ )
+                                    h               i      h                          i
+                            Ψ ⊢ E v ′′ .m(v ′ ): д ′ −→ E v ′′ /self, v/x , v ′ /x ′ ϵ
+                                                                                                       [R-Method]
+First dispatchable method instance: firstDispatchable(Ψ, ⟨d ⟩, k, д) = D
+
+                        ⟨d ⟩ = ⟨d ′ , d ′′, ⟩ ¬(Ψ ⊢ k and д dispatch d ′ using )
+                        Ψ ⊢ k and д dispatch d ′′ using σ D = instantiate(d ′′, σ )
+                                                                                               [First-Dispatchable]
+                                        firstDispatchable(Ψ, ⟨d ⟩, k, д) = D
+
+Dispatch semipredicate: Ψ ⊢ k and д dispatch d using σ
+
+              arrow(d) = ∀J K K(α → ρ)          Ψ ⊢ k match J K K α + bounds ⟨l ⟩ and ⟨u ⟩
+                                                Ψ ⊢ д match J K K ρ - bounds ⟨l ′ ⟩ and ⟨u ′ ⟩
+                                         Ã× D                E    d× D                E
+              Ψ ⊢ solve J K K bounds            ⟨l ⟩ , ⟨l ′ ⟩ and        ⟨u ⟩ , ⟨u ′ ⟩ using σ
+                                            K                            K
+                                                                                                           [Dispatch]
+                                         Ψ ⊢ k and д dispatch d using σ
+                        Fig. 8. Dynamic semantics of method invocation expressions
+
+
+types, and that all the type parameters are instantiated with ground types at run time. We call the
+run-time type of a value the ilk of the value; the ilk of an object instance OJд K(v ) is OJд K, and the
+ilk of a function ((x: д): д ′ ⇒ ϵ) is ((д) → д ′). Similarly to domain types, we write (д) to denote
+ilks of multiple function parameters. Evaluation contexts E and redexes R are conventional.
+    For a method invocation, rule [R-Method] seeks the most specific method declaration with
+a dispatchable instance that is applicable to the ilk of the arguments and whose return type is a
+subtype of the annotated static return type. We say a method declaration is dispatchable to the ilk
+of arguments and the static return type if it has a dispatchable instance. For the sake of efficiency,
+rule [R-Method] first topologically sorts all the visible method declarations in a most-to-least
+specific order. (This order is statically determinable, so the sorting can be done at compile time.)
+The rule then checks the dispatch semipredicate for each method declaration in the sorted list until
+it finds the first method declaration d ′′ dispatchable to the given ilk of the arguments k and the
+static return type д with a dispatchable instance D = instantiate(d ′′, σ ).
+    The dispatch semipredicate defined in rule [Dispatch] checks if a given method declaration d is
+dispatchable to a given ilk k and a static return type д. The dispatch semipredicate is satisfied using
+substitution σ if d has a dispatchable instance (obtained by deleting the method type parameters
+of d and applying σ to its argument types, return type, and body). Metavariable l ranges over
+lower type bounds, and u ranges over upper type bounds. We write ⟨l ⟩ to denote ordered lists.
+The dispatch semipredicate consists of three steps: (1) computing type bounds ⟨l ⟩ and ⟨u ⟩
+
+                                Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:18                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Type matching a ground type to an internal type: Ψ ⊢ д match J K K α V bounds ⟨l ⟩ and ⟨u ⟩
+
+                              д is not an intersection type       д is not a union type
+                   l = (if (P = Pi ) then д else Bottom)        u = Any       1 ≤ i ≤ #(P ) = #(u )
+                                                                                                      [M-Param-Co]
+                        Ψ ⊢ д match J { χ } <: P <: {η } K Pi + bounds ⟨l ⟩ and ⟨u ⟩
+
+                     Ψ ⊢ д match J K K α V bounds ⟨l ⟩ and ⟨u ⟩
+                                               Ã× D     E    d× D      E [M-Tuple-Tuple-Success]
+             Ψ ⊢ (д) match J K K (α ) V bounds      ⟨l ⟩ and      ⟨u ⟩
+                                                       K                   K
+                                                     #(д) , #(α )
+                                                                                          [M-Tuple-Tuple-Failure]
+                                    Ψ ⊢ (д) match       (α )   bounds      and
+
+                     α is not an intersection type         α is not a union type
+                       Ψ ⊢ д match J K K α - bounds ⟨l ⟩ and ⟨u ⟩
+                         Ã                          D    E    D   E [M-Union-Whatever-Contra]
+                     Ψ ⊢ ⟨д⟩ match J K K α - bounds ⟨l ⟩ and ⟨u ⟩
+
+                   Fig. 9. Type matching a ground type to an internal type (selected rules)
+
+
+
+that will make the domain type of the method declaration d be a supertype of the ilk k, so that d
+will be applicable to k, (2) computing type bounds ⟨l ′ ⟩ and ⟨u ′ ⟩ that make the static return
+type д a supertype of the return type of d to make sure that the dynamic dispatch preserves type,
+and (3) solving those type bounds to get a valid substitution σ . (If any of these steps fails, the
+semipredicate is false: the declaration is not applicable.) The computed type bounds are either
+ground types or Bottom. The dispatch semipredicate computes type bounds by type matching as
+described in the next section.
+
+5.2.2 Computing Bounds by Type Matching.
+   The match rules in Figure 9 compute lower and upper type bounds ⟨l ⟩ and ⟨u ⟩ for method
+type parameters in K by matching a ground type д against an internal type α according to a
+variance mark V . When V is respectively +, -, or =, the rules compute the type bounds that make д
+respectively a subtype, a supertype, or an equivalent type of α. For example, as in [M-Param-Co],
+if a ground type д is matched against a method type parameter Pi according to +, д becomes the
+lower bound of Pi so that д is a subtype of Pi as long as Pi satisfies its type bounds д <: Pi <: Any.
+   The match rules compute lower and upper type bounds in the form of two lists of lists ⟨l ⟩
+                                                                            i
+and ⟨u ⟩ where #(⟨l ⟩) = #(⟨u ⟩) and #(K ) = #(li ) = #(ui ) . Matching may produce multiple
+solutions; each inner list is one possible solution. Multiple solutions come from cases with union
+types and intersection
+              Ã          types as in rule [M-Union-Whatever-Contra], whichÃ        matches a union
+ground type ⟨д⟩ against α according
+                               Ã         to - and computes type  bounds  that make   ⟨д⟩ a supertype
+of α. Because a union type ⟨д⟩ is a supertype of α if any component дi is a supertype of α,
+multiple components may be supertypes of α, which may lead to multiple type bounds for each
+of those components. Since we cannot decide which one of the multiple type bounds is the one
+eventually satisfying all the constraints, the match rules compute all possible solutions, which are
+then winnowed in the solving step. To collect all the bounds, the match rules cover failure cases as
+well so that the rules do not stop collecting bounds even when one component fails type matching.
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                                    11:19
+
+
+Solving type bounds: Ψ ⊢ solve J K K bounds ⟨l ⟩ and ⟨u ⟩ using σ
+                                     Ψ ⊢ solve J K bounds ⟨⟩ and ⟨⟩ using []                                     [Solve-Empty]
+                                                                              d
+         # ⟨l , l ′ ⟩ = # ⟨u , u ′ ⟩ = n ≥ 1      1≤i ≤n           д ′ = (ui′ ⊓       {η ′ })   Ψ ⊢ li′ <: д ′
+                         Ψ ⊢ д ′ match J K K χ ′ - bounds ⟨l ′′ ⟩ and ⟨u ′′ ⟩
+                                Ã× D ′′              E    d× D                    E
+        Ψ ⊢ solve J K K bounds        ⟨l ⟩ , ⟨l i ⟩ and           ⟨u ′′ ⟩ , ⟨u i ⟩ using [д/P ]
+                                      K                               K
+                                                                                                                  [Solve-Step]
+         Ψ ⊢ solve J K , { χ ′ } <: P ′ <: {η ′ } K bounds ⟨l , l ′ ⟩ and ⟨u , u ′ ⟩ using [д/P , д ′ /P ′ ]
+                                               Fig. 10. Solving type bounds
+
+
+
+For example, rule [M-Tuple-Tuple-Failure] specifies a failure case due to size mismatch of tuple
+types; rather than actually failing, it succeeds but delivers empty lists of solutions.
+   Lists of solutions for component types are combined in the manner of a Cartesian product. For
+                                                     Ã× D        i E d D            i E
+                                                                        ×
+instance, rule [M-Tuple-Tuple-Success] reduces K ⟨li ⟩                  K
+                                                                              ⟨u i ⟩      by computing
+componentwise unions (intersections) for all the combinations of choosing one type bound from
+each i-th list of the type bounds. Hence, inductively matching n components whose i-th component
+has mi type bounds produces a list of m 1 × · · · × mn type bounds (thus if matching any component
+fails and produces , the whole type matching fails and results in ). For example,
+
+  Ã× D                                                     E
+    K
+           ⟨A, B⟩, ⟨C, D⟩ , ⟨E, F ⟩, ⟨G, H ⟩, ⟨I, J ⟩          =
+   ⟨A ⊔ E, B ⊔ F ⟩, ⟨A ⊔ G, B ⊔ H ⟩, ⟨A ⊔ I, B ⊔ J ⟩, ⟨C ⊔ E, D ⊔ F ⟩, ⟨C ⊔ G, D ⊔ H ⟩, ⟨C ⊔ I , D ⊔ J ⟩ .
+
+5.2.3 Solving the Bounds.
+   The last step of the dispatch semipredicate is to solve the computed type bounds for method type
+parameters as in Figure 10. The solve rules compute a valid substitution σ for all the method type
+parameters in K , which satisfies the declared bounds in K and the computed bounds from type
+matching ⟨l ⟩ and ⟨u ⟩ . The solving step succeeds if any of the type bounds leads to a valid
+substitution. For declared type bounds for method type parameters P , P ′ and their computed type
+bounds ⟨l , l ′⟩ and ⟨u , u ′⟩ from type matching, rule [Solve-Step] nondeterministically selects
+i-th type bounds ⟨l i , li′⟩ and ⟨u i , ui′⟩ that successfully compute a valid substitution. Starting from
+the rightmost type parameter P ′, the rule computes a substitution [д ′/P ′] by taking the intersection
+of the upper bounds of P ′. Because д ′ is a ground type, the solving step never instantiates method
+type parameters with Bottom. The match premises propagate the choice of д ′ for P ′ to the declared
+lower bounds of P ′ to collect additional constraints on P . Then, the rule combines the additional
+constraints and the originally computed bounds, and inductively solves the combined bounds to
+compute the substitution [д/P ]. From this, it produces a valid substitution [д/P , д ′/P ′].
+   Note that the rule selects i-th type bounds nondeterministically while it checks type parameters
+deterministically from the rightmost one. Because the scope of a well-formed method type parameter
+extends to the right and method type parameters can appear only in lower bounds, for well-formed
+type parameters { χ } <: P <: {η }, the upper bounds {η } do not contain any of P , and P j does
+not appear in the lower bounds of Pi for i ≤ j. Thus, the choice of дi for Pi does not affect the
+upper bounds of P j , which allows us to compute a substitution in the right-to-left order by taking
+intersections of upper bounds. Since the choice of дj for P j may place additional constraints on Pi ’s
+
+                                  Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:20                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+that appear in the lower bounds { χ j } of P j , [Solve-Step] propagates the choice of дj for P j to the
+lower bounds and computes additional constraints, to ensure that дj is a supertype of all { χ j }.
+5.2.4 Example.
+   Let us revisit the dynamic overloading resolution process with a concrete example. Suppose we
+have two covariant traits List and SortedList such that SortedListJP K <: ListJP K, two objects
+Cons and SortedCons such that ConsJP K <: ListJP K and SortedConsJP K <: SortedListJP K,
+and a method append that concatenates two lists. Consider the following method declarations:
+         appendJP, {P } <: Q K(x: SortedListJP K, y: SortedListJQ K): SortedListJQ K =
+         appendJP, {P } <: Q K(x: ListJP K, y: ListJQ K): ListJQ K =
+and call them d 1 and d 2 in order. This is a valid overloading since it satisfies the overloading rules
+with d 1 being more specific than d 2 . Suppose we have three monomorphic classes C 1 , C 2 , and C 3
+such that C 1 <: C 3 and C 2 <: C 3 , and consider the following method invocation expression:
+                                                 append(l 1 , l 2 )
+with two lists l 1 and l 2 whose static types are both ListJC 3 K and whose ilks are SortedConsJC 1 K and
+ConsJC 2 K, respectively. Then, type checking this expression would produce the internal expression
+append(l 1 , l 2 ): ListJC 3 K.
+   Now, let us see how this method call is dynamically dispatched. Given the ilk of the argument tuple
+(SortedConsJC 1 K, ConsJC 2 K), the static return type ListJC 3 K, and the topologically sorted list of
+method declarations ⟨d 1 , d 2 ⟩, dynamic overloading resolution performs the dispatch semipredicate
+starting from the first declaration d 1 in the list. The dispatch semipredicate on d 1 would succeed if it
+computed a valid substitution. However, it fails because its first type matching step fails, producing
+an empty list of solutions:
+        Ψ ⊢ SortedConsJC 1 K match J K K SortedListJP K + bounds ⟨C 1 ,Bottom⟩ and ⟨Any,Any⟩
+                    Ψ ⊢ ConsJC 2 K match J K K SortedListJQ K + bounds     and
+  Ψ ⊢ (SortedConsJC 1 K, ConsJC 2 K) match J K K (SortedListJP K, SortedListJQ K) + bounds       and
+
+where K = {Bottom} <: P <: {Any}, {P } <: Q <: {Any}. While the first component matching
+succeeds, the second component matching fails since ConsJC 2 K is not a subtype of SortedListJQ K.
+Although matching the static return type against the return type of d 1 succeeds, the combined
+type bounds for the solving step are the empty lists, which leads to the failure of the dispatch
+semipredicate:
+              arrow(d 1 ) = ∀J K K((SortedListJP K, SortedListJQ K) → SortedListJQ K)
+  Ψ ⊢ (SortedConsJC 1 K, ConsJC 2 K) match J K K (SortedListJP K, SortedListJQ K) + bounds and
+       Ψ ⊢ ListJC 3 K match J K K SortedListJQ K - bounds ⟨Bottom,Bottom⟩ and ⟨Any, C 3 ⟩
+                                Ψ ⊢ solve J K K bounds    and     using ✗
+                    Ψ ⊢ (SortedConsJC 1 K, ConsJC 2 K) and ListJC 3 K dispatch d 1 using ✗
+
+  Dynamic overloading resolution then moves on to the next method declaration in the list, d 2 ,
+and performs the dispatch semipredicate on it. In this case, both type matching steps succeed, and
+the overall result of the dispatch semipredicate depends on the result of the solving step:
+We start solving the type bounds from        the rightmost  type parameter Q. Since we have a single
+pair of type bounds, that is, # ⟨C 1 , C 2 ⟩ = # ⟨Any, C 3 ⟩ = 1, there is no need for a nondeterministic
+choice in rule [Solve-Step]. The substitution for Q is the intersection of the computed upper
+bound and the declared upper bound: C 3 ⊓ Any = C 3 . This choice of substitution C 3 for Q has to be
+propagated by matching it against the declared lower bound of Q, which is P, to make sure that C 3
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                         11:21
+
+                         arrow(d 2 ) = ∀J K K((ListJP K, ListJQ K) → ListJQ K)
+Ψ ⊢ (SortedConsJC 1 K, ConsJC 2 K) match J K K (ListJP K, ListJQ K) + bounds ⟨C 1 , C 2 ⟩ and ⟨Any,Any⟩
+          Ψ ⊢ ListJC 3 K match J K K ListJQ K - bounds ⟨Bottom,Bottom⟩ and ⟨Any, C 3 ⟩
+                      Ψ ⊢ solve J K K bounds ⟨C 1 , C 2 ⟩ and ⟨Any, C 3 ⟩ using σ
+                   Ψ ⊢ (SortedConsJC 1 K, ConsJC 2 K) and ListJC 3 K dispatch d 2 using σ
+
+is a supertype of P. We then combine the type bounds obtained from propagation and the originally
+given type bounds, and inductively solve the combined bounds to get the substitution for P, which
+results in [C 3 /P] by again taking the intersection of the upper bounds: C 3 ⊓ Any = C 3 . Thus, the
+solving step succeeds with a valid substitution [C 3 /P, C 3 /Q]:
+        Ψ ⊢ C 2 <: C 3   Ψ ⊢ C 3 match JBottom <: P <: AnyK P - bounds ⟨Bottom⟩ and ⟨C 3 ⟩
+                 Ψ ⊢ solve JBottom <: P <: AnyK bounds ⟨C 1 ⟩ and ⟨C 3 ⟩ using [C 3 /P]
+   Ψ ⊢ solve JBottom <: P <: Any, P <: Q <: AnyK bounds ⟨C 1 , C 2 ⟩ and ⟨Any, C 3 ⟩ using [C 3 /P, C 3 /Q]
+
+As a result, the dispatch semipredicate on d 2 succeeds with [C 3 /P, C 3 /Q], and the method call
+expression is dispatched to the following instance of d 2 :
+       D = instantiate(d 2 , [C 3 /P, C 3 /Q]) = append(x: ListJC 3 K, y: ListJC 3 K): ListJC 3 K =
+It shows that the dynamic overloading resolution selects an instance of the most specific applicable
+method declaration without any ambiguity, and the return type of the chosen instance is a subtype
+of the static return type, which means that the dynamic overloading resolution preserves type.
+5.2.5 Correctness of Dispatch Semipredicate.
+We prove the soundness and completeness of the dispatch semipredicate by showing that each of
+its steps is sound and complete. While we state the lemmas and theorems in prose in this paper, we
+state them formally in the companion report [Park et al. 2018].
+  Lemma 5.1. (Soundness of Type Matching) The match rules compute sound bounds for method type
+parameters by matching a ground type д against an internal type α according to a variance mark V .
+That is, any substitution σ satisfying the bounds makes σα a supertype, a subtype, or an equivalent
+type of д when V is respectively +, -, or =.
+   Lemma 5.2. (Completeness of Type Matching) Assume that an internal type α does not contain
+Bottom, and if α contains any union type or an intersection type γ , γ does not contain any type
+parameter. For a ground type д and a variance mark V , if a substitution σ on ⟨ P ⟩ makes σα a
+supertype, a subtype, or an equivalent type of д when V is respectively +, -, or =, then the match rules
+find bounds of ⟨ P ⟩ that σ satisfies.
+   A subtle point in Lemma 5.2 is the assumptions on type α. While the syntax of the match rules
+allows any internal types, each match rule is used only with α coming from method declarations.
+The explicitly annotated types in method declarations are external types, which do not contain
+Bottom, union types, nor intersection types. On the contrary, inferred types for method type
+parameters may contain such internal types. For instance, in the following example (in which type
+annotations appear for the two method calls):
+                     object O ′JQ K m ′(x: Q): Q =                                       end
+                     object O         mJP K(x: P, y: P): P = O ′JP K.m ′(x): P           end
+                     O.m(3, true): (Int ⊔ Boolean)
+the method type parameter P of m is inferred as (Int ⊔ Boolean) by the dispatch semipredicate at
+run time. Since this inferred type then flows into the method declaration of m ′, the ilk and the static
+type of method invocation expression of m ′ are matched against the union type. However, because
+
+                              Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:22                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+our type system requires that both static and dynamic type inference algorithms instantiate type
+parameters with non-Bottom types, α does not contain Bottom. In addition, when α contains union
+types or intersection types, all the type parameters in them are already instantiated with ground
+types.
+  Lemma 5.3. (Soundness of Solving Bounds) The solve rules compute a valid substitution that satisfies
+both the declared bounds and computed bounds of method type parameters.
+  Lemma 5.4. (Completeness of Solving Bounds) If a valid substitution for method type parameters
+exists, then the solve rules find one.
+  Theorem 5.5. (Soundness of Dispatch Semipredicate) If the dispatch semipredicate on a method
+declaration d for an ilk k and a static return type д succeeds, then d is dispatchable to k and д.
+   Theorem 5.6. (Completeness of Dispatch Semipredicate) If a method declaration d is dispatchable
+to an ilk k and a static return type д, then the dispatch semipredicate on d for k and д succeeds.
+  The theorems are proved directly from the four lemmas, which are proved by induction on match
+rules, the structure of д and a, solve rules, and the number of method type parameters, respectively.
+
+5.3     Type Soundness of FGFV
+We now prove the type soundness of FGFV. First, we show that application of a valid substitution
+to both sides of a subtype relation preserves the relation.
+   Lemma 5.7. (Substitution Preserves Subtype Relation) For ∆ ′ = { { χ } <: P <: {η } } and σ = [γ /P ]
+where γ satisfy the bounds of their corresponding P , and free variables of γ do not include any of P ,
+if ∆ ∪ ∆ ′ ⊢ α <: α ′ then ∆ ⊢ σα <: σα ′.
+   Proof Sketch. By structural induction on α and α ′ using subtype rules.                                   □
+  Next, we show that no matter which applicable method instance we choose for a method
+invocation at compile time, there exists a type-safe most specific method instance at run time.
+   Lemma 5.8. (Existence of a Type-safe Most Specific Method Instance) For a method invocation
+expression e.m(e ′ ) and a type-declaration environment ∆ = Ψ ∪ { { χ } <: P <: {η } }, let the static
+types of e and (e ′ ) be C 2 and γ respectively, their run-time types be C 1 and k respectively, with
+Ψ ⊢ C 1 <: σC 2 and Ψ ⊢ k <: σγ for some σ that satisfies the bounds of P , a statically applicable
+method declaration (d 2 , {σ2 }) ∈ applicable(∆, visible(∆, (C 2 , m)), γ ), and the dynamically most specific
+         method declaration (d 1 , {σ1 }) ∈ mostSpecific(Ψ, applicable(Ψ, visible(Ψ, (C 1 , m)), k)).
+applicable
+If D 2 ∈ instantiate(d 2 , σ2 ) with arrow(D 2 ) = ∀J K( → ρ),
+             
+then ∃ D 1 ∈ instantiate(d 1 , σ1 ) with arrow(D 1 ) = ∀J K( → д) such that Ψ ⊢ д <: σ ρ.
+   Proof Sketch. Let arrow(d 1 ) = ∀J K 1 K(α 1 → ρ 1 ) and arrow(d 2 ) = ∀J K 2 K(α 2 → ρ 2 ). Because
+Ψ ⊢ C 1 <: σC 2 , Ψ ⊢ k <: σγ , and d 2 is visible from C 2 and is applicable to γ , by Lemma 5.7, σd 2 is
+visible from C 1 and is applicable to k, that is (σd 2 , {σ2′ }) ∈ applicable(Ψ, visible(Ψ, (C 1 , m)), k) with
+{σ2 } ⊆ {σ2′ }. Thus, Ψ ⊢ dom(d 1 ) ⊑ dom(σd 2 ) and by [Return-Test],
+                    Ψ ⊢ ∀J K 1 K(α 1 → ρ 1 ) ⊑ ∀J K 1 , K 2 K((α 1 ⊓ σα 2 ) → σ ρ 2 ) using σ ′
+which implies
+                                                                ≡
+                   Ψ ⊢ ∀J K 1 , K 2 K((α 1 ⊓ σα 2 ) → σ ρ 2 ) −→ ∀J K 3 K(α 3 → ρ 3 ) using σr              (1)
+                   Ψ ⊢ ∀J K 1 K(α 1 → ρ 1 ) ≲ ∀J K 3 K(α 3 → ρ 3 ) using σ ′                                (2)
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                        11:23
+          
+If D 2 ∈ instantiate(d 2 , σ2 ) , then arrow(D 2 ) = ∀J K(σ2α 2 → σ2 ρ 2 ) for some σ2 ∈ {σ2 } and we have
+∆ ⊢ γ <: σ2α 2 , which implies Ψ ⊢ k <: (σ ◦ σ2 )α 2 by Lemma 5.7. Because Ψ ⊢ k <: σ1α 1 for any
+σ1 ∈ {σ1 }, (σ1 ◦ σ2 )(α 1 ⊓ σα 2 ) is not Bottom. Since σr represents the minimum requirement that
+prevents σr (α 1 ⊓ σα 2 ) from being Bottom, there exists σ ′′ such that σ1 ◦ σ2 = σ ′′ ◦ σr . From (1),
+we have Ψ ∪ {K 3 } ⊢ σr (α 1 ⊓ σα 2 ) ≡ α 3 and Ψ ∪ {K 3 } ⊢ (σr ◦ σ )ρ 2 ≡ ρ 3 , and from (2), we have
+Ψ ∪ {K 3 } ⊢ α 3 <: σ ′α 1 and Ψ ∪ {K 3 } ⊢ σ ′ ρ 1 <: ρ 3 . Thus, by Lemma 5.7, Ψ ⊢ k <: (σ ′′ ◦ σ ′)α 1
+and Ψ ⊢ (σ ′′ ◦ σ ′)ρ 1 <: σ (σ2 ρ 2 ) since σ1 ρ 2 = ρ 2 . Therefore, we have σ ′′ ◦ σ ′ ∈ {σ1 } and
+there exists D 1 = instantiate(d 1 , σ ′′ ◦ σ ′) with arrow(D 1 ) = ∀J K( → (σ ′′ ◦ σ ′)ρ 1 ) such that Ψ ⊢
+(σ ′′ ◦ σ ′)ρ 1 <: σ (σ2 ρ 2 ).                                                                           □
+
+   We now show that if a type-safe most specific method instance exists, the firstDispatchable rule
+finds one. This lemma follows from the soundness and completeness of the dispatch semipredicate.
+    Lemma 5.9. (Validity of the firstDispatchable Rule) For a class-declaration environment Ψ, a ground
+constructed type C, and a method m, let {d ′ } = visible(Ψ, (C, m)).
+                                                                   For an ilk k and a ground type д,
+if (d, {σ }) ∈ mostSpecific(Ψ, applicable(Ψ, {d ′ }, k)) and D 0 ∈ instantiate(d , σ ) with arrow(D 0 ) =
+∀J K( → д0 ) where Ψ ⊢ д0 <: д, then firstDispatchable(Ψ, topologicalSort(Ψ, {d ′ }), k, д) = D with
+arrow(D) = ∀J K(д1 → д2 ) where Ψ ⊢ k <: д1 and Ψ ⊢ д2 <: д.
+  Proof Sketch. Let arrow(d) = ∀J K K(α → ρ). If D 0 = ∀J K(σα → σ ρ) for some σ ∈ {σ } with
+Ψ ⊢ σ ρ <: д, since D 0 is applicable to k, Ψ ⊢ k <: σα. Therefore, by Theorem 5.6, we have
+Ψ ⊢ k and д dispatch d using σ ′ for some σ ′. Since d is the most specific method declaration
+that is applicable to k, rule firstDispatchable produces D, an instance of d instantiated with σ ′:
+arrow(D) = ∀J K(σ ′α → σ ′ ρ). By Theorem 5.5, Ψ ⊢ k <: σ ′α and Ψ ⊢ σ ′ ρ <: д.                □
+
+  Finally, we prove the type soundness of FGFV. Since the main focus of this paper is resolution of
+overloaded method invocation and the other cases are conventional, we prove only the method
+invocation case: a well-typed method invocation can be reduced via [R-Method] and the reduced
+expression preserves the type of the method invocation.
+  Theorem 5.10. (Type Soundness of Method Invocation Expression) For a class-declaration environ-
+ment Ψ of a well-formed program and a method invocation expression OJд ′′ K(v ).m(v ′ ), let ⟨d ⟩ =
+topologicalSort(Ψ, visible(Ψ, (OJд ′′ K, m))) for object OJ K(x: )      end ∈ Ψ. If the method invo-
+cation is well-typed:
+                                  Ψ; • ⊢ OJд ′′ K(v ).m(v ′ ) : ( , д),
+then firstDispatchable(Ψ, ⟨d ⟩, (OJд ′′ K, ilk(v ′)), д) = ( , mJ K(x ′: ): = ϵ) and the body expression
+of the selected method declaration is successfully evaluated while preserving type:
+                  Ψ; • ⊢ [OJд ′′ K(v )/self][v/x ][v ′/x ′ ]ϵ : ( , д ′)with Ψ ⊢ д ′ <: д.
+  Proof Sketch.
+Let (d, {σ }) ∈ mostSpecific(Ψ, applicable(Ψ, visible(Ψ, (OJд ′′ K, m)), (OJд ′′ K, ilk(v ′ )))). Since
+              ′′       ′
+                                                                          
+Ψ; • ⊢ OJд K(v ).m(v ) : ( , д), by Lemma 5.8, there exists D 1 ∈ instantiate(d , σ ) with
+arrow(D 1 ) = ∀J K( → д1 ) such that Ψ ⊢ д1 <: д. Thus, by Lemma 5.9,
+
+             D = ( , mJ K(x ′: ):     = ϵ) = firstDispatchable(Ψ, ⟨d ⟩, (OJд ′′ K, ilk(v ′)), д)
+
+with arrow(D) = ∀J K(д1 → д2 ) where Ψ ⊢ (OJд ′′ K, ilk(v ′)) <: д1 and Ψ ⊢ д2 <: д. Since substi-
+tution preserves type, when Ψ; • ⊢ [OJд ′′ K(v )/self][v/x ][v ′/x ′ ]ϵ : ( , д ′), Ψ ⊢ д ′ <: д2 , thus
+Ψ ⊢ д ′ <: д.                                                                                          □
+
+                             Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:24                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+  Theorem 5.11. (Type Soundness of FGFV) For a class-declaration environment Ψ of a well-formed
+program, if Ψ; • ⊢ e : (ϵ, д) and Ψ ⊢ ϵ −→∗ v, then Ψ; • ⊢ v : ( , д ′) and Ψ ⊢ д ′ <: д.
+
+5.4     Discussion
+Defining a provable system for an object-oriented language requires addressing various technical
+challenges due to the structural asymmetries inherent in the language design. One can have a
+variable of type Any, but one cannot have a variable of type Bottom. The ilk of an actual argument
+must be a subtype, not a supertype, of the method’s parameter type. The ilk of a returned value
+must be a subtype, not a supertype, of the method’s return type. A trait may declare ancestors but
+not descendants. Such asymmetries prohibit seemingly symmetric features from being treated as
+duals. One might think at first glance that upper bounds and lower bounds of type parameters
+should be related symmetrically (perhaps treated as duals), but they cannot be.
+   For example, the łAncestor Meet Rulež (expressed in this paper by rule [Anc-Same-Trait]) was
+introduced into Fortress in 2012 by Guy Steele and David Chase [Steele and Chase 2012] to design
+an expressive type system with union and intersection types. This rule permits proofs that (a) if
+T JP K is covariant in P then T J(α ⊓ α ′)K ≡ (T Jα K ⊓ T Jα ′ K), and (b) if T JP K is contravariant in P
+then T J(α ⊔ α ′)K ≡ (T Jα K ⊓ T Jα ′ K) (that last set operator is indeed ⊓, not ⊔). These equivalences
+allow simplification of type expressions by moving type union and type intersection operators
+out of type arguments. However, the łobvious other two casesž are not available. When T JP K is
+covariant in P, T J(α ⊔ α ′)K is not equivalent to some simple combination of T Jα K and T Jα ′ K; the
+best one can say is that (T Jα K ⊔ T Jα ′ K) <: T J(α ⊔ α ′)K.
+   In 2012, the developers of Fortress explored an alternate set of language restrictions that exploited
+these asymmetries to ensure that exponential blowup could occur at run time only when union
+types interacted with contravariance (the dual case of intersection types interacting with covariance
+could not occur). They then contemplated two alternatives for avoiding the exponential blowup.
+One possibility is to eliminate contravariant type parameters and contravariant type relationships.
+This has the consequence that arrow types must be treated as invariant, rather than contravariant,
+in the type to the left of the arrow. This could make it inconvenient to use higher-order functions
+such as map, but one can compensate by introducing rules of coercion, so that if a function of type
+(α → ρ) is used in a situation where a function of type (α ′ → ρ ′) is required, it can be coerced to a
+new function object if α ′ <: α and ρ <: ρ ′. The other possibility is to eliminate union types from the
+type theory; this might require restricting the language so that, for example, in an if-then-else
+expression, the type of the then subexpression must be either a supertype or a subtype of the else
+subexpression. Alternatively, some sort of pseudo-join (least common existing supertype) operation
+could be used. One could go even further, also eliminating intersection types from the type theory
+by further restricting the language and possibly using a pseudo-meet operation.
+   We carefully designed our dynamic dispatch algorithm to make a balanced tradeoff between static
+expressivity and dynamic efficiency. We accept the potential for exponential blowup because we
+believe that such cases are unlikely to arise in practice and the use of union and intersection types
+in the type theory, even if not directly expressible by the programmer, makes the language more
+expressive. Also, while one could in principle allow any lower bound to refer to any type parameter,
+dynamic overloading resolution would then have to solve a general set of type inequalities, requiring
+a complex technique with multiple iterations; we chose instead to impose left-to-right scoping
+on method type parameters, allowing use of a simple, one-pass right-to-left scan. We believe this
+tradeoff represents a relatively small sacrifice of expressivity for a large gain in dynamic efficiency.
+   Dynamically inferring type instantiations can incur run-time overhead. In simple invariant cases,
+we expect the run-time cost to be relatively low but nonzero. For example, if we pass a value of type
+ListJStringK to a method such as fooJT K(x:ListJT K), T is matched only once and no union
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                      11:25
+
+or intersection types are involved. If List is invariant in T , it will come down to extracting the
+type String from the type ListJStringK and binding T to that. For more costly covariant and
+contravariant cases, as in certain JVM implementations, such techniques as caching or dynamic
+recompilation in reaction to the relative frequencies of types actually encountered may help.
+   The biggest challenge we faced in trying to find a provable system was grappling with the
+language asymmetries described above and trying to understand their consequences. In particular,
+the Fortress team had assumed, because it seemed from several working examples to be in accord
+with intuition, that once the tightest possible upper and lower bounds for a method type parameter
+have been found, then the union (or pseudo-union) of the lower bounds should be chosen as the
+type to be used for that type parameter. We considered this and the hybrid technique of using the
+intersection of upper bounds only when the union of lower bounds is Bottom, but we were unable
+to complete the proofs of correctness of both the techniques. Since the minimum requirement for a
+type to instantiate a method type parameter is that it satisfies all the lower and upper bounds of the
+type parameter, the dynamic dispatch algorithm presented here always chooses the intersection of
+the upper bounds.
+   In the work presented here, as in previous work, one of the most difficult parts is finding the
+necessary substitution σ to satisfy the rule [E-Sub] for existential subtyping during static analysis.
+This is more difficult than the corresponding calculation during dynamic dispatch because at run
+time one always matches an ilk (which contains no type parameters) to a type, but at compile time
+one must match a type against a type, where each type may contain type parameters. Indeed, we do
+not present a specific static type inference algorithm that finds the substitution σ in rule [E-Sub],
+but only refer to previous work in this area. However, we conjecture that the match rule presented
+here can serve this role after being extended to handle the case of matching two type parameters.
+
+6 RELATED WORK
+This paper extends the work of Allen et al. [2011] with variance for polymorphic types and a
+dynamic dispatch algorithm. Allen et al. proposed rules for defining overloaded functions that
+ensure type safety under symmetric multiple dispatch in an object-oriented language with multiple
+inheritance, and showed how to check the rules without requiring the entire type hierarchy. They
+proposed the overloading rules in the context of a set of class declarations and function declarations
+without defining a language with complete static and dynamic semantics. Therefore, their work
+does not guarantee that the static overloading rules and the way a language chooses a method to
+invoke at run time match correctly. While FGFV does not support features like modularity, nominal
+exclusion, and closed types in their work, they can be added in an obvious way. As the related work
+section of Allen et al. [2011] discusses in detail, most earlier systems like Dubious [Millstein and
+Chambers 1999, 2002; Millstein 2003], MultiJava [Clifton et al. 2006], and F(EML) [Lee and Chambers
+2006] supported overloading with symmetric multiple dynamic dispatch with multiple inheritance,
+but without support for polymorphic methods or types. While ML ≤ [Bourdoncle and Merz 1997]
+integrates polymorphism and symmetric multiple dynamic dispatch, it lacks multiple inheritance.
+   ParaSail [Taft 2011, 2016] is a parallel programming language designed to support inherently safe
+and secure, highly parallel applications. It also constrains the scope of type parameters, prohibiting
+a bound on a type parameter from referring to type parameter bindings to its left, so that dynamic
+type inference can be fast. However, ParaSail does not support covariant and contravariant type
+parameters, and it does not provide any formal specification.
+   Julia [Bezanson et al. 2015, 2017] is a dynamic programming language with symmetric multiple
+dispatch. It provides a type declaration and type annotation sublanguage, but does not have a static
+type system. Thus, it does not check the validity of overloaded methods, and only uses the subtype
+relation to find the most specific method among overloaded methods at run time.
+
+                           Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:26                               Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+   Various languages provide different subsets of the FGFV features. Scala [Odersky et al. 2016]
+supports polymorphic types with variance, but it does not support symmetric multiple dispatch.
+FHJ [Wang et al. 2018] proposed a dispatch algorithm, which uses static types at run time to resolve
+overloading conflicts from unrelated methods that happen to have the same name and signature
+due to multiple inheritance. Castagna et al. [2015] presented a statically-typed calculus with
+dynamic (explicit) dispatch through pattern-matching, polymorphism, recursive types, semantic
+subtyping, and union, intersection, and negation type connectives. Their local type inference
+algorithm computes sets of type substitutions to insert in appropriate places in expressions. While
+their type-case expression and intersection type behave similarly to method overloading, they
+do not have a similar notion of overloading rules. Since the type-case expression executes the
+first matching expression, it does not introduce any ambiguity. For OCaml, Garrigue [2001; 2002]
+introduced a type inference system for structural polymorphism such as polymorphic records,
+polymorphic variants, and accurate matching. Type constraints are described by constraint domains
+that are defined separately from its type system, and the constraints contain some notion of lower
+and upper bounds, which respectively represent required and available labels or cases. He also
+extended his work with CoQ mechanization [Garrigue 2010, 2015]. The work of Castagna and
+Garrigue may serve as a possible starting point for finding the necessary substitution σ to satisfy
+the rule [E-Sub] for existential subtyping during static analysis. We believe that our work opens
+the gate to adding either variance annotation in the work of Castagna or a form of type-case in the
+work of Garrigue.
+
+7 CONCLUSION
+We defined FGFV, a core calculus for an object-oriented language with symmetric multiple dispatch,
+multiple inheritance, and parametric polymorphism with variance. In order to ensure type soundness
+of FGFV, it must guarantee no ambiguous method invocations at run time, and preserve type even
+when a method invocation is dispatched to a different method at run time from the method chosen
+at compile time. Thus, we formalized overloading rules using existential types and universal types
+quantified over method type parameters to mechanically check whether overloaded polymorphic
+methods are valid. As a result, in a well-formed program that satisfies the overloading rules, there
+always exists the single most specific method to invoke with respect to both static argument types
+and dynamic argument types. Further, with the static types of method invocation expressions
+delivered to run time, the dynamic semantics of FGFV that uses the new dynamic dispatch algorithm
+we presented is proven to make type-sound choices among applicable method declarations.
+
+ACKNOWLEDGMENT
+This work has received funding from National Research Foundation of Korea (NRF) (Grants NRF-
+2017R1A2B3012020 and 2017M3C4A7068177).
+
+REFERENCES
+Eric Allen, David Chase, J. J. Hallett, Victor Luchangco, Jan-Willem Maessen, Sukyoung Ryu, Guy L. Steele Jr., and Sam
+   Tobin-Hochstadt. 2008. The Fortress Language Specification Version 1.0.
+Eric Allen, J. J. Hallett, Victor Luchangco, Sukyoung Ryu, and Guy L. Steele Jr. 2007. Modular Multiple Dispatch with
+   Multiple Inheritance. In Proceedings of the 2007 ACM Symposium on Applied Computing (SAC ’07). ACM, New York, NY,
+   USA, 1117ś1121. https://doi.org/10.1145/1244002.1244245
+Eric Allen, Justin Hilburn, Scott Kilpatrick, Victor Luchangco, Sukyoung Ryu, David Chase, and Guy L. Steele Jr. 2011.
+   Type-checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance. In Proceedings of
+   the ACM International Conference on Object Oriented Programming, Systems, Languages, and Applications (OOPSLA ’11).
+   ACM, New York, NY, USA, 973ś992. https://doi.org/10.1145/2048066.2048140
+
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+Polymorphic Symmetric Multiple Dispatch with Variance                                                                 11:27
+
+Jeff Bezanson, Alan Edelman, Stefan Karpinski, and Viral B. Shah. 2015. Julia: A Fresh Approach to Numerical Computing
+    (v4). CoRR abs/1411.1607 (July 2015), 1ś37. http://arxiv.org/abs/1411.1607
+Jeff Bezanson, Alan Edelman, Stefan Karpinski, and Viral B. Shah. 2017. Julia: A Fresh Approach to Numerical Computing.
+    SIAM Rev. 59, 1 (2017), 65ś98. https://doi.org/10.1137/141000671
+François Bourdoncle and Stephan Merz. 1997. Type Checking Higher-Order Polymorphic Multi-methods. In Proceedings of
+    the 24th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL ’97). ACM, New York, NY,
+    USA, 302ś315. https://doi.org/10.1145/263699.263743
+Giuseppe Castagna, Giorgio Ghelli, and Giuseppe Longo. 1992. A Calculus for Overloaded Functions with Subtyping.
+    In Proceedings of the 1992 ACM Conference on LISP and Functional Programming (LFP ’92). ACM, New York, NY, USA,
+    182ś192. https://doi.org/10.1145/141471.141537
+Giuseppe Castagna, Giorgio Ghelli, and Giuseppe Longo. 1995. A Calculus for Overloaded Functions with Subtyping.
+    Information and Computation 117, 1 (1995), 115ś135. https://doi.org/10.1006/inco.1995.1033
+Giuseppe Castagna, Kim Nguyen, Zhiwu Xu, and Pietro Abate. 2015. Polymorphic Functions with Set-Theoretic Types: Part 2:
+    Local Type Inference and Type Reconstruction. In Proceedings of the 42nd Annual ACM SIGPLAN-SIGACT Symposium on
+    Principles of Programming Languages (POPL ’15). ACM, New York, NY, USA, 289ś302. https://doi.org/10.1145/2676726.
+    2676991
+Curtis Clifton, Gary T. Leavens, Craig Chambers, and Todd Millstein. 2000. MultiJava: Modular Open Classes and Symmetric
+    Multiple Dispatch for Java. In Proceedings of the 15th ACM SIGPLAN Conference on Object-Oriented Programming, Systems,
+    Languages, and Applications (OOPSLA ’00). ACM, New York, NY, USA, 130ś145. https://doi.org/10.1145/353171.353181
+Curtis Clifton, Todd D. Millstein, Gary T. Leavens, and Craig Chambers. 2006. MultiJava: Design Rationale, Compiler
+    Implementation, and Applications. ACM Transactions on Programming Languages and Systems 28, 3 (May 2006), 517ś575.
+    https://doi.org/10.1145/1133651.1133655
+Devin Coughlin and Bor-Yuh Evan Chang. 2014. Fissile Type Analysis: Modular Checking of Almost Everywhere Invariants.
+    In Proceedings of the 41st ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL ’14).
+    Association for Computing Machinery, New York, 73ś85. https://doi.org/10.1145/2535838.2535855
+EPFL. 2017. A class for immutable linked lists representing ordered collections of elements of type ‘A‘ [implementation of
+    class List for the Scala programming language]. https://github.com/scala/scala/blob/2.13.x/src/library/scala/collection/
+    immutable/List.scala. Accessed: 2017-11-27.
+Jacques Garrigue. 2001. Simple Type Inference for Structural Polymorphism. In Proceedings of the Second Asian Workshop on
+    Programming Languages and Systems (APLAS’01). 329ś343. Also presented as [Garrigue 2002].
+Jacques Garrigue. 2002. Simple Type Inference for Structural Polymorphism. In Ninth International Workshop on Foundations
+    of Object-Oriented Languages. 1ś11. http://www.cs.cmu.edu/{\char’176}aldrich/FOOL/papers9/garrigue.ps Also presented
+    as [Garrigue 2001].
+Jacques Garrigue. 2010. A Certified Implementation of ML with Structural Polymorphism. In Programming Languages
+    and Systems, Kazunori Ueda (Ed.). Springer Berlin Heidelberg, 360ś375. LNCS 6461. Proceedings of the Eighth Asian
+    Symposium on Programming Languages and Systems (APLAS 2010), Shanghai, China. More complete journal version
+    is [Garrigue 2015].
+Jacques Garrigue. 2015. A Certified Implementation of ML with Structural Polymorphism and Recursive Types. Mathematical
+    Structures in Computer Science 25, 4 (May 2015), 867ś891. https://doi.org/10.1017/S0960129513000066 Special issue:
+    selected papers from the Eighth Asian Symposium on Programming Languages and Systems (APLAS 2010), Shanghai,
+    China. Extended version of [Garrigue 2010].
+Atsushi Igarashi and Mirko Viroli. 2006. Variant Parametric Types: A Flexible Subtyping Scheme for Generics. ACM
+    Transactions on Programming Languages and Systems 28, 5 (September 2006), 795ś847. https://doi.org/10.1145/1152649.
+    1152650
+Jieung Kim and Sukyoung Ryu. 2011. Coq Mechanization of Featherweight Fortress with Multiple Dispatch and Multiple
+    Inheritance. In Certified Programs and Proofs (CPP ’11), Jean-Pierre Jouannaud and Zhong Shao (Eds.). Springer Berlin
+    Heidelberg, Berlin, Heidelberg, 264ś279.
+Keunwoo Lee and Craig Chambers. 2006. Parameterized Modules for Classes and Extensible Functions. In ECOOP 2006 ś
+    Object-Oriented Programming, Dave Thomas (Ed.). Springer Berlin Heidelberg, Berlin, Heidelberg, 353ś378.
+Todd Millstein and Craig Chambers. 1999. Modular Statically Typed Multimethods. In ECOOP’ 99 Ð Object-Oriented
+    Programming, Rachid Guerraoui (Ed.). Springer Berlin Heidelberg, Berlin, Heidelberg, 279ś303.
+Todd Millstein and Craig Chambers. 2002. Modular Statically Typed Multimethods. Information and Computation 175, 1
+    (2002), 76 ś 118. https://doi.org/10.1006/inco.2002.3103
+Todd David Millstein. 2003. Reconciling Software Extensibility with Modular Program Reasoning. Ph.D. Dissertation. University
+    of Washington.
+Martin Odersky, Lex Spoon, and Bill Venners. 2016. Programming in Scala (3rd ed.). Artima Press, Walnut Creek, California,
+    USA. ISBN 978-0981531687.
+
+
+                                  Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+11:28                                 Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu
+
+Gyunghee Park, Jaemin Hong, Guy L. Steele Jr., and Sukyoung Ryu. 2018. Polymorphic Symmetric Multiple Dispatch with
+    Variance (Extended Report).
+Guy Steele and David Chase. 2012. Personal communication.
+Guy L. Steele Jr. 2017. It’s Time for a New Old Language. Published on YouTube. https://youtu.be/7HKbjYqqPPQ Video
+    (TRT 1:12:11) of invited keynote talk at PPoPP ’17: 22nd ACM SIGPLAN Symposium on Principles and Practice of Parallel
+    Programming, Austin, Texas, February 6, 2017.
+S. Tucker Taft. 2011. Multicore Programming in ParaSail: Parallel Specification and Implementation Language. In Proceedings
+    of the 16th Ada-Europe International Conference on Reliable Software Technologies (Ada-Europe’11). Springer-Verlag, Berlin,
+    Heidelberg, 196ś200. http://dl.acm.org/citation.cfm?id=2018027.2018049
+S. Tucker Taft. 2016. Designing ParaSail, a new programming language (blog). http://parasail-programming-language.
+    blogspot.com. Accessed: 2018-04-09.
+Dimitrios Vytiniotis, Simon Peyton Jones, Koen Claessen, and Dan Rosén. 2013. HALO: Haskell to Logic through Denotational
+    Semantics. In Proceedings of the 40th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL
+   ’13). Association for Computing Machinery, New York, 431ś442. https://doi.org/10.1145/2429069.2429121
+Yanlin Wang, Haoyuan Zhang, Bruno C. d. S. Oliveira, and Marco Servetto. 2018. FHJ: A Formal Model for Hierarchical
+    Dispatching and Overriding. In 32nd European Conference on Object-Oriented Programming, ECOOP 2018, July 16-21, 2018,
+    Amsterdam, The Netherlands. 20:1ś20:30.
+Andrew K. Wright and Matthias Felleisen. 1994. A Syntactic Approach to Type Soundness. Information and Computation
+    115, 1 (Nov. 1994), 38ś94. https://doi.org/10.1006/inco.1994.1093
+
+
+
+
+Proc. ACM Program. Lang., Vol. 3, No. POPL, Article 11. Publication date: January 2019.
+

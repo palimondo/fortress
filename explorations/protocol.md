@@ -22,7 +22,9 @@ These are not judgement calls.
   `modernization-plan.md` and the push order below. A step his yes already
   covers is taken, not asked about again.
 - Never committed: a model identifier (a model is named by its tier: Fable,
-  Opus, Sonnet); a copyrighted PDF or deck (`research/decks/` is gitignored;
+  Opus, Sonnet); a copyrighted PDF or deck, except an open-access paper whose license allows
+  redistribution, committed beside its extract at his word, as the POPL 2019
+  paper is (`research/decks/` is gitignored;
   cite by Wayback URL; `research/extracts/` holds our own summaries with brief
   attributed quotations); HANDOVER.md or ZIP contents without his go. His email
   is for attribution only.
