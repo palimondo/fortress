@@ -1,0 +1,56 @@
+note	file	author agent	created at call	edited at calls	transcript line (0-based) of the creating call	tool_use id of the creating call	creating call time
+checking-roles	briefs10.py	aa122ba984c79739f	C 28	-	117	toolu_01392Ujdosi3wF8YQzftQHTb	2026-10-07T04:16:30.305Z
+checking-roles	echo.py	aa122ba984c79739f	C 43	C 44	177	toolu_018r4WezpzjidjYYMt7XKApM	2026-10-07T04:18:51.654Z
+checking-roles	echo2.py	aa122ba984c79739f	C 56	-	229	toolu_016AWhjNFpV9wDSnuxzmvg4w	2026-10-07T04:21:35.274Z
+checking-roles	explore10.py	aa122ba984c79739f	C 61	-	249	toolu_01TnEHVa1apm5w2bWNW4r6Fn	2026-10-07T04:23:03.566Z
+checking-roles	kinds10.py	aa122ba984c79739f	C 55	-	225	toolu_01F3imouWw615HP9xypByceP	2026-10-07T04:21:11.184Z
+checking-roles	matrix10.py	aa122ba984c79739f	C 26	-	109	toolu_01GK7U7aP5LgXJdDJU2V9M1E	2026-10-07T04:16:07.813Z
+checking-roles	parse.py	aa122ba984c79739f	C 21	-	89	toolu_01PzdYHh76izx9ksEDZY1qgy	2026-10-07T04:15:18.961Z
+checking-roles	shared10.py	aa122ba984c79739f	C 36	C 37	149	toolu_016R2QY59jLe858n75TNzZ7v	2026-10-07T04:17:35.699Z
+checking-roles	trace.py	aa122ba984c79739f	C 33	-	137	toolu_01M6BToE2fdF5TcGX6cTjGAs	2026-10-07T04:17:00.030Z
+context-study	L.sh	a291b83dd2cbf44d4	C 56	-	225	toolu_01UbTkyQ5nQAxFQL2JxfhjNa	2026-10-08T08:28:52.859Z
+context-study	classify.py	a291b83dd2cbf44d4	C 42	C 43,C 45,C 46,C 47,C 48	171	toolu_01SLq9Njqwg1r2JcRRyQFMfZ	2026-10-08T08:26:04.740Z
+context-study	extract.py	a291b83dd2cbf44d4	C 19	-	79	toolu_01U29XpbrdiYiBxN1oP5uMoH	2026-10-08T08:22:06.557Z
+context-study	final.py	a291b83dd2cbf44d4	C 100	C 123,C 124	399	toolu_013EfD3fvbavvuKMP68mGbW6	2026-10-08T08:38:33.164Z
+context-study	gen_tables.py	a291b83dd2cbf44d4	C 122	-	487	toolu_014Y8dBBaaEySrfuwGqfs57k	2026-10-08T08:45:25.089Z
+context-study	ite.py	a291b83dd2cbf44d4	C 101	-	403	toolu_018noNZzbdN2fWtYAYZAXDQL	2026-10-08T08:38:53.212Z
+context-study	overlap.py	a291b83dd2cbf44d4	C 64	-	257	toolu_013bQtkhf3QGgp2V2Rzwxk9u	2026-10-08T08:30:36.335Z
+context-study	savings.py	a291b83dd2cbf44d4	C 115	-	459	toolu_015ozBTzsvoBxNfnLsJ5Nuu6	2026-10-08T08:43:24.858Z
+context-study	show.py	a291b83dd2cbf44d4	C 50	-	203	toolu_01LDn8CUH6Z7gLGMz2k3aqUq	2026-10-08T08:28:00.419Z
+context-study	skeptics.py	a291b83dd2cbf44d4	C 94	-	375	toolu_017Mg3yqB7a1CRvs7GH1bmgf	2026-10-08T08:36:02.042Z
+context-study	summarize.py	a291b83dd2cbf44d4	C 48	C 124	195	toolu_01E8NdnKEFJxXQhYys2yoeqj	2026-10-08T08:27:27.503Z
+context-study	trace.py	a291b83dd2cbf44d4	C 22	-	90	toolu_018Zf7o4Y3hSSCwK97sNrDgh	2026-10-08T08:22:30.608Z
+context-study	use.py	a291b83dd2cbf44d4	C 61	-	245	toolu_01Vg64BmoRCsHqkWGQr8yaN8	2026-10-08T08:30:05.943Z
+context-study	verdict.py	a291b83dd2cbf44d4	C 105	C 112	419	toolu_01P28gTsXBvqX2nkhZHEqJrR	2026-10-08T08:40:20.806Z
+labor	acct.py	a65c4632fd664fceb	C 35	C 36	153	toolu_01Wc5hGMrbF1UGN7VCoKqUeh	2026-10-03T06:52:44.293Z
+labor	brief.py	a65c4632fd664fceb	C 21	-	97	toolu_01HwD4LTf2ZGXvwMPz6nv1XL	2026-10-03T06:47:10.872Z
+labor	cls.py	a65c4632fd664fceb	C 28	C 32	125	toolu_01KzZ7xbfpaPAhB1zopbMPWK	2026-10-03T06:50:47.367Z
+labor	cls2.py	a65c4632fd664fceb	C 31	C 34,C 56,C 90	137	toolu_01XUJy82u1DeT6idudSFqfNq	2026-10-03T06:51:51.402Z
+labor	explore.py	a65c4632fd664fceb	C 45	-	194	toolu_015vsDD1eJb6aNi1x13b8W8R	2026-10-03T06:55:13.387Z
+labor	gen_agents.py	a65c4632fd664fceb	C 74	-	310	toolu_01GMFXyQHyqJos8HTWNPvD5a	2026-10-03T07:04:51.165Z
+labor	gen_matrix.py	a65c4632fd664fceb	C 72	-	302	toolu_016XJfcn9duijPc5dg9tP5Di	2026-10-03T07:04:17.184Z
+labor	inbrief.py	a65c4632fd664fceb	C 52	-	222	toolu_01XL8EXWPaeRFcbpGq2wjvd6	2026-10-03T06:57:34.357Z
+labor	inbrief2.py	a65c4632fd664fceb	C 53	-	226	toolu_012qtccqF7JSmbE2fwp9kdf4	2026-10-03T06:57:48.116Z
+labor	inbrief3.py	a65c4632fd664fceb	C 79	-	330	toolu_01KmVxbPwvouvH2Xof4aV2s5	2026-10-03T07:05:45.281Z
+labor	j.py	a65c4632fd664fceb	C 3	-	25	toolu_01JF4UDAoTP3praf42dsKBCL	2026-10-03T06:44:27.032Z
+labor	parse.py	a65c4632fd664fceb	C 19	C 33	89	toolu_01DyqQibvJptdaYmVH2bw6rN	2026-10-03T06:46:43.449Z
+labor	reread.py	a65c4632fd664fceb	C 49	-	210	toolu_011GJzXx7ApixzejBjzejg82	2026-10-03T06:56:30.829Z
+labor	shared.py	a65c4632fd664fceb	C 47	-	202	toolu_01Usjae6L5qrfas7YQni4YSz	2026-10-03T06:55:53.570Z
+labor	tab1.py	a65c4632fd664fceb	C 37	-	161	toolu_01YLZbffAnVFgo2GhXw1fGhi	2026-10-03T06:53:16.978Z
+labor	tab2.py	a65c4632fd664fceb	C 50	-	214	toolu_01LqQSqLEkxLrcrLHAzmDRhd	2026-10-03T06:56:44.596Z
+labor	topcalls.py	a65c4632fd664fceb	C 55	-	234	toolu_01NtBaAXTE41r1uLEgSQgb1u	2026-10-03T06:58:36.663Z
+labor	topfiles.py	a65c4632fd664fceb	C 43	-	185	toolu_019qFnkDEiekAcFE1pz1djDs	2026-10-03T06:54:42.727Z
+testing-practices	cat1.py	af6381052a41159c8	C 23	-	91	toolu_01J3Jm3cMjrmJhbCWX6mqWPG	2026-10-08T11:28:51.566Z
+testing-practices	cat2.py	af6381052a41159c8	C 43	-	172	toolu_01KUMPski5D9A5UNVDAz8AZq	2026-10-08T11:32:04.048Z
+testing-practices	cat3.py	af6381052a41159c8	C 48	-	192	toolu_016dyAX12pqeLkWoKyoeQDPK	2026-10-08T11:32:34.211Z
+testing-practices	cat4.py	af6381052a41159c8	C 55	-	219	toolu_016t14rt1d9ir3spA8vYmvrY	2026-10-08T11:34:03.991Z
+testing-practices	cost.py	af6381052a41159c8	C 79	-	315	toolu_01AwxcasLSAR8iZAPutZk2EN	2026-10-08T11:37:54.280Z
+testing-practices	dump.py	af6381052a41159c8	C 24	C 27	95	toolu_01J4D1pbyshFaxgt7wbUxt1e	2026-10-08T11:29:06.938Z
+testing-practices	errs.py	af6381052a41159c8	C 26	-	103	toolu_014X12xqa6puvFLJD5VZyK46	2026-10-08T11:29:29.203Z
+testing-practices	fails.py	af6381052a41159c8	C 101	-	399	toolu_01T64fnGVVh3AfzgpJ9VTfGh	2026-10-08T11:42:35.714Z
+testing-practices	learn.py	af6381052a41159c8	C 80	-	319	toolu_01G1JUaVqHc8RKBLKkjn7BJs	2026-10-08T11:38:13.949Z
+testing-practices	parse.py	af6381052a41159c8	C 20	-	79	toolu_01WTqeeAXcJ8itNji1gfTEfS	2026-10-08T11:28:23.618Z
+testing-practices	practices.py	af6381052a41159c8	C 103	C 104	407	toolu_01QFjLYzNCXJFKBj88Cc26ZN	2026-10-08T11:43:03.195Z
+testing-practices	scripts2.py	af6381052a41159c8	C 117	-	464	toolu_01QdCeMFiPm5K1dT1qmc8QA5	2026-10-08T11:45:35.368Z
+testing-practices	show.py	af6381052a41159c8	C 37	-	147	toolu_017ahMVFaoMFthqme1oYJ77C	2026-10-08T11:30:52.875Z
+testing-practices	wrappers.py	af6381052a41159c8	C 92	-	365	toolu_01C9AneMZM1HSeh7AEkN1Nij	2026-10-08T11:40:40.741Z

@@ -1,0 +1,59 @@
+file	call	transcript line (0-based)	tool_use id	time	heredoc	lines	note	first comment or code line
+c004-0.py	C 4	26	toolu_01LtD7JC2LZ3mxHwypdQgLTN	2026-10-03T06:44:28.943Z	unquoted	15		f="$f"
+c005-0.py	C 5	31	toolu_01VW6REdKsLMGuwNRU9DpXAK	2026-10-03T06:44:36.643Z	unquoted	22		f="$f"
+c014-0.py	C 14	69	toolu_01BYQCy1kLSvjfwf5heC4Yjg	2026-10-03T06:45:38.642Z	-c	1		
+c018-0.py	C 18	85	toolu_01Tpcbvfu7tsMn8xwibBAhPf	2026-10-03T06:45:58.859Z	quoted	23		show keys of a tool_result user line
+c020-0.py	C 20	93	toolu_012J427nwz8LtmMPKYhuv6ht	2026-10-03T06:46:55.998Z	quoted	13		A=pickle.load(open('agents.pkl','rb'))
+c022-0.py	C 22	101	toolu_01EGAZMv87UGKPkw4mjxhg1i	2026-10-03T06:47:15.052Z	quoted	7		m=first_msgs('wf_603242ca-111','a226d80289a5176a7')
+c023-0.py	C 23	105	toolu_012GymRhdn1XtYdptP6ugnBn	2026-10-03T06:47:34.249Z	quoted	24		find heading at common prefix boundary
+c024-0.py	C 24	109	toolu_01N4gG42b7yi8mq7NPEygmhZ	2026-10-03T06:47:51.309Z	quoted	13		A=pickle.load(open('agents.pkl','rb'))
+c025-0.py	C 25	113	toolu_01L36v3VBzwuVg9d2BgaNj3D	2026-10-03T06:48:21.121Z	quoted	11		A=pickle.load(open('agents.pkl','rb'))
+c026-0.py	C 26	117	toolu_01CuT32dycg2oj4dSmtFvNnn	2026-10-03T06:48:55.171Z	quoted	23		turns with a stop reason, no thinking, single tool_use: out tokens vs chars of input
+c027-0.py	C 27	121	toolu_0143MyUadp7sbLhpYVP8JpiH	2026-10-03T06:49:09.069Z	quoted	25		results arrived since turn k-1: results of calls of turn k-1
+c029-0.py	C 29	129	toolu_014R89vXTqnPH5y71FdpvZFi	2026-10-03T06:50:55.685Z	quoted	12		A=pickle.load(open('agents.pkl','rb'))
+c030-0.py	C 30	133	toolu_01Jv38d3oe75bFicHCB71yjB	2026-10-03T06:51:05.530Z	quoted	6		ex=pickle.load(open('ex.pkl','rb'))
+c032-0.py	C 32	141	toolu_01PEvsGkkXwoc33PNkUuKAqP	2026-10-03T06:51:59.547Z	quoted	7		ex=pickle.load(open('ex.pkl','rb'))
+c033-0.py	C 33	145	toolu_01T5YWF8t4n7TuYLBWANxRa1	2026-10-03T06:52:18.428Z	quoted	5	edits a script	s=open('parse.py').read()
+c034-0.py	C 34	149	toolu_01GwsCME7PRrs6riaSgDi3qX	2026-10-03T06:52:26.039Z	quoted	11	edits a script	s=open('cls2.py').read()
+c038-0.py	C 38	165	toolu_01TSb8ESmRR9RC7qt5SQJMM4	2026-10-03T06:53:27.413Z	quoted	13		prints: ratio median
+c039-0.py	C 39	169	toolu_01QiGo1PDmwEAVNfK7mdRKKy	2026-10-03T06:53:47.732Z	quoted	17		prints: out,bytes,n,const
+c040-0.py	C 40	173	toolu_01CtQ28T1CdjxE7i5HAHffeH	2026-10-03T06:54:05.382Z	quoted	16		A=pickle.load(open('agents.pkl','rb')); O=pickle.load(open('acct.pkl','rb'))
+c041-0.py	C 41	177	toolu_01Q1xWSGKxBcmWhsEZ2aDh3k	2026-10-03T06:54:14.788Z	quoted	10		A=pickle.load(open('agents.pkl','rb')); O=pickle.load(open('acct.pkl','rb'))
+c042-0.py	C 42	181	toolu_01ASXXstt8WFkScp1EzhLJsM	2026-10-03T06:54:30.834Z	quoted	20	edits a script	segments by '##? ' headings at start of line (indented 2)
+c046-0.py	C 46	198	toolu_01EL959twWYadom9gtYLncJk	2026-10-03T06:55:28.926Z	quoted	9		res,detail=pickle.load(open('explore.pkl','rb'))
+c048-0.py	C 48	206	toolu_015Bu7owexbWVsFnFYB6LyXe	2026-10-03T06:56:08.603Z	quoted	30		totals by group over all
+c051-0.py	C 51	218	toolu_01J3VHjRW74M6yszAMZNTkzy	2026-10-03T06:57:11.445Z	quoted	12		prints: total rendered
+c054-0.py	C 54	230	toolu_01QnmRCdyhupdQUrDN68VmnL	2026-10-03T06:58:16.841Z	quoted	37		lines in >=3 agents
+c056-0.py	C 56	238	toolu_016LryszbDbCHkzCpSCjJJMg	2026-10-03T06:58:52.645Z	quoted	27	edits a script	s=open('cls2.py').read()
+c057-0.py	C 57	242	toolu_019JH3a2AYGspjFMh2zDMxAh	2026-10-03T06:59:02.491Z	quoted	6		ex=pickle.load(open('ex.pkl','rb'))
+c058-0.py	C 58	246	toolu_01WnErLooUJyuUntpxsKxBHs	2026-10-03T06:59:11.584Z	quoted	7		O=pickle.load(open('acct.pkl','rb'))
+c059-0.py	C 59	250	toolu_011cUWV7Lod9tdwnBgXibxwP	2026-10-03T07:00:09.261Z	quoted	12		O=pickle.load(open('acct.pkl','rb'))
+c060-0.py	C 60	254	toolu_017pyzdr9oSHbm5uP4FGmE17	2026-10-03T07:00:18.454Z	quoted	11		O=pickle.load(open('acct.pkl','rb')); A=pickle.load(open('agents.pkl','rb'))
+c061-0.py	C 61	258	toolu_01ShevXD2c5UYEQGHPziGYHU	2026-10-03T07:00:26.156Z	quoted	9		A=pickle.load(open('agents.pkl','rb')); briefs=pickle.load(open('briefs.pkl','rb'))
+c062-0.py	C 62	262	toolu_01NgvomdHEsuPgjzx5oWutxW	2026-10-03T07:00:45.363Z	quoted	28		per turn: classes of calls issued in that turn (turn index k-1 -> think appears in turn k record as think of p
+c063-0.py	C 63	266	toolu_01GsDJhSzuYfS13vCpVTy5CQ	2026-10-03T07:00:57.328Z	quoted	6		briefs=pickle.load(open('briefs.pkl','rb'))
+c065-0.py	C 65	274	toolu_01Cej9Aro9Xd3gwqsvQFFxs5	2026-10-03T07:01:20.195Z	quoted	9		A=pickle.load(open('agents.pkl','rb')); briefs=pickle.load(open('briefs.pkl','rb'))
+c066-0.py	C 66	278	toolu_013D39Jr1f1wmR5qjDwstvDc	2026-10-03T07:01:26.277Z	quoted	11		A=pickle.load(open('agents.pkl','rb')); briefs=pickle.load(open('briefs.pkl','rb'))
+c067-0.py	C 67	282	toolu_01KGpe3rDAosWGc3TWWBvuFE	2026-10-03T07:01:37.309Z	quoted	21		brief tokens total
+c068-0.py	C 68	286	toolu_01TYbM2rB1MVciY6vWMWqgzX	2026-10-03T07:01:53.825Z	quoted	23		briefing same-chain by batch
+c069-0.py	C 69	290	toolu_01UH1JzU1Q9SyzFXTtkdZSbC	2026-10-03T07:02:06.379Z	quoted	24		tail roles
+c070-0.py	C 70	294	toolu_01VWe4h6ncuPWU5pQZB9RMFd	2026-10-03T07:03:17.011Z	quoted	9		R=pickle.load(open('shared.pkl','rb')); O=pickle.load(open('acct.pkl','rb'))
+c071-0.py	C 71	298	toolu_015ztNp6xoML2X11RGnRmXaG	2026-10-03T07:04:00.756Z	quoted	13		refill events
+c073-0.py	C 73	306	toolu_01EXyqBNQC9wW88f9A9LQV4M	2026-10-03T07:04:27.494Z	quoted	11		O=pickle.load(open('acct.pkl','rb'))
+c075-0.py	C 75	314	toolu_01PmTgJFPzXMe6yzRrKgQwwh	2026-10-03T07:04:59.448Z	quoted	16		distinct files
+c076-0.py	C 76	318	toolu_016bmv7vZ3DupHrurBKE1nFg	2026-10-03T07:05:09.861Z	quoted	13		prints: if the attachments+prefix were also cached for the
+c077-0.py	C 77	322	toolu_01NF2gBT3S8KYzWBDcWWgjFs	2026-10-03T07:05:27.511Z	quoted	12		find big '---' separated parts or headings
+c078-0.py	C 78	326	toolu_01TQy96qhBx1utzjw27e8XkL	2026-10-03T07:05:33.570Z	quoted	11		A=pickle.load(open('agents.pkl','rb')); briefs=pickle.load(open('briefs.pkl','rb'))
+c080-0.py	C 80	334	toolu_015MYah5tYSgGwfQTGtUbrGR	2026-10-03T07:05:54.559Z	quoted	24		prints: total in brief
+c081-0.py	C 81	338	toolu_01Cu3NjJJA9wRrSE48E97emk	2026-10-03T07:06:42.658Z	quoted	21		per agent total re-read fraction distribution
+c082-0.py	C 82	342	toolu_01Hyc89cutbumjCuwpsPLZPj	2026-10-03T07:06:52.489Z	quoted	20		prints: files read per agent (territory+record, excluding briefing/output):
+c087-0.py	C 87	364	toolu_01KKpo5fksJ4mC7PqYyLJ3xZ	2026-10-03T07:09:42.020Z	quoted	10		O=pickle.load(open('acct.pkl','rb'))
+c089-0.py	C 89	372	toolu_018SdKPZf7t8z4sipNLCnbhL	2026-10-03T07:12:43.290Z	quoted	16		skeptic SKEPTIC.md reading by batch
+c090-0.py	C 90	376	toolu_01LTp24UkuJT9HpRvDWQEBB7	2026-10-03T07:12:57.037Z	quoted	3	edits a script	s=open('cls2.py').read()
+c091-0.py	C 91	380	toolu_016C1xCo2aojLvGXWV8ZEUAT	2026-10-03T07:13:06.070Z	quoted	9		O=pickle.load(open('acct.pkl','rb'))
+c092-0.py	C 92	384	toolu_012U1iP3n4Ncisoxp8MzVUUu	2026-10-03T07:13:14.769Z	quoted	17		R=pickle.load(open('shared.pkl','rb'))
+c093-0.py	C 93	388	toolu_01YF5NFeJQnDXzuJLScgmNy9	2026-10-03T07:13:21.652Z	quoted	12		R=pickle.load(open('shared.pkl','rb'))
+c094-0.py	C 94	392	toolu_015tZGWyLXpwjkaQDT5gFmiB	2026-10-03T07:13:35.619Z	quoted	11		res,detail=pickle.load(open('explore.pkl','rb'))
+c095-0.py	C 95	396	toolu_01HZgeNewQ8JGZELQBkgXtDj	2026-10-03T07:14:02.582Z	quoted	9		O=pickle.load(open('acct.pkl','rb'))
+c096-0.py	C 96	400	toolu_01Lj684ELE6gPPDdJUnVx5tt	2026-10-03T07:14:09.970Z	quoted	14	note prose edit, not kept	
+c121-0.py	C 121	466	toolu_017gkNz4P1W1pTDzqAJHtTJh	2026-10-03T07:15:28.900Z	quoted	11		A=pickle.load(open('agents.pkl','rb')); briefs=pickle.load(open('briefs.pkl','rb'))

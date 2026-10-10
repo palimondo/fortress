@@ -1,0 +1,7 @@
+s=open('explore.py').read()
+s=s.replace("briefs=pickle.load(open('briefs.pkl','rb'))","lab_,BR_=pickle.load(open('briefs10.pkl','rb')); briefs={k:(0,v) for k,v in BR_.items()}")
+s=s.replace("BASE={8:'493b4076f',9:'fa14a190c'}","BASE={10:'9c9e823d5'}")
+s=s.replace("for aid,o in O.items():\n        brief=briefs[aid][1]","for aid,o in O.items():\n        if o['batch']!=10: continue\n        brief=briefs[aid][1]")
+s=s.replace("nag=collections.Counter(o['role'] for o in O.values())","nag=collections.Counter(o['role'] for o in O.values() if o['batch']==10)")
+s=s.replace("open('explore.pkl','wb')","open('explore10.pkl','wb')")
+open('explore10.py','w').write(s)

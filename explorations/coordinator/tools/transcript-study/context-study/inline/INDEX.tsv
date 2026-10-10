@@ -1,0 +1,59 @@
+file	call	transcript line (0-based)	tool_use id	time	heredoc	lines	note	first comment or code line
+c013-0.py	C 13	59	toolu_01RP1CU5uSsG7p6HqsprzrJX	2026-10-08T08:21:05.146Z	quoted	16		f='agent-ac7f17fcef729d710.jsonl'
+c014-0.py	C 14	62	toolu_01EU2n9KrSkRidh2T1V8VqZ2	2026-10-08T08:21:11.620Z	quoted	22		f='agent-ac7f17fcef729d710.jsonl'
+c015-0.py	C 15	66	toolu_019QHeDhB5NbXT6a7bwrPJYj	2026-10-08T08:21:34.867Z	quoted	7		f='agent-ac7f17fcef729d710.jsonl'
+c016-0.py	C 16	69	toolu_019n9RZNSpSaqgeoTEGGpepX	2026-10-08T08:21:39.370Z	quoted	7		for name,f in [('W','agent-ac7f17fcef729d710.jsonl'),('N','agent-a9d085d2ca3d1673f.jsonl'),('G','agent-ad8b9ef
+c021-0.py	C 21	86	toolu_017kwDWhyBXKHZWipVJDZUAh	2026-10-08T08:22:20.162Z	quoted	10		prints: total result bytes
+c026-0.py	C 26	106	toolu_01TYfuZ7LQKSJ3bRwmGibH71	2026-10-08T08:22:54.778Z	quoted	12		for id in ['ac7f17fcef729d710','a9d085d2ca3d1673f','ad8b9ef1d620d222e','a17102eab231ad505']:
+c039-0.py	C 39	159	toolu_01HvD3FFtq5swxqQsD6kXpkb	2026-10-08T08:24:42.539Z	quoted	13		for name,id in [('W','ac7f17fcef729d710'),('N','a9d085d2ca3d1673f'),('G','ad8b9ef1d620d222e'),('C','a17102eab2
+c040-0.py	C 40	163	toolu_01TcVExzPjoUXFNymWax6n7F	2026-10-08T08:24:48.536Z	quoted	7		d=json.load(open('so-W.json'))
+c041-0.py	C 41	167	toolu_01TZQMir7pNLGFNghcpJCJPJ	2026-10-08T08:25:08.985Z	quoted	29		per turn: result bytes of calls issued in previous turn(s) arriving before this turn; use calls by turn index
+c043-0.py	C 43	175	toolu_01243eWpNCbr3grCoYMzLdfE	2026-10-08T08:26:26.124Z	quoted	33	edits a script	replace run detection and dir handling
+c044-0.py	C 44	179	toolu_01TmrzuUhuAfWfmB8PkozqhU	2026-10-08T08:26:31.716Z	quoted	6		d=json.load(open('json/ac7f17fcef729d710.json'))
+c045-0.py	C 45	183	toolu_01Raormfg5JPASFApb4n2rc9	2026-10-08T08:26:41.137Z	quoted	8	edits a script	s=open('classify.py').read()
+c046-0.py	C 46	187	toolu_012xxp4rWqBGGmsTqVquLX2C	2026-10-08T08:26:56.401Z	quoted	14	edits a script	edit detection
+c047-0.py	C 47	191	toolu_01XJzeAJmzp72Si3jPRp1RAu	2026-10-08T08:27:11.601Z	quoted	23	edits a script	tool-based classification of Edit/Write
+c048-0.py	C 48	195	toolu_01E8NdnKEFJxXQhYys2yoeqj	2026-10-08T08:27:27.503Z	quoted	3	edits a script	s=open('classify.py').read()
+c052-0.py	C 52	211	toolu_015mXTkERcc3mZMFHpyczQdx	2026-10-08T08:28:16.895Z	quoted	14		strip leading line numbers of Read output
+c058-0.py	C 58	233	toolu_012CkJRXjTmx793D7m3CWFtN	2026-10-08T08:29:25.241Z	quoted	29		reconstruct the briefing text of each worker from its transcript
+c060-0.py	C 60	241	toolu_01P6wiBe9pyYbMqgnV3qBHVv	2026-10-08T08:29:41.298Z	quoted	23		for w in 'WNGC':
+c062-0.py	C 62	249	toolu_01LuoXfPR3PULqXadsGDqGCA	2026-10-08T08:30:12.951Z	quoted	12	edits a script	for w in 'WN':
+c071-0.py	C 71	285	toolu_01P8tkKJPFNLrAv41MTuRLoL	2026-10-08T08:31:53.635Z	-c	4		for w in 'NGC':
+c076-0.py	C 76	305	toolu_01XW6w7LeBzhRUL9pt8FVLFP	2026-10-08T08:33:02.914Z	quoted	11		for w in 'WNGC':
+c080-0.py	C 80	321	toolu_01Bf9E83RtbH8x1PyKXkbQTt	2026-10-08T08:33:45.598Z	quoted	8		for w in 'NGC':
+c081-0.py	C 81	325	toolu_01SaSh7xUCpZDGEdkxBz6LJr	2026-10-08T08:33:56.502Z	quoted	14		ids={'W':'ac7f17fcef729d710','N':'a9d085d2ca3d1673f','G':'ad8b9ef1d620d222e','C':'a17102eab231ad505'}
+c083-0.py	C 83	333	toolu_01T7S23ikU268Bqfrv7skGZt	2026-10-08T08:34:18.311Z	quoted	8		for w in 'WNGC':
+c084-0.py	C 84	336	toolu_01BG9s1Xh7gmn4WSEf6vTYKG	2026-10-08T08:34:23.371Z	quoted	16		split sections
+c090-0.py	C 90	359	toolu_01MJpnrgFu3fEAZandsBrwAt	2026-10-08T08:35:21.527Z	quoted	7		for w in 'WNGC':
+c092-0.py	C 92	367	toolu_01DQR2ArGFFWwLrGCszVHhwD	2026-10-08T08:35:40.578Z	quoted	14		prints: first doing call
+c096-0.py	C 96	383	toolu_01LsaE84E8iRPDBq42TiwVp1	2026-10-08T08:36:29.912Z	quoted	39		all md under explorations
+c097-0.py	C 97	387	toolu_01BVPoPrWTK2BNg9rkJmGAbs	2026-10-08T08:36:40.251Z	quoted	24		climb-batch records
+c102-0.py	C 102	407	toolu_01Pi7TQ8n4LbKrtgHv3YACS9	2026-10-08T08:39:11.735Z	quoted	13		after={'W':13,'N':10,'G':6,'C':10}
+c104-0.py	C 104	415	toolu_014qaMsksnnvn1BiWdUrXdo6	2026-10-08T08:39:47.591Z	quoted	11		prints: transcript-read bytes
+c112-0.py	C 112	447	toolu_01DbPpUnHivd3qMdzyaBuz5P	2026-10-08T08:41:54.992Z	quoted	5	edits a script	s=open('verdict.py').read()
+c113-0.py	C 113	451	toolu_01K56m5ENfgaKXx5mSrFNLMm	2026-10-08T08:42:23.246Z	quoted	7		ks=json.load(open('keys-G.json'))
+c116-0.py	C 116	463	toolu_01BWW7DEeykKRwWxZeFUY1p7	2026-10-08T08:43:38.758Z	quoted	25		prints: total writes
+c123-0.py	C 123	491	toolu_01QruUDM42pVj7nEf1r9SHVQ	2026-10-08T08:45:42.863Z	quoted	9	edits a script	s=open('final.py').read()
+c123-1.py	C 123	491	toolu_01QruUDM42pVj7nEf1r9SHVQ	2026-10-08T08:45:42.863Z	quoted	6	edits a script	for w in 'WNGC':
+c124-0.py	C 124	495	toolu_016w3DNNoNejdaMn1uafgrmy	2026-10-08T08:45:53.666Z	quoted	8	edits a script	make HIST check come after OVR
+c125-0.py	C 125	499	toolu_01FGRnDLBkVTzotz36dScQyG	2026-10-08T08:46:06.274Z	quoted	27		names=[('B','briefing handed to it'),('P','primary text: code, library, specification, tests'),('R','record it
+c126-0.py	C 126	503	toolu_01XW8oWvjvpKS1XxcrcS5ofa	2026-10-08T08:46:23.031Z	quoted	5		d=json.load(open('json/ac7f17fcef729d710.json'))
+c128-0.py	C 128	511	toolu_011VNifArqXrioB36i541GgK	2026-10-08T08:46:40.953Z	quoted	11		def t(s): return dt.datetime.fromisoformat(s.replace('Z','+00:00'))
+c129-0.py	C 129	515	toolu_012sW2n1yDkCHNE79VjpZozp	2026-10-08T08:46:51.979Z	quoted	29		prints: | kind of key | keys | KB handed | named in its own calls before the fix edit: keys / KB | named any
+c130-0.py	C 130	519	toolu_01Jh6Sz5CoApaqx1y5byMmPL	2026-10-08T08:47:33.438Z	quoted	6		prints: RES tail:
+c131-0.py	C 131	523	toolu_015863wKzW87JRqUQNojX9aN	2026-10-08T08:47:48.916Z	quoted	10		for w,i,ns in (('N','a9d085d2ca3d1673f',(213,226,236)),('G','ad8b9ef1d620d222e',(142,143))):
+c133-0.py	C 133	531	toolu_01SDx8fVVVszeVpsQbBWqRgr	2026-10-08T08:49:21.823Z	quoted	10		a few more numbers for the text
+c134-0.py	C 134	535	toolu_01L2L9TasWZi7aVhiCfy8rhs	2026-10-08T08:49:32.986Z	quoted	21		def kind(k):
+c135-0.py	C 135	539	toolu_01KRe7TZrLqATWAnjnh2ozzQ	2026-10-08T08:49:41.233Z	quoted	20		skill_listing attachment present?
+c139-0.py	C 139	555	toolu_013FxShHf9Gkder7K9DAQa9Y	2026-10-08T08:53:08.171Z	quoted	34		prints: | skeptic | calls before the first probe | writes | brief | briefing slice | the worker\
+c140-0.py	C 140	559	toolu_01Ax2hD1vAzBp55irvVk6XS6	2026-10-08T08:53:38.751Z	quoted	9		def span(w,a,b):
+c141-0.py	C 141	563	toolu_019ro2cjVQUo8pd5tWSmrAho	2026-10-08T08:53:53.599Z	quoted	4		for w in 'CG':
+c142-0.py	C 142	567	toolu_01HDYwefpmxENfih2cgLDunP	2026-10-08T08:54:44.904Z	quoted	100	note prose edit, not kept	
+c143-0.py	C 143	571	toolu_01XMGkHCVikcuWXajohv4gdM	2026-10-08T08:54:51.787Z	quoted	6	note prose edit, not kept	
+c145-0.py	C 145	578	toolu_01A2AzTbonxhbSwwF7WiB1bK	2026-10-08T08:55:05.355Z	quoted	10		after={'W':13,'N':10,'G':6,'C':10}
+c150-0.py	C 150	598	toolu_01YReQjdBQDsTu6adkjkA5XW	2026-10-08T08:56:24.163Z	quoted	37	note prose edit, not kept	
+c151-0.py	C 151	602	toolu_0125wPc2SiGoS8DSuF6wHHLV	2026-10-08T08:56:52.558Z	quoted	12	note prose edit, not kept	
+c153-0.py	C 153	610	toolu_01C3uKbiBwB2wQVNwMGnNKaq	2026-10-08T08:57:09.065Z	quoted	8	note prose edit, not kept	
+c153-1.py	C 153	610	toolu_01C3uKbiBwB2wQVNwMGnNKaq	2026-10-08T08:57:09.065Z	quoted	13		lines=open('/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/context-study/no
+c154-0.py	C 154	614	toolu_0121aqktXHrqn44Lds39dDbh	2026-10-08T08:57:20.820Z	quoted	6	note prose edit, not kept	
+c155-0.py	C 155	618	toolu_01BuzTcC7JuyW2vf5Mn4geXJ	2026-10-08T08:57:26.401Z	quoted	12		t=open('explorations/coordinator/process-engineering/context-study.md').read()

@@ -1,0 +1,74 @@
+file	call	transcript line (0-based)	tool_use id	time	heredoc	lines	note	first comment or code line
+c017-0.py	C 17	68	toolu_01KEL8xeA9Y6716moaJbBjtF	2026-10-08T11:28:03.801Z	quoted	9		for r in ['wf_603242ca-111','wf_f747fd3e-9e4','wf_d5ec6194-bcc']:
+c018-0.py	C 18	71	toolu_01TQsAEiyMD2HSzzUXXNNejL	2026-10-08T11:28:08.262Z	quoted	7		for r in ['wf_603242ca-111','wf_f747fd3e-9e4','wf_d5ec6194-bcc']:
+c018-1.py	C 18	71	toolu_01TQsAEiyMD2HSzzUXXNNejL	2026-10-08T11:28:08.262Z	-c	9		types={}
+c019-0.py	C 19	75	toolu_01GvpUAvScHxCBCjirTprM1r	2026-10-08T11:28:13.074Z	quoted	17		f='wf_d5ec6194-bcc/agent-a17102eab231ad505.jsonl'
+c021-0.py	C 21	83	toolu_01XQxRhAZLHfz7bnLHSgNTjY	2026-10-08T11:28:30.887Z	quoted	8		allr=pickle.load(open('all.pkl','rb'))
+c022-0.py	C 22	87	toolu_01JXs7ZniaFPegujkjdCaNgT	2026-10-08T11:28:35.679Z	quoted	7		allr=pickle.load(open('all.pkl','rb'))
+c025-0.py	C 25	99	toolu_01Ji1rzwfA5xgu9b2DPAPL23	2026-10-08T11:29:11.308Z	quoted	7		allr=pickle.load(open('all.pkl','rb'))
+c027-0.py	C 27	107	toolu_01VdkHnp16vYBxvD8tqFexUq	2026-10-08T11:29:38.561Z	quoted	15	edits a script	s=open('dump.py').read()
+c030-0.py	C 30	119	toolu_0178nJTDpMszroCXHBaDkvfg	2026-10-08T11:30:03.296Z	quoted	19		allr=pickle.load(open('all.pkl','rb'))
+c031-0.py	C 31	123	toolu_01Pr7bbrAyHnBQgvWqgYYBn5	2026-10-08T11:30:10.138Z	quoted	14		allr=pickle.load(open('all.pkl','rb'))
+c034-0.py	C 34	135	toolu_01Cca3JKu1HooVWS528vo68S	2026-10-08T11:30:31.497Z	quoted	13		allr=pickle.load(open('all.pkl','rb'))
+c035-0.py	C 35	139	toolu_01DWmsfMVRFEuEYS11Rk4BfE	2026-10-08T11:30:39.624Z	quoted	10		allr=pickle.load(open('all.pkl','rb'))
+c036-0.py	C 36	143	toolu_01HxNDsmcc71i4aXjc2jZGX6	2026-10-08T11:30:46.627Z	quoted	10		allr=pickle.load(open('all.pkl','rb'))
+c044-0.py	C 44	176	toolu_01TeQt5FejsaFjoZHpXG4oN9	2026-10-08T11:32:11.090Z	quoted	13		allr=pickle.load(open('all.pkl','rb'))
+c050-0.py	C 50	200	toolu_01H3wqrQDP6NHC7kfWgTKaAR	2026-10-08T11:33:09.079Z	quoted	17		next 2 calls
+c051-0.py	C 51	204	toolu_013ubU8vEosJyzF3kVtRzPtP	2026-10-08T11:33:24.619Z	quoted	14		allr=pickle.load(open('all.pkl','rb'))
+c054-0.py	C 54	215	toolu_01BvLTNAKzsxevgern2arpiX	2026-10-08T11:33:45.487Z	quoted	15		allr=pickle.load(open('all.pkl','rb'))
+c057-0.py	C 57	227	toolu_01TwyqyhdJ4CiBLgB1cRMCTF	2026-10-08T11:34:19.099Z	quoted	20		allr=pickle.load(open('all.pkl','rb'))
+c059-0.py	C 59	235	toolu_01CMKGzEG6LsvLRE9sfqvDwz	2026-10-08T11:34:49.332Z	quoted	14		allr=pickle.load(open('all.pkl','rb'))
+c065-0.py	C 65	259	toolu_01RCc55uRjSBX2oPiFWcYnc5	2026-10-08T11:35:30.009Z	quoted	12		allr=pickle.load(open('all.pkl','rb'))
+c066-0.py	C 66	263	toolu_01VwY83ptSApFFWwS83Dnnb2	2026-10-08T11:35:40.077Z	quoted	21		count source env.sh without private
+c067-0.py	C 67	267	toolu_01EV6sQ2Rs5YKBqhRYxLqE7a	2026-10-08T11:35:49.001Z	quoted	11		allr=pickle.load(open('all.pkl','rb'))
+c068-0.py	C 68	271	toolu_01KvAYVFJGpVKkECo5v5aLdF	2026-10-08T11:35:57.783Z	quoted	16		allr=pickle.load(open('all.pkl','rb'))
+c069-0.py	C 69	275	toolu_01RsbQwpPPLjQWw6RdTQs4sQ	2026-10-08T11:36:15.730Z	quoted	9		allr=pickle.load(open('all.pkl','rb'))
+c074-0.py	C 74	295	toolu_013s5k8dSiC6ayKRKZnZjnzW	2026-10-08T11:36:47.919Z	quoted	16		allr=pickle.load(open('all.pkl','rb'))
+c075-0.py	C 75	299	toolu_01TRptMoi3Rt25B6N97BuFjN	2026-10-08T11:37:16.854Z	quoted	19		also "Turn on" hints in results
+c078-0.py	C 78	311	toolu_01E1hky45onQG831ubdaptur	2026-10-08T11:37:35.263Z	quoted	15		allr=pickle.load(open('all.pkl','rb'))
+c081-0.py	C 81	323	toolu_01L2cvkZeTdzCXdSwbM8YNnN	2026-10-08T11:38:23.581Z	quoted	17		allr=pickle.load(open('all.pkl','rb'))
+c083-0.py	C 83	331	toolu_01HXBzmSeV9scFHfRZvrYW1R	2026-10-08T11:38:43.555Z	quoted	12		allr=pickle.load(open('all.pkl','rb'))
+c086-0.py	C 86	341	toolu_01WJHkcVNYzgTjdk5x4odhho	2026-10-08T11:38:58.478Z	quoted	16		allr=pickle.load(open('all.pkl','rb'))
+c087-0.py	C 87	345	toolu_015aXQSRaEpmHz71HUP19yxg	2026-10-08T11:39:20.820Z	quoted	20		count bg-moved events overall and what the agent did next
+c088-0.py	C 88	349	toolu_011s2LoRvzyHrHgkh2Tvwexa	2026-10-08T11:39:34.194Z	quoted	9		allr=pickle.load(open('all.pkl','rb'))
+c089-0.py	C 89	353	toolu_01NhQyhXbAhNqSmTuvDkHECV	2026-10-08T11:39:46.405Z	quoted	7		allr=pickle.load(open('all.pkl','rb'))
+c090-0.py	C 90	357	toolu_0122f5mQZLvg41jTKhBzYHZz	2026-10-08T11:40:07.694Z	quoted	18		find the next TEXT or next 2 Bash commands
+c091-0.py	C 91	361	toolu_01HdkdgRz2nuDWWEMazjuBUF	2026-10-08T11:40:16.170Z	quoted	11		allr=pickle.load(open('all.pkl','rb'))
+c093-0.py	C 93	369	toolu_017tDNsv36qv6jx6iGHoMRqx	2026-10-08T11:40:53.796Z	quoted	24		allr=pickle.load(open('all.pkl','rb'))
+c094-0.py	C 94	373	toolu_01VL7c5F2dTnqs2YfRNejL9v	2026-10-08T11:41:05.230Z	quoted	12		allr=pickle.load(open('all.pkl','rb'))
+c095-0.py	C 95	377	toolu_01GfpRJALeckKBbPjH5WipZ9	2026-10-08T11:41:14.519Z	quoted	18		for run,tag in [('wf_603242ca-111','b8'),('wf_f747fd3e-9e4','b9'),('wf_d5ec6194-bcc','b10')]:
+c099-0.py	C 99	391	toolu_01M3c6HfozEojMR5G5wPVvHz	2026-10-08T11:41:55.145Z	quoted	9		allr=pickle.load(open('all.pkl','rb'))
+c100-0.py	C 100	395	toolu_01UrtSSSC9hgiHBapMe4Te41	2026-10-08T11:42:12.463Z	quoted	11		allr=pickle.load(open('all.pkl','rb'))
+c102-0.py	C 102	403	toolu_019sfTTjwerQeVRE4aw4s9eF	2026-10-08T11:42:42.648Z	quoted	9		exec(open('cost.py').read().split("res=collections.defaultdict")[0])
+c105-0.py	C 105	415	toolu_01K8UVHkT8PCKUEM3ThNdCn3	2026-10-08T11:43:24.961Z	quoted	22		src=open('practices.py').read().split("for n in sorted(P):")[0]
+c106-0.py	C 106	419	toolu_017FpLxZnV1L3ELPXFA2jYMj	2026-10-08T11:43:34.471Z	quoted	20		prints: agents who wrote >=1 shell script into scratch:
+c112-0.py	C 112	443	toolu_01WYv5kCRNZ4PvLrVAiMpSYX	2026-10-08T11:44:23.013Z	quoted	20		allr=pickle.load(open('all.pkl','rb'))
+c113-0.py	C 113	447	toolu_01Ea4VEDuHGxP4rJh1qpT88d	2026-10-08T11:44:31.218Z	quoted	13	edits a script	for run,tag in [('wf_603242ca-111','b8'),('wf_f747fd3e-9e4','b9'),('wf_d5ec6194-bcc','b10')]:
+c114-0.py	C 114	451	toolu_01WxtdPhcGFVqEF8vAdiSQrx	2026-10-08T11:44:38.923Z	quoted	10		run='wf_d5ec6194-bcc'
+c115-0.py	C 115	455	toolu_01DLWtgfBFJZvTqfAA4RUpWo	2026-10-08T11:45:05.743Z	quoted	13		for run,tag in [('wf_603242ca-111','b8'),('wf_f747fd3e-9e4','b9'),('wf_d5ec6194-bcc','b10')]:
+c118-0.py	C 118	468	toolu_01SSbtWn9yGmKP9YerpYsieD	2026-10-08T11:45:48.738Z	quoted	11		allr=pickle.load(open('all.pkl','rb'))
+c120-0.py	C 120	476	toolu_016rdBQUumRsUSnbUGKroudF	2026-10-08T11:46:57.624Z	quoted	24		src=open('practices.py').read().split("for n in sorted(P):")[0]
+c122-0.py	C 122	484	toolu_01HUvJfKzzopC6XogbGWbv7n	2026-10-08T11:47:14.056Z	quoted	9		allr=pickle.load(open('all.pkl','rb'))
+c124-0.py	C 124	492	toolu_01Fy2EUhqTZhxpqVkbKofDHP	2026-10-08T11:47:25.557Z	quoted	10		allr=pickle.load(open('all.pkl','rb'))
+c125-0.py	C 125	496	toolu_015VB2zqHy8Uht84tJR3SRFA	2026-10-08T11:47:34.845Z	quoted	9		allr=pickle.load(open('all.pkl','rb'))
+c126-0.py	C 126	500	toolu_01QA6EfUCoE7smRDbQbz76jP	2026-10-08T11:48:03.515Z	quoted	10		allr=pickle.load(open('all.pkl','rb'))
+c127-0.py	C 127	504	toolu_01X21YDBhYZAGT7oinr6sHUJ	2026-10-08T11:49:00.579Z	quoted	26		W suite episode cost b10 calls 114-150
+c129-0.py	C 129	512	toolu_015nY3tqqWavPMuGj6kAe8nG	2026-10-08T11:49:21.685Z	quoted	22		allr=pickle.load(open('all.pkl','rb'))
+c131-0.py	C 131	520	toolu_01KBPe4uu252rXNmHTjoSNQG	2026-10-08T11:51:23.849Z	quoted	12		allr=pickle.load(open('all.pkl','rb'))
+c132-0.py	C 132	524	toolu_01BVmPE3RLsPXzbpo7JtXTje	2026-10-08T11:51:37.167Z	quoted	26		timeouts values when set
+c135-0.py	C 135	536	toolu_014GyPnbGtdRPmCzqaYnFctG	2026-10-08T11:52:29.489Z	quoted	14		allr=pickle.load(open('all.pkl','rb'))
+c136-0.py	C 136	539	toolu_011v1ryC7ir5b5ev8H7Yd8PE	2026-10-08T11:52:34.325Z	quoted	15		allr=pickle.load(open('all.pkl','rb'))
+c137-0.py	C 137	543	toolu_01TSg7F85UYCmkyJgGu7FDWA	2026-10-08T11:52:53.618Z	quoted	42	note prose edit, not kept	
+c138-0.py	C 138	548	toolu_01CwXfeivyo2xobLt6x7UPfr	2026-10-08T11:53:02.393Z	quoted	10		allr=pickle.load(open('all.pkl','rb'))
+c139-0.py	C 139	552	toolu_01HafJxfg4qqyeMSxmZKPZv4	2026-10-08T11:53:10.700Z	quoted	11	note prose edit, not kept	
+c141-0.py	C 141	559	toolu_013erg4wvhg66PT17ZvNcFgh	2026-10-08T11:53:18.939Z	quoted	7	note prose edit, not kept	
+c142-0.py	C 142	563	toolu_01EC7xE3duF98gfnUBTmojv8	2026-10-08T11:53:29.945Z	quoted	11	note prose edit, not kept	
+c143-0.py	C 143	567	toolu_012BFuXhGk92dqa8gVy8sbDV	2026-10-08T11:53:35.565Z	quoted	7		allr=pickle.load(open('all.pkl','rb'))
+c144-0.py	C 144	571	toolu_01TnZMNH4TrvRhM1ZuaCeWSX	2026-10-08T11:53:46.770Z	quoted	9	note prose edit, not kept	
+c145-0.py	C 145	575	toolu_01PPTEetFbygGDwWNj8pMiX9	2026-10-08T11:54:02.216Z	quoted	14		src=open('practices.py').read().split("for n in sorted(P):")[0]
+c146-0.py	C 146	579	toolu_01M4VdEqtKiBMZwpt5r6K5bG	2026-10-08T11:54:07.833Z	quoted	8		src=open('practices.py').read().split("for n in sorted(P):")[0]
+c147-0.py	C 147	583	toolu_01TTLcbtimepFd66XH6XNHeE	2026-10-08T11:54:17.403Z	quoted	20	note prose edit, not kept	
+c148-0.py	C 148	587	toolu_015rJB3SK4fYJbedi8gnEub9	2026-10-08T11:54:22.008Z	quoted	7	note prose edit, not kept	
+c149-0.py	C 149	591	toolu_01JW6w8Y2PFYdXmKgNJ4T2R6	2026-10-08T11:54:33.277Z	quoted	11		allr=pickle.load(open('all.pkl','rb'))
+c150-0.py	C 150	595	toolu_01Hd6RCnQKw1tV8cbK19ccrS	2026-10-08T11:54:41.613Z	quoted	7	note prose edit, not kept	
+c151-0.py	C 151	599	toolu_01Kna2UVF7QR3rcfUaMMk6fB	2026-10-08T11:54:55.001Z	quoted	3		line = "- `explorations/coordinator/process-engineering/testing-practices.md`: What the agents of climb batche
