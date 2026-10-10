@@ -4763,3 +4763,39 @@ closed by 7207e2719
 closed by efd6bb2f2
 
 | 692 | under walk, a `where` clause that bounds an unbounded static parameter of a generic trait or object bounds every other unbounded static parameter of the load: with `trait W[\T\] where { T extends ZZ32 }` declared, `p(3)` runs `p[\U\](x: U)` over the more specific `p(x: ZZ32)` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/WhereBoundOverloadWalk.fss` | climb batch 13 rung W's skeptic | siblings: 478. `SymbolicType.addExtends` appended the bound in place (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/SymbolicType.java:54-57` at a1a75716a) to a list that, for a parameter with no bound, is `FTypeTop`'s one list (`types/FTraitOrObject.java:76-80`, `types/FTypeTop.java:26`), so every unbounded symbolic type took the bound; the Meet Rule check's stand-ins (`BuildEnvironments.symbolicInstance`) run before pass 3. On the base `p(3)` prints `U`. Fixed by the skeptic's contested 7b625cdf9 (the bound goes into a list of the parameter's own); the gather closes the row if it lands. |
+
+### Row 688
+
+closed by 3c67d5204
+
+| 688 | the compiled checker's overloading check of the one library's api, its memo off as the count stage runs it, takes about 18 minutes once the array family is bounded by `T extends { Number, MultiplicativeRing[\T\] }`: each subtype query on such a variable expands `Number`'s `comprises` clause | NEGATIVE-BOUNDED | implementation gap (checker) | silent | none | climb batch 13 rung V | With fork 2's default on `Library/FortressLibrary.fss` and `.fsi` (d3d31b5b2) and rung V's checker, the count stage's checker ran 17:47:05 to 18:05:06 UTC, past the stage's 900 s limit, count still 1. Thread dumps: `TypeAnalyzer.pSubInner` (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:224`), `pNorm`, `normConjunct` (`:663-664`), `dExc`, `pExc` (`:417-487`), called from `TypeSchemaAnalyzer.reduceED` (`:370`) and `subEDsolution` (`:194`, `:198`); `IntLiteral` excludes `MultiplicativeRing[\T\]`. On 09-29 the distance stage's FortressLibrary took 3,825 s against 704 s with this bound (`explorations/reviews/array-design-ways.md:324`). |
+
+### Row 437
+
+closed by 749ec523e
+
+| 437 | **`matrix(v)` is refused under `walk` for an element type with no coercion from `ZZ32` (`NN32`, `NN64`, a user type)**: the off-diagonal numeral `0` in its body reaches `T` only by that coercion | NEGATIVE-VERIFIED | library bug (library) | silent on a numeral's relation to the integer types (`Specification/basic/expressions/literals.tex`, "Literals", in a note) | none | climb batch 6 rung F | The body is `fn (x:ZZ32,y:ZZ32):T => if x=y then v else 0 end` (`Library/FortressLibrary.fss:2818-2819`); the refusal is reported where the array method calls it. `NN32` and `NN64` refuse on the nested tower and the flat one; the other 159 of 161 capability rows run on both. The checker reports the same numeral: `Function body has type OR(IntLiteral,T)` (`explorations/compile-ladder/gate/distance-sites.tsv:184`). Row 51 found it fatal for a user element type and latent for `RR64` (`ZZ32` zeros in an `RR64` matrix). Repair: see `explorations/coordinator/PLAN.md`, phases 3 and 5. Workaround: `matrix[…]()` then `tabulate` with the element type's zero. probe and full text: history, row 437 |
+
+### Row 686
+
+note added
+
+| 686 | the compiled checker refuses a call whose argument carries the caller's type parameter, bounded as the callee's by a closed trait and a bound excluding one of its listed types: in `g[\T extends { K, R[\T\] }\](x: Box[\T\]): T = h(x)`, `h` 'is not applicable to an argument of type Box[\T\]' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferCallerTwoBoundsClosedTrait.test` | climb batch 13 rung V | siblings: 687, 689. Refused at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:721` (`typedApplication`) on a1a75716a and after rung V's `boundsSubstitution` fix, so not that code; not traced to the inference step that fails. The norm's `squaredNorm(me)` (`Library/FortressLibrary.fss:2490`) was refused so on a library copy with the two-trait array bound (`explorations/reviews/array-fork2-judgement.md` section 3). With `K`'s clause naming no type outside `R` the call checks. Workaround: write the static argument, `h[\T\](x)`, which compiles and runs. |
+
+### Row 687
+
+note added
+
+| 687 | the compiled checker crashes on a call that converts a numeral when the callee's type parameter is bounded by a closed trait and a bound excluding one of its listed types: `f(A, 1)` for `f[\T extends { K, R[\T\] }\](x: T, y: ZZ32)`, 'Applied a substitution to an And and got an Or' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXCoerceTwoBoundsClosedTrait.test` | climb batch 13 rung V | siblings: 686, 689. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:593` (`slv`) under `solveToBounds` (`:497`), `STypesUtil.inferStaticParamsHelper` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1036`) and `Functionals.checkApplicableWithCoercion` (`impls/Functionals.scala:371`, `:379`), on a1a75716a and after rung V's `boundsSubstitution` fix. The same call with a `ZZ32` variable, `f(A, z)`, checks and runs. Workaround: a typed argument, or the written static argument `f[\A\](A, 1)`, which compiles and runs. |
+
+### Row 689
+
+note added
+
+| 689 | the compiled checker crashes on a call whose argument is the caller's own type parameter, bounded as the callee's by a closed trait and a bound excluding one of its listed types: `h(x)` in `g[\T extends { K, R[\T\] }\](x: T): T`, 'Applied a substitution to an And and got an Or' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXCallerParamTwoBoundsClosedTrait.test` | climb batch 13 rung V's skeptic | siblings: 686, 687. Row 687's stack: `Formula.slv` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:593`) under `STypesUtil.inferStaticParamsHelper` (`:1036`) and `Functionals.checkApplicableWithCoercion` (`impls/Functionals.scala:371`, `:379`), the coercion attempt after the plain check fails, on a1a75716a and after rung V's `boundsSubstitution` fix. The brief's second test for rung V had this form; with a `Box[\T\]` argument the call is refused instead (row 686). Walk runs it. Workaround: `h[\T\](x)`, which compiles and runs. |
+
+### Row 690
+
+note added
+
+| 690 | the compiled checker refuses a valid overloading: a generic declaration bounded by a closed trait and a bound excluding one of its listed types, beside a declaration on that trait with the same return type, gets a false Return Type Rule error, 'should be a subtype of the return type of K->String' | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXReturnRuleTwoBoundsClosedTrait.test` | climb batch 13 rung V's skeptic | siblings: 684, 686. A crash on a1a75716a (row 684). After rung V's fix `OverloadingOracle.satisfiesReturnTypeRule` (`ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:115-117`) builds the special arrow `[\T extends K R[\T\]\]AND(T,OR(A,B))->String`, the analyzer's normal form of the domains' meet, and `subtypeUA` of the generic declaration against it is false; not traced further. With `K` open, or with no listed type of `K` outside `R`, the pair checks and runs. Walk runs it: `f(A)` the generic declaration, `f(C)` the other. |
