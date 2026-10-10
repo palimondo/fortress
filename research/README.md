@@ -87,6 +87,13 @@ and commentary with brief attributed quotations, never document reproductions.
   - Committed: the PDF, `extracts/ParkPOPL2019.pdf`, its full text from
     `pdftotext -layout`, `extracts/ParkPOPL2019.txt`, and the working extract,
     `extracts/ParkPOPL2019-extract.md`.
+  - The talk: Gyunghee Park presented the paper at POPL 2019 on 17 January
+    2019; video https://www.youtube.com/watch?v=eqpe-VfW3F4. Committed: its
+    transcript, checked against the captions, the paper and the speaker's
+    Keynote deck, with every slide written out as text,
+    `extracts/ParkPOPL2019-talk.md`, and the Gemini prompt that made its first
+    draft, `extracts/ParkPOPL2019-talk-pipeline.md`. The deck, attached to the
+    talk page, is kept locally in `decks/popl2019-park-talk/`.
   - The type group's last published word on Fortress's type system. Its
     calculus FGFV keeps the exclusion rule as an ancestor rule
     ([Anc-Same-Trait]), adds declaration-site variance, and makes dispatch
