@@ -1,71 +1,41 @@
-> The prompt that Gemini ran to make the first draft of `ParkPOPL2019-talk.md`, copied unchanged from the package that Gemini made for the curator.
-> Kept as provenance only, a record of how that draft was made; it is not an instruction for work in this repository.
+<!-- How ParkPOPL2019-talk.md was made: the talk's audio, the two speech models and their settings, and how their transcripts were aligned and their disagreements settled. The scripts and the two models' scores are in research/tools/transcribe/. -->
 
-# Automated YouTube Transcript Cleanup & Diarization Pipeline Protocol (Revision 4)
+# How the talk's transcript was made
 
-Copy and paste the prompt below into a fresh session with an AI collaborator that has YouTube access and Python execution capabilities:
+## The audio
 
----
+The curator downloaded the ACM video of the talk, `a11-park.webm`, and cut its audio with ffmpeg: `ffmpeg -i a11-park.webm -vn -ac 1 -c:a aac -b:a 48k talk.m4a`. It runs 21 min 54 s. For the models it was decoded by ffmpeg to 16 kHz mono 16-bit WAV. Both files stay uncommitted, in `research/decks/popl2019-park-talk/audio/` and the gitignored `tmp/`. YouTube's captions were not used.
 
-```markdown
-You are an expert transcription engineer and audio-text forensic analyst. When provided with a YouTube URL, execute the following end-to-end pipeline to produce a publication-grade, speaker-diarized transcript, segmented summary, and lightweight verification audit package.
+## The two models
 
-### CORE OPERATIONAL PRINCIPLES & CONSTRAINTS
-1. **Honest Ingestion Provenance**: You retrieve YouTube subtitles via timed-text ASR (Automated Speech Recognition) APIs. Acknowledge that processing relies on phonetic reverse-engineering and contextual language modeling of the ASR stream rather than direct acoustic waveform decoding.
-2. **Standard Subtitle Formatting & Video ID Naming**: Extract the YouTube video ID from the URL (`VIDEO_ID`). Save the raw subtitles in standard SubRip format as `<VIDEO_ID>.srt`.
-3. **Semantic Naming Conventions**:
-   - Package archive: `<TOPIC>_<VIDEO_ID>.zip` (e.g., `PL_Features_Deliver_Promises_V8sACAhg4vM.zip`).
-   - Final cleaned transcript: `<TOPIC>_Transcript_<VIDEO_ID>.md` (e.g., `PL_Features_Deliver_Promises_Transcript_V8sACAhg4vM.md`).
-4. **Streamlined Text-Based Audit (No Binary XLSX)**: Avoid binary spreadsheet formats (e.g., `.xlsx`) and external spreadsheet library dependencies. Record the corrections audit strictly in a portable, lightweight CSV format (`Stage_2_STT_Corrections_Audit.csv`).
-5. **Intermediate Artifacts as Verification Contracts**: Perform all intermediate work products (raw capture, error audit, verbatim diarization) internally to verify corrections and maintain provenance.
-6. **Fault-Tolerant Delivery Protocol (Mobile & UI Affordance Guard)**:
-   - **Prevent Object Leakage**: Do NOT create or modify loose text files in the final packaging Python tool call. In the final packaging step, write ONLY the single `.zip` archive so that the interpreter returns exactly ONE `object:retrievable_multimedia` artifact. Emitting multiple text objects causes client UI parsers (such as the Gemini iOS app) to suppress the download card and display raw code/text blocks instead.
-   - **No Chat Text Vomiting**: NEVER output long-form transcripts or raw script blocks into the conversational response.
-   - **Direct Download Presentation**: Open the final response immediately with a concise ready-state header and a clean manifest table of the archive contents.
+- **Whisper large-v3**, through faster-whisper 1.2.1 on CTranslate2 4.8.2: CPU, int8, 4 threads, beam 5, Silero VAD on, word timestamps, conditioned on the previous text, language English. Its initial prompt named the paper's title, the four authors, KAIST and Oracle Labs, and the paper's terms: "Fortress, Julia, FGFV, symmetric multiple dispatch, asymmetric dispatch, overloading, overloaded method declarations, covariant, contravariant, invariant, variance, type parameters, existential types, universal types, No Duplicates Rule, Meet Rule, Return Type Rule, most specific, subtype, List, SortedList, type soundness". It took 1,439 s and gave 356 segments.
+- **Qwen3-ASR-1.7B**, the transformers port `Qwen/Qwen3-ASR-1.7B-hf` (transformers 5.19.0, torch 2.14.1): CPU, float32, 4 threads, no prompt, language detected by the model. It hears about 30 s at a time, so the audio was cut into 49 windows of up to 28 s at Whisper's segment boundaries, each padded by 0.2 s on both sides. It took 803 s.
 
----
+Both times are wall-clock on the cloud container's 4 cores, one run each, model loading included.
 
-### EXECUTION PHASES
+## Alignment
 
-#### Phase 1: Ingestion & Subtitle Formatting (<VIDEO_ID>.srt)
-- Parse the YouTube URL to extract the unique video ID (`VIDEO_ID`).
-- Retrieve video metadata (title, channel, duration) and timed-text subtitles.
-- Format the raw subtitle stream into standard SubRip format (`.srt` with sequential numbering, `00:00:00,000 --> 00:00:00,000` timestamps, and text).
-- Save internally as `<VIDEO_ID>.srt`.
+Each model's text was normalized: case and punctuation dropped, CamelCase split, hyphens split, numerals spelled out, um and uh dropped, and a few spellings merged, such as "run time" and "runtime". Qwen's "language English<asr_text>" prefix was stripped from each window. Python's difflib then aligned the two word sequences. They differ in 82 places.
 
-#### Phase 2: Phonetic Disambiguation & Text Audit (Stage_2_STT_Corrections_Audit.csv)
-- Systematically audit the ASR stream for common speech-to-text failure modes:
-  - **Phonetic Malapropisms & Homophones**: Acoustic substitutions (e.g., "psychopants" -> sycophants; "mayors" -> mares; "ball a lake" -> ballache).
-  - **Domain & Technical Jargon**: Industry-specific vocabulary absent from general models (e.g., "initification" -> enshittification; "advertise the hardware" -> amortize the hardware).
-  - **Entity Truncations & Acronyms**: Clipped proper nouns and technical terms (e.g., "Cory Dr o" -> Cory Doctorow; "at Zitron" -> Ed Zitron; "Rock" -> Grok; "LG terminal" -> LNG terminal).
-- Save internally as a structured CSV file `Stage_2_STT_Corrections_Audit.csv` with columns:
-  `Audit_ID, Timestamp, Speaker, Raw_STT_Text, Verified_Audio_Correction, Error_Category, Contextual_Provenance_and_Reason`.
+## How disagreements were settled
 
-#### Phase 3: Syntactic Diarization (Stage_3_Diarized_Verbatim_Transcript.md)
-- Identify distinct speakers (Host vs. Guest) using syntax, introductory remarks, and conversational turn cues.
-- Merge caption bursts into coherent paragraphs anchored by timestamps `[HH:MM:SS]` at speaker turns and thematic shifts.
-- Apply Phase 2 corrections in-line while strictly preserving verbatim discourse markers ("you know", "like"), repetitions, and false starts.
-- Save internally as `Stage_3_Diarized_Verbatim_Transcript.md`.
+Where the two models agree, the transcript takes their words. Each of the 82 differences was settled in one of these ways.
 
-#### Phase 4: Editorial Cleanup (<TOPIC>_Transcript_<VIDEO_ID>.md)
-- Polish the text for reading and citation:
-  - Prune speech disfluencies, stuttering, and non-substantive filler particles.
-  - Break run-on sentences into syntactically sound paragraphs.
-  - Preserve 100% of the speaker's rhetorical substance, technical analogies, and distinctive idioms.
-  - Organize into thematic sections with clear Markdown headers.
-- Save internally as `<TOPIC>_Transcript_<VIDEO_ID>.md`.
+- The paper's names and terms, 16: the authors' names, "variance" against "variants", "Featherweight" and "FGFV", "type-sound", "quantified over the method type parameters".
+- The slides, 11: "List List, List SortedList, and SortedList List", "List P", "SortedList C", "contravariant", "overloaded method declarations", "No Duplicates Rule", "invariant SortedList".
+- The sense of the sentence, 13, often by the speaker's own wording elsewhere in the talk: "tasks" against "tests", "roles" against "rules", "a valid set" as at 5:03.
+- The transcript's rule on disfluency, 15: it drops um and uh, a word said twice in a row, and the first try of a phrase that the speaker at once starts again ("both the call, both the methods" becomes "both the methods"). It keeps every other word, "yeah" and "okay" included.
+- Qwen's window overlap, 17: a word at a cut fell in the padding of both windows and came out twice.
+- Doubtful, 10: neither the slides, the paper nor the sense settles them. They are marked inline, `[yeah?]` for a word that only one model heard and `[prove/proved?]` for two readings.
 
-#### Phase 5: Thematic Segmentation (Segmented_Summary_and_Thematic_Breakdown.md)
-- Generate a chronologically indexed, timestamped thematic summary highlighting core arguments, economic models, and empirical figures.
-- Save internally as `Segmented_Summary_and_Thematic_Breakdown.md`.
+Two passages of Whisper's have no speech under them. "Okay. Let's take a look at the first one." (11:21) is nine words in about one second where Qwen heard nothing. At 12:20 it repeated "so this rule is to rule out the trivial cases", with zero-length word timestamps, over "quantified over the method type parameters", which Qwen heard and the paper's domain types confirm.
 
-#### Phase 6: Single-Archive Packaging & Clean Delivery
-- In a dedicated final Python execution, write ONLY the target ZIP archive `<TOPIC>_<VIDEO_ID>.zip` containing:
-  1. `<VIDEO_ID>.srt`
-  2. `Stage_2_STT_Corrections_Audit.csv`
-  3. `Stage_3_Diarized_Verbatim_Transcript.md`
-  4. `<TOPIC>_Transcript_<VIDEO_ID>.md`
-  5. `Segmented_Summary_and_Thematic_Breakdown.md`
-  6. `PROMPT_REPRODUCIBLE_TRANSCRIPTION_PIPELINE.md`
-- Conclude the chat response with a concise manifest table.
-```
+No one listened to the audio. Neither model tells speakers apart, so the speaker labels follow the turns of the talk.
+
+## The slides
+
+The slides' text comes from the speaker's Keynote deck, attached to the talk page and kept uncommitted in `research/decks/popl2019-park-talk/`. The text boxes were read from the deck's files. The code and the formulas are pictures in the deck, and were read by eye against the deck's image of each slide. The pictures of the overloading rules hold more rules than the slides show: Keynote crops [No-Dup-Triv], [Meet-Triv], [Meet-Excl], [Return-Triv] and [Return-Not-Less] out of view.
+
+## The scripts
+
+`research/tools/transcribe/`: `whisper_transcribe.py` and `qwen_transcribe.py` made the two transcripts, and `compare.py` lists the disagreements and scores each model against this transcript. Its `README.md` gives the commands and the two models' head-to-head on this talk.

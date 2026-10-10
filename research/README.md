@@ -91,11 +91,13 @@ transcript of its talk with the slides' text.
     `extracts/ParkPOPL2019-extract.md`.
   - The talk: Gyunghee Park presented the paper at POPL 2019 on 17 January
     2019; video https://www.youtube.com/watch?v=eqpe-VfW3F4. Committed: its
-    transcript, checked against the captions, the paper and the speaker's
-    Keynote deck, with every slide written out as text,
-    `extracts/ParkPOPL2019-talk.md`, and the Gemini prompt that made its first
-    draft, `extracts/ParkPOPL2019-talk-pipeline.md`. The deck, attached to the
-    talk page, is kept locally in `decks/popl2019-park-talk/`.
+    transcript, `extracts/ParkPOPL2019-talk.md`, made from the ACM video's
+    audio by Whisper large-v3 and Qwen3-ASR-1.7B, their disagreements settled
+    against the slides and the paper, with every slide of the speaker's
+    Keynote deck written out as text; how it was made,
+    `extracts/ParkPOPL2019-talk-pipeline.md`; the scripts and the two models'
+    head-to-head, `tools/transcribe/`. The deck, attached to the talk page,
+    and the audio are kept locally in `decks/popl2019-park-talk/`.
   - The type group's last published word on Fortress's type system. Its
     calculus FGFV keeps the exclusion rule as an ancestor rule
     ([Anc-Same-Trait]), adds declaration-site variance, and makes dispatch
