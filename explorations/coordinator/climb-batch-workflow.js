@@ -14,10 +14,13 @@
 // its skeptic checks it and fixes what it finds, test first; a judge rules only on a fix
 // the skeptic marks contested or on a rung it cannot fix, and a repair round runs only on
 // the judge's word; no second skeptic. Then the gather lands the approved rungs on main,
-// the merged-diff review and the gate run side by side, a cold reader reads the skill text
-// the batch added, and the commit stage lands the gate's tables, runs the microGPT walk
-// check and pushes. Every agent is pinned to Opus but a judge's second ruling on the same
-// rung or tree, which runs on Fable (POSITIONS.md, "The judge's rulings."). Every prompt
+// the merged-diff review and the gate run side by side, and the commit stage lands the
+// gate's tables, runs the microGPT walk check and pushes. The batch writes no skill text:
+// each rung's revival-change material goes into the batch's RECORD.md, and the standing
+// skill writer writes the skill from it after the landing, before a cold read
+// (explorations/reviews/skills-agenda-audit.md, "Proposed fix to the mechanism"). Every
+// agent is pinned to Opus but a judge's second ruling on the same rung or tree, which runs
+// on Fable (POSITIONS.md, "The judge's rulings."). Every prompt
 // points to the fortress-repo skill for how to build, test, run the old code, wait and
 // commit, and says only what the role does in this batch. No backticks and no non-ASCII
 // character anywhere in this file (the gate's awk line excepted).
@@ -30,7 +33,7 @@
 
 export const meta = {
   name: 'fortress-climb-batch',
-  description: 'One batch of Fortress compile-ladder rungs in seeded worktrees: each rung done test first by its worker and checked by a skeptic that fixes what it finds, a judge only on a contested fix or a refusal; gathered onto main, reviewed beside one gate, the skill text it adds cold-read, landed and pushed',
+  description: 'One batch of Fortress compile-ladder rungs in seeded worktrees: each rung done test first by its worker and checked by a skeptic that fixes what it finds, a judge only on a contested fix or a refusal; gathered onto main, reviewed beside one gate, landed and pushed; its revival-change material left in the batch record for the skill writer',
   phases: [
     { title: 'Rung', detail: 'the rung done test first in its own seeded worktree, committed and pushed to its wip/ branch as it goes' },
     { title: 'Skeptic', detail: 'the rung checked by reading and by programs of its own on the old and new code; what it finds it fixes, test first, and it marks a fix contested when nothing on record settles it' },
@@ -38,8 +41,7 @@ export const meta = {
     { title: 'Gather', detail: 'each approved rung applied to main in one commit with its record folded, the new ledger rows added through ledger.py, the rows it fixed closed' },
     { title: 'Review', detail: 'the merged diff, the skeptics\' fixes and the folded record read as a whole, once, beside the gate' },
     { title: 'Gate', detail: 'compileAll, the suites at four threads, testSpecData once a rung brings it, the atomic runs, the ladder regression, the checker count, and the distance stage beside them, reported and never red' },
-    { title: 'Cold read', detail: 'the skill text the batch added, read by an agent given only the skill' },
-    { title: 'Commit', detail: 'the gate\'s tables landed, the microGPT walk check run, main pushed to its three branches, the worktrees removed; no push while a step that cannot be undone is unlifted' },
+    { title: 'Commit', detail: 'the gate\'s tables landed, the microGPT walk check run, the batch checked for skill text it should not have written, main pushed to its three branches, the worktrees removed; no push while a step that cannot be undone is unlifted' },
   ],
 }
 
@@ -62,7 +64,6 @@ const OLD = BASE_BUILD + '/' + TOOLS + '/old-fortress.sh'   // runs the base's c
 const oldCaches = (rung) => rung.path + '/tmp/old-caches'   // a rung's private caches folder for the old code
 const PUSH_BRANCHES = ['claude/worker-brief-fable-vnnuv8', 'blinded-fable']   // every push of main goes to these too (explorations/protocol.md, hard rules)
 const MAIN = '/home/user/fortress'
-const DELTA_PART = '.claude/skills/fortress-repo/references/revival-changes.md'   // POSITIONS.md, "The delta from the original Fortress is a part of the skill, kept current."
 const LEDGER = TOOLS + '/ledger.py'
 
 // ===========================================================================
@@ -667,13 +668,13 @@ const JQ_LINES = [
 const reId = (id) => id.replace(/[^A-Za-z0-9]/g, '.')
 
 // ---------------------------------------------------------------------------
-// The head every role's brief opens with (the cold reader's excepted). Agents share the
-// prompt cache only for the system prompt and tools, and the first message only when the
-// whole prompt is identical (FACTS.md, "The Workflow harness runs two agents at once on this
-// box"), so a head shared byte for byte saves nothing, and each role is given only what it
-// needs. What every agent needs to know of how to work here is the fortress-repo skill's,
-// which CLAUDE.md has every agent load (POSITIONS.md, "The skills are written for a reader new
-// to the repository ..."): the head points there and does not repeat it.
+// The head every role's brief opens with. Agents share the prompt cache only for the system
+// prompt and tools, and the first message only when the whole prompt is identical (FACTS.md,
+// "The Workflow harness runs two agents at once on this box"), so a head shared byte for byte
+// saves nothing, and each role is given only what it needs. What every agent needs to know of
+// how to work here is the fortress-repo skill's, which CLAUDE.md has every agent load
+// (POSITIONS.md, "The skills are written for a reader new to the repository ..."): the head
+// points there and does not repeat it.
 // ---------------------------------------------------------------------------
 
 function head(role) {
@@ -787,7 +788,7 @@ rung.testIsStage
 '',
 'Under ' + dir + ' in your worktree:',
 '- REPORT.md: opening with five provenance lines, each ending in a file:line or none: problem (the measurement that made this a rung), spec (the governing passage of Specification/basic or basic-lib; none with the grep that shows it), precedent (the declaration or shape you followed), deviation (one line per way your edit departs from the precedent and the specification\'s spelling), historical (every file of the original 2012 tree you edit, for the commit message). Then what changed and why; the failing run\'s lines and the passing run\'s line, each with its command; where the fix belongs and the precedent search; what the specification settles; each program you ran old against new; the sentences your change makes false; every point to report you reached; your decisions, each with the ways not taken; every defect with its home.',
-'- record.md: the record lines the gather folds, as finished prose. The FACTS.md entry the rung earns (the fact, its source and its test in a few lines under a bold title, the detail left in REPORT.md). Each ledger note (the row, and the text to append). Each new row (NEW-' + rung.id + '-n, in the row template). The handover line. And the entry for the skill\'s part on what the revival changed in the team\'s Fortress, ' + DELTA_PART + ', in that part\'s form and register (explorations/reviews/skills-writing-principles.md), when your change makes the revival\'s Fortress differ from what one of the team\'s sources (the specification, walk, the compiler, the library) says or does; otherwise the line "Revival change: none", with the reason.',
+'- record.md: the record lines the gather folds, as finished prose. The FACTS.md entry the rung earns (the fact, its source and its test in a few lines under a bold title, the detail left in REPORT.md). Each ledger note (the row, and the text to append). Each new row (NEW-' + rung.id + '-n, in the row template). The handover line. And a section headed "Revival change": the material from which the skill writer, after the landing, writes the skill\'s part on what the revival changed in the team\'s Fortress, when your change makes the revival\'s Fortress differ from what one of the team\'s sources (the specification, walk, the compiler, the library) says or does. It has two labelled parts. "The change": the team\'s source and what it says or does, with file:line; what the tree now does, with the test that shows it; and the reason, as evidence (a passage of a source, a checker refusal, a measured failure). "Provenance": the question or item, the answer or default it follows, and the batch. Name no question, item, batch, rung or record file in the change, and give no decision\'s status there; provenance goes in its own part. You write no skill text: the gather copies both parts into the batch\'s RECORD.md for the writer. When your change makes no such difference, the section is the line "Revival change: none", with the reason.',
 '- A decision record if your section asks for one. Nothing else under explorations/.',
 '',
 'Do not edit explorations/coordinator/FACTS.md, the gap ledger, PLAN.md, POSITIONS.md, INDEX.md, the handover, the tools under ' + TOOLS + '/, or anything under .claude/: the gather folds your record.md into them, since every rung would conflict on them. Commit and push your own files as you go, on your branch only, as the skill\'s committing.md says; never main, never another branch, never a force-push.',
@@ -895,7 +896,7 @@ transcriptsLine(['rung:' + id, 'resume:' + id]),
   : 'Where the diff shows a mutable variable, a field, an atomic block or a write into a library\'s state, run each at FORTRESS_THREADS=1 and =4 and say so.') + ' When walk and the compiled run disagree, the specification answers: the interpreter is evidence, not an oracle; a silent specification is a reason to think harder, not to stop.',
 '7. The three homes (the skill\'s tests-writing.md, "How a defect is recorded") for every defect the report names and every defect your programs measure.',
 '8. The ledger and the sibling sites: ' + LEDGER + ' find with your own words for rows that bear on the rung; the tree for every other site of the defect the rung repairs, in the files it edits, in the sibling types and widths, and on the other path.',
-'9. The report: its five provenance lines, each cited line opened with sed -n and saying what the line claims; the sentences of the specification the change makes false, listed; the whole-suite run the skill asks of a checker or walk edit, its verdict, command and commit those of the head; every point to report the rung reaches; record.md\'s FACTS entry, notes, rows and revival-change entry true as written.',
+'9. The report: its five provenance lines, each cited line opened with sed -n and saying what the line claims; the sentences of the specification the change makes false, listed; the whole-suite run the skill asks of a checker or walk edit, its verdict, command and commit those of the head; every point to report the rung reaches; record.md\'s FACTS entry, notes, rows and Revival change section true as written.',
 '10. Competing declarations of every name the rung adds, in both test corpora and ProjectFortress/src/com/sun/fortress/ whole.',
 '11. The failure-mode question: where the rung turns a loud failure (a throw, an error, a crash) into a quiet value, what the value is, against the specification. It does not stop the rung; it is reported.',
 '',
@@ -1178,16 +1179,16 @@ function gatherRole(approved, notLanded, items) {
 '## For each rung, in that order',
 '',
 '1. Its net change: git diff ' + BASE + '...<branch> > tmp/gather/<slug>.patch, then git apply --3way --index on it. A hunk that fails in a file another rung also touched is the conflict this stage exists to see: in unrelated regions, resolve it by hand from both sides and say so; where both changed the same logic, do not guess: leave the tree clean, and return with the conflict named. Then its files under explorations/compile-ladder/<slug>/. The branch carries REPORT.md and record.md where the skeptic wrote them from the run\'s journal, and SKEPTIC.md. Where it lacks one, run that file\'s command from textCommands below, from ' + MAIN + ' (the journal tool finds the journal itself), and compose nothing; where the rung had a repair round (repaired true), run the REPORT.md and record.md commands even where the branch carries the files, since the repair round\'s texts replace the worker\'s. A command that exits 1 wrote nothing: report the file missing; so is a SKEPTIC.md whose text is only the word committed.',
-'2. Its record, record.md, folded. The FACTS.md entry under the section of its area (the file\'s README gives the rule), after the section\'s last entry: the fact, its source and its test in a few lines. Each ledger note with ' + LEDGER + ' note N "TEXT". Each new row: its line, its number cell ?, into a file under tmp/gather/, then ' + LEDGER + ' add FILE --section "TITLE", the section its writer names or the one its class fits; the tool numbers it and checks it against the template, and a row it refuses you correct to the template, keeping its claim. Replace the row\'s placeholder (NEW-<rung>-<n>) with its number everywhere the rung\'s files and tests cite it, before the rung\'s commit. The handover line in the first section of explorations/microgpt-run-c-handover.md. The rung\'s entry for the skill\'s part on the revival\'s changes, ' + DELTA_PART + ': where record.md has one, put it into that part in the part\'s form, in the group it belongs to, as the rung wrote it but for what the part\'s form needs; and if the skill\'s references/sources.md has a section for that part, one line there naming the rung\'s REPORT.md. If the part does not exist, fold nothing into .claude/ and list the entries in deltaEntries as not folded, for the coordinator. Any file:line a record cites that an earlier rung\'s hunk shifted is re-anchored by symbol.',
+'2. Its record, record.md, folded. The FACTS.md entry under the section of its area (the file\'s README gives the rule), after the section\'s last entry: the fact, its source and its test in a few lines. Each ledger note with ' + LEDGER + ' note N "TEXT". Each new row: its line, its number cell ?, into a file under tmp/gather/, then ' + LEDGER + ' add FILE --section "TITLE", the section its writer names or the one its class fits; the tool numbers it and checks it against the template, and a row it refuses you correct to the template, keeping its claim. Replace the row\'s placeholder (NEW-<rung>-<n>) with its number everywhere the rung\'s files and tests cite it, before the rung\'s commit. The handover line in the first section of explorations/microgpt-run-c-handover.md. The rung\'s "Revival change" section is folded into no file: copy it, both its parts word for word, or its line "Revival change: none" with the reason, to tmp/gather/<slug>-revival-change.md for step 7. Write nothing under .claude/: the batch writes no skill text, and the skill writer writes the skill from RECORD.md after the landing. Any file:line a record cites that an earlier rung\'s hunk shifted is re-anchored by symbol.',
 '3. The corrections still owed: each leftForGather item of the rung\'s skeptic, below; each sentence of the specification that the rung\'s REPORT.md lists as made false by its change and that the rung did not edit, an Appendix I Effect or a note on walk or the compiled path, corrected to what the code does, each clause checked against the code line it states. Such a sentence states what the code does, so it is not a text mismatch.',
 '4. Its items for the curator, from the list at the end of this role. ' + PLAN_RULE + ' The evidence named is the rung\'s file that carries the point, at the line it is now at.',
 '   A text mismatch is not blocking. Where one rung\'s specification text and another rung\'s code disagree and the decisions on record settle it, fix the side they settle. Where they do not, it is reversible and lands as a point to report: the text stands as the rung wrote it; the path that departs gets a ledger row and a gated XXX test asserting the text\'s rule; the text\'s entry in Specification/appendices/changes.tex names that row among its departures; all in the later rung\'s commit, and the mismatch goes in your forCurator.',
-'5. One commit: the applied source and tests, the rung\'s REPORT.md, SKEPTIC.md and JUDGE.md if any, a decision record if it has one (record.md is folded, not landed: take it out of the index and the tree once step 2 has folded it), FACTS.md, the ledger and its history file, the handover, PLAN.md when step 4 wrote to it, and ' + DELTA_PART + ' (and sources.md) when step 2 wrote to it. Stage them by an explicit list and read git diff --cached --stat before you commit. Title: what the repair does, in plain words; body: the two or three sentences of record.md that say why, and where the commit touches any path outside explorations/ and .claude/, a line beginning "historical:" naming the files of the original 2012 tree it edits, from the provenance block. The skill\'s footer. Do not push.',
+'5. One commit: the applied source and tests, the rung\'s REPORT.md, SKEPTIC.md and JUDGE.md if any, a decision record if it has one (record.md is folded, not landed: take it out of the index and the tree once step 2 has folded it), FACTS.md, the ledger and its history file, the handover, and PLAN.md when step 4 wrote to it. Stage them by an explicit list and read git diff --cached --stat before you commit. Title: what the repair does, in plain words; body: the two or three sentences of record.md that say why, and where the commit touches any path outside explorations/ and .claude/, a line beginning "historical:" naming the files of the original 2012 tree it edits, from the provenance block. The skill\'s footer. Do not push.',
 '',
 '## After the rungs',
 '',
 '6. Close each row a landed rung fixed, as its rowsClosed and REPORT.md name it, once its test passes on the merged tree as the rung last ran it: ' + LEDGER + ' close N --commit <the rung\'s commit on main> --test <the test>. Then ' + LEDGER + ' check. One commit, titled "Close the rows climb batch ' + BATCH + ' fixed".',
-'7. ' + BATCH_DIR + '/RECORD.md: the rungs applied, in what order and why, each with its commit hash; the rows opened (number, rung, claim) and closed; each skeptic\'s fixes and contested rulings, by commit; every file written from the journal; the rungs that did not land (below); the points to report every landed rung reached, from the lists below; the items for the curator and where each is in PLAN.md. One commit.',
+'7. ' + BATCH_DIR + '/RECORD.md: the rungs applied, in what order and why, each with its commit hash; the rows opened (number, rung, claim) and closed; each skeptic\'s fixes and contested rulings, by commit; every file written from the journal; the rungs that did not land (below); the points to report every landed rung reached, from the lists below; the items for the curator and where each is in PLAN.md; and last, under the heading "Revival changes, for the skill writer", one subsection per landed rung, headed by the rung, holding its "Revival change" section from tmp/gather/<slug>-revival-change.md, both parts word for word (the change, and its provenance), or its line "Revival change: none" with the reason. One commit.',
 '',
 (notLanded.length
   ? '## The rungs that did not land\n\nTheir source is not applied and their branches stay as they are. Their skeptics\' findings are about the tree, not the rung, so fold them under a heading "Not landed" in RECORD.md, one section per rung: the reason it did not land and the findings of its SKEPTIC.md; and add the new rows its record.md holds through ' + LEDGER + ' add, as step 2 says, in the commit that carries RECORD.md. Its items for the curator go into PLAN.md as step 4 says. Take its REPORT.md and SKEPTIC.md out of its branch by an explicit list of paths (git checkout <branch> -- <path>), writing a missing one with its command; apply none of its source.\n\n' + JSON.stringify(notLanded.map(r => Object.assign({ rung: r.rung, slug: r.slug, branch: r.branch, state: r.state, reason: r.withheldReason || (r.judge && r.judge.summary) || (r.worker && r.worker.stopReason) || (r.verdict && r.verdict.refusalReason) || '', skepticFindings: (r.verdict && r.verdict.findings) || [] }, rungTextCommands(r))), null, 2) + '\n'
@@ -1205,7 +1206,7 @@ JSON.stringify(approved.map(r => Object.assign({ rung: r.rung, slug: r.slug, bra
 '',
 JSON.stringify(items, null, 2),
 '',
-'Return the structured result the tool requires: each rung\'s commit hash, the order and why, the conflicts and how each was resolved, the rows opened and closed, the entries for ' + DELTA_PART + ' and whether each was folded, forCurator (your own points, a text mismatch the decisions do not settle among them, as gather.1, gather.2), curatorItems, one entry for every id above and every gather.N with the PLAN.md section and entry that holds it, and curatorUnrouted, every id you could not put in, with the reason. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
+'Return the structured result the tool requires: each rung\'s commit hash, the order and why, the conflicts and how each was resolved, the rows opened and closed, forCurator (your own points, a text mismatch the decisions do not settle among them, as gather.1, gather.2), curatorItems, one entry for every id above and every gather.N with the PLAN.md section and entry that holds it, and curatorUnrouted, every id you could not put in, with the reason. Nothing waits on these: the batch goes on to its review, gate and commit either way.',
 '',
   ].join('\n')
 }
@@ -1219,8 +1220,6 @@ const GATHER_SCHEMA = {
     unresolved: { type: 'boolean', description: 'true if a conflict was left unresolved and the tree was returned to clean' },
     rowsOpened: { type: 'array', items: { type: 'string' }, description: 'one line per row added: its number, its placeholder and its rung' },
     rowsClosed: { type: 'array', items: { type: 'string' }, description: 'one line per row closed: its number, the commit and the test' },
-    deltaEntries: { type: 'array', description: 'the rungs\' entries for the skill\'s part on the revival\'s changes', items: { type: 'object', properties: {
-      rung: { type: 'string' }, title: { type: 'string' }, folded: { type: 'boolean' } }, required: ['rung', 'title', 'folded'] } },
     notLandedFolded: { type: 'array', items: { type: 'string' } },
     head: { type: 'string', description: 'the hash HEAD is at when you finish' },
     forCurator: { type: 'array', items: { type: 'string' }, description: 'every point for the curator this gather finds itself, one entry each with its evidence as file:line; each goes into PLAN.md as gather.1, gather.2 in this order; empty if none' },
@@ -1229,7 +1228,7 @@ const GATHER_SCHEMA = {
       id: { type: 'string' }, why: { type: 'string' } }, required: ['id', 'why'] } },
     summary: { type: 'string' },
   },
-  required: ['commits', 'conflicts', 'unresolved', 'deltaEntries', 'curatorItems', 'curatorUnrouted', 'summary'],
+  required: ['commits', 'conflicts', 'unresolved', 'curatorItems', 'curatorUnrouted', 'summary'],
 }
 
 // The merged-diff review, once, beside the gate (POSITIONS.md, "A blocking second review does
@@ -1242,7 +1241,7 @@ function reviewRole(gather, label, items, checkingByRung) {
   return MAIN_TREE_ROLE + [
 '# Your role: merged-diff reviewer',
 '',
-'The rungs were checked one at a time in their own worktrees; nobody has yet read the changes together, nor the record as the gather folded it. You read both. THE GATE IS RUNNING BESIDE YOU in this same tree, on the gather\'s commits: keep your own corrections inside explorations/ and ' + DELTA_PART + ', and the gate\'s result stands.',
+'The rungs were checked one at a time in their own worktrees; nobody has yet read the changes together, nor the record as the gather folded it. You read both. THE GATE IS RUNNING BESIDE YOU in this same tree, on the gather\'s commits: keep your own corrections inside explorations/, and the gate\'s result stands.',
 '',
 'The composed commits: git log ' + BASE + '..HEAD; the whole change: git diff ' + BASE + '...HEAD. The gather returned:',
 '',
@@ -1255,7 +1254,7 @@ JSON.stringify(checkingByRung, null, 2),
 'Check, and cite file:line for every finding:',
 '1. No two rungs add or change the same declaration, method, trait body or operator, and no rung\'s edit depends on another\'s for its meaning or its test; and what two rungs\' changes do together: a change one rung made wrong by another\'s.',
 '2. Each fix above, as the gather applied it: it does what its finding says and only that; a defect fix has its test, seen failing through the harness on the worker\'s head and then passing, in its maker\'s transcript (the run\'s directory: ' + runDirLine('review').trim() + '; then grep for its label in "$D"/agent-*.meta.json and read the transcript with jq, never whole); a settled fix cites a sentence that settles it; a fix a judge reverted is gone from the tree.',
-'3. The folded record as a whole: every FACTS line true as written, sourced and checkable; every ledger note and new row in place (' + LEDGER + ' check passes; no NEW- placeholder left where a row is cited: grep -rn "NEW-[A-Z]-[0-9]" explorations/fortress-gap-ledger.md explorations/coordinator/FACTS.md explorations/coordinator/PLAN.md explorations/compile-ladder/ ProjectFortress/ ' + DELTA_PART + ', where a line of the batch\'s RECORD.md that gives a placeholder beside its number is not a finding, and the batch record and the synthesis under explorations/coordinator/, which name the form as an example, are not searched); every row the gather closed fixed by a landed commit; the handover\'s first section consistent; the entries the gather put into ' + DELTA_PART + ' true of the code as landed.',
+'3. The folded record as a whole: every FACTS line true as written, sourced and checkable; every ledger note and new row in place (' + LEDGER + ' check passes; no NEW- placeholder left where a row is cited: grep -rn "NEW-[A-Z]-[0-9]" explorations/fortress-gap-ledger.md explorations/coordinator/FACTS.md explorations/coordinator/PLAN.md explorations/compile-ladder/ ProjectFortress/, where a line of the batch\'s RECORD.md that gives a placeholder beside its number is not a finding, and the batch record and the synthesis under explorations/coordinator/, which name the form as an example, are not searched); every row the gather closed fixed by a landed commit; the handover\'s first section consistent; the revival-change material the gather copied into ' + BATCH_DIR + '/RECORD.md, under "Revival changes, for the skill writer", true of the code as landed.',
 '4. Each sentence of the specification a rung\'s REPORT.md lists as made false: corrected, by the rung or the gather, to what the code does.',
 '5. The points to report: every one a landed rung reaches, in its hunks or where its REPORT.md or SKEPTIC.md says so, in your pointsReached with the rung, the evidence and holdsPush; true only for a step taken that cannot be undone or acts against a decision on record. It is not a blocking finding.',
 '6. The items for the curator: for each id below, the PLAN.md entry the gather\'s curatorItems names is in explorations/coordinator/PLAN.md, under one of the two sections, and says what the item says; one missing or misplaced you put in yourself in your corrections commit. Your own points go in forCurator, as ' + label + '.1, ' + label + '.2. ' + PLAN_RULE + ' It is not a blocking finding.',
@@ -1288,42 +1287,6 @@ const REVIEW_SCHEMA = {
     summary: { type: 'string' },
   },
   required: ['approved', 'blockingCode', 'routed', 'fixed', 'fixesChecked', 'pointsReached', 'forCurator', 'curatorItems', 'summary'],
-}
-
-// ---------------------------------------------------------------------------
-// The cold read: whenever a batch writes skill text, an agent given only the skill reads it as
-// the workers who use it would (POSITIONS.md, "The skills are written for a reader new to the
-// repository ...": a cold reader given only the skill reads each rewritten part before the
-// curator does; the gather's fold into the revival-changes part is such text, so it gets the
-// same read: batch-redesign.md, "The cold read of new skill text"). Its brief carries nothing
-// of the batch, so that it reads cold. It fixes what changes no claim, and returns what would.
-// ---------------------------------------------------------------------------
-
-function coldReadRole() {
-  return [
-'# Your role: cold reader of new text in the fortress-repo skill',
-'',
-'You work in ' + MAIN + ', on main. Read .claude/skills/fortress-repo/SKILL.md, then ' + DELTA_PART + ' whole, as an agent new to this repository would, given only the skill: you know nothing of the batch that wrote it, and you read nothing else of the record. The entries to judge are those this command shows, added or changed since ' + BASE + ':',
-'',
-'    git -C ' + MAIN + ' diff ' + BASE + ' HEAD -- ' + DELTA_PART,
-'',
-'For each passage of those entries that would send such a reader wrong or make it search, flag it with your confidence: a term not defined where it is used, a claim a reader could not check, a sentence that reads two ways, a gotcha the entry leaves out, a sentence that breaks the part\'s register (explorations/reviews/skills-writing-principles.md, which you may read for the register only). Fix in place each flag whose fix changes no claim of the entry: its wording, a term defined, a reference made exact. Do not fix a flag whose fix would change what an entry claims (the team\'s source it contradicts, the revival\'s resolution, or the reason): return it in forCoordinator, unfixed. Commit your fixes locally in one commit titled "Cold read of the revival\'s changes, climb batch ' + BATCH + '", with the footer of the skill\'s committing.md, naming that one path: git add -- ' + DELTA_PART + ' && git commit -m ... -- ' + DELTA_PART + ', since the gate runs in this tree beside you; do not push. If a git command fails on index.lock, wait five seconds and retry, up to four times.',
-'',
-'Return the structured result: every flag with its passage, its confidence and whether you fixed it, and forCoordinator.',
-'',
-  ].join('\n')
-}
-
-const COLDREAD_SCHEMA = {
-  type: 'object',
-  properties: {
-    flags: { type: 'array', items: { type: 'object', properties: {
-      passage: { type: 'string' }, problem: { type: 'string' }, confidence: { type: 'string', enum: ['high', 'medium', 'low'] }, fixed: { type: 'boolean' } }, required: ['passage', 'problem', 'confidence', 'fixed'] } },
-    forCoordinator: { type: 'array', items: { type: 'string' }, description: 'each flag whose fix would change a claim, unfixed' },
-    commit: { type: 'string', description: 'the hash of your commit, or empty if you fixed nothing' },
-    summary: { type: 'string' },
-  },
-  required: ['flags', 'forCoordinator', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -1687,7 +1650,7 @@ tree + (held ? ' Land it on the local main; the script holds the push (step 3).'
 '   The tool runs the quick pair, MicroGptFlatQuick and MicroGptAplQuick, under walk, both at once, each from an empty private cache: two passes against the reference values, about a minute in all. Never pass it full.',
 '1. Copy the gate\'s outputs into the tree: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/, and ' + LOG_DIR + '/distance/errors.tsv to ' + SITES + ' (mkdir -p its folder), the per-site list the next batch\'s rungs read as their before. Write the landed figures into explorations/coordinator/FACTS.md, numbers only, from ' + GATE_DIR + '/distance.txt and checker-count.txt: in the entry "The true distance to the switch-over", every figure it gives of the last landed gate, the lines of distance.txt it cites and the batch number in the paths it cites; in "The checker-count stage\'s table", the count\'s total and that path. Change no other word; a sentence the new figures make false you name in your summary for the coordinator. When a landed commit changed a file under Specification/ (git diff --name-only ' + BASE + '..HEAD -- Specification/), build the PDF once, in Specification/fortress/, ./ant genSource then ./ant tex, each logged under ' + LOG_DIR + '/, and copy Specification/fortress/fortress.pdf to Specification/fortress.pdf. Then wait for step 0 with wait_for ' + MG_LOG + ', called again until it prints EXIT= (or 10 minutes have passed, which you then report), and append to ' + GATE_DIR + '/summary.txt its verdict lines, each prefixed "# microgpt-walk ": grep -h "VERDICT\\|^rc=" ' + MG_DIR + '/*.txt for the run\'s folder. A FAIL there is reported, and holds nothing. One commit, titled "' + COMMIT_TITLE + '": the summary, the two tables, ladder/, the per-site list, FACTS.md and the PDF; the logs under ' + LOG_DIR + '/ are never committed.',
 ...besideStep(beside),
-'2. Check every commit since ' + BASE + ' (git log ' + BASE + '..HEAD --format=%B): each ends with the skill\'s two footer lines, none holds a model identifier, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line.',
+'2. Check every commit since ' + BASE + ' (git log ' + BASE + '..HEAD --format=%B): each ends with the skill\'s two footer lines, none holds a model identifier, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line. Then run git diff --name-only ' + BASE + ' HEAD -- .claude/: it should print nothing, since a batch writes no skill text (the skill writer writes the skill from ' + BATCH_DIR + '/RECORD.md after the landing). Return every path it prints in skillTouched, for the coordinator; it holds nothing.',
 held
   ? '3. Do NOT push: not main and no other branch. The script holds the push, because the batch took steps that cannot be undone or that act against a decision on record, and only the curator lifts them:\n\n' + heldBy.map(h => '- ' + h).join('\n') + '\n\n   Append to ' + BATCH_DIR + '/RECORD.md a paragraph headed "Not pushed." naming each, with its rung and evidence and the hash origin/main stays at; commit it locally.'
   : '3. Push main to its three branches, as the skill\'s committing.md says: git push origin main, then ' + PUSH_BRANCHES.map(b => 'git push origin main:' + b).join(', then ') + '. Retry a failed push up to four times, 2, 4, 8 and 16 seconds apart.',
@@ -1703,7 +1666,7 @@ JSON.stringify(gather, null, 2),
 '',
 JSON.stringify(gate, null, 2),
 '',
-'Return the structured result: the hash main is at, the branches pushed (empty when held), pushHeld and heldBy, what was cleaned up, and in microgptWalk the verdict lines of the two programs.',
+'Return the structured result: the hash main is at, the branches pushed (empty when held), pushHeld and heldBy, what was cleaned up, in skillTouched the paths of step 2\'s check of .claude/, and in microgptWalk the verdict lines of the two programs.',
 '',
   ].join('\n')
 }
@@ -1717,9 +1680,10 @@ const COMMIT_SCHEMA = {
     pushHeld: { type: 'boolean' },
     heldBy: { type: 'array', items: { type: 'string' } },
     microgptWalk: { type: 'string', description: 'each program\'s VERDICT and rc= lines, or why the check did not finish' },
+    skillTouched: { type: 'array', items: { type: 'string' }, description: 'every path git diff --name-only BASE HEAD -- .claude/ prints; empty if none' },
     summary: { type: 'string' },
   },
-  required: ['mainHead', 'pushed', 'pushHeld', 'microgptWalk', 'summary'],
+  required: ['mainHead', 'pushed', 'pushHeld', 'microgptWalk', 'skillTouched', 'summary'],
 }
 
 // ---------------------------------------------------------------------------
@@ -1735,8 +1699,8 @@ const COMMIT_SCHEMA = {
 // A usage or rate limit (LIMIT_ERROR), or a role whose nothing would be read as a decision (a
 // rung worker, a skeptic or a judge: needed), stops the run and decides nothing; resumeFromRunId
 // with the same script and args then runs the stopped role again. The gather, the review, the
-// gate, the cold read, the commit and a repair on the merged tree that come back with nothing keep
-// their paths.
+// gate, the commit and a repair on the merged tree that come back with nothing keep their
+// paths.
 // ---------------------------------------------------------------------------
 
 const ATTEMPTS = 3
@@ -1847,7 +1811,7 @@ function recoverGather() {
   return [
     'You are in the main tree, ' + MAIN + ', and it need not be clean: a dirty tree now is the earlier attempt\'s work in progress and your starting point. Check only that ' + BASE + ' is still an ancestor of HEAD.',
     'Read git log --format="%h %s" ' + BASE + '..HEAD, git status --short, git diff --cached --stat and git diff --stat. An approved rung whose commit is already on main is done: never apply its patch again. Before you apply another, regenerate it and run git apply --reverse --check on it: if that succeeds, it is applied and not committed; continue that rung after the apply. A file with conflict markers is a 3-way apply left half resolved.',
-    'The record may already carry a rung\'s fold. Before you fold, grep FACTS.md, the ledger (' + LEDGER + ' find with the row\'s words, and for each placeholder its claim) and ' + DELTA_PART + ' for its lines, and fold only what is missing: never a line or a row twice. A row closed already is not closed again (' + LEDGER + ' show N). The same holds for PLAN.md\'s entries and RECORD.md.',
+    'The record may already carry a rung\'s fold. Before you fold, grep FACTS.md and the ledger (' + LEDGER + ' find with the row\'s words, and for each placeholder its claim) for its lines, and fold only what is missing: never a line or a row twice. A row closed already is not closed again (' + LEDGER + ' show N). The same holds for PLAN.md\'s entries and RECORD.md.',
     'Retry a git command that fails on index.lock.',
   ]
 }
@@ -1856,12 +1820,6 @@ function recoverReview() {
   return [
     'You are in the main tree, ' + MAIN + ', with the gate running beside you or finished. A commit titled "Fold the review\'s corrections" after the gather\'s last commit is the earlier attempt\'s: then headBefore is that commit\'s parent, so that pathsOutsideExplorations covers both attempts\' corrections.',
     'Uncommitted edits under explorations/ are the earlier attempt\'s corrections in progress: keep what is right and commit them with your own, in one more commit of the same title. Do not fix a finding twice. Never touch ' + GATE_OUT + '/ or ' + LOG_DIR + '/.',
-  ]
-}
-
-function recoverColdRead() {
-  return [
-    'You are in the main tree, ' + MAIN + '. A commit titled "Cold read of the revival\'s changes, climb batch ' + BATCH + '" is the earlier attempt\'s, and uncommitted edits of ' + DELTA_PART + ' are its fixes in progress: keep what is right, fix nothing twice, commit once more if needed.',
   ]
 }
 
@@ -1897,7 +1855,7 @@ function recoverCommit(held) {
 // ---------------------------------------------------------------------------
 
 log('Climb batch ' + BATCH + ': ' + RUNGS.length + ' rungs (' + RUNGS.map(r => r.id).join(', ') + '), two agents at a time, the workers in the order '
-    + SCATTER.map(r => r.id).join(', ') + '; each rung checked by a skeptic that fixes what it finds; then gather, review beside the gate, cold read, commit. Base ' + BASE + '.')
+    + SCATTER.map(r => r.id).join(', ') + '; each rung checked by a skeptic that fixes what it finds; then gather, review beside the gate, commit. Base ' + BASE + '.')
 
 const results = await pipeline(
   SCATTER,
@@ -2040,9 +1998,6 @@ if (!gather || gather.unresolved) {
 }
 mergedItems.push(...numbered('gather', gather.forCurator))
 const reviewItems = rungItems.concat(numbered('gather', gather.forCurator))
-const deltaFolded = (Array.isArray(gather.deltaEntries) ? gather.deltaEntries : []).filter(d => d && d.folded)
-const deltaLeft = (Array.isArray(gather.deltaEntries) ? gather.deltaEntries : []).filter(d => d && !d.folded && !/^\s*none\b|Revival change: none/i.test(String(d.title || '')))   // a rung whose record gives "Revival change: none" has nothing to fold
-if (deltaLeft.length) mergedItems.push(...numbered('delta-unfolded', deltaLeft.map(d => 'The entry of rung ' + d.rung + ' for ' + DELTA_PART + ', "' + d.title + '", was not folded: the part is not in the tree; it is in the rung\'s record.md')))
 
 // The commits each rung's branch holds after its worker's: the skeptic's fixes and a repair round,
 // which the review reads, there being no second skeptic.
@@ -2051,8 +2006,7 @@ const checkingByRung = approved.map(r => ({ rung: r.rung, branch: r.branch, stat
   repairRound: r.repaired ? { judgeInstructions: (r.judge && r.judge.instructions) || [], summary: (r.worker && r.worker.summary) || '' } : null }))
 
 // The review beside the gate: the review reads and never builds, the gate builds and never reads
-// the record; the gate commits nothing, so the two never commit at once. The cold read follows the
-// review, beside the gate's tail, when the gather folded skill text.
+// the record; the gate commits nothing, so the two never commit at once.
 const gateRun = callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
 gateRun.catch(() => null)
 let review = await callAgent(head('merged-diff reviewer') + reviewRole(gather, 'review', reviewItems, checkingByRung), { label: 'review', phase: 'Review', schema: REVIEW_SCHEMA, model: OPUS }, recoverReview())
@@ -2078,21 +2032,6 @@ if (reviewBlocks) {
   report.reviewJudge = reviewDecision
   mergedItems.push(...numbered('judge-review', reviewDecision && reviewDecision.forCurator))
 }
-let coldRun = null, coldDone = false
-// The cold reader commits in the main tree; it is awaited before any other agent but the gate
-// (which commits nothing) works there: a repair on the merged tree, a second gate, the commit.
-async function awaitColdRead() {
-  if (!coldRun || coldDone) return
-  coldDone = true
-  report.coldRead = await coldRun
-  const cr = report.coldRead
-  mergedItems.push(...numbered('coldread', cr ? cr.forCoordinator : ['The cold reader returned nothing after ' + ATTEMPTS + ' attempts, so no cold read was made of the entries the gather folded into ' + DELTA_PART + '.']))
-}
-if (deltaFolded.length) {
-  log('The gather folded ' + deltaFolded.length + ' entr' + (deltaFolded.length === 1 ? 'y' : 'ies') + ' into ' + DELTA_PART + '; a cold reader reads them beside the gate')
-  coldRun = callAgent(coldReadRole(), { label: 'coldread', phase: 'Cold read', schema: COLDREAD_SCHEMA, model: OPUS }, recoverColdRead())
-  coldRun.catch(() => null)
-}
 let gate = await gateRun
 report.gate = gate
 
@@ -2113,10 +2052,8 @@ if (reviewBlocks) {
     report.reviewRouted = { findings: routedFindings.concat(strings(review.blockingCode)), instructions: strings(decision.instructions), ruling: BATCH_DIR + '/JUDGE-review.md' }
     mergedItems.push(...numbered('judge-review-land', decision.instructions))
   } else if (!decision || decision.decision !== 'repair') {
-    await awaitColdRead()
     return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   } else {
-    await awaitColdRead()
     report.repairReview = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
     routers.push(report.repairReview)
     const rr = report.repairReview
@@ -2152,8 +2089,6 @@ if (reviewBlocks) {
 if (!gateIsStale && reviewUngated.length && !beside.some(b => b.kind === 'review')) {
   beside.push({ kind: 'review-corrections', runs: [], answered: [], ungated: reviewUngated, commits: ((review && review.headBefore) || '?') + '..' + ((review && review.headAfter) || '?') })
 }
-
-await awaitColdRead()
 
 if (gateIsStale || !gate) {
   gate = await callAgent(head('gate') + gateRole(expectedMoves, expectedChecker, specData), { label: 'gate:after-review', phase: 'Gate', schema: GATE_SCHEMA, model: OPUS }, recoverGate())
@@ -2195,6 +2130,9 @@ const heldBy = pushHeldBy(approved, review, { 'repair:review': report.repairRevi
 if (heldBy.length) log('Push held: ' + heldBy.length + ' step(s) that cannot be undone or act against a decision on record: ' + heldBy.join('; '))
 const commit = await callAgent(head('commit') + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
+// A batch writes no skill text (skills-agenda-audit.md): a path under .claude/ that changed since the
+// base is listed for the coordinator, and holds nothing.
+if (commit) mergedItems.push(...numbered('skill-touched', strings(commit.skillTouched).map(p => 'The batch changed ' + p.trim() + ' (git diff --name-only ' + BASE + ' HEAD -- .claude/), though a batch writes no skill text: only the skill writer edits the skills, after the landing.')))
 // The quick pair prints "VERDICT: n PASS, 0 FAIL of n -- ALL PASS" each when it passes. Anything
 // else, a failing check, a run cut off or refused, is listed for the coordinator; it holds nothing.
 const mgPassed = (t) => typeof t === 'string' && (t.match(/-- ALL PASS/g) || []).length >= 2 && !/-- FAILED|rc=[1-9]/.test(t)

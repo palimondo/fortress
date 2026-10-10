@@ -21,11 +21,14 @@
 // merged tree's paths carried over from the earlier checker (the review routing, a code finding repaired
 // with and without a second gate, a red gate and its repair, a review that returns nothing, the judge's
 // land, the paths no gate stage reads); the push held by a step that cannot be undone and not by a
-// reversible point; the cold read after the review when the gather folded skill text, and its absence when
-// it folded none; a rung's "Revival change: none" listed as no unfolded entry; testSpecData in the gate when
-// the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes. And
-// in every scenario, each brief: no undefined, NaN or object rendered; the head and the skill named (the cold
-// reader excepted, which reads cold); no global.map restore, no copy of the base, no one-thread pin, no
+// reversible point; no skill text written and no cold read in any run (the batch's revival-change material
+// goes into its RECORD.md for the skill writer: reviews/skills-agenda-audit.md), a path under .claude/ that
+// changed listed as skill-touched, and a gather's stray deltaEntries routed nowhere; testSpecData in the gate
+// when the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes.
+// And in every scenario, each brief: no undefined, NaN or object rendered; the head and the skill named; the
+// skill's revival-changes part named by none; the worker's "Revival change" section in its two labelled parts,
+// the gather's copy of it into RECORD.md, the review's check of it, the commit stage's check of .claude/; no
+// global.map restore, no copy of the base, no one-thread pin, no
 // stopsMet, no run_bg (the permission check refuses it; the literal nohup form instead), no person named but
 // in PLAN.md's heading; the worker's seed command; the skeptic's old-code tool, journal command and "You
 // build nothing to check"; no skeptic brief carrying the worker's report text; the commit's three pushes and
@@ -116,14 +119,16 @@ const repairStub = (paths, runs, answered, extra) => () => Object.assign({ slug:
 const review = (x) => () => Object.assign({ approved: true, blockingCode: [], routed: [], fixed: [], fixesChecked: [], pathsOutsideExplorations: [], pointsReached: [], forCurator: [], curatorItems: [], summary: 's' }, x)
 const codeFinding = { review: review({ approved: false, blockingCode: ['stub code finding'] }), 'judge:review': () => ({ decision: 'repair', forCurator: [], instructions: ['1. fix'], ruling: 'r', kind: 'review', summary: 's' }) }
 const red = (lines) => () => ({ green: false, failing: lines || ['XXXStub.test: stub'], countsDown: [], stopped: false, summary: 's' })
-const gatherStub = (x) => () => Object.assign({ unresolved: false, summary: 'stub', commits: [], conflicts: [], deltaEntries: [], curatorItems: [], curatorUnrouted: [] }, x || {})
+const gatherStub = (x) => () => Object.assign({ unresolved: false, summary: 'stub', commits: [], conflicts: [], curatorItems: [], curatorUnrouted: [] }, x || {})
+const SKILL_PATH = '.claude/skills/fortress-repo/references/revival-changes.md'
+const commitStub = (x) => () => Object.assign({ mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: MG_PASS, skillTouched: [], summary: 's' }, x || {})
 const nul = () => null
 const LIMIT_MESSAGE = 'You\'ve hit your weekly limit, resets Oct 2, 10am (UTC)'
 
 // after: the agents after the scatter, in order. agentsPrefix: every agent, in order (S<n> is the n-th rung of the
 // scatter). landed, held, items, states: the result.
 const SCEN = [
-  { name: 'R1 every agent approves; the gather folds no skill text, so no cold read', over: {}, after: 'gather, gate, review, commit', landed: true, states: { R0: 'approved', R1: 'approved' }, itemsLack: ['microgpt-walk.1'] },
+  { name: 'R1 every agent approves; no skill text, no cold read', over: {}, after: 'gather, gate, review, commit', landed: true, states: { R0: 'approved', R1: 'approved' }, itemsLack: ['microgpt-walk.1', 'skill-touched.1'] },
   { name: 'M1 the microGPT walk check fails one program: listed, the push not held', over: { commit: (p) => ({ mainHead: 'h', pushed: ['main'], pushHeld: false, microgptWalk: MG_PASS.split('\n')[0] + '\nVERDICT: 6 PASS, 1 FAIL of 7 -- FAILED\nrc=0', summary: 's' }) },
     after: 'gather, gate, review, commit', landed: true, items: ['microgpt-walk.1'] },
   { name: 'M2 the microGPT walk check did not finish: listed', over: { commit: (p) => ({ mainHead: 'h', pushed: ['main'], pushHeld: false, microgptWalk: 'the run was refused', summary: 's' }) },
@@ -146,14 +151,12 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: true, states: { R1: 'stopped' }, items: ['R1.judge-stop.1'] },
   { name: 'A3 every rung dropped: nothing to gather', over: Object.fromEntries(IDS.map(id => ['skeptic:' + id, refused]).concat(IDS.map(id => ['judge:' + id, judge('drop')]))),
     after: '', landed: false },
-  { name: 'C1 the gather folds skill text: the cold reader reads it after the review, its flags for the coordinator', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: true }] }), coldread: () => ({ flags: [], forCoordinator: ['a claim to check'], summary: 's' }) },
-    after: 'gather, gate, review, coldread, commit', landed: true, items: ['coldread.1'] },
-  { name: 'C2 the part is not in the tree: no cold read, the entry listed', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: false }] }) },
-    after: 'gather, gate, review, commit', landed: true, items: ['delta-unfolded.1'] },
-  { name: 'C2b a rung\'s "Revival change: none" is no unfolded entry', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 'none: R0\'s record gives "Revival change: none"', folded: false }] }) },
-    after: 'gather, gate, review, commit', landed: true, itemsLack: ['delta-unfolded.1'] },
-  { name: 'C3 the cold reader returns nothing three times: the batch lands, listed', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: true }] }), coldread: nul },
-    after: 'gather, gate, review, coldread, coldread:attempt2, coldread:attempt3, commit', landed: true, items: ['coldread.1'] },
+  { name: 'C1 a gather that still returns deltaEntries, folded or not: no cold read, nothing routed from them', over: { gather: gatherStub({ deltaEntries: [{ rung: 'R0', title: 't', folded: true }, { rung: 'R1', title: 't', folded: false }] }) },
+    after: 'gather, gate, review, commit', landed: true, itemsLack: ['coldread.1', 'delta-unfolded.1', 'skill-touched.1'] },
+  { name: 'C2 the commit stage finds two paths under .claude/ changed since the base: each listed as skill-touched, the push not held', over: { commit: commitStub({ skillTouched: [SKILL_PATH, '.claude/skills/fortress-repo/references/sources.md'] }) },
+    after: 'gather, gate, review, commit', landed: true, held: false, items: ['skill-touched.1', 'skill-touched.2'] },
+  { name: 'C3 the commit stage returns no skillTouched: nothing listed, the batch lands', over: { commit: () => { const c = commitStub()(); delete c.skillTouched; return c } },
+    after: 'gather, gate, review, commit', landed: true, itemsLack: ['skill-touched.1'] },
   { name: 'G1 the rung that brings testSpecData lands: the gate runs it', over: {}, after: 'gather, gate, review, commit', landed: true, specData: true },
   { name: 'G2 the rung that brings testSpecData is dropped: the gate runs it only if the landed summary has it', over: JOINS.length ? { ['skeptic:' + JOINS[0]]: refused, ['judge:' + JOINS[0]]: judge('drop') } : {},
     after: 'gather, gate, review, commit', landed: true, specData: false },
@@ -190,8 +193,8 @@ const SCEN = [
     after: 'gather, gate, review, judge:review, repair:review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/appendices/changes.tex' },
   { name: 'D2 the repair changes a library source: the gate runs again', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(['Library/CompilerLibrary.fss'], []) }),
     after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true },
-  { name: 'D4 the review\'s corrections touch the specification\'s text and the skill: the gate stands, the text recorded beside it', over: { review: review({ pathsOutsideExplorations: ['Specification/basic/types.tex', '.claude/skills/fortress-repo/references/revival-changes.md'], fixed: ['types.tex'], headBefore: 'h1', headAfter: 'h2' }) },
-    after: 'gather, gate, review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/basic/types.tex', notIn1a: '.claude/' },
+  { name: 'D4 the review\'s corrections touch the specification\'s text and, against its brief, the skill: the gate stands, the text recorded beside it, the skill path listed', over: { review: review({ pathsOutsideExplorations: ['Specification/basic/types.tex', SKILL_PATH], fixed: ['types.tex'], headBefore: 'h1', headAfter: 'h2' }), commit: commitStub({ skillTouched: [SKILL_PATH] }) },
+    after: 'gather, gate, review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/basic/types.tex', notIn1a: '.claude/', items: ['skill-touched.1'] },
   { name: 'B1 launched without args.baseBuild', over: {}, args: { base: 'BASE' }, agents: '', threwWith: 'args.baseBuild is required' },
   { name: 'L1 the weekly limit as a null from the second rung\'s skeptic on', over: {}, limitAt: 'skeptic:S1', limitAs: 'null',
     agentsPrefix: 'rung:S0, skeptic:S0, rung:S1, skeptic:S1, skeptic:S1:attempt2, skeptic:S1:attempt3', halts: 'skeptic:S1' },
@@ -229,10 +232,9 @@ function mkAgent(sc, calls, journal, replay) {
     else if (L === 'gather') r = gatherStub()()
     else if (L.startsWith('gate')) r = { green: true, failing: [], stopped: false, countsDown: [], summary: 's' }
     else if (L.startsWith('review')) r = review({})()
-    else if (L.startsWith('coldread')) r = { flags: [], forCoordinator: [], summary: 's' }
     else if (L.startsWith('commit')) {
       if (sc.killAt === 'commit' && !replay) { sc.killed = true; return new Promise(() => {}) }
-      r = /Do NOT push/.test(prompt) ? { mainHead: 'h', pushed: [], pushHeld: true, microgptWalk: MG_PASS, summary: 's' } : { mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: MG_PASS, summary: 's' }
+      r = /Do NOT push/.test(prompt) ? commitStub({ pushed: [], pushHeld: true })() : commitStub()()
     }
     else r = {}
     if (journal && r !== null && r !== undefined) journal.set(key, r)
@@ -298,6 +300,7 @@ function check(sc, out) {
   if (commit && /1a\. The gate below ran/.test(commit.prompt) !== !!sc.step1a) probs.push('step 1a ' + !sc.step1a)
   if (sc.ungatedIn1a && !(commit && commit.prompt.indexOf(sc.ungatedIn1a) >= 0 && commit.prompt.indexOf('# repair-ungated') >= 0)) probs.push('step 1a does not record ' + sc.ungatedIn1a)
   if (sc.notIn1a && commit && /"ungated": \[[^\]]*\.claude\//.test(commit.prompt)) probs.push('step 1a records ' + sc.notIn1a + ' as an ungated path')
+  if (labels.some(l => /^coldread/.test(l))) probs.push('a cold reader ran: the batch writes no skill text, and the cold read follows the skill writer after the landing')
   if (sc.states) for (const [k, st] of Object.entries(sc.states)) {
     const r = (result && result.rungs || []).find(x => x.rung === subst(k))
     if (!r || r.state !== st) probs.push(subst(k) + ' state ' + (r && r.state) + ' (expected ' + st + ')')
@@ -328,13 +331,12 @@ function check(sc, out) {
     if (/stopsMet|liftedBy|second judgement/.test(p)) probs.push(c.label + ' names the old stops or the second skeptic')
     const persons = (p.replace(PLAN_HEADING, '').match(PERSON) || []).length
     if (persons) probs.push(c.label + ' names the curator by name ' + persons + ' time(s) outside PLAN.md\'s heading')
-    if (!/^coldread/.test(c.label)) {
-      if (p.indexOf('# Fortress climb batch ') < 0 || p.indexOf('The fortress-repo skill says how to work in this repository') < 0 || p.indexOf('## Points to report') < 0) probs.push(c.label + ' lacks the head, its pointer to the skill, or the points to report')
-    } else if (p.indexOf('# Fortress climb batch ') >= 0 || p.indexOf('REPORT.md') >= 0) probs.push(c.label + ' is not cold: it carries the batch\'s head or its reports')
+    if (p.indexOf('# Fortress climb batch ') < 0 || p.indexOf('The fortress-repo skill says how to work in this repository') < 0 || p.indexOf('## Points to report') < 0) probs.push(c.label + ' lacks the head, its pointer to the skill, or the points to report')
+    if (/revival-changes\.md|\.claude\/skills\//.test(p)) probs.push(c.label + ' names the skill\'s revival-changes part or a skill path: no stage of a batch writes skill text')
     if (/^(rung|resume|repair):/.test(c.label) && !/^repair:(review|gate)/.test(c.label)) {
       if (p.indexOf(BASE_BUILD + '/explorations/coordinator/tools/seed-worktree.sh ' + BASE_BUILD + ' ') < 0) probs.push(c.label + ' lacks the seed command')
       if (p.indexOf('NEW-') < 0 || p.indexOf('ledger.py') < 0) probs.push(c.label + ' lacks the ledger placeholders or ledger.py')
-      if (p.indexOf('revival-changes.md') < 0) probs.push(c.label + ' does not ask for the revival-changes entry')
+      if (p.indexOf('a section headed "Revival change"') < 0 || p.indexOf('"The change"') < 0 || p.indexOf('"Provenance"') < 0 || p.indexOf('Name no question, item, batch, rung or record file in the change, and give no decision\'s status there; provenance goes in its own part.') < 0) probs.push(c.label + ' does not ask for the "Revival change" section in its two labelled parts, with the rule on the change part')
     }
     if (/^skeptic:/.test(c.label)) {
       if (p.indexOf('## You build nothing to check') < 0 || p.indexOf(BASE_BUILD + '/explorations/coordinator/tools/old-fortress.sh ' + BASE_BUILD + ' ') < 0 || p.indexOf('/tmp/old-caches') < 0) probs.push(c.label + ' lacks "You build nothing to check" or the old-code tool with the rung\'s caches folder')
@@ -344,15 +346,17 @@ function check(sc, out) {
       const chk = p.slice(p.indexOf('## What you check'), p.indexOf('## You build nothing to check'))
       if (/(^|[^A-Za-z])ant compileAll|rebuil|git (checkout|switch|stash|reset)/.test(chk)) probs.push(c.label + ' asks for a build or a checkout in its checks')
     }
+    if (c.label === 'commit' && (p.indexOf('git diff --name-only BASE HEAD -- .claude/') < 0 || p.indexOf('skillTouched') < 0)) probs.push('the commit stage does not check .claude/ against the base or return skillTouched')
     if (c.label === 'commit') {
       if (p.indexOf('Do NOT push') < 0 && !(p.indexOf('git push origin main:claude/worker-brief-fable-vnnuv8') >= 0 && p.indexOf('git push origin main:blinded-fable') >= 0)) probs.push('the commit stage does not push to the three branches')
       const mg = p.match(/mg-run\.sh[^']*'/)   // step 0's line, to the end of its nohup bash -c '...'
       if (!mg || / full/.test(mg[0])) probs.push('the commit stage does not run the quick microGPT check')
       if (p.indexOf('<short hash>') >= 0) probs.push('the commit stage still replaces hash placeholders')
     }
-    if (c.label === 'gather' && (p.indexOf('/ledger.py add FILE') < 0 || p.indexOf('/ledger.py close N --commit') < 0 || p.indexOf('revival-changes.md') < 0)) probs.push('the gather lacks ledger.py add, close or the revival-changes fold')
+    if (c.label === 'gather' && (p.indexOf('/ledger.py add FILE') < 0 || p.indexOf('/ledger.py close N --commit') < 0 || p.indexOf('"Revival changes, for the skill writer"') < 0 || p.indexOf('Write nothing under .claude/') < 0)) probs.push('the gather lacks ledger.py add, close, the copy of the revival-change material into RECORD.md, or the rule to write nothing under .claude/')
     if (/^gate/.test(c.label) && (p.indexOf('machine.sh') < 0 || p.indexOf('four threads') < 0)) probs.push(c.label + ' lacks the machine line or the four threads')
     if (c.label === 'review' && (p.indexOf('NEW-[A-Z]-[0-9]') < 0 || p.indexOf('skepticFixes') < 0)) probs.push('the review does not check the placeholders or the skeptics\' fixes')
+    if (c.label === 'review' && !/revival-change material the gather copied into [^ ]*RECORD\.md, under "Revival changes, for the skill writer", true of the code as landed/.test(p)) probs.push('the review does not check the revival-change material in RECORD.md against the landed code')
   }
   return probs
 }
@@ -432,7 +436,7 @@ async function sizes(dir) {
     over['skeptic:' + id] = () => Object.assign(rename(results['skeptic:' + o]), { verdict: i === 0 ? 'contested' : 'approved', fixes: i === 0 ? [FIX] : [], contested: i === 0 ? [{ commit: 'f1x0001', finding: String(results['skeptic:' + o].refusalReason || 'f').slice(0, 600), why: 'worker-argued', workerArgument: 'w', skepticArgument: 's' }] : [], headJudged: 'abc1234' })
     over['judge:' + id] = () => Object.assign(rename(results['judge:' + o] || results['judge:' + oldIds[0]]), { decision: 'stands', rulings: [] })
   })
-  over.gather = () => Object.assign(rename(results.gather), { deltaEntries: [{ rung: IDS[0], title: 't', folded: true }], curatorItems: [], curatorUnrouted: [] })
+  over.gather = () => Object.assign(rename(results.gather), { curatorItems: [], curatorUnrouted: [] })
   over.review = () => rename(results.review)
   over.gate = () => rename(results.gate)
   over.commit = () => Object.assign(rename(results.commit), { microgptWalk: MG_PASS })
