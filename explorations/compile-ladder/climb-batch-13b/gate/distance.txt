@@ -1,0 +1,32 @@
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	85
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	0
+#kind	return-type	2
+#kind	abstract-method	0
+#kind	bound-Object	0
+#kind	wellformed	8
+#kind	typecheck	72
+#kind	export	3
+#class	R3	2	return type: other declared-type slips
+#class	X1	3	export: component against api
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	I3	2	integers in generic code: a numeral where a type parameter is expected
+#class	S1	29	self type: a generic trait's self is not its type parameter
+#class	R4	1	StandardMinMax's (T,T) slip in bodies (row 421)
+#class	V1	2	arrays: element type bounded by Number, which declares no arithmetic
+#class	V2	17	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	1	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	BR	4	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	NM	3	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	1	generators: a filter that failed for another reason
+#class	OT	16	other body errors (one-off library slips and checker limits)
+#unit	component FlatString	1
+#unit	component FortressLibrary	79
+#unit	component List	5
+#crash	decl	FnDecl FortressLibrary.fss:1309:1-1313:4	TypeError	FortressLibrary.fss:1311:10: Missing parameter type for i
+#crash	decl	TraitDecl FortressLibrary.fss:2887:1-3000:2	InterpreterBug	** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2923.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected ty...
+#seconds	2246	FortressLibrary 1318
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.70 0.72 0.33; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
