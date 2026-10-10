@@ -6,7 +6,9 @@ themselves are copyrighted (Oracle's notice permits personal/classroom copies
 but not redistribution), so PDFs live in `decks/`, which is gitignored and
 local-only: drop the files in manually each session; they are never committed.
 `extracts/` holds committed working notes on the sources — our own summaries
-and commentary with brief attributed quotations, never document reproductions.
+and commentary with brief attributed quotations, never document reproductions,
+except, at Pavol's word, the POPL 2019 paper (open access) and the checked
+transcript of its talk with the slides' text.
 
 ## Talks and decks
 

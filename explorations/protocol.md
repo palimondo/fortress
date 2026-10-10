@@ -24,7 +24,8 @@ These are not judgement calls.
 - Never committed: a model identifier (a model is named by its tier: Fable,
   Opus, Sonnet); a copyrighted PDF or deck, except an open-access paper whose license allows
   redistribution, committed beside its extract at his word, as the POPL 2019
-  paper is (`research/decks/` is gitignored;
+  paper is, and the POPL 2019 talk's checked transcript with its slides' text,
+  committed at his word (`research/decks/` is gitignored;
   cite by Wayback URL; `research/extracts/` holds our own summaries with brief
   attributed quotations); HANDOVER.md or ZIP contents without his go. His email
   is for attribution only.
