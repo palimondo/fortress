@@ -208,7 +208,7 @@ A test file is a `.fss`, `.fsi` or `.test` directly in `ProjectFortress/tests/` 
 
 ## Gate
 
-One run on the merged tree, its logs under `tmp/gate-batch-<N>/`, its three outputs written by fixed functions, never by hand. Its steps:
+One run on the merged tree, its logs under `tmp/gate-batch-<N>/`, its three outputs written by fixed functions, never by hand. The functions of steps 5 and 7 (`gate_summary`, `gate_compare`, `last_landed_summary`, `ladder_filter`, `ladder_compare`, `mg_phases`) are in `tools/gate-functions.sh`, which the gate sources from the tree's root with `FORTRESS_HOME` set; until 2026-10-10 they were strings of the script (`reviews/skills-agenda-audit.md`, finding GA2). Its steps:
 
 1. The disk.
 2. `rm -rf ProjectFortress/TEST-RESULTS`, then `ant compileAll`, and at once the distance stage started in the background.

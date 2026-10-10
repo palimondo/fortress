@@ -23,7 +23,7 @@
 // on Fable (POSITIONS.md, "The judge's rulings."). Every prompt
 // points to the fortress-repo skill for how to build, test, run the old code, wait and
 // commit, and says only what the role does in this batch. No backticks and no non-ASCII
-// character anywhere in this file (the gate's awk line excepted).
+// character anywhere in this file.
 //
 // Every agent() call goes through callAgent ("An agent that comes back with nothing"),
 // which runs a role again, up to two more times, when its agent returns nothing; a usage
@@ -1291,17 +1291,18 @@ const REVIEW_SCHEMA = {
 
 // ---------------------------------------------------------------------------
 // The gate. Its steps and their reasons are the skill's gate.md, which this role follows; what
-// stands here is what the skill points to the script for: the shell functions that write and
-// compare the summary, the atomic runs' lines in it, the ladder's comparison, the checker count
-// and the distance stage (the ladder's metrics, which the skill does not carry: POSITIONS.md,
-// "The skills are written for a reader new to the repository ..."), testSpecData once a rung
-// brings it, and the machine line. It commits nothing: the review commits in this tree beside it,
-// and the commit stage lands its outputs.
+// stands here is what the skill points to the script for: the calls of the shell functions that
+// write and compare the summary and the ladder (tools/gate-functions.sh, which a gate run by hand
+// sources too), the atomic runs' lines in the summary, the checker count and the distance stage
+// (the ladder's metrics, which the skill does not carry: POSITIONS.md, "The skills are written for
+// a reader new to the repository ..."), testSpecData once a rung brings it, and the machine line.
+// It commits nothing: the review commits in this tree beside it, and the commit stage lands its
+// outputs.
 // ---------------------------------------------------------------------------
 
 const ATOMIC_OTHER = 'atomic0 atomic1 atomic2 atomic3 atomic4 atomic5 atomic6 nestedTransactions0 nestedTransactions1 nestedTransactions2'
 const ATOMIC_COMPILER = 'AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop FirstLoadThreadsRungG'
-const MACHINE = 'explorations/compile-ladder/rung-flat-tower/machine.sh'
+const GATE_FUNCTIONS = TOOLS + '/gate-functions.sh'   // gate_summary, gate_compare, last_landed_summary, ladder_filter, ladder_compare, mg_phases; its gate_summary writes the machine line
 
 function gateRole(expectedMoves, expectedChecker, specData) {
   return MAIN_TREE_ROLE + [
@@ -1318,46 +1319,11 @@ function gateRole(expectedMoves, expectedChecker, specData) {
 '4. ant testFast to ' + LOG_DIR + '/testFast.txt, then ant testSystem to ' + LOG_DIR + '/testSystem.txt, never both at once. Both run at four threads, pinned in build.xml whatever the shell exports (POSITIONS.md, "The suites run Fortress in parallel.").' + (specData
   ? ' Then ant testSpecData to ' + LOG_DIR + '/testSpecData.txt: ' + specData + '; every example must pass.'
   : ''),
-'5. The summary, with the machine it ran on, and its comparison with the last landed one. Run exactly this, from ' + MAIN + ':',
+'5. The summary, with the machine it ran on, and its comparison with the last landed one. Its functions, and those of step 7, are in ' + GATE_FUNCTIONS + ': source it from ' + MAIN + ', with FORTRESS_HOME set as the skill\'s build-and-caches.md says, in each call that uses them, since each call starts a new shell:',
 '',
-'        gate_summary () {                 # gate_summary <log-dir> <out-file>',
-'            local L="$1" O="$2" R="$FORTRESS_HOME/ProjectFortress/TEST-RESULTS" f',
-'            {',
-'              printf \'#suite\\ttests\\tfailures\\terrors\\tskipped\\n\'',
-'              for f in "$R"/fast-*/TEST-*.txt "$R"/system-*/TEST-*.txt "$R"/TEST-*SpecDataJUTest.txt ; do',
-'                [ -f "$f" ] || continue',
-'                awk -v track="$(case "$(basename "$(dirname "$f")")" in TEST-RESULTS) echo specdata ;; *) basename "$(dirname "$f")" ;; esac)" -F\'[ ,:]+\' \'',
-'                  /^Testsuite:/ { n = split($2, p, "."); s = p[n] }',
-'                  /^Tests run:/ { print track "/" s "\\t" $3 "\\t" $5 "\\t" $7 "\\t" $9 ; exit }\' "$f"',
-'              done | sort',
-'              for f in compileAll testFast testSystem testSpecData ; do',
-'                [ -f "$L/$f.txt" ] && grep -h \'^BUILD \\|^Total time:\' "$L/$f.txt" | sed "s|^|# $f: |"',
-'              done',
-'              bash ' + MACHINE + ' "gate batch ' + BATCH + '" | sed \'s|^|# machine |\'',
-'            } > "$O"',
-'        }',
+'        source ' + GATE_FUNCTIONS,
 '',
-'        gate_compare () {                 # gate_compare <last-landed-summary> <this-summary>; prints the red lines, exit 1 if any; the system-<i> rows are one suite split by sorted index, so compared by their sum',
-'            awk -F\'\\t\' \'',
-'              function key(s) { sub("^system-[0-9]+/", "system/", s) ; return s }',
-'              FNR == NR { if ($0 !~ /^#/ && NF == 5) base[key($1)] += $2 ; next }',
-'              $0 !~ /^#/ && NF == 5 {',
-'                  k = key($1) ; seen[k] = 1 ; cur[k] += $2',
-'                  if ($3 + 0 > 0 || $4 + 0 > 0)              { print "RED\\t" $1 "\\t" $3 " failures, " $4 " errors" ; bad++ }',
-'                  if ($2 + 0 == 0)                           { print "EMPTY\\t" $1 ; bad++ }',
-'              }',
-'              END { for (k in cur) if ((k in base) && cur[k] < base[k]) { print "COUNT DOWN\\t" k "\\t" base[k] " -> " cur[k] ; bad++ }',
-'                    for (s in base) if (!(s in seen)) { print "SUITE GONE\\t" s "\\t" base[s] " -> absent" ; bad++ }',
-'                    if (bad) exit 1 }\' "$1" "$2"',
-'        }',
-'',
-'        last_landed_summary () {',
-'            git -C "$FORTRESS_HOME" log --name-only --pretty=format: -- \\',
-'                \'explorations/compile-ladder/gate-baseline/summary.txt\' \\',
-'                \'explorations/compile-ladder/climb-batch-*/gate/summary.txt\' | grep -m1 \'summary.txt$\'',
-'        }',
-'',
-'   Then gate_summary ' + LOG_DIR + ' ' + GATE_OUT + '/summary.txt, and gate_compare "$(last_landed_summary)" ' + GATE_OUT + '/summary.txt. A COUNT DOWN or SUITE GONE line is red, with the suite named: it almost always means a .test file or a tests= line went missing. A count that went up is the batch\'s new tests. A suite that is new in the summary is not red by itself.',
+'   Then gate_summary ' + LOG_DIR + ' ' + GATE_OUT + '/summary.txt "gate batch ' + BATCH + '", and gate_compare "$(last_landed_summary)" ' + GATE_OUT + '/summary.txt. A COUNT DOWN or SUITE GONE line is red, with the suite named: it almost always means a .test file or a tests= line went missing. A count that went up is the batch\'s new tests. A suite that is new in the summary is not red by itself.',
 '6. The four-thread atomic runs of gate.md, their lines appended to the summary:',
 '',
 '        ATOMIC_OTHER="' + ATOMIC_OTHER + '"        # other_compiler_tests/',
@@ -1389,31 +1355,7 @@ function gateRole(expectedMoves, expectedChecker, specData) {
 '        }',
 '',
 '   Run atomic_runs ' + GATE_OUT + '/summary.txt: 42 lines. Any FAIL, NO-PASS, COMPILE-FAILED or TIMEOUT-TWICE is red; a single timeout whose re-run passes is not.',
-'7. The ladder regression, as gate.md\'s "The ladder regression" runs it, with OUT at ' + LOG_DIR + '/ladder and LADDER_ROOT at ' + LOG_DIR + '/ladder/root, where step 3 put the two copies. The eighteen microGPT components are compiled only, never linked or run here. Compare with these:',
-'',
-'        ladder_filter () { sed -E \'s/Operation took [0-9.]+ms/Operation took <time>ms/\' "$1" ; }',
-'        ladder_compare () {               # ladder_compare <baseline-dir> <now-dir>; one DOWN, UP, NEW, MISSING or STDOUT line per moved file',
-'            local B="$1" N="$2" key',
-'            awk -F\'\\t\' \'',
-'              function rank(p,   r) { r["parse"]=1; r["disambiguate"]=2; r["typecheck"]=3; r["codegen"]=4;',
-'                                      r["link"]=5; r["run"]=6; r["pass"]=7; return r[p] + 0 }',
-'              FNR == NR { if (FNR > 1) b[$1 "/" $2] = $4 ; next }',
-'              FNR > 1 {',
-'                  k = $1 "/" $2',
-'                  if (!(k in b))                  { print "NEW\\t" k "\\t" $4 ; next }',
-'                  if (rank($4) < rank(b[k]))      { print "DOWN\\t" k "\\t" b[k] " -> " $4 }',
-'                  else if (rank($4) > rank(b[k])) { print "UP\\t" k "\\t" b[k] " -> " $4 }',
-'              }\' "$B/ladder.tsv" "$N/ladder.tsv"',
-'            tail -n +2 "$B/pass-list.txt" | cut -f1 | while IFS= read -r key ; do',
-'                [ -n "$key" ] || continue',
-'                if [ ! -f "$N/raw/$key.run" ] ; then printf \'MISSING\\t%s\\n\' "$key" ; continue ; fi',
-'                if ! diff -q <(ladder_filter "$B/raw/$key.run") <(ladder_filter "$N/raw/$key.run") >/dev/null ; then',
-'                    printf \'STDOUT\\t%s\\n\' "$key"',
-'                    diff <(ladder_filter "$B/raw/$key.run") <(ladder_filter "$N/raw/$key.run") | sed \'s/^/    /\' | head -8',
-'                fi',
-'            done',
-'        }',
-'        mg_phases () { awk -F\'|\' \'/^\\| *[0-9]+ *\\| *`/ { gsub(/[` ]/, "", $3); gsub(/ /, "", $4); print $3 "\\t" $4 }\' "$1" ; }',
+'7. The ladder regression, as gate.md\'s "The ladder regression" runs it, with OUT at ' + LOG_DIR + '/ladder and LADDER_ROOT at ' + LOG_DIR + '/ladder/root, where step 3 put the two copies. The eighteen microGPT components are compiled only, never linked or run here. Compare with ladder_compare and mg_phases from ' + GATE_FUNCTIONS + ', sourced as in step 5:',
 '',
 '   ladder_compare explorations/compile-ladder/baseline-2026-09-19 ' + LOG_DIR + '/ladder, and diff <(mg_phases explorations/compile-ladder/baseline-2026-09-19/microgpt-phase.md) <(mg_phases ' + LOG_DIR + '/ladder/microgpt-phase.md). Append the output to the summary, each line prefixed "# ladder ", and copy ladder.tsv, microgpt-phase.md and the comparison into ' + GATE_OUT + '/ladder/. A DOWN, a STDOUT or a MISSING line is red unless the manifest declared it; a move up is the batch\'s result. Declared moves:',
 '',
