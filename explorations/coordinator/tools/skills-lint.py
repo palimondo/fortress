@@ -124,11 +124,15 @@ def main(argv):
     if any(a in ("-h", "--help") for a in argv):
         print(__doc__)
         return 0
-    files = argv
-    if not files:
+    if not argv:
         root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
-        base = os.path.relpath(os.path.join(root, ".claude", "skills"))
-        files = sorted(os.path.join(d, f) for d, _, fs in os.walk(base) for f in fs)
+        argv = [os.path.relpath(os.path.join(root, ".claude", "skills"))]
+    files = []
+    for a in argv:
+        if os.path.isdir(a):
+            files += sorted(os.path.join(d, f) for d, _, fs in os.walk(a) for f in fs)
+        else:
+            files.append(a)
     hits = []
     for f in files:
         hits += lint(f)
