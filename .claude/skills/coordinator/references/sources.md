@@ -49,6 +49,7 @@ Not for a task: an agent doing work never loads this file. It says where each ru
 - Estimates: POSITIONS "Estimates in the project's units."; cost as tokens written also brief-machine:33 (the session skill's agents part said it too, and was merged here).
 - The mission briefing: POSITIONS "The mission briefing."; the manual, "Shared prefix". After every landed batch: POSITIONS "One review after every batch."; `explorations/reviews/process-review-6b-7-7R.md` (the process measures); `explorations/reviews/batch-10-review.md` (tokens written by role).
 - Watching the spend is the coordinator's, not the worker's: POSITIONS "The coordinator watches what it launches."; the tool `explorations/coordinator/tools/spend.py`.
+- A brief for a judgement on a type rule names the POPL 2019 extract, `popl-recheck.md` and the map's section "After the repository": the coordinator's task of 2026-10-10, at the curator's go that the later papers enter the record that decisions use. Cause: the top-tier judgements `explorations/reviews/array-fork2-judgement.md` and `array-fork3-judgement.md` did not cite the POPL 2019 paper.
 - A brief names the `fortress-repo` skill: its description triggers on hands-on work in the tree (`explorations/reviews/skills-description-optimization.md`), and the report contract lives in its records part.
 
 ## agents.md

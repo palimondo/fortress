@@ -29,6 +29,10 @@
 - On a design fork, the worker is kept clean of the coordinator's options, not of its measurements: it reads its question first, lists every way the language and the library offer, answers a rule that blocks an option with how the library gets around it, and measures only where no record answers.
 - A briefing written for a batch speaks of "the decisions on record", never of a person, and sets the worker no required questions about its search: it says where the ground is unfamiliar, and the worker then works on its task.
 - Each rung of a batch gets a mission briefing drawn from the territory map, which its agents read in their first turn. How it is built and carried is the batch manual's, `explorations/coordinator/climb-batch-workflow.md`, "Shared prefix"; the share of agents that use it is measured by the review after the batch.
+- A brief for a judgement on a type rule names the team's later sources, so that the judge weighs them beside the papers of 2011 and 2012:
+  - the extract of the POPL 2019 paper: `research/extracts/ParkPOPL2019-extract.md`;
+  - the recheck of the decisions against that paper: `explorations/reviews/decisions-review/popl-recheck.md`;
+  - the section "After the repository" of `explorations/coordinator/map/design-intent-sources.md`.
 - It names the points to report: the kinds of change or finding that the curator wants to review. The work goes on when it reaches one; the report lists it. What else the report holds is the report contract, which the brief does not restate.
 - It tells the worker to load the `fortress-repo` skill, which holds that contract: a worker that only reads and reports would not load it on its own.
 
