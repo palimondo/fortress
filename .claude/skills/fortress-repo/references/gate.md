@@ -4,7 +4,7 @@ The gate runs the seven steps below on one tree, in about 25 minutes. It is gree
 
 ## What it writes
 
-The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the machine that ran the gate (`# machine`), the atomic runs and the ladder's comparison. A landed summary can also end with `# microgpt-walk` lines: the `VERDICT:` and `rc=` lines of the microGPT walk check (`interpreter.md`, "The model program"), run on the landed tree.
+The summary, `summary.txt`, has one tab-separated row for each suite: `track/suite`, tests, failures, errors, skipped. Below the rows, lines that start with `#` give each log's `BUILD` and `Total time:` lines, the machine that ran the gate (`# machine`), the atomic runs and the ladder's comparison. A landed summary can also end with `# microgpt-walk` lines: the `VERDICT:` and `rc=` lines of the microGPT walk check (`interpreter.md`, "The model program"), run on the landed tree. Add them only if your brief asks for the microGPT walk check on the landed tree.
 
 If your brief asks you to land a gate's results, put them in a new `gate/` folder in `explorations/compile-ladder/`, under the `climb-batch-` name that your brief gives, in the form of the newest one: `summary.txt`, and in `ladder/` the files `ladder.tsv`, `microgpt-phase.md`, `comparison.txt` and `microgpt-comparison.txt`. The next gate compares with the newest summary there or in `explorations/compile-ladder/gate-baseline/`, and finds no other. Land them in a commit that changes nothing else that the gate reads.
 

@@ -42,16 +42,18 @@ The batch workflow's gate (`explorations/coordinator/climb-batch-workflow.js`, i
 
 ## After every landed batch
 
-One combined review, by one Opus worker that only reads: conformance (each rung against the decisions on record and the designers' intent), the process measures (misses by kind, those of items in the rung's own briefing, map use, briefing cost, measurements repeated, tokens written by role) and the routing check (every finding has a home). The coordinator files what it finds in PLAN at the landing, each finding at the home it names. The earlier reviews are `explorations/reviews/batch-*-review.md`.
+One combined review, by one Opus worker that only reads: conformance (each rung against the decisions on record and the designers' intent), the process measures (misses by kind, those of items in the rung's own briefing, map use, briefing cost, measurements repeated, tokens written by role), the routing check (every finding has a home) and the skill check (each skill sentence that the batch made false). The coordinator files what it finds in PLAN at the landing, each finding at the home it names. The earlier reviews are `explorations/reviews/batch-*-review.md`.
 
-The batch writes no skill text. After the landing, and before the next launch, update the skills:
+The batch writes no skill text. After the landing, and before another batch is launched, update the skills:
 
-1. Give the skill writer one task: the batch record's section "Revival changes, for the skill writer", and the skill sentences that the review lists as false.
-2. Launch a cold read of the changed parts. Give its agent only the skill and the brief `explorations/coordinator/skill-cold-read-brief.md`.
-3. Give the writer the cold read's flags to fix.
-4. Push the writer's commits.
+1. Give the skill writer (`talking.md`) one task file, through `explorations/coordinator/tools/skill-writer.sh`. It holds the batch record's section "Revival changes, for the skill writer", and the skill sentences that the review lists as false.
+2. Launch a cold read. Its task is the brief `explorations/coordinator/skill-cold-read-brief.md`, followed by the skill's name, the commit before the writer's task as the base, and the changed parts. Give its agent no record of the project beyond the skills.
+3. Give the writer the cold read's flags to fix. The fixes are not read cold again.
+4. Read the writer's report, and check that `python3 explorations/coordinator/tools/skills-lint.py` prints nothing. Then push the writer's commits.
 
-An answer of the curator that confirms a landed default changes no skill text. An answer that reverses a default changes the code in a batch, and the skill after that batch lands.
+Every writer task that rewrites a part or a section gets the same cold read. A writer task that fixes a sentence or a paragraph, such as for a comment, gets no cold read: take step 4 only.
+
+An answer of the curator that confirms a landed default (`decisions.md`, "Landed, then reviewed") changes no skill text. An answer that reverses one is carried out by a later batch, and the skills are updated, as above, after that batch lands.
 
 ## Watching what it launches
 

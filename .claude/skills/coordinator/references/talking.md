@@ -45,7 +45,7 @@ A comment on a skill marks a problem area, not a sentence to patch. Its paragrap
 The skill writer makes every skill edit. The skill writer is a headless Claude session, started and resumed by `explorations/coordinator/tools/skill-writer.sh`. Do not edit a skill yourself. For a comment, brief the writer with the comment, then:
 
 1. The writer edits the skill and commits.
-2. Push the commit.
+2. Push the commit after the checks of `delegation.md`, "After every landed batch", which says when a cold read comes first.
 3. Update the review page.
 4. Answer on the thread.
 

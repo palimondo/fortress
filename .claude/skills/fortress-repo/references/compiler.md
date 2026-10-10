@@ -46,13 +46,13 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 - It emits no primitive `double` arithmetic.
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier has no effect on the representation.
-- Array storage is to be an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled run time"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
+- An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled run time"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
 
       explorations/coordinator/tools/facts-extract.sh 'positions:Storage is' 'positions:array design'
 
 ## The run time
 
-- The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Ledger rows 408 and 559 name it.
+- The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Before you investigate a failure while a class loads, read ledger rows 408 and 559, which name it (`records.md`, "Reading the record").
 - The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, the generated code asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction. So the transaction tracks the variables that the block touches.
 
 ## Natives
@@ -100,7 +100,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
       explorations/coordinator/tools/facts-extract.sh 'map:modules-and-phases.md#B.5 Desugaring'
 
-- Before you change the text of a diagnostic, grep the `.test` files for it. Many `.test` files in `compiler_tests/` pin a whole diagnostic with `compile_err_equals`, its `file:line:column` included. `grep -l compile_err_equals ProjectFortress/compiler_tests/*.test` lists them. Update each one in the same commit. A line that you add to or remove from a compiler test program moves the pinned spans below it.
+- Before you change the text of a diagnostic, grep the `.test` files for it. A `.test` file can pin a whole diagnostic with `compile_err_equals`, its `file:line:column` included. `grep -l 'TEXT' ProjectFortress/*tests/*.test`, with words of the diagnostic as TEXT, lists the files that pin it. Update each of those in the same commit. A line that you add to or remove from a compiler test program moves the pinned spans below it.
 
 ## Testing an edit here
 
