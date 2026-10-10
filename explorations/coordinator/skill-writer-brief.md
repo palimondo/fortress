@@ -57,6 +57,8 @@ A skill's terms open the skill, in `SKILL.md`, as a definition list with no head
 - Do not push. The coordinator pushes.
 - Do not touch the review page or its scratch files. The coordinator keeps the page in step.
 - Provenance goes only in the skill's `references/sources.md`: one line per change. Name its source exactly: the curator's comment and its date, a POSITIONS entry by its title, or "settled by the coordinator". Do not attribute to the curator a choice that the coordinator made.
+- A part states each rule as the tree holds it. Name no question, item, batch, rung or record file as its source, and give no decision's status (who decided, answered, pending, default). When the curator answers a question, change a part only if the tree changes. In `sources.md`, write provenance as dated history, never as current status.
+- Before each commit, run `python3 explorations/coordinator/tools/skills-lint.py` on the files you changed. Remove every hit, or say in your report why a hit is a rule.
 - Do not change what a rule means unless the task asks for it. If a change of meaning seems right, do not make it. List it in your report as a decision not taken, with its alternatives.
 - Check a claim about the code against the code before you write it. If the task's reason for a change is wrong, say so in your report.
 - Do not write a model identifier string anywhere. Name models by tier.
