@@ -24,7 +24,7 @@ From this session on 2026-10-10 and the boot note (`held-list.md` line 7):
 6. The `fortress-repo` writing standard (`explorations/reviews/skills-writing-principles.md`; POSITIONS, "The skills are written for a reader new to the repository ...").
 7. `cloud-container` rewritten by the `fortress-repo` method.
 
-Not goals: no change to the batch workflow; no fact or decision changes its content, only its form and its home.
+Not a goal: no fact or decision changes its content, only its form and its home. (The draft also excluded the batch workflow; the curator corrected that on the page: the workflow is improved whenever it shows a problem, and running and reviewing a batch is one of the coordinator's modes.)
 
 ## 2. The boot today
 
@@ -84,7 +84,7 @@ Repeats: 34 of POSITIONS' 112 entries are tied by citation to 53 FACTS entries (
 - POSITIONS, two entries that are history ("The order of the work after batch 10.", "The statement for the public record on the usage limit."): 2.3K bytes. Boot.
 - The protocol's rules that bind workers: about 3.1K bytes. Boot.
 - `fortress-repo`: most of these rules as workers act on them (`SKILL.md` "Rules for every task", `committing.md`, `tests-writing.md`, `gate.md`, `records.md`). Skill.
-- The batch manual and script (`climb-batch-workflow.md`, 42K bytes, and its `.js`): out of scope here, the batch workflow does not change.
+- The batch manual and script (`climb-batch-workflow.md`, 42K bytes, and its `.js`): read when a batch is planned, run or reviewed; in scope, since the workflow is improved whenever it shows a problem.
 
 Repeats: the 11 worker-binding rules stand in 36 places (section 4.1, last group).
 
