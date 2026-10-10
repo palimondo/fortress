@@ -1607,7 +1607,7 @@ end
 
 trait AnyVector end
 
-trait Vector[\T extends Number, nat s0\]
+trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
         extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
         excludes { AnyMultiplicativeRing }
     opr +(self, v:Vector[\T,s0\]): Vector[\T,s0\]
@@ -1638,44 +1638,44 @@ tabulatedArray1[\T, nat s0\](f:ZZ32->T):Array1[\T,0,s0\]
 immutableArray1[\T, nat s0\](): ImmutableArray1[\T,0,s0\]
 
 (** %vector% is the same as %array1%, but specialized to numeric type arguments. *)
-vector[\T extends Number, nat s0\]():Vector[\T,s0\]
-vector[\T extends Number, nat s0\](v:T):Vector[\T,s0\]
-tabulatedVector[\T extends Number, nat s0\](f:ZZ32->T):Vector[\T,s0\]
+vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]():Vector[\T,s0\]
+vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](v:T):Vector[\T,s0\]
+tabulatedVector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](f:ZZ32->T):Vector[\T,s0\]
 
 
-opr +[\ T extends Number, nat n, nat m \]
+opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends Number, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends Number, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me : Vector[\T,n\]):Vector[\T,n\]
 
-pmul[\ T extends Number, nat k \]
+pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\]
 
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
         (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
-squaredNorm[\T extends Number, nat s0\](a:Vector[\T,s0\]):T
+squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T
 
-opr ||[\ T extends Number, nat k \]me : Vector[\T,k\]|| : RR64
+opr ||[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]me : Vector[\T,k\]|| : RR64
 
 (** %Array2[\T,b0,s0,b1,s1\]%
     is the type of 2-dimensional arrays of element type %T%, with
@@ -1725,7 +1725,7 @@ end
 
 trait AnyMatrix end
 
-trait Matrix[\T extends Number, nat s0, nat s1\]
+trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
         extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
         excludes { AnyMultiplicativeRing }
     opr +(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\]
@@ -1748,49 +1748,49 @@ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
 (** %matrix% is the same as %array2%, but specialized to numeric type
    arguments, except that the default value (if given) is used to
    construct a multiple of the identity matrix. **)
-matrix[\T extends Number, nat s0, nat s1\]():Matrix[\T,s0,s1\]
-matrix[\T extends Number, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\]
+matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]():Matrix[\T,s0,s1\]
+matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\]
 
-opr +[\ T extends Number, nat n, nat m \]
+opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]): Matrix[\T,n,m\]
 
-opr -[\ T extends Number, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
-opr -[\ T extends Number, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me:Matrix[\T,n,m\]): Matrix[\T,n,m\]
 
 (** Matrix multiplication. *)
-opr DOT[\ T extends Number, nat n, nat m, nat p\]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p\]
        (me:Matrix[\T,n,m\], other:Matrix[\T,m,p\]): Matrix[\T,n,p\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p\]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p\]
      (me:Matrix[\T,n,m\], other:Matrix[\T,m,p\]): Matrix[\T,n,p\]
 
 (** Matrix-vector multiplication. *)
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
 (** Vector-matrix multiplication. *)
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr DOT[\ T extends Number, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
        (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends Number, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
      (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
 (** %Array3[\T,b0,s0,b1,s1,b2,s2\]% is the type of 3-dimensional arrays
@@ -2688,17 +2688,17 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
 (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
 (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
 (*) to it in the result.
-opr +[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr +[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr -[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
 (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
 (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
 (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
-opr -[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr MIN[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr MIN[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr MAX[\T extends Number, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr MAX[\T extends Number, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MAX[\T extends { Number, StandardMax[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
 
 
 end
