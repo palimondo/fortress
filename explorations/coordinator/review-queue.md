@@ -12,7 +12,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 - Every one of the 116 entries of 10-02 is placed; the last section maps them.
 
 **Five to take first**, each because it holds work or acts on his word:
-- 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them". His rule puts a step against his word to him at once.
+- 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them", and a step against his word is put to him at once.
 - 1, The self-typed bodies. Batch 14's first candidate waits on it, and it bends a reading on record.
 - 30, A size known only at run time: way 4a and his decision on sizes. It reads his decision on sizes anew, and was built on the standing go while his answer is pending. The POPL check of the same judgements (item 33) is a new ask today.
 - 14, Does coverage define an inherited abstract method? (item 51). A batch 14 candidate waits on it, and it decides whether three rows are walk's defects or the library's.
