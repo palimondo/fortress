@@ -147,7 +147,9 @@ The language (Fig. 2, p. 11:8; §3.2, pp. 11:8-9):
   existential reduction narrows the gap (§2 above).
 - **Three rules for every pair of same-named declarations** (Fig. 5,
   p. 11:13):
-  - No Duplicates: neither domain is below the other.
+  - No Duplicates: the two domains are not each below the other; either
+    [No-Dup-Not-Less] or [No-Dup-Not-Gtr] suffices, so the rule refuses
+    exactly a pair whose domains are mutual subtypes (p. 11:12).
   - Meet: the domains exclude ([Meet-Excl], their intersection reduces to
     `Bottom`), or one is below the other, or a third declaration's domain is
     equivalent to their intersection ([Meet-Third]).
