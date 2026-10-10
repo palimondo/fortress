@@ -12,23 +12,7 @@ A draft build prints the team's `\note{}` boxes, and a release build hides them.
 
 The api listings of the library part are generated from the library's `.fsi` files when the specification is built (`Specification/library/apis/`, not in the tree). A listing shows the library itself, so it cannot justify a change of the library. Cite the `.fsi` file.
 
-## Weighing the sources
-
-The type group is the part of the team that built the type checker and the compiler, from 2010 to 2012. Where their late positions disagree with the specification's earlier text, the curator gives the late positions more weight. These positions are:
-
-- the exclusion rule;
-- compiled code specialised to each instantiation of a generic, which they kept;
-- the compiled number tower, which they flattened in 2011;
-- the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`);
-- the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
-
-When your report describes the team's sources on a question (`exploring.md`), say which of them is one of these positions.
-
-If a conflict or a decision not taken needs the designers' reason for a rule, print the row of its design area. WORD is a word of the area, such as `coercion`, `juxtaposition`, `dispatch` or `Arrays`. A word can match several rows, each about 1 to 2 KB.
-
-    explorations/coordinator/tools/facts-extract.sh 'map:design-intent-sources.md#The map, by design area@WORD'
-
-Then open the sources that the row names. Among them are the `\note{}` boxes and the team's written rationale in the Internal Document appendix: `Specification/appendices/FAQ.tex` and `future.tex`.
+To weigh the specification against the team's later texts, or to find the designers' reason for a rule, read `exploring.md`, "Weighing the sources".
 
 ## Changing the text: the revision form
 

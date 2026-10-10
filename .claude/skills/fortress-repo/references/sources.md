@@ -570,3 +570,12 @@ The coordinator's task of 2026-10-09, from climb batch 13's post-batch review (`
 - `revival-changes.md`, "Mixed number types in a generic call": the elements of a tuple or varargs argument take their join, ledger row 511; the review's Part 3 and coldread.2. Varargs added by the writer from the row.
 - `revival-changes.md`, "Comparing pairs and triples", the reason for `Reflect`'s list: rung O's `9ba86f7da`; the review's coldread.1.
 - `revival-changes.md`, "Arithmetic in a size", the power above the exponent 4096: the skeptic's `7dd0adf0c`; the review's coldread.5.
+
+## The team's later work, 2026-10-10
+
+The coordinator's task of 2026-10-10, at the curator's go: the later papers enter the record that decisions use. Cause: two top-tier judgements on the array design (`explorations/reviews/array-fork2-judgement.md`, `array-fork3-judgement.md`) did not cite the POPL 2019 paper.
+
+- "Weighing the sources" moved from `specification.md` to `exploring.md`, with one pointer line left in `specification.md`, and steps 4 and 11 of the procedure pointed to it: the coordinator's task of 2026-10-10.
+- The places of the later work (`research/extracts/`, the patents' reading): the same task. Checked: the six files of `research/extracts/`; the post of July 2012 in `research/extracts/fortress-websites-wayback.md`, "The wind-down announcement".
+- The map's section "After the repository": the same task. Another worker was adding it on 2026-10-10, so its query was not checked and none is given.
+- A report on a type rule names each later work that it checked: the same task.
