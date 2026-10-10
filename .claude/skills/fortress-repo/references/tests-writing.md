@@ -48,7 +48,7 @@ Compiled: write `Name.fss` and `Name.test` in the compiled test folder that hold
 - `library_tests/`: the compiler's library. A test of the interpreter's library is an interpreter test (above).
 - `parser_tests/`: the parser.
 - `compiler_tests/`: the rest, beside the team's numbered `CompiledN` tests.
-- `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series, by the comment in `OtherCompilerJUTest.java`. The revival has added none there.
+- `other_compiler_tests/`: the team's compiled tests that do not fit the `CompiledN` series, by the comment in `OtherCompilerJUTest.java`. Put no new test there.
 
 The `.test` files are the whole list of tests: a `.fss` that no `.test` file names never runs. A `.test` file is a Java property file. It names the commands to run and the checks on their output, as lit's RUN and CHECK lines do:
 

@@ -19,7 +19,7 @@ If the boot note says a batch is running: its batch record, `explorations/coordi
 ## What the boot reads, and what it does not
 
 - The record and nothing else. No directory listings; every command's output bounded.
-- It costs about 250K tokens of context, `FACTS.md` about a third of it: the price of full context, paid once per boot.
+- It is the largest single cost of a boot, and `FACTS.md` is the largest part of it: the price of full context, paid once per boot.
 - Reports, transcripts, ledger rows and source go to a worker that returns a summary.
 - Whether a worker still runs is read from the harness's notice at the top of the turn and from `test -f` on the one output path its brief names.
 - "Is anything in flight" is answered from the tree and the run's journal, never from what the curator's client shows, which can be stale.

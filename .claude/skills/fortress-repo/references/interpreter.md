@@ -13,7 +13,7 @@ After the phases (`SKILL.md`, "The phases"), walk rewrites each component in `in
 
 At a call of a generic function, walk infers the static arguments from the run-time types of the arguments (`interpreter/evaluator/EvaluatorBase.java`, `inferAndInstantiateGenericFunction`). Each static parameter gets an interval, from a lower to an upper bound, in a `LatticeIntervalMap` (`useful/`). A type in the domain of an arrow type, such as `T` in `T -> ZZ32`, is contravariant. So its bounds go into the dual map, `LatticeIntervalMapDual`: the same table, with the order reversed. `MakeInferenceSpecific` then makes the inferences more specific, in practice only in the dual map.
 
-Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. This is an accepted limit until the switch-over.
+Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. Walk has no static types, so it cannot choose statically. The expected-failure tests `XXXCoercionStaticRungC` and `XXXCoercionStaticNarrowRungC` record the difference.
 
 ## Where a fix of walk belongs
 

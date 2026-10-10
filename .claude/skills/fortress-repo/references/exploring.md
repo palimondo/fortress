@@ -13,7 +13,7 @@ The curator settles every conflict and every question about a decision of the cu
 
 ## Weighing the sources
 
-The type group is the part of the team that built the type checker and the compiler, from 2010 to 2012. Where their late positions disagree with the specification's earlier text, the curator gives the late positions more weight. These positions are:
+The type group is the part of the team that built the type checker and the compiler, from 2010 to 2012. Where their late positions disagree with the specification's earlier text, the late positions weigh more. These positions are:
 
 - the exclusion rule;
 - compiled code specialised to each instantiation of a generic, which they kept;

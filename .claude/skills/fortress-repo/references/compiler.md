@@ -23,8 +23,7 @@ The phases differ too: walk turns off some desugarings that the compiled path ru
 
 The compiled path uses the compiler's own prelude: `LibraryBuiltin/CompilerBuiltin.fss`, `Library/CompilerLibrary.fss` and `Library/CompilerAlgebra.fss`. `Library/CompilerSystem.fss` is the compiled path's `System`.
 
-- Do not add a declaration to the three prelude files: they are deleted at the switch-over. Their tests stay.
-- The record does not yet say what happens to `CompilerSystem` at the switch-over.
+Do not add a declaration to the three prelude files: they are deleted at the switch-over. Their tests stay.
 
 ## What the compiled path cannot compile yet
 
@@ -47,13 +46,13 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 - It emits no primitive `double` arithmetic.
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier has no effect on the representation.
-- The curator decided that array storage will be an unboxed `double[]`. This is not built yet. The other questions of the array design wait until after the switch-over. If your task touches how arrays are stored, print both decisions first (about 2 KB):
+- Array storage is to be an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled run time"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
 
       explorations/coordinator/tools/facts-extract.sh 'positions:Storage is' 'positions:array design'
 
 ## The run time
 
-- The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Open ledger rows name it, such as rows 408 and 559.
+- The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Ledger rows 408 and 559 name it.
 - The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, the generated code asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction. So the transaction tracks the variables that the block touches.
 
 ## Natives
@@ -91,7 +90,7 @@ A small program compiles in about 5 s and runs in about 1 s.
 
 ## Before an edit
 
-Two notes under `explorations/coordinator/map/` help you find where a fix belongs. Both were written in September 2026, before the revival's batches, so a status or a line number in them can be stale. Before you rely on a status, read the ledger rows that it cites. Before you rely on a line number, grep for the method's name.
+Two notes under `explorations/coordinator/map/` help you find where a fix belongs. Both date from September 2026, so a status or a line number in them can be stale. Before you rely on a status, read the ledger rows that it cites. Before you rely on a line number, grep for the method's name.
 
 - Before you add or fix a language feature, print its row of the feature table. WORD names the feature, such as `spawn`, `coercion` or `typecase`. A row is about 1 KB. It names the feature's section of the specification, its parser rule, checker class, walk site, code-generator site, prelude declaration and ledger rows.
 
@@ -101,7 +100,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
       explorations/coordinator/tools/facts-extract.sh 'map:modules-and-phases.md#B.5 Desugaring'
 
-- Before you change the text of a diagnostic, grep the `.test` files for it. 224 of the 549 `.test` files in `compiler_tests/` pin a whole diagnostic with `compile_err_equals`, its `file:line:column` included. Update each one in the same commit. A line that you add to or remove from a compiler test program moves the pinned spans below it.
+- Before you change the text of a diagnostic, grep the `.test` files for it. Many `.test` files in `compiler_tests/` pin a whole diagnostic with `compile_err_equals`, its `file:line:column` included. `grep -l compile_err_equals ProjectFortress/compiler_tests/*.test` lists them. Update each one in the same commit. A line that you add to or remove from a compiler test program moves the pinned spans below it.
 
 ## Testing an edit here
 

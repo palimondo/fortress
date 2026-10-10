@@ -8,7 +8,7 @@ The team left three forms of Fortress, which disagree in places:
 
 This part lists each change of the revival made for one of two reasons: two of the team's sources contradict each other, or a program failed. Its headings are the points of `SKILL.md`, "Fortress as a language", that the changes qualify.
 
-Each resolution is a decision of the curator. Where it changed the specification, Appendix I keeps the original text (`specification.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. `specification.md`, "Weighing the sources", describes the type group, whose later texts most resolutions follow.
+Each resolution is the rule of this tree. Follow it as you follow a decision of the curator, and question it only on new evidence (`SKILL.md`, "When to explore"). Where it changed the specification, Appendix I keeps the original text (`specification.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. `specification.md`, "Weighing the sources", describes the type group, whose later texts most resolutions follow.
 
 If a source of the team's, an old note or your training disagrees with this skill, find the point below. If it is there, follow the skill: it describes the tree. If it is not, do as `SKILL.md`, "When to explore", says.
 
@@ -123,7 +123,7 @@ A note written before the revival, and your training, can be right about the tea
 **Comparing pairs and triples**
 
 - Original: the interpreter's library compared pairs and triples lexicographically with `<`, `<=`, `>`, `>=` and `CMP` over element types with no bound, under the team's comment "Shouldn't these operators have to extend something? A,B,C?". Walk compared an element only when the elements before it were equal, so `((1,2),3) < ((1,3),0)` and `(1,()) < (2,())` were `true`. A pair whose first elements were unordered, such as a NaN against a float, stopped walk.
-- Resolution: each element type extends `StandardPartialOrder`, and walk refuses at the call a pair or triple with an element of another type, such as a pair or `()`, whatever the elements before it decide. Walk also refuses a pair whose elements at one position are numbers of two run-time types, such as `(1,2) < (1,2.5)`, which it answered `true`: it takes the element type at their join, which is no partial order (ledger row 511). A pair or triple whose deciding elements are unordered answers `false` to `<`, `<=`, `>` and `>=`, and `Unordered` to `CMP`. `Reflect`'s `members` is a list in the order the type declares its members, not a set sorted by name: the set compared its triples, which the bound refuses. This is the default of Q43 in `explorations/coordinator/CLIMB-BATCH-13.md`, which the curator has not answered.
+- Resolution: each element type extends `StandardPartialOrder`, and walk refuses at the call a pair or triple with an element of another type, such as a pair or `()`, whatever the elements before it decide. Walk also refuses a pair whose elements at one position are numbers of two run-time types, such as `(1,2) < (1,2.5)`, which it answered `true`: it takes the element type at their join, which is no partial order (ledger row 511). A pair or triple whose deciding elements are unordered answers `false` to `<`, `<=`, `>` and `>=`, and `Unordered` to `CMP`. `Reflect`'s `members` is a list in the order the type declares its members, not a set sorted by name: the set compared its triples, which the bound refuses.
 - Reason: the checker refused the bodies of the ten operators, five on pairs and five on triples, at 17 sites. The team bounded the range points' comparisons `PCMP` and `SCMP` per element in 2008, and `false` is what `RR64`'s own comparisons answer for a NaN.
 
 ## Numbers are siblings, not a tower
@@ -168,12 +168,12 @@ A note written before the revival, and your training, can be right about the tea
 
 - Original: the interpreter's library checked a range against an array's bounds (`narrowToRange`, through `checkSelection`) with its index type's `<` and `>`, which compare pairs and triples lexicographically. `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` answered `(2,0):(5,5)` and raised no `IndexOutOfBounds`, so an array's range subscript of rank 2 or 3 with a corner outside the bounds on an axis after the first was cut to the bounds, and a subarray read past them.
 - Resolution: the check compares corner by corner, by the ranges' own point order `PCMP`, under which one point is below another only if it is below or equal on every axis. The call above raises `IndexOutOfBounds`, as do such subscripts and subarrays. The check is one function for each rank, `checkSelection`, `checkSelection2D` and `checkSelection3D` in `Library/RangeInternals.fss`, and `narrowToRange`'s bodies are declared at the range types over `ZZ32` of each rank.
-- Reason: the curator's answer to Q50 in `explorations/coordinator/CLIMB-BATCH-12.md`. The lexicographic order serves sorting, and a corner outside the bounds on any axis is outside them.
+- Reason: the lexicographic order serves sorting, and a corner outside the bounds on any axis is outside them.
 
 **The trivial open range `(:)`**
 
 - Original: `(:)` is a range over `Any`. The interpreter's library gave its `truncL`, `truncR`, `every`, `imposeStride` and `atMost` bodies that answer ranges over `ZZ32`: `(:).truncL(3)` was `3#`.
-- Resolution: the five throw `FailCalled`, through the library's `fail`, with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is the curator's decision: POSITIONS, "The open range `(:)` keeps its wildcard type, and its five cutting methods fail (item 49, row 656)."
+- Resolution: the five throw `FailCalled`, through the library's `fail`, with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged.
 - Reason: each of the five declared types is a range over `Any`. Generics are invariant, so the old bodies' ranges over `ZZ32` broke those types, and the checker refused them.
 
 **`SUM` and `PROD`**
@@ -186,7 +186,7 @@ A note written before the revival, and your training, can be right about the tea
 
 - Original: the Working Draft (`Specification-1.0-frozen/basic-lib/numbers.tex`, "Rational Numbers") gives `QQ`'s `floor`, `ceiling`, `round` and `truncate` the result type ℤ, and a later paragraph of that section says they return the argument at +∞, −∞ and 0/0, a rational. The interpreter's library returned the argument, and its `round` stopped walk there.
 - Resolution: these methods and the brackets ⌊ ⌋ and ⌈ ⌉ throw `DivisionByZero` at those three values.
-- Reason: the curator kept the declared integer result. A division by zero whose result is an integer throws `DivisionByZero` (`Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators").
+- Reason: the declared result type is ℤ, and a division by zero whose result is an integer throws `DivisionByZero` (`Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators").
 
 ## Loops and reductions are library code
 
@@ -199,7 +199,7 @@ A note written before the revival, and your training, can be right about the tea
 **A generator's size, the relational predicate and the default index-value pairs**
 
 - Original: the interpreter's library declared no size on `Generator`, though three of the library's bodies read the size of a `Generator`. The relational predicate, the condition that `relationalPredicate(r)` makes (`RelationalPredicateCondition`'s `cond` in `Library/FortressLibrary.fss`), asks whether `r` holds between each two consecutive elements of its target, a `Generator`; it read a size and indices from 0 off the target. Under walk, `|g|` of a filter, a nest or a mapped filter stopped, and so did the relational predicate on a filter; on an array whose indices start above 0 it read outside the bounds. `Indexed`'s default `indexValuePairs` answered a mapped generator, printed `mapped(...)`, where an `Indexed` is declared. The checker refused these at nine sites.
-- Resolution: `Generator` has `opr |self|`, a default that counts the elements by running the generator, as `opr IN` searches them. A type with its own size keeps it. The relational predicate is one reduction in the generator's natural order, as the relational reduction of `Generator2` (`efficientImplRelationalDistributiveImpl` in `Library/Generator2.fss`) is. The default pairs are an object over the indexed value, `SimpleIndexValuePairs`, which prints as its elements and is indexed as the value is; a slice of it keeps each pair's index. So two answers change under walk: the relational predicate on a reversed indexed value follows its natural order, and the default pairs of a value indexed from 5 are indexed from 5, not from 0. This is the default of Q45 in `explorations/coordinator/CLIMB-BATCH-13.md`, which the curator has not answered.
+- Resolution: `Generator` has `opr |self|`, a default that counts the elements by running the generator, as `opr IN` searches them. A type with its own size keeps it. The relational predicate is one reduction in the generator's natural order, as the relational reduction of `Generator2` (`efficientImplRelationalDistributiveImpl` in `Library/Generator2.fss`) is. The default pairs are an object over the indexed value, `SimpleIndexValuePairs`, which prints as its elements and is indexed as the value is; a slice of it keeps each pair's index. So two answers change under walk: the relational predicate on a reversed indexed value follows its natural order, and the default pairs of a value indexed from 5 are indexed from 5, not from 0.
 - Reason: the checker's refusals. A default keeps "only needs to define the generate method" true (`Specification/advanced/parallelism-locality/defining-generators.tex`). Counting consumes a consumable generator and never ends on an endless one, as every other derived default of `Generator` does.
 
 ## Specified, but not built
