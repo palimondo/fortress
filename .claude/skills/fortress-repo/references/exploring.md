@@ -30,7 +30,9 @@ If a conflict or a decision not taken needs the designers' reason for a rule, pr
 
     explorations/coordinator/tools/facts-extract.sh 'map:design-intent-sources.md#The map, by design area@WORD'
 
-Then open the sources that the row names. Among them are the `\note{}` boxes and the team's written rationale in the Internal Document appendix: `Specification/appendices/FAQ.tex` and `future.tex`. The same map's section "After the repository" places each of the team's later works against the design areas. Read its entry for your design area too.
+Then open the sources that the row names. Among them are the `\note{}` boxes and the team's written rationale in the Internal Document appendix: `Specification/appendices/FAQ.tex` and `future.tex`. The row also names the later works that speak to its area, after the words "after the repository (§7)". To read what one of them covers and does not cover, print its row of the map's section "After the repository". WORD is a word of its title, such as `Polymorphic`, `patents`, `JuliaCon` or `Wrapping`. A row is about 1 to 2 KB.
+
+    explorations/coordinator/tools/facts-extract.sh 'map:design-intent-sources.md#After the repository@WORD'
 
 When your report describes the team's sources on a question, say which of them is one of the late positions above. If the question is about a type rule, also name each later work that you checked.
 

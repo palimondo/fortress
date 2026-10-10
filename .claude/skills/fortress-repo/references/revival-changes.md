@@ -173,7 +173,7 @@ A note written before the revival, and your training, can be right about the tea
 **The trivial open range `(:)`**
 
 - Original: `(:)` is a range over `Any`. The interpreter's library gave its `truncL`, `truncR`, `every`, `imposeStride` and `atMost` bodies that answer ranges over `ZZ32`: `(:).truncL(3)` was `3#`.
-- Resolution: the five throw `FailCalled`, through the library's `fail`, with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is the default of Q49 in `explorations/coordinator/CLIMB-BATCH-12.md`, which the curator has not answered.
+- Resolution: the five throw `FailCalled`, through the library's `fail`, with a message that names `(:)`, and so do `(:):s` and `(:)#n`, which call two of them. `(:)` as a whole subscript, `a[:]`, is unchanged. This is the curator's decision: POSITIONS, "The open range `(:)` keeps its wildcard type, and its five cutting methods fail (item 49, row 656)."
 - Reason: each of the five declared types is a range over `Any`. Generics are invariant, so the old bodies' ranges over `ZZ32` broke those types, and the checker refused them.
 
 **`SUM` and `PROD`**
