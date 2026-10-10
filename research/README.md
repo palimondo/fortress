@@ -82,10 +82,10 @@ and commentary with brief attributed quotations, never document reproductions.
   - License, as printed on the first page: "licensed under a Creative Commons
     Attribution-NonCommercial 4.0 International License. © 2019 Copyright held
     by the owner/author(s)." It permits non-commercial redistribution with
-    attribution. The PDF and full text stay uncommitted all the same until the
-    coordinator decides with Pavol.
-  - Local copy: `decks/popl19w.pdf`, and its full text from
-    `pdftotext -layout` at `decks/popl19w.txt`. Committed working extract:
+    attribution. On that license the curator made it the one exception to
+    keeping copyrighted PDFs out of the repository.
+  - Committed: the PDF, `extracts/ParkPOPL2019.pdf`, its full text from
+    `pdftotext -layout`, `extracts/ParkPOPL2019.txt`, and the working extract,
     `extracts/ParkPOPL2019-extract.md`.
   - The type group's last published word on Fortress's type system. Its
     calculus FGFV keeps the exclusion rule as an ancestor rule
