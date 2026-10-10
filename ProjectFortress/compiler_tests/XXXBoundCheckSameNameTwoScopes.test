@@ -1,0 +1,4 @@
+tests=BoundCheckSameNameTwoScopes
+compile
+compile_err_contains=BoundCheckSameNameTwoScopes.fss:12:26-31:
+compile_err_WIcontains=Ill-formed type: Box[\\T\\] The static argument T does not satisfy the corresponding bound K.

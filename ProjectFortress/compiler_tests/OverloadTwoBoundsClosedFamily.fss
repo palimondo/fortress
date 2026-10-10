@@ -1,0 +1,35 @@
+(* Overloaded declarations over a closed family two levels deep, whose members carry a self-typed trait, as the library's numbers carry MultiplicativeRing: the checker proves the pairs valid by exclusion through the comprises clauses and through a type parameter bounded by the family and the trait, and each call runs the declaration that its argument selects. *)
+component OverloadTwoBoundsClosedFamily
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { P, Q, L } end
+trait P extends K comprises { P1, P2 } end
+trait Q extends K comprises { Q1, Q2 } end
+object P1 extends { P, R[\P1\] } end
+object P2 extends { P, R[\P2\] } end
+object Q1 extends { Q, R[\Q1\] } end
+object Q2 extends { Q, R[\Q2\] } end
+object L extends K end
+
+f[\T extends { K, R[\T\] }\](x: T, y: ZZ32): String = "ZZ32"
+f[\T extends { K, R[\T\] }\](x: T, y: String): String = "String"
+
+h(x: P, y: ZZ32): String = "P"
+h(x: Q, y: ZZ32): String = "Q"
+
+k[\T extends { K, R[\T\] }\](x: T): String = "ring"
+k(x: L): String = "L"
+
+run(): () = do
+    z: ZZ32 = 1
+    assert(f(P1, z), "ZZ32", "f(P1, z) with z a ZZ32 runs the declaration on ZZ32; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(f(Q2, "s"), "String", "f(Q2, \"s\") runs the declaration on String; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(h(P2, z), "P", "P excludes Q, since every type that P comprises is an object outside Q; Specification/basic/types-vals-vars.tex, exclusion")
+    assert(h(Q1, z), "Q", "h(Q1, z) runs the declaration on Q; Specification/basic/types-vals-vars.tex, exclusion")
+    assert(k(Q1), "ring", "k(Q1) runs the generic declaration, the only one applicable; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(k(L), "L", "L excludes R[\\T\\] for every T, so the two declarations of k exclude each other; Specification/advanced/overloading.tex")
+    println("PASS")
+  end
+
+end

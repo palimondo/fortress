@@ -97,6 +97,22 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
       case v => v
     }
 
+  // A memo for TypeAnalyzer's subtype and exclusion questions whose answer was computed
+  // without reading the analyzer's kind environment or its cycle history: such an answer
+  // depends on this table and the question alone, so every analyzer over the table shares it.
+  // contextReads counts the reads of either; the checker runs on one thread.
+  private final val cacheGround = ProjectProperties.getBoolean("fortress.analyzer.ground.cache", true)
+  private val groundMemo = new ConcurrentHashMap[(Boolean, Type, Type, Boolean), CFormula]()
+  var contextReads = 0L
+  def readContext(): Unit = contextReads += 1
+
+  def groundAnswer(sub: Boolean, x: Type, y: Type, negate: Boolean): CFormula =
+    if (cacheGround) groundMemo.get((sub, x, y, negate)) else null
+
+  def ground(sub: Boolean, x: Type, y: Type, negate: Boolean, readsBefore: Long, answer: CFormula): Unit =
+    if (cacheGround && contextReads == readsBefore && (answer == True || answer == False))
+      groundMemo.putIfAbsent((sub, x, y, negate), answer)
+
   /** The traits that declare a coercion, for the lookup from a coercion's source to its targets. */
   lazy val coercingTraits: List[TraitIndex] =
     iterator.toList.collect { case ti: TraitIndex if !ti.coercions.isEmpty => ti }

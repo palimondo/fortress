@@ -112,12 +112,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
      val rval = if (x == y)
            pTrue()
          else if (cacheSubtypes && !opensSizes(x))
-           pSubMemo.get((x, y, negate, history)) match {
-            case Some(v) => v
-            case _ => 
-              val result = pSubInner(x,y)
-              pSubMemo += ((x, y, negate, history) -> result)
-              result
+           traits.groundAnswer(true, x, y, negate) match {
+            case null => pSubMemo.get((x, y, negate, history)) match {
+              case Some(v) => traits.readContext(); v
+              case _ =>
+                val before = traits.contextReads
+                val result = pSubInner(x,y)
+                pSubMemo += ((x, y, negate, history) -> result)
+                traits.ground(true, x, y, negate, before, result)
+                result
+            }
+            case v => v
            }
          else pSubInner(x,y)
      if (debugSubtype) {
@@ -178,6 +183,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
             
     case (s@SVarType(_, id, _), t) =>
       val hEntry = (negate, true, s, t)
+      traits.readContext()
       if (history.contains(hEntry)) {
         False
       } else {
@@ -214,6 +220,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       }
     case (s, t@SVarType(_, id, _)) =>
       val hEntry = (negate, true, s, t)
+      traits.readContext()
       if (history.contains(hEntry))
         False
       else {
@@ -271,6 +278,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     case (s: TraitType, t: TraitType) if opensSizes(s) =>
       val parentResult = pOr(parents(s).map(pSub(_, t)))
       val hEntry = (negate, true, s, t)
+      traits.readContext()
       if (history.contains(hEntry)) parentResult
       else comprisedTypes(s) match {
         case Some(cs) => pOr(parentResult, pAnd(cs.map(pSub(_, t)(negate, history + hEntry))))
@@ -411,12 +419,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   protected def pExc(x: Type, y: Type)(implicit negate: Boolean, history: Set[hType]): CFormula = {
     if (x == y) pFalse()
     else if (cacheExcludes)
-      pExcMemo.get((x, y, negate, history)) match {
-        case Some(v) => v
-        case _ => 
-          val result = pExcInner(x,y)
-          pExcMemo += ((x, y, negate, history) -> result)
-          result
+      traits.groundAnswer(false, x, y, negate) match {
+        case null => pExcMemo.get((x, y, negate, history)) match {
+          case Some(v) => traits.readContext(); v
+          case _ =>
+            val before = traits.contextReads
+            val result = pExcInner(x,y)
+            pExcMemo += ((x, y, negate, history) -> result)
+            traits.ground(false, x, y, negate, before, result)
+            result
+        }
+        case v => v
       }
     else pExcInner(x,y)
   }
@@ -440,6 +453,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       pOr(pSub(s, BOTTOM), pSub(t, BOTTOM))
     case (s@SVarType(_, id, _), t) =>
       val hEntry = (negate, false, s, t)
+      traits.readContext()
       if (history.contains(hEntry))
         False
       else {
@@ -536,6 +550,11 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
   private val normalizeArrowTypeMemo = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
   private val normalizeOtherTypeMemo = new scala.collection.mutable.HashMap[Any, Any]()
+  // The normalize memos' keys whose value was computed by reading the context: a hit on one
+  // is a read of the context too.
+  private val contextualNorms = new scala.collection.mutable.HashSet[Any]()
+  private def noteNorm(k: Any): Unit = if (contextualNorms.contains(k)) traits.readContext()
+  private def markNorm(before: Long, ks: Any*): Unit = if (traits.contextReads != before) contextualNorms ++= ks
 
   def normalize(x: Type): Type = pNorm(x)(Set[hType]())
 
@@ -552,10 +571,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         t match { case SVarType(_, n, _) =>
             if (cacheNormalizeVar)
               normalizeVarTypeMemo.get(n) match {
-                case Some(v) => v
+                case Some(v) => noteNorm(n); v
                 case _ =>
+                  val before = traits.contextReads
                   val result = walkVarTypeInner(t, n)
                   normalizeVarTypeMemo += (n -> result)
+                  markNorm(before, n)
                   result
               }
             else walkVarTypeInner(t, n)
@@ -566,12 +587,14 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         t match { case STraitType(_, n, a, _) =>
             if (cacheNormalizeTrait) {
               normalizeTraitTypeMemo.get((n, a)) match {
-                case Some(v) => v
+                case Some(v) => noteNorm((n, a)); v
                 case _ =>
+                  val before = traits.contextReads
                   walkTraitTypeInner(t, n, a) match {
                     case result@STraitType(_, _, aa, _) =>
                        normalizeTraitTypeMemo += ((n, a) -> result)
                        normalizeTraitTypeMemo += ((n, aa) -> result)
+                       markNorm(before, (n, a), (n, aa))
                        result
                   }
               }
@@ -591,15 +614,18 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         if (cacheNormalizeTuple)
           t match { case STupleType(_, e, vt, _) =>
               normalizeTupleTypeMemo.get((e, vt)) match {
-                case Some(v) => v
+                case Some(v) => noteNorm((e, vt)); v
                 case _ =>
+                  val before = traits.contextReads
                   walkTupleTypeInner(t) match {
                     case result@STupleType(_, ee, vtx, _) =>
                       normalizeTupleTypeMemo += ((e, vt) -> result)
                       normalizeTupleTypeMemo += ((ee, vtx) -> result)
+                      markNorm(before, (e, vt), (ee, vtx))
                       result
                     case result =>
                       normalizeTupleTypeMemo += ((e, vt) -> result)
+                      markNorm(before, (e, vt))
                       result
                   }
               }
@@ -619,12 +645,14 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         if (cacheNormalizeArrow)
           t match { case SArrowType(_, d, r, e, i, _) =>
               normalizeArrowTypeMemo.get((d, r, e, i)) match {
-                case Some(v) => v
+                case Some(v) => noteNorm((d, r, e, i)); v
                 case _ =>
+                  val before = traits.contextReads
                   walkArrowTypeInner(t) match {
                     case result@SArrowType(_, dd, rr, ee, ii, _) =>
                       normalizeArrowTypeMemo += ((d, r, e, i) -> result)
                       normalizeArrowTypeMemo += ((dd, rr, ee, ii) -> result)
+                      markNorm(before, (d, r, e, i), (dd, rr, ee, ii))
                       result
                   }
               }
@@ -635,10 +663,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       def walkOtherType(t: Any) = {
         if (cacheNormalizeOther)
           normalizeOtherTypeMemo.get(t) match {
-            case Some(v) => v
+            case Some(v) => noteNorm(t); v
             case _ =>
+              val before = traits.contextReads
               val result = walkOtherTypeInner(t)
               normalizeOtherTypeMemo += (t -> result)
+              markNorm(before, t)
               result
           }
         else walkOtherTypeInner(t)
@@ -817,7 +847,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
    * so the ones not in scope are added. */
   private def withClauseParams(e: TraitType): TypeAnalyzer = {
     val free = toListFromImmutable(e.getArgs).collect {
-      case STypeArg(_, _, SVarType(_, n, _)) if !env.contains(n) => n.getText }
+      case STypeArg(_, _, SVarType(_, n, _)) if { traits.readContext(); !env.contains(n) } => n.getText }
     if (free.isEmpty) this
     else typeCons(e.getName) match {
       case ti: TraitIndex =>
@@ -845,8 +875,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
 
   // Accessor method for kind env
-  def staticParam(x: Id): StaticParam =
-    env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
+  def staticParam(x: Id): StaticParam = {
+    traits.readContext()
+    env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env)) }
 
   def extend(params: List[StaticParam], where: Option[WhereClause]) =
     new TypeAnalyzer(traits, env.extend(params, where))

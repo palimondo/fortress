@@ -1,0 +1,16 @@
+(* Two generic declarations name their type parameter T with different bounds: a static argument is checked against a bound in the scope of its own declaration, so the same question about T has two answers. *)
+component BoundCheckSameNameTwoScopes
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B } end
+object A extends { K, R[\A\] } end
+object B extends K end
+trait Box[\T extends K\] end
+
+f[\T extends K\](x: Box[\T\]): () = ()
+g[\T extends R[\T\]\](x: Box[\T\]): () = ()
+
+run(): () = println("FAIL: g's parameter type is ill-formed")
+
+end
