@@ -8,13 +8,9 @@ The summary, `summary.txt`, has one tab-separated row for each suite: `track/sui
 
 If your brief asks you to land a gate's results, put them in a new `gate/` folder in `explorations/compile-ladder/`, under the `climb-batch-` name that your brief gives, in the form of the newest one: `summary.txt`, and in `ladder/` the files `ladder.tsv`, `microgpt-phase.md`, `comparison.txt` and `microgpt-comparison.txt`. The next gate compares with the newest summary there or in `explorations/compile-ladder/gate-baseline/`, and finds no other. Land them in a commit that changes nothing else that the gate reads.
 
-Steps 5 and 7 use shell functions from `explorations/coordinator/climb-batch-workflow.js`, where each of their lines is a JavaScript string. This command writes them, as bash, to a file that each call of steps 5 and 7 sources with `source tmp/gate-functions.sh`:
+Steps 5 and 7 use shell functions that `explorations/coordinator/tools/gate-functions.sh` defines. The file runs nothing. In each Bash call of steps 5 and 7, set up the call as `build-and-caches.md` says, which sets `FORTRESS_HOME` to the tree's root. Then source the file, from the root:
 
-    node -e 'for (const l of require("fs").readFileSync(process.argv[1], "utf8").split("\n")) {
-      const t = l.trim().replace(/,$/, ""); if (/^\x27.*\x27$/.test(t)) try { console.log(eval(t)) } catch (e) {} }' \
-      explorations/coordinator/climb-batch-workflow.js |
-    awk '/^ *(gate_summary|gate_compare|last_landed_summary|ladder_filter|ladder_compare|mg_phases) \(\) \{/ { p = 1; i = match($0, /[^ ]/) }
-         p { print } p && (/; }$/ || (/^ *}$/ && match($0, /[^ ]/) == i)) { p = 0 }' > tmp/gate-functions.sh
+    source explorations/coordinator/tools/gate-functions.sh
 
 ## When to run it
 
