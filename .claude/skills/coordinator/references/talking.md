@@ -42,7 +42,7 @@ Otherwise, the curator reads on a desktop, with the chat and the page side by si
 
 A comment on a skill marks a problem area, not a sentence to patch. Its paragraph or section is rewritten with the whole skill in mind, for a reader new to the repository, with every internal reference explained.
 
-The skill writer makes every skill edit that a comment asks for. The skill writer is a headless Claude session, started and resumed by `explorations/coordinator/tools/skill-writer.sh`. Do not edit a skill yourself. Brief the writer with the comment, then:
+The skill writer makes every skill edit. The skill writer is a headless Claude session, started and resumed by `explorations/coordinator/tools/skill-writer.sh`. Do not edit a skill yourself. For a comment, brief the writer with the comment, then:
 
 1. The writer edits the skill and commits.
 2. Push the commit.

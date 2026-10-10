@@ -32,7 +32,7 @@ The coordinating session is the revival's main session. It keeps the project's m
 
 - The two roles, the records each keeps, and how they are kept: `references/roles-and-records.md`
 - The boot at session start and after a compaction, the compaction hook; telling what is in flight: `references/boot.md`
-- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, the batch workflow's measurements (the checker count and the distance to the switch-over, which its gate runs), the review after every landed batch, watching a long run, estimates: `references/delegation.md`
+- Delegating: what goes to a worker, which tier runs what, the Fable rule and the judge's rulings, a brief's form, the batch workflow's measurements (the checker count and the distance to the switch-over, which its gate runs), the review and the skill update after every landed batch, watching a long run, estimates: `references/delegation.md`
 - Running agents: how many run at once, an agent's cost, sharing the prompt cache, agent types and skills written mid-session, a null result, checking a Workflow script, interrupts while agents run, resuming a Workflow run, continuing or relaunching an Agent-tool worker: `references/agents.md`
 - Reading reports; what is consequential; the three ways a decision reaches the curator; when something goes wrong; approvals and standing goes: `references/decisions.md`
 - Putting a question or a request for a yes to the curator: `references/asking.md`
