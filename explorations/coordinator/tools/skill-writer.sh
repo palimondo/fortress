@@ -21,7 +21,8 @@ task=$(cd "$(dirname "${2:?task file}")" && pwd)/$(basename "$2")
 tools=(Read Edit Write Glob Grep
        "Bash(git add:*)" "Bash(git commit:*)" "Bash(git diff:*)" "Bash(git log:*)"
        "Bash(git status:*)" "Bash(git show:*)" "Bash(git grep:*)" "Bash(wc:*)"
-       "Bash(explorations/coordinator/tools/facts-extract.sh:*)")
+       "Bash(explorations/coordinator/tools/facts-extract.sh:*)"
+       "Bash(python3 explorations/coordinator/tools/skills-lint.py:*)")
 out="$state/$(date -u +%Y%m%dT%H%M%SZ)-$mode.json"
 cd "$repo"
 case $mode in
