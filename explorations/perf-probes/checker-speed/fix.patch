@@ -1,0 +1,308 @@
+diff --git a/ProjectFortress/compiler_tests/BoundCheckSameNameTwoScopes.fss b/ProjectFortress/compiler_tests/BoundCheckSameNameTwoScopes.fss
+new file mode 100644
+index 000000000..ad0aadaa5
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/BoundCheckSameNameTwoScopes.fss
+@@ -0,0 +1,16 @@
++(* Two generic declarations name their type parameter T with different bounds: a static argument is checked against a bound in the scope of its own declaration, so the same question about T has two answers. *)
++component BoundCheckSameNameTwoScopes
++export Executable
++
++trait R[\T extends R[\T\]\] end
++trait K comprises { A, B } end
++object A extends { K, R[\A\] } end
++object B extends K end
++trait Box[\T extends K\] end
++
++f[\T extends K\](x: Box[\T\]): () = ()
++g[\T extends R[\T\]\](x: Box[\T\]): () = ()
++
++run(): () = println("FAIL: g's parameter type is ill-formed")
++
++end
+diff --git a/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.fss b/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.fss
+new file mode 100644
+index 000000000..6ba38952d
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.fss
+@@ -0,0 +1,35 @@
++(* Overloaded declarations over a closed family two levels deep, whose members carry a self-typed trait, as the library's numbers carry MultiplicativeRing: the checker proves the pairs valid by exclusion through the comprises clauses and through a type parameter bounded by the family and the trait, and each call runs the declaration that its argument selects. *)
++component OverloadTwoBoundsClosedFamily
++export Executable
++
++trait R[\T extends R[\T\]\] end
++trait K comprises { P, Q, L } end
++trait P extends K comprises { P1, P2 } end
++trait Q extends K comprises { Q1, Q2 } end
++object P1 extends { P, R[\P1\] } end
++object P2 extends { P, R[\P2\] } end
++object Q1 extends { Q, R[\Q1\] } end
++object Q2 extends { Q, R[\Q2\] } end
++object L extends K end
++
++f[\T extends { K, R[\T\] }\](x: T, y: ZZ32): String = "ZZ32"
++f[\T extends { K, R[\T\] }\](x: T, y: String): String = "String"
++
++h(x: P, y: ZZ32): String = "P"
++h(x: Q, y: ZZ32): String = "Q"
++
++k[\T extends { K, R[\T\] }\](x: T): String = "ring"
++k(x: L): String = "L"
++
++run(): () = do
++    z: ZZ32 = 1
++    assert(f(P1, z), "ZZ32", "f(P1, z) with z a ZZ32 runs the declaration on ZZ32; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
++    assert(f(Q2, "s"), "String", "f(Q2, \"s\") runs the declaration on String; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
++    assert(h(P2, z), "P", "P excludes Q, since every type that P comprises is an object outside Q; Specification/basic/types-vals-vars.tex, exclusion")
++    assert(h(Q1, z), "Q", "h(Q1, z) runs the declaration on Q; Specification/basic/types-vals-vars.tex, exclusion")
++    assert(k(Q1), "ring", "k(Q1) runs the generic declaration, the only one applicable; Specification/advanced/overloading.tex, section \"Declarations with Static Parameters\"")
++    assert(k(L), "L", "L excludes R[\\T\\] for every T, so the two declarations of k exclude each other; Specification/advanced/overloading.tex")
++    println("PASS")
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.test b/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.test
+new file mode 100644
+index 000000000..383343b09
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/OverloadTwoBoundsClosedFamily.test
+@@ -0,0 +1,5 @@
++tests=OverloadTwoBoundsClosedFamily
++compile
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/XXXBoundCheckSameNameTwoScopes.test b/ProjectFortress/compiler_tests/XXXBoundCheckSameNameTwoScopes.test
+new file mode 100644
+index 000000000..8dba02478
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXBoundCheckSameNameTwoScopes.test
+@@ -0,0 +1,4 @@
++tests=BoundCheckSameNameTwoScopes
++compile
++compile_err_contains=BoundCheckSameNameTwoScopes.fss:12:26-31:
++compile_err_WIcontains=Ill-formed type: Box[\\T\\] The static argument T does not satisfy the corresponding bound K.
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+index 4d13540ab..99c2f69b1 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -97,6 +97,22 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
+       case v => v
+     }
+ 
++  // A memo for TypeAnalyzer's subtype and exclusion questions whose answer was computed
++  // without reading the analyzer's kind environment or its cycle history: such an answer
++  // depends on this table and the question alone, so every analyzer over the table shares it.
++  // contextReads counts the reads of either; the checker runs on one thread.
++  private final val cacheGround = ProjectProperties.getBoolean("fortress.analyzer.ground.cache", true)
++  private val groundMemo = new ConcurrentHashMap[(Boolean, Type, Type, Boolean), CFormula]()
++  var contextReads = 0L
++  def readContext(): Unit = contextReads += 1
++
++  def groundAnswer(sub: Boolean, x: Type, y: Type, negate: Boolean): CFormula =
++    if (cacheGround) groundMemo.get((sub, x, y, negate)) else null
++
++  def ground(sub: Boolean, x: Type, y: Type, negate: Boolean, readsBefore: Long, answer: CFormula): Unit =
++    if (cacheGround && contextReads == readsBefore && (answer == True || answer == False))
++      groundMemo.putIfAbsent((sub, x, y, negate), answer)
++
+   /** The traits that declare a coercion, for the lookup from a coercion's source to its targets. */
+   lazy val coercingTraits: List[TraitIndex] =
+     iterator.toList.collect { case ti: TraitIndex if !ti.coercions.isEmpty => ti }
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index fb603b0c1..0f85c1180 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -112,12 +112,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+      val rval = if (x == y)
+            pTrue()
+          else if (cacheSubtypes && !opensSizes(x))
+-           pSubMemo.get((x, y, negate, history)) match {
+-            case Some(v) => v
+-            case _ => 
+-              val result = pSubInner(x,y)
+-              pSubMemo += ((x, y, negate, history) -> result)
+-              result
++           traits.groundAnswer(true, x, y, negate) match {
++            case null => pSubMemo.get((x, y, negate, history)) match {
++              case Some(v) => traits.readContext(); v
++              case _ =>
++                val before = traits.contextReads
++                val result = pSubInner(x,y)
++                pSubMemo += ((x, y, negate, history) -> result)
++                traits.ground(true, x, y, negate, before, result)
++                result
++            }
++            case v => v
+            }
+          else pSubInner(x,y)
+      if (debugSubtype) {
+@@ -178,6 +183,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+             
+     case (s@SVarType(_, id, _), t) =>
+       val hEntry = (negate, true, s, t)
++      traits.readContext()
+       if (history.contains(hEntry)) {
+         False
+       } else {
+@@ -214,6 +220,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       }
+     case (s, t@SVarType(_, id, _)) =>
+       val hEntry = (negate, true, s, t)
++      traits.readContext()
+       if (history.contains(hEntry))
+         False
+       else {
+@@ -271,6 +278,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+     case (s: TraitType, t: TraitType) if opensSizes(s) =>
+       val parentResult = pOr(parents(s).map(pSub(_, t)))
+       val hEntry = (negate, true, s, t)
++      traits.readContext()
+       if (history.contains(hEntry)) parentResult
+       else comprisedTypes(s) match {
+         case Some(cs) => pOr(parentResult, pAnd(cs.map(pSub(_, t)(negate, history + hEntry))))
+@@ -411,12 +419,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+   protected def pExc(x: Type, y: Type)(implicit negate: Boolean, history: Set[hType]): CFormula = {
+     if (x == y) pFalse()
+     else if (cacheExcludes)
+-      pExcMemo.get((x, y, negate, history)) match {
+-        case Some(v) => v
+-        case _ => 
+-          val result = pExcInner(x,y)
+-          pExcMemo += ((x, y, negate, history) -> result)
+-          result
++      traits.groundAnswer(false, x, y, negate) match {
++        case null => pExcMemo.get((x, y, negate, history)) match {
++          case Some(v) => traits.readContext(); v
++          case _ =>
++            val before = traits.contextReads
++            val result = pExcInner(x,y)
++            pExcMemo += ((x, y, negate, history) -> result)
++            traits.ground(false, x, y, negate, before, result)
++            result
++        }
++        case v => v
+       }
+     else pExcInner(x,y)
+   }
+@@ -440,6 +453,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       pOr(pSub(s, BOTTOM), pSub(t, BOTTOM))
+     case (s@SVarType(_, id, _), t) =>
+       val hEntry = (negate, false, s, t)
++      traits.readContext()
+       if (history.contains(hEntry))
+         False
+       else {
+@@ -536,6 +550,11 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+   private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
+   private val normalizeArrowTypeMemo = new scala.collection.mutable.HashMap[(Type, Type, Effect, Boolean), Any]()
+   private val normalizeOtherTypeMemo = new scala.collection.mutable.HashMap[Any, Any]()
++  // The normalize memos' keys whose value was computed by reading the context: a hit on one
++  // is a read of the context too.
++  private val contextualNorms = new scala.collection.mutable.HashSet[Any]()
++  private def noteNorm(k: Any): Unit = if (contextualNorms.contains(k)) traits.readContext()
++  private def markNorm(before: Long, ks: Any*): Unit = if (traits.contextReads != before) contextualNorms ++= ks
+ 
+   def normalize(x: Type): Type = pNorm(x)(Set[hType]())
+ 
+@@ -552,10 +571,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+         t match { case SVarType(_, n, _) =>
+             if (cacheNormalizeVar)
+               normalizeVarTypeMemo.get(n) match {
+-                case Some(v) => v
++                case Some(v) => noteNorm(n); v
+                 case _ =>
++                  val before = traits.contextReads
+                   val result = walkVarTypeInner(t, n)
+                   normalizeVarTypeMemo += (n -> result)
++                  markNorm(before, n)
+                   result
+               }
+             else walkVarTypeInner(t, n)
+@@ -566,12 +587,14 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+         t match { case STraitType(_, n, a, _) =>
+             if (cacheNormalizeTrait) {
+               normalizeTraitTypeMemo.get((n, a)) match {
+-                case Some(v) => v
++                case Some(v) => noteNorm((n, a)); v
+                 case _ =>
++                  val before = traits.contextReads
+                   walkTraitTypeInner(t, n, a) match {
+                     case result@STraitType(_, _, aa, _) =>
+                        normalizeTraitTypeMemo += ((n, a) -> result)
+                        normalizeTraitTypeMemo += ((n, aa) -> result)
++                       markNorm(before, (n, a), (n, aa))
+                        result
+                   }
+               }
+@@ -591,15 +614,18 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+         if (cacheNormalizeTuple)
+           t match { case STupleType(_, e, vt, _) =>
+               normalizeTupleTypeMemo.get((e, vt)) match {
+-                case Some(v) => v
++                case Some(v) => noteNorm((e, vt)); v
+                 case _ =>
++                  val before = traits.contextReads
+                   walkTupleTypeInner(t) match {
+                     case result@STupleType(_, ee, vtx, _) =>
+                       normalizeTupleTypeMemo += ((e, vt) -> result)
+                       normalizeTupleTypeMemo += ((ee, vtx) -> result)
++                      markNorm(before, (e, vt), (ee, vtx))
+                       result
+                     case result =>
+                       normalizeTupleTypeMemo += ((e, vt) -> result)
++                      markNorm(before, (e, vt))
+                       result
+                   }
+               }
+@@ -619,12 +645,14 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+         if (cacheNormalizeArrow)
+           t match { case SArrowType(_, d, r, e, i, _) =>
+               normalizeArrowTypeMemo.get((d, r, e, i)) match {
+-                case Some(v) => v
++                case Some(v) => noteNorm((d, r, e, i)); v
+                 case _ =>
++                  val before = traits.contextReads
+                   walkArrowTypeInner(t) match {
+                     case result@SArrowType(_, dd, rr, ee, ii, _) =>
+                       normalizeArrowTypeMemo += ((d, r, e, i) -> result)
+                       normalizeArrowTypeMemo += ((dd, rr, ee, ii) -> result)
++                      markNorm(before, (d, r, e, i), (dd, rr, ee, ii))
+                       result
+                   }
+               }
+@@ -635,10 +663,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       def walkOtherType(t: Any) = {
+         if (cacheNormalizeOther)
+           normalizeOtherTypeMemo.get(t) match {
+-            case Some(v) => v
++            case Some(v) => noteNorm(t); v
+             case _ =>
++              val before = traits.contextReads
+               val result = walkOtherTypeInner(t)
+               normalizeOtherTypeMemo += (t -> result)
++              markNorm(before, t)
+               result
+           }
+         else walkOtherTypeInner(t)
+@@ -817,7 +847,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+    * so the ones not in scope are added. */
+   private def withClauseParams(e: TraitType): TypeAnalyzer = {
+     val free = toListFromImmutable(e.getArgs).collect {
+-      case STypeArg(_, _, SVarType(_, n, _)) if !env.contains(n) => n.getText }
++      case STypeArg(_, _, SVarType(_, n, _)) if { traits.readContext(); !env.contains(n) } => n.getText }
+     if (free.isEmpty) this
+     else typeCons(e.getName) match {
+       case ti: TraitIndex =>
+@@ -845,8 +875,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+   }
+ 
+   // Accessor method for kind env
+-  def staticParam(x: Id): StaticParam =
+-    env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env))
++  def staticParam(x: Id): StaticParam = {
++    traits.readContext()
++    env.staticParam(x).getOrElse(bug(x, x + " is not in the kind env " + env)) }
+ 
+   def extend(params: List[StaticParam], where: Option[WhereClause]) =
+     new TypeAnalyzer(traits, env.extend(params, where))
