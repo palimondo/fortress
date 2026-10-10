@@ -28,7 +28,7 @@ Sealed tree: the original tree, everything outside `explorations/` and `research
 
 `dormant-code.md` (part five, added at Pavol's request): the census of what is present, carries a design, and does not run: commented-out library declarations and `Library/incomplete/`, commented-out visitors and off-by-default flags in the source, commented-out test halves and the aspirational directories, the spec's genuinely dormant text and its 62 "not yet supported" notes, the papers; each item judged finished-unwired, sketch, superseded or unknown, and tied to a path step.
 
-`design-intent-sources.md`: the five places rationale is written (in-repo papers, the Steele corpus, our extracts, the spec's draft-only notes and Internal Document, source comments and commits), and a table by design area of what intent the spec leaves unstated.
+`design-intent-sources.md`: the five places rationale is written (in-repo papers, the Steele corpus, our extracts, the spec's draft-only notes and Internal Document, source comments and commits), a table by design area of what intent the spec leaves unstated, and its section 7, the team's word after the repository (POPL 2019, the 2012 patents, Steele's talks of 2015 and 2016, the sites), placed against the design areas.
 
 `compile-path-walkthrough.md` (part six, written 2026-09-20 for the checker decisions): the compile path followed end to end, one section per stage — parsing, name resolution and grammar expansion, the checker (what it walks, what it writes, its counts on the library before climb batch 4), the desugaring switches that make the paths differ, code generation, the second JVM and the stamping class loader, native bindings in both worlds, `nat`, and a glossary.
 
