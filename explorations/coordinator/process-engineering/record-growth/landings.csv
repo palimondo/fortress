@@ -19,3 +19,6 @@ batch 7b,2026-09-29T22:52,b0eb41516,e2f1aa7e8 576b4c287 8f7e183d4 070ef39e5,rung
 batch 8,2026-10-02T12:56,6416d216f,f3032eed8 9d2e4c856 70d5486f9 0ae526b31 2c697fe52,rungs I Q O M and the review's repair
 batch 9,2026-10-02T21:38,cec70988b,669b77d03 7ed2a8387 631fb867e 1e176516c ba3651b94,rungs W K R S and the review's repair
 batch 10,2026-10-03T05:28,ec718967a,a1b5c253d a9b9933e6 833420ce4 aa07efb31,rungs N G W C
+batch 11,2026-10-08T23:42,f9d3ec826,27cb9e93b 369982d85 2d22d3a35 b872d65a1,rungs E W C L; landing = the commit that records the gate's tables and the microGPT walk check (the rungs' hashes were recorded before it: the rows' closes b9e4a39fd and the gather record 95bac0a25)
+batch 12,2026-10-09T10:04,32b88cd3b,054c4bcfd 74b28e9d4 aadd02f23 abe8b0342 fdd377ead,rungs C S G R W; landing = the gate's tables commit (the gather record 3a84269f7 names the hashes)
+batch 13,2026-10-09T16:40,738904f9a,9ba86f7da 8f90e1e8c 7fd8fddc8 7207e2719 efd6bb2f2,rungs O G N V W; landing = the gate's tables commit (the gather record f1a1033fb names the hashes)

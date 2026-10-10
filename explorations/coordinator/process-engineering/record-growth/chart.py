@@ -61,9 +61,18 @@ def end_dot(ax, y, color):
 y = col('ledger_chars', 1e-6)
 step(ax1, y, NEUTRAL, wash=True)
 end_dot(ax1, y[-1], NEUTRAL)
-ax1.set_ylim(0, 1.45); ax1.set_yticks([0, 0.5, 1.0]); ax1.set_yticklabels(['0', '0.5M', '1.0M'])
+ax1.set_ylim(0, 1.6); ax1.set_yticks([0, 0.5, 1.0]); ax1.set_yticklabels(['0', '0.5M', '1.0M'])
 panel_title(ax1, 'Gap ledger, characters')
-ax1.annotate('1.25M', (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
+ax1.annotate('%dK' % round(y[-1] * 1e3), (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
+# the ledger's peak, and its rewrite of 10-08 (ae4f8e38a: rows cut to 1,200 characters, the earlier text moved to the history file)
+pkL = max(S, key=lambda r: float(r['ledger_chars']))
+ax1.annotate('peak %.2fM at batch 10 (10-03)' % (float(pkL['ledger_chars']) / 1e6), (T(pkL['utc']), float(pkL['ledger_chars']) / 1e6),
+             xytext=(dt.datetime(2026, 9, 27, 12), 1.47), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
+             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
+rw = by_commit['ae4f8e38a']
+ax1.annotate('10-08 rewrite: %.2fM to %dK,\nrows cut to 1,200 characters' % (float(by_commit['d4d3ac558']['ledger_chars']) / 1e6, round(float(rw['ledger_chars']) / 1e3)),
+             (T(rw['utc']), 0.9), xytext=(dt.datetime(2026, 10, 1, 12), 0.27), textcoords="data", ha="center", fontsize=9, color=INK2, zorder=8,
+             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 
 # panel 2: ledger rows
 y = col('ledger_rows')
@@ -71,7 +80,7 @@ step(ax2, y, NEUTRAL)
 end_dot(ax2, y[-1], NEUTRAL)
 ax2.set_ylim(0, 800); ax2.set_yticks([0, 200, 400, 600])
 panel_title(ax2, 'Gap ledger, rows')
-ax2.annotate('638', (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
+ax2.annotate('%d' % round(y[-1]), (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
 
 # panel 3: FACTS, POSITIONS, INDEX in K characters
 series = [('FACTS', 'facts_chars', BLUE), ('INDEX', 'index_chars', AQUA), ('POSITIONS', 'positions_chars', ORANGE)]
@@ -116,7 +125,7 @@ for ax in axes:
 # labels: evenly spaced slots in the band above the first panel, a slanted leader to each true landing time
 axL.set_ylim(0, 1)
 axL.axis('off')
-slot0, slot1 = dt.datetime(2026, 9, 14, 12), dt.datetime(2026, 10, 6, 12)
+slot0, slot1 = dt.datetime(2026, 9, 14, 12), dt.datetime(2026, 10, 9, 18)
 n = len(land)
 for i, (b, tm) in enumerate(land):
     slot = slot0 + (slot1 - slot0) * i / (n - 1)
@@ -128,7 +137,7 @@ ax3.xaxis.set_major_formatter(md.DateFormatter('%m-%d'))
 plt.setp(ax3.get_xticklabels(), fontsize=9)
 ax3.set_xlabel('UTC date, 2026 (first-parent commits of main; nothing of the four existed before 09-08)', fontsize=9, color=INK2, labelpad=6)
 
-fig.suptitle('Growth of the record, commit by commit, 09-08 to 10-08', fontsize=13, fontweight='bold', x=0.02, ha='left', y=0.985)
+fig.suptitle('Growth of the record, commit by commit, 09-08 to %s' % t[-1].strftime('%m-%d'), fontsize=13, fontweight='bold', x=0.02, ha='left', y=0.985)
 fig.text(0.02, 0.953, 'A vertical line is a climb batch\'s landing, named at the top ("ladder" is the eight-rung\nclimb, "repair" the repair batch). Each step is one commit on main.',
          fontsize=9, color=INK2, ha='left', va='top', linespacing=1.4)
 fig.subplots_adjust(left=0.12, right=0.92, top=0.90, bottom=0.085)
