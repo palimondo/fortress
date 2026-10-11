@@ -157,3 +157,5 @@ One run's tokens written, by arithmetic; `tokens.py` measures the real figure.
 - **The boot session.** It reads what the takeover wrote and the files the questions touch: 0.05M to 0.15M.
 
 So one run writes between about 0.2M (no workers) and 3.7M (the earlier coordinator's workload), likely 2M to 3M; two models, 4M to 7M. A Fable token weighs three to four times an Opus token against the session limit (FACTS, "Fable draws on the all-models limits as well as its own ...").
+
+**The rehearsal** (2026-10-11, at the curator's choice before the first runs): `setting.md`'s last line says builds, test runs and agent launches are not available and asks the session to write down what it would launch, and `run-trial.sh` denies the agent tools, so that a run costs its own context, about 0.3M to 0.6M a model, and not the 2M to 3M of repeating the earlier coordinator's workload. What it does not show: how a model records workers that are really running.

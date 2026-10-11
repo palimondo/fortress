@@ -46,8 +46,10 @@ effort=${TRIAL_EFFORT-xhigh}
 max_turns=${TRIAL_TURNS:-}
 turn_timeout=${TRIAL_TURN_TIMEOUT:-14400}
 min_avail_gb=${TRIAL_MIN_AVAIL_GB:-3}
-tools=(Bash Read Edit Write MultiEdit NotebookEdit Glob Grep Agent Task TodoWrite Skill WebFetch WebSearch
-       Monitor SendMessage TaskStop TaskOutput BashOutput KillShell Workflow)
+# The rehearsal (setting.md's last line): no agent launches, so no Agent, Task, Workflow or messages to agents.
+tools=(Bash Read Edit Write MultiEdit NotebookEdit Glob Grep TodoWrite Skill WebFetch WebSearch
+       Monitor BashOutput KillShell)
+denied=(Agent Task Workflow SendMessage TaskStop TaskOutput)
 
 die() { echo "run-trial: $*" >&2; exit 2; }
 [ "$(id -u)" = 0 ] || die "needs root, for the private namespaces"
@@ -117,7 +119,7 @@ turn() {
     unshare --mount --pid --fork --kill-child --mount-proc --propagation private -- \
       bash -c "$NS_SETUP" trial \
       claude -p --model "$model" ${effort:+--effort "$effort"} "$how" "$id" \
-        --permission-mode acceptEdits --permission-prompts none --allowedTools "${tools[@]}" \
+        --permission-mode acceptEdits --permission-prompts none --allowedTools "${tools[@]}" --disallowedTools "${denied[@]}" \
         --strict-mcp-config --output-format stream-json --verbose --include-hook-events \
       < "$P/turns/$t.in" > "$P/turns/$t.jsonl" 2> "$P/turns/$t.stderr"
 }
