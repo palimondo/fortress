@@ -1,4 +1,4 @@
-<!-- The map of the coordinator's records before the `coordinator` skill is rewritten: what kinds of content the boot files, PLAN and the three skills hold, where each kind lives, who reads it and when, its size, and where it repeats itself; the conduct rules with every home they have; FACTS against POSITIONS; the history inside the optimized build; the two decisions Pavol remembers, searched in the record and the transcripts; a first count of what the boot reads are used for; and the open questions the target shape must answer. Written 2026-10-10 by an Opus worker, read-only, at Pavol's word (his yes at 08:16 UTC to the goals page with this map first). It measures and decides nothing; no shape is chosen. -->
+<!-- The map of the coordinator's records before the `coordinator` skill is rewritten: what kinds of content the boot files, PLAN and the three skills hold, where each kind lives, who reads it and when, its size, and where it repeats itself; the conduct rules with every home they have; FACTS against POSITIONS; the history inside the optimized build; the two decisions Pavol remembers, searched in the record and the transcripts; a first count of what the boot reads are used for; and the open questions the target shape must answer. Written 2026-10-10 by an Opus worker, read-only, at Pavol's word (his yes at 08:16 UTC to the goals page with this map first). It measures and decides nothing; no shape is chosen. Section 9, added 2026-10-11 from `record-origins-evidence.md`, says where each home came from and which model coordinated then. -->
 
 # The coordinator's records: a map before the rewrite
 
@@ -347,3 +347,149 @@ What this count cannot see: a citation by paraphrase; an entry acted on without 
 14. **How the five roles map onto the skill.** The skill names two roles with the analyst inside both. Evidence: `roles-and-records.md` against his list of 10-10 07:33 UTC, and the trace of question 1.
 
 **Sources for section 8.** Sections 2 to 7 of this note; his message of 2026-10-10T07:33:49Z for the roles.
+
+## 9. Where each home came from
+
+This section says where each home came from: who first made it, at whose word, and which model coordinated then. Its source is the evidence note `record-origins-evidence.md`, gathered on 2026-10-11 from git and the session transcripts. The sources are at the end of the section.
+
+Words used here:
+
+- **coordinator**: the session that talks to Pavol, briefs the workers and keeps the record.
+- **harness**: Claude Code, the program that runs the model and its tools.
+- **compaction**: the harness's step that replaces a long conversation with a short summary.
+- **handover**: a note that one session writes so that another can go on with the work.
+- **S1** and **S2**: the two coordinating sessions. S1 ran from 2026-08-18 until its container was lost, in a long run started on 2026-09-17. S2 has coordinated since 2026-09-18.
+
+### 9.1 How it started
+
+1. The work began on 2026-08-18 in a Claude.ai chat, outside the repository. In it a Fable model downloaded the team's repository, built it, and ported Pavol's Mandelbrot program to Fortress. The chat is not in the transcripts, and its model version is not known.
+2. The chat ended with a handover, a zip of six files. They were `HANDOVER.md`, the chat's Fortress programs, among them two Mandelbrot ports, and a Swift-versus-Fortress explainer. `HANDOVER.md` was never committed, and the transcript backup redacts it, so its text cannot be quoted.
+3. Its content is known only from the coordinator's accounts. It proposed a `research/` folder and a `CLAUDE.md`. It gave a recipe: graft a third-party Java 9 port onto the team's last trunk, patch the build for JDK 8, then build and test. It listed priorities, among them the specification's LaTeX and complex numbers.
+4. His first message in the coding session came on 2026-08-18 at 21:03 UTC, from his phone. It was the zip and one line: "Unpack an start by reading handover". That session, S1, ran on Fable 5. Its first commits were the graft and the build patches.
+5. He said why later. His first idea had been complex numbers, but the team's compiler turned out unfinished. On 2026-08-23, of claims that coding is solved: "So here's a problem for AI to work on." On 2026-08-30: "it is all to challenge the assumptions that coding is solved." The project took a dead language for this: "a language which you were not pretrained on in detail."
+
+### 9.2 Which model coordinated when
+
+1. 2026-08-18 to 2026-09-08: Fable 5, in S1.
+2. 2026-09-08 to 2026-09-25: Fable 5.1. Pavol switched models "for improved token efficiency".
+3. 2026-09-17 and 2026-09-18: Opus 5, while the Fable credits were used up. S1's container was lost in a long run started on 2026-09-17. On 2026-09-18 S2 recovered the work on Opus 5, then coordinated on Fable 5.1 from that evening. S2 had begun on 2026-09-08 as a worker.
+4. From 2026-09-25: Opus 5.5, first as a trial. Only 12 minutes on 2026-10-02 ran on Fable 5.1. No message ending the trial was found. His reason, on 2026-10-11: "Main motivation for the switch was escaping the Clever Alec essayist agentic speech register, secondary only was token economy."
+5. Workers ran on Opus from August, to save the Fable tokens for the coordinator.
+
+### 9.3 The homes
+
+The homes are listed in the order they first appeared. Each has one of three kinds:
+
+- **Unprompted**: the coordinator made it, and no message of Pavol's asked for it.
+- **From his complaint or question**: he complained or asked something, and the coordinator answered with a new home. The shape was the coordinator's.
+- **Asked for by him**: he asked for the record in his own words. The shape can still be the coordinator's.
+
+A home's kind is that of its first appearance. The handover of 9.1 is left out, since the chat that wrote it is lost.
+
+1. **The task list.** The to-do list that the harness keeps inside one session. 2026-08-18, Fable 5. Unprompted. It survives a compaction but not a new container. Since: used on and off, with none found after 2026-10-08. No boot order names it.
+2. **`CLAUDE.md`.** The file that every session reads first. 2026-08-19, Fable 5. Unprompted by Pavol: the handover proposed it, and the coordinator offered a draft. He answered "4. Yes, draft". Whether he asked the chat for it is not known. Since: it pointed in turn to the plan, the protocol and the knowledge base. On 2026-10-04 it was cut to what every session needs, 1.8K bytes.
+3. **`explorations/`.** The folder for the revival's own work, apart from the team's tree. 2026-08-19, Fable 5. Asked for by him: "I want these experiments and learnings committed, but I don't know the right place". The folder and its name were the coordinator's. Since: it holds the whole record and every note.
+4. **Notes and reports.** A note in `explorations/` for each piece of work. The first, on 2026-08-19, was a baseline of the test suite. Fable 5. Unprompted as a habit. He often asked for the content: a baseline, a report on its debugging, a mapping, a design journal. The form and the names, such as report, findings, memo and journal, were the coordinator's. Since: workers write most notes now.
+5. **`repo-internals.md`.** A living note on how to work in the repository. 2026-08-19, Fable 5. From his question: "Are you also continuously documenting your learnings about techniques and how to move around this repo?" The coordinator kept this living note apart from the dated baseline. Since: still kept; the skill work of 2026-10-04 checked it for missing items.
+6. **The modernization plan.** The approved plan, with the working rules as "standing orders". 2026-08-19, Fable 5. Asked for by him, before his first compaction: "please persist the plan and everything else [that] needs to survive the compaction". The place was the coordinator's: a file in the repository, which "survives both compaction and the container". Since: on 2026-08-21 he did not recognise a standing order it cited. It is not read at boot today.
+7. **Pages.** An HTML page published on claude.ai, for him to read on his phone. 2026-08-19, Fable 5. Unprompted, as far as found. The first page was a report he had asked for; making it a page was the coordinator's choice. Since: by 2026-08-21 he called pages "our standing agreement". On 2026-10-08 he asked for a Select button per section, for iOS Speak.
+8. **The transcript backup.** A git branch that keeps every session's transcript. 2026-08-19, Fable 5. Asked for by him: "I want you to prepare a separate branch where we would commit your full JSONL session transcripts for later analysis." His reason: "I want to learn how exactly are you working". Since: a hook has saved it after every turn from that day, and S2 has its own branch.
+9. **The protocol**, `explorations/protocol.md`. The rules of how Pavol and the coordinator work together. 2026-08-22, Fable 5. From his complaint: "You have forgot our operating procedures". A scout, a read-only worker, recovered the rules from the transcripts. The coordinator proposed a committed file, and he named it in his order. Since: on 2026-09-27 a Fable instance rewrote it as principles. It is still read at boot, and the rewrite's goals retire it.
+10. **The header comment.** An HTML comment at the top of a note that says who wrote it and why. 2026-08-26, Fable 5. Unprompted. Since: most notes carry one, now one sentence on what the note answers. INDEX copies that sentence.
+11. **The gap ledger.** The list of known gaps in the team's tree, one row each. 2026-09-08, Fable 5.1. Asked for by him: "Go, merge the three gap ledgers into one." The three it merged came from the coordinator's briefs, which asked workers for gaps as rows. Since: on 2026-10-08, after he said the record showed "signs of stress", it was rewritten in fifteen topic sections.
+12. **Notes from a conversation.** A note that keeps a discussion that was never written down. 2026-09-08, Fable 5.1; the discussion itself, on 2026-08-23, was under Fable 5. From his question: "I don't know whether you recorded it somewhere". It was not, so the coordinator recovered it from the transcript. Since: on 2026-09-15 he asked to keep a conversation "So that it's not lost like tears in the rain". The coordinator made a folder for such notes, and it holds one file.
+13. **The handover note.** A note on where the work stands, for the session after a compaction. 2026-09-08, Fable 5.1. From his question: "Do you have it in handover to be restored after compaction already?" It did not. Its line "reading that note plus `protocol.md` restores the state" was the first boot order. Since: its first section is read at every boot: 41K bytes, of which 27K are reports of single landings.
+14. **The process records.** One record per run of the microGPT experiment, in a common format. 2026-09-09, Fable 5.1. Asked for by him: "the breadcrumbs of that process is what I want to preserve." The common format was the coordinator's proposal, and he said "Common record format. Yes." Since: no record was added after 2026-09-15, and none is read at boot.
+15. **The knowledge base.** The folder `explorations/coordinator/` with its README, FACTS and POSITIONS. 2026-09-15, Fable 5.1. Asked for by him, after the coordinator re-explained what he knew. His words: "organize your knowledge base so that you survive compactions and, and know how to load it when needed." The shape was the coordinator's: entries with their sources, his decisions apart from the facts, and a load order. Since: FACTS is 300K bytes and POSITIONS 98K, both read whole at every boot.
+16. **INDEX.** One line for each note, taken from its header. 2026-09-15, Fable 5.1. From his complaint after a miss. The coordinator had said a conclusion was not on record, and he answered: "Consult our previous compiler vs interpreter comparison". It then indexed every note. He did not ask for an index. Since: on 2026-09-30 he kept it loaded at boot. It is 182K bytes today.
+17. **The territory map**, `explorations/coordinator/map/`. A summary of the repository and the language, for choosing directions. 2026-09-16, Fable 5.1. Asked for by him: "some kind of summary from all the learnings". The name "map" and its parts were the coordinator's. Since: no later change is in the evidence. PLAN was written as its actionable form.
+18. **PLAN.** The plan of the work, later with the questions to Pavol. 2026-09-17, Fable 5.1. Asked for by him: "Did you write the plan down for next steps that [we] can follow?" The file, its place and its ticking as steps land were the coordinator's. Since: it grew to 467K bytes, with his answers and the parked items. It is read on demand.
+19. **The batch records.** A batch is a set of agents run by one workflow script. Its record holds the batch's decisions, written so that a session that was not present can run it. 2026-09-17, Opus 5 for the repair batch, then Fable 5.1, and Opus 5.5 from batch 4. Unprompted. He had asked that day for the script, not for the record. Since: reviews after each batch, a second review, and a redesign on 2026-10-08.
+20. **The container records**, `remote-container.md`. How a session survives the loss of its container. 2026-09-18, Opus 5, after S1's container was lost. Unprompted. The same day a new `STATE.md` at the head of the boot was withdrawn at his word: "What is state? Is this a new one? Uh, thing that you just invented?" Since: on 2026-10-04 the manual became a skill at his page comment, now `cloud-container`.
+21. **The history files.** `FACTS-history.md` keeps entries that no longer govern, word for word. 2026-09-19, Fable 5.1. Unprompted. Since: `POSITIONS-history.md` followed on 2026-09-27. On 2026-09-30 he gave the image for both: "history is the debug mode with full provenance".
+22. **Post-mortems and archaeology notes.** A read-only search of the transcripts for when and why something happened, kept as a dated note. 2026-09-20, Fable 5.1. Asked for by him. His words: "find out what were the open decisions that were really something I needed to take". Since: the same shape comes back each time he asks when and why. The evidence behind this section is one.
+23. **The record's tools**, `explorations/coordinator/tools/`. Scripts that read and check the record. 2026-09-20, Fable 5.1, a check for notes missing from INDEX. Unprompted; each was written after a failure. Since: a script that hands workers a slice of the record, a check that a rewrite loses nothing, and a script that seeds worktrees.
+24. **The held list and the boot note.** A list of open items, and a note to the next session on what is in flight. 2026-09-20, Fable 5.1. Asked for by him: "Can you write all the held things to a persistent record". In the same message: "plus a message for yourself that boots you up to continue our session". The place and the name "boot note" were the coordinator's. Since: under Opus 5.5 it was appended to 79 times, and the rule came that it is rewritten whole. Its lists moved to the review queue on 2026-10-02.
+25. **The compaction hook.** A hook that tells the coordinator to boot after every compaction. 2026-09-27, Opus 5.5. From his complaint: "you did not boot up post compaction". The coordinator offered the hook, and he said "Yes." Since: no change is in the evidence.
+26. **The review queue.** One list of the items waiting for Pavol. 2026-10-02, Opus 5.5. From his question about lists kept in several places: "So can we start working on those?" A worker merged the items of the boot note, the held list and PLAN. Since: 99K bytes, read on demand.
+27. **The project skills.** `fortress-repo`, `coordinator` and a container skill, which sessions load when a task needs them. 2026-10-04, Opus 5.5. Asked for by him, one at a time: "Yes, create `fortress-repo` skill"; "Remote container should be its own skill"; and of the coordinator, "This looks like a separate skill as well." He first raised a skill for the repository on 2026-08-23. Since: the container skill became `cloud-container`. On 2026-10-07 he said the `coordinator` skill "should fully replace the protocol".
+
+The evidence names smaller homes too. Dated notes for the next reader and scheduled check-ins were the coordinator's; no message of his asking for them was found. The harness's compaction summary and the transcripts themselves also served as memory. From 2026-10-04, comments on pages carried his feedback.
+
+### 9.4 What this says for the rewrite
+
+This part is the writer's reading of the evidence. It recommends nothing.
+
+1. Three habits ran from the first day with no request from Pavol found. The coordinator kept its memory in files in the repository. It wrote a note for each piece of work, and it published pages for review.
+2. On the memory, his recollection differs. On 2026-10-07 he recalled asking "at the beginning of the project" for it to be kept in the coordinator's folder. The transcripts show that request on 2026-09-15, four weeks in, as the knowledge base. Before it, on 2026-08-19, the coordinator chose the repository on its own: a file "survives both compaction and the container". He had asked that day for experiments and learnings to be committed, but not where the coordinator's memory should live. No message telling it to avoid a local memory was found.
+3. On reports, he said on 2026-10-11 that they "all emerged unprompted by me". The transcripts agree for the habit and the form. They also show his requests for the content of several: a baseline, a debugging report, a mapping, a design journal.
+4. The split of a dated record from a living document was the coordinator's, on 2026-08-19. It came back unprompted in the history files of 2026-09-19. His image of a debug mode and an optimized build named it on 2026-09-30.
+5. When he complained of a loss or a miss, the coordinator usually answered with a new home, in a shape of its own. The protocol, the handover note, INDEX and the compaction hook came this way.
+6. Every unprompted home first appeared under Fable 5, Opus 5 or Fable 5.1. The three new homes under Opus 5.5 came from his complaint or his request. Opus 5.5 came when most homes existed, so this does not compare the models. Its habit showed inside the existing homes: on 2026-09-27 he warned that it would "flood the permanent record".
+7. The evidence cannot show whether `CLAUDE.md`, the research folder and the first priorities were his ideas or the chat model's. The chat and the handover's text are lost.
+8. The harness's system prompt is not in the transcripts. So a habit can come from the harness rather than the model: the task list, pages and `CLAUDE.md` are harness features. Whether a local memory was switched on is not shown either.
+9. After the first day, every session started from the homes already there. So the evidence shows what the models made in this project, not what a current model does with no record.
+10. S1's last hours, after 20:31 UTC on 2026-09-17, are lost. The workers' own transcripts were searched only where they are named.
+
+**Sources for section 9.** All from `explorations/coordinator/process-engineering/record-origins-evidence.md` (commit `a4aed80f9`), by its section names, unless a source is named. S1 is session `bdff267d` on the `transcripts` branch; S2 is session `fe616d40` on `transcripts-blinded`. Line numbers are those of the transcript parts the evidence names.
+
+9.1, How it started:
+
+1. "The inciting incident" and its "Where the trail ends"; his words of 2026-08-23T19:13:00, S1 part 000 line 14083.
+2. S1 part 000 line 13 (the six files) and lines 15 to 16 (the redaction); the chat's files committed in `446836590`.
+3. The compaction summary, S1 part 000 line 1597; the coordinator's report, line 308; lines 405, 412, 491 and 501.
+4. S1 part 000 lines 1 and 3, read again in the transcript for this section; `entrypoint: remote_mobile`; the first commits `8fe1daa8f` and `72716e6b0`.
+5. His messages of 2026-08-23T19:13:00 (S1 part 000 line 14083) and 2026-08-30T08:48:43 (S1 part 001 line 1293).
+
+9.2, Which model coordinated when:
+
+1. "Which model coordinated when", the list of runs, read from the model field of each main-thread record.
+2. The same; his message of 2026-09-08T16:07:35.
+3. The same; his messages of 2026-09-17 (queued at 11:51) and 2026-09-18T18:54:41; S2 part 000 line 3354 and his message of 18:45:03.
+4. The same; his message of 2026-10-11T05:14:17.
+5. "Fable 5 to Fable 5.1": his message of 2026-08-24T20:44:51 and the August workers' metadata.
+
+9.3, The homes:
+
+1. Section 4: S1 part 000 lines 58 and 1468; the counts of task-list calls by part.
+2. Section 2: `446836590`; S1 part 000 lines 485, 515, 519 and 560; `9cd56be21`.
+3. Section 2: S1 part 000 lines 519 and 549.
+4. Section 3 and "The report habit": `66cdde53f`; his messages of 2026-08-19T00:04:49 and 06:13:06, 2026-08-23T22:01:47 and 2026-08-24T05:53:08.
+5. Section 3: `621fa14a5`; S1 part 000 lines 1176 and 1182; `a9c0573d4`.
+6. Section 4: `b1a5ca1e7`; S1 part 000 lines 1435 and 1442; his message of 2026-08-21T14:38.
+7. Section 6: S1 part 000 lines 3722, 3781 and 6062; `4060c3957` and S2 part 003 line 13978.
+8. Section 5: `9cd319411`; S1 part 000 lines 3827, 3879 and 3988; `49eb9d914`.
+9. Section 7: `505d3ba48`; S1 part 000 lines 7476, 7607, 7733 and 7799; `9e7d12c75`; this note, section 1.
+10. Section 8: S1 part 001 line 389; `fdb32514a`; the INDEX header.
+11. Section 12: `b9c8ee33e`; S1 part 001 lines 1977 and 2196; `gap-ledger-archaeology.md` line 56; `ae4f8e38a` and S2 part 003 line 12094.
+12. Section 10: `2a5ceee70` and S1 part 001 line 2367; `d30db277e` and line 10902. The evidence gives "Fable 5 (the first)"; the model field of S1 part 001 lines 2365 to 2413 (2026-09-08, 20:19 to 20:23) reads Fable 5.1, so Fable 5 is taken as the 2026-08-23 discussion's model.
+13. Section 11: `7353ec1f2`; S1 part 001 lines 2879 and 2906; this note, sections 2 and 3.6.
+14. Section 13: `fcc3cae0e`; S1 part 001 lines 4246 and 4299.
+15. Section 14: `8ab10d9de`; S1 part 001 line 10963; this note, section 2.
+16. Section 15: `cc1dd66a4`; S1 part 001 line 11174; this note, sections 2 and 6.2.
+17. Section 16: `feb74a7a2`; S1 part 001 line 12004.
+18. Section 16: `94cbbb9f3`; this note, section 3.7. His words are S1 part 001 line 12501, 2026-09-17T01:56:24, read in the transcript for this section; the evidence cites only his earlier messages that night.
+19. Section 18: `3d675af85`, `cb242a2d8` and `aad1f169c`. His ask for the script is S1 part 001 lines 12502 and 12518, read in the transcript for this section.
+20. Section 17: `172ddabf1`, `4aae6fdf5` and `07635bf64`; S2 part 000 line 3766; `70736a81d` and `a78e9ac37`.
+21. Section 14: `ea1b76992` and `886a06e1d`; his message of 2026-09-30T05:24:08.
+22. Section 19: `555cd9c87`; S2 part 000 line 8226.
+23. Sections 15 and 23: `check-index.sh` (2026-09-20), `125f8ec1d`, `check-verbatim.py` (2026-09-29) and `seed-worktree.sh` (2026-10-02).
+24. Section 20: `050ae4f4c`; S2 part 000 line 8972; `postmortem-2026-09-27-record-keeping.md`.
+25. Section 23: `3ae7c4d84`; S2 part 001 lines 21609 and 21979.
+26. Section 21: `f6e0a06d3`; S2 part 002 line 20551.
+27. Section 22: `70736a81d`; S2 part 003 lines 1928 and 2188; his page comments of 2026-10-04, 00:34 and 00:43; S1 part 000 line 14083; this note, section 6.1.
+
+The smaller homes: section 23.
+
+9.4, What this says for the rewrite:
+
+1. Entries 1, 4, 6 and 7 of 9.3; S1 part 000 line 1442.
+2. "Local memory": S2 part 003 line 9690; S1 part 001 line 10963; S1 part 000 lines 519 and 1442.
+3. "The report habit"; his message of 2026-10-11T05:14:17.
+4. Sections 3 and 14; `ea1b76992`; his message of 2026-09-30T05:24:08.
+5. Entries 9, 13, 16 and 25 of 9.3.
+6. 9.2 and 9.3; section 7, his message of 2026-09-27T01:30:24 (S2 part 001 line 11216); section 20, the 79 appends.
+7. "Gaps", points 1 and 2; "What I could not find".
+8. "Local memory", its last sentence.
+9. The boot orders in sections 11 and 14.
+10. "Gaps", points 3 and 4.
