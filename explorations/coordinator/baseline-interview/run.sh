@@ -34,6 +34,7 @@ case "$out/" in /home/user/*|/root/*) die "put <out-dir> outside /home/user and 
 P="$out/private"
 rm -rf "$P"
 mkdir -p "$P/root/.claude" "$P/home/work" "$P/tmp" "$P/vartmp"
+git init -q "$P/home/work"   # an empty repository, so that the session's working directory is as the setting says
 { cat "$kit/setting.md"; echo; cat "$kit/questions.md"; } > "$out/prompt.md"
 id=$(python3 -c 'import uuid; print(uuid.uuid4())')
 
@@ -41,9 +42,9 @@ id=$(python3 -c 'import uuid; print(uuid.uuid4())')
 NS_SETUP='set -e
 mount --rbind "$IV_P/root" /root
 mount --rbind "$IV_P/home" /home/user
-mount --rbind "$IV_P/tmp" /tmp
 mount --rbind "$IV_P/vartmp" /var/tmp
 if [ -d /mnt/user-data ]; then mount -t tmpfs -o ro tmpfs /mnt/user-data; fi
+mount --rbind "$IV_P/tmp" /tmp
 mount -o remount,bind,ro /
 cd /home/user/work
 exec env -u IV_P "$@"'
