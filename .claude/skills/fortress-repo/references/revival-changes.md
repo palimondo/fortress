@@ -8,7 +8,7 @@ The team left three forms of Fortress, which disagree in places:
 
 This part lists each change of the revival made for one of two reasons: two of the team's sources contradict each other, or a program failed. Its headings are the points of `SKILL.md`, "Fortress as a language", that the changes qualify.
 
-Each resolution is the rule of this tree. Follow it as you follow a decision of the curator, and question it only on new evidence (`SKILL.md`, "When to explore"). Where it changed the specification, Appendix I keeps the original text (`specification.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. `specification.md`, "Weighing the sources", describes the type group, whose later texts most resolutions follow.
+Each resolution is the rule of this tree. Follow it as you follow a decision of the curator, and question it only on new evidence (`SKILL.md`, "When to explore"). Where it changed the specification, Appendix I keeps the original text (`specification.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. `exploring.md`, "Weighing the sources", describes the type group, whose later texts most resolutions follow.
 
 If a source of the team's, an old note or your training disagrees with this skill, find the point below. If it is there, follow the skill: it describes the tree. If it is not, do as `SKILL.md`, "When to explore", says.
 
@@ -18,7 +18,7 @@ A note written before the revival, and your training, can be right about the tea
 
 **Overloads that differ in static parameters**
 
-- Original: the Working Draft forbids two declarations of one name whose static parameters differ, beside the team's note "This restriction will be relaxed." Neither implementation enforced it, and the checker implements the type group's 2011 paper (`Papers/Types/`), which allows them.
+- Original: the Working Draft forbids two declarations of one name whose static parameters differ. The team's later restart of the specification drops it. Neither implementation enforced it, and the checker implements the type group's 2011 paper (`Papers/Types/`), which allows them.
 - Resolution: such overloads are allowed, and the specification states the paper's model.
 - Reason: the implementations and the library already allow such overloads. Enforcing the sentence would refuse about 180 pairs of declarations in the library's apis.
 
