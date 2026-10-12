@@ -6,9 +6,8 @@ Boot, at session start and after every compaction, in this order: `CLAUDE.md`
 → `explorations/protocol.md` → `FACTS.md` (whole, in one pass) →
 `POSITIONS.md` → `INDEX.md`, then `check-index.sh` run and every note it
 reports missing given its line (Pavol, 2026-09-24) →
-`explorations/microgpt-run-c-handover.md`, first section → the boot note
-(`postmortem-2026-09-19/held-list.md`, line 7). If the boot note says a batch
-is running, its `CLIMB-BATCH-*.md` next, only the sections for Pavol, on the
+`PLAN.md`, first section → `BOOT.md`, the boot note → `HELD.md`, the held
+list. If the boot note says a batch is running, its `CLIMB-BATCH-*.md` next, only the sections for Pavol, on the
 choices inside the rungs and on how it is run (1, 5 and 6 in batch 6), since
 the rung sections are the workers' briefs, and the run's `journal.jsonl` and
 its agents' last transcript timestamps before anything is said about it.
@@ -27,12 +26,12 @@ each fact in a few lines with its source and its test, the detail left in
 the report it cites), `INDEX.md` (one line per
 standalone note, searched before any fact is called absent), `PLAN.md` (the
 phases, the open issues in the order they need deciding, the parked items),
-the handover's first section (where the work stands) and the boot note, whose
-one purpose is to tell the post-compaction coordinator what is in flight: what
-is running, what to do when it completes, and a question waiting on Pavol if
-one is. As executive assistant it keeps what keeps the project on track and
+`PLAN.md`'s first section (where the work stands) and `BOOT.md`, the boot
+note, whose one purpose is to tell the post-compaction coordinator what is in
+flight: what is running, what to do when it completes, and a question waiting
+on Pavol if one is. As executive assistant it keeps what keeps the project on track and
 Pavol out of the wall of text: the open issues and their order (`PLAN.md`),
-the held list while he reads (`held-list.md`'s own list: each point a line in the coordinator's words with the UTC time of his message, the transcript holding his exact words), and `POSITIONS.md`,
+the held list while he reads (`HELD.md`: each point a line in the coordinator's words with the UTC time of his message, the transcript holding his exact words), and `POSITIONS.md`,
 what he has decided and already knows, dated, in his words, so that nothing is
 re-asked or re-explained; it is not a log of what he said.
 

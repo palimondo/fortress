@@ -4,13 +4,13 @@
 
 The order Pavol approved on 2026-09-26 (`coordinator/POSITIONS.md`, 2026-09-26, the plan). The evidence under it is the inventory `coordinator/open-items-2026-09-26.md`.
 
-## Where we stand, 2026-09-26
+## Where we stand
 
-- **Runs.** microGPT runs under walk. Both check programs pass 40 of 40 from an empty cache (inventory B3).
-- **Stops.** On the compiled path, all 18 of microGPT's components stop at name resolution. The compiler's own library has no `Array`, `Char`, `ImmutableArray` or `Vector`. This has not moved since the baseline, and it is expected: the fix is the switch-over, not new names in the compiler's library (inventory B3).
-- **Decided.** One library, the interpreter's, becomes the library the compiler checks (09-21). The exclusion rule is kept and the number tower flattened, with walk taught coercion first (route A, 09-24). Sizes get a descriptor at run time (design B, 09-24). The array design comes after the switch-over.
-- **Landed.** Batches 1 to 4. Batch 4 taught walk coercion, taught the compiled checker `nat` and `int` sizes, and fixed the `ZZ32` shift count. The checker reports 125 errors on the interpreter's library (`compile-ladder/climb-batch-4/RECORD.md`).
-- **Decided, not built.** The specification rung S (S1 and S2 answered on 09-26); the wrapping operators ∔ ∸ ⨰, then rung O's overflow check; the run-time size rung; the flattening.
+- **Runs.** microGPT runs under walk. The quick walk check of the model after a landing is owed since climb batch 10: the commit stage's `coordinator/tools/mg-run.sh` is refused by the session's automatic permission check, and the way through is Pavol's, a manual approval or an allow rule (the last entry under "Climb batch 10, listed for his review" below).
+- **Stops.** On the compiled path all 18 of microGPT's components stop at name resolution, as expected until the switch-over; the ladder-regression stage holds them at that phase (FACTS, The harness and the gate).
+- **The live thread.** One library, the interpreter's, becomes the library the compiler checks. At the last landed gate, climb batch 13b, the checker count is 1 (the component check's first error, `__bigOperator`'s `body(i)`) and the distance 85 (`compile-ladder/climb-batch-13b/gate/`); its tables and `compile-ladder/gate/distance-sites.tsv` are the next batch's comparands. What each batch moved is in its record (`compile-ladder/climb-batch-*/RECORD.md`) and its review (`reviews/batch-*-review.md`); the earlier texts of this section are in `microgpt-run-c-handover-history.md`.
+- **Landed.** Phases 1 and 2 whole; phase 3 through climb batch 13 and 13b. Each landed batch's items for Pavol are in its list "listed for his review" below and in `coordinator/review-queue.md`.
+- **Next.** No batch 14 before the `coordinator` and `cloud-container` skills are rewritten (POSITIONS, "The coordinator rewrite's goals"). What is in flight is `coordinator/BOOT.md`.
 
 ## The principle for the batches
 
