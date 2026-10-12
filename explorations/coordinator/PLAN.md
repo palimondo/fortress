@@ -6,7 +6,7 @@ The order Pavol approved on 2026-09-26 (`coordinator/POSITIONS.md`, 2026-09-26, 
 
 ## Where we stand
 
-- **Runs.** microGPT runs under walk. The quick walk check of the model after a landing is owed since climb batch 10: the commit stage's `coordinator/tools/mg-run.sh` is refused by the session's automatic permission check, and the way through is Pavol's, a manual approval or an allow rule (the last entry under "Climb batch 10, listed for his review" below).
+- **Runs.** microGPT runs under walk. Its quick walk check passed at every landing from climb batch 11 to 13b, both programs, 7 of 7 (`reviews/batch-11-review.md` to `batch-13-review.md`, "The commit"; `compile-ladder/climb-batch-13b/RECORD.md`); batch 10's ran by hand before batch 11.
 - **Stops.** On the compiled path all 18 of microGPT's components stop at name resolution, as expected until the switch-over; the ladder-regression stage holds them at that phase (FACTS, The harness and the gate).
 - **The live thread.** One library, the interpreter's, becomes the library the compiler checks. At the last landed gate, climb batch 13b, the checker count is 1 (the component check's first error, `__bigOperator`'s `body(i)`) and the distance 85 (`compile-ladder/climb-batch-13b/gate/`); its tables and `compile-ladder/gate/distance-sites.tsv` are the next batch's comparands. What each batch moved is in its record (`compile-ladder/climb-batch-*/RECORD.md`) and its review (`reviews/batch-*-review.md`); the earlier texts of this section are in `microgpt-run-c-handover-history.md`.
 - **Landed.** Phases 1 and 2 whole; phase 3 through climb batch 13 and 13b. Each landed batch's items for Pavol are in its list "listed for his review" below and in `coordinator/review-queue.md`.
