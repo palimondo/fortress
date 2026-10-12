@@ -13,11 +13,11 @@ The curator settles every conflict and every question about a decision of the cu
 
 ## Weighing the sources
 
-The type group is the part of the team that built the type checker and the compiler, from 2010 to 2012. Where their late positions disagree with the specification's earlier text, the late positions weigh more. These positions are:
+The type group is the part of the team that built the type checker and the compiler, from 2009 to 2012. Where their late positions disagree with the specification's earlier text, the late positions weigh more. These positions are:
 
 - the exclusion rule;
 - compiled code specialised to each instantiation of a generic, which they kept;
-- the compiled number tower, which they flattened in 2011;
+- the compiled number tower, which they flattened in 2009 and 2010;
 - the 2012 write-up on the Return Type Rule (`Papers/Types/journal/`);
 - the POPL 2019 paper on symmetric multiple dispatch (`research/extracts/ParkPOPL2019-extract.md`).
 
