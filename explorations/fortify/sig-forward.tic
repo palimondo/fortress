@@ -1,0 +1,16 @@
+% microgpt2 signature-only render: the forward pass's caches carry the
+% paper's own noun.  Top line is the shipped signature before the named
+% spaces round; bottom line is the shipped signature now.
+% From explorations/microgpt2.fss (Model.forward). Regenerate:
+%   bin/fortick sig-forward.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex sig-forward.tex
+%   dvisvgm --no-fonts --exact-bbox -o sig-forward-light.svg sig-forward.dvi
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`forward(t: ZZ32, i: ZZ32, kh: KVCache, vh: KVCache): (Vec, KVCache, KVCache)`
+\end{preview}
+\end{document}

@@ -1,0 +1,18 @@
+% microgpt2 block render: L = -log softmax(logits)_y.
+% From explorations/microgpt2.fss (nll). Regenerate:
+%   bin/fortick explorations/fortify/block-loss.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-loss.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-loss-light.svg block-loss.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`nll(logits: Vec, y: ZZ32): Value = do
+  p = softmax(logits)
+  - log(p[y])
+end`
+\end{preview}
+\end{document}

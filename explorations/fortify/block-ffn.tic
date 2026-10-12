@@ -1,0 +1,16 @@
+% microgpt2 block render: FFN(x) = W2 relu(W1 x), bold weight matrices
+% via the spec's leading-underscore convention (_W1 typesets as bold W_1).
+% From explorations/microgpt2.fss (Model.ffn). Regenerate:
+%   bin/fortick explorations/fortify/block-ffn.tic
+%   TEXINPUTS=".:$FORTRESS_HOME/Fortify:" latex block-ffn.tex
+%   dvisvgm --no-fonts --exact-bbox -o block-ffn-light.svg block-ffn.dvi
+%   dark: add fill='#e6edf3' to the <svg> root tag
+\documentclass{article}
+\usepackage{fortify}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{6pt}
+\begin{document}
+\begin{preview}
+`ffn(x: Vec): Vec = _W2 relu(_W1 x)`
+\end{preview}
+\end{document}
