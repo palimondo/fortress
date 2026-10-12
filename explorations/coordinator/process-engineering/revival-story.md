@@ -24,7 +24,7 @@ Words used throughout:
 
 ### Custodians, not authors
 
-The protocol of the work opens with this principle: "We are custodians of their language, not its authors." It asks the revival to finish what the designers intended, judged by the specification and by the library's own practice. Every agent is bound by the same rules through the skill it loads.
+The first principle of the protocol the work follows reads: "We are custodians of their language, not its authors." It asks the revival to finish what the designers intended, judged by the specification and by the library's own practice. Every agent is bound by the same rules through the skill it loads.
 
 - No committed file claims credit for the revival.
 - Where git doesn't record who wrote something, the authorship is rebuilt from the history. It's never guessed.
@@ -34,30 +34,30 @@ The protocol of the work opens with this principle: "We are custodians of their 
 ### The history, kept whole
 
 - The repository keeps the team's surviving history: 5.4K commits on the trunk, from 2007-01-04 to 2012-08-31. With the old repository's twelve other branches, it's about 5.6K.
-- It's a 2018 fork of a git conversion of the project's java.net Mercurial repository. The conversion cut 146 links between commits, so `git blame` here credits whole files to 2012 snapshots. Authorship is counted over the full history instead.
+- It's a 2018 fork of a git conversion of the project's java.net Mercurial repository. The conversion cut 146 links between commits, so `git blame` here credits whole files to snapshots of 2011 and 2012. Authorship is counted over the full history instead.
 - From that history, a map of who wrote what was rebuilt, with the evidence for each identity. The README sums it up: Sukyoung Ryu on the front end, from the parser to the type checker; David Chase on the compiler and the run time; Jan-Willem Maessen on the library; Christine Flood on transactions and the work-stealing run time; and a wider circle of students, interns and visitors.
 - The map also says what git can't show. The project began in 2003, four years before the record starts. So Eric Allen, a co-principal investigator from the start, shows only about 230 commits. Two co-authors of the 1.0 specification, Sam Tobin-Hochstadt and Joe Hallett, show none.
 - The team's frozen copy of the specification, which Guy Steele made on 2012-01-04, is untouched. It's the Working Draft as of 2011-02-02.
 
 ### Where the editing began
 
-- The tag `sealed-tree` (09-16) marks the point after which the revival edits the team's language, library and specification. Its message sets the rule: each edit starts "from a failing test added to the corpus, with the full suite kept green".
-- Before the tag, 28 commits made the 2012 tree build and run on current Java and Scala. 21 of them touch only the build and its tools. The other 7 correct the constant e, fix a name clash between the two libraries' `System` apis, speed up the suites and fix the specification's rendering.
+- The tag `sealed-tree` marks the territory map's last commit, of 09-16. After it, the revival edits the team's language, library and specification. The tag's message states the rule: each edit starts "from a failing test added to the corpus, with the full suite kept green".
+- Before the tag, 28 commits touched the team's code, library or specification. 21 of them only moved the tree onto current Java and Scala: the build, its tools, and the JDK's own fork/join pool in place of the old copy. The other 7 correct the constant e, fix a name clash between the two libraries' `System` apis, speed up the suites and fix the specification's rendering.
 - Also before the tag, five surveys mapped the system, down to where the designers wrote their reasons (part 2).
 
 ### Test first, judged by the team's suites
 
 - Every edit of the team's code starts from a failing test in the team's suites. The fix follows, and the test stays.
-- The check is the suites' own verdict, pass or fail, as the team designed them. A value that matters is asserted inside the test, with the suite's own means: an `assert` in an interpreter test, a `run_out_equals` key in a compiled one. No expected-output file is added. The interpreter's suite never had any.
-- A defect that's measured and not yet fixed gets an expected-failure test, a file named `XXX…`, the team's own convention. The team left 56 in the interpreter's suite. There are 120 now.
+- The check is the suites' own verdict, pass or fail, as the team designed them. A value that matters is asserted inside the test, with the suite's own means: an `assert` in an interpreter test, a `run_out_equals` key in a compiled one. No expected-output file is added. The interpreter's suite never compared one.
+- A defect that's measured and not yet fixed gets an expected-failure test, named `XXX…` by the team's own convention for a test that must fail. The team left 56 in the interpreter's suite. There are 120 now.
 - Every landing now runs the team's two suites and the specification's 130 extracted examples, with no failure. None of the team's tests or demos has been deleted. 43 of them were edited, each for a reason on record (part 9).
 
 ### Changing the team's text
 
-- Each change to the specification follows the team's own ways of marking a revision. A labelled callout sits at the changed passage, as the team's 2009 draft put its decisions in notes at the passage. An entry in the changes appendix, Appendix I, lists it, as the 1.0 release listed its changes in an appendix. Each entry quotes the original sentences with their file and line, gives the reason, and says what going back would take. There are 39.
-- Where the specification's early text and the type group's later, implementation-informed work disagree, the later work weighs more. That work includes the exclusion rule, built into the checker in 2010; the OOPSLA 2011 paper on type checking multiple dispatch; and, after the project, the POPL 2019 paper of Park, Hong, Steele and Ryu.
+- The team's own sources disagree in places: the specification, the interpreter, the compiler and the type papers. The revival reconciles them. Where the type group's later work departs from the original specification, the revival follows that work: the exclusion rule, built into the checker in 2010, and the OOPSLA 2011 paper on type checking multiple dispatch. After the project came the POPL 2019 paper of Park, Hong, Steele and Ryu. The specification is then updated to match what the revival implements.
+- Each change to the specification follows the team's own ways of marking a revision. A labelled callout sits at the changed passage, as the team's 2009 draft put its decisions in notes at the passage. An entry in the changes appendix, Appendix I, lists it, as the 1.0 release listed its changes in an appendix. Each entry quotes the original sentences with their file and line, gives the reason, and says what the alternative not taken would need: the relaxed rule of the team's 2012 patent applications. There are 39.
 - The library's own practice is the standard. A fix extends the library the way the library already does the same kind of thing. No fix is designed from a reading of the specification alone.
-- The type group's last paper is read at the source. Since 10-10 the POPL 2019 paper is in the repository beside its extract, as its open license allows. Gyunghee Park's talk on it is transcribed from the ACM video. The 24 worked examples of the paper and the talk were written as Fortress programs, run on both paths, and sorted to become tests.
+- The POPL 2019 paper is read at the source. Since 10-10 it's in the repository beside its extract, as its open license allows. Gyunghee Park's talk on it is transcribed from the ACM video. The paper and the talk hold 24 worked examples. The 15 that Fortress can write today were written as programs, run on both paths, and sorted by what each can test. The other 9 need features not built, such as declared covariance.
 
 Sources: `explorations/protocol.md` (principle 1); `.claude/skills/fortress-repo/SKILL.md` ("Rules for every task"); `README.md` ("History", "Lineage and license"); `research/authorship.md` (the caveats, the identity key, who wrote what); `explorations/coordinator/lineage.md`; `git cat-file -p sealed-tree`; `git rev-list --count a874948ac`; `git show c02fa44d0`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` A0, A1, A10; `explorations/coordinator/POSITIONS.md` ("Test first, the test kept.", "The suite's verdict is the check.", "The S1 form", "The type group's late positions outweigh the early text.", "The library's own practice is the standard."); `explorations/coordinator/FACTS.md` ("The team's latest word on types and on the exclusion rule is the unfinished restart, not `Specification/`"); `explorations/reviews/spec-change-form.md` section 5; `explorations/reviews/popl2019-examples.md`; `research/extracts/ParkPOPL2019-talk.md`; `explorations/compile-ladder/climb-batch-13b/gate/summary.txt`; `Specification/appendices/changes.tex`; the curator's message of 10-12.
 
@@ -160,7 +160,7 @@ Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.m
 **Where the tokens went.** "Written" means tokens processed fresh: cache writes and new input, the measure the curator uses.
 
 - The 15 batches from the repair batch to 6.5b used 269 agents and wrote 146M tokens.
-- Rung workers took about half; skeptics, judges, repairs and reviews about a third.
+- Rung workers took about half; skeptics, judges, repairs and reviews about two-fifths.
 - 45% of all writes came after an agent waited five minutes or more. The prompt cache lives five minutes, so the agent wrote its whole context again.
 - The largest batches: 7 (22M), N (18M), 6.5b (17M). After the post-mortem: 7b 7.3M, 8 and 9 14.6M together, 10 6.3M.
 
@@ -177,7 +177,7 @@ Sources: `explorations/microgpt-run-c-handover.md` and `explorations/microgpt-ru
 
 ![The gap ledger's characters and rows, and FACTS, POSITIONS and INDEX, commit by commit from 09-08 to 10-09, with each batch's landing marked](record-growth/record-growth.png)
 
-The chart has three panels on one time axis. A vertical line marks each batch's landing. Top: the ledger's characters. Middle: its rows. Bottom: FACTS, POSITIONS and INDEX (INDEX has one line for each note under `explorations/`). The figures below are at batch 13's landing, 10-09.
+The chart has three panels on one time axis. A vertical line marks each batch's landing. Top: the ledger's characters. Middle: its rows. Bottom: FACTS, POSITIONS and INDEX (INDEX has one line for each note under `explorations/`). The figures below are at the chart's end, late on 10-09, just after batch 13 landed.
 
 - The ledger reached `main` on 09-09 with 83 rows. It reached 638 rows and 1.25M characters at batch 10 (10-03). At batch 13 it had 694 rows and 581K characters.
 - The exploring era wrote 309 rows, 0.8K characters each on average. At batch 13 they held 247K characters.
@@ -186,7 +186,7 @@ The chart has three panels on one time axis. A vertical line marks each batch's 
 - Rows almost never shrank until 10-08: after entry they gained 308K characters and lost 0.8K. Then the ledger was rewritten. Each row was cut to 1,200 characters at most, and the ledger fell from 1.25M to 541K characters in one commit. The mean row went from 1.9K to 0.8K. The earlier text is in a history file, 1.33M characters. Closing a row cuts it too.
 - From 09-17 to batch 13, batch runs took 28% of the clock (35% to batch 10; no batch ran from 10-03 to 10-08). They brought 89% of the ledger's new characters and 93% of its new rows (88% and 92% to batch 10).
 - FACTS peaked at 352K at batch 7b (09-30). On 10-02 it lost 92K in one commit, when the rung entries were cut to the fact. It was 294K at batch 13.
-- POSITIONS peaked at 105K (09-29) and was 94K at batch 13. INDEX has only grown, to 175K.
+- POSITIONS peaked at 105K (09-29) and was 94K at batch 13. INDEX never lost more than 324 characters in a commit, and stands at 175K.
 - Since the rewrite the ledger grows about 19K characters a batch, against 46K before. FACTS grows back about 15K a batch. `PLAN.md`, where items for the curator collect, never got the new form: it was 464K characters and grew 17K to 53K a batch (part 7).
 
 Sources: `explorations/coordinator/process-engineering/record-growth/README.md`, `per-batch.csv`, `series.csv`, `landings.csv`; `explorations/coordinator/process-engineering/gap-ledger-archaeology.md` sections 1.1 and 2.4; `explorations/fortress-gap-ledger-history.md`; `explorations/coordinator/process-engineering/measures-judgement.md` section 1.
@@ -241,7 +241,7 @@ Sources: `explorations/coordinator/process-engineering/README.md`, `batch-redesi
 - The distance fell from 253 to 207, 153, 105 and, with 13b, 85.
 - The checker count stayed at 1, and the error behind it changed. Through batch 12 it was a pair of declarations in the library's api. Batch 13 fixed the pair, and the api now checks clean. So the checker goes on to the library's component, and its first error there stops it: `__bigOperator`'s local function `body(i)` has no type on its parameter. Once that's typed, the count will show the component's own errors, 79 by the distance, before it falls.
 - Every gate was green at its first run. At 13b the suites ran 1.9K and 580 tests and the specification's 130 examples with no failure, and 42 compiled `atomic` runs passed at four threads.
-- microGPT still runs under walk, and its quick check passes at each landing. On the compiled path its 18 components all stop at name resolution, as expected before the switch-over.
+- microGPT still runs under walk, and its quick check passes at each landing. On the compiled path the 18 files of its two versions all stop at name resolution, as expected before the switch-over.
 
 ### The new workflow, measured
 
@@ -300,7 +300,7 @@ Changes a programmer writing Fortress would notice, by area. Part 9 gives the re
 - `SUM` and `PROD` are generic. Under walk, a reduction whose element type nothing fixes runs. The checker still needs it written: `SUM[\ZZ32\][j <- 0#i] f(j)`.
 - `QQ` is exact. A negative shift count shifts the other way. `GCD` and `LCM` are never negative. `narrow` keeps the low 32 bits. `round` sends an exact half to the even integer.
 - `QQ`'s `floor`, `ceiling`, `round` and `truncate` throw `DivisionByZero` at +∞, −∞ and 0/0.
-- The library's numeral type is `IntLiteral`, a sibling every number type converts from. Walk's numerals are unchanged for now.
+- The library's numeral type is `IntLiteral`, a sibling that the integer types, `QQ` and `RR64` convert from. Walk's numerals are unchanged for now.
 
 ### Ranges
 
@@ -351,7 +351,7 @@ Changes a programmer writing Fortress would notice, by area. Part 9 gives the re
 ### Size of the internal changes
 
 - 143 commits touched the code, library or specification: 28 before the tag, 21 of them toolchain; 115 after it.
-- Lines added after the tag: walk 3.3K, checker 1.8K, code generator and run time 1.0K, specification 5.3K, tests 15K. The library gained 3.6K lines and lost 2.3K.
+- Lines added after the tag: walk 3.3K, checker 1.8K, code generator and run time 1.0K, specification 5.3K, tests 14.5K. The library gained 3.6K lines and lost 2.3K.
 - The grammar is unchanged. The syntax tree gained one node. 43 of the team's test and demo files changed, and none was deleted. The suites grew from about 1.4K and 382 tests to 1.9K and 580.
 
 Sources: `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A (to batch 10); `explorations/coordinator/PLAN.md` (batches 11 to 13 and 13b under "The phases"; the team's demos under "Pavol's answers"); `explorations/compile-ladder/climb-batch-13b/RECORD.md` and `gate/summary.txt`; `git rev-list --count` and `git diff --numstat 75cca6683 main` over the same paths and areas as the chronology, which this method reproduces at batch 10; `git diff --diff-filter=M` and `=D a874948ac main` over `tests/`, `library_tests/`, `demos/` and `compiler_tests/`.
@@ -362,20 +362,20 @@ The skill every agent loads has a section, "Fortress as a language". Each of its
 
 ### The team left three sources that disagree
 
-The team did not leave one consistent language. It left three sources:
+The team left Fortress in three forms, with the type papers beside them:
 
 - the specification, the text that says what Fortress is;
 - the interpreter (walk) and its library;
 - the compiler and its own, smaller library.
 
-These sources disagree in places. The revival changes the team's Fortress for one of two reasons only: two of the sources contradict each other, or a program fails. It then follows the team's latest word that works: the compiler's library, the type group's later papers, or the specification.
+These disagree in places. The revival changes the team's Fortress for one of two reasons only: two of these sources contradict each other, or a program fails. It reconciles them. Where the team's later work, in the compiler's library or the type papers, departs from the original specification, the revival follows the later work. It then updates the specification to match what it implements. A callout marks the passage, and Appendix I keeps the original text with the reason.
 
 ### Example: the number types
 
 - The team's interpreter library put the number types in a tower. A narrower type was a kind of the wider type: `ZZ32` was a kind of `ZZ64`, and `ZZ64` a kind of `ZZ`.
 - The prelude went from siblings to a tower and back in 2009. Christine Flood declared its widths as sibling objects in March. Jan-Willem Maessen made them a tower later that month. David Chase cut the subtyping between the widths in August. Sukyoung Ryu added the first exclusion, `ZZ32 excludes ZZ64`, in October. Maessen and Eric Allen widened the exclusions and added the first coercions, from November 2009 to January 2010. Guy Steele built the comparisons and the integer operators on the flat prelude in 2011.
-- In 2010 Justin Hilburn built the exclusion rule into the checker: no type may extend two instantiations of one generic trait. In the tower, `ZZ32` is both an `AdditiveGroup` of `ZZ32` and an `AdditiveGroup` of `ZZ64`, which the rule refuses. The siblings obey it.
-- On 09-24 the revival made the interpreter's library siblings too, so that the checker accepts it.
+- In 2010 Justin Hilburn built the exclusion rule into the checker: no type may extend two instantiations of one generic trait. In the tower, `ZZ32` is both an `Integral` of `ZZ32` and, through `ZZ64`, an `Integral` of `ZZ64`, which the rule refuses. The siblings obey it.
+- On 09-24 the curator chose to keep the rule. Batch 6 made the interpreter's library siblings too, on 09-27, so that the checker accepts it.
 
 So a model that remembers the tower remembers the team's interpreter library correctly. What it doesn't know is that the team's compiler had left the tower in 2009.
 
@@ -417,7 +417,7 @@ Each item gives what the team left, then the resolution and its reason.
 
 - **The exclusion rule.**
   - Original: the checker has enforced the rule since 2010, and the 2011 paper states it. The Working Draft doesn't, and some of its examples break it.
-  - Resolution: the specification states the rule. It keeps the examples that break it, marked "Not allowed". The reason: without the rule, the checker's return-type rule lets through programs that die with `IncompatibleClassChangeError`. The team's later texts keep the rule. The Types chapter of the unfinished 2012 restart restates it as "instantiation exclusion". The POPL 2019 paper, the type group's last published word, keeps it too: a class that extends two instances of a trait extends an instance below both.
+  - Resolution: the specification states the rule. It keeps the examples that break it, marked "Not allowed". The reason: without the rule, the checker's return-type rule lets through programs that die with `IncompatibleClassChangeError`. The team's later texts keep the rule. The Types chapter of the unfinished 2012 restart restates it as "instantiation exclusion". The POPL 2019 paper of Park, Hong, Steele and Ryu keeps it too: a class that extends two instances of a trait extends an instance below both.
 - **What a `comprises` clause says.**
   - Original: four passages of the Working Draft read it as a statement about types, and so are false for some programs it allows. The Types chapter of the 2012 restart reads it as a statement about values.
   - Resolution: every value of the closed trait is a value of a listed type. A generic trait may extend the closed trait without being listed, if each type that extends it is below a listed type. Read by values, the passages hold.
@@ -440,7 +440,7 @@ Each item gives what the team left, then the resolution and its reason.
   - Original: the implementations gave it the empty type `Bottom`, or left it unsolved, and some such compiled calls failed the JVM's check of the bytecode. The POPL 2019 paper gives such a parameter its bound: at run-time dispatch, the intersection of its upper bounds under the call's static return type, never `Bottom`.
   - Built: the specification states the paper's rule. The checker infers such a parameter at its bounds, never at `Bottom`. Walk gives it its declared bound, and leaves open one whose bound names itself, such as `SUM`'s. Walk still gives `Bottom` in four narrow cases, among them a big operator's parameters with a plain bound.
   - Not built yet: at run time both implementations still run a dispatched generic declaration at the value's type where nothing fixes the parameter. Walk can't do otherwise, having no static types. The compiled path waits for phase 5, when its dispatcher will carry the call's static return type. A callout in the specification says so, and expected-failure tests hold the shapes where it matters.
-  - Reason: the paper is the type group's latest word on the rule.
+  - Reason: the paper is the latest published word on the rule.
 - **Sizes on the compiled path.**
   - Original: the specification has size parameters. The compiled path couldn't carry them, but its code generator had a slot reserved for them.
   - Resolution: the revival fills the reserved slot, in the team's pattern for type arguments. This completes the team's design, and a program with sizes now compiles and runs.
@@ -487,29 +487,28 @@ Each item gives what the team left, then the resolution and its reason.
 
 ### Where the revival changed the team's own text, and why
 
-- **The specification.** 39 entries in Appendix I, each with a callout at the changed passage. Each change follows one of the resolutions above. The original sentences are quoted with their file and line, and the team's frozen copy is untouched.
-- **The library.** The interpreter's library changed most: 3.6K lines added and 2.3K removed since the tag. Each change is either one a resolution above calls for, or a slip the checker refused. The rule is to make each with the library's own devices, as it already does for the same kind of thing.
-- **The team's tests and demos.** 43 of their files changed, and none was deleted. The reasons: code meant to wrap now writes the wrapping operators (six tests); `SUM` is written with its element type; `fill`'s function form is renamed `tabulate` (seven tests and the demos); numerals and shifts changed in `UnsignedTest` and two others; the ranges changed in `RangePrototype`.
+- **The specification.** 39 entries in Appendix I, each with a callout at the changed passage. Each follows a decision of the revival, most of them the resolutions above. The original sentences are quoted with their file and line, and the team's frozen copy is untouched.
+- **The library.** The interpreter's library changed most: 3.3K lines added and 2.3K removed since the tag. Each change is either one a resolution above calls for, or a slip the checker refused. The rule is to make each with the library's own devices, as it already does for the same kind of thing.
+- **The team's tests and demos.** 43 of their files changed, and none was deleted. The reasons include: code meant to wrap now writes the wrapping operators (six tests); `SUM` is written with its element type; `fill`'s function form is renamed `tabulate` (seven tests and the demos); numerals and shifts changed in `UnsignedTest` and two others; the ranges changed in `RangePrototype`; a reduction without an identity names its lifted type, `Maybe`, in `HeapTest` and a demo.
 - **Left as the team had it.** The grammar, the evaluation model, the algebraic traits, the frozen specification and the full history.
 
 ### Where the quiz was right about the original
 
-A fresh model answered a quiz on Fortress from its training alone (part 5). Some answers the audit marked wrong are right about the team's Fortress:
+A fresh model answered a quiz on Fortress from its training alone (part 5). The audit graded each answer against today's tree, so an answer can be right about the team's Fortress and still be graded down:
 
-- The tower of number types: right for the team's interpreter library.
-- Arithmetic that wraps: right for the team's walk. The team's specification and compiler raised an error.
-- No conversion in walk: right for the team's walk.
+- The quiz didn't say how the number types relate. A reader who assumes a tower, narrower below wider, describes the team's interpreter library exactly.
+- Its answer that overflow raises an error, graded correct, holds for the team's specification and compiler. The team's walk wrapped.
 
-Other answers marked wrong come from the team's own specification, which describes more than the team built:
+Some answers marked wrong come from the team's own specification, which describes more than the team built:
 
 - `Monoid[\T, ⊕\]` with laws: a chapter of the specification. The library has it only in a comment and in its incomplete folder.
 - `fortress run Foo.fss`: the specification's overview says this. The team's tool runs a program under walk with `fortress Foo.fss`.
 - Complex numbers: named in the specification, in no library.
 - Tests that state their expected output: the team's compiler tests do this. Its interpreter tests don't.
 
-Two answers are wrong for both the team and the revival: integer types that wrap by themselves (the specification wraps only with its own operators), and an `Any` type that doesn't hold tuples.
+Two answers are wrong for both the team and the revival: integer types that wrap by themselves (the specification wraps only with its own operators), and an `Any` type that doesn't hold tuples. One more is wrong for the team: the guess that walk built part of the coercion rules. The team's walk had none. The revival added them.
 
-Sources: `.claude/skills/fortress-repo/references/revival-changes.md`; `.claude/skills/fortress-repo/SKILL.md` ("Fortress as a language"); `explorations/coordinator/FACTS.md` ("The flattening's three questions, measured by a clean worker", "The team's latest word on types and on the exclusion rule is the unfinished restart, not `Specification/`", "The exclusion fork, priced three ways and dated"); `explorations/coordinator/POSITIONS.md` ("The static-parameter sentence goes (answer 9).", "A type parameter the arguments do not fix takes its bound, never `Bottom` (the paper's instance rule)."); `Specification-1.0-frozen/basic/overloading.tex` lines 100 to 108; `Specification-1.0-frozen/fortress.1.0.pdf` section 15.6.1; `Documentation/Specification/Prose/Language/overloading.tick` lines 100 to 114; `Specification/appendices/changes.tex` ("Overloading with static parameters"); `Papers/Types/paper.tick` lines 213 to 221; `research/extracts/ParkPOPL2019-extract.md`; `explorations/reviews/multiple-instantiation-exclusion.md`; `explorations/reviews/mie-probes/spec-sentences-dated.md`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` A10 and part B; `explorations/reviews/fortress-pretraining-quiz.md`; `explorations/reviews/skills-distillation-audit.md` section B; the team's commits, read with `git show -s`:
+Sources: `.claude/skills/fortress-repo/references/revival-changes.md`; `.claude/skills/fortress-repo/SKILL.md` ("Fortress as a language"); `explorations/coordinator/FACTS.md` ("The flattening's three questions, measured by a clean worker", "The team's latest word on types and on the exclusion rule is the unfinished restart, not `Specification/`", "The exclusion fork, priced three ways and dated"); `explorations/coordinator/POSITIONS.md` ("The static-parameter sentence goes (answer 9).", "A type parameter the arguments do not fix takes its bound, never `Bottom` (the paper's instance rule)."); `Specification-1.0-frozen/basic/overloading.tex` lines 100 to 108; `Specification-1.0-frozen/fortress.1.0.pdf` section 15.6.1; `Documentation/Specification/Prose/Language/overloading.tick` lines 100 to 114; `Specification/appendices/changes.tex` ("Overloading with static parameters"); `Papers/Types/paper.tick` lines 213 to 221; `research/extracts/ParkPOPL2019-extract.md`; `explorations/reviews/multiple-instantiation-exclusion.md`; `explorations/reviews/mie-probes/spec-sentences-dated.md`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` A10, A12 and part B; `git show a874948ac:Library/FortressLibrary.fsi` (the team's `ZZ32` and `ZZ64`); `git diff --numstat 75cca6683 main -- Library ProjectFortress/LibraryBuiltin`, the prelude's files left out; `git show --stat aadd02f23`; `explorations/reviews/fortress-pretraining-quiz.md`; `explorations/reviews/skills-distillation-audit.md` section B; the team's commits, read with `git show -s`:
 
 1. `b2880c05c` (Flood, 2009-03-03), `76c267f98` (Maessen, 2009-03-30), `6896886fb` (Chase, 2009-08-31), `3e0306166` (Ryu, 2009-10-16), `128f313b5` (Maessen, 2009-11-17), `2ef730c88` and `d0cde7d17` (Allen, 2010-01), `b3c2e1342`, `da5291587` and `d535963cb` (Steele, 2011): the prelude's number types;
 2. `5a6b7913b` and `e828b44b1` (Hilburn, 2010-05-28 and 2010-07-26): the exclusion rule in the checker;
