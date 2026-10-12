@@ -54,7 +54,7 @@ No skeptic ran before the stop, so there is no skeptic report to rule on.
    - At the switch-over the compiled path checks and compiles this same library, the interpreter's (`POSITIONS.md:46`; rows 381 and 383 close "when the compiled path reads this library", `:89-90`).
    - So under (b), `RangeInternals`, `Random`, `ChunkedSparseArray` and `IntMap` raise `IntegerOverflow` on the compiled path at the switch-over. Keeping `walk` wrapping postpones the library repair to then; it does not avoid it.
 2. **The glyph.** The specification's wraparound multiplication is `\dottimes`, defined as a times sign with a dot above (`Specification/latex-common/macros/macros.tex:188`). That is ⨰, U+2A30, whose ASCII spelling is `DOTTIMES` (`ProjectFortress/src/com/sun/fortress/parser/Literal.rats:263`). It is not "⊙̇" as `REPORT.md` section 6 and `record.md` write it. ∔ is `DOTPLUS` (U+2214) and ∸ is `DOTMINUS` (U+2238) (`Literal.rats:270-271`).
-3. **A precedent was missed for how code says "wrap" in this tree.** The team's 2011 flattened prelude declares a wrapping set and a saturating set on every integer type, with wrapping natives:
+3. **A precedent was missed for how code says "wrap" in this tree.** The team's flat compiler prelude declares a wrapping set and a saturating set on every integer type, with wrapping natives:
    - `ZZ` at `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:524-538`, where the wrapping forms are plain arithmetic;
    - `ZZ64` at `:586-599`, `ZZ32` at `:671-684`, and `NN32` and `NN64` (row 348).
 

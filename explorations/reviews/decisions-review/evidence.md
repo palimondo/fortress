@@ -117,7 +117,7 @@
    - For a flat tower:
      - Chase, 2009-08-31: "ZZ32 is NOT a subtype of ZZ64, RR32 is NOT a subtype of RR64; this would be a good time to get coercion working" (`6896886fb`, message checked).
      - Maessen, 2009-11-17: "expect more coercions to come on line as we gradually migrate to a flat numeric hierarchy" (`128f313b5`, message checked).
-     - Steele flattened the compiler prelude on 2011-07-15 and 07-22 (`reviews/exclusion-design-brief.md:49`); today it has `ZZ`, `ZZ64`, `ZZ32` and `RR64` as siblings under `Number` and no `QQ` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:96`, `:103`, `:147`, `:210`, `:433`).
+     - Chase, Ryu, Maessen and Allen flattened the compiler prelude in 2009 and 2010 (`reviews/exclusion-design-brief.md:49`); today it has `ZZ`, `ZZ64`, `ZZ32` and `RR64` as siblings under `Number` and no `QQ` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:96`, `:103`, `:147`, `:210`, `:433`).
      - Steele, 2016: Number → {Integral → ZZ32, ZZ64, ZZ; Float → RR32, RR64} (`research/extracts/SteeleJuliaCon2016-extract.md:159-160`).
      - WD and Types: "These types are mutually exclusive" (above).
    - Against a flat tower:

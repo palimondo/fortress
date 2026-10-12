@@ -187,12 +187,13 @@ any option.
    MinReductionN)` returns `MaxNSumReductionPair` (`:3049-3050`; the ways note saw it).
    Measured today: nonempty folds answer the element's type (`3 : Int`, `0.25 : Float`),
    the empty fold `-1/0 : Ratio` and `(1/0,-1/0)`.
-4. **The compiled prelude's `ZZ32Max`** (`CompilerLibrary.fss:468-471`, Steele's 2011
-   flattening) gives its one `BIG MAX` an identity, `ZZ32`'s least element, written as
+4. **The compiled prelude's `ZZ32Max`** (`CompilerLibrary.fss:468-471`, Steele, 2011,
+   `d535963cb`) gives its one `BIG MAX` an identity, `ZZ32`'s least element, written as
    `(-32768) TIMES 65536`; measured, `BIG MAX[j <- 0#0] j = -2147483648`. So when the
-   designer flattened, he chose the type's least element for the one type he had, under
-   the name `BIG MAX`; the interpreter's `BIG MAX` throws instead. At the switch-over the
-   interpreter's library replaces the prelude, and C4's `BIG MAX z` is never empty.
+   designer built the big operators on the flat prelude, he chose the type's least element
+   for the one type he had, under the name `BIG MAX`; the interpreter's `BIG MAX` throws
+   instead. At the switch-over the interpreter's library replaces the prelude, and C4's
+   `BIG MAX z` is never empty.
 5. **The least and greatest elements by name**: `ZZ32` and `ZZ64` carry `getter minimum()`
    and `getter maximum()` (`:649-650`, `:707-708`), instance getters that need an element
    in hand; `RR64` has none (its infinities are written `1.0/0.0`); `ZZ` and `QQ` have none.

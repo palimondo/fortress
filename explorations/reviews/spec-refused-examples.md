@@ -255,8 +255,8 @@ two libraries, the papers and the history, the library's own way first.
 ### Idea 3: a type at two levels of a self-typed generic (E5, E6, E7)
 
 1. **Flat numeric types under `Number`, each carrying its own algebra, with a `coerce` on the wider
-   type from the narrower**: Steele's 2011 compiler prelude, and route A's decision
-   (`POSITIONS.md:92`). **[read]**
+   type from the narrower**: the compiler prelude, flat since 2009 (Chase, Ryu; its first
+   `coerce` lines Maessen's and Allen's), and route A's decision (`POSITIONS.md:92`). **[read]**
 2. **An abstract name above, concrete leaves below, no algebra on the abstract name**: the
    interpreter library's `Object extends Any` alone (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:32`),
    identity as a top-level `opr SEQV(a:Any, b:Any)` (`FortressLibrary.fsi:2474`), equality by the
@@ -407,8 +407,8 @@ two libraries, the papers and the history, the library's own way first.
   (`AltCovariantBounded`).
 - For E5 to E7: the interpreter library keeps the nested tower (`NN64`, `ZZ32`, `ZZ64`, `ZZ` each
   `Integral[\...\]` at its own level, `FortressLibrary.fsi:412-537`), which is what route A
-  flattens; its `Object` carries no algebra. The compiler prelude was flattened by Steele in 2011.
-  **[read]**
+  flattens; its `Object` carries no algebra. The compiler prelude was flattened in 2009 (Chase,
+  `6896886fb`; Ryu, `3e0306166`). **[read]**
 
 ### 6. What the peers do, by family
 

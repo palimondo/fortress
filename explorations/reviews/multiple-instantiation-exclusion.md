@@ -74,7 +74,7 @@ Terms. **Multiple instantiation inheritance**: a type extends two instantiations
   - `Integral[\I\]` became parametric on 2008-07-02 (`82c85b03a`);
   - `trait ZZ32 extends { ZZ64, Integral[\ZZ32\] }` on 2008-07-15 (`fca589bbb`);
   - `library-scalar-extension-review.md:281-287` has the rest.
-- The compiler prelude was flat from its start: Guy Steele commented out the comparison `extends` when adding them on 2011-07-15 (`b3c2e1342`), and `ZZ32`/`ZZ64` were siblings under `Number` by 2011-07-22 (`da5291587`).
+- The compiler prelude went flat in 2009: its four widths began as sibling objects under `Number` on 2009-03-03 (`b2880c05c`, chf), `ZZ32 extends ZZ64` and `RR32 extends RR64` came on 2009-03-30 (`76c267f98`, jmaessen), the subtyping was cut on 2009-08-31 (`6896886fb`, dr2chase, "ZZ32 is NOT a subtype of ZZ64, RR32 is NOT a subtype of RR64"), and the first exclusion, `ZZ32 excludes ZZ64`, came on 2009-10-16 (`3e0306166`, sukyoungryu). Guy Steele commented out the comparison `extends` when adding them on 2011-07-15 (`b3c2e1342`), and added the operators of the sibling `ZZ32` and `ZZ64` on 2011-07-22 (`da5291587`).
 
 ## 8. The routes (none chosen)
 
