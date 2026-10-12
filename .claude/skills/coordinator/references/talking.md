@@ -10,6 +10,7 @@ The curator reads on a phone, often one earlier turn at a time, on a client that
 - Lists, never tables.
 - Numbers as K or M, never spelled-out thousands or millions. A message about numbers carries few, each with its meaning. Token counts are writes only.
 - A result reaches the curator only as a turn's final text.
+- For a file the curator is to read, give a published page link, or the file's GitHub URL on `main`: `https://github.com/palimondo/fortress/blob/main/<path>`. Name a repository path only as a reference.
 
 ## Time
 
