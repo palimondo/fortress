@@ -2,6 +2,19 @@
 
 # Held list
 
+## Held in chat and on the Record Rule Draft page (2026-10-13)
+
+Points on how we work, kept here until the coordinator skill holds them (his words, 09:16: they go to the skill, not to POSITIONS). The record-keeping points are in `process-engineering/record-rule-draft.md` Part 5.
+
+- 09:05 What he says about how we work did not reach the record, and several compactions lost it: a lossy compression. Wanted: a principle and a check that the coordinator caught his meaning; his dictation is not the source of truth but is refined into nuggets; a cold read or a test, as for the skills.
+- 09:16 FACTS and POSITIONS hold the project only and stay, as briefs point into them; how he and the coordinator work goes to the coordinator skill; meanwhile the held list and the boot note are its scratch; draft the skill's parts and point to them.
+- 09:22 The rewrite plan's first steps follow the fortress-repo method (`7ff472848`); 09:23 reuse the record consolidation and a quiz to check the record-keeping principles.
+- 09:54 Pages keep the house style (the plan page's CSS); a worker building a page is pointed to it.
+- 10:14 The success criterion for a compression: decisions stay as good, and a reader follows the pointers to the report or the history when needed; test it automatically, without him; if something critical is lost, find the middle ground entry by entry.
+- 10:20 Tests stay small and on the records at hand; no elaborate evaluation design (an earlier one wasted tokens).
+- 10:30 Links matter most in the history, which no one reads whole; how the coordinator lists the positions on a fact or traces an entry's history. Answered by numbered entries, taken at 11:05.
+- 14:36 Keeping what was learned before a compaction is the default, not a question; asking it was a do-nothing choice.
+
 ## Held in chat (2026-10-12)
 
 - 00:4x (2026-10-13, chat) The main problem with the revival story's last version was expansion he did not ask for, which made it too long to read. An update adds what landed, in the space the document already gives it; a brief for an update caps its length against the version before.
