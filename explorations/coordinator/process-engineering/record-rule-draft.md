@@ -2,9 +2,11 @@
 
 # The record-keeping part of the coordinator skill: a first draft and its trial
 
-The trial cuts the ten entries from 36.3K characters to 5.6K, to 15.5 % of their size. The new median of the ten is 0.58K and the longest is 0.60K (FACTS, the bound-list entry). Every one of the ten is under the measure of about 600 characters. If the trial's ratio held across each file, FACTS would come to about 37K characters and POSITIONS to about 24K. That projection is too low, since the smaller entries cannot shrink as much. If every entry over 600 characters came down to 600 and the rest stayed, FACTS would come to 113K and POSITIONS to 60K. So the rule cuts FACTS by more than half, where the consolidation of 2026-10-12 cut 15 %.
+The trial cuts the ten entries from 36.3K characters to 5.9K, to 16.2 % of their size. The new median of the ten is 0.58K. Nine of the ten are under the measure of about 600 characters. The tenth, FACTS 58, is 707, because the test showed that a decision needs the sentence it restores. If the trial's ratio held across each file, FACTS would come to about 39K characters and POSITIONS to about 24K. That projection is too low, since the smaller entries cannot shrink as much. If every entry over 600 characters came down to 600 and the rest stayed, FACTS would come to 113K and POSITIONS to 60K. So the rule cuts FACTS by more than half, where the consolidation of 2026-10-12 cut 15 %.
 
-Nothing in `FACTS.md`, `POSITIONS.md` or their history files is edited. The new texts are in Part 3 until the curator approves the rule.
+Giving one home to what FACTS and POSITIONS both tell (Part 3b) cuts four more FACTS entries to 30 % of their size. A blind test (Part 4) scored the new entries the same as the old: 27 points of 30 each. The new entries lost once, on FACTS 58, and one restored sentence repaired it.
+
+Nothing in `FACTS.md`, `POSITIONS.md` or their history files is edited. The new texts are in Parts 3 and 3b until the curator approves the rule.
 
 ## Part 1: what the record already says
 
@@ -203,7 +205,7 @@ The places that state the structure point to this part instead:
 
 Each entry below gives the new text, its size against the old in characters, and each kind of thing cut with where it lives now. A home is checked with one bounded `grep`, quoted as `file:line` with the words it matched. "The history file" means the provenance goes there at the pass. The entry's whole old text also goes to the history file verbatim, as item 32 of Part 2 says.
 
-The keys that quote each title were checked on a copy of the record with the ten new texts in place: `facts-extract.sh --root COPY --check` resolves each key to the same line as on the live record. The ten entries' slice falls from 38.6K bytes, about 16K tokens, to 7.7K bytes, about 3.3K tokens.
+The keys that quote each title were checked on a copy of the record with the ten new texts in place: `facts-extract.sh --root COPY --check` resolves each key to the same line as on the live record. The ten entries' slice falls from 38.6K bytes, about 16K tokens, to 7.7K bytes, about 3.3K tokens. FACTS 58's restored sentence adds 242 bytes, so the slice is about 7.9K bytes, about 3.4K tokens.
 
 ### FACTS 53, "The true distance to the switch-over ..."
 
@@ -307,13 +309,15 @@ Cut, and where it lives:
 
 ### FACTS 58, "MicroGPT's own programs through the compiled checker ..."
 
-New text, 465 characters against 3,200 (15 %):
+New text, 707 characters against 3,200 (22 %):
 
-- **MicroGPT's own programs through the compiled checker against the one library: none of their errors is a numeral, the model's unsized array types are the largest part, and every count is a floor.** C4 has 26 errors of its own, 15 of them decision D's unsized `Array[\RR64,ZZ32\]`; with decision D's diff it has 14. The counts are floors because the checker stops a block at its first failing statement (row 474). Detail: `reviews/array-design-ways.md` section 2.
+- **MicroGPT's own programs through the compiled checker against the one library: none of their errors is a numeral, the model's unsized array types are the largest part, and every count is a floor.** C4 has 26 errors of its own, 15 of them decision D's unsized `Array[\RR64,ZZ32\]`. With decision D's diff it has 14: three `DOT`s on the api's dead sizes (E3), five numeral powers refused as an ambiguous coercion between `RR64`'s `^` and `MultiplicativeRing`'s (row 533; walk takes them), and six others, the `adam` bridge and `numbersOf`'s count among them. The counts are floors because the checker stops a block at its first failing statement (row 474). Detail: `reviews/array-design-ways.md` section 2.
+
+This is the text the coordinator restored after the test (Part 4). The trial's text, 465 characters, cut the 14's parts and row 533. The reader given it called the five powers "the numeral work", the test's one loss. One sentence puts the parts back, and the entry is 107 characters over the measure. The decision that needs them is decision D: what C4 still fails on after D1, and whether it is the numerals or the arrays.
 
 Cut, and where it lives:
 
-- The 26 and the 14, with the powers refused as an ambiguous coercion and the diagnostic copies' 7: `reviews/array-design-ways.md:13`, "C4's own errors on the compiled checker: 26 as written, 14 with the diff".
+- The diagnostic copies' 28, 18, 14 and 7, and the base and date of the measurement: `reviews/array-design-ways.md:13`, "The diagnostic copies: 28 and 18 with the tuple bindings split"; `:31`, "The tree: `main` at `6bc21c364`".
 - The 15 sites of decision D and the 6 small errors: `reviews/array-design-ways.md:50`, "6 are the old small ones: `Character.codePoint`".
 - The planted errors and the copies checked: `reviews/array-design-ways.md:33`, "checked on six copies".
 - Walk's 40 PASS of 40 on the patched copy: `reviews/decision-d-diff.md:13`, "Under walk the patched C4 runs `MicroGptFlatCheck` to 40 PASS of 40".
@@ -370,10 +374,10 @@ Cut, and where it lives:
 
 ### The totals
 
-- The ten: 36,317 characters before, 5,636 after, 15.5 %. The eight FACTS entries: 31,408 to 4,468, 14.2 %. The two POSITIONS entries: 4,909 to 1,168, 23.8 %.
-- The median of the ten: 3,352 before, 579 after. The longest: 6,558 before (FACTS 53), 597 after (FACTS 94).
-- No entry of the ten stays over the measure. The titles are the hard part: FACTS 145's title alone is 305 characters and FACTS 87's 273, because each title lists several behaviours. A rule that a title states one fact would split such an entry; the trial did not.
-- FACTS is 257,739 characters in 195 entries, median 1,149; 161 entries are over 600. At the trial's ratio of 14.2 % it would come to about 37K. With every entry over 600 brought to 600 and the rest unchanged, it would come to about 113K, median 600 or less.
+- The ten: 36,317 characters before, 5,878 after, 16.2 %. The eight FACTS entries: 31,408 to 4,710, 15.0 %. The two POSITIONS entries: 4,909 to 1,168, 23.8 %. Before FACTS 58 was restored, the ten came to 5,636 (15.5 %) and the eight FACTS entries to 4,468 (14.2 %).
+- The median of the ten: 3,352 before, 583 after. The longest: 6,558 before (FACTS 53), 707 after (FACTS 58).
+- One entry of the ten stays over the measure, FACTS 58, with the decision that needs it (above). The titles are the hard part: FACTS 145's title alone is 305 characters and FACTS 87's 273, because each title lists several behaviours. A rule that a title states one fact would split such an entry; the trial did not.
+- FACTS is 257,739 characters in 195 entries, median 1,149; 161 entries are over 600. At the trial's ratio of 15.0 % it would come to about 39K. With every entry over 600 brought to 600 and the rest unchanged, it would come to about 113K, median 600 or less.
 - POSITIONS is 102,815 characters in 113 entries, median 726; 64 entries are over 600. At the trial's ratio of 23.8 % it would come to about 24K. With every entry over 600 brought to 600, about 60K.
 
 ### Decisions taken in the trial
@@ -382,3 +386,143 @@ Cut, and where it lives:
 - **A separate fact dropped from an entry.** FACTS 87's sentence that a `spawn` is refused in an `atomic` body is a different fact from the entry's. It is cut to the skeptic's report and its test. The alternative was a new entry of its own; no decision of the coordinator or a worker was found to rest on it.
 - **Titles rewritten.** FACTS 87, 94 and 166 have new titles that keep the opening words every key quotes. POSITIONS 60 keeps its title whole, provenance and all, because 22 keys quote it whole.
 - **Tests named by pattern.** FACTS 55, 87 and 94 name their tests by a pattern (`InferCoercion*`, `InferResultOnly*`, `OverloadTwoBoundsClosed*`). Some of the patterns also match tests of neighbouring entries. FACTS 145 names two tests and a pattern, since it joins four checks.
+
+## Part 3b: one home for what FACTS and POSITIONS both tell
+
+Four FACTS entries restated what POSITIONS 48 and 60 decide. A worker rewrote them to the rule, in copy q of the test only (Part 4). Each now names the decision it builds by its POSITIONS title, instead of restating it. POSITIONS 48 and 60 got a "Built:" pointer to them, which puts back the route to the built state that the trial's texts had cut. Sizes are characters of the entry's line, as Part 3 counts them. For POSITIONS 48 and 60, "before" is the trial's text.
+
+### FACTS 78, "The compiled checker instantiates a type parameter that nothing at a call fixes ..."
+
+New text, 562 characters against 2,022 (28 %):
+
+- **The compiled checker instantiates a type parameter that nothing at a call fixes at the intersection of its upper bounds, never `BottomType`, and tries a call by subtyping without the expected type first.** It builds POSITIONS, "A type parameter the arguments do not fix takes its bound ..." and "The order of the checker's attempts at a call". The run time cannot yet load an instance at an intersection (row 559). Gated by `compiler_tests/InferResultOnly*` and `InferContextKeepsFit`. Detail: `compile-ladder/rung-instance-bound/REPORT.md` sections 1 and 7.
+
+It names two decisions. Its title's second clause is the built state of POSITIONS, "The order of the checker's attempts at a call".
+
+### FACTS 141, "Under `walk`, a type parameter that nothing at a call fixes ..."
+
+New text, 581 characters against 2,397 (24 %):
+
+- **Under `walk`, a type parameter that nothing at a call fixes takes its declared bound, and a lone one with no narrowest candidate its bound.** It builds POSITIONS, "A type parameter the arguments do not fix takes its bound ...". An F-bounded one stays open ("Under `walk`, a type parameter whose bound mentions itself ..." below), and a big operator's plain-bounded ones keep `BottomType` (decision D2). Its other departures are decisions D3 and D5 and rows 587, 589, 591 and 612. Gated by `tests/Infer*Walk.fss`. Detail: `compile-ladder/rung-walk-instance/REPORT.md` section 2.
+
+The old text said that the one library declares `MatchFailure` checked (row 590). That was false, and the rewrite drops it. `main` has corrected it since (`c836b1f2d`).
+
+### FACTS 175, "The specification gives the run-time instance of a dispatched declaration ..."
+
+New text, 600 characters against 1,566 (38 %):
+
+- **The specification gives the run-time instance of a dispatched declaration by the POPL 2019 paper's rule, and reads a `comprises` clause at the level of values in every passage.** It builds POSITIONS, "A type parameter the arguments do not fix takes its bound ..." and "The `comprises` passages read at the level of values ...". Its callout: both paths take the value's type where it does not fix the parameter (row 538, gated by `XXXGenericInstanceUnfixed`); Appendix I names rows 487, 496, 540, 543, 546 and 547. Detail: `compile-ladder/rung-spec-overloading/decision-record.md` sections 5 to 9.
+
+The title drops ", a lone type parameter with no narrowest candidate its bound". FACTS "The specification's type-inference chapter states the rule the compiled checker builds" holds it in full, and no citation outside the history files quotes that clause. One nuance now lives only in the decision record's section 5: the specification keeps the statically selected declaration at its inferred instance, while the paper solves every call.
+
+### FACTS 76, "The compiled checker accepts the Meet Rule's `comprises` example ..."
+
+New text, 592 characters against 1,916 (31 %):
+
+- **The compiled checker accepts the Meet Rule's `comprises` example by a coverage check local to overload checking, and types a call whose argument's static type sits between two closed traits by the intersection of its candidates' return types.** It builds POSITIONS, "The `comprises` passages read at the level of values ...". Open: a family with static parameters (rows 543 and 546), and rows 487, 540, 547 and 559. Gated by `compiler_tests/*Comprises*` and `*CoverageReturn*`. Detail: `compile-ladder/rung-return-type-rule/decision-record.md` sections 3 and 4; its `REPORT.md` section 7.
+
+It names rows 543 and 546 for a family with static parameters, where the old text named only 543, and drops the sentence that the check accepts no pair of the one library. The rung's `REPORT.md` section 7, which it points to, holds that sentence.
+
+### POSITIONS 48, "A type parameter the arguments do not fix takes its bound ..."
+
+New text, 857 characters against the trial's 580. Nothing is cut. The 277 characters of "Built:" are added, so the entry is 257 over the measure.
+
+- **A type parameter the arguments do not fix takes its bound, never `Bottom` (the paper's instance rule).** It takes the intersection of its upper bounds under the constraint of the call's static return type: never `Bottom`, the union of the arguments' types or the value's type alone. Why: it is the type group's later word (POPL 2019), and he trusts the team's later work over his own reading. Which declaration runs is unchanged, and microGPT is unaffected. The library keeps the team's unbounded declarations. Built: FACTS, "The compiled checker instantiates a type parameter that nothing at a call fixes ...", "Under `walk`, a type parameter that nothing at a call fixes takes its declared bound ..." and "The specification gives the run-time instance of a dispatched declaration ...". Left for phase 5: the dispatcher carrying the static return type.
+
+### POSITIONS 60, "The `comprises` passages read at the level of values ..."
+
+New text, 850 characters against the trial's 588. Nothing is cut. The 262 characters of "Built:" are added, so the entry is 250 over the measure. The pointer names FACTS 27, walk's half of the decision, beside FACTS 175 and 76; without it the entry would be 758.
+
+- **The `comprises` passages read at the level of values (PLAN item 26, row 491).** The specification reads a `comprises` clause at the level of values, "covers" is defined once, and the Meet Rule has the closed-trait case; a call between candidates is typed by the intersection of their return types, with run-time uniqueness in place of static. Why: the proof addendum shows it sound for ground declarations, its coverage search kept local to overload checking. A generic declaration that needs a run-time instance is outside it. Proof: `reviews/comprises-type-level-proof-addendum.md`. Built: FACTS, "The specification gives the run-time instance of a dispatched declaration ...", "The compiled checker accepts the Meet Rule's `comprises` example ..." and "Walk's load check reads a generic declaration beside a plain one on declared domains ...".
+
+### The totals and the checks
+
+- The four FACTS entries: 7,901 characters to 2,335, 29.6 %. The six entries: 9,069 to 4,042, 44.6 %.
+- Each cut item was found in its home by one bounded `grep`, 53 of 53. A separate fact whose home is another entry is cut without a pointer, as the trial cut FACTS 87's `spawn` sentence: the facts of FACTS 84, 87 and 142, and row 593's refinement.
+- `facts-extract.sh --check` resolves the 16 keys that quote the six titles to the same lines before and after. `check-verbatim.py HEAD` exits 0 on both files.
+- Two decisions not taken, which are the curator's:
+  - Should a POSITIONS entry carry a "Built: FACTS, ..." pointer of about 260 characters, or leave the reverse link to the FACTS entries that name it? With the pointer, both entries are about 250 over the measure, and no decision needs the extra. Without it, POSITIONS has no route to the tree's state, which was the gap in the trial's texts.
+  - Should FACTS 173, the specification's inference chapter, join POSITIONS 48's pointer? FACTS 27 joined 60's.
+
+## Part 4: the test
+
+Blind, the new entries scored the same as the old: 27 points of 30 each. The two differed in three scenarios. The new entries lost one, scenario 7, because the trial's FACTS 58 had cut the fact that the answer needed. The old entries lost two, each with the fact in hand. One restored sentence repaired FACTS 58, and a re-run of scenario 7 then scored full marks.
+
+### How it ran
+
+- Fable wrote ten scenarios over the trial's entries, from their old texts. Each puts the reader in a worker's or the coordinator's role, quotes the entries that a brief would hand over, and sets a task. Fable also wrote a key with a rubric: decision 0 to 2, sources 0 to 1. Scenarios 9 and 10 test the pairs of Part 3b.
+- Two worktrees of `main` at `0f54a698b`. Copy p kept the old entries. Copy q got the new texts of Parts 3 and 3b, with the old texts moved to the history files. Both had this report, the boot notes and the report's INDEX line removed.
+- `fill.py` filled each copy's scenarios with that copy's entry texts. One fresh Opus reader in each copy answered blind: no other commit, no transcripts, nothing outside its copy.
+- A Fable grader scored the two answer files against the key, blind to the copy, and checked against the tree every claim beyond the key.
+- The kit, to run it again: `record-test/README.md`, beside this report.
+
+### The results, by scenario
+
+Decision and sources, the new entries first:
+
+1. Repairing row 665 (FACTS 145): the new entries 2 and 1; the old entries 2 and 1.
+2. Repairing row 686 (FACTS 94 and 53): the new 2 and 1; the old 2 and 1.
+3. Two refusals in a rung's tests (FACTS 55 and 87): the new 2 and 1; the old 2 and 1.
+4. The next batch's rung on the sized arrays (FACTS 53 and 94): the new 2 and 1; the old 1 and 1.
+5. Two objections from an outside reader (POSITIONS 48, FACTS 166, POSITIONS 60): the new 2 and 1; the old 2 and 1.
+6. The process stopped in the gate (FACTS 201): the new 2 and 1; the old 2 and 1.
+7. What C4 still fails on after decision D (FACTS 58): the new 1 and 0; the old 2 and 1.
+8. A worker's finding on the coverage typing (POSITIONS 60): the new 2 and 1; the old 2 and 1.
+9. Where the instance rule stands, path by path (POSITIONS 48, with FACTS 78, 141 and 175): the new 2 and 1; the old 1 and 1.
+10. A rung on row 559, and the shorter way (FACTS 78 and 76): the new 1 and 1; the old 1 and 1.
+
+### The totals
+
+- The new entries: decision 18, sources 9, 27 of 30.
+- The old entries: decision 17, sources 10, 27 of 30.
+
+### Where the two differed, and why
+
+- **Scenario 4, the old entries lower.** Their reader missed the `Array3` crash row (row 680), which makes the sized arrays' 17 errors a floor. It had read the distance table that holds it (`compile-ladder/climb-batch-13b/gate/distance.txt:29`), and the old FACTS 53 names it. The reader's own miss, with the fact in hand.
+- **Scenario 7, the new entries lower.** The trial's FACTS 58 had cut the 14's parts and row 533. The reader called the five powers the numeral work, planned to rewrite the entry in place, and said that no ledger row names their sites; row 533 does, by line. It had read `array-design-ways.md` section 2, which gives the mechanism, and ran no ledger query, so the miss is partly its own. This is the one place where what an entry held made a reader decide worse.
+- **Scenario 9, the old entries lower.** Their reader did not sort walk's departures into decisions and defects. It called row 592 a defect, though its class is `deliberate (walk)` (decision D3), and it left out D5. FACTS 141 names D3 and D5 as decisions in both texts. An error with the fact in hand.
+- **Scenario 10, both 1.** Both readers missed row 541, the fixed defect that the first half of way (b) would bring back. The old FACTS 78 names it and the new one does not, but neither reader used it, so the entries made no difference here.
+
+### The restoration, and the re-run of scenario 7
+
+- The coordinator restored one sentence in copy q's FACTS 58: the 14's parts, with the five powers refused as an ambiguous coercion (row 533). The entry is now 707 characters, and Part 3 gives its text.
+- A fresh Opus reader re-ran scenario 7 in copy q. The coordinator graded the answer against the same key, knowing its copy, so this grade is not blind: decision 2, sources 1. The answer gave the 14's parts; the powers by row 533 and not by a numeral's type; the floor by row 474, with the counts of 18 and 7; the date and row 533's "not measured since"; and a new measurement offered as the curator's call. It cited `array-design-ways.md` section 2 and rows 533 and 474.
+- The re-run also reports what the entry still leaves out: three bodies that crashed on `FortressBuiltin.Character` on 2026-09-27 went unchecked (row 477, since fixed in `70d5486f9`), and they hold more powers of row 533's shape. Like the first reader, it proposes a correction of the entry: the base and date of its counts, the crashed bodies, and a caveat on "none is a numeral". These are the re-run's claims, not checked here.
+
+### What the duplication between FACTS and POSITIONS did
+
+- In scenario 9, by its key, the old copy's five entries carried nearly the whole answer. POSITIONS 48 held rows 538, 496 and 424, `OverloadSet.java:2048` and item 20, and FACTS 141 held walk's departures with their tests. That saved a reader about seven lookups.
+- But nothing kept the copies true. POSITIONS 48 said that the unbounded lone-parameter tests are expected failures (row 516). That went false when batches 8 and 9 promoted them, and it survived two rewrites of the entry. FACTS 141 said that the library declares `MatchFailure` checked (row 590), which was false since batch 10. The rows and the tests, which the work itself keeps, were right throughout. `main` has corrected both sentences since (`c836b1f2d`, `8583d31d7`).
+- In the grading, the new copy's reader followed the pointers, lost no fact and scored 2 on scenario 9. The old copy's reader had walk's sorting in FACTS 141 and scored 1. Neither repeated a stale sentence.
+- In scenario 10, by its key, the old FACTS 78 restated the rule's inputs without naming whose rule it is. The new entry's "It builds POSITIONS, ..." names the decision, which is what the scenario asks. What the new entry drops is row 541's history, one hop away in row 559's note, and both readers missed it alike.
+- So the duplication worked as a cache does: it saved lookups, and served two of them stale. One home with a pointer cost the reader lookups, and cost no decision in either scenario.
+
+### The slips in the key
+
+The grader found seven (`record-test/grades.md` section 5):
+
+1. Scenario 4: none of the rank-2 and factory rows that the key names is among the sized arrays' 17 errors (`coordinator/tools/distance/classify.py:372-376`). So "no ledger row names any of the 17" is right, and the rubric should not count it against a reader.
+2. Scenario 10: the first half of way (b) does not turn the first test green as written, since the test binds the call's result to both candidates' types. And the rubric's row 541 clause gives 1 to an answer that is otherwise whole, though row 541 changes no step there.
+3. Scenario 9: "the rule refuses nothing in the library today" is wrong. Three sites stand under row 425: `Library/FortressLibrary.fss:4236` and `:4242`, and `Library/List.fss:146`.
+4. Scenario 7: the record itself says "The model's numeral powers are refused by the compiled checker since climb batch N's rung I" (`reviews/array-design-ways.md:322`; PLAN, the row 533 line), so the rubric should test the mechanism, not the key's "No". And the captures that the key and both readers cite are not in the tree; `array-design-ways.md` section 2 is the only source.
+5. Scenario 3: row 510's phrase "a static argument that only the call's result mentions" does not fit `wrapK[\T\](x: T)`, where the argument mentions `T` too. A point of wording.
+6. Scenario 8: the worker's shape, as the scenario words it, puts the declarations on `M`'s listed types, where row 543's family puts them on two closed traits above `M`.
+7. Small slips of line numbers in scenarios 1 and 2.
+
+### The cost
+
+- In tokens written, the eight agents from the draft on came to 2.77M.
+- The test itself came to 2.49M, against the coordinator's estimate of 1.6M, about 56 % over:
+  - the two scenario writers, 0.27M and 0.24M;
+  - the pairs worker, 0.25M;
+  - the two readers, 0.40M and 0.41M;
+  - the grader, 0.75M;
+  - the re-run of scenario 7, 0.16M.
+- Fable wrote 1.26M of it: the two scenario writers and the grader.
+
+### What the result means for the measure
+
+- At about a sixth of their old size, the new entries decided as well as the old in nine scenarios of ten. The one loss came from a fact cut from FACTS 58, and one sentence repaired it.
+- So 600 characters works as a check, not as a cap. An entry over it names the decision that needs the extra (Part 2, item 11). FACTS 58 is 707. The decision that needs it is decision D, item 13's fifth fork: what C4 still fails on after D1, and whether that is the numeral work or the arrays. The entry's title says "none of their errors is a numeral", and the five powers with row 533 are what tell a reader how to take it.
+- POSITIONS 48 and 60, with their "Built:" pointers, are 857 and 850 characters: over the measure, with no decision named that needs the extra. That is the first question of Part 3b.
+- The test is small: one reader for each copy, one grader, ten scenarios. It found no other loss, which does not show that there is none.
