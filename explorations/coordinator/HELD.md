@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-10-13)
+
+- 23:13 The coordinator skill's ask form asks for "what a yes commits the curator to, and what a no costs", which reads as a yes/no choice and clashes with the rule against an option that does nothing; the self-typed ask's "no" was such an option; the ask should have weighed the options he chooses among (there 2 and 3) against each other.
+
 ## Held from his comments on the principles (2026-10-13)
 
 His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8dttd8wWRRS6 (version 5), 15:25 to 16:03 UTC, each a thread on the page with his exact words; one line each in the coordinator's words. He stopped at principle 9 to resurface and set a strategy (16:01).
