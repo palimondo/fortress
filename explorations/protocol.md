@@ -1,179 +1,26 @@
-# Collaboration protocol
+<!-- Retired: the collaboration protocol, whose rules now live in the `coordinator` and `fortress-repo` skills; its last full text is in git. -->
 
-How Pavol and Claude work together on the Fortress revival. Read at session
-start, before anything else. It is six principles and a short list of hard
-rules. The principles serve purposes, and the purposes govern: when a wording
-and its purpose conflict, or when following a line would make things worse, do
-the better thing, say so in one line, and propose the fix. Keep effort and
-record in proportion: a side remark changes behaviour, not the record. Notice
-what is going wrong, a file growing, a rule producing clutter, reports nobody
-asked for, and propose the fix before Pavol has to point it out. His words
-behind all of this are in `coordinator/POSITIONS.md`.
+# Collaboration protocol (retired)
 
-## Hard rules
+This file is retired. Its rules now live in two skills, by part.
 
-These are not judgement calls.
+The `coordinator` skill (`.claude/skills/coordinator/`), for the coordinating session:
 
-- Pavol decides what gets committed. A batch run waits for his yes, each
-  time, and so does a Fable worker, except the design judgements principle 5
-  lets the coordinator run on its own judgement. A stop a batch record reserves for him, a line of the
-  model beyond the approved ones among them, does not hold a push or the next
-  batch when it can be undone: it lands, and it is listed for his review. Standing approval covers only the approved ladder in
-  `modernization-plan.md` and the push order below. A step his yes already
-  covers is taken, not asked about again.
-- Never committed: a model identifier (a model is named by its tier: Fable,
-  Opus, Sonnet); a copyrighted PDF or deck, except an open-access paper whose license allows
-  redistribution, committed beside its extract at his word, as the POPL 2019
-  paper is, and the POPL 2019 talk's checked transcript with its slides' text,
-  committed at his word (`research/decks/` is gitignored;
-  cite by Wayback URL; `research/extracts/` holds our own summaries with brief
-  attributed quotations); HANDOVER.md or ZIP contents without his go. His email
-  is for attribution only.
-- Every push: `git push origin main`, then
-  `git push origin main:claude/worker-brief-fable-vnnuv8` and
-  `git push origin main:blinded-fable` (the branch the coordinating session was
-  created from, which a rebuilt container clones); no other branch without
-  permission (the transcript orphan branches excepted). Commit footer,
-  exactly:
+- The opening paragraph and "What keeps going wrong" (purposes govern, a rule weighed by what it protects against what it costs, a side remark, a one-off go): `SKILL.md`, "The curator's role and decisions". The failures behind the rules: its `references/sources.md`.
+- The first hard rule (the curator's go, a batch's go, Fable workers, reversible stops, a standing go): `SKILL.md`, "The curator's role and decisions"; `references/batch.md`, "The go" and "Reserved points and repairs"; `references/delegating.md`, "Which tier runs what".
+- The last hard rule (no dialog tool) and principle 3 (the ask, the register, pages, restate and hold, the clock, quiet times): `SKILL.md`, "Talking to the curator".
+- Principle 2's nine steps, and principle 4 (PLAN's order, forks probed, idle time): `references/road.md`. The deeper pass, and the search of the record before an ask: `SKILL.md`, "The curator's role and decisions".
+- Principle 5 (delegation, the bounded boot, tiers, briefs): `SKILL.md`, "The standing goal" and "The boot"; `references/delegating.md`.
+- Principle 6 (the record): `SKILL.md`, "The record: what goes where"; `references/record.md`.
+- The skeptic's reading of test first: `references/batch.md`, "The roles".
 
-  ```
-  Co-Authored-By: Claude <noreply@anthropic.com>
-  Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
-  ```
+The `fortress-repo` skill (`.claude/skills/fortress-repo/`), for every worker:
 
-- A worker commits only the paths it wrote, as it goes, in one command
-  (`git add -- <paths> && git commit -m … -- <paths>`), never a directory
-  copy and never its scratch: probe programs, captured outputs, build logs,
-  lists and copies of tools stay under the worktree's `tmp/`, which is
-  ignored, and it pushes only after `git log origin/main..main` shows nothing
-  but its own commits; the coordinator reviews after and fixes by a further
-  commit. A staged change of more than a few hundred lines is read with
-  `git diff --cached --stat` before it is committed.
-- The gate: on a clean build, `ant testFast` and `ant testSystem` with zero
-  failures, the four-thread `atomic` runs, the ladder regression; the checker
-  count reported, never red on its own. Every edit under the original tree is
-  test first: the test written and seen failing through the harness before
-  the fix, then seen passing after it, and kept in the corpus; the test and
-  the fix may land in one commit, and the edit is flagged at commit. The
-  skeptic reads that order from the worker's transcript and runs no build to
-  repeat it. Nothing is committed to show it but the test and the report's
-  quoted lines.
-- Never the AskUserQuestion dialog; options go in plain text.
+- The hard rules on what is committed and pushed (a model named by its tier, copyrighted PDFs and decks, the push order, the commit footer, only your own paths and no scratch): `references/committing.md`.
+- The hard rule on the gate and test first: `references/gate.md`; `SKILL.md`, "Rules for every task"; `references/tests-writing.md`.
+- Principle 1 (no self-credit, authorship reconstructed, provenance in commit messages, every claim cited, the team's later word): `SKILL.md`, "Rules for every task"; `references/committing.md`; `references/exploring.md`, "Weighing the sources". A model line shown to the curator as a diff: POSITIONS, P-87.
+- Principle 2's method (one change at a time, reproduce before explaining, timings with their machine, no timing of walk): `SKILL.md`, "Rules for every task"; `references/records.md`, "Timings and citations"; `references/interpreter.md`, "Running a program".
 
-## Principles
+The container and the transcript backup are the `cloud-container` skill. The batch workflow's stages are `explorations/coordinator/climb-batch-workflow.md`. The rule on `HANDOVER.md` and uploaded ZIPs was dropped at the curator's word (`fortress-repo`'s `references/sources.md`).
 
-**1. We are custodians of their language, not its authors.** Finish what the
-designers intended, judged by the specification and the library's own practice;
-where they conflict, the type group's later, implementation-informed word weighs
-more. So: no self-credit anywhere committed, attribution reconstructed where git
-does not record it, provenance and rationale in commit messages and reports
-rather than source comments, every claim verified against a primary source. The
-notation is what the project exists for; a change to a line of the model is shown
-to him as a diff.
-
-**2. A design question is answered from the evidence before it reaches him.**
-What the mathematics says; what each path does today, measured; what the
-specification says under every spelling; what the library already does in the
-same family and where the designers departed from Java; what the peers do; what
-the commits say; then the derivation from his principles and the decision in
-his words. Solutions are the language's and the library's, not the first two
-someone wrote down: a brief states the problem and never the expected answer, a
-worker that has not read our notes lists every way the language offers before a
-fork reaches him, and a rule that blocks an option is answered with how the
-library gets around it. When something goes wrong or is undecided, the answer
-is a deeper pass, never a halt, a rollback or a bisection of a merged batch.
-One variable per step; reproduce before explaining; a timing names the machine
-it ran on (`nproc`, the CPU's model and MHz, the load at start, the JDK,
-`FORTRESS_THREADS`), and only a pair taken in one run measures a difference.
-A timing of the interpreter is not taken or recorded, since no decision rests
-on it (POSITIONS 2026-09-19).
-
-**3. He carries the responsibility, so his attention is the scarcest thing we
-spend.** He reads on a phone, often one earlier turn at a time. One ask per
-message, in this order: the question in one line; the context in short bullets,
-in principle 2's order, with a refresher first where the subject is new to him
-(why the design exists, what the peers do, how to judge it); the options,
-numbered, each with what it does, what it touches and what it costs; what a yes
-commits him to and what a no costs; the recommendation, one line, last and never
-instead of the explanation (`coordinator/answer-form-archaeology.md`). Where we
-think he is wrong, we say so and show why. Decisions one at a time, each with a
-default he can accept without the argument; the argument goes in the review. A
-document for his approval is published as a rendered page and he gets its link,
-not a diff. Plain short sentences and short paragraphs, lists not tables,
-numbers as K or M, a new term defined where it is used; explain it, don't just
-name it. Say what you mean: where a literal phrase exists, use it; no metaphor
-or turn of phrase in place of a direct statement. When he is reading and
-replying turn by turn, restate and hold: each point in a line of our own words
-on the held list, the reply only acknowledges each new point in a line and says
-"holding", three lines at most, never the whole list again, nothing argued until
-he says he is done, and no point is answered by being on the list; a point he
-marks "now" is not held. A decision made inside a worker's report is not made
-until he has seen it. Time is read from the clock, never guessed. While a batch
-runs he hears nothing unless something is wrong, and never about the harness's
-reminders or our record edits. A result reaches him only as a turn's final text.
-
-**4. Keep the project on track for him.** Every open issue is held in the order
-it needs deciding (`PLAN.md`) and brought to him one at a time; nothing he must
-decide is held only in the coordinator's context. A fork a probe can settle is
-probed before the batch is briefed. Closed decisions are not revisited and
-settled questions are not re-asked: losing an order to compaction and asking
-again is the same failure as inventing one. The same holds for method: before a
-thing is done a new way, the record is searched for how it was done last time.
-Idle time goes to parked research; a new deliverable is discussed before it is
-made; what needs his machine is parked, not simulated. When a goal is unclear,
-ask, and when we act on one reading of it, say which.
-
-**5. The coordinator's context is the project's memory; spend it on
-judgement.** Delegate by default: exploration, tracing, surveys and big
-searches go to a worker that returns a summary, and work with no dependency on
-what is running starts at once. Boot reads the record and nothing else, no
-directory listings, every command's output bounded. Workers run on Opus,
-Sonnet for archaeology. A Fable judgement runs without asking, sparingly, for a
-design question that touches two or more of the specification, the library and
-the implementation, once an Opus worker's evidence or list of ways is on file
-and the record has been searched and does not settle it; he learns of it when
-it is put to him in the ask form. Any other Fable worker waits for his yes: a
-question about the coordinator's own conduct or a new kind of process choice,
-one whose recommendation would reverse a decision of his, or one where he wants
-Fable and Opus working apart (`coordinator/fable-use-archaeology.md`). A decision that
-touches two of the specification, the interpreter and the compiler is made in
-two steps, cheaper workers gathering cited evidence and the judgement at the
-top tier. A brief names its reader and its question, and points at the earlier
-research and documents on file instead of restating them, so that nothing on
-record is rediscovered. What the record has measured the brief hands over as
-findings to cite, with their sources, never as claims to verify by running them
-again; it names the one thing that is new to measure and asks only for that. A
-finding is measured again only when the tree has changed under it since, and
-the brief says what changed. The clean worker of principle 2, on a design fork,
-is kept clean of our options, not of our measurements: it reads its question
-first, and measures only where no record answers it.
-
-**6. The record describes the present, each thing written once, so that a
-resumed coordinator knows the project without him.** A fact in FACTS with its
-source and its test, in a few lines with the detail left in the report it
-cites, and with no date; a position in
-POSITIONS as it stands, under its title, his words only where they are the
-position; the provenance of both in the history files; what is in flight in
-the boot note, rewritten whole. A wrong line is
-fixed, not footnoted; a side remark changes behaviour, not the record; a
-one-off go is written nowhere. The rest is `coordinator/README.md`.
-
-## What keeps going wrong
-
-Named so that the next boot sees it: walls of text and the clever register;
-time guessed, not read; a fork put to him before the library's own way was
-checked; standing orders and techniques invented when the record held one, or
-lost and re-asked; corrections appended instead of fixed, and one remark of his
-written into several files; a rule followed to the letter where that made
-clutter; a brief that told a worker to "verify, do not trust" the record and to
-measure every way on both paths, so that it re-ran measurements already on file; a rule of
-the batch workflow applied where its purpose did not hold, so that a finished
-batch waited on a whole gate rerun for a repair that only added tests, or on
-owed tests a later batch could write (POSITIONS 2026-09-29): a rule is weighed
-by what it costs against what it protects. Scratch committed as evidence, and
-long runs awaited by agents with large contexts, so that a batch paid more to
-record and to wait than to change Fortress (post-mortem 2026-09-29).
-
-The container, the transcript backup and recovery: `coordinator/remote-
-container.md`. The batch workflow's stages, stops and tiers:
-`coordinator/climb-batch-workflow.md`.
+The protocol's last full text is in git at every commit before the one that retired it, such as `9ef30490c`: `git show 9ef30490c:explorations/protocol.md`.
