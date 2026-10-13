@@ -136,3 +136,45 @@ Entries outside the slice that still keep a title that no longer holds, under th
 10. **The map's citation went to a report.** `map/README.md:17` cited old 36 for what a shadow is. No entry states that now, so it cites `perf-probes/nat/java.md` section 3. Another option is a sentence in a FACTS entry under The harness and the gate.
 
 ## The check
+
+**Pass with the fixes listed.** Nothing that a decision rests on is lost but one open row; the lens is applied evenly but for one title; every citation of a changed title in a live file is updated and none is left outside a history file; the six tests named are files in the tree with their `.test` files; the nine line references the worker corrected hold; `check-verbatim.py` exited 0 before the fixes and exits 0 after them. The slice is now 37,776 characters, `FACTS.md` 285,292 bytes. Each text the fixes replaced is verbatim in `FACTS-history.md`, in the section of 2026-10-13, after a comment line that says what changed.
+
+The fixes, by the line of `FACTS.md`:
+
+- Line 35: the export sentence rested on `compile-ladder/gate/distance-sites.tsv`, whose rows truncate the message and name no declaration; it now cites the six vector `DOT` and juxtaposition operators in the api and the component (`Library/FortressLibrary.fsi:1658-1674`, `.fss:2470-2486`) and batch 13's record for what the two export errors are (`coordinator/CLIMB-BATCH-13.md:332`). Row 399, the six declarations that gain an error once the checker reaches their sizes, which old 37 described without its number and nothing live pointed to, has one sentence.
+- Line 36: `MethodInstantiater.rttiReference` is at `runtimeSystem/MethodInstantiater.java:95-148`, not `:117-138`, and the file is not under `compiler/codegen/`; `CodeGen.generateTypeReference` is at `:5703-5838`, not `:5784-5793`.
+- Line 37: the 85 places are counted in `reviews/size-runtime-design-brief.md` section 5, not in `perf-probes/nat/runtime.md` section 2; the capture it named, `runtime/r7-lib-literals.txt`, left the tree in `fc89ee7a5`; "78 of them 0" added from the brief.
+- Line 39: the operator-parameter sentence is at `trait-parameters.tex:252-254`, not `:173-174` (unit parameters); "numeric values" is at `:97`, not `:83-86`.
+- Line 40: retitled. "The designs differ" named design A, which is not built and which the rewritten entry no longer describes, so the title compared with nothing; the opening words "What a size costs at run time, measured" stand, and no live file cites the title.
+- Line 41: the bidirectional size test is at `OverloadSet.java:1557-1580` and `INVARIANT` 0 at `:989`, not `:1481-1505` and `:1190`.
+- Line 43: the memo is at `OverloadingChecker.scala:78` and `:523-542`, not `:441-462`, which is now the duplicate-signature check.
+- Line 44: "no ledger row holds this" was false: row 584 holds the operators the overloading checker skips, with the mechanism (`isDeclaredName`, `NodeUtil.validOp`); `isDeclaredName` is at `:720-724`, not `:546-550`.
+- Line 46: `tImplies` and `primImp` are at `Formula.scala:265-298`, not `:185-205`.
+- Line 47: `Object extends EquivalenceRelation` is at `objects.tex:154-165`, not `:134`.
+- Line 48: `checkP` is at `TypeAnalyzer.scala:486-500`, not `:458-465`; the throw on `Any` in an extends clause at `CodeGen.java:5796-5805`, not `:5766-5778`; `XXXNatExcludeChecker` is a gated `XXX` compile test with `compile_err_contains`, green because row 402 is fixed, so "expected failure" was wrong.
+- Line 49: the `Any` rule is at `overloading.tex:134-137`, since the revision box above it moved it from `:114-127`, and in the checker at `OverloadingChecker.scala:452-456` and `:511-517`, not `:375-378` and `:433-441`.
+
+Of the line references the worker did not re-read, twelve in eight entries had drifted, two of them to a different file. Those it re-read all hold.
+
+**The lens, applied evenly.** Out of line with the rest, and left as they are: new 45 keeps a decision's frame ("These are the prices on which route A ... was chosen"), an account of what the facts were for, where the other entries state facts; new 46 and new 52 keep titles that name how the facts were measured ("built whole as a shadow on the nested tower", "measured by a clean worker"), rightly, since `.claude/skills/fortress-repo/references/sources.md` cites 52 and the brief does not open `.claude/`; new 42 keeps the crash that the refusal replaced, which is the reason for the refusal and so a trap, acceptable; new 53 keeps how a landing is read and where each batch's table lies, which the workflow's documents also hold. In the other direction, new 36, 38, 40, 41, 42, 43, 46, 47, 49, 50, 52 and 53 keep pointers to capture directories (`java/`, `size-probes/`, `size-cost/`, `size-rung-probes/`, `zero/`, `triage/`, `route-c/`, `spec-refused-examples/`, `fill-overloads-ways/`, `overload-static-params-ways/`, `flattening-questions-ways/`, `switch-over-distance-flat/`) that `84aef6a4f` and `fc89ee7a5` removed from the tree; the old texts pointed to them too, and the brief said nothing about them, so they stand, and the next brief should.
+
+**The worker's points, ruled on:**
+
+1. Agreed. Each fact of old 37 and old 54 was checked at the entry the comment names; all stand there but the five declarations of old 37, which are row 399's six and had no live pointer (fixed, line 35).
+2. Agreed. The thirteen new titles are true of the tree: `boundsFor` read at `FnNameInfo.java:168-183`, `checkP` at `TypeAnalyzer.scala:486-500`, rows 402, 410 and 411 fixed, 366 and 412 open, the distance 85 and the count 1 in `climb-batch-13b/gate/`.
+3. Old 42's title needed the rule after all (fixed, line 40). Old 46, 47 and 55 hold as statements; 46 and 55 are cited from `.claude/skills/`, which the brief does not open, so they were right to keep.
+4. Agreed. Each moved fact sits with its subject, and none was dropped on the way.
+5. The six gating tests are files with `.test` files. Row 416 and row 366's failure match their rows. The export checker's report matches `perf-probes/nat/REPORT.md` section 7, but the sentence's citation did not hold (fixed, line 35). The `Any`-bound rule matches `reviews/fill-overloads-ways.md` section 2; its lines had drifted (fixed, line 49).
+6. The nine corrections hold against the tree. The sentence "I did not re-read the others, so some may have drifted" was right: twelve had.
+7. Accepted. "Check clean" follows from REPORT.md section 2 and POSITIONS, "Sizes"; the 25 stand until E3 (`nat o` still occurs five times in the api).
+8. Agreed; the task writes the record's text, and the capture defect's row is for the coordinator.
+9. Accepted. Every sentence of new 53 bears on reading a gate; the paragraph on how a landing is read could go to the workflow's documents, a judgement for the curator.
+10. Agreed, with the worker's alternative preferred: `java.md` section 3 says what a shadow cannot reach, not what one is; a sentence under The harness and the gate would be its home. For the curator.
+
+**For the next slices.** Four sentences to add to the brief, and one to change:
+
+- Add: "Re-read every `file:line` in the slice against the tree, not only the ones your rewrite touches: print the lines, confirm that they show what the entry says, name the directory where a file has moved, correct the lines where they have drifted, and list each correction in the report." Twelve drifted here among those not re-read.
+- Add: "A sentence you add must come from a passage of the file you cite, at the place you cite, read in this task; a capture directory you cite must exist in the tree (`ls`), since `84aef6a4f` and `fc89ee7a5` removed most of them. Where an old entry points to a removed capture directory, keep the note's path and drop the directory's."
+- Add: "Where an entry says that no ledger row holds a defect, run `ledger-find` on the defect's words first: rows have been added since the entries were written. Where an entry names an `XXX` test, read its `.test` file: an `XXX` compile test with `compile_err_contains` asserts a refusal and is green once the row is fixed, so call it a gated test, not an expected failure."
+- Add: "An open ledger row that an old entry describes without naming keeps one sentence with its row number, in the entry whose subject it is."
+- Change "titles with an earlier measurement's figures" to: "A title no longer holds when it carries an earlier measurement's figures, a design that is not built, or a comparison with one, even where the comparison was true when it was measured; retitle it, keeping the opening words that citations quote."
