@@ -8,7 +8,7 @@ Words used throughout:
 
 - **team**: Designers of Fortress at Sun Labs, later Oracle Labs. Their last commit is `a874948ac` (2012-08-31).
 - **type group**: Part of the team that designed the type system and built the compiled type checker.
-- **curator**: Person who runs the revival and decides what is committed.
+- **curator**: Person who runs the revival. He sets its goals and decides the design questions put to him.
 - **walk**: Interpreter. It runs a program with no static types.
 - **compiled path**: Path that compiles a program to JVM bytecode and runs it: `fortress compile`, then `fortress run`.
 - **checker**: Static type checker. It runs on the compiled path only.
