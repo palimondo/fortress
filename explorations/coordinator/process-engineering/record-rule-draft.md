@@ -526,3 +526,28 @@ The grader found seven (`record-test/grades.md` section 5):
 - So 600 characters works as a check, not as a cap. An entry over it names the decision that needs the extra (Part 2, item 11). FACTS 58 is 707. The decision that needs it is decision D, item 13's fifth fork: what C4 still fails on after D1, and whether that is the numeral work or the arrays. The entry's title says "none of their errors is a numeral", and the five powers with row 533 are what tell a reader how to take it.
 - POSITIONS 48 and 60, with their "Built:" pointers, are 857 and 850 characters: over the measure, with no decision named that needs the extra. That is the first question of Part 3b.
 - The test is small: one reader for each copy, one grader, ten scenarios. It found no other loss, which does not show that there is none.
+
+## Part 5: what the test and the curator's comments add, to be folded into Part 2
+
+Written 2026-10-13 by the coordinating session, so that nothing learned is lost to a compaction; the next pass on this draft folds each point into Part 2 and the page, and then he reads the principles once (step 2 (c) of the rewrite plan).
+
+From the test (Part 4):
+1. A number a decision rests on keeps its breakdown when its parts belong to different rows or lead to different decisions: the parts with their rows, not only the total. (new; FACTS 58, whose trial text kept "14" and lost what the 14 are)
+2. A fact without which a claim of the entry would be misread stays in the entry. (new; FACTS 58's "none of their errors is a numeral" reads right only with row 533: the five numeral powers are an ambiguous coercion between two `^` declarations, not a numeral's type)
+3. The measure is a check, not a target: an entry over it says which decision needs the extra (FACTS 58 at 707 characters). The boot still reads the whole record, as he set on 2026-09-27. (new, reconciling `postmortem-2026-09-27-record-keeping.md:15` with "a few lines")
+4. Long entries cost decisions too: the old reader missed row 680 inside the 6.6K distance entry, and the old texts carried two false sentences (POSITIONS 48 on row 516, FACTS 141 on row 590, both corrected on `main` in `8583d31d7` and `c836b1f2d`). (from the grading)
+5. One home for what FACTS and POSITIONS both tell: FACTS states what the tree does and names the decision by its key; POSITIONS states the decision and why and points to the FACTS entries for what is built. From the decision side the duplication worked as a cache that went stale; from the tree side it did no work. (scenarios 9 and 10; Part 3b)
+6. The method: a trial on a slice, a blind test with the kit (`record-test/`), the one missing fact restored and its scenario re-run, and only then the rule applied widely. Next is the cold read: a fresh worker given only the written rule consolidates a slice of mid-size entries (1K to 2K), and the kit's quiz checks it. The test cost 2.49M written against an estimate of 1.6M.
+
+From his comments on the page (11:33 to 11:41 UTC) and in chat:
+7. Looking up a fact's history or a report's passage is retrieval: the coordinator sends a Sonnet scout, as for archaeology. (his comment, 11:33)
+8. The knowledge of the record is split: `fortress-repo` keeps how workers read and use the record and how they edit it when asked; the coordinator skill holds the entry's form and the pass that turns a finished worker's report into entries. Part 2's line that every place stating the structure becomes a pointer to the coordinator skill is too wide. (his comment, 11:40)
+9. Each FACTS and POSITIONS entry gets a permanent number (`F-87`, `P-48`), so titles and texts can be rewritten freely; the contradiction over titles that no longer hold is solved by it. (his yes, 11:05; his comment, 11:41)
+10. The other four contradictions of Part 1.6, answered: POSITIONS carries no dates, the dates are in the history; POSITIONS holds his words only where they are the position, the quotes in the history (his words, 09:05: his dictation "needs to be refined into nuggets"); an entry is a few lines with the measure as a check; a FACTS entry may point into a skill part where the detail lives (FACTS 201's pointer into the coordinator skill was followed in scenario 6).
+11. FACTS and POSITIONS hold the project; how the coordinator and he work together goes to the coordinator skill, and until it exists to the held list and the boot note, never to POSITIONS. (his words, 09:16)
+
+For the coordinator skill, from how this draft came about (not for POSITIONS):
+12. A rule he sets is quoted in every brief, word for word, with its measure and its example; it is never restated, since each restatement lost the part that cuts (`BOOT.md`'s account of 2026-10-12 and 10-13).
+13. A proposal of the coordinator's stays marked as its own until he says yes.
+14. Keeping what was learned is not put to him as a choice; nor is any option whose alternative is to do nothing (his words, 14:36 and 2026-10-12 21:01).
+15. A page a worker builds uses the house style, the CSS of the "Coordinator Rewrite Plan" page (his words, 09:54).
