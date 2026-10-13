@@ -4,7 +4,7 @@
 
 ## Held in chat after the path (2026-10-13)
 
-- 16:15 Are the long entries enough to rewrite from, or should Sonnet scouts gather everything related so an Opus writer rewrites each entry from that wider context; how many entries are there; run it as a batch workflow, as earlier rewrites ran (is this reinventing one); a writer with a shared context per section, writing in the halfway ASD-STE100 register; an entry should carry the known consequence that makes it actionable, without growing; there is still no statement of what goes into FACTS or POSITIONS and what is noise, or how a model decides it, whether it is laid down or left to each worker; he is tired and losing the thread.
+- 16:16 Are the long entries enough to rewrite from, or should Sonnet scouts gather everything related so an Opus writer rewrites each entry from that wider context; how many entries are there; run it as a batch workflow, as earlier rewrites ran (is this reinventing one); a writer with a shared context per section, writing in the halfway ASD-STE100 register; an entry should carry the known consequence that makes it actionable, without growing; there is still no statement of what goes into FACTS or POSITIONS and what is noise, or how a model decides it, whether it is laid down or left to each worker; he is tired and losing the thread.
 
 ## Held from his comments on the principles (2026-10-13)
 
