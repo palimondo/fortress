@@ -69,3 +69,22 @@ The skill was written from scratch on 2026-10-13 by the skill writer, from the w
 ## references/analysis.md
 
 - F-189, F-190, F-212; P-31; P-128's index clause; HELD 48 (10:20), 78 (2026-10-12 15:53), 129 to 134 (2026-09-27); `spend.py`'s and `journal-text.py`'s headers.
+
+## Changes of 2026-10-13, step 10
+
+The three checks of the draft at `7b434aae5` are in the coordinator's scratchpad, `skill-outline/checks/`: `kept.md` (the kept list), `cold-read.md` (the cold read) and `trial-boot.md` with `fixes-from-trial-boot.md` (the trial boot). The coordinator settled the writer's decisions 1 to 8 in the task of step 10.
+
+- A result in the turn's final text: `kept.md` L1; `protocol.md:113`; the failure of 2026-09-23 (`postmortem-2026-09-19/open-at-compaction-2026-09-23.md`); settled by the coordinator (decision 6).
+- A probe or an Opus worker launched without asking: `kept.md` L2; P-105, P-117.
+- FACTS read in pages: `kept.md` L3; F-190; settled by the coordinator (decision 7); the trial boot's fix 3.
+- A practice checked against what the workers did, and no batch structure in `fortress-repo`: `kept.md` L4, L5; P-134.
+- A page's glossary as a dictionary: `kept.md` L6; P-134.
+- A past time from the record: `kept.md` M1; P-145. Record edits not told, and "noted" when asked: `kept.md` M2, as the coordinator worded it. A standing go's scope: M4; `protocol.md:21-23`. The dialog tool's lapse: M5; HELD 67. Not restating FACTS: M6; P-140. The replies' register and the terms defined: M7; P-140. The briefing's share: M8; P-109. The count of reversals: M9; P-142. The reserved points' examples: M10; P-111. The ask's refresher: m1. An hourly check-in: m6; P-127. A log not read again: m7; P-104.
+- The record's queries and `record.py` in the core: the trial boot's fix 1. The house style's page URL: fix 2, and settled by the coordinator (decision 4). The boot note's run IDs, estimates, one next process stop and named check-ins: fix 4.
+- The terms land, model program, fork, cross-area question, bare go, standing go, hold, review list, interrupt, process stop and tokens written in the core; archaeology in `delegating.md`; the stages, gather, merged-diff review, repair round, commit stage, reserved point, checker count and distance in `batch.md`; re-approval rows in `road.md`: `cold-read.md`, flags S1 to S26, D1 to D20, B1 to B22, R1 to R5, C1 to C8, W1 to W5 and A1 to A4. The four meanings of "stop" became interrupt, process stop, hold and reserved point, as the coordinator asked.
+- The re-approval rows moved from the core to `road.md`, one theme per message: flags S11 and R4; P-142 with P-107.
+- The review list as PLAN's list under each batch, sorted in `review-queue.md`: flag S22; P-112; PLAN, "Where we stand".
+- The repair batch: `explorations/coordinator/REPAIR-BATCH.md`. The territory map: P-32. The definitions of the checker count and the distance: F-53, P-39; the switch-over: `fortress-repo`'s `SKILL.md`.
+- The Fable comparison of a rewritten approved part as a go in advance: P-132; flag W2.
+- The wrapper for a resume in another call order: `process-engineering/design-batch10-opus.md` (`resumeOrder`); flag D14.
+- Removed as provenance or anecdote, at the cold read's flags: the compaction quote (S2), the 1.7M of the wrong tier (D5), the probe's 7.0M (D12), the 45K agent floor (D18), the boot's 74K (A2), P-39's number (B10) and the review file's name (B22).
