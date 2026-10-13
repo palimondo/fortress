@@ -1,2 +1,4 @@
 # The gap ledger tool's lock file (tools/ledger.py takes a flock on it).
 .ledger.lock
+# The record tool's lock file (tools/record.py takes a flock on it).
+.record.lock

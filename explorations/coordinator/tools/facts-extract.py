@@ -3,15 +3,16 @@
 
 Called by facts-extract.sh beside it; run that with --help for the usage.
 The record: explorations/coordinator/FACTS.md (what is established, grouped
-by area, each entry cited by its title), explorations/coordinator/INDEX.md
-(one line per standalone note), POSITIONS.md and POSITIONS-history.md beside
-them (Pavol's decisions, each under its bold title, and their dated history),
+by area, each entry under a number, F-87), explorations/coordinator/INDEX.md
+(one line per standalone note), POSITIONS.md (Pavol's decisions, each under a
+number, P-48) and the two history files beside them, which record.py writes,
 the gap ledger explorations/fortress-gap-ledger.md (one table row per gap),
 the maps under explorations/coordinator/map/, any other note by path and
 heading, such as a judge's ruling or a section of the specification's .tex
 sources, and code by the declaration it starts at.
 """
 
+import collections
 import difflib
 import os
 import re
@@ -23,11 +24,13 @@ TREE = os.path.dirname(os.path.dirname(os.path.dirname(TOOLS)))   # the checkout
 
 sys.path.insert(0, TOOLS)
 import ledger as ledger_tool   # ledger.py beside this file owns the gap ledger's format and parser
+import record as record_tool   # record.py owns the form of FACTS.md, POSITIONS.md and their histories
 
 FACTS_REL = 'explorations/coordinator/FACTS.md'
 INDEX_REL = 'explorations/coordinator/INDEX.md'
 POSITIONS_REL = 'explorations/coordinator/POSITIONS.md'
 HISTORY_REL = 'explorations/coordinator/POSITIONS-history.md'
+FACTS_HISTORY_REL = 'explorations/coordinator/FACTS-history.md'
 LEDGER_REL = 'explorations/fortress-gap-ledger.md'
 MAPS = 'explorations/coordinator/map/'
 
@@ -64,9 +67,18 @@ then what was asked for, where it is and what was not found; each part says
 whether there is a next one, and --part N prints part N.
 
 QUERY is one of:
+  F-87, P-48             the entry of that number in FACTS.md or POSITIONS.md
+  F-87+                  the entry, then each entry it points to and each entry
+                         that points to it, each once, one level
+  history:F-87           the entry's blocks in FACTS-history.md or
+                         POSITIONS-history.md, oldest first: the provenance line
+                         of each change and the line it replaced
   TITLE                  the FACTS.md entry whose title holds TITLE: an entry's
                          title is its bold opening, or where it has none, its
-                         opening words up to the first colon, semicolon or full stop
+                         opening words up to the first colon, semicolon or full
+                         stop; when no current title holds it, the entry one of
+                         whose former titles (in FACTS-history.md) does, with a
+                         line saying it was retitled
   section:HEADING        every entry of the FACTS.md section whose heading holds HEADING
   index:WORDS            the INDEX.md lines that hold every one of WORDS (at most 10)
   ledger:ROW             row ROW of the gap ledger, whole, under its section and
@@ -75,8 +87,8 @@ QUERY is one of:
                          WORDS: its number, its status and the first 150 characters
                          of its claim (at most 10, then how many more matched)
   positions:TITLE        the entry of POSITIONS.md whose bold title holds TITLE, as
-                         a TITLE query does in FACTS.md; exactly one must, else the
-                         nearest titles are named
+                         a TITLE query does in FACTS.md, former titles included;
+                         exactly one must, else the nearest titles are named
   positions:DATE WORDS   the entry of POSITIONS.md dated DATE (YYYY-MM-DD, the first
                          date in the entry) whose head, the entry's text up to its
                          first colon and space, holds every one of WORDS; when no
@@ -166,6 +178,7 @@ class Record:
         self.index = index or os.path.join(self.root, INDEX_REL)
         self.positions = os.path.join(self.root, POSITIONS_REL)
         self.history = os.path.join(self.root, HISTORY_REL)
+        self.facts_history = os.path.join(os.path.dirname(self.facts), os.path.basename(FACTS_HISTORY_REL))
         self.ledger = os.path.join(self.root, LEDGER_REL)
 
     def rel(self, path):
@@ -185,27 +198,16 @@ class Entry:
 
 
 def title_of(text):
-    body = text[2:]
-    if body.startswith('**'):
-        end = body.find('**', 2)
-        if end > 2:
-            return body[2:end]
-    # No bold title: the opening words, up to the first colon, semicolon or
-    # full stop followed by a space, outside code spans.
-    code = False
-    for i, c in enumerate(body):
-        if c == '`':
-            code = not code
-        elif not code and c in ':;.' and body[i + 1:i + 2] == ' ':
-            return body[:i]
-    return body[:200]
+    """The bold opening of an entry, after its number, or where it has none, its
+    opening words up to the first colon, semicolon or full stop (record.py's rule)."""
+    return record_tool.title_of(text)
 
 
 def head_of(text):
     """A POSITIONS.md entry's head: its first line up to the first colon
     followed by a space, outside code spans, which is where his words begin;
     a colon right after the opening date does not end it."""
-    body = text.split('\n', 1)[0][2:]
+    body = record_tool.body_of(text.split('\n', 1)[0])
     lead = re.match(r'\D{0,40}?\d{4}-\d{2}-\d{2}: ', body)
     code = False
     for i, c in enumerate(body):
@@ -252,6 +254,120 @@ def nearest_titles(q, entries, k=3):
         scored.append((m.size, e))
     scored.sort(key=lambda x: -x[0])
     return [e for size, e in scored[:k] if size >= min(12, len(q))]
+
+
+# ---------------------------------------------------------------- numbered entries, through record.py
+
+NUMBER_QUERY = re.compile(r'(history:)?([FP]-\d+)(\+?)$')
+
+
+def numbered_store(rec):
+    """record.py's reading of FACTS.md, POSITIONS.md and their histories, from rec's paths."""
+    class Where:
+        files = {'F': rec.facts, 'P': rec.positions}
+        histories = {'F': rec.facts_history, 'P': rec.history}
+    return record_tool.Store(Where)
+
+
+def entry_block(rec, store, e, note=''):
+    path = store.files[e.kind].path
+    sec = '## %s, ### %s' % (e.top, e.section) if e.top else '## %s' % e.section
+    return ('== %s, %s' % (rec.rel(path), sec), '%s:%d\n%s%s' % (os.path.basename(path), e.lineno, note, e.line))
+
+
+def find_number(rec, store, q):
+    """F-87, F-87+ and history:F-87."""
+    f = Found(q)
+    m = NUMBER_QUERY.match(q.strip())
+    key, plus = m.group(2), bool(m.group(3))
+    kind = key[0]
+    if m.group(1):
+        if plus:
+            f.bad, f.missing = True, 'history: takes a number alone, such as history:F-87'
+            return f
+        h = store.hist[kind]
+        blocks = h.of(key)
+        if not blocks:
+            f.bad, f.missing = True, 'no block ### %s in %s' % (key, rec.rel(h.path))
+            return f
+        for b in blocks:
+            f.blocks.append(('== %s, ### %s' % (rec.rel(h.path), key), '%s:%d\n%s' % (os.path.basename(h.path), b.lineno, b.text())))
+        f.where = '%s: %d block%s, %s:%s' % (os.path.basename(h.path), len(blocks), '' if len(blocks) == 1 else 's',
+                                         os.path.basename(h.path), ', :'.join(str(b.lineno) for b in blocks))
+        return f
+    e = store.live.get(key)
+    if e is None:
+        f.bad, f.missing = True, 'no entry %s in %s%s; history:%s prints its blocks' % (
+            key, os.path.basename(store.files[kind].path), store.gone_note(key), key)
+        return f
+    f.blocks.append(entry_block(rec, store, e))
+    f.where = '%s:%d, %s' % (os.path.basename(store.files[kind].path), e.lineno, e.section)
+    if plus:
+        seen, out, gone = {key}, [], []
+        for p in record_tool.pointers(e.line):
+            if p.key not in seen:
+                seen.add(p.key)
+                (out if p.key in store.live else gone).append(p.key)
+        into = []
+        for x in store.entries():
+            if x.key and x.key not in seen and any(p.key == key for p in record_tool.pointers(x.line)):
+                seen.add(x.key)
+                into.append(x.key)
+        for k in out:
+            ctx, text = entry_block(rec, store, store.live[k])
+            f.blocks.append((ctx + '; %s points to it' % key, text))
+        for k in into:
+            ctx, text = entry_block(rec, store, store.live[k])
+            f.blocks.append((ctx + '; it points to %s' % key, text))
+        f.where += '; points to %d (%s), pointed to by %d (%s)' % (
+            len(out), ', '.join(out) or 'none', len(into), ', '.join(into) or 'none')
+        if gone:
+            f.where += '; points to no live %s' % ', '.join(gone)
+    return f
+
+
+def former_title_hits(rec, store, kind, want):
+    """When no current title holds want: [(block, text)] for each entry one of whose
+    former titles (its numbered block's, or an earlier line's) holds it, followed
+    through merges, with a line saying what became of it."""
+    found = collections.OrderedDict()
+    for b in store.hist[kind].blocks:
+        titles = b.former_titles() + ([record_tool.title_of(b.earlier)] if b.earlier else [])
+        for t in titles:
+            if want and want in norm(t):
+                found.setdefault(b.key, t)
+    out, shown = [], set()
+    for key, t in found.items():
+        k, path = key, []
+        while k not in store.live:
+            blocks = store.hist[kind].of(k)
+            last = blocks[-1].kind if blocks else ''
+            mm = re.match(r'merged into ([FP]-\d+)', last)
+            if not mm:
+                break
+            path.append(k)
+            k = mm.group(1)
+        if k in shown:
+            continue
+        shown.add(k)
+        if k in store.live:
+            e = store.live[k]
+            if norm(e.title) == norm(t):
+                continue
+            how = ('%s, whose former title "%s" holds the words, was merged into %s' % (key, t, k)) if path else \
+                  ('%s was retitled: its former title "%s" holds the words; its title now is "%s"' % (k, t, e.title))
+            out.append((k, entry_block(rec, store, e, how + '\n')))
+        else:
+            h = store.hist[kind]
+            b = h.of(k)[-1]
+            out.append((k, ('== %s, ### %s' % (rec.rel(h.path), k), '%s:%d\n%s, whose former title "%s" holds the words, is %s:\n%s' % (
+                os.path.basename(h.path), b.lineno, k, t, b.kind or 'gone', b.text()))))
+    return out
+
+
+def title_key(q):
+    """A title query's words as a title holds them: up to an ellipsis, which marks words left out."""
+    return norm(record_tool.ELLIPSIS.split(q.strip())[0]) if record_tool.ELLIPSIS.search(q) else norm(q)
 
 
 # ---------------------------------------------------------------- the gap ledger
@@ -592,6 +708,11 @@ def main(argv):
     facts_name = os.path.basename(rec.facts)
     index_lines = read_lines(rec.index)
     rows = ledger_rows(rec.ledger) if os.path.isfile(rec.ledger) else []
+    numbered = []
+    def store():
+        if not numbered:
+            numbered.append(numbered_store(rec))
+        return numbered[0]
 
     found = []
     for spec in (COMMON if common else []):
@@ -662,13 +783,18 @@ def main(argv):
             m = re.match(r'(\d{4}-\d{2}-\d{2})\s*(.*)$', key)
             if not m:
                 # A key with no date: its words as a substring of one bold title of POSITIONS.md.
-                want, name = norm(key), os.path.basename(rec.positions)
-                titled = [e for e in bullets(rec.positions)[1] if e.text[2:].startswith('**')]
+                want, name = title_key(key), os.path.basename(rec.positions)
+                titled = [e for e in bullets(rec.positions)[1] if record_tool.body_of(e.text).startswith('**')]
                 hits = [e for e in titled if want and want in norm(e.title)]
+                former = former_title_hits(rec, store(), 'P', want) if not hits else []
                 if len(hits) == 1:
                     e = hits[0]
                     f.blocks.append(('== %s, ## %s' % (rec.rel(rec.positions), e.section), '%s:%d\n%s' % (name, e.line, e.text)))
                     f.where = '%s:%d' % (name, e.line)
+                elif len(former) == 1:
+                    k, block = former[0]
+                    f.blocks.append(block)
+                    f.where = '%s, by a former title' % k
                 else:
                     near = hits[:3] or nearest_titles(want, titled)
                     f.bad, f.missing = True, '%s of %s %s it%s' % (
@@ -706,15 +832,24 @@ def main(argv):
                         comment = (e.comment + '\n') if (e.comment and path == rec.history) else ''
                         f.blocks.append(('== %s, ## %s%s' % (rec.rel(path), e.section, note), '%s:%d\n%s%s' % (name, e.line, comment, e.text)))
                     f.where = '; '.join('%s:%d' % (name, e.line) for e in hits) + ('' if len(hits) == 1 else '  (%d entries, not one)' % len(hits))
+        elif NUMBER_QUERY.match(q.strip()):
+            f = find_number(rec, store(), q.strip())
         elif q.startswith('map:') or q.startswith('doc:'):
             f = find_doc(rec, q, True)
         elif q.startswith('code:'):
             f = find_code(rec, q)
         else:
             f = Found(q, '"%s"' % q)
-            want = norm(q)
+            want = title_key(q)
             hits = [e for e in entries if want and want in norm(e.title)]
-            if not hits:
+            former = former_title_hits(rec, store(), 'F', want) if not hits else []
+            if former:
+                f.bad = len(former) > 1
+                for k, block in former:
+                    f.blocks.append(block)
+                f.where = '; '.join('%s, by a former title' % k for k, block in former) \
+                    + ('' if len(former) == 1 else '  (%d entries, not one)' % len(former))
+            elif not hits:
                 near = nearest_titles(want, entries)
                 hint = ('; nearest: ' + '; '.join('"%s" (%s:%d)' % (e.title[:90], facts_name, e.line) for e in near)) if near else ''
                 heads = [h for n, h in sections if want in norm(h)]
