@@ -348,9 +348,10 @@ def verify(root, base_commit):
                 after += [(c.words, resolve(c, now_by_kind[c.kind], e.lineno, store.live))
                           for c in citations(e.line, own, now_heads[own], now_by_kind, e.key, with_pointers=True)]
         else:
+            # Pointers count only in the files the numbering writes; elsewhere they are examples.
             before = [(c.words, resolve(c, base.entries(c.kind))) for c in citations(before_text, entries=base.by_kind)]
             after = [(c.words, resolve(c, now_by_kind[c.kind], None, store.live))
-                     for c in citations(after_text, entries=now_by_kind, with_pointers=True)]
+                     for c in citations(after_text, entries=now_by_kind, with_pointers=rel in LIVE_DOCS)]
         if [w for w, h in before] != [w for w, h in after]:
             fails.append('%s: its title citations at %s and now are not the same words in the same order (%d and %d)' % (rel, base_commit, len(before), len(after)))
             continue

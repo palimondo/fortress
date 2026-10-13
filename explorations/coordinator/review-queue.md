@@ -1,4 +1,4 @@
-<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by POSITIONS, "Which decisions taken inside the work reach Pavol, and how.": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. -->
+<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by P-112, "Which decisions taken inside the work reach Pavol, and how.": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. -->
 
 What waits for Pavol's review, 2026-10-10
 
@@ -34,13 +34,13 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Three attempts. Five calls moved instance; `c: ZZ64 = idt(3)` now runs `idt` at the numeral type and converts the result, the inference chapter's own example.
    - The other way: The two attempts exactly as decided.
    - Its cost: Such calls with an untyped function argument would be refused, since the coercion attempt cannot check one (row 507), and the five calls measured again.
-   - Home: PLAN:560; `compile-ladder/rung-instance-bound/decision-record.md:57` (D4), `REPORT.md:78` (section 3); POSITIONS, "The order of the checker's attempts at a call"
+   - Home: PLAN:560; `compile-ladder/rung-instance-bound/decision-record.md:57` (D4), `REPORT.md:78` (section 3); P-49, "The order of the checker's attempts at a call"
 
 3. **A declaration chosen statically keeps its inferred instance.** Batch 7b's rung S wrote that a declaration the static call selected keeps the instance inferred for it. Where neither the call's static return type nor an invariant position constrains a type parameter, this departs from the POPL 2019 paper, whose rule his decision on the instance follows.
    - Landed: The sentence as written; the rung's decision record names the departure.
    - The other way: State the paper's rule there too: such a parameter takes its bound under the call's static return type.
    - Its cost: A sentence of the specification. Neither path runs the paper's rule here yet: the compiled dispatcher carries the call's static return type only in phase 5.
-   - Home: PLAN:325; the fold `086875900` on `wip/7b-popl-fold`; `compile-ladder/rung-spec-overloading/decision-record.md`; POSITIONS, "A type parameter the arguments do not fix takes its bound ..." (10-02: 24)
+   - Home: PLAN:325; the fold `086875900` on `wip/7b-popl-fold`; `compile-ladder/rung-spec-overloading/decision-record.md`; P-48, "A type parameter the arguments do not fix takes its bound ..." (10-02: 24)
 
 4. **Does the inference chapter solve a call's type parameters together?** For `loneT[\S, T extends S\](a: T, b: T, s: S)` over an Apple, a Pear and a Pear, walk gives both parameters `Fruit`. Read one parameter at a time, the chapter gives `S` the type of `s` alone, and then `T` has no instance.
    - Landed: No default on record. Walk's answer is pinned by a plain test (row 613), and the chapter's box for the interpreter says nothing of the case.
@@ -156,7 +156,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Not built.
    - The other way: (1) About 32 mixed-width declarations; (2) the conversion alone, giving up answer 8 for this pair; (3) `ZZ64` into `RR64` as well, which loses precision.
    - Its cost: Every way to build it changes a decided behaviour.
-   - Home: PLAN:261 (item 37), :572; `compile-ladder/rung-numeral-library/REPORT.md:144` (section 8), `JUDGE.md:254`; `reviews/batch-8-review.md`, Part 1, rung Q; POSITIONS, "`NN32` coerces into `RR64`."; row 575
+   - Home: PLAN:261 (item 37), :572; `compile-ladder/rung-numeral-library/REPORT.md:144` (section 8), `JUDGE.md:254`; `reviews/batch-8-review.md`, Part 1, rung Q; P-75, "`NN32` coerces into `RR64`."; row 575
 
 22. **`Number` keeps one `=`, and `z = 0` goes through it.** Route A took `Number`'s catch-all operators away, but batch 6 kept its `=` so that `3 = 3.0` is not silently false. Since the numeral became a sibling under `Number`, the checker resolves `z = 0`, for a `ZZ32` `z`, to that catch-all and not to `ZZ32`'s own `=`.
    - Landed: The catch-all kept. Appendix I's entry on the numeral now names `=` and `=/=` as the operators where this happens.
@@ -192,7 +192,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: No default. Walk does not convert a numeral outside `ZZ32`'s range into `RR64` at all; that goes to Q-walk.
    - The other way: Exclude such numerals from the implicit conversion; or round them.
    - Its cost: A sentence of the coercion chapter, and Q-walk's conversion.
-   - Home: PLAN:406; row 443; POSITIONS, "The numeral switch, split by where the static types are." (10-02: 101)
+   - Home: PLAN:406; row 443; P-76, "The numeral switch, split by where the static types are." (10-02: 101)
 
 28. **A numeral within half an ulp of a tie.** A numeral with a decimal point is rounded as its nearest double, not as the rational it denotes: `round(2.50000000000000001)` is 2, not 3.
    - Landed: As both paths do it, gated by an expected failure.
@@ -213,13 +213,13 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - The other way: If his decision on sizes means that any size the call's text does not fix is refused, way 4a needs his word and way 4c remains: run-time sizes stay unsized. Ways 4b, 4d and 4e are on file.
    - Its cost: It reads his decision on sizes anew. It holds the library's `array[\E\](x)` and two lines of the model's sized-types diff. The Fable check against the POPL 2019 paper finds that the judgement stands (the item on that check).
    - Row 682 hangs on it: read against the POPL 2019 paper's full text, a declaration taking `NatParam` beside a generic one taking its listed type is a valid pair in the paper's own calculus (no ground witness, so the generic is strictly more specific, walk's answer), and a duplicate only under way 4a's opening rule, which the checker applies. So the checker's refusal stands under way 4a, and walk's acceptance is its load check's; under another way the row's checker half goes (`reviews/array-judgements-popl-check.md` section 7).
-   - Home: PLAN:339 (fork 3); `reviews/array-fork3-judgement.md` section 6; `compile-ladder/rung-size-expressions/REPORT.md:180` (decision 4), `SKEPTIC.md:57`; `CLIMB-BATCH-13.md`, Q13.3; POSITIONS, "Sizes." and "Arithmetic in a size ..."; `reviews/array-judgements-popl-check.md` section 3
+   - Home: PLAN:339 (fork 3); `reviews/array-fork3-judgement.md` section 6; `compile-ladder/rung-size-expressions/REPORT.md:180` (decision 4), `SKEPTIC.md:57`; `CLIMB-BATCH-13.md`, Q13.3; P-40, "Sizes." and P-55, "Arithmetic in a size ..."; `reviews/array-judgements-popl-check.md` section 3
 
 31. **The bound of `Vector` and `Matrix` (fork 2).** Which bound the element type of the array family takes.
    - Landed: The two-trait bound, `Number` and `MultiplicativeRing`. Batch 13 built it and held it, because the checker then took 17 minutes; at his "land it now" it landed with the checker-speed fix as batch 13b: 24 sites gone, 4 new, the distance 105 to 85.
    - The other way: `Number` alone as before; `MultiplicativeRing` alone; a bound per operation; the specification's algebra after `where` clauses; arithmetic on `Number`, against route A.
    - Its cost: His answer on the bound itself is pending; the other ways undo what batch 13b landed. The Fable check against the POPL 2019 paper finds that the bound stands (the item on that check).
-   - Home: PLAN:338 (fork 2), :301 (item 52); `reviews/array-fork2-judgement.md`; `compile-ladder/rung-array-bound/REPORT.md` section 10; `compile-ladder/climb-batch-13b/RECORD.md` (`749ec523e`, `d96bc7776`); POSITIONS, "Arithmetic in a size ..."
+   - Home: PLAN:338 (fork 2), :301 (item 52); `reviews/array-fork2-judgement.md`; `compile-ladder/rung-array-bound/REPORT.md` section 10; `compile-ladder/climb-batch-13b/RECORD.md` (`749ec523e`, `d96bc7776`); P-55, "Arithmetic in a size ..."
 
 32. **Two size parameters that may be equal.** In `two[\nat a, nat b\]`, the checker counts `a` and `b` as different sizes, so a `typecase` arm that needs them equal is refused as unreachable. The team's own Q&A reasons that a parameter may equal what it may be instantiated at.
    - Landed: Kept, gated by an expected failure (row 683, contested).
@@ -249,13 +249,13 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: None built. The diff was re-based on 2026-09-29 and applies.
    - The other way: Each is put to him as a diff with the switch-over's design, which is not drafted yet.
    - Its cost: Part of phase 4's design.
-   - Home: PLAN:203 (item 12), :101-111; POSITIONS, "Sizes."; `reviews/overloading-judgement.md` section 10, item 5; `reviews/decision-d-diff/rebase-2026-09-29/library-e3.patch`; row 320 (10-02: 15)
+   - Home: PLAN:203 (item 12), :101-111; P-40, "Sizes."; `reviews/overloading-judgement.md` section 10, item 5; `reviews/decision-d-diff/rebase-2026-09-29/library-e3.patch`; row 320 (10-02: 15)
 
 37. **The array decisions after the switch-over.** Forks 4 to 6 of the arrays: the element width (`RR64` or `RR32`), the model's sized types (decision D, 21 model lines out and 29 in), and what puts `double[]` under the generic traits (decision A).
    - Landed: None built; `RR64` as written. Plain explainers are to be prepared before the switch-over.
    - The other way: The ways on file for each.
    - Its cost: After the switch-over, by his decision. His own question, why microGPT uses `RR64` and not `RR32`, is owed an answer; the reason on record is the Python reference's float64 values.
-   - Home: PLAN:340-342; `reviews/array-design-ways.md` section 8; POSITIONS, "The array design's three questions are open"; `experiment/run-c-goldens/README.md` (10-02: 100)
+   - Home: PLAN:340-342; `reviews/array-design-ways.md` section 8; P-85, "The array design's three questions are open"; `experiment/run-c-goldens/README.md` (10-02: 100)
 
 ### The library's generators, strings and comparisons (3)
 
@@ -297,7 +297,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Both as landed. The `HeapShakedown` demo stops where it stopped before.
    - The other way: Put the demo lines back to the team's text.
    - Its cost: By reading, batch 7's eight demos would then fail where they call `fill` with a function, which since answer 10 takes a value.
-   - Home: PLAN:698 (3), :424; `compile-ladder/rung-reduction-types/REPORT.md` (decision 6); `compile-ladder/rung-tabulate/REPORT.md:209` (D4); POSITIONS, "The team demos that write no static argument ..."; row 464 (10-02: 91)
+   - Home: PLAN:698 (3), :424; `compile-ladder/rung-reduction-types/REPORT.md` (decision 6); `compile-ladder/rung-tabulate/REPORT.md:209` (D4); P-79, "The team demos that write no static argument ..."; row 464 (10-02: 91)
 
 ### Code generation and the run time (1)
 
@@ -325,7 +325,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Opus, as his decision on tiers pins workers.
    - The other way: Sonnet for those three stages.
    - Its cost: Saves about 0.13M to 0.28M of the Opus pool a batch.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/batch-redesign.md` section 9, item 13; POSITIONS, "Which tier runs what."
+   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/batch-redesign.md` section 9, item 13; P-117, "Which tier runs what."
 
 48. **A clean test of the skill.** The `fortress-repo` skill costs 0.47M to 0.65M a batch to read, and the six batches measured cannot say whether it buys quality.
    - Landed: Not run.
@@ -337,7 +337,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Not built.
    - The other way: Build it.
    - Its cost: A script change, which his decision on the gate's comparisons puts to him on its own.
-   - Home: PLAN:412; POSITIONS, "The gate's comparisons." (10-02: 9)
+   - Home: PLAN:412; P-123, "The gate's comparisons." (10-02: 9)
 
 50. **The library-extension bullet in the skill.** The skill's rule on extending the library, re-read from his words: extend it where its own text has a form for one number type, rank or sibling trait and lacks it for another; a form only the model needs, with no precedent, stays in the model's components.
    - Landed: The skill's current bullet, which he read as contradicting his position.
@@ -391,7 +391,7 @@ Each is kept as landed unless he says otherwise.
 
 60. Answer 9's positional rule compares two declarations only when they have as many static parameters of their own.
    - Landed: As built; applied to every pair it refused a team test. His answer 9 lists this scope for his review. The other way: Every pair. Its cost: The team's `Compiled12.invariantInference` refused.
-   - Home: PLAN:525; `compile-ladder/rung-return-type-rule/REPORT.md:191`; POSITIONS, "The static-parameter sentence goes (answer 9)." (10-02: 37)
+   - Home: PLAN:525; `compile-ladder/rung-return-type-rule/REPORT.md:191`; P-45, "The static-parameter sentence goes (answer 9)." (10-02: 37)
 
 61. A compiled verdict on an overload set can depend on the components compiled before it in the same JVM (row 547); batch 8's re-keyed memo is the candidate cause, not proven.
    - Landed: The row, for the checker phase. The other way: Trace the carried state now. Its cost: A checker investigation.
@@ -599,7 +599,7 @@ Each is kept as landed unless he says otherwise.
 
 109. `TotalComparison` extends `StandardMinMax`: he took it on recommendation and asked for a fuller explanation when he has the energy.
    - Landed: As built; an explanation owed. The other way: None. Its cost: None.
-   - Home: PLAN:323; POSITIONS, "Appendix I's small items." (10-02: 22)
+   - Home: PLAN:323; P-98, "Appendix I's small items." (10-02: 22)
 
 110. `LessThan`'s and `GreaterThan`'s `CMP` answer the converse of their `<` (row 456), and `LEXICO Unordered` answers `Unordered` (row 457).
    - Landed: Not repaired, since each repair changes a value walk prints. The other way: Repair both. Its cost: Walk values.
@@ -837,7 +837,7 @@ Each is kept as landed unless he says otherwise.
 
 166. How the ledger numbers rows during parallel batches (D7).
    - Landed: Provisional numbers folded at the gather. The other way: A lock and numbers in call order. Its cost: A rung edits the ledger.
-   - Home: POSITIONS, "The gap ledger's form."; `process-engineering/gap-ledger-archaeology.md:435`
+   - Home: P-133, "The gap ledger's form."; `process-engineering/gap-ledger-archaeology.md:435`
 
 167. Row 331's re-gating on inference, and the decisions judgement's candidate rows 2, 3 and 5.
    - Landed: Parked. The other way: Open the rows. Its cost: Rows.
@@ -849,11 +849,11 @@ Each is kept as landed unless he says otherwise.
 
 169. The root README calls `Specification-1.0-frozen/` the frozen 1.0 specification; only its PDF is 1.0.
    - Landed: The line as it stands. The other way: Reword it. Its cost: A line.
-   - Home: `README.md:105-107`; POSITIONS, "The S1 form" (10-02: 108)
+   - Home: `README.md:105-107`; P-96, "The S1 form" (10-02: 108)
 
 170. The inventory's move list waits on his reading.
    - Landed: Nothing moved. The other way: Move it. Its cost: Re-check it after the cleaning first.
-   - Home: PLAN:413; POSITIONS, "Where the work lives." (10-02: 109)
+   - Home: PLAN:413; P-128, "Where the work lives." (10-02: 109)
 
 171. The tracked jars (36 MB) fetched by a setup step, and the built PDFs as release artifacts.
    - Landed: Nothing done. The other way: Do it. Its cost: One of the PDFs sits in `Specification-1.0-frozen/`, which nothing touches; removing files shrinks a checkout only with the cleaner pass of `main`.
@@ -867,39 +867,39 @@ Each is kept as landed unless he says otherwise.
 
 ### Answered by a decision of his (33)
 
-- **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by POSITIONS "Sizes.", "The refused examples (S2).", "The run-time size design is B.", "Fixed-width overflow raises `IntegerOverflow` under `walk`", "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN:186-201, :203, :209, :215, :219, :221, :225, :229, :233, :241, :246, :247, :255.
-- **Item 15, arithmetic in a size (array fork 1).** POSITIONS, "Arithmetic in a size ..."; built `7fd8fddc8`. Home: PLAN:214, :337.
-- **Item 20, the written `Object` bounds of batch 7's rung B.** POSITIONS, "A type parameter the arguments do not fix takes its bound ..."; built `a1b5c253d`. Home: PLAN:207 (10-02: 1).
+- **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes.", P-97, "The refused examples (S2).", P-41, "The run-time size design is B.", P-73, "Fixed-width overflow raises `IntegerOverflow` under `walk`", P-80, "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN:186-201, :203, :209, :215, :219, :221, :225, :229, :233, :241, :246, :247, :255.
+- **Item 15, arithmetic in a size (array fork 1).** P-55, "Arithmetic in a size ..."; built `7fd8fddc8`. Home: PLAN:214, :337.
+- **Item 20, the written `Object` bounds of batch 7's rung B.** P-48, "A type parameter the arguments do not fix takes its bound ..."; built `a1b5c253d`. Home: PLAN:207 (10-02: 1).
 - **Item 32, the domain condition on answer 9's positional rule; with it, the line that walk's rung would promote row 159's renamed pairs.** His answer (1) to batch 8's Q3, 2026-10-02 at about 11:24 UTC (`CLIMB-BATCH-8.md:46-54`); row 159 stays a walk defect row. Home: PLAN:237, :444.
-- **Item 35, the natives' one binding text.** POSITIONS, "The natives' one binding text is `builtinPrimitive` naming a static helper (item 35)."; `046207371`. Home: PLAN:305 (10-02: 12).
+- **Item 35, the natives' one binding text.** P-58, "The natives' one binding text is `builtinPrimitive` naming a static helper (item 35)."; `046207371`. Home: PLAN:305 (10-02: 12).
 - **Item 36, expected types in four contexts.** His yes to batch 11's Q2; built `27cb9e93b`. Home: PLAN:259.
 - **Items 39 to 41, the bounded ranges of rank 2 and 3, their comparisons, and `#(0,n)`.** His answer (a) to batch 11's Q3; built `b872d65a1`. Home: PLAN:267-271.
-- **Items 42 and 44, `String`'s `left` and `right`, and `QQ`'s `ceiling` and `truncate`.** POSITIONS, "`String`'s `left` and `right` answer `Just(c)` ..." and "`QQ`'s `ceiling` and `truncate` keep `ZZ` ..."; built `74b28e9d4`. Home: PLAN:273, :279.
+- **Items 42 and 44, `String`'s `left` and `right`, and `QQ`'s `ceiling` and `truncate`.** P-53, "`String`'s `left` and `right` answer `Just(c)` ..." and P-54, "`QQ`'s `ceiling` and `truncate` keep `ZZ` ..."; built `74b28e9d4`. Home: PLAN:273, :279.
 - **Item 47, a local function with an untyped parameter.** His yes to batch 11's Q4; built `2d22d3a35`. Home: PLAN:285.
-- **Item 48, a `label` body (a) and a call as another call's argument (b).** POSITIONS, "A `label` body takes the expected type ..." (built `054c4bcfd`) and "A call written as another call's argument is retried ..." (a batch 14 candidate). Home: PLAN:289.
-- **Items 49 and 50, the open range's five methods and the corner-by-corner check.** POSITIONS, "The open range `(:)` keeps its wildcard type ..." and "A range of rank 2 or 3 checks containment corner by corner"; built `abe8b0342`. Home: PLAN:291, :293.
+- **Item 48, a `label` body (a) and a call as another call's argument (b).** P-50, "A `label` body takes the expected type ..." (built `054c4bcfd`) and "A call written as another call's argument is retried ..." (a batch 14 candidate). Home: PLAN:289.
+- **Items 49 and 50, the open range's five methods and the corner-by-corner check.** P-56, "The open range `(:)` keeps its wildcard type ..." and P-52, "A range of rank 2 or 3 checks containment corner by corner"; built `abe8b0342`. Home: PLAN:291, :293.
 - **Item 52, how fork 2's held library half gets past the checker's slowness.** His "land it now" (05:27 and 05:35 UTC, 2026-10-10): the checker-speed fix (`3c67d5204`) and the held half (`749ec523e`) landed as batch 13b, its gate at `d96bc7776`, its Fable skeptic's approval at `71c082724`; row 688 closes with it; his answer on the bound itself is the (b) item on fork 2. Home: PLAN:301; `compile-ladder/climb-batch-13b/RECORD.md`.
-- **Row 582, `isLeftZero`, with batch 13's pins of it.** POSITIONS, "`LexicographicReduction.isLeftZero` takes `TotalComparison` ...", which names the refused `isLeftZero(Unordered)`; built `9ba86f7da`. Home: PLAN:584, :726 (3).
-- **The skeptic's contested rule, its third clause.** POSITIONS, "The judge's rulings."; `a1902d0d4`. Home: PLAN:678.
-- **The instance rule extended to static inference by rung S's sentence.** POSITIONS, "A type parameter the arguments do not fix takes its bound ...", whose R2 applies it to the checker, built by batch 8's rung I. Home: PLAN:324, :310 (10-02: 23).
-- **The synthesis's second default: one skeptic, no second review.** The redesign, POSITIONS "The judge's rulings." and "Nothing is built or run twice on the same code."; `process-engineering/README.md`, pending item 1. Home: synthesis section 2(b) (10-02: 20).
-- **Workflow option (b), approvals with required corrections.** Stale: the skeptic now fixes what it finds (`process-engineering/README.md`, "Waiting on Pavol", third point); POSITIONS "The judge's rulings." still calls the option parked. Home: PLAN:412 (10-02: 8).
-- **A judge may not strike a candidate from a fork.** Stale: a judge now rules only on a contested fix, a refusal or a stop (POSITIONS, "The judge's rulings."). Home: PLAN:332 (10-02: 7).
+- **Row 582, `isLeftZero`, with batch 13's pins of it.** P-57, "`LexicographicReduction.isLeftZero` takes `TotalComparison` ...", which names the refused `isLeftZero(Unordered)`; built `9ba86f7da`. Home: PLAN:584, :726 (3).
+- **The skeptic's contested rule, its third clause.** P-118, "The judge's rulings."; `a1902d0d4`. Home: PLAN:678.
+- **The instance rule extended to static inference by rung S's sentence.** P-48, "A type parameter the arguments do not fix takes its bound ...", whose R2 applies it to the checker, built by batch 8's rung I. Home: PLAN:324, :310 (10-02: 23).
+- **The synthesis's second default: one skeptic, no second review.** The redesign, P-118, "The judge's rulings." and P-104, "Nothing is built or run twice on the same code."; `process-engineering/README.md`, pending item 1. Home: synthesis section 2(b) (10-02: 20).
+- **Workflow option (b), approvals with required corrections.** Stale: the skeptic now fixes what it finds (`process-engineering/README.md`, "Waiting on Pavol", third point); P-118, "The judge's rulings." still calls the option parked. Home: PLAN:412 (10-02: 8).
+- **A judge may not strike a candidate from a fork.** Stale: a judge now rules only on a contested fix, a refusal or a stop (P-118, "The judge's rulings."). Home: PLAN:332 (10-02: 7).
 - **A protocol line: a change is reviewed by reading the change, not its report.** In the skeptic's brief: the worker's report is "a claim to check, not evidence", and the diff is read line by line (`climb-batch-workflow.js:860`, `:886`). Home: PLAN:329 (10-02: 6).
-- **The gap ledger: its purpose, sorting, numbering, worklist and counts.** POSITIONS, "The gap ledger's form." (topic sections, `ledger.py`, D1 to D6); D7 is a (c) item. Home: PLAN:330; held list, lines 13-21 (10-02: 11).
-- **May a Fable judge rule overnight.** POSITIONS, "The judge's rulings." (a second ruling on Fable, pre-approved) and "The phase-3 batches run on a standing go." Home: PLAN:331.
-- **Dropping the merged-diff review.** POSITIONS, "A blocking second review does not hold a green batch." Home: synthesis section 2(b) (10-02: 4).
-- **Expected-output files and comparing the corpus's outputs.** POSITIONS, "The suite's verdict is the check." Home: synthesis section 2(a) (10-02: 5, 19).
+- **The gap ledger: its purpose, sorting, numbering, worklist and counts.** P-133, "The gap ledger's form." (topic sections, `ledger.py`, D1 to D6); D7 is a (c) item. Home: PLAN:330; held list, lines 13-21 (10-02: 11).
+- **May a Fable judge rule overnight.** P-118, "The judge's rulings." (a second ruling on Fable, pre-approved) and "The phase-3 batches run on a standing go." Home: PLAN:331.
+- **Dropping the merged-diff review.** P-113, "A blocking second review does not hold a green batch." Home: synthesis section 2(b) (10-02: 4).
+- **Expected-output files and comparing the corpus's outputs.** P-103, "The suite's verdict is the check." Home: synthesis section 2(a) (10-02: 5, 19).
 - **New tests named by topic.** The synthesis's third default, settled 10-02. Home: synthesis section 2(c) (10-02: 21).
-- **The gate after a repair of specification text only.** POSITIONS, "A tests-only repair does not rerun the gate."; `c5d3bd401`. Home: PLAN:592.
+- **The gate after a repair of specification text only.** P-114, "A tests-only repair does not rerun the gate."; `c5d3bd401`. Home: PLAN:592.
 - **Re-approval row 48: a batch's own gate summary as the next comparand.** Stale: every gate compares with the newest landed summary (`.claude/skills/fortress-repo/references/gate.md:9`); rows 42 to 46 and the homes 374 to 377 were settled on 10-02. Home: PLAN:407 (10-02: 104).
-- **A ledger row for code generation's refusal of `where` clauses, and a section for the cost rows.** POSITIONS, "The gap ledger's form.": any agent adds a row through `ledger.py`, and section 15 holds performance rows. Home: PLAN:414 (10-02: 105).
-- **Rung C's two points.** Item 16 and POSITIONS, "Walk chooses coercions on the value, for now." Home: PLAN:410.
-- **The closure accommodation.** POSITIONS, "`AnyIntegral`'s closure and how the checker reads `comprises`." Home: PLAN:411.
-- **Batch N's two runs, run 2 retired.** POSITIONS, "The numeral switch, split by where the static types are." Home: PLAN:487.
-- **Rung I's ambiguity check against item 26.** POSITIONS, "The `comprises` passages read at the level of values ..." Home: PLAN:493.
+- **A ledger row for code generation's refusal of `where` clauses, and a section for the cost rows.** P-133, "The gap ledger's form.": any agent adds a row through `ledger.py`, and section 15 holds performance rows. Home: PLAN:414 (10-02: 105).
+- **Rung C's two points.** Item 16 and P-59, "Walk chooses coercions on the value, for now." Home: PLAN:410.
+- **The closure accommodation.** P-44, "`AnyIntegral`'s closure and how the checker reads `comprises`." Home: PLAN:411.
+- **Batch N's two runs, run 2 retired.** P-76, "The numeral switch, split by where the static types are." Home: PLAN:487.
+- **Rung I's ambiguity check against item 26.** P-60, "The `comprises` passages read at the level of values ..." Home: PLAN:493.
 - **Row 516, a lone parameter's union.** The instance rule; row 516 fixed. Home: PLAN:467.
-- **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (POSITIONS, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN:459 (10-02: 57).
+- **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (P-51, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN:459 (10-02: 57).
 
 ### Answered by a landed fix or a closed row (32)
 
@@ -929,7 +929,7 @@ Each is kept as landed unless he says otherwise.
 - **Row 658, `PrefixSet`'s `indices`.** Row 658 fixed, `abe8b0342`. Home: PLAN:674.
 - **The skill sentences batches 11, 12 and 13 made false, and the reviews' skill points.** `7b3226bb2`, `38def33a9`, `6c021c983`; `sources.md:436` names `QuickCheck` and `Random`; `interpreter.md:45` names the `where` clause. Home: PLAN:676, :697, :700, :724, :728.
 - **Tests owed for row 653, for the reduction at `Any`, and for `Pairs`.** `fdd377ead`, `efd6bb2f2`; setting row 653's reproducer is in the `ledger.py` (c) item. Home: PLAN:677, :695, :696.
-- **`ant testSpecData`'s red examples.** 130 of 130 since `369982d85`; POSITIONS, "The specification's examples join the gate at zero red." Home: PLAN:430.
+- **`ant testSpecData`'s red examples.** 130 of 130 since `369982d85`; P-124, "The specification's examples join the gate at zero red." Home: PLAN:430.
 - **Batch 6b's rows 450 to 453.** 450, 451 and 452 fixed; 453 retires with the prelude. Home: PLAN:436.
 - **Rung B's rows 469 to 473 and its ten-line edit.** 469, 472 and 473 fixed; the written bounds dropped by `a1b5c253d`; 470 and 471 stay defect rows. Home: PLAN:426, :427 (10-02: 92).
 - **The owed tests of batch 6.5's second run.** Written in rung E. Home: PLAN:513.
@@ -948,7 +948,7 @@ Each is kept as landed unless he says otherwise.
 ### Struck on 2026-10-02 and still struck (5)
 
 - **The self-typed bodies "not ripe" (now ripe: a (b) item).** The judgement exists (`reviews/self-typed-bodies-judgement.md`). Home: CLIMB-BATCH-8.md Q2.
-- **This week's pacing; the review's second script change; the `wip/` branches; the cleaner pass of `main`; the skill-extraction session; the FACTS titles; the long FACTS entries; the tools reorganisation; pricing the tokens; inventory item 36's leftovers.** The check against his words of 2026-10-02; the branches deleted that evening; the skills since written (POSITIONS, "The order of the work after batch 10."). Home: review queue of 2026-10-02, "Checked against his words"; PLAN:415, :481 (10-02: 3, 10, 95, 96, 98, 112, 113, 114, 115, 116).
+- **This week's pacing; the review's second script change; the `wip/` branches; the cleaner pass of `main`; the skill-extraction session; the FACTS titles; the long FACTS entries; the tools reorganisation; pricing the tokens; inventory item 36's leftovers.** The check against his words of 2026-10-02; the branches deleted that evening; the skills since written (P-132, "The order of the work after batch 10."). Home: review queue of 2026-10-02, "Checked against his words"; PLAN:415, :481 (10-02: 3, 10, 95, 96, 98, 112, 113, 114, 115, 116).
 - **Walk carrying the expected type into a generic call (rows 510, 21, 364).** His word of 09-29 14:07: walk is not touched until the switch-over gives it types. Home: PLAN:463 (10-02: 17).
 - **Typecase's binding syntax.** His rule that the text changes when it meets reality; default (a). Home: PLAN:420 (10-02: 106).
 - **The testing archaeology's answer to his question.** Answered 16:19 UTC 2026-10-02. Home: `postmortem-2026-09-29/archaeology-testing.md` section 7 (10-02: 110).
