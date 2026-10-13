@@ -41,7 +41,7 @@ def rung_of(label):
     return parts[1] if len(parts) > 1 and re.fullmatch(r'[A-Z][A-Za-z0-9]*', parts[1] or '') else None
 
 # A build is a shell segment (split at ; & | newline and double quotes) that is the ant command itself,
-# so that a quoted key such as "ant compileAll deletes a tracked file" is not one.
+# so that a quoted key such as "ant compileAll deletes the caches folder" is not one.
 BUILD_SEG = re.compile(r'^\(?\s*ant(\s+-\S+)*(\s+\w+)*?\s+(compileAll|clean)\s*(\d?>.*)?\)?$')
 LIBRARY_SEG = re.compile(r'fortress compile \S*CompilerLibrary')
 
