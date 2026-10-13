@@ -159,6 +159,18 @@ This is a first draft of the record-keeping part of the `coordinator` skill, the
 37. `check-verbatim.py` still runs, since it is cheap. It shows that the history holds the old text. It is not the pass's goal. (on record that it runs; new that it is not the goal)
 38. A decision enters POSITIONS in the next commit after he states it, written by the coordinator, and the same pass runs on POSITIONS at each landing and whenever he replaces a decision. (on record)
 
+### Numbered entries, a proposal
+
+Added at his yes of 2026-10-13, 11:05 UTC, as a proposal for his comments.
+
+- Each FACTS and POSITIONS entry carries a permanent number at its start, `F-87` or `P-48`. A number is never reused or changed; a merged or removed entry's number stays in the history. (new; the ledger's model, on record: "Rows are never renumbered, and reports cite them by number", FACTS, "The ledger's rows stand in fifteen topic sections ...")
+- The history files keep each earlier text under its number, as `explorations/fortress-gap-ledger-history.md` keeps a row under `### Row N`. The 903 texts already in `FACTS-history.md`, in 81 dated sections, stay under their dates; numbers start with the next consolidation. (new)
+- A pointer gives the number and the title: `F-87, "The compiled checker gives a call its expected type ..."`. The number is the key; the title is for the curator and the reader. To the curator an entry is still named by its title. (new)
+- `facts-extract.sh` resolves a number, prints an entry's history in order, and lists every entry that points to it. Today it resolves titles only, has no query for `FACTS-history.md`, and lists no back-links. (new)
+- A check that every pointer resolves to exactly one entry runs with the pass's other checks. (new)
+- A retitled entry then needs no citation updated anywhere. (new)
+- Cost: numbering the entries is one script, with no model; the tool's change is an Opus worker's, about 0.3M to 0.5M, an estimate. (new)
+
 ### What `fortress-repo`'s `references/records.md` would need to change
 
 A list for the skill writer. No skill is edited by this draft.
