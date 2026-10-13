@@ -2,6 +2,20 @@
 
 # Held list
 
+## Held from his comments on the principles (2026-10-13)
+
+His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8dttd8wWRRS6 (version 5), 15:25 to 16:03 UTC, each a thread on the page with his exact words; one line each in the coordinator's words. He stopped at principle 9 to resurface and set a strategy (16:01).
+
+- 15:25 (principle 1) Draft the coordinator skill's outline first, so each entry moved out of FACTS or POSITIONS gets a section and nothing is lost in the move.
+- 15:32 (principle 2) The history grew as a verbatim copy checked by a script; with numbers, it could be provenance metadata (when, from where, links into the report); one tool call by the coordinator could write the entry and its history part, so nothing is written twice; the record is a flat-file database; build the tooling during the consolidation so the chunk workers and later the coordinator use it; channel the model's instinct to keep a dated project memory into this place; asks whether this needs design help, perhaps a Fable review.
+- 15:34 (principle 3) Agrees, but "changes what a worker or the coordinator does next" is not actionable as stated: wants a decision rubric grounded in a few examples, not a list of rules, that taps the model's instincts. 15:38: 600 or 1,000, an entry needs a reason to be large; did not understand the example (is a fact split from its consequence, the consequence sent to the history? that would be wrong).
+- 15:46 (principle 4) Good, but not actionable; "kept the 14 and lost what the 14 are" was unreadable until the restored text named the errors: over-compression into numbers; FACTS wants the ASD-STE100-halfway register; error counts that change at every landing may be a different kind of fact, one current value, not one per experiment.
+- 15:51 (principle 5) One home is right; copies go stale, pointers cost a lookup and the decision to look; a tool that surfaces a fact with its linked positions in one go, by the links in the metadata, a second-level cache behind the compressed record in context; fears over-engineering.
+- 15:56 (principle 7, form) Storing his dictated words verbatim is counterproductive, as the dictation correction on the page shows; the quote paragraph does not belong to reading stages.
+- 15:57 (principle 7, content) Good, but a coordinator-skill rule: why in the record part; does it bear on how the record is structured for lookup, or on recording provenance so a Sonnet scout knows where to dig.
+- 16:01 (principle 8) Losing the thread: he thought we were defining how to consolidate the record, and the page mixes in what the coordinator skill does; stops commenting to resurface; the comments go on the held list with a strategy for them.
+- 16:03 (principle 9) The second sentence ("quote that form in every brief") is unclear; keeping the provenance of ideas (his against the coordinator's) is a real failure mode, but how is it relevant to the consolidation.
+
 ## Held in chat and on the Record Rule Draft page (2026-10-13)
 
 Points on how we work, kept here until the coordinator skill holds them (his words, 09:16: they go to the skill, not to POSITIONS). The record-keeping points are in `process-engineering/record-rule-draft.md` Part 5.
