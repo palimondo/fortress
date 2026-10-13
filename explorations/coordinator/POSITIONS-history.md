@@ -620,3 +620,135 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-13 18:16Z · rewritten · from `explorations/reviews/flattening-questions-ways.md`, "Question 3. RationalQuantity and the sign-refined types" · commit `bc8902f47` · by consolidation chunk P2: the probe Q3Phantom and the specification's superseded-design note left to the review
 
 - P-62 **The `covariant` keyword is future work**, not on the path to microGPT. Row 404 records the soundness hole: the checker accepts variance and neither path carries it to run time; its expected-failure tests are owed in a batch rung. Worklist item 12 is declaration-site variance by the keywords, carried to run time on both paths. When covariance lands, "resurrect" the specification's sign-refined number types as covariant static parameters (the note's way 2, probe `Q3Phantom`); the specification's superseded-design note points to that road.
+
+### P-7
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/decisions-review/judgement.md`, "F1. The goal and its measuring stick (2026-09-16)" · commit `bc8902f47` · by consolidation chunk P1: retitled to state the goal. "The Working Draft of 2010-12" named as P-96 and the specification name the same copy, the Working Draft of February 2011 (F-164: the text's last edit is of 2010-12-09, the copy of 2011-02-02). The tag `sealed-tree` and test-first editing after it left to the fortress-repo skill (SKILL.md, "Rules for every task"; references/records.md, "The repository's history"). His words of 2026-09-29 on the living document are in this history.
+
+- P-7 **The measuring stick.** Finish what the designers intended, judged by the specification in `Specification/`, the Working Draft of 2010-12 as the revival revises it, with the 2012 Types chapter cited beside it; not redesign the language. The measure is one program, microGPT, compiled to bytecode and running fast. A pure-Java microGPT is written later as the floor to measure against. The specification is a living document that reflects the changes we make. The tree is tagged `sealed-tree` at the map's last commit; commits after it edit the original sources, test-driven.
+
+### P-8
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/decisions-review/judgement.md`, "In short" · commit `bc8902f47` · by consolidation chunk P1: retitled to state the position; his words of 2026-09-29, 12:17 UTC ("I don't care about type theoretical purity ...", "I assume those people knew much more than I do right now") condensed, their text in this history; the review's other two files, evidence.md and popl-recheck.md, are beside judgement.md
+
+- P-8 **How he weighs his calls where the designers left no word.** "I don't care about type theoretical purity and I'm accepting all unfinished corners of the language because I want to get to a compiled version of micro GPT. And I think this is the right pragmatic approach so that we do not get bogged down in weeds. Theory. We want to get this one program running fast. That's our guiding star. But along the way, I want to stay true to the spirit of Fortress." He has not read the specification, the papers on its type system or the library, and relies on the record: "I assume those people knew much more than I do right now." The check he asked for is a thorough top-tier review of every decision of his against the designers' intent, for errors of commission and of omission (`reviews/decisions-review/evidence.md`, `judgement.md`, `popl-recheck.md`); its items are decisions below.
+
+### P-9
+
+2026-10-13 19:07Z · rewritten · from `explorations/conversations/01-apl-close-and-rung-4b.md`, "What Pavol was after, in his own framing" · from `explorations/run-c4/design.md`, "What was merged from where" · commit `bc8902f47` · by consolidation chunk P1: retitled to state the position; "a few lumps of coal", not a diamond, condensed to "fell short", the words in this history; C4 and C2 said in words; why the tuple form settles it is run-c4/design.md's first table
+
+- P-9 **The readable expression.** The toy problem is microGPT and the search is for its most readable expression: "we are searching for the optimal expression of the microGPT algorithm for readability." Fortress's mathematical notation and Iverson's APL notation (with Hsu's data design for data-flow algorithms) are the two sources. The Hsu-style flat program gave "a few lumps of coal", not a diamond; the vocabulary is where any polishing happens. C4 is the APL target form; C2's tuple hyperparameter form is what a strand assignment expands to; the semicolon form is set aside.
+
+### P-10
+
+2026-10-13 19:07Z · rewritten · from `explorations/conversations/01-apl-close-and-rung-4b.md`, "Decisions on record" · commit `bc8902f47` · by consolidation chunk P1: retitled to carry the rule; how the side quest grew (a curiosity, then a ladder to learn APL, then native code rather than an interpreter inside the interpreter) is history, dated in this history; that the walk check runs the APL program is the fortress-repo skill's (references/interpreter.md, "The model program")
+
+- P-10 **The APL side quest is closed.** It was a curiosity, then a ladder to learn APL, then native code (not an interpreter in an interpreter) with microGPT as its target; its remaining ground (tacit, characters, nested arrays) is not pursued.
+
+### P-11
+
+2026-10-13 19:07Z · rewritten · from `explorations/notation-collaboration/README.md`, "Where the presentation is controlled" · commit `bc8902f47` · by consolidation chunk P1: retitled to carry the rule; his words "a neat gimmick, not a good idea" (2026-09-16) condensed to the title, their text in this history
+
+- P-11 **The 2D notation is a gimmick.** Fortify's mathematical rendering is "a neat gimmick, not a good idea": it encodes one perspective on a computation into the syntax, while the same mathematics can be written many ways; APL's glyph-per-transformation is the purer realisation. Presentation only, not on the path, not an argument for Fortress; no work on it unless he asks.
+
+### P-12
+
+2026-10-13 19:07Z · rewritten · from `explorations/performance-roadmap.md`, "Phase 0: shared foundation (both routes need it)" · commit `bc8902f47` · by consolidation chunk P1: title made a sentence; "the entry on walk's choice of coercions" made P-59; the roadmap's item 0.1 holds the older plan
+
+- P-12 **The type checker on interpreter programs.** He wants the checker, which runs only on the compile path, usable on interpreter programs, and considers it low-hanging fruit. It comes after the switch-over, when walk also takes the static coercions the checker inserts (the entry on walk's choice of coercions).
+
+### P-16
+
+2026-10-13 19:07Z · rewritten · commit `bc8902f47` · by consolidation chunk P1: retitled to state what he holds; his words "mucked around with syntax" condensed, their text in this history; no report holds this entry
+
+- P-16 **The project's end.** DARPA's HPCS did not take Sun into phase three (2006) and the project lived on at Sun Labs until 2012. His reading: they did no work on performance, "mucked around with syntax", and the promise that a sufficiently advanced compiler would later make mathematical types fast was never true; the funding was pulled for good reason.
+
+### P-17
+
+2026-10-13 19:07Z · rewritten · from `explorations/perf-probes/kernels/REPORT.md`, "1. bench1, rewritten fairly" · from `explorations/perf-probes/kernels/REPORT.md`, "2. The three microGPT-shaped kernels" · commit `bc8902f47` · by consolidation chunk P1: retitled to state the position; "only about ten times the interpreter", a measurement of 2026-09-15, cut, F-11 and F-12 holding the current figures; the first measurement and the fairer test he asked for are history, kept as the rule on what to measure; his words "without unboxed doubles and arrays of doubles, what are we even doing here" condensed, their text in this history; "his decision below" made P-84
+
+- P-17 **Boxed numerics.** The compiled path is only about ten times the interpreter because numerics are boxed (`FRR64`, no `DADD`); "without unboxed doubles and arrays of doubles, what are we even doing here". The first measurement's scalar loop was an edge case microGPT never hits (literals in the loop, a `:=` accumulator); the fairer test he asked for agreed with him (FACTS § Execution model). The storage is his decision below; unboxed arithmetic is phase 6 of the plan.
+
+### P-18
+
+2026-10-13 19:07Z · rewritten · commit `8ab10d9de` · by consolidation chunk P1: retitled to a sentence; his words "coming around to his point of view" condensed; no report holds this entry; Hsu's data design is P-9's
+
+- P-18 **Hsu's critique** of language paradigms as accidental complexity; he is "coming around to his point of view".
+
+### P-19
+
+2026-10-13 19:07Z · rewritten · from `explorations/coordinator/lineage.md`, "The wrong sentence" · from `explorations/coordinator/lineage.md`, "Files that still repeat it, for the cleaner pass or for a decision" · commit `bc8902f47` · by consolidation chunk P1: retitled to the part that stays; "CLAUDE.md no longer describes" cut as history, since CLAUDE.md does not repeat the sentence; the files are lineage.md's list. The last clause, with his words of 2026-08-23, moves to the fortress-repo skill's records part at a later step.
+
+- P-19 **The third-party Java 9 port** gets no credit and no mention: "I don't wanna see them mentioned anywhere." CLAUDE.md no longer describes the tree as the port's migration grafted on the history; the other files that repeat that sentence wait for the lineage cleanup (`PLAN.md`). His plan to rename the graft-free `clean-ladder` branch to `main` was not carried out.
+
+### P-25
+
+2026-10-13 19:07Z · rewritten · from `explorations/coordinator/spec-lineage.md`, "6. The consequence: which artefact is the team's latest statement, topic by topic" · commit `bc8902f47` · by consolidation chunk P1: the sentence he agreed to on 2026-09-26 ("On the rule S revises, it is the designers' latest intent ...") condensed, its text in this history; what the restart is and when it was written is F-166's
+
+- P-25 **The specification stays the standard, the Types chapter beside it.** Where the Types chapter of the team's unfinished restart (`Documentation/Specification/Prose/Language/types.tick`) covers a topic, it is cited beside `Specification/` as the designers' later word: the exclusion rule as "instantiation exclusion" in its two-part form, the `covariant` modifier, `Bottom` inexpressible. "On the rule S revises, it is the designers' latest intent, and the goal is to finish what they intended."
+
+### P-26
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/decisions-review/judgement.md`, "F3. The later, implementation-informed word outweighs the early text (2026-09-23, 2026-09-26)" · commit `bc8902f47` · by consolidation chunk P1: his words of 2026-09-23 ("written in a vacuum early on", "when that wish met reality, then the spec must change", "We are not Naden. We know nothing here.") condensed, their text in this history; the flattening's authors (Chase, Ryu, Maessen and Allen, from git) are P-43's
+
+- P-26 **The type group's late positions outweigh the early text.** The specification "was written in a vacuum early on", "as a wish"; "then the type group went in and tried to make it run. So they knew much more about what's feasible and what's not. The goal was performance. The specialization is a must"; "when that wish met reality, then the spec must change"; "whatever the spec was dreaming about in 2008 is irrelevant because it met hard reality". So the late, implementation-informed positions of the type group (the exclusion rule, specialization kept, the compiled tower flattened in 2009 and 2010 by Chase, Ryu, Maessen and Allen, Naden's 2012 write-up, the POPL 2019 paper) outweigh the specification's earlier text where they conflict, and the implementers' later word outweighs unfinished text. "We are not Naden. We know nothing here."
+
+### P-27
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/decisions-review/judgement.md`, "F2. The library's own practice is the standard (2026-09-19)" · from `explorations/protocol.md` · commit `bc8902f47` · by consolidation chunk P1: his words of 2026-09-19 and 2026-09-24 condensed, their text in this history; the workers' form of the rule is the fortress-repo skill's (references/library.md). The last clause moves to the coordinator skill's planning part at a later step.
+
+- P-27 **The library's own practice is the standard.** "all the extensions that [microGPT] invented need to go directly to the standard library in the spirit of the standard library." Exclusion "is a practice that is all over the standard library"; whoever extends the library "should study the existing parts of the Fortress library meticulously, and use those patterns for extending the standard library in the native way". No fix is designed from a reading of the specification alone or from a user-side workaround. A fork put to him names the library's own way first, and a fork resting on a rule that refuses something says what the library does instead (protocol principle 2). The lesson behind the rule: he had to find the diagonal's override shape himself ("why the fuck did I have to invent this solution?"), because the step skipped was what the library already does in the same family.
+
+### P-28
+
+2026-10-13 19:07Z · rewritten · commit `bc8902f47` · by consolidation chunk P1: retitled to a sentence; "first the `RR64`/`AdditiveGroup` mismatch (done by the flattening)" cut, done in PLAN phase 2, its text in this history; his words of 2026-09-15; no report holds this entry
+
+- P-28 **Fleshing out the standard library** is a very important task: first the `RR64`/`AdditiveGroup` mismatch (done by the flattening), then the algebraic layer (Ring, Field and what ML's matrices and tensors need) so the library's trait flavour reaches them; into the standard library itself, not a tree of our own.
+
+### P-29
+
+2026-10-13 19:07Z · rewritten · from `.claude/skills/fortress-repo/references/gate.md`, "The ladder regression" · commit `bc8902f47` · by consolidation chunk P1: retitled to state the position; his words of 2026-09-19 condensed, their text in this history; how the ladder-regression stage compares the phases is the fortress-repo skill's
+
+- P-29 **Interpreter performance is irrelevant.** "interpreter of Fortress, which is hundreds times slower than the Python interpreter, is irrelevant for any performance discussions"; "we cannot judge anything performance related in Fortress while we do not have a compiler". No edit to C4 for speed, and no performance decision of any kind until microGPT runs compiled. The two microGPT programs never run in the gate ("those are too long running to be tests"); the ladder-regression stage compiles them and records the phase; when they one day run, the run goes to a separate non-gating stage.
+
+### P-30
+
+2026-10-13 19:07Z · rewritten · from `.claude/skills/fortress-repo/references/interpreter.md`, "The model program" · commit `cba1664bb` · by consolidation chunk P1: retitled to carry the measure; his words of 2026-10-08 ("it needs to run under a minute, okay? That's the goal. Otherwise, it's useless waste of time.") condensed, their text in this history; the command, the programs and the timeout are the fortress-repo skill's
+
+- P-30 **The microGPT walk check is quick.** Under walk, the check of the model after a batch proves that its mathematics still works and that the library changes did not break it: about two forward-and-backward passes against the reference values, under one minute, never a full run of every check; the full check programs run only when asked. "it needs to run under a minute, okay? That's the goal. Otherwise, it's useless waste of time."
+
+### P-32
+
+2026-10-13 19:07Z · rewritten · from `explorations/coordinator/map/README.md`, "3. Answers to the questions Pavol asked on 2026-09-16" · commit `bc8902f47` · by consolidation chunk P1: retitled to a sentence; "he wanted it before unsealing" is history; the last clause moves to the coordinator skill's core at a later step
+
+- P-32 **The territory map** (`coordinator/map/`) is the map down to where the design intent is written, papers as well as the specification; he wanted it before unsealing. The maps exist so that nothing on record is rediscovered; the boot order is followed as written, `INDEX.md` included.
+
+### P-33
+
+2026-10-13 19:07Z · rewritten · from `explorations/coordinator/PLAN.md`, "The phases" · from `explorations/coordinator/PLAN.md`, "Off the path, parked" · commit `bc8902f47` · by consolidation chunk P1: retitled to a sentence; phases 1 and 2, landed, named in short, their full content in PLAN; where the work stands is PLAN's "Where we stand", which each landing rewrites; "row 41" said to be the re-approval table's row (open-items-2026-09-26.md item 13), not ledger row 41. The last clause moves to the coordinator skill's planning part at a later step.
+
+- P-33 **The plan** (`coordinator/PLAN.md`) is six phases, approved with its workers: 1, the wrapping operators, the specification rung without the number chapters and the run-time size rung; 2, the flattening, the number chapters and the overflow natives; 3, the checker at a true zero; 4, the switch-over, natives then names; 5, microGPT compiles: its static types, the array design and the code-generation holes; 6, microGPT fast. Phases 1 and 2 are landed. His answers come in the plan's order; the re-approval rows and the other off-path items are parked until relevant; row 41 joins the switch-over's design.
+
+### P-95
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/decisions-review/judgement.md`, "D12. How the specification shows a change: S1, S2, the calculi, answers 1 and 3 (2026-09-24, 09-26)" · from `explorations/compile-ladder/rung-spec-route-a/decision-record.md`, "5. Route C, the way back" · commit `bc8902f47` · by consolidation chunk P1: his words of 2026-09-24 ("our plan needs to update the spec with the change that we do ...") condensed, their text in this history; route C said in words
+
+- P-95 **Every change to the specification is recorded with its reason.** "our plan needs to update the spec with the change that we do and somehow properly record why we decided that way, so that there is no open discrepancy between the spec and our implementation that would be confusing to people. We need to preserve the original historic record somewhere in a document with our reasoning why we did the switch and preserve the option to go the route C." Every change takes the S1 form, an original-tree edit flagged as such; `Specification-1.0-frozen/` is never touched.
+
+### P-96
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/spec-change-form.md`, "9. The options, as they would be put to Pavol" · from `explorations/compile-ladder/rung-spec-route-a/decision-record.md`, "3.9 The form: the callout, Appendix I, the front matter, the title page" · commit `bc8902f47` · by consolidation chunk P1: retitled to a sentence; the built one-off texts cut, their text in this history: Appendix I's one sentence that the directory's name is misleading (F-164 holds what the copy is) and its introduction's sentence that the entries follow the revival's decisions, route A the first (item 23 of 2026-09-29, now each entry's named decision); his words "S1 - 1, teams' way" and "Option 1, agreed" in this history
+
+- P-96 **The S1 form**, the layered form the team used for 1.0 and its 2009 draft: a labelled callout at each changed passage that prints in every build (not a `\note`); a revival section in Appendix I (`Specification/appendices/changes.tex`), each entry with the reason, the original sentences quoted with their path and line in the unrevised copy, and route C with what reversing to it would take; one paragraph in the front matter; the full reasoning in a repository document. The unrevised copy is called "the Working Draft of February 2011", in the team's own form, each citation giving the path and line in `Specification-1.0-frozen/`; Appendix I says once that the directory's name is misleading, since only `fortress.1.0.pdf` in it is the 1.0 release. Appendix I's introduction says that the entries follow the revival's decisions, route A the first of them, each naming its own.
+
+### P-97
+
+2026-10-13 19:07Z · rewritten · from `explorations/reviews/spec-refused-examples-judgement.md`, "9. The candidate ledger rows" · from `explorations/compile-ladder/rung-spec-route-a/decision-record.md`, "4.2 The calculi of Appendix A, reported for Pavol" · commit `bc8902f47` · by consolidation chunk P1: title kept as its opening words and made a sentence; "Built." cut, F-167 builds P-97; the number chapters' timing ("in the same batch as the flattening, never earlier") cut, done in PLAN phase 2, its text in this history; the chapter paths and the calculi's names left to the decision record; "the judgement's candidate ledger rows 2, 3 and 5 are parked" cut: they are three rows of the judgement's own list (its section 9), not ledger rows, and PLAN, "Off the path, parked", holds them with the other parked items (P-33)
+
+- P-97 **The refused examples (S2).** Each example the exclusion rule refuses is revised to the one library's shape, the original kept in the text as "Not allowed", the specification's own form, and the rule stated once in Luchangco's two-part form under "instantiation exclusion". Built. The `covariant` keyword gets one sentence in the revival callout at the covariance example, saying that the type group's later design declares variance with a `covariant` modifier, implemented on neither path, and pointing to the decision record and row 404. The number chapters (`basic-lib/basic-integers.tex`, `basic-lib/numbers.tex`, `advanced-lib/numbers-advanced.tex`) changed in the same batch as the flattening, never earlier. The calculi of Appendix A (Core Fortress with Where Clauses, ACFFD and Basic Core) each carry a `\revision` callout saying that the calculus predates instantiation exclusion and admits the shapes the rule refuses, their rules and soundness claims untouched. The judgement's candidate ledger rows 2, 3 and 5 are parked (`PLAN.md`).
+
+### P-98
+
+2026-10-13 19:07Z · rewritten · from `explorations/coordinator/CLIMB-BATCH-7.md`, "1. For Pavol" · commit `bc8902f47` · by consolidation chunk P1: retitled from "Appendix I's small items" to the decision itself; "row 461 closed; built" cut, F-77 builds it; Appendix I's introduction, the other small item, is P-96's; his words of 2026-09-29, 17:44 UTC ("I need to pay that down") condensed, their text in this history
+
+- P-98 **Appendix I's small items.** `TotalComparison` extends `StandardMinMax[\TotalComparison\]` in the api and the component, its five restated members kept, so that it gets back `MIN` and `MAX` (row 461 closed; built; taken on the coordinator's recommendation, and he wants it explained in more detail when he has the energy, "I need to pay that down", so it is on the list for his review).
