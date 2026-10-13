@@ -2,6 +2,18 @@
 
 # Held list
 
+## Held from his comments on the record store design (2026-10-13)
+
+His eight comments on https://claude.ai/artifact/TjJEBW5xsPP79vaEb8FVMu, 16:46 to 17:08 UTC, each a thread there with his exact words; handed whole to the Fable review of the design.
+
+- 16:46 Does `trace` replace `facts-extract.sh`; does the workers' skill change; how is the format kept compatible; keep each entry one line so a plain grep finds it without the tool.
+- 16:54 The ledger's way, taken: the same system everywhere.
+- 16:58 Pointers LGTM; are the entries still grouped by topic; no tagging system.
+- 17:01 Rebuild the history now from scratch too, in the new register, from primary sources gathered by Sonnet scouts, written by `record.py` with its provenance; nothing relies on the old history; why keep it in its old messy form.
+- 17:02 The history block reads like YAML.
+- 17:04 Old titles served only to link entries when text was the link; numbers end that need; tonight is a full garbage collection, later only incremental passes after a batch.
+- 17:08 Do the kinds merge, move and retitle happen at all; is the history for tracing a code change back to its records through commit messages; torn.
+
 ## Held in chat after the path (2026-10-13)
 
 - 16:16 Are the long entries enough to rewrite from, or should Sonnet scouts gather everything related so an Opus writer rewrites each entry from that wider context; how many entries are there; run it as a batch workflow, as earlier rewrites ran (is this reinventing one); a writer with a shared context per section, writing in the halfway ASD-STE100 register; an entry should carry the known consequence that makes it actionable, without growing; there is still no statement of what goes into FACTS or POSITIONS and what is noise, or how a model decides it, whether it is laid down or left to each worker; he is tired and losing the thread.
