@@ -114,7 +114,7 @@ A('// on the rung), pointsToReport, briefing and reasons (the facts-extract.sh k
 A('// worker reads first, each with its reason), checks (the sub-list the skeptic, a judge')
 A('// and a repair round read), expectedMoves (ladder moves declared, none here), and the')
 A('// optional landsOnlyWith, expectedCheckerCount and expectedCheckerCrash (rung L declares')
-A('// the checker count 1, its one error moving by reading from body(i) to row 680\'s crash;')
+A('// the checker count 1, its one error at body(i), or row 680\'s crash if body(i) lands;')
 A('// no rung declares landsOnlyWith or a crash).')
 A('// No value is set at launch. The base and the base build are args.base and')
 A('// args.baseBuild. At most two agents run at once on this box, FIFO (FACTS.md, "The')

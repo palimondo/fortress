@@ -78,7 +78,7 @@ if (r) {
   say(r.ledgerFrom === 'undefined', 'no LEDGER_FROM: the gather numbers the new rows through ledger.py')
   say(JSON.stringify(r.RUNGS.map(x => x.gateJoins)) === JSON.stringify([[], [], [], []]), 'no rung brings a gate step: testSpecData runs from the last landed summary')
   say(r.RUNGS.every(x => !x.landsOnlyWith && x.expectedCheckerCrash === undefined && Array.isArray(x.expectedMoves) && !x.expectedMoves.length), 'no rung declares landsOnlyWith, a crash or a ladder move')
-  say(JSON.stringify(r.RUNGS.map(x => x.expectedCheckerCount === undefined ? null : x.expectedCheckerCount)) === JSON.stringify([null, null, 1, null]), 'rung L alone declares a checker count, 1 (body(i) typed, its one error moving by reading to row 680\'s crash)')
+  say(JSON.stringify(r.RUNGS.map(x => x.expectedCheckerCount === undefined ? null : x.expectedCheckerCount)) === JSON.stringify([null, null, 1, null]), 'rung L alone declares a checker count, 1 (its one error at body(i), or row 680\'s crash if body(i) lands)')
 
   // The record's section 3, rung by rung, as gen14.py reads it.
   const rec = fs.readFileSync(REC, 'utf8')
