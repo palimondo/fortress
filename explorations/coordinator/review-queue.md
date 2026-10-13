@@ -13,7 +13,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 
 **Five to take first**, each because it holds work or acts on his word:
 - 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them", and a step against his word is put to him at once.
-- 1, The self-typed bodies. Batch 14's first candidate waits on it, and it bends a reading on record.
+- 1, The self-typed bodies. Answered 2026-10-13, way 6 (P-146).
 - 30, A size known only at run time: way 4a and his decision on sizes. It reads his decision on sizes anew, and was built on the standing go while his answer is pending. The POPL check of the same judgements (item 33) is a new ask today.
 - 14, Does coverage define an inherited abstract method? (item 51). A batch 14 candidate waits on it, and it decides whether three rows are walk's defects or the library's.
 - 17, Unwritten reductions whose parameter has a plain bound. The next walk rung waits on his word on it.
@@ -25,6 +25,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 ### The checker's typing and inference (5)
 
 1. **The self-typed bodies.** In a trait such as `Integral[\I extends Integral[\I\]\]` the parameter `I` stands for the type that implements the trait. The checker types `self` there as the trait, not as `I`, so 30 library bodies that return or pass `self` as an `I` are refused. Walk runs them all.
+   - Answered 2026-10-13 at 23:37 UTC: way 6, with one `numerator` per integer type (P-146); built by batch 14's rung S.
    - Landed: Nothing yet. The 30 sites stay on the distance. Batch 14's candidate is the judgement's way 6, a checker rule: the self type read from the bound, checked at each type that extends the trait. Its measured patch is 114 lines and clears 29 sites, none new; the thirtieth gets one body per integer type. It is a candidate for batch 14.
    - The other way: The team's own idiom, a `comprises` clause naming the parameter on seven traits (library, walk and specification change); a run-time cast in 21 library lines; or leave the 30.
    - Its cost: The checker rule bends a reading on record, that no self type enters the library, and changes the checker and the specification. The other ways change the library. The Fable check against the POPL 2019 paper finds that the rule stands, and that keeping the self type out of declared signatures is what keeps it inside the paper's ground.
