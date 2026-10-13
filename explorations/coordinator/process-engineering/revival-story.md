@@ -27,7 +27,7 @@ Words used throughout:
 - Round 1 (08-23): a direct port. A training step took 10.9 s, against 22 ms in Python.
 - 08-24 to 08-30: rewrites in plain Fortress style and in a paper's mathematical style, then a second iteration. The session began to use worker agents.
 
-**Other assistants (09-07 to 09-11).** Astra, another company's coding assistant, wrote its own port outside this session, with no transcript. Later Astra and a second assistant, Sol, joined a discussion of notation.
+**Other assistants (09-07 to 09-11).** Astra, an OpenAI model running in Codex, wrote its own port outside this session, with no transcript. Later Astra and Sol, a second OpenAI model, joined a discussion of notation.
 
 ### Blinded and informed runs (09-08 to 09-15)
 
