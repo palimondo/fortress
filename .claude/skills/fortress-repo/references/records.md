@@ -14,6 +14,7 @@ Put each of these that you have in your report, in this form, whatever else your
 - **Sentences of the specification made false.** Each sentence of the specification that your change makes false, quoted with its file and line. Such a sentence says what walk or the compiled path does. It is in the effect of an Appendix I entry (`Specification/appendices/changes.tex`), or in a `\revision` or `\note{}` box beside a passage.
 - **Decisions.** Each choice that you made among alternatives, as a decision apart from the findings: what you chose, the alternatives, and the evidence, cited. If no decision of the curator covers it, say so, and say which reading you acted on. A decision left as a line inside the findings counts as not made.
 - **Points to report.** Each point that your brief names and the work reached, with its evidence, also one that only part of the work reached.
+- **For FACTS.** Each fact that your work established, in the hand-over form of "Writing to the record", unless your brief let you write it to FACTS; or "none".
 - **Commands.** Each command that you had to work out because this skill does not give it, with what it does.
 - **Questions for the curator.** If something needs the curator's decision, list it as a decision not taken, in the form that `exploring.md` gives. The reader of your report brings it to the curator. Do not choose which of your items anyone reviews.
 
@@ -32,9 +33,9 @@ Put each of these that you have in your report, in this form, whatever else your
 
 ## POSITIONS and FACTS
 
-POSITIONS and FACTS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. The history of each entry is in `POSITIONS-history.md` and `FACTS-history.md`, beside them.
+POSITIONS and FACTS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes. The history of each entry is in `POSITIONS-history.md` and `FACTS-history.md`, beside them. Open the report section that an entry cites when your work needs the detail, and the history only when the tree disagrees with an entry.
 
-A FACTS entry is the fact, its source and its test in a few lines, under a bold title. It points to the report that holds the detail. Cite it by its bold title, or by its opening words if it has no title.
+An entry is one line under a permanent number: `F-87` in FACTS, `P-48` in POSITIONS. A FACTS entry is the fact as it stands now, what it means for the work, and the test that gates it, under a bold title. It points to the report section that holds the detail. Cite an entry by its number. Where the sentence needs it, add the first words of its title in quotes: F-87, "The first words ...".
 
 ## The gap ledger
 
@@ -54,6 +55,7 @@ Read only the slice of the record that you need. This tool prints whole entries,
 
     T=explorations/coordinator/tools/facts-extract.sh
 
+- `$T 'F-87'` prints one entry by its number, and `$T 'P-48'` one of POSITIONS. `$T 'F-87+'` adds each entry that it points to and each entry that points to it. `$T 'history:F-87'` prints its history. Run one when your brief or a note cites an entry by its number.
 - `$T 'positions:WORDS OF A TITLE'` prints one of the curator's decisions. Run it before you choose among ways to do something. If several titles hold the words, it names them.
 - `$T 'WORDS OF A TITLE'` prints each FACTS entry whose bold title holds them, and `$T 'section:HEADING'` every entry of a FACTS section. Run one before you investigate a behaviour of the tree, and when your brief or a note names an entry. These queries and `positions:` read titles only: before you write that the record does not hold something, also grep FACTS and POSITIONS for its words.
 - `$T 'index:WORDS'` prints the INDEX lines that hold the words. Run it to find the notes on a topic.
@@ -70,9 +72,11 @@ Before you edit a file of the original tree, list the ledger rows that cite it, 
 
 ## Writing to the record
 
-- Add a fact to FACTS in the commit that establishes it, as a new entry in the section of its topic. Its source and its test can be the code at file:line, a gated test, or a command and its output. If your brief does not let you write FACTS, put the entry in your report as finished prose.
-- Rewrite a wrong line of FACTS in place.
-- POSITIONS holds the curator's decisions, in the curator's words, written once. Everything else points there. Write a decision there only if your brief gives it to you to record. If you have evidence against one, do as `exploring.md` says.
+- Write FACTS and POSITIONS only with `explorations/coordinator/tools/record.py`: `add` for a new entry, `set` to rewrite one. Never edit either file by hand. The header of `record.py` gives its usage. Commit the record file and its history file together.
+- Add a fact to FACTS in the commit that establishes it, as a new entry in the section of its topic. Put the lines, the sites and the figures in your report, and point the entry to its section. The coordinator rewrites the entry to the record's form when your work finishes.
+- If your brief does not let you write FACTS, hand over in a section of your report: each fact as it stands now, in a sentence; what it means for the work; the one number that a decision rests on, with what it counts and its parts where they belong to different ledger rows; the test that gates it; and the section of your report that holds the detail.
+- If your brief lets you write FACTS, rewrite a wrong entry in place. Otherwise say in your hand-over that the entry is wrong, with the evidence.
+- POSITIONS holds the curator's decisions, written once. Everything else points there. Write a decision there only if your brief gives it to you to record. If you have evidence against one, do as `exploring.md` says.
 - Put new files of the work under `explorations/`. If you add a note directly in `explorations/` or `explorations/reviews/`, add its line to INDEX: ``- `PATH`: `` and the first sentence of the note's header comment.
 
 Write the gap ledger only with `ledger.py`, which checks each line that it writes against the row template.
@@ -98,3 +102,4 @@ To change a row:
 - `git diff a874948ac -- FILE` shows what the revival changed in a file, and `git diff 75cca6683 -- FILE` what it changed after the tag.
 - The conversion cut 146 parent links, so a `git log` of a directory stops at a cut and misses the team's earlier commits. Use `git log --follow` on a file, or compare contents.
 - To find who wrote something, or where the repository's history after 2012 comes from, read `research/authorship.md` and `explorations/coordinator/lineage.md`.
+- Give the third-party port of the tree to Java 9 no credit and no mention in any text that you commit.

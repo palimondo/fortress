@@ -134,7 +134,7 @@ Each point below corrects an assumption from a language that you know. `referenc
 The record's main files:
 
 - `explorations/coordinator/POSITIONS.md`: the curator's decisions.
-- `explorations/coordinator/FACTS.md`: what is established about the original tree. Each fact has its source and its test.
+- `explorations/coordinator/FACTS.md`: what is established about the original tree. Each fact names its test and points to the report that holds its detail.
 - `explorations/coordinator/INDEX.md`: one line for each note under `explorations/`.
 - `explorations/fortress-gap-ledger.md`, the gap ledger: the known gaps, one row each.
 
@@ -189,7 +189,7 @@ The parts, in the order that work meets them:
 - Exploring: where to search, what to record and report, which choices are yours: `references/exploring.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
-- The gate: what it runs and writes, the atomic runs, the ladder regression: `references/gate.md`
+- The gate: what it runs and writes, the atomic runs, the ladder regression, comparing with an earlier run: `references/gate.md`
 - Committing and pushing: `references/committing.md`
 - What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.

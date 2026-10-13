@@ -78,6 +78,12 @@ A file that moved gets a mark:
 
 DOWN, MISSING and STDOUT are red, unless your brief declared that move as expected before the gate ran.
 
+## Comparing with an earlier run
+
+- Compare `testSystem` only by the sum of its four shards, `system-0` to `system-3`. A shard takes the files by their place in a sorted list, so an added file moves every later file to another shard. `gate_compare` sums them.
+- In printed output, mask only three kinds of difference: a Java line number in a stack frame, an object's identity hash (`@` and hex digits), and a position in a library file that the change moved. List every masked difference in your report.
+- If your brief asks you to compare the output of every interpreter test with a base run, use `explorations/coordinator/tools/count-run/compare-normalised.py`. It masks these three kinds, and its header gives its usage.
+
 Warning: do not run `run-ladder.sh`, the driver over every test program, with its defaults. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
 
 To run it, as step 7, with step 3's copies of the caches:
