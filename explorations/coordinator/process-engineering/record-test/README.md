@@ -14,6 +14,7 @@ The test asks whether a worker or the coordinator decides as well from entries w
 - `grades.md`: the first run's blind grading. X is the new entries and Y the old.
 - `grades-pilot.md`: the second run's grading, on the consolidation's pilot: one reader in the pilot's copy, graded against the first run's old-entries answers. X is the old entries and Y the pilot's; 28 and 29 of 30.
 - `grades-final.md`: the third run's grading, on the finished consolidation: one reader in its copy, graded against the first run's old-entries answers. X is the finished record and Y the old entries; 30 and 28 of 30.
+- `grades-scenario6.md`: scenario 6 run again on the final record (124.1K), its entry F-201 replaced by the `coordinator` skill's section that now holds it; graded by the coordinator, not blind: 3 of 3, as before.
 
 ## How to run it
 
