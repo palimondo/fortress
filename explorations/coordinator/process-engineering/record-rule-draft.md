@@ -1,10 +1,12 @@
-<!-- A first draft of the record-keeping part of the `coordinator` skill, written 2026-10-13 at the curator's request: what the record already says about what a FACTS or POSITIONS entry holds, how long it is, which of the three stages (the optimized build, the history, the report) is read when, and how a worker's report becomes an entry; the draft, each sentence marked as his words, on record or new, with the changes it needs in the `fortress-repo` skill and elsewhere; and a trial of it on the eight largest FACTS entries and two POSITIONS entries; then the pairs where FACTS and POSITIONS told one ground given one home (Part 3b), and the blind test of the trial at his word, ten scenarios answered by two readers in an old and a new copy of the record, 27 against 27 of 30 with one sentence restored (Part 4; the kit in `record-test/`). -->
+<!-- A draft of the record-keeping part of the `coordinator` skill, written 2026-10-13 at the curator's request: what the record already says about what a FACTS or POSITIONS entry holds, how long it is, which of the three stages (the optimized build, the history, the report) is read when, and how a worker's report becomes an entry, with the five contradictions and what answers each; the part itself, opening with nine principles that he reads once (each an instruction to the coordinator, its reason and a pair of texts from the trial, the test or his page comments), then its items, each sentence marked as his words, on record or new, with numbered entries in the entry's form, the knowledge split between the `coordinator` skill (the entry's form and the pass that consolidates a finished worker's text) and the `fortress-repo` skill (how workers read, use and, when asked, edit the record), and the changes this needs in both skills and elsewhere; a trial of it on the eight largest FACTS entries and two POSITIONS entries; the pairs where FACTS and POSITIONS told one ground given one home (Part 3b); the blind test of the trial at his word, ten scenarios answered by two readers in an old and a new copy of the record, 27 against 27 of 30 with one sentence restored (Part 4; the kit in `record-test/`); and where each point the test and his comments of 2026-10-13 added went in the part (Part 5). -->
 
 # The record-keeping part of the coordinator skill: a first draft and its trial
 
 The trial cuts the ten entries from 36.3K characters to 5.9K, to 16.2 % of their size. The new median of the ten is 0.58K. Nine of the ten are under the measure of about 600 characters. The tenth, FACTS 58, is 707, because the test showed that a decision needs the sentence it restores. If the trial's ratio held across each file, FACTS would come to about 39K characters and POSITIONS to about 24K. That projection is too low, since the smaller entries cannot shrink as much. If every entry over 600 characters came down to 600 and the rest stayed, FACTS would come to 113K and POSITIONS to 60K. So the rule cuts FACTS by more than half, where the consolidation of 2026-10-12 cut 15 %.
 
 Giving one home to what FACTS and POSITIONS both tell (Part 3b) cuts four more FACTS entries to 30 % of their size. A blind test (Part 4) scored the new entries the same as the old: 27 points of 30 each. The new entries lost once, on FACTS 58, and one restored sentence repaired it.
+
+Part 2 opens with nine principles, the part as the curator reads it once. It folds in what the test and his comments of 2026-10-13 added (Part 5 says where each point went): numbered entries are now part of an entry's form, the five contradictions of Part 1.6 are answered, and the part is narrowed to the entry's form and the coordinator's pass, while the `fortress-repo` skill keeps how workers read, use and, when asked, edit the record.
 
 Nothing in `FACTS.md`, `POSITIONS.md` or their history files is edited. The new texts are in Parts 3 and 3b until the curator approves the rule.
 
@@ -86,6 +88,14 @@ Nothing on record says that the consolidation shortens a new entry. It moves dat
 4. **An entry's length.** `coordinator/record-keeping-proposal.md:72` and `:78` ("as long as the finding") against `coordinator/README.md:26`, `protocol.md:153`, `coordinator/POSITIONS.md:130` and `.claude/skills/fortress-repo/references/records.md:37` ("a few lines").
 5. **Where a FACTS entry may point.** `coordinator/process-engineering/facts-consolidation-check.md:174`: "Do not add a pointer from the record into a skill file or a process report unless the curator has answered question 2". Its question 2 (`:122`) is open. Meanwhile `.claude/skills/coordinator/references/sources.md:59-68` cites FACTS entries as the source of the skill's rules, so the skill already points into FACTS while FACTS may not point into the skill.
 
+Part 2 answers each:
+
+1. A title: items 7 and 12. The number is the entry's key, so a title is rewritten freely and no citation quotes it (his words, 11:41).
+2. Dates: item 24. POSITIONS carries no date; the dates are in the history.
+3. His words: item 25. They appear only where they are the position; the rest is said in a shorter, more precise form, and his quotes are in the history (his words, 09:05).
+4. The length: item 20. A few lines, with about 600 characters as a check, not a target.
+5. Pointers: item 21. An entry may point into the part of a skill where its detail lives; FACTS 201's pointer into the `coordinator` skill was followed in scenario 6 of the test.
+
 ### 1.7 The curator's three stages: what is on record and what is not
 
 On record:
@@ -104,106 +114,203 @@ Not on record:
 - When a worker opens a report, as a rule rather than a finding (1.4 item 6).
 - For POSITIONS: where the "Built" sentences and the argument go, and any measure.
 
-## Part 2: the record-keeping part of the `coordinator` skill, a first draft
+## Part 2: the record-keeping part of the `coordinator` skill, a draft
 
-This is a first draft of the record-keeping part of the `coordinator` skill, the one place that defines the record's structure. It would replace "How the records are kept" in `.claude/skills/coordinator/references/roles-and-records.md`. The other places that state the structure today would point to it instead (the changes at the end of this part). Each sentence is marked **(his words)**, **(on record)** or **(new)**. "His words" includes the framing he gave through the coordinator on 2026-10-13, about 09:20 UTC.
+This is a draft of the record-keeping part of the `coordinator` skill: the form of a FACTS or POSITIONS entry, and the pass by which the coordinator turns what a worker wrote into entries. It would replace "How the records are kept" in `.claude/skills/coordinator/references/roles-and-records.md`. The `fortress-repo` skill keeps how workers read and use the record, and how they edit it when a brief asks them to; the last two sections list what changes there and in the other places that state the structure today. Each sentence is marked (his words), (on record) or (new). "His words" includes the framing he gave through the coordinator on 2026-10-13, about 09:20 UTC, and his chat messages and page comments of that day, quoted with their UTC times. Part 5 lists where each point of the test and of his comments went.
+
+### The principles
+
+The part as he reads it once. Each principle is an instruction to the coordinator writing or using an entry, then its reason, then a pair of texts: an old text and its new one from the trial or the test, or a text of the draft's page that he commented on and the text that replaces it. Each names the items below that it stands for. A principle marked as the coordinator's proposal is not yet his word.
+
+#### 1. Keep FACTS and POSITIONS to the project, and put how you and he work in this skill
+
+His words, 09:16: "positions and facts I believe should relate to the project only." A procedure or a fact about the platform has its home in a skill, and an entry that holds it is a second home.
+- Old (FACTS 201): "A run whose script has changed since launch is resumed from a copy of the script as launched (`git show <base>:<path>`)."
+- New: "How: the `coordinator` skill, `references/agents.md`, "Resuming a Workflow run"."
+
+Items 1 to 4.
+
+#### 2. Write the status quo, and leave how it came about to the history
+
+His words, 09:02: "my optimized build is about capturing the current status quo." A date, a mark of change or an account of how a fact was found changes nothing a reader does, and the history keeps it verbatim.
+- Old (FACTS 94): "A bound list that names a trait with a `comprises` clause no longer crashes it"
+- New: "so the array family checks under `T extends { Number, MultiplicativeRing[\T\] }`, but calls through such a bound are still refused or crash"
+
+Items 11, 12, 18, 24 and 46.
+
+#### 3. Keep a sentence only if it changes what a worker or you do next, and check the entry against about 600 characters
+
+The coordinator's proposal. Its root is his question of 2026-10-12, "are those all actionable things?", and he has not said yes to this wording or to the number. Long entries cost decisions too: in the test, the old reader missed row 680 inside the 6.6K distance entry, and two long texts carried a false sentence each.
+- Cut (FACTS 53): "A run takes 786 to 2,246 s at a gate beside the other stages (each gate's `#seconds` row, with the machine in its `#machine` row)."
+- Its home: "The run's timings: `compile-ladder/climb-batch-13b/gate/distance.txt:30`, "#seconds 2246 FortressLibrary 1318"."
+
+Items 13, 16 to 20, 23, 29 and 30.
+
+#### 4. Do not cut below what a decision needs: keep a number's parts when they lead to different rows or decisions, and the fact without which a claim would be misread
+
+The coordinator's proposal, from the test. His words, 10:14: "the success criterion that you shrinked it is excellent but if we lose some of the critical functionality then we must try to find some middle ground". The trial's FACTS 58 kept "14" and lost what the 14 are, and its reader took the five powers for the numeral work. An entry kept over the measure names the decision that needs it: FACTS 58 is 707 characters, for decision D.
+- Trial (FACTS 58): "C4 has 26 errors of its own, 15 of them decision D's unsized `Array[\RR64,ZZ32\]`; with decision D's diff it has 14."
+- Restored: "With decision D's diff it has 14: three `DOT`s on the api's dead sizes (E3), five numeral powers refused as an ambiguous coercion between `RR64`'s `^` and `MultiplicativeRing`'s (row 533; walk takes them), and six others"
+
+Items 14, 15 and 20.
+
+#### 5. Give each thing one home, and point to it instead of restating it
+
+His words, 10:23: "this we need to keep one home and just pointers to the other citations by by record pointing not by restating the same things that is in fact from the other side in positions". In the test, the copies saved a reader lookups and served two of them stale; the pointers cost lookups and no decision.
+- Old (FACTS 78): "A variable with no named lower bound takes the meet of its upper bounds, the declared bound and the expected type"
+- New: "It builds POSITIONS, "A type parameter the arguments do not fix takes its bound ..." and "The order of the checker's attempts at a call"."
+
+Items 21, 22, 27 and 28.
+
+#### 6. Key every entry by its permanent number, and rewrite its title and its text freely
+
+His words, 11:41: "records here were kept because we needed the stable identifier to be able to refer to them. So by introducing the numbering system, we regain that part and we are free to rewrite the titles and contents freely." He said yes to the numbers at 11:05.
+- He marked: "Five things contradict each other. Whether a stale title is rewritten or kept."
+- New: "A pointer gives the number and the title: `F-87, "The compiled checker gives a call its expected type ..."`. The number is the key."
+
+Items 5 to 10, and 12.
+
+#### 7. Read in stages: the entry, then the history when the provenance is in question, then the report when the detail is needed; send a Sonnet scout for the last two
+
+His words, 09:02: "when it needs to question the provenance, it uses the historical record. And can look up the full report when needed." And 11:33, as a question: "This sounds like something that a scout or worker on sonic model sonnet would be able to handle similar to archaeology I guess?" ("sonic model sonnet" is speech-to-text for "Sonnet model".)
+- He marked: "The coordinator doesn't open the history or a report itself. It sends a worker."
+- New: "The coordinator does not open the history or a report itself. Looking up a fact's history or a report's passage is retrieval: it sends a Sonnet scout, as for archaeology, which returns what it found."
+
+Items 33 and 35 to 38.
+
+#### 8. Define the entry's form, and run the pass that consolidates what a worker wrote when it finishes; leave to `fortress-repo` how workers read and use the record, and how they edit it when a brief asks them to
+
+His words, 11:40: "We are not moving everything to coordinator skill, only the editing and extracting from workers' reports goes in here. The usage by workers must stay there and also the local edits when we ask them must be described there as well. It's the coordinator's job to consolidate such records when, when worker finishes, for example."
+- He marked: "The fix: every place that states the structure today points to the coordinator skill's part instead."
+- New: "Not every place that states the structure becomes a pointer to this part. Places that tell the coordinator how an entry is written or kept point here. Places that tell workers how to read, use or edit the record stay where they are."
+
+Items 39 to 52, and the last two sections.
+
+#### 9. Rephrase his words in a more concise and precise form, and catch the lossy compression; then quote that form in every brief, and keep your own proposal marked as yours until his yes
+
+His words, 09:05: "I don't think it is the essential part of recording my words verbatim in positions. If you can rephrase it in, in a more concise and precise form. The trick is to catch when you do the lossy compression." Quoting instead of restating, and the marking, are the coordinator's proposal: each restatement so far lost the part that cuts, as when the brief of FACTS's first pass cut the history and kept the detail, and his goal of entries in a few lines was not met.
+- Old (POSITIONS 48): "if I apply the rule that the ... later teams work supersedes the previous one, and you are saying the rule is coming from the paper and it helps us cleanly resolve something, then I will trust the team's work over whatever my misunderstanding of the things are."
+- New: "Why: it is the type group's later word (POPL 2019), and he trusts the team's later work over his own reading."
+
+Items 25, 26, 31, 32 and 34.
 
 ### What FACTS and POSITIONS hold
 
-1. FACTS and POSITIONS hold the project only: the language, the library, the tree, and his decisions about the project. (his words)
-2. Rules about how the coordinator and the curator work together belong in this skill, not in POSITIONS. This part adds none to POSITIONS. (his words)
+1. FACTS and POSITIONS hold the project only: the language, the library, the tree, and his decisions about the project. (his words, 09:16: "positions and facts I believe should relate to the project only.")
+2. Rules about how the coordinator and the curator work together belong in this skill, not in POSITIONS. Until the skill holds them, they go to the held list and the boot note, never to POSITIONS. This part adds none to POSITIONS. (his words, 09:16: "every other thing about working between us needs to go to the coordinator skill"; the held list and the boot note as the skill's scratch are on record, `coordinator/HELD.md`, 09:16)
 3. FACTS and POSITIONS stay, since briefs to workers point into them. (his words)
 4. What that moves, for his decision and not done here (new): POSITIONS' section "How he wants to be spoken to" (6 entries, 4.7K) and the entries of "How we work" (35 entries, 44K) that govern the coordinator and him, "The record's form: an optimized build and a debug build." among them, move to this skill, their text to the history. Sorting "How we work" into those and the workers' method is a pass of its own. FACTS' section "The container" (27 entries, 28K) holds facts about the platform, not the project; their homes would be the `cloud-container` and `coordinator` skills. FACTS 201 of the trial is one of them: `.claude/skills/coordinator/references/agents.md` already holds its procedure.
 
+### Each entry's number
+
+Part of the entry's form at his yes of 2026-10-13, 11:05 UTC, and his comment of 11:41.
+
+5. Each FACTS and POSITIONS entry carries a permanent number at its start, `F-87` or `P-48`. A number is never reused or changed; a merged or removed entry's number stays in the history. (his words, 11:41: "records here were kept because we needed the stable identifier to be able to refer to them. So by introducing the numbering system, we regain that part and we are free to rewrite the titles and contents freely."; the ledger's model, on record: "Rows are never renumbered, and reports cite them by number", FACTS, "The ledger's rows stand in fifteen topic sections ...")
+6. The history files keep each earlier text under its number, as `explorations/fortress-gap-ledger-history.md` keeps a row under `### Row N`. The 903 texts already in `FACTS-history.md`, in 81 dated sections, stay under their dates; numbers start with the next consolidation. (new)
+7. A pointer gives the number and the title: `F-87, "The compiled checker gives a call its expected type ..."`. The number is the key; the title is for the curator and the reader, and to the curator an entry is still named by its title. So a title and a text are rewritten freely, and a retitled entry needs no citation updated anywhere. (his words, 11:41, in item 5; the pointer's form is new)
+8. `facts-extract.sh` resolves a number, prints an entry's history in order, and lists every entry that points to it. Today it resolves titles only, has no query for `FACTS-history.md`, and lists no back-links. (new)
+9. A check that every pointer resolves to exactly one entry runs with the pass's other checks (item 49). (new)
+10. Cost: numbering the entries is one script, with no model; the tool's change is an Opus worker's, about 0.3M to 0.5M, an estimate. (new)
+
 ### What a FACTS entry holds
 
-5. A FACTS entry states the current status quo, and nothing else. (his words: "my optimized build is about capturing the current status quo")
-6. Its bold title states the fact. (on record) A title that no longer holds is rewritten to state the present, keeping the opening words that keys quote. (on record, `coordinator/README.md:69-73`)
-7. A sentence stays in the entry only if it changes what a worker or the coordinator does next. (new, from the coordinator's proposal of 2026-10-12, which he did not answer; his lens: "are those all actionable things?")
-8. The entry keeps the one number a decision rests on now. (new)
-9. It names the test that gates it: one test, or a name pattern, not a list. (new)
-10. It points to the report and the section that hold the rest. (on record that it points to the report; new that it names the section)
-11. It is a few lines (on record): for this trial, under about 600 characters. (new) An entry over that says, in the report of the pass that wrote it, which decision needs the extra. (new)
-12. Out of the entry go line references, lists of sites, measurement narratives, timings, counts no decision rests on, and every account of how the fact was found. They stay in the report, or go to the history. (new; "the narrative of how a landed rung established a fact is history" is on record)
-13. A file and line go in an entry only where no report holds the fact. (new)
-14. An entry points wherever its detail lives: a report, a review, a ledger row, or a part of a skill that is that procedure's home. (new; this answers question 2 of `facts-consolidation-check.md`)
-15. A fact another entry holds is cited by that entry's title, not restated. (on record: one home per thing)
+11. A FACTS entry states the current status quo, and nothing else. (his words, 09:02: "my optimized build is about capturing the current status quo")
+12. After its number, its bold title states the fact as it is now. (on record) A title that no longer holds is rewritten to state the present (on record, `coordinator/README.md:69-73`), freely, since the number is the key (item 7). (his words, 11:41) This replaces "keeping the opening words that keys quote".
+13. A sentence stays in the entry only if it changes what a worker or the coordinator does next. (new, from the coordinator's proposal of 2026-10-12, which he did not answer; his lens: "are those all actionable things?")
+14. A sentence also stays if, without it, a claim of the entry would be misread. (new, from the test: FACTS 58's "none of their errors is a numeral" reads right only with row 533, since the five numeral powers are an ambiguous coercion between two `^` declarations, not a numeral's type)
+15. The entry keeps the one number a decision rests on now. Where the number's parts belong to different rows or lead to different decisions, it keeps the parts with their rows, not only the total. (new; the parts from the test: the trial's FACTS 58 kept "14" and lost what the 14 are)
+16. It names the test that gates it: one test, or a name pattern, not a list. (new)
+17. It points to the report and the section that hold the rest. (on record that it points to the report; new that it names the section)
+18. Out of the entry go line references, lists of sites, measurement narratives, timings, counts no decision rests on, and every account of how the fact was found. They stay in the report, or go to the history. (new; "the narrative of how a landed rung established a fact is history" is on record)
+19. A file and line go in an entry only where no report holds the fact. (new)
+20. It is a few lines (on record): under about 600 characters. (new) The measure is a check, not a target. An entry over it names, in the report of the pass that wrote it, the decision that needs the extra: FACTS 58 is 707 characters, for decision D (Part 3). (new) The boot still reads the whole record, as he set on 2026-09-27. (on record, `coordinator/postmortem-2026-09-27-record-keeping.md:15`) The measure is there because long entries cost decisions too: in the test, the old reader missed row 680 inside the 6.6K distance entry, and two long texts carried a false sentence each, POSITIONS 48 on row 516 and FACTS 141 on row 590, both corrected on `main` since (`8583d31d7`, `c836b1f2d`). (new, from the test)
+21. An entry points wherever its detail lives: a report, a review, a ledger row, or a part of a skill that is that procedure's home. (new; this answers question 2 of `facts-consolidation-check.md`; in the test, FACTS 201's pointer into this skill was followed in scenario 6)
+22. A fact another entry holds is cited by that entry's number, not restated. (on record: one home per thing; his words, 10:23, in item 27)
 
 ### What a POSITIONS entry holds
 
-16. A POSITIONS entry says what he decided about the project, and why, in a breath, under a bold title that is its handle. (on record: "what we do and why, under a bold title"; "in a breath" is new)
-17. His words appear only where they are the position. (on record)
-18. What was built is FACTS' to say. The argument stays in the review the entry cites. His other quotes, and how the decision was reached, go to the history. (new; "his quotes at their dates" in the history is on record)
-19. A decision not yet built names what remains and the PLAN item that builds it. (new)
-20. The same measure applies: under about 600 characters. (new)
+23. A POSITIONS entry says what he decided about the project, and why, in a breath, after its number and under a bold title that is its handle. (on record: "what we do and why, under a bold title"; "in a breath" is new)
+24. It carries no date. The date, and how the decision was reached, are in the history. (on record: `coordinator/README.md:40-45` and `coordinator/POSITIONS.md:1`, "no dates")
+25. His words appear only where they are the position. Elsewhere the entry says what he said in a more concise and precise form, and his quotes go to the history at their dates. (on record: "only where they are the position", and "his quotes at their dates" in the history; his words, 09:05: "I don't think it is the essential part of recording my words verbatim in positions. If you can rephrase it in, in a more concise and precise form." and "It is something that needs to be refined into nuggets.")
+26. The shorter form keeps the part of his rule that cuts. The coordinator checks it against his words before it writes the entry. (his words, 09:05: "The trick is to catch when you do the lossy compression."; the check is new)
+27. What was built is FACTS' to say. A POSITIONS entry points to the FACTS entries that build it, by number; a FACTS entry names the decision it builds, by number; neither restates the other. (his words, 10:23: "this we need to keep one home and just pointers to the other citations by by record pointing not by restating the same things that is in fact from the other side in positions"; the two directions are new, from Part 3b and scenarios 9 and 10) Whether POSITIONS' pointer is worth its length is the first question of Part 3b, still his.
+28. The argument stays in the review the entry cites. (new)
+29. A decision not yet built names what remains and the PLAN item that builds it. (new)
+30. The same measure applies: under about 600 characters, as a check. (new)
+31. A proposal of the coordinator's stays marked as its own, in the note that holds it, until he says yes. It enters POSITIONS only at his yes. (new, from how this draft came about)
+32. A decision enters POSITIONS in the next commit after he states it, written by the coordinator. (on record)
 
 ### The three stages, and who reads which
 
-21. The optimized build, FACTS and POSITIONS, is the current state. The coordinator reads it whole at every boot, and a worker gets its slice in the brief. (on record)
-22. The history is read when a fact's or a decision's provenance is in question: how it stood before, what it replaced, where it came from. (his words: "when it needs to question the provenance, it uses the historical record"; on record in the history files' headers)
-23. The report is read when the detail is needed: the line, the site, the figure, the argument. It is the final instance. (his words: "can look up the full report when needed"; "the final full report is the ... final ... instance")
-24. The coordinator does not open the history or a report itself. It sends a worker, which returns what it found. (on record)
-25. A worker given an entry in its brief takes the entry as given. It opens the cited report section when its work needs the detail. It opens the history only when the tree disagrees with the entry. (new; the path through the report is on record only as a finding, `measures-judgement.md:142`)
+33. The optimized build, FACTS and POSITIONS, is the current state. The coordinator reads it whole at every boot, and a worker gets its slice in the brief. (on record)
+34. A brief quotes the entries it hands over word for word, under their numbers, and a rule he set with its measure and its example. It never restates them. (new, from how this draft came about: each restatement so far lost the part that cuts; the brief of FACTS's first pass cut the history and kept the detail, and his goal of entries in a few lines was not met, `coordinator/process-engineering/coordinator-rewrite-plan.md`, step 1)
+35. The history is read when a fact's or a decision's provenance is in question: how it stood before, what it replaced, where it came from. (his words, 09:02: "when it needs to question the provenance, it uses the historical record"; on record in the history files' headers)
+36. The report is read when the detail is needed: the line, the site, the figure, the argument. It is the final instance. (his words, 09:02: "can look up the full report when needed"; "the final full report is the ... final ... instance")
+37. The coordinator does not open the history or a report itself. Looking up a fact's history or a report's passage is retrieval: it sends a Sonnet scout, as for archaeology, which returns what it found. (on record that it sends a worker; his words, 11:33, as a question: "This sounds like something that a scout or worker on sonic model sonnet would be able to handle similar to archaeology I guess?", "sonic model sonnet" being speech-to-text for "Sonnet model")
+38. How a worker reads the stages is the `fortress-repo` skill's to say (his words, 11:40: "The usage by workers must stay there"): a worker takes an entry in its brief as given, opens the cited report section when its work needs the detail, and opens the history only when the tree disagrees with the entry. (new; the path through the report is on record only as a finding, `measures-judgement.md:142`)
 
-### The ingest
+### Who writes the record
 
-26. The structure of an entry is defined only here. (his words)
-27. The `fortress-repo` skill tells a worker what to hand over for FACTS, and not the entry's structure. (his words) What it hands over: each fact as it stands now, in a sentence; the one number a decision rests on; the test that gates it; and the section of its report that holds the detail. (new)
-28. The worker writes its full account in its report: the lines, the sites, the figures, and how it found them. (on record: the report holds the detail) It puts the hand-over in a section of its report, or of `record.md` in a batch. It does not edit FACTS or POSITIONS. (on record for a batch and for agents side by side; new for a lone worker)
-29. The coordinator writes the entry. It rewrites what the worker wrote to this structure, moves the provenance to the history, and leaves the detail in the report. (his words)
-30. It does so in a pass before the next boot or batch reads FACTS. (his words: "there should be some post processing. Pass by the coordinator"; that it runs before each batch is on record) In a batch, the commit stage runs the pass for the coordinator, with this part in its prompt. After a lone worker, the coordinator runs it. (new)
-31. A fact enters FACTS at the pass that follows the commit that establishes it. (new; replaces "in the commit that establishes it")
-32. The pass moves the worker's hand-over, verbatim, to `FACTS-history.md`, under the date and with where it came from: the rung, the report, the commit. (new: today the history gets only an earlier text)
-33. It writes each fact as a new entry, or rewrites in place the entry the fact changes, instead of adding a second. (on record for the rewrite in place)
-34. It checks with one bounded `grep` that the cited report section holds each kind of thing it left out. (new)
-35. It checks that every key quoting a changed title still resolves, with `facts-extract.sh --check`. (on record as practice)
-36. It reports each entry's size, and each entry still over the measure with the decision that needs it. (new)
-37. `check-verbatim.py` still runs, since it is cheap. It shows that the history holds the old text. It is not the pass's goal. (on record that it runs; new that it is not the goal)
-38. A decision enters POSITIONS in the next commit after he states it, written by the coordinator, and the same pass runs on POSITIONS at each landing and whenever he replaces a decision. (on record)
+39. The entry's form is defined only here. This skill holds the editing of FACTS and POSITIONS and the extracting from workers' reports. The `fortress-repo` skill holds how workers read and use the record, and how they edit it when a brief asks them to. (his words, 09:16: "the structure defined only in the coordinator's skill"; 11:40: "We are not moving everything to coordinator skill, only the editing and extracting from workers' reports goes in here. The usage by workers must stay there and also the local edits when we ask them must be described there as well.")
+40. A worker writes its full account in its report: the lines, the sites, the figures, and how it found them. (on record: the report holds the detail)
+41. A worker edits FACTS or POSITIONS only where its brief asks it to, and then as `fortress-repo` says. (on record, `fortress-repo`'s `records.md:73-75`; his words, 11:40, in item 39) The rungs of a batch and agents working side by side do not edit the shared records: they write the lines in their reports, or in `record.md` in a batch, and the gather or the coordinator folds them in. (on record, `.claude/skills/coordinator/references/roles-and-records.md:39` and `coordinator/climb-batch-workflow.md:99`)
+42. A worker that does not edit FACTS hands over, in a section of its report: each fact as it stands now, in a sentence; the one number a decision rests on, with its parts where item 15 keeps them; the test that gates it; and the section of its report that holds the detail. `fortress-repo` gives workers this list. (new)
+43. The coordinator writes each entry to this form. When a worker finishes, it consolidates what the worker wrote, in FACTS or in its hand-over: it rewrites it to the form, moves the provenance to the history, and leaves the detail in the report. (his words, 11:40: "It's the coordinator's job to consolidate such records when, when worker finishes, for example."; 09:16: "it is the coordinator's job to then rewrite such a record to match the structure defined only in the coordinator's skill")
+44. The pass runs when a worker finishes, and before the next boot or batch reads FACTS. (his words: "there should be some post processing. Pass by the coordinator", and 11:40; that it runs before each batch is on record) In a batch, the commit stage runs it for the coordinator, with this part quoted in its prompt. After a lone worker, the coordinator runs it. (new)
+45. A fact enters FACTS in the commit that establishes it where the worker's brief lets it write FACTS, and otherwise at the pass that follows. Either way, the pass writes it to the form. (on record, `fortress-repo`'s `records.md:73`, for the first; new for the second)
 
-### Numbered entries, a proposal
+### The pass
 
-Added at his yes of 2026-10-13, 11:05 UTC, as a proposal for his comments.
+46. The pass moves what the worker wrote, verbatim, to `FACTS-history.md`, under the entry's number, with the date and where it came from: the rung, the report, the commit. (new: today the history gets only an earlier text)
+47. It writes each fact as a new entry, with a new number, or rewrites in place the entry the fact changes, instead of adding a second. (on record for the rewrite in place)
+48. It checks with one bounded `grep` that the cited report section holds each kind of thing it left out. (new)
+49. It checks that every pointer resolves to exactly one entry, with `facts-extract.sh --check`. (on record as practice, for keys that quote a title; new for numbers)
+50. It reports each entry's size, and each entry still over the measure with the decision that needs it. (new)
+51. `check-verbatim.py` still runs, since it is cheap. It shows that the history holds the old text. It is not the pass's goal. (on record that it runs; new that it is not the goal)
+52. The same pass runs on POSITIONS at each landing and whenever he replaces a decision. (on record)
 
-- Each FACTS and POSITIONS entry carries a permanent number at its start, `F-87` or `P-48`. A number is never reused or changed; a merged or removed entry's number stays in the history. (new; the ledger's model, on record: "Rows are never renumbered, and reports cite them by number", FACTS, "The ledger's rows stand in fifteen topic sections ...")
-- The history files keep each earlier text under its number, as `explorations/fortress-gap-ledger-history.md` keeps a row under `### Row N`. The 903 texts already in `FACTS-history.md`, in 81 dated sections, stay under their dates; numbers start with the next consolidation. (new)
-- A pointer gives the number and the title: `F-87, "The compiled checker gives a call its expected type ..."`. The number is the key; the title is for the curator and the reader. To the curator an entry is still named by its title. (new)
-- `facts-extract.sh` resolves a number, prints an entry's history in order, and lists every entry that points to it. Today it resolves titles only, has no query for `FACTS-history.md`, and lists no back-links. (new)
-- A check that every pointer resolves to exactly one entry runs with the pass's other checks. (new)
-- A retitled entry then needs no citation updated anywhere. (new)
-- Cost: numbering the entries is one script, with no model; the tool's change is an Opus worker's, about 0.3M to 0.5M, an estimate. (new)
+How this part itself is checked, beside the checks of each pass: a change to the part is tried on a slice, tested blind with the kit (`record-test/`), each missing fact restored and its scenario re-run, and only then applied widely. Next is the cold read: a fresh worker given only this part consolidates a slice of mid-size entries (1K to 2K characters), and the kit's quiz checks it. The test of Part 4 cost 2.49M written, against an estimate of 1.6M. (new, the method of Parts 3 and 4; his words, 10:14, for what the test checks: "we want to see whether this compression keeps enough information for most decisions and that you would know to follow the breadcrumbs to the source original source when needed")
 
 ### What `fortress-repo`'s `references/records.md` would need to change
 
-A list for the skill writer. No skill is edited by this draft.
+A list for the skill writer. No skill is edited by this draft. By his comment of 11:40, `records.md` stays the workers' home for reading and using the record, and for editing it when a brief asks them to. Only what states the entry's form leaves it (item 39).
 
-- `:35`, "POSITIONS and FACTS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes.": keep it as a rule for reading, and add the stages: "Open the report section an entry cites when your work needs the detail, and the history file only when the tree disagrees with an entry."
-- `:37`, "A FACTS entry is the fact, its source and its test in a few lines, under a bold title. It points to the report that holds the detail.": drop the structure. Keep "Cite it by its bold title, or by its opening words if it has no title."
-- `:73`, "Add a fact to FACTS in the commit that establishes it, as a new entry in the section of its topic. Its source and its test can be the code at file:line, a gated test, or a command and its output. If your brief does not let you write FACTS, put the entry in your report as finished prose.": replace with the hand-over of item 27. "Do not edit FACTS. For each fact your work established, your report hands over, in a section of its own: the fact as it stands now, in a sentence; the one number a decision rests on; the test that gates it; and the section of your report that holds the detail. The coordinator writes the entry."
-- `:74`, "Rewrite a wrong line of FACTS in place.": "If an entry of FACTS is wrong, say so in the hand-over, with the evidence. The coordinator rewrites it."
-- `:75`, "POSITIONS holds the curator's decisions, in the curator's words, written once. Everything else points there. Write a decision there only if your brief gives it to you to record.": "POSITIONS holds the curator's decisions about the project. Do not write to it." Keep "If you have evidence against one, do as `exploring.md` says."
-- `:11-18`, "Put each of these that you have in your report": add an item, "**For FACTS.** Each fact your work established, as item 27 says, or "none"."
-- The same skill's `SKILL.md:137`, "Each fact has its source and its test.", would read "Each fact points to the report that holds its detail."
+- `:35`, "POSITIONS and FACTS describe the present: no dates, no names of who found what, no "corrected" or "superseded" notes.": keep it, and add the stages for a reader (item 38): "Open the report section an entry cites when your work needs the detail, and the history file only when the tree disagrees with an entry."
+- `:37`, "A FACTS entry is the fact, its source and its test in a few lines, under a bold title. It points to the report that holds the detail.": keep it as what a reader needs to know, without "in a few lines", which is the form (item 20): "A FACTS entry is the fact as it stands now and the test that gates it, under its number and a bold title. It points to the report section that holds the detail." Its "Cite it by its bold title, or by its opening words if it has no title." becomes "Cite it by its number and its title." (item 7)
+- `:73`, "Add a fact to FACTS in the commit that establishes it, as a new entry in the section of its topic. Its source and its test can be the code at file:line, a gated test, or a command and its output. If your brief does not let you write FACTS, put the entry in your report as finished prose.": keep its first sentence, as the edit a brief asks for (items 41 and 45). Replace the second, which pulls a line reference into the entry (Part 1.1, item 6): "Put the lines, the sites and the figures in your report, and point the entry to its section. The coordinator rewrites the entry to the record's form when your work finishes." Replace the third with the hand-over of item 42: "If your brief does not let you write FACTS, hand over in a section of your report: each fact as it stands now, in a sentence; the one number a decision rests on, with its parts where they belong to different rows; the test that gates it; and the section of your report that holds the detail."
+- `:74`, "Rewrite a wrong line of FACTS in place.": keep it, for a brief that lets the worker write FACTS, and add: "Otherwise say in your hand-over that the entry is wrong, with the evidence."
+- `:75`, "POSITIONS holds the curator's decisions, in the curator's words, written once. Everything else points there. Write a decision there only if your brief gives it to you to record.": drop "in the curator's words", which states the form and contradicts item 25 (contradiction 3 of Part 1.6). Keep the rest, and "If you have evidence against one, do as `exploring.md` says."
+- `:11-18`, "Put each of these that you have in your report": add an item, "**For FACTS.** Each fact your work established, as the hand-over of `:73`, unless your brief let you write it to FACTS; or "none"."
+- "Reading the record", `:51-67`: once the entries are numbered, add the queries of item 8: a number, an entry's history, and the entries that point to one.
+- The same skill's `SKILL.md:137`, "Each fact has its source and its test.", would read "Each fact names its test and points to the report that holds its detail."
 
 ### Where the structure is stated today, and what each place becomes
 
-The places that state the structure point to this part instead:
+Not every place that states the structure becomes a pointer to this part (his words, 11:40, in item 39). Places that tell the coordinator how an entry is written or kept point here. Places that tell workers how to read, use or edit the record stay, with the changes above.
+
+These point here:
 
 - `coordinator/README.md:38-73`, "How they are kept", becomes one line: "How the records are kept: the `coordinator` skill, `references/roles-and-records.md`." This removes the pulls at `:46-50` ("at full informational fidelity") and `:64-66` ("Nothing a resumed coordinator needs is lost"), and contradictions 1 and 2 of Part 1.
 - `coordinator/README.md:19-20`: "The boot read is the current state whole, by Pavol's word: a resumed coordinator knows the project without him, the provenance and the detail one query away."
 - `coordinator/FACTS.md:1` and `coordinator/POSITIONS.md:1`: each header comment keeps one sentence of what the file holds, the project only, and points to this part. This removes "the numbers that describe the tree" and "a decision not yet built keeps the detail the coming work needs".
 - `coordinator/POSITIONS.md:130`, "The record's form: an optimized build and a debug build.": not edited; it moves to this part, by item 2, and its text to the history.
 - `protocol.md:151-159`, principle 6: it keeps "The record describes the present, each thing written once, so that a resumed coordinator knows the project without him." The rest becomes "Its structure is the `coordinator` skill's record-keeping part."
-- `.claude/skills/coordinator/references/roles-and-records.md:26-41`: replaced by this part. Its `:30` ("losing nothing") and `:34` (the title rule of contradiction 1) go with it.
+- `.claude/skills/coordinator/references/roles-and-records.md:26-41`: replaced by this part. Its `:30` ("losing nothing") and `:34` (the title rule of contradiction 1) go with it; its `:39`, on agents side by side, is item 41.
 - `.claude/skills/coordinator/references/boot.md:22`: replace "the price of full context, paid once per boot" with "kept small by the record-keeping part".
-- `coordinator/climb-batch-workflow.md:97` and `:160`, and the prompts `coordinator/climb-batch-workflow.js:791` and `:1182`: the rung's `record.md` carries "the FACTS hand-over", and the gather folds nothing into FACTS. `coordinator/climb-batch-workflow.md:274` becomes "The pass of the `coordinator` skill's record-keeping part: each fact the batch handed over written to it, the hand-over moved to `FACTS-history.md`." `:249`, the landed figures written into two entries, numbers only, stays.
-- `coordinator/process-engineering/facts-consolidation-check.md:171`, `:174` and `:175`, advice for the POSITIONS consolidation: "Keep every quoted sentence of his verbatim" becomes "Keep his words only where they are the position"; the sentence on pointers goes once item 14 is approved; "over 3,000 characters" becomes "over 600 characters".
+- `coordinator/process-engineering/facts-consolidation-check.md:171`, `:174` and `:175`, advice for the POSITIONS consolidation: "Keep every quoted sentence of his verbatim" becomes "Keep his words only where they are the position"; the sentence on pointers goes once item 21 is approved; "over 3,000 characters" becomes "over 600 characters".
 - The dated notes keep their text and get one line in their header comment, "Its rule for an entry's length is replaced by the record-keeping part of the `coordinator` skill.": `coordinator/record-keeping-proposal.md` (1.1 items 9 and 10, and its § 0), `coordinator/postmortem-2026-09-27-record-keeping.md` (1.1 and 1.5 item 8), `coordinator/process-engineering/coordinator-shape.md` (1.1 item 11), `coordinator/postmortem-2026-09-29/consolidation-review.md` (1.3 item 9).
 - `.claude/skills/coordinator/references/sources.md:59` and `:66-68`, which cite the FACTS entry "A restart of the session's own process ..." as the source of the skill's resume rules: cite `FACTS-history.md` for that entry's earlier text once the trial's text is applied.
 
+These stay, with changes:
+
+- `fortress-repo`'s `references/records.md` and `SKILL.md:137`: the list above.
+- `coordinator/climb-batch-workflow.md:97`, `:99` and `:160`: the rung's `record.md` and the gather's fold into FACTS are edits the batch's prompts ask for, and they stay (item 41). The prompts `coordinator/climb-batch-workflow.js:791` and `:1182`, which state the entry's form ("the fact, its source and its test in a few lines"), quote the hand-over of item 42 instead (item 34). `coordinator/climb-batch-workflow.md:274` becomes "The pass of the `coordinator` skill's record-keeping part: each entry the gather folded in written to its form, the worker's text moved to `FACTS-history.md`." `:249`, the landed figures written into two entries, numbers only, stays.
+
+Points 14 and 15 of Part 5 are not record-keeping: they belong to other parts of the `coordinator` skill, and are held on `explorations/coordinator/HELD.md` until the skill holds them.
+
 ## Part 3: the trial
 
-Each entry below gives the new text, its size against the old in characters, and each kind of thing cut with where it lives now. A home is checked with one bounded `grep`, quoted as `file:line` with the words it matched. "The history file" means the provenance goes there at the pass. The entry's whole old text also goes to the history file verbatim, as item 32 of Part 2 says.
+Each entry below gives the new text, its size against the old in characters, and each kind of thing cut with where it lives now. A home is checked with one bounded `grep`, quoted as `file:line` with the words it matched. "The history file" means the provenance goes there at the pass. The entry's whole old text also goes to the history file verbatim, as item 46 of Part 2 says.
 
 The keys that quote each title were checked on a copy of the record with the ten new texts in place: `facts-extract.sh --root COPY --check` resolves each key to the same line as on the live record. The ten entries' slice falls from 38.6K bytes, about 16K tokens, to 7.7K bytes, about 3.3K tokens. FACTS 58's restored sentence adds 242 bytes, so the slice is about 7.9K bytes, about 3.4K tokens.
 
@@ -263,7 +370,7 @@ New text, 597 characters against 3,463 (17 %):
 
 - **The compiled checker keeps a type parameter's bound list as it is when its overloading check reduces two declarations, so the array family checks under `T extends { Number, MultiplicativeRing[\T\] }`, but calls through such a bound are still refused or crash** (rows 686, 687, 689; a written static argument avoids them), and so is a valid overloading beside it (row 690). In the library only `squaredNorm(me)` meets them, a distance site. A trait-table memo keeps the count stage within its time limit. Gated by `OverloadTwoBoundsClosed*`. Detail: `compile-ladder/rung-array-bound/REPORT.md`.
 
-The title drops "no longer crashes it", a mark of change that question 3 of `facts-consolidation-check.md` asks about; items 5 and 6 of Part 2 retitle it.
+The title drops "no longer crashes it", a mark of change that question 3 of `facts-consolidation-check.md` asks about; items 11 and 12 of Part 2 retitle it.
 
 Cut, and where it lives:
 
@@ -382,9 +489,9 @@ Cut, and where it lives:
 
 ### Decisions taken in the trial
 
-- **Where a procedure lives.** FACTS 201 now points into the `coordinator` skill's `references/agents.md`, which already holds the resume procedure. The alternative was to keep the procedure in FACTS, as the skill's `sources.md` cites it there. This is question 2 of `facts-consolidation-check.md`, still open; item 14 of Part 2 answers it, pending his yes. Under item 1 the entry may leave FACTS altogether, as a fact about the platform (item 4).
+- **Where a procedure lives.** FACTS 201 now points into the `coordinator` skill's `references/agents.md`, which already holds the resume procedure. The alternative was to keep the procedure in FACTS, as the skill's `sources.md` cites it there. This is question 2 of `facts-consolidation-check.md`, still open; item 21 of Part 2 answers it, pending his yes. Under item 1 the entry may leave FACTS altogether, as a fact about the platform (item 4).
 - **A separate fact dropped from an entry.** FACTS 87's sentence that a `spawn` is refused in an `atomic` body is a different fact from the entry's. It is cut to the skeptic's report and its test. The alternative was a new entry of its own; no decision of the coordinator or a worker was found to rest on it.
-- **Titles rewritten.** FACTS 87, 94 and 166 have new titles that keep the opening words every key quotes. POSITIONS 60 keeps its title whole, provenance and all, because 22 keys quote it whole.
+- **Titles rewritten.** FACTS 87, 94 and 166 have new titles that keep the opening words every key quotes. POSITIONS 60 keeps its title whole, provenance and all, because 22 keys quote it whole. With numbered entries (Part 2, items 5 to 10) a title need not keep them.
 - **Tests named by pattern.** FACTS 55, 87 and 94 name their tests by a pattern (`InferCoercion*`, `InferResultOnly*`, `OverloadTwoBoundsClosed*`). Some of the patterns also match tests of neighbouring entries. FACTS 145 names two tests and a pattern, since it joins four checks.
 
 ## Part 3b: one home for what FACTS and POSITIONS both tell
@@ -523,31 +630,26 @@ The grader found seven (`record-test/grades.md` section 5):
 ### What the result means for the measure
 
 - At about a sixth of their old size, the new entries decided as well as the old in nine scenarios of ten. The one loss came from a fact cut from FACTS 58, and one sentence repaired it.
-- So 600 characters works as a check, not as a cap. An entry over it names the decision that needs the extra (Part 2, item 11). FACTS 58 is 707. The decision that needs it is decision D, item 13's fifth fork: what C4 still fails on after D1, and whether that is the numeral work or the arrays. The entry's title says "none of their errors is a numeral", and the five powers with row 533 are what tell a reader how to take it.
+- So 600 characters works as a check, not as a cap. An entry over it names the decision that needs the extra (Part 2, item 20). FACTS 58 is 707. The decision that needs it is decision D, item 13's fifth fork: what C4 still fails on after D1, and whether that is the numeral work or the arrays. The entry's title says "none of their errors is a numeral", and the five powers with row 533 are what tell a reader how to take it.
 - POSITIONS 48 and 60, with their "Built:" pointers, are 857 and 850 characters: over the measure, with no decision named that needs the extra. That is the first question of Part 3b.
 - The test is small: one reader for each copy, one grader, ten scenarios. It found no other loss, which does not show that there is none.
 
-## Part 5: what the test and the curator's comments add, to be folded into Part 2
+## Part 5: what the test and the curator's comments add, folded into Part 2
 
-Written 2026-10-13 by the coordinating session, so that nothing learned is lost to a compaction; the next pass on this draft folds each point into Part 2 and the page, and then he reads the principles once (step 2 (c) of the rewrite plan).
+The fifteen points written by the coordinating session on 2026-10-13, before a compaction, are folded into Part 2. Their text as written is in this file's history (`8b701ad32`). Each point, and where it went:
 
-From the test (Part 4):
-1. A number a decision rests on keeps its breakdown when its parts belong to different rows or lead to different decisions: the parts with their rows, not only the total. (new; FACTS 58, whose trial text kept "14" and lost what the 14 are)
-2. A fact without which a claim of the entry would be misread stays in the entry. (new; FACTS 58's "none of their errors is a numeral" reads right only with row 533: the five numeral powers are an ambiguous coercion between two `^` declarations, not a numeral's type)
-3. The measure is a check, not a target: an entry over it says which decision needs the extra (FACTS 58 at 707 characters). The boot still reads the whole record, as he set on 2026-09-27. (new, reconciling `postmortem-2026-09-27-record-keeping.md:15` with "a few lines")
-4. Long entries cost decisions too: the old reader missed row 680 inside the 6.6K distance entry, and the old texts carried two false sentences (POSITIONS 48 on row 516, FACTS 141 on row 590, both corrected on `main` in `8583d31d7` and `c836b1f2d`). (from the grading)
-5. One home for what FACTS and POSITIONS both tell: FACTS states what the tree does and names the decision by its key; POSITIONS states the decision and why and points to the FACTS entries for what is built. From the decision side the duplication worked as a cache that went stale; from the tree side it did no work. (scenarios 9 and 10; Part 3b)
-6. The method: a trial on a slice, a blind test with the kit (`record-test/`), the one missing fact restored and its scenario re-run, and only then the rule applied widely. Next is the cold read: a fresh worker given only the written rule consolidates a slice of mid-size entries (1K to 2K), and the kit's quiz checks it. The test cost 2.49M written against an estimate of 1.6M.
-
-From his comments on the page (11:33 to 11:41 UTC) and in chat:
-7. Looking up a fact's history or a report's passage is retrieval: the coordinator sends a Sonnet scout, as for archaeology. (his comment, 11:33)
-8. The knowledge of the record is split: `fortress-repo` keeps how workers read and use the record and how they edit it when asked; the coordinator skill holds the entry's form and the pass that turns a finished worker's report into entries. Part 2's line that every place stating the structure becomes a pointer to the coordinator skill is too wide. (his comment, 11:40)
-9. Each FACTS and POSITIONS entry gets a permanent number (`F-87`, `P-48`), so titles and texts can be rewritten freely; the contradiction over titles that no longer hold is solved by it. (his yes, 11:05; his comment, 11:41)
-10. The other four contradictions of Part 1.6, answered: POSITIONS carries no dates, the dates are in the history; POSITIONS holds his words only where they are the position, the quotes in the history (his words, 09:05: his dictation "needs to be refined into nuggets"); an entry is a few lines with the measure as a check; a FACTS entry may point into a skill part where the detail lives (FACTS 201's pointer into the coordinator skill was followed in scenario 6).
-11. FACTS and POSITIONS hold the project; how the coordinator and he work together goes to the coordinator skill, and until it exists to the held list and the boot note, never to POSITIONS. (his words, 09:16)
-
-For the coordinator skill, from how this draft came about (not for POSITIONS):
-12. A rule he sets is quoted in every brief, word for word, with its measure and its example; it is never restated, since each restatement lost the part that cuts (`BOOT.md`'s account of 2026-10-12 and 10-13).
-13. A proposal of the coordinator's stays marked as its own until he says yes.
-14. Keeping what was learned is not put to him as a choice; nor is any option whose alternative is to do nothing (his words, 14:36 and 2026-10-12 21:01).
-15. A page a worker builds uses the house style, the CSS of the "Coordinator Rewrite Plan" page (his words, 09:54).
+1. A number's breakdown: item 15.
+2. The fact without which a claim would be misread: item 14.
+3. The measure as a check, not a target, and the boot's whole read: item 20.
+4. Long entries cost decisions too: item 20, as the reason for the measure.
+5. One home for what FACTS and POSITIONS both tell: items 22 and 27.
+6. The method, a trial, a blind test, a restoration and a re-run, then the cold read: the paragraph after item 52, on how the part itself is checked.
+7. Retrieval by a Sonnet scout: item 37.
+8. The split between the two skills: items 38 to 45, and the last two sections of Part 2.
+9. The permanent numbers: items 5 to 10, and 12; contradiction 1 of Part 1.6.
+10. The other four contradictions: items 24, 25, 20 and 21; contradictions 2 to 5 of Part 1.6.
+11. FACTS and POSITIONS hold the project, and how he and the coordinator work goes to the skill, meanwhile to the held list and the boot note: items 1 and 2.
+12. His rule quoted in every brief, never restated: item 34.
+13. A proposal of the coordinator's marked as its own until his yes: item 31.
+14. No do-nothing choice put to him: not record-keeping; the last line of Part 2, and held on `explorations/coordinator/HELD.md`.
+15. The house style for a worker's page: the same.
