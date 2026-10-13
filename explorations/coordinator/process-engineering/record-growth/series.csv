@@ -1903,3 +1903,291 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 1901,2026-10-09 23:38:33Z,bd854336b,694,581432,293630,93771,174648,583210,293896,93828,174756,,"The boot note: batch 13 reviewed and routed, the judge rule narrowed, item 35's probe running"
 1902,2026-10-09 23:53:42Z,e53704644,694,581432,293630,93771,174648,583210,293896,93828,174756,,The boot note: the process-engineering study's closure running
 1903,2026-10-09 23:53:53Z,c8258deda,694,581432,293630,93771,174648,583210,293896,93828,174756,,The boot note's time read from the clock
+1904,2026-10-10 00:09:29Z,ee4082488,694,581432,293630,93771,174648,583210,293896,93828,174756,,"Record growth: batches 11 to 13 and the ledger's rewrite, measured to c8258deda"
+1905,2026-10-10 00:16:15Z,48b95f0a5,694,581432,293630,93771,174648,583210,293896,93828,174756,,"Item 35's two unmeasured halves: the builtinPrimitive rewrite runs, the checker accepts ZZ32's import-java natives"
+1906,2026-10-10 00:17:32Z,7c9fd1833,694,581432,295057,93771,174648,583210,295323,93828,174756,,FACTS consolidated before climb batch 14
+1907,2026-10-10 00:23:41Z,ddd73d967,694,581432,295057,96516,174648,583210,295323,96573,174756,,POSITIONS consolidated after climb batch 13
+1908,2026-10-10 00:24:23Z,2c22625a3,694,581432,295725,96516,174648,583210,295991,96573,174756,,FACTS: the natives' compiled rewrite measured by item 35's probe
+1909,2026-10-10 00:54:13Z,ca14c1952,694,581432,295725,96516,176498,583210,295991,96573,176606,,"Process-engineering study closed: the measuring scripts recovered from their authors' transcripts, run again on batches "
+1910,2026-10-10 00:54:38Z,a06bbbb41,694,581432,295725,96516,177217,583210,295991,96573,177325,,INDEX: item 35's probe
+1911,2026-10-10 00:55:03Z,d682e1d9d,694,581432,295725,96516,177217,583210,295991,96573,177325,,"The boot note: the study closed, records consolidated, the checker-speed prototype running, item 35's choice asked"
+1912,2026-10-10 03:37:55Z,c5098915c,694,581432,295725,96516,177217,583210,295991,96573,177325,,Checker-speed prototype: the patch that shares context-free subtype and exclusion answers per trait table
+1913,2026-10-10 04:06:22Z,662e7aa43,694,581432,295725,96516,178233,583210,295991,96573,178343,,"The checker-speed prototype's report: the slowdown is recomputation, not the rules, and a per-table memo of context-free"
+1914,2026-10-10 04:06:39Z,0bcf127e3,694,581432,296710,96516,178233,583210,296978,96573,178343,,"FACTS: the bound list's slowdown is recomputation, and a per-table memo cuts it with every answer kept (prototype)"
+1915,2026-10-10 04:06:54Z,08ac96d3c,694,581432,296710,96516,178233,583210,296978,96573,178343,,FACTS: the bound-list entry's new sentences placed before its tests
+1916,2026-10-10 04:07:13Z,57d4fcbd9,694,581432,296710,96516,178233,583210,296978,96573,178343,,"The boot note: the checker-speed prototype done, its place asked"
+1917,2026-10-10 04:07:24Z,435d85d1f,694,581432,296710,96516,178233,583210,296978,96573,178343,,The boot note's time read from the clock
+1918,2026-10-10 05:28:48Z,046207371,694,581432,296710,97813,178233,583210,296978,97872,178343,,"Item 35 answered: the natives' one binding text is builtinPrimitive naming a static helper, the compiled rewrite switche"
+1919,2026-10-10 05:36:47Z,10f79c6c4,694,581432,296710,97813,178233,583210,296978,97872,178343,,The boot note: batch 13b's landing running outside a batch
+1920,2026-10-10 05:40:15Z,d8644f3ae,694,581432,296710,97813,178233,583210,296978,97872,178343,,The boot note: the fix's skeptic runs on Fable at his word
+1921,2026-10-10 06:00:16Z,a72fd2633,694,581432,296710,97813,178233,583210,296978,97872,178343,,"The boot note: the backlog triage, the measures' judgement and the page update running"
+1922,2026-10-10 06:00:26Z,98ebe58c3,694,581432,296710,97813,178233,583210,296978,97872,178343,,The boot note's time read from the clock
+1923,2026-10-10 06:01:54Z,71c082724,694,581432,296710,97813,178233,583210,296978,97872,178343,,Checker-speed fix: the skeptic's review of fix.patch and of the report's reasoning
+1924,2026-10-10 06:06:37Z,525467ece,694,581432,296710,97813,178233,583210,296978,97872,178343,,The boot note: the Fable check of the array judgements against POPL 2019 running
+1925,2026-10-10 06:06:48Z,29243bdfe,694,581432,296710,97813,178233,583210,296978,97872,178343,,The boot note's times read from the clock
+1926,2026-10-10 06:14:04Z,be000aa07,694,581432,296710,97813,178233,583210,296978,97872,178343,,"fortress-repo: move ""Weighing the sources"" to exploring.md and name the team's later work"
+1927,2026-10-10 06:14:04Z,1247e6c87,694,581432,296710,97813,178233,583210,296978,97872,178343,,coordinator: a brief for a judgement on a type rule names the late sources
+1928,2026-10-10 06:19:02Z,8aa5bbd82,694,581432,296710,97813,179389,583210,296978,97872,179499,,"The two array judgements checked against POPL 2019: both stand, four sentences owed, row 682 settled"
+1929,2026-10-10 06:19:27Z,d411ab49a,694,581432,296710,97813,179620,583210,296978,97872,179730,,Design-intent map: the team's word after the repository
+1930,2026-10-10 06:19:52Z,a5b9382a7,694,581432,296710,97813,179620,583210,296978,97872,179730,,The map's README names the design-intent map's section on the team's word after the repository
+1931,2026-10-10 06:20:32Z,1794398eb,694,581432,296710,97813,179620,583210,296978,97872,179730,,fortress-repo: the query for the map's later works; Q49 answered
+1932,2026-10-10 06:20:59Z,66d01a80f,694,581432,296710,97813,180364,583210,296978,97872,180474,,"The corrective measures of 2026-10-08 judged against their own aims: the redesign met its aim, the skill met one of its "
+1933,2026-10-10 06:21:39Z,3c67d5204,694,581432,296710,97813,180364,583210,296978,97872,180474,,"The compiled checker shares context-free subtype and exclusion answers per trait table, so a bound list naming Number's "
+1934,2026-10-10 06:21:51Z,749ec523e,694,581432,296710,97813,180364,583210,296978,97872,180474,,"The one library's array family takes T extends { Number, MultiplicativeRing[\T\] }, the scalar block a bound per operato"
+1935,2026-10-10 06:22:07Z,d96bc7776,694,581432,296710,97813,180364,583210,296978,97872,180474,,"Record climb batch 13b's gate: the checker-speed fix and fork 2's library half on main, the count 1 in 387 s, the distan"
+1936,2026-10-10 06:22:19Z,1ddd4aeec,694,581432,296710,97813,180364,583210,296978,97872,180474,,The boot note: the process restart of 05:34 UTC and the next predicted stop
+1937,2026-10-10 06:22:57Z,79c2a5602,694,581432,296710,97813,180364,583210,296978,97872,180474,,"Climb batch 13b's record: the checker-speed fix and fork 2's library half landed outside a batch, their test-first evide"
+1938,2026-10-10 06:27:32Z,e9d1c7b04,694,581432,296710,98119,180364,583210,296978,98178,180474,,"Sonnet writes nothing he reads, and the next update of ""Fortress Revival So Far"" is Opus's, redoing batches 11 to 13"
+1939,2026-10-10 06:28:02Z,2b9c45165,694,581432,296710,98119,180301,583210,296978,98178,180411,,"The review queue rewritten whole: the batch lists' 202 entries, the open answers and the 10-02 queue sorted into 50 cons"
+1940,2026-10-10 06:28:08Z,05bff0d10,694,581329,298557,98119,180301,583109,298823,98178,180411,,"Climb batch 13b's records: row 688 closed by the checker-speed fix and row 437 by the library half, rows 686, 687, 689 a"
+1941,2026-10-10 06:28:16Z,e35e5b6ff,694,581329,298557,98119,180301,583109,298823,98178,180411,,The review queue: one reason reworded
+1942,2026-10-10 06:29:03Z,3ac15f3c4,694,581329,298557,98268,180301,583109,298823,98327,180411,,POSITIONS: fork 2's library half landed with the checker-speed fix
+1943,2026-10-10 06:29:34Z,bb70ea5cb,694,581329,298557,98268,180301,583109,298823,98327,180411,,"The boot note: batch 13b landed, the backlog triaged and published, nothing running"
+1944,2026-10-10 06:45:07Z,afc1d8c39,694,581329,298557,98268,180301,583109,298823,98327,180411,,"The POPL 2019 paper committed beside its extract, the open-access exception to the rule on copyrighted PDFs"
+1945,2026-10-10 06:45:43Z,3ed105773,694,581329,298557,98268,180301,583109,298823,98327,180411,,research/README: the POPL 2019 paper and its text are committed beside the extract
+1946,2026-10-10 06:47:01Z,fa91cbe89,694,581329,298557,98268,180301,583109,298823,98327,180411,,"The boot note before a compaction: two workers running, the skills agenda defect and its fix, what landed, what is asked"
+1947,2026-10-10 06:53:03Z,4098211a6,694,581329,298557,98268,180301,583109,298823,98327,180411,,An audit of the three skills for the coordinator's agenda leaked into worker text
+1948,2026-10-10 06:54:03Z,459765729,694,581329,298557,98268,181214,583109,298823,98327,181324,,INDEX: the skills agenda audit
+1949,2026-10-10 06:55:31Z,581effd2a,694,581329,298557,98268,181214,583109,298823,98327,181324,,"The skill writer's brief: no agenda in a part, and the lint before each commit"
+1950,2026-10-10 06:56:37Z,49fb27b7d,694,581329,298557,98268,181214,583109,298823,98327,181324,,"The boot note: the skills agenda fix running (writer, process worker), the POPL check running"
+1951,2026-10-10 06:57:47Z,d250837a6,694,581329,298557,98268,181214,583109,298823,98327,181324,,"skills-lint.py: the agenda lint of the skills audit, and the skill writer may run it"
+1952,2026-10-10 07:00:03Z,a1eb4a1ee,694,581329,298557,98268,181214,583109,298823,98327,181324,,"fortress-repo and coordinator: the agenda removed from the parts, each rule stated as the tree holds it"
+1953,2026-10-10 07:00:52Z,98af7d5ff,694,581329,298557,98268,181214,583109,298823,98327,181324,,"coordinator: the skill writer makes every skill edit, and the skills are updated after each landing, then read cold"
+1954,2026-10-10 07:02:34Z,f3444732c,694,581400,299762,98268,181214,583181,300028,98327,181324,,The array judgements' check read against the POPL 2019 paper's full text: row 682 settled for the checker by the revival
+1955,2026-10-10 07:03:11Z,05c254085,694,581400,299762,98268,181214,583181,300028,98327,181324,,The climb batch writes no skill text: revival-change material goes to RECORD.md for the skill writer
+1956,2026-10-10 07:04:15Z,bbcf88bdc,695,582285,299762,98268,181214,584066,300028,98327,181324,,"The POPL 2019 full-text check's findings filed: row 696, the extract's No Duplicates line, row 682 under review item 30"
+1957,2026-10-10 07:05:08Z,24e220b59,695,582285,299762,98268,181214,584066,300028,98327,181324,,The batch manual: no skill text in a batch; the writer and a cold read after the landing
+1958,2026-10-10 07:05:58Z,55005e7ca,695,582285,299762,98268,181214,584066,300028,98327,181324,,The standing brief of the cold read of the skills
+1959,2026-10-10 07:06:10Z,efd3a4602,695,582285,299762,98268,181214,584066,300028,98327,181324,,"batch-redesign.md, section 7, item 3: the gather no longer folds the revival-change entries"
+1960,2026-10-10 07:06:23Z,8ffd18eab,695,582285,299762,98268,181787,584066,300028,98327,181897,,INDEX: the standing brief of the cold read of the skills
+1961,2026-10-10 07:09:37Z,0f1b9e000,695,582285,299762,98268,181787,584066,300028,98327,181897,,"The gate's shell functions in their own file, sourced by the batch script"
+1962,2026-10-10 07:10:55Z,652d3b349,695,582285,299759,98268,181787,584066,300025,98327,181897,,"FACTS: gate_compare lives in tools/gate-functions.sh, sourced by the gate's step 5"
+1963,2026-10-10 07:11:19Z,ffa06027b,695,582285,299759,98268,181787,584066,300025,98327,181897,,fortress-repo: the gate sources its shell functions from tools/gate-functions.sh
+1964,2026-10-10 07:11:23Z,50499143b,695,582285,299759,98268,181787,584066,300025,98327,181897,,"The boot note: the agenda fix's last steps, the POPL talk's deck stored"
+1965,2026-10-10 07:11:56Z,bdc0bae50,695,582285,299759,98268,181787,584066,300025,98327,181897,,skills-lint.py: a folder argument is linted file by file
+1966,2026-10-10 07:18:00Z,915411a6a,695,582285,299759,98268,181787,584066,300025,98327,181897,,coordinator and fortress-repo: the cold read's flags on the agenda removal fixed
+1967,2026-10-10 07:19:18Z,8325ff24a,695,582285,299759,98268,181787,584066,300025,98327,181897,,The boot note: the skills agenda fix done; step 5 asked
+1968,2026-10-10 07:19:30Z,f32891f85,695,582285,299759,98268,181787,584066,300025,98327,181897,,The boot note: the time read from the clock
+1969,2026-10-10 07:29:46Z,b9979a30d,695,582285,299759,98268,181787,584066,300025,98327,181897,,The boot note: the POPL talk's transcript being verified; the paper's proofs located
+1970,2026-10-10 07:29:56Z,8e6373ed9,695,582285,299759,98268,181787,584066,300025,98327,181897,,The boot note: the time as the clock read it
+1971,2026-10-10 07:48:53Z,b7926cb31,695,582285,299759,98268,181787,584066,300025,98327,181897,,"Research: the POPL 2019 talk's transcript, checked against the captions, the deck and the paper"
+1972,2026-10-10 07:49:42Z,9e04a3ae1,695,582285,299759,98268,181787,584066,300025,98327,181897,,The talk's transcript as a stated exception; the map's cell on the paper made current
+1973,2026-10-10 07:50:02Z,fb1aa7c7b,695,582285,299759,98268,181787,584066,300025,98327,181897,,"The boot note: the talk's transcript committed, the proofs' search, the coordinator rewrite's goals asked"
+1974,2026-10-10 08:18:38Z,f0cbc0e35,695,582285,299759,98268,181787,584066,300025,98327,181897,,The boot note: the map of the coordinator's records running; the talk's audio and the proofs' state
+1975,2026-10-10 08:37:18Z,c8f0e20af,695,582285,299759,98268,181787,584066,300025,98327,181897,,"The coordinator records mapped before the skill rewrite: kinds, homes, readers, sizes, duplication, debug content, two r"
+1976,2026-10-10 08:40:09Z,1cfcb01f6,695,582285,299759,98268,182643,584066,300025,98327,182755,,INDEX: the map of the coordinator's records
+1977,2026-10-10 09:09:37Z,6d050fe3a,695,582285,299759,98268,182643,584066,300025,98327,182755,,"The boot note: Whisper done, Qwen3-ASR running, the map published, the restart at 08:16"
+1978,2026-10-10 09:20:08Z,c3aadca55,695,582285,299759,99784,182643,584066,300025,99843,182755,,"POSITIONS: the coordinator rewrite's goals, as reflected and corrected by him"
+1979,2026-10-10 09:24:02Z,1d8a8f479,695,582285,299759,100048,182643,584066,300025,100107,182755,,"The coordinator rewrite: the skill tiered by modes of work, the batch workflow in scope (his comments on the map page)"
+1980,2026-10-10 09:43:22Z,37955d00c,695,582285,299759,100048,182643,584066,300025,100107,182755,,Research: the POPL 2019 talk's transcript rebuilt from its audio by two speech models
+1981,2026-10-10 09:43:30Z,2c7dd5725,695,582285,300696,100048,182643,584066,300962,100107,182755,,"FACTS: the POPL 2019 talk's checked transcript, and what it adds to the paper"
+1982,2026-10-10 09:44:25Z,e629b71a2,695,582285,300696,100048,182643,584066,300962,100107,182755,,"The boot note: the talk's transcript rebuilt from its audio, the head-to-head, the examples' sorting waiting on him"
+1983,2026-10-10 09:44:38Z,19561b245,695,582285,300696,100048,182643,584066,300962,100107,182755,,The boot note: the coordinator rewrite's goals as now recorded
+1984,2026-10-10 21:14:42Z,b8988ed1a,695,582285,300696,100048,182643,584066,300962,100107,182755,,"The boot note before a compaction: the examples worker running, the VM restart at 21:13, the rewrite's next step"
+1985,2026-10-10 21:14:57Z,75be286ac,695,582285,300696,100048,182643,584066,300962,100107,182755,,The boot note: the time as the clock read it
+1986,2026-10-10 21:39:23Z,fa9a32e39,695,582285,300696,100048,182643,584066,300962,100107,182755,,"Reviews: the POPL 2019 paper's and talk's worked examples, sorted for the test suite"
+1987,2026-10-10 21:40:18Z,8d017c850,698,585252,300696,100048,183314,587033,300962,100107,183426,,"The POPL 2019 examples routed: rows 697 to 699 opened, the test rung in batch 14's lists, the note indexed"
+1988,2026-10-10 21:40:34Z,876b26d09,698,585252,300696,100048,183314,587033,300962,100107,183426,,"The boot note: the POPL examples done and routed, nothing running"
+1989,2026-10-11 05:18:07Z,9acd32cac,698,585252,300696,101143,183314,587033,300962,101202,183426,,POSITIONS: the coordinator rewrite rests on the model's own habits; why the coordinator runs on Opus
+1990,2026-10-11 05:19:01Z,0eb6e7aa2,698,585252,300696,101143,183314,587033,300962,101202,183426,,"The boot note: the origins scout running, the baseline question asked"
+1991,2026-10-11 05:27:04Z,41fdd6a47,698,585252,300696,101143,183314,587033,300962,101202,183426,,"The boot note: the trial kit worker running, the scout asked for the inciting incident"
+1992,2026-10-11 05:38:05Z,6c2704a58,698,585252,301217,101143,183314,587033,301483,101202,183426,,FACTS: a push notification reaches the curator's iPhone outside the app
+1993,2026-10-11 05:42:35Z,a4aed80f9,698,585252,301217,101143,183314,587033,301483,101202,183426,,Evidence of where each of the coordinator's record homes came from and how its use changed
+1994,2026-10-11 05:43:52Z,af035fb05,698,585252,301217,101143,184159,587033,301483,101202,184271,,"INDEX: the record origins evidence; the boot note: the scout done, the origins writer running"
+1995,2026-10-11 05:56:51Z,04ff6bc22,698,585252,301217,101143,184159,587033,301483,101202,184271,,"The map: section 9, where each home of the record came from"
+1996,2026-10-11 05:57:44Z,2bd0508c9,698,585252,301702,101143,184159,587033,301968,101202,184271,,FACTS: after a compaction a page is republished by its URL
+1997,2026-10-11 06:04:04Z,90a590f25,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The baseline trial kit: a sandbox without the coordinator's records, fifteen of his messages, a boot quiz and its key"
+1998,2026-10-11 06:05:31Z,226914956,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The boot note: origins and the trial kit done, the run's cost asked"
+1999,2026-10-11 06:12:10Z,55a09ed14,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The baseline trial: a rehearsal, no builds, test runs or agent launches"
+2000,2026-10-11 06:13:30Z,4120fc624,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The boot note: the two rehearsal runs running, check-ins armed"
+2001,2026-10-11 06:28:02Z,a21d0e35d,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The baseline trial's first runs stopped: isolated technically, not in content"
+2002,2026-10-11 06:37:50Z,759f2bb71,698,585252,301702,101143,184159,587033,301968,101202,184271,,Remove the baseline trial kit at the curator's word; the boot note
+2003,2026-10-11 06:39:33Z,381920ac3,698,585252,301702,101143,184159,587033,301968,101202,184271,,The boot note: the 'coding is solved' scout running
+2004,2026-10-11 06:41:30Z,9d1c021aa,698,585252,301702,101143,184159,587033,301968,101202,184271,,The boot note: the scout stopped at the curator's word
+2005,2026-10-11 06:46:49Z,2222b5736,698,585252,301702,101143,184159,587033,301968,101202,184271,,"The boot note before a compaction, and a possible switch to Fable"
+2006,2026-10-11 07:12:20Z,0d7865f72,698,585252,301702,101482,184159,587033,301968,101541,184271,,"POSITIONS: the coordinator's replies take the skills' register, ASD-STE100 about halfway"
+2007,2026-10-12 11:29:39Z,c4dd01125,698,585252,301702,101482,184792,587033,301968,101541,184904,,"The baseline interview: the setting, the eighteen questions and the runner, kept for every new model"
+2008,2026-10-12 12:40:12Z,e7f384799,698,585252,302173,101482,184792,587033,302439,101541,184904,,FACTS: a repository path in chat does not open on the curator's phone; a page link or a GitHub URL does
+2009,2026-10-12 12:40:32Z,6239ffd16,698,585252,302173,101482,184792,587033,302439,101541,184904,,"coordinator skill: give the curator a readable link for a file, not a path"
+2010,2026-10-12 12:44:18Z,bf35b9284,698,585252,302173,101482,184792,587033,302439,101541,184904,,"The baseline interview: the runner's mount order fixed, and the answers of Fable 5.1 and Opus 5.5"
+2011,2026-10-12 13:01:07Z,741d2bb97,698,585252,302173,101482,184792,587033,302439,101541,184904,,"The baseline interview: one question per turn, both models' per-turn answers, the one-shot ones kept for comparison"
+2012,2026-10-12 13:25:59Z,da0de3282,698,585252,302173,101482,185391,587033,302439,101541,185503,,"The rules sorted against the baseline: 14 dropped as defaults, 24 kept for the environment, 23 for the project, 11 to fo"
+2013,2026-10-12 13:26:53Z,51bf08621,698,585252,302173,101668,185391,587033,302439,101727,185503,,POSITIONS: a longer report or page for him is written by an Opus worker
+2014,2026-10-12 13:27:23Z,0030ea119,698,585252,302173,101668,185391,587033,302439,101727,185503,,POSITIONS-history: the earlier text of 'Which tier runs what.'
+2015,2026-10-12 13:45:03Z,93c24b8b2,698,585252,302173,101871,185391,587033,302439,101930,185503,,POSITIONS: no coda after a semicolon
+2016,2026-10-12 13:46:13Z,a1e2ee38b,698,585252,302173,102290,185391,587033,302439,102349,185503,,"POSITIONS: the coordinator skill is written from scratch by an Opus writer, not refactored"
+2017,2026-10-12 13:54:00Z,4eb2cbe61,698,585252,302173,102290,185391,587033,302439,102349,185503,,rule-sort-b: a second sort of the 73 conduct rules against the baseline interview
+2018,2026-10-12 13:56:51Z,acfa2f7d0,698,585252,302173,102290,185822,587033,302439,102349,185934,,INDEX: the second rule sort
+2019,2026-10-12 14:55:39Z,7f7206752,698,585252,302173,102290,185822,587033,302439,102349,185934,,"Duplicated rules evidence: how ten conduct rules originated and spread, copy by copy"
+2020,2026-10-12 14:56:42Z,6fdc698cc,698,585252,302173,102290,186575,587033,302439,102349,186687,,INDEX: the duplicated rules archaeology
+2021,2026-10-12 16:34:52Z,5094ded2d,698,585252,302173,102751,186575,587033,302439,102810,186687,,"The boot note before a compaction, his 19 held points, and the sort method's correction in POSITIONS"
+2022,2026-10-12 16:41:23Z,93e8823f2,698,585252,302173,102751,188275,587033,302439,102810,188387,,INDEX: the six files of the baseline interview kit
+2023,2026-10-12 21:07:07Z,cc3e59618,698,585252,302173,102751,189188,587033,302439,102810,189300,,The boot note and the held list as their own homes; the handover's first section retired into PLAN
+2024,2026-10-12 21:14:47Z,d0f3e5c79,698,585252,302173,102751,189188,587033,302439,102810,189300,,BOOT.md: the session's tier at his proposed switch to Opus
+2025,2026-10-12 21:15:07Z,45c641225,698,585252,302173,102751,189188,587033,302439,102810,189300,,"BOOT.md: the times read from the clock and the transcript, not written from feel"
+2026,2026-10-12 21:22:43Z,e8be8fa59,698,585252,302173,102751,189188,587033,302439,102810,189300,,"BOOT.md: the session back on Opus, the first FACTS slice put to him, the lint dropped"
+2027,2026-10-12 21:28:26Z,1e565f9c9,698,585252,302173,102751,189188,587033,302439,102810,189300,,BOOT.md: Ryu's reply to the proofs email
+2028,2026-10-12 22:11:24Z,3b78a4991,698,585252,302173,102751,189188,587033,302439,102810,189300,,BOOT.md: two workers running for the reply to Ryu
+2029,2026-10-12 22:22:19Z,01f132d69,698,585252,302173,102751,189188,587033,302439,102810,189300,,BOOT.md: the attribution fix running
+2030,2026-10-12 22:31:25Z,e2c9551e2,698,585252,302356,102815,189188,587033,302622,102874,189300,,"Record: the compiler prelude's flattening attributed from git, not to Steele"
+2031,2026-10-12 22:32:00Z,799e9dfc9,698,585252,302356,102815,189188,587033,302622,102874,189300,,"decisions-review judgement: the compiler side went flat in 2009, not from the start"
+2032,2026-10-12 22:32:16Z,dc2a6bacd,698,585252,302356,102815,189188,587033,302622,102874,189300,,BOOT.md: the attribution fix done
+2033,2026-10-12 22:40:13Z,d1a5d19f8,698,585252,302356,102815,189188,587033,302622,102874,189300,,"Reviews: when and why the revival found, consulted and sought the extended report of the POPL 2019 paper"
+2034,2026-10-12 22:40:54Z,90a7a2bff,698,585252,302356,102815,189875,587033,302622,102874,189987,,INDEX: the POPL 2019 provenance note; BOOT.md: the reply's context returned
+2035,2026-10-12 22:54:47Z,17cbd9003,698,585252,302356,102815,189875,587033,302622,102874,189987,,"PLAN: the revival story's update wanted now, for the reply to Ryu; BOOT.md follows"
+2036,2026-10-12 23:00:33Z,e7f7bc200,698,585252,302356,102815,189875,587033,302622,102874,189987,,BOOT.md: the revival story's writer running
+2037,2026-10-12 23:28:41Z,29c593dcf,698,585252,302356,102815,189875,587033,302622,102874,189987,,"README's Buffon figure restored: its two SVGs, removed with explorations/fortify by the cleaning of 2026-09-30"
+2038,2026-10-12 23:30:26Z,34e0e42ed,698,585252,302356,102815,189875,587033,302622,102874,189987,,"explorations/fortify restored whole, at the curator's word"
+2039,2026-10-12 23:30:52Z,526a8b10c,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story updated through climb batch 13b, for the curator and Prof. Sukyoung Ryu"
+2040,2026-10-12 23:32:36Z,85ca08ab9,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Figures restored that kept reports still show or cite by path: 104 images, 7 MB, removed by the cleanings of 2026-09-29 "
+2041,2026-10-12 23:33:11Z,54a1a362c,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the story checked next, the figures restored, the push held"
+2042,2026-10-12 23:33:35Z,7746719eb,698,585252,302356,102815,189875,587033,302622,102874,189987,,fortress-repo: the number tower was flattened in 2009 and 2010
+2043,2026-10-12 23:50:46Z,eba3f336c,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story fact-checked against git and the record: claims about the team, the revival's changes and the numbers corr"
+2044,2026-10-12 23:52:10Z,3e48ac019,698,585252,302356,102815,189875,587033,302622,102874,189987,,"PLAN: microGPT's quick walk check passed at every landing from batch 11 to 13b, not owed since batch 10"
+2045,2026-10-12 23:52:46Z,e148082d9,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the story published, the letter drafted, the skill writer on two lines"
+2046,2026-10-12 23:52:56Z,b437563aa,698,585252,302356,102815,189875,587033,302622,102874,189987,,fortress-repo: revival-changes points to exploring.md and drops a misplaced note
+2047,2026-10-13 00:01:33Z,09a0bde72,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story: the curator unnamed again, as in the original wording, at his comment"
+2048,2026-10-13 00:03:32Z,1806a3bc4,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story: the glossary's agent entry dropped, at his comment"
+2049,2026-10-13 00:04:47Z,3f4d4caae,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story: the curator runs the revival, not directs it, at his comment"
+2050,2026-10-13 00:06:59Z,b3a509e02,698,585252,302356,102815,189875,587033,302622,102874,189987,,Revival story: the curator's role as he describes it; HELD: the protocol's commit rule overstates it
+2051,2026-10-13 00:07:28Z,6f59f5d8c,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story: the curator's gloss without ""runs"", at his comment"
+2052,2026-10-13 00:08:52Z,99a0b5c0c,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story: no gloss for curator, as in the original, at his comment"
+2053,2026-10-13 00:23:12Z,081bd3c59,698,585252,302356,102815,189875,587033,302622,102874,189987,,"HELD: the story's reframing, his comment and the proposed fix"
+2054,2026-10-13 00:30:03Z,42ba67f0b,698,585252,302356,102815,189875,587033,302622,102874,189987,,BOOT.md: the story's halfway-back revision running
+2055,2026-10-13 00:31:34Z,4f892904d,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: no agentic-coding improvement in the story, at his word"
+2056,2026-10-13 00:33:25Z,1d65b380a,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the story about Fortress only, at his word"
+2057,2026-10-13 00:34:11Z,349bd0080,698,585252,302356,102815,189875,587033,302622,102874,189987,,HELD: unrequested expansion in the story's update
+2058,2026-10-13 00:37:38Z,33fc7c147,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the story's final scope, at his word"
+2059,2026-10-13 00:51:12Z,57fa12360,698,585252,302356,102815,189875,587033,302622,102874,189987,,"Revival story back to its first version's framing, order and voice, brought through climb batch 13b"
+2060,2026-10-13 00:52:31Z,2a545c3da,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the story at version 19, the letter ready"
+2061,2026-10-13 00:55:53Z,93beb2eef,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the state's time read from the commit, not guessed"
+2062,2026-10-13 01:28:57Z,9556daf62,698,585252,302356,102815,189875,587033,302622,102874,189987,,Revival story: Astra and Sol named as the OpenAI models they are
+2063,2026-10-13 01:34:05Z,8ca4f999e,698,585252,302356,102815,189875,587033,302622,102874,189987,,BOOT.md: the reply to Sukyoung Ryu sent
+2064,2026-10-13 01:42:56Z,49d78c8cd,698,585252,302356,102815,189875,587033,302622,102874,189987,,"BOOT.md: the night's work at his word, for the compaction"
+2065,2026-10-13 02:10:53Z,3072a043a,698,585252,284554,102815,190251,587033,284802,102874,190363,,FACTS: the checker section's first slice consolidated to what a decision needs
+2066,2026-10-13 02:12:33Z,fe982670e,698,585252,284554,102815,190251,587033,284802,102874,190363,,"BOOT.md: slice 1 landed, Fable's check running; README: the title rule as FACTS now keeps it"
+2067,2026-10-13 02:32:20Z,cb31c7350,698,585252,284554,102815,190251,587033,284802,102874,190363,,"BOOT.md: the VM restart of 02:30 UTC, Fable's check continued"
+2068,2026-10-13 02:32:31Z,39da311e1,698,585252,284554,102815,190251,587033,284802,102874,190363,,BOOT.md: the times read from the clock
+2069,2026-10-13 02:38:50Z,0de455f22,698,585252,285044,102815,190251,587033,285292,102874,190363,,"FACTS: the first slice checked, twelve entries corrected, the verdict written"
+2070,2026-10-13 02:40:02Z,2598a710d,698,585252,285044,102815,190251,587033,285292,102874,190363,,"BOOT.md: Fable's check done, pass with fixes"
+2071,2026-10-13 02:41:54Z,b4ed2d2c6,698,585252,285044,102815,190251,587033,285292,102874,190363,,"BOOT.md: the rewrite plan running, the rest of FACTS cut into six slices"
+2072,2026-10-13 02:42:06Z,44972dd06,698,585252,285044,102815,190251,587033,285292,102874,190363,,BOOT.md: the time of writing read from the clock
+2073,2026-10-13 03:00:03Z,6f89ced1e,698,585252,285044,102815,190748,587033,285292,102874,190860,,"The coordinator rewrite's plan: the steps to cloud-container, the writer's brief as a draft, his decisions"
+2074,2026-10-13 03:01:18Z,43d123abb,698,585252,285044,102815,190748,587033,285292,102874,190860,,"BOOT.md: the rewrite plan done and published, slice 2 running, the clock evidence corrected"
+2075,2026-10-13 03:27:00Z,4feafe6fa,698,585252,268758,102815,191197,587033,268971,102874,191309,,FACTS: the checker section's second slice consolidated to what a decision needs
+2076,2026-10-13 03:27:59Z,47e75bcd1,698,585252,268758,102815,191197,587033,268971,102874,191309,,"BOOT.md: slice 2 landed, slice 3 running, a question for his morning"
+2077,2026-10-13 03:54:28Z,427b98c1b,698,585252,268862,102815,191632,587033,269075,102874,191744,,FACTS: the checker section's third slice consolidated to what a decision needs
+2078,2026-10-13 03:55:16Z,401f83992,698,585252,268862,102815,191632,587033,269075,102874,191744,,"BOOT.md: slice 3 landed, slice 4 running"
+2079,2026-10-13 04:25:09Z,920654f12,698,585252,268003,102815,191957,587033,268198,102874,192069,,FACTS: Landed semantics consolidated to what a decision needs
+2080,2026-10-13 04:26:01Z,f5d421e79,698,585252,268003,102815,191957,587033,268198,102874,192069,,"BOOT.md: slice 4 landed, slice 5 running"
+2081,2026-10-13 04:52:09Z,4c4b14c23,698,585252,268226,102815,192350,587033,268412,102874,192462,,FACTS: Execution model and The harness and the gate consolidated to what a decision needs
+2082,2026-10-13 04:53:05Z,57cb374e6,698,585252,268226,102815,192350,587033,268412,102874,192462,,"check-verbatim.py: compare whole entries, not substrings"
+2083,2026-10-13 04:53:38Z,07aaae168,698,585252,268226,102815,192350,587033,268412,102874,192462,,"BOOT.md: slice 5 landed, the verbatim check fixed, slice 6 running"
+2084,2026-10-13 05:19:19Z,da72754c2,698,585252,262714,102815,192837,587033,262891,102874,192949,,"FACTS: the arrays, the specification, the territory map and the ledger consolidated to what a decision needs"
+2085,2026-10-13 05:20:40Z,6288b2349,698,585252,262714,102815,192837,587033,262891,102874,192949,,"BOOT.md: slice 6 landed, slice 7 running, Fable's whole check briefed"
+2086,2026-10-13 05:20:59Z,9c8135c20,698,585252,262714,102815,192837,587033,262891,102874,192949,,BOOT.md: slice 7's launch time from the commit before it
+2087,2026-10-13 05:35:27Z,1558a22ed,698,585252,258489,102815,193198,587033,258669,102874,193310,,FACTS: The container consolidated to what a decision needs
+2088,2026-10-13 05:36:06Z,e6241a19b,698,585252,258489,102815,193198,587033,258669,102874,193310,,"BOOT.md: slice 7 landed, Fable's whole check running"
+2089,2026-10-13 05:53:32Z,f3c1db482,698,585252,257590,102815,193592,587033,257770,102874,193704,,"FACTS: slices 2 to 7 and the file whole checked, thirteen capture pointers corrected, the verdict written"
+2090,2026-10-13 05:55:07Z,ee9e408b6,698,585252,257590,102815,193592,587033,257770,102874,193704,,"BOOT.md: the night's work done, rewritten for his morning"
+2091,2026-10-13 05:55:27Z,7e4fcb562,698,585252,257590,102815,193592,587033,257770,102874,193704,,BOOT.md: the night's spend in tokens written
+2092,2026-10-13 06:07:15Z,250fdafe8,701,588280,257622,102815,193592,590074,257802,102874,193704,,"Ledger rows 700 to 702 from the FACTS consolidation check, FACTS and PLAN lines corrected"
+2093,2026-10-13 06:08:39Z,48b1889ef,701,588280,257739,102815,193592,590074,257919,102874,193704,,"FACTS: two sentences the ledger follow-ups made false, corrected"
+2094,2026-10-13 06:08:54Z,58b21a2f6,701,588280,257739,102815,193592,590074,257919,102874,193704,,PLAN: the codegen where-clause row is row 701
+2095,2026-10-13 06:09:16Z,33a9bc13b,701,588280,257739,102815,193592,590074,257919,102874,193704,,"BOOT.md: the follow-ups done, what ledger.py leaves for him"
+2096,2026-10-13 06:36:42Z,80e889fbe,701,588280,257739,102815,193592,590074,257919,102874,193704,,BOOT.md: the third VM restart of the night
+2097,2026-10-13 07:21:36Z,334890804,701,588280,257739,102815,193592,590074,257919,102874,193704,,"BOOT.md: the fourth VM restart, the check-ins done"
+2098,2026-10-13 08:13:14Z,db85e9b17,701,588280,257739,102815,193592,590074,257919,102874,193704,,"BOOT.md: the open ask after the FACTS numbers, dropping the POSITIONS pass"
+2099,2026-10-13 08:19:39Z,c72f1249f,701,588280,257739,102815,193592,590074,257919,102874,193704,,"BOOT.md: the consolidation's goal not met, the ask withdrawn"
+2100,2026-10-13 09:04:18Z,eb4d7eebe,701,588280,257739,102815,193592,590074,257919,102874,193704,,BOOT.md: the record rule's draft and trial running
+2101,2026-10-13 09:17:03Z,5a05aaa11,701,588280,257739,102815,193592,590074,257919,102874,193704,,"BOOT.md: the record-keeping part's framing, the method put to him"
+2102,2026-10-13 09:24:12Z,7ff472848,701,588280,257739,102815,193592,590074,257919,102874,193704,,"Rewrite plan: steps 1 to 3 by the fortress-repo method, with a cold read and a quiz"
+2103,2026-10-13 09:24:32Z,b17e14b1d,701,588280,257739,102815,193592,590074,257919,102874,193704,,BOOT.md: the plan's first steps rewritten at his word
+2104,2026-10-13 09:25:30Z,7bb5114b2,701,588280,257739,102815,194212,590074,257919,102874,194324,,Record-keeping part of the coordinator skill: a first draft and its trial
+2105,2026-10-13 09:26:39Z,3abd1a3b2,701,588280,257739,102815,194212,590074,257919,102874,194324,,"BOOT.md: the record rule's draft done, its page; times corrected from the transcript"
+2106,2026-10-13 09:52:38Z,0f54a698b,701,588280,257739,102815,194212,590074,257919,102874,194324,,BOOT.md: the git-check hook a no-op again
+2107,2026-10-13 10:19:01Z,27ad92f04,701,588280,257739,102815,194212,590074,257919,102874,194324,,BOOT.md: the compression test running
+2108,2026-10-13 10:19:17Z,8cd71e13a,701,588280,257739,102815,194212,590074,257919,102874,194324,,BOOT.md: the test's times from the transcript and the clock
+2109,2026-10-13 10:24:44Z,c93a10cdc,701,588280,257739,102815,194212,590074,257919,102874,194324,,BOOT.md: the test extended to FACTS and POSITIONS pairs
+2110,2026-10-13 10:42:33Z,c836b1f2d,701,588280,257784,102815,194212,590074,257964,102874,194324,,"FACTS: MatchFailure is unchecked since row 590's fix, a false sentence corrected"
+2111,2026-10-13 10:57:52Z,38d46fcc1,701,588280,257784,102815,194212,590074,257964,102874,194324,,"BOOT.md: the readers running, two false sentences found"
+2112,2026-10-13 10:58:06Z,5d93ab122,701,588280,257784,102815,194212,590074,257964,102874,194324,,"BOOT.md: three more times written from feel, for the writer's brief"
+2113,2026-10-13 11:06:37Z,9a6525bc5,701,588280,257784,102815,194212,590074,257964,102874,194324,,"Record rule draft: numbered entries, a proposal, at his yes"
+2114,2026-10-13 11:06:54Z,1239e6bf4,701,588280,257784,102815,194212,590074,257964,102874,194324,,BOOT.md: numbered entries added to the draft
+2115,2026-10-13 11:22:04Z,44251a6be,701,588280,257784,102815,194212,590074,257964,102874,194324,,"BOOT.md: the readers done, the grader running"
+2116,2026-10-13 11:53:33Z,8583d31d7,701,588280,257784,102863,194212,590074,257964,102922,194324,,"POSITIONS: the unbounded lone-parameter tests are plain tests since row 516's fix, a false sentence corrected"
+2117,2026-10-13 11:54:32Z,c758d3000,701,588280,257784,102863,194212,590074,257964,102922,194324,,"BOOT.md: the compression test's result, the fold running"
+2118,2026-10-13 11:54:45Z,43ac3d334,701,588280,257784,102863,194212,590074,257964,102922,194324,,BOOT.md: the fold's start time as the clock gave it
+2119,2026-10-13 12:04:55Z,23f236911,701,588280,257784,102863,194559,590074,257964,102922,194671,,"Record rule draft: the test, FACTS 58 restored, the pairs, and the test kept as a kit"
+2120,2026-10-13 12:05:23Z,b9fe94ce1,701,588280,257784,102863,194849,590074,257964,102922,194961,,Record rule draft: its header and INDEX line name the pairs and the test
+2121,2026-10-13 12:05:46Z,e695764f4,701,588280,257784,102863,196451,590074,257964,102922,196563,,INDEX: the record test kit's five notes
+2122,2026-10-13 12:06:03Z,7760745ad,701,588280,257784,102863,196451,590074,257964,102922,196563,,"BOOT.md: the test folded into the draft, his comments next"
+2123,2026-10-13 14:37:00Z,8b701ad32,701,588280,257784,102863,196451,590074,257964,102922,196563,,"Record rule draft: what the test and his comments add, kept before a compaction"
+2124,2026-10-13 14:37:23Z,66bc307fd,701,588280,257784,102863,196451,590074,257964,102922,196563,,"HELD.md: his points of 2026-10-13 on how we work, until the skill holds them"
+2125,2026-10-13 14:38:27Z,e4a21fd44,701,588280,257784,102863,196451,590074,257964,102922,196563,,"BOOT.md: rewritten whole before the compaction, step 2 of the rewrite plan and what is on record of it"
+2126,2026-10-13 14:47:51Z,4b35eec65,701,588280,257784,102863,196451,590074,257964,102922,196563,,"BOOT.md: rewritten whole after the boot, step 2 (c) running"
+2127,2026-10-13 15:03:00Z,6c70eff0a,701,588280,257784,102863,197013,590074,257964,102922,197125,,"Record rule draft: the principles, and Part 5 folded into Part 2"
+2128,2026-10-13 15:03:52Z,7d4461f36,701,588280,257784,102863,197013,590074,257964,102922,197125,,"BOOT.md: rewritten whole, step 2 (c) done and the principles with him"
+2129,2026-10-13 15:17:33Z,c4329aa62,701,588280,257784,102863,197013,590074,257964,102922,197125,,"BOOT.md: rewritten whole, the page watches"
+2130,2026-10-13 16:06:05Z,373037074,701,588280,257784,102863,197013,590074,257964,102922,197125,,HELD.md: his nine comments on the record rule's principles
+2131,2026-10-13 16:14:16Z,fde994a84,701,588280,257784,102863,197013,590074,257964,102922,197125,,"BOOT.md: rewritten whole, the outline and the record store's design running"
+2132,2026-10-13 16:16:51Z,900aa11fe,701,588280,257784,102863,197013,590074,257964,102922,197125,,HELD.md: his questions on how the consolidation runs and what an entry holds
+2133,2026-10-13 16:17:07Z,77ab93037,701,588280,257784,102863,197013,590074,257964,102922,197125,,HELD.md: the time of his message from the transcript
+2134,2026-10-13 16:30:08Z,92827fca8,701,588280,257784,102863,197013,590074,257964,102922,197125,,"Record store design: numbered entries, a history of provenance, one write tool"
+2135,2026-10-13 16:31:05Z,053a25d84,701,588280,257784,102863,197013,590074,257964,102922,197125,,"BOOT.md: rewritten whole, the record store's design landed"
+2136,2026-10-13 16:38:36Z,d84be672f,701,588280,257784,102863,197013,590074,257964,102922,197125,,"coordinator-skill-outline.md: the new skill's core and six parts, and a home for every evicted entry"
+2137,2026-10-13 16:39:47Z,69185928d,701,588280,257784,102863,198401,590074,257964,102922,198513,,INDEX.md and BOOT.md: the record store's design and the skill outline landed
+2138,2026-10-13 17:15:58Z,9c474a231,701,588280,257784,102863,198401,590074,257964,102922,198513,,"BOOT.md and HELD.md: tonight's order at his approval, his comments on the design"
+2139,2026-10-13 17:17:01Z,11c7d12e9,701,588280,257784,102863,198401,590074,257964,102922,198513,,"HELD.md and BOOT.md: the Fable reviews weighed critically, no other Fable tonight"
+2140,2026-10-13 17:23:30Z,08cc24fcf,701,588280,257784,102863,198401,590074,257964,102922,198513,,"BOOT.md: tonight's goal in his words, and its measure"
+2141,2026-10-13 17:25:15Z,65ef2e72b,701,588280,257784,102863,198401,590074,257964,102922,198513,,"coordinator-skill-outline-review.md: the outline reviewed, four placements to change"
+2142,2026-10-13 17:26:27Z,0f1d0d2ed,701,588280,257784,102863,198401,590074,257964,102922,198513,,"BOOT.md: the outline's review landed and weighed, the entry definition running"
+2143,2026-10-13 17:27:04Z,3d3e7eb6d,701,588280,257784,102863,198401,590074,257964,102922,198513,,"BOOT.md: the record-growth chart refreshed after the consolidation, at his word"
+2144,2026-10-13 17:29:25Z,cc9424c2a,701,588280,257784,102863,198401,590074,257964,102922,198513,,"Record store design reviewed: rebuild the history, pointers by number alone, kinds derived by the tool, three queries an"
+2145,2026-10-13 17:30:57Z,715641924,701,588280,257784,102863,199475,590074,257964,102922,199587,,"INDEX.md and BOOT.md: the two reviews indexed, the builder running"
+2146,2026-10-13 17:44:21Z,8cde9406c,701,588280,257784,102863,199475,590074,257964,102922,199587,,"Record rule draft: What an entry is, with five worked examples, in place of the principles"
+2147,2026-10-13 17:46:26Z,78b46bcbd,701,588280,257784,102863,199475,590074,257964,102922,199587,,"BOOT.md: the pilot scouts running, the chunk plan"
+2148,2026-10-13 17:58:06Z,a74f5a2b7,701,588280,257784,102863,199475,590074,257964,102922,199587,,"record.py, the record's one writer, and the numbering script, with their tests and facts-extract's number queries"
+2149,2026-10-13 18:00:39Z,a88e52bf7,701,588280,257608,103525,199475,590074,257788,103584,199587,,"The record numbered: F-7 to F-219 and P-7 to P-145, the histories rebuilt, pointers by title made numbers"
+2150,2026-10-13 18:00:42Z,1d49ad043,701,588280,257608,103525,199475,590074,257788,103584,199587,,"BOOT.md: the pilot scouts landed, three more running"
+2151,2026-10-13 18:01:29Z,467882a61,701,588280,257608,103525,199475,590074,257788,103584,199587,,"BOOT.md: the record numbered, the pilot writers running"
+2152,2026-10-13 18:02:09Z,12df81e7e,701,588280,257608,103525,199475,590074,257788,103584,199587,,"BOOT.md: the builder landed, what the numbering left owed"
+2153,2026-10-13 18:16:20Z,55f1a1352,701,588280,227497,90559,199475,590074,227664,90612,199587,,"FACTS and POSITIONS: the pilot chunks consolidated, F-51 to F-72 and P-37 to P-62"
+2154,2026-10-13 18:17:18Z,f7da46a80,701,588280,227497,90559,199475,590074,227664,90612,199587,,"BOOT.md: the pilot applied, its record test running"
+2155,2026-10-13 18:26:16Z,7ebaf0e4c,701,588280,227497,90559,199475,590074,227664,90612,199587,,"BOOT.md: the scouts landed, two writers running"
+2156,2026-10-13 18:38:42Z,0b47fd733,701,588280,211469,90559,199475,590074,211629,90612,199587,,"FACTS: chunk F2a consolidated, F-32 to F-50"
+2157,2026-10-13 18:39:39Z,82c58c9c8,701,588280,184889,90559,199475,590074,185031,90612,199587,,"FACTS: chunk F2c consolidated, F-73 to F-94"
+2158,2026-10-13 18:39:56Z,d0eaa01ec,701,588280,184889,90559,199475,590074,185031,90612,199587,,"BOOT.md: four chunks applied, F3 and F4 running"
+2159,2026-10-13 18:55:34Z,a30a48131,701,588280,159567,90559,199475,590074,159693,90612,199587,,"FACTS: chunk F3 consolidated, F-117 to F-148"
+2160,2026-10-13 18:57:30Z,9ef0b13a8,701,588280,135176,90559,199475,590074,135237,90612,199587,,"FACTS: chunk F4 consolidated, F-150 to F-186"
+2161,2026-10-13 18:57:45Z,b18fd35ed,701,588280,135176,90559,199475,590074,135237,90612,199587,,"BOOT.md: six chunks applied, three writers running"
+2162,2026-10-13 18:58:10Z,c89529746,701,588280,135176,90559,199475,590074,135237,90612,199587,,"Record test: the pilot's grading, 29 of 30 against the old record's 28"
+2163,2026-10-13 18:58:31Z,426d51eea,701,588280,135176,90559,199475,590074,135237,90612,199587,,BOOT.md: the pilot passed its record test
+2164,2026-10-13 18:59:19Z,7aa84690b,701,588280,135176,90559,199475,590074,135237,90612,199587,,BOOT.md: the skill writer's task being assembled
+2165,2026-10-13 19:03:45Z,f29f7273c,701,588280,119697,90559,199475,590074,119757,90612,199587,,"FACTS: chunk F1 consolidated, F-7 to F-29, F-97 to F-114 and F-203"
+2166,2026-10-13 19:07:21Z,b87a17de5,701,588280,119697,88437,199475,590074,119757,88489,199587,,"POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"
+2167,2026-10-13 19:07:39Z,6f7efd02d,701,588280,119697,88437,199475,590074,119757,88489,199587,,BOOT.md: the chunk writers' points for the morning
+2168,2026-10-13 19:10:15Z,ab933086b,701,588280,119697,80790,199475,590074,119757,80829,199587,,"POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"
+2169,2026-10-13 19:10:44Z,55847bd34,701,588280,119697,80790,199475,590074,119757,80829,199587,,"BOOT.md: all nine chunks applied, the finished record's test running"
+2170,2026-10-13 19:11:50Z,912228df2,701,588280,119697,80790,199475,590074,119757,80829,199587,,"Coordinator rewrite: the skill writer's task, ready for step 6"
+2171,2026-10-13 19:12:16Z,860e3c666,701,588280,119697,80790,199475,590074,119757,80829,199587,,coordinator skill: emptied to its frontmatter for the rewrite from scratch
+2172,2026-10-13 19:12:57Z,e717d8185,701,588280,119697,80790,199475,590074,119757,80829,199587,,"BOOT.md: rewritten whole, the record consolidated, the skill writer running"
+2173,2026-10-13 19:22:26Z,7b434aae5,701,588280,119697,80790,199475,590074,119757,80829,199587,,"coordinator skill: written from scratch, a core and six parts"
+2174,2026-10-13 19:24:15Z,adffd77c0,701,588280,119697,80790,199475,590074,119757,80829,199587,,"BOOT.md: the skill drafted, its three checks running"
+2175,2026-10-13 19:28:41Z,d0987c6c0,701,588280,119697,80790,200300,590074,119757,80829,200412,,"BOOT.md and INDEX.md: the stop and the check-ins as they are, two notes indexed"
+2176,2026-10-13 19:37:56Z,9177272cc,701,588280,119697,80790,200300,590074,119757,80829,200412,,"PLAN.md: the cleaner pass's content on its housekeeping line, before P-128 leaves POSITIONS"
+2177,2026-10-13 19:45:41Z,3ab48e178,701,588280,119697,80790,200653,590074,119757,80829,200765,,Record test: the finished record scores 30 of 30 against the old record's 28
+2178,2026-10-13 19:46:01Z,4b3e28f9e,701,588280,119697,80790,200653,590074,119757,80829,200765,,"BOOT.md: the record test 30 of 30, the skill's fixes running, step 12 next"
+2179,2026-10-13 19:46:19Z,f6bc1aa75,701,588280,119697,80790,200653,590074,119757,80829,200765,,"coordinator skill: the fixes of the kept-list check, the cold read and the trial boot"
+2180,2026-10-13 19:50:52Z,86ec86f7c,701,588280,119697,80790,200653,590074,119757,80829,200765,,settings.json: the compaction hook boots by the coordinator skill's boot section
+2181,2026-10-13 19:51:18Z,9ef30490c,701,588280,119697,80790,200653,590074,119757,80829,200765,,BOOT.md: step 12 and the writer for fortress-repo and cloud-container running
+2182,2026-10-13 19:52:55Z,4c11b10c3,701,588280,119697,80790,200653,590074,119757,80829,200765,,"fortress-repo: the record numbered and written with record.py, the third-party port, model tiers, the gate's masks"
+2183,2026-10-13 19:57:01Z,30a6acaef,701,588280,119697,80790,200653,590074,119757,80829,200765,,"cloud-container: rewritten whole, with the disk rollback, the weekly limit, the hook's registration and the git-check ho"
+2184,2026-10-13 19:59:33Z,1632b5dfa,701,588280,95936,39581,200653,590074,95976,39613,200765,,"FACTS and POSITIONS: the entries that left for the skills removed, step 12"
+2185,2026-10-13 20:01:44Z,9dd34a1f2,701,588280,92742,37561,200653,590074,92782,37591,200765,,"FACTS and POSITIONS: the second pass, after the fortress-repo and cloud-container rewrites"
+2186,2026-10-13 20:02:38Z,fe4dcc1e4,701,588280,92742,37561,200653,590074,92782,37591,200765,,"README to the boot order, the protocol retired to a pointer, step 12"
+2187,2026-10-13 20:03:09Z,88d9b1437,701,588280,92742,37561,199766,590074,92782,37591,199878,,"INDEX: the lines of the record's files and of the retired protocol say what each is now, step 12"
+2188,2026-10-13 20:06:05Z,0528e963b,701,588280,92742,37561,199766,590074,92782,37591,199878,,"HELD.md: the points the new coordinator skill holds, and the done or settled ones, closed"
+2189,2026-10-13 20:06:33Z,4dca7e10d,701,588280,92742,37561,199766,590074,92782,37591,199878,,"BOOT.md: step 12 landed, 130.3K; the cold read of the two skills running"
+2190,2026-10-13 20:12:14Z,8ca0d7e61,701,588280,92742,37561,199766,590074,92782,37591,199878,,"Skills: the second cold read's fixes, and P-135, F-210 and F-219 moved into their homes"
+2191,2026-10-13 20:13:13Z,b67abe3d2,701,588280,90179,33903,199766,590074,90218,33933,199878,,"FACTS and POSITIONS: P-135, F-210 and F-219 removed, their rules now in the skills"

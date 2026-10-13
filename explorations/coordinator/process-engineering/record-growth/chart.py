@@ -93,9 +93,11 @@ ax3.set_yticklabels(['0', '100K', '200K', '300K'])
 panel_title(ax3, 'FACTS, INDEX and POSITIONS, characters')
 # direct labels at the right edge (leader-free: the three end values are far enough apart)
 ends = {'FACTS': float(S[-1]['facts_chars']) / 1e3, 'INDEX': float(S[-1]['index_chars']) / 1e3, 'POSITIONS': float(S[-1]['positions_chars']) / 1e3}
+# FACTS's label sits higher: since 10-13 its end (90K) is just under POSITIONS's line before the drop (103K)
+lift = {'FACTS': 12}
 for name, k, c in series:
     v = ends[name]
-    ax3.annotate('%s %dK' % (name, round(v)), (t[-1], v), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=9.5, color=INK, fontweight='bold')
+    ax3.annotate('%s %dK' % (name, round(v)), (t[-1], v), textcoords='offset points', xytext=(-8, lift.get(name, 8)), ha='right', fontsize=9.5, color=INK, fontweight='bold')
 # the three biggest events of FACTS, in words
 def point(commit, k):
     r = by_commit[commit]; return T(r['utc']), float(r[k]) / 1e3
@@ -107,6 +109,14 @@ d = by_commit['d4ddb06c4']
 ax3.annotate('-92K: rung entries\ncut to the fact (10-02)', (T(d['utc']), float(d['facts_chars']) / 1e3),
              xytext=(dt.datetime(2026, 10, 4, 18), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
+# the consolidation of 10-13: FACTS and POSITIONS together, from just before 55f1a1352 to the last commit
+# (the chunks 55f1a1352 to ab933086b, then the entries that moved to the skills, 1632b5dfa to b67abe3d2: one drop at this scale)
+i0 = next(i for i, r in enumerate(S) if r['commit'] == '55f1a1352')
+fp = lambda r: (float(r['facts_chars']) + float(r['positions_chars'])) / 1e3
+a, b = fp(S[i0 - 1]), fp(S[-1])
+ax3.annotate('FACTS and POSITIONS\n%dK to %dK (10-13)' % (round(a), round(b)), (T(by_commit['9ef0b13a8']['utc']), 145),
+             xytext=(dt.datetime(2026, 10, 3, 18), 184), textcoords='data', ha='center', va='center', fontsize=9, color=INK2, zorder=8,
+             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2, relpos=(1, 0)))
 d = by_commit['93eda3889']
 ax3.annotate('-55K rewrite\n(09-20)', (T(d['utc']), float(d['facts_chars']) / 1e3), textcoords='offset points',
              xytext=(-8, 52), ha='right', fontsize=9, color=INK2, zorder=8, bbox=dict(fc=SURFACE, ec='none', pad=1.5),
