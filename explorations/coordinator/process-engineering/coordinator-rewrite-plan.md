@@ -46,23 +46,24 @@ Words used here:
 
 ## 1. The steps, in order
 
-After tonight's 3M, the steps come to about 3.5M more. INDEX's form and the two optional scouts would add up to 2M more. Every figure is an estimate except where a step says measured.
+Step 1 is done and took about 3.5M, measured. The steps after it come to about 6.6M more. INDEX's form, if you take it after the trial boot, and the two optional scouts would add up to 2M more. Every figure is an estimate except where a step says measured.
 
-1. **Finish FACTS tonight.**
-   - Produces: FACTS slices 2 to 7 cut to what a decision needs, every cut sentence in the history file. Then one Fable check over all six.
-   - Who: Opus workers, one slice at a time, then Fable.
-   - Cost: about 3M, the coordinator's estimate. Slice 1 took its section from 55K to 37K characters.
-   - From you: nothing. Your yes at 01:37 covers it, and Fable's check stands in for your reading.
-2. **Consolidate POSITIONS.**
-   - Produces: POSITIONS in the same form. Each position is stated in the present. Your words stay where they are the position. Dates and history go to its history file.
-   - Who: Opus workers by slices, then a check. Fable checks it only at your word.
-   - Cost: about 1M, an estimate. POSITIONS is 103K bytes, a third of FACTS before tonight. On 10-12 the coordinator put both files at 4M to 5M.
-   - From you: your word to start, and decisions 1, 2 and 4, this morning. It comes before the writer, because the writer reads the rules in POSITIONS's own words.
-3. **INDEX's form, if you take it.**
-   - Produces: INDEX's lines grouped by topic.
-   - Who: not on record. An Opus worker would match the FACTS slices.
-   - Cost: about 0.5M to 1M, an estimate. INDEX is 190K bytes.
-   - From you: decision 3. The boot note says "perhaps".
+1. **FACTS's first pass: done.**
+   - Produced: FACTS cut from 303K to 258K characters, its history moved to the history file, no title left that no longer holds, every line reference re-read. The median entry stayed at 1.15K: the brief cut history and kept detail, so entries of a few lines, the goal you set on 10-12, weren't reached.
+   - Who: seven Opus slices, then two Fable checks.
+   - Cost: about 3.5M, measured.
+   - From you: nothing.
+2. **The record-keeping part, by the `fortress-repo` method.**
+   - Produces: the record-keeping part of the coordinator skill. It says what a FACTS entry and a POSITIONS entry are, with a measure. It gives the three tiers and when each is read: the entry at boot and in briefs, the history when a fact's provenance is in question, the report when the detail is needed. It says how a worker's report becomes an entry. And it says FACTS and POSITIONS hold the project only, while how we work goes in the skill.
+   - How, in order: (a) a first draft, with a trial on the ten largest entries before and after, on the page "Record Rule Draft"; (b) you comment on the trial's entries, as you did on the `fortress-repo` review page; (c) your comments become the part's principles, which you read once; (d) a cold read: a fresh worker given only the part consolidates one slice, checked for the shrinkage the measure sets; (e) a quiz, the method of the trial boot: a fresh reader given the consolidated slice, with the history and the reports to look things up in, answers the questions a brief would need, scored against the answers the old text gives, so a fact lost shows as a wrong answer, and the questions seed the trial boot's quiz; (f) the part goes to the skill writer as a finished piece of the skill.
+   - Who: Opus workers for (a), (c), (d) and (e). The coordinator gathers your comments.
+   - Cost: about 1.6M, an estimate: 0.5M for the draft and trial, now running, 0.3M for the principles, 0.5M for the cold read, 0.3M for the quiz.
+   - From you: your comments on the page, and one reading of the principles.
+3. **FACTS's second pass and POSITIONS, by the part.**
+   - Produces: every FACTS entry in the part's form, then POSITIONS the same way. POSITIONS keeps project decisions only, and its two sections on how we work wait until the skill holds their rules (decision 17). Provenance goes to the history files, and detail stays in the reports.
+   - Who: Opus workers by slices. Each brief quotes the part and never restates it. One check pushes for the cut against the measure, and one guards against loss.
+   - Cost: about 2.5M, an estimate. INDEX's form waits for the trial boot (decision 3).
+   - From you: nothing more, once you've read the part.
 4. **Your held points and the decisions before the writer.**
    - Produces: an answer to each of your points of 10-12 and 10-13, and your choices in section 4.
    - Who: the coordinator, one ask per message.
@@ -313,12 +314,12 @@ This draft speaks to the writer as "you" and calls you "the curator". The coordi
 
 Each has a default you can take without reading the argument.
 
-This morning, for POSITIONS:
+For the record-keeping part:
 
-1. **Start POSITIONS.** Now, on your 01:37 words with Fable's check in place of your reading, or one slice first for you to read. Default: one slice first, as the boot note holds it. The slice costs about 0.5M of step 2's 1M, an estimate.
+1. **POSITIONS's pass.** Answered: it runs in step 3, by the record-keeping part, after the cold read.
 2. **What FACTS and POSITIONS both tell.** POSITIONS keeps the decision and a pointer, and FACTS the state of the build, as proposed on 10-12. Or both keep their text. Default: the proposal. It touches more than a third of each file.
 3. **INDEX's form.** Group its lines by topic now, for about 0.5M to 1M, an estimate. Or leave it until the trial boot shows how INDEX is read. Default: leave it. You kept it loaded on 09-30.
-4. **The record lint.** Build it for POSITIONS, or go on without it as tonight. Default: without it, with the check that nothing was lost and a reader's check.
+4. **A length check.** A script that flags an entry over the part's measure, beside the check that nothing was lost. Or a reader's check alone. Default: the script, since a measure a script checks holds where a reader's judgement drifted in step 1.
 
 Before the writer runs:
 
