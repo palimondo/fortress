@@ -1,4 +1,4 @@
-# Record test: eight scenarios
+# Record test: ten scenarios
 
 You have a copy of the Fortress revival repository. Each scenario puts you in a role, quotes the entries of the record that a brief would hand you (each `{FACTS n}` or `{POSITIONS n}` line stands for one entry's text, quoted whole), and asks a task. Answer each in a few paragraphs, in the form the task names: a decision with its reasons, the key lines of a brief, or an answer for the curator. You may search your copy of the repository and open any report, test, ledger row or source file; cite what you used. Build nothing, run nothing, edit nothing. Where the record does not settle something, say so and say what you would do.
 
