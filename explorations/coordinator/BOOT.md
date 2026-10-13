@@ -6,14 +6,14 @@ Rewritten at 23:03 UTC on 2026-10-13. The coordinating session runs on Opus 5.5 
 
 **The overnight run of 2026-10-13 is done and read.** At 22:58 UTC he read the morning page "Overnight Run, 13 October" (https://claude.ai/artifact/Sy6JBLaZqhLTJnUyYXBQoA) and skimmed the consolidated record and the skills: "All LGTM." So every default on its "For your review" section stands, INDEX stays as it is, read whole, and the held list's closures stand (the 17:01 history rebuild and the 15:42 hook reset closed since). What landed is in `git log --oneline 715641924..953d26782`.
 
-**Running, as of 23:03 UTC (launch epoch 1791932576 for `spend.py`), two Opus Agent-tool workers, no check-in armed:**
+**Running, as of 23:03 UTC (launch epoch 1791932576 for `spend.py`), one Opus Agent-tool worker, no check-in armed:**
 
 - The planner of climb batch 14: `CLIMB-BATCH-14.md` and its generator `compile-ladder/plan-14/manifest/`, by PLAN's method and batch 13's form, against 13b's tables (distance 85), no probe and no build. Brief: the scratchpad's `batch14/brief-planner.md`. Estimate about 1.5M written. When it ends: read the diff and its report; put its questions to him one per message; the batch launches only on his go (told him at 22:57 UTC that batch 14 waits for it, with 30 % of the week left). Before the launch, the manual's "Before the launch" steps.
-- The citations worker: the 66 live citations of entries removed on 2026-10-13, in `climb-batch-workflow.md`, PLAN and `review-queue.md`, repointed to the skills' sections. Brief: `batch14/brief-citations.md`. Estimate about 0.4M written. When it ends: check the diff with the same script (no `[PF]-n` that is not a live entry), push.
+- Done: the citations worker, `5794791ce`: the 66 citations repointed (59 to skill sections, 7 to the entry's history where no skill holds the rule: P-132 thrice, P-128 twice, P-133, P-118), and 5 citations by title alone with them; about 0.17M written.
 
 **The boot measured** (the transcript's usage, the boot of 22:54 UTC after the compaction): 95K tokens of context before the first read (the harness's prompt and tools, the summary of 24K, the files and skills it re-attaches), the skill's core 5K, FACTS and POSITIONS 47K, INDEX 75K, PLAN, the boot note and the held list about 8K; 238K in all, against about 335K for the same boot before the consolidation (the record alone about 138K then). INDEX is now the largest piece the boot chooses to read; its form stays as it is, by his LGTM.
 
-**Owed, nothing waiting on it:** `tools/test_ledger.py`, 10 of 13 tests failing at HEAD's own code (stale expectations); four history notes that name `cloud-container`'s old headings.
+**Owed, nothing waiting on it:** for the skill writer's next task, `references/batch.md`, "The roles", states only by implication the manual's clause that a settled fix that reaches a point to report is not contested (the citations worker's finding); `tools/test_ledger.py`, 10 of 13 tests failing at HEAD's own code (stale expectations); four history notes that name `cloud-container`'s old headings.
 
 **Other open asks.** The backlog page's items 43, 1, 30 with 33, 14, 17; the measures judgement's next steps; the library-extension bullet; the name for the coordinator-only files (a brainstorm, HELD). Sukyoung Ryu's answer to his reply of about 01:30 UTC on 2026-10-13 is awaited. "Fortress Revival So Far" is version 21, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5; his comments on it wait for one Opus pass halfway back to version 15's framing (HELD).
 
