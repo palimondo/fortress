@@ -10,7 +10,7 @@ The order Pavol approved on 2026-09-26 (`coordinator/POSITIONS.md`, 2026-09-26, 
 - **Stops.** On the compiled path all 18 of microGPT's components stop at name resolution, as expected until the switch-over; the ladder-regression stage holds them at that phase (FACTS, The harness and the gate).
 - **The live thread.** One library, the interpreter's, becomes the library the compiler checks. At the last landed gate, climb batch 13b, the checker count is 1 (the component check's first error, `__bigOperator`'s `body(i)`) and the distance 85 (`compile-ladder/climb-batch-13b/gate/`); its tables and `compile-ladder/gate/distance-sites.tsv` are the next batch's comparands. What each batch moved is in its record (`compile-ladder/climb-batch-*/RECORD.md`) and its review (`reviews/batch-*-review.md`); the earlier texts of this section are in `microgpt-run-c-handover-history.md`.
 - **Landed.** Phases 1 and 2 whole; phase 3 through climb batch 13 and 13b. Each landed batch's items for Pavol are in its list "listed for his review" below and in `coordinator/review-queue.md`.
-- **Next.** No batch 14 before the `coordinator` and `cloud-container` skills are rewritten (P-135, "The coordinator rewrite's goals"). What is in flight is `coordinator/BOOT.md`.
+- **Next.** Batch 14 (item 12 of phase 3 below), its record drafted first; the `coordinator` and `cloud-container` skills it waited on were rewritten on 2026-10-13. What is in flight is `coordinator/BOOT.md`.
 
 ## The principle for the batches
 

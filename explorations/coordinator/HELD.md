@@ -2,12 +2,6 @@
 
 # Held list
 
-## Held from his comments on the record store design (2026-10-13)
-
-His eight comments on https://claude.ai/artifact/TjJEBW5xsPP79vaEb8FVMu, 16:46 to 17:08 UTC, each a thread there with his exact words; handed whole to the Fable review of the design.
-
-- 17:01 Rebuild the history now from scratch too, in the new register, from primary sources gathered by Sonnet scouts, written by `record.py` with its provenance; nothing relies on the old history; why keep it in its old messy form.
-
 ## Held from his comments on the principles (2026-10-13)
 
 His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8dttd8wWRRS6 (version 5), 15:25 to 16:03 UTC, each a thread on the page with his exact words; one line each in the coordinator's words. He stopped at principle 9 to resurface and set a strategy (16:01).
@@ -24,7 +18,6 @@ His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8
 His 19 comments on the sort page https://claude.ai/artifact/WoDrCFWNNso5YeLr9kuwvR, 15:30 to 16:00 UTC, each a thread on the page with his exact words; one line each in the coordinator's words:
 
 - 15:36 Label which part answers which: unclear; wants its context (the scout: 15 September, at his two requests).
-- 15:42 The git-check hook: the empty-body technique is on record; a reset ritual at each restart, told to him, is what he wants.
 - 15:57 A step a yes covers: wants how it arose and its wider context (the scout: the prompting-guides review of 27 September).
 
 ## Held while he reads (2026-09-27)
