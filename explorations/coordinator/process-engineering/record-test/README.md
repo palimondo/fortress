@@ -13,6 +13,7 @@ The test asks whether a worker or the coordinator decides as well from entries w
 - `brief-grader.md`: the grader's brief. It names the first run's scratch folder; put yours in its place.
 - `grades.md`: the first run's blind grading. X is the new entries and Y the old.
 - `grades-pilot.md`: the second run's grading, on the consolidation's pilot: one reader in the pilot's copy, graded against the first run's old-entries answers. X is the old entries and Y the pilot's; 28 and 29 of 30.
+- `grades-final.md`: the third run's grading, on the finished consolidation: one reader in its copy, graded against the first run's old-entries answers. X is the finished record and Y the old entries; 30 and 28 of 30.
 
 ## How to run it
 
