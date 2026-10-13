@@ -1202,3 +1202,27 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-13 19:58Z · removed · by coordinator rewrite, step 12: left for the skills, its rule at its home: the coordinator skill, SKILL.md, "Talking to the curator" ("Pages") and "The facts of this environment"
 
 - P-145 **Format.** "table formatted in this way is hard to read on mobile … we just need a list": no tables in chat, lists. "write the numbers just as K or M. I'm fine as a programmer understanding what a kilo is": never spelled-out thousands and millions, and a numbers message carries few numbers, each with its meaning. Time is spoken from the clock or the record (when a batch will probably land, when a check-in fires), never from feel, "yesterday", "this morning", "last night", when the events were minutes or hours apart (protocol § 3). On his phone he reads a page while iOS's Speak reads it aloud at a fast rate, so every page for him has a Select button beside each larger section's heading that selects that section's text for Speak; a section's evidence and references are gathered at its bottom, numbered by point, never inside the points, and the Select button leaves them out, so that listening never runs through citations.
+
+### P-19
+
+2026-10-13 20:01Z · rewritten · by coordinator rewrite, step 12: clause cut, its rule at its home since 4c11b10c3: the fortress-repo skill, references/records.md, "Writing to the record"
+
+- P-19 **The tree is not described as the third-party port's migration grafted on its history.** The files that still say so wait for the lineage cleanup (PLAN, "Off the path, parked"), which `coordinator/lineage.md`, "Files that still repeat it", lists. His plan to make the graft-free `clean-ladder` branch `main` is not carried out (F-165). The third-party Java 9 port gets no credit and no mention: "I don't wanna see them mentioned anywhere." (moves to the fortress-repo skill's records part)
+
+### P-123
+
+2026-10-13 20:01Z · rewritten · by coordinator rewrite, step 12: clause cut, its rule at its homes since 4c11b10c3: the fortress-repo skill, references/gate.md, "Comparing with an earlier run"; the coordinator skill, references/batch.md, "The checker count and the distance"; the name comparison parked in PLAN.md, "Off the path, parked"
+
+- P-123 **Row 366's three-line fix waits for a rung of its own, and route C gets no entry in the specification's Proposed Features.** Both are batch 5's defaults, which he took: the fix is not in design B as he decided it (P-41), and Appendix I already carries route C, the alternative to the flat tower (P-96). A comparison masks Java line numbers, identity hashes and moved library positions, with every masked difference listed for him; the `testSystem` comparison is the sum of the four shards; a name comparison, red when a test that passed before is missing or failing, is a script change put to him on its own (parked, `PLAN.md`) (moves to the fortress-repo skill's gate part and the coordinator skill's batch part).
+
+### P-129
+
+2026-10-13 20:01Z · removed · by coordinator rewrite, step 12: left for the skills, its rule at its home since 4c11b10c3: the fortress-repo skill, references/committing.md, "What to commit" (a model named by its tier); the coordinator skill, references/record.md, "Reading and writing" (the record names models on purpose)
+
+- P-129 **The record is public and names models on purpose.** The protocol's rule against model identifiers is the harness's rule for what Claude itself writes and pushes, not a mandate to strip provenance from records that name models on purpose; "We are doing this work in public … there is no need to censor anything"; nothing in a transcript or an index is held back from the tree for that reason. The classifier refused writing this reading into the protocol itself, so it lives here.
+
+### P-136
+
+2026-10-13 20:01Z · removed · by coordinator rewrite, step 12: left for the skills, its rule at its home since 30a6acaef: the cloud-container skill, references/stops.md, "The weekly usage limit"; the coordinator skill, references/batch.md, "While it runs"; the statement stays public here and in coordinator/usage-metering-2026-09-30.md
+
+- P-136 **The statement for the public record on the usage limit.** "let the public record state that I'm now doing unpaid testing job of Anthropic's cloud infrastructure in my open source repository that is normally doing open source research of agentic coding capabilities." The account's weekly limit on all models stopped a running batch after its rung workers; later turns and subagents were served while the limit still read reached; he did not activate the promotional credit the panel offered, and his reading since is that visiting its page activated it unknowingly and that the work served was the $250 promotional credit for the cloud product, support having told him the offer had expired, "which was not true" (`coordinator/usage-metering-2026-09-30.md`, "After the report"); the container was booted afresh at each wake once nothing kept the session busy; at his word the batch was resumed to see whether it survives such interruptions and finishes.
