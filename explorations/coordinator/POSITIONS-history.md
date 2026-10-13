@@ -1236,3 +1236,7 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-146
 
 2026-10-13 23:38Z · added · from `explorations/reviews/self-typed-bodies-judgement.md`, "For Pavol" · by coordinator: his answer '1' at 23:37 UTC on 2026-10-13 to the ask on the self-typed bodies (review list item 1; batch 14's QS), after his questions at 23:13, 23:23 and 23:32 UTC on the options' trade-offs, POPL 2019 and his earlier decisions; his words at 23:32: 'option 1 is more in line with weak signal from repo and has precedent in other languages as well'
+
+### P-147
+
+2026-10-13 23:44Z · added · from `explorations/reviews/walk-load-readings-check.md`, "2.5 Verdict" · by coordinator: his answer at 23:43 UTC on 2026-10-13 to the ask on item 51 (review list item 14), options coverage and the chapter's letter: 'I don't see any other credible option to pick from', taken as coverage, option 1, and said so to him

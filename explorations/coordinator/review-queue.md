@@ -15,7 +15,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 - 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them", and a step against his word is put to him at once.
 - 1, The self-typed bodies. Answered 2026-10-13, way 6 (P-146).
 - 30, A size known only at run time: way 4a and his decision on sizes. It reads his decision on sizes anew, and was built on the standing go while his answer is pending. The POPL check of the same judgements (item 33) is a new ask today.
-- 14, Does coverage define an inherited abstract method? (item 51). A batch 14 candidate waits on it, and it decides whether three rows are walk's defects or the library's.
+- 14, Does coverage define an inherited abstract method? (item 51). Answered 2026-10-13, coverage (P-147).
 - 17, Unwritten reductions whose parameter has a plain bound. The next walk rung waits on his word on it.
 
 **Checked against his words.** The check of 2026-10-02 stands for the entries it covered. His messages in this session's transcript since 2026-10-08 12:56 UTC, where it begins (113 user turns, compaction summaries among them), were searched for the words of every (b) item: none answers one. Two bear on them: on 10-09 at 15:10 UTC he sent rung W's two questions to a Fable check instead of answering them (`reviews/walk-load-readings-check.md`; items 14 and 73), and on 10-10 at 05:27 and 05:35 UTC his "land it now" settled item 52's route, not fork 2's bound.
@@ -108,6 +108,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 ### Walk's checks at load (3)
 
 14. **Does coverage define an inherited abstract method? (item 51)** An object inherits an abstract method and defines bodies only at narrower types that together cover it through a `comprises` clause, as the team's `FileConversion` test and the library's `Pairs` do. The chapter says the object must still define the method itself; the checker says coverage defines it.
+   - Answered 2026-10-13 at 23:43 UTC: coverage (P-147); built by batch 14's walk rung after rows 668 and 669.
    - Landed: Walk's allowance: any body at narrower parameter types counts, which is wider than either reading.
    - The other way: (a) Coverage defines it, the checker's reading, which keeps `Pairs` and the team's test loading once walk is tightened. (b) Only a declaration at the abstract method's own parameter types defines it, the chapter's reading.
    - Its cost: It decides whether rows 666, 668 and 669 are defects of walk or of the library, and whether `Pairs` stays valid. The top-tier check of walk's readings finds coverage to be the team's own rule (Steele's 2012 checker, Welterweight) and asks his yes to the chapter's revision when a walk rung builds it, after rows 668 and 669 are repaired; the literal reading refuses `Pairs` and 20 demos. A batch 14 candidate waits on it.
