@@ -372,7 +372,7 @@ const V_ENTRY = { id: 'V', slug: 'rung-array-bound', path: '/home/user/fortress-
       "doc:explorations/reviews/array-fork2-judgement.md#4. The recommendation, the default, what it changes and costs",
       "doc:explorations/reviews/array-fork2-judgement.md#5. A batch 13 rung: files, tests first, sites it clears, what it leaves",
       "doc:explorations/reviews/array-fork2-judgement.md#6. What it reverses or bends of his positions",
-      "Route A's generic container obligations still need body-level checks", "The one library's numeral type is the compiler library's IntLiteral",
+      "Route A's generic container obligations: the array bodies' arithmetic checks under the family's bound", "The one library's numeral type is the compiler library's IntLiteral",
       "The compiled checker gives a call its expected type", "doc:Specification/basic/inference.tex#The Static Arguments of a Call",
       "doc:Specification/appendices/changes.tex#The contexts that give a call an expected type",
       "code:ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala#protected def boundsSubstitution(",
