@@ -4,6 +4,7 @@
 
 ## Held in chat (2026-10-12)
 
+- 00:4x (2026-10-13, chat) The main problem with the revival story's last version was expansion he did not ask for, which made it too long to read. An update adds what landed, in the space the document already gives it; a brief for an update caps its length against the version before.
 - 00:22 (2026-10-13, page comment on the revival story, part 1) The update should only have brought the story up to date with what landed; it reframed the document in the email's framing, because the coordinator's brief named Prof. Ryu as a second reader and asked for an early part on how the revival treats the team's work. Proposed on the thread: halfway back to version 15's framing (opening and order as before, updates and fact-check corrections kept, "Why now" and his quotes cut, the curation facts as a short later section next to what the revival changed); held until he is done commenting, then one Opus pass.
 - 00:06 (2026-10-13, page comment on the revival story) "Decides what gets committed" is not correct: he does not read the code or review each commit. The protocol's first hard rule says it ("Pavol decides what gets committed"); the coordinator rewrite restates his role as the record shows it: he sets the goals and decides the design and process questions put to him.
 - 21:00 The name for the coordinator-only files: "the desk" is a stupid name; he has no better one; a brainstorm is wanted before one is chosen.
