@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Check a consolidation of FACTS.md or POSITIONS.md: every entry of the file as
-it stood at BASE appears verbatim, whole, in the file now or in its history file,
+it stood at BASE appears verbatim, as a whole entry, in the file now or in its history file,
 and in exactly one of the two.
 
 An entry is a top-level bullet ("- ") with its indented continuation lines.
@@ -37,11 +37,15 @@ def entries(text):
         out.append((start, cur))
     return out
 
+# Whole entries are compared, not substrings: an entry cut to a prefix of an
+# older text of itself would otherwise count as in the history too (2026-10-13).
 E = entries(old)
-in_new = [n for n, e in E if e in new]
-in_hist = [n for n, e in E if e in hist]
-both = [n for n, e in E if e in new and e in hist]
-missing = [(n, e) for n, e in E if e not in new and e not in hist]
+N = {e for _, e in entries(new)}
+H = {e for _, e in entries(hist)}
+in_new = [n for n, e in E if e in N]
+in_hist = [n for n, e in E if e in H]
+both = [n for n, e in E if e in N and e in H]
+missing = [(n, e) for n, e in E if e not in N and e not in H]
 print(f'entries in {path} at {base}: {len(E)} ({len(old.encode())} bytes); now {len(new.encode())} bytes')
 print(f'  verbatim in the file now:        {len(in_new)}')
 print(f'  verbatim in the history file:    {len(in_hist)}')
