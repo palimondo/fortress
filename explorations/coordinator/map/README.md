@@ -14,7 +14,7 @@ Switch-over: phase 4 of `coordinator/PLAN.md`, where the compiled path starts re
 
 Gate: what a change must pass to land: on a clean build, `ant testFast` and `ant testSystem` at zero failures, thirteen compiled `atomic` programs three times at four threads, the ladder regression (85 files compiled and run against their baseline, the eighteen microGPT components compiled only) and the checker count, the compiled checker's errors over the interpreter's library, reported and never red on its own (protocol, hard rules; `coordinator/climb-batch-workflow.md`). Counts here are from climb batch 5's follow-up D gate (`compile-ladder/climb-batch-5/followup-D/gate/summary.txt`); the current ones are in the last landed `climb-batch-*/gate/summary.txt`.
 
-Shadow: a prototype of an edit to the original tree, made by compiling edited copies of the files and putting their class files ahead of the real ones on the classpath; no tracked file changes, and the gate cannot see it (`perf-probes/template-check/run-all.sh`; FACTS "The `nat` plan's minimal design works as a shadow").
+Shadow: a prototype of an edit to the original tree, made by compiling edited copies of the files and putting their class files ahead of the real ones on the classpath; no tracked file changes, and the gate cannot see it (`perf-probes/template-check/run-all.sh`; `perf-probes/nat/java.md` section 3, the test classpath built from `ProjectFortress/build`).
 
 Sealed tree: the original tree, everything outside `explorations/` and `research/`; sealed through `75cca6683` (POSITIONS 2026-09-17), editable since, each edit test first and flagged at commit (protocol, hard rules).
 

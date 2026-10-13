@@ -37,7 +37,8 @@
 #
 # The overloading checker's memo is off (-Dfortress.analyzer.overload.cache=false), as in
 # every run of the measurement: keyed on declaration pairs, it hides 27 to 35 errors
-# depending on the build order (FACTS.md, "The hidden layer, classified").
+# depending on the build order (FACTS.md, "The overloading checker's memo hides errors
+# by build order, so every count runs with it off ...").
 #
 # The sources beside this script are copies, taken 2026-09-27, so that the gate does not
 # depend on a probe directory, as the checker-count stage's were: DistanceMulti.java from
