@@ -2,13 +2,13 @@
 
 # The revival so far, in plain words
 
-Updated 2026-10-12 for the curator, Pavol Vaskovic, and for Prof. Sukyoung Ryu. First written 2026-10-08. Dates without a year are 2026, times UTC. Each part ends with its sources.
+Written 2026-10-08, updated 2026-10-12, for the curator. Dates without a year are 2026, times UTC. Each part ends with its sources.
 
 Words used throughout:
 
 - **team**: Designers of Fortress at Sun Labs, later Oracle Labs. Their last commit is `a874948ac` (2012-08-31).
 - **type group**: Part of the team that designed the type system and built the compiled type checker.
-- **curator**: Pavol Vaskovic. He directs the revival and decides what is committed.
+- **curator**: Person who directs the revival and decides what is committed.
 - **agent**: Claude session given one task. The coordinating session plans the work and launches the agents.
 - **walk**: Interpreter. It runs a program with no static types.
 - **compiled path**: Path that compiles a program to JVM bytecode and runs it: `fortress compile`, then `fortress run`.
@@ -20,7 +20,7 @@ Words used throughout:
 
 ## 1. How the revival treats the team's work
 
-**Why now.** The team's work stopped in 2012, when Oracle Labs concluded the project. Its last commit is Karl Naden's write-up on instantiating generics at run time, on 2012-08-31. Pavol took the work up in 2026. His reason, in his words: "we're trying to finish what they didn't get time and resources to do". He sees it as possible now, with frontier agentic coding systems. The project is his hobby, done with Claude in his spare time: "a personal learning exercise equal parts about Fortress as a language and agentic coding". Its main goal is a working compiler, so that one program, microGPT, a small GPT model written in Fortress, runs compiled.
+**Why now.** The team's work stopped in 2012, when Oracle Labs concluded the project. Its last commit is Karl Naden's write-up on instantiating generics at run time, on 2012-08-31. The curator took the work up in 2026. His reason, in his words: "we're trying to finish what they didn't get time and resources to do". He sees it as possible now, with frontier agentic coding systems. The project is his hobby, done with Claude in his spare time: "a personal learning exercise equal parts about Fortress as a language and agentic coding". Its main goal is a working compiler, so that one program, microGPT, a small GPT model written in Fortress, runs compiled.
 
 ### Custodians, not authors
 
@@ -354,7 +354,7 @@ Changes a programmer writing Fortress would notice, by area. Part 9 gives the re
 - Lines added after the tag: walk 3.3K, checker 1.8K, code generator and run time 1.0K, specification 5.3K, tests 14.5K. The library gained 3.6K lines and lost 2.3K.
 - The grammar is unchanged. The syntax tree gained one node. 43 of the team's test and demo files changed, and none was deleted. The suites grew from about 1.4K and 382 tests to 1.9K and 580.
 
-Sources: `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A (to batch 10); `explorations/coordinator/PLAN.md` (batches 11 to 13 and 13b under "The phases"; the team's demos under "Pavol's answers"); `explorations/compile-ladder/climb-batch-13b/RECORD.md` and `gate/summary.txt`; `git rev-list --count` and `git diff --numstat 75cca6683 main` over the same paths and areas as the chronology, which this method reproduces at batch 10; `git diff --diff-filter=M` and `=D a874948ac main` over `tests/`, `library_tests/`, `demos/` and `compiler_tests/`.
+Sources: `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A (to batch 10); `explorations/coordinator/PLAN.md` (batches 11 to 13 and 13b under "The phases"; the team's demos under its section of answers); `explorations/compile-ladder/climb-batch-13b/RECORD.md` and `gate/summary.txt`; `git rev-list --count` and `git diff --numstat 75cca6683 main` over the same paths and areas as the chronology, which this method reproduces at batch 10; `git diff --diff-filter=M` and `=D a874948ac main` over `tests/`, `library_tests/`, `demos/` and `compiler_tests/`.
 
 ## 9. The original Fortress and the revival's resolutions
 
