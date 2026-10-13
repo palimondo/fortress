@@ -105,3 +105,15 @@ The coordinator's task of 2026-10-13, under the curator's approval of the overni
 - F-213 (a push notification): `coordinator`, core, "Quiet times".
 - F-214 (a page republished after a compaction): `coordinator`, core, "Pages".
 - F-215 (a path on the phone): `coordinator`, core, "The facts of this environment".
+
+## The second cold read's fixes, 2026-10-13
+
+From `cold-read-2.md` (the coordinator's scratchpad, `skill-outline/checks/`), with the coordinator's rulings of 2026-10-13.
+
+- `SKILL.md`: "main session" defined (flag 24); the local-container sentence removed (flag 25); the disk rule points to `machine.md` (flag 26); pushing bounded by the brief (flag 27); the commands after a stop (flag 28); the git-check hook named (flag 29); pointers to other skills by file (flag 30).
+- `machine.md`: the Workflow limit (flag 32); worktrees deleted only when pushed (flag 34); a PDF named in the report (flag 35); the reader relay's URL form, from `research/extracts/fortress-websites-wayback.md:9-14` (flag 36).
+- `stops.md`: the cap's cause (flag 37); the check-ins' reasons, the cache and the backup, from P-127 and F-207 (flag 38); telling the kinds apart by `duration_ms` and `uptime -s` (flags 39, 40); the rollback's recovery on each branch the session works on, own commits pushed, by the ruling on flag 41; the backup checked after a rollback (flag 42); the page named (flag 43); the limit's sign (flag 44); chaining, the wait, the stop's check-in message, re-arming (flags 45 to 48); the interrupt and the curator's wait, from `remote-container.md`, "The 2026-09-19 interrupt" (flags 49, 50).
+- `hooks.md`: when to read `push=` and its good values (flag 51); the lock (flag 52); the query for `remote-container.md` (flag 53); "unverifiable" commits as the script defines them, and declining a reminder, the script's `stop_hook_active` check making the hook fire once (flags 54, 55), read from `~/.claude/stop-hook-git-check.sh`; manual approval named and the switch back (flag 56).
+- `hooks.md`: in manual approval every Workflow agent's command waits for the curator, so a batch runs unattended only in auto mode: FACTS F-210, "The session's automatic permission check refuses a step ...", 2026-10-13, placed beside the switch to manual approval that the `coordinator` skill's boot points to.
+- `container-loss.md`: flags 57 to 70; the branch check within `fortress-repo`'s pushing rule, by the ruling on flag 59; the small transcript's path `<session>.jsonl` from `explorations/coordinator/transcript-backup/backup_transcripts.py:43-47` (flag 67).
+- Not changed: "no swap" (flag 31, no consequence on record); no disk threshold (flag 33, none on record for a run outside the gate, by the ruling); how to wait the scheduler's minute (flag 46, no waiting method on record for the main session).

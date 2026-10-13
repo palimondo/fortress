@@ -11,8 +11,11 @@ description: "How the cloud platform this repository is worked on behaves, apart
 **curator**
 : Person in charge of this restoration.
 
+**main session**
+: Top-level session of a container, which the curator talks to. The agents that it launches are not main sessions.
+
 **coordinating session**
-: Main session that keeps the project's record and launches its workers.
+: Main session that keeps the project's files under `explorations/coordinator/` and launches the workers.
 
 **process stop**
 : End of the session's Claude Code process, by the platform's cap, by idleness or by a VM restart. The platform starts the process again in the same session.
@@ -26,14 +29,14 @@ description: "How the cloud platform this repository is worked on behaves, apart
 **Stop hook**
 : Command that Claude Code runs at the end of every turn of the main session.
 
-The platform stops the session's process about every 13 hours and when the session goes idle. It can restart the VM, sometimes with the disk rolled back, and it can lose the container. Running agents survive none of these. A session in a local container needs none of this skill.
+The platform stops the session's process about every 13 hours and when the session goes idle. It can restart the VM, sometimes with the disk rolled back, and it can lose the container. Running agents survive none of these.
 
 ## Rules for every agent
 
-- Read the room left on the disk from the Avail column of `df -h /`, never from its Size. Check it before a long run.
-- Push your work as you go. Only what is pushed survives a rollback of the disk or a lost container. `fortress-repo`'s committing part says how.
-- After a process stop, a VM restart or a lost container, read what is on disk and what is pushed before you start anything again.
-- Treat the git-check hook's reminders as advisory. Never commit or push unready work to answer one.
+- Before a long run, read the room left on the disk as `references/machine.md` says.
+- If your brief lets you push, push your work as you go, as `fortress-repo`'s `references/committing.md` says. Only what is pushed survives a rollback of the disk or a lost container.
+- After a process stop, a VM restart or a lost container, run `git status` and `git log origin/<branch>..<branch>` in each tree that you work in, before you start anything again.
+- The platform's git-check Stop hook asks the main session to commit and push. Treat its reminders as advisory. Never commit or push unready work to answer one.
 
 ## The parts
 
@@ -42,6 +45,6 @@ The platform stops the session's process about every 13 hours and when the sessi
 - `references/hooks.md`, for the coordinating session: the transcript backup and its blind spots, the git-check hook and how to turn it off.
 - `references/container-loss.md`, for the coordinating session: re-provisioning, re-arming the backup, reading another session's transcript, recovering the work.
 
-How a Claude Code session behaves anywhere (the Bash tool, long commands, waits and the prompt cache, interrupts, the automatic permission check) is `fortress-repo`'s session part. Running agents and resuming a run are the `coordinator` skill's delegating part.
+How a Claude Code session behaves anywhere (the Bash tool, long commands, waits and the prompt cache, interrupts, the automatic permission check) is `fortress-repo`'s `references/session.md`. Running agents and resuming a run are the `coordinator` skill's `references/delegating.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

@@ -88,3 +88,4 @@ The three checks of the draft at `7b434aae5` are in the coordinator's scratchpad
 - The Fable comparison of a rewritten approved part as a go in advance: P-132; flag W2.
 - The wrapper for a resume in another call order: `process-engineering/design-batch10-opus.md` (`resumeOrder`); flag D14.
 - Removed as provenance or anecdote, at the cold read's flags: the compaction quote (S2), the 1.7M of the wrong tier (D5), the probe's 7.0M (D12), the 45K agent floor (D18), the boot's 74K (A2), P-39's number (B10) and the review file's name (B22).
+- `skill-rewrite.md`, "The coordinator skill": the first two bullets (guide lightly by a few general principles; organize the record as the model organizes knowledge, the rewrite's highest risk), added 2026-10-13 from POSITIONS P-135, "The coordinator rewrite's goals.", the coordinator's task of that date. The rest of P-135 was already in the part.

@@ -12,24 +12,27 @@ Its blind spots:
 
 - It runs when a turn of the main session ends, not when an agent finishes. A session inside one long turn is not backed up, however much its agents do. Check-ins end turns (`stops.md`).
 - It copies transcripts, not trees. Uncommitted work in a worktree is not covered.
-- If the container dies within about 10 s of a turn's end, that turn's snapshot is lost. While agents run in the background, do not stop the turn in the seconds after a reply.
-- It swallows every error and never holds up the session, so a failed push is silent. Read the `push=` field of the log's last line, or the branch's state:
+- If the container dies within about 10 s of a turn's end, that turn's snapshot is lost.
+- It swallows every error and never holds up the session, so a failed push is silent. At each check-in and after each process stop, read the log's last line, or the branch's state. A good pass reads `push=ok`, or `ahead=0 push=none`.
 
       tail -1 /home/user/fortress-transcripts-blinded/.backup.log
       git -C /home/user/fortress-transcripts-blinded status -sb
 
-- The runner removes only an `index.lock` that is at least 10 s old and that no process holds open. A stale `/home/user/fortress/.git/refs/heads/transcripts-blinded.lock` fails every later commit (`commit=failed` in the log). If no git process runs, remove it by hand.
+- The runner removes only an `index.lock` that is at least 10 s old and that no process holds open. A stale `/home/user/fortress/.git/refs/heads/transcripts-blinded.lock` fails every later commit (`commit=failed` in the log). If no process holds it open, remove it by hand.
 
-The scripts that run are the copies in the worktree's `scripts/`. The reference copies in `explorations/coordinator/transcript-backup/` change nothing until you copy them into the worktree. If a pass fails in a way that this section does not name, read `explorations/coordinator/remote-container.md`, "How the snapshot works" and "Three traps".
+The scripts that run are the copies in the worktree's `scripts/`. The reference copies in `explorations/coordinator/transcript-backup/` change nothing until you copy them into the worktree. If a pass fails in a way that this section does not name, print `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/coordinator/remote-container.md#Three traps'`, and the same for "How the snapshot works".
 
 ## The platform's git-check hook
 
-`~/.claude/stop-hook-git-check.sh` comes from the launcher (`--settings /root/.claude/launcher-settings.json`). It exits 2, which makes the session take another turn, whenever the tree has uncommitted changes, untracked files, or unpushed or unverifiable commits. Its reminders are advisory: decline one while the tree holds work that is not ready to commit or push.
+`~/.claude/stop-hook-git-check.sh` comes from the launcher (`--settings /root/.claude/launcher-settings.json`). It exits 2, which makes the session take another turn, when the tree has uncommitted changes, untracked files, or unpushed commits. When commit signing is on, it also exits 2 for a local commit that is unsigned or whose committer is not `noreply@anthropic.com`.
+
+Its reminders are advisory. While the tree holds work that is not ready to commit or push, decline a reminder: say in one line that the work is not ready, and end the turn. The hook does not fire again at the end of the turn that it started.
 
 To turn the hook off, give the script an empty body, which reads its input and exits 0. Keep the original in the session's scratchpad:
 
     cp ~/.claude/stop-hook-git-check.sh <scratchpad>/stop-hook-git-check.sh.orig
     printf '#!/bin/bash\ncat >/dev/null\nexit 0\n' > ~/.claude/stop-hook-git-check.sh
 
-- The automatic permission check refuses this step, and also a check-in whose prompt would take it. The step runs only after the curator switches the session to manual mode.
-- Every start of the process writes the original script again. So after each process stop the hook is back on: `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh` prints 1 or more. The `coordinator` skill's boot says how the curator is told.
+- The automatic permission check refuses this step in auto mode, and also a check-in whose prompt would take it. The step runs only after the curator switches the session to manual approval, where each tool call waits for the curator.
+- In manual approval, every command of a Workflow agent also waits for the curator's approval. So a batch runs unattended only in auto mode: after the step, ask the curator to switch back.
+- Every start of the process writes the original script again. So after each process stop the hook is back on: `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh` prints 1 or more. The `coordinator` skill's `SKILL.md`, "The boot", says how the curator is told.

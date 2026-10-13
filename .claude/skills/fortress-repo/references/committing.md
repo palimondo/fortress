@@ -13,7 +13,7 @@ Your brief says whether you commit and push, and on which branch. If it says not
 - In a fresh clone, `.claude/worktrees/` and `.claude/agents/` show as untracked, because the lines of `.git/info/exclude` that hide them are not in the clone. Do not commit them.
 - Keep a copyrighted PDF or deck in `research/decks/`, which is gitignored. Cite it by its Wayback URL. Notes on it go in `research/extracts/`: your own summary, with brief attributed quotations.
 - Put provenance and rationale in commit messages and reports, not in source comments.
-- Name a model by its tier (Opus, Sonnet, Fable) in any text that you commit, commit messages included. Never write its model identifier.
+- Name a model by its tier (Opus, Sonnet, Fable) in any text that you commit, commit messages included. Never write its model identifier, the API's name for the model, which starts with `claude-`.
 
 ## How to commit
 

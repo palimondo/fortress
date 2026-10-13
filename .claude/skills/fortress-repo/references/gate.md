@@ -77,13 +77,6 @@ A file that moved gets a mark:
 - UP: a phase higher than the record. This is progress, not red.
 
 DOWN, MISSING and STDOUT are red, unless your brief declared that move as expected before the gate ran.
-
-## Comparing with an earlier run
-
-- Compare `testSystem` only by the sum of its four shards, `system-0` to `system-3`. A shard takes the files by their place in a sorted list, so an added file moves every later file to another shard. `gate_compare` sums them.
-- In printed output, mask only three kinds of difference: a Java line number in a stack frame, an object's identity hash (`@` and hex digits), and a position in a library file that the change moved. List every masked difference in your report.
-- If your brief asks you to compare the output of every interpreter test with a base run, use `explorations/coordinator/tools/count-run/compare-normalised.py`. It masks these three kinds, and its header gives its usage.
-
 Warning: do not run `run-ladder.sh`, the driver over every test program, with its defaults. Its default root is shared, its cache pruning corrupts a parallel run, and its default `OUT` is a tracked folder.
 
 To run it, as step 7, with step 3's copies of the caches:
@@ -104,3 +97,9 @@ To run it, as step 7, with step 3's copies of the caches:
 3. Compare: `ladder_compare $B $D`, then `diff <(mg_phases $B/microgpt-phase.md) <(mg_phases $D/microgpt-phase.md)`. Append each line that they print to the summary, with `# ladder ` before it.
 
 If your brief asks for your change's own ladder subset, write your own `subset.txt`. Put in it each file whose recorded first error in the baseline's `raw/` names something that your change touched. Run them after your edit only. Compare them with the newest landed `ladder.tsv`, or with the baseline's `raw/` for a file that the gate does not run.
+
+## Comparing with an earlier run
+
+- `ant testSystem` runs in four shards, the summary's rows `system-0` to `system-3`. A shard takes the files by their place in a sorted list, so an added file moves every later file to another shard. When you compare by hand, compare only the sum of the four. `gate_compare` sums them.
+- In printed output, mask only these differences: the `Operation took <n>ms` line, a Java line number in a stack frame, an object's identity hash (`@` and hex digits), and a position in a library file that your change moved. In your report, list each test with a masked difference, and the kinds masked in it.
+- If your brief asks you to compare the interpreter tests with a base run, use the two scripts in `explorations/coordinator/tools/count-run/`. `count-run.sh` runs every `ProjectFortress/tests/*.fss` under walk, one JVM per test: run it once on the base commit and once after your edit. `compare-normalised.py` compares the two runs, with the last three masks above. Each script's header gives its usage.
