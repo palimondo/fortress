@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat before the overnight run (2026-10-13)
+
+- 17:16 Fable adversarial reviews tend to keep everything as it was (the last consolidation got no compaction); he skimmed the design and the outline and they look good to him; Opus checks are enough. The two Fable reviews already running finish, and their ideas are weighed critically, never taken as given.
+
 ## Held from his comments on the record store design (2026-10-13)
 
 His eight comments on https://claude.ai/artifact/TjJEBW5xsPP79vaEb8FVMu, 16:46 to 17:08 UTC, each a thread there with his exact words; handed whole to the Fable review of the design.
