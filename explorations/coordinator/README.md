@@ -68,5 +68,6 @@ How they are kept:
 - A fact enters in the commit that establishes it; a decision in the next
   commit after he states it. A FACTS entry is cited by its bold title, or by
   its opening words where it has none, and a POSITIONS entry by its bold
-  title; a title stays verbatim when the entry is rewritten, and where it no
-  longer holds the entry says so and states the present.
+  title; a title that still holds stays verbatim when the entry is rewritten,
+  and a title that no longer holds is rewritten to state the present, its old
+  text kept in the history and every citation of it updated.
