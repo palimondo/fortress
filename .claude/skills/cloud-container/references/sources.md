@@ -64,3 +64,44 @@ This skill was made on 2026-10-05 by splitting one skill, `remote-container`, al
 - The two-agent limit.
 - The backup's worktree, branch and hook (`~/.claude/settings.json`), and the git-check hook's state after a restart.
 - The scheduler's shortest cron interval and its rate limit.
+
+## The rewrite of 2026-10-13
+
+The coordinator's task of 2026-10-13, under the curator's approval of the overnight run (17:13 UTC): the skill rewritten whole by the seven principles of `explorations/reviews/skills-writing-principles.md`, the part names and the split kept. FACTS entries are cited by number, at commit `f6bc1aa75`.
+
+- `SKILL.md`: a glossary opens it (container, curator, coordinating session, process stop, VM restart, check-in, Stop hook), replacing the inline definitions; "process stop" is the `coordinator` skill's term. Each part names its reader. The description gains the disk rolled back, the weekly limit, and commits missing after a restart, for the new sections.
+- `machine.md`: F-192 (the allowance, checked before a long run), F-195 (two agents at once); the rest re-worded only. "Tell the curator" became "report", since a worker reaches the curator through its report.
+- `stops.md`, "What stops the process": F-202, F-196. "A VM restart that rolls the disk back": new, F-197; its page-source half is the `coordinator` skill's core ("Pages"). "The weekly usage limit": new, POSITIONS P-136, "The statement for the public record on the usage limit.", the platform's behaviour only, with the refusal's wording from `explorations/coordinator/usage-metering-2026-09-30.md`, "What happened"; placed in `stops.md` rather than `machine.md`, since it ends a run as a stop does. "Check-ins": F-207, POSITIONS P-127, "Check-ins and stops.".
+- `hooks.md`, the backup: F-194; where it is registered and the two passes: new, F-199, `.claude/settings.json:8`, `explorations/experiment/setup.sh:67-75`. Not stopping a turn after a reply: F-200, P-127. The pointer to `remote-container.md` for an unnamed failure: settled by the coordinator's task (a pointer where a reader needs the evidence).
+- `hooks.md`, the git-check hook: F-194, F-210. The empty body and its commands: the curator's page comment of 2026-10-12, 15:42 UTC (`explorations/coordinator/HELD.md`), with the technique as `remote-container.md`, "How the snapshot works", records it (a no-op that reads its input and exits 0, the original kept as `stop-hook-git-check.sh.orig`); the `grep -c stop_hook_active` test read from the platform's script on the machine. Telling the curator is the `coordinator` skill's boot.
+- `container-loss.md`: F-193, F-198, F-199 (the blank container, setup.sh's 4 minutes). "A lesson about the platform, not a ledger row": new, POSITIONS P-128, "Where the work lives.". The re-arming no longer copies hooks into `~/.claude/settings.json`: the tracked file registers both (F-199). Recovery step 6 names no file of the coordinator's.
+- Cut from the parts: dates, session IDs and run lengths beyond the 46,640 s figure; the provenance of the "40 % slower" figure stays in the section on `machine.md` above.
+
+### Where each FACTS entry of "The container" now stands (F-203 aside)
+
+- F-189 (where the process cost is measured): `coordinator`, `references/analysis.md`, "Measuring".
+- F-190 (a boot's cost): `coordinator`, `references/analysis.md`, "Measuring".
+- F-191 (the Bash tool's ceiling): `fortress-repo`, `session.md`, "The Bash tool and waits", "Long commands"; a timing alone: `records.md`, "Timings and citations".
+- F-192 (the parser folders fill the allowance): here, `machine.md`, "The disk allowance"; the sweep: `fortress-repo`, `build-and-caches.md`.
+- F-193 (a lost container): here, `container-loss.md`.
+- F-194 (the backup, the git-check hook): here, `hooks.md`; the push after every commit: `fortress-repo`, `committing.md`.
+- F-195 (two agents at once): here, `machine.md`; the rest: `coordinator`, `references/delegating.md`, "The Workflow tool".
+- F-196 (a VM restart, disk intact): here, `stops.md`, "What stops the process"; the resume: `coordinator`, `references/delegating.md`.
+- F-197 (the disk rolled back): here, `stops.md`, "A VM restart that rolls the disk back"; the page's source: `coordinator`, core, "Pages".
+- F-198 (the empty clone): here, `container-loss.md`, "Re-provisioning".
+- F-199 (where the hook is registered): here, `hooks.md`, "The transcript backup", and `container-loss.md`.
+- F-200 (an interrupt): `coordinator`, `references/delegating.md`, "Interrupts and process stops"; `fortress-repo`, `session.md`; the seconds after a reply: here, `hooks.md`.
+- F-201 (a restart kills the runs): `coordinator`, `references/delegating.md`; `fortress-repo`, `session.md`, "After an interrupt or a stop of the process".
+- F-202 (the cap): here, `stops.md`, "What stops the process".
+- F-204 (waits and the cache): `fortress-repo`, `session.md`; `coordinator`, `references/delegating.md`.
+- F-205 (a headless session's cache): `coordinator`, core, "The facts of this environment", and `references/delegating.md`.
+- F-206 (a worker loads `fortress-repo`): `coordinator`, `references/delegating.md`.
+- F-207 (the check-in series): here, `stops.md`, "Check-ins".
+- F-208 (`agent()` returns null): `coordinator`, `references/delegating.md`, "The Workflow tool".
+- F-209 (`node --check`): `coordinator`, `references/delegating.md`, "The Workflow tool".
+- F-210 (the permission check): `fortress-repo`, `session.md`; `coordinator`, core; the refused hook step: here, `hooks.md`.
+- F-211 (no push loop): `fortress-repo`, `committing.md`, "Pushing"; `coordinator`, core.
+- F-212 (Fable and the all-models limits): `coordinator`, `references/delegating.md`.
+- F-213 (a push notification): `coordinator`, core, "Quiet times".
+- F-214 (a page republished after a compaction): `coordinator`, core, "Pages".
+- F-215 (a path on the phone): `coordinator`, core, "The facts of this environment".
