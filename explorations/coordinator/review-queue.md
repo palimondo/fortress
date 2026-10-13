@@ -1,4 +1,4 @@
-<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by P-112, "Which decisions taken inside the work reach Pavol, and how.": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. -->
+<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by the `coordinator` skill's `SKILL.md`, "The curator's role and decisions": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. -->
 
 What waits for Pavol's review, 2026-10-10
 
@@ -325,7 +325,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
    - Landed: Opus, as his decision on tiers pins workers.
    - The other way: Sonnet for those three stages.
    - Its cost: Saves about 0.13M to 0.28M of the Opus pool a batch.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/batch-redesign.md` section 9, item 13; P-117, "Which tier runs what."
+   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/batch-redesign.md` section 9, item 13; the `coordinator` skill's `references/delegating.md`, "Which tier runs what"
 
 48. **A clean test of the skill.** The `fortress-repo` skill costs 0.47M to 0.65M a batch to read, and the six batches measured cannot say whether it buys quality.
    - Landed: Not run.
@@ -837,7 +837,7 @@ Each is kept as landed unless he says otherwise.
 
 166. How the ledger numbers rows during parallel batches (D7).
    - Landed: Provisional numbers folded at the gather. The other way: A lock and numbers in call order. Its cost: A rung edits the ledger.
-   - Home: P-133, "The gap ledger's form."; `process-engineering/gap-ledger-archaeology.md:435`
+   - Home: `facts-extract.sh 'history:P-133'`; `process-engineering/gap-ledger-archaeology.md:435`
 
 167. Row 331's re-gating on inference, and the decisions judgement's candidate rows 2, 3 and 5.
    - Landed: Parked. The other way: Open the rows. Its cost: Rows.
@@ -853,7 +853,7 @@ Each is kept as landed unless he says otherwise.
 
 170. The inventory's move list waits on his reading.
    - Landed: Nothing moved. The other way: Move it. Its cost: Re-check it after the cleaning first.
-   - Home: PLAN:413; P-128, "Where the work lives." (10-02: 109)
+   - Home: PLAN:413; `facts-extract.sh 'history:P-128'` (10-02: 109)
 
 171. The tracked jars (36 MB) fetched by a setup step, and the built PDFs as release artifacts.
    - Landed: Nothing done. The other way: Do it. Its cost: One of the PDFs sits in `Specification-1.0-frozen/`, which nothing touches; removing files shrinks a checkout only with the cleaner pass of `main`.
@@ -880,20 +880,20 @@ Each is kept as landed unless he says otherwise.
 - **Items 49 and 50, the open range's five methods and the corner-by-corner check.** P-56, "The open range `(:)` keeps its wildcard type ..." and P-52, "A range of rank 2 or 3 checks containment corner by corner"; built `abe8b0342`. Home: PLAN:291, :293.
 - **Item 52, how fork 2's held library half gets past the checker's slowness.** His "land it now" (05:27 and 05:35 UTC, 2026-10-10): the checker-speed fix (`3c67d5204`) and the held half (`749ec523e`) landed as batch 13b, its gate at `d96bc7776`, its Fable skeptic's approval at `71c082724`; row 688 closes with it; his answer on the bound itself is the (b) item on fork 2. Home: PLAN:301; `compile-ladder/climb-batch-13b/RECORD.md`.
 - **Row 582, `isLeftZero`, with batch 13's pins of it.** P-57, "`LexicographicReduction.isLeftZero` takes `TotalComparison` ...", which names the refused `isLeftZero(Unordered)`; built `9ba86f7da`. Home: PLAN:584, :726 (3).
-- **The skeptic's contested rule, its third clause.** P-118, "The judge's rulings."; `a1902d0d4`. Home: PLAN:678.
+- **The skeptic's contested rule, its third clause.** The `coordinator` skill's `references/batch.md`, "The roles"; `a1902d0d4`. Home: PLAN:678.
 - **The instance rule extended to static inference by rung S's sentence.** P-48, "A type parameter the arguments do not fix takes its bound ...", whose R2 applies it to the checker, built by batch 8's rung I. Home: PLAN:324, :310 (10-02: 23).
-- **The synthesis's second default: one skeptic, no second review.** The redesign, P-118, "The judge's rulings." and P-104, "Nothing is built or run twice on the same code."; `process-engineering/README.md`, pending item 1. Home: synthesis section 2(b) (10-02: 20).
-- **Workflow option (b), approvals with required corrections.** Stale: the skeptic now fixes what it finds (`process-engineering/README.md`, "Waiting on Pavol", third point); P-118, "The judge's rulings." still calls the option parked. Home: PLAN:412 (10-02: 8).
-- **A judge may not strike a candidate from a fork.** Stale: a judge now rules only on a contested fix, a refusal or a stop (P-118, "The judge's rulings."). Home: PLAN:332 (10-02: 7).
+- **The synthesis's second default: one skeptic, no second review.** The redesign, the `coordinator` skill's `references/batch.md`, "The roles" and "The workflow"; `process-engineering/README.md`, pending item 1. Home: synthesis section 2(b) (10-02: 20).
+- **Workflow option (b), approvals with required corrections.** Stale: the skeptic now fixes what it finds (`process-engineering/README.md`, "Waiting on Pavol", third point); `facts-extract.sh 'history:P-118'` still calls the option parked. Home: PLAN:412 (10-02: 8).
+- **A judge may not strike a candidate from a fork.** Stale: a judge now rules only on a contested fix, a refusal or a stop (the `coordinator` skill's `references/batch.md`, "The roles"). Home: PLAN:332 (10-02: 7).
 - **A protocol line: a change is reviewed by reading the change, not its report.** In the skeptic's brief: the worker's report is "a claim to check, not evidence", and the diff is read line by line (`climb-batch-workflow.js:860`, `:886`). Home: PLAN:329 (10-02: 6).
-- **The gap ledger: its purpose, sorting, numbering, worklist and counts.** P-133, "The gap ledger's form." (topic sections, `ledger.py`, D1 to D6); D7 is a (c) item. Home: PLAN:330; held list, lines 13-21 (10-02: 11).
-- **May a Fable judge rule overnight.** P-118, "The judge's rulings." (a second ruling on Fable, pre-approved) and "The phase-3 batches run on a standing go." Home: PLAN:331.
-- **Dropping the merged-diff review.** P-113, "A blocking second review does not hold a green batch." Home: synthesis section 2(b) (10-02: 4).
+- **The gap ledger: its purpose, sorting, numbering, worklist and counts.** The `coordinator` skill's `references/record.md`, "INDEX and the gap ledger", and `fortress-repo`'s `references/records.md`, "The gap ledger" (topic sections, `ledger.py`, D1 to D6); D7 is a (c) item. Home: PLAN:330; held list, lines 13-21 (10-02: 11).
+- **May a Fable judge rule overnight.** The `coordinator` skill's `references/delegating.md`, "Which tier runs what" (a second ruling on Fable, pre-approved) and `references/batch.md`, "The go". Home: PLAN:331.
+- **Dropping the merged-diff review.** The `coordinator` skill's `references/batch.md`, "Reserved points and repairs". Home: synthesis section 2(b) (10-02: 4).
 - **Expected-output files and comparing the corpus's outputs.** P-103, "The suite's verdict is the check." Home: synthesis section 2(a) (10-02: 5, 19).
 - **New tests named by topic.** The synthesis's third default, settled 10-02. Home: synthesis section 2(c) (10-02: 21).
-- **The gate after a repair of specification text only.** P-114, "A tests-only repair does not rerun the gate."; `c5d3bd401`. Home: PLAN:592.
+- **The gate after a repair of specification text only.** The `coordinator` skill's `references/batch.md`, "Reserved points and repairs", and `fortress-repo`'s `references/gate.md`, "When to run it"; `c5d3bd401`. Home: PLAN:592.
 - **Re-approval row 48: a batch's own gate summary as the next comparand.** Stale: every gate compares with the newest landed summary (`.claude/skills/fortress-repo/references/gate.md:9`); rows 42 to 46 and the homes 374 to 377 were settled on 10-02. Home: PLAN:407 (10-02: 104).
-- **A ledger row for code generation's refusal of `where` clauses, and a section for the cost rows.** P-133, "The gap ledger's form.": any agent adds a row through `ledger.py`, and section 15 holds performance rows. Home: PLAN:414 (10-02: 105).
+- **A ledger row for code generation's refusal of `where` clauses, and a section for the cost rows.** The `coordinator` skill's `references/record.md`, "INDEX and the gap ledger": any agent adds a row through `ledger.py`, and section 15 holds performance rows. Home: PLAN:414 (10-02: 105).
 - **Rung C's two points.** Item 16 and P-59, "Walk chooses coercions on the value, for now." Home: PLAN:410.
 - **The closure accommodation.** P-44, "`AnyIntegral`'s closure and how the checker reads `comprises`." Home: PLAN:411.
 - **Batch N's two runs, run 2 retired.** P-76, "The numeral switch, split by where the static types are." Home: PLAN:487.
@@ -948,7 +948,7 @@ Each is kept as landed unless he says otherwise.
 ### Struck on 2026-10-02 and still struck (5)
 
 - **The self-typed bodies "not ripe" (now ripe: a (b) item).** The judgement exists (`reviews/self-typed-bodies-judgement.md`). Home: CLIMB-BATCH-8.md Q2.
-- **This week's pacing; the review's second script change; the `wip/` branches; the cleaner pass of `main`; the skill-extraction session; the FACTS titles; the long FACTS entries; the tools reorganisation; pricing the tokens; inventory item 36's leftovers.** The check against his words of 2026-10-02; the branches deleted that evening; the skills since written (P-132, "The order of the work after batch 10."). Home: review queue of 2026-10-02, "Checked against his words"; PLAN:415, :481 (10-02: 3, 10, 95, 96, 98, 112, 113, 114, 115, 116).
+- **This week's pacing; the review's second script change; the `wip/` branches; the cleaner pass of `main`; the skill-extraction session; the FACTS titles; the long FACTS entries; the tools reorganisation; pricing the tokens; inventory item 36's leftovers.** The check against his words of 2026-10-02; the branches deleted that evening; the skills since written (`facts-extract.sh 'history:P-132'`). Home: review queue of 2026-10-02, "Checked against his words"; PLAN:415, :481 (10-02: 3, 10, 95, 96, 98, 112, 113, 114, 115, 116).
 - **Walk carrying the expected type into a generic call (rows 510, 21, 364).** His word of 09-29 14:07: walk is not touched until the switch-over gives it types. Home: PLAN:463 (10-02: 17).
 - **Typecase's binding syntax.** His rule that the text changes when it meets reality; default (a). Home: PLAN:420 (10-02: 106).
 - **The testing archaeology's answer to his question.** Answered 16:19 UTC 2026-10-02. Home: `postmortem-2026-09-29/archaeology-testing.md` section 7 (10-02: 110).

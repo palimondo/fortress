@@ -7,7 +7,7 @@
 
 The script runs one batch of the compile-ladder climb. Everything a batch changes lies between its `MANIFEST` and `END MANIFEST` lines, which the batch's generator writes (`explorations/compile-ladder/plan-<N>/manifest/`). The rest of the script is the same for every batch. The practice it builds, and why, is `process-engineering/batch-redesign.md`.
 
-In one paragraph: each rung's worker does its rung test first in its own seeded worktree. Its skeptic checks it and fixes what it finds, test first. A judge rules only on a fix the skeptic marks contested, on a rung it cannot fix, or on a worker's stop, and one repair round runs only on the judge's word. The gather lands the approved rungs on `main`. The merged-diff review and the gate run side by side. The commit stage lands the gate's tables, runs the quick microGPT walk check and pushes. The batch writes no skill text: the skill writer writes the skill from the batch's revival-change material after the landing, and a cold read follows ("After the landing: the coordinator's routing", step 4). Every agent runs on Opus but a judge's second ruling on the same rung or tree, which runs on Fable (P-118, "The judge's rulings.").
+In one paragraph: each rung's worker does its rung test first in its own seeded worktree. Its skeptic checks it and fixes what it finds, test first. A judge rules only on a fix the skeptic marks contested, on a rung it cannot fix, or on a worker's stop, and one repair round runs only on the judge's word. The gather lands the approved rungs on `main`. The merged-diff review and the gate run side by side. The commit stage lands the gate's tables, runs the quick microGPT walk check and pushes. The batch writes no skill text: the skill writer writes the skill from the batch's revival-change material after the landing, and a cold read follows ("After the landing: the coordinator's routing", step 4). Every agent runs on Opus but a judge's second ruling on the same rung or tree, which runs on Fable (the `coordinator` skill's `references/batch.md`, "The roles").
 
 ## The manifest and the scatter
 
@@ -24,23 +24,23 @@ Per rung, the manifest gives:
 
 The script refuses at load a rung without its required fields, a key holding a double quote, backtick, dollar sign, backslash or newline (each is rendered in double quotes), a `checks` key not in the briefing, and `reasons` that are not one line per key.
 
-The scatter starts the longest expected worker first. Two agents run at once on this box and a freed slot goes to the next queued agent (F-195, "The Workflow harness runs two agents at once on this box"), so the longest-first order saves up to the shortest worker's time at the end. The gather keeps the manifest's order for its own reading and applies the rungs in its own order (below).
+The scatter starts the longest expected worker first. Two agents run at once on this box and a freed slot goes to the next queued agent (the `cloud-container` skill's `references/machine.md`, "The machine"), so the longest-first order saves up to the shortest worker's time at the end. The gather keeps the manifest's order for its own reading and applies the rungs in its own order (below).
 
 `landsOnlyWith` names the rungs a rung lands only with. After the scatter, a rung any of whose named rungs is not approved is withheld, repeated until nothing moves; it reaches the gather as not landed, and its expected moves and checker declarations stop counting at the gate. Batch 6's T, the number chapters, landed only with F, the flat library they describe.
 
 ## What a batch commits
 
-A batch commits on a `wip/` branch what it commits on `main`, and nothing else. That is the Fortress change (source, library, specification text, tests) and its reports: `REPORT.md`, `SKEPTIC.md`, `JUDGE.md`, a decision record where the section asks for one, and the batch's `RECORD.md`. It also commits the ledger rows, the FACTS, PLAN and handover lines, each rung's revival-change material in the batch's `RECORD.md`, and a script that is reusable. It commits nothing under `.claude/`: only the skill writer edits the skills (`reviews/skills-agenda-audit.md`). No captured output, log, probe program or copy of a script is committed. An agent's scratch lives under its worktree's `tmp/`, which git ignores and which goes with the worktree. Whether a worker wrote its test first and saw it fail is read in its transcript, which the backup keeps (P-115, "What a batch commits."; "Workers commit their own files as they go.").
+A batch commits on a `wip/` branch what it commits on `main`, and nothing else. That is the Fortress change (source, library, specification text, tests) and its reports: `REPORT.md`, `SKEPTIC.md`, `JUDGE.md`, a decision record where the section asks for one, and the batch's `RECORD.md`. It also commits the ledger rows, the FACTS, PLAN and handover lines, each rung's revival-change material in the batch's `RECORD.md`, and a script that is reusable. It commits nothing under `.claude/`: only the skill writer edits the skills (`reviews/skills-agenda-audit.md`). No captured output, log, probe program or copy of a script is committed. An agent's scratch lives under its worktree's `tmp/`, which git ignores and which goes with the worktree. Whether a worker wrote its test first and saw it fail is read in its transcript, which the backup keeps (the `coordinator` skill's `references/batch.md`, "While it runs"; `fortress-repo`'s `references/committing.md`, "What to commit").
 
 ## Preparing a batch record
 
-An Opus planning worker drafts `CLIMB-BATCH-<n>.md`. A Fable reviewer edits it in place with one reason per change. The coordinator reads the diff and brings the record's questions to the curator one per message. The batch launches on the answers or on the standing go (P-121, "The phase-3 batches run on a standing go.").
+An Opus planning worker drafts `CLIMB-BATCH-<n>.md`. A Fable reviewer edits it in place with one reason per change. The coordinator reads the diff and brings the record's questions to the curator one per message. The batch launches on the answers or on the standing go (the `coordinator` skill's `references/batch.md`, "The go").
 
-The planner builds each rung's briefing as in-context learning: the agents were not trained on Fortress, and the language was never finished (P-109, "The mission briefing."). A briefing holds what the rung's section cites: the decisions and earlier rulings it rests on, its ledger rows, the specification's sections whole by their headings, the notes on the subject by section, and the library code that is the precedent. Process positions and harness facts stay out, because the brief's role text and the skill carry them. In batch 10 the workers named none of the 87 POSITIONS and FACTS keys before their fix edits (`process-engineering/context-study.md`, section 5). Each key goes through `facts-extract.sh --check` on the base, every key matching exactly one place. Each carries one line on why it is there. The planner marks the `checks` sub-list: the decisions and rows the checks need, and the sections and precedent code they compare against.
+The planner builds each rung's briefing as in-context learning: the agents were not trained on Fortress, and the language was never finished (the `coordinator` skill's `references/batch.md`, "The workflow"). A briefing holds what the rung's section cites: the decisions and earlier rulings it rests on, its ledger rows, the specification's sections whole by their headings, the notes on the subject by section, and the library code that is the precedent. Process positions and harness facts stay out, because the brief's role text and the skill carry them. In batch 10 the workers named none of the 87 POSITIONS and FACTS keys before their fix edits (`process-engineering/context-study.md`, section 5). Each key goes through `facts-extract.sh --check` on the base, every key matching exactly one place. Each carries one line on why it is there. The planner marks the `checks` sub-list: the decisions and rows the checks need, and the sections and precedent code they compare against.
 
 A rung that changes what an implementation does is briefed with the Appendix I Effects and the specification's notes that its change makes false, found by a grep while the record is prepared. Batch 9's record gave rung K none, and Appendix I's `comprises` Effect was that batch's one blocking finding (`reviews/batch-9-review.md`, finding 3).
 
-A record asks a rung for no corpus-wide output comparison, no ladder before-run, no microGPT check and no specification build log (P-103, "The suite's verdict is the check."; "No re-measuring what the record holds."). Whole suites are the skill's rule (`tests-running.md`, "When to run a whole suite"). A count of the programs a change reaches, when a decision needs one, is the planner's probe, taken before the record is written. A named one-time count of changed outputs is asked only where a decision of the curator's names it for that rung. The coordinator starts its base pass before the launch (`tools/count-run/count-run.sh`).
+A record asks a rung for no corpus-wide output comparison, no ladder before-run, no microGPT check and no specification build log (P-103, "The suite's verdict is the check."; the `coordinator` skill's `references/delegating.md`, "What a brief holds"). Whole suites are the skill's rule (`tests-running.md`, "When to run a whole suite"). A count of the programs a change reaches, when a decision needs one, is the planner's probe, taken before the record is written. A named one-time count of changed outputs is asked only where a decision of the curator's names it for that rung. The coordinator starts its base pass before the launch (`tools/count-run/count-run.sh`).
 
 The record's section on how it is run gives the manifest's fields rung by rung, the intro every agent reads, and the launch steps. It holds no copy of the block: the batch's generator writes the block from the record.
 
@@ -49,7 +49,7 @@ The record's section on how it is run gives the manifest's fields rung by rung, 
 The coordinator, in this order:
 
 1. The script, this manual and the batch's manifest generator on `main`. The base is `main`'s head after them, by its full hash, passed as `args.base`.
-2. The batch's one base build, a worktree at the base outside the main tree, built once and then left alone. Every rung worktree is seeded from it, and the old code runs from it (P-104, "Nothing is built or run twice on the same code."). About 200 s, as the skill's `worktrees.md`, "Finding or building a base build", gives it:
+2. The batch's one base build, a worktree at the base outside the main tree, built once and then left alone. Every rung worktree is seeded from it, and the old code runs from it (the `coordinator` skill's `references/batch.md`, "The workflow"). About 200 s, as the skill's `worktrees.md`, "Finding or building a base build", gives it:
 
         git -C /home/user/fortress worktree add --detach /home/user/fortress-base<N> <base>
         cd /home/user/fortress-base<N>      # then set up the call as the skill's build-and-caches.md says
@@ -62,13 +62,13 @@ The coordinator, in this order:
 3. One trial seed proves the base build, about 3 s: `explorations/coordinator/tools/seed-worktree.sh /home/user/fortress-base<N> /home/user/fortress-seedcheck - <base>`, then `git -C /home/user/fortress worktree remove /home/user/fortress-seedcheck`. One `old-fortress.sh /home/user/fortress-base<N> /home/user/fortress-seedcheck-caches ProjectFortress/tests/BooleanOps.fss`, run from the main tree, proves the old code runs; its folder is removed after.
 4. The briefings checked on the base (`python3 explorations/compile-ladder/plan-<N>/manifest/lists<N>.py`). The block generated (`gen<N>.py`), checked in a scratch copy and spliced (`check<N>.js`, then `check<N>.js --write`). Then `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script, which also checks that every skill section the script cites by name is a heading of the skill. Then the commit.
 5. `df -h /` against one seeded worktree per rung (about 206 MB each) and the base build. `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits. The session's permission rules let the commit stage run `tools/mg-run.sh`.
-6. Check-ins armed for the run's length, 45 minutes apart (P-127, "Check-ins and stops.").
+6. Check-ins armed for the run's length, 45 minutes apart (the `coordinator` skill's `references/delegating.md`, "Watching a run").
 
 The launch: `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<full hash>', baseBuild: '/home/user/fortress-base<N>'}})`. The args are kept byte for byte, since a resume needs them. The base build stays until the coordinator removes it after the landing.
 
 ## The brief, which replaced the shared prefix
 
-Until batch 10 every brief opened with one shared prefix of 47K characters, on the premise that the agents shared its cache. They did not: across agents the prompt cache serves the system prompt and tools, and the first message only when the whole prompt is identical (F-195, "The Workflow harness runs two agents at once on this box").
+Until batch 10 every brief opened with one shared prefix of 47K characters, on the premise that the agents shared its cache. They did not: across agents the prompt cache serves the system prompt and tools, and the first message only when the whole prompt is identical (the `coordinator` skill's `references/delegating.md`, "The Workflow tool").
 
 Every brief now opens with a head of about 4K characters:
 
@@ -94,12 +94,12 @@ The order of work: seed the worktree; read the briefing; the test first (`tests-
 
 - The test and the fix may share a commit; the order is read in the transcript (P-102, "Test first, the test kept.").
 - A new ledger row goes in `record.md` in `ledger.py`'s row template, numbered `NEW-<rung>-<n>` and cited so in tests and reports. The worker never runs `ledger.py add` or `note`: `add` numbers a row max + 1, so two branches that each add a row would collide (`gap-ledger-archaeology.md`, D7). The gather numbers them.
-- `record.md` carries the FACTS entry the rung earns, its ledger notes and new rows, the handover line, and a "Revival change" section, or "Revival change: none" with the reason. The section is material for the skill writer, not skill text, in two labelled parts: "The change", as evidence (the team's source and what it says or does, with `file:line`; what the tree now does, with its test; the reason, as a passage, a checker refusal or a measured failure), and "Provenance" (the question or item, the answer or default it follows, the batch). The worker is told: "Name no question, item, batch, rung or record file in the change, and give no decision's status there; provenance goes in its own part." (P-131, "The delta from the original Fortress is a part of the skill, kept current."; `reviews/skills-agenda-audit.md`, "Proposed fix to the mechanism", item 2.)
+- `record.md` carries the FACTS entry the rung earns, its ledger notes and new rows, the handover line, and a "Revival change" section, or "Revival change: none" with the reason. The section is material for the skill writer, not skill text, in two labelled parts: "The change", as evidence (the team's source and what it says or does, with `file:line`; what the tree now does, with its test; the reason, as a passage, a checker refusal or a measured failure), and "Provenance" (the question or item, the answer or default it follows, the batch). The worker is told: "Name no question, item, batch, rung or record file in the change, and give no decision's status there; provenance goes in its own part." (the `coordinator` skill's `references/skill-rewrite.md`, "The method"; `reviews/skills-agenda-audit.md`, "Proposed fix to the mechanism", item 2.)
 - `REPORT.md` opens with five provenance lines: problem, spec, precedent, deviation, historical. The `historical:` line names every file of the 2012 tree the rung edits, for the commit message (the protocol's hard rule on the gate).
 - The worker does not edit FACTS, the ledger, PLAN, POSITIONS, INDEX, the handover, the tools or `.claude/`: the gather folds `record.md` into them, since every rung would conflict there.
 - It commits and pushes its own files on its branch as it goes, so a dead container loses nothing.
 - Its result carries `reportText` and `recordText` word for word, since the harness often refuses a worker's write of those files; `decisions`, each with the ways not taken, which its skeptic weighs its fixes against; `pointsReached`; and `forCurator`, its questions for the curator.
-- A point to report is listed with its evidence, and the rung lands. Only a step that cannot be undone or acts against a decision on record is not taken: the worker stops and says which (P-111, "Reversible stops do not hold a batch.").
+- A point to report is listed with its evidence, and the rung lands. Only a step that cannot be undone or acts against a decision on record is not taken: the worker stops and says which (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs").
 
 A rung that edits only prose has no test and no failure to see. Its text is checked against the tree and the decisions on record. A `testIsStage` rung's test is the checker count or distance stage, run once after its edit and rebuild, its before the last landed gate's table.
 
@@ -130,7 +130,7 @@ What it does with a finding:
 - **A correction** it makes and commits. An assertion or a test it adds is seen failing on the base's code through the old code tool and passing on the head (`worktrees.md`, "Running the old code"): the fix is already in the tree, so the base is where it fails.
 - **A defect of the change** it fixes test first: a gated test or assertion seen failing on the worker's head, the fix, one build, the test seen passing, and the whole suite the fix reaches once after its last fix. Each fix is a commit titled "Skeptic's fix:", pushed. No count or distance stage runs after a fix: the gate's tables on the merged tree are the record.
 - **A settled fix** cites the sentence of the section, the specification or a decision on record that settles it.
-- **A contested fix** is still made, in its own commit, and listed with the worker's argument and the skeptic's. A fix is contested when the worker's report argues for the behaviour it changes, when nothing on record settles it, or when it touches a path outside the rung's section that no cited sentence settles. A settled fix that reaches a point to report or a path outside the section is not contested for that: it lands, and the point or the path is listed for the curator (P-118, "The judge's rulings.").
+- **A contested fix** is still made, in its own commit, and listed with the worker's argument and the skeptic's. A fix is contested when the worker's report argues for the behaviour it changes, when nothing on record settles it, or when it touches a path outside the rung's section that no cited sentence settles. A settled fix that reaches a point to report or a path outside the section is not contested for that: it lands, and the point or the path is listed for the curator (the `coordinator` skill's `references/batch.md`, "The roles").
 - **A refusal** comes only when the rung cannot be fixed here: the approach is wrong; the fix needs a path no rung may touch, or a decision of the curator; or it is larger than a repair round.
 
 It writes `SKEPTIC.md` and commits it alone, last. Its verdict is `approved`, `contested` or `refused`. It returns `headJudged` (the worker's head), `headAfter`, its fixes and contested fixes, and `leftForGather`. Its `skepticText` is the word `committed` once `SKEPTIC.md` is committed, and the text only where the harness refused the write.
@@ -147,7 +147,7 @@ A judge runs on a rung only on a contested fix, a refusal or a worker's stop, an
 
 Its brief carries its question, the contested fixes with both arguments, and the worker's decisions. It points to the checks slice, each fix's commit and the sections of `REPORT.md` and `SKEPTIC.md` it needs. In batch 10 a judge's brief carried the worker's whole result and the skeptic's verdict, two thirds of its 61K tokens, and the judge used about 30% of them (`process-engineering/checking-roles-cost.md`, section 2).
 
-A first ruling on a rung or the merged tree runs on Opus; a second on the same one on Fable (`judgeTier`; P-118, "The judge's rulings."; "The Fable rule.").
+A first ruling on a rung or the merged tree runs on Opus; a second on the same one on Fable (`judgeTier`; the `coordinator` skill's `references/batch.md`, "The roles", and `references/delegating.md`, "Which tier runs what").
 
 A repair round is the rung worker again, with the checks slice, the judge's decision and the rung's section. It carries out the instructions in order, test first, and updates `REPORT.md` and `record.md`, whose texts replace the worker's; its structured result replaces the worker's too, so it describes the whole rung as it now stands. No skeptic follows it: its own test, the review and the gate check it. A repair that does not land drops the rung. No second repair round is taken.
 
@@ -169,7 +169,7 @@ Files are staged by an explicit list and `git diff --cached --stat` is read befo
 
 ## Review beside the gate
 
-The review and the gate start together on the gather's commits. The review reads and never builds; the gate builds and never reads the record; the gate commits nothing, so the two never commit at once. Run side by side they took 14.7 minutes per batch off the serial tail. The review stays, once (P-113, "A blocking second review does not hold a green batch."). Its six checks:
+The review and the gate start together on the gather's commits. The review reads and never builds; the gate builds and never reads the record; the gate commits nothing, so the two never commit at once. Run side by side they took 14.7 minutes per batch off the serial tail. The review stays, once (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs"). Its six checks:
 
 1. Overlaps between rungs, and what their changes do together.
 2. Each skeptic's fix and each repair commit, as applied: it does what its finding says, its test seen failing on the worker's head and then passing in its maker's transcript, a settled fix's citation, a reverted fix gone.
@@ -190,11 +190,11 @@ A review that returns nothing after three attempts holds nothing: the batch land
 
 ### A review that still blocks after its repair
 
-There is one judge and one repair for the review, and no second review. When the review's repair returns nothing, stops or does not land, the code findings the judge upheld are listed as `review-unrepaired.N` for the next batch. They do not hold the push (P-113, "A blocking second review does not hold a green batch."). A step that cannot be undone that the repair reports holds it, as a rung's does.
+There is one judge and one repair for the review, and no second review. When the review's repair returns nothing, stops or does not land, the code findings the judge upheld are listed as `review-unrepaired.N` for the next batch. They do not hold the push (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs"). A step that cannot be undone that the repair reports holds it, as a rung's does.
 
 ### A repair of tests and records only
 
-After a repair on the merged tree, the review's or the gate's, the whole gate runs again only when the repair, or the review's corrections, changed a path the gate reads that is not a test file: under `ProjectFortress/` or `Library/`, or `build.xml` (P-114, "A tests-only repair does not rerun the gate."). In batch 8 the gate ran a second time after a repair of one sentence of Appendix I, 24 minutes on the critical path, with tables identical but for timing (`reviews/batch-8-review.md`, section 4).
+After a repair on the merged tree, the review's or the gate's, the whole gate runs again only when the repair, or the review's corrections, changed a path the gate reads that is not a test file: under `ProjectFortress/` or `Library/`, or `build.xml` (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs", and `fortress-repo`'s `references/gate.md`, "When to run it"). In batch 8 the gate ran a second time after a repair of one sentence of Appendix I, 24 minutes on the critical path, with tables identical but for timing (`reviews/batch-8-review.md`, section 4).
 
 A test file is a `.fss`, `.fsi` or `.test` directly in `ProjectFortress/tests/` or a `ProjectFortress/*_tests/` directory.
 
@@ -235,7 +235,7 @@ The full measurement of the distance to the switch-over, reported and never red 
 
 ## No skill text
 
-The batch writes no skill text. Each rung's "Revival change" material goes into the batch's `RECORD.md`, under "Revival changes, for the skill writer". After the landing, the standing skill writer writes the skill from it, and a cold read of the changed parts follows ("After the landing: the coordinator's routing", step 4). One writer does the writing (P-134, "The skills are written for a reader new to the repository ...").
+The batch writes no skill text. Each rung's "Revival change" material goes into the batch's `RECORD.md`, under "Revival changes, for the skill writer". After the landing, the standing skill writer writes the skill from it, and a cold read of the changed parts follows ("After the landing: the coordinator's routing", step 4). One writer does the writing (the `coordinator` skill's `references/skill-rewrite.md`, "The method").
 
 Through batch 13 the gather folded each rung's entry into the skill's `revival-changes.md`, the review could correct it there, and a cold reader read it beside the gate's tail and made a handle findable instead of deleting it. That carried question handles, decision status and batch records into a part that workers load (`reviews/skills-agenda-audit.md`, "How it got there"). The batch's cold reader and its `coldread.N` and `delta-unfolded.N` items are gone with the fold.
 
@@ -276,8 +276,8 @@ The coordinator's steps after a landing, in this order, each done whole:
    - One task for the standing skill writer (`tools/skill-writer.sh`, its brief `skill-writer-brief.md`): the batch's revival-change material, the section "Revival changes, for the skill writer" of its `RECORD.md`; the skill sentences that the post-batch review lists as false; and any `skill-touched` item. The writer runs `tools/skills-lint.py` before each commit.
    - A cold read of the parts the writer changed, by an agent given only the skill and `skill-cold-read-brief.md`.
    - The writer fixes the cold read's flags, and the coordinator pushes its commits.
-5. The next batch launched only after that, so that its workers read the updated skill (P-131, "The delta from the original Fortress is a part of the skill, kept current.").
-6. The combined post-batch review, started at the landing, since step 4 takes its list of false skill sentences (P-120, "One review after every batch.").
+5. The next batch launched only after that, so that its workers read the updated skill (the `coordinator` skill's `references/batch.md`, "The landing").
+6. The combined post-batch review, started at the landing, since step 4 takes its list of false skill sentences (the `coordinator` skill's `references/batch.md`, "The landing").
 
 The review explains every new or risen row of the checker count by a named rung edit. It reads the microGPT walk check's result. It reports the batch's measures against the batches before it with `tools/batch-measures.py` on the run's directory (`batch-redesign.md`, "The measures").
 
@@ -289,7 +289,7 @@ Every `agent()` call goes through `callAgent`. A null result, an undefined one a
 - for the gather, the merged-tree repairs, the gate and the commit: do not apply a patch or run a finished step twice;
 - for a skeptic: its fix commits since the worker's head, and `SKEPTIC.md` if written.
 
-Each retry's label carries its attempt number, so it gets its own journal key. In batch 6 the API's safety filter blocked a second skeptic's next message after it had returned its verdict, and the old script dropped the rung (F-208, "`agent()` in a Workflow returns null for an agent the harness marks failed ...").
+Each retry's label carries its attempt number, so it gets its own journal key. In batch 6 the API's safety filter blocked a second skeptic's next message after it had returned its verdict, and the old script dropped the rung (the `coordinator` skill's `references/delegating.md`, "The Workflow tool").
 
 ### A usage limit stops the run and decides nothing
 
@@ -313,7 +313,7 @@ The gather, the review, the gate, the commit and a merged-tree repair that retur
 
 Nothing is launched to check it.
 
-- `node explorations/coordinator/tools/workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR] [--dump DIR] [--skill SKILL_DIR]` runs the script as the Workflow harness runs it, its text with `export const meta` made `const meta` as an async function body (F-209, "`node --check` does not check the batch script as the Workflow harness parses it ..."), with its globals stubbed. It runs once per scenario and compares the agents called, in order, and the result with what the scenario expects. It also checks every brief: no `undefined`, the head and the skill named, no `run_bg`, no person named outside `PLAN.md`'s heading, each role's own commands. And it checks that every section the script cites by name is a heading of its file.
+- `node explorations/coordinator/tools/workflow-scenarios.js [SCRIPT] [--sizes RUN_DIR] [--dump DIR] [--skill SKILL_DIR]` runs the script as the Workflow harness runs it, its text with `export const meta` made `const meta` as an async function body (the `coordinator` skill's `references/delegating.md`, "The Workflow tool"), with its globals stubbed. It runs once per scenario and compares the agents called, in order, and the result with what the scenario expects. It also checks every brief: no `undefined`, the head and the skill named, no `run_bg`, no person named outside `PLAN.md`'s heading, each role's own commands. And it checks that every section the script cites by name is a heading of its file.
 - `--sizes` compares the briefs with a real run's first messages.
 - `--dump` writes every brief for reading.
 - `--skill` checks the citations against another skill tree, such as one not landed yet.
