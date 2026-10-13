@@ -752,3 +752,201 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-13 19:07Z · rewritten · from `explorations/coordinator/CLIMB-BATCH-7.md`, "1. For Pavol" · commit `bc8902f47` · by consolidation chunk P1: retitled from "Appendix I's small items" to the decision itself; "row 461 closed; built" cut, F-77 builds it; Appendix I's introduction, the other small item, is P-96's; his words of 2026-09-29, 17:44 UTC ("I need to pay that down") condensed, their text in this history
 
 - P-98 **Appendix I's small items.** `TotalComparison` extends `StandardMinMax[\TotalComparison\]` in the api and the component, its five restated members kept, so that it gets back `MIN` and `MAX` (row 461 closed; built; taken on the coordinator's recommendation, and he wants it explained in more detail when he has the energy, "I need to pay that down", so it is on the list for his review).
+
+### P-66
+
+2026-10-13 19:09Z · rewritten · commit `bc8902f47` · by consolidation chunk P3: retitled to state the principle; his four quotes of 2026-09-22 condensed, their text in this history
+
+- P-66 **The integer principle.** "we should use Java or JVM defaults where it makes sense, but we shouldn't be shy to correct the mistakes of JVM when seen through the lens of high performance and mathematical precision language", as the designers did with rounding and the sign of `GCD`; "they were running on JVM is basically an accident of history, a bootstrap"; "high performance languages should give you tools to stay close to the metal … Swift and Rust type of reasoning": where hardware behaviour is expressible in bytecode it gets its own explicit spelling, in the family the specification already has for wrapping and saturating; "if the JVM itself is precluding such implementation then I guess at this point in time we should just give up fighting with the JVM". Julia and X10 are the counterparts to compare, beside Swift and Rust.
+
+### P-67
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-rr64-functions/round-history.md`, "The answer" · commit `bc8902f47` · by consolidation chunk P3: "on both paths" taken into the title
+
+- P-67 **`round` on an exact half goes to the even integer** on both paths, the specification's rule for rationals, IEEE's default and the team's own rational body. Built.
+
+### P-68
+
+2026-10-13 19:09Z · rewritten · commit `dd81491fd` · by consolidation chunk P3: his words "So floor returns float." condensed into the title, their text in this history
+
+- P-68 **`floor` and `ceiling` on the float types keep the float** (row 330): "So floor returns float." The brackets ⌊x⌋ and ⌈x⌉, `round` and `truncate` return the unbounded ℤ, and the library's spellings of `truncate` and `round` are tidied to the same. A library rung after the switch-over, gated, with the count of interpreter tests whose output changes measured first.
+
+### P-69
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-int-semantics-walk/REPORT.md`, "5. The `shift` declaration: the collision, and the renames the specification requires" · commit `bc8902f47` · by consolidation chunk P3: "the smart-shift rule" spelled out; which types declare the shift pair, and `ZZ64`'s api lines, left to the report; his quote condensed
+
+- P-69 **`LSHIFT`/`RSHIFT` are bit operators; `shift` is exact on ℤ** (row 335). On the fixed widths `LSHIFT`/`RSHIFT` are bit operators with the smart-shift rule, since every peer language lets shifted-out bits fall silently ("if every other language does something else, that's the clearest red flag to stop and pause and reconsider"), and the specification's arithmetic `shift` is exact on ℤ. His reservation for the code generator: on the fixed widths the compiled code shifts the machine word, never through ℤ. Built on both paths; `shift` reaches the compiled path at the switch-over. A `ZZ32` is shifted by a count of any integral width (rows 380, 381): `ZZ32`'s shift pair is declared with any integral count, as `Integral[\I\]` promises and as `ZZ`, `NN64` and `ZZ64`'s implementation do, `ZZ64`'s api lines matching its implementation; built under walk, the compiled side at the switch-over.
+
+### P-70
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-int-semantics-walk/REPORT.md`, "4.2 GCD and LCM" · commit `21728f9d7` · by consolidation chunk P3: retitled to a sentence
+
+- P-70 **`GCD`/`LCM`** (row 334): nonnegative results as the specification says, and an overflow error when the multiple does not fit, on both paths. Built.
+
+### P-71
+
+2026-10-13 19:09Z · rewritten · commit `cfdc67f73` · by consolidation chunk P3: retitled to a sentence
+
+- P-71 **`|0|`, `-0` and `0 DIV -1`** (row 333): the overflow guards test for the most negative value itself instead of `a == -a`, in the compiled natives and their siblings with the same guard. Built.
+
+### P-72
+
+2026-10-13 19:09Z · rewritten · commit `bc8902f47` · by consolidation chunk P3: the test's lines (210-211) and its author left to this history
+
+- P-72 **`narrow` out of range truncates** (row 346): the low 32 bits kept, as Steele's boundary test (`tests/UnsignedTest.fss:210-211`) asserts; the signed `narrow` too. Built.
+
+### P-73
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/wrap-dependent-code.md`, "9. The derivation from Pavol's principle, case by case" · from `explorations/compile-ladder/rung-overflow-natives/REPORT.md`, "13. Defects and their homes" · commit `bc8902f47` · by consolidation chunk P3: the specification's lines, the glue classes' natives, the wrapping natives and the reordered strided distance left to the reports; F-130 and F-132 give P-73's number
+
+- P-73 **Fixed-width overflow raises `IntegerOverflow` under `walk`** (row 379), as the specification says (`Specification/basic/operators/opr-overview.tex:154-155`, `:195-196`) and as the compiled path does: an overflow check in the natives of the interpreter's `Int` and `Long` glue classes raising the catchable `IntegerOverflow`, the unsigned `NN32` and `NN64` under the same rule. The code that means to wrap uses the specification's own wrapping operators ∔ `DOTPLUS`, ∸ `DOTMINUS` (unary and binary) and ⨰ `DOTTIMES` (`opr-overview.tex:172-176`, `:205-209`), declared on `Integral[\I\]` and on `ZZ32`, `ZZ64`, `NN32`, `NN64` and `ZZ`, bound to wrapping natives of their own beside the checked ones, every expression fully parenthesised since their precedence is stated only among themselves; the strided distance that must not overflow is reordered and keeps the checked operators. Built (F-130, "The specification's wrapping operators ∔, ∸ and ⨰ are declared in the interpreter's library" and F-132, "Under `walk`, fixed-width integer arithmetic raises `IntegerOverflow` when the result does not fit"). The saturating family waits for a step of its own.
+
+### P-74
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/flattening-questions-ways.md`, "Question 2. Mixed widths" · commit `bc8902f47` · by consolidation chunk P3: "answer 8's own criterion", which P-75 cited, stated here; "by the integer principle" made a pointer
+
+- P-74 **Mixed widths convert by declared coercions (answer 8).** Each wider integer type declares a `coerce` from each narrower one, the compiler prelude's own pattern and the specification's ZZ32/ZZ64/ZZ128 example; `ZZ32` and integer literals coerce into `RR64` (exact); `ZZ64` into `RR64` stays explicit (lossy), by the integer principle; a generic call or range over mixed widths infers the narrowest type both sides coerce into, the promotion rule of the specification's inference chapter. The specification's `widens` is deferred. Built; no model line changed.
+
+### P-75
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-numeral-library/REPORT.md`, "8. R9, NN32 into RR64: not built" · commit `bc8902f47` · by consolidation chunk P3: his words of 2026-09-29 14:12 UTC condensed; the planned api and body lines left to the report
+
+- P-75 **`NN32` coerces into `RR64`.** "if it fits, then there should be direct conversion. No question about it." — exact conversions are implicit, lossy ones explicit, answer 8's own criterion. One api line and one body line, a test, and the specification's callout on answer 8 reworded. Not built: with `RR64`'s `coerce(x: NN32)`, a `ZZ32` with an `NN32` is ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, against answer 8's `ZZ64`, and two team tests go red (row 575); it waits as `PLAN.md`'s item 37, with its candidates.
+
+### P-76
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-numeral-library/REPORT.md`, "12. The named measurement: walk on the interpreter tests and the two microGPT programs" · from `explorations/reviews/numeral-switch-judgement.md`, "4.4 What goes into each half" · commit `bc8902f47` · by consolidation chunk P3: row 437 dropped from Q-walk's rows, since it is fixed (749ec523e); PLAN item 33 and row 517, closed with Q-lib, left to this history; the team's comment and his quote left to the history; F-74 and F-79 give P-76's number
+
+- P-76 **The numeral switch, split by where the static types are.** A numeral has a type of its own, `IntLiteral`, that each number type converts from, the compiler library's working version taken over the specification's unfinished numeral types: "walk needs to be corrected and switched to using IntLiteral." Q-lib, the one library taking the compiler library's `IntLiteral` model with `ZZ32`'s comparisons, PLAN item 33 and the `exactValue` case, with its S1 text, is built (F-79, "The one library's numeral type is the compiler library's `IntLiteral` ..."), the `NN32`-to-`RR64` coercion beside it not (the entry above); Q-walk, walk's numeral as an `IntLiteral`, lands after the switch-over's step that gives walk the checker's static types. Rows 79, 443, 437's walk half, 486, 395 and 511 go to Q-walk; row 454's integer half closes with Q-lib on the compiled path and its walk half with Q-walk, since walk's numeral reaches no `coerce(x: IntLiteral)` until then; item 33 (row 517) closes with Q-lib. Q-lib's `IntLiteral` has the team's arithmetic block enabled, which the team's comment held back until coercion was implemented ("Do not enable these until coercion is implemented; doing so will cause all our arithmetic to occur on IntLiterals."); with coercion built, where arithmetic lands under walk on the two microGPT programs and the interpreter tests is measured in `compile-ladder/rung-numeral-library/REPORT.md` section 12.
+
+### P-77
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/numerics-plan-synthesis.md`, "Decision 1. Ranges over `ZZ32` alone" · commit `bc8902f47` · by consolidation chunk P3: his reason condensed; `CompilerLibrary.fsi:173-174` and `RangeInternals`' missing type parameter left to the report and F-133
+
+- P-77 **Scalar ranges are over `ZZ32` only**, as the compiler library declares them (`Library/CompilerLibrary.fsi:173-174`): "ranges can realistically have only ever be ZZ32 because that's the largest array size on JVM". `RangeInternals` and the range operators of `FortressLibrary` have no integer type parameter, multi-dimensional ranges are tuples of `ZZ32` ranges, the public range traits stay generic in their index type; a range over another integer type is a static error; a wider counter is written as a `ZZ32` loop that widens its index. Built.
+
+### P-78
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/sum-replacement-judgement.md`, "5. What each path does with each option" · from `explorations/reviews/max-min-identities-judgement.md`, "1. The answer to his question" · commit `bc8902f47` · by consolidation chunk P3: the model lines' text, walk's open parameter (F-59) and the identity's witness `typecase` (F-59) left out; `HasIdentity` as the later replacement left to PLAN's line on row 630; why a coercion carries no maximum's identity left to F-60; F-59 and F-60 give P-78's number
+
+- P-78 **`SUM` and `PROD` without the `Number` catch-all (answer 7).** One generic sum and one generic product reduction over the library's algebra bounds, each joined with the element type's own operator and taking its identity from the static argument through the library's `() -> T` witness `typecase` (the device of `array1`). The bare forms `SUM e`, `SUM vm` and `DOT` keep their text; a clause form whose element type nothing at the call fixes writes its static argument, as the team's tests do; the two model lines approved as diffs: `MicroGptFlat.fss:43` is `SUM[\ZZ32\][j <- 0#i] matCount(j)` and `:28`'s reduction is `BIG MAX z`. Built. Under walk a clause form that writes no static argument runs, the parameter left open since its bound mentions it (F-143, "Under `walk`, a type parameter whose bound mentions itself and that nothing at a call fixes is left open ..."). The three `Number`-typed big operators `BIG MAXN`, `BIG MINN` and `BIG MINMAXN` are gone: the coercions need no rule about identities, since a sum's zero and a product's one carry into every wider type by themselves while a maximum's identity, the type's least element, does not; once `where` clauses work, the specification's own `HasIdentity` (`advanced-lib/algebraic-constraints.tex:772-797`) could replace the witness `typecase` for `SUM`'s zero and `PROD`'s one, and `MAX` and `MIN` still get no identity on the integers or floats.
+
+### P-79
+
+2026-10-13 19:09Z · rewritten · commit `bc8902f47` · by consolidation chunk P3: retitled to state the position; his words of 2026-09-29 15:49 UTC condensed
+
+- P-79 **The team demos that write no static argument for a generic reduction** are respelled with their static arguments when a batch has a free slot, with a report-only demo stage; under the paper's instance rule the checker binds the bound instead of `Bottom` (row 425), so whether a demo runs unchanged is read again before the respelling. "Let's not touch them and we'll make them run later. If they will still need to be rewritten then ... then let's do it whenever."
+
+### P-80
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/flattening-questions-ways.md`, "Question 3. RationalQuantity and the sign-refined types" · commit `bc8902f47` · by consolidation chunk P3: "the library's run-time check methods" corrected to what the chapters say: comparisons for the sign, `check` and `check*` for a float; the absent mainstream counterpart and the engineering-or-research split left to the review
+
+- P-80 **The sign-refined number types are a superseded design.** The subtype lists of `basic-lib/numbers.tex` and `basic-lib/basic-integers.tex` are the library's run-time check methods (`check`/`check_star`, returning `Maybe`); `advanced-lib/numbers-advanced.tex` is kept word for word and marked as a superseded design, in the S1 form ("make sure we clearly record the original design"). Built. The Fortress form, native subtyping between instantiations ordered by flags together with multiple dispatch, has no mainstream counterpart; the covariant encoding is engineering, inferring the flags through arithmetic with no annotations is research.
+
+### P-84
+
+2026-10-13 19:09Z · rewritten · from `explorations/coordinator/array-design.md`, "(b) `double[]`-backed arrays with unboxed elements designed in" · commit `bc8902f47` · by consolidation chunk P3: his words of 2026-09-19 condensed; that the decision's mechanism is decision A made a pointer
+
+- P-84 **Storage is `double[]`, unboxed.** "we must go to double array for performance. There is again no question about this. If this should have been high performance language, it cannot be boxed." The `nat` sizes are not sidestepped or layered in later: "That is a central design point that they are using." So the array fork and the `nat` fork are taken together: sized types as the team designed them, the checker taught `nat` parameters, in the library's own patterns.
+
+### P-85
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/array-design-review.md`, "1. Findings" · from `explorations/reviews/array-design-review.md`, "3. Decisions that are Pavol's" · commit `bc8902f47` · by consolidation chunk P3: his words "close as no decision taken" condensed into the title; "protocol § 6's method" (the clean worker's list of ways) left to PLAN item 13, since protocol.md's principle 6 is another rule and the method is principle 2; the review's verdict on each question and the ground moved since left to the review; the forks before the switch-over left to P-55, which holds them
+
+- P-85 **The array design's three questions are open**, closed "as no decision taken": a store per element type chosen by the factory under the library's generic objects; the size also carried as a field on the store; a factory for a size known only at run time returning the unsized `Array`. None stands as a default; nothing was built on them. They return with the array design after the switch-over, through protocol § 6's method (a clean worker's list of every way the language and the library offer, the library's own way first, the nine steps), with the review's findings (`reviews/array-design-review.md`: the first refuted by probe, the second right and forced, the third stopping microGPT at the checker) and the ground moved since (one library; design B, whose factory can make a size's descriptor from a number known only at run time). The element width joins those questions: he asked why microGPT uses `RR64` and not `RR32`, LLMs being trained at FP32 at most; the reason on record is the Python reference's float64 goldens (`experiment/run-c-goldens/README.md`); not yet answered. The first three array forks, which sit on phase 3's road to the checker's zero, are taken up before the switch-over: arithmetic in a size is built by his answer (P-55, "A size may hold ..."); a size known only at run time is built at its default, and the bound of `Vector` and `Matrix` is built at its default, its library half landed with the checker-speed fix (`compile-ladder/climb-batch-13b/RECORD.md`), his answers on both pending (`PLAN.md`, items 13 and 52). The array decisions A (the mechanism that puts `double[]` under a float vector), B (where unboxed arithmetic happens) and D (sizes in the model's own types) stay after the switch-over, with plain explainers prepared beforehand.
+
+### P-86
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/numeric-hierarchy-integration-review.md`, "5. Checks worth carrying into the existing work" · commit `fbc4c4954` · by consolidation chunk P3: retitled to a sentence
+
+- P-86 **The integration review's checks** (`reviews/numeric-hierarchy-integration-review.md`) stand for the array work: the generic `Vector`/`Matrix` bodies are checked per operation's required capability, with no blanket ring bound that would exclude integer arrays; the `SUM` replacement is accepted on the empty sum's type as well as its value; a tiny `PView`/transpose product, with its controls.
+
+### P-87
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/decision-d-diff.md`, "1. In short" · commit `bc8902f47` · by consolidation chunk P3: his words "NO. That's not Fortress!" condensed; the measurement against microGPT's checker errors left to F-58; the ledger's sentence kept at the line's end until it moves
+
+- P-87 **The model's text is the notation.** "NO. That's not Fortress!" An operator in the model does not become a function call to satisfy the interpreter's overload check. Any repair that would change a line of the model is shown to him as a diff before it is built, and the vocabulary is repaired around the notation, not the other way round. The sized signatures of C4's vocabulary, with every model line they force, are written as a diff shown to him (`reviews/decision-d-diff.md`), measured against microGPT's own checker errors; nothing is applied until phase 5. The ledger is one file; two views are derived from it.
+
+### P-88
+
+2026-10-13 19:09Z · rewritten · from `explorations/run-c4/probes/vocabulary/diag-override.md`, "Conclusion" · commit `bc8902f47` · by consolidation chunk P3: the six drops named; "row 299 closed" corrected, since the row is POSITIVE-VERIFIED and what closed was row 39 of the re-approval table
+
+- P-88 **The vocabulary's scalar drops and the diagonal.** The six scalar drops after the library's scalar block stand ("agreed. That is the plan"); the diagonal carries its own optimised product, as the type system promises: `Diag` extends `Matrix` and overrides `mul` (row 299 closed). A read-only matrix trait in the library (`ReadableArray2` under `Array2`) is a library change for a ledger row later, not a vocabulary hack.
+
+### P-89
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/overloading-judgement.md`, "4.3 The decision and why" · commit `bc8902f47` · by consolidation chunk P3: how the array diamond is fixed left to F-158
+
+- P-89 **`fill` takes a value, `tabulate` a function (answer 10).** The diamond is fixed by redeclaring `fill` in the leaf array traits, as the library does for `copy`, `map` and `replica`; the function form is named `tabulate` (after Scala's `Array.tabulate`), and `fill` keeps the value form, every peer's meaning of the word. Built; no model line changed.
+
+### P-90
+
+2026-10-13 19:09Z · rewritten · from `explorations/compile-ladder/rung-maybe/REPORT.md`, "5. The decision" · commit `bc8902f47` · by consolidation chunk P3: retitled to state the position
+
+- P-90 **`Maybe`'s empty case** (row 331). The team's parametric spelling `Nothing[\T\]` is the one library's, and the specification writes it so; the specification's bare non-parametric `Nothing` is future work gated on `where` clauses binding a type variable in an extends clause (unimplemented on both paths; the interpreter has no coercion alternative), not attempted before that gate opens; re-gating the row on static-argument inference is parked (`PLAN.md`).
+
+### P-91
+
+2026-10-13 19:09Z · rewritten · from `explorations/reviews/default-rendering-judgement.md`, "5. Recommendation" · commit `bc8902f47` · by consolidation chunk P3: "one case stays open on the row" named; the one native behind the compiled `Object.asString` left to the judgement
+
+- P-91 **What an object with no `asString` prints** (row 321): the bare Fortress type name, the interpreter's spelling, on both paths, through one native behind the compiled `Object.asString`; the debug marker he had in mind lives in `asDebugString`. Built; one case stays open on the row.
+
+### P-102
+
+2026-10-13 19:09Z · rewritten · commit `bc8902f47` · by consolidation chunk P3: the one-off script, the bug reports, the clean minimal test, the per-batch suite and the `XXX` test left to fortress-repo's references/tests-writing.md and tests-running.md, his quotes to this history; the skeptic's reading kept at the line's end until it moves
+
+- P-102 **Test first, the test kept.** Every sealed-tree edit starts from a failing test added to the corpus: the worker writes the test first, verifies that it actually fails, makes the fix, proves it passes, and the test stays in the corpus from then on; the full suite stays green. The unacceptable process is the one-off validation script, proving once by hand that the interpreter and the compiler agree and leaving no permanent check. The batches fix the issues the explorations captured as ledger rows, each with how to reproduce it, "Those are like our bug reports": the worker first commits the reproduction into the test suite, "this is how I have reproduced what the previous probe has discovered", then makes the fix, and the test passing demonstrates that the issue is fixed; "There isn't much more to it." The test captures the essence of the problem, not the shape the probe met it in, "do not blindly transpose the issue from the probe like think about it what's the core problem and capture that", written as a clean minimal version. Whether the test was seen failing first is read from the worker's transcript, not shown by a committed capture. The skeptic checks it there and runs no build to repeat it: "It should just check that the procedure of test first was followed. Not that it should be repeating the whole process, that is a fucking waste." Whether the suite runs per edit or per landed batch is an engineering choice, and per batch is in line with the rule. Every measured and repaired defect gets a gated assertion, a deferred spec-settled one an `XXX` test. The test needs no commit of its own: the order is test written, seen failing through the harness, the fix, the test seen passing, and the test and the fix may land in one commit ("I don't recall asking for test and fix to be separated into different commits ... I would worry about increasing the ceremony burden").
+
+### P-103
+
+2026-10-13 19:09Z · rewritten · commit `d39d6fe75` · by consolidation chunk P3: his two quotes condensed, their text in this history; the batch's comparisons kept at the line's end until they move
+
+- P-103 **The suite's verdict is the check.** A test passes or fails, as the team designed the suite, and a value that matters is asserted in the test with the mechanisms the suite already has (an `assert` in an interpreter test, `run_out_equals` in a compiled one): "what is the purpose of a test suit that you just cannot run it and get a green? If everything that's encoded in it is, is okay and it turns red if it's not, why would you have to compare some values that it outputs? Those values must be part of the test." What a test prints beyond its checks does not matter: "When the designers of the test suite decided that it passes without any additional check, it is not needed to control its outputs." So no batch compares the corpus's printed outputs, no baseline is run to compare against, and no expected-output files are added to the interpreter suite, which has none; none of it is offered to him again.
+
+### P-123
+
+2026-10-13 19:09Z · rewritten · from `explorations/coordinator/CLIMB-BATCH-5.md`, "5. The design choices inside the rungs" · commit `bc8902f47` · by consolidation chunk P3: retitled to what stays, with the reason for each default; the comparisons and the respelled team test lines kept at the line's end until they move
+
+- P-123 **The gate's comparisons.** A comparison masks Java line numbers, identity hashes and moved library positions, with every masked difference listed for him; the `testSystem` comparison is the sum of the four shards; a name comparison, red when a test that passed before is missing or failing, is a script change put to him on its own (parked, `PLAN.md`); row 366 waits; no route C entry goes into Proposed Features. A team test line the flat tower breaks is respelled keeping the value the test checks, no assertion deleted, every such line listed for him with its before and after.
+
+### P-124
+
+2026-10-13 19:09Z · rewritten · commit `23863c1d6` · by consolidation chunk P3: the five examples and row 424 left to F-114, which gives P-124's number
+
+- P-124 **The specification's examples join the gate at zero red.** `ant testSpecData`, the specification's extracted examples run under walk, is a gate step with every example to pass, the five that write a reduction without its element type green with row 424's F-bounded half; the examples are not respelled for walk and no list of known red examples is kept. Built (F-114, "`ant testSpecData` runs 130 of the specification's 133 extracted examples ...").
+
+### P-125
+
+2026-10-13 19:09Z · rewritten · from `explorations/coordinator/process-engineering/suites-at-four-threads.md`, "The short answer" · commit `8c8ace211` · by consolidation chunk P3: the macro names and the default without a pin left to F-99, which gives P-125's number
+
+- P-125 **The suites run Fortress in parallel.** Parallelism is native to Fortress: tuple elements, arguments and `for` iterations run at once on the work-stealing pool. Pinning the suites to one thread (`FORTRESS_THREADS=1` in `build.xml`'s `fastTrack` and `systemShard`) made a blind spot, and sparing a four-CPU machine is no reason for it. A test that fails or varies under parallelism is written wrong, something in it needing to be atomic, or it exposes a defect; either is found and fixed, never hidden by the pin. Both suites pass at four threads with the gate's counts, so the pin in `build.xml` (`fastTrack` and `systemShard`) is `FORTRESS_THREADS=4`, not 1: every run parallel and the same on any machine, independent of the calling shell (without a pin the default is half the CPUs, 2 on this machine). Built (F-99, "The gate's thread count is pinned in the build file, not in the calling shell").
+
+### P-102
+
+2026-10-13 19:10Z · moved to "The suites and the gate" · by consolidation chunk P3: decisions about the project's suites, gathered in a project section of their own, as the outline's review proposes (coordinator-skill-outline-review.md, section 2, point 1)
+
+- P-102 **Test first, the test kept.** Every sealed-tree edit starts from a failing test added to the corpus: the worker writes the test first, verifies that it actually fails, makes the fix, proves it passes, and the test stays in the corpus from then on; the full suite stays green. The test needs no commit of its own: the test and the fix may land in one commit. How the test is written is in the `fortress-repo` skill's tests part. Whether the test was seen failing first is read from the worker's transcript, not shown by a committed capture; the skeptic checks it there and runs no build to repeat it (moves to the coordinator skill's batch part).
+
+### P-103
+
+2026-10-13 19:10Z · moved to "The suites and the gate" · by consolidation chunk P3: decisions about the project's suites, gathered in a project section of their own, as the outline's review proposes (coordinator-skill-outline-review.md, section 2, point 1)
+
+- P-103 **The suite's verdict is the check.** A test passes or fails, as the team designed the suite, and a value that matters is asserted in the test with the mechanisms the suite already has (an `assert` in an interpreter test, `run_out_equals` in a compiled one). What a test prints beyond its checks does not matter. So no expected-output files are added; none of it is offered to him again. No batch compares the corpus's printed outputs, and no baseline is run to compare against (moves to the coordinator skill's batch part).
+
+### P-123
+
+2026-10-13 19:10Z · moved to "The suites and the gate" · by consolidation chunk P3: decisions about the project's suites, gathered in a project section of their own, as the outline's review proposes (coordinator-skill-outline-review.md, section 2, point 1)
+
+- P-123 **Row 366's three-line fix waits for a rung of its own, and route C gets no entry in the specification's Proposed Features.** Both are batch 5's defaults, which he took: the fix is not in design B as he decided it (P-41), and Appendix I already carries route C, the alternative to the flat tower (P-96). A comparison masks Java line numbers, identity hashes and moved library positions, with every masked difference listed for him; the `testSystem` comparison is the sum of the four shards; a name comparison, red when a test that passed before is missing or failing, is a script change put to him on its own (parked, `PLAN.md`) (moves to the fortress-repo skill's gate part and the coordinator skill's batch part). A team test line the flat tower breaks is respelled keeping the value the test checks, no assertion deleted, every such line listed for him with its before and after (moves to the fortress-repo skill's tests part).
+
+### P-124
+
+2026-10-13 19:10Z · moved to "The suites and the gate" · by consolidation chunk P3: decisions about the project's suites, gathered in a project section of their own, as the outline's review proposes (coordinator-skill-outline-review.md, section 2, point 1)
+
+- P-124 **The specification's examples join the gate at zero red.** `ant testSpecData` runs them under walk as a gate step, and every example must pass. A failing example is not respelled for walk, and no list of known red examples is kept: the implementation is fixed instead. Built.
+
+### P-125
+
+2026-10-13 19:10Z · moved to "The suites and the gate" · by consolidation chunk P3: decisions about the project's suites, gathered in a project section of their own, as the outline's review proposes (coordinator-skill-outline-review.md, section 2, point 1)
+
+- P-125 **The suites run Fortress in parallel, pinned at four threads in `build.xml`.** Parallelism is native to Fortress, so a one-thread suite has a blind spot, and sparing a four-CPU machine is no reason for one. A test that fails or varies under parallelism is written wrong, such as a write that needs `atomic`, or it exposes a defect: either is fixed, never hidden by a pin. The pin makes every run the same, whatever the calling shell sets. Built.
