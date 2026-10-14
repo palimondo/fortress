@@ -62,6 +62,7 @@ B_BRIEFING = [
   ("code:" + EV + "/values/FunctionClosure.java#public FValue applyInnerPossiblyGeneric(List<FValue> args)", "A function's declared return type at its body: way 7's other context."),
   ("code:" + EV + "/values/OverloadedFunction.java#public FValue applyInnerPossiblyGeneric(List<FValue> args)", "The per-argument cache of an overloaded call, which the patch bypasses while a hint is set."),
   ("code:" + EV + "/values/GenericFunctionOrConstructor.java#public FValue applyInnerPossiblyGeneric(List<FValue> args)", "The per-argument cache of a generic call, likewise bypassed: key it by the hint or carry the hint past it."),
+  ("code:" + EV + "/Evaluator.java#<T extends Expr> List<FValue> evalExprListParallel(", "Walk forks a call's arguments as tasks and joins them, so a thread that has set a hint and joins runs other tasks: the window your hint design must close."),
   ("code:Library/FortressLibrary.fss#desugaredClauses:(Reduction", "__bigOperator, the count's one error at body(i), and the place after it where the collector goes."),
   ("code:Library/FortressLibrary.fsi#trait BigOperator[", "The getters that make body(i: I) check, and the types the collector's declarations take."),
   ("code:Library/CovariantCollection.fss#object CVReduction[..covariantCompr[", "The comprehensions' collection, lifted to T by upward: why the instance decides a comprehension's element type."),
