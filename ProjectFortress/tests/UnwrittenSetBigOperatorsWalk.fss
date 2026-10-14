@@ -1,4 +1,4 @@
-component XXXUnwrittenSetBigOperatorsWalk
+component UnwrittenSetBigOperatorsWalk
 import Set.{...}
 export Executable
 

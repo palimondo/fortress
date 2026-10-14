@@ -1,0 +1,17 @@
+component UnwrittenListMapComprehensionWalk
+import List.{...}
+import IntMap.{...}
+export Executable
+
+(* A list comprehension and a map comprehension with no static argument hold the values of their elements. *)
+
+run(): () = do
+    xs = <| 2 k | k <- 0#3 |>
+    assert(xs, <|0, 2, 4|>, "a list comprehension with no static argument evaluates to the list of its elements in the generators' natural order (comprehensions.tex, section \"Comprehensions\")")
+    m = { widen(k) |-> k | k <- 0#3 }
+    assert(|m|, 3, "a map comprehension with no static argument holds one entry for each key (comprehensions.tex, section \"Comprehensions\")")
+    assert(m[widen(2)], 2, "a map comprehension with no static argument maps each key to its value (comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end

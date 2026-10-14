@@ -1,0 +1,13 @@
+component NestedListComprehensionWalk
+import List.{...}
+export Executable
+
+(* A list comprehension whose body is a list comprehension over the outer generator's variable holds one inner list for each outer element. *)
+
+run(): () = do
+    xss = <| <| j | j <- 0#i |> | i <- 1#2 |>
+    assert(xss, <|<|0|>, <|0, 1|>|>, "a list comprehension of list comprehensions evaluates to the list of the inner lists (comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end

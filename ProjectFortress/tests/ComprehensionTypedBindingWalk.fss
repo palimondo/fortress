@@ -1,4 +1,4 @@
-component XXXComprehensionTypedBindingWalk
+component ComprehensionTypedBindingWalk
 import Set.{...}
 export Executable
 
