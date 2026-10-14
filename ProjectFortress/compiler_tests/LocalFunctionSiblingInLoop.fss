@@ -1,5 +1,5 @@
 (* A local function whose return type is left out and whose body calls a sibling local function of its block type checks when a loop body calls it, since the local functions of one block are mutually recursive (functions.tex, section "Local Function Declarations"). *)
-component XXXLocalFunctionSiblingInLoop
+component LocalFunctionSiblingInLoop
 export Executable
 
 run(): () = do

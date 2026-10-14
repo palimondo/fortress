@@ -411,7 +411,7 @@ trait Decls { self: STypeChecker with Common =>
       val newChecker = this.extendWithListOfFunctions(fnIndices)
 
       // Prime functionals to infer return types.
-      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(this))
+      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(newChecker))
 
       // Check the contained body and FnDecls.
       val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)

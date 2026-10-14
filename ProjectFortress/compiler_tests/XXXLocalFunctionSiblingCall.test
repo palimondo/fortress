@@ -1,3 +1,0 @@
-tests=XXXLocalFunctionSiblingCall
-typecheck
-typecheck_err_contains=Result of typechecking still contains intermediate nodes

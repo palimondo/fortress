@@ -1,4 +1,4 @@
-(* A recursive local function that leaves its return type out stops the compiled checker, where a top-level function in a reference cycle gets the checker's refusal. *)
+(* A recursive local function that leaves its return type out gets the compiled checker's reference-cycle refusal, as a top-level function in a reference cycle does. *)
 component XXXLocalFunctionRecursiveUntypedReturn
 export Executable
 
