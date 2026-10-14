@@ -1,0 +1,27 @@
+(* A call written as the argument of a generic call is given the parameter type of that declaration as its expected type, the type instantiated by the other arguments and by the expected type of the enclosing call. *)
+component InferCallArgumentGeneric
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    BoxT[\Object\] => "BoxT[Object]"
+    else => "another instance"
+  end
+
+kindOf[\U\](b: BoxT[\U\], u: U): U = do
+    println("kindOf's box: " || instanceName(b))
+    u
+  end
+pair[\U\](b: BoxT[\U\], c: BoxT[\U\]): String = instanceName(b) || " and " || instanceName(c)
+
+run(): () = do
+    z64: ZZ64 = 7
+    k: ZZ64 = kindOf(mk(), z64)
+    println("kindOf(mk(), z64) -> " || k.asString)
+    b64: BoxT[\ZZ64\] = BoxT[\ZZ64\](2)
+    println("pair(mk(), b64) -> " || pair(mk(), b64))
+end
+
+end

@@ -1,0 +1,26 @@
+(* A call written as the argument of an overloaded call that no declaration accepts as written is checked again under each declaration's parameter type, and of the declarations that its arguments, so typed, make applicable the one more specific than every other is chosen. *)
+component InferCallArgumentOverloaded
+export Executable
+
+trait Fig comprises { Tri, Sq } end
+object Tri extends Fig end
+object Sq extends Fig end
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    BoxT[\Object\] => "BoxT[Object]"
+    else => "another instance"
+  end
+
+over(b: BoxT[\ZZ64\]): String = "over(BoxT[ZZ64]) " || instanceName(b)
+over(s: String): String = "over(String)"
+over5(b: BoxT[\ZZ64\], f: Tri): String = "over5(BoxT[ZZ64], Tri) " || instanceName(b)
+over5(b: BoxT[\ZZ64\], f: Fig): String = "over5(BoxT[ZZ64], Fig) " || instanceName(b)
+
+run(): () = do
+    println("over(mk()) -> " || over(mk()))
+    println("over5(mk(), Tri) -> " || over5(mk(), Tri))
+end
+
+end

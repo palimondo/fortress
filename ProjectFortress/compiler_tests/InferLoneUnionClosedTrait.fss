@@ -1,0 +1,18 @@
+(* A lone type parameter fixed by two objects of a closed trait, in a call written as the argument of a call whose parameter type is an instance at the closed trait, is fixed at the closed trait by that expected type. *)
+component InferLoneUnionClosedTrait
+export Executable
+trait Fig comprises { Tri, Sq } end
+object Tri extends Fig end
+object Sq extends Fig end
+object BoxT[\T extends Any\] end
+pk0[\T extends Any\](x: T, y: T): BoxT[\T\] = BoxT[\T\]
+instanceName(b: Any): String = typecase b of
+    BoxT[\Fig\] => "BoxT[Fig]"
+    BoxT[\Any\] => "BoxT[Any]"
+    else => "another instance"
+  end
+k(b: BoxT[\Fig\]): String = instanceName(b)
+run(): () = do
+  println("k(pk0(Tri, Sq)) -> " || k(pk0(Tri, Sq)))
+end
+end

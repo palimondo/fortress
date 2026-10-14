@@ -1,0 +1,5 @@
+tests=InferCallArgumentForms
+compile
+link
+run
+run_out_equals=takesBox64(idB(idB(mk()))) -> BoxT[ZZ64]\nTaker.take(mk()) -> BoxT[ZZ64]\nmk() BOXOP 3 -> BoxT[ZZ64]\ntakesBox64(BoxT(1)) -> BoxT[ZZ64]\n

@@ -1,0 +1,20 @@
+(* A call written as the argument of an overloaded call that one declaration accepts as written is not checked again under another declaration's parameter type, so the declaration that accepts it is kept. *)
+component InferCallArgumentKeepsFit
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    BoxT[\Object\] => "BoxT[Object]"
+    else => "another instance"
+  end
+
+over3(b: BoxT[\ZZ64\]): String = "over3(BoxT[ZZ64]) " || instanceName(b)
+over3(x: Any): String = "over3(Any) " || instanceName(x)
+
+run(): () = do
+    println("over3(mk()) -> " || over3(mk()))
+end
+
+end
