@@ -1,0 +1,395 @@
+<!-- DRAFT, CONTENT ONLY. The record of climb batch 15, the next batch of the plan's phase 3, "the checker at a true zero", for the coordinating session, the curator and the batch's workers. Drafted 2026-10-14 by a planning worker against `main` at `06448ebf2`, whose `Library/`, `ProjectFortress/`, `Specification/`, `Documentation/`, `build.xml` and `bin/` are those of `7c2c7cd4b`, climb batch 14's gate commit (`git diff --stat 7c2c7cd4b HEAD` over them is empty), so batch 14's landed tables describe the base. It launches on the standing go for phase 3 (the `coordinator` skill's `references/batch.md`, "The go"). Section 5 holds the manifest's fields, which `explorations/compile-ladder/plan-15/manifest/gen15.py` reads. Sources: PLAN.md, "The principle for the batches", phase 3 items 12 and 13, and "Climb batch 14, listed for his review" with the coordinator's calls of 2026-10-14; batch 14's tables and per-site list (54 rows, grouped by row and line); `reviews/batch-14-review.md` section 1 and Part 4; `coordinator/climb-batch-14-review.md` for what reviewers found wanting; the two probes taken for this batch, `perf-probes/walk-plain-bound/REPORT.md` and `perf-probes/checker-bound-defects/REPORT.md`, with their patches, whose questions the coordinator settled under the curator's rule for forks (the planner's brief); POSITIONS and FACTS by number; the ledger rows; the code at the sites. Nothing built or run but `git apply --check` on the five patches (each alone and all five together apply to the base), the generator's checks and the scenarios on a scratch copy. Counts are by row and line (row 577). One line per paragraph. -->
+
+# Climb batch 15
+
+## 1. For the curator
+
+### The words this record uses
+
+- **Walk** is the interpreter. It runs a program without static types. The **compiled path** checks a program's types with the **checker**, then makes JVM bytecode.
+- **The one library** is the interpreter's library (`Library/`, `ProjectFortress/LibraryBuiltin/`). At the **switch-over** the compiled path takes it over.
+- **The distance** is the number of errors the checker reports on the one library. Each error has a **site** (a file and a line). This record counts sites by the ledger **row** that records their defect.
+- **The count** is the older measure: the checker's errors on the one library until a component's first thrown error stops it. It is 1: `__bigOperator`'s local `body(i)`, whose parameter has no type.
+- A **row** is an entry of the gap ledger, cited by number. An **item** is a numbered question in PLAN's list "Pavol's answers".
+- A **rung** is one fix, built by one worker in its own copy of the tree and checked by a second worker, the skeptic. A **batch** is a few rungs, merged and tested together by the **gate** and landed at once.
+- **Test first.** Every fix starts with a test that shows the defect, seen failing before the edit and passing after. An **expected failure** is a test named `XXX...` that passes while the defect is there; when the fix lands it is **promoted** to a plain name.
+- An **unwritten clause form** is a reduction or a comprehension that writes no static argument: `<| 2 k | k <- 0#3 |>`, `SUM[k <- 0#3] k`. The desugaring calls a big operator, `BIG <|[\T\]|>`, with nothing fixing `T`; the specification fixes it by the type of the whole expression.
+- A **plain-bounded** parameter has a bound that does not name itself, as `T` in `BIG <|[\T\]|>`. Today walk gives such a parameter of a big operator the empty type `BottomType` (decision D2), where your P-48 asks for its bound.
+- A **closed trait** has a `comprises` clause. The checker's **normal form** rewrites a type before it compares types, and replaces a closed trait there by the types it lists.
+
+### Where the distance stands
+
+- After climb batch 14 the distance is 54 and the count 1 (`compile-ladder/climb-batch-14/gate/distance.txt`, `checker-count.txt`; landed at `7c2c7cd4b`).
+- The 54 by what each waits on (`reviews/batch-14-review.md` section 1):
+  - 26, the arrays: row 685's first factories 4, row 686's norm 1, 14 bodies typed by their parent trait, 3 sizes tested in a branch, 2 export errors, row 678's `Col` and `Row` 2.
+  - 12, your other open items; 12, the `where` clauses; 3, row 425; 1, row 488.
+  - Hidden behind two crash rows: `__bigOperator`'s body (the count's error) and `Array3` (row 680).
+- This batch reaches 5 sites and both crash rows:
+  - C 1: the norm's call (row 686); with it rows 687, 689 and 690, which have no site, by one change of the normal form; and row 680's crash, behind which the probe found nothing.
+  - L 4: the first factories (row 685), a library line, not the checker's.
+  - B 0: `body(i)` typed, its crash row gone; by reading `__bigOperator`'s body brings no site.
+  - O 0: three rows with no site.
+- **The distance expected after the batch: about 49.** The probe measured 49 with C's two patches and L's (`perf-probes/checker-bound-defects/REPORT.md` section 6); row 488's site can move 2 to 4 either way (F-53).
+- **The count after the batch: about 39, or 1.**
+  - With B's typed `body(i)` and C's row 680 repair both landed, the count stage checks the library component whole for the first time and reports its own errors: about 39 by the per-site list (the component's 36 typecheck and 8 wellformed sites, less C's 1 and L's 4). F-53 names this rise; it is no regression, and it is never red.
+  - The stage stops a run at 900 s, and a table with no total turns the gate red. Its time over the whole component is not measured: today it stops at `body(i)`, about 300 s in all, the component to that line about 108 s (`perf-probes/checker-speed/REPORT.md` section 7).
+  - So the two rungs that move the stage's stop measure it before the gate. B runs it with `body(i)` typed (to row 680's crash). C runs it once more with `body(i)`'s type written for that run only (the whole component). Each holds its own line if its run passes 690 s, which leaves room for the 27 % the stages have slowed under load. If either holds, the count stays 1.
+- What is left then (49): the arrays 21, your other items 12, the `where` clauses 12, row 425's 3, row 488's 1.
+
+### The rungs, two sentences each
+
+- **B, walk's big operator by its elements.** Where a reduction or a comprehension writes no static argument, walk instantiates its big operator by the declared type the expression is the value of, else by the join of its elements' types, else at the bound, as P-48 asks, in place of `BottomType` (the walk probe's way 6 + 7, a call of the coordinator's under your rule for forks). Three expected failures pass (rows 645, 646, 662), `__bigOperator`'s `body(i)` gets its type (row 703, item 53), `IntMap`'s comprehension declares its result as `Map`'s does, and the texts on walk's reductions are corrected; microGPT writes every static argument and is untouched.
+- **C, the checker's normal form and local function groups.** The checker expands a closed trait only against a type that names no type variable, which repairs the four defects at a type parameter bounded by a closed trait (rows 686, 687, 689, 690), and two cases of its union rule repair their sibling with a ground bound; and it infers a local function's return type with its whole group in scope (row 680). One site and `Array3`'s crash go; the probe's three patches are applied, read and owned.
+- **L, the library's array factories and `IntMap`'s disjoint union.** `array1` and `array2` build a vector or a matrix per number type by a `typecase` with `cast`, as `additiveIdentity` does, in place of a call at their unbounded `T` (row 685, its claim corrected), and `IntMap`'s `UPLUS` throws `KeyOverlap` on a shared key in both orders, by the library's own `addNew` (row 704). 4 sites go; at an abstract number type such as `Number`, `array1` now gives a plain array, and one revival box is corrected.
+- **O, the No Duplicates Rule and coverage, on both paths.** The checker refuses two functional methods of one name with equivalent parameter types wherever their `self` parameters stand (row 707), and finds a cover of an inherited abstract method through the combinations of the types `comprises` clauses list (row 709); walk refuses where its search for a cover does not settle (row 708). No site moves; three Appendix I sentences that named the departures are corrected.
+
+### What the batch leaves out, and why (section 4 gives each home)
+
+- Row 691, row 695's repair, row 665's abstract half, row 700 and `Random`'s proxies: each needs a trace or a run first, named in section 4.
+- The arrays' other 21, your other items' 12, the `where` clauses' 12, row 425's 3, row 488's 1: as batch 14's record placed them.
+- The repairs of rows 697, 444 and 373 (walk's load checks), rows 673 and 681: later rungs. Rows 698, 699, 537, 705 and 706: the switch-over and phase 5. Row 710: your word.
+
+### Before the batch runs
+
+- The coordinator's edit of the script's handover lines (gather.1), this record and its generator on `main`, a top-tier review in place, the base build, the splice and the scenarios (section 5, "Before the launch").
+- No probe: both are in, their five patches apply together to `main`'s head, and their questions are settled as the coordinator's calls (section 2).
+
+### Cost
+
+- About 4.3M tokens written, from 4.2M if no fix is contested to 5.0M if two rungs go to a judge and one to a repair round. A red gate adds about 0.5M.
+  - Workers about 1.8M: B 0.6M (a 392-line patch, the hint's design, typed library additions, seven text places, the specification's examples), C 0.45M (three patches, nine tests, two count runs), O 0.45M (three rows in two areas, both suites), L 0.3M.
+  - Skeptics about 1.4M, at batch 14's mean of 341K, B's more.
+  - The fixed roles about 1.1M, at batch 14's figures (`reviews/batch-14-review.md` section 2).
+- Four rungs at two agents at once: about 4 hours (batch 14: 4 h 43 min for five).
+
+## 2. Your questions, in the order they block the batch
+
+**No question blocks the batch.** One question your library rule reserves is built at its default and listed (Q1). The questions the two probes raised are settled by the record's principles, as calls of the coordinator's under your rule for forks (`coordinator/BOOT.md`, "How forks reach him"); they are listed for your review below with their bases.
+
+### Q1. Walk's collector, ten helpers in the one library (built at its default; reversible)
+
+Walk has no static types, so to give `BIG <|[\T\]|>` its instance in `<| 2 k | k <- 0#3 |>` it first runs the generator clauses and collects the elements, then picks `T` from them. The probe wrote that collector in Fortress, as ten declarations after `__bigOperator` in `FortressLibrary.fss` (`__ElemsAny` to `__replayOf`), which no program calls and walk's evaluator calls by name.
+
+- Your library rule gives you each addition to the one library (`process-engineering/library-extension-rule-archaeology.md` §5, point 4). These have no counterpart for another type in the library's text. Their family is the library's hooks that the implementation calls by name: `__bigOperator`, `__generate`, `__cond` (`ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java:61-69`), and `Reflect`'s constructors (`interpreter/glue/prim/Reflect.java:65-72`).
+- **Default:** as the probe built them, each typed so that the compiled checker accepts it (rung B). **Other way:** write the collection in walk's Java, not measured. Walk's value-based stand-in lasts until the switch-over (P-59), after which the helpers can go.
+
+### The coordinator's calls this batch builds, listed for your review
+
+Each is settled by the record's principles; none bends a decision of yours; each is reversible.
+
+1. **Walk fixes an unwritten clause form's parameter by its elements: way 6 + 7** (the walk probe's question 1). The specification's desugaring fixes that parameter by the expression's type `N` (`Specification/advanced/parallelism-locality/defining-generators.tex`, figure `generatedExpressions`). The record already reads walk's run-time element types as walk's counterpart of `N` (F-143). P-59 accepts walk's value-based stand-in until the switch-over. Way 7 is P-48's "constrained by the call's static return type". Ways not taken: 5, the open type (no verdict changes, but rows 645, 646 and 662 stay); 4, the bound (seven tests and one specification example red, each a value the specification gives). Rung B.
+2. **Way 7 reaches a declared variable or return type at an unwritten clause form, as measured** (question 2, way (a)); not an argument's expected type, which is row 510's general repair. Rung B.
+3. **Row 685 is closed with its claim corrected, and the error's location gets a row of its own** (the checker probe's section 11, way (a)). The probe traced the four sites to the library's call at an unbounded `T`; the checker's refusal is right, but it names the callee's declared result instead of the call. Rung L files the new row; the gather numbers it.
+4. **The sibling patch goes into the normal-form rung** (section 11), test first from `repro/BoundsGround.fss`, that rung running the count stage once: it fixes a crash of the same root, was measured green on the three tracks, and keeps the team's expansion for ground meets. Rung C.
+
+Also built here, called on batch 14's review list (PLAN, "Climb batch 14, listed for his review"):
+5. **Item 53** (L.worker.2's entry): review-queue item 17 is settled by P-48, and typing `body(i)` follows the walk probe. Rung B.
+6. **Row 704** (L.skeptic.3's entry): `UPLUS` by the library's own `addNew`. Rung L.
+7. **Row 708** (W.skeptic.1's entry): walk refuses where its search does not settle, since P-147 has walk agree with the checker. Rung O.
+8. **Rows 707 and 709**: PLAN's lines for the next checker rungs on overloading and on `AbstractMethodChecker`. Rung O.
+
+### Points the batch lists for you, not questions
+
+- **Walk values that change, each to the specification's** (B): an empty unwritten list comprehension is a `List[\Any\]`, P-48's bound, not a list of `BottomType`; `xs: List[\ZZ32\] = <| 2 k | k <- 0#3 |>` runs where walk refused it; `emptyRSum(0)`, declared `RR64`, is `0.0` where it was the integer `0`; `Set`'s unwritten `BIG UNION` runs where it stopped.
+- **Team declarations changed, each with its precedent:** `IntMap`'s `opr BIG {|->[\Val\] }` declared as `Map`'s is (`Library/Map.fsi:104`) (B); `array1` and `array2` in `additiveIdentity`'s shape (L); `NodeIM`'s `UPLUS` by `addNew` (L); the team's line of the checker's duplicate check (O); `TypeAnalyzer.normConjunct`, the team's expansion kept for ground meets (C).
+- **`array1` at an abstract number type** (L): `array1[\Number,2\]()` gives a plain array where it gave a `Vector`. `Vector[\Number,n\]` is ill-formed under the family's bound, so the old value was one the static semantics refuses. The revival's box in the internal document that said so is corrected.
+- **`IntMap`'s `UPLUS` throws on a shared key in both orders** (L): a pin of a revival test changes (`IntMapUplusSingleton.fss:24-25`), and an `IntMap` comprehension with a repeated key, which `UPLUS` builds, throws where it kept one value.
+- **The count's rise** (B and C): about 39, the component's own errors; or 1, where a rung holds its line for the stage's time.
+
+### Questions on file that this batch does not need
+
+Each is yours, with its home in section 4: row 705 (walk's argument context, closed by the switch-over); row 710 (the trips demo); the entries that hold rows 612, 616, 663, 661, 670, 650 and row 653's compiled half; row 706's name in the dispatch box (review.2); the ledger tool's routes (P.worker.1).
+
+## 3. The rungs
+
+Line numbers are on `06448ebf2`, whose `Library/`, `ProjectFortress/` and `Specification/` are those of `7c2c7cd4b`. Site counts are by reading the landed per-site list, grouped by row and line. Each rung's tests come first: written, run through the harness on the base and seen failing, and committed before the edit. A value that matters is asserted inside the test (P-103). Where a probe's patch exists, the rung applies it after its tests and does not rebuild the design.
+
+### B. Walk's big operator by its elements: an unwritten clause form's parameter by a declared type, its elements or its bound (P-48, way 6 + 7; rows 645, 646, 662 and 703)
+
+**The answers this rung follows.** P-48 is decided, in its words: "A type parameter that a call's arguments do not fix takes its bound, never Bottom. Its instance is the intersection of its upper bounds, constrained by the call's static return type, never the arguments' union or the value's type alone." Walk departs from it by decision D2 of climb batch 9's rung W: a big operator's plain-bounded parameter keeps BottomType (F-141), so __bigOperator's local body(i) cannot be typed I (F-220, row 703). Review-queue item 17 and PLAN item 53 asked how walk keeps P-48 there. The coordinator settled it under the curator's rule for forks by the walk probe's way 6 + 7 (explorations/perf-probes/walk-plain-bound/REPORT.md, sections 1, 3, 7 and 9): the specification's desugaring fixes the parameter by the type N of the expression (Specification/advanced/parallelism-locality/defining-generators.tex, figure generatedExpressions, :154-197); the record already reads walk's run-time element types as walk's counterpart of N (F-143; Specification/basic/inference.tex:367-369); P-59 accepts walk's value-based stand-in until the switch-over; and way 7 is P-48's "constrained by the call's static return type". Way 7 reaches a declared variable and a declared return type at an unwritten clause form, as measured (the probe's question 2, way (a)); it does not reach an argument's expected type, which is row 510's general repair. Both calls are on the curator's review list. Start from the probe's patch, explorations/perf-probes/walk-plain-bound/patches/wayDE-elements-expected-body.patch (392 lines, which git apply --check accepts on the base): write your tests first, then apply it, read it and own it. Its library additions are Q1 of the record, built at the default this section gives. Each library line takes the library's own spelling (P-27).
+
+**Rows.**
+- Row 703, no distance site: the count's error, body(i) at Library/FortressLibrary.fss:1314, is typed body(i: I): L. With D2 lifted and the elements' hint, row 703's two programs print <|0, 2, 4|> and { 0 |-> 0, 1 |-> 1, 2 |-> 2 } (the probe's section 6, probes/P703List.fss and P703Map.fss). On the base's walk with only the line typed they stop: 'Unification error: Closure/Constructor for body param 1 (i:BOTTOM) got arg 4: ZZ32 of type Int'.
+- Rows 646 and 662 (way 6) and 645 (way 7), each gated by an expected failure that the patch turns to "Missing expected failure": XXXComprehensionTypedBindingWalk (646), XXXUnwrittenSetBigOperatorsWalk (662), XXXUnwrittenEmptyFloatSumWalk (645, by emptyRSum's declared RR64). Promote each to a name by topic.
+- A new row, NEW-B-1 (the probe's section 10): IntMap's opr BIG {|->[\Val\] } is declared IntMap[\Val\] (Library/IntMap.fsi:82, IntMap.fss:732), while its body is a Comprehension; under the elements' hint the declared result decides the instance, NodeIM[\Any\], until it is corrected. The patch declares it Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\], as Map's own is (Library/Map.fsi:104), the api importing AnyCovColl as PrefixSet's does (Library/PrefixSet.fsi:33). Write the row in record.md; the gather adds it and closes it with your test.
+- The design points the probe left to the rung (its section 7). Each is your decision, with its reason:
+  - The hints. The patch keeps the element and expected-type hints in thread-locals, and bypasses the per-argument instance caches while one is set (values/OverloadedFunction.java:1414, :1430; values/GenericFunctionOrConstructor.java:52, :55). Walk runs its tasks on a work-stealing pool (interpreter/evaluator/tasks/): a thread that has set a hint and waits can run another task, which would then read a hint set for another node or another instance. Carry the hint explicitly to the big operator's own instantiation, or key the caches by the arguments and the hint, so that no other evaluation can read it. If you keep a thread-local, set it only around the instantiation that consumes it, and say in your decisions why no task can run there.
+  - The reach. The collection step runs for every unwritten clause form, SUM and BIG AND included, and keeps every element until the reduction runs. It must reach the plain-bounded comprehensions (rows 703, 646) and Set's F-bounded reductions (row 662). Restrict it or not, with the reason. Report the interpreter suite's time against batch 14's gate (testSystem, 4 min 6 s; compile-ladder/climb-batch-14/gate/summary.txt).
+  - The contexts of way 7: a local variable declared with a type (BuildLetEnvironments.java:80) and a function's declared return type (values/FunctionClosure.java:199). Name each other declared-type context it leaves, a top-level variable or a field, and why.
+  - __bigOperator2's fused path is not routed through the collection step, and its plain-bounded parameters take the bound. Say whether that stands.
+  - The library additions. The patch adds, after __bigOperator, the collector: __ElemsAny, __ElemsNone, __Elems, __ElemsOne, __ElemsTwo, __elemsJoin, __ElemsReduction, __elemsOne, __elemsOf and __replayOf. As written, their parameters are typed Any and they call methods and functions on Any (r.empty(), u(v), desugaredClauses(...)), and __replayOf returns an untyped function expression, fn (r, u) => e.__replay(r, u). By reading the compiled checker refuses each of these, and the stages read FortressLibrary, so they would bring sites, and an untyped parameter can become the count's next thrown error. Type each declaration so that the checker accepts it, in the library's own spelling (the reductions beside them; BigOperator's getters, Library/FortressLibrary.fsi:1940-1944), with walk's values unchanged. Keep them named as the library's other hooks that the implementation calls by name (__bigOperator, __generate; ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java:61-69): Q1's default.
+- Notes, not repairs: row 424 (D2 lifted; its note names decision D2); row 20 (way 7 repairs its list face where the type is declared, the probe's section 10); row 510 (way 7 is not its general repair; XXXInferExpectedTypeRungK keeps its verdict); row 577 (count by row and line).
+
+**Distance sites.** None by reading. FortressLibrary.fss changes, so run the count and distance stages once on your final tree, before from climb batch 14's landed tables (compile-ladder/climb-batch-14/gate/, compile-ladder/gate/distance-sites.tsv), read by row and line. With body(i) typed the crash row at :1312-1316 goes, and the checker reads __bigOperator's body, which by reading checks: o.body is I->R, and r is an ActualReduction[\R,L\] with lift: R->L (Library/FortressLibrary.fsi:1940-1944). A site that __bigOperator's body or the collector brings is yours to clear by its types, or a point to report. The count is 1 by reading (F-53): its error moves from :1314 to row 680's crash in Array3 (:2922), and the stage checks the component past :1314 for the first time. Its time decides the line. The stage stops a run at 900 s, and the gate reads a table with no total as red; today the stage takes about 300 s, the component to :1311 about 108 s (explorations/perf-probes/checker-speed/REPORT.md section 7). If your run prints no total or takes more than 690 s, do not land the typed body(i): land the rest of the rung without it, and report the time and the table. Rung C measures the stage over the whole component, which the gate reads once C's row 680 repair lands too.
+
+**Files.**
+- ProjectFortress/src/com/sun/fortress/interpreter/evaluator/: EvaluatorBase.java (instanceOf, D2's line at :170, the hints), Evaluator.java (for_RewriteFnApp, :695), BuildLetEnvironments.java (:80), values/FunctionClosure.java (:199), values/OverloadedFunction.java (applyInnerPossiblyGeneric, :1411-1432, only), values/GenericFunctionOrConstructor.java (:49-58).
+- Library/FortressLibrary.fss (__bigOperator, :1312-1316, and the collector after it); Library/IntMap.fsi (the import after :12, and :82) and Library/IntMap.fss (:732).
+- Specification/basic/inference.tex (:265; :362-377), Specification/basic/expressions/reductions.tex (:30-37), Specification/appendices/changes.tex (the entries "Reductions whose element type nothing fixes", its Effect at :1068-1074, and "The inference of a call's static arguments", D2's paragraph at :1852-1857 and its Effect at :1977-1985).
+- New and promoted files in ProjectFortress/tests/.
+- Not: the checker; Constructor.java (rung O's); OverloadedFunction.java's load checks; FortressLibrary.fss's array1 and array2 and IntMap.fss's UPLUS (rung L's); CovariantCollection.fss; the compiler prelude.
+
+**Tests, first.** Each through harness-one.sh on the base's code.
+- Row 703: a walk test by topic of an unwritten list comprehension and an unwritten map comprehension, their values asserted (the probe's P703List and P703Map). It is green on the base, where body(i) has no type; the row's defect shows only with the line typed, so its failing run is the base's walk with that one line edited, red at (i:BOTTOM), as the probe ran it (section 6). Then the walk change, green.
+- The probe's section 7 tests, each red on the base: BIG CONCAT[k <- 0#3] <|[\ZZ32\] k|> is <|0, 1, 2|>, and the nested BIG CONCAT[ys <- <|<|1, 2|>, <|3|>|>] <| 2 y | y <- ys |> is <|2, 4, 6|> (both stop on the base, 'lift param 1 (r:List[\BOTTOM\])'); an empty unwritten list comprehension is an instance of List[\Any\] (on the base ArrayList[\BOTTOM\]); xs: List[\ZZ32\] = <| 2 k | k <- 0#3 |>, the same over 0#0, and ys: List[\Number\] = <| k | k <- 0#3 |>, each refused on the base; evens(n): List[\ZZ32\] = <| 2 k | k <- 0#n |> at 3 and at 0, ArrayList[\Int\] and ArrayList[\BOTTOM\] on the base.
+- A guard, green on the base and after: <| <| j | j <- 0#i |> | i <- 1#2 |> equals <|<|0|>, <|0, 1|>|> (a draft that kept the caches built it as ArrayList[\Object\]).
+- NEW-B-1: an unwritten IntMap comprehension bound to a variable declared IntMap[\ZZ32\], its value asserted. It is green on the base; show it red with the walk change and IntMap's line as it is, then green with the line corrected.
+- The promotions: XXXComprehensionTypedBindingWalk, XXXUnwrittenSetBigOperatorsWalk and XXXUnwrittenEmptyFloatSumWalk, each "Missing expected failure" with the patch (the probe's section 6), each to a name by topic.
+- Keep their verdicts: the seven tests that the bound turned red (ResultBoundsRungB, booleanGuard, NumberOrderListDeclarations, RangePrototype, MapTest, QuickCheckTest, CovariantTest) and the specification's example Generators.GeneratorDefn (the probe's section 5); UnwrittenReductionWalk and the other Unwritten*Walk tests; XXXInferExpectedTypeRungK (row 510); IntMapTest and the IntMap tests.
+- After the edit: the interpreter suite once (ant testSystem), and the specification's examples once (ant testSpecData), since every unwritten clause form in them now goes through the collection step and an example that fails turns the gate red (P-124); the count and distance stages once.
+
+**Specification.** The normative text, the desugaring by N, is unchanged. The revival's sentences on what walk does with a big operator's parameter become false, each listed by the probe (section 7, "Sentences made false"; the lines are unchanged since): Specification/basic/inference.tex:265 ("It does not yet fix a type parameter by the expected type.", now true but for an unwritten clause form at a declared type); :362-377 (the open parameter, the empty reduction at ZZ32's identity of row 645, the set reductions that stop of row 662, and "It still erases to BottomType the other static parameters of a big operator ..." of row 424); Specification/basic/expressions/reductions.tex:30-37 ("Neither implementation directs it by type yet ... except that an empty one takes the identity of ZZ32"); Specification/appendices/changes.tex:1068-1074 (the Effect of "Reductions whose element type nothing fixes"), :1852-1857 (D2's paragraph in "The inference of a call's static arguments") and :1977-1985 (its Effect). Correct each to what walk then does, in the S1 form (P-95, P-96), with the coordinator's call as its reason; the compiled checker's sentences beside them (reductions.tex:38-44, row 425) stay. List every other sentence your change makes false, the skill's among them (the probe's section 7 names its entries on a type parameter that a call does not fix, on SUM and PROD, and on static parameters), as revival-change material.
+
+**Overlaps by file.**
+- O edits walk too, only Constructor.definedBelow. OverloadedFunction.java is yours in applyInnerPossiblyGeneric; O reads its OVERLAP_PARTS and someBelow and edits no line of it.
+- L edits FortressLibrary.fss's array1 and array2 (:2452, :2824) and IntMap.fss's NodeIM UPLUS (:520): other declarations of your two files. IntMap's fromCC (:727-730) builds a comprehension by UPLUS, so your IntMap line and L's repair meet in the interpreter suite only.
+- Specification/appendices/changes.tex: you amend two entries; O amends two others. L edits future.tex.
+- ProjectFortress/tests/: B, L and O add distinct files; you alone promote the three tests of rows 645, 646 and 662.
+
+### C. The checker's normal form over a variable, and its local function groups (rows 686, 687, 689, 690 and their ground sibling; row 680)
+
+**The answers this rung follows.** Each repair is the checker probe's, measured (explorations/perf-probes/checker-bound-defects/REPORT.md, sections 1, 2, 4, 5, 6 and 7): write your tests first, then apply its three patches, read them and own them. Rows 686, 687, 689 and 690 have one cause, traced (section 2.2): TypeAnalyzer.normConjunct expands a closed trait over a conjunct that names a type or inference variable, and the union rule, first-match in the order of the type group's subtyping figure (Papers/Types/fig-subtype.tick), then splits the union before the variable's bound is read. One change there clears all four; a guard in the solver does not (section 2.3). The change keeps every union the checker builds free of variables, the condition under which the POPL 2019 paper proves matching complete (research/extracts/ParkPOPL2019-extract.md section 6), the type group's late word (P-26). The sibling patch is in this rung by the coordinator's call, listed for review: it fixes a crash of the same root at a ground second bound, was measured green on the three tracks, and keeps the team's expansion for ground meets (section 2.5); its solver takes the intersection of the upper bounds, as P-48 says. Row 680 is the checker's, not plane's body: the local function group's return-type thunks are primed without the group in scope (impls/Decls.scala:414), while the specification makes the local functions of one scope mutually recursive (Specification/basic/functions.tex, "Local Function Declarations"); the library line is valid as written (section 4). No decision of the curator covers the analyzer's normal form (section 10).
+
+**Rows.**
+- Rows 686 (1 site, the norm's squaredNorm(me), Library/FortressLibrary.fss:2493), 687, 689 and 690, each gated by its expected failure: XXXInferCallerTwoBoundsClosedTrait (686, 'is not applicable to an argument of type Box[\T\]'), XXXCoerceTwoBoundsClosedTrait (687) and XXXCallerParamTwoBoundsClosedTrait (689), each 'Applied a substitution to an And and got an Or', and XXXReturnRuleTwoBoundsClosedTrait (690, 'should be a subtype of the'). The repair is patches/rows-686-687-689-690-normal-form.patch, one local function in normConjunct (ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:692-713): a closed trait is expanded only against a conjunct that names no type variable and no inference variable. The rows cite lines that have drifted: the solver's stop is now Formula.scala:640, the refusal Functionals.scala:755 (section 2.1).
+- The ground sibling, NEW-C-1 (the probe's proposed row 1 in its section 9, the row's text there): g[\T extends { K, Q }\](x: T): T = h(x), with trait Q excludes { C }, crashes on the base and still after the normal-form patch, since K & Q is ground and still expanded. The repair is patches/sibling-ground-bound.patch: two cases before the union rule in pSubInner (TypeAnalyzer.scala:165), each only where the check is not negated. An inference variable below a union takes the union as one upper bound, and a type variable below a union is tried through its bound as well. It changes the mechanism row 518 names, a union on the right taken before the inference-variable cases; InferUnionInstanceArg keeps its verdict.
+- Row 680, its crash row (:2886-2999, 'TryChecker returned an untyped expr' at :2922). The repair is patches/row-680-local-function-group.patch: makeTryChecker(this) becomes makeTryChecker(newChecker) in the SLetFn case (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala:408-414). The row's claim names a body that fails, and its note says "A compiler-world program of the same shape typechecks": both are false, since repro/LocalSiblingInLoop.fss and LocalSiblingDirect.fss crash the checker on the base (section 4). Write the corrected claim in record.md for the close (ledger.py close --claim). Behind the crash the probe found no site: Array3's whole declaration checks with no error, its two calls of a size known only at run time (:2955, :2966) among them.
+- The test that review-routed.1 owes (PLAN, "Climb batch 14, listed for his review"), in this rung since it writes compiler_tests/: a compiled test of trait Animal extends Shape[\Animal\] and object Cat extends { Animal, Shape[\Animal\] } that runs twin(Cat).tag and asserts cat with run_out_contains, green on the base, so that a change of the code generator that moves row 695's bound turns a suite red. Note row 695 with it.
+- Notes, not repairs: row 685 (rung L's); row 688 (the count stage's time under the new normal form, from your count run); row 577.
+
+**Distance sites.** With your first two patches and L's (not the sibling's), the probe measured 54 to 49: :2493 yours and L's four, the crash row gone, no site new (section 6). On your tree: :2493 and the crash row :2886-2999 go, and none come; the sibling's effect on the distance is not measured, so read the table by row and line. Run the count and distance stages once on your final tree, before from climb batch 14's landed tables. Your count is 1, its error body(i) at :1314; its time shows the normal form's effect on the api check, which row 688's memo brought within the limit, against batch 14's gate (under 5 minutes) and the 900 s limit; a first run past 690 s is a point to report, with the api check's time. Then run the count stage once more on your final tree with one line changed for that run only and restored after it, so that git diff shows nothing of it: body(i) at Library/FortressLibrary.fss:1314 written body(i: I): L. Never commit that line: rung B lands it, and with your row 680 repair the gate's stage then checks the library component whole for the first time. This run is the batch's one measure of that stage: report its time and its table (by reading about 43 errors, the component's 36 typecheck and 8 wellformed sites less your :2493, F-53's rise). If it prints no total or takes more than 690 s, do not land row 680's line: land the normal form and the sibling, and report. 690 s leaves room within the 900 s limit for the 27 % the stages slowed under load (the probe's 2,185 s against the 1,714 s of batch 14's gate).
+
+**Files.**
+- ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala (normConjunct, :692-713; pSubInner, two cases before :165).
+- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala (the SLetFn case, :408-414).
+- New and promoted files in ProjectFortress/compiler_tests/.
+- Not: Formula.scala, OverloadingOracle.scala, Functionals.scala, TypeWellFormedChecker.scala; OverloadingChecker.scala and AbstractMethodChecker.scala (rung O's); the library (B's and L's); walk; the code generator.
+
+**Tests, first.** Each through junit.sh on the base.
+- The four expected failures promoted to names by topic, compiled, linked and run with run_out_contains=PASS, as the skill's tests-writing.md, "Promoting an XXX test", says: each fails on the base as a plain test (section 2.1) and passes after.
+- The sibling: repro/BoundsGround.fss as a plain compiled run test, its two values asserted. It crashes on the base, 'Applied a substitution to an And and got an Or', and after the normal-form patch alone; it passes with the sibling's.
+- Row 680: LocalFunctionSiblingInLoop and LocalFunctionSiblingCall as typecheck tests, from repro/LocalSiblingInLoop.fss and LocalSiblingDirect.fss (link stops at the code generator's 'Can't compile LetFn'), each crashing on the base; and from repro/LocalRecursiveUntyped.fss an XXX compile test keyed compile_err_contains=reference cycle, where the base says 'Result of typechecking still contains intermediate nodes'.
+- review-routed.1's test, green on the base.
+- Keep their verdicts: OverloadTwoBoundsClosedTrait and OverloadTwoBoundsClosedFamily, InferUnionInstanceArg (row 518), the Compiled* and Infer* tests; TypeAnalyzerJUTest, TypeSchemaAnalyzerJUTest, FormulaJUTest and ConstraintJUTest.
+- After the edit: the compiler and library test tracks once (ant testQuick); the count stage twice and the distance once, as Distance sites says.
+
+**Specification.** None, by the probe's search: the Appendix I entries on bounds and closed traits, basic/inference.tex and advanced/overloading.tex make no claim that the normal form changes, and the rationale of the entry revival-paramtype (Specification/appendices/changes.tex, near :3317-3333) gives the crash messages of rows 620 to 622 as history, which stays true. Grep again for rows 680 and 686 to 690 and for the two crash messages, and list every sentence your change makes false.
+
+**Overlaps by file.**
+- O edits the checker too, in OverloadingChecker.scala and AbstractMethodChecker.scala; no checker file is both rungs'. TypeAnalyzer.scala is yours alone: O's coverage for row 709 reads comprises clauses through it without editing it.
+- The library: B and L edit FortressLibrary.fss; the line your second count run writes is B's, and never committed.
+- ProjectFortress/compiler_tests/: C and O add and promote distinct files.
+
+### L. The library's array factories and IntMap's disjoint union (rows 685 and 704)
+
+**The answers this rung follows.** Each repair takes the library's own way (P-27). Row 685 is a library line, traced by the checker probe (explorations/perf-probes/checker-bound-defects/REPORT.md section 3): array1 and array2 call vector[\T,s0\]() and matrix[\T,s0,s1\]() with their own unbounded T inside a typecase on __thrower[\T\], which does not bound T. So the instance is ill-formed (Specification/basic/trait-parameters.tex, "Type Parameters"), and the checker's refusal is right; the team's comment says "TODO: fix when Number is covariant" (Library/FortressLibrary.fss:2451, :2823). The repair is the probe's patch, patches/row-685-array-factories.patch, in the shape of additiveIdentity (:3229-3262): one typecase arm per number type over the () -> T witness, each building the value at that type and returning it through cast. Write your tests first, then apply it, read it and own it. By the coordinator's call, listed for review (the probe's section 11, way (a)), row 685 is closed with its claim corrected to that library line (ledger.py close --claim), and the error's location, reported at the callee's declared type, gets a row of its own. Row 704 follows the coordinator's call on L.skeptic.3 of climb batch 14 (PLAN, "Climb batch 14, listed for his review"): NodeIM's UPLUS with a one-entry map takes the library's own addNew, which throws KeyOverlap on a shared key as the library's comment promises (Library/IntMap.fss:517-518). The specification is silent on IntMap.
+
+**Rows.**
+- Row 685, 4 sites: Library/FortressLibrary.fss:2464 and :2837, two each, against Number and MultiplicativeRing[\T\]. The checker names the callee's declared result because the call's type keeps the declaration's spans; the calls are at :2454 and :2826. The patch's arms are ZZ32, ZZ64, NN32, NN64, ZZ, QQ, RR32 and RR64, each within the family's bound (Library/FortressLibrary.fsi:296, :394, :446; ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:47); the else arm is unchanged. Under walk the eight types keep their vectors and matrices (repro/ArrayFactoryWalk.fss gives the same output on the base and the patch). At an abstract number type, array1[\Number,2\]() and array1[\AnyIntegral,2\]() become plain arrays where they were vectors (repro/ArrayFactoryAbstract.fss): Vector[\Number,n\] is ill-formed under the family's bound, a point to report. The array literal goes through __builtinFactory1 to array1 and is unaffected. The corrected claim for the close is the probe's proposed row 2 (section 9).
+- A new row, NEW-L-1, the probe's proposed row 3 (section 9, the row's text there): the checker reports a call's static argument that fails the callee's bound at the callee's declared type, not at the call (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:137, :183, :158-165), reproducer explorations/perf-probes/checker-bound-defects/repro/FactoryUnboundedCaller.fss. A row only, no repair here.
+- Row 704, no distance site: NodeIM's opr UPLUS(self, other: SingletonIM[\Val\]) = self.add(other) (Library/IntMap.fss:520) keeps the many-entry map's value on a shared key, while the reverse order throws through SingletonIM's other.addNew(self) (:339-340). The repair is self.addNew(other) (addNew at :488-490). By reading, two many-entry maps meet the same line: nodeNode (:521-524, :586-610) recurs down to a node and a singleton, so the row's case of keys 2 to 7 UPLUS keys 0, 3, ..., 15 goes with it; assert both orders. IntMap's fromCC (:727-730) builds every IntMap comprehension by UPLUS, so a comprehension with a repeated key then throws KeyOverlap where it kept one value: a point to report, with each test it changes.
+- Notes, not repairs: row 678 (Array2's Col and Row, the arrays' lists); row 364 (a catch of KeyOverlap[\ZZ32\] misses walk's KeyOverlap[\Int\], so catch UncheckedException, as the pin test does); row 671 (SYMDIFF's repair, the precedent); row 577.
+
+**Distance sites.** Row 685's four go (measured with C's two patches, 54 to 49; the patch moves the lines below it, +9 between the factories and +16 after array2). The stages are this rung's test for the four: before from climb batch 14's landed tables, after once on your final tree, read by row and line. The count stays 1, its error body(i) at :1314. IntMap is not among the stages' components.
+
+**Files.**
+- Library/FortressLibrary.fss: array1 (:2452-2456) and array2 (:2824-2828) only.
+- Library/IntMap.fss: NodeIM's UPLUS with a SingletonIM (:520) only.
+- Specification/appendices/future.tex (the revival box at :257-264).
+- ProjectFortress/tests/: IntMapUplusSingleton.fss's two today's-value lines (:24-25) changed; new files named by topic.
+- Not: __bigOperator and the lines after it, IntMap.fsi, and IntMap's BIG {|->} (rung B's); vector, matrix and the array family's other bodies; the checker; walk.
+
+**Tests, first.**
+- Row 685: a walk test from repro/ArrayFactoryWalk.fss, the eight number types' vectors and matrices and a String array plain, a guard green before and after; beside it the assertions of repro/ArrayFactoryAbstract.fss that array1[\Number,2\]() and array1[\AnyIntegral,2\]() are plain arrays, red on the base. The four sites' test is the stages.
+- Row 704: IntMapUplusSingleton.fss's two today's-value lines (:24-25) changed to the throw and its message, red on the base, green after; beside them two many-entry maps on a shared key in both orders, each asserted to throw.
+- Keep their verdicts: IntMapTest and the team's IntMap tests, IntMapCombine, IntMapSymdiffSingleton and IntMapSymdiffManyEntry, the walk array tests, the reductions' and comprehensions' tests.
+- After the edit: the interpreter suite once (ant testSystem), since array1 backs every array factory and UPLUS every IntMap comprehension; the count and distance stages once.
+
+**Specification.** The revival box revival-overloading in the internal document (Specification/appendices/future.tex:257-264) says that the library writes Jan's pair "as one factory ... which chooses its result by a typecase on its type argument, a Vector where the argument is a Number". After the patch the result is a Vector where the argument is one of the eight number types, and not where it is Number, AnyIntegral or another abstract number type: correct the box (the probe's section 8) in the S1 form (P-96). The entry "Overloading with static parameters" says only that Jan's example is answered by the library's factory (Specification/appendices/changes.tex:2406-2409), which stays true. The text is silent on IntMap. List every other sentence your change makes false.
+
+**Overlaps by file.**
+- B edits FortressLibrary.fss (__bigOperator and the collector after it, from :1312) and IntMap (IntMap.fsi, and IntMap.fss's BIG {|->} at :732): other declarations of your two files.
+- Specification: future.tex is yours alone.
+- ProjectFortress/tests/: you alone change IntMapUplusSingleton.fss.
+
+### O. The No Duplicates Rule at two self positions, and coverage on both paths (rows 707, 708 and 709)
+
+**The answers this rung follows.** Each row is gated by an expected failure and traced to its line (PLAN, its lines for rows 707 and 709, and "Climb batch 14, listed for his review"). Row 707: the No Duplicates Rule, restated on the non-strict relation by climb batch 14's rung P (row 696; Specification/advanced/overloading.tex:548-549), as the 2011 paper (Papers/Types/rules.tick:158-161) and the 2019 paper state it, the type group's late word (P-26), refuses two declarations whose parameter types are each a subtype of the other, wherever their self parameters stand. Row 708: the coordinator's call on W.skeptic.1, listed for review: walk refuses where its search for a cover does not settle, since P-147 has walk agree with the checker, which refuses there. Row 709: P-147, in its words, "An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types (item 51). It is the team's rule of 2012, in Steele's compiled checker and Welterweight's Covered rule, with comprises clauses read as the checker reads them"; a comprises clause is read at the level of values (P-60), so a cover of a tuple of parameter types splits each position through its clause, as walk's check already does (F-27, F-145). For row 708 the measurement is on record: in the suite, the demos and the specification's examples no search failed to settle (explorations/compile-ladder/rung-walk-coverage/REPORT.md, sections 6 and 10).
+
+**Rows.**
+- Row 707, no distance site: checkOverloading counts a duplicate only where oracle.equiv holds and the self positions are equal (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:441, the team's line). So f[\T extends S\](self, y: T) beside f[\U extends S\](x: U, self), and the plain pair f(self, y: S) beside f(x: S, self), pass it, and the code generator stops: 'Likely bug in static analysis, apparently malformed overload set not rejected' (ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:409-411). The repair: two functional methods, each with a self position, are a duplicate where oracle.equiv holds, wherever their self parameters stand; a top-level function beside a functional method keeps its own check (:405-410). The message prints a functional method's domain without self: say which of the pair's it prints. Walk refuses both pairs at load. By reading no library trait declares such a pair: grep Library/ and ProjectFortress/LibraryBuiltin/ for functional methods of one name in one trait at different self positions, and report each.
+- Row 709, no distance site: AbstractMethodChecker.checkObjectDeclaration asks whether the abstract method's domain is below the union of the covering bodies' domains (ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:81-122, the test at :107). TypeAnalyzer splits a trait type through its clause below a union (scala_src/types/TypeAnalyzer.scala:159-164) but compares a tuple with each member alone (:165-166), so bodies at (Ping, Ping), (Ping, Pong) and (Pong, Side) under g(self, x: Side, y: Side), with Side comprises { Ping, Pong }, are refused. The repair is in AbstractMethodChecker, not in TypeAnalyzer, which is rung C's: where the domain is not below the union, split each position through the comprises clauses of its type (TypeAnalyzer's comprisedTypes, :832, read and not edited) and ask that every combination of parts lie below the union, as walk's Constructor.definedBelow does (ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:479-540). Bound the combinations as walk does (OVERLAP_PARTS, 4,096, values/OverloadedFunction.java:868) and refuse past the bound, so that the two paths agree on row 708's shape.
+- Row 708, no distance site: Constructor.definedBelow returns true where its search does not settle: an exception while reading a domain (:501-503), a cycle, a symbolic type or the step bound (coverParts null, :514), or the combinations past OVERLAP_PARTS (:517). The repair: refuse there, as overlapCoveredBy does (OverloadedFunction.java:890, :894). Generic objects stay unchecked (row 665).
+- Notes, not repairs: row 574 (row 707's sibling, fixed by climb batch 10's rung C); row 617 (row 709's sibling); row 665 (an unsettled search at a generic declaration, unchecked); row 577.
+
+**Distance sites.** None by reading: the distance has no overloading or abstract-method site, and row 707's repair finds one only where the library declares such a pair. The stages read OverloadingChecker.scala and AbstractMethodChecker.scala, so run the count and distance stages once on your final tree, before from climb batch 14's landed tables; a site that comes is a point to report. The count stays 1.
+
+**Files.**
+- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala (checkOverloading, :430-455).
+- ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala (checkObjectDeclaration, :81-122, and a helper beside it).
+- ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java (definedBelow, :479-540).
+- Specification/appendices/changes.tex: the Effect's sentence on row 707 in "Overloading with static parameters" (:2497-2502), and the Effect's sentences on rows 708 and 709 in "Traits with comprises clauses read at the level of values" (:2876-2888).
+- Promoted and new files in ProjectFortress/compiler_tests/ and ProjectFortress/tests/.
+- Not: TypeAnalyzer.scala and impls/Decls.scala (rung C's); OverloadedFunction.java (B edits its applyInnerPossiblyGeneric; you read its OVERLAP_PARTS and someBelow, already open to its package); the library; the code generator.
+
+**Tests, first.**
+- Row 707: XXXNoDuplicatesRuleSelfPositions is keyed today on the code generator's stop, and your fix turns it red. A refusal at compile time stays an XXX compile test (the skill's tests-writing.md, "Writing an XXX test"): rekey it to the checker's refusal, compile_err_contains=There are multiple declarations of f, and beside it write the plain pair, f(self, y: S) beside f(x: S, self), keyed the same. Each says 'Saw wrong failure' on the base, where the code generator stops.
+- Row 709: XXXAbstractMethodCoveredPairs promoted, compiled, linked and run with run_out_contains=PASS, its four values asserted; refused on the base. Beside it an XXX compile test of a shape that is not covered, the body at (Pong, Side) narrowed to (Pong, Ping), refused before and after.
+- Row 708: XXXAbstractMethodCoverUnsettledWalk promoted to a name by topic, its .test keyed load_exception_contains=does not define an abstract method declared in type H; as the expected failure it passes on the base. Beside it, the same program as an XXX compile test keyed on the checker's message, refused before and after.
+- Keep their verdicts: AbstractMethodCoveredWalk, PairsRunRangesWalk, FileConversion, XXXUnimplementedMethod, the AbstractMethod*Walk and Override*Walk tests, XXXAbstractMethodUndefinedGenericWalk and XXXAbstractMethodUndefinedGenericObjectExpressionWalk (row 665); row 696's No Duplicates test of dup's pair (XXXNoDuplicatesRule.test) and row 574's XXXFunctionalMethodDuplicateSelfSecond, XXX2f.test, the OverloadTwoBounds* tests.
+- After the edit: the compiler and library test tracks once (ant testQuick) and the interpreter suite once (ant testSystem); the count and distance stages once.
+
+**Specification.** No normative sentence changes: the No Duplicates Rule as restated (Specification/advanced/overloading.tex:548-549) and the traits chapter's coverage (Specification/basic/traits.tex:627-648) already say what both paths then do. The Effects that name the three departures become false; correct each to the agreement (P-95, P-96). In "Overloading with static parameters": "except two functional methods whose self parameters stand at different positions, which only its code generator refuses, as a malformed overload set (row~707 ...)" (Specification/appendices/changes.tex:2497-2502). In "Traits with comprises clauses read at the level of values": "and it does not refuse an object where its search through the comprises clauses does not settle ... (row~708 ...)" (:2876-2881), and "The compiled type checker does not split a tuple of parameter types through comprises clauses ... (row~709 ...)" (:2882-2886). List every other sentence your change makes false, the skill's among them (its interpreter part and its revival changes say that an unsettled search does not refuse), as revival-change material.
+
+**Overlaps by file.**
+- C edits the checker in TypeAnalyzer.scala and impls/Decls.scala; you in OverloadingChecker.scala and AbstractMethodChecker.scala.
+- B edits walk's evaluator and OverloadedFunction.applyInnerPossiblyGeneric; you Constructor.definedBelow.
+- Specification/appendices/changes.tex: you amend two Effects; B amends two other entries; L edits future.tex only.
+- Test folders: distinct files; you alone change the three expected failures of rows 707, 708 and 709.
+
+### The rule the rungs keep, and how they meet
+
+- No two rungs change one declaration, and no rung builds on another rung of the same batch (PLAN, "The principle for the batches"). B is walk's instantiation of a big operator with the library lines it needs; C the checker's normal form and local function groups; L two library bodies and one IntMap operator; O the checker's duplicate and coverage checks and walk's coverage check.
+- Two pairs share files and no declaration: B and L in FortressLibrary.fss (__bigOperator and the collector; array1 and array2) and IntMap.fss (BIG {|->}; NodeIM's UPLUS); B and O in walk (B's evaluator and caches; O's Constructor.definedBelow). C and O edit different checker files.
+- C's second count run writes B's one line for that run only, to measure what the gate will measure; it lands nothing of B's, and C's landing depends only on its own runs. B and C each guard the stage's 900 s limit with their own line.
+- O's split for row 709 reads TypeAnalyzer and edits none of it, so C's two union cases and O's coverage meet only in the tracks.
+- Where they meet only in a measure: B, C and L in the count and distance stages over FortressLibrary (the gate's count reads the component whole once B's body(i) and C's row 680 line both land); B, L and O in the interpreter suite, IntMap's comprehension by B's line and L's UPLUS through fromCC. The gate measures and runs the merged tree.
+
+## 4. What the batch leaves out, each with its home
+
+**Kept out for want of a measurement.** Each needs a trace or a run the record does not hold; none blocks a rung.
+- **Row 691,** a generic call with more arguments than parameters accepted and the extra ones dropped: no reproducer and no trace. A trace would find where the arity check is skipped for a generic declaration. Home: a checker rung once traced.
+- **Row 695,** the code generator's missing cast on a default body that returns `self` at an object type: gated by its reproducer, and C writes the test of its bound that review-routed.1 owes; the cast's place in the generator is not traced. Home: a code-generator rung once traced.
+- **Row 665's abstract half,** walk's abstract-method check on generic objects: a logging build of the check at each generic declaration under coverage, over the suite and the demos on the tree after this batch, and a reading for coverage over symbolic types, where walk's reader gives no answer (`OverloadedFunction.java:1025`). Once O lands, an unsettled search refuses, so the same build also shows what that does at a generic declaration. Home: the next walk rung.
+- **Row 700,** `LinearCongruential` at a modulus that is not a power of two: a run at another modulus.
+- **The element types of `Random`'s two proxies** (W.worker.1's entry): no row until measured; no stage checks `Random`.
+- **The count stage's speed over the whole component,** if C holds row 680's line or B its `body(i)`: their runs are then the measure the next batch starts from. Home: the next checker rung on speed, beside row 688.
+
+**Kept out by the method or a decision.**
+- **The arrays, 21 sites:** row 678's 2 (`Col` and `Row`), 14 bodies typed by their parent trait, 3 sizes tested in a branch, 2 export errors (`FortressLibrary.fss:12`). Home: the arrays' lists of ways; the export errors with decision E.
+- **Your other open items, 12 sites:** the integer power 6 (rows 438, 441, 445), item 38's `String` pairs 3 (row 585), row 634's list half 1, item 46's fused arm 1 (row 632), row 631's `embiggen` 1. Home: your answers.
+- **The `where` clauses, 12 sites:** rows 433 (6), 636 (4) and 436 (2), with rows 677 and 652. Home: PLAN's `where`-clause line.
+- **Row 425, 3 sites:** the checker's reduction at an F-bounded `BIG MIN`, which batch 14's retry leaves refused; a checker project before the switch-over. **Row 488, 1 site:** moves with the checker's query history.
+- **The repairs of rows 697, 444 and 373** (walk's load checks, gated by batch 14's rung P): the next walk rung, each read against its row first. **Row 673** (walk's `if` on a value that is not `Boolean`) and **row 681** (a static argument not inferred): where batch 14's record placed them.
+- **Rows 698** (the switch-over), **699 and 706** (phase 5's dispatcher, row 538), **537** (phase 5's code generation), **705** (closed by the switch-over, the coordinator's call), **710** (your word, as for row 670's demos). Row 706's name in the dispatch box (review.2): no rung edits `revival-dispatch`.
+- **The ledger tool's routes** (P.worker.1, gather.2, review.1): the coordinator's. **Rows 612, 616, 663, 661, 670, 650 and 653's compiled half:** their entries. **Row 638:** the coordinator's note. **Rows 701 and 702:** phase 5; the tools.
+
+**What PLAN gives batch 15, and where each goes** (phase 3 item 13):
+- `__bigOperator`'s `body(i)` typed (row 703, item 53): B, by the coordinator's call, with way 6 + 7 and the time guard.
+- Row 680's crash: C, traced by the probe to the checker's local function group, with the count measure and its guard.
+- Rows 685, 686, 687, 689 and 690: four in C by one change of the normal form, with their ground sibling; row 685 in L, a library line, its claim corrected and its error's location filed as a new row.
+- Row 691: out, a trace. Row 695: out, a trace; its owed test in C. Row 665's abstract half: out, a measurement.
+- Rows 707 and 709: O, with row 708. Row 704: L. Row 705: out, the switch-over. Row 706: out, phase 5 (review.2).
+- Not candidates: as PLAN lists them, placed above.
+
+## 5. How it is run
+
+The batch runs on the workflow of batch 14: `coordinator/climb-batch-workflow.js`, its manual `coordinator/climb-batch-workflow.md`, and the practice they build, `coordinator/process-engineering/batch-redesign.md`. Each rung's worker does its rung test first; its skeptic checks it and fixes what it finds, test first; a judge rules only on a fix the skeptic marks contested, on a rung the skeptic refuses, or on a worker's stop; the gather lands the rungs on `main` and folds their record lines and their ledger rows through `coordinator/tools/ledger.py`; the merged-diff review and the gate run side by side; the commit stage lands the gate's tables, runs the quick microGPT walk check and pushes. The batch writes no skill text: each rung's revival-change material goes into the batch's `RECORD.md` for the skill writer. Section 3 is each worker's brief word for word, with the answers line it opens with; this section holds the rest of the manifest, which `explorations/compile-ladder/plan-15/manifest/gen15.py` reads with the briefings of `lists15.py` beside it, and `check15.js` checks.
+
+### The manifest, rung by rung
+
+Each block gives the fields of one rung's manifest entry. "Its test is the stage" means the checker count and the distance are the rung's failing-then-passing test, before from climb batch 14's landed tables (`compile-ladder/climb-batch-14/gate/`, `compile-ladder/gate/distance-sites.tsv`) and after once on the rung's tree. "Joins the gate" names a step the gate gains once the rung lands; none does, and `ant testSpecData` runs because batch 14's landed summary has it. Rungs B and C declare the checker count they expect on their own trees, 1; the merged tree's count is section 1's. The points to report are the kinds of change the curator reviews after the landing: a rung that reaches one finishes, lists it with its evidence, and lands (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs"); only a step that cannot be undone, or that would act against a decision of the curator, holds the push.
+
+#### B
+- **slug:** `rung-walk-elements`
+- **worktree:** `/home/user/fortress-elements`
+- **expected minutes:** 130
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** 1
+- **blurb:** under P-48, by the coordinator's call (the walk probe's way 6 + 7), walk instantiates the big operator of a reduction or comprehension that writes no static argument by the declared type it is the value of, else by the join of its elements' run-time types, else at its bound, in place of BottomType (D2 lifted), from the probe's patch with the hint's design and the collector's types the rung's: rows 645, 646 and 662 promoted, __bigOperator's body(i) typed (row 703, held if the count stage's run passes 690 s), IntMap's BIG {|->} declared as Map's (a new row); the inference and reductions texts and three Appendix I passages corrected; no site; Java under interpreter/evaluator/ and Fortress in FortressLibrary and IntMap.
+- **points to report:**
+  - A walk test, a team test or a specification example whose verdict changes other than the three promotions, with its program and the instance walk gave.
+  - The count's table, its error and the stage's time against its 900 s limit, whether body(i) landed, and any site that __bigOperator's body or the collector brings.
+  - The hint's design: how it reaches the instantiation, the caches, and why no other task can read it; the reach of the collection step and of way 7's contexts; the interpreter suite's time against batch 14's gate.
+  - Each library declaration added or changed, its types and its precedent line, IntMap's api lines among them.
+  - Normative text changed, and every revival sentence made false and corrected, the skill's among them.
+  - A checker or code-generator edit, or a walk edit beyond the files the section names.
+
+#### C
+- **slug:** `rung-checker-bounds`
+- **worktree:** `/home/user/fortress-bounds`
+- **expected minutes:** 110
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** 1
+- **blurb:** from the checker probe's three patches, the compiled checker expands a closed trait only against a conjunct that names no type variable (rows 686, 687, 689 and 690, the four expected failures promoted), takes an inference or type variable below a union through the union as a whole or through its bound (their ground sibling, a new row, by the coordinator's call), and infers a local function's return type with its group in scope (row 680, Array3's crash, held if the count over the whole component passes 690 s); the count stage run twice, the second time with body(i) typed for that run only; 1 site; Scala in types/TypeAnalyzer.scala and typechecker/impls/Decls.scala.
+- **points to report:**
+  - A compiled test whose verdict changes other than the four promotions and the new tests, or a ladder file that moves.
+  - A site that comes or goes beyond :2493 and the crash row, by row and line.
+  - Both count tables with their times, the second the component's own errors, and whether row 680's line landed.
+  - A patch changed from the probe's, with the reason, and InferUnionInstanceArg's verdict.
+  - A specification sentence the change makes false.
+  - A checker file edited beyond TypeAnalyzer.scala and impls/Decls.scala, or any library or walk edit.
+
+#### L
+- **slug:** `rung-library-factories`
+- **worktree:** `/home/user/fortress-factories`
+- **expected minutes:** 70
+- **its test is the stage:** yes
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** none
+- **blurb:** from the checker probe's patch, array1 and array2 build a vector or a matrix per number type by a typecase with cast, in additiveIdentity's shape, in place of a call at their unbounded T (row 685, closed with its claim corrected by the coordinator's call, and its error's location filed as a new row); IntMap's UPLUS of a many-entry and a one-entry map throws KeyOverlap on a shared key, by the library's own addNew (row 704, a revival test's two pins changed); the revival box on the factory corrected; 4 sites; Fortress in FortressLibrary and IntMap.
+- **points to report:**
+  - A walk value that changes: array1 or array2 at an abstract number type, and each IntMap test whose value or throw changes, a comprehension with a repeated key among them.
+  - Each repair's precedent line, and each team line changed.
+  - The pins changed in IntMapUplusSingleton.fss, each with its before and after.
+  - A site that comes or goes beyond row 685's four.
+  - Normative text changed, and each sentence made false.
+  - A checker or walk edit.
+
+#### O
+- **slug:** `rung-duplicates-coverage`
+- **worktree:** `/home/user/fortress-dupcover`
+- **expected minutes:** 100
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** none
+- **blurb:** the compiled checker refuses two functional methods of one name with equivalent parameter types wherever their self parameters stand (row 707), and covers an inherited abstract method through every combination of the types the comprises clauses of its parameter types list, bounded as walk is (row 709); walk refuses where its coverage search does not settle, by the coordinator's call under P-147 (row 708); the three expected failures rekeyed or promoted, three Appendix I sentences corrected; no site; Scala in OverloadingChecker.scala and AbstractMethodChecker.scala, Java in walk's Constructor.java.
+- **points to report:**
+  - A library, team or test declaration that the checker or walk now refuses, a functional-method pair at two self positions or an object whose search does not settle.
+  - A compiled or walk test whose verdict changes other than the three tests of the rows, or a ladder file that moves.
+  - The message row 707's refusal prints, and the bound row 709's split takes.
+  - A count or distance site that moves.
+  - Normative text changed beyond the three Appendix I sentences, and every sentence made false, the skill's among them.
+  - An edit of TypeAnalyzer.scala or of OverloadedFunction.java, or any library or code-generator edit.
+
+### What every agent of the run reads first
+
+This run is climb batch 15, the record CLIMB-BATCH-15.md, phase 3's next batch after batch 14, toward the checker at a true zero: one walk rung with the library lines it needs, one checker rung, one library rung, and one rung on both paths. It builds two probes taken for it, perf-probes/walk-plain-bound and perf-probes/checker-bound-defects, starting from their patches, and the coordinator's calls that settled their questions under the curator's rule for forks: walk instantiates an unwritten clause form's big operator by a declared type, its elements or its bound (way 6 + 7, under P-48); row 685 closed with its claim corrected and its error's location filed; the ground sibling's patch in the normal-form rung. It also builds the calls on batch 14's review list for item 53, rows 704 and 708, and PLAN's lines for rows 707 and 709. The distance stands at 54 and the count at 1 after climb batch 14 (compile-ladder/climb-batch-14/gate/). The rungs meet only in a measure: no two rungs change one declaration, and no rung builds on another. B edits walk's evaluator, FortressLibrary's __bigOperator and the collector after it, and IntMap's comprehension; L edits FortressLibrary's array1 and array2 and IntMap's UPLUS; C edits the checker's TypeAnalyzer.scala and impls/Decls.scala; O the checker's OverloadingChecker.scala and AbstractMethodChecker.scala and walk's Constructor.java. Specification/appendices/changes.tex takes B's amendments of two entries and O's of two others; L corrects one box in future.tex. B and C move the count stage's stop: with both lines landed the gate's stage checks the library component whole for the first time, and each of the two guards the stage's 900 s limit with its own line. B, C and L move the checker's view of component FortressLibrary; B, L and O reach the interpreter suite; the gate measures and runs the merged tree. ant testSpecData runs in the gate because batch 14's landed summary has it.
+
+### Before the launch
+
+The coordinator, in this order:
+1. The script's handover lines named in gather.1 (PLAN, "Climb batch 14, listed for his review"), its own edit; this record with its generator on `main`, and its top-tier review in place on the standing pre-approval of such reviews. The base is `main`'s head after them, its full hash, passed as `args.base`.
+2. The base build at `/home/user/fortress-base15`, as the manual's "Before the launch" steps 2 and 3 give it (`ant compileAll`, the library order, one passing walk test, `git status --porcelain` empty), passed as `args.baseBuild`; one trial seed (`/home/user/fortress-seedcheck`, removed after) and one `old-fortress.sh` run of `BooleanOps.fss` from the main tree prove it.
+3. No probe (section 1, "Before the batch runs").
+4. The briefings checked on the base: `python3 explorations/compile-ladder/plan-15/manifest/lists15.py`, every key matching one place. The block generated and spliced: `python3 explorations/compile-ladder/plan-15/manifest/gen15.py`, then `node explorations/compile-ladder/plan-15/manifest/check15.js`, which splices it into a scratch copy and checks it; then the same splice into the script itself (`check15.js --write`), `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script, and the commit. No launch value is set by hand: the batch's new ledger rows are numbered by the gather through `ledger.py add`.
+5. `df -h /` against four seeded worktrees (about 206 MB each) and the base build; `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits. The session's permission rules let the commit stage run `explorations/coordinator/tools/mg-run.sh`.
+6. Check-ins armed for the run's length, 45 minutes apart, and one after the session's next predicted process stop, which the boot note names (the `coordinator` skill's `references/delegating.md`, "Watching a run"); a run stopped there is resumed with `resumeFromRunId`.
+
+The launch: `Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<the full hash of the base>', baseBuild: '/home/user/fortress-base15'}})`. The arguments are kept byte for byte in the session's scratchpad, since a resume needs them.
+
+### The gate, and what it should show
+
+The comparands are batch 14's `summary.txt`, `checker-count.txt` (1) and `distance.txt` (54), with `distance-sites.tsv`.
+- `testSystem`: the comparand's sum (604: 153, 151, 148 and 152 over the four shards) plus the files B, L and O add; a promotion or a changed pin moves nothing.
+- `testFast`: the compiler track 1,173 plus the cases C and O add; the library track 86, the othercompiler track 263 and the misc tracks unchanged.
+- `testSpecData`: 130 green, run because the last landed summary has it.
+- The four-thread atomic runs, 42 lines: unchanged.
+- The ladder: no rung declares a move; C's and O's checker changes are the ones that could move a file, each a point to report.
+- The checker count: declared 1 by B and by C, each on its own tree. On the merged tree, with B's `body(i)` and C's row 680 line both landed, the stage checks the library component whole: about 39 errors (C's second run gives the figure, less L's 4), COUNT UP, never red. Its time is read against the 900 s limit, since a run past it leaves no total, which `checker_compare` reads red; B's and C's runs guard it. If either line was held, the count is 1. The `#crash` line, which reads only the overloading checker's crashes, stays `none`.
+- The distance, reported and never red: about 49 (C 1, L 4; B and O none), give or take row 488's 2 to 4; both crash rows gone if both lines landed.
+- A repair after the review or the gate runs the gate again only when it changed a path the gate reads (`ProjectFortress/` but test files, `Library/`, `build.xml`).
+
+### The ledger
+
+New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py add`, by the gather, in the order it applies the rungs (its `RECORD.md` says which order and why); until then a worker or a skeptic writes each new row in its `record.md` in the row template with the placeholder `NEW-<rung>-<n>` for its number, and the gather replaces every placeholder with the number `ledger.py` gives. The rows the rungs open by plan: NEW-B-1, `IntMap`'s comprehension declared as an `IntMap` (added, then closed with B's test); NEW-C-1, the ground sibling (added, then closed with C's `BoundsGround` test); NEW-L-1, the error reported at the callee's declared type (added; it stays open). Rows the rungs close (`ledger.py close`, after the rung's commit is on `main`), each as its test passes on the merged tree: 645, 646, 662 and 703 (B; 703 only if `body(i)` landed); 686, 687, 689 and 690 (C), and 680 with its claim corrected (`--claim`; only if its line landed); 685 with its claim and class corrected to the library line (L, `--claim`, `--class`), and 704 (L); 707, 708 and 709 (O). A row whose line a rung held stays open with a note of the stage's time. Notes: 424 and 20 (B); 518, 688 and 695 (C); 678 (L); 665 (O). Where `ledger.py` refuses a note for length or a closed row, the gather lists the text for the coordinator.
+
+### After the landing
+
+The coordinator: the landing report; the routing of every item for the curator into PLAN, Q1 and the four calls of section 2 among them, and a PLAN line for every row the batch opens; FACTS consolidated (F-53 and F-54 to the new figures and to the count as the gate reads it; F-94 rewritten, one cause in the normal form; F-141's D2, F-143's open rows and F-220 made false by B; F-145's sentences on an unsettled search and on row 709 made false by O); review-queue item 17 out of the lists; the post-batch review, which reports this batch's measures against batches 11 to 14 as `process-engineering/batch-redesign.md`, "The measures", defines them; batch 16's lists, from section 4.
