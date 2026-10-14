@@ -2151,3 +2151,37 @@ pointer words refreshed in: F-24
 2026-10-14 06:09Z · rewritten · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "4. Row 696: the specification's change, passage by passage" · from `explorations/compile-ladder/rung-popl-examples/SKEPTIC.md`, "2. My programs: the differential" · commit `3ba2d005f` · by record pass after climb batch 14: cut to the form; the checker's and the oracle's lines, the code generator's message, walk's two shapes to rows 373 and 549, and walk's refusal of the pair at different positions to the skeptic's section 2
 
 - F-223 **The specification's No Duplicates Rule is the type group's non-strict rule, and the compiled checker applies it but between functional methods whose `self` parameters stand at different positions.** Two declarations of one name may not each be applicable to every call to which the other is (`Specification/advanced/overloading.tex:548-549`), as in the papers of 2011 and 2019. The checker refuses such a pair by `oracle.equiv`, the domains' subtype relation both ways, at one self position (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:439-446`, `ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:68-74`). Two functional methods whose `self` parameters stand at different positions pass the checker, and the code generator stops the compile, 'Likely bug in static analysis, apparently malformed overload set not rejected' (row 707, `compiler_tests/XXXNoDuplicatesRuleSelfPositions.test`). Walk runs one of the pair where both are generic over one parameterized type (row 373) and where a generic declaration stands beside one at its bound (row 549); it refuses the functional methods at different self positions. Gated by `compiler_tests/XXXNoDuplicatesRule.test`; walk's side by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md`, section 4.
+
+### F-226
+
+2026-10-14 11:39Z · added · from `explorations/reviews/astra-record-keeping-review.md`, "5. Further skill refinement: one independently maintainable claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: F-87's and F-43's renaming clauses given one home
+
+### F-43
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "5. Further skill refinement: one independently maintainable claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the renaming clause to F-226
+
+- F-43 **The overloading checker's memo hides errors by build order, so every count runs with it off.** The switch is `fortress.analyzer.overload.cache=false`, which the gate's stages set. The checker renames an inherited method's own static parameters apart from its trait's before it compares them, so `Generator.generate[\R\]`, inherited by `PossibleReductionPair[\R\]`, keeps its own `R` (row 561). Gated by `compiler_tests/InheritedMethodStaticParamSameName`. Detail: `perf-probes/nat/triage.md` sections 1 and 3.
+
+### F-70
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.1 F-70 and F-87: the call form was lost" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the dotted call's check and the top-level call's gap (rows 651, 470)
+
+- F-70 **No static parameter of the one library is bounded by `Object`; the checker checks no written static argument against its bound, and walk stops on a tuple, `()` or an arrow for a written `Object`.** The library's result-only parameters are unbounded, as P-48 decides (F-84), and six, `cast` among them, write `extends Any`. The specification's examples and the compiler tests write `extends Object`. The checker's gap is row 470. Walk's stop is an `InterpreterBug`, not a type error (row 471). Detail: `compile-ladder/rung-result-bounds/REPORT.md` section 10.
+
+### F-87
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.1 F-70 and F-87: the call form was lost" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the bound check to F-70, the renaming to F-226
+
+- F-87 **The compiled checker gives a call its expected type in a clause of an `if` without `else`, a block's last expression after local declarations, a `typecase` clause, a juxtaposition, a repeated operator, a `label` body and another call's argument.** The `label` body builds P-50, and another call's argument P-51, by a retry of the enclosing call (F-221). The checker renames an inherited method's own static parameters apart from the receiver's static arguments, and checks a written static argument against its bounds. Gated by `compiler_tests/InferResultOnly*`, `Infer*Context` and `MethodStaticArg*`. Detail: `compile-ladder/rung-checker-contexts/REPORT.md` section 1.
+
+### F-74
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.2 F-140 and F-170: a small value became a universal claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the same overgeneralization as F-170's
+
+- F-74 **Walk's numeral stays an `Int` until walk has the checker's static types, since without them a list of numerals and a generic's static argument take their types from the values.** It is P-76's walk half; F-79 is the library half. With walk's numeral an `IntLiteral`, the library loads and both microGPT checks keep their values, but 24 passing interpreter tests fail: 6 by design, 3 of them team tests that assert a `ZZ32`; 9 for want of static types (rows 364, 510); and 9 walk gaps. A size used as a value is an `Int` too (row 486). Detail: `reviews/numeral-switch-judgement.md` section 3.
+
+### F-170
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.2 F-140 and F-170: a small value became a universal claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the measured small size, F-140 for the rule
+
+- F-170 **The specification's ranges are over ℤ32, and its own ranges over wider integer types are respelled.** An integer numeral and a `nat` or `int` parameter convert into a range's ℤ32 components. Another integer type is a static error. A wider counter widens each element (row 485). The two examples that built `ZZ64` ranges run over ℤ32, and `ant testSpecData`, a gate step, runs both (F-114). Under walk a `nat` parameter in value position is an `Int`, refused at an `NN32` binding (row 486). Detail: `compile-ladder/rung-spec-ranges/decision-record.md` sections 2 and 3.
