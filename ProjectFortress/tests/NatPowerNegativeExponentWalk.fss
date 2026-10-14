@@ -1,0 +1,16 @@
+component NatPowerNegativeExponentWalk
+export Executable
+
+(* A power in a size at a negative exponent is no value of a nat or an int parameter, so a top-level variable whose initialisation instantiates one is refused at load, under walk (constant.tex, section "Static Expressions"; trait-parameters.tex, section "Nat and Int Parameters"). *)
+
+object IBox[\int k\](v: ZZ32) end
+isz[\int k\](b: IBox[\k\]): ZZ32 = k
+pow2[\int e\](): ZZ32 = isz[\2^e\](IBox[\2^e\](0))
+
+v: ZZ32 = pow2[\0 - 1\]()
+
+run(): () = do
+    println(v)
+  end
+
+end

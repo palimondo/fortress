@@ -1,0 +1,30 @@
+(* A power in a size denotes its number, as a sum and a product do. *)
+component NatArithPowerWalk
+export Executable
+
+object Box[\nat k\](v: ZZ32) end
+object IBox[\int k\](v: ZZ32) end
+sz[\nat k\](b: Box[\k\]): ZZ32 = k
+sz64[\nat k\](b: Box[\k\]): ZZ64 = k
+isz[\int k\](b: IBox[\k\]): ZZ32 = k
+pow2[\nat e\](): ZZ32 = sz[\2^e\](Box[\2^e\](0))
+secondPower[\int b\](): ZZ32 = isz[\b^2\](IBox[\b^2\](0))
+
+run(): () = do
+    assert(sz(Box[\2^3\](0)), 8, "constant.tex, section \"Static Expressions\": a power of numerals in a size")
+    assert(sz(Box[\7^0\](0)), 1, "an exponent of 0")
+    assert(sz(Box[\0^0\](0)), 1, "0 at an exponent of 0")
+    assert(sz(Box[\0^7\](0)), 0, "a power of 0")
+    assert(sz(Box[\1^100000\](0)), 1, "a power of 1")
+    assert(isz(IBox[\(0 - 1)^100001\](0)), -1, "a power of -1 at an odd exponent")
+    assert(isz(IBox[\(0 - 1)^100000\](0)), 1, "a power of -1 at an even exponent")
+    assert(isz(IBox[\(0 - 2)^3\](0)), -8, "a power of a negative base")
+    assert(sz(Box[\3 2^2 + 1\](0)), 13, "a power binds tighter than a product and a sum")
+    e1: ZZ64 = 4294967295
+    assert(sz64(Box[\2^32 - 1\](0)) = e1, "a power whose value is beyond ZZ32 and ZZ64's narrower kinds, computed exactly")
+    assert(pow2[\10\](), 1024, "a power at an exponent that a static parameter gives")
+    assert(secondPower[\0 - 5\](), 25, "a power of a base that a static parameter gives")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,14 @@
+component NatPowerOverflowWalk
+export Executable
+
+(* A power in a size whose value is beyond ZZ64, 2^64, is no value of a nat parameter, and is not read modulo 2^64 as 0, so a top-level variable whose initialisation instantiates one is refused at load, under walk (trait-parameters.tex, section "Nat and Int Parameters"). *)
+
+object Box[\nat k\](v: ZZ32) end
+
+b: Box[\2^64\] = Box[\2^64\](0)
+
+run(): () = do
+    println(b)
+  end
+
+end
