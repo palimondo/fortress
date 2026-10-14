@@ -1,0 +1,11 @@
+(* A recursive local function that leaves its return type out is refused with the reference-cycle message, as a top-level function in a cycle is, since the compiled checker infers no return type through a cycle (type-inference.tex, section "Type Inference for Components"). *)
+component XXXLocalFunctionRecursiveUntypedReturn
+export Executable
+
+run(): () = do
+    fact(n: ZZ32) = if n = 0 then 1 else n fact(n - 1) end
+    assert(fact(3), 6, "fact(3)")
+    println("PASS")
+  end
+
+end

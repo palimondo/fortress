@@ -1,5 +1,5 @@
 (* A call of a generic function whose type parameter has two bounds, one of them a trait with a comprises clause, is applicable with a numeral converted to the declared ZZ32 of another parameter. *)
-component XXXCoerceTwoBoundsClosedTrait
+component CoerceTwoBoundsClosedTrait
 export Executable
 
 trait R[\T extends R[\T\]\] end

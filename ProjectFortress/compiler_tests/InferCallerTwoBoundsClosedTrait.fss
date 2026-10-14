@@ -1,5 +1,5 @@
 (* A call whose argument's type carries the caller's own type parameter, bounded as the callee's is by two bounds one of which is a trait with a comprises clause, is applicable. *)
-component XXXInferCallerTwoBoundsClosedTrait
+component InferCallerTwoBoundsClosedTrait
 export Executable
 
 trait R[\T extends R[\T\]\] end

@@ -1,0 +1,22 @@
+(* A compiled default body that returns self as its trait's self-type parameter, instantiated at a trait type, answers the receiver. *)
+component SelfTypeReturnSelfAtTraitRun
+export Executable
+
+trait Shape[\S extends Shape[\S\]\]
+    getter tag(): String
+    twin(self): S = self
+end
+
+trait Animal extends Shape[\Animal\] end
+
+object Cat extends { Animal, Shape[\Animal\] }
+    getter tag(): String = "cat"
+end
+
+run(): () = do
+    println(twin(Cat).tag)
+    assert(twin(Cat).tag, "cat", "twin answers its receiver at the trait type Animal")
+    println("PASS")
+  end
+
+end
