@@ -2404,8 +2404,13 @@ same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
 it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
-with the same parameter type'', and the interpreter loads such a pair and runs
-one of them (row~373).
+with the same parameter type'', except two functional methods whose \KWD{self}
+parameters stand at different positions, which only its code generator
+refuses, as a malformed overload set (row~NEW-P-2 of the revival's gap ledger).
+The interpreter loads such a pair and runs one of them where both declarations
+have static parameters and their parameter types mention one parameterized
+type, as \VAR{dup}'s do (row~373), and where one has static parameters and the
+other's parameter type is its bound (row~549).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid

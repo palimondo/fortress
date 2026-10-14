@@ -1,0 +1,16 @@
+component XXXNoDuplicatesRuleSelfPositions
+export Executable
+
+(* Two generic functional methods of one trait whose parameter types are each as specific as the other, self first in one and second in the other, break the No Duplicates Rule, a static error the type checker gives (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait S
+  f[\T extends S\](self, y: T): ZZ32 = 1
+  f[\U extends S\](x: U, self): ZZ32 = 2
+end
+object O extends S end
+
+run(): () = do
+  println(f(O, O))
+end
+
+end

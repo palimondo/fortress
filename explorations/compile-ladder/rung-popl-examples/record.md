@@ -13,12 +13,18 @@ Under "## Landed semantics", after F-140 ("A size beyond `NN32` or `ZZ32` is ref
   - Gated by `tests/NatArithPowerWalk`, `NatPowerNegativeExponentWalk`, `NatPowerOutOfRangeWalk` and `NatPowerOverflowWalk`.
   - Detail: `compile-ladder/rung-popl-examples/REPORT.md`, sections 3 and 6.
 
+Rewritten, since this rung makes a clause of each false (added by the skeptic):
+
+- F-146 (`explorations/coordinator/FACTS.md:138`): its "Open:" list names "walk stops on a power in a size (row 676)"; that clause goes, row 676 being fixed.
+- F-176 (`FACTS.md:166`): "Walk computes `+`, `-` and juxtaposition at instantiation, stops on a power (row 676)" becomes "Walk computes `+`, `-`, juxtaposition and `^` exactly at instantiation, refusing a negative exponent", by `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:472-484`.
+
 Under "## The specification and the repository's lineage", after F-174:
 
-- **The specification's No Duplicates Rule is the type group's non-strict rule, and the compiled checker applies it.**
+- **The specification's No Duplicates Rule is the type group's non-strict rule, and the compiled checker applies it but between functional methods whose `self` parameters stand at different positions.**
   - Two declarations of one name may not each be applicable to every call to which the other is (`Specification/advanced/overloading.tex:548-549`), as in the papers of 2011 and 2019.
-  - The checker refuses such a pair by `oracle.equiv`, the domains' subtype relation both ways (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:439-446`, `ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:68-74`).
-  - Walk runs one of the pair (row 373).
+  - The checker refuses such a pair by `oracle.equiv`, the domains' subtype relation both ways, at one self position (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:439-446`, `ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:68-74`).
+  - Two functional methods whose `self` parameters stand at different positions pass the checker, and the code generator stops the compile, 'Likely bug in static analysis, apparently malformed overload set not rejected' (row NEW-P-2, `compiler_tests/XXXNoDuplicatesRuleSelfPositions.test`). (Added by the skeptic.)
+  - Walk runs one of the pair where both are generic over one parameterized type (row 373) and where a generic declaration stands beside one at its bound (row 549); it refuses the functional methods at different self positions.
   - Gated by `compiler_tests/XXXNoDuplicatesRule.test`; walk's side by `tests/XXXNoDuplicatesRuleWalk`.
   - Detail: `compile-ladder/rung-popl-examples/REPORT.md`, section 4.
 
@@ -32,14 +38,19 @@ Each note below was checked against the template by appending it to its row in a
 - **Row 675**, append: "At e = -1, `IBox[\2^e\]` stops it too, 'Illegal embedded sign character'; walk refuses it (`NatPowerNegativeExponentWalk`)."
 - **Row 676**, close: `ledger.py close 676 --commit dcad9f75a --test ProjectFortress/tests/NatArithPowerWalk.fss`.
 - **Row 693**, append: "Object shape: `XXXOverrideNothingConditionalExtensionWalk`."
-- **Row 696**, close: `ledger.py close 696 --commit 98e8ff979 --test ProjectFortress/compiler_tests/XXXNoDuplicatesRule.test --note "the compiled checker's duplicate check refused such a pair before the text did; walk runs one (row 373)"`.
+- **Row 696**, close: `ledger.py close 696 --commit 98e8ff979 --test ProjectFortress/compiler_tests/XXXNoDuplicatesRule.test --note "the compiled checker's duplicate check refused such a pair before the text did, but at different self positions (row NEW-P-2); walk runs one (rows 373, 549)"`. (The note's last clauses are the skeptic's.)
 - **Row 697:** no note fits (notes 681 of 700 characters). Its reproducer cell, `none`, is to name `ProjectFortress/tests/XXXReturnRuleObjectParamWalk.fss`, the talk's slide 4 set. Compiled, `compiler_tests/XXXReturnRuleMeetCrossing.test` refuses the same program.
 - **Row 698**, append: "Gated by `compiler_tests/XXXOverloadZZ32BesideUserTrait.test`; walk runs the set, `tests/OverloadZZ32BesideUserTraitWalk.fss`."
 - **Row 699**, append: "Gated by `compiler_tests/XXXGenericInstanceReturnOnly.test`, linked by `GenericInstanceReturnOnlyLink.test`; walk's side: row NEW-P-1."
+- **Row 549**, append (the skeptic's; with it the row is 1,122 characters, and `ledger.py check --rows` printed "1 rows, 0 fail the template"): "Under the No Duplicates Rule as restated for row 696 the pair is refused too."
 
 New row, in section "4. Operators and overloading under walk" (linted with a number in place of NEW-P-1: "1 rows, 0 fail the template"):
 
 | NEW-P-1 | under walk, a generic declaration reached by dispatch whose type parameter only its return type mentions runs at its bound, not at the call's static type: `sort[\P\](x: Ltwo): Sorted[\P\]` beside `sort(x: Lst): Sorted[\A\]` gives `Sorted[\Any\]`, and `merge` of it with a `Sorted[\A\]` fails | NEGATIVE-VERIFIED | design limit (walk) | `basic/overloading.tex`, "Overloading Resolution" | `ProjectFortress/tests/XXXGenericInstanceReturnOnlyWalk.fss` | POPL 2019 examples sorting | siblings: 510, 538, 699. 'Unification error: Closure/Constructor for merge param 1 (x:Sorted[\Any\]) got arg Sorted[\A\] of type Sorted[\A\]'. Walk has no static types, so no static type of the call bounds the instance; the section's `\revision{revival-dispatch}` callout states walk's departure but names no row. The paper's p. 11:7 `sort`/`merge` example, made invariant. `explorations/reviews/popl2019-examples.md` |
+
+New row, the skeptic's, in section "5. Overloading on the compiled path: checker and dispatch" (linted with a number in place of NEW-P-2: "1 rows, 0 fail the template"); home 2, its expected failure keyed on the code generator's message as a code-generator wall is, so that the checker's refusal turns it red:
+
+| NEW-P-2 | the compiled checker refuses two functional methods of one name whose parameter types are each a subtype of the other only when their `self` parameters stand at one position: `f[\T extends S\](self, y: T)` beside `f[\U extends S\](x: U, self)` passes it, and the code generator stops the compile | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleSelfPositions.test` | climb batch 14 rung P's skeptic | siblings: 574. `checkOverloading` counts a duplicate only where `oracle.equiv` holds and the self positions are equal (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:441`, the team's line, at 98e8ff979); `OverloadSet` then finds no order and throws a CompilerBug, 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:411`). The plain pair `f(self, y: S)` beside `f(x: S, self)` does the same. Walk refuses both at load. |
 
 ## Handover state line
 
@@ -59,7 +70,7 @@ Climb batch 14's rung P (`rung-popl-examples`, branch `wip/rung-popl-examples`):
   - a power at a negative exponent, which only a static parameter can give, is refused: "Static argument 2^e has the negative exponent -1, and a power in a size takes an exponent of 0 or above" (`ProjectFortress/tests/NatPowerNegativeExponentWalk.fss`);
   - a power beyond its parameter's kind is refused as a sum is, at binding or when it overflows a long (`NatPowerOutOfRangeWalk.fss`, `NatPowerOverflowWalk.fss`).
 - **The reason.**
-  - The grammar gives a power of a size, `IntExpr ^ IntVal` (`Specification/appendices/grammars/concrete-syntax.tex:545`).
+  - The grammar gives a power of a size, `IntExpr ^ IntVal` (`Specification/appendices/grammars/concrete-syntax.tex:546`).
   - The text says "Given instantiations of all static parameters ... in scope of a static expression, the value of the static expression can be determined statically" (`Specification/basic/expressions/constant.tex:26-29`).
   - A `nat` or `int` parameter takes an `NN32` or a `ZZ32` value (`Specification/basic/trait-parameters.tex:98-105`), which a power at a negative exponent of a base other than 1 and -1 is not.
   - The compiled path computes the same powers, and no negative one (`Naming.java:1216`).
