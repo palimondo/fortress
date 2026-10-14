@@ -1,4 +1,4 @@
-(* IntMap's UPLUS of a many-entry map and a one-entry map on a shared key, whose value under walk throws KeyOverlap only with the one-entry map on the left. *)
+(* IntMap's UPLUS of a many-entry map and a one-entry map throws KeyOverlap on a shared key in either order, and holds every entry otherwise. *)
 component IntMapUplusSingleton
 import IntMap.{...}
 export Executable
@@ -21,8 +21,8 @@ run(): () = do
     assert(three UPLUS five, all4, "a many-entry map UPLUS a one-entry map on another key holds all four entries")
     assert(five UPLUS three, all4, "a one-entry map UPLUS a many-entry map on another key holds all four entries")
     assert(overlap(fn () => one UPLUS three), "IntMap.KeyOverlap: 1 |-> 1 and |-> 9", "a one-entry map UPLUS a many-entry map holding its key throws KeyOverlap")
-    assert(overlap(fn () => three UPLUS one), "no exception", "today's value: a many-entry map UPLUS a one-entry map holding its key throws nothing")
-    assert(three UPLUS one, three, "today's value: a many-entry map UPLUS a one-entry map holding its key keeps the many-entry map's entries")
+    assert(overlap(fn () => three UPLUS one), "IntMap.KeyOverlap: 1 |-> 1 and |-> 9", "a many-entry map UPLUS a one-entry map holding its key throws KeyOverlap")
+    assert(overlap(fn () => three UPLUS one), overlap(fn () => one UPLUS three), "a many-entry map UPLUS a one-entry map holding its key throws as the reverse order does")
     println("PASS")
   end
 
