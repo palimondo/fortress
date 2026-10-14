@@ -2616,8 +2616,9 @@ This means that the statically chosen coercion is applied at run time.
 
 \begin{description}
 \item[Affected sections] \secref{internal-types};
-\secref{abstractFunctionDeclarations}; a draft note in the subsection ``Export
-Statements'' of \secref{components}; the effect of \secref{revival-comprises}.
+\secref{abstractFunctionDeclarations}; \secref{methods}; a draft note in the
+subsection ``Export Statements'' of \secref{components}; the effect of
+\secref{revival-comprises}.
 \item[Change] \secref{internal-types} defines covering: a type covers another
 when every value of the second is a value of the first; a type covers each of
 its subtypes, and a trait with a \KWD{comprises} clause is covered by the union
@@ -2645,6 +2646,16 @@ clause''; they now say that it reads such clauses to do so, so that concrete
 methods over the types that a trait lists together cover an abstract method
 over that trait.
 The normative text is unchanged.
+An amendment of 14~October 2026 revises the sentence of \secref{methods} on
+abstract methods: an object inheriting an abstract method defines it by a method
+definition whose parameter type, not counting the type of the self parameter, is
+that of the abstract method declaration, or by definitions whose parameter types
+are subtypes of it and together cover it, or it is a static error, where the
+sentence said only that the object must define a body expression for the method.
+The sentence has a box.
+The requirement of \secref{object-decls} that an object define all abstract
+methods inherited from its supertraits is unchanged; the box says that it is
+read in this sense.
 \item[Rationale] This change does not follow from route~A; the revival decided
 on 29~September 2026 that the passages that read a \KWD{comprises} clause at the
 level of types are restated at the level of values, which is how
@@ -2683,6 +2694,34 @@ has no \KWD{comprises} clause.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-walk-override/REPORT.md} in the
 revival's repository.
+The amendment of 14~October 2026 follows the revival's decision of 13~October
+2026 that an object defines an inherited abstract method when its definitions
+of that name at narrower parameter types together cover the abstract method's
+parameter types, \KWD{comprises} clauses read as the compiled type checker
+reads them; a definition at the abstract method's own parameter type is the
+plain case.
+It is the type group's rule of 2012.
+The compiled type checker checks, at each object declaration, whether each
+inherited abstract method ``is covered by one or more concrete definitions'',
+its parameter type a subtype of the union of theirs (Steele, May 2012, in
+\nolinkurl{ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala},
+in the revival's repository), and reads \KWD{comprises} clauses to do so since
+6~June 2012.
+Welterweight Fortress uses the same rules to check methods as functions, the
+type of the trait or object within which the method is declared not considered
+(\nolinkurl{Papers/Welterweight/static.tick}, lines 27--47).
+The sentence of \secref{methods} is older than that reading; the chapter's own
+sentence on overloaded functional methods points to
+\secref{abstractFunctionDeclarations}, which asks for coverage, as the Meet Rule
+does.
+The team's library and tests define abstract methods by covering definitions:
+the trait \TYP{RunRanges} of the component \TYP{Pairs}
+(\nolinkurl{Library/Pairs.fss}) and the trait \TYP{dna} of the test
+\nolinkurl{ProjectFortress/tests/FileConversion.fss}, which the sentence read to
+the letter would refuse.
+The full reasoning is in
+\nolinkurl{explorations/reviews/walk-load-readings-check.md}, section~2, in the
+revival's repository.
 \item[Effect] No example of this specification becomes invalid.
 Covering is not subtyping: where an instantiation of a trait with static
 parameters stands between $S$ and $T$ and their listed types, its value is a
@@ -2694,6 +2733,16 @@ object's concrete methods cover the abstract methods it inherits, and reads
 \KWD{comprises} clauses to do so: concrete methods over the types that a trait
 lists together cover an abstract method over that trait; top-level abstract
 function declarations run on neither implementation.
+Since the amendment of 14~October 2026 the interpreter checks the same at load,
+at each object without static parameters, reading \KWD{comprises} clauses as its
+check of the Meet Rule reads them: it accepts an object whose definitions at
+narrower parameter types together cover an inherited abstract method, as before,
+and refuses one whose definitions do not cover it, where it accepted any one
+definition at narrower parameter types before.
+It does not check objects with static parameters and object expressions in
+generic functions (row~665 of the revival's gap ledger), and it
+does not refuse an object where its search through the \KWD{comprises} clauses
+does not settle: a cycle, its bound on steps or parts, or a type it cannot read.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
 lines 568--570:
 \begin{quote}
@@ -2716,6 +2765,11 @@ subtype of \TYP{Molecule}, or it is a static error.
 \begin{quote}
 provided that all its immediate subtraits are considered to have concrete
 method declaration with that signature.
+\end{quote}
+\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines 510--512:
+\begin{quote}
+An abstract method declaration declares an \emph{abstract method}; any object
+inheriting an abstract method must define a body expression for the method.
 \end{quote}
 The effect of \secref{revival-comprises}, the revival's text of 28~September
 2026, ended:
