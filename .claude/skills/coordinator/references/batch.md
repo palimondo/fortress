@@ -32,8 +32,8 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 ## The go
 
 - The batches of PLAN's phase 3 run on a standing go, in PLAN's order. Launch each when the batch before it has landed and its own batch record has no open question.
-- Put a question that a batch record raises to the curator first. While the curator is away, overnight, take its recommended default and put it on the review list. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
-- Have one Fable review read each coming batch's record before the launch. It is written for the curator in place of reading the record, and needs no further ask.
+- If a question that the batch record raises is consequential (`SKILL.md`), put it to the curator first. Otherwise decide it and put it on the review list. While the curator is away, overnight, take its recommended default and put it on the review list. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
+- Have one Fable review read each coming batch record before the launch, with a go in advance. It is written for the curator in place of reading the record. Treat its questions as the batch record's.
 
 ## The workflow
 
@@ -48,7 +48,7 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 
 - The skeptic checks a rung's result after its worker, and builds nothing to check. It reads from the worker's transcript whether the test came first and failed. It runs its own small programs on the rung's build, and on the base through `explorations/coordinator/tools/old-fortress.sh` with a private caches folder.
 - It checks the result against the library's way, the ledger, sibling sites and the decisions on record, and fixes what it finds, test first.
-- A judge rules only on a fix that the skeptic marks contested, on a rung that the skeptic refuses, or on a rung whose worker reported that it could not go on. The first ruling runs on Opus, a second on Fable (`judgeTier`). A settled fix lands with the review and the gate as its check. Reaching a reserved point, or a path outside the rung's section, does not make a settled fix contested: it lands, and the point or the path is listed for the curator.
+- A judge rules only on a fix that the skeptic marks contested, on a rung that the skeptic refuses, or on a rung whose worker reported that it could not go on. The first ruling runs on Opus, a second on Fable (`judgeTier`). A settled fix lands with the review and the gate as its check. Reaching a reserved point, or a file outside what the rung's section of the batch record names, does not make a settled fix contested: it lands, and the point or the file goes on the review list. A point that cannot be undone holds the batch.
 - No batch compares the printed outputs of the suites' test programs, and no baseline is run to compare against.
 
 ## The checker count and the distance

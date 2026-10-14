@@ -17,8 +17,8 @@
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
 - Use Sonnet for archaeology and retrieval only, never for a judgement.
 - When this session runs on Fable, have an Opus worker write each longer report or page for the curator.
-- Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if the record does not settle it, run a Fable judgement without asking, sparingly. If the fork stays consequential (`SKILL.md`), put it to the curator as an ask.
-- Three kinds of Fable work have a go in advance: a judge's second ruling in a batch, the top-tier reviews of the batch records, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
+- Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
+- Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
 - A Fable token also uses the all-models limits, at three to four times an Opus token's share of the session limit.
 
 ## What a brief holds
