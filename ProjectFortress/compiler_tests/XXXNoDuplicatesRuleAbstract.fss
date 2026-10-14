@@ -1,0 +1,16 @@
+component XXXNoDuplicatesRuleAbstract
+export Executable
+
+(* An abstract functional method and a concrete one of one trait with the same name and parameter types break the No Duplicates Rule, a static error the type checker gives (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait S
+  f(self, y: S): ZZ32
+  f(self, y: S): ZZ32 = 2
+end
+object O extends S end
+
+run(): () = do
+  println(f(O, O))
+end
+
+end
