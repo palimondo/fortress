@@ -438,7 +438,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                 case 1 =>
                 case _ => var signatures = List[(ArrowType,Option[Int],Option[JavaFunctional])]()
                           for ( sig@(at, sp, fnal) <- triples ) {
-                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && sp == sp2 }) match {
+                                  // two functional methods are duplicates wherever their self parameters stand
+                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && (sp == sp2 || (sp.isDefined && sp2.isDefined)) }) match {
                                 	case Some((at2: ArrowType,sp2,_)) =>
                                 	error(mergeSpan(at, at2),
                                 			"There are multiple declarations of " +
