@@ -1,0 +1,16 @@
+(* IntMap's SYMDIFF of two many-entry maps holds the entries in exactly one of them, in either order. *)
+component IntMapSymdiffManyEntry
+import IntMap.{...}
+export Executable
+
+run(): () = do
+    thirds = {[\ZZ32\] widen(3 k) |-> k | k <- 0#6}
+    middle = {[\ZZ32\] widen(k) |-> 50 + k | k <- 2#6}
+    both = {[\ZZ32\] widen(0) |-> 0, widen(2) |-> 52, widen(4) |-> 54, widen(5) |-> 55, widen(7) |-> 57, widen(9) |-> 3, widen(12) |-> 4, widen(15) |-> 5}
+    assert(thirds SYMDIFF middle, both, "keys 0, 3, ..., 15 SYMDIFF keys 2 to 7 holds the keys of exactly one map")
+    assert(middle SYMDIFF thirds, both, "keys 2 to 7 SYMDIFF keys 0, 3, ..., 15 holds the keys of exactly one map")
+    assert(|middle SYMDIFF thirds|, 8, "the symmetric difference of these two maps has eight entries")
+    println("PASS")
+  end
+
+end
