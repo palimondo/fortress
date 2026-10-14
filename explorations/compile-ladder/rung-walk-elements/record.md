@@ -7,13 +7,14 @@ A new entry in "Landed semantics", after F-143:
 - **Under walk, a reduction or a comprehension that writes no static argument instantiates its big operator by the declared type of its value, else by the join of its elements' run-time types, else at its bound; so `__bigOperator`'s `body(i: I)` is typed** (`compile-ladder/rung-walk-elements/REPORT.md`, sections 1 and 5; P-48, by the coordinator's call of the walk probe's way 6 + 7; rows 703, 646, 662 and 645 closed).
   - The declared type is a local variable's, or a function's declared return type. It is found also where the clause form ends a `do` block, or a block after local declarations (`Evaluator.evalAt`). It is unified with the result type `O` of the operator's declared `BigReduction`, `Comprehension` or `BigOperator`. Where it fixes the instance, the clauses run as written.
   - Otherwise:
-    - the clauses run once into the library's collector (`__elemsOf`, `Library/FortressLibrary.fss:1318-1373` on rung B's tree), which joins the elements at their run-time join, as `APPCOV` does;
+    - the clauses run once into the library's collector (`__elemsOf`, `Library/FortressLibrary.fss:1318-1437` on rung B's tree after the skeptic's fix), which joins the elements at their run-time join, as `APPCOV` does;
     - the operator is instantiated with that join as its element type `I`;
     - the reduction runs over the collected elements (`__bigOperatorElements`).
   - With neither, a plain-bounded static parameter takes its bound (decision D2 is lifted), and an F-bounded one stays open (F-143).
   - The hint is an argument to the operator's own instantiation, outside the per-argument caches (`EvaluatorBase.instantiateBigOperator`); no other evaluation reads it.
   - Left open:
-    - an empty reduction that no declared type directs takes `ZZ32`'s identity (row NEW-B-2, `tests/XXXUnwrittenEmptyFloatSumUntypedWalk`);
+    - an empty reduction or comprehension that no declared type directs is instantiated at its operator's bound: a sum takes `ZZ32`'s identity, a list comprehension is a `List[\Any\]` (row NEW-B-2, `tests/XXXUnwrittenEmptyFloatSumUntypedWalk`);
+    - a big operator whose declared result is a trait other than `BigReduction`, `Comprehension` and `BigOperator` is instantiated at its bound, and an element that bound does not admit stops the reduction (row NEW-B-4, `tests/XXXUserBigOperatorResultTraitWalk`);
     - a comprehension that no declared type reaches is built at its elements' run-time join (rows 20 and NEW-B-3, `tests/XXXNestedComprehensionDeclaredTypeWalk`);
     - an argument of a call (rows 510 and 705).
   - Gated by `tests/UnwrittenListMapComprehensionWalk`, `UnwrittenComprehensionElementsWalk`, `UnwrittenComprehensionDeclaredTypeWalk`, `ComprehensionTypedBindingWalk`, `UnwrittenSetBigOperatorsWalk`, `UnwrittenEmptyFloatSumWalk`, `IntMapComprehensionTypedWalk` and `NestedListComprehensionWalk`.
@@ -24,7 +25,7 @@ Rewrite in place:
   - Its source note gains `compile-ladder/rung-walk-elements/REPORT.md`.
 - **F-143** (`FACTS.md:138`): "Open, each with no static argument written: rows 645 (an empty reduction), 646 (a set comprehension) and 662 (`Set`'s big operators)." becomes "Rows 645, 646 and 662 are fixed by the declared type's and the elements' instance (the entry above); an empty reduction that no declared type directs still takes `ZZ32`'s identity (row NEW-B-2)."
 - **F-220** (`FACTS.md:88`) no longer holds. It becomes: "**`__bigOperator`'s local `body` is typed `body(i: I): L`, which walk runs since it no longer instantiates a big operator's static parameter at `BottomType`.** The checker count's one error is then row 680's crash in `Array3`. Gated by `tests/UnwrittenListMapComprehensionWalk`. Detail: `compile-ladder/rung-walk-elements/REPORT.md` section 6."
-- **F-53** (`FACTS.md:46`): "the untyped parameter of `body(i)` in `__bigOperator`, which walk does not yet let the library type (F-220). Typed, the count would stop at row 680's crash in `Array3`, still one error" becomes "row 680's crash in `Array3`", once the gate measures it. On rung B's tree the count's stage ran 493 s and printed `#total 1`, its error at `FortressLibrary.fss:2978`. The distance stayed 54, with no site moved.
+- **F-53** (`FACTS.md:46`): "the untyped parameter of `body(i)` in `__bigOperator`, which walk does not yet let the library type (F-220). Typed, the count would stop at row 680's crash in `Array3`, still one error" becomes "row 680's crash in `Array3`", once the gate measures it. On rung B's tree at the worker's head (`ef52b7b11`) the count's stage ran 493 s and printed `#total 1`, its error at `FortressLibrary.fss:2978`; the skeptic's fix adds 65 lines above it (the crash's `FnExpr` at `:3043`), and no stage ran after it. The distance stayed 54, with no site moved.
 
 ## Ledger
 
@@ -45,7 +46,7 @@ Notes:
 
 ## New rows
 
-Their numbers replace the placeholders in `Specification/basic/inference.tex:385` and `:389`, `Specification/basic/expressions/reductions.tex:41`, and `Specification/appendices/changes.tex:1121`, `:1124`, `:2080` and `:2082`, and in this rung's `REPORT.md`. No test cites a placeholder.
+Their numbers replace the placeholders in `Specification/basic/inference.tex:388`, `:394` and `:398`, `Specification/basic/expressions/reductions.tex:42`, and `Specification/appendices/changes.tex:1125`, `:1128`, `:1132`, `:2093`, `:2095` and `:2097` (lines after the skeptic's corrections), and in this rung's `REPORT.md` and `SKEPTIC.md`. No test cites a placeholder.
 
 In section "10. Strings, maps and printing" (beside rows 671 and 704); closed by the rung's commit, as above:
 
@@ -53,19 +54,28 @@ In section "10. Strings, maps and printing" (beside rows 671 and 704); closed by
 
 In section "8. Generators, reductions and ranges" (beside row 645):
 
-| NEW-B-2 | under walk, an empty reduction with a generator clause list and no static argument, whose value no declared type directs, takes `ZZ32`'s identity whatever its expression's type: `e = SUM[j <- 0#0] (j / 2.0)` is `0 : Int`, not `RR64`'s `0.0` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenEmptyFloatSumUntypedWalk.fss` | climb batch 15 rung B | siblings: 645, 425. What row 645 leaves after 5dad832f3: walk instantiates an unwritten clause form by the declared type of its value, else by its elements' join; with neither, `SUM`'s F-bounded `T` stays open and `additiveIdentity` takes its typecase's first clause (`Library/FortressLibrary.fss:3229` at ee1aa1a95). The specification's desugaring by the type `N` gives `SUM[\RR64\]`, whose zero is `0.0`; walk has no static type to stand for `N` where no element and no declared type is at hand. Workaround: write `SUM[\RR64\]`, or declare the value's type. |
+| NEW-B-2 | under walk, an empty reduction or comprehension with no static argument, whose value no declared type directs, is instantiated at its big operator's bound: `e = SUM[j <- 0#0] (j / 2.0)` is `0 : Int`, not `RR64`'s `0.0`, and `<\| 2 k \| k <- 0#0 \|>` is a `List[\Any\]`, not a `List[\ZZ32\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenEmptyFloatSumUntypedWalk.fss` | climb batch 15 rung B | siblings: 645, 425. What row 645 leaves after 5dad832f3: with no declared type and no element, `SUM`'s F-bounded `T` stays open and `additiveIdentity` takes its typecase's first clause (`Library/FortressLibrary.fss:3229` at ee1aa1a95); a list comprehension's `T` takes its bound `Any`. The desugaring by the type `N` gives `SUM[\RR64\]` and `BIG <\|[\ZZ32\]\|>`; walk has no static type for `N` there. `UnwrittenComprehensionElementsWalk` pins the list face as walk's answer. Workaround: write the static argument, or declare the value's type. |
 
 In section "2. Types: generics, static parameters, inference and coercion" (beside rows 20, 510 and 646):
 
 | NEW-B-3 | under walk, a comprehension with no static argument that is the body of another clause form whose instance a declared type fixes is built at its elements' run-time class, which the outer's element type refuses: `zs: List[\ZZ32\] = BIG CONCAT[ys <- xss] <\| 2 y \| y <- ys \|>` stops | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXNestedComprehensionDeclaredTypeWalk.fss` | climb batch 15 rung B | siblings: 20, 510, 705. With `xss = <\|<\|1, 2\|>, <\|3\|>\|>`: 'Unification error: Closure/Constructor for body param 1 (i:List[\ZZ32\]) got arg ArrayList[\Int\] of type ArrayList[\Int\]'. Since 5dad832f3 the declared type instantiates the outer `BIG CONCAT` at `ZZ32`, while the inner comprehension, which no declared type reaches, is built at its elements' run-time class `Int` (row 20's list face), and `List` is invariant. On the base it stopped earlier, 'lift param 1 (r:List[\BOTTOM\])'. The specification gives the inner one the type `List[\ZZ32\]` of its expression. Workaround: `<\|[\ZZ32\] 2 y \| y <- ys \|>`. |
 
+In section "8. Generators, reductions and ranges" (beside row NEW-B-2), by the skeptic:
+
+| NEW-B-4 | under walk, a reduction with no static argument over a user big operator whose declared result is its own trait, not `BigReduction`, `Comprehension` or `BigOperator`, is instantiated at its bound, and an element it does not admit stops it: `BIG CATOP[k <- 0#3] <\|[\ZZ32\] k\|>` throws `CastError` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUserBigOperatorResultTraitWalk.fss` | climb batch 15 rung B's skeptic | siblings: NEW-B-1, 424. With `opr BIG CATOP[\T\](): CatOperator[\T\]` and `trait CatOperator[\T\] extends BigOperator[\List[\T\],...\]`: walk reads the element and result types off a declared result named `BigReduction`, `Comprehension` or `BigOperator` only (`EvaluatorBase.resultArgOf`, 5dad832f3), so `T` takes its bound `Any`, and `__replay`'s cast of each `ArrayList[\ZZ32\]` to `List[\Any\]` fails. On the base it stopped at `lift`, '(r:List[\BOTTOM\])'. Repair: read the declared result's `BigOperator` supertype. Workaround: write the static argument. |
+
+In section "8. Generators, reductions and ranges", by the skeptic; it has no reproducer, since walk crashes:
+
+| NEW-B-5 | under walk, a comprehension over a long sequential generator overflows the stack at the suites' 32 MB: `<\| i MOD 7 \| i <- seq(0#50000) \|>` dies with `StackOverflowError`, on the base and after climb batch 15 rung B | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 15 rung B's skeptic | siblings: 20. `JAVA_FLAGS='-Xmx768m -Xss32m' bin/fortress P.fss` with `ys = <\| i MOD 7 \| i <- seq(0#50000) \|>` prints 'Caused by: java.lang.StackOverflowError' at ee1aa1a95 and at ef52b7b11. By reading: the sequential range joins left to right (`Library/RangeInternals.fss:1357-1367`), so `CVReduction`'s `APPCOV` builds a chain of `Append` nodes as deep as the list, which `cata` and `dirtyIAF` then recurse down (`Library/CovariantCollection.fss:128-133`). A sum over the same generator runs (`UnwrittenSequentialReductionWalk`). Workaround: the parallel generator `0#50000`. |
+
 ## Handover
 
-Climb batch 15 rung B (`wip/rung-walk-elements`; 92b0a45fe, 5dad832f3, 81fde35ea, 169048c14, ef52b7b11):
+Climb batch 15 rung B (`wip/rung-walk-elements`; 92b0a45fe, 5dad832f3, 81fde35ea, 169048c14, ef52b7b11; the skeptic's commits after them, `SKEPTIC.md`):
 - Walk instantiates an unwritten clause form's big operator by the declared type of its value, by its elements' join or at its bound. D2 is lifted, building P-48 by the coordinator's call (the walk probe's way 6 + 7).
 - The hint travels as an argument to the operator's own instantiation, outside the per-argument caches.
 - `body(i: I)` is typed, and `IntMap`'s comprehension operator is declared as `Map`'s.
-- Rows 703, 646, 662, 645 (its claim corrected) and NEW-B-1 are closed. NEW-B-2 and NEW-B-3 are opened, each with an expected failure.
+- Rows 703, 646, 662, 645 (its claim corrected) and NEW-B-1 are closed. NEW-B-2, NEW-B-3 and NEW-B-4 are opened, each with an expected failure, and NEW-B-5 with none.
+- The skeptic's fix replays a chain of joins by a loop over its spine, so a reduction over a long sequential generator runs at the suites' stack again (`tests/UnwrittenSequentialReductionWalk`).
 - `ant testSystem` is green (611) and `ant testSpecData` is green (130). microGPT's quick pair passes 7 of 7 each.
 - The count is 1, row 680's crash, after 493 s. The distance is 54, and no site moved.
 
@@ -78,13 +88,13 @@ Climb batch 15 rung B (`wip/rung-walk-elements`; 92b0a45fe, 5dad832f3, 81fde35ea
   - The team's library left `__bigOperator`'s local `body(i)` untyped (`Library/FortressLibrary.fss:1120` at `a874948ac`). It also declared `IntMap`'s comprehension operator `IntMap[\Val\]` while its body is a `Comprehension` (`Library/IntMap.fsi:82`, `Library/IntMap.fss:689` at `a874948ac`).
 - **What the tree now does.**
   - Under walk, the big operator of a reduction or a comprehension that writes no static argument is instantiated in this order:
-    - by the declared type of the variable or the function whose value it is, also as a block's last expression and after local declarations;
+    - by the declared type of the local variable, or the declared return type of the top-level or local function, whose value it is, also as a block's last expression and after local declarations;
     - otherwise by the join of its elements' run-time types, the elements being collected before they are reduced;
     - otherwise at the bound of each static parameter, or open where the bound mentions the parameter.
 
     `tests/UnwrittenComprehensionDeclaredTypeWalk`, `UnwrittenComprehensionElementsWalk`, `ComprehensionTypedBindingWalk`, `UnwrittenSetBigOperatorsWalk`, `UnwrittenEmptyFloatSumWalk` and `UnwrittenListMapComprehensionWalk` show it.
   - `body(i: I): L` (`Library/FortressLibrary.fss:1314` on rung B's tree). `IntMap`'s operator is declared `Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]` (`tests/IntMapComprehensionTypedWalk`).
-  - Two cases still differ from the specification's answer: an empty reduction that no declared type directs (`tests/XXXUnwrittenEmptyFloatSumUntypedWalk`), and a comprehension that no declared type reaches (`tests/XXXNestedComprehensionDeclaredTypeWalk`).
+  - These cases still differ from the specification's answer: an empty reduction or comprehension that no declared type directs (`tests/XXXUnwrittenEmptyFloatSumUntypedWalk`, row NEW-B-2), a comprehension that no declared type reaches (`tests/XXXNestedComprehensionDeclaredTypeWalk`, rows 20 and NEW-B-3), and a user big operator whose declared result is its own trait (`tests/XXXUserBigOperatorResultTraitWalk`, row NEW-B-4).
   - The compiled path is unchanged: its checker takes the bound, or the expected type (row 425).
 - **The reason.**
   - P-48: a type parameter that the arguments do not fix takes its bound, never `Bottom`, constrained by the call's static return type, which here is the declared type of the value.
@@ -95,7 +105,7 @@ Climb batch 15 rung B (`wip/rung-walk-elements`; 92b0a45fe, 5dad832f3, 81fde35ea
 
 **Provenance.**
 - Review-queue item 17 and PLAN item 53. The coordinator settled them under the curator's rule for forks: the walk probe's way 6 + 7 (`explorations/perf-probes/walk-plain-bound/REPORT.md`), under P-48, reading P-59 as covering the elements' run-time types. Both calls are on the curator's review list.
-- Climb batch 15, rung B. It closes rows 703, 646, 662, 645 (its claim corrected) and NEW-B-1, and opens NEW-B-2 and NEW-B-3.
+- Climb batch 15, rung B. It closes rows 703, 646, 662, 645 (its claim corrected) and NEW-B-1, and opens NEW-B-2, NEW-B-3, NEW-B-4 and NEW-B-5.
 - The skill's entries that change:
   - `SKILL.md:126`, "Static parameters";
   - `references/revival-changes.md`, "A type parameter that a call does not fix" (`:108-109`, its first bullet), "A type parameter whose bound names itself, under walk" (`:121-125`) and "The lifted type of a reduction without an identity" (`:219`);
