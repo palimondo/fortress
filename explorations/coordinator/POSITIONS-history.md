@@ -1258,3 +1258,9 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-14 06:10Z · rewritten · commit `7c2c7cd4b` · by coordinator: the POSITIONS pass after climb batch 14: the three decisions it built are built
 
 - P-147 **An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types (item 51).** It is the team's rule of 2012, in Steele's compiled checker and Welterweight's Covered rule, with `comprises` clauses read as the checker reads them; a body at the abstract method's own types is the plain case. So the team's `Pairs` and `FileConversion` stay valid, walk agrees with the checker, and the traits chapter's sentence is revised in the S1 form (P-96). Walk's allowance of any one narrower body goes. Still to build: batch 14's walk rung, which first repairs rows 668 and 669, then closes row 666.
+
+### P-48
+
+2026-10-14 16:19Z · rewritten · from `explorations/compile-ladder/climb-batch-15/RECORD.md`, "Handover lines" · commit `20474c144` · by coordinator's POSITIONS pass after climb batch 15: rung B's walk half built
+
+- P-48 **A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.** Its instance is the intersection of its upper bounds, constrained by the call's static return type, never the arguments' union or the value's type alone. The rule is the team's later word (POPL 2019). He ranks the team's later work above his own reading. It sets the instance, not which declaration runs (P-46). MicroGPT's types are concrete, so it is untouched. The library keeps the team's unbounded declarations. Still to build: a compiled dispatcher that carries the static return type (row 538, PLAN phase 5).
