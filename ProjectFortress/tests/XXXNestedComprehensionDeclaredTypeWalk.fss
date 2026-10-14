@@ -1,0 +1,13 @@
+component XXXNestedComprehensionDeclaredTypeWalk
+import List.{...}
+export Executable
+
+(* A concatenation of list comprehensions with no static argument, bound to a variable declared List[ZZ32], is the List[ZZ32] of their elements. *)
+
+run(): () = do
+    zs: List[\ZZ32\] = BIG CONCAT[ys <- <|<|1, 2|>, <|3|>|>] <| 2 y | y <- ys |>
+    assert(zs, <|[\ZZ32\] 2, 4, 6|>, "BIG CONCAT of the list comprehensions <| 2 y | y <- ys |>, each a List[ZZ32], is their concatenation, which a variable declared List[ZZ32] admits (reductions.tex, section \"Summations and Other Reduction Expressions\"; comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end
