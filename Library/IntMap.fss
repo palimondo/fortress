@@ -568,7 +568,8 @@ private object NodeIM[\Val\](left: NonEmptyIntMap[\Val\], key:ZZ64, right: NonEm
     (** %SYMDIFF% returns the key/value mappings contained in exactly one input map. **)
     opr SYMDIFF(self, other: IntMap[\Val\]): IntMap[\Val\] = self
     opr SYMDIFF(self, other: SingletonIM[\Val\]): IntMap[\Val\] =
-        self.seek(other.key) SYMDIFF other
+        self.updateWith(fn (mv) => if mv.holds then Nothing[\Val\] else Just[\Val\](other.val) end,
+                        other.key)
     opr SYMDIFF(self, other: NodeIM[\Val\]): IntMap[\Val\] = do
         (l1,l2,k,r1,r2) = self.nodeNode[\Val\](other)
         (l1 SYMDIFF l2).ordJoin(k, r1 SYMDIFF r2)

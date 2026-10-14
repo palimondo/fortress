@@ -4805,3 +4805,21 @@ note added
 note added
 
 | 682 | the compiled checker refuses `f(x: NatParamT)` beside `f[\nat n\](x: Nt[\n\])` where `trait NatParamT comprises { Nt[\n\] } where [\nat n\]`, 'There are multiple declarations of f with the same parameter type', where walk runs the pair and calls the generic one | CONTESTED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNatOpenOverloadChecker.test` | climb batch 13 rung N's skeptic | Unsettled: the section reads a generic declaration over its instances, none of which takes a `NatParamT`, so the generic one is more specific; the opening of `basic/trait-parameters.tex`, "Nat and Int Parameters", makes it applicable to every call the other takes, so the pair breaks the Meet Rule. The checker opens in its subtype relation (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:266-278` at 7dd0adf0c), so `NatParamT` is below `Nt[\$n\]` when it checks the set. The message names either parameter type, run to run. Walk's load check accepts the pair; `f(mk())` runs the generic one. |
+
+### Row 680
+
+note added
+
+| 680 | the compiled checker still stops with 'TryChecker returned an untyped expr' on a loop body calling a local function whose body fails for another reason than an untyped parameter: Array3's asString at `plane(k)` (`Library/FortressLibrary.fss:2923`) once `row` and `plane` type theirs | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/functions.tex`, "Local Function Declarations" | none | climb batch 13 rung N | siblings: 621, 622 (this site, closed as a duplicate of 621 by 2d22d3a35's fix). The distance stage's crash row on 9d323883f (`explorations/coordinator/tools/distance/run.sh`): 'TraitDecl FortressLibrary.fss:2880:1-2993:2 InterpreterBug ** bug! TryChecker returned an untyped expr: FnExpr at FortressLibrary.fss:2916.13 fn (k) => do r := r " ;;" // " " plane(k) end Expected type was: ZZ32->Any'. Row 621's mechanism (`scala_src/typechecker/STypeChecker.scala:598-603`) hides what fails in the body, and with it Array3 (`:2887-3000`), its two calls of fork 3's shape (`:2955`, `:2966`) among them. A compiler-world program of the same shape typechecks. |
+
+### Row 678
+
+note added
+
+| 678 | Array2's row and column extraction passes `self[(b0,i1)#(s0,1)]`, typed by the range subscript's declared `Array[\T,(ZZ32,ZZ32)\]`, to `Col` and `Row`, which take a sized `Array2`, so the compiled checker over the one library refuses both calls | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 13 rung N | `Library/FortressLibrary.fss:2561` and `:2565` at 9d323883f: 'Could not check call to function Col - [\T, nat b0, nat s0\]Array2[\T,b0,s0,0,1\]->Col[\T,b0,s0\] is not applicable to an argument of type Array[\T,(ZZ32, ZZ32)\].' Shown once Array2's asString typed its row parameter (the trait's crash hid it). The subscript answers the unsized type (`:2532-2539`): a size lost in a factory, the array design's question. Walk dispatches on the value. |
+
+### Row 639
+
+note added
+
+| 639 | no interpreter test can hold the message of a failing `assert`, `deny` or `fail`: the harness fails any run whose output or error stream holds "fail" or "FAIL", and `fail` prints `FAIL: ` first | NEGATIVE-VERIFIED | design limit (tests) | silent | `explorations/compile-ladder/rung-number-order-slips/REPORT.md` | climb batch 10 rung N | The rule is `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:381-384`, which exempts a file whose name contains `QuickCheckTest`; `fail` prints `FAIL: ` at `Library/FortressLibrary.fss:55`. So a repair of what a failing assertion prints has no gated home: rung N's change of `assert` and `deny` on values that are not objects, 'ProgramError ... Non-object receiver' before and 'FAIL: (1,2) =/= (1,3); m' after under walk, is shown only by the probe `SkAssert.fss` (not in git) and the report's section 7. Workaround: a failing assertion's message is recorded by probe lines only. full text: history, row 639 |
