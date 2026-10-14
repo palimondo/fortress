@@ -162,6 +162,22 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         case Some(cs) => pOr(unionResult, pAnd(cs.map(pSub(_, t)))) 
         case None => unionResult
       }
+    // An inference variable below a union is bounded by the union as a whole: split,
+    // a solution that holds only of the whole union, as a type variable bounded by
+    // it, is lost, and the solver meets a disjunction it cannot unify.
+    case (s: _InferenceVarType, t: UnionType) if !negate => pUpperBound(s, t)
+    // A type variable is below a union where its bound is, as well as where it is
+    // below one of the union's members.
+    case (s@SVarType(_, id, _), t@SUnionType(_, ts)) if !negate =>
+      val split = pOr(ts.map(pSub(s, _)))
+      val hEntry = (negate, true, s, t)
+      traits.readContext()
+      if (history.contains(hEntry)) split
+      else {
+        val nHistory = history + hEntry
+        val supers = pNorm(makeIntersectionType(toListFromImmutable(staticParam(id).getExtendsClause)))(nHistory)
+        pOr(split, pSub(supers, t)(negate, nHistory))
+      }
     case (s, SUnionType(_, ts)) =>
       pOr(ts.map(pSub(s, _)))
     // We must eliminate trait self types before making constraints  
@@ -690,11 +706,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
   protected def normConjunct(x: Iterable[Type])(implicit history: Set[hType]): List[Type] = {
+    // A closed trait is replaced by the types its comprises clause lists that no other
+    // conjunct excludes, only where that conjunct names no type or inference variable:
+    // over a variable the union would be split by the union rule before the variable's
+    // bound is read, and a solution that holds only of the union as a whole is lost.
+    def excludedListed(c: Type) =
+      x.exists(z => getVarTypes(z).isEmpty && !hasInferenceVars(z) && dExc(z, c))
     val cc = x.map(y => (y, y.isInstanceOf[TraitType] &&
-                            comprisesClause(y.asInstanceOf[TraitType]).exists(c => x.exists(z => dExc(z, c))))).toList
+                            comprisesClause(y.asInstanceOf[TraitType]).exists(excludedListed))).toList
     if (cc.exists(_._2))
       cc.map(z => { val (y, p) = z;
-                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (x.exists(z => dExc(z, c))) None else Some(c)))
+                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (excludedListed(c)) None else Some(c)))
                     else y })
     else if (x.exists(y => x.exists(z => dExc(y, z))))
       List(BOTTOM)

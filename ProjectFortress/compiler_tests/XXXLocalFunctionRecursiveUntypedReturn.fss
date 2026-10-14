@@ -1,0 +1,11 @@
+(* A recursive local function that leaves its return type out stops the compiled checker, where a top-level function in a reference cycle gets the checker's refusal. *)
+component XXXLocalFunctionRecursiveUntypedReturn
+export Executable
+
+run(): () = do
+    fact(n: ZZ32) = if n = 0 then 1 else n fact(n - 1) end
+    assert(fact(3), 6, "fact(3)")
+    println("PASS")
+  end
+
+end

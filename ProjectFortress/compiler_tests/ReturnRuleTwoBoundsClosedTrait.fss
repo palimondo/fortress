@@ -1,5 +1,5 @@
 (* A generic declaration whose type parameter has two bounds, one of them a trait with a comprises clause, beside a declaration on that trait with the same return type is a valid overloading, the generic one the more specific. *)
-component XXXReturnRuleTwoBoundsClosedTrait
+component ReturnRuleTwoBoundsClosedTrait
 export Executable
 
 trait R[\T extends R[\T\]\] end

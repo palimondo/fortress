@@ -1,0 +1,14 @@
+(* A local function whose return type is left out and whose body calls a sibling local function of its block type checks when a loop body calls it, since the local functions of one block are mutually recursive (functions.tex, section "Local Function Declarations"). *)
+component XXXLocalFunctionSiblingInLoop
+export Executable
+
+run(): () = do
+    row(i: ZZ32) = i + 1
+    plane(k: ZZ32) = row(k) + row(k)
+    for k <- 0#3 do
+        assert(plane(k), 2 k + 2, "plane(k) calls its sibling row")
+    end
+    println("PASS")
+  end
+
+end

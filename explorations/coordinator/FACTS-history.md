@@ -2185,3 +2185,19 @@ pointer words refreshed in: F-24
 2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.2 F-140 and F-170: a small value became a universal claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the measured small size, F-140 for the rule
 
 - F-170 **The specification's ranges are over ℤ32, and its own ranges over wider integer types are respelled.** An integer numeral and a `nat` or `int` parameter convert into a range's ℤ32 components. Another integer type is a static error. A wider counter widens each element (row 485). The two examples that built `ZZ64` ranges run over ℤ32, and `ant testSpecData`, a gate step, runs both (F-114). Under walk a `nat` parameter in value position is an `Int`, refused at an `NN32` binding (row 486). Detail: `compile-ladder/rung-spec-ranges/decision-record.md` sections 2 and 3.
+
+### F-227
+
+2026-10-14 14:56Z · added · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-94
+
+2026-10-14 14:57Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung C's record: the title's last clause and the sentences on rows 686, 687, 689 and 690 no longer hold
+
+- F-94 **The compiled checker checks the array family under the bound `T extends { Number, MultiplicativeRing[\T\] }`, but fails calls through a parameter so bounded.** It refuses a call whose argument's type holds the caller's parameter (row 686), as at the library's `squaredNorm(me)`. It crashes on a call whose argument is the parameter, or that converts a numeral beside it (rows 689, 687). Writing the static argument avoids all three. It refuses a valid overloading beside such a declaration (row 690). A memo on the trait table keeps the count stage within its 900-second limit (row 688). Gated by `OverloadTwoBoundsClosed*`. Detail: `compile-ladder/rung-array-bound/REPORT.md` sections 1 and 9.
+
+### F-227
+
+2026-10-14 14:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: cut to a few lines
+
+- F-227 **The compiled checker keeps an intersection that names a type or inference variable as written, and reads a variable below a union through the union whole or its bound.** `normConjunct` expands a closed trait into its listed types only against a conjunct that names no variable (`TypeAnalyzer.scala:708-735`); before the union rule, an inference variable below a union takes the union as one upper bound, and a type variable is also tried through its bound (`:165-180`). So a call through a type parameter bounded by a closed trait and a bound excluding one of its listed types checks, and so does the Return Type Rule beside it (rows 686, 687, 689, 690 and 711); a call outside the bounds is refused as not applicable. A `Box[\T\]` argument under a ground second bound stays refused (row 712), and an overloading the base accepted through the expansion over a variable is refused, on a question Appendix I lists as not settled (row 713). Gated by `compiler_tests/*TwoBoundsClosedTrait`, `*TwoGroundBounds*ClosedTrait` and `XXXOverloadTwoBoundsClosedTraitExclusion`. Detail: `compile-ladder/rung-checker-bounds/REPORT.md` sections 1 and 6.

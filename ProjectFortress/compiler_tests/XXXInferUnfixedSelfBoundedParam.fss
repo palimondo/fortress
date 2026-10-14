@@ -1,0 +1,19 @@
+(* A call of a generic function whose type parameter has a bound naming the parameter, and which no argument fixes, is applicable at an instance within that bound. *)
+component XXXInferUnfixedSelfBoundedParam
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B } end
+object A extends { K, R[\A\] } end
+object B extends K end
+object Box[\T extends R[\T\]\]() end
+
+mk[\T extends R[\T\]\](x: K): Box[\T\] = Box[\T\]()
+name[\T extends R[\T\]\](b: Box[\T\]): String = "box"
+
+run(): () = do
+    assert(name(mk(A)), "box", "mk(A) is applicable at the instance A, which its bound R[A] permits; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end
