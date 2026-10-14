@@ -1,4 +1,4 @@
-# Generates climb batch 14's MANIFEST block (CLIMB-BATCH-14.md, rungs S, A, L and P) for the redesigned batch
+# Generates climb batch 14's MANIFEST block (CLIMB-BATCH-14.md, rungs S, A, L, P and W) for the redesigned batch
 # workflow (explorations/coordinator/climb-batch-workflow.js; explorations/coordinator/process-engineering/
 # batch-redesign.md) from the record and the briefings of lists14.py, into $OUT14/manifest14.js ($FORTRESS_HOME/tmp
 # by default, which is ignored); check14.js checks it and splices it. On batch 13's pattern (plan-13/manifest/

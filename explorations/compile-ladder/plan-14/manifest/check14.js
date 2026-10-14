@@ -4,7 +4,7 @@
 // batch-redesign.md): node --check on the original and the spliced copy; both parsed as the body of an async
 // function, as the Workflow harness parses them, their export made const (the coordinator skill's
 // references/delegating.md: a script is checked by parsing it as an async function body); every line outside the block byte-identical; the block
-// evaluated with the script's own load checks and scatter order; the rungs S, A, L, P, their fields, no rung
+// evaluated with the script's own load checks and scatter order; the rungs S, A, L, P, W, their fields, no rung
 // bringing a gate step (testSpecData runs from climb batch 13b's landed summary), rung L alone declaring a
 // checker count, 1, and no rung a crash, landsOnlyWith or a ladder move; each
 // section equal to the rung's section 3 of the record (backticks dropped, the
@@ -74,11 +74,11 @@ if (r) {
   const ids = r.RUNGS.map(x => x.id).join(', ')
   const order = r.RUNGS.slice().sort((a, b) => b.expectedMinutes - a.expectedMinutes).map(x => x.id).join('')
   console.log('batch ' + r.BATCH + ', rungs ' + ids + ', scatter ' + r.SCATTER.map(x => x.id).join('') + ', intro ' + r.BATCH_INTRO.length + ' characters')
-  say(r.BATCH === '14' && r.BATCH_RECORD === 'explorations/coordinator/CLIMB-BATCH-14.md' && r.BRIEFING_LISTS === 'explorations/compile-ladder/plan-14/manifest/lists14.py' && ids === 'S, A, L, P' && r.SCATTER.map(x => x.id).join('') === order, 'batch 14, its record and lists, the rungs S, A, L, P and the scatter by expected minutes')
+  say(r.BATCH === '14' && r.BATCH_RECORD === 'explorations/coordinator/CLIMB-BATCH-14.md' && r.BRIEFING_LISTS === 'explorations/compile-ladder/plan-14/manifest/lists14.py' && ids === 'S, A, L, P, W' && r.SCATTER.map(x => x.id).join('') === order, 'batch 14, its record and lists, the rungs S, A, L, P, W and the scatter by expected minutes')
   say(r.ledgerFrom === 'undefined', 'no LEDGER_FROM: the gather numbers the new rows through ledger.py')
-  say(JSON.stringify(r.RUNGS.map(x => x.gateJoins)) === JSON.stringify([[], [], [], []]), 'no rung brings a gate step: testSpecData runs from the last landed summary')
+  say(JSON.stringify(r.RUNGS.map(x => x.gateJoins)) === JSON.stringify([[], [], [], [], []]), 'no rung brings a gate step: testSpecData runs from the last landed summary')
   say(r.RUNGS.every(x => !x.landsOnlyWith && x.expectedCheckerCrash === undefined && Array.isArray(x.expectedMoves) && !x.expectedMoves.length), 'no rung declares landsOnlyWith, a crash or a ladder move')
-  say(JSON.stringify(r.RUNGS.map(x => x.expectedCheckerCount === undefined ? null : x.expectedCheckerCount)) === JSON.stringify([null, null, 1, null]), 'rung L alone declares a checker count, 1 (its one error at body(i), or row 680\'s crash if body(i) lands)')
+  say(JSON.stringify(r.RUNGS.map(x => x.expectedCheckerCount === undefined ? null : x.expectedCheckerCount)) === JSON.stringify([null, null, 1, null, null]), 'rung L alone declares a checker count, 1 (its one error at body(i), or row 680\'s crash if body(i) lands)')
 
   // The record's section 3, rung by rung, as gen14.py reads it.
   const rec = fs.readFileSync(REC, 'utf8')

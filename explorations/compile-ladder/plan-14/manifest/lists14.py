@@ -1,9 +1,10 @@
-# The briefing and checks lists of climb batch 14's four rungs, S, A, L and P (CLIMB-BATCH-14.md, section 3), in
+# The briefing and checks lists of climb batch 14's five rungs, S, A, L, P and W (CLIMB-BATCH-14.md, section 3), in
 # batch 13's form (explorations/compile-ladder/plan-13/manifest/lists13.py) for the batch workflow
 # (explorations/coordinator/process-engineering/batch-redesign.md, "The brief"): each list holds what the rung's
 # section cites, the decisions, the ledger rows, the specification's sections, the notes and the code it rests on,
 # and no process position or harness fact, which the brief's role text and the fortress-repo skill carry. POSITIONS
-# and FACTS entries are keyed by their numbers. Each briefing entry is a pair: its facts-extract.sh key and one line
+# and FACTS entries are keyed by their numbers; P-146 and P-147, the decisions rungs S, L and W build, print word for
+# word at the head of their briefings. Each briefing entry is a pair: its facts-extract.sh key and one line
 # on why it is there and what the rung does with it. gen14.py renders the lines at the end of each rung worker's
 # brief, in the order of the briefing. A checks list is a sub-list of its briefing's keys, read by the skeptic, a
 # repair round and a judge. `python3 lists14.py` checks every key with facts-extract.sh --check (each must match
@@ -21,8 +22,9 @@ ACP = "doc:explorations/reviews/argument-context-probe.md#"
 PEX = "doc:explorations/reviews/popl2019-examples.md#"
 
 S_BRIEFING = [
+  ("P-146", "The decision you build, word for word: way 6, rules (a) and (b), the signatures kept plain, the library and walk unchanged, and its reason, which the coordinator's default on a mixin's parameter follows."),
   ("P-27", "The library's 29 bodies are the team's and stay as written; the checker is brought to read them as walk runs them."),
-  ("P-43", "Route A stands: no clause enters the library and no type is identified with another; the reading that no self type enters the library is what QS bends."),
+  ("P-43", "Route A stands: no clause enters the library and no type is identified with another; the reading that no self type enters the library is what P-146 sets aside."),
   ("P-44", "The comprises decision: the clause's text and walk stay; under a comprises clause the self type is the clause's, so rule (a) is never reached there."),
   ("P-26", "The type group's late word: Naden's construct used only in bounds, and the 2019 paper's declared types without intersections, which give the confinement its reason."),
   ("P-95", "Why the self paragraph and the traits chapter change: an Appendix I entry with the reason, the original text and route C."),
@@ -55,9 +57,11 @@ S_BRIEFING = [
   ("code:Library/FortressLibrary.fss#trait Integral[", "Seven of your sites, the bodies that return self as I, and numerator's default, which is rung L's."),
   ("code:Library/FortressLibrary.fss#trait StandardTotalOrder[", "Nine of your sites, the total order's bodies, R4's tuple among them."),
   ("code:Library/FortressLibrary.fss#trait StandardMutableArrayType[", "Four of your sites, dotted methods that return self as T: rule (a) reaches dotted methods too."),
+  ("code:Library/Containment.fsi#trait ContainmentBySubset[", "The team's mixin whose parameter is bounded by Containment, which it extends at that parameter: by the coordinator's default its self parameter, so rule (b) accepts it."),
+  ("code:Library/Relation.fsi#trait Relation[", "The mixin's extender at itself, which rule (b) then checks and accepts."),
 ]
 S_CHECKS = [
-  "P-27", "P-43", "P-44",
+  "P-146", "P-27", "P-43", "P-44",
   "ledger:695",
   STJ + "4. The recommendation",
   STJ + "Rule (a) alone, as section 6 asks",
@@ -106,6 +110,7 @@ A_CHECKS = [
 ]
 
 L_BRIEFING = [
+  ("P-146", "The decision word for word; its last sentences give your numerator lines: the thirtieth site takes one numerator per integer type."),
   ("P-27", "Each repair in the library's own spelling: Array1's offset, ZZ's numerator, the singleton map's own SYMDIFF; name each precedent line."),
   (LIBRULE, "The library rule as it is read: the four numerator api lines are an extension the review list judges, shown ZZ's line; name it in your report."),
   ("F-42", "Item 47's refusal of an untyped local parameter, and why clearing an earlier error can change what the count shows."),
@@ -117,7 +122,7 @@ L_BRIEFING = [
   ("ledger:680", "Array3's crash, the count's next error by reading once body(i) is typed: a note, not yours."),
   ("ledger:678", "Array2's two other sites, a size lost in a factory, a list of ways: not yours."),
   ("ledger:639", "No interpreter test can hold fail's FAIL: why the offset's out-of-bounds path has no walk test."),
-  (STJ + ":685, shape C, apart", "Numerator's default at :688: why no self type reaches it and the per-type body in ZZ's shape, under QS."),
+  (STJ + ":685, shape C, apart", "Numerator's default at :688: why no self type reaches it and the per-type body in ZZ's shape, under P-146."),
   ("code:Library/FortressLibrary.fss#desugaredClauses:(Reduction", "__bigOperator, the count's one error at body(i): the type you write."),
   ("code:Library/FortressLibrary.fsi#trait BigOperator[", "The getters whose types make body(i: I) check: body I->R, unwrap R->O, reduction ActualReduction[R,L]."),
   ("code:" + EV + "/EvaluatorBase.java#private static ArrayList<FType> instanceOf(", "Walk's instance of a static parameter: a big operator's unfixed plain-bounded one stays BottomType, which body(i: I) would then check each element against."),
@@ -125,14 +130,14 @@ L_BRIEFING = [
   ("code:Library/FortressLibrary.fss#offset(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32) = do", "Array2's offset, row 679's site."),
   ("code:Library/FortressLibrary.fss#offset(i:ZZ32):ZZ32 = do", "Array1's offset, the precedent: each bound check a statement, then the value."),
   ("code:Library/FortressLibrary.fss#offset(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32) = do", "Array3's offset, the same shape at rank 3."),
-  ("code:Library/FortressLibrary.fss#trait Integral[", "Integral, whose numerator loses its default body under QS."),
+  ("code:Library/FortressLibrary.fss#trait Integral[", "Integral, whose numerator loses its default body under P-146."),
   ("code:Library/FortressLibrary.fsi#trait ZZ extends", "ZZ's api, whose numerator line is the precedent for the four you add."),
   ("code:Library/IntMap.fss#opr SYMDIFF(self, other: SingletonIM", "Row 671's site, the node map's SYMDIFF with a singleton."),
   ("code:Library/IntMap.fss#other.updateWith(fn (mv) => if mv.holds then", "The singleton map's own SYMDIFF body, the precedent for row 671's repair."),
   ("code:ProjectFortress/tests/IntMapSymdiffSingleton.fss#run(): () = do", "The revival test that pins today's two wrong values: its lines 12 and 13 change."),
 ]
 L_CHECKS = [
-  "P-27", LIBRULE, "F-42", "F-141",
+  "P-146", "P-27", LIBRULE, "F-42", "F-141",
   "ledger:679", "ledger:671",
   STJ + ":685, shape C, apart",
   "code:Library/FortressLibrary.fss#offset(i:ZZ32):ZZ32 = do",
@@ -182,14 +187,61 @@ P_CHECKS = [
   "code:" + EV + "/EvalType.java#public FType forIntBinaryOp(IntBinaryOp n)",
 ]
 
-IDS = ('S', 'A', 'L', 'P')
+W_BRIEFING = [
+  ("P-147", "The decision you build, word for word: coverage defines an inherited abstract method; rows 668 and 669 repaired first, then row 666 closed and the traits sentence revised."),
+  ("P-27", "Each library repair in the library's own way: the proxy delegating as its perturbed does, a parameter at the abstract declaration's type, Gen's own default for perturb."),
+  ("P-60", "The specification reads a comprises clause at the level of values: covering is defined once, and your sentence uses it."),
+  ("P-26", "The type group's late word, Steele's checker of 2012 and Welterweight's Covered rule, outweighs the Working Draft's sentence."),
+  ("P-95", "Why the traits chapter and its Appendix I entry change: the reason, the original text and route C."),
+  ("P-96", "The form of your text change: the sentence revised in place with a callout, the entry amended."),
+  ("F-145", "What walk refuses at load today, the allowance of row 666 that goes, and why generic objects are skipped (row 665)."),
+  ("F-142", "Walk's Meet Rule check reads an overlap through comprises clauses, generic types through a stand-in: the reader your coverage test shares."),
+  ("ledger:666", "Your walk row: one narrower body passes today; XXXAbstractMethodPartlyDefinedWalk is promoted and the row closes."),
+  ("ledger:668", "Your first library row: the distributed generator without seedSize and reseed, and MersenneTwisterInit's perturbed at a narrower type."),
+  ("ledger:669", "Your second library row: AnyGen's abstract perturb at Any that the generators define only at their element type."),
+  ("ledger:665", "The same check on generic objects, its abstract half: not yours, kept out for a measurement; its expected failures keep their verdicts."),
+  ("ledger:628", "The Any device retired for simpleJoin by typing it at the implementer's type: the precedent row 669's repair weighs."),
+  ("ledger:670", "The demos that leave a method with no body at all, refused under every reading: a note, no demo edited."),
+  ("doc:explorations/reviews/walk-load-readings-check.md#2.2 The chapter's letter", "The traits chapter's sentence and the functions chapter's covering words, the two texts your revision joins."),
+  ("doc:explorations/reviews/walk-load-readings-check.md#2.3 The team's later word", "Steele's checker, its comprises reading since 59fdeff62, and Welterweight's Covered rule: P-147's sources."),
+  ("doc:explorations/reviews/walk-load-readings-check.md#2.4 The team's library and tests", "Pairs and FileConversion, which coverage keeps valid, and the two library sites, rows 668 and 669, which need repairs."),
+  ("doc:explorations/reviews/walk-load-readings-check.md#2.5 Verdict", "The rule to build and where: definedBelow gathering every body and testing coverage with walk's comprises reader."),
+  ("doc:explorations/reviews/walk-load-readings-check.md#2.6 What replacing it would change", "What coverage accepts and refuses, and why the library repairs come first: the tests that must keep their verdicts."),
+  ("doc:explorations/compile-ladder/rung-walk-load-checks/REPORT.md#4. What the library, the team's tests and the demos meet", "The one measurement of the check on the library, at instances on batch 12's tree: what the exact reading refused."),
+  ("doc:Specification/basic/traits.tex#Method Declarations", "The sentence at :579-581 you revise, beside the inheritance rule it rests on."),
+  ("doc:Specification/basic/functions.tex#Abstract Function Declarations", "The covering words at :431-434 your sentence takes, and the callout already true of the compiled checker."),
+  ("doc:Specification/basic/objects.tex#Object Declarations", "The objects chapter's sentence that an object defines every inherited abstract method: revise it or say why it stays true."),
+  ("doc:Specification/appendices/changes.tex#Traits with comprises clauses read at the level of values", "The coverage reading's entry, which you amend: its affected sections, change, effect, original text and rationale."),
+  ("code:" + EV + "/values/Constructor.java#private void checkForDef(", "The check that refuses an object leaving an inherited abstract method without a body."),
+  ("code:" + EV + "/values/Constructor.java#private static boolean definedBelow(", "The allowance that goes: one body at or below the abstract types is enough today."),
+  ("code:" + EV + "/values/OverloadedFunction.java#static private boolean overlapCoveredBy(", "Walk's own coverage test for the Meet Rule: parts through comprises clauses, every combination below one declaration; the shape to follow."),
+  ("code:" + EV + "/values/OverloadedFunction.java#static private List<Set<FType>> overlapPieces(", "Walk's reader of comprises clauses, which splits a type into the types its clause lists, and gives no answer on a symbolic type."),
+  ("code:" + SC + "/typechecker/AbstractMethodChecker.scala#private def checkObjectDeclaration(", "The compiled checker's coverage rule, Steele's of 2012: the rule walk now agrees with."),
+  ("code:Library/Random.fss#trait SeededRandomGen[", "The abstract seedSize, reseed and perturbed, and the comment on what the distributed proxy does."),
+  ("code:Library/Random.fss#object SeededRandomGenWithDistribution[", "Row 668's first site: no seedSize, no reseed; its perturbed delegates to gen, the shape the two new bodies take."),
+  ("code:Library/Random.fss#object MersenneTwisterInit(", "Row 668's second site: perturbed at Indexed under the abstract at Generator."),
+  ("code:Library/QuickCheck.fss#trait AnyGen", "Row 669's site: perturb abstract at Any."),
+  ("code:Library/QuickCheck.fss#trait Gen[", "Gen's own default perturb, the body by reading AnyGen's takes."),
+  ("code:Library/Pairs.fss#trait RunRanges", "The team's coverage shape in the library: RunRanges covered by its two listed types, which must stay valid."),
+]
+W_CHECKS = [
+  "P-147", "P-27",
+  "ledger:666", "ledger:668", "ledger:669",
+  "doc:explorations/reviews/walk-load-readings-check.md#2.5 Verdict",
+  "doc:explorations/reviews/walk-load-readings-check.md#2.6 What replacing it would change",
+  "doc:Specification/basic/traits.tex#Method Declarations",
+  "code:" + EV + "/values/Constructor.java#private static boolean definedBelow(",
+]
+
+IDS = ('S', 'A', 'L', 'P', 'W')
 LISTS = {
   'S': ([k for k, _ in S_BRIEFING], S_CHECKS),
   'A': ([k for k, _ in A_BRIEFING], A_CHECKS),
   'L': ([k for k, _ in L_BRIEFING], L_CHECKS),
   'P': ([k for k, _ in P_BRIEFING], P_CHECKS),
+  'W': ([k for k, _ in W_BRIEFING], W_CHECKS),
 }
-REASONS = {'S': S_BRIEFING, 'A': A_BRIEFING, 'L': L_BRIEFING, 'P': P_BRIEFING}
+REASONS = {'S': S_BRIEFING, 'A': A_BRIEFING, 'L': L_BRIEFING, 'P': P_BRIEFING, 'W': W_BRIEFING}
 
 
 def reason_problems(rid):
