@@ -1,0 +1,35 @@
+(* A generic big operator whose static argument a reduction's clause form does not write is instantiated at the reduction's expected type where its result at its bound does not fit that type: the big operator is a call written as an argument of the call that the reduction desugars to. *)
+component InferBigOperatorExpectedType
+export Executable
+
+trait Red[\T\]
+  empty(): T
+  join(a: T, b: T): T
+end
+object Last[\T extends Number\](e: T) extends Red[\T\]
+  empty(): T = e
+  join(a: T, b: T): T = b
+end
+
+opr BIG LAST[\T extends Number\](): Red[\T\] = do
+    z: ZZ32 = 0
+    Last[\T\](cast[\T\](z))
+  end
+
+idt[\T\](x: T): T = x
+__bigOperator[\T extends Number\](o: Red[\T\], desugaredClauses: (Red[\T\], T->T)->T): T = desugaredClauses(o, idt[\T\])
+__generate[\T extends Number\](g: GeneratorZZ32, r: Red[\T\], f: ZZ32->T): T = do
+    var acc: T = r.empty()
+    for i <- seq(g) do acc := r.join(acc, f(i)) end
+    acc
+  end
+
+run(): () = do
+    lo: ZZ32 = 1
+    n: ZZ32 = 3
+    s: ZZ32 = BIG LAST[j <- lo#n] (3 j)
+    assert(s, 9, "s: ZZ32 = BIG LAST[j <- lo#n] (3 j) with its static argument unwritten and its bound Number instantiates BIG LAST at the expected type ZZ32 and gives the last of 3, 6 and 9; Specification/basic/inference.tex, section \"The Static Arguments of a Call\", the expected type of an argument; Specification/basic/expressions/reductions.tex, section \"Summations and Other Reduction Expressions\"")
+    println("PASS")
+  end
+
+end

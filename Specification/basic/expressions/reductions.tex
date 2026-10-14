@@ -36,9 +36,12 @@ the types of its elements, except that an empty one takes the identity of
 \EXP{\mathbb{Z}32} whatever the type of the expression (row~645 of the
 revival's gap ledger); the compiled type checker, when it checks the libraries
 this specification describes, takes the bound of the big operator's static
-parameter, which is not the element type: a bound such as \TYP{Number} gives
-the reduction that type, and a bound that mentions the static parameter itself
-gives no instance that applies, so that the reduction is refused (row~425).
+parameter, which is not the element type, or, where the reduction's type at
+that bound does not fit the reduction's expected type, that expected type
+(\secref{static-arg-inference}): a bound such as \TYP{Number} gives the
+reduction that type where it has no expected type, and a bound that mentions
+the static parameter itself gives no instance that applies, so that the
+reduction is refused (row~425).
 Until the compiled type checker directs the desugaring by type, a reduction
 with a generator clause list whose element type no argument fixes writes its
 static argument in a program that both implementations are to run, as the

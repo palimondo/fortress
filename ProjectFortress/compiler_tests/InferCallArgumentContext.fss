@@ -1,0 +1,23 @@
+(* A call written as the argument of another call, whose static arguments it does not write, is given the parameter type of the enclosing call's declaration as its expected type, which fixes a static argument that only its result mentions or that a numeral argument would leave at the numeral's type. *)
+component InferCallArgumentContext
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](1)
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    BoxT[\Object\] => "BoxT[Object]"
+    else => "another instance"
+  end
+takesBox64(b: BoxT[\ZZ64\]): String = instanceName(b)
+
+b07(): String = takesBox64(wrapT(3))
+b11(): String = takesBox64(mk())
+
+run(): () = do
+    println("takesBox64(wrapT(3)) -> " || b07())
+    println("takesBox64(mk()) -> " || b11())
+end
+
+end

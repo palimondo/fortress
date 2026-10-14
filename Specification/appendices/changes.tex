@@ -1053,7 +1053,10 @@ type checker does, would stop them too.
 The compiled type checker, when it checks the libraries this specification
 describes, took \TYP{BottomType} too until it was revised to the rule of
 \secref{static-arg-inference} for a type parameter that nothing at a call
-fixes; it now takes the parameter's bound, which is not the element type
+fixes; it now takes the parameter's bound, which is not the element type, or,
+since 14~October 2026, where the reduction's type at that bound does not fit the
+reduction's expected type, that expected type, the big operator being a call
+written as an argument of another call (\secref{revival-expected-contexts})
 (row~425).
 The compiled path's own library declares $\sum$ and
 \EXP{\OPR{BIG}\:\OPR{MAX}} for \EXP{\mathbb{Z}32} alone, with no static
@@ -2058,10 +2061,22 @@ A second revision adds a third context to the list: the body of a \KWD{label}
 expression that has an expected type, and the \KWD{with} clause expression of
 each \KWD{exit} expression whose target is that \KWD{label} expression, whose
 expected type is that of the \KWD{label} expression.
+A third revision adds a fourth: an argument of a call that the section does not
+accept with its arguments typed without an expected type, where the argument is
+itself a call with inferred static arguments, whose expected type is
+the parameter type at its position of each declaration of the enclosing call in
+turn, instantiated, where that declaration has static parameters, by the
+arguments not so typed and the expected type of the enclosing call; and a
+paragraph after the list says that the enclosing call then invokes, of the
+declarations that are applicable to it with its arguments so typed and whose
+return types fit its expected type, the one more specific than every other on
+the parameter types they declare, and is otherwise typed as before, so that a
+declaration that the section accepts for the call as its arguments are typed
+without an expected type is never passed over.
 The item of the list of what the chapter does not yet describe, in
-\secref{numeral-default}, names an argument of another call and the body of a
-\KWD{for} loop, and no longer names the contexts that the list of contexts now
-gives, the body of a \KWD{label} expression among them.
+\secref{numeral-default}, names the body of a \KWD{for} loop, and no longer
+names the contexts that the list of contexts now gives, the body of a
+\KWD{label} expression and an argument of another call among them.
 Each changed passage has a box.
 How a call is instantiated under its expected type is unchanged.
 \item[Rationale] This change does not follow from route~A; it follows the
@@ -2109,10 +2124,45 @@ A reversal of the second revision would take the body of a \KWD{label}
 expression and its exits' \KWD{with} clause values out of the list of contexts
 and back into the item, and the compiled type checker would refuse that call
 again.
+The third revision follows the revival's decision of 9~October 2026 that a
+call written as an argument of another call is typed again with the parameter
+type of each declaration of the enclosing call where the enclosing call is not
+accepted otherwise, so that an expected type fixes static arguments by one rule
+in every context.
+The static arguments of an identifier reference ``are statically inferred from
+the context of the function call'' (\secref{idn-ref}), and the context of a
+call written as an argument is the parameter to which it is passed; since a
+declaration is chosen on the parameter types it declares
+(\secref{static-arg-inference}), each declaration of the enclosing call gives
+the argument its own expected type.
+The compiled type checker typed every argument without an expected type before
+it chose a declaration, so that a type parameter of the argument that only its
+return type mentions took its bound, and one that only a numeral fixes took the
+numeral's own type: for the declarations
+\EXP{\VAR{mk}\llbracket{}T\rrbracket()\COLON\TYP{Box}\llbracket{}T\rrbracket},
+\EXP{\VAR{wrap}\llbracket{}T\rrbracket(x\COLON{}T)\COLON\TYP{Box}\llbracket{}T\rrbracket}
+and \EXP{\VAR{takes}(b\COLON\TYP{Box}\llbracket\mathbb{Z}64\rrbracket)}, it
+refused \EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))}
+(row~455 of the revival's gap ledger).
+The argument is typed again only where the enclosing call is not accepted
+otherwise, as a coercion is applied only to make a call possible
+(\secref{static-arg-inference}), so that a declaration that the section accepts
+for a call as its arguments are typed without an expected type is never passed
+over.
+The alternative not taken was to type again only an argument whose own
+declaration has a type parameter that its parameter types do not mention, which
+accepts \EXP{\VAR{takes}(\VAR{mk}())} but not \EXP{\VAR{takes}(\VAR{wrap}(3))},
+whose type parameter the numeral fixes.
+A reversal of the third revision would take the argument of a call out of the
+list of contexts and back into the item, and take out the paragraph after the
+list, and the compiled type checker would refuse those calls again.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-checker-expected-type/REPORT.md}
 and, for the second revision, in
-\nolinkurl{explorations/compile-ladder/rung-checker-contexts/REPORT.md}
+\nolinkurl{explorations/compile-ladder/rung-checker-contexts/REPORT.md},
+and, for the third, in
+\nolinkurl{explorations/compile-ladder/rung-argument-context/REPORT.md} and
+\nolinkurl{explorations/reviews/argument-context-probe.md}
 in the revival's repository.
 \item[Effect] The compiled type checker gives these contexts their expected
 types: it checks a clause of an \KWD{if} expression without an \KWD{else}
@@ -2122,8 +2172,29 @@ clause of a \KWD{typecase} expression, to the body of a \KWD{label} expression
 and the \KWD{with} clause expressions of its exits, and to the application that
 a loose juxtaposition makes.
 The thirteen calls of \library\ that it refused now check.
-It still gives no expected type to an argument of another call (row~455 of the
-revival's gap ledger), as the item of the list says.
+It gives an argument of another call the parameter type of each declaration of
+the enclosing call in turn, as the list of contexts and the paragraph after it
+say, where the argument is a call with static arguments and no attempt at the
+enclosing call with its arguments typed without an expected type is accepted;
+an argument that writes its static arguments it types again too, to the same
+type, and such an argument fixes the static arguments of a generic declaration
+of the enclosing call as any other argument does.
+Until 14~October 2026 it gave none there (row~455 of the revival's gap ledger);
+it now accepts \EXP{\VAR{takes}(\VAR{mk}())} and
+\EXP{\VAR{takes}(\VAR{wrap}(3))} above, and such an argument of a generic
+declaration, of a method, of an operator or of a constructor, at any depth of
+nesting.
+Where two declarations, neither more specific than the other, accept the
+enclosing call with the argument so typed, it reports the call as not
+applicable to the argument typed without an expected type, as the paragraph
+after the list has it, and not as ambiguous.
+A reduction whose big operator's static argument is not written, which the
+reduction's desugaring makes a call written as an argument of another call
+(\secref{reduction-expr}), so takes the reduction's expected type where the
+big operator's instance at its bound gives the reduction a type that does not
+fit it; it is refused as before where the big operator has no instance at its
+bound, as one whose bound mentions its own static parameter has none
+(row~425).
 It gives the expected type also to an operator repeated between three or more
 operands, as \EXP{p \oplus q \oplus r}: to the multifix application where a
 multifix declaration accepts the operands, and otherwise to the outer of the
@@ -2144,10 +2215,17 @@ type, as for a loose juxtaposition.
 Until 9~October 2026 it gave none there (row~660); the reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-array-bound/REPORT.md} in the
 revival's repository.
-The interpreter has no static types and is unchanged.
+The interpreter has no static types and is unchanged; it fixes no type
+parameter by an expected type (\secref{static-arg-inference}), so that
+\EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))} fail there
+when they run, \VAR{mk} instantiated at the bound of its type parameter and
+\VAR{wrap} at the numeral's type, and a call that another declaration of the
+enclosing call accepts with the argument so instantiated runs that declaration
+(row~705 of the revival's gap ledger).
 \item[Original text] The two passages are the revival's own text of
 29~September 2026, not the Working Draft's, whose chapter held a heading and two
-draft notes (\secref{revival-inference}).
+draft notes (\secref{revival-inference}); the paragraph after the list of
+contexts is new in the third revision.
 The list of contexts said, in \nolinkurl{Specification/basic/inference.tex},
 lines 129--139, before this revision:
 \begin{quote}
@@ -2185,6 +2263,20 @@ and the item said, in lines 266--268:
 an expected type in any context other than those listed above, such as
 an argument of another call, the body of a \KWD{for} loop or the body of a
 \KWD{label} expression;
+\end{quote}
+Before the third revision, the list of contexts ended, in lines 143--148:
+\begin{quote}
+\ldots; and as the body of a \KWD{label} expression that has an expected
+type, or as the \KWD{with} clause expression of an \KWD{exit} expression whose
+target is that \KWD{label} expression, the expected type of the \KWD{label}
+expression, of which the union of the type of its body and the types of those
+\KWD{with} clause values, the type of the \KWD{label} expression
+(\secref{label-expr}), is then a subtype where each of those types is.
+\end{quote}
+and the item said, in lines 277--278:
+\begin{quote}
+an expected type in any context other than those listed above, such as
+an argument of another call or the body of a \KWD{for} loop;
 \end{quote}
 \item[Route C] The same under route~C.
 \end{description}

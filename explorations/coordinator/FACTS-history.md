@@ -2005,3 +2005,31 @@ pointer words refreshed in: F-24
 ### F-220
 
 2026-10-14 04:38Z · added · from `explorations/compile-ladder/rung-library-followups/REPORT.md`, "2. `__bigOperator`'s `body(i)`: written, run, held" · by climb batch 14 gather: rung L's record.md, folded
+
+### F-221
+
+2026-10-14 04:41Z · added · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: rung A's record.md, folded
+
+### F-55
+
+2026-10-14 04:41Z · rewritten · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: rung A's record.md: the retry at another call's argument is built (row 455 fixed)
+
+- F-55 **Static arguments are inferred with coercion on both paths: the compiled checker from the arguments' static types and the expected type, walk from their run-time types.** A mixed-width call takes the narrowest type its arguments convert into, as P-74 decides. The checker keeps the expected type at a typed binding and at `f(x)` (F-56), not at another call's argument (row 455). The compile path bounds an empty `extends` clause by `Object` (row 412). Walk converts a call's result to a typed binding's type after the call, but cannot fix a static argument that only the result names (row 510). Gated by `InferCoercion*`. Detail: `reviews/numerics-plan-coordinator/evidence-B.md` sections 3.2, 3.4 and 4.2.
+
+### F-56
+
+2026-10-14 04:41Z · rewritten · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: rung A's record.md: the retry at another call's argument is built (row 455 fixed)
+
+- F-56 **The compiled checker keeps the expected type at a call written `f(x)`, which the parser builds as a tight juxtaposition.** It keeps it at a method call and an operator too, but not at another call's argument (row 455, F-87). Only desugarings reach the `fnApp = true` path of `Operators.scala`, so an edit there alone changes nothing. The overloading check's comparison of type schemas binds an open variable to `BottomType`, which a call's solver never does (P-48). Gated by `compiler_tests/InferCoercionShapes`. Detail: `reviews/numerics-plan-coordinator/measure-D.md` section 1.
+
+### F-87
+
+2026-10-14 04:41Z · rewritten · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: rung A's record.md and its skeptic's leftForGather: the retry is built and gated by InferCallArgumentContext
+
+- F-87 **The compiled checker gives a call its expected type in a clause of an `if` without `else`, a block's last expression after local declarations, a `typecase` clause, a juxtaposition, a repeated operator and a `label` body, but not at another call's argument (row 455).** The `label` body builds P-50. At another call's argument P-51 decides a retry, not yet built. The checker renames an inherited method's own static parameters apart from the receiver's static arguments, and checks a written static argument against its bounds. Gated by `compiler_tests/InferResultOnly*`, `Infer*Context` and `MethodStaticArg*`. Detail: `compile-ladder/rung-checker-contexts/REPORT.md` section 1.
+
+### F-87
+
+2026-10-14 04:41Z · rewritten · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: a comma restored in the rewrite above
+
+- F-87 **The compiled checker gives a call its expected type in a clause of an `if` without `else`, a block's last expression after local declarations, a `typecase` clause, a juxtaposition, a repeated operator a `label` body and, by a retry of the enclosing call, another call's argument.** The `label` body builds P-50. At another call's argument it retries the enclosing call against each declaration's parameter type, as P-51 decides (F-221). The checker renames an inherited method's own static parameters apart from the receiver's static arguments, and checks a written static argument against its bounds. Gated by `compiler_tests/InferResultOnly*`, `Infer*Context`, `InferCallArgument*` and `MethodStaticArg*`. Detail: `compile-ladder/rung-checker-contexts/REPORT.md` section 1.

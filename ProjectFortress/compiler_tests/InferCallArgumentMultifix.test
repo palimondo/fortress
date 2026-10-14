@@ -1,0 +1,5 @@
+tests=InferCallArgumentMultifix
+compile
+link
+run
+run_out_equals=mk() OPLUS mk() OPLUS mk() -> multifix\n

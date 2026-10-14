@@ -657,6 +657,23 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Check all the checkable args and make sure they all have types.
     val args = partitionArgs(iargs).getOrElse(return None)
+    typedApplicationOfChecked(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext, true)
+  }
+
+  /**
+   * typedApplication over its args checked without an expected type. With
+   * `retry`, a call that no attempt keeps is tried by the argument retry
+   * before the attempts' fallback.
+   */
+  def typedApplicationOfChecked(preCandidates: List[PreAppCandidate],
+                                iargs: List[Expr],
+                                args: List[Either[Expr, FnExpr]],
+                                context: Option[Type],
+                                mOpName: Option[Op],
+                                fallBackWithoutContext: Boolean,
+                                retry: Boolean)
+                               (implicit errorFactory: ApplicationErrorFactory)
+                                : Option[(List[AppCandidate], Type)] = {
 
     // A candidate, with its declaration's arrow when it is compared on its
     // declared domain, and whether the promotion instantiated it.
@@ -719,7 +736,11 @@ trait Functionals { self: STypeChecker with Common =>
              (true, true, () => applicable(context, true)), (false, true, () => applicable(None, true)))
       else List((true, false, () => applicable(None, false)), (true, true, () => applicable(None, true)))
     val tried = attempts.to(LazyList).map { case (withContext, coerce, a) => (withContext, coerce, a()) }
-    val es = tried.find { case (_, coerce, a) => kept(a, coerce) }.map(_._3).getOrElse {
+    val keptAttempt = tried.find { case (_, coerce, a) => kept(a, coerce) }
+    if (keptAttempt.isEmpty && retry)
+      retypedApplication(preCandidates, iargs, args, context, mOpName, fallBackWithoutContext).
+        foreach(r => return Some(r))
+    val es = keptAttempt.map(_._3).getOrElse {
       // No attempt is kept: of the attempts with the context, or for a call
       // written f(x) of those without it, the first that holds a candidate,
       // whatever its result, and otherwise the first.
@@ -812,6 +833,94 @@ trait Functionals { self: STypeChecker with Common =>
       }
     Some((head.toList.map(_._1) ++ sorted.filterNot(c => head.exists(_ eq c)).map(_._1),
           tieType(top).getOrElse(head.getOrElse(sorted.head)._1.arrow.getRange)))
+  }
+
+  /**
+   * The argument retry, for a call that no attempt keeps, an argument of
+   * which is itself a call whose static args it inferred with no expected
+   * type. Each candidate in turn: each such argument is checked again with
+   * the candidate's parameter type at its position as its expected type, that
+   * type instantiated, where the candidate has static parameters, by the other
+   * arguments (writesStaticArgs) and the call's expected type alone; the call is then checked
+   * against that candidate alone, and the candidate counts when the call's
+   * type converts to the expected type. Of the candidates that count, the one
+   * more specific on its declared parameter types than every other is kept,
+   * with its arguments. Otherwise the call is refused as it was.
+   */
+  private def retypedApplication(preCandidates: List[PreAppCandidate],
+                                 iargs: List[Expr],
+                                 args: List[Either[Expr, FnExpr]],
+                                 context: Option[Type],
+                                 mOpName: Option[Op],
+                                 fallBackWithoutContext: Boolean)
+                                (implicit errorFactory: ApplicationErrorFactory)
+                                 : Option[(List[AppCandidate], Type)] = {
+    val positions = args.zipWithIndex.collect { case (Left(c), i) if retypable(c) => i }.toSet
+    if (positions.isEmpty || iargs.size != args.size) return None
+    val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+    def same(a: Expr, b: Expr) = Formula.isTrue(analyzer.equivalent(getType(a).get, getType(b).get))
+    val found = preCandidates.flatMap { pc =>
+      val domain =
+        if (!hasStaticParams(pc.arrow)) Some(pc.arrow.getDomain)
+        else {
+          val tys = args.zipWithIndex.map {
+            case (Left(e), i) if !positions(i) || writesStaticArgs(iargs(i)) => Some(getType(e).get)
+            case _ => None
+          }
+          def constraint(inf: ArrowType, ops: Map[Op, Op]): CFormula =
+            Formula.and(context.map(c => analyzer.subtype(inf.getRange, c)).toList ++
+                        zipWithDomain(tys, inf.getDomain).collect { case (Some(t), d) => analyzer.subtype(t, d) })
+          inferStaticParamsHelper(pc.arrow, constraint, false, true, true).map(_._1.getDomain)
+        }
+      domain.toList.flatMap { dom =>
+        val params = zipWithDomain(args, dom).map(_._2)
+        val newArgs = args.zipWithIndex.map {
+          case (Left(c), i) if positions(i) && i < params.size && !hasInferenceVars(params(i)) =>
+            Left(tryChecker.tryCheckExpr(iargs(i), Some(params(i))).filter(!same(_, c)).getOrElse(c))
+          case (a, _) => a
+        }
+        if (newArgs.zip(args).forall { case (n, o) => n eq o }) Nil
+        else (try {
+          tryChecker.typedApplicationOfChecked(List(pc), iargs, newArgs, context, mOpName,
+                                               fallBackWithoutContext, false)
+        } catch { case _: StaticError => None }).
+          filter(r => context.forall(coercions.substitutableFor(r._2, _))).toList.map(r => (pc, r))
+      }
+    }
+    def better(a: (PreAppCandidate, (List[AppCandidate], Type)), b: (PreAppCandidate, (List[AppCandidate], Type))) =
+      (a eq b) || moreSpecificCandidate(a._2._1.head, b._2._1.head, Some(a._1.arrow), Some(b._1.arrow))
+    found.filter(a => found.forall(better(a, _))) match {
+      case List(best) => Some((best._2._1 ++ found.filterNot(_ eq best).map(_._2._1.head), best._2._2))
+      case _ => None
+    }
+  }
+
+  /**
+   * An argument the retry checks again: a call whose checked form carries
+   * static args. Where they are written, the check again gives the same
+   * type, and the retry passes over the argument.
+   */
+  private def retypable(c: Expr): Boolean = c match {
+    case S_RewriteFnApp(_, f: FunctionalRef, _) => !f.getStaticArgs.isEmpty
+    case SOpExpr(_, f, _) => !f.getStaticArgs.isEmpty
+    case m: MethodInvocation => !m.getStaticArgs.isEmpty
+    case _ => false
+  }
+
+  /**
+   * Whether an unchecked argument is a call that writes its static args, as
+   * mk[\ZZ64\]() does. Such an argument instantiates a generic candidate in
+   * the retry as any other argument does.
+   */
+  private def writesStaticArgs(e: Expr): Boolean = e match {
+    case SJuxt(_, _, _, front::_, _, true) => writesStaticArgs(front)
+    case SMathPrimary(_, _, _, front, _) => writesStaticArgs(front)
+    case S_RewriteFnApp(_, f, _) => writesStaticArgs(f)
+    case S_RewriteFnRef(_, _, sargs) => !sargs.isEmpty
+    case f: FunctionalRef => !f.getStaticArgs.isEmpty
+    case SOpExpr(_, f, _) => !f.getStaticArgs.isEmpty
+    case m: MethodInvocation => !m.getStaticArgs.isEmpty
+    case _ => false
   }
 
   /** Signal that no candidate of a call with coercion is more specific than every other. */

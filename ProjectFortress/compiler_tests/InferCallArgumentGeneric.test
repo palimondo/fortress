@@ -1,0 +1,5 @@
+tests=InferCallArgumentGeneric
+compile
+link
+run
+run_out_equals=kindOf's box: BoxT[ZZ64]\nkindOf(mk(), z64) -> 7\npair(mk(), b64) -> BoxT[ZZ64] and BoxT[ZZ64]\n

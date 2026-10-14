@@ -1,0 +1,23 @@
+(* A call written as an argument stays refused where no instance of it fits a declaration of the enclosing call, and where it fits two declarations neither of which is more specific than the other. *)
+component XXXInferCallArgumentControls
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+mkS(): BoxT[\String\] = BoxT[\String\](1)
+wrapT[\T\](x: T): BoxT[\T\] = BoxT[\T\](1)
+takesBox64(b: BoxT[\ZZ64\]): ZZ32 = 64
+takesBox32(b: BoxT[\ZZ32\]): ZZ32 = 32
+over2(b: BoxT[\ZZ64\]): ZZ32 = 64
+over2(b: BoxT[\ZZ32\]): ZZ32 = 32
+
+notGeneric(): ZZ32 = takesBox64(mkS())
+noInstance(): ZZ32 = takesBox64(wrapT("s"))
+noNarrowing(z64: ZZ64): ZZ32 = takesBox32(wrapT(z64))
+ambiguous(): ZZ32 = over2(mk())
+
+run(): () = do
+    println(notGeneric() + noInstance() + noNarrowing(1) + ambiguous())
+end
+
+end

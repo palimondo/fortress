@@ -1,0 +1,5 @@
+tests=InferCallArgumentWrittenStaticArgs
+compile
+link
+run
+run_out_equals=pair(mk(), BoxT[ZZ64](2)) -> BoxT[ZZ64] and BoxT[ZZ64]\npair(mk[ZZ64](), mk()) -> BoxT[ZZ64] and BoxT[ZZ64]\n

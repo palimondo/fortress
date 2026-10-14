@@ -1,0 +1,27 @@
+(* A call written as an argument, whose static arguments it does not write, takes the parameter type as its expected type in every form of the enclosing call and of the argument: a nested call, a method invocation, an operator application and a constructor of a generic object. *)
+component InferCallArgumentForms
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+idB[\T\](b: BoxT[\T\]): BoxT[\T\] = b
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    BoxT[\Object\] => "BoxT[Object]"
+    else => "another instance"
+  end
+
+takesBox64(b: BoxT[\ZZ64\]): String = instanceName(b)
+object Taker
+  take(b: BoxT[\ZZ64\]): String = instanceName(b)
+end
+opr BOXOP(b: BoxT[\ZZ64\], n: ZZ32): String = instanceName(b)
+
+run(): () = do
+    println("takesBox64(idB(idB(mk()))) -> " || takesBox64(idB(idB(mk()))))
+    println("Taker.take(mk()) -> " || Taker.take(mk()))
+    println("mk() BOXOP 3 -> " || (mk() BOXOP 3))
+    println("takesBox64(BoxT(1)) -> " || takesBox64(BoxT(1)))
+end
+
+end

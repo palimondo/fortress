@@ -1,0 +1,5 @@
+tests=InferCallArgumentContext
+compile
+link
+run
+run_out_equals=takesBox64(wrapT(3)) -> BoxT[ZZ64]\ntakesBox64(mk()) -> BoxT[ZZ64]\n

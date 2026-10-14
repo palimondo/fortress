@@ -1,0 +1,5 @@
+tests=InferCallArgumentOverloaded
+compile
+link
+run
+run_out_equals=over(mk()) -> over(BoxT[ZZ64]) BoxT[ZZ64]\nover5(mk(), Tri) -> over5(BoxT[ZZ64], Tri) BoxT[ZZ64]\n
