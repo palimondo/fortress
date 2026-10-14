@@ -1,0 +1,41 @@
+component AbstractMethodCoveredWalk
+export Executable
+
+(* An object defines an inherited abstract method by bodies at narrower parameter types that together cover the abstract method's parameter types, a comprises clause read at the level of values, so the program loads and runs, under walk (traits.tex, section "Method Declarations"). *)
+
+trait D comprises { P, Q }
+  f(self, other: D): ZZ32
+end
+object P extends D
+  f(self, other: P): ZZ32 = 1
+  f(self, other: Q): ZZ32 = 2
+end
+object Q extends D
+  f(self, other: P): ZZ32 = 3
+  f(self, other: Q): ZZ32 = 4
+end
+
+trait E
+  g(self, x: D, y: D): ZZ32
+end
+object A extends E
+  g(self, x: P, y: P): ZZ32 = 11
+  g(self, x: P, y: Q): ZZ32 = 12
+  g(self, x: Q, y: D): ZZ32 = 13
+end
+
+run(): () = do
+    assert(f(P, P), 1, "f over P and P")
+    assert(f(P, Q), 2, "f over P and Q")
+    assert(f(Q, P), 3, "f over Q and P")
+    assert(f(Q, Q), 4, "f over Q and Q")
+    ds: D[4] = [P Q P Q]
+    assert(f(ds[0], ds[1]), 2, "f over two values of type D")
+    assert(g(A, P, P), 11, "g over P and P")
+    assert(g(A, P, Q), 12, "g over P and Q")
+    assert(g(A, Q, P), 13, "g over Q and P")
+    assert(g(A, Q, Q), 13, "g over Q and Q")
+    println("PASS")
+  end
+
+end

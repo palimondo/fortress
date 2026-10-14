@@ -1,0 +1,33 @@
+component SeededRandomGenAbstractMethods
+import Random.{...}
+export Executable
+
+(* A distributed seeded generator has its generator's seed size and reseeds its generator, returning itself, and a Mersenne twister initialiser is perturbed by any generator of ZZ32 (Random.fss, trait SeededRandomGen: seedSize, reseed, perturbed). *)
+
+run(): () = do
+    dist = UniformDistribution[\ZZ32\](2:9)
+    seeds = array[\ZZ64\](1).fill(5)
+
+    g = MersenneTwisterInit(1)
+    d = g.distributed[\ZZ32\](dist)
+    assert(d.seedSize, 1, "a distributed generator's seed size is its generator's")
+    r = d.reseed(seeds)
+    assert(r SEQV d, "reseed returns the distributed generator itself")
+    assert(g.random(), 5, "reseeding the distributed generator reseeds its generator")
+
+    h = MersenneTwisterInit(1)
+    e = h.distributed[\ZZ32\](dist)
+    e.reseed(seeds)
+    fresh = MersenneTwisterInit(1).reseed(seeds).distributed[\ZZ32\](dist)
+    assert(e.randomMany(8), fresh.randomMany(8),
+           "after reseed, its values are those of a fresh distributed generator over the generator reseeded the same way")
+
+    odds = (0#6).filter(fn (i: ZZ32): Boolean => ((i MOD 2) = 1))
+    p = MersenneTwisterInit(1).perturbed(odds)
+    assert(p.random(), 3131353415, "perturbed by a generator of ZZ32 that is not indexed: the elements 1, 3, 5 in turn")
+    q = MersenneTwisterInit(1).perturbed(1, 3, 5)
+    assert(q.random(), 3131353415, "perturbed by the same elements as an indexed vector")
+    println("PASS")
+  end
+
+end

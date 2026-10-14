@@ -1,0 +1,24 @@
+component AnyGenPerturbOtherType
+import QuickCheck.{...}
+import Random.{...}
+export Executable
+
+(* A test generator perturbs a random number generator by a value of its own type, and returns the random number generator as it is for a value of another type (QuickCheck.fss, traits AnyGen and Gen, perturb). *)
+
+seedOf(a: AnySeededRandomGen): ZZ64 =
+    typecase a of
+        m: MersenneTwisterInit => m.random()
+        else => -1
+    end
+
+run(): () = do
+    g: AnyGen = genZZ32
+    r = MersenneTwisterInit(1)
+    q = g.perturb("not a ZZ32", r)
+    assert(q SEQV r, "perturbed by a value of another type, the random number generator is returned as it is")
+    p = g.perturb(7, MersenneTwisterInit(1))
+    assert(seedOf(p), 2284664927, "perturbed by a ZZ32, a copy perturbed by it")
+    println("PASS")
+  end
+
+end
