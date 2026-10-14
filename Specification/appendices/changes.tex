@@ -2745,6 +2745,11 @@ does not refuse an object where its search through the \KWD{comprises} clauses
 does not settle: a cycle, its bound on steps or parts, or a type it cannot read;
 it then loads an object that the compiled type checker refuses (a row of the
 revival's gap ledger).
+The compiled type checker does not split a tuple of parameter types through
+\KWD{comprises} clauses: it refuses an object whose concrete methods cover an
+inherited abstract method of two parameters only through combinations of the
+types that a trait lists, which the interpreter accepts (a row of the revival's
+gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
 lines 568--570:
 \begin{quote}
