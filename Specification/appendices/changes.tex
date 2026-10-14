@@ -2303,6 +2303,9 @@ adds, that of two declarations with as many static parameters of their own, one
 of which is more specific than the other, the two agree on their static
 parameters position by position, with an override that reorders them as its
 example.
+A later revision states the section's No Duplicates Rule on the relation without
+``and not the other way round'', that $d_1$ and $d_2$ are not each applicable to
+every call to which the other is applicable, with a box.
 \secref{resolving-coercion} says in three places that a declaration with static
 parameters is applicable when some instance of it is, that it is compared on the
 parameter types it declares, and that the declaration selected is then
@@ -2359,6 +2362,25 @@ checker implements them, and not on the proof of 2019.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
 in the revival's repository.
+The No Duplicates Rule was first stated on the strict sense of more specific
+that the section defines, under which no two declarations are each more
+specific than the other, so that it refused no pair, and two declarations each
+applicable to every call to which the other is fell to the Meet Rule (row~696
+of the revival's gap ledger).
+The paper of 2011 defines its relation of specificity without strictness, one
+declaration being more specific than another when every type to which the first
+is applicable is one to which the second is, and its No Duplicates Rule
+``forbids distinct declarations from being equally specific''
+(\nolinkurl{Papers/Types/rules.tick}, lines 97--108, 158--162 and 184--185);
+the paper of 2019 states it as ``Distinct method declarations must have
+different applicable sets'' (Section~2.2), and its rules [No-Dup-Not-Less] and
+[No-Dup-Not-Gtr] refuse exactly a pair whose domain types are each a subtype of
+the other (Section~4.1 and Figure~5).
+The restatement follows the revival's decision of 23~September 2026 that the
+type group's later word, that paper among it, outweighs the early text; its
+reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-popl-examples/REPORT.md} in the
+revival's repository.
 \item[Effect] Declarations of one name may differ in their static parameters,
 as \library's do.
 The compiled type checker refuses the pair of the Return Type Rule's example,
@@ -2379,6 +2401,11 @@ parameters of which no pair of parameter types excludes each other (row~159),
 that example among them (row~539).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
+The compiled type checker applies the No Duplicates Rule as it is now stated:
+it refuses two declarations whose parameter types, read over their instances,
+are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
+with the same parameter type'', and the interpreter loads such a pair and runs
+one of them (row~373).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid
@@ -2426,8 +2453,14 @@ The sentences added to \secref{resolving-coercion}, after the Working Draft's
 lines 455--459, 522--524 and 567--570 of
 \nolinkurl{Specification-1.0-frozen/basic/conversions-coercions.tex}, and the new
 section have no counterpart there.
+The new section, the revival's text of 30~September 2026, stated:
+\begin{quote}
+The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each more specific than
+the other.
+\end{quote}
 \item[Route C] The same under route~C, except that the existential reduction
-uses the rule of \secref{revival-routec} in place of instantiation exclusion.
+uses the rule of \secref{revival-routec} in place of instantiation exclusion;
+the No Duplicates Rule does not depend on the rule on instantiations.
 \end{description}
 
 \subsection{The implicit bound of a type parameter}
@@ -3277,9 +3310,9 @@ loaded, so that \EXP{\TYP{Box}\llbracket{}2+1\rrbracket} and
 computed at that time against its parameter's kind, and makes a size beyond
 \EXP{\mathbb{N}32} that the interpreter refuses (row~675 of the revival's
 gap ledger).
-The interpreter computes a sum, a difference and a product exactly when it
-instantiates a type and refuses a size outside its kind; it stops on a power
-(row~676).
+The interpreter computes a sum, a difference, a product and a power exactly
+when it instantiates a type, refuses a power at a negative exponent, and
+refuses a size outside its kind.
 \item[Original text] The passage is unchanged:
 \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex}, lines 51--52:
 \begin{quote}

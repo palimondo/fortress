@@ -13,8 +13,8 @@
 \seclabel{static-expr}
 
 \note{Of the static expressions in a size, the interpreter computes a sum, a
-difference and a product, and stops on a power (row~676 of the revival's gap
-ledger); the compiled type checker computes each operation on numerals,
+difference, a product and a power exactly, and refuses a power at a negative
+exponent; the compiled type checker computes each operation on numerals,
 refusing as out of range a power it does not compute, and compares other size
 expressions by their written form (\chapref{types}); the compiled path
 computes a size when it names a class. The compiled type checker does not
