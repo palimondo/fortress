@@ -1,0 +1,19 @@
+(* A call written as the argument of another call, whose static arguments it does not write, takes the parameter type of the enclosing call's declaration as its expected type, which fixes a static argument that only its result mentions. *)
+component XXXInferCallArgumentWalk
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    else => "another instance"
+  end
+takesBox64(b: BoxT[\ZZ64\]): String = instanceName(b)
+
+run(): () = do
+    println("REACHED")
+    assert(takesBox64(mk()), "BoxT[ZZ64]", "takesBox64(mk()) instantiates mk at ZZ64, the parameter type of takesBox64; Specification/basic/inference.tex, section \"The Static Arguments of a Call\", the expected type of an argument")
+    println("PASS")
+end
+
+end
