@@ -4919,3 +4919,15 @@ closed by f9fe5c874
 closed by f9fe5c874
 
 | 669 | the library's QuickCheck generators define `AnyGen`'s abstract `perturb(obj: Any, g: AnySeededRandomGen)` only at their element type, so `perturb` of a value of another type stops walk: `genZZ32` as an `AnyGen`, given `"s"`, '... has neither body nor def' | NEGATIVE-VERIFIED | library bug (library) | `basic/traits.tex`, "Method Declarations" | none | climb batch 12 rung W | siblings: 628, 666. `Library/QuickCheck.fss:82` declares it abstract in `AnyGen`, 'A version of `Gen[\T\]` without static parameters'; `Gen[\T\]` declares `perturb(obj: T, ...)` (`:119`). On 7fa767d48, `g: AnyGen = genZZ32; g.perturb("not a ZZ32", MersenneTwisterInit(1))`, under `old-fortress.sh`, stops: 'MethodClosure perturb(obj:Any,g:Random.AnySeededRandomGen) ... QuickCheck.fss:82:5-83:1 has neither body nor def'. The `Any` device of row 628. |
+
+### Row 695
+
+note added
+
+| 695 | A compiled default method body that returns `self` as its trait's self-type parameter, `twin(self): S = self` in `trait Shape[\S extends Shape[\S\]\]`, dies at class load with `VerifyError: Bad return type`: the body returns the trait-typed `self` with no cast to the instance's type | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | self-typed bodies measurement | siblings: 365. Reached only once the checker accepts such a body: under the self-typed judgement's checker shadows (stock refuses it, distance class S1). Probe: `object Pt(t: String) extends Shape[\Pt\]`, `run` printing `twin(Pt("b")).tag`; it dies in `Shape[\Pt\]$DefaultTraitMethods.twin`, "... is not assignable to 'SelfTwin$Pt'". The same with `comprises S` on the trait; with `pick(self, other: S): S` and `pair` beside it, `ClassCircularityError`. Controls with no body returning `self` as `S` run. Walk is not affected. Source: `explorations/reviews/self-typed-bodies-judgement.md`, "The measurement" (911a4f2b0). |
+
+### Row 665
+
+note added
+
+| 665 | under walk, the load checks of an abstract method left without a body and of an `override` that overrides nothing skip generic objects, object expressions in generic functions and generic traits: `object G[\T\]() extends S end`, `S` declaring `tag(self, x: ZZ32): ZZ32` abstract, loads and runs | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXAbstractMethodUndefinedGenericWalk.fss` | climb batch 12 rung W | siblings: 647, 649, 653. `Constructor.finishInitializing` checks no `GenericTypeInstance` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:261` at 8803d2f45), and pass 3 only a trait without static parameters (`BuildEnvironments.java:874`). `XXXOverrideNothingGenericWalk`, `XXXOverrideNothingGenericTraitWalk` and `XXXAbstractMethodUndefinedGenericObjectExpressionWalk` gate the other shapes. Checking each instance would refuse at its first instance `IntMap`'s objects (`genComb`) and `SeededRandomGenWithDistribution` (`seedSize`, `reseed`), rows 667 and 668. |
