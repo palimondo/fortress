@@ -14,7 +14,7 @@ Rewritten at 11:21 UTC on 2026-10-14, after the compaction of about 11:19 UTC. T
 
 **Done today at his word:** Astra's record-keeping review taken in (`b9c71167a`), its scope repairs made (`cf20f71d0`), and the `coordinator` skill fine-tuned with it and his held points of 23:13 to 05:29 UTC (`cb9213556`, cold read, fix round `c74f01d5a`, with his 11:49 UTC objection: the old line on an entry's title restored).
 
-**PLAN's consolidation, held for Friday after the reset** (HELD 12:46): a Sonnet worker maps PLAN now (launched 12:47 UTC, read-only, its result as text); commit its map as `process-engineering/plan-map.md` for the consolidation, and tell him in a few lines.
+**PLAN's consolidation, held for Friday after the reset** (HELD 12:46): a Sonnet worker maps PLAN now (launched 12:47 UTC, read-only, its result as text); commit its map as `process-engineering/plan-map.md` for the consolidation and park it on HELD's 12:46 line, with no report to him (his word, 12:53 UTC). Its cause, by his correction: the predecessors of the `coordinator` skill and the organically grown process, not the skill written on 2026-10-13.
 
 **Owed, nothing waiting on it:** `tools/test_ledger.py`, 10 of 13 tests failing at HEAD's own code (stale expectations); four history notes that name `cloud-container`'s old headings.
 
