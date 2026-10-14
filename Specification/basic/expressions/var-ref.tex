@@ -67,7 +67,7 @@ and `\EXP{U_1}', `\EXP{U_2}', ..., `\EXP{U_n}' are the traits mentioned in
 the \KWD{comprises} clause, then the type of \KWD{self} is instead
 ``\EXP{T \cap (U_{\mathrm{1}} \cup U_{\mathrm{2}}
 \cup \ldots \cup U_{\mathrm{n}})}''.
-If that trait declaration has no \KWD{comprises} clause
+If that trait declaration has no \KWD{comprises} clause, or one that lists no type but ``\EXP{\ldots}'',
 and has a self-type parameter `\EXP{X}' (\secref{trait-decls}),
 a static parameter bounded by the trait itself at its own static parameters,
 as in \EXP{\KWD{trait}\;T\llbracket{}X \KWD{extends} T\llbracket{}X\rrbracket\rrbracket},

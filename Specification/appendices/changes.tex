@@ -3299,21 +3299,21 @@ different from every numeral.
 \begin{description}
 \item[Affected sections] \secref{idn-ref}; \secref{trait-decls}; \secref{methods}.
 \item[Change] In \secref{idn-ref}, a sentence after the one on the self-type
-idiom: in a declaration of a trait \VAR{T} with no \KWD{comprises} clause and a
+idiom: in a declaration of a trait \VAR{T} with no \KWD{comprises} clause, or one that lists only ``\EXP{\ldots}'', and a
 self-type parameter \VAR{X}, \KWD{self} has the type \EXP{T \cap X} in the bodies of
 the trait's methods, and the \KWD{self} parameter keeps the type \VAR{T} in the
 signature of each method declaration.
 In \secref{trait-decls}, a paragraph after the one on \KWD{comprises} clauses
 defines a self-type parameter: a static parameter of a trait with no
-\KWD{comprises} clause that is bounded by the trait at its own static
+\KWD{comprises} clause, or one that lists only ``\EXP{\ldots}'', that is bounded by the trait at its own static
 parameters, or by an instantiation of a trait with a self-type parameter that the
 trait also lists in its \KWD{extends} clause, with that static parameter as the
 static argument for the self-type parameter.
 The paragraph requires every trait or object declaration and every object
 expression that extends an instantiation of such a trait to be a subtype of
-the static argument of that instantiation for the self-type parameter, a trait with
-a self-type parameter of its own standing as the intersection of its type and that
-parameter, and gives an example marked ``Not allowed''.
+the static argument of that instantiation for the self-type parameter, a trait
+standing as the type of \KWD{self} in its bodies, the intersection of its type with the types
+its \KWD{comprises} clause lists or with its own self-type parameter, and gives an example marked ``Not allowed''.
 In \secref{methods}, a box after the sentence that a functional method's
 \KWD{self} parameter implicitly has the type of the enclosing trait or object
 says that the sentence still holds of the declaration's signature.

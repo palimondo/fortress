@@ -282,8 +282,8 @@ other traits may explicitly extend \VAR{T},
 but these traits may not be declared or imported by the API
 (see \secref{apis}).}
 
-A trait declaration of \VAR{T} that has no \KWD{comprises} clause
-may have a \emph{self-type parameter}:
+A trait declaration of \VAR{T} that has no \KWD{comprises} clause,
+or one that lists no type but ``\EXP{\ldots}'', may have a \emph{self-type parameter}:
 a static parameter \VAR{X} of \VAR{T}
 whose bounds include \VAR{T} at its own static parameters,
 as in \EXP{\KWD{trait}\;T\llbracket{}X \KWD{extends} T\llbracket{}X\rrbracket\rrbracket},
@@ -295,9 +295,9 @@ In the bodies of the methods of \VAR{T},
 A trait or object declaration, or an object expression,
 that extends an instantiation of \VAR{T}
 must be a subtype of the static argument of that instantiation
-for the self-type parameter of \VAR{T};
-for a trait declaration with a self-type parameter \VAR{Y} of its own,
-the requirement is on the intersection of its type and \VAR{Y}.
+for the self-type parameter of \VAR{T}; for a trait declaration the requirement is on
+the type of \KWD{self} in the bodies of its methods (\secref{idn-ref}), the intersection of its type
+with the types its \KWD{comprises} clause lists, or with its own self-type parameter \VAR{Y}.
 It is a static error otherwise.
 An object declaration has no self-type parameter.
 For example, given the declarations:
