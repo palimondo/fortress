@@ -3374,8 +3374,8 @@ The interpreter has no static types: it runs the bodies as before, and loads a
 declaration that the paragraph refuses.
 The code generator compiles a default body that returns \KWD{self} as the self
 parameter with no conversion to the type of the instance, so a program that
-runs such a body, which the compiled type checker now accepts, fails the JVM's
-verification when the body's class is loaded (row~695 of the revival's gap
+runs such a body, which the compiled type checker now accepts, with the parameter at an object type
+fails the JVM's verification when the body's class is loaded (row~695 of the revival's gap
 ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
 lines 53--54 and 64--69, which stand unchanged and are now followed by the new
