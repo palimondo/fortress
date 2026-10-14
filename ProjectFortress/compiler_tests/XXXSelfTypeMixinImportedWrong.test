@@ -1,0 +1,3 @@
+tests=XXXSelfTypeMixinImportedWrong
+compile
+compile_err_contains=Bad extends SelfTypeMixinApi.Sub[\\Pt\\], whose self parameter is Pt, but Bad is not a subtype of Pt.
