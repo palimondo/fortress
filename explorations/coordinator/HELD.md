@@ -5,6 +5,7 @@
 ## Held in chat (2026-10-13)
 
 - 23:13 The coordinator skill's ask form asks for "what a yes commits the curator to, and what a no costs", which reads as a yes/no choice and clashes with the rule against an option that does nothing; the self-typed ask's "no" was such an option; the ask should have weighed the options he chooses among (there 2 and 3) against each other.
+- 00:07 (2026-10-14) On the mixin ask: "the rule as you worded it" put the record's wording in his mouth, since he said only "1"; he feels out of his depth on these type-system forks, the options document the gap instead of helping him grasp the topic, and he is flipping a coin, not making informed decisions.
 
 ## Held from his comments on the principles (2026-10-13)
 
