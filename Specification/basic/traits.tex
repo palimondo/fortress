@@ -282,6 +282,49 @@ other traits may explicitly extend \VAR{T},
 but these traits may not be declared or imported by the API
 (see \secref{apis}).}
 
+A trait declaration of \VAR{T} that has no \KWD{comprises} clause
+may have a \emph{self-type parameter}:
+a static parameter \VAR{X} of \VAR{T}
+whose bounds include \VAR{T} at its own static parameters,
+as in \EXP{\KWD{trait}\;T\llbracket{}X \KWD{extends} T\llbracket{}X\rrbracket\rrbracket},
+or include an instantiation of a trait with a self-type parameter
+that \VAR{T} also lists in its \KWD{extends} clause,
+with \VAR{X} as the static argument for that self-type parameter.
+In the bodies of the methods of \VAR{T},
+\KWD{self} then has the type \EXP{T \cap X} (\secref{idn-ref}).
+A trait or object declaration, or an object expression,
+that extends an instantiation of \VAR{T}
+must be a subtype of the static argument of that instantiation
+for the self-type parameter of \VAR{T};
+for a trait declaration with a self-type parameter \VAR{Y} of its own,
+the requirement is on the intersection of its type and \VAR{Y}.
+It is a static error otherwise.
+An object declaration has no self-type parameter.
+For example, given the declarations:
+%trait Shape[\S extends Shape[\S\]\] end
+%object Point extends Shape[\Point\] end
+\begin{Fortress}
+\(\KWD{trait}\:\TYP{Shape}\llbracket{}S \KWD{extends} \TYP{Shape}\llbracket{}S\rrbracket\rrbracket \KWD{end}\)\\
+\(\KWD{object}\:\TYP{Point} \KWD{extends} \TYP{Shape}\llbracket\TYP{Point}\rrbracket \KWD{end}\)
+\end{Fortress}
+the following object declaration is not allowed:
+%(* Not allowed! *)
+%object Mark extends Shape[\Point\] end
+\begin{Fortress}
+\(\mathtt{(*}\;\hbox{\rm  Not allowed! \unskip}\;\mathtt{*)}\)\\
+\(\KWD{object}\:\TYP{Mark} \KWD{extends} \TYP{Shape}\llbracket\TYP{Point}\rrbracket \KWD{end}\)
+\end{Fortress}
+\revision{revival-self-type}{The self-type parameter and the rule on the declarations
+that extend a trait with one are new.
+The Working Draft of February 2011 typed \KWD{self} as the type of the enclosing trait,
+or, with a \KWD{comprises} clause, as its intersection with the listed types
+(\secref{idn-ref}).
+The revival also reads the type of \KWD{self} from the bound of a self-type parameter,
+and refuses, as Scala refuses a class whose self type does not conform
+to the self types of the classes it inherits,
+a declaration that does not conform to it,
+so that inside \VAR{T} every value of \KWD{self} is an \VAR{X}.}
+
 
 For example, the following trait declaration:
 \input{\home/basic/examples/Trait.Decl.tex}
@@ -553,6 +596,11 @@ object on which it is invoked.
 A functional method declaration has a parameter named \KWD{self} at an
 arbitrary position in its parameter list.  This parameter is not given a type
 and implicitly has the type of the enclosing trait or object.
+\revision{revival-self-type}{In a trait \VAR{T} with a self-type parameter \VAR{X}
+(\secref{trait-decls}), this remains the type of the \KWD{self} parameter
+in the declaration's signature, which overloading and the choice of a declaration
+at a call read; in the method's body \KWD{self} has the type \EXP{T \cap X}
+(\secref{idn-ref}).}
 Semantically, functional method declarations can be viewed as top-level
 function declarations.  For example, the following overloaded functional method
 \VAR{f} declared within a trait declaration \VAR{A}:

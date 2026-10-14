@@ -67,5 +67,26 @@ and `\EXP{U_1}', `\EXP{U_2}', ..., `\EXP{U_n}' are the traits mentioned in
 the \KWD{comprises} clause, then the type of \KWD{self} is instead
 ``\EXP{T \cap (U_{\mathrm{1}} \cup U_{\mathrm{2}}
 \cup \ldots \cup U_{\mathrm{n}})}''.
+If that trait declaration has no \KWD{comprises} clause
+and has a self-type parameter `\EXP{X}' (\secref{trait-decls}),
+a static parameter bounded by the trait itself at its own static parameters,
+as in \EXP{\KWD{trait}\;T\llbracket{}X \KWD{extends} T\llbracket{}X\rrbracket\rrbracket},
+or by a trait with a self-type parameter that `\EXP{T}' extends at `\EXP{X}',
+then the type of \KWD{self} in the bodies of its methods is instead
+``\EXP{T \cap X}'';
+the \KWD{self} parameter keeps the type `\EXP{T}'
+in the signature of each method declaration,
+which overloading and the choice of a declaration at a call read.
+\revision{revival-self-type}{The sentence on a self-type parameter is new.
+The Working Draft of February 2011 gave \KWD{self} the type of the trait
+in such a declaration,
+so that a method body that returns \KWD{self} where the self-type parameter is declared,
+as the default bodies of the orders and of \TYP{Integral} in \library\ do,
+was not well typed.
+The revival reads the self type from the bound,
+as the self-type idiom above reads it from a \KWD{comprises} clause,
+and checks the declarations that extend the trait against it (\secref{trait-decls}).
+The signatures keep the type of the trait,
+so that no declared type holds an intersection.}
 %
 See \secref{methods} for details about \KWD{self} parameters.

@@ -3293,6 +3293,124 @@ expressions unsaid, as the compiled type checker read it before 9~October
 different from every numeral.
 \end{description}
 
+\subsection{The type of \KWD{self} in a trait with a self-type parameter}
+\seclabel{revival-self-type}
+
+\begin{description}
+\item[Affected sections] \secref{idn-ref}; \secref{trait-decls}; \secref{methods}.
+\item[Change] In \secref{idn-ref}, a sentence after the one on the self-type
+idiom: in a declaration of a trait \VAR{T} with no \KWD{comprises} clause and a
+self-type parameter \VAR{X}, \KWD{self} has the type \EXP{T \cap X} in the bodies of
+the trait's methods, and the \KWD{self} parameter keeps the type \VAR{T} in the
+signature of each method declaration.
+In \secref{trait-decls}, a paragraph after the one on \KWD{comprises} clauses
+defines a self-type parameter: a static parameter of a trait with no
+\KWD{comprises} clause that is bounded by the trait at its own static
+parameters, or by an instantiation of a trait with a self-type parameter that the
+trait also lists in its \KWD{extends} clause, with that static parameter as the
+static argument for the self-type parameter.
+The paragraph requires every trait or object declaration and every object
+expression that extends an instantiation of such a trait to be a subtype of
+the static argument of that instantiation for the self-type parameter, a trait with
+a self-type parameter of its own standing as the intersection of its type and that
+parameter, and gives an example marked ``Not allowed''.
+In \secref{methods}, a box after the sentence that a functional method's
+\KWD{self} parameter implicitly has the type of the enclosing trait or object
+says that the sentence still holds of the declaration's signature.
+Each of the three passages has a box.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 13~October 2026 on the bodies of the self-typed traits,
+and its second form of a self-type parameter, through a trait that the trait
+extends, follows a default taken under that decision on 14~October 2026.
+\library\ declare their orders and their algebra as traits whose static
+parameter is bounded by the trait itself, as in
+\EXP{\KWD{trait}\;\TYP{Integral}\llbracket{}I \KWD{extends} \TYP{Integral}\llbracket{}I\rrbracket\rrbracket},
+and give them default bodies that return \KWD{self} where that parameter is
+declared, or pass it where the parameter is expected: the team's minimal
+complete definitions, such as \OPR{MIN} on \TYP{StandardTotalOrder} and
+\VAR{floor} on \TYP{Integral}.
+The interpreter runs them; the compiled type checker refused 29 of them,
+since it typed \KWD{self} as the trait.
+A bound constrains the static argument, not \KWD{self}: an object may extend
+\EXP{\TYP{Integral}\llbracket\mathbb{Z}32\rrbracket} without being a
+\EXP{\mathbb{Z}32}, and a body that treats \KWD{self} as the parameter is sound
+only if every declaration that extends the trait is a subtype of its static
+argument for that parameter.
+Scala states that rule for its declared self types (``The self type of a class
+or object must conform to the self types of all classes which are inherited by
+the template'', \emph{Scala Language Specification 2.13}, section 5.1); the revival reads the self type from the bound, which \library\
+already write, as the team's compiled type checker reads it from a
+\KWD{comprises} clause (\secref{idn-ref}), a reading that the team's gated test
+\nolinkurl{ProjectFortress/compiler_tests/XXX10k.test} pins.
+Naden's account of the Return Type Rule (2012) asked that the self-type idiom
+become ``a separate construct which cannot be used as a first class type, but
+instead only in bounds''
+(\nolinkurl{Papers/Types/journal/justificationOfRTR.tex}, lines 626--630).
+The signatures keep the type of the trait because the type group's account of
+overloading of 2019 (Park, Hong, Steele and Ryu, POPL 2019) assumes, for the
+completeness of its matching of types, that no declared type holds a type
+parameter inside an intersection (pp.~11:21--22), and its Return Type Rule
+compares declared domains (p.~11:13): with the intersection in the signatures,
+the domains of the two declarations of \OPR{CMP} on \TYP{StandardPartialOrder}
+and \TYP{StandardTotalOrder} became equivalent, and the compiled type checker
+reported 18 errors of the Return Type Rule that the declarations do not make.
+The second form of a self-type parameter keeps valid as written the mixins of
+\library\ that the team wrote in 2009, \TYP{ContainmentBySubset} and
+\TYP{ContainmentByComparison}, whose static parameter is bounded by the trait
+\TYP{Containment}, which they extend at it.
+The full reasoning is in
+\nolinkurl{explorations/reviews/self-typed-bodies-judgement.md} and
+\nolinkurl{explorations/compile-ladder/rung-self-type/decision-record.md} in the
+revival's repository.
+\item[Effect] The compiled type checker types \KWD{self} as \EXP{T \cap X} in
+the bodies of the dotted and functional methods of a trait with a self
+parameter \VAR{X}, keeps \VAR{T} in the signatures that overloading, the Return
+Type Rule and the choice of a declaration at a call read, and refuses a trait
+or object declaration or an object expression that the new paragraph of
+\secref{trait-decls} does not allow, with the message
+``\VAR{D} extends \EXP{C\llbracket{}A\rrbracket}, whose self parameter is \VAR{A},
+but \VAR{D} is not a subtype of \VAR{A}.''.
+The interpreter has no static types: it runs the bodies as before, and loads a
+declaration that the paragraph refuses.
+The code generator compiles a default body that returns \KWD{self} as the self
+parameter with no conversion to the type of the instance, so a program that
+runs such a body, which the compiled type checker now accepts, fails the JVM's
+verification when the body's class is loaded (row~695 of the revival's gap
+ledger).
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/var-ref.tex},
+lines 53--54 and 64--69, which stand unchanged and are now followed by the new
+sentence:
+\begin{quote}
+The type of \KWD{self} is the type of the trait or object being declared by
+the innermost enclosing trait or object declaration or object expression.
+\end{quote}
+and
+\begin{quote}
+If the innermost enclosing such construct is a trait declaration (for a trait
+called, say, `\EXP{T}'), and that trait declaration has a \KWD{comprises}
+clause, and `\EXP{U_1}', `\EXP{U_2}', ..., `\EXP{U_n}' are the traits mentioned
+in the \KWD{comprises} clause, then the type of \KWD{self} is instead
+``\EXP{T \cap (U_{\mathrm{1}} \cup U_{\mathrm{2}} \cup \ldots \cup U_{\mathrm{n}})}''.
+\end{quote}
+The paragraph of \secref{trait-decls} is new.
+\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, line 486, the end of the
+sentence of \secref{methods} that the new box follows, stands unchanged:
+\begin{quote}
+and implicitly has the type of the enclosing trait or object.
+\end{quote}
+\item[Route C] Under route~C a self-typed trait is read by a \KWD{comprises}
+clause that lists its static parameter, as the compiled path's own library
+declares its orders (\nolinkurl{Library/CompilerAlgebra.fsi}, lines 16 and 24,
+in the revival's repository); under such a clause the self-type idiom of
+\secref{idn-ref} types \KWD{self}, and this rule is not reached.
+A return to that form would need the clause on the self-typed traits of
+\library, which would also close each of them to its static parameter; a way
+for the interpreter past its stack overflow on a clause that lists a static
+parameter (row~407 of the revival's gap ledger); and leave in
+\secref{trait-decls} for a static parameter as a listed type, which the type
+group's calculus of 2012 does not admit.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
