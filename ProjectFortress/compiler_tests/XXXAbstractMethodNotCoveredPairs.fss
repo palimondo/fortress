@@ -1,0 +1,23 @@
+component XXXAbstractMethodNotCoveredPairs
+export Executable
+
+(* An object whose bodies at narrower parameter types leave one combination of the types a comprises clause lists outside them does not define an inherited abstract method of two parameters, a static error the type checker gives (traits.tex, section "Method Declarations"). *)
+
+trait Side comprises { Ping, Pong } end
+object Ping extends Side end
+object Pong extends Side end
+
+trait Pairer
+  g(self, x: Side, y: Side): ZZ32
+end
+object Joiner extends Pairer
+  g(self, x: Ping, y: Ping): ZZ32 = 11
+  g(self, x: Ping, y: Pong): ZZ32 = 12
+  g(self, x: Pong, y: Ping): ZZ32 = 13
+end
+
+run(): () = do
+    println(g(Joiner, Pong, Pong))
+  end
+
+end

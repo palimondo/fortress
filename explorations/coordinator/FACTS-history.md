@@ -2237,3 +2237,15 @@ pointer words refreshed in: F-24
 2026-10-14 15:02Z · rewritten · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "7. The specification's text, and the sentences made false" · by climb batch 15 gather: rung L's record and rung C's: rows 685 and 686 fixed
 
 - F-151 **`Vector`, `Matrix` and their factories and operators take the bound `T extends { Number, MultiplicativeRing[\T\] }`.** `Number` declares no arithmetic, so their bodies check only with the ring. `Number` stays, since the scalar block's mirror pairs (F-119) overload validly only through its closure. Gated under walk by `tests/ArrayElementAlgebra.fss`. The checker still refuses the first factories' results (row 685) and the norm's call (row 686). The bound is array fork 2's default, the curator's answer pending (PLAN item 52, P-85). Detail: `reviews/array-fork2-judgement.md` section 4.
+
+### F-145
+
+2026-10-14 15:04Z · rewritten · from `explorations/compile-ladder/rung-duplicates-coverage/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung O's skeptic's leftForGather: rows 708 and 709 fixed, rows 725 and 728
+
+- F-145 **Walk refuses at load an object that leaves an inherited abstract method uncovered, an `override` that overrides nothing, and a generic type that breaks the Meet Rule for Functional Methods.** Bodies at narrower parameter types define an abstract method only where together they cover its parameter types, with `comprises` clauses read, as P-147 decides. A search for a cover that does not settle does not refuse (row 708), and a generic object is not checked (row 665). The compiled checker misses a cover through the listed types of two parameters (row 709). F-147 gives the `override` check and F-142 the Meet Rule's. Gated by `tests/AbstractMethod*Walk` and `OverrideNothing*Walk`. Detail: `compile-ladder/rung-walk-coverage/REPORT.md` sections 1 and 6.
+
+### F-223
+
+2026-10-14 15:04Z · rewritten · from `explorations/compile-ladder/rung-duplicates-coverage/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung O's skeptic's leftForGather: row 707 fixed, rows 726 and 727
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it except between functional methods whose `self` parameters stand at different positions.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair at one `self` position. A pair at different positions passes it, and the code generator then stops the compile (row 707). Walk runs one of such a pair in two shapes (rows 373 and 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, and walk's departure by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, and `SKEPTIC.md` section 2.

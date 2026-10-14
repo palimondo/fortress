@@ -2617,9 +2617,14 @@ same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
 it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
-with the same parameter type'', except two functional methods whose \KWD{self}
-parameters stand at different positions, which only its code generator
-refuses, as a malformed overload set (row~707 of the revival's gap ledger).
+with the same parameter type'', two functional methods among them wherever their
+\KWD{self} parameters stand.
+It checks no overloading of an operator whose name is not a word of capitals
+(row~584 of the revival's gap ledger), and reads no abstract functional method
+of a trait that the component it checks declares (row~727): two
+declarations of such an operator, or such an abstract method and a concrete
+one, with the same parameter type pass it, and only its code generator refuses
+them, as a malformed overload set (rows~726 and~727).
 The interpreter loads such a pair and runs one of them where both declarations
 have static parameters and their parameter types mention one parameterized
 type, as \VAR{dup}'s do (row~373), and where one has static parameters and the
@@ -2997,15 +3002,23 @@ and refuses one whose definitions do not cover it, where it accepted any one
 definition at narrower parameter types before.
 It does not check objects with static parameters and object expressions in
 generic functions (row~665 of the revival's gap ledger), and it
-does not refuse an object where its search through the \KWD{comprises} clauses
-does not settle: a cycle, its bound on steps or parts, or a type it cannot read;
-it then loads an object that the compiled type checker refuses (row~708 of the
-revival's gap ledger).
-The compiled type checker does not split a tuple of parameter types through
-\KWD{comprises} clauses: it refuses an object whose concrete methods cover an
-inherited abstract method of two parameters only through combinations of the
-types that a trait lists, which the interpreter accepts (row~709 of the
-revival's gap ledger).
+refuses an object where its search through the \KWD{comprises} clauses
+does not settle: a cycle, its bound of 10,000 steps or of 4,096 combinations of
+parts, or a type it cannot read.
+It refuses an object whose one definition of an inherited abstract method has a
+static parameter of its own and covers the method, as
+\EXP{\VAR{g}\llbracket{}T \KWD{extends} \TYP{Side}\rrbracket(\KWD{self}, x\COLON{}T)}
+covers \EXP{\VAR{g}(\KWD{self}, x\COLON \TYP{Side})}, which the compiled type
+checker accepts (row~728 of the revival's gap ledger).
+The compiled type checker splits a tuple of parameter types through
+\KWD{comprises} clauses as the interpreter does, and refuses where its search
+meets a cycle or passes the same bounds: it accepts an object whose concrete
+methods cover an inherited abstract method of two parameters only through
+combinations of the types that a trait lists, as the interpreter does.
+It splits no tuple where the abstract method or a concrete method below it has
+static parameters of its own, and so refuses an object whose concrete methods,
+one of them with a static parameter of its own, cover such a method only
+through those combinations (row~725 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
 lines 568--570:
 \begin{quote}

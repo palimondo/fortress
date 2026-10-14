@@ -1,0 +1,22 @@
+component XXXAbstractMethodGenericBodyWalk
+export Executable
+
+(* An object defines an inherited abstract method by a body with a static parameter of its own whose instances cover the method's parameter type, so the program loads and runs, under walk (traits.tex, section "Method Declarations"). *)
+
+trait Side comprises { Ping, Pong } end
+object Ping extends Side end
+object Pong extends Side end
+
+trait H
+  g(self, x: Side): ZZ32
+end
+object O extends H
+  g[\T extends Side\](self, x: T): ZZ32 = 1
+end
+
+run(): () = do
+    assert(g(O, Ping), 1, "g over Ping")
+    assert(g(O, Pong), 1, "g over Pong")
+  end
+
+end

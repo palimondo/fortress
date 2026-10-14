@@ -104,7 +104,7 @@ class AbstractMethodChecker(component: ComponentIndex,
         val moreSpecificConcreteMethodsAndDomains = concreteMethodsAndDomains.filter(x => x match { case (meth2, dom2) => tsa.subtypeED(dom2, thisDomain)})
         val domainList = moreSpecificConcreteMethodsAndDomains.map(x => x match { case (concMeth, domain) => domain }).toList
         val domainUnion = domainList.fold(BOTTOM)(tsa.joinED)
-        if (!tsa.subtypeED(thisDomain, domainUnion)) {
+        if (!tsa.subtypeED(thisDomain, domainUnion) && !coveredByParts(thisDomain, domainList)) {
 	  println("\nThis domain: " + thisDomain)
 	  println("Concrete methods and domains: " + concreteMethodsAndDomains)
 	  println("More specific concrete methods and domains: " + moreSpecificConcreteMethodsAndDomains)
@@ -119,6 +119,65 @@ class AbstractMethodChecker(component: ComponentIndex,
       }
     }
     typeAnalyzer = oldTypeAnalyzer
+  }
+
+  // the bounds of walk's search for a cover (OverloadedFunction.OVERLAP_STEPS, OVERLAP_PARTS)
+  private final val COVER_STEPS = 10000
+  private final val COVER_PARTS = 4096
+
+  /* Whether the covering domains, below the abstract method's domain, together cover it
+   * through comprises clauses read at the level of values, as walk's Constructor.definedBelow
+   * reads a cover: each position of the domain, a tuple without static parameters, is split
+   * into parts through the comprises clauses of its type, a part split only while some
+   * covering domain's type at that position does not hold it, and every combination of
+   * parts across the positions must lie inside one covering domain. A search that meets a
+   * cycle, or goes beyond walk's bounds on steps and on combinations, does not cover. */
+  private def coveredByParts(domain: Type, covers: List[Type]): Boolean = {
+    def elements(t: Type): Option[List[Type]] = t match {
+      case tt: TupleType if !hasStaticParams(tt) && tt.getVarargs.isNone && tt.getKeywords.isEmpty =>
+        Some(toListFromImmutable(tt.getElements))
+      case _ => None
+    }
+    val dm = elements(domain) match { case Some(ds) => ds; case None => return false }
+    val n = dm.size
+    val cs = covers.map(c => elements(c) match {
+      case Some(es) if es.size == n => es
+      case _ => return false })
+    if (cs.isEmpty) return false
+    val steps = Array(COVER_STEPS)
+    // parts whose union holds every value of t: t itself when it is below the type of every
+    // covering domain at its position, or has no comprises clause; otherwise the parts of
+    // each type its clause lists. None where the search meets a cycle or runs out of steps.
+    def parts(t: Type, at: List[Type], path: List[Type]): Option[List[Type]] = {
+      steps(0) -= 1
+      if (steps(0) < 0) return None
+      val clause = t match {
+        case tt: TraitType if !at.forall(a => typeAnalyzer.lteq(t, a)) => typeAnalyzer.comprisedTypes(tt)
+        case _ => None }
+      clause match {
+        case None => Some(List(t))
+        case Some(listed) =>
+          if (path.contains(t)) return None
+          var res = List[Type]()
+          for (c <- listed) parts(c, at, t :: path) match {
+            case Some(sub) => res = res ::: sub
+            case None => return None }
+          Some(res)
+      }
+    }
+    var combinations = 1L
+    val ps = (0 until n).toList.map(i => {
+      val pi = parts(dm(i), cs.map(_(i)), Nil) match { case Some(p) => p; case None => return false }
+      combinations *= pi.size
+      if (combinations > COVER_PARTS) return false
+      pi })
+    // every combination of parts, one from each position, inside one covering domain
+    def inside(chosen: List[Type], c: List[Type]): Boolean =
+      chosen.zip(c).forall(p => typeAnalyzer.lteq(p._1, p._2))
+    def all(i: Int, chosen: List[Type]): Boolean =
+      if (i == n) cs.exists(c => inside(chosen.reverse, c))
+      else ps(i).forall(p => all(i + 1, p :: chosen))
+    all(0, Nil)
   }
 
   /* The domain of an inherited method, without self, as a type schema over the method's

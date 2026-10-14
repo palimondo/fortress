@@ -438,14 +438,17 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                 case 1 =>
                 case _ => var signatures = List[(ArrowType,Option[Int],Option[JavaFunctional])]()
                           for ( sig@(at, sp, fnal) <- triples ) {
-                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && sp == sp2 }) match {
+                                  // two functional methods are duplicates wherever their self parameters stand
+                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && (sp == sp2 || (sp.isDefined && sp2.isDefined)) }) match {
                                 	case Some((at2: ArrowType,sp2,_)) =>
+                                	// the domain of the pair's declaration written first, whatever the order of the set
+                                	val (shown, shownSp) = if (writtenBefore(at2, at)) (at2, sp2) else (at, sp)
                                 	error(mergeSpan(at, at2),
                                 			"There are multiple declarations of " +
-                                					name + " with the same parameter type: " + (sp match {
+                                					name + " with the same parameter type: " + (shownSp match {
                                                                           // a functional method's domain without self, wherever it sits
-                                                                          case Some(i) if isMethod => globalOracle.sa.makeDomainFromArrow(withoutSelf(at, i), false)
-                                                                          case _ => globalOracle.sa.makeDomainFromArrow(at, isMethod) }))
+                                                                          case Some(i) if isMethod => globalOracle.sa.makeDomainFromArrow(withoutSelf(shown, i), false)
+                                                                          case _ => globalOracle.sa.makeDomainFromArrow(shown, isMethod) }))
                                 	case None =>	
                               }	
                               // a dotted method's parameters are those after its receiver
@@ -748,6 +751,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     private def mergeSpan(first: ArrowType, second: ArrowType): Span = mergeSpan(NU.getSpan(first), NU.getSpan(second))
 
     private def mergeSpan(first: Span, second: Span): Span = new MultiSpan(first, second)
+
+    // whether a's declaration is written before b's: by file, then line, then column
+    private def writtenBefore(a: ArrowType, b: ArrowType): Boolean = {
+      val (x, y) = (NU.getSpan(a).getBegin(), NU.getSpan(b).getBegin())
+      val (fx, fy) = (String.valueOf(x.getFileName()), String.valueOf(y.getFileName()))
+      if (fx != fy) fx < fy
+      else if (x.getLine() != y.getLine()) x.getLine() < y.getLine()
+      else x.column() < y.column()
+    }
 
     /* Returns the type of the given list of parameters. */
     private def paramsToType(params: JavaList[Param], span: Span): Type =

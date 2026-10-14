@@ -1,0 +1,24 @@
+component XXXAbstractMethodCoveredPairsGeneric
+export Executable
+
+(* An object defines an inherited abstract method of two parameters by bodies, one with a static parameter of its own, that cover it only through the types a comprises clause lists, so the program compiles and runs (traits.tex, section "Method Declarations"). *)
+
+trait Side comprises { Ping, Pong } end
+object Ping extends Side end
+object Pong extends Side end
+
+trait Pairer
+  g(self, x: Side, y: Side): ZZ32
+end
+object Joiner extends Pairer
+  g[\T extends Side\](self, x: Ping, y: T): ZZ32 = 11
+  g(self, x: Pong, y: Side): ZZ32 = 13
+end
+
+run(): () = do
+    assert(g(Joiner, Ping, Pong), 11, "g over Ping and Pong")
+    assert(g(Joiner, Pong, Ping), 13, "g over Pong and Ping")
+    println("PASS")
+  end
+
+end
