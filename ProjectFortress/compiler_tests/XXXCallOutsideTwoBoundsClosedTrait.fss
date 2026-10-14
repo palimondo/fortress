@@ -1,0 +1,21 @@
+(* A call at a listed type of a trait with a comprises clause that the type parameter's second bound excludes is refused as not applicable, whether or not that bound names the type parameter. *)
+component XXXCallOutsideTwoBoundsClosedTrait
+export Executable
+
+trait R[\T extends R[\T\]\] end
+trait Q excludes { C } end
+trait K comprises { A, B, C } end
+object A extends { K, Q, R[\A\] } end
+object B extends { K, Q, R[\B\] } end
+object C extends K end
+
+h[\T extends { K, R[\T\] }\](x: T): T = x
+k[\T extends { K, Q }\](x: T): T = x
+
+run(): () = do
+    h(C)
+    k(C)
+    println("PASS")
+  end
+
+end
