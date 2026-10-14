@@ -1,0 +1,36 @@
+(* Row 680: Array3's asString, checked by the distance stage's checker over the interpreter library (mini-distance.sh). *)
+component Array3AsStringProbe
+export Executable
+
+trait P3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+    extends Array3[\T,b0,s0,b1,s1,b2,s2\]
+    getter probeString():String = do
+      r : String := "[" b0 "#" s0 "," b1 "#" s1 "," b2 "#" s2 "]"
+      row(i: ZZ32, k: ZZ32) =
+          for j <- seq(0#s1) do
+            r := r " " self[b0+i,b1+j,b2+k]
+          end
+      plane(k: ZZ32) =
+        if s1 > 0 then
+          row(0,k)
+          for i <- seq(1#(s0-1)) do
+            r := r // " "
+            row(i,k)
+          end
+        end
+      if s0=0 then
+        r "[]"
+      else
+        r := r // "["
+        plane(0)
+        for k <- seq(1#(s2-1)) do
+          r := r " ;;" //  " "
+          plane(k)
+        end
+        r " ]"
+      end
+    end
+end
+
+run(): () = ()
+end

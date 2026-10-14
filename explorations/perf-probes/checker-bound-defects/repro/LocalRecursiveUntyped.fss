@@ -1,0 +1,9 @@
+(* Row 680's fix: a recursive local function without a declared return type gets the reference-cycle refusal, not a crash. *)
+component LocalRecursiveUntyped
+export Executable
+run(): () = do
+    fact(n: ZZ32) = if n = 0 then 1 else n fact(n - 1) end
+    assert(fact(3), 6, "fact(3)")
+    println("PASS")
+  end
+end

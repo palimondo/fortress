@@ -1,0 +1,10 @@
+(* Row 680: a local function without a declared return type calls its sibling, and is called directly. *)
+component LocalSiblingDirect
+export Executable
+run(): () = do
+    row(i: ZZ32) = i + 1
+    plane(k: ZZ32) = row(k) + row(k)
+    assert(plane(2), 6, "plane(2) calls its sibling row")
+    println("PASS")
+  end
+end

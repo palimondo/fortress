@@ -1,0 +1,29 @@
+(* Row 685's library fix under walk: array1 and array2 give a vector and a matrix at each number type. *)
+component ArrayFactoryWalk
+export Executable
+run(): () = do
+    a = array1[\RR64, 3\]()
+    typecase a of
+        v: Vector[\RR64,3\] => println("array1 RR64 is a vector")
+        else => println("FAIL array1 RR64 not a vector")
+    end
+    b = array1[\ZZ32, 2\]().fill(2)
+    assert(b DOT b, 8, "b DOT b")
+    n = array1[\NN32, 2\]()
+    typecase n of
+        v: Vector[\NN32,2\] => println("array1 NN32 is a vector")
+        else => println("FAIL array1 NN32 not a vector")
+    end
+    c = array1[\String, 2\]()
+    typecase c of
+        v: Vector[\RR64,2\] => println("FAIL array1 String a vector")
+        else => println("array1 String is plain")
+    end
+    m = array2[\RR64, 2, 2\]()
+    typecase m of
+        v: Matrix[\RR64,2,2\] => println("array2 RR64 is a matrix")
+        else => println("FAIL array2 RR64 not a matrix")
+    end
+    println("PASS")
+  end
+end

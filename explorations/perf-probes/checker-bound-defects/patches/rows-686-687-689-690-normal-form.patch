@@ -1,0 +1,24 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index 0f85c1180..66b74bca0 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -690,11 +690,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+   }
+   
+   protected def normConjunct(x: Iterable[Type])(implicit history: Set[hType]): List[Type] = {
++    // A closed trait is replaced by the types its comprises clause lists that no other
++    // conjunct excludes, only where that conjunct names no type or inference variable:
++    // over a variable the union would be split by the union rule before the variable's
++    // bound is read, and a solution that holds only of the union as a whole is lost.
++    def excludedListed(c: Type) =
++      x.exists(z => getVarTypes(z).isEmpty && !hasInferenceVars(z) && dExc(z, c))
+     val cc = x.map(y => (y, y.isInstanceOf[TraitType] &&
+-                            comprisesClause(y.asInstanceOf[TraitType]).exists(c => x.exists(z => dExc(z, c))))).toList
++                            comprisesClause(y.asInstanceOf[TraitType]).exists(excludedListed))).toList
+     if (cc.exists(_._2))
+       cc.map(z => { val (y, p) = z;
+-                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (x.exists(z => dExc(z, c))) None else Some(c)))
++                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (excludedListed(c)) None else Some(c)))
+                     else y })
+     else if (x.exists(y => x.exists(z => dExc(y, z))))
+       List(BOTTOM)

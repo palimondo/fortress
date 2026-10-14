@@ -1,0 +1,25 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -162,6 +162,22 @@
+         case Some(cs) => pOr(unionResult, pAnd(cs.map(pSub(_, t)))) 
+         case None => unionResult
+       }
++    // An inference variable below a union is bounded by the union as a whole: split,
++    // a solution that holds only of the whole union, as a type variable bounded by
++    // it, is lost, and the solver meets a disjunction it cannot unify.
++    case (s: _InferenceVarType, t: UnionType) if !negate => pUpperBound(s, t)
++    // A type variable is below a union where its bound is, as well as where it is
++    // below one of the union's members.
++    case (s@SVarType(_, id, _), t@SUnionType(_, ts)) if !negate =>
++      val split = pOr(ts.map(pSub(s, _)))
++      val hEntry = (negate, true, s, t)
++      traits.readContext()
++      if (history.contains(hEntry)) split
++      else {
++        val nHistory = history + hEntry
++        val supers = pNorm(makeIntersectionType(toListFromImmutable(staticParam(id).getExtendsClause)))(nHistory)
++        pOr(split, pSub(supers, t)(negate, nHistory))
++      }
+     case (s, SUnionType(_, ts)) =>
+       pOr(ts.map(pSub(s, _)))
+     // We must eliminate trait self types before making constraints  

@@ -1,0 +1,46 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index f6a0cf79e..3abad52d8 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -2448,10 +2448,19 @@ __immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\] = do
+ 
+ __thrower[\T\](): T = throw ForbiddenException(CallerViolation)
+ 
+-(* TODO: fix when Number is covariant. *)
++(* A number type's array is its vector: the typecase over a %() -> T% witness
++   builds the vector at each number type and casts it back, as
++   %additiveIdentity% does, since %T% itself does not satisfy the bound. *)
+ array1[\T, nat s0\]():Array1[\T,0,s0\] =
+     typecase __thrower[\T\] of
+-        () -> Number => vector[\T,s0\]()
++        () -> ZZ32 => cast[\Array1[\T,0,s0\]\](vector[\ZZ32,s0\]())
++        () -> ZZ64 => cast[\Array1[\T,0,s0\]\](vector[\ZZ64,s0\]())
++        () -> NN32 => cast[\Array1[\T,0,s0\]\](vector[\NN32,s0\]())
++        () -> NN64 => cast[\Array1[\T,0,s0\]\](vector[\NN64,s0\]())
++        () -> ZZ => cast[\Array1[\T,0,s0\]\](vector[\ZZ,s0\]())
++        () -> QQ => cast[\Array1[\T,0,s0\]\](vector[\QQ,s0\]())
++        () -> RR32 => cast[\Array1[\T,0,s0\]\](vector[\RR32,s0\]())
++        () -> RR64 => cast[\Array1[\T,0,s0\]\](vector[\RR64,s0\]())
+         else => PrimitiveArray[\T,s0\]()
+     end
+ array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
+@@ -2820,10 +2829,17 @@ __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\] =
+     end
+ 
+ (* array2 is a factory for 0-based 2-D arrays. *)
+-(* TODO: fix when Number is covariant. *)
++(* A number type's 2-D array is its matrix, chosen as in %array1%. *)
+ array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\] =
+     typecase __thrower[\T\] of
+-        ()->Number => matrix[\T,s0,s1\]()
++        () -> ZZ32 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ32,s0,s1\]())
++        () -> ZZ64 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ64,s0,s1\]())
++        () -> NN32 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN32,s0,s1\]())
++        () -> NN64 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN64,s0,s1\]())
++        () -> ZZ => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ,s0,s1\]())
++        () -> QQ => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\QQ,s0,s1\]())
++        () -> RR32 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR32,s0,s1\]())
++        () -> RR64 => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR64,s0,s1\]())
+         else => __DefaultArray2[\T,0,s0,0,s1\]()
+     end
+ array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =

@@ -1,0 +1,12 @@
+(* Row 680: a local function without a declared return type calls its sibling, and is called in a loop body. *)
+component LocalSiblingInLoop
+export Executable
+run(): () = do
+    row(i: ZZ32) = i + 1
+    plane(k: ZZ32) = row(k) + row(k)
+    for k <- 0#3 do
+        assert(plane(k), 2 k + 2, "plane(k) calls its sibling row")
+    end
+    println("PASS")
+  end
+end

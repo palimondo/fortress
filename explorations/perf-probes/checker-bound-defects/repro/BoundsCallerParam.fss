@@ -1,0 +1,18 @@
+(* Row 689: a call whose argument is the caller's own type parameter, under the callee's two bounds. *)
+component BoundsCallerParam
+export Executable
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+h[\T extends { K, R[\T\] }\](x: T): T = x
+g[\T extends { K, R[\T\] }\](x: T): T = h(x)
+tag(a: A): String = "A"
+tag(b: B): String = "B"
+run(): () = do
+    assert(tag(g(A)), "A", "h(x) at h's instance T")
+    assert(tag(g(B)), "B", "h(x) at h's instance T")
+    println("PASS")
+  end
+end

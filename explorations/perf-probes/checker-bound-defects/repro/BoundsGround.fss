@@ -1,0 +1,18 @@
+(* Sibling of rows 686 and 689: the second bound names no type parameter. *)
+component BoundsGround
+export Executable
+trait Q excludes { C } end
+trait K comprises { A, B, C } end
+object A extends { K, Q } end
+object B extends { K, Q } end
+object C extends K end
+h[\T extends { K, Q }\](x: T): T = x
+g[\T extends { K, Q }\](x: T): T = h(x)
+tag(a: A): String = "A"
+tag(b: B): String = "B"
+run(): () = do
+    assert(tag(g(A)), "A", "h(x) at h's instance T")
+    assert(tag(g(B)), "B", "h(x) at h's instance T")
+    println("PASS")
+  end
+end

@@ -1,0 +1,20 @@
+(* Row 685: the bounded factory called with an unbounded caller's type parameter, as array1 calls vector. *)
+component FactoryUnboundedCaller
+export Executable
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+trait V[\T extends { K, R[\T\] }, nat s0\] end
+object DefVec[\T extends { K, R[\T\] }, nat s0\]() extends V[\T,s0\] end
+vec[\T extends { K, R[\T\] }, nat s0\]():V[\T,s0\] = DefVec[\T,s0\]()
+vec[\T extends { K, R[\T\] }, nat s0\](v:T):V[\T,s0\] = vec[\T,s0\]()
+thrower[\T\](): T = fail("thrower")
+arr[\T, nat s0\](): Any =
+    typecase thrower[\T\] of
+        () -> K => vec[\T,s0\]()
+        else => 0
+    end
+run(): () = println("PASS")
+end

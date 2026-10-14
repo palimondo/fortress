@@ -1,0 +1,16 @@
+(* Row 685's library fix under walk: at an abstract number type array1 gives a plain array. *)
+component ArrayFactoryAbstract
+export Executable
+run(): () = do
+    a = array1[\Number, 2\]()
+    typecase a of
+        v: Vector[\Number,2\] => println("array1 Number is a vector")
+        else => println("array1 Number is plain")
+    end
+    b = array1[\AnyIntegral, 2\]()
+    typecase b of
+        v: Vector[\AnyIntegral,2\] => println("array1 AnyIntegral is a vector")
+        else => println("array1 AnyIntegral is plain")
+    end
+  end
+end

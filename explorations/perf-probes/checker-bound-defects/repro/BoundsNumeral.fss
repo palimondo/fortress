@@ -1,0 +1,14 @@
+(* Row 687: a call that converts a numeral beside a type parameter under two bounds. *)
+component BoundsNumeral
+export Executable
+trait R[\T extends R[\T\]\] end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends K end
+f[\T extends { K, R[\T\] }\](x: T, y: ZZ32): ZZ32 = y + 1
+run(): () = do
+    assert(f(A, 1), 2, "f(A, 1), the numeral converted to ZZ32")
+    println("PASS")
+  end
+end
