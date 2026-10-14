@@ -13,9 +13,12 @@ package com.sun.fortress.scala_src.disambiguator
 
 import _root_.java.util.List
 import edu.rice.cs.plt.tuple.Option
+import com.sun.fortress.compiler.GlobalEnvironment
 import com.sun.fortress.compiler.NamingCzar
+import com.sun.fortress.compiler.disambiguator.TopLevelEnv
 import com.sun.fortress.compiler.disambiguator.TypeNameEnv
 import com.sun.fortress.compiler.index.TraitIndex
+import com.sun.fortress.exceptions.StaticError
 import com.sun.fortress.nodes._
 import com.sun.fortress.nodes_util.NodeComparator
 import com.sun.fortress.nodes_util.{NodeFactory => NF}
@@ -40,9 +43,9 @@ import com.sun.fortress.scala_src.useful.STypesUtil._
  * this method will be called again. This method is guaranteed to return
  * the type of node given.
  */
-class SelfParamDisambiguator(env: TypeNameEnv) extends Walker {
+class SelfParamDisambiguator(env: TypeNameEnv, globalEnv: GlobalEnvironment) extends Walker {
   /* With no environment, a trait's self parameter is read from its own F-bound only. */
-  def this() = this(null)
+  def this() = this(null, null)
 
   /* The type of 'self' is the type of the trait or object being declared
    * by the innermost enclosing trait or object declaration or object expression.
@@ -142,8 +145,8 @@ class SelfParamDisambiguator(env: TypeNameEnv) extends Walker {
     case STraitType(_, d, dargs, _) =>
       extendsC.exists(e => sameType(e.getBaseType, b)) &&
       (resolveTrait(d) match {
-        case Some((key, ti)) if !seen.contains(key) =>
-          selfIndexOf(ti, seen + key) match {
+        case Some((key, q, ti)) if !seen.contains(key) =>
+          selfIndexOf(ti, q, seen + key) match {
             case Some(j) if j < dargs.length => dargs(j) match {
               case STypeArg(_, _, SVarType(_, y, _)) => y.getText == x.getText && y.getApiName.isNone
               case _ => false
@@ -157,14 +160,14 @@ class SelfParamDisambiguator(env: TypeNameEnv) extends Walker {
 
   /* The self parameter's position of a trait found through the environment: read from its
    * self type when the trait has been disambiguated already, else from its header. */
-  private def selfIndexOf(ti: TraitIndex, seen: Set[String]): scala.Option[Int] = ti.ast match {
+  private def selfIndexOf(ti: TraitIndex, q: Id, seen: Set[String]): scala.Option[Int] = ti.ast match {
     case td: TraitDecl => SelfParamDisambiguator.selfParamPosition(td) match {
       case some@Some(_) => some
       case None => td match {
         case STraitDecl(_, STraitTypeHeader(sps, _, n, _, _, _, ext, _, _), None, _, compr, _) =>
           compr match {
             case Some(_::_) => None
-            case _ => selfIndex(n, sps, ext, seen)
+            case _ => homeOf(q, ti).selfIndex(n, sps, ext, seen)
           }
         case _ => None
       }
@@ -172,11 +175,24 @@ class SelfParamDisambiguator(env: TypeNameEnv) extends Walker {
     case _ => None
   }
 
+  /* The pass whose environment resolves the names of a trait's header: for a trait of
+   * another api that the global environment holds not yet disambiguated, as when apis are
+   * disambiguated together, that api's environment, as when that api is disambiguated. */
+  private def homeOf(q: Id, ti: TraitIndex): SelfParamDisambiguator =
+    if (globalEnv == null || q.getApiName.isNone) this
+    else {
+      val api = q.getApiName.unwrap
+      if (globalEnv.definesApi(api) && (globalEnv.api(api).typeConses.get(NF.makeLocalId(q)) eq ti))
+        new SelfParamDisambiguator(new TopLevelEnv(globalEnv, globalEnv.api(api),
+                                                   new java.util.ArrayList[StaticError]()), globalEnv)
+      else this
+    }
+
   private def sameType(a: Type, b: Type): Boolean =
     try { NodeComparator.compare(a, b) == 0 } catch { case _: Exception => false }
 
   /* The trait that a type name names, resolved as TypeDisambiguator resolves it. */
-  private def resolveTrait(d: Id): scala.Option[(String, TraitIndex)] =
+  private def resolveTrait(d: Id): scala.Option[(String, Id, TraitIndex)] =
     try {
       val qname: scala.Option[Id] =
         if (d.getApiName.isSome)
@@ -189,7 +205,7 @@ class SelfParamDisambiguator(env: TypeNameEnv) extends Walker {
           if (names.size == 1) Some(names.iterator.next) else None
         }
       qname.flatMap(q => env.typeConsIndex(q) match {
-        case ti: TraitIndex => Some((NU.nameString(q), ti))
+        case ti: TraitIndex => Some((NU.nameString(q), q, ti))
         case _ => None
       })
     } catch { case _: Exception => None }
