@@ -10,7 +10,8 @@
 #     counted with its role, a repair or judge on the merged tree (label repair:review, judge:gate ...) apart;
 #   first calls: the writes of each agent's first message, and how many started cold (over 30K written by the
 #     harness's part: the first call's cache read under 20K);
-#   builds per worker: Bash calls of a rung, resume or repair agent that run ant compileAll or ant clean, and
+#   builds per worker: Bash calls of a rung, resume or repair agent that run ant compileAll or ant clean, in
+#     the foreground or detached in the skill's form, nohup bash -c '( ant compileAll ) > log 2>&1; ...', and
 #     those that run the library order (a fortress compile of CompilerLibrary);
 #   cache refills: a call that writes over 30K and comes 300 s or more after the agent's previous call, the
 #     prompt cache having lapsed (POSITIONS.md, "Check-ins and stops."; the skill's session.md);
@@ -41,12 +42,17 @@ def rung_of(label):
     return parts[1] if len(parts) > 1 and re.fullmatch(r'[A-Z][A-Za-z0-9]*', parts[1] or '') else None
 
 # A build is a shell segment (split at ; & | newline and double quotes) that is the ant command itself,
-# so that a quoted key such as "ant compileAll deletes the caches folder" is not one.
-BUILD_SEG = re.compile(r'^\(?\s*ant(\s+-\S+)*(\s+\w+)*?\s+(compileAll|clean)\s*(\d?>.*)?\)?$')
+# so that a quoted key such as "ant compileAll deletes the caches folder" is not one. The command a
+# `bash -c '...'` or `sh -c '...'` runs, as in the skill's detached form (its session.md, "Long commands"),
+# is split into segments too, so that `( ant compileAll ) > log 2>&1` inside it is one; a single-quoted
+# argument of any other command, such as a grep pattern, is not.
+BUILD_SEG = re.compile(r'^\(?\s*ant(\s+-\S+)*(\s+\w+)*?\s+(compileAll|clean)\s*\)?\s*(\d?>.*)?\)?$')
 LIBRARY_SEG = re.compile(r'fortress compile \S*CompilerLibrary')
+SHELL_C = re.compile(r"\b(?:bash|sh)\s+-c\s+'([^']*)'")
 
 def segments(cmd):
-    return [x.strip() for x in re.split(r'[;&|\n"]', cmd) if x.strip()]
+    return [x.strip() for part in [cmd] + SHELL_C.findall(cmd)
+            for x in re.split(r'[;&|\n"]', part) if x.strip()]
 
 def is_build(cmd):
     return any(BUILD_SEG.match(x) for x in segments(cmd))
