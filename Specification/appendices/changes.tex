@@ -1053,7 +1053,10 @@ type checker does, would stop them too.
 The compiled type checker, when it checks the libraries this specification
 describes, took \TYP{BottomType} too until it was revised to the rule of
 \secref{static-arg-inference} for a type parameter that nothing at a call
-fixes; it now takes the parameter's bound, which is not the element type
+fixes; it now takes the parameter's bound, which is not the element type, or,
+since 14~October 2026, where the reduction's type at that bound does not fit the
+reduction's expected type, that expected type, the big operator being a call
+written as an argument of another call (\secref{revival-expected-contexts})
 (row~425).
 The compiled path's own library declares $\sum$ and
 \EXP{\OPR{BIG}\:\OPR{MAX}} for \EXP{\mathbb{Z}32} alone, with no static
@@ -2060,7 +2063,7 @@ each \KWD{exit} expression whose target is that \KWD{label} expression, whose
 expected type is that of the \KWD{label} expression.
 A third revision adds a fourth: an argument of a call that the section does not
 accept with its arguments typed without an expected type, where the argument is
-itself a call that does not write its static arguments, whose expected type is
+itself a call with inferred static arguments, whose expected type is
 the parameter type at its position of each declaration of the enclosing call in
 turn, instantiated, where that declaration has static parameters, by the
 arguments not so typed and the expected type of the enclosing call; and a
@@ -2068,8 +2071,8 @@ paragraph after the list says that the enclosing call then invokes, of the
 declarations that are applicable to it with its arguments so typed and whose
 return types fit its expected type, the one more specific than every other on
 the parameter types they declare, and is otherwise typed as before, so that a
-declaration applicable to the call as its arguments are typed without an
-expected type is never passed over.
+declaration that the section accepts for the call as its arguments are typed
+without an expected type is never passed over.
 The item of the list of what the chapter does not yet describe, in
 \secref{numeral-default}, names the body of a \KWD{for} loop, and no longer
 names the contexts that the list of contexts now gives, the body of a
@@ -2143,8 +2146,9 @@ refused \EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))}
 (row~455 of the revival's gap ledger).
 The argument is typed again only where the enclosing call is not accepted
 otherwise, as a coercion is applied only to make a call possible
-(\secref{static-arg-inference}), so that a declaration applicable to a call as
-its arguments are typed without an expected type is never passed over.
+(\secref{static-arg-inference}), so that a declaration that the section accepts
+for a call as its arguments are typed without an expected type is never passed
+over.
 The alternative not taken was to type again only an argument whose own
 declaration has a type parameter that its parameter types do not mention, which
 accepts \EXP{\VAR{takes}(\VAR{mk}())} but not \EXP{\VAR{takes}(\VAR{wrap}(3))},
@@ -2170,10 +2174,12 @@ a loose juxtaposition makes.
 The thirteen calls of \library\ that it refused now check.
 It gives an argument of another call the parameter type of each declaration of
 the enclosing call in turn, as the list of contexts and the paragraph after it
-say, where the argument is a call and no attempt at the enclosing call with its
-arguments typed without an expected type is accepted; an argument that writes
-its static arguments it types again too, to the same type.
-Until 9~October 2026 it gave none there (row~455 of the revival's gap ledger);
+say, where the argument is a call with static arguments and no attempt at the
+enclosing call with its arguments typed without an expected type is accepted;
+an argument that writes its static arguments it types again too, to the same
+type, and such an argument fixes the static arguments of a generic declaration
+of the enclosing call as any other argument does.
+Until 14~October 2026 it gave none there (row~455 of the revival's gap ledger);
 it now accepts \EXP{\VAR{takes}(\VAR{mk}())} and
 \EXP{\VAR{takes}(\VAR{wrap}(3))} above, and such an argument of a generic
 declaration, of a method, of an operator or of a constructor, at any depth of
@@ -2213,7 +2219,9 @@ The interpreter has no static types and is unchanged; it fixes no type
 parameter by an expected type (\secref{static-arg-inference}), so that
 \EXP{\VAR{takes}(\VAR{mk}())} and \EXP{\VAR{takes}(\VAR{wrap}(3))} fail there
 when they run, \VAR{mk} instantiated at the bound of its type parameter and
-\VAR{wrap} at the numeral's type (row~NEW-A-1 of the revival's gap ledger).
+\VAR{wrap} at the numeral's type, and a call that another declaration of the
+enclosing call accepts with the argument so instantiated runs that declaration
+(row~NEW-A-1 of the revival's gap ledger).
 \item[Original text] The two passages are the revival's own text of
 29~September 2026, not the Working Draft's, whose chapter held a heading and two
 draft notes (\secref{revival-inference}); the paragraph after the list of
