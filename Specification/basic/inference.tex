@@ -139,13 +139,19 @@ every such clause must have (\secref{if-expr}); as a clause of a
 \KWD{typecase} expression that has an expected type, its \KWD{else} clause
 among them, the expected type of the \KWD{typecase} expression, of which the
 union of the types of its clauses, the type of the \KWD{typecase} expression
-(\secref{typecase}), is then a subtype where the type of each clause is; and
+(\secref{typecase}), is then a subtype where the type of each clause is;
 as the body of a \KWD{label} expression that has an expected type, or as the
 \KWD{with} clause expression of an \KWD{exit} expression whose target is that
 \KWD{label} expression, the expected type of the \KWD{label} expression, of
 which the union of the type of its body and the types of those \KWD{with}
 clause values, the type of the \KWD{label} expression (\secref{label-expr}),
-is then a subtype where each of those types is.
+is then a subtype where each of those types is; and as an argument of a call
+that this section does not accept with its arguments typed without an expected
+type, where the argument is itself a call that does not write its static
+arguments, the parameter type at the argument's position of each declaration
+of the enclosing call in turn, instantiated, where that declaration has static
+parameters, by the arguments that are not so typed and by the expected type of
+the enclosing call alone, as described below.
 The expected type is used whether the call is written by tight juxtaposition,
 as \EXP{f(x)} (\secref{juxtameaning}), or by loose juxtaposition, as
 \EXP{f\;x}, or as a method invocation or an operator application.
@@ -159,7 +165,13 @@ Its text of 8~October 2026 gave none to the body of a \KWD{label} expression
 or to the \KWD{with} clause expression of an \KWD{exit} expression; the
 revival decided on 9~October 2026 that they have the expected type of the
 \KWD{label} expression, as a clause of a \KWD{typecase} expression has that of
-the \KWD{typecase} expression.}
+the \KWD{typecase} expression.
+Its text of 9~October 2026 gave none to an argument of another call; the
+revival decided on 9~October 2026 that an argument that is itself a call that
+does not write its static arguments has the parameter type of each declaration
+of the enclosing call in turn where the enclosing call is not accepted without
+it, since the static arguments of a call ``are statically inferred from the
+context of the function call'' (\secref{idn-ref}).}
 The return type of the instance that the steps above find must be a subtype of
 the expected type.
 If they find no such instance, the static arguments are inferred again without
@@ -175,6 +187,35 @@ instantiates \VAR{wrap} at \EXP{\mathbb{Z}64}, which the expected type fixes,
 and coerces the numeral, while \EXP{b\COLON\mathbb{Z}64 = \VAR{id}(3)}
 instantiates \VAR{id} at the numeral's own type (\secref{literals}) and coerces
 the result.
+
+The arguments of a call are typed first without an expected type.
+Where this section then accepts no instance of the call, each argument that is
+itself a call that does not write its static arguments is typed again, once
+for each declaration of the enclosing call, with the parameter type at its
+position as its expected type, as the list of contexts above says.
+Of the declarations that are applicable to the enclosing call with its
+arguments so typed, each declaration with its own, and whose instances have
+return types that are subtypes of the expected type of the enclosing call,
+where it has one, or can be coerced to it, the enclosing call invokes the one
+that is more specific than every other on the parameter types they declare;
+where there is no such declaration, the call is typed with its arguments typed
+without an expected type, and is accepted or refused as above.
+So a declaration that is applicable to a call with its arguments typed without
+an expected type is never passed over for one that only an argument typed
+again makes applicable.
+For example, for the declarations
+\EXP{\VAR{mk}\llbracket{}T\rrbracket()\COLON\TYP{Box}\llbracket{}T\rrbracket},
+\EXP{\VAR{takes}(b\COLON\TYP{Box}\llbracket\mathbb{Z}64\rrbracket)},
+\EXP{\VAR{over}(b\COLON\TYP{Box}\llbracket\mathbb{Z}64\rrbracket)} and
+\EXP{\VAR{over}(x\COLON\TYP{Any})}, the call \EXP{\VAR{takes}(\VAR{mk}())}
+instantiates \VAR{mk} at \EXP{\mathbb{Z}64}, which the parameter type of
+\VAR{takes} fixes, while the call \EXP{\VAR{over}(\VAR{mk}())} invokes the
+second declaration of \VAR{over}, which is applicable to \EXP{\VAR{mk}()} typed
+without an expected type, the instance of \VAR{mk} at the bound of its type
+parameter.
+\revision{revival-expected-contexts}{The revival's text of 9~October 2026 had
+no such paragraph; the revival added it with the argument of a call to the list
+of contexts above, following its decision of 9~October 2026.}
 
 \emph{Dispatch.}
 The call, with the coercions of its instance inserted, dispatches at run time
@@ -275,7 +316,7 @@ parameter inside another type may be converted where only a conversion of its
 elements would satisfy the bounds of the parameter; under the rule above such
 an argument fixes the parameter by subtyping and is not converted;
 \item an expected type in any context other than those listed above, such as
-an argument of another call or the body of a \KWD{for} loop;
+the body of a \KWD{for} loop;
 \item the static arguments of an object with static parameters that is named
 without a call, which a program writes (\secref{where-clauses});
 \item the inference over a whole program of the types that declarations elide
@@ -284,9 +325,12 @@ without a call, which a program writes (\secref{where-clauses});
 \revision{revival-expected-contexts}{The revival's text of 29~September 2026
 named here also an expression that a local declaration precedes in a block, an
 \KWD{if} expression without an \KWD{else} clause, a \KWD{typecase} expression
-and a call written by loose juxtaposition, and its text of 8~October 2026 also
-the body of a \KWD{label} expression, to which the list of contexts in
-\secref{static-arg-inference} now gives an expected type.}
+and a call written by loose juxtaposition, its text of 8~October 2026 also
+the body of a \KWD{label} expression, and its text of 9~October 2026 also an
+argument of another call, to which the list of contexts in
+\secref{static-arg-inference} now gives an expected type where the argument is
+itself a call that does not write its static arguments and the enclosing call
+is not accepted without it.}
 \revision{revival-inference}{The compiled type checker instantiates a type
 parameter that neither an argument nor the expected type fixes at the
 intersection of its upper bounds, as \secref{static-arg-inference} says; on the
