@@ -1030,6 +1030,19 @@ parameter open and the reduction runs on the types of its elements, an empty
 one taking the identity of \EXP{\mathbb{Z}32}, and that until the compiled
 type checker directs the desugaring by type a program that both implementations
 are to run writes the static argument.
+A revision of the interpreter of 14~October 2026 changes the box once more.
+It said that ``Neither implementation directs it by type yet'', and that where
+the bound of the big operator's static parameter mentions the static parameter
+itself ``the interpreter leaves that parameter open'', the reduction running on
+the types of its elements ``except that an empty one takes the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression''; it now says that
+neither implementation directs it by the type \VAR{N} of the expression yet,
+that the interpreter, which has no static types, instantiates the big operator
+by the declared type of the variable or the function whose value the reduction
+is, otherwise by the join of the run-time types of its elements, and where
+there is none at the bound of its static parameter, or open where that bound
+mentions the parameter itself, and that an empty reduction that no declared
+type directs takes the identity of \EXP{\mathbb{Z}32}.
 \item[Rationale] The revival decided on 26~September 2026 that the library's
 \OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
 each joined with its element type's own operator and taking that type's
@@ -1050,6 +1063,33 @@ instantiation of a call and returns such a parameter to \TYP{BottomType}; the
 specification's examples that write no static argument for such a reduction
 would stop again at their first element, and refusing the call, as the compiled
 type checker does, would stop them too.
+The revival decided on 14~October 2026 that the interpreter instantiates the
+big operator of a reduction or a comprehension that writes no static argument
+as the desugaring by the type \VAR{N} would, with run-time types in place of
+\VAR{N}: by the declared type of the variable or the function whose value the
+reduction is, which constrains the instance as a call's static return type
+does (\secref{static-arg-inference}), and otherwise by the join of the
+run-time types of its elements, which the interpreter collects before it
+reduces them, as it already took the types of the elements for \VAR{N} where
+it left the parameter open; with neither, the parameter takes its bound, or is
+left open where the bound mentions it.
+Until then the interpreter left a big operator's static parameter whose bound
+does not mention it at \TYP{BottomType} (\secref{revival-inference}), and an
+empty reduction, having no element, took the identity of
+\EXP{\mathbb{Z}32}.
+Reversing the revision of 14~October 2026 takes the declared type and the
+collection of the elements out of the interpreter's evaluation of such a
+reduction and returns those static parameters to \TYP{BottomType}: an empty
+reduction of \EXP{\mathbb{R}64} elements then takes the identity of
+\EXP{\mathbb{Z}32} again, the library's set reductions \EXP{\bigcup} and
+\EXP{\bigcap} stop again at their first element, a comprehension is built
+again at the run-time types of its elements wherever its type is declared, and
+the library's \VAR{body} in the application of a big operator can no longer
+declare the type of its parameter.
+The reasoning is in
+\nolinkurl{explorations/perf-probes/walk-plain-bound/REPORT.md} and
+\nolinkurl{explorations/compile-ladder/rung-walk-elements/REPORT.md} in the
+revival's repository.
 The compiled type checker, when it checks the libraries this specification
 describes, took \TYP{BottomType} too until it was revised to the rule of
 \secref{static-arg-inference} for a type parameter that nothing at a call
@@ -1068,10 +1108,19 @@ no static argument.
 Since 9~October 2026, under the interpreter, a reduction with a generator clause
 list whose element type nothing fixes, over a big operator whose bound mentions
 its static parameter, runs where it stopped at its first element, the
-specification's examples of that form among them; an empty one gives the
-identity of \EXP{\mathbb{Z}32} whatever the type of the expression (row~645
-of the revival's gap ledger), and the library's set reductions \EXP{\bigcup}
-and \EXP{\bigcap} still stop at their first element (row~662).
+specification's examples of that form among them.
+Since 14~October 2026, under the interpreter, such a reduction or comprehension
+is instantiated by the declared type of its value, by the join of its elements'
+run-time types or at its bound: an empty sum that is the value of a function
+declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, where it gave
+the identity of \EXP{\mathbb{Z}32} (row~645 of the revival's gap ledger), the
+library's set reductions \EXP{\bigcup} and \EXP{\bigcap} run where they
+stopped at their first element (row~662), and a comprehension whose value is
+declared with its type is built at that type.
+An empty reduction that no declared type directs still gives the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression (row~NEW-B-2), and a
+comprehension that no declared type reaches, such as the body of another
+reduction, is built at the run-time types of its elements (row~20).
 The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
@@ -1793,6 +1842,25 @@ the type parameter itself and that nothing at a call fixes, admitting every
 value where it checks a value against that type, what that gives a reduction
 whose element type nothing fixes, and that it still erases the other static
 parameters of such a big operator.
+A revision of the interpreter of 14~October 2026 changes both boxes on it once
+more.
+The box in \secref{static-arg-inference} said that the interpreter ``does not
+yet fix a type parameter by the expected type''; it now says that it does so
+only at a reduction or a comprehension that writes no static argument and whose
+value is that of a variable or of a function declared with a type.
+The box after the list said that the interpreter ``still erases to
+\TYP{BottomType} the other static parameters of a big operator that a
+reduction or a comprehension invokes without its static arguments, a
+comprehension's collection being then built at the type of its elements'', and
+that an empty reduction whose element type nothing fixes takes the identity of
+\EXP{\mathbb{Z}32} and the library's set reductions stop at their first
+element; it now says that the interpreter instantiates such a big operator by
+the declared type of the variable or the function whose value the reduction or
+the comprehension is, otherwise by the join of the run-time types of its
+elements, and where there is none at its bound, or open where the bound
+mentions the parameter, and names what that leaves: an empty reduction that no
+declared type directs, a comprehension that no declared type reaches, and a big
+operator whose declared result is not one of the library's three.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1834,9 +1902,12 @@ checker tries a call, is in
 in the revival's repository.
 The revival's decision of 29~September 2026 provided that the interpreter
 follow the same rule where it instantiates a declaration, from the run-time
-types of the arguments; it has no static return type to add to the bound.
+types of the arguments; it has no static return type to add to the bound,
+except, since 14~October 2026, the declared type of a variable or of a function
+whose value is a reduction or a comprehension that writes no static argument
+(below).
 It departs from the rule for the type parameters that the two boxes name,
-four kinds by decision and the others as defects.
+three kinds by decision and the others as defects.
 Until 9~October 2026, by decision, a type parameter whose bound mentions the
 type parameter itself kept \TYP{BottomType}: it has no bound to take before its
 own instance is known, the paper's calculus admits no type parameter of a
@@ -1849,12 +1920,26 @@ instantiates a static parameter at \TYP{BottomType} keeps a call from an
 instance that admits no value, and an open parameter refuses none.
 The reasoning is in \nolinkurl{explorations/reviews/p1-judgement.md} in the
 revival's repository.
-By decision, a big operator's static parameter whose bound does not mention it,
-that a reduction or a comprehension does not write, keeps \TYP{BottomType}: it
-is the element type of the reduction, which this chapter does not yet
-describe, and from \TYP{BottomType} the interpreter's
+Until 14~October 2026, by decision, a big operator's static parameter whose
+bound does not mention it, that a reduction or a comprehension does not write,
+kept \TYP{BottomType}: it is the element type of the reduction, which this
+chapter does not yet describe, and from \TYP{BottomType} the interpreter's
 library builds a comprehension's collection at the type of its elements, where
 from the bound it would build it at the bound.
+The revival decided on 14~October 2026 that the interpreter instantiates such a
+big operator as the desugaring by the type \VAR{N} of the expression would
+(\secref{revival-reductions}), with run-time types in place of \VAR{N}: by the
+declared type of the variable or the function whose value the reduction or the
+comprehension is, which is the static return type that the rule above lets
+constrain the instance, and otherwise by the join of the run-time types of the
+elements that its generator clauses give, which fix the parameter as \VAR{N}
+would and so are not the value's type of a parameter that nothing fixes; where
+there is neither, the parameter takes its bound, or is left open where the
+bound mentions it.
+The reasoning is in
+\nolinkurl{explorations/perf-probes/walk-plain-bound/REPORT.md} and
+\nolinkurl{explorations/compile-ladder/rung-walk-elements/REPORT.md} in the
+revival's repository.
 By decision, a type parameter that only the bound of a type parameter that the
 arguments fix mentions takes the arguments' type: the interpreter has no
 expected type to fix it, and the library's operator that appends two covariant
@@ -1978,11 +2063,21 @@ Since 9~October 2026, under the interpreter, a type parameter whose bound
 mentions the type parameter itself and that nothing at a call fixes is left
 open where it was instantiated at \TYP{BottomType}, so that a reduction whose
 element type nothing fixes runs on the types of its elements where it stopped
-at its first element (\secref{revival-reductions}); an empty such reduction
-takes the identity of \EXP{\mathbb{Z}32} whatever the type of the expression
-(row~645), and the library's set reductions \EXP{\bigcup} and
-\EXP{\bigcap}, whose reductions take sets of the open type, still stop
-(row~662).
+at its first element (\secref{revival-reductions}); until 14~October 2026 an
+empty such reduction took the identity of \EXP{\mathbb{Z}32} whatever the
+type of the expression (row~645), and the library's set reductions
+\EXP{\bigcup} and \EXP{\bigcap}, whose reductions take sets of the open
+type, stopped (row~662).
+Since 14~October 2026, under the interpreter, the big operator of a reduction
+or a comprehension that writes no static argument is instantiated by the
+declared type of its value, by the join of its elements' run-time types or at
+its bound, where its static parameters with a bound that does not mention them
+were instantiated at \TYP{BottomType}: an empty sum that is the value of a
+function declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, the
+set reductions run, and a comprehension bound to a variable declared with its
+type is admitted; an empty reduction that no declared type directs still takes
+the identity of \EXP{\mathbb{Z}32} (row~NEW-B-2), and a comprehension that no
+declared type reaches is built at the run-time types of its elements (row~20).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}

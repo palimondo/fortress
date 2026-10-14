@@ -262,7 +262,11 @@ When its dispatch chooses among declarations, it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
 favour of any other declaration applicable to the call without coercion
 (row~589 of the revival's gap ledger).
-It does not yet fix a type parameter by the expected type.
+It fixes a type parameter by the expected type only at a reduction or a
+comprehension that writes no static argument and whose value is that of a
+variable or of a function declared with a type, as the box after the list in
+\secref{numeral-default} says; elsewhere it does not yet fix a type parameter
+by the expected type.
 A type parameter that an argument bounds only from above, as a function
 argument bounds the type parameter of its parameter type, it instantiates at the
 intersection of the upper bounds that its declared bound and the arguments
@@ -364,20 +368,31 @@ operators $\sum$ and $\prod$ declare theirs, and that nothing at a call fixes,
 it leaves open: it does not instantiate it, and it admits every value where it
 checks a value against that type, as an argument, a variable declared with that
 type, a \KWD{typecase} clause or a type assertion.
-So a reduction whose element type nothing at the call fixes runs on the types
-of its elements, the interpreter's counterpart of the desugaring by the type
-\VAR{N} of the expression (\secref{reduction-expr}); but an empty such
-reduction takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
-expression (row~645 of the revival's gap ledger), and the library's set
-reductions \EXP{\bigcup} and \EXP{\bigcap}, whose reductions take sets of
-that open type, stop at their first element (row~662).
-It still erases to \TYP{BottomType} the other static parameters of a big
-operator that a reduction or a comprehension invokes without its static
-arguments, a comprehension's collection being then built at the type of its
-elements (row~424 of the revival's gap ledger); it gives a function expression
-that declares no return type the return type \TYP{BottomType}, so that a type
-parameter that only its result fixes is instantiated there (row~587); and it
-leaves a generic method's static parameters uninstantiated (row~21).
+The big operator that a reduction or a comprehension invokes without its
+static arguments it instantiates as the desugaring by the type \VAR{N} of the
+expression would (\secref{reduction-expr}), with run-time types in place of the
+static type that it does not have: by the declared type of the variable, or the
+declared return type of the function, whose value the reduction or the
+comprehension is, also as the last expression of a block, where that type fixes
+the big operator's result type; otherwise by the join of the run-time types of
+the elements that its generator clauses give, which it collects before it
+reduces them; and where there is no element, at the bound of each static
+parameter, or open where the bound mentions the parameter itself.
+So an empty sum that is the value of a function declared \EXP{\mathbb{R}64}
+is the \EXP{\mathbb{R}64} zero, and the library's set reductions
+\EXP{\bigcup} and \EXP{\bigcap} run on sets of their elements' type; but an
+empty reduction that no declared type directs takes the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression (row~NEW-B-2 of the
+revival's gap ledger); a comprehension that no declared type reaches, such as
+the body of another reduction or an argument of a call, is built at the
+run-time types of its elements, which the declared type of an enclosing
+expression may not admit (rows~20 and~510); and a big operator whose declared
+result is none of the library's \TYP{BigReduction}, \TYP{Comprehension} and
+\TYP{BigOperator} is instantiated as where there is no element.
+It gives a function expression that declares no return type the return type
+\TYP{BottomType}, so that a type parameter that only its result fixes is
+instantiated there (row~587); and it leaves a generic method's static
+parameters uninstantiated (row~21).
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.
