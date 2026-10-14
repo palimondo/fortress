@@ -1,0 +1,293 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java b/ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java
+index 4599c133e..be654087b 100644
+--- a/ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java
++++ b/ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java
+@@ -622,14 +622,19 @@ public class ScalaAstGenerator extends CodeGenerator {
+             }
+             writer.println(sub("}"));
+         }
+-        // Generate walker.
++        // Generate walker.  Its cases are tried in their order, split into
++        // methods of WALKER_CASES_PER_METHOD class cases each, the last method
++        // ending with the cases of a List, an Option and any other value: one
++        // method holding them all is longer than the 8000 bytes of bytecode above
++        // which HotSpot does not compile a method (HugeMethodLimit), so it ran in
++        // the interpreter.
+         writer.println();
+         writer.println("trait Walker {");
+         writer.println("   def apply(node:Any):Any = walk(node)");
+-        writer.println("   def walk(node:Any):Any = {");
+-        writer.println("       node match {");
++        writer.println("   def walk(node:Any):Any = walkCases0(node)");
+         List<NodeClass> cList = mkList(ast.classes());
+         Collections.reverse(cList);
++        List<String> cases = new ArrayList<String>();
+         for (NodeClass c : cList) {
+             if (ignoreClass(c.name())) {
+                 continue;
+@@ -638,17 +643,32 @@ public class ScalaAstGenerator extends CodeGenerator {
+                 continue;
+             }
+ 
+-            writer.println(sub("         case S@name@fieldsNoTypes =>", "@name", c.name(), "@fieldsNoTypes", fieldsNames(c)));
+-            writer.println(sub("             S@name@fieldsNoTypes", "@name", c.name(), "@fieldsNoTypes", wrappedFieldCalls("walk", c)));
++            cases.add(sub("         case S@name@fieldsNoTypes =>", "@name", c.name(), "@fieldsNoTypes", fieldsNames(c)) + "\n" +
++                      sub("             S@name@fieldsNoTypes", "@name", c.name(), "@fieldsNoTypes", wrappedFieldCalls("walk", c)));
++        }
++        for (int m = 0; m == 0 || m * WALKER_CASES_PER_METHOD < cases.size(); m++) {
++            int end = Math.min(cases.size(), (m + 1) * WALKER_CASES_PER_METHOD);
++            writer.println("   def walkCases" + m + "(node:Any):Any = {");
++            writer.println("       node match {");
++            for (String c : cases.subList(m * WALKER_CASES_PER_METHOD, end)) {
++                writer.println(c);
++            }
++            if (end < cases.size()) {
++                writer.println("         case _ => walkCases" + (m + 1) + "(node)");
++            } else {
++                writer.println("         case xs:List[_] => xs.map(walk _)");
++                writer.println("         case xs:Option[_] => xs.map(walk _)");
++                writer.println("         case _ => node");
++            }
++            writer.println("      }");
++            writer.println("   }");
+         }
+-        writer.println("         case xs:List[_] => xs.map(walk _)");
+-        writer.println("         case xs:Option[_] => xs.map(walk _)");
+-        writer.println("         case _ => node");
+-        writer.println("      }");
+-        writer.println("   }");
+         writer.println("}");
+     }
+ 
++    /** The number of class cases in each method of the generated walker (generateBody). */
++    private static final int WALKER_CASES_PER_METHOD = 30;
++
+     /**
+      * Given a String denoting a file name, and a preamble (e.g., a copyright notice)
+      * write out the contents of the preamble along with all Scala code to that file.
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala b/ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala
+index dd17c3877..ccf1a3133 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala
+@@ -1587,7 +1587,8 @@ object S_RewriteObjectExprRef {
+ 
+ trait Walker {
+    def apply(node:Any):Any = walk(node)
+-   def walk(node:Any):Any = {
++   def walk(node:Any):Any = walkCases0(node)
++   def walkCases0(node:Any):Any = {
+        node match {
+          case SKindOp =>
+              SKindOp
+@@ -1649,6 +1650,11 @@ trait Walker {
+              SNotPredicateSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getSymbol).asInstanceOf[com.sun.fortress.nodes.SyntaxSymbol])
+          case STokenSymbol(getInfo, getToken) =>
+              STokenSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getToken).asInstanceOf[String])
++         case _ => walkCases1(node)
++      }
++   }
++   def walkCases1(node:Any):Any = {
++       node match {
+          case SKeywordSymbol(getInfo, getToken) =>
+              SKeywordSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getToken).asInstanceOf[String])
+          case SNonterminalSymbol(getInfo, getNonterminal) =>
+@@ -1709,6 +1715,11 @@ trait Walker {
+              SSubscriptingMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getOp).asInstanceOf[com.sun.fortress.nodes.Op], walk(getExprs).asInstanceOf[List[com.sun.fortress.nodes.Expr]], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
+          case SExponentiationMI(getInfo, getOp, getExpr) =>
+              SExponentiationMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getOp).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getExpr).asInstanceOf[Option[com.sun.fortress.nodes.Expr]])
++         case _ => walkCases2(node)
++      }
++   }
++   def walkCases2(node:Any):Any = {
++       node match {
+          case SNonParenthesisDelimitedMI(getInfo, getExpr) =>
+              SNonParenthesisDelimitedMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getExpr).asInstanceOf[com.sun.fortress.nodes.Expr])
+          case SParenthesisDelimitedMI(getInfo, getExpr) =>
+@@ -1769,6 +1780,11 @@ trait Walker {
+              SWhereTypeAlias(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getAlias).asInstanceOf[com.sun.fortress.nodes.TypeAlias])
+          case SWhereExtends(getInfo, getName, getSupers) =>
+              SWhereExtends(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getSupers).asInstanceOf[List[com.sun.fortress.nodes.BaseType]])
++         case _ => walkCases3(node)
++      }
++   }
++   def walkCases3(node:Any):Any = {
++       node match {
+          case SWhereBinding(getInfo, getName, getSupers, getKind) =>
+              SWhereBinding(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getSupers).asInstanceOf[List[com.sun.fortress.nodes.BaseType]], walk(getKind).asInstanceOf[com.sun.fortress.nodes.StaticParamKind])
+          case SWhereClause(getInfo, getBindings, getConstraints) =>
+@@ -1829,6 +1845,11 @@ trait Walker {
+              SDimBase(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo])
+          case SLabelType(getInfo) =>
+              SLabelType(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo])
++         case _ => walkCases4(node)
++      }
++   }
++   def walkCases4(node:Any):Any = {
++       node match {
+          case SFixedPointType(getInfo, getName, getBody) =>
+              SFixedPointType(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes._InferenceVarType], walk(getBody).asInstanceOf[com.sun.fortress.nodes.Type])
+          case SUnionType(getInfo, getElements) =>
+@@ -1889,6 +1910,11 @@ trait Walker {
+              S_RewriteFnApp(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getFunction).asInstanceOf[com.sun.fortress.nodes.Expr], walk(getArgument).asInstanceOf[com.sun.fortress.nodes.Expr])
+          case SJuxt(getInfo, getMultiJuxt, getInfixJuxt, getExprs, isFnApp, isTight) =>
+              SJuxt(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getMultiJuxt).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getInfixJuxt).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getExprs).asInstanceOf[List[com.sun.fortress.nodes.Expr]], walk(isFnApp).asInstanceOf[Boolean], walk(isTight).asInstanceOf[Boolean])
++         case _ => walkCases5(node)
++      }
++   }
++   def walkCases5(node:Any):Any = {
++       node match {
+          case S_RewriteObjectExprRef(getInfo, getGenSymName, getStaticArgs) =>
+              S_RewriteObjectExprRef(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getGenSymName).asInstanceOf[String], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
+          case S_RewriteFnRef(getInfo, getFnExpr, getStaticArgs) =>
+@@ -1949,6 +1975,11 @@ trait Walker {
+              S_RewriteObjectExpr(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getHeader).asInstanceOf[com.sun.fortress.nodes.TraitTypeHeader], walk(getImplicitTypeParameters).asInstanceOf[Map[String, com.sun.fortress.nodes.StaticParam]], walk(getGenSymName).asInstanceOf[String], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
+          case SObjectExpr(getInfo, getHeader, getSelfType) =>
+              SObjectExpr(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getHeader).asInstanceOf[com.sun.fortress.nodes.TraitTypeHeader], walk(getSelfType).asInstanceOf[Option[com.sun.fortress.nodes.SelfType]])
++         case _ => walkCases6(node)
++      }
++   }
++   def walkCases6(node:Any):Any = {
++       node match {
+          case SLabel(getInfo, getName, getBody) =>
+              SLabel(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getBody).asInstanceOf[com.sun.fortress.nodes.Block])
+          case SIf(getInfo, getClauses, getElseClause) =>
+@@ -2009,6 +2040,11 @@ trait Walker {
+              SImportApi(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApis).asInstanceOf[List[com.sun.fortress.nodes.AliasedAPIName]])
+          case SImportNames(getInfo, getForeignLanguage, getApiName, getAliasedNames) =>
+              SImportNames(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApiName).asInstanceOf[com.sun.fortress.nodes.APIName], walk(getAliasedNames).asInstanceOf[List[com.sun.fortress.nodes.AliasedSimpleName]])
++         case _ => walkCases7(node)
++      }
++   }
++   def walkCases7(node:Any):Any = {
++       node match {
+          case SImportStar(getInfo, getForeignLanguage, getApiName, getExceptNames) =>
+              SImportStar(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApiName).asInstanceOf[com.sun.fortress.nodes.APIName], walk(getExceptNames).asInstanceOf[List[com.sun.fortress.nodes.IdOrOpOrAnonymousName]])
+          case SApi(getInfo, getName, getImports, getDecls, getComprises) =>
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/nodes/WalkerJUTest.java b/ProjectFortress/src/com/sun/fortress/scala_src/nodes/WalkerJUTest.java
+new file mode 100644
+index 000000000..a74cdc1d7
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/nodes/WalkerJUTest.java
+@@ -0,0 +1,122 @@
++package com.sun.fortress.scala_src.nodes;
++
++import java.io.InputStream;
++import java.lang.classfile.Attributes;
++import java.lang.classfile.ClassFile;
++import java.lang.classfile.ClassModel;
++import java.lang.classfile.MethodModel;
++import java.lang.classfile.attribute.CodeAttribute;
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.List;
++import java.util.Optional;
++
++import junit.framework.TestCase;
++
++import com.sun.fortress.compiler.Types;
++import com.sun.fortress.nodes.KindOp;
++import com.sun.fortress.nodes.StaticArg;
++import com.sun.fortress.nodes.Type;
++import com.sun.fortress.nodes.VarType;
++import com.sun.fortress.nodes_util.NodeFactory;
++import com.sun.fortress.nodes_util.Span;
++
++/* The generated walker: every method of it is short enough for the JVM to compile, a walk
++ * rebuilds each node it reaches from its walked fields, and every other value comes back as it is. */
++public class WalkerJUTest extends TestCase {
++
++    // HotSpot does not compile a method of more bytes of bytecode than this (HugeMethodLimit,
++    // under the default DontCompileHugeMethods), so such a method always runs in the interpreter.
++    private static final int HUGE_METHOD_LIMIT = 8000;
++
++    private static final Span SPAN = NodeFactory.typeSpan;
++
++    private static Type trait(String name, Type... args) {
++        List<StaticArg> sargs = new ArrayList<StaticArg>();
++        for (Type a : args) sargs.add(NodeFactory.makeTypeArg(SPAN, a));
++        return NodeFactory.makeTraitType(SPAN, name, sargs);
++    }
++    private static Type var(String name) { return NodeFactory.makeVarType(SPAN, name); }
++    private static Type tuple(Type... ts) { return NodeFactory.makeMaybeTupleType(SPAN, Arrays.asList(ts)); }
++    private static Type arrow(Type d, Type r) { return NodeFactory.makeArrowType(SPAN, d, r); }
++    private static Type and(Type... ts) { return NodeFactory.makeMaybeIntersectionType(Arrays.asList(ts)); }
++    private static Type or(Type... ts) { return NodeFactory.makeMaybeUnionType(Arrays.asList(ts)); }
++
++    /** A walker that changes nothing. */
++    private static Walker identity() { return new Walker() {}; }
++
++    /** A walker that puts Zz in place of the type variable T. */
++    private static Walker replacingT() {
++        return new Walker() {
++            public Object walk(Object node) {
++                if (node instanceof VarType && ((VarType)node).getName().getText().equals("T"))
++                    return trait("Zz");
++                return Walker.super.walk(node);
++            }
++        };
++    }
++
++    public void testEveryMethodCompilable() throws Exception {
++        ClassModel model;
++        try (InputStream in = Walker.class.getResourceAsStream("Walker.class")) {
++            model = ClassFile.of().parse(in.readAllBytes());
++        }
++        int withCode = 0;
++        for (MethodModel m : model.methods()) {
++            Optional<CodeAttribute> code = m.findAttribute(Attributes.code());
++            if (code.isPresent()) {
++                withCode++;
++                int size = code.get().codeLength();
++                assertTrue("Walker." + m.methodName().stringValue() + " is " + size +
++                           " bytes of bytecode, more than " + HUGE_METHOD_LIMIT,
++                           size <= HUGE_METHOD_LIMIT);
++            }
++        }
++        assertTrue("Walker has methods with code", withCode > 0);
++    }
++
++    public void testIdentityWalkRebuildsNodes() {
++        Walker w = identity();
++        List<Type> types = Arrays.asList(
++            trait("Ab", var("T"), arrow(tuple(trait("Cd"), var("D")), trait("Ef"))),
++            and(trait("Ab"), or(trait("Cd"), trait("Ef"))),
++            arrow(tuple(trait("Ab"), var("U")), Types.BOTTOM),
++            Types.ANY,
++            Types.OBJECT);
++        for (Type t : types) {
++            Object r = w.apply(t);
++            assertEquals(t.toString(), t, r);
++            assertNotSame(t.toString(), t, r);
++        }
++    }
++
++    public void testOtherValuesComeBackAsTheyAre() {
++        Walker w = identity();
++        String str = "x";
++        assertSame(str, w.apply(str));
++        assertSame(SPAN, w.apply(SPAN));
++        Integer n = Integer.valueOf(7);
++        assertSame(n, w.apply(n));
++        // A node class with no fields matches no case of the walker.
++        KindOp kindOp = new KindOp();
++        assertSame(kindOp, w.apply(kindOp));
++        assertEquals(scala.None$.MODULE$, w.apply(scala.None$.MODULE$));
++        Object nil = scala.collection.immutable.Nil$.MODULE$;
++        assertEquals(nil, w.apply(nil));
++    }
++
++    public void testOverrideReachesNestedNodes() {
++        Walker w = replacingT();
++        Type zz = trait("Zz");
++        assertEquals(trait("Ab", zz, arrow(tuple(trait("Cd"), zz), trait("Ef"))),
++                     w.apply(trait("Ab", var("T"), arrow(tuple(trait("Cd"), var("T")), trait("Ef")))));
++        assertEquals(and(zz, or(trait("Cd"), zz)),
++                     w.apply(and(var("T"), or(trait("Cd"), var("T")))));
++        assertEquals(scala.Option.apply(zz), w.apply(scala.Option.apply(var("T"))));
++        scala.collection.immutable.List<Type> in =
++            scala.jdk.javaapi.CollectionConverters.asScala(Arrays.asList(var("T"), trait("Ab", var("T")))).toList();
++        scala.collection.immutable.List<Type> out =
++            scala.jdk.javaapi.CollectionConverters.asScala(Arrays.asList(zz, trait("Ab", zz))).toList();
++        assertEquals(out, w.apply(in));
++    }
++}
