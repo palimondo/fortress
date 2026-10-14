@@ -1274,3 +1274,9 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-14 19:17Z · rewritten · by coordinator: his rephrasing, 19:16 UTC 2026-10-14: "I would phrase the position a bit differently. Cut the duplication and say that after checker changes we always measure the performance impact and after the initial correctness pass we follow it up with a performance optimization pass. Ideally this would be done within the worker's rung and validated by the skeptic. Not as an extra post landing manual process that we are doing now."
 
 - P-148 **The checker's speed comes right after its correctness.** No checker is too fast, and in every language he has heard of the type checker is a performance bottleneck. So the checker's correctness comes first and its speed second, nearly level with it. A slowdown of the checker is work to do, not a cost to accept: it is optimized, keeping every answer. Still to build: the speed fix under row 680's repair (PLAN item 54).
+
+### P-148
+
+2026-10-14 19:20Z · rewritten · by coordinator: his word, 19:20 UTC 2026-10-14: "Try phrasing it in ASD-STE100 register (halfway). That compressed phrasing isn't obvious to me and I doubt fresh workers would get your meaning either.", on "keeping every answer"
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures the change's effect on the checker's time. After its correctness pass, it makes a pass that optimizes the change, keeping every answer, and its skeptic checks both. The speed work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).
