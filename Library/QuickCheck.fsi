@@ -57,7 +57,7 @@ TestContext(arb:Arbitrary, g:AnySeededRandomGen, numTests:ZZ32): TestContext
 (** A version of `Gen[\T\]` without static parameters. **)
 trait AnyGen
     abstract generate(c:TestContext): Any
-    abstract perturb(obj:Any, g:AnySeededRandomGen): AnySeededRandomGen
+    perturb(obj:Any, g:AnySeededRandomGen): AnySeededRandomGen
 end
 
 (** A test generator for type `T`. Minimal complete definition of `Gen` is
