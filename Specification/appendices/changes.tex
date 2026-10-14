@@ -1120,7 +1120,8 @@ declared with its type is built at that type.
 An empty reduction that no declared type directs still gives the identity of
 \EXP{\mathbb{Z}32} whatever the type of the expression (row~NEW-B-2), and a
 comprehension that no declared type reaches, such as the body of another
-reduction, is built at the run-time types of its elements (row~20).
+reduction, is built at the run-time types of its elements (rows~20
+and~NEW-B-3).
 The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
@@ -2077,7 +2078,8 @@ function declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, the
 set reductions run, and a comprehension bound to a variable declared with its
 type is admitted; an empty reduction that no declared type directs still takes
 the identity of \EXP{\mathbb{Z}32} (row~NEW-B-2), and a comprehension that no
-declared type reaches is built at the run-time types of its elements (row~20).
+declared type reaches is built at the run-time types of its elements (rows~20
+and~NEW-B-3).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
