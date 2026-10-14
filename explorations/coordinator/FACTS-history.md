@@ -2033,3 +2033,23 @@ pointer words refreshed in: F-24
 2026-10-14 04:41Z · rewritten · from `explorations/compile-ladder/rung-argument-context/REPORT.md`, "1. What changed, and why" · by climb batch 14 gather: a comma restored in the rewrite above
 
 - F-87 **The compiled checker gives a call its expected type in a clause of an `if` without `else`, a block's last expression after local declarations, a `typecase` clause, a juxtaposition, a repeated operator a `label` body and, by a retry of the enclosing call, another call's argument.** The `label` body builds P-50. At another call's argument it retries the enclosing call against each declaration's parameter type, as P-51 decides (F-221). The checker renames an inherited method's own static parameters apart from the receiver's static arguments, and checks a written static argument against its bounds. Gated by `compiler_tests/InferResultOnly*`, `Infer*Context`, `InferCallArgument*` and `MethodStaticArg*`. Detail: `compile-ladder/rung-checker-contexts/REPORT.md` section 1.
+
+### F-222
+
+2026-10-14 04:44Z · added · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "3. Row 676: where the fix belongs, and the precedent" · by climb batch 14 gather: rung P's record.md, folded
+
+### F-146
+
+2026-10-14 04:44Z · rewritten · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "3. Row 676: where the fix belongs, and the precedent" · by climb batch 14 gather: rung P's record.md and its skeptic's leftForGather: row 676 is fixed, so walk no longer stops on a power
+
+- F-146 **The compiled checker accepts arithmetic in a size and opens a value of a trait whose `comprises` clause lists a type at a `where`-clause size.** It builds P-55, with array fork 3 at its default. A name or an operation beside a numeral counts as not known to differ, and two different size parameters as different (row 683, contested). The checker opens each listed type's `nat` and `int` `where`-clause sizes as fresh names, and walk reads them as any size. Gated by `compiler_tests/NatArith*` and `NatOpenChecker`. Open: an opened size does not compile (row 307), walk stops on a power in a size (row 676), and rows 636, 675, 681 and 682 (contested). Detail: `compile-ladder/rung-size-expressions/REPORT.md` sections 1 and 12.
+
+### F-223
+
+2026-10-14 04:44Z · added · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "4. Row 696: the specification's change, passage by passage" · by climb batch 14 gather: rung P's record.md, folded, with its skeptic's clause on row 707
+
+### F-176
+
+2026-10-14 04:44Z · rewritten · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "3. Row 676: where the fix belongs, and the precedent" · by climb batch 14 gather: rung P's record.md and its skeptic's leftForGather: walk computes a power in a size
+
+- F-176 **The specification allows arithmetic in a size, and two size expressions are the same type when they are written alike once numerals are folded.** It states P-55. A size may be a numeral, a name, a sum, a difference, a product, a power to a numeral or a name, or a bracketed expression. A static parameter is not known to differ from a numeral. F-146 gives the compiled checker. Walk computes `+`, `-` and juxtaposition at instantiation, stops on a power (row 676), and binds only a name or a numeral at a call. Source: `Specification/basic/types-vals-vars.tex:49-62`.

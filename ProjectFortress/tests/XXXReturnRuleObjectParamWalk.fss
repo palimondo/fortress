@@ -1,0 +1,20 @@
+component XXXReturnRuleObjectParamWalk
+export Executable
+
+(* A declaration at (C, C) more specific than one at (C, B), with C an object extending B, whose return type B is not a subtype of the other's C, breaks the Subtype Rule, so the program is refused at load, under walk (overloading.tex, section "Subtype Rule"). *)
+
+trait B end
+object C extends B end
+
+m1(x: B, y: C): B = x
+m1(x: C, y: B): C = x
+m1(x: C, y: C): B = y
+
+run(): () = do
+    c1: C = C
+    c2: B = C
+    r: C = m1(c1, c2)
+    println("ran")
+  end
+
+end

@@ -257,7 +257,8 @@ of the relevant paragraph).
 \revision{revival-overloading}{Done: declarations of one name may have different
 static parameters, under the rules of \secref{overloading-static-params}.
 Jan's pair is still not a valid overloading, since the two declarations have the
-same parameter type and each is more specific than the other; \library\ write it
+same parameter type, each applicable to every call to which the other is, which
+the No Duplicates Rule refuses; \library\ write it
 as one factory, \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket()},
 which chooses its result by a \KWD{typecase} on its type argument, a
 \TYP{Vector} where the argument is a \TYP{Number}.}

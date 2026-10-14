@@ -4829,3 +4829,45 @@ note added
 note added
 
 | 510 | **under `walk`, a typed binding does not fix a static argument that only the call's result mentions**, so `a: BoxK[\ZZ64\] = wrapK(3)` is refused, 'RHS expression type BoxK[\Int\] is not assignable to LHS type BoxK[\ZZ64\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/var-ref.tex`, "Identifier References"; `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferExpectedTypeRungK.fss` | ours (climb batch N, rung K) | siblings: 455. `i: ZZ64 = idK(3)` answers `3 : ZZ64`, since the binding converts a result that is the type parameter itself, and no coercion converts a `BoxK[\Int\]`. The compiled checker keeps the expected type at `f(x)` and infers `T = ZZ64`. Repair, outside rung K's files: a typed binding whose right-hand side is a generic call passes its declared type into that call's inference (`LHSEvaluator`, `BuildEnvironments`), walk's only static context; whether and when is the curator's. full text: history, row 510 |
+
+### Row 373
+
+note added
+
+| 373 | walk accepts two generic overloads whose domains overlap and runs one for a call both apply to: `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, `P[\T\]` excluding `Q[\T\]`, runs `oP` for an object extending `P[\ZZ32\]` and `Q[\String\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | none | climb batch 3 rung M's skeptic | siblings: 159, 478, 539. Walk's pair check reads both declarations' `T` as one instantiation, so `p1.excludesOther(p2)` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:454`, at 052a7c3fe) finds the pair excluding; two generic declarations keep that check (`:727`). The compiled checker reads each domain as an independent instantiation and refuses the pair, 'Invalid overloading of o'. Without the `excludes` clause walk refuses the pair too. Probes `explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkM2GenOvl.fss`, control `SkM2GenOvlCtl.fss`, in the parent of `ab067d9b6`; full text: history, row 373 |
+
+### Row 537
+
+note added
+
+| 537 | two generic declarations of one name whose parameters have different bounds compile and link, and the compiled run dies, "Unable to read serialized data" for the overload's class: `name[\T extends Shape\](x: T)` beside `name[\U extends Round\](x: U)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `advanced/overloading.tex`, "Declarations with Static Parameters"; `appendices/changes.tex`, "Overloading with static parameters" | `ProjectFortress/compiler_tests/XXXOverloadTwoGenericBare.test` | the overload-static-params-ways note, defect 3 | siblings: 413. The same message ends the paper's `ArrayList`/`List` set in the program's own names (`m[\P\](x: ArraySeq[\P\])`, `m[\Q extends Num\](y: Seq[\Q\])`, `m[\R extends Num\](z: ArraySeq[\R\])`, gated by `XXXOverloadExistentialMeet`) and the compiled `f[\A, B\]` of `ProjectFortress/tests/XXXGenericOverload2.fss`; with both parameters named `T` code generation stops on a duplicate class name (`explorations/reviews/overload-static-params-ways.md` section 2.3). The checker accepts the paper's set. PLAN phase 5 (`explorations/reviews/overloading-judgement.md` section 3.7). full text: history, row 537 |
+
+### Row 675
+
+note added
+
+| 675 | the compiled class loader makes a size computed at instantiation beyond its kind: with `next[\nat k\](): ZZ64 = sz64[\k + 1\](Box[\k + 1\](0))`, `next[\4294967295\]()` answers 4294967296, where walk refuses a `nat` above 4294967295 when it binds it | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | `ProjectFortress/compiler_tests/NatArithBeyondRun.test` | climb batch 13 rung N | `Naming.foldSize` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java:1234-1253` at 9d323883f) computes exactly and checks no kind: a `nat` and an `int` share one spelling (`compiler/NamingCzar.java:1829-1833`). The checker checks a size folded from numerals (`XXXNatArithRangeChecker`) but not one computed from static parameters. The test asserts today's value and turns red on a fix. A power it does not compute, `Box[\2^k\]` at k = 5000, stops the run with NumberFormatException. Walk: `interpreter/evaluator/EvalType.java:256-273`. |
+
+### Row 693
+
+note added
+
+| 693 | under walk, an `override` over an inherited declaration whose parameter types mention a static parameter is not refused when it overrides nothing, in an object expression with static parameters or a generic declaration extending a type under a `where` clause: `override f(x: String)` over `f(x: T)` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXOverrideObjectExpressionOverParamWalk.fss` | climb batch 13 rung W's skeptic | siblings: 665. Walk's rewrite gives an object expression the static parameters it uses without the where clauses of the declarations around it (`ProjectFortress/src/com/sun/fortress/nodes_util/ExprFactory.java:1127`), and the stand-in reads an extends clause under a where clause as unconditional (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1070`), so `Constructor.checkOverrides` counts such an inherited declaration, unless its parameter types equal the override's, as possibly overridden (`boundsUnread`, `symbolicDomain`, skeptic's contested e8d377669). The base loads the same programs. |
+
+### Row 698
+
+note added
+
+| 698 | the compiler prelude's `trait ZZ32` lists no `comprises` clause, so `add(a: ZZ32, b: ZZ32)` beside `add(a: List, b: List)` over a user trait `List` is refused by the compiled Meet Rule, where walk, on the one library whose `ZZ32` comprises `Int`, runs the pair | NEGATIVE-VERIFIED | implementation gap (prelude) | `advanced/overloading.tex`, "Incompatibility Rule" | none | POPL 2019 examples sorting | 'Invalid overloading of add in component ...: (List, List)->List ... and (ZZ32, ZZ32)->ZZ32', the talk's slide 2 set. The prelude declares `trait ZZ32 ... excludes { ZZ64, RR32, RR64 }` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`); the one library declares `trait ZZ32 ... comprises { Int }` (`Library/FortressLibrary.fsi:531-533`) and `value object Int extends ZZ32` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:125`). Ends at the switch-over; the prelude takes no new declaration. `explorations/reviews/popl2019-examples.md` |
+
+### Row 699
+
+note added
+
+| 699 | on the compiled path, a generic declaration reached only by dispatch whose type parameter only its return type mentions fails verification: `sort[\P\](x: Ltwo): Sorted[\P\]` beside `sort(x: Lst): Sorted[\A\]` compiles, and the run dies, 'VerifyError: Bad return type' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/overloading.tex`, "Overloading Resolution" | none | POPL 2019 examples sorting | siblings: 496, 538. The paper's p. 11:7 `sort`/`merge` example made invariant: `merge(sort(l1), sort(l2))` with `l2: Lst` holding an `Ltwo`; the text gives `Sorted[\A\]`, the bound `Any` under the call's static type. The dispatcher `sort(Lst)` returns the arm's `Sorted?P?`, the uninstantiated template, where its signature says `Sorted[\A\]`, and the main class fails to load before `run` prints. The dispatcher is not given the static return type (`OverloadSet.java:2048`, row 538). `explorations/reviews/popl2019-examples.md` |
+
+### Row 549
+
+note added
+
+| 549 | walk loads a generic declaration beside a plain one whose declared domains are equal: `tie[\T extends Wide\](a: T, b: T)` beside `tie(a: Wide, b: Wide)` loads, and a call that needs a coercion under both is then 'Ambiguous coercion' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/tests/XXXGenericBesidePlainSameDomain.fss` | climb batch 7b rung W | The parameter check reads `T` as a strict subtype of `Wide`, while the generic's declared domain at its bound is `(Wide, Wide)` and the Subtype Rule asks for a strict subtype. The call gives 'Ambiguous coercion, args = (Narrow,Narrow), applicable with coercion = {coerced tie[\T extends Wide\](a:T,b:T)..., coerced tie(a:Wide,b:Wide)...}' in either order of the declarations (`explorations/compile-ladder/rung-walk-dispatch/REPORT.md` section 10, probe `CoerceTie`). The refusal due is walk's for equal parameter types, 'fails because their parameter lists have the same types'; full text: history, row 549 |

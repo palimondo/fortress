@@ -1,0 +1,17 @@
+component TwoTraitsNoMeet
+export Executable
+
+(* Two declarations over two unrelated traits A and B, which an object may extend both of, with no declaration at their meet, are no valid overloading, a static error (overloading.tex, section "Meet Rule"). *)
+
+trait A end
+trait B end
+object C extends { A, B } end
+
+m2(x: A): Boolean = true
+m2(x: B): Boolean = false
+
+run(): () = do
+  println(m2(C))
+end
+
+end

@@ -1,0 +1,14 @@
+component NatPowerOutOfRangeWalk
+export Executable
+
+(* A power in a size whose value is beyond NN32 is no value of a nat parameter, so a top-level variable whose initialisation instantiates one is refused at load, under walk (trait-parameters.tex, section "Nat and Int Parameters"). *)
+
+object Box[\nat k\](v: ZZ32) end
+
+b: Box[\2^32\] = Box[\2^32\](0)
+
+run(): () = do
+    println(b)
+  end
+
+end

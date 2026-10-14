@@ -1,0 +1,17 @@
+component XXXOverrideNothingConditionalExtensionWalk
+export Executable
+
+(* A generic object that extends a trait under a where clause bounding its static parameter by ZZ32, whose override over String inherits the trait's declaration over that parameter, overrides nothing, a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait A[\T\]
+  f(x: T): String = "A"
+end
+object H[\T\](y: T) extends A[\T\] where { T extends ZZ32 }
+  override f(x: String): String = "H"
+end
+
+run(): () = do
+    println(H[\ZZ32\](1).f("s"))
+  end
+
+end

@@ -1,0 +1,28 @@
+component DispatchSymmetricSortedWalk
+export Executable
+
+(* Declarations over (List, List) and (SortedList, SortedList) beside one over three ZZ32 are a valid overloading, and a call whose arguments are both a SortedList runs the more specific declaration whatever their static types (overloading.tex, section "Overloading Resolution"). *)
+
+trait List end
+trait SortedList extends List end
+object PlainL extends List end
+object SortedL extends SortedList end
+
+add(a: ZZ32, b: ZZ32, c: ZZ32): ZZ32 = a + b + c
+add(a: List, b: List): List = PlainL
+add(a: SortedList, b: SortedList): SortedList = SortedL
+
+run(): () = do
+    a: List = SortedL
+    b: SortedList = SortedL
+    r: List = add(a, b)
+    k = typecase r of
+        SortedList => "sorted"
+        else => "list"
+      end
+    assert(k, "sorted", "two SortedList values run add(SortedList, SortedList) (overloading.tex, section \"Overloading Resolution\")")
+    assert(add(1, 2, 3), 6, "three ZZ32 run add(ZZ32, ZZ32, ZZ32)")
+    println("PASS")
+  end
+
+end

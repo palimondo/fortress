@@ -545,8 +545,8 @@ is a valid overloading when every pair $d_1$, $d_2$ of them satisfies the
 following three rules:
 \begin{itemize}
 \item
-The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each more specific than
-the other.
+The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each applicable to every
+call to which the other is applicable.
 \item
 The \emph{Meet Rule}: $d_1$ and $d_2$ exclude each other, or one of them is more
 specific than the other, or some declaration of the set is more specific than
@@ -558,6 +558,15 @@ and for every instance of $d_2$ that is applicable to it, some instance of $d_1$
 is applicable to it whose return type is a subtype of the return type of that
 instance of $d_2$.
 \end{itemize}
+\revision{revival-overloading}{The revival's text of 30~September 2026 stated
+the No Duplicates Rule as ``$d_1$ and $d_2$ are not each more specific than the
+other'', which the strict sense of more specific above made refuse no pair.
+It is stated on the relation without ``and not the other way round'', as the
+type group's papers of 2011 and 2019 state it, and so it refuses
+\EXP{\VAR{dup}\llbracket{}T\rrbracket(x\COLON \TYP{Box}\llbracket{}T\rrbracket)}
+beside \EXP{\VAR{dup}\llbracket{}U\rrbracket(x\COLON
+\TYP{Box}\llbracket{}U\rrbracket)}, each applicable to every call to which the
+other is.}
 The Subtype Rule, the Incompatibility Rule and the Meet Rule above are these
 rules for declarations without static parameters, with the conditions that
 coercion adds; the Return Type Rule is the Subtype Rule's condition on return

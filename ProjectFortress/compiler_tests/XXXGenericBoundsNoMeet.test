@@ -1,0 +1,3 @@
+tests=GenericBoundsNoMeet
+compile
+compile_err_contains=Invalid overloading of sort

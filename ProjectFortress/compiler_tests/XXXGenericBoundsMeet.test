@@ -1,0 +1,3 @@
+tests=XXXGenericBoundsMeet
+run
+run_out_contains=REACHED

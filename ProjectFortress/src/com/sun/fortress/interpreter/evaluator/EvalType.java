@@ -472,6 +472,16 @@ public class EvalType extends NodeAbstractVisitor<FType> {
 		    if (n.getOp().getText().equals("+")) return IntNat.make(Math.addExact(left, right));
 		    else if (n.getOp().getText().equals("-")) return IntNat.make(Math.subtractExact(left, right));
 		    else if (n.getOp().getText().equals(" ")) return IntNat.make(Math.multiplyExact(left, right));
+		    else if (n.getOp().getText().equals("^")) {
+			if (right < 0) return error(n, errorMsg("Static argument ", n, " has the negative exponent ", right, ", and a power in a size takes an exponent of 0 or above"));
+			long result = 1;
+			for (long base = left, exponent = right; exponent > 0; ) {
+			    if ((exponent & 1) != 0) result = Math.multiplyExact(result, base);
+			    exponent >>>= 1;
+			    if (exponent > 0) base = Math.multiplyExact(base, base);
+			}
+			return IntNat.make(result);
+		    }
 		    else return bug(n, errorMsg("EvalType: ", n.getClass(), " is not yet implemented."));
 		}
 		catch (ArithmeticException e) {
