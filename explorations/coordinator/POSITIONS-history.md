@@ -1240,3 +1240,21 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-147
 
 2026-10-13 23:44Z · added · from `explorations/reviews/walk-load-readings-check.md`, "2.5 Verdict" · by coordinator: his answer at 23:43 UTC on 2026-10-13 to the ask on item 51 (review list item 14), options coverage and the chapter's letter: 'I don't see any other credible option to pick from', taken as coverage, option 1, and said so to him
+
+### P-51
+
+2026-10-14 06:10Z · rewritten · commit `7c2c7cd4b` · by coordinator: the POSITIONS pass after climb batch 14: the three decisions it built are built
+
+- P-51 **A call written as another call's argument is retried against each declaration's parameter type (item 48 (b), row 455).** When the checker's attempts at a call keep none, an argument that is a call with inferred static arguments is checked again, with each candidate's parameter type as its expected type. The trigger is wide: any inferred static argument, not only a result-only type parameter. Why: it makes the inference rules one rule everywhere, past the cases the team built. Its probe moves no error of the distance. Its rung promotes the expected failures `XXXInferContextDrops` and `XXXInferLoneUnionClosedTrait`, whose refusals it repairs. Still to build: the checker rung in PLAN's batch 14.
+
+### P-146
+
+2026-10-14 06:10Z · rewritten · commit `7c2c7cd4b` · by coordinator: the POSITIONS pass after climb batch 14: the three decisions it built are built
+
+- P-146 **The checker reads `self` in a self-typed trait's method bodies as the implementing type (way 6).** In a trait `C[\X\]` whose parameter `X` extends `C[\X\]`, `self` in the trait's method bodies has the type `C[\X\] & X`; the signatures keep the plain trait type, as the POPL 2019 paper's assumption on declared types needs. A type that extends such a trait at another type is refused, Scala's conformance rule. The library's text gains no self type and no `comprises` clause, and walk is unchanged. It clears 29 sites of the distance; the thirtieth takes one `numerator` per integer type. Why: it reads the library as the team wrote it, as P-44 does, by one rule the peers share. Still to build: batch 14's rung S.
+
+### P-147
+
+2026-10-14 06:10Z · rewritten · commit `7c2c7cd4b` · by coordinator: the POSITIONS pass after climb batch 14: the three decisions it built are built
+
+- P-147 **An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types (item 51).** It is the team's rule of 2012, in Steele's compiled checker and Welterweight's Covered rule, with `comprises` clauses read as the checker reads them; a body at the abstract method's own types is the plain case. So the team's `Pairs` and `FileConversion` stay valid, walk agrees with the checker, and the traits chapter's sentence is revised in the S1 form (P-96). Walk's allowance of any one narrower body goes. Still to build: batch 14's walk rung, which first repairs rows 668 and 669, then closes row 666.
