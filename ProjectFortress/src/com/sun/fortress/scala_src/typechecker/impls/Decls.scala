@@ -410,8 +410,9 @@ trait Decls { self: STypeChecker with Common =>
       val fnIndices = fns.map(new DeclaredFunction(_))
       val newChecker = this.extendWithListOfFunctions(fnIndices)
 
-      // Prime functionals to infer return types.
-      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(this))
+      // Prime functionals to infer return types, each body read with the group in
+      // scope: the functions of one block are mutually recursive.
+      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(newChecker))
 
       // Check the contained body and FnDecls.
       val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)
