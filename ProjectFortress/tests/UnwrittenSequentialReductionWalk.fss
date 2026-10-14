@@ -1,0 +1,16 @@
+component UnwrittenSequentialReductionWalk
+import List.{...}
+export Executable
+
+(* A reduction with no static argument over a long sequential generator, forward or reversed, evaluates to the reduction of its elements. *)
+
+run(): () = do
+    s = SUM[i <- seq(0#50000)] (i MOD 7)
+    assert(s, 149997, "SUM over seq(0#50000) of i MOD 7 is the sum of its 50000 elements (reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\")")
+    xs = <|[\ZZ32\] i MOD 7 | i <- 0#50000 |>
+    t = SUM[x <- seq(xs).reverse] x
+    assert(t, 149997, "SUM over the reverse of seq(xs) is the sum of the 50000 elements of xs (reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\")")
+    println("PASS")
+  end
+
+end

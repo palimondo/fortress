@@ -1359,7 +1359,15 @@ __elemsOf(desugaredClauses: (Reduction[\__ElemsAny\], Any->__ElemsAny)->__ElemsA
 
 __replay[\I,L\](e: __ElemsAny, r: Reduction[\L\], u: I->L): L =
     typecase e of
-        e': __AnyElemsTwo => r.join(__replay[\I,L\](e'.a, r, u), __replay[\I,L\](e'.b, r, u))
+        e': __AnyElemsTwo =>
+            typecase e'.b of
+                __AnyElemsTwo =>
+                    typecase e'.a of
+                        __AnyElemsTwo => r.join(__replay[\I,L\](e'.a, r, u), __replay[\I,L\](e'.b, r, u))
+                        else => __replayRight[\I,L\](e', r, u)
+                    end
+                else => __replayLeft[\I,L\](e', r, u)
+            end
         e': __AnyElemsOne =>
             typecase e'.v of
                 x: I => u(x)
@@ -1367,6 +1375,63 @@ __replay[\I,L\](e: __ElemsAny, r: Reduction[\L\], u: I->L): L =
             end
         else => r.empty()
     end
+
+(* A chain of joins down the left, as a sequential generator makes, replayed by a
+   loop over its spine: its right operands, deepest first, joined in turn. *)
+__replayLeft[\I,L\](e: __AnyElemsTwo, r: Reduction[\L\], u: I->L): L = do
+    rights: __ElemsAny := __ElemsNone
+    node: __ElemsAny := e
+    descending: Boolean := true
+    while descending do
+        typecase node of
+            n': __AnyElemsTwo => do
+                rights := __ElemsTwo[\Any\](n'.b, rights)
+                node := n'.a
+              end
+            else => descending := false
+        end
+    end
+    result: L := __replay[\I,L\](node, r, u)
+    ascending: Boolean := true
+    while ascending do
+        typecase rights of
+            s': __AnyElemsTwo => do
+                result := r.join(result, __replay[\I,L\](s'.a, r, u))
+                rights := s'.b
+              end
+            else => ascending := false
+        end
+    end
+    result
+  end
+
+(* The same down the right, as a reversed sequential generator makes. *)
+__replayRight[\I,L\](e: __AnyElemsTwo, r: Reduction[\L\], u: I->L): L = do
+    lefts: __ElemsAny := __ElemsNone
+    node: __ElemsAny := e
+    descending: Boolean := true
+    while descending do
+        typecase node of
+            n': __AnyElemsTwo => do
+                lefts := __ElemsTwo[\Any\](n'.a, lefts)
+                node := n'.b
+              end
+            else => descending := false
+        end
+    end
+    result: L := __replay[\I,L\](node, r, u)
+    ascending: Boolean := true
+    while ascending do
+        typecase lefts of
+            s': __AnyElemsTwo => do
+                result := r.join(__replay[\I,L\](s'.a, r, u), result)
+                lefts := s'.b
+              end
+            else => ascending := false
+        end
+    end
+    result
+  end
 
 __bigOperatorElements[\I,O,R,L\](o: BigOperator[\I,O,R,L\], e: __ElemsAny): O =
     __bigOperator[\I,O,R,L\](o, fn (r: Reduction[\L\], u: I->L): L => __replay[\I,L\](e, r, u))
