@@ -32,8 +32,20 @@ public class BuildLetEnvironments extends NodeAbstractVisitor<FValue> {
 
     Environment containing;
 
+    /**
+     * The declared type of the variable or function whose value the body of
+     * the declaration is, where the declaration ends a block that has one
+     * (Evaluator.evalAt); null otherwise.
+     */
+    private final FType tailExpected;
+
     public BuildLetEnvironments(Environment within) {
+        this(within, null);
+    }
+
+    public BuildLetEnvironments(Environment within, FType tailExpected) {
         this.containing = within;
+        this.tailExpected = tailExpected;
     }
 
     /* (non-Javadoc)
@@ -65,7 +77,7 @@ public class BuildLetEnvironments extends NodeAbstractVisitor<FValue> {
             List<Parameter> fparams = EvalType.paramsToParameters(containing, params);
             cl.setParamsAndReturnType(fparams, ft);
         }
-        return (new Evaluator(containing)).eval(body);
+        return (new Evaluator(containing)).evalAt(body, tailExpected);
     }
 
     public FValue forLocalVarDecl(LocalVarDecl x) {
@@ -77,7 +89,14 @@ public class BuildLetEnvironments extends NodeAbstractVisitor<FValue> {
         Evaluator new_eval = new Evaluator(containing);
         if (rhs.isSome()) {
             if (lhs.size() == 1) {
-                FValue val = rhs.unwrap().accept(new_eval);
+                LValue lv = lhs.get(0);
+                Expr r = rhs.unwrap();
+                FValue val;
+                if (lv.getIdType().isSome() && lv.getIdType().unwrap() instanceof Type && Evaluator.unwrittenAtTail(r)) {
+                    // a reduction or a comprehension that writes no static argument, at the declared type
+                    FType declared = new EvalType(containing).evalType((Type) lv.getIdType().unwrap());
+                    val = new_eval.evalAt(r, declared);
+                } else val = r.accept(new_eval);
                 LHSEvaluator lhs_eval = new LHSEvaluator(new_eval, val);
                 lhs.get(0).accept(lhs_eval);
             } else {
@@ -118,7 +137,7 @@ public class BuildLetEnvironments extends NodeAbstractVisitor<FValue> {
             }
 
         }
-        return new_eval.eval(body);
+        return new_eval.evalAt(body, tailExpected);
     }
 
     public FValue doLets(LetExpr exp) {

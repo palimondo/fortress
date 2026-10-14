@@ -13,6 +13,7 @@ package com.sun.fortress.interpreter.evaluator;
 
 import com.sun.fortress.exceptions.FortressException;
 import com.sun.fortress.exceptions.ProgramError;
+import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.types.*;
@@ -28,6 +29,9 @@ import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.Pattern;
 import com.sun.fortress.nodes.StaticParam;
+import com.sun.fortress.nodes.StaticArg;
+import com.sun.fortress.nodes.TraitType;
+import com.sun.fortress.nodes.TypeArg;
 import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.nodes.TypeOrPattern;
@@ -36,6 +40,7 @@ import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.BoundingMap;
 import com.sun.fortress.useful.DefaultComparator;
 import com.sun.fortress.useful.EmptyLatticeIntervalError;
+import com.sun.fortress.useful.HasAt;
 import com.sun.fortress.useful.LatticeIntervalMap;
 import com.sun.fortress.useful.Useful;
 import edu.rice.cs.plt.tuple.Option;
@@ -64,7 +69,24 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     public static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,
                                                                 GenericFunctionOrMethod appliedThing,
                                                                 Environment envForInference) throws ProgramError {
-        Simple_fcn sfcn = inferWithCoercion(args, appliedThing, envForInference);
+        BigOperatorHint h = choosing.get();
+        return inferAndInstantiateGenericFunction(args, appliedThing, envForInference,
+                                                  h != null && h.covers(appliedThing) ? h : null);
+    }
+
+    /**
+     * As above, a big operator under the hint h of a reduction or a
+     * comprehension that writes no static argument, where h is not null: the
+     * instance that the hint gives, where inferWithCoercion finds one, and
+     * otherwise the instance that no hint gives.
+     */
+    static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,
+                                                         GenericFunctionOrMethod appliedThing,
+                                                         Environment envForInference,
+                                                         BigOperatorHint h) throws ProgramError {
+        Simple_fcn sfcn = h != null && bigOperator(appliedThing) ?
+                          inferWithCoercion(args, appliedThing, envForInference, h) : null;
+        if (sfcn == null) sfcn = inferWithCoercion(args, appliedThing, envForInference, null);
         return sfcn != null ? sfcn : inferByUnification(args, appliedThing, envForInference, true);
     }
 
@@ -137,8 +159,141 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     }
 
     /**
+     * What instantiates the big operator of a reduction or a comprehension
+     * that writes no static argument, the run-time counterpart of the
+     * desugaring by the type of the expression: the declared type of the
+     * variable or the declared return type of the function whose value the
+     * clause form is (expected), which constrains the instance as a call's
+     * static return type does, and else the join of the run-time types of
+     * the elements that its generator clauses gave (elements).  Either may be
+     * null.  It names the operator value it is for, and it is passed to that
+     * operator's instantiation alone (instantiateBigOperator).
+     */
+    public static final class BigOperatorHint {
+        final FValue operator;
+        final FType elements;
+        final FType expected;
+        private volatile boolean byExpected;
+
+        public BigOperatorHint(FValue operator, FType elements, FType expected) {
+            this.operator = operator;
+            this.elements = elements;
+            this.expected = expected;
+        }
+
+        /** Whether the instance was fixed by the declared type. */
+        public boolean byExpected() {
+            return byExpected;
+        }
+
+        /** Whether g is the operator, or one of its overloads. */
+        boolean covers(GenericFunctionOrMethod g) {
+            if (operator == g) return true;
+            if (!(operator instanceof OverloadedFunction)) return false;
+            for (Overload o : ((OverloadedFunction) operator).getOverloads()) if (o.getFn() == g) return true;
+            return false;
+        }
+    }
+
+    /**
+     * The hint of the overloaded big operator whose overload this thread is
+     * choosing and instantiating, set by instantiateBigOperator around
+     * OverloadedFunction.bestMatch alone.  bestMatch evaluates no Fortress
+     * expression and starts and joins no task, so no other evaluation runs on
+     * this thread while it is set; inferAndInstantiateGenericFunction reads it
+     * only for an overload of the operator it names.
+     */
+    private static final ThreadLocal<BigOperatorHint> choosing = new ThreadLocal<BigOperatorHint>();
+
+    /**
+     * Whether a reduction's or a comprehension's big operator value opv has
+     * static parameters to instantiate: a generic function, or an overloaded
+     * one with a generic overload.
+     */
+    public static boolean instantiable(FValue opv) {
+        if (opv instanceof GenericFunctionOrConstructor) return true;
+        if (!(opv instanceof OverloadedFunction)) return false;
+        for (Overload o : ((OverloadedFunction) opv).getOverloads()) {
+            if (o.getFn() instanceof GenericFunctionOrMethod) return true;
+        }
+        return false;
+    }
+
+    /**
+     * The big operator value opv, which instantiable accepts, applied to no
+     * argument as a reduction or a comprehension that writes no static
+     * argument applies it: the declaration is chosen and instantiated under
+     * the hint h, outside the per-argument-type caches, which hold the
+     * instance that no hint gives, and the instance is then applied with no
+     * hint in reach.
+     */
+    public static FValue instantiateBigOperator(FValue opv, BigOperatorHint h, HasAt site) {
+        List<FValue> none = Collections.<FValue>emptyList();
+        SingleFcn inst;
+        try {
+            if (opv instanceof GenericFunctionOrConstructor) {
+                GenericFunctionOrConstructor g = (GenericFunctionOrConstructor) opv;
+                inst = inferAndInstantiateGenericFunction(none, g, g.getWithin(), h);
+            } else {
+                OverloadedFunction of = (OverloadedFunction) opv;
+                BigOperatorHint before = choosing.get();
+                choosing.set(h);
+                try {
+                    inst = of.bestMatch(none, of.getOverloads());
+                }
+                finally {
+                    if (before == null) choosing.remove();
+                    else choosing.set(before);
+                }
+                if (inst instanceof GenericFunctionOrMethod) {
+                    return bug(site, errorMsg("overload res yielded generic ", inst));
+                }
+            }
+        }
+        catch (FortressException ex) {
+            throw ex.setWhere(site);
+        }
+        return inst.functionInvocation(none, site);
+    }
+
+    /**
+     * The join of the run-time types of the elements that the library's
+     * collector __elemsOf gave, the static argument of its __Elems[\T\]; null
+     * where it gave no element.
+     */
+    public static FType elementsType(FValue elems) {
+        if (!(elems.type() instanceof GenericTypeInstance)) return null;
+        List<FType> ps = ((GenericTypeInstance) elems.type()).getTypeParams();
+        return ps.size() == 1 ? ps.get(0) : null;
+    }
+
+    /**
+     * The static argument at position k of a big operator's declared result,
+     * where it is one of the library's BigReduction, Comprehension or
+     * BigOperator; null otherwise.  For the element type I, k is 0 in each;
+     * for the result type O, k is 0 in BigReduction[\R,L\], whose O is R, and
+     * 1 in the other two.
+     */
+    private static Type resultArgOf(GenericFunctionOrMethod g, boolean result) {
+        Option<Type> rt = g.getReturnType();
+        if (rt.isNone() || !(rt.unwrap() instanceof TraitType)) return null;
+        TraitType tt = (TraitType) rt.unwrap();
+        String head = NodeUtil.nameString(tt.getName());
+        int dot = head.lastIndexOf('.');
+        if (dot >= 0) head = head.substring(dot + 1);
+        int k;
+        if (head.equals("BigReduction")) k = 0;
+        else if (head.equals("Comprehension") || head.equals("BigOperator")) k = result ? 1 : 0;
+        else return null;
+        List<StaticArg> sas = tt.getArgs();
+        if (sas.size() <= k || !(sas.get(k) instanceof TypeArg)) return null;
+        return ((TypeArg) sas.get(k)).getTypeArg();
+    }
+
+    /**
      * Whether g is a big operator, whose static parameters a reduction or a
-     * comprehension leaves to the elements its generator clauses produce.
+     * comprehension that writes none leaves to the declared type of its value
+     * or to the elements its generator clauses produce (BigOperatorHint).
      */
     private static boolean bigOperator(GenericFunctionOrMethod g) {
         if (!(g.getName() instanceof Op)) return false;
@@ -148,11 +303,10 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
 
     /**
      * The instance of each static parameter: its lower bound in abm, except
-     * that, with bounded, a type parameter of a declaration other than a big
-     * operator that the arguments do not fix, or that they bound only from
-     * above (aboveOnly), takes its bound: where its bounds mention no static
-     * parameter (rechecks), its interval's upper end; where they mention
-     * others but not itself, its bounds at their instances.  The arguments fix
+     * that, with bounded, a type parameter that the arguments do not fix, or
+     * that they bound only from above (aboveOnly), takes its bound: where its
+     * bounds mention no static parameter (rechecks), its interval's upper end;
+     * where they mention others but not itself, its bounds at their instances.  The arguments fix
      * a type parameter that an argument's declared parameter type mentions
      * (fixable), and one that a bound of a type parameter they fix mentions.
      * With bounded, a type parameter that the arguments do not fix and whose
@@ -167,13 +321,12 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                                                boolean bounded, GenericFunctionOrMethod appliedThing,
                                                List<FValue> args) {
         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
-        boolean bounds = bounded && !bigOperator(appliedThing);
-        Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
+        Set<String> fixed = bounded ? fixedThroughBounds(tparams, fixable) : fixable;
         for (StaticParam tp : tparams) {
             String n = NodeUtil.getName(tp);
             FType t = abm.get(n);
             boolean unfixed = !fixed.contains(n);
-            if (bounds && NodeUtil.isTypeParam(tp) && (unfixed || aboveOnly.contains(n)) &&
+            if (bounded && NodeUtil.isTypeParam(tp) && (unfixed || aboveOnly.contains(n)) &&
                 (rechecks == null || !rechecks.contains(tp)) && (t == null || t instanceof BottomType)) {
                 t = boundOf(abm, n);
                 traceInstance(unfixed ? "unfixed" : "above", appliedThing, n, BottomType.ONLY, t, typesOf(args));
@@ -192,7 +345,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                 tl.set(i, BottomType.OPEN);
             }
         }
-        if (!bounds || rechecks == null) return tl;
+        if (!bounded || rechecks == null) return tl;
         for (int i = 0; i < tparams.size(); i++) {
             StaticParam tp = tparams.get(i);
             String n = NodeUtil.getName(tp);
@@ -322,9 +475,9 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
      */
     private static Simple_fcn inferWithCoercion(List<FValue> args,
                                                 GenericFunctionOrMethod appliedThing,
-                                                Environment envForInference) {
+                                                Environment envForInference, BigOperatorHint h) {
         try {
-            return inferWithCoercionOrFail(args, appliedThing, envForInference);
+            return inferWithCoercionOrFail(args, appliedThing, envForInference, h);
         }
         catch (FortressException ex) {
             return null;
@@ -336,7 +489,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
 
     private static Simple_fcn inferWithCoercionOrFail(List<FValue> args,
                                                       GenericFunctionOrMethod appliedThing,
-                                                      Environment envForInference) {
+                                                      Environment envForInference, BigOperatorHint h) {
         final List<FValue> originalArgs = args;
         GenericTypeInstance selfType = null;
         if (appliedThing instanceof GenericFunctionalMethod) {
@@ -451,6 +604,39 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                 for (FValue a : e.getValue()) a.type().unify(envForInference, tp_set, abm, loneType.get(n));
             }
         }
+        /* A big operator under a hint: the declared type first, unified with the result type O of the
+           declared result, and else the elements' join, unified with its element type I; each on a
+           trial copy first, so that a hint that does not fit leaves the inference as it was. */
+        boolean byExpected = false;
+        if (h != null && h.expected != null) {
+            Type ot = resultArgOf(appliedThing, true);
+            if (ot != null) {
+                try {
+                    h.expected.unify(envForInference, tp_set, abm.copy(), ot);
+                    h.expected.unify(envForInference, tp_set, abm, ot);
+                    fixedElsewhere.addAll(mentions(ot, tp_set));
+                    byExpected = true;
+                    traceInstance("expected", appliedThing, String.valueOf(ot), BottomType.ONLY, h.expected, "");
+                }
+                catch (FortressException ex) {
+                    // the elements' type, or the bound
+                }
+            }
+        }
+        if (h != null && !byExpected && h.elements != null) {
+            Type it = resultArgOf(appliedThing, false);
+            if (it != null) {
+                try {
+                    h.elements.unify(envForInference, tp_set, abm.copy(), it);
+                    h.elements.unify(envForInference, tp_set, abm, it);
+                    fixedElsewhere.addAll(mentions(it, tp_set));
+                    traceInstance("elements", appliedThing, String.valueOf(it), BottomType.ONLY, h.elements, "");
+                }
+                catch (FortressException ex) {
+                    // the bound, as where no element is given
+                }
+            }
+        }
         MakeInferenceSpecific mis = new MakeInferenceSpecific(abm);
         Option<Type> opt_rt = appliedThing.getReturnType();
         if (opt_rt.isSome()) opt_rt.unwrap().accept(mis);
@@ -471,6 +657,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         for (int j = 0; j < fargs.size(); j++) {
             if (!Coercions.admits(Useful.clampedGet(dom, j).deRest(), fargs.get(j))) return null;
         }
+        if (byExpected) h.byExpected = true;
         return sfcn;
     }
 

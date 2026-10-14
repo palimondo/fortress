@@ -27,14 +27,20 @@ an optional generator clause list (described in
 \revision{revival-reductions}{The desugaring of a reduction is directed by
 type in this specification: a sum is desugared with the reduction for the type
 \VAR{N} of the expression (\secref{desugaring-generators}).
-Neither implementation directs it by type yet.
-When no argument of the big operator fixes the element type and the bound of
-its static parameter mentions the static parameter itself, as the bounds of
-$\sum$, $\prod$ and \EXP{\OPR{BIG}\:\OPR{MIN}} do, the interpreter leaves
-that parameter open (\secref{static-arg-inference}), and the reduction runs on
-the types of its elements, except that an empty one takes the identity of
-\EXP{\mathbb{Z}32} whatever the type of the expression (row~645 of the
-revival's gap ledger); the compiled type checker, when it checks the libraries
+Neither implementation directs it by the type \VAR{N} of the expression yet.
+When no argument of the big operator fixes the element type, the interpreter,
+which has no static types, directs it by run-time types
+(\secref{static-arg-inference}): it instantiates the big operator by the
+declared type of the local variable, or the declared return type of the
+top-level or local function, whose value the reduction is, where that type
+fixes the operator's result type, and otherwise by the join of
+the run-time types of the reduction's elements, or, where there is no element,
+at the bound of the big operator's static parameter, or open where that bound
+mentions the static parameter itself, as the bounds of $\sum$, $\prod$ and
+\EXP{\OPR{BIG}\:\OPR{MIN}} do; so an empty reduction that no declared type
+directs takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
+expression (row~716 of the revival's gap ledger); the compiled type
+checker, when it checks the libraries
 this specification describes, takes the bound of the big operator's static
 parameter, which is not the element type, or, where the reduction's type at
 that bound does not fit the reduction's expected type, that expected type

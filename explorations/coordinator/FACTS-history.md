@@ -2201,3 +2201,25 @@ pointer words refreshed in: F-24
 2026-10-14 14:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: cut to a few lines
 
 - F-227 **The compiled checker keeps an intersection that names a type or inference variable as written, and reads a variable below a union through the union whole or its bound.** `normConjunct` expands a closed trait into its listed types only against a conjunct that names no variable (`TypeAnalyzer.scala:708-735`); before the union rule, an inference variable below a union takes the union as one upper bound, and a type variable is also tried through its bound (`:165-180`). So a call through a type parameter bounded by a closed trait and a bound excluding one of its listed types checks, and so does the Return Type Rule beside it (rows 686, 687, 689, 690 and 711); a call outside the bounds is refused as not applicable. A `Box[\T\]` argument under a ground second bound stays refused (row 712), and an overloading the base accepted through the expansion over a variable is refused, on a question Appendix I lists as not settled (row 713). Gated by `compiler_tests/*TwoBoundsClosedTrait`, `*TwoGroundBounds*ClosedTrait` and `XXXOverloadTwoBoundsClosedTraitExclusion`. Detail: `compile-ladder/rung-checker-bounds/REPORT.md` sections 1 and 6.
+
+### F-228
+
+2026-10-14 15:00Z · added · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather
+
+### F-141
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather: rung B's record: D2 lifted
+
+- F-141 **Under `walk`, a type parameter that nothing at a call fixes takes its declared bound, and a lone one with no narrowest candidate its bound.** It builds P-48. Its departures by the rung's decisions: an F-bounded parameter stays open (F-143); a big operator's plain-bounded ones keep `BottomType` (D2); one that only a fixed parameter's bound mentions takes the arguments' type (D3, row 592); a lone one whose bound mentions a static parameter keeps the arguments' narrowest common supertype (D5). Its departures as defects, each with an expected failure: several bounds that walk cannot meet (row 591); a bound only from above that mentions a static parameter (row 612); an untyped function expression's result (row 587); a generic passed over at dispatch when its arguments have several minimal common supertypes (row 589), whose repair changes which declaration runs. Gated by `tests/Infer*Walk.fss`. Detail: `compile-ladder/rung-walk-instance/REPORT.md` section 2.
+
+### F-143
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather: rung B's record: rows 645, 646 and 662 fixed
+
+- F-143 **Under `walk`, a type parameter whose bound mentions itself and that nothing at a call fixes is left open.** The open type is below every type, and every value matches it. So a reduction that writes no static argument runs on its elements' types. A tuple, arrow or generic type that holds the open type admits no more than at `BottomType`, so `(Int, Int)` is not below `(OPEN, OPEN)` (row 663, contested). A declaration whose parameter type is the open type is the most specific, so it is chosen for every argument. Gated by `tests/UnwrittenReductionWalk.fss`. Open, each with no static argument written: rows 645 (an empty reduction), 646 (a set comprehension) and 662 (`Set`'s big operators). Detail: `compile-ladder/rung-walk-open-param/REPORT.md` sections 1 and 11.
+
+### F-220
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "6. Suites, the count, the distance and the ladder" · by climb batch 15 gather: rung B's record: body(i: I) typed, the entry no longer holds
+
+- F-220 **Under walk, `__bigOperator`'s local `body` cannot be typed `I`, since an unwritten list or map comprehension gives `I` the type `BottomType`; so the checker count's one error stays at the untyped `body(i)`.** Walk keeps a big operator's plain-bounded parameter at `BottomType` (F-141, D2). Typing `body(i)` waits on review-queue item 17 (PLAN item 53). An untyped function expression in `body`'s place runs under walk; the checker's verdict on it is not measured. No gated test can show the refusal: row 703 gives the program and its output. Detail: `compile-ladder/rung-library-followups/REPORT.md` section 2.
