@@ -25,7 +25,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 ### The checker's typing and inference (5)
 
 1. **The self-typed bodies.** In a trait such as `Integral[\I extends Integral[\I\]\]` the parameter `I` stands for the type that implements the trait. The checker types `self` there as the trait, not as `I`, so 30 library bodies that return or pass `self` as an `I` are refused. Walk runs them all.
-   - Answered 2026-10-13 at 23:37 UTC: way 6, with one `numerator` per integer type (P-146); built by batch 14's rung S.
+   - Answered 2026-10-13 at 23:37 UTC: way 6, with one `numerator` per integer type (P-146); built by climb batch 14 (`1c32ccffd`, `604d0e23c`).
    - Landed: Nothing yet. The 30 sites stay on the distance. Batch 14's candidate is the judgement's way 6, a checker rule: the self type read from the bound, checked at each type that extends the trait. Its measured patch is 114 lines and clears 29 sites, none new; the thirtieth gets one body per integer type. It is a candidate for batch 14.
    - The other way: The team's own idiom, a `comprises` clause naming the parameter on seven traits (library, walk and specification change); a run-time cast in 21 library lines; or leave the 30.
    - Its cost: The checker rule bends a reading on record, that no self type enters the library, and changes the checker and the specification. The other ways change the library. The Fable check against the POPL 2019 paper finds that the rule stands, and that keeping the self type out of declared signatures is what keeps it inside the paper's ground.
@@ -108,7 +108,7 @@ Line numbers are those of `main` at `79c2a5602`, where PLAN is as at `046207371`
 ### Walk's checks at load (3)
 
 14. **Does coverage define an inherited abstract method? (item 51)** An object inherits an abstract method and defines bodies only at narrower types that together cover it through a `comprises` clause, as the team's `FileConversion` test and the library's `Pairs` do. The chapter says the object must still define the method itself; the checker says coverage defines it.
-   - Answered 2026-10-13 at 23:43 UTC: coverage (P-147); built by batch 14's walk rung after rows 668 and 669.
+   - Answered 2026-10-13 at 23:43 UTC: coverage (P-147); built by climb batch 14 (`f9fe5c874`), after rows 668 and 669.
    - Landed: Walk's allowance: any body at narrower parameter types counts, which is wider than either reading.
    - The other way: (a) Coverage defines it, the checker's reading, which keeps `Pairs` and the team's test loading once walk is tightened. (b) Only a declaration at the abstract method's own parameter types defines it, the chapter's reading.
    - Its cost: It decides whether rows 666, 668 and 669 are defects of walk or of the library, and whether `Pairs` stays valid. The top-tier check of walk's readings finds coverage to be the team's own rule (Steele's 2012 checker, Welterweight) and asks his yes to the chapter's revision when a walk rung builds it, after rows 668 and 669 are repaired; the literal reading refuses `Pairs` and 20 demos. A batch 14 candidate waits on it.
