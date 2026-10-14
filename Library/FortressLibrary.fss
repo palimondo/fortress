@@ -2448,10 +2448,19 @@ __immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\] = do
 
 __thrower[\T\](): T = throw ForbiddenException(CallerViolation)
 
-(* TODO: fix when Number is covariant. *)
+(* At each number type array1 gives a vector: a typecase over a witness of
+   its result type finds the type, as in additiveIdentity, and the vector
+   built at that type is returned through cast. *)
 array1[\T, nat s0\]():Array1[\T,0,s0\] =
-    typecase __thrower[\T\] of
-        () -> Number => vector[\T,s0\]()
+    typecase __thrower[\Array1[\T,0,s0\]\] of
+        () -> Array1[\ZZ32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ32,s0\]())
+        () -> Array1[\ZZ64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ64,s0\]())
+        () -> Array1[\NN32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\NN32,s0\]())
+        () -> Array1[\NN64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\NN64,s0\]())
+        () -> Array1[\ZZ,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ,s0\]())
+        () -> Array1[\QQ,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\QQ,s0\]())
+        () -> Array1[\RR32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\RR32,s0\]())
+        () -> Array1[\RR64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\RR64,s0\]())
         else => PrimitiveArray[\T,s0\]()
     end
 array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
@@ -2820,10 +2829,17 @@ __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\] =
     end
 
 (* array2 is a factory for 0-based 2-D arrays. *)
-(* TODO: fix when Number is covariant. *)
+(* At each number type array2 gives a matrix, found as in array1. *)
 array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\] =
-    typecase __thrower[\T\] of
-        ()->Number => matrix[\T,s0,s1\]()
+    typecase __thrower[\Array2[\T,0,s0,0,s1\]\] of
+        () -> Array2[\ZZ32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ32,s0,s1\]())
+        () -> Array2[\ZZ64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ64,s0,s1\]())
+        () -> Array2[\NN32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN32,s0,s1\]())
+        () -> Array2[\NN64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN64,s0,s1\]())
+        () -> Array2[\ZZ,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ,s0,s1\]())
+        () -> Array2[\QQ,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\QQ,s0,s1\]())
+        () -> Array2[\RR32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR32,s0,s1\]())
+        () -> Array2[\RR64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR64,s0,s1\]())
         else => __DefaultArray2[\T,0,s0,0,s1\]()
     end
 array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =

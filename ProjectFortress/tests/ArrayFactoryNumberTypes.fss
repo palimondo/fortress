@@ -2,6 +2,8 @@
 component ArrayFactoryNumberTypes
 export Executable
 
+fill3[\T\](x: T): Array[\T,ZZ32\] = array[\T\](3).fill(x)
+
 run(): () = do
     assert(instanceOf[\Vector[\ZZ32,2\]\](array1[\ZZ32,2\]()), true, "array1 at ZZ32 gives a vector")
     assert(instanceOf[\Vector[\ZZ64,2\]\](array1[\ZZ64,2\]()), true, "array1 at ZZ64 gives a vector")
@@ -30,6 +32,8 @@ run(): () = do
     z: ZZ32 = 5
     filled = array[\ZZ32\](3).fill(z)
     assert(filled[0] + filled[2], 10, "a ZZ32 vector from array holds its filled values")
+    inferred = fill3(z)
+    assert(inferred[0] + inferred[2], 10, "an array that array builds at a T inferred from a ZZ32 argument holds its filled values")
     println("PASS")
   end
 

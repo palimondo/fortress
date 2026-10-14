@@ -517,7 +517,7 @@ private object NodeIM[\Val\](left: NonEmptyIntMap[\Val\], key:ZZ64, right: NonEm
     (** %UPLUS% (disjoint union) throws the %KeyOverlap% exception when a key
         occurs in both maps. **)
     opr UPLUS(self, other: IntMap[\Val\]): NonEmptyIntMap[\Val\] = self
-    opr UPLUS(self, other: SingletonIM[\Val\]): NodeIM[\Val\] = self.add(other)
+    opr UPLUS(self, other: SingletonIM[\Val\]): NodeIM[\Val\] = self.addNew(other)
     opr UPLUS(self, other: NodeIM[\Val\]): NodeIM[\Val\] = do
         (l1,l2,k,r1,r2) = self.nodeNode[\Val\](other)
         (l1 UPLUS l2).ordJoin(k, r1 UPLUS r2)
