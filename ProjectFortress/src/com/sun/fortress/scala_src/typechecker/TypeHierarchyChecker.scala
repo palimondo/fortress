@@ -27,6 +27,7 @@ import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
 import com.sun.fortress.nodes_util.NodeFactory
 import com.sun.fortress.nodes_util.NodeUtil
+import com.sun.fortress.scala_src.disambiguator.SelfParamDisambiguator
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -58,8 +59,10 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
     for (typ <- toSet(compilation_unit.typeConses.keySet)) {
       checkAcyclicity(typ, List(), errors)
       checkDeclComprises(typ, errors, analyzer)
+      checkDeclSelfParams(typ, errors, analyzer)
     }
     if (!isApi) checkObjectExprComprises(compilation_unit.ast, errors, analyzer)
+    if (!isApi) checkObjectExprSelfParams(compilation_unit.ast, errors, analyzer)
     toJavaList(removeDuplicates(toListFromImmutable(errors)))
   }
 
@@ -98,6 +101,84 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
     }
     finder(ast)
   }
+
+  /* A trait with no comprises clause whose type parameter X_k is its self parameter
+   * (SelfParamDisambiguator.selfParam) types self in its bodies as X_k too. So whatever
+   * extends an instantiation C[\A_1, ..., A_n\] of such a trait must be an A_k: a trait or
+   * object declaration whose self type is not a subtype of A_k is refused. Its self type
+   * is its own type, or (D[\Y_1, ..., Y_m\] & Y_j) when it has a self parameter Y_j itself. */
+  def checkDeclSelfParams(decl: Id,
+                          errors: JavaList[StaticError],
+                          analyzer: TypeAnalyzer): Unit = {
+    if (decl.getText.equals(Types.ANY_NAME.getText)) return
+    STypesUtil.getTypes(decl, globalEnv, compilation_unit) match {
+      case ti:TraitIndex => toOption(ti.typeOfSelf) match {
+        case Some(self_type) =>
+          val named = SNodeUtil.getTraitType(self_type).getOrElse(self_type)
+          val new_analyzer = analyzer.extend(toListFromImmutable(ti.staticParameters), None)
+          for (extension <- toListFromImmutable(ti.extendsTypes)) extension match {
+            case STraitTypeWhere(_, st@STraitType(_, name, args, _), _) =>
+              selfParamArg(name, args) match {
+                case Some(a) if !new_analyzer.lteq(self_type, a) =>
+                  error(errors, named + " extends " + st + ", whose self parameter is " + a +
+                        ", but " + named + " is not a subtype of " + a + ".", extension)
+                case _ =>
+              }
+            case _ =>
+          }
+        case None =>
+      }
+      case _ =>
+    }
+  }
+
+  /* An object expression that extends an instantiation C[\A_1, ..., A_n\] of a trait
+   * whose self parameter is X_k must be an A_k, as a declaration must. */
+  private def checkObjectExprSelfParams(ast: Node,
+                                        errors: JavaList[StaticError],
+                                        analyzer: TypeAnalyzer): Unit = {
+    object finder extends Walker {
+      var scope = analyzer
+      private def within(sparams: JavaList[StaticParam], node: Any): Any = {
+        val outer = scope
+        scope = scope.extend(toListFromImmutable(sparams), None)
+        super.walk(node)
+        scope = outer
+        node
+      }
+      override def walk(node: Any): Any = node match {
+        case d: TraitObjectDecl => within(NodeUtil.getStaticParams(d), node)
+        case f: FnDecl => within(NodeUtil.getStaticParams(f), node)
+        case o: ObjectExpr =>
+          val extended = toListFromImmutable(o.getHeader.getExtendsClause).map(_.getBaseType).collect {
+            case t: TraitType => t }
+          val self = NodeFactory.makeMaybeIntersectionType(toJavaList(extended))
+          for (st@STraitType(_, name, args, _) <- extended)
+            selfParamArg(name, args) match {
+              case Some(a) if !scope.lteq(self, a) =>
+                error(errors, "An object expression extends " + st + ", whose self parameter is " + a +
+                      ", but the object expression is not a subtype of " + a + ".", o)
+              case _ =>
+            }
+          super.walk(node)
+        case _ => super.walk(node)
+      }
+    }
+    finder(ast)
+  }
+
+  /* The static argument at the self parameter's position, when the named trait has one. */
+  private def selfParamArg(name: Id, args: List[StaticArg]): Option[Type] =
+    STypesUtil.getTypes(name, globalEnv, compilation_unit) match {
+      case si:TraitIndex => SelfParamDisambiguator.selfParamPosition(si.ast) match {
+        case Some(k) if k < args.length => args(k) match {
+          case STypeArg(_, _, t) => Some(t)
+          case _ => None
+        }
+        case _ => None
+      }
+      case _ => None
+    }
 
   private def getTypes(typ:Id, errors:JavaList[StaticError]) = {
     val types = STypesUtil.getTypes(typ, globalEnv, compilation_unit)
