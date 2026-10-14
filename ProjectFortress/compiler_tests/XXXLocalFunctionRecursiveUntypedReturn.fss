@@ -1,4 +1,4 @@
-(* A recursive local function that leaves its return type out is refused with the reference-cycle message, as a top-level function in a cycle is, since the compiled checker infers no return type through a cycle (type-inference.tex, section "Type Inference for Components"). *)
+(* A recursive local function that leaves its return type out stops the compiled checker, where a top-level function in a reference cycle gets the checker's refusal. *)
 component XXXLocalFunctionRecursiveUntypedReturn
 export Executable
 
