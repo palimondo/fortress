@@ -14,7 +14,7 @@ Under "The checker and the one library", a new entry:
 
 NEW-L-1, in section "8. Generators, reductions and ranges" (linted with `ledger.py check --rows`, a number in place of the placeholder: 0 fail the template):
 
-| NEW-L-1 | under walk, `__bigOperator`'s local `body` cannot take its parameter's type `I`, as the compiled checker asks of the untyped `body(i)` (the count's one error): an unwritten list or map comprehension instantiates `I` at `BottomType`, so walk refuses each element at `body` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 14 rung L | siblings: 424, 645, 662. With `body(i: I): L` at `Library/FortressLibrary.fss:1311` (at 5bf8a7c84), walk on `<\| 2 k \| k <- 0#3 \|>` stops: 'Unification error: Closure/Constructor for body param 1 (i:BOTTOM) got arg 4: ZZ32 of type Int'; on `{ widen(k) \|-> k \| k <- 0#3 }`, '(i:(ZZ64,BOTTOM)) got arg (2,2)'. Written static arguments, `SUM`, `BIG MAX`, `BIG AND` and a set comprehension run. Walk keeps a big operator's plain-bounded parameter at `BottomType` (D2; `EvaluatorBase.java:170`, `:181`). Workaround: the line stays untyped. |
+| NEW-L-1 | under walk, `__bigOperator`'s local `body` cannot take its parameter's type `I`, as the compiled checker asks of the untyped `body(i)` (the count's one error): an unwritten list or map comprehension instantiates `I` at `BottomType` or a pair holding it, so walk refuses each element at `body` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 14 rung L | siblings: 424, 645, 662. With `body(i: I): L` at `Library/FortressLibrary.fss:1311` (at 5bf8a7c84), walk on `<\| 2 k \| k <- 0#3 \|>` stops: 'Unification error: Closure/Constructor for body param 1 (i:BOTTOM) got arg 4: ZZ32 of type Int'; on `{ widen(k) \|-> k \| k <- 0#3 }`, '(i:(ZZ64,BOTTOM)) got arg (2,2)'. Written static arguments, `SUM`, `BIG MAX`, `BIG AND` and a set comprehension run. Walk keeps a big operator's plain-bounded parameter at `BottomType` (D2; `EvaluatorBase.java:170`, `:181`). Workaround: the line stays untyped. |
 
 NEW-L-2, the skeptic's, in section "10. Strings, maps and printing" (linted with `ledger.py check --rows`, a number in place of the placeholder: 0 fail the template):
 
@@ -23,7 +23,7 @@ NEW-L-2, the skeptic's, in section "10. Strings, maps and printing" (linted with
 ### Closes, once `<L>` is on `main`
 
 - Row 679: `ledger.py close 679 --commit <L> --test Array2SubscriptInBounds --note "the distance stage's site FortressLibrary.fss:2525 is gone"`. Its failing-then-passing test is the distance stage. `Array2SubscriptInBounds` keeps walk's values.
-- Row 671: `ledger.py close 671 --commit <L> --test IntMapSymdiffSingleton`.
+- Row 671: `ledger.py close 671 --commit <L> --test IntMapSymdiffSingleton`. `IntMapSymdiffManyEntry` (the skeptic's) asserts the same repair reached through two many-entry maps.
 
 ### Notes
 
@@ -41,9 +41,9 @@ Climb batch 14 rung L repaired three library sites. Array2's offset (row 679) an
 
 ### The change
 
-The team's library: `NodeIM`'s `opr SYMDIFF(self, other: SingletonIM[\Val\]): IntMap[\Val\] = self.seek(other.key) SYMDIFF other` (`Library/IntMap.fss:544-545` at a874948ac) kept of the many-entry map only the entry `seek` finds. So under walk `{0,1,2} SYMDIFF {5}` was `{2,5}` and `{0,1,2} SYMDIFF {1}` was empty, while the reverse orders gave `{0,1,2,5}` and `{0,2}`.
+The team's library: `NodeIM`'s `opr SYMDIFF(self, other: SingletonIM[\Val\]): IntMap[\Val\] = self.seek(other.key) SYMDIFF other` (`Library/IntMap.fss:544-545` at a874948ac) kept of the many-entry map only the entry `seek` finds. So under walk `{0,1,2} SYMDIFF {5}` was `{2,5}` and `{0,1,2} SYMDIFF {1}` was empty, while the reverse orders gave `{0,1,2,5}` and `{0,2}`. A `SYMDIFF` of two many-entry maps whose `nodeNode` split reached a many-entry and a one-entry map lost entries the same way: keys 2 to 7 `SYMDIFF` keys 0, 3, ..., 15 held 4 entries, the reverse order the right 8.
 
-The tree now: the many-entry map is updated at the one-entry map's key (`Library/IntMap.fss:570-572`). The key is dropped if the many-entry map holds it, and given the one-entry map's value if not. Both orders give `{0,1,2,5}` and `{0,2}`, and `ProjectFortress/tests/IntMapSymdiffSingleton.fss` asserts both orders.
+The tree now: the many-entry map is updated at the one-entry map's key (`Library/IntMap.fss:570-572`). The key is dropped if the many-entry map holds it, and given the one-entry map's value if not. Both orders give `{0,1,2,5}` and `{0,2}`, and `ProjectFortress/tests/IntMapSymdiffSingleton.fss` asserts both orders; both orders of the two many-entry maps give 8 entries, which `ProjectFortress/tests/IntMapSymdiffManyEntry.fss` asserts.
 
 The reason: the library's own comment on the operator, "%SYMDIFF% returns the key/value mappings contained in exactly one input map." (`Library/IntMap.fss:568`, as at `:93` and `:360`). The one-entry map's own `SYMDIFF` (`:361-363`) already answers so in the other order. The replaced line had the shape of `INTERSECTION`'s (`:542`), where keeping one entry is right.
 
