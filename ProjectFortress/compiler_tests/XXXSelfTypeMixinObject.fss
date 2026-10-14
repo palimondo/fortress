@@ -1,0 +1,11 @@
+(* A generic object has no self parameter, so it may not extend a self-typed trait at its own type parameter. *)
+component XXXSelfTypeMixinObject
+export Executable
+
+trait Shape[\S extends Shape[\S\]\] end
+
+object M[\T extends Shape[\T\]\] extends Shape[\T\] end
+
+run(): () = println("PASS")
+
+end

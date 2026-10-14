@@ -1,0 +1,14 @@
+(* An object expression that extends a self-typed trait at a type other than its own is refused. *)
+component XXXSelfTypeObjectExprWrong
+export Executable
+
+trait Shape[\S extends Shape[\S\]\] end
+
+object Pt extends Shape[\Pt\] end
+
+run(): () = do
+    o = object extends Shape[\Pt\] end
+    println("PASS")
+  end
+
+end

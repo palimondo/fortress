@@ -1,0 +1,18 @@
+(* A trait whose type parameter is bounded by a self-typed trait that it extends at that parameter types self in its bodies as that parameter too. *)
+component SelfTypeMixinBound
+export Executable
+
+trait Shape[\S extends Shape[\S\]\] end
+
+trait Sub[\T extends Shape[\T\]\] extends Shape[\T\]
+    again(self): T = self
+end
+
+object Q extends Sub[\Q\] end
+
+run(): () = do
+    q: Q = again(Q)
+    println("PASS")
+  end
+
+end

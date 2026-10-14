@@ -1,0 +1,22 @@
+(* A self-typed trait may be extended at the self parameter of a self-typed subtrait, and that subtrait at its extender itself. *)
+component SelfTypeExtenderThroughOwn
+export Executable
+
+trait Shape[\S extends Shape[\S\]\]
+    twin(self): S = self
+end
+
+trait Lex[\T extends Lex[\T, E\], E\] extends Shape[\T\]
+    first(self): T = self
+end
+
+trait Below extends Lex[\Below, ZZ32\] end
+object Low extends Below end
+
+run(): () = do
+    b: Below = twin(Low)
+    c: Below = first(Low)
+    println("PASS")
+  end
+
+end

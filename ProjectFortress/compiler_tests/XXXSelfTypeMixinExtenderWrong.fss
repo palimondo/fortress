@@ -1,0 +1,14 @@
+(* An object that extends a trait at another type than its own is refused when the trait's parameter is its self parameter through a self-typed trait it extends at that parameter. *)
+component XXXSelfTypeMixinExtenderWrong
+export Executable
+
+trait Shape[\S extends Shape[\S\]\] end
+
+trait Sub[\T extends Shape[\T\]\] extends Shape[\T\] end
+
+object Pt extends Sub[\Pt\] end
+object Bad extends Sub[\Pt\] end
+
+run(): () = println("PASS")
+
+end
