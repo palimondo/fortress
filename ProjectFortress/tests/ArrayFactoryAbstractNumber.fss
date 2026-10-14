@@ -1,0 +1,20 @@
+(* The array factories give a plain array at an abstract number type, at which no vector or matrix type is well-formed. *)
+component ArrayFactoryAbstractNumber
+export Executable
+
+run(): () = do
+    assert(instanceOf[\AnyVector\](array1[\Number,2\]()), false, "array1 at Number gives a plain array (trait-parameters.tex, section \"Type Parameters\")")
+    assert(instanceOf[\AnyVector\](array1[\AnyIntegral,2\]()), false, "array1 at AnyIntegral gives a plain array (trait-parameters.tex, section \"Type Parameters\")")
+    assert(instanceOf[\AnyMatrix\](array2[\Number,2,2\]()), false, "array2 at Number gives a plain array (trait-parameters.tex, section \"Type Parameters\")")
+    assert(instanceOf[\AnyVector\](array[\Number\](3)), false, "array at Number and a run-time size gives a plain array (trait-parameters.tex, section \"Type Parameters\")")
+    a = array1[\Number,2\]()
+    x: ZZ32 = 7
+    y: RR64 = 0.5
+    a[0] := x
+    a[1] := y
+    assert(a[0], 7, "a plain array at Number holds a ZZ32 element")
+    assert(a[1], 0.5, "a plain array at Number holds an RR64 element")
+    println("PASS")
+  end
+
+end

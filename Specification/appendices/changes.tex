@@ -2511,6 +2511,14 @@ A later revision states the section's No Duplicates Rule on the relation without
 ``and not the other way round'', that $d_1$ and $d_2$ are not each applicable to
 every call to which the other is applicable, with a box, and the box on Jan's
 example in the internal document gives that rule as its reason.
+A further revision has that box say that the factory of \library\ gives a
+\TYP{Vector} where its type argument is one of the eight number types and a
+plain array where it is any other type, \TYP{Number} among them: the factory
+called the vector factory at its own type argument, which has no bound, an
+instance that the bound of a \TYP{Vector}'s element type refuses
+(\secref{type-param}), and it now builds the vector at each number type, so
+that a \TYP{Vector} of \TYP{Number}, which is not well-formed, is no longer its
+result.
 \secref{resolving-coercion} says in three places that a declaration with static
 parameters is applicable when some instance of it is, that it is compared on the
 parameter types it declares, and that the declaration selected is then
@@ -2670,7 +2678,9 @@ the other.
 \end{quote}
 and the box on Jan's example in the internal document gave as its reason that
 the two declarations have the same parameter type ``and each is more specific
-than the other''.
+than the other''; until the further revision, the box ended: ``which chooses its
+result by a \KWD{typecase} on its type argument, a \TYP{Vector} where the
+argument is a \TYP{Number}''.
 \item[Route C] The same under route~C, except that the existential reduction
 uses the rule of \secref{revival-routec} in place of instantiation exclusion;
 the No Duplicates Rule does not depend on the rule on instantiations.

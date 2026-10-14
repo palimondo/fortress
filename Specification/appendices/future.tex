@@ -261,7 +261,11 @@ same parameter type, each applicable to every call to which the other is, which
 the No Duplicates Rule refuses; \library\ write it
 as one factory, \EXP{{array}_{1}\llbracket{}T, \KWD{nat}\:s_{0}\rrbracket()},
 which chooses its result by a \KWD{typecase} on its type argument, a
-\TYP{Vector} where the argument is a \TYP{Number}.}
+\TYP{Vector} where the argument is one of the eight number types \TYP{ZZ32},
+\TYP{ZZ64}, \TYP{NN32}, \TYP{NN64}, \TYP{ZZ}, \TYP{QQ}, \TYP{RR32} and
+\TYP{RR64}, and a plain array where it is any other type, \TYP{Number} among
+them, since a \TYP{Vector} of \TYP{Number} is not well-formed under the bound
+that \library\ give the element type of a \TYP{Vector} (\secref{type-param}).}
 \item Overloaded functionals with different \KWD{throws} clauses
 
 \item Overloading with static parameters

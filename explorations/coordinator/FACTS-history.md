@@ -2223,3 +2223,17 @@ pointer words refreshed in: F-24
 2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "6. Suites, the count, the distance and the ladder" · by climb batch 15 gather: rung B's record: body(i: I) typed, the entry no longer holds
 
 - F-220 **Under walk, `__bigOperator`'s local `body` cannot be typed `I`, since an unwritten list or map comprehension gives `I` the type `BottomType`; so the checker count's one error stays at the untyped `body(i)`.** Walk keeps a big operator's plain-bounded parameter at `BottomType` (F-141, D2). Typing `body(i)` waits on review-queue item 17 (PLAN item 53). An untyped function expression in `body`'s place runs under walk; the checker's verdict on it is not measured. No gated test can show the refusal: row 703 gives the program and its output. Detail: `compile-ladder/rung-library-followups/REPORT.md` section 2.
+
+### F-229
+
+2026-10-14 15:02Z · added · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-230
+
+2026-10-14 15:02Z · added · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-151
+
+2026-10-14 15:02Z · rewritten · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "7. The specification's text, and the sentences made false" · by climb batch 15 gather: rung L's record and rung C's: rows 685 and 686 fixed
+
+- F-151 **`Vector`, `Matrix` and their factories and operators take the bound `T extends { Number, MultiplicativeRing[\T\] }`.** `Number` declares no arithmetic, so their bodies check only with the ring. `Number` stays, since the scalar block's mirror pairs (F-119) overload validly only through its closure. Gated under walk by `tests/ArrayElementAlgebra.fss`. The checker still refuses the first factories' results (row 685) and the norm's call (row 686). The bound is array fork 2's default, the curator's answer pending (PLAN item 52, P-85). Detail: `reviews/array-fork2-judgement.md` section 4.
