@@ -1264,3 +1264,7 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-14 16:19Z · rewritten · from `explorations/compile-ladder/climb-batch-15/RECORD.md`, "Handover lines" · commit `20474c144` · by coordinator's POSITIONS pass after climb batch 15: rung B's walk half built
 
 - P-48 **A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.** Its instance is the intersection of its upper bounds, constrained by the call's static return type, never the arguments' union or the value's type alone. The rule is the team's later word (POPL 2019). He ranks the team's later work above his own reading. It sets the instance, not which declaration runs (P-46). MicroGPT's types are concrete, so it is untouched. The library keeps the team's unbounded declarations. Still to build: a compiled dispatcher that carries the static return type (row 538, PLAN phase 5).
+
+### P-148
+
+2026-10-14 19:06Z · added · by coordinator: his words, 19:01 UTC 2026-10-14, "Optimize performance anyway, would be my default position if it's not significantly faster than old measurement."; 19:03 UTC, "My reasoning is that there is no such a thing as too fast a checker, and these are always the performance bottlenecks in all languages that we heard about. So I think ensuring the correctness is priority number one in ensuring performance of type checking is priority number two. Or even one and a half."; 19:06 UTC, his yes to the entry, "Yes, include the checker performance as a high priority right after the correctness in the positions."; by: coordinator
