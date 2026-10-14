@@ -1,0 +1,18 @@
+(* A call written as an argument that writes its static arguments fixes the static arguments of a generic enclosing call as any other argument does, so that a call beside it that does not write its own takes the parameter type so instantiated as its expected type. *)
+component InferCallArgumentWrittenStaticArgs
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+instanceName(b: Any): String = typecase b of
+    BoxT[\ZZ64\] => "BoxT[ZZ64]"
+    else => "another instance"
+  end
+pair[\U\](b: BoxT[\U\], c: BoxT[\U\]): String = instanceName(b) || " and " || instanceName(c)
+
+run(): () = do
+    println("pair(mk(), BoxT[ZZ64](2)) -> " || pair(mk(), BoxT[\ZZ64\](2)))
+    println("pair(mk[ZZ64](), mk()) -> " || pair(mk[\ZZ64\](), mk()))
+end
+
+end

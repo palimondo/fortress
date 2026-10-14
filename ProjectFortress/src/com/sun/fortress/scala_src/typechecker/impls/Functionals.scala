@@ -841,7 +841,7 @@ trait Functionals { self: STypeChecker with Common =>
    * type. Each candidate in turn: each such argument is checked again with
    * the candidate's parameter type at its position as its expected type, that
    * type instantiated, where the candidate has static parameters, by the other
-   * arguments and the call's expected type alone; the call is then checked
+   * arguments (writesStaticArgs) and the call's expected type alone; the call is then checked
    * against that candidate alone, and the candidate counts when the call's
    * type converts to the expected type. Of the candidates that count, the one
    * more specific on its declared parameter types than every other is kept,
@@ -864,7 +864,7 @@ trait Functionals { self: STypeChecker with Common =>
         if (!hasStaticParams(pc.arrow)) Some(pc.arrow.getDomain)
         else {
           val tys = args.zipWithIndex.map {
-            case (Left(e), i) if !positions(i) => Some(getType(e).get)
+            case (Left(e), i) if !positions(i) || writesStaticArgs(iargs(i)) => Some(getType(e).get)
             case _ => None
           }
           def constraint(inf: ArrowType, ops: Map[Op, Op]): CFormula =
@@ -902,6 +902,22 @@ trait Functionals { self: STypeChecker with Common =>
    */
   private def retypable(c: Expr): Boolean = c match {
     case S_RewriteFnApp(_, f: FunctionalRef, _) => !f.getStaticArgs.isEmpty
+    case SOpExpr(_, f, _) => !f.getStaticArgs.isEmpty
+    case m: MethodInvocation => !m.getStaticArgs.isEmpty
+    case _ => false
+  }
+
+  /**
+   * Whether an unchecked argument is a call that writes its static args, as
+   * mk[\ZZ64\]() does. Such an argument instantiates a generic candidate in
+   * the retry as any other argument does.
+   */
+  private def writesStaticArgs(e: Expr): Boolean = e match {
+    case SJuxt(_, _, _, front::_, _, true) => writesStaticArgs(front)
+    case SMathPrimary(_, _, _, front, _) => writesStaticArgs(front)
+    case S_RewriteFnApp(_, f, _) => writesStaticArgs(f)
+    case S_RewriteFnRef(_, _, sargs) => !sargs.isEmpty
+    case f: FunctionalRef => !f.getStaticArgs.isEmpty
     case SOpExpr(_, f, _) => !f.getStaticArgs.isEmpty
     case m: MethodInvocation => !m.getStaticArgs.isEmpty
     case _ => false
