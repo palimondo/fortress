@@ -264,7 +264,8 @@ favour of any other declaration applicable to the call without coercion
 (row~589 of the revival's gap ledger).
 It fixes a type parameter by the expected type only at a reduction or a
 comprehension that writes no static argument and whose value is that of a
-variable or of a function declared with a type, as the box after the list in
+local variable declared with a type or of a top-level or local function
+declared with a return type, as the box after the list in
 \secref{numeral-default} says; elsewhere it does not yet fix a type parameter
 by the expected type.
 A type parameter that an argument bounds only from above, as a function
@@ -371,10 +372,10 @@ type, a \KWD{typecase} clause or a type assertion.
 The big operator that a reduction or a comprehension invokes without its
 static arguments it instantiates as the desugaring by the type \VAR{N} of the
 expression would (\secref{reduction-expr}), with run-time types in place of the
-static type that it does not have: by the declared type of the variable, or the
-declared return type of the function, whose value the reduction or the
-comprehension is, also as the last expression of a block, where that type fixes
-the big operator's result type; otherwise by the join of the run-time types of
+static type that it does not have: by the declared type of the local variable,
+or the declared return type of the top-level or local function, whose value the
+reduction or the comprehension is, also as the last expression of a block, where
+that type fixes the big operator's result type; otherwise by the join of the run-time types of
 the elements that its generator clauses give, which it collects before it
 reduces them; and where there is no element, at the bound of each static
 parameter, or open where the bound mentions the parameter itself.
@@ -382,13 +383,19 @@ So an empty sum that is the value of a function declared \EXP{\mathbb{R}64}
 is the \EXP{\mathbb{R}64} zero, and the library's set reductions
 \EXP{\bigcup} and \EXP{\bigcap} run on sets of their elements' type; but an
 empty reduction that no declared type directs takes the identity of
-\EXP{\mathbb{Z}32} whatever the type of the expression (row~NEW-B-2 of the
+\EXP{\mathbb{Z}32} whatever the type of the expression, and an empty
+comprehension that no declared type directs is built at the bound, a list
+comprehension as a \EXP{\TYP{List}\llbracket\TYP{Any}\rrbracket} (row~NEW-B-2 of the
 revival's gap ledger); a comprehension that no declared type reaches, such as
-the body of another reduction or an argument of a call, is built at the
-run-time types of its elements, which the declared type of an enclosing
-expression may not admit (rows~20, 510 and~NEW-B-3); and a big operator whose
-declared result is none of the library's \TYP{BigReduction}, \TYP{Comprehension} and
-\TYP{BigOperator} is instantiated as where there is no element.
+the value of a top-level variable, a field, a method or a function expression,
+the right-hand side of an assignment, the body of another reduction or an
+argument of a call, is
+built at the run-time types of its elements, which the declared type of an
+enclosing expression may not admit (rows~20, 510 and~NEW-B-3); and a big
+operator whose declared result is none of the library's \TYP{BigReduction},
+\TYP{Comprehension} and \TYP{BigOperator} is instantiated as where there is no
+element, so that the reduction stops at an element that its instance at the
+bound does not admit (row~NEW-B-4).
 It gives a function expression that declares no return type the return type
 \TYP{BottomType}, so that a type parameter that only its result fixes is
 instantiated there (row~587); and it leaves a generic method's static
