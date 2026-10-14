@@ -44,7 +44,7 @@ Climb batch 14 rung W (`wip/rung-walk-coverage`; c8f43ea7e, 8673192c2, e26f13335
 - **The team's sources.**
   - The traits chapter of the Working Draft asks that "any object inheriting an abstract method must define a body expression for the method" (`Specification-1.0-frozen/basic/traits.tex:510-512`). To the letter, that is a body at the abstract method's own parameter type.
   - The team's walk made no such check: `checkForDef` returned for every declaration (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:399-404` at `a874948ac`).
-  - The team's compiled checker refuses an object unless each inherited abstract method's parameter type is a subtype of the union of those of the concrete methods below it, reading `comprises` clauses (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:96-118`; `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:154-158`).
+  - The team's compiled checker refuses an object unless each inherited abstract method's parameter type is a subtype of the union of those of the concrete methods below it, reading `comprises` clauses (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:96-118`; `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:159-164`).
   - The team's library left three abstract methods uncovered:
     - `Random`'s `SeededRandomGenWithDistribution` had no `seedSize` or `reseed`;
     - `MersenneTwisterInit` defined `perturbed` only at `Indexed[\ZZ32,ZZ32\]`, under the abstract one at `Generator[\ZZ32\]`;

@@ -92,7 +92,7 @@ The passing runs are all on the final code (`fb6ce967e`, built at 02:12):
 ## 4. What the specification settles, and the text
 
 - **The rule.** P-147 settles the rule. P-60 settles the reading of a `comprises` clause at the level of values, which `coverParts` reads as `overlapPieces` does (`getComprises`). The review's sections 2.2-2.5 give the sources:
-  - Steele's checker of May 2012, which reads `comprises` clauses since `59fdeff62` (`TypeAnalyzer.scala:154-158`);
+  - Steele's checker of May 2012, which reads `comprises` clauses since `59fdeff62` (`TypeAnalyzer.scala:159-164`);
   - Welterweight's Covered rule (`Papers/Welterweight/static.tick:27-47`);
   - the functions chapter's covering words.
 - **The traits chapter's sentence** now reads: "any object inheriting an abstract method must define a body expression for the method: a method definition with the same name and the self parameter (if any) at the same position whose parameter type, not counting the type of the self parameter, is that of the abstract method declaration, or definitions whose parameter types are subtypes of it and together cover it (\secref{internal-types}), or it is a static error."
