@@ -1,0 +1,3 @@
+tests=XXXOverloadZZ32BesideUserTrait
+compile
+compile_err_contains=Invalid overloading of add

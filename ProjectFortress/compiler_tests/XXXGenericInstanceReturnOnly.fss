@@ -1,0 +1,24 @@
+component XXXGenericInstanceReturnOnly
+export Executable
+
+(* A generic declaration reached only by dispatch, whose type parameter only its return type mentions, runs at the instance the static type of the call gives, Sorted[A], so merge of its result with a Sorted[A] runs (overloading.tex, section "Overloading Resolution"). *)
+
+trait Lst end
+object Lone extends Lst end
+object Ltwo extends Lst end
+trait A end
+object Sorted[\P\] end
+
+sort(x: Lst): Sorted[\A\] = Sorted[\A\]
+sort[\P\](x: Ltwo): Sorted[\P\] = Sorted[\P\]
+merge[\P\](x: Sorted[\P\], y: Sorted[\P\]): String = "merged"
+
+run(): () = do
+  l1: Lst = Lone
+  l2: Lst = Ltwo
+  println("REACHED")
+  assert(merge(sort(l1), sort(l2)), "merged", "sort(l2) runs the generic declaration at Sorted[A], the static type of the call (overloading.tex, section \"Overloading Resolution\")")
+  println("PASS")
+end
+
+end

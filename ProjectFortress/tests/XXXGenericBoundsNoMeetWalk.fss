@@ -1,0 +1,20 @@
+component XXXGenericBoundsNoMeetWalk
+export Executable
+
+(* Two generic declarations over ListI[P], one with P bounded by A and one by B, overlap at every ListI[P] with P below both, and no declaration covers the overlap, so the program is refused at load, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait A end
+trait B end
+trait C extends { A, B } end
+object ListI[\X\] end
+object SortedListI[\X\] end
+
+sort[\P extends A\](x: ListI[\P\]): SortedListI[\P\] = SortedListI[\P\]
+sort[\P extends B\](x: ListI[\P\]): SortedListI[\P\] = SortedListI[\P\]
+
+run(): () = do
+    println(sort(ListI[\C\]))
+    println("ran")
+  end
+
+end

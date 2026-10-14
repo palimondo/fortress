@@ -1,0 +1,4 @@
+tests=DispatchSymmetricSorted
+link
+run
+run_out_contains=PASS

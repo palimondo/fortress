@@ -1,0 +1,23 @@
+component DispatchCrossingMeet
+export Executable
+
+(* Declarations at (B, C) and (C, B) with their meet at (C, C), C an object extending B, are a valid overloading, and a call whose arguments are both C runs the declaration at the meet whatever their static types (overloading.tex, section "Overloading Resolution"). *)
+
+trait B end
+object C extends B end
+
+var ran: String = "none"
+
+m1(x: B, y: C): B = do ran := "BC"; x end
+m1(x: C, y: B): C = do ran := "CB"; x end
+m1(x: C, y: C): C = do ran := "CC"; x end
+
+run(): () = do
+  c1: C = C
+  c2: B = C
+  r: C = m1(c1, c2)
+  assert(ran, "CC", "the values (C, C) run the declaration at the meet (overloading.tex, section \"Overloading Resolution\")")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,22 @@
+component GenericBoundsMeetWalk
+export Executable
+
+(* Two generic declarations over ListI[P], one with P bounded by A and one by B, beside a third whose parameter is bounded by both, are a valid overloading, and a ListI of a type below both runs the third (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait A end
+trait B end
+trait C extends { A, B } end
+object Ao extends A end
+object ListI[\X\] end
+
+sort[\P extends A\](x: ListI[\P\]): String = "A"
+sort[\Q extends B\](x: ListI[\Q\]): String = "B"
+sort[\R extends { A, B }\](x: ListI[\R\]): String = "A and B"
+
+run(): () = do
+    assert(sort(ListI[\C\]), "A and B", "ListI[C] runs the declaration bounded by both A and B (overloading.tex, section \"Declarations with Static Parameters\")")
+    assert(sort(ListI[\Ao\]), "A", "ListI[Ao] runs the declaration bounded by A")
+    println("PASS")
+  end
+
+end
