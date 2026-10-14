@@ -524,6 +524,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr ^(self, b:AnyIntegral):RR64
     opr ^(self, b:IntLiteral):RR64
     opr /(self, other:NN64):QQ
+    numerator(self): ZZ
     narrow(self):NN32
     signed(self):ZZ64
 end
@@ -576,6 +577,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr BITNOT(self):ZZ32
     opr ^(self, b:IntLiteral):RR64
     opr /(self, other:ZZ32):QQ
+    numerator(self): ZZ
     widen(self):ZZ64
     partitionL(self):ZZ32
     unsigned(self):NN32
@@ -633,6 +635,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr BITNOT(self):ZZ64
     opr ^(self, b:IntLiteral):RR64
     opr /(self, other:ZZ64):QQ
+    numerator(self): ZZ
     narrow(self):ZZ32
     widen(self):ZZ64
     unsigned(self):NN64

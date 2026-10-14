@@ -1,0 +1,30 @@
+(* Each integer type's numerator is its value as a ZZ and its denominator is 1; basic-integers.tex, section "Integers", numerator and denominator. *)
+component NumeratorPerType
+export Executable
+
+isZZ(x: Any): Boolean = typecase x of
+    y: ZZ => true
+    else => false
+  end
+
+run(): () = do
+    a: ZZ32 = 7
+    b: ZZ64 = widen(-8)
+    c: NN32 = unsigned(9)
+    d: NN64 = unsigned(widen(10))
+    e: ZZ = big(11)
+    assert(numerator(a), big(7), "numerator of the ZZ32 7")
+    assert(numerator(b), big(-8), "numerator of the ZZ64 -8")
+    assert(numerator(c), big(9), "numerator of the NN32 9")
+    assert(numerator(d), big(10), "numerator of the NN64 10")
+    assert(numerator(e), big(11), "numerator of the ZZ 11")
+    assert(isZZ(numerator(a)) AND isZZ(numerator(b)) AND isZZ(numerator(c)) AND isZZ(numerator(d)) AND isZZ(numerator(e)), true, "each numerator is a ZZ")
+    assert(denominator(a), big(1), "denominator of a ZZ32")
+    assert(denominator(b), big(1), "denominator of a ZZ64")
+    assert(denominator(c), big(1), "denominator of an NN32")
+    assert(denominator(d), big(1), "denominator of an NN64")
+    assert(denominator(e), big(1), "denominator of a ZZ")
+    println("PASS")
+  end
+
+end

@@ -167,6 +167,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr ^(self, b:AnyIntegral):RR64
     opr ^(self, b:IntLiteral):RR64
     opr /(self, other:NN32):QQ
+    numerator(self): ZZ
     widen(self):NN64
     partitionL(self):NN32
     signed(self):ZZ32

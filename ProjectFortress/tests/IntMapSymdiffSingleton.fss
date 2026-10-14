@@ -1,4 +1,4 @@
-(* IntMap's SYMDIFF of a many-entry map and a one-entry map, whose values under walk keep only the entry nearest the one-entry map's key. *)
+(* IntMap's SYMDIFF of a many-entry map and a one-entry map holds the entries in exactly one of them, in either order. *)
 component IntMapSymdiffSingleton
 import IntMap.{...}
 export Executable
@@ -9,8 +9,15 @@ run(): () = do
     one = {[\ZZ32\] widen(1) |-> 1}
     assert(five SYMDIFF three, {[\ZZ32\] widen(0) |-> 0, widen(1) |-> 1, widen(2) |-> 2, widen(5) |-> 5}, "a one-entry map SYMDIFF a many-entry map on another key holds all four entries")
     assert(one SYMDIFF three, {[\ZZ32\] widen(0) |-> 0, widen(2) |-> 2}, "a one-entry map SYMDIFF a many-entry map holding its key drops that key")
-    assert(three SYMDIFF five, {[\ZZ32\] widen(2) |-> 2, widen(5) |-> 5}, "today's value: a many-entry map SYMDIFF a one-entry map on another key keeps only the entry nearest that key")
-    assert(|three SYMDIFF one|, 0, "today's value: a many-entry map SYMDIFF a one-entry map holding its key keeps none of its entries")
+    assert(three SYMDIFF five, {[\ZZ32\] widen(0) |-> 0, widen(1) |-> 1, widen(2) |-> 2, widen(5) |-> 5}, "a many-entry map SYMDIFF a one-entry map on another key holds all four entries")
+    assert(three SYMDIFF one, {[\ZZ32\] widen(0) |-> 0, widen(2) |-> 2}, "a many-entry map SYMDIFF a one-entry map holding its key drops that key")
+    evens = {[\ZZ32\] widen(2 k) |-> k | k <- 0#5}
+    four = {[\ZZ32\] widen(4) |-> 40}
+    seven = {[\ZZ32\] widen(7) |-> 70}
+    assert(evens SYMDIFF four, four SYMDIFF evens, "a many-entry map SYMDIFF a one-entry map holding its key is the reverse order's map")
+    assert(|evens SYMDIFF four|, 4, "a many-entry map of five SYMDIFF a one-entry map holding its key has four entries")
+    assert(evens SYMDIFF seven, seven SYMDIFF evens, "a many-entry map SYMDIFF a one-entry map on another key is the reverse order's map")
+    assert(|evens SYMDIFF seven|, 6, "a many-entry map of five SYMDIFF a one-entry map on another key has six entries")
     println("PASS")
   end
 
