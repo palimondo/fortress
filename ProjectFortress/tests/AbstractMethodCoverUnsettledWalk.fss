@@ -1,4 +1,4 @@
-component XXXAbstractMethodCoverUnsettledWalk
+component AbstractMethodCoverUnsettledWalk
 export Executable
 
 (* An object whose one body at narrower parameter types does not cover an inherited abstract method of five parameters, each over a trait that comprises six objects, does not define the method, a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)

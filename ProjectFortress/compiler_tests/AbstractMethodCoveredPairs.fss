@@ -1,4 +1,4 @@
-component XXXAbstractMethodCoveredPairs
+component AbstractMethodCoveredPairs
 export Executable
 
 (* An object defines an inherited abstract method of two parameters by bodies that cover it only through the combinations of the types a comprises clause lists, so the program compiles and runs (traits.tex, section "Method Declarations"). *)
