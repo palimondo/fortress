@@ -81,7 +81,7 @@ A note written before the revival, and your training, can be right about the tea
 **`self` in a self-typed trait**
 
 - Original: the Working Draft types `self` as the enclosing trait's type, or with a `comprises` clause, as its intersection with the listed types. The checker did the same. So it refused 29 of the library's default bodies that return or pass `self` where the trait's parameter is declared, such as `floor(self): I = self` in `trait Integral[\I extends Integral[\I\]\]`. Walk ran them. Nothing checked that a type that extends such a trait is an instance of its argument.
-- Resolution: the specification defines a self-type parameter. It is a static parameter `X` of a trait `T` with no `comprises` clause, bounded in one of two ways:
+- Resolution: the specification defines a self-type parameter. It is a static parameter `X` of a trait `T` whose `comprises` clause is absent or lists only `...`, bounded in one of two ways:
   - by `T` at its own static parameters, as in `trait T[\X extends T[\X\]\]`;
   - by a trait with a self-type parameter that `T` extends at `X`.
 
