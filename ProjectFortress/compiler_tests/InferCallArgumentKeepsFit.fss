@@ -6,7 +6,6 @@ object BoxT[\T\](v: ZZ32) end
 mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
 instanceName(b: Any): String = typecase b of
     BoxT[\ZZ64\] => "BoxT[ZZ64]"
-    BoxT[\Object\] => "BoxT[Object]"
     else => "another instance"
   end
 

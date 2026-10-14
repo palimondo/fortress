@@ -2,4 +2,4 @@ tests=InferCallArgumentKeepsFit
 compile
 link
 run
-run_out_equals=over3(mk()) -> over3(Any) BoxT[Object]\n
+run_out_equals=over3(mk()) -> over3(Any) another instance\n

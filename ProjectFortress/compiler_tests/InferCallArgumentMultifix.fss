@@ -1,0 +1,14 @@
+(* Three operands of one operator, each a call that does not write its static arguments, take a multifix declaration of the operator that accepts them only typed again under its parameter types, in place of the binary declaration that accepts them as they are typed without an expected type. *)
+component InferCallArgumentMultifix
+export Executable
+
+object BoxT[\T\](v: ZZ32) end
+mk[\T\](): BoxT[\T\] = BoxT[\T\](1)
+opr OPLUS(a: BoxT[\ZZ64\], b: BoxT[\ZZ64\], c: BoxT[\ZZ64\]): String = "multifix"
+opr OPLUS(a: Any, b: Any): String = "binary"
+
+run(): () = do
+    println("mk() OPLUS mk() OPLUS mk() -> " || (mk() OPLUS mk() OPLUS mk()))
+end
+
+end
