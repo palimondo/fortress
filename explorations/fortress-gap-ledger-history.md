@@ -4871,3 +4871,51 @@ note added
 note added
 
 | 549 | walk loads a generic declaration beside a plain one whose declared domains are equal: `tie[\T extends Wide\](a: T, b: T)` beside `tie(a: Wide, b: Wide)` loads, and a call that needs a coercion under both is then 'Ambiguous coercion' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/tests/XXXGenericBesidePlainSameDomain.fss` | climb batch 7b rung W | The parameter check reads `T` as a strict subtype of `Wide`, while the generic's declared domain at its bound is `(Wide, Wide)` and the Subtype Rule asks for a strict subtype. The call gives 'Ambiguous coercion, args = (Narrow,Narrow), applicable with coercion = {coerced tie[\T extends Wide\](a:T,b:T)..., coerced tie(a:Wide,b:Wide)...}' in either order of the declarations (`explorations/compile-ladder/rung-walk-dispatch/REPORT.md` section 10, probe `CoerceTie`). The refusal due is walk's for equal parameter types, 'fails because their parameter lists have the same types'; full text: history, row 549 |
+
+### Row 455
+
+closed by 0856f3e6a
+
+| 455 | **the compiled checker drops the expected type at an enclosing call's argument and at a loose juxtaposition**, so a declared type never fixes a static argument there: `takesBox64(wrapT(3))`, `takesBox64(mk())` and `e: BoxV[\ZZ64\] = wrapV 3` are refused | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/var-ref.tex`, "Identifier References"; `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferContextDrops.fss` | ours (the coordinator's numerics plan) | siblings: 510, 560. 8dc1a74d9 (climb batch N, rung I) passes the expected type on at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Operators.scala:85`, `:90`, `:197`, `:345`, so `f(x)`, a method invocation, a prefix, an infix and a parenthesised call keep it, with a retry without it (`ProjectFortress/compiler_tests/InferCoercionShapes.fss:74-82`). Not measured, and open here: a `let` body, an `if` with no `else`, a `typecase` `else`, a `for` body (`explorations/reviews/numerics-plan-coordinator/measure-D.md` section 1.3). Workaround: write the static argument. full text: history, row 455 |
+
+### Row 679
+
+closed by 604d0e23c
+
+| 679 | Array2's `offset` answers `oops(...)` in two branches of its `if`, and `oops` is declared `()` though it always fails, so the compiled checker types the body `OR((ZZ32, ZZ32),())` against the declared `(ZZ32, ZZ32)` | NEGATIVE-VERIFIED | library bug (library) | `basic/functions.tex`, "Function Declarations" | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 13 rung N | `Library/FortressLibrary.fss:2518-2530`, `oops` at `:1771` (at 9d323883f): 'Function body has type OR((ZZ32, ZZ32),()), but declared return type is (ZZ32, ZZ32).' Shown once Array2's asString typed its row parameter. Walk never returns from `oops`, which calls `fail`. |
+
+### Row 671
+
+closed by 604d0e23c
+
+| 671 | the library's `IntMap` `SYMDIFF` of a many-entry map and a one-entry map keeps only the singleton nearest the other key: under walk `{0,1,2} SYMDIFF {5}` is `{2,5}` and `{0,1,2} SYMDIFF {1}` is `{}` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/IntMapSymdiffSingleton.fss` | climb batch 13 rung O | `NodeIM`'s `opr SYMDIFF(self, other: SingletonIM[\Val\]) = self.seek(other.key) SYMDIFF other` (`Library/IntMap.fss:544-545` at a1a75716a) keeps of `self` only the singleton `seek` finds. The reverse order, `SingletonIM`'s `other.updateWith(...)` (`:353-355`), answers what the library's own comment says, "the key/value mappings contained in exactly one input map" (`:352`): `{5} SYMDIFF {0,1,2}` is `{0,1,2,5}`. `IntMapTest` checks no node against a singleton. Probe `ProbeSymdiff.fss` on the old code. Workaround: put the one-entry map on the left. |
+
+### Row 676
+
+closed by 3ba2d005f
+
+| 676 | under walk, a power in a size stops the program: `Box[\2^3\]` raises 'EvalType: class com.sun.fortress.nodes.IntBinaryOp is not yet implemented.', an InterpreterBug, where the compiled path computes 8 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/constant.tex`, "Static Expressions" | `ProjectFortress/tests/XXXNatArithPowerWalk.fss` | climb batch 13 rung N | `EvalType.forIntBinaryOp` computes `+`, `-` and juxtaposition only (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvalType.java:468-476` at 9d323883f); the compiled path computes `^` by `Naming.sizeOp`, an exponent from 0 to 4096. Fix: a fourth case, an exact power with the same out-of-range refusal. |
+
+### Row 696
+
+closed by 3ba2d005f
+
+| 696 | the specification's No Duplicates Rule for declarations with static parameters refuses no pair: it asks that two declarations be "not each more specific than the other", and its "more specific" is strict | NEGATIVE-VERIFIED | design limit (specification) | `advanced/overloading.tex`, "Declarations with Static Parameters" | none | POPL 2019 full-text check | `sed -n 539-549p Specification/advanced/overloading.tex` prints the strict definition ("and not the other way round") and the rule. So the rule holds vacuously and an equivalent pair falls to the Meet Rule. The 2011 paper's relation is non-strict (`Papers/Types/rules.tick:158-161`); POPL 2019's Fig. 5 refuses exactly mutually subtyping domains (p. 11:12). Fix: state the rule on the non-strict relation. The passage is the revival's (`576b4c287`). `explorations/reviews/array-judgements-popl-check.md` section 7. |
+
+### Row 666
+
+closed by f9fe5c874
+
+| 666 | under walk, an object that inherits an abstract method and declares a body only at narrower parameter types loads: `object O extends S` declaring `tag(self, x: ZZ32)` under `S`'s abstract `tag(self, x: Number)` runs, where it does not define the method, a static error | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXAbstractMethodPartlyDefinedWalk.fss` | climb batch 12 rung W | siblings: 628, 649, 669. `Constructor.definedBelow` accepts a declaration with a body at or below the abstract one's parameter types (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:466` at 8803d2f45), so that the library loads: at 7fa767d48 `NewlineReduction` (`Library/FortressLibrary.fss:3496`) declared `simpleJoin(a:String, b:String)` under the abstract `simpleJoin(a:Any, b:Any)` (`:3116`, row 628, fixed since); `Pairs`'s `SingleRange` (`Library/Pairs.fss:78-87`) and rows 668 and 669 still need it. The compiled checker refuses the reproducer: 'Domain Number is not a subtype of ZZ32'. |
+
+### Row 668
+
+closed by f9fe5c874
+
+| 668 | the library's `SeededRandomGenWithDistribution` defines no body for `SeededRandomGen`'s abstract `seedSize` and `reseed(seedvec: Indexed[\Seed,ZZ32\])`, so `seedSize` of a distributed seeded generator stops walk: 'MethodClosure seedSize() ... has neither body nor def' | NEGATIVE-VERIFIED | library bug (library) | `basic/traits.tex`, "Method Declarations" | none | climb batch 12 rung W | siblings: 649, 665, 666. `Library/Random.fss:88` and `:99` declare them abstract; the object at `:171` declares neither. On 7fa767d48, `MersenneTwisterInit(1).distributed[\ZZ32\](UniformDistribution[\ZZ32\](2:9)).seedSize`, under `old-fortress.sh`, stops with that bug. `MersenneTwisterInit` declares `perturbed(perturbvec: Indexed[\ZZ32,ZZ32\])` (`:341`) under the abstract `perturbed(perturbvec: Generator[\ZZ32\])` (`:126`), a body at a narrower type only (666). |
+
+### Row 669
+
+closed by f9fe5c874
+
+| 669 | the library's QuickCheck generators define `AnyGen`'s abstract `perturb(obj: Any, g: AnySeededRandomGen)` only at their element type, so `perturb` of a value of another type stops walk: `genZZ32` as an `AnyGen`, given `"s"`, '... has neither body nor def' | NEGATIVE-VERIFIED | library bug (library) | `basic/traits.tex`, "Method Declarations" | none | climb batch 12 rung W | siblings: 628, 666. `Library/QuickCheck.fss:82` declares it abstract in `AnyGen`, 'A version of `Gen[\T\]` without static parameters'; `Gen[\T\]` declares `perturb(obj: T, ...)` (`:119`). On 7fa767d48, `g: AnyGen = genZZ32; g.perturb("not a ZZ32", MersenneTwisterInit(1))`, under `old-fortress.sh`, stops: 'MethodClosure perturb(obj:Any,g:Random.AnySeededRandomGen) ... QuickCheck.fss:82:5-83:1 has neither body nor def'. The `Any` device of row 628. |
