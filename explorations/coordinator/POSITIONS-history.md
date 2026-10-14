@@ -1268,3 +1268,9 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-148
 
 2026-10-14 19:06Z · added · by coordinator: his words, 19:01 UTC 2026-10-14, "Optimize performance anyway, would be my default position if it's not significantly faster than old measurement."; 19:03 UTC, "My reasoning is that there is no such a thing as too fast a checker, and these are always the performance bottlenecks in all languages that we heard about. So I think ensuring the correctness is priority number one in ensuring performance of type checking is priority number two. Or even one and a half."; 19:06 UTC, his yes to the entry, "Yes, include the checker performance as a high priority right after the correctness in the positions."; by: coordinator
+
+### P-148
+
+2026-10-14 19:17Z · rewritten · by coordinator: his rephrasing, 19:16 UTC 2026-10-14: "I would phrase the position a bit differently. Cut the duplication and say that after checker changes we always measure the performance impact and after the initial correctness pass we follow it up with a performance optimization pass. Ideally this would be done within the worker's rung and validated by the skeptic. Not as an extra post landing manual process that we are doing now."
+
+- P-148 **The checker's speed comes right after its correctness.** No checker is too fast, and in every language he has heard of the type checker is a performance bottleneck. So the checker's correctness comes first and its speed second, nearly level with it. A slowdown of the checker is work to do, not a cost to accept: it is optimized, keeping every answer. Still to build: the speed fix under row 680's repair (PLAN item 54).
