@@ -2067,3 +2067,9 @@ pointer words refreshed in: F-24
 ### F-225
 
 2026-10-14 04:47Z · added · from `explorations/compile-ladder/rung-self-type/REPORT.md`, "1. What changed and why" · by climb batch 14 gather: rung S's record.md, folded
+
+### F-53
+
+2026-10-14 05:31Z · rewritten · commit `5e4a5782d` · by climb batch 14 commit stage: the landed figures of climb batch 14 gate, read from explorations/compile-ladder/climb-batch-14/gate/distance.txt (#total 54) and checker-count.txt (#total 1): the distance 85 to 54, the count 1 as before; numbers only
+
+- F-53 **The distance to the switch-over is 85 errors and the checker count is 1, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the self-typed `Integral` bodies and the sized arrays (F-54). The checker count stops at a component's first error, now the untyped parameter of `body(i)` in `__bigOperator`. Typing it raises the count toward the distance, which is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
