@@ -4937,3 +4937,93 @@ note added
 note added
 
 | 510 | **under `walk`, a typed binding does not fix a static argument that only the call's result mentions**, so `a: BoxK[\ZZ64\] = wrapK(3)` is refused, 'RHS expression type BoxK[\Int\] is not assignable to LHS type BoxK[\ZZ64\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/var-ref.tex`, "Identifier References"; `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferExpectedTypeRungK.fss` | ours (climb batch N, rung K) | siblings: 455. `i: ZZ64 = idK(3)` answers `3 : ZZ64`, since the binding converts a result that is the type parameter itself, and no coercion converts a `BoxK[\Int\]`. The compiled checker keeps the expected type at `f(x)` and infers `T = ZZ64`. Repair, outside rung K's files: a typed binding whose right-hand side is a generic call passes its declared type into that call's inference (`LHSEvaluator`, `BuildEnvironments`), walk's only static context; whether and when is the curator's. full text: history, row 510 sibling at a call's argument: 705 (climb batch 14 rung A). |
+
+### Row 686
+
+closed by f237148ac
+
+| 686 | the compiled checker refuses a call whose argument carries the caller's type parameter, bounded as the callee's by a closed trait and a bound excluding one of its listed types: in `g[\T extends { K, R[\T\] }\](x: Box[\T\]): T = h(x)`, `h` 'is not applicable to an argument of type Box[\T\]' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferCallerTwoBoundsClosedTrait.test` | climb batch 13 rung V | siblings: 687, 689. Refused at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:721` (`typedApplication`) on a1a75716a and after rung V's `boundsSubstitution` fix, so not that code; not traced to the inference step that fails. The norm's `squaredNorm(me)` (`Library/FortressLibrary.fss:2490`) was refused so on a library copy with the two-trait array bound (`explorations/reviews/array-fork2-judgement.md` section 3). With `K`'s clause naming no type outside `R` the call checks. Workaround: write the static argument, `h[\T\](x)`, which compiles and runs. Met by the landed library (`749ec523e`): the norm's call, `Library/FortressLibrary.fss:2490`. |
+
+### Row 687
+
+closed by f237148ac
+
+| 687 | the compiled checker crashes on a call that converts a numeral when the callee's type parameter is bounded by a closed trait and a bound excluding one of its listed types: `f(A, 1)` for `f[\T extends { K, R[\T\] }\](x: T, y: ZZ32)`, 'Applied a substitution to an And and got an Or' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXCoerceTwoBoundsClosedTrait.test` | climb batch 13 rung V | siblings: 686, 689. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:593` (`slv`) under `solveToBounds` (`:497`), `STypesUtil.inferStaticParamsHelper` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1036`) and `Functionals.checkApplicableWithCoercion` (`impls/Functionals.scala:371`, `:379`), on a1a75716a and after rung V's `boundsSubstitution` fix. The same call with a `ZZ32` variable, `f(A, z)`, checks and runs. Workaround: a typed argument, or the written static argument `f[\A\](A, 1)`, which compiles and runs. The landed bound (`749ec523e`) meets no such call in the library: no crash row comes at batch 13b's gate. |
+
+### Row 689
+
+closed by f237148ac
+
+| 689 | the compiled checker crashes on a call whose argument is the caller's own type parameter, bounded as the callee's by a closed trait and a bound excluding one of its listed types: `h(x)` in `g[\T extends { K, R[\T\] }\](x: T): T`, 'Applied a substitution to an And and got an Or' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXCallerParamTwoBoundsClosedTrait.test` | climb batch 13 rung V's skeptic | siblings: 686, 687. Row 687's stack: `Formula.slv` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:593`) under `STypesUtil.inferStaticParamsHelper` (`:1036`) and `Functionals.checkApplicableWithCoercion` (`impls/Functionals.scala:371`, `:379`), the coercion attempt after the plain check fails, on a1a75716a and after rung V's `boundsSubstitution` fix. The brief's second test for rung V had this form; with a `Box[\T\]` argument the call is refused instead (row 686). Walk runs it. Workaround: `h[\T\](x)`, which compiles and runs. The landed bound (`749ec523e`) meets no such call in the library: no crash row comes at batch 13b's gate. |
+
+### Row 690
+
+closed by f237148ac
+
+| 690 | the compiled checker refuses a valid overloading: a generic declaration bounded by a closed trait and a bound excluding one of its listed types, beside a declaration on that trait with the same return type, gets a false Return Type Rule error, 'should be a subtype of the return type of K->String' | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXReturnRuleTwoBoundsClosedTrait.test` | climb batch 13 rung V's skeptic | siblings: 684, 686. A crash on a1a75716a (row 684). After rung V's fix `OverloadingOracle.satisfiesReturnTypeRule` (`ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:115-117`) builds the special arrow `[\T extends K R[\T\]\]AND(T,OR(A,B))->String`, the analyzer's normal form of the domains' meet, and `subtypeUA` of the generic declaration against it is false; not traced further. With `K` open, or with no listed type of `K` outside `R`, the pair checks and runs. Walk runs it: `f(A)` the generic declaration, `f(C)` the other. No library pair meets it under the landed bound (`749ec523e`): batch 13b's distance has none. |
+
+### Row 711
+
+closed by f237148ac
+
+| 711 | the compiled checker crashes on a call through a type parameter bounded by a closed trait and a bound naming no type parameter that excludes one of its listed types: `h(x)` in `g[\T extends { K, Q }\](x: T): T` with `trait Q excludes { C }`, 'Applied a substitution to an And and got an Or' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/CallerParamTwoGroundBoundsClosedTrait.test` | climb batch 15 checker probe | siblings: 686, 689. `TypeAnalyzer.normConjunct` (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:692-698` at ee1aa1a95) normalizes `K` and `Q` to `OR(A,B)`; the union rule (`:165-166`) splits `$T <: OR(A,B)` before the inference-variable case and `T <: OR(A,B)` before T's bound is read, so the solver meets an Or (`typechecker/Formula.scala:640`). Rows 686 to 690's fix leaves it. Walk runs it. Workaround: `h[\T\](x)`. Probe: `explorations/perf-probes/checker-bound-defects/REPORT.md` section 2.5. |
+
+### Row 703
+
+closed by 20474c144
+
+| 703 | under walk, `__bigOperator`'s local `body` cannot take its parameter's type `I`, as the compiled checker asks of the untyped `body(i)` (the count's one error): an unwritten list or map comprehension instantiates `I` at `BottomType` or a pair holding it, so walk refuses each element at `body` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 14 rung L | siblings: 424, 645, 662. With `body(i: I): L` at `Library/FortressLibrary.fss:1311` (at 5bf8a7c84), walk on `<\| 2 k \| k <- 0#3 \|>` stops: 'Unification error: Closure/Constructor for body param 1 (i:BOTTOM) got arg 4: ZZ32 of type Int'; on `{ widen(k) \|-> k \| k <- 0#3 }`, '(i:(ZZ64,BOTTOM)) got arg (2,2)'. Written static arguments, `SUM`, `BIG MAX`, `BIG AND` and a set comprehension run. Walk keeps a big operator's plain-bounded parameter at `BottomType` (D2; `EvaluatorBase.java:170`, `:181`). Workaround: the line stays untyped. |
+
+### Row 646
+
+closed by 20474c144
+
+| 646 | under walk, a set comprehension with no static argument is built at its elements' run-time class, `NodeSet[\Int\]` for `ZZ32` elements, which a variable declared `Set[\ZZ32\]` refuses: 'RHS expression type NodeSet[\Int\] is not assignable to LHS type Set[\ZZ32\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXComprehensionTypedBindingWalk.fss` | climb batch 11 rung W | siblings: 20, 364. Measured alike at `83b1cae78` (the comprehension's parameter at `BottomType`) and with it left open (row 424's fix): the comprehensions collect into `AnyCovColl` and build the set at the elements' type (`Library/CovariantCollection.fss:144`), walk's type of a `ZZ32` value is `Int`, and generics are invariant, so the typed binding refuses it (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:219-227`). The P1 judgement read this binding as passing under the open parameter. Workaround: `{[\ZZ32\] n^2 \| n <- -2:2 }`, a `NodeSet[\ZZ32\]`. siblings: 662 (`Set`'s unwritten `BIG UNION` and `BIG INTERSECTION` at `Set[\OPEN\]`). |
+
+### Row 662
+
+closed by 20474c144
+
+| 662 | under walk, `Set`'s `BIG UNION` and `BIG INTERSECTION` with a generator clause list and no static argument stop at their first element: `R` is left open and `Set[\OPEN\]` admits no `NodeSet[\ZZ32\]`, so `BIG UNION[i <- 0#3] {[\ZZ32\] i}` stops where it is `{0,1,2}` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenSetBigOperatorsWalk.fss` | climb batch 12 probe P2 and rung G | siblings: 424, 473, 646. `R extends StandardTotalOrder[\R\]` is F-bounded, so walk leaves it open (row 424's fix); the reduction's parameters are then `Set[\OPEN\]`, and a generic type holding the open type admits no more than at `BottomType` (FACTS, "Under `walk`, a type parameter whose bound mentions itself ..."). At `7fa767d48` `UNION` stopped at `Union.join`, `INTERSECTION` at the abstract `simpleJoin(a:Any, b:Any)`; at `1410a62de` both stop at `lift` in `__bigOperator` (`Library/FortressLibrary.fss:1304`), 'lift param 1 (r:Set[\OPEN\]) got arg NodeSet[\ZZ32\]'. Workaround: `BIG UNION[\ZZ32\][i <- 0#3] {[\ZZ32\] i}`. |
+
+### Row 645
+
+closed by 20474c144
+
+| 645 | under walk, an empty reduction with a generator clause list and no static argument, over elements of a type other than `ZZ32`, takes `ZZ32`'s identity: `emptyRSum(n: ZZ32): RR64 = SUM[j <- 0#n] (j / 2.0)` gives `0 : Int` at `n = 0`, not `RR64`'s `0.0` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUnwrittenEmptyFloatSumWalk.fss` | climb batch 11 rung W | siblings: 424, 425, 628. Walk leaves `SUM`'s `T` open where nothing fixes it (row 424's fix); with no element in hand the identity `additiveIdentity[\T\]()` takes its typecase's first clause, `() -> ZZ32`, since `() -> OPEN` is below it (`Library/FortressLibrary.fss:3208-3224`), and walk returns the `Int` from a function declared `RR64` without a check. Every way of the P1 probe gave the same (`explorations/compile-ladder/plan-9/probes/P1.md`, `SumEmptyR`). The fix is the desugaring by the expression's type `N` (row 425's road) or an identity read from the generator. Workaround: `SUM[\RR64\][j <- 0#n] (j / 2.0)`. |
+
+### Row 715
+
+closed by 20474c144
+
+| 715 | the library's `IntMap` declares its comprehension operator `opr BIG {\|->[\Val\] }: IntMap[\Val\]` (`Library/IntMap.fsi:82`, `IntMap.fss:732`) while its body is a `Comprehension`, so under walk a declared result that decides the instance gives `NodeIM[\Any\]` | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/IntMapComprehensionTypedWalk.fss` | climb batch 15 rung B (walk probe, section 10) | siblings: 646, 704. `Map`'s own is `Comprehension[\(Key,Val),Map[\Key,Val\],AnyCovColl,AnyCovColl\]` (`Library/Map.fsi:104`). Walk checks no declared result, so nothing observed it until walk read the declared result to instantiate an unwritten clause form (5dad832f3): with the line as it was, `m: IntMap[\ZZ32\] = { widen(k) \|-> 10 k \| k <- 0#3 }` is refused, 'RHS expression type NodeIM[\Any\] is not assignable to LHS type IntMap[\ZZ32\]'. Fixed in the same commit, declared as `Map`'s, the api importing `AnyCovColl` as `Library/PrefixSet.fsi:33` does. |
+
+### Row 685
+
+closed by a0f839ad7
+
+| 685 | the compiled checker refuses `Vector[\T,s0\]` and `Matrix[\T,s0,s1\]` as the declared result of the first of each overloaded factory pair, 'The static argument T does not satisfy the corresponding bound Number', where it accepts the same type three lines below | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Type Parameters" | none | climb batch 13 rung V | siblings: 399. `vector[\T extends Number, nat s0\]():Vector[\T,s0\]` (`Library/FortressLibrary.fss:2461`) and `matrix[\T extends Number, nat s0, nat s1\]():Matrix[\T,s0,s1\]` (`:2838`), against `tabulatedVector` at `:2464`: `TypeWellFormedChecker.scala:153-166` tests each written argument against its bound in an analyzer extended with the declaration's static parameters (`:131-138`), and `T` reaches the test with no bound in scope (`explorations/reviews/array-fork2-judgement.md` section 2.2; not traced to its line). The distance stage's sites (`explorations/compile-ladder/gate/distance-sites.tsv:144`, `:154`). |
+
+### Row 704
+
+closed by a0f839ad7
+
+| 704 | the library's `IntMap` `UPLUS` of a many-entry map and a one-entry map on a shared key throws no `KeyOverlap` and keeps the many-entry map's value, while the reverse order throws: under walk `{0,1,2} UPLUS {1 \|-> 9}` is `{0,1,2}` and `{1 \|-> 9} UPLUS {0,1,2}` throws | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/IntMapUplusSingleton.fss` | climb batch 14 rung L's skeptic | siblings: 671. `NodeIM`'s `opr UPLUS(self, other: SingletonIM[\Val\]) = self.add(other)` (`Library/IntMap.fss:520` at 313541641; `:494` at a874948ac) calls `add`, which keeps an existing key (`:297-298`), where the comment says `UPLUS` "throws the %KeyOverlap% exception when a key occurs in both maps" (`:517-518`). The reverse order, `SingletonIM`'s `other.addNew(self)` (`:340`), throws through `addNew` (`:300-302`). Two many-entry maps meet it through `nodeNode`: keys 2 to 7 `UPLUS` keys 0, 3, ..., 15 throws nothing, the reverse throws. Under walk a `catch` of `KeyOverlap[\ZZ32\]` misses the thrown `KeyOverlap[\Int\]` (row 364). Workaround: put the one-entry map on the left. |
+
+### Row 707
+
+closed by 59b1d0a4d
+
+| 707 | the compiled checker refuses two functional methods of one name whose parameter types are each a subtype of the other only when their `self` parameters stand at one position: `f[\T extends S\](self, y: T)` beside `f[\U extends S\](x: U, self)` passes it, and the code generator stops the compile | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleSelfPositions.test` | climb batch 14 rung P's skeptic | siblings: 574. `checkOverloading` counts a duplicate only where `oracle.equiv` holds and the self positions are equal (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:441`, the team's line, at 98e8ff979); `OverloadSet` then finds no order and throws a CompilerBug, 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:411`). The plain pair `f(self, y: S)` beside `f(x: S, self)` does the same. Walk refuses both at load. |
+
+### Row 708
+
+closed by 59b1d0a4d
+
+| 708 | under walk, the abstract-method load check does not refuse an object whose coverage search does not settle: one body `g(self, a: P1, ..., e: P1)` under the abstract `g(self, a: D, ..., e: D)`, `D comprises` six objects, loads, its 7,776 combinations past the bound | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXAbstractMethodCoverUnsettledWalk.fss` | climb batch 14 rung W's skeptic | siblings: 665, 666. `Constructor.definedBelow` returns true where `coverParts` meets a cycle, a symbolic type or a type it cannot read, runs out of `OVERLAP_STEPS`, or the combinations pass `OVERLAP_PARTS`, 4,096 (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:501-503`, `:514`, `:517` at fb6ce967e), by the rung's choice: a call outside the bodies stops at run time, 'has neither body nor def'. With four parameters walk refuses the object. The compiled checker refuses it: 'Domain (D, D, D, D, D) is not a subtype of (P1, P1, P1, P1, P1)'. |
+
+### Row 709
+
+closed by 59b1d0a4d
+
+| 709 | the compiled checker refuses an object whose concrete methods cover an inherited abstract method of two parameters only through combinations of the types a `comprises` clause lists: bodies at `(Ping, Ping)`, `(Ping, Pong)`, `(Pong, Side)` under `g(self, x: Side, y: Side)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXAbstractMethodCoveredPairs.test` | climb batch 14 rung W's skeptic | siblings: 617. `Side comprises { Ping, Pong }`. 'Domain (Side, Side) is not a subtype of OR((Ping, Pong),(Pong, Side),(Ping, Ping))': the checker asks whether the domain is below the union of the concrete domains (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/AbstractMethodChecker.scala:106-107` at 5bf8a7c84); `TypeAnalyzer` splits a trait type through its clause below a union (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:159-164`) and compares any other type, a tuple among them, with each member alone (`:165-166`). Walk accepts the shape (`tests/AbstractMethodCoveredWalk`). |
