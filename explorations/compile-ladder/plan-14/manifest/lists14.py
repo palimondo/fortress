@@ -195,7 +195,7 @@ W_BRIEFING = [
   ("P-95", "Why the traits chapter and its Appendix I entry change: the reason, the original text and route C."),
   ("P-96", "The form of your text change: the sentence revised in place with a callout, the entry amended."),
   ("F-145", "What walk refuses at load today, the allowance of row 666 that goes, and why generic objects are skipped (row 665)."),
-  ("F-142", "Walk's Meet Rule check reads an overlap through comprises clauses, generic types through a stand-in: the reader your coverage test shares."),
+  ("F-27", "Walk's load check of an overloaded function covers an overlap through comprises clauses (overlapCoveredBy): the reader your coverage test shares."),
   ("ledger:666", "Your walk row: one narrower body passes today; XXXAbstractMethodPartlyDefinedWalk is promoted and the row closes."),
   ("ledger:668", "Your first library row: the distributed generator without seedSize and reseed, and MersenneTwisterInit's perturbed at a narrower type."),
   ("ledger:669", "Your second library row: AnyGen's abstract perturb at Any that the generators define only at their element type."),

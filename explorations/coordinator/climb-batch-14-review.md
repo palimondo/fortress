@@ -75,3 +75,42 @@ The record's one question is answered; two answers landed while it was reviewed,
 - **Not asked, listed for you:** `numerator` on `ZZ32`, `ZZ64`, `NN64` and `NN32`, four api lines in `ZZ`'s shape; the pins changed in `IntMapSymdiffSingleton.fss` and `XXXInferLoneUnionClosedTrait`; the argument retry's forks 2, 4 and 5 as the probe built them.
 
 Ready to launch once the coordinator folds P-146 and P-147, regenerates the block and splices it.
+
+## 4. The follow-up check of the amended record
+
+On 2026-10-14 the coordinator asked for a check of `bf0ca8393`, which folded P-146 and P-147 into the record (`git diff b4c1d0d51 bf0ca8393`): QS built as way 6 with his default on a mixin's self parameter in S, the new rung W for item 51, and cuts. The check covered W whole, the changed parts of S, L and sections 1, 4 and 5, the generator, and the widened rule (a) for soundness, in the same way as sections 1 to 3. On the amended record, before these changes and after them, the checks are green: `lists14.py` reports `bad lists 0` (W 35 keys, 9 checks), `gen14.py` writes 465 lines, `check14.js` reports 0 problems on the scratch splice (rungs S, A, L, P, W; scatter S L W P A), and `workflow-scenarios.js` reports 49 ok and 0 problems on the spliced copy. Nothing was written with `--write`.
+
+**Changes, one reason each.**
+
+1. **The widened rule (a) is a trait's only.** The draft said "a type parameter also counts as a declaration's self parameter". Read for objects, that is unsound. The obligation that a mixin passes down has to be discharged where a value is made. `object M[\T extends Shape[\T\]\] extends Shape[\T\]` would take `T` as its self parameter, so rule (b) would pass it (`M[\T\] & T <: T`). Yet `M[\Pt\]` is a `Shape[\Pt\]` that is no `Pt`, and the bodies that rule (a) types `self` as `T` in would then be wrong at run time. With the reading confined to a trait with no `comprises` clause, the induction over extenders holds:
+   - every value of `C[\A\]` comes from an object or an object expression;
+   - each trait on the way to `C` passes `A`'s position down as its own self parameter, or rule (b) checks it at its own type;
+   - an object or object expression has no self parameter, so rule (b) checks it at its own type, `<: A_k`.
+   
+   Fixed in S's answers line, the section 2 point, the intro and S's blurb. S also gains `XXXSelfTypeMixinObject`, that object refused.
+2. **No stage can measure the widened reading.** The draft said that S's run measures it. A grep of every `trait` and `object` header in `Library/`, `LibraryBuiltin/`, the four test folders and `demos/` (this review's script) finds the shape only at `ContainmentBySubset` and `ContainmentByComparison` (`Library/Containment.fsi:22`, `:29`; `.fss:42`, `:57`). No object and no object expression has it. Their extenders are `Relation[\T\]` (at itself) and `ContainmentGenerator[\E,T\]`, which is self-typed by rule (a) and is extended at itself by `Set` and `PrefixSet`. None of these is among the stages' twelve components, so S's tests are the measure. Now in S's answers line, its rows (with the grep's result), its distance sites and section 2. The two refusals stand by reading, as drafted: the trips demo's object has no type parameter, and `PureList`'s `E` is unbounded.
+3. **The specification states the widened reading.** S's rule (a) sentence named only a parameter bounded by the trait itself. The text must say what the checker does (P-95), so it now adds "or by a self-typed trait it extends at that parameter".
+4. **`traits.tex` overlap.** S also writes a callout at `:553-555` ("Method Declarations"), 25 lines above W's sentence at `:579-581`. The draft placed S in "Trait Declarations" only. The two are distinct sentences in separate hunks, so no rule is broken. Fixed in S's and W's overlaps and the intro.
+5. **W's fact for walk's coverage reader is F-27, not F-142.** F-142 is the Meet Rule for functional methods. `overlapCoveredBy` serves the overloaded-function Meet Rule, "Not for functional methods or dotted methods" (`OverloadedFunction.java:844-851`), and F-27 is its fact ("covers an overlap through comprises clauses"). Fixed in W's answers line and in `lists14.py`'s W briefing.
+6. **Size.** The record is back under batch 13's 93,396 bytes, at 93,363. Two bullets that repeated other lines were cut:
+   - section 1's sentence on the patch measured on batch 12's tree, which S's distance sites already say;
+   - section 2's "Under walk, `body(i: I)` ..." point, which section 1's count bullet, section 2's count point and its item 17 line already carry.
+
+**Checked and found right in the amendment.**
+- **Quotes.** P-146 and P-147 are quoted word for word against POSITIONS.
+- **W's rows, lines and claims:**
+  - `Random.fss:88`, `:99`, `:126`, `:131-132`, the reseed comment at `:89-98` ("Return itself"), `:171-187`, `:182-183`, `:237`, `:311`, `:323-349` (`seedSize` defined, `reseed` at its own types, `perturbed` at `Indexed` at `:341`); `Random.fsi:155-168`, `:240`.
+  - `QuickCheck.fss:80-83`, `:119`, `:274`; `QuickCheck.fsi:58-61`.
+  - `Constructor.java:425-454` (`checkForDef`), `:468-487` (`definedBelow`, its unreadable-domain `true` at `:483-485`); `OverloadedFunction.java:880-939`, `:963`, `:1023` (symbolic gives no answer at `:1025`); `AbstractMethodChecker.scala:81`; `Welterweight/static.tick:27-47`.
+  - `Pairs.fss:78`, `FileConversion.fss:65-82`; 20 demos import `Pairs`; row 628 is `FIXED` by `aadd02f23`, row 667 is `FIXED`.
+  - The walk check note's sections 2.5 and 2.6, and `rung-walk-load-checks/REPORT.md` section 4. `FortressLibrary.fss:3627` is `SimpleIndexValuePairs`.
+- **The specification.** `traits.tex:579-581`, `Specification-1.0-frozen/basic/traits.tex:511`, `functions.tex:431-434` and the callout `:435-445`, `objects.tex:149-154`, and the entry `changes.tex:2614-2741` with its Effect `:2693-2697`. No sentence names walk's narrower-body allowance (a grep for it and for rows 628, 665, 666, 668 and 669); F-145's sentence is the one to correct, as the record says.
+- **W's tests and paths.** Every test W names exists, `XXXAbstractMethodPartlyDefinedWalk.test` keyed as the record says. `/home/user/fortress-coverage`, `wip/rung-walk-coverage` and `compile-ladder/rung-walk-coverage` are free. `Library/` is not in the script's `STAGE_BLIND`, so W runs both stages, as its section says.
+- **The batch rules with W:**
+  - The library: L edits `FortressLibrary`, `FortressBuiltin` and `IntMap`; W edits `Random` and `QuickCheck`.
+  - Walk: P edits `EvalType`; W edits `Constructor` and the access of `OverloadedFunction`'s helpers.
+  - `changes.tex`: four distinct entries and S's new one.
+  - W's coverage check reads L's abstract `numerator` as the plain case at every object below `Integral`.
+- **The rest of the amendment.** The cost parts sum: 2.4M + 2.0M + 1.36M = 5.76M. The manifest's W fields are right, and section 5's gate, ledger and after-landing lines carry W.
+
+**Ready to launch** once the coordinator splices the block (`check14.js --write`) and commits. Nothing in the amendment reverses a decision on record. The default on a mixin's self parameter stays listed for the curator: it goes past P-146's letter, and S's tests are its only measure.
