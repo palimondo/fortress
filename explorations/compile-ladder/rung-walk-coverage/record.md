@@ -6,7 +6,7 @@ A new entry in "Landed semantics", after F-145:
 
 - **Walk counts an inherited abstract method as defined when the object's bodies of its name at narrower parameter types together cover the abstract parameter types, reading `comprises` clauses as its Meet Rule check does; one narrower body that does not cover is refused** (`compile-ladder/rung-walk-coverage/REPORT.md`, sections 1 and 6; P-147; row 666 closed).
   - How it checks: `Constructor.definedBelow` gathers the bodies of the name and self position at or below the abstract parameter types. A body at those types is the plain case. Otherwise it splits each position through `comprises` clauses (`coverParts`), and asks that every combination of parts lie inside one body's domain. It reads that with `OverloadedFunction.someBelow`, within the Meet Rule check's bounds (`interpreter/evaluator/values/Constructor.java:462-574`).
-  - A search that does not settle does not refuse.
+  - A search that does not settle does not refuse, so walk loads an object the compiled checker refuses (row NEW-W-1, `tests/XXXAbstractMethodCoverUnsettledWalk`).
   - What it meets: over the interpreter suite, the 62 demos and the specification's examples, every search settles. `Pairs`'s `RunRanges`, the team's `FileConversion` `dna` and the `BirdCount` demos' `SampleEvents` are covered. Nothing that the base loads is refused.
   - Gated by `tests/AbstractMethodPartlyDefinedWalk`, `AbstractMethodNotCoveredWalk` and `AbstractMethodCoveredWalk`.
 
@@ -24,7 +24,11 @@ Rewrite in place, in F-145 (`explorations/coordinator/FACTS.md:137`):
 
 ## New rows
 
-None. The rung measured no defect that the record does not hold. One slip was noticed and not measured: the element types of `Random`'s two proxies (REPORT.md section 12). It is left to the curator.
+The worker measured no defect that the record does not hold. Its skeptic measured the departures below (SKEPTIC.md), each recorded by an expected failure; both go in section "3. Traits, objects and components". Once numbered, each number also goes into the Effect of Appendix I's entry "Traits with comprises clauses read at the level of values" (`Specification/appendices/changes.tex`), in place of the words "a row of the revival's gap ledger" in the sentence that names it.
+
+| NEW-W-1 | under walk, the abstract-method load check does not refuse an object whose coverage search does not settle: one body `g(self, a: P1, ..., e: P1)` under the abstract `g(self, a: D, ..., e: D)`, `D comprises` six objects, loads, its 7,776 combinations past the bound | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXAbstractMethodCoverUnsettledWalk.fss` | climb batch 14 rung W's skeptic | siblings: 665, 666. `Constructor.definedBelow` returns true where `coverParts` meets a cycle, a symbolic type or a type it cannot read, runs out of `OVERLAP_STEPS`, or the combinations pass `OVERLAP_PARTS`, 4,096 (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:501-503`, `:514`, `:517` at fb6ce967e), by the rung's choice: a call outside the bodies stops at run time, 'has neither body nor def'. With four parameters walk refuses the object. The compiled checker refuses it: 'Domain (D, D, D, D, D) is not a subtype of (P1, P1, P1, P1, P1)'. |
+
+One slip was noticed and not measured: the element types of `Random`'s two proxies (REPORT.md section 12). It is left to the curator.
 
 ## Handover
 
