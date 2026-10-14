@@ -862,10 +862,10 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     /** The bound on the steps of one overlap search. */
-    static private final int OVERLAP_STEPS = 10000;
+    static final int OVERLAP_STEPS = 10000;
 
     /** The bound on the parts of one overlap, position by position. */
-    static private final int OVERLAP_PARTS = 4096;
+    static final int OVERLAP_PARTS = 4096;
 
     /**
      * The overlap of the domains d1 of o1 and d2 of o2 is covered by
@@ -939,7 +939,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         }
     }
 
-    static private boolean someBelow(Set<FType> part, FType t) {
+    static boolean someBelow(Set<FType> part, FType t) {
         for (FType p : part) {
             try {
                 if (p.subtypeOf(t)) return true;

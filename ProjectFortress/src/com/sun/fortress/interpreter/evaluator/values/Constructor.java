@@ -412,11 +412,11 @@ public class Constructor extends NonPrimitive {
 
     /**
      * Checks for definition of sf from supertrait too, fails if absent.
-     * When declared, an abstract method declaration fails too, unless a
-     * declaration with a body among provided has its name and self parameter
-     * position and parameter types each a subtype of sf's (definedBelow):
-     * "any object inheriting an abstract method must define a body expression
-     * for the method".
+     * When declared, an abstract method declaration fails too, unless the
+     * declarations with a body among provided at narrower parameter types
+     * together cover sf's (definedBelow): the object defines the method by a
+     * body at its parameter types, or by bodies at narrower parameter types
+     * that together cover them, comprises clauses read.
      *
      * @param sf
      * @param too
@@ -460,12 +460,25 @@ public class Constructor extends NonPrimitive {
     }
 
     /**
-     * A declaration with a body among provided has the name and self
+     * The declarations with a body among provided that have the name and self
      * parameter position of the abstract declaration m, and parameter types,
-     * the self parameter's not counted, each a subtype of m's; or the
-     * parameter types cannot be read.
+     * the self parameter's not counted, each a subtype of m's, together cover
+     * m's parameter types; or the search does not settle.  A body at m's own
+     * parameter types covers them.  Otherwise the parameter types of m are
+     * split, position by position, into parts through comprises clauses read
+     * at the level of values (coverParts), and every combination of parts
+     * across the positions must lie inside the domain of one such declaration
+     * (OverloadedFunction.someBelow), as walk's Meet Rule check reads an
+     * overlap (OverloadedFunction.overlapCoveredBy).  With no such declaration
+     * m is not covered.  A domain that cannot be read, a search that meets a
+     * cycle or a symbolic type, and a search beyond the bounds of the Meet
+     * Rule check's (OVERLAP_STEPS, OVERLAP_PARTS) do not settle, and m is not
+     * refused: a call that no body defines stops at run time, unlike a call
+     * of an ambiguous overload.
      */
     private static boolean definedBelow(MethodClosure m, Set<SingleFcn> provided) {
+        List<List<FType>> covers = new ArrayList<List<FType>>();
+        List<FType> dm = null;
         for (SingleFcn sf : provided) {
             if (sf == m || !(sf instanceof MethodClosure)) continue;
             MethodClosure k = (MethodClosure) sf;
@@ -473,17 +486,91 @@ public class Constructor extends NonPrimitive {
                 !k.asMethodName().equals(m.asMethodName())) continue;
             try {
                 List<FType> dk = k.getDomain();
-                List<FType> dm = m.getDomain();
+                dm = m.getDomain();
                 if (dk.size() != dm.size()) continue;
                 boolean below = true;
-                for (int i = 0; below && i < dk.size(); i++) below = dk.get(i).subtypeOf(dm.get(i));
-                if (below) return true;
+                boolean equal = true;
+                for (int i = 0; below && i < dk.size(); i++) {
+                    below = dk.get(i).subtypeOf(dm.get(i));
+                    equal = equal && below && dm.get(i).subtypeOf(dk.get(i));
+                }
+                if (!below) continue;
+                if (equal) return true;
+                covers.add(dk);
             }
             catch (FortressException ex) {
                 return true;
             }
         }
-        return false;
+        if (covers.isEmpty()) return false;
+        int n = dm.size();
+        int[] steps = {OverloadedFunction.OVERLAP_STEPS};
+        List<List<Set<FType>>> parts = new ArrayList<List<Set<FType>>>(n);
+        long combinations = 1;
+        for (int i = 0; i < n; i++) {
+            List<FType> at = new ArrayList<FType>(covers.size());
+            for (List<FType> c : covers) at.add(c.get(i));
+            List<Set<FType>> pi = coverParts(dm.get(i), at, new HashSet<FType>(), steps);
+            if (pi == null) return true;
+            parts.add(pi);
+            combinations *= pi.size();
+            if (combinations > OverloadedFunction.OVERLAP_PARTS) return true;
+        }
+        int[] index = new int[n];
+        while (true) {
+            boolean covered = false;
+            for (List<FType> c : covers) {
+                boolean inside = true;
+                for (int i = 0; inside && i < n; i++) {
+                    inside = OverloadedFunction.someBelow(parts.get(i).get(index[i]), c.get(i));
+                }
+                if (inside) {
+                    covered = true;
+                    break;
+                }
+            }
+            if (!covered) return false;
+            int i = 0;
+            while (i < n && ++index[i] == parts.get(i).size()) {
+                index[i] = 0;
+                i++;
+            }
+            if (i == n) return true;
+        }
+    }
+
+    /**
+     * Parts whose union holds every value of t, each part a set of one type:
+     * t itself when t is a subtype of every type of at, the parameter types of
+     * the covering declarations at one position, or when t has no comprises
+     * clause; otherwise the parts of each type that t's comprises clause
+     * lists.  Null when the search meets a cycle or runs out of steps, or a
+     * type is symbolic.
+     */
+    private static List<Set<FType>> coverParts(FType t, List<FType> at, Set<FType> path, int[] steps) {
+        if (--steps[0] < 0) return null;
+        if (t instanceof SymbolicType) return null;
+        List<Set<FType>> res = new ArrayList<Set<FType>>();
+        try {
+            boolean belowAll = true;
+            for (int j = 0; belowAll && j < at.size(); j++) belowAll = t.subtypeOf(at.get(j));
+            Set<FType> tc = t.getComprises();
+            if (belowAll || tc == null) {
+                res.add(Collections.singleton(t));
+                return res;
+            }
+            if (!path.add(t)) return null;
+            for (FType c : tc) {
+                List<Set<FType>> sub = coverParts(c, at, path, steps);
+                if (sub == null) return null;
+                res.addAll(sub);
+            }
+            path.remove(t);
+            return res;
+        }
+        catch (FortressException ex) {
+            return null;
+        }
     }
 
     /**
