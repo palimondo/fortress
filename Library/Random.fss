@@ -176,6 +176,10 @@ object SeededRandomGenWithDistribution[\T,U,Seed\](gen:SeededRandomGen[\T,Seed\]
     getter min(): Maybe[\T\] = dist.min(gen)
     getter max(): Maybe[\T\] = dist.max(gen)
     getter right(): Maybe[\T\] = dist.right(gen)
+    getter seedSize(): ZZ32 = gen.seedSize
+
+    reseed(seedvec:Indexed[\Seed,ZZ32\]): SeededRandomGen[\U,Seed\] =
+        do gen.reseed(seedvec); self end
 
     random(): T = dist.generate[\T\](gen)
 
@@ -338,7 +342,7 @@ object MersenneTwisterInit(seed:ZZ64) extends SeededRandomGen[\ZZ64,ZZ64\]
         state_old
     end
 
-    perturbed(perturbvec:Indexed[\ZZ32,ZZ32\]): MersenneTwisterInit = do
+    perturbed(perturbvec:Generator[\ZZ32\]): MersenneTwisterInit = do
         (*) XXX Not statistically tested!
         newseed: ZZ64 := state
         for p <- seq(perturbvec) do

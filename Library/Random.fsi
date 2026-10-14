@@ -160,7 +160,9 @@ object SeededRandomGenWithDistribution[\T,U,Seed\](gen:SeededRandomGen[\T,Seed\]
     getter min(): Maybe[\T\]
     getter max(): Maybe[\T\]
     getter right(): Maybe[\T\]
+    getter seedSize(): ZZ32
 
+    reseed(seedvec:Indexed[\Seed,ZZ32\]): SeededRandomGen[\U,Seed\]
     random(): T
     perturbed(perturbvec:Generator[\ZZ32\]): SeededRandomGen[\T,Seed\]
     distributed[\U2\](newdist:RandomDistribution[\U2\]): SeededRandomGen[\U2,Seed\]
@@ -237,7 +239,7 @@ object MersenneTwisterInit(seed:ZZ64) extends SeededRandomGen[\ZZ64,ZZ64\]
 
     reseed(seedvec:Indexed[\ZZ64,ZZ32\]): MersenneTwisterInit
     random(): ZZ64
-    perturbed(perturbvec:Indexed[\ZZ32,ZZ32\]): MersenneTwisterInit
+    perturbed(perturbvec:Generator[\ZZ32\]): MersenneTwisterInit
 end
 
 (** 32-bit MT19937 generator. (Its seed vector is of `ZZ64` due to the overflow

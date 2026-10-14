@@ -1,0 +1,22 @@
+component AbstractMethodNotCoveredWalk
+export Executable
+
+(* An object whose bodies at narrower parameter types do not together cover an inherited abstract method's parameter types, the type having no comprises clause, does not define the method, a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait D
+  f(self, other: D): ZZ32
+end
+object P extends D
+  f(self, other: P): ZZ32 = 1
+  f(self, other: Q): ZZ32 = 2
+end
+object Q extends D
+  f(self, other: P): ZZ32 = 3
+  f(self, other: Q): ZZ32 = 4
+end
+
+run(): () = do
+    println(f(P, Q))
+  end
+
+end

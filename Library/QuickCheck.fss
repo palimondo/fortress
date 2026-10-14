@@ -79,7 +79,7 @@ end
 (** A version of `Gen[\T\]` without static parameters. **)
 trait AnyGen
     abstract generate(c:TestContext): Any
-    abstract perturb(obj:Any, g:AnySeededRandomGen): AnySeededRandomGen
+    perturb(obj:Any, g:AnySeededRandomGen): AnySeededRandomGen = g
 end
 
 (** A test generator for type `T`. Minimal complete definition of `Gen` is

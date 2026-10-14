@@ -2053,3 +2053,13 @@ pointer words refreshed in: F-24
 2026-10-14 04:44Z · rewritten · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "3. Row 676: where the fix belongs, and the precedent" · by climb batch 14 gather: rung P's record.md and its skeptic's leftForGather: walk computes a power in a size
 
 - F-176 **The specification allows arithmetic in a size, and two size expressions are the same type when they are written alike once numerals are folded.** It states P-55. A size may be a numeral, a name, a sum, a difference, a product, a power to a numeral or a name, or a bracketed expression. A static parameter is not known to differ from a numeral. F-146 gives the compiled checker. Walk computes `+`, `-` and juxtaposition at instantiation, stops on a power (row 676), and binds only a name or a numeral at a call. Source: `Specification/basic/types-vals-vars.tex:49-62`.
+
+### F-224
+
+2026-10-14 04:46Z · added · from `explorations/compile-ladder/rung-walk-coverage/REPORT.md`, "1. What changed and why" · by climb batch 14 gather: rung W's record.md, folded, its sub-bullets joined into one line
+
+### F-145
+
+2026-10-14 04:46Z · rewritten · from `explorations/compile-ladder/rung-walk-coverage/REPORT.md`, "1. What changed and why" · by climb batch 14 gather: rung W's record.md: rows 666, 668 and 669 fixed under the coverage rule (P-147)
+
+- F-145 **Walk refuses at load an object that leaves an inherited abstract method without a body, a declaration with the modifier `override` that overrides nothing, and a generic trait, object or object expression that breaks the Meet Rule for Functional Methods; a top-level variable may hold an object expression.** The abstract-method check, `Constructor.checkForDef`, skips generic objects and object expressions in generic functions (row 665, `XXXAbstractMethodUndefinedGeneric*Walk`). A check of them would refuse `Random`'s `SeededRandomGenWithDistribution`, which defines no `seedSize` or `reseed` (row 668). A body at narrower parameter types passes (row 666), which `Pairs` and the QuickCheck generators need (row 669). Gated by `tests/AbstractMethodUndefinedWalk` and `OverrideNothingWalk`. Detail: `compile-ladder/rung-walk-load-checks/REPORT.md` sections 1, 4 and 12.

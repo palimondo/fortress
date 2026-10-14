@@ -578,7 +578,26 @@ A method declaration that does not have its body expression is referred to
 as an \emph{abstract method declaration}.
 An abstract method declaration declares an \emph{abstract method};
 any object inheriting an abstract method must define a body expression for the
-method.  An abstract method declaration may include the modifier \KWD{abstract}.
+method: a method definition with the same name and the self parameter (if any)
+at the same position whose parameter type, not counting the type of the self
+parameter, is that of the abstract method declaration, or definitions whose
+parameter types are subtypes of it and together cover it
+(\secref{internal-types}), or it is a static error.
+\revision{revival-covering}{The Working Draft of February 2011 said only that
+any object inheriting an abstract method must define a body expression for the
+method.
+The object defines the method by a body at its parameter type, or by bodies at
+narrower parameter types that together cover it, \KWD{comprises} clauses read
+at the level of values (\secref{trait-decls}), as
+\secref{abstractFunctionDeclarations} asks of the concrete declarations for an
+abstract function declaration; one body at a narrower parameter type that does
+not cover the abstract method's does not define it.
+This is the rule of the type group's compiled type checker (2012) and of its
+calculus Welterweight Fortress (2012).
+The requirement of \secref{object-decls} that an object define all abstract
+methods inherited from its supertraits is unchanged: it defines them in this
+sense.}
+An abstract method declaration may include the modifier \KWD{abstract}.
 It may elide parameter names but parameter
 types cannot be omitted except for the self parameter.
 
