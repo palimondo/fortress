@@ -1,0 +1,29 @@
+(* IntMap's UPLUS of a many-entry map and a one-entry map on a shared key, whose value under walk throws KeyOverlap only with the one-entry map on the left. *)
+component IntMapUplusSingleton
+import IntMap.{...}
+export Executable
+
+overlap(f: () -> IntMap[\ZZ32\]): String = do
+    msg: String := "no exception"
+    try
+        ignore(f())
+    catch e
+        UncheckedException => msg := e.asString
+    end
+    msg
+  end
+
+run(): () = do
+    three = {[\ZZ32\] widen(k) |-> k | k <- 0#3}
+    one = {[\ZZ32\] widen(1) |-> 9}
+    five = {[\ZZ32\] widen(5) |-> 5}
+    all4 = {[\ZZ32\] widen(0) |-> 0, widen(1) |-> 1, widen(2) |-> 2, widen(5) |-> 5}
+    assert(three UPLUS five, all4, "a many-entry map UPLUS a one-entry map on another key holds all four entries")
+    assert(five UPLUS three, all4, "a one-entry map UPLUS a many-entry map on another key holds all four entries")
+    assert(overlap(fn () => one UPLUS three), "IntMap.KeyOverlap: 1 |-> 1 and |-> 9", "a one-entry map UPLUS a many-entry map holding its key throws KeyOverlap")
+    assert(overlap(fn () => three UPLUS one), "no exception", "today's value: a many-entry map UPLUS a one-entry map holding its key throws nothing")
+    assert(three UPLUS one, three, "today's value: a many-entry map UPLUS a one-entry map holding its key keeps the many-entry map's entries")
+    println("PASS")
+  end
+
+end

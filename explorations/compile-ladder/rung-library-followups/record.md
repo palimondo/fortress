@@ -1,6 +1,6 @@
 # Climb batch 14, rung L (`rung-library-followups`): record lines for the gather
 
-`<L>` stands for the rung's code commit as it lands on `main` (313541641 on `wip/rung-library-followups`). `NEW-L-1` is the placeholder for the one new row.
+`<L>` stands for the rung's code commit as it lands on `main` (313541641 on `wip/rung-library-followups`). `NEW-L-1` and `NEW-L-2` are the placeholders for the two new rows, the second the skeptic's.
 
 ## FACTS
 
@@ -10,11 +10,15 @@ Under "The checker and the one library", a new entry:
 
 ## Ledger
 
-### New row
+### New rows
 
 NEW-L-1, in section "8. Generators, reductions and ranges" (linted with `ledger.py check --rows`, a number in place of the placeholder: 0 fail the template):
 
 | NEW-L-1 | under walk, `__bigOperator`'s local `body` cannot take its parameter's type `I`, as the compiled checker asks of the untyped `body(i)` (the count's one error): an unwritten list or map comprehension instantiates `I` at `BottomType`, so walk refuses each element at `body` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 14 rung L | siblings: 424, 645, 662. With `body(i: I): L` at `Library/FortressLibrary.fss:1311` (at 5bf8a7c84), walk on `<\| 2 k \| k <- 0#3 \|>` stops: 'Unification error: Closure/Constructor for body param 1 (i:BOTTOM) got arg 4: ZZ32 of type Int'; on `{ widen(k) \|-> k \| k <- 0#3 }`, '(i:(ZZ64,BOTTOM)) got arg (2,2)'. Written static arguments, `SUM`, `BIG MAX`, `BIG AND` and a set comprehension run. Walk keeps a big operator's plain-bounded parameter at `BottomType` (D2; `EvaluatorBase.java:170`, `:181`). Workaround: the line stays untyped. |
+
+NEW-L-2, the skeptic's, in section "10. Strings, maps and printing" (linted with `ledger.py check --rows`, a number in place of the placeholder: 0 fail the template):
+
+| NEW-L-2 | the library's `IntMap` `UPLUS` of a many-entry map and a one-entry map on a shared key throws no `KeyOverlap` and keeps the many-entry map's value, while the reverse order throws: under walk `{0,1,2} UPLUS {1 \|-> 9}` is `{0,1,2}` and `{1 \|-> 9} UPLUS {0,1,2}` throws | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/IntMapUplusSingleton.fss` | climb batch 14 rung L's skeptic | siblings: 671. `NodeIM`'s `opr UPLUS(self, other: SingletonIM[\Val\]) = self.add(other)` (`Library/IntMap.fss:520` at 313541641; `:494` at a874948ac) calls `add`, which keeps an existing key (`:297-298`), where the comment says `UPLUS` "throws the %KeyOverlap% exception when a key occurs in both maps" (`:517-518`). The reverse order, `SingletonIM`'s `other.addNew(self)` (`:340`), throws through `addNew` (`:300-302`). Two many-entry maps meet it through `nodeNode`: keys 2 to 7 `UPLUS` keys 0, 3, ..., 15 throws nothing, the reverse throws. Under walk a `catch` of `KeyOverlap[\ZZ32\]` misses the thrown `KeyOverlap[\Int\]` (row 364). Workaround: put the one-entry map on the left. |
 
 ### Closes, once `<L>` is on `main`
 
