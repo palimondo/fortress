@@ -23,7 +23,7 @@ WCV = "doc:explorations/compile-ladder/rung-walk-coverage/REPORT.md#"
 
 B_BRIEFING = [
   ("P-48", "The decision you build, word for word: a parameter that nothing at a call fixes takes its bound, constrained by the call's static return type, never Bottom."),
-  ("P-59", "Walk's value-based stand-in until the switch-over, which the coordinator's call reads as accepting the elements' run-time types for the type N of the desugaring."),
+  ("P-59", "Walk chooses a coercion by the value until the switch-over, which the coordinator's call reads as accepting the elements' run-time types for the type N of the desugaring too."),
   ("P-27", "Each library line in the library's own spelling: IntMap's comprehension declared as Map's, the collector typed as the reductions beside it."),
   ("P-124", "The specification's examples join the gate at zero red: why you run testSpecData once, since its unwritten clause forms now go through the collection step."),
   ("P-95", "Why the revival's sentences on walk's reductions change: each Effect and callout says what walk does, with its reason."),
@@ -138,14 +138,18 @@ L_BRIEFING = [
   (CBP + "row-685-array-factories.patch", "The patch you start from: apply it after your tests, read it and own it."),
   ("doc:Specification/basic/trait-parameters.tex#Type Parameters", "An instance whose argument fails the parameter's bound is ill-formed: why the checker's refusal is right."),
   ("doc:Specification/appendices/future.tex#Functions and Overloading", "The revival box on Jan's pair and the factory, whose last clause you correct."),
+  (CHG + "Overloading with static parameters", "The entry that records the box's revisions in its Change (:2398-2401) and Original text (:2559-2561): you record yours there; its Effect is rung O's."),
+  ("doc:Specification/basic/expressions/comprehensions.tex#Comprehensions", "A map comprehension whose key repeats with a different value throws KeyOverlap (:76-80): what IntMap's comprehensions meet once UPLUS takes addNew."),
   ("code:Library/FortressLibrary.fss#static argument alone, with no element in hand..multiplicativeIdentity[", "The precedent: the identities built per number type by a typecase over the witness, each through cast."),
   ("code:Library/IntMap.fss#opr UPLUS(self, other: SingletonIM..opr UPLUS(self, other: NodeIM", "Row 704's site and the node-to-node UPLUS through nodeNode, which reaches it."),
   ("code:Library/IntMap.fss#private fromCC[", "fromCC builds every IntMap comprehension by UPLUS: why a repeated key now throws."),
+  ("code:Library/Map.fss#lt(kv1, kv2): Boolean =..fromSortedArrayFragment", "Map's comprehension sorts its pairs and throws KeyOverlap on any repeated key: the library's precedent for IntMap's throw."),
   ("code:ProjectFortress/tests/IntMapUplusSingleton.fss#run(): () = do", "The revival test that pins today's two values: its lines 24 and 25 change."),
 ]
 L_CHECKS = [
   "P-27",
   "ledger:685", "ledger:704",
+  "doc:Specification/basic/expressions/comprehensions.tex#Comprehensions",
   CBD + "3. Row 685: a library line, by the team's own TODO",
   CBD + "9. Defects, each with its home",
   "code:Library/FortressLibrary.fss#static argument alone, with no element in hand..multiplicativeIdentity[",
@@ -164,6 +168,7 @@ O_BRIEFING = [
   ("ledger:708", "Your walk row: the coverage search that does not settle and does not refuse."),
   ("ledger:709", "Your second checker row: a tuple of parameter types compared with each covering domain alone."),
   ("ledger:574", "Row 707's sibling, fixed by climb batch 10's rung C: the precedent repair in the same checker."),
+  ("ledger:584", "The checker checks no overloading of a symbolic operator, so FlatString's opr || pair at two self positions is not reached; not yours, and left so."),
   ("ledger:696", "The No Duplicates Rule restated on the non-strict relation, with its compile test of dup's pair."),
   ("ledger:665", "Generic objects stay unchecked by walk's coverage: not yours, its expected failures keep their verdicts."),
   (WCV + "6. What walk now refuses and accepts", "The measurement on record: no search failed to settle in the suite, the demos or the specification's examples."),
@@ -181,7 +186,7 @@ O_BRIEFING = [
 ]
 O_CHECKS = [
   "P-147", "P-26", "P-60",
-  "ledger:707", "ledger:708", "ledger:709",
+  "ledger:707", "ledger:708", "ledger:709", "ledger:584",
   (CHG + "Traits with comprises clauses read at the level of values"),
   "code:" + TC + "/OverloadingChecker.scala#private def checkOverloading(",
   "code:" + TC + "/AbstractMethodChecker.scala#private def checkObjectDeclaration(",
