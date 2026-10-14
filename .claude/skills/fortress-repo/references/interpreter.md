@@ -39,7 +39,7 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
 - two functional methods that break the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`) in a type that provides both.
 - an overloaded function with one parameter of type `T`, where `T extends Any` is written: `f[\T extends Any\](x: T)`.
 - an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses.
-- an object or object expression without static parameters that inherits an abstract method and does not define it. Bodies define it if they are at or below its parameter types and together cover them, with `comprises` clauses read. Walk also refuses where its search for a cover does not settle, and where the one covering body has a static parameter of its own (ledger row 728).
+- an object or object expression without static parameters that inherits an abstract method and does not define it. Bodies define it if they are at or below its parameter types and together cover them, with `comprises` clauses read. Walk also refuses where its search for a cover does not settle: at a cycle of `comprises` clauses, at a symbolic type, or beyond 10,000 steps or 4,096 combinations of listed types. It also refuses a valid object whose one body for the method has a static parameter of its own (ledger row 728).
 - a declaration with the modifier `override`, in a trait, object or object expression, that overrides no declaration that its type's immediate supertraits provide. An `override` at an inherited declaration's own parameter types overrides nothing. At an instance of a generic trait above a declared object, equal parameter types count as overridden. Walk does not read all the bounds of the static parameters in two cases:
   - an object expression, which takes its static parameters from the function around it;
   - a generic trait or object that extends a type under a `where` clause.
@@ -49,7 +49,7 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
 So a library edit can stop every program at load, if it does one of these:
 
 - adds an overload;
-- leaves an inherited abstract method that no bodies cover;
+- leaves an inherited abstract method that no bodies cover, covers it only by a body with a static parameter of its own, or covers it by bodies whose cover walk's search cannot settle;
 - adds an `override` that overrides nothing.
 
 `tests-writing.md` says how a test names a refusal at load.
