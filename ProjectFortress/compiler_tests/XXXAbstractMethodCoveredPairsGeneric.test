@@ -1,0 +1,3 @@
+tests=XXXAbstractMethodCoveredPairsGeneric
+compile
+compile_err_contains=has no concrete implementation in the object Joiner

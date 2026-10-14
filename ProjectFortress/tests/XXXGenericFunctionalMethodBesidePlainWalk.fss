@@ -1,0 +1,19 @@
+component XXXGenericFunctionalMethodBesidePlainWalk
+export Executable
+
+(* An object overloads a functional method with a static parameter of its own beside a plain one of the same name whose parameter type excludes it, a valid overloading, so the program loads and runs, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
+
+object Ping end
+object Pong end
+
+object Joiner
+  g[\T extends Ping\](self, x: T): ZZ32 = 11
+  g(self, x: Pong): ZZ32 = 13
+end
+
+run(): () = do
+    assert(g(Joiner, Ping), 11, "g over Ping")
+    assert(g(Joiner, Pong), 13, "g over Pong")
+  end
+
+end
