@@ -1,0 +1,18 @@
+(* A mixin trait imported from an api, and a mixin of it declared here, read self as their self-type parameter. *)
+component SelfTypeMixinImported
+import SelfTypeMixinApi.{...}
+export Executable
+
+trait Sub2[\T extends Sub[\T\]\] extends Sub[\T\]
+    again2(self): T = self
+end
+
+object Q extends Sub2[\Q\] end
+
+run(): () = do
+    q: Q = again2(Q)
+    r: Q = again(Q)
+    println("PASS")
+  end
+
+end

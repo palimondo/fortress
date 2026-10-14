@@ -40,11 +40,31 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
     protected final int _selfPosition;
     private final boolean _declarerIsObject;
 
+    /* A self type read from the F-bound (a trait with no comprises clause whose self type
+     * lists its self parameter) types self in the body only: the declaration's signature,
+     * read by overloading, the Return Type Rule and call resolution, keeps the trait type. */
+    private final boolean _selfFromBound;
+
+    private static boolean selfFromBound(TraitObjectDecl d) {
+        if (!(d instanceof TraitDecl) || d.getSelfType().isNone()) return false;
+        Option<List<NamedType>> c = ((TraitDecl) d).getComprisesClause();
+        SelfType s = d.getSelfType().unwrap();
+        return (c.isNone() || c.unwrap().isEmpty()) && s instanceof TraitSelfType &&
+               !((TraitSelfType) s).getComprised().isEmpty();
+    }
+
+    private static SelfType plain(SelfType s) {
+        return s instanceof TraitSelfType
+            ? new TraitSelfType(s.getInfo(), ((TraitSelfType) s).getNamed(), Collections.<NamedType>emptyList())
+            : s;
+    }
+
     public FunctionalMethod(FnDecl ast, TraitObjectDecl traitDecl, List<StaticParam> traitParams) {
         _ast = ast;
         _declaringTrait = NodeUtil.getName(traitDecl);
         _traitParams = CollectUtil.makeList(IterUtil.map(traitParams, liftStaticParam));
-        _selfType = traitDecl.getSelfType();
+        _selfFromBound = selfFromBound(traitDecl);
+        _selfType = _selfFromBound ? Option.some(plain(traitDecl.getSelfType().unwrap())) : traitDecl.getSelfType();
         _declarerIsObject = traitDecl instanceof ObjectDecl;
         int i = 0;
         for (Param p : NodeUtil.getParams(ast)) {
@@ -65,6 +85,7 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
         _declaringTrait = that._declaringTrait;
         _traitParams = params;
         _selfType = visitor.recurOnOptionOfSelfType(that._selfType);
+        _selfFromBound = that._selfFromBound;
         _selfPosition = that._selfPosition;
         _declarerIsObject = that._declarerIsObject;
         _thunk = that._thunk;
@@ -130,7 +151,18 @@ public class FunctionalMethod extends Function implements HasSelfType, HasTraitS
 
     @Override
     public List<Param> parameters() {
-        return NodeUtil.getParams(_ast);
+        List<Param> ps = NodeUtil.getParams(_ast);
+        if (!_selfFromBound) return ps;
+        List<Param> out = new java.util.ArrayList<Param>(ps.size());
+        for (Param p : ps) {
+            Option<TypeOrPattern> t = p.getIdType();
+            if (p.getName().equals(NamingCzar.SELF_NAME) && t.isSome() && t.unwrap() instanceof SelfType)
+                out.add(new Param(p.getInfo(), p.getName(), p.getMods(),
+                                  Option.<TypeOrPattern>some(plain((SelfType) t.unwrap())),
+                                  p.getDefaultExpr(), p.getVarargsType()));
+            else out.add(p);
+        }
+        return out;
     }
 
     /**

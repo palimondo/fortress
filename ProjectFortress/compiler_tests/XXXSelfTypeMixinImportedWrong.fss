@@ -1,0 +1,11 @@
+(* An object that extends a mixin trait imported from an api at a type other than its own is refused. *)
+component XXXSelfTypeMixinImportedWrong
+import SelfTypeMixinApi.{...}
+export Executable
+
+object Pt extends Sub[\Pt\] end
+object Bad extends Sub[\Pt\] end
+
+run(): () = println("PASS")
+
+end

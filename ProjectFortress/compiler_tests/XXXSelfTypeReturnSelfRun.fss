@@ -1,0 +1,20 @@
+(* A compiled default body that returns self as its trait's self parameter answers the receiver. *)
+component XXXSelfTypeReturnSelfRun
+export Executable
+
+trait Shape[\S extends Shape[\S\]\]
+    getter tag(): String
+    twin(self): S = self
+end
+
+object Pt(t: String) extends Shape[\Pt\]
+    getter tag(): String = t
+end
+
+run(): () = do
+    println("REACHED")
+    assert(twin(Pt("b")).tag, "b", "twin answers its receiver")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXSelfTypeMixinExtenderWrong
+compile
+compile_err_contains=Bad extends Sub[\\Pt\\], whose self parameter is Pt, but Bad is not a subtype of Pt.

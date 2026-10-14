@@ -142,7 +142,7 @@ public class Disambiguator {
 
             Set<IdOrOpOrAnonymousName> onDemandImports = new HashSet<IdOrOpOrAnonymousName>();
 
-            SelfParamDisambiguator selfDisambig = new SelfParamDisambiguator();
+            SelfParamDisambiguator selfDisambig = new SelfParamDisambiguator(env, globalEnv);
             Api spdResult = (Api) selfDisambig.walk(api);
             
             // Lift out coercions.
@@ -297,7 +297,7 @@ public class Disambiguator {
             NameEnv env = new TopLevelEnv(globalEnv, index, errors);
             Set<IdOrOpOrAnonymousName> onDemandImports = new HashSet<IdOrOpOrAnonymousName>();
 
-            SelfParamDisambiguator self_disambig = new SelfParamDisambiguator();
+            SelfParamDisambiguator self_disambig = new SelfParamDisambiguator(env, globalEnv);
             Component spdResult = (Component) self_disambig.walk(comp);
 
             // Lift out coercions.

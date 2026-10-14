@@ -1,0 +1,28 @@
+(* In a trait with no comprises clause whose type parameter is bounded by the trait itself, self in a method body has the type of the trait and of that parameter at once. *)
+component SelfTypeFromBound
+export Executable
+
+trait Shape[\S extends Shape[\S\]\]
+    opr <(self, other: S): Boolean
+    twin(self): S = self
+    opr MINS(self, other: S): S = if other < self then other else self end
+    sorted(self, other: S): (S, S) = if other < self then (other, self) else (self, other) end
+    again(): S = self
+end
+
+object Pt(k: ZZ32) extends Shape[\Pt\]
+    getter key(): ZZ32 = k
+    opr <(self, other: Pt): Boolean = k < other.key
+end
+
+run(): () = do
+    p: Pt = Pt(1)
+    q: Pt = Pt(2)
+    t: Pt = twin(p)
+    m: Pt = q MINS p
+    s: (Pt, Pt) = sorted(q, p)
+    a: Pt = p.again()
+    println("PASS")
+  end
+
+end

@@ -2063,3 +2063,7 @@ pointer words refreshed in: F-24
 2026-10-14 04:46Z · rewritten · from `explorations/compile-ladder/rung-walk-coverage/REPORT.md`, "1. What changed and why" · by climb batch 14 gather: rung W's record.md: rows 666, 668 and 669 fixed under the coverage rule (P-147)
 
 - F-145 **Walk refuses at load an object that leaves an inherited abstract method without a body, a declaration with the modifier `override` that overrides nothing, and a generic trait, object or object expression that breaks the Meet Rule for Functional Methods; a top-level variable may hold an object expression.** The abstract-method check, `Constructor.checkForDef`, skips generic objects and object expressions in generic functions (row 665, `XXXAbstractMethodUndefinedGeneric*Walk`). A check of them would refuse `Random`'s `SeededRandomGenWithDistribution`, which defines no `seedSize` or `reseed` (row 668). A body at narrower parameter types passes (row 666), which `Pairs` and the QuickCheck generators need (row 669). Gated by `tests/AbstractMethodUndefinedWalk` and `OverrideNothingWalk`. Detail: `compile-ladder/rung-walk-load-checks/REPORT.md` sections 1, 4 and 12.
+
+### F-225
+
+2026-10-14 04:47Z · added · from `explorations/compile-ladder/rung-self-type/REPORT.md`, "1. What changed and why" · by climb batch 14 gather: rung S's record.md, folded

@@ -1,0 +1,10 @@
+(* A mixin of a mixin trait, each in its own api, has its self-type parameter whatever order the apis are read in. *)
+component SelfTypeMixinChain
+import SelfTypeChainMixOfMix.{ MixOfMix }
+export Executable
+
+object Q extends MixOfMix[\Q\] end
+
+run(): () = println("PASS")
+
+end
