@@ -1,0 +1,9 @@
+component PListMixed
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    ys: List[\Number\] = <| (if k = 1 then 1.0 else k end) | k <- 0#3 |>
+    println(shown(ys))
+  end
+end

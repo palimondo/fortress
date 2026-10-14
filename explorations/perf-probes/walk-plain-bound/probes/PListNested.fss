@@ -1,0 +1,8 @@
+component PListNested
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(<| <| j | j <- 0#i |> | i <- 1#2 |>))
+  end
+end

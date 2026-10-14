@@ -1,0 +1,8 @@
+component PEmptyRSum
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+emptyRSum(n: ZZ32): RR64 = SUM[j <- 0#n] (j / 2.0)
+run(): () = do
+    println(shown(emptyRSum(0)))
+  end
+end

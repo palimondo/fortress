@@ -1,0 +1,13 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index b05372aad..826a0fe70 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -167,7 +167,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                                                boolean bounded, GenericFunctionOrMethod appliedThing,
+                                                List<FValue> args) {
+         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
+-        boolean bounds = bounded && !bigOperator(appliedThing);
++        boolean bounds = bounded;
+         Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
+         for (StaticParam tp : tparams) {
+             String n = NodeUtil.getName(tp);

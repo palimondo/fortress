@@ -1,0 +1,8 @@
+component P703List
+import List.{...}
+export Executable
+run(): () = do
+    xs = <| 2 k | k <- 0#3 |>
+    println(xs)
+  end
+end

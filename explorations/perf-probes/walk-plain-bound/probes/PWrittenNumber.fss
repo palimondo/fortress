@@ -1,0 +1,8 @@
+component PWrittenNumber
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(<|[\Number\] k | k <- 0#3 |>))
+  end
+end

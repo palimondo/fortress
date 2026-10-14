@@ -1,0 +1,10 @@
+component PListTuple
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    p = <| (k, k + 10) | k <- <|1, 2, 3|> |>
+    println(shown(p))
+    println(p = <|(1, 11), (2, 12), (3, 13)|>)
+  end
+end

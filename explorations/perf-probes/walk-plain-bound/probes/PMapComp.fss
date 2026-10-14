@@ -1,0 +1,8 @@
+component PMapComp
+import Map.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown({ k |-> 2 k | k <- 0#3 }))
+  end
+end

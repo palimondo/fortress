@@ -1,0 +1,43 @@
+diff --git a/Library/CovariantCollection.fss b/Library/CovariantCollection.fss
+index 7482e06e8..4dcfa738b 100644
+--- a/Library/CovariantCollection.fss
++++ b/Library/CovariantCollection.fss
+@@ -136,13 +136,23 @@ end
+ object CVReduction[\T\] extends MonoidReduction[\AnyCovColl\]
+     getter asString():String = "CV Reduction"
+     empty(): AnyCovColl = Empty[\T\]
+-    join(a:AnyCovColl, b:AnyCovColl): AnyCovColl = a APPCOV b
++    join(a:AnyCovColl, b:AnyCovColl): AnyCovColl =
++        typecase a of
++            AnyEmpty => b
++            else => typecase b of
++                        AnyEmpty => a
++                        else => a APPCOV b
++                    end
++        end
+ end
+ 
+ CVSingleton(a:Any): AnyCovColl = Singleton(a)
+ 
+ covariantCompr[\T,R\](unwrap:AnyCovColl->R):Comprehension[\T,R,AnyCovColl,AnyCovColl\] =
+     Comprehension[\T,R,AnyCovColl,AnyCovColl\](
+-        fn xs => unwrap(upward(Empty[\T\],xs)), CVReduction[\T\], CVSingleton)
++        fn xs => typecase xs of
++                     AnyEmpty => unwrap(Empty[\T\])
++                     else => unwrap(xs)
++                 end, CVReduction[\T\], CVSingleton)
+ 
+ end
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index b05372aad..826a0fe70 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -167,7 +167,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                                                boolean bounded, GenericFunctionOrMethod appliedThing,
+                                                List<FValue> args) {
+         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
+-        boolean bounds = bounded && !bigOperator(appliedThing);
++        boolean bounds = bounded;
+         Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
+         for (StaticParam tp : tparams) {
+             String n = NodeUtil.getName(tp);

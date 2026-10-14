@@ -1,0 +1,7 @@
+component PSumR
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(SUM[j <- 0#4] (j / 2.0)))
+  end
+end

@@ -1,0 +1,22 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index b05372aad..3c3e4b307 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -192,6 +192,17 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                 tl.set(i, BottomType.OPEN);
+             }
+         }
++        if (bounded && bigOperator(appliedThing)) {
++            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
++            for (int i = 0; i < tparams.size(); i++) {
++                StaticParam tp = tparams.get(i);
++                String n = NodeUtil.getName(tp);
++                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) ||
++                    (rechecks != null && rechecks.contains(tp)) || tl.get(i) != BottomType.ONLY) continue;
++                traceInstance("open-plain", appliedThing, n, BottomType.ONLY, BottomType.OPEN, typesOf(args));
++                tl.set(i, BottomType.OPEN);
++            }
++        }
+         if (!bounds || rechecks == null) return tl;
+         for (int i = 0; i < tparams.size(); i++) {
+             StaticParam tp = tparams.get(i);

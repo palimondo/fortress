@@ -1,0 +1,9 @@
+component PWrittenMap
+import Map.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    m: Map[\ZZ32,ZZ32\] = {[\ZZ32,ZZ32\] k |-> k | k <- 0#3 }
+    println(shown(m))
+  end
+end

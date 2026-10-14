@@ -1,0 +1,8 @@
+component PNested2
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(BIG CONCAT[ys <- <|<|1, 2|>, <|3|>|>] <| 2 y | y <- ys |>))
+  end
+end

@@ -1,0 +1,8 @@
+component PListEmpty
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(<| 2 k | k <- 0#0 |>))
+  end
+end

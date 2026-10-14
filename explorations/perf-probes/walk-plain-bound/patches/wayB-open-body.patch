@@ -1,0 +1,35 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index f6a0cf79e..73ada49b8 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1311,7 +1311,7 @@ __bigOperatorSugar[\I,O,R,L\](o:BigOperator[\I,O,R,L\],g:Generator[\I\]): O =
+ (** Application of a BIG operator, the topmost level of comprehension desugaring. **)
+ __bigOperator[\I,O,R,L\](o:BigOperator[\I,O,R,L\],desugaredClauses:(Reduction[\L\],I->L)->L): O = do
+     r = o.reduction
+-    body(i): L = r.lift((o.body)(i))
++    body(i: I): L = r.lift((o.body)(i))
+     (o.unwrap)(r.unlift(desugaredClauses(r,body)))
+   end
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index b05372aad..3c3e4b307 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -192,6 +192,17 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                 tl.set(i, BottomType.OPEN);
+             }
+         }
++        if (bounded && bigOperator(appliedThing)) {
++            Set<String> fixedAll = fixedThroughBounds(tparams, fixable);
++            for (int i = 0; i < tparams.size(); i++) {
++                StaticParam tp = tparams.get(i);
++                String n = NodeUtil.getName(tp);
++                if (!NodeUtil.isTypeParam(tp) || fixedAll.contains(n) ||
++                    (rechecks != null && rechecks.contains(tp)) || tl.get(i) != BottomType.ONLY) continue;
++                traceInstance("open-plain", appliedThing, n, BottomType.ONLY, BottomType.OPEN, typesOf(args));
++                tl.set(i, BottomType.OPEN);
++            }
++        }
+         if (!bounds || rechecks == null) return tl;
+         for (int i = 0; i < tparams.size(); i++) {
+             StaticParam tp = tparams.get(i);

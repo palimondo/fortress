@@ -1,0 +1,8 @@
+component PIntMapComp
+import IntMap.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown({ widen(k) |-> k | k <- 0#3 }))
+  end
+end

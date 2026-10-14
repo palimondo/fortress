@@ -1,0 +1,8 @@
+component P703Map
+import IntMap.{...}
+export Executable
+run(): () = do
+    m = { widen(k) |-> k | k <- 0#3 }
+    println(m)
+  end
+end

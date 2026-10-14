@@ -1,0 +1,9 @@
+component PWrittenTyped
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    xs: List[\ZZ32\] = <|[\ZZ32\] 2 k | k <- 0#3 |>
+    println(shown(xs))
+  end
+end

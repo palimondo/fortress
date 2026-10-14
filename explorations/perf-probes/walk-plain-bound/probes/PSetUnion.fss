@@ -1,0 +1,8 @@
+component PSetUnion
+import Set.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(BIG UNION[i <- 0#3] {[\ZZ32\] i}))
+  end
+end

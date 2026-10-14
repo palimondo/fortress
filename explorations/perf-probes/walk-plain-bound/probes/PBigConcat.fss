@@ -1,0 +1,8 @@
+component PBigConcat
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(BIG CONCAT[k <- 0#3] <|[\ZZ32\] k|>))
+  end
+end

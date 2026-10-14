@@ -1,0 +1,7 @@
+component PBigAnd
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    println(shown(BIG AND[i <- 0#4] (i < 4)))
+  end
+end

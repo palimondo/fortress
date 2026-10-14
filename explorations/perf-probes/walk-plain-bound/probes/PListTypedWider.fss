@@ -1,0 +1,9 @@
+component PListTypedWider
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+run(): () = do
+    ys: List[\Number\] = <| k | k <- 0#3 |>
+    println(shown(ys))
+  end
+end

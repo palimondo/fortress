@@ -1,0 +1,254 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index f6a0cf79e..bbc464c4b 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1315,6 +1315,39 @@ __bigOperator[\I,O,R,L\](o:BigOperator[\I,O,R,L\],desugaredClauses:(Reduction[\L
+     (o.unwrap)(r.unlift(desugaredClauses(r,body)))
+   end
+ 
++(* Walk's desugaring of a clause form by its elements' type: the elements that
++   the clauses give, in their order, typed at the join of their types. *)
++trait __ElemsAny
++    __replay(r: Any, u: Any): Any
++end
++object __ElemsNone extends __ElemsAny
++    __replay(r: Any, u: Any): Any = r.empty()
++end
++trait __Elems[\T\] extends __ElemsAny end
++object __ElemsOne[\T\](v: T) extends __Elems[\T\]
++    __replay(r: Any, u: Any): Any = u(v)
++end
++object __ElemsTwo[\T\](a: __ElemsAny, b: __ElemsAny) extends __Elems[\T\]
++    __replay(r: Any, u: Any): Any = r.join(a.__replay(r, u), b.__replay(r, u))
++end
++__elemsJoin[\T, A extends T, B extends T\](a: __Elems[\A\], b: __Elems[\B\]): __Elems[\T\] =
++    __ElemsTwo[\T\](a, b)
++object __ElemsReduction extends MonoidReduction[\__ElemsAny\]
++    getter asString(): String = "elements"
++    empty(): __ElemsAny = __ElemsNone
++    join(a: __ElemsAny, b: __ElemsAny): __ElemsAny =
++        typecase a of
++            __ElemsNone => b
++            else => typecase b of
++                        __ElemsNone => a
++                        else => __elemsJoin(a, b)
++                    end
++        end
++end
++__elemsOne(x: Any): __ElemsAny = __ElemsOne(x)
++__elemsOf(desugaredClauses: Any): __ElemsAny = desugaredClauses(__ElemsReduction, __elemsOne)
++__replayOf(e: __ElemsAny): Any = fn (r, u) => e.__replay(r, u)
++
+ (** Application of two nested BIG operators, possibly with fusion.  This only covers
+     a comprehension of the form:
+        BIG outer [ xs <- expr_o ] (BIG inner [x <- xs] expr_i)
+diff --git a/Library/IntMap.fsi b/Library/IntMap.fsi
+index ce9eb6807..63fa0364c 100644
+--- a/Library/IntMap.fsi
++++ b/Library/IntMap.fsi
+@@ -10,6 +10,7 @@
+  ******************************************************************************)
+ 
+ api IntMap
++import CovariantCollection.{ AnyCovColl }
+ 
+ object KeyOverlap[\Val\](key: ZZ64, val1: Val, val2: Val)
+     extends UncheckedException
+@@ -79,7 +80,7 @@ opr {|->[\Val\] kvs: (ZZ64, Val)... }: IntMap[\Val\]
+ 
+ opr {[\Val\]  }: IntMap[\Val\]
+ 
+-opr BIG {|->[\Val\]  }: IntMap[\Val\]
++opr BIG {|->[\Val\]  }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]
+ 
+ opr BIG {|->[\Val\] g: Generator[\(ZZ64, Val)\] }: IntMap[\Val\]
+ 
+diff --git a/Library/IntMap.fss b/Library/IntMap.fss
+index ce721aae5..55433cbe4 100644
+--- a/Library/IntMap.fss
++++ b/Library/IntMap.fss
+@@ -729,7 +729,7 @@ private fromCC[\Val\](cc: CovariantCollection[\(ZZ64,Val)\]): IntMap[\Val\] = do
+     cc.cata[\IntMap[\Val\]\](EmptyIM[\Val\],SingletonIM[\Val\],uni)
+   end
+ 
+-opr BIG {|->[\Val\] }: IntMap[\Val\] =
++opr BIG {|->[\Val\] }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\] =
+     covariantCompr[\(ZZ64,Val),IntMap[\Val\]\](fn cc => fromCC(cc))
+ 
+ opr BIG {|->[\Val\] g: Generator[\(ZZ64,Val)\] }: IntMap[\Val\] =
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
+index c6760f1a6..c96cae363 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java
+@@ -691,6 +691,46 @@ public class Evaluator extends EvaluatorBase<FValue> {
+         return juxtApplyStack(stack, times, x);
+     }
+ 
++    /**
++     * Whether a call is the desugaring of a reduction or a comprehension whose
++     * big operator writes no static argument: __bigOperator(BIG OP, clauses).
++     */
++    private static boolean unwrittenBigOperator(Expr fn, Expr arg) {
++        if (!(fn instanceof VarRef) || !(arg instanceof TupleExpr)) return false;
++        if (!((VarRef) fn).getVarId().getText().equals(WellKnownNames.bigOperator)) return false;
++        List<Expr> es = ((TupleExpr) arg).getExprs();
++        if (es.size() != 2 || !(es.get(0) instanceof OpExpr)) return false;
++        OpExpr o = (OpExpr) es.get(0);
++        return o.getArgs().isEmpty() && o.getOp().getStaticArgs().isEmpty();
++    }
++
++    /**
++     * The desugaring by the elements' type: the clauses run once, collecting
++     * their elements with the join of their run-time types; the big operator
++     * is instantiated at that join, at its bound where there is no element;
++     * the reduction then runs over the collected elements.
++     */
++    private FValue bigOperatorByElements(_RewriteFnApp that, Expr fn, TupleExpr arg) {
++        FValue clauses = eval(arg.getExprs().get(1));
++        Environment lib = Driver.getFortressLibrary();
++        FValue elems = Fcn.functionInvocation(Useful.list(clauses), lib.getRootValue("__elemsOf"), that);
++        FType j = null;
++        if (elems.type() instanceof com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance) {
++            List<FType> ps = ((com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance) elems.type()).getTypeParams();
++            if (ps.size() == 1) j = ps.get(0);
++        }
++        FValue op;
++        EvaluatorBase.elementTypeHint.set(j);
++        try {
++            op = eval(arg.getExprs().get(0));
++        }
++        finally {
++            EvaluatorBase.elementTypeHint.remove();
++        }
++        FValue replay = Fcn.functionInvocation(Useful.list(elems), lib.getRootValue("__replayOf"), that);
++        return Fcn.functionInvocation(FTuple.make(Useful.list(op, replay)), eval(fn), that);
++    }
++
+     @Override
+     public FValue for_RewriteFnApp(_RewriteFnApp that) {
+         // This method was written by NEB, so there is plenty of reason to believe
+@@ -698,6 +738,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
+ 
+         Expr fn = that.getFunction();
+         Expr arg = that.getArgument();
++        if (unwrittenBigOperator(fn, arg)) return bigOperatorByElements(that, fn, (TupleExpr) arg);
+ 
+         List<FValue> evaled = evalExprListParallel(Useful.list(fn, arg));
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index b05372aad..2cdc3dbbb 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -28,6 +28,9 @@ import com.sun.fortress.nodes.Op;
+ import com.sun.fortress.nodes.Param;
+ import com.sun.fortress.nodes.Pattern;
+ import com.sun.fortress.nodes.StaticParam;
++import com.sun.fortress.nodes.StaticArg;
++import com.sun.fortress.nodes.TraitType;
++import com.sun.fortress.nodes.TypeArg;
+ import com.sun.fortress.nodes.TupleType;
+ import com.sun.fortress.nodes.Type;
+ import com.sun.fortress.nodes.TypeOrPattern;
+@@ -136,6 +139,31 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         return upper == null ? FTypeTop.ONLY : upper;
+     }
+ 
++    /**
++     * The join of the run-time types of the elements that a reduction's or a
++     * comprehension's generator clauses gave, set while walk evaluates the
++     * big operator of a clause form that writes no static argument: the
++     * run-time counterpart of the desugaring by the expression's type
++     * (Evaluator.for_RewriteFnApp).
++     */
++    public static final ThreadLocal<FType> elementTypeHint = new ThreadLocal<FType>();
++
++    /**
++     * The type of the elements of a big operator's declared result, where it
++     * is a Comprehension, a BigReduction or a BigOperator: its first static
++     * argument.
++     */
++    private static Type elementTypeOf(GenericFunctionOrMethod g) {
++        Option<Type> rt = g.getReturnType();
++        if (rt.isNone() || !(rt.unwrap() instanceof TraitType)) return null;
++        TraitType tt = (TraitType) rt.unwrap();
++        String head = NodeUtil.nameString(tt.getName());
++        if (!(head.endsWith("Comprehension") || head.endsWith("BigReduction") || head.endsWith("BigOperator"))) return null;
++        List<StaticArg> sas = tt.getArgs();
++        if (sas.isEmpty() || !(sas.get(0) instanceof TypeArg)) return null;
++        return ((TypeArg) sas.get(0)).getTypeArg();
++    }
++
+     /**
+      * Whether g is a big operator, whose static parameters a reduction or a
+      * comprehension leaves to the elements its generator clauses produce.
+@@ -167,7 +195,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                                                boolean bounded, GenericFunctionOrMethod appliedThing,
+                                                List<FValue> args) {
+         ArrayList<FType> tl = new ArrayList<FType>(tparams.size());
+-        boolean bounds = bounded && !bigOperator(appliedThing);
++        boolean bounds = bounded;
+         Set<String> fixed = bounds ? fixedThroughBounds(tparams, fixable) : fixable;
+         for (StaticParam tp : tparams) {
+             String n = NodeUtil.getName(tp);
+@@ -451,6 +479,20 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+                 for (FValue a : e.getValue()) a.type().unify(envForInference, tp_set, abm, loneType.get(n));
+             }
+         }
++        FType hint = elementTypeHint.get();
++        if (hint != null && bigOperator(appliedThing)) {
++            Type it = elementTypeOf(appliedThing);
++            if (it != null) {
++                try {
++                    hint.unify(envForInference, tp_set, abm, it);
++                    fixedElsewhere.addAll(mentions(it, tp_set));
++                    traceInstance("elements", appliedThing, String.valueOf(it), BottomType.ONLY, hint, "");
++                }
++                catch (FortressException ex) {
++                    // the bound, as where no element is given
++                }
++            }
++        }
+         MakeInferenceSpecific mis = new MakeInferenceSpecific(abm);
+         Option<Type> opt_rt = appliedThing.getReturnType();
+         if (opt_rt.isSome()) opt_rt.unwrap().accept(mis);
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericFunctionOrConstructor.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericFunctionOrConstructor.java
+index e0331bc4c..102952b9d 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericFunctionOrConstructor.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericFunctionOrConstructor.java
+@@ -49,10 +49,11 @@ abstract public class GenericFunctionOrConstructor extends SingleFcn implements
+ 
+     @Override
+     public FValue applyInnerPossiblyGeneric(List<FValue> args) {
+-        Simple_fcn foo = cache.get(args);
++        boolean hinted = EvaluatorBase.elementTypeHint.get() != null;
++        Simple_fcn foo = hinted ? null : cache.get(args);
+         if (foo == null) {
+             foo = EvaluatorBase.inferAndInstantiateGenericFunction(args, this, getWithin());
+-            cache.syncPut(args, foo);
++            if (!hinted) cache.syncPut(args, foo);
+         }
+         return foo.applyInnerPossiblyGeneric(args);
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+index 36cd92088..c25d97b5c 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+@@ -1411,7 +1411,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+     @Override
+     public FValue applyInnerPossiblyGeneric(List<FValue> args) {
+ 
+-        SingleFcn best_f = cache.get(args);
++        boolean hinted = com.sun.fortress.interpreter.evaluator.EvaluatorBase.elementTypeHint.get() != null;
++        SingleFcn best_f = hinted ? null : cache.get(args);
+ 
+         if (best_f == null) {
+ 
+@@ -1427,7 +1428,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+             }
+ 
+             if (debugMatch) System.err.println("Choosing " + best_f + " for args " + args);
+-            cache.syncPut(args, best_f);
++            if (!hinted) cache.syncPut(args, best_f);
+         }
+ 
+         return best_f.applyInnerPossiblyGeneric(args);

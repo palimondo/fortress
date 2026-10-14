@@ -1,0 +1,10 @@
+component PFnReturn
+import List.{...}
+export Executable
+shown(v: Any): String = v.asString || " : " || v.ilkName
+evens(n: ZZ32): List[\ZZ32\] = <| 2 k | k <- 0#n |>
+run(): () = do
+    println(shown(evens(3)))
+    println(shown(evens(0)))
+  end
+end
