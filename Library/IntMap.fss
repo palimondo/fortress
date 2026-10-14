@@ -729,7 +729,7 @@ private fromCC[\Val\](cc: CovariantCollection[\(ZZ64,Val)\]): IntMap[\Val\] = do
     cc.cata[\IntMap[\Val\]\](EmptyIM[\Val\],SingletonIM[\Val\],uni)
   end
 
-opr BIG {|->[\Val\] }: IntMap[\Val\] =
+opr BIG {|->[\Val\] }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\] =
     covariantCompr[\(ZZ64,Val),IntMap[\Val\]\](fn cc => fromCC(cc))
 
 opr BIG {|->[\Val\] g: Generator[\(ZZ64,Val)\] }: IntMap[\Val\] =

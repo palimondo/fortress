@@ -13,6 +13,11 @@ kindL(x: Any): String = typecase x of
 
 evens(n: ZZ32): List[\ZZ32\] = <| 2 k | k <- 0#n |>
 
+evensAfter(n: ZZ32): List[\ZZ32\] = do
+    m = n + 1
+    <| 2 k | k <- 0#m |>
+  end
+
 run(): () = do
     xs: List[\ZZ32\] = <| 2 k | k <- 0#3 |>
     assert(kindL(xs), "List[ZZ32]", "a list comprehension of ZZ32 elements bound to a variable declared List[ZZ32] is a List[ZZ32] (inference.tex, section \"The Static Arguments of a Call\"; comprehensions.tex, section \"Comprehensions\")")
@@ -23,6 +28,8 @@ run(): () = do
     assert(kindL(ys), "List[Number]", "a list comprehension of ZZ32 elements bound to a variable declared List[Number] is a List[Number] (inference.tex, section \"The Static Arguments of a Call\")")
     assert(kindL(evens(3)), "List[ZZ32]", "a list comprehension that is the body of a function declared List[ZZ32] is a List[ZZ32] (inference.tex, section \"The Static Arguments of a Call\")")
     assert(kindL(evens(0)), "List[ZZ32]", "an empty list comprehension that is the body of a function declared List[ZZ32] is a List[ZZ32] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kindL(evensAfter(2)), "List[ZZ32]", "a list comprehension that ends the body of a function declared List[ZZ32], after a local declaration, is a List[ZZ32] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(evensAfter(2), <|[\ZZ32\] 0, 2, 4|>, "a list comprehension that ends the body of a function declared List[ZZ32] holds its elements (comprehensions.tex, section \"Comprehensions\")")
     println("PASS")
   end
 
