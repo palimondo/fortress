@@ -2,7 +2,7 @@ component SeededRandomGenAbstractMethods
 import Random.{...}
 export Executable
 
-(* A distributed seeded generator has its generator's seed size and reseeds its generator, returning itself, and a Mersenne twister initialiser is perturbed by any generator of ZZ32 (Random.fss, trait SeededRandomGen: seedSize, reseed, perturbed). *)
+(* A distributed seeded generator has its generator's seed size and reseeds its generator, returning itself, and a Mersenne twister and its initialiser are perturbed by any generator of ZZ32 (Random.fss, trait SeededRandomGen: seedSize, reseed, perturbed). *)
 
 run(): () = do
     dist = UniformDistribution[\ZZ32\](2:9)
@@ -27,6 +27,8 @@ run(): () = do
     assert(p.random(), 3131353415, "perturbed by a generator of ZZ32 that is not indexed: the elements 1, 3, 5 in turn")
     q = MersenneTwisterInit(1).perturbed(1, 3, 5)
     assert(q.random(), 3131353415, "perturbed by the same elements as an indexed vector")
+    assert(mersenneTwister(1).perturbed(odds).random(), mersenneTwister(1).perturbed(1, 3, 5).random(),
+           "a Mersenne twister, which perturbs through its initialiser, is perturbed alike by both")
     println("PASS")
   end
 
