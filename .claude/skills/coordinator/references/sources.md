@@ -34,7 +34,7 @@ The skill was written from scratch on 2026-10-13 by the skill writer, from the w
 
 ## references/delegating.md
 
-- Tiers and Fable: P-117, P-119; protocol 130-141; F-212. Fable reviews weighed critically: HELD 7 (2026-10-13 17:16).
+- Tiers and Fable: P-117, P-119; protocol 130-141; F-212. A line "Weigh a Fable review's ideas critically ... An Opus worker is enough for a check", written on 2026-10-13 from HELD 7 (17:16), generalized the curator's note on the record consolidation; on 2026-10-14 it moved to `record.md` (below).
 - A brief: P-108, P-110; protocol 79-83 and 141-149. Entries quoted under their numbers: `record-rule-draft.md`, Part 2, item 34; P-134; HELD 37. Length cap for an update: HELD 54 (decision 14). No second reader: HELD 55. No spend cap in a brief: P-105. The page's house style: HELD 46. The wait cap: F-204. `fortress-repo` loaded by itself: F-206.
 - Watching a run: P-105; `p1-cost.md`; check-ins: P-127, F-207. Headless sessions: F-205.
 - Interrupts, stops and resuming: F-196, F-200, F-201; P-127.
@@ -89,3 +89,16 @@ The three checks of the draft at `7b434aae5` are in the coordinator's scratchpad
 - The wrapper for a resume in another call order: `process-engineering/design-batch10-opus.md` (`resumeOrder`); flag D14.
 - Removed as provenance or anecdote, at the cold read's flags: the compaction quote (S2), the 1.7M of the wrong tier (D5), the probe's 7.0M (D12), the 45K agent floor (D18), the boot's 74K (A2), P-39's number (B10) and the review file's name (B22).
 - `skill-rewrite.md`, "The coordinator skill": the first two bullets (guide lightly by a few general principles; organize the record as the model organizes knowledge, the rewrite's highest risk), added 2026-10-13 from POSITIONS P-135, "The coordinator rewrite's goals.", the coordinator's task of that date. The rest of P-135 was already in the part.
+
+## Changes of 2026-10-14
+
+The curator's words are in the coordinating session's transcript, held in `explorations/coordinator/HELD.md`, "Held in chat (2026-10-13)", at `55cf04bd7`.
+
+- `SKILL.md`, "The curator's role and decisions": the three principles, a fork that they settle decided by the coordinator and put on the review list, and the consequential list narrowed to the goal, a reversal and a split of the principles: the coordinator's proposal of 2026-10-14 00:08 UTC and the curator's yes of 00:12. The bullets "changes a line of the model program", "answers a cross-area question" and "chooses among ways that the record does not settle" became the goal bullet and the bullet on the principles. A library extension as a fourth kind, in the coordinator's briefs of that day, is left out: no skill rule reserves it.
+- `SKILL.md`, "An ask", item 2: the refresher in plain words with a Fortress example, from the same proposal ("a short primer in plain words, with a Fortress example"), and the curator's comment of 00:07. Item 4: the options weighed against each other, the curator's comment of 2026-10-13 23:13.
+- `SKILL.md`, "Talking to the curator": no entry's or judgement's wording given as the curator's, the curator's comment of 2026-10-14 00:07; it replaces the line on an entry's bold title.
+- `SKILL.md`, "Quiet times": "." for a check-in during a batch, the curator's comment of 2026-10-14 04:41.
+- `road.md`: the nine steps' last step and the two fork procedures, reconciled with the 00:12 yes. `delegating.md`: a cross-area question put as an ask only if consequential, the same.
+- `batch.md`, "The go": one Fable review of each batch record before the launch, the curator's comment of 2026-10-14 00:19. "The roles": a settled fix that reaches a reserved point or a path outside its section is not contested, from `climb-batch-workflow.md`, "Skeptic" (the bullet "A contested fix"); owed by the citations worker, in the boot note at `55cf04bd7`.
+- `delegating.md`'s line on weighing a Fable review removed, and `record.md`, "A consolidation", given an Opus check of the new entries in its place: the curator's comment of 2026-10-14 05:29, which scoped HELD 7 of 2026-10-13 17:16 to the record consolidation; the batch case is the 00:19 rule.
+- `record.md`, "What an entry is": one claim per entry and when to split, from `explorations/reviews/astra-record-keeping-review.md`, section 5; a conclusion stated once in the entry that owns it, section 6. "The pass", step 3: the scope check, the related entries and the test question, section 4. The review was forwarded by the curator on 2026-10-14.
