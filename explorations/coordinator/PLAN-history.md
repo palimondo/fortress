@@ -731,3 +731,11 @@ Also replaced:
 - The step order of `coordinator/library-route-judgement.md` § 2, whose destination Pavol took on 2026-09-21: it puts decision D's diff "as soon as step 3 lands and before any array rung" (`:39`); decision D is phase 5, after the switch-over (POSITIONS 2026-09-22; inventory C9).
 
 Refused rungs: rung 1, `Equality`, 2026-09-17, under the old boundary: recorded in `compile-ladder/rung1/REPORT.md`; re-opened under the widened rule and landed the same day (`1bd8d3ad1`).
+
+## Answered 2026-10-15 (item 55, Q1 of climb batch 16: refuse, P-149)
+
+From "Pavol's answers, in the order they are needed":
+
+Before climb batch 16's launch:
+
+55. **Leaning 2026-10-15, 06:13 UTC: Scala's way (P-149), held for his word since he took it believing the specification accepts it, where the record reads it as refusing; it waits for the probe's reading of the specification (`perf-probes/abstract-sibling-body/`).** Q1 of climb batch 16's record: may the compiled checker read a component's own abstract functional methods, and so refuse an object that inherits an abstract method from one trait and its body from another (row 572), and an abstract declaration beside an identical concrete one (row 727)? The sources split: the specification, the type group's rules, the team's dotted check and Java refuse; the team's abstract-method check and Scala accept. Default (a), read them, which rung K builds; it changes review-queue item 62's landed default (climb batch 8's judge's way (b)). Under (b), K is cut to row 720 before the splice. Evidence: `coordinator/CLIMB-BATCH-16.md` section 2, Q1; `coordinator/climb-batch-16-review.md`.
