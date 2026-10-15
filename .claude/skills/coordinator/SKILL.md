@@ -171,6 +171,7 @@ Under `explorations/coordinator/`:
 - `FACTS-history.md` and `POSITIONS-history.md`: each entry's provenance and earlier lines.
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, the questions for the curator in order, the parked items, and the review lists. Its first section says where the work stands.
+- `PLAN-history.md`: the items moved out of PLAN, word for word, under the landing that moved them.
 - The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review lists, sorted by theme.

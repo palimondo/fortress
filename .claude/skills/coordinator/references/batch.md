@@ -80,4 +80,4 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 2. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
 3. Name each decision that landed in one line, and put the items for the curator on the review list.
 4. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
-5. File what the review finds in PLAN.
+5. File what the review finds in PLAN. Move each item that the batch built or answered, and each stale item, word for word into `PLAN-history.md`. An open item whose text stands in another home becomes one line in PLAN, with a pointer to that home. The manual, "After the landing: the coordinator's routing", step 2, gives the headings and the line's form.
