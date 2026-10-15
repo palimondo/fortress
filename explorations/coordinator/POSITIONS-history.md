@@ -1302,3 +1302,9 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-149
 
 2026-10-15 06:13Z · added · by coordinator: his words, 06:10 UTC 2026-10-15: "So we are basically on track to doing it the Scala way. Is this correct reading? That would please me. I think that's reasonable. Just on my instinct alone. If there are checker rules that can disambiguate the situation, I think that's a good thing."; 06:13 UTC: "I'm also leaning this way, so you can pre-record my decision unless a hard evidence against it surfaces."; earlier, 04:18 UTC, on the ask: "it gives up the scalar's way of letting a sibling trait supply the body. So you were referring to scalar the language. So I would lean to go that way if possible, if that has a clean resolution."; by: coordinator
+
+### P-149
+
+2026-10-15 06:14Z · rewritten · by coordinator: his question, 06:14 UTC 2026-10-15, whether the specification declares this way; the coordinator told him the record reads it as refusing
+
+- P-149 **A body inherited from one supertype implements an abstract functional method inherited from another (Q1, Scala's way).** So `object O extends { A, B }`, with `pick(self)` abstract in `A` and given a body in `B`, is accepted, and a call through `A`, `B` or `O` runs `B`'s body. Two bodies from two supertypes stay ambiguous, and the type must declare its own; an abstract and a concrete declaration of one method in one trait are refused. Why: a peer, Scala, does it, and its rules settle each case at the checker. It stands unless the probe taken for it finds hard evidence against it. Still to build: climb batch 16's rung K, rows 572 and 727 (PLAN item 55).
