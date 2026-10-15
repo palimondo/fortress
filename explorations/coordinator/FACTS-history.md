@@ -2279,3 +2279,33 @@ pointer words refreshed in: F-24
 2026-10-14 15:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "6. The measures" · commit `c40489978` · by coordinator's FACTS pass after climb batch 15: nothing hidden behind row 680's crash
 
 - F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. The sized arrays' count is a floor: a checker crash hides the rank-3 array trait's body (row 680). With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4.
+
+### F-53
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "The gate, against batch 15's" · commit `3cf18a2b3` · by coordinator: climb batch 15b's gate, the count with row 680's repair
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 1, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The checker count stops at a component's first error, now row 680's crash in `Array3`, since `body(i)` is typed (F-220). With row 680's repair in, the stage checks the library component whole: 43 errors in 809 s when measured under load, past the 690 s that climb batch 15 set against the stage's 900-second limit, so that repair is held (row 680, PLAN item 54); the rise it brings is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "The gate, against batch 15's" · commit `3cf18a2b3` · by coordinator: the crash row gone with row 680's repair
+
+- F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hides no error: with its repair, the component's check finds none in `Array3`; the crash stays one of the distance's rows while the repair is held. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
+
+### F-220
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "What landed" · commit `e4dabaa0c` · by coordinator: the count no longer stops at row 680's crash
+
+- F-220 **`__bigOperator`'s local `body` is typed `body(i: I): L`, which walk runs since it no longer instantiates a big operator's static parameter at `BottomType`.** The checker count's one error is then row 680's crash in `Array3`. Gated by `tests/UnwrittenListMapComprehensionWalk`. Detail: `compile-ladder/rung-walk-elements/REPORT.md` section 6.
+
+### F-231
+
+2026-10-15 00:14Z · added · from `explorations/perf-probes/checker-speed-2/REPORT.md`, "1. In short" · commit `a0205c127` · by coordinator: the probe's FACTS item 1 and the skeptic's run, landed as climb batch 15b
+
+### F-232
+
+2026-10-15 00:14Z · added · from `explorations/perf-probes/checker-speed-2/REPORT.md`, "9. Row 488: the checker's output depends on identity hashes" · by coordinator: the probe's FACTS item 2, its row 488 note refused by ledger.py for length
+
+### F-233
+
+2026-10-15 00:14Z · added · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "What landed" · commit `e4dabaa0c` · by coordinator: row 680's repair landed
