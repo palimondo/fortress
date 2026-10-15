@@ -1280,3 +1280,15 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-14 19:20Z · rewritten · by coordinator: his word, 19:20 UTC 2026-10-14: "Try phrasing it in ASD-STE100 register (halfway). That compressed phrasing isn't obvious to me and I doubt fresh workers would get your meaning either.", on "keeping every answer"
 
 - P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures the change's effect on the checker's time. After its correctness pass, it makes a pass that optimizes the change, keeping every answer, and its skeptic checks both. The speed work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).
+
+### P-79
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62)
+
+- P-79 **The team's demos that write no static argument for a generic reduction stay as they are, and are respelled later only if they still fail.** When a batch has a free slot, it first checks each demo again under P-48's bound rule (row 425). It then writes the static arguments that a demo still needs, with a demo stage that only reports.
+
+### P-148
+
+2026-10-15 00:47Z · rewritten · by coordinator: the speed fix under row 680's repair landed as climb batch 15b (a0205c127, e4dabaa0c)
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).

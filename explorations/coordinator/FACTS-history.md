@@ -2309,3 +2309,15 @@ pointer words refreshed in: F-24
 ### F-233
 
 2026-10-15 00:14Z · added · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "What landed" · commit `e4dabaa0c` · by coordinator: row 680's repair landed
+
+### F-59
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62), which holds its corrected claim
+
+- F-59 **`SUM` and `PROD` take their identity from the static argument, and the checker needs that argument written where nothing at the call fixes the element type.** It builds P-78, with a `() -> T` witness `typecase`. Walk leaves an F-bounded `T` open, so such a call runs there (F-143). The checker refuses it for every generic big operator, `BIG MAX` included, since an F-bounded parameter that nothing fixes has no instance at its bound (row 425). C4 writes the static argument, as the team's tests do; `SUM e` and `DOT` need none. Gated by `compiler_tests/WitnessIdentityRungG` and `InferBigOperatorUnwritten`. Detail: `reviews/sum-replacement-judgement.md` section 5.
+
+### F-221
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62), which holds its corrected claim
+
+- F-221 **The compiled checker retries a call written as another call's argument against each enclosing declaration's parameter type, where the enclosing call is not accepted otherwise.** It builds P-51 under P-49, so a declaration that accepts the call as written is never passed over. A reduction's plain-bounded big operator, an argument of `__bigOperator` once desugared, so takes the reduction's expected type; an F-bounded one is still refused (row 425). A chain `a OPLUS b OPLUS c` that only the retry makes acceptable to a multifix declaration now runs it, not the binary one. Walk gives such an argument no expected type (row 705). Gated by `compiler_tests/InferCallArgument*` and `InferBigOperatorExpectedType`. Detail: `compile-ladder/rung-argument-context/REPORT.md` sections 1, 5 and 8, and `SKEPTIC.md` finding 5.
