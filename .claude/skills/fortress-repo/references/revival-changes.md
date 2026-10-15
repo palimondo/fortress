@@ -148,7 +148,7 @@ A note written before the revival, and your training, can be right about the tea
   - a comprehension inside another clause form, a reduction or comprehension with generators in brackets such as `BIG CONCAT[ys <- xss] e`, is built at its elements' run-time types where no declared type reaches it (ledger rows 20 and 717);
   - a user big operator declared to return a trait of its own, such as `opr BIG CATOP[\T\](): CatOperator[\T\]`, takes its bound (ledger row 718).
 
-  On the compiled path, the checker takes a plain bound, or the expected type where the reduction's type at that bound does not fit it. It refuses a reduction whose bound names its parameter, such as `SUM`'s and `PROD`'s (ledger row 425).
+  On the compiled path, the checker takes a plain bound, or the expected type where the reduction's type at that bound does not fit it. It refuses a reduction whose bound names its parameter, such as `SUM`'s and `PROD`'s (ledger row 731).
 - Reason: a type parameter that a call does not fix takes its bound, narrowed by the call's static return type, here the declared type of the value. Walk has no static types, so it reads its elements' run-time types for the type of the expression. At its bound alone, a comprehension is built at `Any`. With `Bottom`, the typed `body(i)` refused the first element.
 
 **A type parameter with two bounds, one a closed trait, in the checker**

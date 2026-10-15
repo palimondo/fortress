@@ -182,7 +182,7 @@ The parts, in the order that work meets them:
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
 - The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
 - The interpreter area: walk's code (`interpreter/`), where a fix of walk belongs, its checks at load, its natives, running programs under walk, the microGPT check: `references/interpreter.md`
-- The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands: `references/compiler.md`
+- The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands, the checker's time after a change: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
 - What the revival changed in the team's Fortress, each change with its contradiction and reason; load it when a team source, an old note or your training disagrees with this skill: `references/revival-changes.md`

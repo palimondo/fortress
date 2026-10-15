@@ -114,3 +114,38 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
   For a Scala file, compile it with `java -cp "$CP" scala.tools.nsc.Main -classpath "$CP" -d $Q/classes -encoding UTF-8 X.scala`. Then put the edit into the tree and build it for real.
 - If your change is near transactions, top-level mutable state or the class loader's first load, do the four-thread atomic runs (`gate.md`).
+
+## The checker's time
+
+This section is for a change of the checker: its Scala under `scala_src/`, or the code that the build generates for it.
+
+The count stage, `explorations/coordinator/tools/checker-count/run.sh <out-file> <scratch>`, runs the checker over the interpreter's library. It takes about 6 minutes on an idle machine. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`.
+
+The checker's results are the programs that it accepts and refuses, and each error with its text and its place. A change keeps the results the same if both of these hold:
+
+- The two tables are equal: `diff` prints nothing.
+- The two `run.txt` files are equal after you replace each run's own tree path with one word, such as `TREE`.
+
+The checker's output depends on the JVM's identity-hash sequence. Each node's hash starts from its class's identity hash. If any code asks for an identity hash at another moment, hash maps and sets of nodes iterate in another order. So an unrelated edit can reorder the checks of the apis, and the members of a union in a message. An instrumented copy can do the same. So compare outputs only between runs without instrumentation.
+
+`Walker` in the generated `FortressAst.scala` is split into methods under HotSpot's limit of 8,000 bytes of bytecode. HotSpot does not compile a longer method, and as one method the walker set the checker's time. `WalkerJUTest` fails if a method of `Walker` grows past the limit. If it fails, lower `WALKER_CASES_PER_METHOD` in `astgen/ScalaAstGenerator.java`.
+
+If you change the checker:
+
+1. Before each timed run, run `ps aux`. If another build, suite or stage runs, wait until it ends.
+2. Before you start, measure the base. In a call set up for the base build (`build-and-caches.md`), start the count stage in the background (`session.md`). Name the run `base`:
+
+       nohup bash -c 's=$(date +%s); explorations/coordinator/tools/checker-count/run.sh <tree>/tmp/count/base.txt <tree>/tmp/count/base; rc=$?; echo "seconds $(( $(date +%s) - s ))"; echo EXIT=$rc' > <tree>/tmp/count-base.log 2>&1 &
+
+3. Make the change correct, with its tests.
+4. Run the count stage on your tree in the same way, with another name. Do it in the same session as the base run, because the machine's speed differs between sessions.
+5. If the time rose, or a profile (below) shows a gain that is cheap to take, make a second pass that makes the checker faster.
+6. After the second pass, run the count stage again. Show that the results are the same as after step 4.
+7. If the pass reuses an answer that the checker computed earlier, as a memo does, audit it on one full run. In the audit, compute each reused answer again and compare the two. Report the count of reuses and of differences.
+8. In your report, give each run's seconds, and the two comparisons.
+
+To find where the time goes, use the methods of the two speed probes: JFR on the stage's checker, instrumented copies compiled into a scratch folder ahead of the build on the class path, and a scan of the build for methods over 8,000 bytes. Print their commands (about 8 KB):
+
+    explorations/coordinator/tools/facts-extract.sh 'doc:explorations/perf-probes/checker-speed-2/REPORT.md#Decisions, findings' 'doc:explorations/perf-probes/checker-speed/REPORT.md#Decisions, findings'
+
+If your brief asks you to review a change of the checker, run the count stage yourself on the base and on the change, in one session. Check the two times. Check that your table and output equal those of the worker's run before the second pass.
