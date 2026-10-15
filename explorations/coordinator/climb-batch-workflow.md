@@ -101,7 +101,7 @@ The order of work: seed the worktree; read the briefing; the test first (`tests-
 - Its result carries `reportText` and `recordText` word for word, since the harness often refuses a worker's write of those files; `decisions`, each with the ways not taken, which its skeptic weighs its fixes against; `pointsReached`; and `forCurator`, its questions for the curator.
 - A point to report is listed with its evidence, and the rung lands. Only a step that cannot be undone or acts against a decision on record is not taken: the worker stops and says which (the `coordinator` skill's `references/batch.md`, "Reserved points and repairs").
 
-A rung that edits only prose has no test and no failure to see. Its text is checked against the tree and the decisions on record. A `testIsStage` rung's test is the checker count or distance stage, run once after its edit and rebuild, its before the last landed gate's table.
+A rung that edits only prose has no test and no failure to see. Its text is checked against the tree and the decisions on record. A `testIsStage` rung's test is the checker count or distance stage, run once after its edit and rebuild, its before the last landed gate's table. A rung that changes the compiled checker also times the count stage on the base build before its edit and on its tree once the change is correct, in one session, then makes the second pass that the skill's `compiler.md`, "The checker's time", asks for, which makes the checker faster and keeps its results the same; the brief says that section holds where the brief differs (P-148, "The checker's speed comes right after its correctness.").
 
 ## Skeptic
 
@@ -123,7 +123,7 @@ Its 11 checks:
 10. competing declarations;
 11. the failure-mode question.
 
-It builds nothing to check. It runs its own programs with the rung's build and the old code from the base build (`worktrees.md`, "Running the old code"), and reads the worker's suite runs and stages in the transcript.
+It builds nothing to check. It runs its own programs with the rung's build and the old code from the base build (`worktrees.md`, "Running the old code"), and reads the worker's suite runs and stages in the transcript. Where the rung changes the compiled checker, it also runs the count stage itself, on the base build and on the worker's head in one session, and checks the two times and that its table and output equal those of the worker's run before the second pass (the skill's `compiler.md`, "The checker's time").
 
 What it does with a finding:
 
