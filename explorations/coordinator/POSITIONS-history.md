@@ -1298,3 +1298,7 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-15 01:08Z · rewritten · by coordinator: the skills (315420c02, b875d2de7, 11fb10c64) and the batch script and manual (dc06efbbc)
 
 - P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it.
+
+### P-149
+
+2026-10-15 06:13Z · added · by coordinator: his words, 06:10 UTC 2026-10-15: "So we are basically on track to doing it the Scala way. Is this correct reading? That would please me. I think that's reasonable. Just on my instinct alone. If there are checker rules that can disambiguate the situation, I think that's a good thing."; 06:13 UTC: "I'm also leaning this way, so you can pre-record my decision unless a hard evidence against it surfaces."; earlier, 04:18 UTC, on the ask: "it gives up the scalar's way of letting a sibling trait supply the body. So you were referring to scalar the language. So I would lean to go that way if possible, if that has a clean resolution."; by: coordinator
