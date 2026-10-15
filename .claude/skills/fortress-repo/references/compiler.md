@@ -1,5 +1,8 @@
 # The compiled checker, the code generator and the run time
 
+**count stage**
+: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`.
+
 The code of this area is in these directories:
 
 - `scala_src/typechecker/`: the type checker, in Scala.
@@ -117,35 +120,38 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 ## The checker's time
 
-This section is for a change of the checker: its Scala under `scala_src/`, or the code that the build generates for it.
+This section is for a change of the checker: its Scala under `scala_src/`, or `ProjectFortress/astgen/Fortress.ast` and the generators under `ProjectFortress/src/com/sun/fortress/astgen/`, from which the build generates the checker's syntax tree and `Walker`.
 
-The count stage, `explorations/coordinator/tools/checker-count/run.sh <out-file> <scratch>`, runs the checker over the interpreter's library. It takes about 6 minutes on an idle machine. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`.
+The count stage takes `<out-file> <scratch>` and about 6 minutes on an idle machine. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
 
-The checker's results are the programs that it accepts and refuses, and each error with its text and its place. A change keeps the results the same if both of these hold:
+The checker's results are the programs that it accepts and refuses, and each error with its text and its place. On the interpreter's library, a change keeps the results the same if both of these hold:
 
 - The two tables are equal: `diff` prints nothing.
-- The two `run.txt` files are equal after you replace each run's own tree path with one word, such as `TREE`.
+- The two `run.txt` files are equal after you replace each run's own tree path with one word, such as `TREE`. A line that differs only in order counts as equal: the order of the apis' checks, or of a union's members in a message. Any other difference fails.
 
-The checker's output depends on the JVM's identity-hash sequence. Each node's hash starts from its class's identity hash. If any code asks for an identity hash at another moment, hash maps and sets of nodes iterate in another order. So an unrelated edit can reorder the checks of the apis, and the members of a union in a message. An instrumented copy can do the same. So compare outputs only between runs without instrumentation.
+The order can move because the checker's output depends on the JVM's identity-hash sequence. Each node's hash starts from its class's identity hash. If any code asks for an identity hash at another moment, hash maps and sets of nodes iterate in another order. An unrelated edit can do this, and so can an instrumented copy.
 
-`Walker` in the generated `FortressAst.scala` is split into methods under HotSpot's limit of 8,000 bytes of bytecode. HotSpot does not compile a longer method, and as one method the walker set the checker's time. `WalkerJUTest` fails if a method of `Walker` grows past the limit. If it fails, lower `WALKER_CASES_PER_METHOD` in `astgen/ScalaAstGenerator.java`.
+`Walker`, in the generated `ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala`, is split into methods under 8,000 bytes of bytecode. HotSpot does not compile a longer method, and the walker runs on every node, so one long walker method slows the whole checker. `WalkerJUTest` fails if a method of `Walker` grows past the limit: run it alone with `ant testOnly -DtestPattern=WalkerJUTest`. If it fails, lower `WALKER_CASES_PER_METHOD` in `ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java`.
+
+Two idle runs of one tree differed by about 6 %. So a change is slower if its time is above the base's by more than 6 %.
 
 If you change the checker:
 
-1. Before each timed run, run `ps aux`. If another build, suite or stage runs, wait until it ends.
-2. Before you start, measure the base. In a call set up for the base build (`build-and-caches.md`), start the count stage in the background (`session.md`). Name the run `base`:
+1. Before each timed run, run `ps aux`. If it shows an `ant` or `java` process of another tree, wait for it to end, for up to 30 minutes. Then take the run anyway, and give the load at its start (`uptime`).
+2. Before you start, measure the base. In a call set up for the base build (`build-and-caches.md`), start the count stage in the background (`session.md`). Until it ends, build and run nothing. You may edit.
 
-       nohup bash -c 's=$(date +%s); explorations/coordinator/tools/checker-count/run.sh <tree>/tmp/count/base.txt <tree>/tmp/count/base; rc=$?; echo "seconds $(( $(date +%s) - s ))"; echo EXIT=$rc' > <tree>/tmp/count-base.log 2>&1 &
+       export W=<your tree> ; mkdir -p $W/tmp/count
+       nohup bash -c 's=$(date +%s); explorations/coordinator/tools/checker-count/run.sh $W/tmp/count/base.txt $W/tmp/count/base; rc=$?; echo "seconds $(( $(date +%s) - s ))"; echo EXIT=$rc' > $W/tmp/count-base.log 2>&1 &
 
-3. Make the change correct, with its tests.
-4. Run the count stage on your tree in the same way, with another name. Do it in the same session as the base run, because the machine's speed differs between sessions.
-5. If the time rose, or a profile (below) shows a gain that is cheap to take, make a second pass that makes the checker faster.
-6. After the second pass, run the count stage again. Show that the results are the same as after step 4.
-7. If the pass reuses an answer that the checker computed earlier, as a memo does, audit it on one full run. In the audit, compute each reused answer again and compare the two. Report the count of reuses and of differences.
-8. In your report, give each run's seconds, and the two comparisons.
+3. Make the change correct, with its tests. Commit it, and name the commit in your report.
+4. In a call set up for your tree, run the count stage in the same way, named `change`. Take the base and this run with no stop of the process or the VM between them. After such a stop, measure the base again.
+5. Make a second pass that makes the checker faster. Start with a profile (below). Where the profile shows a gain, take it. Where it shows none, say so in your report, with the profile's top frames.
+6. After the second pass, run the count stage again, named `pass`. Show that its results are the same as `change`'s. If a line differs only in order, show the diff in your report, and say so of each line. Then run `ant testQuick` once more (`tests-running.md`, "When to run a whole suite").
+7. If the pass reuses an answer that the checker computed earlier, as a memo does, audit it on one full run. Put the audit in an instrumented copy ("Testing an edit here"), never in the tree. In the audit, compute each reused answer again and compare the two. If any answer differs, the reuse is wrong: fix it or drop it, then repeat step 6. Report the count of reuses and of differences.
+8. In your report, give each run's seconds, the diff of the `base` and `change` tables, and the two comparisons of `change` and `pass`.
 
-To find where the time goes, use the methods of the two speed probes: JFR on the stage's checker, instrumented copies compiled into a scratch folder ahead of the build on the class path, and a scan of the build for methods over 8,000 bytes. Print their commands (about 8 KB):
+To find where the time goes, use JFR on the count stage's checker, instrumented copies compiled into a scratch folder ahead of the build on the class path, and a scan of the build for methods over 8,000 bytes. A profiled or instrumented run is neither a timed run nor a run to compare. Print the commands of two earlier speed probes (about 8 KB):
 
     explorations/coordinator/tools/facts-extract.sh 'doc:explorations/perf-probes/checker-speed-2/REPORT.md#Decisions, findings' 'doc:explorations/perf-probes/checker-speed/REPORT.md#Decisions, findings'
 
-If your brief asks you to review a change of the checker, run the count stage yourself on the base and on the change, in one session. Check the two times. Check that your table and output equal those of the worker's run before the second pass.
+If your brief asks you to review a change of the checker, run the count stage yourself, with step 1 before each run. Run the base from the base build, as step 2 says. Run the worker's commit of step 3 and its head in a worktree seeded at them (`worktrees.md`). Check that your change's time moved against your base as the worker's did, within 6 %. Check that the commit's and the head's results are the same.
