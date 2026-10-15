@@ -1292,3 +1292,9 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-15 00:47Z · rewritten · by coordinator: the speed fix under row 680's repair landed as climb batch 15b (a0205c127, e4dabaa0c)
 
 - P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).
+
+### P-148
+
+2026-10-15 01:08Z · rewritten · by coordinator: the skills (315420c02, b875d2de7, 11fb10c64) and the batch script and manual (dc06efbbc)
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it.
