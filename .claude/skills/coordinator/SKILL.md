@@ -171,7 +171,7 @@ Under `explorations/coordinator/`:
 - `FACTS-history.md` and `POSITIONS-history.md`: each entry's provenance and earlier lines.
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, the questions for the curator in order, the parked items, and the review lists. Its first section says where the work stands.
-- `PLAN-history.md`: the items moved out of PLAN, word for word, under the landing that moved them.
+- `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
 - The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review lists, sorted by theme.
@@ -208,7 +208,7 @@ At session start and after each compaction, read these in order:
 - `references/delegating.md`: before you brief, launch, watch or resume any worker.
 - `references/batch.md`: for a batch, from its preparation to its review.
 - `references/road.md`: for PLAN's order, a fork, or idle time.
-- `references/record.md`: before you edit FACTS, POSITIONS, INDEX or a history file.
+- `references/record.md`: before you edit FACTS, POSITIONS, INDEX, `FACTS-history.md` or `POSITIONS-history.md`.
 - `references/skill-rewrite.md`: when a skill is to change.
 - `references/analysis.md`: to measure the work, or find out what happened.
 - `references/sources.md`: each rule's source, for maintenance only.
