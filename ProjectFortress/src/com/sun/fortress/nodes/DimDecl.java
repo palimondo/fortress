@@ -99,15 +99,15 @@ public class DimDecl extends DimUnitDecl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Id temp_dimId = getDimId();
         code ^= temp_dimId.hashCode();
         Option<Type> temp_derived = getDerived();
-        code ^= temp_derived.hashCode();
+        code ^= NodeHash.of(temp_derived);
         Option<Id> temp_defaultId = getDefaultId();
-        code ^= temp_defaultId.hashCode();
+        code ^= NodeHash.of(temp_defaultId);
         return code;
     }
 

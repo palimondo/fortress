@@ -99,15 +99,15 @@ public class ExtentRange extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<StaticArg> temp_base = getBase();
-        code ^= temp_base.hashCode();
+        code ^= NodeHash.of(temp_base);
         Option<StaticArg> temp_size = getSize();
-        code ^= temp_size.hashCode();
+        code ^= NodeHash.of(temp_size);
         Option<Op> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         return code;
     }
 

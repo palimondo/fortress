@@ -117,7 +117,7 @@ public class _SyntaxTransformationLetFn extends LetFn implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         List<FnDecl> temp_fns = getFns();

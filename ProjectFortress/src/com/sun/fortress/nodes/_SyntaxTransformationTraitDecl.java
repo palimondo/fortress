@@ -118,15 +118,15 @@ public class _SyntaxTransformationTraitDecl extends TraitDecl implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TraitTypeHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Option<SelfType> temp_selfType = getSelfType();
-        code ^= temp_selfType.hashCode();
+        code ^= NodeHash.of(temp_selfType);
         List<BaseType> temp_excludesClause = getExcludesClause();
         code ^= temp_excludesClause.hashCode();
         Option<List<NamedType>> temp_comprisesClause = getComprisesClause();
-        code ^= temp_comprisesClause.hashCode();
+        code ^= NodeHash.of(temp_comprisesClause);
         boolean temp_comprisesEllipses = isComprisesEllipses();
         code ^= temp_comprisesEllipses ? 1231 : 1237;
         java.util.Map<String, Level> temp_variables = getVariables();

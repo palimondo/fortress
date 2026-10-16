@@ -129,15 +129,15 @@ public class _SyntaxTransformationOverloading extends Overloading implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         IdOrOp temp_unambiguousName = getUnambiguousName();
         code ^= temp_unambiguousName.hashCode();
         IdOrOp temp_originalName = getOriginalName();
         code ^= temp_originalName.hashCode();
         Option<ArrowType> temp_type = getType();
-        code ^= temp_type.hashCode();
+        code ^= NodeHash.of(temp_type);
         Option<ArrowType> temp_schema = getSchema();
-        code ^= temp_schema.hashCode();
+        code ^= NodeHash.of(temp_schema);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

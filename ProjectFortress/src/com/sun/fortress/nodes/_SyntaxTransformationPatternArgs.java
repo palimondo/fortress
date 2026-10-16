@@ -106,7 +106,7 @@ public class _SyntaxTransformationPatternArgs extends PatternArgs implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<PatternBinding> temp_patterns = getPatterns();
         code ^= temp_patterns.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

@@ -129,7 +129,7 @@ public class ArrowType extends Type {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TypeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Type temp_domain = getDomain();
@@ -141,7 +141,7 @@ public class ArrowType extends Type {
         boolean temp_io = isIo();
         code ^= temp_io ? 1231 : 1237;
         Option<MethodInfo> temp_methodInfo = getMethodInfo();
-        code ^= temp_methodInfo.hashCode();
+        code ^= NodeHash.of(temp_methodInfo);
         return code;
     }
 

@@ -126,7 +126,7 @@ public class NonterminalHeader extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Modifiers temp_mods = getMods();
@@ -138,9 +138,9 @@ public class NonterminalHeader extends AbstractNode {
         List<StaticParam> temp_staticParams = getStaticParams();
         code ^= temp_staticParams.hashCode();
         Option<Type> temp_paramType = getParamType();
-        code ^= temp_paramType.hashCode();
+        code ^= NodeHash.of(temp_paramType);
         Option<WhereClause> temp_whereClause = getWhereClause();
-        code ^= temp_whereClause.hashCode();
+        code ^= NodeHash.of(temp_whereClause);
         return code;
     }
 

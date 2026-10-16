@@ -109,7 +109,7 @@ public class _SyntaxTransformationWhereEquals extends WhereEquals implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_left = getLeft();
         code ^= temp_left.hashCode();
         Id temp_right = getRight();

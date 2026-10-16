@@ -116,17 +116,17 @@ public class Try extends Expr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         Option<Catch> temp_catchClause = getCatchClause();
-        code ^= temp_catchClause.hashCode();
+        code ^= NodeHash.of(temp_catchClause);
         List<BaseType> temp_forbidClause = getForbidClause();
         code ^= temp_forbidClause.hashCode();
         Option<Block> temp_finallyClause = getFinallyClause();
-        code ^= temp_finallyClause.hashCode();
+        code ^= NodeHash.of(temp_finallyClause);
         return code;
     }
 

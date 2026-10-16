@@ -80,7 +80,7 @@ public class LabelType extends Type {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TypeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         return code;

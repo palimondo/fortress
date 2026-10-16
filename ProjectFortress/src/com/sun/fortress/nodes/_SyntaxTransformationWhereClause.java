@@ -109,7 +109,7 @@ public class _SyntaxTransformationWhereClause extends WhereClause implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<WhereBinding> temp_bindings = getBindings();
         code ^= temp_bindings.hashCode();
         List<WhereConstraint> temp_constraints = getConstraints();

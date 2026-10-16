@@ -106,7 +106,7 @@ public class _SyntaxTransformationIntBase extends IntBase implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         IntLiteralExpr temp_intVal = getIntVal();
         code ^= temp_intVal.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

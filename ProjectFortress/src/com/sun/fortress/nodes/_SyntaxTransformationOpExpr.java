@@ -117,7 +117,7 @@ public class _SyntaxTransformationOpExpr extends OpExpr implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FunctionalRef temp_op = getOp();
         code ^= temp_op.hashCode();
         List<Expr> temp_args = getArgs();

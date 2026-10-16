@@ -115,15 +115,15 @@ public class _SyntaxTransformationUnitDecl extends UnitDecl implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         boolean temp_si_unit = isSi_unit();
         code ^= temp_si_unit ? 1231 : 1237;
         List<Id> temp_units = getUnits();
         code ^= temp_units.hashCode();
         Option<Type> temp_dimType = getDimType();
-        code ^= temp_dimType.hashCode();
+        code ^= NodeHash.of(temp_dimType);
         Option<Expr> temp_defExpr = getDefExpr();
-        code ^= temp_defExpr.hashCode();
+        code ^= NodeHash.of(temp_defExpr);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

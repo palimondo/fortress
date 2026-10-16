@@ -106,7 +106,7 @@ public class _SyntaxTransformation_RewriteObjectExprDecl extends _RewriteObjectE
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<_RewriteObjectExpr> temp_objectExprs = getObjectExprs();
         code ^= temp_objectExprs.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

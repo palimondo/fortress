@@ -117,7 +117,7 @@ public class _SyntaxTransformationFixedPointType extends FixedPointType implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         _InferenceVarType temp_name = getName();
         code ^= temp_name.hashCode();
         Type temp_body = getBody();

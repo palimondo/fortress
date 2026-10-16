@@ -117,7 +117,7 @@ public class _SyntaxTransformationWhile extends While implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         GeneratorClause temp_testExpr = getTestExpr();
         code ^= temp_testExpr.hashCode();
         Do temp_body = getBody();

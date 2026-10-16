@@ -201,7 +201,7 @@ public class TemplateGapClass extends NodeClass {
         writer.startLine(" */");
         writer.startLine("public int generateHashCode() {");
         writer.indent();
-        writer.startLine("int code = getClass().hashCode();");
+        writer.startLine("int code = getClass().getName().hashCode();");
         writer.startLine("Id temp_id = getGapId();");
         writer.startLine("code ^= temp_id.hashCode();");
         writer.startLine("List<Id> temp_templateParams = getTemplateParams();");

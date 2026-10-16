@@ -123,13 +123,13 @@ public class _SyntaxTransformationSubscriptExpr extends SubscriptExpr implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_obj = getObj();
         code ^= temp_obj.hashCode();
         List<Expr> temp_subs = getSubs();
         code ^= temp_subs.hashCode();
         Option<Op> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         List<StaticArg> temp_staticArgs = getStaticArgs();
         code ^= temp_staticArgs.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

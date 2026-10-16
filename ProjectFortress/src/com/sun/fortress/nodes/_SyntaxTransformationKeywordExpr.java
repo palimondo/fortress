@@ -109,7 +109,7 @@ public class _SyntaxTransformationKeywordExpr extends KeywordExpr implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Expr temp_init = getInit();

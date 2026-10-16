@@ -117,7 +117,7 @@ public class _SyntaxTransformationFor extends For implements _SyntaxTransformati
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<GeneratorClause> temp_gens = getGens();
         code ^= temp_gens.hashCode();
         Block temp_body = getBody();

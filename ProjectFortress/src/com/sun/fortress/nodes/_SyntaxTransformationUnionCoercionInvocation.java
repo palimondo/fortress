@@ -123,7 +123,7 @@ public class _SyntaxTransformationUnionCoercionInvocation extends UnionCoercionI
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_toType = getToType();
         code ^= temp_toType.hashCode();
         Expr temp_arg = getArg();
@@ -131,7 +131,7 @@ public class _SyntaxTransformationUnionCoercionInvocation extends UnionCoercionI
         List<Type> temp_fromTypes = getFromTypes();
         code ^= temp_fromTypes.hashCode();
         List<Option<CoercionInvocation>> temp_fromCoercions = getFromCoercions();
-        code ^= temp_fromCoercions.hashCode();
+        code ^= NodeHash.of(temp_fromCoercions);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

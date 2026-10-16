@@ -86,7 +86,7 @@ public class TypeTight extends TypeInfixFrame {
      * the hashcodes of all the fields of the object.
      */
     protected int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         code ^= getOp().hashCode();
         code ^= getEffect().hashCode();
         return code;

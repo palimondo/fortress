@@ -89,7 +89,7 @@ public class CharLiteralExpr extends LiteralExpr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         String temp_text = getText();

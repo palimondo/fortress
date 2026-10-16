@@ -93,11 +93,11 @@ public class SyntaxDef extends SyntaxDecl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<String> temp_modifier = getModifier();
-        code ^= temp_modifier.hashCode();
+        code ^= NodeHash.of(temp_modifier);
         List<SyntaxSymbol> temp_syntaxSymbols = getSyntaxSymbols();
         code ^= temp_syntaxSymbols.hashCode();
         TransformerDecl temp_transformer = getTransformer();

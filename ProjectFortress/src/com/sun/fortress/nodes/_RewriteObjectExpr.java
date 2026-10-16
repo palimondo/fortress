@@ -110,7 +110,7 @@ public class _RewriteObjectExpr extends AbstractObjectExpr implements ObjectCons
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         TraitTypeHeader temp_header = getHeader();

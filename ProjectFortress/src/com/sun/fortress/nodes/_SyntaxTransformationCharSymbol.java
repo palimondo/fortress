@@ -106,7 +106,7 @@ public class _SyntaxTransformationCharSymbol extends CharSymbol implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         String temp_string = getString();
         code ^= temp_string.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

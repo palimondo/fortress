@@ -117,7 +117,7 @@ public class _SyntaxTransformationTypeAnnotatedExpr extends TypeAnnotatedExpr im
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_expr = getExpr();
         code ^= temp_expr.hashCode();
         Type temp_annType = getAnnType();

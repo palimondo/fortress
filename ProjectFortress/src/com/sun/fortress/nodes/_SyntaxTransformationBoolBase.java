@@ -106,7 +106,7 @@ public class _SyntaxTransformationBoolBase extends BoolBase implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         boolean temp_boolVal = isBoolVal();
         code ^= temp_boolVal ? 1231 : 1237;
         java.util.Map<String, Level> temp_variables = getVariables();

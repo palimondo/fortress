@@ -112,7 +112,7 @@ public class _SyntaxTransformationIntBinaryOp extends IntBinaryOp implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         IntExpr temp_left = getLeft();
         code ^= temp_left.hashCode();
         IntExpr temp_right = getRight();

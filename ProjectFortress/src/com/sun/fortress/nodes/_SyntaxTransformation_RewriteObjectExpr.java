@@ -123,7 +123,7 @@ public class _SyntaxTransformation_RewriteObjectExpr extends _RewriteObjectExpr 
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TraitTypeHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Map<String, StaticParam> temp_implicitTypeParameters = getImplicitTypeParameters();

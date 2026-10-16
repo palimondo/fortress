@@ -132,17 +132,17 @@ public class _SyntaxTransformationPlainPattern extends PlainPattern implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Id> temp_field = getField();
-        code ^= temp_field.hashCode();
+        code ^= NodeHash.of(temp_field);
         Option<Id> temp_binderName = getBinderName();
-        code ^= temp_binderName.hashCode();
+        code ^= NodeHash.of(temp_binderName);
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Option<TypeOrPattern> temp_idType = getIdType();
-        code ^= temp_idType.hashCode();
+        code ^= NodeHash.of(temp_idType);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

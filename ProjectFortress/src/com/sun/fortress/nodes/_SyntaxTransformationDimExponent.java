@@ -117,7 +117,7 @@ public class _SyntaxTransformationDimExponent extends DimExponent implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_base = getBase();
         code ^= temp_base.hashCode();
         IntExpr temp_power = getPower();

@@ -117,7 +117,7 @@ public class _SyntaxTransformationMatrixType extends MatrixType implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_elemType = getElemType();
         code ^= temp_elemType.hashCode();
         List<ExtentRange> temp_dimensions = getDimensions();

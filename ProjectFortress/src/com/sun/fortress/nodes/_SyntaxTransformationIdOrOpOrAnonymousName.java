@@ -106,9 +106,9 @@ public class _SyntaxTransformationIdOrOpOrAnonymousName extends IdOrOpOrAnonymou
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<APIName> temp_apiName = getApiName();
-        code ^= temp_apiName.hashCode();
+        code ^= NodeHash.of(temp_apiName);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

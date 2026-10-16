@@ -114,7 +114,7 @@ public class _SyntaxTransformationLetExpr extends LetExpr implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

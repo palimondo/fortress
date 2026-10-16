@@ -112,13 +112,13 @@ public class _SyntaxTransformationBinding extends Binding implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Option<TypeOrPattern> temp_idType = getIdType();
-        code ^= temp_idType.hashCode();
+        code ^= NodeHash.of(temp_idType);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

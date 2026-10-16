@@ -120,7 +120,7 @@ public class _SyntaxTransformationTraitCoercionInvocation extends TraitCoercionI
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_arg = getArg();
         code ^= temp_arg.hashCode();
         TraitType temp_toType = getToType();

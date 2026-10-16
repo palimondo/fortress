@@ -96,7 +96,7 @@ public class TypeArg extends StaticArg {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Type temp_typeArg = getTypeArg();

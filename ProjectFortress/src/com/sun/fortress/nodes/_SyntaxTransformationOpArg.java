@@ -128,7 +128,7 @@ public class _SyntaxTransformationOpArg extends OpArg implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Op temp_id = getId();
         code ^= temp_id.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

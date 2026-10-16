@@ -112,13 +112,13 @@ public class _SyntaxTransformationExtentRange extends ExtentRange implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<StaticArg> temp_base = getBase();
-        code ^= temp_base.hashCode();
+        code ^= NodeHash.of(temp_base);
         Option<StaticArg> temp_size = getSize();
-        code ^= temp_size.hashCode();
+        code ^= NodeHash.of(temp_size);
         Option<Op> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

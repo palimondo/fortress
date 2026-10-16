@@ -112,7 +112,7 @@ public class _SyntaxTransformationUnitBinaryOp extends UnitBinaryOp implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         UnitExpr temp_left = getLeft();
         code ^= temp_left.hashCode();
         UnitExpr temp_right = getRight();

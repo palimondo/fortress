@@ -101,7 +101,7 @@ public class TaggedDimType extends AbbreviatedType {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TypeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Type temp_elemType = getElemType();
@@ -109,7 +109,7 @@ public class TaggedDimType extends AbbreviatedType {
         DimExpr temp_dimExpr = getDimExpr();
         code ^= temp_dimExpr.hashCode();
         Option<Expr> temp_unitExpr = getUnitExpr();
-        code ^= temp_unitExpr.hashCode();
+        code ^= NodeHash.of(temp_unitExpr);
         return code;
     }
 

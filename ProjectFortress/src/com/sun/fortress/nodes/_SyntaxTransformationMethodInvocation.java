@@ -157,7 +157,7 @@ public class _SyntaxTransformationMethodInvocation extends MethodInvocation impl
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_obj = getObj();
         code ^= temp_obj.hashCode();
         IdOrOp temp_method = getMethod();
@@ -167,9 +167,9 @@ public class _SyntaxTransformationMethodInvocation extends MethodInvocation impl
         Expr temp_arg = getArg();
         code ^= temp_arg.hashCode();
         Option<Type> temp_overloadingType = getOverloadingType();
-        code ^= temp_overloadingType.hashCode();
+        code ^= NodeHash.of(temp_overloadingType);
         Option<Type> temp_overloadingSchema = getOverloadingSchema();
-        code ^= temp_overloadingSchema.hashCode();
+        code ^= NodeHash.of(temp_overloadingSchema);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

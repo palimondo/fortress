@@ -120,7 +120,7 @@ public class _SyntaxTransformationDimBinaryOp extends DimBinaryOp implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         DimExpr temp_left = getLeft();
         code ^= temp_left.hashCode();
         DimExpr temp_right = getRight();

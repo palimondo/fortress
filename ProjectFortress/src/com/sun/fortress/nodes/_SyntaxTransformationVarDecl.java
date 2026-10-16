@@ -109,11 +109,11 @@ public class _SyntaxTransformationVarDecl extends VarDecl implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<LValue> temp_lhs = getLhs();
         code ^= temp_lhs.hashCode();
         Option<Expr> temp_init = getInit();
-        code ^= temp_init.hashCode();
+        code ^= NodeHash.of(temp_init);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

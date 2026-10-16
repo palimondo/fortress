@@ -78,13 +78,13 @@ public class ObjectDecl extends TraitObjectDecl implements ObjectConstructor {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         TraitTypeHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Option<SelfType> temp_selfType = getSelfType();
-        code ^= temp_selfType.hashCode();
+        code ^= NodeHash.of(temp_selfType);
         return code;
     }
 

@@ -99,11 +99,11 @@ public class TypecaseClause extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<Id> temp_name = getName();
-        code ^= temp_name.hashCode();
+        code ^= NodeHash.of(temp_name);
         TypeOrPattern temp_matchType = getMatchType();
         code ^= temp_matchType.hashCode();
         Block temp_body = getBody();
