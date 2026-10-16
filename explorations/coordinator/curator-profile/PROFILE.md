@@ -116,7 +116,7 @@ Evidence, by point:
 **Said he doesn't know.**
 
 5. Ring, field, additive group: "you didn't explain it" (09-15), and still unknown on 10-16. Open for a month.
-6. Multiplying vectors and matrices: a refresher asked on 09-15, first principles on 09-24, when he'd forgotten whether order matters. On 10-16 he doesn't know a dot product in detail and thought microGPT's matrices square. Open. His messages don't show whether the refreshers came; they didn't stick.
+6. Multiplying vectors and matrices: a refresher asked on 09-15, first principles on 09-24, when he'd forgotten whether order matters. On 10-16 he doesn't know a dot product in detail. He thought microGPT's matrices square, which is half right: the coordinator first said they weren't, then checked C4 and found its attention weights, position table and activations 16×16, its token table and output weights 27×16, and its feed-forward weights 64×16 and 16×64. Open. His messages don't show whether the refreshers came; they didn't stick.
 7. Reshape, planes, ravel, outer product (09-15); unsure he uses "tensor" right.
 8. What `Q` means and whether `Z` holds negatives (09-19); he read `Number` as the naturals (09-21). Closed by 09-28.
 9. Little background in mathematical notation (09-16); infinities in the rationals (09-26).
@@ -319,7 +319,7 @@ Evidence, by point:
 **Explain from the ground up, each time.**
 
 4. Any type-system question: a concrete Fortress program and several cases of it. First what the specification and the team's later word say, and which way they point; then the library's practice; then the peers, as context, never as an equal option (P-149). Say what each option does for a fast, compiled microGPT (P-8). The nine-step form worked.
-5. Rings, fields, additive groups, matrix products, the dot product. Nothing has stuck. Start from a 2×2 matrix times a vector, and from microGPT's own matrix shapes, which aren't square.
+5. Rings, fields, additive groups, matrix products, the dot product. Nothing has stuck. Start from a 2×2 matrix times a vector, and from microGPT's own matrix shapes, read from C4 (`explorations/run-c4/src/MicroGptFlat.fss:17`, `:41`): some square (16×16), some not (27×16, 64×16).
 6. The number types, if they come up: bottom up, `ZZ32` first.
 7. The run-time class loader and its descriptors: from his own picture, Swift's mangled names and sizes stamped into a class so the JIT drops bounds checks.
 8. The checker count and the distance to the switch-over: what each counts, and why one can jump.
