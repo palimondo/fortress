@@ -8,6 +8,8 @@
 
 - 06:23 (2026-10-15) For the `coordinator` skill, from Q1's detour (`reviews/q1-abstract-sibling-detour.md`): an ask states first what the designers' text and their later word say and which way they point; another language's behaviour enters only to reconcile a conflict between the designers' earlier and later choices (his rule, in P-149); the coordinator runs the probe a planner names for a question before it puts the question.
 
+- 13:10 (2026-10-16) For the `coordinator` skill, the skill writer's: before an explanation or an ask, read `explorations/coordinator/curator-profile/PROFILE.md`, the profile of what he knows (his word: it is for the coordinator's calibration; he will only skim it).
+
 ## Held from his comments on the principles (2026-10-13)
 
 His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8dttd8wWRRS6 (version 5), 15:25 to 16:03 UTC, each a thread on the page with his exact words; one line each in the coordinator's words. He stopped at principle 9 to resurface and set a strategy (16:01).
