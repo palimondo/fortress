@@ -249,6 +249,10 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         walk(getArg)
         walk(getOverloadingType)
       case SOverloading(_, _, _, t, _) => walk(t)
+      // A variable's right-hand side before the body that uses it, so that a type it gives
+      // the variable is met first where it is made.
+      case SLocalVarDecl(info, body, lhs, rhs) =>
+        walk(info); walk(lhs); walk(rhs); walk(body)
         
       // Nodes with subnodes we want to ignore.
       case SCaseExpr(getInfo, getParam, getCompare, getEqualsOp, getInOp, getClauses, getElseClause) =>
