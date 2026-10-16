@@ -402,7 +402,7 @@ Each is kept as landed unless he says otherwise.
 
 62. An object that inherits an abstract functional method from one trait and a concrete one from another runs the other trait's body for a call typed by the first; no check reads such a pair (row 572).
    - Landed: Left with the row. The other way: Read a component's own abstract functional methods per provider; or require the object's own declaration. Its cost: A checker rung; the text settles the defect.
-   - Home: PLAN, "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component; `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7)
+   - Home: PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component (answered: refuse, P-149; built by climb batch 16's rung K, `c23b85fdc`); `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7)
 
 63. The per-provider Meet Rule compares the `self` parameter as the dotted rule compares a receiver, wherever it sits.
    - Landed: As built; it cleared six `IN` sites. The other way: Compute what a type does not inherit in `allMethods`. Its cost: That needed another rung's file.
