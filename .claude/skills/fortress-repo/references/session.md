@@ -41,6 +41,8 @@ Run `wait_for` until it returns 0, each time in a new Bash call. Give that call 
         grep -n '^BUILD \|^Total time:\|^OK (\|^FAILURES!!!\|^Tests run:\|^EXIT=' "$1"
     }
 
+If your brief says that you run beside a batch, a run of other agents that build and test at the same time, run every build, suite, stage and program under `nice -n 19`, with one JVM of your own at a time. Start a JVM only when the `available` column of `free -g` shows 6 GB or more.
+
 ## Stopping processes
 
 Stop only the processes that run under your tree's path. To find a process's path, read `readlink /proc/<pid>/cwd`, or the paths in its arguments.
