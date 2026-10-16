@@ -2321,3 +2321,13 @@ pointer words refreshed in: F-24
 2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62), which holds its corrected claim
 
 - F-221 **The compiled checker retries a call written as another call's argument against each enclosing declaration's parameter type, where the enclosing call is not accepted otherwise.** It builds P-51 under P-49, so a declaration that accepts the call as written is never passed over. A reduction's plain-bounded big operator, an argument of `__bigOperator` once desugared, so takes the reduction's expected type; an F-bounded one is still refused (row 425). A chain `a OPLUS b OPLUS c` that only the retry makes acceptable to a multifix declaration now runs it, not the binary one. Walk gives such an argument no expected type (row 705). Gated by `compiler_tests/InferCallArgument*` and `InferBigOperatorExpectedType`. Detail: `compile-ladder/rung-argument-context/REPORT.md` sections 1, 5 and 8, and `SKEPTIC.md` finding 5.
+
+### F-234
+
+2026-10-16 09:15Z · added · from `explorations/coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most" · by coordinator
+
+### F-234
+
+2026-10-16 09:15Z · rewritten · by coordinator: cut to the size: the harness line and the start-up times are in the report
+
+- F-234 **A Fortress command that a worker runs on its own starts a fresh JVM, and that start costs too little to pay for a resident compiler.** The suites already run each suite in one JVM, the harness calling the shell in-process for every test (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:762`); only a compiled test's run step starts a child JVM. In one measurement over 267 worker transcripts, such commands took 6.4 % of the workers' time and their start-up, 0.3 s for the shell and 3 s for a walk run of a one-line program, at most 1.8 % (P-150). The suites, builds and stages took 47.8 % of the command time, the count and distance stages the most. Detail: `coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most".
