@@ -19,6 +19,8 @@ import com.sun.fortress.compiler.typechecker.StaticTypeReplacer
 import com.sun.fortress.exceptions.StaticError
 import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
+import com.sun.fortress.nodes_util.NodeUtil
+import com.sun.fortress.nodes_util.SourceLoc
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -36,7 +38,23 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
     errors
   }
 
-  private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
+  private def error(s:String, n:Node) = errors.add(TypeError.make(s,place(n)))
+
+  // The nearest expression the walk is in, if any.
+  private var enclosingExpr: Option[Expr] = None
+
+  // Where an error on n is reported: at n, or, where n lies outside the nearest expression
+  // the walk is in, as a call's type keeps the spans of the callee's declared type, at that
+  // expression.
+  private def place(n: Node): Node = (n, enclosingExpr) match {
+    case (t: ASTNode, Some(e)) =>
+      val (a, b) = (NodeUtil.getSpan(t), NodeUtil.getSpan(e))
+      def le(x: SourceLoc, y: SourceLoc) =
+        x.getLine < y.getLine || (x.getLine == y.getLine && x.column <= y.column)
+      if (a.getFileName == b.getFileName && le(b.getBegin, a.getBegin) && le(a.getEnd, b.getEnd)) n
+      else e
+    case _ => n
+  }
 
   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
@@ -99,6 +117,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
   }
 
   override def walk(node:Any):Any = {
+    val outer = enclosingExpr
+    node match { case e: Expr => enclosingExpr = Some(e) ; case _ => }
     node match {
       // Static parameters and where-clause variables may be introduced.
       // To Do: Check for the where-clause variables.
@@ -226,6 +246,7 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       */
       case _ => super.walk(node)
     }
+    enclosingExpr = outer
     node
   }
 }
