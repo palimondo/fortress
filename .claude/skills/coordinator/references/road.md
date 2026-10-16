@@ -11,9 +11,13 @@
 ## Procedures
 
 - Ask for the curator's answers in PLAN's order, after you check each question against the three principles. Raise the re-approval rows and other parked items only when the work reaches them.
-- If a probe can answer a known fork, run it while you plan, before the batch is briefed, so that the worker gets a task with the decision made. If the fork is consequential, put the probe's result to the curator as an ask.
+- If a probe can answer a known fork, run it while you plan, before the batch is briefed, so that the worker gets a task with the decision made. Run every probe that a question needs before you put the question. If the fork is consequential, put the probe's result to the curator as an ask.
 - Answer each fork by the nine steps. Seek one global rule from type theory and the peers' implementations, not a rule on a rule.
-- In the ask, name the library's own way first. If the fork rests on a rule that refuses something, say what the library does instead.
+- Before you write an explanation or an ask, read `explorations/coordinator/curator-profile/PROFILE.md`, the graded profile of what the curator knows. Pitch each topic at its level.
+- With every question, say whether the path to the switch-over, the move of the compiled path onto the interpreter's library, needs its answer, and what the measurements say.
+- In the ask, state first what the designers' text and their later word say, and which way they point. Then name the library's own way. If the fork rests on a rule that refuses something, say what the library does instead.
+- Bring in another language's behaviour only to reconcile a conflict between the designers' earlier and later choices.
+- Put an item of the review list to the curator as what it is: a decision that a batch took and shows for the curator's sight. Never put it as a hold.
 - Put rows to the curator one theme per message, each row in detail, with the ask's short primer (`SKILL.md`, "An ask", item 2): other languages, and what makes sense in a high-performance language. The count of reversals is not the measure.
 - Give idle time to the parked research in PLAN. It needs no go, but a new deliverable does: discuss it with the curator before you make it.
 - Park what needs the curator's machine; do not simulate it.
