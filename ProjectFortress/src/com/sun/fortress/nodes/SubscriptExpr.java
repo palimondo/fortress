@@ -116,7 +116,7 @@ public class SubscriptExpr extends SimpleExpr implements Lhs {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Expr temp_obj = getObj();
@@ -124,7 +124,7 @@ public class SubscriptExpr extends SimpleExpr implements Lhs {
         List<Expr> temp_subs = getSubs();
         code ^= temp_subs.hashCode();
         Option<Op> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         List<StaticArg> temp_staticArgs = getStaticArgs();
         code ^= temp_staticArgs.hashCode();
         return code;

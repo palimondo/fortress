@@ -109,9 +109,9 @@ public class _SyntaxTransformationPattern extends Pattern implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Type> temp_name = getName();
-        code ^= temp_name.hashCode();
+        code ^= NodeHash.of(temp_name);
         PatternArgs temp_patterns = getPatterns();
         code ^= temp_patterns.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

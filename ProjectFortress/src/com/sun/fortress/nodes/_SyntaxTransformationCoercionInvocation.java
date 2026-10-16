@@ -117,7 +117,7 @@ public class _SyntaxTransformationCoercionInvocation extends CoercionInvocation 
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_toType = getToType();
         code ^= temp_toType.hashCode();
         Expr temp_arg = getArg();

@@ -123,11 +123,11 @@ public class _SyntaxTransformationTupleExpr extends TupleExpr implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<Expr> temp_exprs = getExprs();
         code ^= temp_exprs.hashCode();
         Option<Expr> temp_varargs = getVarargs();
-        code ^= temp_varargs.hashCode();
+        code ^= NodeHash.of(temp_varargs);
         List<KeywordExpr> temp_keywords = getKeywords();
         code ^= temp_keywords.hashCode();
         boolean temp_inApp = isInApp();

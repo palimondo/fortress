@@ -123,15 +123,15 @@ public class _SyntaxTransformationTupleCoercionInvocation extends TupleCoercionI
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_arg = getArg();
         code ^= temp_arg.hashCode();
         TupleType temp_toType = getToType();
         code ^= temp_toType.hashCode();
         List<Option<CoercionInvocation>> temp_subCoercions = getSubCoercions();
-        code ^= temp_subCoercions.hashCode();
+        code ^= NodeHash.of(temp_subCoercions);
         Option<Option<CoercionInvocation>> temp_varargCoercion = getVarargCoercion();
-        code ^= temp_varargCoercion.hashCode();
+        code ^= NodeHash.of(temp_varargCoercion);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

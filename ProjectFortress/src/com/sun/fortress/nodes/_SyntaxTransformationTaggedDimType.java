@@ -120,13 +120,13 @@ public class _SyntaxTransformationTaggedDimType extends TaggedDimType implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_elemType = getElemType();
         code ^= temp_elemType.hashCode();
         DimExpr temp_dimExpr = getDimExpr();
         code ^= temp_dimExpr.hashCode();
         Option<Expr> temp_unitExpr = getUnitExpr();
-        code ^= temp_unitExpr.hashCode();
+        code ^= NodeHash.of(temp_unitExpr);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

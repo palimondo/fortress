@@ -81,7 +81,7 @@ public class IntBase extends IntExpr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         IntLiteralExpr temp_intVal = getIntVal();

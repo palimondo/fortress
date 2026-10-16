@@ -99,7 +99,7 @@ public class CaseClause extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Expr temp_matchClause = getMatchClause();
@@ -107,7 +107,7 @@ public class CaseClause extends AbstractNode {
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         Option<FunctionalRef> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         return code;
     }
 

@@ -109,9 +109,9 @@ public class _SyntaxTransformationIdOrOp extends IdOrOp implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<APIName> temp_apiName = getApiName();
-        code ^= temp_apiName.hashCode();
+        code ^= NodeHash.of(temp_apiName);
         String temp_text = getText();
         code ^= temp_text.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

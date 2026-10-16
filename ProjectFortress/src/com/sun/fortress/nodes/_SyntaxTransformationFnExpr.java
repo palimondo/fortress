@@ -117,7 +117,7 @@ public class _SyntaxTransformationFnExpr extends FnExpr implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FnHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Expr temp_body = getBody();

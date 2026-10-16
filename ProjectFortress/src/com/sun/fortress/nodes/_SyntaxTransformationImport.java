@@ -106,9 +106,9 @@ public class _SyntaxTransformationImport extends Import implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<String> temp_foreignLanguage = getForeignLanguage();
-        code ^= temp_foreignLanguage.hashCode();
+        code ^= NodeHash.of(temp_foreignLanguage);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

@@ -105,7 +105,7 @@ public class Postfix extends Object implements PostfixOpExpr {
      * the hashcodes of all the fields of the object.
      */
     protected int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         code ^= getOp().hashCode();
         return code;
     }

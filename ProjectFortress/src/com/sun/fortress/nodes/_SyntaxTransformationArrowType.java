@@ -140,7 +140,7 @@ public class _SyntaxTransformationArrowType extends ArrowType implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_domain = getDomain();
         code ^= temp_domain.hashCode();
         Type temp_range = getRange();
@@ -150,7 +150,7 @@ public class _SyntaxTransformationArrowType extends ArrowType implements _Syntax
         boolean temp_io = isIo();
         code ^= temp_io ? 1231 : 1237;
         Option<MethodInfo> temp_methodInfo = getMethodInfo();
-        code ^= temp_methodInfo.hashCode();
+        code ^= NodeHash.of(temp_methodInfo);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

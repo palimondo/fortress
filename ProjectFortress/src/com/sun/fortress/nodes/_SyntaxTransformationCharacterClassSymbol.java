@@ -106,7 +106,7 @@ public class _SyntaxTransformationCharacterClassSymbol extends CharacterClassSym
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<CharacterSymbol> temp_characters = getCharacters();
         code ^= temp_characters.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

@@ -106,7 +106,7 @@ public class _SyntaxTransformationBoolConstraintExpr extends BoolConstraintExpr 
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BoolConstraint temp_constraint = getConstraint();
         code ^= temp_constraint.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

@@ -117,7 +117,7 @@ public class _SyntaxTransformationTraitSelfType extends TraitSelfType implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BaseType temp_named = getNamed();
         code ^= temp_named.hashCode();
         List<NamedType> temp_comprised = getComprised();

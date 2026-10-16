@@ -109,7 +109,7 @@ public class _SyntaxTransformationPrefixedSymbol extends PrefixedSymbol implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_id = getId();
         code ^= temp_id.hashCode();
         SyntaxSymbol temp_symbol = getSymbol();

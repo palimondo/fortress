@@ -117,7 +117,7 @@ public class _SyntaxTransformationFieldRef extends FieldRef implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_obj = getObj();
         code ^= temp_obj.hashCode();
         Id temp_field = getField();

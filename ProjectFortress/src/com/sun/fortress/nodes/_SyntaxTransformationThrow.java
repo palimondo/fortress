@@ -114,7 +114,7 @@ public class _SyntaxTransformationThrow extends Throw implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_expr = getExpr();
         code ^= temp_expr.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

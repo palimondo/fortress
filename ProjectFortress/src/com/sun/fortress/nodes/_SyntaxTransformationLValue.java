@@ -115,13 +115,13 @@ public class _SyntaxTransformationLValue extends LValue implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Option<TypeOrPattern> temp_idType = getIdType();
-        code ^= temp_idType.hashCode();
+        code ^= NodeHash.of(temp_idType);
         boolean temp_mutable = isMutable();
         code ^= temp_mutable ? 1231 : 1237;
         java.util.Map<String, Level> temp_variables = getVariables();

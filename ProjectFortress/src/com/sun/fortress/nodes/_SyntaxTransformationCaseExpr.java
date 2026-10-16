@@ -129,11 +129,11 @@ public class _SyntaxTransformationCaseExpr extends CaseExpr implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Expr> temp_param = getParam();
-        code ^= temp_param.hashCode();
+        code ^= NodeHash.of(temp_param);
         Option<FunctionalRef> temp_compare = getCompare();
-        code ^= temp_compare.hashCode();
+        code ^= NodeHash.of(temp_compare);
         FunctionalRef temp_equalsOp = getEqualsOp();
         code ^= temp_equalsOp.hashCode();
         FunctionalRef temp_inOp = getInOp();
@@ -141,7 +141,7 @@ public class _SyntaxTransformationCaseExpr extends CaseExpr implements _SyntaxTr
         List<CaseClause> temp_clauses = getClauses();
         code ^= temp_clauses.hashCode();
         Option<Block> temp_elseClause = getElseClause();
-        code ^= temp_elseClause.hashCode();
+        code ^= NodeHash.of(temp_elseClause);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

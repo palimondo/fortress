@@ -90,11 +90,11 @@ public class Pattern extends AbstractNode implements TypeOrPattern {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<Type> temp_name = getName();
-        code ^= temp_name.hashCode();
+        code ^= NodeHash.of(temp_name);
         PatternArgs temp_patterns = getPatterns();
         code ^= temp_patterns.hashCode();
         return code;

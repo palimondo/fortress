@@ -112,9 +112,9 @@ public class _SyntaxTransformationSuperSyntaxDef extends SuperSyntaxDef implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<String> temp_modifier = getModifier();
-        code ^= temp_modifier.hashCode();
+        code ^= NodeHash.of(temp_modifier);
         Id temp_nonterminal = getNonterminal();
         code ^= temp_nonterminal.hashCode();
         Id temp_grammarId = getGrammarId();

@@ -187,7 +187,7 @@ public class TransformationNode extends NodeClass {
         writer.startLine(" */");
         writer.startLine("public int generateHashCode() {");
         writer.indent();
-        writer.startLine("int code = getClass().hashCode();");
+        writer.startLine("int code = getClass().getName().hashCode();");
         // writer.startLine("code ^= getTransformation().hashCode();");
         writer.startLine("return code;");
         writer.unindent();

@@ -112,9 +112,9 @@ public class _SyntaxTransformationPropertyDecl extends PropertyDecl implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Id> temp_name = getName();
-        code ^= temp_name.hashCode();
+        code ^= NodeHash.of(temp_name);
         List<Param> temp_params = getParams();
         code ^= temp_params.hashCode();
         Expr temp_expr = getExpr();

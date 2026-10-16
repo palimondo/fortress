@@ -112,9 +112,9 @@ public class _SyntaxTransformationImportStar extends ImportStar implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<String> temp_foreignLanguage = getForeignLanguage();
-        code ^= temp_foreignLanguage.hashCode();
+        code ^= NodeHash.of(temp_foreignLanguage);
         APIName temp_apiName = getApiName();
         code ^= temp_apiName.hashCode();
         List<IdOrOpOrAnonymousName> temp_exceptNames = getExceptNames();

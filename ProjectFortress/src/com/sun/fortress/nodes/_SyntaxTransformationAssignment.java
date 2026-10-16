@@ -123,11 +123,11 @@ public class _SyntaxTransformationAssignment extends Assignment implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<Lhs> temp_lhs = getLhs();
         code ^= temp_lhs.hashCode();
         Option<FunctionalRef> temp_assignOp = getAssignOp();
-        code ^= temp_assignOp.hashCode();
+        code ^= NodeHash.of(temp_assignOp);
         Expr temp_rhs = getRhs();
         code ^= temp_rhs.hashCode();
         List<CompoundAssignmentInfo> temp_assignmentInfos = getAssignmentInfos();

@@ -115,7 +115,7 @@ public class _SyntaxTransformationWhereCoerces extends WhereCoerces implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_left = getLeft();
         code ^= temp_left.hashCode();
         Type temp_right = getRight();

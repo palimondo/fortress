@@ -112,13 +112,13 @@ public class _SyntaxTransformationContract extends Contract implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<List<Expr>> temp_requiresClause = getRequiresClause();
-        code ^= temp_requiresClause.hashCode();
+        code ^= NodeHash.of(temp_requiresClause);
         Option<List<EnsuresClause>> temp_ensuresClause = getEnsuresClause();
-        code ^= temp_ensuresClause.hashCode();
+        code ^= NodeHash.of(temp_ensuresClause);
         Option<List<Expr>> temp_invariantsClause = getInvariantsClause();
-        code ^= temp_invariantsClause.hashCode();
+        code ^= NodeHash.of(temp_invariantsClause);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

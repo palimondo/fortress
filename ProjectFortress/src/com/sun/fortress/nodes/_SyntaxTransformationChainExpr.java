@@ -117,7 +117,7 @@ public class _SyntaxTransformationChainExpr extends ChainExpr implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_first = getFirst();
         code ^= temp_first.hashCode();
         List<Link> temp_links = getLinks();

@@ -79,11 +79,11 @@ public class TypeInfo extends ParenthesizedInfo {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<StaticParam> temp_staticParams = getStaticParams();
         code ^= temp_staticParams.hashCode();
         Option<WhereClause> temp_whereClause = getWhereClause();
-        code ^= temp_whereClause.hashCode();
+        code ^= NodeHash.of(temp_whereClause);
         return code;
     }
 

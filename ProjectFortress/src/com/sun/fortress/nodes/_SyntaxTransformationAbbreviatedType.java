@@ -114,7 +114,7 @@ public class _SyntaxTransformationAbbreviatedType extends AbbreviatedType implem
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_elemType = getElemType();
         code ^= temp_elemType.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

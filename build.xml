@@ -676,6 +676,25 @@ testOtherCompiler, testCruiseControl
                    replace="\1 from Fortress.ast">
       <fileset dir="${nodes}" includes="**/*.java"/>
     </replaceregexp>
+    <!-- Hash each node apart from the JVM's identity hashes, so that hash
+         maps and sets of nodes iterate in one order whatever code asked for
+         an identity hash before.  ASTGen's NodeClass starts each node's
+         hash from the Class object's identity hash: start it from the hash
+         of the class's name, which String.hashCode fixes.  The Option
+         classes hash by identity hashes too, so a field whose type holds an
+         Option is hashed by NodeHash.  The in-repo generators write the
+         class name's hash directly, and none of their fields holds an
+         Option. -->
+    <replaceregexp byline="true"
+                   match="^(\s*int code = getClass\(\))\.hashCode\(\);$"
+                   replace="\1.getName().hashCode();">
+      <fileset dir="${nodes}" includes="**/*.java"/>
+    </replaceregexp>
+    <replaceregexp flags="g"
+                   match="(Option&lt;[^\n]*&gt; (temp_\w+) = [^\n]*;\n\s*code \^= )\2\.hashCode\(\);"
+                   replace="\1NodeHash.of(\2);">
+      <fileset dir="${nodes}" includes="**/*.java"/>
+    </replaceregexp>
     <move todir="${library}">
       <fileset dir="${astgen.src}">
         <include name="FortressAst.fss" />

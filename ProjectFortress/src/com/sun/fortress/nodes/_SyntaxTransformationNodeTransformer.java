@@ -106,7 +106,7 @@ public class _SyntaxTransformationNodeTransformer extends NodeTransformer implem
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         AbstractNode temp_node = getNode();
         code ^= temp_node.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

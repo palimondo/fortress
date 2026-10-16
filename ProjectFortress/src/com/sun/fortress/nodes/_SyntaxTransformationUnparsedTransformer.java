@@ -109,7 +109,7 @@ public class _SyntaxTransformationUnparsedTransformer extends UnparsedTransforme
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         String temp_transformer = getTransformer();
         code ^= temp_transformer.hashCode();
         Id temp_nonterminal = getNonterminal();

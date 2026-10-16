@@ -90,13 +90,13 @@ public class ExponentiationMI extends NonExprMI {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         FunctionalRef temp_op = getOp();
         code ^= temp_op.hashCode();
         Option<Expr> temp_expr = getExpr();
-        code ^= temp_expr.hashCode();
+        code ^= NodeHash.of(temp_expr);
         return code;
     }
 

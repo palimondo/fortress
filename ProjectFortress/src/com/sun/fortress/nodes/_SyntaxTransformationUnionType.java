@@ -114,7 +114,7 @@ public class _SyntaxTransformationUnionType extends UnionType implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<Type> temp_elements = getElements();
         code ^= temp_elements.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

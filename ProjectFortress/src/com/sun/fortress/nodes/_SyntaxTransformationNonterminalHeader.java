@@ -121,7 +121,7 @@ public class _SyntaxTransformationNonterminalHeader extends NonterminalHeader im
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Id temp_name = getName();
@@ -131,9 +131,9 @@ public class _SyntaxTransformationNonterminalHeader extends NonterminalHeader im
         List<StaticParam> temp_staticParams = getStaticParams();
         code ^= temp_staticParams.hashCode();
         Option<Type> temp_paramType = getParamType();
-        code ^= temp_paramType.hashCode();
+        code ^= NodeHash.of(temp_paramType);
         Option<WhereClause> temp_whereClause = getWhereClause();
-        code ^= temp_whereClause.hashCode();
+        code ^= NodeHash.of(temp_whereClause);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

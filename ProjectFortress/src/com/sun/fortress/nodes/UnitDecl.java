@@ -105,7 +105,7 @@ public class UnitDecl extends DimUnitDecl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         boolean temp_si_unit = isSi_unit();
@@ -113,9 +113,9 @@ public class UnitDecl extends DimUnitDecl {
         List<Id> temp_units = getUnits();
         code ^= temp_units.hashCode();
         Option<Type> temp_dimType = getDimType();
-        code ^= temp_dimType.hashCode();
+        code ^= NodeHash.of(temp_dimType);
         Option<Expr> temp_defExpr = getDefExpr();
-        code ^= temp_defExpr.hashCode();
+        code ^= NodeHash.of(temp_defExpr);
         return code;
     }
 

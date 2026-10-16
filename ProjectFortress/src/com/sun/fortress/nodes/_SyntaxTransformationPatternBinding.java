@@ -123,11 +123,11 @@ public class _SyntaxTransformationPatternBinding extends PatternBinding implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Id> temp_field = getField();
-        code ^= temp_field.hashCode();
+        code ^= NodeHash.of(temp_field);
         Option<Id> temp_binderName = getBinderName();
-        code ^= temp_binderName.hashCode();
+        code ^= NodeHash.of(temp_binderName);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

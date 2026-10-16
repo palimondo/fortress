@@ -106,7 +106,7 @@ public class _SyntaxTransformation_RewriteFunctionalMethodDecl extends _RewriteF
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<String> temp_functionalMethodNames = getFunctionalMethodNames();
         code ^= temp_functionalMethodNames.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

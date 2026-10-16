@@ -115,15 +115,15 @@ public class _SyntaxTransformationFnDecl extends FnDecl implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FnHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         IdOrOp temp_unambiguousName = getUnambiguousName();
         code ^= temp_unambiguousName.hashCode();
         Option<Expr> temp_body = getBody();
-        code ^= temp_body.hashCode();
+        code ^= NodeHash.of(temp_body);
         Option<IdOrOp> temp_implementsUnambiguousName = getImplementsUnambiguousName();
-        code ^= temp_implementsUnambiguousName.hashCode();
+        code ^= NodeHash.of(temp_implementsUnambiguousName);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

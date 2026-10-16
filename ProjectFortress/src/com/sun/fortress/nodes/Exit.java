@@ -98,13 +98,13 @@ public class Exit extends Expr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<Id> temp_target = getTarget();
-        code ^= temp_target.hashCode();
+        code ^= NodeHash.of(temp_target);
         Option<Expr> temp_returnExpr = getReturnExpr();
-        code ^= temp_returnExpr.hashCode();
+        code ^= NodeHash.of(temp_returnExpr);
         return code;
     }
 

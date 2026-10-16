@@ -109,11 +109,11 @@ public class _SyntaxTransformationEnsuresClause extends EnsuresClause implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_post = getPost();
         code ^= temp_post.hashCode();
         Option<Expr> temp_pre = getPre();
-        code ^= temp_pre.hashCode();
+        code ^= NodeHash.of(temp_pre);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

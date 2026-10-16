@@ -138,7 +138,7 @@ public class _SyntaxTransformationStaticParam extends StaticParam implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         int temp_variance = getVariance();
         code ^= temp_variance;
         IdOrOp temp_name = getName();
@@ -148,7 +148,7 @@ public class _SyntaxTransformationStaticParam extends StaticParam implements _Sy
         List<BaseType> temp_dominatesClause = getDominatesClause();
         code ^= temp_dominatesClause.hashCode();
         Option<Type> temp_dimParam = getDimParam();
-        code ^= temp_dimParam.hashCode();
+        code ^= NodeHash.of(temp_dimParam);
         boolean temp_absorbsParam = isAbsorbsParam();
         code ^= temp_absorbsParam ? 1231 : 1237;
         StaticParamKind temp_kind = getKind();

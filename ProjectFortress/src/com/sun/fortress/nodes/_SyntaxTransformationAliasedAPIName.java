@@ -109,11 +109,11 @@ public class _SyntaxTransformationAliasedAPIName extends AliasedAPIName implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         APIName temp_apiName = getApiName();
         code ^= temp_apiName.hashCode();
         Option<Id> temp_alias = getAlias();
-        code ^= temp_alias.hashCode();
+        code ^= NodeHash.of(temp_alias);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

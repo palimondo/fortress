@@ -90,13 +90,13 @@ public class EnsuresClause extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Expr temp_post = getPost();
         code ^= temp_post.hashCode();
         Option<Expr> temp_pre = getPre();
-        code ^= temp_pre.hashCode();
+        code ^= NodeHash.of(temp_pre);
         return code;
     }
 

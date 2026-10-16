@@ -104,7 +104,7 @@ public class UnionCoercionInvocation extends CoercionInvocation {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Type temp_toType = getToType();
@@ -114,7 +114,7 @@ public class UnionCoercionInvocation extends CoercionInvocation {
         List<Type> temp_fromTypes = getFromTypes();
         code ^= temp_fromTypes.hashCode();
         List<Option<CoercionInvocation>> temp_fromCoercions = getFromCoercions();
-        code ^= temp_fromCoercions.hashCode();
+        code ^= NodeHash.of(temp_fromCoercions);
         return code;
     }
 

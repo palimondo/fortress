@@ -120,11 +120,11 @@ public class _SyntaxTransformationTupleType extends TupleType implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<Type> temp_elements = getElements();
         code ^= temp_elements.hashCode();
         Option<Type> temp_varargs = getVarargs();
-        code ^= temp_varargs.hashCode();
+        code ^= NodeHash.of(temp_varargs);
         List<KeywordType> temp_keywords = getKeywords();
         code ^= temp_keywords.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

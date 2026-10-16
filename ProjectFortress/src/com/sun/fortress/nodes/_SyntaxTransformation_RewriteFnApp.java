@@ -117,7 +117,7 @@ public class _SyntaxTransformation_RewriteFnApp extends _RewriteFnApp implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_function = getFunction();
         code ^= temp_function.hashCode();
         Expr temp_argument = getArgument();

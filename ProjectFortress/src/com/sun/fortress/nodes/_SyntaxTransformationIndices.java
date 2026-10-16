@@ -106,7 +106,7 @@ public class _SyntaxTransformationIndices extends Indices implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<ExtentRange> temp_extents = getExtents();
         code ^= temp_extents.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

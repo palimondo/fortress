@@ -69,7 +69,7 @@ public class _EllipsesNonterminalExtensionDef extends NonterminalExtensionDef im
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         return code;
     }
 

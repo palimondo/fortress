@@ -76,7 +76,7 @@ public class MethodInfo extends DataNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_selfType = getSelfType();
         code ^= temp_selfType.hashCode();
         int temp_selfPosition = getSelfPosition();

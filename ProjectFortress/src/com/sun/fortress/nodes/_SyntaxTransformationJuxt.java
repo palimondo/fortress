@@ -126,7 +126,7 @@ public class _SyntaxTransformationJuxt extends Juxt implements _SyntaxTransforma
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FunctionalRef temp_multiJuxt = getMultiJuxt();
         code ^= temp_multiJuxt.hashCode();
         FunctionalRef temp_infixJuxt = getInfixJuxt();

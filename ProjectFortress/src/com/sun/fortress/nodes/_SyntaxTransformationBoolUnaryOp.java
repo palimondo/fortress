@@ -109,7 +109,7 @@ public class _SyntaxTransformationBoolUnaryOp extends BoolUnaryOp implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BoolExpr temp_boolVal = getBoolVal();
         code ^= temp_boolVal.hashCode();
         Op temp_op = getOp();

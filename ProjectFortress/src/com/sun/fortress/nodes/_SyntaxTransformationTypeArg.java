@@ -128,7 +128,7 @@ public class _SyntaxTransformationTypeArg extends TypeArg implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_typeArg = getTypeArg();
         code ^= temp_typeArg.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

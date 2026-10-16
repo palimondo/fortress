@@ -109,7 +109,7 @@ public class _SyntaxTransformationCatchClause extends CatchClause implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BaseType temp_matchType = getMatchType();
         code ^= temp_matchType.hashCode();
         Block temp_body = getBody();

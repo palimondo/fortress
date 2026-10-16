@@ -106,7 +106,7 @@ public class _SyntaxTransformation_InferenceVarInt extends _InferenceVarInt impl
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Object temp_id = getId();
         code ^= temp_id.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

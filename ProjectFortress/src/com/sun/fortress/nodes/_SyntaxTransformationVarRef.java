@@ -120,7 +120,7 @@ public class _SyntaxTransformationVarRef extends VarRef implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_varId = getVarId();
         code ^= temp_varId.hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();
