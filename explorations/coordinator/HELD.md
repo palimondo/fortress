@@ -12,6 +12,8 @@
 
 - 19:59 On the skills update (batch 16's changes and his rules of the day in the skills, the asking rules moved to the top of the coordinator skill, a cold read of the changed parts): it feels consequential; he wants to know in detail what it is about.
 
+- 20:01 On the asking rules moved to the top of the coordinator skill and the cold read of the changed parts: the pre-approval covered editing the skills with the language changes, not the coordinator's own rules; this looks out of line and off protocol to him; he may accept it once the coordinator explains what it did.
+
 ## Held in chat (2026-10-13)
 
 - 09:21 (2026-10-14) He asks to understand, not change, what the preparation and follow-up of a batch cost beside the batch itself (probes, planner, reviews, landing work), and to have it tallied for each batch; first figures by `spend.py` for climb batch 14: the run 4.82M, its preparation about 2.7M (planner with the fold 1.24M, Opus review with its check 1.10M, Fable review 0.38M), its landing work about 1.45M (review 0.61M, routing 0.30M, page 0.24M, record pass 0.20M, the skill writer about 0.1M); batch 15's two probes about 2M; the coordinating session's own tokens not counted. Measured on his follow-up of 10:39 UTC by a Sonnet worker (transcripts of batches 6 to 15): a plan's Fable review alone writes a median of 486K tokens and makes 11.5 changes (n=10); an Opus review 473K to 495K and 10 to 12 changes (n=2), its cached reads about ten times Fable's; the one finished Fable review after Opus (batch 14) 385K and 6 changes, batch 15's still running at 698K; a Fable token weighs three to four times an Opus token against the limits.
