@@ -1,0 +1,4 @@
+tests=XXXAbstractFunctionalMethodReturnType
+compile
+compile_err_contains=For f,
+compile_err_WIcontains=should be a subtype of the return type of

@@ -1,3 +1,3 @@
 tests=XXXNoDuplicatesRuleAbstract
 compile
-compile_err_contains=Likely bug in static analysis, apparently malformed overload set not rejected
+compile_err_contains=There are multiple declarations of f
