@@ -6,6 +6,7 @@
   - Every generated node's hash starts from the hash of its class's name. makeAST's post-processing of ASTGen's output and the in-repo generators write it (`build.xml:679-697`).
   - A field whose type holds an Option is hashed by `NodeHash.of` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeHash.java`), since the PLT Option classes hash by identity hashes.
   - So hash maps and sets of nodes iterate in one order whatever code asked for an identity hash before, and so do the apis that `StaticChecker.checkApis` takes in turn.
+  - Two kinds of node still hash by an identity hash: `_InferenceVarType`, `_InferenceVarOp` and `_InferenceVarInt`, whose id is a bare `Object` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeFactory.java:1166-1184`), and walk's `_WrappedFValue`, which hashes its `FValue` (`interpreter/evaluator/_WrappedFValue.java:170-177`). No output of the count stage moves through the first (`compile-ladder/rung-ast-hashes/REPORT.md`, section 4.4); the second is walk's own (row 430).
   - The checker's output still moves at row 488's `:130`, through NEW-H-1.
   - The entry replaces F-232, which the change makes false.
   - Test: `NodeHashJUTest.testHashesDoNotDependOnIdentityHashes`; for the site that still moves, `XXXOmittedReturnTypeFromApi.test`.
