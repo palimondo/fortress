@@ -561,6 +561,26 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
 
+  // Formula.reduce's answers in this analyzer, each marked if its computation read the context.
+  // A reduction asks only this analyzer's public questions, each from an empty cycle history, so
+  // its answer depends on the formula and this analyzer alone, and a hit on a marked answer is a
+  // read of the context too. A reduction that opened a size is not kept: computed again, it
+  // would open a fresh one.
+  private final val cacheReduce = ProjectProperties.getBoolean("fortress.analyzer.reduce.cache", true)
+  private val reduceMemo = new scala.collection.mutable.HashMap[CFormula, (CFormula, Boolean)]()
+
+  def reduced(c: CFormula)(compute: => CFormula): CFormula =
+    if (!cacheReduce) compute
+    else reduceMemo.get(c) match {
+      case Some((v, contextual)) => if (contextual) traits.readContext(); v
+      case None =>
+        val before = traits.contextReads
+        val opened = openedSizeCount
+        val result = compute
+        if (openedSizeCount == opened) reduceMemo += (c -> (result, traits.contextReads != before))
+        result
+    }
+
   private val normalizeVarTypeMemo = new scala.collection.mutable.HashMap[Id, Any]()
   private val normalizeTraitTypeMemo = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
   private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
