@@ -5129,3 +5129,81 @@ note added
 note added
 
 | 523 | the compiled `ZZ32` `^` casts `Math.pow` to `int`: `2^31` throws a Java `RuntimeException` that no Fortress `catch` sees, and `(-3)^21` and `(-2)^33` saturate quietly to `-2147483648` | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 524, 525, 441. Bound as `jIntExp` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:744`, imported at `:75`, at 052a7c3fe) to `simpleIntArith.intExp` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:400-406`). Walk raises the catchable `IntegerOverflow` for all three (row 520). Fix: bind a checked power for a nonnegative exponent in the compiler prelude. Negative exponents are row 441's: the unbound `simpleIntArith.intToIntPower` (`:380-398`) checks the nonnegative case, but its negative branch answers otherwise than walk, so binding it as it stands would decide row 441. full text: history, row 523 |
+
+### Row 433
+
+notes tightened and a note added
+
+| 433 | the Max/Min-Sum fusion pairs are ill-formed to the checker: `SumReduction`'s two `distribute` overloads and `MaxSumReductionPair`'s and `MinSumReductionPair`'s bodies name `MaxReduction[\T\]` and `MinReduction[\T\]`, whose bounds their `T extends AdditiveGroup[\T\]` does not meet | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/trait-parameters.tex`, "Where Clauses"; `Specification/basic/functions.tex`, "Functions" (not supported yet) | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 6 rung F | Bounds: `StandardMax[\T\]`, `StandardMin[\T\]`. The `distribute` overloads also declare `PossibleReductionPair[\AnyMaybe\]` against `ActualReduction`'s `PossibleReductionPair[\R\]`, after the component's `ReductionPair[\R,L\] extends SomeReductionPair[\L\]` (`Library/FortressLibrary.fss:3079`) where the api has `[\R\]` (`Library/FortressLibrary.fsi:1897`); team's note `Library/Generator2.fss:170-172`. Walk runs them; only `ProjectFortress/tests/GeneratorDeclarations.fss` reaches the fused arm. Fix: `where { T extends StandardMax[\T\] }` per overload once method `where` clauses work, or drop both pairs. full text: history, row 433 |
+
+### Row 436
+
+notes tightened and a note added
+
+| 436 | under walk, an empty `SUM` over a non-number additive group dies at `unlift`: the identity's fallback answers the numeral `0`, not the group's zero | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions"; `basic/evaluation/reduction.tex`, "Reduction Variables"; `Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex:794-797`, "Operators and Their Properties" | `ProjectFortress/tests/XXXEmptyGroupSumRungF.fss` | climb batch 6 rung F | `SUM[\M7\][i <- 0#0] M7(i)` (a user `AdditiveGroup[\M7\]` with its `zero`) ends in `unlift param 1 (r:M7) got arg 0: ZZ32 of type Int`, as does one over `Vector[\RR64,3\]`; nonempty sums run. `SumReduction.empty()` calls `additiveIdentity`, whose `else => 0` (`Library/FortressLibrary.fss:3222` at 052a7c3fe), past the eight number types, answers a numeral. Only a filter or an empty generator calls `empty()`. `multiplicativeIdentity`'s `else => 1` (`:3239`) does the same for `PROD`; both are I3 distance sites. Repair: `HasIdentity` once `where` clauses work (POSITIONS, "SUM and PROD without the Number catch-all (answer 7)"); full text: history, row 436 |
+
+### Row 584
+
+notes tightened and a note added
+
+| 584 | the compiled overloading checker never checks an overloaded operator whose name is not a word of capitals: `opr +(x:A, y:A)` beside `opr +(x:B, y:B)` over unrelated traits passes, where the pair named `MYOP`, or a function `f`, is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/operators/operators.tex`, "Operators"; `Specification/advanced/overloading.tex`, "Overloaded Functional Declarations" | none | climb batch 8, rung M and its skeptic | siblings: 611. `isDeclaredName` admits an `SOp` only when `NodeUtil.validOp` holds (`scala_src/typechecker/OverloadingChecker.scala:650-652` at 052a7c3fe), and `validOp` admits capitals, underscores and eight listed words (`nodes_util/NodeUtil.java:1466`), so the loops at `OverloadingChecker.scala:218` and `:364` skip `+`, `<`, `\|\|`, `//` and every other symbolic operator. The count and distance stages see no symbolic operator's overloading. No `XXX` compile test can hold it: the harness fails one whose compile succeeds. Probe (`fortress typecheck -compiler-lib`): `explorations/compile-ladder/rung-library-meets/SKEPTIC.md` section 3. Open: PLAN item 38. full text: history, row 584 |
+
+### Row 585
+
+notes tightened and a note added
+
+| 585 | `String`'s `\|\|`, `\|\|\|`, `//` and `///` each pair `(a:Any, self)` with `(self, b:Any)`, the shape the specification refuses, which the checker does not see while it skips symbolic operators (row 584) | NEGATIVE-VERIFIED | library bug (library) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | none | climb batch 8, rung M and its skeptic | siblings: 611. By reading: the checker refuses the shape named `juxtaposition`, `DOT` or `foo` (`JuxtProbe`, `explorations/compile-ladder/rung-library-meets/REPORT.md` section 7). Api `Library/FortressLibrary.fsi:2479-2480`, `:2486-2487`, `:2491-2492`, `:2497-2498`; component `Library/FortressLibrary.fss:4262-4263`, `:4273-4274`, `:4283-4284`, `:4293-4294`, at 052a7c3fe. Juxtaposition's became three top-level operators (`:4327-4329`). FlatString's api adds `opr \|\|(a:FlatString, self): String` (`Library/FlatString.fsi:20`), which its component lacks, and omits its `DelegatedIndexed` (`FlatString.fss:34`): one export error of the distance. Device: PLAN item 38. full text: history, row 585 |
+
+### Row 611
+
+notes tightened and a note added
+
+| 611 | walk's and the checker's Meet Rule checks skip symbolic operators, and over them the rule breaks at five library sites: `EmptyString`'s `\|\|` and the `opr \|self\|` of `CompactFullRange2D` and `CompactFullRange3D` | NEGATIVE-VERIFIED | library bug (library) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | `ProjectFortress/tests/XXXFunctionalMethodMeetOperator.fss` | climb batch 10, rung W; the test its skeptic | siblings: 584, 585. Walk's check reads the checker's names so the library loads (`checkedName`, `interpreter/evaluator/values/OverloadedFunction.java:1237`). `EmptyString` provides `opr \|\|(self, other:String)` and `Concatenable`'s `opr \|\|(self, _:EmptyString)`, none on the meet (`Library/String.fss:275-325`, `:33-37`); the ranges provide `opr \|self\|` from `CompactFullRange`, `FullRange2D`/`3D` and `DelegatedIndexed`, none their own (`Library/RangeInternals.fss:1130-1156`, `:1161-1190`). Compiled, the test stops at 'Ambiguous coercion in call to operator \|\|'. Sites: `explorations/compile-ladder/rung-walk-meet/REPORT.md` section 11. Repair: PLAN item 38. full text: history, row 611 |
+
+### Row 727
+
+note added
+
+| 727 | the compiled checker reads no abstract functional method of a trait the component declares, so one beside a concrete method of the same name and … | FIXED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleAbstract.test` | climb batch 15 rung O's skeptic | fixed `c23b85fdc`; climb batch 16 rung K (branch `96c441771`): the per-provider set reads a type's abstract functional methods (`OverloadingChecker.scala:137`), 'There are multiple declarations of f with the same parameter type: (S)'; the pair at two self positions is `XXXNoDuplicatesRuleAbstractSelfPositions`; full text: history, row 727 |
+
+### Row 21
+
+notes tightened and a note added
+
+| 21 | under walk a generic method's own static arguments are not inferred: `O.get(Box[\ZZ32\](z))` with `get[\T\](b: Box[\T\]): T` fails "Unification error: Closure/Constructor for get param 1 ... got arg Box[\ZZ32\]", where the compiled run prints 3 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXMethodStaticArgRungT.fss` | ours | Workaround: write them (`x.zip[\V\](y)`). Return types may be omitted (`explorations/spec-probes/p8_omit.fss`). Walk also fails where the compiled run accepts: a size, `idx[\nat j\](b: Box[\j\])` (`NatMethodChecker`); mixed widths, `sameR[\T\](a: T, b: T)`, "Symbolic type T ... is being matched to value 3: ZZ32"; a type fixed by the expected type, `a: BoxT[\ZZ64\] = Fac.mk()` (`XXXExpectedTypeFixRungT`); a generic method beside another, 'Missing type T' at load, as `GenericMethod.finishInitializing` (`GenericMethod.java:126-140`) evaluates the parameter types in the declaring environment (`XXXDispatchGenericMethodBesidePlain`). `bool`: row 307. full text: history, row 21 |
+
+### Row 495
+
+notes tightened and a note added
+
+| 495 | generic dotted methods keep the compiled dispatch defects of rows 493 and 494: `object K` with `grab[\X\](t: Tag[\X\])` and `grab[\Y\](t: Sub[\Y\])` dies on `K.grab(b2)` with `ClassCastException` (`Marker⟦Y⟧`), as does the swapped pair, and the `ZZ32` pair dies on the run-time spelling | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/overloading.tex`, "Principles of Overloading"; "Overloading Resolution" | `ProjectFortress/compiler_tests/XXXDispatchMethodArmRungG.test` | climb batch 6.5 rung G | siblings: 493, 494, 496. The dotted method's dispatcher template comes from `OverloadSet`'s generic-function-class path with the trait's parameters ahead of the method's (`explorations/reviews/mie-probes/scope-call-site-dispatch.md` § 3, 'The remainder'), which rung G's call-site change (`fd5cb4864`, template dispatchers of top-level functions) does not reach. Linked by `DispatchMethodArmRungGLink`. Walk cannot run these: it infers no static argument for a method call (row 21). Probes `explorations/compile-ladder/rung-generic-runtime/probes/MethRenamed.fss`, `MethSwapped.fss`, `MethZZ32.fss`, in the parent of `ab067d9b6`; full text: history, row 495 |
+
+### Row 438
+
+notes tightened and a note added
+
+| 438 | the one library declares integer `^` as answering `RR64`, and its natives answer the integer for a nonnegative power: `(widen(3))^2` is `9 : Long`, and its use as the declared `RR64`, `r + 0.5`, is refused | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 6 rung F's repair round | siblings: 445. `^(self, b:AnyIntegral):RR64` on `Integral` and six integer types (`Library/FortressLibrary.fss:718`, `:796`, `:888`, `:970`, `:1068`; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:460`, `:551`, `:553`, at 052a7c3fe); `Int$Pow` and kin answer their own class. No walk test shows it (row 387). The checker types every integer power `RR64`: `Library/Timing.fss:21-25`, `QQ`'s `^` body (`fss:638`), `strToFloat`'s `SUM[\ZZ32\]` over `10^k` (`:4425`). Fix: `opr ^(self, power: NN): ZZ` at each integer's type, not converting (`QQ`'s exact `^`); negative powers: row 441. Probe `explorations/compile-ladder/rung-flat-tower/rule2-probe.sh` at ab067d9b6^. full text: history, row 438 |
+
+### Row 441
+
+notes tightened and a note added
+
+| 441 | a negative power of an integer has no specified result, and the paths differ: on `ZZ32` `2^(-1)` is `0.5` (an `RR64`) under walk and `0` compiled, and `0^(-1)` is `Infinity` under walk and a raw `java.lang.RuntimeException` compiled | NEGATIVE-VERIFIED | design limit (specification) | silent | none | climb batch 6 rung T's skeptic | siblings: 523. The Working Draft gave 1/2 through ℚ's `^` (`Specification-1.0-frozen/basic-lib/numbers.tex:344-355`); the revised chapter's callout says it does not give it. Compiled, `jIntExp` casts `Math.pow` to `int` (row 523): a quiet 0 but for bases 0, ±1. The library declares `RR64` (`Library/FortressLibrary.fsi:469`). By reading, `NN32$Pow`'s negative branch sign-extends (`glue/prim/NN32.java:232`). Binding the unbound `simpleIntArith.intToIntPower` would decide it. The curator chooses: a rational, a throw, or `RR64`. Probes `explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkIntPowerNeg.fss`, `Sk2PowNegEdge.fss`, in the parent of ab067d9b6. full text: history, row 441 |
+
+### Row 445
+
+notes tightened and a note added
+
+| 445 | the one library's api declares the rational power's exponent `ZZ64` where the component and the specification take any integer, and under walk the component fails for a `ZZ` exponent and recurses to a `StackOverflowError` for an unsigned one | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/tests/XXXQQPowerExponent.fss` | climb batch 6 gather and merged-diff review | siblings: 438. By reading, the api's `other:ZZ64` in `QQ` and `MultiplicativeRing` (`Library/FortressLibrary.fsi:427`, `:280`, at 052a7c3fe), component `other:AnyIntegral` (`.fss:638`, `:374`); fix: `AnyIntegral`. Walk, apart: (1) the integer `^` natives read the exponent with `getLong` (e.g. `glue/prim/Int.java:223`, `BigNum.java:114`), which a `ZZ` refuses (`evaluator/values/FBigNum.java:48-50`); fix: a read answering a `ZZ` that fits 64 bits. (2) `-other > 0` (`.fss:639`) holds for an unsigned exponent, whose negation wraps; fix: `other < 0 AND -other > 0`. The test passes only with both. The checker refuses `-other`: the flat `AnyIntegral` declares no `-`. full text: history, row 445 |
+
+### Row 697
+
+notes tightened and a note added
+
+| 697 | walk's load check counts two parameter lists as excluding when every parameter at which one differs is an object type, even an object below the other's type: `f(x: B): C` beside `f(x: C): B`, with `object C extends B`, loads and runs | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Subtype Rule" | none | POPL 2019 examples sorting | siblings: 99. `allObjInstance1` and `allObjInstance2` skip equal parameters (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:427-433`), and `distinct \|= unequal && (allObjInstance1 \|\| allObjInstance2)` (`:486`, at 75be286ac, the team's line) marks the pair excluding though `C` extends `B`, so the return-type condition is never checked. Walk prints `C`; the compiled checker refuses, 'the return type of C->B ... should be a subtype of the return type of B->C'. The talk's slide 4 `m1(x: C, y: C): B` beside `m1(x: C, y: B): C` loads too; with `trait C` and an object below it walk refuses. `explorations/reviews/popl2019-examples.md` |
+
+### Row 444
+
+notes tightened and a note added
+
+| 444 | under walk, an overloading of a dotted method across inheritance that the Meet Rule refuses is accepted and dispatched: `m(x: ZZ32)` in `trait Tm` beside `m(x: Any)` in `object Om extends Tm` prints 1 and 2 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Meet Rule" | none | climb batch 6 rung R's second skeptic | siblings: 544. `Om` provides no `m` for `(Om, ZZ32)`, and neither `(Om, Any)` nor `(Tm, ZZ32)` is below the other; the compiled checker refuses the pair, 'Invalid overloading of m in trait Om: (Om, Any)->ZZ32 and (Tm, ZZ32)->ZZ32'. The same holds with a size on the trait's arm (`m[\nat n\](x: ZZ32)`). The fix belongs in walk's overload check for a method an object inherits beside one it declares; its site is not located. Probes `explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss`, `Sk2Inherited.fss`, in the parent of `ab067d9b6`; full text: history, row 444 Diamond shape: `tests/XXXDottedMethodMeetInheritedWalk.fss` (batch 12 W's skeptic). |
