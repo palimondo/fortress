@@ -11,6 +11,7 @@
 
 package com.sun.fortress.interpreter.evaluator;
 
+import com.sun.fortress.compiler.typechecker.StaticTypeReplacer;
 import com.sun.fortress.exceptions.FortressException;
 import com.sun.fortress.exceptions.ProgramError;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
@@ -30,7 +31,9 @@ import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.Pattern;
 import com.sun.fortress.nodes.StaticParam;
 import com.sun.fortress.nodes.StaticArg;
+import com.sun.fortress.nodes.TraitObjectDecl;
 import com.sun.fortress.nodes.TraitType;
+import com.sun.fortress.nodes.TraitTypeWhere;
 import com.sun.fortress.nodes.TypeArg;
 import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.Type;
@@ -270,24 +273,66 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
     /**
      * The static argument at position k of a big operator's declared result,
      * where it is one of the library's BigReduction, Comprehension or
-     * BigOperator; null otherwise.  For the element type I, k is 0 in each;
-     * for the result type O, k is 0 in BigReduction[\R,L\], whose O is R, and
-     * 1 in the other two.
+     * BigOperator, or of the one of those three that the declared result
+     * extends (libraryBigResult); null otherwise.  For the element type I, k
+     * is 0 in each; for the result type O, k is 0 in BigReduction[\R,L\],
+     * whose O is R, and 1 in the other two.
      */
     private static Type resultArgOf(GenericFunctionOrMethod g, boolean result) {
         Option<Type> rt = g.getReturnType();
         if (rt.isNone() || !(rt.unwrap() instanceof TraitType)) return null;
-        TraitType tt = (TraitType) rt.unwrap();
-        String head = NodeUtil.nameString(tt.getName());
-        int dot = head.lastIndexOf('.');
-        if (dot >= 0) head = head.substring(dot + 1);
-        int k;
-        if (head.equals("BigReduction")) k = 0;
-        else if (head.equals("Comprehension") || head.equals("BigOperator")) k = result ? 1 : 0;
-        else return null;
+        TraitType tt = libraryBigResult((TraitType) rt.unwrap(), g.getWithin(), 0);
+        if (tt == null) return null;
+        int k = bareName(tt).equals("BigReduction") ? 0 : result ? 1 : 0;
         List<StaticArg> sas = tt.getArgs();
         if (sas.size() <= k || !(sas.get(k) instanceof TypeArg)) return null;
         return ((TypeArg) sas.get(k)).getTypeArg();
+    }
+
+    /** The name of the trait tt, without the api that qualifies it. */
+    private static String bareName(TraitType tt) {
+        String head = NodeUtil.nameString(tt.getName());
+        int dot = head.lastIndexOf('.');
+        return dot >= 0 ? head.substring(dot + 1) : head;
+    }
+
+    /** How many declarations up the extends clauses libraryBigResult reads. */
+    private static final int BIG_RESULT_DEPTH = 16;
+
+    /**
+     * The type tt, named in the environment env, where it is the library's
+     * BigReduction, Comprehension or BigOperator; else the first of those
+     * three that tt extends, read through the extends clause of tt's trait
+     * or object declaration and up its supertypes' in turn, each with tt's
+     * static arguments put for the declaration's static parameters; null
+     * where none is found.
+     */
+    private static TraitType libraryBigResult(TraitType tt, Environment env, int depth) {
+        String head = bareName(tt);
+        if (head.equals("BigReduction") || head.equals("Comprehension") || head.equals("BigOperator")) return tt;
+        if (depth >= BIG_RESULT_DEPTH) return null;
+        FType ft;
+        try {
+            ft = env.getType(tt);
+        }
+        catch (FortressException ex) {
+            return null;
+        }
+        if (!(ft instanceof FTraitOrObjectOrGeneric)) return null;
+        FTraitOrObjectOrGeneric declared = (FTraitOrObjectOrGeneric) ft;
+        Object d = declared instanceof FTypeGeneric ? ((FTypeGeneric) declared).getDef() : declared.getDecl();
+        if (!(d instanceof TraitObjectDecl)) return null;
+        TraitObjectDecl decl = (TraitObjectDecl) d;
+        List<StaticParam> sps = NodeUtil.getStaticParams(decl);
+        if (sps.size() != tt.getArgs().size()) return null;
+        StaticTypeReplacer args = new StaticTypeReplacer(sps, tt.getArgs());
+        for (TraitTypeWhere ttw : NodeUtil.getExtendsClause(decl)) {
+            Type sup = args.replaceIn(ttw.getBaseType());
+            if (!(sup instanceof TraitType)) continue;
+            TraitType found = libraryBigResult((TraitType) sup, declared.getWithin(), depth + 1);
+            if (found != null) return found;
+        }
+        return null;
     }
 
     /**

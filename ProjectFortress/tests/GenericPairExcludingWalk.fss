@@ -11,6 +11,11 @@ trait Tag[\X\] end
 trait Sub[\X\] extends Tag[\X\] end
 object TagBlue extends Tag[\Blue\] end
 object SubBlue extends Sub[\Blue\] end
+trait Readable[\E\] end
+trait Frozen[\E\] extends Readable[\E\] excludes { Thawed[\E\] } end
+trait Thawed[\E\] extends Readable[\E\] end
+object FrozenZ extends Frozen[\ZZ32\] end
+object ThawedZ extends Thawed[\ZZ32\] end
 
 take[\T\](x: Box[\T\]): String = "box"
 take[\T\](x: Crate[\T\]): String = "crate"
@@ -27,6 +32,9 @@ pick[\U extends Red\](x: Box[\U\]): String = "red box"
 kind[\X\](t: Tag[\X\]): String = "tag"
 kind[\X\](t: Sub[\X\]): String = "sub"
 
+copyOf[\T\](a: Thawed[\T\]): String = "thawed"
+copyOf[\T\](a: Frozen[\T\]): String = "frozen"
+
 run(): () = do
     assert(take(Box[\ZZ32\](1)), "box", "Box and Crate are two generic objects, so their instances exclude")
     assert(take(Crate[\ZZ32\](1)), "crate", "a Crate runs the declaration over Crate")
@@ -38,6 +46,8 @@ run(): () = do
     assert(pick(Box[\Blue\](Blue)), "any box", "a Box of Blue runs the unbounded declaration")
     assert(kind(SubBlue), "sub", "a Sub runs the declaration over Sub, which lies inside the one over Tag")
     assert(kind(TagBlue), "tag", "a Tag that is no Sub runs the declaration over Tag")
+    assert(copyOf(FrozenZ), "frozen", "Frozen and Thawed exclude at one instance, and no type extends Readable at two, so their instances exclude")
+    assert(copyOf(ThawedZ), "thawed", "a Thawed runs the declaration over Thawed")
     println("PASS")
   end
 

@@ -592,7 +592,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
                     return ifclause.getBody().accept(this);
                 }
             } else {
-                if (clauseVal.type() instanceof FTraitOrObject) {
+                if (maybeType(clauseVal.type())) {
                     if (((FTraitOrObject) clauseVal.type()).getName().equals("Just")) return ifclause.getBody().accept(
                             this);
                 } else {
@@ -606,6 +606,18 @@ public class Evaluator extends EvaluatorBase<FValue> {
         } else {
             return FVoid.V;
         }
+    }
+
+    /**
+     * Whether t is the type of one of the library's two Maybe objects, a
+     * Just or a Nothing, which an if clause without a binding takes as true
+     * where it holds a value and as false where it holds none.  An if clause
+     * of any other type that is not Boolean is refused.
+     */
+    private static boolean maybeType(FType t) {
+        if (!(t instanceof FTraitOrObject)) return false;
+        String n = ((FTraitOrObject) t).getName();
+        return (n.equals("Just") || n.equals("Nothing")) && Glue.extendsGenericTrait(t, "Maybe");
     }
 
     public FValue forLValue(LValue x) {
