@@ -2,7 +2,7 @@
 
 # Rung K: abstract functional methods read, a broken bound reported at the call
 
-- problem: on the base `XXXNoDuplicatesRuleAbstract` was keyed on the code generator's stop, 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:409-411`). The per-provider set dropped a component's own bodiless functional method (`OverloadingChecker.scala:138-141` at 528438ac5). Row 720's reproducer named the callee's result, not the call: `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleAbstract.test:3`
+- problem: on the base `XXXNoDuplicatesRuleAbstract` was keyed on the code generator's stop, 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:409-411`). The per-provider set dropped a component's own bodiless functional method (`OverloadingChecker.scala:138-141` at 528438ac5). Row 720's reproducer named the callee's result, not the call: `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:411`
 - spec: a trait provides what it declares or inherits, abstract declarations included (`Specification/basic/traits.tex:580-581`), and an object must define each abstract method it inherits: `Specification/basic/traits.tex:628-633`
 - precedent: the team's dotted per-provider set keeps abstract dotted methods with no body filter: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:170-172`
 - deviation: the team's 2012 functional set kept bodies only (a874948ac, line 133); it now keeps every functional method a type provides: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:137`
@@ -108,7 +108,7 @@ P-149 takes that reading, and P-26 the papers' rules. No normative sentence chan
 | `XXXStaticArgBoundAtCall` | one error at :12:23-26, the callee's result | one error at :13:19-27, the call |
 | `XXXStaticArgBoundAtCallOnce` | one error at :12:23-26 | one error at :13:21-29, the call inside the tuple |
 | `XXXIllFormedTypeAtDeclarationOnce` | one error at :11:8-14, the declaration | the same |
-| `FactoryUnboundedCaller` (row 720's reproducer) | two errors at :11:42-48 | two errors at :16:20-17:8, the typecase clause's body, which begins at the call |
+| `FactoryUnboundedCaller` (row 720's reproducer) | two errors at :11:42-48 | two errors at :16:20-17:8, the call `vec[\T,s0\]()` itself, whose span the parser runs on to the `else` of line 17 |
 | `Nest720` (a tuple, a local variable) | one error at :8:23-26 | one error at :9:20-28 |
 | `GenTest5` | 32 errors | 32 errors, five at their calls in place of the callee's or a synthesized place |
 | `tupleTypeParam` | 3 errors, one at :18:8-9 | 3 errors, that one at the call :25:7-36 |
@@ -190,6 +190,7 @@ Two notes on the profile:
 - The specification builds clean: `./ant genSource` and `./ant tex` end 'BUILD SUCCESSFUL', and the log has no 'LaTeX Warning: Reference', multiply-defined label or undefined control sequence.
 - These statements in the record are false now, which is revival-change material:
   - F-80's "Unchecked: a pair one of whose declarations is the component's own abstract one (row 572)";
+  - F-223's "and reads no abstract functional method of a trait the component declares (row 727); such a pair passes it and stops the code generator (rows 726 and 727)", and its naming of `XXXNoDuplicatesRuleAbstract` among the checker's departures;
   - row 572's walk note ('InterpreterBug ... row 100's mechanism'), already stale since F-142;
   - the places in rows 720 and 433;
   - JUDGE.md decision 1's reading (b), as the checker's behaviour.
