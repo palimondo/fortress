@@ -21,6 +21,7 @@ import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
 import com.sun.fortress.nodes_util.NodeUtil
 import com.sun.fortress.nodes_util.SourceLoc
+import com.sun.fortress.nodes_util.Span
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -38,22 +39,40 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
     errors
   }
 
-  private def error(s:String, n:Node) = errors.add(TypeError.make(s,place(n)))
+  // An error on n is reported at n, or, where n lies outside the nearest expression the walk
+  // is in, as a call's type keeps the spans of the callee's declared type, at an expression:
+  // once for each message and place of n, as the errors at n were, at the innermost
+  // expression the walk met n in, the first of them where they are disjoint.
+  private def error(s:String, n:Node) = outside(n) match {
+    case None => errors.add(TypeError.make(s,n))
+    case Some(e) =>
+      val key = (s, n.at)
+      val met = movedErrors.get(key)
+      if (met == null) {
+        movedErrors.put(key, (errors.size, e)); errors.add(TypeError.make(s,e))
+      } else if (within(NodeUtil.getSpan(e), NodeUtil.getSpan(met._2))) {
+        movedErrors.put(key, (met._1, e)); errors.set(met._1, TypeError.make(s,e))
+      }
+  }
 
   // The nearest expression the walk is in, if any.
   private var enclosingExpr: Option[Expr] = None
 
-  // Where an error on n is reported: at n, or, where n lies outside the nearest expression
-  // the walk is in, as a call's type keeps the spans of the callee's declared type, at that
-  // expression.
-  private def place(n: Node): Node = (n, enclosingExpr) match {
-    case (t: ASTNode, Some(e)) =>
-      val (a, b) = (NodeUtil.getSpan(t), NodeUtil.getSpan(e))
-      def le(x: SourceLoc, y: SourceLoc) =
-        x.getLine < y.getLine || (x.getLine == y.getLine && x.column <= y.column)
-      if (a.getFileName == b.getFileName && le(b.getBegin, a.getBegin) && le(a.getEnd, b.getEnd)) n
-      else e
-    case _ => n
+  // Each error reported at an expression in place of a node outside it, by its message and
+  // the node's place: its index in errors and the expression.
+  private val movedErrors = new java.util.HashMap[(String, String), (Int, Expr)]()
+
+  // The nearest expression the walk is in, where n lies outside it.
+  private def outside(n: Node): Option[Expr] = (n, enclosingExpr) match {
+    case (t: ASTNode, Some(e)) if !within(NodeUtil.getSpan(t), NodeUtil.getSpan(e)) => Some(e)
+    case _ => None
+  }
+
+  // Whether span a lies within span b.
+  private def within(a: Span, b: Span): Boolean = {
+    def le(x: SourceLoc, y: SourceLoc) =
+      x.getLine < y.getLine || (x.getLine == y.getLine && x.column <= y.column)
+    a.getFileName == b.getFileName && le(b.getBegin, a.getBegin) && le(a.getEnd, b.getEnd)
   }
 
   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
