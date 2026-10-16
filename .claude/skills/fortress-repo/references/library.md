@@ -13,7 +13,7 @@ The desugarer, which both paths share, turns these forms into calls of the libra
 
 - `for x <- g do b end` becomes `g.loop(fn x => b)`, a call of the generator's `loop` method. Each further generator nests one more `loop` call inside.
 - `while x <- e do b end` becomes `while __whileCond(e, fn x => b) do end`. `if x <- e then ... end` becomes a call of `__cond`.
-- A comprehension or a big operator, such as `SUM`, becomes a call of `__bigOperator`, whose argument calls `__generate` on each generator. A big operator inside another becomes one call of `__bigOperator2`.
+- A comprehension or a big operator, such as `SUM`, becomes a call of `__bigOperator`, whose argument calls `__generate` on each generator. So does a big operator inside another: no desugaring calls the library's `__bigOperator2`.
 
 These functions work on the library's generators and reductions: `trait Generator` and `trait Reduction` in `FortressLibrary.fsi`, and `RangeInternals.fss` for ranges. `FortressLibrary.fss` also defines `__loop`, but no desugaring calls it. So a failure inside a loop or a reduction is most often in the library's code, and its fix is a library edit.
 

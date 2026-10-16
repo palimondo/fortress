@@ -35,7 +35,7 @@ Walk does not check static types (`SKILL.md`, "The phases"). The commands that s
 
 At load, walk checks the overload sets, some `comprises` clauses, inherited abstract methods and `override` declarations. It refuses:
 
-- two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if their declared domains order a generic declaration and a plain one, or if `comprises` clauses cover the overlap.
+- two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if their declared domains order a generic declaration and a plain one, or if `comprises` clauses cover the overlap. It reads two generic declarations each over its own instances, and accepts them if their declared domains keep the overloading rules (`revival-changes.md`, "Walk's check of two generic declarations").
 - two functional methods that break the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`) in a type that provides both.
 - an overloaded function with one parameter of type `T`, where `T extends Any` is written: `f[\T extends Any\](x: T)`.
 - an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses.

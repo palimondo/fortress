@@ -40,6 +40,15 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: walk chooses by the declared types.
 - Reason: the specification's rule. A program's answer no longer depends on the order of its declarations.
 
+**Walk's check of two generic declarations**
+
+- Original: walk read two generic declarations of one name at one shared symbolic instance, and took two instances of one generic object as types that exclude. So it loaded `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, where `P[\T\] excludes { Q[\T\] }`, and `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`. It ran one declaration of each pair. The compiled checker refuses both pairs.
+- Resolution: walk reads each declaration over its own instances. It loads such a pair only if the No Duplicates Rule, the Meet Rule and the return-type rule hold on the declared domains. Otherwise it refuses the pair at load: "with generic type, at least one pair of parameters must have excluding types". Three cases differ:
+  - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes (ledger row 740);
+  - the checker refuses two kinds of pair that walk loads (ledger row 741);
+  - walk loads two generic declarations whose declared domains are equal (ledger row 742).
+- Reason: the specification reads a declaration with static parameters over every instance within its bounds. Two instances of one generic trait meet only where their static arguments are equal (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters").
+
 **`fill` and `tabulate`**
 
 - Original: the interpreter's library declared two array methods named `fill`: one takes a value, one a function of the index. For an element type of `Any` or of a function type, both apply and neither is more specific. The checker refused the pair, and walk called a function meant as the value.
@@ -77,6 +86,15 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the traits chapter says that a type provides the method declarations it declares and inherits, and that it does not inherit one that its own `override` declaration overrides or whose parameter types its own declaration repeats. The compiled checker read every declaration of every supertype as provided, and refused the team's `ProjectFortress/tests/disp0.fss`, whose `override` widens a parameter.
 - Resolution: both paths read what a type provides as the chapter says. The checker checks that the return type of an overriding declaration is a subtype of the return type of the declaration that it overrides.
 - Reason: the specification's rule, which walk follows (above). The team's own test is valid by it.
+
+**Abstract functional methods in the checker's overloading check**
+
+- Original: the No Duplicates Rule, the Meet Rule over what a type provides and the return-type rule read abstract declarations too (`Specification/advanced/overloading.tex`; `Specification/basic/traits.tex`). The compiled checker read only functional methods with a body when it checked what a type provides. So these passed the checker:
+  - an abstract and a concrete functional method with one parameter type, in one trait. The code generator then stopped.
+  - an object that inherits an abstract functional method from one trait and its body from another, and declares none of its own. It ran the body.
+  - an object's functional method that defines its trait's abstract one with an unrelated return type. Its run failed the JVM's verification.
+- Resolution: the checker reads every functional method that a type provides, abstract ones too. It refuses the three cases: "There are multiple declarations of f with the same parameter type", "Invalid overloading of pick in trait O" and "For f, the return type of ... should be a subtype of ...". Walk refused all three at load already. The checker's check of top-level overloads still reads only declarations with a body (ledger row 739).
+- Reason: the specification's rules, and the code generator's own refusal of such a set. The type group's Welterweight calculus refuses the second case too. Scala accepts it, and the revival keeps Fortress's rule.
 
 **A string's `left` and `right`**
 
@@ -143,10 +161,9 @@ A note written before the revival, and your training, can be right about the tea
   2. else at the join, the least common supertype, of its elements' run-time types; walk collects the elements before it reduces them. Where the join is outside the bound, such as `Number` for `ZZ32` and `RR64` elements of a `SUM`, the parameter stays open, and each `+` runs at its operands' types;
   3. else, with no element, at each parameter's bound, or open where the bound names the parameter.
 
-  The code is `bigOperatorByElements` in `interpreter/evaluator/Evaluator.java`. `__bigOperator` declares `body(i: I): L`, and `IntMap`'s operator returns a `Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]`. An element that converts to the instantiated type is converted, as at a call. Any other element stops inside `__bigOperator`, with "body param 1". Walk still differs from the specification in three cases:
+  The code is `bigOperatorByElements` in `interpreter/evaluator/Evaluator.java`. Walk reads a big operator's declared result through the `BigReduction`, `Comprehension` or `BigOperator` that it extends, so `opr BIG CATOP[\T\](): CatOperator[\T\]` is read as its supertype (`resultArgOf` in `EvaluatorBase.java`). `__bigOperator` declares `body(i: I): L`, and `IntMap`'s operator returns a `Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]`. An element that converts to the instantiated type is converted, as at a call. Any other element stops inside `__bigOperator`, with "body param 1". Walk still differs from the specification in two cases:
   - an empty one that no declared type directs leaves `SUM`'s parameter open, and gives the integer 0, whatever its body's type (ledger row 716);
-  - a comprehension inside another clause form, a reduction or comprehension with generators in brackets such as `BIG CONCAT[ys <- xss] e`, is built at its elements' run-time types where no declared type reaches it (ledger rows 20 and 717);
-  - a user big operator declared to return a trait of its own, such as `opr BIG CATOP[\T\](): CatOperator[\T\]`, takes its bound (ledger row 718).
+  - a comprehension inside another clause form, a reduction or comprehension with generators in brackets such as `BIG CONCAT[ys <- xss] e`, is built at its elements' run-time types where no declared type reaches it (ledger rows 20 and 717).
 
   On the compiled path, the checker takes a plain bound, or the expected type where the reduction's type at that bound does not fit it. It refuses a reduction whose bound names its parameter, such as `SUM`'s and `PROD`'s (ledger row 731).
 - Reason: a type parameter that a call does not fix takes its bound, narrowed by the call's static return type, here the declared type of the value. Walk has no static types, so it reads its elements' run-time types for the type of the expression. At its bound alone, a comprehension is built at `Any`. With `Bottom`, the typed `body(i)` refused the first element.
@@ -264,6 +281,12 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the interpreter's library declared no size on `Generator`, though three of the library's bodies read the size of a `Generator`. The relational predicate, the condition that `relationalPredicate(r)` makes (`RelationalPredicateCondition`'s `cond` in `Library/FortressLibrary.fss`), asks whether `r` holds between each two consecutive elements of its target, a `Generator`; it read a size and indices from 0 off the target. Under walk, `|g|` of a filter, a nest or a mapped filter stopped, and so did the relational predicate on a filter; on an array whose indices start above 0 it read outside the bounds. `Indexed`'s default `indexValuePairs` answered a mapped generator, printed `mapped(...)`, where an `Indexed` is declared. The checker refused these at nine sites.
 - Resolution: `Generator` has `opr |self|`, a default that counts the elements by running the generator, as `opr IN` searches them. A type with its own size keeps it. The relational predicate is one reduction in the generator's natural order, as the relational reduction of `Generator2` (`efficientImplRelationalDistributiveImpl` in `Library/Generator2.fss`) is. The default pairs are an object over the indexed value, `SimpleIndexValuePairs`, which prints as its elements and is indexed as the value is; a slice of it keeps each pair's index. So two answers change under walk: the relational predicate on a reversed indexed value follows its natural order, and the default pairs of a value indexed from 5 are indexed from 5, not from 0.
 - Reason: the checker's refusals. A default keeps "only needs to define the generate method" true (`Specification/advanced/parallelism-locality/defining-generators.tex`). Counting consumes a consumable generator and never ends on an endless one, as every other derived default of `Generator` does.
+
+**Walk's `if` on a value that is not a `Boolean`**
+
+- Original: the specification takes a clause without a binding only of type `Boolean` (`Specification/basic/expressions/if.tex`). Walk took an object named `Just` as true and every other object as false, so an `if` on a number took its `else` branch. The team's tests `maybeTest.fss` and `naturalsTest.fss` give a plain `if` a `Maybe` clause.
+- Resolution: walk takes a `Boolean` by its value, a `Just` as true and a `Nothing` as false. It refuses every other value: "If clause did not return boolean, but 1: ZZ32". The compiled checker refuses a `Maybe` clause too, so here walk departs from the specification. Walk tests names: an object named `Just` or `Nothing` that extends a trait named `Maybe` counts.
+- Reason: the specification's rule, which the compiled checker enforces, and the team's own tests.
 
 ## Specified, but not built
 
