@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,16 +13,22 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import com.sun.fortress.nodes.APIName;
+import com.sun.fortress.nodes.ExprInfo;
+import com.sun.fortress.nodes.Id;
+import com.sun.fortress.nodes.Level;
 import com.sun.fortress.nodes.Node;
 import com.sun.fortress.nodes.StaticArg;
+import com.sun.fortress.nodes.TemplateGapExpr;
 import com.sun.fortress.nodes.Type;
+import com.sun.fortress.nodes._EllipsesExpr;
+import com.sun.fortress.nodes._SyntaxTransformationExpr;
+import com.sun.fortress.parser_util.precedence_opexpr.Higher;
+import com.sun.fortress.parser_util.precedence_opexpr.RealExpr;
+import com.sun.fortress.useful.PureList;
 
-/* A syntax tree node's hash, and so the order of a hash set of nodes, does not depend on the
- * identity hashes that the JVM handed out before it. */
+/* The hashes of syntax tree nodes and of the parser's lists and precedences, and the order of a hash set of nodes, do not depend on the identity hashes that the JVM handed out before. */
 public class NodeHashJUTest extends TestCase {
 
-    /** Asks for as many identity hashes as its argument says, then prints the hashes of a few
-     *  nodes and the order of a hash set of api names. */
     public static class Print {
         public static void main(String[] args) {
             int first = Integer.parseInt(args[0]);
@@ -40,6 +48,20 @@ public class NodeHashJUTest extends TestCase {
             for (Node n : nodes)
                 System.out.println(n.getClass().getSimpleName() + " " + n + " " + n.hashCode());
 
+            Id x = NodeFactory.makeId(span, "x");
+            ExprInfo info = NodeFactory.makeExprInfo(span);
+            List<Object> others = Arrays.<Object>asList(
+                new TemplateGapExpr(info, x, Collections.<Id>emptyList()),
+                new _EllipsesExpr(info, x),
+                new _SyntaxTransformationExpr(info, new HashMap<String, Level>(),
+                                              Collections.<String>emptyList(), "f"),
+                PureList.make("a", "b"),
+                PureList.make(),
+                new Higher(),
+                new RealExpr(ExprFactory.makeVarRef(span, "y")));
+            for (Object o : others)
+                System.out.println(o.getClass().getSimpleName() + " " + o.hashCode());
+
             Set<APIName> apis = new HashSet<APIName>();
             for (String a : new String[] { "AnyType", "FortressBuiltin", "FortressLibrary", "RangeInternals",
                                            "NativeArray", "List", "Set", "Map", "File", "Stream" })
@@ -48,7 +70,6 @@ public class NodeHashJUTest extends TestCase {
         }
     }
 
-    /** What Print prints in a JVM of its own that asks for that many identity hashes first. */
     private static String print(int identityHashesFirst) throws Exception {
         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
         ProcessBuilder pb = new ProcessBuilder(java, "-cp", System.getProperty("java.class.path"),
