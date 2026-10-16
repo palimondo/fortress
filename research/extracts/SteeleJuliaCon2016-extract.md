@@ -318,8 +318,10 @@ Pointer to Google Tech Talk "Four Solutions to a Trivial Problem" on YouTube.
   ```
 
   "Definition of ∑ can be overloaded."
-  **[repo]** `Monoid[\T,opr\]` DID ship — exactly enough for ∑ (chat-session
-  audit).
+  **[repo]** The operator-parameterized `trait Monoid[\ T, opr OPLUS \]` stands
+  only inside a comment (`Library/FortressLibrary.fss:3188-3196`, unchanged
+  since `5a68404fd`, the tree's oldest commit); what shipped is the reduction
+  trait `MonoidReduction[\R\]` (`Library/FortressLibrary.fsi:1930`).
 - Slide 35 — Generators/reducers generic in element type; lazily composable
   (cross product, catenation); algebraic properties encoded in the type system;
   generator controls sequential/parallel strategy; overload dispatch selects
