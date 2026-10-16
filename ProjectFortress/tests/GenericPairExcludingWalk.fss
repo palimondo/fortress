@@ -1,0 +1,44 @@
+component GenericPairExcludingWalk
+export Executable
+
+(* Two generic declarations whose domains exclude over all their instances, or one of which lies inside the other, are a valid overloading, and each call runs the declaration its argument's type selects (overloading.tex, sections "Declarations with Static Parameters" and "Overloading Resolution"). *)
+
+object Red end
+object Blue end
+object Box[\T\](v: T) end
+object Crate[\T\](v: T) end
+trait Tag[\X\] end
+trait Sub[\X\] extends Tag[\X\] end
+object TagBlue extends Tag[\Blue\] end
+object SubBlue extends Sub[\Blue\] end
+
+take[\T\](x: Box[\T\]): String = "box"
+take[\T\](x: Crate[\T\]): String = "crate"
+
+tint[\T extends Red\](x: Box[\T\]): String = "red"
+tint[\T extends Blue\](x: Box[\T\]): String = "blue"
+
+mark[\T\](x: Box[\T\], y: Red): String = "box and red"
+mark[\T\](x: Box[\T\], y: Blue): String = "box and blue"
+
+pick[\T\](x: Box[\T\]): String = "any box"
+pick[\U extends Red\](x: Box[\U\]): String = "red box"
+
+kind[\X\](t: Tag[\X\]): String = "tag"
+kind[\X\](t: Sub[\X\]): String = "sub"
+
+run(): () = do
+    assert(take(Box[\ZZ32\](1)), "box", "Box and Crate are two generic objects, so their instances exclude")
+    assert(take(Crate[\ZZ32\](1)), "crate", "a Crate runs the declaration over Crate")
+    assert(tint(Box[\Red\](Red)), "red", "the bounds Red and Blue exclude, so no Box instance is in both domains")
+    assert(tint(Box[\Blue\](Blue)), "blue", "a Box of Blue runs the declaration bounded by Blue")
+    assert(mark(Box[\ZZ32\](1), Red), "box and red", "the second parameters Red and Blue exclude")
+    assert(mark(Box[\ZZ32\](1), Blue), "box and blue", "a Blue second argument runs the declaration over Blue")
+    assert(pick(Box[\Red\](Red)), "red box", "a Box of Red runs the declaration whose domain lies inside the other's (overloading.tex, section \"Overloading Resolution\")")
+    assert(pick(Box[\Blue\](Blue)), "any box", "a Box of Blue runs the unbounded declaration")
+    assert(kind(SubBlue), "sub", "a Sub runs the declaration over Sub, which lies inside the one over Tag")
+    assert(kind(TagBlue), "tag", "a Tag that is no Sub runs the declaration over Tag")
+    println("PASS")
+  end
+
+end

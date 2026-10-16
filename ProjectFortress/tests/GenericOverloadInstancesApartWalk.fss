@@ -1,0 +1,19 @@
+component GenericOverloadInstancesApartWalk
+export Executable
+
+(* Two generic declarations over P[T] and Q[T], where P[T] excludes Q[T] at one T, overlap at P[ZZ32] and Q[String], which an object may extend both of, so the program is refused at load, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+object ObjPZ extends P[\ZZ32\] end
+object Mixed extends { P[\ZZ32\], Q[\String\] } end
+
+o[\T\](x: P[\T\]): String = "oP"
+o[\T\](x: Q[\T\]): String = "oQ"
+
+run(): () = do
+    println(o(ObjPZ))
+    println(o(Mixed))
+  end
+
+end

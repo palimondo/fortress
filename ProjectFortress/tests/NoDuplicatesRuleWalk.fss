@@ -1,4 +1,4 @@
-component XXXNoDuplicatesRuleWalk
+component NoDuplicatesRuleWalk
 export Executable
 
 (* Two generic declarations whose parameter types Box[T] and Box[U] are each as specific as the other break the No Duplicates Rule, so the program is refused at load, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
