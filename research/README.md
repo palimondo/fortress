@@ -54,8 +54,32 @@ transcript of its talk with the slides' text.
      extraction (local task). Note JuliaCon slides 4–9 already reproduce the
      talk's opening toy problem.
 
-- Adjacent canon: ICFP 2009 foldl/foldr keynote; Strange Loop 2010 "How to
-  Think about Parallel Programming: Not!"; "Growing a Language" (OOPSLA 1998).
+- **ICFP 2009 keynote — "Organizing Functional Code for Parallel Execution;
+  or, foldl and foldr Considered Slightly Harmful"**
+  - Given at ICFP '09, Edinburgh (August 31–September 2, 2009); its one-page
+    abstract is in the proceedings (ACM 978-1-60558-332-7/09/08) and names the
+    talk's three ideas: user-defined associative operators (user-defined
+    monoids), conjugate transforms of data, monoid-caching trees.
+  - Slides: first posted at
+    `research.sun.com/projects/plrg/Publications/ICFPAugust2009Steele.pdf`
+    (77 pages, made 2009-09-08, © 2008, 2009 Sun); supplied with the abstract
+    by the curator on 2026-10-16. A Wayback capture of the URL has not been
+    checked.
+  - Local copy: `decks/ICFPAugust2009Steele.pdf` and
+    `decks/ICFP2009Steele-abstract.pdf`; committed working extract:
+    `extracts/SteeleICFP2009-extract.md`, with every slide's code word for word
+    and what the deck gives the JuliaCon histogram-water demo.
+  - Key slides: 14–21 (conc lists and their primitives), 31–32 (mapreduce by
+    split), 34–39 (four Fortress filters, to a big ∥ and a comprehension), 41
+    (conjugate transforms), 42–45 (three-way unshuffle, a user-defined big ⊞),
+    46 (mergesort as big MERGE), 47–51 and 54 (parallel prefix, down to delay
+    Ω(log n)), 52–53 (monoid-cached trees; `ValueTree` in Fortress), 55
+    (MapScanZip), 56–65 (word splitting by a user-defined associative ⊕ and its
+    reduction), 70 (foldl and foldr "fundamentally accumulative").
+
+- Adjacent canon: the ICFP 2009 keynote (entry above); Strange Loop 2010 "How
+  to Think about Parallel Programming: Not!"; "Growing a Language" (OOPSLA
+  1998).
 
 ## Papers
 

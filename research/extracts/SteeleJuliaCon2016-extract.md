@@ -500,6 +500,7 @@ the deck states no answer, the captions extract gives 35 (line 74).
 - Solutions 1 (three sequential sweeps, lines 80–96) and 2 (bitonic globs,
   lines 98–133) are on no slide of this deck; their code is still an open item
   of the captions extract (lines 341–345).
+- What the ICFP 2009 deck gives each item above, and what is still missing: `SteeleICFP2009-extract.md`, "What this deck gives the histogram-water demo".
 
 ## Recovery provenance (for re-download)
 
