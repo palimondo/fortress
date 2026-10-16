@@ -1,6 +1,6 @@
 # Rung K (`rung-checker-abstract-callsite`): record lines for the gather
 
-Written by the rung worker for the gather's fold. `<K1>` is 96c441771 (the overloading change and the first version of the place) and `<K3>` is a79a51661 (the final rule for the place), on `wip/rung-checker-abstract-callsite`; `<KS1>` is the skeptic's fix that walks a local variable's right-hand side before its body. The gather puts in the landed hashes.
+Written by the rung worker for the gather's fold. `<K1>` is 96c441771 (the overloading change and the first version of the place) and `<K3>` is a79a51661 (the final rule for the place), on `wip/rung-checker-abstract-callsite`; `<KS1>` is the skeptic's fix that walks a local variable's right-hand side before its body, and `<KS2>` its contested fix that reports each call at its own place. The gather puts in the landed hashes.
 
 ## FACTS.md
 
@@ -16,12 +16,12 @@ A new entry, in "The checker and the one library":
 
 - **The well-formedness walk reports an ill-formed type that it meets outside the expression it is in at that expression, so a call whose static argument breaks the bound of the callee's result type is reported at the call.**
   - A call's type keeps the spans of the callee's declared type.
-  - An error on such a type is reported once for each message and place the type would give, at the innermost expression the walk met it in.
+  - An error on such a type is reported at the innermost expression the walk met it in, once for each call that made the type: the expressions that a call's value flows to share its type node and add no error, and a second call with the same printed static argument gets its own error (`XXXStaticArgBoundAtEachCall`, the skeptic's contested `<KS2>`).
   - Where the type is ill-formed where it is written, its error stays at the declaration.
   - A local variable's right-hand side is walked before the lines that use the variable, so the error of a call whose value a variable holds is at the call, not at a later use (`XXXStaticArgBoundAtCallNotAtUse`, the skeptic's `<KS1>`).
-  - So no error is added or dropped: the count stays 39 and the distance 49, and row 433's two fusion-pair sites are at their calls, `Library/FortressLibrary.fss:3422` and `:3424`.
+  - In the library no error is added or dropped: the count stays 39 and the distance 49, and row 433's two fusion-pair sites are at their calls, `Library/FortressLibrary.fss:3422` and `:3424`.
   - Source: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:42-82`.
-  - Gated by `compiler_tests/XXXStaticArgBoundAtCall`, `XXXStaticArgBoundAtCallOnce`, `XXXStaticArgBoundAtCallNotAtUse` and `XXXIllFormedTypeAtDeclarationOnce`.
+  - Gated by `compiler_tests/XXXStaticArgBoundAtCall`, `XXXStaticArgBoundAtCallOnce`, `XXXStaticArgBoundAtEachCall`, `XXXStaticArgBoundAtCallNotAtUse` and `XXXIllFormedTypeAtDeclarationOnce`.
   - Detail: `compile-ladder/rung-checker-abstract-callsite/REPORT.md` sections 1 and 6.
 
 ## Ledger notes and closes
@@ -29,7 +29,7 @@ A new entry, in "The checker and the one library":
 - **Row 727**: close with `ledger.py close 727 --commit <K1> --test XXXNoDuplicatesRuleAbstract`. Note: "fixed <K1> (climb batch 16 rung K): the per-provider set reads a type's abstract functional methods (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:137`), 'There are multiple declarations of f with the same parameter type: (S)'; the pair at two self positions is `XXXNoDuplicatesRuleAbstractSelfPositions`."
 - **Row 572**: close with `--commit <K1> --test XXXFunctionalMethodMeetAbstractSibling`. Note: "fixed <K1>: refused by the Meet Rule, 'Invalid overloading of pick in trait O'; walk refuses the shape at load (F-142), not by row 100's mechanism."
 - **Row 734**: close with `--commit <K1> --test XXXFunctionalMethodMeetAbstractSiblingNarrower`. Note: "fixed <K1>: refused as row 572's shape, 'Invalid overloading of pick in trait O: A->R ... and B->R1'."
-- **Row 720**: close with `--commit <K3> --test XXXStaticArgBoundAtCall`. Note: "fixed <K3>: reported at the call, once (`XXXStaticArgBoundAtCallOnce`); a type ill-formed where it is written keeps its error at the declaration (`XXXIllFormedTypeAtDeclarationOnce`); a call whose value a local variable holds is reported at the call, not at a later use (`XXXStaticArgBoundAtCallNotAtUse`, `<KS1>`); the reproducer's two errors are at its :16:20-17:8, the call."
+- **Row 720**: close with `--commit <K3> --test XXXStaticArgBoundAtCall`. Note: "fixed <K3>: reported at the call, once for each call (`XXXStaticArgBoundAtCallOnce`, `XXXStaticArgBoundAtEachCall`, `<KS2>`); a type ill-formed where it is written keeps its error at the declaration (`XXXIllFormedTypeAtDeclarationOnce`); a call whose value a local variable holds is reported at the call, not at a later use (`XXXStaticArgBoundAtCallNotAtUse`, `<KS1>`); the reproducer's two errors are at its :16:20-17:8, the call."
 - **Row 433**, append: "Since <K3> (climb batch 16 rung K) its two wellformed sites, `MaxSumReductionPair[\T\]` and `MinSumReductionPair[\T\]`, are reported at the calls in `SumReduction`'s `distribute`, `Library/FortressLibrary.fss:3422` and `:3424`, not at the objects' declarations `:3405` and `:3411`; the sites at `:3421` and `:3423` stay."
 - **Row 707**, append: "Since <K1> an abstract `f(self, y: S)` beside a concrete `f(x: S, self)` reaches this check (`XXXNoDuplicatesRuleAbstractSelfPositions`)."
 - **Row 726**, append: "Unchanged by <K1>, which reads abstract functional methods but no symbolic operator (row 584); `XXXNoDuplicatesRuleSelfPositionsOperator` keeps its code-generator key."
@@ -75,7 +75,7 @@ Climb batch 16, rung K landed on `wip/rung-checker-abstract-callsite`:
 
 2. **Where a type's error is reported.** The team's well-formedness walk reported an error on a type at the type's own node (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala`, line 113 at a874948ac). A call's type keeps the spans of the callee's declared type, so a call whose static argument breaks the bound of the callee's result type was reported at the callee's declaration.
 
-   The tree reports it at the call (`ProjectFortress/compiler_tests/XXXStaticArgBoundAtCall.test`), once (`XXXStaticArgBoundAtCallOnce.test`), also where a local variable holds the call's value and a later line uses it (`XXXStaticArgBoundAtCallNotAtUse.test`). It keeps at the declaration the error of a type that is ill-formed where it is written (`XXXIllFormedTypeAtDeclarationOnce.test`).
+   The tree reports it at the call (`ProjectFortress/compiler_tests/XXXStaticArgBoundAtCall.test`), once for each call (`XXXStaticArgBoundAtCallOnce.test`, `XXXStaticArgBoundAtEachCall.test`), also where a local variable holds the call's value and a later line uses it (`XXXStaticArgBoundAtCallNotAtUse.test`). It keeps at the declaration the error of a type that is ill-formed where it is written (`XXXIllFormedTypeAtDeclarationOnce.test`).
 
    The reason, as evidence:
    - The old place holds no error of its own. On the old code `XXXStaticArgBoundAtCall` names its line 12, `vec`'s declared result, which is well-formed in `vec`'s scope; the call with the unbounded argument is on line 13.

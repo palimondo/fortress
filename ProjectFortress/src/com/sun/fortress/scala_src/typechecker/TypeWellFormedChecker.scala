@@ -36,37 +36,69 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   def check() = {
     walk(compilation_unit.ast)
+    // An error placed at an expression, at each place that holds no other place of the same
+    // message and node place, and at none where that node is ill-formed where it is written.
+    val keys = moved.keySet.iterator
+    while (keys.hasNext) {
+      val key = keys.next
+      if (!written.contains(key)) {
+        val ps = moved.get(key)
+        var i = 0
+        while (i < ps.size) {
+          val sp = NodeUtil.getSpan(ps.get(i).expr)
+          var holds = false
+          var j = 0
+          while (j < ps.size) {
+            val o = NodeUtil.getSpan(ps.get(j).expr)
+            if (within(o, sp) && !within(sp, o)) holds = true
+            j += 1
+          }
+          if (!holds) errors.add(TypeError.make(key._1, ps.get(i).expr))
+          i += 1
+        }
+      }
+    }
     errors
   }
 
   // An error on n is reported at n. Where n lies outside the nearest expression the walk is
   // in, as a call's type keeps the spans of the callee's declared type, and n is not
-  // ill-formed where it is written, the error is reported at an expression instead: once
-  // for each message and place of n, as the errors at n were, at the innermost expression
-  // the walk met n in, the first of them where they are disjoint.
+  // ill-formed where it is written, the error is reported at an expression instead: at the
+  // innermost expression the walk met n in, n being the type that one call made and that
+  // the expressions its value flows to share; check places these errors.
   private def error(s:String, n:Node) = {
     val key = (s, n.at)
-    val met = reported.get(key)
     outside(n) match {
       case None =>
         errors.add(TypeError.make(s,n))
-        if (met != null && met._2.isDefined) errors.set(met._1, TypeError.make(s,n))
-        reported.put(key, (errors.size - 1, None))
-      case Some(e) => met match {
-        case null => reported.put(key, (errors.size, Some(e))); errors.add(TypeError.make(s,e))
-        case (i, Some(m)) if within(NodeUtil.getSpan(e), NodeUtil.getSpan(m)) =>
-          reported.put(key, (i, Some(e))); errors.set(i, TypeError.make(s,e))
-        case _ =>
-      }
+        written.add(key)
+      case Some(e) if !written.contains(key) =>
+        var ps = moved.get(key)
+        if (ps == null) { ps = new java.util.ArrayList[Placed](); moved.put(key, ps) }
+        var p: Placed = null
+        var i = 0
+        while (i < ps.size) { if (ps.get(i).node eq n) p = ps.get(i); i += 1 }
+        if (p == null) ps.add(new Placed(n, e))
+        else {
+          val (es, pe) = (NodeUtil.getSpan(e), NodeUtil.getSpan(p.expr))
+          if (within(es, pe) && !within(pe, es)) p.expr = e
+        }
+      case _ =>
     }
   }
+
+  // A node an error was placed at an expression for, and that expression.
+  private class Placed(val node: Node, var expr: Expr)
 
   // The nearest expression the walk is in, if any.
   private var enclosingExpr: Option[Expr] = None
 
-  // Each message and place of a node an error was reported for: the index of its error and,
-  // where the error was reported at an expression instead, the expression.
-  private val reported = new java.util.HashMap[(String, String), (Int, Option[Expr])]()
+  // For each message and place of a node, each node met with it and its place, in the
+  // order met.
+  private val moved = new java.util.LinkedHashMap[(String, String), java.util.ArrayList[Placed]]()
+
+  // Each message and place of a node whose error was reported at the node.
+  private val written = new java.util.HashSet[(String, String)]()
 
   // The nearest expression the walk is in, where n lies outside it.
   private def outside(n: Node): Option[Expr] = (n, enclosingExpr) match {

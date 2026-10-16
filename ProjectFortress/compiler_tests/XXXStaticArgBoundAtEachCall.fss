@@ -1,0 +1,18 @@
+component XXXStaticArgBoundAtEachCall
+export Executable
+
+(* Two calls whose static arguments do not satisfy the bound of the callee's result type, in two declarations whose static parameters have one name, are each reported at the call. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+object DefV[\T extends K\]() extends V[\T\] end
+
+vec[\T extends K\](): V[\T\] = DefV[\T\]()
+first[\T\](): Any = vec[\T\]()
+second[\T\](): Any = vec[\T\]()
+
+run(): () = println("FAIL: first and second call vec at a type outside its bound")
+
+end

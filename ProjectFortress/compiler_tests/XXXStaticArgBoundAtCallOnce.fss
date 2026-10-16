@@ -1,7 +1,7 @@
 component XXXStaticArgBoundAtCallOnce
 export Executable
 
-(* A call whose static argument does not satisfy the bound of the callee's result type, inside a tuple and again in a later declaration, is reported once, at the first call. *)
+(* A call whose static argument does not satisfy the bound of the callee's result type, inside a tuple, is reported once, at the call and not again at the tuple, and a second call in a later declaration once, at its own. *)
 
 trait K comprises { A, B } end
 object A extends K end
