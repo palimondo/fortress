@@ -10,7 +10,7 @@ This part lists each change of the revival made for one of two reasons: two of t
 
 Each resolution is the rule of this tree. Follow it as you follow a decision of the curator, and question it only on new evidence (`SKILL.md`, "When to explore"). Where it changed the specification, Appendix I keeps the original text (`specification.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. `exploring.md`, "Weighing the sources", describes the type group, whose later texts most resolutions follow.
 
-If a source of the team's, an old note or your training disagrees with this skill, find the point below. If it is there, follow the skill: it describes the tree. If it is not, do as `SKILL.md`, "When to explore", says.
+If a source of the team's, an old note or your training disagrees with this skill, find the point below. Search for the construct's name: a change that fits no heading, such as walk's `if`, stands under the nearest one. If it is there, follow the skill: it describes the tree. If it is not, do as `SKILL.md`, "When to explore", says.
 
 A note written before the revival, and your training, can be right about the team's walk and out of date here. Three examples: the number types form a tower, fixed-width arithmetic wraps, and walk converts no argument.
 
@@ -43,9 +43,9 @@ A note written before the revival, and your training, can be right about the tea
 **Walk's check of two generic declarations**
 
 - Original: walk read two generic declarations of one name at one shared symbolic instance, and took two instances of one generic object as types that exclude. So it loaded `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, where `P[\T\] excludes { Q[\T\] }`, and `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`. It ran one declaration of each pair. The compiled checker refuses both pairs.
-- Resolution: walk reads each declaration over its own instances. It loads such a pair only if the No Duplicates Rule, the Meet Rule and the return-type rule hold on the declared domains. Otherwise it refuses the pair at load: "with generic type, at least one pair of parameters must have excluding types". Three cases differ:
-  - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes (ledger row 740);
-  - the checker refuses two kinds of pair that walk loads (ledger row 741);
+- Resolution: walk reads each declaration over its own instances. It loads such a pair only if the No Duplicates Rule, the Meet Rule and the return-type rule hold on the declared domains. Otherwise it refuses the pair at load: "with generic type, at least one pair of parameters must have excluding types". In three cases, walk or the checker departs from these rules:
+  - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes: `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `Box` fixes one `T` for both (ledger row 740);
+  - the checker refuses two kinds of pair that walk loads: two generic traits that exclude each other and extend one shared generic trait, as `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`; and one generic object at two bounds that are different objects, as `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])` (ledger row 741);
   - walk loads two generic declarations whose declared domains are equal (ledger row 742).
 - Reason: the specification reads a declaration with static parameters over every instance within its bounds. Two instances of one generic trait meet only where their static arguments are equal (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters").
 
@@ -90,10 +90,10 @@ A note written before the revival, and your training, can be right about the tea
 **Abstract functional methods in the checker's overloading check**
 
 - Original: the No Duplicates Rule, the Meet Rule over what a type provides and the return-type rule read abstract declarations too (`Specification/advanced/overloading.tex`; `Specification/basic/traits.tex`). The compiled checker read only functional methods with a body when it checked what a type provides. So these passed the checker:
-  - an abstract and a concrete functional method with one parameter type, in one trait. The code generator then stopped.
+  - an abstract and a concrete functional method with the same parameter types, in one trait. The code generator then stopped.
   - an object that inherits an abstract functional method from one trait and its body from another, and declares none of its own. It ran the body.
   - an object's functional method that defines its trait's abstract one with an unrelated return type. Its run failed the JVM's verification.
-- Resolution: the checker reads every functional method that a type provides, abstract ones too. It refuses the three cases: "There are multiple declarations of f with the same parameter type", "Invalid overloading of pick in trait O" and "For f, the return type of ... should be a subtype of ...". Walk refused all three at load already. The checker's check of top-level overloads still reads only declarations with a body (ledger row 739).
+- Resolution: the checker reads every functional method that a type provides, abstract ones too. It refuses the three cases: "There are multiple declarations of f with the same parameter type", "Invalid overloading of pick in trait O" and "For f, the return type of ... should be a subtype of ...". Walk refused all three at load already. The checker's check of top-level overloads still skips the abstract functional methods of a component's own traits: `h(self): ZZ32` abstract in a trait beside a top-level `h(x: String): ZZ32` passes it (ledger row 739).
 - Reason: the specification's rules, and the code generator's own refusal of such a set. The type group's Welterweight calculus refuses the second case too. Scala accepts it, and the revival keeps Fortress's rule.
 
 **A string's `left` and `right`**
@@ -161,7 +161,7 @@ A note written before the revival, and your training, can be right about the tea
   2. else at the join, the least common supertype, of its elements' run-time types; walk collects the elements before it reduces them. Where the join is outside the bound, such as `Number` for `ZZ32` and `RR64` elements of a `SUM`, the parameter stays open, and each `+` runs at its operands' types;
   3. else, with no element, at each parameter's bound, or open where the bound names the parameter.
 
-  The code is `bigOperatorByElements` in `interpreter/evaluator/Evaluator.java`. Walk reads a big operator's declared result through the `BigReduction`, `Comprehension` or `BigOperator` that it extends, so `opr BIG CATOP[\T\](): CatOperator[\T\]` is read as its supertype (`resultArgOf` in `EvaluatorBase.java`). `__bigOperator` declares `body(i: I): L`, and `IntMap`'s operator returns a `Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]`. An element that converts to the instantiated type is converted, as at a call. Any other element stops inside `__bigOperator`, with "body param 1". Walk still differs from the specification in two cases:
+  The code is `bigOperatorByElements` in `interpreter/evaluator/Evaluator.java`. Where a big operator's declared result is a trait of its own, walk reads it as the `BigReduction`, `Comprehension` or `BigOperator` that this trait extends. So `CatOperator[\T\]` in `opr BIG CATOP[\T\](): CatOperator[\T\]` is read as the one that it extends (`resultArgOf` in `EvaluatorBase.java`). `__bigOperator` declares `body(i: I): L`, and `IntMap`'s operator returns a `Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]`. An element that converts to the instantiated type is converted, as at a call. Any other element stops inside `__bigOperator`, with "body param 1". Walk still differs from the specification in two cases:
   - an empty one that no declared type directs leaves `SUM`'s parameter open, and gives the integer 0, whatever its body's type (ledger row 716);
   - a comprehension inside another clause form, a reduction or comprehension with generators in brackets such as `BIG CONCAT[ys <- xss] e`, is built at its elements' run-time types where no declared type reaches it (ledger rows 20 and 717).
 
@@ -284,8 +284,8 @@ A note written before the revival, and your training, can be right about the tea
 
 **Walk's `if` on a value that is not a `Boolean`**
 
-- Original: the specification takes a clause without a binding only of type `Boolean` (`Specification/basic/expressions/if.tex`). Walk took an object named `Just` as true and every other object as false, so an `if` on a number took its `else` branch. The team's tests `maybeTest.fss` and `naturalsTest.fss` give a plain `if` a `Maybe` clause.
-- Resolution: walk takes a `Boolean` by its value, a `Just` as true and a `Nothing` as false. It refuses every other value: "If clause did not return boolean, but 1: ZZ32". The compiled checker refuses a `Maybe` clause too, so here walk departs from the specification. Walk tests names: an object named `Just` or `Nothing` that extends a trait named `Maybe` counts.
+- Original: the specification takes a condition written without a binding (`if e then`, not `if x <- e then`) only of type `Boolean` (`Specification/basic/expressions/if.tex`). Walk took an object named `Just` as true and every other object as false, so an `if` on a number took its `else` branch. The team's tests `maybeTest.fss` and `naturalsTest.fss` give a plain `if` a `Maybe` clause.
+- Resolution: walk takes a `Boolean` by its value, a `Just` as true and a `Nothing` as false. It refuses every other value: "If clause did not return boolean, but 1: ZZ32". The specification and the compiled checker refuse a `Maybe` clause and walk takes it, so here walk departs from the specification. Walk tests names: an object named `Just` or `Nothing` that extends a trait named `Maybe` counts.
 - Reason: the specification's rule, which the compiled checker enforces, and the team's own tests.
 
 ## Specified, but not built
