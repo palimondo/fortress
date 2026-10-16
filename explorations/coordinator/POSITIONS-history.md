@@ -1318,3 +1318,7 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-150
 
 2026-10-16 09:15Z · added · from `explorations/coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most" · by coordinator: His word, 09:15 UTC on 2026-10-16: "This feels like something that should be recorded so that we do not reattempt it unless something significant changes."
+
+### P-151
+
+2026-10-16 16:44Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.3 Conditional extension, by the accepted rule" · by curator: his answer "3 for the where clauses" at 16:42 UTC on 2026-10-16 to the coordinator's ask of 15:55 UTC (option 3: build the forms the team wrote down and stop there, keep the fusion and measure the team's commented generic distribute, move the rest of AnyList into List); the conditional-extension rule accepted at 12:35 UTC ("The rules feel solid ... if we know how to implement this, I would go for it")
