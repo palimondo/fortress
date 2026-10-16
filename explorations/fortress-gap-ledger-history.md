@@ -5087,3 +5087,45 @@ closed by 9879d4386
 closed by 9879d4386
 
 | 718 | under walk, a reduction with no static argument over a user big operator whose declared result is its own trait, not `BigReduction`, `Comprehension` or `BigOperator`, is instantiated at its bound, and an element it does not admit stops it: `BIG CATOP[k <- 0#3] <\|[\ZZ32\] k\|>` throws `CastError` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/reductions.tex`, "Summations and Other Reduction Expressions" | `ProjectFortress/tests/XXXUserBigOperatorResultTraitWalk.fss` | climb batch 15 rung B's skeptic | siblings: 715, 424. With `opr BIG CATOP[\T\](): CatOperator[\T\]` and `trait CatOperator[\T\] extends BigOperator[\List[\T\],...\]`: walk reads the element and result types off a declared result named `BigReduction`, `Comprehension` or `BigOperator` only (`EvaluatorBase.resultArgOf`, 5dad832f3), so `T` takes its bound `Any`, and `__replay`'s cast of each `ArrayList[\ZZ32\]` to `List[\Any\]` fails. On the base it stopped at `lift`, '(r:List[\BOTTOM\])'. Repair: read the declared result's `BigOperator` supertype. Workaround: write the static argument. |
+
+### Row 488
+
+duplicate of row 737
+
+| 488 | the compiled checker's type errors in big operators' bodies over the one library depend on what the checker queried earlier in the same run, so an edit that adds queries can add, respell and move such errors in declarations it does not touch | NEGATIVE-VERIFIED | implementation gap (checker) | silent | `explorations/reviews/row-488-probe.md` | climb batch 7C rung Y's skeptic | One build's runs agree site for site; mechanism unknown. Ruled out on the landed build: `TraitTable`'s clause memos (`FORTRESS_ANALYZER_CLAUSES_CACHE=false`: the same 626 errors). Leads, untested: the subtype, excludes, normalize and schema memos, each behind a switch (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:63-69`, `TypeSchemaAnalyzer.scala:53` at 052a7c3fe). `explorations/coordinator/tools/distance/compare.sh:16-18` reads such moves as variation. Since `a9b9933e6` only `BIG LEXICO(g)` (`Library/FortressLibrary.fss:129-130`) of the file's big operators over a generator lacks a return type; the sites left are calls; full text: history, row 488 Lead: F-232. |
+
+### Row 737
+
+note added from row 488, now its duplicate
+
+| 737 | the compiled checker gives a component's function that leaves out its return type the return type of the exported api's first declaration of its name, in identity-hash order, not of the declaration of its own parameter type, so one overload's body is checked against another's (`ApiTypeExtractor`) | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/type-inference.tex`, "Type Inference for Components" | `ProjectFortress/compiler_tests/XXXOmittedReturnTypeFromApi.test` | climb batch 16 rung H | `isExported` returns the first `SDeclaredFunction` of `functions.matchFirst(name)` and compares no parameters (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ApiTypeExtractor.scala:116-122` at 528438ac5); the relation is an `IndexedRelation` (`IndexBuilder.scala:158-159`) of `DeclaredFunction`s, which declare no `hashCode` (`compiler/index/DeclaredFunction.java:25`), so the pick moves with the identity-hash sequence. Row 488's `:130` is this case: `BIG LEXICO(g)` takes `BIG LEXICO()`'s `BigReduction` when that comes first. Compiled path only: walk checks no types. Workaround: write the return type. |
+
+### Row 636
+
+note added
+
+| 636 | `AnyList`'s `\|\|`, `addLeft`, `addRight` and the list comprehension's unwrap read their argument as a list or a covariant collection of an unknown element type, which the compiled checker refuses; walk dispatches on the value | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 10 rung N | The checker's four errors: `app(self, f)`, `addL(e, self)`, `addR(self, e)` on `AnyList` arguments (`Library/List.fss:88-90`) and `cc.toImmutableArray()` on an `AnyCovColl` (`:178` at `9c9e823d5`). The team's own comment: "Not yet: comprises List[\E\] where [\E\]" (`Library/List.fsi:56`). The same shape in `covariantCompr`'s other users (`IntMap`, `Map`, `PrefixMap`, `PrefixSet`, `PureList`, `Set`), outside the distance's twelve components. No program observes it before the switch-over. |
+
+### Row 677
+
+note added
+
+| 677 | the compiled checker reads no where-clause constraint as a bound: in `g[\U\](u: U): String where { U extends T } = u.f()` the call `u.f()` is refused, 'No such method U.f.' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/XXXWhereBoundChecker.test` | climb batch 13 rung N | `KindEnv.extractNodeBindings` reads a where clause's bindings only (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:118-135` at 9d323883f); the same on the base a1a75716a. `ProjectFortress/tests/GenericFnWithExcludes.fss` reaches it on the compiled path now that its `nat` binding is read (before: 'non-type where clause bindings'). Next, the code generator refuses a function with a where clause (`compiler/codegen/CodeGen.java:2967`, `:4107`). Walk runs both. |
+
+### Row 726
+
+note added
+
+| 726 | the code generator stops on two functional methods of a symbolic operator with the same parameter types at two `self` positions, which the checker does not check (row 584): `opr \|\|(self, y: S)` beside `opr \|\|(x: S, self)` in one trait | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleSelfPositionsOperator.test` | climb batch 15 rung O's skeptic | siblings: 584, 707, 727. 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:409-411`): `isDeclaredName` admits no symbolic operator to the duplicate check (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:723-727` at f537abed8). The same on the base. Walk refuses the pair at load. `FlatString`'s api declares this pair (`Library/FlatString.fsi:17`, `:20`); its component lacks the second (row 585). |
+
+### Row 723
+
+note added
+
+| 723 | under walk, an object that overloads a functional method with a static parameter of its own beside a plain one of the same name stops at load, 'Missing type T': `g[\T extends Ping\](self, x: T)` beside `g(self, x: Pong)` in an object, `Ping` and `Pong` objects | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericFunctionalMethodBesidePlainWalk.fss` | climb batch 15 rung O | siblings: 567, 724. `GenericMethod.finishInitializing` reads the parameter types in an environment without the method's own static parameters (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java:137`, its TODO at `:133-134`, at 317fc0ef5), reached from `OverloadedFunction.finishInitializingFirstPart` (`OverloadedFunction.java:161`) when the name is overloaded; alone, the generic method loads and runs. The same on the base. The compiled path stops in its code generator (724). In a trait that an object extends, the pair stops walk with 'InterpreterBug ... This should have been an environment with a Top Level'. |
+
+### Row 523
+
+note added
+
+| 523 | the compiled `ZZ32` `^` casts `Math.pow` to `int`: `2^31` throws a Java `RuntimeException` that no Fortress `catch` sees, and `(-3)^21` and `(-2)^33` saturate quietly to `-2147483648` | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 524, 525, 441. Bound as `jIntExp` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:744`, imported at `:75`, at 052a7c3fe) to `simpleIntArith.intExp` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:400-406`). Walk raises the catchable `IntegerOverflow` for all three (row 520). Fix: bind a checked power for a nonnegative exponent in the compiler prelude. Negative exponents are row 441's: the unbound `simpleIntArith.intToIntPower` (`:380-398`) checks the nonnegative case, but its negative branch answers otherwise than walk, so binding it as it stands would decide row 441. full text: history, row 523 |
