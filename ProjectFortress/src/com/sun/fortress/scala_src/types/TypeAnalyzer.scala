@@ -264,11 +264,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 
      // First, let's find the static parameters for trait traitId_1
 	  
-     def same_id(idx: TypeConsIndex) = {
-       traitId_1.getText().equals(idx.ast().asInstanceOf[TraitObjectDecl].getHeader().getName().asInstanceOf[Id].getText())
-     }
-
-     val idx = traits.find(same_id)
+     val idx = traits.declaredTypeCons(traitId_1.getText())
      val staticParams = scalaify(idx.unwrap().staticParameters()).asInstanceOf[List[StaticParam]]
 
      val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
@@ -409,7 +405,38 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def definitelyExcludes(x: Type, y: Type): Boolean =
     isTrue(excludes(x,y))
 
-  def dExc(x: Type, y: Type)(implicit history: Set[hType]): Boolean = isTrue(exc(x,y))
+  // dExc's answers in this analyzer, by the question with its inference variables renamed apart:
+  // an answer is the same under every renaming of them, so a question asked again with fresh
+  // variables, as each inference makes them, is computed once. An answer is kept only from an empty
+  // cycle history, marked if its computation read the context, so that a hit on it is a read of the
+  // context too, and shared through the trait table if it read none; a computation that opened a
+  // size is not kept.
+  private final val cacheExclusions = ProjectProperties.getBoolean("fortress.analyzer.exclusion.cache", true)
+  private val exclusionMemo = new scala.collection.mutable.HashMap[(Type, Type), (Boolean, Boolean)]()
+
+  def dExc(x: Type, y: Type)(implicit history: Set[hType]): Boolean =
+    if (!cacheExclusions || !history.isEmpty) isTrue(exc(x,y))
+    else TypeAnalyzer.renamedApart(x, y) match {
+      case None => isTrue(exc(x,y))
+      case Some(question) => exclusionMemo.get(question) match {
+        case Some((v, contextual)) => if (contextual) traits.readContext(); v
+        case None => traits.sharedExclusion(question) match {
+          case null =>
+            val before = traits.contextReads
+            val opened = openedSizeCount
+            val result = isTrue(exc(x,y))
+            if (openedSizeCount == opened) {
+              val contextual = traits.contextReads != before
+              exclusionMemo += (question -> (result, contextual))
+              if (!contextual) traits.shareExclusion(question, result)
+            }
+            result
+          case shared =>
+            exclusionMemo += (question -> (shared.booleanValue, false))
+            shared.booleanValue
+        }
+      }
+    }
 
   /*
    * Given two types x and y this method computes the constraints
@@ -954,4 +981,36 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 
 object TypeAnalyzer {
   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
+
+  // The k-th inference variable that a walk of a question meets, renamed apart. Its hash is its
+  // number, so a renaming asks the JVM for no identity hash.
+  private final class Renamed(val k: Int) {
+    override def toString = "renamed" + k
+    override def hashCode = k
+  }
+  private val renamed = new java.util.ArrayList[_InferenceVarType]()
+  private def renamedVar(k: Int): _InferenceVarType = renamed.synchronized {
+    while (renamed.size <= k) renamed.add(NF.make_InferenceVarType(typeSpan, false, new Renamed(renamed.size)))
+    renamed.get(k)
+  }
+
+  /** The two types with their type inference variables renamed apart, each in the order that a
+   *  walk of x and then y meets it; None if they hold an inference variable of another kind. */
+  def renamedApart(x: Type, y: Type): Option[(Type, Type)] = {
+    val names = new java.util.HashMap[_InferenceVarType, _InferenceVarType]()
+    var other = false
+    object renamer extends Walker {
+      override def walk(n: Any): Any = n match {
+        case v: _InferenceVarType =>
+          val r = names.get(v)
+          if (r != null) r else { val fresh = renamedVar(names.size); names.put(v, fresh); fresh }
+        case _: _InferenceVarInt => other = true; n
+        case _: _InferenceVarOp => other = true; n
+        case _ => super.walk(n)
+      }
+    }
+    val rx = renamer(x).asInstanceOf[Type]
+    val ry = renamer(y).asInstanceOf[Type]
+    if (other) None else Some((rx, ry))
+  }
 }
