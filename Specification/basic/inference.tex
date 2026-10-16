@@ -391,11 +391,11 @@ the value of a top-level variable, a field, a method or a function expression,
 the right-hand side of an assignment, the body of another reduction or an
 argument of a call, is
 built at the run-time types of its elements, which the declared type of an
-enclosing expression may not admit (rows~20, 510 and~717); and a big
-operator whose declared result is none of the library's \TYP{BigReduction},
-\TYP{Comprehension} and \TYP{BigOperator} is instantiated as where there is no
-element, so that the reduction stops at an element that its instance at the
-bound does not admit (row~718).
+enclosing expression may not admit (rows~20, 510 and~717).
+A big operator whose declared result is none of the library's
+\TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} it instantiates
+through the one of those three that its declared result extends, with that
+trait's static arguments.
 It gives a function expression that declares no return type the return type
 \TYP{BottomType}, so that a type parameter that only its result fixes is
 instantiated there (row~587); and it leaves a generic method's static

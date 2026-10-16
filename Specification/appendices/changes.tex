@@ -1125,11 +1125,11 @@ An empty reduction that no declared type directs still gives the identity of
 comprehension is built at its big operator's bound (row~716); a
 comprehension that no declared type reaches, such as the value of a top-level
 variable, a field or a method, or the body of another reduction, is built at
-the run-time types of its elements (rows~20 and~717); and a reduction over
-a big operator whose declared result is a trait other than the library's
-\TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} stops at an
-element that the operator's instance at its bound does not admit
-(row~718).
+the run-time types of its elements (rows~20 and~717). Since 16~October 2026 a
+reduction over a big operator whose declared result is a trait other than the
+library's \TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} is
+instantiated through the one of those three that the trait extends, its static
+arguments put for the trait's, as one declared with that supertype is (row~718).
 The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
@@ -2090,11 +2090,11 @@ function declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, the
 set reductions run, and a comprehension bound to a local variable declared
 with its type is admitted; an empty reduction that no declared type directs
 still takes the identity of \EXP{\mathbb{Z}32}, and an empty comprehension is
-built at its big operator's bound (row~716), a comprehension that no
+built at its big operator's bound (row~716); a comprehension that no
 declared type reaches is built at the run-time types of its elements (rows~20
-and~717), and a big operator whose declared result is a trait other than
-the library's three is instantiated at its bound, where an element it does not
-admit stops the reduction (row~718).
+and~717). Since 16~October 2026 a big operator whose declared result is a
+trait other than the library's three is instantiated through the one of them
+that the trait extends, as one declared with it is (row~718).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -2611,7 +2611,10 @@ static parameters whose bounds differ, the pair the Return Type Rule allows in
 group's paper of 2019 that overloads a method over an array list and a list
 (row~537); and the interpreter refuses at load two declarations with static
 parameters of which no pair of parameter types excludes each other (row~159),
-that example among them (row~539).
+that example among them (row~539), except where a pair of their parameter types
+excluded each other only when both declarations were read at one instantiation,
+as instances of one generic object do: such a pair it reads on the two declared
+domains, each over its own instances, by these rules.
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
@@ -2627,10 +2630,17 @@ It checks no overloading of an operator whose name is not a word of capitals
 (row~584 of the revival's gap ledger): two declarations of such an operator with
 the same parameter type pass it, and only its code generator refuses them, as a
 malformed overload set (row~726).
-The interpreter loads such a pair and runs one of them where both declarations
-have static parameters and their parameter types mention one parameterized
-type, as \VAR{dup}'s do (row~373), and where one has static parameters and the
-other's parameter type is its bound (row~549).
+The interpreter refuses at load two declarations with static parameters whose
+parameter types, each read over its own instances, are each a subtype of the
+other, as \VAR{dup}'s are; it loads such a pair and runs one of them where one
+has static parameters and the other's parameter type is its bound (row~549).
+The compiled type checker and the interpreter both refuse two declarations with
+static parameters whose parameter types exclude only together, through a static
+argument that another parameter's type fixes (row~740), and the compiled type
+checker refuses two pairs of declarations with static parameters that the
+interpreter loads, one whose parameter types exclude through the one instance
+of a supertype they share and one whose static parameters' bounds exclude each
+other (row~741).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid

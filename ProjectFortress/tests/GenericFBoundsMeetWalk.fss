@@ -1,0 +1,24 @@
+component GenericFBoundsMeetWalk
+export Executable
+
+(* Two generic declarations over Box[T], T bounded by Ord[T] and by Eq[T], beside a third whose parameter is bounded by both, are a valid overloading, and each call runs the most specific declaration its argument's type selects (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait Ord[\T\] end
+trait Eq[\T\] end
+object Both extends { Ord[\Both\], Eq[\Both\] } end
+object OnlyOrd extends Ord[\OnlyOrd\] end
+object OnlyEq extends Eq[\OnlyEq\] end
+object Box[\X\] end
+
+f[\T extends Ord[\T\]\](x: Box[\T\]): String = "ord"
+f[\U extends Eq[\U\]\](x: Box[\U\]): String = "eq"
+f[\V extends { Ord[\V\], Eq[\V\] }\](x: Box[\V\]): String = "both"
+
+run(): () = do
+    assert(f(Box[\Both\]), "both", "a Box of a type below Ord and Eq runs the declaration bounded by both")
+    assert(f(Box[\OnlyOrd\]), "ord", "a Box of a type below Ord alone runs the declaration bounded by Ord")
+    assert(f(Box[\OnlyEq\]), "eq", "a Box of a type below Eq alone runs the declaration bounded by Eq")
+    println("PASS")
+  end
+
+end

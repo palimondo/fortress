@@ -1,0 +1,3 @@
+tests=XXXGenericPairSharedSupertypeExclusion
+compile
+compile_err_contains=Invalid overloading of copyOf

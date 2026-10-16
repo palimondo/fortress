@@ -1,4 +1,4 @@
-component XXXUserBigOperatorResultTraitWalk
+component UserBigOperatorResultTraitWalk
 import List.{...}
 export Executable
 

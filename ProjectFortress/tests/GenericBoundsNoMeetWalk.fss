@@ -1,4 +1,4 @@
-component XXXGenericBoundsNoMeetWalk
+component GenericBoundsNoMeetWalk
 export Executable
 
 (* Two generic declarations over ListI[P], one with P bounded by A and one by B, overlap at every ListI[P] with P below both, and no declaration covers the overlap, so the program is refused at load, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
