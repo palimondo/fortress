@@ -20,7 +20,7 @@ A new entry, in "The checker and the one library":
   - Where the type is ill-formed where it is written, its error stays at the declaration.
   - A local variable's right-hand side is walked before the lines that use the variable, so the error of a call whose value a variable holds is at the call, not at a later use (`XXXStaticArgBoundAtCallNotAtUse`, the skeptic's `<KS1>`).
   - In the library no error is added or dropped: the count stays 39 and the distance 49, and row 433's two fusion-pair sites are at their calls, `Library/FortressLibrary.fss:3422` and `:3424`.
-  - Source: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:42-82`.
+  - Source: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:37-114`, `check`, `error` and their helpers (`:42-82` at `<K3>`, before the skeptic's `<KS2>`), and `:284-287`, the walk of a local variable (`<KS1>`).
   - Gated by `compiler_tests/XXXStaticArgBoundAtCall`, `XXXStaticArgBoundAtCallOnce`, `XXXStaticArgBoundAtEachCall`, `XXXStaticArgBoundAtCallNotAtUse` and `XXXIllFormedTypeAtDeclarationOnce`.
   - Detail: `compile-ladder/rung-checker-abstract-callsite/REPORT.md` sections 1 and 6.
 
