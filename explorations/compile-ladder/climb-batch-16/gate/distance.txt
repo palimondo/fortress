@@ -1,0 +1,28 @@
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	49
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	0
+#kind	return-type	2
+#kind	abstract-method	0
+#kind	bound-Object	0
+#kind	wellformed	4
+#kind	typecheck	40
+#kind	export	3
+#class	R3	2	return type: other declared-type slips
+#class	X1	3	export: component against api
+#class	F1	4	reductions: fusion pairs' bound (row 433)
+#class	I3	2	integers in generic code: a numeral where a type parameter is expected
+#class	V2	17	arrays: a sized array's body or factory (sizes lost in joins and factories)
+#class	G1	1	generic code with no bound compares its values (tuples' <, CMP; LexicographicOrder)
+#class	BR	4	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	NM	3	names the api does not declare (getters and methods of Range, String, Generator)
+#class	GF	1	generators: a filter that failed for another reason
+#class	OT	12	other body errors (one-off library slips and checker limits)
+#unit	component FlatString	1
+#unit	component FortressLibrary	43
+#unit	component List	5
+#crash	none
+#seconds	217	FortressLibrary 154
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 3.32 1.99 1.91; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
