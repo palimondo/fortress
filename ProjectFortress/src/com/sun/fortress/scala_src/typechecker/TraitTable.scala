@@ -31,7 +31,41 @@ import scala.collection.mutable.HashSet
 import scala.collection.mutable.Set
 
 class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) extends Iterable[TypeConsIndex] {
-  def typeCons(name: Id): JOption[TypeConsIndex] = {
+  // Memos for typeCons and declaredTypeCons, sound while both depend on nothing but this table and
+  // the name (its api and its text; a span takes no part in a lookup): the indices' maps of types
+  // do not change once built.
+  private final val cacheTypeCons = ProjectProperties.getBoolean("fortress.analyzer.typecons.cache", true)
+  private val typeConsMemo = new ConcurrentHashMap[(Option[APIName], String), JOption[TypeConsIndex]]()
+  private val declaredMemo = new ConcurrentHashMap[String, Option[TypeConsIndex]]()
+
+  def typeCons(name: Id): JOption[TypeConsIndex] =
+    if (!cacheTypeCons) lookUpTypeCons(name)
+    else {
+      val key = (if (name.getApiName.isSome) Some(name.getApiName.unwrap) else None, name.getText)
+      typeConsMemo.get(key) match {
+        case null =>
+          val result = lookUpTypeCons(name)
+          val raced = typeConsMemo.putIfAbsent(key, result)
+          if (raced == null) result else raced
+        case v => v
+      }
+    }
+
+  /** The first type of this table, in its walk, that declares a trait or object of the given name. */
+  def declaredTypeCons(text: String): Option[TypeConsIndex] =
+    if (!cacheTypeCons) findDeclared(text)
+    else declaredMemo.get(text) match {
+      case null =>
+        val result = findDeclared(text)
+        val raced = declaredMemo.putIfAbsent(text, result)
+        if (raced == null) result else raced
+      case v => v
+    }
+
+  private def findDeclared(text: String): Option[TypeConsIndex] =
+    find(idx => text.equals(idx.ast().asInstanceOf[TraitObjectDecl].getHeader().getName().asInstanceOf[Id].getText()))
+
+  private def lookUpTypeCons(name: Id): JOption[TypeConsIndex] = {
     val simpleName: Id = NodeFactory.makeId(NodeFactory.makeSpan(name), name.getText)
     val ast = current.ast
 
@@ -112,6 +146,14 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
   def ground(sub: Boolean, x: Type, y: Type, negate: Boolean, readsBefore: Long, answer: CFormula): Unit =
     if (cacheGround && contextReads == readsBefore && (answer == True || answer == False))
       groundMemo.putIfAbsent((sub, x, y, negate), answer)
+
+  // A memo for TypeAnalyzer.dExc's answers whose computation read no context, by the question with
+  // its inference variables renamed apart: such an answer depends on this table and the question's
+  // shape alone, so every analyzer over the table shares it.
+  private val sharedExclusions = new ConcurrentHashMap[(Type, Type), java.lang.Boolean]()
+  def sharedExclusion(question: (Type, Type)): java.lang.Boolean = sharedExclusions.get(question)
+  def shareExclusion(question: (Type, Type), answer: Boolean): Unit =
+    sharedExclusions.putIfAbsent(question, answer)
 
   /** The traits that declare a coercion, for the lookup from a coercion's source to its targets. */
   lazy val coercingTraits: List[TraitIndex] =

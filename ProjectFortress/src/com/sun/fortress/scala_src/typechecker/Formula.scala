@@ -146,6 +146,8 @@ object Formula{
   private val openedSizeMark = "#"
   private val openedSizes = new java.util.concurrent.atomic.AtomicInteger()
   def openedSizeName(where: String): String = where + openedSizeMark + openedSizes.incrementAndGet
+  // How many sizes have been opened so far: a computation that opens one is not repeated by a memo.
+  def openedSizeCount: Int = openedSizes.get
   def isOpenedSize(e: IntExpr): Boolean = e match {
     case r: IntRef => r.getName.getText.contains(openedSizeMark)
     case _ => false
@@ -353,7 +355,14 @@ object Formula{
     nds.filterNot{c => nds.exists(d => implies(c, d) && !equivalent(c,d))}
   }
 
-  def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
+  /* A conjunction or a disjunction is reduced once in each analyzer: asked again, the
+   * analyzer answers with its first reduction (TypeAnalyzer.reduced). */
+  def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula = c match {
+    case _: And | _: Or => ta.reduced(c)(reduceOnce(c))
+    case _ => c
+  }
+
+  private def reduceOnce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
     case And(ts, os, ns) =>
       def tSimplify(ip: (_InferenceVarType, TPrimitive)): Option[(_InferenceVarType, TPrimitive)] = ip match {
         // catch trivial contradictions 

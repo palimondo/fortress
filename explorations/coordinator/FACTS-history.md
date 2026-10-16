@@ -2331,3 +2331,23 @@ pointer words refreshed in: F-24
 2026-10-16 09:15Z · rewritten · by coordinator: cut to the size: the harness line and the start-up times are in the report
 
 - F-234 **A Fortress command that a worker runs on its own starts a fresh JVM, and that start costs too little to pay for a resident compiler.** The suites already run each suite in one JVM, the harness calling the shell in-process for every test (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:762`); only a compiled test's run step starts a child JVM. In one measurement over 267 worker transcripts, such commands took 6.4 % of the workers' time and their start-up, 0.3 s for the shell and 3 s for a walk run of a one-line program, at most 1.8 % (P-150). The suites, builds and stages took 47.8 % of the command time, the count and distance stages the most. Detail: `coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most".
+
+### F-235
+
+2026-10-16 17:25Z · added · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "1. What changed and why" · by climb batch 16's gather: rung S's record, its first FACTS entry
+
+### F-236
+
+2026-10-16 17:25Z · added · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "8. The guard's list" · by climb batch 16's gather: rung S's record, its second FACTS entry
+
+### F-231
+
+2026-10-16 17:25Z · rewritten · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "5. The profiles" · by climb batch 16's gather: rung S's record, "Corrections of entries that are now wrong"
+
+- F-231 **The generated AST walker is split into methods that the JVM compiles; as one method it ran interpreted and set the checker's time.** `Walker.walk`, which `ScalaAstGenerator` writes into `FortressAst.scala`, was one method of 31,704 bytes, past HotSpot's 8,000-byte limit, and the checker's substitutions and normalizations all go through it. Split in order into eight methods, with identical output, the count stage with row 680's repair takes about 340 s on an idle machine instead of 911 s, and the distance stage 931 s instead of 2,375 s. What remains is about 95 % the solver normalizing meets again. Gated by `WalkerJUTest`. Detail: `perf-probes/checker-speed-2/REPORT.md` sections 2 and 6.
+
+### F-235
+
+2026-10-16 17:26Z · rewritten · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "1. What changed and why" · by climb batch 16's gather: cut to the form
+
+- F-235 **The compiled checker reduces a formula once in each analyzer, answers an exclusion asked again with fresh inference variables from a memo, and finds a type by its name once per trait table.** Each memo's key holds every input its answer reads: a reduction is kept by its formula on the analyzer (`TypeAnalyzer.reduced`, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:589-609`); an exclusion by the question with its type inference variables renamed apart, from an empty cycle history only (`:408-439`, `:985-1015`), and shared through the trait table where it read no context (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:150-156`); a type's lookup and its declaration search by the name (`TraitTable.scala:34-68`). An answer that read the context is marked, so a hit on it is a context read; a computation that opened a size is not kept. Each memo has a switch, default on: `fortress.analyzer.reduce.cache`, `fortress.analyzer.exclusion.cache`, `fortress.analyzer.typecons.cache`. The count stage took 437 s before and 97 s after in one loaded session (the skeptic's pair: 392 s and 83 s), its tables and whole outputs equal; audits that computed every reused answer again found 0 differences, 7.15M reductions, 153,930 exclusions and 156M lookups on the count stage and 428M reuses on the distance stage. A new memo of the checker follows the same rule. Gated by `ReductionMemoJUTest`, `ExclusionMemoJUTest` and `TraitTableMemoJUTest` (misc track) and by the count stage's table. Detail: `compile-ladder/rung-solver-speed/REPORT.md` sections 1, 4, 6 and 7.
