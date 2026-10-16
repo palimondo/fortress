@@ -87,6 +87,8 @@ Decision D's diff (the sized signatures of C4's vocabulary) is written and parke
 - Row 579, the switch-over's library work (the same Part 3): against the one library the compiled checker refuses the floor and ceiling brackets of a `ZZ32` or a numeral as an ambiguous coercion and types `round(z)` at `QQ`'s `ZZ`, because `Integral`'s body declares the two brackets and `round` (`Library/FortressLibrary.fss:702-704`) and its api does not; the device is rung Q's for `ZZ`'s api, `Integral`'s api stating the three and `IntLiteral` its own three; no gated program observes the checker over the one library before the switch-over, so the row is its record.
 - After the names, P-68's library rung for row 330: `floor` and `ceiling` on the float types keep the float; the brackets, `round` and `truncate` return the unbounded ℤ, and the library's `truncate` and `round` are tidied to match, with `RR32`'s four sites that climb batch 6.5b's rung V added (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:112`, `:114-116`), gated, the count of interpreter tests whose output changes measured first (R1's line in `PLAN-history.md`).
 
+- From the generic-`distribute` probe (`perf-probes/generic-distribute/REPORT.md` section 7; row 495's family): on the compiled path an object's inherited generic method beside its own plain one dies at the generic arm in the class loader (`IndexOutOfBoundsException` in `readAndExpandGenericThing`), on the base too; with P-151's generic `distribute`, `Generator2` reaches that arm for every pair with no fused overload once the compiled path reads the one library.
+
 Not yet designed as briefs. The record's shape is at least two batches (`coordinator/library-route-judgement.md:37`).
 
 ### Phase 5. microGPT compiles

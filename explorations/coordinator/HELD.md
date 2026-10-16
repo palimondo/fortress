@@ -6,9 +6,7 @@
 
 - 09:21 (2026-10-14) He asks to understand, not change, what the preparation and follow-up of a batch cost beside the batch itself (probes, planner, reviews, landing work), and to have it tallied for each batch; first figures by `spend.py` for climb batch 14: the run 4.82M, its preparation about 2.7M (planner with the fold 1.24M, Opus review with its check 1.10M, Fable review 0.38M), its landing work about 1.45M (review 0.61M, routing 0.30M, page 0.24M, record pass 0.20M, the skill writer about 0.1M); batch 15's two probes about 2M; the coordinating session's own tokens not counted. Measured on his follow-up of 10:39 UTC by a Sonnet worker (transcripts of batches 6 to 15): a plan's Fable review alone writes a median of 486K tokens and makes 11.5 changes (n=10); an Opus review 473K to 495K and 10 to 12 changes (n=2), its cached reads about ten times Fable's; the one finished Fable review after Opus (batch 14) 385K and 6 changes, batch 15's still running at 698K; a Fable token weighs three to four times an Opus token against the limits.
 
-- 06:23 (2026-10-15) For the `coordinator` skill, from Q1's detour (`reviews/q1-abstract-sibling-detour.md`): an ask states first what the designers' text and their later word say and which way they point; another language's behaviour enters only to reconcile a conflict between the designers' earlier and later choices (his rule, in P-149); the coordinator runs the probe a planner names for a question before it puts the question.
 
-- 13:10 (2026-10-16) For the `coordinator` skill, the skill writer's: before an explanation or an ask, read `explorations/coordinator/curator-profile/PROFILE.md`, the profile of what he knows (his word: it is for the coordinator's calibration; he will only skim it).
 
 ## Held from his comments on the principles (2026-10-13)
 
