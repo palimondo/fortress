@@ -6,9 +6,9 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
 
 **Counts**
 - (b) Consequential: 50 items. By theme: The checker's typing and inference 5; Overloading and the Meet Rule 8; Walk's checks at load 3; Walk's choice of declaration and instance 3; Numbers and numerals 10; Sizes and arrays 8; The library's generators, strings and comparisons 3; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 6.
-- (c) Routine, kept as landed unless he says otherwise: 122 items. By theme: The checker's typing and inference 6; Overloading and the Meet Rule 11; Walk's checks at load 12; Walk's choice of declaration and instance 9; Numbers and numerals 9; Sizes and arrays 4; Ranges 7; The library's generators, strings and comparisons 24; The specification's text 15; Tests and the team's demos 10; Code generation and the run time 2; How batches run 5; The record, its tools and the repository 8.
-- (a) Settled or stale, leaving the lists: 76 entries, several of which bundle lines.
-- PLAN's nine batch lists hold 202 entries: 32 in (b), 95 in (c), 75 in (a), each counted where it first appears.
+- (c) Routine, kept as landed unless he says otherwise: 121 items. By theme: The checker's typing and inference 6; Overloading and the Meet Rule 10; Walk's checks at load 12; Walk's choice of declaration and instance 9; Numbers and numerals 9; Sizes and arrays 4; Ranges 7; The library's generators, strings and comparisons 24; The specification's text 15; Tests and the team's demos 10; Code generation and the run time 2; How batches run 5; The record, its tools and the repository 8.
+- (a) Settled or stale, leaving the lists: 77 entries, several of which bundle lines.
+- PLAN's nine batch lists hold 202 entries: 32 in (b), 94 in (c), 76 in (a), each counted where it first appears.
 - Every one of the 116 entries of 10-02 is placed; the last section maps them.
 
 **Five to take first**, each because it holds work or acts on his word:
@@ -378,7 +378,7 @@ Each is kept as landed unless he says otherwise.
    - Landed: Refused at the variable's use, until the switch-over brings the one library. The other way: Per site, or at the binding. Its cost: Goes away at the switch-over.
    - Home: PLAN, "Climb batch 10, listed for his review", Under the compiled library; PLAN, "Climb batch 9, listed for his review", Stop met and lifted; `compile-ladder/rung-checker-defects/REPORT.md:415`, `JUDGE.md:44`
 
-### Overloading and the Meet Rule (11)
+### Overloading and the Meet Rule (10)
 
 57. The checker's Return Type Rule is stricter than the paper where the more specific declaration's domain is an object type (row 542).
    - Landed: The refusal, his decided construction for answer 9; gated. The other way: Set aside the instances whose domains cannot meet. Its cost: A change to a decided rule.
@@ -399,10 +399,6 @@ Each is kept as landed unless he says otherwise.
 61. A compiled verdict on an overload set can depend on the components compiled before it in the same JVM (row 547); batch 8's re-keyed memo is the candidate cause, not proven.
    - Landed: The row, for the checker phase. The other way: Trace the carried state now. Its cost: A checker investigation.
    - Home: PLAN, "Climb batch 7b, listed for his review", gather.2; PLAN, "Climb batch 8, listed for his review", Row 547 after rung O re-keyed the overloading memo; `compile-ladder/rung-overloading-checker/REPORT.md:158` (10-02: 45)
-
-62. An object that inherits an abstract functional method from one trait and a concrete one from another runs the other trait's body for a call typed by the first; no check reads such a pair (row 572).
-   - Landed: Left with the row. The other way: Read a component's own abstract functional methods per provider; or require the object's own declaration. Its cost: A checker rung; the text settles the defect.
-   - Home: PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component (answered: refuse, P-149; built by climb batch 16's rung K, `c23b85fdc`); `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7)
 
 63. The per-provider Meet Rule compares the `self` parameter as the dotted rule compares a receiver, wherever it sits.
    - Landed: As built; it cleared six `IN` sites. The other way: Compute what a type does not inherit in `allMethods`. Its cost: That needed another rung's file.
@@ -868,7 +864,7 @@ Each is kept as landed unless he says otherwise.
 
 ## (a) Settled or stale: these leave the lists
 
-### Answered by a decision of his (33)
+### Answered by a decision of his (34)
 
 - **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes.", P-97, "The refused examples (S2).", P-41, "The run-time size design is B.", P-73, "Fixed-width overflow raises `IntegerOverflow` under `walk`", P-80, "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 22, 23, 26, 30, 27, 33, 18, 19 and 34; Decided 2026-09-28 before batch N; PLAN, "Pavol's answers, in the order they are needed", item 12.
 - **Item 15, arithmetic in a size (array fork 1).** P-55, "Arithmetic in a size ..."; built `7fd8fddc8`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 15; item 13, fork 1.
@@ -903,6 +899,7 @@ Each is kept as landed unless he says otherwise.
 - **Rung I's ambiguity check against item 26.** P-60, "The `comprises` passages read at the level of values ..." Home: PLAN-history, "Climb batch N's first run, listed for his review", Rung I's ambiguity check refuses no tie among declarations.
 - **Row 516, a lone parameter's union.** The instance rule; row 516 fixed. Home: PLAN-history, "Off the path, parked", A lone type parameter's candidates when none is narrowest.
 - **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (P-51, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN-history, "Off the path, parked", Rows 391 and 455 stay open after climb batch N's rung I (10-02: 57).
+- **Item 62 of the routine list, row 572: an object that inherits an abstract functional method from one trait and a concrete one from another, which no check read.** P-149, "An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).", his answer to climb batch 16's Q1 (item 55); built by climb batch 16's rung K (`c23b85fdc`), rows 572 and 727 fixed. Home: PLAN-history, "Answered 2026-10-15 (item 55, Q1 of climb batch 16: refuse, P-149)"; PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component; `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7).
 
 ### Answered by a landed fix or a closed row (32)
 
