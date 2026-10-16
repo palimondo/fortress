@@ -18,7 +18,6 @@ class ExclusionMemoJUTest extends TestCase {
   def typ(str: String) = TypeParser.parse(TypeParser.typ, str).get
   def nTyp(str: String) = TypeParser.parse(TypeParser.namedType, str).get
 
-  /** An analyzer that counts the exclusions it computes. */
   class CountingAnalyzer(traits: TraitTable, env: KindEnv) extends TypeAnalyzer(traits, env) {
     var computed = 0
     override protected def exc(x: Type, y: Type)(implicit history: Set[hType]): CFormula = { computed += 1; super.exc(x, y) }
@@ -26,7 +25,6 @@ class ExclusionMemoJUTest extends TestCase {
 
   val noHistory = Set[(Boolean, Boolean, Type, Type)]()
 
-  /** The type parameter T bounded by the given type. */
   def tBoundedBy(bound: String): StaticParam = {
     val t = nTyp("T")
     SStaticParam(t.getInfo, 0, t.getName, List(nTyp(bound).asInstanceOf[BaseType]), Nil, None, false, SKindType(), false)
@@ -55,7 +53,6 @@ class ExclusionMemoJUTest extends TestCase {
 
   def testExclusionOverTypeVariableIsEachAnalyzersOwn() = {
     val base = typeAnalyzer("{trait Aa, trait Bb excludes {Aa}, trait Cc}")
-    // T extends Aa excludes Bb; T extends Cc does not
     for (order <- List(List("Aa", "Cc"), List("Cc", "Aa"))) {
       val analyzers = order.map(b => (b, base.extend(List(tBoundedBy(b)), None)))
       for ((b, ta) <- analyzers ++ analyzers) {

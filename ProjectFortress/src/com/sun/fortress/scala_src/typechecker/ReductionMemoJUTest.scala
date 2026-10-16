@@ -16,17 +16,14 @@ class ReductionMemoJUTest extends TestCase {
   def typ(str: String) = TypeParser.parse(TypeParser.typ, str).get
   def nTyp(str: String) = TypeParser.parse(TypeParser.namedType, str).get
 
-  /** An analyzer that counts the meets it is asked. */
   class CountingAnalyzer(ta: TypeAnalyzer) extends TypeAnalyzer(ta.traits, ta.env) {
     var meets = 0
     override def meet(x: Iterable[Type]): Type = { meets += 1; super.meet(x) }
   }
 
-  /** i between lower and upper. */
   def between(i: _InferenceVarType, lower: Type, upper: Type): CFormula =
     And(Map(i -> TPrimitive(Set(lower), Set(), Set(upper), Set(), Set(), Set())), Map())
 
-  /** The type parameter T bounded by the given type. */
   def tBoundedBy(bound: String): StaticParam = {
     val t = nTyp("T")
     SStaticParam(t.getInfo, 0, t.getName, List(nTyp(bound).asInstanceOf[BaseType]), Nil, None, false, SKindType(), false)
@@ -47,14 +44,13 @@ class ReductionMemoJUTest extends TestCase {
   def testReductionOverTypeVariableIsEachAnalyzersOwn() = {
     val base = typeAnalyzer("{trait Aa, trait Cc, trait Dd}")
     val i = make_InferenceVarType(typeSpan)
-    // T at or below i, and i below Cc: satisfiable where T extends Cc, a contradiction where T extends Dd
     val c = between(i, typ("T"), typ("Cc"))
     for (order <- List(List("Cc", "Dd"), List("Dd", "Cc"))) {
       val analyzers = order.map(b => (b, base.extend(List(tBoundedBy(b)), None)))
       for ((b, ta) <- analyzers ++ analyzers) {
         val r = reduce(c)(ta)
-        if (b == "Cc") assertTrue("T extends Cc: " + r, r.isInstanceOf[And])
-        else assertEquals("T extends Dd", False, r)
+        if (b == "Cc") assertTrue("T extends Cc: T at or below i below Cc is satisfiable: " + r, r.isInstanceOf[And])
+        else assertEquals("T extends Dd: T at or below i below Cc is a contradiction", False, r)
       }
     }
   }

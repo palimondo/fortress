@@ -17,7 +17,6 @@ class TraitTableMemoJUTest extends TestCase {
   def traitIndices(str: String): List[TraitIndex] =
     TypeParser.parse(TypeParser.repsep(TypeParser.traitIndex | TypeParser.objectIndex, ","), str).get
 
-  /** A table that counts the walks over every type it holds. */
   class CountingTable(traits: List[TraitIndex])
       extends TraitTable(TypeParser.makeComponentIndex("OverloadingTest", traits), TypeParser.GLOBAL_ENV) {
     var walks = 0
