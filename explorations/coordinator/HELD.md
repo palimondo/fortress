@@ -10,7 +10,7 @@
 
 - 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
 
-- 19:58 On the skills update (batch 16's changes and his rules of the day in the skills, the asking rules moved to the top of the coordinator skill, a cold read of the changed parts): it feels consequential; he wants to know in detail what it is about.
+- 19:59 On the skills update (batch 16's changes and his rules of the day in the skills, the asking rules moved to the top of the coordinator skill, a cold read of the changed parts): it feels consequential; he wants to know in detail what it is about.
 
 ## Held in chat (2026-10-13)
 
