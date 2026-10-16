@@ -7,7 +7,7 @@
 - `Formula.reduce` asks `TypeAnalyzer.reduced`, which keeps each analyzer's reductions by formula, each marked if it read the context, and keeps none that opened a size (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:589-609`; switch `fortress.analyzer.reduce.cache`).
 - `dExc` keeps its answers by the question with its type inference variables renamed apart, from an empty cycle history only (`:408-439`, `:985-1015`; switch `fortress.analyzer.exclusion.cache`). Those that read no context are shared through the trait table (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:150-156`).
 - `TraitTable.typeCons` and `declaredTypeCons` answer once per name (`TraitTable.scala:34-68`; switch `fortress.analyzer.typecons.cache`).
-- **Time.** The count stage, one loaded session: 437 s before, 149 s with the reduction memo, 97 s with all three. The earlier session's idle base took 302 s. The distance stage took 574 s on the final code, against 26 to 29 minutes before.
+- **Time.** The count stage, one loaded session: 437 s before, 149 s with the reduction memo, 97 s with all three. The earlier session's idle base took 302 s. The skeptic's pair in one session: base 392 s (load 0.85 at start, two other trees' JVMs from its second minute), final code 83 s (load 3.58). The distance stage took 574 s on the final code at load 4.6, against 1,075 s at climb batch 15b's gate at load 0.7.
 - **Results.** The checker's results are the same:
   - The count tables are equal, and so are the whole outputs once the tree path is masked.
   - An audit recomputed every reused answer without its memo, on one full count run and on one distance run. It found 0 differences: 7.15M reductions, 153,930 exclusions, 156M type lookups and 183,577 declaration searches on the count run; 428M reuses on the distance run.
@@ -23,6 +23,7 @@
 
 - `ProjectFortress/src/com/sun/fortress/tests/unit_tests/MethodSizeJUTest.java`, in the misc track, reads every class of `ProjectFortress/build` with `java.lang.classfile`.
 - It fails on an unlisted method past 8,000 bytes, and on a listed one gone from the build or back under the limit.
+- Each entry of its list carries its size and what runs it, and a failure names both.
 - The twelve:
   - `NodeReader.readNode`, 14,026 bytes;
   - the three parsers' `pCharLiteralContent$1`, 23,717 each;
@@ -36,7 +37,7 @@
 
 Corrections of entries that are now wrong:
 
-- **F-231**, "What remains is about 95 % the solver normalizing meets again." After this rung, the count stage's profile holds `pExc` and `dExc` at about 62 to 65 % of a run that is about a third as long. The reductions asked again are answered from a memo. Detail: REPORT.md section 5.
+- **F-231**, "What remains is about 95 % the solver normalizing meets again." After the reduction memo (`615ecff76`), the count stage's profile held `pExc` and `dExc` at about 62 to 65 % of a run about a third as long; the second pass then answers exclusions asked again from a memo and the table's lookups once, and no profile of the final code was taken. Detail: REPORT.md section 5.
 
 ## Ledger notes
 
@@ -74,8 +75,8 @@ Rung S, on `wip/rung-solver-speed` (`aaac79b84`..`6e6192747`):
 
 - **The team's source.** The team's compiled checker reduced a constraint formula afresh every time it was asked: `Formula.reduce` at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:356` (528438ac5). The same holds for every exclusion question with fresh inference variables (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:412`) and for every search of the trait table by a type's name (`TypeAnalyzer.scala:271`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:34`).
 - **What the tree now does.** The checker keeps each analyzer's reductions, each exclusion by the question with its inference variables renamed apart, and each table lookup by name. Each memo has a switch, default on. Tests: `ReductionMemoJUTest`, `ExclusionMemoJUTest`, `TraitTableMemoJUTest`.
-- **What does not change.** No rule of the language changes: the checker accepts and refuses the same programs, with the same errors at the same places.
-- **What changes for the work.** The checker's time changes. The count stage over the interpreter's library takes about 1.5 to 2.5 minutes, not about 6, and the distance stage about 10 minutes, not about half an hour.
+- **What does not change.** No rule of the language changes: the checker accepts and refuses the same programs, with the same errors at the same places, on the count stage and in every reused answer the audits computed again. The one site that moved, on the distance stage, is row 488's `Library/FortressLibrary.fss:130`, whose presence depends on what the checker asked earlier (F-232); the audit copy of the same code keeps it.
+- **What changes for the work.** The checker's time changes. The count stage over the interpreter's library takes about 1.5 minutes (97 s and 83 s on the final code, at loads 3.6 and 3.6), not about 6, and the distance stage about 10 minutes (574 s at load 4.6), not about 18 (1,075 s at climb batch 15b's gate).
 - **The guard.** A misc-track test, `MethodSizeJUTest`, now guards every method of the build against HotSpot's 8,000-byte limit, with a list of the twelve methods past it today. `WalkerJUTest` guards only the generated walker.
 - **Skill sentences made false**:
   - `references/compiler.md:125`: "The count stage takes `<out-file> <scratch>` and about 6 minutes on an idle machine."

@@ -233,7 +233,7 @@ I made two instrumented copies, each compiled into a scratch folder ahead of the
 
 ## 8. The guard's list
 
-I scanned the base build with `tmp/rung-solver-speed/scan/Scan.java` over `/home/user/fortress-base16/ProjectFortress/build` (4,117 classes). It found twelve methods over 8,000 bytes, and the list is those twelve, each with what runs it (`MethodSizeJUTest.java:32-52`):
+I scanned the base build with `tmp/rung-solver-speed/scan/Scan.java` over `/home/user/fortress-base16/ProjectFortress/build` (4,117 classes). It found twelve methods over 8,000 bytes, and the list is those twelve, each with its size and what runs it (`MethodSizeJUTest.java:35-58`, as the skeptic's correction holds them, in data rather than comments):
 
 | method | bytes | what runs it |
 |---|---|---|
