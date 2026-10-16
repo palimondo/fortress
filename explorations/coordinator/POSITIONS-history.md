@@ -1322,3 +1322,9 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-151
 
 2026-10-16 16:44Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.3 Conditional extension, by the accepted rule" · by curator: his answer "3 for the where clauses" at 16:42 UTC on 2026-10-16 to the coordinator's ask of 15:55 UTC (option 3: build the forms the team wrote down and stop there, keep the fusion and measure the team's commented generic distribute, move the rest of AnyList into List); the conditional-extension rule accepted at 12:35 UTC ("The rules feel solid ... if we know how to implement this, I would go for it")
+
+### P-149
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "What the record listed for him, and PLAN lacks" · commit `c23b85fdc` · by record worker after climb batch 16: the built part cut: rung K landed P-149
+
+- P-149 **An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).** So `object O extends { A, B }`, with `pick(self)` abstract in `A` and given a body in `B`, must declare its own `pick`, as the specification's text and the type group's Welterweight calculus require and as walk already does; an abstract and a concrete declaration of one method in one trait are refused too. Why: the revival honors the designers' intent and does not change Fortress's nature for a convenience; other languages are consulted only to reconcile a conflict between earlier and later designers' choices, and here there is none. No library type uses the shape. Still to build: climb batch 16's rung K, rows 572 and 727.

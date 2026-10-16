@@ -2417,3 +2417,73 @@ pointer words refreshed in: F-24
 2026-10-16 18:21Z · rewritten · from `explorations/compile-ladder/climb-batch-16/JUDGE-review.md`, "5. The repair" · by climb batch 16 repair of the review: the pair walk refuses named by its program
 
 - F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand, abstract ones included.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions and an abstract functional method beside a concrete one among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584); such a pair passes it and stops the code generator (row 726). Walk refuses at load such a pair of two generic declarations as `dup`'s, whose parameter types mention their static parameters; it loads and runs one of a generic declaration beside one whose parameter types are its bounds, a plain one (row 549) or a generic one whose parameter types mention none of its static parameters (row 742). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions`, `XXXNoDuplicatesRuleSelfPositionsPlain`, `XXXNoDuplicatesRuleAbstract` and `XXXNoDuplicatesRuleAbstractSelfPositions`, the checker's departure by `XXXNoDuplicatesRuleSelfPositionsOperator`, walk's refusal by `tests/NoDuplicatesRuleWalk`, and walk's two departures by `tests/XXXGenericBesidePlainSameDomain` and `XXXGenericBesideGenericSameDomain`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8, and `compile-ladder/rung-checker-abstract-callsite/REPORT.md` section 1.
+
+### F-231
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · by record worker after climb batch 16: the split's effect put in the past; today's times point to the new entry
+
+- F-231 **The generated AST walker is split into methods that the JVM compiles; as one method it ran interpreted and set the checker's time.** `Walker.walk`, which `ScalaAstGenerator` writes into `FortressAst.scala`, was one method of 31,704 bytes, past HotSpot's 8,000-byte limit, and the checker's substitutions and normalizations all go through it. Split in order into eight methods, with identical output, the count stage with row 680's repair takes about 340 s on an idle machine instead of 911 s, and the distance stage 931 s instead of 2,375 s. About 95 % of what remained was the solver reducing formulas again, which its memos now answer (F-235); with the reduction memo alone the count stage's profile held the exclusion questions (`pExc`, `dExc`) at about 62 to 65 % of a run a third as long, and the final code has no profile. Gated by `WalkerJUTest`. Detail: `perf-probes/checker-speed-2/REPORT.md` sections 2 and 6; `compile-ladder/rung-solver-speed/REPORT.md` section 5.
+
+### F-53
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · from `explorations/compile-ladder/climb-batch-16/RECORD.md`, "FACTS left for the coordinator" · commit `f98ad813f` · by record worker after climb batch 16: the "2 to 4 errors" is the one site :130, through row 737 (rung H); 15b's "a rise from 1" to the history
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 39, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 39 are the `FortressLibrary` component's own errors, every api at 0, a rise from 1 that is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488; F-232), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-232
+
+2026-10-16 19:13Z · rewritten · by record worker after climb batch 16: row 488 is now a duplicate of row 737 (ledger, 998a6e09c), so the site is named by its place
+
+- F-232 **The syntax tree's hashes do not depend on the JVM's identity hashes; one checker site still does, through the index's.** Every generated node's hash starts from the hash of its class's name, which makeAST's post-processing of ASTGen's output and the in-repo generators write (`build.xml:679-697`), and a field whose type holds an `Option` is hashed by `NodeHash.of` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeHash.java`), since the PLT `Option` classes hash by identity. So hash maps and sets of nodes that hold neither kind below iterate in one order whatever code asked for an identity hash before, and so do the apis that `StaticChecker.checkApis` takes in turn. Two kinds of node still hash by identity, and so does every node that holds one: the inference variables, whose id is a bare `Object` (`nodes_util/NodeFactory.java:1166-1184`), through which no output of the count stage moves, and walk's `_WrappedFValue` (`interpreter/evaluator/_WrappedFValue.java:170-177`; row 430). The checker's output still moves at row 488's `:130`, through row 737: `ApiTypeExtractor` matches a left-out return type by name over `DeclaredFunction`s, which hash by identity. Gated by `NodeHashJUTest`; for the site that still moves, `XXXOmittedReturnTypeFromApi`. Detail: `compile-ladder/rung-ast-hashes/REPORT.md` sections 4.2 to 4.4.
+
+### F-181
+
+2026-10-16 19:13Z · rewritten · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.7 The code generator and `NatParam`'s clause" · by record worker after the where-clauses probe: what lies past the guard, measured with the guard let through in a scratch copy
+
+- F-181 **The code generator refuses every function, object and trait declaration that carries a `where` clause or a contract (row 701).** The `fortress-repo` skill's `references/compiler.md`, "What the compiled path cannot compile yet", gives this refusal and the constructs that the code generator has no case for, a local function among them (row 304). An array comprehension has no case either. Detail: `coordinator/map/spec-to-implementation.md` section 3.
+
+### F-239
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "Rung W, `9879d4386`" · by record worker after climb batch 16: maybeType tests names (Evaluator.java:617-621), the review's finding 5; row 746 for the departure
+
+- F-239 **Under walk, an `if` clause without a binding takes a `Boolean` by its value, a `Just` of the library's `Maybe` as true and a `Nothing` as false, and refuses every other value, "If clause did not return boolean".** A `Just` is true whatever it holds; a number, a string and an object that is neither are refused as `()`, a tuple and a function were (`Evaluator.java:582-621`). A refusal while a top-level variable is initialised counts as a refusal at load. Gated by `tests/IfClauseObjectWalk`, `IfClauseNumberWalk`, `IfClauseStringWalk`, `maybeTest` and `naturalsTest`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` section 1.
+
+### F-240
+
+2026-10-16 19:13Z · added · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · commit `f98ad813f` · by record worker after climb batch 16: the gate's stage times, the count each landing changes, apart from F-231 and F-235
+
+### F-241
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/integer-power/REPORT.md`, "9. For FACTS" · by record worker after the integer-power probe
+
+### F-242
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.8 Decisions, defects, hand-overs (Part A)" · from `explorations/perf-probes/generic-distribute/REPORT.md`, "10. For FACTS" · by record worker after the where-clauses and generic-distribute probes
+
+### F-243
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.8 Decisions, defects, hand-overs (Part A)" · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.6 Decisions, defects, hand-overs (Part B)" · by record worker after the where-clauses probe
+
+### F-244
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.6 Decisions, defects, hand-overs (Part B)" · by record worker after the where-clauses probe
+
+### F-245
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-246
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-247
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/integer-power/REPORT.md`, "9. For FACTS" · by record worker after the integer-power probe
+
+### F-248
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/generic-distribute/REPORT.md`, "10. For FACTS" · by record worker after the generic-distribute probe
+
+### F-249
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
