@@ -1,0 +1,13 @@
+component NoDuplicatesRuleSizeWalk
+export Executable
+
+(* Two generic declarations over vectors of a size n and of a size m are each applicable to every call to which the other is, so the program is refused at load, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
+
+object Vec[\nat n\] end
+
+dup[\nat n\](x: Vec[\n\]): String = "n"
+dup[\nat m\](x: Vec[\m\]): String = "m"
+
+run(): () = println(dup(Vec[\3\]))
+
+end
