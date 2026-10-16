@@ -818,54 +818,40 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     /**
-     * The overlap of two own generics f (o1) and g (o2), neither inside the
-     * other, is held by a third declaration whose declared domain lies
-     * inside both.  The overlap is read where the two declared domains, each
-     * over its own static parameters (Apart), match position by
-     * position (matchApart): type parameters that match each other become
-     * one type parameter under the bounds of each, and one that matches a
-     * type becomes that type; the overlap is f's domain at those static
-     * arguments, where g holds it.  Domains that do not match so, and bounds
-     * that name a static parameter, are not read: such a pair is refused.
+     * The overlap of two own generic functions f (o1) and g (o2), neither
+     * inside the other, is held by a third declaration whose declared domain
+     * lies inside both.  The overlap is read where the two declared domains,
+     * each over its own static parameters (Apart), match position by
+     * position (matchApart): static parameters that match a type that is no
+     * static parameter become that type, and type parameters that match each
+     * other become one type parameter made afresh (meetParams), below the
+     * bounds of each, read as createSymbolicInstantiation reads them; the
+     * overlap is f's domain at those static arguments, where g holds it.
+     * Domains that do not match so, and declarations with a where clause,
+     * are not read: such a pair is refused.
      */
     static private boolean genericMeetCovered(Overload o1, Overload o2, Collection<Overload> all) {
-        GenericFunctionOrMethod f = (GenericFunctionOrMethod) o1.getFn();
-        SingleFcn g = o2.getFn();
-        List<FType> d1 = o1.getParams();
-        List<FType> d2 = Apart.of(o1, o2).domain;
+        if (!(o1.getFn() instanceof FGenericFunction) || !(o2.getFn() instanceof FGenericFunction)) return false;
+        FGenericFunction f = (FGenericFunction) o1.getFn();
+        FGenericFunction g = (FGenericFunction) o2.getFn();
+        if (NodeUtil.getWhereClause(f.getFnDecl()).isSome() || NodeUtil.getWhereClause(g.getFnDecl()).isSome()) {
+            return false;
+        }
+        Apart apart = Apart.of(o1, o2);
         List<FType> fArgs = GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get(f);
-        if (fArgs == null || d2.size() != d1.size()) return false;
+        List<FType> gArgs = apart.fresh != null ? apart.fresh :
+                            GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get(g);
+        List<FType> d1 = o1.getParams();
+        List<FType> d2 = apart.domain;
+        if (fArgs == null || gArgs == null || d2.size() != d1.size()) return false;
+        if (fArgs.size() != f.getStaticParams().size() || gArgs.size() != g.getStaticParams().size()) return false;
         Map<FType, FType> parent = new IdentityHashMap<FType, FType>();
         for (int k = 0; k < d1.size(); k++) {
             if (!matchApart(deRest(d1.get(k)), deRest(d2.get(k)), parent)) return false;
         }
-        Map<FType, List<FType>> classes = new IdentityHashMap<FType, List<FType>>();
-        for (FType t : parent.keySet()) {
-            FType r = root(t, parent);
-            List<FType> c = classes.get(r);
-            if (c == null) classes.put(r, c = new ArrayList<FType>());
-            c.add(t);
-        }
-        List<StaticParam> sps = f.getStaticParams();
-        Map<FType, FType> made = new IdentityHashMap<FType, FType>();
-        List<FType> meetArgs = new ArrayList<FType>(fArgs.size());
         try {
-            for (int i = 0; i < fArgs.size(); i++) {
-                FType a = fArgs.get(i);
-                List<FType> c = parent.containsKey(a) ? classes.get(root(a, parent)) : null;
-                if (c == null) {
-                    meetArgs.add(a);
-                    continue;
-                }
-                FType r = root(a, parent);
-                FType m = made.get(r);
-                if (m == null) {
-                    m = meetOfClass(c, a, sps.get(i), o1);
-                    if (m == null) return false;
-                    made.put(r, m);
-                }
-                meetArgs.add(m);
-            }
+            List<FType> meetArgs = meetParams(f, fArgs, g, gArgs, parent, o1, o2);
+            if (meetArgs == null) return false;
             List<FType> meet = f.typeApply(meetArgs).getNormalizedDomain();
             if (instanceHolding(g, meet, true) == null) return false;
             for (Overload o : all) {
@@ -877,7 +863,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                 if (ownGeneric(h)) holds = instanceHolding(h, meet, true) != null;
                 else if (!(h instanceof GenericFunctionOrMethod)) holds = FTypeTuple.make(meet).subtypeOf(FTypeTuple.make(hd));
                 else continue;
-                if (holds && declaredBelow(h, null, (SingleFcn) f, null, true) && declaredBelow(h, null, g, null, true)) {
+                if (holds && declaredBelow(h, null, f, null, true) && declaredBelow(h, null, g, null, true)) {
                     return true;
                 }
             }
@@ -892,37 +878,86 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     /**
-     * The static argument that the class c of matched types gives the static
-     * parameter sp of f, whose symbolic argument a is in c: the one type of
-     * c that is no static parameter; else a, where c holds no other type
-     * parameter; else a type parameter made afresh, below every bound of
-     * every type parameter of c.  Null where c holds two different types, or
-     * a bound names a static parameter.
+     * The static arguments of f at the overlap of f and g, whose symbolic
+     * static arguments fArgs and gArgs the classes of parent match: each of
+     * f's that matches a type that is no static parameter, that type; each
+     * class of two type parameters or more, one type parameter made afresh,
+     * whose bounds are every bound of each, each read in an environment where
+     * its declaration's static parameters stand for their arguments at the
+     * overlap, as createSymbolicInstantiation reads a declaration's bounds;
+     * any other static parameter of f, itself.  Null where a class holds two
+     * different types.
      */
-    static private FType meetOfClass(List<FType> c, FType a, StaticParam sp, HasAt at) {
-        FType ground = null;
-        List<SymbolicType> params = new ArrayList<SymbolicType>();
-        for (FType t : c) {
-            if (t instanceof SymbolicType) params.add((SymbolicType) t);
-            else if (t.isSymbolic()) continue;
-            else if (ground == null) ground = t;
-            else if (!ground.equals(t)) return null;
+    static private List<FType> meetParams(FGenericFunction f, List<FType> fArgs, FGenericFunction g,
+                                          List<FType> gArgs, Map<FType, FType> parent, HasAt atF, HasAt atG) {
+        Map<FType, List<FType>> classes = new IdentityHashMap<FType, List<FType>>();
+        for (FType t : new ArrayList<FType>(parent.keySet())) {
+            FType r = root(t, parent);
+            List<FType> c = classes.get(r);
+            if (c == null) classes.put(r, c = new ArrayList<FType>());
+            c.add(t);
         }
-        if (ground != null) return ground;
-        if (!(a instanceof SymbolicType) || params.size() <= 1) return a;
-        List<FType> bounds = new ArrayList<FType>();
-        for (SymbolicType p : params) {
-            for (FType b : p.getExtends()) {
-                if (mentionsSymbolic(b)) return null;
-                if (b != FTypeTop.ONLY && !bounds.contains(b)) bounds.add(b);
+        Map<FType, StaticParam> declOf = new IdentityHashMap<FType, StaticParam>();
+        Map<FType, Boolean> ofF = new IdentityHashMap<FType, Boolean>();
+        List<StaticParam> fps = f.getStaticParams();
+        List<StaticParam> gps = g.getStaticParams();
+        for (int i = 0; i < fArgs.size(); i++) {
+            declOf.put(fArgs.get(i), fps.get(i));
+            ofF.put(fArgs.get(i), true);
+        }
+        for (int j = 0; j < gArgs.size(); j++) {
+            declOf.put(gArgs.get(j), gps.get(j));
+            ofF.put(gArgs.get(j), false);
+        }
+        Environment geF = f.getWithin().extendAt(atF);
+        Environment geG = g.getWithin().extendAt(atG);
+        Map<FType, FType> valueOf = new IdentityHashMap<FType, FType>();
+        Map<FType, List<FType>> made = new IdentityHashMap<FType, List<FType>>();
+        for (Map.Entry<FType, List<FType>> e : classes.entrySet()) {
+            FType ground = null;
+            List<FType> params = new ArrayList<FType>();
+            for (FType t : e.getValue()) {
+                if (t instanceof SymbolicType && declOf.containsKey(t)) params.add(t);
+                else if (t.isSymbolic()) continue;
+                else if (ground == null) ground = t;
+                else if (!ground.equals(t)) return null;
             }
+            FType v;
+            if (ground != null) v = ground;
+            else if (params.size() >= 2) {
+                StaticParam sp = declOf.get(params.get(0));
+                v = new SymbolicInstantiatedType(NodeUtil.getName(sp), geF, sp);
+                made.put(v, params);
+            } else continue;
+            for (FType t : e.getValue()) valueOf.put(t, v);
         }
-        Environment ge = ((SymbolicType) a).getWithin().extendAt(at);
-        String name = NodeUtil.getName(sp);
-        SymbolicInstantiatedType m = new SymbolicInstantiatedType(name, ge, sp);
-        ge.putType(name, m);
-        m.setExtendsAndExcludes(bounds, null);
-        return m;
+        List<FType> meetArgs = new ArrayList<FType>(fArgs.size());
+        for (int i = 0; i < fArgs.size(); i++) {
+            FType a = fArgs.get(i);
+            FType v = valueOf.containsKey(a) ? valueOf.get(a) : a;
+            meetArgs.add(v);
+            geF.putType(NodeUtil.getName(fps.get(i)), v);
+        }
+        for (int j = 0; j < gArgs.size(); j++) {
+            FType a = gArgs.get(j);
+            geG.putType(NodeUtil.getName(gps.get(j)), valueOf.containsKey(a) ? valueOf.get(a) : a);
+        }
+        Map<FType, List<FType>> bounds = new IdentityHashMap<FType, List<FType>>();
+        for (Map.Entry<FType, List<FType>> e : made.entrySet()) {
+            List<FType> bs = new ArrayList<FType>();
+            for (FType p : e.getValue()) {
+                StaticParam sp = declOf.get(p);
+                EvalType et = new EvalType(ofF.get(p) ? geF : geG);
+                for (FType b : et.getFTypeListFromList(sp.getExtendsClause())) {
+                    if (b != FTypeTop.ONLY && !bs.contains(b)) bs.add(b);
+                }
+            }
+            bounds.put(e.getKey(), bs);
+        }
+        for (Map.Entry<FType, List<FType>> e : bounds.entrySet()) {
+            ((SymbolicInstantiatedType) e.getKey()).setExtendsAndExcludes(e.getValue(), null);
+        }
+        return meetArgs;
     }
 
     /**
