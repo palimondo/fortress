@@ -1,0 +1,18 @@
+component XXXStaticArgBoundAtCallOnce
+export Executable
+
+(* A call whose static argument does not satisfy the bound of the callee's result type, inside a tuple, is reported once, at the call and not again at the tuple, and a second call in a later declaration once, at its own. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+object DefV[\T extends K\]() extends V[\T\] end
+
+vec[\T extends K\](): V[\T\] = DefV[\T\]()
+pair[\T\](): Any = (vec[\T\](), 1)
+again[\T\](): Any = vec[\T\]()
+
+run(): () = println("FAIL: pair and again call vec at a type outside its bound")
+
+end

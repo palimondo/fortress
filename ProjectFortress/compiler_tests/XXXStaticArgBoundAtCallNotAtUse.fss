@@ -1,0 +1,21 @@
+component XXXStaticArgBoundAtCallNotAtUse
+export Executable
+
+(* A call whose static argument does not satisfy the bound of the callee's result type, its value bound to a local variable that a later line uses, is reported at the call, not at the use. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+object DefV[\T extends K\]() extends V[\T\] end
+
+vec[\T extends K\](): V[\T\] = DefV[\T\]()
+use[\T\](): Any = do
+  x = vec[\T\]()
+  w: Any = (x, x)
+  w
+end
+
+run(): () = println("FAIL: use calls vec at a type outside its bound")
+
+end

@@ -1,0 +1,4 @@
+tests=XXXIllFormedTypeAtDeclarationOnce
+compile
+compile_err_contains=XXXIllFormedTypeAtDeclarationOnce.fss:11:8-
+compile_err_WIcontains=File XXXIllFormedTypeAtDeclarationOnce.fss has 1 error.

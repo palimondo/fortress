@@ -2357,3 +2357,19 @@ pointer words refreshed in: F-24
 2026-10-16 17:28Z · rewritten · from `explorations/compile-ladder/rung-ast-hashes/REPORT.md`, "4.3 The next source: `ApiTypeExtractor` and the index's identity hashes" · by climb batch 16's gather: rung H's record: its FACTS entry, which replaces F-232's text, the change having made it false
 
 - F-232 **The checker's output depends on the JVM's identity-hash sequence.** Every AST node's hash starts from its class's identity hash, so the order of every hash map and set of nodes, the apis that `StaticChecker.checkApis` takes in turn among them, moves when any code asks for an identity hash at another moment. One extra identity hash at start reorders the api checks and prints a union's members the other way; two instrumented runs lost row 488's site at `:130`. It is a lead for row 488's moves. Detail: `perf-probes/checker-speed-2/REPORT.md` section 9.
+
+### F-80
+
+2026-10-16 17:30Z · rewritten · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "1. What changed, and why" · by climb batch 16's gather: rung K's record, the rewrite of F-80, whose "Unchecked" part on row 572 is false since the rung
+
+- F-80 **The compiled checker judges two functional methods of one name by the Meet Rule for Functional Methods, in each type that provides both, and keys its overloading memo on the check's inputs.** Such a type must provide their meet, compared without the self parameter. F-88 says what a type provides. Unchecked: a pair one of whose declarations is the component's own abstract one (row 572), and a pair that only an object expression provides (row 570). Gated by `compiler_tests/FunctionalMethodMeet*`. Detail: `compile-ladder/rung-overloading-checker/REPORT.md` section 5.
+
+### F-237
+
+2026-10-16 17:30Z · added · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "1. What changed, and why" · by climb batch 16's gather: rung K's record, its new entry, with the skeptic's fixes as the judge upheld them
+
+### F-223
+
+2026-10-16 17:30Z · rewritten · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "7. Sentences made false" · by climb batch 16's gather: rung K's record: row 727 is no longer a departure
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584) and reads no abstract functional method of a trait the component declares (row 727); such a pair passes it and stops the code generator (rows 726 and 727). Walk runs one of such a pair in two shapes (rows 373 and 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions` and `XXXNoDuplicatesRuleSelfPositionsPlain`, the checker's departures by `XXXNoDuplicatesRuleSelfPositionsOperator` and `XXXNoDuplicatesRuleAbstract`, and walk's departure by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, and `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8.

@@ -19,6 +19,9 @@ import com.sun.fortress.compiler.typechecker.StaticTypeReplacer
 import com.sun.fortress.exceptions.StaticError
 import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
+import com.sun.fortress.nodes_util.NodeUtil
+import com.sun.fortress.nodes_util.SourceLoc
+import com.sun.fortress.nodes_util.Span
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -33,10 +36,82 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   def check() = {
     walk(compilation_unit.ast)
+    // An error placed at an expression, at each place that holds no other place of the same
+    // message and node place, and at none where that node is ill-formed where it is written.
+    val keys = moved.keySet.iterator
+    while (keys.hasNext) {
+      val key = keys.next
+      if (!written.contains(key)) {
+        val ps = moved.get(key)
+        var i = 0
+        while (i < ps.size) {
+          val sp = NodeUtil.getSpan(ps.get(i).expr)
+          var holds = false
+          var j = 0
+          while (j < ps.size) {
+            val o = NodeUtil.getSpan(ps.get(j).expr)
+            if (within(o, sp) && !within(sp, o)) holds = true
+            j += 1
+          }
+          if (!holds) errors.add(TypeError.make(key._1, ps.get(i).expr))
+          i += 1
+        }
+      }
+    }
     errors
   }
 
-  private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
+  // An error on n is reported at n. Where n lies outside the nearest expression the walk is
+  // in, as a call's type keeps the spans of the callee's declared type, and n is not
+  // ill-formed where it is written, the error is reported at an expression instead: at the
+  // innermost expression the walk met n in, n being the type that one call made and that
+  // the expressions its value flows to share; check places these errors.
+  private def error(s:String, n:Node) = {
+    val key = (s, n.at)
+    outside(n) match {
+      case None =>
+        errors.add(TypeError.make(s,n))
+        written.add(key)
+      case Some(e) if !written.contains(key) =>
+        var ps = moved.get(key)
+        if (ps == null) { ps = new java.util.ArrayList[Placed](); moved.put(key, ps) }
+        var p: Placed = null
+        var i = 0
+        while (i < ps.size) { if (ps.get(i).node eq n) p = ps.get(i); i += 1 }
+        if (p == null) ps.add(new Placed(n, e))
+        else {
+          val (es, pe) = (NodeUtil.getSpan(e), NodeUtil.getSpan(p.expr))
+          if (within(es, pe) && !within(pe, es)) p.expr = e
+        }
+      case _ =>
+    }
+  }
+
+  // A node an error was placed at an expression for, and that expression.
+  private class Placed(val node: Node, var expr: Expr)
+
+  // The nearest expression the walk is in, if any.
+  private var enclosingExpr: Option[Expr] = None
+
+  // For each message and place of a node, each node met with it and its place, in the
+  // order met.
+  private val moved = new java.util.LinkedHashMap[(String, String), java.util.ArrayList[Placed]]()
+
+  // Each message and place of a node whose error was reported at the node.
+  private val written = new java.util.HashSet[(String, String)]()
+
+  // The nearest expression the walk is in, where n lies outside it.
+  private def outside(n: Node): Option[Expr] = (n, enclosingExpr) match {
+    case (t: ASTNode, Some(e)) if !within(NodeUtil.getSpan(t), NodeUtil.getSpan(e)) => Some(e)
+    case _ => None
+  }
+
+  // Whether span a lies within span b.
+  private def within(a: Span, b: Span): Boolean = {
+    def le(x: SourceLoc, y: SourceLoc) =
+      x.getLine < y.getLine || (x.getLine == y.getLine && x.column <= y.column)
+    a.getFileName == b.getFileName && le(b.getBegin, a.getBegin) && le(a.getEnd, b.getEnd)
+  }
 
   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
@@ -99,6 +174,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
   }
 
   override def walk(node:Any):Any = {
+    val outer = enclosingExpr
+    node match { case e: Expr => enclosingExpr = Some(e) ; case _ => }
     node match {
       // Static parameters and where-clause variables may be introduced.
       // To Do: Check for the where-clause variables.
@@ -204,6 +281,10 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         walk(getArg)
         walk(getOverloadingType)
       case SOverloading(_, _, _, t, _) => walk(t)
+      // A variable's right-hand side before the body that uses it, so that a type it gives
+      // the variable is met first where it is made.
+      case SLocalVarDecl(info, body, lhs, rhs) =>
+        walk(info); walk(lhs); walk(rhs); walk(body)
         
       // Nodes with subnodes we want to ignore.
       case SCaseExpr(getInfo, getParam, getCompare, getEqualsOp, getInOp, getClauses, getElseClause) =>
@@ -226,6 +307,7 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       */
       case _ => super.walk(node)
     }
+    enclosingExpr = outer
     node
   }
 }

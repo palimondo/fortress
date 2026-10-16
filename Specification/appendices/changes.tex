@@ -2619,12 +2619,14 @@ it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
 with the same parameter type'', two functional methods among them wherever their
 \KWD{self} parameters stand.
+It reads the abstract functional methods that a trait or object provides as it
+reads the abstract dotted ones, so that an abstract functional method beside a
+concrete one with the same parameter type is among the pairs it refuses, which
+only its code generator refused before, as a malformed overload set.
 It checks no overloading of an operator whose name is not a word of capitals
-(row~584 of the revival's gap ledger), and reads no abstract functional method
-of a trait that the component it checks declares (row~727): two
-declarations of such an operator, or such an abstract method and a concrete
-one, with the same parameter type pass it, and only its code generator refuses
-them, as a malformed overload set (rows~726 and~727).
+(row~584 of the revival's gap ledger): two declarations of such an operator with
+the same parameter type pass it, and only its code generator refuses them, as a
+malformed overload set (row~726).
 The interpreter loads such a pair and runs one of them where both declarations
 have static parameters and their parameter types mention one parameterized
 type, as \VAR{dup}'s do (row~373), and where one has static parameters and the

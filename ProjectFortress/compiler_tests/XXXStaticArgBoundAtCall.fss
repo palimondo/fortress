@@ -1,0 +1,17 @@
+component XXXStaticArgBoundAtCall
+export Executable
+
+(* A call whose static argument does not satisfy the bound of the callee's result type is reported at the call, not at the callee's declaration. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+object DefV[\T extends K\]() extends V[\T\] end
+
+vec[\T extends K\](): V[\T\] = DefV[\T\]()
+arr[\T\](): Any = vec[\T\]()
+
+run(): () = println("FAIL: arr calls vec at a type outside its bound")
+
+end

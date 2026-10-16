@@ -1,0 +1,16 @@
+component XXXIllFormedTypeAtDeclarationOnce
+export Executable
+
+(* A declared result type that does not satisfy its bound where it is written is reported once, at the declaration, and not again at a call whose type it is. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+
+bad(): V[\ZZ32\] = fail("bad")
+use(): Any = bad()
+
+run(): () = println("FAIL: bad's result type is ill-formed")
+
+end

@@ -128,17 +128,13 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			   else None,
 			   Some(f)))
 
-    // for functional methods: in a component those with a body and every one inherited from
-    // an api, as the top-level set reads a component's own declarations and an imported api's;
-    // in an api every one; but an abstract one implemented by a declaration of a subtype
-    // with the same parameter types
+    // for functional methods: every one the type provides, abstract ones included, as
+    // toMethodArrows reads dotted ones; but an abstract one implemented by a declaration
+    // of a subtype with the same parameter types
     private def toFunctionalMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)],
                                          oracle: OverloadingOracle):
         List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
-      val inComponent = compilation_unit.isInstanceOf[ComponentIndex]
-      val arrows = set.filter(p => p match { case (f, _, tt) => isFunctionalMethod(f) &&
-                                               (!inComponent || f.asInstanceOf[JavaFunction].body.isSome ||
-                                                !declaredInUnit(tt))})
+      val arrows = set.filter(p => p match { case (f, _, _) => isFunctionalMethod(f)})
          .toList.map(p => p match { case (f, replacer, tt) =>
               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
               val (sparams, apart) = ownStaticParamsApart(f)
@@ -168,15 +164,6 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         STypesUtil.paramsToType(kept, f.getSpan).map { t =>
           val (sparams, apart) = ownStaticParamsApart(f)
           replacer.replaceIn(insertStaticParams(apart(t), sparams)) }
-    }
-
-    // whether the trait or object is declared in this compilation unit, not in an api it imports
-    private def declaredInUnit(tt: TraitType): Boolean = {
-      val ti = typeAnalyzer.traits.typeCons(tt.getName)
-      if (ti.isNone) return false
-      val own = compilation_unit.typeConses.values.iterator
-      while (own.hasNext) if (own.next eq ti.unwrap) return true
-      false
     }
 
     // for dotted methods

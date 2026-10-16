@@ -1,0 +1,3 @@
+tests=XXXFunctionalMethodMeetAbstractSiblingNarrower
+compile
+compile_err_contains=Invalid overloading of pick in
