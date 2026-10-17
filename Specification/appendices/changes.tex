@@ -3609,11 +3609,18 @@ every kind; a clause
 \EXP{N\llbracket{}0\rrbracket} of a \KWD{typecase} on
 \EXP{N\llbracket{}b_{0}\rrbracket} is reachable.
 It still counts two different static parameters as different sizes, which the
-text does not say (row~683 of the revival's gap ledger), and it does not
-infer a static argument written with a static parameter in it: a call of
+text does not say (row~683 of the revival's gap ledger).
+It infers a static argument written with a static parameter in it: a call of
 \EXP{\VAR{get}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i\rrbracket)}
-with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} is refused
-unless it writes \EXP{\VAR{get}\llbracket{}i-1\rrbracket} (row~681).
+with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} instantiates
+\VAR{get} at \EXP{i-1}.
+Where a parameter type writes a static parameter of the callee inside an
+operation, neither it nor the interpreter infers that parameter: a call of
+\EXP{\VAR{getp}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i+1\rrbracket)}
+with an argument of type \EXP{\TYP{IBox}\llbracket{}3\rrbracket} is refused, and
+under the interpreter fails, unless it writes
+\EXP{\VAR{getp}\llbracket{}2\rrbracket}, though the instance at 2 has the
+argument's type (row~NEW-C-1).
 The compiled path computes a size when it names a class, an operation on
 numerals when the program is compiled and the rest when the class is first
 loaded, so that \EXP{\TYP{Box}\llbracket{}2+1\rrbracket} and
