@@ -5225,3 +5225,27 @@ note added
 note added
 
 | 101 | `BIG UNION` cannot be used in a component that imports both `Set.{...}` and `Map.{...}`: each declares a nullary `opr BIG CUP()`, and one nullary declaration per name is allowed (row 40) | NEGATIVE-VERIFIED | library bug (library) | `Specification-1.0-frozen/basic/overloading.tex:99-105`, "Principles of Overloading" | none | run-b | A consequence of the nullary protocol (row 39). `Overloading of BIG CUP[\Key,Val\]():…/Library/Map.fss:197 and BIG CUP[\R extends StandardTotalOrder[\R\]\]():…/Library/Set.fss:115 fails because…`. Workarounds: import one library by name, `import Set.{...} except { opr BIG CUP }`, or fold with `add`. Probes `explorations/run-b/probes/c19_bigunion_collision.fss` and `explorations/run-b/probes/worker/w17_bigunion_except.fss` (the workaround), in the parent of `ed6dafb52`. |
+
+### Row 740
+
+note added
+
+| 740 | under walk, two generic declarations whose parameter types exclude only together are refused at load: `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, with `P[\T\] excludes { Q[\T\] }` and `Box` an object that fixes one `T` for both | NEGATIVE-VERIFIED | design limit (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericPairExcludesTogetherWalk.fss` | climb batch 16 rung W's skeptic | siblings: 159, 373. 'at least one pair of parameters must have excluding types': walk reads each parameter pair over the instances of each declaration (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:467-479` at e9fbbff7f) and finds none excluding alone, row 159's limit; the specification's existential reduction reads the whole parameter type, where `Box` forces one `T` and `P[\T\]` then excludes `Q[\T\]`. The base read both at one instantiation, loaded the pair and ran `oP` and `oQ`. The compiled checker refuses it too, 'Invalid overloading of o' (row 741). |
+
+### Row 741
+
+note added
+
+| 741 | the compiled checker refuses two generic declarations whose parameter types exclude by instantiation exclusion: `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`, both extending `Readable[\T\]` and `Frozen[\E\]` excluding `Thawed[\E\]`, 'Invalid overloading of copyOf' | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters"; `basic/types-vals-vars.tex`, "Trait Types" | `ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.test` | climb batch 16 rung W's skeptic | siblings: 546, 740. It accepts the ground pair `c(a: Thawed[\ZZ32\])` beside `c(a: Frozen[\ZZ32\])` and a generic pair over two generic objects. It also refuses `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, `Red`, `Blue` and `Box` objects, and row 740's pair; walk loads `copyOf`'s and `tint`'s pairs (`tests/GenericPairExcludingWalk`). `Library/Shuffle.fss:21` beside `:30`, over `Array[\T,ZZ32\]` and `ImmutableArray[\T,ZZ32\]`, has `copyOf`'s shape, outside the twelve components the count reads. |
+
+### Row 589
+
+note added
+
+| 589 | under walk, a generic declaration whose arguments have several minimal common supertypes is not applicable when walk chooses among declarations: `g[\T\](a: T, b: T)` beside `g(a: Any, b: Any)` runs the plain one for `g(Apple, Cherry)` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXDispatchTwoCommonParentsWalk.fss` | climb batch 9 rung W | `Apple` and `Cherry` both extend `Red` and `Round`. The choice's unification (`bestMatchInternal`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1556`) and the comparison's (`instanceHolding`, `:1671`) call `EvaluatorBase.inferByUnification` without the bound (at 052a7c3fe). Passing it changes which declaration runs and what `declaredBelow` answers at load, so the change is the curator's to decide. Where no declaration applies without coercion the generic already runs (`bestMatchWithCoercion`; `ProjectFortress/tests/InferTwoCommonParentsWalk.fss`); full text: history, row 589 |
+
+### Row 539
+
+note added
+
+| 539 | walk refuses at load the paper's valid `ArrayList`/`List` overload set: `m[\P\](x: ArraySeq[\P\])`, `m[\Q extends Num\](y: Seq[\Q\])`, `m[\R extends Num\](z: ArraySeq[\R\])` gives 'at least one pair of parameters must have excluding types' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXOverloadExistentialMeetWalk.fss` | climb batch 7b rung C's walk differential | siblings: 159, 373. Two generic declarations keep walk's parameter-by-parameter check (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:727`, at 052a7c3fe), which refuses at `:552`; rung W's lift reads only a generic beside a plain declaration. The set is the POPL 2019 paper's (p. 11:13); the compiled form is `ProjectFortress/compiler_tests/XXXOverloadExistentialMeet.fss`. Appendix I's entry 'Overloading with static parameters' names it among the implementations' departures from the text; full text: history, row 539 |

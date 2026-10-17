@@ -623,10 +623,10 @@ which the compiled type checker applies, with its Return Type Rule checked over
 every instance of the less specific declaration; the pair refused above has the
 shape of that paper's own example, which the compiled path used to accept and
 then fail to verify.
-Neither implementation runs the pair allowed above today: the interpreter
-refuses it at load, since it asks two declarations with static
-parameters for a pair of parameter types that exclude each other (row~159 of the
-revival's gap ledger), and the compiled code generator fails on it (row~537).
+The interpreter runs the pair allowed above, reading two declarations with
+static parameters on their declared domains, each over its own instances, where
+no pair of their parameter types excludes each other; the compiled code
+generator fails on it (row~537 of the revival's gap ledger).
 The compiled implementation adds one restriction that is not a rule of the
 language.
 When one declaration with static parameters is more specific than another that

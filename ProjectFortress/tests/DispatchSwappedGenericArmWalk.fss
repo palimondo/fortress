@@ -1,6 +1,7 @@
-(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
-component XXXDispatchSwappedArmWalkRungG
+component DispatchSwappedGenericArmWalk
 export Executable
+
+(* Two generic declarations over Two[A,B] and SubTwo[B,A], whose static parameters are named in the other order, are a valid overloading, the second more specific, and each call runs the one its argument selects, under walk. *)
 
 trait Two[\A,B\] end
 trait SubTwo[\A,B\] extends Two[\A,B\] end

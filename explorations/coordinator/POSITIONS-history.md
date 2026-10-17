@@ -1338,3 +1338,9 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-152
 
 2026-10-17 11:37Z · added · from `explorations/compile-ladder/climb-batch-16/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`": his answer to review item 3 at 11:36 UTC on 2026-10-17: 'Agreed. Only one option makes sense. The option one.'
+
+### P-45
+
+2026-10-17 17:40Z · rewritten · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung G's skeptic's leftForGather: its Still to build is built by rung G
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Still to build: walk's load check over every pair, PLAN phase 3 item 15.

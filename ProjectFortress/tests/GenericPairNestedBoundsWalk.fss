@@ -1,0 +1,25 @@
+component GenericPairNestedBoundsWalk
+export Executable
+
+(* Two generic declarations over a T bounded by Shape and over a T bounded by Round, a subtrait of Shape, exclude at no parameter, yet the second is more specific and its return type fits, so they are a valid overloading and each call runs the one its argument selects, under walk (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+
+which[\T extends Shape\](x: T): String = "shape"
+which[\T extends Round\](x: T): String = "round"
+
+ident[\T extends Shape\](x: T): T = x
+ident[\T extends Round\](x: T): T = x
+
+run(): () = do
+    assert(which(Circle), "round", "a Circle is Round, so the declaration bounded by Round, inside the other, runs")
+    assert(which(Square), "shape", "a Square is no Round, so only the declaration bounded by Shape applies")
+    assert(ident(Circle), Circle, "the pair the specification allows returns its argument")
+    assert(ident(Square), Square, "the pair the specification allows returns its argument")
+    println("PASS")
+  end
+
+end
