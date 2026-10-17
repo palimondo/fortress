@@ -270,7 +270,7 @@ None of them is in the landed `explorations/compile-ladder/climb-batch-16/gate/l
 
 - `GenericFnWithExcludes.fss`, `typecheck`: "non-type where clause bindings: Not yet implemented" in the baseline; now "Could not check call to function g - [\U extends Object X[\n\], V extends Object Y[\n\]\](U, V)->() is not applicable to an argument of type (O, P)" at its `:44`.
   - This change's fold makes the refusal.
-  - Its `O` is an `X[\1\]` and its `P` a `Y[\2\]` (`ProjectFortress/tests/GenericFnWithExcludes.fss:24-34`), so no `n` meets both constraints, and the refusal is the specification's answer for this program.
+  - Its `O` is an `X[\1\]` and its `P` a `Y[\2\]` (`ProjectFortress/tests/GenericFnWithExcludes.fss:24-34`), so no `n` meets both constraints, and the refusal is the specification's answer for this program. The team's test expects the call to run and print `PASS` (`ProjectFortress/tests/GenericFnWithExcludes.fss:44-45`), as walk runs it (the skeptic's addition).
   - The same mechanism refuses a call that some `n` meets (NEW-L-2).
 - `IntMapTest.fss`, `disambiguate`: "Comprehension is undefined." in the baseline, now "ImmutableArray is undefined.". `IntMap.fsi` no longer names `Comprehension` (`:87`, `:91`).
 - `generatorTest.fss` ("Variable" is now "Function SumReduction is not defined.") and `GenTest5.fss` (the first of its ill-formed types is now `TestCondition[\()\]`; it holds no `where` clause) moved since the baseline through changes made before this rung, by reading: this change touches neither the disambiguator nor those files.
