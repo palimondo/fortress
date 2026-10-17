@@ -1334,3 +1334,7 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-16 19:49Z · rewritten · from `explorations/reviews/batch-16-review.md`, "For Pavol": his answer of 19:47 UTC on 2026-10-16 to climb batch 16's W.worker.1 (row 159's limit), asked as 'Should walk compare every pair of generic declarations by the types they declare?': 'Does this mean bringing it in line with the compiler's checker behavior? Then yes.'
 
 - P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations. The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`.
+
+### P-152
+
+2026-10-17 11:37Z · added · from `explorations/compile-ladder/climb-batch-16/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`": his answer to review item 3 at 11:36 UTC on 2026-10-17: 'Agreed. Only one option makes sense. The option one.'
