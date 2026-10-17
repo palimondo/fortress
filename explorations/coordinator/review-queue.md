@@ -5,7 +5,7 @@ What waits for Pavol's review, 2026-10-10
 Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 **Counts**
-- (b) Consequential: 50 items. By theme: The checker's typing and inference 5; Overloading and the Meet Rule 8; Walk's checks at load 3; Walk's choice of declaration and instance 3; Numbers and numerals 10; Sizes and arrays 8; The library's generators, strings and comparisons 3; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 6.
+- (b) Consequential: 52 items. By theme: The checker's typing and inference 5; Overloading and the Meet Rule 8; Walk's checks at load 3; Walk's choice of declaration and instance 4; Numbers and numerals 10; Sizes and arrays 8; The library's generators, strings and comparisons 3; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 7.
 - (c) Routine, kept as landed unless he says otherwise: 121 items. By theme: The checker's typing and inference 6; Overloading and the Meet Rule 10; Walk's checks at load 12; Walk's choice of declaration and instance 9; Numbers and numerals 9; Sizes and arrays 4; Ranges 7; The library's generators, strings and comparisons 24; The specification's text 15; Tests and the team's demos 10; Code generation and the run time 2; How batches run 5; The record, its tools and the repository 8.
 - (a) Settled or stale, leaving the lists: 77 entries, several of which bundle lines.
 - PLAN's nine batch lists hold 202 entries: 32 in (b), 94 in (c), 76 in (a), each counted where it first appears.
@@ -126,7 +126,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: The answer belongs to the language's reading of conditional inheritance, which no implementation here models.
    - Home: PLAN, "Climb batch 13, listed for his review", QW-c; `compile-ladder/rung-walk-override/SKEPTIC.md:202` (section 5), `JUDGE.md:149`
 
-### Walk's choice of declaration and instance (3)
+### Walk's choice of declaration and instance (4)
 
 17. **Unwritten reductions whose parameter has a plain bound.** Under walk, a big operator's static parameter with a plain bound still takes `Bottom`, the empty type, when nothing fixes it; batch 11 left only parameters whose bound names themselves open. Two defects sit beside it: an empty unwritten `SUM` over floats gives the integer 0 (row 645), and `Set`'s unwritten `BIG UNION` and `BIG INTERSECTION` stop (row 662).
    - Landed: As is, both rows gated by expected failures. Row 424 was closed for its other half only, so this case has no open row and this entry is its record.
@@ -146,6 +146,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: The open type ranks as least specific, or as its bound, when declarations are compared.
    - Its cost: A walk edit that changes which declaration runs. A program avoids it by writing the static argument.
    - Home: PLAN, "Climb batch 11, listed for his review", At dispatch under walk; `compile-ladder/rung-walk-open-param/SKEPTIC.md:61`, `:80`; `reviews/batch-12-review.md`, Part 4; row 663
+
+173. **Row 766: wrong values for a trait's generic dotted method.** Under walk, a generic dotted method that a trait declares, called with no static argument, gets its instance with no coercion and no bound: `wrap[\T\](a: T, b: T): Box[\T\]` on a `ZZ32` and a `ZZ64` gives `Box[\AnyIntegral\]` and does not convert the `ZZ32`, and `mkN[\T extends Number\](): Box[\T\]` gives `Box[\BOTTOM\]`. The compiled path gives `Box[\ZZ64\]`. On the base these calls stopped with an error; since climb batch 17's rung W they return a value, against P-46 and P-48.
+   - Landed: The wrong values, gated by the expected failure `ProjectFortress/tests/XXXTraitGenericMethodInference.fss`. Default: repair it first in climb batch 18: walk reads the bounds where the trait declares them, per P-46 and P-48.
+   - The other way: Restore the base's loud refusal of such a call.
+   - Its cost: A walk rung; the likely site is `EvaluatorBase.java:557` and `:633-634`, which read the bounds in the trait method's member environment.
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 60; `reviews/batch-17-review.md`, finding 1; `compile-ladder/rung-walk-method-sargs/SKEPTIC.md` sections 3.2 and 6; row 766
 
 ### Numbers and numerals (10)
 
@@ -310,7 +316,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: Neither the library nor microGPT declares an `override`. Two owed compiled tests wait on it.
    - Home: PLAN, "Climb batch 11, listed for his review", Should the code generator accept the modifier `override`; `compile-ladder/rung-checker-overloading/REPORT.md:257` (section 15), `SKEPTIC.md:179`; `reviews/batch-13-review.md`, Part 4; rows 650, 694
 
-### How batches run (6)
+### How batches run (7)
 
 45. **One fixed batch workflow, or one designed per batch?** Whether a coordinator that designs a workflow for each batch should replace the fixed batch workflow.
    - Landed: The fixed workflow, redesigned. It wrote 5.03M, 5.43M and 7.22M tokens in batches 11 to 13.
@@ -347,6 +353,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: The revised bullet from the re-reading of his words.
    - Its cost: A skill edit by the writer.
    - Home: `process-engineering/library-extension-rule-archaeology.md` sections 5 and 7; held list, 2026-10-09 04:21 to 05:20 UTC; page thread `7311a875`
+
+174. **A commit of `main` that is red alone.** Climb batch 17's gather put rung L's commit `2b1cd8e63` before rung W's `743eb5286` on `main`, though L lands only with W. So `2b1cd8e63` alone fails the gated walk test `LibraryOverloadFamilies.fss:37`, and a bisect that stops there sees a red tree. The cause: the gather's order rule compares line numbers across files and ignores `landsOnlyWith`. This is against the letter of his word for item 57, "the library change waits for it".
+   - Landed: The history as pushed; from `743eb5286` on, the tree holds both rungs and the line passes. Default: leave the history as it is, and fix the gather's order rule, so that a rung comes after the rungs it lands only with.
+   - The other way: Rewrite the pushed history of `main`, W before L.
+   - Its cost: The default, one change of the batch manual; the other way, a forced push of `main`, which every clone and branch then meets.
+   - Home: PLAN, "Work that can start now, with no decision", climb batch 17's review, finding 2; PLAN, "Climb batch 17, listed for his review", gather.4; `reviews/batch-17-review.md`, finding 2; `compile-ladder/climb-batch-17/RECORD.md:20`
 
 ## (c) Routine, by theme
 
