@@ -130,6 +130,7 @@ Before climb batch 17's record, raised by the probe on the team's generic `distr
 Before the switch-over, raised by the integer-power probe of 2026-10-16 (`perf-probes/integer-power/REPORT.md` section 11); climb batch 17 can take its sites once it is answered:
 
 58. What an integer raised to a negative power gives, with the integer result at a nonnegative exponent as its premise: an error (E), zero (Z), a rational typed by the exponent (R) or an exponent typed so that it cannot be negative (X), each with its sites, values and cost in the report's section 3; rows 438, 441 and 445. Five of the distance's sites, six with row 747 (F-241); walk's values move only at a negative exponent, in three team tests (F-247). Inside the ask, not taken: E's exceptions, whether row 747's repair goes with the answer, and for R and X the ring's natural power. No default on record.
+59. Symbolic operators, after item 38 is decided: 151 of the 205 errors need a design choice, the rest have library fixes that are latent until the check reads symbolic operators. The choices: subscripts over an unbounded index type, 124 (S1 an index bound, the team's own wish; S2 to S5 in `perf-probes/symbolic-operators/SORT.md`); `^`, 21 (depends on item 58); arrays' scalar `+` and `-`, 6 (A1 self-type parameters in overload checks, A2 vectors stop being additive groups, A3 drop or rename the scalar operators). Default: none; each stays open until he answers.
 
 Before the switch-over:
 
