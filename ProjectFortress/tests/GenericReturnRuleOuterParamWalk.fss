@@ -1,0 +1,17 @@
+component GenericReturnRuleOuterParamWalk
+export Executable
+
+(* A generic declaration that returns its type parameter, the type of both its parameters, beside a more specific generic one that returns Round and takes a Round second, breaks the Return Type Rule, since for two Circles the first's instance at Circle returns a Circle and the second returns only a Round, so walk refuses the pair at load; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+
+f[\T extends Shape\](x: T, y: T): T = x
+f[\U extends Round\](x: U, y: Round): Round = x
+
+run(): () = do
+    println(f(Circle, Circle))
+  end
+
+end
