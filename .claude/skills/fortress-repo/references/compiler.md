@@ -133,24 +133,21 @@ A node's hash starts from its class's name, so an order in the output, such as t
 
 `Walker`, in the generated `ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala`, is split into methods under 8,000 bytes of bytecode. HotSpot does not compile a longer method, and the walker runs on every node, so one long walker method slows the whole checker. `MethodSizeJUTest` fails if a method of the build grows past the limit, except the methods that its source lists in `listed(...)` entries. Run it alone with `ant testOnly -DtestPattern=MethodSizeJUTest`. If a method of `Walker` fails, lower `WALKER_CASES_PER_METHOD` in `ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java`. If another method fails, split it under the limit. List it only if nothing in the checker or a compiled run calls it, with its size and what runs it, and name it in your report.
 
-Two idle runs of one tree differed by about 6 %. So a change is slower if its median time is above the base's by more than 6 %.
-
 If you change the checker:
 
-1. Run every timed run under one lock, so that no two timed runs on the machine overlap. The command in step 3 takes it: `flock /tmp/fortress-timed.lock` waits while another timed run holds the lock. Before each timed run, also run `ps aux`. If it shows an `ant` or `java` process of another tree, wait for it to end, for up to 30 minutes. Then take the run anyway. The log's first line gives the load at the run's start. Beside a batch, `session.md` says how a timed run differs.
-2. Make the change correct, with its tests. Commit it, and name the commit in your report.
-3. Time the base and the change as a pair: three alternations of a base run and a change run, named `base1`, `change1`, `base2` and so on. Start the base runs in a call set up for the base build (`build-and-caches.md`), and the change runs in a call set up for your tree, each in the background (`session.md`). Start each run only after the log of the run before it has its `EXIT=` line (`wait_for`): the lock keeps runs apart, but not in order. Until the pair ends, build and run nothing. You may edit. If the process or the VM stops during the pair, take the whole pair again. Compare the base's median with the change's.
+1. Make the change correct, with its tests. Commit it, and name the commit in your report.
+2. Time the base build and the change once each, named `base` and `change`. Run the base in a call set up for the base build (`build-and-caches.md`), and the change in a call set up for your tree, each in the background (`session.md`). Use the same command for both, with `N` the run's name:
 
-       export W=<your tree> N=base1 ; mkdir -p $W/tmp/count
-       nohup flock /tmp/fortress-timed.lock bash -c 'uptime; s=$(date +%s); explorations/coordinator/tools/checker-count/run.sh $W/tmp/count/$N.txt $W/tmp/count/$N; rc=$?; echo "seconds $(( $(date +%s) - s ))"; echo EXIT=$rc' > $W/tmp/count-$N.log 2>&1 &
+       export W=<your tree> N=base ; mkdir -p $W/tmp/count
+       time explorations/coordinator/tools/checker-count/run.sh $W/tmp/count/$N.txt $W/tmp/count/$N
 
-4. Make a second pass that makes the checker faster. Start with a profile (below). Where the profile shows a gain, take it. Where it shows none, say so in your report, with the profile's top frames.
-5. After the second pass, run the count stage again with the command of step 3, under the lock, named `pass`. Show that its results are the same as `change1`'s. Then run `ant testQuick` once more (`tests-running.md`, "When to run a whole suite").
-6. If the pass reuses an answer that the checker computed earlier, as a memo does, audit it on one full run. Put the audit in an instrumented copy ("Testing an edit here"), never in the tree. In the audit, compute each reused answer again and compare the two. If any answer differs, the reuse is wrong: fix it or drop it, then repeat step 5. Report the count of reuses and of differences.
-7. In your report, give each run's seconds and the two medians, the diff of the `base1` and `change1` tables, and the two comparisons of `change1` and `pass`.
+3. Make a second pass that makes the checker faster. Start with a profile (below). Where the profile shows a gain, take it. Where it shows none, say so in your report, with the profile's top frames.
+4. After the second pass, run the count stage once more with the command of step 2, named `pass`. Show that its results are the same as `change`'s. Then run `ant testQuick` once more (`tests-running.md`, "When to run a whole suite").
+5. If the pass reuses an answer that the checker computed earlier, as a memo does, audit it on one full run. Put the audit in an instrumented copy ("Testing an edit here"), never in the tree. In the audit, compute each reused answer again and compare the two. If any answer differs, the reuse is wrong: fix it or drop it, then repeat step 4. Report the count of reuses and of differences.
+6. In your report, give each run's seconds, the diff of the `base` and `change` tables, the comparison of their `run.txt` files, and that `pass` has the same results as `change`.
 
 To find where the time goes, use JFR on the count stage's checker, instrumented copies compiled into a scratch folder ahead of the build on the class path, and the methods over 8,000 bytes that `MethodSizeJUTest` lists in its source. A profiled or instrumented run is neither a timed run nor a run to compare. Print the commands of two earlier speed probes (about 8 KB):
 
     explorations/coordinator/tools/facts-extract.sh 'doc:explorations/perf-probes/checker-speed-2/REPORT.md#Decisions, findings' 'doc:explorations/perf-probes/checker-speed/REPORT.md#Decisions, findings'
 
-If your brief asks you to review a change of the checker, run the count stage yourself, with step 1 before each run. Time the base build and the worker's commit of step 2 as a pair, as step 3 says, with the commit and the worker's head in worktrees seeded at them (`worktrees.md`). Check that, in your runs, the commit's median moved against the base's median as it did in the worker's runs, within 6 %. Check that the commit's and the head's results are the same.
+If your brief asks you to review a change of the checker, run the count stage yourself. Time the base build and the worker's commit of step 1 once each, as step 2 says, with the commit and the worker's head in worktrees seeded at them (`worktrees.md`). Check that your times are the worker's, in order of size. Check that the commit's and the head's results are the same.
