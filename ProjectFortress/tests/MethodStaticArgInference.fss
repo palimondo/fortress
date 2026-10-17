@@ -1,6 +1,6 @@
 (*) explorations/compile-ladder/rung-spec-inference/SKEPTIC.md
 
-component XXXMethodStaticArgRungT
+component MethodStaticArgInference
 export Executable
 
 object Box[\T\](v: T) end
