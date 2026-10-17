@@ -1,0 +1,3 @@
+tests=XXXExportBoolStaticArg
+compile
+compile_err_contains=does not define all declarations in XXXExportBoolStaticArg
