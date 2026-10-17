@@ -26,6 +26,7 @@ import com.sun.fortress.compiler.index.ComponentIndex
 import com.sun.fortress.compiler.index.ObjectTraitIndex
 import com.sun.fortress.compiler.index.ProperTraitIndex
 import com.sun.fortress.compiler.index.TraitIndex
+import com.sun.fortress.compiler.index.TypeConsIndex
 import com.sun.fortress.compiler.index.{Function => JavaFunction}
 import com.sun.fortress.compiler.index.{Functional => JavaFunctional}
 import com.sun.fortress.compiler.index.{FunctionalMethod => JavaFunctionalMethod}
@@ -131,22 +132,32 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			     Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition)
 			   else None,
 			   Some(f)))
-      if (!onlyConcrete) return arrows
-      // the trait or object that declares a functional method
-      def declarer(f: JavaFunctional): Option[TraitType] =
-        toOption(typeAnalyzer.traits.typeCons(f.asInstanceOf[JavaFunctionalMethod].declaringTrait)) match {
-          case Some(ti: TraitIndex) => Some(STypesUtil.declToTraitType(ti.ast))
-          case _ => None
-        }
-      def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional])) =
-        a._3.exists(f => isFunctionalMethod(f) && f.body.isNone) && {
-          val tt = declarer(a._3.get)
-          arrows.exists(c => !(c._1 eq a._1) && c._2 == a._2 && c._3.exists(isFunctionalMethod) &&
-            ((declarer(c._3.get), tt) match {
-               case (Some(ctt), Some(t)) => typeAnalyzer.lteq(ctt, t) && !typeAnalyzer.lteq(t, ctt)
-               case _ => false }) &&
-            globalOracle.equiv(a._1, c._1)) }
-      arrows.filter(a => !implemented(a))
+      def isAbstract(a: (ArrowType,Option[Int],Option[JavaFunctional])) =
+        a._3.exists(f => isFunctionalMethod(f) && f.body.isNone)
+      if (!onlyConcrete || !arrows.exists(isAbstract)) return arrows
+      // each functional method's declaring trait or object, and the traits that it extends
+      // at any depth, read on the declarations themselves, with no instance of their
+      // static parameters
+      def declarer(f: JavaFunctional): Option[TypeConsIndex] =
+        toOption(typeAnalyzer.traits.typeCons(f.asInstanceOf[JavaFunctionalMethod].declaringTrait))
+      def above(d: TypeConsIndex): List[TypeConsIndex] = d match {
+        case di: TraitIndex =>
+          typeAnalyzer.extend(toListFromImmutable(di.staticParameters), None)
+                      .ancestors(STypesUtil.declToTraitType(di.ast)).toList.flatMap {
+            case at: TraitType => toOption(typeAnalyzer.traits.typeCons(at.getName)).toList
+            case _ => Nil }
+        case _ => Nil }
+      val declared = arrows.map(a => {
+        val d = a._3.filter(isFunctionalMethod).flatMap(declarer)
+        (a, d, d.map(above).getOrElse(Nil)) })
+      // an abstract one that a functional method of a trait or object extending its
+      // declarer implements with the same parameter types
+      def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional]), ad: Option[TypeConsIndex]) =
+        isAbstract(a) && ad.isDefined &&
+        declared.exists { case (c, cd, cabove) =>
+          !(c._1 eq a._1) && c._2 == a._2 && cd.isDefined && !(cd.get eq ad.get) &&
+          cabove.exists(_ eq ad.get) && globalOracle.equiv(a._1, c._1) }
+      declared.filter { case (a, ad, _) => !implemented(a, ad) }.map(_._1)
     }
 
     // for functional methods: every one the type provides, abstract ones included, as
