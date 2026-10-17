@@ -148,6 +148,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Home: PLAN, "Climb batch 11, listed for his review", At dispatch under walk; `compile-ladder/rung-walk-open-param/SKEPTIC.md:61`, `:80`; `reviews/batch-12-review.md`, Part 4; row 663
 
 173. **Row 766: wrong values for a trait's generic dotted method.** Under walk, a generic dotted method that a trait declares, called with no static argument, gets its instance with no coercion and no bound: `wrap[\T\](a: T, b: T): Box[\T\]` on a `ZZ32` and a `ZZ64` gives `Box[\AnyIntegral\]` and does not convert the `ZZ32`, and `mkN[\T extends Number\](): Box[\T\]` gives `Box[\BOTTOM\]`. The compiled path gives `Box[\ZZ64\]`. On the base these calls stopped with an error; since climb batch 17's rung W they return a value, against P-46 and P-48.
+   - Probe done: way A (the trait's method environment) is built and measured; its report `explorations/perf-probes/trait-generic-method-inference/REPORT.md`, its patch `way-a.patch` beside it.
    - Landed: The wrong values, gated by the expected failure `ProjectFortress/tests/XXXTraitGenericMethodInference.fss`. Default: repair it first in climb batch 18: walk reads the bounds where the trait declares them, per P-46 and P-48.
    - The other way: Restore the base's loud refusal of such a call.
    - Its cost: A walk rung; the likely site is `EvaluatorBase.java:557` and `:633-634`, which read the bounds in the trait method's member environment.

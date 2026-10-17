@@ -1,0 +1,183 @@
+From 814c1300c2d6128a1a92dc03c170bffc251dfdf3 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 17 Oct 2026 19:58:12 +0000
+Subject: [PATCH] Probe (rows 766, 765): walk reads a trait's generic method's
+ bounds and coercions in the trait's method environment
+
+Edits the original tree (walk only). Under walk, a generic dotted method that a
+trait declares had its bounds and coercion targets read in the trait's member
+environment, which has no parent: the coercion lookup threw "This should have
+been an environment with a Top Level", the inference with coercion fell back to
+unification (Box[\AnyIntegral\], the ZZ32 kept), and a bounded parameter that
+nothing fixes took BottomType. GenericMethod.getTypeEnv gives a trait's method
+its method environment, where its instances already read their parameter types,
+and EvaluatorBase reads bounds and coercion targets there (inferWithCoercion and
+boundAtInstances). inferByUnification is unchanged.
+
+Tests: XXXTraitGenericMethodInference promoted to TraitGenericMethodInference,
+with three more assertions (a bound naming another static parameter, the call
+beside the object's own overload, a bound naming a generic trait's parameter);
+XXXInheritedGenericFunctionalMethodBesidePlain (row 765), which the change also
+repairs, promoted to InheritedGenericFunctionalMethodBesidePlain. Both red on
+the base code 5dd54b64b, green on this change. ant testSystem: 157+167+165+160,
+0 failures. Not landed; a probe branch.
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
+---
+ .../interpreter/evaluator/EvaluatorBase.java  | 19 ++++++++++++++----
+ .../evaluator/values/GenericMethod.java       | 12 +++++++++++
+ ...tedGenericFunctionalMethodBesidePlain.fss} |  2 +-
+ ...ce.fss => TraitGenericMethodInference.fss} | 20 ++++++++++++++++++-
+ 4 files changed, 47 insertions(+), 6 deletions(-)
+ rename ProjectFortress/tests/{XXXInheritedGenericFunctionalMethodBesidePlain.fss => InheritedGenericFunctionalMethodBesidePlain.fss} (94%)
+ rename ProjectFortress/tests/{XXXTraitGenericMethodInference.fss => TraitGenericMethodInference.fss} (56%)
+
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+index 781b7d69b..0905c1e1e 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java
+@@ -488,7 +488,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+             }
+         }
+         try {
+-            Environment env = g.getWithin().extendAt(tp);
++            Environment env = declarationEnv(g).extendAt(tp);
+             EvalType.bindGenericParameters(tparams, tl, env, tp, tp);
+             EvalType et = new EvalType(env);
+             FType b = null;
+@@ -503,6 +503,16 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         }
+     }
+ 
++    /**
++     * The environment in which the bounds of g's static parameters and the
++     * coercions of its arguments are read: where g is declared, as for a
++     * generic function, and for a method that a trait declares, the trait's
++     * method environment (GenericMethod.getTypeEnv).
++     */
++    private static Environment declarationEnv(GenericFunctionOrMethod g) {
++        return g instanceof GenericMethod ? ((GenericMethod) g).getTypeEnv() : g.getWithin();
++    }
++
+     /**
+      * An instantiation of a generic function that admits every argument by
+      * subtyping or by one coercion, or null.  An argument whose declared type
+@@ -554,7 +564,8 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+         }
+         List<StaticParam> tparams = appliedThing.getStaticParams();
+         List<Param> params = appliedThing.getParams();
+-        EvalType et = new EvalType(appliedThing.getWithin());
++        Environment declared = declarationEnv(appliedThing);
++        EvalType et = new EvalType(declared);
+         BoundingIntervals abm = new BoundingIntervals(true);
+         Set<String> tp_set = new HashSet<String>();
+         Set<String> typeParams = new HashSet<String>();
+@@ -632,12 +643,12 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
+             if (fixedElsewhere.contains(n) && fixed != null && !(fixed instanceof BottomType)) continue;
+             boolean selfBounded = selfBounded(n, rechecks);
+             FType chosen = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
+-                                     appliedThing.getWithin(), selfBounded);
++                                     declared, selfBounded);
+             FType bound = boundOf(abm, n);
+             if (chosen == null && !selfBounded && allSubtypes(e.getValue(), bound)) chosen = bound;
+             if (TRACE != null && !selfBounded) {
+                 FType before = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
+-                                         appliedThing.getWithin(), true);
++                                         declared, true);
+                 if (before == null || !before.equals(chosen)) {
+                     traceInstance("lone", appliedThing, n, before == null ? "join" : before, chosen,
+                                   typesOf(e.getValue()));
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java
+index fdb3c7962..cbed2fec5 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java
+@@ -95,6 +95,18 @@ public class GenericMethod extends MethodClosure
+         this.evaluationEnv = evaluationEnv;
+     }
+ 
++    /**
++     * The environment in which the types that the declaration writes are
++     * evaluated: for a method that a trait declares, the trait's method
++     * environment, in which its instances evaluate their parameter types
++     * (TraitMethod.getEvalEnv), since the trait's member environment, which
++     * holds the declaration, encloses no scope; otherwise the environment
++     * that holds the declaration.
++     */
++    public Environment getTypeEnv() {
++        return isTraitMethod ? evaluationEnv : getWithin();
++    }
++
+     //    public GenericMethod(Environment declarationEnv, Environment traitEnv, FnDecl fndef, String selfName) {
+     //        super(declarationEnv, fndef, selfName);
+     //
+diff --git a/ProjectFortress/tests/XXXInheritedGenericFunctionalMethodBesidePlain.fss b/ProjectFortress/tests/InheritedGenericFunctionalMethodBesidePlain.fss
+similarity index 94%
+rename from ProjectFortress/tests/XXXInheritedGenericFunctionalMethodBesidePlain.fss
+rename to ProjectFortress/tests/InheritedGenericFunctionalMethodBesidePlain.fss
+index fcb1faf88..2506e2160 100644
+--- a/ProjectFortress/tests/XXXInheritedGenericFunctionalMethodBesidePlain.fss
++++ b/ProjectFortress/tests/InheritedGenericFunctionalMethodBesidePlain.fss
+@@ -1,4 +1,4 @@
+-component XXXInheritedGenericFunctionalMethodBesidePlain
++component InheritedGenericFunctionalMethodBesidePlain
+ export Executable
+ 
+ (* A generic functional method that a trait declares, beside a plain functional method of one name that the object declares, applies to an argument that only it fits. *)
+diff --git a/ProjectFortress/tests/XXXTraitGenericMethodInference.fss b/ProjectFortress/tests/TraitGenericMethodInference.fss
+similarity index 56%
+rename from ProjectFortress/tests/XXXTraitGenericMethodInference.fss
+rename to ProjectFortress/tests/TraitGenericMethodInference.fss
+index a642a0a56..24f971516 100644
+--- a/ProjectFortress/tests/XXXTraitGenericMethodInference.fss
++++ b/ProjectFortress/tests/TraitGenericMethodInference.fss
+@@ -1,4 +1,4 @@
+-component XXXTraitGenericMethodInference
++component TraitGenericMethodInference
+ export Executable
+ 
+ (* A generic dotted method that a trait declares and an object inherits takes its static arguments as an object's own generic method does: the narrowest type into which number arguments convert, and its bound where nothing fixes it. *)
+@@ -19,15 +19,30 @@ boxKind(b: Any): String = typecase b of
+ 
+ emptyKind(b: Any): String = typecase b of
+     Empty[\Number\] => "Empty[Number]"
++    Empty[\ZZ64\] => "Empty[ZZ64]"
++    Empty[\Box[\Number\]\] => "Empty[Box[Number]]"
+     else => "other"
+   end
+ 
+ trait Makes
+     wrap[\T\](a: T, b: T): Box[\T\] = Box[\T\](a)
+     make[\T extends Number\](): Empty[\T\] = Empty[\T\]()
++    pair[\A extends Number, B extends Box[\A\]\](): Empty[\B\] = Empty[\B\]()
+ end
+ object Maker extends Makes end
+ 
++trait Sames
++    same[\T extends Number\](a: T, b: T): String = shown(a) || "," || shown(b)
++end
++object Over extends Sames
++    same(a: String, b: String): String = "strings"
++end
++
++trait Holds[\S extends Number\]
++    held[\T extends S\](): Empty[\T\] = Empty[\T\]()
++end
++object Holder[\S extends Number\]() extends Holds[\S\] end
++
+ run(): () = do
+     println("REACHED")
+     z: ZZ32 = 3
+@@ -35,6 +50,9 @@ run(): () = do
+     assert(boxKind(Maker.wrap(z, w)), "Box[ZZ64]", "a ZZ32 and a ZZ64 fix T = ZZ64, the narrowest type into which both convert; inference.tex, section \"The Static Arguments of a Call\"")
+     assert(shown(Maker.wrap(z, w).v), "3:ZZ64", "the ZZ32 argument is converted to the instance's parameter type ZZ64; inference.tex, section \"The Static Arguments of a Call\"")
+     assert(emptyKind(Maker.make()), "Empty[Number]", "a type parameter that nothing fixes takes its bound, never BottomType; inference.tex, section \"The Static Arguments of a Call\"")
++    assert(emptyKind(Maker.pair()), "Empty[Box[Number]]", "a bound that names another static parameter is read at that parameter's instance; inference.tex, section \"The Static Arguments of a Call\"")
++    assert(Over.same(z, w), "3:ZZ64,4:ZZ64", "beside the object's own overload, a ZZ32 and a ZZ64 fix T = ZZ64 and the ZZ32 is converted; inference.tex, section \"The Static Arguments of a Call\"")
++    assert(emptyKind(Holder[\ZZ64\]().held()), "Empty[ZZ64]", "a bound that names the trait's static parameter is read at the receiver's instance, and T takes it; inference.tex, section \"The Static Arguments of a Call\"")
+     println("PASS")
+   end
+ 
+-- 
+2.43.0
+
