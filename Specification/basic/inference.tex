@@ -280,9 +280,16 @@ it still instantiates at \TYP{BottomType}; and where the arguments place on
 such a type parameter two upper bounds that it cannot meet, as a function over
 one trait and a function over another do when neither trait extends the other,
 the call fails with an error of unification (row~616 of the revival's gap ledger).
-It compares declarations with static parameters on the parameter types they
-declare, except generic dotted methods (row~21 of the revival's gap ledger), and
-dispatches a converted call again, except a call of an overloaded method.}
+It infers the static arguments of a generic dotted method that a call does not
+write as it infers a generic function's, whether the method is alone under its
+name or among the overloads of its receiver, and compares declarations with
+static parameters on the parameter types they declare, generic dotted methods
+among them; but it stops at load on an object or trait that declares a generic
+dotted method beside a plain one of the same name (row~NEW-W-1 of the revival's
+gap ledger), and it stops on an object that extends a generic trait whose
+dotted method has a static parameter of its own bounded by the trait's, at load
+or at a generic object's first instance (row~NEW-W-3).
+It dispatches a converted call again, except a call of an overloaded method.}
 
 \section{A Numeral Whose Conversions Tie}
 \seclabel{numeral-default}
@@ -398,15 +405,17 @@ through the one of those three that its declared result extends, with that
 trait's static arguments.
 It gives a function expression that declares no return type the return type
 \TYP{BottomType}, so that a type parameter that only its result fixes is
-instantiated there (row~587); and it leaves a generic method's static
-parameters uninstantiated (row~21).
+instantiated there (row~587); and it instantiates a static parameter of a
+generic method that only the expected type would fix, as one of a generic
+function, at its bound (row~510).
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.
 Neither implementation infers a \KWD{bool} parameter yet: the compiled type
 checker refuses by name to infer a \KWD{bool}, \KWD{dim} or \KWD{unit}
-parameter, and the interpreter does not unify a \KWD{bool} one (rows~21
-and~307 of the revival's gap ledger).
+parameter, and the interpreter does not unify a \KWD{bool} one (row~307 of
+the revival's gap ledger) and stops at load on an object or trait whose method
+has a parameter type with a \KWD{bool} static argument (row~NEW-W-2).
 The example of \secref{boolparams}, a coercion whose \KWD{bool} parameter only
 its parameter type mentions, can be applied only if its argument fixes that
 parameter.}

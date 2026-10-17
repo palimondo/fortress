@@ -1873,6 +1873,20 @@ mentions the parameter, and names what that leaves: an empty reduction or
 comprehension that no declared type directs, a comprehension that no declared
 type reaches, and a big operator whose declared result is not one of the
 library's three.
+A revision of the interpreter of 17~October 2026 changes both boxes on it once
+more.
+The box in \secref{static-arg-inference} said that the interpreter compares
+declarations with static parameters on the parameter types they declare,
+``except generic dotted methods''; it now says that the interpreter infers the
+static arguments of a generic dotted method as it infers a generic function's,
+alone under its name or among the overloads of its receiver, and compares such
+a method on the parameter types it declares, and names the two forms of generic
+dotted method on which it still stops.
+The box after the list said that the interpreter ``leaves a generic method's
+static parameters uninstantiated''; it now says that it instantiates one that
+only the expected type would fix at its bound, as it does one of a generic
+function, and that it stops at load on an object or trait whose method has a
+parameter type with a \KWD{bool} static argument.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -2095,6 +2109,20 @@ declared type reaches is built at the run-time types of its elements (rows~20
 and~717). Since 16~October 2026 a big operator whose declared result is a
 trait other than the library's three is instantiated through the one of them
 that the trait extends, as one declared with it is (row~718).
+Since 17~October 2026, under the interpreter, a dotted call that writes no
+static argument to a generic method infers the method's own static arguments
+from the run-time types of the arguments, as a call of a generic function does,
+where it stopped with an error of unification, or found no matching overload
+where the receiver overloads the method's name (row~21): a generic method that a
+trait declares and an object inherits beside a plain overload of its own is
+chosen where the plain one does not apply.
+It still stops at load on an object or trait that declares a generic dotted
+method beside a plain one of the same name (row~NEW-W-1) and on an object or
+trait whose method has a parameter type with a \KWD{bool} static argument
+(row~NEW-W-2); it stops on an object that extends a generic trait whose dotted
+method has a static parameter of its own bounded by the trait's, at load or at a
+generic object's first instance (row~NEW-W-3); and a dotted call that writes
+static arguments to a method its receiver overloads still stops (row~744).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}

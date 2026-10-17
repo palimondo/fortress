@@ -1,0 +1,16 @@
+component XXXBoolStaticArgRun
+export Executable
+
+(* A value of a type with a bool static argument is made and passed to a function whose parameter type has that argument; trait-parameters.tex, section "Bool Parameters". *)
+
+object Flag[\bool b\](v: ZZ32) end
+
+unflagTrue(f: Flag[\true\]): ZZ32 = f.v
+
+run(): () = do
+    println("REACHED")
+    assert(unflagTrue(Flag[\true\](8)), 8, "a Flag[true] is passed to a parameter of type Flag[true]")
+    println("PASS")
+  end
+
+end

@@ -1908,10 +1908,10 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
         for (Overload o : someOverloads) {
             SingleFcn sfn = o.getFn();
-            if (sfn instanceof GenericFunctionOrMethod) {
-                GenericFunctionOrMethod gsfn = (GenericFunctionOrMethod) sfn;
+            GenericFunctionOrMethod gsfn = genericOf(sfn);
+            if (gsfn != null) {
                 try {
-                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, gsfn, gsfn.getWithin());
+                    sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, gsfn, inferenceEnv(sfn));
                 }
                 catch (FortressException pe) {
                     continue;
@@ -1978,10 +1978,10 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
             List<FValue> oargs = args;
 
-            if (sfn instanceof GenericFunctionOrMethod) {
-                GenericFunctionOrMethod gsfn = (GenericFunctionOrMethod) sfn;
+            GenericFunctionOrMethod gsfn = genericOf(sfn);
+            if (gsfn != null) {
                 try {
-                    sfn = EvaluatorBase.inferByUnification(oargs, gsfn, gsfn.getWithin());
+                    sfn = EvaluatorBase.inferByUnification(oargs, gsfn, inferenceEnv(sfn));
                     if (debugMatch) System.err.println("Inferred from " + gsfn + " to " + sfn);
                 }
                 catch (FortressException pe) {
@@ -1996,16 +1996,16 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             oargs = sfn.fixupArgCount(args);
 
             if (oargs != null && argsMatchTypes(oargs, sfn.getDomain()) &&
-                (best_sfn == null || moreSpecificDeclaration(o.getFn(), sfn, best_decl, best_sfn))) {
+                (best_sfn == null || preferredDeclaration(o.getFn(), sfn, best_decl, best_sfn))) {
                 best_sfn = sfn;
                 best_decl = o.getFn();
-                best_generic = o.getFn() instanceof GenericFunctionOrMethod ? (GenericFunctionOrMethod) o.getFn() : null;
+                best_generic = genericOf(o.getFn());
             }
 
         }
         if (reinstantiate && best_generic != null) {
             try {
-                best_sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, best_generic, best_generic.getWithin());
+                best_sfn = EvaluatorBase.inferAndInstantiateGenericFunction(args, best_generic, inferenceEnv(best_decl));
                 best_sfn = convertedCall(best_sfn, args);
             }
             catch (FortressException pe) {
@@ -2013,6 +2013,76 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
         }
         return best_sfn;
+    }
+
+    /**
+     * The generic declaration whose instance a call of the overload f writing
+     * no static argument infers: f itself, or the generic method of which f
+     * is the symbolic instance that an object holds; null otherwise.
+     */
+    private static GenericFunctionOrMethod genericOf(SingleFcn f) {
+        if (f instanceof GenericFunctionOrMethod) return (GenericFunctionOrMethod) f;
+        if (DottedMethodApplication.isSymbolicInstance(f)) return ((MethodInstance) f).getGenerator();
+        return null;
+    }
+
+    /** The environment in which genericOf(f) is inferred. */
+    private static Environment inferenceEnv(SingleFcn f) {
+        if (f instanceof GenericFunctionOrMethod) return ((GenericFunctionOrMethod) f).getWithin();
+        return ((MethodInstance) f).getGenerator().evaluationEnv;
+    }
+
+    /**
+     * Whether a call should prefer the declaration f, applicable at its
+     * instance inf, to g, applicable at ing.  When one of them is the
+     * symbolic instance of a generic dotted method and exactly one of their
+     * declared domains lies inside the other, the inner one; otherwise as
+     * moreSpecificDeclaration decides.
+     */
+    private boolean preferredDeclaration(SingleFcn f, SingleFcn inf, SingleFcn g, SingleFcn ing) {
+        if (DottedMethodApplication.isSymbolicInstance(f) || DottedMethodApplication.isSymbolicInstance(g)) {
+            boolean fg = methodDeclaredBelow(f, g);
+            boolean gf = methodDeclaredBelow(g, f);
+            if (fg != gf) return fg;
+        }
+        return moreSpecificDeclaration(f, inf, g, ing);
+    }
+
+    private final Map<List<SingleFcn>, Boolean> methodDeclaredBelowMemo =
+            Collections.synchronizedMap(new HashMap<List<SingleFcn>, Boolean>());
+
+    /**
+     * The declared domain of the method f lies inside that of the method g:
+     * when g is the symbolic instance of a generic dotted method, some
+     * instance of its generic method holds f's declared domain, as walk's
+     * inference finds it from values that carry only those types; otherwise
+     * f's declared domain is a subtype of g's.  A symbolic instance's domain
+     * is its declared domain, each static parameter standing for itself.
+     */
+    private boolean methodDeclaredBelow(SingleFcn f, SingleFcn g) {
+        List<SingleFcn> key = Useful.<SingleFcn>list(f, g);
+        Boolean b = methodDeclaredBelowMemo.get(key);
+        if (b == null) {
+            b = Boolean.FALSE;
+            try {
+                List<FType> df = f.getDomain();
+                List<FType> dg = g.getDomain();
+                if (DottedMethodApplication.isSymbolicInstance(g)) {
+                    List<FValue> dummies = new ArrayList<FValue>(df.size());
+                    for (FType t : df) dummies.add(new TypeOnly(t.deRest()));
+                    dg = EvaluatorBase.inferByUnification(dummies, genericOf(g), inferenceEnv(g)).getDomain();
+                }
+                b = FTypeTuple.make(df).subtypeOf(FTypeTuple.make(dg));
+            }
+            catch (FortressException ex) {
+                // no instance of g holds f's declared domain
+            }
+            catch (EmptyLatticeIntervalError ex) {
+                // no instance of g holds f's declared domain
+            }
+            methodDeclaredBelowMemo.put(key, b);
+        }
+        return b;
     }
 
     /**
