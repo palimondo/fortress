@@ -1,3 +1,0 @@
-tests=XXXOmittedReturnTypeFromApi
-compile
-compile_err_contains=but declared return type is

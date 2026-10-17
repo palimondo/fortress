@@ -115,10 +115,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         toFunctionArrows(fndeclsfiltered, false)
     }    
     
+    // in a component (onlyConcrete), the functions with a body and every functional method,
+    // abstract ones included, as the Meet Rule for functions judges one beside a function
     private def toFunctionArrows(set: Set[JavaFunctional], onlyConcrete: Boolean):
         List[(ArrowType,Option[Int],Option[JavaFunctional])] =
       set.filter(s => isFunction(s) &&
-                      (!onlyConcrete || s.asInstanceOf[JavaFunctional].body.isSome))
+                      (!onlyConcrete || isFunctionalMethod(s) || s.asInstanceOf[JavaFunctional].body.isSome))
          .toList.map(f => (NF.makeArrowType(f.getSpan,
 				     paramsToType(f.parameters, f.getSpan),
 				     f.getReturnType.unwrap,
@@ -335,7 +337,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         val typesInComp = compilation_unit.typeConses
         for ( t <- toSet(typesInComp.keySet) ; if NU.isTraitOrObject(typesInComp.get(t)) ) {
             val traitOrObject = typesInComp.get(t).asInstanceOf[TraitIndex]
-            val traitKindAndName = (compilation_unit match { case _:ObjectTraitIndex => "object "; case _ => "trait " }) + NU.getName(traitOrObject.ast)
+            val traitKindAndName = (traitOrObject match { case _:ObjectTraitIndex => "object "; case _ => "trait " }) + NU.getName(traitOrObject.ast)
             // Extend the type analyzer with the collected static parameters
             val oldTypeAnalyzer = typeAnalyzer
             // Add static parameters of the enclosing trait or object
