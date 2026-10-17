@@ -116,10 +116,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     }    
     
     // in a component (onlyConcrete), the functions with a body and every functional method,
-    // abstract ones included, as the Meet Rule for functions judges one beside a function
+    // abstract ones included, as the Meet Rule for functions judges one beside a function;
+    // but an abstract one implemented by a declaration of a subtype with the same parameter
+    // types, as toFunctionalMethodArrows reads them
     private def toFunctionArrows(set: Set[JavaFunctional], onlyConcrete: Boolean):
-        List[(ArrowType,Option[Int],Option[JavaFunctional])] =
-      set.filter(s => isFunction(s) &&
+        List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
+      val arrows = set.filter(s => isFunction(s) &&
                       (!onlyConcrete || isFunctionalMethod(s) || s.asInstanceOf[JavaFunctional].body.isSome))
          .toList.map(f => (NF.makeArrowType(f.getSpan,
 				     paramsToType(f.parameters, f.getSpan),
@@ -129,6 +131,23 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			     Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition)
 			   else None,
 			   Some(f)))
+      if (!onlyConcrete) return arrows
+      // the trait or object that declares a functional method
+      def declarer(f: JavaFunctional): Option[TraitType] =
+        toOption(typeAnalyzer.traits.typeCons(f.asInstanceOf[JavaFunctionalMethod].declaringTrait)) match {
+          case Some(ti: TraitIndex) => Some(STypesUtil.declToTraitType(ti.ast))
+          case _ => None
+        }
+      def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional])) =
+        a._3.exists(f => isFunctionalMethod(f) && f.body.isNone) && {
+          val tt = declarer(a._3.get)
+          arrows.exists(c => !(c._1 eq a._1) && c._2 == a._2 && c._3.exists(isFunctionalMethod) &&
+            ((declarer(c._3.get), tt) match {
+               case (Some(ctt), Some(t)) => typeAnalyzer.lteq(ctt, t) && !typeAnalyzer.lteq(t, ctt)
+               case _ => false }) &&
+            globalOracle.equiv(a._1, c._1)) }
+      arrows.filter(a => !implemented(a))
+    }
 
     // for functional methods: every one the type provides, abstract ones included, as
     // toMethodArrows reads dotted ones; but an abstract one implemented by a declaration
