@@ -133,10 +133,12 @@ A node's hash starts from its class's name, so an order in the output, such as t
 
 `Walker`, in the generated `ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala`, is split into methods under 8,000 bytes of bytecode. HotSpot does not compile a longer method, and the walker runs on every node, so one long walker method slows the whole checker. `MethodSizeJUTest` fails if a method of the build grows past the limit, except the methods that its source lists in `listed(...)` entries. Run it alone with `ant testOnly -DtestPattern=MethodSizeJUTest`. If a method of `Walker` fails, lower `WALKER_CASES_PER_METHOD` in `ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java`. If another method fails, split it under the limit. List it only if nothing in the checker or a compiled run calls it, with its size and what runs it, and name it in your report.
 
+The timing is a smoke test. It is there to catch a slowdown of several times, or of orders of magnitude: a change that makes the checker three times slower must show. One run of each tree is enough. A small difference, or one within the noise from run to run, is not a finding. In your report, say what you saw, and do not analyse it.
+
 If you change the checker:
 
 1. Make the change correct, with its tests. Commit it, and name the commit in your report.
-2. Time the base build and the change once each, named `base` and `change`. Run the base in a call set up for the base build (`build-and-caches.md`), and the change in a call set up for your tree, each in the background (`session.md`). Use the same command for both, with `N` the run's name:
+2. Time the base build and the change, named `base` and `change`. Run the base in a call set up for the base build (`build-and-caches.md`), and the change in a call set up for your tree, each in the background (`session.md`). Use the same command for both, with `N` the run's name:
 
        export W=<your tree> N=base ; mkdir -p $W/tmp/count
        time explorations/coordinator/tools/checker-count/run.sh $W/tmp/count/$N.txt $W/tmp/count/$N
