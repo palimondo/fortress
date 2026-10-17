@@ -1,0 +1,21 @@
+component XXXTraitBoundGenericMethod
+export Executable
+
+(* A generic trait's dotted method whose own static parameter is bounded by the trait's static parameter applies in an object that extends an instance of the trait; traits.tex, section "Method Declarations". *)
+
+trait Shape end
+object Circle extends Shape end
+
+trait Picker[\R\]
+    pick[\K extends R\](x: K): String = "picked"
+end
+object ShapePicker extends Picker[\Shape\] end
+
+run(): () = do
+    println("REACHED")
+    assert(ShapePicker.pick[\Circle\](Circle), "picked", "a Circle is within the bound Shape that the trait's instance gives K, written at the call")
+    assert(ShapePicker.pick(Circle), "picked", "a Circle argument fixes K = Circle within the bound Shape")
+    println("PASS")
+  end
+
+end

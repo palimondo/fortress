@@ -1,0 +1,17 @@
+component XXXBoolStaticArgMethodWritten
+export Executable
+
+(* A method's own bool static parameter written at the call instantiates the method; trait-parameters.tex, section "Bool Parameters". *)
+
+object Flag[\bool b\](v: ZZ32) end
+
+object O
+    unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+end
+
+run(): () = do
+    assert(O.unflag[\true\](Flag[\true\](7)), 7, "the method is instantiated at the boolean written at the call")
+    println("PASS")
+  end
+
+end

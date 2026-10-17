@@ -1,0 +1,41 @@
+component XXXTraitGenericMethodInference
+export Executable
+
+(* A generic dotted method that a trait declares and an object inherits takes its static arguments as an object's own generic method does: the narrowest type into which number arguments convert, and its bound where nothing fixes it. *)
+
+object Box[\T\](v: T) end
+object Empty[\T\]() end
+
+shown(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    else => "other"
+  end
+
+boxKind(b: Any): String = typecase b of
+    Box[\ZZ64\] => "Box[ZZ64]"
+    else => "other"
+  end
+
+emptyKind(b: Any): String = typecase b of
+    Empty[\Number\] => "Empty[Number]"
+    else => "other"
+  end
+
+trait Makes
+    wrap[\T\](a: T, b: T): Box[\T\] = Box[\T\](a)
+    make[\T extends Number\](): Empty[\T\] = Empty[\T\]()
+end
+object Maker extends Makes end
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(boxKind(Maker.wrap(z, w)), "Box[ZZ64]", "a ZZ32 and a ZZ64 fix T = ZZ64, the narrowest type into which both convert; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(shown(Maker.wrap(z, w).v), "3:ZZ64", "the ZZ32 argument is converted to the instance's parameter type ZZ64; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(emptyKind(Maker.make()), "Empty[Number]", "a type parameter that nothing fixes takes its bound, never BottomType; inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

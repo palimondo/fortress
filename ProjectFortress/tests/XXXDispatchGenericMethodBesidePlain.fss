@@ -1,7 +1,7 @@
 component XXXDispatchGenericMethodBesidePlain
 export Executable
 
-(* A generic dotted method beside a plain one of one name is chosen by their declared domains, in either order of writing; walk refuses the object at load (ledger row 21). *)
+(* A generic dotted method beside a plain one of one name is chosen by their declared domains, in either order of writing; walk refuses the object at load (ledger row 760). *)
 
 trait Shape comprises { Circle, Square } end
 object Circle extends Shape end
