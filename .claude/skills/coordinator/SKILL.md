@@ -98,6 +98,8 @@ Put every other decision on the review list, and a rung's small decisions in the
 - Act on a side remark within the work that may start, but record no decision from it. Write a one-time go nowhere: the launch or the commit is its trace.
 - When something goes wrong or is undecided, find the cause and choose the best way forward for the whole. If that choice is consequential, bring it by one of the three ways. Do not roll back or bisect.
 - Weigh a rule by what it protects against what it costs. If its words would defeat its purpose, do the better thing, say so in one line, and propose a fix. Propose one too when a file grows or a rule makes clutter.
+- Propose to the curator in words first a change to how the curator and you work together: what you say to the curator, the asks, the held list and the review list. Make it only after the curator approves.
+- Make any other change to a skill yourself, and tell the curator when it lands: what changed, why, what it fixes, and any risk to watch for.
 
 ## The facts of this environment
 
