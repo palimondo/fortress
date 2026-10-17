@@ -1,0 +1,26 @@
+(* A method that leaves out its return type takes the return type of the exported api's declaration of its own parameter types, a dotted method and a functional method alike (components/type-inference.tex, section "Type Inference for Components", the expansion's first step). *)
+component OmittedMethodReturnTypeFromApi
+export { OmittedMethodReturnTypeFromApi, Executable }
+
+object Red end
+object Blue end
+object P
+  pick() = 1
+  pick(x: String) = x
+  pick(r: Red) = 2
+  pick(b: Blue) = "blue"
+  choose(self, r: Red) = 3
+  choose(self, b: Blue) = "blue"
+end
+
+run(): () = do
+    assert(P.pick(), 1, "P.pick() takes the return type of pick(): ZZ32")
+    assert(P.pick("s"), "s", "P.pick(x) takes the return type of pick(x: String): String")
+    assert(P.pick(Red), 2, "P.pick(r) takes the return type of pick(r: Red): ZZ32")
+    assert(P.pick(Blue), "blue", "P.pick(b) takes the return type of pick(b: Blue): String")
+    assert(choose(P, Red), 3, "choose(self, r) takes the return type of choose(self, r: Red): ZZ32")
+    assert(choose(P, Blue), "blue", "choose(self, b) takes the return type of choose(self, b: Blue): String")
+    println("PASS")
+  end
+
+end
