@@ -1,0 +1,4 @@
+tests=XXXNatArithInferFromSum
+compile
+compile_err_contains=File XXXNatArithInferFromSum.fss has 1 error.
+compile_err_WIcontains=is not applicable to an argument of type IBox[\\3\\].

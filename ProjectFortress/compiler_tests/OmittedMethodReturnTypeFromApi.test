@@ -1,0 +1,4 @@
+tests=OmittedMethodReturnTypeFromApi
+link
+run
+run_out_contains=PASS

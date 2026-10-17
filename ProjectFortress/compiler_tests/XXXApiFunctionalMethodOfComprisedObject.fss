@@ -1,0 +1,18 @@
+(* An api's object that declares the abstract functional method of the trait comprising it, with the same parameter type, declares that one method, not a second declaration with the same parameter type (traits.tex, section "Method Declarations"). *)
+component XXXApiFunctionalMethodOfComprisedObject
+export { XXXApiFunctionalMethodOfComprisedObject, Executable }
+
+trait Q comprises { R }
+  num(self): ZZ32
+end
+object R extends Q
+  num(self): ZZ32 = 1
+end
+
+run(): () = do
+    q: Q = R
+    assert(num(q), 1, "num(q) runs R's declaration")
+    println("PASS")
+  end
+
+end

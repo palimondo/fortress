@@ -1,0 +1,14 @@
+(* A declaration satisfies the exported declaration that is the same, a parameter type with a bool static argument included (components/source-code.tex, section "Export Statements"; types-vals-vars.tex, section "Types"). *)
+component XXXExportBoolStaticArg
+export { XXXExportBoolStaticArg, Executable }
+
+object Flag[\bool b\] end
+
+f(x: Flag[\true\]): ZZ32 = 1
+
+run(): () = do
+    assert(f(Flag[\true\]), 1, "f(Flag[\\true\\]) runs the exported declaration")
+    println("PASS")
+  end
+
+end

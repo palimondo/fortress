@@ -1,8 +1,0 @@
-(* A declaration that leaves out its return type takes the return type of the exported api's declaration that it satisfies, the one of its own parameter type (components/type-inference.tex, section "Type Inference for Components", the expansion's first step), so pick() gives ZZ32 and pick(x) a String; the compiled checker gives both the return type of the first declaration of the name that it meets in the api, so one body fails it. *)
-component XXXOmittedReturnTypeFromApi
-export XXXOmittedReturnTypeFromApi
-
-pick() = 1
-pick(x: String) = x
-
-end

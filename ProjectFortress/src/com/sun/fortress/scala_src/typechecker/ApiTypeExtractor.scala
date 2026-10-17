@@ -74,6 +74,13 @@ class ApiTypeExtractor(component: ComponentIndex,
       Some((api, typeInAPI.getDomain, typeInAPI.getRange))
     }
     val name = NodeUtil.getName(f)
+    // the api's declaration of the name that f satisfies: the one of f's own parameter
+    // types, where exactly one has them
+    def satisfied(fds: Set[FnDecl]): Option[FnDecl] =
+      fds.filter(sameParamTypes(f, _)).toList match {
+        case List(fd) => Some(fd)
+        case _ => None
+      }
     if ( isMethod.isDefined ) {
       val owner = isMethod.get
       for ( api <- exports.keySet ) {
@@ -88,18 +95,16 @@ class ApiTypeExtractor(component: ComponentIndex,
             return reportFnDecl(api, tindex.setters.get(name).fnDecl.get)
           }
           if ( tindex.dottedMethods.firstSet.contains(name) )
-            for ( g <- toSet(tindex.dottedMethods.matchFirst(name)) ) {
-              g match {
-                case SDeclaredMethod(fd,_) => return reportFnDecl(api, fd)
-                case _ =>
-              }
+            satisfied(toSet(tindex.dottedMethods.matchFirst(name)).collect {
+                        case SDeclaredMethod(fd,_) => fd }) match {
+              case Some(fd) => return reportFnDecl(api, fd)
+              case _ =>
             }
           if ( tindex.functionalMethods.firstSet.contains(name) )
-            for ( g <- toSet(tindex.functionalMethods.matchFirst(name)) ) {
-              g match {
-                case SFunctionalMethod(fd,_) => return reportFnDecl(api, fd)
-                case _ =>
-              }
+            satisfied(toSet(tindex.functionalMethods.matchFirst(name)).collect {
+                        case SFunctionalMethod(fd,_) => fd }) match {
+              case Some(fd) => return reportFnDecl(api, fd)
+              case _ =>
             }
           if ( NodeUtil.isObject(typeConses.get(owner)) &&
                typeConses.get(owner).asInstanceOf[ObjectTraitIndex].fields.keySet.contains(name) )
@@ -114,11 +119,10 @@ class ApiTypeExtractor(component: ComponentIndex,
         val functions = exports.get(api).get.functions
         val variables = exports.get(api).get.variables
         if ( functions.firstSet.contains(name) )
-          for ( g <- toSet(functions.matchFirst(name)) ) {
-            g match {
-              case SDeclaredFunction(fd) => return reportFnDecl(api, fd)
-              case _ =>
-            }
+          satisfied(toSet(functions.matchFirst(name)).collect {
+                      case SDeclaredFunction(fd) => fd }) match {
+            case Some(fd) => return reportFnDecl(api, fd)
+            case _ =>
           }
         // Check abstract function declarations of the form of variable declarations
         if ( variables.keySet.contains(name) )
@@ -185,6 +189,24 @@ class ApiTypeExtractor(component: ComponentIndex,
 
   private def paramWithoutType(p: Param) =
     p.getIdType.isNone && p.getVarargsType.isNone
+
+  /* Whether the component's declaration f has the parameter types of the api's fd:
+   * as many parameters, and at each one f gives a type, the same type, as the
+   * export check compares them (ExportChecker.equalTypes). */
+  private def sameParamTypes(f: FnDecl, fd: FnDecl): Boolean = {
+    def same(a: Option[_], b: Option[_]) = (a, b) match {
+      case (None, None) => true
+      case (Some(x: Type), Some(y: Type)) => ExportChecker.equalTypes(x, y)
+      case _ => false
+    }
+    val ps = toListFromImmutable(NodeUtil.getParams(f))
+    val qs = toListFromImmutable(NodeUtil.getParams(fd))
+    ps.length == qs.length &&
+    ps.zip(qs).forall { case (p, q) =>
+      paramWithoutType(p) ||
+      (same(toOption(p.getIdType), toOption(q.getIdType)) &&
+       same(toOption(p.getVarargsType), toOption(q.getVarargsType))) }
+  }
 
   override def walk(node:Any):Any = {
     node match {

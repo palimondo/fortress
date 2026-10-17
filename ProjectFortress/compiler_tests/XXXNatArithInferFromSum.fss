@@ -1,0 +1,13 @@
+(* A static parameter is inferred from a size written as an operation on it: getp's i is 2 for an argument of type IBox[\3\], since IBox[\2 + 1\] is IBox[\3\] (types-vals-vars.tex, section "Types"; inference.tex, section "The Static Arguments of a Call"). *)
+component XXXNatArithInferFromSum
+export Executable
+
+object IBox[\int i\](v: ZZ32) end
+getp[\int i\](b: IBox[\i + 1\]): ZZ32 = i
+
+run(): () = do
+    assert(getp(IBox[\3\](0)), 2, "inference.tex, section \"The Static Arguments of a Call\": i inferred as 2 from IBox[\\i + 1\\] and IBox[\\3\\]")
+    println("PASS")
+  end
+
+end
