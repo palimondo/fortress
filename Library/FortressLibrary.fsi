@@ -2149,7 +2149,7 @@ end
 (*
 embiggen[\T,opr OP\](z:T): ((Reduction[\T\],T->T) -> T) -> T
 *)
-embiggen[\T\](j:(Any,Any)->T, z:T) : Comprehension[\T,T,Any,Any\]
+embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\]
 
 trait FilterGenerator[\E\] extends Generator[\E\]
         excludes { HasRank }

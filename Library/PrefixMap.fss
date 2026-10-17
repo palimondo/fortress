@@ -416,17 +416,17 @@ opr BIG {/|->[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\] /}:Com
 
 
 
-opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():Comprehension[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\] =
+opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():BigReduction[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\] =
       embiggen[\ PrefixMap[\E,F,V\] \](fn (a,b) => a UNION b, emptyPrefixMap[\E,F,V\]())
 
 opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\](g: Generator[\PrefixMap[\E,F,V\]\]):PrefixMap[\E,F,V\] =
-    __bigOperatorSugar[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\](BIG UNION[\E,F,V\](), g)
+    __bigOperatorSugar[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\](BIG UNION[\E,F,V\](), g)
 
-opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():Comprehension[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\] =
+opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():BigReduction[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\] =
     embiggen[\ PrefixMap[\E,F,V\] \](fn (a,b) => a UPLUS b, emptyPrefixMap[\E,F,V\]())
 
 opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\](g: Generator[\PrefixMap[\E,F,V\]\]):PrefixMap[\E,F,V\] =
-    __bigOperatorSugar[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\](BIG UPLUS[\E,F,V\](), g)
+    __bigOperatorSugar[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\](BIG UPLUS[\E,F,V\](), g)
 
 
 
