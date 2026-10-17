@@ -1,0 +1,18 @@
+(* An abstract functional method beside a top-level function of its name, whose parameter types are neither related nor exclusive, needs a declaration on their meet, as the pair with a body does (overloading.tex, section "Meet Rule", a functional method beside a function). *)
+component XXXFunctionalMethodMeetTopLevelAbstract
+export Executable
+
+trait S
+  h(self): ZZ32
+end
+object O extends S
+  h(self): ZZ32 = 1
+end
+h(x: String): ZZ32 = 2
+
+run(): () = do
+  assert(h(O), 1, "h(O)")
+  println("PASS")
+end
+
+end

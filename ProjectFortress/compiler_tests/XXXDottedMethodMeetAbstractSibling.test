@@ -1,3 +1,3 @@
 tests=XXXDottedMethodMeetAbstractSibling
 compile
-compile_err_contains=Invalid overloading of m in trait O
+compile_err_contains=Invalid overloading of m in object O
