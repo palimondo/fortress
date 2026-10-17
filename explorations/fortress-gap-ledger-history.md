@@ -5255,3 +5255,75 @@ note added
 note added
 
 | 683 | the compiled checker counts two different size parameters as different sizes: in `two[\nat a, nat b\]()`, `typecase Nt[\a\] of Nt[\b\]` is refused, 'The typecase clause, Nt[\b\], is unreachable.', where walk runs `two[\3, 3\]()` to that clause | CONTESTED | implementation gap (checker) | `basic/types-vals-vars.tex`, "Types" | `ProjectFortress/compiler_tests/XXXNatTwoParamArmChecker.test` | climb batch 13 rung N's skeptic | Unsettled: the revision of 9 October says a size parameter is not known to differ from a numeral and says nothing of two parameters, and the team's Q&A (`Specification/appendices/internal-document.tex`, "Overloaded operators") reads a parameter as possibly equal to what it may be instantiated at. `Formula.nDiffer` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:135-139` at 7dd0adf0c) keeps the base's rule for two parameters; the base a1a75716a refuses it alike. Rung N lists it for the curator. |
+
+### Row 21
+
+closed by 743eb5286
+
+| 21 | under walk a generic method's own static arguments are not inferred: `O.get(Box[\ZZ32\](z))` with `get[\T\](b: Box[\T\]): T` fails "Unification error: Closure/Constructor for get param 1 ... got arg Box[\ZZ32\]", where the compiled run prints 3 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXMethodStaticArgRungT.fss` | ours | Workaround: write them, `x.zip[\V\](y)`. Return types may be omitted (`spec-probes/p8_omit.fss`). Walk alone fails: a size, `idx[\nat j\](b: Box[\j\])` (`NatMethodChecker`); mixed widths, `sameR[\T\](a: T, b: T)`, 'Symbolic type T ... matched to value 3: ZZ32'; a type the expected type fixes, `a: BoxT[\ZZ64\] = Fac.mk()` (`XXXExpectedTypeFixRungT`); a generic method beside another, 'Missing type T' at load, `GenericMethod.finishInitializing` (`:126-140`) typing parameters in the declaring environment (`XXXDispatchGenericMethodBesidePlain`). `bool`: row 307. With the generic `distribute`, `Generator2.fss:73` meets it for nested reductions with no fused pair (F-248). full text: history, row 21 |
+
+### Row 433
+
+closed by 2b1cd8e63
+
+| 433 | the Max/Min-Sum fusion pairs are ill-formed to the checker: `SumReduction`'s two `distribute` overloads and `MaxSumReductionPair`'s and `MinSumReductionPair`'s bodies name `MaxReduction[\T\]` and `MinReduction[\T\]`, whose bounds their `T extends AdditiveGroup[\T\]` does not meet | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/trait-parameters.tex`, "Where Clauses"; `Specification/basic/functions.tex`, "Functions" (not supported yet) | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 6 rung F | Bounds: `StandardMax[\T\]`, `StandardMin[\T\]`. The overloads also declare `PossibleReductionPair[\AnyMaybe\]` against `ActualReduction`'s `[\R\]`, after the component's `ReductionPair[\R,L\] extends SomeReductionPair[\L\]` (`Library/FortressLibrary.fss:3079`; api `[\R\]`, `.fsi:1897`); team's note `Library/Generator2.fss:170-172`. Walk runs them; only `ProjectFortress/tests/GeneratorDeclarations.fss` reaches the fused arm. Fix: drop both pairs; or a method `where { T extends StandardMax[\T\] }` per overload (4 of 6 sites) and the generic `distribute` over its own `K` (the 2 return-type ones; 49→42; F-242). full text: history, row 433 |
+
+### Row 677
+
+closed by 2b1cd8e63
+
+| 677 | the compiled checker reads no where-clause constraint as a bound: in `g[\U\](u: U): String where { U extends T } = u.f()` the call `u.f()` is refused, 'No such method U.f.' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/XXXWhereBoundChecker.test` | climb batch 13 rung N | `KindEnv.extractNodeBindings` reads a where clause's bindings only (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:118-135` at 9d323883f); the same on the base a1a75716a. `ProjectFortress/tests/GenericFnWithExcludes.fss` reaches it on the compiled path now that its `nat` binding is read (before: 'non-type where clause bindings'). Next, the code generator refuses a function with a where clause (`compiler/codegen/CodeGen.java:2967`, `:4107`). Walk runs both. The fix as a shadow (`explorations/perf-probes/where-clauses/REPORT.md` B.2): the reproducer then stops in the code generator; an enclosing trait parameter's constraint goes unchecked at a dotted call. |
+
+### Row 631
+
+closed by 2b1cd8e63
+
+| 631 | `embiggen` unwraps its reduction's `Any` to `T`: `Comprehension[\T,T,Any,Any\](fn (x) => x, MIMapReduceReduction[\T\](j,z), fn (x) => x)` passes `fn x => x` as an `Any -> T` | NEGATIVE-VERIFIED | design limit (library) | `Specification/basic/functions.tex`, "Function Applications" | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 10 rung G | At `Library/FortressLibrary.fss:3539` at `9c9e823d5`. The typed form, `MIMapReduceReduction[\R\] extends MonoidReduction[\R\]` and `embiggen` answering `Comprehension[\T,T,T,T\]`, retypes the callers' declared types: `Comprehension[\X,X,Any,Any\]` in `Library/Map.fss:197`, `Library/IntMap.fss`, `Library/PrefixMap.fss`, and `BigReduction[\X,X\]` in `Library/Pairs.fss:75` and `ProjectFortress/tests/WordCountSmall.fss:76`. `MIMapReduceReduction`'s identity `z` is typed `R`, which its body answers (`Library/FortressLibrary.fss:3542`). full text: history, row 631 |
+
+### Row 636
+
+closed by 24db899fa
+
+| 636 | `AnyList`'s `\|\|`, `addLeft`, `addRight` and the list comprehension's unwrap read their argument as a list or a covariant collection of an unknown element type, which the compiled checker refuses; walk dispatches on the value | NEGATIVE-VERIFIED | design limit (library) | silent | `explorations/compile-ladder/gate/distance-sites.tsv` | climb batch 10 rung N | The checker's four errors: `app(self, f)`, `addL(e, self)`, `addR(self, e)` on `AnyList` arguments (`Library/List.fss:88-90`) and `cc.toImmutableArray()` on an `AnyCovColl` (`:178` at `9c9e823d5`). The team's own comment: "Not yet: comprises List[\E\] where [\E\]" (`Library/List.fsi:56`). The same shape in `covariantCompr`'s other users (`IntMap`, `Map`, `PrefixMap`, `PrefixSet`, `PureList`, `Set`), outside the distance's twelve components. No program observes it before the switch-over. `perf-probes/where-clauses/REPORT.md` A.2.2, B.1: moving the bodies into `List[\E\]`, with a `cast` at the unwrap, clears all 4; the team's `comprises` clause made live clears `app` alone. |
+
+### Row 737
+
+closed by 091ec54df
+
+| 737 | the compiled checker gives a component's function that leaves out its return type the return type of the exported api's first declaration of its name, in identity-hash order, not of the declaration of its own parameter type, so one overload's body is checked against another's (`ApiTypeExtractor`) | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/type-inference.tex`, "Type Inference for Components" | `ProjectFortress/compiler_tests/XXXOmittedReturnTypeFromApi.test` | climb batch 16 rung H | `isExported` returns the first `SDeclaredFunction` of `functions.matchFirst(name)` and compares no parameters (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ApiTypeExtractor.scala:116-122` at 528438ac5); the relation is an `IndexedRelation` (`IndexBuilder.scala:158-159`) of `DeclaredFunction`s, which declare no `hashCode` (`compiler/index/DeclaredFunction.java:25`), so the pick moves with the identity-hash sequence. Row 488's `:130` is this case: `BIG LEXICO(g)` takes `BIG LEXICO()`'s `BigReduction` when that comes first. Compiled path only: walk checks no types. Workaround: write the return type. Row 488's node-hash half: fixed, `d2fe4e1d9`. |
+
+### Row 738
+
+closed by 091ec54df
+
+| 738 | the compiled checker's per-provider overloading message calls every trait or object a trait: 'Invalid overloading of m in trait O' for `object O`, since its kind word tests the compilation unit where the trait or object is meant | NEGATIVE-VERIFIED | implementation gap (checker) | silent | `ProjectFortress/compiler_tests/XXXDottedMethodMeetAbstractSibling.test` | climb batch 16 rung K | `traitKindAndName` matches `compilation_unit` against `ObjectTraitIndex` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:338` at a79a51661, a team line), which a compilation unit never is; the test pins today's text. The same word is in the refusals of rows 572, 734 and 735. Fix: match `traitOrObject`. |
+
+### Row 739
+
+closed by 091ec54df
+
+| 739 | the compiled checker's top-level set reads no abstract functional method of a component's own trait, so `h(self): ZZ32` abstract in `S` beside a top-level `h(x: String): ZZ32` passes it, where the concrete twin is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Meet Rule" | none | climb batch 16 rung K's skeptic | siblings: 727. In a component `getFunctions` reads only declarations with a body (`onlyConcrete`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:118-121` at a79a51661), functional methods among them; `checkFancyRule` (`:387`) asks only that the function be no more specific. The concrete twin is refused, 'Invalid overloading of h in component SkConcTopDiff: S->ZZ32 ... and String->ZZ32'. Compiled, the abstract shape runs `PASS` through `O`'s body; walk refuses it at load, 'first parameters x:[String] and self:[S] are unrelated'. No `XXX` compile test holds a refusal not made. Probes: rung K's `SKEPTIC.md` section 6. |
+
+### Row 681
+
+closed by 091ec54df
+
+| 681 | the compiled checker infers no static argument written with a static parameter in it: in `pred[\int i\](): ZZ32 = get(IBox[\i - 1\](0))` the call of `get[\int i\](b: IBox[\i\])` is refused, 'is not applicable to an argument of type IBox[\i-1\]', where `get[\i - 1\]` written is accepted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXNatArithInferChecker.test` | climb batch 13 rung N's skeptic | `Formula.isNatTerm` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:155` at 7dd0adf0c) lets a size inference variable bind a static parameter or a numeral only, so `$i = i-1` has no solution; the identity sentence (`basic/types-vals-vars.tex`, "Types") makes `IBox[\$i\]` and `IBox[\i-1\]` the same type once `$i` is `i-1`. Workaround: write the static argument. Walk runs it: `pred[\0\]()` is -1. No site of the library needs it. |
+
+### Row 159
+
+closed by 6d187d069
+
+| 159 | walk refuses at load two generic declarations of one name unless some parameter pair excludes, even when one is more specific: `opr ×[\I\](a: Array[\RR64,I\], b: Array[\RR64,I\])` beside `opr ×[\nat s, nat r, nat c\](v: Vector[\RR64,s\], m: Matrix[\RR64,r,c\])` | NEGATIVE-VERIFIED | design limit (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters"; `Specification-1.0-frozen/basic/overloading.tex:100-105`, "Principles of Overloading" | `ProjectFortress/tests/XXXDispatchRenamedArmWalkRungG.fss` | run-c2 | siblings: 97, 219, 297, 341. `at least one pair of parameters must have excluding types`: `sawSymbolic` is set for a pair neither excluding nor ordered (`OverloadedFunction.java:472-474` at `052a7c3fe`) and `overloadOk` refuses (`:523-524`). It also refuses `grab[\X\](t: Tag[\X\])` beside `grab[\Y\](t: Sub[\Y\])` and `pair[\A,B\]` beside `pair[\B,A\]`, which it accepts with one parameter name and which run compiled. The working draft allows such sets; walk's check is kept by decision (`coordinator/CLIMB-BATCH-7.md` section 1, Q4). Workaround: `diag(v) m` through a `Diag` object (row 99); full text: history, row 159 |
+
+### Row 742
+
+closed by 6d187d069
+
+| 742 | walk loads two generic declarations whose declared domains are equal, one's parameter types its static parameters and the other's their bounds: `tie[\T extends Wide\](a: T, b: T)` beside `tie[\T extends Wide\](a: Wide, b: Wide)` or `tie[\U\](a: Wide, b: Wide)` loads and runs the first | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericBesideGenericSameDomain.fss` | climb batch 16 merged-diff review | siblings: 549, 159. The parameter check reads `T` as a strict subtype of `Wide` and sets `p1better` (`interpreter/evaluator/values/OverloadedFunction.java:488-492` at aa4bbb2b6); nothing excludes, so nothing is withdrawn, and `overloadOk` returns true (`:544-561`), so the declared domains (`:534-535`) are never read, the first's being `(Wide, Wide)` at its bound. Probe under walk (`bin/fortress`) on aa4bbb2b6: the test's program, and the same with `tie[\U\](a: Wide, b: Wide)` second, each printed 'generic', exit 0. The No Duplicates Rule refuses the pair; the refusal due is walk's for equal parameter types, as row 549's. |
+
+### Row 549
+
+closed by 6d187d069
+
+| 549 | walk loads a generic declaration beside a plain one whose declared domains are equal: `tie[\T extends Wide\](a: T, b: T)` beside `tie(a: Wide, b: Wide)` loads, and a call that needs a coercion under both is then 'Ambiguous coercion' | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/tests/XXXGenericBesidePlainSameDomain.fss` | climb batch 7b rung W | The parameter check reads `T` as a strict subtype of `Wide`, while the generic's declared domain at its bound is `(Wide, Wide)` and the Subtype Rule asks for a strict subtype. The call gives 'Ambiguous coercion, args = (Narrow,Narrow), applicable with coercion = {coerced tie[\T extends Wide\](a:T,b:T)..., coerced tie(a:Wide,b:Wide)...}' in either order of the declarations (`explorations/compile-ladder/rung-walk-dispatch/REPORT.md` section 10, probe `CoerceTie`). The refusal due is walk's for equal parameter types, 'fails because their parameter lists have the same types'; full text: history, row 549 Under the No Duplicates Rule as restated for row 696 the pair is refused too. |
