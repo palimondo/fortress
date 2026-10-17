@@ -2561,3 +2561,9 @@ pointer words refreshed in: F-24
 2026-10-17 18:17Z · rewritten · from `explorations/compile-ladder/rung-library-distribute/SKEPTIC.md`, "7. The report and the record" · by climb batch 17 review: two of its three sites are gone with the identities cast and the typed embiggen; the batch record gives F-85 to no one
 
 - F-85 **The one library's generator, condition, reduction and nested-generator slips are repaired in its own spelling, and three sites of the distance are left there.** They are the identities' numeral fallback (row 436), `embiggen` (row 631) and `__bigOperator2`'s fused arm (row 632). `Condition`'s `cond` calls write their result type as static argument. F-93 holds a generator's size and index (row 629), and F-144 the reductions' `Any` devices (row 628). Gated by `tests/GeneratorDeclarations.fss`. Detail: `compile-ladder/rung-generator-slips/REPORT.md` sections 5 and 8.
+
+### F-53
+
+2026-10-17 18:51Z · rewritten · commit `f7abdaa63` · by climb batch 17 commit stage: the landed figures of climb batch 17 gate, read from explorations/compile-ladder/climb-batch-17/gate/distance.txt (#total 35) and checker-count.txt (#total 31): the distance 49 to 35, the count 39 to 31; numbers only
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 39, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 39 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
