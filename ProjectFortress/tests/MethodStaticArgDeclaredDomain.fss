@@ -22,7 +22,7 @@ object Kinder extends Kinds
 end
 
 run(): () = do
-    assert(Describer.describe(Circle), "circle", "the object's plain method on Circle lies inside the inherited generic method's declared domain, so a Circle takes it; overloading.tex, section \"Applicability to Dotted Method Calls\"")
+    assert(Describer.describe(Circle), "circle", "the object's plain method on Circle lies inside the inherited generic method's declared domain, so a Circle takes it; inference.tex, section \"The Static Arguments of a Call\"")
     assert(Describer.describe(Square), "generic", "only the inherited generic method applies to a Square, with T = Square")
     assert(Kinder.kindOf(Circle), "circle", "the inherited plain method on Circle lies inside the object's generic method's declared domain, so a Circle takes it")
     assert(Kinder.kindOf(Square), "generic", "only the object's generic method applies to a Square")

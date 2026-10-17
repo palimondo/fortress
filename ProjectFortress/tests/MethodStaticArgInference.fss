@@ -1,7 +1,7 @@
-(*) explorations/compile-ladder/rung-spec-inference/SKEPTIC.md
-
 component MethodStaticArgInference
 export Executable
+
+(* A dotted method call that writes no static argument takes the method's own type argument from the type of an argument that mentions it. *)
 
 object Box[\T\](v: T) end
 
