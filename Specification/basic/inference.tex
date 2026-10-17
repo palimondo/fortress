@@ -282,13 +282,20 @@ one trait and a function over another do when neither trait extends the other,
 the call fails with an error of unification (row~616 of the revival's gap ledger).
 It infers the static arguments of a generic dotted method that a call does not
 write as it infers a generic function's, whether the method is alone under its
-name or among the overloads of its receiver, and compares declarations with
-static parameters on the parameter types they declare, generic dotted methods
-among them; but it stops at load on an object or trait that declares a generic
-dotted method beside a plain one of the same name (row~760 of the revival's
-gap ledger), and it stops on an object that extends a generic trait whose
-dotted method has a static parameter of its own bounded by the trait's, at load
-or at a generic object's first instance (row~762).
+name or among the overloads of its receiver.
+It compares declarations with static parameters on the parameter types they
+declare, but for two kinds: a functional method of a generic trait or object it
+compares on the instance that a call makes, and a generic dotted method on the
+parameter types it declares only where exactly one of the two declarations'
+declared parameter types lies inside the other's, and otherwise on that instance.
+Where an object declares a plain functional method beside a generic one of the
+same name that it inherits from a trait, a call that only the generic one fits
+finds no overload (row~765 of the revival's gap ledger).
+It stops at load on an object or trait that declares a generic dotted method
+beside a plain one of the same name (row~760 of the revival's gap ledger), and
+it stops on an object that extends a generic trait whose dotted method has a
+static parameter of its own bounded by the trait's, at load or at a generic
+object's first instance (row~762).
 A generic dotted method that a trait declares it instantiates without reading
 the bounds where they are declared: a type parameter that is the whole type of
 parameters takes the narrowest named common supertype of the arguments'

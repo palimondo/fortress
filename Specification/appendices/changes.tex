@@ -1487,7 +1487,10 @@ Since 17~October 2026 it opens a type \KWD{where}-clause variable in the same
 way, as in the clause of \TYP{AnyList} in \library\ (row~636): an argument whose
 type is such a trait, passed where the listed type is expected, takes the listed
 type at a type of the value's own for that call, bounded as the variable's
-binding bounds it and known to equal only itself; it refuses an opened type that
+binding bounds it and known to equal only itself; it does not bound that type
+by a trait constraint of the clause on the variable (\secref{where-clauses}),
+so that it refuses a call that needs the constraint's bound, a call the
+interpreter runs (row~771); it refuses an opened type that
 reaches a type naming another type, gives two values opened in one call two
 types, and reads a listed type at every type of the variable when it checks the
 traits and objects that extend \VAR{T}, whatever the variable's bound, so that
@@ -1914,7 +1917,11 @@ declarations with static parameters on the parameter types they declare,
 ``except generic dotted methods''; it now says that the interpreter infers the
 static arguments of a generic dotted method as it infers a generic function's,
 alone under its name or among the overloads of its receiver, and compares such
-a method on the parameter types it declares, names the two forms of generic
+a method on the parameter types it declares only where exactly one of two
+declarations' declared parameter types lies inside the other's, says that it
+compares a functional method of a generic trait or object on the instance that
+a call makes, names the call of an inherited generic functional method that
+finds no overload, names the two forms of generic
 dotted method on which it still stops, and says that it instantiates one that a
 trait declares without reading its bounds where they are declared.
 The box after the list said that the interpreter ``leaves a generic method's
@@ -2152,6 +2159,9 @@ where it stopped with an error of unification, or found no matching overload
 where the receiver overloads the method's name (row~21): a generic method that a
 trait declares and an object inherits beside a plain overload of its own is
 chosen where the plain one does not apply.
+A generic functional method that a trait declares and an object inherits beside
+a plain functional method of its own is not chosen where only it applies: the
+call finds no overload, on the base as now (row~765).
 It still stops at load on an object or trait that declares a generic dotted
 method beside a plain one of the same name (row~760) and on an object or
 trait whose method has a parameter type with a \KWD{bool} static argument
