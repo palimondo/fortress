@@ -307,9 +307,6 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         private boolean allObjInstance2;
         private boolean result1Subtype2Failure;
         private boolean result2Subtype1Failure;
-        /* Two own generics, some pair of whose parameters excluded only when read at one instantiation of
-           both: their domains are then read over their own instances (validOnDeclaredDomains). */
-        private boolean withdrawn;
 
         private int l1;
         private int l2;
@@ -337,7 +334,6 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             allObjInstance2 = true;
             result1Subtype2Failure = false;
             result2Subtype1Failure = false;
-            withdrawn = false;
 
             l1 = -1;
             l2 = -2;
@@ -465,8 +461,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                         distinct = true;
 
                     boolean excludes = p1.excludesOther(p2);
-                    /* Read at one instantiation of both, two own generics' parameter types can exclude where
-                       instances of each do not: the exclusion is withdrawn there. */
+                    /* Read each at a symbolic instantiation of its static parameters, shared where both
+                       declare the same ones, two own generics' parameter types can exclude where instances
+                       of each do not: the exclusion is withdrawn there. */
                     boolean withdrawnHere = false;
                     if (excludes && ownPair) {
                         if (apart == null) apart = Apart.of(o1, o2);
@@ -476,7 +473,6 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
                     if (withdrawnHere) {
                         exclDumpln("not distinct over the instances of each.");
                         excludes = false;
-                        withdrawn = true;
                     }
                     if (excludes) {
                         exclDumpln("distinct.");
@@ -532,8 +528,15 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
 
             if (!distinct && !overloadOk()) {
-                if (validOnDeclaredDomains(o1, o2, new_overloads, withdrawn)) return;
+                if (validOnDeclaredDomains(o1, o2, new_overloads)) return;
                 if (unrelated != -1 && !sawSymbolic1 && !sawSymbolic2 && overlapCovered(o1, pl1, o2, pl2, new_overloads)) return;
+            } else if (!distinct && sameDeclaredDomains(o1, o2)) {
+                exclDumpSkip();
+                error(o1, o2, within, errorMsg("Overloading of ",
+                                               o1,
+                                               " and ",
+                                               o2,
+                                               " fails because their parameter lists have the same types"));
             }
 
             describeOverloadingFailure(o1, o2, within, pl1, pl2);
@@ -751,17 +754,16 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * the inner one's return type is below the outer one's for every
      * instance of the generic, its type parameters standing for themselves;
      * or when neither lies inside the other and declarations below both
-     * cover their overlap (genericOverlapCovered).  Pairs of two generics
-     * keep that check, except two own generics some pair of whose parameter
-     * types excluded only when the two were read at one instantiation
-     * (withdrawn), which are read on their declared domains, each over its
-     * own instances (genericPairValid).
+     * cover their overlap (genericOverlapCovered).  A pair of two own
+     * generics that the check refuses is read on the two declared domains,
+     * each over its own instances (genericPairValid), whether or not some
+     * pair of its parameter types excluded in the check's reading of each
+     * at a symbolic instantiation of its static parameters.
      */
-    static private boolean validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all,
-                                                  boolean withdrawn) {
+    static private boolean validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all) {
         SingleFcn f1 = o1.getFn();
         SingleFcn f2 = o2.getFn();
-        if (ownGeneric(f1) && ownGeneric(f2)) return withdrawn && genericPairValid(o1, o2, all);
+        if (ownGeneric(f1) && ownGeneric(f2)) return genericPairValid(o1, o2, all);
         Overload gen;
         Overload plain;
         if (ownGeneric(f1) && !(f2 instanceof GenericFunctionOrMethod)) {
@@ -788,6 +790,45 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         catch (FortressException ex) {
             return false;
         }
+    }
+
+    /**
+     * A pair that the parameter-by-parameter check passes without an
+     * excluding parameter, of which one at least is an own generic and the
+     * other an own generic or a declaration without static parameters, whose
+     * declared domains, each generic's over its own instances, each lie
+     * inside the other: the No Duplicates Rule refuses it.  The check reads
+     * a type parameter as strictly below its bound, so it orders a generic
+     * whose parameter types are its type parameters before one whose
+     * parameter types are their bounds, though each is applicable to every
+     * call to which the other is.
+     */
+    static private boolean sameDeclaredDomains(Overload o1, Overload o2) {
+        SingleFcn f1 = o1.getFn();
+        SingleFcn f2 = o2.getFn();
+        boolean g1 = ownGeneric(f1);
+        boolean g2 = ownGeneric(f2);
+        if (!(g1 && g2 || g1 && !(f2 instanceof GenericFunctionOrMethod)
+              || g2 && !(f1 instanceof GenericFunctionOrMethod))) return false;
+        List<FType> d1 = o1.getParams();
+        List<FType> d2 = o2.getParams();
+        if (hasRest(d1) || hasRest(d2) || d1.size() != d2.size()) return false;
+        try {
+            return declaredInside(d1, f2, d2) && declaredInside(d2, f1, d1);
+        }
+        catch (FortressException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * The types ts lie inside the declared domain d of f: some instance of f
+     * holds them where f is an own generic, and otherwise they are a subtype
+     * of d.
+     */
+    static private boolean declaredInside(List<FType> ts, SingleFcn f, List<FType> d) {
+        if (ownGeneric(f)) return instanceHolding(f, ts, true) != null;
+        return FTypeTuple.make(ts).subtypeOf(FTypeTuple.make(d));
     }
 
     /**

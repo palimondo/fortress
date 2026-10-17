@@ -2609,12 +2609,13 @@ object (row~542); the compiled code generator fails on two declarations with
 static parameters whose bounds differ, the pair the Return Type Rule allows in
 \secref{overloading-static-params} among them, and on the example of the type
 group's paper of 2019 that overloads a method over an array list and a list
-(row~537); and the interpreter refuses at load two declarations with static
-parameters of which no pair of parameter types excludes each other (row~159),
-that example among them (row~539), except where a pair of their parameter types
-excluded each other only as it read each declaration at one symbolic instance of
-its static parameters, shared where both declare the same ones: such a pair it
-reads on the two declared domains, each over its own instances, by these rules.
+(row~537); and the interpreter reads two functions with static parameters, no
+pair of whose parameter types excludes each other as it compares them parameter
+by parameter, on the two declared domains, each over its own instances, by these
+rules, but finds a third declaration that holds the overlap of two neither of
+which lies inside the other only where their parameter types are, position by
+position, instances of one generic type or static parameters, so that it
+refuses that example (row~539).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
@@ -2632,10 +2633,9 @@ the same parameter type pass it, and only its code generator refuses them, as a
 malformed overload set (row~726).
 The interpreter refuses at load two declarations with static parameters whose
 parameter types, each read over its own instances, are each a subtype of the
-other, as \VAR{dup}'s are; it loads a declaration whose parameter types are its
+other, as \VAR{dup}'s are, and so a declaration whose parameter types are its
 static parameters beside one whose parameter types are their bounds, a plain one
-(row~549) or one whose parameter types mention none of its static parameters
-(row~742), and runs one of the two.
+or one whose parameter types mention none of its static parameters.
 The compiled type checker and the interpreter both refuse two declarations with
 static parameters whose parameter types exclude only together, through a static
 argument that another parameter's type fixes (row~740), and the compiled type
