@@ -735,17 +735,17 @@ opr BIG {|->[\Val\] }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCov
 opr BIG {|->[\Val\] g: Generator[\(ZZ64,Val)\] }: IntMap[\Val\] =
     __bigOperatorSugar[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\](BIG {|->[\Val\] }(), g)
 
-opr BIG UNION[\Val\]() : Comprehension[\IntMap[\Val\],IntMap[\Val\],Any,Any\] =
+opr BIG UNION[\Val\]() : BigReduction[\IntMap[\Val\],IntMap[\Val\]\] =
     embiggen[\ IntMap[\Val\] \](fn (a,b) => a UNION b, EmptyIM[\Val\])
 
 opr BIG UNION[\Val\](g: Generator[\IntMap[\Val\]\]):IntMap[\Val\] =
-    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],Any,Any\](BIG UNION[\Val\](), g)
+    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],IntMap[\Val\],IntMap[\Val\]\](BIG UNION[\Val\](), g)
 
-opr BIG UPLUS[\Val\]() : Comprehension[\IntMap[\Val\],IntMap[\Val\],Any,Any\] =
+opr BIG UPLUS[\Val\]() : BigReduction[\IntMap[\Val\],IntMap[\Val\]\] =
     embiggen[\ IntMap[\Val\] \](fn (a,b) => a UPLUS b, EmptyIM[\Val\])
 
 opr BIG UPLUS[\Val\](g: Generator[\IntMap[\Val\]\]):IntMap[\Val\] =
-    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],Any,Any\](BIG UPLUS[\Val\](), g)
+    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],IntMap[\Val\],IntMap[\Val\]\](BIG UPLUS[\Val\](), g)
 
 toDots[\Val\](maps: IntMap[\Val\]...): String =
         ("strict digraph IntMap {" //

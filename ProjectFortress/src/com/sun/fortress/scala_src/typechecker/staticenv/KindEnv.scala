@@ -45,7 +45,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
     val whereBindings = where.map(KindEnv.extractNodeBindings)
                              .getOrElse(Iterable.empty)
     val nodeBindings = KindEnv.extractNodeBindings(node)
-    new NestedKindEnv(this, whereBindings ++ nodeBindings)
+    val declared = whereBindings ++ nodeBindings
+    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
   }
 
   /** Extend me with the immediate bindings of the given nodes. */
@@ -53,7 +54,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
     val whereBindings = where.map(KindEnv.extractNodeBindings)
                              .getOrElse(Iterable.empty)
     val nodesBindings = nodes.flatMap(KindEnv.extractNodeBindings)
-    new NestedKindEnv(this, whereBindings ++ nodesBindings)
+    val declared = whereBindings ++ nodesBindings
+    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
   }
 
   /**
@@ -102,6 +104,28 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
 
   /** Creates a fresh kind environment. */
   def makeFresh: KindEnv = EmptyKindEnv.extend(Nil)
+
+  /**
+   * The bindings that the where clause's trait constraints give: each type
+   * variable X named by a constraint X extends B, bound in the declared
+   * bindings or outside them, rebound with B added to its bounds.
+   */
+  def constraintBounds(outer: KindEnv, declared: Iterable[KindBinding],
+                       where: Option[WhereClause]): Iterable[KindBinding] = where match {
+    case Some(SWhereClause(_, _, constraints)) =>
+      val scope = new NestedKindEnv(outer, declared)
+      val byName = constraints.collect { case SWhereExtends(_, name, supers) => (name, supers) }
+      val names = byName.map(_._1).foldLeft(List[Id]())((acc, n) =>
+        if (acc.exists(_.getText == n.getText)) acc else acc :+ n)
+      names.flatMap(n => scope.lookup(n) match {
+        case Some(KindBinding(bn, sp)) if sp.getKind.isInstanceOf[KindType] =>
+          val extra = byName.filter(_._1.getText == n.getText).flatMap(_._2)
+          val supers = toListFromImmutable(sp.getExtendsClause) ++ extra
+          List(KindBinding(bn, NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id], toJavaList(supers))))
+        case _ => Nil
+      })
+    case _ => Nil
+  }
 
   /** Extract out the bindings in node. */
   protected def extractNodeBindings(node: Node) : Iterable[KindBinding] =

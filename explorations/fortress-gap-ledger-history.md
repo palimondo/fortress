@@ -5207,3 +5207,21 @@ notes tightened and a note added
 notes tightened and a note added
 
 | 444 | under walk, an overloading of a dotted method across inheritance that the Meet Rule refuses is accepted and dispatched: `m(x: ZZ32)` in `trait Tm` beside `m(x: Any)` in `object Om extends Tm` prints 1 and 2 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "Meet Rule" | none | climb batch 6 rung R's second skeptic | siblings: 544. `Om` provides no `m` for `(Om, ZZ32)`, and neither `(Om, Any)` nor `(Tm, ZZ32)` is below the other; the compiled checker refuses the pair, 'Invalid overloading of m in trait Om: (Om, Any)->ZZ32 and (Tm, ZZ32)->ZZ32'. The same holds with a size on the trait's arm (`m[\nat n\](x: ZZ32)`). The fix belongs in walk's overload check for a method an object inherits beside one it declares; its site is not located. Probes `explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/Sk2InheritedPlain.fss`, `Sk2Inherited.fss`, in the parent of `ab067d9b6`; full text: history, row 444 Diamond shape: `tests/XXXDottedMethodMeetInheritedWalk.fss` (batch 12 W's skeptic). |
+
+### Row 701
+
+note added
+
+| 701 | the code generator refuses every function, object and trait declaration that carries a `where` clause or a contract: `forFnDecl` stops with "Don't know how to compile this kind of FnDecl", `forObjectDeclPrePass` and `forTraitDecl` with "Can't compile …" | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses"; `basic/functions.tex`, "Function Contracts" | `ProjectFortress/compiler_tests/XXXNatOpenRun.test` | territory map (spec-to-implementation) | siblings: 304, 650, 677. The guards: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2967`, `:2971` (refusal `:2976`), `:4107`, `:4109` (`:4115`) and `:5027`, `:5029` (`:5033`) at 7e4fcb562; an object or trait also may not carry a throws clause (`:4108`, `:5028`). The reproducer's `trait NatParamT … where [\nat n\]` stops the compile, 'Can't compile TraitDecl NatParamT'; a function's or object's where clause and a contract are by reading, not run. Walk runs both (rows 118, 677). FACTS, "Codegen refuses any declaration carrying a where clause or a contract ..."; `explorations/coordinator/map/spec-to-implementation.md` § 3. |
+
+### Row 744
+
+note added
+
+| 744 | under walk, a dotted call with explicit static arguments to a method name its receiver overloads stops, 'Don't actually resolve overloading of generic methods yet.': `Sm[\ZZ32\].distribute[\Lifted[\ZZ32\]\](Mx[\ZZ32\])`, an inherited `distribute[\K\]` beside a plain `distribute(r: Mx[\T\])` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/overloading.tex`, "Applicability to Dotted Method Calls" | none | generic-distribute probe | siblings: 21, 723. `DottedMethodApplication.typeApply` refuses any `OverloadedMethod` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/DottedMethodApplication.java:130` at 07c83a40a); the team met it in 2009 (`Library/Generator2.fss:75-76`). The same on the base 528438ac5. One declaration of the name runs. The compiled path dispatches the call to the plain method. Program and output: `explorations/perf-probes/generic-distribute/REPORT.md` sections 3, 5 and 7. |
+
+### Row 101
+
+note added
+
+| 101 | `BIG UNION` cannot be used in a component that imports both `Set.{...}` and `Map.{...}`: each declares a nullary `opr BIG CUP()`, and one nullary declaration per name is allowed (row 40) | NEGATIVE-VERIFIED | library bug (library) | `Specification-1.0-frozen/basic/overloading.tex:99-105`, "Principles of Overloading" | none | run-b | A consequence of the nullary protocol (row 39). `Overloading of BIG CUP[\Key,Val\]():…/Library/Map.fss:197 and BIG CUP[\R extends StandardTotalOrder[\R\]\]():…/Library/Set.fss:115 fails because…`. Workarounds: import one library by name, `import Set.{...} except { opr BIG CUP }`, or fold with `add`. Probes `explorations/run-b/probes/c19_bigunion_collision.fss` and `explorations/run-b/probes/worker/w17_bigunion_except.fss` (the workaround), in the parent of `ed6dafb52`. |

@@ -1,0 +1,13 @@
+(* A call whose argument breaks the function's own where constraint is refused: a String does not extend Shows. *)
+component XXXWhereBoundFunctionCall
+export Executable
+
+trait Shows
+  show(): String
+end
+
+g[\U\](u: U): String where { U extends Shows } = u.show()
+
+run(): () = println(g("s"))
+
+end

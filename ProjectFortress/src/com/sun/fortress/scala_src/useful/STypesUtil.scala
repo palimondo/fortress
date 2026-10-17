@@ -186,7 +186,22 @@ object STypesUtil {
           Some(SMethodInfo(fhst.selfType.get, fhst.selfPosition))
         case _ => None
       }
-      val sparamsJava = getStaticParameters(f, lifted)
+      val declWhere: Option[WhereClause] = f match {
+        case d: DeclaredFunction => toOption(d.ast.getHeader.getWhereClause)
+        case d: DeclaredMethod => toOption(d.ast.getHeader.getWhereClause)
+        case d: FunctionalMethod => toOption(d.ast.getHeader.getWhereClause)
+        case _ => None
+      }
+      val sparamsJava = declWhere match {
+        case Some(SWhereClause(_, _, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
+          toJavaList(toListFromImmutable(getStaticParameters(f, lifted)).map(sp => {
+            val extra = cs.collect { case SWhereExtends(_, n, supers) if n.getText == sp.getName.getText => supers }.flatten
+            if (extra.isEmpty) sp
+            else NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id],
+                                    toJavaList(toListFromImmutable(sp.getExtendsClause) ++ extra))
+          }))
+        case _ => getStaticParameters(f, lifted)
+      }
       Some(NF.makeArrowType(NF.typeSpan,
                             false,
                             argType,

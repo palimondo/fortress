@@ -3221,20 +3221,17 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
     unlift(l:L): R
     (** If this reduction left-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    leftDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
+    leftDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
         distribute(r)
     (** If this reduction right-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    rightDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
+    rightDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
         distribute(r)
     (** If this reduction distributes over r, return a pair of
         reductions with the same lift and unlift **)
     (* a hack to avoid the error of overloaded methods *)
-    distribute(r: Any): PossibleReductionPair[\R\] =
-        NoReductionPair[\R\]
-(*    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\R\] =
-        NoReductionPair[\R\]
-*)
+    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
+        NoReductionPair[\K\]
 end
 
 trait PossibleReductionPair[\R\] extends Condition[\PossibleReductionPair[\R\]\]
@@ -3377,7 +3374,7 @@ additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
         () -> RR64 =>
             v: RR64 = 0.0
             cast[\T\](v)
-        else => 0
+        else => cast[\T\](0)
     end
 
 multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
@@ -3394,7 +3391,7 @@ multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
         () -> RR64 =>
             v: RR64 = 1.0
             cast[\T\](v)
-        else => 1
+        else => cast[\T\](1)
     end
 
 object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends ReductionPair[\T,T\]
@@ -3418,9 +3415,9 @@ object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidRed
     getter asString(): String = "SumReduction"
     empty(): T = additiveIdentity[\T\]()
     join(a: T, b: T): T = a + b
-    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMax[\T\] } =
     MaxSumReductionPair[\T\]
-    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMin[\T\] } =
     MinSumReductionPair[\T\]
 end
 
@@ -3711,8 +3708,8 @@ end
 embiggen[\T,opr OP\](z:Any, g:(Reduction[\Any\],T->Any) -> Any) : T =
     g(MIOprReduction[\T,OP\](z), fn (x) => x)
 *)
-embiggen[\T\](j:(Any,Any)->T, z:T) : Comprehension[\T,T,Any,Any\] =
-    Comprehension[\T,T,Any,Any\](fn (x) => x, MIMapReduceReduction[\T\](j,z), fn (x) => x)
+embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\] =
+    BigReduction[\T,T\](MapReduceReduction[\T\](j,z))
 
 (** Helpers for maps and cross products of generators.  These can be
     quite a bit more sophisticated (for example, we can hoist maps

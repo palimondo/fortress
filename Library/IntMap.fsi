@@ -84,11 +84,11 @@ opr BIG {|->[\Val\]  }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCo
 
 opr BIG {|->[\Val\] g: Generator[\(ZZ64, Val)\] }: IntMap[\Val\]
 
-opr BIG CUP[\Val\](): Comprehension[\IntMap[\Val\], IntMap[\Val\], Any, Any\]
+opr BIG CUP[\Val\](): BigReduction[\IntMap[\Val\], IntMap[\Val\]\]
 
 opr BIG CUP[\Val\](g: Generator[\IntMap[\Val\]\]): IntMap[\Val\]
 
-opr BIG UPLUS[\Val\](): Comprehension[\IntMap[\Val\], IntMap[\Val\], Any, Any\]
+opr BIG UPLUS[\Val\](): BigReduction[\IntMap[\Val\], IntMap[\Val\]\]
 
 opr BIG UPLUS[\Val\](g: Generator[\IntMap[\Val\]\]): IntMap[\Val\]
 

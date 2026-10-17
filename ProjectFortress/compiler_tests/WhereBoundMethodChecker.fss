@@ -1,0 +1,17 @@
+(* A where clause on a method bounds its object's static parameter inside the method: a method of the bound is found on a value of that parameter. *)
+component WhereBoundMethodChecker
+export Executable
+
+trait Shows
+  show(): String
+end
+object S extends Shows
+  show(): String = "S"
+end
+object Holder[\T\](x: T)
+  showIt(): String where { T extends Shows } = x.show()
+end
+
+run(): () = println(Holder[\S\](S).showIt())
+
+end

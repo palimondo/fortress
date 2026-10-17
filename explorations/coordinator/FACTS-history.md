@@ -2487,3 +2487,7 @@ pointer words refreshed in: F-24
 ### F-249
 
 2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-250
+
+2026-10-17 17:33Z · added · from `explorations/compile-ladder/rung-library-distribute/REPORT.md`, "7. The count and the distance" · by climb batch 17's gather: rung L's record, its FACTS entry
