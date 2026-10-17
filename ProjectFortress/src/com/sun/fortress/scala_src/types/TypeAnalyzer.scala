@@ -300,7 +300,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       // println("checking " + s + " <: " + t)
       val par = parents(s)
       // println(s + " has parents " + par)
-      val parentResult = pOr(par.map(pSub(_, t)))
+      // A parent whose comprises clause lists types at where-clause variables is
+      // not opened on the way up: s is one value, not every listed type.
+      val parentResult = pOr(par.map {
+        case p: TraitType if opensSizes(p) && !(t.getName.getText == p.getName.getText) =>
+          pOr(parents(p).map(pSub(_, t)))
+        case p => pSub(p, t) })
 //       comprisedTypes(s) match {   // Gets a stack overflow error; maybe we don't need this in practice.  GLS 6/6/12
 //         case Some(cs) => pOr(parentResult, pAnd(cs.map(c => parents(c.asInstanceOf[TraitType]).filter(!lteq(_,s)).map(pSub(_, t))).flatten))
 //         case None => parentResult
@@ -843,19 +848,24 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       val args = toListFromImmutable(t.getArgs)
       val params = toListFromImmutable(ti.staticParameters)
       toSet(ti.comprisesTypes).map(nt => if (!nt.isInstanceOf[TraitType]) return Set()
-                                         else openWhereSizes(ti, substitute(args, params, nt)).asInstanceOf[TraitType])
+                                         else openWhereSizes(ti, substitute(args, params, nt), args, params).asInstanceOf[TraitType])
     case _ => Set()
   }
 
-  /* The nat and int where-clause variables of a trait declaration with a
+  /* The nat, int and type where-clause variables of a trait declaration with a
    * comprises clause, as static parameters: comprises { N[\n\] } where
-   * [\nat n\] lists N at every n. */
+   * [\nat n\] lists N at every n, and comprises { List[\E\] } where [\E\]
+   * lists List at every E. */
   def whereSizes(ti: ProperTraitIndex): List[StaticParam] =
     if (ti.comprisesTypes.isEmpty) Nil
     else ti.ast match {
       case d: TraitObjectDecl => toOption(NU.getWhereClause(d)) match {
         case Some(w) => toListFromImmutable(w.getBindings).filter(b =>
-            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt]).map(b =>
+            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] ||
+            b.getKind.isInstanceOf[KindType]).map(b =>
+            if (b.getKind.isInstanceOf[KindType])
+              NF.makeTypeParam(NU.getSpan(b), b.getName, b.getSupers, none[Type], false)
+            else
             NF.makeStaticParam(NU.getSpan(b), null, b.getName,
                                _root_.java.util.Collections.emptyList[BaseType],
                                _root_.java.util.Collections.emptyList[BaseType],
@@ -865,7 +875,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       case _ => Nil
     }
 
-  /* Whether t is a trait whose comprises clause lists types at where-clause sizes. */
+  /* Whether t is a trait whose comprises clause lists types at where-clause variables. */
   def opensSizes(t: Type): Boolean = t match {
     case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
       case Some(ti: ProperTraitIndex) => !whereSizes(ti).isEmpty
@@ -874,13 +884,24 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     case _ => false
   }
 
-  /* A type ti's comprises clause lists, each where-clause size opened: a
-   * fresh name, equal only to itself (Formula.openedSizeName). */
-  def openWhereSizes(ti: ProperTraitIndex, listed: Type): Type = whereSizes(ti) match {
+  /* A type ti's comprises clause lists, each where-clause variable opened: a
+   * fresh name, equal only to itself (Formula.openedSizeName); a type is
+   * bounded as its where-clause binding is, at the trait's static arguments
+   * args for its static parameters params. */
+  def openWhereSizes(ti: ProperTraitIndex, listed: Type, args: List[StaticArg], params: List[StaticParam]): Type =
+    whereSizes(ti) match {
     case Nil => listed
     case ws =>
-      val opened = ws.map(p => NF.makeIntArg(NU.getSpan(p),
-        NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))))
+      val opened: List[StaticArg] = ws.map(p =>
+        if (p.getKind.isInstanceOf[KindType]) {
+          val id = NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText))
+          val bounds = toListFromImmutable(p.getExtendsClause).map(b =>
+            (if (args.isEmpty) b else substitute(args, params, b)).asInstanceOf[BaseType])
+          KindEnv.registerOpened(id, NF.makeTypeParam(NU.getSpan(p), id, toJavaList(bounds), none[Type], false))
+          NF.makeTypeArg(NU.getSpan(p), NF.makeVarType(NU.getSpan(p), id)): StaticArg
+        } else
+          NF.makeIntArg(NU.getSpan(p),
+            NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))): StaticArg)
       substitute(opened, ws, listed)
   }
   
@@ -905,7 +926,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 	val cs = index.comprisesTypes
 	if (cs.isEmpty) None
         else
-	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ)).asInstanceOf[BaseType]).toSet)
+	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ),
+	                                             a, toListFromImmutable(index.staticParameters)).asInstanceOf[BaseType]).toSet)
       case _ => None
     }
   }

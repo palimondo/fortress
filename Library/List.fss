@@ -84,10 +84,10 @@ private expansion(curr: ZZ32, new: ZZ32): ZZ32 =
 (** Lists of some item type.  Used to collect elements of unknown type
     into a list whose element type is as specific as possible. **)
 trait AnyList excludes { Number, HasRank, String }
-        (* comprises List[\E\] where [\E\] *)
+        comprises { List[\E\] } where [\E\]
     opr ||(self, f:AnyList): AnyList = app(self,f)
-    addLeft(e:Any): AnyList = addL(e,self)
-    addRight(e:Any): AnyList = addR(self,e)
+    addLeft(e:Any): AnyList = singleton(e) || self
+    addRight(e:Any): AnyList = self || singleton(e)
 end
 
 private app[\T,E extends T,F extends T\](a:List[\E\], b:List[\F\]): List[\T\] =
@@ -98,12 +98,6 @@ private app[\T,E extends T,F extends T\](a:List[\E\], b:List[\F\]): List[\T\] =
         else =>
             emptyList[\T\](scale(|a| + |b|)).appendR[\E\](a).appendR[\F\](b)
     end
-
-private addL[\T,E extends T,F extends T\](x:E, xs:List[\F\]): List[\T\] =
-    emptyList[\T\](scale(|xs|)).addRight(x).appendR[\F\](xs)
-
-private addR[\T,E extends T,F extends T\](xs:List[\F\],x:E): List[\T\] =
-    emptyList[\T\](scale(|xs|)).appendR[\F\](xs).addRight(x)
 
 (** %List%.  We return a %Generator% for non-list-specific operations
     for which reuse of the %Generator% will not increase asymptotic
@@ -176,7 +170,7 @@ end
 (** Vararg factory for lists; provides aggregate list constants **)
 opr <|[\E\] xs: E... |>: List[\E\] = list(xs)
 opr BIG <|[\T\]|>: Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\] =
-    covariantCompr[\T,List[\T\]\](fn (cc) => fromImmutableArray(cc.toImmutableArray()))
+    covariantCompr[\T,List[\T\]\](fn (cc) => fromImmutableArray(cast[\CovariantCollection[\T\]\](cc).toImmutableArray()))
 opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\] =
     __bigOperatorSugar[\T,List[\T\],AnyCovColl,AnyCovColl\](BIG <|[\T\]|>(), g)
 

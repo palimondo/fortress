@@ -53,7 +53,7 @@ api List
     should not be necessary in the presence of true type
     inference. **)
 trait AnyList excludes { Number, HasRank, String }
-        (** \vspace{-4ex} Not yet: ``%comprises List[\E\] where [\E\]%'' *)
+        comprises { List[\E\] } where [\E\]
     opr ||(self, f:AnyList): AnyList
     addLeft(e:Any): AnyList
     addRight(e:Any): AnyList

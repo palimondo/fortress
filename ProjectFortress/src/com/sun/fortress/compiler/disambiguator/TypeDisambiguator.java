@@ -85,6 +85,18 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
     @Override
     public Node forTraitDecl(final TraitDecl that) {
         TypeDisambiguator v = this.extend(NodeUtil.getStaticParams(that));
+        // The type variables that the trait's where clause binds are in scope in
+        // the trait, but for its extends clause (trait-parameters.tex, "Where
+        // Clauses"), as in comprises { List[\E\] } where [\E\]; the self type and
+        // the self parameters name the comprised types.
+        List<StaticParam> whereTypeVars = new ArrayList<StaticParam>();
+        Option<WhereClause> traitWhere = NodeUtil.getWhereClause(that);
+        if (traitWhere.isSome())
+            for (WhereBinding b : traitWhere.unwrap().getBindings())
+                if (b.getKind() instanceof KindType)
+                    whereTypeVars.add(NodeFactory.makeTypeParam(NodeUtil.getSpan(b), b.getName(),
+                                                                b.getSupers(), Option.<Type>none(), false));
+        TypeDisambiguator vw = whereTypeVars.isEmpty() ? v : v.extend(whereTypeVars);
         List<TraitTypeWhere> before = NodeUtil.getExtendsClause(that);
         List<TraitTypeWhere> after = v.recurOnListOfTraitTypeWhere(before);
 // 	System.out.print(">>>  [ ");
@@ -96,18 +108,18 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
                 (TraitTypeHeader) forTraitTypeHeaderOnly(that.getHeader(),
                                                          v.recurOnListOfStaticParam(NodeUtil.getStaticParams(that)),
                                                          (Id) NodeUtil.getName(that).accept(v),
-                                                         v.recurOnOptionOfWhereClause(NodeUtil.getWhereClause(that)),
+                                                         vw.recurOnOptionOfWhereClause(NodeUtil.getWhereClause(that)),
                                                          Option.<List<Type>>none(),
                                                          Option.<Contract>none(),
                                                          after,
-                                                         v.recurOnOptionOfListOfParam(NodeUtil.getParams(that)),
-                                                         v.recurOnListOfDecl(NodeUtil.getDecls(that)));
+                                                         vw.recurOnOptionOfListOfParam(NodeUtil.getParams(that)),
+                                                         vw.recurOnListOfDecl(NodeUtil.getDecls(that)));
         return forTraitDeclOnly(that,
                                 that.getInfo(),
                                 header,
-                                v.recurOnOptionOfSelfType(that.getSelfType()),
+                                vw.recurOnOptionOfSelfType(that.getSelfType()),
                                 v.recurOnListOfBaseType(NodeUtil.getExcludesClause(that)),
-                                v.recurOnOptionOfListOfNamedType(NodeUtil.getComprisesClause(that)));
+                                vw.recurOnOptionOfListOfNamedType(NodeUtil.getComprisesClause(that)));
     }
 
     /**
