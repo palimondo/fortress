@@ -1,0 +1,14 @@
+(* An object listed by a comprises clause only at the types its where clause bounds must not extend the trait at every type. *)
+component XXXComprisesWhereBoundExtender
+export Executable
+
+trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]
+end
+object NBox[\E\](item: E) extends AnyNumBox end
+
+run(): () = do
+    b: AnyNumBox = NBox[\String\]("s")
+    println(b)
+  end
+
+end
