@@ -1,0 +1,14 @@
+(* Two values opened in one call have two types, not one. *)
+component XXXOpenTypeTwoChecker
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+end
+object Box[\E\](item: E) extends AnyBox end
+
+mk(): AnyBox = Box[\ZZ32\](3)
+two[\E\](a: Box[\E\], b: Box[\E\]): ZZ32 = 2
+
+run(): () = println(two(mk(), mk()))
+
+end

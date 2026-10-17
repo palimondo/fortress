@@ -76,6 +76,9 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
 
 /** The single empty kind environment. */
 protected object EmptyKindEnv extends KindEnv with EmptyStaticEnv[StaticParam] {
+  // A type opened from a value is found in every environment, as a size
+  // opened from a value needs no binding.
+  override def lookup(x: Name): Option[KindBinding] = KindEnv.lookupOpened(x)
 }
 
 /**
@@ -157,9 +160,22 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
         // Other kinds not supported yet.
         case _ => NI.nyi("non-type where clause bindings")
       }
-      
+
       case _ => Iterable.empty
     }
+
+  /* The types opened from values (TypeAnalyzer.openWhereSizes), each a fresh
+   * name (Formula.openedSizeName) bound as its where-clause binding bounds it
+   * at the trait's static arguments. A name is registered once and never
+   * rebound, so an answer that reads its bound depends on the name alone. */
+  private val opened = new java.util.concurrent.ConcurrentHashMap[String, KindBinding]()
+
+  def registerOpened(id: Id, sp: StaticParam): Unit = opened.put(id.getText, KindBinding(id, sp))
+
+  def lookupOpened(x: Name): Option[KindBinding] = x match {
+    case i: Id if i.getApiName.isNone && i.getText.contains("#") => Option(opened.get(i.getText))
+    case _ => None
+  }
 }
 
 /**

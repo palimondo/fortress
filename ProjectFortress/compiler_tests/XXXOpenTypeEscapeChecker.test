@@ -1,0 +1,4 @@
+tests=XXXOpenTypeEscapeChecker
+compile
+compile_err_contains=but declared return type is ZZ32.
+compile_err_WIcontains=but declared type is Box[\\ZZ32\\].

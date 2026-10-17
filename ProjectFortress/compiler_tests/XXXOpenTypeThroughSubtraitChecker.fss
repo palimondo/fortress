@@ -1,0 +1,15 @@
+(* A value of a trait that extends a trait listing Box[\E\] where [\E\] is not opened at a call: the checker refuses it where a Box is expected. *)
+component XXXOpenTypeThroughSubtraitChecker
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+end
+trait Mid[\E extends Object\] extends AnyBox end
+object Box[\E extends Object\](item: E) extends Mid[\E\] end
+
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+viaMid(x: Mid[\ZZ32\]): ZZ32 = count(x)
+
+run(): () = println(viaMid(Box[\ZZ32\](3)))
+
+end

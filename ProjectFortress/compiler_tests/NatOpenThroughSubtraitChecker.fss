@@ -1,0 +1,15 @@
+(* A value of a trait that extends a trait listing Nt[\n\] where [\nat n\] opens, at a call, to an Nt at its own size. *)
+component NatOpenThroughSubtraitChecker
+export Executable
+
+trait NatParamT comprises { Nt[\n\] } where [\nat n\]
+end
+trait Mid[\nat n\] extends NatParamT end
+value object Nt[\nat n\] extends Mid[\n\] end
+
+size[\nat m\](x: Nt[\m\]): ZZ32 = m
+viaMid(x: Mid[\3\]): ZZ32 = size(x)
+
+run(): () = println(viaMid(Nt[\3\]))
+
+end

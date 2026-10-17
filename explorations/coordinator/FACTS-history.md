@@ -2491,3 +2491,7 @@ pointer words refreshed in: F-24
 ### F-250
 
 2026-10-17 17:33Z · added · from `explorations/compile-ladder/rung-library-distribute/REPORT.md`, "7. The count and the distance" · by climb batch 17's gather: rung L's record, its FACTS entry
+
+### F-251
+
+2026-10-17 17:36Z · added · from `explorations/compile-ladder/rung-anylist-comprises/REPORT.md`, "What changed and why" · by climb batch 17's gather: rung A's record, its FACTS entry, its list joined into one line
