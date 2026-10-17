@@ -194,7 +194,7 @@ No sentence of the skill says walk does not infer a method's static arguments (`
 
 ## 11. For FACTS
 
-Under walk, a dotted call that writes no static argument to a generic method infers the method's own static arguments from the run-time types of the arguments, as a call of a generic function does, whether the method is alone under its name or among the receiver's overloads. Against the set's other methods, a generic dotted method is chosen on its declared domain where exactly one of the two declared domains lies inside the other. This means rung L's generic `distribute` runs the nested reductions under walk, and F-248's stop holds only without this change. Gated by `tests/MethodStaticArgInference.fss`, `MethodStaticArgOverloadedReceiver.fss`, `MethodStaticArgDeclaredDomain.fss` and `NestedReductionFusion.fss`. Detail: this report, sections 1 and 2.
+Under walk, a dotted call that writes no static argument to a generic method infers the method's own static arguments from the run-time types of the arguments, as a call of a generic function does, whether the method is alone under its name or among the receiver's overloads; a method that a trait declares is instantiated without coercion or bound (NEW-W-7, the skeptic's, `SKEPTIC.md`). Against the set's other methods, a generic dotted method is chosen on its declared domain where exactly one of the two declared domains lies inside the other. This means rung L's generic `distribute` runs the nested reductions under walk, and F-248's stop holds only without this change. Gated by `tests/MethodStaticArgInference.fss`, `MethodStaticArgOverloadedReceiver.fss`, `MethodStaticArgDeclaredDomain.fss` and `NestedReductionFusion.fss`. Detail: this report, sections 1 and 2.
 
 ## 12. Commands worked out
 

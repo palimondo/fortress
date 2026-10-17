@@ -1880,13 +1880,15 @@ declarations with static parameters on the parameter types they declare,
 ``except generic dotted methods''; it now says that the interpreter infers the
 static arguments of a generic dotted method as it infers a generic function's,
 alone under its name or among the overloads of its receiver, and compares such
-a method on the parameter types it declares, and names the two forms of generic
-dotted method on which it still stops.
+a method on the parameter types it declares, names the two forms of generic
+dotted method on which it still stops, and says that it instantiates one that a
+trait declares without reading its bounds where they are declared.
 The box after the list said that the interpreter ``leaves a generic method's
 static parameters uninstantiated''; it now says that it instantiates one that
 only the expected type would fix at its bound, as it does one of a generic
-function, and that it stops at load on an object or trait whose method has a
-parameter type with a \KWD{bool} static argument.
+function, except a bounded one of a method that a trait declares, and that it
+stops at load on an object or trait whose method has a parameter type with a
+\KWD{bool} static argument.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -2123,6 +2125,12 @@ trait whose method has a parameter type with a \KWD{bool} static argument
 method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~NEW-W-3); and a dotted call that writes
 static arguments to a method its receiver overloads still stops (row~744).
+A generic dotted method that a trait declares it instantiates without reading
+the bounds where they are declared: a type parameter that is the whole type of
+parameters takes the narrowest named common supertype of the arguments'
+run-time types, none of them converted, where the same method declared in an
+object takes the narrowest type into which they convert, and a bounded type
+parameter that nothing fixes takes \TYP{BottomType} (row~NEW-W-7).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}

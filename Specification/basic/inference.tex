@@ -289,6 +289,12 @@ dotted method beside a plain one of the same name (row~NEW-W-1 of the revival's
 gap ledger), and it stops on an object that extends a generic trait whose
 dotted method has a static parameter of its own bounded by the trait's, at load
 or at a generic object's first instance (row~NEW-W-3).
+A generic dotted method that a trait declares it instantiates without reading
+the bounds where they are declared: a type parameter that is the whole type of
+parameters takes the narrowest named common supertype of the arguments'
+run-time types, and no argument is converted, so that a \EXP{\mathbb{Z}32} and
+a \EXP{\mathbb{Z}64} give \TYP{AnyIntegral}, and a bounded type parameter that
+nothing fixes takes \TYP{BottomType} (row~NEW-W-7).
 It dispatches a converted call again, except a call of an overloaded method.}
 
 \section{A Numeral Whose Conversions Tie}
@@ -407,7 +413,8 @@ It gives a function expression that declares no return type the return type
 \TYP{BottomType}, so that a type parameter that only its result fixes is
 instantiated there (row~587); and it instantiates a static parameter of a
 generic method that only the expected type would fix, as one of a generic
-function, at its bound (row~510).
+function, at its bound (row~510), except a bounded one of a method that a trait
+declares, which it instantiates at \TYP{BottomType} (row~NEW-W-7).
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.
