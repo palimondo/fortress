@@ -1,0 +1,4 @@
+tests=XXXOpenTypeBoundEvidenceChecker
+compile
+compile_err_contains=File XXXOpenTypeBoundEvidenceChecker.fss has 1 error.
+compile_err_WIcontains=Could not check call to function upcast

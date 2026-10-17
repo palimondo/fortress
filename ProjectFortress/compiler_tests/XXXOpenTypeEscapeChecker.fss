@@ -1,0 +1,19 @@
+(* An opened type equals only itself: it does not reach a declared type that names another type, in a result or a variable. *)
+component XXXOpenTypeEscapeChecker
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+end
+object Box[\E\](item: E) extends AnyBox end
+
+mk(): AnyBox = Box[\ZZ32\](3)
+same[\E\](b: Box[\E\]): Box[\E\] = b
+get[\E\](b: Box[\E\]): E = b.item
+asInt(b: AnyBox): ZZ32 = get(b)
+
+run(): () = do
+    y: Box[\ZZ32\] = same(mk())
+    println(asInt(mk()))
+  end
+
+end

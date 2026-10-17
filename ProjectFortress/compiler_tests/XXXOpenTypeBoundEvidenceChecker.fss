@@ -1,0 +1,14 @@
+(* The shape of Amin and Tate's 2016 unsoundness: a value whose trait lists Constrain[\A,T,B\] for some B with T extends B and B extends A would be evidence that T is an A; the opened B has only its binding's bound, so the call is refused. *)
+component XXXOpenTypeBoundEvidenceChecker
+export Executable
+
+trait Witness[\A, T\] comprises { Constrain[\A, T, B\] } where [\B extends A\] { T extends B }
+end
+trait Constrain[\A, T, B extends A\] extends Witness[\A, T\] end
+
+upcast[\A, T, B extends A\](c: Constrain[\A, T, B\], b: B): A = b
+convert[\T, U\](t: T, w: Witness[\U, T\]): U = upcast(w, t)
+
+run(): () = println("unreachable")
+
+end

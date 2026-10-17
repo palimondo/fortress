@@ -1,0 +1,3 @@
+tests=XXXOpenTypeTwoChecker
+compile
+compile_err_WIcontains=is not applicable to an argument of type (AnyBox, AnyBox).
