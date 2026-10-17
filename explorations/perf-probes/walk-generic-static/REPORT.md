@@ -79,3 +79,16 @@ Changed against base: `XXXMethodStaticArgRungT` now passes, so it is promoted. N
 - The worktree's caches were emptied by the probe's builds. The library order is needed before any compiled run or distance stage there.
 - Part B re-infers on every overloaded method call, since `OverloadedMethod` has no cache. Not measured.
 - The compiled path was not run for the two new defects.
+
+## 8. Part A alone, with L4 (second probe, 2026-10-17)
+
+Part A (`DottedMethodApplication.java`) alone does not make the overloaded-receiver cases work. Part B is needed for any receiver whose generic `distribute` sits in an overloaded method set.
+
+- `ProjectFortress/tests/LibraryOverloadFamilies.fss` fails at line 37, `SumReduction[\ZZ32\].distribute(ProdReduction[\ZZ32\])`, with "Failed to find any matching overload". Line 36 passes.
+- The sum of sums fails at `Library/Generator2.fss:73` (`distributes`, `r.distribute(q)`), with the same message.
+- `Sm[\ZZ32\].distribute(Sm[\ZZ32\])` fails the same way, and so does `SumReduction.distribute(SumReduction)` called directly.
+- The maximum of maxima passes (`3, 3`). The lone inherited generic passes. The three fused pairs pass (6, 1 and 10). `MethodStaticArgInference` passes, so part A covers the expected-failure test.
+- The 66 walk test files: 56 pass, the 9 expected failures are as before, and `LibraryOverloadFamilies` is the one failure.
+- microGPT's quick pair passes 7 of 7 in both programs.
+
+Run by a probe worker in the same worktree, with the one JVM at a time rule, the library order and the caches rebuilt. Part B was restored afterwards, and the worktree matches commit `fd7056abf` again.
