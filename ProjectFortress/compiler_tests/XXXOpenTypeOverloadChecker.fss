@@ -1,0 +1,15 @@
+(* A declaration whose parameter type is a trait listing Box[\E\] where [\E\], beside a generic one whose parameter type is Box[\E\], is refused as a duplicate. *)
+component XXXOpenTypeOverloadChecker
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+end
+object Box[\E extends Object\](item: E) extends AnyBox end
+mk(): AnyBox = Box[\ZZ32\](3)
+
+f(x: AnyBox): ZZ32 = 1
+f[\E extends Object\](x: Box[\E\]): ZZ32 = 2
+
+run(): () = println(f(mk()))
+
+end
