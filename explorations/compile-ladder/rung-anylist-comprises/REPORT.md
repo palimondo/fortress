@@ -6,7 +6,6 @@
 - deviation: the probe's parent rule is scoped to a type `where`-clause variable; a parent that opens only sizes is opened as on the base, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:303-309`
 - deviation: walk's comprises check at load reads a type `where`-clause variable as standing for any type, before the environment, beyond `processWhereClauses`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:1197-1198`, `:1463-1467`
 - deviation: walk sets a type `where`-clause variable's bounds in a second pass, after every binding is in scope, as `SingleFcn.createSymbolicInstantiation` does, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java:966-970`
-- deviation: both calls of `openWhereSizes` pass the trait's static arguments, where the probe passed them in one of the two, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:852`, `:939-940`
 - historical: `ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala`, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala`, `Library/List.fsi`, `Library/List.fss`, `Specification/appendices/changes.tex` (all in the tree since `5a68404fd`, 2012-07-19)
 
 ## What changed and why
