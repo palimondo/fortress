@@ -42,12 +42,13 @@ A note written before the revival, and your training, can be right about the tea
 
 **Walk's check of two generic declarations**
 
-- Original: walk read two generic declarations of one name at one shared symbolic instance, and took two instances of one generic object as types that exclude. So it loaded `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, where `P[\T\] excludes { Q[\T\] }`, and `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`. It ran one declaration of each pair. The compiled checker refuses both pairs.
-- Resolution: walk reads each declaration over its own instances. It loads such a pair only if the No Duplicates Rule, the Meet Rule and the return-type rule hold on the declared domains. Otherwise it refuses the pair at load: "with generic type, at least one pair of parameters must have excluding types". In three cases, walk or the checker departs from these rules:
+- Original: walk read two generic declarations of one name at one shared symbolic instance, and took two instances of one generic object as types that exclude. So it loaded `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, where `P[\T\] excludes { Q[\T\] }`, and `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`, and ran one declaration of each pair. It refused every other pair unless some pair of parameter types excluded each other: "with generic type, at least one pair of parameters must have excluding types". So it refused `ident[\T extends Shape\](x: T): T` beside `ident[\T extends Round\](x: T): T`, which the specification allows. It read a type parameter as strictly below its bound, so it loaded `tie[\T extends Wide\](a: T, b: T)` beside `tie(a: Wide, b: Wide)` and ran one of the two.
+- Resolution: walk reads every pair of generic declarations on the declared domains, each over its own instances, by the No Duplicates Rule, the Meet Rule and the return-type rule. It loads a pair that keeps them, such as `which[\T extends Shape\]` beside `which[\T extends Round\]`, and calls the more specific declaration that applies. It refuses two declarations with equal declared domains, such as the two `tie` pairs: "fails because their parameter lists have the same types". It refuses a pair where an argument below the more specific declared domain can make the more specific declaration return a type above the other's: `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round`. In four cases, walk or the checker departs from these rules:
   - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes: `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `Box` fixes one `T` for both (ledger row 740);
+  - walk refuses a pair whose overlap only a declaration over a supertype's instance holds, and two instances of one generic type at different ground arguments;
   - the checker refuses two kinds of pair that walk loads: two generic traits that exclude each other and extend one shared generic trait, as `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`; and one generic object at two bounds that are different objects, as `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])` (ledger row 741);
-  - walk loads two generic declarations whose declared domains are equal (ledger row 742).
-- Reason: the specification reads a declaration with static parameters over every instance within its bounds. Two instances of one generic trait meet only where their static arguments are equal (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters").
+  - the checker accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759).
+- Reason: the specification reads a declaration with static parameters over every instance within its bounds, and compares declarations on the parameter types that they declare (`Specification/basic/overloading.tex`). It states the three rules on those domains and allows the `ident` pair (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters"). Two instances of one generic trait meet only where their static arguments are equal.
 
 **`fill` and `tabulate`**
 
@@ -89,12 +90,12 @@ A note written before the revival, and your training, can be right about the tea
 
 **Abstract functional methods in the checker's overloading check**
 
-- Original: the No Duplicates Rule, the Meet Rule over what a type provides and the return-type rule read abstract declarations too (`Specification/advanced/overloading.tex`; `Specification/basic/traits.tex`). The compiled checker read only functional methods with a body when it checked what a type provides. So these passed the checker:
+- Original: the No Duplicates Rule, the Meet Rule over what a type provides and the return-type rule read abstract declarations too (`Specification/advanced/overloading.tex`; `Specification/basic/traits.tex`). The compiled checker read only functional methods with a body when it checked what a type provides, and when it checked a component's top-level overloads. So these passed the checker:
   - an abstract and a concrete functional method with the same parameter types, in one trait. The code generator then stopped.
   - an object that inherits an abstract functional method from one trait and its body from another, and declares none of its own. It ran the body.
   - an object's functional method that defines its trait's abstract one with an unrelated return type. Its run failed the JVM's verification.
-- Resolution: the checker reads every functional method that a type provides, abstract ones too. It refuses the three cases: "There are multiple declarations of f with the same parameter type", "Invalid overloading of pick in trait O" and "For f, the return type of ... should be a subtype of ...". Walk refused all three at load already. The checker's check of top-level overloads still skips the abstract functional methods of a component's own traits: `h(self): ZZ32` abstract in a trait beside a top-level `h(x: String): ZZ32` passes it (ledger row 739).
-- Reason: the specification's rules, and the code generator's own refusal of such a set. The type group's Welterweight calculus refuses the second case too. Scala accepts it, and the revival keeps Fortress's rule.
+- Resolution: the checker reads every functional method that a type provides, abstract ones too. It refuses the three cases: "There are multiple declarations of f with the same parameter type", "Invalid overloading of pick in object O" and "For f, the return type of ... should be a subtype of ...". Walk refused all three at load already. The checker's check of top-level overloads also reads every functional method, abstract ones too, so it refuses `h(self): ZZ32` abstract in a trait beside a top-level `h(x: String): ZZ32`. It leaves out an abstract functional method that a subtype's declaration implements with the same parameter types. The message names an object "object", where the team's said "trait" for every type.
+- Reason: the specification's rules, and the code generator's own refusal of such a set. A functional method beside a function is judged by the Meet Rule for functions (`Specification/advanced/overloading.tex`, "Meet Rule"). The type group's Welterweight calculus refuses the second case too. Scala accepts it, and the revival keeps Fortress's rule.
 
 **A string's `left` and `right`**
 
@@ -141,6 +142,12 @@ A note written before the revival, and your training, can be right about the tea
   - a parameter that only the result of a function expression without a return type fixes (ledger row 587).
 - Reason: the paper is the type group's latest word on the rule.
 
+**A generic method's static arguments, under walk**
+
+- Original: the specification infers a method call's static arguments "from the context of the method invocation". Walk applied a generic method's symbolic instance where a dotted call wrote no static argument, so the call failed: "Unification error: ... got arg Box[\ZZ32\]". An overloaded method set never chose the generic method. The team's library notes this in `Library/Generator2.fss`, on `distribute`.
+- Resolution: walk infers the method's own static arguments from the arguments' run-time types, as at a call of a generic function, whether the method is alone under its name or among the receiver's overloads. It chooses such a method against the set's other methods on its declared domain. A generic method that a trait declares is still instantiated without coercion and without its bound (ledger row 766).
+- Reason: the specification's rule (`Specification-1.0-frozen/basic/expressions/method-invocation.tex`), and its choice of a declaration on the parameter types that it declares (`Specification/basic/inference.tex`).
+
 **A call written as an argument**
 
 - Original: the specification infers a call's static arguments "from the context of the function call". The checker typed each argument of a call without an expected type. So a static argument that only the result mentions took its bound, or the numeral's type where only a numeral fixed it. For example, with `mk[\T\](): BoxT[\T\]` and `takesBox64(b: BoxT[\ZZ64\])`, the checker refused `takesBox64(mk())`.
@@ -176,6 +183,16 @@ A note written before the revival, and your training, can be right about the tea
   - `f[\T extends { K, R[\T\] }\](x: T)` beside `f(x: Z)`, where `Z` excludes `A` and `B` and `C` extends `Z`, is refused as an invalid overloading, though the bound `R[\T\]` rules out `C` (ledger row 713).
 - Reason: the specification makes such a call applicable at an instance within the bounds (`Specification/basic/inference.tex`). The type group's subtyping algorithm reads no `comprises` clause (`Papers/Types/fig-subtype.tick`). The POPL 2019 paper proves its matching complete only where no union holds a type parameter.
 
+**A `where` clause's constraint, in the checker**
+
+- Original: the traits chapter lets a `where` clause place constraints on static parameters (`Specification/basic/trait-parameters.tex`). The checker read only a `where` clause's bindings, so it refused "No such method T.show." on a value of a constrained parameter.
+- Resolution: a constraint bounds the variable that it names inside the declaration. A constraint on the declaration's own static parameter is part of its arrow, so the checker checks it at a call of a function or a functional method. Four cases are not built yet:
+  - a method's constraint on its trait's or object's static parameter, at a dotted call (ledger row 748);
+  - a constraint that bounds a type parameter by a `where`-clause variable: it refuses every call (ledger row 749);
+  - a trait's or object's own constraint, where its type is used (ledger row 750);
+  - a static argument written at a call, against its parameter's bound (ledger row 470).
+- Reason: the chapter's rule. The library's fusion pairs need it ("The fusion of `SUM` with `MAX` and `MIN`", below).
+
 **Sizes on the compiled path**
 
 - Original: the Working Draft has the size parameters `nat` and `int`. The checker crashed on sized declarations, and a sized program did not compile or load. The team's code generator had reserved a slot for a size's run-time descriptor.
@@ -185,7 +202,7 @@ A note written before the revival, and your training, can be right about the tea
 **Arithmetic in a size**
 
 - Original: the Working Draft allows a sum, a difference, a product or a power as a size, and fixes its value once the static parameters are known, but does not say when two such sizes are the same. The checker refused any arithmetic in a size, and counted a static parameter as different from every numeral. The compiled path spelled the expression into the class's name. Walk stopped on a power.
-- Resolution: two sizes are the same when they are written alike once each operation on numerals is computed: `2 3` is `6`, and, for static parameters `s0` and `s1`, `s0 s1` is not `s1 s0`. A static parameter, or an expression with one in it, is not known to differ from a numeral, so in `typecase N[\b0\] of N[\0\] => ...`, for a static parameter `b0` and `NatReflect`'s object `N` (below), the arm `N[\0\]` is reachable. The checker checks a computed size against its parameter's kind, as it checks a numeral. It computes a power of 0, 1 or -1 at any exponent, and of another base up to the exponent 4096. It refuses a larger power as outside every kind. The compiled path computes a size when it names a class, so `Box[\2 + 1\]` and `Box[\3\]` are one class; the class loader does not check a size that it computes against its parameter's kind (ledger row 675). Walk computes a power exactly, as the compiled path does. Both compute no power at a negative exponent, which only a static parameter can give, and walk refuses it.
+- Resolution: two sizes are the same when they are written alike once each operation on numerals is computed: `2 3` is `6`, and, for static parameters `s0` and `s1`, `s0 s1` is not `s1 s0`. A static parameter, or an expression with one in it, is not known to differ from a numeral, so in `typecase N[\b0\] of N[\0\] => ...`, for a static parameter `b0` and `NatReflect`'s object `N` (below), the arm `N[\0\]` is reachable. The checker checks a computed size against its parameter's kind, as it checks a numeral. It computes a power of 0, 1 or -1 at any exponent, and of another base up to the exponent 4096. It refuses a larger power as outside every kind. The compiled path computes a size when it names a class, so `Box[\2 + 1\]` and `Box[\3\]` are one class; the class loader does not check a size that it computes against its parameter's kind (ledger row 675). Walk computes a power exactly, as the compiled path does. Both compute no power at a negative exponent, which only a static parameter can give, and walk refuses it. The checker infers a size argument written as an operation on static parameters, as in `get(IBox[\i - 1\](0))` inside `pred[\int i\]()`.
 - Reason: the library writes a product in the storage of its matrices, `mem: PrimitiveArray[\T, (s0 s1)\]` in `Library/FortressLibrary.fss`, and sums in result types. The grammar allows a power in a size. A `nat` or `int` parameter takes an integer, and a power at a negative exponent is no integer, except of 1 and -1. The team's questions and answers in the specification's appendix "Internal Document" (`Specification/appendices/internal-document.tex`) refuse two overloads at `T[\n+1\]` and `T[\0\]`.
 
 **A size known only at run time**
@@ -193,6 +210,17 @@ A note written before the revival, and your training, can be right about the tea
 - Original: `NatReflect`'s `reflect` answers a `NatParam`, a trait that the object `N[\nat n\]` extends (`ProjectFortress/LibraryBuiltin/NatReflect.fsi`). The team's clause of `NatParam`, `comprises { N[\n\] } where [\ nat n \]`, was a comment, and the api's comment says that a `NatParam` passed where `N[\n\]` is expected makes `n` a static parameter. The checker refused every such call in the library; walk ran them, binding the size at dispatch.
 - Resolution: the clause is restored, and the specification allows a where-clause variable in a listed type. In the checker, a value of such a trait, passed where the listed type is expected, binds the call's `nat` parameter to the value's own size. That size is known to equal only itself: two values passed in one call have two sizes, and the size does not reach a type that names another size. Walk loads the clause and binds each size at dispatch, as before, so it runs such a call. The compiled run waits for the switch-over (`ProjectFortress/compiler_tests/XXXNatOpenRun.fss`).
 - Reason: the team's comment, and the library's run-time factories, which pass `reflect`'s value to functions that take `N[\n\]`.
+
+**A type `where`-clause variable in a `comprises` clause**
+
+- Original: the team left `AnyList`'s clause `comprises List[\E\] where [\E\]` as a comment, "Not yet" (`Library/List.fsi`). The disambiguator, which both paths share, refused such a variable: "E is undefined." The checker refused four calls of `AnyList`'s and the comprehension's code, which read their arguments as a list of an unknown element type.
+- Resolution: the clause is live. A trait's type `where`-clause variables are in scope in the trait, except in its `extends` and `excludes` clauses. At a call, the checker opens such a variable as it opens a size: the argument takes the listed type at a type of its own, bounded as the binding is, and known to equal only itself. It does not open such a trait where it reaches it as a parent. Walk binds the variable, when it loads the trait, as a type that stands for every type. `AnyList`'s `addLeft` and `addRight` are written with `||`. The departures:
+  - the checker also opens the variable under a function type's result (ledger row 751);
+  - it does not open an extender that the clause does not list (ledger row 752);
+  - the checker and walk read the extenders at every type of a bounded variable (ledger rows 753 and 754);
+  - walk refuses at load a member whose declared type names the variable, and the checker crashes at an outside call of one that names a type variable (ledger rows 755 and 756);
+  - the code generator does not compile a trait with a `where` clause (ledger row 701).
+- Reason: the team's comment, and the traits chapter, which lets a listed type hold a `where`-clause variable at every value of it (`Specification/basic/traits.tex`, "Trait Declarations").
 
 **Comparing pairs and triples**
 
@@ -253,8 +281,8 @@ A note written before the revival, and your training, can be right about the tea
 **`SUM` and `PROD`**
 
 - Original: `SUM` and `PROD` reduced over `Number`, under the team's comment "Hack to permit any Number to work non-parametrically". Every sum had the type `Number`, and an empty sum of `RR64` values was the integer 0.
-- Resolution: each is one generic declaration over the element type's own algebra, which gives its zero or one at that type (`library.md`).
-- Reason: `Number`'s operators for any number went with the tower, so each reduction uses the element type's own operator.
+- Resolution: each is one generic declaration over the element type's own algebra, which gives its zero or one at that type (`library.md`). Where the type gives none, the zero is `cast[\T\](0)` and the one `cast[\T\](1)`, so under walk an empty `SUM` over a group that is not a number type ends in `CastError`.
+- Reason: `Number`'s operators for any number went with the tower, so each reduction uses the element type's own operator. The checker refused the numerals as the result: "Function body has type OR(IntLiteral,T), but declared return type is T."
 
 **Vectors and matrices at an element type that is not a number type**
 
@@ -288,7 +316,25 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: walk takes a `Boolean` by its value, a `Just` as true and a `Nothing` as false. It refuses every other value: "If clause did not return boolean, but 1: ZZ32". The specification and the compiled checker refuse a `Maybe` clause and walk takes it, so here walk departs from the specification. Walk tests names: an object named `Just` or `Nothing` that extends a trait named `Maybe` counts.
 - Reason: the specification's rule, which the compiled checker enforces, and the team's own tests.
 
+**The fusion of `SUM` with `MAX` and `MIN`**
+
+- Original: the team's `ActualReduction` declared a live `distribute(r: Any)` that answers `NoReductionPair`, under the comment "a hack to avoid the error of overloaded methods", and left the generic `distribute[\K\](r: ActualReduction[\R,K\])` as a comment (`Library/FortressLibrary.fss`). `SumReduction`'s two fusion overloads, at `MaxReduction[\T\]` and `MinReduction[\T\]`, named types that `T extends AdditiveGroup[\T\]` alone does not make well formed.
+- Resolution: the generic `distribute` is live, with its result over its own `K`: `PossibleReductionPair[\K\]`. `leftDistribute` and `rightDistribute` take the same `K`. The two fusion overloads carry `where { T extends StandardMax[\T\] }` and `where { T extends StandardMin[\T\] }`.
+- Reason: the checker refused the `Any` method beside the fusion overloads by the return-type rule, read over every instance. Only a result over `K` keeps the rule, and the comment of `Library/Generator2.fss` asks for that type. Without the conditions, the checker refused `MaxReduction[\T\]` as an ill-formed type.
+
+**`embiggen`, and the maps' `BIG UNION` and `BIG UPLUS`**
+
+- Original: the team's `embiggen[\T\](j:(Any,Any)->T, z:T)` answered a `Comprehension[\T,T,Any,Any\]` built on the `Any`-typed `MIMapReduceReduction`. `Map`'s, `IntMap`'s and `PrefixMap`'s nullary `BIG UNION` and `BIG UPLUS` were declared `Comprehension[\X,X,Any,Any\]`. The team's note of 2008 asks to replace such hacks with the proper types.
+- Resolution: `embiggen[\T\](j:(T,T)->T, z:T)` answers `BigReduction[\T,T\](MapReduceReduction[\T\](j,z))`, and those operators are declared `BigReduction[\X,X\]`. The answers do not change. A program that writes the old static arguments, as `__bigOperatorSugar[\X,X,Any,Any\](BIG UNION[\K,V\](), g)`, stops under walk.
+- Reason: the checker refused `embiggen`'s body as not applicable. The team's demos already declare `BigReduction` for `embiggen`'s result, and the team's `BIG MINNUM` has this shape.
+
 ## Specified, but not built
+
+**A function whose return type is left out, in a component**
+
+- Original: the components chapter gives such a function the types of the declaration in the api that the component exports (`Specification/basic/components/type-inference.tex`). The compiled checker gave it the return type of the api's first declaration of its name, whatever the parameter types, in identity-hash order. So `opr BIG LEXICO(g)` took `BIG LEXICO()`'s `BigReduction` from one run to the next, and its body was refused.
+- Resolution: the checker takes the api's declaration at the function's own parameter types. It takes none where several fit a declaration that leaves out a parameter type.
+- Reason: the chapter's rule.
 
 **A parameter whose type is left out**
 
