@@ -28,7 +28,7 @@ P-151 makes the team's comment on `AnyList` live (`Library/List.fsi:56`, `List.f
   - `addLeft(e) = singleton(e) || self` and `addRight(e) = self || singleton(e)`, with the private `addL` and `addR` removed;
   - the list comprehension's unwrap: `cast[\CovariantCollection[\T\]\](cc).toImmutableArray()`.
   `AnyList`'s `||` stays `app(self, f)`, now accepted through the opened type. Part A's `appendAny` and `appendedTo` were not needed: the distance shows `app`'s site gone.
-- **The specification** (`Specification/appendices/changes.tex:1438-1443`, `:1486-1508`, `:1537-1540`): the Effect of "The traits that extend a closed trait" says what the checker and the interpreter now do, with the departures as rows. Its Rationale names the decision, and its last item says what undoing it needs.
+- **The specification** (`Specification/appendices/changes.tex:1438-1443`, `:1486-1516`, `:1545-1548`, with the skeptic's two departures in the first range): the Effect of "The traits that extend a closed trait" says what the checker and the interpreter now do, with the departures as rows. Its Rationale names the decision, and its last item says what undoing it needs.
 
 ## The test first, then the fix
 
@@ -186,7 +186,7 @@ Names added, grepped in both test corpora and in `ProjectFortress/src/com/sun/fo
 
 ## Sentences made false
 
-- `Specification/appendices/changes.tex:1480-1486` at the base: "It does not yet open a type where-clause variable, as in List's commented clause (row 636)", and "The interpreter binds such a variable as a size when it loads the trait ...". Edited, now `:1486-1508`.
+- `Specification/appendices/changes.tex:1480-1486` at the base: "It does not yet open a type where-clause variable, as in List's commented clause (row 636)", and "The interpreter binds such a variable as a size when it loads the trait ...". Edited, now `:1486-1516`.
 - FACTS F-244, as the brief summarises it: "no hole was measured in this form". The opening under a function type's result is a hole of this form, and of the sizes' (row NEW-A-1). F-244's own sentence, that the opened type passes the escape, two-value, and Amin and Tate tests, holds.
 - FACTS F-243: its counts are the probe's and hold. With the clause live and the bodies moved, the four sites go together, which the probe had not measured.
 - POSITIONS P-151's "Still to build: the batch after climb batch 16" is built for its `AnyList` part.
@@ -205,7 +205,7 @@ Names added, grepped in both test corpora and in `ProjectFortress/src/com/sun/fo
    - `XXXOpenTypeOverloadChecker`: "There are multiple declarations of f with the same parameter type: AnyBox".
 4. **A walk test or a specification example whose verdict changes**: none of the gated ones (632 and 130, no failure). The new `OpenTypeWalk` goes from refused to running.
 5. **Part A's `appendAny`** was not needed: `List.fss:88` is gone with `app(self, f)` kept.
-6. **The sentences made false** are listed above. The Appendix I sentences edited are `changes.tex:1480-1486` at the base, now `:1486-1508`, and `:1438-1443` and `:1537-1540` are added to the same entry.
+6. **The sentences made false** are listed above. The Appendix I sentences edited are `changes.tex:1480-1486` at the base, now `:1486-1516`, and `:1438-1443` and `:1545-1548` are added to the same entry.
 7. **Files beyond those named**: no checker file is edited beyond the four named. `BuildEnvironments.java` is edited beyond `processWhereClauses`, in its comprises check (`:1185`, `:1197-1198`, `:1463-1467`), and `TypeAnalyzer.scala` gains `opensTypes` (`:889-895`). No line of B.2 (class `KindEnv`'s extend methods, `constraintBounds`, `STypesUtil.scala`) or of B.3 (`Decls.scala`, `TypeWellFormedChecker.scala`, conditional parents, `List`'s conditional extends) is edited.
 8. **The parent rule** of the brief and the probe is scoped to a type `where`-clause variable (Decision 2).
 9. **A hole was measured** in the opened form, where the brief and F-244 recorded none: row NEW-A-1.
@@ -248,6 +248,6 @@ Names added, grepped in both test corpora and in `ProjectFortress/src/com/sun/fo
 
 ## For the gather
 
-`Specification/appendices/changes.tex:1497` and `:1502` cite rows `NEW-A-2` and `NEW-A-1`. Put the rows' numbers there too.
+`Specification/appendices/changes.tex:1499` and `:1504` cite rows `NEW-A-2` and `NEW-A-1`, and `:1495`, `:1510`, `:1513` and `:1516` the skeptic's `NEW-A-3` to `NEW-A-6`. Put the rows' numbers there too.
 
 The branch `wip/rung-anylist-comprises` is at `fa7f66b44`, pushed. Its commits: `920d23b08` (the tests), `3aab602c4` (the guard test), `b6cb13000` (the change), `c6adc85f1` (the parent rule scoped to types), `fa7f66b44` (Appendix I and row 682's type face). The harness refused the write of this report and of `record.md`, so both texts are in the result.
