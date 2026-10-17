@@ -300,10 +300,11 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       // println("checking " + s + " <: " + t)
       val par = parents(s)
       // println(s + " has parents " + par)
-      // A parent whose comprises clause lists types at where-clause variables is
-      // not opened on the way up: s is one value, not every listed type.
+      // A parent whose comprises clause lists types at a type where-clause variable
+      // is not opened on the way up: s is one value, not every listed type.  A parent
+      // that opens only sizes is opened as before.
       val parentResult = pOr(par.map {
-        case p: TraitType if opensSizes(p) && !(t.getName.getText == p.getName.getText) =>
+        case p: TraitType if opensTypes(p) && !(t.getName.getText == p.getName.getText) =>
           pOr(parents(p).map(pSub(_, t)))
         case p => pSub(p, t) })
 //       comprisedTypes(s) match {   // Gets a stack overflow error; maybe we don't need this in practice.  GLS 6/6/12
@@ -879,6 +880,15 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def opensSizes(t: Type): Boolean = t match {
     case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
       case Some(ti: ProperTraitIndex) => !whereSizes(ti).isEmpty
+      case _ => false
+    }
+    case _ => false
+  }
+
+  /* Whether t is a trait whose comprises clause lists types at a type where-clause variable. */
+  def opensTypes(t: Type): Boolean = t match {
+    case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
+      case Some(ti: ProperTraitIndex) => whereSizes(ti).exists(_.getKind.isInstanceOf[KindType])
       case _ => false
     }
     case _ => false
