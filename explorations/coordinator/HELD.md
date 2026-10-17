@@ -22,6 +22,8 @@
 
 - 20:17 He stopped reading at item 2 of the batch 16 review (walk and pairs of generic declarations) and is asleep. Resume in the morning from the first held point not yet answered; hold everything until he says the reading is done.
 
+- 10:45 Answered: point 2 (the coordinator's asking rules moved to the top of its skill, `519208971`, with road.md's core simplified into it): approved. He says it was a good change, and the initiative too, but he was scared by a change taken on the coordinator's own initiative. Next time, brief him first on the nature of such a change and its reasoning, then make it; this is not a request to stop making them.
+
 ## Held in chat (2026-10-13)
 
 - 09:21 (2026-10-14) He asks to understand, not change, what the preparation and follow-up of a batch cost beside the batch itself (probes, planner, reviews, landing work), and to have it tallied for each batch; first figures by `spend.py` for climb batch 14: the run 4.82M, its preparation about 2.7M (planner with the fold 1.24M, Opus review with its check 1.10M, Fable review 0.38M), its landing work about 1.45M (review 0.61M, routing 0.30M, page 0.24M, record pass 0.20M, the skill writer about 0.1M); batch 15's two probes about 2M; the coordinating session's own tokens not counted. Measured on his follow-up of 10:39 UTC by a Sonnet worker (transcripts of batches 6 to 15): a plan's Fable review alone writes a median of 486K tokens and makes 11.5 changes (n=10); an Opus review 473K to 495K and 10 to 12 changes (n=2), its cached reads about ten times Fable's; the one finished Fable review after Opus (batch 14) 385K and 6 changes, batch 15's still running at 698K; a Fable token weighs three to four times an Opus token against the limits.
