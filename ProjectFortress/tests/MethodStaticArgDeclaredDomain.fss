@@ -1,0 +1,32 @@
+component MethodStaticArgDeclaredDomain
+export Executable
+
+(* A generic dotted method and a plain one of one name, one inherited and one the object's own, are chosen between on the parameter types they declare: the plain one where its type holds the argument, the generic one elsewhere. *)
+
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+
+trait Describes
+    describe[\T extends Shape\](x: T): String = "generic"
+end
+object Describer extends Describes
+    describe(x: Circle): String = "circle"
+end
+
+trait Kinds
+    kindOf(x: Circle): String = "circle"
+end
+object Kinder extends Kinds
+    kindOf[\T extends Shape\](x: T): String = "generic"
+end
+
+run(): () = do
+    assert(Describer.describe(Circle), "circle", "the object's plain method on Circle lies inside the inherited generic method's declared domain, so a Circle takes it; overloading.tex, section \"Applicability to Dotted Method Calls\"")
+    assert(Describer.describe(Square), "generic", "only the inherited generic method applies to a Square, with T = Square")
+    assert(Kinder.kindOf(Circle), "circle", "the inherited plain method on Circle lies inside the object's generic method's declared domain, so a Circle takes it")
+    assert(Kinder.kindOf(Square), "generic", "only the object's generic method applies to a Square")
+    println("PASS")
+  end
+
+end
