@@ -1,0 +1,36 @@
+component GenericMethodBesideConditionedMethodWalk
+export Executable
+
+(* A trait's generic dotted method inherited beside an object's plain one of the same name under a where clause, whose parameter type lies inside the generic's, loads under walk, and a call that the plain one fits runs it. *)
+
+trait Pair[\K\] comprises { NoPair[\K\], SomePair[\K\] }
+    getter found(): Boolean
+end
+object NoPair[\K\] extends Pair[\K\]
+    getter found(): Boolean = false
+end
+object SomePair[\K\] extends Pair[\K\]
+    getter found(): Boolean = true
+end
+
+trait Ranked end
+object Level extends Ranked end
+
+trait Red[\L\] end
+trait ActRed[\R,L\] extends Red[\L\]
+    distribute[\K\](r: ActRed[\R,K\]): Pair[\K\] = NoPair[\K\]
+end
+
+object Mx[\T\] extends ActRed[\T,Maybe[\T\]\] end
+
+object Sm[\T\] extends ActRed[\T,T\]
+    distribute(r: Mx[\T\]): Pair[\Maybe[\T\]\] where { T extends Ranked } = SomePair[\Maybe[\T\]\]
+end
+
+run(): () = do
+    s = Sm[\Level\]
+    assert(s.distribute(Mx[\Level\]).found, true, "the object's own distribute takes a Mx of the same element type")
+    println("PASS")
+  end
+
+end

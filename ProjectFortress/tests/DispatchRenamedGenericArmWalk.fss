@@ -1,6 +1,7 @@
-(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
-component XXXDispatchRenamedArmWalkRungG
+component DispatchRenamedGenericArmWalk
 export Executable
+
+(* Two generic declarations over Tag[X] and Sub[Y], whose static parameters have different names, are a valid overloading, the second more specific, and each call runs the one its argument selects, under walk. *)
 
 trait Tag[\X\] end
 trait Sub[\X\] extends Tag[\X\] end

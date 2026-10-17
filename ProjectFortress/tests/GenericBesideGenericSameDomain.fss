@@ -1,4 +1,4 @@
-component XXXGenericBesideGenericSameDomain
+component GenericBesideGenericSameDomain
 export Executable
 
 (* A generic declaration whose parameter types are its static parameters beside a generic one whose parameter types are their bounds is each applicable to every call to which the other is, so the No Duplicates Rule refuses the pair; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
