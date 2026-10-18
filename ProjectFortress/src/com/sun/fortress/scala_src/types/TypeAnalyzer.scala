@@ -856,7 +856,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   /* The nat, int and type where-clause variables of a trait declaration with a
    * comprises clause, as static parameters: comprises { N[\n\] } where
    * [\nat n\] lists N at every n, and comprises { List[\E\] } where [\E\]
-   * lists List at every E. */
+   * lists List at every E. A type variable is bounded by its binding and by
+   * each trait constraint of the clause on it: where [\E\] { E extends Foo }
+   * lists List at every E that extends Foo. */
   def whereSizes(ti: ProperTraitIndex): List[StaticParam] =
     if (ti.comprisesTypes.isEmpty) Nil
     else ti.ast match {
@@ -864,9 +866,12 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         case Some(w) => toListFromImmutable(w.getBindings).filter(b =>
             b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] ||
             b.getKind.isInstanceOf[KindType]).map(b =>
-            if (b.getKind.isInstanceOf[KindType])
-              NF.makeTypeParam(NU.getSpan(b), b.getName, b.getSupers, none[Type], false)
-            else
+            if (b.getKind.isInstanceOf[KindType]) {
+              val constraints = toListFromImmutable(w.getConstraints).collect {
+                case SWhereExtends(_, n, supers) if n.getText == b.getName.getText => supers }.flatten
+              NF.makeTypeParam(NU.getSpan(b), b.getName,
+                               toJavaList(toListFromImmutable(b.getSupers) ++ constraints), none[Type], false)
+            } else
             NF.makeStaticParam(NU.getSpan(b), null, b.getName,
                                _root_.java.util.Collections.emptyList[BaseType],
                                _root_.java.util.Collections.emptyList[BaseType],
