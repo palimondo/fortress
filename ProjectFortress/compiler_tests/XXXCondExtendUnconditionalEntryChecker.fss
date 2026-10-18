@@ -1,0 +1,14 @@
+(* An extends entry is checked without the condition of the entry beside it: Wrap[\E\] needs an ordered E, which only the conditional entry assumes. *)
+component XXXCondExtendUnconditionalEntryChecker
+export Executable
+
+trait Ord[\T extends Ord[\T\]\]
+  lt(o: T): Boolean
+end
+trait Wrap[\T extends Ord[\T\]\] end
+trait Shows end
+object Bad[\E\](x: E) extends { Wrap[\E\], Shows where { E extends Ord[\E\] } } end
+
+run(): () = println("unreachable")
+
+end

@@ -190,9 +190,15 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                        params, decls),
                       self, excludes, comprises, _) =>
         val oldAnalyzer = analyzer
-        // A conditional extension's conditions hold in the declaration.
+        // A conditional extension's conditions hold in the declaration,
         analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
-        walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+        walk(sparams); walk(where); walk(throwsC); walk(contract)
+        // but an extends entry is checked with its own conditions only.
+        val inDecl = analyzer
+        for (tw <- extendsC) {
+          if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))
+          walk(tw); analyzer = inDecl }
         walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
         analyzer = oldAnalyzer
       case SObjectDecl(_,
@@ -201,9 +207,15 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                         params, decls),
                        self) =>
         val oldAnalyzer = analyzer
-        // A conditional extension's conditions hold in the declaration.
+        // A conditional extension's conditions hold in the declaration,
         analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
-        walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+        walk(sparams); walk(where); walk(throwsC); walk(contract)
+        // but an extends entry is checked with its own conditions only.
+        val inDecl = analyzer
+        for (tw <- extendsC) {
+          if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))
+          walk(tw); analyzer = inDecl }
         walk(params); walk(decls); walk(self)
         analyzer = oldAnalyzer
       case SFnDecl(_,
