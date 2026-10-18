@@ -1,4 +1,4 @@
-component XXXInheritedGenericFunctionalMethodBesidePlain
+component InheritedGenericFunctionalMethodBesidePlain
 export Executable
 
 (* A generic functional method that a trait declares, beside a plain functional method of one name that the object declares, applies to an argument that only it fits. *)

@@ -2266,8 +2266,8 @@ where the receiver overloads the method's name (row~21): a generic method that a
 trait declares and an object inherits beside a plain overload of its own is
 chosen where the plain one does not apply.
 A generic functional method that a trait declares and an object inherits beside
-a plain functional method of its own is not chosen where only it applies: the
-call finds no overload, on the base as now (row~765).
+a plain functional method of its own was not chosen where only it applies: the
+call found no overload (row~765), until 18~October 2026.
 It still stops at load on an object or trait that declares a generic dotted
 method beside a plain one of the same name (row~760) and on an object or
 trait whose method has a parameter type with a \KWD{bool} static argument
@@ -2275,12 +2275,17 @@ trait whose method has a parameter type with a \KWD{bool} static argument
 method has a static parameter of its own bounded by the trait's, at load or at a
 generic object's first instance (row~762); and a dotted call that writes
 static arguments to a method its receiver overloads still stops (row~744).
-A generic dotted method that a trait declares it instantiates without reading
-the bounds where they are declared: a type parameter that is the whole type of
-parameters takes the narrowest named common supertype of the arguments'
-run-time types, none of them converted, where the same method declared in an
-object takes the narrowest type into which they convert, and a bounded type
-parameter that nothing fixes takes \TYP{BottomType} (row~766).
+Until 18~October 2026 it instantiated a generic dotted method that a trait
+declares without reading the bounds where they are declared: a type parameter
+that is the whole type of parameters took the narrowest named common supertype
+of the arguments' run-time types, none of them converted, where the same method
+declared in an object takes the narrowest type into which they convert, and a
+bounded type parameter that nothing fixes took \TYP{BottomType} (row~766).
+Since then it reads the bounds of a generic method that a trait declares, and
+the types into which the arguments convert, where the trait declares the
+method, as for a method that an object declares, and so it gives such a method
+the instance that it gives the same method declared in an object, and chooses
+the inherited generic functional method above where only it applies.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -2802,6 +2807,12 @@ rules, but finds a third declaration that holds the overlap of two neither of
 which lies inside the other only where their parameter types are, position by
 position, instances of one generic type or static parameters, so that it
 refuses that example (row~539).
+Of two generic functional methods one of whose declared domains lies inside
+the other's, it refuses at load the pair that a trait or object without
+static parameters declares, as failing the Meet Rule, where it loads the same
+two functions (row~779), and it loads the pair that a trait with static
+parameters declares, where a call to which both apply then fails, finding no
+definition of the method (row~780).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:

@@ -488,7 +488,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             }
         }
         try {
-            Environment env = g.getWithin().extendAt(tp);
+            Environment env = declarationEnv(g).extendAt(tp);
             EvalType.bindGenericParameters(tparams, tl, env, tp, tp);
             EvalType et = new EvalType(env);
             FType b = null;
@@ -501,6 +501,16 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         catch (FortressException ex) {
             return null;
         }
+    }
+
+    /**
+     * The environment in which the bounds of g's static parameters and the
+     * coercions of its arguments are read: where g is declared, as for a
+     * generic function, and for a method that a trait declares, the trait's
+     * method environment (GenericMethod.getTypeEnv).
+     */
+    private static Environment declarationEnv(GenericFunctionOrMethod g) {
+        return g instanceof GenericMethod ? ((GenericMethod) g).getTypeEnv() : g.getWithin();
     }
 
     /**
@@ -554,7 +564,8 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         }
         List<StaticParam> tparams = appliedThing.getStaticParams();
         List<Param> params = appliedThing.getParams();
-        EvalType et = new EvalType(appliedThing.getWithin());
+        Environment declared = declarationEnv(appliedThing);
+        EvalType et = new EvalType(declared);
         BoundingIntervals abm = new BoundingIntervals(true);
         Set<String> tp_set = new HashSet<String>();
         Set<String> typeParams = new HashSet<String>();
@@ -632,12 +643,12 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
             if (fixedElsewhere.contains(n) && fixed != null && !(fixed instanceof BottomType)) continue;
             boolean selfBounded = selfBounded(n, rechecks);
             FType chosen = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
-                                     appliedThing.getWithin(), selfBounded);
+                                     declared, selfBounded);
             FType bound = boundOf(abm, n);
             if (chosen == null && !selfBounded && allSubtypes(e.getValue(), bound)) chosen = bound;
             if (TRACE != null && !selfBounded) {
                 FType before = narrowest(n, e.getValue(), abm, rechecks, tp_set, envForInference, bounds.get(n),
-                                         appliedThing.getWithin(), true);
+                                         declared, true);
                 if (before == null || !before.equals(chosen)) {
                     traceInstance("lone", appliedThing, n, before == null ? "join" : before, chosen,
                                   typesOf(e.getValue()));

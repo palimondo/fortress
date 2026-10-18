@@ -1,0 +1,18 @@
+component GenericBesidePlainReturnRuleWalk
+export Executable
+
+(* A plain declaration over Round inside a generic one over T extends Shape that returns Box[T] breaks the Return Type Rule, since for a Circle the generic's instance at Circle returns a Box of Circle and the plain one returns a Box of Round, so walk refuses the pair at load; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Box[\E\](v: E) end
+
+f[\T extends Shape\](x: T): Box[\T\] = Box[\T\](x)
+f(x: Round): Box[\Round\] = Box[\Round\](x)
+
+run(): () = do
+    println(f(Circle).v)
+  end
+
+end

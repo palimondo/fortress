@@ -5369,3 +5369,9 @@ note added
 note added
 
 | 754 | under walk, the comprises check at load reads a listed type at every type of a bounded type `where`-clause variable: it loads `object NBox[\E\](item: E) extends AnyNumBox` for `trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]`, and runs `b: AnyNumBox = NBox[\String\]("s")` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXComprisesWhereBoundExtender.fss` | climb batch 17 rung A's skeptic | siblings: 753. Since rung A the check reads a `where`-clause variable as a variable for any type, before the environment (`BuildEnvironments.java:1463-1467`, `named` at `:1513`), without its binding's bound; a size has none. The base refuses the clause, 'E is undefined.' The text lists the type at every value of the variable, the types below its bound, and an object that extends the trait must be a subtype of a listed type. |
+
+### Row 772
+
+note added
+
+| 772 | on the compiled path, a trait's generic method called on a `ZZ32` and an `RR64` infers `Object` and leaves the `ZZ32` unconverted: `wrap[\T\](a: T, b: T): Box[\T\]` on `3: ZZ32` and `2.5: RR64` gives `Box[\Object\]`, where walk gives `Box[\RR64\]` and the `ZZ32` converts into `RR64` (P-74) | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `basic/inference.tex`, "The Static Arguments of a Call" | `explorations/perf-probes/trait-generic-method-inference/REPORT.md` | climb batch 17's landing review, probe of row 766 | the compiler prelude's `trait RR64` declares `coerce(x: FloatLiteral)` and `coerce(x: RR32)` and no `coerce(x: ZZ32)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435` at `5dd54b64b`), so no type that both arguments convert into is narrower than `Object`. Measured on a trait's generic method only, not on a top-level function. The prelude goes at the switch-over (P-38), so this row waits for the one library. |
