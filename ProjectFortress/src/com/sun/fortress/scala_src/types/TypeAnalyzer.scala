@@ -958,7 +958,20 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     conditionalParents(s) match {
       case Nil => r
       case cps => pOr(r, pOr(cps.map { case (p, conds) =>
-        pAnd(pAnd(conds.map { case (x, b) => pSub(x, b) }), through(p)) }))
+        pAnd(pAnd(conds.map { case (x, b) => condition(x, b) }), through(p)) }))
+    }
+
+  /* The condition x extends b of a conditional parent.  A type variable that this
+   * analyzer's kind environment does not bind, as an analyzer outside the declaration
+   * (the code generator's) does not bind the declaration's static parameters, leaves
+   * the condition unread: the parent is read at every instance, as the code generator
+   * builds the declaration's class. */
+  private def condition(x: Type, b: BaseType)(implicit negate: Boolean, history: Set[hType]): CFormula =
+    x match {
+      case SVarType(_, id, _) =>
+        traits.readContext()
+        if (env.staticParam(id).isEmpty) pTrue() else pSub(x, b)
+      case _ => pSub(x, b)
     }
 
   def ancestors(t: TraitType): Set[BaseType] =

@@ -1,0 +1,28 @@
+(* A generic object that inherits a method from a trait and from the trait's conditional parent compiles, and is ordered where its element is. *)
+component CondExtendInheritedMember
+export Executable
+
+trait Ord[\T\]
+  lt(o: T): Boolean
+end
+object Num(v: ZZ32) extends Ord[\Num\]
+  lt(o: Num): Boolean = v < o.v
+end
+trait Seq[\E\] extends { Ord[\Seq[\E\]\] where { E extends Ord[\E\] } }
+  hd(): E
+  lt(o: Seq[\E\]): Boolean = hd().lt(o.hd())
+end
+object One[\E\](h: E) extends Seq[\E\]
+  hd(): E = h
+end
+
+less[\T extends Ord[\T\]\](x: T, y: T): Boolean = x.lt(y)
+
+run(): () = do
+    assert(less[\Seq[\Num\]\](One[\Num\](Num(1)), One[\Num\](Num(2))), "one before two")
+    later = One[\Num\](Num(2)).lt(One[\Num\](Num(1)))
+    assert(NOT later, "two not before one")
+    println("PASS")
+  end
+
+end
