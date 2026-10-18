@@ -2,7 +2,7 @@
 
 # Rung W of climb batch 18: a trait's generic method's bounds, and the rule that refuses a generic pair
 
-- problem: the batch 17 landing review's finding 1, row 766 against P-46, P-48 and P-74, and its finding 3, the refusal that names the rule P-45 removed (`explorations/reviews/batch-17-review.md:13-31`, `:39-44`).
+- problem: the batch 17 landing review's finding 1, row 766 against P-46, P-48 and P-74, and its finding 3, the refusal that names the rule P-45 removed (`explorations/reviews/batch-17-review.md:13-30`, `:39-44`).
 - spec: `Specification/basic/inference.tex:47-180` ("The Static Arguments of a Call": the narrowest type into which every argument converts, the bound where nothing fixes a type parameter, never `BottomType`, `:81-106`); the three rules by name, `Specification/advanced/overloading.tex:531-564` ("Declarations with Static Parameters").
 - precedent: a trait's method's instances evaluate their types in the trait's method environment, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java:69` and `TraitMethod.java:29-31`, and batch 17's call path passes that environment (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/DottedMethodApplication.java:179`); walk's own refusal form, "Overloading of X and Y fails ...", `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:607-654` at 5c5dee93d (`describeOverloadingFailure`).
 - deviation: `TraitGenericMethodInference` asserts two values beyond the patch's text, the `ZZ32`-with-`RR64` call (`ProjectFortress/tests/TraitGenericMethodInference.fss:63-64`).

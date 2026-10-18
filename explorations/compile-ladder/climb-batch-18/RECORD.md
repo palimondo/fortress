@@ -114,7 +114,7 @@ Each by `ledger.py close N --commit <the rung's commit on main> --test <the test
 **Skeptic's fixes**, all corrections, none contested, no ruling:
 - `b03b77e8b`: the worker's `REPORT.md` and `record.md`, byte for byte from the journal.
 - `eb5a6a73d`: a defect with no home, two generic functional methods of a trait with a static parameter, one inside the other, which load and whose call fails, 'Cannot find definition for method which[...] given receiver H[\ZZ32\]', on the base and the head, recorded as `XXXGenericTraitFunctionalMethodsNestedWalk` and NEW-W-2 (780); NEW-W-1's (779) claim narrowed to a trait or object without static parameters; rows 713 and 539's claim added to the record's list of what the change makes false; a sentence added to the F-253 text, that a call outside a trait method's bound still fails with unification's error, unlike the object's method.
-- `f3c031c47`: `REPORT.md:5`'s citation of the landing review, findings 1 and 3 at `explorations/reviews/batch-17-review.md:13-31` and `:39-44`; sections 8 and 11 also named row 713 and row 539's claim.
+- `f3c031c47`: `REPORT.md:5`'s citation of the landing review, findings 1 and 3 at `explorations/reviews/batch-17-review.md:13-30` and `:39-44`; sections 8 and 11 also named row 713 and row 539's claim.
 
 **Folded.** F-257 ("Under walk, a pair of declarations that the load check reads on its declared domains and refuses is refused in the name of the rule it breaks.") at the end of "Landed semantics", its list joined into one line. Rows 779 and 780. A note on row 772; the note on row 21 was refused (closed), and those on rows 539, 713, 550, 740, 219, 416 and 364 have no room, as the record says, each refused by the tool (below). Rows 766 and 765 closed. Its item for the curator in `PLAN.md`.
 
@@ -246,6 +246,8 @@ Each landed rung's "Revival change" section, both its parts word for word, in th
 **Provenance.** P-151 (only the `where` forms the team wrote down are built; a trait that extends another under a `where` condition is that type only where it holds, its members checked under it), whose reading the curator accepted on 2026-10-16 at 12:35 UTC; the tuple-comparisons judgement's way 3 for lists, with the structural `=`; the batch record's question 2, answered by its default, one entry under `StandardTotalOrder`, and the coordinator's calls 4 to 8; climb batch 18, rung X.
 
 Lines on `main`: the change cites the team's tree at `a874948ac` and the landed library and tests, whose lines are rung X's alone; they stand. Skill sentences made false: none listed by the rung's report; the skill's part on revival changes gains this change.
+
+Correction by the merged-diff review: the change's "with the constraints holding inside the declaration" predates the skeptic's upheld `bd18b6a47`. As landed, the constraints hold while the entry itself and the declaration's members are checked, and not while its other `extends` entries are (`Specification/basic/trait-parameters.tex:375-378`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:196-201`, `:213-218`). The static parameters, the declaration's own `where` clause, and the `excludes` and `comprises` clauses are still checked with every conditional entry's conditions holding (`:194-195`, `:202`, `:211-212`): the review's blocking finding.
 
 ### K (`rung-checker-where-checks`, `396e4ed8d`)
 
