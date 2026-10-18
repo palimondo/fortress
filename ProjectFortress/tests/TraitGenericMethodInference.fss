@@ -1,0 +1,68 @@
+component TraitGenericMethodInference
+export Executable
+
+(* A generic dotted method that a trait declares and an object inherits takes its static arguments as an object's own generic method does: the narrowest type into which number arguments convert, and its bound where nothing fixes it. *)
+
+object Box[\T\](v: T) end
+object Empty[\T\]() end
+
+shown(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    else => "other"
+  end
+
+boxKind(b: Any): String = typecase b of
+    Box[\ZZ64\] => "Box[ZZ64]"
+    Box[\RR64\] => "Box[RR64]"
+    else => "other"
+  end
+
+valueKind(v: Any): String = typecase v of
+    RR64 => "RR64"
+    else => "other"
+  end
+
+emptyKind(b: Any): String = typecase b of
+    Empty[\Number\] => "Empty[Number]"
+    Empty[\ZZ64\] => "Empty[ZZ64]"
+    Empty[\Box[\Number\]\] => "Empty[Box[Number]]"
+    else => "other"
+  end
+
+trait Makes
+    wrap[\T\](a: T, b: T): Box[\T\] = Box[\T\](a)
+    make[\T extends Number\](): Empty[\T\] = Empty[\T\]()
+    pair[\A extends Number, B extends Box[\A\]\](): Empty[\B\] = Empty[\B\]()
+end
+object Maker extends Makes end
+
+trait Sames
+    same[\T extends Number\](a: T, b: T): String = shown(a) || "," || shown(b)
+end
+object Over extends Sames
+    same(a: String, b: String): String = "strings"
+end
+
+trait Holds[\S extends Number\]
+    held[\T extends S\](): Empty[\T\] = Empty[\T\]()
+end
+object Holder[\S extends Number\]() extends Holds[\S\] end
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    r: RR64 = 2.5
+    assert(boxKind(Maker.wrap(z, w)), "Box[ZZ64]", "a ZZ32 and a ZZ64 fix T = ZZ64, the narrowest type into which both convert; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(shown(Maker.wrap(z, w).v), "3:ZZ64", "the ZZ32 argument is converted to the instance's parameter type ZZ64; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(emptyKind(Maker.make()), "Empty[Number]", "a type parameter that nothing fixes takes its bound, never BottomType; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(emptyKind(Maker.pair()), "Empty[Box[Number]]", "a bound that names another static parameter is read at that parameter's instance; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(Over.same(z, w), "3:ZZ64,4:ZZ64", "beside the object's own overload, a ZZ32 and a ZZ64 fix T = ZZ64 and the ZZ32 is converted; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(emptyKind(Holder[\ZZ64\]().held()), "Empty[ZZ64]", "a bound that names the trait's static parameter is read at the receiver's instance, and T takes it; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(boxKind(Maker.wrap(z, r)), "Box[RR64]", "a ZZ32 and an RR64 fix T = RR64, the narrowest type into which both convert; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(valueKind(Maker.wrap(z, r).v), "RR64", "the ZZ32 argument is converted to the instance's parameter type RR64; inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end
