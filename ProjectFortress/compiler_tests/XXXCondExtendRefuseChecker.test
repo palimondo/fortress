@@ -1,3 +1,4 @@
 tests=XXXCondExtendRefuseChecker
 compile
 compile_err_contains=File XXXCondExtendRefuseChecker.fss has 2 errors.
+compile_err_matches=(?s).*Could not check call to function less.*argument of type .Lst..Fn...?, Lst..Fn.*Could not check call to function sum.*argument of type .Vec..String...?, Vec..String.*
