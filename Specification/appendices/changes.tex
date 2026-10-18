@@ -214,7 +214,10 @@ It gives no order to a list of partially ordered elements, of \TYP{RR64},
 that a lexicographic order ``may be partial or total depending on whether the
 ordering of the elements is partial or total''
 (\nolinkurl{Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex},
-lines 520--522): no partial lexicographic order of lists is declared.
+lines 520--522), and where the operators chapter's subsection
+``Comparisons Operators'' compares lists ``whose elements support these same
+comparison operators'', as floating-point numbers do: no partial
+lexicographic order of lists is declared.
 The compiled type checker still lets a member that it checked with the
 constraints holding be called where they fail: it accepts a call of such
 a member on an instance whose static arguments do not satisfy them
@@ -222,6 +225,12 @@ a member on an instance whose static arguments do not satisfy them
 Its other readers of an \KWD{extends} clause, the members a type inherits
 and its checks of the type hierarchy, read the entry as extended at every
 instance.
+An entry under a clause that introduces a \KWD{where}-clause variable or
+holds a constraint that is not a trait constraint, as the entries of the
+team's sketch of conditional subtyping do
+(\nolinkurl{Specification-1.0-frozen/appendices/internal-document.tex},
+lines 483--512, its subsection ``Conditional Subtyping''), is read as
+extended at every instance on both paths.
 The interpreter reads the extension as holding at every instance, and so
 does the compiled run time: a type test of an instance whose static
 arguments fail the constraints answers \VAR{true} on both
