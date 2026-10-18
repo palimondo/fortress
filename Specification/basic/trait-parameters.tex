@@ -365,6 +365,31 @@ occur either as a static parameter or as a \KWD{where}-clause variable.
 \appref{where-calculus} describes a Fortress core calculus with
 \KWD{where} clauses.
 
+An entry of an \KWD{extends} clause may carry a \KWD{where} clause of its
+own (\secref{trait-decls}).
+If that clause introduces no \KWD{where}-clause variable and all its
+constraints are trait constraints, the declared trait or object extends the
+entry's type exactly where the constraints hold:
+an instance whose static arguments satisfy them is of that type,
+and an instance whose static arguments do not satisfy them is not.
+Within the declaration the constraints hold: its \KWD{extends} clause and
+its members are checked as if the constraints were in the declaration's own
+\KWD{where} clause.
+So a list is totally ordered exactly where its elements are:
+%trait List[\E\] extends { ZeroIndexed[\E\],
+%    LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+%end
+\begin{Fortress}
+\(\KWD{trait}\:\TYP{List}\llbracket{}E\rrbracket \KWD{extends} \{\TYP{ZeroIndexed}\llbracket{}E\rrbracket,\)\\
+{\tt~~~~}\pushtabs\=\+\(    \TYP{LexicographicOrder}\llbracket\TYP{List}\llbracket{}E\rrbracket,E\rrbracket \KWD{where} \{E \KWD{extends}\:\TYP{StandardTotalOrder}\llbracket{}E\rrbracket\}\}\)\-\\\poptabs
+\(\KWD{end}\)
+\end{Fortress}
+\revision{revival-conditional}{This paragraph and its example are new.
+The Working Draft of February 2011 gave each entry of an \KWD{extends}
+clause an optional \KWD{where} clause in its grammar and stated no meaning
+for it, and its front matter lists conditional extension among the
+features not yet supported.}
+
 A \KWD{where}-clause variable may not appear as a static argument
 in an \KWD{extends} clause.
 Such an occurrence would make the declared trait or object a subtype of

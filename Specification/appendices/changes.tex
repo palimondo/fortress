@@ -153,6 +153,94 @@ declarations (\secref{revival-calculi}).
 infinitely many instantiations of one trait.
 \end{description}
 
+\subsection{Conditional extension}
+\seclabel{revival-conditional}
+
+\begin{description}
+\item[Affected section] \secref{where-clauses}.
+\item[Change] A paragraph and an example are added, with a box: where the
+\KWD{where} clause of an entry of an \KWD{extends} clause introduces no
+\KWD{where}-clause variable and all its constraints are trait constraints,
+the declared trait or object extends the entry's type exactly where the
+constraints hold, and within the declaration the constraints hold while its
+\KWD{extends} clause and its members are checked; the example is
+\library's list, totally ordered exactly where its elements are.
+\item[Rationale] This change does not follow from route~A; the revival
+decided on 16~October 2026 to build the forms of \KWD{where} clause the team
+wrote down, among them that a trait that extends another under a
+\KWD{where} condition is that type only where the condition holds and that
+its members are checked under the condition, as Haskell checks an
+instance's context, Rust a conditional implementation and Swift a
+conditional conformance.
+The grammar gives each entry of an \KWD{extends} clause its own optional
+\KWD{where} clause, and the text orders lists ``whose elements support these
+same comparison operators''
+(\nolinkurl{Specification-1.0-frozen/basic/operators/opr-overview.tex},
+lines 284--285), which no
+unconditional declaration of the list type can state:
+\library\ declared their list type as lexicographically ordered at every
+element type, so the compiled type checker refused the comparison of two
+elements of an unbounded type in the order's own body.
+The team's internal notes foresaw conditional subtyping and its cost,
+that ``we may also not be able to tell whether a trait has a particular
+method'' (\nolinkurl{Specification-1.0-frozen/appendices/internal-document.tex},
+lines 538--543, in its subsection ``No Wrapped Fields Whose Types Are Naked
+Type Variables'').
+A clause that introduces a \KWD{where}-clause variable, or whose
+constraints are not all trait constraints, keeps the reading it had: the
+entry is extended at every instance.
+\library's list keeps an element-wise \EXP{=} of its own outside the
+condition, so that a list whose elements are not ordered, a list of pairs
+among them, is still compared element by element.
+The alternative not taken is to read the clause as limiting nothing, the
+extension holding at every instance, under which the clause has no effect
+and the list's order needs another construct.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md}
+in the revival's repository.
+\item[Effect] The compiled type checker reads such a clause as this
+section says: a value of an instance whose static arguments satisfy the
+constraints is of the entry's type, one whose static arguments do not is
+refused where that type is expected, and the declaration's members and
+\KWD{extends} clause are checked with the constraints holding.
+\library's \TYP{LexicographicOrder} bounds its element type by
+\TYP{StandardTotalOrder}, and its list extends it under the constraint
+that its element type does, so the compiled type checker orders a list
+exactly where its elements are totally ordered.
+It gives no order to a list of partially ordered elements, of \TYP{RR64},
+\TYP{QQ} or ranges among them, where \secref{partial-total-orders} says
+that a lexicographic order ``may be partial or total depending on whether the
+ordering of the elements is partial or total''
+(\nolinkurl{Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex},
+lines 520--522): no partial lexicographic order of lists is declared.
+The compiled type checker still lets a member that it checked with the
+constraints holding be called where they fail: it accepts a call of such
+a member on an instance whose static arguments do not satisfy them
+(row~NEW-X-1 of the revival's gap ledger).
+Its other readers of an \KWD{extends} clause, the members a type inherits
+and its checks of the type hierarchy, read the entry as extended at every
+instance.
+The interpreter reads the extension as holding at every instance, and so
+does the compiled run time: a type test of an instance whose static
+arguments fail the constraints answers \VAR{true} on both
+(row~NEW-X-2, gated for the interpreter by
+\nolinkurl{ProjectFortress/tests/XXXConditionalExtensionTypeTestWalk.fss}),
+so the interpreter keeps the order of a list of tuples or of floating-point
+numbers.
+The code generator compiles a declaration whose \KWD{extends} clause has
+such a clause; it refuses one that carries a \KWD{where} clause of its own
+(row~701).
+\item[Original text] No such paragraph. The grammar is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, line 83,
+\begin{quote}
+\emph{TraitTypeWhere} ::= \emph{TraitType} \emph{Where}?
+\end{quote}
+and the front matter lists ``where clauses and conditional extension''
+among the features not yet supported
+(\nolinkurl{Specification-1.0-frozen/fortress/preamble.tex}, line 82).
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{The covariance example}
 \seclabel{revival-covariance}
 
