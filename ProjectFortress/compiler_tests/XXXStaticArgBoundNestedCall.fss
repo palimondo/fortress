@@ -1,0 +1,17 @@
+component XXXStaticArgBoundNestedCall
+export Executable
+
+(* A call whose static argument does not satisfy the bound of the callee's result type, passed to another call of the same callee at the same static argument, is reported at the inner call, and the outer call is not reported. *)
+
+trait K comprises { A, B } end
+object A extends K end
+object B extends K end
+trait V[\T extends K\] end
+object DefV[\T extends K\]() extends V[\T\] end
+
+next[\T extends K\](x: Any): V[\T\] = DefV[\T\]()
+both[\T\](x: Any): Any = next[\T\](next[\T\](x))
+
+run(): () = println("FAIL: both calls next at a type outside its bound")
+
+end

@@ -1,0 +1,15 @@
+(* A comprises clause lists a type at the values of its where-clause variable that meet the clause's constraint on it, so an object that extends the trait at a static argument outside that constraint is not a listed type; trait-parameters.tex, section "Where Clauses", and traits.tex, section "Trait Declarations". *)
+component XXXComprisesWhereConstraintExtenderChecker
+export Executable
+
+trait Foo
+  foo(): ZZ32
+end
+trait AnyBox comprises { Box[\E\] } where [\E\] { E extends Foo }
+end
+object Box[\E extends Object\](item: E) extends AnyBox
+end
+
+run(): () = println("refused")
+
+end

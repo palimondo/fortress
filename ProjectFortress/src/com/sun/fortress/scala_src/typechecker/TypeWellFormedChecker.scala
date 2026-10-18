@@ -256,6 +256,37 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                     " does not satisfy the corresponding bound " + new_bound + ".", t)
             }
           sargs.zip(toListFromImmutable(sparams)).foreach(wfStaticArgs)
+          // A trait's or object's own where clause bounds the static parameters its
+          // constraints name, so its static arguments meet them as they meet the
+          // bounds. A constraint whose bound names a where-clause variable is not
+          // read here.
+          toOption(NodeUtil.getWhereClause(si.ast)) match {
+            case Some(SWhereClause(_, bindings, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
+              val vars = bindings.map(_.getName.getText).toSet
+              var named = false
+              object finder extends Walker {
+                override def walk(node: Any): Any = node match {
+                  case v: VarType if vars(v.getName.getText) => named = true; node
+                  case r: IntRef if vars(r.getName.getText) => named = true; node
+                  case _ => super.walk(node)
+                }
+              }
+              for (SWhereExtends(_, n, supers) <- cs;
+                   pair <- sargs.zip(toListFromImmutable(sparams)).find(_._2.getName.getText == n.getText).toList;
+                   if pair._1.isInstanceOf[TypeArg];
+                   bound <- supers) {
+                named = false; finder(bound)
+                if (!named) {
+                  val new_bound = replacer.replaceIn(bound)
+                  if ( ! isTrue(analyzer.subtype(pair._1.asInstanceOf[TypeArg].getTypeArg,
+                      new_bound))(analyzer))
+                    error("Ill-formed type: " + t +
+                        "\n    The static argument " + pair._1 +
+                        " does not satisfy the corresponding bound " + new_bound + ".", t)
+                }
+              }
+            case _ =>
+          }
         } else error("Ill-formed type: " + t +
             "\n    The numbers of the static parameters and " +
             "the static arguments do not match.", t)

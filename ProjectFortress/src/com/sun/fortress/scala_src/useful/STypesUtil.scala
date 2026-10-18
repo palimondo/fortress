@@ -192,9 +192,26 @@ object STypesUtil {
         case d: FunctionalMethod => toOption(d.ast.getHeader.getWhereClause)
         case _ => None
       }
+      // The where clause's own type, nat and int variables are static
+      // parameters of the arrow after the declared ones, inferred at the call,
+      // so that a constraint whose bound names one is met where some value of
+      // it meets every constraint.
+      val declared = toListFromImmutable(getStaticParameters(f, lifted))
+      val whereVars: List[StaticParam] = declWhere match {
+        case Some(SWhereClause(_, bs, _)) => bs.filter(b => !declared.exists(_.getName.getText == b.getName.getText)).collect {
+          case b if b.getKind.isInstanceOf[KindType] =>
+            NF.makeTypeParam(NU.getSpan(b), b.getName, b.getSupers, none[Type], false)
+          case b if b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] =>
+            NF.makeStaticParam(NU.getSpan(b), null, b.getName,
+                               java.util.Collections.emptyList[BaseType],
+                               java.util.Collections.emptyList[BaseType],
+                               none[Type], false, b.getKind)
+        }
+        case _ => Nil
+      }
       val sparamsJava = declWhere match {
         case Some(SWhereClause(_, _, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
-          toJavaList(toListFromImmutable(getStaticParameters(f, lifted)).map(sp => {
+          toJavaList((declared ++ whereVars).map(sp => {
             val extra = cs.collect { case SWhereExtends(_, n, supers) if n.getText == sp.getName.getText => supers }.flatten
             if (extra.isEmpty) sp
             else NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id],

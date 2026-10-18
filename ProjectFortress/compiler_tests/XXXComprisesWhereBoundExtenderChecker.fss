@@ -1,0 +1,12 @@
+(* A comprises clause lists a type at the values of its where-clause variable below the variable's bound, so an object that extends the trait at a static argument outside that bound is not a listed type; traits.tex, section "Trait Declarations". *)
+component XXXComprisesWhereBoundExtenderChecker
+export Executable
+
+trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]
+end
+object NBox[\E extends Object\](item: E) extends AnyNumBox
+end
+
+run(): () = println("refused")
+
+end

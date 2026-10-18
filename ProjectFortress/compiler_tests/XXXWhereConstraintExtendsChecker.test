@@ -1,0 +1,5 @@
+tests=XXXWhereConstraintExtendsChecker
+typecheck
+typecheck_err_WIcontains=Ill-formed type: Tr[\\String\\] The static argument String does not satisfy the corresponding bound Shows.
+typecheck_err_contains=XXXWhereConstraintExtendsChecker.fss:11:
+typecheck_err_WImatches=.*has 1 error\\..*

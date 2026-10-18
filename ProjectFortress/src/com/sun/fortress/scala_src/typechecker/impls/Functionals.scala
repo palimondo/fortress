@@ -970,6 +970,64 @@ trait Functionals { self: STypeChecker with Common =>
       return None
     }
 
+    // A method whose where clause constrains its trait's or object's static
+    // parameter applies only where the receiver's static argument meets the
+    // constraint. Each method comes instantiated at the receiver, its self
+    // type at the arguments that its original's self type gives the trait's
+    // parameters. A constraint whose bound names the method's own static
+    // parameters or where-clause variables is not read here.
+    import com.sun.fortress.scala_src.types.TypeAnalyzerUtil.substitute
+    def unmetWhere(m: Method): Option[(Type, Type)] = (m, m.originalMethod) match {
+      case (d: DeclaredMethod, o: DeclaredMethod) => toOption(o.ast.getHeader.getWhereClause) match {
+        case Some(SWhereClause(_, bindings, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
+          def selfArgs(st: Option[SelfType]): Option[List[StaticArg]] = st match {
+            case Some(STraitSelfType(_, STraitType(_, _, as, _), _)) => Some(as)
+            case _ => None
+          }
+          val params = toListFromImmutable(o.traitStaticParameters)
+          val args = selfArgs(toOption(d.selfType)).getOrElse(return None)
+          if (args.size != params.size) return None
+          val own = (toListFromImmutable(o.staticParameters).map(_.getName.getText) ++
+                     bindings.map(_.getName.getText)).toSet
+          var named = false
+          object finder extends Walker {
+            override def walk(node: Any): Any = node match {
+              case v: VarType if own(v.getName.getText) => named = true; node
+              case r: IntRef if own(r.getName.getText) => named = true; node
+              case _ => super.walk(node)
+            }
+          }
+          cs.collect { case SWhereExtends(_, n, supers) => (n, supers) }.flatMap { case (n, supers) =>
+            params.find(_.getName.getText == n.getText) match {
+              case Some(p) if p.getKind.isInstanceOf[KindType] =>
+                val arg = substitute(args, params, NF.makeVarType(NU.getSpan(n), n))
+                supers.flatMap { b =>
+                  named = false; finder(b)
+                  if (named) None
+                  else {
+                    val bound = substitute(args, params, b)
+                    if (isSubtype(arg, bound)) None else Some((arg, bound))
+                  }
+                }
+              case _ => Nil
+            }
+          }.headOption
+        case _ => None
+      }
+      case _ => None
+    }
+    val unmet = arrowsAndSchemataAndMethods.map(a => unmetWhere(a._3))
+    if (unmet.exists(_.isDefined)) {
+      val kept = arrowsAndSchemataAndMethods.zip(unmet).filter(_._2.isEmpty).map(_._1)
+      if (kept.isEmpty) {
+        val (arg, bound) = unmet.flatten.head
+        signal(loc, "Method %s.%s is not applicable: its where clause requires %s to extend %s.".
+                      format(normalize(recvrType), name, normalize(arg), normalize(bound)))
+        return None
+      }
+      arrowsAndSchemataAndMethods = kept
+    }
+
     // Instantiate the arrows if you were given static args
     if (!sargs.isEmpty) {
       arrowsAndSchemataAndMethods = arrowsAndSchemataAndMethods.

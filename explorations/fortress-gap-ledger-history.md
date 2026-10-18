@@ -5363,3 +5363,9 @@ note added
 note added
 
 | 71 | G1 — `import List` fails on the compiled path: the compiler's prelude has no `LexicographicOrder`, `Comprehension`, `BigReduction` or `MonoidReduction`, which `Library/List.fsi` names | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/library/optional-libraries.tex`, "List" | none | ours | The four errors (rc=255) are raised inside `Library/List.fsi` itself, at `:67`, `:110`, `:113` and `:131`; walk runs the same file to `PASS`. Two of the three names the row first named are now declared: `HasRank` (ladder rung 2, `Library/CompilerLibrary.fsi:274`) and `Maybe` (`:223-234`). Probes `explorations/compiler-probes/p15.fss` (`xs: List[\RR64\] = <\|[\RR64\] 1.0, 2.0, 3.0 \|>`) and `explorations/compile-ladder/rung-maybe/probes/skeptic/SkImportList.fss`, no longer in the tree. full text: history, row 71 |
+
+### Row 754
+
+note added
+
+| 754 | under walk, the comprises check at load reads a listed type at every type of a bounded type `where`-clause variable: it loads `object NBox[\E\](item: E) extends AnyNumBox` for `trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]`, and runs `b: AnyNumBox = NBox[\String\]("s")` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXComprisesWhereBoundExtender.fss` | climb batch 17 rung A's skeptic | siblings: 753. Since rung A the check reads a `where`-clause variable as a variable for any type, before the environment (`BuildEnvironments.java:1463-1467`, `named` at `:1513`), without its binding's bound; a size has none. The base refuses the clause, 'E is undefined.' The text lists the type at every value of the variable, the types below its bound, and an object that extends the trait must be a subtype of a listed type. |

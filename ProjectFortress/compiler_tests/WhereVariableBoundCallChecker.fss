@@ -1,5 +1,5 @@
 (* A call is accepted when a where-clause variable can be chosen to meet the constraints that bound the function's type parameters through it: n = 1 here. *)
-component XXXWhereVariableBoundCall
+component WhereVariableBoundCallChecker
 export Executable
 
 trait T

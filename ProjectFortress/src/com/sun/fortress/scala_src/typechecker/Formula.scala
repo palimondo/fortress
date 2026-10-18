@@ -646,7 +646,14 @@ object Formula{
 //	  println("newMap: " + newMap)
           if(isTrue(newMap))
             Some((sub compose tUnifier, oUnifier, nUnifier))
-          else {
+          else newMap match {
+            // A size that only the type variables' bounds name, as a where-clause
+            // variable in the bound of a function's type parameter, is fixed once
+            // the type variables are: solve what their solutions leave, sizes alone.
+            case And(rts, ros, rns) if rts.isEmpty && ros.isEmpty && !rns.isEmpty =>
+              slv(newMap, toBounds).map { case (t2, o2, n2) =>
+                (t2 compose sub compose tUnifier, o2 compose oUnifier, n2 compose nUnifier) }
+            case _ =>
 //               println("sub:" + sub + " on formula " + c)
                None
           }

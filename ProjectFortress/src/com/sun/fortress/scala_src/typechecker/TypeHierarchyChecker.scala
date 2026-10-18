@@ -315,16 +315,22 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
 			    "it is not a static parameter of " + name + ".", extension)
 		    case _ =>
 		  }
-		  // A type listed at where-clause sizes is listed at every size.
+		  // A type listed at where-clause sizes is listed at every size, and one
+		  // listed at a type where-clause variable at every type below its bound:
+		  // each variable's inference variable carries the bound.
 		  val whereSizes = analyzer.whereSizes(si)
-		  val subst_comprises =
-		    comprises.map(c => substitute(whereSizes.map(STypesUtil.makeInferenceArg),
-						  whereSizes,
-						  substitute(toListFromImmutable(st.getArgs),
-							     toListFromImmutable(si.staticParameters),
-							     c)).asInstanceOf[NamedType])
+		  val whereArgs = whereSizes.map(STypesUtil.makeInferenceArg)
+		  def atArgs(c: Type): Type =
+		    substitute(whereArgs, whereSizes,
+			       substitute(toListFromImmutable(st.getArgs),
+					  toListFromImmutable(si.staticParameters), c))
+		  val subst_comprises = comprises.map(c => atArgs(c).asInstanceOf[NamedType])
+		  val whereBounds: List[(Type, Type)] = whereSizes.zip(whereArgs).flatMap {
+		    case (p, STypeArg(_, _, iv)) => toListFromImmutable(p.getExtendsClause).map(b => (iv, atArgs(b)))
+		    case _ => Nil
+		  }
 		  if (! comprises.isEmpty &&
-		      ! isEligibleToExtend(tt, subst_comprises, new_analyzer, errors) &&
+		      ! isEligibleToExtend(tt, subst_comprises, new_analyzer, errors, whereBounds) &&
 		      ! NodeUtil.isComprisesEllipses(si.ast) )
 		    error(errors, "Invalid comprises clause: " + name +
 			  " has a comprises clause\n    but its immediate subtype " + decl +
@@ -379,16 +385,17 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
    */
   private def isEligibleToExtend(tt: TraitType, comprises: Set[NamedType],
 				 analyzer: TypeAnalyzer,
-				 errors:JavaList[StaticError]): Boolean = {
-    comprisesContains(comprises, tt, analyzer) ||
+				 errors:JavaList[StaticError],
+				 bounds: List[(Type, Type)] = Nil): Boolean = {
+    comprisesContains(comprises, tt, analyzer, bounds) ||
     (!tt.getArgs.isEmpty &&
-       everyKnownSubtypeListed(tt, comprises, analyzer)) ||
+       everyKnownSubtypeListed(tt, comprises, analyzer, bounds)) ||
     (getTypes(tt.getName, errors) match {
       case ti:ProperTraitIndex =>
 	val t_comprises = ti.comprisesTypes
 	! t_comprises.isEmpty &&
 	toSet(t_comprises).filter(_.isInstanceOf[TraitType]).forall(t => isEligibleToExtend(t.asInstanceOf[TraitType],
-											    comprises, analyzer, errors))
+											    comprises, analyzer, errors, bounds))
       case _ => false
      })
   }
@@ -396,7 +403,8 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
   /** Whether the trait table knows at least one type that immediately extends
    *  the generic trait 'tt', and each such type is a subtype of a type in 'comprises'. */
   private def everyKnownSubtypeListed(tt: TraitType, comprises: Set[NamedType],
-				      analyzer: TypeAnalyzer): Boolean = {
+				      analyzer: TypeAnalyzer,
+				      bounds: List[(Type, Type)]): Boolean = {
     val subs = analyzer.traits.iterator.toList.collect{ case ti: TraitIndex => ti }.filter(ti =>
       toListFromImmutable(ti.extendsTypes).exists(tw => tw.getBaseType match {
         case st: TraitType => st.getName.getText.equals(tt.getName.getText)
@@ -404,21 +412,26 @@ class TypeHierarchyChecker(compilation_unit: CompilationUnitIndex,
     subs.nonEmpty && subs.forall(ti => toOption(ti.typeOfSelf) match {
       case Some(self) => SNodeUtil.getTraitType(self) match {
         case Some(sub) => comprisesContains(comprises, sub,
-			    analyzer.extend(toListFromImmutable(ti.staticParameters), None))
+			    analyzer.extend(toListFromImmutable(ti.staticParameters), None), bounds)
         case _ => false }
       case _ => false })
   }
 
+  /* bounds: each inference variable that stands for a type where-clause
+   * variable in the listed types, and a bound of that variable. */
   private def comprisesContains(comprises: Set[NamedType],
 				decl: Type,
-				analyzer: TypeAnalyzer): Boolean = {
+				analyzer: TypeAnalyzer,
+				bounds: List[(Type, Type)] = Nil): Boolean = {
     for (ty <- comprises) {
       ty match {
 	case _:TraitType =>
 	  val f = analyzer.subtype(decl, ty)
 	  if (isTrue(f)(analyzer)) return true
-	  // At some value of the sizes a listed type holds at every size
-	  if (STypesUtil.hasInferenceVars(ty) && solve(f)(analyzer).isDefined) return true
+	  // At some value of the sizes a listed type holds at every size, and at
+	  // some type below its bound at every type
+	  if (STypesUtil.hasInferenceVars(ty) &&
+	      solve(and(f, and(bounds.map { case (v, b) => analyzer.subtype(v, b) })(analyzer))(analyzer))(analyzer).isDefined) return true
 	case _ =>
       }
     }

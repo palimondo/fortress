@@ -1,0 +1,4 @@
+tests=XXXWhereBoundDottedCallChecker
+typecheck
+typecheck_err_contains=Method Holder[\\String\\].showIt is not applicable: its where clause requires String to extend Shows.
+typecheck_err_WIcontains=File XXXWhereBoundDottedCallChecker.fss has 2 errors.
