@@ -1,0 +1,15 @@
+(* A function's own static parameter E, whose bound names E, is not the where-clause variable E of another declaration's comprises clause, so pick applies to a CBox at ZZ32; trait-parameters.tex, section "Where Clauses". *)
+component XXXWhereVariableScopeWalk
+export Executable
+
+trait AnyC comprises { CBox[\E\] } where [\E\] { E extends StandardTotalOrder[\E\] }
+end
+object CBox[\G extends StandardTotalOrder[\G\]\](x: G) extends AnyC
+  get(): G = x
+end
+
+pick[\E extends StandardTotalOrder[\E\]\](b: CBox[\E\]): E = b.get()
+
+run(): () = assert(pick(CBox[\ZZ32\](3)), 3, "pick of a CBox at ZZ32")
+
+end
