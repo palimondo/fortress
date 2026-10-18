@@ -5339,3 +5339,27 @@ note added
 note added
 
 | 744 | under walk, a dotted call with explicit static arguments to a method name its receiver overloads stops, 'Don't actually resolve overloading of generic methods yet.': `Sm[\ZZ32\].distribute[\Lifted[\ZZ32\]\](Mx[\ZZ32\])`, an inherited `distribute[\K\]` beside a plain `distribute(r: Mx[\T\])` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/overloading.tex`, "Applicability to Dotted Method Calls" | none | generic-distribute probe | siblings: 21, 723. `DottedMethodApplication.typeApply` refuses any `OverloadedMethod` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/DottedMethodApplication.java:130` at 07c83a40a); the team met it in 2009 (`Library/Generator2.fss:75-76`). The same on the base 528438ac5. One declaration of the name runs. The compiled path dispatches the call to the plain method. Program and output: `explorations/perf-probes/generic-distribute/REPORT.md` sections 3, 5 and 7. With the generic `distribute` live (`cdd25b95d`), `SumReduction[\ZZ32\].distribute[\Maybe[\ZZ32\]\](MaxReduction[\ZZ32\])` stops so, as on the base, where the `Any` method overloaded the name. |
+
+### Row 752
+
+note added
+
+| 752 | the compiled checker does not open, as a parent, a trait whose `comprises` clause lists a type at a type `where`-clause variable: a value of an unlisted trait below it, `Mid[\ZZ32\]` for `trait Mid[\E\] extends AnyBox` and `object Box[\E\] extends Mid[\E\]`, is refused where `Box[\F\]` is expected | NEGATIVE-VERIFIED | design limit (checker) | silent | `ProjectFortress/compiler_tests/XXXOpenTypeThroughSubtraitChecker.test` | climb batch 17 rung A | 'is not applicable to an argument of type Mid[\ZZ32\]'. Not opening such a parent keeps a listed type from a second opening, `List[\E\]` through `AnyList`, which cost List 22 sites in the where-clause probe. A parent that lists a type at a size is opened as on the base, so the same shape at a size is accepted (`NatOpenThroughSubtraitChecker`). Walk runs the program. In the library only `List` extends `AnyList`. |
+
+### Row 17
+
+note added
+
+| 17 | the spec's declaration-site covariance idiom `trait C[\S\] extends C[\T\] where {S extends T}` is rejected: where-clause type variables are not bound in an `extends` clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/trait-parameters.tex:339-346`, "Where Clauses" | none | ours | `T is undefined.` Root cause of most static-argument ascriptions; `Library/CovariantCollection.fss` is the hand-rolled workaround. Probe `explorations/spec-probes/p16_covar.fss`, in the parent of `e879b6a44`. |
+
+### Row 748
+
+note added
+
+| 748 | the compiled checker does not check a method's `where` condition on its trait's or object's static parameter at a dotted call: in `Holder[\T\]`, with `showIt(): String where { T extends Shows }`, `Holder[\String\]("s").showIt()` is accepted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 17 rung L | siblings: 677, 701, 749, 750. `makeArrowFromFunctional` folds a constraint into the arrow's own static parameters (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:189-204` at cdd25b95d): a dotted method's arrow has none of its trait's; a functional method's lifted arrow has, so `describe(Holder[\String\]("s"))` is refused. `bin/fortress typecheck` of `trait Shows show(): String end`, `object Holder[\T\](x: T) showIt(): String where { T extends Shows } = x.show() end`, `run(): () = println(Holder[\String\]("s").showIt())` exits 0; the compile stops at row 701's wall. Walk stops in the body: 'Cannot find definition for method show'. |
+
+### Row 71
+
+note added
+
+| 71 | G1 — `import List` fails on the compiled path: the compiler's prelude has no `LexicographicOrder`, `Comprehension`, `BigReduction` or `MonoidReduction`, which `Library/List.fsi` names | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/library/optional-libraries.tex`, "List" | none | ours | The four errors (rc=255) are raised inside `Library/List.fsi` itself, at `:67`, `:110`, `:113` and `:131`; walk runs the same file to `PASS`. Two of the three names the row first named are now declared: `HasRank` (ladder rung 2, `Library/CompilerLibrary.fsi:274`) and `Maybe` (`:223-234`). Probes `explorations/compiler-probes/p15.fss` (`xs: List[\RR64\] = <\|[\RR64\] 1.0, 2.0, 3.0 \|>`) and `explorations/compile-ladder/rung-maybe/probes/skeptic/SkImportList.fss`, no longer in the tree. full text: history, row 71 |

@@ -176,6 +176,31 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
     case i: Id if i.getApiName.isNone && i.getText.contains("#") => Option(opened.get(i.getText))
     case _ => None
   }
+
+  /* The conditions under which a declaration extends the type of its extends entry
+   * tw: the trait constraints of tw's where clause, if the clause binds no variable
+   * and holds trait constraints only; none for any other entry, which is extended
+   * unconditionally, as before (TypeAnalyzer.isConditional). */
+  def extendsConditions(tw: TraitTypeWhere): List[WhereExtends] = toOption(tw.getWhereClause) match {
+    case Some(SWhereClause(_, Nil, cs)) if !cs.isEmpty && cs.forall(_.isInstanceOf[WhereExtends]) =>
+      cs.map(_.asInstanceOf[WhereExtends])
+    case _ => Nil
+  }
+
+  /* The where clause under which a declaration with the where clause where and the
+   * extends clause extendsC is checked: where, with the conditions of its conditional
+   * extends entries added, so that they hold while its members are checked and
+   * constraintBounds reads them as bounds. */
+  def withExtendsConditions(where: Option[WhereClause], extendsC: List[TraitTypeWhere]): Option[WhereClause] =
+    extendsC.flatMap(extendsConditions) match {
+      case Nil => where
+      case conds => where match {
+        case Some(SWhereClause(info, bs, cs)) => Some(SWhereClause(info, bs, cs ++ conds))
+        case None => Some(NF.makeWhereClause(conds.head.getInfo.getSpan,
+                                             toJavaList(List[WhereBinding]()),
+                                             toJavaList(conds: List[WhereConstraint])))
+      }
+    }
 }
 
 /**

@@ -1,0 +1,35 @@
+(* A pair is ordered when its elements are, and a vector adds when its elements do: a conditional extension holds where its condition does, and the declaration's members are checked with the condition holding. *)
+component CondExtendChecker
+export Executable
+
+trait Ord[\T extends Ord[\T\]\]
+  lt(o: T): Boolean
+end
+trait Add[\T extends Add[\T\]\]
+  plus(o: T): T
+end
+object Num(v: ZZ32) extends { Ord[\Num\], Add[\Num\] }
+  lt(o: Num): Boolean = v < o.v
+  plus(o: Num): Num = Num(v + o.v)
+end
+object Str(s: String) extends Ord[\Str\]
+  lt(o: Str): Boolean = false
+end
+object Lst[\E\](a: E, b: E) extends { Ord[\Lst[\E\]\] where { E extends Ord[\E\] } }
+  lt(o: Lst[\E\]): Boolean = a.lt(o.a)
+end
+object Vec[\E\](x: E) extends { Add[\Vec[\E\]\] where { E extends Add[\E\] } }
+  plus(o: Vec[\E\]): Vec[\E\] = Vec[\E\](x.plus(o.x))
+end
+
+less[\T extends Ord[\T\]\](x: T, y: T): Boolean = x.lt(y)
+sum[\T extends Add[\T\]\](x: T, y: T): T = x.plus(y)
+
+run(): () = do
+    println(less(Lst[\Num\](Num(1), Num(2)), Lst[\Num\](Num(2), Num(1))))
+    println(less(Lst[\Str\](Str("a"), Str("b")), Lst[\Str\](Str("b"), Str("a"))))
+    w: Vec[\Num\] = sum(Vec[\Num\](Num(1)), Vec[\Num\](Num(2)))
+    println("PASS")
+  end
+
+end
