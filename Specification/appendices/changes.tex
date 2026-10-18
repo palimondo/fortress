@@ -1487,15 +1487,18 @@ Since 17~October 2026 it opens a type \KWD{where}-clause variable in the same
 way, as in the clause of \TYP{AnyList} in \library\ (row~636): an argument whose
 type is such a trait, passed where the listed type is expected, takes the listed
 type at a type of the value's own for that call, bounded as the variable's
-binding bounds it and known to equal only itself; it does not bound that type
-by a trait constraint of the clause on the variable (\secref{where-clauses}),
-so that it refuses a call that needs the constraint's bound, a call the
-interpreter runs (row~771); it refuses an opened type that
+binding bounds it and by each trait constraint of the clause on the variable
+(\secref{where-clauses}), and known to equal only itself; before 18~October 2026
+it did not bound that type by such a constraint, and refused a call that needs
+the constraint's bound, a call the interpreter runs (row~771); it refuses an
+opened type that
 reaches a type naming another type, gives two values opened in one call two
-types, and reads a listed type at every type of the variable when it checks the
-traits and objects that extend \VAR{T}, whatever the variable's bound, so that
-it takes an extender that the clause lists only below that bound
-(row~753).
+types, and reads a listed type at the types below the variable's bounds, its
+binding's and its constraints', when it checks the traits and objects that
+extend \VAR{T}, so that it refuses an extender that the clause lists only below
+a bound its static argument does not meet; before 18~October 2026 it read a
+listed type at every type of the variable, whatever its bound, and took such an
+extender (row~753).
 It does not open a trait whose clause lists a type at a type
 \KWD{where}-clause variable where it reaches that trait as a supertype of
 another type, so that a value of a trait that extends it, and is not itself
