@@ -902,21 +902,23 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   /* A type ti's comprises clause lists, each where-clause variable opened: a
    * fresh name, equal only to itself (Formula.openedSizeName); a type is
    * bounded as its where-clause binding is, at the trait's static arguments
-   * args for its static parameters params. */
+   * args for its static parameters params, a bound that names a where-clause
+   * variable, the variable itself among them, naming it opened. */
   def openWhereSizes(ti: ProperTraitIndex, listed: Type, args: List[StaticArg], params: List[StaticParam]): Type =
     whereSizes(ti) match {
     case Nil => listed
     case ws =>
-      val opened: List[StaticArg] = ws.map(p =>
-        if (p.getKind.isInstanceOf[KindType]) {
-          val id = NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText))
-          val bounds = toListFromImmutable(p.getExtendsClause).map(b =>
-            (if (args.isEmpty) b else substitute(args, params, b)).asInstanceOf[BaseType])
-          KindEnv.registerOpened(id, NF.makeTypeParam(NU.getSpan(p), id, toJavaList(bounds), none[Type], false))
+      val ids = ws.map(p => NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))
+      val opened: List[StaticArg] = ws.zip(ids).map { case (p, id) =>
+        if (p.getKind.isInstanceOf[KindType])
           NF.makeTypeArg(NU.getSpan(p), NF.makeVarType(NU.getSpan(p), id)): StaticArg
-        } else
-          NF.makeIntArg(NU.getSpan(p),
-            NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))): StaticArg)
+        else
+          NF.makeIntArg(NU.getSpan(p), NF.makeIntRef(NU.getSpan(p), id)): StaticArg }
+      for ((p, id) <- ws.zip(ids) if p.getKind.isInstanceOf[KindType]) {
+        val bounds = toListFromImmutable(p.getExtendsClause).map(b =>
+          substitute(opened, ws, if (args.isEmpty) b else substitute(args, params, b)).asInstanceOf[BaseType])
+        KindEnv.registerOpened(id, NF.makeTypeParam(NU.getSpan(p), id, toJavaList(bounds), none[Type], false))
+      }
       substitute(opened, ws, listed)
   }
   
