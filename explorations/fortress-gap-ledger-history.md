@@ -5375,3 +5375,51 @@ note added
 note added
 
 | 772 | on the compiled path, a trait's generic method called on a `ZZ32` and an `RR64` infers `Object` and leaves the `ZZ32` unconverted: `wrap[\T\](a: T, b: T): Box[\T\]` on `3: ZZ32` and `2.5: RR64` gives `Box[\Object\]`, where walk gives `Box[\RR64\]` and the `ZZ32` converts into `RR64` (P-74) | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `basic/inference.tex`, "The Static Arguments of a Call" | `explorations/perf-probes/trait-generic-method-inference/REPORT.md` | climb batch 17's landing review, probe of row 766 | the compiler prelude's `trait RR64` declares `coerce(x: FloatLiteral)` and `coerce(x: RR32)` and no `coerce(x: ZZ32)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435` at `5dd54b64b`), so no type that both arguments convert into is narrower than `Object`. Measured on a trait's generic method only, not on a top-level function. The prelude goes at the switch-over (P-38), so this row waits for the one library. |
+
+### Row 634
+
+closed by 372b9bf6a
+
+| 634 | the one library's tuple comparisons and `LexicographicOrder` compare values of an unbounded type parameter: `<`, `<=`, `>`, `>=`, `CMP` on pairs and triples and `LexicographicOrder`'s `a CMP b` are 18 sites the compiled checker refuses | NEGATIVE-VERIFIED | design limit (library) | lists: `Specification/basic/operators/opr-overview.tex`, "Comparisons Operators"; tuples: silent | `ProjectFortress/tests/NumberOrderListDeclarations.fss` | climb batch 10 rung N | `Library/FortressLibrary.fss:4461-4556` at `9c9e823d5`, under the comment "Shouldn't these operators have to extend something? A,B,C?" (`:4453`), and `LexicographicOrder`'s `fn(a:E,b:E) => a CMP b` (`:1914`) give 'operator CMP ... is not applicable to an argument of type (A, A)'. A bound refuses what walk runs: `<` bounded `StandardPartialOrder` stops on `((1,2),3) < ((1,3),0)` ('Cannot unify (Int,Int) ... with StandardPartialOrder[\A\]'), which the library's `<` answers `true`; `List[\E\]` extends `LexicographicOrder[\List[\E\],E\]` at every element type. Probe `ProbeTuples.fss`: `explorations/compile-ladder/rung-number-order-slips/REPORT.md` section 5. Repair: the curator's, PLAN item 43 |
+
+### Row 748
+
+closed by 396e4ed8d
+
+| 748 | the compiled checker does not check a method's `where` condition on its trait's or object's static parameter at a dotted call: in `Holder[\T\]`, with `showIt(): String where { T extends Shows }`, `Holder[\String\]("s").showIt()` is accepted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 17 rung L | siblings: 677, 701, 749, 750. `makeArrowFromFunctional` folds a constraint into the arrow's own static parameters (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:189-204` at cdd25b95d): a dotted method's arrow has none of its trait's; a functional method's lifted arrow has, so `describe(Holder[\String\]("s"))` is refused. `bin/fortress typecheck` of `trait Shows show(): String end`, `object Holder[\T\](x: T) showIt(): String where { T extends Shows } = x.show() end`, `run(): () = println(Holder[\String\]("s").showIt())` exits 0; the compile stops at row 701's wall. Walk stops in the body: 'Cannot find definition for method show'. Row 773 waits on it. |
+
+### Row 749
+
+closed by 396e4ed8d
+
+| 749 | the compiled checker refuses each call to a function whose `where` constraint bounds a type parameter by a `where`-clause variable: `g(O, P)` for `g[\U,V\](u: U, v: V) where [\nat n\]{U extends {X[\n\]}, V extends {Y[\n\]}}`, `O` an `X[\1\]`, `P` a `Y[\1\]`, is refused, though `n = 1` meets both | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/XXXWhereVariableBoundCall.test` | climb batch 17 rung L | siblings: 677, 701, 748, 750. `makeArrowFromFunctional` folds both constraints into `U`'s and `V`'s bounds (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:189-204` at cdd25b95d) but the arrow binds no `n`: '... is not applicable to an argument of type (O, P)'. The base refused that body ('No such method U.f.'), and its checker accepts `g(O)` for `g[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}} = "g"`, which is refused here. `ProjectFortress/tests/GenericFnWithExcludes.fss:44` calls `g(O,P)` with `P` a `Y[\2\]`, which no `n` meets: refused by the text, though the team's test expects it to run (`:45`). Walk runs both. |
+
+### Row 750
+
+closed by 396e4ed8d
+
+| 750 | the compiled checker does not check a trait's or object's own `where` constraint at a use of its type: with `object Wrap[\T\](x: T) where { T extends Shows }` the type `Wrap[\String\]` is accepted, as is `object Ob extends Tr[\String\]` for `trait Tr[\T\] where { T extends Shows }` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 17 rung L's skeptic | siblings: 677, 701, 748. `KindEnv.constraintBounds` bounds `T` inside the declaration (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:113-128` at cdd25b95d), so the bodies now check; nothing reads the constraint where the type is used. `bin/fortress typecheck` exits 0 on `useIt(w: Wrap[\String\]): String = "u"`, on `println(Wrap[\String\]("s").twice())` and on `Ob.showOf("s")`; the base refused each body, 'No such method T.show.'. The compile of the second stops at row 701's wall, 'Can't compile ObjectDecl Wrap'. Walk refuses all three: 'String must subtype Shows'. |
+
+### Row 753
+
+closed by 396e4ed8d
+
+| 753 | the compiled checker reads a listed type at every type of a bounded type `where`-clause variable when it checks the trait's extenders: it accepts `object NBox[\E extends Object\](item: E) extends AnyNumBox` for `trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Trait Declarations" | none | climb batch 17 rung A's skeptic | siblings: 754. `bin/fortress typecheck` prints no error since rung A (`c6adc85f1`); the base refuses the clause, 'E is undefined.' The check puts one inference variable for each binding, without its bound (`TypeHierarchyChecker.scala:319-323`), so `NBox[\String\]` reads as listed. The text lists the type at every value of the variable, the types below its bound, and an object that extends the trait must be a subtype of a listed type. No gated test can pass while it shows: a compiled refusal test is red while the declaration is accepted. |
+
+### Row 771
+
+closed by 396e4ed8d
+
+| 771 | the compiled checker bounds a type `where`-clause variable it opens at a call by the variable's binding alone, not by a trait constraint of the clause on it: for `trait AnyBox comprises { Box[\E\] } where [\E\] { E extends Foo }`, `fooOf(mk())` with `fooOf[\E extends Foo\](b: Box[\E\])` is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/XXXOpenTypeWhereConstraintChecker.test` | climb batch 17 merged-diff review | siblings: 753, 754, 749, 636. 'is not applicable to an argument of type AnyBox'. The binding form `where [\E extends Foo\]` is accepted, and walk prints 7 for both. `whereSizes` takes the binding's own supers (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:868` at 21dce2148), and `openWhereSizes` bounds the opened type by them (`:907-910`); `KindEnv.constraintBounds` reads the constraint as a bound inside the trait (`KindEnv.scala:111-131`). The extender check reads no bound (row 753), so reading the constraint at the opening waits on it. The team's commented `Array` clause has a constraint (`Library/FortressLibrary.fsi:1207`). |
+
+### Row 766
+
+closed by 5262a2412
+
+| 766 | under walk, a trait's generic dotted method, called with no static argument, is instantiated without coercion or bound: `wrap[\T\](a: T, b: T): Box[\T\]` on a `ZZ32` and a `ZZ64` gives `Box[\AnyIntegral\]` and leaves the `ZZ32`, and `mkN[\T extends Number\](): Box[\T\]` gives `Box[\BOTTOM\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXTraitGenericMethodInference.fss` | climb batch 17 rung W | siblings: 21, 364, 591. Declared in the object, they give `Box[\ZZ64\]`, the `ZZ32` converted, and `Box[\Number\]`, as a generic function does; the compiled path gives `Box[\ZZ64\]`. The bound is read late: in a trait, `pick[\K extends Shape\](x: K)` on `5` fails 'Cannot unify Int ... with Shape ... abm=K=(Int,Any)'. Inference reads bounds and coercion targets in `appliedThing.getWithin()` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/EvaluatorBase.java:557`, `:633-634` at 74c928e7e), a trait method's member environment (`BuildTraitEnvironment.java:42-44`); not traced further. Before rung W the calls stopped. |
+
+### Row 765
+
+closed by 5262a2412
+
+| 765 | under walk, an inherited generic functional method beside an object's own plain one of the same name fails where only it fits, 'Failed to find any matching overload': `describe[\T extends Shape\](self, x: T)` in `trait Describes`, `describe(self, x: Circle)` in `object Describer`, on a `Square` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/overloading.tex`, "Applicability to Named Functional Calls" | `ProjectFortress/tests/XXXInheritedGenericFunctionalMethodBesidePlain.fss` | climb batch 17 rung W | siblings: 723, 724, 21. The call on a `Circle` runs the plain one. The message lists both declarations' dotted forms in an `OverloadedMethod`, whose choice `FunctionalMethod.getApplicableClosure` asks for (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionalMethod.java:55-67`, `OverloadedMethod.java:47-53` at 74c928e7e); not traced further. The same on the base 3aea3da53, before and after rung W's part B. Both declared in the object is row 723. The compiled path stops at compile with row 724's 'ClassCastException: FunctionalMethod cannot be cast to Method'. |
