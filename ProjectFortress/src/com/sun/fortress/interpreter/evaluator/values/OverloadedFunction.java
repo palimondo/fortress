@@ -528,15 +528,16 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
 
 
             if (!distinct && !overloadOk()) {
-                if (validOnDeclaredDomains(o1, o2, new_overloads)) return;
+                DomainReading read = validOnDeclaredDomains(o1, o2, new_overloads);
+                if (read == DomainReading.VALID) return;
                 if (unrelated != -1 && !sawSymbolic1 && !sawSymbolic2 && overlapCovered(o1, pl1, o2, pl2, new_overloads)) return;
+                if (read != DomainReading.NOT_READ) {
+                    exclDumpSkip();
+                    error(o1, o2, within, ruleFailure(read, o1, o2));
+                }
             } else if (!distinct && sameDeclaredDomains(o1, o2)) {
                 exclDumpSkip();
-                error(o1, o2, within, errorMsg("Overloading of ",
-                                               o1,
-                                               " and ",
-                                               o2,
-                                               " fails because their parameter lists have the same types"));
+                error(o1, o2, within, ruleFailure(DomainReading.NO_DUPLICATES, o1, o2));
             }
 
             describeOverloadingFailure(o1, o2, within, pl1, pl2);
@@ -758,9 +759,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * generics that the check refuses is read on the two declared domains,
      * each over its own instances (genericPairValid), whether or not some
      * pair of its parameter types excluded in the check's reading of each
-     * at a symbolic instantiation of its static parameters.
+     * at a symbolic instantiation of its static parameters.  The reading
+     * names the rule that refuses the pair, or says that the pair is not
+     * read on its declared domains.
      */
-    static private boolean validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all) {
+    static private DomainReading validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all) {
         SingleFcn f1 = o1.getFn();
         SingleFcn f2 = o2.getFn();
         if (ownGeneric(f1) && ownGeneric(f2)) return genericPairValid(o1, o2, all);
@@ -773,22 +776,65 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             gen = o2;
             plain = o1;
         } else {
-            return false;
+            return DomainReading.NOT_READ;
         }
-        if (hasRest(gen.getParams()) || hasRest(plain.getParams())) return false;
-        if (gen.getParams().size() != plain.getParams().size()) return false;
+        if (hasRest(gen.getParams()) || hasRest(plain.getParams())) return DomainReading.NOT_READ;
+        if (gen.getParams().size() != plain.getParams().size()) return DomainReading.NOT_READ;
         try {
             SingleFcn g = gen.getFn();
             SingleFcn p = plain.getFn();
             boolean plainInside = instanceHolding(g, plain.getParams(), true) != null;
             boolean genInside = declaredBelow(g, null, p, p, true);
-            if (plainInside && genInside) return false;
-            if (plainInside) return p.getRange().subtypeOf(g.getRange());
-            if (genInside) return g.getRange().subtypeOf(p.getRange());
-            return genericOverlapCovered(gen, plain, all);
+            if (plainInside && genInside) return DomainReading.NO_DUPLICATES;
+            if (plainInside) return p.getRange().subtypeOf(g.getRange()) ? DomainReading.VALID :
+                                    DomainReading.returnTypeRule(plain == o1);
+            if (genInside) return g.getRange().subtypeOf(p.getRange()) ? DomainReading.VALID :
+                                  DomainReading.returnTypeRule(gen == o1);
+            return genericOverlapCovered(gen, plain, all) ? DomainReading.VALID : DomainReading.MEET;
         }
         catch (FortressException ex) {
-            return false;
+            return DomainReading.NOT_READ;
+        }
+    }
+
+    /**
+     * A pair's reading on its declared domains (validOnDeclaredDomains): valid;
+     * refused by one of the three rules of Specification/advanced/overloading.tex,
+     * section "Declarations with Static Parameters" (the No Duplicates Rule,
+     * the Return Type Rule with the first or the second of the pair the more
+     * specific, the Meet Rule); or not read there, which leaves the
+     * parameter-by-parameter check's refusal and its message.
+     */
+    enum DomainReading {
+        VALID, NO_DUPLICATES, FIRST_RETURN_TYPE, SECOND_RETURN_TYPE, MEET, NOT_READ;
+
+        static DomainReading returnTypeRule(boolean firstInside) {
+            return firstInside ? FIRST_RETURN_TYPE : SECOND_RETURN_TYPE;
+        }
+    }
+
+    /** The message that refuses o1 beside o2 by the rule that read names. */
+    static private String ruleFailure(DomainReading read, Overload o1, Overload o2) {
+        switch (read) {
+            case NO_DUPLICATES:
+                return errorMsg("Overloading of ", o1, " and ", o2,
+                                " fails because their parameter lists have the same types");
+            case FIRST_RETURN_TYPE:
+            case SECOND_RETURN_TYPE: {
+                boolean first = read == DomainReading.FIRST_RETURN_TYPE;
+                return errorMsg("Overloading of ", o1, " and ", o2,
+                                " fails the Return Type Rule: the ", first ? "first" : "second",
+                                " is more specific, and its return type is not found to be a subtype of the",
+                                " return type of every instance of the ", first ? "second" : "first",
+                                " that applies to its arguments");
+            }
+            case MEET:
+                return errorMsg("Overloading of ", o1, " and ", o2,
+                                " fails the Meet Rule: neither is found to be more specific than the other",
+                                " or to exclude it, and no declaration is found that is more specific than both",
+                                " and applies to every call to which both apply");
+            default:
+                return bug("No rule refuses a pair read " + read);
         }
     }
 
@@ -839,28 +885,31 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * instance stands for every instance of the other applicable to an
      * argument of the inner one (returnRuleAtEveryInstance; the Return Type
      * Rule); otherwise valid where a third declaration below both holds
-     * their overlap (genericMeetCovered, the Meet Rule).
+     * their overlap (genericMeetCovered, the Meet Rule).  A pair that is not
+     * valid is read as refused by the rule that it breaks.
      */
-    static private boolean genericPairValid(Overload o1, Overload o2, Collection<Overload> all) {
+    static private DomainReading genericPairValid(Overload o1, Overload o2, Collection<Overload> all) {
         List<FType> d1 = o1.getParams();
         List<FType> d2 = o2.getParams();
-        if (hasRest(d1) || hasRest(d2) || d1.size() != d2.size()) return false;
+        if (hasRest(d1) || hasRest(d2) || d1.size() != d2.size()) return DomainReading.NOT_READ;
         SingleFcn f = o1.getFn();
         SingleFcn g = o2.getFn();
         try {
             SingleFcn gHolding = instanceHolding(g, d1, true);
             SingleFcn fHolding = instanceHolding(f, d2, true);
-            if (gHolding != null && fHolding != null) return false;
+            if (gHolding != null && fHolding != null) return DomainReading.NO_DUPLICATES;
             if (gHolding != null) {
-                return f.getRange().subtypeOf(gHolding.getRange()) && returnRuleAtEveryInstance(f, d1, g, d2);
+                return f.getRange().subtypeOf(gHolding.getRange()) && returnRuleAtEveryInstance(f, d1, g, d2) ?
+                       DomainReading.VALID : DomainReading.FIRST_RETURN_TYPE;
             }
             if (fHolding != null) {
-                return g.getRange().subtypeOf(fHolding.getRange()) && returnRuleAtEveryInstance(g, d2, f, d1);
+                return g.getRange().subtypeOf(fHolding.getRange()) && returnRuleAtEveryInstance(g, d2, f, d1) ?
+                       DomainReading.VALID : DomainReading.SECOND_RETURN_TYPE;
             }
-            return genericMeetCovered(o1, o2, all);
+            return genericMeetCovered(o1, o2, all) ? DomainReading.VALID : DomainReading.MEET;
         }
         catch (FortressException ex) {
-            return false;
+            return DomainReading.NOT_READ;
         }
     }
 
