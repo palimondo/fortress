@@ -1,0 +1,29 @@
+(* A pair of functions is not ordered and a vector of strings does not add: a conditional extension does not hold where its condition fails. *)
+component XXXCondExtendRefuseChecker
+export Executable
+
+trait Ord[\T extends Ord[\T\]\]
+  lt(o: T): Boolean
+end
+trait Add[\T extends Add[\T\]\]
+  plus(o: T): T
+end
+object Fn(f: ZZ32 -> ZZ32) end
+object Lst[\E\](a: E, b: E) extends { Ord[\Lst[\E\]\] where { E extends Ord[\E\] } }
+  lt(o: Lst[\E\]): Boolean = a.lt(o.a)
+end
+object Vec[\E\](x: E) extends { Add[\Vec[\E\]\] where { E extends Add[\E\] } }
+  plus(o: Vec[\E\]): Vec[\E\] = Vec[\E\](x.plus(o.x))
+end
+
+less[\T extends Ord[\T\]\](x: T, y: T): Boolean = x.lt(y)
+sum[\T extends Add[\T\]\](x: T, y: T): T = x.plus(y)
+inc(n: ZZ32): ZZ32 = n + 1
+
+run(): () = do
+    println(less(Lst[\Fn\](Fn(inc), Fn(inc)), Lst[\Fn\](Fn(inc), Fn(inc))))
+    w = sum(Vec[\String\]("a"), Vec[\String\]("b"))
+    println("unreachable")
+  end
+
+end

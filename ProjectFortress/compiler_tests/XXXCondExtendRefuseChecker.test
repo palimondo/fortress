@@ -1,0 +1,3 @@
+tests=XXXCondExtendRefuseChecker
+compile
+compile_err_contains=File XXXCondExtendRefuseChecker.fss has 2 errors.
