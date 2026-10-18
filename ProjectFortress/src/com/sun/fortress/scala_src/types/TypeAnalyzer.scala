@@ -933,10 +933,11 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 
   /* t's conditional parents at t's static arguments, each with its conditions there:
    * a pair (X, B) for each constraint X extends B of the entry's where clause. */
-  def conditionalParents(t: TraitType): List[(BaseType, List[(Type, BaseType)])] = {
-    val STraitType(_, n, a, _) = t
-    typeCons(n) match {
-      case index: TraitIndex =>
+  def conditionalParents(t: TraitType): List[(BaseType, List[(Type, BaseType)])] =
+    typeCons(t.getName) match {
+      // Most types have no entry under a where clause: they are answered before t is read.
+      case index: TraitIndex if index.extendsTypes.stream.anyMatch((tw: TraitTypeWhere) => tw.getWhereClause.isSome) =>
+        val a = toListFromImmutable(t.getArgs)
         val ps = toListFromImmutable(index.staticParameters)
         toListFromImmutable(index.extendsTypes).flatMap(tw => KindEnv.extendsConditions(tw) match {
           case Nil => Nil
@@ -947,7 +948,6 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         })
       case _ => Nil
     }
-  }
 
   /* r, the answer of s below t through s's parents, or s below t through a conditional
    * parent of s, read as through(p) reads a parent, where the parent's conditions hold:
