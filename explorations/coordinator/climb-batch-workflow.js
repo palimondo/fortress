@@ -1175,6 +1175,11 @@ function rungTextCommands(r) {
   return { textCommands: out, repaired: !!r.repaired }
 }
 
+// The pairs the gather's order puts first: each approved rung after the rungs it lands only with.
+const landsAfterText = (approved) => approved.map(r => RUNGS.find(m => m.id === r.rung))
+  .filter(m => m && (m.landsOnlyWith || []).length)
+  .map(m => m.id + ' after ' + m.landsOnlyWith.join(' and ')).join('; ') || 'none in this batch'
+
 function gatherRole(approved, notLanded, items) {
   return MAIN_TREE_ROLE + [
 '# Your role: gather',
@@ -1185,7 +1190,7 @@ function gatherRole(approved, notLanded, items) {
 '',
 '## The order the rungs go in',
 '',
-'Ascending order of each rung\'s lowest edited line in the files two or more rungs share, so that a later rung\'s hunk does not shift the lines a landed record cites: work it out from git diff ' + BASE + '...<branch> per branch before you apply anything, and say in your result what order you chose and why.',
+'First, a rung goes after every rung it lands only with (landsOnlyWith in the manifest; here: ' + landsAfterText(approved) + '), so that no commit on main holds a rung without the rungs it needs. Then the rungs that share a file go in the ascending order of their lowest edited line in that file, so that a later rung\'s hunk does not shift the lines a landed record cites: a line is compared only with a line of the same file, never across files, and rungs that share no file keep the manifest\'s order. Where two shared files would order one pair both ways, the pair keeps the manifest\'s order, and the later rung\'s cited lines are re-anchored by symbol, as step 2 below says. Work it out from git diff ' + BASE + '...<branch> per branch before you apply anything, and say in your result what order you chose and why.',
 '',
 '## For each rung, in that order',
 '',
@@ -1226,7 +1231,7 @@ const GATHER_SCHEMA = {
   type: 'object',
   properties: {
     commits: { type: 'array', items: { type: 'object', properties: { rung: { type: 'string' }, hash: { type: 'string' }, files: { type: 'array', items: { type: 'string' } } }, required: ['rung', 'hash'] } },
-    applyOrder: { type: 'string', description: 'the order the rungs were applied in and the lowest edited line that decided it' },
+    applyOrder: { type: 'string', description: 'the order the rungs were applied in and what decided it: a rung after the rungs it lands only with, then the lowest edited line in each file two rungs share' },
     conflicts: { type: 'array', items: { type: 'string' }, description: 'each hunk that did not apply cleanly, the file, and how it was resolved or that it was not' },
     unresolved: { type: 'boolean', description: 'true if a conflict was left unresolved and the tree was returned to clean' },
     rowsOpened: { type: 'array', items: { type: 'string' }, description: 'one line per row added: its number, its placeholder and its rung' },
