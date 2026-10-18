@@ -22,6 +22,7 @@ Corrections, each now false in part (REPORT.md section 8):
   - "A method that a trait declares reads its bounds, and the types into which its arguments convert, in the trait's method environment, where its instances evaluate their types (`GenericMethod.getTypeEnv`, `interpreter/evaluator/values/GenericMethod.java:106`, read at `EvaluatorBase.java:491`, `:567`, `:646` and `:651` at 5c5dee93d)."
   - "So it takes the instance that the same method declared in an object takes: a `ZZ32` and a `ZZ64` give `Box[\ZZ64\]` with the `ZZ32` converted, and a bounded type parameter that nothing fixes takes its bound (`TraitGenericMethodInference`)."
   - "An inherited generic functional method beside an object's plain one is chosen where only it applies (`InheritedGenericFunctionalMethodBesidePlain`)."
+  - "A call that the inference with coercion does not instantiate, as one whose argument lies outside a bound, still fails as on the base, with an error of unification that reads no bound ('Cannot unify Int ... with Shape ... abm=K=(Int,Any)'), where the same method declared in an object fails with another error ('Meet(Int, Shape) not a singleton'): the unification keeps the team's read (`EvaluatorBase.java:886` at 5c5dee93d)." (Added by the skeptic, SKEPTIC.md section 3.)
   - Add both tests to the entry's "Gated by".
 - F-252: in "otherwise the pair is refused, 'at least one pair of parameters must have excluding types'", the message is now "fails the Return Type Rule".
 - F-238: in "otherwise refused, 'with generic type, at least one pair of parameters must have excluding types' (F-155)", the message is now "fails the Meet Rule".
@@ -41,20 +42,25 @@ Notes, each measured to fit the row's room:
 
 Rows with no room left, so nothing is added; the text is for a rewrite when the gather or a later rung rewrites the row:
 
-- Row 539 (notes 701): "Climb batch 18 rung W: the refusal now says 'fails the Meet Rule' (`XXXOverloadExistentialMeetWalk`)."
+- Row 539 (notes 701): "Climb batch 18 rung W: the refusal now says 'fails the Meet Rule' (`XXXOverloadExistentialMeetWalk`)." Its claim quotes the old message too ("gives 'at least one pair of parameters must have excluding types'"), and no command edits an open row's claim (the skill's `records.md`, "The gap ledger"): the claim should read "gives 'fails the Meet Rule'".
+- Row 713 (row 1171, notes 692), added by the skeptic: "Climb batch 18 rung W: walk's refusal now says 'fails the Meet Rule'." Its notes quote the old message ("Walk refuses it at load ('at least one pair of parameters must have excluding types')"); measured on the old code and the new (SKEPTIC.md section 4).
 - Row 550 (row 1144): "Climb batch 18 rung W: now 'fails the Return Type Rule'."
 - Row 740 (row 1161): "Climb batch 18 rung W: now 'fails the Meet Rule'."
 - Row 219 (row 1167): "Climb batch 18 rung W: `r07_edge.fss` now 'fails the Meet Rule'."
 - Row 416 (row 1179): "The generic form of F-155 now 'fails the Meet Rule'; the plain `Tg` pair keeps 'are unrelated'."
 - Row 364 (row 1189): "Climb batch 18 rung W left it as it was (`XXXInferredStaticArgRungS` fails as before)."
 
-New row, in the section "4. Operators and overloading under walk", beside rows 723 and 765 (1,099 characters; claim 299, notes 575):
+New rows, in the section "4. Operators and overloading under walk", beside rows 723 and 765. NEW-W-1 (1,167 characters; claim 280, notes 664; its claim and siblings corrected by the skeptic, SKEPTIC.md section 4):
 
-| NEW-W-1 | under walk, two generic functional methods of a trait or object are refused at load where one lies inside the other: `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)`, 'fails the Meet Rule'; the same two top-level functions load, and a call takes the more specific | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericFunctionalMethodsNestedWalk.fss` | climb batch 18 rung W | siblings: 723, 724, 765. The same declared in an object, or with `T` unbounded. The two are own generics read by `genericPairValid`, whose `instanceHolding` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:2332` at 5c5dee93d) finds neither domain inside the other; not traced further. Before climb batch 18 rung W the message was 'with generic type, at least one pair of parameters must have excluding types'. The compiled path stops at compile with row 724's 'ClassCastException: ... FunctionalMethod cannot be cast to ... Method'. |
+| NEW-W-1 | under walk, two generic functional methods of a trait or object without static parameters, one inside the other, are refused at load, 'fails the Meet Rule': `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)`; the same two top-level functions load | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericFunctionalMethodsNestedWalk.fss` | climb batch 18 rung W | siblings: 723, 724, 765, NEW-W-2. The same declared in an object, or with `T` unbounded; in a trait with static parameters the pair loads, and a call fails (NEW-W-2). The two are own generics read by `genericPairValid`, whose `instanceHolding` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:2332` at 5c5dee93d) finds neither domain inside the other; not traced further. Before climb batch 18 rung W the message was 'with generic type, at least one pair of parameters must have excluding types'. The compiled path stops at compile with row 724's 'ClassCastException: ... FunctionalMethod cannot be cast to ... Method'. |
+
+NEW-W-2, found by the skeptic (1,093 characters; claim 281, notes 578; SKEPTIC.md section 4):
+
+| NEW-W-2 | under walk, two generic functional methods of a trait with static parameters, one inside the other, load, and a call fails 'Cannot find definition for method': `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)` in `trait Holds[\S\]`, on a `Circle` | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericTraitFunctionalMethodsNestedWalk.fss` | climb batch 18 rung W's skeptic | siblings: NEW-W-1, 723, 724. The message names the declaration over `T` and the receiver, `H[\ZZ32\]`. The same on the base db8fecd22 and on 5c5dee93d. Either declaration alone runs: with the one over `U` removed, the call on a `Circle` gives "shape". The same pair in a trait or object without static parameters is NEW-W-1, refused at load. Walk compares a functional method of a generic trait on the instance a call makes (F-26); the site is not traced. The compiled path stops at compile with row 724's 'ClassCastException: ... FunctionalMethod cannot be cast to ... Method'. |
 
 ## Handover
 
-Climb batch 18 rung W: walk reads a trait's generic method's bounds and coercion targets where the trait declares them, so rows 766 and 765 close. Its load check names the rule that refuses a pair it reads on its declared domains. NEW-W-1, two nested generic functional methods of a trait refused at load, waits for a walk rung.
+Climb batch 18 rung W: walk reads a trait's generic method's bounds and coercion targets where the trait declares them, so rows 766 and 765 close. Its load check names the rule that refuses a pair it reads on its declared domains. NEW-W-1, two nested generic functional methods of a trait refused at load, and NEW-W-2, the same pair in a trait with static parameters, which loads and whose call fails, wait for a walk rung.
 
 ## Revival change
 
@@ -79,4 +85,4 @@ Climb batch 18 rung W: walk reads a trait's generic method's bounds and coercion
   - FACTS F-253's exception sentence.
   - The message as F-155, F-238 and F-252 give it ("at least one pair of parameters must have excluding types"; now "fails the Meet Rule" for F-155's and F-238's pairs, and "fails the Return Type Rule" for F-252's).
   - The skill's `references/revival-changes.md:148`, its last sentence: "A generic method that a trait declares is still instantiated without coercion and without its bound (ledger row 766)." It should go, and the resolution of "Walk's check of two generic declarations" (`:46`) may gain the three messages.
-  - The notes of ledger rows 219, 539, 550 and 740, which quote the old message.
+  - The notes of ledger rows 219, 539, 550, 713 and 740, and row 539's claim, which quote the old message.
