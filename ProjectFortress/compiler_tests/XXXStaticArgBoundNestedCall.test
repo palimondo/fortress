@@ -1,0 +1,4 @@
+tests=XXXStaticArgBoundNestedCall
+compile
+compile_err_contains=XXXStaticArgBoundNestedCall.fss:13:36-
+compile_err_WIcontains=File XXXStaticArgBoundNestedCall.fss has 1 error.

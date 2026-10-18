@@ -1,0 +1,12 @@
+(* An object that extends a trait whose comprises clause lists it at a where-clause variable is listed where its own static parameter's bound lies within the variable's bound; traits.tex, section "Trait Declarations". *)
+component ComprisesWhereBoundExtenderChecker
+export Executable
+
+trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]
+end
+object NBox[\E extends Number\](item: E) extends AnyNumBox
+end
+
+run(): () = println("PASS")
+
+end

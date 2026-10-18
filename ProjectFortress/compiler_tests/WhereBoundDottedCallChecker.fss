@@ -1,0 +1,20 @@
+(* A dotted call of a method whose where clause constrains its object's static parameter is accepted where the receiver's static argument meets the constraint: through a type parameter's bound, and through the same where clause on the calling method. *)
+component WhereBoundDottedCallChecker
+export Executable
+
+trait Shows
+  show(): String
+end
+object S extends Shows
+  show(): String = "S"
+end
+object Holder[\T\](x: T)
+  showIt(): String where { T extends Shows } = x.show()
+  again(): String where { T extends Shows } = self.showIt()
+end
+
+useIt[\U extends Shows\](h: Holder[\U\]): String = h.showIt()
+
+run(): () = println(useIt(Holder[\S\](S)) Holder[\S\](S).again())
+
+end

@@ -1,0 +1,22 @@
+(* A call is accepted when a where-clause variable can be chosen to meet the constraints that bound the function's type parameters through it: n = 1 here. *)
+component WhereVariableBoundCallChecker
+export Executable
+
+trait T
+  f(): String
+end
+trait X[\nat n\] extends {T} end
+trait Y[\nat m\] extends {T} end
+object O extends {X[\1\]}
+  f() = "O"
+end
+object P extends {Y[\1\]}
+  f() = "P"
+end
+
+g[\U, V\](u: U, v: V): String
+    where [\nat n\]{U extends {X[\n\]}, V extends {Y[\n\]}} = u.f() v.f()
+
+run(): () = println(g(O, P))
+
+end
