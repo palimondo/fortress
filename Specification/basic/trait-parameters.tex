@@ -372,10 +372,13 @@ constraints are trait constraints, the declared trait or object extends the
 entry's type exactly where the constraints hold:
 an instance whose static arguments satisfy them is of that type,
 and an instance whose static arguments do not satisfy them is not.
-Within the declaration the constraints hold: the entry itself and the
-declaration's members are checked as if the constraints were in the
-declaration's own \KWD{where} clause, and the other entries of its
-\KWD{extends} clause are checked without them.
+The constraints hold while the entry itself, the declaration's value
+parameters and its members are checked, as if they were in the
+declaration's own \KWD{where} clause.
+The rest of the declaration holds at every instance and is checked
+without them: its static parameters, its own \KWD{where} clause, its
+\KWD{throws} clause and contract, its \KWD{excludes} and \KWD{comprises}
+clauses, and the other entries of its \KWD{extends} clause.
 So a list is totally ordered exactly where its elements are:
 %trait List[\E\] extends { ZeroIndexed[\E\],
 %    LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }

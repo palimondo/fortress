@@ -190,16 +190,25 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                        params, decls),
                       self, excludes, comprises, _) =>
         val oldAnalyzer = analyzer
-        // A conditional extension's conditions hold in the declaration,
-        analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+        // The header holds at every instance, so it is checked without a conditional
+        // extension's conditions,
+        val header = oldAnalyzer.extend(sparams, where)
+        analyzer = header
         walk(sparams); walk(where); walk(throwsC); walk(contract)
-        // but an extends entry is checked with its own conditions only.
-        val inDecl = analyzer
+        // which hold while the value parameters and the members are checked,
+        val inDecl =
+          if (extendsC.exists(e => !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+          else header
+        analyzer = inDecl
+        // and an extends entry is checked with its own conditions only.
         for (tw <- extendsC) {
           if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
             analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))
           walk(tw); analyzer = inDecl }
-        walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
+        walk(params); walk(decls); walk(self)
+        analyzer = header
+        walk(excludes); walk(comprises)
         analyzer = oldAnalyzer
       case SObjectDecl(_,
                        STraitTypeHeader(sparams, _, _, where,
@@ -207,11 +216,18 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                         params, decls),
                        self) =>
         val oldAnalyzer = analyzer
-        // A conditional extension's conditions hold in the declaration,
-        analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+        // The header holds at every instance, so it is checked without a conditional
+        // extension's conditions,
+        val header = oldAnalyzer.extend(sparams, where)
+        analyzer = header
         walk(sparams); walk(where); walk(throwsC); walk(contract)
-        // but an extends entry is checked with its own conditions only.
-        val inDecl = analyzer
+        // which hold while the value parameters and the members are checked,
+        val inDecl =
+          if (extendsC.exists(e => !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+          else header
+        analyzer = inDecl
+        // and an extends entry is checked with its own conditions only.
         for (tw <- extendsC) {
           if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
             analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))

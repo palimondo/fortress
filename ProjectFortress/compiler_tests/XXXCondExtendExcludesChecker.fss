@@ -1,0 +1,13 @@
+(* An excludes clause holds at every instance, so it is checked without a conditional extends entry's condition: W[\E\] needs an E that extends Shows, which only that entry assumes; trait-parameters.tex, section "Where Clauses", and traits.tex, section "Trait Declarations". *)
+component XXXCondExtendExcludesChecker
+export Executable
+
+trait Shows end
+trait W[\T extends Shows\] end
+trait D[\E\] extends { Shows where { E extends Shows } }
+    excludes { W[\E\] }
+end
+
+run(): () = println("unreachable")
+
+end

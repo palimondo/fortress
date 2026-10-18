@@ -162,9 +162,13 @@ infinitely many instantiations of one trait.
 \KWD{where} clause of an entry of an \KWD{extends} clause introduces no
 \KWD{where}-clause variable and all its constraints are trait constraints,
 the declared trait or object extends the entry's type exactly where the
-constraints hold, and within the declaration the constraints hold while the
-entry itself and the declaration's members are checked, and not while the
-other entries of its \KWD{extends} clause are; the example is
+constraints hold, and the constraints hold while the entry itself, the
+declaration's value parameters and its members are checked, and not
+while the rest of the declaration is, which holds at every instance: its
+static parameters, its own \KWD{where} clause, its \KWD{throws} clause
+and contract, its \KWD{excludes} and \KWD{comprises} clauses and the
+other entries of its \KWD{extends} clause;
+the example is
 \library's list, totally ordered exactly where its elements are.
 \item[Rationale] This change does not follow from route~A; the revival
 decided on 16~October 2026 to build the forms of \KWD{where} clause the team
@@ -202,9 +206,13 @@ in the revival's repository.
 \item[Effect] The compiled type checker reads such a clause as this
 section says: a value of an instance whose static arguments satisfy the
 constraints is of the entry's type, one whose static arguments do not is
-refused where that type is expected, and the entry and the declaration's
-members are checked with the constraints holding, its other entries without
-them.
+refused where that type is expected, and the entry, the declaration's
+value parameters and its members are checked with the constraints
+holding, the rest of the declaration without them.
+Of that rest, the compiled type checker never sees a trait's or an
+object's \KWD{throws} clause or contract: the disambiguator drops both, so
+neither is checked, and neither path evaluates an object's contract
+(row~781).
 \library's \TYP{LexicographicOrder} bounds its element type by
 \TYP{StandardTotalOrder}, and its list extends it under the constraint
 that its element type does, so the compiled type checker orders a list

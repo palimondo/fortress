@@ -1,0 +1,4 @@
+tests=XXXCondExtendExcludesWhereChecker
+typecheck
+typecheck_err_contains=File XXXCondExtendExcludesWhereChecker.fss has 1 error.
+typecheck_err_WIcontains=XXXCondExtendExcludesWhereChecker.fss:8:16-19: Ill-formed type: W[\\E\\] The static argument E does not satisfy the corresponding bound Shows.

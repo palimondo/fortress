@@ -1,0 +1,4 @@
+tests=XXXCondExtendParamBoundChecker
+typecheck
+typecheck_err_contains=File XXXCondExtendParamBoundChecker.fss has 1 error.
+typecheck_err_WIcontains=XXXCondExtendParamBoundChecker.fss:7:23-26: Ill-formed type: W[\\E\\] The static argument E does not satisfy the corresponding bound Shows.
