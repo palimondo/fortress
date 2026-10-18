@@ -2,7 +2,7 @@
 
 # Rung W of climb batch 18: a trait's generic method's bounds, and the rule that refuses a generic pair
 
-- problem: the batch 17 landing review's finding 1, row 766 against P-46, P-48 and P-74, and its finding 3, the refusal that names the rule P-45 removed (`explorations/reviews/batch-17-review.md:42-59`, `:68-72`).
+- problem: the batch 17 landing review's finding 1, row 766 against P-46, P-48 and P-74, and its finding 3, the refusal that names the rule P-45 removed (`explorations/reviews/batch-17-review.md:13-31`, `:39-44`).
 - spec: `Specification/basic/inference.tex:47-180` ("The Static Arguments of a Call": the narrowest type into which every argument converts, the bound where nothing fixes a type parameter, never `BottomType`, `:81-106`); the three rules by name, `Specification/advanced/overloading.tex:531-564` ("Declarations with Static Parameters").
 - precedent: a trait's method's instances evaluate their types in the trait's method environment, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/GenericMethod.java:69` and `TraitMethod.java:29-31`, and batch 17's call path passes that environment (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/DottedMethodApplication.java:179`); walk's own refusal form, "Overloading of X and Y fails ...", `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:607-654` at 5c5dee93d (`describeOverloadingFailure`).
 - deviation: `TraitGenericMethodInference` asserts two values beyond the patch's text, the `ZZ32`-with-`RR64` call (`ProjectFortress/tests/TraitGenericMethodInference.fss:63-64`).
@@ -189,7 +189,7 @@ Made false and not edited, for the gather (record.md, "For FACTS" and "Revival c
 - FACTS F-238, "otherwise refused, 'with generic type, at least one pair of parameters must have excluding types' (F-155)": now "fails the Meet Rule".
 - FACTS F-155, "The message is 'at least one pair of parameters must have excluding types' (row 416), as for `h[\I\](a: Array[\RR64,I\])` beside `h[\J\](a: Array[\ZZ32,J\])`": now "fails the Meet Rule".
 - The skill's `references/revival-changes.md:148`, its last sentence: "A generic method that a trait declares is still instantiated without coercion and without its bound (ledger row 766)."
-- The notes of ledger rows 219, 539, 550 and 740 quote the old message, and each now gives the rule's (section 3); their notes have no room left (section 11). Row 297's notes quote it too; it has no reproducer, so it was not measured.
+- The notes of ledger rows 219, 539, 550, 713 and 740 quote the old message, and so does row 539's claim; each pair now gives the rule's message (section 3; row 713's pair measured by the skeptic, SKEPTIC.md section 4); their notes have no room left (section 11). Row 297's notes quote it too; it has no reproducer, so it was not measured.
 
 Not made false: the rest of walk's box, and the skill's `interpreter.md:38` ("It loads them only if the No Duplicates Rule, the Meet Rule and the return-type rule hold there"). Walk's box does not name NEW-W-1, a departure that holds before and after this change (section 11).
 
@@ -232,7 +232,7 @@ Not made false: the rest of walk's box, and the skill's `interpreter.md:38` ("It
 The ledger rows whose notes the change reaches, and their room (row length, then notes length, at db8fecd22):
 
 - Rows 21 (853, 533) and 772 (957, 424) take a note.
-- Rows 364 (1189), 416 (1179), 219 (1167), 539 (1186, notes 701), 550 (1144) and 740 (1161) have no room left, so record.md gives their text for a rewrite and adds nothing.
+- Rows 364 (1189), 416 (1179), 219 (1167), 539 (1186, notes 701), 550 (1144), 713 (1171) and 740 (1161) have no room left, so record.md gives their text for a rewrite and adds nothing.
 
 ## 12. Commands
 
