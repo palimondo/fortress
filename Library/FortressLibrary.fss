@@ -2055,7 +2055,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
         DefaultZip[\E,F\](e[r],f[r])
 end
 
-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
     opr CMP(self, other:T): TotalComparison =
         self.zip[\E\](other).generate[\TotalComparison\](
@@ -3229,7 +3229,6 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
         distribute(r)
     (** If this reduction distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    (* a hack to avoid the error of overloaded methods *)
     distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
         NoReductionPair[\K\]
 end

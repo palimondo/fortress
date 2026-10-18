@@ -1341,7 +1341,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
     opr[r:Range[\ZZ32\]] : ZeroIndexed[\(E,F)\]
 end
 
-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
     opr CMP(self, other:T): TotalComparison
     (** We give a specialized version of %=% because it can fail faster

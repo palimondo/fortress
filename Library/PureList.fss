@@ -38,7 +38,8 @@ export PureList
     reuse of the Generator won't increase asymptotic complexity, but
     return a List in cases (such as map and filter) where it will.
 *)
-trait List[\E\] extends { LexicographicOrder[\List[\E\],E\] }
+trait List[\E\] extends { ZeroIndexed[\E\],
+                          LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
         excludes { Number, HasRank, String }
     (** %left% and %extractLeft% return the leftmost element in the list
         (and in the latter case, the remainder of the list without its

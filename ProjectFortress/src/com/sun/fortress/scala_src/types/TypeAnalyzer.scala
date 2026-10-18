@@ -288,7 +288,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     // to its own size for that call.  A listed type extends the trait, so
     // the trait is opened once on each path.
     case (s: TraitType, t: TraitType) if opensSizes(s) =>
-      val parentResult = pOr(parents(s).map(pSub(_, t)))
+      val parentResult = withConditionalParents(s, pOr(parents(s).map(pSub(_, t))), pSub(_, t))
       val hEntry = (negate, true, s, t)
       traits.readContext()
       if (history.contains(hEntry)) parentResult
@@ -303,15 +303,16 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       // A parent whose comprises clause lists types at a type where-clause variable
       // is not opened on the way up: s is one value, not every listed type.  A parent
       // that opens only sizes is opened as before.
-      val parentResult = pOr(par.map {
+      def throughParent(p: BaseType): CFormula = p match {
         case p: TraitType if opensTypes(p) && !(t.getName.getText == p.getName.getText) =>
           pOr(parents(p).map(pSub(_, t)))
-        case p => pSub(p, t) })
+        case p => pSub(p, t) }
+      val parentResult = pOr(par.map(throughParent))
 //       comprisedTypes(s) match {   // Gets a stack overflow error; maybe we don't need this in practice.  GLS 6/6/12
 //         case Some(cs) => pOr(parentResult, pAnd(cs.map(c => parents(c.asInstanceOf[TraitType]).filter(!lteq(_,s)).map(pSub(_, t))).flatten))
 //         case None => parentResult
 //       }
-      parentResult
+      withConditionalParents(s, parentResult, throughParent)
     case (s: ObjectExprType, t) => pSub(removeSelf(s), t)
     // Arrow types
     case (SArrowType(_, d1, r1, e1, i1, _), SArrowType(_, d2, r2, e2, i2, _)) =>
@@ -916,13 +917,50 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
   // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
+  // A conditional parent (isConditional) is not one of these: conditionalParents gives it.
   def parents(t: TraitType): Set[BaseType] = traits.memoParents(t) {
     val STraitType(_, n, a, _) = t
     val index = typeCons(n).asInstanceOf[TraitIndex]
-    toListFromImmutable(index.extendsTypes).
+    toListFromImmutable(index.extendsTypes).filterNot(isConditional).
       map(tw => substitute(a, toListFromImmutable(index.staticParameters), tw.getBaseType).asInstanceOf[BaseType]).toSet
   }
-  
+
+  /* Whether the extends entry tw names a conditional parent: its where clause binds
+   * no variable and holds trait constraints only (KindEnv.extendsConditions), and the
+   * declaration extends the entry's type exactly where they hold.  An entry under
+   * any other where clause is read as a parent, as before. */
+  def isConditional(tw: TraitTypeWhere): Boolean = !KindEnv.extendsConditions(tw).isEmpty
+
+  /* t's conditional parents at t's static arguments, each with its conditions there:
+   * a pair (X, B) for each constraint X extends B of the entry's where clause. */
+  def conditionalParents(t: TraitType): List[(BaseType, List[(Type, BaseType)])] = {
+    val STraitType(_, n, a, _) = t
+    typeCons(n) match {
+      case index: TraitIndex =>
+        val ps = toListFromImmutable(index.staticParameters)
+        toListFromImmutable(index.extendsTypes).flatMap(tw => KindEnv.extendsConditions(tw) match {
+          case Nil => Nil
+          case cs => List((substitute(a, ps, tw.getBaseType).asInstanceOf[BaseType],
+                           cs.flatMap { case SWhereExtends(_, x, bs) =>
+                             val xt = substitute(a, ps, NF.makeVarType(NU.getSpan(x), x))
+                             bs.map(b => (xt, substitute(a, ps, b).asInstanceOf[BaseType])) }))
+        })
+      case _ => Nil
+    }
+  }
+
+  /* r, the answer of s below t through s's parents, or s below t through a conditional
+   * parent of s, read as through(p) reads a parent, where the parent's conditions hold:
+   * the conditions are a formula, so an inference variable that one names is bounded
+   * by it. */
+  private def withConditionalParents(s: TraitType, r: CFormula, through: BaseType => CFormula)
+                                    (implicit negate: Boolean, history: Set[hType]): CFormula =
+    conditionalParents(s) match {
+      case Nil => r
+      case cps => pOr(r, pOr(cps.map { case (p, conds) =>
+        pAnd(pAnd(conds.map { case (x, b) => pSub(x, b) }), through(p)) }))
+    }
+
   def ancestors(t: TraitType): Set[BaseType] =
     parents(t).flatMap{
       case s:TraitType => Set(s) ++ ancestors(s)

@@ -190,7 +190,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                        params, decls),
                       self, excludes, comprises, _) =>
         val oldAnalyzer = analyzer
-        analyzer = analyzer.extend(sparams, where)
+        // A conditional extension's conditions hold in the declaration.
+        analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
         walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
         walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
         analyzer = oldAnalyzer
@@ -200,7 +201,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                         params, decls),
                        self) =>
         val oldAnalyzer = analyzer
-        analyzer = analyzer.extend(sparams, where)
+        // A conditional extension's conditions hold in the declaration.
+        analyzer = analyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
         walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
         walk(params); walk(decls); walk(self)
         analyzer = oldAnalyzer
