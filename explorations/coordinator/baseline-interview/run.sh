@@ -23,6 +23,9 @@
 # INTERVIEW_MODE (turns, the default, or oneshot), INTERVIEW_TURNS (at most this many questions, for a smoke
 # test) and INTERVIEW_TIMEOUT (seconds a turn may take, default 1800).
 set -euo pipefail
+# The session it starts is no coordinating session: the model check of
+# .claude/hooks/model_check.py leaves it alone.
+export FORTRESS_HEADLESS=1
 
 model=${1:?usage: run.sh <model-alias> <out-dir>}
 out_arg=${2:?usage: run.sh <model-alias> <out-dir>}
