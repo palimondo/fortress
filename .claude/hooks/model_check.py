@@ -12,8 +12,9 @@ session ran on Haiku from 2026-10-16 20:09 UTC to 2026-10-19 21:04 UTC unseen
 A session that the repository's own scripts start headless sets
 `FORTRESS_HEADLESS=1` and is not checked. Agents end with SubagentStop, which
 this hook does not run on. Any error of the check's own ends in exit 0, so it
-never holds up a session."""
-import json, os, sys
+never holds up a session. Each check writes its time and the model it read
+to `~/.claude/model-check.last`, the trace that the hook runs."""
+import json, os, sys, time
 
 TIERS = ("opus", "fable")
 TAIL = 4_000_000  # bytes of the transcript read from its end
@@ -48,6 +49,11 @@ def main():
     if hook.get("stop_hook_active") or os.environ.get("FORTRESS_HEADLESS"):
         return 0
     model = last_model(hook.get("transcript_path"))
+    try:  # the trace that the check ran: the time and the model it read
+        with open(os.path.expanduser("~/.claude/model-check.last"), "w") as f:
+            f.write(f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} {model}\n")
+    except OSError:
+        pass
     if model is None or any(t in model for t in TIERS):
         return 0
     print(f"MODEL ALARM: this turn of the coordinating session ran on {model}, not Opus or Fable. "
