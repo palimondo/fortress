@@ -36,7 +36,7 @@ For a construct that it cannot compile yet, the code generator calls `sayWhat` o
 - a local function declaration, and an object expression;
 - an array literal, such as `[1 2 3]`.
 
-It also refuses a function, object or trait declaration with a `where` clause of its own, and a function with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose `extends` entry has a `where` clause. A trait's or object's contract never reaches it: the disambiguator drops it (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private` and `abstract`, such as `override` (ledger row 650).
+It also refuses a function, method, object or trait declaration with a `where` clause of its own, and a function or method with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose `extends` entry has a `where` clause. The disambiguator, which both paths run, drops a trait's or object's contract, so the code generator never sees one, and walk does not check one either (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private` and `abstract`, such as `override` (ledger row 650).
 
 The compiler's prelude has no array types, only `ZZ32Vector` and `StringVector`. Its `for` loops, comprehensions and reductions work over `ZZ32` ranges only. Its reductions give a `ZZ32` or a `String`.
 
@@ -130,6 +130,7 @@ The checker's results are the programs that it accepts and refuses, and each err
 - The two `run.txt` files are equal after you replace each run's own tree path with one word, such as `TREE`. Any difference fails.
 
 A node's hash starts from its class's name, so an order in the output, such as the apis' checks or a union's members, moves only where the change itself moves it. Such a move is a difference: keep the old order, or report the difference, as for any other.
+
 `Walker`, in the generated `ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala`, is split into methods under 8,000 bytes of bytecode. HotSpot does not compile a longer method, and the walker runs on every node, so one long walker method slows the whole checker. `MethodSizeJUTest` fails if a method of the build grows past the limit, except the methods that its source lists in `listed(...)` entries. Run it alone with `ant testOnly -DtestPattern=MethodSizeJUTest`. If a method of `Walker` fails, lower `WALKER_CASES_PER_METHOD` in `ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java`. If another method fails, split it under the limit. List it only if nothing in the checker or a compiled run calls it, with its size and what runs it, and name it in your report.
 
 The timing is a smoke test. It is there to catch a slowdown of several times, or of orders of magnitude: a change that makes the checker three times slower must show. One run of each tree is enough. A small difference, or one within the noise from run to run, is not a finding. In your report, say what you saw, and do not analyse it.
