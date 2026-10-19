@@ -4,23 +4,9 @@
 
 ## Held in chat (2026-10-16)
 
-- 19:53 Reading the coordinator's generic-`distribute` message: the result over its own type parameter, clearing the fusion's 6 errors (49 to 42), reads to him as plainly good news to keep; "one cost under walk" needs its context; the question whether the result over its own type parameter is acceptable makes no sense to him; walk's gap fixed first, a tentative yes; and he asks why he was reacting to questions the message said were queued for later. He is irritated, and holds all of it until he has read on from "The review of batch 16 is in".
-
-- 19:54 On the timing fix (one lock so timed runs never overlap, each comparison taken three times, written into `fortress-repo`'s `compiler.md` as the coordinator's proposal): no; the raced runs were good enough, a worst case that still shows a 4 to 5 times speed-up.
-
 - 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
 
-- 19:59 On the skills update (batch 16's changes and his rules of the day in the skills, the asking rules moved to the top of the coordinator skill, a cold read of the changed parts): it feels consequential; he wants to know in detail what it is about.
-
-- 20:01 On the asking rules moved to the top of the coordinator skill and the cold read of the changed parts: the pre-approval covered editing the skills with the language changes, not the coordinator's own rules; this looks out of line and off protocol to him; he may accept it once the coordinator explains what it did.
-
-- 20:05 On the cold read's fix to the timing lock (each timed run starts only after the one before it ends): the coordinator is redesigning how the batch runs without putting it to him first.
-
-- 20:09 On the two open questions (the generic `distribute`'s result over its own element type, default yes; walk's call with no inferred static argument, no default): hold until the wall of text is cleared; he says the wall was induced by the coordinator.
-
-- 20:14 On the one difference that stays between walk and the checker (the checker does not check overloads of symbolic operators such as `×`, so for `opr ×` pairs walk applies the rules and the checker does not): can't the two be brought in line? Held until he has read on.
-
-- 20:17 He stopped reading at item 2 of the batch 16 review (walk and pairs of generic declarations) and is asleep. Resume in the morning from the first held point not yet answered; hold everything until he says the reading is done.
+- 20:14 On the one difference that stays between walk and the checker (the checker does not check overloads of symbolic operators such as `×`, so for `opr ×` pairs walk applies the rules and the checker does not): can't the two be brought in line? Sorted at 12:42 UTC on 2026-10-17 (`perf-probes/symbolic-operators/SORT.md`): walk's meet check skips them too; 54 of the 205 errors clear by library fixes, 151 need a design choice; waits on PLAN items 38 and 59.
 
 ## Held in chat (2026-10-13)
 
@@ -36,7 +22,6 @@ His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8
 
 ## Held in chat (2026-10-12)
 
-- 00:22 (2026-10-13, page comment on the revival story, part 1) The update should only have brought the story up to date with what landed; it reframed the document in the email's framing, because the coordinator's brief named Prof. Ryu as a second reader and asked for an early part on how the revival treats the team's work. Proposed on the thread: halfway back to version 15's framing (opening and order as before, updates and fact-check corrections kept, "Why now" and his quotes cut, the curation facts as a short later section next to what the revival changed); held until he is done commenting, then one Opus pass.
 - 21:00 The name for the coordinator-only files: "the desk" is a stupid name; he has no better one; a brainstorm is wanted before one is chosen.
 
 ## Held from his page comments (2026-10-12)
