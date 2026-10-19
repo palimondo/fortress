@@ -43,11 +43,18 @@ A note written before the revival, and your training, can be right about the tea
 **Walk's check of two generic declarations**
 
 - Original: walk read two generic declarations of one name at one shared symbolic instance, and took two instances of one generic object as types that exclude. So it loaded `o[\T\](x: P[\T\])` beside `o[\T\](x: Q[\T\])`, where `P[\T\] excludes { Q[\T\] }`, and `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`, and ran one declaration of each pair. It refused every other pair unless some pair of parameter types excluded each other: "with generic type, at least one pair of parameters must have excluding types". So it refused `ident[\T extends Shape\](x: T): T` beside `ident[\T extends Round\](x: T): T`, which the specification allows. It read a type parameter as strictly below its bound, so it loaded `tie[\T extends Wide\](a: T, b: T)` beside `tie(a: Wide, b: Wide)` and ran one of the two.
-- Resolution: walk reads every pair of generic declarations on the declared domains, each over its own instances, by the No Duplicates Rule, the Meet Rule and the return-type rule. It loads a pair that keeps them, such as `which[\T extends Shape\]` beside `which[\T extends Round\]`, and calls the more specific declaration that applies. It refuses two declarations with equal declared domains, such as the two `tie` pairs: "fails because their parameter lists have the same types". It refuses a pair where an argument below the more specific declared domain can make the more specific declaration return a type above the other's: `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round`. In four cases, walk or the checker departs from these rules:
+- Resolution: walk reads every pair of functions, one at least generic, on the declared domains, each over its own instances, by the No Duplicates Rule, the Meet Rule and the return-type rule. A functional method of a generic trait or object is still compared on the instance that a call makes. Walk loads a pair that keeps the rules, such as `which[\T extends Shape\]` beside `which[\T extends Round\]`, and calls the more specific declaration that applies. Where it refuses a pair, it names the rule:
+  - two declarations with equal declared domains, such as the two `tie` pairs: "fails because their parameter lists have the same types";
+  - a pair where an argument below the more specific declared domain can make the more specific declaration return a type above the other's: "fails the Return Type Rule". An example is `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round`;
+  - a pair where neither is more specific than the other or excludes it, and no declaration covers the calls to which both apply: "fails the Meet Rule".
+
+  A pair that walk does not read on its declared domains, such as one with a varargs parameter, keeps the team's message. In six cases, walk or the checker departs from these rules:
   - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes: `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `Box` fixes one `T` for both (ledger row 740);
   - walk refuses a pair whose overlap only a declaration over a supertype's instance holds, and two instances of one generic type at different ground arguments;
   - the checker refuses two kinds of pair that walk loads: two generic traits that exclude each other and extend one shared generic trait, as `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`; and one generic object at two bounds that are different objects, as `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])` (ledger row 741);
-  - the checker accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759).
+  - the checker accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759);
+  - walk refuses two generic functional methods, one inside the other, in a type without static parameters: "fails the Meet Rule" for `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)`. It loads the same two as top-level functions (ledger row 779);
+  - walk loads that pair in a trait with static parameters, and a call on a `Circle` fails: "Cannot find definition for method" (ledger row 780).
 - Reason: the specification reads a declaration with static parameters over every instance within its bounds, and compares declarations on the parameter types that they declare (`Specification/basic/overloading.tex`). It states the three rules on those domains and allows the `ident` pair (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters"). Two instances of one generic trait meet only where their static arguments are equal.
 
 **`fill` and `tabulate`**
@@ -145,7 +152,7 @@ A note written before the revival, and your training, can be right about the tea
 **A generic method's static arguments, under walk**
 
 - Original: the specification infers a method call's static arguments "from the context of the method invocation". Walk applied a generic method's symbolic instance where a dotted call wrote no static argument, so the call failed: "Unification error: ... got arg Box[\ZZ32\]". An overloaded method set never chose the generic method. The team's library notes this in `Library/Generator2.fss`, on `distribute`.
-- Resolution: walk infers the method's own static arguments from the arguments' run-time types, as at a call of a generic function, whether the method is alone under its name or among the receiver's overloads. It chooses such a method against the set's other methods on its declared domain. A generic method that a trait declares is still instantiated without coercion and without its bound (ledger row 766).
+- Resolution: walk infers the method's own static arguments from the arguments' run-time types, as at a call of a generic function, whether the method is alone under its name or among the receiver's overloads. Where exactly one of the two declared domains lies inside the other, it compares such a method with another of the set on those domains. Elsewhere it compares them on the instance that the call makes. A generic method that a trait declares reads its bounds, and the types into which its arguments convert, as one that an object declares does. So a `ZZ32` and a `ZZ64` give `Box[\ZZ64\]`, and a parameter that nothing fixes takes its bound. A call with an argument outside a bound still fails with an error of unification that reads no bound.
 - Reason: the specification's rule (`Specification-1.0-frozen/basic/expressions/method-invocation.tex`), and its choice of a declaration on the parameter types that it declares (`Specification/basic/inference.tex`).
 
 **A call written as an argument**
@@ -186,12 +193,31 @@ A note written before the revival, and your training, can be right about the tea
 **A `where` clause's constraint, in the checker**
 
 - Original: the traits chapter lets a `where` clause place constraints on static parameters (`Specification/basic/trait-parameters.tex`). The checker read only a `where` clause's bindings, so it refused "No such method T.show." on a value of a constrained parameter.
-- Resolution: a constraint bounds the variable that it names inside the declaration. A constraint on the declaration's own static parameter is part of its arrow, so the checker checks it at a call of a function or a functional method. Four cases are not built yet:
-  - a method's constraint on its trait's or object's static parameter, at a dotted call (ledger row 748);
-  - a constraint that bounds a type parameter by a `where`-clause variable: it refuses every call (ledger row 749);
-  - a trait's or object's own constraint, where its type is used (ledger row 750);
-  - a static argument written at a call, against its parameter's bound (ledger row 470).
-- Reason: the chapter's rule. The library's fusion pairs need it ("The fusion of `SUM` with `MAX` and `MIN`", below).
+- Resolution: a constraint bounds the variable that it names inside the declaration. The checker checks a constraint where it applies:
+  - a constraint on the declaration's own static parameter is part of its arrow, so the checker checks it at a call of a function or a functional method;
+  - at a dotted call, a candidate is not applicable where the receiver's static argument breaks the method's constraint on its trait's or object's static parameter;
+  - a trait's or object's own constraint is checked where its type is used, also at a constructor call.
+
+  A `where`-clause variable is a static parameter of the arrow, inferred at the call. So a constraint whose bound names the variable holds where some value of it meets every constraint. Two cases are not built yet:
+  - a constraint whose bound names the method's own static parameters or a `where`-clause variable, at a dotted call or at a type's use;
+  - a static argument written at a top-level call, against its parameter's bound (ledger row 470).
+
+  Walk runs a dotted call that breaks a method's constraint (ledger row 777).
+- Reason: the chapter's rule. The library's fusion pairs need it ("The fusion of `SUM` with `MAX` and `MIN`", below). The where calculus checks a method's constraints at a dotted call, and reads a type as well formed only where its constraints hold (`Specification/appendices/calculi/where/static.tex`).
+
+**Conditional extension**
+
+- Original: the Working Draft gives each `extends` entry an optional `where` clause in its grammar, and no meaning. It lists conditional extension as not supported. The checker skipped such a clause: "TODO: Extend to handle non-empty where clauses." The library declared `List[\E\]` lexicographically ordered at every element type, through `LexicographicOrder[\List[\E\],E\]`, and `PureList`'s `List` the same.
+- Resolution: in the checker, a trait or object with an `extends` entry under a `where` clause of trait constraints only extends that type exactly where the constraints hold. The constraints hold while the checker checks the entry itself, the value parameters and the members. They do not hold while it checks the rest of the declaration:
+  - the other `extends` entries;
+  - the static parameters and the declaration's own `where` clause;
+  - the `throws` clause and the contract;
+  - the `excludes` and `comprises` clauses.
+
+  A clause that binds a variable, or holds another kind of constraint, is read as before. `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under `E extends StandardTotalOrder[\E\]` (`Library/List.fsi`, `Library/PureList.fss`). `ZeroIndexed[\E\]` and an element-wise `opr =` stand outside the condition. So the checker orders a list only where its elements are totally ordered, gives no order to a list of `RR64`, `QQ` or ranges, and compares a list of pairs element by element. The departures:
+  - the checker lets a member that it checked under the condition be called where the condition fails (ledger row 773);
+  - walk and the compiled run time read the extension at every instance (ledger row 774).
+- Reason: the checker refused `LexicographicOrder`'s comparison of two elements of an unbounded type. The specification orders lists "whose elements support these same comparison operators" (`Specification/basic/operators/opr-overview.tex`), which no unconditional declaration can state. Without the element-wise `=`, a list of pairs would fall to the identity `=`. The specification states the rule in `Specification/basic/trait-parameters.tex`, "Where Clauses".
 
 **Sizes on the compiled path**
 
@@ -214,12 +240,12 @@ A note written before the revival, and your training, can be right about the tea
 **A type `where`-clause variable in a `comprises` clause**
 
 - Original: the team left `AnyList`'s clause `comprises List[\E\] where [\E\]` as a comment, "Not yet" (`Library/List.fsi`). The disambiguator, which both paths share, refused such a variable: "E is undefined." The checker refused four calls of `AnyList`'s and the comprehension's code, which read their arguments as a list of an unknown element type.
-- Resolution: the clause is live. A trait's type `where`-clause variables are in scope in the trait, except in its `extends` and `excludes` clauses. At a call, the checker opens such a variable as it opens a size: the argument takes the listed type at a type of its own, bounded as the binding is, and known to equal only itself. It does not open such a trait where it reaches it as a parent. Walk binds the variable, when it loads the trait, as a type that stands for every type. `AnyList`'s `addLeft` and `addRight` are written with `||`. The departures:
+- Resolution: the clause is live. A trait's type `where`-clause variables are in scope in the trait, except in its `extends` and `excludes` clauses. At a call, the checker opens such a variable as it opens a size: the argument takes the listed type at a type of its own, known to equal only itself. That type is bounded by the binding and by the clause's constraints on the variable. A bound that names the variable, such as `E extends StandardTotalOrder[\E\]`, names that type. The checker reads an extender against the listed type at the same types. It does not open such a trait where it reaches it as a parent. Walk binds the variable, when it loads the trait, as a type that stands for every type. `AnyList`'s `addLeft` and `addRight` are written with `||`. The departures:
   - the checker also opens the variable under a function type's result (ledger row 751);
   - it does not open an extender that the clause does not list (ledger row 752);
-  - the checker and walk read the extenders at every type of a bounded variable (ledger rows 753 and 754);
+  - walk reads the extenders at every type of a bounded variable (ledger row 754), and reads the variable for the same name in another declaration's bound (ledger row 778);
   - walk refuses at load a member whose declared type names the variable, and the checker crashes at an outside call of one that names a type variable (ledger rows 755 and 756);
-  - the code generator does not compile a trait with a `where` clause (ledger row 701).
+  - the code generator does not compile a trait with a `where` clause of its own (ledger row 701).
 - Reason: the team's comment, and the traits chapter, which lets a listed type hold a `where`-clause variable at every value of it (`Specification/basic/traits.tex`, "Trait Declarations").
 
 **Comparing pairs and triples**

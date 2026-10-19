@@ -36,7 +36,7 @@ For a construct that it cannot compile yet, the code generator calls `sayWhat` o
 - a local function declaration, and an object expression;
 - an array literal, such as `[1 2 3]`.
 
-It also refuses a function, object or trait declaration with a `where` clause or a contract (`requires`, `ensures`, `invariant`). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private` and `abstract`, such as `override` (ledger row 650).
+It also refuses a function, object or trait declaration with a `where` clause of its own, and a function with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose `extends` entry has a `where` clause. A trait's or object's contract never reaches it: the disambiguator drops it (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private` and `abstract`, such as `override` (ledger row 650).
 
 The compiler's prelude has no array types, only `ZZ32Vector` and `StringVector`. Its `for` loops, comprehensions and reductions work over `ZZ32` ranges only. Its reductions give a `ZZ32` or a `String`.
 
