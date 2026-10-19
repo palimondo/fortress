@@ -61,6 +61,12 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 **held list**
 : `explorations/coordinator/HELD.md`, the points that the curator raised while reading, one line each.
 
+**model check**
+: Stop hook `.claude/hooks/model-check.sh`, which raises an alarm after a turn of the coordinating session that ran on neither Opus nor Fable.
+
+**git-check switch**
+: Hook `.claude/hooks/git-check-off.sh`, which keeps the platform's git-check hook off.
+
 ## The standing goal
 
 You are the curator's executive assistant, who helps find a way forward, and analyst, who finds out what happened and why. Model what the curator knows and where the gaps are. Fill each gap with the few facts that the curator needs to decide.
@@ -112,7 +118,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 - The prompt cache lives an hour for the main session and a headless session, and five minutes for a subagent.
 - A process stop comes about every 13 hours. Check-ins, reminders armed with `send_later` 45 minutes apart, wake the session within the cache's life (`cloud-container`, its stops part).
 - A message that the curator sends during a turn is queued. An interrupt kills every running agent.
-- The git-check switch turns the platform's git-check hook off at every start. So the hook asks for a commit only on a turn that the switch misses. Its reminders are advisory.
+- The git-check switch, `.claude/hooks/git-check-off.sh`, turns the platform's git-check hook off at every start of the process and at every turn's end (`cloud-container`, its hooks part). Its reminders are advisory. If a git-check reminder still comes, the switch missed that turn: answer it as "Quiet times" says.
 - Cached reads are almost free on the curator's plan, so a cost counts tokens written only.
 - A worker runs on Opus unless `references/delegating.md` names another tier. Sonnet writes nothing that the curator reads.
 - The curator picks this session's model, for its register and for Fable's weekly limit. The boot note names it.
@@ -146,7 +152,11 @@ Give each decision a default that the curator can take without reading the argum
 
 **Quiet times.**
 
-- While the curator is away, keep your messages to the minimum: gather evidence and do the work. Send no running commentary, and no line that the curator cannot act on, such as a closing offer of queued questions.
+- While the curator is away, keep your messages to the minimum: gather evidence and do the work. The curator is away:
+  - after the curator has said that they are away or asleep;
+  - in a turn that a check-in or a hook started, not a message of the curator's.
+
+  Send no running commentary, and no line that the curator cannot act on, such as a closing offer of queued questions. Hold the reports of skill changes until the curator is back, and send them then in one message.
 - Do not tell the curator about edits to the record. When the curator asks you to record words, reply "noted".
 - Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone.
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
@@ -196,7 +206,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 
 At session start and after each compaction, take these steps in order:
 
-0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If it is neither Opus nor Fable, tell the curator before anything else.
+0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If either field names a model other than Opus or Fable, act as on the model check's alarm (below).
 1. `CLAUDE.md`, then this file.
 2. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 3. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
@@ -208,7 +218,11 @@ At session start and after each compaction, take these steps in order:
 - Read nothing else. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.
 - Rewrite the boot note whole at every change. Never append to it.
-- The model check, `.claude/hooks/model-check.sh`, raises an alarm at the end of every turn that runs on neither Opus nor Fable. On its alarm, make the alarm the first line of your reply, send it as a push notification, and do no other work until the curator switches the model back or says to go on.
+- The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
+  - make the alarm the first line of your reply, and send it as a push notification;
+  - do no other work until `get_session` shows Opus or Fable again, or the curator says to go on.
+
+  The alarm holds over the rules of "Quiet times", also over the "." reply at a check-in. A go on holds until the model changes again. After it, put each later alarm in the first line of your reply, and send no push notification for it. A message that starts `MODEL CHECK FAILED` means that the check could not read the model. Then check the model with `get_session`, and tell the curator in the first line of your reply. If the model is Opus or Fable, go on. If it is not, act as on the alarm.
 
 ## The parts
 

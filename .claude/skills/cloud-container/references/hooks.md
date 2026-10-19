@@ -1,6 +1,6 @@
 # The transcript backup and the git-check hook
 
-This part is for the coordinating session. Two Stop hooks run in this container.
+This part is for the coordinating session. The tracked `.claude/settings.json` runs three Stop hooks: the transcript backup, the `coordinator` skill's model check and the git-check switch. The launcher adds the git-check hook.
 
 ## The transcript backup
 
@@ -26,9 +26,9 @@ The scripts that run are the copies in the worktree's `scripts/`. The reference 
 
 `~/.claude/stop-hook-git-check.sh` comes from the launcher (`--settings /root/.claude/launcher-settings.json`). It exits 2, which makes the session take another turn, when the tree has uncommitted changes, untracked files, or unpushed commits. When commit signing is on, it also exits 2 for a local commit that is unsigned or whose committer is not `noreply@anthropic.com`.
 
-Its reminders are advisory. While the tree holds work that is not ready to commit or push, decline a reminder: say in one line that the work is not ready, and end the turn. The hook does not fire again at the end of the turn that it started.
+Its reminders are advisory. Answer one as the `coordinator` skill's `SKILL.md`, "Quiet times", says. The hook does not fire again at the end of the turn that it started.
 
-Every start of the process writes the launcher's script again. The git-check switch, `.claude/hooks/git-check-off.sh`, then turns the hook off: `.claude/settings.json` runs it at every SessionStart and every Stop. It gives the script an empty body, which reads its input and exits 0, and keeps the launcher's script as `~/.claude/stop-hook-git-check.sh.orig`. So the hook needs no step by hand and no manual approval.
+Every start of the process writes the launcher's script again. The git-check switch, the repository's `.claude/hooks/git-check-off.sh`, then turns the hook off: the tracked `.claude/settings.json` runs it at every SessionStart and at every turn's end. It replaces the script's body with two commands that read the input and exit 0. It keeps the launcher's script as `~/.claude/stop-hook-git-check.sh.orig`. Since the switch runs at every turn's end, a copy of the `.orig` file back is undone at the next one. Turn the hook back on only when the curator asks for it.
 
-- To tell whether the hook is on, run `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh`. It prints 1 or more while the hook is on.
-- The switch can miss one turn, where its Stop run comes beside the git check itself. Answer that turn's reminder as the paragraph above says.
+- After a git-check reminder, run `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh`. If it prints 1 or more, run `.claude/hooks/git-check-off.sh </dev/null`.
+- Claude Code runs the Stop hooks at the same time, so on a turn after a start the git check can run before the switch empties it.

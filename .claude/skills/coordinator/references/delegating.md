@@ -19,6 +19,7 @@
 - When this session runs on Fable, have an Opus worker write each longer report or page for the curator.
 - Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
+- If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
 - A Fable token also uses the all-models limits, at three to four times an Opus token's share of the session limit.
 
 ## What a brief holds
