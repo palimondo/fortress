@@ -9,8 +9,9 @@ switched back. It was added at the curator's word of 2026-10-19, after the
 session ran on Haiku from 2026-10-16 20:09 UTC to 2026-10-19 21:04 UTC unseen
 (`explorations/coordinator/postmortem-2026-10-19-haiku/`).
 
-A session that the repository's own scripts start headless sets
-`FORTRESS_HEADLESS=1` and is not checked. Agents end with SubagentStop, which
+The skill writer's headless session is checked too, since it must run on
+Opus. Only the baseline interview, which asks other tiers on purpose, sets
+`FORTRESS_HEADLESS=1`, and its sessions are not checked. Agents end with SubagentStop, which
 this hook does not run on. Any error of the check's own ends in exit 0, so it
 never holds up a session. Each check writes its time and the model it read
 to `~/.claude/model-check.last`, the trace that the hook runs."""

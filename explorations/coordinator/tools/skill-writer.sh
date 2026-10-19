@@ -13,9 +13,6 @@
 # tmp/skill-writer/, which is ignored. The script prints the writer's report,
 # its session id and the tokens the task wrote to the cache.
 set -euo pipefail
-# The session it starts is no coordinating session: the model check of
-# .claude/hooks/model_check.py leaves it alone.
-export FORTRESS_HEADLESS=1
 repo=$(cd "$(dirname "$0")/../../.." && pwd)
 state="$repo/tmp/skill-writer"
 mkdir -p "$state"
