@@ -1,4 +1,4 @@
-<!-- The landing review of climb batch 17 (rungs L, A, G, W and C; run `wf_3d858dc3-530`), read-only, by an Opus reviewer at the coordinator's go on 2026-10-17: landed with findings; one blocking, walk's quietly wrong instances for a trait's generic dotted method (row 766). Its text as the reviewer returned it, the routing of its findings in `coordinator/PLAN.md`, `POSITIONS.md`, `FACTS.md` and the ledger. -->
+<!-- The landing review of climb batch 17 (rungs L, A, G, W and C; run `wf_3d858dc3-530`), read-only, by an Opus reviewer at the coordinator's go on 2026-10-17: landed with findings; one blocking, walk's quietly wrong instances for a trait's generic dotted method (row 766). Its text as the reviewer returned it, with its links made repository paths and its first person made third (the reviewer, the coordinator's criterion); the routing of its findings is in `coordinator/PLAN.md`, `POSITIONS.md`, `FACTS.md` and the ledger. -->
 
 # Landing review of climb batch 17
 
