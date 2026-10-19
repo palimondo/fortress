@@ -827,9 +827,9 @@ From "Climb batch 16, listed for his review", answered at 19:47 UTC: "Does this 
 
 - Row 159's limit (W.worker.1, W.skeptic.1): walk still refuses two generic declarations like microGPT's two `opr ×` unless one parameter pair excludes; his, since row 159 came from the model program's own pair. Default: the limit kept. "For Pavol", 2.
 
-## Dropped at the curator's word, 2026-10-17 (10:29 UTC): the timing lock
+## Dropped at the curator's word, 2026-10-17 (10:28 to 10:31 UTC): the timing lock
 
-From "Climb batch 16, listed for his review". Dropped, not answered by a decision: timing needs no lock, no start order and no repeated runs, "do not over-engineer the measurement strictness".
+From "Climb batch 16, listed for his review". Dropped at his words: "You do not need to over-engineer the measurement strictness by locking and excluding other parallel activity on the machine while this one is running" (10:28 UTC), "we don't need to run it 3 times" (10:29) and "It is basically a smoke test" (10:30); built in `fortress-repo`'s `compiler.md`, "The checker's time" (`9a6a922e5`, `ae18fc010`).
 
 - Timed count-stage runs under one lock, a pair as three alternations of base and change compared by their medians (the review's section 2 and finding 1), written into `fortress-repo`'s `references/compiler.md`, "The checker's time", by the skill writer (`6c1473029`) as the coordinator's proposal. Default: as written.
 
