@@ -1,0 +1,310 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+index de7f8f1a3..535864c29 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+@@ -755,7 +755,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+      * the inner one's return type is below the outer one's for every
+      * instance of the generic, its type parameters standing for themselves;
+      * or when neither lies inside the other and declarations below both
+-     * cover their overlap (genericOverlapCovered).  A pair of two own
++     * cover their overlap (genericOverlapCovered) or the two declared
++     * domains exclude each other read whole (domainsExcludeTogether).  A pair of two own
+      * generics that the check refuses is read on the two declared domains,
+      * each over its own instances (genericPairValid), whether or not some
+      * pair of its parameter types excluded in the check's reading of each
+@@ -790,7 +791,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+                                     DomainReading.returnTypeRule(plain == o1);
+             if (genInside) return g.getRange().subtypeOf(p.getRange()) ? DomainReading.VALID :
+                                   DomainReading.returnTypeRule(gen == o1);
+-            return genericOverlapCovered(gen, plain, all) ? DomainReading.VALID : DomainReading.MEET;
++            return genericOverlapCovered(gen, plain, all) || domainsExcludeTogether(gen, plain) ? DomainReading.VALID :
++                   DomainReading.MEET;
+         }
+         catch (FortressException ex) {
+             return DomainReading.NOT_READ;
+@@ -885,7 +887,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+      * instance stands for every instance of the other applicable to an
+      * argument of the inner one (returnRuleAtEveryInstance; the Return Type
+      * Rule); otherwise valid where a third declaration below both holds
+-     * their overlap (genericMeetCovered, the Meet Rule).  A pair that is not
++     * their overlap (genericMeetCovered) or the two domains exclude each
++     * other read whole (domainsExcludeTogether), the Meet Rule.  A pair that is not
+      * valid is read as refused by the rule that it breaks.
+      */
+     static private DomainReading genericPairValid(Overload o1, Overload o2, Collection<Overload> all) {
+@@ -906,13 +909,125 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+                 return g.getRange().subtypeOf(fHolding.getRange()) && returnRuleAtEveryInstance(g, d2, f, d1) ?
+                        DomainReading.VALID : DomainReading.SECOND_RETURN_TYPE;
+             }
+-            return genericMeetCovered(o1, o2, all) ? DomainReading.VALID : DomainReading.MEET;
++            return genericMeetCovered(o1, o2, all) || domainsExcludeTogether(o1, o2) ? DomainReading.VALID :
++                   DomainReading.MEET;
+         }
+         catch (FortressException ex) {
+             return DomainReading.NOT_READ;
+         }
+     }
+ 
++    /**
++     * The declared domains of an own generic function f (o1) and an own
++     * generic function or a declaration without static parameters g (o2),
++     * each over its own static parameters (Apart), exclude each other read
++     * whole, by existential reduction: a value of both has, at each position,
++     * one instance of each generic type that the two parameter types there
++     * both are or extend (no type extends two instances of one generic type),
++     * so their static arguments are equal (matchApart).  The domains exclude
++     * where two such instances cannot be equal (argsMayBeEqual), where the
++     * equalities of every position together make one static parameter two
++     * types that cannot be equal, or where, each class of static parameters
++     * so made equal read as one (meetParams), the two parameter types at some
++     * position exclude.  Static arguments that may be equal but do not match
++     * so are left apart, which shows less.
++     */
++    static private boolean domainsExcludeTogether(Overload o1, Overload o2) {
++        if (!(o1.getFn() instanceof FGenericFunction)) return false;
++        FGenericFunction f = (FGenericFunction) o1.getFn();
++        boolean plain = !(o2.getFn() instanceof GenericFunctionOrMethod);
++        if (!plain && !(o2.getFn() instanceof FGenericFunction)) return false;
++        /* A declaration without static parameters is read as g with none, f standing for it in meetParams. */
++        FGenericFunction g = plain ? f : (FGenericFunction) o2.getFn();
++        if (NodeUtil.getWhereClause(f.getFnDecl()).isSome() || NodeUtil.getWhereClause(g.getFnDecl()).isSome()) {
++            return false;
++        }
++        Apart apart = plain ? null : Apart.of(o1, o2);
++        List<FType> fArgs = GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get(f);
++        List<FType> gArgs = plain ? Collections.<FType>emptyList() : apart.fresh != null ? apart.fresh :
++                            GenericFunctionOrMethod.FunctionsAndState.symbolicStaticsByPartition.get(g);
++        List<FType> d1 = o1.getParams();
++        List<FType> d2 = plain ? o2.getParams() : apart.domain;
++        if (fArgs == null || gArgs == null || d1.size() != d2.size() || hasRest(d1) || hasRest(d2)) return false;
++        if (fArgs.size() != f.getStaticParams().size() || !plain && gArgs.size() != g.getStaticParams().size()) {
++            return false;
++        }
++        Map<FType, FType> parent = new IdentityHashMap<FType, FType>();
++        for (int k = 0; k < d1.size(); k++) {
++            for (FType t1 : withSupertypes(d1.get(k))) {
++                if (!(t1 instanceof GenericTypeInstance)) continue;
++                for (FType t2 : withSupertypes(d2.get(k))) {
++                    if (!(t2 instanceof GenericTypeInstance) || !sameGeneric(t1, t2)) continue;
++                    if (!argsMayBeEqual(((GenericTypeInstance) t1).getTypeParams(),
++                                        ((GenericTypeInstance) t2).getTypeParams())) return true;
++                    Map<FType, FType> tried = new IdentityHashMap<FType, FType>(parent);
++                    if (matchApart(t1, t2, tried)) parent = tried;
++                }
++            }
++        }
++        Map<FType, List<FType>> classes = new IdentityHashMap<FType, List<FType>>();
++        for (FType t : new ArrayList<FType>(parent.keySet())) {
++            FType r = root(t, parent);
++            List<FType> c = classes.get(r);
++            if (c == null) classes.put(r, c = new ArrayList<FType>());
++            c.add(t);
++        }
++        Set<FType> params = Collections.newSetFromMap(new IdentityHashMap<FType, Boolean>());
++        params.addAll(fArgs);
++        params.addAll(gArgs);
++        for (List<FType> c : classes.values()) {
++            FType one = null;
++            for (FType t : c) {
++                if (params.contains(t)) continue;
++                if (one == null) one = t;
++                else if (!mayBeEqual(one, t)) return true;
++                else if (!one.equals(t)) return false;
++            }
++        }
++        try {
++            List<FType> gMeet = new ArrayList<FType>(gArgs.size());
++            List<FType> fMeet = meetParams(f, fArgs, g, gArgs, parent, o1, o2, gMeet);
++            if (fMeet == null) return false;
++            /* meetParams makes one only of type parameters; a class of size parameters alone is read as
++               one of them, f's where it holds one. */
++            for (List<FType> c : classes.values()) {
++                FType rep = null;
++                for (FType t : c) {
++                    if (!(t instanceof SymbolicNat) || !params.contains(t)) continue;
++                    if (rep == null || fArgs.contains(t) && !fArgs.contains(rep)) rep = t;
++                }
++                if (rep == null) continue;
++                for (int i = 0; i < fArgs.size(); i++) {
++                    if (fMeet.get(i) == fArgs.get(i) && c.contains(fArgs.get(i))) fMeet.set(i, rep);
++                }
++                for (int j = 0; j < gArgs.size(); j++) {
++                    if (gMeet.get(j) == gArgs.get(j) && c.contains(gArgs.get(j))) gMeet.set(j, rep);
++                }
++            }
++            List<FType> m1 = f.typeApply(fMeet).getNormalizedDomain();
++            List<FType> m2 = plain ? d2 : g.typeApply(gMeet).getNormalizedDomain();
++            if (m1.size() != m2.size()) return false;
++            for (int k = 0; k < m1.size(); k++) {
++                FType a = deRest(m1.get(k));
++                FType b = deRest(m2.get(k));
++                if (a instanceof GenericTypeInstance && b instanceof GenericTypeInstance && sameGeneric(a, b)
++                    && (mentionsSymbolic(a) || mentionsSymbolic(b))) {
++                    if (!argsMayBeEqual(((GenericTypeInstance) a).getTypeParams(),
++                                        ((GenericTypeInstance) b).getTypeParams())) return true;
++                } else if (a.excludesOther(b)) {
++                    return true;
++                }
++            }
++            return false;
++        }
++        catch (FortressException ex) {
++            return false;
++        }
++        catch (EmptyLatticeIntervalError ex) {
++            return false;
++        }
++    }
++
+     /**
+      * The instance of the own generic outer that holds the declared domain
+      * dIn of the own generic inner stands, for the Return Type Rule, for
+@@ -1018,7 +1133,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+             if (!matchApart(deRest(d1.get(k)), deRest(d2.get(k)), parent)) return false;
+         }
+         try {
+-            List<FType> meetArgs = meetParams(f, fArgs, g, gArgs, parent, o1, o2);
++            List<FType> meetArgs = meetParams(f, fArgs, g, gArgs, parent, o1, o2, null);
+             if (meetArgs == null) return false;
+             List<FType> meet = f.typeApply(meetArgs).getNormalizedDomain();
+             if (instanceHolding(g, meet, true) == null) return false;
+@@ -1054,10 +1169,12 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+      * its declaration's static parameters stand for their arguments at the
+      * overlap, as createSymbolicInstantiation reads a declaration's bounds;
+      * any other static parameter of f, itself.  Null where a class holds two
+-     * different types.
++     * different types.  Where gOut is not null, g's static arguments at the
++     * overlap, read so, are added to it.
+      */
+     static private List<FType> meetParams(FGenericFunction f, List<FType> fArgs, FGenericFunction g,
+-                                          List<FType> gArgs, Map<FType, FType> parent, HasAt atF, HasAt atG) {
++                                          List<FType> gArgs, Map<FType, FType> parent, HasAt atF, HasAt atG,
++                                          List<FType> gOut) {
+         Map<FType, List<FType>> classes = new IdentityHashMap<FType, List<FType>>();
+         for (FType t : new ArrayList<FType>(parent.keySet())) {
+             FType r = root(t, parent);
+@@ -1108,7 +1225,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+         }
+         for (int j = 0; j < gArgs.size(); j++) {
+             FType a = gArgs.get(j);
+-            geG.putType(NodeUtil.getName(gps.get(j)), valueOf.containsKey(a) ? valueOf.get(a) : a);
++            FType v = valueOf.containsKey(a) ? valueOf.get(a) : a;
++            geG.putType(NodeUtil.getName(gps.get(j)), v);
++            if (gOut != null) gOut.add(v);
+         }
+         Map<FType, List<FType>> bounds = new IdentityHashMap<FType, List<FType>>();
+         for (Map.Entry<FType, List<FType>> e : made.entrySet()) {
+diff --git a/ProjectFortress/tests/GenericPairExcludesTogetherWalk.fss b/ProjectFortress/tests/GenericPairExcludesTogetherWalk.fss
+new file mode 100644
+index 000000000..c19321b53
+--- /dev/null
++++ b/ProjectFortress/tests/GenericPairExcludesTogetherWalk.fss
+@@ -0,0 +1,51 @@
++component GenericPairExcludesTogetherWalk
++export Executable
++
++(* Two generic declarations over P[T] and Box[T] and over Q[T] and Box[T], where P[T] excludes Q[T] at one T and the object Box fixes one T for both, exclude each other, so they are a valid overloading and each call runs the one its arguments select, with renamed static parameters, over sizes, and where the forced static argument would be two types, beside a generic or a plain declaration, too (overloading.tex, section "Declarations with Static Parameters"). *)
++
++trait P[\T\] excludes { Q[\T\] } end
++trait Q[\T\] end
++object Mixed extends { P[\ZZ32\], Q[\String\] } end
++object Box[\T\] end
++
++o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
++o[\T\](x: Q[\T\], b: Box[\T\]): String = "oQ"
++
++trait Pn[\nat n\] excludes { Qn[\n\] } end
++trait Qn[\nat n\] end
++object MixedSize extends { Pn[\3\], Qn[\4\] } end
++object BoxSize[\nat n\] end
++
++r[\T\](x: P[\T\], b: Box[\T\]): String = "rP"
++r[\U\](x: Q[\U\], b: Box[\U\]): String = "rQ"
++
++w[\nat n\](x: Pn[\n\], b: BoxSize[\n\]): String = "wP"
++w[\nat m\](x: Qn[\m\], b: BoxSize[\m\]): String = "wQ"
++
++trait Ring[\T\] end
++trait RingZ extends Ring[\ZZ32\] end
++trait RingS extends Ring[\String\] end
++object Rz extends RingZ end
++object Rs extends RingS end
++
++pairOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
++pairOf[\T\](a: RingZ, b: RingS): String = "apart"
++
++plainOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
++plainOf(a: RingZ, b: RingS): String = "apart"
++
++run(): () = do
++    assert(o(Mixed, Box[\ZZ32\]), "oP", "a Mixed is a P of ZZ32 and a Q of String, so with a Box of ZZ32 only the declaration over P applies")
++    assert(o(Mixed, Box[\String\]), "oQ", "with a Box of String only the declaration over Q applies")
++    assert(r(Mixed, Box[\ZZ32\]), "rP", "renamed static parameters: with a Box of ZZ32 only the declaration over P applies")
++    assert(r(Mixed, Box[\String\]), "rQ", "renamed static parameters: with a Box of String only the declaration over Q applies")
++    assert(w(MixedSize, BoxSize[\3\]), "wP", "size parameters: with a BoxSize of 3 only the declaration over Pn applies")
++    assert(w(MixedSize, BoxSize[\4\]), "wQ", "size parameters: with a BoxSize of 4 only the declaration over Qn applies")
++    assert(pairOf(Rz, Rz), "same", "two Rings of one T run the declaration over Ring twice")
++    assert(pairOf(Rz, Rs), "apart", "a RingZ and a RingS are Rings of two types, so only the declaration over RingZ and RingS applies")
++    assert(plainOf(Rz, Rz), "same", "beside a declaration without static parameters: two Rings of one T")
++    assert(plainOf(Rz, Rs), "apart", "beside a declaration without static parameters: a RingZ and a RingS")
++    println("PASS")
++  end
++
++end
+diff --git a/ProjectFortress/tests/GenericPairFreeArgumentWalk.fss b/ProjectFortress/tests/GenericPairFreeArgumentWalk.fss
+new file mode 100644
+index 000000000..f3bedc0ac
+--- /dev/null
++++ b/ProjectFortress/tests/GenericPairFreeArgumentWalk.fss
+@@ -0,0 +1,18 @@
++component GenericPairFreeArgumentWalk
++export Executable
++
++(* Two generic declarations over P[T] and Box[T] and over Q[U] and Box[T], where P[T] excludes Q[T] at one T and Box fixes only T, overlap where U differs from T, so the pair breaks the Meet Rule and is refused at load (overloading.tex, section "Declarations with Static Parameters"). *)
++
++trait P[\T\] excludes { Q[\T\] } end
++trait Q[\T\] end
++object Mixed extends { P[\ZZ32\], Q[\String\] } end
++object Box[\T\] end
++
++o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
++o[\T, U\](x: Q[\U\], b: Box[\T\]): String = "oQ"
++
++run(): () = do
++    println(o(Mixed, Box[\ZZ32\]))
++  end
++
++end
+diff --git a/ProjectFortress/tests/GenericPairFreeArgumentWalk.test b/ProjectFortress/tests/GenericPairFreeArgumentWalk.test
+new file mode 100644
+index 000000000..b01c1ce1c
+--- /dev/null
++++ b/ProjectFortress/tests/GenericPairFreeArgumentWalk.test
+@@ -0,0 +1 @@
++load_exception_contains=fails the Meet Rule
+diff --git a/ProjectFortress/tests/XXXGenericPairExcludesTogetherWalk.fss b/ProjectFortress/tests/XXXGenericPairExcludesTogetherWalk.fss
+deleted file mode 100644
+index bf251e40e..000000000
+--- a/ProjectFortress/tests/XXXGenericPairExcludesTogetherWalk.fss
++++ /dev/null
+@@ -1,20 +0,0 @@
+-component XXXGenericPairExcludesTogetherWalk
+-export Executable
+-
+-(* Two generic declarations over P[T] and Box[T] and over Q[T] and Box[T], where P[T] excludes Q[T] at one T and the object Box fixes one T for both, exclude each other, so they are a valid overloading and each call runs the one its arguments select (overloading.tex, section "Declarations with Static Parameters"). *)
+-
+-trait P[\T\] excludes { Q[\T\] } end
+-trait Q[\T\] end
+-object Mixed extends { P[\ZZ32\], Q[\String\] } end
+-object Box[\T\] end
+-
+-o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
+-o[\T\](x: Q[\T\], b: Box[\T\]): String = "oQ"
+-
+-run(): () = do
+-    assert(o(Mixed, Box[\ZZ32\]), "oP", "a Mixed is a P of ZZ32 and a Q of String, so with a Box of ZZ32 only the declaration over P applies")
+-    assert(o(Mixed, Box[\String\]), "oQ", "with a Box of String only the declaration over Q applies")
+-    println("PASS")
+-  end
+-
+-end
