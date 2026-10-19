@@ -146,6 +146,7 @@ Give each decision a default that the curator can take without reading the argum
 
 **Quiet times.**
 
+- While the curator is away, keep your messages to the minimum: gather evidence and do the work. Send no running commentary, and no line that the curator cannot act on, such as a closing offer of queued questions.
 - Do not tell the curator about edits to the record. When the curator asks you to record words, reply "noted".
 - Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone, or after a process stop the hook's one line.
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
@@ -155,7 +156,7 @@ Give each decision a default that the curator can take without reading the argum
 
 - Write each point on the held list, one line in your words, with the UTC time of its message.
 - Reply with that line and "holding", in three lines at most.
-- Answer nothing until the curator says the reading is done. Being on the list answers nothing.
+- Answer nothing until the curator says the reading is done. Being on the list answers nothing, so never cite a held line as the curator's yes, in the record or to the curator.
 - If the curator marks a point "now", act on it at once.
 
 **Pages.**
