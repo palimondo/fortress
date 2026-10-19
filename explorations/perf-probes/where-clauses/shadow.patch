@@ -1,0 +1,879 @@
+The uncommitted shadow of the probe worktree /home/user/fortress-probe-where (branch wip/probe-where-clauses, base d731fc328), saved word for word on 2026-10-19 by the coordinating session, so that a lost container does not lose it. Apply it to d731fc328 with git apply.
+
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 744e1d877..b3fcbff8b 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -1341,7 +1341,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
+     opr[r:Range[\ZZ32\]] : ZeroIndexed[\(E,F)\]
+ end
+ 
+-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
++trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
+         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
+     opr CMP(self, other:T): TotalComparison
+     (** We give a specialized version of %=% because it can fail faster
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 6c46c0158..1b81ef9dc 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -2055,7 +2055,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
+         DefaultZip[\E,F\](e[r],f[r])
+ end
+ 
+-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
++trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
+         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
+     opr CMP(self, other:T): TotalComparison =
+         self.zip[\E\](other).generate[\TotalComparison\](
+@@ -3281,31 +3281,6 @@ trait AssociativeReduction[\R\] extends ActualReduction[\R,Maybe[\R\]\]
+         end
+ end
+ 
+-(** The lifting of operators to be fused with identity-less operators
+-    Nothing becomes zero
+-**)
+-object LiftedCommutativeMonoidReduction[\R\](org : CommutativeMonoidReduction[\R\]) extends ActualReduction[\R,Maybe[\R\]\]
+-    getter asString(): String = org.asString "(Lifted)"
+-    empty(): Just[\R\] = Just[\R\](org.empty())
+-    join(a: Maybe[\R\], b: Maybe[\R\]): Maybe[\R\] =
+-        if av <- a then
+-            if bv <- b then
+-                Just[\R\](org.join(av,bv))
+-            else
+-                Nothing[\R\]
+-            end
+-        else
+-            Nothing[\R\]
+-        end
+-    lift(r:R): Maybe[\R\] = Just[\R\](r)
+-    unlift(r:Maybe[\R\]): R =
+-        if res <- r then
+-            res
+-        else
+-            throw EmptyReduction
+-        end
+-end
+-
+ 
+ 
+ 
+@@ -3377,7 +3352,7 @@ additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
+         () -> RR64 =>
+             v: RR64 = 0.0
+             cast[\T\](v)
+-        else => 0
++        else => cast[\T\](0)
+     end
+ 
+ multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
+@@ -3394,7 +3369,7 @@ multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
+         () -> RR64 =>
+             v: RR64 = 1.0
+             cast[\T\](v)
+-        else => 1
++        else => cast[\T\](1)
+     end
+ 
+ object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends ReductionPair[\T,T\]
+@@ -3402,26 +3377,10 @@ object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends Reducti
+     getter inner() = ProdReduction[\T\]
+ end
+ 
+-object MaxSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMax[\T\] }\]
+-        extends ReductionPair[\T,Maybe[\T\]\]
+-    getter outer() = MaxReduction[\T\]
+-    getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
+-end
+-
+-object MinSumReductionPair[\T extends { AdditiveGroup[\T\], StandardMin[\T\] }\]
+-        extends ReductionPair[\T,Maybe[\T\]\]
+-    getter outer() = MinReduction[\T\]
+-    getter inner() = LiftedCommutativeMonoidReduction[\T\](SumReduction[\T\])
+-end
+-
+ object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidReduction[\T\]
+     getter asString(): String = "SumReduction"
+     empty(): T = additiveIdentity[\T\]()
+     join(a: T, b: T): T = a + b
+-    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+-    MaxSumReductionPair[\T\]
+-    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+-    MinSumReductionPair[\T\]
+ end
+ 
+ opr SUM[\T extends AdditiveGroup[\T\]\](): BigReduction[\T,T\] =
+diff --git a/Library/List.fsi b/Library/List.fsi
+index 6e116116a..48910868b 100644
+--- a/Library/List.fsi
++++ b/Library/List.fsi
+@@ -64,7 +64,7 @@ end
+     complexity, but return a %List% in cases (such as %map% and
+     %filter%) where it will.  Indexing on lists operates from the
+     left, and ordering is lexicographic reading from the left. *)
+-trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
++trait List[\E\] extends { AnyList, ZeroIndexed[\E\], LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+         excludes { Number, HasRank, String }
+   (** %left% and %extractLeft% return the leftmost element in the list
+       (and in the latter case, the remainder of the list without its
+diff --git a/Library/List.fss b/Library/List.fss
+index bdb52261d..b6363a448 100644
+--- a/Library/List.fss
++++ b/Library/List.fss
+@@ -85,9 +85,11 @@ private expansion(curr: ZZ32, new: ZZ32): ZZ32 =
+     into a list whose element type is as specific as possible. **)
+ trait AnyList excludes { Number, HasRank, String }
+         (* comprises List[\E\] where [\E\] *)
+-    opr ||(self, f:AnyList): AnyList = app(self,f)
+-    addLeft(e:Any): AnyList = addL(e,self)
+-    addRight(e:Any): AnyList = addR(self,e)
++    opr ||(self, f:AnyList): AnyList = self.appendAny(f)
++    addLeft(e:Any): AnyList = singleton(e) || self
++    addRight(e:Any): AnyList = self || singleton(e)
++    private appendAny(f:AnyList): AnyList
++    private appendedTo[\D\](a:List[\D\]): AnyList
+ end
+ 
+ private app[\T,E extends T,F extends T\](a:List[\E\], b:List[\F\]): List[\T\] =
+@@ -99,17 +101,11 @@ private app[\T,E extends T,F extends T\](a:List[\E\], b:List[\F\]): List[\T\] =
+             emptyList[\T\](scale(|a| + |b|)).appendR[\E\](a).appendR[\F\](b)
+     end
+ 
+-private addL[\T,E extends T,F extends T\](x:E, xs:List[\F\]): List[\T\] =
+-    emptyList[\T\](scale(|xs|)).addRight(x).appendR[\F\](xs)
+-
+-private addR[\T,E extends T,F extends T\](xs:List[\F\],x:E): List[\T\] =
+-    emptyList[\T\](scale(|xs|)).appendR[\F\](xs).addRight(x)
+-
+ (** %List%.  We return a %Generator% for non-list-specific operations
+     for which reuse of the %Generator% will not increase asymptotic
+     complexity, but return a %List% in cases (such as %map% and
+     %filter%) where it will.  *)
+-trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
++trait List[\E\] extends { AnyList, ZeroIndexed[\E\], LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+         excludes { Number, HasRank, String }
+     (** %left% and %extractLeft% return the leftmost element in the list
+         (and in the latter case, the remainder of the list without its
+@@ -131,6 +127,10 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
+     private appendLC[\T\](other:List[\T\]): List[\E\]
+     private appendR[\T\](other:List[\T\]): List[\E\]
+     private appendL[\T\](other:List[\T\]): List[\E\]
++    (** Helpers for %AnyList%'s %||%, where the element type of %self%
++        is known **)
++    private appendAny(f:AnyList): AnyList = f.appendedTo[\E\](self)
++    private appendedTo[\D\](a:List[\D\]): AnyList = app(a,self)
+     private fill[\T\](start: ZZ32, under: ImmutableArray[\T,ZZ32\]): ()
+     (** %addLeft% and %addRight% add an element to the left or right of
+         the list, respectively *)
+@@ -176,7 +176,7 @@ end
+ (** Vararg factory for lists; provides aggregate list constants **)
+ opr <|[\E\] xs: E... |>: List[\E\] = list(xs)
+ opr BIG <|[\T\]|>: Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\] =
+-    covariantCompr[\T,List[\T\]\](fn (cc) => fromImmutableArray(cc.toImmutableArray()))
++    covariantCompr[\T,List[\T\]\](fn (cc) => fromImmutableArray(cast[\CovariantCollection[\T\]\](cc).toImmutableArray()))
+ opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\] =
+     __bigOperatorSugar[\T,List[\T\],AnyCovColl,AnyCovColl\](BIG <|[\T\]|>(), g)
+ 
+diff --git a/Library/PureList.fss b/Library/PureList.fss
+index d872e3923..5882124a7 100644
+--- a/Library/PureList.fss
++++ b/Library/PureList.fss
+@@ -38,7 +38,7 @@ export PureList
+     reuse of the Generator won't increase asymptotic complexity, but
+     return a List in cases (such as map and filter) where it will.
+ *)
+-trait List[\E\] extends { LexicographicOrder[\List[\E\],E\] }
++trait List[\E\] extends { ZeroIndexed[\E\], LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+         excludes { Number, HasRank, String }
+     (** %left% and %extractLeft% return the leftmost element in the list
+         (and in the latter case, the remainder of the list without its
+diff --git a/ProjectFortress/compiler_tests/CondExtendChecker.fss b/ProjectFortress/compiler_tests/CondExtendChecker.fss
+new file mode 100644
+index 000000000..c3f96c8d9
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/CondExtendChecker.fss
+@@ -0,0 +1,35 @@
++(* A pair is ordered when its elements are, and a vector adds when its elements do: a conditional extension holds where its condition does, and the declaration's members are checked with the condition holding. *)
++component CondExtendChecker
++export Executable
++
++trait Ord[\T extends Ord[\T\]\]
++  lt(o: T): Boolean
++end
++trait Add[\T extends Add[\T\]\]
++  plus(o: T): T
++end
++object Num(v: ZZ32) extends { Ord[\Num\], Add[\Num\] }
++  lt(o: Num): Boolean = v < o.v
++  plus(o: Num): Num = Num(v + o.v)
++end
++object Str(s: String) extends Ord[\Str\]
++  lt(o: Str): Boolean = false
++end
++object Lst[\E\](a: E, b: E) extends { Ord[\Lst[\E\]\] where { E extends Ord[\E\] } }
++  lt(o: Lst[\E\]): Boolean = a.lt(o.a)
++end
++object Vec[\E\](x: E) extends { Add[\Vec[\E\]\] where { E extends Add[\E\] } }
++  plus(o: Vec[\E\]): Vec[\E\] = Vec[\E\](x.plus(o.x))
++end
++
++less[\T extends Ord[\T\]\](x: T, y: T): Boolean = x.lt(y)
++sum[\T extends Add[\T\]\](x: T, y: T): T = x.plus(y)
++
++run(): () = do
++    println(less(Lst[\Num\](Num(1), Num(2)), Lst[\Num\](Num(2), Num(1))))
++    println(less(Lst[\Str\](Str("a"), Str("b")), Lst[\Str\](Str("b"), Str("a"))))
++    w: Vec[\Num\] = sum(Vec[\Num\](Num(1)), Vec[\Num\](Num(2)))
++    println("PASS")
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/CondExtendChecker.test b/ProjectFortress/compiler_tests/CondExtendChecker.test
+new file mode 100644
+index 000000000..e1ea13068
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/CondExtendChecker.test
+@@ -0,0 +1,2 @@
++tests=CondExtendChecker
++typecheck
+diff --git a/ProjectFortress/compiler_tests/OpenTypeChecker.fss b/ProjectFortress/compiler_tests/OpenTypeChecker.fss
+new file mode 100644
+index 000000000..ff9c60637
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/OpenTypeChecker.fss
+@@ -0,0 +1,19 @@
++(* A value whose trait lists Box[\E\] where [\E\] opens, at a call, to a Box at a type of its own, and packs back into the trait. *)
++component OpenTypeChecker
++export Executable
++
++trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
++end
++object Box[\E\](item: E) extends AnyBox end
++
++mk(): AnyBox = Box[\ZZ32\](3)
++same[\E\](b: Box[\E\]): Box[\E\] = b
++count[\E\](b: Box[\E\]): ZZ32 = 1
++
++run(): () = do
++    a: AnyBox = same(mk())
++    k: ZZ32 = count(mk())
++    println(k)
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/OpenTypeChecker.test b/ProjectFortress/compiler_tests/OpenTypeChecker.test
+new file mode 100644
+index 000000000..15829056a
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/OpenTypeChecker.test
+@@ -0,0 +1,2 @@
++tests=OpenTypeChecker
++typecheck
+diff --git a/ProjectFortress/compiler_tests/WhereBoundMethodChecker.fss b/ProjectFortress/compiler_tests/WhereBoundMethodChecker.fss
+new file mode 100644
+index 000000000..6ec41c69c
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/WhereBoundMethodChecker.fss
+@@ -0,0 +1,17 @@
++(* A where clause on a method bounds its trait's static parameter inside the method: a method of the bound is found on a value of that parameter. *)
++component WhereBoundMethodChecker
++export Executable
++
++trait Shows
++  show(): String
++end
++object S extends Shows
++  show(): String = "S"
++end
++object Holder[\T\](x: T)
++  showIt(): String where { T extends Shows } = x.show()
++end
++
++run(): () = println(Holder[\S\](S).showIt())
++
++end
+diff --git a/ProjectFortress/compiler_tests/WhereBoundMethodChecker.test b/ProjectFortress/compiler_tests/WhereBoundMethodChecker.test
+new file mode 100644
+index 000000000..8a8f4e9b1
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/WhereBoundMethodChecker.test
+@@ -0,0 +1,2 @@
++tests=WhereBoundMethodChecker
++typecheck
+diff --git a/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.fss b/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.fss
+new file mode 100644
+index 000000000..3b2668160
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.fss
+@@ -0,0 +1,16 @@
++(* A member that a conditional extension's condition checked is not called where the condition fails: a pair of functions has no lt. *)
++component XXXCondExtendMemberChecker
++export Executable
++
++trait Ord[\T extends Ord[\T\]\]
++  lt(o: T): Boolean
++end
++object Fn(f: ZZ32 -> ZZ32) end
++object Lst[\E\](a: E, b: E) extends { Ord[\Lst[\E\]\] where { E extends Ord[\E\] } }
++  lt(o: Lst[\E\]): Boolean = a.lt(o.a)
++end
++inc(n: ZZ32): ZZ32 = n + 1
++
++run(): () = println(Lst[\Fn\](Fn(inc), Fn(inc)).lt(Lst[\Fn\](Fn(inc), Fn(inc))))
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.test b/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.test
+new file mode 100644
+index 000000000..c8fc739ee
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXCondExtendMemberChecker.test
+@@ -0,0 +1,3 @@
++tests=XXXCondExtendMemberChecker
++compile
++compile_err_contains=File XXXCondExtendMemberChecker.fss has 1 error.
+diff --git a/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.fss b/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.fss
+new file mode 100644
+index 000000000..c814aa8e1
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.fss
+@@ -0,0 +1,29 @@
++(* A pair of functions is not ordered and a vector of strings does not add: a conditional extension does not hold where its condition fails. *)
++component XXXCondExtendRefuseChecker
++export Executable
++
++trait Ord[\T extends Ord[\T\]\]
++  lt(o: T): Boolean
++end
++trait Add[\T extends Add[\T\]\]
++  plus(o: T): T
++end
++object Fn(f: ZZ32 -> ZZ32) end
++object Lst[\E\](a: E, b: E) extends { Ord[\Lst[\E\]\] where { E extends Ord[\E\] } }
++  lt(o: Lst[\E\]): Boolean = a.lt(o.a)
++end
++object Vec[\E\](x: E) extends { Add[\Vec[\E\]\] where { E extends Add[\E\] } }
++  plus(o: Vec[\E\]): Vec[\E\] = Vec[\E\](x.plus(o.x))
++end
++
++less[\T extends Ord[\T\]\](x: T, y: T): Boolean = x.lt(y)
++sum[\T extends Add[\T\]\](x: T, y: T): T = x.plus(y)
++inc(n: ZZ32): ZZ32 = n + 1
++
++run(): () = do
++    println(less(Lst[\Fn\](Fn(inc), Fn(inc)), Lst[\Fn\](Fn(inc), Fn(inc))))
++    w = sum(Vec[\String\]("a"), Vec[\String\]("b"))
++    println("unreachable")
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.test b/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.test
+new file mode 100644
+index 000000000..b31fa71ae
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXCondExtendRefuseChecker.test
+@@ -0,0 +1,3 @@
++tests=XXXCondExtendRefuseChecker
++compile
++compile_err_contains=File XXXCondExtendRefuseChecker.fss has 2 errors.
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.fss b/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.fss
+new file mode 100644
+index 000000000..a580edec7
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.fss
+@@ -0,0 +1,14 @@
++(* The shape of Amin and Tate's 2016 unsoundness: a value whose trait lists Constrain[\A,T,B\] for some B with T extends B and B extends A would be evidence that T is an A; the opened B has only its binding's bound, so the call is refused. *)
++component XXXOpenTypeBoundEvidenceChecker
++export Executable
++
++trait Witness[\A, T\] comprises { Constrain[\A, T, B\] } where [\B extends A\] { T extends B }
++end
++trait Constrain[\A, T, B extends A\] extends Witness[\A, T\] end
++
++upcast[\A, T, B extends A\](c: Constrain[\A, T, B\], b: B): A = b
++convert[\T, U\](t: T, w: Witness[\U, T\]): U = upcast(w, t)
++
++run(): () = println("unreachable")
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.test b/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.test
+new file mode 100644
+index 000000000..d19dde85e
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeBoundEvidenceChecker.test
+@@ -0,0 +1,4 @@
++tests=XXXOpenTypeBoundEvidenceChecker
++compile
++compile_err_contains=File XXXOpenTypeBoundEvidenceChecker.fss has 1 error.
++compile_err_WIcontains=Could not check call to function upcast
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.fss b/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.fss
+new file mode 100644
+index 000000000..02f6ba03f
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.fss
+@@ -0,0 +1,19 @@
++(* An opened type equals only itself: it does not reach a declared type that names another type, in a result or a variable. *)
++component XXXOpenTypeEscapeChecker
++export Executable
++
++trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
++end
++object Box[\E\](item: E) extends AnyBox end
++
++mk(): AnyBox = Box[\ZZ32\](3)
++same[\E\](b: Box[\E\]): Box[\E\] = b
++get[\E\](b: Box[\E\]): E = b.item
++asInt(b: AnyBox): ZZ32 = get(b)
++
++run(): () = do
++    y: Box[\ZZ32\] = same(mk())
++    println(asInt(mk()))
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.test b/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.test
+new file mode 100644
+index 000000000..d031e86d3
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeEscapeChecker.test
+@@ -0,0 +1,3 @@
++tests=XXXOpenTypeEscapeChecker
++compile
++compile_err_contains=File XXXOpenTypeEscapeChecker.fss has 2 errors.
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.fss b/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.fss
+new file mode 100644
+index 000000000..275f47c70
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.fss
+@@ -0,0 +1,14 @@
++(* Two values opened in one call have two types, not one. *)
++component XXXOpenTypeTwoChecker
++export Executable
++
++trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
++end
++object Box[\E\](item: E) extends AnyBox end
++
++mk(): AnyBox = Box[\ZZ32\](3)
++two[\E\](a: Box[\E\], b: Box[\E\]): ZZ32 = 2
++
++run(): () = println(two(mk(), mk()))
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.test b/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.test
+new file mode 100644
+index 000000000..3e7caab2e
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXOpenTypeTwoChecker.test
+@@ -0,0 +1,3 @@
++tests=XXXOpenTypeTwoChecker
++compile
++compile_err_contains=File XXXOpenTypeTwoChecker.fss has 1 error.
+diff --git a/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.fss b/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.fss
+new file mode 100644
+index 000000000..1cc5f1c8f
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.fss
+@@ -0,0 +1,18 @@
++(* A call whose static argument does not meet the where clause's constraint is refused, for a function's own parameter and for a method's trait parameter. *)
++component XXXWhereBoundCallChecker
++export Executable
++
++trait Shows
++  show(): String
++end
++g[\U\](u: U): String where { U extends Shows } = u.show()
++object Holder[\T\](x: T)
++  showIt(): String where { T extends Shows } = x.show()
++end
++
++run(): () = do
++    println(g("s"))
++    println(Holder[\String\]("s").showIt())
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.test b/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.test
+new file mode 100644
+index 000000000..914c83468
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXWhereBoundCallChecker.test
+@@ -0,0 +1,3 @@
++tests=XXXWhereBoundCallChecker
++compile
++compile_err_contains=File XXXWhereBoundCallChecker.fss has 2 errors.
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java b/ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java
+index e6f9a2fe3..7ebc78b87 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java
+@@ -85,6 +85,18 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
+     @Override
+     public Node forTraitDecl(final TraitDecl that) {
+         TypeDisambiguator v = this.extend(NodeUtil.getStaticParams(that));
++        // PROBE (where clauses, Part B): the type variables that the trait's where
++        // clause binds are in scope in the trait, but for its extends clause
++        // (trait-parameters.tex, "Where Clauses"), as in comprises { List[\E\] } where [\E\];
++        // the self type and the self parameters name the comprised types.
++        List<StaticParam> whereTypeVars = new ArrayList<StaticParam>();
++        Option<WhereClause> traitWhere = NodeUtil.getWhereClause(that);
++        if (traitWhere.isSome())
++            for (WhereBinding b : traitWhere.unwrap().getBindings())
++                if (b.getKind() instanceof KindType)
++                    whereTypeVars.add(NodeFactory.makeTypeParam(NodeUtil.getSpan(b), b.getName(),
++                                                                b.getSupers(), Option.<Type>none(), false));
++        TypeDisambiguator vw = whereTypeVars.isEmpty() ? v : v.extend(whereTypeVars);
+         List<TraitTypeWhere> before = NodeUtil.getExtendsClause(that);
+         List<TraitTypeWhere> after = v.recurOnListOfTraitTypeWhere(before);
+ // 	System.out.print(">>>  [ ");
+@@ -96,18 +108,18 @@ public class TypeDisambiguator extends NodeUpdateVisitor {
+                 (TraitTypeHeader) forTraitTypeHeaderOnly(that.getHeader(),
+                                                          v.recurOnListOfStaticParam(NodeUtil.getStaticParams(that)),
+                                                          (Id) NodeUtil.getName(that).accept(v),
+-                                                         v.recurOnOptionOfWhereClause(NodeUtil.getWhereClause(that)),
++                                                         vw.recurOnOptionOfWhereClause(NodeUtil.getWhereClause(that)),
+                                                          Option.<List<Type>>none(),
+                                                          Option.<Contract>none(),
+                                                          after,
+-                                                         v.recurOnOptionOfListOfParam(NodeUtil.getParams(that)),
+-                                                         v.recurOnListOfDecl(NodeUtil.getDecls(that)));
++                                                         vw.recurOnOptionOfListOfParam(NodeUtil.getParams(that)),
++                                                         vw.recurOnListOfDecl(NodeUtil.getDecls(that)));
+         return forTraitDeclOnly(that,
+                                 that.getInfo(),
+                                 header,
+-                                v.recurOnOptionOfSelfType(that.getSelfType()),
++                                vw.recurOnOptionOfSelfType(that.getSelfType()),
+                                 v.recurOnListOfBaseType(NodeUtil.getExcludesClause(that)),
+-                                v.recurOnOptionOfListOfNamedType(NodeUtil.getComprisesClause(that)));
++                                vw.recurOnOptionOfListOfNamedType(NodeUtil.getComprisesClause(that)));
+     }
+ 
+     /**
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+index c2c5dbfe1..39382a662 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+@@ -951,6 +951,15 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+                     String string_name = NodeUtil.nameString(b.getName());
+                     if (interior.getLeafTypeNull(string_name) == null)
+                         interior.putType(string_name, new SymbolicNat(string_name));
++                } else if (b.getKind() instanceof KindType) {
++                    // PROBE (where clauses, Part B): a type where-clause variable stands
++                    // for every type, as comprises { List[\E\] } where [\E\] lists List at every E.
++                    String string_name = NodeUtil.nameString(b.getName());
++                    if (interior.getLeafTypeNull(string_name) == null) {
++                        SymbolicInstantiatedType st = new SymbolicInstantiatedType(string_name, interior, b);
++                        st.setExtendsAndExcludes(new EvalType(interior).getFTypeListFromList(b.getSupers()), null);
++                        interior.putType(string_name, st);
++                    }
+                 }
+             }
+             for (WhereConstraint w : wheres.getConstraints()) {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
+index 71509f464..9abc465ea 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
+@@ -113,7 +113,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
+                                        params, decls),
+                       self, excludes, comprises, _) =>
+         val oldAnalyzer = analyzer
+-        analyzer = analyzer.extend(sparams, where)
++        analyzer = analyzer.extend(sparams,
++          com.sun.fortress.scala_src.typechecker.staticenv.KindEnv.withExtendsConditions(where, extendsC))
+         walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+         walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
+         analyzer = oldAnalyzer
+@@ -123,7 +124,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
+                                         params, decls),
+                        self) =>
+         val oldAnalyzer = analyzer
+-        analyzer = analyzer.extend(sparams, where)
++        analyzer = analyzer.extend(sparams,
++          com.sun.fortress.scala_src.typechecker.staticenv.KindEnv.withExtendsConditions(where, extendsC))
+         walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+         walk(params); walk(decls); walk(self)
+         analyzer = oldAnalyzer
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
+index 0339497ea..752c0c34e 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
+@@ -84,7 +84,8 @@ trait Decls { self: STypeChecker with Common =>
+                       STraitTypeHeader(sparams, mods, name, where,
+                                        throwsC, contract, extendsC, params, decls),
+                       selfType, excludes, comprises, hasEllipses) => {
+-      val checkerWSparams: STypeChecker = this.extend(sparams, params, where)
++      val checkerWSparams: STypeChecker = this.extend(sparams, params,
++        com.sun.fortress.scala_src.typechecker.staticenv.KindEnv.withExtendsConditions(where, extendsC))
+       var method_checker = checkerWSparams
+       var field_checker = checkerWSparams
+       // Add field declarations (getters/setters?) to method_checker
+@@ -129,7 +130,8 @@ trait Decls { self: STypeChecker with Common =>
+                        STraitTypeHeader(sparams, mods, name, where,
+                                         throwsC, contract, extendsC, params, decls),
+                        selfType) => {
+-      val checkerWSparams: STypeChecker = this.extend(sparams, params, where)
++      val checkerWSparams: STypeChecker = this.extend(sparams, params,
++        com.sun.fortress.scala_src.typechecker.staticenv.KindEnv.withExtendsConditions(where, extendsC))
+       var method_checker = checkerWSparams
+       var field_checker = checkerWSparams
+       val newContract = contract match {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
+index 168b3b372..0c8741909 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
+@@ -45,7 +45,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
+     val whereBindings = where.map(KindEnv.extractNodeBindings)
+                              .getOrElse(Iterable.empty)
+     val nodeBindings = KindEnv.extractNodeBindings(node)
+-    new NestedKindEnv(this, whereBindings ++ nodeBindings)
++    val declared = whereBindings ++ nodeBindings
++    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
+   }
+ 
+   /** Extend me with the immediate bindings of the given nodes. */
+@@ -53,7 +54,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
+     val whereBindings = where.map(KindEnv.extractNodeBindings)
+                              .getOrElse(Iterable.empty)
+     val nodesBindings = nodes.flatMap(KindEnv.extractNodeBindings)
+-    new NestedKindEnv(this, whereBindings ++ nodesBindings)
++    val declared = whereBindings ++ nodesBindings
++    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
+   }
+ 
+   /**
+@@ -74,6 +76,9 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
+ 
+ /** The single empty kind environment. */
+ protected object EmptyKindEnv extends KindEnv with EmptyStaticEnv[StaticParam] {
++  // PROBE (where clauses, Part B): a type opened from a value is found in every
++  // environment, as a size opened from a value needs no binding.
++  override def lookup(x: Name): Option[KindBinding] = KindEnv.lookupOpened(x)
+ }
+ 
+ /**
+@@ -103,6 +108,50 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
+   /** Creates a fresh kind environment. */
+   def makeFresh: KindEnv = EmptyKindEnv.extend(Nil)
+ 
++  /* PROBE (where clauses, Part B): the types opened from values, a fresh name each
++   * (TypeAnalyzer.openWhereSizes), bound as their where-clause binding bounds them. */
++  private val opened = new java.util.concurrent.ConcurrentHashMap[String, KindBinding]()
++  def registerOpened(id: Id, sp: StaticParam): Unit = opened.put(id.getText, KindBinding(id, sp))
++  def lookupOpened(x: Name): Option[KindBinding] = x match {
++    case i: Id if i.getApiName.isNone && i.getText.contains("#") => Option(opened.get(i.getText))
++    case _ => None
++  }
++
++  /* PROBE (where clauses, Part B; conditional extension): a declaration that
++   * extends a type under a where clause of constraints is checked with those
++   * constraints holding, as its own where clause's do. */
++  def withExtendsConditions(where: Option[WhereClause], extendsC: List[TraitTypeWhere]): Option[WhereClause] = {
++    val conds = extendsC.flatMap(tw => toOption(tw.getWhereClause) match {
++      case Some(SWhereClause(_, Nil, cs)) => cs.filter(_.isInstanceOf[WhereExtends])
++      case _ => Nil
++    })
++    if (conds.isEmpty) where
++    else where match {
++      case Some(SWhereClause(info, bs, cs)) => Some(SWhereClause(info, bs, cs ++ conds))
++      case None => Some(NF.makeWhereClause(NF.typeSpan, toJavaList(List[WhereBinding]()), toJavaList(conds)))
++    }
++  }
++
++  /* PROBE (where clauses, Part B; row 677): a where clause's constraint X extends B
++   * bounds X by B within the declaration, whether X is the declaration's own static
++   * parameter, a where-clause variable, or a static parameter of an enclosing one. */
++  def constraintBounds(outer: KindEnv, declared: Iterable[KindBinding],
++                       where: Option[WhereClause]): Iterable[KindBinding] = where match {
++    case Some(SWhereClause(_, _, constraints)) =>
++      val scope = new NestedKindEnv(outer, declared)
++      val byName = constraints.collect { case SWhereExtends(_, name, supers) => (name, supers) }
++      val names = byName.map(_._1).foldLeft(List[Id]())((acc, n) =>
++        if (acc.exists(_.getText == n.getText)) acc else acc :+ n)
++      names.flatMap(n => scope.lookup(n) match {
++        case Some(KindBinding(bn, sp)) if sp.getKind.isInstanceOf[KindType] =>
++          val extra = byName.filter(_._1.getText == n.getText).flatMap(_._2)
++          val supers = toListFromImmutable(sp.getExtendsClause) ++ extra
++          List(KindBinding(bn, NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id], toJavaList(supers))))
++        case _ => Nil
++      })
++    case _ => Nil
++  }
++
+   /** Extract out the bindings in node. */
+   protected def extractNodeBindings(node: Node) : Iterable[KindBinding] =
+     node match {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index b82f683fc..1f133f907 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -304,12 +304,21 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       // println("checking " + s + " <: " + t)
+       val par = parents(s)
+       // println(s + " has parents " + par)
+-      val parentResult = pOr(par.map(pSub(_, t)))
++      // PROBE (Part B): a parent whose comprises clause lists types at where-clause
++      // variables is not opened on the way up: s is one value, not every listed type.
++      val parentResult = pOr(par.map {
++        case p: TraitType if opensSizes(p) && !(t.getName.getText == p.getName.getText) =>
++          pOr(parents(p).map(pSub(_, t)))
++        case p => pSub(p, t) })
+ //       comprisedTypes(s) match {   // Gets a stack overflow error; maybe we don't need this in practice.  GLS 6/6/12
+ //         case Some(cs) => pOr(parentResult, pAnd(cs.map(c => parents(c.asInstanceOf[TraitType]).filter(!lteq(_,s)).map(pSub(_, t))).flatten))
+ //         case None => parentResult
+ //       }
+-      parentResult
++      // PROBE (Part B): a conditional parent counts where its condition holds
++      val cps = conditionalParents(s)
++      if (cps.isEmpty) parentResult
++      else pOr(parentResult, pOr(cps.map { case (p, conds) =>
++        pAnd(pAnd(conds.map { case (x, b) => pSub(x, b) }), pSub(p, t)) }))
+     case (s: ObjectExprType, t) => pSub(removeSelf(s), t)
+     // Arrow types
+     case (SArrowType(_, d1, r1, e1, i1, _), SArrowType(_, d2, r2, e2, i2, _)) =>
+@@ -796,7 +805,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       val args = toListFromImmutable(t.getArgs)
+       val params = toListFromImmutable(ti.staticParameters)
+       toSet(ti.comprisesTypes).map(nt => if (!nt.isInstanceOf[TraitType]) return Set()
+-                                         else openWhereSizes(ti, substitute(args, params, nt)).asInstanceOf[TraitType])
++                                         else openWhereSizes(ti, substitute(args, params, nt), args, params).asInstanceOf[TraitType])
+     case _ => Set()
+   }
+ 
+@@ -808,7 +817,11 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+     else ti.ast match {
+       case d: TraitObjectDecl => toOption(NU.getWhereClause(d)) match {
+         case Some(w) => toListFromImmutable(w.getBindings).filter(b =>
+-            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt]).map(b =>
++            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] ||
++            b.getKind.isInstanceOf[KindType]).map(b =>  // PROBE (Part B): a type variable too
++            if (b.getKind.isInstanceOf[KindType])
++              NF.makeTypeParam(NU.getSpan(b), b.getName, b.getSupers, none[Type], false)
++            else
+             NF.makeStaticParam(NU.getSpan(b), null, b.getName,
+                                _root_.java.util.Collections.emptyList[BaseType],
+                                _root_.java.util.Collections.emptyList[BaseType],
+@@ -829,11 +842,23 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+ 
+   /* A type ti's comprises clause lists, each where-clause size opened: a
+    * fresh name, equal only to itself (Formula.openedSizeName). */
+-  def openWhereSizes(ti: ProperTraitIndex, listed: Type): Type = whereSizes(ti) match {
++  def openWhereSizes(ti: ProperTraitIndex, listed: Type): Type = openWhereSizes(ti, listed, Nil, Nil)
++  def openWhereSizes(ti: ProperTraitIndex, listed: Type, args: List[StaticArg], params: List[StaticParam]): Type = whereSizes(ti) match {
+     case Nil => listed
+     case ws =>
+-      val opened = ws.map(p => NF.makeIntArg(NU.getSpan(p),
+-        NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))))
++      val opened: List[StaticArg] = ws.map(p =>
++        if (p.getKind.isInstanceOf[KindType]) {
++          // PROBE (Part B): a type opened from a value, a fresh name equal only to
++          // itself, bounded as its where-clause binding is (Papers/Types,
++          // fig-existential.tick; Welterweight, fig-quantified.tick, E-Sub).
++          val id = NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText))
++          val bounds = toListFromImmutable(p.getExtendsClause).map(b =>
++            (if (args.isEmpty) b else substitute(args, params, b)).asInstanceOf[BaseType])
++          KindEnv.registerOpened(id, NF.makeTypeParam(NU.getSpan(p), id, toJavaList(bounds), none[Type], false))
++          NF.makeTypeArg(NU.getSpan(p), NF.makeVarType(NU.getSpan(p), id)): StaticArg
++        } else
++          NF.makeIntArg(NU.getSpan(p),
++            NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))): StaticArg)
+       substitute(opened, ws, listed)
+   }
+   
+@@ -841,9 +866,34 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+   def parents(t: TraitType): Set[BaseType] = traits.memoParents(t) {
+     val STraitType(_, n, a, _) = t
+     val index = typeCons(n).asInstanceOf[TraitIndex]
+-    toListFromImmutable(index.extendsTypes).
++    toListFromImmutable(index.extendsTypes).filterNot(isConditional).
+       map(tw => substitute(a, toListFromImmutable(index.staticParameters), tw.getBaseType).asInstanceOf[BaseType]).toSet
+   }
++
++  /* PROBE (where clauses, Part B; conditional extension): a parent named under a
++   * where clause of constraints only, which t extends when they hold. */
++  def isConditional(tw: TraitTypeWhere): Boolean = toOption(tw.getWhereClause) match {
++    case Some(SWhereClause(_, Nil, cs)) => !cs.isEmpty && cs.forall(_.isInstanceOf[WhereExtends])
++    case _ => false
++  }
++  def conditionalParents(t: TraitType): List[(BaseType, List[(Type, BaseType)])] = {
++    val STraitType(_, n, a, _) = t
++    typeCons(n) match {
++      case index: TraitIndex =>
++        val ps = toListFromImmutable(index.staticParameters)
++        toListFromImmutable(index.extendsTypes).filter(isConditional).map(tw => {
++          val SWhereClause(_, _, cs) = toOption(tw.getWhereClause).get
++          val conds = cs.flatMap {
++            case SWhereExtends(_, name, supers) =>
++              val x = substitute(a, ps, NF.makeVarType(NU.getSpan(name), name))
++              supers.map(b => (x, substitute(a, ps, b).asInstanceOf[BaseType]))
++            case _ => Nil
++          }
++          (substitute(a, ps, tw.getBaseType).asInstanceOf[BaseType], conds)
++        })
++      case _ => Nil
++    }
++  }
+   
+   def ancestors(t: TraitType): Set[BaseType] =
+     parents(t).flatMap{
+@@ -858,7 +908,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+ 	val cs = index.comprisesTypes
+ 	if (cs.isEmpty) None
+         else
+-	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ)).asInstanceOf[BaseType]).toSet)
++	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ), a, toListFromImmutable(index.staticParameters)).asInstanceOf[BaseType]).toSet)
+       case _ => None
+     }
+   }
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+index 2e389f364..71958a505 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+@@ -186,7 +186,25 @@ object STypesUtil {
+           Some(SMethodInfo(fhst.selfType.get, fhst.selfPosition))
+         case _ => None
+       }
+-      val sparamsJava = getStaticParameters(f, lifted)
++      // PROBE (where clauses, Part B; row 677): a where clause's constraint
++      // X extends B on a static parameter of the declaration is part of X's
++      // bound, so a call is checked against it.
++      val declWhere: Option[WhereClause] = f match {
++        case d: DeclaredFunction => toOption(d.ast.getHeader.getWhereClause)
++        case d: DeclaredMethod => toOption(d.ast.getHeader.getWhereClause)
++        case d: FunctionalMethod => toOption(d.ast.getHeader.getWhereClause)
++        case _ => None
++      }
++      val sparamsJava = declWhere match {
++        case Some(SWhereClause(_, _, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
++          toJavaList(toListFromImmutable(getStaticParameters(f, lifted)).map(sp => {
++            val extra = cs.collect { case SWhereExtends(_, n, supers) if n.getText == sp.getName.getText => supers }.flatten
++            if (extra.isEmpty) sp
++            else NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id],
++                                    toJavaList(toListFromImmutable(sp.getExtendsClause) ++ extra))
++          }))
++        case _ => getStaticParameters(f, lifted)
++      }
+       Some(NF.makeArrowType(NF.typeSpan,
+                             false,
+                             argType,
+diff --git a/ProjectFortress/tests/GeneratorDeclarations.fss b/ProjectFortress/tests/GeneratorDeclarations.fss
+index 4c3dca25f..1a24f8b71 100644
+--- a/ProjectFortress/tests/GeneratorDeclarations.fss
++++ b/ProjectFortress/tests/GeneratorDeclarations.fss
+@@ -25,7 +25,7 @@ run() = do
+     yes: Boolean = (1 < 2)
+     no: Boolean = (2 < 1)
+     none = NoReductionPair[\ZZ32\]
+-    some = SumReduction[\ZZ32\].distribute(MaxReduction[\ZZ32\])
++    some = ProdReduction[\ZZ32\].distribute(SumReduction[\ZZ32\])
+ 
+     assert(yes.cond[\ZZ32\](fn (): ZZ32 => 1, fn (): ZZ32 => 2), 1, "a condition that holds runs its first branch")
+     assert(no.cond[\ZZ32\](fn (): ZZ32 => 1, fn (): ZZ32 => 2), 2, "a condition that does not hold runs its second branch")
+@@ -39,8 +39,7 @@ run() = do
+     assert(none.map[\ZZ32\](fn (p: Any): ZZ32 => 5).asString, "Nothing", "the empty reduction pair mapped is Nothing")
+     assert(some.map[\ZZ32\](fn (p: Any): ZZ32 => 5).asString, "Just(5)", "a reduction pair mapped to 5 is Just(5)")
+ 
+-    assert(some.inner.empty().asString, "Just(0)", "the sum lifted to fuse with the maximum has the identity Just(0)")
+-    assert(some.inner.join(Just[\ZZ32\](2), Just[\ZZ32\](3)).asString, "Just(5)", "the sum lifted to fuse with the maximum joins Just(2) and Just(3) to Just(5)")
++    assert(SumReduction[\ZZ32\].distribute(MaxReduction[\ZZ32\]).holds, false, "the sum has no fusion pair with the maximum")
+     assert(MinReduction[\ZZ32\].simpleJoin(3, 2), 2, "the minimum reduction joins 3 and 2 to 2")
+     assert(NewlineReduction.simpleJoin("x", "y"), "x" // "y", "the newline reduction joins two strings with a newline between them")
+     mi = MIMapReduceReduction[\ZZ32\](fn (a, b) => a + b, 0)
