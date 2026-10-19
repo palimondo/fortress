@@ -1,4 +1,4 @@
-<!-- Probe of 2026-10-17: the ways to make walk instantiate a generic dotted method that a trait declares by the checker's bound rules (ledger row 766), and the most direct one built and measured. Worktree `/home/user/fortress-probe-row766`, branch `wip/probe-row766`, commit `814c1300c` from main `5dd54b64b`; the patch is `way-a.patch` beside this report. Not landed, not pushed. The harness refused the worker a report file; this is its returned text, written here by the coordinator. -->
+<!-- Probe of 2026-10-17: the ways to make walk instantiate a generic dotted method that a trait declares by the checker's bound rules (ledger row 766), and the most direct one built and measured. Worktree `/home/user/fortress-probe-row766`, branch `wip/probe-row766`, commit `814c1300c` from main `5dd54b64b`; the patch is `way-a.patch` beside this report. Not landed, not pushed. The harness refused the worker a report file; this is its returned text, written here by the coordinator, with its diff moved to `way-a.patch` and section 7's draft row replaced by ledger row 772. -->
 
 # A trait's generic dotted method under walk (row 766): a probe
 
@@ -130,7 +130,7 @@ All runs used `harness-one.sh`, except the suite.
   - `wrap` on a `ZZ32` and an `RR64` gives `Box[Object]`, with the `ZZ32` not converted. Walk gives `Box[\RR64\]`, and P-74 converts a `ZZ32` into `RR64`.
   - The compiler prelude's `trait RR64` declares `coerce` only from `FloatLiteral` and `RR32` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435`).
   - SKEPTIC.md's `SkTraitU` shows the same value.
-  - Its ledger row needs a reproducer that names a file; this report is that file.
+  - Command, in a scratch folder: `bin/fortress compile CompRowProbe.fss && bin/fortress run CompRowProbe`, with `Maker.wrap(z, r)` classified by a `typecase`; output `trait wrap z r: Box[Object] v=ZZ32`. Not checked at a top-level function. Ledger row 772.
 
 ## 8. Sentences made false if the patch lands (none edited)
 - `Specification/basic/inference.tex:290-293` (row 765), `:299-304` (row 766) and `:422-424` (row 766, the bounded parameter of a method that a trait declares).
@@ -139,10 +139,10 @@ All runs used `harness-one.sh`, except the suite.
 - The skill's `references/revival-changes.md:148`, its last sentence.
 
 ## 9. Decisions
-- **Way A over way D.** A changes only where the inference reads. D moves the environment of every trait method, which the team kept apart. No position of the curator covers this, and the way that lands is the curator's. The coordinator's default is A.
+- **Way A over way D.** A changes only where the inference reads. D moves the environment of every trait method, which the team kept apart. No position of the curator covers this, and the way that lands is the curator's.
 - **The two measured lines.** The patch keeps `:491` and leaves `:875` unchanged, for the reasons measured in section 4.
 - **Tests.** Both `XXX` tests promoted, and three assertions added to row 766's test.
-- **Branch.** The patch is committed on the local branch `wip/probe-row766` and not pushed, as the designated branch rule requires. Its text is in `way-a.patch` on `main`.
+- **No push.** The patch is committed on `wip/probe-row766` and not pushed. The skill names no push for a probe, and earlier probe branches are on no remote. (The coordinator: its text is in `way-a.patch` on `main`.)
 
 ## 10. What was run, and what was only read
 - **Run:** every build, value, harness result and suite count above.
