@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 22:55 UTC on 2026-10-19** (00:55 his time), rewritten whole after the review of the Haiku window.
+**State at 22:53 UTC on 2026-10-19** (00:53 his time), rewritten whole after the review of the Haiku window.
 
 ## The model, first
 
@@ -13,7 +13,7 @@
 ## Running
 
 - **The P-152 probe** (Opus, agent `a7bc15c38fddac2ba`, brief `scratchpad/haiku-window/brief-p152.md`, since 22:20 UTC): exclusion read over the whole parameter type on both paths, rows 740 and 741 its tests. It works in `/home/user/fortress-probe-p152` on `wip/probe-p152` and pushes that branch. Estimate about 1.5M. When it ends: bring `explorations/perf-probes/existential-reduction/REPORT.md` and its patches to `main` with an INDEX line, and file its questions by the three principles.
-- **The skill writer** on `tmp/skill-writer/task-18.md` (headless, Opus, started 22:50 UTC by `skill-writer.sh new`, shell `blo1wx6ta`, log `tmp/skill-writer/task-18.log`): batch 18's revival changes; the false sentences of batches 17 and 18 (`reviews/batch-18-review.md`, section 6); the model check as the boot's step 0 and the git-check switch in `coordinator` and `cloud-container`; his rule of 19:57 UTC on 2026-10-16 and "a held line is never his yes". It commits on `main` and pushes nothing. When it ends: push by the three pushes, then cold reads (`skill-cold-read-brief.md`) of its parts and of `0707ac9ac`'s, with row 716's one walk run (Fable D.2 item 1), and the flags back to a resumed writer.
+- **The skill writer** on `tmp/skill-writer/task-18.md` (headless, Opus, started 22:52 UTC by `skill-writer.sh new`, shell `blo1wx6ta`, log `tmp/skill-writer/task-18.log`): batch 18's revival changes; the false sentences of batches 17 and 18 (`reviews/batch-18-review.md`, section 6); the model check as the boot's step 0 and the git-check switch in `coordinator` and `cloud-container`; his rule of 19:57 UTC on 2026-10-16 and "a held line is never his yes". It commits on `main` and pushes nothing. When it ends: push by the three pushes, then cold reads (`skill-cold-read-brief.md`) of its parts and of `0707ac9ac`'s, with row 716's one walk run (Fable D.2 item 1), and the flags back to a resumed writer.
 - **The item 58 ask rewritten** (Opus, `ab2a309fb3be6eb3c`, `brief-item58.md`): the review `explorations/reviews/integer-power-negative-exponent.md`, uncommitted, and the ask as its final text. When it ends: check it against the record, commit the review, and put the ask to him as ask 2.
 
 ## The redo plan of the post-mortem (`fable-judgement.md`, section D)
