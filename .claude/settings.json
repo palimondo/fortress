@@ -9,7 +9,7 @@
           },
           {
             "type": "command",
-            "command": "python3 -I /home/user/fortress/.claude/hooks/model_check.py"
+            "command": "/home/user/fortress/.claude/hooks/model-check.sh"
           }
         ]
       }
