@@ -5,7 +5,7 @@ What waits for Pavol's review, 2026-10-10
 Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 **Counts**
-- (b) Consequential: 54 items. By theme: The checker's typing and inference 9; Overloading and the Meet Rule 8; Walk's checks at load 3; Walk's choice of declaration and instance 3; Numbers and numerals 10; Sizes and arrays 8; The library's generators, strings and comparisons 3; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 6.
+- (b) Consequential: 55 items. By theme: The checker's typing and inference 9; Overloading and the Meet Rule 8; Walk's checks at load 3; Walk's choice of declaration and instance 3; Numbers and numerals 10; Sizes and arrays 8; The library's generators, strings and comparisons 4; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 6.
 - (c) Routine, kept as landed unless he says otherwise: 130 items. By theme: The checker's typing and inference 7; Overloading and the Meet Rule 10; Walk's checks at load 12; Walk's choice of declaration and instance 10; Numbers and numerals 9; Sizes and arrays 4; Ranges 7; The library's generators, strings and comparisons 25; The specification's text 15; Tests and the team's demos 12; Code generation and the run time 3; How batches run 6; The record, its tools and the repository 10.
 - (a) Settled or stale, leaving the lists: 79 entries, several of which bundle lines.
 - PLAN's nine batch lists hold 202 entries: 32 in (b), 94 in (c), 76 in (a), each counted where it first appears.
@@ -159,7 +159,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Settled 2026-10-14 by the coordinator's call 6 of climb batch 15, under P-48, a parameter nothing fixes takes its bound, never `Bottom` (`coordinator/CLIMB-BATCH-15.md` section 2), and built by its rung B (`20474c144`): walk fixes an unwritten clause form's parameter by the declared type of its value, else by its elements' join, else at its bound; rows 645, 646, 662 and 703 fixed. The empty case is row 716, B.worker.1's entry under PLAN's "Climb batch 15, listed for his review", and call 1 there is the call for his review.
    - Home: PLAN-history, "Climb batch 9, listed for his review", Decision D2 of climb batch 9's rung W; `compile-ladder/rung-walk-instance/REPORT.md:291` (section 8); `compile-ladder/rung-walk-open-param/REPORT.md:189`, section 11; `compile-ladder/rung-reduction-types/REPORT.md:210`; `CLIMB-BATCH-12.md:365`; rows 424, 645, 662
 
-18. **Walk's choice when another declaration applies without coercion.** `g(a: Any, b: Any)` beside `g[\T\](a: T, b: T)`, called with an Apple and a Cherry, which share more than one closest supertype: walk ran the plain declaration, as the base did. Since batch 17's rung G walk refuses this pair at load (row 589), so the choice arises only for a pair that loads.
+18. **Walk's choice when another declaration applies without coercion.** `g(a: Any, b: Any)` beside `g[\T\](a: T, b: T)`, called with an Apple and a Cherry, which share more than one closest supertype: walk ran the plain declaration, as the base did. Since climb batch 17's rung G, walk refuses this unbounded pair at load by the No Duplicates Rule; the choice stays for the pair with `T extends Fruit`, which row 589's test `ProjectFortress/tests/XXXDispatchTwoCommonParentsWalk.fss` now writes.
    - Landed: The base's choice, gated by an expected failure (row 589).
    - The other way: Pass the bound into walk's choice, so that the generic declaration is weighed at its bound.
    - Its cost: It changes which declaration walk runs, which the record leaves to him.
@@ -284,7 +284,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: After the switch-over, by his decision. His own question, why microGPT uses `RR64` and not `RR32`, is owed an answer; the reason on record is the Python reference's float64 values.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 4; item 13, fork 5; item 13, fork 6; `reviews/array-design-ways.md` section 8; P-85, "The array design's three questions are open"; `experiment/run-c-goldens/README.md` (10-02: 100)
 
-### The library's generators, strings and comparisons (3)
+### The library's generators, strings and comparisons (4)
 
 38. **The tuple comparisons (item 43).** The library's ten tuple comparison operators compared elements of any type. They now require each element to be partially ordered, and `Comparison` gains a lazy `LEXICO`.
    - Landed: The judgement's way, built on the standing go while his answer is pending; 17 sites cleared. Two costs it did not weigh: `(1,()) < (2,())` answered true and is now refused; and walk refuses `(1,2) < (1,2.5)`, numbers of two types at one position. A pinned nested comparison, `((1,2),3) < ((1,3),0)`, is now refused too.
@@ -303,6 +303,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: Widen the arm's pattern, which types it and changes when the compiled path fuses an outer operator whose output type differs from its input.
    - Its cost: The worker, both skeptics and the judge left it to him.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 46; `compile-ladder/rung-generator-slips/REPORT.md:161`, `:229`, `JUDGE.md:144`; row 632
+
+188. **P-151's `AnyList`, built otherwise.** His option 3 of 16:42 UTC on 2026-10-16 moves "the rest of `AnyList` into `List`"; climb batch 17's rung A made the team's `comprises` clause live and respelled `addLeft` and `addRight` within `AnyList` instead (`Library/List.fss:87-90`; `reviews/batch-17-review.md` finding 6); the four sites are gone either way.
+   - Landed: As built. Default: as built, P-151's sentence to read "the rest of `AnyList` stays in `AnyList`, respelled under the live clause"; that edit of P-151 waits on his yes.
+   - The other way: Move the bodies into `List` in the next library rung.
+   - Its cost: A reversal touches `Library/List.fss` and `List.fsi` (the two private methods added, two bodies moved), the test `AnyListElementTypeWalk`, F-243 and F-251; no later rung is built on the respelling.
+   - Home: POSITIONS, P-151; `reviews/batch-17-review.md`, finding 6; `coordinator/postmortem-2026-10-19-haiku/part-2-batches.md`, entry 18; `coordinator/postmortem-2026-10-19-haiku/fable-judgement.md`, part 2, 18
 
 ### The specification's text (2)
 
@@ -1015,7 +1021,7 @@ Each is kept as landed unless he says otherwise.
 - **Rung X's re-anchored citations.** Overtaken by `dc0eee2fe`. Home: PLAN-history, "Off the path, parked", Climb batch 7C's rung X re-anchored the two test.
 - **The proviso that refused the team's `where` spelling of `comprises`.** Overtaken by batch 13's widening (`7fd8fddc8`), now a (b) item. Home: PLAN, "Off the path, parked", The revival's proviso on a listed type's static variables in a `comprises` ... (10-02: 79).
 - **Item 173, row 766: wrong values for a trait's generic dotted method.** Repaired at its default by climb batch 18's rung W, way A (`5262a2412`): walk reads the method's bounds and coercion targets where the trait declares them; row 766 fixed, `TraitGenericMethodInference` (F-253). Home: PLAN-history, "Climb batch 18's landing, 2026-10-18", "Pavol's answers, in the order they are needed", item 60.
-- **Item 174, a commit of `main` that is red alone.** Settled at its default: the history left as pushed, and the gather's order rule fixed, so that a rung comes after the rungs it lands only with (`ac74e11c4`); climb batch 18's gather applied it (`compile-ladder/climb-batch-18/RECORD.md`, "The order the rungs were applied in"). Home: PLAN-history, "Climb batch 18's landing, 2026-10-18", "Work that can start now, with no decision", Climb batch 17's review, finding 2; PLAN, "Climb batch 17, listed for his review", gather.4.
+- **Item 174, a commit of `main` that is red alone.** Settled at its default, which he has not answered; he was told in the landing report of 20:01 UTC on 2026-10-17, but not that it went against the letter of his word for item 57: the history left as pushed, and the gather's order rule fixed, so that a rung comes after the rungs it lands only with (`ac74e11c4`); climb batch 18's gather applied it (`compile-ladder/climb-batch-18/RECORD.md`, "The order the rungs were applied in"). Home: PLAN-history, "Climb batch 18's landing, 2026-10-18", "Work that can start now, with no decision", Climb batch 17's review, finding 2; PLAN, "Climb batch 17, listed for his review", gather.4.
 
 ### Information only, a list of other entries, or merged into an entry here (6)
 
