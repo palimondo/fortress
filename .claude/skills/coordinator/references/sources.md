@@ -121,3 +121,8 @@ The curator's words are in the coordinating session's transcript, held in `explo
 ## Changes of 2026-10-17
 
 - `SKILL.md`, "The curator's role and decisions", the last two bullets: a change to how the curator and the coordinator work together proposed in words first and made after approval; any other change to a skill made and told when it lands. The curator approved the wording in chat on 2026-10-17, after reading the draft.
+
+## Changes of 2026-10-19
+
+- `SKILL.md`, "The boot", step 0 and the model check's line: the curator approved the Stop hook `.claude/hooks/model-check.sh` on 2026-10-19, after the session ran on Haiku from 2026-10-16 20:09 UTC to 2026-10-19 21:04 UTC (`explorations/coordinator/postmortem-2026-10-19-haiku/`). The alarm's three duties are read from the hook's text; step 0's tool and fields are the compaction hook's, in `.claude/settings.json`.
+- `SKILL.md`, "The boot": the line that told the curator after each process stop that the git-check hook was back on, removed. The curator approved the switch `.claude/hooks/git-check-off.sh` on 2026-10-19, which turns the hook off at every start.

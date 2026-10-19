@@ -48,7 +48,7 @@ Any process stop kills and keeps what `fortress-repo`'s `references/session.md` 
 
 - `send_later` reminders survive. They live on the server.
 - A command started with `nohup` survives the cap and an idle stop. A VM restart ends every process.
-- The git-check hook is back on (`hooks.md`).
+- The launcher writes the git-check hook again, and the git-check switch turns it off at the start (`hooks.md`).
 
 A new session is not a process stop. It starts on a fresh machine and cannot resume another session's run. Only its pushed work and the files of the repository carry over.
 

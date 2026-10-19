@@ -28,11 +28,7 @@ The scripts that run are the copies in the worktree's `scripts/`. The reference 
 
 Its reminders are advisory. While the tree holds work that is not ready to commit or push, decline a reminder: say in one line that the work is not ready, and end the turn. The hook does not fire again at the end of the turn that it started.
 
-To turn the hook off, give the script an empty body, which reads its input and exits 0. Keep the original in the session's scratchpad:
+Every start of the process writes the launcher's script again. The git-check switch, `.claude/hooks/git-check-off.sh`, then turns the hook off: `.claude/settings.json` runs it at every SessionStart and every Stop. It gives the script an empty body, which reads its input and exits 0, and keeps the launcher's script as `~/.claude/stop-hook-git-check.sh.orig`. So the hook needs no step by hand and no manual approval.
 
-    cp ~/.claude/stop-hook-git-check.sh <scratchpad>/stop-hook-git-check.sh.orig
-    printf '#!/bin/bash\ncat >/dev/null\nexit 0\n' > ~/.claude/stop-hook-git-check.sh
-
-- The automatic permission check refuses this step in auto mode, and also a check-in whose prompt would take it. The step runs only after the curator switches the session to manual approval, where each tool call waits for the curator.
-- In manual approval, every command of a Workflow agent also waits for the curator's approval. So a batch runs unattended only in auto mode: after the step, ask the curator to switch back.
-- Every start of the process writes the original script again. So after each process stop the hook is back on: `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh` prints 1 or more. The `coordinator` skill's `SKILL.md`, "The boot", says how the curator is told.
+- To tell whether the hook is on, run `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh`. It prints 1 or more while the hook is on.
+- The switch can miss one turn, where its Stop run comes beside the git check itself. Answer that turn's reminder as the paragraph above says.

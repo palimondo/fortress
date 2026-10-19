@@ -193,8 +193,9 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 
 ## The boot
 
-At session start and after each compaction, read these in order:
+At session start and after each compaction, take these steps in order:
 
+0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If it is neither Opus nor Fable, tell the curator before anything else.
 1. `CLAUDE.md`, then this file.
 2. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 3. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
@@ -206,7 +207,7 @@ At session start and after each compaction, read these in order:
 - Read nothing else. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.
 - Rewrite the boot note whole at every change. Never append to it.
-- After each process stop, tell the curator in one line that the git-check hook is back on. Only the curator can turn it off again, by switching the session to manual mode (`cloud-container`, its hooks part).
+- The model check, `.claude/hooks/model-check.sh`, raises an alarm at the end of every turn that runs on neither Opus nor Fable. On its alarm, make the alarm the first line of your reply, send it as a push notification, and do no other work until the curator switches the model back or says to go on.
 
 ## The parts
 

@@ -117,3 +117,7 @@ From `cold-read-2.md` (the coordinator's scratchpad, `skill-outline/checks/`), w
 - `hooks.md`: in manual approval every Workflow agent's command waits for the curator, so a batch runs unattended only in auto mode: FACTS F-210, "The session's automatic permission check refuses a step ...", 2026-10-13, placed beside the switch to manual approval that the `coordinator` skill's boot points to.
 - `container-loss.md`: flags 57 to 70; the branch check within `fortress-repo`'s pushing rule, by the ruling on flag 59; the small transcript's path `<session>.jsonl` from `explorations/coordinator/transcript-backup/backup_transcripts.py:43-47` (flag 67).
 - Not changed: "no swap" (flag 31, no consequence on record); no disk threshold (flag 33, none on record for a run outside the gate, by the ruling); how to wait the scheduler's minute (flag 46, no waiting method on record for the main session).
+
+## The git-check switch, 2026-10-19
+
+- `hooks.md`, "The platform's git-check hook", and `stops.md`, "What a stop kills and keeps here": the switch `.claude/hooks/git-check-off.sh`, run at every SessionStart and Stop from `.claude/settings.json`, which the curator approved on 2026-10-19. It replaced the step by hand and its manual approval. Its behaviour, the `.orig` copy and the missed turn are read from its header comment and body; the `grep -c` test stays from 2026-10-13.
