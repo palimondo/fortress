@@ -833,6 +833,14 @@ From "Climb batch 16, listed for his review". Dropped, not answered by a decisio
 
 - Timed count-stage runs under one lock, a pair as three alternations of base and change compared by their medians (the review's section 2 and finding 1), written into `fortress-repo`'s `references/compiler.md`, "The checker's time", by the skill writer (`6c1473029`) as the coordinator's proposal. Default: as written.
 
+## Answered at the curator's word, 2026-10-17 (11:36 UTC): climb batch 16's W.skeptic.2
+
+### Climb batch 16, listed for his review
+
+- Rows 740 and 741 (W.skeptic.2): should both paths read an exclusion over the whole parameter type, as the specification's existential reduction does? Walk now refuses one program that the base ran (row 740). Default: both rows open, with their expected failures. "For Pavol", 3.
+
+Answered: both paths read the whole parameter type (P-152).
+
 ## Climb batch 17's landing, 2026-10-17
 
 By the coordinator's routing after the landing (`reviews/batch-17-review.md`, section 6; `climb-batch-workflow.md`, "After the landing: the coordinator's routing"), PLAN as at `8b1173430`: each item built or answered, word for word, under the heading it stood under, and the earlier text of each open item that PLAN rewrote.
