@@ -42,7 +42,7 @@ The platform stops the session's process about every 13 hours and when the sessi
 
 - `references/machine.md`, for every agent: the machine, timings across sessions, agents at once, the disk allowance and a full disk, the blocked hosts.
 - `references/stops.md`, for every agent: the kinds of process stop and their signs, a disk rolled back, the weekly usage limit, what a stop keeps here. Its section on check-ins is for the coordinating session.
-- `references/hooks.md`, for the coordinating session: the transcript backup and its blind spots, the git-check hook and how to turn it off.
+- `references/hooks.md`, for the coordinating session: the transcript backup and its blind spots, the git-check hook and how it is turned off.
 - `references/container-loss.md`, for the coordinating session: re-provisioning, re-arming the backup, reading another session's transcript, recovering the work.
 
 How a Claude Code session behaves anywhere (the Bash tool, long commands, waits and the prompt cache, interrupts, the automatic permission check) is `fortress-repo`'s `references/session.md`. Running agents and resuming a run are the `coordinator` skill's `references/delegating.md`.

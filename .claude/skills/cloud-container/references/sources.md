@@ -121,3 +121,4 @@ From `cold-read-2.md` (the coordinator's scratchpad, `skill-outline/checks/`), w
 ## The git-check switch, 2026-10-19
 
 - `hooks.md`, "The platform's git-check hook", and `stops.md`, "What a stop kills and keeps here": the switch `.claude/hooks/git-check-off.sh`, run at every SessionStart and Stop from `.claude/settings.json`, which the curator approved on 2026-10-19. It replaced the step by hand and its manual approval. Its behaviour, the `.orig` copy and the missed turn are read from its header comment and body; the `grep -c` test stays from 2026-10-13.
+- `SKILL.md`, the parts' list, `hooks.md`'s line: "how to turn it off" became "how it is turned off". Settled by the coordinator, 2026-10-19.

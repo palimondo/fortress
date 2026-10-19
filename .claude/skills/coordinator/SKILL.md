@@ -112,7 +112,7 @@ Put every other decision on the review list, and a rung's small decisions in the
 - The prompt cache lives an hour for the main session and a headless session, and five minutes for a subagent.
 - A process stop comes about every 13 hours. Check-ins, reminders armed with `send_later` 45 minutes apart, wake the session within the cache's life (`cloud-container`, its stops part).
 - A message that the curator sends during a turn is queued. An interrupt kills every running agent.
-- The git-check hook asks for a commit after every turn. Its reminders are advisory.
+- The git-check switch turns the platform's git-check hook off at every start. So the hook asks for a commit only on a turn that the switch misses. Its reminders are advisory.
 - Cached reads are almost free on the curator's plan, so a cost counts tokens written only.
 - A worker runs on Opus unless `references/delegating.md` names another tier. Sonnet writes nothing that the curator reads.
 - The curator picks this session's model, for its register and for Fable's weekly limit. The boot note names it.
@@ -148,9 +148,9 @@ Give each decision a default that the curator can take without reading the argum
 
 - While the curator is away, keep your messages to the minimum: gather evidence and do the work. Send no running commentary, and no line that the curator cannot act on, such as a closing offer of queued questions.
 - Do not tell the curator about edits to the record. When the curator asks you to record words, reply "noted".
-- Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone, or after a process stop the hook's one line.
+- Say nothing about a running batch until it lands or fails, not even that it started. If the curator asks, answer from the tree. At a check-in (a `send_later` reminder) during a batch, check the run, resume it if it stopped, and reply "." alone.
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
-- Send a push notification (the PushNotification tool) only for a long run's end or a hold. It reaches the phone only outside the app.
+- Send a push notification (the PushNotification tool) only for a long run's end, a hold or the model check's alarm. It reaches the phone only outside the app.
 
 **While the curator reads turn by turn,** hold the points. Your default, an answer to each point as it comes, buries the curator in text.
 
