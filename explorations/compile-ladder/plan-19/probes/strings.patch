@@ -1,0 +1,55 @@
+diff --git a/Library/FlatString.fsi b/Library/FlatString.fsi
+index 17018a0be..707d2dc88 100644
+--- a/Library/FlatString.fsi
++++ b/Library/FlatString.fsi
+@@ -13,11 +13,10 @@ api FlatString
+ 
+   lineSeparator: String
+ 
+-  object FlatString extends { String }
++  object FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
+     opr ||(self, b:FlatString): String
+     opr ||(self, b:String):String
+     opr ||(self, b:Char): String
+-    opr ||(a:FlatString, self): String
+     flatConcat(self, b:FlatString):String
+     flatConcat(self, b:Char):String
+   end
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 1d83117b1..80eb3d0f7 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -4390,8 +4390,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+         do (i,j,k,l,m) = b; self || "(" || i || "," j || "," k || "," l || "," m || ")" end
+     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
+         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
+-    opr ||(a:Any, self):String = a.asString || self
+-    opr ||(self, b:Any):String = self || b.asString
++    opr ||(a:Any, self):String = ("" || a) || self
++    opr ||(self, b:Any):String = self || cast[\Object\](b).asString
+ 
+     (** The operator %|||% with at least one String argument converts to string,
+         then appends with a whitespace separator unless one of the two arguments is
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+index 75a2735e1..017aa65c6 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+@@ -61,7 +61,17 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
+      */
+     private List<TraitTypeWhere> rewriteExtendsClause(Node whence,
+                                                       List<TraitTypeWhere> extendsClause) {
+-        if (extendsClause.size() > 0) return extendsClause;
++        if (extendsClause.size() > 0) {
++            /* PROBE row 743: a clause that names Any alone extends Object, except Object's own. */
++            boolean onlyAny = true;
++            for (TraitTypeWhere ttw : extendsClause) {
++                BaseType bt = ttw.getBaseType();
++                if (!(bt instanceof NamedType) || !((NamedType) bt).getName().getText().equals(WellKnownNames.anyTypeName)) onlyAny = false;
++            }
++            boolean isObjectDecl = whence instanceof TraitDecl &&
++                NodeUtil.getName((TraitDecl) whence).getText().equals(WellKnownNames.objectTypeName);
++            if (!onlyAny || isObjectDecl) return extendsClause;
++        }
+         if ( ! ( whence instanceof ASTNode ) )
+             bug(whence, "Only ASTNodes are supported.");
+         Id objectId = NodeFactory.makeId(NodeUtil.getSpan((ASTNode)whence),
