@@ -929,8 +929,9 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * equalities of every position together make one static parameter two
      * types that cannot be equal, or where, each class of static parameters
      * so made equal read as one (meetParams), the two parameter types at some
-     * position exclude.  Static arguments that may be equal but do not match
-     * so are left apart, which shows less.
+     * position exclude at every instance of the static parameters they still
+     * mention (excludesAtMeet).  Static arguments that may be equal but do not
+     * match so are left apart, which shows less.
      */
     static private boolean domainsExcludeTogether(Overload o1, Overload o2) {
         if (!(o1.getFn() instanceof FGenericFunction)) return false;
@@ -1008,15 +1009,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             List<FType> m2 = plain ? d2 : g.typeApply(gMeet).getNormalizedDomain();
             if (m1.size() != m2.size()) return false;
             for (int k = 0; k < m1.size(); k++) {
-                FType a = deRest(m1.get(k));
-                FType b = deRest(m2.get(k));
-                if (a instanceof GenericTypeInstance && b instanceof GenericTypeInstance && sameGeneric(a, b)
-                    && (mentionsSymbolic(a) || mentionsSymbolic(b))) {
-                    if (!argsMayBeEqual(((GenericTypeInstance) a).getTypeParams(),
-                                        ((GenericTypeInstance) b).getTypeParams())) return true;
-                } else if (a.excludesOther(b)) {
-                    return true;
-                }
+                if (excludesAtMeet(deRest(m1.get(k)), deRest(m2.get(k)))) return true;
             }
             return false;
         }
@@ -1026,6 +1019,41 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         catch (EmptyLatticeIntervalError ex) {
             return false;
         }
+    }
+
+    /**
+     * Whether a and b, the parameter types at one position of the meet that
+     * domainsExcludeTogether makes, exclude each other at every instance of
+     * the static parameters they still mention.  Where they mention none, as
+     * excludesOther reads them.  Otherwise: instances of one generic type
+     * where their static arguments cannot be equal (argsMayBeEqual); a static
+     * parameter where one of its bounds does; two object types, of different
+     * generic types, always; two trait types without a comprises clause where
+     * excludesOther finds an excludes clause that separates them.  An object
+     * type beside a trait type is not read, nor is a comprises clause:
+     * excludesOther reads an object type apart from every type not among its
+     * supertypes as written, and a static parameter can make the other type
+     * one of them, as an Ob[U] that extends R[ZZ32] is an R[U] at U = ZZ32.
+     */
+    static private boolean excludesAtMeet(FType a, FType b) {
+        if (a == b) return false;
+        if (!mentionsSymbolic(a) && !mentionsSymbolic(b)) return a.excludesOther(b);
+        if (a instanceof GenericTypeInstance && b instanceof GenericTypeInstance && sameGeneric(a, b)) {
+            return !argsMayBeEqual(((GenericTypeInstance) a).getTypeParams(),
+                                   ((GenericTypeInstance) b).getTypeParams());
+        }
+        if (a instanceof SymbolicType || b instanceof SymbolicType) {
+            FType s = a instanceof SymbolicType ? a : b;
+            FType other = s == a ? b : a;
+            for (FType bound : s.getExtends()) {
+                if (excludesAtMeet(bound, other)) return true;
+            }
+            return false;
+        }
+        if (a.cannotBeExtended() && b.cannotBeExtended()) return a.excludesOther(b);
+        if (a.cannotBeExtended() || b.cannotBeExtended()) return false;
+        if (a.getComprises() != null || b.getComprises() != null) return false;
+        return a.excludesOther(b);
     }
 
     /**
