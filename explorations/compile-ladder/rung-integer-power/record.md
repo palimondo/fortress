@@ -3,13 +3,14 @@
 ## FACTS
 
 - **Every integer power answers its base's own type; at a negative exponent the bases 1 and -1 give their exact power, 0 raises `DivisionByZero`, and any other base `IntegerOverflow` (contract E).**
-  - Under walk this holds at `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ` and the numeral type, at an exponent of any integer type, one beyond 64 bits included; `(1/2)^(big(3))` is `1/8`.
+  - Under walk this holds at `ZZ32`, `ZZ64`, `NN32`, `NN64` and `ZZ`, at an exponent of any integer type, one beyond 64 bits included; `(1/2)^(big(3))` is `1/8`. The numeral type follows the same rules at a negative exponent, but its power, like all its arithmetic, answers a `ZZ32` value under walk (row 578).
   - The library declares it so in the component and the api. `QQ`'s power splits by a `typecase` over the integer types, `MultiplicativeRing`'s api power is abstract over `AnyIntegral` with `RR64`'s beside it, and `strToInt` writes `fail[\ZZ32\]`.
   - So the distance's six power sites are gone, 31 to 25, and the count goes from 28 to 22. The second export error loses `MultiplicativeRing`'s entry, 44 entries to 43.
   - A fraction comes from a float or rational base, as `2.0^(-1)`. The team tests `realArith`, `compoundArray` and `simpleExp`, and the demos `BiCGSTAB`, `BiCGSTAB2` and `npbft`, now write theirs so.
   - The compiled path's own library still answers 0 at a negative exponent, and a raw exception at 0 (row 523).
   - Tests: `tests/IntegerPowerContractWalk.fss`, `tests/QQPowerExponent.fss`; the distance stage.
   - Detail: `compile-ladder/rung-integer-power/REPORT.md`, sections 1, 2 and 4.
+- F-84's "Left: `QQ`'s power (rows 438, 445)." is false: rows 438 and 445 close (`REPORT.md`, section 7).
 - F-241 and F-247 describe the state before this rung (`REPORT.md`, section 7). F-241's sites are gone. F-247's "Only the declared type says `RR64`" is false, and its three team tests and two demos now write a float base, with `npbft` beside them.
 
 ## POSITIONS
@@ -23,6 +24,9 @@
 - Row 441, note: "Contract E (P-153): the specification gives it (`basic-integers.tex`, "Integers", opr ^) and walk builds it (`IntegerPowerContractWalk`); compiled, `2^(-1)` is still 0 and `0^(-1)` a raw RuntimeException (row 523), until phase 4's natives." The row's notes are at 705 of 700 characters, so `ledger.py note` may refuse it; the gather lists it for the coordinator then.
 - Row 747, note: "`strToInt` writes `fail[\ZZ32\]` (`fss:4545`), its site gone; the gap stays. No compiled reproducer: `if d <- e` is refused first, 'Variable __cond is not defined'; program: `rung-integer-power/REPORT.md` §8." That is 207 characters, which leaves the notes at 693 of 700.
 - Row 523, note: "Its negative branch now has its contract, E (P-153), as walk's natives give it." The row's notes are at 682 of 700, so the note may be refused.
+- Row 441, its compiled half's reproducer (the skeptic's): `ProjectFortress/compiler_tests/XXXIntegerPowerContractCompiled.test`, with `IntegerPowerContractCompiledLink.test`, an expected failure until phase 4's helper gives E. Put it in the row's note above, in place of its words "(row 523), until phase 4's natives" if the length needs it.
+- Row 533, note (the skeptic's): "`MultiplicativeRing`'s api power is now `abstract opr ^(self, other:AnyIntegral): T` (`Library/FortressLibrary.fsi:283`) and `RR64`'s api declares `opr ^(self, b:AnyIntegral):RR64` (`:366`), climb batch 20 rung I; the tie with this text is not measured."
+- Row 336, note (the skeptic's): "Walk now has `Int.divisionByZero()` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Int.java:263-266`), the helper the fix names, raised by the integer powers at a base of 0 (climb batch 20 rung I)."
 
 ## New rows
 
@@ -32,7 +36,7 @@ NEW-I-1, for section 7 ("Numerals, floats and comparisons"):
 
 NEW-I-2, for section 6 ("Integer arithmetic"):
 
-| NEW-I-2 | the integer chapter's listing writes `throws IntegerDivisionByZero` on ÷, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares; the operators chapter, the completion chapter and both libraries name `DivisionByZero` | CONTESTED | library gap vs spec (specification) | `basic-lib/basic-integers.tex`, "Integers" | none | climb batch 20 rung I | The listing: `Specification/basic-lib/basic-integers.tex:246-250`. 'For integer results, division by zero throws a DivisionByZero' (`Specification/basic/operators/opr-overview.tex:165`); `Specification/basic/evaluation/completion.tex:31`. `Library/FortressLibrary.fsi:1113` and `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:747` declare `DivisionByZero` only, and the method entry of the integer power names it (P-153). Which name the listing takes is not settled. |
+| NEW-I-2 | the integer chapter's listing writes `throws IntegerDivisionByZero` on ÷, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares; the operators chapter, the completion chapter and both libraries name `DivisionByZero` | CONTESTED | library gap vs spec (specification) | `basic-lib/basic-integers.tex`, "Integers" | none | climb batch 20 rung I | The listing: `Specification/basic-lib/basic-integers.tex:246-250`. 'For integer results, division by zero throws a DivisionByZero' (`Specification/basic/operators/opr-overview.tex:165`); `Specification/basic/evaluation/completion.tex:31`. `Library/FortressLibrary.fsi:1114` and `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:747` declare `DivisionByZero` only, and the method entry of the integer power names it (P-153). Which name the listing takes is not settled. |
 
 Both lines pass `ledger.py check --rows` except for their `?` number cells (859 and 844 characters).
 
@@ -51,7 +55,8 @@ Rung I built contract E (P-153). Every integer power answers its base's own type
      - The Working Draft gave `2^(-1)` as `1/2` through the rational power (`Specification-1.0-frozen/basic-lib/numbers.tex:344-355`).
      - The compiler's prelude types the `ZZ32` power `ZZ32` at a `ZZ32` exponent (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:267`), and answers 0 at a negative one (row 523).
    - What the tree now does:
-     - Each integer `^` answers its base's own type.
+     - Each integer `^` answers its base's own type (under walk the numeral object's power answers a `ZZ32` value, as all its arithmetic does; row 578).
+     - The compiled path's own library still answers 0 at a negative exponent, and a Java exception no `catch` sees at a base of 0 (rows 441 and 523; `ProjectFortress/compiler_tests/XXXIntegerPowerContractCompiled.test`).
      - At a negative exponent the bases 1 and -1 give their exact power, 0 raises `DivisionByZero`, and any other base raises `IntegerOverflow`.
      - A fraction is written with a float or rational base, `2.0^(-1)`.
      - The integer chapter's method entry says so (`Specification/basic-lib/basic-integers.tex:534-539`).

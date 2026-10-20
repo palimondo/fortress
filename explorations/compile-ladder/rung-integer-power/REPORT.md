@@ -48,7 +48,7 @@ The tests, in `ProjectFortress/tests/`:
 
 The three respelled team tests passed there: `harness-one.sh $PWD/tmp/rung-integer-power/h-base-team ProjectFortress/tests/realArith.fss ProjectFortress/tests/compoundArray.fss ProjectFortress/tests/simpleExp.fss` (07:14:52Z, tree `97ccd5f1f`) 'OK (3 tests)'. `compoundArray`'s 20 printed lines were equal, line for line, to those of the unchanged file run the same way (07:15:03Z, 'OK (3 tests)'): `diff` of the two outputs printed nothing.
 
-**One correction of the test after the edit.** The first run after the build failed at the numeral case: 'FAIL: J8/0:0 : ZZ32 =/= J14/0:0 : IntLiteral; the numeral type's 0^3 is its own 0'. Walk's numeral power answers walk's numeral, a `ZZ32` value: `FIntLiteral.make` gives an `FInt` for any value that fits (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java:40-48`; P-76). The base does the same: a probe on the old code printed '0 : ZZ32' for `IntLiteral^3`. The assertion now checks the value only, `lit^3 = 0`. The next run stopped on a parse error, 'the argument should not be immediately followed by a non-expression element', at `big(2)^(big(3))`, so each `big(…)` base is now parenthesised. The corrected test failed again on the old code, through the base build's harness:
+**One correction of the test after the edit.** The first run after the build failed at the numeral case: 'FAIL: J8/0:0 : ZZ32 =/= J14/0:0 : IntLiteral; the numeral type's 0^3 is its own 0'. Walk's numeral power answers walk's numeral, a `ZZ32` value: `FIntLiteral.make` gives an `FInt` for any value that fits (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java:40-48`; P-76; row 578, whose test `IntLiteralValue` pins the same `ZZ32` for the object's other arithmetic). The base does the same: a probe on the old code printed '0 : ZZ32' for `IntLiteral^3`. The assertion now checks the value only, `lit^3 = 0`. The next run stopped on a parse error, 'the argument should not be immediately followed by a non-expression element', at `big(2)^(big(3))`, so each `big(…)` base is now parenthesised. The corrected test failed again on the old code, through the base build's harness:
 
     FORTRESS_HOME=/home/user/fortress-base20 /home/user/fortress-base20/explorations/compile-ladder/rung-inference-walk/harness-one.sh $PWD/tmp/rung-integer-power/h-old ProjectFortress/tests/IntegerPowerContractWalk.fss
     # harness-one 2026-10-20T07:23:28Z; tree 97ccd5f1f; ...
@@ -78,7 +78,7 @@ The edit does not reach the compiled power tests, and they kept their verdicts. 
 
 microGPT's quick pair under walk, `explorations/coordinator/tools/mg-run.sh tmp/rung-integer-power/mg post`: `MicroGptFlatQuick` 'VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS', 'rc=0 secs=38'; `MicroGptAplQuick` the same, 'rc=0 secs=46'.
 
-No `XXX` test is added, so none is shown red on a deliberate fix.
+No `XXX` test is added, so none is shown red on a deliberate fix. (The skeptic added one, `compiler_tests/XXXIntegerPowerContractCompiled`, shown red on a deliberate change in `SKEPTIC.md`.)
 
 ## 3. Where the fix belongs, and the precedent search
 
@@ -86,7 +86,7 @@ No `XXX` test is added, so none is shown red on a deliberate fix.
 - The ways the language and the library offer for each part, and the one taken:
   - The power's type: the base's own type (E, Z), a rational typed by the exponent (R), an exponent typed so that it cannot be negative (X), or `RR64` as declared. P-153 takes E; the Fable judgement's section 5 weighs the others.
   - `QQ`'s body over "any integer": the library's `typecase` over the comprised types (`exactValue`, `fss:398-408`; `Number`'s `=`, `fss:386-395`), `-` and `<` declared on `AnyIntegral` (adds abstract members to a comprised trait), or an unsigned exponent per arm (the R and X form). Fork 9 takes the `typecase`.
-  - `strToInt`'s `else`: `fail[\ZZ32\]` (P-153), a `case` on `Maybe` without a generator clause, or a checker repair of row 747. The library calls `fail` with a static argument nowhere else. Of its 21 `fail(` calls, `strToInt`'s is the only one inside a reduction's body with a generator clause (`grep` of `Library/FortressLibrary.fss`; the declaration is at `:54`).
+  - `strToInt`'s `else`: `fail[\ZZ32\]` (P-153), a `case` on `Maybe` without a generator clause, or a checker repair of row 747. The library calls `fail` with a static argument nowhere else. Of its 20 calls of `fail` on the base (21 lines with the declaration at `:54`), `strToInt`'s is the only one inside a reduction's body with a generator clause (`grep` of `Library/FortressLibrary.fss`).
   - The ring's api power: fork 7's three texts, (a) `abstract` alone, (b) the exponent alone, (c) both with `RR64`'s line; (c) taken.
   - The natives' exception at 0: `DivisionByZero` (the probe, after `intToIntPower`), `IntegerOverflow` for every base, or `CastError`; the name by a `WellKnownNames` constant (fork 14) or the probe's string.
   - The exponent reader: `getLong` as the team wrote it, `Int.shiftCount` as the revival wrote it for shifts (`d6faad28f`), or a reader that keeps parity (taken; decision 2).
@@ -110,7 +110,7 @@ Neither stage could be skipped, since the edit changes `Library/` and `ProjectFo
 
 Every api row stays 0, and `#crash none`. Entry by entry, the 22 left are the per-site list's typecheck sites of `FortressLibrary.fss` minus the six power sites. Past `fss:646` each is 2 lines later than landed, since the `typecase` adds two lines:
 - `:1465` (landed `:1463`);
-- the 17 array sites from `:2528` to `:2979` (landed `:2526` to `:2977`);
+- the 19 array sites from `:2528` to `:2979` (landed `:2526` to `:2977`);
 - `BIG MIN` at `:4370` and `:4376` (landed `:4368`, `:4374`).
 
 The six gone are `:642` three times, `:643`, `:4540` and `:4556`. So 28 to 22, as read.
@@ -193,6 +193,8 @@ The gather corrects those this rung does not edit:
 - Row 445's claim: the api's `ZZ64` exponent, the failure on a `ZZ` exponent and the recursion on an unsigned one are all gone; the row closes.
 - Row 747's claim, "so `strToInt`'s `SUM[\ZZ32\]` (…) is refused", is false: `strToInt` now writes `fail[\ZZ32\]`. The checker's gap stays.
 - Row 523's notes, "binding it as it stands would decide row 441", are past: row 441's contract is decided (E).
+- FACTS F-84, "The one library's numbers, orderings, `List` and natives answer their declared types ...": its "Left: `QQ`'s power (rows 438, 445)." is false, since the integer powers answer their declared types and `QQ`'s power its exponent of any integer (rows 438 and 445 close). (Added by the skeptic.)
+- Row 533's claim names the tie of `RR64`'s `opr ^(self, b:RR64)` with `MultiplicativeRing`'s `opr ^(self, other:ZZ64)`; the second is now `abstract opr ^(self, other:AnyIntegral): T` (`Library/FortressLibrary.fsi:283`), and `RR64`'s api gains `opr ^(self, b:AnyIntegral):RR64` (`:366`). Whether `10.0^(-5)` still ties, and between which two, is not measured. (Added by the skeptic.)
 - In `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/`, no integer `Pow` still gives a float result except the unbound `ZZ32.java:201-211` (`ZZ32$Pow`), which no library binds (grep of `Library/` and `ProjectFortress/LibraryBuiltin/`).
 - The specification:
   - `opr-overview.tex:73`, "This operation is defined in the usual way on numerals.", is left (fork 16);
@@ -277,6 +279,7 @@ It printed 'Compiler internal generated.:0:0:', 'Variable __cond is not defined.
 - Row 438, the declared `RR64` (home 1): `IntegerPowerContractWalk`'s `shown` assertions and the distance stage's five sites.
 - Row 445, the rational power's exponent (home 1): `QQPowerExponent`, promoted.
 - Row 441, the negative power unspecified (home 1 for walk and the text: `IntegerPowerContractWalk`). Its compiled half stays open with row 523 (a note).
+- Row 441's compiled half, `2^(-1)` answering 0 and `0^(-1)` a raw `RuntimeException` on the compiled path, is a deferred defect that the revised text settles, so home 2: `ProjectFortress/compiler_tests/XXXIntegerPowerContractCompiled.test` with `IntegerPowerContractCompiledLink.test` (added by the skeptic; `SKEPTIC.md`).
 - Row 747, the checker's `fail` in a generator clause's `else` (home 3, its row): the library's site is gone; the reproducer stays the program of section 8.
 - Walk read an `NN64` exponent of 2^63 or more as negative, and a ZZ or numeral power wrapped an exponent beyond the int (home 1): `IntegerPowerContractWalk`'s `exponentTypes`. No row, since the defect was found and repaired here.
 - NEW-I-1, `BiCGSTAB` and `BiCGSTAB2` stop at their `ZZ64 / RR64` timing line under walk (home 3, the row only). Walk stops with an uncatchable `ProgramError`, so no gated test can pass while it shows, and the demos are not gated.
@@ -284,7 +287,7 @@ It printed 'Compiler internal generated.:0:0:', 'Variable __cond is not defined.
 
 ## 12. For FACTS
 
-Under walk and in the library's declarations, every integer power answers its base's own type. At a negative exponent only the bases 1 and -1 give a value: 0 raises `DivisionByZero` and any other base `IntegerOverflow`, at an exponent of every integer type. So the distance's six power sites are gone (31 to 25, and the count 28 to 22), and a program that wants a fraction writes a float or rational base. The compiled path's own library still answers 0 (row 523). Test: `ProjectFortress/tests/IntegerPowerContractWalk.fss`, `QQPowerExponent.fss`; the distance stage. Detail: sections 1, 2 and 4.
+In the library's declarations every integer power answers its base's own type, and under walk so does every power of the five integer types; walk's numeral object answers a `ZZ32` value, as all its arithmetic does (row 578). At a negative exponent only the bases 1 and -1 give a value: 0 raises `DivisionByZero` and any other base `IntegerOverflow`, at an exponent of every integer type. So the distance's six power sites are gone (31 to 25, and the count 28 to 22), and a program that wants a fraction writes a float or rational base. The compiled path's own library still answers 0 (row 523). Test: `ProjectFortress/tests/IntegerPowerContractWalk.fss`, `QQPowerExponent.fss`; the distance stage. Detail: sections 1, 2 and 4.
 
 ## 13. Commands worked out
 
