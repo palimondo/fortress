@@ -1498,10 +1498,8 @@ array[\E\](x:ZZ32,y:ZZ32,z:ZZ32):Array[\E,(ZZ32,ZZ32,ZZ32)\]
 (** Factory for immutable arrays that returns an empty 0-indexed array
     of a given run-time-determined size. **)
 immutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
-(*
 immutableArray[\E\](x:ZZ32,y:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32)\]
 immutableArray[\E\](x:ZZ32,y:ZZ32,z:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32,ZZ32)\]
-*)
 
 primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\]
 
