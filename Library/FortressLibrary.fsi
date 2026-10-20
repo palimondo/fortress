@@ -1497,8 +1497,10 @@ array[\E\](x:ZZ32,y:ZZ32,z:ZZ32):Array[\E,(ZZ32,ZZ32,ZZ32)\]
 (** Factory for immutable arrays that returns an empty 0-indexed array
     of a given run-time-determined size. **)
 immutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
+(*
 immutableArray[\E\](x:ZZ32,y:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32)\]
 immutableArray[\E\](x:ZZ32,y:ZZ32,z:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32,ZZ32)\]
+*)
 
 primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\]
 
@@ -1619,6 +1621,8 @@ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
     scale(t: T): Vector[\T,s0\]
     pmul(v: Vector[\T,s0\]): Vector[\T,s0\]
     dot(v: Vector[\T,s0\]): T
+    fill(v:T):Vector[\T,s0\]
+    tabulate(f:ZZ32->T):Vector[\T,s0\]
 end
 
 (** %__builtinFactory1% must be a non-overloaded 0-parameter factory for
@@ -1646,34 +1650,34 @@ vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](v:T):Vector[\T,s
 tabulatedVector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](f:ZZ32->T):Vector[\T,s0\]
 
 
-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\]):Vector[\T,n\]
 
 pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
        (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
        (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
         (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
 squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T
@@ -1739,6 +1743,8 @@ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
     rmul(v: Vector[\T,s1\]): Vector[\T,s0\]
     lmul(v: Vector[\T,s0\]): Vector[\T,s1\]
     t(): Matrix[\T,s1,s0\]
+    fill(v:T):Matrix[\T,s0,s1\]
+    tabulate(f:(ZZ32,ZZ32)->T):Matrix[\T,s0,s1\]
 end
 
 __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\]
@@ -1771,29 +1777,29 @@ opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m,
      (me:Matrix[\T,n,m\], other:Matrix[\T,m,p\]): Matrix[\T,n,p\]
 
 (** Matrix-vector multiplication. *)
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
 (** Vector-matrix multiplication. *)
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
 (** %Array3[\T,b0,s0,b1,s1,b2,s2\]% is the type of 3-dimensional arrays
@@ -1858,6 +1864,7 @@ __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
         Array3[\T,b0,s0,b1,s1,b2,s2\]
 
 array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
+array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\]
 tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
 
 (************************************************************
