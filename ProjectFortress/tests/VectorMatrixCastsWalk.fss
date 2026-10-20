@@ -125,20 +125,20 @@ slices[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, name: 
     m[1,0] := z
     m[1,1] := x
     col = m[:, 1]
-    assert(instanceOf[\Array1[\T,0,2\]\](col), true, name, ": a[:, j] answers a 0-based rank-1 array; ranges.tex, implicit ranges")
-    assert(col[0], y, name, ": m[:, 1][0]; ranges.tex, implicit ranges")
-    assert(col[1], x, name, ": m[:, 1][1]; ranges.tex, implicit ranges")
+    assert(instanceOf[\Array1[\T,0,2\]\](col), true, name, ": a[:, j] answers a 0-based rank-1 array; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+    assert(col[0], y, name, ": m[:, 1][0]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(col[1], x, name, ": m[:, 1][1]; ranges.tex, section \"Ranges\", implicit ranges")
     row = m[1, :]
-    assert(instanceOf[\Array1[\T,0,2\]\](row), true, name, ": a[i, :] answers a 0-based rank-1 array; ranges.tex, implicit ranges")
-    assert(row[0], z, name, ": m[1, :][0]; ranges.tex, implicit ranges")
-    assert(row[1], x, name, ": m[1, :][1]; ranges.tex, implicit ranges")
+    assert(instanceOf[\Array1[\T,0,2\]\](row), true, name, ": a[i, :] answers a 0-based rank-1 array; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+    assert(row[0], z, name, ": m[1, :][0]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(row[1], x, name, ": m[1, :][1]; ranges.tex, section \"Ranges\", implicit ranges")
 
     b = __builtinFactory2[\T,1,2,1,3\]()
     assert(instanceOf[\Array2[\T,1,2,1,3\]\](b), true, name, ": __builtinFactory2 at base (1,1); Library/FortressLibrary.fsi, __builtinFactory2")
     bc = b[:, 2]
-    assert(instanceOf[\Array1[\T,0,2\]\](bc), true, name, ": a column of an array based at (1,1) is a 0-based rank-1 array of 2; ranges.tex, implicit ranges")
+    assert(instanceOf[\Array1[\T,0,2\]\](bc), true, name, ": a column of an array based at (1,1) is a 0-based rank-1 array of 2; Library/FortressLibrary.fss, trait Array2, row and column extraction")
     br = b[1, :]
-    assert(instanceOf[\Array1[\T,0,3\]\](br), true, name, ": a row of an array based at (1,1) is a 0-based rank-1 array of 3; ranges.tex, implicit ranges")
+    assert(instanceOf[\Array1[\T,0,3\]\](br), true, name, ": a row of an array based at (1,1) is a 0-based rank-1 array of 3; Library/FortressLibrary.fss, trait Array2, row and column extraction")
   end
 
 factories[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, name: String): () = do

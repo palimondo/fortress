@@ -6,12 +6,12 @@ sliceAt[\nat b0, nat b1\](): () = do
     a = __builtinFactory2[\ZZ32,b0,2,b1,3\]()
     for i <- 0#2, j <- 0#3 do a[b0 + i, b1 + j] := 10 (i + 1) + (j + 1) end
     c = a[:, b1]
-    assert(c[0], 11, "the column's first element is a[b0,b1]; ranges.tex, implicit ranges: the range : is treated as l:u")
-    assert(c[1], 21, "the column's second element is a[b0+1,b1]; ranges.tex, implicit ranges")
+    assert(c[0], 11, "the column's first element is a[b0,b1]; ranges.tex, section \"Ranges\": the implicit range : is treated as l:u")
+    assert(c[1], 21, "the column's second element is a[b0+1,b1]; ranges.tex, section \"Ranges\", implicit ranges")
     r = a[b0, :]
-    assert(r[0], 11, "the row's first element is a[b0,b1]; ranges.tex, implicit ranges")
-    assert(r[1], 12, "the row's second element is a[b0,b1+1]; ranges.tex, implicit ranges")
-    assert(r[2], 13, "the row's third element is a[b0,b1+2]; ranges.tex, implicit ranges")
+    assert(r[0], 11, "the row's first element is a[b0,b1]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(r[1], 12, "the row's second element is a[b0,b1+1]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(r[2], 13, "the row's third element is a[b0,b1+2]; ranges.tex, section \"Ranges\", implicit ranges")
     s = a[(b0, b1 + 1)#(2,1)]
     assert(s[0,0], 12, "the range subscript (b0,b1+1)#(2,1) starts at a[b0,b1+1]; Library/FortressLibrary.fsi, trait Array2, subarray")
     assert(s[1,0], 22, "the range subscript (b0,b1+1)#(2,1) ends at a[b0+1,b1+1]; Library/FortressLibrary.fsi, trait Array2, subarray")
