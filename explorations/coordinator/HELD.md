@@ -4,8 +4,6 @@
 
 ## Held in chat (2026-10-20)
 
-- 11:50 Commit only the files named, never `-a`, `-A` or `.` (for the skill writer: task 20, B.1).
-- 09:20 The coordinator's own rule after `e487cec2d`: while a batch runs, nothing is committed in the main tree (for the skill writer: task 20, B.2).
 - 06:45 The batch agents keep the task tools; a step of the landing sweeps the done tasks from the shared list, decided on the evidence of `process-engineering/task-list-archaeology.md` (for the skill writer: the sweep as step 1 of `batch.md`, "The landing", by `tools/sweep-tasks.py`).
 
 ## Held in chat (2026-10-16)
