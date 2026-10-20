@@ -2,12 +2,16 @@
 
 # Boot note
 
-**State at 14:28 UTC on 2026-10-20** (16:28 his time), after the symbolic-operators probe returned.
+**State at 16:52 UTC on 2026-10-20** (18:52 his time), after his hold of 16:50 UTC.
 
 ## The model, first
 
 - The coordinating session runs on Opus 5.5, by his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19; `get_session` showed Opus in both fields at the boot of about 13:58 UTC on 2026-10-20. Check it at every boot with `get_session` (no session ID): `session_context.model` and `external_metadata.last_served_model`.
 - From 20:09:30 UTC on 2026-10-16 to then it ran on Haiku 5.5, unseen; the post-mortem is `explorations/coordinator/postmortem-2026-10-19-haiku/`. The model check, `.claude/hooks/model-check.sh`, alarms after a turn on neither Opus nor Fable.
+
+## His hold, 16:50 UTC on 2026-10-20
+
+- After reading `reviews/item31-drafts.md` he wrote that he is "convinced this is what model collapse looks like", has lost confidence in the process, and calls a post-mortem. **No batch runs until FACTS and POSITIONS are verified again**, if the not-blind Opus draft's reading is right (P-86 not his words, its premise false, item 31 no decision). The post-mortem's plan is proposed to him at about 16:55 UTC; nothing starts before his yes.
 
 ## Running
 
