@@ -311,6 +311,20 @@ A note written before the revival, and your training, can be right about the tea
 - Resolution: walk raises `IntegerOverflow` too. Code that means to wrap uses the specification's wrapping operators (`library.md`).
 - Reason: the specification and the compiled path already agreed.
 
+**An integer power**
+
+- Original: both libraries declared every integer `^` to answer `RR64`. Walk answered the integer at a nonnegative exponent, and `1.0 / pow(base, -exp)` at a negative one: `2^(-1)` was `0.5`, and `0^(-1)` was `Infinity`. The Working Draft gave `2^(-1)` as the rational `1/2`. The compiler's library types the `ZZ32` power `ZZ32`, and answers 0 at a negative exponent. Walk read every exponent as a `ZZ64`, so it refused a `ZZ` exponent, and read an `NN64` exponent of 2^63 or more as negative. The api declared `MultiplicativeRing`'s power over a `ZZ64` exponent, where its component takes `AnyIntegral`, and lacked the power of `RR64`'s component over `AnyIntegral`.
+- Resolution: each integer `^` answers its base's own type, at an exponent of any integer type. At a negative exponent, the bases 1 and -1 give their exact power, 0 raises `DivisionByZero`, and any other base raises `IntegerOverflow`. For a fraction, write a float or rational base, as `2.0^(-1)`. The team's tests `realArith`, `compoundArray` and `simpleExp`, and the demos `BiCGSTAB`, `BiCGSTAB2` and `npbft`, now write `10.0^(-k)` where they wrote `10^(-k)`. The api's two powers match their components. `strToInt` calls `fail[\ZZ32\]`, since a `fail` without a static argument has the result type `Any`. The integer chapter's entry for `opr ^` states the rule (`Specification/basic-lib/basic-integers.tex`). Two departures stay:
+  - under walk, the numeral type's power answers a `ZZ32` value, as all its arithmetic does (ledger row 578);
+  - the compiler's library still answers 0 at a negative exponent, and a Java exception that no `catch` sees at a base of 0 (ledger rows 441 and 523).
+- Reason: among siblings an `RR64` holds no integer, and the checker refused the library's bodies that use the power as an integer. The compiler's library types the power by its base. No type carries the sign of a numeral, so no overload can tell `10^16` from `10^(-16)`: the checker types every integer numeral as `IntLiteral`.
+
+**The rational power over any integer**
+
+- Original: `QQ`'s power negated its exponent to test its sign, under the team's comment "Way too clever by half". Its api declared the exponent `ZZ64`. Under walk, `(1/2)^(unsigned(3))` raised `IntegerOverflow`, and `(1/2)^(big(3))` stopped.
+- Resolution: a `typecase` over the five integer types negates the exponent only in a signed type, and the api takes `AnyIntegral`. Both calls above answer `1/8`.
+- Reason: `AnyIntegral` declares no `-`, so the checker refused the negation.
+
 **Ranges**
 
 - Original: the interpreter's ranges took any integer type. The compiler's library had ranges over `ZZ32` only.
@@ -346,6 +360,15 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the specification makes a one-dimensional array whose elements are a subtype of `Number` a vector, and a two-dimensional one a matrix (`Specification/basic/expressions/aggregate.tex`). The interpreter's library followed it: `array1` and `array2` gave a `Vector` or a `Matrix` at every element type below `Number`, and at `Number` and `AnyIntegral` themselves. The library bounds a vector's element type by `{ Number, MultiplicativeRing[\T\] }` (`Library/FortressLibrary.fsi`), which `Number` and `AnyIntegral` do not satisfy. The checker refused the factories' calls of `vector` and `matrix` as ill-formed types.
 - Resolution: `array1` and `array2` give a `Vector` or a `Matrix` only at `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64`. At every other element type they give a plain array, also at a user type that extends `Number`. Walk stops at a plain array's `+` and unary `-` with a failed dispatch. Under walk, a `T` inferred from a `ZZ32` value is walk's run-time type `Int`, not `ZZ32`. So `array1` and `array2` with an inferred element type give a plain array, where the specification gives a vector (ledger row 721). Write the static argument to get a vector. The factories choose by a `typecase` over a witness, a value of their result type. A `typecase` over a value of the element type matched a type below a number type, and its `cast` threw `CastError`. `aggregate.tex` still states the rule at `Number`.
 - Reason: `Vector[\Number,n\]` is not a well-formed type, because `Number` is not within the vector's bound (`Specification/basic/inference.tex`).
+
+**The result types of vectors and matrices, and the api's array declarations**
+
+- Original: `Vector` and `Matrix` answered their `+`, `-`, unary `-`, `scale` and `pmul` with the parent array's `map` or `ivmap`, typed `Array1` or `Array2`, where a `Vector` or a `Matrix` is declared. `vector(v)`, `tabulatedVector`, `rmul`, `lmul` and `matrix(v)` did the same through the parent's `fill` and `tabulate`. So did the size-tested arms of the factories `__builtinFactory1` and `__builtinFactory2`, and the argument of `Col` and `Row`. The api differed from the component in three ways:
+  - it declared 17 vector and matrix operators, such as `DOT`, with sizes that no parameter, result or body uses. The team took these sizes out of the component in 2008, and the api kept them;
+  - it declared `immutableArray` at ranks 2 and 3, which the component has only in a comment;
+  - it lacked `array3(v)`, which the component defines.
+- Resolution: `Vector` and `Matrix` declare `fill` and `tabulate` at their own type. Their operations, the factories' arms and the argument of `Col` and `Row` pass their result through the library's `cast` to the declared type. The api's 17 operators carry only the sizes that they use, the api has the two ranks of `immutableArray` in a comment too, and it declares `array3(v)`. Under walk, the values of the tree's tests and demos do not change. A `Vector` or `Matrix` whose `replica` answers an array that is neither now raises `CastError` at its `+`, `-`, unary `-`, `scale` or `pmul`. Eight declarations of the api still have an unused size.
+- Reason: the checker refused each body: "Function body has type Array1[\T,0,s0\], but declared return type is Vector[\T,s0\]." It reported the api's declarations as missing from the component, by the export rule: "The header and type of d' must be the same as the header and type of d" (`Specification/basic/components/apis.tex`). The library already gives a result its precise type in these two ways: `ImmutableArray1` declares `fill` and `tabulate` at its own type, and `array1` casts its result.
 
 **Rounding a rational at an infinity or 0/0**
 

@@ -750,3 +750,11 @@ Each fix is the cold read's (`tmp/skill-writer/coldread-19.md`) or the post-batc
 - `interpreter.md`, "What walk checks", the first bullet: the exceptions that `revival-changes.md` lists, ledger row 788.
 - `compiler.md`, "The checker's time": the count stage about a minute, from 61 to 75 s in climb batch 19 and 64 s at its gate.
 - `revival-changes.md`, "Exclusion where a declaration has static parameters", the free static parameter: the order of the declarations under walk, from the coordinator's run of 2026-10-20 of the pair in the other order through `harness-one.sh` on the main tree's build, refused at load, "fails the Meet Rule".
+
+## Climb batch 20's changes, 2026-10-20
+
+The coordinator's task of 2026-10-20, from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "Revival changes, for the skill writer". Rung I landed as `5ad4a9957`, rung A as `e487cec2d`, with its record in `444f37018`.
+
+- `revival-changes.md`, "An integer power": rung I, `5ad4a9957`; POSITIONS P-153; FACTS F-241, F-247 and F-263; ledger rows 438, 441, 523 and 578; `Specification/basic-lib/basic-integers.tex:534-539`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:267`; `scala_src/typechecker/impls/Misc.scala:468-469`; `Library/FortressLibrary.fsi:37` for `fail`, `Library/FortressLibrary.fss:4561` for `strToInt`, checked on 2026-10-20.
+- `revival-changes.md`, "The rational power over any integer": rung I, `5ad4a9957`; FACTS F-263; ledger row 445; `Library/FortressLibrary.fss:641-648` and `Library/FortressLibrary.fsi:431`, checked on 2026-10-20; the walk values of the old code, the record's "Points to report", rung I.
+- `revival-changes.md`, "The result types of vectors and matrices, and the api's array declarations": rung A, `e487cec2d`; POSITIONS P-40; FACTS F-35, F-260 and F-264; ledger row 678; `Specification/basic/components/apis.tex:249-256`; `Library/FortressLibrary.fss:2527-2542` and the precedents `:2409-2416` and `:2587-2594`, `Library/FortressLibrary.fsi:1501-1504` and `:1868`, checked on 2026-10-20.
