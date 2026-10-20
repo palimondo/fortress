@@ -2809,3 +2809,15 @@ pointer words refreshed in: F-24
 2026-10-20 03:29Z · rewritten · commit `3dca83601` · by climb batch 19 commit stage: the landed figures of climb batch 19 gate, read from explorations/compile-ladder/climb-batch-19/gate/distance.txt (#total 31) and checker-count.txt (#total 28): the distance 34 to 31, the count 30 to 28; numbers only
 
 - F-53 **The distance to the switch-over is 34 errors and the checker count is 30, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 30 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-260
+
+2026-10-20 03:59Z · added · from `explorations/perf-probes/array-sites/REPORT.md`, "In short" · commit `fa133ed9a` · by Opus probe worker: the array sites probe for ask 3
+
+### F-261
+
+2026-10-20 03:59Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "9. For the record" · commit `c302e4613` · by Fable judgement on item 58: its section 9, handed to FACTS
+
+### F-262
+
+2026-10-20 03:59Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "9. For the record" · commit `c302e4613` · by Fable judgement on item 58: its section 9, handed to FACTS
