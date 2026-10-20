@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 06:23 UTC on 2026-10-20** (08:23 his time), rewritten whole after ask 4's answer.
+**State at 06:40 UTC on 2026-10-20** (08:40 his time), rewritten whole after climb batch 20's planner.
 
 ## The model, first
 
@@ -12,8 +12,8 @@
 
 ## Running
 
-- **The planner of climb batch 20** (Opus, agent `a1723ddec4607ce07`, brief `scratchpad/haiku-window/brief-plan20.md`), started 05:56 UTC on the standing go for phase 3: the array fixes with decision E's diff, the integer power by P-153, and the second export error's mechanical part; the held items stay out. When it ends: the Fable review in place (`climb-batch-19-review.md`'s form), then the launch steps of the manual.
-- **The drafter of ask 5** (Opus, agent `a6d814b375af37840`), started 06:22 UTC, read-only: the ask on when the checker reads symbolic operators (PLAN items 38 and 59), returned as its final message. Read it, cut it to the ask form, send it. No check-in is armed.
+- **Climb batch 20's record** was drafted by its planner and committed at `827e329a7`: rungs I (the integer power by P-153) and A (the array sites with decision E's diff), the distance 31 to 5 and the count 28 to 3 declared by its measurement; the second export error and row 774 held out for probes; no consequential fork. **Its Fable review in place** (Fable, agent `a046373af2a45c05f`, brief `scratchpad/haiku-window/brief-fable20.md`) started about 06:40 UTC; it writes `climb-batch-20-review.md`. When it ends: its questions are the record's; then the launch steps of the manual, with the task-list line below added to the script.
+- **Ask 5 is drafted** (`scratchpad/ask5.md`; default and recommendation: option 1, symbolic operators checked after the switch-over), held until his answer on the review list's schedule. The drafter's stale-record points are `scratchpad/haiku-window/ask5-record-points.md`, owed for routing after ask 5's answer. No check-in is armed.
 - **The task list's root cause, owed at batch 20's launch:** the batch agents wrote 217 to-dos into this session's shared task list (climb batches 14 to 19; a first list of 59 was cleared on 2026-10-13 without a fix). All 209 done and the 8 left in progress were checked against their landed reports at 06:30 UTC: nothing owed. Before batch 20 launches, add to the batch script's role prompts that an agent uses no task-list tool; after its landing, check that `/root/.claude/tasks/fe616d40-a9c6-56d7-9da1-7168a172765d/` holds no task file, and if one is there, give the batch agents an agent type without the task tools; then delete `scratchpad/stale-tasks-2026-10-20/`.
 - **The review list's "later" (proposed to him at about 06:35 UTC, waiting for his yes):** 189 open items in `review-queue.md` (56 consequential, 133 routine); an Opus worker gives each a point by which it is needed (the next batch that builds on it, the switch-over, microGPT compiled, or never) and marks the stale ones; each is put to him before its point, the rest on one page per phase; at a landing only the items that change his decisions or microGPT reach him. Asks 7 and 8 wait on this: ask 8 before the batch that builds row 773, ask 7 on the page.
 
