@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 00:38 UTC on 2026-10-20** (02:38 his time), rewritten whole when climb batch 19 launched.
+**State at 00:45 UTC on 2026-10-20** (02:45 his time), rewritten whole after the VM restart of 00:41 UTC and the resume of climb batch 19.
 
 ## The model, first
 
@@ -12,7 +12,7 @@
 
 ## Running
 
-- **Climb batch 19,** run `wf_2408885e-820` (task `whov93xgu`), launched at 00:37 UTC on 2026-10-20 on the standing go, with `args` `{"base": "612869b4a2934caf40cd17a7afcf2ab149fc9252", "baseBuild": "/home/user/fortress-base19"}`, byte for byte for a resume. About 3.2M (2.9M to 3.9M) and 3 hours. While it runs: say nothing about it to him until it lands or fails; at a check-in, check it, resume it if stopped, reply "." alone. When it ends: the landing steps of `batch.md`, "The landing".
+- **Climb batch 19,** run `wf_2408885e-820`, launched at 00:37 UTC on 2026-10-20 on the standing go (task `whov93xgu`), stopped by the VM restart of 00:41:01 UTC with its two rung workers unfinished, resumed at 00:43 UTC with `resumeFromRunId` (task `wyp3nwahq`), with `args` `{"base": "612869b4a2934caf40cd17a7afcf2ab149fc9252", "baseBuild": "/home/user/fortress-base19"}`, byte for byte for a resume. About 3.2M (2.9M to 3.9M) and 3 hours. While it runs: say nothing about it to him until it lands or fails; at a check-in, check it, resume it if stopped, reply "." alone. When it ends: the landing steps of `batch.md`, "The landing".
 - **Check-ins armed** (`send_later`, 45 minutes apart): "Batch 19 check-in 1" to "5", at 01:22, 02:07, 02:52, 03:37 and 04:22 UTC; the fifth arms two more if the run still runs.
 - **Waiting on him: ask 2,** item 58 in its new form, put at 00:19 UTC with the Fable judgement (`c302e4613`, `explorations/reviews/integer-power-fable-judgement.md`; default 1, E). Ask 3 comes after his answer.
 
@@ -33,7 +33,7 @@
 
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Six exact allow rules for them (with and without `-q`) are in `.claude/settings.json`'s `permissions.allow`, approved by him in manual mode on 2026-10-19.
 - **The git-check hook** is off by `.claude/hooks/git-check-off.sh`, run at every SessionStart and Stop; the launcher's script is kept as `~/.claude/stop-hook-git-check.sh.orig`.
-- **The machine.** The VM restarted at 21:04:18 UTC on 2026-10-19 (`uptime -s`); the next stop by the cap is about 10:04 UTC on 2026-10-20. 4.6 GB free at 00:07 UTC. Check-ins are armed for batch 19 (above). Page watches lapse at a restart; none is confirmed since.
+- **The machine.** The VM restarted at 00:41:01 UTC on 2026-10-20 (`uptime -s`), with no rollback (`main` equal to `origin/main` at `c6c058bea`); the one before was at 21:04:18 UTC on 2026-10-19. The next stop by the cap is about 13:41 UTC on 2026-10-20. 4.7 GB free at 00:43 UTC. Check-ins are armed for batch 19 (above). Page watches lapse at a restart; none is confirmed since.
 - **His usage at about 00:10 UTC** (his paste): the session limit 24 % used, resetting about 02:10 UTC; the week 37 % for all models and 7 % for Fable, resetting Friday 11:59.
 - **The revival page,** https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, is version 22, made on Haiku; part 3 of the post-mortem (entry 15) lists its faults, and its rewrite is owed (above). Its glossary thread (`6e6b8b1c`) waits for his own words for "curator". Its source is `scratchpad/revival-page/page.html`.
 
