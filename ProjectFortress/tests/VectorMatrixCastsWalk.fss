@@ -118,6 +118,37 @@ matrixOps[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0:
     assert(ts[1,1], x + y, name, ": (m.t() + k)[1,1]; Library/FortressLibrary.fsi, trait Matrix, opr +")
   end
 
+nonSquare[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0: T, name: String): () = do
+    w = matrix[\T,2,3\]().tabulate(fn (i: ZZ32, j: ZZ32): T => if i = j then x else z end)
+    assert(instanceOf[\Matrix[\T,2,3\]\](w), true, name, ": a 2 by 3 tabulate answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix")
+    k = matrix[\T,2,3\](y)
+    assert(instanceOf[\Matrix[\T,2,3\]\](k), true, name, ": a 2 by 3 matrix(v) answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, matrix")
+    s = w + k
+    assert(instanceOf[\Matrix[\T,2,3\]\](s), true, name, ": a 2 by 3 m + k answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(s[1,2], z, name, ": (m + k)[1,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    d = w - k
+    assert(instanceOf[\Matrix[\T,2,3\]\](d), true, name, ": a 2 by 3 m - k answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    assert(d[1,1], x - y, name, ": (m - k)[1,1] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    n = -(matrix[\T,2,3\]().fill(n0))
+    assert(instanceOf[\Matrix[\T,2,3\]\](n), true, name, ": a 2 by 3 unary minus answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    assert(n[1,2], -n0, name, ": (-m)[1,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    c = w.scale(y)
+    assert(instanceOf[\Matrix[\T,2,3\]\](c), true, name, ": a 2 by 3 scale answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, scale")
+    assert(c[0,2], y z, name, ": m.scale(y)[0,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, scale")
+    f = matrix[\T,2,3\]().fill(z)
+    assert(instanceOf[\Matrix[\T,2,3\]\](f), true, name, ": a 2 by 3 fill answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix")
+    r = w.rmul(vector[\T,3\](y))
+    assert(instanceOf[\Vector[\T,2\]\](r), true, name, ": a 2 by 3 rmul answers a Vector of 2; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    assert(r[0], x y + z y + z y, name, ": m.rmul(u)[0] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    l = w.lmul(vector[\T,2\](y))
+    assert(instanceOf[\Vector[\T,3\]\](l), true, name, ": a 2 by 3 lmul answers a Vector of 3; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    assert(l[2], y z + y z, name, ": m.lmul(u)[2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    tw = w.t() + matrix[\T,3,2\](y)
+    assert(instanceOf[\Matrix[\T,3,2\]\](tw), true, name, ": a 3 by 2 transposed matrix's + answers a Matrix of 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(tw[2,1], z, name, ": (m.t() + k)[2,1] of a 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(tw[1,1], x + y, name, ": (m.t() + k)[1,1] of a 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+  end
+
 slices[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, name: String): () = do
     m = matrix[\T,2,2\]()
     m[0,0] := x
@@ -185,6 +216,7 @@ factories[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, name: Str
 each[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0: T, name: String): () = do
     vectorOps[\T\](x, y, n0, name)
     matrixOps[\T\](x, y, z, n0, name)
+    nonSquare[\T\](x, y, z, n0, name)
     slices[\T\](x, y, z, name)
     factories[\T\](x, y, name)
   end
