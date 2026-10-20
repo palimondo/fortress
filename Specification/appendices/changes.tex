@@ -2842,12 +2842,12 @@ are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
 with the same parameter type'', two functional methods among them wherever their
 \KWD{self} parameters stand.
 It accepts one such pair, a declaration whose parameter types are its type
-parameters, bounded by \TYP{Any}, beside one without static parameters whose
-parameter types are \TYP{Any}, as
+parameters, written with no bound and so bounded by \TYP{Any}, beside one
+without static parameters whose parameter types are \TYP{Any}, as
 \EXP{\VAR{g}\llbracket{}T\rrbracket(a\COLON{}T)} beside
 \EXP{\VAR{g}(a\COLON \TYP{Any})}, and runs the first for a call to which both
-apply; it refuses the same pair at a bound below \TYP{Any} (row~759 of the
-revival's gap ledger).
+apply; it refuses the same pair where the bound is written, \TYP{Any} or one
+below it (row~759 of the revival's gap ledger).
 It reads the abstract functional methods that a trait or object provides as it
 reads the abstract dotted ones, so that an abstract functional method beside a
 concrete one with the same parameter type is among the pairs it refuses, which
