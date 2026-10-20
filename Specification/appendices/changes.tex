@@ -2871,6 +2871,17 @@ interpreter loaded already.
 The interpreter does not so read a declaration with a \KWD{where} clause of its
 own, and refuses such a pair, which the compiled type checker accepts and its
 code generator does not compile (row~787 of the revival's gap ledger).
+The interpreter also reads an object type over a static parameter as excluding
+a type that the object type is at some instance of the static parameters, and
+so loads pairs that the Meet Rule refuses, as
+\EXP{\VAR{g}\llbracket{}T\rrbracket(x\COLON \TYP{Box}\llbracket{}T\rrbracket,
+y\COLON \mathbb{Z}32)} beside \EXP{\VAR{g}(x\COLON
+\TYP{Box}\llbracket\mathbb{Z}32\rrbracket, y\COLON \TYP{Any})}, where \TYP{Box}
+is an object type: the two overlap at a
+\EXP{\TYP{Box}\llbracket\mathbb{Z}32\rrbracket} and a \EXP{\mathbb{Z}32}, and
+neither is more specific than the other; the interpreter runs the first for a
+call to which both apply, and the compiled type checker refuses the pair
+(row~788 of the revival's gap ledger).
 They also differ on a pair whose static parameters' bounds exclude each other, as
 \EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Red}\rrbracket(x\COLON
 \TYP{Box}\llbracket{}T\rrbracket)} beside
