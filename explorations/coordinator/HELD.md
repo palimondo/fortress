@@ -2,10 +2,6 @@
 
 # Held list
 
-## Held for the skill writer (2026-10-20)
-
-- 00:04 (2026-10-20) When a brief quotes his words, give them a cleaning pass first: fix the obvious typos of the phone's swipe keyboard and of dictation, keep the meaning, and mark a word whose reading is a guess (for the skill writer, `coordinator`'s `delegating.md`, "What a brief holds", beside "Quote a rule of the curator's whole").
-
 ## Held in chat (2026-10-16)
 
 - 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
