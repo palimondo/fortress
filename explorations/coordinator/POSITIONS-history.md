@@ -1406,3 +1406,13 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-154
 
 2026-10-20 06:21Z · added · by curator: his answer to ask 4 at about 06:20 UTC: option 1, as landed
+
+### P-155
+
+2026-10-20 11:54Z · added · by curator: his answer to ask 5 at about 11:50 UTC: option 2, 'Otherwise, we are just sweeping problems under the rug.'
+
+### P-79
+
+2026-10-20 11:54Z · rewritten · by curator: his answer at about 11:50 UTC: 'Rewrite these demos to make them work, since we know how ... I would prefer we maintain them all in running state as we are making changes in the unsealed tree.'
+
+- P-79 **The team's demos that write no static argument for a generic reduction stay as they are, and are respelled later only if they still fail.** When a batch has a free slot, it first checks each demo again under P-48's bound rule (row 731). It then writes the static arguments that a demo still needs, with a demo stage that only reports.
