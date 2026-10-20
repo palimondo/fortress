@@ -1,0 +1,489 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 852385f22..150f47276 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -1498,10 +1498,8 @@ array[\E\](x:ZZ32,y:ZZ32,z:ZZ32):Array[\E,(ZZ32,ZZ32,ZZ32)\]
+ (** Factory for immutable arrays that returns an empty 0-indexed array
+     of a given run-time-determined size. **)
+ immutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
+-(*
+ immutableArray[\E\](x:ZZ32,y:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32)\]
+ immutableArray[\E\](x:ZZ32,y:ZZ32,z:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32,ZZ32)\]
+-*)
+ 
+ primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\]
+ 
+@@ -1728,7 +1726,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+   map[\R\](f:T->R): Array2[\R,b0,s0,b1,s1\]
+   ivmap[\R\](f:((ZZ32,ZZ32),T)->R): Array2[\R,b0,s0,b1,s1\]
+ 
+-  freeze():ImmutableArray[\T,(ZZ32,ZZ32)\]
++  freeze():ImmutableArray2[\T,b0,s0,b1,s1\]
+ end
+ 
+ trait AnyMatrix end
+@@ -1755,6 +1753,41 @@ array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\]
+ array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\]
+ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
+ 
++(** %ImmutableArray2[\T,b0,s0,b1,s1\]% is the immutable counterpart of
++    %Array2%: each element is initialized once, and none is written. **)
++trait ImmutableArray2[\T, nat b0, nat s0, nat b1, nat s1\]
++    extends { Indexed1[\s0\], Indexed2[\s1\], Rank2,
++              StandardImmutableArrayType[\ImmutableArray2[\T,b0,s0,b1,s1\],T,(ZZ32,ZZ32)\],
++              ImmutableArray[\T,(ZZ32,ZZ32)\] }
++    excludes { Number, String }
++  getter size():ZZ32
++  getter sizes():(ZZ32,ZZ32)
++  getter bounds():CompactFullRange[\(ZZ32,ZZ32)\]
++  getter mutability():String
++  opr |self| : ZZ32
++  offset(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)
++  toIndex(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)
++  opr[r:Range[\(ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32)\]
++  opr[_:TrivialOpenRange] : ImmutableArray2[\T,0,s0,0,s1\]
++  shift(t1:(ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32)\]
++  subarray[\nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
++          (m0:ZZ32, m1:ZZ32): ImmutableArray2[\T,bo0,so0,bo1,so1\]
++  zeroIndices():CompactFullRange[\(ZZ32,ZZ32)\]
++  replica[\U\]():ImmutableArray2[\U,b0,s0,b1,s1\]
++  copy():ImmutableArray2[\T,b0,s0,b1,s1\]
++  fill(v:T):ImmutableArray2[\T,b0,s0,b1,s1\]
++  tabulate(f:(ZZ32,ZZ32)->T):ImmutableArray2[\T,b0,s0,b1,s1\]
++  get(t1:(ZZ32, ZZ32)):T
++  thaw():Array2[\T,b0,s0,b1,s1\]
++  map[\R\](f:T->R): ImmutableArray2[\R,b0,s0,b1,s1\]
++  ivmap[\R\](f:((ZZ32,ZZ32),T)->R): ImmutableArray2[\R,b0,s0,b1,s1\]
++end
++
++__immutableFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():ImmutableArray2[\T,b0,s0,b1,s1\]
++
++(** %immutableArray2% is a factory for 0-based 2-D immutable arrays. **)
++immutableArray2[\T, nat s0, nat s1\]():ImmutableArray2[\T,0,s0,0,s1\]
++
+ (** %matrix% is the same as %array2%, but specialized to numeric type
+    arguments, except that the default value (if given) is used to
+    construct a multiple of the identity matrix. **)
+@@ -1858,7 +1891,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+     map[\R\](f:T->R): Array3[\R,b0,s0,b1,s1,b2,s2\]
+     ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): Array3[\R,b0,s0,b1,s1,b2,s2\]
+ 
+-    freeze():ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
++    freeze():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
+ end
+ 
+ __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
+@@ -1868,6 +1901,43 @@ array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
+ array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\]
+ tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
+ 
++(** %ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]% is the immutable counterpart
++    of %Array3%: each element is initialized once, and none is written. **)
++trait ImmutableArray3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
++    extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
++              StandardImmutableArrayType[\ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\],T,
++                                         (ZZ32,ZZ32,ZZ32)\],
++              ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] }
++    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
++    getter size():ZZ32
++    getter sizes():(ZZ32,ZZ32,ZZ32)
++    getter bounds():CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
++    getter mutability():String
++    opr |self| : ZZ32
++    offset(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32)
++    toIndex(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32)
++    abstract get(t:(ZZ32,ZZ32,ZZ32)):T
++    opr[r:Range[\(ZZ32,ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
++    opr[_:TrivialOpenRange] : ImmutableArray3[\T,0,s0,0,s1,0,s2\]
++    shift(t:(ZZ32,ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
++    subarray[\nat bo0, nat so0, nat bo1, nat so1, nat bo2, nat so2,
++              nat o0, nat o1, nat o2\]
++            (m0:ZZ32,m1:ZZ32,m2:ZZ32): ImmutableArray3[\T,bo0,so0,bo1,so1,bo2,so2\]
++    zeroIndices():CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
++    replica[\U\]():ImmutableArray3[\U,b0,s0,b1,s1,b2,s2\]
++    copy():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
++    fill(v:T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
++    tabulate(f:(ZZ32,ZZ32,ZZ32)->T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
++    thaw():Array3[\T,b0,s0,b1,s1,b2,s2\]
++    map[\R\](f:T->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\]
++    ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\]
++end
++
++__immutableFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
++        ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
++
++immutableArray3[\T,nat s0, nat s1, nat s2\]():ImmutableArray3[\T,0,s0,0,s1,0,s2\]
++
+ (************************************************************
+ * \subsection*{Reductions}
+ ************************************************************)
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 3027ad19b..df76643b5 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -2263,23 +2263,19 @@ __arr3[\E, nat n, nat m, nat p\](w:()->E,x:N[\n\],y:N[\m\],z:N[\p\]):
+     of a given run-time-determined size. **)
+ immutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\] =
+     __imm1(__thrower[\E\],reflect(x))
+-(*
+ immutableArray[\E\](x:ZZ32,y:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32)\] =
+     __imm2(__thrower[\E\],reflect(x), reflect(y))
+ immutableArray[\E\](x:ZZ32,y:ZZ32,z:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32,ZZ32)\] =
+     __imm3(__thrower[\E\],reflect(x), reflect(y), reflect(z))
+-*)
+ 
+ (* This should be local to immutableArray, but we don't support local
+    parametric methods in the language spec at all at the moment. *)
+ __imm1[\E, nat n\](w:()->E,x:N[\n\]):ImmutableArray1[\E,0,n\] =
+    immutableArray1[\E,n\]()
+-(*
+ __imm2[\E, nat n, nat m\](w:()->E,x:N[\n\],y:N[\m\]):
+     ImmutableArray2[\E,0,n,0,m\] = immutableArray2[\E,n,m\]()
+ __imm3[\E, nat n, nat m, nat p\](w:()->E,x:N[\n\],y:N[\m\],z:N[\p\]):
+     ImmutableArray3[\E,0,n,0,m,0,p\] = immutableArray3[\E,n,m,p\]()
+-*)
+ 
+ primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\] = __parr(__thrower[\E\],reflect(x))
+ __parr[\E, nat n\](w:()->E,x:N[\n\]):PrimitiveArray[\E,n\] =
+@@ -2747,7 +2743,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+   ivmap[\R\](f:((ZZ32,ZZ32),T)->R): Array2[\R,b0,s0,b1,s1\] =
+       replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
+ 
+-  freeze():ImmutableArray[\T,(ZZ32,ZZ32)\] = fail("Freeze not defined yet!")
++  freeze():ImmutableArray2[\T,b0,s0,b1,s1\] =
++      __immutableFactory2[\T,b0,s0,b1,s1\]().tabulate(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
+ end
+ 
+ (** Hoisted out here to work around the lack of method type inference. **)
+@@ -2986,6 +2983,125 @@ array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =
+ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
+   array2[\T,s0,s1\]().tabulate(f)
+ 
++(** ImmutableArray2[\T,b0,s0,b1,s1\] is the immutable counterpart of
++    Array2: each element is initialized once, and none is written. **)
++trait ImmutableArray2[\T, nat b0, nat s0, nat b1, nat s1\]
++    extends { Indexed1[\s0\], Indexed2[\s1\], Rank2,
++              StandardImmutableArrayType[\ImmutableArray2[\T,b0,s0,b1,s1\],T,(ZZ32,ZZ32)\],
++              ImmutableArray[\T,(ZZ32,ZZ32)\] }
++    excludes { Number, String }
++  getter size():ZZ32 = s0 s1
++  getter sizes():(ZZ32,ZZ32) = (s0, s1)
++  getter bounds():CompactFullRange2D = sized2Range(b0,b1,s0,s1)
++  getter mutability():String = "(immutable)"
++  getter asString(): String = do
++    r : String := "[" b0 "#" s0 "," b1 "#" s1 "]" self.mutability
++    row(i: ZZ32) =
++      for j <- seq(0#s1) do
++         r := r " " get(i,j)
++      end
++    if s0 = 0 then
++      r "[]"
++    else
++      r := r  // "["
++      row(0)
++      for i <- seq(1#(s0-1)) do
++        r := r // " "
++        row(i)
++      end
++      r " ]"
++    end
++  end
++  opr |self| : ZZ32 = s0 s1
++  offset(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32) = do
++    (a0,a1) = t1
++    c0 = a0 - b0
++    c1 = a1 - b1
++    if NOT (0 <= c0 < s0) then oops(1, b0, s0, a0) end
++    if NOT (0 <= c1 < s1) then oops(2, b1, s1, a1) end
++    (c0,c1)
++  end
++  toIndex(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32) = do (a0,a1)=t1; (a0+b0,a1+b1) end
++  opr[r:Range[\(ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32)\] = do
++      r' = self.bounds.narrowToRange(r)
++      (z0,z1) = r'.extent.get
++      (l0,l1) = r'.left.get
++      (m0,m1) = r'.stride
++      __subarrayI(self, N[\0\],reflect(z0), N[\0\], reflect(z1),
++                  reflect(l0),reflect(l1),m0,m1)
++    end
++  opr[_:TrivialOpenRange] : ImmutableArray2[\T,0,s0,0,s1\] =
++      subarray[\0,s0,0,s1,b0,b1\](1,1)
++  shift(t1:(ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32)\] = do
++      (o0,o1)=t1
++      if o0=0 AND o1=0 then
++          self
++      else
++          __subarrayI(self,reflect(o0),N[\s0\], reflect(o1),N[\s1\], N[\b0\],N[\b1\],1,1)
++      end
++    end
++  (** The subarray at (o0,o1), given in this array's indices, striding by (m0,m1). **)
++  subarray[\nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
++          (m0:ZZ32,m1:ZZ32): ImmutableArray2[\T,bo0,so0,bo1,so1\] = do
++      boundsCheck = self.bounds.narrowToRange( (o0,o1)::(m0,m1)#(so0,so1) )
++      __ImmutableSubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0-b0,m1,o1-b1)
++    end
++  zeroIndices():CompactFullRange2D = sized2Range(0,0,s0,s1)
++  replica[\U\]():ImmutableArray2[\U,b0,s0,b1,s1\] =
++      __immutableFactory2[\U,b0,s0,b1,s1\]()
++  copy():ImmutableArray2[\T,b0,s0,b1,s1\] =
++      self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
++  fill(v:T):ImmutableArray2[\T,b0,s0,b1,s1\] = do
++      for i <- zeroIndices() do init0(i,v) end
++      self
++    end
++  tabulate(f:(ZZ32,ZZ32)->T):ImmutableArray2[\T,b0,s0,b1,s1\] = do
++      for i <- zeroIndices() do init0(i,f(toIndex(i))) end
++      self
++    end
++  get(t1:(ZZ32, ZZ32)):T
++  thaw():Array2[\T,b0,s0,b1,s1\] =
++      __builtinFactory2[\T,b0,s0,b1,s1\]().tabulate(fn (i:ZZ32,j:ZZ32):T => get(i-b0,j-b1))
++  map[\R\](f:T->R): ImmutableArray2[\R,b0,s0,b1,s1\] =
++      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f(get(i-b0,j-b1)))
++  ivmap[\R\](f:((ZZ32,ZZ32),T)->R): ImmutableArray2[\R,b0,s0,b1,s1\] =
++      replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32):R => f((i,j),get(i-b0,j-b1)))
++end
++
++__subarrayI[\T, nat b0, nat s0, nat b1, nat s1,
++            nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
++        (this:ImmutableArray2[\T,b0,s0,b1,s1\],
++         _:N[\bo0\],_:N[\so0\],_:N[\bo1\],_:N[\so1\],
++         _:N[\o0\],_:N[\o1\],m0:ZZ32,m1:ZZ32): ImmutableArray2[\T,bo0,so0,bo1,so1\] =
++    this.subarray[\bo0,so0,bo1,so1,o0,o1\](m0,m1)
++
++(** The immutable default is row-major, as __DefaultArray2 is. **)
++object __DefaultImmutableArray2[\T, nat b0, nat s0, nat b1, nat s1\]()
++        extends ImmutableArray2[\T, b0, s0, b1, s1\]
++    mem:PrimImmutableArray[\T, (s0 s1) \] = PrimImmutableArray[\T, (s0 s1) \]()
++    init0(t1:(ZZ32,ZZ32), v:T) : () = do (i,j)=t1; mem.init0(i s1 + j, v) end
++    get(t1:(ZZ32,ZZ32)):T = do (i,j)=t1; mem.get(i s1 + j) end
++end
++
++(** A 2-D view of an ImmutableArray2, as SubArray2 is of an Array2;
++    m_i, o_i are the multiplier and the 0-based offset of dimension i. **)
++object __ImmutableSubArray2[\T, nat b0, nat s0, nat b1, nat s1,
++                                nat bu0, nat su0, nat bu1, nat su1\]
++                (mem: ImmutableArray2[\T,bu0,su0,bu1,su1\],
++                 m0:ZZ32, o0:ZZ32, m1:ZZ32, o1:ZZ32)
++        extends ImmutableArray2[\T,b0,s0,b1,s1\]
++    index(a0:ZZ32, a1:ZZ32): (ZZ32,ZZ32) = (m0 a0 + o0, m1 a1 + o1)
++    init0(t1:(ZZ32,ZZ32), v:T): () = mem.init0(index(t1),v)
++    get(t1:(ZZ32,ZZ32)): T = mem.get(index(t1))
++end
++
++__immutableFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():ImmutableArray2[\T,b0,s0,b1,s1\] =
++    __DefaultImmutableArray2[\T,b0,s0,b1,s1\]()
++
++(* immutableArray2 is a factory for 0-based 2-D immutable arrays. *)
++immutableArray2[\T, nat s0, nat s1\]():ImmutableArray2[\T,0,s0,0,s1\] =
++    __DefaultImmutableArray2[\T,0,s0,0,s1\]()
++
+ (* matrix is the same as array1, but specialized to numeric type
+    arguments, except that the default value (if given) is used to
+    construct a multiple of the identity matrix. *)
+@@ -3149,8 +3265,9 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+         replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
+                                     f((i,j,k),get(i-b0,j-b1,k-b2)))
+ 
+-    freeze():ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] =
+-        fail("Freeze not defined yet!")
++    freeze():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] =
++        __immutableFactory3[\T,b0,s0,b1,s1,b2,s2\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
++                                                                 get(i-b0,j-b1,k-b2))
+ end
+ 
+ (** hoisted out here to work around absence of type inference for methods. **)
+@@ -3203,6 +3320,145 @@ array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\] =
+ tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\] =
+   array3[\T,s0,s1,s2\]().tabulate(f)
+ 
++(** ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] is the immutable counterpart
++    of Array3: each element is initialized once, and none is written. **)
++trait ImmutableArray3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
++    extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
++              StandardImmutableArrayType[\ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\],T,
++                                         (ZZ32,ZZ32,ZZ32)\],
++              ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] }
++    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
++    getter size():ZZ32 = s0 s1 s2
++    getter sizes():(ZZ32,ZZ32,ZZ32) = (s0, s1, s2)
++    getter bounds():CompactFullRange3D =
++        sized3Range(b0,b1,b2,s0,s1,s2)
++    getter mutability():String = "(immutable)"
++    getter asString():String = do
++      r : String := "[" b0 "#" s0 "," b1 "#" s1 "," b2 "#" s2 "]" self.mutability
++      row(i: ZZ32, k: ZZ32) =
++          for j <- seq(0#s1) do
++            r := r " " self[b0+i,b1+j,b2+k]
++          end
++      plane(k: ZZ32) =
++        if s1 > 0 then
++          row(0,k)
++          for i <- seq(1#(s0-1)) do
++            r := r // " "
++            row(i,k)
++          end
++        end
++      if s0=0 then
++        r "[]"
++      else
++        r := r // "["
++        plane(0)
++        for k <- seq(1#(s2-1)) do
++          r := r " ;;" //  " "
++          plane(k)
++        end
++        r " ]"
++      end
++    end
++    opr |self| : ZZ32 = s0 s1 s2
++    offset(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32) = do
++      (a0,a1,a2)=t
++      c0 = a0 - b0; c1 = a1 - b1; c2 = a2 - b2
++      if NOT (0 <= c0 < s0) then oops(1, b0, s0, a0); end
++      if NOT (0 <= c1 < s1) then oops(2, b1, s1, a1); end
++      if NOT (0 <= c2 < s2) then oops(3, b2, s2, a2); end
++      (c0,c1,c2)
++    end
++    toIndex(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32) =
++        do (a0,a1,a2) = t; (a0+b0,a1+b1,a2+b2) end
++    get(t:(ZZ32,ZZ32,ZZ32)):T
++    opr[r:Range[\(ZZ32,ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] = do
++        r' = self.bounds.narrowToRange(r)
++        (z0,z1,z2) = r'.extent.get
++        (l0,l1,l2) = r'.left.get (*'*)
++        (m0,m1,m2) = r'.stride (*'*)
++        __subarrayI(self, N[\0\],reflect(z0), N[\0\],reflect(z1),
++                    N[\0\],reflect(z2), reflect(l0),reflect(l1), reflect(l2),m0,m1,m2)
++      end
++    opr[_:TrivialOpenRange] : ImmutableArray3[\T,0,s0,0,s1,0,s2\] =
++        subarray[\0,s0,0,s1,0,s2,b0,b1,b2\](1,1,1)
++    shift(t:(ZZ32,ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] = do
++        (o0,o1,o2)=t
++        if o0=0 AND o1=0 AND o2=0 then
++            self
++        else
++            __subarrayI(self,
++                        reflect(o0),N[\s0\], reflect(o1),N[\s1\],
++                        reflect(o2),N[\s2\], N[\b0\],N[\b1\],N[\b2\],1,1,1)
++        end
++      end
++    (** The subarray at (o0,o1,o2), given in this array's indices, striding by (m0,m1,m2). **)
++    subarray[\nat bo0, nat so0, nat bo1, nat so1, nat bo2, nat so2,
++              nat o0, nat o1, nat o2\]
++            (m0:ZZ32,m1:ZZ32,m2:ZZ32): ImmutableArray3[\T,bo0,so0,bo1,so1,bo2,so2\] = do
++        boundsCheck = self.bounds.narrowToRange( (o0,o1,o2)::(m0,m1,m2)#(so0,so1,so2) )
++        __ImmutableSubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0-b0,m1,o1-b1,m2,o2-b2)
++      end
++    zeroIndices():CompactFullRange3D =
++        sized3Range(0,0,0,s0,s1,s2)
++    replica[\U\]():ImmutableArray3[\U,b0,s0,b1,s1,b2,s2\] =
++        __immutableFactory3[\U,b0,s0,b1,s1,b2,s2\]()
++    copy():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] =
++        self.replica[\T\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
++                                         get(i-b0,j-b1,k-b2))
++    fill(v:T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] = do
++        for i <- zeroIndices() do init0(i,v) end
++        self
++      end
++    tabulate(f:(ZZ32,ZZ32,ZZ32)->T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] = do
++        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
++        self
++      end
++    thaw():Array3[\T,b0,s0,b1,s1,b2,s2\] =
++        __builtinFactory3[\T,b0,s0,b1,s1,b2,s2\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):T =>
++                                                               get(i-b0,j-b1,k-b2))
++    map[\R\](f:T->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\] =
++        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
++                                    f(get(i-b0,j-b1,k-b2)))
++    ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\] =
++        replica[\R\]().tabulate(fn (i:ZZ32,j:ZZ32,k:ZZ32):R =>
++                                    f((i,j,k),get(i-b0,j-b1,k-b2)))
++end
++
++__subarrayI[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2,
++             nat bo0, nat so0, nat bo1, nat so1, nat bo2, nat so2,
++             nat o0, nat o1, nat o2\]
++      (this:ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\],
++       _:N[\bo0\],_:N[\so0\],_:N[\bo1\],_:N[\so1\],_:N[\bo2\],_:N[\so2\],
++       _:N[\o0\],_:N[\o1\],_:N[\o2\], m0:ZZ32,m1:ZZ32,m2:ZZ32): ImmutableArray3[\T,bo0,so0,bo1,so1,bo2,so2\] =
++    this.subarray[\bo0,so0,bo1,so1,bo2,so2,o0,o1,o2\](m0,m1,m2)
++
++object __DefaultImmutableArray3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]() extends
++                                        ImmutableArray3[\T, b0, s0, b1, s1, b2, s2\]
++  mem:PrimImmutableArray[\T,(s0 (s1 s2))\] = PrimImmutableArray[\T,(s0 (s1 s2))\]()
++  ofs(i:ZZ32,j:ZZ32,k:ZZ32):ZZ32 = (i s1 + j) s2 + k
++  init0(t:(ZZ32,ZZ32,ZZ32), v:T) : () = mem.init0(ofs(t),v)
++  get(t:(ZZ32,ZZ32,ZZ32)) : T = mem.get(ofs(t))
++end
++
++(** A 3-D view of an ImmutableArray3, as SubArray3 is of an Array3. **)
++object __ImmutableSubArray3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2,
++                                nat bu0, nat su0, nat bu1, nat su1, nat bu2, nat su2\]
++                (mem: ImmutableArray3[\T,bu0,su0,bu1,su1,bu2,su2\],
++                 m0:ZZ32,o0:ZZ32, m1:ZZ32,o1:ZZ32, m2:ZZ32, o2:ZZ32)
++        extends ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
++    index(a0:ZZ32, a1:ZZ32, a2:ZZ32): (ZZ32,ZZ32,ZZ32) =
++        (m0 a0 + o0, m1 a1 + o1, m2 a2 + o2)
++    init0(t:(ZZ32,ZZ32,ZZ32), v:T): () = mem.init0(index(t),v)
++    get(t:(ZZ32,ZZ32,ZZ32)): T = mem.get(index(t))
++end
++
++__immutableFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
++        ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\] =
++  __DefaultImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]()
++
++immutableArray3[\T,nat s0, nat s1, nat s2\]():ImmutableArray3[\T,0,s0,0,s1,0,s2\] =
++  __DefaultImmutableArray3[\T,0,s0,0,s1,0,s2\]()
++
+ (*************
+ 
+ trait Monoid[\ T, opr OPLUS \]
+diff --git a/ProjectFortress/tests/ImmutableArrayRanks23.fss b/ProjectFortress/tests/ImmutableArrayRanks23.fss
+new file mode 100644
+index 000000000..1dfef86cb
+--- /dev/null
++++ b/ProjectFortress/tests/ImmutableArrayRanks23.fss
+@@ -0,0 +1,42 @@
++(* An immutable array of rank 2 and of rank 3 is built by immutableArray's run-time-size
++   factories and by the sized ones, filled, read, subscripted, mapped and thawed; an Array2,
++   a Matrix and an Array3 freeze into one, which keeps its values when the original changes. *)
++component ImmutableArrayRanks23
++export Executable
++
++run(): () = do
++  a = immutableArray[\ZZ32\](2,3).tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => 10 i + j)
++  assert(instanceOf[\ImmutableArray2[\ZZ32,0,2,0,3\]\](a), true, "immutableArray(2,3) answers an ImmutableArray2")
++  assert((a.mutability, |a|, a[0,0], a[1,2]), ("(immutable)", 6, 0, 12), "a rank-2 immutable array is tabulated and read")
++  b = immutableArray2[\ZZ32,2,2\]().fill(7)
++  assert((b[0,0], b[1,1]), (7, 7), "immutableArray2's array is filled")
++  c = __immutableFactory2[\ZZ32,1,2,1,3\]().tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => 10 i + j)
++  assert((c[1,1], c[2,3]), (11, 23), "an immutable array based at (1,1) is indexed from (1,1)")
++  s = c[(1,2)#(2,2)]
++  assert((s[0,0], s[1,1]), (12, 23), "a range subscript of an immutable array based at (1,1)")
++  w = c[:]
++  assert((w[0,0], w[1,2]), (11, 23), "c[:] is c based at (0,0)")
++  m2 = a.map[\ZZ32\](fn (x:ZZ32):ZZ32 => x + 1)
++  assert((instanceOf[\ImmutableArray2[\ZZ32,0,2,0,3\]\](m2), m2[1,2]), (true, 13), "map answers an ImmutableArray2")
++  t = a.thaw()
++  t[0,0] := 5
++  assert((instanceOf[\Array2[\ZZ32,0,2,0,3\]\](t), t[0,0], a[0,0]), (true, 5, 0), "thaw answers a mutable copy")
++  d = immutableArray[\ZZ32\](2,2,2).tabulate(fn (i:ZZ32, j:ZZ32, k:ZZ32):ZZ32 => 100 i + 10 j + k)
++  assert((instanceOf[\ImmutableArray3[\ZZ32,0,2,0,2,0,2\]\](d), |d|, d[1,0,1], d[0,1,1]), (true, 8, 101, 11), "a rank-3 immutable array is tabulated and read")
++  e = immutableArray3[\ZZ32,1,2,3\]().fill(4)
++  assert(e[0,1,2], 4, "immutableArray3's array is filled")
++  mm = matrix[\ZZ32,2,2\]().tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => i - j)
++  f = mm.freeze()
++  assert((instanceOf[\ImmutableArray2[\ZZ32,0,2,0,2\]\](f), f[1,0], f[0,1]), (true, 1, -1), "a Matrix freezes into an ImmutableArray2")
++  mm[1,0] := 9
++  assert(f[1,0], 1, "the frozen copy keeps its value when the matrix changes")
++  g = array3[\ZZ32,2,2,2\]().tabulate(fn (i:ZZ32, j:ZZ32, k:ZZ32):ZZ32 => i + j + k).freeze()
++  assert((instanceOf[\ImmutableArray3[\ZZ32,0,2,0,2,0,2\]\](g), g[1,1,1]), (true, 3), "an Array3 freezes into an ImmutableArray3")
++  h = array[\String\](2,2).fill("x").freeze()
++  assert(h[1,1], "x", "array(x,y)'s array freezes")
++  println(a)
++  println(d)
++  println("PASS")
++end
++
++end
