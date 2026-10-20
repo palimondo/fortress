@@ -2895,3 +2895,9 @@ pointer words refreshed in: F-24
 2026-10-20 09:05Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20 merged-diff review: its declared RR64 and team lines gone since rung I; made true as written, the consolidation left to the coordinator
 
 - F-247 **Under walk, the integer power already answers the integer at a nonnegative exponent, and only three team tests reach a negative one.** Only the declared type says `RR64` (row 438). So a contract for a negative exponent moves walk's values only in `realArith`, `compoundArray` and `simpleExp`, which write a scale as `10^(-k)`, and by reading the demos `BiCGSTAB` and `BiCGSTAB2`. microGPT's one integer power is `strToInt`'s, at nonnegative exponents; a rational result would stop both quick programs there. Detail: `perf-probes/integer-power/REPORT.md` sections 1.3, 1.6 and 3.
+
+### F-53
+
+2026-10-20 09:13Z · rewritten · commit `d3a9335ef` · by climb batch 20 commit stage: the landed figures of climb batch 20 gate, read from explorations/compile-ladder/climb-batch-20/gate/distance.txt (#total 5) and checker-count.txt (#total 3): the distance 31 to 5, the count 28 to 3; numbers only
+
+- F-53 **The distance to the switch-over is 31 errors and the checker count is 28, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, by root cause (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 28 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
