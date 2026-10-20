@@ -1028,12 +1028,15 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * excludesOther reads them.  Otherwise: instances of one generic type
      * where their static arguments cannot be equal (argsMayBeEqual); a static
      * parameter where one of its bounds does; two object types, of different
-     * generic types, always; two trait types without a comprises clause where
-     * excludesOther finds an excludes clause that separates them.  An object
-     * type beside a trait type is not read, nor is a comprises clause:
-     * excludesOther reads an object type apart from every type not among its
-     * supertypes as written, and a static parameter can make the other type
-     * one of them, as an Ob[U] that extends R[ZZ32] is an R[U] at U = ZZ32.
+     * generic types, always; an object type and another type where neither
+     * the object type nor any type it extends may be the other (mayBeEqual),
+     * since a value of an object type has no other type; two trait types
+     * without a comprises clause where excludesOther finds an excludes clause
+     * that separates them.  A comprises clause is not read.  excludesOther
+     * reads an object type apart from every type not among its supertypes as
+     * written, and a static parameter can make the other type one of them,
+     * as an Ob[U] that extends R[ZZ32] is an R[U] at U = ZZ32; it reads a
+     * comprises clause through such object types.
      */
     static private boolean excludesAtMeet(FType a, FType b) {
         if (a == b) return false;
@@ -1051,7 +1054,14 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             return false;
         }
         if (a.cannotBeExtended() && b.cannotBeExtended()) return a.excludesOther(b);
-        if (a.cannotBeExtended() || b.cannotBeExtended()) return false;
+        if (a.cannotBeExtended() || b.cannotBeExtended()) {
+            FType obj = a.cannotBeExtended() ? a : b;
+            FType other = obj == a ? b : a;
+            for (FType t : withSupertypes(obj)) {
+                if (mayBeEqual(t, other)) return false;
+            }
+            return true;
+        }
         if (a.getComprises() != null || b.getComprises() != null) return false;
         return a.excludesOther(b);
     }

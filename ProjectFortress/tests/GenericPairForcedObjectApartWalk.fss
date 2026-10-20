@@ -1,0 +1,21 @@
+component GenericPairForcedObjectApartWalk
+export Executable
+
+(* Two generic declarations over T and Box[T] and over Q[U] and Box[Lone], where a Box of Lone forces T to the object type Lone, which is no Q, exclude each other, so they are a valid overloading and each call runs the one its arguments select (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait Q[\T\] end
+object Lone end
+object Qz extends Q[\ZZ32\] end
+trait Box[\T\] end
+object BoxLone extends Box[\Lone\] end
+
+k[\T\](x: T, b: Box[\T\]): String = "first"
+k[\U\](x: Q[\U\], b: Box[\Lone\]): String = "second"
+
+run(): () = do
+    assert(k(Lone, BoxLone), "first", "a Lone with a Box of Lone runs the declaration over T")
+    assert(k(Qz, BoxLone), "second", "a Q of ZZ32 with a Box of Lone runs the declaration over Q")
+    println("PASS")
+  end
+
+end
