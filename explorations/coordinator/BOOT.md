@@ -4,16 +4,16 @@
 
 **State at 17:22 UTC on 2026-10-20** (19:22 his time), written for the one light boot he asked for at 17:14 UTC.
 
-## Light boot
+## A one-time exception to the boot
 
-At the curator's word of 17:14 UTC on 2026-10-20, this one boot reads only, in this order:
+At the curator's word of 17:14 UTC on 2026-10-20, the boot after his next compaction is an exception, this once, to the boot of the `coordinator` skill. It reads only, in this order:
 
 1. `get_session` with no session ID: the model, as step 0 of the boot says.
 2. `.claude/skills/coordinator/SKILL.md` and `.claude/skills/fortress-repo/SKILL.md`, the two cores. No part under `references/` unless a task needs it.
 3. This boot note, whole.
 4. `explorations/reviews/item31-drafts.md`, whole: his message of 13:41 UTC (Part 0), the three drafts, the P-86 scout's report, the briefs and the coordinator's three failed attempts. The same text is the page https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg, where he may comment.
 
-Do not read FACTS, POSITIONS, INDEX, PLAN or HELD, and do not run `check-index.sh`. Why: he wants the coordinator's context free and its reasoning at its best for this one task; the long context of the session that wrote this note failed him. Take this section out of the boot note after the boot.
+Do not read FACTS, POSITIONS, INDEX, PLAN or HELD, and do not run `check-index.sh`. Why: he wants the coordinator's context free and its reasoning at its best for this one task; the long context of the session that wrote this note failed him. If the boot has already read FACTS, POSITIONS or INDEX before reaching this note, say so to him and go on from this note. Take this section out of the boot note after the boot.
 
 ## The scene: a post-mortem
 
