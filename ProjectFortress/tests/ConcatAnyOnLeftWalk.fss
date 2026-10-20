@@ -1,0 +1,16 @@
+component ConcatAnyOnLeftWalk
+export Executable
+
+(* A value of any type beside a string concatenates its string on the left as on the right: a tuple, (), and an object whose extends clause names Any (FortressLibrary, trait String, opr ||; basic-lib/objects.tex, traits Fortress.Core.Object and Fortress.Core.Tuple). *)
+
+object Inf extends Any end
+
+run(): () = do
+    pair = (1, 2)
+    assert(pair || "s", ("" || pair) || "s", "a pair on the left of ||")
+    assert(() || "s", ("" || ()) || "s", "() on the left of ||")
+    assert(Inf || "s", "Infs", "an object declared extends Any on the left of ||")
+    assert("s" || Inf, "sInf", "an object declared extends Any on the right of ||")
+end
+
+end

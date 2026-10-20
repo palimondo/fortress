@@ -1,0 +1,21 @@
+component XXXDuplicateExtendsEntry
+export Executable
+
+(* An object whose extends clause lists one trait twice extends that trait (traits.tex, section "Trait Declarations": the clause is a set of trait references). *)
+
+trait Tr end
+object Twice extends { Tr, Tr } end
+
+trOrNot(x: Any): String =
+    typecase x of
+        Tr => "a Tr"
+        else => "not a Tr"
+    end
+
+run(): () = do
+    println("REACHED")
+    assert(trOrNot(Twice), "a Tr", "object Twice extends { Tr, Tr }")
+    println("PASS")
+end
+
+end

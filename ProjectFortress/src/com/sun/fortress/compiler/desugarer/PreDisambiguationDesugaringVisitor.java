@@ -37,7 +37,7 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 
 /** Run desugaring phases that must occur before disambiguation.
  *  1) Rewrite trait, object, and object expressions to explicitly extend Object
- *     if no explicit bounds were given.  Also rewrite static parameter bindings
+ *     if no explicit bounds, or only Any, were given.  Also rewrite static parameter bindings
  *     to explicitly extend Object if no explicit bounds were given.
  *  2) Remove conditional operators, replacing their operands with thunks.
  *  Desugar conditional operators into operators that take thunks.
@@ -54,14 +54,26 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
 
     private final Id anyTypeId = NodeFactory.makeId(NodeFactory.makeSpan("singleton"), WellKnownNames.anyTypeName);
+    private final Id objectTypeId = NodeFactory.makeId(NodeFactory.makeSpan("singleton"), WellKnownNames.objectTypeName);
+
+    /** True if each type of the extends clause is Any, as in an empty clause. */
+    private static boolean namesOnlyAny(List<TraitTypeWhere> extendsClause) {
+        for (TraitTypeWhere entry : extendsClause) {
+            BaseType type = entry.getBaseType();
+            if ( ! ( type instanceof NamedType &&
+                     ((NamedType)type).getName().getText().equals(WellKnownNames.anyTypeName) ) )
+                return false;
+        }
+        return true;
+    }
 
     /** If the extends clause of a trait declaration, an object declaration, or
-     *  an object expression is empty, then replace the empty extends clause
+     *  an object expression is empty or names only Any, then replace it
      *  with {Object}.
      */
     private List<TraitTypeWhere> rewriteExtendsClause(Node whence,
                                                       List<TraitTypeWhere> extendsClause) {
-        if (extendsClause.size() > 0) return extendsClause;
+        if ( ! namesOnlyAny(extendsClause) ) return extendsClause;
         if ( ! ( whence instanceof ASTNode ) )
             bug(whence, "Only ASTNodes are supported.");
         Id objectId = NodeFactory.makeId(NodeUtil.getSpan((ASTNode)whence),
@@ -108,7 +120,8 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
         List<BaseType> excludesClause_result = recurOnListOfBaseType(that.getExcludesClause());
         Option<List<NamedType>> comprisesClause_result = recurOnOptionOfListOfNamedType(that.getComprisesClause());
 
-        if (!NodeUtil.getName(that).equals(anyTypeId)) {
+        if (!NodeUtil.getName(that).equals(anyTypeId) &&
+            !NodeUtil.getName(that).equals(objectTypeId)) {
             header_result = NodeFactory.makeTraitTypeHeader(header_result,
                                                             rewriteExtendsClause(that, header_result.getExtendsClause()));
         }
