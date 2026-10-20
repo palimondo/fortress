@@ -317,7 +317,11 @@ The exponent of the power, \EXP{\mathbb{N}} in the Working Draft, is now
 The Working Draft gave the result of a negative power through the
 exponentiation of \EXP{\mathbb{Q}}, since \EXP{\mathbb{Z}} was a subtype of
 \EXP{\mathbb{Q}}: \EXP{2^{-1}} was \EXP{1/2}.
-This chapter does not give it. The method entries of the three unary negations gave the result \EXP{\mathbb{Q}} where the listing gave \EXP{\mathbb{Z}}; on the flat tower that would make the negative of an integer a rational, and they now give \EXP{\mathbb{Z}}, as the listing does.}
+The method entry of the power gives it otherwise: an integer raised to a
+negative power is an integer only at the bases \EXP{1} and \EXP{-1}; at a base
+of \EXP{0} the power throws \TYP{DivisionByZero}, at any other base it throws
+\TYP{IntegerOverflow}, and a fraction is written with a floating-point or
+rational base. The method entries of the three unary negations gave the result \EXP{\mathbb{Q}} where the listing gave \EXP{\mathbb{Z}}; on the flat tower that would make the negative of an integer a rational, and they now give \EXP{\mathbb{Z}}, as the listing does.}
 
 
 %%   coerce(x: ZZ64)
@@ -527,6 +531,15 @@ right-hand operand, and otherwise returns \VAR{false}.
 Exponentiation of an integer to a nonnegative integer power produces an integer result.
 If the \VAR{power} is \EXP{0}, then the result is always \EXP{1}, even if the base is \EXP{0}
 (this definition is somewhat arbitrary but is computationally useful).
+An integer raised to a negative power is an integer only when the base is
+\EXP{1} or \EXP{-1}, and the result is then that exact power, of the base's type.
+If the base is \EXP{0}, the power throws \TYP{DivisionByZero}; for any other
+base the result is no integer, and the power throws \TYP{IntegerOverflow}.
+A fraction is written with a floating-point or rational base: \EXP{2.0^{-1}}
+is \EXP{0.5}, and \EXP{(2/3)^{-1}} is \EXP{3/2}.
+\revision{revival-integers}{The Working Draft gave this entry no negative power;
+its power on \EXP{\mathbb{Q}} gave one, since \EXP{\mathbb{Z}} was a subtype of
+\EXP{\mathbb{Q}}. The three sentences on a negative power are new.}
 
 %%  property FORALL(x, y:NN) x^y = x^(|\ y/2 /|) x^(|/ y/2 \|)
 \begin{Fortress}

@@ -895,12 +895,34 @@ The twelve check methods leave the listing and the method entries. The method en
 The sentences on the infinities of \EXP{\mathbb{Z}^*} and \EXP{\mathbb{N}^*}
 leave the method entries, and so do the words that made the strictly positive
 integers a type extending a lattice trait; the lattice they describe stays.
+Another revision gives the result of an integer raised to a negative power in
+the method entry of the power: the bases \EXP{1} and \EXP{-1} give their exact
+power, a base of \EXP{0} throws \TYP{DivisionByZero}, and any other base throws
+\TYP{IntegerOverflow}, since the result is no integer; a fraction is written
+with a floating-point or rational base. The box above the listing and a new box
+after the method entry say so.
 \item[Rationale] \secref{revival-numbers}.
 \Library\ declare no infinite integer and no check on the integer types.
 Division takes the type the library declares for it; the other signatures take
 \EXP{\mathbb{Z}}, since the library declares none of those methods with a
-natural-number type (its power on integers is another method, returning a
-floating-point value). Route~A gives each number type its own algebra, and the listing's commutative ring over \EXP{\mathbb{Z}} negates within \EXP{\mathbb{Z}}; the method entries' \EXP{\mathbb{Q}} held of an integer only while \EXP{\mathbb{Z}} was a subtype of \EXP{\mathbb{Q}}.
+natural-number type (its power on integers takes an exponent of any integer
+type and returns the integer's own type). Route~A gives each number type its own algebra, and the listing's commutative ring over \EXP{\mathbb{Z}} negates within \EXP{\mathbb{Z}}; the method entries' \EXP{\mathbb{Q}} held of an integer only while \EXP{\mathbb{Z}} was a subtype of \EXP{\mathbb{Q}}.
+The revision of the negative power follows the revival's decision of
+20~October 2026 that each integer type's power answers its own type at every
+exponent, raising an error where the result is no integer: the type group's
+later code types an integer power by its integer at a signed exponent; no type
+carries the sign of an exponent or of a numeral, so that no overloading can give
+\EXP{10^{16}} and \EXP{10^{-16}} different types, and the split is on the base,
+with the sign tested at run time as \library\ test a sign elsewhere.
+Its reasoning is in
+\nolinkurl{explorations/reviews/integer-power-fable-judgement.md}, and its
+measurement in \nolinkurl{explorations/perf-probes/integer-power/REPORT.md}, in
+the revival's repository.
+A reversal to the zero that truncation gives would change only the
+interpreter's natives at a negative exponent and the sentences of the method
+entry; one to a rational result, typed by the exponent as the Working Draft
+typed it, would need the sign of a numeral exponent in its type, which neither
+implementation gives.
 \item[Effect] As \secref{revival-numbers}.
 The integer types no longer hold infinities, so their total order is that of the
 finite integers. Negating an integer gives an integer.
@@ -910,7 +932,15 @@ The Working Draft gave the result of a negative power through the
 exponentiation of \EXP{\mathbb{Q}}, since \EXP{\mathbb{Z}} was a subtype of
 \EXP{\mathbb{Q}}: \EXP{2^{-1}} was \EXP{1/2}
 (\nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex}, lines 344--355).
-The revised text of \secref{basic-integers} does not give it.
+The revised text of \secref{basic-integers} gives it otherwise: \EXP{2^{-1}}
+throws \TYP{IntegerOverflow}, and a program that wants \EXP{1/2} writes
+\EXP{2.0^{-1}} or a rational base.
+The interpreter does so at every integer type, at an exponent of any integer
+type, and its integer powers answer the base's own type, as \library\ declare
+them; the compiled type checker types them so.
+The compiled path's own library does not: its \EXP{\mathbb{Z}32} power answers
+\EXP{0} at a negative exponent, and a Java exception that no \KWD{catch} sees
+at a base of \EXP{0} (rows~441 and~523 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}:
 the listing's lines 196, 239, 246, 249--250, 256, 261, 271--274 and 290--301:
 \begin{quote}
@@ -1006,6 +1036,18 @@ and lines 901--903:
 Each of these methods checks this integer to see whether it belongs
 to the result type of the method.  If, the number is returned; if not,
 a \TYP{CastError} is thrown.
+\end{quote}
+Until the revision of the negative power, the revival's text said of it, in
+this entry's Rationale and Effect, in the box above the listing, and in
+\secref{revival-notrevised}:
+\begin{quote}
+its power on integers is another method, returning a floating-point value
+
+The revised text of \secref{basic-integers} does not give it.
+
+This chapter does not give it.
+
+The result of an integer raised to a negative power is not yet given
 \end{quote}
 \item[Route C] By the revival's reading, not measured, route~C could keep
 \EXP{\mathbb{Z}} below \EXP{\mathbb{Q}}, but not \EXP{\mathbb{Z}^*} or the refined
@@ -4031,7 +4073,7 @@ inferred before the applicability of a declaration was checked and before
 declarations were compared, the implicit bound of \secref{type-param}, and the
 rule of \chapref{overloaded-declarations} on a naked type parameter of bound
 \TYP{Any}, are revised with the overloading chapters (\secref{revival-overloading},
-\secref{revival-bound}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+\secref{revival-bound}).
 The instance of a \KWD{nat} or \KWD{int} parameter of a declaration that a call
 reaches only by dispatch, where nothing fixes it at run time, is not described;
 the rule of \secref{resolving-overloading} is for type parameters (row~446 of the
