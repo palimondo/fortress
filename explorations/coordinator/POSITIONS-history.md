@@ -1416,3 +1416,21 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-20 11:54Z · rewritten · by curator: his answer at about 11:50 UTC: 'Rewrite these demos to make them work, since we know how ... I would prefer we maintain them all in running state as we are making changes in the unsealed tree.'
 
 - P-79 **The team's demos that write no static argument for a generic reduction stay as they are, and are respelled later only if they still fail.** When a batch has a free slot, it first checks each demo again under P-48's bound rule (row 731). It then writes the static arguments that a demo still needs, with a demo stage that only reports.
+
+### P-153
+
+2026-10-20 12:51Z · rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5ad4a9957` · by climb batch 20's routing: built by rung I, with three demos where it named two; "Still to build" narrowed to the compiled half
+
+- P-153 **An integer raised to a negative power raises an error; a fraction comes from a float or rational base (contract E, item 58).** Each integer type's `^` answers its own type at every exponent: a negative exponent raises `IntegerOverflow` where the result is no integer, a base of 0 raises `DivisionByZero`, and the bases 1 and -1 give their exact power. A program that wants a fraction writes a float or rational base, as `2.0^(-1)`. Why: the team's later code types an integer power by its integer at a signed exponent (P-26); overloads choose by type, and no type carries an exponent's or a numeral's sign, so the split is on the base, with the sign tested at run time as the library tests every sign-refined subset (P-80). Still to build: the integer powers so typed, with row 747's typed `fail` in `strToInt`, and the team tests `realArith`, `compoundArray` and `simpleExp` and two demos written with a float base (PLAN item 58).
+
+### P-40
+
+2026-10-20 12:51Z · rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `e487cec2d` · by climb batch 20's routing: built by rung A
+
+- P-40 **Sizes are checked, and a size left unknown is an error only where it is used.** The checker checks `nat` and `int` static parameters and refuses a size beyond `NN32` or `ZZ32` (F-140). Storage refuses a JVM array length over 2^31-1. A size that inference leaves unknown is an error only when it reaches a type, a name or a value. How the checker represents it is not his choice. A size that a call cannot fix refuses the call, also inside an overload set, instead of dropping the arm (row 400, its compiled half open). Every static argument but an operator counts in the exclusion rule; booleans join once the checker has boolean parameters (row 406). A size used as a value converts to `ZZ32` as a numeral does (row 485). The unused sizes of the api's 17 vector and matrix operators go by decision E's diff, which he read and took for the switch-over (ask 3, 2026-10-20; `perf-probes/array-sites/e3-rebased.patch`): it finishes the team's own fix of 2008, which took them out of the component only (F-35), and is built with the array sites' other fixes. The other unused sizes of the 25 go only by a diff shown to him.
+
+### P-79
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "Findings" · commit `5ad4a9957` · by climb batch 20's routing: the review's finding 10: the example corrected to rung I's three demo lines (git show 5ad4a9957 -- ProjectFortress/demos/); its PLAN item named
+
+- P-79 **Every team demo is kept running as the tree changes (2026-10-20).** A demo that a change breaks is rewritten in the same batch where the way is known, as climb batch 20's rung I wrote `10.0^(-6)` in three demos; one that fails for want of a feature runs again once the feature is built. His word of 2026-10-20 replaces his earlier "Let's not touch them", which likely came when a fix needed a feature not yet built. So the demos that fail today are respelled where the way is known: the five refused at load (row 670), `trips.fss` (row 710), `BiCGSTAB`'s timing line (row 791), and the static arguments a reduction needs under P-48 (row 731). Still to build: a measurement of which demos run, and a rung for those with a known way.

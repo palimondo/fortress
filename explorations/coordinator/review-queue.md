@@ -1,49 +1,52 @@
-<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by the `coordinator` skill's `SKILL.md`, "The curator's role and decisions": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. Since 2026-10-20 each open item ends with a last sub-bullet "Needed by: <point>; <reason>.", the point one of batch 20, before a named later piece of work, before the switch-over, before microGPT compiles, before microGPT runs fast, or never, and the section "When each item is needed" counts them; that sort, by an Opus worker on `d0870885a`, also moved ten stale items to (a). -->
+<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by the `coordinator` skill's `SKILL.md`, "The curator's role and decisions": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. Since 2026-10-20 each open item ends with a last sub-bullet "Needed by: <point>; <reason>.", the point one of the next batch, before a named later piece of work, before the switch-over, before microGPT compiles, before microGPT runs fast, or never, and the section "When each item is needed" counts them; that sort, by an Opus worker on `d0870885a`, also moved ten stale items to (a). Climb batch 20's routing brought it to that landing: batch 20's items moved to their later points, items 195 to 204 added, 12, 43 and 151 settled, and 189 merged into 9. -->
 
 ## When each item is needed
 
-Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154. The points: **batch 20**, where that record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
+Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154, and brought to climb batch 20's landing by its routing (phase 3's item 19, P-155 and P-79). The points: **the next batch**, where its record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
 
-**Counts**, 179 open items, 49 consequential and 130 routine:
-- Batch 20: 7 (3 consequential, 4 routine).
-- Before a named later piece of work: 22 (9 consequential, 13 routine).
-- Before the switch-over: 12 (9 consequential, 3 routine).
-- Before microGPT compiles: 9 (4 consequential, 5 routine).
+**Counts**, 185 open items, 46 consequential and 139 routine:
+- The next batch: none until climb batch 21's record is drafted.
+- Before a named later piece of work: 25 (8 consequential, 17 routine).
+- Before the switch-over: 11 (8 consequential, 3 routine).
+- Before microGPT compiles: 11 (6 consequential, 5 routine).
 - Before microGPT runs fast: 1 (1 consequential, 0 routine).
-- Never: 128 (23 consequential, 105 routine).
+- Never: 137 (23 consequential, 114 routine).
 
-**Needed by batch 20:** 29, 31, 43, 95, 112, 113, 165.
+**Needed by the next batch:** none yet. Batch 20's seven moved at its landing: 43 settled by P-79; 29 and 31 to before microGPT compiles; 95 to Q-walk; 165 to climb batch 21's gather; 112 and 113 to never.
 
 **Needed by the next named pieces of work:**
-- Row 773's rung, the members of a conditional extension scoped to the condition, held out of batch 20 until his answer to ask 8 (PLAN, phase 3, item 18): 175, 176, 177, 178, 179.
-- The tint rung, row 786, held out of batch 20 for his answer (`coordinator/CLIMB-BATCH-20.md`, section 4): 9, 189, 192.
-- The symbolic operators in the overloading check, PLAN items 38 and 59 (ask 5): 11, 191.
-- Row 774's walk rung, walk's half of conditional extension, after its probe (batch 20's fork 19): 76, 153.
+- Row 773's rung, the members of a conditional extension scoped to the condition, a candidate of climb batch 21 that waits on his answer to ask 8 (PLAN, phase 3, item 19): 175, 176, 177, 178, 179.
+- The tint rung, row 786, held for his answer (PLAN, phase 3, item 19): 9, 192.
+- The symbolic operators in the overloading check (P-155, its probe `perf-probes/symbolic-operators-2/` first; PLAN items 38 and 59): 11, 191.
+- Row 774's walk rung, walk's half of conditional extension, after its probe (batch 20's fork 19; PLAN, phase 3, item 19): 76, 153.
+- The second export error's rung, after its probe (batch 20's fork 18; PLAN, phase 3, item 19): 199.
+- The next rung that edits the integer chapter, `Specification/basic-lib/basic-integers.tex`: 195.
+- Climb batch 21's gather: 165.
 - The checker rung on row 775, a crash, after a trace: 183.
 - The rung on rows 763 and 757, with the `bool` family: 180.
 - The next walk rung, whichever it is: 185.
-- Q-walk, the walk half of the numeral switch, in the batch whose step gives walk the checker's static types (PLAN, phase 4): 27, 34, 80, 81, 90, 91.
+- Q-walk, the walk half of the numeral switch, in the batch whose step gives walk the checker's static types (PLAN, phase 4): 27, 34, 80, 81, 90, 91, 95.
 - Row 701, the code generator's half of `where` clauses, after the switch-over: 182.
 
-**Needed before the switch-over:** 2, 12, 20, 21, 30, 35, 36, 39, 40, 51, 108, 194. **Before microGPT compiles:** 3, 6, 37, 50, 54, 58, 93, 158, 159. **Before it runs fast:** 22.
+**Needed before the switch-over:** 2, 20, 21, 30, 35, 36, 39, 40, 51, 108, 194. **Before microGPT compiles:** 3, 6, 29, 31, 37, 50, 54, 58, 93, 158, 159. **Before it runs fast:** 22.
 
-**Kind.** Items 60 and 194 sit under (c) and are consequential by the skill's test. Items 43 and 188 act against his word (on the demos, and P-151's option 3), which the skill brings to him at once as a hold, not by the review list.
+**Kind.** Items 60 and 194 sit under (c) and are consequential by the skill's test. Item 188 acts against his word (P-151's option 3), which the skill brings to him at once as a hold, not by the review list; item 43, on the demos, is settled by P-79.
 
-**Moved to (a) as stale on 2026-10-20:** 1, 14, 16, 17, 26, 33, 42, answered by a decision of his; 78, 123, 124, answered by a landed fix.
+**Moved to (a) as stale on 2026-10-20:** 1, 14, 16, 17, 26, 33, 42, answered by a decision of his; 78, 123, 124, answered by a landed fix. **Moved to (a) at climb batch 20's landing:** 12, by P-155; 43 and 151, by P-79; 189, merged into 9, one question.
 
 What waits for Pavol's review, 2026-10-10
 
 Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 **Counts**
-- (b) Consequential: 49 items. By theme: The checker's typing and inference 8; Overloading and the Meet Rule 9; Walk's checks at load 1; Walk's choice of declaration and instance 2; Numbers and numerals 9; Sizes and arrays 7; The library's generators, strings and comparisons 3; The specification's text 2; Tests and the team's demos 1; Code generation and the run time 1; How batches run 6.
-- (c) Routine, kept as landed unless he says otherwise: 130 items. By theme: The checker's typing and inference 7; Overloading and the Meet Rule 10; Walk's checks at load 11; Walk's choice of declaration and instance 9; Numbers and numerals 9; Sizes and arrays 4; Ranges 7; The library's generators, strings and comparisons 24; The specification's text 16; Tests and the team's demos 13; Code generation and the run time 3; How batches run 7; The record, its tools and the repository 10.
-- (a) Settled or stale, leaving the lists: 91 entries, several of which bundle lines.
+- (b) Consequential: 46 items. By theme: The checker's typing and inference 8; Overloading and the Meet Rule 7; Walk's checks at load 1; Walk's choice of declaration and instance 2; Numbers and numerals 9; Sizes and arrays 7; The library's generators, strings and comparisons 3; The specification's text 2; Code generation and the run time 1; How batches run 6.
+- (c) Routine, kept as landed unless he says otherwise: 139 items. By theme: The checker's typing and inference 7; Overloading and the Meet Rule 10; Walk's checks at load 11; Walk's choice of declaration and instance 9; Numbers and numerals 11; Sizes and arrays 7; Ranges 7; The library's generators, strings and comparisons 24; The specification's text 19; Tests and the team's demos 12; Code generation and the run time 3; How batches run 9; The record, its tools and the repository 10.
+- (a) Settled or stale, leaving the lists: 94 entries, several of which bundle lines.
 - PLAN's nine batch lists hold 202 entries: 32 in (b), 94 in (c), 76 in (a), each counted where it first appears.
 - Every one of the 116 entries of 10-02 is placed; the last section maps them.
 
 **Five to take first**, each because it holds work or acts on his word:
-- 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them", and a step against his word is put to him at once.
+- 43, Team demo lines changed by the batches. It acts against his word on the demos, "Let's not touch them", and a step against his word is put to him at once. Settled 2026-10-20 by P-79, his word that every team demo is kept running.
 - 1, The self-typed bodies. Answered 2026-10-13, way 6 (P-146).
 - 30, A size known only at run time: way 4a and his decision on sizes. It reads his decision on sizes anew, and was built on the standing go while his answer is pending. The POPL check of the same judgements (item 33) is a new ask today.
 - 14, Does coverage define an inherited abstract method? (item 51). Answered 2026-10-13, coverage (P-147).
@@ -59,14 +62,14 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Landed: Three attempts. Five calls moved instance; `c: ZZ64 = idt(3)` now runs `idt` at the numeral type and converts the result, the inference chapter's own example.
    - The other way: The two attempts exactly as decided.
    - Its cost: Such calls with an untyped function argument would be refused, since the coercion attempt cannot check one (row 507), and the five calls measured again.
-   - Home: PLAN, "Climb batch 8, listed for his review", The order of the compiled checker's attempts at a; `compile-ladder/rung-instance-bound/decision-record.md:57` (D4), `REPORT.md:78` (section 3); P-49, "The order of the checker's attempts at a call"
+   - Home: PLAN, "Climb batch 8, listed for his review", The order of the compiled checker's attempts at a; `compile-ladder/rung-instance-bound/decision-record.md:57` (D4), `REPORT.md:78` (section 3); P-49, "The checker tries a call without the expected type ..."
    - Needed by: before the switch-over; the two attempts of P-49 alone refuse every call whose untyped function argument only the expected type fixes (row 507), so a reversal is measured against the one library before its check can read zero.
 
 3. **A declaration chosen statically keeps its inferred instance.** Batch 7b's rung S wrote that a declaration the static call selected keeps the instance inferred for it. Where neither the call's static return type nor an invariant position constrains a type parameter, this departs from the POPL 2019 paper, whose rule his decision on the instance follows.
    - Landed: The sentence as written; the rung's decision record names the departure.
    - The other way: State the paper's rule there too: such a parameter takes its bound under the call's static return type.
    - Its cost: A sentence of the specification. Neither path runs the paper's rule here yet: the compiled dispatcher carries the call's static return type only in phase 5.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", Item 30's clause that a declaration the static call; the fold `086875900` on `wip/7b-popl-fold`; `compile-ladder/rung-spec-overloading/decision-record.md`; P-48, "A type parameter the arguments do not fix takes its bound ..." (10-02: 24)
+   - Home: PLAN, "Pavol's answers, in the order they are needed", Item 30's clause that a declaration the static call; the fold `086875900` on `wip/7b-popl-fold`; `compile-ladder/rung-spec-overloading/decision-record.md`; P-48, "A type parameter that a call's arguments do not ..." (10-02: 24)
    - Needed by: before microGPT compiles; phase 5's dispatcher, which receives the call's static return type, builds the paper's rule that this sentence departs from (PLAN, phase 5, its third line).
 
 4. **Does the inference chapter solve a call's type parameters together?** For `loneT[\S, T extends S\](a: T, b: T, s: S)` over an Apple, a Pear and a Pear, walk gives both parameters `Fruit`. Read one parameter at a time, the chapter gives `S` the type of `s` alone, and then `T` has no instance.
@@ -74,44 +77,44 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: Yes, jointly: the chapter gains a rule that walk already follows. No: the per-parameter reading stands, and walk's answer becomes a departure with a row.
    - Its cost: Either answer is new text in the inference chapter; one of them also changes walk. Row 612, walk keeping `Bottom` where such a bound mentions another parameter, sits beside it.
    - Home: PLAN, "Climb batch 9, listed for his review", D5's reach; Row 612; `compile-ladder/rung-walk-instance/REPORT.md:322` (section 9), `SKEPTIC.md:48`; `compile-ladder/rung-walk-meet/REPORT.md:291`
-   - Needed by: never; no candidate of PLAN's phase 3 item 18 and no line of phases 4 to 6 builds on joint solving, and walk's answer stays pinned (row 613).
+   - Needed by: never; no candidate of PLAN's phase 3 item 19 and no line of phases 4 to 6 builds on joint solving, and walk's answer stays pinned (row 613).
 
 5. **Do `try`, `catch` and `atomic` bodies take the expected type?** He ruled that a `typecase` clause and a `label` body take the expected type of the whole. A `try` and an `atomic` have the same shape in the text: the type of a `try` is the union of its block's and its `catch` clauses' types, and an `atomic` has its body's type.
    - Landed: No: the checker gives them no expected type, and joins the `finally` block's type into the `try`'s, which the text does not. The chapter's "not yet described" item names them.
    - The other way: Yes: a checker rung measures and repairs them, and the chapter's list of contexts gains them, as for `typecase` and `label`.
    - Its cost: One checker rung, not measured, and an amended Appendix I entry.
    - Home: PLAN, "Climb batch 12, listed for his review", Do a `try` block and its `catch` clauses; `compile-ladder/rung-checker-contexts/REPORT.md:189` (section 10); `reviews/batch-12-review.md`, Part 4
-   - Needed by: never; no candidate of PLAN's phase 3 item 18 edits the checker's contexts, and none of the 5 sites left after batch 20 is a `try` or an `atomic` (`coordinator/CLIMB-BATCH-20.md`, section 1).
+   - Needed by: never; no candidate of PLAN's phase 3 item 19 edits the checker's contexts, and none of the 5 sites left after batch 20 is a `try` or an `atomic` (`coordinator/CLIMB-BATCH-20.md`, section 1).
 
 175. **Where a conditional extension's condition holds: the other `extends` entries.** A trait or object may extend a type under a `where` clause, as `object Bad[\E\](x: E) extends { Wrap[\E\], Shows where { E extends Ord[\E\] } }` does. Climb batch 18's rung X first checked the whole `extends` clause under every condition, so it accepted that declaration, which the base refuses and whose run died at link time. Its skeptic's contested fix `bd18b6a47` checks each entry with its own conditions, and the members with all of them. The judge upheld the fix.
    - Landed: As ruled: a conditional entry's condition holds in that entry and in the members only (P-151; `Specification/basic/trait-parameters.tex:371-378`). Default, taken: as ruled.
    - The other way: The probe's reading, which checks the whole `extends` clause under every condition (`perf-probes/where-clauses/REPORT.md:343`).
    - Its cost: Reverting `bd18b6a47`, and filing the row the skeptic drafted (`compile-ladder/rung-checker-conditional-extension/SKEPTIC.md` section 4.2).
    - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.1 and X.judge.1; `compile-ladder/rung-checker-conditional-extension/JUDGE.md` section 2; `ProjectFortress/compiler_tests/XXXCondExtendUnconditionalEntryChecker.fss:10`
-   - Needed by: before row 773's rung; that rung scopes the members to the condition, and builds on this ruling that the members hold under every condition and each entry under its own (PLAN, phase 3, item 18).
+   - Needed by: before row 773's rung; that rung scopes the members to the condition, and builds on this ruling that the members hold under every condition and each entry under its own (PLAN, phase 3, item 19).
 
 176. **Where a conditional extension's condition holds: the header.** After rung X, the checker still checked a declaration's static parameters, its own `where` clause, its `throws` clause and contract, and its `excludes` and `comprises` clauses with every conditional entry's condition holding. So it accepted three programs that the base refuses, 'Ill-formed type: W[\E\] ... does not satisfy the corresponding bound Shows.': an `excludes` entry, a `comprises` entry and a static parameter's bound, each well formed only under the condition. Rung X's judge saw it by reading (X.judge.2), and the merged-diff review ran it (review.1).
    - Landed: Ruled by the review's judge and repaired (`5b11849c6`): the header is checked with the declaration's own `where` clause only, and the entries, the value parameters and the members with the conditions (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:192-236`). An object's contract never reaches the checker, since the disambiguator drops it (row 781), so `Decls` is unchanged and the ruling's contract test waits on that row. Default, taken: as repaired.
    - The other way: Read "Within the declaration" (`trait-parameters.tex:375`) as taking in the header, which the judge did not hold, and check the header under every condition, as before the repair.
    - Its cost: A revert of the repair's edit. No library declaration has the shape, so the count and the distance move neither way.
    - Home: PLAN, "Climb batch 18, listed for his review", X.judge.2 of climb batch 18's rung X and review.1; `compile-ladder/climb-batch-18/JUDGE-review.md`; `compile-ladder/climb-batch-18/REPAIR-review.md` section 2; tests `XXXCondExtendExcludesChecker`, `XXXCondExtendComprisesChecker`, `XXXCondExtendParamBoundChecker`, `XXXCondExtendExcludesWhereChecker`
-   - Needed by: before row 773's rung; item 177's other way moves the value parameters into the header's analyzer that this repair made (`TypeWellFormedChecker.scala:192-236`), so the two are answered together (PLAN, phase 3, item 18).
+   - Needed by: before row 773's rung; item 177's other way moves the value parameters into the header's analyzer that this repair made (`TypeWellFormedChecker.scala:192-236`), so the two are answered together (PLAN, phase 3, item 19).
 
 177. **Where an object's value parameters fall under a conditional extension.** Nothing on record settles it. A value parameter that is not transient is a field (`Specification/basic/objects.tex:271-272`), and P-151 puts the members under the condition. The constructor's arrow type holds at every instance (`objects.tex:204-206`).
    - Landed: As repaired: they are checked with the conditions, with the members. So a parameter typed only under the condition is accepted, and the object can be made where the condition fails: row 773's hole, which a member already has. Default, taken: as repaired.
    - The other way: Check them with the header: `walk(params)` moves to the header's analyzer in `TypeWellFormedChecker.scala`'s object case (`:235`), and `Decls.scala`'s object case (`:135-136`) binds them without the conditions, so a field typed only under the condition is refused.
    - Its cost: The count moves neither way: by reading, no library declaration or test has such a parameter. It belongs with row 773's scoping of members (item 178); a reversal is that edit, with one expected failure promoted.
    - Home: PLAN, "Climb batch 18, listed for his review", judge-review.1; `compile-ladder/climb-batch-18/JUDGE-review.md` sections 3 and 6; row 773
-   - Needed by: before row 773's rung; PLAN's phase 3 item 18 holds row 773 until this answer (ask 8), and climb batch 20 leaves the row out for it (`coordinator/CLIMB-BATCH-20.md`, section 4); the count moves neither way.
+   - Needed by: before row 773's rung; PLAN's phase 3 item 19 holds row 773 until this answer (ask 8), as climb batch 20 left the row out for it (`coordinator/CLIMB-BATCH-20.md`, section 4); the count moves neither way.
 
 178. **The members of a conditional extension scoped to the condition (row 773).** The checker checks a member under a conditional extension's condition, as P-151 says. The member stays callable where the condition fails, since the members a type inherits are read at every instance: `Lst[\Fn\](Fn(inc), Fn(inc)).lt(...)` compiles, and its run dies at link time, 'NoSuchMethodError: ... CondExtendMember$Fn.lt(CondExtendMember$Fn)'. Swift, Rust and Haskell scope such members to the condition. The scoping waited on row 748's check at a dotted call, which rung K landed in the same batch; that check reads a method's own `where` clause only, so row 773 holds.
-   - Landed: The members checked under the condition and not scoped to it; row 773 open. Default, taken: the scoping in a later batch, among the next batch's candidates (PLAN, phase 3, item 18).
+   - Landed: The members checked under the condition and not scoped to it; row 773 open. Default, taken: the scoping in a later batch, among the next batch's candidates (PLAN, phase 3, item 19).
    - The other way: Leave the members unscoped, with the row as the record of the hole.
    - Its cost: A checker rung beside row 748's check, with item 177's value parameters.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.2; PLAN, phase 3, item 18; `compile-ladder/rung-checker-conditional-extension/REPORT.md:170`, `:225`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1829`; row 773
-   - Needed by: before row 773's rung; this is whether that rung, the candidate PLAN's phase 3 item 18 holds, scopes the members at all.
+   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.2; PLAN, phase 3, item 19; `compile-ladder/rung-checker-conditional-extension/REPORT.md:170`, `:225`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1829`; row 773
+   - Needed by: before row 773's rung; this is whether that rung, the candidate PLAN's phase 3 item 19 holds, scopes the members at all.
 
-### Overloading and the Meet Rule (9)
+### Overloading and the Meet Rule (7)
 
 6. **The Meet Rule's closed-trait case for generic families.** Item 26 gave the Meet Rule a case for two closed traits: declarations over the listed types cover their intersection. The text applies it to declarations with static parameters too; the checker refuses it there. Since batch 8, the functional-method form is accepted and dies at run time (row 566); the function form is still refused.
    - Landed: The text as batch 7b's rung S wrote it; the checker's refusal gated by expected failures; Appendix I names row 546 among the checker's departures.
@@ -134,12 +137,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Home: PLAN, "Climb batch 7b, listed for his review", The Meet Rule's closed-trait case on the compiled path; `compile-ladder/rung-return-type-rule/SKEPTIC.md:151` (10-02: 29)
    - Needed by: never; no PLAN item builds on coverage below the provider, and `SkFnBetween` has no pinned test (row 547).
 
-9. **Exclusion through a bound.** Do two parameter types exclude each other when the only static arguments at which they could meet are ones a bound rules out?
-   - Landed: The checker as it is: yes for a named forced argument, and it cannot conclude it through ancestors (the `CAP` shape). The text names the question in Appendix I's "Passages not yet revised".
-   - The other way: The text answers it: rung S's "no", which the gather removed, or a "yes".
-   - Its cost: A sentence of the overloading chapter, and a checker rule to match it.
-   - Home: PLAN, "Climb batch 7b, listed for his review", Whether two parameter types exclude each other when the; `compile-ladder/rung-spec-overloading/SKEPTIC.md:140` (10-02: 31)
-   - Needed by: before the tint rung (row 786); it is item 189's question in general, two parameter types that meet only where the bounds rule out every argument, and climb batch 20 holds that row for his answer (`coordinator/CLIMB-BATCH-20.md`, section 4).
+9. **Exclusion through a bound, and `tint` (row 786).** Do two parameter types exclude each other when the only static arguments at which they could meet are ones a bound rules out? Walk loads `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, reading two type parameters whose bounds exclude as never one type, and the checker refuses the pair; `Bottom` lies within both bounds and cannot be written, so which path moves is his.
+   - Landed: The checker as it is: yes for a named forced argument, and it cannot conclude it through ancestors (the `CAP` shape); for `tint`, both paths as they are, row 786 `CONTESTED`. The text names the question in Appendix I's "Passages not yet revised".
+   - The other way: The text answers it: rung S's "no", which the gather removed, or a "yes"; and walk refuses `tint`, or the checker accepts it.
+   - Its cost: A sentence of the overloading chapter, and a walk rung or a checker rung to match it.
+   - Home: PLAN, "Climb batch 7b, listed for his review", Whether two parameter types exclude each other when the; `compile-ladder/rung-spec-overloading/SKEPTIC.md:140` (10-02: 31); PLAN, "Climb batch 19, listed for his review", P.worker.1 and P.skeptic.1; row 786
+   - Needed by: before the tint rung (row 786); climb batch 21's candidates hold the row for his answer (PLAN, phase 3, item 19), and item 192 writes a sentence in the same passage of `overloading.tex`.
 
 10. **A written static argument on a name with a generic and a plain declaration.** For `op[\ZZ64\](z, w)`, where `op` has a generic and a plain declaration, walk runs the generic declaration's instance and the compiled run dispatches to the plain one. The text says nothing of a static argument written on such a name.
    - Landed: No rule. Walk's answer is pinned by a test.
@@ -153,14 +156,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: The text says which rule governs, here or in a later specification rung, and the checker's mixed-family rule follows.
    - Its cost: A text revision. The answer also decides the way batch 8 did not take for `String`'s juxtaposition (the next item).
    - Home: PLAN, "Climb batch 7b, listed for his review", Row 545; PLAN, "Climb batch 8, listed for his review", `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; `reviews/batch-7b-review.md`, Part 3; row 545 (10-02: 33)
-   - Needed by: before the symbolic-operator check (PLAN items 38 and 59); item 12's way of waiting for a rule that covers the five families needs this mixed-family rule (row 545).
-
-12. **Symbolic operators in the overloading check (item 38).** The checker's overloading check skips every operator whose name is not a word in capitals, such as `+`, `<`, `||` and `//`, so the distance reads zero for families nobody has counted. `String`'s `||`, `|||`, `//` and `///` keep a shape the check would refuse; batch 8 moved juxtaposition, the same shape, to three top-level operators. Walk's Meet Rule check skips them too, and fails over them at `EmptyString`'s `||` (row 611).
-   - Landed: No default on record. The skip stays; the four families as they are; juxtaposition as three top-level operators.
-   - The other way: The four take juxtaposition's device, so the trait stays uniform; or all five wait for a rule that covers them, the text's own way, which needs the mixed-family rule of the item above.
-   - Its cost: Opening the symbolic layer will surface families no table has counted. It bears on phase 3's true zero, so it is needed before the switch-over.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 38; PLAN, "Climb batch 8, listed for his review", `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; `compile-ladder/rung-library-meets/SKEPTIC.md:42`, `:155`, `REPORT.md:87`; `compile-ladder/rung-string-slips/REPORT.md:188`; `compile-ladder/rung-walk-meet/REPORT.md:284`; rows 584, 585, 611
-   - Needed by: before the switch-over; PLAN item 38 says its answer is needed then, and the second export error's `String` entries and the 54 library fixes wait on it (`coordinator/CLIMB-BATCH-20.md`, section 4; ask 5).
+   - Needed by: before the symbolic-operator check (P-155, its probe first; PLAN items 38 and 59); the check meets families that mix a function with functional methods, and `String`'s families' device turns on this mixed-family rule (row 545).
 
 13. **The approved `comprises` check decides by names.** The 14 lines of the checker's `comprises` check that he approved decide by how a type that extends the trait spells its type variable, and by simple names: an unrelated trait of the same name counts, and a false clause can pass.
    - Landed: The code as approved; one face gated by an expected failure (row 489).
@@ -168,13 +164,6 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: It changes the 14 lines he approved. A sketch of the first half keeps every verdict measured but is not right inside the check's recursion. Nothing on the path waits on it.
    - Home: PLAN, "Off the path, parked", The `comprises` check he approved; `compile-ladder/rung-comprises-checker/SKEPTIC.md:322` (section 18); rows 489, 490 (10-02: 78)
    - Needed by: never; nothing on the path waits on it (its cost line), and rows 489 and 490 keep its faces.
-
-189. **`tint`, two bounds that exclude (row 786).** Walk loads `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, and the checker refuses the pair; `Bottom` lies within both bounds and cannot be written, so which path moves is his.
-   - Landed: Both paths as they are, row 786 `CONTESTED`.
-   - The other way: Walk refuses the pair, or the checker accepts it.
-   - Its cost: A walk rung or a checker rung, with the specification's sentence.
-   - Home: PLAN, "Climb batch 19, listed for his review", P.worker.1 and P.skeptic.1; row 786
-   - Needed by: before the tint rung (row 786); climb batch 20 holds the row for his answer (`coordinator/CLIMB-BATCH-20.md`, section 4), and item 9 asks the same question in general.
 
 ### Walk's checks at load (1)
 
@@ -259,12 +248,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Home: PLAN, "Off the path, parked", Row 360; row 360; `compile-ladder/rung-round-half-even/REPORT.md`; `open-items-2026-09-26.md` item 23 (10-02: 102)
    - Needed by: never; no PLAN item builds on the rounding of such numerals, and its expected failure keeps it (row 360).
 
-29. **The checker refuses the model's numeral powers.** The checker refuses microGPT's powers of numerals as an ambiguous coercion.
-   - Landed: Refused; no model line changed.
+29. **The checker refuses the model's numeral powers.** The checker refuses microGPT's powers of numerals as an ambiguous coercion (row 533). Climb batch 20's fork 7 rewrote both declarations of the tie: `MultiplicativeRing`'s api power is now `abstract opr ^(self, other:AnyIntegral): T` (`Library/FortressLibrary.fsi:283`), and `RR64`'s api declares `opr ^(self, b:AnyIntegral):RR64` (`:366`). By reading, the checker still refuses `10.0^(-5)`, not measured; row 533's claim names the declaration that is gone, and `ledger.py` refused the note (`compile-ladder/climb-batch-20/RECORD.md`, "Ledger notes not written").
+   - Landed: Refused; no model line changed. Fork 7's api lines as landed.
    - The other way: Repair it on the checker side, or on the library side.
    - Its cost: Phase 5 meets it. No model line changes either way.
-   - Home: PLAN, "Phase 5. microGPT compiles", Row 533; row 533 (10-02: 107)
-   - Needed by: batch 20; rung I's fork 7 rewrites both declarations of row 533's tie, `MultiplicativeRing`'s `^` over `ZZ64` and `RR64`'s api `^`, so the refusal may move, and the record does not name the row (`coordinator/CLIMB-BATCH-20.md`, section 2, fork 7); phase 5 meets it after.
+   - Home: PLAN, "Phase 5. microGPT compiles", Row 533; PLAN, "Climb batch 20, listed for his review", Fork 7; `reviews/batch-20-review.md`, finding 3 and "For the curator", 4; row 533 (10-02: 107)
+   - Needed by: before microGPT compiles; row 533 is measured when the model is first checked against the one library (phase 5; the review's default), and the model's lines move neither way.
 
 ### Sizes and arrays (7)
 
@@ -273,15 +262,15 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: If his decision on sizes means that any size the call's text does not fix is refused, way 4a needs his word and way 4c remains: run-time sizes stay unsized. Ways 4b, 4d and 4e are on file.
    - Its cost: It reads his decision on sizes anew. It holds the library's `array[\E\](x)` and two lines of the model's sized-types diff. The Fable check against the POPL 2019 paper finds that the judgement stands (the item on that check).
    - Row 682 hangs on it: read against the POPL 2019 paper's full text, a declaration taking `NatParam` beside a generic one taking its listed type is a valid pair in the paper's own calculus (no ground witness, so the generic is strictly more specific, walk's answer), and a duplicate only under way 4a's opening rule, which the checker applies. So the checker's refusal stands under way 4a, and walk's acceptance is its load check's; under another way the row's checker half goes (`reviews/array-judgements-popl-check.md` section 7).
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 3; `reviews/array-fork3-judgement.md` section 6; `compile-ladder/rung-size-expressions/REPORT.md:180` (decision 4), `SKEPTIC.md:57`; `CLIMB-BATCH-13.md`, Q13.3; P-40, "Sizes." and P-55, "Arithmetic in a size ..."; `reviews/array-judgements-popl-check.md` section 3
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 3; `reviews/array-fork3-judgement.md` section 6; `compile-ladder/rung-size-expressions/REPORT.md:180` (decision 4), `SKEPTIC.md:57`; `CLIMB-BATCH-13.md`, Q13.3; P-40, "Sizes." and P-55, "A size may hold arithmetic, compared by its written ..."; `reviews/array-judgements-popl-check.md` section 3
    - Needed by: before the switch-over; way 4a cleared ten library calls from the distance, which another way puts back, though PLAN item 13 lists fork 3 after the switch-over (row 682).
 
 31. **The bound of `Vector` and `Matrix` (fork 2).** Which bound the element type of the array family takes.
    - Landed: The two-trait bound, `Number` and `MultiplicativeRing`. Batch 13 built it and held it, because the checker then took 17 minutes; at his "land it now" it landed with the checker-speed fix as batch 13b: 24 sites gone, 4 new, the distance 105 to 85.
    - The other way: `Number` alone as before; `MultiplicativeRing` alone; a bound per operation; the specification's algebra after `where` clauses; arithmetic on `Number`, against route A.
    - Its cost: His answer on the bound itself is pending; the other ways undo what batch 13b landed. The Fable check against the POPL 2019 paper finds that the bound stands (the item on that check).
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 2; PLAN-history, "Pavol's answers, in the order they are needed", item 52; `reviews/array-fork2-judgement.md`; `compile-ladder/rung-array-bound/REPORT.md` section 10; `compile-ladder/climb-batch-13b/RECORD.md` (`749ec523e`, `d96bc7776`); P-55, "Arithmetic in a size ..."
-   - Needed by: batch 20; rung A's casts and its guard at the eight element types are written against the two-trait bound (`coordinator/CLIMB-BATCH-20.md`, rung A, fork 6).
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 2; PLAN-history, "Pavol's answers, in the order they are needed", item 52; `reviews/array-fork2-judgement.md`; `compile-ladder/rung-array-bound/REPORT.md` section 10; `compile-ladder/climb-batch-13b/RECORD.md` (`749ec523e`, `d96bc7776`); P-55, "A size may hold arithmetic, compared by its written ..."
+   - Needed by: before microGPT compiles; the array questions of phase 5 read the bound (PLAN item 13, fork 2), and climb batch 20's casts and their guard at the eight element types are written against it (`ProjectFortress/tests/VectorMatrixCastsWalk.fss`).
 
 32. **Two size parameters that may be equal.** In `two[\nat a, nat b\]`, the checker counts `a` and `b` as different sizes, so a `typecase` arm that needs them equal is refused as unreachable. The team's own Q&A reasons that a parameter may equal what it may be instantiated at.
    - Landed: Kept, gated by an expected failure (row 683, contested).
@@ -305,11 +294,11 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Needed by: before the switch-over; PLAN item 17 places it there, and the compiled run dies where the declaration reads its size (row 446).
 
 36. **The dead sizes, the linker row and walk's unknown size.** Three items wait for the switch-over's design: the diff that deletes 25 api declarations' dead sizes; re-approval row 41, an exported name that fails to link when the component's name differs from its api's (row 320's open half); and whether walk refuses an unused unknown size as the checker does. Answered in part at 05:42 UTC on 2026-10-20: the 17 vector and matrix operators' unused sizes go by decision E's diff (ask 3, P-40); the rest waits as before.
-   - Landed: None built. The diff was re-based on 2026-09-29 and applies.
+   - Landed: The 17 operators' unused sizes, by decision E's diff, in climb batch 20's rung A (`e487cec2d`; F-264, F-35); the other 8 dead sizes, row 41 and walk's unknown size not built.
    - The other way: Each is put to him as a diff with the switch-over's design, which is not drafted yet.
    - Its cost: Part of phase 4's design.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 12; PLAN-history, "Phase 3. The checker at a true zero", items 7 and 8; under item 6, A walk harness key for an expected load-time refusal to under item 8, Row 638; P-40, "Sizes."; `reviews/overloading-judgement.md` section 10, item 5; `reviews/decision-d-diff/rebase-2026-09-29/library-e3.patch`; row 320 (10-02: 15)
-   - Needed by: before the switch-over; the other unused sizes of the 25 and row 41 come with the switch-over's design (PLAN item 12), and batch 20's rung A builds only the answered part, decision E's diff.
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 12; PLAN-history, "Phase 3. The checker at a true zero", items 7 and 8; under item 6, A walk harness key for an expected load-time refusal to under item 8, Row 638; P-40, "Sizes are checked ..."; `reviews/overloading-judgement.md` section 10, item 5; `reviews/decision-d-diff/rebase-2026-09-29/library-e3.patch`; row 320 (10-02: 15)
+   - Needed by: before the switch-over; the other unused sizes of the 25 and row 41 come with the switch-over's design (PLAN item 12), and climb batch 20's rung A built only the answered part, decision E's diff.
 
 37. **The array decisions after the switch-over.** Forks 4 to 6 of the arrays: the element width (`RR64` or `RR32`), the model's sized types (decision D, 21 model lines out and 29 in), and what puts `double[]` under the generic traits (decision A).
    - Landed: None built; `RR64` as written. Plain explainers are to be prepared before the switch-over.
@@ -357,15 +346,6 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Home: PLAN, "Climb batch 19, listed for his review", gather.2 and the post-batch review's entry on it
    - Needed by: never; nothing reaches it today (its text), and no PLAN item declares `Tuple` in a library; climb batch 20 lists it as held, though no rung waits on it (`coordinator/CLIMB-BATCH-20.md`, section 4).
 
-### Tests and the team's demos (1)
-
-43. **Team demo lines changed by the batches.** His word on the team's demos: "Let's not touch them and we'll make them run later." After it, batch 12's rung G respelled a line of `HeapShakedown.fss` like its test twin. Before it, batch 7's rung A respelled 32 lines of eight demos and left `mg.fss` failing earlier.
-   - Landed: Both as landed. The `HeapShakedown` demo stops where it stopped before.
-   - The other way: Put the demo lines back to the team's text.
-   - Its cost: By reading, batch 7's eight demos would then fail where they call `fill` with a function, which since answer 10 takes a value.
-   - Home: PLAN, "Climb batch 12, listed for his review", Three points a decision on record makes his (point 3); PLAN, "Off the path, parked", Climb batch 7's rung A respelled 32 lines of; `compile-ladder/rung-reduction-types/REPORT.md` (decision 6); `compile-ladder/rung-tabulate/REPORT.md:209` (D4); P-79, "The team demos that write no static argument ..."; row 464 (10-02: 91)
-   - Needed by: batch 20; rung I's fork 15 respells three demo lines, `npbft.fss:130` beyond the two P-153 names, as a default for his review list (`coordinator/CLIMB-BATCH-20.md`, fork 15; `coordinator/climb-batch-20-review.md`); a step against his word on the demos is a hold by the skill, not a review item.
-
 ### Code generation and the run time (1)
 
 44. **`override` in the code generator.** The code generator refuses a method declared `override`, so the team's `disp0.fss`, which the checker now accepts, does not compile. What compiled dispatch does with a declaration a type no longer provides is open.
@@ -409,8 +389,8 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Landed: Not built.
    - The other way: Build it.
    - Its cost: A script change, which his decision on the gate's comparisons puts to him on its own.
-   - Home: PLAN-history, "Off the path, parked", Workflow option (b), the review's second script change, and ...; P-123, "The gate's comparisons." (10-02: 9)
-   - Needed by: never; the gate step can be added at any batch (P-123's line on the name comparison).
+   - Home: PLAN-history, "Off the path, parked", Workflow option (b), the review's second script change, and ...; the `fortress-repo` skill, `references/gate.md`, "Comparing with an earlier run"; the `coordinator` skill, `references/batch.md`, "The checker count and the distance"; P-123's history, its block of 2026-10-13 20:01Z, where the clause on the name comparison stood under the old title "The gate's comparisons." (10-02: 9)
+   - Needed by: never; the gate step can be added at any batch (P-123's history, the name comparison a script change put to him on its own).
 
 50. **The library-extension bullet in the skill.** The skill's rule on extending the library, re-read from his words: extend it where its own text has a form for one number type, rank or sibling trait and lacks it for another; a form only the model needs, with no precedent, stays in the model's components.
    - Landed: The skill's current bullet, which he read as contradicting his position.
@@ -428,7 +408,7 @@ Each is kept as landed unless he says otherwise.
 51. A clause-form reduction whose big operator's static argument is unwritten is instantiated by the checker at its bound or, since climb batch 14's rung A, at the expected type where the bound's type does not fit it, so `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` at the bound `Number` runs; one whose bound names its parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance and is refused (row 731, row 425's corrected text).
    - Landed: Refused where the bound names the parameter, three sites of the distance; the expected type taken otherwise (`InferBigOperatorExpectedType`). The other way: The desugaring fixes the big operator's static argument from the clauses. Its cost: A desugarer change, a checker project before the switch-over.
    - Home: PLAN, "Climb batch 8, listed for his review", Row 425 after climb batch 8's rung I; `compile-ladder/rung-instance-bound/REPORT.md:90` (section 4)
-   - Needed by: before the switch-over; row 731's 3 sites are a checker project before the switch-over (PLAN, phase 3, item 18, "Not candidates").
+   - Needed by: before the switch-over; row 731's 3 sites are a checker project before the switch-over (PLAN, phase 3, item 19, "Not candidates").
 
 52. How the checker ranks a generic declaration among those reached only by coercion: by declared domains where they compare, by the coercion chapter's order on instances otherwise.
    - Landed: As built, a judge's choice under a silent text, on the ground of his conversion decision. The other way: The instances alone, the overloading checker's order alone, or a new full order. Its cost: Instances alone would let a generic's narrow instance outrank a plain declaration, against his conversion decision; the checker's order alone loses `ZZ32` over `ZZ64` at some positions.
@@ -459,8 +439,8 @@ Each is kept as landed unless he says otherwise.
    - Landed: No default on record, so none is taken: the row open, with no gated test, since the refusal is a crash.
    - The other way: A repair in a checker rung.
    - Its cost: A trace from `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:198` and `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:695`, `:722` first.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.2; PLAN, phase 3, item 18; row 775
-   - Needed by: before the checker rung on row 775; PLAN's phase 3 item 18 lists it among the checker rows, a trace first (`coordinator/CLIMB-BATCH-20.md`, section 4).
+   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.2; PLAN, phase 3, item 19; row 775
+   - Needed by: before the checker rung on row 775; PLAN's phase 3 item 19 lists it among the checker rows, a trace first (`coordinator/CLIMB-BATCH-20.md`, section 4).
 
 ### Overloading and the Meet Rule (10)
 
@@ -481,7 +461,7 @@ Each is kept as landed unless he says otherwise.
 
 60. Answer 9's positional rule compares two declarations only when they have as many static parameters of their own.
    - Landed: As built; applied to every pair it refused a team test. His answer 9 lists this scope for his review. The other way: Every pair. Its cost: The team's `Compiled12.invariantInference` refused.
-   - Home: PLAN, "Climb batch 7b, listed for his review", Answer 9's positional rule compares two declarations only when; `compile-ladder/rung-return-type-rule/REPORT.md:191`; P-45, "The static-parameter sentence goes (answer 9)." (10-02: 37)
+   - Home: PLAN, "Climb batch 7b, listed for his review", Answer 9's positional rule compares two declarations only when; `compile-ladder/rung-return-type-rule/REPORT.md:191`; P-45, "Overloads may differ in their static parameters (answer 9)." (10-02: 37)
    - Needed by: never; the rule refuses nothing in the library, and phase 5's dispatcher lifts it (`reviews/decisions-review/popl-recheck.md` section 1.3); kind: his answer 9 reserves this scope for his review, so by the skill's first test it is consequential, not routine.
 
 61. A compiled verdict on an overload set can depend on the components compiled before it in the same JVM (row 547); batch 8's re-keyed memo is the candidate cause, not proven.
@@ -586,7 +566,7 @@ Each is kept as landed unless he says otherwise.
 82. Under walk, a parameter bounded only from above whose bound mentions another parameter keeps `Bottom` (row 612).
    - Landed: Gated; the fix is named for a walk rung. The other way: The fix now. Its cost: A walk rung; it sits beside the joint-solving question.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 612; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-meet/REPORT.md:142`
-   - Needed by: never; no walk rung of PLAN's phase 3 item 18 takes row 612.
+   - Needed by: never; no walk rung of PLAN's phase 3 item 19 takes row 612.
 
 83. Walk prints the open type as `OPEN`, as in `BoxU[\OPEN\]`.
    - Landed: `OPEN`. The other way: Another word; the judgement says "you may want another word". Its cost: A rename in walk.
@@ -618,7 +598,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", The trace switch `fortress.inference.trace` stays in a 2012 file; `compile-ladder/rung-walk-instance/REPORT.md:324`
    - Needed by: never; one edit at any time.
 
-### Numbers and numerals (9)
+### Numbers and numerals (11)
 
 89. A `ZZ32` with an `NN32` promotes to `ZZ64` on the one library (answer 8); `ZZ` on the compiled prelude until the switch-over.
    - Landed: As landed on both paths. The other way: None proposed. Its cost: None.
@@ -653,7 +633,7 @@ Each is kept as landed unless he says otherwise.
 95. The numeral type declares its own `zero`, `one`, `even`, `odd`, `floor`, `ceiling`, `truncate`, `DIVIDES`, `TIMES` and `^`.
    - Landed: As landed: every operation numerals support is declared on the numeral type. The other way: Ledger rows, per-type declarations, or a checker change. Its cost: Ten api declarations.
    - Home: PLAN, "Climb batch 8, listed for his review", `IntLiteral` declares its own `zero`; `compile-ladder/rung-numeral-library/REPORT.md:66`, `JUDGE.md:11`
-   - Needed by: batch 20; rung I's fork 10 has `IntLiteral`'s `^` answer `IntLiteral`, a declaration this item put on the numeral type (`coordinator/CLIMB-BATCH-20.md`, section 2, fork 10).
+   - Needed by: before Q-walk; Q-walk makes walk's numeral an `IntLiteral` (row 578), which then runs these ten declarations, `^` among them, which climb batch 20's fork 10 types at the numeral type (item 201; PLAN, phase 4).
 
 96. A numeral too large for every declaration of a call is refused.
    - Landed: Refused. The other way: The narrowest declaration whose type holds the value. Its cost: A checker rule.
@@ -665,7 +645,21 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Off the path, parked", Row 325's faces; `compile-ladder/climb-batch-N/JUDGE-review.md` section 2 (10-02: 63)
    - Needed by: never; no PLAN item changes the gated reading (row 325).
 
-### Sizes and arrays (4)
+196. **A `ZZ` power beyond the 32-bit range raises `IntegerOverflow` under walk.** After climb batch 20's rung I, a `ZZ` or numeral power whose exponent lies beyond the int's range, or whose result a `BigInteger` cannot hold, raises `IntegerOverflow` for every base but 0, 1 and -1, though `ZZ` has no fixed width.
+   - Landed: As built. The skeptic reads the text as giving it already: "For integer results, overflow throws an IntegerOverflow", and the shift entry on `ZZ`, "a result too large for the implementation to represent throws an IntegerOverflow".
+   - The other way: Another exception, or a result computed past the int's range.
+   - Its cost: Walk's `BigNum` power native.
+   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.3 and I.skeptic.3; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:308-324`; `Specification/basic/operators/opr-overview.tex:155`; `Specification/basic-lib/basic-integers.tex:738-739`; `compile-ladder/rung-integer-power/REPORT.md:264`; `compile-ladder/rung-integer-power/SKEPTIC.md:178`
+   - Needed by: never; walk only, the text gives it, and it can be undone at any time.
+
+201. **The numeral type's `^` answers the numeral type (fork 10).** Climb batch 20's rung I has `IntLiteral`'s `^` answer `IntLiteral`, P-153's "each integer type's `^` answers its own type" applied to the numeral's type (P-76), so `2^(-1)` throws, as for every integer type.
+   - Landed: As probed and landed.
+   - The other way: The numeral's power answers another type, such as `ZZ32` or `RR64`.
+   - Its cost: Two declarations of `FortressBuiltin`.
+   - Home: PLAN, "Climb batch 20, listed for his review", Fork 10; `coordinator/CLIMB-BATCH-20.md`, section 2, fork 10; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:552-554`, `.fsi:213-214`; `reviews/batch-20-review.md`, "For the curator", 3; item 95
+   - Needed by: never; under walk a numeral is a `ZZ32` value, whose `^` follows the same contract, so no value turns on it, and it can be undone at any time.
+
+### Sizes and arrays (7)
 
 98. Under walk, a size written as arithmetic is refused at any operation that leaves `ZZ64`. Its stated premise, that the checker refuses all such arithmetic, no longer holds since batch 13.
    - Landed: As landed. The other way: An exact big-integer size, or the silent wrap. Its cost: A walk edit for expressions no program writes.
@@ -686,6 +680,27 @@ Each is kept as landed unless he says otherwise.
    - Landed: No refusal; a test asserts today's value. The other way: A refusal at run time. Its cost: A loader edit.
    - Home: PLAN, "Climb batch 13, listed for his review", Row 675; `compile-ladder/rung-size-expressions/REPORT.md:184`
    - Needed by: never; no PLAN item edits the class loader's reading of a size's kind (row 675).
+
+198. **The casts of `Vector` and `Matrix` rely on `replica`.** Since climb batch 20's rung A, the cast bodies of `Vector` and `Matrix` rely on a vector's or matrix's `replica` at its element type being a vector or matrix; a user extender whose `replica` answers a plain array gets `CastError` at its `+`, `-`, unary `-`, `scale` or `pmul`, where the base answered that array.
+   - Landed: As landed. Default (the post-batch review's; none on record): no new statement in the library.
+   - The other way: The library states the requirement; or the ways note's way 1b, the bodies through the factory's own `tabulate`, which would not rely on it and waits on P-85.
+   - Its cost: A sentence of the api; way 1b, the array design after the switch-over.
+   - Home: PLAN, "Climb batch 20, listed for his review", A.skeptic.3; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Library/FortressLibrary.fss:2463`, `:2536`; `compile-ladder/rung-array-sites/SKEPTIC.md:95` and its section 2, `SkOddView`; F-264
+   - Needed by: never; the default adds nothing, and the other way, way 1b, waits on the array decisions after the switch-over (P-85).
+
+199. **`Array2`'s column and row subscripts not in the api.** Walk runs `opr[_:TrivialOpenRange, i1:ZZ32]` and `opr[i0:ZZ32, _:TrivialOpenRange]`, and the api's `Array2` lacks them, so a checker that reads the api does not see them (row 465's other case).
+   - Landed: Not declared. Default (the post-batch review's; none on record): add them with the second export error's work, which aligns the api with the component trait by trait.
+   - The other way: Add them now, as rung A declared `array3(v)`; or leave them out of the api.
+   - Its cost: Two api lines.
+   - Home: PLAN, "Climb batch 20, listed for his review", A.skeptic.4; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Library/FortressLibrary.fss:2707`, `:2711`; `Library/FortressLibrary.fsi:1706-1709`; `compile-ladder/rung-array-sites/SKEPTIC.md:96`; row 465
+   - Needed by: before the second export error's rung (PLAN, phase 3, item 19); its default adds the two subscripts with that rung.
+
+202. **The api's `immutableArray` of rank 2 and 3 put in a comment (fork 5).** The component has had them in a comment since the team's last commit, and the library has no `ImmutableArray2` or `ImmutableArray3`, so no program can call them; they leave the library chapter, Part IV, which renders the api.
+   - Landed: As the patch: the built side wins, by the library's own standard.
+   - The other way: The two ranks kept in the api, and the types they name declared.
+   - Its cost: The comment removed; the other way, two traits.
+   - Home: PLAN, "Climb batch 20, listed for his review", Fork 5; `coordinator/CLIMB-BATCH-20.md`, section 2, fork 5; `Library/FortressLibrary.fsi:1501-1504`; `Specification/library/default-libraries.tex:27-37`; `reviews/batch-20-review.md`, "For the curator", 6
+   - Needed by: never; no program can call the two ranks, and the comment comes off at any time.
 
 ### Ranges (7)
 
@@ -728,7 +743,7 @@ Each is kept as landed unless he says otherwise.
 
 109. `TotalComparison` extends `StandardMinMax`: he took it on recommendation and asked for a fuller explanation when he has the energy.
    - Landed: As built; an explanation owed. The other way: None. Its cost: None.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", Item 22; P-98, "Appendix I's small items." (10-02: 22)
+   - Home: PLAN, "Pavol's answers, in the order they are needed", Item 22; P-98, "`TotalComparison` extends `StandardMinMax[\TotalComparison\]`, so that it has `MIN` and ..." (10-02: 22)
    - Needed by: never; an explanation owed, no decision (P-98).
 
 110. `LessThan`'s and `GreaterThan`'s `CMP` answer the converse of their `<` (row 456), and `LEXICO Unordered` answers `Unordered` (row 457).
@@ -741,15 +756,16 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Off the path, parked", Climb batch 7's rung H's repair of the `Condition` site (10-02: 87)
    - Needed by: never; no PLAN item restores it (row 458).
 
-112. `fill` and `tabulate` sit where the array diamond meets, not in each leaf trait.
+112. `fill` and `tabulate` sit where the array diamond meets, not in each leaf trait; since climb batch 20's rung A, `Vector` and `Matrix` also declare them at their own type.
    - Landed: As landed; "his to confirm". The other way: The leaf placement, which leaves the meet refused. Its cost: A library edit.
+   - A.worker.2 and A.skeptic.2 of climb batch 20's rung A: the meet's bodies stay beside the leaves' (F-158, F-264), so the item is restated here before he answers it (`Library/FortressLibrary.fss:2527-2534`, `:2848-2855`; `compile-ladder/rung-array-sites/REPORT.md:161`; `compile-ladder/rung-array-sites/SKEPTIC.md:94`). Home: PLAN, "Climb batch 20, listed for his review", A.worker.2 and A.skeptic.2.
    - Home: PLAN, "Off the path, parked", `fill` and `tabulate` sit where the array diamond meets (10-02: 89)
-   - Needed by: batch 20; rung A redeclares `fill` and `tabulate` in `Vector` and `Matrix` at the leaf's own type, beside the meet's (`coordinator/CLIMB-BATCH-20.md`, rung A, 1a).
+   - Needed by: never; the leaves' declarations stand beside the meet's, the default can stand, and a move of the meet's bodies is a library edit at any time.
 
 113. The factories' function forms are named `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`.
    - Landed: As landed; "his to change". The other way: `tabulate1` to `tabulate3`, or no function factories. Its cost: 4 declarations and 8 calls.
    - Home: PLAN, "Off the path, parked", The factories' function forms are named `tabulatedArray1` to `tabulatedArray3` (10-02: 90)
-   - Needed by: batch 20; rung A edits `tabulatedVector`'s body and its guard calls it (`coordinator/CLIMB-BATCH-20.md`, rung A, 1a and fork 6), so a rename after it touches one more test.
+   - Needed by: never; no PLAN item renames the factories, and a rename touches one more test since climb batch 20's guard calls `tabulatedVector` (`ProjectFortress/tests/VectorMatrixCastsWalk.fss`).
 
 114. Batch 8's slip repairs changed walk values: mapped generators, `BIG MINMAX`, `split`, `avFlat`, `UniformDistribution`.
    - Landed: As landed. The other way: Leave them with rows. Its cost: Walk values.
@@ -848,9 +864,9 @@ Each is kept as landed unless he says otherwise.
    - The other way: The pair kept in the api, and declared in the component.
    - Its cost: Two api lines and a component declaration.
    - Home: PLAN, "Climb batch 19, listed for his review", review.1
-   - Needed by: before the symbolic-operator check (PLAN items 38 and 59); climb batch 15's default kept the pair for item 38's answer, and row 726 names it.
+   - Needed by: before the symbolic-operator check (P-155, its probe first; PLAN items 38 and 59); climb batch 15's default kept the pair for item 38's answer, now given, and row 726 names it.
 
-### The specification's text (16)
+### The specification's text (19)
 
 133. The Meet Rule for dotted methods keeps its exact-meet form; Appendix I names the question.
    - Landed: The Working Draft's form. The other way: Coverage satisfies it. Its cost: A text revision.
@@ -932,9 +948,30 @@ Each is kept as landed unless he says otherwise.
    - The other way: The brief's words alone.
    - Its cost: One sentence.
    - Home: PLAN, "Climb batch 19, listed for his review", rung P's words
-   - Needed by: before the tint rung (row 786); that rung writes a sentence in the same exclusion passage of `overloading.tex` (item 189's cost line).
+   - Needed by: before the tint rung (row 786); that rung writes a sentence in the same exclusion passage of `overloading.tex` (item 9's cost line).
 
-### Tests and the team's demos (13)
+195. **`IntegerDivisionByZero` in the integer listing (row 792).** The integer chapter's listing writes `throws IntegerDivisionByZero` on division, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares, while the operators chapter, the completion chapter, both libraries and the power's new sentence name `DivisionByZero` (P-153).
+   - Landed: The listing as the team wrote it; row 792 `CONTESTED`. Default: `DivisionByZero`, the libraries' and the prose's, written into the listing by the next rung that edits that chapter.
+   - The other way: `IntegerDivisionByZero` declared in both libraries, and the prose and the power's sentence respelled.
+   - Its cost: A word in five entries of the listing; the other way, a new exception in both libraries.
+   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.1 and I.skeptic.1; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/basic-lib/basic-integers.tex:246-250`; `Specification/basic/operators/opr-overview.tex:165`; `Library/FortressLibrary.fsi:1114`; `compile-ladder/rung-integer-power/REPORT.md:269`, `:286`; `reviews/batch-20-review.md`, "For the curator", 1; row 792
+   - Needed by: before the next rung that edits `Specification/basic-lib/basic-integers.tex`; the default is that rung's edit of the listing (row 792).
+
+197. **No decision record for contract E.** Climb batch 20's rung I wrote no `decision-record.md`; the Appendix I entry cites the Fable judgement and the integer-power probe's report as its reasoning, which may meet P-96's "a repository document holds the full reasoning", as climb batch 19's `14e91723f` met it with its rung's report.
+   - Landed: None, as climb batch 19's rungs did.
+   - The other way: A decision record for contract E, beside the rung's report.
+   - Its cost: One note.
+   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.4 and I.skeptic.4; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/appendices/changes.tex:917-920`; `compile-ladder/rung-integer-power/REPORT.md:268`; `compile-ladder/rung-integer-power/SKEPTIC.md:181`
+   - Needed by: never; a decision record can be written at any time, and Appendix I already cites the reasoning (`Specification/appendices/changes.tex:917-920`).
+
+200. **The dimensions chapter's unit factors at a negative integer power.** The chapter writes its unit factors with an integer numeral base at a negative exponent: `inch` as `2.54 \times 10^{-2}` meter, its conversion of miles, and the SI prefixes `deci` to `yocto` as `10^{-1}` to `10^{-24}`. The integer chapter's revised power entry, which the numeral type follows, now makes each such power throw `IntegerOverflow` (P-153). Dimensions and units are not built, so no test or extracted example runs them.
+   - Landed: The chapter as the team wrote it. Default (the post-batch review's; none on record): leave it so, with a revision box that names the new rule, until a batch builds units.
+   - The other way: Respell them with a rational or float base, as rung I did the team's tests and demos.
+   - Its cost: A revision box, or about 15 respelled factors.
+   - Home: PLAN, "Climb batch 20, listed for his review", gather.2; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/advanced/defining-dimensions.tex:217`, `:224-225`, `:310-319`; `Specification/basic-lib/basic-integers.tex:534-537`; `reviews/batch-20-review.md`, "For the curator", 2
+   - Needed by: never; dimensions and units are not built, so nothing runs these factors, and the default's revision box can go with any rung that edits the chapter.
+
+### Tests and the team's demos (12)
 
 148. Batch N's rung M added a compiled test pair outside its file list, for row 442's face.
    - Landed: The pair as landed. The other way: Remove it. Its cost: Two files.
@@ -950,11 +987,6 @@ Each is kept as landed unless he says otherwise.
    - Landed: As rewritten. The other way: None. Its cost: None.
    - Home: PLAN, "Climb batch 10, listed for his review", Walk's numeral departure in rung W's test
    - Needed by: never; no other way is proposed.
-
-151. Five team demos are refused at load since batch 12, each leaving an inherited abstract method without a body.
-   - Landed: Left as they are, by his word on the demos. The other way: A body for each, which touches a demo. Its cost: Demo edits.
-   - Home: PLAN, "Climb batch 12, listed for his review", Five team demos are refused at load since climb batch 12's rung ...; PLAN-history, "Pavol's answers, in the order they are needed", R10
-   - Needed by: never; the demos stay as they are by his word on them (item 43), and no PLAN item edits them.
 
 152. Batch 13's crash test for two-bound overloading adds an object outside the shared trait, since the brief's shape did not crash on the base.
    - Landed: As landed; asked for confirmation only. The other way: None. Its cost: None.
@@ -991,7 +1023,7 @@ Each is kept as landed unless he says otherwise.
    - The other way: A plain `link` test and an `XXX` `run` test.
    - Its cost: Two test files.
    - Home: PLAN, "Climb batch 18, listed for his review", X.worker.1; `compile-ladder/rung-checker-conditional-extension/REPORT.md:209` (decision 8), `:224`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala:134-136`
-   - Needed by: before row 773's rung; the rung that repairs row 773 writes its reproducer first, and this decides its form (PLAN, phase 3, item 18).
+   - Needed by: before row 773's rung; the rung that repairs row 773 writes its reproducer first, and this decides its form (PLAN, phase 3, item 19).
 
 185. **An expected failure that is green while walk is right.** `ProjectFortress/tests/XXXGenericBesidePlainReturnRule.fss` is an expected failure with no `.test` file. It is green exactly while walk refuses the program, which the specification requires (its comment, `:4`, "Must be refused at load"; the "Not allowed!" `ident` pair, `Specification/advanced/overloading.tex:596-602`). Walk's refusal now says "fails the Return Type Rule".
    - Landed: The expected failure as it is. Default, taken: a later walk rung makes it a plain refusal test keyed on that message, as `GenericBesidePlainReturnRuleWalk.test:1` is; the rename moves row 550's note that cites it.
@@ -1023,10 +1055,10 @@ Each is kept as landed unless he says otherwise.
    - Landed: Row 757 open, among phase 3's waiting rows. Default, taken: as row 757 waits.
    - The other way: A repair of the compile command's reuse of the analyzed cache.
    - Its cost: Not traced.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.3; PLAN, phase 3, item 18, "Rows 763 and 757"; `compile-ladder/rung-checker-conditional-extension/REPORT.md:220`, `:226`; row 757
-   - Needed by: before the rung on rows 763 and 757; PLAN's phase 3 item 18 lists the two together, with the `bool` family (`coordinator/CLIMB-BATCH-20.md`, section 4).
+   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.3; PLAN, phase 3, item 19, its other candidates; `compile-ladder/rung-checker-conditional-extension/REPORT.md:220`, `:226`; row 757
+   - Needed by: before the rung on rows 763 and 757; PLAN's phase 3 item 19 lists the two together, with the `bool` family (`coordinator/CLIMB-BATCH-20.md`, section 4).
 
-### How batches run (7)
+### How batches run (9)
 
 160. Rung edits outside their file lists: batch 6b's ten test files; batch N's `Init.java`; batch 8's `ReflectiveQuickCheck.fss`; batch 9's two compiler tests and walk files; batch 10's checker files; batch 13's `ComponentWrapper.java` and `Functionals.scala` hunk.
    - Landed: Each as landed. The other way: Revert and redo each in the rung that owns the file. Its cost: One rung's work each.
@@ -1067,13 +1099,28 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 19, listed for his review", the sixteen forks
    - Needed by: never; each fork can change in a later batch (its other way).
 
+203. **Climb batch 20's twenty forks at their defaults, and its points for his sight.** The record's forks (`coordinator/CLIMB-BATCH-20.md`, section 2), fork 13 among them, row 441 kept open with its first half fixed, which the post-batch review's finding 7 would close beside a new row for its compiled half; and its points for his sight (the same section, "Points the batch lists for you, not questions"): the team lines changed in the integer powers, `QQ`'s body, walk's six power natives, three tests and three demos, and in the vector and matrix bodies, factories and api lines; and what walk, the checker and the specification now do differently.
+   - Landed: As the record set them.
+   - The other way: Any one of them changed in a later batch.
+   - Its cost: By fork.
+   - Home: PLAN, "Climb batch 20, listed for his review", the twenty forks; `compile-ladder/climb-batch-20/RECORD.md`, "Points to report"; `reviews/batch-20-review.md`, findings 2 and 7 and "For the curator", 10
+   - Needed by: never; each fork can change in a later batch (its other way).
+
+204. **Three sites the gate's comparisons hid as moved.** `BIG MIN` moved from `Library/FortressLibrary.fss:4368` and `:4374` to `:4386` and `:4392`, and item 46's arm from `:1463` to `:1465`, by lines alone: rung I's `typecase` adds two lines above them, and rung A's hunks sixteen above `strToInt`. `coordinator`'s `references/batch.md`, "The checker count and the distance", puts every hidden difference on the review list.
+   - Landed: As landed; no error changed.
+   - The other way: None for the sites; the review proposes that the rule exempt such moves (PLAN, "Work that can start now, with no decision").
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 20, listed for his review", the three sites; `reviews/batch-20-review.md`, section 1 and finding 9
+   - Needed by: never; the moves change no error.
+
 ### The record, its tools and the repository (10)
 
 165. `ledger.py` has no route for a note past the length limit, a reproducer, a close with no test, a close of a contested row, or a narrowed claim; 21 of batch 13's notes and more of batches 11 and 12 wait.
    - Landed: No default on record. The other way: New `ledger.py` commands, or the coordinator's hand edit. Its cost: Tool work.
    - Climb batch 18's gather.1 adds eleven: the notes for rows 470, 701 and 677 of rung K and rows 21, 539, 713, 550, 740, 219, 416 and 364 of rung W, refused for length or a closed row, their texts in `compile-ladder/climb-batch-18/RECORD.md:140-155`. The routing tried each again with `ledger.py note`, and the tool refused each. Home: PLAN, "Climb batch 18, listed for his review", gather.1.
+   - Climb batch 20's gather.1 adds five: the notes for rows 441, 523, 533 and 336 of rung I and row 465 of rung A, refused for length, their texts in `compile-ladder/climb-batch-20/RECORD.md`, "Ledger notes not written". The routing tried each again with `ledger.py note`; the tool refused each, and took row 465's cut to 28 characters, "Batch 20: api has array3(v)." It refused row 584's figures and line citations too (205 errors at `d212b2c1f`, F-245; `isDeclaredName` now at `OverloadingChecker.scala:742-746`, its loops at `:255`, `:402`, `:411`), the row's notes at 698 of 700. Row 533's claim names a declaration that rung I removed (item 29), and no command edits an open row's claim. Home: PLAN, "Climb batch 20, listed for his review", gather.1.
    - Home: PLAN, "Climb batch 11, listed for his review", gather.1; PLAN, "Climb batch 12, listed for his review", gather.2; PLAN-history, "Climb batch 11, listed for his review", review-routed.1
-   - Needed by: batch 20; rung I plans notes on rows 523 and 441, which stand at 1,196 and 1,044 of a row's 1,200 characters, so `ledger.py note` refuses the first and likely the second, the routes this item asks for (`coordinator/CLIMB-BATCH-20.md`, rung I, "Rows").
+   - Needed by: before climb batch 21's gather; every gather since climb batch 15's has met these limits, and the rows named here hold claims or notes that no longer hold.
 
 166. How the ledger numbers rows during parallel batches (D7).
    - Landed: Provisional numbers folded at the gather. The other way: A lock and numbers in call order. Its cost: A rung edits the ledger.
@@ -1126,13 +1173,13 @@ Each is kept as landed unless he says otherwise.
 
 ## (a) Settled or stale: these leave the lists
 
-### Answered by a decision of his (42)
+### Answered by a decision of his (45)
 
-- **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes.", P-97, "The refused examples (S2).", P-41, "The run-time size design is B.", P-73, "Fixed-width overflow raises `IntegerOverflow` under `walk`", P-80, "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 22, 23, 26, 30, 27, 33, 18, 19 and 34; Decided 2026-09-28 before batch N; PLAN, "Pavol's answers, in the order they are needed", item 12.
-- **Item 15, arithmetic in a size (array fork 1).** P-55, "Arithmetic in a size ..."; built `7fd8fddc8`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 15; item 13, fork 1.
-- **Item 20, the written `Object` bounds of batch 7's rung B.** P-48, "A type parameter the arguments do not fix takes its bound ..."; built `a1b5c253d`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 20 (10-02: 1).
+- **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes.", P-97, "The refused examples (S2).", P-41, "At run time a size travels as the descriptor ...", P-73, "Fixed-width overflow raises `IntegerOverflow` under `walk`", P-80, "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 22, 23, 26, 30, 27, 33, 18, 19 and 34; Decided 2026-09-28 before batch N; PLAN, "Pavol's answers, in the order they are needed", item 12.
+- **Item 15, arithmetic in a size (array fork 1).** P-55, "A size may hold arithmetic, compared by its written ..."; built `7fd8fddc8`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 15; item 13, fork 1.
+- **Item 20, the written `Object` bounds of batch 7's rung B.** P-48, "A type parameter that a call's arguments do not ..."; built `a1b5c253d`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 20 (10-02: 1).
 - **Item 32, the domain condition on answer 9's positional rule; with it, the line that walk's rung would promote row 159's renamed pairs.** His answer (1) to batch 8's Q3, 2026-10-02 at about 11:24 UTC (`CLIMB-BATCH-8.md:46-54`); row 159 stays a walk defect row. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 32; PLAN-history, "Off the path, parked", Walk refuses the α-renamed and swapped pairs of top-level.
-- **Item 35, the natives' one binding text.** P-58, "The natives' one binding text is `builtinPrimitive` naming a static helper (item 35)."; `046207371`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 35 (10-02: 12).
+- **Item 35, the natives' one binding text.** P-58, "Every native binding is a `builtinPrimitive` call naming a ..."; `046207371`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 35 (10-02: 12).
 - **Item 36, expected types in four contexts.** His yes to batch 11's Q2; built `27cb9e93b`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 36.
 - **Items 39 to 41, the bounded ranges of rank 2 and 3, their comparisons, and `#(0,n)`.** His answer (a) to batch 11's Q3; built `b872d65a1`. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 39, 40 and 41.
 - **Items 42 and 44, `String`'s `left` and `right`, and `QQ`'s `ceiling` and `truncate`.** P-53, "`String`'s `left` and `right` answer `Just(c)` ..." and P-54, "`QQ`'s `ceiling` and `truncate` keep `ZZ` ..."; built `74b28e9d4`. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 42 and 44.
@@ -1142,7 +1189,7 @@ Each is kept as landed unless he says otherwise.
 - **Item 52, how fork 2's held library half gets past the checker's slowness.** His "land it now" (05:27 and 05:35 UTC, 2026-10-10): the checker-speed fix (`3c67d5204`) and the held half (`749ec523e`) landed as batch 13b, its gate at `d96bc7776`, its Fable skeptic's approval at `71c082724`; row 688 closes with it; his answer on the bound itself is the (b) item on fork 2. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 52; `compile-ladder/climb-batch-13b/RECORD.md`.
 - **Row 582, `isLeftZero`, with batch 13's pins of it.** P-57, "`LexicographicReduction.isLeftZero` takes `TotalComparison` ...", which names the refused `isLeftZero(Unordered)`; built `9ba86f7da`. Home: PLAN-history, "Climb batch 8, listed for his review", Row 582; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 3).
 - **The skeptic's contested rule, its third clause.** The `coordinator` skill's `references/batch.md`, "The roles"; `a1902d0d4`. Home: PLAN-history, "Climb batch 11, listed for his review", The skeptic's contested rule.
-- **The instance rule extended to static inference by rung S's sentence.** P-48, "A type parameter the arguments do not fix takes its bound ...", whose R2 applies it to the checker, built by batch 8's rung I. Home: PLAN-history, "Pavol's answers, in the order they are needed", The paper's instance rule in batch 7b's rung S; R2 (10-02: 23).
+- **The instance rule extended to static inference by rung S's sentence.** P-48, "A type parameter that a call's arguments do not ...", whose R2 applies it to the checker, built by batch 8's rung I. Home: PLAN-history, "Pavol's answers, in the order they are needed", The paper's instance rule in batch 7b's rung S; R2 (10-02: 23).
 - **The synthesis's second default: one skeptic, no second review.** The redesign, the `coordinator` skill's `references/batch.md`, "The roles" and "The workflow"; `process-engineering/README.md`, pending item 1. Home: synthesis section 2(b) (10-02: 20).
 - **Workflow option (b), approvals with required corrections.** Stale: the skeptic now fixes what it finds (`process-engineering/README.md`, "Waiting on Pavol", third point); `facts-extract.sh 'history:P-118'` still calls the option parked. Home: PLAN-history, "Off the path, parked", Workflow option (b), the review's second script change, and ... (10-02: 8).
 - **A judge may not strike a candidate from a fork.** Stale: a judge now rules only on a contested fix, a refusal or a stop (the `coordinator` skill's `references/batch.md`, "The roles"). Home: PLAN-history, "Pavol's answers, in the order they are needed", F's `=` on `Number` (10-02: 7).
@@ -1155,21 +1202,24 @@ Each is kept as landed unless he says otherwise.
 - **The gate after a repair of specification text only.** The `coordinator` skill's `references/batch.md`, "Reserved points and repairs", and `fortress-repo`'s `references/gate.md`, "When to run it"; `c5d3bd401`. Home: PLAN-history, "Climb batch 8, listed for his review", The gate reruns after a review's or gate's repair that changes only ....
 - **Re-approval row 48: a batch's own gate summary as the next comparand.** Stale: every gate compares with the newest landed summary (`.claude/skills/fortress-repo/references/gate.md:9`); rows 42 to 46 and the homes 374 to 377 were settled on 10-02. Home: PLAN-history, "Off the path, parked", Re-approval rows 42 (10-02: 104).
 - **A ledger row for code generation's refusal of `where` clauses, and a section for the cost rows.** The `coordinator` skill's `references/record.md`, "INDEX and the gap ledger": any agent adds a row through `ledger.py`, and section 15 holds performance rows. Home: PLAN-history, "Off the path, parked", A section for the cost rows (10-02: 105).
-- **Rung C's two points.** Item 16 and P-59, "Walk chooses coercions on the value, for now." Home: PLAN-history, "Off the path, parked", Rung C's two reported points.
-- **The closure accommodation.** P-44, "`AnyIntegral`'s closure and how the checker reads `comprises`." Home: PLAN-history, "Off the path, parked", The closure accommodation he approved on 09-21.
+- **Rung C's two points.** Item 16 and P-59, "Walk chooses coercions on the value until the switch-over." Home: PLAN-history, "Off the path, parked", Rung C's two reported points.
+- **The closure accommodation.** P-44, "`AnyIntegral`'s closure stands, and the checker reads `comprises` the ..." Home: PLAN-history, "Off the path, parked", The closure accommodation he approved on 09-21.
 - **Batch N's two runs, run 2 retired.** P-76, "The numeral switch, split by where the static types are." Home: PLAN-history, "Climb batch N's first run, listed for his review", Two runs of one record.
-- **Rung I's ambiguity check against item 26.** P-60, "The `comprises` passages read at the level of values ..." Home: PLAN-history, "Climb batch N's first run, listed for his review", Rung I's ambiguity check refuses no tie among declarations.
+- **Rung I's ambiguity check against item 26.** P-60, "The specification reads a `comprises` clause at the level ..." Home: PLAN-history, "Climb batch N's first run, listed for his review", Rung I's ambiguity check refuses no tie among declarations.
 - **Row 516, a lone parameter's union.** The instance rule; row 516 fixed. Home: PLAN-history, "Off the path, parked", A lone type parameter's candidates when none is narrowest.
 - **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (P-51, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN-history, "Off the path, parked", Rows 391 and 455 stay open after climb batch N's rung I (10-02: 57).
 - **Item 62 of the routine list, row 572: an object that inherits an abstract functional method from one trait and a concrete one from another, which no check read.** P-149, "An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).", his answer to climb batch 16's Q1 (item 55); built by climb batch 16's rung K (`c23b85fdc`), rows 572 and 727 fixed. Home: PLAN-history, "Answered 2026-10-15 (item 55, Q1 of climb batch 16: refuse, P-149)"; PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component; `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7).
 - **Item 43, the tuple comparisons, with rung X's question 2, a list of partially ordered elements.** P-154, his answer to ask 4, option 1, as built (2026-10-20). Home: PLAN-history, "Ask 4 answered, 2026-10-20".
 - **Item 1, the self-typed bodies.** P-146, "The checker reads `self` in a self-typed trait's method bodies as the implementing type (way 6).", his answer of 23:37 UTC on 2026-10-13; built by climb batch 14 (`1c32ccffd`, `604d0e23c`). Home: PLAN-history, "Phase 3. The checker at a true zero", items 7 and 10; under item 12, Landed as climb batch 14's rung S; `reviews/self-typed-bodies-judgement.md`, "For Pavol" and "The measurement" (10-02: 2).
 - **Item 14, whether coverage defines an inherited abstract method (item 51).** P-147, "An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types (item 51).", his answer of 23:43 UTC on 2026-10-13; built by climb batch 14 (`f9fe5c874`), rows 666, 668 and 669 fixed. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 51; `reviews/walk-load-readings-check.md` section 2 and "For Pavol".
-- **Item 16, what a `where` clause on an `extends` clause means (QW-c).** P-151, "Only the `where` forms the team wrote down are built.": a type extended under a `where` condition is that type only where the condition holds, and its members are checked under the condition, which is the landed lenience, way (a); walk's half of conditional extension is row 774. Home: PLAN, "Climb batch 13, listed for his review", QW-c; `compile-ladder/rung-walk-override/SKEPTIC.md:202` (section 5), `JUDGE.md:149`.
+- **Item 16, what a `where` clause on an `extends` clause means (QW-c).** P-151, "Only the `where` forms the team wrote down are built.": a type extended under a `where` condition is that type only where the condition holds, and its members are checked under the condition, which is the landed lenience, way (a); walk's half of conditional extension is row 774. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 13, listed for his review", QW-c; `compile-ladder/rung-walk-override/SKEPTIC.md:202` (section 5), `JUDGE.md:149`.
 - **Item 17, unwritten reductions whose parameter has a plain bound.** P-48, "A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.", applied by climb batch 15's call 6 and built by its rung B (`20474c144`), rows 645, 646, 662 and 703 fixed; the empty case is row 716, and call 1 is the call for his review, both under PLAN's "Climb batch 15, listed for his review". Home: PLAN-history, "Climb batch 9, listed for his review", Decision D2 of climb batch 9's rung W; `coordinator/CLIMB-BATCH-15.md` section 2.
-- **Item 26, the result of a negative integer power.** P-153, "An integer raised to a negative power raises an error; a fraction comes from a float or rational base (contract E, item 58).", his answer of 00:45 UTC on 2026-10-20; climb batch 20's rung I builds it (`coordinator/CLIMB-BATCH-20.md`), with rows 438, 441 and 445. Home: PLAN, "Pavol's answers, in the order they are needed", item 58; PLAN, "Off the path, parked", Raised by climb batch 6's rung T (10-02: 101).
-- **Item 33, the POPL 2019 check of the two array judgements, and row 682.** His option 2: the paper was read whole and the owed sentences written (`reviews/array-judgements-popl-check.md` section 7, `f3444732c`, 07:02 UTC on 2026-10-10, after this file was built), and row 682 is settled for the checker by the revival's opening rule (section 7.2); the row's status word and walk's side stay with the row. Home: `reviews/array-judgements-popl-check.md`, "For Pavol" and section 7; PLAN, "Climb batch 13, listed for his review", Row 682.
-- **Item 42, the proviso on a listed type's variables, widened.** P-151, which makes the team's `AnyList comprises List[\E\] where [\E\]` live, built by climb batch 17's rung A (`24db899fa`, row 636 fixed): both paths now read a type variable there, and a proviso limited to sizes would refuse it. Home: PLAN, "Climb batch 13, listed for his review", The revival's own proviso on `comprises`; `Specification/basic/traits.tex:238-246` (10-02: 79).
+- **Item 26, the result of a negative integer power.** P-153, "An integer raised to a negative power raises an error; a fraction comes from a float or rational base (contract E, item 58).", his answer of 00:45 UTC on 2026-10-20; built by climb batch 20's rung I (`5ad4a9957`; F-263), rows 438 and 445 closed and row 441's compiled half open. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Pavol's answers, in the order they are needed", item 58; PLAN, "Off the path, parked", Raised by climb batch 6's rung T (10-02: 101).
+- **Item 33, the POPL 2019 check of the two array judgements, and row 682.** His option 2: the paper was read whole and the owed sentences written (`reviews/array-judgements-popl-check.md` section 7, `f3444732c`, 07:02 UTC on 2026-10-10, after this file was built), and row 682 is settled for the checker by the revival's opening rule (section 7.2); the row's status word and walk's side stay with the row. Home: `reviews/array-judgements-popl-check.md`, "For Pavol" and section 7; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 13, listed for his review", Row 682.
+- **Item 42, the proviso on a listed type's variables, widened.** P-151, which makes the team's `AnyList comprises List[\E\] where [\E\]` live, built by climb batch 17's rung A (`24db899fa`, row 636 fixed): both paths now read a type variable there, and a proviso limited to sizes would refuse it. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 13, listed for his review", The revival's own proviso on `comprises`; `Specification/basic/traits.tex:238-246` (10-02: 79).
+- **12, Symbolic operators in the overloading check (item 38).** P-155, "Symbolic operators are checked for overloading before the switch-over (ask 5, option 2, 2026-10-20).", his answer of about 11:50 UTC on 2026-10-20: the check reads them before the switch-over, a probe first (`perf-probes/symbolic-operators-2/`), and each family's design comes to him before its rung (PLAN item 59). Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Pavol's answers, in the order they are needed", item 38; PLAN, "Pavol's answers, in the order they are needed", items 38 and 59.
+- **43, Team demo lines changed by the batches.** P-79, "Every team demo is kept running as the tree changes (2026-10-20).", his word of about 11:50 UTC on 2026-10-20, which replaces "Let's not touch them": a demo that a change breaks is rewritten where the way is known, so batch 7's, batch 12's and climb batch 20's respelled lines stand; `mg.fss` stays row 464. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Off the path, parked", Climb batch 7's rung A respelled 32 lines of, and "Climb batch 12, listed for his review", Three points a decision on record makes his (point 3); PLAN, "Off the path, parked", The team's demos are kept running.
+- **151, five team demos refused at load since batch 12 (row 670).** P-79, as for item 43: they are respelled where the way is known, after a measurement of which demos run, a candidate of PLAN's phase 3, item 19. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 12, listed for his review", Five team demos are refused at load since climb batch 12's rung ...; row 670.
 
 ### Answered by a landed fix or a closed row (38)
 
@@ -1205,12 +1255,12 @@ Each is kept as landed unless he says otherwise.
 - **Rung B's rows 469 to 473 and its ten-line edit.** 469, 472 and 473 fixed; the written bounds dropped by `a1b5c253d`; 470 and 471 stay defect rows. Home: PLAN-history, "Off the path, parked", Climb batch 7's rung B edited ten lines where the batch record ...; Climb batch 7's rung B opened rows 469 to 471 for his ... (10-02: 92).
 - **The owed tests of batch 6.5's second run.** Written in rung E. Home: PLAN-history, "Climb batch 6.5b, listed for his review", Climb batch 6.5's second run's own section-1 default.
 - **Rung X's re-anchored citations.** Overtaken by `dc0eee2fe`. Home: PLAN-history, "Off the path, parked", Climb batch 7C's rung X re-anchored the two test.
-- **The proviso that refused the team's `where` spelling of `comprises`.** Overtaken by batch 13's widening (`7fd8fddc8`), now a (b) item. Home: PLAN, "Off the path, parked", The revival's proviso on a listed type's static variables in a `comprises` ... (10-02: 79).
+- **The proviso that refused the team's `where` spelling of `comprises`.** Overtaken by batch 13's widening (`7fd8fddc8`), now a (b) item. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Off the path, parked", The revival's proviso on a listed type's static variables in a `comprises` ... (10-02: 79).
 - **Item 173, row 766: wrong values for a trait's generic dotted method.** Repaired at its default by climb batch 18's rung W, way A (`5262a2412`): walk reads the method's bounds and coercion targets where the trait declares them; row 766 fixed, `TraitGenericMethodInference` (F-253). Home: PLAN-history, "Climb batch 18's landing, 2026-10-18", "Pavol's answers, in the order they are needed", item 60.
 - **Item 174, a commit of `main` that is red alone.** Settled at its default, which he has not answered; he was told in the landing report of 20:01 UTC on 2026-10-17, but not that it went against the letter of his word for item 57: the history left as pushed, and the gather's order rule fixed, so that a rung comes after the rungs it lands only with (`ac74e11c4`); climb batch 18's gather applied it (`compile-ladder/climb-batch-18/RECORD.md`, "The order the rungs were applied in"). Home: PLAN-history, "Climb batch 18's landing, 2026-10-18", "Work that can start now, with no decision", Climb batch 17's review, finding 2; PLAN, "Climb batch 17, listed for his review", gather.4.
-- **Item 78, row 549: walk loaded a generic and a plain declaration whose declared domains are equal.** Row 549 fixed by climb batch 17's rung G (`6d187d069`): walk refuses the set at load by the No Duplicates Rule (P-45), the item's other way. Home: PLAN, "Climb batch 7b, listed for his review", Row 549 (10-02: 41).
-- **Item 123, the identities' fallback answers a numeral where `T` is expected (row 630, a duplicate of row 436).** The item's other way, a `cast`, landed by climb batch 17's rung L (`2b1cd8e63`; F-243, F-250) and cleared the two sites; row 436 stays open for `HasIdentity`. Home: PLAN, "Climb batch 10, listed for his review", Row 630.
-- **Item 124, row 631: `embiggen` unwrapped its reduction's `Any`.** Row 631 fixed by climb batch 17's rung L (`2b1cd8e63`), `embiggen` in its typed form. Home: PLAN, "Climb batch 10, listed for his review", Row 631.
+- **Item 78, row 549: walk loaded a generic and a plain declaration whose declared domains are equal.** Row 549 fixed by climb batch 17's rung G (`6d187d069`): walk refuses the set at load by the No Duplicates Rule (P-45), the item's other way. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 7b, listed for his review", Row 549 (10-02: 41).
+- **Item 123, the identities' fallback answers a numeral where `T` is expected (row 630, a duplicate of row 436).** The item's other way, a `cast`, landed by climb batch 17's rung L (`2b1cd8e63`; F-243, F-250) and cleared the two sites; row 436 stays open for `HasIdentity`. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 10, listed for his review", Row 630.
+- **Item 124, row 631: `embiggen` unwrapped its reduction's `Any`.** Row 631 fixed by climb batch 17's rung L (`2b1cd8e63`), `embiggen` in its typed form. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 10, listed for his review", Row 631.
 
 ### Information only, a list of other entries, or merged into an entry here (6)
 
@@ -1219,7 +1269,7 @@ Each is kept as landed unless he says otherwise.
 - **Notes with no choice in them: the dynamic-applicability annotation; the Return Type Rule's repair beside its example; row 499's tie routed; batch 7b's three lifted stops; provisional rows' numbers; way 11's shape; Part IV's api changes; tests the gather placed; no rerun after rung N's repair round, the gate having measured the merged tree; row 555's form, unchanged by P1.** Each says nothing is asked, or its question was answered. Home: PLAN-history, "Climb batch 7b, listed for his review", The checker's dynamic-applicability annotation; The Return Type Rule's repair beside its example; Row 499's direct call `f(b)` on a `Box[\Blue\]` answers; Stop met and lifted; PLAN-history, "Climb batch 9, listed for his review", Climb batch 9's rung W's provisional rows 587 to 594 kept their ...; Row 555's F-bounded form; PLAN-history, "Climb batch 11, listed for his review", For information, climb batch 11's rung W: the judgement's ...; PLAN-history, "Climb batch 10, listed for his review", Part IV changes with climb batch 10's rung N's api edits; The expected-failure tests that climb batch 10's rungs N; No checker-count or distance rerun after climb batch 10's rung N's repair ... (10-02: 46).
 - **Parked lines that ask nothing: rung H's stop and two files; row 460; the arrays-figure paragraph; batch 7R's and 7C's section-1 defaults; `widen(0)`; the older home-2 tests; batch 6.5's section-1 defaults; answer 8 on the prelude; the `O2Z64` crash; row 404's design note; R1 to R11.** Each says nothing is asked or is answered. Home: PLAN-history, "Off the path, parked", Climb batch 7's rung H met the stop "a to Row 404 and the ledger's worklist item 12; PLAN-history, "Pavol's answers, in the order they are needed", R1 to R11.
 - **`StandardTotalOrder.MINMAX`'s body.** One of the self-typed bodies, the (b) item. Home: PLAN-history, "Climb batch 8, listed for his review", `StandardTotalOrder.MINMAX`'s body (`Library/FortressLibrary.fss:289-290`), which section 4 of the batch ....
-- **Merged into an entry here: R9 (item 37); batch 8's stop on row 546 (the generic closed-trait item); `String`'s juxtaposition (item 38); row 547 after the memo; row 616 and batch 10's stop on rows 591 and 612; row 597 (the closure scope); rung W's Q1 (item 51); the varargs string sites; the second `ledger.py` list; nested tuple pins (item 43); `shouldRaise` (rung N's values); every rung edit outside its list; row 514 (row 661); the switch-over's design (the dead sizes).** The entry named. Home: PLAN-history, "Climb batch 8, listed for his review", R9, `NN32` into `RR64`; PLAN, "Climb batch 8, listed for his review", Stop met and lifted; `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; Row 547 after rung O re-keyed the overloading memo; PLAN, "Climb batch 9, listed for his review", Row 616; Row 597; Stop met and lifted; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `shouldRaise` when its expression raises nothing throws `ForbiddenException(TestFailure)`; PLAN-history, "Climb batch 12, listed for his review", Q1 of climb batch 12's rung W; PLAN, "Climb batch 12, listed for his review", gather.2; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 4); PLAN, "Off the path, parked", The compiled path has no strided range (10-02: 18, 93).
+- **Merged into an entry here: R9 (item 37); batch 8's stop on row 546 (the generic closed-trait item); `String`'s juxtaposition (item 38); row 547 after the memo; row 616 and batch 10's stop on rows 591 and 612; row 597 (the closure scope); rung W's Q1 (item 51); the varargs string sites; the second `ledger.py` list; nested tuple pins (item 43); `shouldRaise` (rung N's values); every rung edit outside its list; row 514 (row 661); the switch-over's design (the dead sizes); `tint`, row 786 (item 189, into item 9, one question).** The entry named. Home: PLAN-history, "Climb batch 8, listed for his review", R9, `NN32` into `RR64`; PLAN, "Climb batch 8, listed for his review", Stop met and lifted; `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; Row 547 after rung O re-keyed the overloading memo; PLAN, "Climb batch 9, listed for his review", Row 616; Row 597; Stop met and lifted; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `shouldRaise` when its expression raises nothing throws `ForbiddenException(TestFailure)`; PLAN-history, "Climb batch 12, listed for his review", Q1 of climb batch 12's rung W; PLAN, "Climb batch 12, listed for his review", gather.2; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 4); PLAN, "Off the path, parked", The compiled path has no strided range (10-02: 18, 93).
 
 ### Struck on 2026-10-02 and still struck (5)
 
