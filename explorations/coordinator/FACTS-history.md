@@ -2821,3 +2821,9 @@ pointer words refreshed in: F-24
 ### F-262
 
 2026-10-20 03:59Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "9. For the record" · commit `c302e4613` · by Fable judgement on item 58: its section 9, handed to FACTS
+
+### F-35
+
+2026-10-20 05:38Z · rewritten · commit `32153798d` · by coordinator: the dead sizes' origin, read in git: 72ae6881b (2007-01-04) and 32153798d (2008-04-27), for the curator's question on ask 3
+
+- F-35 **The `FortressLibrary` api has 25 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** They check clean (P-40). Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators have this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and give one of the distance's export errors (F-53). P-40 lets the dead sizes go only by a diff shown to the curator with the switch-over's design. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
