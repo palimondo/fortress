@@ -753,8 +753,17 @@ Each fix is the cold read's (`tmp/skill-writer/coldread-19.md`) or the post-batc
 
 ## Climb batch 20's changes, 2026-10-20
 
-The coordinator's task of 2026-10-20, from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "Revival changes, for the skill writer". Rung I landed as `5ad4a9957`, rung A as `e487cec2d`, with its record in `444f37018`.
+The coordinator's task of 2026-10-20, from the gather's record, `explorations/compile-ladder/climb-batch-20/RECORD.md`, "Revival changes, for the skill writer". Rung I landed as `5ad4a9957`. Rung A's change reached `main` in `e487cec2d`, the coordinator's boot-note commit, which took it from the gather's index; its record landed in `444f37018`.
 
 - `revival-changes.md`, "An integer power": rung I, `5ad4a9957`; POSITIONS P-153; FACTS F-241, F-247 and F-263; ledger rows 438, 441, 523 and 578; `Specification/basic-lib/basic-integers.tex:534-539`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:267`; `scala_src/typechecker/impls/Misc.scala:468-469`; `Library/FortressLibrary.fsi:37` for `fail`, `Library/FortressLibrary.fss:4561` for `strToInt`, checked on 2026-10-20.
 - `revival-changes.md`, "The rational power over any integer": rung I, `5ad4a9957`; FACTS F-263; ledger row 445; `Library/FortressLibrary.fss:641-648` and `Library/FortressLibrary.fsi:431`, checked on 2026-10-20; the walk values of the old code, the record's "Points to report", rung I.
 - `revival-changes.md`, "The result types of vectors and matrices, and the api's array declarations": rung A, `e487cec2d`; POSITIONS P-40; FACTS F-35, F-260 and F-264; ledger row 678; `Specification/basic/components/apis.tex:249-256`; `Library/FortressLibrary.fss:2527-2542` and the precedents `:2409-2416` and `:2587-2594`, `Library/FortressLibrary.fsi:1501-1504` and `:1868`, checked on 2026-10-20.
+
+## The cold read of task 20's parts, 2026-10-20
+
+From the cold read of `0cf48c7b2` (`tmp/skill-writer/coldread-20.md`), each fix settled by the coordinator, 2026-10-20.
+
+- `revival-changes.md`, "An integer power": the interpreter's library named as the one changed, and the compiler's library's powers stated as they stand, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:267`, `:326`, `:385`, `:455-456`, unchanged by `5ad4a9957` (`git diff --stat 97ccd5f1f 5ad4a9957 -- ProjectFortress/LibraryBuiltin`); walk's old native, `Int.java:220-230` at `97ccd5f1f`; FACTS F-241 and F-247 (R1, R5). The api's `RR64` power, `Library/FortressLibrary.fss:487` (R2). `strToInt`'s sum and the rule for `fail`, FACTS F-241 (R3). `IntLiteral`'s power, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:552-554`, ledger row 578 (R4). The folders of the tests and demos (R6).
+- `revival-changes.md`, "The rational power over any integer": the types of `unsigned(3)` and `big(3)`, `Library/FortressLibrary.fsi:584`, `:586` (R7).
+- `revival-changes.md`, "The result types of vectors and matrices, and the api's array declarations": the factories at base 0, `Library/FortressLibrary.fss:2561-2567`, `:2963-2968`; `Col` and `Row`, `:2821-2842`, and the subscripts that wrap them, `:2707`, `:2711` (R8); `replica`, `Library/FortressLibrary.fsi:1448-1450`, and `map` and `ivmap` through it, `Library/FortressLibrary.fss:2472-2474` (R9); the eight declarations, FACTS F-35 and F-260 (R10).
+- This file, "Climb batch 20's changes": the gather's record named as such, and rung A's change placed in the coordinator's boot-note commit `e487cec2d` (S3, F1).
