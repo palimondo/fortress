@@ -193,7 +193,7 @@ In a worktree seeded from `/home/user/fortress-base-p152` (this base's tree), wi
 
 So the repair needs a decision first on what walk reads where a declaration writes no return type (infer it, as the checker does; write it in the library and the team test; or leave such a pair unread), a rewrite or a ledger home for the team test the text refuses, and walk's declared-domain reading of generic methods. Row 697 waits for a batch after this one, which can take these with row 444 and F-26's methods. Its notes cell is full.
 
-The row for the coordinator to file by `ledger.py add` (section "4. Operators and overloading under walk"):
+The coordinator filed it as row 785 by `ledger.py add` (section "4. Operators and overloading under walk"), with this text:
 
 `| ? | walk's load check refuses a pair whose more specific declaration writes no return type: f(x: C) = 1 beside f(x: B): ZZ32 = 2, trait C extends B, 'the second result is not a subtype of the first'; with object C it loads, by row 697's shortcut | NEGATIVE-VERIFIED | implementation gap (walk) | advanced/overloading.tex, "Subtype Rule" | none | climb batch 19's planner | siblings: 697, 587. The declaration's result reads as BOTTOM ('C->BOTTOM') and is found no subtype of the other's in completeOverloadingCheck's subtype branch (OverloadedFunction.java at ce752ed20); the checker infers the body's type. With row 697's shortcut removed, Nothing's and NotUnique's opr = (Library/FortressLibrary.fss:1684, :1731), Pairs.fss:85-91's BOXPLUS and the team test FileConversion's OPLUS (:76) are refused so (CLIMB-BATCH-19.md section 4). Workaround: write the return type. |`
 
