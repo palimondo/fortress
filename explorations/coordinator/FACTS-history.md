@@ -2883,3 +2883,15 @@ pointer words refreshed in: F-24
 2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sized arrays no longer lead once rung A lands; numbers left to the commit stage
 
 - F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hid no error: with its repair (F-233) the component's check finds none in `Array3`, and the distance lost its crash row. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
+
+### F-241
+
+2026-10-20 09:05Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20 merged-diff review: its sites gone since rung I; made true as written, the consolidation left to the coordinator
+
+- F-241 **The integer power's declared `RR64` holds five of the distance's sites; `strToInt`'s sixth needs a typed `fail` too.** With every integer `^` typed by its operands at a nonnegative exponent, the text that an error and a zero at a negative one both need, `QQ`'s four sites and `strToFloat`'s clear: 49 to 44. `strToInt`'s clears only with `fail[\ZZ32\]` written there too (43; row 747). Source: `coordinator/tools/distance/run.sh` on the probe's text. Detail: `perf-probes/integer-power/REPORT.md` sections 3.1 and 7.
+
+### F-247
+
+2026-10-20 09:05Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20 merged-diff review: its declared RR64 and team lines gone since rung I; made true as written, the consolidation left to the coordinator
+
+- F-247 **Under walk, the integer power already answers the integer at a nonnegative exponent, and only three team tests reach a negative one.** Only the declared type says `RR64` (row 438). So a contract for a negative exponent moves walk's values only in `realArith`, `compoundArray` and `simpleExp`, which write a scale as `10^(-k)`, and by reading the demos `BiCGSTAB` and `BiCGSTAB2`. microGPT's one integer power is `strToInt`'s, at nonnegative exponents; a rational result would stop both quick programs there. Detail: `perf-probes/integer-power/REPORT.md` sections 1.3, 1.6 and 3.
