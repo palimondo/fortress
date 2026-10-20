@@ -1,0 +1,60 @@
+component GenericPairExcludesTogetherWalk
+export Executable
+
+(* Two generic declarations over P[T] and Box[T] and over Q[T] and Box[T], where P[T] excludes Q[T] at one T and the object Box fixes one T for both, exclude each other, so they are a valid overloading and each call runs the one its arguments select, with renamed static parameters, where the shared parameter fixes the static argument through a supertype, over sizes, and where the forced static argument would be two types, beside a generic or a plain declaration, too (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+object Mixed extends { P[\ZZ32\], Q[\String\] } end
+object Box[\T\] end
+
+o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
+o[\T\](x: Q[\T\], b: Box[\T\]): String = "oQ"
+
+trait Pn[\nat n\] excludes { Qn[\n\] } end
+trait Qn[\nat n\] end
+object MixedSize extends { Pn[\3\], Qn[\4\] } end
+object BoxSize[\nat n\] end
+
+r[\T\](x: P[\T\], b: Box[\T\]): String = "rP"
+r[\U\](x: Q[\U\], b: Box[\U\]): String = "rQ"
+
+trait R[\T\] end
+trait SubR[\T\] extends R[\T\] end
+object BoxR[\T\] extends SubR[\T\] end
+
+viaR[\T\](x: P[\T\], b: R[\T\]): String = "viaP"
+viaR[\U\](x: Q[\U\], b: SubR[\U\]): String = "viaQ"
+
+w[\nat n\](x: Pn[\n\], b: BoxSize[\n\]): String = "wP"
+w[\nat m\](x: Qn[\m\], b: BoxSize[\m\]): String = "wQ"
+
+trait Ring[\T\] end
+trait RingZ extends Ring[\ZZ32\] end
+trait RingS extends Ring[\String\] end
+object Rz extends RingZ end
+object Rs extends RingS end
+
+pairOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
+pairOf[\T\](a: RingZ, b: RingS): String = "apart"
+
+plainOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
+plainOf(a: RingZ, b: RingS): String = "apart"
+
+run(): () = do
+    assert(o(Mixed, Box[\ZZ32\]), "oP", "a Mixed is a P of ZZ32 and a Q of String, so with a Box of ZZ32 only the declaration over P applies")
+    assert(o(Mixed, Box[\String\]), "oQ", "with a Box of String only the declaration over Q applies")
+    assert(r(Mixed, Box[\ZZ32\]), "rP", "renamed static parameters: with a Box of ZZ32 only the declaration over P applies")
+    assert(r(Mixed, Box[\String\]), "rQ", "renamed static parameters: with a Box of String only the declaration over Q applies")
+    assert(viaR(Mixed, BoxR[\ZZ32\]), "viaP", "through a supertype: a BoxR of ZZ32 is an R of ZZ32 only, so only the declaration over P applies")
+    assert(viaR(Mixed, BoxR[\String\]), "viaQ", "through a supertype: a BoxR of String is a SubR of String, so only the declaration over Q applies")
+    assert(w(MixedSize, BoxSize[\3\]), "wP", "size parameters: with a BoxSize of 3 only the declaration over Pn applies")
+    assert(w(MixedSize, BoxSize[\4\]), "wQ", "size parameters: with a BoxSize of 4 only the declaration over Qn applies")
+    assert(pairOf(Rz, Rz), "same", "two Rings of one T run the declaration over Ring twice")
+    assert(pairOf(Rz, Rs), "apart", "a RingZ and a RingS are Rings of two types, so only the declaration over RingZ and RingS applies")
+    assert(plainOf(Rz, Rz), "same", "beside a declaration without static parameters: two Rings of one T")
+    assert(plainOf(Rz, Rs), "apart", "beside a declaration without static parameters: a RingZ and a RingS")
+    println("PASS")
+  end
+
+end

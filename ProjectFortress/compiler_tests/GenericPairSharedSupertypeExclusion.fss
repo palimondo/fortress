@@ -1,4 +1,4 @@
-component XXXGenericPairSharedSupertypeExclusion
+component GenericPairSharedSupertypeExclusion
 export Executable
 
 (* Two generic declarations over Thawed[T] and Frozen[T], which extend Readable[T] and exclude each other at one T, exclude at every pair of their instances, since no type extends two instances of Readable, so they are a valid overloading (overloading.tex, section "Declarations with Static Parameters"; types-vals-vars.tex, section "Trait Types"). *)
@@ -7,12 +7,14 @@ trait Readable[\E\] end
 trait Frozen[\E\] extends Readable[\E\] excludes { Thawed[\E\] } end
 trait Thawed[\E\] extends Readable[\E\] end
 object FrozenZ extends Frozen[\ZZ32\] end
+object ThawedZ extends Thawed[\ZZ32\] end
 
 copyOf[\T\](a: Thawed[\T\]): String = "thawed"
 copyOf[\T\](a: Frozen[\T\]): String = "frozen"
 
 run(): () = do
     assert(copyOf(FrozenZ), "frozen", "a Frozen runs the declaration over Frozen")
+    assert(copyOf(ThawedZ), "thawed", "a Thawed runs the declaration over Thawed")
     println("PASS")
   end
 

@@ -1,0 +1,50 @@
+component GenericPairExcludesTogether
+export Executable
+
+(* Two generic declarations whose parameter types exclude each other only read whole, through a static argument that another parameter fixes, there or through a supertype, are a valid overloading, beside a generic or a plain declaration, and each call runs the one its arguments select (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+object Mixed extends { P[\ZZ32\], Q[\String\] } end
+object Box[\T\] end
+
+o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
+o[\T\](x: Q[\T\], b: Box[\T\]): String = "oQ"
+
+r[\T\](x: P[\T\], b: Box[\T\]): String = "rP"
+r[\U\](x: Q[\U\], b: Box[\U\]): String = "rQ"
+
+trait R[\T\] end
+trait SubR[\T\] extends R[\T\] end
+object BoxR[\T\] extends SubR[\T\] end
+
+viaR[\T\](x: P[\T\], b: R[\T\]): String = "viaP"
+viaR[\U\](x: Q[\U\], b: SubR[\U\]): String = "viaQ"
+
+trait Ring[\T\] end
+trait RingZ extends Ring[\ZZ32\] end
+trait RingS extends Ring[\String\] end
+object Rz extends RingZ end
+object Rs extends RingS end
+
+pairOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
+pairOf[\T\](a: RingZ, b: RingS): String = "apart"
+
+plainOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
+plainOf(a: RingZ, b: RingS): String = "apart"
+
+run(): () = do
+    assert(o(Mixed, Box[\ZZ32\]), "oP", "with a Box of ZZ32 only the declaration over P applies")
+    assert(o(Mixed, Box[\String\]), "oQ", "with a Box of String only the declaration over Q applies")
+    assert(r(Mixed, Box[\ZZ32\]), "rP", "renamed static parameters: the declaration over P")
+    assert(r(Mixed, Box[\String\]), "rQ", "renamed static parameters: the declaration over Q")
+    assert(viaR(Mixed, BoxR[\ZZ32\]), "viaP", "through a supertype: the declaration over P")
+    assert(viaR(Mixed, BoxR[\String\]), "viaQ", "through a supertype: the declaration over Q")
+    assert(pairOf(Rz, Rz), "same", "two Rings of one T")
+    assert(pairOf(Rz, Rs), "apart", "a RingZ and a RingS")
+    assert(plainOf(Rz, Rz), "same", "beside a plain declaration: two Rings of one T")
+    assert(plainOf(Rz, Rs), "apart", "beside a plain declaration: a RingZ and a RingS")
+    println("PASS")
+  end
+
+end
