@@ -188,7 +188,7 @@ Under `explorations/coordinator/`:
 - `INDEX.md`: one line for each note.
 - `PLAN.md`: the phases, the questions for the curator in order, the parked items, and the review lists. Its first section says where the work stands.
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
-- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages.
+- The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
 - The held list. Its last section holds the smaller items that the curator owns.
 - `review-queue.md`: the review lists, sorted by theme.
 
@@ -200,7 +200,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 - Write FACTS and POSITIONS only with `explorations/coordinator/tools/record.py` (`references/record.md`).
 - Keep one home for each thing, and point to it from elsewhere.
 - Have the skill writer (`references/skill-rewrite.md`) put each rule that the curator states about your work into its skill. Keep it on the held list until then.
-- Commit only the paths that you name: `git commit -- <paths>`, which is the same as `git commit --only <paths>`. Never use `git add -A`, `git add .` or `git commit -a`. A commit without paths takes the whole index, and a batch's gather stages its files in the main tree.
+- Commit only the paths that you name. Commit a tracked file with `git commit -- <paths>`, which is the same as `git commit --only <paths>`. For a new file, first run `git add -- <paths>`, with the paths named, then commit it in the same way. Never use `git add -A`, `git add .` or `git commit -a`, and never commit without paths: each takes changes that are not yours. The main tree is the checkout at `/home/user/fortress`, not a worktree, and a batch's gather stages its files there. While a batch runs, edit nothing tracked there (`references/batch.md`, "While it runs").
 - Push after every commit, in the order of `fortress-repo`'s committing part.
 
 ## The boot

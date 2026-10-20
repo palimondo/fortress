@@ -70,18 +70,22 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 
 ## While it runs
 
-- At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the boot note, and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
-- From the launch to the landing's push, commit and push nothing in the main tree, because the gather and the commit stage work there and need its index clean. Keep a check-in's ID in the session's scratchpad, not in the boot note.
+- At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the check-in file (below), and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
+- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Push nothing to `main` from any tree, or git refuses the landing's push.
+- Before the launch, name the check-in file in the boot note: `<scratchpad>/batch<N>/checkins.txt`, where `<N>` is the batch's number. After the launch, write the run's ID and each armed check-in's ID in that file. If the scratchpad loses a check-in's ID, find the check-in again with `list_triggers`.
 - Workers push to their own `wip/` branches as they go. A branch holds only what `main` is to hold (`fortress-repo`, its committing part).
 - If a process stop or the usage limit ends the run, resume it (`references/delegating.md`). The limit drops no rung.
 
 ## The landing
 
-1. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
-2. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
-3. Name each decision that landed in one line, and put the items for the curator on the review list.
-4. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
-5. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.
+If the batch's push is held for the curator, take the steps below at once on the local commits. Only the push waits, and the parts of the routing that need the pushed hashes.
+
+1. Sweep the batch agents' to-dos from the session's shared task list: `explorations/coordinator/tools/sweep-tasks.py --delete`. If another workflow still runs, add `--running`, which removes only the completed tasks. The agents write these to-dos themselves, and the harness shows the whole list to every agent.
+2. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
+3. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
+4. Name each decision that landed in one line, and put the items for the curator on the review list.
+5. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
+6. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.
    - Move word for word into `PLAN-history.md` each item that the batch built, each question that the batch or the curator answered, and each stale item. A stale item is one that a decision or a landed change has made moot.
    - If another home holds an open item's whole text, cut it in PLAN to one line with a pointer there. If it holds part, first move the rest there. This holds for the review lists too: an entry that `review-queue.md` holds becomes such a line.
    - Repoint each citation of a moved item: `git grep -n 'PLAN\.md' -- explorations/coordinator/*.md explorations/fortress-gap-ledger.md .claude/skills`. Cut a built item's part from its POSITIONS entry with `record.py`.
