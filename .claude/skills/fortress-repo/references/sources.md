@@ -749,3 +749,4 @@ Each fix is the cold read's (`tmp/skill-writer/coldread-19.md`) or the post-batc
 - `revival-changes.md`, "A string's `||` with a value of any type": the overloads of `()` and the tuples, `Library/FortressLibrary.fss:4383-4392`; the library's way named.
 - `interpreter.md`, "What walk checks", the first bullet: the exceptions that `revival-changes.md` lists, ledger row 788.
 - `compiler.md`, "The checker's time": the count stage about a minute, from 61 to 75 s in climb batch 19 and 64 s at its gate.
+- `revival-changes.md`, "Exclusion where a declaration has static parameters", the free static parameter: the order of the declarations under walk, from the coordinator's run of 2026-10-20 of the pair in the other order through `harness-one.sh` on the main tree's build, refused at load, "fails the Meet Rule".
