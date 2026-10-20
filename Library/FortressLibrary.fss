@@ -2524,14 +2524,22 @@ trait AnyVector end
 trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
         extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
         excludes { AnyMultiplicativeRing }
+    fill(v:T):Vector[\T,s0\] = do
+        for i <- zeroIndices() do init0(i,v) end
+        self
+      end
+    tabulate(f:ZZ32->T):Vector[\T,s0\] = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
     opr +(self, v:Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e + v.get(i))
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e + v.get(i)))
     opr -(self, v:Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e - v.get(i))
-    opr -(self): Vector[\T,s0\] = map[\T\](fn (e: T):T => - e)
-    scale(t: T): Vector[\T,s0\] = map[\T\](fn (v) => t v)
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e - v.get(i)))
+    opr -(self): Vector[\T,s0\] = cast[\Vector[\T,s0\]\](map[\T\](fn (e: T):T => - e))
+    scale(t: T): Vector[\T,s0\] = cast[\Vector[\T,s0\]\](map[\T\](fn (v) => t v))
     pmul(v: Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e v.get(i))
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e v.get(i)))
     dot(v: Vector[\T,s0\]): T =
         SUM[\T\] [(i,me_i)<-self.indexValuePairs] me_i v.get(i)
 end
@@ -2553,7 +2561,7 @@ end
 __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\] = do
     r = array1[\T,s0\]()
     typecase N[\b0\] of
-        N[\0\] => r
+        N[\0\] => cast[\Array1[\T,b0,s0\]\](r)
         else => r.subarray[\b0,s0,0\](1)
     end
   end
@@ -2564,7 +2572,7 @@ __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\] = do
 __immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\] = do
     r = immutableArray1[\T,s0\]()
     typecase N[\b0\] of
-        N[\0\] => r
+        N[\0\] => cast[\ImmutableArray1[\T,b0,s0\]\](r)
         else => r.subarray[\b0,s0,0\](1)
     end
   end
@@ -2696,11 +2704,11 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   opr[_:TrivialOpenRange, _:TrivialOpenRange]: Array[\T,(ZZ32,ZZ32)\] = self[:]
 *)
   (** Row and column extraction *)
-  opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\] = Col(self[(b0,i1)#(s0,1)])
+  opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\] = Col(cast[\Array2[\T,0,s0,0,1\]\](self[(b0,i1)#(s0,1)]))
 (*
   opr[r:Range[\ZZ32\], i1:ZZ32]: Array[\T,ZZ32\] =        Col(self[r, i1#1])
 *)
-  opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\] = Row(self[(i0,b1)#(1,s1)])
+  opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\] = Row(cast[\Array2[\T,0,1,0,s1\]\](self[(i0,b1)#(1,s1)]))
 (*
   opr[i0:ZZ32, r:Range[\ZZ32\]]: Array[\T,ZZ32\] =        Row(self[i0#1, r])
 *)
@@ -2837,12 +2845,20 @@ trait AnyMatrix end
 trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
         extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
         excludes { AnyMultiplicativeRing }
+    fill(v:T):Matrix[\T,s0,s1\] = do
+        for i <- zeroIndices() do init0(i,v) end
+        self
+      end
+    tabulate(f:(ZZ32,ZZ32)->T):Matrix[\T,s0,s1\] = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
     opr +(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] =
-        ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e + v.get(i))
+        cast[\Matrix[\T,s0,s1\]\](ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e + v.get(i)))
     opr -(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] =
-        ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e - v.get(i))
-    opr -(self): Matrix[\T,s0,s1\] = map[\T\](fn (e:T):T => - e)
-    scale(t1: T): Matrix[\T,s0,s1\] = map[\T\](fn (e:T):T => t1 e)
+        cast[\Matrix[\T,s0,s1\]\](ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e - v.get(i)))
+    opr -(self): Matrix[\T,s0,s1\] = cast[\Matrix[\T,s0,s1\]\](map[\T\](fn (e:T):T => - e))
+    scale(t1: T): Matrix[\T,s0,s1\] = cast[\Matrix[\T,s0,s1\]\](map[\T\](fn (e:T):T => t1 e))
     mul[\ nat s2 \](other: Matrix[\T,s1,s2\]): Matrix[\T,s0,s2\] = do
         res = matrix[\T,s0,s2\]()
         mma(a:ZZ32,i:ZZ32,b:ZZ32,j:ZZ32,c:ZZ32,k:ZZ32):() =
@@ -2946,7 +2962,7 @@ end
 
 __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\] =
     if b0=0 AND b1=0 then
-        array2[\T,s0,s1\]()
+        cast[\Array2[\T,b0,s0,b1,s1\]\](array2[\T,s0,s1\]())
     else
         __DefaultArray2[\T,b0,s0,b1,s1\]()
     end
@@ -2976,7 +2992,7 @@ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]():Matrix[\T,s0,s1\] =
   __DefaultMatrix[\T,s0,s1\]()
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\] =
-  array2[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else v.zero end)
+  matrix[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else v.zero end)
 
 (* Matrix multiplication; used to use a cache-oblivious algorithm, but
    we ran into trouble due to lack of support for atomic increment of
