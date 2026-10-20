@@ -1,0 +1,64 @@
+The vector design A2: Vector and Matrix stop extending AdditiveGroup, and the arrays exclude AnyAdditiveGroup (designs.py vecA2): clears the 8 scalar + and - errors and brings none. Generated on d97001d19 (main) by designs.py vecA2; apply to d97001d19 with git apply.
+
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 852385f22..e6797d297 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -1204,7 +1204,7 @@ end
+ * \subsection*{Array support}
+ ************************************************************)
+ 
+-trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe }
++trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe, AnyAdditiveGroup }
+   (** not yet: ``% comprises Array[\T,E,I\] where [\T,E,I\]{ T extends Array[\T,E,I\] }%'' *)
+   abstract rank():ZZ32
+   opr =(self, other:HasRank): Boolean
+@@ -1614,7 +1614,7 @@ end
+ trait AnyVector end
+ 
+ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
+-        extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
++        extends { AnyVector, Array1[\T,0,s0\] }
+         excludes { AnyMultiplicativeRing }
+     opr +(self, v:Vector[\T,s0\]): Vector[\T,s0\]
+     opr -(self, v:Vector[\T,s0\]): Vector[\T,s0\]
+@@ -1734,7 +1734,7 @@ end
+ trait AnyMatrix end
+ 
+ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
+-        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
++        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\] }
+         excludes { AnyMultiplicativeRing }
+     opr +(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\]
+     opr -(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\]
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 3027ad19b..65b194fc3 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1906,7 +1906,7 @@ oops(s:ZZ32, l:ZZ32, sz:ZZ32, got:ZZ32):() = do
+         " which is not in " l "#" sz);
+ end
+ 
+-trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe }
++trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe, AnyAdditiveGroup }
+   (** \vspace{-4ex} NOT YET: %comprises Array[\T,E,I\]
+                               where [\T,E,I\]{ T extends Array[\T,E,I\] }% *)
+   rank():ZZ32
+@@ -2522,7 +2522,7 @@ end
+ trait AnyVector end
+ 
+ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
+-        extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
++        extends { AnyVector, Array1[\T,0,s0\] }
+         excludes { AnyMultiplicativeRing }
+     fill(v:T):Vector[\T,s0\] = do
+         for i <- zeroIndices() do init0(i,v) end
+@@ -2843,7 +2843,7 @@ end
+ trait AnyMatrix end
+ 
+ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
+-        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
++        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\] }
+         excludes { AnyMultiplicativeRing }
+     fill(v:T):Matrix[\T,s0,s1\] = do
+         for i <- zeroIndices() do init0(i,v) end
