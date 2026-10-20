@@ -200,6 +200,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 - Write FACTS and POSITIONS only with `explorations/coordinator/tools/record.py` (`references/record.md`).
 - Keep one home for each thing, and point to it from elsewhere.
 - Have the skill writer (`references/skill-rewrite.md`) put each rule that the curator states about your work into its skill. Keep it on the held list until then.
+- Commit only the paths that you name: `git commit -- <paths>`, which is the same as `git commit --only <paths>`. Never use `git add -A`, `git add .` or `git commit -a`. A commit without paths takes the whole index, and a batch's gather stages its files in the main tree.
 - Push after every commit, in the order of `fortress-repo`'s committing part.
 
 ## The boot

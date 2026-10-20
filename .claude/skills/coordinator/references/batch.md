@@ -71,6 +71,7 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 ## While it runs
 
 - At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the boot note, and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
+- From the launch to the landing's push, commit and push nothing in the main tree, because the gather and the commit stage work there and need its index clean. Keep a check-in's ID in the session's scratchpad, not in the boot note.
 - Workers push to their own `wip/` branches as they go. A branch holds only what `main` is to hold (`fortress-repo`, its committing part).
 - If a process stop or the usage limit ends the run, resume it (`references/delegating.md`). The limit drops no rung.
 
