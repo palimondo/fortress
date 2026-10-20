@@ -290,13 +290,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: After the switch-over, by his decision. His own question, why microGPT uses `RR64` and not `RR32`, is owed an answer; the reason on record is the Python reference's float64 values.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 4; item 13, fork 5; item 13, fork 6; `reviews/array-design-ways.md` section 8; P-85, "The array design's three questions are open"; `experiment/run-c-goldens/README.md` (10-02: 100)
 
-### The library's generators, strings and comparisons (4)
-
-38. **The tuple comparisons (item 43).** The library's ten tuple comparison operators compared elements of any type. They now require each element to be partially ordered, and `Comparison` gains a lazy `LEXICO`.
-   - Landed: The judgement's way, built on the standing go while his answer is pending; 17 sites cleared. Two costs it did not weigh: `(1,()) < (2,())` answered true and is now refused; and walk refuses `(1,2) < (1,2.5)`, numbers of two types at one position. A pinned nested comparison, `((1,2),3) < ((1,3),0)`, is now refused too.
-   - The other way: A `where` clause or conditional member the checker reads; walk promoting the position first (an edit under row 511); or other bounds.
-   - Its cost: It changes answers walk printed.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 43; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 4); `reviews/tuple-comparisons-judgement.md`; `compile-ladder/rung-tuple-orders/REPORT.md:295`, `SKEPTIC.md:300`; row 634
+### The library's generators, strings and comparisons (3)
 
 39. **A generator's size (item 45).** Library code read a size from a value typed `Generator`, which declares none.
    - Landed: The judgement's ways, built on the standing go while his answer is pending: `Generator` gains a counted size, a new api declaration; the relational predicate is one reduction; `Indexed`'s default pairs get an object of their own. Nine sites cleared.
@@ -979,7 +973,7 @@ Each is kept as landed unless he says otherwise.
 
 ## (a) Settled or stale: these leave the lists
 
-### Answered by a decision of his (34)
+### Answered by a decision of his (35)
 
 - **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes.", P-97, "The refused examples (S2).", P-41, "The run-time size design is B.", P-73, "Fixed-width overflow raises `IntegerOverflow` under `walk`", P-80, "The sign-refined number types are a superseded design.", answers 7, 8, 9 and 10, and "The checker count is measured, never red."; item 12's first part by "Sizes." (its decision; row 400 keeps an open compiled half); 16 by "Walk chooses coercions on the value, for now."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 22, 23, 26, 30, 27, 33, 18, 19 and 34; Decided 2026-09-28 before batch N; PLAN, "Pavol's answers, in the order they are needed", item 12.
 - **Item 15, arithmetic in a size (array fork 1).** P-55, "Arithmetic in a size ..."; built `7fd8fddc8`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 15; item 13, fork 1.
@@ -1015,6 +1009,7 @@ Each is kept as landed unless he says otherwise.
 - **Row 516, a lone parameter's union.** The instance rule; row 516 fixed. Home: PLAN-history, "Off the path, parked", A lone type parameter's candidates when none is narrowest.
 - **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (P-51, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN-history, "Off the path, parked", Rows 391 and 455 stay open after climb batch N's rung I (10-02: 57).
 - **Item 62 of the routine list, row 572: an object that inherits an abstract functional method from one trait and a concrete one from another, which no check read.** P-149, "An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).", his answer to climb batch 16's Q1 (item 55); built by climb batch 16's rung K (`c23b85fdc`), rows 572 and 727 fixed. Home: PLAN-history, "Answered 2026-10-15 (item 55, Q1 of climb batch 16: refuse, P-149)"; PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component; `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7).
+- **Item 43, the tuple comparisons, with rung X's question 2, a list of partially ordered elements.** P-154, his answer to ask 4, option 1, as built (2026-10-20). Home: PLAN-history, "Ask 4 answered, 2026-10-20".
 
 ### Answered by a landed fix or a closed row (35)
 

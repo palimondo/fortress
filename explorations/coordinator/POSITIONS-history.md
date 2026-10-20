@@ -1402,3 +1402,7 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-20 05:43Z · rewritten · from `explorations/perf-probes/array-sites/REPORT.md`, "Step 2: E3 re-based (`e3-rebased.patch`)" · by curator: his answer to ask 3 in chat, 05:42 UTC on 2026-10-20: option 1, the diff; 'The patch made sense to me.'
 
 - P-40 **Sizes are checked, and a size left unknown is an error only where it is used.** The checker checks `nat` and `int` static parameters and refuses a size beyond `NN32` or `ZZ32` (F-140). Storage refuses a JVM array length over 2^31-1. A size that inference leaves unknown is an error only when it reaches a type, a name or a value. How the checker represents it is not his choice. A size that a call cannot fix refuses the call, also inside an overload set, instead of dropping the arm (row 400, its compiled half open). Every static argument but an operator counts in the exclusion rule; booleans join once the checker has boolean parameters (row 406). A size used as a value converts to `ZZ32` as a numeral does (row 485). The api's 25 unused sizes (F-35) go only by a diff shown to him with the switch-over's design.
+
+### P-154
+
+2026-10-20 06:21Z · added · by curator: his answer to ask 4 at about 06:20 UTC: option 1, as landed
