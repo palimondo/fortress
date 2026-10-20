@@ -29,7 +29,7 @@
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
 - The entries that it needs, quoted word for word under their numbers. Quote a rule of the curator's whole, with its limit and its example.
-- Before you quote the curator's words, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Mark each word whose reading is a guess.
+- Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess. Quote an entry as the record holds it.
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.

@@ -135,3 +135,5 @@ The curator's words are in the coordinating session's transcript, held in `explo
 ## Changes of 2026-10-20
 
 - `delegating.md`, "What a brief holds", the cleaning pass before the curator's words are quoted: the curator's rule in chat of 2026-10-20, 00:04 UTC, in the coordinator's words on the held list (`explorations/coordinator/HELD.md`, line 7). Its wording and place: settled by the coordinator.
+- `delegating.md`, "What a brief holds", the cleaning pass: limited to the curator's words from a message, the guess marked `[?]`, and an entry quoted as the record holds it. From the cold read of 2026-10-20 (`tmp/skill-writer/coldread-19.md`), settled by the coordinator, 2026-10-20.
+- `batch.md`, the briefing's share: the share of briefed agents that read it at all, in place of the first-turn share, which is 0 by the brief's order in climb batches 14 to 19 (`explorations/reviews/batch-19-review.md`, Part 3). Settled by the coordinator, 2026-10-20.

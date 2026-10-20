@@ -42,7 +42,7 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 - Build the base once, yourself, in a worktree where nobody compiles or runs (`args.baseBuild`). Every rung worktree is seeded from it (`explorations/coordinator/tools/seed-worktree.sh`), never built clean.
 - No stage runs a build, a suite or a measurement again on a code state that another stage ran, and no agent reads again a log that has not changed.
 - Let the planner give each rung its mission briefing, from the territory map (`explorations/coordinator/map/`), in neutral words: "the decisions on record", not the curator's name. Require no answers from the worker about how it searched.
-- At each landing, report the share of agents that read the briefing in their first turn. Aim for about 80 percent, the share it once had; it fell to 25 to 35.
+- At each landing, report the share of briefed agents that read the briefing at all. Aim for all of them. By the brief's order, none reads it in its first turn.
 
 ## The roles
 
