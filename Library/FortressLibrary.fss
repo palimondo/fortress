@@ -4390,8 +4390,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         do (i,j,k,l,m) = b; self || "(" || i || "," j || "," k || "," l || "," m || ")" end
     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
-    opr ||(a:Any, self):String = a.asString || self
-    opr ||(self, b:Any):String = self || b.asString
+    opr ||(a:Any, self):String = ("" || a) || self
+    opr ||(self, b:Any):String = self || cast[\Object\](b).asString
 
     (** The operator %|||% with at least one String argument converts to string,
         then appends with a whitespace separator unless one of the two arguments is
