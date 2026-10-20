@@ -734,7 +734,18 @@ Each fix is the cold read's (`tmp/skill-writer/coldread-18-fortress-repo.md`), s
 
 The coordinator's task of 2026-10-20, from `explorations/compile-ladder/climb-batch-19/RECORD.md`, "Revival changes, for the skill writer". The batch landed at `ebd39a6bd`.
 
-- `revival-changes.md`, "Exclusion between two declarations with static parameters": rung P, `14e91723f`, POSITIONS P-152; FACTS F-258; ledger rows 786 and 787; `Papers/Types/exc-reduction.tick:7-21`, `Papers/Types/fig-exclusion.tick:55-57`, `:136-147`.
+- `revival-changes.md`, "Exclusion where a declaration has static parameters": rung P, `14e91723f`, POSITIONS P-152; FACTS F-258; ledger rows 786 and 787; `Papers/Types/exc-reduction.tick:7-21`, `Papers/Types/fig-exclusion.tick:55-57`, `:136-147`.
 - `revival-changes.md`, "Walk's check of two generic declarations", its list of departures: row 740's case removed and the `copyOf` half of row 741's case removed, rung P, FACTS F-258; `tint` now ledger row 786; the new case of ledger row 788, FACTS F-258, `Specification/appendices/changes.tex:2874-2884`, `ProjectFortress/tests/XXXGenericBoundObjectOverlapWalk.fss`. The count stays seven.
 - `revival-changes.md`, "An object or trait declared `extends Any`": rung S, `4190069c4`; FACTS F-259; `compiler/desugarer/PreDisambiguationDesugaringVisitor.java:59-68`, `:123-124`, checked on 2026-10-20; `Specification/basic/traits.tex:186-188`, `Specification/basic/types-vals-vars.tex:153`.
 - `revival-changes.md`, "A string's `||` with a value of any type": rung S, `4190069c4`; FACTS F-259; `Library/FortressLibrary.fss:4494-4495`; `Library/FlatString.fsi:16-21`.
+
+## The cold read of task 19's parts, and batch 19's review, 2026-10-20
+
+Each fix is the cold read's (`tmp/skill-writer/coldread-19.md`) or the post-batch review's (`explorations/reviews/batch-19-review.md`, Part 3), settled by the coordinator, 2026-10-20, with its fact checked against the source named.
+
+- `revival-changes.md`, "Walk's check of two generic declarations", the departures: `tint` restated, ledger row 786; row 759 only with the bound unwritten, `rung-existential-reduction/SKEPTIC.md:106` (`K759A`), `Specification/appendices/changes.tex:2845-2851`, ledger row 412; row 788 restated with `R` and `Box` as generic traits, `ProjectFortress/tests/XXXGenericBoundObjectOverlapWalk.fss:6-12`, the parameter-by-parameter check from ledger row 788; row 787 added and the count made eight, FACTS F-258 and ledger row 787.
+- `revival-changes.md`, "Exclusion where a declaration has static parameters": the heading; walk's former reading dated after the declared domains, FACTS F-238 and F-252; the whole tuple and its supertypes, the exclusion rule and the forced instance, `interpreter/evaluator/values/OverloadedFunction.java:920-1022`; the free static parameter, `ProjectFortress/tests/GenericPairFreeArgumentWalk.fss`; the reading at the forced instance, `GenericPairForcedObjectApartWalk.fss` and `GenericPairObjectSupertypeOverlapWalk.fss`, `OverloadedFunction.java:1024-1067`; the parameter-by-parameter check, FACTS F-252 and ledger row 788; the `where` clause, `OverloadedFunction.java:943`; "these equalities" in the reason.
+- `revival-changes.md`, "An object or trait declared `extends Any`": the desugaring named and placed before name binding, `compiler/phases/PhaseOrder.java` and `compiler.md`'s phase names; "gave `{Object}` to"; the `typecase`; the compiled path's object expression, `compiler.md`, "What the compiled path cannot compile yet", and `compiler/codegen/CodeGen.java:1672-1674`.
+- `revival-changes.md`, "A string's `||` with a value of any type": the overloads of `()` and the tuples, `Library/FortressLibrary.fss:4383-4392`; the library's way named.
+- `interpreter.md`, "What walk checks", the first bullet: the exceptions that `revival-changes.md` lists, ledger row 788.
+- `compiler.md`, "The checker's time": the count stage about a minute, from 61 to 75 s in climb batch 19 and 64 s at its gate.
