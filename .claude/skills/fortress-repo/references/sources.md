@@ -729,3 +729,12 @@ Each fix is the cold read's (`tmp/skill-writer/coldread-18-fortress-repo.md`), s
 - `revival-changes.md`, "A function whose return type is left out, in a component": built; some runs; several declarations, F-254 (flags 39 to 41).
 - `compiler.md`, "What the compiled path cannot compile yet": methods, `CodeGen.java:2901-2976`, `FnDecl` covering methods; the contract dropped for both paths, ledger row 781; the blank line (flags 42 to 44).
 - `interpreter.md`, "What walk checks", the first bullet: restated, F-252 and ledger row 780 (flags 45, 46).
+
+## Climb batch 19's changes, 2026-10-20
+
+The coordinator's task of 2026-10-20, from `explorations/compile-ladder/climb-batch-19/RECORD.md`, "Revival changes, for the skill writer". The batch landed at `ebd39a6bd`.
+
+- `revival-changes.md`, "Exclusion between two declarations with static parameters": rung P, `14e91723f`, POSITIONS P-152; FACTS F-258; ledger rows 786 and 787; `Papers/Types/exc-reduction.tick:7-21`, `Papers/Types/fig-exclusion.tick:55-57`, `:136-147`.
+- `revival-changes.md`, "Walk's check of two generic declarations", its list of departures: row 740's case removed and the `copyOf` half of row 741's case removed, rung P, FACTS F-258; `tint` now ledger row 786; the new case of ledger row 788, FACTS F-258, `Specification/appendices/changes.tex:2874-2884`, `ProjectFortress/tests/XXXGenericBoundObjectOverlapWalk.fss`. The count stays seven.
+- `revival-changes.md`, "An object or trait declared `extends Any`": rung S, `4190069c4`; FACTS F-259; `compiler/desugarer/PreDisambiguationDesugaringVisitor.java:59-68`, `:123-124`, checked on 2026-10-20; `Specification/basic/traits.tex:186-188`, `Specification/basic/types-vals-vars.tex:153`.
+- `revival-changes.md`, "A string's `||` with a value of any type": rung S, `4190069c4`; FACTS F-259; `Library/FortressLibrary.fss:4494-4495`; `Library/FlatString.fsi:16-21`.

@@ -55,14 +55,24 @@ A note written before the revival, and your training, can be right about the tea
   - the instances of an explicit instantiation.
 
   In seven cases, walk or the checker departs from these rules:
-  - walk and the checker refuse a pair whose parameter types exclude only together, through a static argument that another parameter fixes: `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `Box` fixes one `T` for both (ledger row 740);
   - walk refuses a pair whose overlap it finds only through an instance of a supertype: `m[\P\](x: ArraySeq[\P\])` beside `m[\Q extends Num\](y: Seq[\Q\])`, where `ArraySeq[\X\] extends Seq[\X\]`, covered by `m[\R extends Num\](z: ArraySeq[\R\])` (ledger row 539);
   - walk refuses two declarations whose parameter types are one generic type at two static arguments that name no static parameter, such as `g(b: Tg[\3\])` beside `g(b: Tg[\4\])` (ledger row 416);
-  - the checker refuses two kinds of pair that walk loads: two generic traits that exclude each other and extend one shared generic trait, as `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`; and one generic object at two bounds that are different objects, as `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])` (ledger row 741);
+  - the checker refuses one generic object at two bounds that are different objects, which walk loads: `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])` (ledger row 786);
   - the checker accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and the compiled program runs the generic one (ledger row 759);
   - walk refuses two generic functional methods whose declared domains lie one inside the other, in a type without static parameters: "fails the Meet Rule" for `which[\T extends Shape\](self, x: T)` beside `which[\U extends Round\](self, x: U)`. It loads the same two as top-level functions (ledger row 779);
-  - walk loads that pair in a trait with static parameters, and a call with a `Circle` as `x` fails: "Cannot find definition for method" (ledger row 780).
+  - walk loads that pair in a trait with static parameters, and a call with a `Circle` as `x` fails: "Cannot find definition for method" (ledger row 780);
+  - walk loads two kinds of pair that the Meet Rule refuses, because it reads an object type over a static parameter as excluding a type that the object type is at some instance. One is `g[\T\](x: Box[\T\], y: ZZ32)` beside `g(x: Box[\ZZ32\], y: Any)`, where `Box` is an object; walk runs the first for a call to which both apply. The other is `h[\T extends R[\ZZ32\]\](x: Box[\T\], y: T)` beside `h[\U\](x: Box[\Ob[\U\]\], y: Ob[\U\])`, where the object `Ob[\U\]` extends `R[\U\]`. The checker refuses both (ledger row 788).
 - Reason: the specification reads a declaration with static parameters over every instance within its bounds, and compares declarations on the parameter types that they declare (`Specification/basic/overloading.tex`). It states the three rules on those domains and allows the `ident` pair (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters"). Two instances of one generic trait meet only where their static arguments are equal.
+
+**Exclusion between two declarations with static parameters**
+
+- Original: the checker read two declarations as excluding each other only where its subtyping showed that their meet is `Bottom`. Walk read two generic declarations as excluding only where the parameter types at one position excluded each other. So both refused `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `P[\T\] excludes { Q[\T\] }` and `Box` is an object. The checker also refused `copyOf[\T\](a: Thawed[\T\])` beside `copyOf[\T\](a: Frozen[\T\])`, where `Frozen[\E\]` and `Thawed[\E\]` extend `Readable[\E\]` and exclude each other.
+- Resolution: both paths read exclusion over the whole parameter type, where one or both declarations have static parameters. A value of both declared domains has, at each position, one instance of each generic type that the parameter types there are or extend. So the static arguments of those instances are equal. The two domains exclude where these equalities cannot hold together. They also exclude where, at the instance that the equalities force, the parameter types at some position exclude. Both paths now load or compile the `o` and `copyOf` pairs. These limits stay:
+  - Both paths refuse a pair whose second declaration leaves the forced static argument free.
+  - At the forced instance, walk reads two parameter types that still mention a static parameter as excluding only where they cannot meet at any instance. An example is an object type beside a type that neither the object type nor a supertype of it can be.
+  - Walk reads no `where` clause here. So it refuses such a pair where one declaration has a `where` clause of its own, and the checker accepts it (ledger row 787).
+  - The checker reads no bounds here (ledger row 786, above).
+- Reason: the type group's 2011 paper reads the meet of two domains that exclude as `Bottom`, so that the Meet Rule holds for them (`Papers/Types/exc-reduction.tick`). It gathers the constraint over the whole type: a tuple element by element, and every pair of ancestors (`Papers/Types/fig-exclusion.tick`). The specification reads exclusion in the same way (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters").
 
 **`fill` and `tabulate`**
 
@@ -116,6 +126,18 @@ A note written before the revival, and your training, can be right about the tea
 - Original: the interpreter's library declared `String`'s getters `left` and `right`, its first and last characters, as `Maybe[\Char\]`, but answered the character itself, so walk printed `a` for `"abc".left`. The specification is silent.
 - Resolution: they answer `Just` of the character, and `Nothing` for the empty string, as `List`'s and the ranges' do.
 - Reason: the declared type, which the checker enforced by refusing both bodies.
+
+**An object or trait declared `extends Any`**
+
+- Original: the desugaring that both paths run before disambiguation gave an empty `extends` clause `{Object}`, and left every other clause as written. So an object or trait declared `extends Any` was not an `Object`. `typecase` took its `else` arm, and an object without an `asString` of its own had none. The team's test `ProjectFortress/tests/extendAny.fss` says: "We ought to be able to extend the builtin type Any."
+- Resolution: a clause whose types are all `Any` also gets `{Object}`, on both paths, and so does an object expression's clause under walk. The declarations of `Any` and `Object` keep their clauses. `extendAny` prints `Infinity`.
+- Reason: every trait except `Any` and `Object` extends `Object` implicitly if it does not do so explicitly (`Specification/basic/traits.tex`). `Any` comprises the tuple types, the arrow types, `()` and `Object` (`Specification/basic/types-vals-vars.tex`).
+
+**A string's `||` with a value of any type**
+
+- Original: the interpreter's library declared `opr ||(a: Any, self)` as `a.asString || self`, and `opr ||(self, b: Any)` as `self || b.asString`. `asString` is a method of `Object`, not of `Any`. So walk stopped with "Non-object receiver" for a tuple or `()` on the left of a string. The checker refused both bodies: "Any has no getter called asString".
+- Resolution: the left form is `("" || a) || self`, and the right form is `self || cast[\Object\](b).asString`. A tuple or `()` on the left of a string concatenates as on the right. A function, or a tuple of seven or more elements, beside a string raises `CastError`. `FlatString`'s api now has its component's `extends` clause, and drops `opr ||(a: FlatString, self)`, which the component does not declare.
+- Reason: the library's own way. Its comment on `print(a: Any)` says that concatenation "also works for tuples" (`Library/FortressLibrary.fss`). The checker refused the old bodies, and reported that `FlatString`'s component does not match its api.
 
 **`self` in a self-typed trait**
 
