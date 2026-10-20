@@ -1,7 +1,7 @@
 component ExtendsAnyIsObject
 export Executable
 
-(* An object or a trait whose extends clause names Any alone is an Object, as every trait but Any and Object is (traits.tex, section "Trait Declarations"; basic-lib/objects.tex, section "Objects"). *)
+(* An object or a trait whose extends clause names Any alone is an Object, as every trait but Any and Object is (traits.tex, section "Trait Declarations"; basic-lib/objects.tex, trait Fortress.Core.Object). *)
 
 object Inf extends Any end
 object InfBraced extends { Any } end

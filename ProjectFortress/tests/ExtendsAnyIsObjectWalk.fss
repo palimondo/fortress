@@ -1,7 +1,7 @@
 component ExtendsAnyIsObjectWalk
 export Executable
 
-(* An object, a trait or an object expression whose extends clause names Any alone is an Object, as every trait but Any and Object is (traits.tex, section "Trait Declarations"; basic-lib/objects.tex, section "Objects"); a tuple stays outside Object (types-vals-vars.tex, section "Relationships between Types"). *)
+(* An object, a trait or an object expression whose extends clause names Any alone is an Object, as every trait but Any and Object is (traits.tex, section "Trait Declarations"; basic-lib/objects.tex, trait Fortress.Core.Object); a tuple stays outside Object (types-vals-vars.tex, section "Relationships between Types"). *)
 
 object Inf extends Any end
 object InfBraced extends { Any } end
