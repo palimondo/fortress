@@ -2867,7 +2867,10 @@ through a static argument that another parameter's type fixes, exclude each
 other, and the compiled type checker finds so too of two whose parameter types
 exclude through the one instance of a supertype they share, which the
 interpreter loaded already.
-They differ on a pair whose static parameters' bounds exclude each other, as
+The interpreter does not so read a declaration with a \KWD{where} clause of its
+own, and refuses such a pair, which the compiled type checker accepts and its
+code generator does not compile (row~NEW-P-2 of the revival's gap ledger).
+They also differ on a pair whose static parameters' bounds exclude each other, as
 \EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Red}\rrbracket(x\COLON
 \TYP{Box}\llbracket{}T\rrbracket)} beside
 \EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Blue}\rrbracket(x\COLON
