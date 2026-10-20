@@ -232,9 +232,9 @@ public class Long extends NativeConstructor {
     public static final class Pow extends NativeMeth1 {
         public FValue applyMethod(FObject x, FValue y) {
             long base = x.getLong();
-            long exp = y.getLong();
+            long exp = Int.powCount(y);
             if (exp < 0) {
-                return FFloat.make(1.0 / (double) Int.pow(base, -exp));
+                return FLong.make(Int.negativePow(base, exp));
             } else {
                 return FLong.make(Int.powExact(base, exp));
             }

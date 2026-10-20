@@ -208,7 +208,7 @@ do
   c  = b.copy()
   (* we dont need so many iterations because the matrix is a band matrix. *)
   itrmax = imax jmax kmax
-  er0 = 1.0 10^(-4)
+  er0 = 1.0 10.0^(-4)
 
   MatrixVectorProduct[\imax,jmax,kmax\](Ap,Ae,Aw,An,As,At,Ab,x,c)
 

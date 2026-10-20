@@ -220,9 +220,9 @@ public class Int extends NativeConstructor {
     public static final class Pow extends NativeMeth1 {
         public FValue applyMethod(FObject x, FValue y) {
             int base = x.getInt();
-            long exp = y.getLong();
+            long exp = powCount(y);
             if (exp < 0) {
-                return FFloat.make(1.0 / (double) pow(base, -exp));
+                return FInt.make((int) negativePow(base, exp));
             } else {
                 return FInt.make(rc(powExact(base, exp)));
             }
@@ -258,6 +258,38 @@ public class Int extends NativeConstructor {
     public static FortressError overflow() {
         FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
         return new FortressError(f);
+    }
+
+    public static FortressError divisionByZero() {
+        FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.divisionByZeroException);
+        return new FortressError(f);
+    }
+
+    /** The exponent of a power, of any integer type, as a long. One beyond
+        64 bits becomes the long of its sign and parity nearest it, to which
+        only the bases 0, 1 and -1 can be raised. */
+    public static long powCount(FValue y) {
+        if (y instanceof FNN64) {
+            long v = y.getNN64();
+            return (v < 0) ? java.lang.Long.MAX_VALUE - 1 + (v & 1) : v;
+        }
+        if (y instanceof FBigNum) {
+            BigInteger b = y.getBigInteger();
+            if (b.bitLength() < 64) return b.longValue();
+            long odd = b.testBit(0) ? 1 : 0;
+            return (b.signum() < 0) ? java.lang.Long.MIN_VALUE + odd : java.lang.Long.MAX_VALUE - 1 + odd;
+        }
+        return y.getLong();
+    }
+
+    /** A signed base to a negative exponent: the bases 1 and -1 give their
+        exact power, 0 throws DivisionByZero, and any other base, whose
+        power is no integer, throws IntegerOverflow. */
+    public static long negativePow(long base, long exp) {
+        if (base == 1) return 1;
+        if (base == -1) return ((exp & 1) == 0) ? 1 : -1;
+        if (base == 0) throw divisionByZero();
+        throw overflow();
     }
 
     public static long shiftCount(FValue y) {

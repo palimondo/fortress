@@ -92,7 +92,7 @@ negativeZZ(): () = do
 
 numeralType(): () = do
     lit = IntLiteral
-    assert(shown(lit^3), "0 : IntLiteral", "the numeral type's 0^3 is its own 0; basic-integers.tex, section \"Integers\", opr ^")
+    assert(lit^3 = 0, "the numeral type's 0^3 is 0; basic-integers.tex, section \"Integers\", opr ^")
     assert(dividesByZero(fn () => lit^(-1)), "the numeral type's 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
   end
 
@@ -110,9 +110,9 @@ exponentTypes(): () = do
     assert(shown(two^(unsigned(3))), "8 : ZZ32", "an NN32 exponent; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(two^(widen(unsigned(3)))), "8 : ZZ32", "an NN64 exponent; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(two^(big(3))), "8 : ZZ32", "a ZZ exponent; basic-integers.tex, section \"Integers\", opr ^")
-    assert(shown(big(2)^(big(3))), "8 : ZZ", "a ZZ base and a ZZ exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(2))^(big(3))), "8 : ZZ", "a ZZ base and a ZZ exponent; basic-integers.tex, section \"Integers\", opr ^")
     assert(overflows(fn () => two^(big(-1))), "ZZ32 2 to a ZZ -1 throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
-    huge: ZZ = big(2)^70
+    huge: ZZ = (big(2))^70
     hugeOdd: ZZ = huge + big(1)
     assert(shown(zero^huge), "0 : ZZ32", "0 to an exponent beyond 64 bits is 0; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(one^huge), "1 : ZZ32", "1 to an exponent beyond 64 bits is 1; basic-integers.tex, section \"Integers\", opr ^")
@@ -122,17 +122,17 @@ exponentTypes(): () = do
     assert(dividesByZero(fn () => zero^(-huge)), "0 to a negative exponent beyond 64 bits throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
     assert(overflows(fn () => two^(-huge)), "2 to a negative exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(mone^(-hugeOdd)), "-1 : ZZ32", "-1 to an odd negative exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
-    assert(shown(big(-1)^hugeOdd), "-1 : ZZ", "a ZZ -1 to an odd exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
-    assert(overflows(fn () => big(3)^huge), "a ZZ 3 to an exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(-1))^hugeOdd), "-1 : ZZ", "a ZZ -1 to an odd exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => (big(3))^huge), "a ZZ 3 to an exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
     maxL: ZZ64 = 9223372036854775807
     twoTo63U: NN64 = unsigned(maxL) + unsigned(widen(1))
     assert(shown(zero^twoTo63U), "0 : ZZ32", "an NN64 exponent of 2^63 is positive: 0 to it is 0; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(mone^twoTo63U), "1 : ZZ32", "-1 to the even NN64 2^63 is 1; basic-integers.tex, section \"Integers\", opr ^")
     assert(shown(mone^(twoTo63U + unsigned(widen(1)))), "-1 : ZZ32", "-1 to the odd NN64 2^63+1 is -1; basic-integers.tex, section \"Integers\", opr ^")
     twoTo31: ZZ64 = widen(2147483647) + widen(1)
-    assert(overflows(fn () => big(3)^twoTo31), "a ZZ 3 to an exponent beyond 32 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
-    assert(shown(big(-1)^twoTo31), "1 : ZZ", "a ZZ -1 to the even exponent 2^31 is 1; basic-integers.tex, section \"Integers\", opr ^")
-    assert(shown(big(0)^twoTo31), "0 : ZZ", "a ZZ 0 to the exponent 2^31 is 0; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => (big(3))^twoTo31), "a ZZ 3 to an exponent beyond 32 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(-1))^twoTo31), "1 : ZZ", "a ZZ -1 to the even exponent 2^31 is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(0))^twoTo31), "0 : ZZ", "a ZZ 0 to the exponent 2^31 is 0; basic-integers.tex, section \"Integers\", opr ^")
   end
 
 run(): () = do

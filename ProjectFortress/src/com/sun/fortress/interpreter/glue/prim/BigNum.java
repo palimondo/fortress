@@ -111,7 +111,7 @@ public class BigNum extends NativeConstructor {
         protected abstract FValue f(BigInteger x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return f(toB(x), y.getLong());
+            return f(toB(x), Int.powCount(y));
         }
     }
 
@@ -297,12 +297,30 @@ public class BigNum extends NativeConstructor {
 
     public static final class Pow extends ZL2N {
         protected FValue f(BigInteger u, long v) {
-            if (v < 0) {
-                return FFloat.make(1.0 / u.pow((int) -v).doubleValue());
-            } else {
-                return FBigNum.make(u.pow((int) v));
+            return FBigNum.make(pow(u, v));
+        }
+    }
+
+    /** u^v for any exponent v: at a negative exponent, or one beyond the
+        int's range, the bases 1 and -1 give their exact power and 0 gives 0,
+        or throws DivisionByZero at a negative one; any other base throws
+        IntegerOverflow, as it does where the power exceeds a BigInteger. */
+    public static BigInteger pow(BigInteger u, long v) {
+        if (v >= 0 && v <= Integer.MAX_VALUE) {
+            try {
+                return u.pow((int) v);
+            }
+            catch (ArithmeticException e) {
+                throw Int.overflow();
             }
         }
+        if (u.equals(BigInteger.ONE)) return u;
+        if (u.equals(BigInteger.ONE.negate())) return ((v & 1) == 0) ? BigInteger.ONE : u;
+        if (u.signum() == 0) {
+            if (v < 0) throw Int.divisionByZero();
+            return u;
+        }
+        throw Int.overflow();
     }
 
     private static BigInteger choose(BigInteger n, BigInteger k) {

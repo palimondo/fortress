@@ -280,7 +280,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
     abstract opr TIMES(self, other:T): T
     opr juxtaposition(self, other:T): T
     (** Exponentiation need only deal with natural exponents. **)
-    opr ^(self, other:ZZ64): T
+    abstract opr ^(self, other:AnyIntegral): T
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
@@ -363,6 +363,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr IEEE_SLASH_UP(self,b:RR64):RR64
     opr |self| : RR64
     opr ^(self, b:RR64):RR64
+    opr ^(self, b:AnyIntegral):RR64
     sin(self):RR64
     cos(self):RR64
     tan(self):RR64
@@ -427,7 +428,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     opr TIMES(self,other:QQ):QQ
     opr juxtaposition (self,other:QQ):QQ
     opr /(self,other:QQ):QQ
-    opr ^(self, other:ZZ64):QQ
+    opr ^(self, other:AnyIntegral):QQ
     floor(self):ZZ
     opr |\self/| : ZZ
     ceiling(self):ZZ
@@ -469,7 +470,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     opr LSHIFT(self,b:AnyIntegral):I
     opr RSHIFT(self,b:AnyIntegral):I
     opr BITNOT(self):I
-    opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b:AnyIntegral):I
     opr /(self, other:I):QQ
     numerator(self): ZZ
     denominator(self): ZZ
@@ -521,8 +522,8 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr LSHIFT(self,b:AnyIntegral):NN64
     opr RSHIFT(self,b:AnyIntegral):NN64
     opr BITNOT(self):NN64
-    opr ^(self, b:AnyIntegral):RR64
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:AnyIntegral):NN64
+    opr ^(self, b:IntLiteral):NN64
     opr /(self, other:NN64):QQ
     numerator(self): ZZ
     narrow(self):NN32
@@ -575,7 +576,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ32
     opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ32
     opr /(self, other:ZZ32):QQ
     numerator(self): ZZ
     widen(self):ZZ64
@@ -633,7 +634,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ64
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ64
     opr /(self, other:ZZ64):QQ
     numerator(self): ZZ
     narrow(self):ZZ32
@@ -671,7 +672,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr TIMES(self, b: ZZ): ZZ
     opr DOTTIMES(self, b: ZZ): ZZ
     opr /(self,other:ZZ):QQ
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ
     numerator(self): ZZ
     narrow(self): ZZ32
     widen(self): ZZ64

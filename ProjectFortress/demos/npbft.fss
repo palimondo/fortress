@@ -127,7 +127,7 @@ dobenchmark(n1, n2, n3, N) = do
   println "Calculating FT..."
   V = fft3(U, n1, n2, n3)
   var t:ZZ32 = 1
-  alpha = 10^(-6)
+  alpha = 10.0^(-6)
   while t<=N do
     bar2(x, n) = if 0 <= x < (n DIV 2) then x^2 else (x-n)^2 end
     barsum(j, k, l) = bar2(j, n1)+bar2(k, n2)+bar2(l, n3)
