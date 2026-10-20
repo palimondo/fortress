@@ -2,7 +2,7 @@
 
 ## FACTS
 
-- **An object, trait or object expression whose `extends` clause names `Any` alone is an `Object` on both paths, and `String`'s two `||` members over `Any` convert by the library's own way.**
+- **An object or trait whose `extends` clause names `Any` alone is an `Object` on both paths, and such an object expression under walk, and `String`'s two `||` members over `Any` convert by the library's own way.**
   - The pre-disambiguation desugaring that both paths run gives such a clause `{Object}`, as it gives an empty one, and leaves `Any`'s and `Object`'s own declarations as written.
   - `opr ||(a:Any, self)` is `("" || a) || self` and `opr ||(self, b:Any)` is `self || cast[\Object\](b).asString`; `FlatString`'s api states its component's header, with no `opr ||(a:FlatString, self)`.
   - So a tuple or `()` concatenates on the left of a string, and a function or a tuple of seven or more elements beside one raises `CastError`.
@@ -19,11 +19,15 @@
 - Row 374, note: "Walk: now `CastError` at `cast[\Object\]` (`FortressLibrary.fss:4394`)."
 - Row 369, note: "Seven elements: now `CastError` (`FortressLibrary.fss:4394`)."
 
+Row 371 (walk checks no `excludes` clause against an `extends` clause) gains a face, its notes at their limit of 700 characters: under walk `trait Tx extends Any excludes { Object }` loads and its object is now an `Object`, as `trait Ty excludes { Object }`'s is on both codes; the compiled checker refuses both (`SKEPTIC.md` section 3).
+
 Rows 726, 585, 374 and 369 are within 61 characters of their limits (notes of 684, 699, 654 and 663 of 700 characters), so `ledger.py note` may refuse these; the gather lists them for the coordinator then.
 
 ## New rows
 
-None.
+NEW-S-1, the skeptic's, for section 12 ("The compiled path: constructs, crashes and the switch-over"); its reproducer runs with `DuplicateExtendsEntryLink.test` beside it, in one call:
+
+| NEW-S-1 | on the compiled path an object whose `extends` clause lists one trait twice compiles and links, and its class fails to load: `object Twice extends { Tr, Tr } end` dies with `ClassFormatError` 'Duplicate interface name', where walk runs it as a `Tr` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXDuplicateExtendsEntry.test` | climb batch 19 rung S's skeptic | siblings: 414. The clause is "a set of trait references" (`Specification/basic/traits.tex`, "Trait Declarations"). `NamingCzar.extendsClauseToInterfaces` writes one JVM interface for each entry and checks for no repeat (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:733-755` at 84a17f4bd); the same on the base. `extends { Any, Any }` died so on the base ('Duplicate interface name "fortress/AnyType$Any"'); the pre-disambiguation desugaring now gives that clause `{Object}`. |
 
 ## Handover
 
