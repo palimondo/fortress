@@ -208,6 +208,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 At session start and after each compaction, take these steps in order:
 
 0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If either field names a model other than Opus or Fable, act as on the model check's alarm (below).
+   - **A light boot.** Then read the first section of the boot note. If it is headed "Light boot" and gives the curator's word for it, read only what it lists, in its order, in place of steps 2 to 7. After that boot, take the section out of the boot note.
 1. `CLAUDE.md`, then this file.
 2. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 3. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.

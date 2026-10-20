@@ -4,12 +4,30 @@
 
 This file holds what four workers sent back, word for word. The coordinator reworded nothing.
 
+- Part 0: your message of 13:41:18 UTC, word for word from the transcript, which preceded the coordinator's third failed attempt.
 - Part 1, blind: a fresh Opus worker. It got only the coordinator's situation and reasoning as they stood when the coordinator took up the item, and the ask form of the `coordinator` skill. It got no failed attempt and no word of your complaint. Its brief is Part 5.
 - Part 2, not blind: a fresh Opus worker. It got the brief in Part 6 and the coordinator's three failed attempts in Part 7.
 - Part 3, not blind: a fresh Fable worker, with the same brief and the same attempts as Part 2.
 - Part 4: the Sonnet scout you asked for, on where P-86 comes from, how it changed, and why the `where`-clause work did not touch the arrays.
 
 Each draft has the message for you and notes for the coordinator; the blind one puts its notes first.
+
+# Part 0. Your message of 13:41:18 UTC
+
+> Question: do you accept one bound for the whole array family, when your rule P-86 says "no blanket ring bound"?
+
+😶
+
+> P-86 The integration review's checks stand for the array work. A generic Vector or Matrix body is checked against what each operation needs, with no blanket ring bound that would exclude integer arrays. An empty reduction is checked for its type and its value. A small product through PView and a transpose is checked, with controls. The checks: reviews/numeric-hierarchy-integration-review.md section 5.
+
+🫥❔❓⁉️
+
+> row388-container-probe.md
+> ...lorations/reviews/numeric-hierarchy-integration-review
+> ## What it means for the library's operator spellings after flattening
+> The library's scalar products are top-level generic…
+
+Okay, so my understanding is from reading the above, we flattened the numeric tower. The arithmetic that used to live on a number was distributed across specific numeric types. When these types are used in an array or a vector or a matrix, if the given type implements a trait, certain operations become available on the collection, on the vector, on the array, on the matrix, etc. Additive group adds addition and I guess subtraction. Then when you are saying a ring, you probably mean multiplicative ring, which adds operation times, or juxtaposition, which is Fortress specialty, that allows us to write M space I, where M is a matrix and I is an integer, and we would multiply all elements of the matrix by the scalar and spit out a new matrix. And we can swap them around, and I guess that's the same thing, because multiplying a matrix with a scalar is probably a commutative operation that always yields a matrix. And now you are asking, we have later added the where clause that allows us to express, like, we've implemented parts of the where clause, and one of the uses could give us the option to express this in a more generic form. Whereas I recall specifically that after flattening the numeric tower, I have requested adding this operation back in, so that the juxtaposition of integer and matrix is implemented, because I believe we used it in MicroGPT, or if not, then I considered it like a trivial addition, and I guess we've added it multiple times for different numeric types. And now you are saying we can simplify this code by making it more generic using the where clause, by declaring the times available when the elements of an array, matrix, or a vector do implement multiplicative ring. So we could put the arithmetic in a trait bounded by the where clause. Am I getting this? And what I assume this was already done, and you are asking me whether this is okay? Because I was not able to decode your shorthand of what P86 says, and when I read the P86 in positions, I didn't recognize it as my words or anything that I understand even. So that must have been a paraphrase of something that I said very early on. So please be so kind and launch an archaeology scout to dig up, when does the P86 originate? What did I say back then? What was the surrounding context for it? Then probably how it evolved through several rewritings. And if this is so, while this is related with the where clauses, go back with the scout to where we define those specific where clause implementations. Why didn't we add it back there? And like the next point you are saying is we made the checker read it since batch 17. I assume that's when we did the where clauses. And you are saying there is a gap now in the code gen, and that the repair will come first after the switchover. So I don't know whether that's the choice, like, should we repair it now or not? I don't understand your last point, the other way, the words of piece 86, you are saying, quote, it gains nothing today, colon, the library has no number type with plus and no times, period, end quote. Library has no number type with plus and no times. Well, are you saying that we have flattened the numeric tower and that the top number that existed back there the RR or what N no longer carries the operations which we've distributed across the numbers? Because then it would library has no number. Well, it has no single number, it has many numeric types which do have plus and times. So, like, how do I say this politely? What the fuck are you on about?
 
 # Part 1. Blind: Opus
 

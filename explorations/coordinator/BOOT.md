@@ -2,42 +2,38 @@
 
 # Boot note
 
-**State at 16:52 UTC on 2026-10-20** (18:52 his time), after his hold of 16:50 UTC.
+**State at 17:22 UTC on 2026-10-20** (19:22 his time), written for the one light boot he asked for at 17:14 UTC.
 
-## The model, first
+## Light boot
 
-- The coordinating session runs on Opus 5.5, by his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19; `get_session` showed Opus in both fields at the boot of about 13:58 UTC on 2026-10-20. Check it at every boot with `get_session` (no session ID): `session_context.model` and `external_metadata.last_served_model`.
-- From 20:09:30 UTC on 2026-10-16 to then it ran on Haiku 5.5, unseen; the post-mortem is `explorations/coordinator/postmortem-2026-10-19-haiku/`. The model check, `.claude/hooks/model-check.sh`, alarms after a turn on neither Opus nor Fable.
+At the curator's word of 17:14 UTC on 2026-10-20, this one boot reads only, in this order:
 
-## His hold, 16:50 UTC on 2026-10-20
+1. `get_session` with no session ID: the model, as step 0 of the boot says.
+2. `.claude/skills/coordinator/SKILL.md` and `.claude/skills/fortress-repo/SKILL.md`, the two cores. No part under `references/` unless a task needs it.
+3. This boot note, whole.
+4. `explorations/reviews/item31-drafts.md`, whole: his message of 13:41 UTC (Part 0), the three drafts, the P-86 scout's report, the briefs and the coordinator's three failed attempts. The same text is the page https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg, where he may comment.
 
-- After reading `reviews/item31-drafts.md` he wrote that he is "convinced this is what model collapse looks like", has lost confidence in the process, and calls a post-mortem. **No batch runs until FACTS and POSITIONS are verified again**, if the not-blind Opus draft's reading is right (P-86 not his words, its premise false, item 31 no decision). The post-mortem's plan is proposed to him at about 16:55 UTC; nothing starts before his yes.
+Do not read FACTS, POSITIONS, INDEX, PLAN or HELD, and do not run `check-index.sh`. Why: he wants the coordinator's context free and its reasoning at its best for this one task; the long context of the session that wrote this note failed him. Take this section out of the boot note after the boot.
 
-## Running
+## The scene: a post-mortem
 
-- **Review item 1 (queue item 31, the bound of `Vector` and `Matrix`): the three drafts and the P-86 scout, word for word with their briefs, are pushed** (`bf8525294`, `explorations/reviews/item31-drafts.md`); its link sent to him at about 14:08 UTC, nothing else (his rule of about 13:20 UTC: no drafts in chat). Waiting for him to read it. The blind Opus kept an ask with options 1, 2a and 2b (default 1, as landed); the not-blind Opus and Fable found nothing left to decide (default: close the item, correct the record). The scout: P-86 is the coordinator's summary of Astra's review (`fbc4c4954`), not his words; its premise false since rung F (`d846e3644`, 2026-09-27); re-created as a standing entry at `bc8902f47` (2026-09-30) with no reason recorded; no answer of his on the bound before today. **Owed on his answer:** P-86's words through `record.py`, and the stale "pending" at `review-queue.md:269-273`, `PLAN.md:164`, P-55, F-151 and `reviews/open-asks-2026-10-16.md:177`; row 729's question (L.worker.1, `PLAN.md:413`) into the queue. Then queue item 29.
-- **The symbolic-operators probe returned** (`a7cc12f31bb9c0cb6`); its generators and patches are `0a6ba39e6`, its report, refused to the worker and committed word for word by the coordinator, `3099fb2eb` (`perf-probes/symbolic-operators-2/REPORT.md`). The full check adds 186 errors on today's tree (205 at climb batch 16); 54 clear by known library fixes; the subscripts' 124 by the team's own `Index` bound (`future.tex:186-207`) with a rule that a tuple of indices is an index, in both paths; the vectors' 8 by `Vector` and `Matrix` leaving `AdditiveGroup` (A2, 6 lines); all together the distance is the gate's 5. A new checker crash, `E is not in the kind env`, from `AnyList`'s `comprises` clause (a row drafted). **Owed:** its five questions to him before their rungs (P-155), each as an ask; its drafted row and notes for rows 584, 783, 786, 784 through `ledger.py`; FACTS F-245 to its new count. The base build `/home/user/fortress-base20` is removed; keep `/home/user/fortress-probe-symops-b` until its untracked `tmp/probe/` sources are no longer needed.
-- **The immutable-arrays probe returned** (`af8fed8acdb5f3b00`); the harness refused its report file, so the coordinator committed its returned text word for word with its two patches (`40565a35e`, `perf-probes/immutable-arrays/`). In short: an immutable array is a write-once array for sharing between parallel tasks, and it carries every varargs parameter; microGPT uses one only through `flat`'s varargs; ranks 2 and 3 were never declared by the team; uncommented, walk refuses every program at load; a shadow of both ranks with `freeze` (+337 lines) runs, with the distance unchanged at 5. **Owed:** bring him the result with a recommendation, after review item 1 (it answers his question of about 12:50 UTC); its two drafted ledger rows (a second `init` replaces an immutable element under walk; the distance stage counts a component stopped in name binding as error-free) through `ledger.py`; its question 4 (the stage's blind spot) is a tools change of the coordinator's.
-- No check-in is armed. No batch runs.
+- **What he said at 16:50 UTC**, after reading the drafts file: he is "convinced this is what model collapse looks like"; he has "lost all confidence in the process"; the coordinator is "just pretending to produce work like artifacts", and he "dropped [his] guard" and let it slip in unchecked; "we must do a major re-evaluation of the process to rebuild trust. Post-mortem time again." **No batch runs** until FACTS and POSITIONS are verified again.
+- **His two tasks, at 17:14 UTC, in this order:**
+  1. **Align on review item 1 and P-86.** He reads the three drafts as reaching different conclusions and stressing different things. The session before this boot told him two of them agreed; he called that the dumb zone and gaslighting. Do not repeat that claim: read the drafts afresh from their text. He wants a cleaner explanation of where his reading in his message of 13:41 UTC ("it's mostly about where clauses") is off, and of P-86. Put it to him in plain words, halfway to ASD-STE100, with no internal shorthand.
+  2. **Then verify the records again**, but first prototype and verify the process for it; then improve the skills so that such a failure cannot recur. His idea for a standing procedure: the briefs of the two not-blind drafters made them re-check claims of FACTS and POSITIONS against their sources; a landing's results should reach the record through a separate worker with a small fresh context that checks each claim so, not through the coordinator late in a long context.
+- **Held, not to start:** the coordinator's post-mortem plan of 16:55 UTC (POSITIONS checked entry by entry against his messages, then FACTS against the tree, then the process). He told it to hold on to it.
+- **Why the item matters to the record:** P-86 in `explorations/coordinator/POSITIONS.md` reads as his decision. Part 4 of the drafts file traces where it came from. Whatever the alignment finds about P-86 bears on how far the rest of POSITIONS can be trusted. Change no record entry before he has seen what you propose.
 
-## What comes next, in order
+## Running and owed
 
-- His rule for the review list, of about 12:40 UTC: batch 20's items now, one a message; the rest decided after them. Of the seven, 43 is settled by P-79; the six go in the order queue items 31 (review item 1, above), 29, 95, 112, 113, 165. After item 1, the immutable-arrays result (it answers his question of about 12:50 UTC).
-- Then the symbolic-operators probe's five questions, one a message (on the path: batch 21's P-155 rungs wait on them).
-- Then the INDEX ask (recommend reading INDEX's last 60 lines at boot, and an `index:` search before each brief and each ask; the evidence is `process-engineering/index-use-archaeology.md`), then asks 6, 7 (item 188, against his option 3 of P-151), 9 and 10 of the post-mortem's redo plan; ask 8 waits for row 773's batch.
-- Then climb batch 21 (PLAN phase 3, item 19, on the standing go), whose candidates wait on probes first.
-
-## Owed, nothing waiting on it
-
-- Climb batch 20's landing left: queue items for the 58 entries of PLAN's lists of climb batches 14 to 17, which have none, by a worker of their own; the gather's commit by named paths in the batch script (review finding 14); a probe of which team demos run (P-79).
-- The post-mortem's redo plan (`fable-judgement.md`, section D) left: the revival page's parts 5 and 6 through batch 18 by an Opus writer, published by URL, with `process-engineering/revival-story.md` to match; the reorientation from the digest; row 584's note; the old section numbers cited in `CLIMB-BATCH-17.md`, `rung-walk-method-sargs/REPORT.md` and `SKEPTIC.md`, and `lists17.py`; flag 12 of the `fortress-repo` cold read for the skill writer.
-- `tools/test_ledger.py`, 10 of 13 tests failing at HEAD's own code; four history notes that name `cloud-container`'s old headings.
-- Old worktrees: `/home/user/fortress-gather20` (batch 20's gather scratch, 33 changed files, detached), and the probes `fortress-probe-distribute`, `-opsort`, `-p152`, `-power`, `-row766`, `-strings`, `-symops`, `-symops-b`, `-where`, whose shadows are patch files on `main` (`62bf23368`); check each before removal.
-- Unanswered by him: the backlog page's items 43, 1, 30 with 33, 14, 17; the measures judgement's next steps; the library-extension bullet; the name for the coordinator-only files (HELD). Sukyoung Ryu's answer to his reply of about 01:30 UTC on 2026-10-13 is awaited.
+- Nothing runs. No check-in is armed. Every worker of this session returned.
+- The workers' reports of the afternoon, each committed word for word: the immutable-arrays probe (`40565a35e`, `perf-probes/immutable-arrays/REPORT.md`; owed to him with a recommendation, after item 1), the symbolic-operators probe for P-155 (`0a6ba39e6` and `3099fb2eb`, `perf-probes/symbolic-operators-2/REPORT.md`; its five design questions owed to him before their rungs), the drafts file (`bf8525294`, then his message added).
+- His rule for the review list (about 12:40 UTC): climb batch 20's items one a message, queue items 31, 29, 95, 112, 113, 165 in that order; item 31 is the one above. Then the INDEX ask, then the post-mortem redo plan's asks 6, 7, 9 and 10. All of it waits on the two tasks above.
+- Owed housekeeping, nothing waiting on it: two ledger rows drafted in the immutable-arrays report and one in the symbolic-operators report, for `ledger.py`; queue items for the 58 entries of PLAN's lists of climb batches 14 to 17; the gather's commit by named paths in the batch script; old worktrees `/home/user/fortress-gather20` and the probes' `fortress-probe-*`, each checked before removal (`fortress-probe-symops-b` holds the symbolic-operators probe's untracked `tmp/probe/` sources).
 
 ## The record, the machine, the pages
 
-- **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only (`git add -- <new paths>`, then `git commit -- <paths>`), never `-A`, `.` or `-a`; while a batch runs, edit nothing tracked in the main tree.
-- **The git-check hook** is off by `.claude/hooks/git-check-off.sh`, run at every SessionStart and Stop.
-- **The machine.** The VM last started at 11:51:52 UTC on 2026-10-20 (`uptime -s`); the next stop by the cap is about 00:51 UTC on 2026-10-21. 4.4 GB free at 14:28 UTC, after removing the worktrees of batch 20's rungs, the array-sites probe, the immutable-arrays probe and the base build (all clean and pushed). Page watches lapse at a restart; none is confirmed since.
-- **The revival page,** https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, is version 22, made on Haiku; its rewrite is owed (above). Its source is `scratchpad/revival-page/page.html`.
+- **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19; `get_session` showed Opus in both fields at the boot of about 13:58 UTC on 2026-10-20. Before that, from 20:09:30 UTC on 2026-10-16, it ran on Haiku 5.5 unseen (`postmortem-2026-10-19-haiku/`).
+- **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only (`git add -- <new paths>`, then `git commit -- <paths>`), never `-A`, `.` or `-a`.
+- **The machine.** The VM last started at 11:51:52 UTC on 2026-10-20; the next stop by the cap is about 00:51 UTC on 2026-10-21. 4.4 GB free at 14:28 UTC.
+- **Pages:** the drafts page above, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg, source `scratchpad/haiku-window/page31/` (`build.py` rebuilds it); publish it again by its URL after a compaction. The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, version 22, made on Haiku, its rewrite owed.
