@@ -74,12 +74,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Home: PLAN, "Climb batch 18, listed for his review", judge-review.1; `compile-ladder/climb-batch-18/JUDGE-review.md` sections 3 and 6; row 773
 
 178. **The members of a conditional extension scoped to the condition (row 773).** The checker checks a member under a conditional extension's condition, as P-151 says. The member stays callable where the condition fails, since the members a type inherits are read at every instance: `Lst[\Fn\](Fn(inc), Fn(inc)).lt(...)` compiles, and its run dies at link time, 'NoSuchMethodError: ... CondExtendMember$Fn.lt(CondExtendMember$Fn)'. Swift, Rust and Haskell scope such members to the condition. The scoping waited on row 748's check at a dotted call, which rung K landed in the same batch; that check reads a method's own `where` clause only, so row 773 holds.
-   - Landed: The members checked under the condition and not scoped to it; row 773 open. Default, taken: the scoping in a later batch, among climb batch 19's candidates.
+   - Landed: The members checked under the condition and not scoped to it; row 773 open. Default, taken: the scoping in a later batch, among the next batch's candidates (PLAN, phase 3, item 18).
    - The other way: Leave the members unscoped, with the row as the record of the hole.
    - Its cost: A checker rung beside row 748's check, with item 177's value parameters.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.2; PLAN, phase 3, item 17; `compile-ladder/rung-checker-conditional-extension/REPORT.md:170`, `:225`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1829`; row 773
+   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.2; PLAN, phase 3, item 18; `compile-ladder/rung-checker-conditional-extension/REPORT.md:170`, `:225`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1829`; row 773
 
-### Overloading and the Meet Rule (8)
+### Overloading and the Meet Rule (9)
 
 6. **The Meet Rule's closed-trait case for generic families.** Item 26 gave the Meet Rule a case for two closed traits: declarations over the listed types cover their intersection. The text applies it to declarations with static parameters too; the checker refuses it there. Since batch 8, the functional-method form is accepted and dies at run time (row 566); the function form is still refused.
    - Landed: The text as batch 7b's rung S wrote it; the checker's refusal gated by expected failures; Appendix I names row 546 among the checker's departures.
@@ -128,6 +128,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: Repair it: put the extending type's arguments into the clause, and match declarations, not simple names.
    - Its cost: It changes the 14 lines he approved. A sketch of the first half keeps every verdict measured but is not right inside the check's recursion. Nothing on the path waits on it.
    - Home: PLAN, "Off the path, parked", The `comprises` check he approved; `compile-ladder/rung-comprises-checker/SKEPTIC.md:322` (section 18); rows 489, 490 (10-02: 78)
+
+189. **`tint`, two bounds that exclude (row 786).** Walk loads `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, and the checker refuses the pair; `Bottom` lies within both bounds and cannot be written, so which path moves is his.
+   - Landed: Both paths as they are, row 786 `CONTESTED`.
+   - The other way: Walk refuses the pair, or the checker accepts it.
+   - Its cost: A walk rung or a checker rung, with the specification's sentence.
+   - Home: PLAN, "Climb batch 19, listed for his review", P.worker.1 and P.skeptic.1; row 786
 
 ### Walk's checks at load (3)
 
@@ -310,7 +316,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: A reversal touches `Library/List.fss` and `List.fsi` (the two private methods added, two bodies moved), the test `AnyListElementTypeWalk`, F-243 and F-251; no later rung is built on the respelling.
    - Home: POSITIONS, P-151; `reviews/batch-17-review.md`, finding 6; `coordinator/postmortem-2026-10-19-haiku/part-2-batches.md`, entry 18; `coordinator/postmortem-2026-10-19-haiku/fable-judgement.md`, part 2, 18
 
-### The specification's text (2)
+### The specification's text (3)
 
 41. **A `where`-clause variable in an `extends` clause (item 14).** Batch 5's rung S wrote that a `where`-clause variable may not appear as a static argument in an `extends` clause. The sentence refuses more than the rule does.
    - Landed: The sentence stands.
@@ -323,6 +329,12 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - The other way: A proviso limited to sizes.
    - Its cost: Normative text wider than either path runs.
    - Home: PLAN, "Climb batch 13, listed for his review", The revival's own proviso on `comprises`; PLAN, "Off the path, parked", The revival's proviso on a listed type's static variables in a `comprises` ...; `Specification/basic/traits.tex:238-246` (`7fd8fddc8`); `compile-ladder/rung-size-expressions/REPORT.md:185` (decision 9); `compile-ladder/rung-spec-comprises/SKEPTIC.md:147` (10-02: 79)
+
+190. **`extends Any` read as `Object`, against the specification's own `Tuple`.** Rung S's desugaring makes every trait or object declared `extends Any` an `Object`, as the traits chapter's rule says; the specification also declares `trait Tuple extends Any excludes { Object }` and its algebraic roots, such as `BinaryPredicate`, `extends Any` beside `Object`. Nothing reaches it today.
+   - Landed: The rule as built; name `Tuple` beside `Any` and `Object` when a library first declares it, and decide the algebraic roots with row 37 (the coordinator's default, as the post-batch review proposes).
+   - The other way: Read `extends Any` as written, as the team's code did and Scala's universal traits do.
+   - Its cost: A desugaring edit and a specification sentence.
+   - Home: PLAN, "Climb batch 19, listed for his review", gather.2 and the post-batch review's entry on it
 
 ### Tests and the team's demos (1)
 
@@ -412,7 +424,7 @@ Each is kept as landed unless he says otherwise.
    - Landed: No default on record, so none is taken: the row open, with no gated test, since the refusal is a crash.
    - The other way: A repair in a checker rung.
    - Its cost: A trace from `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:198` and `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:695`, `:722` first.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.2; PLAN, phase 3, item 17; row 775
+   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.2; PLAN, phase 3, item 18; row 775
 
 ### Overloading and the Meet Rule (10)
 
@@ -506,7 +518,7 @@ Each is kept as landed unless he says otherwise.
    - Landed: Gated. The other way: Answer 9's rule over every instance. Its cost: A walk rung.
    - Home: PLAN, "Climb batch 7b, listed for his review", Row 550; `compile-ladder/rung-walk-dispatch/REPORT.md:261` (10-02: 42)
 
-### Walk's choice of declaration and instance (10)
+### Walk's choice of declaration and instance (9)
 
 80. Under walk, a type parameter that only another parameter's bound mentions takes the arguments' type, not its bound (row 592).
    - Landed: The departure, gated, because the library's `APPCOV` builds its result there and walk has no expected type. The other way: Walk moves once it has an expected type. Its cost: After the switch-over gives walk static types.
@@ -543,12 +555,6 @@ Each is kept as landed unless he says otherwise.
 88. Walk's inference trace switch stays in a 2012 file, inert unless set, but for one eager list.
    - Landed: Kept. The other way: Remove it. Its cost: One edit and an interpreter-suite run.
    - Home: PLAN, "Climb batch 9, listed for his review", The trace switch `fortress.inference.trace` stays in a 2012 file; `compile-ladder/rung-walk-instance/REPORT.md:324`
-
-186. **`ownGeneric`'s comment, half false.** The comment in walk's `OverloadedFunction.java` (`:2282-2288`) still says that a generic dotted method is compared on the instance a call makes. That is false wherever exactly one declared domain lies inside the other, since climb batch 17's rung W (`preferredDeclaration` and `methodDeclaredBelow`, `:2203-2254`). Climb batch 18's rung W edited the file without it, since its brief did not name it.
-   - Landed: The comment as it stands. Default, taken: the replacement text of `compile-ladder/climb-batch-17/JUDGE-review.md` section 4, in the next batch that edits the file.
-   - The other way: The comment edited on its own.
-   - Its cost: A comment edit under `ProjectFortress/` makes the gate run again.
-   - Home: PLAN, "Climb batch 18, listed for his review", gather.2; PLAN, "Climb batch 17, listed for his review", judge-review.2
 
 ### Numbers and numerals (9)
 
@@ -636,7 +642,7 @@ Each is kept as landed unless he says otherwise.
    - Landed: The declaration unchanged; the switch-over meets it. The other way: An api form, perhaps the team's commented one. Its cost: One api declaration.
    - Home: PLAN, "Climb batch 12, listed for his review", Row 661; PLAN, "Off the path, parked", The compiled path has no strided range; `compile-ladder/rung-library-slips/REPORT.md:252`
 
-### The library's generators, strings and comparisons (25)
+### The library's generators, strings and comparisons (26)
 
 109. `TotalComparison` extends `StandardMinMax`: he took it on recommendation and asked for a fuller explanation when he has the energy.
    - Landed: As built; an explanation owed. The other way: None. Its cost: None.
@@ -740,7 +746,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: A library line; no gated program reads `PureList` on the checker.
    - Home: PLAN, "Climb batch 18, listed for his review", X.worker.4; `Library/PureList.fss:41-42`; `compile-ladder/rung-checker-conditional-extension/REPORT.md:207`; row 355
 
-### The specification's text (15)
+191. **`FlatString`'s api pair `opr ||(a:FlatString, self)` dropped.** Rung S dropped it from the api, where climb batch 15's default kept it for item 38's answer; the component never declared it.
+   - Landed: Dropped; the component wins over its api.
+   - The other way: The pair kept in the api, and declared in the component.
+   - Its cost: Two api lines and a component declaration.
+   - Home: PLAN, "Climb batch 19, listed for his review", review.1
+
+### The specification's text (16)
 
 133. The Meet Rule for dotted methods keeps its exact-meet form; Appendix I names the question.
    - Landed: The Working Draft's form. The other way: Coverage satisfies it. Its cost: A text revision.
@@ -802,7 +814,13 @@ Each is kept as landed unless he says otherwise.
    - Landed: As landed. The other way: Each in the decision record. Its cost: Text.
    - Home: PLAN, "Off the path, parked", Climb batch N's rung T's six text decisions in the inference chapter (10-02: 64)
 
-### Tests and the team's demos (12)
+192. **Rung P's words in `overloading.tex`.** The revised passage reads exclusion "where the two parameter types, or their elements at one position, are or extend instances of one parameterized trait", the last clause beyond the words its brief gave, after the type group's paper, which reads a tuple element by element.
+   - Landed: The words as written.
+   - The other way: The brief's words alone.
+   - Its cost: One sentence.
+   - Home: PLAN, "Climb batch 19, listed for his review", rung P's words
+
+### Tests and the team's demos (13)
 
 148. Batch N's rung M added a compiled test pair outside its file list, for row 442's face.
    - Landed: The pair as landed. The other way: Remove it. Its cost: Two files.
@@ -856,6 +874,12 @@ Each is kept as landed unless he says otherwise.
    - Its cost: A rename and a `.test` file.
    - Home: PLAN, "Climb batch 18, listed for his review", W.worker.1 and W.skeptic.1; `compile-ladder/rung-walk-trait-method-bounds/REPORT.md:89`
 
+194. **microGPT's APL port: a new first compile error.** It stops at the same compile phase with "DelegatedIndexed is undefined.", from rung S's `FlatString` api header; the ladder stage compares phases only.
+   - Landed: As it stands; it moves with the switch-over.
+   - The other way: The port's import changed now.
+   - Its cost: One line of the port.
+   - Home: PLAN, "Climb batch 19, listed for his review", the APL port's first error
+
 ### Code generation and the run time (3)
 
 158. Batch 8 made two program shapes that ran die at load: the compiled run time cannot load an instance at an intersection type (row 559).
@@ -870,9 +894,9 @@ Each is kept as landed unless he says otherwise.
    - Landed: Row 757 open, among phase 3's waiting rows. Default, taken: as row 757 waits.
    - The other way: A repair of the compile command's reuse of the analyzed cache.
    - Its cost: Not traced.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.3; PLAN, phase 3, item 17, "Rows 763 and 757"; `compile-ladder/rung-checker-conditional-extension/REPORT.md:220`, `:226`; row 757
+   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.3; PLAN, phase 3, item 18, "Rows 763 and 757"; `compile-ladder/rung-checker-conditional-extension/REPORT.md:220`, `:226`; row 757
 
-### How batches run (6)
+### How batches run (7)
 
 160. Rung edits outside their file lists: batch 6b's ten test files; batch N's `Init.java`; batch 8's `ReflectiveQuickCheck.fss`; batch 9's two compiler tests and walk files; batch 10's checker files; batch 13's `ComponentWrapper.java` and `Functionals.scala` hunk.
    - Landed: Each as landed. The other way: Revert and redo each in the rung that owns the file. Its cost: One rung's work each.
@@ -899,6 +923,12 @@ Each is kept as landed unless he says otherwise.
    - The other way: The memo, as the pass.
    - Its cost: An audit of the memo's key, for about 2 % of the count stage at most.
    - Home: PLAN, "Climb batch 18, listed for his review", K.worker.1; `compile-ladder/rung-checker-where-checks/REPORT.md:171-185`, `:267-269`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:258-274`
+
+193. **Climb batch 19's sixteen forks at their defaults, and its points for his sight.** The record's forks (`coordinator/CLIMB-BATCH-19.md`, section 2) and the team lines changed in the checker's exclusion test, in `String`, in `FlatString`'s api and in the desugaring.
+   - Landed: As the record set them.
+   - The other way: Any one of them changed in a later batch.
+   - Its cost: By fork.
+   - Home: PLAN, "Climb batch 19, listed for his review", the sixteen forks
 
 ### The record, its tools and the repository (10)
 
@@ -986,8 +1016,9 @@ Each is kept as landed unless he says otherwise.
 - **Rows 391 and 455 left open by rung I.** Row 455's loose juxtaposition fixed (`27cb9e93b`) and its enclosing argument decided (P-51, "A call written as another call's argument ..."); row 391 stays a defect row. Home: PLAN-history, "Off the path, parked", Rows 391 and 455 stay open after climb batch N's rung I (10-02: 57).
 - **Item 62 of the routine list, row 572: an object that inherits an abstract functional method from one trait and a concrete one from another, which no check read.** P-149, "An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).", his answer to climb batch 16's Q1 (item 55); built by climb batch 16's rung K (`c23b85fdc`), rows 572 and 727 fixed. Home: PLAN-history, "Answered 2026-10-15 (item 55, Q1 of climb batch 16: refuse, P-149)"; PLAN-history, "Moved at climb batch 16's landing", "Climb batch 8, listed for his review", What climb batch 8's rung O's per-provider check reads in a component; `compile-ladder/rung-overloading-checker/JUDGE.md:103` (section 7).
 
-### Answered by a landed fix or a closed row (34)
+### Answered by a landed fix or a closed row (35)
 
+- **186, `ownGeneric`'s comment, half false.** Rewritten by climb batch 19's rung P (`14e91723f`). Home: PLAN-history, "Climb batch 19's landing, 2026-10-20", its climb batch 17 and 18 entries.
 - **Row 531, `avFlat` declared `RR32`.** Row 531 fixed by batch 8's rung M. Home: PLAN-history, "Climb batch 6.5b, listed for his review", Row 531.
 - **Row 534, walk and the naked-`Any` rule.** Row 534 fixed, `833420ce4`. Home: PLAN-history, "Climb batch 7b, listed for his review", Walk does not apply the restriction that a functional (10-02: 41).
 - **Row 556, the `seq` family, `DelegatedIndexed`'s pairs, and rung L's stop on them.** Row 556 fixed by batch 8's rung O. Home: PLAN-history, "Climb batch 7b, listed for his review", The rest of the one library's `seq` family; `DelegatedIndexed`'s two `seq` pairs; Stop met and lifted.
