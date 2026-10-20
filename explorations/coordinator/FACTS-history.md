@@ -2843,3 +2843,43 @@ pointer words refreshed in: F-24
 2026-10-20 08:34Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20's gather: the same sentence, its wording
 
 - F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. The integer powers answer their base's own type, and `QQ`'s its exponent of any integer (F-263). `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under that condition (row 634, closed; F-255). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-264
+
+2026-10-20 08:40Z · added · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "2. The failing runs and the passing runs" · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "4. The checker count and the distance" · from `explorations/compile-ladder/rung-array-sites/SKEPTIC.md`, "3. Findings and fixes" · by climb batch 20's gather: rung A's record, its FACTS entry
+
+### F-35
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: E3 built, 25 dead sizes to 8, the six vector operators' export error gone; P-40's sentence on the rest
+
+- F-35 **The `FortressLibrary` api has 25 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** They check clean (P-40). They stand in the oldest library in the history, of 2007-01-04 (`72ae6881b`), where the six vector forms, scalar ones included, carry the matrix product's `nat n, nat m, nat p` beside it, with no `where` clause; in 2008 Jan-Willem Maessen took them out of the component while fixing walk's unification ("tons of latent type bugs came out", `32153798d`), and the api kept them. Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators have this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and give one of the distance's export errors (F-53). P-40 lets the dead sizes go only by a diff shown to the curator with the switch-over's design. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
+
+### F-260
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-260 **The library's own devices clear the 19 typecheck sites of the array code in the distance, and either decision E's diff or the component carrying the api's unused sizes clears its first export error.** After climb batch 19, `fill` and `tabulate` redeclared in `Vector` and `Matrix`, the library's `cast` in 14 bodies, 3 factory arms and `Col` and `Row`, the two `immutableArray` ranks commented out of the api and `array3(v)` declared in it take the distance from 31 to 12, with no site come. E3 re-based, or the 14 component headers given the unused sizes, then give 11, site for site the same. The second export error's 44 entries do not move. Walk's 40 array tests and microGPT's quick pair are unchanged. Detail: `perf-probes/array-sites/REPORT.md`.
+
+### F-158
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-158 **`fill` takes a value and `tabulate` a function, both defined where the array diamond meets.** It builds P-89. `StandardMutableArrayType` and `ImmutableArray1`, the traits below both sides of the diamond, define them. A method declared only in each leaf leaves the meet refused by the checker's Meet Rule, so `copy` is declared on the meet too (row 467). Its factories are `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`. A demo still passes a function to `fill` (row 464). Gated by `tests/TabulateRungA.fss`. Detail: `compile-ladder/rung-tabulate/REPORT.md` section 2.
+
+### F-58
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-58 **MicroGPT's flat program, C4, has 26 errors of its own under the compiled checker, and none comes from a numeral's type.** 15 are arrays without sizes: `Array[\RR64,ZZ32\]` where the library wants `Vector`, `Matrix` or `Array3`. 5 are numeral powers such as `10.0^(-5)`, refused as ambiguous because two declarations of `^` each need the integer converted (row 533). 6 are small slips. With decision D's diff, which sizes the model's arrays, 14 remain: the 5 powers, 3 `DOT` calls that fail on the api's unused sizes (F-35), 1 bridge that passes arrays sized only at run time, and 5 small slips. Each count is a floor, since the checker stops a block at its first failing statement (row 474). The counts come from one measurement, on an earlier library. Detail: `reviews/array-design-ways.md` section 2.
+
+### F-53
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sized arrays no longer lead once rung A lands; numbers left to the commit stage
+
+- F-53 **The distance to the switch-over is 31 errors and the checker count is 28, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 28 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sized arrays no longer lead once rung A lands; numbers left to the commit stage
+
+- F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hid no error: with its repair (F-233) the component's check finds none in `Array3`, and the distance lost its crash row. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
