@@ -27,7 +27,7 @@ I_BRIEFING = [
   ("P-73", "Fixed-width overflow raises IntegerOverflow under walk: the exception your negative branch raises where the result is no integer."),
   ("P-76", "A numeral's type is IntLiteral, and under walk a numeral is a ZZ32 value: why IntLiteral's power answers IntLiteral and is rarely reached."),
   ("F-241", "The measurement your library half builds: the declared RR64 holds five sites, and strToInt's sixth needs the typed fail too."),
-  ("F-247", "Walk's values: the natives answer the integer already, and only three team tests and two demos reach a negative exponent."),
+  ("F-247", "Walk's values: the natives answer the integer already, and only three team tests reach a negative exponent, with two demos by its reading and a third, npbft, found by the record's review (fork 15)."),
   ("F-262", "No overload on a numeral exponent's type can tell 10^16 from 10^(-16): why the split is on the base."),
   ("ledger:438", "Your first row: the library declares every integer power RR64 where its natives answer the integer."),
   ("ledger:441", "A negative power had no specified result and the paths differ: its specification half is yours, its compiled half stays."),
