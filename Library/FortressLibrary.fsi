@@ -1726,7 +1726,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   map[\R\](f:T->R): Array2[\R,b0,s0,b1,s1\]
   ivmap[\R\](f:((ZZ32,ZZ32),T)->R): Array2[\R,b0,s0,b1,s1\]
 
-  freeze():ImmutableArray[\T,(ZZ32,ZZ32)\]
+  freeze():ImmutableArray2[\T,b0,s0,b1,s1\]
 end
 
 trait AnyMatrix end
@@ -1752,6 +1752,41 @@ __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\]
 array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\]
 array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\]
 tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
+
+(** %ImmutableArray2[\T,b0,s0,b1,s1\]% is the immutable counterpart of
+    %Array2%: each element is initialized once, and none is written. **)
+trait ImmutableArray2[\T, nat b0, nat s0, nat b1, nat s1\]
+    extends { Indexed1[\s0\], Indexed2[\s1\], Rank2,
+              StandardImmutableArrayType[\ImmutableArray2[\T,b0,s0,b1,s1\],T,(ZZ32,ZZ32)\],
+              ImmutableArray[\T,(ZZ32,ZZ32)\] }
+    excludes { Number, String }
+  getter size():ZZ32
+  getter sizes():(ZZ32,ZZ32)
+  getter bounds():CompactFullRange[\(ZZ32,ZZ32)\]
+  getter mutability():String
+  opr |self| : ZZ32
+  offset(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)
+  toIndex(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)
+  opr[r:Range[\(ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32)\]
+  opr[_:TrivialOpenRange] : ImmutableArray2[\T,0,s0,0,s1\]
+  shift(t1:(ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32)\]
+  subarray[\nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
+          (m0:ZZ32, m1:ZZ32): ImmutableArray2[\T,bo0,so0,bo1,so1\]
+  zeroIndices():CompactFullRange[\(ZZ32,ZZ32)\]
+  replica[\U\]():ImmutableArray2[\U,b0,s0,b1,s1\]
+  copy():ImmutableArray2[\T,b0,s0,b1,s1\]
+  fill(v:T):ImmutableArray2[\T,b0,s0,b1,s1\]
+  tabulate(f:(ZZ32,ZZ32)->T):ImmutableArray2[\T,b0,s0,b1,s1\]
+  get(t1:(ZZ32, ZZ32)):T
+  thaw():Array2[\T,b0,s0,b1,s1\]
+  map[\R\](f:T->R): ImmutableArray2[\R,b0,s0,b1,s1\]
+  ivmap[\R\](f:((ZZ32,ZZ32),T)->R): ImmutableArray2[\R,b0,s0,b1,s1\]
+end
+
+__immutableFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():ImmutableArray2[\T,b0,s0,b1,s1\]
+
+(** %immutableArray2% is a factory for 0-based 2-D immutable arrays. **)
+immutableArray2[\T, nat s0, nat s1\]():ImmutableArray2[\T,0,s0,0,s1\]
 
 (** %matrix% is the same as %array2%, but specialized to numeric type
    arguments, except that the default value (if given) is used to
@@ -1856,7 +1891,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
     map[\R\](f:T->R): Array3[\R,b0,s0,b1,s1,b2,s2\]
     ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): Array3[\R,b0,s0,b1,s1,b2,s2\]
 
-    freeze():ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
+    freeze():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
 end
 
 __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
@@ -1865,6 +1900,43 @@ __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
 array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
 array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\]
 tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
+
+(** %ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]% is the immutable counterpart
+    of %Array3%: each element is initialized once, and none is written. **)
+trait ImmutableArray3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+    extends { Indexed1[\s0\], Indexed2[\s1\], Indexed3[\s2\], Rank3,
+              StandardImmutableArrayType[\ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\],T,
+                                         (ZZ32,ZZ32,ZZ32)\],
+              ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\] }
+    excludes { Number, String, AnyAdditiveGroup, AnyMultiplicativeRing }
+    getter size():ZZ32
+    getter sizes():(ZZ32,ZZ32,ZZ32)
+    getter bounds():CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
+    getter mutability():String
+    opr |self| : ZZ32
+    offset(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32)
+    toIndex(t:(ZZ32,ZZ32,ZZ32)):(ZZ32,ZZ32,ZZ32)
+    abstract get(t:(ZZ32,ZZ32,ZZ32)):T
+    opr[r:Range[\(ZZ32,ZZ32,ZZ32)\]]: ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
+    opr[_:TrivialOpenRange] : ImmutableArray3[\T,0,s0,0,s1,0,s2\]
+    shift(t:(ZZ32,ZZ32,ZZ32)): ImmutableArray[\T,(ZZ32,ZZ32,ZZ32)\]
+    subarray[\nat bo0, nat so0, nat bo1, nat so1, nat bo2, nat so2,
+              nat o0, nat o1, nat o2\]
+            (m0:ZZ32,m1:ZZ32,m2:ZZ32): ImmutableArray3[\T,bo0,so0,bo1,so1,bo2,so2\]
+    zeroIndices():CompactFullRange[\(ZZ32,ZZ32,ZZ32)\]
+    replica[\U\]():ImmutableArray3[\U,b0,s0,b1,s1,b2,s2\]
+    copy():ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
+    fill(v:T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
+    tabulate(f:(ZZ32,ZZ32,ZZ32)->T):ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
+    thaw():Array3[\T,b0,s0,b1,s1,b2,s2\]
+    map[\R\](f:T->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\]
+    ivmap[\R\](f:((ZZ32,ZZ32,ZZ32),T)->R): ImmutableArray3[\R,b0,s0,b1,s1,b2,s2\]
+end
+
+__immutableFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
+        ImmutableArray3[\T,b0,s0,b1,s1,b2,s2\]
+
+immutableArray3[\T,nat s0, nat s1, nat s2\]():ImmutableArray3[\T,0,s0,0,s1,0,s2\]
 
 (************************************************************
 * \subsection*{Reductions}

@@ -1,0 +1,42 @@
+(* An immutable array of rank 2 and of rank 3 is built by immutableArray's run-time-size
+   factories and by the sized ones, filled, read, subscripted, mapped and thawed; an Array2,
+   a Matrix and an Array3 freeze into one, which keeps its values when the original changes. *)
+component ImmutableArrayRanks23
+export Executable
+
+run(): () = do
+  a = immutableArray[\ZZ32\](2,3).tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => 10 i + j)
+  assert(instanceOf[\ImmutableArray2[\ZZ32,0,2,0,3\]\](a), true, "immutableArray(2,3) answers an ImmutableArray2")
+  assert((a.mutability, |a|, a[0,0], a[1,2]), ("(immutable)", 6, 0, 12), "a rank-2 immutable array is tabulated and read")
+  b = immutableArray2[\ZZ32,2,2\]().fill(7)
+  assert((b[0,0], b[1,1]), (7, 7), "immutableArray2's array is filled")
+  c = __immutableFactory2[\ZZ32,1,2,1,3\]().tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => 10 i + j)
+  assert((c[1,1], c[2,3]), (11, 23), "an immutable array based at (1,1) is indexed from (1,1)")
+  s = c[(1,2)#(2,2)]
+  assert((s[0,0], s[1,1]), (12, 23), "a range subscript of an immutable array based at (1,1)")
+  w = c[:]
+  assert((w[0,0], w[1,2]), (11, 23), "c[:] is c based at (0,0)")
+  m2 = a.map[\ZZ32\](fn (x:ZZ32):ZZ32 => x + 1)
+  assert((instanceOf[\ImmutableArray2[\ZZ32,0,2,0,3\]\](m2), m2[1,2]), (true, 13), "map answers an ImmutableArray2")
+  t = a.thaw()
+  t[0,0] := 5
+  assert((instanceOf[\Array2[\ZZ32,0,2,0,3\]\](t), t[0,0], a[0,0]), (true, 5, 0), "thaw answers a mutable copy")
+  d = immutableArray[\ZZ32\](2,2,2).tabulate(fn (i:ZZ32, j:ZZ32, k:ZZ32):ZZ32 => 100 i + 10 j + k)
+  assert((instanceOf[\ImmutableArray3[\ZZ32,0,2,0,2,0,2\]\](d), |d|, d[1,0,1], d[0,1,1]), (true, 8, 101, 11), "a rank-3 immutable array is tabulated and read")
+  e = immutableArray3[\ZZ32,1,2,3\]().fill(4)
+  assert(e[0,1,2], 4, "immutableArray3's array is filled")
+  mm = matrix[\ZZ32,2,2\]().tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => i - j)
+  f = mm.freeze()
+  assert((instanceOf[\ImmutableArray2[\ZZ32,0,2,0,2\]\](f), f[1,0], f[0,1]), (true, 1, -1), "a Matrix freezes into an ImmutableArray2")
+  mm[1,0] := 9
+  assert(f[1,0], 1, "the frozen copy keeps its value when the matrix changes")
+  g = array3[\ZZ32,2,2,2\]().tabulate(fn (i:ZZ32, j:ZZ32, k:ZZ32):ZZ32 => i + j + k).freeze()
+  assert((instanceOf[\ImmutableArray3[\ZZ32,0,2,0,2,0,2\]\](g), g[1,1,1]), (true, 3), "an Array3 freezes into an ImmutableArray3")
+  h = array[\String\](2,2).fill("x").freeze()
+  assert(h[1,1], "x", "array(x,y)'s array freezes")
+  println(a)
+  println(d)
+  println("PASS")
+end
+
+end
