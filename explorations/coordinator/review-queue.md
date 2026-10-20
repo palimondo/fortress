@@ -278,7 +278,7 @@ Line numbers are those of `main` at `79c2a5602`. A home in PLAN is named by its 
    - Its cost: Waits for the switch-over.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 17; row 446 and its earlier text in `explorations/fortress-gap-ledger-history.md`; `compile-ladder/rung-unknown-size-arm/REPORT.md` (10-02: 14)
 
-36. **The dead sizes, the linker row and walk's unknown size.** Three items wait for the switch-over's design: the diff that deletes 25 api declarations' dead sizes; re-approval row 41, an exported name that fails to link when the component's name differs from its api's (row 320's open half); and whether walk refuses an unused unknown size as the checker does.
+36. **The dead sizes, the linker row and walk's unknown size.** Three items wait for the switch-over's design: the diff that deletes 25 api declarations' dead sizes; re-approval row 41, an exported name that fails to link when the component's name differs from its api's (row 320's open half); and whether walk refuses an unused unknown size as the checker does. Answered in part at 05:42 UTC on 2026-10-20: the 17 vector and matrix operators' unused sizes go by decision E's diff (ask 3, P-40); the rest waits as before.
    - Landed: None built. The diff was re-based on 2026-09-29 and applies.
    - The other way: Each is put to him as a diff with the switch-over's design, which is not drafted yet.
    - Its cost: Part of phase 4's design.
