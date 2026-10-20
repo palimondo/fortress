@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 06:40 UTC on 2026-10-20** (08:40 his time), rewritten whole after climb batch 20's planner.
+**State at 07:08 UTC on 2026-10-20** (09:08 his time), rewritten whole after climb batch 20's launch.
 
 ## The model, first
 
@@ -12,8 +12,8 @@
 
 ## Running
 
-- **Climb batch 20's record** was drafted by its planner and committed at `827e329a7`: rungs I (the integer power by P-153) and A (the array sites with decision E's diff), the distance 31 to 5 and the count 28 to 3 declared by its measurement; the second export error and row 774 held out for probes; no consequential fork. **Its Fable review in place** (Fable, agent `a046373af2a45c05f`, brief `scratchpad/haiku-window/brief-fable20.md`) started about 06:40 UTC; it writes `climb-batch-20-review.md`. When it ends: its questions are the record's; then the launch steps of the manual, with the task-list line below added to the script.
-- **Ask 5 is drafted** (`scratchpad/ask5.md`; default and recommendation: option 1, symbolic operators checked after the switch-over), held until his answer on the review list's schedule. The drafter's stale-record points are `scratchpad/haiku-window/ask5-record-points.md`, owed for routing after ask 5's answer. No check-in is armed.
+- **Climb batch 20 runs:** run `wf_4cf8e3cb-bf5`, launched 07:07 UTC on 2026-10-20 on the standing go, base `97ccd5f1f9f8ae69c2c9ff4f3dfca7c7fd102059` (the spliced script), base build `/home/user/fortress-base20`; arguments in `scratchpad/batch20/launch-args.json`; about 3 hours by the record. Rungs I (the integer power by P-153) and A (the array sites with decision E's diff); declared the distance 31 to 5 and the count 28 to 3 (planner's measurement). Its Fable review in place: `climb-batch-20-review.md` (`64249659e`), ready to launch; its one question taken at its default (a third demo, `npbft.fss:130`, respelled `10.0^(-6)`, on the review list); at the landing, F-247 to three demos and P-153's "Still to build" narrowed. Check-in `trig_01VcBU28rM8Rxnbd2PxvK336` at 07:53 UTC, then every 45 minutes. When it ends: the landing steps of `references/batch.md`. Keep `main` free of other pushes while it gathers and commits.
+- **Ask 5 is drafted** (`scratchpad/ask5.md`; default and recommendation: option 1, symbolic operators checked after the switch-over), sent at about 06:50 UTC after his yes to the queue's sort, waiting for his answer. The drafter's stale-record points are `scratchpad/haiku-window/ask5-record-points.md`, owed for routing after ask 5's answer. No check-in is armed.
 - **The task list (his word at about 06:45 UTC):** do not forbid the agents the task tools; a step at the landing sweeps the done tasks; decide by evidence whether writing to the list helps them. The batch agents wrote 217 to-dos into this session's shared list (climb batches 14 to 19; a first list of 59 was cleared on 2026-10-13); the 8 left in progress were checked against their landed reports: nothing owed. **A Sonnet archaeology runs** (agent `ae031c3423f8fd42c`, brief `scratchpad/haiku-window/brief-task-archaeology.md`): who writes, whether they get reminders, any benefit, the cost, the earlier clear, where a sweep can go. When it ends: tell him its answer, propose where the sweep goes; the backup `scratchpad/stale-tasks-2026-10-20/` stays until then.
 - **The review queue's sort (his yes at about 06:45 UTC):** an Opus worker (agent `aa49abd5c9e00bfe9`, brief `scratchpad/haiku-window/brief-queue-sort.md`) gives each of the 189 open items of `review-queue.md` the point by which it is needed (batch 20, a named later piece of work, the switch-over, microGPT compiled or fast, or never) and moves the stale ones; it commits the queue. When it ends: tell him the counts, then propose the schedule's rule (each item put to him before its point; the never-needed ones on a page per phase; at a landing only what changes his decisions or microGPT). Asks 7 (item 188) and 8 (item 177) wait on it.
 
