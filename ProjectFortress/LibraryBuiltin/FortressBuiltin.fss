@@ -457,9 +457,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$RShift")
     opr BITNOT(self):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
+    opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
     partitionL(self):NN32 =
@@ -549,9 +549,9 @@ object IntLiteral extends Number
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$RShift")
     opr BITNOT(self): IntLiteral =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):IntLiteral =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Pow")
-    opr ^(self, b: IntLiteral): RR64 = self^(b.asZZ32)
+    opr ^(self, b: IntLiteral): IntLiteral = self^(b.asZZ32)
     opr DIVIDES(self, b: IntLiteral): Boolean = self.asZZ DIVIDES b.asZZ
     floor(self): IntLiteral = self
     ceiling(self): IntLiteral = self

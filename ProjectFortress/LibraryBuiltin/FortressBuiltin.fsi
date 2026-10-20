@@ -164,8 +164,8 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr LSHIFT(self,b:AnyIntegral):NN32
     opr RSHIFT(self,b:AnyIntegral):NN32
     opr BITNOT(self):NN32
-    opr ^(self, b:AnyIntegral):RR64
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:AnyIntegral):NN32
+    opr ^(self, b:IntLiteral):NN32
     opr /(self, other:NN32):QQ
     numerator(self): ZZ
     widen(self):NN64
@@ -210,8 +210,8 @@ object IntLiteral extends { Number }
     opr LSHIFT(self, b:AnyIntegral): IntLiteral
     opr RSHIFT(self, b:AnyIntegral): IntLiteral
     opr BITNOT(self): IntLiteral
-    opr ^(self, b:AnyIntegral):RR64
-    opr ^(self, b: IntLiteral): RR64
+    opr ^(self, b:AnyIntegral):IntLiteral
+    opr ^(self, b: IntLiteral): IntLiteral
     opr DIVIDES(self, b: IntLiteral): Boolean
     floor(self): IntLiteral
     ceiling(self): IntLiteral

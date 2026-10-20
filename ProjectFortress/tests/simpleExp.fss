@@ -15,9 +15,9 @@ export Executable
 (* Tests that we can write compound constants, and that Int and Long
    exponentiation work (largely) as expected. *)
 run():()= do
-  x : RR64 = 10000000000000000000000000^(-1)
-  y : RR64 = 1000000000000000^(-1)
-  a : RR64 = 7.07106781186547462 10^(-1)
+  x : RR64 = 10000000000000000000000000.0^(-1)
+  y : RR64 = 1000000000000000.0^(-1)
+  a : RR64 = 7.07106781186547462 10.0^(-1)
   b : RR64 = 0.707106781186547462
   if a =/= b then
     fail(a "=/=" b)

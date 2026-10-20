@@ -1,0 +1,15 @@
+(* On the compiled path an integer raised to a negative power throws IntegerOverflow, and a base of 0 throws DivisionByZero. *)
+component XXXIntegerPowerContractCompiled
+export Executable
+
+overflowed(a: ZZ32, b: ZZ32): String = try "" || (a^b) catch e IntegerOverflow => "OVF" end
+dividedByZero(a: ZZ32, b: ZZ32): String = try "" || (a^b) catch e DivisionByZero => "DBZ" end
+
+run(): () = do
+    println("REACHED")
+    assert(overflowed(2, -1), "OVF", "ZZ32 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividedByZero(0, -1), "DBZ", "ZZ32 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    println("PASS")
+  end
+
+end

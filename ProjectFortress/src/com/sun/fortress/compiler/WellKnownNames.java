@@ -84,6 +84,7 @@ public class WellKnownNames {
     public final static String calleeViolationException = "CalleeViolation";
     public final static String labelException = "LabelException";
     public final static String integerOverflowException = "IntegerOverflow";
+    public final static String divisionByZeroException = "DivisionByZero";
 
     public static String Infinity() { return _Infinity; }	
     public static String NegativeInfinity() { return _NegativeInfinity; }	

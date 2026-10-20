@@ -2827,3 +2827,19 @@ pointer words refreshed in: F-24
 2026-10-20 05:38Z · rewritten · commit `32153798d` · by coordinator: the dead sizes' origin, read in git: 72ae6881b (2007-01-04) and 32153798d (2008-04-27), for the curator's question on ask 3
 
 - F-35 **The `FortressLibrary` api has 25 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** They check clean (P-40). Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators have this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and give one of the distance's export errors (F-53). P-40 lets the dead sizes go only by a diff shown to the curator with the switch-over's design. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
+
+### F-263
+
+2026-10-20 08:34Z · added · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "2. The tests, their failing runs and their passing runs" · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "4. The stages" · by climb batch 20's gather: rung I's record, its FACTS entry, its list joined into one line
+
+### F-84
+
+2026-10-20 08:34Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20's gather: rung I's skeptic's leftForGather: rows 438 and 445 fixed by rung I, so QQ's power is no longer left
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. Left: `QQ`'s power (rows 438, 445). `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under that condition (row 634, closed; F-255). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-84
+
+2026-10-20 08:34Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20's gather: the same sentence, its wording
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. The integer powers answer their base's own type, and `QQ`'s its exponent of any integer (F-263). `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under that condition (row 634, closed; F-255). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.

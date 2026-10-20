@@ -1,0 +1,150 @@
+(* An integer power answers its base's own type; at a negative exponent the bases 1 and -1 give their exact power, a base of 0 throws DivisionByZero, and any other base throws IntegerOverflow, at an exponent of every integer type. *)
+component IntegerPowerContractWalk
+export Executable
+
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+dividesByZero(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+shown(v: Any): String =
+  typecase v of
+    IntLiteral => v.asString || " : IntLiteral"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    QQ => v.asString || " : QQ"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : another type"
+  end
+
+negativeZZ32(): () = do
+    two: ZZ32 = 2
+    zero: ZZ32 = 0
+    one: ZZ32 = 1
+    mone: ZZ32 = -1
+    assert(overflows(fn () => two^(-1)), "ZZ32 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ32 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^(-1)), "1 : ZZ32", "ZZ32 1^(-1) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-1)), "-1 : ZZ32", "ZZ32 (-1)^(-1) is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-2)), "1 : ZZ32", "ZZ32 (-1)^(-2) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^3), "8 : ZZ32", "ZZ32 2^3 is the ZZ32 8; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+negativeZZ64(): () = do
+    two: ZZ64 = widen(2)
+    zero: ZZ64 = widen(0)
+    one: ZZ64 = widen(1)
+    mone: ZZ64 = widen(-1)
+    assert(overflows(fn () => two^(-1)), "ZZ64 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ64 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^(-1)), "1 : ZZ64", "ZZ64 1^(-1) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-1)), "-1 : ZZ64", "ZZ64 (-1)^(-1) is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-2)), "1 : ZZ64", "ZZ64 (-1)^(-2) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^3), "8 : ZZ64", "ZZ64 2^3 is the ZZ64 8; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+negativeNN32(): () = do
+    two: NN32 = unsigned(2)
+    zero: NN32 = unsigned(0)
+    one: NN32 = unsigned(1)
+    assert(overflows(fn () => two^(-1)), "NN32 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => zero^(-1)), "NN32 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^(-1)), "1 : NN32", "NN32 1^(-1) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^3), "8 : NN32", "NN32 2^3 is the NN32 8; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+negativeNN64(): () = do
+    two: NN64 = unsigned(widen(2))
+    zero: NN64 = unsigned(widen(0))
+    one: NN64 = unsigned(widen(1))
+    assert(overflows(fn () => two^(-1)), "NN64 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => zero^(-1)), "NN64 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^(-1)), "1 : NN64", "NN64 1^(-1) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^3), "8 : NN64", "NN64 2^3 is the NN64 8; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+negativeZZ(): () = do
+    two: ZZ = big(2)
+    zero: ZZ = big(0)
+    one: ZZ = big(1)
+    mone: ZZ = big(-1)
+    assert(overflows(fn () => two^(-1)), "ZZ 2^(-1) is no integer and throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^(-1)), "1 : ZZ", "ZZ 1^(-1) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-1)), "-1 : ZZ", "ZZ (-1)^(-1) is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-2)), "1 : ZZ", "ZZ (-1)^(-2) is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^3), "8 : ZZ", "ZZ 2^3 is the ZZ 8; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+numeralType(): () = do
+    lit = IntLiteral
+    assert(lit^3 = 0, "the numeral type's 0^3 is 0; basic-integers.tex, section \"Integers\", opr ^")
+    assert(dividesByZero(fn () => lit^(-1)), "the numeral type's 0^(-1) throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+fractions(): () = do
+    assert((2/3)^(-1), 3/2, "a rational base gives the fraction: (2/3)^(-1) is 3/2; numbers.tex, section \"Rational Numbers\", opr ^")
+    assert(2.0^(-1), 0.5, "a floating-point base gives the fraction: 2.0^(-1) is 0.5")
+  end
+
+exponentTypes(): () = do
+    two: ZZ32 = 2
+    zero: ZZ32 = 0
+    one: ZZ32 = 1
+    mone: ZZ32 = -1
+    assert(shown(two^(widen(3))), "8 : ZZ32", "a ZZ64 exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^(unsigned(3))), "8 : ZZ32", "an NN32 exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^(widen(unsigned(3)))), "8 : ZZ32", "an NN64 exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(two^(big(3))), "8 : ZZ32", "a ZZ exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(2))^(big(3))), "8 : ZZ", "a ZZ base and a ZZ exponent; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => two^(big(-1))), "ZZ32 2 to a ZZ -1 throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    huge: ZZ = (big(2))^70
+    hugeOdd: ZZ = huge + big(1)
+    assert(shown(zero^huge), "0 : ZZ32", "0 to an exponent beyond 64 bits is 0; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(one^huge), "1 : ZZ32", "1 to an exponent beyond 64 bits is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^huge), "1 : ZZ32", "-1 to an even exponent beyond 64 bits is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^hugeOdd), "-1 : ZZ32", "-1 to an odd exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => two^huge), "2 to an exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^, opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
+    assert(dividesByZero(fn () => zero^(-huge)), "0 to a negative exponent beyond 64 bits throws DivisionByZero; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => two^(-huge)), "2 to a negative exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(-hugeOdd)), "-1 : ZZ32", "-1 to an odd negative exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(-1))^hugeOdd), "-1 : ZZ", "a ZZ -1 to an odd exponent beyond 64 bits is -1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(overflows(fn () => (big(3))^huge), "a ZZ 3 to an exponent beyond 64 bits throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^, opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
+    maxL: ZZ64 = 9223372036854775807
+    twoTo63U: NN64 = unsigned(maxL) + unsigned(widen(1))
+    assert(shown(zero^twoTo63U), "0 : ZZ32", "an NN64 exponent of 2^63 is positive: 0 to it is 0; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^twoTo63U), "1 : ZZ32", "-1 to the even NN64 2^63 is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown(mone^(twoTo63U + unsigned(widen(1)))), "-1 : ZZ32", "-1 to the odd NN64 2^63+1 is -1; basic-integers.tex, section \"Integers\", opr ^")
+    twoTo31: ZZ64 = widen(2147483647) + widen(1)
+    assert(overflows(fn () => (big(3))^twoTo31), "a ZZ 3 to an exponent beyond the int's range throws IntegerOverflow; basic-integers.tex, section \"Integers\", opr ^, opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
+    assert(shown((big(-1))^twoTo31), "1 : ZZ", "a ZZ -1 to the even exponent 2^31 is 1; basic-integers.tex, section \"Integers\", opr ^")
+    assert(shown((big(0))^twoTo31), "0 : ZZ", "a ZZ 0 to the exponent 2^31 is 0; basic-integers.tex, section \"Integers\", opr ^")
+  end
+
+run(): () = do
+    negativeZZ32()
+    negativeZZ64()
+    negativeNN32()
+    negativeNN64()
+    negativeZZ()
+    numeralType()
+    fractions()
+    exponentTypes()
+    println("PASS")
+  end
+
+end
