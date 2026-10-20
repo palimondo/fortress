@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-10-20)
+
+- 06:45 The batch agents keep the task tools; a step of the landing sweeps the done tasks from the shared list, decided on the evidence of `process-engineering/task-list-archaeology.md` (for the skill writer: the sweep as step 1 of `batch.md`, "The landing", by `tools/sweep-tasks.py`).
+
 ## Held in chat (2026-10-16)
 
 - 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
