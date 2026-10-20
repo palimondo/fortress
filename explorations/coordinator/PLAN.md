@@ -491,6 +491,12 @@ The items for him that climb batch 18's rungs, skeptics, judges, merged-diff rev
 - gather.2 of climb batch 18's gather: `ownGeneric`'s comment in walk's `OverloadedFunction.java`, half false since climb batch 17 (judge-review.2 of its merged-diff review), still stands, now at `:2282-2288`, since rung W's brief did not name it. Default, taken: the replacement text of `compile-ladder/climb-batch-17/JUDGE-review.md` section 4, in the next batch that edits the file. Review-queue item 186.
 - gather.3 of climb batch 18's gather: row 539's claim quotes walk's old refusal, which now says "fails the Meet Rule"; the row is open and full, and only `ledger.py close --claim` rewrites a claim. Default: the coordinator's hand edit of the claim, as for row 589; it cannot be carried out, since `ledger.py` is the ledger's only writer. Review-queue item 187.
 
+### Climb batch 19, listed for his review
+
+The items for him that climb batch 19's rungs, skeptics and gather left (`compile-ladder/climb-batch-19/RECORD.md`, "Items for the curator"), one entry for each point, opening with the ids it holds. None blocks a batch or the switch-over; each is reversible, and each default is the one on record.
+
+- P.worker.1 and P.skeptic.1 of climb batch 19's rung P: `tint` (row 786), the P-152 probe's question 1, is still open. Walk loads `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, reading two type parameters whose bounds exclude as never one type, and the compiled checker refuses it, 'Invalid overloading of tint'; `Bottom` lies within both bounds (`Specification/advanced/overloading.tex:583-584`) and cannot be written (`Specification/basic/types-vals-vars.tex:106-107`), so which path moves is his. Default: both paths as they are, row 786 `CONTESTED` (`coordinator/CLIMB-BATCH-19.md`, section 2, fork 3). Evidence: `ProjectFortress/tests/GenericPairExcludingWalk.fss:23-24`; `mayBeEqual`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1458`; `compile-ladder/rung-existential-reduction/REPORT.md:236`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".

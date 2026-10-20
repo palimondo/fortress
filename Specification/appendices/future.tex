@@ -279,9 +279,10 @@ sent on 11/08/07
 \end{itemize}
 \revision{revival-overloading}{Answered by the existential reduction of
 \secref{overloading-static-params}: each static parameter stands for any type
-within its bound, and instantiation exclusion lets two parameter types that
-mention one parameterized trait meet only where its static arguments are the
-same.
+within its bound, and where the two parameter types, or their elements at one
+position, are or extend instances of one parameterized trait, instantiation
+exclusion lets them meet only where the static arguments of those instances are
+the same.
 Whether a bound that rules out the only static arguments at which two parameter
 types could meet makes them exclude each other is not settled
 (\secref{revival-notrevised}).}

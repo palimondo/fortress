@@ -323,7 +323,7 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
     val fd = sa.makeDomainWithSelfFromArrow(fa)
     val gd = sa.makeDomainWithSelfFromArrow(ga)
     val md = sa.meetED(fd, gd)
-    sa.subtypeED(md, BOTTOM)
+    sa.subtypeED(md, BOTTOM) || sa.emptyED(md)
   }
   
 //   //Checks whether f is the meet of g and h

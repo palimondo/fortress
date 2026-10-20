@@ -2718,6 +2718,11 @@ instance that the bound of a \TYP{Vector}'s element type refuses
 (\secref{type-param}), and it now builds the vector at each number type, so
 that a \TYP{Vector} of \TYP{Number}, which is not well-formed, is no longer its
 result.
+Another revision has the section's existential reduction read instantiation
+exclusion where the two parameter types, or their elements at one position, are
+or extend instances of one parameterized trait, where it read it only where they
+mention one, with a box, and the internal document's box on the questions on
+exclusion says the same.
 \secref{resolving-coercion} says in three places that a declaration with static
 parameters is applicable when some instance of it is, that it is compared on the
 parameter types it declares, and that the declaration selected is then
@@ -2793,6 +2798,15 @@ type group's later word, that paper among it, outweighs the early text; its
 reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-popl-examples/REPORT.md} in the
 revival's repository.
+The revision of the existential reduction follows the paper of 2011, whose
+exclusion of two instances of type constructors reads every pair of their
+ancestors (\nolinkurl{Papers/Types/fig-exclusion.tick}, lines 136--147, in the
+revival's repository), and the revival's decision of 17~October 2026 that two
+declarations with static parameters exclude each other as the existential
+reduction reads their whole parameter types, in both implementations; its
+reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-existential-reduction/REPORT.md} in
+the revival's repository.
 \item[Effect] Declarations of one name may differ in their static parameters,
 as \library's do.
 The compiled type checker refuses the pair of the Return Type Rule's example,
@@ -2828,6 +2842,13 @@ it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
 with the same parameter type'', two functional methods among them wherever their
 \KWD{self} parameters stand.
+It accepts one such pair, a declaration whose parameter types are its type
+parameters, written with no bound and so bounded by \TYP{Any}, beside one
+without static parameters whose parameter types are \TYP{Any}, as
+\EXP{\VAR{g}\llbracket{}T\rrbracket(a\COLON{}T)} beside
+\EXP{\VAR{g}(a\COLON \TYP{Any})}, and runs the first for a call to which both
+apply; it refuses the same pair where the bound is written, \TYP{Any} or one
+below it (row~759 of the revival's gap ledger).
 It reads the abstract functional methods that a trait or object provides as it
 reads the abstract dotted ones, so that an abstract functional method beside a
 concrete one with the same parameter type is among the pairs it refuses, which
@@ -2841,13 +2862,25 @@ parameter types, each read over its own instances, are each a subtype of the
 other, as \VAR{dup}'s are, and so a declaration whose parameter types are its
 static parameters beside one whose parameter types are their bounds, a plain one
 or one whose parameter types mention none of its static parameters.
-The compiled type checker and the interpreter both refuse two declarations with
-static parameters whose parameter types exclude only together, through a static
-argument that another parameter's type fixes (row~740), and the compiled type
-checker refuses two pairs of declarations with static parameters that the
-interpreter loads, one whose parameter types exclude through the one instance
-of a supertype they share and one whose static parameters' bounds exclude each
-other (row~741).
+The compiled type checker and the interpreter both find that two declarations,
+one or both with static parameters, whose parameter types exclude only together,
+through a static argument that another parameter's type fixes, exclude each
+other, and the compiled type checker finds so too of two whose parameter types
+exclude through the one instance of a supertype they share, which the
+interpreter loaded already.
+The interpreter does not so read a declaration with a \KWD{where} clause of its
+own, and refuses such a pair, which the compiled type checker accepts and its
+code generator does not compile (row~787 of the revival's gap ledger).
+They also differ on a pair whose static parameters' bounds exclude each other, as
+\EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Red}\rrbracket(x\COLON
+\TYP{Box}\llbracket{}T\rrbracket)} beside
+\EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Blue}\rrbracket(x\COLON
+\TYP{Box}\llbracket{}T\rrbracket)} where \TYP{Red}, \TYP{Blue} and
+\TYP{Box} are object types: the interpreter loads it, reading two static
+parameters whose bounds exclude each other as never one type, and the compiled
+type checker refuses it, its reduction making of the two static parameters one
+bounded by both, which it does not find empty (row~786 of the revival's gap
+ledger).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid
@@ -2899,6 +2932,12 @@ The new section, the revival's text of 30~September 2026, stated:
 \begin{quote}
 The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each more specific than
 the other.
+\end{quote}
+and, of the existential reduction:
+\begin{quote}
+where the two parameter types mention one parameterized trait, instantiation
+exclusion (\secref{trait-types}) lets them meet only where the static arguments
+of those mentions are the same
 \end{quote}
 and the box on Jan's example in the internal document gave as its reason that
 the two declarations have the same parameter type ``and each is more specific

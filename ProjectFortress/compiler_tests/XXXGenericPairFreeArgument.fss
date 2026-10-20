@@ -1,0 +1,18 @@
+component XXXGenericPairFreeArgument
+export Executable
+
+(* Two generic declarations over P[T] and Box[T] and over Q[U] and Box[T], where P[T] excludes Q[T] at one T and Box fixes only T, overlap where U differs from T, so the pair breaks the Meet Rule and the compile refuses it (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait P[\T\] excludes { Q[\T\] } end
+trait Q[\T\] end
+object Mixed extends { P[\ZZ32\], Q[\String\] } end
+object Box[\T\] end
+
+o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
+o[\T, U\](x: Q[\U\], b: Box[\T\]): String = "oQ"
+
+run(): () = do
+    println(o(Mixed, Box[\ZZ32\]))
+  end
+
+end
