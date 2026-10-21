@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"Opus: judge the ten traced entries","toolUseId":"toolu_01AYW4fpdqmpfgHrEY3xzzj3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"Opus: judge the ten traced entries","toolUseId":"toolu_01AYW4fpdqmpfgHrEY3xzzj3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
