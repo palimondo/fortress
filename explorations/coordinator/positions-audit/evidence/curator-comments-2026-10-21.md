@@ -53,3 +53,7 @@ Word for word, as the page's comment tool returned them; dictation errors kept. 
 ### On P-88, the proposal to move its `ReadableArray2` sentence to the review queue (23:29 UTC, sent to Claude; answered in the thread)
 
 - 23:29: "Well, I read it as a recording of my additional position that we wish to write readable array to. So like a read-only matrix. So I would not delete it. I think we are somehow too aggressive in touching everything."
+
+### On P-151, the proposed text (23:33 UTC, sent to Claude)
+
+- 23:33: "These changes look good to me. I believe this is the last corrected position. So it looks good to me. Coming back up to the chat.."
